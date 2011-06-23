@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<manifest xmlns:a="http://schemas.android.com/apk/res/android"
+	  package="org.solovyev.android.calculator"
+      versionCode="1"
+      versionName="1.0">
+    <a:uses-sdk a:minSdkVersion="8"/>
+
+    <a:application a:icon="@drawable/icon" a:label="@string/app_name_caption">
+        <a:activity a:name=".Calculator" a:label="@string/app_name_caption">
+            <a:intent-filter>
+                <a:action a:name="android.intent.action.MAIN" />
+                <a:category a:name="android.intent.category.LAUNCHER" />
+            </a:intent-filter>
+        </a:activity>
+
+    </a:application>
+</manifest>
