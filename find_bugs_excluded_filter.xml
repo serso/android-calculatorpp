@@ -1,0 +1,5 @@
+ <FindBugsFilter>
+	<Match>
+		<Class name="org.solovyev.android.calculator.R" />
+	</Match>
+</FindBugsFilter>
