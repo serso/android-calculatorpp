@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name_caption">Calculator</string>
+    <string name="c_app_name">Calculator</string>
+    <string name="c_app_settings">Calculator</string>
     <string name="syntax_error">Syntax error</string>
+	<string name="c_settings">Settings</string>
+	<string name="c_help">Help</string>
+	<string name="c_prefs_main_category">Main settings</string>
+	<string name="c_prefs_drag_button_calibration">Drag button calibration</string>
+	<string name="c_prefs_drag_button_calibration_summary">Allows to calibrate drag button behaviour</string>
+	<string name="c_down">Down</string>
+	<string name="c_up">Up</string>
+	<string name="c_restart">Restart</string>
 </resources>

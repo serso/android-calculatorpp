@@ -4,15 +4,20 @@
 	  package="org.solovyev.android.calculator"
       versionCode="1"
       versionName="1.0">
-    <a:uses-sdk a:minSdkVersion="8"/>
 
-    <a:application a:icon="@drawable/icon" a:label="@string/app_name_caption">
-        <a:activity a:name=".Calculator" a:label="@string/app_name_caption">
-            <a:intent-filter>
-                <a:action a:name="android.intent.action.MAIN" />
-                <a:category a:name="android.intent.category.LAUNCHER" />
-            </a:intent-filter>
-        </a:activity>
+	<uses-sdk a:minSdkVersion="8"/>
 
-    </a:application>
+    <application a:icon="@drawable/icon" a:label="@string/c_app_name">
+
+		<activity a:name=".CalculatorActivity" a:label="@string/c_app_name">
+            <intent-filter>
+                <action a:name="android.intent.action.MAIN" />
+                <category a:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+		<activity a:name=".CalculatorPreferencesActivity" a:label="@string/c_app_settings"/>
+		<activity a:name=".DragButtonCalibrationActivity" a:label="@string/c_prefs_drag_button_calibration"/>
+
+    </application>
 </manifest>
