@@ -3,6 +3,7 @@ package org.solovyev.android.view;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.R;
+import org.solovyev.common.utils.StringsUtils;
 import org.solovyev.util.StringUtils;
 import org.solovyev.util.math.MathUtils;
 import org.solovyev.util.math.Point2d;
@@ -93,26 +94,29 @@ public class DragButton extends Button {
 		return onDragListener;
 	}
 
-	public void setTextUp(String textUp) {
+	public void setTextUp(@Nullable String textUp) {
 		this.textUp = textUp;
 	}
 
+	@Nullable
 	public String getTextUp() {
 		return textUp;
 	}
 
-	public void setTextDown(String textDown) {
+	public void setTextDown(@Nullable String textDown) {
 		this.textDown = textDown;
 	}
 
+	@Nullable
 	public String getTextDown() {
 		return textDown;
 	}
 
-	public void setTextMiddle(String textMiddle) {
+	public void setTextMiddle(@Nullable String textMiddle) {
 		this.textMiddle = textMiddle;
 	}
 
+	@Nullable
 	public String getTextMiddle() {
 		return textMiddle;
 	}
@@ -129,7 +133,11 @@ public class DragButton extends Button {
 		public boolean onTouch(@NotNull View v, @NotNull MotionEvent event) {
 			// processing on touch event
 
-			if (onDragListener != null) {
+			// in order to avoid possible NPEs
+			final Point2d localStartPoint = startPoint;
+			final OnDragListener localOnDragListener = onDragListener;
+
+			if (localOnDragListener != null) {
 				// only if onDrag() listener specified
 
 				Log.d(String.valueOf(getId()), "onTouch() for: " + getId() + " . Motion event: " + event);
@@ -150,8 +158,8 @@ public class DragButton extends Button {
 					case MotionEvent.ACTION_UP:
 						// stop tracking
 							
-						if (onDragListener.onDrag(DragButton.this, new DragEvent(startPoint, event))) {
-							if (onDragListener.isSuppressOnClickEvent()) {
+						if (localStartPoint != null && localOnDragListener.onDrag(DragButton.this, new DragEvent(localStartPoint, event))) {
+							if (localOnDragListener.isSuppressOnClickEvent()) {
 								// prevent on click action
 								setPressed(false);
 							}

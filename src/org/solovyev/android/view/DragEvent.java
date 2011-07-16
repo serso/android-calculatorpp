@@ -6,10 +6,10 @@ import org.solovyev.util.math.Point2d;
 import android.view.MotionEvent;
 
 public class DragEvent {
-	
+
 	@NotNull
 	private final Point2d startPoint;
-	
+
 	@NotNull
 	private final MotionEvent motionEvent;
 
@@ -18,16 +18,21 @@ public class DragEvent {
 		this.motionEvent = motionEvent;
 	}
 
+	/**
+	 * @return motion event started at start point
+	 */
 	@NotNull
 	public MotionEvent getMotionEvent() {
 		return motionEvent;
 	}
 
+	/**
+	 * @return start point of dragging
+	 */
 	@NotNull
 	public Point2d getStartPoint() {
 		return startPoint;
 	}
-	
-	
-	
+
+
 }
