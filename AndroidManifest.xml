@@ -13,6 +13,7 @@
             <intent-filter>
                 <action a:name="android.intent.action.MAIN" />
                 <category a:name="android.intent.category.LAUNCHER" />
+				<action a:name="org.solovyev.android.calculator.DragButtonPreferencesChanged"/>
             </intent-filter>
         </activity>
 

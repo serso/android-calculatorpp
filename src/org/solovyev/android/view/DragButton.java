@@ -19,9 +19,6 @@ import android.widget.Button;
 
 public class DragButton extends Button {
 
-	// max time in ms to register drag event
-	private long maxTime = 700;
-
 	@Nullable
 	private Point2d startPoint = null;
 
@@ -30,59 +27,14 @@ public class DragButton extends Button {
 
 	private final OnTouchListener onTouchListener = new OnTouchListenerImpl();
 
-	@Nullable
-	private String textUp;
-
-	@Nullable
-	private String textDown;
-
-	@Nullable
-	private String textMiddle;
-
 	public DragButton(Context context, @NotNull AttributeSet attrs) {
 		super(context, attrs);
-		init(context, attrs);
+		setOnTouchListener(this.onTouchListener);
 	}
 
 	public DragButton(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		init(context, attrs);
-	}
-
-	private void init(@NotNull Context context, @NotNull AttributeSet attrs) {
-		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.DragButton);
-
-		final int N = a.getIndexCount();
-		for (int i = 0; i < N; i++) {
-			int attr = a.getIndex(i);
-			switch (attr) {
-				case R.styleable.DragButton_textUp:
-					this.textUp = a.getString(attr);
-					break;
-				case R.styleable.DragButton_textDown:
-					this.textDown = a.getString(attr);
-					break;
-			}
-		}
-
-		// backup text
-		this.textMiddle = String.valueOf(getText());
-
-		setText(Html.fromHtml(getStyledUpDownText(this.textUp) + "<br><b>" + StringUtils.getNotEmpty(this.textMiddle, "&nbsp;") + "</b><br>" + getStyledUpDownText(this.textDown)));
-
-		// change top padding in order to show all text
-		setPadding(getPaddingLeft(), -7, getPaddingRight(), getPaddingBottom());
-
 		setOnTouchListener(this.onTouchListener);
-	}
-
-	private String getStyledUpDownText(@Nullable String text) {
-		final StringBuilder sb = new StringBuilder();
-
-		sb.append("<font color='#585858'><small><small>");
-		sb.append(StringUtils.getNotEmpty(text, "&nbsp;"));
-		sb.append("</small></small></font>");
-		return sb.toString();
 	}
 
 	public void setOnDragListener(@Nullable OnDragListener onDragListener) {
@@ -92,33 +44,6 @@ public class DragButton extends Button {
 	@Nullable
 	public OnDragListener getOnDragListener() {
 		return onDragListener;
-	}
-
-	public void setTextUp(@Nullable String textUp) {
-		this.textUp = textUp;
-	}
-
-	@Nullable
-	public String getTextUp() {
-		return textUp;
-	}
-
-	public void setTextDown(@Nullable String textDown) {
-		this.textDown = textDown;
-	}
-
-	@Nullable
-	public String getTextDown() {
-		return textDown;
-	}
-
-	public void setTextMiddle(@Nullable String textMiddle) {
-		this.textMiddle = textMiddle;
-	}
-
-	@Nullable
-	public String getTextMiddle() {
-		return textMiddle;
 	}
 
 	/**
@@ -146,13 +71,6 @@ public class DragButton extends Button {
 					case MotionEvent.ACTION_DOWN:
 						// start tracking: set start point
 						startPoint = new Point2d(event.getX(), event.getY());
-						break;
-
-					case MotionEvent.ACTION_MOVE:
-						if (event.getEventTime() - event.getDownTime() > maxTime) {
-							// do not allow very long touch movements
-							startPoint = null;
-						}
 						break;
 
 					case MotionEvent.ACTION_UP:

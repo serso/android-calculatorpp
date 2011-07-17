@@ -2,8 +2,14 @@ package org.solovyev.android.calculator;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.List;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Handler;
 import android.view.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -34,6 +40,12 @@ public class CalculatorActivity extends Activity {
 	@NotNull
 	private HistoryHelper<EditorHistoryState> historyHelper;
 
+	@NotNull
+	private BroadcastReceiver preferencesChangesReceiver;
+
+	@NotNull
+	private List<SimpleOnDragListener> onDragListeners = new ArrayList<SimpleOnDragListener>();
+
 	/**
 	 * Called when the activity is first created.
 	 */
@@ -46,23 +58,19 @@ public class CalculatorActivity extends Activity {
 
 		this.resultEditText = (EditText) findViewById(R.id.resultEditText);
 
+		final DragButtonCalibrationActivity.Preferences dragPreferences = DragButtonCalibrationActivity.getPreferences(this);
+
 		final SimpleOnDragListener onDragListener = new SimpleOnDragListener(new SimpleOnDragListener.DragProcessor() {
 			@Override
 			public boolean processDragEvent(@NotNull DragDirection dragDirection, @NotNull DragButton dragButton, @NotNull Point2d startPoint2d, @NotNull MotionEvent motionEvent) {
-				boolean result = isDirectionSupported(dragButton, dragDirection);
-
-				if (result) {
-					processButtonAction(dragButton, getActionText(dragButton, dragDirection));
-				}
-
-				return result;
+				assert dragButton instanceof DirectionDragButton;
+				processButtonAction(dragButton, getActionText((DirectionDragButton) dragButton, dragDirection));
+				return true;
 			}
 
-			public boolean isDirectionSupported(@NotNull DragButton dragButton, @NotNull DragDirection direction) {
-				return !StringUtils.isEmpty(getActionText(dragButton, direction));
-			}
+		}, dragPreferences);
 
-		});
+		onDragListeners.add(onDragListener);
 
 		// todo serso: check if there is more convenient method for doing this
 		final R.id ids = new R.id();
@@ -82,7 +90,9 @@ public class CalculatorActivity extends Activity {
 			}
 		}
 
-		((DragButton) findViewById(R.id.historyButton)).setOnDragListener(new SimpleOnDragListener(new HistoryDragProcessor()));
+		final SimpleOnDragListener historyOnDragListener = new SimpleOnDragListener(new HistoryDragProcessor(), dragPreferences);
+		((DragButton) findViewById(R.id.historyButton)).setOnDragListener(historyOnDragListener);
+		onDragListeners.add(historyOnDragListener);
 
 		this.interpreter = new Interpreter();
 
@@ -94,6 +104,19 @@ public class CalculatorActivity extends Activity {
 
 		this.historyHelper = new SimpleHistoryHelper<EditorHistoryState>();
 		this.historyHelper.addState(getCurrentHistoryState());
+
+		this.preferencesChangesReceiver = new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+
+				if (DragButtonCalibrationActivity.INTENT_ACTION.equals(intent.getAction())) {
+					final DragButtonCalibrationActivity.Preferences preferences = DragButtonCalibrationActivity.getPreferences(CalculatorActivity.this);
+					for (SimpleOnDragListener dragListener : onDragListeners) {
+						dragListener.setPreferences(preferences);
+					}
+				}
+			}
+		};
 	}
 
 	public void elementaryButtonClickHandler(@NotNull View v) {
@@ -119,7 +142,7 @@ public class CalculatorActivity extends Activity {
 	}
 
 	public void digitButtonClickHandler(@NotNull View v) {
-		processButtonAction(v, ((DragButton) v).getTextMiddle());
+		processButtonAction(v, ((DirectionDragButton) v).getTextMiddle());
 	}
 
 	private final class HistoryDragProcessor implements SimpleOnDragListener.DragProcessor {
@@ -130,7 +153,8 @@ public class CalculatorActivity extends Activity {
 
 			Log.d(String.valueOf(dragButton.getId()), "History on drag event start: " + dragDirection);
 
-			String actionText = getActionText(dragButton, dragDirection);
+			assert dragButton instanceof DirectionDragButton;
+			String actionText = getActionText((DirectionDragButton) dragButton, dragDirection);
 			if (!StringUtils.isEmpty(actionText)) {
 				try {
 					result = true;
@@ -152,7 +176,7 @@ public class CalculatorActivity extends Activity {
 	}
 
 	@Nullable
-	private static String getActionText(@NotNull DragButton dragButton, @NotNull DragDirection direction) {
+	private static String getActionText(@NotNull DirectionDragButton dragButton, @NotNull DragDirection direction) {
 		final String result;
 
 		switch (direction) {
