@@ -8,20 +8,29 @@
 			  a:layout_width="fill_parent"
 			  a:layout_height="fill_parent">
 
+	<LinearLayout 	a:orientation="horizontal"
+					a:layout_width="fill_parent"
+					a:layout_height="wrap_content">
 
-	<org.solovyev.android.view.DragButton a:id="@+id/calibrationButton"
-										  a:text=""
-										  calc:textUp="@string/c_up"
-										  calc:textDown="@string/c_down"
-										  style="@style/digitButtonStyle"
-										  a:layout_width="50dp"
-										  a:layout_height="50dp"
-										  a:gravity="center_vertical"			/>
+		<ImageView a:id="@+id/calibrationArrow"
+				   a:layout_gravity="left"
+				   a:layout_width="80dp"
+				   a:layout_height="80dp"/>
+
+		<org.solovyev.android.view.DirectionDragButton a:id="@+id/calibrationButton"
+											  a:text=""
+											  calc:textUp="@string/c_up"
+											  calc:textDown="@string/c_down"
+											  style="@style/digitButtonStyle"
+											  a:layout_width="80dp"
+											  a:layout_height="80dp"
+											  a:layout_gravity="center_horizontal"/>
+	</LinearLayout>
 
 	<Button a:id="@+id/calibrationStart"
 			a:text="@string/c_restart"
 			a:layout_width="wrap_content"
 			a:layout_height="wrap_content"
 			a:onClick="restartClickHandler"
-			a:gravity="bottom"/>
+			a:layout_gravity="bottom"/>
 </LinearLayout>

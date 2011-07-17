@@ -6,6 +6,8 @@ import java.util.List;
 
 public class MathUtils {
 
+	public static final float MIN_AMOUNT = 0.05f;
+
 	public static float getDistance(@NotNull Point2d startPoint,
 									@NotNull Point2d endPoint) {
 		return getNorm(subtract(endPoint, startPoint));
@@ -56,6 +58,35 @@ public class MathUtils {
 		}
 
 		return objects.size() == 0 ? 0d : Math.sqrt(sum / objects.size());
+	}
+
+	public static StatData getStatData(@NotNull List<Double> objects) {
+
+		final double mean = countMean(objects);
+		final double standardDeviation = countStandardDeviation(mean, objects);
+
+		return new StatData(mean, standardDeviation);
+	}
+
+	public static class StatData {
+
+		private final double mean;
+
+		private final double standardDeviation;
+
+		public StatData(double mean, double standardDeviation) {
+			this.mean = mean;
+			this.standardDeviation = standardDeviation;
+		}
+
+		public double getMean() {
+			return mean;
+		}
+
+		public double getStandardDeviation() {
+			return standardDeviation;
+		}
+
 	}
 
 }

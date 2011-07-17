@@ -1,33 +1,38 @@
 package org.solovyev.android.view;
 
 import org.jetbrains.annotations.NotNull;
+import org.solovyev.android.calculator.DragButtonCalibrationActivity;
+import org.solovyev.common.utils.Interval;
 import org.solovyev.util.math.MathUtils;
 import org.solovyev.util.math.Point2d;
 
 import android.util.Log;
 import android.view.MotionEvent;
 
+import java.util.Map;
+
 public class SimpleOnDragListener implements OnDragListener {
 
 	@NotNull
 	public static final Point2d axis = new Point2d(0, 1);
 
-	private float minDragDist = 20f;
-
-	private float maxDragDist = 80f;
-
-	// max angle (in degrees!) between start and end point vector and axis
-	// vector to register drag event
-	private double maxAngle = 30;
-	
 	@NotNull
 	private DragProcessor dragProcessor;
 
-	public SimpleOnDragListener() {
+	@NotNull
+	private DragButtonCalibrationActivity.Preferences preferences;
+
+	public SimpleOnDragListener(@NotNull DragButtonCalibrationActivity.Preferences preferences) {
+		this.preferences = preferences;
 	}
 
-	public SimpleOnDragListener(@NotNull DragProcessor dragProcessor) {
+	public SimpleOnDragListener(@NotNull DragProcessor dragProcessor, @NotNull DragButtonCalibrationActivity.Preferences preferences) {
 		this.dragProcessor = dragProcessor;
+		this.preferences = preferences;
+	}
+
+	public void setPreferences(@NotNull DragButtonCalibrationActivity.Preferences preferences) {
+		this.preferences = preferences;
 	}
 
 	@Override
@@ -42,26 +47,46 @@ public class SimpleOnDragListener implements OnDragListener {
 		// init end point
 		final Point2d endPoint = new Point2d(motionEvent.getX(), motionEvent.getY());
 
-		float distance = MathUtils.getDistance(startPoint, endPoint);
+		final float distance = MathUtils.getDistance(startPoint, endPoint);
+		final double angle = Math.toDegrees(MathUtils.getAngle(startPoint, MathUtils.sum(startPoint, axis), endPoint));
+		final double duration = motionEvent.getEventTime() - motionEvent.getDownTime();
 
-		if (minDragDist < distance && distance < maxDragDist) {
-			double angle = Math.toDegrees(MathUtils.getAngle(startPoint, MathUtils.sum(startPoint, axis), endPoint));
+		final DragButtonCalibrationActivity.Preference distancePreferences = preferences.getPreferencesMap().get(DragButtonCalibrationActivity.PreferenceType.distance);
+		final DragButtonCalibrationActivity.Preference anglePreferences = preferences.getPreferencesMap().get(DragButtonCalibrationActivity.PreferenceType.angle);
 
-			final DragDirection direction;
-			if (angle < maxAngle) {
-				direction = DragDirection.down;
-			} else if (180 - angle < maxAngle) {
-				direction = DragDirection.up;
-			} else {
-				direction = null;
+		DragDirection direction = null;
+		for (Map.Entry<DragDirection, DragButtonCalibrationActivity.DragPreference> directionEntry : distancePreferences.getDirectionPreferences().entrySet()) {
+
+			if (isInInterval(directionEntry.getValue().getInterval(), distance)) {
+				for (Map.Entry<DragDirection, DragButtonCalibrationActivity.DragPreference> angleEntry : anglePreferences.getDirectionPreferences().entrySet()) {
+					if (isInInterval(angleEntry.getValue().getInterval(), (float)angle)) {
+						direction = angleEntry.getKey();
+						break;
+					}
+				}
 			}
 
 			if (direction != null) {
+				break;
+			}
+		}
+
+		if (direction != null) {
+			final DragButtonCalibrationActivity.Preference durationPreferences = preferences.getPreferencesMap().get(DragButtonCalibrationActivity.PreferenceType.duration);
+
+			final DragButtonCalibrationActivity.DragPreference durationDragPreferences = durationPreferences.getDirectionPreferences().get(direction);
+
+			if (isInInterval(durationDragPreferences.getInterval(), (float)duration)) {
 				result = dragProcessor.processDragEvent(direction, dragButton, startPoint, motionEvent);
+
 			}
 		}
 
 		return result;
+	}
+
+	private boolean isInInterval(@NotNull Interval interval, float value) {
+		return interval.getStart() - MathUtils.MIN_AMOUNT <= value && value <= interval.getEnd() + MathUtils.MIN_AMOUNT;
 	}
 
 	@Override
@@ -91,7 +116,7 @@ public class SimpleOnDragListener implements OnDragListener {
 	}
 
 	public interface DragProcessor {
-		
+
 		boolean processDragEvent(@NotNull DragDirection dragDirection, @NotNull DragButton dragButton, @NotNull Point2d startPoint2d, @NotNull MotionEvent motionEvent);
 	}
 }
