@@ -15,10 +15,22 @@ public class Preprocessor {
 				sb.append('(');
 			} else if (ch == ']' || ch == '}') {
 				sb.append(')');
-			} else if (ch == ',') {
-				sb.append('.');
 			} else if (ch == 'π') {
 				sb.append("pi");
+			} else if (s.startsWith("ln", i)) {
+				sb.append("log");
+				i += 1;
+			} else if (s.startsWith("tg", i)) {
+				sb.append("tan");
+				i += 1;
+			} else if (s.startsWith("atg", i)) {
+				sb.append("atan");
+				i += 2;
+			} else if (s.startsWith("e(", i)) {
+				sb.append("exp(");
+				i += 1;
+			} else if (ch == 'e') {
+				sb.append("exp(1)");
 			} else if (ch == '√') {
 				sb.append("sqrt");
 			} else {

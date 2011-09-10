@@ -20,20 +20,19 @@
         <item name="android:background">@drawable/blue_button</item>
     </style>
 
+	<style name="controlButtonStyle" parent="button_style"/>
+
     <style name="button_small_style" parent="button_style">
         <item name="android:textSize">30dp</item>
     </style>
 
     <style name="display_style">
-        <item name="android:textSize">40dp</item>
-        <item name="android:gravity">right|center_vertical</item>
-        <item name="android:textColor">#ffffff</item>
-        <item name="android:maxLines">1</item>
-        <item name="android:scrollbars">none</item>
-        <item name="android:scrollHorizontally">true</item>
+        <item name="android:textSize">30dp</item>
+<!--        <item name="android:background">#000000</item>
+        <item name="android:textColor">#ffffff</item>-->
+        <item name="android:gravity">left|top</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:padding">8dp</item>
     </style>
 
 </resources>
