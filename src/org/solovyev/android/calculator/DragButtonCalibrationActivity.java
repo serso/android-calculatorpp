@@ -1,7 +1,6 @@
 package org.solovyev.android.calculator;
 
 import android.app.Activity;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,7 +23,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.prefs.Preferences;
 
 /**
  * User: serso
@@ -34,13 +32,9 @@ import java.util.prefs.Preferences;
 public class DragButtonCalibrationActivity extends Activity {
 
 	@NotNull
-	private DragDirection dragDirection = DragDirection.up;
-
-	@NotNull
 	private final List<DragData> dragHistory = new ArrayList<DragData>();
 
-	@NotNull
-	private ImageView calibrationArrow;
+	private final Map<DragButton, CalibrationArrow> map = new HashMap<DragButton, CalibrationArrow>();
 
 	public static final String PREFERENCES = "dragButtonPreferences";
 
@@ -52,7 +46,6 @@ public class DragButtonCalibrationActivity extends Activity {
 	private static final float DEFAULT_VALUE = -999;
 	private static final int MIN_HISTORY_FOR_CALIBRATION = 10;
 	public static final String INTENT_ACTION = "org.solovyev.android.calculator.DragButtonPreferencesChanged";
-	;
 
 	public static enum PreferenceType {
 		angle,
@@ -67,26 +60,36 @@ public class DragButtonCalibrationActivity extends Activity {
 
 		setContentView(R.layout.drag_button_calibration);
 
-		final DragButton calibrationButton = (DragButton) findViewById(R.id.calibrationButton);
-		calibrationButton.setOnDragListener(new CalibrationOnDragListener());
-
-		calibrationArrow = (ImageView) findViewById(R.id.calibrationArrow);
-
-		createDragDirection(0);
+		createCalibrationButton(R.id.calibrationButtonRight, R.id.calibrationArrowRight);
+		createCalibrationButton(R.id.calibrationButtonLeft, R.id.calibrationArrowLeft);
 	}
 
-	private void createDragDirection(long timeout) {
+	private void createCalibrationButton(int buttonId, int arrowId) {
+		final DragButton calibrationButton = (DragButton) findViewById(buttonId);
+		calibrationButton.setOnDragListener(new CalibrationOnDragListener());
+
+		ImageView imageView = (ImageView) findViewById(arrowId);
+		CalibrationArrow calibrationArrow = new CalibrationArrow(imageView);
+
+		createDragDirection(0, calibrationArrow);
+
+		map.put(calibrationButton, calibrationArrow);
+	}
+
+	private void createDragDirection(long timeout, @NotNull final CalibrationArrow calibrationArrow) {
 		new Handler().postDelayed(new Runnable() {
 			public void run() {
-				dragDirection = Math.random() > 0.5 ? DragDirection.up : DragDirection.down;
+				calibrationArrow.dragDirection = Math.random() > 0.5 ? DragDirection.up : DragDirection.down;
 
-				calibrationArrow.setImageResource(dragDirection == DragDirection.down ? R.drawable.down : R.drawable.up);
+				calibrationArrow.calibrationArrow.setImageResource(calibrationArrow.dragDirection == DragDirection.down ? R.drawable.down : R.drawable.up);
 			}
 		}, timeout);
 	}
 
 	public void restartClickHandler(View v) {
-		createDragDirection(0);
+		for (CalibrationArrow calibrationArrow : map.values()) {
+			createDragDirection(0, calibrationArrow);
+		}
 	}
 
 
@@ -109,6 +112,9 @@ public class DragButtonCalibrationActivity extends Activity {
 
 			double angle = Math.toDegrees(MathUtils.getAngle(startPoint, MathUtils.sum(startPoint, SimpleOnDragListener.axis), endPoint));
 
+			final CalibrationArrow calibrationArrow = map.get(dragButton);
+			final DragDirection dragDirection = calibrationArrow.dragDirection;
+
 			assert dragDirection == DragDirection.up || dragDirection == DragDirection.down;
 
 			double deviationAngle = angle;
@@ -117,13 +123,13 @@ public class DragButtonCalibrationActivity extends Activity {
 			}
 
 			if (deviationAngle > 45) {
-				calibrationArrow.setImageResource(R.drawable.not_ok);
+				calibrationArrow.calibrationArrow.setImageResource(R.drawable.not_ok);
 			} else {
-				calibrationArrow.setImageResource(R.drawable.ok);
+				calibrationArrow.calibrationArrow.setImageResource(R.drawable.ok);
 				dragHistory.add(new DragData(dragDirection, distance, angle, (motionEvent.getEventTime() - motionEvent.getDownTime())));
 			}
 
-			createDragDirection(500);
+			createDragDirection(500, calibrationArrow);
 
 			return true;
 		}
@@ -370,6 +376,18 @@ public class DragButtonCalibrationActivity extends Activity {
 
 		public double getTime() {
 			return time;
+		}
+	}
+
+	private class CalibrationArrow {
+		@NotNull
+		private ImageView calibrationArrow;
+
+		@NotNull
+		private DragDirection dragDirection = DragDirection.up;
+
+		private CalibrationArrow(@NotNull ImageView calibrationArrow) {
+			this.calibrationArrow = calibrationArrow;
 		}
 	}
 }

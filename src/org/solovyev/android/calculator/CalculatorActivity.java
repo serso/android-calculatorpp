@@ -10,7 +10,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Handler;
+import android.util.TypedValue;
 import android.view.*;
+import android.widget.TextView;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.view.*;
@@ -26,7 +28,9 @@ import android.util.Log;
 import android.widget.EditText;
 import org.solovyev.util.math.Point2d;
 
-public class CalculatorActivity extends Activity {
+public class CalculatorActivity extends Activity implements FontSizeAdjuster{
+
+    private static final int HVGA_WIDTH_PIXELS  = 320;
 
 	@NotNull
 	private EditText editText;
@@ -273,4 +277,18 @@ public class CalculatorActivity extends Activity {
 	private void showHelp() {
 		Log.d(CalculatorActivity.class + "showHelp()", "Show help!");
 	}
+
+        /**
+     * The font sizes in the layout files are specified for a HVGA display.
+     * Adjust the font sizes accordingly if we are running on a different
+     * display.
+     */
+	@Override
+    public void adjustFontSize(@NotNull TextView view) {
+        float fontPixelSize = view.getTextSize();
+        Display display = getWindowManager().getDefaultDisplay();
+        int h = Math.min(display.getWidth(), display.getHeight());
+        float ratio = (float)h/HVGA_WIDTH_PIXELS;
+        view.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontPixelSize*ratio);
+    }
 }
