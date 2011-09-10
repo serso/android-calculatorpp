@@ -15,8 +15,12 @@ public class Preprocessor {
 				sb.append('(');
 			} else if (ch == ']' || ch == '}') {
 				sb.append(')');
-			} else if ( ch == ',' ) {
+			} else if (ch == ',') {
 				sb.append('.');
+			} else if (ch == 'π') {
+				sb.append("pi");
+			} else if (ch == '√') {
+				sb.append("sqrt");
 			} else {
 				sb.append(ch);
 			}
@@ -24,8 +28,8 @@ public class Preprocessor {
 
 		return sb.toString();
 	}
-	
-	public static String wrap (@NotNull JsclOperation operation, @NotNull String s) {
-		return operation.name() + "(\"" + s + "\");"; 
+
+	public static String wrap(@NotNull JsclOperation operation, @NotNull String s) {
+		return operation.name() + "(\"" + s + "\");";
 	}
 }
