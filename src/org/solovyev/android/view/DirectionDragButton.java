@@ -2,12 +2,16 @@ package org.solovyev.android.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.text.Html;
+import android.text.TextPaint;
 import android.util.AttributeSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.R;
 import org.solovyev.util.StringUtils;
+import org.solovyev.util.math.Point2d;
 
 /**
  * User: serso
@@ -25,15 +29,20 @@ public class DirectionDragButton extends DragButton {
 	@Nullable
 	private String textMiddle;
 
+	@NotNull
+	private Point2d textUpPosition;
+
+	@NotNull
+	private Point2d textDownPosition;
+
+	@NotNull
+	private TextPaint upDownTextPaint;
+
 	public DirectionDragButton(Context context, @NotNull AttributeSet attrs) {
-		super(context, attrs);
+		super(context, attrs, false);
 		init(context, attrs);
 	}
 
-	public DirectionDragButton(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
-		init(context, attrs);
-	}
 
 	private void init(@NotNull Context context, @NotNull AttributeSet attrs) {
 
@@ -55,19 +64,81 @@ public class DirectionDragButton extends DragButton {
 		// backup text
 		this.textMiddle = String.valueOf(getText());
 
-		setText(Html.fromHtml(getStyledUpDownText(this.textUp) + "<br><b>" + StringUtils.getNotEmpty(this.textMiddle, "&nbsp;") + "</b><br>" + getStyledUpDownText(this.textDown)));
+		super.init(context);
+	}
 
-		// change top padding in order to show all text
-		setPadding(getPaddingLeft(), -7, getPaddingRight(), getPaddingBottom());
+	@Override
+	protected void measureText() {
+		super.measureText();
+
+		final Paint basePaint = getPaint();
+		initUpDownTextPaint(basePaint);
+
+		if (textUp != null) {
+			textUpPosition = getTextPosition(upDownTextPaint, basePaint, textUp, 1);
+		}
+
+		if (textDown != null) {
+			textDownPosition = getTextPosition(upDownTextPaint, basePaint, textDown, -1);
+		}
+
+		if ( textDownPosition != null && textUpPosition != null ) {
+			if ( textDownPosition.getX() > textUpPosition.getX() ) {
+				textDownPosition.setX(textUpPosition.getX());
+			} else {
+				textUpPosition.setX(textDownPosition.getX());
+			}
+		}
+
+	}
+
+	private Point2d getTextPosition(@NotNull Paint paint, @NotNull Paint basePaint, @NotNull CharSequence text, float direction) {
+		final Point2d result = new Point2d();
+
+		float width = paint.measureText(text.toString() + " ");
+		result.setX(getWidth() - width);
+
+		float selfHeight = paint.ascent() + paint.descent();
+
+		basePaint.measureText(StringUtils.getNotEmpty(getText(), "|"));
+
+		float height = getHeight() - basePaint.ascent() - basePaint.descent();
+		if (direction < 0) {
+			result.setY(height / 2 - direction * height / 3 + selfHeight);
+		} else {
+			result.setY(height / 2 - direction * height / 3);
+		}
+
+		return result;
+	}
+
+	@Override
+	public void onDraw(Canvas canvas) {
+		super.onDraw(canvas);
+
+		initUpDownTextPaint(null);
+
+		if (textUp != null && textUpPosition != null) {
+			canvas.drawText(textUp, 0, textUp.length(), textUpPosition.getX(), textUpPosition.getY(), upDownTextPaint);
+		}
+
+		if (textDown != null && textDownPosition != null) {
+			canvas.drawText(textDown, 0, textDown.length(), textDownPosition.getX(), textDownPosition.getY(), upDownTextPaint);
+		}
+	}
+
+	private void initUpDownTextPaint(@Nullable Paint paint) {
+		if (paint == null) {
+			paint = getPaint();
+		}
+
+		upDownTextPaint = new TextPaint(paint);
+		upDownTextPaint.setAlpha(150);
+		upDownTextPaint.setTextSize(paint.getTextSize() / 2);
 	}
 
 	private String getStyledUpDownText(@Nullable String text) {
-		final StringBuilder sb = new StringBuilder();
-
-		sb.append("<font color='#585858'><small><small>");
-		sb.append(StringUtils.getNotEmpty(text, "&nbsp;"));
-		sb.append("</small></small></font>");
-		return sb.toString();
+		return StringUtils.getNotEmpty(text, "&nbsp;");
 	}
 
 	public void setTextUp(@Nullable String textUp) {
