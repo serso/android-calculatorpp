@@ -19,7 +19,7 @@ public enum MathEntityType {
 	
 	private static final List<Character> binaryOperations = Arrays.asList('-', '+', '*', '/', '^' );
 
-	private static final List<String> functions = Arrays.asList("sin", "asin", "cos", "acos", "tg", "atg", "exp", "log", "ln", "mod", "√");
+	private static final List<String> functions = Arrays.asList("sin", "asin", "cos", "acos", "tg", "atg", "log", "ln", "mod", "√");
 	
 	private static final List<String> groupSymbols = Arrays.asList("[]", "()", "{}");
 

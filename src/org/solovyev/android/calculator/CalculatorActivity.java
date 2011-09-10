@@ -8,8 +8,6 @@ import java.util.List;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.Handler;
 import android.util.TypedValue;
 import android.view.*;
 import android.widget.TextView;
@@ -28,9 +26,9 @@ import android.util.Log;
 import android.widget.EditText;
 import org.solovyev.util.math.Point2d;
 
-public class CalculatorActivity extends Activity implements FontSizeAdjuster{
+public class CalculatorActivity extends Activity implements FontSizeAdjuster {
 
-    private static final int HVGA_WIDTH_PIXELS  = 320;
+	private static final int HVGA_WIDTH_PIXELS = 320;
 
 	@NotNull
 	private EditText editText;
@@ -42,7 +40,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster{
 	private Interpreter interpreter;
 
 	@NotNull
-	private HistoryHelper<EditorHistoryState> historyHelper;
+	private HistoryHelper<CalculatorHistoryState> historyHelper;
 
 	@NotNull
 	private BroadcastReceiver preferencesChangesReceiver;
@@ -106,8 +104,8 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster{
 			Log.e(CalculatorActivity.class.getName(), e.getMessage());
 		}
 
-		this.historyHelper = new SimpleHistoryHelper<EditorHistoryState>();
-		this.historyHelper.addState(getCurrentHistoryState());
+		this.historyHelper = new SimpleHistoryHelper<CalculatorHistoryState>();
+		saveHistoryState();
 
 		this.preferencesChangesReceiver = new BroadcastReceiver() {
 			@Override
@@ -123,6 +121,10 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster{
 		};
 	}
 
+	private void saveHistoryState() {
+		historyHelper.addState(getCurrentHistoryState());
+	}
+
 	public void elementaryButtonClickHandler(@NotNull View v) {
 		eval(JsclOperation.elementary);
 	}
@@ -131,14 +133,46 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster{
 		eval(JsclOperation.numeric);
 	}
 
+	public void eraseButtonClickHandler(@NotNull View v) {
+		editText.getText().delete(editText.getSelectionStart() - 1, editText.getSelectionStart());
+		saveHistoryState();
+	}
+
 	public void simplifyButtonClickHandler(@NotNull View v) {
 		eval(JsclOperation.simplify);
+	}
+
+	public void moveLeftButtonClickHandler(@NotNull View v) {
+		if (editText.getSelectionStart() > 0) {
+			editText.setSelection(editText.getSelectionStart() - 1);
+		}
+	}
+
+	public void moveRightButtonClickHandler(@NotNull View v) {
+		if (editText.getSelectionStart() < editText.getText().length()) {
+			editText.setSelection(editText.getSelectionStart() + 1);
+		}
+	}
+
+	public void clearButtonClickHandler(@NotNull View v) {
+		editText.getText().clear();
+		resultEditText.getText().clear();
+		saveHistoryState();
 	}
 
 	private void eval(@NotNull JsclOperation operation) {
 		try {
 			final String preprocessedString = Preprocessor.process(String.valueOf(editText.getText()));
 			resultEditText.setText(String.valueOf(interpreter.eval(Preprocessor.wrap(operation, preprocessedString))));
+
+			// result editor might be changed (but main editor - no) => make undo and add new state with saved result
+			CalculatorHistoryState currentHistoryState = getCurrentHistoryState();
+			if (this.historyHelper.isUndoAvailable()) {
+				this.historyHelper.undo(currentHistoryState);
+			}
+
+			this.historyHelper.addState(currentHistoryState);
+
 		} catch (EvalError e) {
 			Log.e(CalculatorActivity.class.getName(), e.getMessage());
 			resultEditText.setText(R.string.syntax_error);
@@ -165,7 +199,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster{
 
 					final HistoryAction historyAction = HistoryAction.valueOf(actionText);
 					if (historyHelper.isActionAvailable(historyAction)) {
-						final EditorHistoryState newState = historyHelper.doAction(historyAction, getCurrentHistoryState());
+						final CalculatorHistoryState newState = historyHelper.doAction(historyAction, getCurrentHistoryState());
 						if (newState != null) {
 							setCurrentHistoryState(newState);
 						}
@@ -200,17 +234,26 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster{
 		return result;
 	}
 
-	public void setCurrentHistoryState(@NotNull EditorHistoryState editorHistoryState) {
-		this.editText.setText(editorHistoryState.getText());
-		this.editText.setSelection(editorHistoryState.getCursorPosition(), editorHistoryState.getCursorPosition());
+	public void setCurrentHistoryState(@NotNull CalculatorHistoryState editorHistoryState) {
+		setValuesFromHistory(this.editText, editorHistoryState.getEditorState());
+		setValuesFromHistory(this.resultEditText, editorHistoryState.getResultEditorState());
+	}
+
+	private void setValuesFromHistory(@NotNull EditText editText, EditorHistoryState editorHistoryState) {
+		editText.setText(editorHistoryState.getText());
+		editText.setSelection(editorHistoryState.getCursorPosition());
 	}
 
 	@NotNull
-	public EditorHistoryState getCurrentHistoryState() {
+	public CalculatorHistoryState getCurrentHistoryState() {
+		return new CalculatorHistoryState(getEditorHistoryState(this.editText), getEditorHistoryState(this.resultEditText));
+	}
+
+	private EditorHistoryState getEditorHistoryState(@NotNull EditText editorText) {
 		final EditorHistoryState result = new EditorHistoryState();
 
-		result.setText(String.valueOf(this.editText.getText()));
-		result.setCursorPosition(this.editText.getSelectionStart());
+		result.setText(String.valueOf(editorText.getText()));
+		result.setCursorPosition(editorText.getSelectionStart());
 
 		return result;
 	}
@@ -241,7 +284,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster{
 
 			this.editText.getText().insert(this.editText.getSelectionStart(), text);
 			this.editText.setSelection(this.editText.getSelectionStart() + cursorPositionOffset, this.editText.getSelectionEnd() + cursorPositionOffset);
-			this.historyHelper.addState(getCurrentHistoryState());
+			saveHistoryState();
 		}
 	}
 
@@ -278,17 +321,17 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster{
 		Log.d(CalculatorActivity.class + "showHelp()", "Show help!");
 	}
 
-        /**
-     * The font sizes in the layout files are specified for a HVGA display.
-     * Adjust the font sizes accordingly if we are running on a different
-     * display.
-     */
+	/**
+	 * The font sizes in the layout files are specified for a HVGA display.
+	 * Adjust the font sizes accordingly if we are running on a different
+	 * display.
+	 */
 	@Override
-    public void adjustFontSize(@NotNull TextView view) {
-        float fontPixelSize = view.getTextSize();
-        Display display = getWindowManager().getDefaultDisplay();
-        int h = Math.min(display.getWidth(), display.getHeight());
-        float ratio = (float)h/HVGA_WIDTH_PIXELS;
-        view.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontPixelSize*ratio);
-    }
+	public void adjustFontSize(@NotNull TextView view) {
+		float fontPixelSize = view.getTextSize();
+		Display display = getWindowManager().getDefaultDisplay();
+		int h = Math.min(display.getWidth(), display.getHeight());
+		float ratio = (float) h / HVGA_WIDTH_PIXELS;
+		view.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontPixelSize * ratio);
+	}
 }

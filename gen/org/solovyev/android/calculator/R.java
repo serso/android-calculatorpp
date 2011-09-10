@@ -35,9 +35,10 @@ containing a value of this type.
         public static final int button=0x7f020001;
         public static final int down=0x7f020002;
         public static final int icon=0x7f020003;
-        public static final int not_ok=0x7f020004;
-        public static final int ok=0x7f020005;
-        public static final int up=0x7f020006;
+        public static final int light_blue_button=0x7f020004;
+        public static final int not_ok=0x7f020005;
+        public static final int ok=0x7f020006;
+        public static final int up=0x7f020007;
     }
     public static final class id {
         public static final int calibrationArrowLeft=0x7f090001;
@@ -45,34 +46,32 @@ containing a value of this type.
         public static final int calibrationButtonLeft=0x7f090002;
         public static final int calibrationButtonRight=0x7f090003;
         public static final int calibrationStart=0x7f090005;
-        public static final int curlyBracketsButton=0x7f09001b;
-        public static final int divisionButton=0x7f090011;
+        public static final int divisionButton=0x7f09000f;
         public static final int editText=0x7f090006;
-        public static final int eigthDigitButton=0x7f090014;
-        public static final int equalsButton=0x7f09001d;
-        public static final int fiveDigitButton=0x7f09000f;
-        public static final int fourDigitButton=0x7f09000e;
-        public static final int historyButton=0x7f09001e;
-        public static final int menu_item_help=0x7f090020;
-        public static final int menu_item_settings=0x7f09001f;
-        public static final int muliplicationButton=0x7f09000c;
-        public static final int nineDigitButton=0x7f090015;
-        public static final int oneDigitButton=0x7f090009;
-        public static final int panelswitch=0x7f090008;
-        public static final int piButton=0x7f09001c;
-        public static final int plusButton=0x7f09000d;
-        public static final int pointDigitButton=0x7f090016;
+        public static final int eigthDigitButton=0x7f090011;
+        public static final int equalsButton=0x7f090018;
+        public static final int eraseButton=0x7f090019;
+        public static final int fiveDigitButton=0x7f09000d;
+        public static final int fourDigitButton=0x7f09000c;
+        public static final int historyButton=0x7f09001c;
+        public static final int leftButton=0x7f09001a;
+        public static final int menu_item_help=0x7f09001e;
+        public static final int menu_item_settings=0x7f09001d;
+        public static final int muliplicationButton=0x7f09000b;
+        public static final int nineDigitButton=0x7f090012;
+        public static final int oneDigitButton=0x7f090008;
+        public static final int plusButton=0x7f090013;
         public static final int resultEditText=0x7f090007;
-        public static final int roundBracketsButton=0x7f090019;
-        public static final int sevenDigitButton=0x7f090013;
+        public static final int rightButton=0x7f09001b;
+        public static final int roundBracketsButton=0x7f090014;
+        public static final int sevenDigitButton=0x7f090010;
         public static final int simplePad=0x7f090000;
-        public static final int sixDigitButton=0x7f090010;
-        public static final int sqrtButton=0x7f090017;
-        public static final int squareBracketsButton=0x7f09001a;
-        public static final int subtractionButton=0x7f090012;
-        public static final int threeDigitButton=0x7f09000b;
-        public static final int twoDigitButton=0x7f09000a;
-        public static final int zeroDigitButton=0x7f090018;
+        public static final int sixDigitButton=0x7f09000e;
+        public static final int squareBracketsButton=0x7f090016;
+        public static final int subtractionButton=0x7f090017;
+        public static final int threeDigitButton=0x7f09000a;
+        public static final int twoDigitButton=0x7f090009;
+        public static final int zeroDigitButton=0x7f090015;
     }
     public static final class layout {
         public static final int drag_button_calibration=0x7f030000;
@@ -95,10 +94,11 @@ containing a value of this type.
         public static final int syntax_error=0x7f060002;
     }
     public static final class style {
-        public static final int button_small_style=0x7f070003;
+        public static final int button_small_style=0x7f070004;
         public static final int button_style=0x7f070001;
+        public static final int controlButtonStyle=0x7f070003;
         public static final int digitButtonStyle=0x7f070002;
-        public static final int display_style=0x7f070004;
+        public static final int display_style=0x7f070005;
         public static final int editTextInputStyle=0x7f070000;
     }
     public static final class xml {
