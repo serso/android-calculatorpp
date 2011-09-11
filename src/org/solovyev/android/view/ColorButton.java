@@ -25,8 +25,6 @@ import android.widget.Button;
 import android.view.MotionEvent;
 import android.content.res.Resources;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.calculator.R;
-import org.solovyev.util.StringUtils;
 import org.solovyev.util.math.Point2d;
 
 /**
@@ -60,11 +58,11 @@ public class ColorButton extends Button {
 	protected void init(Context context) {
 		Resources res = getResources();
 
-		CLICK_FEEDBACK_COLOR = res.getColor(R.color.magic_flame);
+		CLICK_FEEDBACK_COLOR = res.getColor(org.solovyev.android.calculator.R.color.magic_flame);
 		mFeedbackPaint = new Paint();
 		mFeedbackPaint.setStyle(Style.STROKE);
 		mFeedbackPaint.setStrokeWidth(2);
-		getPaint().setColor(res.getColor(R.color.button_text));
+		getPaint().setColor(res.getColor(org.solovyev.android.calculator.R.color.button_text));
 
 		mAnimStart = -1;
 
