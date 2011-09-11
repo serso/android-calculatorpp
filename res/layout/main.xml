@@ -18,6 +18,7 @@
 			<EditText
 					a:id="@+id/editText"
 					style="@style/display_style"
+					a:inputType="textMultiLine"
 					a:singleLine="false"/>
 
 		</LinearLayout>
@@ -25,12 +26,21 @@
 		<LinearLayout a:layout_weight="1" a:layout_width="match_parent" a:layout_height="0dp">
 
 
-			<EditText
+			<org.solovyev.android.view.DirectionDragButton a:id="@+id/equalsButton"
+														   a:text="="
+														   a:layout_width="fill_parent"
+														   a:layout_weight="3"
+														   style="@style/controlButtonStyle"
+														   a:onClick="numericButtonClickHandler"/>
+
+			<TextView
 					a:id="@+id/resultEditText"
 					style="@style/display_style"
 					a:gravity="right|top"
+					a:layout_weight="1"
 					a:minLines="1"
 					a:maxLines="1"
+					a:textStyle="bold"
 					a:scrollHorizontally="true"
 					a:scrollbars="none"/>
 
@@ -137,39 +147,39 @@
 		<LinearLayout a:layout_weight="1" a:layout_width="match_parent" a:layout_height="0dp">
 
 
-			<org.solovyev.android.view.DirectionDragButton a:id="@+id/equalsButton"
-														   a:text="="
-														   a:layout_width="fill_parent"
-														   style="@style/controlButtonStyle"
-														   a:onClick="numericButtonClickHandler"/>
-
-
 			<!--				<org.solovyev.android.view.DirectionDragButton a:id="@+id/numericButton" a:text="numeric"
-																						   style="@style/digitButtonStyle"
-																						   a:onClick="numericButtonClickHandler"/>
+																									   style="@style/digitButtonStyle"
+																									   a:onClick="numericButtonClickHandler"/>
 
-											<org.solovyev.android.view.DirectionDragButton a:id="@+id/simplifyButton" a:text="simplify"
-																						   style="@style/digitButtonStyle"
-																						   a:onClick="simplifyButtonClickHandler"/>-->
+														<org.solovyev.android.view.DirectionDragButton a:id="@+id/simplifyButton" a:text="simplify"
+																									   style="@style/digitButtonStyle"
+																									   a:onClick="simplifyButtonClickHandler"/>-->
 			<org.solovyev.android.view.DirectionDragButton a:id="@+id/eraseButton"
 														   a:text="↚"
 														   style="@style/controlButtonStyle"
 														   a:onClick="eraseButtonClickHandler"/>
 
 			<org.solovyev.android.view.DirectionDragButton a:id="@+id/leftButton"
+														   calc:textUp="↞"
 														   a:text="←"
 														   style="@style/controlButtonStyle"
 														   a:onClick="moveLeftButtonClickHandler"/>
 
 			<org.solovyev.android.view.DirectionDragButton a:id="@+id/rightButton"
+														   calc:textUp="↠"
 														   a:text="→"
 														   style="@style/controlButtonStyle"
 														   a:onClick="moveRightButtonClickHandler"/>
 
-			<org.solovyev.android.view.DirectionDragButton a:id="@+id/historyButton"
+			<org.solovyev.android.view.DirectionDragButton a:id="@+id/pasteButton"
+														   a:text="paste"
+														   calc:textUp="redo"
+														   style="@style/controlButtonStyle"
+														   a:onClick="pasteButtonClickHandler"/>
+
+			<org.solovyev.android.view.DirectionDragButton a:id="@+id/clearButton"
 														   a:text="clear"
 														   calc:textUp="undo"
-														   calc:textDown="redo"
 														   style="@style/controlButtonStyle"
 														   a:onClick="clearButtonClickHandler"/>
 
