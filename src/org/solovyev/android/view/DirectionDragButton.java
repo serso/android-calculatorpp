@@ -167,4 +167,19 @@ public class DirectionDragButton extends DragButton {
 	public String getTextMiddle() {
 		return textMiddle;
 	}
+
+	@Nullable
+	public String getText(@NotNull DragDirection direction) {
+		final String result;
+
+		if (direction == DragDirection.up) {
+			result = getTextUp();
+		} else if ( direction == DragDirection.down ) {
+			result = getTextDown();
+		} else {
+			result = null;
+		}
+
+		return result;
+	}
 }
