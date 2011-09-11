@@ -9,7 +9,7 @@
 
     <application a:icon="@drawable/icon" a:label="@string/c_app_name">
 
-		<activity a:name=".CalculatorActivity" a:label="@string/c_app_name">
+		<activity a:name=".CalculatorActivity" a:label="@string/c_app_name" a:screenOrientation="portrait">
             <intent-filter>
                 <action a:name="android.intent.action.MAIN" />
                 <category a:name="android.intent.category.LAUNCHER" />

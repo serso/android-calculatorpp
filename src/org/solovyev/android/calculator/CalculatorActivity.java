@@ -8,9 +8,14 @@ import java.util.List;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.text.ClipboardManager;
+import android.text.InputType;
 import android.util.TypedValue;
 import android.view.*;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
+import android.widget.Toast;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.view.*;
@@ -24,6 +29,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.EditText;
+import org.solovyev.util.math.MathUtils;
 import org.solovyev.util.math.Point2d;
 
 public class CalculatorActivity extends Activity implements FontSizeAdjuster {
@@ -34,7 +40,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster {
 	private EditText editText;
 
 	@NotNull
-	private EditText resultEditText;
+	private TextView resultEditText;
 
 	@NotNull
 	private Interpreter interpreter;
@@ -56,9 +62,25 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
-		this.editText = (EditText) findViewById(R.id.editText);
+		final InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
-		this.resultEditText = (EditText) findViewById(R.id.resultEditText);
+		this.editText = (EditText) findViewById(R.id.editText);
+		this.editText.setInputType(InputType.TYPE_NULL);
+		imm.hideSoftInputFromWindow(this.editText.getWindowToken(), 0);
+
+		this.resultEditText = (TextView) findViewById(R.id.resultEditText);
+		this.resultEditText.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				final CharSequence text = ((TextView) v).getText();
+				if (!StringUtils.isEmpty(text)) {
+					final ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+					clipboard.setText(text);
+					Toast.makeText(CalculatorActivity.this, "Result copied to clipboard!", Toast.LENGTH_SHORT).show();
+				}
+			}
+		});
+
 
 		final DragButtonCalibrationActivity.Preferences dragPreferences = DragButtonCalibrationActivity.getPreferences(this);
 
@@ -93,8 +115,30 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster {
 		}
 
 		final SimpleOnDragListener historyOnDragListener = new SimpleOnDragListener(new HistoryDragProcessor(), dragPreferences);
-		((DragButton) findViewById(R.id.historyButton)).setOnDragListener(historyOnDragListener);
+		((DragButton) findViewById(R.id.clearButton)).setOnDragListener(historyOnDragListener);
+		((DragButton) findViewById(R.id.pasteButton)).setOnDragListener(historyOnDragListener);
 		onDragListeners.add(historyOnDragListener);
+
+		final SimpleOnDragListener toPositionOnDragListener = new SimpleOnDragListener(new SimpleOnDragListener.DragProcessor() {
+			@Override
+			public boolean processDragEvent(@NotNull DragDirection dragDirection, @NotNull DragButton dragButton, @NotNull Point2d startPoint2d, @NotNull MotionEvent motionEvent) {
+				boolean result = false;
+
+				if (dragButton instanceof DirectionDragButton) {
+					String text = ((DirectionDragButton) dragButton).getText(dragDirection);
+					if ("↞".equals(text)) {
+						CalculatorActivity.this.editText.setSelection(0);
+					} else if ("↠".equals(text)) {
+						CalculatorActivity.this.editText.setSelection(CalculatorActivity.this.editText.getText().length());
+					}
+				}
+
+				return result;
+			}
+		}, dragPreferences);
+		((DragButton) findViewById(R.id.rightButton)).setOnDragListener(toPositionOnDragListener);
+		((DragButton) findViewById(R.id.leftButton)).setOnDragListener(toPositionOnDragListener);
+		onDragListeners.add(toPositionOnDragListener);
 
 		this.interpreter = new Interpreter();
 
@@ -119,6 +163,8 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster {
 				}
 			}
 		};
+
+		registerReceiver(this.preferencesChangesReceiver, new IntentFilter(DragButtonCalibrationActivity.INTENT_ACTION));
 	}
 
 	private void saveHistoryState() {
@@ -126,20 +172,22 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster {
 	}
 
 	public void elementaryButtonClickHandler(@NotNull View v) {
-		eval(JsclOperation.elementary);
+		eval(JsclOperation.elementary, true);
 	}
 
 	public void numericButtonClickHandler(@NotNull View v) {
-		eval(JsclOperation.numeric);
+		eval(JsclOperation.numeric, true);
 	}
 
 	public void eraseButtonClickHandler(@NotNull View v) {
-		editText.getText().delete(editText.getSelectionStart() - 1, editText.getSelectionStart());
-		saveHistoryState();
+		if (editText.getSelectionStart() > 0) {
+			editText.getText().delete(editText.getSelectionStart() - 1, editText.getSelectionStart());
+			saveHistoryState();
+		}
 	}
 
 	public void simplifyButtonClickHandler(@NotNull View v) {
-		eval(JsclOperation.simplify);
+		eval(JsclOperation.simplify, true);
 	}
 
 	public void moveLeftButtonClickHandler(@NotNull View v) {
@@ -154,16 +202,36 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster {
 		}
 	}
 
-	public void clearButtonClickHandler(@NotNull View v) {
-		editText.getText().clear();
-		resultEditText.getText().clear();
-		saveHistoryState();
+	public void pasteButtonClickHandler(@NotNull View v) {
+		final ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+		if ( clipboard.hasText() ) {
+			editText.getText().append(clipboard.getText());
+			saveHistoryState();
+		}
 	}
 
-	private void eval(@NotNull JsclOperation operation) {
+
+	public void clearButtonClickHandler(@NotNull View v) {
+		if (!StringUtils.isEmpty(editText.getText()) || !StringUtils.isEmpty(resultEditText.getText())) {
+			editText.getText().clear();
+			resultEditText.setText("");
+			saveHistoryState();
+		}
+	}
+
+	private void eval(@NotNull JsclOperation operation, boolean showError) {
 		try {
 			final String preprocessedString = Preprocessor.process(String.valueOf(editText.getText()));
-			resultEditText.setText(String.valueOf(interpreter.eval(Preprocessor.wrap(operation, preprocessedString))));
+
+			String result = String.valueOf(interpreter.eval(Preprocessor.wrap(operation, preprocessedString))).trim();
+
+			try {
+				final Double dResult = Double.valueOf(result);
+				result = String.valueOf(MathUtils.round(dResult, 5));
+			} catch (NumberFormatException e) {
+			}
+
+			resultEditText.setText(result);
 
 			// result editor might be changed (but main editor - no) => make undo and add new state with saved result
 			CalculatorHistoryState currentHistoryState = getCurrentHistoryState();
@@ -174,8 +242,10 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster {
 			this.historyHelper.addState(currentHistoryState);
 
 		} catch (EvalError e) {
-			Log.e(CalculatorActivity.class.getName(), e.getMessage());
-			resultEditText.setText(R.string.syntax_error);
+			if (showError) {
+				Toast.makeText(CalculatorActivity.this, R.string.syntax_error, Toast.LENGTH_SHORT).show();
+				Log.e(CalculatorActivity.class.getName(), e.getMessage());
+			}
 		}
 	}
 
@@ -198,18 +268,22 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster {
 					result = true;
 
 					final HistoryAction historyAction = HistoryAction.valueOf(actionText);
-					if (historyHelper.isActionAvailable(historyAction)) {
-						final CalculatorHistoryState newState = historyHelper.doAction(historyAction, getCurrentHistoryState());
-						if (newState != null) {
-							setCurrentHistoryState(newState);
-						}
-					}
+					doHistoryAction(historyAction);
 				} catch (IllegalArgumentException e) {
 					Log.e(String.valueOf(dragButton.getId()), "Unsupported history action: " + actionText);
 				}
 			}
 
 			return result;
+		}
+	}
+
+	private void doHistoryAction(@NotNull HistoryAction historyAction) {
+		if (historyHelper.isActionAvailable(historyAction)) {
+			final CalculatorHistoryState newState = historyHelper.doAction(historyAction, getCurrentHistoryState());
+			if (newState != null) {
+				setCurrentHistoryState(newState);
+			}
 		}
 	}
 
@@ -239,9 +313,11 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster {
 		setValuesFromHistory(this.resultEditText, editorHistoryState.getResultEditorState());
 	}
 
-	private void setValuesFromHistory(@NotNull EditText editText, EditorHistoryState editorHistoryState) {
+	private void setValuesFromHistory(@NotNull TextView editText, EditorHistoryState editorHistoryState) {
 		editText.setText(editorHistoryState.getText());
-		editText.setSelection(editorHistoryState.getCursorPosition());
+		if (editText instanceof EditText) {
+			((EditText) editText).setSelection(editorHistoryState.getCursorPosition());
+		}
 	}
 
 	@NotNull
@@ -249,11 +325,11 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster {
 		return new CalculatorHistoryState(getEditorHistoryState(this.editText), getEditorHistoryState(this.resultEditText));
 	}
 
-	private EditorHistoryState getEditorHistoryState(@NotNull EditText editorText) {
+	private EditorHistoryState getEditorHistoryState(@NotNull TextView textView) {
 		final EditorHistoryState result = new EditorHistoryState();
 
-		result.setText(String.valueOf(editorText.getText()));
-		result.setCursorPosition(editorText.getSelectionStart());
+		result.setText(String.valueOf(textView.getText()));
+		result.setCursorPosition(textView.getSelectionStart());
 
 		return result;
 	}
@@ -285,13 +361,25 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster {
 			this.editText.getText().insert(this.editText.getSelectionStart(), text);
 			this.editText.setSelection(this.editText.getSelectionStart() + cursorPositionOffset, this.editText.getSelectionEnd() + cursorPositionOffset);
 			saveHistoryState();
+			eval(JsclOperation.numeric, false);
 		}
 	}
 
 	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			doHistoryAction(HistoryAction.undo);
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
+	}
+
+
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		final MenuInflater menuInflater = getMenuInflater();
-		menuInflater.inflate(R.menu.main_menu, menu);
+		// todo serso: inflate menu as soon as it will implemented in proper way
+/*		final MenuInflater menuInflater = getMenuInflater();
+		menuInflater.inflate(R.menu.main_menu, menu);*/
 		return true;
 	}
 

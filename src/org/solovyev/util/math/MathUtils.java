@@ -8,6 +8,16 @@ public class MathUtils {
 
 	public static final float MIN_AMOUNT = 0.05f;
 
+	public static double round(@NotNull Double value, int numberOfFractionDigits) {
+		double roundFactor = Math.pow(10, numberOfFractionDigits);
+
+		if (value < Double.MAX_VALUE / roundFactor) {
+			return ((double)Math.round(value * roundFactor)) / roundFactor;
+		} else {
+			return value;
+		}
+	}
+
 	public static float getDistance(@NotNull Point2d startPoint,
 									@NotNull Point2d endPoint) {
 		return getNorm(subtract(endPoint, startPoint));
