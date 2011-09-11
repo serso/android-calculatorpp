@@ -59,7 +59,7 @@
 														   calc:textDown="atg" style="@style/digitButtonStyle"
 														   a:onClick="digitButtonClickHandler"/>
 
-			<org.solovyev.android.view.DirectionDragButton a:id="@+id/muliplicationButton" a:text="*"
+			<org.solovyev.android.view.DirectionDragButton a:id="@+id/muliplicationButton" a:text="×"
 														   calc:textUp="^"
 														   calc:textDown="^2" style="@style/digitButtonStyle"
 														   a:onClick="digitButtonClickHandler"/>
