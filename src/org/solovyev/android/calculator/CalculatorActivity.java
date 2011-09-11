@@ -205,7 +205,8 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster {
 	public void pasteButtonClickHandler(@NotNull View v) {
 		final ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 		if ( clipboard.hasText() ) {
-			editText.getText().append(clipboard.getText());
+			editText.getText().insert(editText.getSelectionStart(), clipboard.getText());
+			eval(JsclOperation.numeric, false);
 			saveHistoryState();
 		}
 	}
