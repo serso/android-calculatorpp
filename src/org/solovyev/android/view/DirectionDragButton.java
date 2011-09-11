@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.text.Html;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import org.jetbrains.annotations.NotNull;
@@ -46,16 +45,16 @@ public class DirectionDragButton extends DragButton {
 
 	private void init(@NotNull Context context, @NotNull AttributeSet attrs) {
 
-		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.DragButton);
+		TypedArray a = context.obtainStyledAttributes(attrs, org.solovyev.android.calculator.R.styleable.DragButton);
 
 		final int N = a.getIndexCount();
 		for (int i = 0; i < N; i++) {
 			int attr = a.getIndex(i);
 			switch (attr) {
-				case R.styleable.DragButton_textUp:
+				case org.solovyev.android.calculator.R.styleable.DragButton_textUp:
 					this.textUp = a.getString(attr);
 					break;
-				case R.styleable.DragButton_textDown:
+				case org.solovyev.android.calculator.R.styleable.DragButton_textDown:
 					this.textDown = a.getString(attr);
 					break;
 			}
