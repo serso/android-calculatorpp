@@ -13,11 +13,11 @@ public class CalculatorHistoryState {
 	private EditorHistoryState editorState;
 
 	@NotNull
-	private EditorHistoryState resultEditorState;
+	private EditorHistoryState displayState;
 
-	public CalculatorHistoryState(@NotNull EditorHistoryState editorState, @NotNull EditorHistoryState resultEditorState) {
+	public CalculatorHistoryState(@NotNull EditorHistoryState editorState, @NotNull EditorHistoryState displayState) {
 		this.editorState = editorState;
-		this.resultEditorState = resultEditorState;
+		this.displayState = displayState;
 	}
 
 	@NotNull
@@ -30,11 +30,11 @@ public class CalculatorHistoryState {
 	}
 
 	@NotNull
-	public EditorHistoryState getResultEditorState() {
-		return resultEditorState;
+	public EditorHistoryState getDisplayState() {
+		return displayState;
 	}
 
-	public void setResultEditorState(@NotNull EditorHistoryState resultEditorState) {
-		this.resultEditorState = resultEditorState;
+	public void setDisplayState(@NotNull EditorHistoryState displayState) {
+		this.displayState = displayState;
 	}
 }
