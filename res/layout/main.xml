@@ -29,7 +29,7 @@
 			<org.solovyev.android.view.DirectionDragButton a:id="@+id/equalsButton"
 														   a:text="="
 														   a:layout_width="fill_parent"
-														   a:layout_weight="3"
+														   a:layout_weight="4"
 														   style="@style/controlButtonStyle"
 														   a:onClick="numericButtonClickHandler"/>
 
@@ -64,6 +64,11 @@
 														   calc:textDown="^2" style="@style/digitButtonStyle"
 														   a:onClick="digitButtonClickHandler"/>
 
+			<org.solovyev.android.view.DirectionDragButton a:id="@+id/clearButton"
+														   a:text="clear"
+														   style="@style/controlButtonStyle"
+														   a:onClick="clearButtonClickHandler"/>
+
 		</LinearLayout>
 
 		<LinearLayout a:layout_weight="1" a:layout_width="match_parent" a:layout_height="0dp">
@@ -90,6 +95,11 @@
 														   style="@style/digitButtonStyle"
 														   a:onClick="digitButtonClickHandler"/>
 
+			<org.solovyev.android.view.DirectionDragButton a:id="@+id/eraseButton"
+														   a:text="↚"
+														   style="@style/controlButtonStyle"
+														   a:onClick="eraseButtonClickHandler"/>
+
 		</LinearLayout>
 
 		<LinearLayout a:layout_weight="1" a:layout_width="match_parent" a:layout_height="0dp">
@@ -111,6 +121,11 @@
 			<org.solovyev.android.view.DirectionDragButton a:id="@+id/plusButton" a:text="+"
 														   style="@style/digitButtonStyle"
 														   a:onClick="digitButtonClickHandler"/>
+
+			<org.solovyev.android.view.DirectionDragButton a:id="@+id/pasteButton"
+														   a:text="paste"
+														   style="@style/controlButtonStyle"
+														   a:onClick="pasteButtonClickHandler"/>
 
 
 		</LinearLayout>
@@ -140,6 +155,11 @@
 														   style="@style/digitButtonStyle"
 														   a:onClick="digitButtonClickHandler"/>
 
+			<org.solovyev.android.view.DirectionDragButton a:id="@+id/historyButton"
+														   a:text=""
+														   calc:textUp="undo"
+														   calc:textDown="redo"
+														   style="@style/controlButtonStyle"/>
 
 		</LinearLayout>
 
@@ -154,10 +174,6 @@
 														<org.solovyev.android.view.DirectionDragButton a:id="@+id/simplifyButton" a:text="simplify"
 																									   style="@style/digitButtonStyle"
 																									   a:onClick="simplifyButtonClickHandler"/>-->
-			<org.solovyev.android.view.DirectionDragButton a:id="@+id/eraseButton"
-														   a:text="↚"
-														   style="@style/controlButtonStyle"
-														   a:onClick="eraseButtonClickHandler"/>
 
 			<org.solovyev.android.view.DirectionDragButton a:id="@+id/leftButton"
 														   calc:textUp="↞"
@@ -171,17 +187,12 @@
 														   style="@style/controlButtonStyle"
 														   a:onClick="moveRightButtonClickHandler"/>
 
-			<org.solovyev.android.view.DirectionDragButton a:id="@+id/pasteButton"
-														   a:text="paste"
-														   calc:textUp="redo"
-														   style="@style/controlButtonStyle"
-														   a:onClick="pasteButtonClickHandler"/>
+			<org.solovyev.android.view.DirectionDragButton a:text="" style="@style/controlButtonStyle"/>
 
-			<org.solovyev.android.view.DirectionDragButton a:id="@+id/clearButton"
-														   a:text="clear"
-														   calc:textUp="undo"
-														   style="@style/controlButtonStyle"
-														   a:onClick="clearButtonClickHandler"/>
+			<org.solovyev.android.view.DirectionDragButton a:text="" style="@style/controlButtonStyle"/>
+
+			<org.solovyev.android.view.DirectionDragButton a:text="" style="@style/controlButtonStyle"/>
+
 
 		</LinearLayout>
 	</LinearLayout>

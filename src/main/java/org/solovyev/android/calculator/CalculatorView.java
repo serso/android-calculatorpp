@@ -101,13 +101,14 @@ public class CalculatorView implements CursorControl{
 			} catch (EvalError evalError) {
 				// actually nothing shall be logged while text operations are done
 			}
+
+			saveHistoryState();
 		}
 	}
 
 	private void evaluate(@Nullable String expression) throws EvalError {
 		if (!StringUtils.isEmpty(expression)) {
 			display.setText(calculator.evaluate(JsclOperation.numeric, expression));
-			saveHistoryState();
 		}
 	}
 
