@@ -1,0 +1,5 @@
+import jscl.math.Expression;
+
+String tomathml(String expr) {
+	return Expression.valueOf(expr).toMathML();
+}
