@@ -1,0 +1,5 @@
+import jscl.math.Expression;
+
+String simplify(String expr) {
+	return Expression.valueOf(expr).simplify().toString();
+}
