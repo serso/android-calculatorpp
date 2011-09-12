@@ -87,8 +87,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster {
 		}
 
 		final SimpleOnDragListener historyOnDragListener = new SimpleOnDragListener(new HistoryDragProcessor(), dragPreferences);
-		((DragButton) findViewById(R.id.clearButton)).setOnDragListener(historyOnDragListener);
-		((DragButton) findViewById(R.id.pasteButton)).setOnDragListener(historyOnDragListener);
+		((DragButton) findViewById(R.id.historyButton)).setOnDragListener(historyOnDragListener);
 		onDragListeners.add(historyOnDragListener);
 
 		final SimpleOnDragListener toPositionOnDragListener = new SimpleOnDragListener(new SimpleOnDragListener.DragProcessor() {
