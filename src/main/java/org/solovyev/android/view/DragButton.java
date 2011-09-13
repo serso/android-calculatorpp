@@ -1,5 +1,7 @@
 package org.solovyev.android.view;
 
+import android.os.Handler;
+import android.widget.Button;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.util.math.Point2d;
@@ -75,6 +77,19 @@ public class DragButton extends ColorButton {
 							if (localOnDragListener.isSuppressOnClickEvent()) {
 								// prevent on click action
 								setPressed(false);
+							}
+
+
+							if (v instanceof Button) {
+								final Button button = (Button)v;
+
+								button.setEnabled(false);
+
+								new Handler().postDelayed(new Runnable() {
+									public void run() {
+										button.setEnabled(true);
+									}
+								}, 500);
 							}
 						}
 
