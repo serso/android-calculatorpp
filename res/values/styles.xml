@@ -16,11 +16,11 @@
         <item name="android:layout_marginLeft">1dp</item>
     </style>
 
-    <style name="digitButtonStyle" parent="button_style">
+    <style name="digit_button_style" parent="button_style">
         <item name="android:background">@drawable/blue_button</item>
     </style>
 
-	<style name="controlButtonStyle" parent="button_style"/>
+	<style name="control_button_style" parent="button_style"/>
 
     <style name="button_small_style" parent="button_style">
         <item name="android:textSize">30dp</item>
