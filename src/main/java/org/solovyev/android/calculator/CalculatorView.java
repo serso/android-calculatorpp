@@ -14,6 +14,7 @@ import bsh.EvalError;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.util.StringUtils;
+import org.solovyev.util.date.MutableObject;
 import org.solovyev.util.math.MathEntityType;
 
 import java.util.Date;
@@ -92,6 +93,9 @@ public class CalculatorView implements CursorControl{
 		}
 	}
 
+	@NotNull
+	private final MutableObject<Runnable> currentRunner = new MutableObject<Runnable>();
+
 	public void doTextOperation(@NotNull TextOperation operation) {
 		final String editorStateBefore = this.editor.getText().toString();
 
@@ -99,8 +103,26 @@ public class CalculatorView implements CursorControl{
 
 		final String editorStateAfter = this.editor.getText().toString();
 		if (!editorStateBefore.equals(editorStateAfter)) {
-			// actually nothing shall be logged while text operations are done
-			evaluate(editorStateAfter, false);
+
+			currentRunner.setObject(new Runnable() {
+				@Override
+				public void run() {
+					synchronized (currentRunner) {
+						// do only if nothing was post delayed before current instance was posted
+						if (currentRunner.getObject() == this) {
+							// actually nothing shall be logged while text operations are done
+							evaluate(editorStateAfter, false);
+
+							if (history.isRedoAvailable()) {
+								history.redo(getCurrentHistoryState());
+							}
+							saveHistoryState();
+						}
+					}
+				}
+			});
+
+			new Handler().postDelayed(currentRunner.getObject(), 500);
 
 			saveHistoryState();
 		}
@@ -112,18 +134,13 @@ public class CalculatorView implements CursorControl{
 			final TextView localDisplay = display;
 			final Activity localActivity = activity;
 
-			new Handler().post(new Runnable() {
-				@Override
-				public void run() {
-					try {
-						localDisplay.setText(calculator.evaluate(JsclOperation.numeric, expression));
-					} catch (EvalError evalError) {
-						if (showError) {
-							Toast.makeText(localActivity, R.string.syntax_error, Toast.LENGTH_SHORT).show();
-						}
-					}
+			try {
+				localDisplay.setText(calculator.evaluate(JsclOperation.numeric, expression));
+			} catch (EvalError evalError) {
+				if (showError) {
+					Toast.makeText(localActivity, R.string.syntax_error, Toast.LENGTH_SHORT).show();
 				}
-			});
+			}
 		}
 	}
 
