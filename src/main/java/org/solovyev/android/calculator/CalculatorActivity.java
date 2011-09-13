@@ -37,6 +37,9 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster {
 	@NotNull
 	private CalculatorModel calculator;
 
+	@NotNull
+	private BroadcastReceiver preferencesChangesReceiver;
+
 	/**
 	 * Called when the activity is first created.
 	 */
@@ -112,7 +115,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster {
 		onDragListeners.add(toPositionOnDragListener);
 
 
-		final BroadcastReceiver preferencesChangesReceiver = new BroadcastReceiver() {
+		preferencesChangesReceiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
 
@@ -126,6 +129,12 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster {
 		};
 
 		registerReceiver(preferencesChangesReceiver, new IntentFilter(DragButtonCalibrationActivity.INTENT_ACTION));
+	}
+
+	@Override
+	protected void onDestroy() {
+		unregisterReceiver(preferencesChangesReceiver);
+		super.onDestroy();
 	}
 
 	@SuppressWarnings({"UnusedDeclaration"})

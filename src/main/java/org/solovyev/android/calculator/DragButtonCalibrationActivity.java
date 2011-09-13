@@ -216,12 +216,12 @@ public class DragButtonCalibrationActivity extends Activity {
 						}
 						break;
 					case distance:
-						defaultMin = 60f;
-						defaultMax = 140f;
+						defaultMin = 50f;
+						defaultMax = 150f;
 						break;
 					case duration:
-						defaultMin = 100f;
-						defaultMax = 300f;
+						defaultMin = 40f;
+						defaultMax = 1000f;
 						break;
 					default:
 						defaultMin = DEFAULT_VALUE;

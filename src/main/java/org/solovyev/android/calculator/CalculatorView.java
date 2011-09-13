@@ -2,6 +2,7 @@ package org.solovyev.android.calculator;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Handler;
 import android.text.ClipboardManager;
 import android.text.InputType;
 import android.view.View;
@@ -14,6 +15,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.util.StringUtils;
 import org.solovyev.util.math.MathEntityType;
+
+import java.util.Date;
 
 /**
  * User: serso
@@ -96,19 +99,31 @@ public class CalculatorView implements CursorControl{
 
 		final String editorStateAfter = this.editor.getText().toString();
 		if (!editorStateBefore.equals(editorStateAfter)) {
-			try {
-				evaluate(editorStateAfter);
-			} catch (EvalError evalError) {
-				// actually nothing shall be logged while text operations are done
-			}
+			// actually nothing shall be logged while text operations are done
+			evaluate(editorStateAfter, false);
 
 			saveHistoryState();
 		}
 	}
 
-	private void evaluate(@Nullable String expression) throws EvalError {
+	private void evaluate(@Nullable final String expression, final boolean showError) {
 		if (!StringUtils.isEmpty(expression)) {
-			display.setText(calculator.evaluate(JsclOperation.numeric, expression));
+
+			final TextView localDisplay = display;
+			final Activity localActivity = activity;
+
+			new Handler().post(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						localDisplay.setText(calculator.evaluate(JsclOperation.numeric, expression));
+					} catch (EvalError evalError) {
+						if (showError) {
+							Toast.makeText(localActivity, R.string.syntax_error, Toast.LENGTH_SHORT).show();
+						}
+					}
+				}
+			});
 		}
 	}
 
@@ -121,11 +136,7 @@ public class CalculatorView implements CursorControl{
 	}
 
 	public void evaluate() {
-		try {
-			evaluate(editor.getText().toString());
-		} catch (EvalError evalError) {
-			Toast.makeText(this.activity, R.string.syntax_error, Toast.LENGTH_SHORT).show();
-		}
+		evaluate(editor.getText().toString(), true);
 	}
 
 	public void processButtonAction(@Nullable final String text) {
