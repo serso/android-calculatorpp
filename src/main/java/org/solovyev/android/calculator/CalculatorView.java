@@ -13,11 +13,12 @@ import android.widget.Toast;
 import bsh.EvalError;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.util.StringUtils;
-import org.solovyev.util.date.MutableObject;
+import org.solovyev.common.utils.MutableObject;
+import org.solovyev.common.utils.StringUtils;
+import org.solovyev.common.utils.history.HistoryAction;
+import org.solovyev.common.utils.history.HistoryHelper;
+import org.solovyev.common.utils.history.SimpleHistoryHelper;
 import org.solovyev.util.math.MathEntityType;
-
-import java.util.Date;
 
 /**
  * User: serso
@@ -111,7 +112,7 @@ public class CalculatorView implements CursorControl{
 						// do only if nothing was post delayed before current instance was posted
 						if (currentRunner.getObject() == this) {
 							// actually nothing shall be logged while text operations are done
-							evaluate(editorStateAfter, false);
+							evaluate(editorStateAfter, true);
 
 							if (history.isRedoAvailable()) {
 								history.redo(getCurrentHistoryState());
