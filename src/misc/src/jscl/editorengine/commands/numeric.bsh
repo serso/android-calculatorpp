@@ -1,5 +1,0 @@
-import jscl.math.Expression;
-
-String numeric(String expr) {
-	return Expression.valueOf(expr).numeric().toString();
-}
