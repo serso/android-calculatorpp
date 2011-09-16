@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+ * For more information, please, contact se.solovyev@gmail.com
+ */
+
 package org.solovyev.android.view;
 
 import android.content.Context;
@@ -71,24 +76,24 @@ public class DragButton extends ColorButton {
 
 					case MotionEvent.ACTION_UP:
 						// stop tracking
-							
+
 						if (localStartPoint != null && localOnDragListener.onDrag(DragButton.this, new DragEvent(localStartPoint, event))) {
 							if (localOnDragListener.isSuppressOnClickEvent()) {
 								// prevent on click action
 								setPressed(false);
-							}
 
+								// sometimes setPressed(false); doesn't work so to prevent onClick action button disables
+								if (v instanceof Button) {
+									final Button button = (Button) v;
 
-							if (v instanceof Button) {
-								final Button button = (Button)v;
+									button.setEnabled(false);
 
-								button.setEnabled(false);
-
-								new Handler().postDelayed(new Runnable() {
-									public void run() {
-										button.setEnabled(true);
-									}
-								}, 500);
+									new Handler().postDelayed(new Runnable() {
+										public void run() {
+											button.setEnabled(true);
+										}
+									}, 300);
+								}
 							}
 						}
 

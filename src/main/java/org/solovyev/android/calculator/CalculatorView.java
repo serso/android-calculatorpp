@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+ * For more information, please, contact se.solovyev@gmail.com
+ */
+
 package org.solovyev.android.calculator;
 
 import android.app.Activity;
@@ -5,6 +10,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.text.ClipboardManager;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -13,6 +19,9 @@ import android.widget.Toast;
 import bsh.EvalError;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.view.CursorControl;
+import org.solovyev.android.view.HistoryControl;
+import org.solovyev.common.math.calculators.Calculator;
 import org.solovyev.common.utils.MutableObject;
 import org.solovyev.common.utils.StringUtils;
 import org.solovyev.common.utils.history.HistoryAction;
@@ -25,10 +34,13 @@ import org.solovyev.util.math.MathEntityType;
  * Date: 9/12/11
  * Time: 11:15 PM
  */
-public class CalculatorView implements CursorControl{
+public class CalculatorView implements CursorControl, HistoryControl<CalculatorHistoryState> {
+
+	// millis to wait before evaluation after user edit action
+	public static final int EVAL_DELAY_MILLIS = 1000;
 
 	@NotNull
-	private final EditText editor;
+	private final CalculatorEditText editor;
 
 	@NotNull
 	private final TextView display;
@@ -37,18 +49,18 @@ public class CalculatorView implements CursorControl{
 	private final Activity activity;
 
 	@NotNull
-	private final CalculatorModel calculator;
+	private final CalculatorModel calculatorModel;
 
 	@NotNull
 	private HistoryHelper<CalculatorHistoryState> history;
 
 	public CalculatorView(@NotNull final Activity activity, @NotNull CalculatorModel calculator) {
 		this.activity = activity;
-		this.calculator = calculator;
+		this.calculatorModel = calculator;
 
 		final InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
 
-		this.editor = (EditText) activity.findViewById(R.id.editText);
+		this.editor = (CalculatorEditText) activity.findViewById(R.id.editText);
 		this.editor.setInputType(InputType.TYPE_NULL);
 		imm.hideSoftInputFromWindow(this.editor.getWindowToken(), 0);
 
@@ -117,13 +129,14 @@ public class CalculatorView implements CursorControl{
 							if (history.isUndoAvailable()) {
 								history.undo(getCurrentHistoryState());
 							}
+
 							saveHistoryState();
 						}
 					}
 				}
 			});
 
-			new Handler().postDelayed(currentRunner.getObject(), 500);
+			new Handler().postDelayed(currentRunner.getObject(), EVAL_DELAY_MILLIS);
 
 			saveHistoryState();
 		}
@@ -136,12 +149,21 @@ public class CalculatorView implements CursorControl{
 			final Activity localActivity = activity;
 
 			try {
-				localDisplay.setText(calculator.evaluate(JsclOperation.numeric, expression));
-			} catch (EvalError evalError) {
-				if (showError) {
-					Toast.makeText(localActivity, R.string.syntax_error, Toast.LENGTH_SHORT).show();
-				}
+				Log.d(CalculatorView.class.getName(), "Trying to evaluate: " + expression);
+				localDisplay.setText(calculatorModel.evaluate(JsclOperation.numeric, expression));
+			} catch (EvalError e) {
+				handleEvaluationException(expression, showError, localDisplay, localActivity, e);
+			} catch (CalculatorModel.ParseException e) {
+				handleEvaluationException(expression, showError, localDisplay, localActivity, e);
 			}
+		}
+	}
+
+	private void handleEvaluationException(@NotNull String expression, boolean showError, @NotNull TextView localDisplay, @NotNull Activity localActivity, @NotNull Exception e) {
+		Log.d(CalculatorView.class.getName(), "Evaluation failed for : " + expression + ". Error message: " + e.getMessage());
+		localDisplay.setText("");
+		if (showError) {
+			Toast.makeText(localActivity, R.string.syntax_error, Toast.LENGTH_SHORT).show();
 		}
 	}
 
@@ -157,7 +179,7 @@ public class CalculatorView implements CursorControl{
 		evaluate(editor.getText().toString(), true);
 	}
 
-	public void processButtonAction(@Nullable final String text) {
+	public void processDigitButtonAction(@Nullable final String text) {
 		//Toast.makeText(CalculatorActivity.this, text, Toast.LENGTH_SHORT).show();
 
 		if (!StringUtils.isEmpty(text)) {
@@ -199,6 +221,7 @@ public class CalculatorView implements CursorControl{
 
 	}
 
+	@Override
 	public void doHistoryAction(@NotNull HistoryAction historyAction) {
 		if (history.isActionAvailable(historyAction)) {
 			final CalculatorHistoryState newState = history.doAction(historyAction, getCurrentHistoryState());
@@ -208,6 +231,7 @@ public class CalculatorView implements CursorControl{
 		}
 	}
 
+	@Override
 	public void setCurrentHistoryState(@NotNull CalculatorHistoryState editorHistoryState) {
 		setValuesFromHistory(this.editor, editorHistoryState.getEditorState());
 		setValuesFromHistory(this.display, editorHistoryState.getDisplayState());
@@ -220,6 +244,7 @@ public class CalculatorView implements CursorControl{
 		}
 	}
 
+	@Override
 	@NotNull
 	public CalculatorHistoryState getCurrentHistoryState() {
 		return new CalculatorHistoryState(getEditorHistoryState(this.editor), getEditorHistoryState(this.display));

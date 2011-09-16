@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+ * For more information, please, contact se.solovyev@gmail.com
+ */
+
 package org.solovyev.android.calculator;
 
 import android.app.Activity;
@@ -16,8 +21,6 @@ import bsh.EvalError;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.view.*;
-import org.solovyev.common.utils.Point2d;
-import org.solovyev.common.utils.StringUtils;
 import org.solovyev.common.utils.history.HistoryAction;
 
 import java.lang.reflect.Field;
@@ -33,10 +36,10 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster {
 	private List<SimpleOnDragListener> onDragListeners = new ArrayList<SimpleOnDragListener>();
 
 	@NotNull
-	private CalculatorView view;
+	private CalculatorView calculatorView;
 
 	@NotNull
-	private CalculatorModel calculator;
+	private CalculatorModel calculatorModel;
 
 	@NotNull
 	private BroadcastReceiver preferencesChangesReceiver;
@@ -50,26 +53,17 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster {
 		setContentView(R.layout.main);
 
 		try {
-			this.calculator = new CalculatorModel();
+			this.calculatorModel = new CalculatorModel();
 		} catch (EvalError evalError) {
 			// todo serso: create serso runtime exception
 			throw new RuntimeException("Could not initialize interpreter!");
 		}
 
-		this.view = new CalculatorView(this, this.calculator);
+		this.calculatorView = new CalculatorView(this, this.calculatorModel);
 
 		final DragButtonCalibrationActivity.Preferences dragPreferences = DragButtonCalibrationActivity.getPreferences(this);
 
-		final SimpleOnDragListener onDragListener = new SimpleOnDragListener(new SimpleOnDragListener.DragProcessor() {
-			@Override
-			public boolean processDragEvent(@NotNull DragDirection dragDirection, @NotNull DragButton dragButton, @NotNull Point2d startPoint2d, @NotNull MotionEvent motionEvent) {
-				assert dragButton instanceof DirectionDragButton;
-				view.processButtonAction(getActionText((DirectionDragButton) dragButton, dragDirection));
-				return true;
-			}
-
-		}, dragPreferences);
-
+		final SimpleOnDragListener onDragListener = new SimpleOnDragListener(new DigitButtonDragProcessor(calculatorView), dragPreferences);
 		onDragListeners.add(onDragListener);
 
 		// todo serso: check if there is more convenient method for doing this
@@ -90,27 +84,11 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster {
 			}
 		}
 
-		final SimpleOnDragListener historyOnDragListener = new SimpleOnDragListener(new HistoryDragProcessor(), dragPreferences);
+		final SimpleOnDragListener historyOnDragListener = new SimpleOnDragListener(new HistoryDragProcessor<CalculatorHistoryState>(this.calculatorView), dragPreferences);
 		((DragButton) findViewById(R.id.historyButton)).setOnDragListener(historyOnDragListener);
 		onDragListeners.add(historyOnDragListener);
 
-		final SimpleOnDragListener toPositionOnDragListener = new SimpleOnDragListener(new SimpleOnDragListener.DragProcessor() {
-			@Override
-			public boolean processDragEvent(@NotNull DragDirection dragDirection, @NotNull DragButton dragButton, @NotNull Point2d startPoint2d, @NotNull MotionEvent motionEvent) {
-				boolean result = false;
-
-				if (dragButton instanceof DirectionDragButton) {
-					String text = ((DirectionDragButton) dragButton).getText(dragDirection);
-					if ("↞".equals(text)) {
-						CalculatorActivity.this.view.setCursorOnStart();
-					} else if ("↠".equals(text)) {
-						CalculatorActivity.this.view.setCursorOnEnd();
-					}
-				}
-
-				return result;
-			}
-		}, dragPreferences);
+		final SimpleOnDragListener toPositionOnDragListener = new SimpleOnDragListener(new CursorDragProcessor(calculatorView), dragPreferences);
 		((DragButton) findViewById(R.id.rightButton)).setOnDragListener(toPositionOnDragListener);
 		((DragButton) findViewById(R.id.leftButton)).setOnDragListener(toPositionOnDragListener);
 		onDragListeners.add(toPositionOnDragListener);
@@ -145,12 +123,12 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster {
 
 	@SuppressWarnings({"UnusedDeclaration"})
 	public void numericButtonClickHandler(@NotNull View v) {
-		this.view.evaluate();
+		this.calculatorView.evaluate();
 	}
 
 	@SuppressWarnings({"UnusedDeclaration"})
 	public void eraseButtonClickHandler(@NotNull View v) {
-		view.doTextOperation(new CalculatorView.TextOperation() {
+		calculatorView.doTextOperation(new CalculatorView.TextOperation() {
 			@Override
 			public void doOperation(@NotNull EditText editor) {
 				if (editor.getSelectionStart() > 0) {
@@ -167,17 +145,17 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster {
 
 	@SuppressWarnings({"UnusedDeclaration"})
 	public void moveLeftButtonClickHandler(@NotNull View v) {
-		view.moveCursorLeft();
+		calculatorView.moveCursorLeft();
 	}
 
 	@SuppressWarnings({"UnusedDeclaration"})
 	public void moveRightButtonClickHandler(@NotNull View v) {
-		view.moveCursorRight();
+		calculatorView.moveCursorRight();
 	}
 
 	@SuppressWarnings({"UnusedDeclaration"})
 	public void pasteButtonClickHandler(@NotNull View v) {
-		view.doTextOperation(new CalculatorView.TextOperation() {
+		calculatorView.doTextOperation(new CalculatorView.TextOperation() {
 			@Override
 			public void doOperation(@NotNull EditText editor) {
 				final ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
@@ -190,64 +168,19 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster {
 
 	@SuppressWarnings({"UnusedDeclaration"})
 	public void clearButtonClickHandler(@NotNull View v) {
-		view.clear();
+		calculatorView.clear();
 	}
 
 	@SuppressWarnings({"UnusedDeclaration"})
 	public void digitButtonClickHandler(@NotNull View v) {
-		view.processButtonAction(((DirectionDragButton) v).getTextMiddle());
-	}
-
-	private final class HistoryDragProcessor implements SimpleOnDragListener.DragProcessor {
-
-		@Override
-		public boolean processDragEvent(@NotNull DragDirection dragDirection, @NotNull DragButton dragButton, @NotNull Point2d startPoint2d, @NotNull MotionEvent motionEvent) {
-			boolean result = false;
-
-			Log.d(String.valueOf(dragButton.getId()), "History on drag event start: " + dragDirection);
-
-			assert dragButton instanceof DirectionDragButton;
-			String actionText = getActionText((DirectionDragButton) dragButton, dragDirection);
-			if (!StringUtils.isEmpty(actionText)) {
-				try {
-					result = true;
-
-					final HistoryAction historyAction = HistoryAction.valueOf(actionText);
-					view.doHistoryAction(historyAction);
-				} catch (IllegalArgumentException e) {
-					Log.e(String.valueOf(dragButton.getId()), "Unsupported history action: " + actionText);
-				}
-			}
-
-			return result;
-		}
-	}
-
-	@Nullable
-	private static String getActionText(@NotNull DirectionDragButton dragButton, @NotNull DragDirection direction) {
-		final String result;
-
-		switch (direction) {
-			case up:
-				result = dragButton.getTextUp();
-				break;
-
-			case down:
-				result = dragButton.getTextDown();
-				break;
-
-			default:
-				result = null;
-				break;
-		}
-
-		return result;
+		Log.d(String.valueOf(v.getId()), "digitButtonClickHandler() for: " + v.getId() + ". Pressed: " + v.isPressed());
+		calculatorView.processDigitButtonAction(((DirectionDragButton) v).getTextMiddle());
 	}
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			view.doHistoryAction(HistoryAction.undo);
+			calculatorView.doHistoryAction(HistoryAction.undo);
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);
