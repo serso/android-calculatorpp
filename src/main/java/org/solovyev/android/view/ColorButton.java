@@ -17,15 +17,15 @@
 package org.solovyev.android.view;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.util.AttributeSet;
-import android.widget.Button;
 import android.view.MotionEvent;
-import android.content.res.Resources;
+import android.widget.Button;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.util.math.Point2d;
+import org.solovyev.common.utils.Point2d;
 
 /**
  * NOTE: copied from com.android.calculator2.ColorButton

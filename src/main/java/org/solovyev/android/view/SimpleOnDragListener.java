@@ -1,13 +1,12 @@
 package org.solovyev.android.view;
 
+import android.util.Log;
+import android.view.MotionEvent;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.DragButtonCalibrationActivity;
 import org.solovyev.common.utils.Interval;
-import org.solovyev.util.math.MathUtils;
-import org.solovyev.util.math.Point2d;
-
-import android.util.Log;
-import android.view.MotionEvent;
+import org.solovyev.common.utils.MathUtils;
+import org.solovyev.common.utils.Point2d;
 
 import java.util.Map;
 

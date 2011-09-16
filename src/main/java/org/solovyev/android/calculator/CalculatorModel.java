@@ -1,11 +1,9 @@
 package org.solovyev.android.calculator;
 
-import android.util.Log;
-import android.widget.Toast;
 import bsh.EvalError;
 import bsh.Interpreter;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.util.math.MathUtils;
+import org.solovyev.common.utils.MathUtils;
 
 /**
  * User: serso

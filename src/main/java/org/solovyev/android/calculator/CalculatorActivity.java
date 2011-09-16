@@ -16,8 +16,9 @@ import bsh.EvalError;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.view.*;
-import org.solovyev.util.StringUtils;
-import org.solovyev.util.math.Point2d;
+import org.solovyev.common.utils.Point2d;
+import org.solovyev.common.utils.StringUtils;
+import org.solovyev.common.utils.history.HistoryAction;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;

@@ -8,9 +8,8 @@ import android.text.TextPaint;
 import android.util.AttributeSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.R;
-import org.solovyev.util.StringUtils;
-import org.solovyev.util.math.Point2d;
+import org.solovyev.common.utils.Point2d;
+import org.solovyev.common.utils.StringUtils;
 
 /**
  * User: serso
