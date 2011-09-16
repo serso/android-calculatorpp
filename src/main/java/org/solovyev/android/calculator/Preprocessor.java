@@ -59,7 +59,7 @@ public class Preprocessor {
 					mathTypeBefore != MathEntityType.unary_operation &&
 						!MathEntityType.openGroupSymbols.contains(chBefore)) {
 
-				if (mathType == MathEntityType.constant) {
+				if (mathType == MathEntityType.constant || MathEntityType.openGroupSymbols.contains(ch)) {
 					sb.append("*");
 				} else if (mathType == MathEntityType.digit && mathTypeBefore != MathEntityType.digit && mathTypeBefore != MathEntityType.dot) {
 					sb.append("*");
