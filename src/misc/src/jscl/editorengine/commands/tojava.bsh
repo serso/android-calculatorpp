@@ -1,5 +1,0 @@
-import jscl.math.Expression;
-
-String tojava(String expr) {
-	return Expression.valueOf(expr).toJava();
-}
