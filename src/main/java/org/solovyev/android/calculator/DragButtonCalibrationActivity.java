@@ -16,8 +16,8 @@ import org.solovyev.android.view.*;
 import org.solovyev.common.collections.ManyValuedHashMap;
 import org.solovyev.common.collections.ManyValuedMap;
 import org.solovyev.common.utils.Interval;
-import org.solovyev.util.math.MathUtils;
-import org.solovyev.util.math.Point2d;
+import org.solovyev.common.utils.MathUtils;
+import org.solovyev.common.utils.Point2d;
 
 import java.util.ArrayList;
 import java.util.HashMap;

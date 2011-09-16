@@ -1,16 +1,15 @@
 package org.solovyev.android.view;
 
-import android.os.Handler;
-import android.widget.Button;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.solovyev.util.math.Point2d;
-
 import android.content.Context;
+import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.solovyev.common.utils.Point2d;
 
 public class DragButton extends ColorButton {
 
