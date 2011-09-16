@@ -114,8 +114,8 @@ public class CalculatorView implements CursorControl{
 							// actually nothing shall be logged while text operations are done
 							evaluate(editorStateAfter, true);
 
-							if (history.isRedoAvailable()) {
-								history.redo(getCurrentHistoryState());
+							if (history.isUndoAvailable()) {
+								history.undo(getCurrentHistoryState());
 							}
 							saveHistoryState();
 						}
