@@ -11,10 +11,6 @@
 
 	<packaging>pom</packaging>
 
-	<modules>
-		<module>../common</module>
-	</modules>
-
 	<properties>
 		<additionalLibs>${basedir}/src/misc/lib</additionalLibs>
 	</properties>
@@ -22,17 +18,23 @@
 	<dependencies>
 
 		<dependency>
-			<groupId>jscl-meditor</groupId>
-			<artifactId>jscl-meditor</artifactId>
-			<version>2.3.5</version>
-			<scope>system</scope>
-			<systemPath>${additionalLibs}/jscl.jar</systemPath>
+			<groupId>org.solovyev</groupId>
+			<artifactId>common</artifactId>
+			<version>0.1</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.beanshell</groupId>
 			<artifactId>bsh</artifactId>
 			<version>2.0b4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>jscl-meditor</groupId>
+			<artifactId>jscl-meditor</artifactId>
+			<version>2.3.5</version>
+			<scope>system</scope>
+			<systemPath>${additionalLibs}/jscl.jar</systemPath>
 		</dependency>
 
 		<dependency>
