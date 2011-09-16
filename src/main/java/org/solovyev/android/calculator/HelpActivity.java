@@ -5,11 +5,13 @@
 
 package org.solovyev.android.calculator;
 
-public enum JsclOperation {
+import android.app.Activity;
 
-	simplify,
-	elementary,
-	importCommands,
-	numeric;
-	
+/**
+ * User: serso
+ * Date: 9/16/11
+ * Time: 11:52 PM
+ */
+public class HelpActivity extends Activity {
+	// todo serso: implement
 }

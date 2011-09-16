@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+ * For more information, please, contact se.solovyev@gmail.com
+ */
+
 package org.solovyev.android.calculator;
 
 import android.app.Activity;
@@ -203,20 +208,20 @@ public class DragButtonCalibrationActivity extends Activity {
 					case angle:
 						switch (dragDirection) {
 							case up:
-								defaultMin = 150f;
+								defaultMin = 130f;
 								defaultMax = 180f;
 								break;
 							case down:
 								defaultMin = 0f;
-								defaultMax = 30f;
+								defaultMax = 50f;
 								break;
 							default:
-								defaultMin = DEFAULT_VALUE;
-								defaultMax = DEFAULT_VALUE;
+								defaultMin = 0;
+								defaultMax = 0;
 						}
 						break;
 					case distance:
-						defaultMin = 50f;
+						defaultMin = 10f;
 						defaultMax = 150f;
 						break;
 					case duration:

@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+ * For more information, please, contact se.solovyev@gmail.com
+ */
+
 package org.solovyev.util.math;
 
 import java.util.ArrayList;
@@ -48,21 +53,7 @@ public enum MathEntityType {
 		MathEntityType result = null;
 		
 		if ( s.length() == 1 ) {
-			char ch = s.charAt(0);
-			
-			if ( Character.isDigit(ch) ) {
-				result = MathEntityType.digit;
-			} else if ( unaryOperations.contains(ch) ) {
-				result = MathEntityType.unary_operation; 
-			} else if ( binaryOperations.contains(ch) ) {
-				result = MathEntityType.binary_operation; 
-			} else if ( singleGroupSymbols.contains(ch) ) {
-				result = MathEntityType.group_symbol;
-			} else if ( constants.contains(ch) ) {
-				result = MathEntityType.constant;
-			} else if ( dots.contains(ch) ) {
-				result = MathEntityType.dot;
-			}
+			result = getType(s.charAt(0));
 		}
 		
 		if ( result == null ) {
@@ -74,6 +65,26 @@ public enum MathEntityType {
 		}
 		
 		
+		return result;
+	}
+
+	@Nullable
+	public static MathEntityType getType(char ch) {
+		MathEntityType result = null;
+
+		if ( Character.isDigit(ch) ) {
+			result = MathEntityType.digit;
+		} else if ( unaryOperations.contains(ch) ) {
+			result = MathEntityType.unary_operation;
+		} else if ( binaryOperations.contains(ch) ) {
+			result = MathEntityType.binary_operation;
+		} else if ( singleGroupSymbols.contains(ch) ) {
+			result = MathEntityType.group_symbol;
+		} else if ( constants.contains(ch) ) {
+			result = MathEntityType.constant;
+		} else if ( dots.contains(ch) ) {
+			result = MathEntityType.dot;
+		}
 		return result;
 	}
 }

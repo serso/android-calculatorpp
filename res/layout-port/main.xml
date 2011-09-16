@@ -15,7 +15,7 @@
 
 		<LinearLayout a:layout_weight="2" a:layout_width="match_parent" a:layout_height="0dp">
 
-			<EditText
+			<org.solovyev.android.calculator.CalculatorEditText
 					a:id="@+id/editText"
 					style="@style/display_style"
 					a:inputType="textMultiLine"
