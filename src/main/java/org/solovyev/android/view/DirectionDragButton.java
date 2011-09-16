@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+ * For more information, please, contact se.solovyev@gmail.com
+ */
+
 package org.solovyev.android.view;
 
 import android.content.Context;
@@ -39,6 +44,27 @@ public class DirectionDragButton extends DragButton {
 	public DirectionDragButton(Context context, @NotNull AttributeSet attrs) {
 		super(context, attrs, false);
 		init(context, attrs);
+	}
+
+	@Nullable
+	public String getDirectionText(@NotNull DragDirection direction) {
+		final String result;
+
+		switch (direction) {
+			case up:
+				result = this.getTextUp();
+				break;
+
+			case down:
+				result = this.getTextDown();
+				break;
+
+			default:
+				result = null;
+				break;
+		}
+
+		return result;
 	}
 
 

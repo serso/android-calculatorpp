@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+ * For more information, please, contact se.solovyev@gmail.com
+ */
+
 package org.solovyev.android.calculator;
 
 import org.jetbrains.annotations.NotNull;
@@ -57,9 +62,12 @@ public class Preprocessor {
 
 			if (mathTypeBefore != MathEntityType.binary_operation &&
 					mathTypeBefore != MathEntityType.unary_operation &&
-						!MathEntityType.openGroupSymbols.contains(chBefore)) {
+						mathTypeBefore != MathEntityType.function &&
+							!MathEntityType.openGroupSymbols.contains(chBefore)) {
 
-				if (mathType == MathEntityType.constant || MathEntityType.openGroupSymbols.contains(ch)) {
+				if (mathType == MathEntityType.constant ) {
+					sb.append("*");
+				} else if ( MathEntityType.openGroupSymbols.contains(ch) && mathTypeBefore != null ) {
 					sb.append("*");
 				} else if (mathType == MathEntityType.digit && mathTypeBefore != MathEntityType.digit && mathTypeBefore != MathEntityType.dot) {
 					sb.append("*");

@@ -14,6 +14,11 @@
  * limitations under the License.
  */
 
+/*
+ * Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+ * For more information, please, contact se.solovyev@gmail.com
+ */
+
 package org.solovyev.android.view;
 
 import android.content.Context;
@@ -102,7 +107,7 @@ public class ColorButton extends Button {
 		measureText();
 	}
 
-	private void drawMagicFlame(int duration, Canvas canvas) {
+	public void drawMagicFlame(int duration, Canvas canvas) {
 		int alpha = 255 - 255 * duration / CLICK_FEEDBACK_DURATION;
 		int color = CLICK_FEEDBACK_COLOR | (alpha << 24);
 
@@ -121,8 +126,6 @@ public class ColorButton extends Button {
 				drawMagicFlame(animDuration, canvas);
 				postInvalidateDelayed(CLICK_FEEDBACK_INTERVAL);
 			}
-		} else if (isPressed()) {
-			drawMagicFlame(0, canvas);
 		}
 
 		CharSequence text = getText();
