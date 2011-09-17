@@ -36,6 +36,12 @@ public class Preprocessor {
 			} else if (s.startsWith("atg", i)) {
 				sb.append("atan");
 				i += 2;
+			} else if (s.startsWith("acos", i)) {
+				sb.append("acos");
+				i += 3;
+			} else if (s.startsWith("asin", i)) {
+				sb.append("asin");
+				i += 3;
 			} else if (s.startsWith("e(", i)) {
 				sb.append("exp(");
 				i += 1;
@@ -62,12 +68,12 @@ public class Preprocessor {
 
 			if (mathTypeBefore != MathEntityType.binary_operation &&
 					mathTypeBefore != MathEntityType.unary_operation &&
-						mathTypeBefore != MathEntityType.function &&
-							!MathEntityType.openGroupSymbols.contains(chBefore)) {
+					mathTypeBefore != MathEntityType.function &&
+					!MathEntityType.openGroupSymbols.contains(chBefore)) {
 
-				if (mathType == MathEntityType.constant ) {
+				if (mathType == MathEntityType.constant) {
 					sb.append("*");
-				} else if ( MathEntityType.openGroupSymbols.contains(ch) && mathTypeBefore != null ) {
+				} else if (MathEntityType.openGroupSymbols.contains(ch) && mathTypeBefore != null) {
 					sb.append("*");
 				} else if (mathType == MathEntityType.digit && mathTypeBefore != MathEntityType.digit && mathTypeBefore != MathEntityType.dot) {
 					sb.append("*");
