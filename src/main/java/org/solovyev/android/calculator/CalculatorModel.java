@@ -5,13 +5,13 @@
 
 package org.solovyev.android.calculator;
 
-import android.util.Log;
 import bsh.EvalError;
 import bsh.Interpreter;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.solovyev.common.exceptions.SersoException;
 import org.solovyev.common.utils.MathUtils;
+import org.solovyev.common.utils.StringUtils;
+import org.solovyev.util.math.Complex;
 
 /**
  * User: serso
@@ -32,22 +32,69 @@ public class CalculatorModel {
 		interpreter.eval(Preprocessor.wrap(JsclOperation.importCommands, "/jscl/editorengine/commands"));
 	}
 
-	public String evaluate(@NotNull JsclOperation operation, @NotNull String expression ) throws EvalError, ParseException {
+	public String evaluate(@NotNull JsclOperation operation, @NotNull String expression) throws EvalError, ParseException {
 
 		final String preprocessedExpression = Preprocessor.process(expression);
 
-		Log.d(CalculatorModel.class.getName(), "Preprocessed expression: " + preprocessedExpression);
+		//Log.d(CalculatorModel.class.getName(), "Preprocessed expression: " + preprocessedExpression);
 
 		Object evaluationObject = interpreter.eval(Preprocessor.wrap(operation, preprocessedExpression));
 		String result = String.valueOf(evaluationObject).trim();
 
 		try {
-			final Double dResult = Double.valueOf(result);
-			result = String.valueOf(MathUtils.round(dResult, NUMBER_OF_FRACTION_DIGITS));
+			result = round(result);
 		} catch (NumberFormatException e) {
-			throw new ParseException(e);
+			if (result.contains("sqrt(-1)")) {
+				try {
+					result = createResultForComplexNumber(result.replace("sqrt(-1)", "i"));
+				} catch (NumberFormatException e1) {
+					// throw original one
+					throw new ParseException(e);
+				}
+
+			} else {
+				throw new ParseException(e);
+			}
 		}
 
+		return result;
+	}
+
+	public String createResultForComplexNumber(@NotNull final String s) {
+		final Complex complex = new Complex();
+
+		String result = "";
+		// may be it's just complex number
+		int plusIndex = s.lastIndexOf("+");
+		if (plusIndex >= 0) {
+			complex.setReal(round(s.substring(0, plusIndex)));
+			result += complex.getReal();
+			result += "+";
+		} else {
+			plusIndex = s.lastIndexOf("-");
+			if (plusIndex >= 0) {
+				complex.setReal(round(s.substring(0, plusIndex)));
+				result += complex.getReal();
+				result += "-";
+			}
+		}
+
+
+		int multiplyIndex = s.indexOf("*");
+		if (multiplyIndex >= 0) {
+			complex.setImag(round(s.substring(plusIndex >= 0 ? plusIndex+1 : 0, multiplyIndex)));
+			result += complex.getImag();
+
+		}
+
+		result += "i";
+
+		return result;
+	}
+
+	private String round(@NotNull String result) {
+		final Double dResult = Double.valueOf(result);
+		result = String.valueOf(MathUtils.round(dResult, NUMBER_OF_FRACTION_DIGITS));
 		return result;
 	}
 
@@ -56,4 +103,5 @@ public class CalculatorModel {
 			super(cause);
 		}
 	}
+
 }

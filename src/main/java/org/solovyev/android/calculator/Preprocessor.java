@@ -6,6 +6,11 @@
 package org.solovyev.android.calculator;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.solovyev.common.utils.CollectionsUtils;
+import org.solovyev.common.utils.EqualsFinder;
+import org.solovyev.common.utils.Finder;
+import org.solovyev.util.math.Functions;
 import org.solovyev.util.math.MathEntityType;
 
 public class Preprocessor {
@@ -14,47 +19,73 @@ public class Preprocessor {
 	public static String process(@NotNull String s) {
 		final StringBuilder sb = new StringBuilder();
 
+		final StartWithFinder startsWithFinder = new StartWithFinder(s);
 		for (int i = 0; i < s.length(); i++) {
 			char ch = s.charAt(i);
 
 			checkMultiplicationSignBeforeFunction(sb, s, i);
 
-			if (ch == '[' || ch == '{') {
+			if (MathEntityType.openGroupSymbols.contains(ch)) {
 				sb.append('(');
-			} else if (ch == ']' || ch == '}') {
+			} else if (MathEntityType.closeGroupSymbols.contains(ch)) {
 				sb.append(')');
 			} else if (ch == 'π') {
 				sb.append("pi");
 			} else if (ch == '×' || ch == '∙') {
 				sb.append("*");
-			} else if (s.startsWith("ln", i)) {
-				sb.append("log");
-				i += 1;
-			} else if (s.startsWith("tg", i)) {
-				sb.append("tan");
-				i += 1;
-			} else if (s.startsWith("atg", i)) {
-				sb.append("atan");
-				i += 2;
-			} else if (s.startsWith("acos", i)) {
-				sb.append("acos");
-				i += 3;
-			} else if (s.startsWith("asin", i)) {
-				sb.append("asin");
-				i += 3;
-			} else if (s.startsWith("e(", i)) {
-				sb.append("exp(");
-				i += 1;
-			} else if (ch == 'e') {
-				sb.append("exp(1)");
-			} else if (ch == '√') {
-				sb.append("sqrt");
 			} else {
-				sb.append(ch);
+				startsWithFinder.setI(i);
+				final String function = CollectionsUtils.get(MathEntityType.functions, startsWithFinder);
+				if (function != null) {
+					sb.append(toJsclFunction(function));
+					i += function.length() - 1;
+				} else if (ch == 'e') {
+					sb.append("exp(1)");
+				} else if (ch == 'i') {
+					sb.append("sqrt(-1)");
+				} else {
+					sb.append(ch);
+				}
 			}
 		}
 
 		return sb.toString();
+	}
+
+	@NotNull
+	private static String toJsclFunction(@NotNull String function) {
+		final String result;
+
+		if (function.equals(Functions.LN)) {
+			result = Functions.LOG;
+		} else if (function.equals(Functions.SQRT_SIGN)) {
+			result = Functions.SQRT;
+		} else {
+			result = function;
+		}
+
+		return result;
+	}
+
+	private static class StartWithFinder implements Finder<String> {
+
+		private int i;
+
+		@NotNull
+		private final String targetString;
+
+		private StartWithFinder(@NotNull String targetString) {
+			this.targetString = targetString;
+		}
+
+		@Override
+		public boolean isFound(@Nullable String s) {
+			return targetString.startsWith(s, i);
+		}
+
+		public void setI(int i) {
+			this.i = i;
+		}
 	}
 
 	private static void checkMultiplicationSignBeforeFunction(@NotNull StringBuilder sb, @NotNull String s, int i) {
