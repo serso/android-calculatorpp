@@ -15,7 +15,23 @@
 		<additionalLibs>${basedir}/src/misc/lib</additionalLibs>
 	</properties>
 
+	<repositories>
+		<repository>
+			<id>congrace.de</id>
+			<name>releases</name>
+			<url>http://nexus.congrace.de/nexus/content/repositories/releases/</url>
+			<layout>default</layout>
+		</repository>
+	</repositories>
+
 	<dependencies>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.2</version>
+			<scope>test</scope>
+		</dependency>
 
 		<dependency>
 			<groupId>org.solovyev</groupId>
@@ -35,6 +51,12 @@
 			<version>2.3.5</version>
 			<scope>system</scope>
 			<systemPath>${additionalLibs}/jscl.jar</systemPath>
+		</dependency>
+
+		<dependency>
+			<groupId>de.congrace</groupId>
+			<artifactId>exp4j</artifactId>
+			<version>0.2.8</version>
 		</dependency>
 
 		<dependency>

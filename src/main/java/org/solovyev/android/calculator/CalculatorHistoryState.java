@@ -18,9 +18,9 @@ public class CalculatorHistoryState {
 	private EditorHistoryState editorState;
 
 	@NotNull
-	private EditorHistoryState displayState;
+	private CalculatorDisplayHistoryState displayState;
 
-	public CalculatorHistoryState(@NotNull EditorHistoryState editorState, @NotNull EditorHistoryState displayState) {
+	public CalculatorHistoryState(@NotNull EditorHistoryState editorState, @NotNull CalculatorDisplayHistoryState displayState) {
 		this.editorState = editorState;
 		this.displayState = displayState;
 	}
@@ -35,11 +35,11 @@ public class CalculatorHistoryState {
 	}
 
 	@NotNull
-	public EditorHistoryState getDisplayState() {
+	public CalculatorDisplayHistoryState getDisplayState() {
 		return displayState;
 	}
 
-	public void setDisplayState(@NotNull EditorHistoryState displayState) {
+	public void setDisplayState(@NotNull CalculatorDisplayHistoryState displayState) {
 		this.displayState = displayState;
 	}
 }
