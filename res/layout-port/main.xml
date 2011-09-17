@@ -33,7 +33,7 @@
 														   style="@style/control_button_style"
 														   a:onClick="numericButtonClickHandler"/>
 
-			<TextView
+			<org.solovyev.android.calculator.CalculatorDisplay
 					a:id="@+id/resultEditText"
 					style="@style/display_style"
 					a:gravity="right|top"
@@ -56,8 +56,8 @@
 														   calc:textDown="acos" style="@style/digit_button_style"
 														   a:onClick="digitButtonClickHandler"/>
 
-			<org.solovyev.android.view.DirectionDragButton a:id="@+id/threeDigitButton" a:text="3" calc:textUp="tg"
-														   calc:textDown="atg" style="@style/digit_button_style"
+			<org.solovyev.android.view.DirectionDragButton a:id="@+id/threeDigitButton" a:text="3" calc:textUp="tan"
+														   calc:textDown="atan" style="@style/digit_button_style"
 														   a:onClick="digitButtonClickHandler"/>
 
 			<org.solovyev.android.view.DirectionDragButton a:id="@+id/multiplicationButton" a:text="×"
@@ -76,20 +76,22 @@
 			
 			<org.solovyev.android.view.DirectionDragButton a:id="@+id/fourDigitButton"
 														   a:text="4"
-														   calc:textUp=""
-														   calc:textDown=""
+														   calc:textUp="sinh"
+														   calc:textDown="asinh"
 														   style="@style/digit_button_style"
 														   a:onClick="digitButtonClickHandler"/>
 
 			<org.solovyev.android.view.DirectionDragButton a:id="@+id/fiveDigitButton"
 														   a:text="5"
-														   calc:textUp="ln"
+														   calc:textUp="cosh"
+														   calc:textDown="acosh"
 														   style="@style/digit_button_style"
 														   a:onClick="digitButtonClickHandler"/>
 
 			<org.solovyev.android.view.DirectionDragButton a:id="@+id/sixDigitButton" a:text="6"
-														   calc:textUp=""
-														   calc:textDown="" style="@style/digit_button_style"
+														   calc:textUp="tanh"
+														   calc:textDown="atanh"
+														   style="@style/digit_button_style"
 														   a:onClick="digitButtonClickHandler"/>
 
 			<org.solovyev.android.view.DirectionDragButton a:id="@+id/divisionButton" a:text="/"
@@ -106,12 +108,16 @@
 
 		<LinearLayout a:layout_weight="1" a:layout_width="match_parent" a:layout_height="0dp">
 
-			<org.solovyev.android.view.DirectionDragButton a:id="@+id/sevenDigitButton" a:text="7" calc:textUp=""
-														   calc:textDown="" style="@style/digit_button_style"
+			<org.solovyev.android.view.DirectionDragButton a:id="@+id/sevenDigitButton" a:text="7"
+														   calc:textUp="i"
+														   calc:textDown=""
+														   style="@style/digit_button_style"
 														   a:onClick="digitButtonClickHandler"/>
 
-			<org.solovyev.android.view.DirectionDragButton a:id="@+id/eightDigitButton" a:text="8" calc:textUp=""
-														   calc:textDown="" style="@style/digit_button_style"
+			<org.solovyev.android.view.DirectionDragButton a:id="@+id/eightDigitButton" a:text="8"
+														   calc:textUp="ln"
+														   calc:textDown=""
+														   style="@style/digit_button_style"
 														   a:onClick="digitButtonClickHandler"/>
 
 			<org.solovyev.android.view.DirectionDragButton a:id="@+id/nineDigitButton" a:text="9"

@@ -24,7 +24,7 @@ public enum MathEntityType {
 	group_symbols,
 	group_symbol;
 	
-	public static final List<Character> constants = Arrays.asList('e', 'π');
+	public static final List<Character> constants = Arrays.asList('e', 'π', 'i');
 
 	public static final List<Character> dots = Arrays.asList('.', ',');
 
@@ -32,8 +32,8 @@ public enum MathEntityType {
 
 	public static final List<Character> binaryOperations = Arrays.asList('-', '+', '*', '×', '∙', '/', '^' );
 
-	public static final List<String> functions = Arrays.asList("sin", "asin", "cos", "acos", "tg", "atg", "log", "ln", "mod", "√");
-	
+	public static final List<String> functions = Functions.all;
+
 	public static final List<String> groupSymbols = Arrays.asList("[]", "()", "{}");
 
 	public static final List<Character> openGroupSymbols = Arrays.asList('[', '(', '{');
