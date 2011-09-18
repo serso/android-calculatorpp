@@ -19,6 +19,7 @@
 
 		<activity a:name=".CalculatorPreferencesActivity" a:label="@string/c_app_settings"/>
 		<activity a:name=".DragButtonCalibrationActivity" a:label="@string/c_prefs_drag_button_calibration"/>
+		<activity a:name=".AboutActivity" a:label="@string/c_about"/>
 
     </application>
 </manifest>

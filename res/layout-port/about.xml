@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+  ~ For more information, please, contact se.solovyev@gmail.com
+  ~ or visit http://se.solovyev.org
+  -->
+
+<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+			  a:orientation="vertical"
+			  a:layout_width="match_parent"
+			  a:layout_height="match_parent"
+			  a:background="#ff000000">
+
+	<TextView
+			a:id="@+id/aboutTextView"
+			a:text="@string/c_copyright"
+			a:textSize="20dp"
+			style="@style/display_style"
+			a:gravity="center|top"/>
+
+</LinearLayout>

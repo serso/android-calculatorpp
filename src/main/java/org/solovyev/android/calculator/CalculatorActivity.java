@@ -25,15 +25,13 @@ import org.solovyev.common.utils.history.HistoryAction;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.List;
 
 public class CalculatorActivity extends Activity implements FontSizeAdjuster {
 
 	private static final int HVGA_WIDTH_PIXELS = 320;
 
 	@NotNull
-	private List<SimpleOnDragListener> onDragListeners = new ArrayList<SimpleOnDragListener>();
+	private final DragPreferencesChangeListenerRegister dpclRegister = new DragPreferencesChangeListenerRegister();
 
 	@NotNull
 	private CalculatorView calculatorView;
@@ -64,7 +62,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster {
 		final DragButtonCalibrationActivity.Preferences dragPreferences = DragButtonCalibrationActivity.getPreferences(this);
 
 		final SimpleOnDragListener onDragListener = new SimpleOnDragListener(new DigitButtonDragProcessor(calculatorView), dragPreferences);
-		onDragListeners.add(onDragListener);
+		dpclRegister.addListener(onDragListener);
 
 		// todo serso: check if there is more convenient method for doing this
 		final R.id ids = new R.id();
@@ -86,12 +84,12 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster {
 
 		final SimpleOnDragListener historyOnDragListener = new SimpleOnDragListener(new HistoryDragProcessor<CalculatorHistoryState>(this.calculatorView), dragPreferences);
 		((DragButton) findViewById(R.id.historyButton)).setOnDragListener(historyOnDragListener);
-		onDragListeners.add(historyOnDragListener);
+		dpclRegister.addListener(historyOnDragListener);
 
 		final SimpleOnDragListener toPositionOnDragListener = new SimpleOnDragListener(new CursorDragProcessor(calculatorView), dragPreferences);
 		((DragButton) findViewById(R.id.rightButton)).setOnDragListener(toPositionOnDragListener);
 		((DragButton) findViewById(R.id.leftButton)).setOnDragListener(toPositionOnDragListener);
-		onDragListeners.add(toPositionOnDragListener);
+		dpclRegister.addListener(toPositionOnDragListener);
 
 
 		preferencesChangesReceiver = new BroadcastReceiver() {
@@ -100,9 +98,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster {
 
 				if (DragButtonCalibrationActivity.INTENT_ACTION.equals(intent.getAction())) {
 					final DragButtonCalibrationActivity.Preferences preferences = DragButtonCalibrationActivity.getPreferences(CalculatorActivity.this);
-					for (SimpleOnDragListener dragListener : onDragListeners) {
-						dragListener.setPreferences(preferences);
-					}
+					dpclRegister.announce().onDragPreferencesChange(preferences);
 				}
 			}
 		};
@@ -189,9 +185,8 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// todo serso: inflate menu as soon as it will implemented in proper way
-/*		final MenuInflater menuInflater = getMenuInflater();
-		menuInflater.inflate(R.menu.main_menu, menu);*/
+		final MenuInflater menuInflater = getMenuInflater();
+		menuInflater.inflate(R.menu.main_menu, menu);
 		return true;
 	}
 
@@ -204,8 +199,8 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster {
 				showSettings();
 				result = true;
 				break;
-			case R.id.menu_item_help:
-				showHelp();
+			case R.id.menu_item_about:
+				showAbout();
 				result = true;
 				break;
 			default:
@@ -219,8 +214,8 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster {
 		startActivity(new Intent(this, CalculatorPreferencesActivity.class));
 	}
 
-	private void showHelp() {
-		Log.d(CalculatorActivity.class + "showHelp()", "Show help!");
+	private void showAbout() {
+		startActivity(new Intent(this, AboutActivity.class));
 	}
 
 	/**

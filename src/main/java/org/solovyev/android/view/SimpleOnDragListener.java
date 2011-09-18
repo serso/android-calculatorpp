@@ -15,7 +15,7 @@ import org.solovyev.common.utils.Point2d;
 
 import java.util.Map;
 
-public class SimpleOnDragListener implements OnDragListener {
+public class SimpleOnDragListener implements OnDragListener, DragPreferencesChangeListener {
 
 	@NotNull
 	public static final Point2d axis = new Point2d(0, 1);
@@ -32,10 +32,6 @@ public class SimpleOnDragListener implements OnDragListener {
 
 	public SimpleOnDragListener(@NotNull DragProcessor dragProcessor, @NotNull DragButtonCalibrationActivity.Preferences preferences) {
 		this.dragProcessor = dragProcessor;
-		this.preferences = preferences;
-	}
-
-	public void setPreferences(@NotNull DragButtonCalibrationActivity.Preferences preferences) {
 		this.preferences = preferences;
 	}
 
@@ -117,6 +113,11 @@ public class SimpleOnDragListener implements OnDragListener {
 
 	public void setDragProcessor(@NotNull DragProcessor dragProcessor) {
 		this.dragProcessor = dragProcessor;
+	}
+
+	@Override
+	public void onDragPreferencesChange(@NotNull DragButtonCalibrationActivity.Preferences preferences) {
+		this.preferences = preferences;
 	}
 
 	public interface DragProcessor {
