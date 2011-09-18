@@ -6,10 +6,20 @@
     <string name="c_result_copied">Result copied to clipboard!</string>
 	<string name="c_settings">Settings</string>
 	<string name="c_help">Help</string>
+	<string name="c_about">About</string>
+	<!--PREFERENCE ACTIVITY-->
 	<string name="c_prefs_main_category">Main settings</string>
+	<string name="c_prefs_drag_button_category">Drag buttons settings</string>
+
+
 	<string name="c_prefs_drag_button_calibration">Drag button calibration</string>
 	<string name="c_prefs_drag_button_calibration_summary">Allows to calibrate drag button behaviour</string>
 	<string name="c_down">Down</string>
 	<string name="c_up">Up</string>
 	<string name="c_restart">Restart</string>
+	<!--ABOUT ACTIVITY-->
+	<string name="c_copyright">Copyright (c) 2009-2011.\nCreated by serso aka se.solovyev.\n
+		For more information please\ncontact me via email\n<a href="mailto:se.solovyev@gmail.com">se.solovyev@gmail.com</a>
+		\nor visit\n<a href="http://se.solovyev.org">http://se.solovyev.org</a>
+	</string>
 </resources>
