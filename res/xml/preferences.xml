@@ -1,20 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <PreferenceScreen xmlns:a="http://schemas.android.com/apk/res/android">
-	<PreferenceCategory a:title="@string/c_prefs_main_category">
+	<PreferenceCategory a:title="@string/c_prefs_drag_button_category">
 
-
-		<Preference
-				a:title="@string/c_prefs_drag_button_calibration"
-				a:summary="@string/c_prefs_drag_button_calibration_summary"
-				a:key="dragButtonCalibration"/>
-
-		<CheckBoxPreference
-				a:title="Checkbox Preference"
-				a:defaultValue="false"
-				a:summary="This preference can be true or false"
-				a:key="checkboxPref"/>
-
+<!--		<org.solovyev.android.view.SeekBarPreference a:key="duration"
+													 a:title="Duration of something"
+													 a:summary="How long something will last"
+													 a:dialogMessage="Something duration"
+													 a:defaultValue="5"
+													 a:text=" minutes"
+													 a:max="60"/>-->
 	</PreferenceCategory>
 
 </PreferenceScreen>
