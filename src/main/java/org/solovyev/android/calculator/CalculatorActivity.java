@@ -21,6 +21,7 @@ import bsh.EvalError;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.view.*;
+import org.solovyev.common.utils.Announcer;
 import org.solovyev.common.utils.history.HistoryAction;
 
 import java.lang.reflect.Field;
@@ -31,7 +32,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster {
 	private static final int HVGA_WIDTH_PIXELS = 320;
 
 	@NotNull
-	private final DragPreferencesChangeListenerRegister dpclRegister = new DragPreferencesChangeListenerRegister();
+	private final Announcer<DragPreferencesChangeListener> dpclRegister = new Announcer<DragPreferencesChangeListener>(DragPreferencesChangeListener.class);
 
 	@NotNull
 	private CalculatorView calculatorView;
@@ -62,7 +63,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster {
 		final DragButtonCalibrationActivity.Preferences dragPreferences = DragButtonCalibrationActivity.getPreferences(this);
 
 		final SimpleOnDragListener onDragListener = new SimpleOnDragListener(new DigitButtonDragProcessor(calculatorView), dragPreferences);
-		dpclRegister.add(onDragListener);
+		dpclRegister.addListener(onDragListener);
 
 		// todo serso: check if there is more convenient method for doing this
 		final R.id ids = new R.id();
@@ -84,12 +85,12 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster {
 
 		final SimpleOnDragListener historyOnDragListener = new SimpleOnDragListener(new HistoryDragProcessor<CalculatorHistoryState>(this.calculatorView), dragPreferences);
 		((DragButton) findViewById(R.id.historyButton)).setOnDragListener(historyOnDragListener);
-		dpclRegister.add(historyOnDragListener);
+		dpclRegister.addListener(historyOnDragListener);
 
 		final SimpleOnDragListener toPositionOnDragListener = new SimpleOnDragListener(new CursorDragProcessor(calculatorView), dragPreferences);
 		((DragButton) findViewById(R.id.rightButton)).setOnDragListener(toPositionOnDragListener);
 		((DragButton) findViewById(R.id.leftButton)).setOnDragListener(toPositionOnDragListener);
-		dpclRegister.add(toPositionOnDragListener);
+		dpclRegister.addListener(toPositionOnDragListener);
 
 
 		preferencesChangesReceiver = new BroadcastReceiver() {

@@ -7,8 +7,10 @@ package org.solovyev.android.view;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.EventListener;
 
-public interface OnDragListener {
+
+public interface OnDragListener extends EventListener{
 	
 	/**
 	 * 
