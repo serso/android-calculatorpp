@@ -3,12 +3,12 @@
  * For more information, please, contact se.solovyev@gmail.com
  */
 
-package org.solovyev.android.view;
+package org.solovyev.android.view.widgets;
 
 import android.util.Log;
 import android.view.MotionEvent;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.view.*;
+import org.solovyev.android.view.HistoryControl;
 import org.solovyev.common.utils.Point2d;
 import org.solovyev.common.utils.StringUtils;
 import org.solovyev.common.utils.history.HistoryAction;

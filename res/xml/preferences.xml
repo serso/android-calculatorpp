@@ -3,7 +3,7 @@
 <PreferenceScreen xmlns:a="http://schemas.android.com/apk/res/android">
 	<PreferenceCategory a:title="@string/c_prefs_drag_button_category">
 
-<!--		<org.solovyev.android.view.SeekBarPreference a:key="duration"
+<!--		<org.solovyev.android.view.prefs.SeekBarPreference a:key="duration"
 													 a:title="Duration of something"
 													 a:summary="How long something will last"
 													 a:dialogMessage="Something duration"

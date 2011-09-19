@@ -8,6 +8,10 @@ package org.solovyev.android.calculator;
 import android.view.MotionEvent;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.view.*;
+import org.solovyev.android.view.widgets.DirectionDragButton;
+import org.solovyev.android.view.widgets.DragButton;
+import org.solovyev.android.view.widgets.DragDirection;
+import org.solovyev.android.view.widgets.SimpleOnDragListener;
 import org.solovyev.common.utils.Point2d;
 
 /**
