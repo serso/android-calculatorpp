@@ -17,7 +17,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.view.*;
+import org.solovyev.android.view.widgets.*;
 import org.solovyev.common.collections.ManyValuedHashMap;
 import org.solovyev.common.collections.ManyValuedMap;
 import org.solovyev.common.utils.Interval;

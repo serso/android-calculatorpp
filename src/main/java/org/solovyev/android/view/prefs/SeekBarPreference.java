@@ -4,7 +4,7 @@
  * or visit http://se.solovyev.org
  */
 
-package org.solovyev.android.view;
+package org.solovyev.android.view.prefs;
 
 import android.preference.DialogPreference;
 import android.content.Context;

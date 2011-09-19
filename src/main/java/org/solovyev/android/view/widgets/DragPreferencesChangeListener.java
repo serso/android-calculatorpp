@@ -3,7 +3,7 @@
  * For more information, please, contact se.solovyev@gmail.com
  */
 
-package org.solovyev.android.view;
+package org.solovyev.android.view.widgets;
 
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.DragButtonCalibrationActivity;
