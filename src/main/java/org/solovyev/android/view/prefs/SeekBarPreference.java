@@ -6,15 +6,13 @@
 
 package org.solovyev.android.view.prefs;
 
-import android.preference.DialogPreference;
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.SeekBar;
-import android.widget.TextView;
 import android.widget.LinearLayout;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 
 /* The following code was written by Matthew Wiggins
@@ -30,17 +28,20 @@ public class SeekBarPreference extends AbstractDialogPreference implements SeekB
 
 	private int defaultValue, max, value = 0;
 
+	@Nullable
+	protected String valueText;
+
 	public SeekBarPreference(Context context, AttributeSet attrs) {
 		super(context, attrs);
 
 		defaultValue = attrs.getAttributeIntValue(androidns, "defaultValue", 0);
 		max = attrs.getAttributeIntValue(androidns, "max", 100);
-
+		valueText = attrs.getAttributeValue(androidns, "text");
 	}
 
 	@Override
 	protected LinearLayout onCreateDialogView() {
-	   	final LinearLayout layout = onCreateDialogView();
+		final LinearLayout layout = super.onCreateDialogView();
 
 		seekBar = new SeekBar(context);
 		seekBar.setOnSeekBarChangeListener(this);
@@ -49,17 +50,20 @@ public class SeekBarPreference extends AbstractDialogPreference implements SeekB
 		if (shouldPersist())
 			value = getPersistedInt(defaultValue);
 
-		seekBar.setMax(max);
-		seekBar.setProgress(value);
+		initSeekBar();
 
 		return layout;
+	}
+
+	private void initSeekBar() {
+		seekBar.setMax(max);
+		seekBar.setProgress(value);
 	}
 
 	@Override
 	protected void onBindDialogView(View v) {
 		super.onBindDialogView(v);
-		seekBar.setMax(max);
-		seekBar.setProgress(value);
+		initSeekBar();
 	}
 
 	@Override
@@ -73,7 +77,7 @@ public class SeekBarPreference extends AbstractDialogPreference implements SeekB
 
 	public void onProgressChanged(SeekBar seek, int value, boolean fromTouch) {
 		String t = String.valueOf(value);
-		valueText.setText(suffix == null ? t : t.concat(suffix));
+		valueTextView.setText(valueText == null ? t : t.concat(valueText));
 		if (shouldPersist())
 			persistInt(value);
 		callChangeListener(new Integer(value));

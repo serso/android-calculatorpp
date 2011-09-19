@@ -85,8 +85,8 @@ public class SimpleOnDragListener implements OnDragListener, DragPreferencesChan
 		return result;
 	}
 
-	private boolean isInInterval(@NotNull Interval interval, float value) {
-		return interval.getStart() - MathUtils.MIN_AMOUNT <= value && value <= interval.getEnd() + MathUtils.MIN_AMOUNT;
+	private boolean isInInterval(@NotNull Interval<Float> interval, float value) {
+		return interval.getLeftBorder() - MathUtils.MIN_AMOUNT <= value && value <= interval.getRightBorder() + MathUtils.MIN_AMOUNT;
 	}
 
 	@Override

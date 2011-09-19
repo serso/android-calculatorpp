@@ -21,6 +21,7 @@ import org.solovyev.android.view.widgets.*;
 import org.solovyev.common.collections.ManyValuedHashMap;
 import org.solovyev.common.collections.ManyValuedMap;
 import org.solovyev.common.utils.Interval;
+import org.solovyev.common.utils.IntervalImpl;
 import org.solovyev.common.utils.MathUtils;
 import org.solovyev.common.utils.Point2d;
 
@@ -237,7 +238,7 @@ public class DragButtonCalibrationActivity extends Activity {
 				final float max = preferences.getFloat(preferenceType.name() + "_" + dragDirection.name() + "_" + PREFERENCES_MAX, defaultMax);
 
 				if (min != DEFAULT_VALUE && max != DEFAULT_VALUE) {
-					final DragPreference directionPreference = new DragPreference(dragDirection, new Interval(min, max));
+					final DragPreference directionPreference = new DragPreference(dragDirection, new IntervalImpl<Float>(min, max));
 
 					Preference preference = result.getPreferencesMap().get(preferenceType);
 					if (preference == null) {
@@ -262,10 +263,10 @@ public class DragButtonCalibrationActivity extends Activity {
 		private DragDirection direction;
 
 		@NotNull
-		private Interval interval;
+		private Interval<Float> interval;
 
 
-		public DragPreference(@NotNull DragDirection direction, @NotNull Interval interval) {
+		public DragPreference(@NotNull DragDirection direction, @NotNull Interval<Float> interval) {
 			this.direction = direction;
 			this.interval = interval;
 		}
@@ -280,11 +281,11 @@ public class DragButtonCalibrationActivity extends Activity {
 		}
 
 		@NotNull
-		public Interval getInterval() {
+		public Interval<Float> getInterval() {
 			return interval;
 		}
 
-		public void setInterval(@NotNull Interval interval) {
+		public void setInterval(@NotNull Interval<Float> interval) {
 			this.interval = interval;
 		}
 	}

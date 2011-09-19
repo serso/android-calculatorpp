@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="DragButton">
-        <attr name="textUp" format="string" />
-        <attr name="textDown" format="string" />
-    </declare-styleable>
+	<declare-styleable name="DragButton">
+		<attr name="textUp" format="string"/>
+		<attr name="textDown" format="string"/>
+	</declare-styleable>
+
+	<declare-styleable name="NumberRangeSeekBar">
+		<attr name="min" format="string"/>
+		<attr name="max" format="string"/>
+	</declare-styleable>
 </resources>
