@@ -7,11 +7,10 @@ package org.solovyev.android.calculator;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.calculator.math.Functions;
+import org.solovyev.android.calculator.math.MathEntityType;
 import org.solovyev.common.utils.CollectionsUtils;
-import org.solovyev.common.utils.EqualsFinder;
 import org.solovyev.common.utils.Finder;
-import org.solovyev.util.math.Functions;
-import org.solovyev.util.math.MathEntityType;
 
 public class Preprocessor {
 

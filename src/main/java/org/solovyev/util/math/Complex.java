@@ -15,23 +15,26 @@ import org.jetbrains.annotations.Nullable;
 public class Complex {
 
 	@Nullable
-	private String real, imag;
+	private Double real;
 
 	@Nullable
-	public String getReal() {
+	private Double imaginary;
+
+	@Nullable
+	public Double getReal() {
 		return real;
 	}
 
-	public void setReal(@Nullable String real) {
+	public void setReal(@Nullable Double real) {
 		this.real = real;
 	}
 
 	@Nullable
-	public String getImag() {
-		return imag;
+	public Double getImaginary() {
+		return imaginary;
 	}
 
-	public void setImag(@Nullable String imag) {
-		this.imag = imag;
+	public void setImaginary(@Nullable Double imaginary) {
+		this.imaginary = imaginary;
 	}
 }
