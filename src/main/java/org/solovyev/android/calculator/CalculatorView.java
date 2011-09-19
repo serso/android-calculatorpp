@@ -19,6 +19,7 @@ import android.widget.Toast;
 import bsh.EvalError;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.calculator.math.MathEntityType;
 import org.solovyev.android.view.CursorControl;
 import org.solovyev.android.view.HistoryControl;
 import org.solovyev.common.utils.MutableObject;
@@ -26,7 +27,6 @@ import org.solovyev.common.utils.StringUtils;
 import org.solovyev.common.utils.history.HistoryAction;
 import org.solovyev.common.utils.history.HistoryHelper;
 import org.solovyev.common.utils.history.SimpleHistoryHelper;
-import org.solovyev.util.math.MathEntityType;
 
 /**
  * User: serso

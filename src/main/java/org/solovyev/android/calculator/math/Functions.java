@@ -3,7 +3,7 @@
  * For more information, please, contact se.solovyev@gmail.com
  */
 
-package org.solovyev.util.math;
+package org.solovyev.android.calculator.math;
 
 import org.jetbrains.annotations.NonNls;
 

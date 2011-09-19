@@ -10,7 +10,6 @@ import bsh.Interpreter;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.common.exceptions.SersoException;
 import org.solovyev.common.utils.MathUtils;
-import org.solovyev.common.utils.StringUtils;
 import org.solovyev.util.math.Complex;
 
 /**
@@ -42,7 +41,7 @@ public class CalculatorModel {
 		String result = String.valueOf(evaluationObject).trim();
 
 		try {
-			result = round(result);
+			result = String.valueOf(round(result));
 		} catch (NumberFormatException e) {
 			if (result.contains("sqrt(-1)")) {
 				try {
@@ -82,8 +81,8 @@ public class CalculatorModel {
 
 		int multiplyIndex = s.indexOf("*");
 		if (multiplyIndex >= 0) {
-			complex.setImag(round(s.substring(plusIndex >= 0 ? plusIndex+1 : 0, multiplyIndex)));
-			result += complex.getImag();
+			complex.setImaginary(round(s.substring(plusIndex >= 0 ? plusIndex + 1 : 0, multiplyIndex)));
+			result += complex.getImaginary();
 
 		}
 
@@ -92,10 +91,9 @@ public class CalculatorModel {
 		return result;
 	}
 
-	private String round(@NotNull String result) {
+	private Double round(@NotNull String result) {
 		final Double dResult = Double.valueOf(result);
-		result = String.valueOf(MathUtils.round(dResult, NUMBER_OF_FRACTION_DIGITS));
-		return result;
+		return MathUtils.round(dResult, NUMBER_OF_FRACTION_DIGITS);
 	}
 
 	public static class ParseException extends SersoException {
