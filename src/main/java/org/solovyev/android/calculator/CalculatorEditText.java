@@ -7,18 +7,9 @@ package org.solovyev.android.calculator;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.text.Html;
 import android.util.AttributeSet;
 import android.widget.EditText;
-import android.widget.TextView;
-import org.solovyev.common.definitions.Pair;
 import org.solovyev.common.exceptions.SersoException;
-import org.solovyev.common.utils.CollectionsUtils;
-import org.solovyev.util.math.MathEntityType;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
 
 /**
  * User: serso
