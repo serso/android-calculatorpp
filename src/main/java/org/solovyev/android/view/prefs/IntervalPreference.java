@@ -16,33 +16,38 @@ import org.solovyev.android.view.widgets.NumberPicker;
  * Date: 9/19/11
  * Time: 12:27 PM
  */
-public class IntervalPreference extends DialogPreference implements NumberPicker.OnChangedListener {
+public class IntervalPreference extends AbstractDialogPreference implements NumberPicker.OnChangedListener {
 
 	@NotNull
-	private final Context context;
+	private final NumberPicker leftBorder;
 
-	public IntervalPreference(@NotNull Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
-		this.context = context;
-	}
+	@NotNull
+	private final NumberPicker rightBorder;
+
 
 	public IntervalPreference(@NotNull Context context, AttributeSet attrs) {
 		super(context, attrs);
-		this.context = context;
+		this.leftBorder = new NumberPicker(context);
+		this.rightBorder = new NumberPicker(context);
 	}
 
 	@Override
 	public void onChanged(NumberPicker picker, int oldVal, int newVal) {
-		//To change body of implemented methods use File | Settings | File Templates.
+/*		if (shouldPersist())
+			persistString(value);
+		callChangeListener(new Integer(value));*/
 	}
 
 	@Override
-	protected View onCreateDialogView() {
-		LinearLayout.LayoutParams params;
-		LinearLayout layout = new LinearLayout(context);
-		layout.setOrientation(LinearLayout.VERTICAL);
-		layout.setPadding(6, 6, 6, 6);
+	protected LinearLayout onCreateDialogView() {
+		final LinearLayout result = super.onCreateDialogView();
 
-		return layout;
+		final LinearLayout horizontal = new LinearLayout(context);
+		horizontal.setOrientation(LinearLayout.HORIZONTAL);
+
+		horizontal.addView(leftBorder);
+		horizontal.addView(rightBorder);
+
+		return result;
 	}
 }
