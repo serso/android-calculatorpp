@@ -21,6 +21,7 @@ import bsh.EvalError;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.view.*;
+import org.solovyev.android.view.widgets.*;
 import org.solovyev.common.utils.Announcer;
 import org.solovyev.common.utils.history.HistoryAction;
 

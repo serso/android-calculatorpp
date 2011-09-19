@@ -19,7 +19,7 @@
  * For more information, please, contact se.solovyev@gmail.com
  */
 
-package org.solovyev.android.view;
+package org.solovyev.android.view.widgets;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -30,6 +30,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.Button;
 import org.jetbrains.annotations.NotNull;
+import org.solovyev.android.view.FontSizeAdjuster;
 import org.solovyev.common.utils.Point2d;
 
 /**

@@ -3,9 +3,11 @@
  * For more information, please, contact se.solovyev@gmail.com
  */
 
-package org.solovyev.android.view;
+package org.solovyev.android.view.widgets;
 
 import org.jetbrains.annotations.NotNull;
+import org.solovyev.android.view.widgets.DragButton;
+import org.solovyev.android.view.widgets.DragEvent;
 
 import java.util.EventListener;
 
