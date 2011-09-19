@@ -1,15 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<PreferenceScreen xmlns:a="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:a="http://schemas.android.com/apk/res/android"
+				  xmlns:range="http://schemas.android.com/apk/res/org.solovyev.android.calculator">
 	<PreferenceCategory a:title="@string/c_prefs_drag_button_category">
 
-<!--		<org.solovyev.android.view.prefs.SeekBarPreference a:key="duration"
-													 a:title="Duration of something"
-													 a:summary="How long something will last"
-													 a:dialogMessage="Something duration"
-													 a:defaultValue="5"
-													 a:text=" minutes"
-													 a:max="60"/>-->
+		<org.solovyev.android.view.prefs.SeekBarPreference a:key="duration"
+														   a:title="Duration of something"
+														   a:summary="How long something will last"
+														   a:dialogMessage="Something duration"
+														   a:defaultValue="5"
+														   a:text=" minutes"
+														   a:max="60"/>
+
+
+		<org.solovyev.android.view.prefs.IntegerRangeSeekBarPreference
+														   a:key="touch.duration"
+														   a:title="Duration of something"
+														   a:summary="How long something will last"
+														   a:dialogMessage="Something duration"
+														   a:defaultValue="5"
+														   a:text=" minutes"
+														   range:min="10"
+														   range:max="600"/>
 	</PreferenceCategory>
 
 </PreferenceScreen>
