@@ -15,8 +15,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.R;
 import org.solovyev.common.utils.Converter;
-import org.solovyev.common.utils.Interval;
-import org.solovyev.common.utils.IntervalImpl;
 
 /**
  * Widget that lets users select a minimum and maximum value on a given numerical range.
@@ -135,7 +133,7 @@ public abstract class AbstractRangeSeekBar<T> extends ImageView {
 	 * @return The currently selected min value.
 	 */
 	public T getSelectedMinValue() {
-		return normalizedToValue(normalizedMinValue);
+		return denormalizeValue(normalizedMinValue);
 	}
 
 	/**
@@ -158,7 +156,7 @@ public abstract class AbstractRangeSeekBar<T> extends ImageView {
 	 * @return The currently selected max value.
 	 */
 	public T getSelectedMaxValue() {
-		return normalizedToValue(normalizedMaxValue);
+		return denormalizeValue(normalizedMaxValue);
 	}
 
 	/**
@@ -331,7 +329,7 @@ public abstract class AbstractRangeSeekBar<T> extends ImageView {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	private T normalizedToValue(double normalized) {
+	private T denormalizeValue(double normalized) {
 		return toTConverter.convert(dMinValue + normalized * (dMaxValue - dMinValue));
 	}
 
@@ -390,5 +388,29 @@ public abstract class AbstractRangeSeekBar<T> extends ImageView {
 	 */
 	private static enum Thumb {
 		MIN, MAX
+	}
+
+	private class LinearNormalizer {
+
+		private final double minValue;
+		private final double maxValue;
+
+		private LinearNormalizer(double minValue, double maxValue) {
+			this.minValue = minValue;
+			this.maxValue = maxValue;
+		}
+
+		double normalize(double value){
+			if ((dMaxValue - dMinValue) != 0d) {
+				return (value - dMinValue) / (dMaxValue - dMinValue);
+			} else {
+				return 1d;
+			}
+		}
+
+		double denormalize(double value){
+			return dMinValue + value * (dMaxValue - dMinValue);
+		}
+
 	}
 }
