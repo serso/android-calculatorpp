@@ -23,53 +23,24 @@ import org.jetbrains.annotations.NotNull;
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-public class SeekBarPreference extends DialogPreference implements SeekBar.OnSeekBarChangeListener {
-
-	private static final String androidns = "http://schemas.android.com/apk/res/android";
+public class SeekBarPreference extends AbstractDialogPreference implements SeekBar.OnSeekBarChangeListener {
 
 	@NotNull
 	private SeekBar seekBar;
-
-	@NotNull
-	private TextView splashText, valueText;
-
-	@NotNull
-	private final Context context;
-
-	private String dialogMessage, suffix;
 
 	private int defaultValue, max, value = 0;
 
 	public SeekBarPreference(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		this.context = context;
 
-		dialogMessage = attrs.getAttributeValue(androidns, "dialogMessage");
-		suffix = attrs.getAttributeValue(androidns, "text");
 		defaultValue = attrs.getAttributeIntValue(androidns, "defaultValue", 0);
 		max = attrs.getAttributeIntValue(androidns, "max", 100);
 
 	}
 
 	@Override
-	protected View onCreateDialogView() {
-		LinearLayout.LayoutParams params;
-		LinearLayout layout = new LinearLayout(context);
-		layout.setOrientation(LinearLayout.VERTICAL);
-		layout.setPadding(6, 6, 6, 6);
-
-		splashText = new TextView(context);
-		if (dialogMessage != null)
-			splashText.setText(dialogMessage);
-		layout.addView(splashText);
-
-		valueText = new TextView(context);
-		valueText.setGravity(Gravity.CENTER_HORIZONTAL);
-		valueText.setTextSize(32);
-		params = new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.FILL_PARENT,
-				LinearLayout.LayoutParams.WRAP_CONTENT);
-		layout.addView(valueText, params);
+	protected LinearLayout onCreateDialogView() {
+	   	final LinearLayout layout = onCreateDialogView();
 
 		seekBar = new SeekBar(context);
 		seekBar.setOnSeekBarChangeListener(this);
@@ -80,6 +51,7 @@ public class SeekBarPreference extends DialogPreference implements SeekBar.OnSee
 
 		seekBar.setMax(max);
 		seekBar.setProgress(value);
+
 		return layout;
 	}
 
