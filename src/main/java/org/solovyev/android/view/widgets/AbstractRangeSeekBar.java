@@ -12,9 +12,11 @@ import android.graphics.Paint.Style;
 import android.view.MotionEvent;
 import android.widget.ImageView;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.R;
-
-import java.math.BigDecimal;
+import org.solovyev.common.utils.Converter;
+import org.solovyev.common.utils.Interval;
+import org.solovyev.common.utils.IntervalImpl;
 
 /**
  * Widget that lets users select a minimum and maximum value on a given numerical range.
@@ -23,7 +25,7 @@ import java.math.BigDecimal;
  * @param <T> The Number type of the range values. One of Long, Double, Integer, Float, Short, Byte or BigDecimal.
  * @author Stephan Tittel (stephan.tittel@kom.tu-darmstadt.de)
  */
-public class RangeSeekBar<T extends Number> extends ImageView {
+public abstract class AbstractRangeSeekBar<T> extends ImageView {
 
 	@NotNull
 	private final Paint paint = new Paint();
@@ -45,17 +47,26 @@ public class RangeSeekBar<T extends Number> extends ImageView {
 	private final float padding = thumbHalfWidth;
 
 	@NotNull
-	private final T minValue, maxValue;
+	private final Converter<T, Double> toDoubleConverter;
 
 	@NotNull
-	private final NumberType numberType;
+	private final Converter<Double, T> toTConverter;
+
+	@NotNull
+	private final T minValue, maxValue;
 
 	private final double dMinValue, dMaxValue;
 
 	private double normalizedMinValue = 0d;
+
 	private double normalizedMaxValue = 1d;
+
 	private Thumb pressedThumb = null;
+
 	private boolean notifyWhileDragging = false;
+
+
+	@Nullable
 	private OnRangeSeekBarChangeListener<T> listener;
 
 	/**
@@ -66,17 +77,24 @@ public class RangeSeekBar<T extends Number> extends ImageView {
 	 * @param context
 	 * @throws IllegalArgumentException Will be thrown if min/max value types are not one of Long, Double, Integer, Float, Short, Byte or BigDecimal.
 	 */
-	public RangeSeekBar(@NotNull T minValue, @NotNull T maxValue, Context context) throws IllegalArgumentException {
+	public AbstractRangeSeekBar(@NotNull T minValue, @NotNull T maxValue, Context context) throws IllegalArgumentException {
 		super(context);
 
 		this.minValue = minValue;
 		this.maxValue = maxValue;
 
-		dMinValue = minValue.doubleValue();
-		dMaxValue = maxValue.doubleValue();
+		this.toDoubleConverter = getToDoubleConverter();
+		this.toTConverter = getToTConverter();
 
-		numberType = NumberType.fromNumber(minValue);
+		dMinValue = toDoubleConverter.convert(minValue);
+		dMaxValue = toDoubleConverter.convert(maxValue);
 	}
+
+	@NotNull
+	protected abstract Converter<Double,T> getToTConverter();
+
+	@NotNull
+	protected abstract Converter<T,Double> getToDoubleConverter();
 
 	public boolean isNotifyWhileDragging() {
 		return notifyWhileDragging;
@@ -314,7 +332,7 @@ public class RangeSeekBar<T extends Number> extends ImageView {
 	 */
 	@SuppressWarnings("unchecked")
 	private T normalizedToValue(double normalized) {
-		return (T) numberType.toNumber(dMinValue + normalized * (dMaxValue - dMinValue));
+		return toTConverter.convert(dMinValue + normalized * (dMaxValue - dMinValue));
 	}
 
 	/**
@@ -325,7 +343,7 @@ public class RangeSeekBar<T extends Number> extends ImageView {
 	 */
 	private double normalizeValue(T value) {
 		assert 0 != dMaxValue - dMinValue;
-		return (value.doubleValue() - dMinValue) / (dMaxValue - dMinValue);
+		return (toDoubleConverter.convert(value) - dMinValue) / (dMaxValue - dMinValue);
 	}
 
 	/**
@@ -372,62 +390,5 @@ public class RangeSeekBar<T extends Number> extends ImageView {
 	 */
 	private static enum Thumb {
 		MIN, MAX
-	}
-
-	/**
-	 * Utility enumaration used to convert between Numbers and doubles.
-	 *
-	 * @author Stephan Tittel (stephan.tittel@kom.tu-darmstadt.de)
-	 */
-	private static enum NumberType {
-
-		LONG(Long.class),
-		DOUBLE(Double.class),
-		INTEGER(Integer.class),
-		FLOAT(Float.class),
-		SHORT(Short.class),
-		BYTE(Byte.class),
-		BIG_DECIMAL(BigDecimal.class);
-
-		@NotNull
-		private final Class underlyingClass;
-
-		private NumberType(@NotNull Class underlyingClass) {
-			this.underlyingClass = underlyingClass;
-		}
-
-		@NotNull
-		public static <E extends Number> NumberType fromNumber(E value) throws IllegalArgumentException {
-
-			for (NumberType numberType : NumberType.values()) {
-				if ( numberType.underlyingClass.isInstance(value) ) {
-					return numberType;
-				}
-			}
-
-			throw new IllegalArgumentException("Number class '" + value.getClass().getName() + "' is not supported");
-		}
-
-		public Number toNumber(double value) {
-
-			switch (this) {
-				case LONG:
-					return (long) value;
-				case DOUBLE:
-					return value;
-				case INTEGER:
-					return (int)value;
-				case FLOAT:
-					return (float)value;
-				case SHORT:
-					return (short)value;
-				case BYTE:
-					return (byte)value;
-				case BIG_DECIMAL:
-					return new BigDecimal(value);
-			}
-
-			throw new InstantiationError("can't convert " + this + " to a Number object");
-		}
 	}
 }
