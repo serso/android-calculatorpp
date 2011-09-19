@@ -62,7 +62,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster {
 		final DragButtonCalibrationActivity.Preferences dragPreferences = DragButtonCalibrationActivity.getPreferences(this);
 
 		final SimpleOnDragListener onDragListener = new SimpleOnDragListener(new DigitButtonDragProcessor(calculatorView), dragPreferences);
-		dpclRegister.addListener(onDragListener);
+		dpclRegister.add(onDragListener);
 
 		// todo serso: check if there is more convenient method for doing this
 		final R.id ids = new R.id();
@@ -84,12 +84,12 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster {
 
 		final SimpleOnDragListener historyOnDragListener = new SimpleOnDragListener(new HistoryDragProcessor<CalculatorHistoryState>(this.calculatorView), dragPreferences);
 		((DragButton) findViewById(R.id.historyButton)).setOnDragListener(historyOnDragListener);
-		dpclRegister.addListener(historyOnDragListener);
+		dpclRegister.add(historyOnDragListener);
 
 		final SimpleOnDragListener toPositionOnDragListener = new SimpleOnDragListener(new CursorDragProcessor(calculatorView), dragPreferences);
 		((DragButton) findViewById(R.id.rightButton)).setOnDragListener(toPositionOnDragListener);
 		((DragButton) findViewById(R.id.leftButton)).setOnDragListener(toPositionOnDragListener);
-		dpclRegister.addListener(toPositionOnDragListener);
+		dpclRegister.add(toPositionOnDragListener);
 
 
 		preferencesChangesReceiver = new BroadcastReceiver() {
