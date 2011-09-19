@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.R;
+import org.solovyev.common.math.LinearNormalizer;
 import org.solovyev.common.utils.Converter;
 
 /**
@@ -53,7 +54,8 @@ public abstract class AbstractRangeSeekBar<T> extends ImageView {
 	@NotNull
 	private final T minValue, maxValue;
 
-	private final double dMinValue, dMaxValue;
+	@NotNull
+	private final LinearNormalizer normalizer;
 
 	private double normalizedMinValue = 0d;
 
@@ -84,8 +86,7 @@ public abstract class AbstractRangeSeekBar<T> extends ImageView {
 		this.toDoubleConverter = getToDoubleConverter();
 		this.toTConverter = getToTConverter();
 
-		dMinValue = toDoubleConverter.convert(minValue);
-		dMaxValue = toDoubleConverter.convert(maxValue);
+		normalizer = new LinearNormalizer(toDoubleConverter.convert(minValue), toDoubleConverter.convert(maxValue));
 	}
 
 	@NotNull
@@ -141,13 +142,8 @@ public abstract class AbstractRangeSeekBar<T> extends ImageView {
 	 *
 	 * @param value The Number value to set the minimum value to. Will be clamped to given absolute minimum/maximum range.
 	 */
-	public void setSelectedMinValue(T value) {
-		// in case absoluteMinValue == absoluteMaxValue, avoid division by zero when normalizing.
-		if (0 == (dMaxValue - dMinValue)) {
-			setNormalizedMinValue(0d);
-		} else {
-			setNormalizedMinValue(normalizeValue(value));
-		}
+	public void setSelectedMinValue(@NotNull T value) {
+		setNormalizedMinValue(normalizeValue(value));
 	}
 
 	/**
@@ -164,13 +160,8 @@ public abstract class AbstractRangeSeekBar<T> extends ImageView {
 	 *
 	 * @param value The Number value to set the maximum value to. Will be clamped to given absolute minimum/maximum range.
 	 */
-	public void setSelectedMaxValue(T value) {
-		// in case absoluteMinValue == absoluteMaxValue, avoid division by zero when normalizing.
-		if (0 == (dMaxValue - dMinValue)) {
-			setNormalizedMaxValue(1d);
-		} else {
-			setNormalizedMaxValue(normalizeValue(value));
-		}
+	public void setSelectedMaxValue(@NotNull T value) {
+		setNormalizedMaxValue(normalizeValue(value));
 	}
 
 	/**
@@ -330,7 +321,7 @@ public abstract class AbstractRangeSeekBar<T> extends ImageView {
 	 */
 	@SuppressWarnings("unchecked")
 	private T denormalizeValue(double normalized) {
-		return toTConverter.convert(dMinValue + normalized * (dMaxValue - dMinValue));
+		return toTConverter.convert(normalizer.denormalize(normalized));
 	}
 
 	/**
@@ -340,8 +331,7 @@ public abstract class AbstractRangeSeekBar<T> extends ImageView {
 	 * @return The normalized double.
 	 */
 	private double normalizeValue(T value) {
-		assert 0 != dMaxValue - dMinValue;
-		return (toDoubleConverter.convert(value) - dMinValue) / (dMaxValue - dMinValue);
+		return normalizer.normalize(toDoubleConverter.convert(value));
 	}
 
 	/**
@@ -390,27 +380,4 @@ public abstract class AbstractRangeSeekBar<T> extends ImageView {
 		MIN, MAX
 	}
 
-	private class LinearNormalizer {
-
-		private final double minValue;
-		private final double maxValue;
-
-		private LinearNormalizer(double minValue, double maxValue) {
-			this.minValue = minValue;
-			this.maxValue = maxValue;
-		}
-
-		double normalize(double value){
-			if ((dMaxValue - dMinValue) != 0d) {
-				return (value - dMinValue) / (dMaxValue - dMinValue);
-			} else {
-				return 1d;
-			}
-		}
-
-		double denormalize(double value){
-			return dMinValue + value * (dMaxValue - dMinValue);
-		}
-
-	}
 }
