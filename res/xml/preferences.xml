@@ -14,14 +14,26 @@
 
 
 		<org.solovyev.android.view.prefs.IntegerRangeSeekBarPreference
-														   a:key="touch.duration"
-														   a:title="Duration of something"
-														   a:summary="How long something will last"
-														   a:dialogMessage="Something duration"
-														   a:defaultValue="5"
-														   a:text=" minutes"
-														   range:min="10"
-														   range:max="600"/>
+				a:key="org.solovyev.android.calculator.DragButtonCalibrationActivity_distance"
+				a:title="Distance of drag event"
+				a:text=" pxs"
+				a:defaultValue="40;150"
+				range:boundaries="15;500"/>
+
+		<org.solovyev.android.view.prefs.IntegerRangeSeekBarPreference
+				a:key="org.solovyev.android.calculator.DragButtonCalibrationActivity_duration"
+				a:title="Duration of drag event"
+				a:text=" ms"
+				a:defaultValue="40;1000"
+				range:boundaries="5;4000"/>
+
+		<org.solovyev.android.view.prefs.IntegerRangeSeekBarPreference
+				a:key="org.solovyev.android.calculator.DragButtonCalibrationActivity_angle"
+				a:title="Angle of drag event"
+				a:text=" degrees"
+				a:defaultValue="130;180"
+				range:boundaries="100;180"/>
+
 	</PreferenceCategory>
 
 </PreferenceScreen>
