@@ -14,7 +14,9 @@ import android.widget.ImageView;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.R;
+import org.solovyev.common.math.DiscreteNormalizer;
 import org.solovyev.common.math.LinearNormalizer;
+import org.solovyev.common.math.Normalizer;
 import org.solovyev.common.utils.Converter;
 
 /**
@@ -30,20 +32,7 @@ public abstract class AbstractRangeSeekBar<T> extends ImageView {
 	private final Paint paint = new Paint();
 
 	@NotNull
-	private final Bitmap thumbImage = BitmapFactory.decodeResource(getResources(), R.drawable.seek_thumb_normal);
-
-	@NotNull
-	private final Bitmap thumbPressedImage = BitmapFactory.decodeResource(getResources(), R.drawable.seek_thumb_pressed);
-
-	private final float thumbWidth = thumbImage.getWidth();
-
-	private final float thumbHalfWidth = 0.5f * thumbWidth;
-
-	private final float thumbHalfHeight = 0.5f * thumbImage.getHeight();
-
-	private final float lineHeight = 0.3f * thumbHalfHeight;
-
-	private final float padding = thumbHalfWidth;
+	private final ThumbContainer tc;
 
 	@NotNull
 	private final Converter<T, Double> toDoubleConverter;
@@ -55,7 +44,7 @@ public abstract class AbstractRangeSeekBar<T> extends ImageView {
 	private final T minValue, maxValue;
 
 	@NotNull
-	private final LinearNormalizer normalizer;
+	private final Normalizer normalizer;
 
 	private double normalizedMinValue = 0d;
 
@@ -77,7 +66,7 @@ public abstract class AbstractRangeSeekBar<T> extends ImageView {
 	 * @param context
 	 * @throws IllegalArgumentException Will be thrown if min/max value types are not one of Long, Double, Integer, Float, Short, Byte or BigDecimal.
 	 */
-	public AbstractRangeSeekBar(@NotNull T minValue, @NotNull T maxValue, Context context) throws IllegalArgumentException {
+	public AbstractRangeSeekBar(@NotNull T minValue, @NotNull T maxValue, @Nullable Integer steps, Context context) throws IllegalArgumentException {
 		super(context);
 
 		this.minValue = minValue;
@@ -86,7 +75,13 @@ public abstract class AbstractRangeSeekBar<T> extends ImageView {
 		this.toDoubleConverter = getToDoubleConverter();
 		this.toTConverter = getToTConverter();
 
-		normalizer = new LinearNormalizer(toDoubleConverter.convert(minValue), toDoubleConverter.convert(maxValue));
+		if (steps == null) {
+			normalizer = new LinearNormalizer(toDoubleConverter.convert(minValue), toDoubleConverter.convert(maxValue));
+		} else {
+			normalizer = new DiscreteNormalizer(toDoubleConverter.convert(minValue), toDoubleConverter.convert(maxValue), steps);
+		}
+
+		tc = new ThumbContainer();
 	}
 
 	@NotNull
@@ -216,7 +211,8 @@ public abstract class AbstractRangeSeekBar<T> extends ImageView {
 		if (MeasureSpec.UNSPECIFIED != MeasureSpec.getMode(widthMeasureSpec)) {
 			width = MeasureSpec.getSize(widthMeasureSpec);
 		}
-		int height = thumbImage.getHeight();
+
+		int height = tc.thumbImage.getHeight();
 		if (MeasureSpec.UNSPECIFIED != MeasureSpec.getMode(heightMeasureSpec)) {
 			height = Math.min(height, MeasureSpec.getSize(heightMeasureSpec));
 		}
@@ -230,7 +226,7 @@ public abstract class AbstractRangeSeekBar<T> extends ImageView {
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 		// draw seek bar background line
-		final RectF rect = new RectF(padding, 0.5f * (getHeight() - lineHeight), getWidth() - padding, 0.5f * (getHeight() + lineHeight));
+		final RectF rect = tc.getRect();
 		paint.setStyle(Style.FILL);
 		paint.setColor(Color.GRAY);
 		canvas.drawRect(rect, paint);
@@ -256,7 +252,7 @@ public abstract class AbstractRangeSeekBar<T> extends ImageView {
 	 * @param canvas	  The canvas to draw upon.
 	 */
 	private void drawThumb(float normalizedToScreenValue, boolean pressed, Canvas canvas) {
-		canvas.drawBitmap(pressed ? thumbPressedImage : thumbImage, normalizedToScreenValue - thumbHalfWidth, (float) ((0.5f * getHeight()) - thumbHalfHeight), paint);
+		canvas.drawBitmap(tc.getImage(pressed), normalizedToScreenValue - tc.thumbHalfWidth, (float) ((0.5f * getHeight()) - tc.thumbHalfHeight), paint);
 	}
 
 	/**
@@ -288,7 +284,7 @@ public abstract class AbstractRangeSeekBar<T> extends ImageView {
 	 * @return true if x-coordinate is in thumb range, false otherwise.
 	 */
 	private boolean isInThumbRange(float touchX, double normalizedThumbValue) {
-		return Math.abs(touchX - convertToScreenValue(normalizedThumbValue)) <= thumbHalfWidth;
+		return Math.abs(touchX - convertToScreenValue(normalizedThumbValue)) <= tc.thumbHalfWidth;
 	}
 
 	/**
@@ -341,7 +337,7 @@ public abstract class AbstractRangeSeekBar<T> extends ImageView {
 	 * @return The converted value in screen space.
 	 */
 	private float convertToScreenValue(double normalizedValue) {
-		return (float) (padding + normalizedValue * (getWidth() - 2 * padding));
+		return (float) (tc.padding + normalizedValue * (getWidth() - 2 * tc.padding));
 	}
 
 	/**
@@ -352,11 +348,11 @@ public abstract class AbstractRangeSeekBar<T> extends ImageView {
 	 */
 	private double convertToNormalizedValue(float screenValue) {
 		int width = getWidth();
-		if (width <= 2 * padding) {
+		if (width <= 2 * tc.padding) {
 			// prevent division by zero, simply return 0.
 			return 0d;
 		} else {
-			double result = (screenValue - padding) / (width - 2 * padding);
+			double result = (screenValue - tc.padding) / (width - 2 * tc.padding);
 			return Math.min(1d, Math.max(0d, result));
 		}
 	}
@@ -378,6 +374,32 @@ public abstract class AbstractRangeSeekBar<T> extends ImageView {
 	 */
 	private static enum Thumb {
 		MIN, MAX
+	}
+
+	private class ThumbContainer {
+		@NotNull
+		private final Bitmap thumbImage = BitmapFactory.decodeResource(getResources(), R.drawable.seek_thumb_normal);
+
+		@NotNull
+		private final Bitmap thumbPressedImage = BitmapFactory.decodeResource(getResources(), R.drawable.seek_thumb_pressed);
+
+		private final float thumbWidth = thumbImage.getWidth();
+
+		private final float thumbHalfWidth = 0.5f * thumbWidth;
+
+		private final float thumbHalfHeight = 0.5f * thumbImage.getHeight();
+
+		private final float lineHeight = 0.3f * thumbHalfHeight;
+
+		private final float padding = thumbHalfWidth;
+
+		public RectF getRect() {
+			return new RectF(padding, 0.5f * (getHeight() - lineHeight), getWidth() - padding, 0.5f * (getHeight() + lineHeight));
+		}
+
+		public Bitmap getImage(boolean pressed) {
+			return pressed ? thumbPressedImage : thumbImage;
+		}
 	}
 
 }
