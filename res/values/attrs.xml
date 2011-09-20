@@ -6,7 +6,6 @@
 	</declare-styleable>
 
 	<declare-styleable name="NumberRangeSeekBar">
-		<attr name="min" format="string"/>
-		<attr name="max" format="string"/>
+		<attr name="boundaries" format="string"/>
 	</declare-styleable>
 </resources>

@@ -4,6 +4,7 @@ import android.content.Context;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.common.utils.Converter;
+import org.solovyev.common.utils.Interval;
 import org.solovyev.common.utils.NumberValuer;
 
 /**
@@ -16,12 +17,17 @@ public class NumberRangeSeekBar<T extends Number> extends AbstractRangeSeekBar<T
 	@NotNull
 	private final NumberType numberType;
 
+
+	public NumberRangeSeekBar(@NotNull Interval<T> boundaries, @Nullable Integer steps, Context context) throws IllegalArgumentException {
+		this(boundaries.getLeftBorder(), boundaries.getRightBorder(), steps, context);
+	}
+
 	/**
 	 * Creates a new RangeSeekBar.
 	 *
 	 * @param minValue The minimum value of the selectable range.
 	 * @param maxValue The maximum value of the selectable range.
-	 * @param steps number of steps of range
+	 * @param steps	number of steps of range
 	 * @param context  parent context
 	 * @throws IllegalArgumentException Will be thrown if min/max value types are not one of Long, Double, Integer, Float, Short, Byte or BigDecimal.
 	 */

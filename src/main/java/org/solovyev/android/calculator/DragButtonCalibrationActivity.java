@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -18,12 +19,10 @@ import android.view.View;
 import android.widget.ImageView;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.view.widgets.*;
+import org.solovyev.common.FloatIntervalMapper;
 import org.solovyev.common.collections.ManyValuedHashMap;
 import org.solovyev.common.collections.ManyValuedMap;
-import org.solovyev.common.utils.Interval;
-import org.solovyev.common.utils.IntervalImpl;
-import org.solovyev.common.utils.MathUtils;
-import org.solovyev.common.utils.Point2d;
+import org.solovyev.common.utils.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,13 +40,6 @@ public class DragButtonCalibrationActivity extends Activity {
 	private final List<DragData> dragHistory = new ArrayList<DragData>();
 
 	private final Map<DragButton, CalibrationArrow> map = new HashMap<DragButton, CalibrationArrow>();
-
-	public static final String PREFERENCES = "dragButtonPreferences";
-
-	public static final String PREFERENCES_FIRST_RUN = "firstRun";
-
-	public static final String PREFERENCES_MIN = "min";
-	public static final String PREFERENCES_MAX = "max";
 
 	private static final float DEFAULT_VALUE = -999;
 	private static final int MIN_HISTORY_FOR_CALIBRATION = 10;
@@ -168,7 +160,7 @@ public class DragButtonCalibrationActivity extends Activity {
 				Log.d(this.getClass().getName(), "Time statistics: ");
 				logStatData(timeStatData);
 
-				final SharedPreferences settings = getSharedPreferences(PREFERENCES, 0);
+				final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
 				final SharedPreferences.Editor editor = settings.edit();
 
 				setPreferences(angleStatData, editor, PreferenceType.angle);
@@ -186,59 +178,61 @@ public class DragButtonCalibrationActivity extends Activity {
 	}
 
 	private void setPreferences(@NotNull Map<DragDirection, MathUtils.StatData> statData, @NotNull SharedPreferences.Editor editor, @NotNull PreferenceType preferenceType) {
+		final Mapper<Interval<Float>> mapper = new FloatIntervalMapper();
 		for (Map.Entry<DragDirection, MathUtils.StatData> entry : statData.entrySet()) {
 			final float min = (float) entry.getValue().getMean() - 2 * (float) entry.getValue().getStandardDeviation();
 			final float max = (float) entry.getValue().getMean() + 2 * (float) entry.getValue().getStandardDeviation();
-			editor.putFloat(preferenceType.name() + "_" + entry.getKey().name() + "_" + PREFERENCES_MIN, Math.max(0, min));
-			editor.putFloat(preferenceType.name() + "_" + entry.getKey().name() + "_" + PREFERENCES_MAX, max);
+			editor.putString(getPreferenceId(preferenceType, entry.getKey()), mapper.formatValue(transformInterval(preferenceType, entry.getKey(), new IntervalImpl<Float>(Math.max(0, min), max))));
 		}
+	}
+
+	// todo serso: currently we do not use direction
+	public static String getPreferenceId(@NotNull PreferenceType preferenceType, @NotNull DragDirection direction) {
+		return "org.solovyev.android.calculator.DragButtonCalibrationActivity" + "_" + preferenceType.name() /*+ "_" + direction.name()*/;
 	}
 
 	@NotNull
 	public static Preferences getPreferences(@NotNull Context context) {
-		SharedPreferences preferences = context.getSharedPreferences(PREFERENCES, MODE_PRIVATE);
+		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+		final Mapper<Interval<Float>> mapper = new FloatIntervalMapper();
 
 		final Preferences result = new Preferences();
 
 		for (PreferenceType preferenceType : PreferenceType.values()) {
 			for (DragDirection dragDirection : DragDirection.values()) {
 
-				final float defaultMin;
-				final float defaultMax;
+				final Interval<Float> defaultValue;
 				switch (preferenceType) {
 					case angle:
 						switch (dragDirection) {
 							case up:
-								defaultMin = 130f;
-								defaultMax = 180f;
+								defaultValue = new IntervalImpl<Float>(130f, 180f);
 								break;
 							case down:
-								defaultMin = 0f;
-								defaultMax = 50f;
+								defaultValue = new IntervalImpl<Float>(0f, 50f);
 								break;
 							default:
-								defaultMin = 0;
-								defaultMax = 0;
+								defaultValue = new IntervalImpl<Float>(0f, 0f);
 						}
 						break;
 					case distance:
-						defaultMin = 10f;
-						defaultMax = 150f;
+						defaultValue = new IntervalImpl<Float>(10f, 150f);
 						break;
 					case duration:
-						defaultMin = 40f;
-						defaultMax = 1000f;
+						defaultValue = new IntervalImpl<Float>(40f, 1000f);
 						break;
 					default:
-						defaultMin = DEFAULT_VALUE;
-						defaultMax = DEFAULT_VALUE;
+						defaultValue = new IntervalImpl<Float>(DEFAULT_VALUE, DEFAULT_VALUE);
 				}
 
-				final float min = preferences.getFloat(preferenceType.name() + "_" + dragDirection.name() + "_" + PREFERENCES_MIN, defaultMin);
-				final float max = preferences.getFloat(preferenceType.name() + "_" + dragDirection.name() + "_" + PREFERENCES_MAX, defaultMax);
+				final String value = preferences.getString(getPreferenceId(preferenceType, dragDirection), mapper.formatValue(defaultValue));
 
-				if (min != DEFAULT_VALUE && max != DEFAULT_VALUE) {
-					final DragPreference directionPreference = new DragPreference(dragDirection, new IntervalImpl<Float>(min, max));
+				final Interval<Float> interval = mapper.parseValue(value);
+				transformInterval(preferenceType, dragDirection, interval);
+				if (new IntervalImpl<Float>(DEFAULT_VALUE, DEFAULT_VALUE).equals(interval)) {
+					assert interval != null;
+					final DragPreference directionPreference = new DragPreference(dragDirection, interval);
 
 					Preference preference = result.getPreferencesMap().get(preferenceType);
 					if (preference == null) {
@@ -255,6 +249,17 @@ public class DragButtonCalibrationActivity extends Activity {
 		}
 
 		return result;
+	}
+
+	@NotNull
+	private static Interval<Float> transformInterval(@NotNull PreferenceType preferenceType, @NotNull DragDirection dragDirection, @NotNull Interval<Float> interval) {
+		if ( preferenceType == PreferenceType.angle && dragDirection == DragDirection.down ) {
+			final Interval<Float> clone = interval.clone();
+			interval.setLeftBorder(180f - clone.getRightBorder());
+			interval.setRightBorder(180f - clone.getLeftBorder());
+		}
+
+		return interval;
 	}
 
 	public static class DragPreference {

@@ -8,11 +8,11 @@ package org.solovyev.android.view.prefs;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.View;
-import android.widget.SeekBar;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.common.utils.Mapper;
 
 
 /* The following code was written by Matthew Wiggins
@@ -21,24 +21,20 @@ import org.jetbrains.annotations.Nullable;
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-public class SeekBarPreference extends AbstractDialogPreference implements SeekBar.OnSeekBarChangeListener {
+public class SeekBarPreference extends AbstractDialogPreference<Integer> implements SeekBar.OnSeekBarChangeListener {
 
 	@NotNull
 	private SeekBar seekBar;
 
-	private int defaultValue, max, value = 0;
-
-	@Nullable
-	protected String valueText;
+	private int max = 0;
 
 	public SeekBarPreference(Context context, AttributeSet attrs) {
-		super(context, attrs);
+		super(context, attrs, "50");
 
-		defaultValue = attrs.getAttributeIntValue(androidns, "defaultValue", 0);
 		max = attrs.getAttributeIntValue(androidns, "max", 100);
-		valueText = attrs.getAttributeValue(androidns, "text");
 	}
 
+	@NotNull
 	@Override
 	protected LinearLayout onCreateDialogView() {
 		final LinearLayout layout = super.onCreateDialogView();
@@ -47,40 +43,45 @@ public class SeekBarPreference extends AbstractDialogPreference implements SeekB
 		seekBar.setOnSeekBarChangeListener(this);
 		layout.addView(seekBar, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
-		if (shouldPersist())
-			value = getPersistedInt(defaultValue);
-
-		initSeekBar();
+		initPreferenceView();
 
 		return layout;
 	}
 
-	private void initSeekBar() {
+	@Override
+	protected void initPreferenceView() {
 		seekBar.setMax(max);
-		seekBar.setProgress(value);
+		if (value != null) {
+			seekBar.setProgress(value);
+			setValueText(value);
+		}
 	}
 
+	@NotNull
 	@Override
-	protected void onBindDialogView(View v) {
-		super.onBindDialogView(v);
-		initSeekBar();
-	}
+	protected Mapper<Integer> getMapper() {
+		return new Mapper<Integer>() {
+			@Override
+			public String formatValue(@Nullable Integer integer) throws IllegalArgumentException {
+				return integer == null ? null : String.valueOf(integer);
+			}
 
-	@Override
-	protected void onSetInitialValue(boolean restore, Object defaultValue) {
-		super.onSetInitialValue(restore, defaultValue);
-		if (restore)
-			value = shouldPersist() ? getPersistedInt(this.defaultValue) : 0;
-		else
-			value = (Integer) defaultValue;
+			@Override
+			public Integer parseValue(@Nullable String s) throws IllegalArgumentException {
+				return s == null ? null : Integer.valueOf(s);
+			}
+		};
 	}
 
 	public void onProgressChanged(SeekBar seek, int value, boolean fromTouch) {
+		setValueText(value);
+
+		persistValue(value);
+	}
+
+	private void setValueText(int value) {
 		String t = String.valueOf(value);
 		valueTextView.setText(valueText == null ? t : t.concat(valueText));
-		if (shouldPersist())
-			persistInt(value);
-		callChangeListener(new Integer(value));
 	}
 
 	public void onStartTrackingTouch(SeekBar seek) {
@@ -99,8 +100,7 @@ public class SeekBarPreference extends AbstractDialogPreference implements SeekB
 
 	public void setProgress(int progress) {
 		value = progress;
-		if (seekBar != null)
-			seekBar.setProgress(progress);
+		seekBar.setProgress(progress);
 	}
 
 	public int getProgress() {

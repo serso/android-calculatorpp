@@ -9,7 +9,8 @@ package org.solovyev.android.view.prefs;
 import android.content.Context;
 import android.util.AttributeSet;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.common.utils.Converter;
+import org.solovyev.common.IntegerIntervalMapper;
+import org.solovyev.common.utils.*;
 
 /**
  * User: serso
@@ -24,13 +25,8 @@ public class IntegerRangeSeekBarPreference extends RangeSeekBarPreference<Intege
 
 	@NotNull
 	@Override
-	Converter<String, Integer> getConverter() {
-		return new Converter<String, Integer>() {
-			@NotNull
-			@Override
-			public Integer convert(@NotNull String value) {
-				return Integer.valueOf(value);
-			}
-		};
+	protected Mapper<Interval<Integer>> getMapper() {
+		return new IntegerIntervalMapper();
 	}
+
 }
