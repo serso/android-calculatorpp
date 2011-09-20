@@ -51,7 +51,7 @@ public abstract class RangeSeekBarPreference<T extends Number> extends AbstractD
 		max = c.convert(maxString == null ? "100" : maxString);
 
 
-		this.rangeSeekBar = new NumberRangeSeekBar<T>(min, max, context);
+		this.rangeSeekBar = new NumberRangeSeekBar<T>(min, max, null, context);
 		rangeSeekBar.setOnRangeSeekBarChangeListener(this);
 	}
 
@@ -70,7 +70,7 @@ public abstract class RangeSeekBarPreference<T extends Number> extends AbstractD
 	protected LinearLayout onCreateDialogView() {
 		final LinearLayout result = super.onCreateDialogView();
 
-		this.rangeSeekBar = new NumberRangeSeekBar<T>(min, max, context);
+		this.rangeSeekBar = new NumberRangeSeekBar<T>(min, max, null, context);
 		rangeSeekBar.setOnRangeSeekBarChangeListener(this);
 		initRangeSeekBar();
 

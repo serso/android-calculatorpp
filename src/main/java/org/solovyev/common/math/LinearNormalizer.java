@@ -11,7 +11,7 @@ package org.solovyev.common.math;
 * Date: 9/19/11
 * Time: 9:31 PM
 */
-public class LinearNormalizer {
+public class LinearNormalizer implements Normalizer {
 
 	private final double min;
 	private final double max;
@@ -21,6 +21,7 @@ public class LinearNormalizer {
 		this.max = max;
 	}
 
+	@Override
 	public double normalize(double value){
 		if ((max - min) != 0d) {
 			return (value - min) / (max - min);
@@ -29,6 +30,7 @@ public class LinearNormalizer {
 		}
 	}
 
+	@Override
 	public double denormalize(double value){
 		return min + value * (max - min);
 	}
