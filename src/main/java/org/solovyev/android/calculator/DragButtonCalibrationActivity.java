@@ -202,6 +202,8 @@ public class DragButtonCalibrationActivity extends Activity {
 		for (PreferenceType preferenceType : PreferenceType.values()) {
 			for (DragDirection dragDirection : DragDirection.values()) {
 
+				Log.d(DragButtonCalibrationActivity.class.getName(), "Determining drag preference for " + preferenceType + ", " + dragDirection);
+
 				final Interval<Float> defaultValue;
 				switch (preferenceType) {
 					case angle:
@@ -210,7 +212,7 @@ public class DragButtonCalibrationActivity extends Activity {
 								defaultValue = new IntervalImpl<Float>(130f, 180f);
 								break;
 							case down:
-								defaultValue = new IntervalImpl<Float>(0f, 50f);
+								defaultValue = new IntervalImpl<Float>(130f, 180f);
 								break;
 							default:
 								defaultValue = new IntervalImpl<Float>(0f, 0f);
@@ -226,12 +228,17 @@ public class DragButtonCalibrationActivity extends Activity {
 						defaultValue = new IntervalImpl<Float>(DEFAULT_VALUE, DEFAULT_VALUE);
 				}
 
-				final String value = preferences.getString(getPreferenceId(preferenceType, dragDirection), mapper.formatValue(defaultValue));
+				final String preferenceId = getPreferenceId(preferenceType, dragDirection);
+				final String value = preferences.getString(preferenceId, mapper.formatValue(defaultValue));
+				Log.d(DragButtonCalibrationActivity.class.getName(), "For " + preferenceId + " next value found in persistence: " + value);
 
 				final Interval<Float> interval = mapper.parseValue(value);
+				assert interval != null;
+
 				transformInterval(preferenceType, dragDirection, interval);
-				if (new IntervalImpl<Float>(DEFAULT_VALUE, DEFAULT_VALUE).equals(interval)) {
-					assert interval != null;
+				if (!new IntervalImpl<Float>(DEFAULT_VALUE, DEFAULT_VALUE).equals(interval)) {
+					Log.d(DragButtonCalibrationActivity.class.getName(), "Preference retrieved from persistence. Preference id: " + preferenceId + ", value: " + interval.toString());
+
 					final DragPreference directionPreference = new DragPreference(dragDirection, interval);
 
 					Preference preference = result.getPreferencesMap().get(preferenceType);
@@ -243,7 +250,7 @@ public class DragButtonCalibrationActivity extends Activity {
 					preference.getDirectionPreferences().put(dragDirection, directionPreference);
 
 				} else {
-					Log.e(DragButtonCalibrationActivity.class.getName(), "New preference type added: default preferences should be defined!");
+					Log.e(DragButtonCalibrationActivity.class.getName(), "New preference type added: default preferences should be defined. Preference id: " + preferenceId);
 				}
 			}
 		}
@@ -254,9 +261,11 @@ public class DragButtonCalibrationActivity extends Activity {
 	@NotNull
 	private static Interval<Float> transformInterval(@NotNull PreferenceType preferenceType, @NotNull DragDirection dragDirection, @NotNull Interval<Float> interval) {
 		if ( preferenceType == PreferenceType.angle && dragDirection == DragDirection.down ) {
-			final Interval<Float> clone = interval.clone();
-			interval.setLeftBorder(180f - clone.getRightBorder());
-			interval.setRightBorder(180f - clone.getLeftBorder());
+			final Float leftBorder = interval.getLeftBorder();
+			final Float rightBorder = interval.getRightBorder();
+
+			interval.setLeftBorder(180f - rightBorder);
+			interval.setRightBorder(180f - leftBorder);
 		}
 
 		return interval;
