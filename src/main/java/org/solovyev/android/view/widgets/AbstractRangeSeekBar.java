@@ -186,7 +186,7 @@ public abstract class AbstractRangeSeekBar<T> extends ImageView {
 						setNormalizedMaxValue(convertToNormalizedValue(event.getX()));
 					}
 					if (notifyWhileDragging && listener != null) {
-						listener.rangeSeekBarValuesChanged(getSelectedMinValue(), getSelectedMaxValue());
+						listener.rangeSeekBarValuesChanged(getSelectedMinValue(), getSelectedMaxValue(), false);
 					}
 				}
 				break;
@@ -195,7 +195,7 @@ public abstract class AbstractRangeSeekBar<T> extends ImageView {
 				pressedThumb = null;
 				invalidate();
 				if (listener != null) {
-					listener.rangeSeekBarValuesChanged(getSelectedMinValue(), getSelectedMaxValue());
+					listener.rangeSeekBarValuesChanged(getSelectedMinValue(), getSelectedMaxValue(), true);
 				}
 				break;
 		}
@@ -364,7 +364,9 @@ public abstract class AbstractRangeSeekBar<T> extends ImageView {
 	 * @author Stephan Tittel (stephan.tittel@kom.tu-darmstadt.de)
 	 */
 	public interface OnRangeSeekBarChangeListener<T> {
-		void rangeSeekBarValuesChanged(T minValue, T maxValue);
+
+		void rangeSeekBarValuesChanged(T minValue, T maxValue, boolean changeComplete);
+
 	}
 
 	/**

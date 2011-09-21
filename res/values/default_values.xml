@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+  ~ For more information, please, contact se.solovyev@gmail.com
+  ~ or visit http://se.solovyev.org
+  -->
+
+<resources>
+	<string name="p_drag_distance_key">org.solovyev.android.calculator.DragButtonCalibrationActivity_distance</string>
+	<string name="p_drag_distance">15;350</string>
+	<string name="p_drag_angle_key">org.solovyev.android.calculator.DragButtonCalibrationActivity_angle</string>
+	<string name="p_drag_angle">130;180</string>
+	<string name="p_drag_duration_key">org.solovyev.android.calculator.DragButtonCalibrationActivity_duration</string>
+	<string name="p_drag_duration">40;2500</string>
+</resources>
