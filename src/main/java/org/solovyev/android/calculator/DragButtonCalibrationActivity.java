@@ -202,44 +202,35 @@ public class DragButtonCalibrationActivity extends Activity {
 		for (PreferenceType preferenceType : PreferenceType.values()) {
 			for (DragDirection dragDirection : DragDirection.values()) {
 
-				Log.d(DragButtonCalibrationActivity.class.getName(), "Determining drag preference for " + preferenceType + ", " + dragDirection);
+				final String preferenceId = getPreferenceId(preferenceType, dragDirection);
 
-				final Interval<Float> defaultValue;
+				final String defaultValue;
 				switch (preferenceType) {
 					case angle:
-						switch (dragDirection) {
-							case up:
-								defaultValue = new IntervalImpl<Float>(130f, 180f);
-								break;
-							case down:
-								defaultValue = new IntervalImpl<Float>(130f, 180f);
-								break;
-							default:
-								defaultValue = new IntervalImpl<Float>(0f, 0f);
-						}
+						defaultValue = context.getResources().getString(R.string.p_drag_angle);
 						break;
 					case distance:
-						defaultValue = new IntervalImpl<Float>(10f, 150f);
+						defaultValue = context.getResources().getString(R.string.p_drag_distance);
 						break;
 					case duration:
-						defaultValue = new IntervalImpl<Float>(40f, 1000f);
+						defaultValue = context.getResources().getString(R.string.p_drag_duration);
 						break;
 					default:
-						defaultValue = new IntervalImpl<Float>(DEFAULT_VALUE, DEFAULT_VALUE);
+						defaultValue = null;
+						Log.e(DragButtonCalibrationActivity.class.getName(), "New preference type added: default preferences should be defined. Preference id: " + preferenceId);
 				}
 
-				final String preferenceId = getPreferenceId(preferenceType, dragDirection);
-				final String value = preferences.getString(preferenceId, mapper.formatValue(defaultValue));
-				Log.d(DragButtonCalibrationActivity.class.getName(), "For " + preferenceId + " next value found in persistence: " + value);
+				final String value = preferences.getString(preferenceId, defaultValue);
 
-				final Interval<Float> interval = mapper.parseValue(value);
-				assert interval != null;
+				if (defaultValue != null) {
+					final Interval<Float> intervalPref = mapper.parseValue(value);
+					assert intervalPref != null;
 
-				transformInterval(preferenceType, dragDirection, interval);
-				if (!new IntervalImpl<Float>(DEFAULT_VALUE, DEFAULT_VALUE).equals(interval)) {
-					Log.d(DragButtonCalibrationActivity.class.getName(), "Preference retrieved from persistence. Preference id: " + preferenceId + ", value: " + interval.toString());
+					transformInterval(preferenceType, dragDirection, intervalPref);
 
-					final DragPreference directionPreference = new DragPreference(dragDirection, interval);
+					Log.d(DragButtonCalibrationActivity.class.getName(), "Preference loaded. Id: " + preferenceId + ", value: " + intervalPref.toString());
+
+					final DragPreference directionPreference = new DragPreference(dragDirection, intervalPref);
 
 					Preference preference = result.getPreferencesMap().get(preferenceType);
 					if (preference == null) {
@@ -248,9 +239,6 @@ public class DragButtonCalibrationActivity extends Activity {
 					}
 
 					preference.getDirectionPreferences().put(dragDirection, directionPreference);
-
-				} else {
-					Log.e(DragButtonCalibrationActivity.class.getName(), "New preference type added: default preferences should be defined. Preference id: " + preferenceId);
 				}
 			}
 		}

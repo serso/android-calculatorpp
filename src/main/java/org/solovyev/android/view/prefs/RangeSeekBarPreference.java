@@ -30,8 +30,16 @@ public abstract class RangeSeekBarPreference<T extends Number> extends AbstractD
 		boundaries = getMapper().parseValue(attrs.getAttributeValue(localNameSpace, "boundaries"));
 
 		assert boundaries != null;
+
+		createPreferenceView();
+	}
+
+	private void createPreferenceView() {
 		this.rangeSeekBar = new NumberRangeSeekBar<T>(boundaries, null, context);
-		rangeSeekBar.setOnRangeSeekBarChangeListener(this);
+		this.rangeSeekBar.setNotifyWhileDragging(true);
+		this.rangeSeekBar.setOnRangeSeekBarChangeListener(this);
+
+		initPreferenceView();
 	}
 
 	@NotNull
@@ -39,9 +47,7 @@ public abstract class RangeSeekBarPreference<T extends Number> extends AbstractD
 	protected LinearLayout onCreateDialogView() {
 		final LinearLayout result = super.onCreateDialogView();
 
-		this.rangeSeekBar = new NumberRangeSeekBar<T>(boundaries, null, context);
-		rangeSeekBar.setOnRangeSeekBarChangeListener(this);
-		initPreferenceView();
+		createPreferenceView();
 
 		result.addView(rangeSeekBar);
 
@@ -58,9 +64,12 @@ public abstract class RangeSeekBarPreference<T extends Number> extends AbstractD
 	}
 
 	@Override
-	public void rangeSeekBarValuesChanged(T minValue, T maxValue) {
+	public void rangeSeekBarValuesChanged(T minValue, T maxValue, boolean changeComplete) {
 		final Interval<T> interval = new NumberInterval<T>(minValue, maxValue);
-		persistValue(interval);
+
+		if (changeComplete) {
+			persistValue(interval);
+		}
 
 		setValueText(interval);
 	}
