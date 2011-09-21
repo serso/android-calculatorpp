@@ -57,9 +57,17 @@ public class SimpleOnDragListener implements OnDragListener, DragPreferencesChan
 		DragDirection direction = null;
 		for (Map.Entry<DragDirection, DragButtonCalibrationActivity.DragPreference> directionEntry : distancePreferences.getDirectionPreferences().entrySet()) {
 
+			Log.d(String.valueOf(dragButton.getId()), "Trying direction interval: " + directionEntry.getValue().getInterval());
+
 			if (isInInterval(directionEntry.getValue().getInterval(), distance)) {
 				for (Map.Entry<DragDirection, DragButtonCalibrationActivity.DragPreference> angleEntry : anglePreferences.getDirectionPreferences().entrySet()) {
+
+					Log.d(String.valueOf(dragButton.getId()), "Trying angle interval: " + angleEntry.getValue().getInterval());
+
 					if (isInInterval(angleEntry.getValue().getInterval(), (float)angle)) {
+
+						Log.d(String.valueOf(dragButton.getId()), "MATCH! Direction: " + angleEntry.getKey());
+
 						direction = angleEntry.getKey();
 						break;
 					}
@@ -76,9 +84,10 @@ public class SimpleOnDragListener implements OnDragListener, DragPreferencesChan
 
 			final DragButtonCalibrationActivity.DragPreference durationDragPreferences = durationPreferences.getDirectionPreferences().get(direction);
 
+			Log.d(String.valueOf(dragButton.getId()), "Trying time interval: " + durationDragPreferences.getInterval());
 			if (isInInterval(durationDragPreferences.getInterval(), (float)duration)) {
+				Log.d(String.valueOf(dragButton.getId()), "MATCH!");
 				result = dragProcessor.processDragEvent(direction, dragButton, startPoint, motionEvent);
-
 			}
 		}
 

@@ -14,24 +14,24 @@
 
 
 		<org.solovyev.android.view.prefs.IntegerRangeSeekBarPreference
-				a:key="org.solovyev.android.calculator.DragButtonCalibrationActivity_distance"
+				a:key="@string/p_drag_distance_key"
 				a:title="Distance of drag event"
 				a:text=" pxs"
-				a:defaultValue="40;150"
-				range:boundaries="15;500"/>
+				a:defaultValue="@string/p_drag_distance"
+				range:boundaries="10;500"/>
 
 		<org.solovyev.android.view.prefs.IntegerRangeSeekBarPreference
-				a:key="org.solovyev.android.calculator.DragButtonCalibrationActivity_duration"
+				a:key="@string/p_drag_duration_key"
 				a:title="Duration of drag event"
 				a:text=" ms"
-				a:defaultValue="40;1000"
+				a:defaultValue="@string/p_drag_duration"
 				range:boundaries="5;4000"/>
 
 		<org.solovyev.android.view.prefs.IntegerRangeSeekBarPreference
-				a:key="org.solovyev.android.calculator.DragButtonCalibrationActivity_angle"
+				a:key="@string/p_drag_angle_key"
 				a:title="Angle of drag event"
 				a:text=" degrees"
-				a:defaultValue="130;180"
+				a:defaultValue="@string/p_drag_angle"
 				range:boundaries="100;180"/>
 
 	</PreferenceCategory>
