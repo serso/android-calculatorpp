@@ -6,10 +6,7 @@
 package org.solovyev.android.calculator;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
+import android.content.*;
 import android.os.Bundle;
 import android.text.ClipboardManager;
 import android.util.Log;
@@ -20,7 +17,7 @@ import android.widget.TextView;
 import bsh.EvalError;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.view.*;
+import org.solovyev.android.view.FontSizeAdjuster;
 import org.solovyev.android.view.widgets.*;
 import org.solovyev.common.utils.Announcer;
 import org.solovyev.common.utils.history.HistoryAction;
@@ -28,7 +25,7 @@ import org.solovyev.common.utils.history.HistoryAction;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
-public class CalculatorActivity extends Activity implements FontSizeAdjuster {
+public class CalculatorActivity extends Activity implements FontSizeAdjuster, SharedPreferences.OnSharedPreferenceChangeListener {
 
 	private static final int HVGA_WIDTH_PIXELS = 320;
 
@@ -99,8 +96,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster {
 			public void onReceive(Context context, Intent intent) {
 
 				if (DragButtonCalibrationActivity.INTENT_ACTION.equals(intent.getAction())) {
-					final DragButtonCalibrationActivity.Preferences preferences = DragButtonCalibrationActivity.getPreferences(CalculatorActivity.this);
-					dpclRegister.announce().onDragPreferencesChange(preferences);
+					dpclRegister.announce().onDragPreferencesChange(DragButtonCalibrationActivity.getPreferences(CalculatorActivity.this));
 				}
 			}
 		};
@@ -232,5 +228,10 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster {
 		int h = Math.min(display.getWidth(), display.getHeight());
 		float ratio = (float) h / HVGA_WIDTH_PIXELS;
 		view.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontPixelSize * ratio);
+	}
+
+	@Override
+	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+		dpclRegister.announce().onDragPreferencesChange(DragButtonCalibrationActivity.getPreferences(CalculatorActivity.this));
 	}
 }

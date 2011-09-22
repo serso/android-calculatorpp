@@ -248,12 +248,17 @@ public class DragButtonCalibrationActivity extends Activity {
 
 	@NotNull
 	private static Interval<Float> transformInterval(@NotNull PreferenceType preferenceType, @NotNull DragDirection dragDirection, @NotNull Interval<Float> interval) {
-		if ( preferenceType == PreferenceType.angle && dragDirection == DragDirection.down ) {
+		if (preferenceType == PreferenceType.angle) {
 			final Float leftBorder = interval.getLeftBorder();
 			final Float rightBorder = interval.getRightBorder();
 
-			interval.setLeftBorder(180f - rightBorder);
-			interval.setRightBorder(180f - leftBorder);
+			if (dragDirection == DragDirection.up) {
+				interval.setLeftBorder(180f - rightBorder);
+				interval.setRightBorder(180f - leftBorder);
+			} else if (dragDirection == DragDirection.left || dragDirection == DragDirection.right) {
+				interval.setLeftBorder(90f - rightBorder / 2);
+				interval.setRightBorder(90f + leftBorder / 2);
+			}
 		}
 
 		return interval;
