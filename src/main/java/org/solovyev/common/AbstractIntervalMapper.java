@@ -6,6 +6,7 @@
 
 package org.solovyev.common;
 
+import android.util.Log;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.common.utils.*;
@@ -34,6 +35,7 @@ public abstract class AbstractIntervalMapper<T> implements Mapper<Interval<T>> {
 
 	@Override
 	public Interval<T> parseValue(@Nullable String s) throws IllegalArgumentException {
+		Log.d(AbstractIntervalMapper.class.getName(), "Parsing: " + s);
 		final List<T> list = CollectionsUtils.split(s, ";", getParser());
 
 		assert list.size() == 2;
