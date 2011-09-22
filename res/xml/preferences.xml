@@ -13,26 +13,26 @@
 														   a:max="60"/>
 
 
-		<org.solovyev.android.view.prefs.IntegerRangeSeekBarPreference
+		<org.solovyev.android.view.prefs.FloatRangeSeekBarPreference
 				a:key="@string/p_drag_distance_key"
 				a:title="Distance of drag event"
 				a:text=" pxs"
-				a:defaultValue="@string/p_drag_distance"
+				a:defaultValue="15;350"
 				range:boundaries="10;500"/>
 
-		<org.solovyev.android.view.prefs.IntegerRangeSeekBarPreference
+		<org.solovyev.android.view.prefs.FloatRangeSeekBarPreference
 				a:key="@string/p_drag_duration_key"
 				a:title="Duration of drag event"
 				a:text=" ms"
-				a:defaultValue="@string/p_drag_duration"
+				a:defaultValue="40;2500"
 				range:boundaries="5;4000"/>
 
-		<org.solovyev.android.view.prefs.IntegerRangeSeekBarPreference
+		<org.solovyev.android.view.prefs.FloatRangeSeekBarPreference
 				a:key="@string/p_drag_angle_key"
 				a:title="Angle of drag event"
 				a:text=" degrees"
-				a:defaultValue="@string/p_drag_angle"
-				range:boundaries="100;180"/>
+				a:defaultValue="0;45"
+				range:boundaries="0;45"/>
 
 	</PreferenceCategory>
 
