@@ -116,6 +116,7 @@ public abstract class AbstractDialogPreference<T> extends DialogPreference {
 
 	protected abstract void initPreferenceView();
 
+	@Nullable
 	private T getPersistedValue() {
 		String persistedString = getPersistedString(defaultStringValue);
 		if ( persistedString == defaultStringValue ) {
@@ -137,6 +138,7 @@ public abstract class AbstractDialogPreference<T> extends DialogPreference {
 		final String toBePersistedString = getMapper().formatValue(value);
 		if (toBePersistedString != null) {
 			persistString(toBePersistedString);
+			callChangeListener(value);
 		}
 	}
 
