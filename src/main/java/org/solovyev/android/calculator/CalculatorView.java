@@ -118,6 +118,8 @@ public class CalculatorView implements CursorControl, HistoryControl<CalculatorH
 		final String editorStateAfter = this.editor.getText().toString();
 		if (!editorStateBefore.equals(editorStateAfter)) {
 
+			editor.redraw();
+
 			currentRunner.setObject(new Runnable() {
 				@Override
 				public void run() {
@@ -240,6 +242,8 @@ public class CalculatorView implements CursorControl, HistoryControl<CalculatorH
 		synchronized (history) {
 			setValuesFromHistory(this.editor, editorHistoryState.getEditorState());
 			setValuesFromHistory(this.display, editorHistoryState.getDisplayState());
+
+			editor.redraw();
 		}
 	}
 
