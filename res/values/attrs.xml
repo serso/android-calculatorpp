@@ -7,5 +7,7 @@
 
 	<declare-styleable name="NumberRangeSeekBar">
 		<attr name="boundaries" format="string"/>
+		<attr name="steps" format="integer"/>
 	</declare-styleable>
+
 </resources>

@@ -137,8 +137,9 @@ public abstract class AbstractDialogPreference<T> extends DialogPreference {
 	private void persist(@Nullable T value) {
 		final String toBePersistedString = getMapper().formatValue(value);
 		if (toBePersistedString != null) {
-			persistString(toBePersistedString);
-			callChangeListener(value);
+			if ( callChangeListener(value) ) {
+				persistString(toBePersistedString);
+			}
 		}
 	}
 
