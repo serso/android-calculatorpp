@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.R;
-import org.solovyev.common.math.DiscreteNormalizer;
 import org.solovyev.common.math.LinearNormalizer;
 import org.solovyev.common.math.Normalizer;
 import org.solovyev.common.utils.Converter;
@@ -44,7 +43,10 @@ public abstract class AbstractRangeSeekBar<T> extends ImageView {
 	private final T minValue, maxValue;
 
 	@NotNull
-	private final Normalizer normalizer;
+	private final Normalizer fromValueNormalizer;
+
+	@NotNull
+	private final Normalizer fromScreenNormalizer;
 
 	private double normalizedMinValue = 0d;
 
@@ -63,7 +65,8 @@ public abstract class AbstractRangeSeekBar<T> extends ImageView {
 	 *
 	 * @param minValue The minimum value of the selectable range.
 	 * @param maxValue The maximum value of the selectable range.
-	 * @param context
+	 * @param steps number of steps to be used in range seek bar
+	 * @param context parent context
 	 * @throws IllegalArgumentException Will be thrown if min/max value types are not one of Long, Double, Integer, Float, Short, Byte or BigDecimal.
 	 */
 	public AbstractRangeSeekBar(@NotNull T minValue, @NotNull T maxValue, @Nullable Integer steps, Context context) throws IllegalArgumentException {
@@ -75,13 +78,28 @@ public abstract class AbstractRangeSeekBar<T> extends ImageView {
 		this.toDoubleConverter = getToDoubleConverter();
 		this.toTConverter = getToTConverter();
 
-		if (steps == null) {
-			normalizer = new LinearNormalizer(toDoubleConverter.convert(minValue), toDoubleConverter.convert(maxValue));
-		} else {
-			normalizer = new DiscreteNormalizer(toDoubleConverter.convert(minValue), toDoubleConverter.convert(maxValue), steps);
-		}
+		fromValueNormalizer = new LinearNormalizer(toDoubleConverter.convert(minValue), toDoubleConverter.convert(maxValue));
 
 		tc = new ThumbContainer();
+
+		fromScreenNormalizer = new Normalizer() {
+			@Override
+			public double normalize(double value) {
+				int width = getWidth();
+				if (width <= 2 * tc.padding) {
+					// prevent division by zero, simply return 0.
+					return 0d;
+				} else {
+					double result = (value - tc.padding) / (width - 2 * tc.padding);
+					return Math.min(1d, Math.max(0d, result));
+				}
+			}
+
+			@Override
+			public double denormalize(double value) {
+				return (float) (tc.padding + value * (getWidth() - 2 * tc.padding));
+			}
+		};
 	}
 
 	@NotNull
@@ -180,11 +198,15 @@ public abstract class AbstractRangeSeekBar<T> extends ImageView {
 				break;
 			case MotionEvent.ACTION_MOVE:
 				if (pressedThumb != null) {
+
+					double value = convertToNormalizedValue(event.getX());
+
 					if (Thumb.MIN.equals(pressedThumb)) {
-						setNormalizedMinValue(convertToNormalizedValue(event.getX()));
+						setNormalizedMinValue(value);
 					} else if (Thumb.MAX.equals(pressedThumb)) {
-						setNormalizedMaxValue(convertToNormalizedValue(event.getX()));
+						setNormalizedMaxValue(value);
 					}
+
 					if (notifyWhileDragging && listener != null) {
 						listener.rangeSeekBarValuesChanged(getSelectedMinValue(), getSelectedMaxValue(), false);
 					}
@@ -317,7 +339,7 @@ public abstract class AbstractRangeSeekBar<T> extends ImageView {
 	 */
 	@SuppressWarnings("unchecked")
 	private T denormalizeValue(double normalized) {
-		return toTConverter.convert(normalizer.denormalize(normalized));
+		return toTConverter.convert(fromValueNormalizer.denormalize(normalized));
 	}
 
 	/**
@@ -327,7 +349,7 @@ public abstract class AbstractRangeSeekBar<T> extends ImageView {
 	 * @return The normalized double.
 	 */
 	private double normalizeValue(T value) {
-		return normalizer.normalize(toDoubleConverter.convert(value));
+		return fromValueNormalizer.normalize(toDoubleConverter.convert(value));
 	}
 
 	/**
@@ -337,7 +359,7 @@ public abstract class AbstractRangeSeekBar<T> extends ImageView {
 	 * @return The converted value in screen space.
 	 */
 	private float convertToScreenValue(double normalizedValue) {
-		return (float) (tc.padding + normalizedValue * (getWidth() - 2 * tc.padding));
+		return (float)this.fromScreenNormalizer.denormalize(normalizedValue);
 	}
 
 	/**
@@ -347,14 +369,7 @@ public abstract class AbstractRangeSeekBar<T> extends ImageView {
 	 * @return The normalized value.
 	 */
 	private double convertToNormalizedValue(float screenValue) {
-		int width = getWidth();
-		if (width <= 2 * tc.padding) {
-			// prevent division by zero, simply return 0.
-			return 0d;
-		} else {
-			double result = (screenValue - tc.padding) / (width - 2 * tc.padding);
-			return Math.min(1d, Math.max(0d, result));
-		}
+		return this.fromScreenNormalizer.normalize(screenValue);
 	}
 
 	/**
