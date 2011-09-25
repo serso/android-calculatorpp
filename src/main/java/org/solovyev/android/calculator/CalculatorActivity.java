@@ -8,6 +8,7 @@ package org.solovyev.android.calculator;
 import android.app.Activity;
 import android.content.*;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.ClipboardManager;
 import android.util.Log;
 import android.util.TypedValue;
@@ -102,6 +103,8 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		};
 
 		registerReceiver(preferencesChangesReceiver, new IntentFilter(DragButtonCalibrationActivity.INTENT_ACTION));
+
+		PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
 	}
 
 	@Override

@@ -24,18 +24,26 @@ public abstract class RangeSeekBarPreference<T extends Number> extends AbstractD
 	@NotNull
 	private final Interval<T> boundaries;
 
+	private Integer steps;
+
 	public RangeSeekBarPreference(@NotNull Context context, AttributeSet attrs) {
 		super(context, attrs, null);
 
+		//noinspection ConstantConditions
 		boundaries = getMapper().parseValue(attrs.getAttributeValue(localNameSpace, "boundaries"));
 
-		assert boundaries != null;
+		steps = attrs.getAttributeIntValue(localNameSpace, "steps", -1);
+		if ( steps.equals(-1) ) {
+			steps = null;
+		}
+
+		assert steps == null || steps >= 2;
 
 		createPreferenceView();
 	}
 
 	private void createPreferenceView() {
-		this.rangeSeekBar = new NumberRangeSeekBar<T>(boundaries, null, context);
+		this.rangeSeekBar = new NumberRangeSeekBar<T>(boundaries, steps, context);
 		this.rangeSeekBar.setNotifyWhileDragging(true);
 		this.rangeSeekBar.setOnRangeSeekBarChangeListener(this);
 
