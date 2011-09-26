@@ -19,6 +19,7 @@ public enum MathEntityType {
 	constant,
 	dot,
 	function, 
+	postfix_function,
 	unary_operation,
 	binary_operation,
 	group_symbols,
@@ -26,13 +27,15 @@ public enum MathEntityType {
 	
 	public static final List<Character> constants = Arrays.asList('e', 'π', 'i');
 
-	public static final List<Character> dots = Arrays.asList('.', ',');
+	public static final List<Character> dots = Arrays.asList('.');
 
 	public static final List<Character> unaryOperations = Arrays.asList('-', '=', '!');
 
 	public static final List<Character> binaryOperations = Arrays.asList('-', '+', '*', '×', '∙', '/', '^' );
 
-	public static final List<String> functions = Functions.all;
+	public static final List<String> prefixFunctions = Functions.allPrefix;
+
+	public static final List<Character> postfixFunctions = Functions.allPostfix;
 
 	public static final List<String> groupSymbols = Arrays.asList("[]", "()", "{}");
 
@@ -57,7 +60,7 @@ public enum MathEntityType {
 		}
 		
 		if ( result == null ) {
-			if ( functions.contains(s) ) {
+			if ( prefixFunctions.contains(s) ) {
 				result = MathEntityType.function;
 			} else if ( groupSymbols.contains(s) ) {
 				result = MathEntityType.group_symbols;
@@ -74,6 +77,8 @@ public enum MathEntityType {
 
 		if ( Character.isDigit(ch) ) {
 			result = MathEntityType.digit;
+		} else if ( postfixFunctions.contains(ch) ) {
+			result = MathEntityType.postfix_function;
 		} else if ( unaryOperations.contains(ch) ) {
 			result = MathEntityType.unary_operation;
 		} else if ( binaryOperations.contains(ch) ) {
