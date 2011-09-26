@@ -25,19 +25,22 @@ public class CalculatorModel {
 
 	private int NUMBER_OF_FRACTION_DIGITS = 5;
 
+	@NotNull
+	public Preprocessor preprocessor = new ToJsclPreprocessor();
+
 	public CalculatorModel() throws EvalError {
 		interpreter = new Interpreter();
 
-		interpreter.eval(Preprocessor.wrap(JsclOperation.importCommands, "/jscl/editorengine/commands"));
+		interpreter.eval(ToJsclPreprocessor.wrap(JsclOperation.importCommands, "/jscl/editorengine/commands"));
 	}
 
 	public String evaluate(@NotNull JsclOperation operation, @NotNull String expression) throws EvalError, ParseException {
 
-		final String preprocessedExpression = Preprocessor.process(expression);
+		final String preprocessedExpression = preprocessor.process(expression);
 
 		//Log.d(CalculatorModel.class.getName(), "Preprocessed expression: " + preprocessedExpression);
 
-		Object evaluationObject = interpreter.eval(Preprocessor.wrap(operation, preprocessedExpression));
+		Object evaluationObject = interpreter.eval(ToJsclPreprocessor.wrap(operation, preprocessedExpression));
 		String result = String.valueOf(evaluationObject).trim();
 
 		try {

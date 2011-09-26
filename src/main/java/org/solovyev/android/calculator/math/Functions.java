@@ -36,5 +36,10 @@ public interface Functions {
 	String SQRT_SIGN = "√";
 	String SQRT = "sqrt";
 
-	public static final List<String> all = Arrays.asList(SIN, SINH, ASIN, ASINH, COS, COSH, ACOS, ACOSH, TAN, TANH, ATAN, ATANH, LOG, LN, MOD, SQRT, SQRT_SIGN, EXP);
+	public static final List<String> allPrefix = Arrays.asList(SIN, SINH, ASIN, ASINH, COS, COSH, ACOS, ACOSH, TAN, TANH, ATAN, ATANH, LOG, LN, MOD, SQRT, SQRT_SIGN, EXP);
+
+	Character FACT = '!';
+	Character DEGREE = '°';
+
+	public static final List<Character> allPostfix = Arrays.asList(FACT, DEGREE);
 }
