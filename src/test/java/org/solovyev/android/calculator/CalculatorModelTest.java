@@ -5,10 +5,6 @@
 
 package org.solovyev.android.calculator;
 
-import de.congrace.exp4j.Calculable;
-import de.congrace.exp4j.ExpressionBuilder;
-import de.congrace.exp4j.UnknownFunctionException;
-import de.congrace.exp4j.UnparsableExpressionException;
 import org.junit.Assert;
 import org.junit.Test;
 

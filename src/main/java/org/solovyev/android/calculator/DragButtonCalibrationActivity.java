@@ -19,7 +19,7 @@ import android.view.View;
 import android.widget.ImageView;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.view.widgets.*;
-import org.solovyev.common.FloatIntervalMapper;
+import org.solovyev.common.NumberIntervalMapper;
 import org.solovyev.common.collections.ManyValuedHashMap;
 import org.solovyev.common.collections.ManyValuedMap;
 import org.solovyev.common.utils.*;
@@ -178,7 +178,7 @@ public class DragButtonCalibrationActivity extends Activity {
 	}
 
 	private void setPreferences(@NotNull Map<DragDirection, MathUtils.StatData> statData, @NotNull SharedPreferences.Editor editor, @NotNull PreferenceType preferenceType) {
-		final Mapper<Interval<Float>> mapper = new FloatIntervalMapper();
+		final Mapper<Interval<Float>> mapper = new NumberIntervalMapper<Float>(Float.class);
 		for (Map.Entry<DragDirection, MathUtils.StatData> entry : statData.entrySet()) {
 			final float min = (float) entry.getValue().getMean() - 2 * (float) entry.getValue().getStandardDeviation();
 			final float max = (float) entry.getValue().getMean() + 2 * (float) entry.getValue().getStandardDeviation();
@@ -195,7 +195,7 @@ public class DragButtonCalibrationActivity extends Activity {
 	public static Preferences getPreferences(@NotNull Context context) {
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-		final Mapper<Interval<Float>> mapper = new FloatIntervalMapper();
+		final Mapper<Interval<Float>> mapper = new NumberIntervalMapper<Float>(Float.class);
 
 		final Preferences result = new Preferences();
 

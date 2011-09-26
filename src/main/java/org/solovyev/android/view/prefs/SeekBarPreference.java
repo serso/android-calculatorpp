@@ -11,7 +11,7 @@ import android.util.AttributeSet;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.solovyev.common.NumberMapper;
 import org.solovyev.common.utils.Mapper;
 
 
@@ -60,17 +60,7 @@ public class SeekBarPreference extends AbstractDialogPreference<Integer> impleme
 	@NotNull
 	@Override
 	protected Mapper<Integer> getMapper() {
-		return new Mapper<Integer>() {
-			@Override
-			public String formatValue(@Nullable Integer integer) throws IllegalArgumentException {
-				return integer == null ? null : String.valueOf(integer);
-			}
-
-			@Override
-			public Integer parseValue(@Nullable String s) throws IllegalArgumentException {
-				return s == null ? null : Integer.valueOf(s);
-			}
-		};
+		return new NumberMapper<Integer>(Integer.class);
 	}
 
 	public void onProgressChanged(SeekBar seek, int value, boolean fromTouch) {

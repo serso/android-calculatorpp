@@ -22,6 +22,7 @@ import org.solovyev.android.calculator.math.MathEntityType;
  */
 public class CalculatorEditText extends EditText {
 
+	private boolean highlightExpressionInBrackets = true;
 
 	public CalculatorEditText(Context context) {
 		super(context);
@@ -42,30 +43,36 @@ public class CalculatorEditText extends EditText {
 
 	public void redraw() {
 		String text = getText().toString();
+
 		int selectionStart = getSelectionStart();
 		int selectionEnd = getSelectionEnd();
 
-		int maxNumberOfOpenGroupSymbols = 0;
-		int numberOfOpenGroupSymbols = 0;
-		for (int i = 0; i < text.length(); i++) {
-			char ch = text.charAt(i);
-			if (MathEntityType.openGroupSymbols.contains(ch)) {
-				numberOfOpenGroupSymbols++;
-				maxNumberOfOpenGroupSymbols = Math.max(maxNumberOfOpenGroupSymbols, numberOfOpenGroupSymbols);
-			} else if (MathEntityType.closeGroupSymbols.contains(ch)) {
-				numberOfOpenGroupSymbols--;
+		if (highlightExpressionInBrackets) {
+
+			int maxNumberOfOpenGroupSymbols = 0;
+			int numberOfOpenGroupSymbols = 0;
+			for (int i = 0; i < text.length(); i++) {
+				char ch = text.charAt(i);
+				if (MathEntityType.openGroupSymbols.contains(ch)) {
+					numberOfOpenGroupSymbols++;
+					maxNumberOfOpenGroupSymbols = Math.max(maxNumberOfOpenGroupSymbols, numberOfOpenGroupSymbols);
+				} else if (MathEntityType.closeGroupSymbols.contains(ch)) {
+					numberOfOpenGroupSymbols--;
+				}
 			}
-		}
 
-		if (maxNumberOfOpenGroupSymbols > 0) {
+			if (maxNumberOfOpenGroupSymbols > 0) {
 
-			final StringBuilder sb = new StringBuilder();
+				final StringBuilder sb = new StringBuilder();
 
-			processGroup(sb, text, 0, 0, maxNumberOfOpenGroupSymbols);
+				processGroup(sb, text, 0, 0, maxNumberOfOpenGroupSymbols);
 
-			Log.d(CalculatorEditText.class.getName(), sb.toString());
+				Log.d(CalculatorEditText.class.getName(), sb.toString());
 
-			super.setText(Html.fromHtml(sb.toString()), BufferType.EDITABLE);
+				super.setText(Html.fromHtml(sb.toString()), BufferType.EDITABLE);
+			} else {
+				super.setText(text, BufferType.EDITABLE);
+			}
 		} else {
 			super.setText(text, BufferType.EDITABLE);
 		}
@@ -106,10 +113,19 @@ public class CalculatorEditText extends EditText {
 
 		double c = 1;
 
-		int i = ((int)(255 * c)) * numberOfOpenings / (numberOfOpenGroupSymbols + 1);
+		int i = ((int) (255 * c)) * numberOfOpenings / (numberOfOpenGroupSymbols + 1);
 
-		int result = Color.rgb( Color.red(baseColor) - i, Color.green(baseColor) - i, Color.blue(baseColor) - i);
+		int result = Color.rgb(Color.red(baseColor) - i, Color.green(baseColor) - i, Color.blue(baseColor) - i);
 
 		return "#" + Integer.toHexString(result).substring(2);
+	}
+
+	public boolean isHighlightExpressionInBrackets() {
+		return highlightExpressionInBrackets;
+	}
+
+	public void setHighlightExpressionInBrackets(boolean highlightExpressionInBrackets) {
+		this.highlightExpressionInBrackets = highlightExpressionInBrackets;
+		redraw();
 	}
 }

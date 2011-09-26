@@ -22,10 +22,11 @@ public class EditorHistoryState {
 		this.text = text;
 	}
 
-	public void setText(String text) {
+	public void setText(@Nullable String text) {
 		this.text = text;
 	}
 
+	@Nullable
 	public String getText() {
 		return text;
 	}

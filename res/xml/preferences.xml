@@ -4,14 +4,16 @@
 				  xmlns:range="http://schemas.android.com/apk/res/org.solovyev.android.calculator">
 	<PreferenceCategory a:title="@string/c_prefs_drag_button_category">
 
-		<org.solovyev.android.view.prefs.SeekBarPreference a:key="duration"
-														   a:title="Duration of something"
-														   a:summary="How long something will last"
-														   a:dialogMessage="Something duration"
-														   a:defaultValue="5"
-														   a:text=" minutes"
-														   a:max="60"/>
+		<org.solovyev.android.view.prefs.NumberPickerDialogPreference
+				a:key="@string/p_calc_result_precision_key"
+				a:title="Precision of result value"
+				a:defaultValue="5"
+				range:boundaries="0;10"/>
 
+		<android.preference.CheckBoxPreference
+			a:key="@string/p_calc_color_display_key"
+			a:title="Highlight expressions in brackets"
+			a:defaultValue="true"/>
 
 		<org.solovyev.android.view.prefs.FloatRangeSeekBarPreference
 				a:key="@string/p_drag_distance_key"

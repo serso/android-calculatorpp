@@ -23,7 +23,7 @@ public class CalculatorModel {
 	@NotNull
 	private Interpreter interpreter;
 
-	private int NUMBER_OF_FRACTION_DIGITS = 5;
+	private int numberOfFractionDigits = 5;
 
 	@NotNull
 	public Preprocessor preprocessor = new ToJsclPreprocessor();
@@ -96,7 +96,7 @@ public class CalculatorModel {
 
 	private Double round(@NotNull String result) {
 		final Double dResult = Double.valueOf(result);
-		return MathUtils.round(dResult, NUMBER_OF_FRACTION_DIGITS);
+		return MathUtils.round(dResult, numberOfFractionDigits);
 	}
 
 	public static class ParseException extends SersoException {
@@ -105,4 +105,11 @@ public class CalculatorModel {
 		}
 	}
 
+	public int getNumberOfFractionDigits() {
+		return numberOfFractionDigits;
+	}
+
+	public void setNumberOfFractionDigits(int numberOfFractionDigits) {
+		this.numberOfFractionDigits = numberOfFractionDigits;
+	}
 }
