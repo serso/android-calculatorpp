@@ -9,7 +9,7 @@ package org.solovyev.android.view.prefs;
 import android.content.Context;
 import android.util.AttributeSet;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.common.FloatIntervalMapper;
+import org.solovyev.common.NumberIntervalMapper;
 import org.solovyev.common.utils.Interval;
 import org.solovyev.common.utils.Mapper;
 
@@ -27,6 +27,6 @@ public class FloatRangeSeekBarPreference extends RangeSeekBarPreference<Float> {
 	@NotNull
 	@Override
 	protected Mapper<Interval<Float>> getMapper() {
-		return new FloatIntervalMapper() ;
+		return new NumberIntervalMapper<Float>(Float.class);
 	}
 }

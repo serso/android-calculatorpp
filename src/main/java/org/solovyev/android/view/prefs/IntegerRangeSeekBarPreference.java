@@ -9,7 +9,7 @@ package org.solovyev.android.view.prefs;
 import android.content.Context;
 import android.util.AttributeSet;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.common.IntegerIntervalMapper;
+import org.solovyev.common.NumberIntervalMapper;
 import org.solovyev.common.utils.*;
 
 /**
@@ -26,7 +26,7 @@ public class IntegerRangeSeekBarPreference extends RangeSeekBarPreference<Intege
 	@NotNull
 	@Override
 	protected Mapper<Interval<Integer>> getMapper() {
-		return new IntegerIntervalMapper();
+		return new NumberIntervalMapper<Integer>(Integer.class);
 	}
 
 }

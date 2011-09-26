@@ -285,4 +285,9 @@ public class CalculatorView implements CursorControl, HistoryControl<CalculatorH
 
 		return result;
 	}
+
+	@NotNull
+	public CalculatorEditText getEditor() {
+		return editor;
+	}
 }

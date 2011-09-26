@@ -20,6 +20,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.view.FontSizeAdjuster;
 import org.solovyev.android.view.widgets.*;
+import org.solovyev.common.BooleanMapper;
+import org.solovyev.common.NumberMapper;
 import org.solovyev.common.utils.Announcer;
 import org.solovyev.common.utils.history.HistoryAction;
 
@@ -104,7 +106,10 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 		registerReceiver(preferencesChangesReceiver, new IntentFilter(DragButtonCalibrationActivity.INTENT_ACTION));
 
-		PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
+		final SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+		defaultSharedPreferences.registerOnSharedPreferenceChangeListener(this);
+
+		this.onSharedPreferenceChanged(defaultSharedPreferences, null);
 	}
 
 	@Override
@@ -236,5 +241,12 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
 		dpclRegister.announce().onDragPreferencesChange(DragButtonCalibrationActivity.getPreferences(CalculatorActivity.this));
+
+		final NumberMapper<Integer> integerNumberMapper = new NumberMapper<Integer>(Integer.class);
+		this.calculatorModel.setNumberOfFractionDigits(integerNumberMapper.parseValue(sharedPreferences.getString(this.getString(R.string.p_calc_result_precision_key), this.getString(R.string.p_calc_result_precision))));
+
+		final Boolean colorExpressionsInBracketsDefault = new BooleanMapper().parseValue(this.getString(R.string.p_calc_color_display));
+		assert colorExpressionsInBracketsDefault != null;
+		this.calculatorView.getEditor().setHighlightExpressionInBrackets(sharedPreferences.getBoolean(this.getString(R.string.p_calc_color_display_key), colorExpressionsInBracketsDefault));
 	}
 }
