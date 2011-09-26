@@ -12,4 +12,10 @@
 	<string name="p_drag_angle">0;45</string>
 	<string name="p_drag_duration_key">org.solovyev.android.calculator.DragButtonCalibrationActivity_duration</string>
 	<string name="p_drag_duration">40;2500</string>
+
+	<string name="p_calc_result_precision_key">org.solovyev.android.calculator.CalculatorModel_result_precision</string>
+	<string name="p_calc_result_precision">5</string>
+
+	<string name="p_calc_color_display_key">org.solovyev.android.calculator.CalculatorModel_color_display</string>
+	<string name="p_calc_color_display">true</string>
 </resources>

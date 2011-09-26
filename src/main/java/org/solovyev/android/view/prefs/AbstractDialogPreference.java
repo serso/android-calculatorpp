@@ -3,6 +3,7 @@ package org.solovyev.android.view.prefs;
 import android.content.Context;
 import android.preference.DialogPreference;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -19,7 +20,10 @@ import org.solovyev.common.utils.Mapper;
 public abstract class AbstractDialogPreference<T> extends DialogPreference {
 
 	@NotNull
-	protected static final String androidns = "http://schemas.android.com/apk/res/android";
+	protected final static String localNameSpace = "http://schemas.android.com/apk/res/org.solovyev.android.calculator";
+
+	@NotNull
+	protected final static String androidns = "http://schemas.android.com/apk/res/android";
 
 	@NotNull
 	protected TextView valueTextView;
@@ -127,18 +131,26 @@ public abstract class AbstractDialogPreference<T> extends DialogPreference {
 	}
 
 	protected void persistValue(@Nullable T value) {
+		Log.d(AbstractDialogPreference.class.getName(), "Trying to persist value: " + value);
+		this.value = value;
+
+		Log.d(AbstractDialogPreference.class.getName(), "android.preference.Preference.callChangeListener()");
 		if (callChangeListener(value)) {
+			Log.d(AbstractDialogPreference.class.getName(), "android.preference.Preference.shouldPersist()");
 			if (shouldPersist()) {
+				Log.d(AbstractDialogPreference.class.getName(), "org.solovyev.android.view.prefs.AbstractDialogPreference.persist()");
 				persist(value);
 			}
 		}
 	}
 
 	private void persist(@Nullable T value) {
-		final String toBePersistedString = getMapper().formatValue(value);
-		if (toBePersistedString != null) {
-			if ( callChangeListener(value) ) {
-				persistString(toBePersistedString);
+		if (value != null) {
+			final String toBePersistedString = getMapper().formatValue(value);
+			if (toBePersistedString != null) {
+				if ( callChangeListener(toBePersistedString) ) {
+					persistString(toBePersistedString);
+				}
 			}
 		}
 	}

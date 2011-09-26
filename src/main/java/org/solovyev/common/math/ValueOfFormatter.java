@@ -16,8 +16,19 @@ import org.solovyev.common.utils.Formatter;
  */
 public class ValueOfFormatter<T> implements Formatter<T>{
 
+	private final boolean processNulls;
+
+	public ValueOfFormatter() {
+		this(false);
+	}
+
+	public ValueOfFormatter(boolean processNulls) {
+		this.processNulls = processNulls;
+	}
+
+
 	@Override
 	public String formatValue(@Nullable T t) throws IllegalArgumentException {
-		return String.valueOf(t);
+		return t == null ? (processNulls ? String.valueOf(t) : null) : String.valueOf(t);
 	}
 }

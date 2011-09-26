@@ -16,8 +16,6 @@ import org.solovyev.common.utils.NumberInterval;
  */
 public abstract class RangeSeekBarPreference<T extends Number> extends AbstractDialogPreference<Interval<T>> implements AbstractRangeSeekBar.OnRangeSeekBarChangeListener<T> {
 
-	public final static String localNameSpace = "http://schemas.android.com/apk/res/org.solovyev.android.calculator";
-
 	@NotNull
 	private AbstractRangeSeekBar<T> rangeSeekBar;
 
