@@ -2,8 +2,10 @@ package org.solovyev.android.view.prefs;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.LinearLayout;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.view.widgets.AbstractRangeSeekBar;
 import org.solovyev.android.view.widgets.NumberRangeSeekBar;
 import org.solovyev.common.utils.Interval;
@@ -25,7 +27,7 @@ public abstract class RangeSeekBarPreference<T extends Number> extends AbstractD
 	private Integer steps;
 
 	public RangeSeekBarPreference(@NotNull Context context, AttributeSet attrs) {
-		super(context, attrs, null);
+		super(context, attrs, null, true);
 
 		//noinspection ConstantConditions
 		boundaries = getMapper().parseValue(attrs.getAttributeValue(localNameSpace, "boundaries"));
@@ -40,31 +42,31 @@ public abstract class RangeSeekBarPreference<T extends Number> extends AbstractD
 		createPreferenceView();
 	}
 
-	private void createPreferenceView() {
+	@NotNull
+	protected View createPreferenceView() {
 		this.rangeSeekBar = new NumberRangeSeekBar<T>(boundaries, steps, context);
 		this.rangeSeekBar.setNotifyWhileDragging(true);
 		this.rangeSeekBar.setOnRangeSeekBarChangeListener(this);
 
-		initPreferenceView();
-	}
+		initPreferenceView(this.rangeSeekBar);
 
-	@NotNull
-	@Override
-	protected LinearLayout onCreateDialogView() {
-		final LinearLayout result = super.onCreateDialogView();
-
-		createPreferenceView();
-
-		result.addView(rangeSeekBar);
-
-		return result;
+		return this.rangeSeekBar;
 	}
 
 	@Override
-	protected void initPreferenceView() {
+	protected LinearLayout.LayoutParams getParams() {
+		return null;
+	}
+
+	@Override
+	protected void initPreferenceView(@Nullable View v) {
+		if ( v == null ) {
+			v = rangeSeekBar;
+		}
+
 		if (value != null) {
-			rangeSeekBar.setSelectedMinValue(value.getLeftBorder());
-			rangeSeekBar.setSelectedMaxValue(value.getRightBorder());
+			((AbstractRangeSeekBar<T>) v).setSelectedMinValue(value.getLeftBorder());
+			((AbstractRangeSeekBar<T>) v).setSelectedMaxValue(value.getRightBorder());
 			setValueText(value);
 		}
 	}
