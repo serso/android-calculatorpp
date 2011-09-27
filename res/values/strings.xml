@@ -17,9 +17,15 @@
 	<string name="c_down">Down</string>
 	<string name="c_up">Up</string>
 	<string name="c_restart">Restart</string>
+
 	<!--ABOUT ACTIVITY-->
 	<string name="c_copyright">Copyright (c) 2009-2011.\nCreated by serso aka se.solovyev.\n
 		For more information please\ncontact me via email\n<a href="mailto:se.solovyev@gmail.com">se.solovyev@gmail.com</a>
 		\nor visit\n<a href="http://se.solovyev.org">http://se.solovyev.org</a>
 	</string>
+
+	<string name="c_undo">undo</string>
+	<string name="c_redo">redo</string>
+	<string name="c_clear">clear</string>
+	<string name="c_paste">paste</string>
 </resources>
