@@ -9,6 +9,7 @@ package org.solovyev.android.view.prefs;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.LinearLayout;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -31,7 +32,7 @@ public class NumberPickerDialogPreference extends AbstractDialogPreference<Integ
 	private final Interval<Integer> boundaries;
 
 	public NumberPickerDialogPreference(Context context, AttributeSet attrs) {
-		super(context, attrs, null);
+		super(context, attrs, null, false);
 
 		//noinspection ConstantConditions
 		boundaries = new GenericIntervalMapper<Integer>(getMapper()).parseValue(attrs.getAttributeValue(localNameSpace, "boundaries"));
@@ -39,33 +40,35 @@ public class NumberPickerDialogPreference extends AbstractDialogPreference<Integ
 		createPreferenceView();
 	}
 
-	@NotNull
 	@Override
-	protected LinearLayout onCreateDialogView() {
-		final LinearLayout result = super.onCreateDialogView();
-
-		createPreferenceView();
-		initPreferenceView();
-
-		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-		params.gravity = Gravity.CENTER;
-		result.addView(numberPicker, params);
+	protected LinearLayout.LayoutParams getParams() {
+		final LinearLayout.LayoutParams result = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+		result.gravity = Gravity.CENTER;
 
 		return result;
 	}
 
-	protected void createPreferenceView() {
+	@NotNull
+	@Override
+	protected View createPreferenceView() {
 		this.numberPicker = new NumberPicker(context);
 		this.numberPicker.setOnChangeListener(this);
 
-		initPreferenceView();
+		initPreferenceView(this.numberPicker);
+
+		return numberPicker;
 	}
 
 	@Override
-	protected void initPreferenceView() {
+	protected void initPreferenceView(@Nullable View v) {
+
+		if ( v == null ) {
+			v = numberPicker;
+		}
+
 		if (value != null) {
-			numberPicker.setRange(boundaries.getLeftBorder(), boundaries.getRightBorder());
-			numberPicker.setCurrent(value);
+			((NumberPicker) v).setRange(boundaries.getLeftBorder(), boundaries.getRightBorder());
+			((NumberPicker) v).setCurrent(value);
 		}
 	}
 
