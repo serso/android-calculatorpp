@@ -8,9 +8,11 @@ package org.solovyev.android.view.prefs;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.solovyev.common.NumberMapper;
 import org.solovyev.common.utils.Mapper;
 
@@ -29,30 +31,34 @@ public class SeekBarPreference extends AbstractDialogPreference<Integer> impleme
 	private int max = 0;
 
 	public SeekBarPreference(Context context, AttributeSet attrs) {
-		super(context, attrs, "50");
+		super(context, attrs, "50", true);
 
 		max = attrs.getAttributeIntValue(androidns, "max", 100);
 	}
 
+	@Override
+	protected LinearLayout.LayoutParams getParams() {
+		return new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+	}
+
 	@NotNull
 	@Override
-	protected LinearLayout onCreateDialogView() {
-		final LinearLayout layout = super.onCreateDialogView();
-
+	protected View createPreferenceView() {
 		seekBar = new SeekBar(context);
 		seekBar.setOnSeekBarChangeListener(this);
-		layout.addView(seekBar, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
-		initPreferenceView();
-
-		return layout;
+		return seekBar;
 	}
 
 	@Override
-	protected void initPreferenceView() {
-		seekBar.setMax(max);
+	protected void initPreferenceView(@Nullable View v ) {
+		if ( v == null) {
+			v = seekBar;
+		}
+
+		((SeekBar) v).setMax(max);
 		if (value != null) {
-			seekBar.setProgress(value);
+			((SeekBar) v).setProgress(value);
 			setValueText(value);
 		}
 	}

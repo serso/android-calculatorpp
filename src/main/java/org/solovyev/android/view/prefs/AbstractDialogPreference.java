@@ -25,8 +25,11 @@ public abstract class AbstractDialogPreference<T> extends DialogPreference {
 	@NotNull
 	protected final static String androidns = "http://schemas.android.com/apk/res/android";
 
-	@NotNull
+	@Nullable
 	protected TextView valueTextView;
+
+	@Nullable
+	protected String valueText;
 
 	@NotNull
 	protected final Context context;
@@ -41,16 +44,15 @@ public abstract class AbstractDialogPreference<T> extends DialogPreference {
 	private T defaultValue;
 
 	@Nullable
-	protected String valueText;
-
-	@Nullable
 	private final String defaultStringValue;
 
+	private final boolean needValueText;
 
-	public AbstractDialogPreference(Context context, AttributeSet attrs, @Nullable String defaultStringValue) {
+	public AbstractDialogPreference(Context context, AttributeSet attrs, @Nullable String defaultStringValue, boolean needValueText) {
 		super(context, attrs);
 		this.context = context;
 		this.defaultStringValue = defaultStringValue;
+		this.needValueText = needValueText;
 
 		final String defaultValueFromAttrs = attrs.getAttributeValue(androidns, "defaultValue");
 		if ( defaultValueFromAttrs != null ) {
@@ -67,7 +69,7 @@ public abstract class AbstractDialogPreference<T> extends DialogPreference {
 
 	@Override
 	@NotNull
-	protected LinearLayout onCreateDialogView() {
+	protected final LinearLayout onCreateDialogView() {
 		if (shouldPersist()) {
 			value = getPersistedValue();
 		}
@@ -82,17 +84,32 @@ public abstract class AbstractDialogPreference<T> extends DialogPreference {
 			result.addView(splashText);
 		}
 
-		valueTextView = new TextView(context);
-		valueTextView.setGravity(Gravity.CENTER_HORIZONTAL);
-		valueTextView.setTextSize(32);
+		if (needValueText) {
+			valueTextView = new TextView(context);
+			valueTextView.setGravity(Gravity.CENTER_HORIZONTAL);
+			valueTextView.setTextSize(32);
 
-		final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.FILL_PARENT,
-				LinearLayout.LayoutParams.WRAP_CONTENT);
-		result.addView(valueTextView, params);
+			final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+					LinearLayout.LayoutParams.FILL_PARENT,
+					LinearLayout.LayoutParams.WRAP_CONTENT);
+			result.addView(valueTextView, params);
+		}
+
+		final View v = createPreferenceView();
+		initPreferenceView(v);
+
+		final LinearLayout.LayoutParams params = getParams();
+		if (params != null) {
+			result.addView(v);
+		} else {
+			result.addView(v, params);
+		}
 
 		return result;
 	}
+
+	@Nullable
+	protected abstract LinearLayout.LayoutParams getParams();
 
 	@Override
 	protected void onSetInitialValue(boolean restore, Object defaultValue) {
@@ -115,10 +132,13 @@ public abstract class AbstractDialogPreference<T> extends DialogPreference {
 	@Override
 	protected void onBindDialogView(View v) {
 		super.onBindDialogView(v);
-		initPreferenceView();
+		initPreferenceView(null);
 	}
 
-	protected abstract void initPreferenceView();
+	@NotNull
+	protected abstract View createPreferenceView();
+
+	protected abstract void initPreferenceView(@Nullable View v);
 
 	@Nullable
 	private T getPersistedValue() {
