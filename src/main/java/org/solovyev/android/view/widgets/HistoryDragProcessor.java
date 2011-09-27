@@ -33,17 +33,18 @@ public class HistoryDragProcessor<T> implements SimpleOnDragListener.DragProcess
 
 		Log.d(String.valueOf(dragButton.getId()), "History on drag event start: " + dragDirection);
 
-		assert dragButton instanceof DirectionDragButton;
-		String actionText = ((DirectionDragButton) dragButton).getDirectionText(dragDirection);
-		if (!StringUtils.isEmpty(actionText)) {
-			try {
-				result = true;
+		final HistoryAction historyAction;
+		if ( dragDirection == DragDirection.up ) {
+			historyAction = HistoryAction.undo;
+		} else if ( dragDirection == DragDirection.down ) {
+			historyAction = HistoryAction.redo;
+		} else {
+			historyAction = null;
+		}
 
-				final HistoryAction historyAction = HistoryAction.valueOf(actionText);
-				historyControl.doHistoryAction(historyAction);
-			} catch (IllegalArgumentException e) {
-				Log.e(String.valueOf(dragButton.getId()), "Unsupported history action: " + actionText);
-			}
+		if (historyAction != null) {
+			result = true;
+			historyControl.doHistoryAction(historyAction);
 		}
 
 		return result;
