@@ -50,7 +50,7 @@
 					a:scrollbars="none"/>
 
 			<org.solovyev.android.view.widgets.DirectionDragButton a:id="@+id/clearButton"
-														   a:text="clear"
+														   a:text="@string/c_clear"
 														   a:layout_weight="1.5"
 														   style="@style/control_button_style"
 														   a:onClick="clearButtonClickHandler"/>
@@ -67,12 +67,17 @@
 
 		<LinearLayout a:layout_weight="1" a:layout_width="match_parent" a:layout_height="0dp">
 
-			<org.solovyev.android.view.widgets.DirectionDragButton a:id="@+id/oneDigitButton" a:text="1" calc:textUp="sin"
-														   calc:textDown="asin" style="@style/digit_button_style"
-														   a:onClick="digitButtonClickHandler"/>
+			<org.solovyev.android.view.widgets.DirectionDragButton a:id="@+id/oneDigitButton"
+																   a:text="1"
+																   calc:textUp="sin"
+														   			calc:textDown="asin"
+																	style="@style/digit_button_style"
+														   			a:onClick="digitButtonClickHandler"/>
 
-			<org.solovyev.android.view.widgets.DirectionDragButton a:id="@+id/twoDigitButton" a:text="2" calc:textUp="cos"
-														   calc:textDown="acos" style="@style/digit_button_style"
+			<org.solovyev.android.view.widgets.DirectionDragButton a:id="@+id/twoDigitButton"
+																   a:text="2"
+																   calc:textUp="cos"
+														   			calc:textDown="acos" style="@style/digit_button_style"
 														   a:onClick="digitButtonClickHandler"/>
 
 			<org.solovyev.android.view.widgets.DirectionDragButton a:id="@+id/threeDigitButton" a:text="3" calc:textUp="tan"
@@ -96,7 +101,7 @@
 														   a:onClick="numericButtonClickHandler"/>
 
 			<org.solovyev.android.view.widgets.DirectionDragButton a:id="@+id/pasteButton"
-														   a:text="paste"
+														   a:text="@string/c_paste"
 														   style="@style/control_button_style"
 														   a:onClick="pasteButtonClickHandler"/>
 
@@ -141,8 +146,8 @@
 
 			<org.solovyev.android.view.widgets.DirectionDragButton a:id="@+id/historyButton"
 														   a:text=""
-														   calc:textUp="undo"
-														   calc:textDown="redo"
+														   calc:textUp="@string/c_undo"
+														   calc:textDown="@string/c_redo"
 														   style="@style/control_button_style"/>
 
 		</LinearLayout>

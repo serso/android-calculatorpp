@@ -72,7 +72,7 @@ public class CalculatorView implements CursorControl, HistoryControl<CalculatorH
 					if (!StringUtils.isEmpty(text)) {
 						final ClipboardManager clipboard = (ClipboardManager) activity.getSystemService(Activity.CLIPBOARD_SERVICE);
 						clipboard.setText(text);
-						Toast.makeText(activity, "Result copied to clipboard!", Toast.LENGTH_SHORT).show();
+						Toast.makeText(activity, activity.getText(R.string.c_result_copied), Toast.LENGTH_SHORT).show();
 					}
 				}
 			}
