@@ -183,7 +183,11 @@
 														   calc:textDown=")" style="@style/digit_button_style"
 														   a:onClick="digitButtonClickHandler"/>
 
-			<org.solovyev.android.view.widgets.DirectionDragButton a:text="" style="@style/control_button_style"/>
+			<org.solovyev.android.view.widgets.DirectionDragButton
+					a:id="@+id/varsButton"
+					a:text="@string/c_vars"
+					a:onClick="varsButtonClickHandler"
+					style="@style/control_button_style"/>
 
 			<org.solovyev.android.view.widgets.DirectionDragButton a:text="" style="@style/control_button_style"/>
 

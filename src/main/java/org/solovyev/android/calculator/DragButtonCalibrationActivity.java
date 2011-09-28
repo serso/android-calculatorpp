@@ -6,8 +6,6 @@
 package org.solovyev.android.calculator;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -43,14 +41,6 @@ public class DragButtonCalibrationActivity extends Activity {
 
 	private static final float DEFAULT_VALUE = -999;
 	private static final int MIN_HISTORY_FOR_CALIBRATION = 10;
-	public static final String INTENT_ACTION = "org.solovyev.android.calculator.DragButtonPreferencesChanged";
-
-	public static enum PreferenceType {
-		angle,
-		distance,
-		duration
-	}
-
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -163,13 +153,11 @@ public class DragButtonCalibrationActivity extends Activity {
 				final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
 				final SharedPreferences.Editor editor = settings.edit();
 
-				setPreferences(angleStatData, editor, PreferenceType.angle);
-				setPreferences(distanceStatData, editor, PreferenceType.distance);
-				setPreferences(timeStatData, editor, PreferenceType.duration);
+				setPreferences(angleStatData, editor, SimpleOnDragListener.PreferenceType.angle);
+				setPreferences(distanceStatData, editor, SimpleOnDragListener.PreferenceType.distance);
+				setPreferences(timeStatData, editor, SimpleOnDragListener.PreferenceType.duration);
 
 				editor.commit();
-
-				sendOrderedBroadcast(new Intent(INTENT_ACTION), null);
 			}
 		}
 
@@ -177,167 +165,15 @@ public class DragButtonCalibrationActivity extends Activity {
 		return super.onKeyDown(keyCode, event);
 	}
 
-	private void setPreferences(@NotNull Map<DragDirection, MathUtils.StatData> statData, @NotNull SharedPreferences.Editor editor, @NotNull PreferenceType preferenceType) {
+	private void setPreferences(@NotNull Map<DragDirection, MathUtils.StatData> statData, @NotNull SharedPreferences.Editor editor, @NotNull SimpleOnDragListener.PreferenceType preferenceType) {
 		final Mapper<Interval<Float>> mapper = new NumberIntervalMapper<Float>(Float.class);
 		for (Map.Entry<DragDirection, MathUtils.StatData> entry : statData.entrySet()) {
 			final float min = (float) entry.getValue().getMean() - 2 * (float) entry.getValue().getStandardDeviation();
 			final float max = (float) entry.getValue().getMean() + 2 * (float) entry.getValue().getStandardDeviation();
-			editor.putString(getPreferenceId(preferenceType, entry.getKey()), mapper.formatValue(transformInterval(preferenceType, entry.getKey(), new IntervalImpl<Float>(Math.max(0, min), max))));
+			editor.putString(SimpleOnDragListener.getPreferenceId(preferenceType, entry.getKey()), mapper.formatValue(SimpleOnDragListener.transformInterval(preferenceType, entry.getKey(), new IntervalImpl<Float>(Math.max(0, min), max))));
 		}
 	}
 
-	// todo serso: currently we do not use direction
-	public static String getPreferenceId(@NotNull PreferenceType preferenceType, @NotNull DragDirection direction) {
-		return "org.solovyev.android.calculator.DragButtonCalibrationActivity" + "_" + preferenceType.name() /*+ "_" + direction.name()*/;
-	}
-
-	@NotNull
-	public static Preferences getPreferences(@NotNull Context context) {
-		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-
-		final Mapper<Interval<Float>> mapper = new NumberIntervalMapper<Float>(Float.class);
-
-		final Preferences result = new Preferences();
-
-		for (PreferenceType preferenceType : PreferenceType.values()) {
-			for (DragDirection dragDirection : DragDirection.values()) {
-
-				final String preferenceId = getPreferenceId(preferenceType, dragDirection);
-
-				final String defaultValue;
-				switch (preferenceType) {
-					case angle:
-						defaultValue = context.getResources().getString(R.string.p_drag_angle);
-						break;
-					case distance:
-						defaultValue = context.getResources().getString(R.string.p_drag_distance);
-						break;
-					case duration:
-						defaultValue = context.getResources().getString(R.string.p_drag_duration);
-						break;
-					default:
-						defaultValue = null;
-						Log.e(DragButtonCalibrationActivity.class.getName(), "New preference type added: default preferences should be defined. Preference id: " + preferenceId);
-				}
-
-				final String value = preferences.getString(preferenceId, defaultValue);
-
-				if (defaultValue != null) {
-					final Interval<Float> intervalPref = mapper.parseValue(value);
-					assert intervalPref != null;
-
-					transformInterval(preferenceType, dragDirection, intervalPref);
-
-					Log.d(DragButtonCalibrationActivity.class.getName(), "Preference loaded. Id: " + preferenceId + ", value: " + intervalPref.toString());
-
-					final DragPreference directionPreference = new DragPreference(dragDirection, intervalPref);
-
-					Preference preference = result.getPreferencesMap().get(preferenceType);
-					if (preference == null) {
-						preference = new Preference(preferenceType);
-						result.getPreferencesMap().put(preferenceType, preference);
-					}
-
-					preference.getDirectionPreferences().put(dragDirection, directionPreference);
-				}
-			}
-		}
-
-		return result;
-	}
-
-	@NotNull
-	private static Interval<Float> transformInterval(@NotNull PreferenceType preferenceType, @NotNull DragDirection dragDirection, @NotNull Interval<Float> interval) {
-		if (preferenceType == PreferenceType.angle) {
-			final Float leftBorder = interval.getLeftBorder();
-			final Float rightBorder = interval.getRightBorder();
-
-			if (dragDirection == DragDirection.up) {
-				interval.setLeftBorder(180f - rightBorder);
-				interval.setRightBorder(180f - leftBorder);
-			} else if (dragDirection == DragDirection.left || dragDirection == DragDirection.right) {
-				interval.setLeftBorder(90f - rightBorder / 2);
-				interval.setRightBorder(90f + leftBorder / 2);
-			}
-		}
-
-		return interval;
-	}
-
-	public static class DragPreference {
-
-		@NotNull
-		private DragDirection direction;
-
-		@NotNull
-		private Interval<Float> interval;
-
-
-		public DragPreference(@NotNull DragDirection direction, @NotNull Interval<Float> interval) {
-			this.direction = direction;
-			this.interval = interval;
-		}
-
-		@NotNull
-		public DragDirection getDirection() {
-			return direction;
-		}
-
-		public void setDirection(@NotNull DragDirection direction) {
-			this.direction = direction;
-		}
-
-		@NotNull
-		public Interval<Float> getInterval() {
-			return interval;
-		}
-
-		public void setInterval(@NotNull Interval<Float> interval) {
-			this.interval = interval;
-		}
-	}
-
-	public static class Preference {
-
-		@NotNull
-		private PreferenceType preferenceType;
-
-		@NotNull
-		private Map<DragDirection, DragPreference> directionPreferences = new HashMap<DragDirection, DragPreference>();
-
-
-		public Preference(@NotNull PreferenceType preferenceType) {
-			this.preferenceType = preferenceType;
-		}
-
-		@NotNull
-		public PreferenceType getPreferenceType() {
-			return preferenceType;
-		}
-
-		public void setPreferenceType(@NotNull PreferenceType preferenceType) {
-			this.preferenceType = preferenceType;
-		}
-
-		@NotNull
-		public Map<DragDirection, DragPreference> getDirectionPreferences() {
-			return directionPreferences;
-		}
-
-		public void setDirectionPreferences(@NotNull Map<DragDirection, DragPreference> directionPreferences) {
-			this.directionPreferences = directionPreferences;
-		}
-	}
-
-
-	public static class Preferences {
-
-		private final Map<PreferenceType, Preference> preferencesMap = new HashMap<PreferenceType, Preference>();
-
-		public Map<PreferenceType, Preference> getPreferencesMap() {
-			return preferencesMap;
-		}
-	}
 
 	private void logStatData(@NotNull Map<DragDirection, MathUtils.StatData> statData) {
 		for (Map.Entry<DragDirection, MathUtils.StatData> entry : statData.entrySet()) {

@@ -27,11 +27,11 @@
 
 
 			<org.solovyev.android.view.widgets.DirectionDragButton a:id="@+id/equalsButton"
-														   a:text="="
-														   a:layout_width="fill_parent"
-														   a:layout_weight="4"
-														   style="@style/control_button_style"
-														   a:onClick="numericButtonClickHandler"/>
+																   a:text="="
+																   a:layout_width="fill_parent"
+																   a:layout_weight="4"
+																   style="@style/control_button_style"
+																   a:onClick="numericButtonClickHandler"/>
 
 			<org.solovyev.android.calculator.CalculatorDisplay
 					a:id="@+id/resultEditText"
@@ -47,93 +47,93 @@
 		</LinearLayout>
 
 		<LinearLayout a:layout_weight="1" a:layout_width="match_parent" a:layout_height="0dp">
-			
+
 			<org.solovyev.android.view.widgets.DirectionDragButton a:id="@+id/oneDigitButton" a:text="1" calc:textUp="sin"
-														   calc:textDown="asin" style="@style/digit_button_style"
-														   a:onClick="digitButtonClickHandler"/>
+																   calc:textDown="asin" style="@style/digit_button_style"
+																   a:onClick="digitButtonClickHandler"/>
 
 			<org.solovyev.android.view.widgets.DirectionDragButton a:id="@+id/twoDigitButton" a:text="2" calc:textUp="cos"
-														   calc:textDown="acos" style="@style/digit_button_style"
-														   a:onClick="digitButtonClickHandler"/>
+																   calc:textDown="acos" style="@style/digit_button_style"
+																   a:onClick="digitButtonClickHandler"/>
 
 			<org.solovyev.android.view.widgets.DirectionDragButton a:id="@+id/threeDigitButton" a:text="3" calc:textUp="tan"
-														   calc:textDown="atan" style="@style/digit_button_style"
-														   a:onClick="digitButtonClickHandler"/>
+																   calc:textDown="atan" style="@style/digit_button_style"
+																   a:onClick="digitButtonClickHandler"/>
 
 			<org.solovyev.android.view.widgets.DirectionDragButton a:id="@+id/multiplicationButton" a:text="×"
-														   calc:textUp="^"
-														   calc:textDown="^2" style="@style/digit_button_style"
-														   a:onClick="digitButtonClickHandler"/>
+																   calc:textUp="^"
+																   calc:textDown="^2" style="@style/digit_button_style"
+																   a:onClick="digitButtonClickHandler"/>
 
 			<org.solovyev.android.view.widgets.DirectionDragButton a:id="@+id/clearButton"
-														   a:text="@string/c_clear"
-														   style="@style/control_button_style"
-														   a:onClick="clearButtonClickHandler"/>
+																   a:text="@string/c_clear"
+																   style="@style/control_button_style"
+																   a:onClick="clearButtonClickHandler"/>
 
 		</LinearLayout>
 
 		<LinearLayout a:layout_weight="1" a:layout_width="match_parent" a:layout_height="0dp">
-			
+
 			<org.solovyev.android.view.widgets.DirectionDragButton a:id="@+id/fourDigitButton"
-														   a:text="4"
-														   calc:textUp="sinh"
-														   calc:textDown="asinh"
-														   style="@style/digit_button_style"
-														   a:onClick="digitButtonClickHandler"/>
+																   a:text="4"
+																   calc:textUp="sinh"
+																   calc:textDown="asinh"
+																   style="@style/digit_button_style"
+																   a:onClick="digitButtonClickHandler"/>
 
 			<org.solovyev.android.view.widgets.DirectionDragButton a:id="@+id/fiveDigitButton"
-														   a:text="5"
-														   calc:textUp="cosh"
-														   calc:textDown="acosh"
-														   style="@style/digit_button_style"
-														   a:onClick="digitButtonClickHandler"/>
+																   a:text="5"
+																   calc:textUp="cosh"
+																   calc:textDown="acosh"
+																   style="@style/digit_button_style"
+																   a:onClick="digitButtonClickHandler"/>
 
 			<org.solovyev.android.view.widgets.DirectionDragButton a:id="@+id/sixDigitButton" a:text="6"
-														   calc:textUp="tanh"
-														   calc:textDown="atanh"
-														   style="@style/digit_button_style"
-														   a:onClick="digitButtonClickHandler"/>
+																   calc:textUp="tanh"
+																   calc:textDown="atanh"
+																   style="@style/digit_button_style"
+																   a:onClick="digitButtonClickHandler"/>
 
 			<org.solovyev.android.view.widgets.DirectionDragButton a:id="@+id/divisionButton" a:text="/"
-														   calc:textUp="√"
-														   style="@style/digit_button_style"
-														   a:onClick="digitButtonClickHandler"/>
+																   calc:textUp="√"
+																   style="@style/digit_button_style"
+																   a:onClick="digitButtonClickHandler"/>
 
 			<org.solovyev.android.view.widgets.DirectionDragButton a:id="@+id/eraseButton"
-														   a:text="↚"
-														   style="@style/control_button_style"
-														   a:onClick="eraseButtonClickHandler"/>
+																   a:text="↚"
+																   style="@style/control_button_style"
+																   a:onClick="eraseButtonClickHandler"/>
 
 		</LinearLayout>
 
 		<LinearLayout a:layout_weight="1" a:layout_width="match_parent" a:layout_height="0dp">
 
 			<org.solovyev.android.view.widgets.DirectionDragButton a:id="@+id/sevenDigitButton" a:text="7"
-														   calc:textUp="i"
-														   calc:textDown=""
-														   style="@style/digit_button_style"
-														   a:onClick="digitButtonClickHandler"/>
+																   calc:textUp="i"
+																   calc:textDown=""
+																   style="@style/digit_button_style"
+																   a:onClick="digitButtonClickHandler"/>
 
 			<org.solovyev.android.view.widgets.DirectionDragButton a:id="@+id/eightDigitButton" a:text="8"
-														   calc:textUp="ln"
-														   calc:textDown=""
-														   style="@style/digit_button_style"
-														   a:onClick="digitButtonClickHandler"/>
+																   calc:textUp="ln"
+																   calc:textDown=""
+																   style="@style/digit_button_style"
+																   a:onClick="digitButtonClickHandler"/>
 
 			<org.solovyev.android.view.widgets.DirectionDragButton a:id="@+id/nineDigitButton" a:text="9"
-														   calc:textDown="e"
-														   calc:textUp="π"
-														   style="@style/digit_button_style"
-														   a:onClick="digitButtonClickHandler"/>
+																   calc:textDown="e"
+																   calc:textUp="π"
+																   style="@style/digit_button_style"
+																   a:onClick="digitButtonClickHandler"/>
 
 			<org.solovyev.android.view.widgets.DirectionDragButton a:id="@+id/plusButton" a:text="+"
-														   style="@style/digit_button_style"
-														   a:onClick="digitButtonClickHandler"/>
+																   style="@style/digit_button_style"
+																   a:onClick="digitButtonClickHandler"/>
 
 			<org.solovyev.android.view.widgets.DirectionDragButton a:id="@+id/pasteButton"
-														   a:text="@string/c_paste"
-														   style="@style/control_button_style"
-														   a:onClick="pasteButtonClickHandler"/>
+																   a:text="@string/c_paste"
+																   style="@style/control_button_style"
+																   a:onClick="pasteButtonClickHandler"/>
 
 
 		</LinearLayout>
@@ -141,33 +141,33 @@
 		<LinearLayout a:layout_weight="1" a:layout_width="match_parent" a:layout_height="0dp">
 
 			<org.solovyev.android.view.widgets.DirectionDragButton a:id="@+id/roundBracketsButton" a:text="()"
-														   calc:textUp="("
-														   calc:textDown=")" style="@style/digit_button_style"
-														   a:onClick="digitButtonClickHandler"/>
+																   calc:textUp="("
+																   calc:textDown=")" style="@style/digit_button_style"
+																   a:onClick="digitButtonClickHandler"/>
 
 			<org.solovyev.android.view.widgets.DirectionDragButton a:id="@+id/zeroDigitButton" a:text="0"
-														   calc:textUp="."
-														   calc:textDown=","
-														   style="@style/digit_button_style"
-														   a:onClick="digitButtonClickHandler"/>
+																   calc:textUp="."
+																   calc:textDown=","
+																   style="@style/digit_button_style"
+																   a:onClick="digitButtonClickHandler"/>
 
 
 			<org.solovyev.android.view.widgets.DirectionDragButton a:id="@+id/squareBracketsButton" a:text="[]"
-														   calc:textUp="["
-														   calc:textDown="]" style="@style/digit_button_style"
-														   a:onClick="digitButtonClickHandler"/>
+																   calc:textUp="["
+																   calc:textDown="]" style="@style/digit_button_style"
+																   a:onClick="digitButtonClickHandler"/>
 
 			<org.solovyev.android.view.widgets.DirectionDragButton a:id="@+id/subtractionButton" a:text="-"
-														   calc:textUp="{"
-														   calc:textDown="}"
-														   style="@style/digit_button_style"
-														   a:onClick="digitButtonClickHandler"/>
+																   calc:textUp="{"
+																   calc:textDown="}"
+																   style="@style/digit_button_style"
+																   a:onClick="digitButtonClickHandler"/>
 
 			<org.solovyev.android.view.widgets.DirectionDragButton a:id="@+id/historyButton"
-														   a:text=""
-														   calc:textUp="@string/c_undo"
-														   calc:textDown="@string/c_redo"
-														   style="@style/control_button_style"/>
+																   a:text=""
+																   calc:textUp="@string/c_undo"
+																   calc:textDown="@string/c_redo"
+																   style="@style/control_button_style"/>
 
 		</LinearLayout>
 
@@ -184,18 +184,23 @@
 																									   a:onClick="simplifyButtonClickHandler"/>-->
 
 			<org.solovyev.android.view.widgets.DirectionDragButton a:id="@+id/leftButton"
-														   calc:textUp="↞"
-														   a:text="←"
-														   style="@style/control_button_style"
-														   a:onClick="moveLeftButtonClickHandler"/>
+																   calc:textUp="↞"
+																   a:text="←"
+																   style="@style/control_button_style"
+																   a:onClick="moveLeftButtonClickHandler"/>
 
-			<org.solovyev.android.view.widgets.DirectionDragButton a:id="@+id/rightButton"
-														   calc:textUp="↠"
-														   a:text="→"
-														   style="@style/control_button_style"
-														   a:onClick="moveRightButtonClickHandler"/>
+			<org.solovyev.android.view.widgets.DirectionDragButton
+					a:id="@+id/rightButton"
+					calc:textUp="↠"
+					a:text="→"
+					style="@style/control_button_style"
+					a:onClick="moveRightButtonClickHandler"/>
 
-			<org.solovyev.android.view.widgets.DirectionDragButton a:text="" style="@style/control_button_style"/>
+			<org.solovyev.android.view.widgets.DirectionDragButton
+					a:id="@+id/varsButton"
+					a:text="@string/c_vars"
+					a:onClick="varsButtonClickHandler"
+					style="@style/control_button_style"/>
 
 			<org.solovyev.android.view.widgets.DirectionDragButton a:text="" style="@style/control_button_style"/>
 
