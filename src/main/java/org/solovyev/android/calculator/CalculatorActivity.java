@@ -23,12 +23,16 @@ import org.solovyev.android.view.widgets.*;
 import org.solovyev.common.BooleanMapper;
 import org.solovyev.common.NumberMapper;
 import org.solovyev.common.utils.Announcer;
+import org.solovyev.common.utils.StringUtils;
 import org.solovyev.common.utils.history.HistoryAction;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
 public class CalculatorActivity extends Activity implements FontSizeAdjuster, SharedPreferences.OnSharedPreferenceChangeListener {
+
+	public static final String INSERT_TEXT_INTENT = "org.solovyev.android.calculator.CalculatorActivity.insertText";
+	public static final String INSERT_TEXT_INTENT_EXTRA_STRING = "org.solovyev.android.calculator.CalculatorActivity.insertText.extraString";
 
 	private static final int HVGA_WIDTH_PIXELS = 320;
 
@@ -42,7 +46,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	private CalculatorModel calculatorModel;
 
 	@NotNull
-	private BroadcastReceiver preferencesChangesReceiver;
+	private BroadcastReceiver insertTextReceiver;
 
 	/**
 	 * Called when the activity is first created.
@@ -61,7 +65,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 		this.calculatorView = new CalculatorView(this, this.calculatorModel);
 
-		final DragButtonCalibrationActivity.Preferences dragPreferences = DragButtonCalibrationActivity.getPreferences(this);
+		final SimpleOnDragListener.Preferences dragPreferences = SimpleOnDragListener.getPreferences(this);
 
 		final SimpleOnDragListener onDragListener = new SimpleOnDragListener(new DigitButtonDragProcessor(calculatorView), dragPreferences);
 		dpclRegister.addListener(onDragListener);
@@ -94,17 +98,24 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		dpclRegister.addListener(toPositionOnDragListener);
 
 
-		preferencesChangesReceiver = new BroadcastReceiver() {
+		insertTextReceiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
-
-				if (DragButtonCalibrationActivity.INTENT_ACTION.equals(intent.getAction())) {
-					dpclRegister.announce().onDragPreferencesChange(DragButtonCalibrationActivity.getPreferences(CalculatorActivity.this));
+				if (INSERT_TEXT_INTENT.equals(intent.getAction())) {
+					final String s = intent.getStringExtra(INSERT_TEXT_INTENT_EXTRA_STRING);
+					if (!StringUtils.isEmpty(s)) {
+						calculatorView.doTextOperation(new CalculatorView.TextOperation() {
+							@Override
+							public void doOperation(@NotNull EditText editor) {
+								editor.getText().insert(editor.getSelectionStart(), s);
+							}
+						});
+					}
 				}
 			}
 		};
 
-		registerReceiver(preferencesChangesReceiver, new IntentFilter(DragButtonCalibrationActivity.INTENT_ACTION));
+		registerReceiver(insertTextReceiver, new IntentFilter(INSERT_TEXT_INTENT));
 
 		final SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		defaultSharedPreferences.registerOnSharedPreferenceChangeListener(this);
@@ -114,7 +125,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 	@Override
 	protected void onDestroy() {
-		unregisterReceiver(preferencesChangesReceiver);
+		unregisterReceiver(insertTextReceiver);
 		super.onDestroy();
 	}
 
@@ -179,6 +190,11 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		calculatorView.processDigitButtonAction(((DirectionDragButton) v).getTextMiddle());
 	}
 
+	@SuppressWarnings({"UnusedDeclaration"})
+	public void varsButtonClickHandler(@NotNull View v) {
+		startActivity(new Intent(this, CalculatorVarsActivity.class));
+	}
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -239,8 +255,8 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	}
 
 	@Override
-	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-		dpclRegister.announce().onDragPreferencesChange(DragButtonCalibrationActivity.getPreferences(CalculatorActivity.this));
+	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, @Nullable String s) {
+		dpclRegister.announce().onDragPreferencesChange(SimpleOnDragListener.getPreferences(CalculatorActivity.this));
 
 		final NumberMapper<Integer> integerNumberMapper = new NumberMapper<Integer>(Integer.class);
 		this.calculatorModel.setNumberOfFractionDigits(integerNumberMapper.parseValue(sharedPreferences.getString(this.getString(R.string.p_calc_result_precision_key), this.getString(R.string.p_calc_result_precision))));
