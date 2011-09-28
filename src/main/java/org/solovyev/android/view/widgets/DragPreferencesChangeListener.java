@@ -6,7 +6,6 @@
 package org.solovyev.android.view.widgets;
 
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.calculator.DragButtonCalibrationActivity;
 
 import java.util.EventListener;
 
@@ -17,5 +16,5 @@ import java.util.EventListener;
  */
 public interface DragPreferencesChangeListener extends EventListener{
 
-	void onDragPreferencesChange(@NotNull DragButtonCalibrationActivity.Preferences preferences );
+	void onDragPreferencesChange(@NotNull SimpleOnDragListener.Preferences preferences );
 }

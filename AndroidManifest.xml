@@ -13,13 +13,13 @@
             <intent-filter>
                 <action a:name="android.intent.action.MAIN" />
                 <category a:name="android.intent.category.LAUNCHER" />
-				<action a:name="org.solovyev.android.calculator.DragButtonPreferencesChanged"/>
+				<action a:name="org.solovyev.android.calculator.CalculatorActivity.insertText"/>
             </intent-filter>
         </activity>
 
 		<activity a:name=".CalculatorPreferencesActivity" a:label="@string/c_app_settings"/>
-		<activity a:name=".DragButtonCalibrationActivity" a:label="@string/c_prefs_drag_button_calibration"/>
 		<activity a:name=".AboutActivity" a:label="@string/c_about"/>
+		<activity a:name=".CalculatorVarsActivity" a:label="@string/c_vars_and_constants"/>
 
     </application>
 </manifest>
