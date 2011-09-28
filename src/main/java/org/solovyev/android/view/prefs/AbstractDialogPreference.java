@@ -100,9 +100,9 @@ public abstract class AbstractDialogPreference<T> extends DialogPreference {
 
 		final LinearLayout.LayoutParams params = getParams();
 		if (params != null) {
-			result.addView(v);
-		} else {
 			result.addView(v, params);
+		} else {
+			result.addView(v);
 		}
 
 		return result;
