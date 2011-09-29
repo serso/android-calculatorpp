@@ -5,13 +5,17 @@
 
 package org.solovyev.android.calculator.math;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.calculator.Var;
+import org.solovyev.common.utils.CollectionsUtils;
+import org.solovyev.common.utils.Finder;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public enum MathEntityType {
 
@@ -25,7 +29,14 @@ public enum MathEntityType {
 	group_symbols,
 	group_symbol;
 	
-	public static final List<Character> constants = Arrays.asList('e', 'π', 'i');
+	public static final List<Var> constants;
+	static {
+		final List<Var> result = new ArrayList<Var>();
+		result.add(new Var("e", Math.exp(1), true));
+		result.add(new Var("π", Math.PI, true));
+		result.add(new Var("i", "√(-1)", true));
+		constants = Collections.unmodifiableList(result);
+	}
 
 	public static final List<Character> dots = Arrays.asList('.');
 
@@ -72,7 +83,7 @@ public enum MathEntityType {
 	}
 
 	@Nullable
-	public static MathEntityType getType(char ch) {
+	public static MathEntityType getType(final char ch) {
 		MathEntityType result = null;
 
 		if ( Character.isDigit(ch) ) {
@@ -85,11 +96,22 @@ public enum MathEntityType {
 			result = MathEntityType.binary_operation;
 		} else if ( singleGroupSymbols.contains(ch) ) {
 			result = MathEntityType.group_symbol;
-		} else if ( constants.contains(ch) ) {
+		} else if (isConstant(ch)) {
 			result = MathEntityType.constant;
 		} else if ( dots.contains(ch) ) {
 			result = MathEntityType.dot;
 		}
 		return result;
+	}
+
+	private static boolean isConstant(final char ch) {
+		final String name = String.valueOf(ch);
+
+		return CollectionsUtils.get(constants, new Finder<Var>() {
+			@Override
+			public boolean isFound(@Nullable Var var) {
+				return var != null && var.getName().equals(name);
+			}
+		}) != null;
 	}
 }

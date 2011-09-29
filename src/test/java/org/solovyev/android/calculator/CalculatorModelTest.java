@@ -6,6 +6,8 @@
 package org.solovyev.android.calculator;
 
 import org.junit.Assert;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -14,9 +16,15 @@ import org.junit.Test;
  * Time: 9:47 PM
  */
 public class CalculatorModelTest {
+
+	@BeforeClass
+	public static void setUp() throws Exception {
+		CalculatorModel.init(null);
+	}
+
 	@Test
 	public void testEvaluate() throws Exception {
-		final CalculatorModel cm = new CalculatorModel();
+		final CalculatorModel cm = CalculatorModel.getInstance();
 
 		Assert.assertEquals("4.0", cm.evaluate(JsclOperation.numeric, "2+2"));
 		Assert.assertEquals("-0.7568", cm.evaluate(JsclOperation.numeric, "sin(4)"));
@@ -43,7 +51,7 @@ public class CalculatorModelTest {
 
 	@Test
 	public void testComplexNumbers() throws Exception {
-		final CalculatorModel cm = new CalculatorModel();
+		final CalculatorModel cm = CalculatorModel.getInstance();
 
 		Assert.assertEquals("1.22133+23123.0i", cm.createResultForComplexNumber("1.22133232+23123*i"));
 		Assert.assertEquals("1.22133+1.2i", cm.createResultForComplexNumber("1.22133232+1.2*i"));

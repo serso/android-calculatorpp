@@ -5,9 +5,14 @@
 
 package org.solovyev.android.calculator;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import bsh.EvalError;
 import bsh.Interpreter;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.solovyev.common.NumberMapper;
 import org.solovyev.common.exceptions.SersoException;
 import org.solovyev.common.utils.MathUtils;
 import org.solovyev.util.math.Complex;
@@ -21,16 +26,24 @@ import org.solovyev.util.math.Complex;
 public class CalculatorModel {
 
 	@NotNull
-	private Interpreter interpreter;
+	private final Interpreter interpreter;
 
 	private int numberOfFractionDigits = 5;
 
 	@NotNull
-	public Preprocessor preprocessor = new ToJsclPreprocessor();
+	public final Preprocessor preprocessor = new ToJsclPreprocessor();
 
-	public CalculatorModel() throws EvalError {
+	@NotNull
+	private final VarsRegister varsRegister = new VarsRegister();
+
+	private static CalculatorModel instance;
+
+	private CalculatorModel(@Nullable Context context) throws EvalError {
+		if (context != null) {
+			load(context);
+		}
+
 		interpreter = new Interpreter();
-
 		interpreter.eval(ToJsclPreprocessor.wrap(JsclOperation.importCommands, "/jscl/editorengine/commands"));
 	}
 
@@ -99,6 +112,15 @@ public class CalculatorModel {
 		return MathUtils.round(dResult, numberOfFractionDigits);
 	}
 
+	public synchronized  void load(@NotNull Context context) {
+		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+		final NumberMapper<Integer> integerNumberMapper = new NumberMapper<Integer>(Integer.class);
+		this.setNumberOfFractionDigits(integerNumberMapper.parseValue(preferences.getString(context.getString(R.string.p_calc_result_precision_key), context.getString(R.string.p_calc_result_precision))));
+
+		varsRegister.load(context);
+	}
+
 	public static class ParseException extends SersoException {
 		public ParseException(Throwable cause) {
 			super(cause);
@@ -111,5 +133,26 @@ public class CalculatorModel {
 
 	public void setNumberOfFractionDigits(int numberOfFractionDigits) {
 		this.numberOfFractionDigits = numberOfFractionDigits;
+	}
+
+	public static synchronized void init(@Nullable Context context) throws EvalError {
+		if ( instance == null ) {
+			instance = new CalculatorModel(context);
+		} else {
+			throw new RuntimeException("Calculator model already instantiated!");
+		}
+	}
+
+	public static CalculatorModel getInstance() {
+		if ( instance == null )	{
+			throw new RuntimeException("CalculatorModel must be instantiated!");
+		}
+
+		return instance;
+	}
+
+	@NotNull
+	public VarsRegister getVarsRegister() {
+		return varsRegister;
 	}
 }
