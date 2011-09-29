@@ -30,10 +30,8 @@ public class CalculatorVarsActivity extends ListActivity {
 
 		setTheme(android.R.style.Theme_Dialog);
 
-		final List<VariableContainer> vars = new ArrayList<VariableContainer>();
-		vars.add(new VariableContainer("e", 2.71, true));
-		vars.add(new VariableContainer("π", 3.14, true));
-		setListAdapter(new ArrayAdapter<VariableContainer>(this, R.layout.var, R.id.var_text, vars));
+		final List<Var> vars = new ArrayList<Var>(CalculatorModel.getInstance().getVarsRegister().getVars());
+		setListAdapter(new ArrayAdapter<Var>(this, R.layout.var, R.id.var_text, vars));
 
 		final ListView lv = getListView();
 		lv.setTextFilterEnabled(true);
@@ -42,7 +40,7 @@ public class CalculatorVarsActivity extends ListActivity {
 			public void onItemClick(AdapterView<?> parent, View view,
 									int position, long id) {
 				final Intent intent = new Intent(CalculatorActivity.INSERT_TEXT_INTENT);
-				intent.putExtra(CalculatorActivity.INSERT_TEXT_INTENT_EXTRA_STRING, vars.get(position).getId());
+				intent.putExtra(CalculatorActivity.INSERT_TEXT_INTENT_EXTRA_STRING, vars.get(position).getName());
 				sendOrderedBroadcast(intent, null);
 
 				CalculatorVarsActivity.this.finish();
