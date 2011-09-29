@@ -86,4 +86,21 @@ public class Var {
 	public String toString() {
 		return getName() + " = " + value;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		Var var = (Var) o;
+
+		if (!name.equals(var.name)) return false;
+
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		return name.hashCode();
+	}
 }

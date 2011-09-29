@@ -39,9 +39,7 @@ public class CalculatorModel {
 	private static CalculatorModel instance;
 
 	private CalculatorModel(@Nullable Context context) throws EvalError {
-		if (context != null) {
-			load(context);
-		}
+		load(context);
 
 		interpreter = new Interpreter();
 		interpreter.eval(ToJsclPreprocessor.wrap(JsclOperation.importCommands, "/jscl/editorengine/commands"));
@@ -49,11 +47,21 @@ public class CalculatorModel {
 
 	public String evaluate(@NotNull JsclOperation operation, @NotNull String expression) throws EvalError, ParseException {
 
-		final String preprocessedExpression = preprocessor.process(expression);
+		final StringBuilder sb = new StringBuilder();
+
+/*
+		for (Var var : varsRegister.getVars()) {
+			if (!var.isSystem()) {
+				sb.append(var.getName()).append("=").append(var.getValue()).append(";");
+			}
+		}
+*/
+
+		sb.append(preprocessor.process(expression));
 
 		//Log.d(CalculatorModel.class.getName(), "Preprocessed expression: " + preprocessedExpression);
 
-		Object evaluationObject = interpreter.eval(ToJsclPreprocessor.wrap(operation, preprocessedExpression));
+		Object evaluationObject = interpreter.eval(ToJsclPreprocessor.wrap(operation, sb.toString()));
 		String result = String.valueOf(evaluationObject).trim();
 
 		try {
@@ -112,11 +120,13 @@ public class CalculatorModel {
 		return MathUtils.round(dResult, numberOfFractionDigits);
 	}
 
-	public synchronized  void load(@NotNull Context context) {
-		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+	public synchronized  void load(@Nullable Context context) {
+		if (context != null) {
+			final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-		final NumberMapper<Integer> integerNumberMapper = new NumberMapper<Integer>(Integer.class);
-		this.setNumberOfFractionDigits(integerNumberMapper.parseValue(preferences.getString(context.getString(R.string.p_calc_result_precision_key), context.getString(R.string.p_calc_result_precision))));
+			final NumberMapper<Integer> integerNumberMapper = new NumberMapper<Integer>(Integer.class);
+			this.setNumberOfFractionDigits(integerNumberMapper.parseValue(preferences.getString(context.getString(R.string.p_calc_result_precision_key), context.getString(R.string.p_calc_result_precision))));
+		}
 
 		varsRegister.load(context);
 	}
@@ -136,7 +146,7 @@ public class CalculatorModel {
 	}
 
 	public static synchronized void init(@Nullable Context context) throws EvalError {
-		if ( instance == null ) {
+		if (!isLoaded()) {
 			instance = new CalculatorModel(context);
 		} else {
 			throw new RuntimeException("Calculator model already instantiated!");
@@ -144,11 +154,15 @@ public class CalculatorModel {
 	}
 
 	public static CalculatorModel getInstance() {
-		if ( instance == null )	{
+		if (!isLoaded())	{
 			throw new RuntimeException("CalculatorModel must be instantiated!");
 		}
 
 		return instance;
+	}
+
+	public static boolean isLoaded() {
+		return instance != null;
 	}
 
 	@NotNull

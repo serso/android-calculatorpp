@@ -16,11 +16,13 @@
 			a:layout_width="match_parent"
 			a:layout_height="match_parent">
 
-		<TextView xmlns:a="http://schemas.android.com/apk/res/android"
-				  a:id="@+id/var_text"
-				  a:layout_width="fill_parent"
-				  a:layout_height="fill_parent">
+		<TextView a:id="@+id/var_text"
+				  a:layout_width="match_parent"
+				  a:layout_height="match_parent"
+				  a:textSize="20dp"
+				  a:padding="5dp">
 		</TextView>
 
 	</LinearLayout>
+
 </LinearLayout>

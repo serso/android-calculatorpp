@@ -21,7 +21,6 @@ import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.view.FontSizeAdjuster;
 import org.solovyev.android.view.widgets.*;
 import org.solovyev.common.BooleanMapper;
-import org.solovyev.common.NumberMapper;
 import org.solovyev.common.utils.Announcer;
 import org.solovyev.common.utils.StringUtils;
 import org.solovyev.common.utils.history.HistoryAction;
@@ -57,7 +56,9 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		setContentView(R.layout.main);
 
 		try {
-			CalculatorModel.init(this);
+			if (!CalculatorModel.isLoaded()) {
+				CalculatorModel.init(this);
+			}
 			this.calculatorModel = CalculatorModel.getInstance();
 		} catch (EvalError evalError) {
 			// todo serso: create serso runtime exception
