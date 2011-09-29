@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+ * For more information, please, contact se.solovyev@gmail.com
+ * or visit http://se.solovyev.org
+ */
+
 package org.solovyev.android.calculator;
 
 import android.content.Context;
@@ -8,15 +14,11 @@ import org.jetbrains.annotations.Nullable;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 import org.solovyev.android.calculator.math.MathEntityType;
-import org.solovyev.android.view.widgets.SimpleOnDragListener;
 import org.solovyev.common.utils.CollectionsUtils;
 import org.solovyev.common.utils.Finder;
 
 import java.io.StringWriter;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * User: serso
@@ -26,19 +28,19 @@ import java.util.Set;
 public class VarsRegister {
 
 	@NotNull
-	private final Set<Var> vars = new HashSet<Var>();
+	private final List<Var> vars = new ArrayList<Var>();
 
 	@NotNull
-	private final Set<Var> systemVars = new HashSet<Var>();
+	private final List<Var> systemVars = new ArrayList<Var>();
 
 	@NotNull
-	public Set<Var> getVars() {
-		return Collections.unmodifiableSet(vars);
+	public List<Var> getVars() {
+		return Collections.unmodifiableList(vars);
 	}
 
 	@NotNull
-	public Set<Var> getSystemVars() {
-		return Collections.unmodifiableSet(systemVars);
+	public List<Var> getSystemVars() {
+		return Collections.unmodifiableList(systemVars);
 	}
 
 	@Nullable
@@ -64,20 +66,34 @@ public class VarsRegister {
 		vars.addAll(result);
 	}
 
-	public synchronized void load(@NotNull Context context) {
-		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+	public synchronized void load(@Nullable Context context) {
 
 		this.vars.clear();
 		this.systemVars.clear();
 
-		final String value = preferences.getString(context.getString(R.string.p_calc_vars), null);
-		if (value != null) {
-			final Serializer serializer = new Persister();
-			try {
-				final Vars vars = serializer.read(Vars.class, value);
-				this.vars.addAll(vars.getVars());
-			} catch (Exception e) {
-				throw new RuntimeException(e);
+		Var t = new Var("T", 0d, false);
+		t.setDescription("Some text description!");
+		this.vars.add(t);
+
+		Var t2 = new Var("T2", 2d, false);
+		this.vars.add(t2);
+
+		Var t1 = new Var("T1", 1d, false);
+		t1.setDescription("Не так давно в рунете появились упоминания англоязычного проекта DearPhotograph.com. Сайт нас растрогал, зарядил идеей и вдохновением.");
+		this.vars.add(t1);
+
+		if (context != null) {
+			final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+			final String value = preferences.getString(context.getString(R.string.p_calc_vars), null);
+			if (value != null) {
+				final Serializer serializer = new Persister();
+				try {
+					final Vars vars = serializer.read(Vars.class, value);
+					this.vars.addAll(vars.getVars());
+				} catch (Exception e) {
+					throw new RuntimeException(e);
+				}
 			}
 		}
 
@@ -89,6 +105,11 @@ public class VarsRegister {
 				vars.add(systemVar);
 			}
 		}
+
+		/*Log.d(VarsRegister.class.getName(), vars.size() + " variables registered!");
+		for (Var var : vars) {
+			Log.d(VarsRegister.class.getName(), var.toString());
+		}*/
 	}
 
 	public synchronized void save(@NotNull Context context) {

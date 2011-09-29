@@ -7,11 +7,11 @@ package org.solovyev.android.calculator.math;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.calculator.CalculatorModel;
 import org.solovyev.android.calculator.Var;
 import org.solovyev.common.utils.CollectionsUtils;
 import org.solovyev.common.utils.Finder;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -71,7 +71,9 @@ public enum MathEntityType {
 		}
 		
 		if ( result == null ) {
-			if ( prefixFunctions.contains(s) ) {
+			if ( isConstant(s) ) {
+				result = MathEntityType.constant;
+			} else if ( prefixFunctions.contains(s) ) {
 				result = MathEntityType.function;
 			} else if ( groupSymbols.contains(s) ) {
 				result = MathEntityType.group_symbols;
@@ -107,7 +109,11 @@ public enum MathEntityType {
 	private static boolean isConstant(final char ch) {
 		final String name = String.valueOf(ch);
 
-		return CollectionsUtils.get(constants, new Finder<Var>() {
+		return isConstant(name);
+	}
+
+	private static boolean isConstant(final String name) {
+		return CollectionsUtils.get(CalculatorModel.getInstance().getVarsRegister().getVars(), new Finder<Var>() {
 			@Override
 			public boolean isFound(@Nullable Var var) {
 				return var != null && var.getName().equals(name);
