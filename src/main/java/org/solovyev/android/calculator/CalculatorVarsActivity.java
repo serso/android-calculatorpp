@@ -7,12 +7,13 @@
 package org.solovyev.android.calculator;
 
 import android.app.ListActivity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.view.ViewGroup;
+import android.widget.*;
+import org.solovyev.common.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,7 @@ public class CalculatorVarsActivity extends ListActivity {
 		setTheme(android.R.style.Theme_Dialog);
 
 		final List<Var> vars = new ArrayList<Var>(CalculatorModel.getInstance().getVarsRegister().getVars());
-		setListAdapter(new ArrayAdapter<Var>(this, R.layout.var, R.id.var_text, vars));
+		setListAdapter(new VarsArrayAdapter(this, R.layout.var, R.id.var_text, vars));
 
 		final ListView lv = getListView();
 		lv.setTextFilterEnabled(true);
@@ -47,5 +48,31 @@ public class CalculatorVarsActivity extends ListActivity {
 			}
 		});
 
+	}
+
+	private class VarsArrayAdapter extends ArrayAdapter<Var> {
+
+		private VarsArrayAdapter(Context context, int resource, int textViewResourceId, List<Var> objects) {
+			super(context, resource, textViewResourceId, objects);
+		}
+
+		public VarsArrayAdapter(Context context, int resource, List<Var> objects) {
+			super(context, resource, objects);
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			final ViewGroup result = (ViewGroup)super.getView(position, convertView, parent);
+
+			final Var var = getItem(position);
+
+			if (!StringUtils.isEmpty(var.getDescription())) {
+				final TextView description = new TextView(getContext());
+				description.setText(var.getDescription());
+				result.addView(description, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+			}
+
+			return result;
+		}
 	}
 }
