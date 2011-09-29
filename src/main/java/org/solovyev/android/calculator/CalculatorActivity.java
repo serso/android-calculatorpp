@@ -57,7 +57,8 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		setContentView(R.layout.main);
 
 		try {
-			this.calculatorModel = new CalculatorModel();
+			CalculatorModel.init(this);
+			this.calculatorModel = CalculatorModel.getInstance();
 		} catch (EvalError evalError) {
 			// todo serso: create serso runtime exception
 			throw new RuntimeException("Could not initialize interpreter!");
@@ -258,8 +259,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, @Nullable String s) {
 		dpclRegister.announce().onDragPreferencesChange(SimpleOnDragListener.getPreferences(CalculatorActivity.this));
 
-		final NumberMapper<Integer> integerNumberMapper = new NumberMapper<Integer>(Integer.class);
-		this.calculatorModel.setNumberOfFractionDigits(integerNumberMapper.parseValue(sharedPreferences.getString(this.getString(R.string.p_calc_result_precision_key), this.getString(R.string.p_calc_result_precision))));
+		this.calculatorModel.load(this);
 
 		final Boolean colorExpressionsInBracketsDefault = new BooleanMapper().parseValue(this.getString(R.string.p_calc_color_display));
 		assert colorExpressionsInBracketsDefault != null;

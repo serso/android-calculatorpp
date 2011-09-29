@@ -18,4 +18,6 @@
 
 	<string name="p_calc_color_display_key">org.solovyev.android.calculator.CalculatorModel_color_display</string>
 	<string name="p_calc_color_display">true</string>
+
+	<string name="p_calc_vars">org.solovyev.android.calculator.CalculatorModel_vars</string>
 </resources>
