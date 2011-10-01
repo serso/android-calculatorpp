@@ -20,7 +20,11 @@
 				  a:layout_width="match_parent"
 				  a:layout_height="match_parent"
 				  a:textSize="20dp"
-				  a:padding="5dp">
+				  a:paddingBottom="3dp"
+				  a:paddingLeft="6dp"
+				  a:paddingRight="6dp"
+				  a:paddingTop="6dp"
+				  a:textStyle="bold">
 		</TextView>
 
 	</LinearLayout>
