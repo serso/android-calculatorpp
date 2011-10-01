@@ -47,6 +47,8 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	@NotNull
 	private BroadcastReceiver insertTextReceiver;
 
+	private volatile boolean initialized;
+
 	/**
 	 * Called when the activity is first created.
 	 */
@@ -55,17 +57,11 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
-		try {
-			if (!CalculatorModel.isLoaded()) {
-				CalculatorModel.init(this);
-			}
-			this.calculatorModel = CalculatorModel.getInstance();
-		} catch (EvalError evalError) {
-			// todo serso: create serso runtime exception
-			throw new RuntimeException("Could not initialize interpreter!");
-		}
+		firstTimeInit();
 
-		this.calculatorView = new CalculatorView(this, this.calculatorModel);
+		init();
+
+		dpclRegister.clear();
 
 		final SimpleOnDragListener.Preferences dragPreferences = SimpleOnDragListener.getPreferences(this);
 
@@ -99,7 +95,13 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		((DragButton) findViewById(R.id.leftButton)).setOnDragListener(toPositionOnDragListener);
 		dpclRegister.addListener(toPositionOnDragListener);
 
+		final SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+		defaultSharedPreferences.registerOnSharedPreferenceChangeListener(this);
 
+		this.onSharedPreferenceChanged(defaultSharedPreferences, null);
+	}
+
+	private void init() {
 		insertTextReceiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
@@ -118,11 +120,24 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		};
 
 		registerReceiver(insertTextReceiver, new IntentFilter(INSERT_TEXT_INTENT));
+	}
 
-		final SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-		defaultSharedPreferences.registerOnSharedPreferenceChangeListener(this);
+	private synchronized void firstTimeInit() {
+		if (!initialized) {
+			try {
+				if (!CalculatorModel.isLoaded()) {
+					CalculatorModel.init(this);
+				}
+				this.calculatorModel = CalculatorModel.getInstance();
+			} catch (EvalError evalError) {
+				// todo serso: create serso runtime exception
+				throw new RuntimeException("Could not initialize interpreter!");
+			}
 
-		this.onSharedPreferenceChanged(defaultSharedPreferences, null);
+			this.calculatorView = new CalculatorView(this, this.calculatorModel);
+
+			initialized = true;
+		}
 	}
 
 	@Override
