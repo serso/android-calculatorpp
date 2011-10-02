@@ -37,4 +37,14 @@
 	<string name="c_add">Add</string>
 	<string name="c_cancel">Cancel</string>
 	<string name="c_save">Save</string>
+	<string name="c_remove">Remove</string>
+	<string name="c_yes">Yes</string>
+	<string name="c_no">No</string>
+	<string name="c_var_removal_confirmation">Removal confirmation</string>
+	<string name="c_var_removal_confirmation_question">Do you really want to delete \'%s\' variable?</string>
+	<string name="c_var_name">Name</string>
+	<string name="c_var_value">value</string>
+	<string name="c_var_description">Description</string>
+	<string name="c_var_create_var">Create variable</string>
+	<string name="c_var_edit_var">Edit variable</string>
 </resources>
