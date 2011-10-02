@@ -37,7 +37,7 @@
 		<EditText a:id="@+id/var_edit_value"
 				  a:layout_width="match_parent"
 				  a:layout_height="wrap_content"
-				  a:inputType="number"
+				  a:inputType="numberDecimal"
 				  a:textSize="20dp">
 		</EditText>
 

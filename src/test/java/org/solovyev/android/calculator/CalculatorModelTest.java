@@ -5,8 +5,8 @@
 
 package org.solovyev.android.calculator;
 
+import bsh.EvalError;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -47,6 +47,25 @@ public class CalculatorModelTest {
 		Assert.assertEquals("-3.41007+3.41007i", cm.evaluate(JsclOperation.numeric, "(5tan(2i)+2i)/(1-i)"));
 		Assert.assertEquals("-0.1-0.2i", cm.evaluate(JsclOperation.numeric, "(1-i)/(2+6i)"));
 
+		CalculatorModel.getInstance().getVarsRegister().addVar(null, new Var.Builder("si", 5d));
+		Assert.assertEquals("5.0", cm.evaluate(JsclOperation.numeric, "si"));
+		try {
+			cm.evaluate(JsclOperation.numeric, "sin");
+			Assert.fail();
+		} catch (EvalError e) {
+		}
+		Assert.assertEquals("-0.95892", cm.evaluate(JsclOperation.numeric, "sin(5)"));
+		Assert.assertEquals("-4.79462", cm.evaluate(JsclOperation.numeric, "sin(5)si"));
+		Assert.assertEquals("-23.97311", cm.evaluate(JsclOperation.numeric, "sisin(5)si"));
+		Assert.assertEquals("-23.97311", cm.evaluate(JsclOperation.numeric, "si*sin(5)si"));
+		Assert.assertEquals("-3.30879", cm.evaluate(JsclOperation.numeric, "sisin(5si)si"));
+
+		CalculatorModel.getInstance().getVarsRegister().addVar(null, new Var.Builder("s", 1d));
+		Assert.assertEquals("5.0", cm.evaluate(JsclOperation.numeric, "si"));
+
+		CalculatorModel.getInstance().getVarsRegister().addVar(null, new Var.Builder("k", 3.5d));
+		CalculatorModel.getInstance().getVarsRegister().addVar(null, new Var.Builder("k1", 4d));
+		Assert.assertEquals("4.0", cm.evaluate(JsclOperation.numeric, "k11"));
 	}
 
 	@Test
