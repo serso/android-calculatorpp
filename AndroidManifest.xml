@@ -19,7 +19,9 @@
 
 		<activity a:name=".CalculatorPreferencesActivity" a:label="@string/c_app_settings"/>
 		<activity a:name=".AboutActivity" a:label="@string/c_about"/>
-		<activity a:name=".CalculatorVarsActivity" a:label="@string/c_vars_and_constants"/>
+		<activity 	a:name=".CalculatorVarsActivity"
+					a:label="@string/c_vars_and_constants"
+					a:configChanges="orientation|keyboardHidden" />
 
     </application>
 </manifest>

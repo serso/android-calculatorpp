@@ -64,7 +64,7 @@ public class CalculatorVarsActivity extends ListActivity {
 
 	}
 
-	private void createEditVariableDialog(@Nullable Var var, @Nullable String name, @Nullable String value, @Nullable String description) {
+	private void createEditVariableDialog(@Nullable final Var var, @Nullable final String name, @Nullable final String value, @Nullable final String description) {
 		if (var == null || !var.isSystem()) {
 
 			final LayoutInflater layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -86,16 +86,29 @@ public class CalculatorVarsActivity extends ListActivity {
 				varBuilder = new Var.Builder();
 			}
 
-			new AlertDialog.Builder(this)
+			final AlertDialog.Builder builder = new AlertDialog.Builder(this)
 					.setCancelable(true)
-					.setNegativeButton(getString(R.string.c_cancel), new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							// do nothing
-						}
-					})
-					.setPositiveButton(getString(R.string.c_save), new VarEditorSaver(varBuilder, var, editView))
-					.setView(editView).create().show();
+					.setNegativeButton(R.string.c_cancel, null)
+					.setPositiveButton(R.string.c_save, new VarEditorSaver(varBuilder, var, editView))
+					.setView(editView);
+
+			if ( var != null ) {
+				// EDIT mode
+
+				builder.setTitle(R.string.c_var_edit_var);
+				builder.setNeutralButton(R.string.c_remove, new VarEditorRemover(var, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						createEditVariableDialog(var, name, value, description);
+					}
+				}));
+			} else {
+				// CREATE mode
+
+				builder.setTitle(R.string.c_var_create_var);
+			}
+
+			builder.create().show();
 		} else {
 			Toast.makeText(this, "System variable cannot be changed!", Toast.LENGTH_LONG).show();
 		}
@@ -233,5 +246,49 @@ public class CalculatorVarsActivity extends ListActivity {
 		}
 
 		return result;
+	}
+
+	private class VarEditorRemover implements DialogInterface.OnClickListener {
+
+		@NotNull
+		private final Var var;
+
+		@Nullable
+		private final DialogInterface.OnClickListener callbackOnCancel;
+
+		private final boolean confirmed;
+
+		public VarEditorRemover(@NotNull Var var, @Nullable DialogInterface.OnClickListener callbackOnCancel) {
+			this(var, callbackOnCancel, false);
+		}
+
+		public VarEditorRemover(@NotNull Var var, @Nullable DialogInterface.OnClickListener callbackOnCancel, boolean confirmed) {
+			this.var = var;
+			this.callbackOnCancel = callbackOnCancel;
+			this.confirmed = confirmed;
+		}
+
+		@Override
+		public void onClick(DialogInterface dialog, int which) {
+			if (!confirmed) {
+				final TextView question = new TextView(CalculatorVarsActivity.this);
+				question.setText(String.format(getString(R.string.c_var_removal_confirmation_question), var.getName()));
+				question.setPadding(6, 6, 6, 6);
+				final AlertDialog.Builder builder = new AlertDialog.Builder(CalculatorVarsActivity.this)
+						.setCancelable(true)
+						.setView(question)
+						.setTitle(R.string.c_var_removal_confirmation)
+						.setNegativeButton(R.string.c_no, callbackOnCancel)
+						.setPositiveButton(R.string.c_yes, new VarEditorRemover(var, callbackOnCancel, true));
+
+				builder.create().show();
+			} else {
+				adapter.remove(var);
+				final VarsRegister varsRegister = CalculatorModel.getInstance().getVarsRegister();
+				varsRegister.remove(var);
+				varsRegister.save(CalculatorVarsActivity.this);
+				CalculatorVarsActivity.this.adapter.notifyDataSetChanged();
+			}
+		}
 	}
 }

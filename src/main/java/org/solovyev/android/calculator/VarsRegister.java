@@ -56,6 +56,10 @@ public class VarsRegister {
 		return var;
 	}
 
+	public void remove (@NotNull Var var) {
+		this.vars.remove(var);
+	}
+
 	@Nullable
 	public Var getVar(@NotNull final String name) {
 		return CollectionsUtils.get(vars, new Finder<Var>() {
