@@ -234,12 +234,16 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		boolean result;
 
 		switch (item.getItemId()) {
-			case R.id.menu_item_settings:
+			case R.id.main_menu_item_settings:
 				showSettings();
 				result = true;
 				break;
-			case R.id.menu_item_about:
+			case R.id.main_menu_item_about:
 				showAbout();
+				result = true;
+				break;
+			case R.id.main_menu_item_exit:
+				this.finish();
 				result = true;
 				break;
 			default:

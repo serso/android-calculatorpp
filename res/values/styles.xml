@@ -29,7 +29,7 @@
     <style name="display_style">
         <item name="android:textSize">25dp</item>
         <item name="android:background">#000000</item>
-        <item name="android:textColor">#ffffff</item>
+        <item name="android:textColor">@color/text_color</item>
         <item name="android:gravity">left|top</item>
 		<item name="android:padding">5dp</item>
         <item name="android:layout_width">match_parent</item>

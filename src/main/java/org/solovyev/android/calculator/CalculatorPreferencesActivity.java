@@ -5,9 +5,7 @@
 
 package org.solovyev.android.calculator;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.preference.Preference;
 import android.preference.PreferenceActivity;
 
 /**
@@ -21,6 +19,6 @@ public class CalculatorPreferencesActivity extends PreferenceActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		addPreferencesFromResource(R.xml.preferences);
+		addPreferencesFromResource(R.xml.main_preferences);
 	}
 }

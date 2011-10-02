@@ -29,14 +29,7 @@ public enum MathEntityType {
 	group_symbols,
 	group_symbol;
 	
-	public static final List<Var> constants;
-	static {
-		final List<Var> result = new ArrayList<Var>();
-		result.add(new Var("e", Math.exp(1), true));
-		result.add(new Var("π", Math.PI, true));
-		result.add(new Var("i", "√(-1)", true));
-		constants = Collections.unmodifiableList(result);
-	}
+	public static final List<String> constants = Arrays.asList("e", "π", "i");
 
 	public static final List<Character> dots = Arrays.asList('.');
 

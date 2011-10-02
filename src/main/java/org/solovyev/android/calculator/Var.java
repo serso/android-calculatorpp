@@ -28,23 +28,83 @@ public class Var {
 	@NotNull
 	private String value;
 
+	@Element
 	private boolean system;
 
 	@Element(required = false)
 	@Nullable
 	private String description;
 
-	public Var() {
+	public static class Builder {
+
+		@NotNull
+		private String name;
+
+		@NotNull
+		private String value;
+
+		private boolean system = false;
+
+		@Nullable
+		private String description;
+
+		public Builder() {
+		}
+
+		public Builder(@NotNull Var var) {
+			this.name = var.name;
+			this.value = var.value;
+			this.system = var.system;
+			this.description = var.description;
+		}
+
+		public Builder(@NotNull String name, @NotNull Double value) {
+			this(name, String.valueOf(value));
+		}
+
+		public Builder(@NotNull String name, @NotNull String value) {
+			this.name = name;
+			this.value = value;
+		}
+
+		public void setName(@NotNull String name) {
+			this.name = name;
+		}
+
+		public void setValue(@NotNull String value) {
+			this.value = value;
+		}
+
+		protected Builder setSystem(boolean system) {
+			this.system = system;
+			return this;
+		}
+
+		public Builder setDescription(@Nullable String description) {
+			this.description = description;
+			return this;
+		}
+
+		protected Var create () {
+			final Var var = new Var();
+
+			var.name = name;
+			var.value = value;
+			var.system = system;
+			var.description = description;
+
+			return var;
+		}
 	}
 
-	public Var(@NotNull String name, @NotNull Double value, boolean system) {
-		this(name, String.valueOf(value), system);
+	private Var() {
 	}
 
-	public Var(@NotNull String name, @NotNull String value, boolean system) {
-		this.name = name;
-		this.value = value;
-		this.system = system;
+	public void copy(@NotNull Var var) {
+		this.name = var.name;
+		this.value = var.value;
+		this.description = var.description;
+		this.system = var.system;
 	}
 
 	@NotNull
@@ -52,25 +112,13 @@ public class Var {
 		return value;
 	}
 
-	public void setValue(@NotNull String value) {
-		this.value = value;
-	}
-
 	public boolean isSystem() {
 		return system;
-	}
-
-	public void setSystem(boolean system) {
-		this.system = system;
 	}
 
 	@NotNull
 	public String getName() {
 		return name;
-	}
-
-	public void setName(@NotNull String name) {
-		this.name = name;
 	}
 
 	@Nullable
