@@ -19,46 +19,88 @@ public class ToJsclPreprocessor implements Preprocessor {
 	@Override
 	@NotNull
 	public String process(@NotNull String s) {
+
+		final StartsWithFinder startsWithFinder = new StartsWithFinder(s, 0);
 		final StringBuilder sb = new StringBuilder();
 
+		boolean constantBefore = false;
 		for (int i = 0; i < s.length(); i++) {
 			char ch = s.charAt(i);
-			if ( MathEntityType.getType(ch) == MathEntityType.postfix_function ) {
-		   		int start = getPostfixFunctionStart(s, i - 1);
-			}
-		}
+			startsWithFinder.setI(i);
 
-		final StartsWithFinder startsWithFinder = new StartsWithFinder(s);
-		for (int i = 0; i < s.length(); i++) {
-			char ch = s.charAt(i);
-
-			checkMultiplicationSignBeforeFunction(sb, s, i);
+			checkMultiplicationSignBeforeFunction(sb, s, i, constantBefore);
+			constantBefore = false;
 
 			if (MathEntityType.openGroupSymbols.contains(ch)) {
 				sb.append('(');
 			} else if (MathEntityType.closeGroupSymbols.contains(ch)) {
 				sb.append(')');
-			} else if (ch == 'π') {
-				sb.append("pi");
 			} else if (ch == '×' || ch == '∙') {
 				sb.append("*");
 			} else {
-				startsWithFinder.setI(i);
-				final String function = CollectionsUtils.get(MathEntityType.prefixFunctions, startsWithFinder);
-				if (function != null) {
-					sb.append(toJsclFunction(function));
-					i += function.length() - 1;
-				} else if (ch == 'e') {
-					sb.append("exp(1)");
-				} else if (ch == 'i') {
-					sb.append("sqrt(-1)");
+				String entity = CollectionsUtils.get(MathEntityType.prefixFunctions, startsWithFinder);
+				if (entity == null) {
+					entity = CollectionsUtils.get(CalculatorModel.getInstance().getVarsRegister().getVarNames(), startsWithFinder);
+					if (entity == null) {
+						sb.append(ch);
+					} else {
+						sb.append(entity);
+						i += entity.length() - 1;
+						constantBefore = true;
+					}
 				} else {
-					sb.append(ch);
+					sb.append(toJsclFunction(entity));
+					i += entity.length() - 1;
 				}
 			}
 		}
 
-		return sb.toString();
+		return replaceVariables(sb.toString());
+	}
+
+	private String replaceVariables(@NotNull final String s) {
+		final StartsWithFinder startsWithFinder = new StartsWithFinder(s, 0);
+
+		final StringBuilder result = new StringBuilder();
+		for (int i = 0; i < s.length(); i++) {
+			startsWithFinder.setI(i);
+
+			int offset = 0;
+			String functionName = CollectionsUtils.get(MathEntityType.prefixFunctions, startsWithFinder);
+			if (functionName == null) {
+				String varName = CollectionsUtils.get(CalculatorModel.getInstance().getVarsRegister().getVarNames(), startsWithFinder);
+				if (varName != null) {
+					final Var var = CalculatorModel.getInstance().getVarsRegister().getVar(varName);
+					if (var != null) {
+						result.append(var.getValue());
+						offset = varName.length();
+					}
+				}
+			} else {
+				result.append(functionName);
+				offset = functionName.length();
+			}
+
+
+			if (offset == 0) {
+				result.append(s.charAt(i));
+			} else {
+				i += offset - 1;
+			}
+		}
+
+		return result.toString();
+	}
+
+	private void replaceVariables(StringBuilder sb, String s, int i, @NotNull StartsWithFinder startsWithFinder) {
+		for (Var var : CalculatorModel.getInstance().getVarsRegister().getVars()) {
+			if (!var.isSystem()) {
+				if (s.startsWith(var.getName(), i)) {
+					if (CollectionsUtils.get(MathEntityType.prefixFunctions, startsWithFinder) == null) {
+					}
+				}
+			}
+		}
 	}
 
 	public int getPostfixFunctionStart(@NotNull String s, int position) {
@@ -66,17 +108,16 @@ public class ToJsclPreprocessor implements Preprocessor {
 
 		int numberOfOpenGroups = 0;
 		int result = position;
-		for ( ; result >= 0; result-- ) {
-			char ch = s.charAt(result);
+		for (; result >= 0; result--) {
 
-			final MathEntityType mathEntityType = MathEntityType.getType(ch);
+			final MathEntityType mathEntityType = MathEntityType.getType(s, result);
 
-			if ( mathEntityType != null  ) {
-				if ( CollectionsUtils.contains(mathEntityType, MathEntityType.digit, MathEntityType.dot) ) {
+			if (mathEntityType != null) {
+				if (CollectionsUtils.contains(mathEntityType, MathEntityType.digit, MathEntityType.dot)) {
 					// continue
-				} else if (MathEntityType.closeGroupSymbols.contains(ch)) {
+				} else if (MathEntityType.closeGroupSymbols.contains(s.charAt(result))) {
 					numberOfOpenGroups++;
-				} else if (MathEntityType.openGroupSymbols.contains(ch)) {
+				} else if (MathEntityType.openGroupSymbols.contains(s.charAt(result))) {
 					numberOfOpenGroups--;
 				} else {
 					if (stop(s, numberOfOpenGroups, result)) break;
@@ -90,12 +131,12 @@ public class ToJsclPreprocessor implements Preprocessor {
 	}
 
 	private boolean stop(String s, int numberOfOpenGroups, int i) {
-		if ( numberOfOpenGroups == 0 ) {
+		if (numberOfOpenGroups == 0) {
 			if (i > 0) {
 				final EndsWithFinder endsWithFinder = new EndsWithFinder(s);
-				endsWithFinder.setI(i+1);
-				if ( !CollectionsUtils.contains(MathEntityType.prefixFunctions, FilterType.included, endsWithFinder) ) {
-					MathEntityType type = MathEntityType.getType(s.charAt(i));
+				endsWithFinder.setI(i + 1);
+				if (!CollectionsUtils.contains(MathEntityType.prefixFunctions, FilterType.included, endsWithFinder)) {
+					MathEntityType type = MathEntityType.getType(s, i);
 					if (type != null && type != MathEntityType.constant) {
 						return true;
 					}
@@ -123,27 +164,6 @@ public class ToJsclPreprocessor implements Preprocessor {
 		return result;
 	}
 
-	private static class StartsWithFinder implements Finder<String> {
-
-		private int i;
-
-		@NotNull
-		private final String targetString;
-
-		private StartsWithFinder(@NotNull String targetString) {
-			this.targetString = targetString;
-		}
-
-		@Override
-		public boolean isFound(@Nullable String s) {
-			return targetString.startsWith(s, i);
-		}
-
-		public void setI(int i) {
-			this.i = i;
-		}
-	}
-
 	private static class EndsWithFinder implements Finder<String> {
 
 		private int i;
@@ -165,25 +185,25 @@ public class ToJsclPreprocessor implements Preprocessor {
 		}
 	}
 
-	private static void checkMultiplicationSignBeforeFunction(@NotNull StringBuilder sb, @NotNull String s, int i) {
+	private static void checkMultiplicationSignBeforeFunction(@NotNull StringBuilder sb, @NotNull String s, int i, boolean constantBefore) {
 		if (i > 0) {
 			// get character before function
 			char chBefore = s.charAt(i - 1);
 			char ch = s.charAt(i);
 
 			final MathEntityType mathTypeBefore = MathEntityType.getType(String.valueOf(chBefore));
-			final MathEntityType mathType = MathEntityType.getType(String.valueOf(ch));
+			final MathEntityType mathType = MathEntityType.getType(s, i);
 
-			if (mathTypeBefore != MathEntityType.binary_operation &&
+			if (constantBefore || (mathTypeBefore != MathEntityType.binary_operation &&
 					mathTypeBefore != MathEntityType.unary_operation &&
-						mathTypeBefore != MathEntityType.function &&
-							!MathEntityType.openGroupSymbols.contains(chBefore)) {
+					mathTypeBefore != MathEntityType.function &&
+					!MathEntityType.openGroupSymbols.contains(chBefore))) {
 
 				if (mathType == MathEntityType.constant) {
 					sb.append("*");
 				} else if (MathEntityType.openGroupSymbols.contains(ch) && mathTypeBefore != null) {
 					sb.append("*");
-				} else if (mathType == MathEntityType.digit && mathTypeBefore != MathEntityType.digit && mathTypeBefore != MathEntityType.dot) {
+				} else if (mathType == MathEntityType.digit && ((mathTypeBefore != MathEntityType.digit && mathTypeBefore != MathEntityType.dot) || constantBefore) ) {
 					sb.append("*");
 				} else {
 					for (String function : MathEntityType.prefixFunctions) {

@@ -13,6 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
+import org.solovyev.android.calculator.math.MathEntityComparator;
 import org.solovyev.android.calculator.math.MathEntityType;
 import org.solovyev.common.utils.CollectionsUtils;
 import org.solovyev.common.utils.Finder;
@@ -46,18 +47,32 @@ public class VarsRegister {
 	public Var addVar(@Nullable String name, @NotNull Var.Builder builder) {
 		final Var var = builder.create();
 
-		final Var varFromRegister = getVar(name == null ? var.getName() : name);
+		Var varFromRegister = getVar(name == null ? var.getName() : name);
 		if (varFromRegister == null) {
+			varFromRegister = var;
 			vars.add(var);
 		} else {
 			varFromRegister.copy(var);
 		}
 
-		return var;
+		return varFromRegister;
 	}
 
 	public void remove (@NotNull Var var) {
 		this.vars.remove(var);
+	}
+
+	@NotNull
+	public List<String> getVarNames () {
+		final List<String> result = new ArrayList<String>();
+
+		for (Var var : vars) {
+			result.add(var.getName());
+		}
+
+		Collections.sort(result, new MathEntityComparator());
+
+		return result;
 	}
 
 	@Nullable
@@ -121,7 +136,7 @@ public class VarsRegister {
 			} else if (systemVarName.equals("π")) {
 				systemVar = new Var.Builder(systemVarName, Math.PI).setSystem(true).create();
 			} else if (systemVarName.equals("i")) {
-				systemVar = new Var.Builder(systemVarName, "√(-1)").setSystem(true).create();
+				systemVar = new Var.Builder(systemVarName, "sqrt(-1)").setSystem(true).create();
 			} else {
 				throw new IllegalArgumentException(systemVarName + " is not supported yet!");
 			}
@@ -157,7 +172,7 @@ public class VarsRegister {
 			throw new RuntimeException(e);
 		}
 
-		editor.putString(context.getString(R.string.p_calc_vars),sw.toString());
+		editor.putString(context.getString(R.string.p_calc_vars), sw.toString());
 
 		editor.commit();
 	}
