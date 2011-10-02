@@ -16,7 +16,7 @@
 			  a:layout_width="wrap_content"
 			  a:text="Name"/>
 
-	<EditText a:id="@+id/var_name"
+	<EditText a:id="@+id/var_edit_name"
 			  a:layout_width="match_parent"
 			  a:layout_height="match_parent"
 			  a:textSize="20dp">
@@ -26,7 +26,7 @@
 			  a:layout_width="wrap_content"
 			  a:text="Value"/>
 
-	<EditText a:id="@+id/var_value"
+	<EditText a:id="@+id/var_edit_value"
 			  a:layout_width="match_parent"
 			  a:layout_height="match_parent"
 			  a:inputType="number"
@@ -37,7 +37,7 @@
 			  a:layout_width="wrap_content"
 			  a:text="Description"/>
 
-	<EditText a:id="@+id/var_description"
+	<EditText a:id="@+id/var_edit_description"
 			  a:layout_width="match_parent"
 			  a:layout_height="match_parent"
 			  a:textSize="20dp">

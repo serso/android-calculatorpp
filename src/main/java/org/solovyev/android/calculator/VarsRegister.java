@@ -43,6 +43,19 @@ public class VarsRegister {
 		return Collections.unmodifiableList(systemVars);
 	}
 
+	public Var addVar(@Nullable String name, @NotNull Var.Builder builder) {
+		final Var var = builder.create();
+
+		final Var varFromRegister = getVar(name == null ? var.getName() : name);
+		if (varFromRegister == null) {
+			vars.add(var);
+		} else {
+			varFromRegister.copy(var);
+		}
+
+		return var;
+	}
+
 	@Nullable
 	public Var getVar(@NotNull final String name) {
 		return CollectionsUtils.get(vars, new Finder<Var>() {
@@ -51,6 +64,15 @@ public class VarsRegister {
 				return var != null && name.equals(var.getName());
 			}
 		});
+	}
+
+	public boolean contains(@NotNull final String name) {
+		return CollectionsUtils.get(vars, new Finder<Var>() {
+			@Override
+			public boolean isFound(@Nullable Var var) {
+				return var != null && name.equals(var.getName());
+			}
+		}) != null;
 	}
 
 	public void merge(@NotNull final List<Var> varsParam) {
@@ -71,17 +93,6 @@ public class VarsRegister {
 		this.vars.clear();
 		this.systemVars.clear();
 
-		Var t = new Var("T", 0d, false);
-		t.setDescription("Some text description!");
-		this.vars.add(t);
-
-		Var t2 = new Var("T2", 2d, false);
-		this.vars.add(t2);
-
-		Var t1 = new Var("T1", 1d, false);
-		t1.setDescription("Не так давно в рунете появились упоминания англоязычного проекта DearPhotograph.com. Сайт нас растрогал, зарядил идеей и вдохновением.");
-		this.vars.add(t1);
-
 		if (context != null) {
 			final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
@@ -98,7 +109,18 @@ public class VarsRegister {
 		}
 
 
-		for (Var systemVar : MathEntityType.constants) {
+		for (String systemVarName : MathEntityType.constants) {
+
+			final Var systemVar;
+			if ( systemVarName.equals("e") ){
+				systemVar = new Var.Builder(systemVarName, Math.E).setSystem(true).create();
+			} else if (systemVarName.equals("π")) {
+				systemVar = new Var.Builder(systemVarName, Math.PI).setSystem(true).create();
+			} else if (systemVarName.equals("i")) {
+				systemVar = new Var.Builder(systemVarName, "√(-1)").setSystem(true).create();
+			} else {
+				throw new IllegalArgumentException(systemVarName + " is not supported yet!");
+			}
 
 			systemVars.add(systemVar);
 			if (!vars.contains(systemVar)) {

@@ -33,4 +33,8 @@
 
 	<string name="c_calc_color_display_title">Color expressions</string>
 	<string name="p_calc_result_precision_title">Precision of result</string>
+	<string name="c_exit">Exit</string>
+	<string name="c_add">Add</string>
+	<string name="c_cancel">Cancel</string>
+	<string name="c_save">Save</string>
 </resources>

@@ -29,4 +29,13 @@
 
 	</LinearLayout>
 
+	<TextView a:id="@+id/var_description"
+			  a:layout_width="match_parent"
+			  a:layout_height="match_parent"
+			  a:paddingBottom="6dp"
+			  a:paddingLeft="6dp"
+			  a:paddingRight="6dp"
+			  a:paddingTop="0dp">
+	</TextView>
+
 </LinearLayout>

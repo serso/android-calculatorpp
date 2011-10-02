@@ -16,7 +16,7 @@ import java.util.List;
 public class Vars {
 
 	@ElementList
-	private final List<Var> vars = new ArrayList<Var>();
+	private List<Var> vars = new ArrayList<Var>();
 
 	public Vars() {
 	}
