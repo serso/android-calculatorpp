@@ -5,41 +5,48 @@
 
 package org.solovyev.android.calculator.math;
 
-import org.jetbrains.annotations.NonNls;
-
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * User: serso
  * Date: 9/17/11
  * Time: 10:01 PM
  */
-public interface Functions {
+public class Functions {
 
-	String SIN = "sin";
-	String SINH = "sinh";
-	String ASIN = "asin";
-	String ASINH = "asinh";
-	String COS = "cos";
-	String COSH = "cosh";
-	String ACOS = "acos";
-	String ACOSH = "acosh";
-	String TAN = "tan";
-	String TANH = "tanh";
-	String ATAN = "atan";
-	String ATANH = "atanh";
-	String LOG = "log";
-	String LN = "ln";
-	String MOD = "mod";
-	String EXP = "exp";
-	String SQRT_SIGN = "√";
-	String SQRT = "sqrt";
+	public final static String SIN = "sin";
+	public final static String SINH = "sinh";
+	public final static String ASIN = "asin";
+	public final static String ASINH = "asinh";
+	public final static String COS = "cos";
+	public final static String COSH = "cosh";
+	public final static String ACOS = "acos";
+	public final static String ACOSH = "acosh";
+	public final static String TAN = "tan";
+	public final static String TANH = "tanh";
+	public final static String ATAN = "atan";
+	public final static String ATANH = "atanh";
+	public final static String LOG = "log";
+	public final static String LN = "ln";
+	public final static String MOD = "mod";
+	public final static String EXP = "exp";
+	public final static String SQRT_SIGN = "√";
+	public final static String SQRT = "sqrt";
 
-	public static final List<String> allPrefix = Arrays.asList(SIN, SINH, ASIN, ASINH, COS, COSH, ACOS, ACOSH, TAN, TANH, ATAN, ATANH, LOG, LN, MOD, SQRT, SQRT_SIGN, EXP);
+	public static final List<String> allPrefix;
 
-	Character FACT = '!';
-	Character DEGREE = '°';
+	static {
+		final List<String> functions = new ArrayList<String>(Arrays.asList(SIN, SINH, ASIN, ASINH, COS, COSH, ACOS, ACOSH, TAN, TANH, ATAN, ATANH, LOG, LN, MOD, SQRT, SQRT_SIGN, EXP));
+		Collections.sort(functions, new MathEntityComparator());
+		allPrefix = functions;
+	}
+
+	public final static Character FACT = '!';
+	public final static Character DEGREE = '°';
 
 	public static final List<Character> allPostfix = Arrays.asList(FACT, DEGREE);
+
+	private Functions() {
+		throw new AssertionError("Not allowed!");
+	}
 }

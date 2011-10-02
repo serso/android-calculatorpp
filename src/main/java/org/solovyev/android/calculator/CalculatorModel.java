@@ -26,7 +26,10 @@ import org.solovyev.util.math.Complex;
 public class CalculatorModel {
 
 	@NotNull
-	private final Interpreter interpreter;
+	private Interpreter interpreter;
+
+	@NotNull
+	private final Object interpreterMonitor = new Object();
 
 	private int numberOfFractionDigits = 5;
 
@@ -38,30 +41,41 @@ public class CalculatorModel {
 
 	private static CalculatorModel instance;
 
-	private CalculatorModel(@Nullable Context context) throws EvalError {
+	private CalculatorModel(@Nullable Context context) {
 		load(context);
 
-		interpreter = new Interpreter();
-		interpreter.eval(ToJsclPreprocessor.wrap(JsclOperation.importCommands, "/jscl/editorengine/commands"));
+		reset();
+	}
+
+	public void reset() {
+		synchronized (interpreterMonitor) {
+			try {
+				interpreter = new Interpreter();
+				interpreter.eval(ToJsclPreprocessor.wrap(JsclOperation.importCommands, "/jscl/editorengine/commands"));
+
+				/*for (Var var : varsRegister.getVars()) {
+					if (!var.isSystem()) {
+						exec(var.getName() + "=" + var.getValue() + ";");
+					}
+				}*/
+			} catch (EvalError evalError) {
+				throw new RuntimeException(evalError);
+			}
+		}
 	}
 
 	public String evaluate(@NotNull JsclOperation operation, @NotNull String expression) throws EvalError, ParseException {
 
 		final StringBuilder sb = new StringBuilder();
 
-/*
-		for (Var var : varsRegister.getVars()) {
-			if (!var.isSystem()) {
-				sb.append(var.getName()).append("=").append(var.getValue()).append(";");
-			}
-		}
-*/
-
 		sb.append(preprocessor.process(expression));
 
 		//Log.d(CalculatorModel.class.getName(), "Preprocessed expression: " + preprocessedExpression);
 
-		Object evaluationObject = interpreter.eval(ToJsclPreprocessor.wrap(operation, sb.toString()));
+		final Object evaluationObject;
+		synchronized (interpreterMonitor) {
+			evaluationObject = interpreter.eval(ToJsclPreprocessor.wrap(operation, sb.toString()));
+		}
 		String result = String.valueOf(evaluationObject).trim();
 
 		try {
@@ -120,7 +134,7 @@ public class CalculatorModel {
 		return MathUtils.round(dResult, numberOfFractionDigits);
 	}
 
-	public synchronized  void load(@Nullable Context context) {
+	public synchronized void load(@Nullable Context context) {
 		if (context != null) {
 			final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
@@ -154,7 +168,7 @@ public class CalculatorModel {
 	}
 
 	public static CalculatorModel getInstance() {
-		if (!isLoaded())	{
+		if (!isLoaded()) {
 			throw new RuntimeException("CalculatorModel must be instantiated!");
 		}
 
@@ -165,8 +179,34 @@ public class CalculatorModel {
 		return instance != null;
 	}
 
+
+	private void exec(String str) throws EvalError {
+		interpreter.eval(str);
+	}
+
+	private String eval(String str) throws EvalError {
+		return interpreter.eval(commands(str)).toString();
+	}
+
+
 	@NotNull
 	public VarsRegister getVarsRegister() {
 		return varsRegister;
 	}
+
+	String commands(String str) {
+		return commands(str, false);
+	}
+
+	String commands(String str, boolean found) {
+		for (int i = 0; i < cmds.length; i++) {
+			int n = str.length() - cmds[i].length() - 1;
+			if (n >= 0 && (" " + cmds[i].toLowerCase()).equals(str.substring(n)))
+				return commands(str.substring(0, n), true) + "." + cmds[i] + "()";
+		}
+		str = str.replaceAll("\n", "");
+		return found ? "jscl.math.Expression.valueOf(\"" + str + "\")" : str;
+	}
+
+	static final String cmds[] = new String[]{"expand", "factorize", "elementary", "simplify", "numeric", "toMathML", "toJava"};
 }

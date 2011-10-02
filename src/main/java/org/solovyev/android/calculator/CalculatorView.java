@@ -192,7 +192,7 @@ public class CalculatorView implements CursorControl, HistoryControl<CalculatorH
 				@Override
 				public void doOperation(@NotNull EditText editor) {
 
-					final MathEntityType type = MathEntityType.getType(text);
+					final MathEntityType type = MathEntityType.getType(text, 0);
 
 					int cursorPositionOffset = 0;
 					final StringBuilder textToBeInserted = new StringBuilder(text);

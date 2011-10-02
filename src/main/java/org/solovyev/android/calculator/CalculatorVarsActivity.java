@@ -177,10 +177,10 @@ public class CalculatorVarsActivity extends ListActivity {
 					Toast.makeText(CalculatorVarsActivity.this, error, Toast.LENGTH_LONG).show();
 					createEditVariableDialog(editedInstance, name, value, description);
 				} else {
-					if (editedInstance != null && !editedInstance.getName().equals(name)) {
-						varsRegister.addVar(editedInstance.getName(), varBuilder);
-					} else {
+					if ( editedInstance == null ) {
 						CalculatorVarsActivity.this.adapter.add(varsRegister.addVar(null, varBuilder));
+					} else {
+						varsRegister.addVar(editedInstance.getName(), varBuilder);
 					}
 
 					varsRegister.save(CalculatorVarsActivity.this);
