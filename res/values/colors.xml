@@ -1,4 +1,5 @@
 <resources>
     <color name="magic_flame">#00ffffff</color>
-    <color name="button_text">#ffffffff</color>
+    <color name="button_text_color">#ffffffff</color>
+    <color name="text_color">#ffffffff</color>
 </resources>

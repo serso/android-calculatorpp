@@ -30,6 +30,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.Button;
 import org.jetbrains.annotations.NotNull;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.view.FontSizeAdjuster;
 import org.solovyev.common.utils.Point2d;
 
@@ -68,7 +69,7 @@ public class ColorButton extends Button {
 		mFeedbackPaint = new Paint();
 		mFeedbackPaint.setStyle(Style.STROKE);
 		mFeedbackPaint.setStrokeWidth(2);
-		getPaint().setColor(res.getColor(org.solovyev.android.calculator.R.color.button_text));
+		getPaint().setColor(res.getColor(R.color.button_text_color));
 
 		mAnimStart = -1;
 
