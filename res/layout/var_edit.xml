@@ -26,6 +26,7 @@
 		<EditText a:id="@+id/var_edit_name"
 				  a:layout_width="match_parent"
 				  a:layout_height="wrap_content"
+				  a:digits="abcdefghijklmnopqrstuvwxyz1234567890"
 				  a:textSize="20dp">
 		</EditText>
 
