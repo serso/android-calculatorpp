@@ -41,7 +41,7 @@ public class CalculatorModel {
 
 	private static CalculatorModel instance;
 
-	private CalculatorModel(@Nullable Context context) {
+	public CalculatorModel(@Nullable Context context) {
 		load(context);
 
 		reset();

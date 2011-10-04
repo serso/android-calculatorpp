@@ -16,6 +16,7 @@ import android.view.*;
 import android.widget.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.calculator.math.MathEntityType;
 import org.solovyev.common.utils.StringUtils;
 
 import java.util.ArrayList;
@@ -150,21 +151,26 @@ public class CalculatorVarsActivity extends ListActivity {
 				if (!StringUtils.isEmpty(name)) {
 					final Var varFromRegister = varsRegister.getVar(name);
 					if (varFromRegister == null || varFromRegister == editedInstance) {
+						final MathEntityType.Result mathType = MathEntityType.getType(name, 0);
 
-						boolean correctDouble = true;
-						try {
-							Double.valueOf(value);
-						} catch (NumberFormatException e) {
-							correctDouble = false;
-						}
+						if (mathType.getMathEntityType() == MathEntityType.text || mathType.getMathEntityType() == MathEntityType.constant) {
+							boolean correctDouble = true;
+							try {
+								Double.valueOf(value);
+							} catch (NumberFormatException e) {
+								correctDouble = false;
+							}
 
-						if (correctDouble) {
-							varBuilder.setName(name);
-							varBuilder.setValue(value);
-							varBuilder.setDescription(description);
-							error = null;
+							if (correctDouble) {
+								varBuilder.setName(name);
+								varBuilder.setValue(value);
+								varBuilder.setDescription(description);
+								error = null;
+							} else {
+								error = "Value is not a number!";
+							}
 						} else {
-							error = "Value is not a number!";
+							error = "Variable name clashes with function name!";
 						}
 					} else {
 						error = "Variable with same name already exist!";
