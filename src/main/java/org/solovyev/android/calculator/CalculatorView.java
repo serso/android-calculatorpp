@@ -39,7 +39,7 @@ public class CalculatorView implements CursorControl, HistoryControl<CalculatorH
 	public static final int EVAL_DELAY_MILLIS = 500;
 
 	@NotNull
-	private final CalculatorEditText editor;
+	private final CalculatorEditor editor;
 
 	@NotNull
 	private final CalculatorDisplay display;
@@ -59,7 +59,7 @@ public class CalculatorView implements CursorControl, HistoryControl<CalculatorH
 
 		final InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
 
-		this.editor = (CalculatorEditText) activity.findViewById(R.id.editText);
+		this.editor = (CalculatorEditor) activity.findViewById(R.id.editText);
 		this.editor.setInputType(InputType.TYPE_NULL);
 		imm.hideSoftInputFromWindow(this.editor.getWindowToken(), 0);
 
@@ -192,24 +192,18 @@ public class CalculatorView implements CursorControl, HistoryControl<CalculatorH
 				@Override
 				public void doOperation(@NotNull EditText editor) {
 
-					final MathEntityType type = MathEntityType.getType(text, 0);
+					final MathEntityType.Result mathType = MathEntityType.getType(text, 0);
 
 					int cursorPositionOffset = 0;
 					final StringBuilder textToBeInserted = new StringBuilder(text);
-					if (type != null) {
-						switch (type) {
-							case function:
-								textToBeInserted.append("()");
-								cursorPositionOffset = -1;
-								break;
-							case group_symbols:
-								cursorPositionOffset = -1;
-								break;
-
-							default:
-								break;
-						}
-
+					switch (mathType.getMathEntityType()) {
+						case function:
+							textToBeInserted.append("()");
+							cursorPositionOffset = -1;
+							break;
+						case group_symbols:
+							cursorPositionOffset = -1;
+							break;
 					}
 
 					editor.getText().insert(editor.getSelectionStart(), textToBeInserted.toString());
@@ -287,7 +281,7 @@ public class CalculatorView implements CursorControl, HistoryControl<CalculatorH
 	}
 
 	@NotNull
-	public CalculatorEditText getEditor() {
+	public CalculatorEditor getEditor() {
 		return editor;
 	}
 }

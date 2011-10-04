@@ -23,35 +23,28 @@ public class ToJsclPreprocessor implements Preprocessor {
 		final StartsWithFinder startsWithFinder = new StartsWithFinder(s, 0);
 		final StringBuilder sb = new StringBuilder();
 
-		boolean constantBefore = false;
+		MathEntityType.Result mathTypeResult = null;
 		for (int i = 0; i < s.length(); i++) {
 			char ch = s.charAt(i);
 			startsWithFinder.setI(i);
 
-			checkMultiplicationSignBeforeFunction(sb, s, i, constantBefore);
-			constantBefore = false;
+			mathTypeResult = checkMultiplicationSignBeforeFunction(sb, s, i, mathTypeResult);
 
-			if (MathEntityType.openGroupSymbols.contains(ch)) {
+			final MathEntityType mathType = mathTypeResult.getMathEntityType();
+			if (mathType == MathEntityType.open_group_symbol) {
 				sb.append('(');
-			} else if (MathEntityType.closeGroupSymbols.contains(ch)) {
+			} else if (mathType == MathEntityType.close_group_symbol) {
 				sb.append(')');
 			} else if (ch == '×' || ch == '∙') {
 				sb.append("*");
+			} else if ( mathType == MathEntityType.function  ){
+				sb.append(toJsclFunction(mathTypeResult.getS()));
+				i += mathTypeResult.getS().length() - 1;
+			} else if ( mathType == MathEntityType.constant ) {
+				sb.append(mathTypeResult.getS());
+				i += mathTypeResult.getS().length() - 1;
 			} else {
-				String entity = CollectionsUtils.get(MathEntityType.prefixFunctions, startsWithFinder);
-				if (entity == null) {
-					entity = CollectionsUtils.get(CalculatorModel.getInstance().getVarsRegister().getVarNames(), startsWithFinder);
-					if (entity == null) {
-						sb.append(ch);
-					} else {
-						sb.append(entity);
-						i += entity.length() - 1;
-						constantBefore = true;
-					}
-				} else {
-					sb.append(toJsclFunction(entity));
-					i += entity.length() - 1;
-				}
+				sb.append(ch);
 			}
 		}
 
@@ -110,18 +103,14 @@ public class ToJsclPreprocessor implements Preprocessor {
 		int result = position;
 		for (; result >= 0; result--) {
 
-			final MathEntityType mathEntityType = MathEntityType.getType(s, result);
+			final MathEntityType mathEntityType = MathEntityType.getMathEntityType(s, result);
 
-			if (mathEntityType != null) {
-				if (CollectionsUtils.contains(mathEntityType, MathEntityType.digit, MathEntityType.dot)) {
-					// continue
-				} else if (MathEntityType.closeGroupSymbols.contains(s.charAt(result))) {
-					numberOfOpenGroups++;
-				} else if (MathEntityType.openGroupSymbols.contains(s.charAt(result))) {
-					numberOfOpenGroups--;
-				} else {
-					if (stop(s, numberOfOpenGroups, result)) break;
-				}
+			if (CollectionsUtils.contains(mathEntityType, MathEntityType.digit, MathEntityType.dot)) {
+				// continue
+			} else if (mathEntityType == MathEntityType.close_group_symbol) {
+				numberOfOpenGroups++;
+			} else if (mathEntityType == MathEntityType.open_group_symbol) {
+				numberOfOpenGroups--;
 			} else {
 				if (stop(s, numberOfOpenGroups, result)) break;
 			}
@@ -136,8 +125,8 @@ public class ToJsclPreprocessor implements Preprocessor {
 				final EndsWithFinder endsWithFinder = new EndsWithFinder(s);
 				endsWithFinder.setI(i + 1);
 				if (!CollectionsUtils.contains(MathEntityType.prefixFunctions, FilterType.included, endsWithFinder)) {
-					MathEntityType type = MathEntityType.getType(s, i);
-					if (type != null && type != MathEntityType.constant) {
+					MathEntityType type = MathEntityType.getMathEntityType(s, i);
+					if (type != MathEntityType.constant) {
 						return true;
 					}
 				}
@@ -185,25 +174,29 @@ public class ToJsclPreprocessor implements Preprocessor {
 		}
 	}
 
-	private static void checkMultiplicationSignBeforeFunction(@NotNull StringBuilder sb, @NotNull String s, int i, boolean constantBefore) {
+	@NotNull
+	private static MathEntityType.Result checkMultiplicationSignBeforeFunction(@NotNull StringBuilder sb,
+																		@NotNull String s,
+																		int i,
+																		@Nullable MathEntityType.Result mathTypeBeforeResult) {
+		MathEntityType.Result result = MathEntityType.getType(s, i);
+
 		if (i > 0) {
-			// get character before function
-			char chBefore = s.charAt(i - 1);
-			char ch = s.charAt(i);
 
-			final MathEntityType mathTypeBefore = MathEntityType.getType(String.valueOf(chBefore));
-			final MathEntityType mathType = MathEntityType.getType(s, i);
+			final MathEntityType mathType = result.getMathEntityType();
+			assert mathTypeBeforeResult != null;
+			final MathEntityType mathTypeBefore = mathTypeBeforeResult.getMathEntityType();
 
-			if (constantBefore || (mathTypeBefore != MathEntityType.binary_operation &&
+			if (mathTypeBefore == MathEntityType.constant || (mathTypeBefore != MathEntityType.binary_operation &&
 					mathTypeBefore != MathEntityType.unary_operation &&
 					mathTypeBefore != MathEntityType.function &&
-					!MathEntityType.openGroupSymbols.contains(chBefore))) {
+					mathTypeBefore != MathEntityType.open_group_symbol)) {
 
 				if (mathType == MathEntityType.constant) {
 					sb.append("*");
-				} else if (MathEntityType.openGroupSymbols.contains(ch) && mathTypeBefore != null) {
+				} else if (mathType == MathEntityType.open_group_symbol && mathTypeBefore != null) {
 					sb.append("*");
-				} else if (mathType == MathEntityType.digit && ((mathTypeBefore != MathEntityType.digit && mathTypeBefore != MathEntityType.dot) || constantBefore) ) {
+				} else if (mathType == MathEntityType.digit && ((mathTypeBefore != MathEntityType.digit && mathTypeBefore != MathEntityType.dot) || mathTypeBefore == MathEntityType.constant)) {
 					sb.append("*");
 				} else {
 					for (String function : MathEntityType.prefixFunctions) {
@@ -215,6 +208,8 @@ public class ToJsclPreprocessor implements Preprocessor {
 				}
 			}
 		}
+
+		return result;
 	}
 
 	public static String wrap(@NotNull JsclOperation operation, @NotNull String s) {

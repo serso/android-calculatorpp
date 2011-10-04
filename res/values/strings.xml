@@ -31,7 +31,7 @@
 	<string name="c_paste">paste</string>
 	<string name="c_vars">vars</string>
 
-	<string name="c_calc_color_display_title">Color expressions</string>
+	<string name="c_calc_color_display_title">Highlight expressions</string>
 	<string name="p_calc_result_precision_title">Precision of result</string>
 	<string name="c_exit">Exit</string>
 	<string name="c_add">Add</string>
@@ -43,7 +43,7 @@
 	<string name="c_var_removal_confirmation">Removal confirmation</string>
 	<string name="c_var_removal_confirmation_question">Do you really want to delete \'%s\' variable?</string>
 	<string name="c_var_name">Name</string>
-	<string name="c_var_value">value</string>
+	<string name="c_var_value">Value</string>
 	<string name="c_var_description">Description</string>
 	<string name="c_var_create_var">Create variable</string>
 	<string name="c_var_edit_var">Edit variable</string>

@@ -283,7 +283,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 		final Boolean colorExpressionsInBracketsDefault = new BooleanMapper().parseValue(this.getString(R.string.p_calc_color_display));
 		assert colorExpressionsInBracketsDefault != null;
-		this.calculatorView.getEditor().setHighlightExpressionInBrackets(sharedPreferences.getBoolean(this.getString(R.string.p_calc_color_display_key), colorExpressionsInBracketsDefault));
+		this.calculatorView.getEditor().setHighlightText(sharedPreferences.getBoolean(this.getString(R.string.p_calc_color_display_key), colorExpressionsInBracketsDefault));
 
 		this.calculatorView.evaluate();
 	}
