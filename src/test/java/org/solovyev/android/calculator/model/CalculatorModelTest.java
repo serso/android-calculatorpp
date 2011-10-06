@@ -3,12 +3,13 @@
  * For more information, please, contact se.solovyev@gmail.com
  */
 
-package org.solovyev.android.calculator;
+package org.solovyev.android.calculator.model;
 
 import bsh.EvalError;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.solovyev.android.calculator.JsclOperation;
 
 /**
  * User: serso
@@ -19,12 +20,12 @@ public class CalculatorModelTest {
 
 	@BeforeClass
 	public static void setUp() throws Exception {
-		CalculatorModel.init(null);
+		CalculatorModel.instance.init(null);
 	}
 
 	@Test
 	public void testEvaluate() throws Exception {
-		final CalculatorModel cm = CalculatorModel.getInstance();
+		final CalculatorModel cm = CalculatorModel.instance;
 
 		Assert.assertEquals("4.0", cm.evaluate(JsclOperation.numeric, "2+2"));
 		Assert.assertEquals("-0.7568", cm.evaluate(JsclOperation.numeric, "sin(4)"));
@@ -47,7 +48,7 @@ public class CalculatorModelTest {
 		Assert.assertEquals("-3.41007+3.41007i", cm.evaluate(JsclOperation.numeric, "(5tan(2i)+2i)/(1-i)"));
 		Assert.assertEquals("-0.1-0.2i", cm.evaluate(JsclOperation.numeric, "(1-i)/(2+6i)"));
 
-		CalculatorModel.getInstance().getVarsRegister().addVar(null, new Var.Builder("si", 5d));
+		CalculatorModel.instance.getVarsRegister().addVar(null, new Var.Builder("si", 5d));
 		Assert.assertEquals("5.0", cm.evaluate(JsclOperation.numeric, "si"));
 		try {
 			cm.evaluate(JsclOperation.numeric, "sin");
@@ -60,17 +61,17 @@ public class CalculatorModelTest {
 		Assert.assertEquals("-23.97311", cm.evaluate(JsclOperation.numeric, "si*sin(5)si"));
 		Assert.assertEquals("-3.30879", cm.evaluate(JsclOperation.numeric, "sisin(5si)si"));
 
-		CalculatorModel.getInstance().getVarsRegister().addVar(null, new Var.Builder("s", 1d));
+		CalculatorModel.instance.getVarsRegister().addVar(null, new Var.Builder("s", 1d));
 		Assert.assertEquals("5.0", cm.evaluate(JsclOperation.numeric, "si"));
 
-		CalculatorModel.getInstance().getVarsRegister().addVar(null, new Var.Builder("k", 3.5d));
-		CalculatorModel.getInstance().getVarsRegister().addVar(null, new Var.Builder("k1", 4d));
+		CalculatorModel.instance.getVarsRegister().addVar(null, new Var.Builder("k", 3.5d));
+		CalculatorModel.instance.getVarsRegister().addVar(null, new Var.Builder("k1", 4d));
 		Assert.assertEquals("4.0", cm.evaluate(JsclOperation.numeric, "k11"));
 	}
 
 	@Test
 	public void testComplexNumbers() throws Exception {
-		final CalculatorModel cm = CalculatorModel.getInstance();
+		final FromJsclTextProcessor cm = new FromJsclTextProcessor();
 
 		Assert.assertEquals("1.22133+23123.0i", cm.createResultForComplexNumber("1.22133232+23123*i"));
 		Assert.assertEquals("1.22133+1.2i", cm.createResultForComplexNumber("1.22133232+1.2*i"));

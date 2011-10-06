@@ -16,7 +16,10 @@ import android.view.*;
 import android.widget.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.math.MathEntityType;
+import org.solovyev.android.calculator.math.MathType;
+import org.solovyev.android.calculator.model.CalculatorModel;
+import org.solovyev.android.calculator.model.Var;
+import org.solovyev.android.calculator.model.VarsRegister;
 import org.solovyev.common.utils.StringUtils;
 
 import java.util.ArrayList;
@@ -36,7 +39,7 @@ public class CalculatorVarsActivity extends ListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		adapter = new VarsArrayAdapter(this, R.layout.var, R.id.var_text, new ArrayList<Var>(CalculatorModel.getInstance().getVarsRegister().getVars()));
+		adapter = new VarsArrayAdapter(this, R.layout.var, R.id.var_text, new ArrayList<Var>(CalculatorModel.instance.getVarsRegister().getVars()));
 		setListAdapter(adapter);
 
 		final ListView lv = getListView();
@@ -111,7 +114,7 @@ public class CalculatorVarsActivity extends ListActivity {
 
 			builder.create().show();
 		} else {
-			Toast.makeText(this, "System variable cannot be changed!", Toast.LENGTH_LONG).show();
+			Toast.makeText(this, getString(R.string.c_sys_var_cannot_be_changed), Toast.LENGTH_LONG).show();
 		}
 	}
 
@@ -135,7 +138,7 @@ public class CalculatorVarsActivity extends ListActivity {
 		@Override
 		public void onClick(DialogInterface dialog, int which) {
 			if (which == DialogInterface.BUTTON_POSITIVE) {
-				final String error;
+				final Integer error;
 
 				final EditText editName = (EditText) editView.findViewById(R.id.var_edit_name);
 				String name = editName.getText().toString();
@@ -147,13 +150,13 @@ public class CalculatorVarsActivity extends ListActivity {
 				String description = editDescription.getText().toString();
 
 
-				final VarsRegister varsRegister = CalculatorModel.getInstance().getVarsRegister();
+				final VarsRegister varsRegister = CalculatorModel.instance.getVarsRegister();
 				if (!StringUtils.isEmpty(name)) {
 					final Var varFromRegister = varsRegister.getVar(name);
 					if (varFromRegister == null || varFromRegister == editedInstance) {
-						final MathEntityType.Result mathType = MathEntityType.getType(name, 0);
+						final MathType.Result mathType = MathType.getType(name, 0);
 
-						if (mathType.getMathEntityType() == MathEntityType.text || mathType.getMathEntityType() == MathEntityType.constant) {
+						if (mathType.getMathType() == MathType.text || mathType.getMathType() == MathType.constant) {
 							boolean correctDouble = true;
 							try {
 								Double.valueOf(value);
@@ -167,20 +170,20 @@ public class CalculatorVarsActivity extends ListActivity {
 								varBuilder.setDescription(description);
 								error = null;
 							} else {
-								error = "Value is not a number!";
+								error = R.string.c_value_is_not_a_number;
 							}
 						} else {
-							error = "Variable name clashes with function name!";
+							error = R.string.c_var_name_clashes;
 						}
 					} else {
-						error = "Variable with same name already exist!";
+						error = R.string.c_var_already_exists;
 					}
 				} else {
-					error = "Name is empty!";
+					error = R.string.c_name_is_empty;
 				}
 
 				if (error != null) {
-					Toast.makeText(CalculatorVarsActivity.this, error, Toast.LENGTH_LONG).show();
+					Toast.makeText(CalculatorVarsActivity.this, getString(error), Toast.LENGTH_LONG).show();
 					createEditVariableDialog(editedInstance, name, value, description);
 				} else {
 					if ( editedInstance == null ) {
@@ -290,7 +293,7 @@ public class CalculatorVarsActivity extends ListActivity {
 				builder.create().show();
 			} else {
 				adapter.remove(var);
-				final VarsRegister varsRegister = CalculatorModel.getInstance().getVarsRegister();
+				final VarsRegister varsRegister = CalculatorModel.instance.getVarsRegister();
 				varsRegister.remove(var);
 				varsRegister.save(CalculatorVarsActivity.this);
 				CalculatorVarsActivity.this.adapter.notifyDataSetChanged();

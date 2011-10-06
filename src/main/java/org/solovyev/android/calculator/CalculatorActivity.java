@@ -18,6 +18,7 @@ import android.widget.TextView;
 import bsh.EvalError;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.calculator.model.CalculatorModel;
 import org.solovyev.android.view.FontSizeAdjuster;
 import org.solovyev.android.view.widgets.*;
 import org.solovyev.common.BooleanMapper;
@@ -40,9 +41,6 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 	@NotNull
 	private CalculatorView calculatorView;
-
-	@NotNull
-	private CalculatorModel calculatorModel;
 
 	@NotNull
 	private BroadcastReceiver insertTextReceiver;
@@ -125,16 +123,13 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	private synchronized void firstTimeInit() {
 		if (!initialized) {
 			try {
-				if (!CalculatorModel.isLoaded()) {
-					CalculatorModel.init(this);
-				}
-				this.calculatorModel = CalculatorModel.getInstance();
+				CalculatorModel.instance.init(this);
 			} catch (EvalError evalError) {
 				// todo serso: create serso runtime exception
 				throw new RuntimeException("Could not initialize interpreter!");
 			}
 
-			this.calculatorView = new CalculatorView(this, this.calculatorModel);
+			this.calculatorView = new CalculatorView(this, CalculatorModel.instance);
 
 			initialized = true;
 		}
@@ -279,7 +274,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, @Nullable String s) {
 		dpclRegister.announce().onDragPreferencesChange(SimpleOnDragListener.getPreferences(CalculatorActivity.this));
 
-		this.calculatorModel.load(this);
+		CalculatorModel.instance.reset(this);
 
 		final Boolean colorExpressionsInBracketsDefault = new BooleanMapper().parseValue(this.getString(R.string.p_calc_color_display));
 		assert colorExpressionsInBracketsDefault != null;

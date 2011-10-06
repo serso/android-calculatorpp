@@ -2,7 +2,7 @@
 
 <PreferenceScreen xmlns:a="http://schemas.android.com/apk/res/android"
 				  xmlns:range="http://schemas.android.com/apk/res/org.solovyev.android.calculator">
-	<PreferenceCategory a:title="@string/c_prefs_drag_button_category">
+	<PreferenceCategory a:title="@string/c_prefs_main_category">
 
 		<org.solovyev.android.view.prefs.NumberPickerDialogPreference
 				a:key="@string/p_calc_result_precision_key"

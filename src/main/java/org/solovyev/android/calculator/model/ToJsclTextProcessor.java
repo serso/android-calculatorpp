@@ -4,17 +4,19 @@
  * or visit http://se.solovyev.org
  */
 
-package org.solovyev.android.calculator;
+package org.solovyev.android.calculator.model;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.calculator.JsclOperation;
+import org.solovyev.android.calculator.StartsWithFinder;
 import org.solovyev.android.calculator.math.Functions;
-import org.solovyev.android.calculator.math.MathEntityType;
+import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.common.utils.CollectionsUtils;
 import org.solovyev.common.utils.FilterType;
 import org.solovyev.common.utils.Finder;
 
-public class ToJsclPreprocessor implements Preprocessor {
+class ToJsclTextProcessor implements TextProcessor {
 
 	@Override
 	@NotNull
@@ -23,26 +25,26 @@ public class ToJsclPreprocessor implements Preprocessor {
 		final StartsWithFinder startsWithFinder = new StartsWithFinder(s, 0);
 		final StringBuilder sb = new StringBuilder();
 
-		MathEntityType.Result mathTypeResult = null;
+		MathType.Result mathTypeResult = null;
 		for (int i = 0; i < s.length(); i++) {
 			char ch = s.charAt(i);
 			startsWithFinder.setI(i);
 
 			mathTypeResult = checkMultiplicationSignBeforeFunction(sb, s, i, mathTypeResult);
 
-			final MathEntityType mathType = mathTypeResult.getMathEntityType();
-			if (mathType == MathEntityType.open_group_symbol) {
+			final MathType mathType = mathTypeResult.getMathType();
+			if (mathType == MathType.open_group_symbol) {
 				sb.append('(');
-			} else if (mathType == MathEntityType.close_group_symbol) {
+			} else if (mathType == MathType.close_group_symbol) {
 				sb.append(')');
 			} else if (ch == '×' || ch == '∙') {
 				sb.append("*");
-			} else if ( mathType == MathEntityType.function  ){
-				sb.append(toJsclFunction(mathTypeResult.getS()));
-				i += mathTypeResult.getS().length() - 1;
-			} else if ( mathType == MathEntityType.constant ) {
-				sb.append(mathTypeResult.getS());
-				i += mathTypeResult.getS().length() - 1;
+			} else if ( mathType == MathType.function  ){
+				sb.append(toJsclFunction(mathTypeResult.getMatch()));
+				i += mathTypeResult.getMatch().length() - 1;
+			} else if ( mathType == MathType.constant ) {
+				sb.append(mathTypeResult.getMatch());
+				i += mathTypeResult.getMatch().length() - 1;
 			} else {
 				sb.append(ch);
 			}
@@ -59,11 +61,11 @@ public class ToJsclPreprocessor implements Preprocessor {
 			startsWithFinder.setI(i);
 
 			int offset = 0;
-			String functionName = CollectionsUtils.get(MathEntityType.prefixFunctions, startsWithFinder);
+			String functionName = CollectionsUtils.get(MathType.prefixFunctions, startsWithFinder);
 			if (functionName == null) {
-				String varName = CollectionsUtils.get(CalculatorModel.getInstance().getVarsRegister().getVarNames(), startsWithFinder);
+				String varName = CollectionsUtils.get(CalculatorModel.instance.getVarsRegister().getVarNames(), startsWithFinder);
 				if (varName != null) {
-					final Var var = CalculatorModel.getInstance().getVarsRegister().getVar(varName);
+					final Var var = CalculatorModel.instance.getVarsRegister().getVar(varName);
 					if (var != null) {
 						result.append(var.getValue());
 						offset = varName.length();
@@ -86,10 +88,10 @@ public class ToJsclPreprocessor implements Preprocessor {
 	}
 
 	private void replaceVariables(StringBuilder sb, String s, int i, @NotNull StartsWithFinder startsWithFinder) {
-		for (Var var : CalculatorModel.getInstance().getVarsRegister().getVars()) {
+		for (Var var : CalculatorModel.instance.getVarsRegister().getVars()) {
 			if (!var.isSystem()) {
 				if (s.startsWith(var.getName(), i)) {
-					if (CollectionsUtils.get(MathEntityType.prefixFunctions, startsWithFinder) == null) {
+					if (CollectionsUtils.get(MathType.prefixFunctions, startsWithFinder) == null) {
 					}
 				}
 			}
@@ -103,13 +105,13 @@ public class ToJsclPreprocessor implements Preprocessor {
 		int result = position;
 		for (; result >= 0; result--) {
 
-			final MathEntityType mathEntityType = MathEntityType.getMathEntityType(s, result);
+			final MathType mathType = MathType.getType(s, result).getMathType();
 
-			if (CollectionsUtils.contains(mathEntityType, MathEntityType.digit, MathEntityType.dot)) {
+			if (CollectionsUtils.contains(mathType, MathType.digit, MathType.dot)) {
 				// continue
-			} else if (mathEntityType == MathEntityType.close_group_symbol) {
+			} else if (mathType == MathType.close_group_symbol) {
 				numberOfOpenGroups++;
-			} else if (mathEntityType == MathEntityType.open_group_symbol) {
+			} else if (mathType == MathType.open_group_symbol) {
 				numberOfOpenGroups--;
 			} else {
 				if (stop(s, numberOfOpenGroups, result)) break;
@@ -124,9 +126,9 @@ public class ToJsclPreprocessor implements Preprocessor {
 			if (i > 0) {
 				final EndsWithFinder endsWithFinder = new EndsWithFinder(s);
 				endsWithFinder.setI(i + 1);
-				if (!CollectionsUtils.contains(MathEntityType.prefixFunctions, FilterType.included, endsWithFinder)) {
-					MathEntityType type = MathEntityType.getMathEntityType(s, i);
-					if (type != MathEntityType.constant) {
+				if (!CollectionsUtils.contains(MathType.prefixFunctions, FilterType.included, endsWithFinder)) {
+					MathType type = MathType.getType(s, i).getMathType();
+					if (type != MathType.constant) {
 						return true;
 					}
 				}
@@ -175,31 +177,31 @@ public class ToJsclPreprocessor implements Preprocessor {
 	}
 
 	@NotNull
-	private static MathEntityType.Result checkMultiplicationSignBeforeFunction(@NotNull StringBuilder sb,
+	private static MathType.Result checkMultiplicationSignBeforeFunction(@NotNull StringBuilder sb,
 																		@NotNull String s,
 																		int i,
-																		@Nullable MathEntityType.Result mathTypeBeforeResult) {
-		MathEntityType.Result result = MathEntityType.getType(s, i);
+																		@Nullable MathType.Result mathTypeBeforeResult) {
+		MathType.Result result = MathType.getType(s, i);
 
 		if (i > 0) {
 
-			final MathEntityType mathType = result.getMathEntityType();
+			final MathType mathType = result.getMathType();
 			assert mathTypeBeforeResult != null;
-			final MathEntityType mathTypeBefore = mathTypeBeforeResult.getMathEntityType();
+			final MathType mathTypeBefore = mathTypeBeforeResult.getMathType();
 
-			if (mathTypeBefore == MathEntityType.constant || (mathTypeBefore != MathEntityType.binary_operation &&
-					mathTypeBefore != MathEntityType.unary_operation &&
-					mathTypeBefore != MathEntityType.function &&
-					mathTypeBefore != MathEntityType.open_group_symbol)) {
+			if (mathTypeBefore == MathType.constant || (mathTypeBefore != MathType.binary_operation &&
+					mathTypeBefore != MathType.unary_operation &&
+					mathTypeBefore != MathType.function &&
+					mathTypeBefore != MathType.open_group_symbol)) {
 
-				if (mathType == MathEntityType.constant) {
+				if (mathType == MathType.constant) {
 					sb.append("*");
-				} else if (mathType == MathEntityType.open_group_symbol && mathTypeBefore != null) {
+				} else if (mathType == MathType.open_group_symbol && mathTypeBefore != null) {
 					sb.append("*");
-				} else if (mathType == MathEntityType.digit && ((mathTypeBefore != MathEntityType.digit && mathTypeBefore != MathEntityType.dot) || mathTypeBefore == MathEntityType.constant)) {
+				} else if (mathType == MathType.digit && ((mathTypeBefore != MathType.digit && mathTypeBefore != MathType.dot) || mathTypeBefore == MathType.constant)) {
 					sb.append("*");
 				} else {
-					for (String function : MathEntityType.prefixFunctions) {
+					for (String function : MathType.prefixFunctions) {
 						if (s.startsWith(function, i)) {
 							sb.append("*");
 							break;

@@ -12,7 +12,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.EditText;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.calculator.math.MathEntityType;
+import org.solovyev.android.calculator.math.MathType;
 
 /**
  * User: serso
@@ -62,9 +62,9 @@ public class CalculatorEditor extends EditText {
 		final StringBuilder text1 = new StringBuilder();
 
 		for (int i = 0; i < text.length(); i++) {
-			final MathEntityType.Result mathType = MathEntityType.getType(text, i);
+			final MathType.Result mathType = MathType.getType(text, i);
 
-			switch (mathType.getMathEntityType()) {
+			switch (mathType.getMathType()) {
 				case open_group_symbol:
 					numberOfOpenGroupSymbols++;
 					maxNumberOfOpenGroupSymbols = Math.max(maxNumberOfOpenGroupSymbols, numberOfOpenGroupSymbols);
@@ -75,10 +75,10 @@ public class CalculatorEditor extends EditText {
 					text1.append(text.charAt(i));
 					break;
 				case function:
-					i = processHighlightedText(text1, i, mathType.getS(), "i");
+					i = processHighlightedText(text1, i, mathType.getMatch(), "i");
 					break;
 				case constant:
-					i = processHighlightedText(text1, i, mathType.getS(), "b");
+					i = processHighlightedText(text1, i, mathType.getMatch(), "b");
 					break;
 				default:
 					text1.append(text.charAt(i));
@@ -113,15 +113,15 @@ public class CalculatorEditor extends EditText {
 		for (; i < s.length(); i++) {
 			char ch = s.charAt(i);
 
-			if (MathEntityType.openGroupSymbols.contains(ch)) {
+			if (MathType.openGroupSymbols.contains(ch)) {
 				result.append(ch);
 				result.append("</font>");
 				i = processBracketGroup(result, s, i + 1, numberOfOpenings + 1, maxNumberOfGroups);
 				result.append("<font color=\"").append(getColor(maxNumberOfGroups, numberOfOpenings)).append("\">");
-				if (i < s.length() && MathEntityType.closeGroupSymbols.contains(s.charAt(i))) {
+				if (i < s.length() && MathType.closeGroupSymbols.contains(s.charAt(i))) {
 					result.append(s.charAt(i));
 				}
-			} else if (MathEntityType.closeGroupSymbols.contains(ch)) {
+			} else if (MathType.closeGroupSymbols.contains(ch)) {
 				break;
 			} else {
 				result.append(ch);

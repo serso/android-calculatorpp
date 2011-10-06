@@ -1,4 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="c_app_name">Калькулятор</string>
+    <string name="c_app_settings">Калькулятор</string>
+    <string name="c_syntax_error">Ошибка</string>
+    <string name="c_result_copied">Результат скопирован в буфер!</string>
+	<string name="c_settings">Настройки</string>
+	<string name="c_help">Помощь</string>
+	<string name="c_about">О программе</string>
+	<string name="c_vars_and_constants">Переменные и константы</string>
+
+	<!--PREFERENCE ACTIVITY-->
+	<string name="c_prefs_main_category">Основные настройки</string>
+	<string name="c_prefs_drag_button_category">Настройки кнопок</string>
+
+
+	<string name="c_down">Вниз</string>
+	<string name="c_up">Вверх</string>
+	<string name="c_restart">Перезапуск</string>
+
+	<!--ABOUT ACTIVITY-->
+	<string name="c_copyright">Copyright (c) 2009-2011.\nПрограмма создана serso aka se.solovyev.\n
+		За подробной информацией, пожалуйста,\nобращайтесь на почту\n<a href="mailto:se.solovyev@gmail.com">se.solovyev@gmail.com</a>
+		\nили посетите\n<a href="http://se.solovyev.org">http://se.solovyev.org</a>
+	</string>
+
+	<string name="c_undo">назад</string>
+	<string name="c_redo">вперёд</string>
+	<string name="c_paste">вставить</string>
+	<string name="c_vars">переменные</string>
+
+	<string name="c_calc_color_display_title">Подсветка выражений</string>
+	<string name="p_calc_result_precision_title">Точность результата</string>
+	<string name="c_exit">Выход</string>
+	<string name="c_add">Добавить</string>
+	<string name="c_cancel">Отмена</string>
+	<string name="c_save">Сохранить</string>
+	<string name="c_remove">Удалить</string>
+	<string name="c_yes">Да</string>
+	<string name="c_no">Нет</string>
+	<string name="c_var_removal_confirmation">Подтверждение удаления</string>
+	<string name="c_var_removal_confirmation_question">Вы действительно хотите удалить переменную \'%s\'?</string>
+	<string name="c_var_name">Имя</string>
+	<string name="c_var_value">Значение</string>
+	<string name="c_var_description">Описание</string>
+	<string name="c_var_create_var">Создать переменную</string>
+	<string name="c_var_edit_var">Редактировать переменную</string>
+
+	<string name="c_value.is.not.a.number">Значение - не число!</string>
+	<string name="c_var.name.clashes">Имя переменной не может быть зарезервированным системным именем!</string>
+	<string name="c_var.already.exists">Переменная с таким именем уже существует!</string>
+	<string name="c_name.is.empty">Имя не может быть пустым!</string>
+	<string name="c_sys.var.cannot.be.changed">Системная переменная не может быть изменена!</string>
+
+	<string name="c_pi_description">Отношение длины окружности к диаметру</string>
+	<string name="c_e_description">Вещесвтенное число, такое что производная функции f(x) = e^x в точке x = 0 равно 1</string>
+	<string name="c_i_description">Мнимая единица, определённая как i^2 = −1</string>
 </resources>

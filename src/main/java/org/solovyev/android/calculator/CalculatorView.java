@@ -19,7 +19,9 @@ import android.widget.Toast;
 import bsh.EvalError;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.math.MathEntityType;
+import org.solovyev.android.calculator.math.MathType;
+import org.solovyev.android.calculator.model.CalculatorModel;
+import org.solovyev.android.calculator.model.ParseException;
 import org.solovyev.android.view.CursorControl;
 import org.solovyev.android.view.HistoryControl;
 import org.solovyev.common.utils.MutableObject;
@@ -36,7 +38,7 @@ import org.solovyev.common.utils.history.SimpleHistoryHelper;
 public class CalculatorView implements CursorControl, HistoryControl<CalculatorHistoryState> {
 
 	// millis to wait before evaluation after user edit action
-	public static final int EVAL_DELAY_MILLIS = 500;
+	public static final int EVAL_DELAY_MILLIS = 700;
 
 	@NotNull
 	private final CalculatorEditor editor;
@@ -45,16 +47,12 @@ public class CalculatorView implements CursorControl, HistoryControl<CalculatorH
 	private final CalculatorDisplay display;
 
 	@NotNull
-	private final Activity activity;
-
-	@NotNull
 	private final CalculatorModel calculatorModel;
 
 	@NotNull
 	private final HistoryHelper<CalculatorHistoryState> history;
 
 	public CalculatorView(@NotNull final Activity activity, @NotNull CalculatorModel calculator) {
-		this.activity = activity;
 		this.calculatorModel = calculator;
 
 		final InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -159,7 +157,7 @@ public class CalculatorView implements CursorControl, HistoryControl<CalculatorH
 				localDisplay.setText(calculatorModel.evaluate(JsclOperation.numeric, expression));
 			} catch (EvalError e) {
 				handleEvaluationException(expression, localDisplay, e);
-			} catch (CalculatorModel.ParseException e) {
+			} catch (ParseException e) {
 				handleEvaluationException(expression, localDisplay, e);
 			}
 		}
@@ -192,11 +190,11 @@ public class CalculatorView implements CursorControl, HistoryControl<CalculatorH
 				@Override
 				public void doOperation(@NotNull EditText editor) {
 
-					final MathEntityType.Result mathType = MathEntityType.getType(text, 0);
+					final MathType.Result mathType = MathType.getType(text, 0);
 
 					int cursorPositionOffset = 0;
 					final StringBuilder textToBeInserted = new StringBuilder(text);
-					switch (mathType.getMathEntityType()) {
+					switch (mathType.getMathType()) {
 						case function:
 							textToBeInserted.append("()");
 							cursorPositionOffset = -1;

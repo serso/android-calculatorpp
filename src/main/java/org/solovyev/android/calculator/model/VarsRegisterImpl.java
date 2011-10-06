@@ -4,7 +4,7 @@
  * or visit http://se.solovyev.org
  */
 
-package org.solovyev.android.calculator;
+package org.solovyev.android.calculator.model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -13,8 +13,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.math.MathEntityComparator;
-import org.solovyev.android.calculator.math.MathEntityType;
+import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.common.utils.CollectionsUtils;
 import org.solovyev.common.utils.Finder;
 
@@ -26,7 +27,7 @@ import java.util.*;
  * Date: 9/29/11
  * Time: 4:57 PM
  */
-public class VarsRegister {
+class VarsRegisterImpl implements VarsRegister {
 
 	@NotNull
 	private final List<Var> vars = new ArrayList<Var>();
@@ -34,16 +35,22 @@ public class VarsRegister {
 	@NotNull
 	private final List<Var> systemVars = new ArrayList<Var>();
 
+	protected VarsRegisterImpl() {
+	}
+
+	@Override
 	@NotNull
 	public List<Var> getVars() {
 		return Collections.unmodifiableList(vars);
 	}
 
+	@Override
 	@NotNull
 	public List<Var> getSystemVars() {
 		return Collections.unmodifiableList(systemVars);
 	}
 
+	@Override
 	public Var addVar(@Nullable String name, @NotNull Var.Builder builder) {
 		final Var var = builder.create();
 
@@ -58,12 +65,14 @@ public class VarsRegister {
 		return varFromRegister;
 	}
 
-	public void remove (@NotNull Var var) {
+	@Override
+	public void remove(@NotNull Var var) {
 		this.vars.remove(var);
 	}
 
+	@Override
 	@NotNull
-	public List<String> getVarNames () {
+	public List<String> getVarNames() {
 		final List<String> result = new ArrayList<String>();
 
 		for (Var var : vars) {
@@ -75,6 +84,7 @@ public class VarsRegister {
 		return result;
 	}
 
+	@Override
 	@Nullable
 	public Var getVar(@NotNull final String name) {
 		return CollectionsUtils.get(vars, new Finder<Var>() {
@@ -85,6 +95,7 @@ public class VarsRegister {
 		});
 	}
 
+	@Override
 	public boolean contains(@NotNull final String name) {
 		return CollectionsUtils.get(vars, new Finder<Var>() {
 			@Override
@@ -107,7 +118,7 @@ public class VarsRegister {
 		vars.addAll(result);
 	}
 
-	public synchronized void load(@Nullable Context context) {
+	synchronized void init(@Nullable Context context) {
 
 		this.vars.clear();
 		this.systemVars.clear();
@@ -128,18 +139,31 @@ public class VarsRegister {
 		}
 
 
-		for (String systemVarName : MathEntityType.constants) {
+		for (String systemVarName : MathType.constants) {
 
-			final Var systemVar;
-			if ( systemVarName.equals("e") ){
-				systemVar = new Var.Builder(systemVarName, Math.E).setSystem(true).create();
-			} else if (systemVarName.equals("π")) {
-				systemVar = new Var.Builder(systemVarName, Math.PI).setSystem(true).create();
-			} else if (systemVarName.equals("i")) {
-				systemVar = new Var.Builder(systemVarName, "sqrt(-1)").setSystem(true).create();
+			final Var.Builder builder;
+			final Integer varDescription;
+
+			if ( systemVarName.equals(MathType.E) ){
+				builder = new Var.Builder(systemVarName, Math.E);
+				varDescription = R.string.c_e_description;
+			} else if (systemVarName.equals(MathType.PI)) {
+				builder = new Var.Builder(systemVarName, Math.PI);
+				varDescription = R.string.c_pi_description;
+			} else if (systemVarName.equals(MathType.IMAGINARY_NUMBER)) {
+				builder = new Var.Builder(systemVarName, MathType.IMAGINARY_NUMBER_DEF);
+				varDescription = R.string.c_i_description;
 			} else {
 				throw new IllegalArgumentException(systemVarName + " is not supported yet!");
 			}
+
+			builder.setSystem(true);
+
+			if (context != null) {
+				builder.setDescription(context.getString(varDescription));
+			}
+
+			final Var systemVar = builder.create();
 
 			systemVars.add(systemVar);
 			if (!vars.contains(systemVar)) {
@@ -153,6 +177,7 @@ public class VarsRegister {
 		}*/
 	}
 
+	@Override
 	public synchronized void save(@NotNull Context context) {
 		final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
 		final SharedPreferences.Editor editor = settings.edit();

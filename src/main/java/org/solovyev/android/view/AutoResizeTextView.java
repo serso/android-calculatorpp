@@ -80,12 +80,12 @@ public class AutoResizeTextView extends TextView {
     }
 
     /**
-     * When text changes, set the force resize flag to true and reset the text size.
+     * When text changes, set the force resize flag to true and resetInterpreter the text size.
      */
     @Override
     protected void onTextChanged(final CharSequence text, final int start, final int before, final int after) {
         mNeedsResize = true;
-        // Since this view may be reused, it is good to reset the text size
+        // Since this view may be reused, it is good to resetInterpreter the text size
         resetTextSize();
     }
 
