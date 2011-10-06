@@ -6,9 +6,9 @@
 package org.solovyev.android.calculator.math;
 
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.calculator.CalculatorModel;
 import org.solovyev.android.calculator.CharacterAtPositionFinder;
 import org.solovyev.android.calculator.StartsWithFinder;
+import org.solovyev.android.calculator.model.CalculatorModel;
 import org.solovyev.common.utils.Finder;
 
 import java.util.Arrays;
@@ -16,7 +16,7 @@ import java.util.List;
 
 import static org.solovyev.common.utils.CollectionsUtils.get;
 
-public enum MathEntityType {
+public enum MathType {
 
 	digit,
 	constant,
@@ -30,7 +30,12 @@ public enum MathEntityType {
 	close_group_symbol,
 	text;
 
-	public static final List<String> constants = Arrays.asList("e", "π", "i");
+	public static final String IMAGINARY_NUMBER = "i";
+	public static final String IMAGINARY_NUMBER_DEF = "sqrt(-1)";
+	public static final String PI = "π";
+	public static final String E = "e";
+
+	public static final List<String> constants = Arrays.asList(E, PI, IMAGINARY_NUMBER);
 
 	public static final List<String> digits = Arrays.asList("0", "1", "2", "3", "4", "5", "6", "7", "8", "9");
 
@@ -58,18 +63,13 @@ public enum MathEntityType {
 	 * @return math entity type of substring starting from ith index of specified text
 	 */
 	@NotNull
-	public static MathEntityType getMathEntityType(@NotNull String text, int i) {
-		return getType(text, i).getMathEntityType();
-	}
-
-	@NotNull
 	public static Result getType(@NotNull String text, int i) {
 		if (i < 0) {
 			throw new IllegalArgumentException("I must be more or equals to 0.");
 		} else if (i >= text.length() && i != 0) {
 			throw new IllegalArgumentException("I must be less than size of text.");
 		} else if (i == 0 && text.length() == 0) {
-			return new Result(MathEntityType.text, text);
+			return new Result(MathType.text, text);
 		}
 
 		final StartsWithFinder stringStartWithFinder = new StartsWithFinder(text, i);
@@ -77,7 +77,7 @@ public enum MathEntityType {
 
 		String foundString = get(digits, stringStartWithFinder);
 		if (foundString != null) {
-			return new Result(MathEntityType.digit, foundString);
+			return new Result(MathType.digit, foundString);
 		}
 
 		Character foundCharacter = get(dots, characterStartWithFinder);
@@ -102,7 +102,7 @@ public enum MathEntityType {
 
 		foundString = get(groupSymbols, stringStartWithFinder);
 		if (foundString != null) {
-			return new Result(MathEntityType.group_symbols, foundString);
+			return new Result(MathType.group_symbols, foundString);
 		}
 
 		foundCharacter = get(openGroupSymbols, characterStartWithFinder);
@@ -117,39 +117,39 @@ public enum MathEntityType {
 
 		foundString = get(prefixFunctions, stringStartWithFinder);
 		if (foundString != null) {
-			return new Result(MathEntityType.function, foundString);
+			return new Result(MathType.function, foundString);
 		}
 
-		foundString = get(CalculatorModel.getInstance().getVarsRegister().getVarNames(), stringStartWithFinder);
+		foundString = get(CalculatorModel.instance.getVarsRegister().getVarNames(), stringStartWithFinder);
 		if (foundString != null) {
-			return new Result(MathEntityType.constant, foundString);
+			return new Result(MathType.constant, foundString);
 		}
 
-		return new Result(MathEntityType.text, text.substring(i));
+		return new Result(MathType.text, text.substring(i));
 	}
 
 	public static class Result {
 
 		@NotNull
-		private final MathEntityType mathEntityType;
+		private final MathType mathType;
 
 		@NotNull
-		private final String s;
+		private final String match;
 
-		private Result(@NotNull MathEntityType mathEntityType, @NotNull String s){
-			this.mathEntityType = mathEntityType;
+		private Result(@NotNull MathType mathType, @NotNull String match){
+			this.mathType = mathType;
 
-			this.s = s;
+			this.match = match;
 		}
 
 		@NotNull
-		public String getS() {
-			return s;
+		public String getMatch() {
+			return match;
 		}
 
 		@NotNull
-		public MathEntityType getMathEntityType() {
-			return mathEntityType;
+		public MathType getMathType() {
+			return mathType;
 		}
 	}
 

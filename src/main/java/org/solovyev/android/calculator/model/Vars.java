@@ -1,4 +1,4 @@
-package org.solovyev.android.calculator;
+package org.solovyev.android.calculator.model;
 
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;

@@ -27,7 +27,7 @@
 
 	<string name="c_undo">undo</string>
 	<string name="c_redo">redo</string>
-	<string name="c_clear">clear</string>
+	<string name="c_clear">clr</string>
 	<string name="c_paste">paste</string>
 	<string name="c_vars">vars</string>
 
@@ -47,4 +47,14 @@
 	<string name="c_var_description">Description</string>
 	<string name="c_var_create_var">Create variable</string>
 	<string name="c_var_edit_var">Edit variable</string>
+
+	<string name="c_value.is.not.a.number">Value is not a number!</string>
+	<string name="c_var.name.clashes">Variable name clashes with function name!</string>
+	<string name="c_var.already.exists">Variable with same name already exists!</string>
+	<string name="c_name.is.empty">Name is empty!</string>
+	<string name="c_sys.var.cannot.be.changed">System variable cannot be changed!</string>
+
+	<string name="c_pi_description">Ratio of any circle\'s circumference to its diameter</string>
+	<string name="c_e_description">Unique real number such that the value of the derivative (slope of the tangent line) of the function f(x) = e^x at the point x = 0 is equal to 1</string>
+	<string name="c_i_description">Imaginary unit, defined such that i^2 = −1</string>
 </resources>

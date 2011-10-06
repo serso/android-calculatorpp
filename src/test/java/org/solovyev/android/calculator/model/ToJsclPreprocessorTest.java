@@ -4,7 +4,7 @@
  * or visit http://se.solovyev.org
  */
 
-package org.solovyev.android.calculator;
+package org.solovyev.android.calculator.model;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -18,7 +18,7 @@ public class ToJsclPreprocessorTest {
 
 	@Test
 	public void testProcess() throws Exception {
-		final ToJsclPreprocessor preprocessor = new ToJsclPreprocessor();
+		final ToJsclTextProcessor preprocessor = new ToJsclTextProcessor();
 
 		Assert.assertEquals( "sin(4)*cos(5)", preprocessor.process("sin(4)cos(5)"));
 		Assert.assertEquals( "pi*sin(4)*pi*cos(sqrt(5))", preprocessor.process("πsin(4)πcos(√(5))"));
@@ -30,7 +30,7 @@ public class ToJsclPreprocessorTest {
 
 	@Test
 	public void testPostfixFunctionsProcessing() throws Exception {
-		final ToJsclPreprocessor preprocessor = new ToJsclPreprocessor();
+		final ToJsclTextProcessor preprocessor = new ToJsclTextProcessor();
 
 		Assert.assertEquals(-1, preprocessor.getPostfixFunctionStart("5!", 0));
 		Assert.assertEquals(0, preprocessor.getPostfixFunctionStart("!", 0));

@@ -100,10 +100,10 @@
 														   style="@style/control_button_style"
 														   a:onClick="numericButtonClickHandler"/>
 
-			<org.solovyev.android.view.widgets.DirectionDragButton a:id="@+id/pasteButton"
-														   a:text="@string/c_paste"
-														   style="@style/control_button_style"
-														   a:onClick="pasteButtonClickHandler"/>
+			<ImageButton a:id="@+id/pasteButton"
+						 a:src="@drawable/paste"
+						 style="@style/control_button_style"
+						 a:onClick="pasteButtonClickHandler"/>
 
 		</LinearLayout>
 
@@ -185,7 +185,8 @@
 
 			<org.solovyev.android.view.widgets.DirectionDragButton
 					a:id="@+id/varsButton"
-					a:text="@string/c_vars"
+					a:text="π,e,…"
+					a:textStyle="italic"
 					a:onClick="varsButtonClickHandler"
 					style="@style/control_button_style"/>
 
