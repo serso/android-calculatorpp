@@ -14,6 +14,11 @@ import java.util.*;
  */
 public class Functions {
 
+	// not intended for instantiation
+	private Functions() {
+		throw new AssertionError("Not allowed!");
+	}
+
 	public final static String SIN = "sin";
 	public final static String SINH = "sinh";
 	public final static String ASIN = "asin";
@@ -45,8 +50,4 @@ public class Functions {
 	public final static Character DEGREE = '°';
 
 	public static final List<Character> allPostfix = Arrays.asList(FACT, DEGREE);
-
-	private Functions() {
-		throw new AssertionError("Not allowed!");
-	}
 }
