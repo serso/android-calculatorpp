@@ -20,11 +20,9 @@ class FromJsclTextProcessor implements TextProcessor {
 
 	@NotNull
 	@Override
-	public String process(@NotNull String s) throws ParseException {
-		String result = null;
-
+	public String process(@NotNull String result) throws ParseException {
 		try {
-			result = String.valueOf(round(s));
+			result = String.valueOf(round(result));
 		} catch (NumberFormatException e) {
 			if (result.contains(MathType.IMAGINARY_NUMBER_DEF)) {
 				try {
