@@ -27,7 +27,8 @@
 
 	<string name="c_undo">undo</string>
 	<string name="c_redo">redo</string>
-	<string name="c_clear">clr</string>
+	<string name="c_clear">CE</string>
+	<string name="c_erase">C</string>
 	<string name="c_paste">paste</string>
 	<string name="c_vars">vars</string>
 
@@ -57,4 +58,5 @@
 	<string name="c_pi_description">Ratio of any circle\'s circumference to its diameter</string>
 	<string name="c_e_description">Unique real number such that the value of the derivative (slope of the tangent line) of the function f(x) = e^x at the point x = 0 is equal to 1</string>
 	<string name="c_i_description">Imaginary unit, defined such that i^2 = −1</string>
+	<string name="c_calc_editor_hint"></string>
 </resources>
