@@ -6,13 +6,10 @@
 package org.solovyev.android.calculator;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Handler;
 import android.text.ClipboardManager;
-import android.text.InputType;
 import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,7 +35,7 @@ import org.solovyev.common.utils.history.SimpleHistoryHelper;
 public class CalculatorView implements CursorControl, HistoryControl<CalculatorHistoryState> {
 
 	// millis to wait before evaluation after user edit action
-	public static final int EVAL_DELAY_MILLIS = 700;
+	public static final int EVAL_DELAY_MILLIS = 1000;
 
 	@NotNull
 	private final CalculatorEditor editor;
@@ -55,11 +52,7 @@ public class CalculatorView implements CursorControl, HistoryControl<CalculatorH
 	public CalculatorView(@NotNull final Activity activity, @NotNull CalculatorModel calculator) {
 		this.calculatorModel = calculator;
 
-		final InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-
 		this.editor = (CalculatorEditor) activity.findViewById(R.id.editText);
-		this.editor.setInputType(InputType.TYPE_NULL);
-		imm.hideSoftInputFromWindow(this.editor.getWindowToken(), 0);
 
 		this.display = (CalculatorDisplay) activity.findViewById(R.id.resultEditText);
 		this.display.setOnClickListener(new View.OnClickListener() {

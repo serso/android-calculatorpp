@@ -23,6 +23,11 @@ public class CalculatorEditor extends EditText {
 
 	private boolean highlightText = true;
 
+	private final static int BASE_COLOUR = Color.WHITE;
+	private final static int BASE_COLOUR_RED_COMPONENT = Color.red(BASE_COLOUR);
+	private final static int BASE_COLOUR_GREEN_COMPONENT = Color.green(BASE_COLOUR);
+	private final static int BASE_COLOUR_BLUE_COMPONENT = Color.blue(BASE_COLOUR);
+
 	public CalculatorEditor(Context context) {
 		super(context);
 	}
@@ -135,13 +140,11 @@ public class CalculatorEditor extends EditText {
 	}
 
 	private String getColor(int numberOfOpenGroupSymbols, int numberOfOpenings) {
-		final int baseColor = Color.WHITE;
+		double c = 0.7;
 
-		double c = 1;
+		int offset = ((int) (255 * c)) * numberOfOpenings / (numberOfOpenGroupSymbols + 1);
 
-		int i = ((int) (255 * c)) * numberOfOpenings / (numberOfOpenGroupSymbols + 1);
-
-		int result = Color.rgb(Color.red(baseColor) - i, Color.green(baseColor) - i, Color.blue(baseColor) - i);
+		int result = Color.rgb(BASE_COLOUR_RED_COMPONENT - offset, BASE_COLOUR_GREEN_COMPONENT - offset, BASE_COLOUR_BLUE_COMPONENT - offset);
 
 		return "#" + Integer.toHexString(result).substring(2);
 	}
