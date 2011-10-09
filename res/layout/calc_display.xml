@@ -8,7 +8,7 @@
 
 <org.solovyev.android.calculator.CalculatorDisplay
 		xmlns:a="http://schemas.android.com/apk/res/android"
-		a:id="@+id/resultEditText"
+		a:id="@+id/calculatorDisplay"
 		style="@style/display_style"
 		a:layout_weight="1"
 		a:minLines="1"

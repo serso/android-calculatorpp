@@ -1,27 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <manifest xmlns:a="http://schemas.android.com/apk/res/android"
-	  package="org.solovyev.android.calculator"
-      versionCode="1"
-      versionName="1.0">
+		  package="org.solovyev.android.calculator"
+		  versionCode="1"
+		  versionName="1.0">
 
 	<uses-sdk a:minSdkVersion="8"/>
 
-    <application a:icon="@drawable/icon" a:label="@string/c_app_name">
+	<application a:icon="@drawable/icon" a:label="@string/c_app_name">
 
-		<activity a:name=".CalculatorActivity" a:label="@string/c_app_name">
-            <intent-filter>
-                <action a:name="android.intent.action.MAIN" />
-                <category a:name="android.intent.category.LAUNCHER" />
+		<activity a:name=".CalculatorActivity"
+				  a:windowSoftInputMode="stateHidden"
+				  a:label="@string/c_app_name">
+			<intent-filter>
+				<action a:name="android.intent.action.MAIN"/>
+				<category a:name="android.intent.category.LAUNCHER"/>
 				<action a:name="org.solovyev.android.calculator.CalculatorActivity.insertText"/>
-            </intent-filter>
-        </activity>
+			</intent-filter>
+		</activity>
 
-		<activity a:name=".CalculatorPreferencesActivity" a:label="@string/c_app_settings"/>
-		<activity a:name=".AboutActivity" a:label="@string/c_about"/>
-		<activity 	a:name=".CalculatorVarsActivity"
-					a:label="@string/c_vars_and_constants"
-					a:configChanges="orientation|keyboardHidden" />
+		<activity a:name=".CalculatorPreferencesActivity"
+				  a:label="@string/c_app_settings"/>
 
-    </application>
+		<activity a:name=".AboutActivity"
+				  a:label="@string/c_about"/>
+
+		<activity a:name=".CalculatorVarsActivity"
+				  a:label="@string/c_vars_and_constants"
+				  a:configChanges="orientation|keyboardHidden"/>
+
+	</application>
 </manifest>

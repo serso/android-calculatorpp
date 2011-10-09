@@ -7,6 +7,7 @@ package org.solovyev.android.calculator;
 
 import android.app.Activity;
 import android.content.*;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.ClipboardManager;
@@ -100,6 +101,9 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	}
 
 	private void init() {
+
+		calculatorView = new CalculatorView(this, CalculatorModel.instance);
+
 		insertTextReceiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
@@ -128,9 +132,6 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 				// todo serso: create serso runtime exception
 				throw new RuntimeException("Could not initialize interpreter!");
 			}
-
-			this.calculatorView = new CalculatorView(this, CalculatorModel.instance);
-
 			initialized = true;
 		}
 	}
@@ -192,6 +193,11 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	}
 
 	@SuppressWarnings({"UnusedDeclaration"})
+	public void copyButtonClickHandler(@NotNull View v) {
+		calculatorView.copyResult(this);
+	}
+
+	@SuppressWarnings({"UnusedDeclaration"})
 	public void clearButtonClickHandler(@NotNull View v) {
 		calculatorView.clear();
 	}
@@ -205,6 +211,14 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	@SuppressWarnings({"UnusedDeclaration"})
 	public void varsButtonClickHandler(@NotNull View v) {
 		startActivity(new Intent(this, CalculatorVarsActivity.class));
+	}
+
+	@SuppressWarnings({"UnusedDeclaration"})
+	public void donateButtonClickHandler(@NotNull View v) {
+		final String paypalDonateUrl = "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=se%2esolovyev%40gmail%2ecom&lc=RU&item_name=android%2ecalculator%40se%2esolovyev&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted";
+		final Intent i = new Intent(Intent.ACTION_VIEW);
+		i.setData(Uri.parse(paypalDonateUrl));
+		startActivity(i);
 	}
 
 	@Override

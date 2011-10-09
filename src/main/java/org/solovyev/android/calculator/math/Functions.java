@@ -37,11 +37,13 @@ public class Functions {
 	public final static String EXP = "exp";
 	public final static String SQRT_SIGN = "√";
 	public final static String SQRT = "sqrt";
+	public final static String E = "E";
+	public final static String E_POWER = "10^";
 
 	public static final List<String> allPrefix;
 
 	static {
-		final List<String> functions = new ArrayList<String>(Arrays.asList(SIN, SINH, ASIN, ASINH, COS, COSH, ACOS, ACOSH, TAN, TANH, ATAN, ATANH, LOG, LN, MOD, SQRT, SQRT_SIGN, EXP));
+		final List<String> functions = new ArrayList<String>(Arrays.asList(SIN, SINH, ASIN, ASINH, COS, COSH, ACOS, ACOSH, TAN, TANH, ATAN, ATANH, LOG, LN, MOD, SQRT, SQRT_SIGN, EXP, E));
 		Collections.sort(functions, new MathEntityComparator());
 		allPrefix = functions;
 	}

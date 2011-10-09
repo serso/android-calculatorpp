@@ -17,73 +17,68 @@
 
 		<LinearLayout a:layout_weight="1" a:layout_width="match_parent" a:layout_height="0dp">
 
-			<org.solovyev.android.view.widgets.DirectionDragButton a:id="@+id/leftButton"
-																   calc:textUp="↞"
-																   a:text="←"
-																   a:layout_weight="1.5"
-																   style="@style/control_button_style"
-																   a:onClick="moveLeftButtonClickHandler"/>
+			<include layout="@layout/calc_left_button"
+					 a:layout_width="match_parent"
+					 a:layout_height="match_parent"
+					 a:layout_weight="1.5"/>
 
-			<org.solovyev.android.view.widgets.DirectionDragButton a:id="@+id/eraseButton"
-																   a:text="@string/c_erase"
-																   a:layout_weight="1.5"
-																   style="@style/control_button_style"
-																   a:onClick="eraseButtonClickHandler"/>
-
-			<include layout="@layout/calc_display"/>
+			<include layout="@layout/calc_erase_button"
+					 a:layout_width="match_parent"
+					 a:layout_height="match_parent"
+					 a:layout_weight="1.5"/>
 
 
-			<org.solovyev.android.view.widgets.DirectionDragButton a:id="@+id/clearButton"
-																   a:text="@string/c_clear"
-																   a:layout_weight="1.5"
-																   style="@style/control_button_style"
-																   a:onClick="clearButtonClickHandler"/>
+			<include layout="@layout/calc_display"
+					 a:layout_width="match_parent"
+					 a:layout_height="match_parent"
+					 a:layout_weight="1"/>
 
-			<org.solovyev.android.view.widgets.DirectionDragButton a:id="@+id/rightButton"
-																   calc:textUp="↠"
-																   a:text="→"
-																   a:layout_weight="1.5"
-																   style="@style/control_button_style"
-																   a:onClick="moveRightButtonClickHandler"/>
+			<include layout="@layout/calc_clear_button"
+					 a:layout_width="match_parent"
+					 a:layout_height="match_parent"
+					 a:layout_weight="1.5"/>
 
+			<include layout="@layout/calc_right_button"
+					 a:layout_width="match_parent"
+					 a:layout_height="match_parent"
+					 a:layout_weight="1.5"/>
 
 		</LinearLayout>
 
 		<LinearLayout a:layout_weight="1" a:layout_width="match_parent" a:layout_height="0dp">
 
+			<include layout="@layout/calc_equals_button"/>
+			<include layout="@layout/calc_paste_button"/>
 			<include layout="@layout/calc_one_digit_button"/>
 			<include layout="@layout/calc_two_digit_button"/>
 			<include layout="@layout/calc_three_digit_button"/>
 			<include layout="@layout/calc_multiplication_button"/>
 			<include layout="@layout/calc_division_button"/>
-			<include layout="@layout/calc_equals_button"/>
-			<include layout="@layout/calc_paste_button"/>
-
 
 		</LinearLayout>
 
 		<LinearLayout a:layout_weight="1" a:layout_width="match_parent" a:layout_height="0dp">
 
+			<include layout="@layout/calc_history_button"/>
+			<include layout="@layout/calc_copy_button"/>
 			<include layout="@layout/calc_four_digit_button"/>
 			<include layout="@layout/calc_five_digit_button"/>
 			<include layout="@layout/calc_six_digit_button"/>
 			<include layout="@layout/calc_plus_button"/>
 			<include layout="@layout/calc_subtraction_button"/>
-			<include layout="@layout/calc_square_brackets_button"/>
-			<include layout="@layout/calc_history_button"/>
 
 
 		</LinearLayout>
 
 		<LinearLayout a:layout_weight="1" a:layout_width="match_parent" a:layout_height="0dp">
 
+			<include layout="@layout/calc_vars_button"/>
+			<include layout="@layout/calc_square_brackets_button"/>
 			<include layout="@layout/calc_seven_digit_button"/>
 			<include layout="@layout/calc_eight_digit_button"/>
 			<include layout="@layout/calc_nine_digit_button"/>
 			<include layout="@layout/calc_zero_digit_button"/>
 			<include layout="@layout/calc_round_brackets_button"/>
-			<include layout="@layout/calc_vars_button"/>
-			<org.solovyev.android.view.widgets.DirectionDragButton a:text="" style="@style/control_button_style"/>
 
 
 		</LinearLayout>
