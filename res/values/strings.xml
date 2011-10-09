@@ -58,5 +58,6 @@
 	<string name="c_pi_description">Ratio of any circle\'s circumference to its diameter</string>
 	<string name="c_e_description">Unique real number such that the value of the derivative (slope of the tangent line) of the function f(x) = e^x at the point x = 0 is equal to 1</string>
 	<string name="c_i_description">Imaginary unit, defined such that i^2 = −1</string>
-	<string name="c_calc_editor_hint"></string>
+	<string name="c_calc_editor_hint">Enter new expression</string>
+	<string name="c_press_to_copy">Press to copy</string>
 </resources>

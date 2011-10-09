@@ -13,8 +13,6 @@ import android.text.TextPaint;
 import android.util.AttributeSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.view.widgets.DragButton;
-import org.solovyev.android.view.widgets.DragDirection;
 import org.solovyev.common.utils.Point2d;
 import org.solovyev.common.utils.StringUtils;
 
@@ -101,11 +99,11 @@ public class DirectionDragButton extends DragButton {
 		initUpDownTextPaint(basePaint);
 
 		if (textUp != null) {
-			textUpPosition = getTextPosition(upDownTextPaint, basePaint, textUp, 1);
+			textUpPosition = getTextPosition(upDownTextPaint, basePaint, textUp, getText(), 1, getWidth(), getHeight());
 		}
 
 		if (textDown != null) {
-			textDownPosition = getTextPosition(upDownTextPaint, basePaint, textDown, -1);
+			textDownPosition = getTextPosition(upDownTextPaint, basePaint, textDown, getText(), -1, getWidth(), getHeight());
 		}
 
 		if ( textDownPosition != null && textUpPosition != null ) {
@@ -118,21 +116,21 @@ public class DirectionDragButton extends DragButton {
 
 	}
 
-	private Point2d getTextPosition(@NotNull Paint paint, @NotNull Paint basePaint, @NotNull CharSequence text, float direction) {
+	public static Point2d getTextPosition(@NotNull Paint paint, @NotNull Paint basePaint, @NotNull CharSequence text, CharSequence baseText, float direction, int w, int h) {
 		final Point2d result = new Point2d();
 
 		float width = paint.measureText(text.toString() + " ");
-		result.setX(getWidth() - width);
+		result.setX(w - width);
 
 		float selfHeight = paint.ascent() + paint.descent();
 
-		basePaint.measureText(StringUtils.getNotEmpty(getText(), "|"));
+		basePaint.measureText(StringUtils.getNotEmpty(baseText, "|"));
 
-		float height = getHeight() - basePaint.ascent() - basePaint.descent();
+		float height = h - basePaint.ascent() - basePaint.descent();
 		if (direction < 0) {
-			result.setY(height / 2 - direction * height / 3 + selfHeight);
+			result.setY(height / 2 + height / 3 + selfHeight);
 		} else {
-			result.setY(height / 2 - direction * height / 3);
+			result.setY(height / 2 - height / 3);
 		}
 
 		return result;

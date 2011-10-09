@@ -6,6 +6,7 @@
 package org.solovyev.android.calculator;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Handler;
 import android.text.ClipboardManager;
 import android.util.Log;
@@ -21,11 +22,10 @@ import org.solovyev.android.calculator.model.CalculatorModel;
 import org.solovyev.android.calculator.model.ParseException;
 import org.solovyev.android.view.CursorControl;
 import org.solovyev.android.view.HistoryControl;
+import org.solovyev.android.view.widgets.SoftKeyboardDisabler;
 import org.solovyev.common.utils.MutableObject;
 import org.solovyev.common.utils.StringUtils;
 import org.solovyev.common.utils.history.HistoryAction;
-import org.solovyev.common.utils.history.HistoryHelper;
-import org.solovyev.common.utils.history.SimpleHistoryHelper;
 
 /**
  * User: serso
@@ -46,35 +46,43 @@ public class CalculatorView implements CursorControl, HistoryControl<CalculatorH
 	@NotNull
 	private final CalculatorModel calculatorModel;
 
-	@NotNull
-	private final HistoryHelper<CalculatorHistoryState> history;
-
 	public CalculatorView(@NotNull final Activity activity, @NotNull CalculatorModel calculator) {
 		this.calculatorModel = calculator;
 
-		this.editor = (CalculatorEditor) activity.findViewById(R.id.editText);
+		this.editor = (CalculatorEditor) activity.findViewById(R.id.calculatorEditor);
+		this.editor.setOnTouchListener(new SoftKeyboardDisabler());
 
-		this.display = (CalculatorDisplay) activity.findViewById(R.id.resultEditText);
+		this.display = (CalculatorDisplay) activity.findViewById(R.id.calculatorDisplay);
 		this.display.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (((CalculatorDisplay) v).isValid()) {
-					final CharSequence text = ((TextView) v).getText();
-					if (!StringUtils.isEmpty(text)) {
-						final ClipboardManager clipboard = (ClipboardManager) activity.getSystemService(Activity.CLIPBOARD_SERVICE);
-						clipboard.setText(text);
-						Toast.makeText(activity, activity.getText(R.string.c_result_copied), Toast.LENGTH_SHORT).show();
-					}
-				}
+				copyResult(activity);
 			}
 		});
 
-		this.history = new SimpleHistoryHelper<CalculatorHistoryState>();
-		saveHistoryState();
+
+		final CalculatorHistoryState lastState = CalculatorHistory.instance.getLastHistoryState();
+		if ( lastState == null ) {
+			saveHistoryState();
+		} else {
+			setCurrentHistoryState(lastState);
+		}
+
+	}
+
+	public void copyResult(@NotNull Context context) {
+		if (display.isValid()) {
+			final CharSequence text = display.getText();
+			if (!StringUtils.isEmpty(text)) {
+				final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
+				clipboard.setText(text);
+				Toast.makeText(context, context.getText(R.string.c_result_copied), Toast.LENGTH_SHORT).show();
+			}
+		}
 	}
 
 	private void saveHistoryState() {
-		history.addState(getCurrentHistoryState());
+		CalculatorHistory.instance.addState(getCurrentHistoryState());
 	}
 
 
@@ -117,14 +125,14 @@ public class CalculatorView implements CursorControl, HistoryControl<CalculatorH
 					// allow only one runner at one time
 					synchronized (currentRunner) {
 						//lock all operations with history
-						synchronized (history) {
+						synchronized (CalculatorHistory.instance) {
 							// do only if nothing was post delayed before current instance was posted
 							if (currentRunner.getObject() == this) {
 								// actually nothing shall be logged while text operations are done
 								evaluate(editorStateAfter);
 
-								if (history.isUndoAvailable()) {
-									history.undo(getCurrentHistoryState());
+								if (CalculatorHistory.instance.isUndoAvailable()) {
+									CalculatorHistory.instance.undo(getCurrentHistoryState());
 								}
 
 								saveHistoryState();
@@ -212,9 +220,9 @@ public class CalculatorView implements CursorControl, HistoryControl<CalculatorH
 
 	@Override
 	public void doHistoryAction(@NotNull HistoryAction historyAction) {
-		synchronized (history) {
-			if (history.isActionAvailable(historyAction)) {
-				final CalculatorHistoryState newState = history.doAction(historyAction, getCurrentHistoryState());
+		synchronized (CalculatorHistory.instance) {
+			if (CalculatorHistory.instance.isActionAvailable(historyAction)) {
+				final CalculatorHistoryState newState = CalculatorHistory.instance.doAction(historyAction, getCurrentHistoryState());
 				if (newState != null) {
 					setCurrentHistoryState(newState);
 				}
@@ -224,7 +232,7 @@ public class CalculatorView implements CursorControl, HistoryControl<CalculatorH
 
 	@Override
 	public void setCurrentHistoryState(@NotNull CalculatorHistoryState editorHistoryState) {
-		synchronized (history) {
+		synchronized (CalculatorHistory.instance) {
 			setValuesFromHistory(this.editor, editorHistoryState.getEditorState());
 			setValuesFromHistory(this.display, editorHistoryState.getDisplayState());
 
@@ -233,7 +241,7 @@ public class CalculatorView implements CursorControl, HistoryControl<CalculatorH
 	}
 
 	private void setValuesFromHistory(@NotNull CalculatorDisplay display, CalculatorDisplayHistoryState editorHistoryState) {
-		setValuesFromHistory(display, (EditorHistoryState)editorHistoryState);
+		setValuesFromHistory(display, editorHistoryState.getEditorHistoryState());
 		display.setValid(editorHistoryState.isValid());
 	}
 
@@ -247,7 +255,7 @@ public class CalculatorView implements CursorControl, HistoryControl<CalculatorH
 	@Override
 	@NotNull
 	public CalculatorHistoryState getCurrentHistoryState() {
-		synchronized (history) {
+		synchronized (CalculatorHistory.instance) {
 			return new CalculatorHistoryState(getEditorHistoryState(this.editor), getCalculatorDisplayHistoryState(this.display));
 		}
 	}
@@ -264,8 +272,8 @@ public class CalculatorView implements CursorControl, HistoryControl<CalculatorH
 	private CalculatorDisplayHistoryState getCalculatorDisplayHistoryState(@NotNull CalculatorDisplay display) {
 		final CalculatorDisplayHistoryState result = new CalculatorDisplayHistoryState();
 
-		result.setText(String.valueOf(display.getText()));
-		result.setCursorPosition(display.getSelectionStart());
+		result.getEditorHistoryState().setText(String.valueOf(display.getText()));
+		result.getEditorHistoryState().setCursorPosition(display.getSelectionStart());
 		result.setValid(display.isValid());
 
 		return result;

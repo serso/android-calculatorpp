@@ -39,10 +39,10 @@ class ToJsclTextProcessor implements TextProcessor {
 				sb.append(')');
 			} else if (ch == '×' || ch == '∙') {
 				sb.append("*");
-			} else if ( mathType == MathType.function  ){
+			} else if (mathType == MathType.function) {
 				sb.append(toJsclFunction(mathTypeResult.getMatch()));
 				i += mathTypeResult.getMatch().length() - 1;
-			} else if ( mathType == MathType.constant ) {
+			} else if (mathType == MathType.constant) {
 				sb.append(mathTypeResult.getMatch());
 				i += mathTypeResult.getMatch().length() - 1;
 			} else {
@@ -148,6 +148,8 @@ class ToJsclTextProcessor implements TextProcessor {
 			result = Functions.LOG;
 		} else if (function.equals(Functions.SQRT_SIGN)) {
 			result = Functions.SQRT;
+		} else if (function.equals(Functions.E)) {
+			result = Functions.E_POWER;
 		} else {
 			result = function;
 		}
@@ -178,9 +180,9 @@ class ToJsclTextProcessor implements TextProcessor {
 
 	@NotNull
 	private static MathType.Result checkMultiplicationSignBeforeFunction(@NotNull StringBuilder sb,
-																		@NotNull String s,
-																		int i,
-																		@Nullable MathType.Result mathTypeBeforeResult) {
+																		 @NotNull String s,
+																		 int i,
+																		 @Nullable MathType.Result mathTypeBeforeResult) {
 		MathType.Result result = MathType.getType(s, i);
 
 		if (i > 0) {
