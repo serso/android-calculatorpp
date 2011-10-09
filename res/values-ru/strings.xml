@@ -55,4 +55,5 @@
 	<string name="c_pi_description">Отношение длины окружности к диаметру</string>
 	<string name="c_e_description">Вещесвтенное число, такое что производная функции f(x) = e^x в точке x = 0 равно 1</string>
 	<string name="c_i_description">Мнимая единица, определённая как i^2 = −1</string>
+	<string name="c_calc_editor_hint">Введите новое выражение</string>
 </resources>

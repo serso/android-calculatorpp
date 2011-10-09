@@ -17,15 +17,15 @@
 
 		<LinearLayout a:layout_weight="1" a:layout_width="match_parent" a:layout_height="0dp">
 
-			<org.solovyev.android.view.widgets.DirectionDragButton
-					xmlns:a="http://schemas.android.com/apk/res/android"
-					a:id="@+id/equalsButton"
-					a:text="="
-					a:layout_weight="4"
-					style="@style/control_button_style"
-					a:onClick="numericButtonClickHandler"/>
+			<include layout="@layout/calc_equals_button"
+					 a:layout_weight="4"
+					 a:layout_height="match_parent"
+					 a:layout_width="match_parent" />
 
-			<include layout="@layout/calc_display"/>
+			<include layout="@layout/calc_display"
+					 a:layout_width="match_parent"
+					 a:layout_height="match_parent"
+					 a:layout_weight="1"/>
 
 		</LinearLayout>
 
@@ -65,7 +65,7 @@
 			<include layout="@layout/calc_zero_digit_button"/>
 			<include layout="@layout/calc_square_brackets_button"/>
 			<include layout="@layout/calc_subtraction_button"/>
-			<include layout="@layout/calc_history_button"/>
+			<include layout="@layout/calc_copy_button"/>
 
 		</LinearLayout>
 
@@ -75,11 +75,8 @@
 			<include layout="@layout/calc_left_button"/>
 			<include layout="@layout/calc_right_button"/>
 			<include layout="@layout/calc_vars_button"/>
-
-			<org.solovyev.android.view.widgets.DirectionDragButton a:text="" style="@style/control_button_style"/>
-
-			<org.solovyev.android.view.widgets.DirectionDragButton a:text="" style="@style/control_button_style"/>
-
+			<include layout="@layout/calc_donate_button"/>
+			<include layout="@layout/calc_history_button"/>
 
 		</LinearLayout>
 	</LinearLayout>

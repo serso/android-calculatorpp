@@ -7,6 +7,7 @@
 package org.solovyev.android.calculator.model;
 
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -16,16 +17,23 @@ import org.junit.Test;
  */
 public class ToJsclPreprocessorTest {
 
+	@BeforeClass
+	public static void setUp() throws Exception {
+		CalculatorModel.instance.init(null);
+	}
+
 	@Test
 	public void testProcess() throws Exception {
 		final ToJsclTextProcessor preprocessor = new ToJsclTextProcessor();
 
 		Assert.assertEquals( "sin(4)*cos(5)", preprocessor.process("sin(4)cos(5)"));
-		Assert.assertEquals( "pi*sin(4)*pi*cos(sqrt(5))", preprocessor.process("πsin(4)πcos(√(5))"));
-		Assert.assertEquals( "pi*sin(4)+pi*cos(sqrt(5))", preprocessor.process("πsin(4)+πcos(√(5))"));
-		Assert.assertEquals( "pi*sin(4)+pi*cos(sqrt(5+sqrt(-1)))", preprocessor.process("πsin(4)+πcos(√(5+i))"));
-		Assert.assertEquals( "pi*sin(4.01)+pi*cos(sqrt(5+sqrt(-1)))", preprocessor.process("πsin(4.01)+πcos(√(5+i))"));
-		Assert.assertEquals( "exp(1)^pi*sin(4.01)+pi*cos(sqrt(5+sqrt(-1)))", preprocessor.process("e^πsin(4.01)+πcos(√(5+i))"));
+		Assert.assertEquals( "3.141592653589793*sin(4)*3.141592653589793*cos(sqrt(5))", preprocessor.process("πsin(4)πcos(√(5))"));
+		Assert.assertEquals( "3.141592653589793*sin(4)+3.141592653589793*cos(sqrt(5))", preprocessor.process("πsin(4)+πcos(√(5))"));
+		Assert.assertEquals( "3.141592653589793*sin(4)+3.141592653589793*cos(sqrt(5+sqrt(-1)))", preprocessor.process("πsin(4)+πcos(√(5+i))"));
+		Assert.assertEquals( "3.141592653589793*sin(4.01)+3.141592653589793*cos(sqrt(5+sqrt(-1)))", preprocessor.process("πsin(4.01)+πcos(√(5+i))"));
+		Assert.assertEquals( "2.718281828459045^3.141592653589793*sin(4.01)+3.141592653589793*cos(sqrt(5+sqrt(-1)))", preprocessor.process("e^πsin(4.01)+πcos(√(5+i))"));
+		Assert.assertEquals( "2.718281828459045^3.141592653589793*sin(4.01)+3.141592653589793*cos(sqrt(5+sqrt(-1)))*10^2", preprocessor.process("e^πsin(4.01)+πcos(√(5+i))E2"));
+		Assert.assertEquals( "2.718281828459045^3.141592653589793*sin(4.01)+3.141592653589793*cos(sqrt(5+sqrt(-1)))*10^-2", preprocessor.process("e^πsin(4.01)+πcos(√(5+i))E-2"));
 	}
 
 	@Test
@@ -44,7 +52,7 @@ public class ToJsclPreprocessorTest {
 		Assert.assertEquals(4, preprocessor.getPostfixFunctionStart("2.23+(5.4434234*sin(5.1+1))!", 26));
 		Assert.assertEquals(0, preprocessor.getPostfixFunctionStart("sin(5)!", 5));
 		Assert.assertEquals(0, preprocessor.getPostfixFunctionStart("sin(5sin(5sin(5)))!", 17));
-		Assert.assertEquals(1, preprocessor.getPostfixFunctionStart("2+sin(5sin(5sin(5)))!", 19));
-		Assert.assertEquals(4, preprocessor.getPostfixFunctionStart("2.23+sin(5.4434234*sin(5.1+1))!", 29));
+		Assert.assertEquals(2, preprocessor.getPostfixFunctionStart("2+sin(5sin(5sin(5)))!", 19));
+		Assert.assertEquals(5, preprocessor.getPostfixFunctionStart("2.23+sin(5.4434234*sin(5.1+1))!", 29));
 	}
 }
