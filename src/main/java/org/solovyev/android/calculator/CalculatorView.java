@@ -22,7 +22,6 @@ import org.solovyev.android.calculator.model.CalculatorModel;
 import org.solovyev.android.calculator.model.ParseException;
 import org.solovyev.android.view.CursorControl;
 import org.solovyev.android.view.HistoryControl;
-import org.solovyev.android.view.widgets.SoftKeyboardDisabler;
 import org.solovyev.common.utils.MutableObject;
 import org.solovyev.common.utils.StringUtils;
 import org.solovyev.common.utils.history.HistoryAction;
@@ -50,7 +49,6 @@ public class CalculatorView implements CursorControl, HistoryControl<CalculatorH
 		this.calculatorModel = calculator;
 
 		this.editor = (CalculatorEditor) activity.findViewById(R.id.calculatorEditor);
-		this.editor.setOnTouchListener(new SoftKeyboardDisabler());
 
 		this.display = (CalculatorDisplay) activity.findViewById(R.id.calculatorDisplay);
 		this.display.setOnClickListener(new View.OnClickListener() {
