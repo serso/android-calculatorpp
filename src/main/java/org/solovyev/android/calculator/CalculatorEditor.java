@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.text.Html;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.widget.EditText;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.math.MathType;
@@ -39,6 +40,21 @@ public class CalculatorEditor extends EditText {
 	public CalculatorEditor(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 	}
+
+	@Override
+	public boolean onCheckIsTextEditor() {
+		return false;
+	}
+
+	@Override
+	protected void onCreateContextMenu(ContextMenu menu) {
+		super.onCreateContextMenu(menu);
+
+		menu.removeItem(android.R.id.selectAll);
+		menu.removeItem(android.R.id.startSelectingText);
+	}
+
+
 
 	public void redraw() {
 		String text = getText().toString();
