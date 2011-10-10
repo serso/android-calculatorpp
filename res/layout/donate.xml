@@ -7,14 +7,13 @@
   -->
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-			  a:orientation="vertical"
 			  a:layout_width="match_parent"
-			  a:layout_height="match_parent"
-			  a:background="#ff000000">
+			  a:layout_height="match_parent">
 
-	<TextView
-			a:id="@+id/aboutTextView"
-			a:text="@string/c_copyright"
-			style="@style/about_style"/>
+	<TextView a:id="@+id/donateText"
+			  style="@style/about_style"
+			  a:layout_width="match_parent"
+			  a:text="@string/c_donate_text"
+			  a:layout_height="match_parent"/>
 
 </LinearLayout>

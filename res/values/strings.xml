@@ -20,9 +20,11 @@
 	<string name="c_restart">Restart</string>
 
 	<!--ABOUT ACTIVITY-->
-	<string name="c_copyright">Copyright (c) 2009-2011.\nCreated by serso aka se.solovyev.\n
-		For more information please\ncontact me via email\n<a href="mailto:se.solovyev@gmail.com">se.solovyev@gmail.com</a>
-		\nor visit\n<a href="http://se.solovyev.org">http://se.solovyev.org</a>
+	<string name="c_copyright">Copyright (c) 2009-2011\n\n<b>Created by serso aka se.solovyev</b>\n\n
+		This program is free and open source.\nSource code can be found on\n<a href="https://github.com/serso/android_calculator">http://github.com</a>\n\n
+		For more information please\ncontact the author by email\n<a href="mailto:se.solovyev@gmail.com">se.solovyev@gmail.com</a>
+		\nor visit\n<a href="http://se.solovyev.org">http://se.solovyev.org</a>\n\n
+		If you want to support the project\nyou can donate money via\n<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=se%2esolovyev%40gmail%2ecom&amp;lc=RU&amp;item_name=Android%20Calculator&amp;currency_code=USD&amp;bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted">http://paypal.com</a>
 	</string>
 
 	<string name="c_undo">undo</string>
@@ -60,4 +62,9 @@
 	<string name="c_i_description">Imaginary unit, defined such that i^2 = −1</string>
 	<string name="c_calc_editor_hint">Enter new expression</string>
 	<string name="c_press_to_copy">Press to copy</string>
+	<string name="c_continue">Continue</string>
+	<string name="c_donate">Donate</string>
+	<string name="c_donate_text">You can thank the author of this program by email\n\n
+		<a href="mailto:se.solovyev@gmail.com">se.solovyev@gmail.com</a>\n\n
+		or donate money via\n\n<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=se%2esolovyev%40gmail%2ecom&amp;lc=RU&amp;item_name=Android%20Calculator&amp;currency_code=USD&amp;bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted">http://paypal.com</a>\n</string>
 </resources>

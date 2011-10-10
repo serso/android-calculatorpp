@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="c_app_name">Калькулятор</string>
-    <string name="c_app_settings">Калькулятор</string>
-    <string name="c_syntax_error">Ошибка</string>
-    <string name="c_result_copied">Результат скопирован в буфер!</string>
+	<string name="c_app_name">Калькулятор</string>
+	<string name="c_app_settings">Калькулятор</string>
+	<string name="c_syntax_error">Ошибка</string>
+	<string name="c_result_copied">Результат скопирован в буфер!</string>
 	<string name="c_settings">Настройки</string>
 	<string name="c_help">Помощь</string>
 	<string name="c_about">О программе</string>
@@ -19,9 +19,11 @@
 	<string name="c_restart">Перезапуск</string>
 
 	<!--ABOUT ACTIVITY-->
-	<string name="c_copyright">Copyright (c) 2009-2011.\nПрограмма создана serso aka se.solovyev.\n
-		За подробной информацией, пожалуйста,\nобращайтесь на почту\n<a href="mailto:se.solovyev@gmail.com">se.solovyev@gmail.com</a>
-		\nили посетите\n<a href="http://se.solovyev.org">http://se.solovyev.org</a>
+	<string name="c_copyright">Copyright (c) 2009-2011\n\n<b>Программа создана\nserso aka se.solovyev</b>\n\n
+		Эта программа бесплатна и открыта.\nИсходный код может быть найден на \n<a href="https://github.com/serso/android_calculator">http://github.com</a>\n\n
+		За подробной информацией, пожалуйста,\nобращайтесь на почту\n<a href="mailto:se.solovyev@gmail.com">se.solovyev@gmail.com</a>\n
+		или посетите сайт \n<a href="http://se.solovyev.org">http://se.solovyev.org</a>\n\n
+		Если вы хотите поддержать проект материально\nвы можете сделать это через \n<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=se%2esolovyev%40gmail%2ecom&amp;lc=RU&amp;item_name=Android%20Calculator&amp;currency_code=USD&amp;bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted">http://paypal.com</a>
 	</string>
 
 	<string name="c_undo">назад</string>
@@ -53,7 +55,18 @@
 	<string name="c_sys.var.cannot.be.changed">Системная переменная не может быть изменена!</string>
 
 	<string name="c_pi_description">Отношение длины окружности к диаметру</string>
-	<string name="c_e_description">Вещесвтенное число, такое что производная функции f(x) = e^x в точке x = 0 равно 1</string>
+	<string name="c_e_description">Вещесвтенное число, такое что производная функции f(x) = e^x в точке x = 0 равно 1
+	</string>
 	<string name="c_i_description">Мнимая единица, определённая как i^2 = −1</string>
 	<string name="c_calc_editor_hint">Введите новое выражение</string>
+	<string name="c_continue">Продолжить</string>
+	<string name="c_press_to_copy">Нажмите для копирования</string>
+	<string name="c_donate">Пожертвовать</string>
+	<string name="c_donate_text">Вы можете отблагодарить автора по почте\n\n
+		<a href="mailto:se.solovyev@gmail.com">se.solovyev@gmail.com</a>\n\n
+		или пожертвовать денег через\n\n
+		<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=se%2esolovyev%40gmail%2ecom&amp;lc=RU&amp;item_name=Android%20Calculator&amp;currency_code=USD&amp;bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted">
+			http://paypal.com</a>\n
+	</string>
+
 </resources>
