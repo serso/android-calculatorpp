@@ -6,11 +6,13 @@
 package org.solovyev.android.calculator;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.*;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.ClipboardManager;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.*;
@@ -213,12 +215,30 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		startActivity(new Intent(this, CalculatorVarsActivity.class));
 	}
 
+	private final static String paypalDonateUrl = "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=se%2esolovyev%40gmail%2ecom&lc=RU&item_name=Android%20Calculator&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted";
+
 	@SuppressWarnings({"UnusedDeclaration"})
 	public void donateButtonClickHandler(@NotNull View v) {
-		final String paypalDonateUrl = "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=se%2esolovyev%40gmail%2ecom&lc=RU&item_name=android%2ecalculator%40se%2esolovyev&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted";
-		final Intent i = new Intent(Intent.ACTION_VIEW);
-		i.setData(Uri.parse(paypalDonateUrl));
-		startActivity(i);
+		final LayoutInflater layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+		final View view = layoutInflater.inflate(R.layout.donate, null);
+
+		final TextView donate = (TextView) view.findViewById(R.id.donateText);
+		donate.setMovementMethod(LinkMovementMethod.getInstance());
+
+		final AlertDialog.Builder builder = new AlertDialog.Builder(this)
+				.setCancelable(true)
+				.setNegativeButton(R.string.c_cancel, null)
+				.setPositiveButton(R.string.c_donate, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						final Intent i = new Intent(Intent.ACTION_VIEW);
+						i.setData(Uri.parse(paypalDonateUrl));
+						startActivity(i);
+					}
+				})
+				.setView(view);
+
+		builder.create().show();
 	}
 
 	@Override
