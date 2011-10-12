@@ -22,7 +22,12 @@ class FromJsclTextProcessor implements TextProcessor {
 	@Override
 	public String process(@NotNull String result) throws ParseException {
 		try {
-			result = String.valueOf(round(result));
+			final Double roundedValue = round(result);
+			if ( roundedValue.isInfinite() ) {
+				result =  MathType.INFINITY;
+			} else {
+				result = String.valueOf(roundedValue);
+			}
 		} catch (NumberFormatException e) {
 			if (result.contains(MathType.IMAGINARY_NUMBER_DEF)) {
 				try {

@@ -144,7 +144,7 @@ class VarsRegisterImpl implements VarsRegister {
 			final Var.Builder builder;
 			final Integer varDescription;
 
-			if ( systemVarName.equals(MathType.E) ){
+			if (systemVarName.equals(MathType.E)) {
 				builder = new Var.Builder(systemVarName, Math.E);
 				varDescription = R.string.c_e_description;
 			} else if (systemVarName.equals(MathType.PI)) {
@@ -153,6 +153,12 @@ class VarsRegisterImpl implements VarsRegister {
 			} else if (systemVarName.equals(MathType.IMAGINARY_NUMBER)) {
 				builder = new Var.Builder(systemVarName, MathType.IMAGINARY_NUMBER_DEF);
 				varDescription = R.string.c_i_description;
+			} else if (systemVarName.equals(MathType.NAN)) {
+				builder = new Var.Builder(systemVarName, MathType.NAN);
+				varDescription = R.string.c_nan_description;
+			} else if (systemVarName.equals(MathType.INFINITY)) {
+				builder = new Var.Builder(systemVarName, MathType.INFINITY_DEF);
+				varDescription = R.string.c_infinity_description;
 			} else {
 				throw new IllegalArgumentException(systemVarName + " is not supported yet!");
 			}

@@ -8,7 +8,7 @@
 
 <org.solovyev.android.view.widgets.DirectionDragButton xmlns:a="http://schemas.android.com/apk/res/android"
 													   a:id="@+id/varsButton"
-													   a:text="π,e,…"
+													   a:text="π,…"
 													   a:textStyle="italic"
 													   a:onClick="varsButtonClickHandler"
 													   style="@style/control_button_style"/>

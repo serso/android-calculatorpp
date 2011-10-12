@@ -26,6 +26,7 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.Button;
@@ -33,6 +34,7 @@ import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.view.FontSizeAdjuster;
 import org.solovyev.common.utils.Point2d;
+import org.solovyev.common.utils.StringUtils;
 
 /**
  * NOTE: copied from com.android.calculator2.ColorButton
@@ -42,14 +44,15 @@ import org.solovyev.common.utils.Point2d;
  * Button with click-animation effect.
  */
 public class ColorButton extends Button {
-	int CLICK_FEEDBACK_COLOR;
-	static final int CLICK_FEEDBACK_INTERVAL = 10;
-	static final int CLICK_FEEDBACK_DURATION = 350;
+
+	private int CLICK_FEEDBACK_COLOR;
+	private static final int CLICK_FEEDBACK_INTERVAL = 10;
+	private static final int CLICK_FEEDBACK_DURATION = 350;
 
 	@NotNull
 	private Point2d textPosition;
-	private long mAnimStart;
-	private Paint mFeedbackPaint;
+	private long animationStart;
+	private Paint feedbackPaint;
 
 	public ColorButton(Context context, AttributeSet attrs) {
 		this(context, attrs, true);
@@ -66,12 +69,12 @@ public class ColorButton extends Button {
 		Resources res = getResources();
 
 		CLICK_FEEDBACK_COLOR = res.getColor(org.solovyev.android.calculator.R.color.magic_flame);
-		mFeedbackPaint = new Paint();
-		mFeedbackPaint.setStyle(Style.STROKE);
-		mFeedbackPaint.setStrokeWidth(2);
+		feedbackPaint = new Paint();
+		feedbackPaint.setStyle(Style.STROKE);
+		feedbackPaint.setStrokeWidth(2);
 		getPaint().setColor(res.getColor(R.color.button_text_color));
 
-		mAnimStart = -1;
+		animationStart = -1;
 
 		if (context instanceof FontSizeAdjuster) {
 			((FontSizeAdjuster) context).adjustFontSize(this);
@@ -113,17 +116,17 @@ public class ColorButton extends Button {
 		int alpha = 255 - 255 * duration / CLICK_FEEDBACK_DURATION;
 		int color = CLICK_FEEDBACK_COLOR | (alpha << 24);
 
-		mFeedbackPaint.setColor(color);
-		canvas.drawRect(1, 1, getWidth() - 1, getHeight() - 1, mFeedbackPaint);
+		feedbackPaint.setColor(color);
+		canvas.drawRect(1, 1, getWidth() - 1, getHeight() - 1, feedbackPaint);
 	}
 
 	@Override
 	public void onDraw(Canvas canvas) {
-		if (mAnimStart != -1) {
-			int animDuration = (int) (System.currentTimeMillis() - mAnimStart);
+		if (animationStart != -1) {
+			int animDuration = (int) (System.currentTimeMillis() - animationStart);
 
 			if (animDuration >= CLICK_FEEDBACK_DURATION) {
-				mAnimStart = -1;
+				animationStart = -1;
 			} else {
 				drawMagicFlame(animDuration, canvas);
 				postInvalidateDelayed(CLICK_FEEDBACK_INTERVAL);
@@ -131,13 +134,48 @@ public class ColorButton extends Button {
 		}
 
 		CharSequence text = getText();
-		if (text != null && textPosition != null) {
+		if (!StringUtils.isEmpty(text) && textPosition != null) {
 			canvas.drawText(text, 0, text.length(), textPosition.getX(), textPosition.getY(), getPaint());
+		} else {
+			drawDrawables(canvas);
+		}
+	}
+
+	private void drawDrawables(Canvas canvas) {
+		final int compoundPaddingLeft = getCompoundPaddingLeft();
+		final int compoundPaddingTop = getCompoundPaddingTop();
+		final int compoundPaddingRight = getCompoundPaddingRight();
+		final int compoundPaddingBottom = getCompoundPaddingBottom();
+
+		final int scrollX = getScrollX();
+		final int scrollY = getScrollY();
+
+		final int right = getRight();
+		final int left = getLeft();
+		final int bottom = getBottom();
+		final int top = getTop();
+
+		final Drawable[] drawables = getCompoundDrawables();
+		if (drawables != null) {
+
+			int vspace = bottom - top - compoundPaddingBottom - compoundPaddingTop;
+			int hspace = right - left - compoundPaddingRight - compoundPaddingLeft;
+
+			Drawable topDr = drawables[1];
+			// IMPORTANT: The coordinates computed are also used in invalidateDrawable()
+			// Make sure to update invalidateDrawable() when changing this code.
+			if (topDr != null) {
+				canvas.save();
+				canvas.translate(scrollX + compoundPaddingLeft + (hspace - topDr.getBounds().width()) / 2,
+                        scrollY + getPaddingTop() + vspace / 2);
+				topDr.draw(canvas);
+				canvas.restore();
+			}
 		}
 	}
 
 	public void animateClickFeedback() {
-		mAnimStart = System.currentTimeMillis();
+		animationStart = System.currentTimeMillis();
 		invalidate();
 	}
 

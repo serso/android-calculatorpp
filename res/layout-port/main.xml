@@ -55,7 +55,7 @@
 			<include layout="@layout/calc_eight_digit_button"/>
 			<include layout="@layout/calc_nine_digit_button"/>
 			<include layout="@layout/calc_plus_button"/>
-			<include layout="@layout/calc_paste_button"/>
+			<include layout="@layout/calc_copy_button"/>
 
 		</LinearLayout>
 
@@ -65,7 +65,7 @@
 			<include layout="@layout/calc_zero_digit_button"/>
 			<include layout="@layout/calc_square_brackets_button"/>
 			<include layout="@layout/calc_subtraction_button"/>
-			<include layout="@layout/calc_copy_button"/>
+			<include layout="@layout/calc_paste_button"/>
 
 		</LinearLayout>
 
