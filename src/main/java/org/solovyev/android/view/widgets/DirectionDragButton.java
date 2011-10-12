@@ -126,11 +126,10 @@ public class DirectionDragButton extends DragButton {
 
 		basePaint.measureText(StringUtils.getNotEmpty(baseText, "|"));
 
-		float height = h - basePaint.ascent() - basePaint.descent();
 		if (direction < 0) {
-			result.setY(height / 2 + height / 3 + selfHeight);
+			result.setY(h / 2 + h / 3 - selfHeight / 2);
 		} else {
-			result.setY(height / 2 - height / 3);
+			result.setY(h / 2 - h / 3 - selfHeight / 2);
 		}
 
 		return result;
@@ -158,7 +157,7 @@ public class DirectionDragButton extends DragButton {
 
 		upDownTextPaint = new TextPaint(paint);
 		upDownTextPaint.setAlpha(150);
-		upDownTextPaint.setTextSize(paint.getTextSize() / 2);
+		upDownTextPaint.setTextSize(paint.getTextSize() / 3);
 	}
 
 	private String getStyledUpDownText(@Nullable String text) {

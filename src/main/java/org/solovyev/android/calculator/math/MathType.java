@@ -34,8 +34,11 @@ public enum MathType {
 	public static final String IMAGINARY_NUMBER_DEF = "sqrt(-1)";
 	public static final String PI = "π";
 	public static final String E = "e";
+	public final static String NAN = "NaN";
+	public final static String INFINITY = "∞";
+	public final static String INFINITY_DEF = "Infinity";
 
-	public static final List<String> constants = Arrays.asList(E, PI, IMAGINARY_NUMBER);
+	public static final List<String> constants = Arrays.asList(E, PI, IMAGINARY_NUMBER, NAN, INFINITY);
 
 	public static final List<String> digits = Arrays.asList("0", "1", "2", "3", "4", "5", "6", "7", "8", "9");
 
