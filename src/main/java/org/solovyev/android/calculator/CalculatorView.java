@@ -107,7 +107,7 @@ public class CalculatorView implements CursorControl, HistoryControl<CalculatorH
 	@NotNull
 	private final MutableObject<Runnable> currentRunner = new MutableObject<Runnable>();
 
-	public void doTextOperation(@NotNull TextOperation operation) {
+	public synchronized void doTextOperation(@NotNull TextOperation operation) {
 		final String editorStateBefore = this.editor.getText().toString();
 
 		operation.doOperation(this.editor);

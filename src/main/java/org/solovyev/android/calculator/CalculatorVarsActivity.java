@@ -39,6 +39,8 @@ public class CalculatorVarsActivity extends ListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		setContentView(R.layout.vars);
+
 		adapter = new VarsArrayAdapter(this, R.layout.var, R.id.var_text, new ArrayList<Var>(CalculatorModel.instance.getVarsRegister().getVars()));
 		setListAdapter(adapter);
 
@@ -67,6 +69,12 @@ public class CalculatorVarsActivity extends ListActivity {
 		});
 
 	}
+
+	@SuppressWarnings({"UnusedDeclaration"})
+	public void addVarButtonClickHandler(@NotNull View v) {
+		createEditVariableDialog(null, null, null, null);
+	}
+
 
 	private void createEditVariableDialog(@Nullable final Var var, @Nullable final String name, @Nullable final String value, @Nullable final String description) {
 		if (var == null || !var.isSystem()) {

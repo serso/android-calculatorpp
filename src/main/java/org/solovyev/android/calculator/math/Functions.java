@@ -37,6 +37,7 @@ public class Functions {
 	public final static String EXP = "exp";
 	public final static String SQRT_SIGN = "√";
 	public final static String SQRT = "sqrt";
+
 	public final static String E = "E";
 	public final static String E_POWER = "10^";
 

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+  ~ For more information, please, contact se.solovyev@gmail.com
+  ~ or visit http://se.solovyev.org
+  -->
+
+<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+    a:orientation="vertical"
+    a:layout_width="match_parent"
+    a:layout_height="match_parent">
+
+    <ListView
+        a:layout_width="match_parent"
+        a:layout_height="match_parent"
+        a:layout_weight="1"
+        a:id="@android:id/list"/>
+
+    <Button
+        a:layout_width="wrap_content"
+        a:layout_height="wrap_content"
+        a:layout_gravity="center_horizontal"
+        a:text="@string/c_add"
+		a:paddingLeft="40dp"
+		a:paddingRight="40dp"
+        a:onClick="addVarButtonClickHandler"/>
+
+</LinearLayout>
