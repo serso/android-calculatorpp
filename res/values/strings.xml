@@ -29,7 +29,7 @@
 
 	<string name="c_undo">undo</string>
 	<string name="c_redo">redo</string>
-	<string name="c_clear">clear all</string>
+	<string name="c_clear">CE</string>
 	<string name="c_erase">clear</string>
 	<string name="c_paste">paste</string>
 	<string name="c_vars">vars</string>
