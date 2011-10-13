@@ -42,6 +42,14 @@ class ToJsclTextProcessor implements TextProcessor {
 			} else if (mathType == MathType.function) {
 				sb.append(toJsclFunction(mathTypeResult.getMatch()));
 				i += mathTypeResult.getMatch().length() - 1;
+
+				// NOTE: fix for jscl for EMPTY functions processing (see tests)
+				startsWithFinder.setI(i + 1);
+				if ( i < s.length() && CollectionsUtils.get(MathType.groupSymbols, startsWithFinder) != null) {
+					i += 2;
+					sb.append("(foo)");
+					mathTypeResult = new MathType.Result(MathType.close_group_symbol, ")");
+				}
 			} else if (mathType == MathType.constant) {
 				sb.append(mathTypeResult.getMatch());
 				i += mathTypeResult.getMatch().length() - 1;
