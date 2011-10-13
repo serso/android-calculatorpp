@@ -9,13 +9,14 @@ package org.solovyev.android.calculator.model;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.solovyev.android.calculator.JsclOperation;
 
 /**
  * User: serso
  * Date: 9/26/11
  * Time: 12:13 PM
  */
-public class ToJsclPreprocessorTest {
+public class ToJsclTextProcessorTest {
 
 	@BeforeClass
 	public static void setUp() throws Exception {
@@ -34,6 +35,11 @@ public class ToJsclPreprocessorTest {
 		Assert.assertEquals( "2.718281828459045^3.141592653589793*sin(4.01)+3.141592653589793*cos(sqrt(5+sqrt(-1)))", preprocessor.process("e^πsin(4.01)+πcos(√(5+i))"));
 		Assert.assertEquals( "2.718281828459045^3.141592653589793*sin(4.01)+3.141592653589793*cos(sqrt(5+sqrt(-1)))*10^2", preprocessor.process("e^πsin(4.01)+πcos(√(5+i))E2"));
 		Assert.assertEquals( "2.718281828459045^3.141592653589793*sin(4.01)+3.141592653589793*cos(sqrt(5+sqrt(-1)))*10^-2", preprocessor.process("e^πsin(4.01)+πcos(√(5+i))E-2"));
+		Assert.assertEquals( "log(foo)", preprocessor.process("ln()"));
+		Assert.assertEquals( "log(foo)*log(foo)", preprocessor.process("ln()ln()"));
+		Assert.assertEquals( "2.718281828459045*log(foo)*2.718281828459045*log(foo)*log(foo)*log(foo)*log(foo)*2.718281828459045", preprocessor.process("eln()eln()ln()ln()ln()e"));
+		Assert.assertEquals( "log(log(log(log(log(log(log(log(log(log(log(log(log(log(log(foo)))))))))))))))", preprocessor.process("ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln()))))))))))))))"));
+
 	}
 
 	@Test

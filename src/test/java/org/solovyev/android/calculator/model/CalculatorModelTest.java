@@ -48,7 +48,19 @@ public class CalculatorModelTest {
 		Assert.assertEquals("-2.0+2.1i", cm.evaluate(JsclOperation.numeric, "-2+2.1i"));
 		Assert.assertEquals("-3.41007+3.41007i", cm.evaluate(JsclOperation.numeric, "(5tan(2i)+2i)/(1-i)"));
 		Assert.assertEquals("-0.1-0.2i", cm.evaluate(JsclOperation.numeric, "(1-i)/(2+6i)"));
-		//Assert.assertEquals("-0.1-0.2i", cm.evaluate(JsclOperation.numeric, "cos(cos(cos(cos(acos(acos(acos(acos(acos(acos(acos(acos(cos(cos(cos(cos(cosh(acos(cos()))))))))))))))))))"));
+
+		try {
+			cm.evaluate(JsclOperation.numeric, "cos(cos(cos(cos(acos(acos(acos(acos(acos(acos(acos(acos(cos(cos(cos(cos(cosh(acos(cos(cos(cos(cos(cos(acos(acos(acos(acos(acos(acos(acos(acos(cos(cos(cos(cos(cosh(acos(cos())))))))))))))))))))))))))))))))))))))");
+			Assert.fail();
+		} catch (EvalError e){
+		}
+		Assert.assertEquals("NaN", cm.evaluate(JsclOperation.numeric, "ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(100)))))))))))))))"));
+		try {
+			cm.evaluate(JsclOperation.numeric, "cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos())))))))))))))))))))))))))))))))))))");
+			Assert.fail();
+		} catch (EvalError e){
+		}
+		Assert.assertEquals("0.73909", cm.evaluate(JsclOperation.numeric, "cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(1))))))))))))))))))))))))))))))))))))"));
 
 		CalculatorModel.instance.getVarsRegister().addVar(null, new Var.Builder("si", 5d));
 		Assert.assertEquals("5.0", cm.evaluate(JsclOperation.numeric, "si"));
