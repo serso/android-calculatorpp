@@ -139,7 +139,7 @@ public enum MathType {
 		@NotNull
 		private final String match;
 
-		private Result(@NotNull MathType mathType, @NotNull String match){
+		public Result(@NotNull MathType mathType, @NotNull String match){
 			this.mathType = mathType;
 
 			this.match = match;
