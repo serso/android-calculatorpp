@@ -1,0 +1,18 @@
+<!--
+  ~ Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+  ~ For more information, please, contact se.solovyev@gmail.com
+  ~ or visit http://se.solovyev.org
+  -->
+
+<resources>
+	<string-array name="p_theme_names">
+		<item>Default</item>
+		<item>Violet</item>
+		<item>Light blue</item>
+	</string-array>
+	<string-array name="p_theme_values">
+		<item>default_theme</item>
+		<item>violet_theme</item>
+		<item>light_blue_theme</item>
+	</string-array>
+</resources>

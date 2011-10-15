@@ -12,5 +12,5 @@
 													   a:text="2"
 													   calc:textUp="cos"
 													   calc:textDown="acos"
-													   style="@style/digit_button_style"
+													   style="?digitButtonStyle"
 													   a:onClick="digitButtonClickHandler"/>

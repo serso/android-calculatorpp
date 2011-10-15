@@ -11,5 +11,5 @@
 													   a:id="@+id/sixDigitButton" a:text="6"
 													   calc:textUp="tanh"
 													   calc:textDown="atanh"
-													   style="@style/digit_button_style"
+													   style="?digitButtonStyle"
 													   a:onClick="digitButtonClickHandler"/>

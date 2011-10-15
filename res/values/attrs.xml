@@ -3,11 +3,14 @@
 	<declare-styleable name="DragButton">
 		<attr name="textUp" format="string"/>
 		<attr name="textDown" format="string"/>
+		<attr name="directionTextScale" format="float"/>
 	</declare-styleable>
 
 	<declare-styleable name="NumberRangeSeekBar">
 		<attr name="boundaries" format="string"/>
 		<attr name="steps" format="integer"/>
 	</declare-styleable>
+
+	<attr name="digitButtonStyle" format="reference" />
 
 </resources>

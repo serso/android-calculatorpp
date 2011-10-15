@@ -11,5 +11,5 @@
 													   a:text="4"
 													   calc:textUp="sinh"
 													   calc:textDown="asinh"
-													   style="@style/digit_button_style"
+													   style="?digitButtonStyle"
 													   a:onClick="digitButtonClickHandler"/>

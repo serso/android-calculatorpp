@@ -12,5 +12,5 @@
 													   a:text="3"
 													   calc:textUp="tan"
 													   calc:textDown="atan"
-													   style="@style/digit_button_style"
+													   style="?digitButtonStyle"
 													   a:onClick="digitButtonClickHandler"/>

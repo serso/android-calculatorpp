@@ -31,6 +31,10 @@ import org.solovyev.common.utils.history.HistoryAction;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class CalculatorActivity extends Activity implements FontSizeAdjuster, SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -54,11 +58,26 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 	private volatile boolean initialized;
 
+	@NotNull
+	private String themeName;
+
+	// key: style name, value: id of style in R.class
+	private Map<String, Integer> styles = null;
+
+	// ids of drag buttons in R.class
+	private List<Integer> dragButtonIds = null;
+
+
 	/**
 	 * Called when the activity is first created.
 	 */
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
+		Log.d(this.getClass().getName(), "org.solovyev.android.calculator.CalculatorActivity.onCreate()");
+
+		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+		setTheme(preferences);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
@@ -68,28 +87,9 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 		dpclRegister.clear();
 
-		final SimpleOnDragListener.Preferences dragPreferences = SimpleOnDragListener.getPreferences(this);
+		final SimpleOnDragListener.Preferences dragPreferences = SimpleOnDragListener.getPreferences(preferences, this);
 
-		final SimpleOnDragListener onDragListener = new SimpleOnDragListener(new DigitButtonDragProcessor(calculatorView), dragPreferences);
-		dpclRegister.addListener(onDragListener);
-
-		// todo serso: check if there is more convenient method for doing this
-		final R.id ids = new R.id();
-		for (Field field : R.id.class.getDeclaredFields()) {
-			int modifiers = field.getModifiers();
-			if (Modifier.isFinal(modifiers) && Modifier.isStatic(modifiers)) {
-				try {
-					final View view = findViewById(field.getInt(ids));
-					if (view instanceof DragButton) {
-						((DragButton) view).setOnDragListener(onDragListener);
-					}
-				} catch (IllegalArgumentException e) {
-					Log.e(CalculatorActivity.class.getName(), e.getMessage());
-				} catch (IllegalAccessException e) {
-					Log.e(CalculatorActivity.class.getName(), e.getMessage());
-				}
-			}
-		}
+		setOnDragListeners(dragPreferences);
 
 		final SimpleOnDragListener historyOnDragListener = new SimpleOnDragListener(new HistoryDragProcessor<CalculatorHistoryState>(this.calculatorView), dragPreferences);
 		((DragButton) findViewById(R.id.historyButton)).setOnDragListener(historyOnDragListener);
@@ -100,10 +100,68 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		((DragButton) findViewById(R.id.leftButton)).setOnDragListener(toPositionOnDragListener);
 		dpclRegister.addListener(toPositionOnDragListener);
 
-		final SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-		defaultSharedPreferences.registerOnSharedPreferenceChangeListener(this);
+		preferences.registerOnSharedPreferenceChangeListener(this);
 
-		this.onSharedPreferenceChanged(defaultSharedPreferences, null);
+		this.onSharedPreferenceChanged(preferences, null);
+	}
+
+	private synchronized void setOnDragListeners(@NotNull SimpleOnDragListener.Preferences dragPreferences) {
+		final SimpleOnDragListener onDragListener = new SimpleOnDragListener(new DigitButtonDragProcessor(calculatorView), dragPreferences);
+		dpclRegister.addListener(onDragListener);
+
+		if (dragButtonIds == null) {
+			dragButtonIds = new ArrayList<Integer>();
+
+			for (Field field : R.id.class.getDeclaredFields()) {
+				int modifiers = field.getModifiers();
+				if (Modifier.isFinal(modifiers) && Modifier.isStatic(modifiers)) {
+					try {
+						int dragButtonId = field.getInt(R.id.class);
+						final View view = findViewById(dragButtonId);
+						if (view instanceof DragButton) {
+							dragButtonIds.add(dragButtonId);
+						}
+					} catch (IllegalAccessException e) {
+						Log.e(CalculatorActivity.class.getName(), e.getMessage());
+					}
+				}
+			}
+		}
+
+		for (Integer dragButtonId : dragButtonIds) {
+			((DragButton) findViewById(dragButtonId)).setOnDragListener(onDragListener);
+		}
+	}
+
+	private synchronized void setTheme(@NotNull SharedPreferences preferences) {
+		if (styles == null) {
+			styles = new HashMap<String, Integer>();
+			for (Field themeField : R.style.class.getDeclaredFields()) {
+				int modifiers = themeField.getModifiers();
+				if (Modifier.isFinal(modifiers) && Modifier.isStatic(modifiers)) {
+					try {
+						Log.d(this.getClass().getName(), "Style found: " + themeField.getName());
+						int styleId = themeField.getInt(R.style.class);
+						Log.d(this.getClass().getName(), "Style id: " + styleId);
+						styles.put(themeField.getName(), styleId);
+					} catch (IllegalAccessException e) {
+						Log.e(CalculatorActivity.class.getName(), e.getMessage());
+					}
+				}
+			}
+		}
+
+		themeName = preferences.getString(getString(R.string.p_calc_theme_key), getString(R.string.p_calc_theme));
+
+		Integer styleId = styles.get(themeName);
+		if (styleId == null) {
+			Log.d(this.getClass().getName(), "No saved theme found => applying default theme: " + R.style.default_theme);
+			styleId = R.style.default_theme;
+		} else {
+			Log.d(this.getClass().getName(), "Saved them found: " + styleId);
+		}
+
+		setTheme(styleId);
 	}
 
 	private void init() {
@@ -130,6 +188,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 							@Override
 							public void doOperation(@NotNull EditText editor) {
 								editor.setText(s);
+								calculatorView.setCursorOnEnd();
 							}
 						});
 					}
@@ -146,12 +205,12 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 			try {
 				CalculatorModel.instance.init(this);
 			} catch (EvalError evalError) {
-				// todo serso: create serso runtime exception
 				throw new RuntimeException("Could not initialize interpreter!");
 			}
 			initialized = true;
 		}
 	}
+
 
 	@Override
 	protected void onDestroy() {
@@ -332,15 +391,39 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		view.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontPixelSize * ratio);
 	}
 
+	public void restart() {
+		final Intent intent = getIntent();
+		overridePendingTransition(0, 0);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+
+		Log.d(this.getClass().getName(), "Finishing current activity!");
+		finish();
+
+		overridePendingTransition(0, 0);
+		Log.d(this.getClass().getName(), "Starting new activity!");
+		startActivity(intent);
+	}
+
 	@Override
-	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, @Nullable String s) {
-		dpclRegister.announce().onDragPreferencesChange(SimpleOnDragListener.getPreferences(CalculatorActivity.this));
+	protected void onResume() {
+		super.onResume();
+
+		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		final String newThemeName = preferences.getString(getString(R.string.p_calc_theme_key), getString(R.string.p_calc_theme));
+		if (!newThemeName.equals(themeName)) {
+			restart();
+		}
+	}
+
+	@Override
+	public void onSharedPreferenceChanged(SharedPreferences preferences, @Nullable String s) {
+		dpclRegister.announce().onDragPreferencesChange(SimpleOnDragListener.getPreferences(preferences, this));
 
 		CalculatorModel.instance.reset(this);
 
 		final Boolean colorExpressionsInBracketsDefault = new BooleanMapper().parseValue(this.getString(R.string.p_calc_color_display));
 		assert colorExpressionsInBracketsDefault != null;
-		this.calculatorView.getEditor().setHighlightText(sharedPreferences.getBoolean(this.getString(R.string.p_calc_color_display_key), colorExpressionsInBracketsDefault));
+		this.calculatorView.getEditor().setHighlightText(preferences.getBoolean(this.getString(R.string.p_calc_color_display_key), colorExpressionsInBracketsDefault));
 
 		this.calculatorView.evaluate();
 	}
