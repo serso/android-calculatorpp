@@ -74,4 +74,5 @@
 	<string name="c_history_button">M</string>
 	<string name="c_history_is_empty">History is empty!</string>
 	<string name="c_app_history">History</string>
+	<string name="c_char_is_not_accepted">Character \'%s\' is not accepted in variable name!</string>
 </resources>

@@ -12,6 +12,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.*;
 import android.widget.*;
 import org.jetbrains.annotations.NotNull;
@@ -23,6 +25,7 @@ import org.solovyev.android.calculator.model.VarsRegister;
 import org.solovyev.common.utils.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -31,6 +34,8 @@ import java.util.List;
  * Time: 10:55 PM
  */
 public class CalculatorVarsActivity extends ListActivity {
+
+	private final static List<Character> acceptableChars = Arrays.asList(StringUtils.toObject("1234567890abcdefghijklmnopqrstuvwxyzйцукенгшщзхъфывапролджэячсмитьбюё".toCharArray()));
 
 	@NotNull
 	private VarsArrayAdapter adapter;
@@ -82,8 +87,31 @@ public class CalculatorVarsActivity extends ListActivity {
 			final LayoutInflater layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
 			final View editView = layoutInflater.inflate(R.layout.var_edit, null);
 
+			final String errorMsg = CalculatorVarsActivity.this.getString(R.string.c_char_is_not_accepted);
+
 			final EditText editName = (EditText) editView.findViewById(R.id.var_edit_name);
 			editName.setText(name);
+			editName.addTextChangedListener(new TextWatcher() {
+
+				@Override
+				public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+				}
+
+				@Override
+				public void onTextChanged(CharSequence s, int start, int before, int count) {
+				}
+
+				@Override
+				public void afterTextChanged(Editable s) {
+					for ( int i = 0; i < s.length(); i++ ) {
+						char c = s.charAt(i);
+						if (!acceptableChars.contains(c)) {
+							s.delete(i, i+1);
+							Toast.makeText(CalculatorVarsActivity.this, String.format(errorMsg, c), Toast.LENGTH_SHORT).show();
+						}
+					}
+				}
+			});
 
 			final EditText editValue = (EditText) editView.findViewById(R.id.var_edit_value);
 			editValue.setText(value);
