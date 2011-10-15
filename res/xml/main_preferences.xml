@@ -7,20 +7,22 @@
 		<org.solovyev.android.view.prefs.NumberPickerDialogPreference
 				a:key="@string/p_calc_result_precision_key"
 				a:title="@string/p_calc_result_precision_title"
+				a:summary="@string/c_calc_result_precision_summary"
 				a:defaultValue="5"
 				range:boundaries="0;10"/>
 
 		<android.preference.CheckBoxPreference
 				a:key="@string/p_calc_color_display_key"
+				a:summary="@string/c_calc_color_display_summary"
 				a:title="@string/c_calc_color_display_title"
 				a:defaultValue="true"/>
 
 		<ListPreference a:key="@string/p_calc_theme_key"
 						a:title="@string/c_calc_theme"
 						a:entries="@array/p_theme_names"
+						a:summary="@string/c_calc_theme_summary"
 						a:entryValues="@array/p_theme_values"
 						a:persistent="true"
-						a:defaultValue="2"
 						a:shouldDisableView="false"/>
 
 

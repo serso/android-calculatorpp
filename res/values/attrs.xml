@@ -12,5 +12,7 @@
 	</declare-styleable>
 
 	<attr name="digitButtonStyle" format="reference" />
+	<attr name="controlButtonStyle" format="reference" />
+	<attr name="controlImageButtonStyle" format="reference" />
 
 </resources>

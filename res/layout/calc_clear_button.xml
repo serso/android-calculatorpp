@@ -11,5 +11,5 @@
 			 a:id="@+id/clearButton"
 			 a:text="@string/c_clear"
 			 a:textStyle="bold"
-			 style="@style/control_image_button_style"
+			 style="?controlImageButtonStyle"
 			 a:onClick="clearButtonClickHandler"/>

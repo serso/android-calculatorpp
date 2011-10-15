@@ -11,5 +11,5 @@
 		a:text="="
 		a:layout_width="match_parent"
 		a:layout_height="match_parent"
-		style="@style/control_button_style"
+		style="?controlButtonStyle"
 		a:onClick="numericButtonClickHandler"/>

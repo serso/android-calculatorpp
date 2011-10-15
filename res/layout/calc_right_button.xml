@@ -9,7 +9,8 @@
 <org.solovyev.android.view.widgets.DirectionDragButton xmlns:a="http://schemas.android.com/apk/res/android"
 													   xmlns:calc="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
 													   a:id="@+id/rightButton"
-													   calc:textUp="↠"
-													   a:text="→"
-													   style="@style/control_button_style"
+													   calc:textUp="▶▶"
+													   a:text="▶"
+													   calc:directionTextScale="0.5"
+													   style="?controlButtonStyle"
 													   a:onClick="moveRightButtonClickHandler"/>
