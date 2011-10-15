@@ -12,5 +12,7 @@
 													   a:text="×"
 													   calc:textUp="^"
 													   calc:textDown="^2"
-													   style="@style/digit_button_style"
+													   style="?digitButtonStyle"
+													   calc:directionTextScale="0.5"
+
 													   a:onClick="digitButtonClickHandler"/>

@@ -11,5 +11,7 @@
 													   a:id="@+id/nineDigitButton" a:text="9"
 													   calc:textDown="e"
 													   calc:textUp="π"
-													   style="@style/digit_button_style"
+													   calc:directionTextScale="0.5"
+
+													   style="?digitButtonStyle"
 													   a:onClick="digitButtonClickHandler"/>

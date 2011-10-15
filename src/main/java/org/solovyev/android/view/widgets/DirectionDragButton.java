@@ -13,6 +13,7 @@ import android.text.TextPaint;
 import android.util.AttributeSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.calculator.R;
 import org.solovyev.common.utils.Point2d;
 import org.solovyev.common.utils.StringUtils;
 
@@ -22,6 +23,9 @@ import org.solovyev.common.utils.StringUtils;
  * Time: 10:25 PM
  */
 public class DirectionDragButton extends DragButton {
+
+	@NotNull
+	private final static Float DEFAULT_DIRECTION_TEXT_SCALE = 0.33f;
 
 	@Nullable
 	private String textUp;
@@ -40,6 +44,9 @@ public class DirectionDragButton extends DragButton {
 
 	@NotNull
 	private TextPaint upDownTextPaint;
+
+	@Nullable
+	private Float directionTextScale = DEFAULT_DIRECTION_TEXT_SCALE;
 
 	public DirectionDragButton(Context context, @NotNull AttributeSet attrs) {
 		super(context, attrs, false);
@@ -76,11 +83,14 @@ public class DirectionDragButton extends DragButton {
 		for (int i = 0; i < N; i++) {
 			int attr = a.getIndex(i);
 			switch (attr) {
-				case org.solovyev.android.calculator.R.styleable.DragButton_textUp:
+				case R.styleable.DragButton_textUp:
 					this.textUp = a.getString(attr);
 					break;
-				case org.solovyev.android.calculator.R.styleable.DragButton_textDown:
+				case R.styleable.DragButton_textDown:
 					this.textDown = a.getString(attr);
+					break;
+				case R.styleable.DragButton_directionTextScale:
+					this.directionTextScale = Float.valueOf(a.getString(attr));
 					break;
 			}
 		}
@@ -99,15 +109,15 @@ public class DirectionDragButton extends DragButton {
 		initUpDownTextPaint(basePaint);
 
 		if (textUp != null) {
-			textUpPosition = getTextPosition(upDownTextPaint, basePaint, textUp, getText(), 1, getWidth(), getHeight());
+			textUpPosition = getTextPosition(upDownTextPaint, basePaint, textUp, getText(), 1, getWidth(), getHeight(), getDirectionTextScale());
 		}
 
 		if (textDown != null) {
-			textDownPosition = getTextPosition(upDownTextPaint, basePaint, textDown, getText(), -1, getWidth(), getHeight());
+			textDownPosition = getTextPosition(upDownTextPaint, basePaint, textDown, getText(), -1, getWidth(), getHeight(), getDirectionTextScale());
 		}
 
-		if ( textDownPosition != null && textUpPosition != null ) {
-			if ( textDownPosition.getX() > textUpPosition.getX() ) {
+		if (textDownPosition != null && textUpPosition != null) {
+			if (textDownPosition.getX() > textUpPosition.getX()) {
 				textDownPosition.setX(textUpPosition.getX());
 			} else {
 				textUpPosition.setX(textDownPosition.getX());
@@ -116,7 +126,7 @@ public class DirectionDragButton extends DragButton {
 
 	}
 
-	public static Point2d getTextPosition(@NotNull Paint paint, @NotNull Paint basePaint, @NotNull CharSequence text, CharSequence baseText, float direction, int w, int h) {
+	public static Point2d getTextPosition(@NotNull Paint paint, @NotNull Paint basePaint, @NotNull CharSequence text, CharSequence baseText, float direction, int w, int h, float scale) {
 		final Point2d result = new Point2d();
 
 		float width = paint.measureText(text.toString() + " ");
@@ -157,15 +167,7 @@ public class DirectionDragButton extends DragButton {
 
 		upDownTextPaint = new TextPaint(paint);
 		upDownTextPaint.setAlpha(150);
-		upDownTextPaint.setTextSize(paint.getTextSize() / 3);
-	}
-
-	private String getStyledUpDownText(@Nullable String text) {
-		return StringUtils.getNotEmpty(text, "&nbsp;");
-	}
-
-	public void setTextUp(@Nullable String textUp) {
-		this.textUp = textUp;
+		upDownTextPaint.setTextSize(paint.getTextSize() * getDirectionTextScale());
 	}
 
 	@Nullable
@@ -173,17 +175,9 @@ public class DirectionDragButton extends DragButton {
 		return textUp;
 	}
 
-	public void setTextDown(@Nullable String textDown) {
-		this.textDown = textDown;
-	}
-
 	@Nullable
 	public String getTextDown() {
 		return textDown;
-	}
-
-	public void setTextMiddle(@Nullable String textMiddle) {
-		this.textMiddle = textMiddle;
 	}
 
 	@Nullable
@@ -197,7 +191,7 @@ public class DirectionDragButton extends DragButton {
 
 		if (direction == DragDirection.up) {
 			result = getTextUp();
-		} else if ( direction == DragDirection.down ) {
+		} else if (direction == DragDirection.down) {
 			result = getTextDown();
 		} else {
 			result = null;
@@ -205,4 +199,10 @@ public class DirectionDragButton extends DragButton {
 
 		return result;
 	}
+
+	@NotNull
+	public Float getDirectionTextScale() {
+		return directionTextScale == null ? DEFAULT_DIRECTION_TEXT_SCALE : directionTextScale;
+	}
+
 }
