@@ -11,7 +11,7 @@
 													   a:text="@string/c_history_button"
 													   calc:textUp="@string/c_undo"
 													   calc:textDown="@string/c_redo"
-													   style="@style/control_button_style"
+													   style="?controlButtonStyle"
 													   a:textSize="18dp"
 													   a:textStyle="bold"
 													   a:onClick="historyButtonClickHandler"/>

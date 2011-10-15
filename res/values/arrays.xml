@@ -6,9 +6,9 @@
 
 <resources>
 	<string-array name="p_theme_names">
-		<item>Default</item>
-		<item>Violet</item>
-		<item>Light blue</item>
+		<item>@string/p_default_theme</item>
+		<item>@string/p_violet_theme</item>
+		<item>@string/p_light_blue_theme</item>
 	</string-array>
 	<string-array name="p_theme_values">
 		<item>default_theme</item>

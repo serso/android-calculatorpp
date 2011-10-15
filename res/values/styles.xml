@@ -30,9 +30,25 @@
 		<item name="android:background">@drawable/light_blue_button</item>
 	</style>
 
-	<style name="control_button_style" parent="button_style"/>
+	<style name="default_control_button_style" parent="button_style"/>
 
-	<style name="control_image_button_style" parent="control_button_style">
+	<style name="violet_control_button_style" parent="button_style">
+		<item name="android:background">@drawable/dark_violet_button</item>
+	</style>
+
+	<style name="light_blue_control_button_style" parent="button_style">
+		<item name="android:background">@drawable/dark_blue_button</item>
+	</style>
+
+	<style name="default_control_image_button_style" parent="default_control_button_style">
+		<item name="android:padding">6dp</item>
+	</style>
+
+	<style name="violet_control_image_button_style" parent="violet_control_button_style">
+		<item name="android:padding">6dp</item>
+	</style>
+
+	<style name="light_blue_control_image_button_style" parent="light_blue_control_button_style">
 		<item name="android:padding">6dp</item>
 	</style>
 
@@ -68,14 +84,20 @@
 
 	<style name="default_theme">
 		<item name="digitButtonStyle">@style/default_digit_button_style</item>
+		<item name="controlButtonStyle">@style/default_control_button_style</item>
+		<item name="controlImageButtonStyle">@style/default_control_image_button_style</item>
 	</style>
 
 	<style name="violet_theme">
 		<item name="digitButtonStyle">@style/violet_digit_button_style</item>
+		<item name="controlButtonStyle">@style/violet_control_button_style</item>
+		<item name="controlImageButtonStyle">@style/violet_control_image_button_style</item>
 	</style>
 
 	<style name="light_blue_theme">
 		<item name="digitButtonStyle">@style/light_blue_digit_button_style</item>
+		<item name="controlButtonStyle">@style/light_blue_control_button_style</item>
+		<item name="controlImageButtonStyle">@style/light_blue_control_image_button_style</item>
 	</style>
 
 </resources>

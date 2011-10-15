@@ -11,4 +11,4 @@
 													   a:text="π,…"
 													   a:textStyle="italic"
 													   a:onClick="varsButtonClickHandler"
-													   style="@style/control_button_style"/>
+													   style="?controlButtonStyle"/>

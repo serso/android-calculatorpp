@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="c_app_name">Calculator</string>
-    <string name="c_app_settings">Calculator</string>
+    <string name="c_app_name">Calculator++</string>
+    <string name="c_app_settings">Settings</string>
     <string name="c_syntax_error">Syntax error</string>
     <string name="c_result_copied">Result copied to clipboard!</string>
 	<string name="c_settings">Settings</string>
@@ -76,4 +76,10 @@
 	<string name="c_app_history">History</string>
 	<string name="c_char_is_not_accepted">Character \'%s\' is not accepted in variable name!</string>
 	<string name="c_calc_theme">Theme</string>
+	<string name="p_default_theme">Default</string>
+	<string name="p_violet_theme">Violet</string>
+	<string name="p_light_blue_theme">Light Blue</string>
+	<string name="c_calc_result_precision_summary">Precision of result value (all calculations are done with maximum precision regardless of the value of this option)</string>
+	<string name="c_calc_color_display_summary">Enables/disables colouring and styling in calculator editor</string>
+	<string name="c_calc_theme_summary">Sets the theme for calculator</string>
 </resources>
