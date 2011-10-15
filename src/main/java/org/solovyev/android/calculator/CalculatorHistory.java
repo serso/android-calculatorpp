@@ -12,6 +12,8 @@ import org.solovyev.common.utils.history.HistoryAction;
 import org.solovyev.common.utils.history.HistoryHelper;
 import org.solovyev.common.utils.history.SimpleHistoryHelper;
 
+import java.util.List;
+
 /**
  * User: serso
  * Date: 10/9/11
@@ -68,5 +70,9 @@ public enum CalculatorHistory implements HistoryHelper<CalculatorHistoryState> {
 		historyHelper.addState(currentState);
 	}
 
-
+	@NotNull
+	@Override
+	public List<CalculatorHistoryState> getStates() {
+		return historyHelper.getStates();
+	}
 }

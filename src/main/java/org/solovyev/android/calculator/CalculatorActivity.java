@@ -37,6 +37,10 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	public static final String INSERT_TEXT_INTENT = "org.solovyev.android.calculator.CalculatorActivity.insertText";
 	public static final String INSERT_TEXT_INTENT_EXTRA_STRING = "org.solovyev.android.calculator.CalculatorActivity.insertText.extraString";
 
+	public static final String SET_TEXT_INTENT = "org.solovyev.android.calculator.CalculatorActivity.setText";
+	public static final String SET_TEXT_INTENT_EXTRA_STRING = "org.solovyev.android.calculator.CalculatorActivity.settText.extraString";
+
+
 	private static final int HVGA_WIDTH_PIXELS = 320;
 
 	@NotNull
@@ -46,7 +50,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	private CalculatorView calculatorView;
 
 	@NotNull
-	private BroadcastReceiver insertTextReceiver;
+	private BroadcastReceiver textReceiver;
 
 	private volatile boolean initialized;
 
@@ -106,7 +110,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 		calculatorView = new CalculatorView(this, CalculatorModel.instance);
 
-		insertTextReceiver = new BroadcastReceiver() {
+		textReceiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
 				if (INSERT_TEXT_INTENT.equals(intent.getAction())) {
@@ -119,11 +123,22 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 							}
 						});
 					}
+				} else if (SET_TEXT_INTENT.equals(intent.getAction())) {
+					final String s = intent.getStringExtra(SET_TEXT_INTENT_EXTRA_STRING);
+					if (!StringUtils.isEmpty(s)) {
+						calculatorView.doTextOperation(new CalculatorView.TextOperation() {
+							@Override
+							public void doOperation(@NotNull EditText editor) {
+								editor.setText(s);
+							}
+						});
+					}
 				}
 			}
 		};
 
-		registerReceiver(insertTextReceiver, new IntentFilter(INSERT_TEXT_INTENT));
+		registerReceiver(textReceiver, new IntentFilter(INSERT_TEXT_INTENT));
+		registerReceiver(textReceiver, new IntentFilter(SET_TEXT_INTENT));
 	}
 
 	private synchronized void firstTimeInit() {
@@ -140,7 +155,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 	@Override
 	protected void onDestroy() {
-		unregisterReceiver(insertTextReceiver);
+		unregisterReceiver(textReceiver);
 		super.onDestroy();
 	}
 
@@ -152,6 +167,11 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	@SuppressWarnings({"UnusedDeclaration"})
 	public void numericButtonClickHandler(@NotNull View v) {
 		this.calculatorView.evaluate();
+	}
+
+	@SuppressWarnings({"UnusedDeclaration"})
+	public void historyButtonClickHandler(@NotNull View v) {
+		this.showHistory();
 	}
 
 	@SuppressWarnings({"UnusedDeclaration"})
@@ -267,6 +287,10 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 				showSettings();
 				result = true;
 				break;
+			case R.id.main_menu_item_history:
+				showHistory();
+				result = true;
+				break;
 			case R.id.main_menu_item_about:
 				showAbout();
 				result = true;
@@ -280,6 +304,10 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		}
 
 		return result;
+	}
+
+	private void showHistory() {
+		startActivity(new Intent(this, CalculatorHistoryActivity.class));
 	}
 
 	private void showSettings() {

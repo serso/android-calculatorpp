@@ -5,6 +5,9 @@
 	<item a:id="@+id/main_menu_item_settings"
 		  a:title="@string/c_settings"/>
 
+	<item a:id="@+id/main_menu_item_history"
+		  a:title="@string/c_history"/>
+
 	<item a:id="@+id/main_menu_item_about"
 		  a:title="@string/c_about"/>
 
