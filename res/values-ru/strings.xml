@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="c_app_name">Калькулятор</string>
-	<string name="c_app_settings">Калькулятор</string>
+	<string name="c_app_name">Калькулятор++</string>
+	<string name="c_app_settings">Настройки</string>
 	<string name="c_syntax_error">Ошибка</string>
 	<string name="c_result_copied">Результат скопирован в буфер!</string>
 	<string name="c_settings">Настройки</string>
@@ -75,5 +75,12 @@
 	<string name="c_history_is_empty">История пуста!</string>
 	<string name="c_app_history">История</string>
 	<string name="c_char_is_not_accepted">Символ \'%s\' не допустим в названии переменной!</string>
+	<string name="c_calc_theme">Тема оформления</string>
+	<string name="p_default_theme">По умолчанию</string>
+	<string name="p_violet_theme">Фиолетовая</string>
+	<string name="p_light_blue_theme">Голубая</string>
+	<string name="c_calc_result_precision_summary">Точность результата(все вычисления производятся максимально точно)</string>
+	<string name="c_calc_color_display_summary">Включает/выключает подсветку синтаксиса в поле редактирования калькулятора</string>
+	<string name="c_calc_theme_summary">Устанавливает тему оформления приложения</string>
 
 </resources>

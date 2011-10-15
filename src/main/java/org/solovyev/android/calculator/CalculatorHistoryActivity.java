@@ -14,13 +14,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import org.jetbrains.annotations.NotNull;
+import org.solovyev.common.utils.*;
 import org.solovyev.common.utils.Filter;
-import org.solovyev.common.utils.FilterRule;
-import org.solovyev.common.utils.FilterRulesChain;
-import org.solovyev.common.utils.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -61,6 +61,13 @@ public class CalculatorHistoryActivity extends ListActivity {
 
 	private static List<CalculatorHistoryState> getHistoryList() {
 		final List<CalculatorHistoryState> calculatorHistoryStates = new ArrayList<CalculatorHistoryState>(CalculatorHistory.instance.getStates());
+
+		Collections.sort(calculatorHistoryStates, new Comparator<CalculatorHistoryState>() {
+			@Override
+			public int compare(CalculatorHistoryState state1, CalculatorHistoryState state2) {
+				return state2.getTime().compareTo(state1.getTime());
+			}
+		});
 
 		final FilterRulesChain<CalculatorHistoryState> filterRulesChain = new FilterRulesChain<CalculatorHistoryState>();
 		filterRulesChain.addFilterRule(new FilterRule<CalculatorHistoryState>() {
