@@ -7,7 +7,6 @@ package org.solovyev.android.view.widgets;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MotionEvent;
 import org.jetbrains.annotations.NotNull;
@@ -146,8 +145,7 @@ public class SimpleOnDragListener implements OnDragListener, DragPreferencesChan
 	}
 
 	@NotNull
-	public static Preferences getPreferences(@NotNull Context context) {
-		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+	public static Preferences getPreferences(@NotNull final SharedPreferences preferences, @NotNull Context context) {
 
 		final Mapper<Interval<Float>> mapper = new NumberIntervalMapper<Float>(Float.class);
 

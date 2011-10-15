@@ -15,13 +15,23 @@
 		<item name="android:textSize">20dp</item>
 		<item name="android:background">@drawable/button</item>
 		<item name="android:layout_marginLeft">1dp</item>
+		<item name="android:layout_marginBottom">1dp</item>
 	</style>
 
-	<style name="digit_button_style" parent="button_style">
+	<style name="default_digit_button_style" parent="button_style">
 		<item name="android:background">@drawable/blue_button</item>
 	</style>
 
+	<style name="violet_digit_button_style" parent="button_style">
+		<item name="android:background">@drawable/violet_button</item>
+	</style>
+
+	<style name="light_blue_digit_button_style" parent="button_style">
+		<item name="android:background">@drawable/light_blue_button</item>
+	</style>
+
 	<style name="control_button_style" parent="button_style"/>
+
 	<style name="control_image_button_style" parent="control_button_style">
 		<item name="android:padding">6dp</item>
 	</style>
@@ -56,5 +66,16 @@
 		<item name="android:layout_height">match_parent</item>
 	</style>
 
+	<style name="default_theme">
+		<item name="digitButtonStyle">@style/default_digit_button_style</item>
+	</style>
+
+	<style name="violet_theme">
+		<item name="digitButtonStyle">@style/violet_digit_button_style</item>
+	</style>
+
+	<style name="light_blue_theme">
+		<item name="digitButtonStyle">@style/light_blue_digit_button_style</item>
+	</style>
 
 </resources>

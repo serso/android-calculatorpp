@@ -11,33 +11,42 @@
 				range:boundaries="0;10"/>
 
 		<android.preference.CheckBoxPreference
-			a:key="@string/p_calc_color_display_key"
-			a:title="@string/c_calc_color_display_title"
-			a:defaultValue="true"/>
+				a:key="@string/p_calc_color_display_key"
+				a:title="@string/c_calc_color_display_title"
+				a:defaultValue="true"/>
 
-<!--		<org.solovyev.android.view.prefs.FloatRangeSeekBarPreference
-				a:key="@string/p_drag_distance_key"
-				a:title="Distance of drag event"
-				a:text=" pxs"
-				a:defaultValue="15;350"
-				range:steps="10"
-				range:boundaries="10;500"/>
+		<ListPreference a:key="@string/p_calc_theme_key"
+						a:title="@string/c_calc_theme"
+						a:entries="@array/p_theme_names"
+						a:entryValues="@array/p_theme_values"
+						a:persistent="true"
+						a:defaultValue="2"
+						a:shouldDisableView="false"/>
 
-		<org.solovyev.android.view.prefs.FloatRangeSeekBarPreference
-				a:key="@string/p_drag_duration_key"
-				a:title="Duration of drag event"
-				a:text=" ms"
-				a:defaultValue="40;2500"
-				range:steps="10"
-				range:boundaries="5;4000"/>
 
-		<org.solovyev.android.view.prefs.FloatRangeSeekBarPreference
-				a:key="@string/p_drag_angle_key"
-				a:title="Angle of drag event"
-				a:text=" degrees"
-				a:defaultValue="0;45"
-				range:steps="5"
-				range:boundaries="0;45"/>-->
+		<!--		<org.solovyev.android.view.prefs.FloatRangeSeekBarPreference
+			  a:key="@string/p_drag_distance_key"
+			  a:title="Distance of drag event"
+			  a:text=" pxs"
+			  a:defaultValue="15;350"
+			  range:steps="10"
+			  range:boundaries="10;500"/>
+
+	  <org.solovyev.android.view.prefs.FloatRangeSeekBarPreference
+			  a:key="@string/p_drag_duration_key"
+			  a:title="Duration of drag event"
+			  a:text=" ms"
+			  a:defaultValue="40;2500"
+			  range:steps="10"
+			  range:boundaries="5;4000"/>
+
+	  <org.solovyev.android.view.prefs.FloatRangeSeekBarPreference
+			  a:key="@string/p_drag_angle_key"
+			  a:title="Angle of drag event"
+			  a:text=" degrees"
+			  a:defaultValue="0;45"
+			  range:steps="5"
+			  range:boundaries="0;45"/>-->
 
 	</PreferenceCategory>
 
