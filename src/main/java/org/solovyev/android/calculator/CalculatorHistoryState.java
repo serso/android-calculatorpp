@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
  * Date: 9/11/11
  * Time: 12:16 AM
  */
-public class CalculatorHistoryState {
+public class CalculatorHistoryState extends AbstractHistoryState{
 
 	@NotNull
 	private EditorHistoryState editorState;
@@ -20,7 +20,8 @@ public class CalculatorHistoryState {
 	@NotNull
 	private CalculatorDisplayHistoryState displayState;
 
-	public CalculatorHistoryState(@NotNull EditorHistoryState editorState, @NotNull CalculatorDisplayHistoryState displayState) {
+	public CalculatorHistoryState(@NotNull EditorHistoryState editorState,
+								  @NotNull CalculatorDisplayHistoryState displayState) {
 		this.editorState = editorState;
 		this.displayState = displayState;
 	}

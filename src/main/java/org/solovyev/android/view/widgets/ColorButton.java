@@ -167,7 +167,7 @@ public class ColorButton extends Button {
 			if (topDr != null) {
 				canvas.save();
 				canvas.translate(scrollX + compoundPaddingLeft + (hspace - topDr.getBounds().width()) / 2,
-                        scrollY + getPaddingTop() + vspace / 2);
+						scrollY + getPaddingTop() + vspace / 2);
 				topDr.draw(canvas);
 				canvas.restore();
 			}
