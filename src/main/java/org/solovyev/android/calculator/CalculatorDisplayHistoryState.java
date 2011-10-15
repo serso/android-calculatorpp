@@ -42,6 +42,7 @@ public class CalculatorDisplayHistoryState {
 		this.valid = valid;
 	}
 
+	@NotNull
 	public EditorHistoryState getEditorHistoryState() {
 		return editorHistoryState;
 	}

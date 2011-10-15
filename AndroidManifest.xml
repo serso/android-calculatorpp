@@ -23,6 +23,9 @@
 		<activity a:name=".CalculatorPreferencesActivity"
 				  a:label="@string/c_app_settings"/>
 
+		<activity a:name=".CalculatorHistoryActivity"
+				  a:label="@string/c_app_history"/>
+
 		<activity a:name=".AboutActivity"
 				  a:label="@string/c_about"/>
 
