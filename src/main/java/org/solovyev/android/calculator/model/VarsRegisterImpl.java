@@ -118,14 +118,12 @@ class VarsRegisterImpl implements VarsRegister {
 		vars.addAll(result);
 	}
 
-	synchronized void init(@Nullable Context context) {
+	synchronized void init(@Nullable Context context, @Nullable SharedPreferences preferences) {
 
 		this.vars.clear();
 		this.systemVars.clear();
 
-		if (context != null) {
-			final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-
+		if (context != null && preferences != null) {
 			final String value = preferences.getString(context.getString(R.string.p_calc_vars), null);
 			if (value != null) {
 				final Serializer serializer = new Persister();

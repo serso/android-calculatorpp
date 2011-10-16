@@ -43,4 +43,12 @@ public class CalculatorHistoryState extends AbstractHistoryState{
 	public void setDisplayState(@NotNull CalculatorDisplayHistoryState displayState) {
 		this.displayState = displayState;
 	}
+
+	@Override
+	public String toString() {
+		return "CalculatorHistoryState{" +
+				"editorState=" + editorState +
+				", displayState=" + displayState +
+				'}';
+	}
 }

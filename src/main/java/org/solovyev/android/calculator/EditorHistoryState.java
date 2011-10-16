@@ -58,4 +58,12 @@ public class EditorHistoryState {
 		result = 31 * result + (text != null ? text.hashCode() : 0);
 		return result;
 	}
+
+	@Override
+	public String toString() {
+		return "EditorHistoryState{" +
+				"cursorPosition=" + cursorPosition +
+				", text='" + text + '\'' +
+				'}';
+	}
 }

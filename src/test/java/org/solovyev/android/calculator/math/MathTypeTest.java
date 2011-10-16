@@ -20,7 +20,7 @@ public class MathTypeTest {
 
 	@BeforeClass
 	public static void setUp() throws Exception {
-		CalculatorModel.instance.init(null);
+		CalculatorModel.instance.init(null, null);
 	}
 
 	@Test

@@ -17,15 +17,9 @@
 
 		<LinearLayout a:layout_weight="1" a:layout_width="match_parent" a:layout_height="0dp">
 
-			<include layout="@layout/calc_equals_button"
-					 a:layout_weight="4"
-					 a:layout_height="match_parent"
-					 a:layout_width="match_parent" />
-
 			<include layout="@layout/calc_display"
 					 a:layout_width="match_parent"
-					 a:layout_height="match_parent"
-					 a:layout_weight="1"/>
+					 a:layout_height="match_parent"/>
 
 		</LinearLayout>
 

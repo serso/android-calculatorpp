@@ -67,6 +67,8 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	// ids of drag buttons in R.class
 	private List<Integer> dragButtonIds = null;
 
+	@NotNull
+	private final static Object broadcastReceiverLock = new Object();
 
 	/**
 	 * Called when the activity is first created.
@@ -83,7 +85,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 		firstTimeInit();
 
-		init();
+		init(preferences);
 
 		dpclRegister.clear();
 
@@ -100,9 +102,9 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		((DragButton) findViewById(R.id.leftButton)).setOnDragListener(toPositionOnDragListener);
 		dpclRegister.addListener(toPositionOnDragListener);
 
-		preferences.registerOnSharedPreferenceChangeListener(this);
+		CalculatorModel.instance.reset(this, preferences);
 
-		this.onSharedPreferenceChanged(preferences, null);
+		preferences.registerOnSharedPreferenceChangeListener(this);
 	}
 
 	private synchronized void setOnDragListeners(@NotNull SimpleOnDragListener.Preferences dragPreferences) {
@@ -164,33 +166,40 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		setTheme(styleId);
 	}
 
-	private void init() {
+	private void init(@NotNull SharedPreferences preferences) {
 
-		calculatorView = new CalculatorView(this, CalculatorModel.instance);
+		synchronized (broadcastReceiverLock) {
+			calculatorView = new CalculatorView(this, preferences, CalculatorModel.instance);
+		}
 
 		textReceiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
-				if (INSERT_TEXT_INTENT.equals(intent.getAction())) {
-					final String s = intent.getStringExtra(INSERT_TEXT_INTENT_EXTRA_STRING);
-					if (!StringUtils.isEmpty(s)) {
-						calculatorView.doTextOperation(new CalculatorView.TextOperation() {
-							@Override
-							public void doOperation(@NotNull EditText editor) {
-								editor.getText().insert(editor.getSelectionStart(), s);
-							}
-						});
-					}
-				} else if (SET_TEXT_INTENT.equals(intent.getAction())) {
-					final String s = intent.getStringExtra(SET_TEXT_INTENT_EXTRA_STRING);
-					if (!StringUtils.isEmpty(s)) {
-						calculatorView.doTextOperation(new CalculatorView.TextOperation() {
-							@Override
-							public void doOperation(@NotNull EditText editor) {
-								editor.setText(s);
-								calculatorView.setCursorOnEnd();
-							}
-						});
+				synchronized (broadcastReceiverLock) {
+					Log.d(this.getClass().getName(), "Intent received: " + intent.getAction());
+					if (INSERT_TEXT_INTENT.equals(intent.getAction())) {
+						final String s = intent.getStringExtra(INSERT_TEXT_INTENT_EXTRA_STRING);
+						Log.d(this.getClass().getName(), "Extra data: " + s);
+						if (!StringUtils.isEmpty(s)) {
+							calculatorView.doTextOperation(new CalculatorView.TextOperation() {
+								@Override
+								public void doOperation(@NotNull EditText editor) {
+									editor.getText().insert(editor.getSelectionStart(), s);
+								}
+							}, false);
+						}
+					} else if (SET_TEXT_INTENT.equals(intent.getAction())) {
+						final String s = intent.getStringExtra(SET_TEXT_INTENT_EXTRA_STRING);
+						Log.d(this.getClass().getName(), "Extra data: " + s);
+						if (!StringUtils.isEmpty(s)) {
+							calculatorView.doTextOperation(new CalculatorView.TextOperation() {
+								@Override
+								public void doOperation(@NotNull EditText editor) {
+									editor.setText(s);
+									calculatorView.setCursorOnEnd();
+								}
+							}, false);
+						}
 					}
 				}
 			}
@@ -203,7 +212,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	private synchronized void firstTimeInit() {
 		if (!initialized) {
 			try {
-				CalculatorModel.instance.init(this);
+				CalculatorModel.instance.init(this, PreferenceManager.getDefaultSharedPreferences(this));
 			} catch (EvalError evalError) {
 				throw new RuntimeException("Could not initialize interpreter!");
 			}
@@ -409,22 +418,27 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		super.onResume();
 
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
 		final String newThemeName = preferences.getString(getString(R.string.p_calc_theme_key), getString(R.string.p_calc_theme));
 		if (!newThemeName.equals(themeName)) {
 			restart();
 		}
+
+		synchronized (broadcastReceiverLock) {
+			calculatorView = new CalculatorView(this, preferences, CalculatorModel.instance);
+		}
+
+		this.calculatorView.evaluate();
 	}
 
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences preferences, @Nullable String s) {
 		dpclRegister.announce().onDragPreferencesChange(SimpleOnDragListener.getPreferences(preferences, this));
 
-		CalculatorModel.instance.reset(this);
+		CalculatorModel.instance.reset(this, preferences);
 
 		final Boolean colorExpressionsInBracketsDefault = new BooleanMapper().parseValue(this.getString(R.string.p_calc_color_display));
 		assert colorExpressionsInBracketsDefault != null;
 		this.calculatorView.getEditor().setHighlightText(preferences.getBoolean(this.getString(R.string.p_calc_color_display_key), colorExpressionsInBracketsDefault));
-
-		this.calculatorView.evaluate();
 	}
 }
