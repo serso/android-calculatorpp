@@ -1,41 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<manifest xmlns:a="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
 		  package="org.solovyev.android.calculator"
-		  versionCode="1"
-		  versionName="1.0">
+		  android:versionCode="1"
+		  android:versionName="1.0.1">
 
-	<uses-sdk a:minSdkVersion="8"/>
+	<uses-sdk android:minSdkVersion="8"/>
 
-	<application a:icon="@drawable/icon"
-				 a:label="@string/c_app_icon_name">
+	<application android:icon="@drawable/icon"
+				 android:label="@string/c_app_icon_name">
 
-		<activity a:name=".CalculatorActivity"
-				  a:label="@string/c_app_name">
+		<activity android:name=".CalculatorActivity"
+				  android:label="@string/c_app_name">
 
 			<intent-filter>
-				<action a:name="android.intent.action.MAIN"/>
-				<category a:name="android.intent.category.LAUNCHER"/>
+				<action android:name="android.intent.action.MAIN"/>
+				<category android:name="android.intent.category.LAUNCHER"/>
 			</intent-filter>
 
 		</activity>
 
-		<activity a:name=".CalculatorPreferencesActivity"
-				  a:label="@string/c_app_settings"
-				  a:configChanges="orientation|keyboardHidden"/>
+		<activity android:name=".CalculatorPreferencesActivity"
+				  android:label="@string/c_app_settings"
+				  android:configChanges="orientation|keyboardHidden"/>
 
-		<activity a:name=".CalculatorHistoryActivity"
-				  a:label="@string/c_app_history"
-				  a:configChanges="orientation|keyboardHidden">
+		<activity android:name=".CalculatorHistoryActivity"
+				  android:label="@string/c_app_history"
+				  android:configChanges="orientation|keyboardHidden">
 		</activity>
 
-		<activity a:name=".AboutActivity"
-				  a:label="@string/c_about"
-				  a:configChanges="orientation|keyboardHidden"/>
+		<activity android:name=".AboutActivity"
+				  android:label="@string/c_about"
+				  android:configChanges="orientation|keyboardHidden"/>
 
-		<activity a:name=".CalculatorVarsActivity"
-				  a:label="@string/c_vars_and_constants"
-				  a:configChanges="orientation|keyboardHidden">
+		<activity android:name=".CalculatorVarsActivity"
+				  android:label="@string/c_vars_and_constants"
+				  android:configChanges="orientation|keyboardHidden">
 		</activity>
 
 	</application>
