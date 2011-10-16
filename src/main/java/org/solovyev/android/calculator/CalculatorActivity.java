@@ -71,7 +71,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
-		firstTimeInit();
+		firstTimeInit(preferences);
 
 		calculatorView = CalculatorView.instance.init(this, preferences, CalculatorModel.instance);
 
@@ -154,10 +154,10 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		setTheme(styleId);
 	}
 
-	private synchronized void firstTimeInit() {
+	private synchronized void firstTimeInit(@NotNull SharedPreferences preferences) {
 		if (!initialized) {
 			try {
-				CalculatorModel.instance.init(this, PreferenceManager.getDefaultSharedPreferences(this));
+				CalculatorModel.instance.init(this, preferences);
 			} catch (EvalError evalError) {
 				throw new RuntimeException("Could not initialize interpreter!");
 			}
