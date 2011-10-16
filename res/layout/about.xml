@@ -12,9 +12,20 @@
 			  a:layout_height="match_parent"
 			  a:background="#ff000000">
 
+	<ImageView a:layout_width="wrap_content"
+			   a:layout_height="wrap_content"
+			   a:layout_gravity="center"
+			   a:layout_weight="1"
+			   a:padding="6dp"
+			   a:src="@drawable/logo"/>
+
 	<TextView
 			a:id="@+id/aboutTextView"
 			a:text="@string/c_copyright"
+			a:layout_height="match_parent"
+			a:layout_width="match_parent"
+			a:layout_gravity="top|center_horizontal"
+			a:layout_weight="1"
 			style="@style/about_style"/>
 
 </LinearLayout>
