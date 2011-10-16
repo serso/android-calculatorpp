@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="c_app_name">Калькулятор++</string>
+	<string name="c_app_icon_name">Кальк++</string>
 	<string name="c_app_settings">Настройки</string>
 	<string name="c_syntax_error">Ошибка</string>
 	<string name="c_result_copied">Результат скопирован в буфер!</string>

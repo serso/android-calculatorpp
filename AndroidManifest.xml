@@ -7,7 +7,8 @@
 
 	<uses-sdk a:minSdkVersion="8"/>
 
-	<application a:icon="@drawable/icon" a:label="@string/c_app_name">
+	<application a:icon="@drawable/icon"
+				 a:label="@string/c_app_icon_name">
 
 		<activity a:name=".CalculatorActivity"
 				  a:label="@string/c_app_name">

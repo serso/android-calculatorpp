@@ -92,7 +92,7 @@ public class DragButton extends ColorButton {
 										public void run() {
 											button.setEnabled(true);
 										}
-									}, 300);
+									}, 200);
 								}
 							}
 						}
