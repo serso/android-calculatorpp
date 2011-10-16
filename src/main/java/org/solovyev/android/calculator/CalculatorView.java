@@ -7,6 +7,7 @@ package org.solovyev.android.calculator;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.text.ClipboardManager;
 import android.util.Log;
@@ -22,6 +23,7 @@ import org.solovyev.android.calculator.model.CalculatorModel;
 import org.solovyev.android.calculator.model.ParseException;
 import org.solovyev.android.view.CursorControl;
 import org.solovyev.android.view.HistoryControl;
+import org.solovyev.common.BooleanMapper;
 import org.solovyev.common.utils.MutableObject;
 import org.solovyev.common.utils.StringUtils;
 import org.solovyev.common.utils.history.HistoryAction;
@@ -45,10 +47,14 @@ public class CalculatorView implements CursorControl, HistoryControl<CalculatorH
 	@NotNull
 	private final CalculatorModel calculatorModel;
 
-	public CalculatorView(@NotNull final Activity activity, @NotNull CalculatorModel calculator) {
+	public CalculatorView(@NotNull final Activity activity, @NotNull SharedPreferences preferences, @NotNull CalculatorModel calculator) {
 		this.calculatorModel = calculator;
 
 		this.editor = (CalculatorEditor) activity.findViewById(R.id.calculatorEditor);
+
+		final Boolean colorExpressionsInBracketsDefault = new BooleanMapper().parseValue(activity.getString(R.string.p_calc_color_display));
+		assert colorExpressionsInBracketsDefault != null;
+		this.editor.setHighlightText(preferences.getBoolean(activity.getString(R.string.p_calc_color_display_key), colorExpressionsInBracketsDefault));
 
 		this.display = (CalculatorDisplay) activity.findViewById(R.id.calculatorDisplay);
 		this.display.setOnClickListener(new View.OnClickListener() {
@@ -60,7 +66,7 @@ public class CalculatorView implements CursorControl, HistoryControl<CalculatorH
 
 
 		final CalculatorHistoryState lastState = CalculatorHistory.instance.getLastHistoryState();
-		if ( lastState == null ) {
+		if (lastState == null) {
 			saveHistoryState();
 		} else {
 			setCurrentHistoryState(lastState);
@@ -83,7 +89,6 @@ public class CalculatorView implements CursorControl, HistoryControl<CalculatorH
 		CalculatorHistory.instance.addState(getCurrentHistoryState());
 	}
 
-
 	public void setCursorOnStart() {
 		editor.setSelection(0);
 	}
@@ -104,61 +109,75 @@ public class CalculatorView implements CursorControl, HistoryControl<CalculatorH
 		}
 	}
 
-	@NotNull
-	private final MutableObject<Runnable> currentRunner = new MutableObject<Runnable>();
+	public void doTextOperation(@NotNull TextOperation operation) {
+		doTextOperation(operation, true);
+	}
 
-	public synchronized void doTextOperation(@NotNull TextOperation operation) {
+	public void doTextOperation(@NotNull TextOperation operation, boolean delayEvaluate) {
 		final String editorStateBefore = this.editor.getText().toString();
 
 		operation.doOperation(this.editor);
+		//Log.d(CalculatorView.class.getName(), "Doing text operation" + StringUtils.fromStackTrace(Thread.currentThread().getStackTrace()));
 
 		final String editorStateAfter = this.editor.getText().toString();
 		if (!editorStateBefore.equals(editorStateAfter)) {
 
 			editor.redraw();
 
-			currentRunner.setObject(new Runnable() {
-				@Override
-				public void run() {
-					// allow only one runner at one time
-					synchronized (currentRunner) {
-						//lock all operations with history
-						synchronized (CalculatorHistory.instance) {
-							// do only if nothing was post delayed before current instance was posted
-							if (currentRunner.getObject() == this) {
-								// actually nothing shall be logged while text operations are done
-								evaluate(editorStateAfter);
-
-								if (CalculatorHistory.instance.isUndoAvailable()) {
-									CalculatorHistory.instance.undo(getCurrentHistoryState());
-								}
-
-								saveHistoryState();
-							}
-						}
-					}
-				}
-			});
-
-			new Handler().postDelayed(currentRunner.getObject(), EVAL_DELAY_MILLIS);
-
-			saveHistoryState();
+			evaluate(delayEvaluate, editorStateAfter);
 		}
 	}
 
+	@NotNull
+	private final static MutableObject<Runnable> pendingOperation = new MutableObject<Runnable>();
+
+	private void evaluate(boolean delayEvaluate, @NotNull final String expression) {
+		final CalculatorHistoryState historyState = getCurrentHistoryState();
+
+		pendingOperation.setObject(new Runnable() {
+			@Override
+			public void run() {
+				// allow only one runner at one time
+				synchronized (pendingOperation) {
+					//lock all operations with history
+					if (pendingOperation.getObject() == this) {
+						// actually nothing shall be logged while text operations are done
+						evaluate(expression);
+
+						historyState.setDisplayState(getCurrentHistoryState().getDisplayState());
+
+						pendingOperation.setObject(null);
+					}
+				}
+			}
+		});
+
+		if (delayEvaluate) {
+			CalculatorHistory.instance.addState(historyState);
+			new Handler().postDelayed(pendingOperation.getObject(), EVAL_DELAY_MILLIS);
+		} else {
+			pendingOperation.getObject().run();
+			CalculatorHistory.instance.addState(historyState);
+		}
+	}
+
+	public void evaluate() {
+   		evaluate(false, this.editor.getText().toString());
+	}
+
 	private void evaluate(@Nullable final String expression) {
+		final CalculatorDisplay localDisplay = display;
 		if (!StringUtils.isEmpty(expression)) {
-
-			final CalculatorDisplay localDisplay = display;
-
 			try {
-				Log.d(CalculatorView.class.getName(), "Trying to evaluate: " + expression);
+				Log.d(CalculatorView.class.getName(), "Trying to evaluate: " + expression /*+ StringUtils.fromStackTrace(Thread.currentThread().getStackTrace())*/);
 				localDisplay.setText(calculatorModel.evaluate(JsclOperation.numeric, expression));
 			} catch (EvalError e) {
 				handleEvaluationException(expression, localDisplay, e);
 			} catch (ParseException e) {
 				handleEvaluationException(expression, localDisplay, e);
 			}
+		} else {
+			localDisplay.setText("");
 		}
 	}
 
@@ -174,10 +193,6 @@ public class CalculatorView implements CursorControl, HistoryControl<CalculatorH
 			display.setText("");
 			saveHistoryState();
 		}
-	}
-
-	public void evaluate() {
-		evaluate(editor.getText().toString());
 	}
 
 	public void processDigitButtonAction(@Nullable final String text) {
@@ -231,6 +246,7 @@ public class CalculatorView implements CursorControl, HistoryControl<CalculatorH
 	@Override
 	public void setCurrentHistoryState(@NotNull CalculatorHistoryState editorHistoryState) {
 		synchronized (CalculatorHistory.instance) {
+			Log.d(this.getClass().getName(), "Saved history found: " + editorHistoryState);
 			setValuesFromHistory(this.editor, editorHistoryState.getEditorState());
 			setValuesFromHistory(this.display, editorHistoryState.getDisplayState());
 

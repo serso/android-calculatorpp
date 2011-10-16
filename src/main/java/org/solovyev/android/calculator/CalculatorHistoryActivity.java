@@ -10,12 +10,13 @@ import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.*;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.common.utils.*;
 import org.solovyev.common.utils.Filter;
+import org.solovyev.common.utils.FilterRule;
+import org.solovyev.common.utils.FilterRulesChain;
+import org.solovyev.common.utils.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -102,5 +103,34 @@ public class CalculatorHistoryActivity extends ListActivity {
 
 			return result;
 		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		final MenuInflater menuInflater = getMenuInflater();
+		menuInflater.inflate(R.menu.history_menu, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		boolean result;
+
+		switch (item.getItemId()) {
+			case R.id.history_menu_clear_history:
+				clearHistory();
+				result = true;
+				break;
+			default:
+				result = super.onOptionsItemSelected(item);
+		}
+
+		return result;
+	}
+
+	private void clearHistory() {
+		CalculatorHistory.instance.clear();
+		Toast.makeText(this, R.string.c_history_is_empty, Toast.LENGTH_SHORT).show();
+		this.finish();
 	}
 }

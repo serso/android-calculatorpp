@@ -9,7 +9,6 @@ package org.solovyev.android.calculator.model;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.solovyev.android.calculator.JsclOperation;
 
 /**
  * User: serso
@@ -20,7 +19,7 @@ public class ToJsclTextProcessorTest {
 
 	@BeforeClass
 	public static void setUp() throws Exception {
-		CalculatorModel.instance.init(null);
+		CalculatorModel.instance.init(null, null);
 	}
 
 	@Test

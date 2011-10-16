@@ -67,4 +67,12 @@ public class CalculatorDisplayHistoryState {
 		result = 31 * result + (editorHistoryState != null ? editorHistoryState.hashCode() : 0);
 		return result;
 	}
+
+	@Override
+	public String toString() {
+		return "CalculatorDisplayHistoryState{" +
+				"valid=" + valid +
+				", editorHistoryState=" + editorHistoryState +
+				'}';
+	}
 }

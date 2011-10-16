@@ -53,6 +53,11 @@ public class CalculatorEditor extends EditText {
 		menu.removeItem(android.R.id.startSelectingText);
 	}
 
+	@Override
+	public void setText(CharSequence text, BufferType type) {
+		super.setText(text, type);
+	}
+
 	public synchronized void redraw() {
 		String text = getText().toString();
 
