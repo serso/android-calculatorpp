@@ -51,4 +51,24 @@ public class CalculatorHistoryState extends AbstractHistoryState{
 				", displayState=" + displayState +
 				'}';
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		CalculatorHistoryState that = (CalculatorHistoryState) o;
+
+		if (!displayState.equals(that.displayState)) return false;
+		if (!editorState.equals(that.editorState)) return false;
+
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = editorState.hashCode();
+		result = 31 * result + displayState.hashCode();
+		return result;
+	}
 }
