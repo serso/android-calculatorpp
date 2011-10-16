@@ -8,7 +8,6 @@ package org.solovyev.android.calculator;
 
 import android.app.ListActivity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.*;
 import android.widget.*;
@@ -49,11 +48,21 @@ public class CalculatorHistoryActivity extends ListActivity {
 		lv.setTextFilterEnabled(true);
 
 		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			public void onItemClick(AdapterView<?> parent, View view,
-									int position, long id) {
-				final Intent intent = new Intent(CalculatorActivity.SET_TEXT_INTENT);
-				intent.putExtra(CalculatorActivity.SET_TEXT_INTENT_EXTRA_STRING, ((CalculatorHistoryState) parent.getItemAtPosition(position)).getEditorState().getText());
-				sendOrderedBroadcast(intent, null);
+			public void onItemClick(final AdapterView<?> parent,
+									final View view,
+									final int position,
+									final long id) {
+
+				CalculatorView.instance.doTextOperation(new CalculatorView.TextOperation() {
+					@Override
+					public void doOperation(@NotNull EditText editor) {
+						final EditorHistoryState editorState = ((CalculatorHistoryState) parent.getItemAtPosition(position)).getEditorState();
+						editor.setText(editorState.getText());
+						editor.setSelection(editorState.getCursorPosition());
+					}
+				}, false);
+
+				CalculatorView.instance.setCursorOnEnd();
 
 				CalculatorHistoryActivity.this.finish();
 			}

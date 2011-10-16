@@ -29,6 +29,7 @@ class FromJsclTextProcessor implements TextProcessor {
 				result = String.valueOf(roundedValue);
 			}
 		} catch (NumberFormatException e) {
+			result = result.replace(MathType.INFINITY_DEF, MathType.INFINITY);
 			if (result.contains(MathType.IMAGINARY_NUMBER_DEF)) {
 				try {
 					result = createResultForComplexNumber(result.replace(MathType.IMAGINARY_NUMBER_DEF, MathType.IMAGINARY_NUMBER));

@@ -33,21 +33,23 @@ import org.solovyev.common.utils.history.HistoryAction;
  * Date: 9/12/11
  * Time: 11:15 PM
  */
-public class CalculatorView implements CursorControl, HistoryControl<CalculatorHistoryState> {
+public enum CalculatorView implements CursorControl, HistoryControl<CalculatorHistoryState> {
+
+	instance;
 
 	// millis to wait before evaluation after user edit action
 	public static final int EVAL_DELAY_MILLIS = 1000;
 
 	@NotNull
-	private final CalculatorEditor editor;
+	private CalculatorEditor editor;
 
 	@NotNull
-	private final CalculatorDisplay display;
+	private CalculatorDisplay display;
 
 	@NotNull
-	private final CalculatorModel calculatorModel;
+	private CalculatorModel calculatorModel;
 
-	public CalculatorView(@NotNull final Activity activity, @NotNull SharedPreferences preferences, @NotNull CalculatorModel calculator) {
+	public CalculatorView init(@NotNull final Activity activity, @NotNull SharedPreferences preferences, @NotNull CalculatorModel calculator) {
 		this.calculatorModel = calculator;
 
 		this.editor = (CalculatorEditor) activity.findViewById(R.id.calculatorEditor);
@@ -72,6 +74,8 @@ public class CalculatorView implements CursorControl, HistoryControl<CalculatorH
 			setCurrentHistoryState(lastState);
 		}
 
+
+		return this;
 	}
 
 	public void copyResult(@NotNull Context context) {
