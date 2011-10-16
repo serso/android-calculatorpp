@@ -75,4 +75,9 @@ public enum CalculatorHistory implements HistoryHelper<CalculatorHistoryState> {
 	public List<CalculatorHistoryState> getStates() {
 		return historyHelper.getStates();
 	}
+
+	@Override
+	public void clear() {
+		this.historyHelper.clear();
+	}
 }

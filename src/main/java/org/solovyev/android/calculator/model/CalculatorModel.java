@@ -7,14 +7,12 @@ package org.solovyev.android.calculator.model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import bsh.EvalError;
 import bsh.Interpreter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.JsclOperation;
 import org.solovyev.common.NumberMapper;
-import org.solovyev.common.utils.MutableObject;
 
 /**
  * User: serso
@@ -68,24 +66,22 @@ public enum CalculatorModel {
 		this.numberOfFractionDigits = numberOfFractionDigits;
 	}
 
-	public void init(@Nullable Context context) throws EvalError {
+	public void init(@Nullable Context context, @Nullable SharedPreferences preferences) throws EvalError {
 		synchronized (lock) {
-			reset(context);
+			reset(context, preferences);
 			resetInterpreter();
 		}
 	}
 
-	public void reset(@Nullable Context context) {
+	public void reset(@Nullable Context context, @Nullable SharedPreferences preferences) {
 		synchronized (lock) {
-			if (context != null) {
-				final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-
+			if (preferences != null) {
 				final NumberMapper<Integer> integerNumberMapper = new NumberMapper<Integer>(Integer.class);
 				//noinspection ConstantConditions
 				this.setNumberOfFractionDigits(integerNumberMapper.parseValue(preferences.getString(RESULT_PRECISION_P_KEY, RESULT_PRECISION_DEFAULT)));
 			}
 
-			varsRegister.init(context);
+			varsRegister.init(context, preferences);
 		}
 	}
 

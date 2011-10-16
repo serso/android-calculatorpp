@@ -21,17 +21,22 @@
 		</activity>
 
 		<activity a:name=".CalculatorPreferencesActivity"
-				  a:label="@string/c_app_settings"/>
+				  a:label="@string/c_app_settings"
+				  a:configChanges="orientation|keyboardHidden"/>
 
 		<activity a:name=".CalculatorHistoryActivity"
-				  a:label="@string/c_app_history"/>
+				  a:label="@string/c_app_history"
+				  a:configChanges="orientation|keyboardHidden">
+		</activity>
 
 		<activity a:name=".AboutActivity"
-				  a:label="@string/c_about"/>
+				  a:label="@string/c_about"
+				  a:configChanges="orientation|keyboardHidden"/>
 
 		<activity a:name=".CalculatorVarsActivity"
 				  a:label="@string/c_vars_and_constants"
-				  a:configChanges="orientation|keyboardHidden"/>
+				  a:configChanges="orientation|keyboardHidden">
+		</activity>
 
 	</application>
 </manifest>

@@ -21,7 +21,7 @@ public class CalculatorModelTest {
 
 	@BeforeClass
 	public static void setUp() throws Exception {
-		CalculatorModel.instance.init(null);
+		CalculatorModel.instance.init(null, null);
 	}
 
 	@Test

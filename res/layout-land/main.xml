@@ -73,7 +73,7 @@
 
 		<LinearLayout a:layout_weight="1" a:layout_width="match_parent" a:layout_height="0dp">
 
-			<include layout="@layout/calc_equals_button"/>
+			<include layout="@layout/calc_history_button"/>
 			<include layout="@layout/calc_paste_button"/>
 			<include layout="@layout/calc_one_digit_button"/>
 			<include layout="@layout/calc_two_digit_button"/>
@@ -85,7 +85,7 @@
 
 		<LinearLayout a:layout_weight="1" a:layout_width="match_parent" a:layout_height="0dp">
 
-			<include layout="@layout/calc_history_button"/>
+			<include layout="@layout/calc_vars_button"/>
 			<include layout="@layout/calc_copy_button"/>
 			<include layout="@layout/calc_four_digit_button"/>
 			<include layout="@layout/calc_five_digit_button"/>
@@ -93,12 +93,11 @@
 			<include layout="@layout/calc_plus_button"/>
 			<include layout="@layout/calc_subtraction_button"/>
 
-
 		</LinearLayout>
 
 		<LinearLayout a:layout_weight="1" a:layout_width="match_parent" a:layout_height="0dp">
 
-			<include layout="@layout/calc_vars_button"/>
+			<include layout="@layout/calc_donate_button"/>
 			<include layout="@layout/calc_square_brackets_button"/>
 			<include layout="@layout/calc_seven_digit_button"/>
 			<include layout="@layout/calc_eight_digit_button"/>

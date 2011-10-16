@@ -82,5 +82,5 @@
 	<string name="c_calc_result_precision_summary">Точность результата(все вычисления производятся максимально точно)</string>
 	<string name="c_calc_color_display_summary">Включает/выключает подсветку синтаксиса в поле редактирования калькулятора</string>
 	<string name="c_calc_theme_summary">Устанавливает тему оформления приложения</string>
-
+	<string name="c_clear_history">Очистить историю</string>
 </resources>
