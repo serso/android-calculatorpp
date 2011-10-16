@@ -10,7 +10,6 @@ import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -63,11 +62,17 @@ public class CalculatorVarsActivity extends ListActivity {
 		});
 
 		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			public void onItemClick(AdapterView<?> parent, View view,
-									int position, long id) {
-				final Intent intent = new Intent(CalculatorActivity.INSERT_TEXT_INTENT);
-				intent.putExtra(CalculatorActivity.INSERT_TEXT_INTENT_EXTRA_STRING, ((Var) parent.getItemAtPosition(position)).getName());
-				sendOrderedBroadcast(intent, null);
+			public void onItemClick(final AdapterView<?> parent,
+									final View view,
+									final int position,
+									final long id) {
+
+				CalculatorView.instance.doTextOperation(new CalculatorView.TextOperation() {
+					@Override
+					public void doOperation(@NotNull EditText editor) {
+						editor.getText().insert(editor.getSelectionStart(), ((Var) parent.getItemAtPosition(position)).getName());
+					}
+				}, false);
 
 				CalculatorVarsActivity.this.finish();
 			}

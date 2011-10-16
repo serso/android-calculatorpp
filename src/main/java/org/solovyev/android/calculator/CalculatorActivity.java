@@ -7,7 +7,9 @@ package org.solovyev.android.calculator;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.*;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -26,7 +28,6 @@ import org.solovyev.android.view.FontSizeAdjuster;
 import org.solovyev.android.view.widgets.*;
 import org.solovyev.common.BooleanMapper;
 import org.solovyev.common.utils.Announcer;
-import org.solovyev.common.utils.StringUtils;
 import org.solovyev.common.utils.history.HistoryAction;
 
 import java.lang.reflect.Field;
@@ -38,13 +39,6 @@ import java.util.Map;
 
 public class CalculatorActivity extends Activity implements FontSizeAdjuster, SharedPreferences.OnSharedPreferenceChangeListener {
 
-	public static final String INSERT_TEXT_INTENT = "org.solovyev.android.calculator.CalculatorActivity.insertText";
-	public static final String INSERT_TEXT_INTENT_EXTRA_STRING = "org.solovyev.android.calculator.CalculatorActivity.insertText.extraString";
-
-	public static final String SET_TEXT_INTENT = "org.solovyev.android.calculator.CalculatorActivity.setText";
-	public static final String SET_TEXT_INTENT_EXTRA_STRING = "org.solovyev.android.calculator.CalculatorActivity.settText.extraString";
-
-
 	private static final int HVGA_WIDTH_PIXELS = 320;
 
 	@NotNull
@@ -52,9 +46,6 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 	@NotNull
 	private CalculatorView calculatorView;
-
-	@NotNull
-	private BroadcastReceiver textReceiver;
 
 	private volatile boolean initialized;
 
@@ -66,9 +57,6 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 	// ids of drag buttons in R.class
 	private List<Integer> dragButtonIds = null;
-
-	@NotNull
-	private final static Object broadcastReceiverLock = new Object();
 
 	/**
 	 * Called when the activity is first created.
@@ -85,7 +73,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 		firstTimeInit();
 
-		init(preferences);
+		calculatorView = CalculatorView.instance.init(this, preferences, CalculatorModel.instance);
 
 		dpclRegister.clear();
 
@@ -166,49 +154,6 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		setTheme(styleId);
 	}
 
-	private void init(@NotNull SharedPreferences preferences) {
-
-		synchronized (broadcastReceiverLock) {
-			calculatorView = new CalculatorView(this, preferences, CalculatorModel.instance);
-		}
-
-		textReceiver = new BroadcastReceiver() {
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				synchronized (broadcastReceiverLock) {
-					Log.d(this.getClass().getName(), "Intent received: " + intent.getAction());
-					if (INSERT_TEXT_INTENT.equals(intent.getAction())) {
-						final String s = intent.getStringExtra(INSERT_TEXT_INTENT_EXTRA_STRING);
-						Log.d(this.getClass().getName(), "Extra data: " + s);
-						if (!StringUtils.isEmpty(s)) {
-							calculatorView.doTextOperation(new CalculatorView.TextOperation() {
-								@Override
-								public void doOperation(@NotNull EditText editor) {
-									editor.getText().insert(editor.getSelectionStart(), s);
-								}
-							}, false);
-						}
-					} else if (SET_TEXT_INTENT.equals(intent.getAction())) {
-						final String s = intent.getStringExtra(SET_TEXT_INTENT_EXTRA_STRING);
-						Log.d(this.getClass().getName(), "Extra data: " + s);
-						if (!StringUtils.isEmpty(s)) {
-							calculatorView.doTextOperation(new CalculatorView.TextOperation() {
-								@Override
-								public void doOperation(@NotNull EditText editor) {
-									editor.setText(s);
-									calculatorView.setCursorOnEnd();
-								}
-							}, false);
-						}
-					}
-				}
-			}
-		};
-
-		registerReceiver(textReceiver, new IntentFilter(INSERT_TEXT_INTENT));
-		registerReceiver(textReceiver, new IntentFilter(SET_TEXT_INTENT));
-	}
-
 	private synchronized void firstTimeInit() {
 		if (!initialized) {
 			try {
@@ -218,13 +163,6 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 			}
 			initialized = true;
 		}
-	}
-
-
-	@Override
-	protected void onDestroy() {
-		unregisterReceiver(textReceiver);
-		super.onDestroy();
 	}
 
 	@SuppressWarnings({"UnusedDeclaration"})
@@ -424,9 +362,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 			restart();
 		}
 
-		synchronized (broadcastReceiverLock) {
-			calculatorView = new CalculatorView(this, preferences, CalculatorModel.instance);
-		}
+		calculatorView = CalculatorView.instance.init(this, preferences, CalculatorModel.instance);
 
 		this.calculatorView.evaluate();
 	}
