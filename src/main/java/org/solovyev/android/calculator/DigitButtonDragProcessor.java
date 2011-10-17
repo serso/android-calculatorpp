@@ -21,16 +21,16 @@ import org.solovyev.common.utils.Point2d;
 public class DigitButtonDragProcessor implements SimpleOnDragListener.DragProcessor {
 
 	@NotNull
-	private final CalculatorView calculatorView;
+	private final CalculatorModel calculatorModel;
 
-	public DigitButtonDragProcessor(@NotNull CalculatorView calculatorView) {
-		this.calculatorView = calculatorView;
+	public DigitButtonDragProcessor(@NotNull CalculatorModel calculatorModel) {
+		this.calculatorModel = calculatorModel;
 	}
 
 	@Override
 	public boolean processDragEvent(@NotNull DragDirection dragDirection, @NotNull DragButton dragButton, @NotNull Point2d startPoint2d, @NotNull MotionEvent motionEvent) {
 		assert dragButton instanceof DirectionDragButton;
-		calculatorView.processDigitButtonAction(((DirectionDragButton) dragButton).getDirectionText(dragDirection));
+		calculatorModel.processDigitButtonAction(((DirectionDragButton) dragButton).getDirectionText(dragDirection));
 		return true;
 	}
 
