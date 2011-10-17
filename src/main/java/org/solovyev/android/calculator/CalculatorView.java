@@ -19,7 +19,7 @@ import bsh.EvalError;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.math.MathType;
-import org.solovyev.android.calculator.model.CalculatorModel;
+import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.calculator.model.ParseException;
 import org.solovyev.android.view.CursorControl;
 import org.solovyev.android.view.HistoryControl;
@@ -47,10 +47,10 @@ public enum CalculatorView implements CursorControl, HistoryControl<CalculatorHi
 	private CalculatorDisplay display;
 
 	@NotNull
-	private CalculatorModel calculatorModel;
+	private CalculatorEngine calculatorEngine;
 
-	public CalculatorView init(@NotNull final Activity activity, @NotNull SharedPreferences preferences, @NotNull CalculatorModel calculator) {
-		this.calculatorModel = calculator;
+	public CalculatorView init(@NotNull final Activity activity, @NotNull SharedPreferences preferences, @NotNull CalculatorEngine calculator) {
+		this.calculatorEngine = calculator;
 
 		this.editor = (CalculatorEditor) activity.findViewById(R.id.calculatorEditor);
 
@@ -174,7 +174,7 @@ public enum CalculatorView implements CursorControl, HistoryControl<CalculatorHi
 		if (!StringUtils.isEmpty(expression)) {
 			try {
 				Log.d(CalculatorView.class.getName(), "Trying to evaluate: " + expression /*+ StringUtils.fromStackTrace(Thread.currentThread().getStackTrace())*/);
-				localDisplay.setText(calculatorModel.evaluate(JsclOperation.numeric, expression));
+				localDisplay.setText(calculatorEngine.evaluate(JsclOperation.numeric, expression));
 			} catch (EvalError e) {
 				handleEvaluationException(expression, localDisplay, e);
 			} catch (ParseException e) {
