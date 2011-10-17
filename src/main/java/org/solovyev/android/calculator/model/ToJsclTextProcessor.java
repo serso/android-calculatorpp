@@ -71,9 +71,9 @@ class ToJsclTextProcessor implements TextProcessor {
 			int offset = 0;
 			String functionName = CollectionsUtils.get(MathType.prefixFunctions, startsWithFinder);
 			if (functionName == null) {
-				String varName = CollectionsUtils.get(CalculatorModel.instance.getVarsRegister().getVarNames(), startsWithFinder);
+				String varName = CollectionsUtils.get(CalculatorEngine.instance.getVarsRegister().getVarNames(), startsWithFinder);
 				if (varName != null) {
-					final Var var = CalculatorModel.instance.getVarsRegister().getVar(varName);
+					final Var var = CalculatorEngine.instance.getVarsRegister().getVar(varName);
 					if (var != null) {
 						result.append(var.getValue());
 						offset = varName.length();
@@ -96,7 +96,7 @@ class ToJsclTextProcessor implements TextProcessor {
 	}
 
 	private void replaceVariables(StringBuilder sb, String s, int i, @NotNull StartsWithFinder startsWithFinder) {
-		for (Var var : CalculatorModel.instance.getVarsRegister().getVars()) {
+		for (Var var : CalculatorEngine.instance.getVarsRegister().getVars()) {
 			if (!var.isSystem()) {
 				if (s.startsWith(var.getName(), i)) {
 					if (CollectionsUtils.get(MathType.prefixFunctions, startsWithFinder) == null) {

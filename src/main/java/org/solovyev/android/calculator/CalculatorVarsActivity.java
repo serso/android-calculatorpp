@@ -18,7 +18,7 @@ import android.widget.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.math.MathType;
-import org.solovyev.android.calculator.model.CalculatorModel;
+import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.calculator.model.Var;
 import org.solovyev.android.calculator.model.VarsRegister;
 import org.solovyev.common.utils.StringUtils;
@@ -45,7 +45,7 @@ public class CalculatorVarsActivity extends ListActivity {
 
 		setContentView(R.layout.vars);
 
-		adapter = new VarsArrayAdapter(this, R.layout.var, R.id.var_text, new ArrayList<Var>(CalculatorModel.instance.getVarsRegister().getVars()));
+		adapter = new VarsArrayAdapter(this, R.layout.var, R.id.var_text, new ArrayList<Var>(CalculatorEngine.instance.getVarsRegister().getVars()));
 		setListAdapter(adapter);
 
 		final ListView lv = getListView();
@@ -191,7 +191,7 @@ public class CalculatorVarsActivity extends ListActivity {
 				String description = editDescription.getText().toString();
 
 
-				final VarsRegister varsRegister = CalculatorModel.instance.getVarsRegister();
+				final VarsRegister varsRegister = CalculatorEngine.instance.getVarsRegister();
 				if (!StringUtils.isEmpty(name)) {
 					final Var varFromRegister = varsRegister.getVar(name);
 					if (varFromRegister == null || varFromRegister == editedInstance) {
@@ -334,7 +334,7 @@ public class CalculatorVarsActivity extends ListActivity {
 				builder.create().show();
 			} else {
 				adapter.remove(var);
-				final VarsRegister varsRegister = CalculatorModel.instance.getVarsRegister();
+				final VarsRegister varsRegister = CalculatorEngine.instance.getVarsRegister();
 				varsRegister.remove(var);
 				varsRegister.save(CalculatorVarsActivity.this);
 				CalculatorVarsActivity.this.adapter.notifyDataSetChanged();

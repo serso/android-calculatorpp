@@ -23,7 +23,7 @@ import android.widget.TextView;
 import bsh.EvalError;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.model.CalculatorModel;
+import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.view.FontSizeAdjuster;
 import org.solovyev.android.view.widgets.*;
 import org.solovyev.common.BooleanMapper;
@@ -73,7 +73,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 		firstTimeInit(preferences);
 
-		calculatorView = CalculatorView.instance.init(this, preferences, CalculatorModel.instance);
+		calculatorView = CalculatorView.instance.init(this, preferences, CalculatorEngine.instance);
 
 		dpclRegister.clear();
 
@@ -90,7 +90,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		((DragButton) findViewById(R.id.leftButton)).setOnDragListener(toPositionOnDragListener);
 		dpclRegister.addListener(toPositionOnDragListener);
 
-		CalculatorModel.instance.reset(this, preferences);
+		CalculatorEngine.instance.reset(this, preferences);
 
 		preferences.registerOnSharedPreferenceChangeListener(this);
 	}
@@ -157,7 +157,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	private synchronized void firstTimeInit(@NotNull SharedPreferences preferences) {
 		if (!initialized) {
 			try {
-				CalculatorModel.instance.init(this, preferences);
+				CalculatorEngine.instance.init(this, preferences);
 			} catch (EvalError evalError) {
 				throw new RuntimeException("Could not initialize interpreter!");
 			}
@@ -362,7 +362,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 			restart();
 		}
 
-		calculatorView = CalculatorView.instance.init(this, preferences, CalculatorModel.instance);
+		calculatorView = CalculatorView.instance.init(this, preferences, CalculatorEngine.instance);
 
 		this.calculatorView.evaluate();
 	}
@@ -371,7 +371,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	public void onSharedPreferenceChanged(SharedPreferences preferences, @Nullable String s) {
 		dpclRegister.announce().onDragPreferencesChange(SimpleOnDragListener.getPreferences(preferences, this));
 
-		CalculatorModel.instance.reset(this, preferences);
+		CalculatorEngine.instance.reset(this, preferences);
 
 		final Boolean colorExpressionsInBracketsDefault = new BooleanMapper().parseValue(this.getString(R.string.p_calc_color_display));
 		assert colorExpressionsInBracketsDefault != null;

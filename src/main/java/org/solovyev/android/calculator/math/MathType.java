@@ -8,7 +8,7 @@ package org.solovyev.android.calculator.math;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.CharacterAtPositionFinder;
 import org.solovyev.android.calculator.StartsWithFinder;
-import org.solovyev.android.calculator.model.CalculatorModel;
+import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.common.utils.Finder;
 
 import java.util.Arrays;
@@ -123,7 +123,7 @@ public enum MathType {
 			return new Result(MathType.function, foundString);
 		}
 
-		foundString = get(CalculatorModel.instance.getVarsRegister().getVarNames(), stringStartWithFinder);
+		foundString = get(CalculatorEngine.instance.getVarsRegister().getVarNames(), stringStartWithFinder);
 		if (foundString != null) {
 			return new Result(MathType.constant, foundString);
 		}

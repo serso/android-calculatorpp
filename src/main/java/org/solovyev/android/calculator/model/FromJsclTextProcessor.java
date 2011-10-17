@@ -80,6 +80,6 @@ class FromJsclTextProcessor implements TextProcessor {
 
 	private Double round(@NotNull String result) {
 		final Double dResult = Double.valueOf(result);
-		return MathUtils.round(dResult, CalculatorModel.instance.getNumberOfFractionDigits());
+		return MathUtils.round(dResult, CalculatorEngine.instance.getNumberOfFractionDigits());
 	}
 }

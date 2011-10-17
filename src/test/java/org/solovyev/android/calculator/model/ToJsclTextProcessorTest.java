@@ -19,7 +19,7 @@ public class ToJsclTextProcessorTest {
 
 	@BeforeClass
 	public static void setUp() throws Exception {
-		CalculatorModel.instance.init(null, null);
+		CalculatorEngine.instance.init(null, null);
 	}
 
 	@Test
