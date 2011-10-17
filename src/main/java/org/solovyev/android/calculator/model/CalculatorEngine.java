@@ -20,7 +20,7 @@ import org.solovyev.common.NumberMapper;
  * Time: 11:38 PM
  */
 
-public enum CalculatorModel {
+public enum CalculatorEngine {
 
 	instance;
 
@@ -50,7 +50,7 @@ public enum CalculatorModel {
 
 			sb.append(preprocessor.process(expression));
 
-			//Log.d(CalculatorModel.class.getName(), "Preprocessed expression: " + preprocessedExpression);
+			//Log.d(CalculatorEngine.class.getName(), "Preprocessed expression: " + preprocessedExpression);
 
 			final Object evaluationObject = interpreter.eval(ToJsclTextProcessor.wrap(operation, sb.toString()));
 

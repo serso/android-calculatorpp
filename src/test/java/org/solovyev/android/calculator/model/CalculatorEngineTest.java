@@ -17,16 +17,16 @@ import org.solovyev.android.calculator.JsclOperation;
  * Date: 9/17/11
  * Time: 9:47 PM
  */
-public class CalculatorModelTest {
+public class CalculatorEngineTest {
 
 	@BeforeClass
 	public static void setUp() throws Exception {
-		CalculatorModel.instance.init(null, null);
+		CalculatorEngine.instance.init(null, null);
 	}
 
 	@Test
 	public void testEvaluate() throws Exception {
-		final CalculatorModel cm = CalculatorModel.instance;
+		final CalculatorEngine cm = CalculatorEngine.instance;
 
 		Assert.assertEquals("4.0", cm.evaluate(JsclOperation.numeric, "2+2"));
 		Assert.assertEquals("-0.7568", cm.evaluate(JsclOperation.numeric, "sin(4)"));
@@ -62,7 +62,7 @@ public class CalculatorModelTest {
 		}
 		Assert.assertEquals("0.73909", cm.evaluate(JsclOperation.numeric, "cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(1))))))))))))))))))))))))))))))))))))"));
 
-		CalculatorModel.instance.getVarsRegister().addVar(null, new Var.Builder("si", 5d));
+		CalculatorEngine.instance.getVarsRegister().addVar(null, new Var.Builder("si", 5d));
 		Assert.assertEquals("5.0", cm.evaluate(JsclOperation.numeric, "si"));
 		try {
 			cm.evaluate(JsclOperation.numeric, "sin");
@@ -75,11 +75,11 @@ public class CalculatorModelTest {
 		Assert.assertEquals("-23.97311", cm.evaluate(JsclOperation.numeric, "si*sin(5)si"));
 		Assert.assertEquals("-3.30879", cm.evaluate(JsclOperation.numeric, "sisin(5si)si"));
 
-		CalculatorModel.instance.getVarsRegister().addVar(null, new Var.Builder("s", 1d));
+		CalculatorEngine.instance.getVarsRegister().addVar(null, new Var.Builder("s", 1d));
 		Assert.assertEquals("5.0", cm.evaluate(JsclOperation.numeric, "si"));
 
-		CalculatorModel.instance.getVarsRegister().addVar(null, new Var.Builder("k", 3.5d));
-		CalculatorModel.instance.getVarsRegister().addVar(null, new Var.Builder("k1", 4d));
+		CalculatorEngine.instance.getVarsRegister().addVar(null, new Var.Builder("k", 3.5d));
+		CalculatorEngine.instance.getVarsRegister().addVar(null, new Var.Builder("k1", 4d));
 		Assert.assertEquals("4.0", cm.evaluate(JsclOperation.numeric, "k11"));
 	}
 
