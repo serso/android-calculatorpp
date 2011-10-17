@@ -53,7 +53,7 @@ public class CalculatorHistoryActivity extends ListActivity {
 									final int position,
 									final long id) {
 
-				CalculatorView.instance.doTextOperation(new CalculatorView.TextOperation() {
+				CalculatorModel.instance.doTextOperation(new CalculatorModel.TextOperation() {
 					@Override
 					public void doOperation(@NotNull EditText editor) {
 						final EditorHistoryState editorState = ((CalculatorHistoryState) parent.getItemAtPosition(position)).getEditorState();
@@ -62,7 +62,7 @@ public class CalculatorHistoryActivity extends ListActivity {
 					}
 				}, false);
 
-				CalculatorView.instance.setCursorOnEnd();
+				CalculatorModel.instance.setCursorOnEnd();
 
 				CalculatorHistoryActivity.this.finish();
 			}

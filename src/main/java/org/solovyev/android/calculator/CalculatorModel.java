@@ -33,7 +33,7 @@ import org.solovyev.common.utils.history.HistoryAction;
  * Date: 9/12/11
  * Time: 11:15 PM
  */
-public enum CalculatorView implements CursorControl, HistoryControl<CalculatorHistoryState> {
+public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorHistoryState> {
 
 	instance;
 
@@ -49,7 +49,7 @@ public enum CalculatorView implements CursorControl, HistoryControl<CalculatorHi
 	@NotNull
 	private CalculatorEngine calculatorEngine;
 
-	public CalculatorView init(@NotNull final Activity activity, @NotNull SharedPreferences preferences, @NotNull CalculatorEngine calculator) {
+	public CalculatorModel init(@NotNull final Activity activity, @NotNull SharedPreferences preferences, @NotNull CalculatorEngine calculator) {
 		this.calculatorEngine = calculator;
 
 		this.editor = (CalculatorEditor) activity.findViewById(R.id.calculatorEditor);
@@ -121,7 +121,7 @@ public enum CalculatorView implements CursorControl, HistoryControl<CalculatorHi
 		final String editorStateBefore = this.editor.getText().toString();
 
 		operation.doOperation(this.editor);
-		//Log.d(CalculatorView.class.getName(), "Doing text operation" + StringUtils.fromStackTrace(Thread.currentThread().getStackTrace()));
+		//Log.d(CalculatorModel.class.getName(), "Doing text operation" + StringUtils.fromStackTrace(Thread.currentThread().getStackTrace()));
 
 		final String editorStateAfter = this.editor.getText().toString();
 		if (!editorStateBefore.equals(editorStateAfter)) {
@@ -173,7 +173,7 @@ public enum CalculatorView implements CursorControl, HistoryControl<CalculatorHi
 		final CalculatorDisplay localDisplay = display;
 		if (!StringUtils.isEmpty(expression)) {
 			try {
-				Log.d(CalculatorView.class.getName(), "Trying to evaluate: " + expression /*+ StringUtils.fromStackTrace(Thread.currentThread().getStackTrace())*/);
+				Log.d(CalculatorModel.class.getName(), "Trying to evaluate: " + expression /*+ StringUtils.fromStackTrace(Thread.currentThread().getStackTrace())*/);
 				localDisplay.setText(calculatorEngine.evaluate(JsclOperation.numeric, expression));
 			} catch (EvalError e) {
 				handleEvaluationException(expression, localDisplay, e);
@@ -186,7 +186,7 @@ public enum CalculatorView implements CursorControl, HistoryControl<CalculatorHi
 	}
 
 	private void handleEvaluationException(@NotNull String expression, @NotNull CalculatorDisplay localDisplay, @NotNull Exception e) {
-		Log.d(CalculatorView.class.getName(), "Evaluation failed for : " + expression + ". Error message: " + e.getMessage());
+		Log.d(CalculatorModel.class.getName(), "Evaluation failed for : " + expression + ". Error message: " + e.getMessage());
 		localDisplay.setText(R.string.c_syntax_error);
 		localDisplay.setValid(false);
 	}
@@ -203,7 +203,7 @@ public enum CalculatorView implements CursorControl, HistoryControl<CalculatorHi
 		//Toast.makeText(CalculatorActivity.this, text, Toast.LENGTH_SHORT).show();
 
 		if (!StringUtils.isEmpty(text)) {
-			doTextOperation(new CalculatorView.TextOperation() {
+			doTextOperation(new CalculatorModel.TextOperation() {
 
 				@Override
 				public void doOperation(@NotNull EditText editor) {

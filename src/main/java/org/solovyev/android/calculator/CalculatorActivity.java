@@ -45,7 +45,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	private final Announcer<DragPreferencesChangeListener> dpclRegister = new Announcer<DragPreferencesChangeListener>(DragPreferencesChangeListener.class);
 
 	@NotNull
-	private CalculatorView calculatorView;
+	private CalculatorModel calculatorModel;
 
 	private volatile boolean initialized;
 
@@ -73,7 +73,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 		firstTimeInit(preferences);
 
-		calculatorView = CalculatorView.instance.init(this, preferences, CalculatorEngine.instance);
+		calculatorModel = CalculatorModel.instance.init(this, preferences, CalculatorEngine.instance);
 
 		dpclRegister.clear();
 
@@ -81,11 +81,11 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 		setOnDragListeners(dragPreferences);
 
-		final SimpleOnDragListener historyOnDragListener = new SimpleOnDragListener(new HistoryDragProcessor<CalculatorHistoryState>(this.calculatorView), dragPreferences);
+		final SimpleOnDragListener historyOnDragListener = new SimpleOnDragListener(new HistoryDragProcessor<CalculatorHistoryState>(this.calculatorModel), dragPreferences);
 		((DragButton) findViewById(R.id.historyButton)).setOnDragListener(historyOnDragListener);
 		dpclRegister.addListener(historyOnDragListener);
 
-		final SimpleOnDragListener toPositionOnDragListener = new SimpleOnDragListener(new CursorDragProcessor(calculatorView), dragPreferences);
+		final SimpleOnDragListener toPositionOnDragListener = new SimpleOnDragListener(new CursorDragProcessor(calculatorModel), dragPreferences);
 		((DragButton) findViewById(R.id.rightButton)).setOnDragListener(toPositionOnDragListener);
 		((DragButton) findViewById(R.id.leftButton)).setOnDragListener(toPositionOnDragListener);
 		dpclRegister.addListener(toPositionOnDragListener);
@@ -96,7 +96,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	}
 
 	private synchronized void setOnDragListeners(@NotNull SimpleOnDragListener.Preferences dragPreferences) {
-		final SimpleOnDragListener onDragListener = new SimpleOnDragListener(new DigitButtonDragProcessor(calculatorView), dragPreferences);
+		final SimpleOnDragListener onDragListener = new SimpleOnDragListener(new DigitButtonDragProcessor(calculatorModel), dragPreferences);
 		dpclRegister.addListener(onDragListener);
 
 		if (dragButtonIds == null) {
@@ -172,7 +172,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 	@SuppressWarnings({"UnusedDeclaration"})
 	public void numericButtonClickHandler(@NotNull View v) {
-		this.calculatorView.evaluate();
+		this.calculatorModel.evaluate();
 	}
 
 	@SuppressWarnings({"UnusedDeclaration"})
@@ -182,7 +182,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 	@SuppressWarnings({"UnusedDeclaration"})
 	public void eraseButtonClickHandler(@NotNull View v) {
-		calculatorView.doTextOperation(new CalculatorView.TextOperation() {
+		calculatorModel.doTextOperation(new CalculatorModel.TextOperation() {
 			@Override
 			public void doOperation(@NotNull EditText editor) {
 				if (editor.getSelectionStart() > 0) {
@@ -199,17 +199,17 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 	@SuppressWarnings({"UnusedDeclaration"})
 	public void moveLeftButtonClickHandler(@NotNull View v) {
-		calculatorView.moveCursorLeft();
+		calculatorModel.moveCursorLeft();
 	}
 
 	@SuppressWarnings({"UnusedDeclaration"})
 	public void moveRightButtonClickHandler(@NotNull View v) {
-		calculatorView.moveCursorRight();
+		calculatorModel.moveCursorRight();
 	}
 
 	@SuppressWarnings({"UnusedDeclaration"})
 	public void pasteButtonClickHandler(@NotNull View v) {
-		calculatorView.doTextOperation(new CalculatorView.TextOperation() {
+		calculatorModel.doTextOperation(new CalculatorModel.TextOperation() {
 			@Override
 			public void doOperation(@NotNull EditText editor) {
 				final ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
@@ -222,18 +222,18 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 	@SuppressWarnings({"UnusedDeclaration"})
 	public void copyButtonClickHandler(@NotNull View v) {
-		calculatorView.copyResult(this);
+		calculatorModel.copyResult(this);
 	}
 
 	@SuppressWarnings({"UnusedDeclaration"})
 	public void clearButtonClickHandler(@NotNull View v) {
-		calculatorView.clear();
+		calculatorModel.clear();
 	}
 
 	@SuppressWarnings({"UnusedDeclaration"})
 	public void digitButtonClickHandler(@NotNull View v) {
 		Log.d(String.valueOf(v.getId()), "digitButtonClickHandler() for: " + v.getId() + ". Pressed: " + v.isPressed());
-		calculatorView.processDigitButtonAction(((DirectionDragButton) v).getTextMiddle());
+		calculatorModel.processDigitButtonAction(((DirectionDragButton) v).getTextMiddle());
 	}
 
 	@SuppressWarnings({"UnusedDeclaration"})
@@ -270,7 +270,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			calculatorView.doHistoryAction(HistoryAction.undo);
+			calculatorModel.doHistoryAction(HistoryAction.undo);
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);
@@ -362,9 +362,9 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 			restart();
 		}
 
-		calculatorView = CalculatorView.instance.init(this, preferences, CalculatorEngine.instance);
+		calculatorModel = CalculatorModel.instance.init(this, preferences, CalculatorEngine.instance);
 
-		this.calculatorView.evaluate();
+		this.calculatorModel.evaluate();
 	}
 
 	@Override
@@ -375,6 +375,6 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 		final Boolean colorExpressionsInBracketsDefault = new BooleanMapper().parseValue(this.getString(R.string.p_calc_color_display));
 		assert colorExpressionsInBracketsDefault != null;
-		this.calculatorView.getEditor().setHighlightText(preferences.getBoolean(this.getString(R.string.p_calc_color_display_key), colorExpressionsInBracketsDefault));
+		this.calculatorModel.getEditor().setHighlightText(preferences.getBoolean(this.getString(R.string.p_calc_color_display_key), colorExpressionsInBracketsDefault));
 	}
 }
