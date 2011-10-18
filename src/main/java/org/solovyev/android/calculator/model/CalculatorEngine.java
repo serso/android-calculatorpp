@@ -11,8 +11,14 @@ import bsh.EvalError;
 import bsh.Interpreter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.JsclOperation;
+import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.jscl.JsclOperation;
+import org.solovyev.android.msg.AndroidMessage;
 import org.solovyev.common.NumberMapper;
+import org.solovyev.common.msg.MessageRegistry;
+import org.solovyev.common.msg.MessageType;
+import org.solovyev.common.utils.CollectionsUtils;
+import org.solovyev.common.utils.Formatter;
 
 /**
  * User: serso
@@ -36,25 +42,46 @@ public enum CalculatorEngine {
 	private int numberOfFractionDigits = 5;
 
 	@NotNull
-	public final TextProcessor preprocessor = new ToJsclTextProcessor();
-
-	@NotNull
-	public final TextProcessor postprocessor = new FromJsclTextProcessor();
+	public final TextProcessor<PreparedExpression> preprocessor = new ToJsclTextProcessor();
 
 	@NotNull
 	private final VarsRegisterImpl varsRegister = new VarsRegisterImpl();
 
-	public String evaluate(@NotNull JsclOperation operation, @NotNull String expression) throws EvalError, ParseException {
+	public String evaluate(@NotNull JsclOperation operation,
+						   @NotNull String expression) throws EvalError, ParseException {
+		return evaluate(operation, expression, null);
+	}
+
+	public String evaluate(@NotNull JsclOperation operation,
+						   @NotNull String expression,
+						   @Nullable MessageRegistry<AndroidMessage> mr) throws EvalError, ParseException {
 		synchronized (lock) {
 			final StringBuilder sb = new StringBuilder();
 
-			sb.append(preprocessor.process(expression));
+			final PreparedExpression preparedExpression = preprocessor.process(expression);
+			sb.append(preparedExpression);
 
 			//Log.d(CalculatorEngine.class.getName(), "Preprocessed expression: " + preprocessedExpression);
+			if (operation == JsclOperation.numeric && preparedExpression.isExistsUndefinedVar()) {
+				operation = JsclOperation.simplify;
+
+				if (mr != null) {
+					final String undefinedVars = CollectionsUtils.formatValue(preparedExpression.getUndefinedVars(), ", ", new Formatter<Var>() {
+						@Override
+						public String formatValue(@Nullable Var var) throws IllegalArgumentException {
+							return var != null ? var.getName() : "";
+						}
+					});
+
+					mr.addMessage(new AndroidMessage(R.string.c_simplify_instead_of_numeric, MessageType.info, undefinedVars));
+				}
+			}
 
 			final Object evaluationObject = interpreter.eval(ToJsclTextProcessor.wrap(operation, sb.toString()));
 
-			return postprocessor.process(String.valueOf(evaluationObject).trim());
+			final String result = String.valueOf(evaluationObject).trim();
+
+			return operation.getFromProcessor().process(result);
 		}
 	}
 

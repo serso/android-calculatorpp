@@ -17,7 +17,7 @@ import org.solovyev.android.calculator.model.TextProcessor;
  * Date: 10/12/11
  * Time: 9:47 PM
  */
-public class TextHighlighter implements TextProcessor {
+public class TextHighlighter implements TextProcessor<String> {
 
 	private final int color;
 	private final int colorRed;

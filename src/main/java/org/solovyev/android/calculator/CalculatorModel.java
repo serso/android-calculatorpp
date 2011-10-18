@@ -18,6 +18,7 @@ import android.widget.Toast;
 import bsh.EvalError;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.calculator.model.ParseException;

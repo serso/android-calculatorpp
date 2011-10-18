@@ -24,6 +24,7 @@ import bsh.EvalError;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.model.CalculatorEngine;
+import org.solovyev.android.msg.AndroidMessageRegistry;
 import org.solovyev.android.view.FontSizeAdjuster;
 import org.solovyev.android.view.widgets.*;
 import org.solovyev.common.BooleanMapper;
@@ -364,7 +365,16 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 		calculatorModel = CalculatorModel.instance.init(this, preferences, CalculatorEngine.instance);
 
+		AndroidMessageRegistry.instance.init(this);
+
 		this.calculatorModel.evaluate();
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+
+		AndroidMessageRegistry.instance.finish();
 	}
 
 	@Override

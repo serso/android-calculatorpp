@@ -10,7 +10,7 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.simpleframework.xml.Attribute;
-import org.solovyev.android.calculator.JsclOperation;
+import org.solovyev.android.calculator.jscl.JsclOperation;
 
 /**
  * User: serso
@@ -81,17 +81,12 @@ public class CalculatorEngineTest {
 		CalculatorEngine.instance.getVarsRegister().addVar(null, new Var.Builder("k", 3.5d));
 		CalculatorEngine.instance.getVarsRegister().addVar(null, new Var.Builder("k1", 4d));
 		Assert.assertEquals("4.0", cm.evaluate(JsclOperation.numeric, "k11"));
-	}
 
-	@Test
-	public void testComplexNumbers() throws Exception {
-		final FromJsclTextProcessor cm = new FromJsclTextProcessor();
-
-		Assert.assertEquals("1.22133+23123.0i", cm.createResultForComplexNumber("1.22133232+23123*i"));
-		Assert.assertEquals("1.22133+1.2i", cm.createResultForComplexNumber("1.22133232+1.2*i"));
-		Assert.assertEquals("1.22i", cm.createResultForComplexNumber("1.22*i"));
-		Assert.assertEquals("i", cm.createResultForComplexNumber("i"));
-
+		CalculatorEngine.instance.getVarsRegister().addVar(null, new Var.Builder("t", (String)null));
+		Assert.assertEquals("11*t", cm.evaluate(JsclOperation.numeric, "t11"));
+		Assert.assertEquals("11*2.718281828459045*t", cm.evaluate(JsclOperation.numeric, "t11e"));
+		Assert.assertEquals("11*Infinity*t", cm.evaluate(JsclOperation.numeric, "t11∞"));
+		Assert.assertEquals("-t+t^3", cm.evaluate(JsclOperation.numeric, "t(t-1)(t+1)"));
 	}
 
 	public interface TestInterface {
