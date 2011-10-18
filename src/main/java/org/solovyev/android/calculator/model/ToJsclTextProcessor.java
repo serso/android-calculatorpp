@@ -8,7 +8,7 @@ package org.solovyev.android.calculator.model;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.JsclOperation;
+import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.StartsWithFinder;
 import org.solovyev.android.calculator.math.Functions;
 import org.solovyev.android.calculator.math.MathType;
@@ -16,11 +16,16 @@ import org.solovyev.common.utils.CollectionsUtils;
 import org.solovyev.common.utils.FilterType;
 import org.solovyev.common.utils.Finder;
 
-class ToJsclTextProcessor implements TextProcessor {
+import java.util.ArrayList;
+import java.util.List;
+
+class ToJsclTextProcessor implements TextProcessor<PreparedExpression> {
+
+	public static final String SPECIAL_STRING = "☀☀☀";
 
 	@Override
 	@NotNull
-	public String process(@NotNull String s) {
+	public PreparedExpression process(@NotNull String s) {
 
 		final StartsWithFinder startsWithFinder = new StartsWithFinder(s, 0);
 		final StringBuilder sb = new StringBuilder();
@@ -47,7 +52,7 @@ class ToJsclTextProcessor implements TextProcessor {
 				startsWithFinder.setI(i + 1);
 				if ( i < s.length() && CollectionsUtils.get(MathType.groupSymbols, startsWithFinder) != null) {
 					i += 2;
-					sb.append("(foo)");
+					sb.append("(" + SPECIAL_STRING + ")");
 					mathTypeResult = new MathType.Result(MathType.close_group_symbol, ")");
 				}
 			} else if (mathType == MathType.constant) {
@@ -61,8 +66,11 @@ class ToJsclTextProcessor implements TextProcessor {
 		return replaceVariables(sb.toString());
 	}
 
-	private String replaceVariables(@NotNull final String s) {
+	@NotNull
+	private PreparedExpression replaceVariables(@NotNull final String s) {
 		final StartsWithFinder startsWithFinder = new StartsWithFinder(s, 0);
+
+		final List<Var> undefinedVars = new ArrayList<Var>();
 
 		final StringBuilder result = new StringBuilder();
 		for (int i = 0; i < s.length(); i++) {
@@ -75,8 +83,14 @@ class ToJsclTextProcessor implements TextProcessor {
 				if (varName != null) {
 					final Var var = CalculatorEngine.instance.getVarsRegister().getVar(varName);
 					if (var != null) {
-						result.append(var.getValue());
-						offset = varName.length();
+						if (var.isUndefined()) {
+							undefinedVars.add(var);
+							result.append(varName);
+							offset = varName.length();
+						} else {
+							result.append(var.getValue());
+							offset = varName.length();
+						}
 					}
 				}
 			} else {
@@ -92,7 +106,7 @@ class ToJsclTextProcessor implements TextProcessor {
 			}
 		}
 
-		return result.toString();
+		return new PreparedExpression(result.toString(), undefinedVars);
 	}
 
 	private void replaceVariables(StringBuilder sb, String s, int i, @NotNull StartsWithFinder startsWithFinder) {

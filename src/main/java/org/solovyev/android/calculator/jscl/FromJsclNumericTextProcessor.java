@@ -4,10 +4,13 @@
  * or visit http://se.solovyev.org
  */
 
-package org.solovyev.android.calculator.model;
+package org.solovyev.android.calculator.jscl;
 
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.math.MathType;
+import org.solovyev.android.calculator.model.CalculatorEngine;
+import org.solovyev.android.calculator.model.ParseException;
+import org.solovyev.android.calculator.model.TextProcessor;
 import org.solovyev.common.utils.MathUtils;
 import org.solovyev.util.math.Complex;
 
@@ -16,7 +19,7 @@ import org.solovyev.util.math.Complex;
  * Date: 10/6/11
  * Time: 9:48 PM
  */
-class FromJsclTextProcessor implements TextProcessor {
+class FromJsclNumericTextProcessor implements TextProcessor<String> {
 
 	@NotNull
 	@Override

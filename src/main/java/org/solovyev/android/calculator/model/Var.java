@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
+import org.solovyev.common.utils.StringUtils;
 
 /**
  * User: serso
@@ -24,8 +25,8 @@ public class Var {
 	@NotNull
 	private String name;
 
-	@Element
-	@NotNull
+	@Element(required = false)
+	@Nullable
 	private String value;
 
 	@Element
@@ -40,7 +41,7 @@ public class Var {
 		@NotNull
 		private String name;
 
-		@NotNull
+		@Nullable
 		private String value;
 
 		private boolean system = false;
@@ -62,7 +63,7 @@ public class Var {
 			this(name, String.valueOf(value));
 		}
 
-		public Builder(@NotNull String name, @NotNull String value) {
+		public Builder(@NotNull String name, @Nullable String value) {
 			this.name = name;
 			this.value = value;
 		}
@@ -71,7 +72,7 @@ public class Var {
 			this.name = name;
 		}
 
-		public void setValue(@NotNull String value) {
+		public void setValue(@Nullable String value) {
 			this.value = value;
 		}
 
@@ -107,7 +108,7 @@ public class Var {
 		this.system = var.system;
 	}
 
-	@NotNull
+	@Nullable
 	public String getValue() {
 		return value;
 	}
@@ -121,18 +122,22 @@ public class Var {
 		return name;
 	}
 
+	public boolean isUndefined() {
+		return StringUtils.isEmpty(this.value);
+	}
+
 	@Nullable
 	public String getDescription() {
 		return description;
 	}
 
-	public void setDescription(@Nullable String description) {
-		this.description = description;
-	}
-
 	@Override
 	public String toString() {
-		return getName() + " = " + value;
+		if (value != null) {
+			return getName() + " = " + value;
+		} else {
+			return getName();
+		}
 	}
 
 	@Override

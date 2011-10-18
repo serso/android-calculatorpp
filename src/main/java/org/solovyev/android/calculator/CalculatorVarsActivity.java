@@ -119,7 +119,9 @@ public class CalculatorVarsActivity extends ListActivity {
 			});
 
 			final EditText editValue = (EditText) editView.findViewById(R.id.var_edit_value);
-			editValue.setText(value);
+			if (!StringUtils.isEmpty(value)) {
+				editValue.setText(value);
+			}
 
 			final EditText editDescription = (EditText) editView.findViewById(R.id.var_edit_description);
 			editDescription.setText(description);
@@ -198,20 +200,30 @@ public class CalculatorVarsActivity extends ListActivity {
 						final MathType.Result mathType = MathType.getType(name, 0);
 
 						if (mathType.getMathType() == MathType.text || mathType.getMathType() == MathType.constant) {
-							boolean correctDouble = true;
-							try {
-								Double.valueOf(value);
-							} catch (NumberFormatException e) {
-								correctDouble = false;
-							}
 
-							if (correctDouble) {
+							if (StringUtils.isEmpty(value)) {
+								// value is empty => undefined variable
 								varBuilder.setName(name);
-								varBuilder.setValue(value);
 								varBuilder.setDescription(description);
+								varBuilder.setValue(null);
 								error = null;
 							} else {
-								error = R.string.c_value_is_not_a_number;
+								// value is not empty => must be a number
+								boolean correctDouble = true;
+								try {
+									Double.valueOf(value);
+								} catch (NumberFormatException e) {
+									correctDouble = false;
+								}
+
+								if (correctDouble) {
+									varBuilder.setName(name);
+									varBuilder.setDescription(description);
+									varBuilder.setValue(value);
+									error = null;
+								} else {
+									error = R.string.c_value_is_not_a_number;
+								}
 							}
 						} else {
 							error = R.string.c_var_name_clashes;

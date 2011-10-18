@@ -14,7 +14,6 @@
 
 		<include layout="@layout/calc_editor"/>
 
-
 		<LinearLayout a:layout_weight="1" a:layout_width="match_parent" a:layout_height="0dp">
 
 			<include layout="@layout/calc_display"
