@@ -8,7 +8,7 @@
 	<uses-sdk android:minSdkVersion="8"/>
 
 	<application android:icon="@drawable/icon"
-				 android:label="@string/c_app_icon_name">
+				 android:label="@string/c_app_name">
 
 		<activity android:name=".CalculatorActivity"
 				  android:label="@string/c_app_name">

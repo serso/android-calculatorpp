@@ -26,7 +26,7 @@ public class CalculatorEditor extends EditText {
 	private boolean highlightText = true;
 
 	@NotNull
-	private final static TextProcessor textHighlighter = new TextHighlighter(Color.WHITE);
+	private final static TextProcessor<String> textHighlighter = new TextHighlighter(Color.WHITE);
 
 	public CalculatorEditor(Context context) {
 		super(context);
