@@ -97,15 +97,15 @@ public class TextHighlighter implements TextProcessor<String> {
 		for (; i < s.length(); i++) {
 			char ch = s.charAt(i);
 
-			if (MathType.openGroupSymbols.contains(ch)) {
+			if (MathType.open_group_symbol.getTokens().contains(String.valueOf(ch))) {
 				result.append(ch);
 				result.append("</font>");
 				i = processBracketGroup(result, s, i + 1, numberOfOpenings + 1, maxNumberOfGroups);
 				result.append("<font color=\"").append(getColor(maxNumberOfGroups, numberOfOpenings)).append("\">");
-				if (i < s.length() && MathType.closeGroupSymbols.contains(s.charAt(i))) {
+				if (i < s.length() && MathType.close_group_symbol.getTokens().contains(String.valueOf(s.charAt(i)))) {
 					result.append(s.charAt(i));
 				}
-			} else if (MathType.closeGroupSymbols.contains(ch)) {
+			} else if (MathType.close_group_symbol.getTokens().contains(String.valueOf(ch))) {
 				break;
 			} else {
 				result.append(ch);

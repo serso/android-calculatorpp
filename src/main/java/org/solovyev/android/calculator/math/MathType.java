@@ -9,59 +9,118 @@ import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.CharacterAtPositionFinder;
 import org.solovyev.android.calculator.StartsWithFinder;
 import org.solovyev.android.calculator.model.CalculatorEngine;
+import org.solovyev.common.utils.CollectionsUtils;
 import org.solovyev.common.utils.Finder;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static org.solovyev.common.utils.CollectionsUtils.get;
 
 public enum MathType {
 
-	digit,
-	dot,
-	power_10,
-	constant,
-	function,
-	postfix_function,
-	unary_operation,
-	binary_operation,
-	group_symbols,
-	open_group_symbol,
-	close_group_symbol,
-	text;
+	digit(100, true, true, "0", "1", "2", "3", "4", "5", "6", "7", "8", "9") {
+		@Override
+		public boolean isNeedMultiplicationSignBefore(@NotNull MathType mathTypeBefore) {
+			return super.isNeedMultiplicationSignBefore(mathTypeBefore) && mathTypeBefore != digit && mathTypeBefore != dot;
+		}
+	},
+
+	dot(200, true, true, "."){
+		@Override
+		public boolean isNeedMultiplicationSignBefore(@NotNull MathType mathTypeBefore) {
+			return super.isNeedMultiplicationSignBefore(mathTypeBefore) && mathTypeBefore != digit;
+		}
+	},
+
+	power_10(300, true, false, "E"),
+
+	postfix_function(400, true, false, Functions.allPostfix),
+	unary_operation(500, false, false, "-", "=", "!"),
+	binary_operation(600, false, false, "-", "+", "*", "×", "∙", "/", "^"),
+	open_group_symbol(800, true, false, "[", "(", "{") {
+		@Override
+		public boolean isNeedMultiplicationSignBefore(@NotNull MathType mathTypeBefore) {
+			return super.isNeedMultiplicationSignBefore(mathTypeBefore) && mathTypeBefore != function;
+		}
+	},
+	close_group_symbol(900, false, true, "]", ")", "}") {
+		@Override
+		public boolean isNeedMultiplicationSignBefore(@NotNull MathType mathTypeBefore) {
+			return false;
+		}
+	},
+	function(1000, true, true, Functions.allPrefix),
+	constant(1100, true, true) {
+		@NotNull
+		@Override
+		public List<String> getTokens() {
+			return CalculatorEngine.instance.getVarsRegister().getVarNames();
+		}
+	},
+
+	text(1200, false, false);
+
+	@NotNull
+	private final List<String> tokens;
+
+	@NotNull
+	private final Integer priority;
+
+	private final boolean needMultiplicationSignBefore;
+
+	private final boolean needMultiplicationSignAfter;
+
+	MathType(@NotNull Integer priority,
+			 boolean needMultiplicationSignBefore,
+			 boolean needMultiplicationSignAfter,
+			 @NotNull String... tokens) {
+		this(priority, needMultiplicationSignBefore, needMultiplicationSignAfter, CollectionsUtils.asList(tokens));
+	}
+
+	MathType(@NotNull Integer priority,
+			 boolean needMultiplicationSignBefore,
+			 boolean needMultiplicationSignAfter,
+			 @NotNull List<String> tokens) {
+		this.priority = priority;
+		this.needMultiplicationSignBefore = needMultiplicationSignBefore;
+		this.needMultiplicationSignAfter = needMultiplicationSignAfter;
+		this.tokens = Collections.unmodifiableList(tokens);
+	}
+
+	@NotNull
+	public List<String> getTokens() {
+		return tokens;
+	}
+
+	private boolean isNeedMultiplicationSignBefore() {
+		return needMultiplicationSignBefore;
+	}
+
+	private boolean isNeedMultiplicationSignAfter() {
+		return needMultiplicationSignAfter;
+	}
+
+	public boolean isNeedMultiplicationSignBefore(@NotNull MathType mathTypeBefore) {
+		return needMultiplicationSignBefore && mathTypeBefore.isNeedMultiplicationSignAfter();
+	}
+
+
+	public static final List<String> openGroupSymbols = Arrays.asList("[]", "()", "{}");
 
 	public final static Character POWER_10 = 'E';
 	public final static String POWER_10_JSCL = "10^";
 
 	public static final String IMAGINARY_NUMBER = "i";
 	public static final String IMAGINARY_NUMBER_JSCL = "sqrt(-1)";
+
 	public static final String PI = "π";
 	public static final String E = "e";
 	public final static String NAN = "NaN";
+
 	public final static String INFINITY = "∞";
 	public final static String INFINITY_JSCL = "Infinity";
 
 	public static final List<String> constants = Arrays.asList(E, PI, IMAGINARY_NUMBER, NAN, INFINITY);
-
-	public static final List<String> digits = Arrays.asList("0", "1", "2", "3", "4", "5", "6", "7", "8", "9");
-
-	public static final List<Character> dots = Arrays.asList('.');
-
-
-	public static final List<Character> unaryOperations = Arrays.asList('-', '=', '!');
-
-	public static final List<Character> binaryOperations = Arrays.asList('-', '+', '*', '×', '∙', '/', '^');
-
-	public static final List<String> prefixFunctions = Functions.allPrefix;
-
-	public static final List<Character> postfixFunctions = Functions.allPostfix;
-
-	public static final List<String> groupSymbols = Arrays.asList("[]", "()", "{}");
-
-	public static final List<Character> openGroupSymbols = Arrays.asList('[', '(', '{');
-
-	public static final List<Character> closeGroupSymbols = Arrays.asList(']', ')', '}');
 
 	/**
 	 * Method determines mathematical entity type for text substring starting from ith index
@@ -80,65 +139,37 @@ public enum MathType {
 			return new Result(MathType.text, text);
 		}
 
-		final StartsWithFinder stringStartWithFinder = new StartsWithFinder(text, i);
-		final CharacterAtPositionFinder characterStartWithFinder = new CharacterAtPositionFinder(text, i);
+		final StartsWithFinder startsWithFinder = new StartsWithFinder(text, i);
 
-		String foundString = get(digits, stringStartWithFinder);
-		if (foundString != null) {
-			return new Result(MathType.digit, foundString);
-		}
-
-		Character foundCharacter = get(dots, characterStartWithFinder);
-		if (foundCharacter != null) {
-			return new Result(dot, String.valueOf(foundCharacter));
-		}
-
-		foundCharacter = characterStartWithFinder.isFound(POWER_10) ? POWER_10 : null;
-		if (foundCharacter != null) {
-			return new Result(power_10, String.valueOf(foundCharacter));
-		}
-
-		foundCharacter = get(postfixFunctions, characterStartWithFinder);
-		if (foundCharacter != null) {
-			return new Result(postfix_function, String.valueOf(foundCharacter));
-		}
-
-		foundCharacter = get(unaryOperations, characterStartWithFinder);
-		if (foundCharacter != null) {
-			return new Result(unary_operation, String.valueOf(foundCharacter));
-		}
-
-		foundCharacter = get(binaryOperations, characterStartWithFinder);
-		if (foundCharacter != null) {
-			return new Result(binary_operation, String.valueOf(foundCharacter));
-		}
-
-		foundString = get(groupSymbols, stringStartWithFinder);
-		if (foundString != null) {
-			return new Result(MathType.group_symbols, foundString);
-		}
-
-		foundCharacter = get(openGroupSymbols, characterStartWithFinder);
-		if (foundCharacter != null) {
-			return new Result(open_group_symbol, String.valueOf(foundCharacter));
-		}
-
-		foundCharacter = get(closeGroupSymbols, characterStartWithFinder);
-		if (foundCharacter != null) {
-			return new Result(close_group_symbol, String.valueOf(foundCharacter));
-		}
-
-		foundString = get(prefixFunctions, stringStartWithFinder);
-		if (foundString != null) {
-			return new Result(MathType.function, foundString);
-		}
-
-		foundString = get(CalculatorEngine.instance.getVarsRegister().getVarNames(), stringStartWithFinder);
-		if (foundString != null) {
-			return new Result(MathType.constant, foundString);
+		for (MathType mathType : getMathTypesByPriority()) {
+			final String s = get(mathType.getTokens(), startsWithFinder);
+			if ( s != null ) {
+				return new Result(mathType, s);
+			}
 		}
 
 		return new Result(MathType.text, text.substring(i));
+	}
+
+
+	private static List<MathType> mathTypesByPriority;
+
+	@NotNull
+	private static List<MathType> getMathTypesByPriority() {
+		if ( mathTypesByPriority == null ) {
+			final List<MathType> result = CollectionsUtils.asList(MathType.values());
+
+			Collections.sort(result, new Comparator<MathType>() {
+				@Override
+				public int compare(MathType l, MathType r) {
+					return l.priority.compareTo(r.priority);
+				}
+			});
+
+			mathTypesByPriority = result;
+		}
+
+		return mathTypesByPriority;
 	}
 
 	public static class Result {
@@ -149,7 +180,7 @@ public enum MathType {
 		@NotNull
 		private final String match;
 
-		public Result(@NotNull MathType mathType, @NotNull String match){
+		public Result(@NotNull MathType mathType, @NotNull String match) {
 			this.mathType = mathType;
 
 			this.match = match;

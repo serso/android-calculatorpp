@@ -39,7 +39,7 @@ public enum CalculatorEngine {
 	@NotNull
 	private final Object lock = new Object();
 
-	private int numberOfFractionDigits = 5;
+	private int precision = 5;
 
 	@NotNull
 	public final TextProcessor<PreparedExpression> preprocessor = new ToJsclTextProcessor();
@@ -85,12 +85,12 @@ public enum CalculatorEngine {
 		}
 	}
 
-	public int getNumberOfFractionDigits() {
-		return numberOfFractionDigits;
+	public int getPrecision() {
+		return precision;
 	}
 
-	public void setNumberOfFractionDigits(int numberOfFractionDigits) {
-		this.numberOfFractionDigits = numberOfFractionDigits;
+	public void setPrecision(int precision) {
+		this.precision = precision;
 	}
 
 	public void init(@Nullable Context context, @Nullable SharedPreferences preferences) throws EvalError {
@@ -105,7 +105,7 @@ public enum CalculatorEngine {
 			if (preferences != null) {
 				final NumberMapper<Integer> integerNumberMapper = new NumberMapper<Integer>(Integer.class);
 				//noinspection ConstantConditions
-				this.setNumberOfFractionDigits(integerNumberMapper.parseValue(preferences.getString(RESULT_PRECISION_P_KEY, RESULT_PRECISION_DEFAULT)));
+				this.setPrecision(integerNumberMapper.parseValue(preferences.getString(RESULT_PRECISION_P_KEY, RESULT_PRECISION_DEFAULT)));
 			}
 
 			varsRegister.init(context, preferences);

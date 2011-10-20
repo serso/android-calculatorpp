@@ -6,8 +6,14 @@
 package org.solovyev.android.calculator;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.text.Html;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.TextView;
+import org.jetbrains.annotations.NotNull;
+import org.solovyev.android.calculator.model.ParseException;
+import org.solovyev.android.calculator.model.TextProcessor;
 
 /**
  * User: serso
@@ -17,6 +23,9 @@ import android.widget.TextView;
 public class CalculatorDisplay extends TextView {
 
 	private boolean valid = true;
+
+	@NotNull
+	private final static TextProcessor<String> textHighlighter = new TextHighlighter(Color.WHITE);
 
 	public CalculatorDisplay(Context context) {
 		super(context);
@@ -44,4 +53,22 @@ public class CalculatorDisplay extends TextView {
 
 		setValid(true);
 	}
+
+	public synchronized void redraw() {
+		if (isValid()) {
+			String text = getText().toString();
+
+			Log.d(this.getClass().getName(), text);
+
+			try {
+				text = textHighlighter.process(text);
+			} catch (ParseException e) {
+				Log.e(this.getClass().getName(), e.getMessage(), e);
+			}
+
+			Log.d(this.getClass().getName(), text);
+			super.setText(Html.fromHtml(text), BufferType.EDITABLE);
+		}
+	}
+
 }
