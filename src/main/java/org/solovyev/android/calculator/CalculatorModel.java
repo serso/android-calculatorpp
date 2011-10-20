@@ -171,19 +171,20 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 	}
 
 	private void evaluate(@Nullable final String expression) {
-		final CalculatorDisplay localDisplay = display;
 		if (!StringUtils.isEmpty(expression)) {
 			try {
 				Log.d(CalculatorModel.class.getName(), "Trying to evaluate: " + expression /*+ StringUtils.fromStackTrace(Thread.currentThread().getStackTrace())*/);
-				localDisplay.setText(calculatorEngine.evaluate(JsclOperation.numeric, expression));
+				display.setText(calculatorEngine.evaluate(JsclOperation.numeric, expression));
 			} catch (EvalError e) {
-				handleEvaluationException(expression, localDisplay, e);
+				handleEvaluationException(expression, display, e);
 			} catch (ParseException e) {
-				handleEvaluationException(expression, localDisplay, e);
+				handleEvaluationException(expression, display, e);
 			}
 		} else {
-			localDisplay.setText("");
+			this.display.setText("");
 		}
+
+		this.display.redraw();
 	}
 
 	private void handleEvaluationException(@NotNull String expression, @NotNull CalculatorDisplay localDisplay, @NotNull Exception e) {
@@ -212,15 +213,19 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 					final MathType.Result mathType = MathType.getType(text, 0);
 
 					int cursorPositionOffset = 0;
+
 					final StringBuilder textToBeInserted = new StringBuilder(text);
 					switch (mathType.getMathType()) {
 						case function:
 							textToBeInserted.append("()");
 							cursorPositionOffset = -1;
 							break;
-						case group_symbols:
+					}
+
+					if (cursorPositionOffset == 0) {
+						if ( MathType.openGroupSymbols.contains(text) ) {
 							cursorPositionOffset = -1;
-							break;
+						}
 					}
 
 					editor.getText().insert(editor.getSelectionStart(), textToBeInserted.toString());
@@ -256,6 +261,7 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 			setValuesFromHistory(this.display, editorHistoryState.getDisplayState());
 
 			editor.redraw();
+			display.redraw();
 		}
 	}
 

@@ -50,7 +50,7 @@ class ToJsclTextProcessor implements TextProcessor<PreparedExpression> {
 
 				// NOTE: fix for jscl for EMPTY functions processing (see tests)
 				startsWithFinder.setI(i + 1);
-				if ( i < s.length() && CollectionsUtils.get(MathType.groupSymbols, startsWithFinder) != null) {
+				if ( i < s.length() && CollectionsUtils.get(MathType.openGroupSymbols, startsWithFinder) != null) {
 					throw new ParseException("Empty function: " + mathTypeResult.getMatch());
 					/*i += 2;
 					sb.append("(" + SPECIAL_STRING + ")");
@@ -78,7 +78,7 @@ class ToJsclTextProcessor implements TextProcessor<PreparedExpression> {
 			startsWithFinder.setI(i);
 
 			int offset = 0;
-			String functionName = CollectionsUtils.get(MathType.prefixFunctions, startsWithFinder);
+			String functionName = CollectionsUtils.get(MathType.function.getTokens(), startsWithFinder);
 			if (functionName == null) {
 				String varName = CollectionsUtils.get(CalculatorEngine.instance.getVarsRegister().getVarNames(), startsWithFinder);
 				if (varName != null) {
@@ -114,7 +114,7 @@ class ToJsclTextProcessor implements TextProcessor<PreparedExpression> {
 		for (Var var : CalculatorEngine.instance.getVarsRegister().getVars()) {
 			if (!var.isSystem()) {
 				if (s.startsWith(var.getName(), i)) {
-					if (CollectionsUtils.get(MathType.prefixFunctions, startsWithFinder) == null) {
+					if (CollectionsUtils.get(MathType.function.getTokens(), startsWithFinder) == null) {
 					}
 				}
 			}
@@ -149,7 +149,7 @@ class ToJsclTextProcessor implements TextProcessor<PreparedExpression> {
 			if (i > 0) {
 				final EndsWithFinder endsWithFinder = new EndsWithFinder(s);
 				endsWithFinder.setI(i + 1);
-				if (!CollectionsUtils.contains(MathType.prefixFunctions, FilterType.included, endsWithFinder)) {
+				if (!CollectionsUtils.contains(MathType.function.getTokens(), FilterType.included, endsWithFinder)) {
 					MathType type = MathType.getType(s, i).getMathType();
 					if (type != MathType.constant) {
 						return true;
@@ -204,36 +204,16 @@ class ToJsclTextProcessor implements TextProcessor<PreparedExpression> {
 																		 @NotNull String s,
 																		 int i,
 																		 @Nullable MathType.Result mathTypeBeforeResult) {
-		MathType.Result result = MathType.getType(s, i);
+		final MathType.Result result = MathType.getType(s, i);
 
 		if (i > 0) {
 
-			final MathType mathType = result.getMathType();
+			final MathType current = result.getMathType();
 			assert mathTypeBeforeResult != null;
-			final MathType mathTypeBefore = mathTypeBeforeResult.getMathType();
+			final MathType before = mathTypeBeforeResult.getMathType();
 
-			if (mathTypeBefore == MathType.constant || (mathTypeBefore != MathType.binary_operation &&
-					mathTypeBefore != MathType.unary_operation &&
-					mathTypeBefore != MathType.power_10 &&
-					mathTypeBefore != MathType.function &&
-					mathTypeBefore != MathType.open_group_symbol)) {
-
-				if (mathType == MathType.constant) {
-					sb.append("*");
-				} else if (mathType == MathType.power_10) {
-					sb.append("*");
-				} else if (mathType == MathType.open_group_symbol && mathTypeBefore != null) {
-					sb.append("*");
-				} else if (mathType == MathType.digit && ((mathTypeBefore != MathType.digit && mathTypeBefore != MathType.dot) || mathTypeBefore == MathType.constant)) {
-					sb.append("*");
-				} else {
-					for (String function : MathType.prefixFunctions) {
-						if (s.startsWith(function, i)) {
-							sb.append("*");
-							break;
-						}
-					}
-				}
+			if (current.isNeedMultiplicationSignBefore(before)) {
+				sb.append("*");
 			}
 		}
 
