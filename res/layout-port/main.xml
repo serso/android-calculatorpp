@@ -2,27 +2,27 @@
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
 			  a:orientation="vertical"
-			  a:layout_width="match_parent"
-			  a:layout_height="match_parent"
+			  a:layout_width="fill_parent"
+			  a:layout_height="fill_parent"
 			  a:background="#ff000000">
 
 	<LinearLayout
-			a:layout_width="match_parent"
-			a:layout_height="match_parent"
+			a:layout_width="fill_parent"
+			a:layout_height="fill_parent"
 			a:orientation="vertical"
 			a:layout_gravity="center">
 
 		<include layout="@layout/calc_editor"/>
 
-		<LinearLayout a:layout_weight="1" a:layout_width="match_parent" a:layout_height="0dp">
+		<LinearLayout a:layout_weight="1" a:layout_width="fill_parent" a:layout_height="0dp">
 
 			<include layout="@layout/calc_display"
-					 a:layout_width="match_parent"
-					 a:layout_height="match_parent"/>
+					 a:layout_width="fill_parent"
+					 a:layout_height="fill_parent"/>
 
 		</LinearLayout>
 
-		<LinearLayout a:layout_weight="1" a:layout_width="match_parent" a:layout_height="0dp">
+		<LinearLayout a:layout_weight="1" a:layout_width="fill_parent" a:layout_height="0dp">
 
 			<include layout="@layout/calc_one_digit_button"/>
 			<include layout="@layout/calc_two_digit_button"/>
@@ -32,7 +32,7 @@
 
 		</LinearLayout>
 
-		<LinearLayout a:layout_weight="1" a:layout_width="match_parent" a:layout_height="0dp">
+		<LinearLayout a:layout_weight="1" a:layout_width="fill_parent" a:layout_height="0dp">
 
 			<include layout="@layout/calc_four_digit_button"/>
 			<include layout="@layout/calc_five_digit_button"/>
@@ -42,7 +42,7 @@
 
 		</LinearLayout>
 
-		<LinearLayout a:layout_weight="1" a:layout_width="match_parent" a:layout_height="0dp">
+		<LinearLayout a:layout_weight="1" a:layout_width="fill_parent" a:layout_height="0dp">
 
 			<include layout="@layout/calc_seven_digit_button"/>
 			<include layout="@layout/calc_eight_digit_button"/>
@@ -52,7 +52,7 @@
 
 		</LinearLayout>
 
-		<LinearLayout a:layout_weight="1" a:layout_width="match_parent" a:layout_height="0dp">
+		<LinearLayout a:layout_weight="1" a:layout_width="fill_parent" a:layout_height="0dp">
 
 			<include layout="@layout/calc_round_brackets_button"/>
 			<include layout="@layout/calc_zero_digit_button"/>
@@ -63,7 +63,7 @@
 		</LinearLayout>
 
 
-		<LinearLayout a:layout_weight="1" a:layout_width="match_parent" a:layout_height="0dp">
+		<LinearLayout a:layout_weight="1" a:layout_width="fill_parent" a:layout_height="0dp">
 
 			<include layout="@layout/calc_left_button"/>
 			<include layout="@layout/calc_right_button"/>

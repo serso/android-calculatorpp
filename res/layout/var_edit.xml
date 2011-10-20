@@ -7,47 +7,47 @@
   -->
 
 <ScrollView xmlns:a="http://schemas.android.com/apk/res/android"
-			a:layout_width="match_parent"
-			a:layout_height="match_parent">
+			a:layout_width="fill_parent"
+			a:layout_height="fill_parent">
 
 	<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
 				  a:id="@+id/var_edit"
 				  a:orientation="vertical"
-				  a:layout_width="match_parent"
-				  a:layout_height="match_parent"
+				  a:layout_width="fill_parent"
+				  a:layout_height="fill_parent"
 				  a:scrollbars="vertical"
 				  a:scrollbarAlwaysDrawVerticalTrack="true">
 
-		<TextView a:layout_height="match_parent"
+		<TextView a:layout_height="fill_parent"
 				  a:layout_width="wrap_content"
 				  a:padding="6dp"
 				  a:text="@string/c_var_name"/>
 
 		<EditText a:id="@+id/var_edit_name"
-				  a:layout_width="match_parent"
+				  a:layout_width="fill_parent"
 				  a:layout_height="wrap_content"
 				  a:textSize="20dp">
 		</EditText>
 
-		<TextView a:layout_height="match_parent"
+		<TextView a:layout_height="fill_parent"
 				  a:layout_width="wrap_content"
 				  a:padding="6dp"
 				  a:text="@string/c_var_value"/>
 
 		<EditText a:id="@+id/var_edit_value"
-				  a:layout_width="match_parent"
+				  a:layout_width="fill_parent"
 				  a:layout_height="wrap_content"
 				  a:inputType="numberDecimal"
 				  a:textSize="20dp">
 		</EditText>
 
-		<TextView a:layout_height="match_parent"
+		<TextView a:layout_height="fill_parent"
 				  a:layout_width="wrap_content"
 				  a:padding="6dp"
 				  a:text="@string/c_var_description"/>
 
 		<EditText a:id="@+id/var_edit_description"
-				  a:layout_width="match_parent"
+				  a:layout_width="fill_parent"
 				  a:layout_height="wrap_content"
 				  a:textSize="20dp">
 		</EditText>

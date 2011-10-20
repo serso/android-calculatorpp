@@ -8,8 +8,8 @@
 	</style>
 
 	<style name="button_style">
-		<item name="android:layout_width">match_parent</item>
-		<item name="android:layout_height">match_parent</item>
+		<item name="android:layout_width">fill_parent</item>
+		<item name="android:layout_height">fill_parent</item>
 		<item name="android:layout_weight">1</item>
 		<item name="android:focusable">true</item>
 		<item name="android:textSize">20dp</item>
@@ -58,8 +58,8 @@
 		<item name="android:textColor">@color/text_color</item>
 		<item name="android:gravity">left|top</item>
 		<item name="android:padding">5dp</item>
-		<item name="android:layout_width">match_parent</item>
-		<item name="android:layout_height">match_parent</item>
+		<item name="android:layout_width">fill_parent</item>
+		<item name="android:layout_height">fill_parent</item>
 	</style>
 
 	<style name="display_style">
@@ -68,8 +68,8 @@
 		<item name="android:textColor">@color/text_color</item>
 		<item name="android:gravity">right|center_vertical</item>
 		<item name="android:padding">5dp</item>
-		<item name="android:layout_width">match_parent</item>
-		<item name="android:layout_height">match_parent</item>
+		<item name="android:layout_width">fill_parent</item>
+		<item name="android:layout_height">fill_parent</item>
 	</style>
 
 	<style name="about_style">
@@ -78,8 +78,8 @@
 		<item name="android:textColor">@color/text_color</item>
 		<item name="android:gravity">center</item>
 		<item name="android:padding">5dp</item>
-		<item name="android:layout_width">match_parent</item>
-		<item name="android:layout_height">match_parent</item>
+		<item name="android:layout_width">fill_parent</item>
+		<item name="android:layout_height">fill_parent</item>
 	</style>
 
 	<style name="default_theme">

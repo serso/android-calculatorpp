@@ -8,17 +8,17 @@
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
 			  a:orientation="vertical"
-			  a:layout_width="match_parent"
-			  a:layout_height="match_parent">
+			  a:layout_width="fill_parent"
+			  a:layout_height="fill_parent">
 
 	<LinearLayout
 			a:orientation="horizontal"
-			a:layout_width="match_parent"
-			a:layout_height="match_parent">
+			a:layout_width="fill_parent"
+			a:layout_height="fill_parent">
 
 		<TextView a:id="@+id/var_text"
-				  a:layout_width="match_parent"
-				  a:layout_height="match_parent"
+				  a:layout_width="fill_parent"
+				  a:layout_height="fill_parent"
 				  a:textSize="20dp"
 				  a:textColor="@android:color/white"
 				  a:paddingBottom="3dp"
@@ -31,8 +31,8 @@
 	</LinearLayout>
 
 	<TextView a:id="@+id/var_description"
-			  a:layout_width="match_parent"
-			  a:layout_height="match_parent"
+			  a:layout_width="fill_parent"
+			  a:layout_height="fill_parent"
 			  a:paddingBottom="6dp"
 			  a:paddingLeft="6dp"
 			  a:paddingRight="6dp"

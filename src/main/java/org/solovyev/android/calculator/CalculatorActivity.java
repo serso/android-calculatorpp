@@ -341,13 +341,18 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 	public void restart() {
 		final Intent intent = getIntent();
+		/*
+		for compatibility with android_1.6_compatibility
 		overridePendingTransition(0, 0);
-		intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);*/
 
 		Log.d(this.getClass().getName(), "Finishing current activity!");
 		finish();
 
-		overridePendingTransition(0, 0);
+		/*
+		for compatibility with android_1.6_compatibility
+
+		overridePendingTransition(0, 0);*/
 		Log.d(this.getClass().getName(), "Starting new activity!");
 		startActivity(intent);
 	}

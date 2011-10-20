@@ -283,8 +283,8 @@ public class NumberPicker extends LinearLayout {
 
         if (displayedValues != null) {
             // Allow text entry rather than strictly numeric entry.
-            mText.setRawInputType(InputType.TYPE_CLASS_TEXT |
-                    InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+            mText.setRawInputType(InputType.TYPE_CLASS_TEXT/* |
+                    InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS*/);
         }
     }
 
