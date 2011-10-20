@@ -14,6 +14,11 @@ import org.solovyev.common.exceptions.SersoException;
 * Time: 9:25 PM
 */
 public class ParseException extends SersoException {
+
+	public ParseException(String message) {
+		super(message);
+	}
+
 	public ParseException(Throwable cause) {
 		super(cause);
 	}

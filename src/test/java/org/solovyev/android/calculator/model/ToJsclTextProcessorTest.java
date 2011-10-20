@@ -9,6 +9,7 @@ package org.solovyev.android.calculator.model;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.solovyev.android.calculator.jscl.JsclOperation;
 
 /**
  * User: serso
@@ -26,19 +27,49 @@ public class ToJsclTextProcessorTest {
 	public void testProcess() throws Exception {
 		final ToJsclTextProcessor preprocessor = new ToJsclTextProcessor();
 
-		Assert.assertEquals( "sin(4)*cos(5)", preprocessor.process("sin(4)cos(5)"));
-		Assert.assertEquals( "3.141592653589793*sin(4)*3.141592653589793*cos(sqrt(5))", preprocessor.process("πsin(4)πcos(√(5))"));
-		Assert.assertEquals( "3.141592653589793*sin(4)+3.141592653589793*cos(sqrt(5))", preprocessor.process("πsin(4)+πcos(√(5))"));
-		Assert.assertEquals( "3.141592653589793*sin(4)+3.141592653589793*cos(sqrt(5+sqrt(-1)))", preprocessor.process("πsin(4)+πcos(√(5+i))"));
-		Assert.assertEquals( "3.141592653589793*sin(4.01)+3.141592653589793*cos(sqrt(5+sqrt(-1)))", preprocessor.process("πsin(4.01)+πcos(√(5+i))"));
-		Assert.assertEquals( "2.718281828459045^3.141592653589793*sin(4.01)+3.141592653589793*cos(sqrt(5+sqrt(-1)))", preprocessor.process("e^πsin(4.01)+πcos(√(5+i))"));
-		Assert.assertEquals( "2.718281828459045^3.141592653589793*sin(4.01)+3.141592653589793*cos(sqrt(5+sqrt(-1)))*10^2", preprocessor.process("e^πsin(4.01)+πcos(√(5+i))E2"));
-		Assert.assertEquals( "2.718281828459045^3.141592653589793*sin(4.01)+3.141592653589793*cos(sqrt(5+sqrt(-1)))*10^-2", preprocessor.process("e^πsin(4.01)+πcos(√(5+i))E-2"));
-		Assert.assertEquals( "log(foo)", preprocessor.process("ln()"));
-		Assert.assertEquals( "log(foo)*log(foo)", preprocessor.process("ln()ln()"));
-		Assert.assertEquals( "2.718281828459045*log(foo)*2.718281828459045*log(foo)*log(foo)*log(foo)*log(foo)*2.718281828459045", preprocessor.process("eln()eln()ln()ln()ln()e"));
-		Assert.assertEquals( "log(log(log(log(log(log(log(log(log(log(log(log(log(log(log(foo)))))))))))))))", preprocessor.process("ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln()))))))))))))))"));
+		Assert.assertEquals( "sin(4)*asin(0.5)*sqrt(2)", preprocessor.process("sin(4)asin(0.5)sqrt(2)").toString());
+		Assert.assertEquals( "sin(4)*cos(5)", preprocessor.process("sin(4)cos(5)").toString());
+		Assert.assertEquals( "3.141592653589793*sin(4)*3.141592653589793*cos(sqrt(5))", preprocessor.process("πsin(4)πcos(√(5))").toString());
+		Assert.assertEquals( "3.141592653589793*sin(4)+3.141592653589793*cos(sqrt(5))", preprocessor.process("πsin(4)+πcos(√(5))").toString());
+		Assert.assertEquals( "3.141592653589793*sin(4)+3.141592653589793*cos(sqrt(5+sqrt(-1)))", preprocessor.process("πsin(4)+πcos(√(5+i))").toString());
+		Assert.assertEquals( "3.141592653589793*sin(4.01)+3.141592653589793*cos(sqrt(5+sqrt(-1)))", preprocessor.process("πsin(4.01)+πcos(√(5+i))").toString());
+		Assert.assertEquals( "2.718281828459045^3.141592653589793*sin(4.01)+3.141592653589793*cos(sqrt(5+sqrt(-1)))", preprocessor.process("e^πsin(4.01)+πcos(√(5+i))").toString());
+		Assert.assertEquals( "2.718281828459045^3.141592653589793*sin(4.01)+3.141592653589793*cos(sqrt(5+sqrt(-1)))*10^2", preprocessor.process("e^πsin(4.01)+πcos(√(5+i))E2").toString());
+		Assert.assertEquals( "2.718281828459045^3.141592653589793*sin(4.01)+3.141592653589793*cos(sqrt(5+sqrt(-1)))*10^-2", preprocessor.process("e^πsin(4.01)+πcos(√(5+i))E-2").toString());
+		Assert.assertEquals( "10^2", preprocessor.process("E2").toString());
+		Assert.assertEquals( "10^-2", preprocessor.process("E-2").toString());
+		Assert.assertEquals( "10^-1/2", preprocessor.process("E-1/2").toString());
+		Assert.assertEquals( "10^-1.2", preprocessor.process("E-1.2").toString());
+		Assert.assertEquals( "10^(-1.2)", preprocessor.process("E(-1.2)").toString());
+		Assert.assertEquals( "10^10^", preprocessor.process("EE").toString());
+		try {
+			preprocessor.process("ln()");
+			Assert.fail();
+		} catch (ParseException e) {
+		}
+		try {
+			preprocessor.process("ln()ln()");
+			Assert.fail();
+		} catch (ParseException e) {
+		}
 
+		try {
+			preprocessor.process("eln()eln()ln()ln()ln()e");
+			Assert.fail();
+		} catch (ParseException e) {
+		}
+
+		try {
+			preprocessor.process("ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln()))))))))))))))");
+			Assert.fail();
+		} catch (ParseException e) {
+		}
+
+		try {
+			preprocessor.process("cos(cos(cos(cos(acos(acos(acos(acos(acos(acos(acos(acos(cos(cos(cos(cos(cosh(acos(cos(cos(cos(cos(cos(acos(acos(acos(acos(acos(acos(acos(acos(cos(cos(cos(cos(cosh(acos(cos())))))))))))))))))))))))))))))))))))))");
+			Assert.fail();
+		} catch (ParseException e) {
+		}
 	}
 
 	@Test

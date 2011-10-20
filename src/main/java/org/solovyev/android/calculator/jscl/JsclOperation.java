@@ -8,11 +8,12 @@ package org.solovyev.android.calculator.jscl;
 
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.model.DummyTextProcessor;
+import org.solovyev.android.calculator.model.FromJsclSimplifyTextProcessor;
 import org.solovyev.android.calculator.model.TextProcessor;
 
 public enum JsclOperation {
 
-	simplify(DummyTextProcessor.instance),
+	simplify(new FromJsclSimplifyTextProcessor()),
 	elementary(DummyTextProcessor.instance),
 	importCommands(DummyTextProcessor.instance),
 	numeric(new FromJsclNumericTextProcessor());

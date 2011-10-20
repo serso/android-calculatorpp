@@ -20,6 +20,6 @@ public enum DummyTextProcessor implements TextProcessor<String> {
 	@NotNull
 	@Override
 	public String process(@NotNull String s) throws ParseException {
-		return s.replace(ToJsclTextProcessor.SPECIAL_STRING, "");
+		return s;
 	}
 }
