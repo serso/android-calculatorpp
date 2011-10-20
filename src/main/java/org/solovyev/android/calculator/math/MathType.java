@@ -19,8 +19,9 @@ import static org.solovyev.common.utils.CollectionsUtils.get;
 public enum MathType {
 
 	digit,
-	constant,
 	dot,
+	power_10,
+	constant,
 	function,
 	postfix_function,
 	unary_operation,
@@ -30,19 +31,23 @@ public enum MathType {
 	close_group_symbol,
 	text;
 
+	public final static Character POWER_10 = 'E';
+	public final static String POWER_10_JSCL = "10^";
+
 	public static final String IMAGINARY_NUMBER = "i";
-	public static final String IMAGINARY_NUMBER_DEF = "sqrt(-1)";
+	public static final String IMAGINARY_NUMBER_JSCL = "sqrt(-1)";
 	public static final String PI = "π";
 	public static final String E = "e";
 	public final static String NAN = "NaN";
 	public final static String INFINITY = "∞";
-	public final static String INFINITY_DEF = "Infinity";
+	public final static String INFINITY_JSCL = "Infinity";
 
 	public static final List<String> constants = Arrays.asList(E, PI, IMAGINARY_NUMBER, NAN, INFINITY);
 
 	public static final List<String> digits = Arrays.asList("0", "1", "2", "3", "4", "5", "6", "7", "8", "9");
 
 	public static final List<Character> dots = Arrays.asList('.');
+
 
 	public static final List<Character> unaryOperations = Arrays.asList('-', '=', '!');
 
@@ -86,6 +91,11 @@ public enum MathType {
 		Character foundCharacter = get(dots, characterStartWithFinder);
 		if (foundCharacter != null) {
 			return new Result(dot, String.valueOf(foundCharacter));
+		}
+
+		foundCharacter = characterStartWithFinder.isFound(POWER_10) ? POWER_10 : null;
+		if (foundCharacter != null) {
+			return new Result(power_10, String.valueOf(foundCharacter));
 		}
 
 		foundCharacter = get(postfixFunctions, characterStartWithFinder);

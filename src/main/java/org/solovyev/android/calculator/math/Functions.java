@@ -31,20 +31,20 @@ public class Functions {
 	public final static String TANH = "tanh";
 	public final static String ATAN = "atan";
 	public final static String ATANH = "atanh";
-	public final static String LOG = "log";
+
 	public final static String LN = "ln";
+	public final static String LN_JSCL = "log";
+
 	public final static String MOD = "mod";
 	public final static String EXP = "exp";
-	public final static String SQRT_SIGN = "√";
-	public final static String SQRT = "sqrt";
 
-	public final static String E = "E";
-	public final static String E_POWER = "10^";
+	public final static String SQRT = "√";
+	public final static String SQRT_JSCL = "sqrt";
 
 	public static final List<String> allPrefix;
 
 	static {
-		final List<String> functions = new ArrayList<String>(Arrays.asList(SIN, SINH, ASIN, ASINH, COS, COSH, ACOS, ACOSH, TAN, TANH, ATAN, ATANH, LOG, LN, MOD, SQRT, SQRT_SIGN, EXP, E));
+		final List<String> functions = new ArrayList<String>(Arrays.asList(SIN, SINH, ASIN, ASINH, COS, COSH, ACOS, ACOSH, TAN, TANH, ATAN, ATANH, LN, LN_JSCL, MOD, SQRT, SQRT_JSCL, EXP));
 		Collections.sort(functions, new MathEntityComparator());
 		allPrefix = functions;
 	}

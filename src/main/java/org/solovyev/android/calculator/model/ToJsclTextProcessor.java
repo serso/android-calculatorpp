@@ -21,11 +21,9 @@ import java.util.List;
 
 class ToJsclTextProcessor implements TextProcessor<PreparedExpression> {
 
-	public static final String SPECIAL_STRING = "☀☀☀";
-
 	@Override
 	@NotNull
-	public PreparedExpression process(@NotNull String s) {
+	public PreparedExpression process(@NotNull String s) throws ParseException {
 
 		final StartsWithFinder startsWithFinder = new StartsWithFinder(s, 0);
 		final StringBuilder sb = new StringBuilder();
@@ -44,6 +42,8 @@ class ToJsclTextProcessor implements TextProcessor<PreparedExpression> {
 				sb.append(')');
 			} else if (ch == '×' || ch == '∙') {
 				sb.append("*");
+			} else if (mathType == MathType.power_10) {
+				sb.append(MathType.POWER_10_JSCL);
 			} else if (mathType == MathType.function) {
 				sb.append(toJsclFunction(mathTypeResult.getMatch()));
 				i += mathTypeResult.getMatch().length() - 1;
@@ -51,9 +51,10 @@ class ToJsclTextProcessor implements TextProcessor<PreparedExpression> {
 				// NOTE: fix for jscl for EMPTY functions processing (see tests)
 				startsWithFinder.setI(i + 1);
 				if ( i < s.length() && CollectionsUtils.get(MathType.groupSymbols, startsWithFinder) != null) {
-					i += 2;
+					throw new ParseException("Empty function: " + mathTypeResult.getMatch());
+					/*i += 2;
 					sb.append("(" + SPECIAL_STRING + ")");
-					mathTypeResult = new MathType.Result(MathType.close_group_symbol, ")");
+					mathTypeResult = new MathType.Result(MathType.close_group_symbol, ")");*/
 				}
 			} else if (mathType == MathType.constant) {
 				sb.append(mathTypeResult.getMatch());
@@ -167,11 +168,9 @@ class ToJsclTextProcessor implements TextProcessor<PreparedExpression> {
 		final String result;
 
 		if (function.equals(Functions.LN)) {
-			result = Functions.LOG;
-		} else if (function.equals(Functions.SQRT_SIGN)) {
-			result = Functions.SQRT;
-		} else if (function.equals(Functions.E)) {
-			result = Functions.E_POWER;
+			result = Functions.LN_JSCL;
+		} else if (function.equals(Functions.SQRT)) {
+			result = Functions.SQRT_JSCL;
 		} else {
 			result = function;
 		}
@@ -215,10 +214,13 @@ class ToJsclTextProcessor implements TextProcessor<PreparedExpression> {
 
 			if (mathTypeBefore == MathType.constant || (mathTypeBefore != MathType.binary_operation &&
 					mathTypeBefore != MathType.unary_operation &&
+					mathTypeBefore != MathType.power_10 &&
 					mathTypeBefore != MathType.function &&
 					mathTypeBefore != MathType.open_group_symbol)) {
 
 				if (mathType == MathType.constant) {
+					sb.append("*");
+				} else if (mathType == MathType.power_10) {
 					sb.append("*");
 				} else if (mathType == MathType.open_group_symbol && mathTypeBefore != null) {
 					sb.append("*");
