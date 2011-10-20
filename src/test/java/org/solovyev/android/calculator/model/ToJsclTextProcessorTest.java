@@ -9,7 +9,6 @@ package org.solovyev.android.calculator.model;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.solovyev.android.calculator.jscl.JsclOperation;
 
 /**
  * User: serso
@@ -27,6 +26,17 @@ public class ToJsclTextProcessorTest {
 	public void testProcess() throws Exception {
 		final ToJsclTextProcessor preprocessor = new ToJsclTextProcessor();
 
+		Assert.assertEquals( "", preprocessor.process("").toString());
+		Assert.assertEquals( "()", preprocessor.process("[]").toString());
+		Assert.assertEquals( "()*()", preprocessor.process("[][]").toString());
+		Assert.assertEquals( "()*(1)", preprocessor.process("[][1]").toString());
+		Assert.assertEquals( "(0)*(1)", preprocessor.process("[0][1]").toString());
+		Assert.assertEquals( "(0)*(1*10^)", preprocessor.process("[0][1E]").toString());
+		Assert.assertEquals( "(0)*(1*10^1)", preprocessor.process("[0][1E1]").toString());
+		Assert.assertEquals( "(0)*(1*10^-1)", preprocessor.process("[0][1E-1]").toString());
+		Assert.assertEquals( "(0)*(1.*10^-1)", preprocessor.process("[0][1.E-1]").toString());
+		Assert.assertEquals( "(0)*(2*10^-1)", preprocessor.process("[0][2*E-1]").toString());
+		Assert.assertEquals( "(0)*log(1)*(2*10^-1)", preprocessor.process("[0]ln(1)[2*E-1]").toString());
 		Assert.assertEquals( "sin(4)*asin(0.5)*sqrt(2)", preprocessor.process("sin(4)asin(0.5)sqrt(2)").toString());
 		Assert.assertEquals( "sin(4)*cos(5)", preprocessor.process("sin(4)cos(5)").toString());
 		Assert.assertEquals( "3.141592653589793*sin(4)*3.141592653589793*cos(sqrt(5))", preprocessor.process("πsin(4)πcos(√(5))").toString());

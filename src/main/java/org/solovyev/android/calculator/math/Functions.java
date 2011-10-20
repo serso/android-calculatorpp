@@ -49,8 +49,8 @@ public class Functions {
 		allPrefix = functions;
 	}
 
-	public final static Character FACT = '!';
-	public final static Character DEGREE = '°';
+	public final static String FACT = "!";
+	public final static String DEGREE = "°";
 
-	public static final List<Character> allPostfix = Arrays.asList(FACT, DEGREE);
+	public static final List<String> allPostfix = Arrays.asList(FACT, DEGREE);
 }

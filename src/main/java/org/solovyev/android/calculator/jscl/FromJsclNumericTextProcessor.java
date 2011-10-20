@@ -7,12 +7,14 @@
 package org.solovyev.android.calculator.jscl;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.calculator.model.ParseException;
 import org.solovyev.android.calculator.model.TextProcessor;
-import org.solovyev.common.utils.MathUtils;
-import org.solovyev.util.math.Complex;
+
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 
 /**
  * User: serso
@@ -25,11 +27,12 @@ class FromJsclNumericTextProcessor implements TextProcessor<String> {
 	@Override
 	public String process(@NotNull String result) throws ParseException {
 		try {
-			final Double roundedValue = round(result);
-			if ( roundedValue.isInfinite() ) {
-				result =  MathType.INFINITY;
+			final Double doubleValue = Double.valueOf(result);
+
+			if (doubleValue.isInfinite()) {
+				result = MathType.INFINITY;
 			} else {
-				result = String.valueOf(roundedValue);
+				result = format(doubleValue);
 			}
 		} catch (NumberFormatException e) {
 			result = result.replace(MathType.INFINITY_JSCL, MathType.INFINITY);
@@ -49,6 +52,21 @@ class FromJsclNumericTextProcessor implements TextProcessor<String> {
 		return result;
 	}
 
+	private String format(@NotNull String value) {
+		return format(Double.valueOf(value));
+	}
+
+	private String format(@NotNull Double value) {
+		if (!value.isInfinite() && !value.isNaN()) {
+			final DecimalFormat df = new DecimalFormat();
+			df.setGroupingUsed(false);
+			df.setMaximumFractionDigits(CalculatorEngine.instance.getPrecision());
+			return df.format(new BigDecimal(value).setScale(CalculatorEngine.instance.getPrecision(), BigDecimal.ROUND_HALF_UP).doubleValue());
+		} else {
+			return String.valueOf(value);
+		}
+	}
+
 	protected String createResultForComplexNumber(@NotNull final String s) {
 		final Complex complex = new Complex();
 
@@ -56,13 +74,13 @@ class FromJsclNumericTextProcessor implements TextProcessor<String> {
 		// may be it's just complex number
 		int plusIndex = s.lastIndexOf("+");
 		if (plusIndex >= 0) {
-			complex.setReal(round(s.substring(0, plusIndex)));
+			complex.setReal(format(s.substring(0, plusIndex)));
 			result += complex.getReal();
 			result += "+";
 		} else {
 			plusIndex = s.lastIndexOf("-");
 			if (plusIndex >= 0) {
-				complex.setReal(round(s.substring(0, plusIndex)));
+				complex.setReal(format(s.substring(0, plusIndex)));
 				result += complex.getReal();
 				result += "-";
 			}
@@ -71,7 +89,7 @@ class FromJsclNumericTextProcessor implements TextProcessor<String> {
 
 		int multiplyIndex = s.indexOf("*");
 		if (multiplyIndex >= 0) {
-			complex.setImaginary(round(s.substring(plusIndex >= 0 ? plusIndex + 1 : 0, multiplyIndex)));
+			complex.setImaginary(format(s.substring(plusIndex >= 0 ? plusIndex + 1 : 0, multiplyIndex)));
 			result += complex.getImaginary();
 
 		}
@@ -81,8 +99,31 @@ class FromJsclNumericTextProcessor implements TextProcessor<String> {
 		return result;
 	}
 
-	private Double round(@NotNull String result) {
-		final Double dResult = Double.valueOf(result);
-		return MathUtils.round(dResult, CalculatorEngine.instance.getNumberOfFractionDigits());
+	private class Complex {
+
+		@Nullable
+		private String real;
+
+		@Nullable
+		private String imaginary;
+
+		@Nullable
+		public String getReal() {
+			return real;
+		}
+
+		public void setReal(@Nullable String real) {
+			this.real = real;
+		}
+
+		@Nullable
+		public String getImaginary() {
+			return imaginary;
+		}
+
+		public void setImaginary(@Nullable String imaginary) {
+			this.imaginary = imaginary;
+		}
 	}
+
 }
