@@ -3,18 +3,18 @@
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
 			  xmlns:calc="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
 			  a:orientation="vertical"
-			  a:layout_width="match_parent"
-			  a:layout_height="match_parent"
+			  a:layout_width="fill_parent"
+			  a:layout_height="fill_parent"
 			  a:background="#ff000000">
 
 	<LinearLayout
 			a:id="@+id/simplePad"
-			a:layout_width="match_parent"
-			a:layout_height="match_parent"
+			a:layout_width="fill_parent"
+			a:layout_height="fill_parent"
 			a:orientation="vertical"
 			a:layout_gravity="center">
 
-		<LinearLayout a:layout_weight="1" a:layout_width="match_parent" a:layout_height="0dp">
+		<LinearLayout a:layout_weight="1" a:layout_width="fill_parent" a:layout_height="0dp">
 
 			<ImageView a:id="@+id/calibrationArrowLeft"
 					   a:layout_gravity="left"

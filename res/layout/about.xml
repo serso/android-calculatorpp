@@ -8,8 +8,8 @@
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
 			  a:orientation="vertical"
-			  a:layout_width="match_parent"
-			  a:layout_height="match_parent"
+			  a:layout_width="fill_parent"
+			  a:layout_height="fill_parent"
 			  a:background="#ff000000">
 
 	<ImageView a:layout_width="wrap_content"
@@ -22,12 +22,26 @@
 	<TextView
 			a:id="@+id/aboutTextView"
 			a:text="@string/c_copyright"
-			a:layout_height="match_parent"
-			a:layout_width="match_parent"
+			a:layout_height="fill_parent"
+			a:layout_width="fill_parent"
+			a:layout_gravity="top|center_horizontal"
+			a:layout_weight="1"
+			a:scrollbars="vertical"
+			style="@style/about_style"/>
+
+	<!--
+			a:scrollbarFadeDuration="0" is not support in  android_1.6_compatibility
+
+		<TextView
+			a:id="@+id/aboutTextView"
+			a:text="@string/c_copyright"
+			a:layout_height="fill_parent"
+			a:layout_width="fill_parent"
 			a:layout_gravity="top|center_horizontal"
 			a:layout_weight="1"
 			a:scrollbars="vertical"
 			a:scrollbarFadeDuration="0"
 			style="@style/about_style"/>
+			-->
 
 </LinearLayout>

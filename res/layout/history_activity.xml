@@ -8,12 +8,12 @@
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
     a:orientation="vertical"
-    a:layout_width="match_parent"
-    a:layout_height="match_parent">
+    a:layout_width="fill_parent"
+    a:layout_height="fill_parent">
 
     <ListView
-        a:layout_width="match_parent"
-        a:layout_height="match_parent"
+        a:layout_width="fill_parent"
+        a:layout_height="fill_parent"
         a:layout_weight="1"
         a:id="@android:id/list"/>
 
