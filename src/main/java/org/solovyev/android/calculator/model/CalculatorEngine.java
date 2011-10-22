@@ -19,6 +19,12 @@ import org.solovyev.common.msg.MessageRegistry;
 import org.solovyev.common.msg.MessageType;
 import org.solovyev.common.utils.CollectionsUtils;
 import org.solovyev.common.utils.Formatter;
+import org.solovyev.common.utils.MutableObject;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 /**
  * User: serso
@@ -46,6 +52,9 @@ public enum CalculatorEngine {
 
 	@NotNull
 	private final VarsRegisterImpl varsRegister = new VarsRegisterImpl();
+
+	@NotNull
+	private final static Set<String> tooLongExecutionCache = new HashSet<String>();
 
 	public String evaluate(@NotNull JsclOperation operation,
 						   @NotNull String expression) throws EvalError, ParseException {
@@ -77,9 +86,68 @@ public enum CalculatorEngine {
 				}
 			}
 
-			final Object evaluationObject = interpreter.eval(ToJsclTextProcessor.wrap(operation, sb.toString()));
+			final String jsclExpression = ToJsclTextProcessor.wrap(operation, sb.toString());
 
-			final String result = String.valueOf(evaluationObject).trim();
+			final String result;
+			if (!tooLongExecutionCache.contains(jsclExpression)) {
+				final MutableObject<Object> calculationResult = new MutableObject<Object>(null);
+				final MutableObject<EvalError> exception = new MutableObject<EvalError>(null);
+				final MutableObject<Thread> calculationThread = new MutableObject<Thread>(null);
+
+				final CountDownLatch latch = new CountDownLatch(1);
+
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						final Thread thread = Thread.currentThread();
+						try {
+							//Log.d(CalculatorEngine.class.getName(), "Calculation thread started work: " + thread.getName());
+							calculationThread.setObject(thread);
+							calculationResult.setObject(interpreter.eval(jsclExpression));
+						} catch (EvalError evalError) {
+							exception.setObject(evalError);
+						} finally {
+							//Log.d(CalculatorEngine.class.getName(), "Calculation thread ended work: " + thread.getName());
+							calculationThread.setObject(null);
+							latch.countDown();
+						}
+					}
+				}).start();
+
+				try {
+					//Log.d(CalculatorEngine.class.getName(), "Main thread is waiting: " + Thread.currentThread().getName());
+					latch.await(3, TimeUnit.SECONDS);
+					//Log.d(CalculatorEngine.class.getName(), "Main thread got up: " + Thread.currentThread().getName());
+
+					final EvalError evalErrorLocal = exception.getObject();
+					final Object calculationResultLocal = calculationResult.getObject();
+					final Thread calculationThreadLocal = calculationThread.getObject();
+
+					if (calculationThreadLocal != null) {
+						// todo serso: interrupt doesn't stop the thread but it MUST be killed
+						calculationThreadLocal.setPriority(Thread.MIN_PRIORITY);
+						calculationThreadLocal.interrupt();
+						//calculationThreadLocal.stop();
+						resetInterpreter();
+					}
+
+					if ( evalErrorLocal != null ) {
+						throw evalErrorLocal;
+					}
+
+					if ( calculationResultLocal == null ) {
+						tooLongExecutionCache.add(jsclExpression);
+						throw new ParseException("Too long calculation for: " + jsclExpression);
+					}
+
+				} catch (InterruptedException e) {
+					throw new ParseException(e);
+				}
+
+				result = String.valueOf(calculationResult.getObject()).trim();
+			} else {
+				throw new ParseException("Too long calculation for: " + jsclExpression);
+			}
 
 			return operation.getFromProcessor().process(result);
 		}

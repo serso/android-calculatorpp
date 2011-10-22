@@ -21,6 +21,41 @@ public class CalculatorEngineTest {
 	@BeforeClass
 	public static void setUp() throws Exception {
 		CalculatorEngine.instance.init(null, null);
+		CalculatorEngine.instance.setPrecision(3);
+	}
+
+	@Test
+	public void testLongExecution() throws Exception {
+		final CalculatorEngine cm = CalculatorEngine.instance;
+
+		try {
+			cm.evaluate(JsclOperation.numeric, "3^10^10^10");
+			Assert.fail();
+		} catch (EvalError evalError) {
+			Assert.fail();
+		} catch (ParseException e) {
+			if ( e.getMessage().startsWith("Too long calculation") ) {
+
+			} else {
+				Assert.fail();
+			}
+		}
+
+		final long start = System.currentTimeMillis();
+		try {
+			cm.evaluate(JsclOperation.numeric, "3^10^10^10");
+			Assert.fail();
+		} catch (EvalError evalError) {
+			Assert.fail();
+		} catch (ParseException e) {
+			if ( e.getMessage().startsWith("Too long calculation") ) {
+				final long end = System.currentTimeMillis();
+				Assert.assertTrue(end - start < 1000);
+			} else {
+				Assert.fail();
+			}
+		}
+
 	}
 
 	@Test
@@ -102,8 +137,8 @@ public class CalculatorEngineTest {
 		cm.setPrecision(2);
 		Assert.assertEquals("12345678.9", cm.evaluate(JsclOperation.numeric, "1.23456789E7"));
 		cm.setPrecision(10);
-		Assert.assertEquals("12345678.9", cm.evaluate(JsclOperation.numeric, "1.23456789E7"));
-		Assert.assertEquals("123456789", cm.evaluate(JsclOperation.numeric, "1.234567890E8"));
+		Assert.assertEquals("12345678.899999999", cm.evaluate(JsclOperation.numeric, "1.23456789E7"));
+		Assert.assertEquals("123456788.99999999", cm.evaluate(JsclOperation.numeric, "1.234567890E8"));
 		Assert.assertEquals("1234567890.1", cm.evaluate(JsclOperation.numeric, "1.2345678901E9"));
 
 
