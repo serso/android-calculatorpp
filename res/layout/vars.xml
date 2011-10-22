@@ -22,8 +22,7 @@
         a:layout_height="wrap_content"
         a:layout_gravity="center_horizontal"
         a:text="@string/c_add"
-		a:paddingLeft="40dp"
-		a:paddingRight="40dp"
+		style="@style/add_var_button"
         a:onClick="addVarButtonClickHandler"/>
 
 </LinearLayout>

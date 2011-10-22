@@ -1,0 +1,15 @@
+<!--
+  ~ Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+  ~ For more information, please, contact se.solovyev@gmail.com
+  ~ or visit http://se.solovyev.org
+  -->
+
+<resources>
+
+	<style name="history_time" parent="var_text">
+	</style>
+
+	<style name="history_item" parent="var_description">
+	</style>
+
+</resources>

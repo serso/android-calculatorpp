@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+  ~ For more information, please, contact se.solovyev@gmail.com
+  ~ or visit http://se.solovyev.org
+  -->
+
+<resources>
+
+	<style name="button_style" parent="button_style_parent">
+		<item name="android:layout_width">fill_parent</item>
+		<item name="android:layout_height">fill_parent</item>
+		<item name="android:layout_weight">1</item>
+		<item name="android:focusable">true</item>
+		<item name="android:background">@drawable/button</item>
+		<item name="android:layout_marginLeft">1dp</item>
+		<item name="android:layout_marginBottom">1dp</item>
+	</style>
+
+	<style name="default_digit_button_style" parent="button_style">
+		<item name="android:background">@drawable/blue_button</item>
+	</style>
+
+	<style name="violet_digit_button_style" parent="button_style">
+		<item name="android:background">@drawable/violet_button</item>
+	</style>
+
+	<style name="light_blue_digit_button_style" parent="button_style">
+		<item name="android:background">@drawable/light_blue_button</item>
+	</style>
+
+	<style name="default_control_button_style" parent="button_style"/>
+
+	<style name="violet_control_button_style" parent="button_style">
+		<item name="android:background">@drawable/dark_violet_button</item>
+	</style>
+
+	<style name="light_blue_control_button_style" parent="button_style">
+		<item name="android:background">@drawable/dark_blue_button</item>
+	</style>
+
+	<style name="default_control_image_button_style" parent="default_control_button_style">
+		<item name="android:padding">6dp</item>
+	</style>
+
+	<style name="violet_control_image_button_style" parent="violet_control_button_style">
+		<item name="android:padding">6dp</item>
+	</style>
+
+	<style name="light_blue_control_image_button_style" parent="light_blue_control_button_style">
+		<item name="android:padding">6dp</item>
+	</style>
+
+	<style name="editor_style" parent="editor_style_parent">
+		<item name="android:gravity">left|top</item>
+		<item name="android:layout_width">fill_parent</item>
+		<item name="android:layout_height">fill_parent</item>
+	</style>
+
+	<style name="display_style" parent="display_style_parent">
+		<item name="android:gravity">right|center_vertical</item>
+		<item name="android:layout_width">fill_parent</item>
+		<item name="android:layout_height">fill_parent</item>
+	</style>
+
+	<style name="about_style" parent="about_style_parent">
+		<item name="android:gravity">center</item>
+		<item name="android:layout_width">fill_parent</item>
+		<item name="android:layout_height">fill_parent</item>
+	</style>
+
+	<style name="default_theme">
+		<item name="digitButtonStyle">@style/default_digit_button_style</item>
+		<item name="controlButtonStyle">@style/default_control_button_style</item>
+		<item name="controlImageButtonStyle">@style/default_control_image_button_style</item>
+	</style>
+
+	<style name="violet_theme">
+		<item name="digitButtonStyle">@style/violet_digit_button_style</item>
+		<item name="controlButtonStyle">@style/violet_control_button_style</item>
+		<item name="controlImageButtonStyle">@style/violet_control_image_button_style</item>
+	</style>
+
+	<style name="light_blue_theme">
+		<item name="digitButtonStyle">@style/light_blue_digit_button_style</item>
+		<item name="controlButtonStyle">@style/light_blue_control_button_style</item>
+		<item name="controlImageButtonStyle">@style/light_blue_control_image_button_style</item>
+	</style>
+
+	<style name="default_text">
+		<item name="android:background">@color/default_background</item>
+		<item name="android:textColor">@color/default_text_color</item>
+	</style>
+
+</resources>
