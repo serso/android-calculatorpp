@@ -2,10 +2,13 @@ package org.solovyev.android.calculator.model;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.StartsWithFinder;
+import org.solovyev.android.calculator.math.Functions;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.common.utils.CollectionsUtils;
 import org.solovyev.common.utils.Finder;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * User: serso
@@ -50,11 +53,12 @@ public class FromJsclSimplifyTextProcessor implements TextProcessor<String> {
 
 			replaceSystemVars(sb, number);
 
-			if (mathType == MathType.constant) {
+			if (mathType == MathType.constant){
 				sb.append(mathTypeResult.getMatch());
 				i += mathTypeResult.getMatch().length() - 1;
-			} else if (ch == '*') {
-				sb.append("×");
+			} else if ( mathType == MathType.function) {
+				sb.append(fromJsclFunction(mathTypeResult.getMatch()));
+				i += mathTypeResult.getMatch().length() - 1;
 			} else {
 				sb.append(ch);
 			}
@@ -73,10 +77,87 @@ public class FromJsclSimplifyTextProcessor implements TextProcessor<String> {
 
 		replaceSystemVars(sb, number);
 
+		return removeMultiplicationSigns(sb.toString());
+	}
+
+	@NotNull
+	private static String fromJsclFunction(@NotNull String function) {
+		final String result;
+
+		if (function.equals(Functions.LN_JSCL)) {
+			result = Functions.LN;
+		} else if (function.equals(Functions.SQRT_JSCL)) {
+			result = Functions.SQRT;
+		} else {
+			result = function;
+		}
+
+		return result;
+	}
+
+	@NotNull
+	private String removeMultiplicationSigns(String s) {
+		final StringBuilder sb = new StringBuilder();
+
+		MathType.Result mathTypeBefore;
+		MathType.Result mathType = null;
+		MathType.Result mathTypeAfter = null;
+
+		for (int i = 0; i < s.length(); i++) {
+			mathTypeBefore = mathType;
+			if (mathTypeAfter == null) {
+				mathType = MathType.getType(s, i);
+			} else {
+				mathType = mathTypeAfter;
+			}
+
+			char ch = s.charAt(i);
+			if (ch == '*') {
+				if (i + 1 < s.length()) {
+					mathTypeAfter = MathType.getType(s, i + 1);
+				} else {
+					mathTypeAfter = null;
+				}
+
+				if (needMultiplicationSign(mathTypeBefore == null ? null : mathTypeBefore.getMathType(), mathTypeAfter == null ? null : mathTypeAfter.getMathType())) {
+					sb.append("×");
+				}
+
+			} else {
+				if (mathType.getMathType() == MathType.constant || mathType.getMathType() == MathType.function) {
+					sb.append(mathType.getMatch());
+					i += mathType.getMatch().length() - 1;
+				} else {
+					sb.append(ch);
+				}
+				mathTypeAfter = null;
+			}
+
+		}
+
 		return sb.toString();
 	}
 
-	private void replaceSystemVars(StringBuilder sb, String number) {
+	private final List<MathType> mathTypes = Arrays.asList(MathType.function, MathType.constant);
+
+	private boolean needMultiplicationSign(@Nullable MathType mathTypeBefore, @Nullable MathType mathTypeAfter) {
+		if (mathTypeBefore == null || mathTypeAfter == null) {
+			return true;
+		} else if (mathTypes.contains(mathTypeBefore) || mathTypes.contains(mathTypeAfter)) {
+			return false;
+		} else if ( mathTypeBefore == MathType.close_group_symbol ) {
+			return false;
+		} else if ( mathTypeAfter == MathType.open_group_symbol ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	@Nullable
+	private MathType replaceSystemVars(StringBuilder sb, String number) {
+		MathType result = null;
+
 		if (number != null) {
 			final String finalNumber = number;
 			final Var var = CollectionsUtils.get(CalculatorEngine.instance.getVarsRegister().getSystemVars(), new Finder<Var>() {
@@ -89,8 +170,11 @@ public class FromJsclSimplifyTextProcessor implements TextProcessor<String> {
 			if (var != null) {
 				sb.delete(sb.length() - number.length(), sb.length());
 				sb.append(var.getName());
+				result = MathType.constant;
 			}
 		}
+
+		return result;
 	}
 
 }
