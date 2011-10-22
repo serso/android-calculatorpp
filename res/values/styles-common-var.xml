@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+  ~ For more information, please, contact se.solovyev@gmail.com
+  ~ or visit http://se.solovyev.org
+  -->
+
+<resources>
+
+	<style name="var_text" parent="var_text_parent">
+		<item name="android:paddingTop">6dp</item>
+		<item name="android:paddingLeft">6dp</item>
+		<item name="android:paddingRight">6dp</item>
+		<item name="android:paddingBottom">3dp</item>
+		<item name="android:textStyle">bold</item>
+		<item name="android:textColor">@android:color/white</item>
+	</style>
+
+	<style name="var_description" parent="var_description_parent">
+		<item name="android:paddingTop">0dp</item>
+		<item name="android:paddingLeft">6dp</item>
+		<item name="android:paddingRight">6dp</item>
+		<item name="android:paddingBottom">6dp</item>
+		<item name="android:textColor">#bebebe</item>
+	</style>
+
+	<style name="add_var_button" parent="add_var_button_parent">
+	</style>
+
+</resources>

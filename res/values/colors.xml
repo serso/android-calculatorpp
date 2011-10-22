@@ -1,5 +1,12 @@
+<!--
+  ~ Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+  ~ For more information, please, contact se.solovyev@gmail.com
+  ~ or visit http://se.solovyev.org
+  -->
+
 <resources>
-    <color name="magic_flame">#00ffffff</color>
-    <color name="button_text_color">#ffffffff</color>
-    <color name="text_color">#ffffffff</color>
+	<color name="magic_flame">#00ffffff</color>
+	<color name="button_text_color">#ffffffff</color>
+	<color name="default_text_color">#ffffffff</color>
+	<color name="default_background">#ff000000</color>
 </resources>
