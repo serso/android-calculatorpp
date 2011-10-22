@@ -1,0 +1,43 @@
+<!--
+  ~ Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+  ~ For more information, please, contact se.solovyev@gmail.com
+  ~ or visit http://se.solovyev.org
+  -->
+
+<resources>
+
+	<style name="button_style_parent">
+		<item name="android:textSize">30dp</item>
+		<item name="android:textColor">@color/button_text_color</item>
+	</style>
+
+	<style name="display_style_parent" parent="default_text">
+		<item name="android:textSize">37dp</item>
+		<item name="android:padding">7dp</item>
+	</style>
+
+	<style name="editor_style_parent" parent="default_text">
+		<item name="android:textSize">37dp</item>
+		<item name="android:padding">7dp</item>
+	</style>
+
+	<style name="about_style_parent" parent="default_text">
+		<item name="android:textSize">23dp</item>
+		<item name="android:padding">7dp</item>
+	</style>
+
+	<style name="var_text_parent">
+		<item name="android:textSize">30dp</item>
+	</style>
+
+	<style name="var_description_parent">
+		<item name="android:textSize">23dp</item>
+	</style>
+
+	<style name="add_var_button_parent">
+		<item name="android:paddingLeft">60dp</item>
+		<item name="android:paddingRight">60dp</item>
+	</style>
+
+
+</resources>

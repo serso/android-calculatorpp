@@ -21,16 +21,18 @@
 		<TextView a:layout_height="fill_parent"
 				  a:layout_width="wrap_content"
 				  a:padding="6dp"
+				  style="@style/default_text_size"
 				  a:text="@string/c_var_name"/>
 
 		<EditText a:id="@+id/var_edit_name"
 				  a:layout_width="fill_parent"
 				  a:layout_height="wrap_content"
-				  a:textSize="20dp">
+				  style="@style/default_text_size">
 		</EditText>
 
 		<TextView a:layout_height="fill_parent"
 				  a:layout_width="wrap_content"
+				  style="@style/default_text_size"
 				  a:padding="6dp"
 				  a:text="@string/c_var_value"/>
 
@@ -38,18 +40,19 @@
 				  a:layout_width="fill_parent"
 				  a:layout_height="wrap_content"
 				  a:inputType="numberDecimal"
-				  a:textSize="20dp">
+				  style="@style/default_text_size">
 		</EditText>
 
 		<TextView a:layout_height="fill_parent"
 				  a:layout_width="wrap_content"
 				  a:padding="6dp"
+				  style="@style/default_text_size"
 				  a:text="@string/c_var_description"/>
 
 		<EditText a:id="@+id/var_edit_description"
 				  a:layout_width="fill_parent"
 				  a:layout_height="wrap_content"
-				  a:textSize="20dp">
+				  style="@style/default_text_size">
 		</EditText>
 
 	</LinearLayout>

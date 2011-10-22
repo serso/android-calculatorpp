@@ -14,16 +14,11 @@
 	<TextView a:id="@+id/history_time"
 			  a:layout_width="fill_parent"
 			  a:layout_height="fill_parent"
-			  a:textColor="@android:color/white"
-			  a:paddingLeft="6dp"
-			  a:paddingRight="6dp"
-			  a:textStyle="bold"/>
+			  style="@style/history_time"/>
 
 	<TextView a:id="@+id/history_item"
 			  a:layout_width="fill_parent"
 			  a:layout_height="fill_parent"
-			  a:paddingBottom="6dp"
-			  a:paddingLeft="6dp"
-			  a:paddingRight="6dp"/>
+			  style="@style/history_item"/>
 
 </LinearLayout>
