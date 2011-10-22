@@ -21,7 +21,11 @@ import org.solovyev.common.utils.CollectionsUtils;
 import org.solovyev.common.utils.Formatter;
 import org.solovyev.common.utils.MutableObject;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -55,6 +59,27 @@ public enum CalculatorEngine {
 
 	@NotNull
 	private final static Set<String> tooLongExecutionCache = new HashSet<String>();
+
+	@NotNull
+	private DecimalFormatSymbols decimalGroupSymbols = new DecimalFormatSymbols(Locale.getDefault());
+
+	@NotNull
+	public String format(@NotNull Double value) {
+		if (!value.isInfinite() && !value.isNaN()) {
+			final DecimalFormat df = new DecimalFormat();
+			df.setDecimalFormatSymbols(decimalGroupSymbols);
+			df.setGroupingUsed(true);
+			df.setMaximumFractionDigits(instance.getPrecision());
+			return df.format(new BigDecimal(value).setScale(instance.getPrecision(), BigDecimal.ROUND_HALF_UP).doubleValue());
+		} else {
+			return String.valueOf(value);
+		}
+	}
+
+	{
+		decimalGroupSymbols.setDecimalSeparator('.');
+		decimalGroupSymbols.setGroupingSeparator(' ');
+	}
 
 	public String evaluate(@NotNull JsclOperation operation,
 						   @NotNull String expression) throws EvalError, ParseException {
@@ -188,6 +213,12 @@ public enum CalculatorEngine {
 			} catch (EvalError evalError) {
 				throw new RuntimeException(evalError);
 			}
+		}
+	}
+
+	public void setDecimalGroupSymbols(@NotNull DecimalFormatSymbols decimalGroupSymbols) {
+		synchronized (lock) {
+			this.decimalGroupSymbols = decimalGroupSymbols;
 		}
 	}
 

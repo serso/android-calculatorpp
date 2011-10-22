@@ -27,6 +27,9 @@ public class FromJsclSimplifyTextProcessor implements TextProcessor<String> {
 		String number = null;
 		for (int i = 0; i < s.length(); i++) {
 			char ch = s.charAt(i);
+			if ( Character.isWhitespace(ch) ) {
+				continue;
+			}
 
 			mathTypeResult = MathType.getType(s, i);
 
@@ -48,6 +51,8 @@ public class FromJsclSimplifyTextProcessor implements TextProcessor<String> {
 					}
 
 					numberBuilder = null;
+				} else {
+					number = null;
 				}
 			}
 
@@ -73,6 +78,8 @@ public class FromJsclSimplifyTextProcessor implements TextProcessor<String> {
 			}
 
 			numberBuilder = null;
+		} else {
+			number = null;
 		}
 
 		replaceSystemVars(sb, number);
@@ -171,6 +178,9 @@ public class FromJsclSimplifyTextProcessor implements TextProcessor<String> {
 				sb.delete(sb.length() - number.length(), sb.length());
 				sb.append(var.getName());
 				result = MathType.constant;
+			} else {
+				sb.delete(sb.length() - number.length(), sb.length());
+				sb.append(CalculatorEngine.instance.format(Double.valueOf(number)));
 			}
 		}
 
