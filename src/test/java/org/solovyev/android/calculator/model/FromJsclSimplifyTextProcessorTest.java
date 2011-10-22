@@ -19,6 +19,9 @@ public class FromJsclSimplifyTextProcessorTest {
 	@Test
 	public void testProcess() throws Exception {
 		FromJsclSimplifyTextProcessor tp = new FromJsclSimplifyTextProcessor();
+		Assert.assertEquals("(e)", tp.process("(2.718281828459045)"));
+		Assert.assertEquals("123 456 789e", tp.process("123456789*2.718281828459045"));
+		Assert.assertEquals("123 456 789e", tp.process("123 456 789 * 2.718281828459045"));
 		Assert.assertEquals("t11e", tp.process("t11*2.718281828459045"));
 		Assert.assertEquals("e", tp.process("2.718281828459045"));
 		Assert.assertEquals("tee", tp.process("t2.718281828459045*2.718281828459045"));

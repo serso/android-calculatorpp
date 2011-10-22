@@ -11,6 +11,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
+
 /**
  * User: serso
  * Date: 9/17/11
@@ -99,9 +102,9 @@ public class CalculatorEngineTest {
 		Assert.assertEquals("4", cm.evaluate(JsclOperation.numeric, "k11"));
 
 		CalculatorEngine.instance.getVarsRegister().addVar(null, new Var.Builder("t", (String)null));
-		Assert.assertEquals("11×t", cm.evaluate(JsclOperation.numeric, "t11"));
-		Assert.assertEquals("11×e×t", cm.evaluate(JsclOperation.numeric, "t11e"));
-		Assert.assertEquals("11×Infinity×t", cm.evaluate(JsclOperation.numeric, "t11∞"));
+		Assert.assertEquals("11t", cm.evaluate(JsclOperation.numeric, "t11"));
+		Assert.assertEquals("11et", cm.evaluate(JsclOperation.numeric, "t11e"));
+		Assert.assertEquals("11×Infinityt", cm.evaluate(JsclOperation.numeric, "t11∞"));
 		Assert.assertEquals("-t+t^3", cm.evaluate(JsclOperation.numeric, "t(t-1)(t+1)"));
 	}
 
@@ -134,12 +137,16 @@ public class CalculatorEngineTest {
 	public void testRounding() throws Exception {
 		final CalculatorEngine cm = CalculatorEngine.instance;
 
+		DecimalFormatSymbols decimalGroupSymbols = new DecimalFormatSymbols(Locale.getDefault());
+		decimalGroupSymbols.setDecimalSeparator('.');
+		decimalGroupSymbols.setGroupingSeparator('\'');
+		cm.setDecimalGroupSymbols(decimalGroupSymbols);
 		cm.setPrecision(2);
-		Assert.assertEquals("12345678.9", cm.evaluate(JsclOperation.numeric, "1.23456789E7"));
+		Assert.assertEquals("12'345'678.9", cm.evaluate(JsclOperation.numeric, "1.23456789E7"));
 		cm.setPrecision(10);
-		Assert.assertEquals("12345678.899999999", cm.evaluate(JsclOperation.numeric, "1.23456789E7"));
-		Assert.assertEquals("123456788.99999999", cm.evaluate(JsclOperation.numeric, "1.234567890E8"));
-		Assert.assertEquals("1234567890.1", cm.evaluate(JsclOperation.numeric, "1.2345678901E9"));
+		Assert.assertEquals("12'345'678.899999999", cm.evaluate(JsclOperation.numeric, "1.23456789E7"));
+		Assert.assertEquals("123'456'788.99999999", cm.evaluate(JsclOperation.numeric, "1.234567890E8"));
+		Assert.assertEquals("1'234'567'890.1", cm.evaluate(JsclOperation.numeric, "1.2345678901E9"));
 
 
 	}
