@@ -23,6 +23,12 @@ public class ToJsclTextProcessorTest {
 	}
 
 	@Test
+	public void testSpecialCases() throws ParseException {
+		final ToJsclTextProcessor preprocessor = new ToJsclTextProcessor();
+		Assert.assertEquals( "3^10^10", preprocessor.process("3^10^10").toString());
+	}
+
+	@Test
 	public void testProcess() throws Exception {
 		final ToJsclTextProcessor preprocessor = new ToJsclTextProcessor();
 
