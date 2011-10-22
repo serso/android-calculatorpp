@@ -3,7 +3,7 @@
 <manifest xmlns:a="http://schemas.android.com/apk/res/android"
 		  package="org.solovyev.android.calculator"
 		  a:versionCode="2"
-		  a:versionName="1.0.2">
+		  a:versionName="1.1.0">
 
 	<uses-sdk 	a:minSdkVersion="4"
 				a:targetSdkVersion="8"/>
