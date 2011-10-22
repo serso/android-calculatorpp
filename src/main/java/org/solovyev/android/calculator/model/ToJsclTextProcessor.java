@@ -33,6 +33,10 @@ class ToJsclTextProcessor implements TextProcessor<PreparedExpression> {
 			char ch = s.charAt(i);
 			startsWithFinder.setI(i);
 
+			if ( Character.isWhitespace(ch)) {
+				continue;
+			}
+
 			mathTypeResult = checkMultiplicationSignBeforeFunction(sb, s, i, mathTypeResult);
 
 			final MathType mathType = mathTypeResult.getMathType();

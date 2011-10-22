@@ -13,9 +13,6 @@ import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.calculator.model.ParseException;
 import org.solovyev.android.calculator.model.TextProcessor;
 
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
-
 /**
  * User: serso
  * Date: 10/6/11
@@ -32,7 +29,7 @@ class FromJsclNumericTextProcessor implements TextProcessor<String> {
 			if (doubleValue.isInfinite()) {
 				result = MathType.INFINITY;
 			} else {
-				result = format(doubleValue);
+				result = CalculatorEngine.instance.format(doubleValue);
 			}
 		} catch (NumberFormatException e) {
 			result = result.replace(MathType.INFINITY_JSCL, MathType.INFINITY);
@@ -53,18 +50,7 @@ class FromJsclNumericTextProcessor implements TextProcessor<String> {
 	}
 
 	private String format(@NotNull String value) {
-		return format(Double.valueOf(value));
-	}
-
-	private String format(@NotNull Double value) {
-		if (!value.isInfinite() && !value.isNaN()) {
-			final DecimalFormat df = new DecimalFormat();
-			df.setGroupingUsed(false);
-			df.setMaximumFractionDigits(CalculatorEngine.instance.getPrecision());
-			return df.format(new BigDecimal(value).setScale(CalculatorEngine.instance.getPrecision(), BigDecimal.ROUND_HALF_UP).doubleValue());
-		} else {
-			return String.valueOf(value);
-		}
+		return CalculatorEngine.instance.format(Double.valueOf(value));
 	}
 
 	protected String createResultForComplexNumber(@NotNull final String s) {
