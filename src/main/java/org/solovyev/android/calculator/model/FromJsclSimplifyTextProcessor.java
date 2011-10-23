@@ -14,7 +14,6 @@ import java.util.List;
  */
 public class FromJsclSimplifyTextProcessor implements TextProcessor<String> {
 
-
 	@NotNull
 	@Override
 	public String process(@NotNull String s) throws ParseException {
@@ -27,14 +26,14 @@ public class FromJsclSimplifyTextProcessor implements TextProcessor<String> {
 				continue;
 			}
 
-			final MathType.Result mathTypeResult = MathType.getType(s, i);
+			MathType.Result mathTypeResult = MathType.getType(s, i);
 
-			numberBuilder.process(sb, mathTypeResult);
+			numberBuilder.process(sb, mathTypeResult, null);
 
 			i = mathTypeResult.processFromJscl(sb, i);
 		}
 
-		numberBuilder.process(sb);
+		numberBuilder.process(sb, null);
 
 		return removeMultiplicationSigns(sb.toString());
 	}

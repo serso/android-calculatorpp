@@ -38,9 +38,9 @@ public class TextHighlighterTest {
 			}
 		}
 
-		Assert.assertEquals("<font color=\"#000000\"></font>)(((())())", textHighlighter.process(")(((())())"));
-		Assert.assertEquals(")", textHighlighter.process(")"));
-		Assert.assertEquals(")()(", textHighlighter.process(")()("));
-		Assert.assertEquals("1 000 000", textHighlighter.process("1000000"));
+		Assert.assertEquals("<font color=\"#000000\"></font>)(((())())", textHighlighter.process(")(((())())").toString());
+		Assert.assertEquals(")", textHighlighter.process(")").toString());
+		Assert.assertEquals(")()(", textHighlighter.process(")()(").toString());
+		Assert.assertEquals("1 000 000", textHighlighter.process("1000000").toString());
 	}
 }

@@ -25,7 +25,7 @@ public class CalculatorDisplay extends TextView {
 	private boolean valid = true;
 
 	@NotNull
-	private final static TextProcessor<String> textHighlighter = new TextHighlighter(Color.WHITE);
+	private final static TextProcessor<TextHighlighter.Result> textHighlighter = new TextHighlighter(Color.WHITE);
 
 	public CalculatorDisplay(Context context) {
 		super(context);
@@ -61,7 +61,8 @@ public class CalculatorDisplay extends TextView {
 			Log.d(this.getClass().getName(), text);
 
 			try {
-				text = textHighlighter.process(text);
+				TextHighlighter.Result result = textHighlighter.process(text);
+				text = result.toString();
 			} catch (ParseException e) {
 				Log.e(this.getClass().getName(), e.getMessage(), e);
 			}

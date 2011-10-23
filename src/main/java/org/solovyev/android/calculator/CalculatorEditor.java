@@ -26,7 +26,7 @@ public class CalculatorEditor extends EditText {
 	private boolean highlightText = true;
 
 	@NotNull
-	private final static TextProcessor<String> textHighlighter = new TextHighlighter(Color.WHITE);
+	private final static TextProcessor<TextHighlighter.Result> textHighlighter = new TextHighlighter(Color.WHITE);
 
 	public CalculatorEditor(Context context) {
 		super(context);
@@ -69,7 +69,10 @@ public class CalculatorEditor extends EditText {
 			Log.d(this.getClass().getName(), text);
 
 			try {
-				text = textHighlighter.process(text);
+				final TextHighlighter.Result result = textHighlighter.process(text);
+				selectionStart += result.getOffset();
+				selectionEnd += result.getOffset();
+				text = result.toString();
 			} catch (ParseException e) {
 				Log.e(this.getClass().getName(), e.getMessage(), e);
 			}

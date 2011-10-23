@@ -17,13 +17,17 @@
 				a:title="@string/c_calc_color_display_title"
 				a:defaultValue="true"/>
 
+		<ListPreference a:key="@string/p_calc_grouping_separator_key"
+						a:title="@string/c_calc_grouping_separator"
+						a:entries="@array/p_grouping_separator_names"
+						a:summary="@string/c_calc_grouping_separator_summary"
+						a:entryValues="@array/p_grouping_separator_values"/>
+
 		<ListPreference a:key="@string/p_calc_theme_key"
 						a:title="@string/c_calc_theme"
 						a:entries="@array/p_theme_names"
 						a:summary="@string/c_calc_theme_summary"
-						a:entryValues="@array/p_theme_values"
-						a:persistent="true"
-						a:shouldDisableView="false"/>
+						a:entryValues="@array/p_theme_values"/>
 
 
 		<!--		<org.solovyev.android.view.prefs.FloatRangeSeekBarPreference

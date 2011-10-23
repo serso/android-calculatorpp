@@ -24,4 +24,7 @@
 	<string name="p_calc_theme_key">org.solovyev.android.calculator.CalculatorActivity_calc_theme</string>
 	<string name="p_calc_theme">default_theme</string>
 
+	<string name="p_calc_grouping_separator_key">org.solovyev.android.calculator.CalculatorActivity_calc_grouping_separator</string>
+	<string name="p_calc_grouping_separator"> </string>
+
 </resources>
