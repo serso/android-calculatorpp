@@ -20,6 +20,7 @@ import org.solovyev.common.msg.MessageType;
 import org.solovyev.common.utils.CollectionsUtils;
 import org.solovyev.common.utils.Formatter;
 import org.solovyev.common.utils.MutableObject;
+import org.solovyev.common.utils.StringUtils;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -39,6 +40,9 @@ import java.util.concurrent.TimeUnit;
 public enum CalculatorEngine {
 
 	instance;
+
+	private static final String GROUPING_SEPARATOR_P_KEY = "org.solovyev.android.calculator.CalculatorActivity_calc_grouping_separator";
+	private static final String GROUPING_SEPARATOR_DEFAULT = " ";
 
 	private static final String RESULT_PRECISION_P_KEY = "org.solovyev.android.calculator.CalculatorModel_result_precision";
 	private static final String RESULT_PRECISION_DEFAULT = "5";
@@ -62,6 +66,12 @@ public enum CalculatorEngine {
 
 	@NotNull
 	private DecimalFormatSymbols decimalGroupSymbols = new DecimalFormatSymbols(Locale.getDefault());
+	{
+		decimalGroupSymbols.setDecimalSeparator('.');
+		decimalGroupSymbols.setGroupingSeparator(GROUPING_SEPARATOR_DEFAULT.charAt(0));
+	}
+
+	private boolean useGroupingSeparator = true;
 
 	@NotNull
 	private ThreadKiller threadKiller = new AndroidThreadKiller();
@@ -71,17 +81,12 @@ public enum CalculatorEngine {
 		if (!value.isInfinite() && !value.isNaN()) {
 			final DecimalFormat df = new DecimalFormat();
 			df.setDecimalFormatSymbols(decimalGroupSymbols);
-			df.setGroupingUsed(true);
+			df.setGroupingUsed(useGroupingSeparator);
 			df.setMaximumFractionDigits(instance.getPrecision());
 			return df.format(new BigDecimal(value).setScale(instance.getPrecision(), BigDecimal.ROUND_HALF_UP).doubleValue());
 		} else {
 			return String.valueOf(value);
 		}
-	}
-
-	{
-		decimalGroupSymbols.setDecimalSeparator('.');
-		decimalGroupSymbols.setGroupingSeparator(' ');
 	}
 
 	public String evaluate(@NotNull JsclOperation operation,
@@ -201,6 +206,14 @@ public enum CalculatorEngine {
 				final NumberMapper<Integer> integerNumberMapper = new NumberMapper<Integer>(Integer.class);
 				//noinspection ConstantConditions
 				this.setPrecision(integerNumberMapper.parseValue(preferences.getString(RESULT_PRECISION_P_KEY, RESULT_PRECISION_DEFAULT)));
+
+				final String groupingSeparator = preferences.getString(GROUPING_SEPARATOR_P_KEY, GROUPING_SEPARATOR_DEFAULT);
+				if (StringUtils.isEmpty(groupingSeparator)) {
+					this.useGroupingSeparator = false;
+				} else {
+					this.useGroupingSeparator = true;
+					this.decimalGroupSymbols.setGroupingSeparator(groupingSeparator.charAt(0));
+				}
 			}
 
 			varsRegister.init(context, preferences);
@@ -218,7 +231,8 @@ public enum CalculatorEngine {
 		}
 	}
 
-	public void setDecimalGroupSymbols(@NotNull DecimalFormatSymbols decimalGroupSymbols) {
+	//for tests only
+	void setDecimalGroupSymbols(@NotNull DecimalFormatSymbols decimalGroupSymbols) {
 		synchronized (lock) {
 			this.decimalGroupSymbols = decimalGroupSymbols;
 		}

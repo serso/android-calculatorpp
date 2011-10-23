@@ -22,6 +22,8 @@ public class FromJsclSimplifyTextProcessorTest {
 	public void testProcess() throws Exception {
 		FromJsclSimplifyTextProcessor tp = new FromJsclSimplifyTextProcessor();
 		Assert.assertEquals("(e)", tp.process("(2.718281828459045)"));
+		Assert.assertEquals("ee", tp.process("2.718281828459045*2.718281828459045"));
+		Assert.assertEquals("((e)(e))", tp.process("((2.718281828459045)*(2.718281828459045))"));
 		DecimalFormatSymbols decimalGroupSymbols = new DecimalFormatSymbols();
 		decimalGroupSymbols.setGroupingSeparator(' ');
 		CalculatorEngine.instance.setDecimalGroupSymbols(decimalGroupSymbols);
@@ -33,6 +35,7 @@ public class FromJsclSimplifyTextProcessorTest {
 
 		CalculatorEngine.instance.getVarsRegister().addVar(null, new Var.Builder("t2.718281828459045", "2"));
 		Assert.assertEquals("t2.718281828459045e", tp.process("t2.718281828459045*2.718281828459045"));
+		Assert.assertEquals("ee", tp.process("2.718281828459045*2.718281828459045"));
 		Assert.assertEquals("t×", tp.process("t*"));
 		Assert.assertEquals("×t", tp.process("*t"));
 		Assert.assertEquals("t×2", tp.process("t*2"));

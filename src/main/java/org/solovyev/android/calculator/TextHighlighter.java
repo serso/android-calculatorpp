@@ -11,13 +11,51 @@ import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.NumberBuilder;
 import org.solovyev.android.calculator.model.ParseException;
 import org.solovyev.android.calculator.model.TextProcessor;
+import org.solovyev.common.utils.MutableObject;
 
 /**
  * User: serso
  * Date: 10/12/11
  * Time: 9:47 PM
  */
-public class TextHighlighter implements TextProcessor<String> {
+public class TextHighlighter implements TextProcessor<TextHighlighter.Result> {
+
+	public static class Result implements CharSequence {
+
+		@NotNull
+		private final String string;
+
+		private final int offset;
+
+		public Result(@NotNull String string, int offset) {
+			this.string = string;
+			this.offset = offset;
+		}
+
+		@Override
+		public int length() {
+			return string.length();
+		}
+
+		@Override
+		public char charAt(int i) {
+			return string.charAt(i);
+		}
+
+		@Override
+		public CharSequence subSequence(int i, int i1) {
+			return string.subSequence(i, i1);
+		}
+
+		@Override
+		public String toString() {
+			return string;
+		}
+
+		public int getOffset() {
+			return offset;
+		}
+	}
 
 	private final int color;
 	private final int colorRed;
@@ -36,7 +74,7 @@ public class TextHighlighter implements TextProcessor<String> {
 
 	@NotNull
 	@Override
-	public String process(@NotNull String text) throws ParseException {
+	public Result process(@NotNull String text) throws ParseException {
 		final String result;
 
 		int maxNumberOfOpenGroupSymbols = 0;
@@ -44,11 +82,15 @@ public class TextHighlighter implements TextProcessor<String> {
 
 		final StringBuilder text1 = new StringBuilder();
 
+		int numberOffset = 0;
+
 		final NumberBuilder numberBuilder = new NumberBuilder();
 		for (int i = 0; i < text.length(); i++) {
-			final MathType.Result mathType = MathType.getType(text, i);
+			MathType.Result mathType = MathType.getType(text, i);
 
-		    numberBuilder.process(text1, mathType);
+			final MutableObject<Integer> localNumberOffset  = new MutableObject<Integer>(0);
+		    numberBuilder.process(text1, mathType, localNumberOffset);
+			numberOffset += localNumberOffset.getObject();
 
 			switch (mathType.getMathType()) {
 				case open_group_symbol:
@@ -71,7 +113,9 @@ public class TextHighlighter implements TextProcessor<String> {
 			}
 		}
 
-		numberBuilder.process(text1);
+		final MutableObject<Integer> localNumberOffset  = new MutableObject<Integer>(0);
+		numberBuilder.process(text1, localNumberOffset);
+		numberOffset += localNumberOffset.getObject();
 
 		if (maxNumberOfOpenGroupSymbols > 0) {
 
@@ -90,7 +134,7 @@ public class TextHighlighter implements TextProcessor<String> {
 			result = text1.toString();
 		}
 
-		return result;
+		return new Result(result, numberOffset);
 	}
 
 	private int processHighlightedText(@NotNull StringBuilder result, int i, @NotNull String functionName, @NotNull String tag) {

@@ -11,6 +11,7 @@ import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.common.utils.CollectionsUtils;
 import org.solovyev.common.utils.Finder;
+import org.solovyev.common.utils.MutableObject;
 
 /**
 * User: serso
@@ -24,21 +25,28 @@ public class NumberBuilder {
 	@Nullable
 	private String number = null;
 
-	public void process(@NotNull StringBuilder sb, @NotNull MathType.Result mathTypeResult) {
+	@NotNull
+	public MathType.Result process(@NotNull StringBuilder sb, @NotNull MathType.Result mathTypeResult, @Nullable MutableObject<Integer> numberOffset) {
 		number = null;
+
+		final MathType.Result possibleResult;
 		if (mathTypeResult.getMathType() == MathType.digit || mathTypeResult.getMathType() == MathType.dot || mathTypeResult.getMathType() == MathType.power_10) {
 			if (numberBuilder == null) {
 				numberBuilder = new StringBuilder();
 			}
 			numberBuilder.append(mathTypeResult.getMatch());
 
-			replaceSystemVars(sb, number);
+			possibleResult = replaceSystemVars(sb, number, numberOffset);
 		} else {
-			process(sb);
+			possibleResult = process(sb, numberOffset);
 		}
+
+		return possibleResult == null ? mathTypeResult : possibleResult;
 	}
 
-	public void process(@NotNull StringBuilder sb) {
+
+	@Nullable
+	public MathType.Result process(@NotNull StringBuilder sb, @Nullable MutableObject<Integer> numberOffset) {
 		if (numberBuilder != null) {
 			try {
 				number = numberBuilder.toString();
@@ -52,12 +60,12 @@ public class NumberBuilder {
 			number = null;
 		}
 
-		replaceSystemVars(sb, number);
+		return replaceSystemVars(sb, number, numberOffset);
 	}
 
 	@Nullable
-	private MathType replaceSystemVars(StringBuilder sb, String number) {
-		MathType result = null;
+	private MathType.Result replaceSystemVars(StringBuilder sb, String number, @Nullable MutableObject<Integer> numberOffset) {
+		MathType.Result result = null;
 
 		if (number != null) {
 			final String finalNumber = number;
@@ -71,10 +79,14 @@ public class NumberBuilder {
 			if (var != null) {
 				sb.delete(sb.length() - number.length(), sb.length());
 				sb.append(var.getName());
-				result = MathType.constant;
+				result = new MathType.Result(MathType.constant, var.getName());
 			} else {
 				sb.delete(sb.length() - number.length(), sb.length());
-				sb.append(CalculatorEngine.instance.format(Double.valueOf(number)));
+				final String formattedNumber = CalculatorEngine.instance.format(Double.valueOf(number));
+				if ( numberOffset != null ) {
+					numberOffset.setObject(formattedNumber.length() - number.length());
+				}
+				sb.append(formattedNumber);
 			}
 		}
 
