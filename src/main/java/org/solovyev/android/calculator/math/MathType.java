@@ -37,7 +37,12 @@ public enum MathType {
 		}
 	},
 
-	grouping_separator(250, false, false, "'", " "),
+	grouping_separator(250, false, false, "'", " "){
+		@Override
+		public int processToJscl(@NotNull StringBuilder result, int i, @NotNull String match) throws ParseException {
+			return i;
+		}
+	},
 
 	power_10(300, true, false, "E") {
 		@Override
@@ -47,6 +52,7 @@ public enum MathType {
 	},
 
 	postfix_function(400, true, true, Functions.allPostfix) {
+
 		@Override
 		protected String getSubstituteToJscl(@NotNull String match) {
 			final String result;

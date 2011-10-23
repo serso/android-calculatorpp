@@ -23,6 +23,7 @@ import android.widget.TextView;
 import bsh.EvalError;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.msg.AndroidMessageRegistry;
 import org.solovyev.android.view.FontSizeAdjuster;
@@ -33,10 +34,8 @@ import org.solovyev.common.utils.history.HistoryAction;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.DecimalFormatSymbols;
+import java.util.*;
 
 public class CalculatorActivity extends Activity implements FontSizeAdjuster, SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -68,6 +67,8 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
+		setDefaultValues(preferences);
+
 		setTheme(preferences);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
@@ -94,6 +95,25 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		CalculatorEngine.instance.reset(this, preferences);
 
 		preferences.registerOnSharedPreferenceChangeListener(this);
+	}
+
+	private void setDefaultValues(@NotNull SharedPreferences preferences) {
+		if ( !preferences.contains(CalculatorEngine.GROUPING_SEPARATOR_P_KEY) ) {
+			final Locale locale = Locale.getDefault();
+			if ( locale != null ) {
+				final DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(locale);
+				int index = MathType.grouping_separator.getTokens().indexOf(String.valueOf(decimalFormatSymbols.getGroupingSeparator()));
+				final String groupingSeparator;
+				if ( index >= 0 ) {
+					groupingSeparator = MathType.grouping_separator.getTokens().get(index);
+				} else {
+					groupingSeparator = " ";
+				}
+				final SharedPreferences.Editor editor = preferences.edit();
+				editor.putString(CalculatorEngine.GROUPING_SEPARATOR_P_KEY, groupingSeparator);
+				editor.commit();
+			}
+		}
 	}
 
 	private synchronized void setOnDragListeners(@NotNull SimpleOnDragListener.Preferences dragPreferences) {
