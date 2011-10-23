@@ -55,7 +55,7 @@ public enum MathType {
 		}
 	},
 
-	postfix_function(400, true, false, Functions.allPostfix) {
+	postfix_function(400, true, true, Functions.allPostfix) {
 		@Override
 		protected String getSubstituteToJscl(@NotNull String match) {
 			final String result;
