@@ -24,7 +24,7 @@
 	<string-array name="p_grouping_separator_values">
 		<item>""</item>
 		<item>\'</item>
-		<item> </item>
+		<item>" "</item>
 	</string-array>
 
 </resources>

@@ -118,6 +118,8 @@ public class ToJsclTextProcessorTest {
 		Assert.assertEquals( "20.0*3.141592653589793/180", preprocessor.process("20.0°").toString());
 		Assert.assertEquals( "sin(30*3.141592653589793/180)", preprocessor.process("sin(30°)").toString());
 		Assert.assertEquals( "asin(sin(3.141592653589793/6))*3.141592653589793/180", preprocessor.process("asin(sin(π/6))°").toString());
+		Assert.assertEquals( "1*3.141592653589793/180*sin(1)", preprocessor.process("1°sin(1)").toString());
+
 
 	}
 }
