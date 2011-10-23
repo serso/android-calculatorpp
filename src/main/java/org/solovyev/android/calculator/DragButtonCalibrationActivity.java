@@ -170,7 +170,7 @@ public class DragButtonCalibrationActivity extends Activity {
 		for (Map.Entry<DragDirection, MathUtils.StatData> entry : statData.entrySet()) {
 			final float min = (float) entry.getValue().getMean() - 2 * (float) entry.getValue().getStandardDeviation();
 			final float max = (float) entry.getValue().getMean() + 2 * (float) entry.getValue().getStandardDeviation();
-			editor.putString(SimpleOnDragListener.getPreferenceId(preferenceType, entry.getKey()), mapper.formatValue(SimpleOnDragListener.transformInterval(preferenceType, entry.getKey(), new IntervalImpl<Float>(Math.max(0, min), max))));
+			editor.putString(SimpleOnDragListener.getPreferenceId(preferenceType, entry.getKey()), mapper.formatValue(SimpleOnDragListener.transformInterval(preferenceType, entry.getKey(), new NumberInterval<Float>(Math.max(0, min), max))));
 		}
 	}
 
