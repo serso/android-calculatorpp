@@ -33,10 +33,6 @@ class ToJsclTextProcessor implements TextProcessor<PreparedExpression> {
 		for (int i = 0; i < s.length(); i++) {
 			startsWithFinder.setI(i);
 
-			if ( Character.isWhitespace(s.charAt(i))) {
-				continue;
-			}
-
 			mathTypeBefore = mathTypeResult == null ? null : mathTypeResult.getMathType();
 
 			mathTypeResult = MathType.getType(s, i);
@@ -123,7 +119,7 @@ class ToJsclTextProcessor implements TextProcessor<PreparedExpression> {
 
 			final MathType mathType = MathType.getType(s, result).getMathType();
 
-			if (CollectionsUtils.contains(mathType, MathType.digit, MathType.dot)) {
+			if (CollectionsUtils.contains(mathType, MathType.digit, MathType.dot, MathType.grouping_separator)) {
 				// continue
 			} else if (mathType == MathType.close_group_symbol) {
 				numberOfOpenGroups++;

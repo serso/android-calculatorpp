@@ -139,7 +139,11 @@ public class TextHighlighter implements TextProcessor<TextHighlighter.Result> {
 
 	private int processHighlightedText(@NotNull StringBuilder result, int i, @NotNull String functionName, @NotNull String tag) {
 		result.append("<").append(tag).append(">").append(functionName).append("</").append(tag).append(">");
-		return i + functionName.length() - 1;
+		if (functionName.length() > 1) {
+			return i + functionName.length() - 1;
+		} else {
+			return i;
+		}
 	}
 
 	private int processBracketGroup(@NotNull StringBuilder result, @NotNull String s, int i, int numberOfOpenings, int maxNumberOfGroups) {

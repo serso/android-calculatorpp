@@ -36,6 +36,18 @@ public enum MathType {
 		}
 	},
 
+	grouping_separator(250, false, false, "'", " ") {
+		@Override
+		public int processToJscl(@NotNull StringBuilder result, int i, @NotNull String match) {
+			return i;
+		}
+
+		@Override
+		public int processFromJscl(@NotNull StringBuilder result, int i, @NotNull String match) {
+			return i;
+		}
+	},
+
 	power_10(300, true, false, "E") {
 		@Override
 		protected String getSubstituteToJscl(@NotNull String match) {
