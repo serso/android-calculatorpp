@@ -2,7 +2,7 @@
 
 <manifest xmlns:a="http://schemas.android.com/apk/res/android"
 		  package="org.solovyev.android.calculator"
-		  a:versionCode="2"
+		  a:versionCode="3"
 		  a:versionName="1.1.1">
 
 	<uses-sdk 	a:minSdkVersion="4"
