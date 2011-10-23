@@ -29,7 +29,7 @@ public enum MathType {
 		}
 	},
 
-	dot(200, true, true, "."){
+	dot(200, true, true, ".") {
 		@Override
 		public boolean isNeedMultiplicationSignBefore(@NotNull MathType mathTypeBefore) {
 			return super.isNeedMultiplicationSignBefore(mathTypeBefore) && mathTypeBefore != digit;
@@ -38,17 +38,17 @@ public enum MathType {
 
 	power_10(300, true, false, "E") {
 		@Override
-		protected String getSubstitute(@NotNull String match) {
+		protected String getSubstituteToJscl(@NotNull String match) {
 			return POWER_10_JSCL;
 		}
 	},
 
 	postfix_function(400, true, false, Functions.allPostfix) {
 		@Override
-		protected String getSubstitute(@NotNull String match) {
+		protected String getSubstituteToJscl(@NotNull String match) {
 			final String result;
 
-			if (  match.equals(Functions.DEGREE)) {
+			if (match.equals(Functions.DEGREE)) {
 				result = PI + "/180";
 			} else {
 				result = null;
@@ -60,8 +60,8 @@ public enum MathType {
 	unary_operation(500, false, false, "-", "=", "!"),
 	binary_operation(600, false, false, "-", "+", "*", "×", "∙", "/", "^") {
 		@Override
-		protected String getSubstitute(@NotNull String match) {
-			if ( match.equals("×") || match.equals("∙") ) {
+		protected String getSubstituteToJscl(@NotNull String match) {
+			if (match.equals("×") || match.equals("∙")) {
 				return "*";
 			} else {
 				return null;
@@ -76,7 +76,7 @@ public enum MathType {
 		}
 
 		@Override
-		protected String getSubstitute(@NotNull String match) {
+		protected String getSubstituteToJscl(@NotNull String match) {
 			return "(";
 		}
 	},
@@ -88,14 +88,14 @@ public enum MathType {
 		}
 
 		@Override
-		protected String getSubstitute(@NotNull String match) {
+		protected String getSubstituteToJscl(@NotNull String match) {
 			return ")";
 		}
 	},
 
 	function(1000, true, true, Functions.allPrefix) {
 		@Override
-		protected String getSubstitute(@NotNull String match) {
+		protected String getSubstituteToJscl(@NotNull String match) {
 			final String result;
 
 			if (match.equals(Functions.LN)) {
@@ -103,7 +103,22 @@ public enum MathType {
 			} else if (match.equals(Functions.SQRT)) {
 				result = Functions.SQRT_JSCL;
 			} else {
-				result = match;
+				result = null;
+			}
+
+			return result;
+		}
+
+		@Override
+		protected String getSubstituteFromJscl(@NotNull String match) {
+			final String result;
+
+			if (match.equals(Functions.LN_JSCL)) {
+				result = Functions.LN;
+			} else if (match.equals(Functions.SQRT_JSCL)) {
+				result = Functions.SQRT;
+			} else {
+				result = null;
 			}
 
 			return result;
@@ -118,7 +133,23 @@ public enum MathType {
 		}
 	},
 
-	text(1200, false, false);
+	text(1200, false, false) {
+		@Override
+		public int processToJscl(@NotNull StringBuilder result, int i, @NotNull String match) {
+			if (match.length() > 0) {
+				result.append(match.charAt(0));
+			}
+			return i;
+		}
+
+		@Override
+		public int processFromJscl(@NotNull StringBuilder result, int i, @NotNull String match) {
+			if (match.length() > 0) {
+				result.append(match.charAt(0));
+			}
+			return i;
+		}
+	};
 
 	@NotNull
 	private final List<String> tokens;
@@ -164,14 +195,25 @@ public enum MathType {
 		return needMultiplicationSignBefore && mathTypeBefore.isNeedMultiplicationSignAfter();
 	}
 
-	public int process(@NotNull StringBuilder result, int i, @NotNull String match) {
-		final String substitute = getSubstitute(match);
+	public int processToJscl(@NotNull StringBuilder result, int i, @NotNull String match) {
+		final String substitute = getSubstituteToJscl(match);
+		result.append(substitute == null ? match : substitute);
+		return i + match.length() - 1;
+	}
+
+	public int processFromJscl(@NotNull StringBuilder result, int i, @NotNull String match) {
+		final String substitute = getSubstituteFromJscl(match);
 		result.append(substitute == null ? match : substitute);
 		return i + match.length() - 1;
 	}
 
 	@Nullable
-	protected String getSubstitute(@NotNull String match) {
+	protected String getSubstituteFromJscl(@NotNull String match) {
+		return null;
+	}
+
+	@Nullable
+	protected String getSubstituteToJscl(@NotNull String match) {
 		return null;
 	}
 
@@ -213,7 +255,7 @@ public enum MathType {
 
 		for (MathType mathType : getMathTypesByPriority()) {
 			final String s = get(mathType.getTokens(), startsWithFinder);
-			if ( s != null ) {
+			if (s != null) {
 				return new Result(mathType, s);
 			}
 		}
@@ -226,7 +268,7 @@ public enum MathType {
 
 	@NotNull
 	private static List<MathType> getMathTypesByPriority() {
-		if ( mathTypesByPriority == null ) {
+		if (mathTypesByPriority == null) {
 			final List<MathType> result = CollectionsUtils.asList(MathType.values());
 
 			Collections.sort(result, new Comparator<MathType>() {
@@ -256,8 +298,12 @@ public enum MathType {
 			this.match = match;
 		}
 
-		public int process(@NotNull StringBuilder result, int i) {
-		 	return mathType.process(result, i, match);
+		public int processToJscl(@NotNull StringBuilder result, int i) {
+			return mathType.processToJscl(result, i, match);
+		}
+
+		public int processFromJscl(@NotNull StringBuilder result, int i) {
+			return mathType.processFromJscl(result, i, match);
 		}
 
 		@NotNull

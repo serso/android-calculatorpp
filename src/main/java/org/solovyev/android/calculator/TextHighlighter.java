@@ -8,6 +8,7 @@ package org.solovyev.android.calculator;
 
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.math.MathType;
+import org.solovyev.android.calculator.model.NumberBuilder;
 import org.solovyev.android.calculator.model.ParseException;
 import org.solovyev.android.calculator.model.TextProcessor;
 
@@ -43,8 +44,11 @@ public class TextHighlighter implements TextProcessor<String> {
 
 		final StringBuilder text1 = new StringBuilder();
 
+		final NumberBuilder numberBuilder = new NumberBuilder();
 		for (int i = 0; i < text.length(); i++) {
 			final MathType.Result mathType = MathType.getType(text, i);
+
+		    numberBuilder.process(text1, mathType);
 
 			switch (mathType.getMathType()) {
 				case open_group_symbol:
@@ -66,6 +70,8 @@ public class TextHighlighter implements TextProcessor<String> {
 					text1.append(text.charAt(i));
 			}
 		}
+
+		numberBuilder.process(text1);
 
 		if (maxNumberOfOpenGroupSymbols > 0) {
 
