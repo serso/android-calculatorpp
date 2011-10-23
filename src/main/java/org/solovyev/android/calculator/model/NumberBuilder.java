@@ -30,13 +30,14 @@ public class NumberBuilder {
 		number = null;
 
 		final MathType.Result possibleResult;
-		if (mathTypeResult.getMathType() == MathType.digit || mathTypeResult.getMathType() == MathType.dot || mathTypeResult.getMathType() == MathType.power_10) {
+		if (CollectionsUtils.contains(mathTypeResult.getMathType(), MathType.digit, MathType.dot, MathType.grouping_separator, MathType.power_10)) {
 			if (numberBuilder == null) {
 				numberBuilder = new StringBuilder();
 			}
+
 			numberBuilder.append(mathTypeResult.getMatch());
 
-			possibleResult = replaceSystemVars(sb, number, numberOffset);
+			possibleResult = null;
 		} else {
 			possibleResult = process(sb, numberOffset);
 		}
@@ -47,9 +48,16 @@ public class NumberBuilder {
 
 	@Nullable
 	public MathType.Result process(@NotNull StringBuilder sb, @Nullable MutableObject<Integer> numberOffset) {
+		int numberOfGroupingSeparators = 0;
+
 		if (numberBuilder != null) {
 			try {
 				number = numberBuilder.toString();
+				for (String groupingSeparator : MathType.grouping_separator.getTokens()) {
+					String newNumber = number.replace(groupingSeparator, "");
+					numberOfGroupingSeparators += number.length() - newNumber.length();
+					number = newNumber;
+				}
 				Double.valueOf(number);
 			} catch (NumberFormatException e) {
 				number = null;
@@ -60,11 +68,11 @@ public class NumberBuilder {
 			number = null;
 		}
 
-		return replaceSystemVars(sb, number, numberOffset);
+		return replaceSystemVars(sb, number, numberOfGroupingSeparators, numberOffset);
 	}
 
 	@Nullable
-	private MathType.Result replaceSystemVars(StringBuilder sb, String number, @Nullable MutableObject<Integer> numberOffset) {
+	private MathType.Result replaceSystemVars(StringBuilder sb, String number, int numberOfGroupingSeparators, @Nullable MutableObject<Integer> numberOffset) {
 		MathType.Result result = null;
 
 		if (number != null) {
@@ -77,14 +85,14 @@ public class NumberBuilder {
 			});
 
 			if (var != null) {
-				sb.delete(sb.length() - number.length(), sb.length());
+				sb.delete(sb.length() - number.length() - numberOfGroupingSeparators, sb.length());
 				sb.append(var.getName());
 				result = new MathType.Result(MathType.constant, var.getName());
 			} else {
-				sb.delete(sb.length() - number.length(), sb.length());
+				sb.delete(sb.length() - number.length() - numberOfGroupingSeparators, sb.length());
 				final String formattedNumber = CalculatorEngine.instance.format(Double.valueOf(number));
 				if ( numberOffset != null ) {
-					numberOffset.setObject(formattedNumber.length() - number.length());
+					numberOffset.setObject(formattedNumber.length() - number.length() - numberOfGroupingSeparators);
 				}
 				sb.append(formattedNumber);
 			}
