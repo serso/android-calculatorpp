@@ -116,13 +116,13 @@ public class DirectionDragButton extends DragButton {
 			textDownPosition = getTextPosition(upDownTextPaint, basePaint, textDown, getText(), -1, getWidth(), getHeight(), getDirectionTextScale());
 		}
 
-		if (textDownPosition != null && textUpPosition != null) {
+		/*if (textDownPosition != null && textUpPosition != null) {
 			if (textDownPosition.getX() > textUpPosition.getX()) {
 				textDownPosition.setX(textUpPosition.getX());
 			} else {
 				textUpPosition.setX(textDownPosition.getX());
 			}
-		}
+		}*/
 
 	}
 
