@@ -41,7 +41,7 @@ public enum CalculatorEngine {
 
 	instance;
 
-	private static final String GROUPING_SEPARATOR_P_KEY = "org.solovyev.android.calculator.CalculatorActivity_calc_grouping_separator";
+	public static final String GROUPING_SEPARATOR_P_KEY = "org.solovyev.android.calculator.CalculatorActivity_calc_grouping_separator";
 	private static final String GROUPING_SEPARATOR_DEFAULT = " ";
 
 	private static final String RESULT_PRECISION_P_KEY = "org.solovyev.android.calculator.CalculatorModel_result_precision";
