@@ -2,10 +2,7 @@ package org.solovyev.android.calculator.model;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.math.Functions;
 import org.solovyev.android.calculator.math.MathType;
-import org.solovyev.common.utils.CollectionsUtils;
-import org.solovyev.common.utils.Finder;
 
 import java.util.Arrays;
 import java.util.List;
@@ -17,89 +14,29 @@ import java.util.List;
  */
 public class FromJsclSimplifyTextProcessor implements TextProcessor<String> {
 
+
 	@NotNull
 	@Override
 	public String process(@NotNull String s) throws ParseException {
 		final StringBuilder sb = new StringBuilder();
 
-		MathType.Result mathTypeResult = null;
-		StringBuilder numberBuilder = null;
-		String number = null;
+		final NumberBuilder numberBuilder = new NumberBuilder();
 		for (int i = 0; i < s.length(); i++) {
 			char ch = s.charAt(i);
 			if ( Character.isWhitespace(ch) ) {
 				continue;
 			}
 
-			mathTypeResult = MathType.getType(s, i);
+			final MathType.Result mathTypeResult = MathType.getType(s, i);
 
-			final MathType mathType = mathTypeResult.getMathType();
+			numberBuilder.process(sb, mathTypeResult);
 
-			number = null;
-			if (mathType == MathType.digit || mathType == MathType.dot || mathType == MathType.power_10) {
-				if (numberBuilder == null) {
-					numberBuilder = new StringBuilder();
-				}
-				numberBuilder.append(mathTypeResult.getMatch());
-			} else {
-				if (numberBuilder != null) {
-					try {
-						number = numberBuilder.toString();
-						Double.valueOf(number);
-					} catch (NumberFormatException e) {
-						number = null;
-					}
-
-					numberBuilder = null;
-				} else {
-					number = null;
-				}
-			}
-
-			replaceSystemVars(sb, number);
-
-			if (mathType == MathType.constant){
-				sb.append(mathTypeResult.getMatch());
-				i += mathTypeResult.getMatch().length() - 1;
-			} else if ( mathType == MathType.function) {
-				sb.append(fromJsclFunction(mathTypeResult.getMatch()));
-				i += mathTypeResult.getMatch().length() - 1;
-			} else {
-				sb.append(ch);
-			}
+			i = mathTypeResult.processFromJscl(sb, i);
 		}
 
-		if (numberBuilder != null) {
-			try {
-				number = numberBuilder.toString();
-				Double.valueOf(number);
-			} catch (NumberFormatException e) {
-				number = null;
-			}
-
-			numberBuilder = null;
-		} else {
-			number = null;
-		}
-
-		replaceSystemVars(sb, number);
+		numberBuilder.process(sb);
 
 		return removeMultiplicationSigns(sb.toString());
-	}
-
-	@NotNull
-	private static String fromJsclFunction(@NotNull String function) {
-		final String result;
-
-		if (function.equals(Functions.LN_JSCL)) {
-			result = Functions.LN;
-		} else if (function.equals(Functions.SQRT_JSCL)) {
-			result = Functions.SQRT;
-		} else {
-			result = function;
-		}
-
-		return result;
 	}
 
 	@NotNull
@@ -159,32 +96,6 @@ public class FromJsclSimplifyTextProcessor implements TextProcessor<String> {
 		}
 
 		return true;
-	}
-
-	@Nullable
-	private MathType replaceSystemVars(StringBuilder sb, String number) {
-		MathType result = null;
-
-		if (number != null) {
-			final String finalNumber = number;
-			final Var var = CollectionsUtils.get(CalculatorEngine.instance.getVarsRegister().getSystemVars(), new Finder<Var>() {
-				@Override
-				public boolean isFound(@Nullable Var var) {
-					return var != null && finalNumber.equals(var.getValue());
-				}
-			});
-
-			if (var != null) {
-				sb.delete(sb.length() - number.length(), sb.length());
-				sb.append(var.getName());
-				result = MathType.constant;
-			} else {
-				sb.delete(sb.length() - number.length(), sb.length());
-				sb.append(CalculatorEngine.instance.format(Double.valueOf(number)));
-			}
-		}
-
-		return result;
 	}
 
 }
