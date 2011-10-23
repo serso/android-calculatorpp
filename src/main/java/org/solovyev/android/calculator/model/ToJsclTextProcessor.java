@@ -7,13 +7,10 @@
 package org.solovyev.android.calculator.model;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.StartsWithFinder;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.common.utils.CollectionsUtils;
-import org.solovyev.common.utils.FilterType;
-import org.solovyev.common.utils.Finder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +45,10 @@ class ToJsclTextProcessor implements TextProcessor<PreparedExpression> {
 
 			if (mathTypeBefore == MathType.function && CollectionsUtils.get(MathType.openGroupSymbols, startsWithFinder) != null) {
 				throw new ParseException("Empty function: " + mathTypeResult.getMatch());
+			} else if (mathTypeBefore == MathType.postfix_function && mathTypeResult.getMathType() == MathType.binary_operation) {
+				if ( mathTypeResult.getMatch().equals("^") ) {
+					throw new ParseException("Power operation after postfix function is currently unsupported!");
+				}
 			}
 
 			i = mathTypeResult.processToJscl(result, i);
@@ -97,80 +98,6 @@ class ToJsclTextProcessor implements TextProcessor<PreparedExpression> {
 		}
 
 		return new PreparedExpression(result.toString(), undefinedVars);
-	}
-
-	private void replaceVariables(StringBuilder sb, String s, int i, @NotNull StartsWithFinder startsWithFinder) {
-		for (Var var : CalculatorEngine.instance.getVarsRegister().getVars()) {
-			if (!var.isSystem()) {
-				if (s.startsWith(var.getName(), i)) {
-					if (CollectionsUtils.get(MathType.function.getTokens(), startsWithFinder) == null) {
-					}
-				}
-			}
-		}
-	}
-
-	public int getPostfixFunctionStart(@NotNull String s, int position) {
-		assert s.length() > position;
-
-		int numberOfOpenGroups = 0;
-		int result = position;
-		for (; result >= 0; result--) {
-
-			final MathType mathType = MathType.getType(s, result).getMathType();
-
-			if (CollectionsUtils.contains(mathType, MathType.digit, MathType.dot, MathType.grouping_separator)) {
-				// continue
-			} else if (mathType == MathType.close_group_symbol) {
-				numberOfOpenGroups++;
-			} else if (mathType == MathType.open_group_symbol) {
-				numberOfOpenGroups--;
-			} else {
-				if (stop(s, numberOfOpenGroups, result)) break;
-			}
-		}
-
-		return result;
-	}
-
-	private boolean stop(String s, int numberOfOpenGroups, int i) {
-		if (numberOfOpenGroups == 0) {
-			if (i > 0) {
-				final EndsWithFinder endsWithFinder = new EndsWithFinder(s);
-				endsWithFinder.setI(i + 1);
-				if (!CollectionsUtils.contains(MathType.function.getTokens(), FilterType.included, endsWithFinder)) {
-					MathType type = MathType.getType(s, i).getMathType();
-					if (type != MathType.constant) {
-						return true;
-					}
-				}
-			} else {
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	private static class EndsWithFinder implements Finder<String> {
-
-		private int i;
-
-		@NotNull
-		private final String targetString;
-
-		private EndsWithFinder(@NotNull String targetString) {
-			this.targetString = targetString;
-		}
-
-		@Override
-		public boolean isFound(@Nullable String s) {
-			return targetString.substring(0, i).endsWith(s);
-		}
-
-		public void setI(int i) {
-			this.i = i;
-		}
 	}
 
 	public static String wrap(@NotNull JsclOperation operation, @NotNull String s) {
