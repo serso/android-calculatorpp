@@ -198,13 +198,21 @@ public enum MathType {
 	public int processToJscl(@NotNull StringBuilder result, int i, @NotNull String match) {
 		final String substitute = getSubstituteToJscl(match);
 		result.append(substitute == null ? match : substitute);
-		return i + match.length() - 1;
+		if (match.length() > 1) {
+			return i + match.length() - 1;
+		} else {
+			return i;
+		}
 	}
 
 	public int processFromJscl(@NotNull StringBuilder result, int i, @NotNull String match) {
 		final String substitute = getSubstituteFromJscl(match);
 		result.append(substitute == null ? match : substitute);
-		return i + match.length() - 1;
+		if (match.length() > 1) {
+			return i + match.length() - 1;
+		} else {
+			return i;
+		}
 	}
 
 	@Nullable

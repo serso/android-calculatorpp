@@ -85,4 +85,11 @@
 	<string name="c_calc_theme_summary">Устанавливает тему оформления приложения</string>
 	<string name="c_clear_history">Очистить историю</string>
 	<string name="c_simplify_instead_of_numeric">Следующие константы не определены: {0}!</string>
+
+	<string name="p_grouping_separator_no">Не использовать разделитель разрядов</string>
+	<string name="p_grouping_separator_apostrophe">Апостроф (\')</string>
+	<string name="p_grouping_separator_space">Пробел ( )</string>
+	<string name="c_calc_grouping_separator">Разделитель разрядов</string>
+	<string name="c_calc_grouping_separator_summary">Устанавливает разделитель разрядов числа</string>
+
 </resources>

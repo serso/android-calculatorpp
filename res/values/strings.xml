@@ -85,4 +85,10 @@
 	<string name="c_calc_theme_summary">Sets the theme for calculator</string>
 	<string name="c_clear_history">Clear history</string>
 	<string name="c_simplify_instead_of_numeric">Next constants are undefined: {0}!</string>
+
+	<string name="p_grouping_separator_no">No grouping separator</string>
+	<string name="p_grouping_separator_apostrophe">Apostrophe (\')</string>
+	<string name="p_grouping_separator_space">Space ( )</string>
+	<string name="c_calc_grouping_separator">Grouping separator</string>
+	<string name="c_calc_grouping_separator_summary">Sets grouping separator</string>
 </resources>
