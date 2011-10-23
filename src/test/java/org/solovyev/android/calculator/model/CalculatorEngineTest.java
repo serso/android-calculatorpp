@@ -25,6 +25,7 @@ public class CalculatorEngineTest {
 	public static void setUp() throws Exception {
 		CalculatorEngine.instance.init(null, null);
 		CalculatorEngine.instance.setPrecision(3);
+		CalculatorEngine.instance.setThreadKiller(new CalculatorEngine.ThreadKillerImpl());
 	}
 
 	@Test
