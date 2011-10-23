@@ -64,6 +64,9 @@ public enum CalculatorEngine {
 	private DecimalFormatSymbols decimalGroupSymbols = new DecimalFormatSymbols(Locale.getDefault());
 
 	@NotNull
+	private ThreadKiller threadKiller = new AndroidThreadKiller();
+
+	@NotNull
 	public String format(@NotNull Double value) {
 		if (!value.isInfinite() && !value.isNaN()) {
 			final DecimalFormat df = new DecimalFormat();
@@ -150,8 +153,7 @@ public enum CalculatorEngine {
 
 					if (calculationThreadLocal != null) {
 						// todo serso: interrupt doesn't stop the thread but it MUST be killed
-						calculationThreadLocal.setPriority(Thread.MIN_PRIORITY);
-						calculationThreadLocal.interrupt();
+						threadKiller.killThread(calculationThreadLocal);
 						//calculationThreadLocal.stop();
 						resetInterpreter();
 					}
@@ -251,4 +253,29 @@ public enum CalculatorEngine {
 		}
 
 		private static final String cmds[] = new String[]{"expand", "factorize", "elementary", "simplify", "numeric", "toMathML", "toJava"};*/
+
+	// for tests only
+	void setThreadKiller(@NotNull ThreadKiller threadKiller) {
+		this.threadKiller = threadKiller;
+	}
+
+	private static interface ThreadKiller {
+		void killThread(@NotNull Thread thread);
+	}
+
+	private static class AndroidThreadKiller implements ThreadKiller {
+		@Override
+		public void killThread(@NotNull Thread thread) {
+			thread.setPriority(Thread.MIN_PRIORITY);
+			thread.interrupt();
+		}
+	}
+
+	public static class ThreadKillerImpl implements ThreadKiller {
+		@Override
+		public void killThread(@NotNull Thread thread) {
+			thread.setPriority(Thread.MIN_PRIORITY);
+			thread.stop();
+		}
+	}
 }

@@ -8,9 +8,8 @@ package org.solovyev.android.calculator.model;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.StartsWithFinder;
-import org.solovyev.android.calculator.math.Functions;
+import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.common.utils.CollectionsUtils;
 import org.solovyev.common.utils.FilterType;
@@ -26,49 +25,39 @@ class ToJsclTextProcessor implements TextProcessor<PreparedExpression> {
 	public PreparedExpression process(@NotNull String s) throws ParseException {
 
 		final StartsWithFinder startsWithFinder = new StartsWithFinder(s, 0);
-		final StringBuilder sb = new StringBuilder();
+		final StringBuilder result = new StringBuilder();
 
 		MathType.Result mathTypeResult = null;
+		MathType mathTypeBefore;
+
 		for (int i = 0; i < s.length(); i++) {
-			char ch = s.charAt(i);
 			startsWithFinder.setI(i);
 
-			if ( Character.isWhitespace(ch)) {
+			if ( Character.isWhitespace(s.charAt(i))) {
 				continue;
 			}
 
-			mathTypeResult = checkMultiplicationSignBeforeFunction(sb, s, i, mathTypeResult);
+			mathTypeBefore = mathTypeResult == null ? null : mathTypeResult.getMathType();
 
-			final MathType mathType = mathTypeResult.getMathType();
-			if (mathType == MathType.open_group_symbol) {
-				sb.append('(');
-			} else if (mathType == MathType.close_group_symbol) {
-				sb.append(')');
-			} else if (ch == '×' || ch == '∙') {
-				sb.append("*");
-			} else if (mathType == MathType.power_10) {
-				sb.append(MathType.POWER_10_JSCL);
-			} else if (mathType == MathType.function) {
-				sb.append(toJsclFunction(mathTypeResult.getMatch()));
-				i += mathTypeResult.getMatch().length() - 1;
+			mathTypeResult = MathType.getType(s, i);
 
-				// NOTE: fix for jscl for EMPTY functions processing (see tests)
-				startsWithFinder.setI(i + 1);
-				if ( i < s.length() && CollectionsUtils.get(MathType.openGroupSymbols, startsWithFinder) != null) {
-					throw new ParseException("Empty function: " + mathTypeResult.getMatch());
-					/*i += 2;
-					sb.append("(" + SPECIAL_STRING + ")");
-					mathTypeResult = new MathType.Result(MathType.close_group_symbol, ")");*/
+			if (mathTypeBefore != null) {
+
+				final MathType current = mathTypeResult.getMathType();
+
+				if (current.isNeedMultiplicationSignBefore(mathTypeBefore)) {
+					result.append("*");
 				}
-			} else if (mathType == MathType.constant) {
-				sb.append(mathTypeResult.getMatch());
-				i += mathTypeResult.getMatch().length() - 1;
-			} else {
-				sb.append(ch);
 			}
+
+			if (mathTypeBefore == MathType.function && CollectionsUtils.get(MathType.openGroupSymbols, startsWithFinder) != null) {
+				throw new ParseException("Empty function: " + mathTypeResult.getMatch());
+			}
+
+			i = mathTypeResult.process(result, i);
 		}
 
-		return replaceVariables(sb.toString());
+		return replaceVariables(result.toString());
 	}
 
 	@NotNull
@@ -167,21 +156,6 @@ class ToJsclTextProcessor implements TextProcessor<PreparedExpression> {
 		return false;
 	}
 
-	@NotNull
-	private static String toJsclFunction(@NotNull String function) {
-		final String result;
-
-		if (function.equals(Functions.LN)) {
-			result = Functions.LN_JSCL;
-		} else if (function.equals(Functions.SQRT)) {
-			result = Functions.SQRT_JSCL;
-		} else {
-			result = function;
-		}
-
-		return result;
-	}
-
 	private static class EndsWithFinder implements Finder<String> {
 
 		private int i;
@@ -201,27 +175,6 @@ class ToJsclTextProcessor implements TextProcessor<PreparedExpression> {
 		public void setI(int i) {
 			this.i = i;
 		}
-	}
-
-	@NotNull
-	private static MathType.Result checkMultiplicationSignBeforeFunction(@NotNull StringBuilder sb,
-																		 @NotNull String s,
-																		 int i,
-																		 @Nullable MathType.Result mathTypeBeforeResult) {
-		final MathType.Result result = MathType.getType(s, i);
-
-		if (i > 0) {
-
-			final MathType current = result.getMathType();
-			assert mathTypeBeforeResult != null;
-			final MathType before = mathTypeBeforeResult.getMathType();
-
-			if (current.isNeedMultiplicationSignBefore(before)) {
-				sb.append("*");
-			}
-		}
-
-		return result;
 	}
 
 	public static String wrap(@NotNull JsclOperation operation, @NotNull String s) {
