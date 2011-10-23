@@ -54,7 +54,7 @@ class ToJsclTextProcessor implements TextProcessor<PreparedExpression> {
 				throw new ParseException("Empty function: " + mathTypeResult.getMatch());
 			}
 
-			i = mathTypeResult.process(result, i);
+			i = mathTypeResult.processToJscl(result, i);
 		}
 
 		return replaceVariables(result.toString());
