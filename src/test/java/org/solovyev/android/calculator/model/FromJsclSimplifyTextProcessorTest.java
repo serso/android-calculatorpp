@@ -4,6 +4,8 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.text.DecimalFormatSymbols;
+
 /**
  * User: serso
  * Date: 10/20/11
@@ -20,6 +22,9 @@ public class FromJsclSimplifyTextProcessorTest {
 	public void testProcess() throws Exception {
 		FromJsclSimplifyTextProcessor tp = new FromJsclSimplifyTextProcessor();
 		Assert.assertEquals("(e)", tp.process("(2.718281828459045)"));
+		DecimalFormatSymbols decimalGroupSymbols = new DecimalFormatSymbols();
+		decimalGroupSymbols.setGroupingSeparator(' ');
+		CalculatorEngine.instance.setDecimalGroupSymbols(decimalGroupSymbols);
 		Assert.assertEquals("123 456 789e", tp.process("123456789*2.718281828459045"));
 		Assert.assertEquals("123 456 789e", tp.process("123 456 789 * 2.718281828459045"));
 		Assert.assertEquals("t11e", tp.process("t11*2.718281828459045"));

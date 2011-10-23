@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.view.widgets.NumberPicker;
-import org.solovyev.common.GenericIntervalMapper;
+import org.solovyev.common.NumberIntervalMapper;
 import org.solovyev.common.utils.Interval;
 import org.solovyev.common.utils.Mapper;
 
@@ -24,6 +24,8 @@ import org.solovyev.common.utils.Mapper;
  * Time: 10:31 PM
  */
 public class NumberPickerDialogPreference extends AbstractDialogPreference<Integer> implements NumberPicker.OnChangedListener {
+
+	private static final NumberIntervalMapper<Integer> INTEGER_NUMBER_INTERVAL_MAPPER = new NumberIntervalMapper<Integer>(Integer.class);
 
 	@NotNull
 	private NumberPicker numberPicker;
@@ -35,7 +37,7 @@ public class NumberPickerDialogPreference extends AbstractDialogPreference<Integ
 		super(context, attrs, null, false);
 
 		//noinspection ConstantConditions
-		boundaries = new GenericIntervalMapper<Integer>(getMapper()).parseValue(attrs.getAttributeValue(localNameSpace, "boundaries"));
+		boundaries = INTEGER_NUMBER_INTERVAL_MAPPER.parseValue(attrs.getAttributeValue(localNameSpace, "boundaries"));
 
 		createPreferenceView();
 	}
@@ -75,17 +77,7 @@ public class NumberPickerDialogPreference extends AbstractDialogPreference<Integ
 	@NotNull
 	@Override
 	protected Mapper<Integer> getMapper() {
-		return new Mapper<Integer>() {
-			@Override
-			public String formatValue(@Nullable Integer value) throws IllegalArgumentException {
-				return String.valueOf(value);
-			}
-
-			@Override
-			public Integer parseValue(@Nullable String value) throws IllegalArgumentException {
-				return Integer.valueOf(value);
-			}
-		};
+		return INTEGER_NUMBER_INTERVAL_MAPPER.getMapper();
 	}
 
 	@Override

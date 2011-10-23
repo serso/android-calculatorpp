@@ -16,7 +16,7 @@ import org.solovyev.common.utils.Parser;
  * Date: 9/26/11
  * Time: 10:45 PM
  */
-public class GenericIntervalMapper<T> extends AbstractIntervalMapper<T> {
+public abstract class GenericIntervalMapper<T> extends AbstractIntervalMapper<T> {
 
 	@NotNull
 	private final Mapper<T> mapper;
@@ -34,6 +34,11 @@ public class GenericIntervalMapper<T> extends AbstractIntervalMapper<T> {
 	@NotNull
 	@Override
 	protected Parser<T> getParser() {
+		return mapper;
+	}
+
+	@NotNull
+	public Mapper<T> getMapper() {
 		return mapper;
 	}
 }
