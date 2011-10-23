@@ -6,13 +6,17 @@
 package org.solovyev.android.calculator.math;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.CharacterAtPositionFinder;
 import org.solovyev.android.calculator.StartsWithFinder;
 import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.common.utils.CollectionsUtils;
 import org.solovyev.common.utils.Finder;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import static org.solovyev.common.utils.CollectionsUtils.get;
 
@@ -32,24 +36,67 @@ public enum MathType {
 		}
 	},
 
-	power_10(300, true, false, "E"),
+	power_10(300, true, false, "E") {
+		@Override
+		protected String getSubstitute(@NotNull String match) {
+			return POWER_10_JSCL;
+		}
+	},
 
 	postfix_function(400, true, false, Functions.allPostfix),
 	unary_operation(500, false, false, "-", "=", "!"),
-	binary_operation(600, false, false, "-", "+", "*", "×", "∙", "/", "^"),
+	binary_operation(600, false, false, "-", "+", "*", "×", "∙", "/", "^") {
+		@Override
+		protected String getSubstitute(@NotNull String match) {
+			if ( match.equals("×") || match.equals("∙") ) {
+				return "*";
+			} else {
+				return null;
+			}
+		}
+	},
+
 	open_group_symbol(800, true, false, "[", "(", "{") {
 		@Override
 		public boolean isNeedMultiplicationSignBefore(@NotNull MathType mathTypeBefore) {
 			return super.isNeedMultiplicationSignBefore(mathTypeBefore) && mathTypeBefore != function;
 		}
+
+		@Override
+		protected String getSubstitute(@NotNull String match) {
+			return "(";
+		}
 	},
+
 	close_group_symbol(900, false, true, "]", ")", "}") {
 		@Override
 		public boolean isNeedMultiplicationSignBefore(@NotNull MathType mathTypeBefore) {
 			return false;
 		}
+
+		@Override
+		protected String getSubstitute(@NotNull String match) {
+			return ")";
+		}
 	},
-	function(1000, true, true, Functions.allPrefix),
+
+	function(1000, true, true, Functions.allPrefix) {
+		@Override
+		protected String getSubstitute(@NotNull String match) {
+			final String result;
+
+			if (match.equals(Functions.LN)) {
+				result = Functions.LN_JSCL;
+			} else if (match.equals(Functions.SQRT)) {
+				result = Functions.SQRT_JSCL;
+			} else {
+				result = match;
+			}
+
+			return result;
+		}
+	},
+
 	constant(1100, true, true) {
 		@NotNull
 		@Override
@@ -104,6 +151,16 @@ public enum MathType {
 		return needMultiplicationSignBefore && mathTypeBefore.isNeedMultiplicationSignAfter();
 	}
 
+	public int process(@NotNull StringBuilder result, int i, @NotNull String match) {
+		final String substitute = getSubstitute(match);
+		result.append(substitute == null ? match : substitute);
+		return i + match.length() - 1;
+	}
+
+	@Nullable
+	protected String getSubstitute(@NotNull String match) {
+		return null;
+	}
 
 	public static final List<String> openGroupSymbols = Arrays.asList("[]", "()", "{}");
 
@@ -184,6 +241,10 @@ public enum MathType {
 			this.mathType = mathType;
 
 			this.match = match;
+		}
+
+		public int process(@NotNull StringBuilder result, int i) {
+		 	return mathType.process(result, i, match);
 		}
 
 		@NotNull
