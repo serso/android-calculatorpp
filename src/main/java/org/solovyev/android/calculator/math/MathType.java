@@ -10,6 +10,7 @@ import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.CharacterAtPositionFinder;
 import org.solovyev.android.calculator.StartsWithFinder;
 import org.solovyev.android.calculator.model.CalculatorEngine;
+import org.solovyev.android.calculator.model.ParseException;
 import org.solovyev.common.utils.CollectionsUtils;
 import org.solovyev.common.utils.Finder;
 
@@ -36,17 +37,7 @@ public enum MathType {
 		}
 	},
 
-	grouping_separator(250, false, false, "'", " ") {
-		@Override
-		public int processToJscl(@NotNull StringBuilder result, int i, @NotNull String match) {
-			return i;
-		}
-
-		@Override
-		public int processFromJscl(@NotNull StringBuilder result, int i, @NotNull String match) {
-			return i;
-		}
-	},
+	grouping_separator(250, false, false, "'", " "),
 
 	power_10(300, true, false, "E") {
 		@Override
@@ -68,6 +59,33 @@ public enum MathType {
 
 			return result;
 		}
+
+/*		@Override
+		public int processToJscl(@NotNull StringBuilder result, int i, @NotNull String match) throws ParseException {
+			if (result.length() > 0) {
+				int startOfPrefixFunction = getPostfixFunctionStart(result, result.length() - 1);
+				if (result.length() > startOfPrefixFunction) {
+					startOfPrefixFunction = Math.max(0, startOfPrefixFunction);
+					final String substring = result.substring(startOfPrefixFunction);
+					result.setCharAt(startOfPrefixFunction, '(');
+					for ( int j = 0; j < substring.length(); j++ ){
+						if (result.length() > startOfPrefixFunction + 1 + j) {
+							result.setCharAt(startOfPrefixFunction + 1 + j, substring.charAt(j));
+						} else {
+							result.append(substring.charAt(j));
+						}
+					}
+				} else {
+					result.append('(');
+				}
+				super.processToJscl(result, i, match);
+				result.append(")");
+			} else {
+				throw new ParseException("Could not find start of prefix function!");
+			}
+
+			return returnI(i, match);
+		}*/
 	},
 	unary_operation(500, false, false, "-", "=", "!"),
 	binary_operation(600, false, false, "-", "+", "*", "×", "∙", "/", "^") {
@@ -190,6 +208,56 @@ public enum MathType {
 		this.tokens = Collections.unmodifiableList(tokens);
 	}
 
+/*	public static int getPostfixFunctionStart(@NotNull CharSequence s, int position) throws ParseException {
+		assert s.length() > position;
+
+		int numberOfOpenGroups = 0;
+		int result = position;
+		for (; result >= 0; result--) {
+
+			final MathType mathType = getType(s.toString(), result).getMathType();
+
+			if (CollectionsUtils.contains(mathType, digit, dot, grouping_separator, power_10)) {
+				// continue
+			} else if (mathType == close_group_symbol) {
+				numberOfOpenGroups++;
+			} else if (mathType == open_group_symbol) {
+				if (numberOfOpenGroups > 0) {
+					numberOfOpenGroups--;
+				} else {
+					 break;
+				}
+			} else {
+				if (stop(s, numberOfOpenGroups, result)) break;
+			}
+		}
+
+		if (numberOfOpenGroups != 0){
+			throw new ParseException("Could not find start of prefix function!");
+		}
+
+		return result;
+	}
+
+	public static boolean stop(CharSequence s, int numberOfOpenGroups, int i) {
+		if (numberOfOpenGroups == 0) {
+			if (i > 0) {
+				final EndsWithFinder endsWithFinder = new EndsWithFinder(s);
+				endsWithFinder.setI(i + 1);
+				if (!CollectionsUtils.contains(function.getTokens(), FilterType.included, endsWithFinder)) {
+					MathType type = getType(s.toString(), i).getMathType();
+					if (type != constant) {
+						return true;
+					}
+				}
+			} else {
+				return true;
+			}
+		}
+
+		return false;
+	}*/
+
 	@NotNull
 	public List<String> getTokens() {
 		return tokens;
@@ -207,9 +275,13 @@ public enum MathType {
 		return needMultiplicationSignBefore && mathTypeBefore.isNeedMultiplicationSignAfter();
 	}
 
-	public int processToJscl(@NotNull StringBuilder result, int i, @NotNull String match) {
+	public int processToJscl(@NotNull StringBuilder result, int i, @NotNull String match) throws ParseException {
 		final String substitute = getSubstituteToJscl(match);
 		result.append(substitute == null ? match : substitute);
+		return returnI(i, match);
+	}
+
+	protected int returnI(int i, @NotNull String match) {
 		if (match.length() > 1) {
 			return i + match.length() - 1;
 		} else {
@@ -220,11 +292,7 @@ public enum MathType {
 	public int processFromJscl(@NotNull StringBuilder result, int i, @NotNull String match) {
 		final String substitute = getSubstituteFromJscl(match);
 		result.append(substitute == null ? match : substitute);
-		if (match.length() > 1) {
-			return i + match.length() - 1;
-		} else {
-			return i;
-		}
+		return returnI(i, match);
 	}
 
 	@Nullable
@@ -318,7 +386,7 @@ public enum MathType {
 			this.match = match;
 		}
 
-		public int processToJscl(@NotNull StringBuilder result, int i) {
+		public int processToJscl(@NotNull StringBuilder result, int i) throws ParseException {
 			return mathType.processToJscl(result, i, match);
 		}
 
@@ -343,5 +411,26 @@ public enum MathType {
 
 	private static boolean contains(@NotNull List<Character> list, @NotNull final CharacterAtPositionFinder atPositionFinder) {
 		return get(list, atPositionFinder) != null;
+	}
+
+	private static class EndsWithFinder implements Finder<String> {
+
+		private int i;
+
+		@NotNull
+		private final CharSequence targetString;
+
+		private EndsWithFinder(@NotNull CharSequence targetString) {
+			this.targetString = targetString;
+		}
+
+		@Override
+		public boolean isFound(@Nullable String s) {
+			return targetString.subSequence(0, i).toString().endsWith(s);
+		}
+
+		public void setI(int i) {
+			this.i = i;
+		}
 	}
 }

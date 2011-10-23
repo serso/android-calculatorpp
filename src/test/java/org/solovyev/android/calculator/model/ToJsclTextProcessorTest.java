@@ -89,37 +89,34 @@ public class ToJsclTextProcessorTest {
 	}
 
 	@Test
-	public void testPostfixFunctionsProcessing() throws Exception {
-		final ToJsclTextProcessor preprocessor = new ToJsclTextProcessor();
-
-		Assert.assertEquals(-1, preprocessor.getPostfixFunctionStart("5!", 0));
-		Assert.assertEquals(0, preprocessor.getPostfixFunctionStart("!", 0));
-		Assert.assertEquals(-1, preprocessor.getPostfixFunctionStart("5.4434234!", 8));
-		Assert.assertEquals(1, preprocessor.getPostfixFunctionStart("2+5!", 2));
-		Assert.assertEquals(4, preprocessor.getPostfixFunctionStart("2.23+5.4434234!", 13));
-		Assert.assertEquals(14, preprocessor.getPostfixFunctionStart("2.23+5.4434234*5!", 15));
-		Assert.assertEquals(14, preprocessor.getPostfixFunctionStart("2.23+5.4434234*5.1!", 17));
-		Assert.assertEquals(4, preprocessor.getPostfixFunctionStart("2.23+(5.4434234*5.1)!", 19));
-		Assert.assertEquals(4, preprocessor.getPostfixFunctionStart("2.23+(5.4434234*(5.1+1))!", 23));
-		Assert.assertEquals(4, preprocessor.getPostfixFunctionStart("2.23+(5.4434234*sin(5.1+1))!", 26));
-		Assert.assertEquals(0, preprocessor.getPostfixFunctionStart("sin(5)!", 5));
-		Assert.assertEquals(0, preprocessor.getPostfixFunctionStart("sin(5sin(5sin(5)))!", 17));
-		Assert.assertEquals(2, preprocessor.getPostfixFunctionStart("2+sin(5sin(5sin(5)))!", 19));
-		Assert.assertEquals(5, preprocessor.getPostfixFunctionStart("2.23+sin(5.4434234*sin(5.1+1))!", 29));
-	}
-
-	@Test
 	public void testDegrees() throws Exception {
 		final ToJsclTextProcessor preprocessor = new ToJsclTextProcessor();
 
 		Assert.assertEquals( "", preprocessor.process("").toString());
-		Assert.assertEquals( "3.141592653589793/180", preprocessor.process("°").toString());
+		try {
+			Assert.assertEquals( "3.141592653589793/180", preprocessor.process("°").toString());
+		} catch (ParseException e) {
+			if ( !e.getMessage().startsWith("Could not find start of prefix") ){
+				junit.framework.Assert.fail();
+			}
+		}
 		Assert.assertEquals( "1*3.141592653589793/180", preprocessor.process("1°").toString());
 		Assert.assertEquals( "20.0*3.141592653589793/180", preprocessor.process("20.0°").toString());
 		Assert.assertEquals( "sin(30*3.141592653589793/180)", preprocessor.process("sin(30°)").toString());
 		Assert.assertEquals( "asin(sin(3.141592653589793/6))*3.141592653589793/180", preprocessor.process("asin(sin(π/6))°").toString());
 		Assert.assertEquals( "1*3.141592653589793/180*sin(1)", preprocessor.process("1°sin(1)").toString());
+		try {
+			Assert.assertEquals( "1*3.141592653589793/180^sin(1)", preprocessor.process("1°^sin(1)").toString());
+			junit.framework.Assert.fail();
+		} catch (ParseException e) {
+			if ( !e.getMessage().equals("Power operation after postfix function is currently unsupported!") ) {
+				junit.framework.Assert.fail();
+			}
+		}
 
+	}
 
+	@Test
+	public void testPostfixFunction() throws Exception {
 	}
 }
