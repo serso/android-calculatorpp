@@ -107,4 +107,17 @@ public class ToJsclTextProcessorTest {
 		Assert.assertEquals(2, preprocessor.getPostfixFunctionStart("2+sin(5sin(5sin(5)))!", 19));
 		Assert.assertEquals(5, preprocessor.getPostfixFunctionStart("2.23+sin(5.4434234*sin(5.1+1))!", 29));
 	}
+
+	@Test
+	public void testDegrees() throws Exception {
+		final ToJsclTextProcessor preprocessor = new ToJsclTextProcessor();
+
+		Assert.assertEquals( "", preprocessor.process("").toString());
+		Assert.assertEquals( "3.141592653589793/180", preprocessor.process("°").toString());
+		Assert.assertEquals( "1*3.141592653589793/180", preprocessor.process("1°").toString());
+		Assert.assertEquals( "20.0*3.141592653589793/180", preprocessor.process("20.0°").toString());
+		Assert.assertEquals( "sin(30*3.141592653589793/180)", preprocessor.process("sin(30°)").toString());
+		Assert.assertEquals( "asin(sin(3.141592653589793/6))*3.141592653589793/180", preprocessor.process("asin(sin(π/6))°").toString());
+
+	}
 }

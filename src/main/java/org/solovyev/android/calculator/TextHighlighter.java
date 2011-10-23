@@ -6,7 +6,6 @@
 
 package org.solovyev.android.calculator;
 
-import android.graphics.Color;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.ParseException;
@@ -26,9 +25,12 @@ public class TextHighlighter implements TextProcessor<String> {
 
 	public TextHighlighter(int baseColor) {
 		this.color = baseColor;
-		this.colorRed = Color.red(baseColor);
-		this.colorGreen = Color.green(baseColor);
-		this.colorBlue = Color.blue(baseColor);
+		//this.colorRed = Color.red(baseColor);
+		this.colorRed = (baseColor >> 16) & 0xFF;
+		//this.colorGreen = Color.green(baseColor);
+		this.colorGreen = (color >> 8) & 0xFF;
+		//this.colorBlue = Color.blue(baseColor);
+		this.colorBlue = color & 0xFF;
 	}
 
 	@NotNull

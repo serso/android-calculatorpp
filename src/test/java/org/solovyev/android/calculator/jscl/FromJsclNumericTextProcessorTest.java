@@ -20,7 +20,7 @@ public class FromJsclNumericTextProcessorTest {
 	public void testCreateResultForComplexNumber() throws Exception {
 		final FromJsclNumericTextProcessor cm = new FromJsclNumericTextProcessor();
 
-		Assert.assertEquals("1.22133+23123.0i", cm.createResultForComplexNumber("1.22133232+23123*i"));
+		Assert.assertEquals("1.22133+23 123i", cm.createResultForComplexNumber("1.22133232+23123*i"));
 		Assert.assertEquals("1.22133+1.2i", cm.createResultForComplexNumber("1.22133232+1.2*i"));
 		Assert.assertEquals("1.22i", cm.createResultForComplexNumber("1.22*i"));
 		Assert.assertEquals("i", cm.createResultForComplexNumber("i"));

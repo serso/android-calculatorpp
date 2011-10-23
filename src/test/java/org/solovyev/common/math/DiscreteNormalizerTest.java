@@ -13,7 +13,7 @@ public class DiscreteNormalizerTest {
 
 	@Test
 	public void testNormalize() throws Exception {
-	 	DiscreteNormalizer dn = new DiscreteNormalizer(0, 10, 1);
+	 	DiscreteNormalizer dn = new DiscreteNormalizer(0, 10, 1d);
 
 		Assert.assertTrue(MathUtils.equals(0, dn.normalize(0.5), 2));
 		Assert.assertTrue(MathUtils.equals(0, dn.normalize(0.99), 2));
@@ -25,7 +25,7 @@ public class DiscreteNormalizerTest {
 
 	@Test
 	public void testDenormalize() throws Exception {
-		DiscreteNormalizer dn = new DiscreteNormalizer(0, 10, 1);
+		DiscreteNormalizer dn = new DiscreteNormalizer(0, 10, 1d);
 
 		Assert.assertTrue(MathUtils.equals(0, dn.normalize(dn.denormalize(0)), 2));
 		Assert.assertTrue(MathUtils.equals(0.1, dn.normalize(dn.denormalize(0.1)), 2));

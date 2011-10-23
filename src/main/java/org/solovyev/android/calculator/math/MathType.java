@@ -43,7 +43,20 @@ public enum MathType {
 		}
 	},
 
-	postfix_function(400, true, false, Functions.allPostfix),
+	postfix_function(400, true, false, Functions.allPostfix) {
+		@Override
+		protected String getSubstitute(@NotNull String match) {
+			final String result;
+
+			if (  match.equals(Functions.DEGREE)) {
+				result = PI + "/180";
+			} else {
+				result = null;
+			}
+
+			return result;
+		}
+	},
 	unary_operation(500, false, false, "-", "=", "!"),
 	binary_operation(600, false, false, "-", "+", "*", "×", "∙", "/", "^") {
 		@Override
