@@ -22,9 +22,6 @@ public class FromJsclSimplifyTextProcessor implements TextProcessor<String> {
 		final NumberBuilder numberBuilder = new NumberBuilder();
 		for (int i = 0; i < s.length(); i++) {
 			char ch = s.charAt(i);
-			if ( Character.isWhitespace(ch) ) {
-				continue;
-			}
 
 			MathType.Result mathTypeResult = MathType.getType(s, i);
 
