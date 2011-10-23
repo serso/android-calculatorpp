@@ -7,6 +7,9 @@
 package org.solovyev.common;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.solovyev.common.utils.Interval;
+import org.solovyev.common.utils.NumberInterval;
 
 /**
 * User: serso
@@ -17,5 +20,11 @@ public class NumberIntervalMapper<T extends Number> extends GenericIntervalMappe
 
 	public NumberIntervalMapper(@NotNull Class<T> clazz) {
 		super(new NumberMapper<T>(clazz));
+	}
+
+	@NotNull
+	@Override
+	protected Interval<T> newInstance(@Nullable T left, @Nullable T right) {
+		return new NumberInterval<T>(left, right);
 	}
 }

@@ -38,7 +38,7 @@ public class CalculatorEngineTest {
 		} catch (EvalError evalError) {
 			Assert.fail();
 		} catch (ParseException e) {
-			if ( e.getMessage().startsWith("Too long calculation") ) {
+			if (e.getMessage().startsWith("Too long calculation")) {
 
 			} else {
 				Assert.fail();
@@ -52,7 +52,7 @@ public class CalculatorEngineTest {
 		} catch (EvalError evalError) {
 			Assert.fail();
 		} catch (ParseException e) {
-			if ( e.getMessage().startsWith("Too long calculation") ) {
+			if (e.getMessage().startsWith("Too long calculation")) {
 				final long end = System.currentTimeMillis();
 				Assert.assertTrue(end - start < 1000);
 			} else {
@@ -102,7 +102,7 @@ public class CalculatorEngineTest {
 		CalculatorEngine.instance.getVarsRegister().addVar(null, new Var.Builder("k1", 4d));
 		Assert.assertEquals("4", cm.evaluate(JsclOperation.numeric, "k11"));
 
-		CalculatorEngine.instance.getVarsRegister().addVar(null, new Var.Builder("t", (String)null));
+		CalculatorEngine.instance.getVarsRegister().addVar(null, new Var.Builder("t", (String) null));
 		Assert.assertEquals("11t", cm.evaluate(JsclOperation.numeric, "t11"));
 		Assert.assertEquals("11et", cm.evaluate(JsclOperation.numeric, "t11e"));
 		Assert.assertEquals("11×Infinityt", cm.evaluate(JsclOperation.numeric, "t11∞"));
@@ -115,13 +115,13 @@ public class CalculatorEngineTest {
 		try {
 			cm.evaluate(JsclOperation.numeric, "cos(cos(cos(cos(acos(acos(acos(acos(acos(acos(acos(acos(cos(cos(cos(cos(cosh(acos(cos(cos(cos(cos(cos(acos(acos(acos(acos(acos(acos(acos(acos(cos(cos(cos(cos(cosh(acos(cos())))))))))))))))))))))))))))))))))))))");
 			Assert.fail();
-		} catch (ParseException e){
+		} catch (ParseException e) {
 		}
 		Assert.assertEquals("NaN", cm.evaluate(JsclOperation.numeric, "ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(100)))))))))))))))"));
 		try {
 			cm.evaluate(JsclOperation.numeric, "cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos())))))))))))))))))))))))))))))))))))");
 			Assert.fail();
-		} catch (ParseException e){
+		} catch (ParseException e) {
 		}
 		Assert.assertEquals("0.739", cm.evaluate(JsclOperation.numeric, "cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(1))))))))))))))))))))))))))))))))))))"));
 
@@ -149,6 +149,19 @@ public class CalculatorEngineTest {
 		Assert.assertEquals("123'456'788.99999999", cm.evaluate(JsclOperation.numeric, "1.234567890E8"));
 		Assert.assertEquals("1'234'567'890.1", cm.evaluate(JsclOperation.numeric, "1.2345678901E9"));
 
+
+	}
+
+	@Test
+	public void testDegrees() throws Exception {
+		final CalculatorEngine cm = CalculatorEngine.instance;
+
+		cm.setPrecision(3);
+		Assert.assertEquals("0.017", cm.evaluate(JsclOperation.numeric, "°"));
+		Assert.assertEquals("0.017", cm.evaluate(JsclOperation.numeric, "1°"));
+		Assert.assertEquals("0.349", cm.evaluate(JsclOperation.numeric, "20.0°"));
+		Assert.assertEquals("0.5", cm.evaluate(JsclOperation.numeric, "sin(30°)"));
+		Assert.assertEquals("0.524", cm.evaluate(JsclOperation.numeric, "asin(sin(30°))"));
 
 	}
 }
