@@ -42,4 +42,27 @@ public class MathTypeTest {
 		} catch (IllegalArgumentException e) {
 		}
 	}
+
+/*	@Test
+	public void testPostfixFunctionsProcessing() throws Exception {
+
+		org.junit.Assert.assertEquals(-1, MathType.getPostfixFunctionStart("5!", 1));
+		org.junit.Assert.assertEquals(0, MathType.getPostfixFunctionStart("!", 1));
+		org.junit.Assert.assertEquals(-1, MathType.getPostfixFunctionStart("5.4434234!", 9));
+		org.junit.Assert.assertEquals(1, MathType.getPostfixFunctionStart("2+5!", 3));
+		org.junit.Assert.assertEquals(4, MathType.getPostfixFunctionStart("2.23+5.4434234!", 14));
+		org.junit.Assert.assertEquals(14, MathType.getPostfixFunctionStart("2.23+5.4434234*5!", 16));
+		org.junit.Assert.assertEquals(14, MathType.getPostfixFunctionStart("2.23+5.4434234*5.1!", 18));
+		org.junit.Assert.assertEquals(4, MathType.getPostfixFunctionStart("2.23+(5.4434234*5.1)!", 20));
+		org.junit.Assert.assertEquals(4, MathType.getPostfixFunctionStart("2.23+(5.4434234*(5.1+1))!", 24));
+		org.junit.Assert.assertEquals(4, MathType.getPostfixFunctionStart("2.23+(5.4434234*sin(5.1+1))!", 27));
+		org.junit.Assert.assertEquals(0, MathType.getPostfixFunctionStart("sin(5)!", 6));
+		org.junit.Assert.assertEquals(-1, MathType.getPostfixFunctionStart(")!", ")!".indexOf("!")));
+		org.junit.Assert.assertEquals(0, MathType.getPostfixFunctionStart("sin(5sin(5sin(5)))!", 18));
+		org.junit.Assert.assertEquals(2, MathType.getPostfixFunctionStart("2+sin(5sin(5sin(5)))!", 20));
+		org.junit.Assert.assertEquals(5, MathType.getPostfixFunctionStart("2.23+sin(5.4434234*sin(5.1+1))!", 30));
+		org.junit.Assert.assertEquals(5, MathType.getPostfixFunctionStart("2.23+sin(5.4434234*sin(5.1E2+e))!", "2.23+sin(5.4434234*sin(5.1E2+e))!".indexOf("!")));
+		org.junit.Assert.assertEquals(5, MathType.getPostfixFunctionStart("2.23+sin(5.4434234*sin(5.1E2+5 555 555))!", "2.23+sin(5.4434234*sin(5.1E2+5 555 555))!".indexOf("!")));
+		org.junit.Assert.assertEquals(5, MathType.getPostfixFunctionStart("2.23+sin(5.4434234^sin(5.1E2!+5'555'555))!", "2.23+sin(5.4434234^sin(5.1E2!+5'555'555))!".lastIndexOf("!")));
+	}*/
 }

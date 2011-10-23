@@ -107,6 +107,19 @@ public class CalculatorEngineTest {
 		Assert.assertEquals("11et", cm.evaluate(JsclOperation.numeric, "t11e"));
 		Assert.assertEquals("11×Infinityt", cm.evaluate(JsclOperation.numeric, "t11∞"));
 		Assert.assertEquals("-t+t^3", cm.evaluate(JsclOperation.numeric, "t(t-1)(t+1)"));
+
+
+		Assert.assertEquals("0.524", cm.evaluate(JsclOperation.numeric, "30°"));
+		Assert.assertEquals("0.524", cm.evaluate(JsclOperation.numeric, "(10+20)°"));
+		Assert.assertEquals("1.047", cm.evaluate(JsclOperation.numeric, "(10+20)°*2"));
+		try {
+			Assert.assertEquals("0.278", cm.evaluate(JsclOperation.numeric, "30°^2"));
+			junit.framework.Assert.fail();
+		} catch (ParseException e) {
+			if ( !e.getMessage().equals("Power operation after postfix function is currently unsupported!") ) {
+				junit.framework.Assert.fail();
+			}
+		}
 	}
 
 	@Test
@@ -152,7 +165,7 @@ public class CalculatorEngineTest {
 
 	}
 
-	@Test
+/*	@Test
 	public void testDegrees() throws Exception {
 		final CalculatorEngine cm = CalculatorEngine.instance;
 
@@ -163,5 +176,5 @@ public class CalculatorEngineTest {
 		Assert.assertEquals("0.5", cm.evaluate(JsclOperation.numeric, "sin(30°)"));
 		Assert.assertEquals("0.524", cm.evaluate(JsclOperation.numeric, "asin(sin(30°))"));
 
-	}
+	}*/
 }
