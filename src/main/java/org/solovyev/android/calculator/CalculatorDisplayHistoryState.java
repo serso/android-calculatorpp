@@ -6,7 +6,7 @@
 package org.solovyev.android.calculator;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.calculator.jscl.JsclOperation;
 
 /**
  * User: serso
@@ -18,28 +18,27 @@ public class CalculatorDisplayHistoryState {
 	private boolean valid = true;
 
 	@NotNull
-	private final EditorHistoryState editorHistoryState;
+	private EditorHistoryState editorHistoryState;
 
-	public CalculatorDisplayHistoryState() {
-		this.editorHistoryState = new EditorHistoryState();
+	@NotNull
+	private JsclOperation jsclOperation;
+
+	private CalculatorDisplayHistoryState() {
 	}
 
-	public CalculatorDisplayHistoryState(boolean valid) {
-		this.editorHistoryState = new EditorHistoryState();
-		this.valid = valid;
-	}
+	@NotNull
+	public static CalculatorDisplayHistoryState newInstance(@NotNull CalculatorDisplay display) {
+		final CalculatorDisplayHistoryState result = new CalculatorDisplayHistoryState();
 
-	public CalculatorDisplayHistoryState(int cursorPosition, @Nullable String text, boolean valid) {
-		this.editorHistoryState = new EditorHistoryState(cursorPosition, text);
-		this.valid = valid;
+		result.editorHistoryState = EditorHistoryState.newInstance(display);
+		result.valid = display.isValid();
+		result.jsclOperation = display.getJsclOperation();
+
+		return result;
 	}
 
 	public boolean isValid() {
 		return valid;
-	}
-
-	public void setValid(boolean valid) {
-		this.valid = valid;
 	}
 
 	@NotNull
@@ -47,16 +46,21 @@ public class CalculatorDisplayHistoryState {
 		return editorHistoryState;
 	}
 
+	@NotNull
+	public JsclOperation getJsclOperation() {
+		return jsclOperation;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (!(o instanceof CalculatorDisplayHistoryState)) return false;
+		if (o == null || getClass() != o.getClass()) return false;
 
 		CalculatorDisplayHistoryState that = (CalculatorDisplayHistoryState) o;
 
 		if (valid != that.valid) return false;
-		if (editorHistoryState != null ? !editorHistoryState.equals(that.editorHistoryState) : that.editorHistoryState != null)
-			return false;
+		if (!editorHistoryState.equals(that.editorHistoryState)) return false;
+		if (jsclOperation != that.jsclOperation) return false;
 
 		return true;
 	}
@@ -64,7 +68,8 @@ public class CalculatorDisplayHistoryState {
 	@Override
 	public int hashCode() {
 		int result = (valid ? 1 : 0);
-		result = 31 * result + (editorHistoryState != null ? editorHistoryState.hashCode() : 0);
+		result = 31 * result + editorHistoryState.hashCode();
+		result = 31 * result + jsclOperation.hashCode();
 		return result;
 	}
 
@@ -72,6 +77,7 @@ public class CalculatorDisplayHistoryState {
 	public String toString() {
 		return "CalculatorDisplayHistoryState{" +
 				"valid=" + valid +
+				"jsclOperation=" + jsclOperation +
 				", editorHistoryState=" + editorHistoryState +
 				'}';
 	}

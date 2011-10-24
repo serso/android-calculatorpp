@@ -12,6 +12,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.TextView;
 import org.jetbrains.annotations.NotNull;
+import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.model.ParseException;
 import org.solovyev.android.calculator.model.TextProcessor;
 
@@ -23,6 +24,9 @@ import org.solovyev.android.calculator.model.TextProcessor;
 public class CalculatorDisplay extends TextView {
 
 	private boolean valid = true;
+
+	@NotNull
+	private JsclOperation jsclOperation = JsclOperation.numeric;
 
 	@NotNull
 	private final static TextProcessor<TextHighlighter.Result> textHighlighter = new TextHighlighter(Color.WHITE, true);
@@ -45,6 +49,15 @@ public class CalculatorDisplay extends TextView {
 
 	public void setValid(boolean valid) {
 		this.valid = valid;
+	}
+
+	public void setJsclOperation(@NotNull JsclOperation jsclOperation) {
+		this.jsclOperation = jsclOperation;
+	}
+
+	@NotNull
+	public JsclOperation getJsclOperation() {
+		return jsclOperation;
 	}
 
 	@Override
