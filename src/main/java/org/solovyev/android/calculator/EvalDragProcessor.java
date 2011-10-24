@@ -1,13 +1,13 @@
 /*
  * Copyright (c) 2009-2011. Created by serso aka se.solovyev.
  * For more information, please, contact se.solovyev@gmail.com
+ * or visit http://se.solovyev.org
  */
 
 package org.solovyev.android.calculator;
 
 import android.view.MotionEvent;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.view.*;
 import org.solovyev.android.view.widgets.DirectionDragButton;
 import org.solovyev.android.view.widgets.DragButton;
 import org.solovyev.android.view.widgets.DragDirection;
@@ -16,16 +16,15 @@ import org.solovyev.common.utils.Point2d;
 
 /**
  * User: serso
- * Date: 9/16/11
- * Time: 11:45 PM
+ * Date: 10/24/11
+ * Time: 9:52 PM
  */
-public class CursorDragProcessor implements SimpleOnDragListener.DragProcessor{
-
+public class EvalDragProcessor implements SimpleOnDragListener.DragProcessor {
 	@NotNull
-	private final CursorControl cursorControl;
+	private final CalculatorEngineControl calculatorControl;
 
-	public CursorDragProcessor(@NotNull CursorControl cursorControl) {
-		this.cursorControl = cursorControl;
+	public EvalDragProcessor(@NotNull CalculatorEngineControl calculatorControl) {
+		this.calculatorControl = calculatorControl;
 	}
 
 	@Override
@@ -34,11 +33,8 @@ public class CursorDragProcessor implements SimpleOnDragListener.DragProcessor{
 
 		if (dragButton instanceof DirectionDragButton) {
 			String text = ((DirectionDragButton) dragButton).getText(dragDirection);
-			if ("◀◀".equals(text)) {
-				cursorControl.setCursorOnStart();
-				result = true;
-			} else if ("▶▶".equals(text)) {
-				cursorControl.setCursorOnEnd();
+			if ("≡".equals(text)) {
+				calculatorControl.simplify();
 				result = true;
 			}
 		}

@@ -5,34 +5,34 @@
 
 package org.solovyev.android.calculator;
 
+import android.widget.TextView;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class EditorHistoryState {
-	
+
 	private int cursorPosition;
-	
+
 	@Nullable
 	private String text;
-	
-	public EditorHistoryState() {
-	}
-	
-	public EditorHistoryState( int cursorPosition, @Nullable String text ) {
-		this.cursorPosition = cursorPosition;
-		this.text = text;
+
+	private EditorHistoryState() {
 	}
 
-	public void setText(@Nullable String text) {
-		this.text = text;
+
+	@NotNull
+	public static EditorHistoryState newInstance(@NotNull TextView textView) {
+		final EditorHistoryState result = new EditorHistoryState();
+
+		result.text = String.valueOf(textView.getText());
+		result.cursorPosition = textView.getSelectionStart();
+
+		return result;
 	}
 
 	@Nullable
 	public String getText() {
 		return text;
-	}
-
-	public void setCursorPosition(int cursorPosition) {
-		this.cursorPosition = cursorPosition;
 	}
 
 	public int getCursorPosition() {

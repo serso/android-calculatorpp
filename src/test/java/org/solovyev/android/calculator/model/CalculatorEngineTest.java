@@ -66,54 +66,54 @@ public class CalculatorEngineTest {
 	public void testEvaluate() throws Exception {
 		final CalculatorEngine cm = CalculatorEngine.instance;
 
-		Assert.assertEquals("4", cm.evaluate(JsclOperation.numeric, "2+2"));
-		Assert.assertEquals("-0.757", cm.evaluate(JsclOperation.numeric, "sin(4)"));
-		Assert.assertEquals("0.524", cm.evaluate(JsclOperation.numeric, "asin(0.5)"));
-		Assert.assertEquals("-0.396", cm.evaluate(JsclOperation.numeric, "sin(4)asin(0.5)"));
-		Assert.assertEquals("-0.56", cm.evaluate(JsclOperation.numeric, "sin(4)asin(0.5)sqrt(2)"));
-		Assert.assertEquals("-0.56", cm.evaluate(JsclOperation.numeric, "sin(4)asin(0.5)√(2)"));
-		Assert.assertEquals("7.389", cm.evaluate(JsclOperation.numeric, "e^2"));
-		Assert.assertEquals("7.389", cm.evaluate(JsclOperation.numeric, "exp(1)^2"));
-		Assert.assertEquals("7.389", cm.evaluate(JsclOperation.numeric, "exp(2)"));
-		Assert.assertEquals("2+i", cm.evaluate(JsclOperation.numeric, "2*1+sqrt(-1)"));
-		Assert.assertEquals("0.921+3.142i", cm.evaluate(JsclOperation.numeric, "ln(5cosh(38π√(2cos(2))))"));
-		Assert.assertEquals("7.389i", cm.evaluate(JsclOperation.numeric, "iexp(2)"));
-		Assert.assertEquals("2+7.389i", cm.evaluate(JsclOperation.numeric, "2+iexp(2)"));
-		Assert.assertEquals("2+7.389i", cm.evaluate(JsclOperation.numeric, "2+√(-1)exp(2)"));
-		Assert.assertEquals("2-2.5i", cm.evaluate(JsclOperation.numeric, "2-2.5i"));
-		Assert.assertEquals("-2-2.5i", cm.evaluate(JsclOperation.numeric, "-2-2.5i"));
-		Assert.assertEquals("-2+2.5i", cm.evaluate(JsclOperation.numeric, "-2+2.5i"));
-		Assert.assertEquals("-2+2.1i", cm.evaluate(JsclOperation.numeric, "-2+2.1i"));
-		Assert.assertEquals("-3.41+3.41i", cm.evaluate(JsclOperation.numeric, "(5tan(2i)+2i)/(1-i)"));
-		Assert.assertEquals("-0.1-0.2i", cm.evaluate(JsclOperation.numeric, "(1-i)/(2+6i)"));
+		Assert.assertEquals("4", cm.evaluate(JsclOperation.numeric, "2+2").getResult());
+		Assert.assertEquals("-0.757", cm.evaluate(JsclOperation.numeric, "sin(4)").getResult());
+		Assert.assertEquals("0.524", cm.evaluate(JsclOperation.numeric, "asin(0.5)").getResult());
+		Assert.assertEquals("-0.396", cm.evaluate(JsclOperation.numeric, "sin(4)asin(0.5)").getResult());
+		Assert.assertEquals("-0.56", cm.evaluate(JsclOperation.numeric, "sin(4)asin(0.5)sqrt(2)").getResult());
+		Assert.assertEquals("-0.56", cm.evaluate(JsclOperation.numeric, "sin(4)asin(0.5)√(2)").getResult());
+		Assert.assertEquals("7.389", cm.evaluate(JsclOperation.numeric, "e^2").getResult());
+		Assert.assertEquals("7.389", cm.evaluate(JsclOperation.numeric, "exp(1)^2").getResult());
+		Assert.assertEquals("7.389", cm.evaluate(JsclOperation.numeric, "exp(2)").getResult());
+		Assert.assertEquals("2+i", cm.evaluate(JsclOperation.numeric, "2*1+sqrt(-1)").getResult());
+		Assert.assertEquals("0.921+3.142i", cm.evaluate(JsclOperation.numeric, "ln(5cosh(38π√(2cos(2))))").getResult());
+		Assert.assertEquals("7.389i", cm.evaluate(JsclOperation.numeric, "iexp(2)").getResult());
+		Assert.assertEquals("2+7.389i", cm.evaluate(JsclOperation.numeric, "2+iexp(2)").getResult());
+		Assert.assertEquals("2+7.389i", cm.evaluate(JsclOperation.numeric, "2+√(-1)exp(2)").getResult());
+		Assert.assertEquals("2-2.5i", cm.evaluate(JsclOperation.numeric, "2-2.5i").getResult());
+		Assert.assertEquals("-2-2.5i", cm.evaluate(JsclOperation.numeric, "-2-2.5i").getResult());
+		Assert.assertEquals("-2+2.5i", cm.evaluate(JsclOperation.numeric, "-2+2.5i").getResult());
+		Assert.assertEquals("-2+2.1i", cm.evaluate(JsclOperation.numeric, "-2+2.1i").getResult());
+		Assert.assertEquals("-3.41+3.41i", cm.evaluate(JsclOperation.numeric, "(5tan(2i)+2i)/(1-i)").getResult());
+		Assert.assertEquals("-0.1-0.2i", cm.evaluate(JsclOperation.numeric, "(1-i)/(2+6i)").getResult());
 
 		CalculatorEngine.instance.getVarsRegister().addVar(null, new Var.Builder("si", 5d));
 
-		Assert.assertEquals("-0.959", cm.evaluate(JsclOperation.numeric, "sin(5)"));
-		Assert.assertEquals("-4.795", cm.evaluate(JsclOperation.numeric, "sin(5)si"));
-		Assert.assertEquals("-23.973", cm.evaluate(JsclOperation.numeric, "sisin(5)si"));
-		Assert.assertEquals("-23.973", cm.evaluate(JsclOperation.numeric, "si*sin(5)si"));
-		Assert.assertEquals("-3.309", cm.evaluate(JsclOperation.numeric, "sisin(5si)si"));
+		Assert.assertEquals("-0.959", cm.evaluate(JsclOperation.numeric, "sin(5)").getResult());
+		Assert.assertEquals("-4.795", cm.evaluate(JsclOperation.numeric, "sin(5)si").getResult());
+		Assert.assertEquals("-23.973", cm.evaluate(JsclOperation.numeric, "sisin(5)si").getResult());
+		Assert.assertEquals("-23.973", cm.evaluate(JsclOperation.numeric, "si*sin(5)si").getResult());
+		Assert.assertEquals("-3.309", cm.evaluate(JsclOperation.numeric, "sisin(5si)si").getResult());
 
 		CalculatorEngine.instance.getVarsRegister().addVar(null, new Var.Builder("s", 1d));
-		Assert.assertEquals("5", cm.evaluate(JsclOperation.numeric, "si"));
+		Assert.assertEquals("5", cm.evaluate(JsclOperation.numeric, "si").getResult());
 
 		CalculatorEngine.instance.getVarsRegister().addVar(null, new Var.Builder("k", 3.5d));
 		CalculatorEngine.instance.getVarsRegister().addVar(null, new Var.Builder("k1", 4d));
-		Assert.assertEquals("4", cm.evaluate(JsclOperation.numeric, "k11"));
+		Assert.assertEquals("4", cm.evaluate(JsclOperation.numeric, "k11").getResult());
 
 		CalculatorEngine.instance.getVarsRegister().addVar(null, new Var.Builder("t", (String) null));
-		Assert.assertEquals("11t", cm.evaluate(JsclOperation.numeric, "t11"));
-		Assert.assertEquals("11et", cm.evaluate(JsclOperation.numeric, "t11e"));
-		Assert.assertEquals("11×Infinityt", cm.evaluate(JsclOperation.numeric, "t11∞"));
-		Assert.assertEquals("-t+t^3", cm.evaluate(JsclOperation.numeric, "t(t-1)(t+1)"));
+		Assert.assertEquals("11t", cm.evaluate(JsclOperation.numeric, "t11").getResult());
+		Assert.assertEquals("11et", cm.evaluate(JsclOperation.numeric, "t11e").getResult());
+		Assert.assertEquals("11×Infinityt", cm.evaluate(JsclOperation.numeric, "t11∞").getResult());
+		Assert.assertEquals("-t+t^3", cm.evaluate(JsclOperation.numeric, "t(t-1)(t+1)").getResult());
 
 
-		Assert.assertEquals("0.524", cm.evaluate(JsclOperation.numeric, "30°"));
-		Assert.assertEquals("0.524", cm.evaluate(JsclOperation.numeric, "(10+20)°"));
-		Assert.assertEquals("1.047", cm.evaluate(JsclOperation.numeric, "(10+20)°*2"));
+		Assert.assertEquals("0.524", cm.evaluate(JsclOperation.numeric, "30°").getResult());
+		Assert.assertEquals("0.524", cm.evaluate(JsclOperation.numeric, "(10+20)°").getResult());
+		Assert.assertEquals("1.047", cm.evaluate(JsclOperation.numeric, "(10+20)°*2").getResult());
 		try {
-			Assert.assertEquals("0.278", cm.evaluate(JsclOperation.numeric, "30°^2"));
+			Assert.assertEquals("0.278", cm.evaluate(JsclOperation.numeric, "30°^2").getResult());
 			junit.framework.Assert.fail();
 		} catch (ParseException e) {
 			if ( !e.getMessage().equals("Power operation after postfix function is currently unsupported!") ) {
@@ -130,16 +130,16 @@ public class CalculatorEngineTest {
 			Assert.fail();
 		} catch (ParseException e) {
 		}
-		Assert.assertEquals("NaN", cm.evaluate(JsclOperation.numeric, "ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(100)))))))))))))))"));
+		Assert.assertEquals("NaN", cm.evaluate(JsclOperation.numeric, "ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(100)))))))))))))))").getResult());
 		try {
 			cm.evaluate(JsclOperation.numeric, "cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos())))))))))))))))))))))))))))))))))))");
 			Assert.fail();
 		} catch (ParseException e) {
 		}
-		Assert.assertEquals("0.739", cm.evaluate(JsclOperation.numeric, "cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(1))))))))))))))))))))))))))))))))))))"));
+		Assert.assertEquals("0.739", cm.evaluate(JsclOperation.numeric, "cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(1))))))))))))))))))))))))))))))))))))").getResult());
 
 		CalculatorEngine.instance.getVarsRegister().addVar(null, new Var.Builder("si", 5d));
-		Assert.assertEquals("5", cm.evaluate(JsclOperation.numeric, "si"));
+		Assert.assertEquals("5", cm.evaluate(JsclOperation.numeric, "si").getResult());
 		try {
 			cm.evaluate(JsclOperation.numeric, "sin");
 			Assert.fail();
@@ -156,11 +156,11 @@ public class CalculatorEngineTest {
 		decimalGroupSymbols.setGroupingSeparator('\'');
 		cm.setDecimalGroupSymbols(decimalGroupSymbols);
 		cm.setPrecision(2);
-		Assert.assertEquals("12'345'678.9", cm.evaluate(JsclOperation.numeric, "1.23456789E7"));
+		Assert.assertEquals("12'345'678.9", cm.evaluate(JsclOperation.numeric, "1.23456789E7").getResult());
 		cm.setPrecision(10);
-		Assert.assertEquals("12'345'678.899999999", cm.evaluate(JsclOperation.numeric, "1.23456789E7"));
-		Assert.assertEquals("123'456'788.99999999", cm.evaluate(JsclOperation.numeric, "1.234567890E8"));
-		Assert.assertEquals("1'234'567'890.1", cm.evaluate(JsclOperation.numeric, "1.2345678901E9"));
+		Assert.assertEquals("12'345'678.899999999", cm.evaluate(JsclOperation.numeric, "1.23456789E7").getResult());
+		Assert.assertEquals("123'456'788.99999999", cm.evaluate(JsclOperation.numeric, "1.234567890E8").getResult());
+		Assert.assertEquals("1'234'567'890.1", cm.evaluate(JsclOperation.numeric, "1.2345678901E9").getResult());
 
 
 	}
