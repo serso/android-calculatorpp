@@ -25,7 +25,7 @@ public class CalculatorDisplay extends TextView {
 	private boolean valid = true;
 
 	@NotNull
-	private final static TextProcessor<TextHighlighter.Result> textHighlighter = new TextHighlighter(Color.WHITE);
+	private final static TextProcessor<TextHighlighter.Result> textHighlighter = new TextHighlighter(Color.WHITE, true);
 
 	public CalculatorDisplay(Context context) {
 		super(context);

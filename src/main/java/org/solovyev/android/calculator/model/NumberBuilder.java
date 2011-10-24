@@ -25,6 +25,12 @@ public class NumberBuilder {
 	@Nullable
 	private String number = null;
 
+	private final boolean simpleFormat;
+
+	public NumberBuilder(boolean simpleFormat) {
+		this.simpleFormat = simpleFormat;
+	}
+
 	@NotNull
 	public MathType.Result process(@NotNull StringBuilder sb, @NotNull MathType.Result mathTypeResult, @Nullable MutableObject<Integer> numberOffset) {
 		number = null;
@@ -90,8 +96,28 @@ public class NumberBuilder {
 				result = new MathType.Result(MathType.constant, var.getName());
 			} else {
 				sb.delete(sb.length() - number.length() - numberOfGroupingSeparators, sb.length());
-				final String formattedNumber = CalculatorEngine.instance.format(Double.valueOf(number));
-				if ( numberOffset != null ) {
+
+				final String formattedNumber;
+
+				if (!simpleFormat) {
+					int indexOfDot = number.indexOf('.');
+
+					if (indexOfDot < 0) {
+						formattedNumber = CalculatorEngine.instance.format(Double.valueOf(number), false);
+					} else {
+						String integerPart = null;
+						if (indexOfDot != 0) {
+							integerPart = CalculatorEngine.instance.format(Double.valueOf(number.substring(0, indexOfDot)), false);
+						} else {
+							integerPart = "";
+						}
+						formattedNumber = integerPart + number.substring(indexOfDot);
+					}
+				} else {
+					formattedNumber = CalculatorEngine.instance.format(Double.valueOf(number), true);
+				}
+
+				if (numberOffset != null) {
 					numberOffset.setObject(formattedNumber.length() - number.length() - numberOfGroupingSeparators);
 				}
 				sb.append(formattedNumber);
