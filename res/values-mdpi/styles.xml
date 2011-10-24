@@ -6,6 +6,10 @@
 
 <resources>
 
+	<style name="default_text_size">
+		<item name="android:textSize">30dp</item>
+	</style>
+
 	<style name="button_style_parent">
 		<item name="android:textSize">30dp</item>
 		<item name="android:textColor">@color/button_text_color</item>
@@ -38,6 +42,5 @@
 		<item name="android:paddingLeft">60dp</item>
 		<item name="android:paddingRight">60dp</item>
 	</style>
-
 
 </resources>
