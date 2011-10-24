@@ -98,12 +98,35 @@ public enum CalculatorEngine {
 		}
 	}
 
-	public String evaluate(@NotNull JsclOperation operation,
+	public static class Result {
+		@NotNull
+		private String result;
+
+		@NotNull
+		private JsclOperation userOperation;
+
+		public Result(@NotNull String result, @NotNull JsclOperation userOperation) {
+			this.result = result;
+			this.userOperation = userOperation;
+		}
+
+		@NotNull
+		public String getResult() {
+			return result;
+		}
+
+		@NotNull
+		public JsclOperation getUserOperation() {
+			return userOperation;
+		}
+	}
+
+	public Result evaluate(@NotNull JsclOperation operation,
 						   @NotNull String expression) throws EvalError, ParseException {
 		return evaluate(operation, expression, null);
 	}
 
-	public String evaluate(@NotNull JsclOperation operation,
+	public Result evaluate(@NotNull JsclOperation operation,
 						   @NotNull String expression,
 						   @Nullable MessageRegistry<AndroidMessage> mr) throws EvalError, ParseException {
 		synchronized (lock) {
@@ -190,7 +213,7 @@ public enum CalculatorEngine {
 				throw new ParseException("Too long calculation for: " + jsclExpression);
 			}
 
-			return operation.getFromProcessor().process(result);
+			return new Result(operation.getFromProcessor().process(result), operation);
 		}
 	}
 

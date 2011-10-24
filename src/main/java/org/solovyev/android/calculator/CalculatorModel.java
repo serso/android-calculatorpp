@@ -34,7 +34,7 @@ import org.solovyev.common.utils.history.HistoryAction;
  * Date: 9/12/11
  * Time: 11:15 PM
  */
-public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorHistoryState> {
+public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorHistoryState>, CalculatorEngineControl {
 
 	instance;
 
@@ -51,6 +51,7 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 	private CalculatorEngine calculatorEngine;
 
 	public CalculatorModel init(@NotNull final Activity activity, @NotNull SharedPreferences preferences, @NotNull CalculatorEngine calculator) {
+		Log.d(this.getClass().getName(), "CalculatorModel initialization with activity: " + activity);
 		this.calculatorEngine = calculator;
 
 		this.editor = (CalculatorEditor) activity.findViewById(R.id.calculatorEditor);
@@ -119,24 +120,29 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 	}
 
 	public void doTextOperation(@NotNull TextOperation operation, boolean delayEvaluate) {
+		doTextOperation(operation, delayEvaluate, JsclOperation.numeric, false);
+	}
+
+	public void doTextOperation(@NotNull TextOperation operation, boolean delayEvaluate, @NotNull JsclOperation jsclOperation, boolean forceEval) {
 		final String editorStateBefore = this.editor.getText().toString();
 
+		Log.d(CalculatorModel.class.getName(), "Editor state changed before '" + editorStateBefore + "'");
 		operation.doOperation(this.editor);
 		//Log.d(CalculatorModel.class.getName(), "Doing text operation" + StringUtils.fromStackTrace(Thread.currentThread().getStackTrace()));
 
 		final String editorStateAfter = this.editor.getText().toString();
-		if (!editorStateBefore.equals(editorStateAfter)) {
+		if (forceEval ||!editorStateBefore.equals(editorStateAfter)) {
 
 			editor.redraw();
 
-			evaluate(delayEvaluate, editorStateAfter);
+			evaluate(delayEvaluate, editorStateAfter, jsclOperation);
 		}
 	}
 
 	@NotNull
 	private final static MutableObject<Runnable> pendingOperation = new MutableObject<Runnable>();
 
-	private void evaluate(boolean delayEvaluate, @NotNull final String expression) {
+	private void evaluate(boolean delayEvaluate, @NotNull final String expression, @NotNull final JsclOperation operation) {
 		final CalculatorHistoryState historyState = getCurrentHistoryState();
 
 		pendingOperation.setObject(new Runnable() {
@@ -147,7 +153,7 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 					//lock all operations with history
 					if (pendingOperation.getObject() == this) {
 						// actually nothing shall be logged while text operations are done
-						evaluate(expression);
+						evaluate(expression, operation);
 
 						historyState.setDisplayState(getCurrentHistoryState().getDisplayState());
 
@@ -166,19 +172,27 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 		}
 	}
 
+	@Override
 	public void evaluate() {
-   		evaluate(false, this.editor.getText().toString());
+   		evaluate(false, this.editor.getText().toString(), JsclOperation.numeric);
 	}
 
-	private void evaluate(@Nullable final String expression) {
+	@Override
+	public void simplify() {
+   		evaluate(false, this.editor.getText().toString(), JsclOperation.simplify);
+	}
+
+	private void evaluate(@Nullable final String expression, @NotNull JsclOperation operation) {
 		if (!StringUtils.isEmpty(expression)) {
 			try {
-				Log.d(CalculatorModel.class.getName(), "Trying to evaluate: " + expression /*+ StringUtils.fromStackTrace(Thread.currentThread().getStackTrace())*/);
-				display.setText(calculatorEngine.evaluate(JsclOperation.numeric, expression));
+				Log.d(CalculatorModel.class.getName(), "Trying to evaluate '" + operation + "': " + expression /*+ StringUtils.fromStackTrace(Thread.currentThread().getStackTrace())*/);
+				final CalculatorEngine.Result result = calculatorEngine.evaluate(operation, expression);
+				display.setText(result.getResult());
+				display.setJsclOperation(result.getUserOperation());
 			} catch (EvalError e) {
-				handleEvaluationException(expression, display, e);
+				handleEvaluationException(expression, display, operation, e);
 			} catch (ParseException e) {
-				handleEvaluationException(expression, display, e);
+				handleEvaluationException(expression, display, operation, e);
 			}
 		} else {
 			this.display.setText("");
@@ -187,9 +201,13 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 		this.display.redraw();
 	}
 
-	private void handleEvaluationException(@NotNull String expression, @NotNull CalculatorDisplay localDisplay, @NotNull Exception e) {
+	private void handleEvaluationException(@NotNull String expression,
+										   @NotNull CalculatorDisplay localDisplay,
+										   @NotNull JsclOperation operation,
+										   @NotNull Exception e) {
 		Log.d(CalculatorModel.class.getName(), "Evaluation failed for : " + expression + ". Error message: " + e.getMessage());
 		localDisplay.setText(R.string.c_syntax_error);
+		localDisplay.setJsclOperation(operation);
 		localDisplay.setValid(false);
 	}
 
@@ -268,6 +286,7 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 	private void setValuesFromHistory(@NotNull CalculatorDisplay display, CalculatorDisplayHistoryState editorHistoryState) {
 		setValuesFromHistory(display, editorHistoryState.getEditorHistoryState());
 		display.setValid(editorHistoryState.isValid());
+		display.setJsclOperation(editorHistoryState.getJsclOperation());
 	}
 
 	private void setValuesFromHistory(@NotNull TextView editText, EditorHistoryState editorHistoryState) {
@@ -286,22 +305,11 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 	}
 
 	private EditorHistoryState getEditorHistoryState(@NotNull TextView textView) {
-		final EditorHistoryState result = new EditorHistoryState();
-
-		result.setText(String.valueOf(textView.getText()));
-		result.setCursorPosition(textView.getSelectionStart());
-
-		return result;
+		return EditorHistoryState.newInstance(textView);
 	}
 
 	private CalculatorDisplayHistoryState getCalculatorDisplayHistoryState(@NotNull CalculatorDisplay display) {
-		final CalculatorDisplayHistoryState result = new CalculatorDisplayHistoryState();
-
-		result.getEditorHistoryState().setText(String.valueOf(display.getText()));
-		result.getEditorHistoryState().setCursorPosition(display.getSelectionStart());
-		result.setValid(display.isValid());
-
-		return result;
+		return CalculatorDisplayHistoryState.newInstance(display);
 	}
 
 	@NotNull

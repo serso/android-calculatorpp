@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.*;
 import android.widget.*;
 import org.jetbrains.annotations.NotNull;
+import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.common.utils.Filter;
 import org.solovyev.common.utils.FilterRule;
 import org.solovyev.common.utils.FilterRulesChain;
@@ -53,14 +54,16 @@ public class CalculatorHistoryActivity extends ListActivity {
 									final int position,
 									final long id) {
 
+				final CalculatorHistoryState historyState = (CalculatorHistoryState) parent.getItemAtPosition(position);
+
 				CalculatorModel.instance.doTextOperation(new CalculatorModel.TextOperation() {
 					@Override
 					public void doOperation(@NotNull EditText editor) {
-						final EditorHistoryState editorState = ((CalculatorHistoryState) parent.getItemAtPosition(position)).getEditorState();
+						final EditorHistoryState editorState = historyState.getEditorState();
 						editor.setText(editorState.getText());
 						editor.setSelection(editorState.getCursorPosition());
 					}
-				}, false);
+				}, false, historyState.getDisplayState().getJsclOperation(), true);
 
 				CalculatorModel.instance.setCursorOnEnd();
 
@@ -108,9 +111,14 @@ public class CalculatorHistoryActivity extends ListActivity {
 			time.setText(new SimpleDateFormat().format(state.getTime()));
 
 			final TextView editor = (TextView) result.findViewById(R.id.history_item);
-			editor.setText(state.getEditorState().getText() + "=" + state.getDisplayState().getEditorHistoryState().getText());
+			editor.setText(state.getEditorState().getText() + getIdentitySign(state.getDisplayState().getJsclOperation()) + state.getDisplayState().getEditorHistoryState().getText());
 
 			return result;
+		}
+
+		@NotNull
+		private String getIdentitySign(@NotNull JsclOperation jsclOperation) {
+			return jsclOperation == JsclOperation.simplify ? "≡" : "=";
 		}
 	}
 

@@ -25,9 +25,9 @@
 																   calc:directionTextScale="0.5"
 																   style="?controlButtonStyle"
 																   a:onClick="moveLeftButtonClickHandler"
-																   a:layout_width="fill_parent"
+																   a:layout_width="0dp"
 																   a:layout_height="fill_parent"
-																   a:layout_weight="1.5"/>
+																   a:layout_weight="1"/>
 
 
 			<org.solovyev.android.view.widgets.ColorButton xmlns:a="http://schemas.android.com/apk/res/android"
@@ -36,15 +36,15 @@
 														   a:drawableTop="@drawable/sym_keyboard_delete"
 														   style="?controlImageButtonStyle"
 														   a:onClick="eraseButtonClickHandler"
-														   a:layout_width="fill_parent"
+														   a:layout_width="0dp"
 														   a:layout_height="fill_parent"
-														   a:layout_weight="1.5"/>
+														   a:layout_weight="1"/>
 
 
 			<include layout="@layout/calc_display"
-					 a:layout_width="fill_parent"
+					 a:layout_width="0dp"
 					 a:layout_height="fill_parent"
-					 a:layout_weight="1"/>
+					 a:layout_weight="4"/>
 
 			<org.solovyev.android.view.widgets.ColorButton xmlns:a="http://schemas.android.com/apk/res/android"
 														   xmlns:calc="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
@@ -53,9 +53,9 @@
 														   a:textStyle="bold"
 														   style="?controlImageButtonStyle"
 														   a:onClick="clearButtonClickHandler"
-														   a:layout_width="fill_parent"
+														   a:layout_width="0dp"
 														   a:layout_height="fill_parent"
-														   a:layout_weight="1.5"/>
+														   a:layout_weight="1"/>
 
 			<org.solovyev.android.view.widgets.DirectionDragButton xmlns:a="http://schemas.android.com/apk/res/android"
 																   xmlns:calc="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
@@ -65,9 +65,9 @@
 																   calc:directionTextScale="0.5"
 																   style="?controlButtonStyle"
 																   a:onClick="moveRightButtonClickHandler"
-																   a:layout_width="fill_parent"
+																   a:layout_width="0dp"
 																   a:layout_height="fill_parent"
-																   a:layout_weight="1.5"/>
+																   a:layout_weight="1"/>
 
 		</LinearLayout>
 
@@ -80,6 +80,7 @@
 			<include layout="@layout/calc_three_digit_button"/>
 			<include layout="@layout/calc_multiplication_button"/>
 			<include layout="@layout/calc_division_button"/>
+			<include layout="@layout/calc_equals_button"/>
 
 		</LinearLayout>
 
@@ -92,19 +93,20 @@
 			<include layout="@layout/calc_six_digit_button"/>
 			<include layout="@layout/calc_plus_button"/>
 			<include layout="@layout/calc_subtraction_button"/>
+			<include layout="@layout/calc_empty_button"/>
 
 		</LinearLayout>
 
 		<LinearLayout a:layout_weight="1" a:layout_width="fill_parent" a:layout_height="0dp">
 
 			<include layout="@layout/calc_donate_button"/>
-			<include layout="@layout/calc_square_brackets_button"/>
+			<include layout="@layout/calc_empty_button"/>
 			<include layout="@layout/calc_seven_digit_button"/>
 			<include layout="@layout/calc_eight_digit_button"/>
 			<include layout="@layout/calc_nine_digit_button"/>
 			<include layout="@layout/calc_zero_digit_button"/>
 			<include layout="@layout/calc_round_brackets_button"/>
-
+			<include layout="@layout/calc_square_brackets_button"/>
 
 		</LinearLayout>
 

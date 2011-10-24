@@ -92,6 +92,13 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		((DragButton) findViewById(R.id.leftButton)).setOnDragListener(toPositionOnDragListener);
 		dpclRegister.addListener(toPositionOnDragListener);
 
+		final DragButton equalsButton = (DragButton) findViewById(R.id.equalsButton);
+		if (equalsButton != null) {
+			final SimpleOnDragListener evalOnDragListener = new SimpleOnDragListener(new EvalDragProcessor(calculatorModel), dragPreferences);
+			equalsButton.setOnDragListener(evalOnDragListener);
+			dpclRegister.addListener(evalOnDragListener);
+		}
+
 		CalculatorEngine.instance.reset(this, preferences);
 
 		preferences.registerOnSharedPreferenceChangeListener(this);
@@ -389,10 +396,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		}
 
 		calculatorModel = CalculatorModel.instance.init(this, preferences, CalculatorEngine.instance);
-
 		AndroidMessageRegistry.instance.init(this);
-
-		this.calculatorModel.evaluate();
 	}
 
 	@Override
