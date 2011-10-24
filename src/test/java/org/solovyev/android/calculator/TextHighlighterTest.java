@@ -22,7 +22,7 @@ public class TextHighlighterTest {
 
 	@Test
 	public void testProcess() throws Exception {
-		final TextProcessor textHighlighter = new TextHighlighter(0);
+		final TextProcessor textHighlighter = new TextHighlighter(0, true);
 
 		final Random random = new Random(new Date().getTime());
 		for (int i = 0; i < 1000; i++) {
