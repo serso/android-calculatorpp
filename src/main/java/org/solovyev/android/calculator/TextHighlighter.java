@@ -61,9 +61,11 @@ public class TextHighlighter implements TextProcessor<TextHighlighter.Result> {
 	private final int colorRed;
 	private final int colorGreen;
 	private final int colorBlue;
+	private final boolean simpleFormat;
 
-	public TextHighlighter(int baseColor) {
+	public TextHighlighter(int baseColor, boolean simpleFormat) {
 		this.color = baseColor;
+		this.simpleFormat = simpleFormat;
 		//this.colorRed = Color.red(baseColor);
 		this.colorRed = (baseColor >> 16) & 0xFF;
 		//this.colorGreen = Color.green(baseColor);
@@ -84,7 +86,7 @@ public class TextHighlighter implements TextProcessor<TextHighlighter.Result> {
 
 		int numberOffset = 0;
 
-		final NumberBuilder numberBuilder = new NumberBuilder();
+		final NumberBuilder numberBuilder = new NumberBuilder(simpleFormat);
 		for (int i = 0; i < text.length(); i++) {
 			MathType.Result mathType = MathType.getType(text, i);
 

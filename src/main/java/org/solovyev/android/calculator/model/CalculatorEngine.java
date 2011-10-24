@@ -78,12 +78,21 @@ public enum CalculatorEngine {
 
 	@NotNull
 	public String format(@NotNull Double value) {
+		return format(value, true);
+	}
+
+	@NotNull
+	public String format(@NotNull Double value, boolean round) {
 		if (!value.isInfinite() && !value.isNaN()) {
 			final DecimalFormat df = new DecimalFormat();
 			df.setDecimalFormatSymbols(decimalGroupSymbols);
 			df.setGroupingUsed(useGroupingSeparator);
-			df.setMaximumFractionDigits(instance.getPrecision());
-			return df.format(new BigDecimal(value).setScale(instance.getPrecision(), BigDecimal.ROUND_HALF_UP).doubleValue());
+			if (round) {
+				df.setMaximumFractionDigits(instance.getPrecision());
+				return df.format(new BigDecimal(value).setScale(instance.getPrecision(), BigDecimal.ROUND_HALF_UP).doubleValue());
+			} else {
+				return df.format(value);
+			}
 		} else {
 			return String.valueOf(value);
 		}

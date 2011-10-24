@@ -19,11 +19,9 @@ public class FromJsclSimplifyTextProcessor implements TextProcessor<String> {
 	public String process(@NotNull String s) throws ParseException {
 		final StringBuilder sb = new StringBuilder();
 
-		final NumberBuilder numberBuilder = new NumberBuilder();
+		final NumberBuilder numberBuilder = new NumberBuilder(true);
 		for (int i = 0; i < s.length(); i++) {
-			char ch = s.charAt(i);
-
-			MathType.Result mathTypeResult = MathType.getType(s, i);
+			final MathType.Result mathTypeResult = MathType.getType(s, i);
 
 			numberBuilder.process(sb, mathTypeResult, null);
 
