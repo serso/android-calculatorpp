@@ -11,6 +11,8 @@
 	<string name="c_vars_and_constants">Variables And Constants</string>
 	<!--PREFERENCE ACTIVITY-->
 	<string name="c_prefs_main_category">Main settings</string>
+	<string name="c_prefs_calculations_category">Calculation settings</string>
+	<string name="c_prefs_appearance_category">Appearance settings</string>
 	<string name="c_prefs_drag_button_category">Drag buttons settings</string>
 
 
@@ -81,7 +83,7 @@
 	<string name="p_violet_theme">Violet</string>
 	<string name="p_light_blue_theme">Light Blue</string>
 	<string name="c_calc_result_precision_summary">Precision of result value (all calculations are done with maximum precision regardless of the value of this option)</string>
-	<string name="c_calc_color_display_summary">Enables/disables colouring and styling in calculator editor</string>
+	<string name="c_calc_color_display_summary">Toggles colouring and styling in calculator editor</string>
 	<string name="c_calc_theme_summary">Sets the theme for calculator</string>
 	<string name="c_clear_history">Clear history</string>
 	<string name="c_simplify_instead_of_numeric">Next constants are undefined: {0}!</string>
@@ -96,5 +98,8 @@
 	<string name="p_layout_cellphone">Cellphone</string>
 	<string name="p_layout_calculator">Calculator</string>
 	<string name="c_calc_layout_summary">Sets layout of buttons</string>
+
+	<string name="c_calc_haptic_feedback_title">Haptic feedback</string>
+	<string name="c_calc_haptic_feedback_summary">Toggles vibration on button click</string>
 
 </resources>

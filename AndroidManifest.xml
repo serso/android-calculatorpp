@@ -5,6 +5,8 @@
 		  a:versionCode="5"
 		  a:versionName="1.1.3">
 
+	<uses-permission a:name="android.permission.VIBRATE"/>
+
 	<uses-sdk 	a:minSdkVersion="4"
 				a:targetSdkVersion="8"/>
 

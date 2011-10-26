@@ -2,7 +2,7 @@
 
 <PreferenceScreen xmlns:a="http://schemas.android.com/apk/res/android"
 				  xmlns:range="http://schemas.android.com/apk/res/org.solovyev.android.calculator">
-	<PreferenceCategory a:title="@string/c_prefs_main_category">
+	<PreferenceCategory a:title="@string/c_prefs_calculations_category">
 
 		<org.solovyev.android.view.prefs.NumberPickerDialogPreference
 				a:key="@string/p_calc_result_precision_key"
@@ -11,17 +11,28 @@
 				a:defaultValue="5"
 				range:boundaries="0;10"/>
 
+		<ListPreference a:key="@string/p_calc_grouping_separator_key"
+						a:title="@string/c_calc_grouping_separator"
+						a:entries="@array/p_grouping_separator_names"
+						a:summary="@string/c_calc_grouping_separator_summary"
+						a:entryValues="@array/p_grouping_separator_values"/>
+
+	</PreferenceCategory>
+
+
+	<PreferenceCategory a:title="@string/c_prefs_appearance_category">
+
 		<android.preference.CheckBoxPreference
 				a:key="@string/p_calc_color_display_key"
 				a:summary="@string/c_calc_color_display_summary"
 				a:title="@string/c_calc_color_display_title"
 				a:defaultValue="true"/>
 
-		<ListPreference a:key="@string/p_calc_grouping_separator_key"
-						a:title="@string/c_calc_grouping_separator"
-						a:entries="@array/p_grouping_separator_names"
-						a:summary="@string/c_calc_grouping_separator_summary"
-						a:entryValues="@array/p_grouping_separator_values"/>
+		<android.preference.CheckBoxPreference
+				a:key="@string/p_calc_haptic_feedback_key"
+				a:summary="@string/c_calc_haptic_feedback_summary"
+				a:title="@string/c_calc_haptic_feedback_title"
+				a:defaultValue="false"/>
 
 		<ListPreference a:key="@string/p_calc_theme_key"
 						a:title="@string/c_calc_theme"
@@ -59,7 +70,6 @@
 			  a:defaultValue="0;45"
 			  range:steps="5"
 			  range:boundaries="0;45"/>-->
-
 	</PreferenceCategory>
 
 </PreferenceScreen>
