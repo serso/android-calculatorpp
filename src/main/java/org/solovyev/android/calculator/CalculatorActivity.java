@@ -45,6 +45,9 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	private final Announcer<DragPreferencesChangeListener> dpclRegister = new Announcer<DragPreferencesChangeListener>(DragPreferencesChangeListener.class);
 
 	@NotNull
+	private final static Map<Class<?>, Map<String, Integer>> caches = new HashMap<Class<?>, Map<String, Integer>>(3);
+
+	@NotNull
 	private CalculatorModel calculatorModel;
 
 	private volatile boolean initialized;
@@ -52,8 +55,8 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	@NotNull
 	private String themeName;
 
-	// key: style name, value: id of style in R.class
-	private Map<String, Integer> styles = null;
+	@NotNull
+	private String layoutName;
 
 	// ids of drag buttons in R.class
 	private List<Integer> dragButtonIds = null;
@@ -71,7 +74,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 		setTheme(preferences);
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main);
+		setLayout(preferences);
 
 		firstTimeInit(preferences);
 
@@ -151,23 +154,25 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		}
 	}
 
-	private synchronized void setTheme(@NotNull SharedPreferences preferences) {
-		if (styles == null) {
-			styles = new HashMap<String, Integer>();
-			for (Field themeField : R.style.class.getDeclaredFields()) {
-				int modifiers = themeField.getModifiers();
-				if (Modifier.isFinal(modifiers) && Modifier.isStatic(modifiers)) {
-					try {
-						Log.d(this.getClass().getName(), "Style found: " + themeField.getName());
-						int styleId = themeField.getInt(R.style.class);
-						Log.d(this.getClass().getName(), "Style id: " + styleId);
-						styles.put(themeField.getName(), styleId);
-					} catch (IllegalAccessException e) {
-						Log.e(CalculatorActivity.class.getName(), e.getMessage());
-					}
-				}
-			}
+
+	private synchronized void setLayout(@NotNull SharedPreferences preferences) {
+		final Map<String, Integer> layouts = getCache(R.layout.class);
+
+		layoutName = preferences.getString(getString(R.string.p_calc_layout_key), getString(R.string.p_calc_layout));
+
+		Integer layoutId = layouts.get(layoutName);
+		if (layoutId == null) {
+			Log.d(this.getClass().getName(), "No saved layout found => applying default layout: " + R.layout.main_cellphone);
+			layoutId = R.layout.main_cellphone;
+		} else {
+			Log.d(this.getClass().getName(), "Saved layout found: " + layoutId);
 		}
+
+		setContentView(layoutId);
+	}
+
+	private synchronized void setTheme(@NotNull SharedPreferences preferences) {
+		final Map<String, Integer> styles = getCache(R.style.class);
 
 		themeName = preferences.getString(getString(R.string.p_calc_theme_key), getString(R.string.p_calc_theme));
 
@@ -176,10 +181,34 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 			Log.d(this.getClass().getName(), "No saved theme found => applying default theme: " + R.style.default_theme);
 			styleId = R.style.default_theme;
 		} else {
-			Log.d(this.getClass().getName(), "Saved them found: " + styleId);
+			Log.d(this.getClass().getName(), "Saved theme found: " + styleId);
 		}
 
 		setTheme(styleId);
+	}
+
+	@NotNull
+	private static Map<String, Integer> getCache(@NotNull Class<?> clazz) {
+		Map<String, Integer> result = caches.get(clazz);
+
+		if (result == null) {
+			result = new HashMap<String, Integer>();
+
+			for (Field field : clazz.getDeclaredFields()) {
+				int modifiers = field.getModifiers();
+				if (Modifier.isFinal(modifiers) && Modifier.isStatic(modifiers)) {
+					try {
+						result.put(field.getName(), field.getInt(R.style.class));
+					} catch (IllegalAccessException e) {
+						Log.e(CalculatorActivity.class.getName(), e.getMessage());
+					}
+				}
+			}
+
+			caches.put(clazz, result);
+		}
+
+		return result;
 	}
 
 	private synchronized void firstTimeInit(@NotNull SharedPreferences preferences) {
@@ -390,8 +419,9 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
+		final String newLayoutName = preferences.getString(getString(R.string.p_calc_layout_key), getString(R.string.p_calc_layout));
 		final String newThemeName = preferences.getString(getString(R.string.p_calc_theme_key), getString(R.string.p_calc_theme));
-		if (!newThemeName.equals(themeName)) {
+		if (!themeName.equals(newThemeName) || !layoutName.equals(newLayoutName)) {
 			restart();
 		}
 
