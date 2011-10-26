@@ -321,12 +321,18 @@ public enum MathType {
 
 	public static final String PI = "π";
 	public static final String E = "e";
+	public static final String C = "c";
+	public static final Double C_VALUE = 299792458d;
+	public static final String G = "G";
+	public static final Double G_VALUE = 6.6738480E-11;
+	public static final String H_REDUCED = "h";
+	public static final Double H_REDUCED_VALUE = 6.6260695729E-34 / ( 2 * Math.PI );
 	public final static String NAN = "NaN";
 
 	public final static String INFINITY = "∞";
 	public final static String INFINITY_JSCL = "Infinity";
 
-	public static final List<String> constants = Arrays.asList(E, PI, IMAGINARY_NUMBER, NAN, INFINITY);
+	public static final List<String> constants = Arrays.asList(E, PI, C, G, H_REDUCED, IMAGINARY_NUMBER, NAN, INFINITY);
 
 	/**
 	 * Method determines mathematical entity type for text substring starting from ith index
