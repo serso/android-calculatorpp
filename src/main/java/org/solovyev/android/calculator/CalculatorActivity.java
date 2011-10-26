@@ -12,12 +12,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.text.ClipboardManager;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.*;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import bsh.EvalError;
@@ -41,6 +43,8 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 	private static final int HVGA_WIDTH_PIXELS = 320;
 
+	private static final long ON_CLICK_VIBRATION_TIME = 100;
+
 	@NotNull
 	private final Announcer<DragPreferencesChangeListener> dpclRegister = new Announcer<DragPreferencesChangeListener>(DragPreferencesChangeListener.class);
 
@@ -61,6 +65,12 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	// ids of drag buttons in R.class
 	private List<Integer> dragButtonIds = null;
 
+	// ids of buttons in R.class
+	private List<Integer> buttonIds = null;
+
+	@Nullable
+	private Vibrator vibrator;
+
 	/**
 	 * Called when the activity is first created.
 	 */
@@ -78,28 +88,27 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 		firstTimeInit(preferences);
 
+		vibrator = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
+
 		calculatorModel = CalculatorModel.instance.init(this, preferences, CalculatorEngine.instance);
 
 		dpclRegister.clear();
 
 		final SimpleOnDragListener.Preferences dragPreferences = SimpleOnDragListener.getPreferences(preferences, this);
 
-		setOnDragListeners(dragPreferences);
+		setOnDragListeners(dragPreferences, preferences);
 
-		final SimpleOnDragListener historyOnDragListener = new SimpleOnDragListener(new HistoryDragProcessor<CalculatorHistoryState>(this.calculatorModel), dragPreferences);
+		final OnDragListener historyOnDragListener = new OnDragListenerVibrator(newOnDragListener(new HistoryDragProcessor<CalculatorHistoryState>(this.calculatorModel), dragPreferences), vibrator, preferences);
 		((DragButton) findViewById(R.id.historyButton)).setOnDragListener(historyOnDragListener);
-		dpclRegister.addListener(historyOnDragListener);
 
-		final SimpleOnDragListener toPositionOnDragListener = new SimpleOnDragListener(new CursorDragProcessor(calculatorModel), dragPreferences);
+		final OnDragListener toPositionOnDragListener = new OnDragListenerVibrator(new SimpleOnDragListener(new CursorDragProcessor(calculatorModel), dragPreferences), vibrator, preferences);
 		((DragButton) findViewById(R.id.rightButton)).setOnDragListener(toPositionOnDragListener);
 		((DragButton) findViewById(R.id.leftButton)).setOnDragListener(toPositionOnDragListener);
-		dpclRegister.addListener(toPositionOnDragListener);
 
 		final DragButton equalsButton = (DragButton) findViewById(R.id.equalsButton);
 		if (equalsButton != null) {
-			final SimpleOnDragListener evalOnDragListener = new SimpleOnDragListener(new EvalDragProcessor(calculatorModel), dragPreferences);
+			final OnDragListener evalOnDragListener = new OnDragListenerVibrator(newOnDragListener(new EvalDragProcessor(calculatorModel), dragPreferences), vibrator, preferences);
 			equalsButton.setOnDragListener(evalOnDragListener);
-			dpclRegister.addListener(evalOnDragListener);
 		}
 
 		CalculatorEngine.instance.reset(this, preferences);
@@ -108,13 +117,13 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	}
 
 	private void setDefaultValues(@NotNull SharedPreferences preferences) {
-		if ( !preferences.contains(CalculatorEngine.GROUPING_SEPARATOR_P_KEY) ) {
+		if (!preferences.contains(CalculatorEngine.GROUPING_SEPARATOR_P_KEY)) {
 			final Locale locale = Locale.getDefault();
-			if ( locale != null ) {
+			if (locale != null) {
 				final DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(locale);
 				int index = MathType.grouping_separator.getTokens().indexOf(String.valueOf(decimalFormatSymbols.getGroupingSeparator()));
 				final String groupingSeparator;
-				if ( index >= 0 ) {
+				if (index >= 0) {
 					groupingSeparator = MathType.grouping_separator.getTokens().get(index);
 				} else {
 					groupingSeparator = " ";
@@ -126,31 +135,45 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		}
 	}
 
-	private synchronized void setOnDragListeners(@NotNull SimpleOnDragListener.Preferences dragPreferences) {
-		final SimpleOnDragListener onDragListener = new SimpleOnDragListener(new DigitButtonDragProcessor(calculatorModel), dragPreferences);
-		dpclRegister.addListener(onDragListener);
-
-		if (dragButtonIds == null) {
-			dragButtonIds = new ArrayList<Integer>();
-
-			for (Field field : R.id.class.getDeclaredFields()) {
-				int modifiers = field.getModifiers();
-				if (Modifier.isFinal(modifiers) && Modifier.isStatic(modifiers)) {
-					try {
-						int dragButtonId = field.getInt(R.id.class);
-						final View view = findViewById(dragButtonId);
-						if (view instanceof DragButton) {
-							dragButtonIds.add(dragButtonId);
-						}
-					} catch (IllegalAccessException e) {
-						Log.e(CalculatorActivity.class.getName(), e.getMessage());
-					}
-				}
-			}
-		}
+	private synchronized void setOnDragListeners(@NotNull SimpleOnDragListener.Preferences dragPreferences, @NotNull SharedPreferences preferences) {
+		final OnDragListener onDragListener = new OnDragListenerVibrator(newOnDragListener(new DigitButtonDragProcessor(calculatorModel), dragPreferences), vibrator, preferences);
 
 		for (Integer dragButtonId : dragButtonIds) {
 			((DragButton) findViewById(dragButtonId)).setOnDragListener(onDragListener);
+		}
+	}
+
+	@NotNull
+	private SimpleOnDragListener newOnDragListener(@NotNull SimpleOnDragListener.DragProcessor dragProcessor,
+												   @NotNull SimpleOnDragListener.Preferences dragPreferences) {
+		final SimpleOnDragListener onDragListener = new SimpleOnDragListener(dragProcessor, dragPreferences);
+		dpclRegister.addListener(onDragListener);
+		return onDragListener;
+	}
+
+	private class OnDragListenerVibrator extends OnDragListenerWrapper {
+
+		private static final long VIBRATION_TIME = 50;
+
+		@NotNull
+		private final VibratorContainer vibrator;
+
+		public OnDragListenerVibrator(@NotNull OnDragListener onDragListener,
+									  @Nullable Vibrator vibrator,
+									  @NotNull SharedPreferences preferences) {
+			super(onDragListener);
+			this.vibrator = new VibratorContainer(vibrator, preferences, VIBRATION_TIME);
+		}
+
+		@Override
+		public boolean onDrag(@NotNull DragButton dragButton, @NotNull DragEvent event) {
+			boolean result = super.onDrag(dragButton, event);
+
+			if (result) {
+				vibrator.vibrate();
+			}
+
+			return result;
 		}
 	}
 
@@ -162,8 +185,8 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 		Integer layoutId = layouts.get(layoutName);
 		if (layoutId == null) {
-			Log.d(this.getClass().getName(), "No saved layout found => applying default layout: " + R.layout.main_cellphone);
-			layoutId = R.layout.main_cellphone;
+			Log.d(this.getClass().getName(), "No saved layout found => applying default layout: " + R.layout.main_calculator);
+			layoutId = R.layout.main_calculator;
 		} else {
 			Log.d(this.getClass().getName(), "Saved layout found: " + layoutId);
 		}
@@ -213,6 +236,27 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 	private synchronized void firstTimeInit(@NotNull SharedPreferences preferences) {
 		if (!initialized) {
+			dragButtonIds = new ArrayList<Integer>();
+			buttonIds = new ArrayList<Integer>();
+
+			for (Field field : R.id.class.getDeclaredFields()) {
+				int modifiers = field.getModifiers();
+				if (Modifier.isFinal(modifiers) && Modifier.isStatic(modifiers)) {
+					try {
+						int viewId = field.getInt(R.id.class);
+						final View view = findViewById(viewId);
+						if (view instanceof DragButton) {
+							dragButtonIds.add(viewId);
+						}
+						if (view instanceof Button) {
+							buttonIds.add(viewId);
+						}
+					} catch (IllegalAccessException e) {
+						Log.e(CalculatorActivity.class.getName(), e.getMessage());
+					}
+				}
+			}
+
 			try {
 				CalculatorEngine.instance.init(this, preferences);
 			} catch (EvalError evalError) {

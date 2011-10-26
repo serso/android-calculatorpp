@@ -12,6 +12,8 @@
 
 	<!--PREFERENCE ACTIVITY-->
 	<string name="c_prefs_main_category">Основные настройки</string>
+	<string name="c_prefs_calculations_category">Настроцки вычислений</string>
+	<string name="c_prefs_appearance_category">Настройки внешнего вида</string>
 	<string name="c_prefs_drag_button_category">Настройки кнопок</string>
 
 
@@ -96,5 +98,8 @@
 	<string name="p_layout_cellphone">Телефон</string>
 	<string name="p_layout_calculator">Калькулятор</string>
 	<string name="c_calc_layout_summary">Устанавливает раскладку кнопок</string>
+
+	<string name="c_calc_haptic_feedback_title">Тактильный ввод</string>
+	<string name="c_calc_haptic_feedback_summary">Включает/выключает вибрацию по нажатию клавиши</string>
 
 </resources>
