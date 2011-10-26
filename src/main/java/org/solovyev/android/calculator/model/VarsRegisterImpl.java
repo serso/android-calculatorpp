@@ -148,6 +148,18 @@ class VarsRegisterImpl implements VarsRegister {
 			} else if (systemVarName.equals(MathType.PI)) {
 				builder = new Var.Builder(systemVarName, Math.PI);
 				varDescription = R.string.c_pi_description;
+			} else if (systemVarName.equals(MathType.C)) {
+				builder = new Var.Builder(systemVarName, MathType.C_VALUE);
+				varDescription = R.string.c_c_description;
+			} else if (systemVarName.equals(MathType.G)) {
+				builder = new Var.Builder(systemVarName, MathType.G_VALUE);
+				varDescription = R.string.c_g_description;
+/*			} else if (systemVarName.equals(MathType.H)) {
+				builder = new Var.Builder(systemVarName, MathType.H_VALUE);
+				varDescription = R.string.c_h_description;*/
+			} else if (systemVarName.equals(MathType.H_REDUCED)) {
+				builder = new Var.Builder(systemVarName, MathType.H_REDUCED_VALUE);
+				varDescription = R.string.c_h_reduced_description;
 			} else if (systemVarName.equals(MathType.IMAGINARY_NUMBER)) {
 				builder = new Var.Builder(systemVarName, MathType.IMAGINARY_NUMBER_JSCL);
 				varDescription = R.string.c_i_description;
