@@ -91,4 +91,10 @@
 	<string name="p_grouping_separator_space">Space ( )</string>
 	<string name="c_calc_grouping_separator">Grouping separator</string>
 	<string name="c_calc_grouping_separator_summary">Sets grouping separator</string>
+
+	<string name="c_calc_layout">Layout</string>
+	<string name="p_layout_cellphone">Cellphone</string>
+	<string name="p_layout_calculator">Calculator</string>
+	<string name="c_calc_layout_summary">Sets layout of buttons</string>
+
 </resources>

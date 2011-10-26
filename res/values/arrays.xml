@@ -27,4 +27,13 @@
 		<item>" "</item>
 	</string-array>
 
+	<string-array name="p_layout_names">
+		<item>@string/p_layout_cellphone</item>
+		<item>@string/p_layout_calculator</item>
+	</string-array>
+	<string-array name="p_layout_values">
+		<item>main_cellphone</item>
+		<item>main_calculator</item>
+	</string-array>
+
 </resources>

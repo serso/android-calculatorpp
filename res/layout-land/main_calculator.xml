@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+  ~ For more information, please, contact se.solovyev@gmail.com
+  ~ or visit http://se.solovyev.org
+  -->
+
+<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+			  xmlns:calc="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
+			  a:orientation="vertical"
+			  a:layout_width="fill_parent"
+			  a:layout_height="fill_parent"
+			  a:background="#ff000000">
+
+	<LinearLayout
+			a:layout_width="fill_parent"
+			a:layout_height="fill_parent"
+			a:orientation="vertical"
+			a:layout_gravity="center">
+
+		<include layout="@layout/calc_editor"/>
+
+		<LinearLayout a:layout_weight="1" a:layout_width="fill_parent" a:layout_height="0dp">
+
+			<org.solovyev.android.view.widgets.DirectionDragButton xmlns:a="http://schemas.android.com/apk/res/android"
+																   xmlns:calc="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
+																   a:id="@+id/leftButton"
+																   calc:textUp="◀◀"
+																   a:text="◀"
+																   calc:directionTextScale="0.5"
+																   style="?controlButtonStyle"
+																   a:onClick="moveLeftButtonClickHandler"
+																   a:layout_width="0dp"
+																   a:layout_height="fill_parent"
+																   a:layout_weight="1"/>
+
+
+			<org.solovyev.android.view.widgets.ColorButton xmlns:a="http://schemas.android.com/apk/res/android"
+														   xmlns:calc="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
+														   a:id="@+id/eraseButton"
+														   a:drawableTop="@drawable/sym_keyboard_delete"
+														   style="?controlImageButtonStyle"
+														   a:onClick="eraseButtonClickHandler"
+														   a:layout_width="0dp"
+														   a:layout_height="fill_parent"
+														   a:layout_weight="1"/>
+
+
+			<include layout="@layout/calc_display"
+					 a:layout_width="0dp"
+					 a:layout_height="fill_parent"
+					 a:layout_weight="4"/>
+
+			<org.solovyev.android.view.widgets.ColorButton xmlns:a="http://schemas.android.com/apk/res/android"
+														   xmlns:calc="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
+														   a:id="@+id/clearButton"
+														   a:text="@string/c_clear"
+														   a:textStyle="bold"
+														   style="?controlImageButtonStyle"
+														   a:onClick="clearButtonClickHandler"
+														   a:layout_width="0dp"
+														   a:layout_height="fill_parent"
+														   a:layout_weight="1"/>
+
+			<org.solovyev.android.view.widgets.DirectionDragButton xmlns:a="http://schemas.android.com/apk/res/android"
+																   xmlns:calc="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
+																   a:id="@+id/rightButton"
+																   calc:textUp="▶▶"
+																   a:text="▶"
+																   calc:directionTextScale="0.5"
+																   style="?controlButtonStyle"
+																   a:onClick="moveRightButtonClickHandler"
+																   a:layout_width="0dp"
+																   a:layout_height="fill_parent"
+																   a:layout_weight="1"/>
+
+		</LinearLayout>
+
+		<LinearLayout a:layout_weight="1" a:layout_width="fill_parent" a:layout_height="0dp">
+
+			<include layout="@layout/calc_history_button"/>
+			<include layout="@layout/calc_copy_button"/>
+			<include layout="@layout/calc_seven_digit_button"/>
+			<include layout="@layout/calc_eight_digit_button"/>
+			<include layout="@layout/calc_nine_digit_button"/>
+			<include layout="@layout/calc_multiplication_button"/>
+			<include layout="@layout/calc_division_button"/>
+			<include layout="@layout/calc_equals_button"/>
+
+		</LinearLayout>
+
+		<LinearLayout a:layout_weight="1" a:layout_width="fill_parent" a:layout_height="0dp">
+
+			<include layout="@layout/calc_vars_button"/>
+			<include layout="@layout/calc_paste_button"/>
+			<include layout="@layout/calc_four_digit_button"/>
+			<include layout="@layout/calc_five_digit_button"/>
+			<include layout="@layout/calc_six_digit_button"/>
+			<include layout="@layout/calc_plus_button"/>
+			<include layout="@layout/calc_subtraction_button"/>
+			<include layout="@layout/calc_empty_button"/>
+
+		</LinearLayout>
+
+		<LinearLayout a:layout_weight="1" a:layout_width="fill_parent" a:layout_height="0dp">
+
+			<include layout="@layout/calc_donate_button"/>
+			<include layout="@layout/calc_empty_button"/>
+			<include layout="@layout/calc_one_digit_button"/>
+			<include layout="@layout/calc_two_digit_button"/>
+			<include layout="@layout/calc_three_digit_button"/>
+			<include layout="@layout/calc_zero_digit_button"/>
+			<include layout="@layout/calc_round_brackets_button"/>
+			<include layout="@layout/calc_square_brackets_button"/>
+
+		</LinearLayout>
+
+	</LinearLayout>
+</LinearLayout>
