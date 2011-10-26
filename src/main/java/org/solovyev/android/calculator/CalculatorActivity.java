@@ -481,10 +481,15 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	}
 
 	@Override
-	public void onSharedPreferenceChanged(SharedPreferences preferences, @Nullable String s) {
+	public void onSharedPreferenceChanged(SharedPreferences preferences, @Nullable String key) {
 		dpclRegister.announce().onDragPreferencesChange(SimpleOnDragListener.getPreferences(preferences, this));
 
-		CalculatorEngine.instance.reset(this, preferences);
+		if (CalculatorEngine.GROUPING_SEPARATOR_P_KEY.equals(key) ||
+				CalculatorEngine.ROUND_RESULT_P_KEY.equals(key) ||
+					CalculatorEngine.RESULT_PRECISION_P_KEY.equals(key)) {
+			CalculatorEngine.instance.reset(this, preferences);
+			this.calculatorModel.evaluate();
+		}
 
 		final Boolean colorExpressionsInBracketsDefault = new BooleanMapper().parseValue(this.getString(R.string.p_calc_color_display));
 		assert colorExpressionsInBracketsDefault != null;
