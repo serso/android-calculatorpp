@@ -63,6 +63,10 @@
 	<string name="c_pi_description">Ratio of any circle\'s circumference to its diameter</string>
 	<string name="c_e_description">Unique real number such that the value of the derivative (slope of the tangent line) of the function f(x) = e^x at the point x = 0 is equal to 1</string>
 	<string name="c_i_description">Imaginary unit, defined such that i^2 = −1</string>
+	<string name="c_c_description">Speed of light in vacuum, m·s^-1</string>
+	<string name="c_g_description">The gravitational constant is an empirical physical constant involved in the calculation of the gravitational attraction between objects with mass, m^3·kg^−1·s^−2</string>
+	<string name="c_h_description">Physical constant reflecting the sizes of energy quanta in quantum mechanics, J·s</string>
+	<string name="c_h_reduced_description">Reduced Planck constant, J·s</string>
 	<string name="c_nan_description">Not a number</string>
 	<string name="c_infinity_description">Infinity</string>
 
