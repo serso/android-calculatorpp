@@ -4,12 +4,18 @@
 				  xmlns:range="http://schemas.android.com/apk/res/org.solovyev.android.calculator">
 	<PreferenceCategory a:title="@string/c_prefs_calculations_category">
 
+		<android.preference.CheckBoxPreference
+				a:key="@string/p_calc_round_result_key"
+				a:summary="@string/c_calc_round_result_summary"
+				a:title="@string/c_calc_round_result_title"
+				a:defaultValue="true"/>
+
 		<org.solovyev.android.view.prefs.NumberPickerDialogPreference
 				a:key="@string/p_calc_result_precision_key"
 				a:title="@string/p_calc_result_precision_title"
 				a:summary="@string/c_calc_result_precision_summary"
 				a:defaultValue="5"
-				range:boundaries="0;10"/>
+				range:boundaries="0;16"/>
 
 		<ListPreference a:key="@string/p_calc_grouping_separator_key"
 						a:title="@string/c_calc_grouping_separator"

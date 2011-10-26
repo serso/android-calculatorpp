@@ -22,6 +22,9 @@
 	<string name="p_calc_haptic_feedback_key">org.solovyev.android.calculator.CalculatorModel_haptic_feedback</string>
 	<string name="p_calc_haptic_feedback">false</string>
 
+	<string name="p_calc_round_result_key">org.solovyev.android.calculator.CalculatorModel_round_result</string>
+	<string name="p_calc_round_result">true</string>
+
 	<string name="p_calc_vars">org.solovyev.android.calculator.CalculatorModel_vars</string>
 
 	<string name="p_calc_theme_key">org.solovyev.android.calculator.CalculatorActivity_calc_theme</string>
