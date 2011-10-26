@@ -19,13 +19,16 @@
 	<string name="p_calc_color_display_key">org.solovyev.android.calculator.CalculatorModel_color_display</string>
 	<string name="p_calc_color_display">true</string>
 
+	<string name="p_calc_haptic_feedback_key">org.solovyev.android.calculator.CalculatorModel_haptic_feedback</string>
+	<string name="p_calc_haptic_feedback">false</string>
+
 	<string name="p_calc_vars">org.solovyev.android.calculator.CalculatorModel_vars</string>
 
 	<string name="p_calc_theme_key">org.solovyev.android.calculator.CalculatorActivity_calc_theme</string>
 	<string name="p_calc_theme">default_theme</string>
 
 	<string name="p_calc_layout_key">org.solovyev.android.calculator.CalculatorActivity_calc_layout</string>
-	<string name="p_calc_layout">main_cellphone</string>
+	<string name="p_calc_layout">main_calculator</string>
 
 	<string name="p_calc_grouping_separator_key">org.solovyev.android.calculator.CalculatorActivity_calc_grouping_separator</string>
 	<string name="p_calc_grouping_separator"> </string>

@@ -27,6 +27,8 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.drawable.Drawable;
+import android.os.Vibrator;
+import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.Button;
@@ -54,15 +56,21 @@ public class ColorButton extends Button {
 	private long animationStart;
 	private Paint feedbackPaint;
 
+	@NotNull
+	private final OnClickListenerVibrator onClickListener;
+
 	public ColorButton(Context context, AttributeSet attrs) {
 		this(context, attrs, true);
 	}
 
 	public ColorButton(Context context, AttributeSet attrs, boolean init) {
 		super(context, attrs);
+
 		if (init) {
 			init(context);
 		}
+
+		this.onClickListener = new OnClickListenerVibrator((Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE), PreferenceManager.getDefaultSharedPreferences(context));
 	}
 
 	protected void init(Context context) {
@@ -177,6 +185,22 @@ public class ColorButton extends Button {
 	public void animateClickFeedback() {
 		animationStart = System.currentTimeMillis();
 		invalidate();
+	}
+
+	@Override
+	public boolean performClick() {
+		vibrate();
+		return super.performClick();
+	}
+
+	@Override
+	public boolean performLongClick() {
+		vibrate();
+		return super.performLongClick();
+	}
+
+	private void vibrate() {
+	 	this.onClickListener.onClick(this);
 	}
 
 	@Override
