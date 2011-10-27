@@ -33,18 +33,17 @@ public class Functions {
 	public final static String ATANH = "atanh";
 
 	public final static String LN = "ln";
-	public final static String LN_JSCL = "log";
+	public final static String LOG = "log";
 
 	public final static String MOD = "mod";
 	public final static String EXP = "exp";
 
 	public final static String SQRT = "√";
-	public final static String SQRT_JSCL = "sqrt";
 
 	public static final List<String> allPrefix;
 
 	static {
-		final List<String> functions = new ArrayList<String>(Arrays.asList(SIN, SINH, ASIN, ASINH, COS, COSH, ACOS, ACOSH, TAN, TANH, ATAN, ATANH, LN, LN_JSCL, MOD, SQRT, SQRT_JSCL, EXP));
+		final List<String> functions = new ArrayList<String>(Arrays.asList(SIN, SINH, ASIN, ASINH, COS, COSH, ACOS, ACOSH, TAN, TANH, ATAN, ATANH, LN, LOG, MOD, SQRT, EXP));
 		Collections.sort(functions, new MathEntityComparator());
 		allPrefix = functions;
 	}

@@ -79,7 +79,7 @@ public enum CalculatorEngine {
 	private ThreadKiller threadKiller = new AndroidThreadKiller();
 
 	// calculation thread timeout in milliseconds, after timeout thread would be interrupted
-	private int timeout = 2000;
+	private int timeout = 3000;
 
 	@NotNull
 	public String format(@NotNull Double value) {
