@@ -153,11 +153,14 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 					//lock all operations with history
 					if (pendingOperation.getObject() == this) {
 						// actually nothing shall be logged while text operations are done
-						evaluate(expression, operation);
+						evaluate(expression, operation, this);
 
 						historyState.setDisplayState(getCurrentHistoryState().getDisplayState());
 
-						pendingOperation.setObject(null);
+						if (pendingOperation.getObject() == this) {
+							// todo serso: of course there is small probability that someone will set pendingOperation after if statement but before .setObject(null)
+							pendingOperation.setObject(null);
+						}
 					}
 				}
 			}
@@ -182,13 +185,21 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
    		evaluate(false, this.editor.getText().toString(), JsclOperation.simplify);
 	}
 
-	private void evaluate(@Nullable final String expression, @NotNull JsclOperation operation) {
+	private void evaluate(@Nullable final String expression,
+						  @NotNull JsclOperation operation,
+						  @NotNull Runnable currentRunner) {
+
 		if (!StringUtils.isEmpty(expression)) {
 			try {
 				Log.d(CalculatorModel.class.getName(), "Trying to evaluate '" + operation + "': " + expression /*+ StringUtils.fromStackTrace(Thread.currentThread().getStackTrace())*/);
 				final CalculatorEngine.Result result = calculatorEngine.evaluate(operation, expression);
-				display.setText(result.getResult());
-				display.setJsclOperation(result.getUserOperation());
+				if (currentRunner == pendingOperation.getObject()
+						&& expression.equals(this.editor.getText().toString())) {
+					display.setText(result.getResult());
+					display.setJsclOperation(result.getUserOperation());
+				} else {
+					display.setText("");
+				}
 			} catch (EvalError e) {
 				handleEvaluationException(expression, display, operation, e);
 			} catch (ParseException e) {
