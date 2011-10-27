@@ -78,6 +78,9 @@ public enum CalculatorEngine {
 	@NotNull
 	private ThreadKiller threadKiller = new AndroidThreadKiller();
 
+	// calculation thread timeout in milliseconds, after timeout thread would be interrupted
+	private int timeout = 2000;
+
 	@NotNull
 	public String format(@NotNull Double value) {
 		return format(value, true);
@@ -191,7 +194,7 @@ public enum CalculatorEngine {
 
 				try {
 					//Log.d(CalculatorEngine.class.getName(), "Main thread is waiting: " + Thread.currentThread().getName());
-					latch.await(2, TimeUnit.SECONDS);
+					latch.await(timeout, TimeUnit.MILLISECONDS);
 					//Log.d(CalculatorEngine.class.getName(), "Main thread got up: " + Thread.currentThread().getName());
 
 					final ParseException evalErrorLocal = exception.getObject();
@@ -281,30 +284,35 @@ public enum CalculatorEngine {
 		return varsRegister;
 	}
 
+	// for tests
+	void setTimeout(int timeout) {
+		this.timeout = timeout;
+	}
+
 	/*	private String commands(String str) {
-			return commands(str, false);
-		}
-
-
-		private void exec(String str) throws EvalError {
-			interpreter.eval(str);
-		}
-
-		private String eval(String str) throws EvalError {
-			return interpreter.eval(commands(str)).toString();
-		}
-
-		private String commands(String str, boolean found) {
-			for (int i = 0; i < cmds.length; i++) {
-				int n = str.length() - cmds[i].length() - 1;
-				if (n >= 0 && (" " + cmds[i].toLowerCase()).equals(str.substring(n)))
-					return commands(str.substring(0, n), true) + "." + cmds[i] + "()";
+				return commands(str, false);
 			}
-			str = str.replaceAll("\n", "");
-			return found ? "jscl.math.Expression.valueOf(\"" + str + "\")" : str;
-		}
 
-		private static final String cmds[] = new String[]{"expand", "factorize", "elementary", "simplify", "numeric", "toMathML", "toJava"};*/
+
+			private void exec(String str) throws EvalError {
+				interpreter.eval(str);
+			}
+
+			private String eval(String str) throws EvalError {
+				return interpreter.eval(commands(str)).toString();
+			}
+
+			private String commands(String str, boolean found) {
+				for (int i = 0; i < cmds.length; i++) {
+					int n = str.length() - cmds[i].length() - 1;
+					if (n >= 0 && (" " + cmds[i].toLowerCase()).equals(str.substring(n)))
+						return commands(str.substring(0, n), true) + "." + cmds[i] + "()";
+				}
+				str = str.replaceAll("\n", "");
+				return found ? "jscl.math.Expression.valueOf(\"" + str + "\")" : str;
+			}
+
+			private static final String cmds[] = new String[]{"expand", "factorize", "elementary", "simplify", "numeric", "toMathML", "toJava"};*/
 
 	// for tests only
 	void setThreadKiller(@NotNull ThreadKiller threadKiller) {
