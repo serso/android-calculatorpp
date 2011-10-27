@@ -28,7 +28,7 @@
 		For more information please\ncontact the author by email\n<a href="mailto:se.solovyev@gmail.com">se.solovyev@gmail.com</a>
 		\nor visit\n<a href="http://se.solovyev.org">http://se.solovyev.org</a>\n\n
 		If you want to support the project\nyou can donate money via\n<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=se%2esolovyev%40gmail%2ecom&amp;lc=RU&amp;item_name=Android%20Calculator&amp;currency_code=USD&amp;bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted">http://paypal.com</a>\n\n
-		If you like the application rank it with 5 stars in <a href="https://market.android.com/details?id=org.solovyev.android.calculator">android.market</a>
+		If you like the application\nrank it with 5 stars in\n<a href="https://market.android.com/details?id=org.solovyev.android.calculator">android.market</a>
 	</string>
 
 	<string name="c_undo">undo</string>
@@ -79,8 +79,8 @@
 	<string name="c_donate">Donate</string>
 	<string name="c_donate_text">You can thank the author of this program by email\n\n
 		<a href="mailto:se.solovyev@gmail.com">se.solovyev@gmail.com</a>\n\n
-		donating money via\n\n<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=se%2esolovyev%40gmail%2ecom&amp;lc=RU&amp;item_name=Android%20Calculator&amp;currency_code=USD&amp;bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted">http://paypal.com</a>\n
-		or setting 5 stars in <a href="https://market.android.com/details?id=org.solovyev.android.calculator">android.market</a>
+		donating money via\n\n<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=se%2esolovyev%40gmail%2ecom&amp;lc=RU&amp;item_name=Android%20Calculator&amp;currency_code=USD&amp;bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted">http://paypal.com</a>\n\n
+		or setting 5 stars in\n\n<a href="https://market.android.com/details?id=org.solovyev.android.calculator">android.market</a>
 	</string>
 	<string name="c_history">History</string>
 	<string name="c_history_button">M</string>

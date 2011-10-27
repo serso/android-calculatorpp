@@ -60,6 +60,8 @@ public class ColorButton extends Button {
 	private final OnClickListenerVibrator onClickListener;
 
 	private static final float H_TEXT_POSITION_DEFAULT_VALUE = 0.5f;
+
+	// todo serso: check - currently not worked
 	private float hTextPosition = H_TEXT_POSITION_DEFAULT_VALUE;
 
 	public ColorButton(Context context, AttributeSet attrs) {
@@ -204,6 +206,14 @@ public class ColorButton extends Button {
 
 	private void vibrate() {
 	 	this.onClickListener.onClick(this);
+	}
+
+	public float getHTextPosition() {
+		return hTextPosition;
+	}
+
+	public void setHTextPosition(float hTextPosition) {
+		this.hTextPosition = hTextPosition;
 	}
 
 	@Override

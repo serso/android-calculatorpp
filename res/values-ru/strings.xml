@@ -27,7 +27,7 @@
 		За подробной информацией, пожалуйста,\nобращайтесь на почту\n<a href="mailto:se.solovyev@gmail.com">se.solovyev@gmail.com</a>\n
 		или посетите сайт \n<a href="http://se.solovyev.org">http://se.solovyev.org</a>\n\n
 		Если вы хотите поддержать проект материально\nвы можете сделать это через \n<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=se%2esolovyev%40gmail%2ecom&amp;lc=RU&amp;item_name=Android%20Calculator&amp;currency_code=USD&amp;bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted">http://paypal.com</a>\n\n
-		Если вам понравилось приложение - поставте 5 звёздочек в <a href="https://market.android.com/details?id=org.solovyev.android.calculator">андроид.маркете</a>
+		Если вам понравилось приложение -\nпоставте 5 звёздочек в\n<a href="https://market.android.com/details?id=org.solovyev.android.calculator">андроид.маркете</a>
 	</string>
 
 	<string name="c_undo">назад</string>
@@ -78,7 +78,7 @@
 		пожертвовать денег через\n\n
 		<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=se%2esolovyev%40gmail%2ecom&amp;lc=RU&amp;item_name=Android%20Calculator&amp;currency_code=USD&amp;bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted">
 			http://paypal.com</a>\n\n
-		или поставить 5 звёздочек в <a href="https://market.android.com/details?id=org.solovyev.android.calculator">андроид.маркете</a>
+		или поставить 5 звёздочек в\n\n<a href="https://market.android.com/details?id=org.solovyev.android.calculator">андроид.маркете</a>
 	</string>
 
 	<string name="c_history">История</string>
