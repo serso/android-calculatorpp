@@ -145,6 +145,7 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 	private void evaluate(boolean delayEvaluate, @NotNull final String expression, @NotNull final JsclOperation operation, @Nullable CalculatorHistoryState historyState) {
 		final CalculatorHistoryState localHistoryState;
 		if (historyState == null) {
+			this.display.setText("");
 			localHistoryState = getCurrentHistoryState();
 		} else {
 			localHistoryState = historyState;
@@ -160,11 +161,10 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 						// actually nothing shall be logged while text operations are done
 						evaluate(expression, operation, this);
 
-						localHistoryState.setDisplayState(getCurrentHistoryState().getDisplayState());
-
 						if (pendingOperation.getObject() == this) {
 							// todo serso: of course there is small probability that someone will set pendingOperation after if statement but before .setObject(null)
 							pendingOperation.setObject(null);
+							localHistoryState.setDisplayState(getCurrentHistoryState().getDisplayState());
 						}
 					}
 				}
@@ -204,10 +204,10 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 				final CalculatorEngine.Result result = calculatorEngine.evaluate(operation, expression);
 				if (currentRunner == pendingOperation.getObject()) {
 					display.setText(result.getResult());
-					display.setJsclOperation(result.getUserOperation());
 				} else {
 					display.setText("");
 				}
+				display.setJsclOperation(result.getUserOperation());
 			} catch (EvalError e) {
 				handleEvaluationException(expression, display, operation, e);
 			} catch (ParseException e) {
@@ -215,7 +215,10 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 			}
 		} else {
 			this.display.setText("");
+			this.display.setJsclOperation(operation);
 		}
+
+
 
 		this.display.redraw();
 	}
@@ -300,7 +303,7 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 			final String expression = this.editor.getText().toString();
 			if ( !StringUtils.isEmpty(expression) ) {
 				if ( StringUtils.isEmpty(this.display.getText().toString()) ) {
-					evaluate(false, expression, JsclOperation.numeric, editorHistoryState);
+					evaluate(false, expression, this.display.getJsclOperation(), editorHistoryState);
 				}
 			}
 
