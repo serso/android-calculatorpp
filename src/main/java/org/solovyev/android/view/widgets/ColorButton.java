@@ -59,6 +59,9 @@ public class ColorButton extends Button {
 	@NotNull
 	private final OnClickListenerVibrator onClickListener;
 
+	private static final float H_TEXT_POSITION_DEFAULT_VALUE = 0.5f;
+	private float hTextPosition = H_TEXT_POSITION_DEFAULT_VALUE;
+
 	public ColorButton(Context context, AttributeSet attrs) {
 		this(context, attrs, true);
 	}
@@ -106,7 +109,7 @@ public class ColorButton extends Button {
 	private Point2d getTextPosition(@NotNull Paint paint, @NotNull CharSequence text) {
 		final Point2d result = new Point2d();
 
-		result.setX((getWidth() - paint.measureText(text.toString())) / 2);
+		result.setX(hTextPosition * getWidth() - 0.5f * paint.measureText(text.toString()));
 
 		float height = getHeight() - paint.ascent() - paint.descent();
 
