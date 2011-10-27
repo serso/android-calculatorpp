@@ -40,23 +40,17 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.beanshell</groupId>
-			<artifactId>bsh</artifactId>
-			<version>2.0b4</version>
-		</dependency>
-
-		<dependency>
 			<groupId>org.solovyev</groupId>
 			<artifactId>jscl</artifactId>
 			<version>0.0.1</version>
-			<!--<exclusions>
+			<exclusions>
 				<exclusion>
 					<artifactId>xercesImpl</artifactId>
 					<groupId>xerces</groupId>
 				</exclusion>
-			</exclusions>-->
-			<scope>system</scope>
-			<systemPath>${additionalLibs}/jscl.jar</systemPath>
+			</exclusions>
+<!--			<scope>system</scope>
+			<systemPath>${additionalLibs}/jscl.jar</systemPath>-->
 		</dependency>
 
 		<dependency>

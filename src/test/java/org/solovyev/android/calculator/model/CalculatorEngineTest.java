@@ -5,7 +5,6 @@
 
 package org.solovyev.android.calculator.model;
 
-import bsh.EvalError;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -35,21 +34,18 @@ public class CalculatorEngineTest {
 		try {
 			cm.evaluate(JsclOperation.numeric, "3^10^10^10");
 			Assert.fail();
-		} catch (EvalError evalError) {
-			Assert.fail();
 		} catch (ParseException e) {
-			if (e.getMessage().startsWith("Too long calculation")) {
+			if (e.getCause().getMessage().startsWith("Too big")) {
 
 			} else {
+				System.out.print(e.getCause().getMessage());
 				Assert.fail();
 			}
 		}
 
-		final long start = System.currentTimeMillis();
+		/*final long start = System.currentTimeMillis();
 		try {
 			cm.evaluate(JsclOperation.numeric, "3^10^10^10");
-			Assert.fail();
-		} catch (EvalError evalError) {
 			Assert.fail();
 		} catch (ParseException e) {
 			if (e.getMessage().startsWith("Too long calculation")) {
@@ -58,7 +54,7 @@ public class CalculatorEngineTest {
 			} else {
 				Assert.fail();
 			}
-		}
+		}*/
 
 	}
 
@@ -140,10 +136,11 @@ public class CalculatorEngineTest {
 
 		CalculatorEngine.instance.getVarsRegister().addVar(null, new Var.Builder("si", 5d));
 		Assert.assertEquals("5", cm.evaluate(JsclOperation.numeric, "si").getResult());
+
 		try {
 			cm.evaluate(JsclOperation.numeric, "sin");
 			Assert.fail();
-		} catch (EvalError e) {
+		} catch (ParseException e) {
 		}
 	}
 
