@@ -12,7 +12,7 @@
 
 	<!--PREFERENCE ACTIVITY-->
 	<string name="c_prefs_main_category">Основные настройки</string>
-	<string name="c_prefs_calculations_category">Настроцки вычислений</string>
+	<string name="c_prefs_calculations_category">Настройки вычислений</string>
 	<string name="c_prefs_appearance_category">Настройки внешнего вида</string>
 	<string name="c_prefs_drag_button_category">Настройки кнопок</string>
 
@@ -26,7 +26,8 @@
 		Эта программа с открытыми исходным кодом:\nон может быть найден на \n<a href="https://github.com/serso/android_calculator">http://github.com</a>\n\n
 		За подробной информацией, пожалуйста,\nобращайтесь на почту\n<a href="mailto:se.solovyev@gmail.com">se.solovyev@gmail.com</a>\n
 		или посетите сайт \n<a href="http://se.solovyev.org">http://se.solovyev.org</a>\n\n
-		Если вы хотите поддержать проект материально\nвы можете сделать это через \n<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=se%2esolovyev%40gmail%2ecom&amp;lc=RU&amp;item_name=Android%20Calculator&amp;currency_code=USD&amp;bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted">http://paypal.com</a>
+		Если вы хотите поддержать проект материально\nвы можете сделать это через \n<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=se%2esolovyev%40gmail%2ecom&amp;lc=RU&amp;item_name=Android%20Calculator&amp;currency_code=USD&amp;bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted">http://paypal.com</a>\n\n
+		Если вам понравилось приложение - поставте 5 звёздочек в <a href="https://market.android.com/details?id=org.solovyev.android.calculator">андроид.маркете</a>
 	</string>
 
 	<string name="c_undo">назад</string>
@@ -60,12 +61,12 @@
 	<string name="c_sys.var.cannot.be.changed">Системная переменная не может быть изменена!</string>
 
 	<string name="c_pi_description">Отношение длины окружности к диаметру</string>
-	<string name="c_e_description">Вещесвтенное число, такое что производная функции f(x) = e^x в точке x = 0 равно 1</string>
+	<string name="c_e_description">Вещественное число, такое что производная функции f(x) = e^x в точке x = 0 равно 1</string>
 	<string name="c_i_description">Мнимая единица, определённая как i^2 = −1</string>
 	<string name="c_c_description">Скорость света в вакууме, м·с^-1</string>
 	<string name="c_g_description">Гравитационная постоянная, с^3·кг^−1·с^−2</string>
 	<string name="c_h_description">Постоянная Планка - коэффициент, связывающий величину энергии электромагнитного излучения с его частотой, Дж·с</string>
-	<string name="c_h_reduced_description">Привидённая постоянная Планка, Дж·с</string>
+	<string name="c_h_reduced_description">Приведённая постоянная Планка, Дж·с</string>
 	<string name="c_nan_description">Не число</string>
 	<string name="c_infinity_description">Бесконечность</string>
 	<string name="c_calc_editor_hint">Введите новое выражение</string>
@@ -74,9 +75,10 @@
 	<string name="c_donate">Пожертвовать</string>
 	<string name="c_donate_text">Вы можете отблагодарить автора по почте\n\n
 		<a href="mailto:se.solovyev@gmail.com">se.solovyev@gmail.com</a>\n\n
-		или пожертвовать денег через\n\n
+		пожертвовать денег через\n\n
 		<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=se%2esolovyev%40gmail%2ecom&amp;lc=RU&amp;item_name=Android%20Calculator&amp;currency_code=USD&amp;bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted">
-			http://paypal.com</a>\n
+			http://paypal.com</a>\n\n
+		или поставить 5 звёздочек в <a href="https://market.android.com/details?id=org.solovyev.android.calculator">андроид.маркете</a>
 	</string>
 
 	<string name="c_history">История</string>
