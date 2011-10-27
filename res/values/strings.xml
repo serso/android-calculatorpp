@@ -3,7 +3,7 @@
     <string name="c_app_name">Calculator++</string>
 	<string name="c_app_icon_name">Calc++</string>
     <string name="c_app_settings">Settings</string>
-    <string name="c_syntax_error">Syntax error</string>
+    <string name="c_syntax_error">Error</string>
     <string name="c_result_copied">Result copied to clipboard!</string>
 	<string name="c_settings">Settings</string>
 	<string name="c_help">Help</string>
