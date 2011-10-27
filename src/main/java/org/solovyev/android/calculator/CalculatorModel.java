@@ -15,7 +15,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import bsh.EvalError;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.jscl.JsclOperation;
@@ -208,8 +207,6 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 					display.setText("");
 				}
 				display.setJsclOperation(result.getUserOperation());
-			} catch (EvalError e) {
-				handleEvaluationException(expression, display, operation, e);
 			} catch (ParseException e) {
 				handleEvaluationException(expression, display, operation, e);
 			}
