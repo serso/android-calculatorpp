@@ -135,15 +135,20 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 
 			editor.redraw();
 
-			evaluate(delayEvaluate, editorStateAfter, jsclOperation);
+			evaluate(delayEvaluate, editorStateAfter, jsclOperation, null);
 		}
 	}
 
 	@NotNull
 	private final static MutableObject<Runnable> pendingOperation = new MutableObject<Runnable>();
 
-	private void evaluate(boolean delayEvaluate, @NotNull final String expression, @NotNull final JsclOperation operation) {
-		final CalculatorHistoryState historyState = getCurrentHistoryState();
+	private void evaluate(boolean delayEvaluate, @NotNull final String expression, @NotNull final JsclOperation operation, @Nullable CalculatorHistoryState historyState) {
+		final CalculatorHistoryState localHistoryState;
+		if (historyState == null) {
+			localHistoryState = getCurrentHistoryState();
+		} else {
+			localHistoryState = historyState;
+		}
 
 		pendingOperation.setObject(new Runnable() {
 			@Override
@@ -155,7 +160,7 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 						// actually nothing shall be logged while text operations are done
 						evaluate(expression, operation, this);
 
-						historyState.setDisplayState(getCurrentHistoryState().getDisplayState());
+						localHistoryState.setDisplayState(getCurrentHistoryState().getDisplayState());
 
 						if (pendingOperation.getObject() == this) {
 							// todo serso: of course there is small probability that someone will set pendingOperation after if statement but before .setObject(null)
@@ -167,22 +172,26 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 		});
 
 		if (delayEvaluate) {
-			CalculatorHistory.instance.addState(historyState);
+			if (historyState == null) {
+				CalculatorHistory.instance.addState(localHistoryState);
+			}
 			new Handler().postDelayed(pendingOperation.getObject(), EVAL_DELAY_MILLIS);
 		} else {
 			pendingOperation.getObject().run();
-			CalculatorHistory.instance.addState(historyState);
+			if (historyState == null) {
+				CalculatorHistory.instance.addState(localHistoryState);
+			}
 		}
 	}
 
 	@Override
 	public void evaluate() {
-   		evaluate(false, this.editor.getText().toString(), JsclOperation.numeric);
+   		evaluate(false, this.editor.getText().toString(), JsclOperation.numeric, null);
 	}
 
 	@Override
 	public void simplify() {
-   		evaluate(false, this.editor.getText().toString(), JsclOperation.simplify);
+   		evaluate(false, this.editor.getText().toString(), JsclOperation.simplify, null);
 	}
 
 	private void evaluate(@Nullable final String expression,
@@ -193,8 +202,7 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 			try {
 				Log.d(CalculatorModel.class.getName(), "Trying to evaluate '" + operation + "': " + expression /*+ StringUtils.fromStackTrace(Thread.currentThread().getStackTrace())*/);
 				final CalculatorEngine.Result result = calculatorEngine.evaluate(operation, expression);
-				if (currentRunner == pendingOperation.getObject()
-						&& expression.equals(this.editor.getText().toString())) {
+				if (currentRunner == pendingOperation.getObject()) {
 					display.setText(result.getResult());
 					display.setJsclOperation(result.getUserOperation());
 				} else {
@@ -288,6 +296,13 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 			Log.d(this.getClass().getName(), "Saved history found: " + editorHistoryState);
 			setValuesFromHistory(this.editor, editorHistoryState.getEditorState());
 			setValuesFromHistory(this.display, editorHistoryState.getDisplayState());
+
+			final String expression = this.editor.getText().toString();
+			if ( !StringUtils.isEmpty(expression) ) {
+				if ( StringUtils.isEmpty(this.display.getText().toString()) ) {
+					evaluate(false, expression, JsclOperation.numeric, editorHistoryState);
+				}
+			}
 
 			editor.redraw();
 			display.redraw();
