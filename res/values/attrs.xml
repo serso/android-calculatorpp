@@ -4,6 +4,7 @@
 		<attr name="textUp" format="string"/>
 		<attr name="textDown" format="string"/>
 		<attr name="directionTextScale" format="float"/>
+		<attr name="hTextPosition" format="float"/>
 	</declare-styleable>
 
 	<declare-styleable name="NumberRangeSeekBar">
