@@ -129,37 +129,7 @@ public enum MathType {
 		}
 	},
 
-	function(1000, true, true, Functions.allPrefix) {
-		@Override
-		protected String getSubstituteToJscl(@NotNull String match) {
-			final String result;
-
-			if (match.equals(Functions.LN)) {
-				result = Functions.LN_JSCL;
-			} else if (match.equals(Functions.SQRT)) {
-				result = Functions.SQRT_JSCL;
-			} else {
-				result = null;
-			}
-
-			return result;
-		}
-
-		@Override
-		protected String getSubstituteFromJscl(@NotNull String match) {
-			final String result;
-
-			if (match.equals(Functions.LN_JSCL)) {
-				result = Functions.LN;
-			} else if (match.equals(Functions.SQRT_JSCL)) {
-				result = Functions.SQRT;
-			} else {
-				result = null;
-			}
-
-			return result;
-		}
-	},
+	function(1000, true, true, Functions.allPrefix),
 
 	constant(1100, true, true) {
 		@NotNull
@@ -317,7 +287,7 @@ public enum MathType {
 	public final static String POWER_10_JSCL = "10^";
 
 	public static final String IMAGINARY_NUMBER = "i";
-	public static final String IMAGINARY_NUMBER_JSCL = "sqrt(-1)";
+	public static final String IMAGINARY_NUMBER_JSCL = "√(-1)";
 
 	public static final String PI = "π";
 	public static final String E = "e";
