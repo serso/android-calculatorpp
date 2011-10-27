@@ -8,6 +8,7 @@ package org.solovyev.android.calculator.model;
 import android.content.Context;
 import android.content.SharedPreferences;
 import jscl.math.Expression;
+import jscl.text.ParseInterruptedException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.R;
@@ -177,6 +178,9 @@ public enum CalculatorEngine {
 							calculationResult.setObject(finalOperation.evaluate(Expression.valueOf(jsclExpression)));
 						} catch (jscl.text.ParseException e) {
 							exception.setObject(new ParseException(e));
+						} catch (ParseInterruptedException e) {
+							System.out.print("Interrupted!");
+						  // do nothing - we ourselves interrupt the calculations
 						} finally {
 							//Log.d(CalculatorEngine.class.getName(), "Calculation thread ended work: " + thread.getName());
 							calculationThread.setObject(null);
@@ -187,7 +191,7 @@ public enum CalculatorEngine {
 
 				try {
 					//Log.d(CalculatorEngine.class.getName(), "Main thread is waiting: " + Thread.currentThread().getName());
-					latch.await(3000, TimeUnit.SECONDS);
+					latch.await(2, TimeUnit.SECONDS);
 					//Log.d(CalculatorEngine.class.getName(), "Main thread got up: " + Thread.currentThread().getName());
 
 					final ParseException evalErrorLocal = exception.getObject();

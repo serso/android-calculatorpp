@@ -18,6 +18,7 @@ import java.util.Locale;
  * Date: 9/17/11
  * Time: 9:47 PM
  */
+
 public class CalculatorEngineTest {
 
 	@BeforeClass
@@ -35,7 +36,7 @@ public class CalculatorEngineTest {
 			cm.evaluate(JsclOperation.numeric, "3^10^10^10");
 			Assert.fail();
 		} catch (ParseException e) {
-			if (e.getCause().getMessage().startsWith("Too big")) {
+			if (e.getMessage().startsWith("Too long calculation")) {
 
 			} else {
 				System.out.print(e.getCause().getMessage());
