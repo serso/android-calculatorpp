@@ -7,8 +7,7 @@ package org.solovyev.android.calculator.model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import bsh.EvalError;
-import bsh.Interpreter;
+import jscl.math.Expression;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.R;
@@ -49,9 +48,6 @@ public enum CalculatorEngine {
 
 	public static final String RESULT_PRECISION_P_KEY = "org.solovyev.android.calculator.CalculatorModel_result_precision";
 	public static final String RESULT_PRECISION_DEFAULT = "5";
-
-	@NotNull
-	private Interpreter interpreter;
 
 	@NotNull
 	private final Object lock = new Object();
@@ -131,13 +127,13 @@ public enum CalculatorEngine {
 	}
 
 	public Result evaluate(@NotNull JsclOperation operation,
-						   @NotNull String expression) throws EvalError, ParseException {
+						   @NotNull String expression) throws ParseException {
 		return evaluate(operation, expression, null);
 	}
 
 	public Result evaluate(@NotNull JsclOperation operation,
 						   @NotNull String expression,
-						   @Nullable MessageRegistry<AndroidMessage> mr) throws EvalError, ParseException {
+						   @Nullable MessageRegistry<AndroidMessage> mr) throws ParseException {
 		synchronized (lock) {
 			final StringBuilder sb = new StringBuilder();
 
@@ -160,12 +156,13 @@ public enum CalculatorEngine {
 				}
 			}
 
-			final String jsclExpression = ToJsclTextProcessor.wrap(operation, sb.toString());
+			final String jsclExpression = sb.toString();
+			final JsclOperation finalOperation = operation;
 
 			final String result;
 			if (!tooLongExecutionCache.contains(jsclExpression)) {
 				final MutableObject<Object> calculationResult = new MutableObject<Object>(null);
-				final MutableObject<EvalError> exception = new MutableObject<EvalError>(null);
+				final MutableObject<ParseException> exception = new MutableObject<ParseException>(null);
 				final MutableObject<Thread> calculationThread = new MutableObject<Thread>(null);
 
 				final CountDownLatch latch = new CountDownLatch(1);
@@ -177,9 +174,9 @@ public enum CalculatorEngine {
 						try {
 							//Log.d(CalculatorEngine.class.getName(), "Calculation thread started work: " + thread.getName());
 							calculationThread.setObject(thread);
-							calculationResult.setObject(interpreter.eval(jsclExpression));
-						} catch (EvalError evalError) {
-							exception.setObject(evalError);
+							calculationResult.setObject(finalOperation.evaluate(Expression.valueOf(jsclExpression)));
+						} catch (jscl.text.ParseException e) {
+							exception.setObject(new ParseException(e));
 						} finally {
 							//Log.d(CalculatorEngine.class.getName(), "Calculation thread ended work: " + thread.getName());
 							calculationThread.setObject(null);
@@ -190,10 +187,10 @@ public enum CalculatorEngine {
 
 				try {
 					//Log.d(CalculatorEngine.class.getName(), "Main thread is waiting: " + Thread.currentThread().getName());
-					latch.await(3, TimeUnit.SECONDS);
+					latch.await(3000, TimeUnit.SECONDS);
 					//Log.d(CalculatorEngine.class.getName(), "Main thread got up: " + Thread.currentThread().getName());
 
-					final EvalError evalErrorLocal = exception.getObject();
+					final ParseException evalErrorLocal = exception.getObject();
 					final Object calculationResultLocal = calculationResult.getObject();
 					final Thread calculationThreadLocal = calculationThread.getObject();
 
@@ -201,7 +198,6 @@ public enum CalculatorEngine {
 						// todo serso: interrupt doesn't stop the thread but it MUST be killed
 						threadKiller.killThread(calculationThreadLocal);
 						//calculationThreadLocal.stop();
-						resetInterpreter();
 					}
 
 					if ( evalErrorLocal != null ) {
@@ -242,10 +238,9 @@ public enum CalculatorEngine {
 		this.roundResult = roundResult;
 	}
 
-	public void init(@Nullable Context context, @Nullable SharedPreferences preferences) throws EvalError {
+	public void init(@Nullable Context context, @Nullable SharedPreferences preferences) {
 		synchronized (lock) {
 			reset(context, preferences);
-			resetInterpreter();
 		}
 	}
 
@@ -267,17 +262,6 @@ public enum CalculatorEngine {
 			}
 
 			varsRegister.init(context, preferences);
-		}
-	}
-
-	public void resetInterpreter() {
-		synchronized (lock) {
-			try {
-				interpreter = new Interpreter();
-				interpreter.eval(ToJsclTextProcessor.wrap(JsclOperation.importCommands, "/jscl/editorengine/commands"));
-			} catch (EvalError evalError) {
-				throw new RuntimeException(evalError);
-			}
 		}
 	}
 

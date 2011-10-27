@@ -22,7 +22,6 @@ import android.view.*;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import bsh.EvalError;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.math.MathType;
@@ -257,11 +256,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 				}
 			}
 
-			try {
-				CalculatorEngine.instance.init(this, preferences);
-			} catch (EvalError evalError) {
-				throw new RuntimeException("Could not initialize interpreter!");
-			}
+			CalculatorEngine.instance.init(this, preferences);
 			initialized = true;
 		}
 	}
