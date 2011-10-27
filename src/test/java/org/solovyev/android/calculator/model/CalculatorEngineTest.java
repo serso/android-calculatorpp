@@ -117,6 +117,14 @@ public class CalculatorEngineTest {
 				junit.framework.Assert.fail();
 			}
 		}
+
+		try {
+			cm.setTimeout(5000);
+			Assert.assertEquals("2", cm.evaluate(JsclOperation.numeric, "2!").getResult());
+		} finally {
+			cm.setTimeout(2000);
+		}
+
 	}
 
 	@Test
