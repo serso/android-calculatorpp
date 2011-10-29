@@ -49,49 +49,8 @@ public enum MathType {
 		}
 	},
 
-	postfix_function(400, true, true, Functions.allPostfix) {
-
-		@Override
-		protected String getSubstituteToJscl(@NotNull String match) {
-			final String result;
-
-			if (match.equals(Functions.DEGREE)) {
-				result = PI + "/180";
-			} else {
-				result = null;
-			}
-
-			return result;
-		}
-
-/*		@Override
-		public int processToJscl(@NotNull StringBuilder result, int i, @NotNull String match) throws ParseException {
-			if (result.length() > 0) {
-				int startOfPrefixFunction = getPostfixFunctionStart(result, result.length() - 1);
-				if (result.length() > startOfPrefixFunction) {
-					startOfPrefixFunction = Math.max(0, startOfPrefixFunction);
-					final String substring = result.substring(startOfPrefixFunction);
-					result.setCharAt(startOfPrefixFunction, '(');
-					for ( int j = 0; j < substring.length(); j++ ){
-						if (result.length() > startOfPrefixFunction + 1 + j) {
-							result.setCharAt(startOfPrefixFunction + 1 + j, substring.charAt(j));
-						} else {
-							result.append(substring.charAt(j));
-						}
-					}
-				} else {
-					result.append('(');
-				}
-				super.processToJscl(result, i, match);
-				result.append(")");
-			} else {
-				throw new ParseException("Could not find start of prefix function!");
-			}
-
-			return returnI(i, match);
-		}*/
-	},
-	unary_operation(500, false, false, "-", "=", "!"),
+	postfix_function(400, false, true, Functions.allPostfix),
+	unary_operation(500, false, false, "-", "="),
 	binary_operation(600, false, false, "-", "+", "*", "×", "∙", "/", "^") {
 		@Override
 		protected String getSubstituteToJscl(@NotNull String match) {

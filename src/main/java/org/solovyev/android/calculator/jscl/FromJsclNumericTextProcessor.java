@@ -41,8 +41,6 @@ class FromJsclNumericTextProcessor implements TextProcessor<String> {
 					throw new ParseException(e);
 				}
 
-			} else {
-				throw new ParseException(e);
 			}
 		}
 
