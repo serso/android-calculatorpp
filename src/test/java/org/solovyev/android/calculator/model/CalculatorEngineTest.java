@@ -110,6 +110,7 @@ public class CalculatorEngineTest {
 		junit.framework.Assert.assertEquals("24", cm.evaluate(JsclOperation.numeric, "(2.0+2.0)!").getResult());
 		junit.framework.Assert.assertEquals("24", cm.evaluate(JsclOperation.numeric, "4.0!").getResult());
 		junit.framework.Assert.assertEquals("36.0", Expression.valueOf("3!^2").numeric().toString());
+		junit.framework.Assert.assertEquals("3.0", Expression.valueOf("cubic(27)").numeric().toString());
 		try {
 			junit.framework.Assert.assertEquals("i", cm.evaluate(JsclOperation.numeric, "i!").getResult());
 			fail();
@@ -211,11 +212,46 @@ public class CalculatorEngineTest {
 		Assert.assertEquals("12'345'678.899999999", cm.evaluate(JsclOperation.numeric, "1.23456789E7").getResult());
 		Assert.assertEquals("123'456'788.99999999", cm.evaluate(JsclOperation.numeric, "1.234567890E8").getResult());
 		Assert.assertEquals("1'234'567'890.1", cm.evaluate(JsclOperation.numeric, "1.2345678901E9").getResult());
+	}
 
+	@Test
+	public void testComparisonFunction() throws Exception {
+		final CalculatorEngine cm = CalculatorEngine.instance;
+
+		Assert.assertEquals("0", cm.evaluate(JsclOperation.numeric, "eq(0, 1)").getResult());
+		Assert.assertEquals("1", cm.evaluate(JsclOperation.numeric, "eq(1, 1)").getResult());
+		Assert.assertEquals("1", cm.evaluate(JsclOperation.numeric, "eq(1, 1.0)").getResult());
+		Assert.assertEquals("0", cm.evaluate(JsclOperation.numeric, "eq(1, 1.000000000000001)").getResult());
+		Assert.assertEquals("0", cm.evaluate(JsclOperation.numeric, "eq(1, 0)").getResult());
+
+		Assert.assertEquals("1", cm.evaluate(JsclOperation.numeric, "lt(0, 1)").getResult());
+		Assert.assertEquals("0", cm.evaluate(JsclOperation.numeric, "lt(1, 1)").getResult());
+		Assert.assertEquals("0", cm.evaluate(JsclOperation.numeric, "lt(1, 0)").getResult());
+
+		Assert.assertEquals("0", cm.evaluate(JsclOperation.numeric, "gt(0, 1)").getResult());
+		Assert.assertEquals("0", cm.evaluate(JsclOperation.numeric, "gt(1, 1)").getResult());
+		Assert.assertEquals("1", cm.evaluate(JsclOperation.numeric, "gt(1, 0)").getResult());
+
+		Assert.assertEquals("1", cm.evaluate(JsclOperation.numeric, "ne(0, 1)").getResult());
+		Assert.assertEquals("0", cm.evaluate(JsclOperation.numeric, "ne(1, 1)").getResult());
+		Assert.assertEquals("1", cm.evaluate(JsclOperation.numeric, "ne(1, 0)").getResult());
+
+		Assert.assertEquals("1", cm.evaluate(JsclOperation.numeric, "le(0, 1)").getResult());
+		Assert.assertEquals("1", cm.evaluate(JsclOperation.numeric, "le(1, 1)").getResult());
+		Assert.assertEquals("0", cm.evaluate(JsclOperation.numeric, "le(1, 0)").getResult());
+
+		Assert.assertEquals("0", cm.evaluate(JsclOperation.numeric, "ge(0, 1)").getResult());
+		Assert.assertEquals("1", cm.evaluate(JsclOperation.numeric, "ge(1, 1)").getResult());
+		Assert.assertEquals("1", cm.evaluate(JsclOperation.numeric, "ge(1, 0)").getResult());
+
+		Assert.assertEquals("0", cm.evaluate(JsclOperation.numeric, "ap(0, 1)").getResult());
+		Assert.assertEquals("1", cm.evaluate(JsclOperation.numeric, "ap(1, 1)").getResult());
+		//Assert.assertEquals("1", cm.evaluate(JsclOperation.numeric, "ap(1, 1.000000000000001)").getResult());
+		Assert.assertEquals("0", cm.evaluate(JsclOperation.numeric, "ap(1, 0)").getResult());
 
 	}
 
-/*	@Test
+	/*	@Test
 	public void testDegrees() throws Exception {
 		final CalculatorEngine cm = CalculatorEngine.instance;
 
