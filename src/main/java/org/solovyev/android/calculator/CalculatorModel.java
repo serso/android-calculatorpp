@@ -239,6 +239,10 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 	}
 
 	public void processDigitButtonAction(@Nullable final String text) {
+		processDigitButtonAction(text, true);
+	}
+
+	public void processDigitButtonAction(@Nullable final String text, boolean delayEvaluate) {
 		//Toast.makeText(CalculatorActivity.this, text, Toast.LENGTH_SHORT).show();
 
 		if (!StringUtils.isEmpty(text)) {
@@ -268,7 +272,7 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 					editor.getText().insert(editor.getSelectionStart(), textToBeInserted.toString());
 					editor.setSelection(editor.getSelectionStart() + cursorPositionOffset, editor.getSelectionEnd() + cursorPositionOffset);
 				}
-			});
+			}, delayEvaluate);
 		}
 	}
 

@@ -116,5 +116,6 @@
 
 	<string name="p_calc_haptic_feedback_duration_title">Длительность отклика</string>
 	<string name="p_calc_haptic_feedback_duration_summary">Длительность вибрации по нажатию клавиши</string>
+	<string name="c_functions">Функции</string>
 
 </resources>

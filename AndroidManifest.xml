@@ -7,8 +7,8 @@
 
 	<uses-permission a:name="android.permission.VIBRATE"/>
 
-	<uses-sdk 	a:minSdkVersion="4"
-				a:targetSdkVersion="8"/>
+	<uses-sdk a:minSdkVersion="4"
+			  a:targetSdkVersion="8"/>
 
 	<application a:icon="@drawable/icon"
 				 a:label="@string/c_app_name">
@@ -35,6 +35,11 @@
 		<activity a:name=".AboutActivity"
 				  a:label="@string/c_about"
 				  a:configChanges="orientation|keyboardHidden"/>
+
+		<activity a:name=".CalculatorFunctionsActivity"
+				  a:label="@string/c_functions"
+				  a:configChanges="orientation|keyboardHidden">
+		</activity>
 
 		<activity a:name=".CalculatorVarsActivity"
 				  a:label="@string/c_vars_and_constants"
