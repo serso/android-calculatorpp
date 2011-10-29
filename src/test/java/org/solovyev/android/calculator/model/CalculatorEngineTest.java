@@ -63,6 +63,7 @@ public class CalculatorEngineTest {
 	public void testEvaluate() throws Exception {
 		final CalculatorEngine cm = CalculatorEngine.instance;
 
+		Assert.assertEquals("1", cm.evaluate(JsclOperation.numeric, "lg(10)").getResult());
 		Assert.assertEquals("4", cm.evaluate(JsclOperation.numeric, "2+2").getResult());
 		Assert.assertEquals("-0.757", cm.evaluate(JsclOperation.numeric, "sin(4)").getResult());
 		Assert.assertEquals("0.524", cm.evaluate(JsclOperation.numeric, "asin(0.5)").getResult());

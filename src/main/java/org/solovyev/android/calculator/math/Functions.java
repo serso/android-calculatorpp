@@ -33,7 +33,7 @@ public class Functions {
 	public final static String ATANH = "atanh";
 
 	public final static String LN = "ln";
-	public final static String LOG = "log";
+	public final static String LG = "lg";
 
 	public final static String MOD = "mod";
 	public final static String EXP = "exp";
@@ -43,7 +43,7 @@ public class Functions {
 	public static final List<String> allPrefix;
 
 	static {
-		final List<String> functions = new ArrayList<String>(Arrays.asList(SIN, SINH, ASIN, ASINH, COS, COSH, ACOS, ACOSH, TAN, TANH, ATAN, ATANH, LN, LOG, MOD, SQRT, EXP));
+		final List<String> functions = new ArrayList<String>(Arrays.asList(SIN, SINH, ASIN, ASINH, COS, COSH, ACOS, ACOSH, TAN, TANH, ATAN, ATANH, LN, LG, MOD, SQRT, EXP));
 		Collections.sort(functions, new MathEntityComparator());
 		allPrefix = functions;
 	}
