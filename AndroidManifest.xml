@@ -2,8 +2,8 @@
 
 <manifest xmlns:a="http://schemas.android.com/apk/res/android"
 		  package="org.solovyev.android.calculator"
-		  a:versionCode="6"
-		  a:versionName="1.1.4">
+		  a:versionCode="7"
+		  a:versionName="1.1.5">
 
 	<uses-permission a:name="android.permission.VIBRATE"/>
 
