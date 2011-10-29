@@ -20,6 +20,7 @@ public class Functions {
 	}
 
 	public final static String DEGREE = "°";
+	public final static String FACTORIAL = "!";
 
-	public static final List<String> allPostfix = Arrays.asList(DEGREE);
+	public static final List<String> allPostfix = Arrays.asList(FACTORIAL, DEGREE);
 }
