@@ -13,6 +13,8 @@ import org.solovyev.android.calculator.jscl.JsclOperation;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
+import static junit.framework.Assert.fail;
+
 /**
  * User: serso
  * Date: 9/17/11
@@ -34,6 +36,18 @@ public class CalculatorEngineTest {
 
 		try {
 			cm.evaluate(JsclOperation.numeric, "3^10^10^10");
+			Assert.fail();
+		} catch (ParseException e) {
+			if (e.getMessage().startsWith("Too long calculation")) {
+
+			} else {
+				System.out.print(e.getCause().getMessage());
+				Assert.fail();
+			}
+		}
+
+		try {
+			cm.evaluate(JsclOperation.numeric, "9999999!");
 			Assert.fail();
 		} catch (ParseException e) {
 			if (e.getMessage().startsWith("Too long calculation")) {
@@ -88,6 +102,29 @@ public class CalculatorEngineTest {
 		Assert.assertEquals("-2+2.1i", cm.evaluate(JsclOperation.numeric, "-2+2.1i").getResult());
 		Assert.assertEquals("-3.41+3.41i", cm.evaluate(JsclOperation.numeric, "(5tan(2i)+2i)/(1-i)").getResult());
 		Assert.assertEquals("-0.1-0.2i", cm.evaluate(JsclOperation.numeric, "(1-i)/(2+6i)").getResult());
+		
+		junit.framework.Assert.assertEquals("24", cm.evaluate(JsclOperation.numeric, "4!").getResult());
+		junit.framework.Assert.assertEquals("24", cm.evaluate(JsclOperation.numeric, "(2+2)!").getResult());
+		junit.framework.Assert.assertEquals("120", cm.evaluate(JsclOperation.numeric, "(2+2+1)!").getResult());
+		junit.framework.Assert.assertEquals("24", cm.evaluate(JsclOperation.numeric, "(2.0+2.0)!").getResult());
+		junit.framework.Assert.assertEquals("24", cm.evaluate(JsclOperation.numeric, "4.0!").getResult());
+		try {
+			junit.framework.Assert.assertEquals("i", cm.evaluate(JsclOperation.numeric, "i!").getResult());
+			fail();
+		} catch (ParseException e) {
+		}
+		try {
+			junit.framework.Assert.assertEquals("i", cm.evaluate(JsclOperation.numeric, "π/π!").getResult());
+			fail();
+		} catch (ParseException e) {
+		}
+		try {
+			junit.framework.Assert.assertEquals("i", cm.evaluate(JsclOperation.numeric, "(-1)i!").getResult());
+			fail();
+		} catch (ParseException e) {
+
+		}
+		junit.framework.Assert.assertEquals("24i", cm.evaluate(JsclOperation.numeric, "4!i").getResult());
 
 		CalculatorEngine.instance.getVarsRegister().add(null, new Var.Builder("si", 5d));
 
@@ -111,7 +148,7 @@ public class CalculatorEngineTest {
 		Assert.assertEquals("-t+t^3", cm.evaluate(JsclOperation.numeric, "t(t-1)(t+1)").getResult());
 
 
-		Assert.assertEquals("0.524", cm.evaluate(JsclOperation.numeric, "30°").getResult());
+	/*	Assert.assertEquals("0.524", cm.evaluate(JsclOperation.numeric, "30°").getResult());
 		Assert.assertEquals("0.524", cm.evaluate(JsclOperation.numeric, "(10+20)°").getResult());
 		Assert.assertEquals("1.047", cm.evaluate(JsclOperation.numeric, "(10+20)°*2").getResult());
 		try {
@@ -121,7 +158,7 @@ public class CalculatorEngineTest {
 			if ( !e.getMessage().equals("Power operation after postfix function is currently unsupported!") ) {
 				junit.framework.Assert.fail();
 			}
-		}
+		}*/
 
 /*		try {
 			cm.setTimeout(5000);

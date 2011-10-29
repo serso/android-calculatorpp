@@ -183,14 +183,17 @@ public enum CalculatorEngine {
 						final Thread thread = Thread.currentThread();
 						try {
 							//Log.d(CalculatorEngine.class.getName(), "Calculation thread started work: " + thread.getName());
+							//System.out.println(jsclExpression);
 							calculationThread.setObject(thread);
 							calculationResult.setObject(finalOperation.evaluate(Expression.valueOf(jsclExpression)));
 						} catch (ArithmeticException e) {
+							//System.out.println(e.getMessage());
 							exception.setObject(new ParseException(e.getMessage(), e));
 						} catch (jscl.text.ParseException e) {
+							//System.out.println(e.getMessage());
 							exception.setObject(new ParseException(e.getMessage(), e));
 						} catch (ParseInterruptedException e) {
-							System.out.print("Interrupted!");
+							//System.out.println(e.getMessage());
 						  // do nothing - we ourselves interrupt the calculations
 						} finally {
 							//Log.d(CalculatorEngine.class.getName(), "Calculation thread ended work: " + thread.getName());
