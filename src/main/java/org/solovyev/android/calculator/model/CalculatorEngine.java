@@ -8,6 +8,8 @@ package org.solovyev.android.calculator.model;
 import android.content.Context;
 import android.content.SharedPreferences;
 import jscl.math.Expression;
+import jscl.math.function.Function;
+import jscl.math.function.FunctionsRegistry;
 import jscl.text.ParseInterruptedException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -15,6 +17,7 @@ import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.msg.AndroidMessage;
 import org.solovyev.common.NumberMapper;
+import org.solovyev.common.math.MathRegistry;
 import org.solovyev.common.msg.MessageRegistry;
 import org.solovyev.common.msg.MessageType;
 import org.solovyev.common.utils.CollectionsUtils;
@@ -61,7 +64,10 @@ public enum CalculatorEngine {
 	public final TextProcessor<PreparedExpression> preprocessor = new ToJsclTextProcessor();
 
 	@NotNull
-	private final VarsRegisterImpl varsRegister = new VarsRegisterImpl();
+	private final AndroidVarsRegistry varsRegister = new AndroidVarsRegistryImpl();
+
+	@NotNull
+	private final MathRegistry<Function> functionsRegistry = FunctionsRegistry.getInstance();
 
 	@NotNull
 	private final static Set<String> tooLongExecutionCache = new HashSet<String>();
@@ -180,9 +186,9 @@ public enum CalculatorEngine {
 							calculationThread.setObject(thread);
 							calculationResult.setObject(finalOperation.evaluate(Expression.valueOf(jsclExpression)));
 						} catch (ArithmeticException e) {
-							exception.setObject(new ParseException(e));
+							exception.setObject(new ParseException(e.getMessage(), e));
 						} catch (jscl.text.ParseException e) {
-							exception.setObject(new ParseException(e));
+							exception.setObject(new ParseException(e.getMessage(), e));
 						} catch (ParseInterruptedException e) {
 							System.out.print("Interrupted!");
 						  // do nothing - we ourselves interrupt the calculations
@@ -282,8 +288,13 @@ public enum CalculatorEngine {
 	}
 
 	@NotNull
-	public VarsRegister getVarsRegister() {
+	public AndroidVarsRegistry getVarsRegister() {
 		return varsRegister;
+	}
+
+	@NotNull
+	public MathRegistry<Function> getFunctionsRegistry() {
+		return functionsRegistry;
 	}
 
 	// for tests

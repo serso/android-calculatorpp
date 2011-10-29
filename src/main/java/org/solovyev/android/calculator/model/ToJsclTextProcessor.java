@@ -43,7 +43,7 @@ class ToJsclTextProcessor implements TextProcessor<PreparedExpression> {
 				}
 			}
 
-			if (mathTypeBefore == MathType.function && CollectionsUtils.get(MathType.openGroupSymbols, startsWithFinder) != null) {
+			if (mathTypeBefore == MathType.function && CollectionsUtils.find(MathType.openGroupSymbols, startsWithFinder) != null) {
 				throw new ParseException("Empty function: " + mathTypeResult.getMatch());
 			} else if (mathTypeBefore == MathType.postfix_function && mathTypeResult.getMathType() == MathType.binary_operation) {
 				if ( mathTypeResult.getMatch().equals("^") ) {
@@ -68,11 +68,11 @@ class ToJsclTextProcessor implements TextProcessor<PreparedExpression> {
 			startsWithFinder.setI(i);
 
 			int offset = 0;
-			String functionName = CollectionsUtils.get(MathType.function.getTokens(), startsWithFinder);
+			String functionName = CollectionsUtils.find(MathType.function.getTokens(), startsWithFinder);
 			if (functionName == null) {
-				String varName = CollectionsUtils.get(CalculatorEngine.instance.getVarsRegister().getVarNames(), startsWithFinder);
+				String varName = CollectionsUtils.find(CalculatorEngine.instance.getVarsRegister().getNames(), startsWithFinder);
 				if (varName != null) {
-					final Var var = CalculatorEngine.instance.getVarsRegister().getVar(varName);
+					final Var var = CalculatorEngine.instance.getVarsRegister().get(varName);
 					if (var != null) {
 						if (var.isUndefined()) {
 							undefinedVars.add(var);
