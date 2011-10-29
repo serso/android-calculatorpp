@@ -118,4 +118,26 @@
 	<string name="p_calc_haptic_feedback_duration_summary">Длительность вибрации по нажатию клавиши</string>
 	<string name="c_functions">Функции</string>
 
+	<string name="c_fun_description_sin">Тригонометрическая функция синус.</string>
+	<string name="c_fun_description_cos">Тригонометрическая функция косинус.</string>
+	<string name="c_fun_description_tan">Тригонометрическая функция тангенс.</string>
+	<string name="c_fun_description_cot">Тригонометрическая функция котангенс.</string>
+	<string name="c_fun_description_asin">Арксинус - обратная функция к синусу.</string>
+	<string name="c_fun_description_acos">Арккосинус - обратная функция к косинусу.</string>
+	<string name="c_fun_description_atan">Арктангенс - обратная функция к тангенсу.</string>
+	<string name="c_fun_description_acot">Арккотангенс - обратная функция к котангенсу.</string>
+	<string name="c_fun_description_ln">Натуральный логарифм - логарифм по основанию e.</string>
+	<string name="c_fun_description_lg">Десятичный логарифм - логарифм по основанию 10.</string>
+	<string name="c_fun_description_exp">Экспонента.</string>
+	<string name="c_fun_description_sqrt">Функция квадратного корня.</string>
+	<string name="c_fun_description_cubic">Функция кубического корня.</string>
+	<string name="c_fun_description_abs">Модуль.</string>
+	<string name="c_fun_description_sgn">Знак - возвращает знак аргумента: -1, если аргумент меньше0, 0, если равен 0, 1, если больше 0.</string>
+	<string name="c_fun_description_eq">Равно - возвращает 1, если два аргумента равны, иначе 0.</string>
+	<string name="c_fun_description_le">Меньше-либо-равно - возвращает 1, если два аргумента равны или первое меньше второго, иначе 0.</string>
+	<string name="c_fun_description_ge">Больше-либо-равно - возвращает 1 если два аргумента равны или первое больше второго, иначе 0.</string>
+	<string name="c_fun_description_ne">Не-равно - возвращает 1, если два аргумента не равны, иначе 0.</string>
+	<string name="c_fun_description_lt">Меньше - возвращает 1, если первый аргумент меньше второго, иначе 0.</string>
+	<string name="c_fun_description_gt">Больше - возвращает 1, если первый аргумент больше второго, иначе 0.</string>
+
 </resources>
