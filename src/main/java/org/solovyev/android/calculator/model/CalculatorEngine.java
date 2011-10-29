@@ -179,6 +179,8 @@ public enum CalculatorEngine {
 							//Log.d(CalculatorEngine.class.getName(), "Calculation thread started work: " + thread.getName());
 							calculationThread.setObject(thread);
 							calculationResult.setObject(finalOperation.evaluate(Expression.valueOf(jsclExpression)));
+						} catch (ArithmeticException e) {
+							exception.setObject(new ParseException(e));
 						} catch (jscl.text.ParseException e) {
 							exception.setObject(new ParseException(e));
 						} catch (ParseInterruptedException e) {
