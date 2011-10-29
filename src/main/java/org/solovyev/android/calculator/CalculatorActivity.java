@@ -48,9 +48,6 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	private final Announcer<DragPreferencesChangeListener> dpclRegister = new Announcer<DragPreferencesChangeListener>(DragPreferencesChangeListener.class);
 
 	@NotNull
-	private final static Map<Class<?>, Map<String, Integer>> caches = new HashMap<Class<?>, Map<String, Integer>>(3);
-
-	@NotNull
 	private CalculatorModel calculatorModel;
 
 	private volatile boolean initialized;
@@ -178,7 +175,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 
 	private synchronized void setLayout(@NotNull SharedPreferences preferences) {
-		final Map<String, Integer> layouts = getCache(R.layout.class);
+		final Map<String, Integer> layouts = RClassUtils.getCache(R.layout.class);
 
 		layoutName = preferences.getString(getString(R.string.p_calc_layout_key), getString(R.string.p_calc_layout));
 
@@ -194,7 +191,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	}
 
 	private synchronized void setTheme(@NotNull SharedPreferences preferences) {
-		final Map<String, Integer> styles = getCache(R.style.class);
+		final Map<String, Integer> styles = RClassUtils.getCache(R.style.class);
 
 		themeName = preferences.getString(getString(R.string.p_calc_theme_key), getString(R.string.p_calc_theme));
 
@@ -207,30 +204,6 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		}
 
 		setTheme(styleId);
-	}
-
-	@NotNull
-	private static Map<String, Integer> getCache(@NotNull Class<?> clazz) {
-		Map<String, Integer> result = caches.get(clazz);
-
-		if (result == null) {
-			result = new HashMap<String, Integer>();
-
-			for (Field field : clazz.getDeclaredFields()) {
-				int modifiers = field.getModifiers();
-				if (Modifier.isFinal(modifiers) && Modifier.isStatic(modifiers)) {
-					try {
-						result.put(field.getName(), field.getInt(R.style.class));
-					} catch (IllegalAccessException e) {
-						Log.e(CalculatorActivity.class.getName(), e.getMessage());
-					}
-				}
-			}
-
-			caches.put(clazz, result);
-		}
-
-		return result;
 	}
 
 	private synchronized void firstTimeInit(@NotNull SharedPreferences preferences) {

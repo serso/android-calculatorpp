@@ -43,8 +43,6 @@ public class CalculatorFunctionsActivity extends ListActivity{
 		final ListView lv = getListView();
 		lv.setTextFilterEnabled(true);
 
-
-
 		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			public void onItemClick(final AdapterView<?> parent,
 									final View view,
@@ -71,7 +69,8 @@ public class CalculatorFunctionsActivity extends ListActivity{
 
 			final Function function = getItem(position);
 
-			if (!StringUtils.isEmpty(function.getDescription())) {
+			final String functionDescription = CalculatorEngine.instance.getFunctionsRegistry().getDescription(getContext(), function.getName());
+			if (!StringUtils.isEmpty(functionDescription)) {
 				TextView description = (TextView) result.findViewById(R.id.var_description);
 				if (description == null) {
 					final LayoutInflater layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -80,7 +79,7 @@ public class CalculatorFunctionsActivity extends ListActivity{
 					itemView.removeView(description);
 					result.addView(description);
 				}
-				description.setText(function.getDescription());
+				description.setText(functionDescription);
 			} else {
 				TextView description = (TextView) result.findViewById(R.id.var_description);
 				if (description != null) {
