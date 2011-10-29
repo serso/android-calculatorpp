@@ -40,6 +40,12 @@
 				a:title="@string/c_calc_haptic_feedback_title"
 				a:defaultValue="false"/>
 
+		<ListPreference a:key="@string/p_calc_haptic_feedback_duration_key"
+						a:title="@string/p_calc_haptic_feedback_duration_title"
+						a:entries="@array/p_calc_haptic_feedback_duration_names"
+						a:summary="@string/p_calc_haptic_feedback_duration_summary"
+						a:entryValues="@array/p_calc_haptic_feedback_duration_values"/>
+
 		<ListPreference a:key="@string/p_calc_theme_key"
 						a:title="@string/c_calc_theme"
 						a:entries="@array/p_theme_names"
