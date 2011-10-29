@@ -333,6 +333,11 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	}
 
 	@SuppressWarnings({"UnusedDeclaration"})
+	public void functionsButtonClickHandler(@NotNull View v) {
+		startActivity(new Intent(this, CalculatorFunctionsActivity.class));
+	}
+
+	@SuppressWarnings({"UnusedDeclaration"})
 	public void varsButtonClickHandler(@NotNull View v) {
 		startActivity(new Intent(this, CalculatorVarsActivity.class));
 	}
