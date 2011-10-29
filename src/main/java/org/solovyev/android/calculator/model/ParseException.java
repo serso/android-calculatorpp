@@ -15,8 +15,15 @@ import org.solovyev.common.exceptions.SersoException;
 */
 public class ParseException extends SersoException {
 
+	public ParseException() {
+	}
+
 	public ParseException(String message) {
 		super(message);
+	}
+
+	public ParseException(String message, Throwable cause) {
+		super(message, cause);
 	}
 
 	public ParseException(Throwable cause) {

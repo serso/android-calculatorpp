@@ -7,7 +7,6 @@ package org.solovyev.android.calculator.math;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.CharacterAtPositionFinder;
 import org.solovyev.android.calculator.StartsWithFinder;
 import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.calculator.model.ParseException;
@@ -19,7 +18,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import static org.solovyev.common.utils.CollectionsUtils.get;
 
 public enum MathType {
 
@@ -129,13 +127,19 @@ public enum MathType {
 		}
 	},
 
-	function(1000, true, true, Functions.allPrefix),
+	function(1000, true, true) {
+		@NotNull
+		@Override
+		public List<String> getTokens() {
+			return CalculatorEngine.instance.getFunctionsRegistry().getNames();
+		}
+	},
 
 	constant(1100, true, true) {
 		@NotNull
 		@Override
 		public List<String> getTokens() {
-			return CalculatorEngine.instance.getVarsRegister().getVarNames();
+			return CalculatorEngine.instance.getVarsRegister().getNames();
 		}
 	},
 
@@ -324,7 +328,7 @@ public enum MathType {
 		final StartsWithFinder startsWithFinder = new StartsWithFinder(text, i);
 
 		for (MathType mathType : getMathTypesByPriority()) {
-			final String s = get(mathType.getTokens(), startsWithFinder);
+			final String s = CollectionsUtils.find(mathType.getTokens(), startsWithFinder);
 			if (s != null) {
 				return new Result(mathType, s);
 			}
@@ -385,14 +389,6 @@ public enum MathType {
 		public MathType getMathType() {
 			return mathType;
 		}
-	}
-
-	private static boolean contains(@NotNull List<String> list, @NotNull final Finder<String> startsWithFinder) {
-		return get(list, startsWithFinder) != null;
-	}
-
-	private static boolean contains(@NotNull List<Character> list, @NotNull final CharacterAtPositionFinder atPositionFinder) {
-		return get(list, atPositionFinder) != null;
 	}
 
 	private static class EndsWithFinder implements Finder<String> {
