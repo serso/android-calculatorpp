@@ -45,10 +45,6 @@ class ToJsclTextProcessor implements TextProcessor<PreparedExpression> {
 
 			if (mathTypeBefore == MathType.function && CollectionsUtils.find(MathType.openGroupSymbols, startsWithFinder) != null) {
 				throw new ParseException("Empty function: " + mathTypeResult.getMatch());
-			} else if (mathTypeBefore == MathType.postfix_function && mathTypeResult.getMathType() == MathType.binary_operation) {
-				if ( mathTypeResult.getMatch().equals("^") ) {
-					throw new ParseException("Power operation after postfix function is currently unsupported!");
-				}
 			}
 
 			i = mathTypeResult.processToJscl(result, i);

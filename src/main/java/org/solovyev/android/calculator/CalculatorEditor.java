@@ -84,7 +84,9 @@ public class CalculatorEditor extends EditText {
 		}
 
 		Log.d(this.getClass().getName(), getText().toString());
-		setSelection(selectionStart, selectionEnd);
+
+		int length = getText().length();
+		setSelection(Math.max(Math.min(length - 1, selectionStart), 0), Math.max(Math.min(length - 1, selectionEnd), 0));
 	}
 
 	public boolean isHighlightText() {

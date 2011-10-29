@@ -42,5 +42,16 @@ public class TextHighlighterTest {
 		Assert.assertEquals(")", textHighlighter.process(")").toString());
 		Assert.assertEquals(")()(", textHighlighter.process(")()(").toString());
 		Assert.assertEquals("1 000 000", textHighlighter.process("1000000").toString());
+
+		textHighlighter.process("cannot calculate 3^10^10 !!!\n" +
+				"        unable to enter 0. FIXED\n" +
+				"        empty display in Xperia Rayo\n" +
+				"        check привиденная FIXED\n" +
+				"        set display result only if text in editor was not changed FIXED\n" +
+				"        shift M text to the left\n" +
+				"        do not show SYNTAX ERROR always (may be show send clock?q) FIXED\n" +
+				"        ln(8)*log(8) =>  ln(8)*og(8) FIXED\n" +
+				"        copy/paste ln(8)*log(8)\n" +
+				"        6!^2 ERROR");
 	}
 }
