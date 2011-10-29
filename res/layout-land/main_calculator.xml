@@ -105,8 +105,8 @@
 
 		<LinearLayout a:layout_weight="1" a:layout_width="fill_parent" a:layout_height="0dp">
 
+			<include layout="@layout/calc_functions_button"/>
 			<include layout="@layout/calc_donate_button"/>
-			<include layout="@layout/calc_empty_button"/>
 			<include layout="@layout/calc_one_digit_button"/>
 			<include layout="@layout/calc_two_digit_button"/>
 			<include layout="@layout/calc_three_digit_button"/>

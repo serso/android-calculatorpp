@@ -80,8 +80,8 @@
 			<include layout="@layout/calc_left_button"/>
 			<include layout="@layout/calc_right_button"/>
 			<include layout="@layout/calc_vars_button"/>
+			<include layout="@layout/calc_functions_button"/>
 			<include layout="@layout/calc_history_button"/>
-			<include layout="@layout/calc_donate_button"/>
 
 		</LinearLayout>
 	</LinearLayout>

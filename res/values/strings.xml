@@ -117,5 +117,6 @@
 
 	<string name="p_calc_haptic_feedback_duration_title">Haptic feedback duration</string>
 	<string name="p_calc_haptic_feedback_duration_summary">Duration vibration on button click</string>
+	<string name="c_functions">Functions</string>
 
 </resources>
