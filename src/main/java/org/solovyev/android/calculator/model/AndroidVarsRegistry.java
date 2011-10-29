@@ -7,35 +7,19 @@
 package org.solovyev.android.calculator.model;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
+import org.solovyev.common.math.MathRegistry;
 
 /**
  * User: serso
  * Date: 10/6/11
  * Time: 9:31 PM
  */
-public interface VarsRegister {
+public interface AndroidVarsRegistry extends MathRegistry<Var>{
 
-	@NotNull
-	List<Var> getVars();
-
-	@NotNull
-	List<Var> getSystemVars();
-
-	Var addVar(@Nullable String name, @NotNull Var.Builder builder);
-
-	void remove(@NotNull Var var);
-
-	@NotNull
-	List<String> getVarNames();
-
-	@Nullable
-	Var getVar(@NotNull String name);
-
-	boolean contains(@NotNull String name);
+	void init(@Nullable Context context, @Nullable SharedPreferences preferences);
 
 	void save(@NotNull Context context);
 }

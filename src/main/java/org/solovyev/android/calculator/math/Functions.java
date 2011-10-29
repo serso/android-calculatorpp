@@ -19,35 +19,6 @@ public class Functions {
 		throw new AssertionError("Not allowed!");
 	}
 
-	public final static String SIN = "sin";
-	public final static String SINH = "sinh";
-	public final static String ASIN = "asin";
-	public final static String ASINH = "asinh";
-	public final static String COS = "cos";
-	public final static String COSH = "cosh";
-	public final static String ACOS = "acos";
-	public final static String ACOSH = "acosh";
-	public final static String TAN = "tan";
-	public final static String TANH = "tanh";
-	public final static String ATAN = "atan";
-	public final static String ATANH = "atanh";
-
-	public final static String LN = "ln";
-	public final static String LG = "lg";
-
-	public final static String MOD = "mod";
-	public final static String EXP = "exp";
-
-	public final static String SQRT = "√";
-
-	public static final List<String> allPrefix;
-
-	static {
-		final List<String> functions = new ArrayList<String>(Arrays.asList(SIN, SINH, ASIN, ASINH, COS, COSH, ACOS, ACOSH, TAN, TANH, ATAN, ATANH, LN, LG, MOD, SQRT, EXP));
-		Collections.sort(functions, new MathEntityComparator());
-		allPrefix = functions;
-	}
-
 	public final static String DEGREE = "°";
 
 	public static final List<String> allPostfix = Arrays.asList(DEGREE);

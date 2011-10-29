@@ -83,7 +83,7 @@ public class NumberBuilder {
 
 		if (number != null) {
 			final String finalNumber = number;
-			final Var var = CollectionsUtils.get(CalculatorEngine.instance.getVarsRegister().getSystemVars(), new Finder<Var>() {
+			final Var var = CollectionsUtils.find(CalculatorEngine.instance.getVarsRegister().getSystemEntities(), new Finder<Var>() {
 				@Override
 				public boolean isFound(@Nullable Var var) {
 					return var != null && finalNumber.equals(var.getValue());

@@ -18,9 +18,9 @@ import android.widget.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.math.MathType;
+import org.solovyev.android.calculator.model.AndroidVarsRegistry;
 import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.calculator.model.Var;
-import org.solovyev.android.calculator.model.VarsRegister;
 import org.solovyev.common.utils.StringUtils;
 
 import java.util.ArrayList;
@@ -45,7 +45,7 @@ public class CalculatorVarsActivity extends ListActivity {
 
 		setContentView(R.layout.vars);
 
-		adapter = new VarsArrayAdapter(this, R.layout.var, R.id.var_text, new ArrayList<Var>(CalculatorEngine.instance.getVarsRegister().getVars()));
+		adapter = new VarsArrayAdapter(this, R.layout.var, R.id.var_text, new ArrayList<Var>(CalculatorEngine.instance.getVarsRegister().getEntities()));
 		setListAdapter(adapter);
 
 		final ListView lv = getListView();
@@ -193,9 +193,9 @@ public class CalculatorVarsActivity extends ListActivity {
 				String description = editDescription.getText().toString();
 
 
-				final VarsRegister varsRegister = CalculatorEngine.instance.getVarsRegister();
+				final AndroidVarsRegistry varsRegistry = CalculatorEngine.instance.getVarsRegister();
 				if (!StringUtils.isEmpty(name)) {
-					final Var varFromRegister = varsRegister.getVar(name);
+					final Var varFromRegister = varsRegistry.get(name);
 					if (varFromRegister == null || varFromRegister == editedInstance) {
 						final MathType.Result mathType = MathType.getType(name, 0);
 
@@ -240,12 +240,12 @@ public class CalculatorVarsActivity extends ListActivity {
 					createEditVariableDialog(editedInstance, name, value, description);
 				} else {
 					if ( editedInstance == null ) {
-						CalculatorVarsActivity.this.adapter.add(varsRegister.addVar(null, varBuilder));
+						CalculatorVarsActivity.this.adapter.add(varsRegistry.add(null, varBuilder));
 					} else {
-						varsRegister.addVar(editedInstance.getName(), varBuilder);
+						varsRegistry.add(editedInstance.getName(), varBuilder);
 					}
 
-					varsRegister.save(CalculatorVarsActivity.this);
+					varsRegistry.save(CalculatorVarsActivity.this);
 
 					CalculatorVarsActivity.this.adapter.notifyDataSetChanged();
 				}
@@ -346,9 +346,9 @@ public class CalculatorVarsActivity extends ListActivity {
 				builder.create().show();
 			} else {
 				adapter.remove(var);
-				final VarsRegister varsRegister = CalculatorEngine.instance.getVarsRegister();
-				varsRegister.remove(var);
-				varsRegister.save(CalculatorVarsActivity.this);
+				final AndroidVarsRegistry varsRegistry = CalculatorEngine.instance.getVarsRegister();
+				varsRegistry.remove(var);
+				varsRegistry.save(CalculatorVarsActivity.this);
 				CalculatorVarsActivity.this.adapter.notifyDataSetChanged();
 			}
 		}

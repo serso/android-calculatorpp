@@ -10,6 +10,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
+import org.solovyev.common.definitions.IBuilder;
+import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.utils.StringUtils;
 
 /**
@@ -19,7 +21,7 @@ import org.solovyev.common.utils.StringUtils;
  */
 
 @Root
-public class Var {
+public class Var implements MathEntity{
 
 	@Element
 	@NotNull
@@ -36,7 +38,7 @@ public class Var {
 	@Nullable
 	private String description;
 
-	public static class Builder {
+	public static class Builder implements IBuilder<Var>{
 
 		@NotNull
 		private String name;
@@ -86,7 +88,8 @@ public class Var {
 			return this;
 		}
 
-		protected Var create () {
+		@NotNull
+		public Var create () {
 			final Var var = new Var();
 
 			var.name = name;
@@ -101,11 +104,16 @@ public class Var {
 	private Var() {
 	}
 
-	public void copy(@NotNull Var var) {
-		this.name = var.name;
-		this.value = var.value;
-		this.description = var.description;
-		this.system = var.system;
+	public void copy(@NotNull MathEntity o) {
+		if (o instanceof Var) {
+			final Var that = ((Var) o);
+			this.name = that.name;
+			this.value = that.value;
+			this.description = that.description;
+			this.system = that.system;
+		} else {
+			throw new IllegalArgumentException("Trying to make a copy of unsupported type: " + o.getClass());
+		}
 	}
 
 	@Nullable
