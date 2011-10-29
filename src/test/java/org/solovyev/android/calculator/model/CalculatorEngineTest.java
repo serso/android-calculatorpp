@@ -5,6 +5,7 @@
 
 package org.solovyev.android.calculator.model;
 
+import jscl.math.Expression;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -108,6 +109,7 @@ public class CalculatorEngineTest {
 		junit.framework.Assert.assertEquals("120", cm.evaluate(JsclOperation.numeric, "(2+2+1)!").getResult());
 		junit.framework.Assert.assertEquals("24", cm.evaluate(JsclOperation.numeric, "(2.0+2.0)!").getResult());
 		junit.framework.Assert.assertEquals("24", cm.evaluate(JsclOperation.numeric, "4.0!").getResult());
+		junit.framework.Assert.assertEquals("36.0", Expression.valueOf("3!^2").numeric().toString());
 		try {
 			junit.framework.Assert.assertEquals("i", cm.evaluate(JsclOperation.numeric, "i!").getResult());
 			fail();
