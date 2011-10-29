@@ -19,14 +19,14 @@ import org.jetbrains.annotations.Nullable;
 */
 public class OnClickListenerVibrator implements View.OnClickListener {
 
-	private static final long VIBRATION_TIME = 100;
+	private static final float VIBRATION_TIME_SCALE = 1.0f;
 
 	@NotNull
    	private VibratorContainer vibrator;
 
 	public OnClickListenerVibrator(@Nullable Vibrator vibrator,
 								   @NotNull SharedPreferences preferences) {
-		this.vibrator = new VibratorContainer(vibrator, preferences, VIBRATION_TIME);
+		this.vibrator = new VibratorContainer(vibrator, preferences, VIBRATION_TIME_SCALE);
 	}
 
 	@Override

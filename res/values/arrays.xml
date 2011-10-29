@@ -36,4 +36,15 @@
 		<item>main_calculator</item>
 	</string-array>
 
+	<string-array name="p_calc_haptic_feedback_duration_names">
+		<item>@string/p_calc_haptic_feedback_strength_short</item>
+		<item>@string/p_calc_haptic_feedback_strength_middle</item>
+		<item>@string/p_calc_haptic_feedback_strength_long</item>
+	</string-array>
+	<string-array name="p_calc_haptic_feedback_duration_values">
+		<item>30</item>
+		<item>60</item>
+		<item>100</item>
+	</string-array>
+
 </resources>

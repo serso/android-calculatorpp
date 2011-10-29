@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.os.Vibrator;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.common.NumberMapper;
 
 /**
  * User: serso
@@ -18,18 +19,23 @@ import org.jetbrains.annotations.Nullable;
  */
 public class VibratorContainer implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-	private static final String HAPTIC_FEEDBACK_PREFERENCE = "org.solovyev.android.calculator.CalculatorModel_haptic_feedback";
+	public static final String HAPTIC_FEEDBACK_P_KEY = "org.solovyev.android.calculator.CalculatorModel_haptic_feedback";
+	public static final String HAPTIC_FEEDBACK_DURATION_P_KEY = "org.solovyev.android.calculator.CalculatorActivity_calc_haptic_feedback_duration_key";
 
-	private final long defaultVibrationTime;
+	private final static NumberMapper<Long> mapper = new NumberMapper<Long>(Long.class);
+
+	private static final long defaultVibrationTime = 100;
+
+	private final float vibrationTimeScale;
 
 	@Nullable
 	private final Vibrator vibrator;
 
 	private long time = 0;
 
-	public VibratorContainer(@Nullable Vibrator vibrator, @NotNull SharedPreferences preferences, long defaultVibrationTime) {
+	public VibratorContainer(@Nullable Vibrator vibrator, @NotNull SharedPreferences preferences, float vibrationTimeScale) {
 		this.vibrator = vibrator;
-		this.defaultVibrationTime = defaultVibrationTime;
+		this.vibrationTimeScale = vibrationTimeScale;
 
 		preferences.registerOnSharedPreferenceChangeListener(this);
 		onSharedPreferenceChanged(preferences, null);
@@ -44,10 +50,15 @@ public class VibratorContainer implements SharedPreferences.OnSharedPreferenceCh
 
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences preferences, @Nullable String key) {
-		if (preferences.getBoolean(HAPTIC_FEEDBACK_PREFERENCE, false)) {
-			this.time = defaultVibrationTime;
+		if (preferences.getBoolean(HAPTIC_FEEDBACK_P_KEY, false)) {
+			//noinspection ConstantConditions
+			this.time = getScaledValue(mapper.parseValue(preferences.getString(HAPTIC_FEEDBACK_DURATION_P_KEY, mapper.formatValue(getScaledValue(defaultVibrationTime)))));
 		} else {
 			this.time = 0;
 		}
+	}
+
+	private long getScaledValue(long vibrationTime) {
+		return (long) (vibrationTime * vibrationTimeScale);
 	}
 }
