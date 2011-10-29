@@ -152,7 +152,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 	private class OnDragListenerVibrator extends OnDragListenerWrapper {
 
-		private static final long VIBRATION_TIME = 50;
+		private static final float VIBRATION_TIME_SCALE = 0.5f;
 
 		@NotNull
 		private final VibratorContainer vibrator;
@@ -161,7 +161,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 									  @Nullable Vibrator vibrator,
 									  @NotNull SharedPreferences preferences) {
 			super(onDragListener);
-			this.vibrator = new VibratorContainer(vibrator, preferences, VIBRATION_TIME);
+			this.vibrator = new VibratorContainer(vibrator, preferences, VIBRATION_TIME_SCALE);
 		}
 
 		@Override

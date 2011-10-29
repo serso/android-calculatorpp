@@ -34,6 +34,9 @@
 	<string name="p_calc_layout">main_calculator</string>
 
 	<string name="p_calc_grouping_separator_key">org.solovyev.android.calculator.CalculatorActivity_calc_grouping_separator</string>
-	<string name="p_calc_grouping_separator"> </string>
+	<string name="p_calc_grouping_separator">" "</string>
+
+	<string name="p_calc_haptic_feedback_duration_key">org.solovyev.android.calculator.CalculatorActivity_calc_haptic_feedback_duration_key</string>
+	<string name="p_calc_haptic_feedback_duration">" "</string>
 
 </resources>

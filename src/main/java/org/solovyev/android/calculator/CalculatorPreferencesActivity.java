@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import org.solovyev.android.calculator.model.CalculatorEngine;
+import org.solovyev.android.view.widgets.VibratorContainer;
 
 /**
  * User: serso
@@ -26,12 +27,15 @@ public class CalculatorPreferencesActivity extends PreferenceActivity implements
 		final SharedPreferences preferences = getPreferenceManager().getSharedPreferences();
 		preferences.registerOnSharedPreferenceChangeListener(this);
 		onSharedPreferenceChanged(preferences, CalculatorEngine.ROUND_RESULT_P_KEY);
+		onSharedPreferenceChanged(preferences, VibratorContainer.HAPTIC_FEEDBACK_P_KEY);
 	}
 
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
 		if (CalculatorEngine.ROUND_RESULT_P_KEY.equals(key)) {
 			findPreference(CalculatorEngine.RESULT_PRECISION_P_KEY).setEnabled(preferences.getBoolean(key, true));
+		} else if (VibratorContainer.HAPTIC_FEEDBACK_P_KEY.equals(key)) {
+			findPreference(VibratorContainer.HAPTIC_FEEDBACK_DURATION_P_KEY).setEnabled(preferences.getBoolean(key, true));
 		}
 	}
 }
