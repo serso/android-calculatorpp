@@ -252,16 +252,21 @@ public class CalculatorEngineTest {
 
 	}
 
-	/*	@Test
+	@Test
 	public void testDegrees() throws Exception {
 		final CalculatorEngine cm = CalculatorEngine.instance;
 
 		cm.setPrecision(3);
-		Assert.assertEquals("0.017", cm.evaluate(JsclOperation.numeric, "°"));
-		Assert.assertEquals("0.017", cm.evaluate(JsclOperation.numeric, "1°"));
-		Assert.assertEquals("0.349", cm.evaluate(JsclOperation.numeric, "20.0°"));
-		Assert.assertEquals("0.5", cm.evaluate(JsclOperation.numeric, "sin(30°)"));
-		Assert.assertEquals("0.524", cm.evaluate(JsclOperation.numeric, "asin(sin(30°))"));
+		try {
+			Assert.assertEquals("0.017", cm.evaluate(JsclOperation.numeric, "°"));
+			fail();
+		} catch (ParseException e) {
 
-	}*/
+		}
+		Assert.assertEquals("0.017", cm.evaluate(JsclOperation.numeric, "1°").getResult());
+		Assert.assertEquals("0.349", cm.evaluate(JsclOperation.numeric, "20.0°").getResult());
+		Assert.assertEquals("0.5", cm.evaluate(JsclOperation.numeric, "sin(30°)").getResult());
+		Assert.assertEquals("0.524", cm.evaluate(JsclOperation.numeric, "asin(sin(30°))").getResult());
+
+	}
 }
