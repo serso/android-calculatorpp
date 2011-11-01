@@ -8,12 +8,12 @@ package org.solovyev.android.calculator.model;
 
 import android.content.Context;
 import jscl.math.function.Function;
-import jscl.math.function.FunctionsRegistry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.RClassUtils;
 import org.solovyev.common.definitions.IBuilder;
+import org.solovyev.common.math.MathRegistry;
 
 import java.util.List;
 import java.util.Map;
@@ -27,6 +27,13 @@ public class AndroidFunctionsRegistryImpl implements AndroidFunctionsRegistry {
 
 	@NotNull
 	private static final String FUNCTION_DESCRIPTION_PREFIX = "c_fun_description_";
+
+	@NotNull
+	private final MathRegistry<Function> functionsRegistry;
+
+	public AndroidFunctionsRegistryImpl(@NotNull MathRegistry<Function> functionsRegistry) {
+		this.functionsRegistry = functionsRegistry;
+	}
 
 	@Nullable
 	@Override
@@ -54,38 +61,38 @@ public class AndroidFunctionsRegistryImpl implements AndroidFunctionsRegistry {
 	@NotNull
 	@Override
 	public List<Function> getEntities() {
-		return FunctionsRegistry.getInstance().getEntities();
+		return functionsRegistry.getEntities();
 	}
 
 	@NotNull
 	@Override
 	public List<Function> getSystemEntities() {
-		return FunctionsRegistry.getInstance().getSystemEntities();
+		return functionsRegistry.getSystemEntities();
 	}
 
 	@Override
 	public Function add(@Nullable String name, @NotNull IBuilder<Function> IBuilder) {
-		return FunctionsRegistry.getInstance().add(name, IBuilder);
+		return functionsRegistry.add(name, IBuilder);
 	}
 
 	@Override
 	public void remove(@NotNull Function var) {
-		FunctionsRegistry.getInstance().remove(var);
+		functionsRegistry.remove(var);
 	}
 
 	@NotNull
 	@Override
 	public List<String> getNames() {
-		return FunctionsRegistry.getInstance().getNames();
+		return functionsRegistry.getNames();
 	}
 
 	@Override
 	public boolean contains(@NotNull String name) {
-		return FunctionsRegistry.getInstance().contains(name);
+		return functionsRegistry.contains(name);
 	}
 
 	@Override
 	public Function get(@NotNull String name) {
-		return FunctionsRegistry.getInstance().get(name);
+		return functionsRegistry.get(name);
 	}
 }
