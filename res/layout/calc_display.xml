@@ -11,4 +11,4 @@
 		a:id="@+id/calculatorDisplay"
 		style="@style/display_style"
 		a:scrollHorizontally="true"
-		a:scrollbars="horizontal"/>
+		a:scrollbars="none"/>

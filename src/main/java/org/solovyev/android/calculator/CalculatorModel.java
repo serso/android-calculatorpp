@@ -141,7 +141,11 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 	@NotNull
 	private final static MutableObject<Runnable> pendingOperation = new MutableObject<Runnable>();
 
-	private void evaluate(boolean delayEvaluate, @NotNull final String expression, @NotNull final JsclOperation operation, @Nullable CalculatorHistoryState historyState) {
+	private void evaluate(boolean delayEvaluate,
+						  @NotNull final String expression,
+						  @NotNull final JsclOperation operation,
+						  @Nullable CalculatorHistoryState historyState) {
+
 		final CalculatorHistoryState localHistoryState;
 		if (historyState == null) {
 			this.display.setText("");
@@ -201,7 +205,9 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 			try {
 				Log.d(CalculatorModel.class.getName(), "Trying to evaluate '" + operation + "': " + expression /*+ StringUtils.fromStackTrace(Thread.currentThread().getStackTrace())*/);
 				final CalculatorEngine.Result result = calculatorEngine.evaluate(operation, expression);
-				if (currentRunner == pendingOperation.getObject()) {
+
+				// todo serso: second condition might replaced with expression.equals(this.editor.getText().toString()) ONLY if expression will be formatted with text highlighter
+				if (currentRunner == pendingOperation.getObject() && this.editor.getText().length() > 0) {
 					display.setText(result.getResult());
 				} else {
 					display.setText("");
@@ -231,7 +237,7 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 	}
 
 	public void clear() {
-		if (!StringUtils.isEmpty(editor.getText()) || !StringUtils.isEmpty(editor.getText())) {
+		if (!StringUtils.isEmpty(editor.getText()) || !StringUtils.isEmpty(display.getText())) {
 			editor.getText().clear();
 			display.setText("");
 			saveHistoryState();
