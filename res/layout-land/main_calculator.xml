@@ -111,8 +111,8 @@
 			<include layout="@layout/calc_two_digit_button"/>
 			<include layout="@layout/calc_three_digit_button"/>
 			<include layout="@layout/calc_zero_digit_button"/>
+			<include layout="@layout/calc_dot_button"/>
 			<include layout="@layout/calc_round_brackets_button"/>
-			<include layout="@layout/calc_square_brackets_button"/>
 
 		</LinearLayout>
 
