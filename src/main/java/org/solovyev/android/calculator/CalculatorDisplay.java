@@ -87,8 +87,6 @@ public class CalculatorDisplay extends AutoResizeTextView {
 		// todo serso: think where to move it (keep in mind org.solovyev.android.view.AutoResizeTextView.resetTextSize())
 		setAddEllipsis(false);
 		setMinTextSize(10);
-		setMaxTextSize(70);
-		setTextSize(70);
 		resizeText();
 	}
 

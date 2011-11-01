@@ -10,7 +10,6 @@
 													   xmlns:calc="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
 													   a:id="@+id/zeroDigitButton"
 													   a:text="0"
-													   calc:textUp="."
 													   calc:textDown="000"
 													   calc:directionTextScale="0.5"
 													   style="?digitButtonStyle"
