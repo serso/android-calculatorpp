@@ -49,7 +49,14 @@ public enum MathType {
 		}
 	},
 
-	postfix_function(400, false, true, Functions.allPostfix),
+	postfix_function(400, false, true) {
+		@NotNull
+		@Override
+		public List<String> getTokens() {
+			return CalculatorEngine.instance.getPostfixFunctionsRegistry().getNames();
+		}
+	},
+
 	unary_operation(500, false, false, "-", "="),
 	binary_operation(600, false, false, "-", "+", "*", "×", "∙", "/", "^") {
 		@Override
