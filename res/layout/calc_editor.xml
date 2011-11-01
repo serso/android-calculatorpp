@@ -15,7 +15,6 @@
 			a:id="@+id/calculatorEditor"
 			style="@style/editor_style"
 			a:inputType="textMultiLine"
-			a:maxLines="4"
 			a:scrollbars="vertical"
 			a:hint ="@string/c_calc_editor_hint"/>
 

@@ -10,8 +10,5 @@
 		xmlns:a="http://schemas.android.com/apk/res/android"
 		a:id="@+id/calculatorDisplay"
 		style="@style/display_style"
-		a:minLines="1"
-		a:maxLines="1"
-		a:textStyle="bold"
 		a:scrollHorizontally="true"
-		a:scrollbars="none"/>
+		a:scrollbars="horizontal"/>

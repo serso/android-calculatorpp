@@ -10,18 +10,18 @@ import android.graphics.Color;
 import android.text.Html;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.widget.TextView;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.model.ParseException;
 import org.solovyev.android.calculator.model.TextProcessor;
+import org.solovyev.android.view.AutoResizeTextView;
 
 /**
  * User: serso
  * Date: 9/17/11
  * Time: 10:58 PM
  */
-public class CalculatorDisplay extends TextView {
+public class CalculatorDisplay extends AutoResizeTextView {
 
 	private boolean valid = true;
 
@@ -83,6 +83,13 @@ public class CalculatorDisplay extends TextView {
 			Log.d(this.getClass().getName(), text);
 			super.setText(Html.fromHtml(text), BufferType.EDITABLE);
 		}
+
+		// todo serso: think where to move it (keep in mind org.solovyev.android.view.AutoResizeTextView.resetTextSize())
+		setAddEllipsis(false);
+		setMinTextSize(10);
+		setMaxTextSize(70);
+		setTextSize(70);
+		resizeText();
 	}
 
 }
