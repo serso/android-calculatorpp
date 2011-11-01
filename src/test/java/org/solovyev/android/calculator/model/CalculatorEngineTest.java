@@ -151,8 +151,10 @@ public class CalculatorEngineTest {
 		Assert.assertEquals("11×Infinityt", cm.evaluate(JsclOperation.numeric, "t11∞").getResult());
 		Assert.assertEquals("-t+t^3", cm.evaluate(JsclOperation.numeric, "t(t-1)(t+1)").getResult());
 
+		Assert.assertEquals("3.957", cm.evaluate(JsclOperation.numeric, "ln(8)lg(8)+ln(8)").getResult());
 
-	/*	Assert.assertEquals("0.524", cm.evaluate(JsclOperation.numeric, "30°").getResult());
+
+		/*	Assert.assertEquals("0.524", cm.evaluate(JsclOperation.numeric, "30°").getResult());
 		Assert.assertEquals("0.524", cm.evaluate(JsclOperation.numeric, "(10+20)°").getResult());
 		Assert.assertEquals("1.047", cm.evaluate(JsclOperation.numeric, "(10+20)°*2").getResult());
 		try {
