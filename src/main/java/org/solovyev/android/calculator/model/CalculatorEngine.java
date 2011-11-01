@@ -7,7 +7,9 @@ package org.solovyev.android.calculator.model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import jscl.math.Expression;
+import jscl.JsclMathEngine;
+import jscl.MathEngine;
+import jscl.math.operator.Operator;
 import jscl.text.ParseInterruptedException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -15,6 +17,7 @@ import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.msg.AndroidMessage;
 import org.solovyev.common.NumberMapper;
+import org.solovyev.common.math.MathRegistry;
 import org.solovyev.common.msg.MessageRegistry;
 import org.solovyev.common.msg.MessageType;
 import org.solovyev.common.utils.CollectionsUtils;
@@ -58,13 +61,18 @@ public enum CalculatorEngine {
 	private int precision = 5;
 
 	@NotNull
+	private MathEngine engine = new JsclMathEngine();
+
+	@NotNull
 	public final TextProcessor<PreparedExpression> preprocessor = new ToJsclTextProcessor();
 
 	@NotNull
 	private final AndroidVarsRegistry varsRegister = new AndroidVarsRegistryImpl();
 
 	@NotNull
-	private final AndroidFunctionsRegistry functionsRegistry = new AndroidFunctionsRegistryImpl();
+	private final AndroidFunctionsRegistry functionsRegistry = new AndroidFunctionsRegistryImpl(engine.getFunctionsRegistry());
+
+	private final MathRegistry<Operator> postfixFunctionsRegistry = engine.getPostfixFunctionsRegistry();
 
 	@NotNull
 	private final static Set<String> tooLongExecutionCache = new HashSet<String>();
@@ -168,7 +176,7 @@ public enum CalculatorEngine {
 
 			final String result;
 			if (!tooLongExecutionCache.contains(jsclExpression)) {
-				final MutableObject<Object> calculationResult = new MutableObject<Object>(null);
+				final MutableObject<String> calculationResult = new MutableObject<String>(null);
 				final MutableObject<ParseException> exception = new MutableObject<ParseException>(null);
 				final MutableObject<Thread> calculationThread = new MutableObject<Thread>(null);
 
@@ -182,7 +190,7 @@ public enum CalculatorEngine {
 							//Log.d(CalculatorEngine.class.getName(), "Calculation thread started work: " + thread.getName());
 							//System.out.println(jsclExpression);
 							calculationThread.setObject(thread);
-							calculationResult.setObject(finalOperation.evaluate(Expression.valueOf(jsclExpression)));
+							calculationResult.setObject(finalOperation.evaluate(jsclExpression));
 						} catch (ArithmeticException e) {
 							//System.out.println(e.getMessage());
 							exception.setObject(new ParseException(e.getMessage(), e));
@@ -297,36 +305,20 @@ public enum CalculatorEngine {
 		return functionsRegistry;
 	}
 
+	@NotNull
+	public MathRegistry<Operator> getPostfixFunctionsRegistry() {
+		return postfixFunctionsRegistry;
+	}
+
+	@NotNull
+	public MathEngine getEngine() {
+		return engine;
+	}
+
 	// for tests
 	void setTimeout(int timeout) {
 		this.timeout = timeout;
 	}
-
-	/*	private String commands(String str) {
-				return commands(str, false);
-			}
-
-
-			private void exec(String str) throws EvalError {
-				interpreter.eval(str);
-			}
-
-			private String eval(String str) throws EvalError {
-				return interpreter.eval(commands(str)).toString();
-			}
-
-			private String commands(String str, boolean found) {
-				for (int i = 0; i < cmds.length; i++) {
-					int n = str.length() - cmds[i].length() - 1;
-					if (n >= 0 && (" " + cmds[i].toLowerCase()).equals(str.substring(n)))
-						return commands(str.substring(0, n), true) + "." + cmds[i] + "()";
-				}
-				str = str.replaceAll("\n", "");
-				return found ? "jscl.math.Expression.valueOf(\"" + str + "\")" : str;
-			}
-
-			private static final String cmds[] = new String[]{"expand", "factorize", "elementary", "simplify", "numeric", "toMathML", "toJava"};*/
-
 	// for tests only
 	void setThreadKiller(@NotNull ThreadKiller threadKiller) {
 		this.threadKiller = threadKiller;
