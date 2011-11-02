@@ -10,5 +10,7 @@
 		xmlns:a="http://schemas.android.com/apk/res/android"
 		a:id="@+id/calculatorDisplay"
 		style="@style/display_style"
-		a:scrollHorizontally="true"
+		a:inputType="textMultiLine"
+		a:maxLines="3"
+		a:scrollHorizontally="false"
 		a:scrollbars="none"/>
