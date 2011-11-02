@@ -12,6 +12,7 @@ import android.text.Layout.Alignment;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.widget.TextView;
 
 /**
@@ -55,8 +56,6 @@ public class AutoResizeTextView extends TextView {
 
 	// Add ellipsis to text that overflows at the smallest text size
 	private boolean addEllipsis = true;
-
-	private float textSizeStartPoint = MIN_TEXT_SIZE;
 
 	// Default constructor override
 	public AutoResizeTextView(Context context) {
@@ -164,7 +163,7 @@ public class AutoResizeTextView extends TextView {
 	@Override
 	protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
 		if (changed || needsResize) {
-			resizeText(right - left, bottom - top);
+			resizeText(right - left, bottom - top, getText());
 		}
 		super.onLayout(changed, left, top, right, bottom);
 	}
@@ -173,9 +172,13 @@ public class AutoResizeTextView extends TextView {
 	 * Resize the text size with default width and height
 	 */
 	public void resizeText() {
+		resizeText(getText());
+	}
+
+	public void resizeText(final CharSequence text) {
 		int heightLimit = getHeight() - getPaddingBottom() - getPaddingTop();
 		int widthLimit = getWidth() - getPaddingLeft() - getPaddingRight();
-		resizeText(widthLimit, heightLimit);
+		resizeText(widthLimit, heightLimit, text);
 	}
 
 	/**
@@ -183,9 +186,10 @@ public class AutoResizeTextView extends TextView {
 	 *
 	 * @param width
 	 * @param height
+	 * @param text
 	 */
-	public void resizeText(int width, int height) {
-		CharSequence text = getText();
+	public void resizeText(int width, int height, final CharSequence text) {
+
 		// Do not resize if the view does not have dimensions or there is no text
 		if (text == null || text.length() == 0 || height <= 0 || width <= 0) {
 			return;
@@ -198,7 +202,7 @@ public class AutoResizeTextView extends TextView {
 		float oldTextSize = textPaint.getTextSize();
 
 		// If there is a max text size set, use the lesser of that and the default text size
-		float newTextSize = textSizeStartPoint;
+		float newTextSize = 100;
 
 		// Get the required text height
 		int newTextHeight = getTextRect(text, textPaint, width, newTextSize);
@@ -209,7 +213,7 @@ public class AutoResizeTextView extends TextView {
 				if (newTextSize <= minTextSize) {
 					break;
 				}
-				newTextSize = Math.max(newTextSize - 1, minTextSize);
+				newTextSize = Math.max(newTextSize - 2, minTextSize);
 				newTextHeight = getTextRect(text, textPaint, width, newTextSize);
 			}
 		} else {
@@ -217,12 +221,10 @@ public class AutoResizeTextView extends TextView {
 				if (newTextSize <= minTextSize) {
 					break;
 				}
-				newTextSize = Math.max(newTextSize + 1, minTextSize);
+				newTextSize = Math.max(newTextSize + 2, minTextSize);
 				newTextHeight = getTextRect(text, textPaint, width, newTextSize);
 			}
 		}
-
-		textSizeStartPoint = newTextSize;
 
 		// If we had reached our minimum text size and still don't fit, append an ellipsis
 		if (addEllipsis && newTextSize == minTextSize && newTextHeight > height) {
