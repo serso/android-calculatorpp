@@ -84,7 +84,7 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 			final CharSequence text = display.getText();
 			if (!StringUtils.isEmpty(text)) {
 				final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
-				clipboard.setText(text);
+				clipboard.setText(text.toString());
 				Toast.makeText(context, context.getText(R.string.c_result_copied), Toast.LENGTH_SHORT).show();
 			}
 		}
