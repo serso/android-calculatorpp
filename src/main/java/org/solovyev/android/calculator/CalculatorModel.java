@@ -352,4 +352,9 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 	public CalculatorEditor getEditor() {
 		return editor;
 	}
+
+	@NotNull
+	public CalculatorDisplay getDisplay() {
+		return display;
+	}
 }
