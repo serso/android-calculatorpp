@@ -140,4 +140,7 @@
 	<string name="c_fun_description_lt">Меньше - возвращает 1, если первый аргумент меньше второго, иначе 0.</string>
 	<string name="c_fun_description_gt">Больше - возвращает 1, если первый аргумент больше второго, иначе 0.</string>
 
+	<string name="c_empty_var_error">Невозможно создать пустую константу!</string>
+	<string name="c_not_valid_result">Результат не валиден!</string>
+
 </resources>

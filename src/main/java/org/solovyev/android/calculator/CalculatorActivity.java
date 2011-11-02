@@ -31,6 +31,7 @@ import org.solovyev.android.view.FontSizeAdjuster;
 import org.solovyev.android.view.widgets.*;
 import org.solovyev.common.BooleanMapper;
 import org.solovyev.common.utils.Announcer;
+import org.solovyev.common.utils.Point2d;
 import org.solovyev.common.utils.history.HistoryAction;
 
 import java.lang.reflect.Field;
@@ -41,8 +42,6 @@ import java.util.*;
 public class CalculatorActivity extends Activity implements FontSizeAdjuster, SharedPreferences.OnSharedPreferenceChangeListener {
 
 	private static final int HVGA_WIDTH_PIXELS = 320;
-
-	private static final long ON_CLICK_VIBRATION_TIME = 100;
 
 	@NotNull
 	private final Announcer<DragPreferencesChangeListener> dpclRegister = new Announcer<DragPreferencesChangeListener>(DragPreferencesChangeListener.class);
@@ -107,9 +106,33 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 			equalsButton.setOnDragListener(evalOnDragListener);
 		}
 
+		final DragButton varsButton = (DragButton) findViewById(R.id.varsButton);
+		if (varsButton != null) {
+			final OnDragListener varsOnDragListener = new OnDragListenerVibrator(newOnDragListener(new VarsDragProcessor(), dragPreferences), vibrator, preferences);
+			varsButton.setOnDragListener(varsOnDragListener);
+		}
+
 		CalculatorEngine.instance.reset(this, preferences);
 
 		preferences.registerOnSharedPreferenceChangeListener(this);
+	}
+
+	private class VarsDragProcessor implements SimpleOnDragListener.DragProcessor {
+
+		@Override
+		public boolean processDragEvent(@NotNull DragDirection dragDirection,
+										@NotNull DragButton dragButton,
+										@NotNull Point2d startPoint2d,
+										@NotNull MotionEvent motionEvent) {
+			boolean result = false;
+
+			if (dragDirection == DragDirection.up) {
+				CalculatorActivityLauncher.createVar(CalculatorActivity.this, CalculatorActivity.this.calculatorModel);
+				result = true;
+			}
+
+			return result;
+		}
 	}
 
 	private void setDefaultValues(@NotNull SharedPreferences preferences) {
@@ -246,7 +269,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 	@SuppressWarnings({"UnusedDeclaration"})
 	public void historyButtonClickHandler(@NotNull View v) {
-		this.showHistory();
+		CalculatorActivityLauncher.showHistory(this);
 	}
 
 	@SuppressWarnings({"UnusedDeclaration"})
@@ -307,12 +330,12 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 	@SuppressWarnings({"UnusedDeclaration"})
 	public void functionsButtonClickHandler(@NotNull View v) {
-		startActivity(new Intent(this, CalculatorFunctionsActivity.class));
+		CalculatorActivityLauncher.showFunctions(this);
 	}
 
 	@SuppressWarnings({"UnusedDeclaration"})
 	public void varsButtonClickHandler(@NotNull View v) {
-		startActivity(new Intent(this, CalculatorVarsActivity.class));
+		CalculatorActivityLauncher.showVars(this);
 	}
 
 	private final static String paypalDonateUrl = "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=se%2esolovyev%40gmail%2ecom&lc=RU&item_name=Android%20Calculator&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted";
@@ -364,15 +387,15 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 		switch (item.getItemId()) {
 			case R.id.main_menu_item_settings:
-				showSettings();
+				CalculatorActivityLauncher.showSettings(this);
 				result = true;
 				break;
 			case R.id.main_menu_item_history:
-				showHistory();
+				CalculatorActivityLauncher.showHistory(this);
 				result = true;
 				break;
 			case R.id.main_menu_item_about:
-				showAbout();
+				CalculatorActivityLauncher.showAbout(this);
 				result = true;
 				break;
 			case R.id.main_menu_item_exit:
@@ -384,18 +407,6 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		}
 
 		return result;
-	}
-
-	private void showHistory() {
-		startActivity(new Intent(this, CalculatorHistoryActivity.class));
-	}
-
-	private void showSettings() {
-		startActivity(new Intent(this, CalculatorPreferencesActivity.class));
-	}
-
-	private void showAbout() {
-		startActivity(new Intent(this, AboutActivity.class));
 	}
 
 	/**
