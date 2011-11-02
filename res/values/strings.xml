@@ -141,4 +141,7 @@
 	<string name="c_fun_description_lt">Lesser function - gives 1 if first argument is less than second, 0 otherwise.</string>
 	<string name="c_fun_description_gt">Greater function - gives 1 if first argument is greater than second, 0 otherwise.</string>
 
+	<string name="c_empty_var_error">Unable to create empty constant!</string>
+	<string name="c_not_valid_result">Current result is not valid!</string>
+
 </resources>

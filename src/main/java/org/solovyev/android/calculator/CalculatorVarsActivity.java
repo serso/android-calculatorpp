@@ -10,6 +10,7 @@ import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -33,6 +34,8 @@ import java.util.List;
  * Time: 10:55 PM
  */
 public class CalculatorVarsActivity extends ListActivity {
+
+	public static final String CREATE_VAR_EXTRA_STRING = "org.solovyev.android.calculator.CalculatorVarsActivity_create_var";
 
 	private final static List<Character> acceptableChars = Arrays.asList(StringUtils.toObject("1234567890abcdefghijklmnopqrstuvwxyzйцукенгшщзхъфывапролджэячсмитьбюё".toCharArray()));
 
@@ -77,6 +80,14 @@ public class CalculatorVarsActivity extends ListActivity {
 				CalculatorVarsActivity.this.finish();
 			}
 		});
+
+		final Intent intent = getIntent();
+		if ( intent != null ) {
+			final String varValue = intent.getStringExtra(CREATE_VAR_EXTRA_STRING);
+			if (!StringUtils.isEmpty(varValue)) {
+				createEditVariableDialog(null, null, varValue, null);
+			}
+		}
 
 	}
 
@@ -209,12 +220,7 @@ public class CalculatorVarsActivity extends ListActivity {
 								error = null;
 							} else {
 								// value is not empty => must be a number
-								boolean correctDouble = true;
-								try {
-									Double.valueOf(value);
-								} catch (NumberFormatException e) {
-									correctDouble = false;
-								}
+								boolean correctDouble = isValid(value);
 
 								if (correctDouble) {
 									varBuilder.setName(name);
@@ -251,6 +257,16 @@ public class CalculatorVarsActivity extends ListActivity {
 				}
 			}
 		}
+	}
+
+	public static boolean isValid(@NotNull String value) {
+		boolean valid = true;
+		try {
+			Double.valueOf(value);
+		} catch (NumberFormatException e) {
+			valid = false;
+		}
+		return valid;
 	}
 
 	private class VarsArrayAdapter extends ArrayAdapter<Var> {
