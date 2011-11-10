@@ -2,6 +2,7 @@
 
 <manifest xmlns:a="http://schemas.android.com/apk/res/android"
 		  package="org.solovyev.android.calculator"
+		  a:installLocation="auto"
 		  a:versionCode="9"
 		  a:versionName="1.1.7">
 
