@@ -17,10 +17,21 @@ import java.util.List;
 
 class ToJsclTextProcessor implements TextProcessor<PreparedExpression> {
 
+	@NotNull
+	private static final Integer MAX_DEPTH = 10;
+
 	@Override
 	@NotNull
 	public PreparedExpression process(@NotNull String s) throws ParseException {
+		return processWithDepth(s, 0, new ArrayList<Var>());
+	}
 
+	private static PreparedExpression processWithDepth(@NotNull String s, int depth, @NotNull List<Var> undefinedVars) throws ParseException {
+		return replaceVariables(processExpression(s).toString(), depth, undefinedVars);
+	}
+
+	@NotNull
+	private static StringBuilder processExpression(@NotNull String s) throws ParseException {
 		final StartsWithFinder startsWithFinder = new StartsWithFinder(s, 0);
 		final StringBuilder result = new StringBuilder();
 
@@ -49,15 +60,18 @@ class ToJsclTextProcessor implements TextProcessor<PreparedExpression> {
 
 			i = mathTypeResult.processToJscl(result, i);
 		}
-
-		return replaceVariables(result.toString());
+		return result;
 	}
 
 	@NotNull
-	private PreparedExpression replaceVariables(@NotNull final String s) {
-		final StartsWithFinder startsWithFinder = new StartsWithFinder(s, 0);
+	private static PreparedExpression replaceVariables(@NotNull final String s, int depth, @NotNull List<Var> undefinedVars) throws ParseException {
+		if (depth >= MAX_DEPTH) {
+			throw new ParseException("Infinite loop in expression: " + s);
+		} else {
+			depth++;
+		}
 
-		final List<Var> undefinedVars = new ArrayList<Var>();
+		final StartsWithFinder startsWithFinder = new StartsWithFinder(s, 0);
 
 		final StringBuilder result = new StringBuilder();
 		for (int i = 0; i < s.length(); i++) {
@@ -70,12 +84,19 @@ class ToJsclTextProcessor implements TextProcessor<PreparedExpression> {
 				if (varName != null) {
 					final Var var = CalculatorEngine.instance.getVarsRegister().get(varName);
 					if (var != null) {
-						if (var.isUndefined()) {
+						if (!var.isDefined()) {
 							undefinedVars.add(var);
 							result.append(varName);
 							offset = varName.length();
 						} else {
-							result.append(var.getValue());
+							final String value = var.getValue();
+							assert value != null;
+
+							if ( var.getDoubleValue() != null ) {
+								result.append(value);
+							} else {
+								result.append("(").append(processWithDepth(value, depth, undefinedVars)).append(")");
+							}
 							offset = varName.length();
 						}
 					}

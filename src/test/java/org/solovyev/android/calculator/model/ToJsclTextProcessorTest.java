@@ -47,11 +47,11 @@ public class ToJsclTextProcessorTest {
 		Assert.assertEquals( "sin(4)*cos(5)", preprocessor.process("sin(4)cos(5)").toString());
 		Assert.assertEquals( "3.141592653589793*sin(4)*3.141592653589793*cos(√(5))", preprocessor.process("πsin(4)πcos(√(5))").toString());
 		Assert.assertEquals( "3.141592653589793*sin(4)+3.141592653589793*cos(√(5))", preprocessor.process("πsin(4)+πcos(√(5))").toString());
-		Assert.assertEquals( "3.141592653589793*sin(4)+3.141592653589793*cos(√(5+√(-1)))", preprocessor.process("πsin(4)+πcos(√(5+i))").toString());
-		Assert.assertEquals( "3.141592653589793*sin(4.01)+3.141592653589793*cos(√(5+√(-1)))", preprocessor.process("πsin(4.01)+πcos(√(5+i))").toString());
-		Assert.assertEquals( "2.718281828459045^3.141592653589793*sin(4.01)+3.141592653589793*cos(√(5+√(-1)))", preprocessor.process("e^πsin(4.01)+πcos(√(5+i))").toString());
-		Assert.assertEquals( "2.718281828459045^3.141592653589793*sin(4.01)+3.141592653589793*cos(√(5+√(-1)))*10^2", preprocessor.process("e^πsin(4.01)+πcos(√(5+i))E2").toString());
-		Assert.assertEquals( "2.718281828459045^3.141592653589793*sin(4.01)+3.141592653589793*cos(√(5+√(-1)))*10^-2", preprocessor.process("e^πsin(4.01)+πcos(√(5+i))E-2").toString());
+		Assert.assertEquals( "3.141592653589793*sin(4)+3.141592653589793*cos(√(5+(√(-1))))", preprocessor.process("πsin(4)+πcos(√(5+i))").toString());
+		Assert.assertEquals( "3.141592653589793*sin(4.01)+3.141592653589793*cos(√(5+(√(-1))))", preprocessor.process("πsin(4.01)+πcos(√(5+i))").toString());
+		Assert.assertEquals( "2.718281828459045^3.141592653589793*sin(4.01)+3.141592653589793*cos(√(5+(√(-1))))", preprocessor.process("e^πsin(4.01)+πcos(√(5+i))").toString());
+		Assert.assertEquals( "2.718281828459045^3.141592653589793*sin(4.01)+3.141592653589793*cos(√(5+(√(-1))))*10^2", preprocessor.process("e^πsin(4.01)+πcos(√(5+i))E2").toString());
+		Assert.assertEquals( "2.718281828459045^3.141592653589793*sin(4.01)+3.141592653589793*cos(√(5+(√(-1))))*10^-2", preprocessor.process("e^πsin(4.01)+πcos(√(5+i))E-2").toString());
 		Assert.assertEquals( "10^2", preprocessor.process("E2").toString());
 		Assert.assertEquals( "10^-2", preprocessor.process("E-2").toString());
 		Assert.assertEquals( "10^-1/2", preprocessor.process("E-1/2").toString());
