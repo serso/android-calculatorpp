@@ -6,10 +6,13 @@
 
 package org.solovyev.android.calculator.model;
 
+import jscl.math.function.Constant;
+import jscl.math.function.IConstant;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
+import org.simpleframework.xml.Transient;
 import org.solovyev.common.definitions.IBuilder;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.utils.StringUtils;
@@ -21,7 +24,11 @@ import org.solovyev.common.utils.StringUtils;
  */
 
 @Root
-public class Var implements MathEntity{
+public class Var implements IConstant {
+
+	@NotNull
+	@Transient
+	private Integer id;
 
 	@Element
 	@NotNull
@@ -38,7 +45,10 @@ public class Var implements MathEntity{
 	@Nullable
 	private String description;
 
-	public static class Builder implements IBuilder<Var>{
+	@Transient
+	private Constant constant;
+
+	public static class Builder implements IBuilder<Var> {
 
 		@NotNull
 		private String name;
@@ -51,6 +61,9 @@ public class Var implements MathEntity{
 		@Nullable
 		private String description;
 
+		@Nullable
+		private Integer id;
+
 		public Builder() {
 		}
 
@@ -59,6 +72,17 @@ public class Var implements MathEntity{
 			this.value = var.value;
 			this.system = var.system;
 			this.description = var.description;
+			this.id = var.id;
+		}
+
+		public Builder(@NotNull IConstant iConstant) {
+			this.name = iConstant.getName();
+
+			this.value = iConstant.getValue();
+
+			this.system = iConstant.isSystem();
+			this.description = iConstant.getDescription();
+			this.id = iConstant.getId();
 		}
 
 		public Builder(@NotNull String name, @NotNull Double value) {
@@ -69,6 +93,7 @@ public class Var implements MathEntity{
 			this.name = name;
 			this.value = value;
 		}
+
 
 		public void setName(@NotNull String name) {
 			this.name = name;
@@ -89,31 +114,53 @@ public class Var implements MathEntity{
 		}
 
 		@NotNull
-		public Var create () {
-			final Var var = new Var();
+		public Var create() {
+			final Var result;
+			if (id != null) {
+				result = new Var(id);
+			} else {
+				result = new Var();
+			}
 
-			var.name = name;
-			var.value = value;
-			var.system = system;
-			var.description = description;
+			result.name = name;
+			result.value = value;
+			result.system = system;
+			result.description = description;
 
-			return var;
+			return result;
 		}
 	}
 
 	private Var() {
 	}
 
+	private Var(@NotNull Integer id) {
+		this.id = id;
+	}
+
 	public void copy(@NotNull MathEntity o) {
-		if (o instanceof Var) {
-			final Var that = ((Var) o);
-			this.name = that.name;
-			this.value = that.value;
-			this.description = that.description;
-			this.system = that.system;
+		if (o instanceof IConstant) {
+			final IConstant that = ((IConstant) o);
+			this.name = that.getName();
+			this.value = that.getValue();
+			this.description = that.getDescription();
+			this.system = that.isSystem();
 		} else {
 			throw new IllegalArgumentException("Trying to make a copy of unsupported type: " + o.getClass());
 		}
+	}
+
+	@Nullable
+	public Double getDoubleValue() {
+		Double result = null;
+		if (value != null) {
+			try {
+				result = Double.valueOf(value);
+			} catch (NumberFormatException e) {
+				// do nothing - string is not a double
+			}
+		}
+		return result;
 	}
 
 	@Nullable
@@ -121,8 +168,35 @@ public class Var implements MathEntity{
 		return value;
 	}
 
+	@NotNull
+	@Override
+	public String toJava() {
+		return String.valueOf(value);
+	}
+
 	public boolean isSystem() {
 		return system;
+	}
+
+	@NotNull
+	@Override
+	public Integer getId() {
+		return this.id;
+	}
+
+	@Override
+	public void setId(@NotNull Integer id) {
+		this.id = id;
+	}
+
+	@Override
+	public boolean same(@Nullable MathEntity mathEntity) {
+		if (mathEntity instanceof IConstant) {
+			if (mathEntity.getId().equals(this.getId())) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@NotNull
@@ -130,8 +204,13 @@ public class Var implements MathEntity{
 		return name;
 	}
 
-	public boolean isUndefined() {
-		return StringUtils.isEmpty(this.value);
+	@NotNull
+	@Override
+	public Constant getConstant() {
+		if (constant == null) {
+			constant = new Constant(this.name);
+		}
+		return constant;
 	}
 
 	@Nullable
@@ -140,9 +219,15 @@ public class Var implements MathEntity{
 	}
 
 	@Override
+	public boolean isDefined() {
+		return !StringUtils.isEmpty(value);
+	}
+
+	@Override
 	public String toString() {
-		if (value != null) {
-			return getName() + " = " + value;
+		final String stringValue = getValue();
+		if (!StringUtils.isEmpty(stringValue)) {
+			return getName() + " = " + stringValue;
 		} else {
 			return getName();
 		}

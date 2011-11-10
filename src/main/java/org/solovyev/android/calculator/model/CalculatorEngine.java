@@ -67,7 +67,7 @@ public enum CalculatorEngine {
 	public final TextProcessor<PreparedExpression> preprocessor = new ToJsclTextProcessor();
 
 	@NotNull
-	private final AndroidVarsRegistry varsRegister = new AndroidVarsRegistryImpl();
+	private final AndroidVarsRegistry varsRegister = new AndroidVarsRegistryImpl(engine.getConstantsRegistry());
 
 	@NotNull
 	private final AndroidFunctionsRegistry functionsRegistry = new AndroidFunctionsRegistryImpl(engine.getFunctionsRegistry());

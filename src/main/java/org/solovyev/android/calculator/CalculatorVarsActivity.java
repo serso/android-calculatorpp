@@ -26,6 +26,7 @@ import org.solovyev.common.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -59,7 +60,7 @@ public class CalculatorVarsActivity extends ListActivity {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 				final Var var = (Var) parent.getItemAtPosition(position);
-				createEditVariableDialog(var, var.getName(), var.getValue(), var.getDescription());
+				createEditVariableDialog(var, var.getName(), StringUtils.getNotEmpty(var.getValue(), ""), var.getDescription());
 				return true;
 			}
 		});
@@ -80,6 +81,8 @@ public class CalculatorVarsActivity extends ListActivity {
 				CalculatorVarsActivity.this.finish();
 			}
 		});
+
+		sort();
 
 		final Intent intent = getIntent();
 		if ( intent != null ) {
@@ -206,8 +209,17 @@ public class CalculatorVarsActivity extends ListActivity {
 
 				final AndroidVarsRegistry varsRegistry = CalculatorEngine.instance.getVarsRegister();
 				if (!StringUtils.isEmpty(name)) {
+
+					boolean canBeSaved = false;
+
 					final Var varFromRegister = varsRegistry.get(name);
-					if (varFromRegister == null || varFromRegister == editedInstance) {
+					if ( varFromRegister == null ) {
+						canBeSaved = true;
+					} else if ( editedInstance != null && varFromRegister.getId().equals(editedInstance.getId()) ) {
+						canBeSaved = true;
+					}
+
+					if (canBeSaved) {
 						final MathType.Result mathType = MathType.getType(name, 0);
 
 						if (mathType.getMathType() == MathType.text || mathType.getMathType() == MathType.constant) {
@@ -220,9 +232,9 @@ public class CalculatorVarsActivity extends ListActivity {
 								error = null;
 							} else {
 								// value is not empty => must be a number
-								boolean correctDouble = isValid(value);
+								boolean valid = isValid(value);
 
-								if (correctDouble) {
+								if (valid) {
 									varBuilder.setName(name);
 									varBuilder.setDescription(description);
 									varBuilder.setValue(value);
@@ -248,25 +260,33 @@ public class CalculatorVarsActivity extends ListActivity {
 					if ( editedInstance == null ) {
 						CalculatorVarsActivity.this.adapter.add(varsRegistry.add(null, varBuilder));
 					} else {
-						varsRegistry.add(editedInstance.getName(), varBuilder);
+						final Var newInstance = varsRegistry.add(editedInstance.getName(), varBuilder);
+						CalculatorVarsActivity.this.adapter.remove(editedInstance);
+						CalculatorVarsActivity.this.adapter.add(newInstance);
 					}
 
 					varsRegistry.save(CalculatorVarsActivity.this);
 
-					CalculatorVarsActivity.this.adapter.notifyDataSetChanged();
+					sort();
 				}
 			}
 		}
 	}
 
+	private void sort() {
+		CalculatorVarsActivity.this.adapter.sort(new Comparator<Var>() {
+			@Override
+			public int compare(Var var, Var var1) {
+				return var.getName().compareTo(var1.getName());
+			}
+		});
+
+		CalculatorVarsActivity.this.adapter.notifyDataSetChanged();
+	}
+
 	public static boolean isValid(@NotNull String value) {
-		boolean valid = true;
-		try {
-			Double.valueOf(value);
-		} catch (NumberFormatException e) {
-			valid = false;
-		}
-		return valid;
+		// now every string might be constant
+		return true;
 	}
 
 	private class VarsArrayAdapter extends ArrayAdapter<Var> {

@@ -71,7 +71,7 @@ public class AndroidFunctionsRegistryImpl implements AndroidFunctionsRegistry {
 	}
 
 	@Override
-	public Function add(@Nullable String name, @NotNull IBuilder<Function> IBuilder) {
+	public Function add(@Nullable String name, @NotNull IBuilder<? extends Function> IBuilder) {
 		return functionsRegistry.add(name, IBuilder);
 	}
 
@@ -94,5 +94,10 @@ public class AndroidFunctionsRegistryImpl implements AndroidFunctionsRegistry {
 	@Override
 	public Function get(@NotNull String name) {
 		return functionsRegistry.get(name);
+	}
+
+	@Override
+	public Function getById(@NotNull Integer id) {
+		return functionsRegistry.getById(id);
 	}
 }
