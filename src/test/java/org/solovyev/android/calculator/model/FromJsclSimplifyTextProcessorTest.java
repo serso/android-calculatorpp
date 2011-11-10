@@ -38,8 +38,8 @@ public class FromJsclSimplifyTextProcessorTest {
 		Assert.assertEquals("ee", tp.process("2.718281828459045*2.718281828459045"));
 		Assert.assertEquals("t×", tp.process("t*"));
 		Assert.assertEquals("×t", tp.process("*t"));
-		Assert.assertEquals("t×2", tp.process("t*2"));
-		Assert.assertEquals("2×t", tp.process("2*t"));
+		Assert.assertEquals("t2", tp.process("t*2"));
+		Assert.assertEquals("2t", tp.process("2*t"));
 		CalculatorEngine.instance.getVarsRegister().add(null, new Var.Builder("t", (String) null));
 		Assert.assertEquals("t×", tp.process("t*"));
 		Assert.assertEquals("×t", tp.process("*t"));
