@@ -16,9 +16,11 @@ import android.widget.*;
 import jscl.math.function.Function;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.model.CalculatorEngine;
+import org.solovyev.android.calculator.model.Var;
 import org.solovyev.common.utils.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -26,7 +28,7 @@ import java.util.List;
  * Date: 10/29/11
  * Time: 4:55 PM
  */
-public class CalculatorFunctionsActivity extends ListActivity{
+public class CalculatorFunctionsActivity extends ListActivity {
 
 	@NotNull
 	private FunctionsArrayAdapter adapter;
@@ -55,6 +57,19 @@ public class CalculatorFunctionsActivity extends ListActivity{
 			}
 		});
 
+		sort();
+
+	}
+
+	private void sort() {
+		CalculatorFunctionsActivity.this.adapter.sort(new Comparator<Function>() {
+			@Override
+			public int compare(Function function1, Function function2) {
+				return function1.getName().compareTo(function2.getName());
+			}
+		});
+
+		CalculatorFunctionsActivity.this.adapter.notifyDataSetChanged();
 	}
 
 	private class FunctionsArrayAdapter extends ArrayAdapter<Function> {

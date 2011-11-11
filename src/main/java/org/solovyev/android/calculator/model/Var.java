@@ -189,16 +189,6 @@ public class Var implements IConstant {
 		this.id = id;
 	}
 
-	@Override
-	public boolean same(@Nullable MathEntity mathEntity) {
-		if (mathEntity instanceof IConstant) {
-			if (mathEntity.getId().equals(this.getId())) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	@NotNull
 	public String getName() {
 		return name;

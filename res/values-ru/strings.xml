@@ -57,7 +57,7 @@
 	<string name="c_value.is.not.a.number">Значение должно либо оставаться пустым либо быть числом!</string>
 	<string name="c_var.name.clashes">Имя переменной не может быть зарезервированным системным именем!</string>
 	<string name="c_var.already.exists">Переменная с таким именем уже существует!</string>
-	<string name="c_name.is.empty">Имя не может быть пустым!</string>
+	<string name="c_name.is.not.valid">Имя переменной не валидно: им ядолжно начинаться с буквы, может содержать буквы, цифры и знак подчёркивания.</string>
 	<string name="c_sys.var.cannot.be.changed">Системная переменная не может быть изменена!</string>
 
 	<string name="c_pi_description">Отношение длины окружности к диаметру</string>

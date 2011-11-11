@@ -60,7 +60,7 @@
 	<string name="c_value.is.not.a.number">Value must be either number or empty!</string>
 	<string name="c_var.name.clashes">Variable name clashes with function name!</string>
 	<string name="c_var.already.exists">Variable with same name already exists!</string>
-	<string name="c_name.is.empty">Name is empty!</string>
+	<string name="c_name.is.not.valid">Name of constant is not valid: name must start with letter, can contain letters, digits and underscore.</string>
 	<string name="c_sys.var.cannot.be.changed">System variable cannot be changed!</string>
 
 	<string name="c_pi_description">Ratio of any circle\'s circumference to its diameter</string>

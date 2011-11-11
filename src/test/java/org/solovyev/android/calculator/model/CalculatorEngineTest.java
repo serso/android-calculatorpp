@@ -148,7 +148,8 @@ public class CalculatorEngineTest {
 		CalculatorEngine.instance.getVarsRegister().add(null, new Var.Builder("t", (String) null));
 		Assert.assertEquals("11t", cm.evaluate(JsclOperation.numeric, "t11").getResult());
 		Assert.assertEquals("11et", cm.evaluate(JsclOperation.numeric, "t11e").getResult());
-		Assert.assertEquals("11×Infinityt", cm.evaluate(JsclOperation.numeric, "t11∞").getResult());
+		Assert.assertEquals("∞", cm.evaluate(JsclOperation.numeric, "∞").getResult());
+		Assert.assertEquals("11t∞", cm.evaluate(JsclOperation.numeric, "t11∞").getResult());
 		Assert.assertEquals("-t+t^3", cm.evaluate(JsclOperation.numeric, "t(t-1)(t+1)").getResult());
 
 		Assert.assertEquals("3.957", cm.evaluate(JsclOperation.numeric, "ln(8)lg(8)+ln(8)").getResult());
