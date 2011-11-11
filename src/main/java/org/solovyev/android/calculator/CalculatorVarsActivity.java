@@ -16,6 +16,9 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.*;
 import android.widget.*;
+import jscl.text.Identifier;
+import jscl.text.MutableInt;
+import jscl.text.ParseException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.math.MathType;
@@ -38,7 +41,7 @@ public class CalculatorVarsActivity extends ListActivity {
 
 	public static final String CREATE_VAR_EXTRA_STRING = "org.solovyev.android.calculator.CalculatorVarsActivity_create_var";
 
-	private final static List<Character> acceptableChars = Arrays.asList(StringUtils.toObject("1234567890abcdefghijklmnopqrstuvwxyzйцукенгшщзхъфывапролджэячсмитьбюё".toCharArray()));
+	private final static List<Character> acceptableChars = Arrays.asList(StringUtils.toObject("1234567890abcdefghijklmnopqrstuvwxyzйцукенгшщзхъфывапролджэячсмитьбюё_".toCharArray()));
 
 	@NotNull
 	private VarsArrayAdapter adapter;
@@ -208,7 +211,7 @@ public class CalculatorVarsActivity extends ListActivity {
 
 
 				final AndroidVarsRegistry varsRegistry = CalculatorEngine.instance.getVarsRegister();
-				if (!StringUtils.isEmpty(name)) {
+				if (isValidName(name)) {
 
 					boolean canBeSaved = false;
 
@@ -232,7 +235,7 @@ public class CalculatorVarsActivity extends ListActivity {
 								error = null;
 							} else {
 								// value is not empty => must be a number
-								boolean valid = isValid(value);
+								boolean valid = isValidValue(value);
 
 								if (valid) {
 									varBuilder.setName(name);
@@ -250,7 +253,7 @@ public class CalculatorVarsActivity extends ListActivity {
 						error = R.string.c_var_already_exists;
 					}
 				} else {
-					error = R.string.c_name_is_empty;
+					error = R.string.c_name_is_not_valid;
 				}
 
 				if (error != null) {
@@ -284,7 +287,22 @@ public class CalculatorVarsActivity extends ListActivity {
 		CalculatorVarsActivity.this.adapter.notifyDataSetChanged();
 	}
 
-	public static boolean isValid(@NotNull String value) {
+	private static boolean isValidName(@Nullable String name) {
+		boolean result = false;
+
+		if (!StringUtils.isEmpty(name)) {
+			try {
+				Identifier.parser.parse(name, new MutableInt(0));
+				result = true;
+			} catch (ParseException e) {
+				// not valid name;
+			}
+		}
+
+		return result;
+	}
+
+	public static boolean isValidValue(@NotNull String value) {
 		// now every string might be constant
 		return true;
 	}

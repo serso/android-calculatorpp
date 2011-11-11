@@ -45,13 +45,13 @@ public class ToJsclTextProcessorTest {
 		Assert.assertEquals( "(0)*ln(1)*(2*10^-1)", preprocessor.process("[0]ln(1)[2*E-1]").toString());
 		Assert.assertEquals( "sin(4)*asin(0.5)*√(2)", preprocessor.process("sin(4)asin(0.5)√(2)").toString());
 		Assert.assertEquals( "sin(4)*cos(5)", preprocessor.process("sin(4)cos(5)").toString());
-		Assert.assertEquals( "3.141592653589793*sin(4)*3.141592653589793*cos(√(5))", preprocessor.process("πsin(4)πcos(√(5))").toString());
-		Assert.assertEquals( "3.141592653589793*sin(4)+3.141592653589793*cos(√(5))", preprocessor.process("πsin(4)+πcos(√(5))").toString());
-		Assert.assertEquals( "3.141592653589793*sin(4)+3.141592653589793*cos(√(5+(√(-1))))", preprocessor.process("πsin(4)+πcos(√(5+i))").toString());
-		Assert.assertEquals( "3.141592653589793*sin(4.01)+3.141592653589793*cos(√(5+(√(-1))))", preprocessor.process("πsin(4.01)+πcos(√(5+i))").toString());
-		Assert.assertEquals( "2.718281828459045^3.141592653589793*sin(4.01)+3.141592653589793*cos(√(5+(√(-1))))", preprocessor.process("e^πsin(4.01)+πcos(√(5+i))").toString());
-		Assert.assertEquals( "2.718281828459045^3.141592653589793*sin(4.01)+3.141592653589793*cos(√(5+(√(-1))))*10^2", preprocessor.process("e^πsin(4.01)+πcos(√(5+i))E2").toString());
-		Assert.assertEquals( "2.718281828459045^3.141592653589793*sin(4.01)+3.141592653589793*cos(√(5+(√(-1))))*10^-2", preprocessor.process("e^πsin(4.01)+πcos(√(5+i))E-2").toString());
+		Assert.assertEquals( "π*sin(4)*π*cos(√(5))", preprocessor.process("πsin(4)πcos(√(5))").toString());
+		Assert.assertEquals( "π*sin(4)+π*cos(√(5))", preprocessor.process("πsin(4)+πcos(√(5))").toString());
+		Assert.assertEquals( "π*sin(4)+π*cos(√(5+(√(-1))))", preprocessor.process("πsin(4)+πcos(√(5+i))").toString());
+		Assert.assertEquals( "π*sin(4.01)+π*cos(√(5+(√(-1))))", preprocessor.process("πsin(4.01)+πcos(√(5+i))").toString());
+		Assert.assertEquals( "e^π*sin(4.01)+π*cos(√(5+(√(-1))))", preprocessor.process("e^πsin(4.01)+πcos(√(5+i))").toString());
+		Assert.assertEquals( "e^π*sin(4.01)+π*cos(√(5+(√(-1))))*10^2", preprocessor.process("e^πsin(4.01)+πcos(√(5+i))E2").toString());
+		Assert.assertEquals( "e^π*sin(4.01)+π*cos(√(5+(√(-1))))*10^-2", preprocessor.process("e^πsin(4.01)+πcos(√(5+i))E-2").toString());
 		Assert.assertEquals( "10^2", preprocessor.process("E2").toString());
 		Assert.assertEquals( "10^-2", preprocessor.process("E-2").toString());
 		Assert.assertEquals( "10^-1/2", preprocessor.process("E-1/2").toString());
@@ -94,19 +94,19 @@ public class ToJsclTextProcessorTest {
 
 		Assert.assertEquals( "", preprocessor.process("").toString());
 	/*	try {
-			Assert.assertEquals( "3.141592653589793/180", preprocessor.process("°").toString());
+			Assert.assertEquals( "π/180", preprocessor.process("°").toString());
 		} catch (ParseException e) {
 			if ( !e.getMessage().startsWith("Could not find start of prefix") ){
 				junit.framework.Assert.fail();
 			}
 		}
-		Assert.assertEquals( "1*3.141592653589793/180", preprocessor.process("1°").toString());
-		Assert.assertEquals( "20.0*3.141592653589793/180", preprocessor.process("20.0°").toString());
-		Assert.assertEquals( "sin(30*3.141592653589793/180)", preprocessor.process("sin(30°)").toString());
-		Assert.assertEquals( "asin(sin(3.141592653589793/6))*3.141592653589793/180", preprocessor.process("asin(sin(π/6))°").toString());
-		Assert.assertEquals( "1*3.141592653589793/180*sin(1)", preprocessor.process("1°sin(1)").toString());
+		Assert.assertEquals( "1*π/180", preprocessor.process("1°").toString());
+		Assert.assertEquals( "20.0*π/180", preprocessor.process("20.0°").toString());
+		Assert.assertEquals( "sin(30*π/180)", preprocessor.process("sin(30°)").toString());
+		Assert.assertEquals( "asin(sin(π/6))*π/180", preprocessor.process("asin(sin(π/6))°").toString());
+		Assert.assertEquals( "1*π/180*sin(1)", preprocessor.process("1°sin(1)").toString());
 		try {
-			Assert.assertEquals( "1*3.141592653589793/180^sin(1)", preprocessor.process("1°^sin(1)").toString());
+			Assert.assertEquals( "1*π/180^sin(1)", preprocessor.process("1°^sin(1)").toString());
 			junit.framework.Assert.fail();
 		} catch (ParseException e) {
 			if ( !e.getMessage().equals("Power operation after postfix function is currently unsupported!") ) {

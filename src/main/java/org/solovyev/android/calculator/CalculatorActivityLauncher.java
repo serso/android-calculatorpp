@@ -2,10 +2,8 @@ package org.solovyev.android.calculator;
 
 import android.content.Context;
 import android.content.Intent;
-import android.view.View;
 import android.widget.Toast;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.solovyev.common.utils.StringUtils;
 
 /**
@@ -39,7 +37,7 @@ public class CalculatorActivityLauncher {
 		if (calculatorModel.getDisplay().isValid() ) {
 			final String varValue = calculatorModel.getDisplay().getText().toString();
 			if (!StringUtils.isEmpty(varValue)) {
-				if (CalculatorVarsActivity.isValid(varValue)) {
+				if (CalculatorVarsActivity.isValidValue(varValue)) {
 					final Intent intent = new Intent(context, CalculatorVarsActivity.class);
 					intent.putExtra(CalculatorVarsActivity.CREATE_VAR_EXTRA_STRING, varValue);
 					context.startActivity(intent);
