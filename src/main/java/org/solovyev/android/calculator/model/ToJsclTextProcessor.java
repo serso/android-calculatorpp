@@ -18,7 +18,7 @@ import java.util.List;
 class ToJsclTextProcessor implements TextProcessor<PreparedExpression> {
 
 	@NotNull
-	private static final Integer MAX_DEPTH = 10;
+	private static final Integer MAX_DEPTH = 20;
 
 	@Override
 	@NotNull
@@ -93,7 +93,9 @@ class ToJsclTextProcessor implements TextProcessor<PreparedExpression> {
 							assert value != null;
 
 							if ( var.getDoubleValue() != null ) {
-								result.append(value);
+								//result.append(value);
+								// NOTE: append varName as JSCL engine will convert it to double if needed
+								result.append(varName);
 							} else {
 								result.append("(").append(processWithDepth(value, depth, undefinedVars)).append(")");
 							}
