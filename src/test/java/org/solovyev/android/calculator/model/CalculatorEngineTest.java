@@ -130,7 +130,7 @@ public class CalculatorEngineTest {
 		}
 		junit.framework.Assert.assertEquals("24i", cm.evaluate(JsclOperation.numeric, "4!i").getResult());
 
-		CalculatorEngine.instance.getVarsRegister().add(null, new Var.Builder("si", 5d));
+		CalculatorEngine.instance.getVarsRegister().add(new Var.Builder("si", 5d));
 
 		Assert.assertEquals("-0.959", cm.evaluate(JsclOperation.numeric, "sin(5)").getResult());
 		Assert.assertEquals("-4.795", cm.evaluate(JsclOperation.numeric, "sin(5)si").getResult());
@@ -138,18 +138,19 @@ public class CalculatorEngineTest {
 		Assert.assertEquals("-23.973", cm.evaluate(JsclOperation.numeric, "si*sin(5)si").getResult());
 		Assert.assertEquals("-3.309", cm.evaluate(JsclOperation.numeric, "sisin(5si)si").getResult());
 
-		CalculatorEngine.instance.getVarsRegister().add(null, new Var.Builder("s", 1d));
+		CalculatorEngine.instance.getVarsRegister().add(new Var.Builder("s", 1d));
 		Assert.assertEquals("5", cm.evaluate(JsclOperation.numeric, "si").getResult());
 
-		CalculatorEngine.instance.getVarsRegister().add(null, new Var.Builder("k", 3.5d));
-		CalculatorEngine.instance.getVarsRegister().add(null, new Var.Builder("k1", 4d));
+		CalculatorEngine.instance.getVarsRegister().add(new Var.Builder("k", 3.5d));
+		CalculatorEngine.instance.getVarsRegister().add(new Var.Builder("k1", 4d));
 		Assert.assertEquals("4", cm.evaluate(JsclOperation.numeric, "k11").getResult());
 
-		CalculatorEngine.instance.getVarsRegister().add(null, new Var.Builder("t", (String) null));
+		CalculatorEngine.instance.getVarsRegister().add(new Var.Builder("t", (String) null));
 		Assert.assertEquals("11t", cm.evaluate(JsclOperation.numeric, "t11").getResult());
 		Assert.assertEquals("11et", cm.evaluate(JsclOperation.numeric, "t11e").getResult());
 		Assert.assertEquals("∞", cm.evaluate(JsclOperation.numeric, "∞").getResult());
-		Assert.assertEquals("11t∞", cm.evaluate(JsclOperation.numeric, "t11∞").getResult());
+		Assert.assertEquals("∞", cm.evaluate(JsclOperation.numeric, "Infinity").getResult());
+		Assert.assertEquals("11∞t", cm.evaluate(JsclOperation.numeric, "t11∞").getResult());
 		Assert.assertEquals("-t+t^3", cm.evaluate(JsclOperation.numeric, "t(t-1)(t+1)").getResult());
 
 		Assert.assertEquals("3.957", cm.evaluate(JsclOperation.numeric, "ln(8)lg(8)+ln(8)").getResult());
@@ -192,7 +193,7 @@ public class CalculatorEngineTest {
 		}
 		Assert.assertEquals("0.739", cm.evaluate(JsclOperation.numeric, "cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(1))))))))))))))))))))))))))))))))))))").getResult());
 
-		CalculatorEngine.instance.getVarsRegister().add(null, new Var.Builder("si", 5d));
+		CalculatorEngine.instance.getVarsRegister().add(new Var.Builder("si", 5d));
 		Assert.assertEquals("5", cm.evaluate(JsclOperation.numeric, "si").getResult());
 
 		try {
