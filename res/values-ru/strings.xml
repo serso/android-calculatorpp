@@ -27,7 +27,7 @@
 		За подробной информацией, пожалуйста,\nобращайтесь на почту\n<a href="mailto:se.solovyev@gmail.com">se.solovyev@gmail.com</a>\n
 		или посетите сайт \n<a href="http://se.solovyev.org">http://se.solovyev.org</a>\n\n
 		Если вы хотите поддержать проект материально\nвы можете сделать это через \n<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=se%2esolovyev%40gmail%2ecom&amp;lc=RU&amp;item_name=Android%20Calculator&amp;currency_code=USD&amp;bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted">http://paypal.com</a>\n\n
-		Если вам понравилось приложение -\nпоставте 5 звёздочек в\n<a href="https://market.android.com/details?id=org.solovyev.android.calculator">андроид.маркете</a>
+		Если вам понравилось приложение -\nпоставьте 5 звёздочек в\n<a href="https://market.android.com/details?id=org.solovyev.android.calculator">андроид.маркете</a>
 	</string>
 
 	<string name="c_undo">назад</string>
@@ -141,6 +141,6 @@
 	<string name="c_fun_description_gt">Больше - возвращает 1, если первый аргумент больше второго, иначе 0.</string>
 
 	<string name="c_empty_var_error">Невозможно создать пустую константу!</string>
-	<string name="c_not_valid_result">Результат не валиден!</string>
+	<string name="c_not_valid_result">Результат не допустим!</string>
 
 </resources>
