@@ -26,7 +26,6 @@ import org.solovyev.common.utils.StringUtils;
 @Root
 public class Var implements IConstant {
 
-	@NotNull
 	@Transient
 	private Integer id;
 
@@ -82,7 +81,9 @@ public class Var implements IConstant {
 
 			this.system = iConstant.isSystem();
 			this.description = iConstant.getDescription();
-			this.id = iConstant.getId();
+			if (iConstant.isIdDefined()) {
+				this.id = iConstant.getId();
+			}
 		}
 
 		public Builder(@NotNull String name, @NotNull Double value) {
@@ -145,6 +146,9 @@ public class Var implements IConstant {
 			this.value = that.getValue();
 			this.description = that.getDescription();
 			this.system = that.isSystem();
+			if (that.isIdDefined()) {
+				this.id = that.getId();
+			}
 		} else {
 			throw new IllegalArgumentException("Trying to make a copy of unsupported type: " + o.getClass());
 		}
@@ -182,6 +186,11 @@ public class Var implements IConstant {
 	@Override
 	public Integer getId() {
 		return this.id;
+	}
+
+	@Override
+	public boolean isIdDefined() {
+		return this.id != null;
 	}
 
 	@Override
