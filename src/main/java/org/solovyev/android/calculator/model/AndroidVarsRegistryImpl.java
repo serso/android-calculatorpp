@@ -37,84 +37,89 @@ class AndroidVarsRegistryImpl implements AndroidVarsRegistry {
 		this.mathRegistry = mathRegistry;
 	}
 
-	private boolean initialized = false;
-
 	public synchronized void init(@Nullable Context context, @Nullable SharedPreferences preferences) {
 
-		if (!initialized) {
-
-			if (context != null && preferences != null) {
-				final String value = preferences.getString(context.getString(R.string.p_calc_vars), null);
-				if (value != null) {
-					final Serializer serializer = new Persister();
-					try {
-						final Vars vars = serializer.read(Vars.class, value);
-						for (Var var : vars.getVars()) {
-							if (!contains(var.getName())) {
-								add(null, new Var.Builder(var));
-							}
+		if (context != null && preferences != null) {
+			final String value = preferences.getString(context.getString(R.string.p_calc_vars), null);
+			if (value != null) {
+				final Serializer serializer = new Persister();
+				try {
+					final Vars vars = serializer.read(Vars.class, value);
+					for (Var var : vars.getVars()) {
+						if (!contains(var.getName())) {
+							add(new Var.Builder(var));
 						}
-					} catch (Exception e) {
-						throw new RuntimeException(e);
 					}
-				}
-			}
-
-
-			for (String systemVarName : MathType.constants) {
-
-				final Var.Builder builder;
-				final Integer varDescription;
-
-				if (systemVarName.equals(MathType.E)) {
-					builder = new Var.Builder(systemVarName, Math.E);
-					varDescription = R.string.c_e_description;
-				} else if (systemVarName.equals(MathType.PI)) {
-					builder = new Var.Builder(systemVarName, Math.PI);
-					varDescription = R.string.c_pi_description;
-				} else if (systemVarName.equals(MathType.C)) {
-					builder = new Var.Builder(systemVarName, MathType.C_VALUE);
-					varDescription = R.string.c_c_description;
-				} else if (systemVarName.equals(MathType.G)) {
-					builder = new Var.Builder(systemVarName, MathType.G_VALUE);
-					varDescription = R.string.c_g_description;
-					/*			} else if (systemVarName.equals(MathType.H)) {
-										builder = new Var.Builder(systemVarName, MathType.H_VALUE);
-										varDescription = R.string.c_h_description;*/
-				} else if (systemVarName.equals(MathType.H_REDUCED)) {
-					builder = new Var.Builder(systemVarName, MathType.H_REDUCED_VALUE);
-					varDescription = R.string.c_h_reduced_description;
-				} else if (systemVarName.equals(MathType.IMAGINARY_NUMBER)) {
-					builder = new Var.Builder(systemVarName, MathType.IMAGINARY_NUMBER_JSCL);
-					varDescription = R.string.c_i_description;
-				} else if (systemVarName.equals(MathType.NAN)) {
-					builder = new Var.Builder(systemVarName, MathType.NAN);
-					varDescription = R.string.c_nan_description;
-				} else if (systemVarName.equals(MathType.INFINITY)) {
-					builder = new Var.Builder(systemVarName, MathType.INFINITY_JSCL);
-					varDescription = R.string.c_infinity_description;
-				} else {
-					throw new IllegalArgumentException(systemVarName + " is not supported yet!");
-				}
-
-				builder.setSystem(true);
-
-				if (context != null) {
-					builder.setDescription(context.getString(varDescription));
-				}
-
-				if (!contains(systemVarName)) {
-					add(null, builder);
+				} catch (Exception e) {
+					throw new RuntimeException(e);
 				}
 			}
 		}
 
-		initialized = true;
+
+		for (String systemVarName : MathType.constants) {
+
+			final Var.Builder builder;
+			final Integer varDescription;
+
+			if (systemVarName.equals(MathType.E)) {
+				builder = createBuilder(systemVarName, String.valueOf(Math.E));
+				varDescription = R.string.c_e_description;
+			} else if (systemVarName.equals(MathType.PI)) {
+				builder = createBuilder(systemVarName, String.valueOf(Math.PI));
+				varDescription = R.string.c_pi_description;
+			} else if (systemVarName.equals(MathType.C)) {
+				builder = createBuilder(systemVarName, String.valueOf(MathType.C_VALUE));
+				varDescription = R.string.c_c_description;
+			} else if (systemVarName.equals(MathType.G)) {
+				builder = createBuilder(systemVarName, String.valueOf(MathType.G_VALUE));
+				varDescription = R.string.c_g_description;
+				/*			} else if (systemVarName.equals(MathType.H)) {
+														builder = new Var.Builder(systemVarName, MathType.H_VALUE);
+														varDescription = R.string.c_h_description;*/
+			} else if (systemVarName.equals(MathType.H_REDUCED)) {
+				builder = createBuilder(systemVarName, String.valueOf(MathType.H_REDUCED_VALUE));
+				varDescription = R.string.c_h_reduced_description;
+			} else if (systemVarName.equals(MathType.IMAGINARY_NUMBER)) {
+				builder = createBuilder(systemVarName, MathType.IMAGINARY_NUMBER_JSCL);
+				varDescription = R.string.c_i_description;
+			} else if (systemVarName.equals(MathType.NAN)) {
+				builder = createBuilder(systemVarName, MathType.NAN);
+				varDescription = R.string.c_nan_description;
+			} else if (systemVarName.equals(MathType.INFINITY)) {
+				builder = createBuilder(systemVarName, MathType.INFINITY_JSCL);
+				varDescription = R.string.c_infinity_description;
+			} else {
+				throw new IllegalArgumentException(systemVarName + " is not supported yet!");
+			}
+
+			builder.setSystem(true);
+
+			if (context != null) {
+				builder.setDescription(context.getString(varDescription));
+			}
+
+			add(builder);
+		}
+
 
 		/*Log.d(AndroidVarsRegistry.class.getName(), vars.size() + " variables registered!");
 		for (Var var : vars) {
 			Log.d(AndroidVarsRegistry.class.getName(), var.toString());
 		}*/
+	}
+
+	private Var.Builder createBuilder(@NotNull String varName, @NotNull String varValue) {
+		final Var.Builder result;
+
+		final IConstant varFromRegistry = mathRegistry.get(varName);
+		if (varFromRegistry == null) {
+			result = new Var.Builder(varName, varValue);
+		} else {
+			result = new Var.Builder(varFromRegistry);
+		}
+
+		return result;
 	}
 
 	@Override
@@ -163,8 +168,8 @@ class AndroidVarsRegistryImpl implements AndroidVarsRegistry {
 	}
 
 	@Override
-	public Var add(@Nullable String name, @NotNull IBuilder<? extends Var> IBuilder) {
-		IConstant result = mathRegistry.add(name, IBuilder);
+	public Var add(@NotNull IBuilder<? extends Var> IBuilder) {
+		IConstant result = mathRegistry.add(IBuilder);
 		if (result instanceof Var) {
 			return (Var) result;
 		} else if (result != null) {

@@ -71,8 +71,8 @@ public class AndroidFunctionsRegistryImpl implements AndroidFunctionsRegistry {
 	}
 
 	@Override
-	public Function add(@Nullable String name, @NotNull IBuilder<? extends Function> IBuilder) {
-		return functionsRegistry.add(name, IBuilder);
+	public Function add(@NotNull IBuilder<? extends Function> IBuilder) {
+		return functionsRegistry.add(IBuilder);
 	}
 
 	@Override
