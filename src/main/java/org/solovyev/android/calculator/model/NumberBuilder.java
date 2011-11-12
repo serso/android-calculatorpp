@@ -13,11 +13,14 @@ import org.solovyev.common.utils.CollectionsUtils;
 import org.solovyev.common.utils.Finder;
 import org.solovyev.common.utils.MutableObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
-* User: serso
-* Date: 10/23/11
-* Time: 2:57 PM
-*/
+ * User: serso
+ * Date: 10/23/11
+ * Time: 2:57 PM
+ */
 public class NumberBuilder {
 
 	@Nullable
@@ -36,7 +39,8 @@ public class NumberBuilder {
 		number = null;
 
 		final MathType.Result possibleResult;
-		if (CollectionsUtils.contains(mathTypeResult.getMathType(), MathType.digit, MathType.dot, MathType.grouping_separator, MathType.power_10)) {
+		if (CollectionsUtils.contains(mathTypeResult.getMathType(), MathType.digit, MathType.dot, MathType.grouping_separator, MathType.power_10) ||
+				isSignAfterE(mathTypeResult)) {
 			if (numberBuilder == null) {
 				numberBuilder = new StringBuilder();
 			}
@@ -51,17 +55,31 @@ public class NumberBuilder {
 		return possibleResult == null ? mathTypeResult : possibleResult;
 	}
 
+	private boolean isSignAfterE(@NotNull MathType.Result mathTypeResult) {
+		if ("-".equals(mathTypeResult.getMatch()) || "+".equals(mathTypeResult.getMatch())) {
+			if (numberBuilder != null && numberBuilder.length() > 0) {
+				if (numberBuilder.charAt(numberBuilder.length() - 1) == MathType.POWER_10) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 
 	@Nullable
 	public MathType.Result process(@NotNull StringBuilder sb, @Nullable MutableObject<Integer> numberOffset) {
-		int numberOfGroupingSeparators = 0;
+		int numberOfTokens = 0;
 
 		if (numberBuilder != null) {
 			try {
 				number = numberBuilder.toString();
-				for (String groupingSeparator : MathType.grouping_separator.getTokens()) {
+				List<String> tokens = new ArrayList<String>();
+				tokens.addAll(MathType.grouping_separator.getTokens());
+				tokens.add("+");
+				for (String groupingSeparator : tokens) {
 					String newNumber = number.replace(groupingSeparator, "");
-					numberOfGroupingSeparators += number.length() - newNumber.length();
+					numberOfTokens += number.length() - newNumber.length();
 					number = newNumber;
 				}
 				Double.valueOf(number);
@@ -74,11 +92,11 @@ public class NumberBuilder {
 			number = null;
 		}
 
-		return replaceSystemVars(sb, number, numberOfGroupingSeparators, numberOffset);
+		return replaceSystemVars(sb, number, numberOfTokens, numberOffset);
 	}
 
 	@Nullable
-	private MathType.Result replaceSystemVars(StringBuilder sb, String number, int numberOfGroupingSeparators, @Nullable MutableObject<Integer> numberOffset) {
+	private MathType.Result replaceSystemVars(StringBuilder sb, String number, int numberOfTokens, @Nullable MutableObject<Integer> numberOffset) {
 		MathType.Result result = null;
 
 		if (number != null) {
@@ -91,11 +109,11 @@ public class NumberBuilder {
 			});
 
 			if (var != null) {
-				sb.delete(sb.length() - number.length() - numberOfGroupingSeparators, sb.length());
+				sb.delete(sb.length() - number.length() - numberOfTokens, sb.length());
 				sb.append(var.getName());
 				result = new MathType.Result(MathType.constant, var.getName());
 			} else {
-				sb.delete(sb.length() - number.length() - numberOfGroupingSeparators, sb.length());
+				sb.delete(sb.length() - number.length() - numberOfTokens, sb.length());
 
 				final String formattedNumber;
 
@@ -103,9 +121,20 @@ public class NumberBuilder {
 					int indexOfDot = number.indexOf('.');
 
 					if (indexOfDot < 0) {
-						formattedNumber = CalculatorEngine.instance.format(Double.valueOf(number), false);
+						int indexOfE = number.indexOf('E');
+						if (indexOfE < 0) {
+							formattedNumber = CalculatorEngine.instance.format(Double.valueOf(number), false);
+						} else {
+							final String part;
+							if (indexOfDot != 0) {
+								part = CalculatorEngine.instance.format(Double.valueOf(number.substring(0, indexOfE)), false);
+							} else {
+								part = "";
+							}
+							formattedNumber = part + number.substring(indexOfE);
+						}
 					} else {
-						String integerPart = null;
+						final String integerPart;
 						if (indexOfDot != 0) {
 							integerPart = CalculatorEngine.instance.format(Double.valueOf(number.substring(0, indexOfDot)), false);
 						} else {
@@ -118,7 +147,7 @@ public class NumberBuilder {
 				}
 
 				if (numberOffset != null) {
-					numberOffset.setObject(formattedNumber.length() - number.length() - numberOfGroupingSeparators);
+					numberOffset.setObject(formattedNumber.length() - number.length() - numberOfTokens);
 				}
 				sb.append(formattedNumber);
 			}
