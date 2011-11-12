@@ -10,6 +10,7 @@
 													   a:id="@+id/plusButton"
 													   calc:directionTextScale="0.5"
 													   calc:textUp="°"
+													   calc:textDown="E"
 													   a:text="+"
 													   style="?digitButtonStyle"
 													   a:onClick="digitButtonClickHandler"/>

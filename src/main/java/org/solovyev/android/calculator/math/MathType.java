@@ -43,12 +43,7 @@ public enum MathType {
 		}
 	},
 
-	power_10(300, true, false, "E") {
-		@Override
-		protected String getSubstituteToJscl(@NotNull String match) {
-			return POWER_10_JSCL;
-		}
-	},
+	power_10(300, false, false, "E"),
 
 	postfix_function(400, false, true) {
 		@NotNull
@@ -260,7 +255,6 @@ public enum MathType {
 	public static final List<String> openGroupSymbols = Arrays.asList("[]", "()", "{}");
 
 	public final static Character POWER_10 = 'E';
-	public final static String POWER_10_JSCL = "10^";
 
 	public static final String IMAGINARY_NUMBER = "i";
 	public static final String IMAGINARY_NUMBER_JSCL = "√(-1)";

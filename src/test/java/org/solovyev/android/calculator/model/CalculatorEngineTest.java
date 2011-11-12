@@ -153,6 +153,7 @@ public class CalculatorEngineTest {
 		Assert.assertEquals("11∞t", cm.evaluate(JsclOperation.numeric, "t11∞").getResult());
 		Assert.assertEquals("-t+t^3", cm.evaluate(JsclOperation.numeric, "t(t-1)(t+1)").getResult());
 
+		Assert.assertEquals("100", cm.evaluate(JsclOperation.numeric, "0.1E3").getResult());
 		Assert.assertEquals("3.957", cm.evaluate(JsclOperation.numeric, "ln(8)lg(8)+ln(8)").getResult());
 
 
@@ -214,8 +215,8 @@ public class CalculatorEngineTest {
 		cm.setPrecision(2);
 		Assert.assertEquals("12'345'678.9", cm.evaluate(JsclOperation.numeric, "1.23456789E7").getResult());
 		cm.setPrecision(10);
-		Assert.assertEquals("12'345'678.899999999", cm.evaluate(JsclOperation.numeric, "1.23456789E7").getResult());
-		Assert.assertEquals("123'456'788.99999999", cm.evaluate(JsclOperation.numeric, "1.234567890E8").getResult());
+		Assert.assertEquals("12'345'678.9", cm.evaluate(JsclOperation.numeric, "1.23456789E7").getResult());
+		Assert.assertEquals("123'456'789", cm.evaluate(JsclOperation.numeric, "1.234567890E8").getResult());
 		Assert.assertEquals("1'234'567'890.1", cm.evaluate(JsclOperation.numeric, "1.2345678901E9").getResult());
 	}
 
