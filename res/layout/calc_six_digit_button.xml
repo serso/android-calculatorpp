@@ -9,7 +9,7 @@
 <org.solovyev.android.view.widgets.DirectionDragButton xmlns:a="http://schemas.android.com/apk/res/android"
 													   xmlns:calc="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
 													   a:id="@+id/sixDigitButton" a:text="6"
-													   calc:textUp="tanh"
-													   calc:textDown="atanh"
+													   calc:textUp="deg"
+													   calc:textDown="rad"
 													   style="?digitButtonStyle"
 													   a:onClick="digitButtonClickHandler"/>
