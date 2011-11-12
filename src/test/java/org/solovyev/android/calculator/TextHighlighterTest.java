@@ -53,5 +53,9 @@ public class TextHighlighterTest {
 				"        ln(8)*log(8) =>  ln(8)*og(8) FIXED\n" +
 				"        copy/paste ln(8)*log(8)\n" +
 				"        6!^2 ERROR");
+
+		Assert.assertEquals("<font color=\"#000000\"><i>sin</i>(</font><font color=\"#ffff9a\">2</font><font color=\"#000000\">)</font>", textHighlighter.process("sin(2)").toString());
+		Assert.assertEquals("<font color=\"#000000\"><i>atanh</i>(</font><font color=\"#ffff9a\">2</font><font color=\"#000000\">)</font>", textHighlighter.process("atanh(2)").toString());
+
 	}
 }

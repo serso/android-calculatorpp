@@ -41,6 +41,8 @@ public class MathTypeTest {
 			Assert.fail();
 		} catch (IllegalArgumentException e) {
 		}
+
+		Assert.assertEquals("atanh", MathType.getType("atanh", 0).getMatch());
 	}
 
 /*	@Test
