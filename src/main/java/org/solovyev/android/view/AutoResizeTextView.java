@@ -8,11 +8,12 @@ package org.solovyev.android.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.text.Editable;
 import android.text.Layout.Alignment;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.AttributeSet;
-import android.util.TypedValue;
+import android.util.Log;
 import android.widget.TextView;
 
 /**
@@ -163,7 +164,9 @@ public class AutoResizeTextView extends TextView {
 	@Override
 	protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
 		if (changed || needsResize) {
-			resizeText(right - left, bottom - top, getText());
+			int widthLimit = (right - left) - getCompoundPaddingLeft() - getCompoundPaddingRight();
+			int heightLimit = (bottom - top) - getCompoundPaddingBottom() - getCompoundPaddingTop();
+			resizeText(widthLimit, heightLimit, getText());
 		}
 		super.onLayout(changed, left, top, right, bottom);
 	}
@@ -175,7 +178,7 @@ public class AutoResizeTextView extends TextView {
 		resizeText(getText());
 	}
 
-	public void resizeText(final CharSequence text) {
+	private void resizeText(final CharSequence text) {
 		int heightLimit = getHeight() - getPaddingBottom() - getPaddingTop();
 		int widthLimit = getWidth() - getPaddingLeft() - getPaddingRight();
 		resizeText(widthLimit, heightLimit, text);
@@ -188,7 +191,8 @@ public class AutoResizeTextView extends TextView {
 	 * @param height
 	 * @param text
 	 */
-	public void resizeText(int width, int height, final CharSequence text) {
+	private void resizeText(int width, int height, CharSequence text) {
+		Log.d(this.getClass().getName(), "Resizing: w=" + width + ", h=" + height + ", text='" + text + "'");
 
 		// Do not resize if the view does not have dimensions or there is no text
 		if (text == null || text.length() == 0 || height <= 0 || width <= 0) {
@@ -200,29 +204,46 @@ public class AutoResizeTextView extends TextView {
 
 		// Store the current text size
 		float oldTextSize = textPaint.getTextSize();
+		Log.d(this.getClass().getName(), "Old text size: " + oldTextSize);
 
 		// If there is a max text size set, use the lesser of that and the default text size
 		float newTextSize = 100;
 
-		// Get the required text height
-		int newTextHeight = getTextRect(text, textPaint, width, newTextSize);
+		int newTextHeight;
 
-		if (newTextHeight > height) {
-			// Until we either fit within our text view or we had reached our min text size, incrementally try smaller sizes
-			while (newTextHeight > height) {
-				if (newTextSize <= minTextSize) {
-					break;
+		if (text instanceof Editable) {
+			((Editable) text).append("|");
+		}
+
+		try {
+
+			// Get the required text height
+			newTextHeight = getTextRect(text, textPaint, width, newTextSize);
+
+			logDimensions(newTextSize, newTextHeight);
+			if (newTextHeight > height) {
+				// Until we either fit within our text view or we had reached our min text size, incrementally try smaller sizes
+				while (newTextHeight > height) {
+					if (newTextSize <= minTextSize) {
+						break;
+					}
+					newTextSize = Math.max(newTextSize - 2, minTextSize);
+					newTextHeight = getTextRect(text, textPaint, width, newTextSize);
+					logDimensions(newTextSize, newTextHeight);
 				}
-				newTextSize = Math.max(newTextSize - 2, minTextSize);
-				newTextHeight = getTextRect(text, textPaint, width, newTextSize);
+			} else {
+				while (newTextHeight < height) {
+					if (newTextSize <= minTextSize) {
+						break;
+					}
+					newTextSize = Math.max(newTextSize + 2, minTextSize);
+					newTextHeight = getTextRect(text, textPaint, width, newTextSize);
+					logDimensions(newTextSize, newTextHeight);
+				}
 			}
-		} else {
-			while (newTextHeight < height) {
-				if (newTextSize <= minTextSize) {
-					break;
-				}
-				newTextSize = Math.max(newTextSize + 2, minTextSize);
-				newTextHeight = getTextRect(text, textPaint, width, newTextSize);
+		} finally {
+			if (text instanceof Editable) {
+				((Editable) text).delete(text.length() - 1, text.length());
 			}
 		}
 
@@ -257,6 +278,10 @@ public class AutoResizeTextView extends TextView {
 
 		// Reset force resize flag
 		needsResize = false;
+	}
+
+	private void logDimensions(float newTextSize, int newTextHeight) {
+		Log.d(this.getClass().getName(), "Nex text size: " + newTextSize + ", new text height: " + newTextHeight);
 	}
 
 	// Set the text size of the text paint object and use a static layout to render text off screen before measuring
