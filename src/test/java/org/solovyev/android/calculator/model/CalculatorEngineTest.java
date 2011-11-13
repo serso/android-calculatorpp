@@ -179,6 +179,31 @@ public class CalculatorEngineTest {
 	}
 
 	@Test
+	public void testI() throws ParseException {
+		final CalculatorEngine cm = CalculatorEngine.instance;
+
+		Assert.assertEquals("-i", cm.evaluate(JsclOperation.numeric, "i^3").getResult());
+		for (int i = 0; i < 1000; i++) {
+		 	double real = (Math.random()-0.5) * 1000;
+		 	double imag = (Math.random()-0.5) * 1000;
+		 	int exp = (int)(Math.random() * 10);
+
+			final StringBuilder sb = new StringBuilder();
+			sb.append(real);
+			if ( imag > 0 ) {
+				sb.append("+");
+			}
+			sb.append(imag);
+			sb.append("^").append(exp);
+			try {
+				cm.evaluate(JsclOperation.numeric, sb.toString()).getResult();
+			} catch (Throwable e) {
+				fail(sb.toString());
+			}
+		}
+	}
+
+	@Test
 	public void testEmptyFunction() throws Exception {
 		final CalculatorEngine cm = CalculatorEngine.instance;
 		try {
