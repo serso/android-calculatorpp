@@ -12,6 +12,7 @@ import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.calculator.model.ParseException;
 import org.solovyev.android.calculator.model.TextProcessor;
+import org.solovyev.common.utils.StringUtils;
 
 /**
  * User: serso
@@ -47,40 +48,54 @@ class FromJsclNumericTextProcessor implements TextProcessor<String> {
 		return result;
 	}
 
-	private String format(@NotNull String value) {
+	private String format(@NotNull String value) throws java.lang.NumberFormatException {
 		return CalculatorEngine.instance.format(Double.valueOf(value));
 	}
 
 	protected String createResultForComplexNumber(@NotNull final String s) {
 		final Complex complex = new Complex();
 
-		String result = "";
-		// may be it's just complex number
-		int plusIndex = s.lastIndexOf("+");
-		if (plusIndex >= 0) {
-			complex.setReal(format(s.substring(0, plusIndex)));
-			result += complex.getReal();
-			result += "+";
-		} else {
-			plusIndex = s.lastIndexOf("-");
-			if (plusIndex >= 0) {
-				complex.setReal(format(s.substring(0, plusIndex)));
-				result += complex.getReal();
-				result += "-";
-			}
-		}
+		final StringBuilder result = new StringBuilder();
 
+		// may be it's just complex number
+		int signIndex = tryRealPart(s, complex, result, "+");
+		if (signIndex < 0) {
+			signIndex = tryRealPart(s, complex, result, "-");
+		}
 
 		int multiplyIndex = s.indexOf("*");
 		if (multiplyIndex >= 0) {
-			complex.setImaginary(format(s.substring(plusIndex >= 0 ? plusIndex + 1 : 0, multiplyIndex)));
-			result += complex.getImaginary();
+			complex.setImaginary(format(s.substring(signIndex >= 0 ? signIndex + 1 : 0, multiplyIndex)));
+			result.append(complex.getImaginary());
 
 		}
 
-		result += MathType.IMAGINARY_NUMBER;
+		result.append(MathType.IMAGINARY_NUMBER);
 
-		return result;
+		return result.toString();
+	}
+
+	private int tryRealPart(@NotNull String s,
+							@NotNull Complex complex,
+							@NotNull StringBuilder result,
+							@NotNull String sign) {
+		int index = s.lastIndexOf(sign);
+		if (index >= 0) {
+			final String substring = s.substring(0, index);
+
+			if (!StringUtils.isEmpty(substring)) {
+				try {
+					complex.setReal(format(substring));
+					result.append(complex.getReal());
+				} catch (NumberFormatException e) {
+					// do nothing
+				}
+			}
+
+			result.append(sign);
+		}
+
+		return index;
 	}
 
 	private class Complex {
