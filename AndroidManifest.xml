@@ -3,8 +3,8 @@
 <manifest xmlns:a="http://schemas.android.com/apk/res/android"
 		  package="org.solovyev.android.calculator"
 		  a:installLocation="auto"
-		  a:versionCode="10"
-		  a:versionName="1.1.8">
+		  a:versionCode="11"
+		  a:versionName="1.1.9">
 
 	<uses-permission a:name="android.permission.VIBRATE"/>
 
