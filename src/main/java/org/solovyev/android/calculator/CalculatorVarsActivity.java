@@ -301,7 +301,7 @@ public class CalculatorVarsActivity extends ListActivity {
 
 		if (!StringUtils.isEmpty(name)) {
 			try {
-				Identifier.parser.parse(name, new MutableInt(0));
+				Identifier.parser.parse(name, new MutableInt(0), 0);
 				result = true;
 			} catch (ParseException e) {
 				// not valid name;
