@@ -139,7 +139,8 @@
 	<string name="c_fun_description_ne">Не-равно - возвращает 1, если два аргумента не равны, иначе 0.</string>
 	<string name="c_fun_description_lt">Меньше - возвращает 1, если первый аргумент меньше второго, иначе 0.</string>
 	<string name="c_fun_description_gt">Больше - возвращает 1, если первый аргумент больше второго, иначе 0.</string>
-  	<string name="c_fun_description_rad">Преобразует градусы в радианы.</string>
+	<string name="c_fun_description_rad">Преобразует градусы в радианы: d - градусы, m - минуты (по умолчанию = 0), s - секунды (по умолчанию = 0) </string>
+	<string name="c_fun_description_dms">Преобразует градусы из шестидесятеричной системы в десятичную: d - градусы, m - минуты (по умолчанию = 0), s - секунды (по умолчанию = 0) </string>
 	<string name="c_fun_description_deg">Преобразует радианы в градусы.</string>
 
 	<string name="c_empty_var_error">Невозможно создать пустую константу!</string>

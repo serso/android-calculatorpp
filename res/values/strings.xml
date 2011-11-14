@@ -140,7 +140,8 @@
 	<string name="c_fun_description_ne">Not-equals function - gives 1 if two arguments are not equals, 0 otherwise.</string>
 	<string name="c_fun_description_lt">Lesser function - gives 1 if first argument is less than second, 0 otherwise.</string>
 	<string name="c_fun_description_gt">Greater function - gives 1 if first argument is greater than second, 0 otherwise.</string>
-	<string name="c_fun_description_rad">Converts degrees into radians.</string>
+	<string name="c_fun_description_rad">Converts degrees into radians: d - degrees, m - minutes (default = 0), s - seconds (default = 0) </string>
+	<string name="c_fun_description_dms">Converts degrees from DMS notation to decimal notation: d - degrees, m - minutes (default = 0), s - seconds (default = 0) </string>
 	<string name="c_fun_description_deg">Converts radians into degrees.</string>
 
 	<string name="c_empty_var_error">Unable to create empty constant!</string>
