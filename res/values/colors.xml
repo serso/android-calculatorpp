@@ -7,6 +7,8 @@
 <resources>
 	<color name="magic_flame">#00ffffff</color>
 	<color name="button_text_color">#ffffffff</color>
+	<color name="button_operator_text_color">#ffffff99</color>
+	<color name="button_ce_text_color">#ffffffff</color>
 	<color name="default_text_color">#ffffffff</color>
 	<color name="default_background">#ff000000</color>
 </resources>
