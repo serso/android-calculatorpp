@@ -6,6 +6,7 @@
 package org.solovyev.android.view.widgets;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -165,7 +166,10 @@ public class DirectionDragButton extends DragButton {
 			paint = getPaint();
 		}
 
+		final Resources resources = getResources();
+
 		upDownTextPaint = new TextPaint(paint);
+		upDownTextPaint.setColor(resources.getColor(R.color.button_text_color));
 		upDownTextPaint.setAlpha(150);
 		upDownTextPaint.setTextSize(paint.getTextSize() * getDirectionTextScale());
 	}

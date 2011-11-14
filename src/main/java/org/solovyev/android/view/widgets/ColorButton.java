@@ -35,8 +35,11 @@ import android.widget.Button;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.view.FontSizeAdjuster;
+import org.solovyev.common.utils.CollectionsUtils;
 import org.solovyev.common.utils.Point2d;
 import org.solovyev.common.utils.StringUtils;
+
+import java.util.Arrays;
 
 /**
  * NOTE: copied from com.android.calculator2.ColorButton
@@ -79,13 +82,20 @@ public class ColorButton extends Button {
 	}
 
 	protected void init(Context context) {
-		Resources res = getResources();
+		final Resources resources = getResources();
 
-		CLICK_FEEDBACK_COLOR = res.getColor(org.solovyev.android.calculator.R.color.magic_flame);
+		CLICK_FEEDBACK_COLOR = resources.getColor(org.solovyev.android.calculator.R.color.magic_flame);
 		feedbackPaint = new Paint();
 		feedbackPaint.setStyle(Style.STROKE);
 		feedbackPaint.setStrokeWidth(2);
-		getPaint().setColor(res.getColor(R.color.button_text_color));
+
+		if (CollectionsUtils.contains(getText().toString(), Arrays.asList("+", "-", "/", "×"))) {
+			getPaint().setColor(resources.getColor(R.color.button_operator_text_color));
+		} else if (getText().toString().equals("CE"))  {
+			getPaint().setColor(resources.getColor(R.color.button_ce_text_color));
+		} else {
+			getPaint().setColor(resources.getColor(R.color.button_text_color));
+		}
 
 		animationStart = -1;
 
