@@ -257,29 +257,19 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 				@Override
 				public void doOperation(@NotNull EditText editor) {
 					int cursorPositionOffset = 0;
-					final StringBuilder textToBeInserted = new StringBuilder();
+					final StringBuilder textToBeInserted = new StringBuilder(text);
 
-					if (text.equals("+…%")) {
-						textToBeInserted .append("+%");
-						cursorPositionOffset = -1;
-					} else if (text.equals("-…%")) {
-						textToBeInserted.append("-%");
-						cursorPositionOffset = -1;
-					} else {
-						textToBeInserted.append(text);
+					final MathType.Result mathType = MathType.getType(text, 0);
+					switch (mathType.getMathType()) {
+						case function:
+							textToBeInserted.append("()");
+							cursorPositionOffset = -1;
+							break;
+					}
 
-						final MathType.Result mathType = MathType.getType(text, 0);
-						switch (mathType.getMathType()) {
-							case function:
-								textToBeInserted.append("()");
-								cursorPositionOffset = -1;
-								break;
-						}
-
-						if (cursorPositionOffset == 0) {
-							if (MathType.openGroupSymbols.contains(text)) {
-								cursorPositionOffset = -1;
-							}
+					if (cursorPositionOffset == 0) {
+						if (MathType.openGroupSymbols.contains(text)) {
+							cursorPositionOffset = -1;
 						}
 					}
 
