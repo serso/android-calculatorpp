@@ -7,6 +7,7 @@ package org.solovyev.android.calculator;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Build;
 import android.text.Html;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -42,7 +43,13 @@ public class CalculatorEditor extends EditText {
 
 	@Override
 	public boolean onCheckIsTextEditor() {
+		// fix for missing cursor in android
+		//if ( Build.VERSION.SDK_INT >= 11 ) {
+			// cannot be applied as in that case soft keyboard appears on application start
+			//return true;
+		//} else {
 		return false;
+		//}
 	}
 
 	@Override
