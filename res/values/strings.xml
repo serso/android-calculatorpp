@@ -140,12 +140,20 @@
 	<string name="c_fun_description_ne">Not-equals function - gives 1 if two arguments are not equals, 0 otherwise.</string>
 	<string name="c_fun_description_lt">Lesser function - gives 1 if first argument is less than second, 0 otherwise.</string>
 	<string name="c_fun_description_gt">Greater function - gives 1 if first argument is greater than second, 0 otherwise.</string>
-	<string name="c_fun_description_rad">Converts degrees into radians: d - degrees, m - minutes (default = 0), s - seconds (default = 0) </string>
-	<string name="c_fun_description_dms">Converts degrees from DMS notation to decimal notation: d - degrees, m - minutes (default = 0), s - seconds (default = 0) </string>
+	<string name="c_fun_description_rad">Converts degrees into radians: d - degrees, m - minutes (default = 0), s - seconds (default = 0).</string>
+	<string name="c_fun_description_dms">Converts degrees from DMS notation to decimal notation: d - degrees, m - minutes (default = 0), s - seconds (default = 0).</string>
 	<string name="c_fun_description_deg">Converts radians into degrees.</string>
 
 	<string name="c_empty_var_error">Unable to create empty constant!</string>
 	<string name="c_not_valid_result">Current result is not valid!</string>
 	<string name="c_operators">Operators</string>
+
+	<string name="c_op_description_mod">Modulo operation finds the remainder of division of \'x\' by \'y\'.</string>
+	<string name="c_op_description_sum">Sums functions \'f(i)\', iterating through \'i\' from \'from\' to \'to\'.</string>
+	<string name="c_op_description_product">Gives product of functions \'f(i)\', iterating through \'i\' from \'from\' to \'to\'.</string>
+	<string name="c_op_description_derivative">Gives derivative of order \'order\' of functions \'f(x)\' by \'x\' variable and calculates at point \'x_point\'.</string>
+	<string name="c_op_description_integral">Gives integral of function \'f(x)\' by \'x\' variable.</string>
+	<string name="c_op_description_integral_ab">Integrates function \'f(x)\' by \'x\' variable from \'a\' to \'b\'.</string>
+
 
 </resources>

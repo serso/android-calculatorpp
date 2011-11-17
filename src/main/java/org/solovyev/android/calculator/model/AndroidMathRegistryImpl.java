@@ -7,7 +7,6 @@
 package org.solovyev.android.calculator.model;
 
 import android.content.Context;
-import jscl.math.function.Function;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.R;
@@ -24,32 +23,40 @@ import java.util.Map;
  * Date: 10/30/11
  * Time: 1:03 AM
  */
-public class AndroidMathRegistryImpl<T extends MathEntity> implements AndroidMathRegistry<T> {
-
-	@NotNull
-	private static final String FUNCTION_DESCRIPTION_PREFIX = "c_fun_description_";
+public abstract class AndroidMathRegistryImpl<T extends MathEntity> implements AndroidMathRegistry<T> {
 
 	@NotNull
 	private final MathRegistry<T> functionsRegistry;
 
-	public AndroidMathRegistryImpl(@NotNull MathRegistry<T> functionsRegistry) {
+	@NotNull
+	private final String prefix;
+
+	protected AndroidMathRegistryImpl(@NotNull MathRegistry<T> functionsRegistry, @NotNull String prefix) {
 		this.functionsRegistry = functionsRegistry;
+		this.prefix = prefix;
 	}
+
+	@NotNull
+	protected abstract Map<String, String> getSubstitutes();
 
 	@Nullable
 	@Override
-	public String getDescription(@NotNull Context context, @NotNull String functionName) {
+	public String getDescription(@NotNull Context context, @NotNull String name) {
 		final String result;
 
 		final Map<String, Integer> stringsCache = RClassUtils.getCache(R.string.class);
 
 		final Integer stringId;
-		if (!functionName.equals("√")) {
-			stringId = stringsCache.get(FUNCTION_DESCRIPTION_PREFIX + functionName);
+
+		final Map<String, String> substitutes = getSubstitutes();
+		final String substitute = substitutes.get(name);
+		if (substitute == null) {
+			stringId = stringsCache.get(prefix + name);
 		} else {
 			// todo serso: think
-			stringId = stringsCache.get(FUNCTION_DESCRIPTION_PREFIX + "sqrt");
+			stringId = stringsCache.get(prefix + substitute);
 		}
+
 		if (stringId != null) {
 			result = context.getString(stringId);
 		} else {
