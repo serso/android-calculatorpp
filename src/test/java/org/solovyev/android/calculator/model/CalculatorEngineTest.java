@@ -81,7 +81,7 @@ public class CalculatorEngineTest {
 		Assert.assertEquals("0", cm.evaluate(JsclOperation.numeric, "eq(0, 1)").getResult());
 		Assert.assertEquals("1", cm.evaluate(JsclOperation.numeric, "eq(1, 1)").getResult());
 		Assert.assertEquals("1", cm.evaluate(JsclOperation.numeric, "eq(  1,   1)").getResult());
-		Assert.assertEquals("eq(1,1)", cm.evaluate(JsclOperation.simplify, "eq(  1,   1)").getResult());
+		Assert.assertEquals("1", cm.evaluate(JsclOperation.simplify, "eq(  1,   1)").getResult());
 		Assert.assertEquals("1", cm.evaluate(JsclOperation.numeric, "lg(10)").getResult());
 		Assert.assertEquals("4", cm.evaluate(JsclOperation.numeric, "2+2").getResult());
 		Assert.assertEquals("-0.757", cm.evaluate(JsclOperation.numeric, "sin(4)").getResult());
@@ -184,6 +184,12 @@ public class CalculatorEngineTest {
 			cm.setTimeout(3000);
 		}*/
 
+		CalculatorEngine.instance.getVarsRegister().add(new Var.Builder("t", (String) null));
+		Assert.assertEquals("2t", cm.evaluate(JsclOperation.simplify, "∂(t^2,t)").getResult());
+		Assert.assertEquals("2t", cm.evaluate(JsclOperation.numeric, "∂(t^2,t)").getResult());
+		CalculatorEngine.instance.getVarsRegister().add(new Var.Builder("t", "2"));
+		Assert.assertEquals("2t", cm.evaluate(JsclOperation.simplify, "∂(t^2,t)").getResult());
+		Assert.assertEquals("4", cm.evaluate(JsclOperation.numeric, "∂(t^2,t)").getResult());
 	}
 
 	@Test
