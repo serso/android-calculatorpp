@@ -13,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.RClassUtils;
 import org.solovyev.common.definitions.IBuilder;
+import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.math.MathRegistry;
 
 import java.util.List;
@@ -23,15 +24,15 @@ import java.util.Map;
  * Date: 10/30/11
  * Time: 1:03 AM
  */
-public class AndroidFunctionsRegistryImpl implements AndroidFunctionsRegistry {
+public class AndroidMathRegistryImpl<T extends MathEntity> implements AndroidMathRegistry<T> {
 
 	@NotNull
 	private static final String FUNCTION_DESCRIPTION_PREFIX = "c_fun_description_";
 
 	@NotNull
-	private final MathRegistry<Function> functionsRegistry;
+	private final MathRegistry<T> functionsRegistry;
 
-	public AndroidFunctionsRegistryImpl(@NotNull MathRegistry<Function> functionsRegistry) {
+	public AndroidMathRegistryImpl(@NotNull MathRegistry<T> functionsRegistry) {
 		this.functionsRegistry = functionsRegistry;
 	}
 
@@ -60,23 +61,23 @@ public class AndroidFunctionsRegistryImpl implements AndroidFunctionsRegistry {
 
 	@NotNull
 	@Override
-	public List<Function> getEntities() {
+	public List<T> getEntities() {
 		return functionsRegistry.getEntities();
 	}
 
 	@NotNull
 	@Override
-	public List<Function> getSystemEntities() {
+	public List<T> getSystemEntities() {
 		return functionsRegistry.getSystemEntities();
 	}
 
 	@Override
-	public Function add(@NotNull IBuilder<? extends Function> IBuilder) {
+	public T add(@NotNull IBuilder<? extends T> IBuilder) {
 		return functionsRegistry.add(IBuilder);
 	}
 
 	@Override
-	public void remove(@NotNull Function var) {
+	public void remove(@NotNull T var) {
 		functionsRegistry.remove(var);
 	}
 
@@ -92,12 +93,12 @@ public class AndroidFunctionsRegistryImpl implements AndroidFunctionsRegistry {
 	}
 
 	@Override
-	public Function get(@NotNull String name) {
+	public T get(@NotNull String name) {
 		return functionsRegistry.get(name);
 	}
 
 	@Override
-	public Function getById(@NotNull Integer id) {
+	public T getById(@NotNull Integer id) {
 		return functionsRegistry.getById(id);
 	}
 }

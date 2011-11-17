@@ -145,5 +145,6 @@
 
 	<string name="c_empty_var_error">Невозможно создать пустую константу!</string>
 	<string name="c_not_valid_result">Результат не допустим!</string>
+	<string name="c_operators">Операторы</string>
 
 </resources>

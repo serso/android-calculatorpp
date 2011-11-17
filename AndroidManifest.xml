@@ -42,6 +42,11 @@
 				  a:configChanges="orientation|keyboardHidden">
 		</activity>
 
+		<activity a:name=".CalculatorOperatorsActivity"
+				  a:label="@string/c_operators"
+				  a:configChanges="orientation|keyboardHidden">
+		</activity>
+
 		<activity a:name=".CalculatorVarsActivity"
 				  a:label="@string/c_vars_and_constants"
 				  a:configChanges="orientation|keyboardHidden">

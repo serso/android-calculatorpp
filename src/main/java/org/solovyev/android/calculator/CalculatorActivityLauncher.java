@@ -29,6 +29,10 @@ public class CalculatorActivityLauncher {
 		context.startActivity(new Intent(context, CalculatorFunctionsActivity.class));
 	}
 
+	public static void showOperators(@NotNull final Context context) {
+		context.startActivity(new Intent(context, CalculatorOperatorsActivity.class));
+	}
+
 	public static void showVars(@NotNull final Context context) {
 		context.startActivity(new Intent(context, CalculatorVarsActivity.class));
 	}

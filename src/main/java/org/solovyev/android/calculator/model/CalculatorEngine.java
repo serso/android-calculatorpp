@@ -70,7 +70,10 @@ public enum CalculatorEngine {
 	private final AndroidVarsRegistry varsRegister = new AndroidVarsRegistryImpl(engine.getConstantsRegistry());
 
 	@NotNull
-	private final AndroidFunctionsRegistry functionsRegistry = new AndroidFunctionsRegistryImpl(engine.getFunctionsRegistry());
+	private final AndroidMathRegistry functionsRegistry = new AndroidMathRegistryImpl(engine.getFunctionsRegistry());
+
+	@NotNull
+	private final AndroidMathRegistry operatorsRegistry = new AndroidMathRegistryImpl(engine.getOperatorsRegistry());
 
 	private final MathRegistry<Operator> postfixFunctionsRegistry = engine.getPostfixFunctionsRegistry();
 
@@ -156,7 +159,7 @@ public enum CalculatorEngine {
 			sb.append(preparedExpression);
 
 			//Log.d(CalculatorEngine.class.getName(), "Preprocessed expression: " + preprocessedExpression);
-			if (operation == JsclOperation.numeric && preparedExpression.isExistsUndefinedVar()) {
+			/*if (operation == JsclOperation.numeric && preparedExpression.isExistsUndefinedVar()) {
 				operation = JsclOperation.simplify;
 
 				if (mr != null) {
@@ -169,7 +172,7 @@ public enum CalculatorEngine {
 
 					mr.addMessage(new AndroidMessage(R.string.c_simplify_instead_of_numeric, MessageType.info, undefinedVars));
 				}
-			}
+			}*/
 
 			final String jsclExpression = sb.toString();
 			final JsclOperation finalOperation = operation;
@@ -224,6 +227,9 @@ public enum CalculatorEngine {
 					}
 
 					if ( evalErrorLocal != null ) {
+						if ( finalOperation == JsclOperation.numeric && preparedExpression.isExistsUndefinedVar() ) {
+							return evaluate(JsclOperation.simplify, expression, mr);
+						}
 						throw evalErrorLocal;
 					}
 
@@ -301,8 +307,13 @@ public enum CalculatorEngine {
 	}
 
 	@NotNull
-	public AndroidFunctionsRegistry getFunctionsRegistry() {
+	public AndroidMathRegistry getFunctionsRegistry() {
 		return functionsRegistry;
+	}
+
+	@NotNull
+	public AndroidMathRegistry getOperatorsRegistry() {
+		return operatorsRegistry;
 	}
 
 	@NotNull
