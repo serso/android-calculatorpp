@@ -105,6 +105,11 @@ public class TextHighlighter implements TextProcessor<TextHighlighter.Result> {
 					text1.append(text.charAt(i));
 					break;
 				case operator:
+					text1.append(mathType.getMatch());
+					if (mathType.getMatch().length() > 1) {
+						i += mathType.getMatch().length() - 1;
+					}
+					break;
 				case function:
 					i = processHighlightedText(text1, i, mathType.getMatch(), "i");
 					break;
