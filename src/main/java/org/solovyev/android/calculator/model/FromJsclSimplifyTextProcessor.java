@@ -62,7 +62,7 @@ public class FromJsclSimplifyTextProcessor implements TextProcessor<String> {
 				}
 
 			} else {
-				if (mathType.getMathType() == MathType.constant || mathType.getMathType() == MathType.function) {
+				if (mathType.getMathType() == MathType.constant || mathType.getMathType() == MathType.function || mathType.getMathType() == MathType.operator) {
 					sb.append(mathType.getMatch());
 					i += mathType.getMatch().length() - 1;
 				} else {

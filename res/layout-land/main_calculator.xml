@@ -99,7 +99,7 @@
 			<include layout="@layout/calc_six_digit_button"/>
 			<include layout="@layout/calc_plus_button"/>
 			<include layout="@layout/calc_subtraction_button"/>
-			<include layout="@layout/calc_empty_button"/>
+			<include layout="@layout/calc_operators_button"/>
 
 		</LinearLayout>
 

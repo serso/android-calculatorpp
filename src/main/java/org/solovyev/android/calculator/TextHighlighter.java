@@ -104,6 +104,7 @@ public class TextHighlighter implements TextProcessor<TextHighlighter.Result> {
 					numberOfOpenGroupSymbols--;
 					text1.append(text.charAt(i));
 					break;
+				case operator:
 				case function:
 					i = processHighlightedText(text1, i, mathType.getMatch(), "i");
 					break;

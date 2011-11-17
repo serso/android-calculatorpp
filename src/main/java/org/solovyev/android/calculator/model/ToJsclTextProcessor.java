@@ -54,7 +54,7 @@ class ToJsclTextProcessor implements TextProcessor<PreparedExpression> {
 				}
 			}
 
-			if (mathTypeBefore == MathType.function && CollectionsUtils.find(MathType.openGroupSymbols, startsWithFinder) != null) {
+			if ((mathTypeBefore == MathType.function || mathTypeBefore == MathType.operator) && CollectionsUtils.find(MathType.openGroupSymbols, startsWithFinder) != null) {
 				throw new ParseException("Empty function: " + mathTypeResult.getMatch());
 			}
 
@@ -80,28 +80,34 @@ class ToJsclTextProcessor implements TextProcessor<PreparedExpression> {
 			int offset = 0;
 			String functionName = CollectionsUtils.find(MathType.function.getTokens(), startsWithFinder);
 			if (functionName == null) {
-				String varName = CollectionsUtils.find(CalculatorEngine.instance.getVarsRegister().getNames(), startsWithFinder);
-				if (varName != null) {
-					final Var var = CalculatorEngine.instance.getVarsRegister().get(varName);
-					if (var != null) {
-						if (!var.isDefined()) {
-							undefinedVars.add(var);
-							result.append(varName);
-							offset = varName.length();
-						} else {
-							final String value = var.getValue();
-							assert value != null;
-
-							if ( var.getDoubleValue() != null ) {
-								//result.append(value);
-								// NOTE: append varName as JSCL engine will convert it to double if needed
+				String operatorName = CollectionsUtils.find(MathType.operator.getTokens(), startsWithFinder);
+				if (operatorName == null) {
+					String varName = CollectionsUtils.find(CalculatorEngine.instance.getVarsRegister().getNames(), startsWithFinder);
+					if (varName != null) {
+						final Var var = CalculatorEngine.instance.getVarsRegister().get(varName);
+						if (var != null) {
+							if (!var.isDefined()) {
+								undefinedVars.add(var);
 								result.append(varName);
+								offset = varName.length();
 							} else {
-								result.append("(").append(processWithDepth(value, depth, undefinedVars)).append(")");
+								final String value = var.getValue();
+								assert value != null;
+
+								if ( var.getDoubleValue() != null ) {
+									//result.append(value);
+									// NOTE: append varName as JSCL engine will convert it to double if needed
+									result.append(varName);
+								} else {
+									result.append("(").append(processWithDepth(value, depth, undefinedVars)).append(")");
+								}
+								offset = varName.length();
 							}
-							offset = varName.length();
 						}
 					}
+				} else {
+					result.append(operatorName);
+					offset = operatorName.length();
 				}
 			} else {
 				result.append(functionName);

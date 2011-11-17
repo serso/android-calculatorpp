@@ -265,6 +265,10 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 							textToBeInserted.append("()");
 							cursorPositionOffset = -1;
 							break;
+						case operator:
+							textToBeInserted.append("()");
+							cursorPositionOffset = -1;
+							break;
 					}
 
 					if (cursorPositionOffset == 0) {

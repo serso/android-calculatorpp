@@ -113,7 +113,7 @@ public class CalculatorEngineTest {
 		junit.framework.Assert.assertEquals("36.0", Expression.valueOf("3!^2").numeric().toString());
 		junit.framework.Assert.assertEquals("3.0", Expression.valueOf("cubic(27)").numeric().toString());
 		try {
-			junit.framework.Assert.assertEquals("i", cm.evaluate(JsclOperation.numeric, "i!").getResult());
+			junit.framework.Assert.assertEquals("√(-1)!", cm.evaluate(JsclOperation.numeric, "i!").getResult());
 			fail();
 		} catch (ParseException e) {
 		}

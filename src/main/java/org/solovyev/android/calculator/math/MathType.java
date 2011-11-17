@@ -68,7 +68,7 @@ public enum MathType {
 	open_group_symbol(800, true, false, "[", "(", "{") {
 		@Override
 		public boolean isNeedMultiplicationSignBefore(@NotNull MathType mathTypeBefore) {
-			return super.isNeedMultiplicationSignBefore(mathTypeBefore) && mathTypeBefore != function;
+			return super.isNeedMultiplicationSignBefore(mathTypeBefore) && mathTypeBefore != function && mathTypeBefore != operator;
 		}
 
 		@Override
@@ -94,6 +94,14 @@ public enum MathType {
 		@Override
 		public List<String> getTokens() {
 			return CalculatorEngine.instance.getFunctionsRegistry().getNames();
+		}
+	},
+
+	operator(1050, true, true) {
+		@NotNull
+		@Override
+		public List<String> getTokens() {
+			return CalculatorEngine.instance.getOperatorsRegistry().getNames();
 		}
 	},
 
