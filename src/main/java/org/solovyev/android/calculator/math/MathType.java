@@ -118,6 +118,8 @@ public enum MathType {
 		}
 	},
 
+	comma(1150, false, false, ","),
+
 	text(1200, false, false) {
 		@Override
 		public int processToJscl(@NotNull StringBuilder result, int i, @NotNull String match) {

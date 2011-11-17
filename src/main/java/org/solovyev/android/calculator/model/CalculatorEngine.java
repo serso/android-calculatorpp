@@ -13,24 +13,18 @@ import jscl.math.operator.Operator;
 import jscl.text.ParseInterruptedException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.msg.AndroidMessage;
 import org.solovyev.common.NumberMapper;
 import org.solovyev.common.math.MathRegistry;
 import org.solovyev.common.msg.MessageRegistry;
-import org.solovyev.common.msg.MessageType;
-import org.solovyev.common.utils.CollectionsUtils;
-import org.solovyev.common.utils.Formatter;
 import org.solovyev.common.utils.MutableObject;
 import org.solovyev.common.utils.StringUtils;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.util.HashSet;
 import java.util.Locale;
-import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -70,18 +64,16 @@ public enum CalculatorEngine {
 	private final AndroidVarsRegistry varsRegister = new AndroidVarsRegistryImpl(engine.getConstantsRegistry());
 
 	@NotNull
-	private final AndroidMathRegistry functionsRegistry = new AndroidMathRegistryImpl(engine.getFunctionsRegistry());
+	private final AndroidMathRegistry functionsRegistry = new AndroidFunctionsMathRegistry(engine.getFunctionsRegistry());
 
 	@NotNull
-	private final AndroidMathRegistry operatorsRegistry = new AndroidMathRegistryImpl(engine.getOperatorsRegistry());
+	private final AndroidMathRegistry operatorsRegistry = new AndroidOperatorsMathRegistry(engine.getOperatorsRegistry());
 
 	private final MathRegistry<Operator> postfixFunctionsRegistry = engine.getPostfixFunctionsRegistry();
 
 	@NotNull
-	private final static Set<String> tooLongExecutionCache = new HashSet<String>();
-
-	@NotNull
 	private DecimalFormatSymbols decimalGroupSymbols = new DecimalFormatSymbols(Locale.getDefault());
+
 	{
 		decimalGroupSymbols.setDecimalSeparator('.');
 		decimalGroupSymbols.setGroupingSeparator(GROUPING_SEPARATOR_DEFAULT.charAt(0));
@@ -106,7 +98,7 @@ public enum CalculatorEngine {
 			final DecimalFormat df = new DecimalFormat();
 			df.setDecimalFormatSymbols(decimalGroupSymbols);
 			df.setGroupingUsed(useGroupingSeparator);
-			if (round ) {
+			if (round) {
 				if (isRoundResult()) {
 					df.setMaximumFractionDigits(instance.getPrecision());
 					return df.format(new BigDecimal(value).setScale(instance.getPrecision(), BigDecimal.ROUND_HALF_UP).doubleValue());
@@ -178,74 +170,69 @@ public enum CalculatorEngine {
 			final JsclOperation finalOperation = operation;
 
 			final String result;
-			if (!tooLongExecutionCache.contains(jsclExpression)) {
-				final MutableObject<String> calculationResult = new MutableObject<String>(null);
-				final MutableObject<ParseException> exception = new MutableObject<ParseException>(null);
-				final MutableObject<Thread> calculationThread = new MutableObject<Thread>(null);
+			final MutableObject<String> calculationResult = new MutableObject<String>(null);
+			final MutableObject<ParseException> exception = new MutableObject<ParseException>(null);
+			final MutableObject<Thread> calculationThread = new MutableObject<Thread>(null);
 
-				final CountDownLatch latch = new CountDownLatch(1);
+			final CountDownLatch latch = new CountDownLatch(1);
 
-				new Thread(new Runnable() {
-					@Override
-					public void run() {
-						final Thread thread = Thread.currentThread();
-						try {
-							//Log.d(CalculatorEngine.class.getName(), "Calculation thread started work: " + thread.getName());
-							//System.out.println(jsclExpression);
-							calculationThread.setObject(thread);
-							calculationResult.setObject(finalOperation.evaluate(jsclExpression));
-						} catch (ArithmeticException e) {
-							//System.out.println(e.getMessage());
-							exception.setObject(new ParseException(e.getMessage(), e));
-						} catch (jscl.text.ParseException e) {
-							//System.out.println(e.getMessage());
-							exception.setObject(new ParseException(e.getMessage(), e));
-						} catch (ParseInterruptedException e) {
-							//System.out.println(e.getMessage());
-						  // do nothing - we ourselves interrupt the calculations
-						} finally {
-							//Log.d(CalculatorEngine.class.getName(), "Calculation thread ended work: " + thread.getName());
-							calculationThread.setObject(null);
-							latch.countDown();
-						}
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					final Thread thread = Thread.currentThread();
+					try {
+						//Log.d(CalculatorEngine.class.getName(), "Calculation thread started work: " + thread.getName());
+						//System.out.println(jsclExpression);
+						calculationThread.setObject(thread);
+						calculationResult.setObject(finalOperation.evaluate(jsclExpression));
+					} catch (ArithmeticException e) {
+						//System.out.println(e.getMessage());
+						exception.setObject(new ParseException(e.getMessage(), e));
+					} catch (jscl.text.ParseException e) {
+						//System.out.println(e.getMessage());
+						exception.setObject(new ParseException(e.getMessage(), e));
+					} catch (ParseInterruptedException e) {
+						//System.out.println(e.getMessage());
+						// do nothing - we ourselves interrupt the calculations
+					} finally {
+						//Log.d(CalculatorEngine.class.getName(), "Calculation thread ended work: " + thread.getName());
+						calculationThread.setObject(null);
+						latch.countDown();
 					}
-				}).start();
+				}
+			}).start();
 
-				try {
-					//Log.d(CalculatorEngine.class.getName(), "Main thread is waiting: " + Thread.currentThread().getName());
-					latch.await(timeout, TimeUnit.MILLISECONDS);
-					//Log.d(CalculatorEngine.class.getName(), "Main thread got up: " + Thread.currentThread().getName());
+			try {
+				//Log.d(CalculatorEngine.class.getName(), "Main thread is waiting: " + Thread.currentThread().getName());
+				latch.await(timeout, TimeUnit.MILLISECONDS);
+				//Log.d(CalculatorEngine.class.getName(), "Main thread got up: " + Thread.currentThread().getName());
 
-					final ParseException evalErrorLocal = exception.getObject();
-					final Object calculationResultLocal = calculationResult.getObject();
-					final Thread calculationThreadLocal = calculationThread.getObject();
+				final ParseException evalErrorLocal = exception.getObject();
+				final Object calculationResultLocal = calculationResult.getObject();
+				final Thread calculationThreadLocal = calculationThread.getObject();
 
-					if (calculationThreadLocal != null) {
-						// todo serso: interrupt doesn't stop the thread but it MUST be killed
-						threadKiller.killThread(calculationThreadLocal);
-						//calculationThreadLocal.stop();
-					}
-
-					if ( evalErrorLocal != null ) {
-						if ( finalOperation == JsclOperation.numeric && preparedExpression.isExistsUndefinedVar() ) {
-							return evaluate(JsclOperation.simplify, expression, mr);
-						}
-						throw evalErrorLocal;
-					}
-
-					if ( calculationResultLocal == null ) {
-						tooLongExecutionCache.add(jsclExpression);
-						throw new ParseException("Too long calculation for: " + jsclExpression);
-					}
-
-				} catch (InterruptedException e) {
-					throw new ParseException(e);
+				if (calculationThreadLocal != null) {
+					// todo serso: interrupt doesn't stop the thread but it MUST be killed
+					threadKiller.killThread(calculationThreadLocal);
+					//calculationThreadLocal.stop();
 				}
 
-				result = String.valueOf(calculationResult.getObject()).trim();
-			} else {
-				throw new ParseException("Too long calculation for: " + jsclExpression);
+				if (evalErrorLocal != null) {
+					if (finalOperation == JsclOperation.numeric && preparedExpression.isExistsUndefinedVar()) {
+						return evaluate(JsclOperation.simplify, expression, mr);
+					}
+					throw evalErrorLocal;
+				}
+
+				if (calculationResultLocal == null) {
+					throw new ParseException("Too long calculation for: " + jsclExpression);
+				}
+
+			} catch (InterruptedException e) {
+				throw new ParseException(e);
 			}
+
+			result = String.valueOf(calculationResult.getObject()).trim();
 
 			return new Result(operation.getFromProcessor().process(result), operation);
 		}
@@ -330,6 +317,7 @@ public enum CalculatorEngine {
 	void setTimeout(int timeout) {
 		this.timeout = timeout;
 	}
+
 	// for tests only
 	void setThreadKiller(@NotNull ThreadKiller threadKiller) {
 		this.threadKiller = threadKiller;
