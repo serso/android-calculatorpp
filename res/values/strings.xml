@@ -155,8 +155,8 @@
 	<string name="c_op_description_integral">Gives integral of function \'f(x)\' by \'x\' variable.</string>
 	<string name="c_op_description_integral_ab">Integrates function \'f(x)\' by \'x\' variable from \'a\' to \'b\'.</string>
 
-	<string name="c_pf_description_factorial">Gives the factorial for expression before.</string>
-	<string name="c_pf_description_percent" formatted="false">Gives the percent value for expression
+	<string name="c_pf_description_factorial">Gives the factorial of the expression before.</string>
+	<string name="c_pf_description_percent" formatted="false">Gives the percent value of the expression
 		before.\nExamples:\n
 		100 + 50% = 150\n
 		100 * 50% = 50\n
