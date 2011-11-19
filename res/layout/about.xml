@@ -21,7 +21,7 @@
 
 	<TextView
 			a:id="@+id/aboutTextView"
-			a:text="@string/c_copyright"
+			a:text="@string/c_about_content"
 			a:layout_height="fill_parent"
 			a:layout_width="fill_parent"
 			a:layout_gravity="top|center_horizontal"

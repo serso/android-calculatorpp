@@ -37,6 +37,22 @@
 				  a:label="@string/c_about"
 				  a:configChanges="orientation|keyboardHidden"/>
 
+		<activity a:name=".help.HelpActivity"
+				  a:label="@string/c_help"
+				  a:configChanges="orientation|keyboardHidden"/>
+
+		<activity a:name=".help.HelpFaqActivity"
+				  a:label="@string/c_help"
+				  a:configChanges="orientation|keyboardHidden"/>
+
+		<activity a:name=".help.HelpHintsActivity"
+				  a:label="@string/c_help"
+				  a:configChanges="orientation|keyboardHidden"/>
+
+		<activity a:name=".help.HelpScreensActivity"
+				  a:label="@string/c_help"
+				  a:configChanges="orientation|keyboardHidden"/>
+
 		<activity a:name=".CalculatorFunctionsActivity"
 				  a:label="@string/c_functions"
 				  a:configChanges="orientation|keyboardHidden">

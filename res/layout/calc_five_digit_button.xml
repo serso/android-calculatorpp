@@ -9,7 +9,7 @@
 													   xmlns:calc="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
 													   a:id="@+id/fiveDigitButton"
 													   a:text="5"
-													   calc:textUp="cosh"
-													   calc:textDown="acosh"
+													   calc:textUp="t"
+													   calc:textDown="j"
 													   style="?digitButtonStyle"
 													   a:onClick="digitButtonClickHandler"/>

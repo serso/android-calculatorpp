@@ -23,7 +23,7 @@
 	<string name="c_restart">Restart</string>
 
 	<!--ABOUT ACTIVITY-->
-	<string name="c_copyright">Copyright (c) 2009-2011\n\n<b>Created by serso aka se.solovyev</b>\n\n
+	<string name="c_about_content">Copyright (c) 2009-2011\n\n<b>Created by serso aka se.solovyev</b>\n\n
 		This program is open source:\nall source code can be found on\n<a href="https://github.com/serso/android_calculator">http://github.com</a>\n\n
 		For more information please\ncontact the author by email\n<a href="mailto:se.solovyev@gmail.com">se.solovyev@gmail.com</a>
 		\nor visit\n<a href="http://se.solovyev.org">http://se.solovyev.org</a>\n\n
@@ -154,6 +154,103 @@
 	<string name="c_op_description_derivative">Gives derivative of order \'order\' of functions \'f(x)\' by \'x\' variable and calculates at point \'x_point\'.</string>
 	<string name="c_op_description_integral">Gives integral of function \'f(x)\' by \'x\' variable.</string>
 	<string name="c_op_description_integral_ab">Integrates function \'f(x)\' by \'x\' variable from \'a\' to \'b\'.</string>
+
+	<string name="c_pf_description_factorial">Gives the factorial for expression before.</string>
+	<string name="c_pf_description_percent" formatted="false">Gives the percent value for expression
+		before.\nExamples:\n
+		100 + 50% = 150\n
+		100 * 50% = 50\n
+		100 + 100 * 50% * 50% = 125
+	</string>
+	<string name="c_pf_description_degree">Converts degrees to radians.\n
+		Examples:\n
+		268° = 4.67748\n
+		30.21° = 0.52726
+	</string>
+
+	<string name="c_faq">FAQ</string>
+	<string name="c_hints">Hints</string>
+	<string name="c_screens">Screens</string>
+
+	<string name="c_faq_content" formatted="false">
+<b>How can I use functions written in the top right and bottom right corners of the button?</b>\n
+\n
+Push the button and slide lightly up or down. Depending on value showed on the button action will occur.\n
+\n
+<b>How can I toggle between radians and degrees?</b>\n
+\n
+Currently C++ doesn\'t support this feature but you can use deg() and rad() functions and ° operator to convert degrees to radians and vice versa.\n
+\n
+<b>Examples:</b>\n
+268° = 4.67748\n
+30.21° = 0.52726\n
+rad(30, 21, 0) = 0.52726\n
+deg(4.67748) = 268\n
+\n
+<b>Does C++ support %?</b>\n
+\n
+Yes, % function can be found in the top right corner of / button.\n
+\n
+<b>Examples:</b>\n
+\n
+100 + 50% = 150\n
+100 * 50% = 50\n
+100 + 100 * 50% * 50% = 125\n
+100 + (100 * 50% * (25 + 25)% + 100%) = 150\n
+\n
+<b>Note:</b>\n
+\n
+100 + (20 + 20)% = 140, <b>but</b> 100+  (20% + 20%) = 124.0\n
+100 + 50% ^ 2 = 2600, <b>but</b> 100 + 50 ^ 2% = 101.08\n
+\n
+<b>Does C++ support fractional calculations?</b>\n
+\n
+Yes, you can type your fractional expression in the editor and use ≡ (in the top right corner of = button). Also you can use ≡ to simplify expression.\n
+\n
+<b>Examples:</b>\n
+\n
+2/3 + 5/9 ≡ 11/9\n
+2/9 + 3/123 ≡ 91/369\n
+(6 - t) ^ 3 ≡ 216 - 108t + 18t ^ 2 - t ^ 3\n
+\n
+<b>Does C++ support complex calculations?</b>\n
+\n
+Yes, just enter complex expression (using i or √(-1) as imaginary number).\n
+\n
+<b>Examples:</b>\n
+\n
+(2i + 1) ^ = -3 + 4i\n
+e ^ i = 0.5403 + 0.84147i\n
+\n
+<b>Can C++ plot graph of the function?</b>\n
+\n
+No, currently C++ cannot plot functions\' graphs.\n
+\n
+<b>Does C++ support matrix calculations?</b>\n
+\n
+No, it doesn\'t.\n
+\n
+<b>Why I\'ve got 1.76732452452345E-17 instead of 0?</b>\n
+\n
+Check the \'Round result\' preference in application settings - it should be turned on.\n</string>
+
+	<string name="c_hints_content">
+	1. You can omit unnecessary multiplication signs (instead of 3*t or t*sin(π*t) just type 3t or tsin(πt))\n\n
+2. Use ≡ (in the top right corner of = button) to simplify expression\n\n
+3. Just click on the result to copy it to the clipboard\n\n
+4. Use = button seldom - result is calculating on the fly\n\n
+4. Add constants for often used values (you can even save expressions)\n\n
+	</string>
+
+	<string name="c_screens_content">
+		1. <b>Main screen:</b> is shown on application start, can be reached from another screen by pressing Back button.\n\n
+2. <b>Variables and Constants screen:</b> contains list of available constants. User may add some constants and variables here by clicking Add button. Short click on variable/constant inserts it into the editor, long click - opens variable editor window. Can be reached from the main screen by pressing π,… button.\n\n
+3. <b>Functions screen:</b> contains list of all available functions. Short click on function inserts it into the editor. Can be reached from the main screen by pressing f(x) button.\n\n
+4. <b>Operators screen:</b> contains list of all available operators. Short click on operator inserts it into the editor. Can be reached from the main screen by pressing ∂,… button.\n\n
+5. <b>History screen:</b> contains list of all actions done by user.  Short click on history item sets it into the editor. Can be reached from the main screen by pressing M button.\n\n
+6. <b>Settings screen:</b> contains application preferences. Can be reached from the main screen by pressing Settings in menu.
+			</string>
+
 
 
 </resources>
