@@ -415,6 +415,10 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 				CalculatorActivityLauncher.showAbout(this);
 				result = true;
 				break;
+			case R.id.main_menu_item_help:
+				CalculatorActivityLauncher.showHelp(this);
+				result = true;
+				break;
 			case R.id.main_menu_item_exit:
 				this.finish();
 				result = true;

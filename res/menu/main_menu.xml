@@ -8,6 +8,9 @@
 	<item a:id="@+id/main_menu_item_history"
 		  a:title="@string/c_history"/>
 
+	<item a:id="@+id/main_menu_item_help"
+		  a:title="@string/c_help"/>
+
 	<item a:id="@+id/main_menu_item_about"
 		  a:title="@string/c_about"/>
 

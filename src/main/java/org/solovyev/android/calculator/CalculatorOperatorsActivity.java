@@ -10,7 +10,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import jscl.math.function.Function;
 import jscl.math.operator.Operator;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.model.CalculatorEngine;
@@ -37,7 +36,10 @@ public class CalculatorOperatorsActivity extends ListActivity {
 
 		setContentView(R.layout.operators);
 
-		adapter = new OperatorsArrayAdapter(this, R.layout.var, R.id.var_text, new ArrayList<Operator>(CalculatorEngine.instance.getOperatorsRegistry().getEntities()));
+		List<Operator> elements = new ArrayList<Operator>();
+		elements.addAll(CalculatorEngine.instance.getOperatorsRegistry().getEntities());
+		elements.addAll(CalculatorEngine.instance.getPostfixFunctionsRegistry().getEntities());
+		adapter = new OperatorsArrayAdapter(this, R.layout.var, R.id.var_text, elements);
 		setListAdapter(adapter);
 
 		final ListView lv = getListView();
@@ -82,7 +84,11 @@ public class CalculatorOperatorsActivity extends ListActivity {
 
 			final Operator operator = getItem(position);
 
-			final String operatorDescription = CalculatorEngine.instance.getOperatorsRegistry().getDescription(getContext(), operator.getName());
+			String operatorDescription = CalculatorEngine.instance.getOperatorsRegistry().getDescription(getContext(), operator.getName());
+			if (StringUtils.isEmpty(operatorDescription)) {
+				operatorDescription = CalculatorEngine.instance.getPostfixFunctionsRegistry().getDescription(getContext(), operator.getName());
+			}
+
 			if (!StringUtils.isEmpty(operatorDescription)) {
 				TextView description = (TextView) result.findViewById(R.id.var_description);
 				if (description == null) {

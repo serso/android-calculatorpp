@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+  ~ For more information, please, contact se.solovyev@gmail.com
+  ~ or visit http://se.solovyev.org
+  -->
+
+
+<ScrollView xmlns:a="http://schemas.android.com/apk/res/android"
+			a:layout_width="fill_parent"
+			a:layout_height="fill_parent">
+
+	<TextView
+			a:text="@string/c_faq_content"
+			a:layout_width="fill_parent"
+			a:layout_height="fill_parent"
+			a:gravity="top|left"
+			a:layout_weight="1"
+			a:scrollbars="vertical"
+			style="@style/about_style"/>
+
+</ScrollView>
+

@@ -102,11 +102,22 @@ class AndroidVarsRegistryImpl implements AndroidVarsRegistry {
 			add(builder);
 		}
 
+		tryToAddAuxVar("x");
+		tryToAddAuxVar("y");
+		tryToAddAuxVar("t");
+		tryToAddAuxVar("j");
+
 
 		/*Log.d(AndroidVarsRegistry.class.getName(), vars.size() + " variables registered!");
 		for (Var var : vars) {
 			Log.d(AndroidVarsRegistry.class.getName(), var.toString());
 		}*/
+	}
+
+	private void tryToAddAuxVar(@NotNull String name) {
+		if ( !contains(name) ) {
+			add(new Var.Builder(name, (String)null));
+		}
 	}
 
 	private Var.Builder createBuilder(@NotNull String varName, @NotNull String varValue) {

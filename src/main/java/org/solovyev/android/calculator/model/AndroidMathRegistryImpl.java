@@ -53,7 +53,6 @@ public abstract class AndroidMathRegistryImpl<T extends MathEntity> implements A
 		if (substitute == null) {
 			stringId = stringsCache.get(prefix + name);
 		} else {
-			// todo serso: think
 			stringId = stringsCache.get(prefix + substitute);
 		}
 

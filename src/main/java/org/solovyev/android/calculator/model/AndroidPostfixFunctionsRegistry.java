@@ -15,28 +15,26 @@ import java.util.Map;
 
 /**
  * User: serso
- * Date: 11/17/11
- * Time: 11:29 PM
+ * Date: 11/19/11
+ * Time: 1:48 PM
  */
-public class AndroidOperatorsMathRegistry extends AndroidMathRegistryImpl<Operator> {
+public class AndroidPostfixFunctionsRegistry extends AndroidMathRegistryImpl<Operator> {
 
 	@NotNull
 	private static final Map<String, String> substitutes = new HashMap<String, String>();
 	static {
-		substitutes.put("Σ", "sum");
-		substitutes.put("∏", "product");
-		substitutes.put("∂", "derivative");
-		substitutes.put("∫ab", "integral_ab");
-		substitutes.put("∫", "integral");
-		substitutes.put("Σ", "sum");
+		substitutes.put("%", "percent");
+		substitutes.put("!", "factorial");
+		substitutes.put("°", "degree");
 	}
 
 	@NotNull
-	private static final String OPERATOR_DESCRIPTION_PREFIX = "c_op_description_";
+	private static final String POSTFIX_FUNCTION_DESCRIPTION_PREFIX = "c_pf_description_";
 
-	protected AndroidOperatorsMathRegistry(@NotNull MathRegistry<Operator> functionsRegistry) {
-		super(functionsRegistry, OPERATOR_DESCRIPTION_PREFIX);
+	protected AndroidPostfixFunctionsRegistry(@NotNull MathRegistry<Operator> functionsRegistry) {
+		super(functionsRegistry, POSTFIX_FUNCTION_DESCRIPTION_PREFIX);
 	}
+
 
 	@NotNull
 	@Override

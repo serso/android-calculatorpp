@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import jscl.JsclMathEngine;
 import jscl.MathEngine;
+import jscl.math.function.Function;
 import jscl.math.operator.Operator;
 import jscl.text.ParseInterruptedException;
 import org.jetbrains.annotations.NotNull;
@@ -16,7 +17,6 @@ import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.msg.AndroidMessage;
 import org.solovyev.common.NumberMapper;
-import org.solovyev.common.math.MathRegistry;
 import org.solovyev.common.msg.MessageRegistry;
 import org.solovyev.common.utils.MutableObject;
 import org.solovyev.common.utils.StringUtils;
@@ -64,12 +64,12 @@ public enum CalculatorEngine {
 	private final AndroidVarsRegistry varsRegister = new AndroidVarsRegistryImpl(engine.getConstantsRegistry());
 
 	@NotNull
-	private final AndroidMathRegistry functionsRegistry = new AndroidFunctionsMathRegistry(engine.getFunctionsRegistry());
+	private final AndroidMathRegistry<jscl.math.function.Function> functionsRegistry = new AndroidFunctionsMathRegistry(engine.getFunctionsRegistry());
 
 	@NotNull
-	private final AndroidMathRegistry operatorsRegistry = new AndroidOperatorsMathRegistry(engine.getOperatorsRegistry());
+	private final AndroidMathRegistry<Operator> operatorsRegistry = new AndroidOperatorsMathRegistry(engine.getOperatorsRegistry());
 
-	private final MathRegistry<Operator> postfixFunctionsRegistry = engine.getPostfixFunctionsRegistry();
+	private final AndroidMathRegistry<Operator> postfixFunctionsRegistry = new AndroidPostfixFunctionsRegistry(engine.getPostfixFunctionsRegistry());
 
 	@NotNull
 	private DecimalFormatSymbols decimalGroupSymbols = new DecimalFormatSymbols(Locale.getDefault());
@@ -294,17 +294,17 @@ public enum CalculatorEngine {
 	}
 
 	@NotNull
-	public AndroidMathRegistry getFunctionsRegistry() {
+	public AndroidMathRegistry<Function> getFunctionsRegistry() {
 		return functionsRegistry;
 	}
 
 	@NotNull
-	public AndroidMathRegistry getOperatorsRegistry() {
+	public AndroidMathRegistry<Operator> getOperatorsRegistry() {
 		return operatorsRegistry;
 	}
 
 	@NotNull
-	public MathRegistry<Operator> getPostfixFunctionsRegistry() {
+	public AndroidMathRegistry<Operator> getPostfixFunctionsRegistry() {
 		return postfixFunctionsRegistry;
 	}
 
