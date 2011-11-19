@@ -188,6 +188,9 @@ public enum CalculatorEngine {
 					} catch (ArithmeticException e) {
 						//System.out.println(e.getMessage());
 						exception.setObject(new ParseException(e.getMessage(), e));
+					} catch (StackOverflowError e) {
+						//System.out.println(StringUtils.fromStackTrace(e.getStackTrace()));
+						exception.setObject(new ParseException(e.getMessage(), e));
 					} catch (jscl.text.ParseException e) {
 						//System.out.println(e.getMessage());
 						exception.setObject(new ParseException(e.getMessage(), e));
