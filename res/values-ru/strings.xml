@@ -86,6 +86,12 @@
 	<string name="c_history_is_empty">История пуста!</string>
 	<string name="c_app_history">История</string>
 	<string name="c_char_is_not_accepted">Символ \'%s\' не допустим в названии переменной!</string>
+
+	<string name="c_calc_angle_units">Единицы измерения углов</string>
+	<string name="p_deg">Градусы</string>
+	<string name="p_rad">Радианы</string>
+	<string name="c_angle_units_summary">Определяет единицы измерения углов.</string>
+
 	<string name="c_calc_theme">Тема оформления</string>
 	<string name="p_default_theme">По умолчанию</string>
 	<string name="p_violet_theme">Фиолетовая</string>
