@@ -87,6 +87,12 @@
 	<string name="c_history_is_empty">History is empty!</string>
 	<string name="c_app_history">History</string>
 	<string name="c_char_is_not_accepted">Character \'%s\' is not accepted in variable name!</string>
+
+	<string name="c_calc_angle_units">Angle Units</string>
+	<string name="p_deg">Degrees</string>
+	<string name="p_rad">Radians</string>
+	<string name="c_angle_units_summary">Defines the default units for angles.</string>
+
 	<string name="c_calc_theme">Theme</string>
 	<string name="p_default_theme">Default</string>
 	<string name="p_violet_theme">Violet</string>
