@@ -7,7 +7,6 @@
 package org.solovyev.android.calculator.model;
 
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.math.MathRegistry;
 
 import java.util.HashMap;
@@ -18,7 +17,7 @@ import java.util.Map;
  * Date: 11/17/11
  * Time: 11:28 PM
  */
-public class AndroidFunctionsMathRegistry<T extends MathEntity> extends AndroidMathRegistryImpl<T> {
+public class AndroidFunctionsMathRegistry extends AndroidMathRegistryImpl<jscl.math.function.Function> {
 
 	@NotNull
 	private static final Map<String, String> substitutes = new HashMap<String, String>();
@@ -29,7 +28,7 @@ public class AndroidFunctionsMathRegistry<T extends MathEntity> extends AndroidM
 	@NotNull
 	private static final String FUNCTION_DESCRIPTION_PREFIX = "c_fun_description_";
 
-	public AndroidFunctionsMathRegistry(@NotNull MathRegistry<T> functionsRegistry) {
+	public AndroidFunctionsMathRegistry(@NotNull MathRegistry<jscl.math.function.Function> functionsRegistry) {
 		super(functionsRegistry, FUNCTION_DESCRIPTION_PREFIX);
 	}
 

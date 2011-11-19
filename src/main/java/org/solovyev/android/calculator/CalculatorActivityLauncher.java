@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
 import org.jetbrains.annotations.NotNull;
+import org.solovyev.android.calculator.help.HelpActivity;
 import org.solovyev.common.utils.StringUtils;
 
 /**
@@ -15,6 +16,10 @@ public class CalculatorActivityLauncher {
 
 	public static void showHistory(@NotNull final Context context) {
 		context.startActivity(new Intent(context, CalculatorHistoryActivity.class));
+	}
+
+	public static void showHelp(@NotNull final Context context) {
+		context.startActivity(new Intent(context, HelpActivity.class));
 	}
 
 	public static void showSettings(@NotNull final Context context) {
