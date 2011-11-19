@@ -30,9 +30,9 @@ public class HelpActivity extends TabActivity {
 
 		final TabHost tabHost = getTabHost();
 
-		createTab(tabHost, "faq", "Faq", HelpFaqActivity.class);
-		createTab(tabHost, "hints", "Hints", HelpHintsActivity.class);
-		createTab(tabHost, "screens", "Screens", HelpScreensActivity.class);
+		createTab(tabHost, "faq", R.string.c_faq, HelpFaqActivity.class);
+		createTab(tabHost, "hints", R.string.c_hints, HelpHintsActivity.class);
+		createTab(tabHost, "screens", R.string.c_screens, HelpScreensActivity.class);
 
 		tabHost.setCurrentTab(0);
 
@@ -41,7 +41,7 @@ public class HelpActivity extends TabActivity {
 
 	private void createTab(@NotNull TabHost tabHost,
 						   @NotNull String tabId,
-						   @NotNull String tabCaption,
+						   int tabCaptionId,
 						   @NotNull Class<? extends Activity> activityClass) {
 
 		TabHost.TabSpec spec;
@@ -49,7 +49,7 @@ public class HelpActivity extends TabActivity {
 		final Intent intent = new Intent().setClass(this, activityClass);
 
 		// Initialize a TabSpec for each tab and add it to the TabHost
-		spec = tabHost.newTabSpec(tabId).setIndicator(tabCaption)
+		spec = tabHost.newTabSpec(tabId).setIndicator(getString(tabCaptionId))
 				.setContent(intent);
 
 		tabHost.addTab(spec);
