@@ -157,12 +157,7 @@ public class CalculatorEngineTest {
 		Assert.assertEquals("3.957", cm.evaluate(JsclOperation.numeric, "ln(8)lg(8)+ln(8)").getResult());
 
 		Assert.assertEquals("0", cm.evaluate(JsclOperation.numeric, "((((((0))))))").getResult());
-		try {
-			Assert.assertEquals("0", cm.evaluate(JsclOperation.numeric, "((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((0))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))").getResult());
-			fail();
-		} catch (ParseException e) {
-			// ok
-		}
+		Assert.assertEquals("0", cm.evaluate(JsclOperation.numeric, "((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((0))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))").getResult());
 
 
 		/*	Assert.assertEquals("0.524", cm.evaluate(JsclOperation.numeric, "30°").getResult());
@@ -232,11 +227,7 @@ public class CalculatorEngineTest {
 		} catch (ParseException e) {
 		}
 
-		try {
-			Assert.assertEquals("0.739", cm.evaluate(JsclOperation.numeric, "cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(1))))))))))))))))))))))))))))))))))))").getResult());
-			Assert.fail();
-		} catch (ParseException e) {
-		}
+		Assert.assertEquals("0.739", cm.evaluate(JsclOperation.numeric, "cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(1))))))))))))))))))))))))))))))))))))").getResult());
 
 		CalculatorEngine.instance.getVarsRegister().add(new Var.Builder("si", 5d));
 		Assert.assertEquals("5", cm.evaluate(JsclOperation.numeric, "si").getResult());
@@ -312,10 +303,17 @@ public class CalculatorEngineTest {
 		} catch (ParseException e) {
 
 		}
+
 		Assert.assertEquals("0.017", cm.evaluate(JsclOperation.numeric, "1°").getResult());
 		Assert.assertEquals("0.349", cm.evaluate(JsclOperation.numeric, "20.0°").getResult());
 		Assert.assertEquals("0.5", cm.evaluate(JsclOperation.numeric, "sin(30°)").getResult());
 		Assert.assertEquals("0.524", cm.evaluate(JsclOperation.numeric, "asin(sin(30°))").getResult());
+		try {
+			Assert.assertEquals("∂(cos(t), t, t,1°)", cm.evaluate(JsclOperation.numeric, "∂(cos(t),t,t,1°)").getResult());
+			fail();
+		} catch (ParseException e) {
+		}
 
+		Assert.assertEquals("∂(cos(t), t, t,1°)", cm.evaluate(JsclOperation.simplify, "∂(cos(t),t,t,1°)").getResult());
 	}
 }

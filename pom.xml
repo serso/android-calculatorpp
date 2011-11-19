@@ -66,6 +66,15 @@
 		</dependency>
 
 		<dependency>
+			<groupId>achartengine</groupId>
+			<artifactId>achartengine</artifactId>
+			<version>0.7.0</version>
+			<scope>system</scope>
+			<systemPath>${additionalLibs}/achartengine-0.7.0.jar</systemPath>
+		</dependency>
+
+
+		<dependency>
 			<groupId>com.intellij</groupId>
 			<artifactId>annotations</artifactId>
 			<version>7.0.3</version>
