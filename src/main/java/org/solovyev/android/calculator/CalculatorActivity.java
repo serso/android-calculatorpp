@@ -37,7 +37,10 @@ import org.solovyev.common.utils.history.HistoryAction;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.text.DecimalFormatSymbols;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 public class CalculatorActivity extends Activity implements FontSizeAdjuster, SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -163,6 +166,12 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 				editor.putString(CalculatorEngine.GROUPING_SEPARATOR_P_KEY, groupingSeparator);
 				editor.commit();
 			}
+		}
+
+		if (!preferences.contains(CalculatorEngine.ANGLE_UNITS_P_KEY)) {
+			final SharedPreferences.Editor editor = preferences.edit();
+			editor.putString(CalculatorEngine.ANGLE_UNITS_P_KEY, CalculatorEngine.ANGLE_UNITS_DEFAULT);
+			editor.commit();
 		}
 	}
 
@@ -491,7 +500,8 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 		if (CalculatorEngine.GROUPING_SEPARATOR_P_KEY.equals(key) ||
 				CalculatorEngine.ROUND_RESULT_P_KEY.equals(key) ||
-					CalculatorEngine.RESULT_PRECISION_P_KEY.equals(key)) {
+					CalculatorEngine.RESULT_PRECISION_P_KEY.equals(key) ||
+						CalculatorEngine.ANGLE_UNITS_P_KEY.equals(key)) {
 			CalculatorEngine.instance.reset(this, preferences);
 			this.calculatorModel.evaluate();
 		}
