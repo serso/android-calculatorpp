@@ -103,6 +103,7 @@ public class CalculatorEngineTest {
 		try {
 			cm.getEngine().setDefaultAngleUnits(AngleUnits.rad);
 			Assert.assertEquals("0.921+3.142i", cm.evaluate(JsclOperation.numeric, "ln(5cosh(38π√(2cos(2))))").getResult());
+			Assert.assertEquals("-3.41+3.41i", cm.evaluate(JsclOperation.numeric, "(5tan(2i)+2i)/(1-i)").getResult());
 		} finally {
 			cm.getEngine().setDefaultAngleUnits(defaultAngleUnits);
 		}
@@ -113,7 +114,6 @@ public class CalculatorEngineTest {
 		Assert.assertEquals("-2-2.5i", cm.evaluate(JsclOperation.numeric, "-2-2.5i").getResult());
 		Assert.assertEquals("-2+2.5i", cm.evaluate(JsclOperation.numeric, "-2+2.5i").getResult());
 		Assert.assertEquals("-2+2.1i", cm.evaluate(JsclOperation.numeric, "-2+2.1i").getResult());
-		Assert.assertEquals("-3.41+3.41i", cm.evaluate(JsclOperation.numeric, "(5tan(2i)+2i)/(1-i)").getResult());
 		Assert.assertEquals("-0.1-0.2i", cm.evaluate(JsclOperation.numeric, "(1-i)/(2+6i)").getResult());
 		
 		junit.framework.Assert.assertEquals("24", cm.evaluate(JsclOperation.numeric, "4!").getResult());
