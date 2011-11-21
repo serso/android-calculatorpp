@@ -34,14 +34,11 @@ class FromJsclNumericTextProcessor implements TextProcessor<String> {
 			}
 		} catch (NumberFormatException e) {
 			result = result.replace(MathType.INFINITY_JSCL, MathType.INFINITY);
-			if (result.contains(MathType.IMAGINARY_NUMBER_JSCL)) {
-				try {
-					result = createResultForComplexNumber(result.replace(MathType.IMAGINARY_NUMBER_JSCL, MathType.IMAGINARY_NUMBER));
-				} catch (NumberFormatException e1) {
-					// throw original one
-					throw new ParseException(e);
-				}
-
+			try {
+				result = createResultForComplexNumber(result.replace(MathType.IMAGINARY_NUMBER_JSCL, MathType.IMAGINARY_NUMBER));
+			} catch (NumberFormatException e1) {
+				// throw original one
+				throw new ParseException(e);
 			}
 		}
 
