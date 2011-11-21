@@ -130,7 +130,7 @@ public class CalculatorEngineTest {
 		} catch (ParseException e) {
 		}
 		try {
-			junit.framework.Assert.assertEquals("i", cm.evaluate(JsclOperation.numeric, "π/π!").getResult());
+			junit.framework.Assert.assertEquals("1", cm.evaluate(JsclOperation.numeric, "π/π!").getResult());
 			fail();
 		} catch (ParseException e) {
 		}
