@@ -6,10 +6,10 @@
   ~ or visit http://se.solovyev.org
   -->
 
-<org.solovyev.android.view.widgets.DirectionDragButton xmlns:a="http://schemas.android.com/apk/res/android"
+<org.solovyev.android.view.widgets.AngleUnitsButton xmlns:a="http://schemas.android.com/apk/res/android"
 													   xmlns:calc="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
-													   a:id="@+id/sixDigitButton" a:text="6"
 													   calc:textUp="deg"
+													   a:id="@+id/sixDigitButton" a:text="6"
 													   calc:textDown="rad"
 													   style="?digitButtonStyle"
 													   a:onClick="digitButtonClickHandler"/>

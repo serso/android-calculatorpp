@@ -7,6 +7,7 @@
 package org.solovyev.android.calculator.model;
 
 import jscl.math.function.Constant;
+import jscl.math.function.ExtendedConstant;
 import jscl.math.function.IConstant;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -159,7 +160,7 @@ public class Var implements IConstant {
 		Double result = null;
 		if (value != null) {
 			try {
-				result = Double.valueOf(value);
+				result = ExtendedConstant.getDoubleValue0(getName(), value);
 			} catch (NumberFormatException e) {
 				// do nothing - string is not a double
 			}
@@ -224,11 +225,16 @@ public class Var implements IConstant {
 
 	@Override
 	public String toString() {
-		final String stringValue = getValue();
-		if (!StringUtils.isEmpty(stringValue)) {
-			return getName() + " = " + stringValue;
+		final Double doubleValue = getDoubleValue();
+		if (doubleValue == null) {
+			final String stringValue = getValue();
+			if (!StringUtils.isEmpty(stringValue)) {
+				return getName() + " = " + stringValue;
+			} else {
+				return getName();
+			}
 		} else {
-			return getName();
+			return getName() + " = " + doubleValue;
 		}
 	}
 

@@ -28,7 +28,12 @@
 		For more information please\ncontact the author by email\n<a href="mailto:se.solovyev@gmail.com">se.solovyev@gmail.com</a>
 		\nor visit\n<a href="http://se.solovyev.org">http://se.solovyev.org</a>\n\n
 		If you want to support the project\nyou can donate money via\n<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=se%2esolovyev%40gmail%2ecom&amp;lc=RU&amp;item_name=Android%20Calculator&amp;currency_code=USD&amp;bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted">http://paypal.com</a>\n\n
-		If you like the application\nrank it with 5 stars in\n<a href="https://market.android.com/details?id=org.solovyev.android.calculator">android.market</a>
+		If you like the application\nrank it with 5 stars in\n<a href="https://market.android.com/details?id=org.solovyev.android.calculator">android.market</a>\n\n
+		Thanks to people who translate Calculator++ in different languages:\n
+		Italian - Gabriele Ravanetti\n\n
+		This application uses next open source libraries:\n
+		<a href="http://simple.sourceforge.net">Simple (XML serialization)</a>\n
+		<a href="http://meditorworld.appspot.com/meditor.txt">JSCL</a>
 	</string>
 
 	<string name="c_undo">undo</string>
@@ -159,7 +164,7 @@
 	<string name="c_op_description_mod">Modulo operation finds the remainder of division of \'x\' by \'y\'.</string>
 	<string name="c_op_description_sum">Sums functions \'f(i)\', iterating through \'i\' from \'from\' to \'to\'.</string>
 	<string name="c_op_description_product">Gives product of functions \'f(i)\', iterating through \'i\' from \'from\' to \'to\'.</string>
-	<string name="c_op_description_derivative">Gives derivative of order \'order\' of functions \'f(x)\' by \'x\' variable and calculates at point \'x_point\'.</string>
+	<string name="c_op_description_derivative">Gives derivative of order \'order\' (default = 1) of functions \'f(x)\' by \'x\' variable and calculates at point \'x_point\' (default = same as \'x\').</string>
 	<string name="c_op_description_integral">Gives integral of function \'f(x)\' by \'x\' variable.</string>
 	<string name="c_op_description_integral_ab">Integrates function \'f(x)\' by \'x\' variable from \'a\' to \'b\'.</string>
 
@@ -187,7 +192,10 @@ Push the button and slide lightly up or down. Depending on value showed on the b
 \n
 <b>How can I toggle between radians and degrees?</b>\n
 \n
-Currently C++ doesn\'t support this feature but you can use deg() and rad() functions and ° operator to convert degrees to radians and vice versa.\n
+To toggle between different angle units you can either change appropriate option in application settings\n
+or use the toggle switch located on the 6 button\n
+(current value is lighted with yellow color).\n
+Also you can use deg() and rad() functions and ° operator to convert degrees to radians and vice versa.\n
 \n
 <b>Examples:</b>\n
 268° = 4.67748\n
@@ -248,6 +256,7 @@ Check the \'Round result\' preference in application settings - it should be tur
 3. Just click on the result to copy it to the clipboard\n\n
 4. Use = button seldom - result is calculating on the fly\n\n
 4. Add constants for often used values (you can even save expressions)\n\n
+5. Use variables located on 4 and 5 buttons\n\n
 	</string>
 
 	<string name="c_screens_content">

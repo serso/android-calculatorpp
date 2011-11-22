@@ -38,10 +38,7 @@ import org.solovyev.common.utils.history.HistoryAction;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.text.DecimalFormatSymbols;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 public class CalculatorActivity extends Activity implements FontSizeAdjuster, SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -122,7 +119,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 			equalsButton.setOnDragListener(evalOnDragListener);
 		}
 
-		final AngleUnitsButton angleUnitsButton = (AngleUnitsButton) findViewById(R.id.clearButton);
+		final AngleUnitsButton angleUnitsButton = (AngleUnitsButton) findViewById(R.id.sixDigitButton);
 		if (angleUnitsButton != null) {
 			final OnDragListener varsOnDragListener = new OnDragListenerVibrator(newOnDragListener(new AngleUnitsChanger(), dragPreferences), vibrator, preferences);
 			angleUnitsButton.setOnDragListener(varsOnDragListener);

@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+ * For more information, please, contact se.solovyev@gmail.com
+ * or visit http://se.solovyev.org
+ */
+
 package org.solovyev.android.view.widgets;
 
 import android.content.Context;
@@ -32,6 +38,7 @@ public class AngleUnitsButton extends DirectionDragButton {
 				result.setColor(resources.getColor(R.color.selected_angle_unit_text_color));
 			} else {
 				result.setColor(resources.getColor(R.color.default_text_color));
+				result.setAlpha(getDefaultDirectionTextAlpha());
 			}
 		}
 

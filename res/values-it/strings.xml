@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+  ~ For more information, please, contact se.solovyev@gmail.com
+  ~ or visit http://se.solovyev.org
+  -->
+
+<resources>
+    
+	<string name="c_app_name">Calculator++</string>
+	<string name="c_app_icon_name">Calc++</string>
+    <string name="c_app_settings">Impostazioni</string>
+    <string name="c_syntax_error">Errore</string>
+    <string name="c_result_copied">Risultato copiato negli appunti!</string>
+	<string name="c_settings">Impostazioni</string>
+	<string name="c_help">Aiuto</string>
+	<string name="c_about">About</string>
+	<string name="c_vars_and_constants">Variabili e costanti</string>
+	
+	
+	<!--PREFERENCE ACTIVITY-->
+	<string name="c_prefs_main_category">Impostazioni principali</string>
+	<string name="c_prefs_calculations_category">Impostazioni calcolo</string>
+	<string name="c_prefs_appearance_category">Impostazioni aspetto</string>
+	<string name="c_prefs_drag_button_category">Impostazioni trascinamento tasti</string>
+
+
+	<string name="c_prefs_drag_button_calibration">Calibrazione pulsante trascinamento</string>
+	<string name="c_prefs_drag_button_calibration_summary">Consente di calibrare il pulsante di trascinamento</string>
+	<string name="c_down">Giù</string>
+	<string name="c_up">Su</string>
+	<string name="c_restart">Riavvia</string>
+
+	<!--ABOUT ACTIVITY-->
+	<string name="c_about_content">Copyright (c) 2009-2011\n\n<b>Creato da serso aka se.solovyev</b>\n\n
+		Questo programma è open source:\ntutto il codice può essere trovato su\n<a href="https://github.com/serso/android_calculator">http://github.com</a>\n\n
+		Per ulteriori informazioni contatta\nl\'autore via email\n<a href="mailto:se.solovyev@gmail.com">se.solovyev@gmail.com</a>
+		\no visita\n<a href="http://se.solovyev.org">http://se.solovyev.org</a>\n\n
+		Se vuoi aiutare il progetto\npuoi effettuare una donazione via\n<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=se%2esolovyev%40gmail%2ecom&amp;lc=RU&amp;item_name=Android%20Calculator&amp;currency_code=USD&amp;bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted">http://paypal.com</a>\n\n
+		Se ti piace l\'applicazione\nvota 5 stelle nel\n<a href="https://market.android.com/details?id=org.solovyev.android.calculator">android.market</a>
+	</string>
+
+	<string name="c_undo">annulla</string>
+	<string name="c_redo">rifai</string>
+	<string name="c_clear">CE</string>
+	<string name="c_erase">cancella</string>
+	<string name="c_paste">incolla</string>
+	<string name="c_vars">vars</string>
+
+	<string name="c_calc_color_display_title">Evidenzia espressioni</string>
+	<string name="c_calc_round_result_title">Arrotonda risultato</string>
+	<string name="c_calc_round_result_summary">Attiva/disattiva arrotondamento dei risultati</string>
+	<string name="p_calc_result_precision_title">Precisione del risultato</string>
+	<string name="c_exit">Esci</string>
+	<string name="c_add">Aggiungi</string>
+	<string name="c_cancel">Annulla</string>
+	<string name="c_save">Salva</string>
+	<string name="c_remove">Rimuovi</string>
+	<string name="c_yes">Sì</string>
+	<string name="c_no">No</string>
+	<string name="c_var_removal_confirmation">Conferma rimozione</string>
+	<string name="c_var_removal_confirmation_question">Vuoi davvero cancellare la variabile \'%s\'?</string>
+	<string name="c_var_name">Nome</string>
+	<string name="c_var_value">Valore</string>
+	<string name="c_var_description">Descrizione</string>
+	<string name="c_var_create_var">Crea variabile</string>
+	<string name="c_var_edit_var">Modifica variabile</string>
+	
+	<string name="c_value.is.not.a.number">Il valore deve essere un numero o vuoto!</string>
+	<string name="c_var.name.clashes">Il nome della variabile entra in conflitto col nome della funzione!</string>
+	<string name="c_var.already.exists">Una variabile con lo stesso nome esiste già!</string>
+	<string name="c_name.is.not.valid">Il nome della costante non è valido: il nome deve iniziare con una lettera, può contenere lettere, cifre e underscore.</string>
+	<string name="c_sys.var.cannot.be.changed">La variabile di sistema non può essere cambiata!</string>
+	
+	<string name="c_pi_description">Rapporto tra la circonferenza di qualsiasi cerchio col suo diametro</string>
+	<string name="c_e_description">Unico numero reale tale che il valore della derivata (pendenza della retta tangente) della funzione f(x) = e^x nel punto x = 0 che è uguale a 1</string>
+	<string name="c_i_description">Unità immaginaria, definita come i^2 = -1</string>
+	<string name="c_c_description">Velocità della luce nel vuoto, m·s^-1</string>
+	<string name="c_g_description">La costante gravitazionale è una costante fisica empirica coinvolta nel calcolo dell\' attrazione gravitazionale tra gli oggetti con massa, m^3·kg^−1·s^−2</string>
+	<string name="c_h_description">Costante fisica che riflette la dimensione dei quanti di energia in meccanica quantistica, J·s</string>
+	<string name="c_h_reduced_description">Costante di riduzione di Planck, J·s</string>
+	<string name="c_nan_description">Non è un numero</string>
+	<string name="c_infinity_description">Infinito</string>
+
+	<string name="c_calc_editor_hint">Inserisci una nuova espressione</string>
+	<string name="c_press_to_copy">Premi per copiare</string>
+	<string name="c_continue">Continua</string>
+	<string name="c_donate">Dona</string>
+	<string name="c_donate_text">Puoi ringraziare l\'autore di questo programma per email\n\n
+		<a href="mailto:se.solovyev@gmail.com">se.solovyev@gmail.com</a>\n\n
+		o donando su\n\n<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=se%2esolovyev%40gmail%2ecom&amp;lc=RU&amp;item_name=Android%20Calculator&amp;currency_code=USD&amp;bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted">http://paypal.com</a>\n\n
+		oppure votando l\'applicazione con 5 stelle nell\'\n\n<a href="https://market.android.com/details?id=org.solovyev.android.calculator">android.market</a>
+	</string>
+	<string name="c_history">Cronologia</string>
+	<string name="c_history_button">M</string>
+	<string name="c_history_is_empty">La cronologia è vuota!</string>
+	<string name="c_app_history">Cronologia</string>
+	<string name="c_char_is_not_accepted">Il carattere \'%s\' non è accettato come nome di variabile!</string>
+	
+	<string name="c_calc_angle_units">Unità angoli</string>
+	<string name="p_deg">Gradi</string>
+	<string name="p_rad">Radianti</string>
+	<string name="c_angle_units_summary">Definisci l\'unità di misura predefinita per gli angoli.</string>
+
+	<string name="c_calc_theme">Tema</string>
+	<string name="p_default_theme">Predefinito</string>
+	<string name="p_violet_theme">Viola</string>
+	<string name="p_light_blue_theme">Blu chiaro</string>
+	<string name="c_calc_result_precision_summary">Precisione del risultato (tutti i calcoli sono fatti con la massima precisione, indipendentemente dal valore di questa opzione)</string>
+	<string name="c_calc_color_display_summary">Attiva o disattiva la colorazione e lo styling dell\' editor calcolatrice</string>
+	<string name="c_calc_theme_summary">Imposta il tema per la calcolatrice</string>
+	<string name="c_clear_history">Cancella cronologia</string>
+	<string name="c_simplify_instead_of_numeric">Le prossime costanti sono indefinite: {0}!</string>
+
+	<string name="p_grouping_separator_no">Nessun separatore</string>
+	<string name="p_grouping_separator_apostrophe">Apostrofo (\')</string>
+	<string name="p_grouping_separator_space">Spazio ( )</string>
+	<string name="c_calc_grouping_separator">Separatore raggruppamento</string>
+	<string name="c_calc_grouping_separator_summary">Imposta separatore raggruppamento</string>
+
+	<string name="c_calc_layout">Layout</string>
+	<string name="p_layout_cellphone">Cellulare</string>
+	<string name="p_layout_calculator">Calcolatrice</string>
+	<string name="c_calc_layout_summary">Imposta layout per i pulsanti</string>
+
+	<string name="c_calc_haptic_feedback_title">Feedback tattile</string>
+	<string name="c_calc_haptic_feedback_summary">Attiva o disattiva la vibrazione su click dei pulsanti</string>
+
+	<string name="p_calc_haptic_feedback_strength_short">Breve</string>
+	<string name="p_calc_haptic_feedback_strength_middle">Media</string>
+	<string name="p_calc_haptic_feedback_strength_long">Lunga</string>
+	
+	<string name="p_calc_haptic_feedback_duration_title">Durata feedback tattile</string>
+	<string name="p_calc_haptic_feedback_duration_summary">Durata della vibrazione su click dei pulsanti</string>
+	<string name="c_functions">Funzioni</string>
+	
+	<string name="c_fun_description_sin">Funzione trigonometrica seno.</string>
+	<string name="c_fun_description_cos">Funzione trigonometrica coseno.</string>
+	<string name="c_fun_description_tan">Funzione trigonometrica tangente.</string>
+	<string name="c_fun_description_cot">Funzione trigonometrica cotangente.</string>
+	<string name="c_fun_description_asin">Arcseno - inversa della funzione seno.</string>
+	<string name="c_fun_description_acos">Arccoseno - inversa della funzione coseno.</string>
+	<string name="c_fun_description_atan">Arctangente - inversa della funzione tangente.</string>
+	<string name="c_fun_description_acot">Arccotangente - inversa della funzione cotangente.</string>
+	<string name="c_fun_description_ln">Logaritmo naturale - logaritmo in base e.</string>
+	<string name="c_fun_description_lg">Logaritmo decimale - logaritmo in base 10.</string>
+	<string name="c_fun_description_exp">Funzione esponenziale.</string>
+	<string name="c_fun_description_sqrt">Funzione radice quadrata.</string>
+	<string name="c_fun_description_cubic">Funzione radice cubica.</string>
+	<string name="c_fun_description_abs">Funzione che restituisce il valore assoluto di un argomento.</string>
+	<string name="c_fun_description_sgn">Funzione che restituisce il segno di un argomento: -1 se l\'argomnto è minore di 0, 0 se è uguale a 0, 1 se è maggiore di 0.</string>
+	<string name="c_fun_description_eq">Funzione uguaglianza - restituisce 1 se i due argomenti sono uguali, 0 altrimenti.</string>
+	<string name="c_fun_description_le">Funzione minore-o-uguale - restituisce 1 se i due argomenti sono uguali o il primo è minore del secondo, 0 altrimenti.</string>
+	<string name="c_fun_description_ge">Funzione maggiore-o-uguale - restituisce 1 se i due argomenti sono uguali o il primo è maggiore del secondo, 0 altrimenti.</string>
+	<string name="c_fun_description_ne">Funzione disuguaglianza - restituisce 1 se i due argomenti non sono uguali, 0 altrimenti.</string>
+	<string name="c_fun_description_lt">Funzione minore - restituisce 1 se il primo argomento è minore del secondo, 0 altrimenti.</string>
+	<string name="c_fun_description_gt">Funzione maggiore - restituisce 1 se il primo argomento è maggiore del secondo, 0 altrimenti.</string>
+	<string name="c_fun_description_rad">Converte gradi in radianti: d - gradi, m - minuti (predefinito = 0), s - secondi (predefinito = 0).</string>
+	<string name="c_fun_description_dms">Converte gradi dalla notazione DMS in notazione decimale: d - gradi, m - minuti (predefinito = 0), s - secondi (predefinito = 0).</string>
+	<string name="c_fun_description_deg">Converte radianti in gradi.</string>
+
+	<string name="c_empty_var_error">Impossibile creare una costante vuota!</string>
+	<string name="c_not_valid_result">Risultato attuale non valido!</string>
+	<string name="c_operators">Operatori</string>
+
+	<string name="c_op_description_mod">L\'operazione modulo trova il resto della divisione di \'x\' by \'y\'.</string>
+	<string name="c_op_description_sum">Funzione somma \'f(i)\', iterazione tra \'i\' da \'from\' a \'to\'.</string>
+	<string name="c_op_description_product">Restituisce il prodotto della funzione \'f(i)\', iterazione tra \'i\' da \'from\' a \'to\'.</string>
+	<string name="c_op_description_derivative">Restituisce la derivata di ordine \'order\' della funzione \'f(x)\' in \'x\' e calcolata nel punto \'x_point\'.</string>
+	<string name="c_op_description_integral">Restituisce l\'integrale della funzione \'f(x)\' in \'x\'.</string>
+	<string name="c_op_description_integral_ab">Funzione integrale \'f(x)\' in \'x\' da \'a\' a \'b\'.</string>
+
+	<string name="c_pf_description_factorial">Restituisce il fattoriale dell\'espressione precedente.</string>
+	<string name="c_pf_description_percent" formatted="false">Restituisce la percentuale dell\'espressione precedente.\nEsempi:\n
+		100 + 50% = 150\n
+		100 * 50% = 50\n
+		100 + 100 * 50% * 50% = 125
+	</string>
+	<string name="c_pf_description_degree">Converte gradi in radianti.\n
+		Esempi:\n
+		268° = 4.67748\n
+		30.21° = 0.52726
+	</string>
+
+	<string name="c_faq">FAQ</string>
+	<string name="c_hints">Suggerimenti</string>
+	<string name="c_screens">Schermate</string>
+
+	<string name="c_faq_content" formatted="false">
+<b>Come posso utilizzare le funzioni scritte in alto a destra e nell\'angolo in basso a destra del pulsante?</b>\n
+\n
+Premi il pulsante e trascinalo leggermente verso l\'alto o verso il basso. A seconda del valore mostrato sul pulsante azione si verificherà.\n
+\n
+<b>Come posso passare da radianti a gradi?</b>\n
+\n
+Attualente C++ non supporta questa funzione ma è possibile utilizzare le funzioni deg() e rad() e l\'operatore ° per convertire i gradi in radianti e vice versa.\n
+\n
+<b>Esempi:</b>\n
+268° = 4.67748\n
+30.21° = 0.52726\n
+rad(30, 21, 0) = 0.52726\n
+deg(4.67748) = 268\n
+\n
+<b>C++ supporta la %?</b>\n
+\n
+Sì, la funzione % può essere trovata nell\'angolo in alto a destra di / button.\n
+\n
+<b>Esempi:</b>\n
+\n
+100 + 50% = 150\n
+100 * 50% = 50\n
+100 + 100 * 50% * 50% = 125\n
+100 + (100 * 50% * (25 + 25)% + 100%) = 150\n
+\n
+<b>Note:</b>\n
+\n
+100 + (20 + 20)% = 140, <b>ma</b> 100+  (20% + 20%) = 124.0\n
+100 + 50% ^ 2 = 2600, <b>ma</b> 100 + 50 ^ 2% = 101.08\n
+\n
+<b>C++ supporta il calcolo delle frazioni?</b>\n
+\n
+Sì, è possibile digitare l\'espressione frazionaria nell\'editor e usare = (nell\'angolo in alto a destra del pulsante = ). Inoltre è possibile utilizzare = per semplificare l\'espressione.\n
+\n
+<b>Esempi:</b>\n
+\n
+2/3 + 5/9 = 11/9\n
+2/9 + 3/123 = 91/369\n
+(6 - t) ^ 3 = 216 - 108t + 18t ^ 2 - t ^ 3\n
+\n
+<b>C++ supporta il calcolo con i numeri complessi?</b>\n
+\n
+Sì, basta inserire una espressione complessa (usando i o √(-1) come numero immaginario).\n
+\n
+<b>Esempi:</b>\n
+\n
+(2i + 1) ^ = -3 + 4i\n
+e ^ i = 0.5403 + 0.84147i\n
+\n
+<b>C++ può disegnare i grafici delle funzioni?</b>\n
+\n
+No, attualmente C++ non supporta questa funzione.\n
+\n
+<b>C++ supporta il calcolo delle matrici?</b>\n
+\n
+No.\n
+\n
+<b>Perchè ho 1.76732452452345E-17 invece di 0?</b>\n
+\n
+Controlla l\'opzione \'Arrotonda risultato\' nelle impostazioni dell\'applicazione - dovrebbe essere attivata.\n</string>
+
+
+  <string name="c_hints_content">
+1. È possibile omettere i segni non necessari nella moltiplicazione (invece di 3*t o t*sin(p*t) digita 3t o tsin(pt))\n\n
+2. Utilizza = (nell\'angolo in alto a destra del pulsante = ) per semplificare l\'espressione\n\n
+3. Basta fare click sul risultato per copiarlo negli appunti\n\n
+4. Usa raramente il pulsante =  - il risultato è calcolato in tempo reale\n\n
+4. Aggiungi costanti per i valori usati spesso (è possibile salvare anche le espressioni)\n\n
+	</string>
+
+	<string name="c_screens_content">
+1. <b>Schermata principale:</b> viene visualizzata all\'avvio dell\'applicazione, può essere raggiunta da un altra schermata premendo il pulsante Indietro.\n\n
+2. <b>Schermata variabili e costanti:</b> contiene l\'elenco delle costanti disponibili. L\'utente può aggiungere qui costanti e variabili cliccando il pulsante Aggiungi. Un breve click sulla variabile/costante la inserisce nell\'editor, un click prolungato apre la finestra di editor variabili. Può essere raggiunta dalla schermata principale premendo il pulsante π,….\n\n
+3. <b>Schermata funzioni:</b> contiene l\'elenco di tutte le funzioni disponibili. Un breve click sulla funzione la inserisce nell\'editor. Può essere raggiunta dalla schermata principale premento il pulsante f(x).\n\n
+4. <b>Schermata operatori:</b> contiene l\'elenco di tutti gli operatori disponibili. Un breve click sull\'operartore lo inserisce nell\'editor. Può essere raggiunta dalla schermata principale premento il pulsante ∂,….\n\n
+5. <b>Schermata cronologia:</b> contiene l\'elenco di tutte le azioni fatte dall\'utente.  Un breve click su un elemento della lista lo inserisce nell\'editor. Può essere raggiunta dalla schermata principale premento il pulsante M.\n\n
+6. <b>Schermata impostazioni:</b> contiene le impostazioni dell\'applicazione. Può essere raggiunta dalla schermata principale premento il pulsante Impostazioni nel menù.
+	</string>
+
+
+
+</resources>

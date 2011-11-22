@@ -27,7 +27,12 @@
 		За подробной информацией, пожалуйста,\nобращайтесь на почту\n<a href="mailto:se.solovyev@gmail.com">se.solovyev@gmail.com</a>\n
 		или посетите сайт \n<a href="http://se.solovyev.org">http://se.solovyev.org</a>\n\n
 		Если вы хотите поддержать проект материально\nвы можете сделать это через \n<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=se%2esolovyev%40gmail%2ecom&amp;lc=RU&amp;item_name=Android%20Calculator&amp;currency_code=USD&amp;bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted">http://paypal.com</a>\n\n
-		Если вам понравилось приложение -\nпоставьте 5 звёздочек в\n<a href="https://market.android.com/details?id=org.solovyev.android.calculator">андроид.маркете</a>
+		Если вам понравилось приложение -\nпоставьте 5 звёздочек в\n<a href="https://market.android.com/details?id=org.solovyev.android.calculator">андроид.маркете</a>\n\n
+		Спасибо тем, кто переводил Калькулятор++:\n
+		на итальянский - Gabriele Ravanetti\n\n
+		Это приложение использует следующие открытые библиотеки:\n
+		<a href="http://simple.sourceforge.net">Simple (XML serialization)</a>\n
+		<a href="http://meditorworld.appspot.com/meditor.txt">JSCL</a>
 	</string>
 
 	<string name="c_undo">назад</string>
@@ -158,7 +163,7 @@
 	<string name="c_op_description_mod">Возвращает остаток от деления \'x\' на \'y\'.</string>
 	<string name="c_op_description_sum">Суммирует функции \'f(i)\', пробегая по переменной \'i\' от \'from\' до \'to\'.</string>
 	<string name="c_op_description_product">Возвращает произведение функций \'f(i)\', пробегая по переменной \'i\' от \'from\' до \'to\'.</string>
-	<string name="c_op_description_derivative">Возвращает производную порядка \'order\' функции \'f(x)\' по переменной \'x\' и вычисляет её в точке \'x_point\'.</string>
+	<string name="c_op_description_derivative">Возвращает производную порядка \'order\' (по умолчанию = 1) функции \'f(x)\' по переменной \'x\' и вычисляет её в точке \'x_point\' (по умолчанию = такая же как и \'x\').</string>
 	<string name="c_op_description_integral">Возвращает интеграл функции \'f(x)\' по переменной \'x\'.</string>
 	<string name="c_op_description_integral_ab">Интегрирует функцию \'f(x)\' по переменной \'x\' от \'a\' до \'b\'.</string>
 
@@ -185,7 +190,9 @@
 \n
 <b>Как я могу переключиться между радианами и градусами?</b>\n
 \n
-На данный момент К++ не поддерживает такого переключения, но вы можете использовать функции deg() и rad() или оператор ° для перевода радиан в градусы и наоборот.\n
+Для переключения единиц измерения углов либо выберите соответствующий пункт настроек приложения,\nлибо воспользуйтесь переключателем, расположенным на клавише 6\n
+(текущее значение выделено жёлтым цветом).\n
+Также вы можете воспользоваться функциями deg() и rad() и оператором ° для перевода радиан в градусы и обратно.\n
 \n
 <b>Примеры:</b>\n
 268° = 4.67748\n
@@ -246,7 +253,8 @@ e ^ i = 0.5403 + 0.84147i\n
 2. Используйте ≡ (в верхнем правом углу кнопки =) для упрощения выражения.\n\n
 3. Нажмите на результат для того, чтобы скопировать его в буфер обмена.\n\n
 4. Используйте кнопку = реже - результат вычисляется на лету.\n\n
-4. Создайте константы для часто используемых значений (таким образом вы можете даже сохранять выражения)
+4. Создайте константы для часто используемых значений (таким образом вы можете даже сохранять выражения).
+5. Используйте переменные расположенные на 4 и 5 клавише.\n\n
 	</string>
 
 	<string name="c_screens_content">

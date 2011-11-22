@@ -52,18 +52,16 @@
 					 a:layout_height="fill_parent"
 					 a:layout_weight="4"/>
 
-			<org.solovyev.android.view.widgets.AngleUnitsButton xmlns:a="http://schemas.android.com/apk/res/android"
-																xmlns:calc="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
-																a:id="@+id/clearButton"
-																calc:textUp="deg"
-																a:text="@string/c_clear"
-																calc:textDown="rad"
-																a:textStyle="bold"
-																style="?controlButtonStyle"
-																a:onClick="clearButtonClickHandler"
-																a:layout_width="0dp"
-																a:layout_height="fill_parent"
-																a:layout_weight="1"/>
+			<org.solovyev.android.view.widgets.ColorButton xmlns:a="http://schemas.android.com/apk/res/android"
+														   xmlns:calc="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
+														   a:id="@+id/clearButton"
+														   a:text="@string/c_clear"
+														   a:textStyle="bold"
+														   style="?controlImageButtonStyle"
+														   a:onClick="clearButtonClickHandler"
+														   a:layout_width="0dp"
+														   a:layout_height="fill_parent"
+														   a:layout_weight="1"/>
 
 			<org.solovyev.android.view.widgets.DirectionDragButton xmlns:a="http://schemas.android.com/apk/res/android"
 																   xmlns:calc="http://schemas.android.com/apk/res/org.solovyev.android.calculator"

@@ -188,10 +188,14 @@ public class DirectionDragButton extends DragButton {
 	private static TextPaint getUpDownTextPaint(@NotNull Paint basePaint, @NotNull Resources resources, @NotNull Float directionTextScale) {
 		final TextPaint result = new TextPaint(basePaint);
 		result.setColor(resources.getColor(R.color.button_text_color));
-		result.setAlpha(150);
+		result.setAlpha(getDefaultDirectionTextAlpha());
 		result.setTextSize(basePaint.getTextSize() * directionTextScale);
 
 		return result;
+	}
+
+	protected static int getDefaultDirectionTextAlpha() {
+		return 150;
 	}
 
 	@Nullable
