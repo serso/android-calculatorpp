@@ -44,7 +44,10 @@ public class DirectionDragButton extends DragButton {
 	private Point2d textDownPosition;
 
 	@NotNull
-	private TextPaint upDownTextPaint;
+	private TextPaint upTextPaint;
+
+	@NotNull
+	private TextPaint downTextPaint;
 
 	@Nullable
 	private Float directionTextScale = DEFAULT_DIRECTION_TEXT_SCALE;
@@ -107,14 +110,15 @@ public class DirectionDragButton extends DragButton {
 		super.measureText();
 
 		final Paint basePaint = getPaint();
-		initUpDownTextPaint(basePaint);
 
 		if (textUp != null) {
-			textUpPosition = getTextPosition(upDownTextPaint, basePaint, textUp, getText(), 1, getWidth(), getHeight(), getDirectionTextScale());
+			initUpDownTextPaint(basePaint, DragDirection.up);
+			textUpPosition = getTextPosition(upTextPaint, basePaint, textUp, getText(), 1, getWidth(), getHeight(), getDirectionTextScale());
 		}
 
 		if (textDown != null) {
-			textDownPosition = getTextPosition(upDownTextPaint, basePaint, textDown, getText(), -1, getWidth(), getHeight(), getDirectionTextScale());
+			initUpDownTextPaint(basePaint, DragDirection.down);
+			textDownPosition = getTextPosition(downTextPaint, basePaint, textDown, getText(), -1, getWidth(), getHeight(), getDirectionTextScale());
 		}
 
 		/*if (textDownPosition != null && textUpPosition != null) {
@@ -150,28 +154,44 @@ public class DirectionDragButton extends DragButton {
 	public void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 
-		initUpDownTextPaint(null);
 
 		if (textUp != null && textUpPosition != null) {
-			canvas.drawText(textUp, 0, textUp.length(), textUpPosition.getX(), textUpPosition.getY(), upDownTextPaint);
+			initUpDownTextPaint(null, DragDirection.up);
+			canvas.drawText(textUp, 0, textUp.length(), textUpPosition.getX(), textUpPosition.getY(), upTextPaint);
 		}
 
 		if (textDown != null && textDownPosition != null) {
-			canvas.drawText(textDown, 0, textDown.length(), textDownPosition.getX(), textDownPosition.getY(), upDownTextPaint);
+			initUpDownTextPaint(null, DragDirection.down);
+			canvas.drawText(textDown, 0, textDown.length(), textDownPosition.getX(), textDownPosition.getY(), downTextPaint);
 		}
 	}
 
-	private void initUpDownTextPaint(@Nullable Paint paint) {
+	@Nullable
+	protected TextPaint initUpDownTextPaint(@Nullable Paint paint, @NotNull DragDirection direction) {
 		if (paint == null) {
 			paint = getPaint();
 		}
 
 		final Resources resources = getResources();
+		if (direction == DragDirection.up) {
+			upTextPaint = getUpDownTextPaint(paint, resources, getDirectionTextScale());
+			return upTextPaint;
+		} else if (direction == DragDirection.down) {
+			downTextPaint = getUpDownTextPaint(paint, resources, getDirectionTextScale());
+			return downTextPaint;
+		}
 
-		upDownTextPaint = new TextPaint(paint);
-		upDownTextPaint.setColor(resources.getColor(R.color.button_text_color));
-		upDownTextPaint.setAlpha(150);
-		upDownTextPaint.setTextSize(paint.getTextSize() * getDirectionTextScale());
+		return null;
+	}
+
+	@NotNull
+	private static TextPaint getUpDownTextPaint(@NotNull Paint basePaint, @NotNull Resources resources, @NotNull Float directionTextScale) {
+		final TextPaint result = new TextPaint(basePaint);
+		result.setColor(resources.getColor(R.color.button_text_color));
+		result.setAlpha(150);
+		result.setTextSize(basePaint.getTextSize() * directionTextScale);
+
+		return result;
 	}
 
 	@Nullable
