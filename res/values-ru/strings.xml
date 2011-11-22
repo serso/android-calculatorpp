@@ -90,6 +90,8 @@
 	<string name="c_calc_angle_units">Единицы измерения углов</string>
 	<string name="p_deg">Градусы</string>
 	<string name="p_rad">Радианы</string>
+	<string name="p_grad">Грады</string>
+	<string name="p_turns">Обороты</string>
 	<string name="c_angle_units_summary">Определяет единицы измерения углов.</string>
 
 	<string name="c_calc_theme">Тема оформления</string>

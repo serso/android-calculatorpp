@@ -22,6 +22,7 @@ import android.view.*;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import jscl.AngleUnits;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.math.MathType;
@@ -121,6 +122,12 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 			equalsButton.setOnDragListener(evalOnDragListener);
 		}
 
+		final AngleUnitsButton angleUnitsButton = (AngleUnitsButton) findViewById(R.id.clearButton);
+		if (angleUnitsButton != null) {
+			final OnDragListener varsOnDragListener = new OnDragListenerVibrator(newOnDragListener(new AngleUnitsChanger(), dragPreferences), vibrator, preferences);
+			angleUnitsButton.setOnDragListener(varsOnDragListener);
+		}
+
 		final DragButton varsButton = (DragButton) findViewById(R.id.varsButton);
 		if (varsButton != null) {
 			final OnDragListener varsOnDragListener = new OnDragListenerVibrator(newOnDragListener(new VarsDragProcessor(), dragPreferences), vibrator, preferences);
@@ -130,6 +137,38 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		CalculatorEngine.instance.reset(this, preferences);
 
 		preferences.registerOnSharedPreferenceChangeListener(this);
+	}
+
+	private class AngleUnitsChanger implements SimpleOnDragListener.DragProcessor {
+
+		@Override
+		public boolean processDragEvent(@NotNull DragDirection dragDirection,
+										@NotNull DragButton dragButton,
+										@NotNull Point2d startPoint2d,
+										@NotNull MotionEvent motionEvent) {
+			boolean result = false;
+
+			if ( dragButton instanceof AngleUnitsButton ) {
+				final String directionText = ((AngleUnitsButton) dragButton).getDirectionText(dragDirection);
+				if ( directionText != null ) {
+					try {
+
+						final AngleUnits angleUnits = AngleUnits.valueOf(directionText);
+
+						final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(CalculatorActivity.this);
+						final SharedPreferences.Editor editor = preferences.edit();
+						editor.putString(CalculatorEngine.ANGLE_UNITS_P_KEY, angleUnits.name());
+						editor.commit();
+
+						result = true;
+					} catch (IllegalArgumentException e) {
+						Log.d(this.getClass().getName(), "Unsupported angle units: " + directionText);
+					}
+				}
+			}
+
+			return result;
+		}
 	}
 
 	private class VarsDragProcessor implements SimpleOnDragListener.DragProcessor {
