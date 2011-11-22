@@ -129,11 +129,9 @@ public class CalculatorEngineTest {
 			fail();
 		} catch (ParseException e) {
 		}
-		try {
-			junit.framework.Assert.assertEquals("1", cm.evaluate(JsclOperation.numeric, "π/π!").getResult());
-			fail();
-		} catch (ParseException e) {
-		}
+
+		junit.framework.Assert.assertEquals("1", cm.evaluate(JsclOperation.numeric, "(π/π)!").getResult());
+
 		try {
 			junit.framework.Assert.assertEquals("i", cm.evaluate(JsclOperation.numeric, "(-1)i!").getResult());
 			fail();
@@ -144,11 +142,16 @@ public class CalculatorEngineTest {
 
 		CalculatorEngine.instance.getVarsRegister().add(new Var.Builder("si", 5d));
 
-		Assert.assertEquals("-0.959", cm.evaluate(JsclOperation.numeric, "sin(5)").getResult());
-		Assert.assertEquals("-4.795", cm.evaluate(JsclOperation.numeric, "sin(5)si").getResult());
-		Assert.assertEquals("-23.973", cm.evaluate(JsclOperation.numeric, "sisin(5)si").getResult());
-		Assert.assertEquals("-23.973", cm.evaluate(JsclOperation.numeric, "si*sin(5)si").getResult());
-		Assert.assertEquals("-3.309", cm.evaluate(JsclOperation.numeric, "sisin(5si)si").getResult());
+		try {
+			cm.getEngine().setDefaultAngleUnits(AngleUnits.rad);
+			Assert.assertEquals("-0.959", cm.evaluate(JsclOperation.numeric, "sin(5)").getResult());
+			Assert.assertEquals("-4.795", cm.evaluate(JsclOperation.numeric, "sin(5)si").getResult());
+			Assert.assertEquals("-23.973", cm.evaluate(JsclOperation.numeric, "sisin(5)si").getResult());
+			Assert.assertEquals("-23.973", cm.evaluate(JsclOperation.numeric, "si*sin(5)si").getResult());
+			Assert.assertEquals("-3.309", cm.evaluate(JsclOperation.numeric, "sisin(5si)si").getResult());
+		} finally {
+			cm.getEngine().setDefaultAngleUnits(defaultAngleUnits);
+		}
 
 		CalculatorEngine.instance.getVarsRegister().add(new Var.Builder("s", 1d));
 		Assert.assertEquals("5", cm.evaluate(JsclOperation.numeric, "si").getResult());
@@ -239,7 +242,13 @@ public class CalculatorEngineTest {
 		} catch (ParseException e) {
 		}
 
-		Assert.assertEquals("0.739", cm.evaluate(JsclOperation.numeric, "cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(1))))))))))))))))))))))))))))))))))))").getResult());
+		final AngleUnits defaultAngleUnits = cm.getEngine().getDefaultAngleUnits();
+		try {
+			cm.getEngine().setDefaultAngleUnits(AngleUnits.rad);
+			Assert.assertEquals("0.739", cm.evaluate(JsclOperation.numeric, "cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(1))))))))))))))))))))))))))))))))))))").getResult());
+		} finally {
+			cm.getEngine().setDefaultAngleUnits(defaultAngleUnits);
+		}
 
 		CalculatorEngine.instance.getVarsRegister().add(new Var.Builder("si", 5d));
 		Assert.assertEquals("5", cm.evaluate(JsclOperation.numeric, "si").getResult());
