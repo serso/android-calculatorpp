@@ -91,6 +91,8 @@
 	<string name="c_calc_angle_units">Angle Units</string>
 	<string name="p_deg">Degrees</string>
 	<string name="p_rad">Radians</string>
+	<string name="p_grad">Gradians</string>
+	<string name="p_turns">Turns</string>
 	<string name="c_angle_units_summary">Defines the default units for angles.</string>
 
 	<string name="c_calc_theme">Theme</string>

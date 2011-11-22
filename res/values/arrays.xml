@@ -50,10 +50,14 @@
 	<string-array name="p_angle_units_names">
 		<item>@string/p_deg</item>
 		<item>@string/p_rad</item>
+		<item>@string/p_grad</item>
+		<item>@string/p_turns</item>
 	</string-array>
 	<string-array name="p_angle_units">
 		<item>deg</item>
 		<item>rad</item>
+		<item>grad</item>
+		<item>turns</item>
 	</string-array>
 
 </resources>
