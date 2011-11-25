@@ -269,5 +269,26 @@ Check the \'Round result\' preference in application settings - it should be tur
 			</string>
 
 
+	<string name="msg_msg_1">Arithmetic error occurred: {0}</string>
+	<string name="msg_msg_2">Too complex expression</string>
+	<string name="msg_msg_3">Too long execution time - check the expression</string>
+	<string name="msg_msg_4">Evaluation was cancelled</string>
+	<string name="msg_msg_5">No parameters are specified for function: {0}</string>
+	<string name="msg_msg_6">Infinite loop is detected in expression</string>
+
+	<string name="msg_jscl_msg_1">Premature end of processing</string>
+	<string name="msg_jscl_msg_2">There is no operator with name: {0}</string>
+	<string name="msg_jscl_msg_3">Operator name is not valid: {0}</string>
+	<string name="msg_jscl_msg_4">Postfix function with name {0} doesn\'\'t exist</string>
+	<string name="msg_jscl_msg_5">Constant name must start with character</string>
+	<string name="msg_jscl_msg_6">Cannot be implicit function - usual function or operator with same name is defined: {0}</string>
+	<string name="msg_jscl_msg_7">Digit is expected</string>
+	<string name="msg_jscl_msg_8">Invalid number: {0}</string>
+	<string name="msg_jscl_msg_9">First letter of number must be digit</string>
+	<string name="msg_jscl_msg_10">Expected characters are {0} or {1}</string>
+	<string name="msg_jscl_msg_11">Expected characters are {0}</string>
+	<string name="msg_jscl_msg_12">Expected character is {0}</string>
+	<string name="msg_jscl_msg_13">Function name is not valid: {0}</string>
+	<string name="msg_jscl_msg_14">Expected number of parameters differs from actual {0}</string>
 
 </resources>

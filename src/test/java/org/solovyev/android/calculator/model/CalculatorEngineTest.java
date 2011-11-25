@@ -5,7 +5,7 @@
 
 package org.solovyev.android.calculator.model;
 
-import jscl.AngleUnits;
+import jscl.AngleUnit;
 import jscl.math.Expression;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -40,7 +40,7 @@ public class CalculatorEngineTest {
 			cm.evaluate(JsclOperation.numeric, "3^10^10^10");
 			Assert.fail();
 		} catch (ParseException e) {
-			if (e.getMessage().startsWith("Too long calculation")) {
+			if (e.getMessageId().equals(Messages.msg_3)) {
 
 			} else {
 				System.out.print(e.getCause().getMessage());
@@ -52,7 +52,7 @@ public class CalculatorEngineTest {
 			cm.evaluate(JsclOperation.numeric, "9999999!");
 			Assert.fail();
 		} catch (ParseException e) {
-			if (e.getMessage().startsWith("Too long calculation")) {
+			if (e.getMessageId().equals(Messages.msg_3)) {
 
 			} else {
 				System.out.print(e.getCause().getMessage());
@@ -85,27 +85,27 @@ public class CalculatorEngineTest {
 		Assert.assertEquals("1", cm.evaluate(JsclOperation.simplify, "eq(  1,   1)").getResult());
 		Assert.assertEquals("1", cm.evaluate(JsclOperation.numeric, "lg(10)").getResult());
 		Assert.assertEquals("4", cm.evaluate(JsclOperation.numeric, "2+2").getResult());
-		final AngleUnits defaultAngleUnits = cm.getEngine().getDefaultAngleUnits();
+		final AngleUnit defaultAngleUnit = cm.getEngine().getDefaultAngleUnit();
 		try {
-			cm.getEngine().setDefaultAngleUnits(AngleUnits.rad);
+			cm.getEngine().setDefaultAngleUnit(AngleUnit.rad);
 			Assert.assertEquals("-0.757", cm.evaluate(JsclOperation.numeric, "sin(4)").getResult());
 			Assert.assertEquals("0.524", cm.evaluate(JsclOperation.numeric, "asin(0.5)").getResult());
 			Assert.assertEquals("-0.396", cm.evaluate(JsclOperation.numeric, "sin(4)asin(0.5)").getResult());
 			Assert.assertEquals("-0.56", cm.evaluate(JsclOperation.numeric, "sin(4)asin(0.5)√(2)").getResult());
 			Assert.assertEquals("-0.56", cm.evaluate(JsclOperation.numeric, "sin(4)asin(0.5)√(2)").getResult());
 		} finally {
-			cm.getEngine().setDefaultAngleUnits(defaultAngleUnits);
+			cm.getEngine().setDefaultAngleUnit(defaultAngleUnit);
 		}
 		Assert.assertEquals("7.389", cm.evaluate(JsclOperation.numeric, "e^2").getResult());
 		Assert.assertEquals("7.389", cm.evaluate(JsclOperation.numeric, "exp(1)^2").getResult());
 		Assert.assertEquals("7.389", cm.evaluate(JsclOperation.numeric, "exp(2)").getResult());
 		Assert.assertEquals("2+i", cm.evaluate(JsclOperation.numeric, "2*1+√(-1)").getResult());
 		try {
-			cm.getEngine().setDefaultAngleUnits(AngleUnits.rad);
+			cm.getEngine().setDefaultAngleUnit(AngleUnit.rad);
 			Assert.assertEquals("0.921+3.142i", cm.evaluate(JsclOperation.numeric, "ln(5cosh(38π√(2cos(2))))").getResult());
 			Assert.assertEquals("-3.41+3.41i", cm.evaluate(JsclOperation.numeric, "(5tan(2i)+2i)/(1-i)").getResult());
 		} finally {
-			cm.getEngine().setDefaultAngleUnits(defaultAngleUnits);
+			cm.getEngine().setDefaultAngleUnit(defaultAngleUnit);
 		}
 		Assert.assertEquals("7.389i", cm.evaluate(JsclOperation.numeric, "iexp(2)").getResult());
 		Assert.assertEquals("2+7.389i", cm.evaluate(JsclOperation.numeric, "2+iexp(2)").getResult());
@@ -143,14 +143,14 @@ public class CalculatorEngineTest {
 		CalculatorEngine.instance.getVarsRegister().add(new Var.Builder("si", 5d));
 
 		try {
-			cm.getEngine().setDefaultAngleUnits(AngleUnits.rad);
+			cm.getEngine().setDefaultAngleUnit(AngleUnit.rad);
 			Assert.assertEquals("-0.959", cm.evaluate(JsclOperation.numeric, "sin(5)").getResult());
 			Assert.assertEquals("-4.795", cm.evaluate(JsclOperation.numeric, "sin(5)si").getResult());
 			Assert.assertEquals("-23.973", cm.evaluate(JsclOperation.numeric, "sisin(5)si").getResult());
 			Assert.assertEquals("-23.973", cm.evaluate(JsclOperation.numeric, "si*sin(5)si").getResult());
 			Assert.assertEquals("-3.309", cm.evaluate(JsclOperation.numeric, "sisin(5si)si").getResult());
 		} finally {
-			cm.getEngine().setDefaultAngleUnits(defaultAngleUnits);
+			cm.getEngine().setDefaultAngleUnit(defaultAngleUnit);
 		}
 
 		CalculatorEngine.instance.getVarsRegister().add(new Var.Builder("s", 1d));
@@ -242,12 +242,12 @@ public class CalculatorEngineTest {
 		} catch (ParseException e) {
 		}
 
-		final AngleUnits defaultAngleUnits = cm.getEngine().getDefaultAngleUnits();
+		final AngleUnit defaultAngleUnit = cm.getEngine().getDefaultAngleUnit();
 		try {
-			cm.getEngine().setDefaultAngleUnits(AngleUnits.rad);
+			cm.getEngine().setDefaultAngleUnit(AngleUnit.rad);
 			Assert.assertEquals("0.739", cm.evaluate(JsclOperation.numeric, "cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(1))))))))))))))))))))))))))))))))))))").getResult());
 		} finally {
-			cm.getEngine().setDefaultAngleUnits(defaultAngleUnits);
+			cm.getEngine().setDefaultAngleUnit(defaultAngleUnit);
 		}
 
 		CalculatorEngine.instance.getVarsRegister().add(new Var.Builder("si", 5d));
@@ -317,9 +317,9 @@ public class CalculatorEngineTest {
 	public void testDegrees() throws Exception {
 		final CalculatorEngine cm = CalculatorEngine.instance;
 
-		final AngleUnits defaultAngleUnits = cm.getEngine().getDefaultAngleUnits();
+		final AngleUnit defaultAngleUnit = cm.getEngine().getDefaultAngleUnit();
 		try {
-			cm.getEngine().setDefaultAngleUnits(AngleUnits.rad);
+			cm.getEngine().setDefaultAngleUnit(AngleUnit.rad);
 			cm.setPrecision(3);
 			try {
 				Assert.assertEquals("0.017", cm.evaluate(JsclOperation.numeric, "°"));
@@ -340,7 +340,7 @@ public class CalculatorEngineTest {
 
 			Assert.assertEquals("∂(cos(t), t, t,1°)", cm.evaluate(JsclOperation.simplify, "∂(cos(t),t,t,1°)").getResult());
 		} finally {
-			cm.getEngine().setDefaultAngleUnits(defaultAngleUnits);
+			cm.getEngine().setDefaultAngleUnit(defaultAngleUnit);
 		}
 	}
 }
