@@ -55,7 +55,7 @@ class ToJsclTextProcessor implements TextProcessor<PreparedExpression> {
 			}
 
 			if ((mathTypeBefore == MathType.function || mathTypeBefore == MathType.operator) && CollectionsUtils.find(MathType.openGroupSymbols, startsWithFinder) != null) {
-				throw new ParseException("Empty function: " + mathTypeResult.getMatch());
+				throw new ParseException(Messages.msg_5, i, s, mathTypeResult.getMatch());
 			}
 
 			i = mathTypeResult.processToJscl(result, i);
@@ -66,7 +66,7 @@ class ToJsclTextProcessor implements TextProcessor<PreparedExpression> {
 	@NotNull
 	private static PreparedExpression replaceVariables(@NotNull final String s, int depth, @NotNull List<Var> undefinedVars) throws ParseException {
 		if (depth >= MAX_DEPTH) {
-			throw new ParseException("Infinite loop in expression: " + s);
+			throw new ParseException(Messages.msg_6, s);
 		} else {
 			depth++;
 		}

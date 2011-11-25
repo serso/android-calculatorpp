@@ -6,6 +6,7 @@
 
 package org.solovyev.android.calculator.jscl;
 
+import jscl.text.Messages;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.math.MathType;
@@ -38,7 +39,7 @@ class FromJsclNumericTextProcessor implements TextProcessor<String> {
 				result = createResultForComplexNumber(result.replace(MathType.IMAGINARY_NUMBER_JSCL, MathType.IMAGINARY_NUMBER));
 			} catch (NumberFormatException e1) {
 				// throw original one
-				throw new ParseException(e);
+				throw new ParseException(new jscl.text.ParseException(Messages.msg_8, 0, result, result));
 			}
 		}
 

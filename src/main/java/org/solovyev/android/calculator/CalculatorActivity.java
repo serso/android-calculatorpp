@@ -22,13 +22,14 @@ import android.view.*;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import jscl.AngleUnits;
+import jscl.AngleUnit;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.msg.AndroidMessageRegistry;
 import org.solovyev.android.view.FontSizeAdjuster;
+import org.solovyev.android.view.prefs.ResourceCache;
 import org.solovyev.android.view.widgets.*;
 import org.solovyev.common.BooleanMapper;
 import org.solovyev.common.utils.Announcer;
@@ -38,7 +39,10 @@ import org.solovyev.common.utils.history.HistoryAction;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.text.DecimalFormatSymbols;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 public class CalculatorActivity extends Activity implements FontSizeAdjuster, SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -58,12 +62,6 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	@NotNull
 	private String layoutName;
 
-	// ids of drag buttons in R.class
-	private List<Integer> dragButtonIds = null;
-
-	// ids of buttons in R.class
-	private List<Integer> buttonIds = null;
-
 	@Nullable
 	private Vibrator vibrator;
 
@@ -82,6 +80,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		super.onCreate(savedInstanceState);
 		setLayout(preferences);
 
+		ResourceCache.instance.initCaptions(R.string.class, this);
 		firstTimeInit(preferences);
 
 		vibrator = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
@@ -150,7 +149,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 				if ( directionText != null ) {
 					try {
 
-						final AngleUnits angleUnits = AngleUnits.valueOf(directionText);
+						final AngleUnit angleUnits = AngleUnit.valueOf(directionText);
 
 						final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(CalculatorActivity.this);
 						final SharedPreferences.Editor editor = preferences.edit();
@@ -214,7 +213,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	private synchronized void setOnDragListeners(@NotNull SimpleOnDragListener.Preferences dragPreferences, @NotNull SharedPreferences preferences) {
 		final OnDragListener onDragListener = new OnDragListenerVibrator(newOnDragListener(new DigitButtonDragProcessor(calculatorModel), dragPreferences), vibrator, preferences);
 
-		for (Integer dragButtonId : dragButtonIds) {
+		for (Integer dragButtonId : ResourceCache.instance.getDragButtonIds()) {
 			((DragButton) findViewById(dragButtonId)).setOnDragListener(onDragListener);
 		}
 	}
@@ -288,26 +287,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 	private synchronized void firstTimeInit(@NotNull SharedPreferences preferences) {
 		if (!initialized) {
-			dragButtonIds = new ArrayList<Integer>();
-			buttonIds = new ArrayList<Integer>();
-
-			for (Field field : R.id.class.getDeclaredFields()) {
-				int modifiers = field.getModifiers();
-				if (Modifier.isFinal(modifiers) && Modifier.isStatic(modifiers)) {
-					try {
-						int viewId = field.getInt(R.id.class);
-						final View view = findViewById(viewId);
-						if (view instanceof DragButton) {
-							dragButtonIds.add(viewId);
-						}
-						if (view instanceof Button) {
-							buttonIds.add(viewId);
-						}
-					} catch (IllegalAccessException e) {
-						Log.e(CalculatorActivity.class.getName(), e.getMessage());
-					}
-				}
-			}
+			ResourceCache.instance.init(R.id.class, this);
 
 			CalculatorEngine.instance.init(this, preferences);
 			initialized = true;

@@ -11,6 +11,7 @@ import android.text.Html;
 import android.util.AttributeSet;
 import android.util.Log;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.model.ParseException;
 import org.solovyev.android.calculator.model.TextProcessor;
@@ -24,6 +25,9 @@ import org.solovyev.android.view.AutoResizeTextView;
 public class CalculatorDisplay extends AutoResizeTextView {
 
 	private boolean valid = true;
+
+	@Nullable
+	private String errorMessage;
 
 	@NotNull
 	private JsclOperation jsclOperation = JsclOperation.numeric;
@@ -49,6 +53,18 @@ public class CalculatorDisplay extends AutoResizeTextView {
 
 	public void setValid(boolean valid) {
 		this.valid = valid;
+		if (valid) {
+			errorMessage = null;
+		}
+	}
+
+	@Nullable
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+
+	public void setErrorMessage(@Nullable String errorMessage) {
+		this.errorMessage = errorMessage;
 	}
 
 	public void setJsclOperation(@NotNull JsclOperation jsclOperation) {

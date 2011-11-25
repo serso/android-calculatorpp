@@ -7,7 +7,7 @@ package org.solovyev.android.calculator.model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import jscl.AngleUnits;
+import jscl.AngleUnit;
 import jscl.JsclMathEngine;
 import jscl.MathEngine;
 import jscl.math.function.Function;
@@ -191,13 +191,13 @@ public enum CalculatorEngine {
 						calculationResult.setObject(finalOperation.evaluate(jsclExpression));
 					} catch (ArithmeticException e) {
 						//System.out.println(e.getMessage());
-						exception.setObject(new ParseException(e.getMessage(), e));
+						exception.setObject(new ParseException(Messages.msg_1, jsclExpression, e.getMessage()));
 					} catch (StackOverflowError e) {
 						//System.out.println(StringUtils.fromStackTrace(e.getStackTrace()));
-						exception.setObject(new ParseException(e.getMessage(), e));
+						exception.setObject(new ParseException(Messages.msg_2, jsclExpression));
 					} catch (jscl.text.ParseException e) {
 						//System.out.println(e.getMessage());
-						exception.setObject(new ParseException(e.getMessage(), e));
+						exception.setObject(new ParseException(e));
 					} catch (ParseInterruptedException e) {
 						//System.out.println(e.getMessage());
 						// do nothing - we ourselves interrupt the calculations
@@ -232,11 +232,11 @@ public enum CalculatorEngine {
 				}
 
 				if (calculationResultLocal == null) {
-					throw new ParseException("Too long calculation for: " + jsclExpression);
+					throw new ParseException(Messages.msg_3, jsclExpression);
 				}
 
 			} catch (InterruptedException e) {
-				throw new ParseException(e);
+				throw new ParseException(Messages.msg_4, jsclExpression);
 			}
 
 			result = String.valueOf(calculationResult.getObject()).trim();
@@ -274,7 +274,7 @@ public enum CalculatorEngine {
 				//noinspection ConstantConditions
 				this.setPrecision(integerNumberMapper.parseValue(preferences.getString(RESULT_PRECISION_P_KEY, RESULT_PRECISION_DEFAULT)));
 				this.setRoundResult(preferences.getBoolean(ROUND_RESULT_P_KEY, ROUND_RESULT_DEFAULT));
-				this.setDefaultAngleUnits(AngleUnits.valueOf(preferences.getString(ANGLE_UNITS_P_KEY, ANGLE_UNITS_DEFAULT)));
+				this.setDefaultAngleUnits(AngleUnit.valueOf(preferences.getString(ANGLE_UNITS_P_KEY, ANGLE_UNITS_DEFAULT)));
 
 				final String groupingSeparator = preferences.getString(GROUPING_SEPARATOR_P_KEY, GROUPING_SEPARATOR_DEFAULT);
 				if (StringUtils.isEmpty(groupingSeparator)) {
@@ -326,8 +326,8 @@ public enum CalculatorEngine {
 		this.timeout = timeout;
 	}
 
-	public void setDefaultAngleUnits(@NotNull AngleUnits angleUnits) {
-		getEngine().setDefaultAngleUnits(angleUnits);
+	public void setDefaultAngleUnits(@NotNull AngleUnit angleUnits) {
+		getEngine().setDefaultAngleUnit(angleUnits);
 	}
 
 	// for tests only
