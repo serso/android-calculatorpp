@@ -6,6 +6,7 @@
 package org.solovyev.android.calculator;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
@@ -63,7 +64,17 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 		this.display.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				copyResult(activity);
+				if (v instanceof CalculatorDisplay) {
+					final CalculatorDisplay cd = (CalculatorDisplay)v;
+					if (cd.isValid()) {
+						copyResult(activity, cd);
+					} else {
+						final String errorMessage = cd.getErrorMessage();
+						if ( errorMessage != null ) {
+							showEvaluationError(activity, errorMessage);
+						}
+					}
+				}
 			}
 		});
 
@@ -79,9 +90,23 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 		return this;
 	}
 
+	private static void showEvaluationError(@NotNull Activity activity, @NotNull final String errorMessage) {
+		final TextView errorMessageTextView = new TextView(activity);
+		errorMessageTextView.setText(errorMessage);
+		final AlertDialog.Builder builder = new AlertDialog.Builder(activity)
+				.setPositiveButton(R.string.c_cancel, null)
+				.setView(errorMessageTextView);
+
+		builder.create().show();
+	}
+
 	public void copyResult(@NotNull Context context) {
+		copyResult(context, display);
+	}
+
+	private void copyResult(@NotNull Context context, @NotNull final CalculatorDisplay display) {
 		if (display.isValid()) {
-			final CharSequence text = display.getText();
+			final CharSequence text = this.display.getText();
 			if (!StringUtils.isEmpty(text)) {
 				final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
 				clipboard.setText(text.toString());
@@ -229,11 +254,12 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 	private void handleEvaluationException(@NotNull String expression,
 										   @NotNull CalculatorDisplay localDisplay,
 										   @NotNull JsclOperation operation,
-										   @NotNull Exception e) {
+										   @NotNull ParseException e) {
 		Log.d(CalculatorModel.class.getName(), "Evaluation failed for : " + expression + ". Error message: " + e.getMessage());
 		localDisplay.setText(R.string.c_syntax_error);
 		localDisplay.setJsclOperation(operation);
 		localDisplay.setValid(false);
+		localDisplay.setErrorMessage(e.getLocalizedMessage());
 	}
 
 	public void clear() {
@@ -327,6 +353,7 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 	private void setValuesFromHistory(@NotNull CalculatorDisplay display, CalculatorDisplayHistoryState editorHistoryState) {
 		setValuesFromHistory(display, editorHistoryState.getEditorHistoryState());
 		display.setValid(editorHistoryState.isValid());
+		display.setErrorMessage(editorHistoryState.getErrorMessage());
 		display.setJsclOperation(editorHistoryState.getJsclOperation());
 	}
 

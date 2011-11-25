@@ -6,6 +6,7 @@
 package org.solovyev.android.calculator;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 
 /**
@@ -16,6 +17,9 @@ import org.solovyev.android.calculator.jscl.JsclOperation;
 public class CalculatorDisplayHistoryState {
 
 	private boolean valid = true;
+
+	@Nullable
+	private String errorMessage = null;
 
 	@NotNull
 	private EditorHistoryState editorHistoryState;
@@ -33,6 +37,7 @@ public class CalculatorDisplayHistoryState {
 		result.editorHistoryState = EditorHistoryState.newInstance(display);
 		result.valid = display.isValid();
 		result.jsclOperation = display.getJsclOperation();
+		result.errorMessage = display.getErrorMessage();
 
 		return result;
 	}
@@ -51,6 +56,11 @@ public class CalculatorDisplayHistoryState {
 		return jsclOperation;
 	}
 
+	@Nullable
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
@@ -60,6 +70,7 @@ public class CalculatorDisplayHistoryState {
 
 		if (valid != that.valid) return false;
 		if (!editorHistoryState.equals(that.editorHistoryState)) return false;
+		if (errorMessage != null ? !errorMessage.equals(that.errorMessage) : that.errorMessage != null) return false;
 		if (jsclOperation != that.jsclOperation) return false;
 
 		return true;
@@ -68,6 +79,7 @@ public class CalculatorDisplayHistoryState {
 	@Override
 	public int hashCode() {
 		int result = (valid ? 1 : 0);
+		result = 31 * result + (errorMessage != null ? errorMessage.hashCode() : 0);
 		result = 31 * result + editorHistoryState.hashCode();
 		result = 31 * result + jsclOperation.hashCode();
 		return result;
@@ -77,8 +89,9 @@ public class CalculatorDisplayHistoryState {
 	public String toString() {
 		return "CalculatorDisplayHistoryState{" +
 				"valid=" + valid +
-				"jsclOperation=" + jsclOperation +
+				", errorMessage='" + errorMessage + '\'' +
 				", editorHistoryState=" + editorHistoryState +
+				", jsclOperation=" + jsclOperation +
 				'}';
 	}
 }
