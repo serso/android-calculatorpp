@@ -40,7 +40,7 @@ public class CalculatorEngineTest {
 			cm.evaluate(JsclOperation.numeric, "3^10^10^10");
 			Assert.fail();
 		} catch (ParseException e) {
-			if (e.getMessageId().equals(Messages.msg_3)) {
+			if (e.getMessageCode().equals(Messages.msg_3)) {
 
 			} else {
 				System.out.print(e.getCause().getMessage());
@@ -52,7 +52,7 @@ public class CalculatorEngineTest {
 			cm.evaluate(JsclOperation.numeric, "9999999!");
 			Assert.fail();
 		} catch (ParseException e) {
-			if (e.getMessageId().equals(Messages.msg_3)) {
+			if (e.getMessageCode().equals(Messages.msg_3)) {
 
 			} else {
 				System.out.print(e.getCause().getMessage());

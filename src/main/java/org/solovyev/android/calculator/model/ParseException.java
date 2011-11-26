@@ -6,30 +6,25 @@
 
 package org.solovyev.android.calculator.model;
 
-import android.content.Context;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.view.prefs.ResourceCache;
+import org.solovyev.android.msg.AndroidMessage;
 import org.solovyev.common.exceptions.SersoException;
-import org.solovyev.common.utils.CollectionsUtils;
+import org.solovyev.common.msg.Message;
+import org.solovyev.common.msg.MessageType;
 
-import java.text.MessageFormat;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * User: serso
  * Date: 10/6/11
  * Time: 9:25 PM
  */
-public class ParseException extends SersoException {
+public class ParseException extends SersoException implements Message {
 
 	@NotNull
-	private final String messageId;
-
-	@NotNull
-	private final List<Object> parameters;
+	private final Message message;
 
 	@NotNull
 	private final String expression;
@@ -38,36 +33,19 @@ public class ParseException extends SersoException {
 	private final Integer position;
 
 	public ParseException(@NotNull jscl.text.ParseException jsclParseException) {
-		this.messageId = "jscl_" + jsclParseException.getMessageId();
+		this.message = jsclParseException;
 		this.expression = jsclParseException.getExpression();
 		this.position = jsclParseException.getPosition();
-		this.parameters = jsclParseException.getParameters();
 	}
 
 	public ParseException(@NotNull String messageId, @Nullable Integer position, @NotNull String expression, Object... parameters) {
-		this.messageId = messageId;
+		this.message = new AndroidMessage(messageId, MessageType.error, parameters);
 		this.expression = expression;
 		this.position = position;
-
-		if (CollectionsUtils.isEmpty(parameters)) {
-			this.parameters = Collections.emptyList();
-		} else {
-			this.parameters = Arrays.asList(parameters);
-		}
 	}
 
 	public ParseException(@NotNull String messageId, @NotNull String expression, Object... parameters) {
 		this(messageId, null, expression, parameters);
-	}
-
-	@NotNull
-	public String getMessageId() {
-		return messageId;
-	}
-
-	@NotNull
-	public List<Object> getParameters() {
-		return parameters;
 	}
 
 	@NotNull
@@ -80,20 +58,33 @@ public class ParseException extends SersoException {
 		return position;
 	}
 
+	@NotNull
+	@Override
+	public String getMessageCode() {
+		return this.message.getMessageCode();
+	}
+
+	@NotNull
+	@Override
+	public List<Object> getParameters() {
+		return this.message.getParameters();
+	}
+
+	@NotNull
+	@Override
+	public MessageType getMessageType() {
+		return this.message.getMessageType();
+	}
+
 	@Override
 	@Nullable
 	public String getLocalizedMessage() {
-		String result = null;
+		return this.message.getLocalizedMessage(Locale.getDefault());
+	}
 
-		final String message = ResourceCache.instance.getCaption("msg_" + getMessageId());
-		if (message != null) {
-			if ( parameters.size() > 0 ) {
-				result = MessageFormat.format(message, parameters.toArray(new Object[parameters.size()]));
-			} else {
-				result = message;
-			}
-		}
-
-		return result;
+	@NotNull
+	@Override
+	public String getLocalizedMessage(@NotNull Locale locale) {
+		return this.message.getLocalizedMessage(locale);
 	}
 }

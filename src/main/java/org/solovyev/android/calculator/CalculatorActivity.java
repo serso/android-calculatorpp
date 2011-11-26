@@ -19,7 +19,6 @@ import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.*;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import jscl.AngleUnit;
@@ -27,7 +26,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.CalculatorEngine;
-import org.solovyev.android.msg.AndroidMessageRegistry;
 import org.solovyev.android.view.FontSizeAdjuster;
 import org.solovyev.android.view.prefs.ResourceCache;
 import org.solovyev.android.view.widgets.*;
@@ -36,11 +34,7 @@ import org.solovyev.common.utils.Announcer;
 import org.solovyev.common.utils.Point2d;
 import org.solovyev.common.utils.history.HistoryAction;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.text.DecimalFormatSymbols;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -500,14 +494,11 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		}
 
 		calculatorModel = CalculatorModel.instance.init(this, preferences, CalculatorEngine.instance);
-		AndroidMessageRegistry.instance.init(this);
 	}
 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-
-		AndroidMessageRegistry.instance.finish();
 	}
 
 	@Override
