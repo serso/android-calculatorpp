@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+ * For more information, please, contact se.solovyev@gmail.com
+ * or visit http://se.solovyev.org
+ */
+
 package org.solovyev.android.view.prefs;
 
 import android.app.Activity;
@@ -6,7 +12,6 @@ import android.view.View;
 import android.widget.Button;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.R;
 import org.solovyev.android.view.widgets.DragButton;
 
 import java.lang.reflect.Field;
