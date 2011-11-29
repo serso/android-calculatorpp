@@ -12,6 +12,5 @@
 													   calc:textDown="e"
 													   calc:textUp="π"
 													   calc:directionTextScale="0.5"
-
 													   style="?digitButtonStyle"
 													   a:onClick="digitButtonClickHandler"/>
