@@ -147,7 +147,7 @@ public enum CalculatorEngine {
 
 	public Result evaluate(@NotNull JsclOperation operation,
 						   @NotNull String expression,
-						   @Nullable MessageRegistry<AndroidMessage> mr) throws ParseException {
+						   @Nullable MessageRegistry mr) throws ParseException {
 		synchronized (lock) {
 			final StringBuilder sb = new StringBuilder();
 
