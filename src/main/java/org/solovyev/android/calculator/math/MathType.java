@@ -5,6 +5,7 @@
 
 package org.solovyev.android.calculator.math;
 
+import jscl.NumeralBase;
 import jscl.math.function.Constant;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -14,18 +15,27 @@ import org.solovyev.android.calculator.model.ParseException;
 import org.solovyev.common.utils.CollectionsUtils;
 import org.solovyev.common.utils.Finder;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 
 public enum MathType {
 
-	digit(100, true, true, "0", "1", "2", "3", "4", "5", "6", "7", "8", "9") {
+	numeral_base(50, true, false) {
+
+		private final List<String> tokens = new ArrayList<String>(10);
+		{
+			for (NumeralBase numeralBase : NumeralBase.values()) {
+				final String jsclPrefix = numeralBase.getJsclPrefix();
+				if (jsclPrefix != null) {
+					tokens.add(jsclPrefix);
+				}
+			}
+		}
+
+		@NotNull
 		@Override
-		public boolean isNeedMultiplicationSignBefore(@NotNull MathType mathTypeBefore) {
-			return super.isNeedMultiplicationSignBefore(mathTypeBefore) && mathTypeBefore != digit && mathTypeBefore != dot;
+		public List<String> getTokens() {
+			return tokens;
 		}
 	},
 
@@ -115,6 +125,26 @@ public enum MathType {
 		@Override
 		protected String getSubstituteFromJscl(@NotNull String match) {
 			return Constant.INF_CONST2.getName().equals(match) ? MathType.INFINITY : super.getSubstituteFromJscl(match);
+		}
+	},
+
+	digit(1125, true, true) {
+
+		private final List<String> tokens = new ArrayList<String>(16);
+		{
+			for (Character character : NumeralBase.hex.getAcceptableCharacters()) {
+				tokens.add(character.toString());
+			}
+		}
+		@Override
+		public boolean isNeedMultiplicationSignBefore(@NotNull MathType mathTypeBefore) {
+			return super.isNeedMultiplicationSignBefore(mathTypeBefore) && mathTypeBefore != digit && mathTypeBefore != dot && mathTypeBefore != numeral_base;
+		}
+
+		@NotNull
+		@Override
+		public List<String> getTokens() {
+			return tokens;
 		}
 	},
 

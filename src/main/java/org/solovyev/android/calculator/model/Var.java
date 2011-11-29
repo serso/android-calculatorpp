@@ -160,7 +160,7 @@ public class Var implements IConstant {
 		Double result = null;
 		if (value != null) {
 			try {
-				result = ExtendedConstant.getDoubleValue0(getName(), value);
+				result = Double.valueOf(value);
 			} catch (NumberFormatException e) {
 				// do nothing - string is not a double
 			}
