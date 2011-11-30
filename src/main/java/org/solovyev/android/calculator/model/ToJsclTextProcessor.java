@@ -36,12 +36,12 @@ class ToJsclTextProcessor implements TextProcessor<PreparedExpression> {
 		final StringBuilder result = new StringBuilder();
 
 		MathType.Result mathTypeResult = null;
-		MathType mathTypeBefore;
+		MathType.Result mathTypeBefore = null;
 
 		for (int i = 0; i < s.length(); i++) {
 			startsWithFinder.setI(i);
 
-			mathTypeBefore = mathTypeResult == null ? null : mathTypeResult.getMathType();
+			mathTypeBefore = mathTypeResult == null ? null : mathTypeResult;
 
 			mathTypeResult = MathType.getType(s, i);
 
@@ -49,13 +49,15 @@ class ToJsclTextProcessor implements TextProcessor<PreparedExpression> {
 
 				final MathType current = mathTypeResult.getMathType();
 
-				if (current.isNeedMultiplicationSignBefore(mathTypeBefore)) {
+				if (current.isNeedMultiplicationSignBefore(mathTypeBefore.getMathType())) {
 					result.append("*");
 				}
 			}
 
-			if ((mathTypeBefore == MathType.function || mathTypeBefore == MathType.operator) && CollectionsUtils.find(MathType.openGroupSymbols, startsWithFinder) != null) {
-				throw new ParseException(Messages.msg_5, i, s, mathTypeResult.getMatch());
+			if (mathTypeBefore != null &&
+					(mathTypeBefore.getMathType() == MathType.function || mathTypeBefore.getMathType() == MathType.operator) &&
+						CollectionsUtils.find(MathType.openGroupSymbols, startsWithFinder) != null) {
+				throw new ParseException(Messages.msg_5, i, s, mathTypeBefore.getMatch());
 			}
 
 			i = mathTypeResult.processToJscl(result, i);

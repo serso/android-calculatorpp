@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.text.Html;
 import android.util.AttributeSet;
 import android.util.Log;
+import jscl.math.Generic;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.jscl.JsclOperation;
@@ -34,6 +35,9 @@ public class CalculatorDisplay extends AutoResizeTextView {
 
 	@NotNull
 	private final static TextProcessor<TextHighlighter.Result> textHighlighter = new TextHighlighter(Color.WHITE, true);
+
+	@Nullable
+	private Generic genericResult;
 
 	public CalculatorDisplay(Context context) {
 		super(context);
@@ -106,4 +110,12 @@ public class CalculatorDisplay extends AutoResizeTextView {
 		resizeText();
 	}
 
+	public void setGenericResult(@Nullable Generic genericResult) {
+		this.genericResult = genericResult;
+	}
+
+	@Nullable
+	public Generic getGenericResult() {
+		return genericResult;
+	}
 }

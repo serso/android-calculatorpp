@@ -68,5 +68,10 @@
 				  a:configChanges="orientation|keyboardHidden">
 		</activity>
 
+		<activity a:name=".CalculatorPlotActivity"
+				  a:label="@string/c_plot_graph"
+				  a:configChanges="orientation|keyboardHidden">
+		</activity>
+
 	</application>
 </manifest>
