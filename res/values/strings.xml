@@ -276,4 +276,6 @@ Check the \'Round result\' preference in application settings - it should be tur
 	<string name="msg_5">No parameters are specified for function: {0}</string>
 	<string name="msg_6">Infinite loop is detected in expression</string>
 
+	<string name="c_plot_graph">Graph</string>
+
 </resources>

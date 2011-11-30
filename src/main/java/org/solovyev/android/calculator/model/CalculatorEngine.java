@@ -10,13 +10,13 @@ import android.content.SharedPreferences;
 import jscl.AngleUnit;
 import jscl.JsclMathEngine;
 import jscl.MathEngine;
+import jscl.math.Generic;
 import jscl.math.function.Function;
 import jscl.math.operator.Operator;
 import jscl.text.ParseInterruptedException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.jscl.JsclOperation;
-import org.solovyev.android.msg.AndroidMessage;
 import org.solovyev.common.NumberMapper;
 import org.solovyev.common.msg.MessageRegistry;
 import org.solovyev.common.utils.MutableObject;
@@ -50,6 +50,7 @@ public enum CalculatorEngine {
 
 	public static final String ANGLE_UNITS_P_KEY = "org.solovyev.android.calculator.CalculatorActivity_angle_units";
 	public static final String ANGLE_UNITS_DEFAULT = "deg";
+	public static final int DEFAULT_TIMEOUT = 3000;
 
 	@NotNull
 	private final Object lock = new Object();
@@ -89,7 +90,7 @@ public enum CalculatorEngine {
 	private ThreadKiller threadKiller = new AndroidThreadKiller();
 
 	// calculation thread timeout in milliseconds, after timeout thread would be interrupted
-	private int timeout = 3000;
+	private int timeout = DEFAULT_TIMEOUT;
 
 	@NotNull
 	public String format(@NotNull Double value) {
@@ -118,15 +119,20 @@ public enum CalculatorEngine {
 	}
 
 	public static class Result {
+
+		@NotNull
+		private Generic genericResult;
+
 		@NotNull
 		private String result;
 
 		@NotNull
 		private JsclOperation userOperation;
 
-		public Result(@NotNull String result, @NotNull JsclOperation userOperation) {
+		public Result(@NotNull String result, @NotNull JsclOperation userOperation, @NotNull Generic genericResult) {
 			this.result = result;
 			this.userOperation = userOperation;
+			this.genericResult = genericResult;
 		}
 
 		@NotNull
@@ -137,6 +143,11 @@ public enum CalculatorEngine {
 		@NotNull
 		public JsclOperation getUserOperation() {
 			return userOperation;
+		}
+
+		@NotNull
+		public Generic getGenericResult() {
+			return genericResult;
 		}
 	}
 
@@ -174,7 +185,7 @@ public enum CalculatorEngine {
 			final JsclOperation finalOperation = operation;
 
 			final String result;
-			final MutableObject<String> calculationResult = new MutableObject<String>(null);
+			final MutableObject<Generic> calculationResult = new MutableObject<Generic>(null);
 			final MutableObject<ParseException> exception = new MutableObject<ParseException>(null);
 			final MutableObject<Thread> calculationThread = new MutableObject<Thread>(null);
 
@@ -188,7 +199,7 @@ public enum CalculatorEngine {
 						//Log.d(CalculatorEngine.class.getName(), "Calculation thread started work: " + thread.getName());
 						//System.out.println(jsclExpression);
 						calculationThread.setObject(thread);
-						calculationResult.setObject(finalOperation.evaluate(jsclExpression));
+						calculationResult.setObject(finalOperation.evaluateGeneric(jsclExpression));
 					} catch (ArithmeticException e) {
 						//System.out.println(e.getMessage());
 						exception.setObject(new ParseException(Messages.msg_1, jsclExpression, e.getMessage()));
@@ -239,9 +250,9 @@ public enum CalculatorEngine {
 				throw new ParseException(Messages.msg_4, jsclExpression);
 			}
 
-			result = String.valueOf(calculationResult.getObject()).trim();
+			final Generic genericResult = calculationResult.getObject();
 
-			return new Result(operation.getFromProcessor().process(result), operation);
+			return new Result(operation.getFromProcessor().process(genericResult.toString()), operation, genericResult);
 		}
 	}
 

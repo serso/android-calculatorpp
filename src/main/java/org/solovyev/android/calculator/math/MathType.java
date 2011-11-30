@@ -20,7 +20,7 @@ import java.util.*;
 
 public enum MathType {
 
-	numeral_base(50, true, false) {
+/*	numeral_base(50, true, false) {
 
 		private final List<String> tokens = new ArrayList<String>(10);
 		{
@@ -37,7 +37,7 @@ public enum MathType {
 		public List<String> getTokens() {
 			return tokens;
 		}
-	},
+	},*/
 
 	dot(200, true, true, ".") {
 		@Override
@@ -138,7 +138,7 @@ public enum MathType {
 		}
 		@Override
 		public boolean isNeedMultiplicationSignBefore(@NotNull MathType mathTypeBefore) {
-			return super.isNeedMultiplicationSignBefore(mathTypeBefore) && mathTypeBefore != digit && mathTypeBefore != dot && mathTypeBefore != numeral_base;
+			return super.isNeedMultiplicationSignBefore(mathTypeBefore) && mathTypeBefore != digit && mathTypeBefore != dot /*&& mathTypeBefore != numeral_base*/;
 		}
 
 		@NotNull

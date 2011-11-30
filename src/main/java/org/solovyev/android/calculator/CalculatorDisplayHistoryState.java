@@ -5,6 +5,7 @@
 
 package org.solovyev.android.calculator;
 
+import jscl.math.Generic;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.jscl.JsclOperation;
@@ -27,6 +28,9 @@ public class CalculatorDisplayHistoryState {
 	@NotNull
 	private JsclOperation jsclOperation;
 
+	@Nullable
+	private Generic genericResult;
+
 	private CalculatorDisplayHistoryState() {
 	}
 
@@ -37,6 +41,7 @@ public class CalculatorDisplayHistoryState {
 		result.editorHistoryState = EditorHistoryState.newInstance(display);
 		result.valid = display.isValid();
 		result.jsclOperation = display.getJsclOperation();
+		result.genericResult = display.getGenericResult();
 		result.errorMessage = display.getErrorMessage();
 
 		return result;
@@ -59,6 +64,11 @@ public class CalculatorDisplayHistoryState {
 	@Nullable
 	public String getErrorMessage() {
 		return errorMessage;
+	}
+
+	@Nullable
+	public Generic getGenericResult() {
+		return genericResult;
 	}
 
 	@Override
