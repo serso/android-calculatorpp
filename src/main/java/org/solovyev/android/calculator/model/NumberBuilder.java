@@ -6,7 +6,6 @@
 
 package org.solovyev.android.calculator.model;
 
-import jscl.NumeralBase;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.math.MathType;
@@ -31,9 +30,9 @@ public class NumberBuilder {
 
 	private final boolean simpleFormat;
 
-	@Nullable
+	/*@Nullable
 	private NumeralBase nb;
-
+*/
 	public NumberBuilder(boolean simpleFormat) {
 		this.simpleFormat = simpleFormat;
 	}
@@ -43,17 +42,17 @@ public class NumberBuilder {
 		number = null;
 
 		final MathType.Result possibleResult;
-		if ((CollectionsUtils.contains(mathTypeResult.getMathType(), MathType.digit, MathType.numeral_base, MathType.dot, MathType.grouping_separator, MathType.power_10) ||
+		if ((CollectionsUtils.contains(mathTypeResult.getMathType(), MathType.digit, /*MathType.numeral_base,*/ MathType.dot, MathType.grouping_separator, MathType.power_10) ||
 				isSignAfterE(mathTypeResult)) && numeralBaseCheck(mathTypeResult)) {
 			if (numberBuilder == null) {
 				numberBuilder = new StringBuilder();
 			}
 
-			if (mathTypeResult.getMathType() != MathType.numeral_base) {
+			/*if (mathTypeResult.getMathType() != MathType.numeral_base) {*/
 				numberBuilder.append(mathTypeResult.getMatch());
-			} else {
+			/*} else {
 				nb = NumeralBase.getByPrefix(mathTypeResult.getMatch());
-			}
+			}*/
 
 			possibleResult = null;
 		} else {
@@ -64,7 +63,7 @@ public class NumberBuilder {
 	}
 
 	private boolean numeralBaseCheck( @NotNull MathType.Result mathType ) {
-		if ( mathType.getMathType() == MathType.digit ) {
+		/*if ( mathType.getMathType() == MathType.digit ) {
 			final Character ch = mathType.getMatch().charAt(0);
 			if ( NumeralBase.hex.getAcceptableCharacters().contains(ch) && !NumeralBase.dec.getAcceptableCharacters().contains(ch) ) {
 				if ( nb == NumeralBase.hex ) {
@@ -77,7 +76,8 @@ public class NumberBuilder {
 			}
 		} else {
 			return true;
-		}
+		}*/
+		return true;
 	}
 
 	private boolean isSignAfterE(@NotNull MathType.Result mathTypeResult) {
@@ -113,7 +113,7 @@ public class NumberBuilder {
 			}
 
 			numberBuilder = null;
-			nb = null;
+			/*nb = null;*/
 		} else {
 			number = null;
 		}

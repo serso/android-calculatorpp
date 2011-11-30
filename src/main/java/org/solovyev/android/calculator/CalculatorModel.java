@@ -12,22 +12,30 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.text.ClipboardManager;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import jscl.math.Generic;
+import jscl.math.function.Constant;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.calculator.model.ParseException;
+import org.solovyev.android.calculator.model.Var;
 import org.solovyev.android.view.CursorControl;
 import org.solovyev.android.view.HistoryControl;
 import org.solovyev.common.BooleanMapper;
+import org.solovyev.common.utils.CollectionsUtils;
 import org.solovyev.common.utils.MutableObject;
 import org.solovyev.common.utils.StringUtils;
 import org.solovyev.common.utils.history.HistoryAction;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * User: serso
@@ -67,7 +75,42 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 				if (v instanceof CalculatorDisplay) {
 					final CalculatorDisplay cd = (CalculatorDisplay)v;
 					if (cd.isValid()) {
-						copyResult(activity, cd);
+						switch (cd.getJsclOperation()) {
+							case simplify:
+								Generic genericResult = cd.getGenericResult();
+								if ( genericResult != null ) {
+									final Set<Constant> notSystemConstants = new HashSet<Constant>();
+									for (Constant constant : genericResult.getConstants()) {
+										Var var = CalculatorEngine.instance.getVarsRegister().get(constant.getName());
+										if (var != null && !var.isSystem()) {
+											notSystemConstants.add(constant);
+										}
+									}
+
+									if ( notSystemConstants.size() > 0 ) {
+										if (notSystemConstants.size() > 1) {
+											copyResult(activity, cd);
+										} else {
+											final Constant constant = CollectionsUtils.getFirstCollectionElement(notSystemConstants);
+											assert constant != null;
+											try {
+												CalculatorActivityLauncher.plotGraph(activity, genericResult, constant);
+											} catch (ArithmeticException e) {
+												copyResult(activity, cd);
+											}
+										}
+									} else {
+										copyResult(activity, cd);
+									}
+								} else {
+									copyResult(activity, cd);
+								}
+								break;
+							case elementary:
+							case numeric:
+								copyResult(activity, cd);
+								break;
+						}
 					} else {
 						final String errorMessage = cd.getErrorMessage();
 						if ( errorMessage != null ) {
@@ -91,11 +134,14 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 	}
 
 	private static void showEvaluationError(@NotNull Activity activity, @NotNull final String errorMessage) {
-		final TextView errorMessageTextView = new TextView(activity);
-		errorMessageTextView.setText(errorMessage);
+		final LayoutInflater layoutInflater = (LayoutInflater) activity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+
+		final View errorMessageView = layoutInflater.inflate(R.layout.display_error_message, null);
+		((TextView) errorMessageView.findViewById(R.id.error_message_text_view)).setText(errorMessage);
+
 		final AlertDialog.Builder builder = new AlertDialog.Builder(activity)
 				.setPositiveButton(R.string.c_cancel, null)
-				.setView(errorMessageTextView);
+				.setView(errorMessageView);
 
 		builder.create().show();
 	}
@@ -104,9 +150,9 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 		copyResult(context, display);
 	}
 
-	private void copyResult(@NotNull Context context, @NotNull final CalculatorDisplay display) {
+	public static void copyResult(@NotNull Context context, @NotNull final CalculatorDisplay display) {
 		if (display.isValid()) {
-			final CharSequence text = this.display.getText();
+			final CharSequence text = display.getText();
 			if (!StringUtils.isEmpty(text)) {
 				final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
 				clipboard.setText(text.toString());
@@ -238,12 +284,14 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 					display.setText("");
 				}
 				display.setJsclOperation(result.getUserOperation());
+				display.setGenericResult(result.getGenericResult());
 			} catch (ParseException e) {
 				handleEvaluationException(expression, display, operation, e);
 			}
 		} else {
 			this.display.setText("");
 			this.display.setJsclOperation(operation);
+			this.display.setGenericResult(null);
 		}
 
 
@@ -258,6 +306,7 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 		Log.d(CalculatorModel.class.getName(), "Evaluation failed for : " + expression + ". Error message: " + e.getMessage());
 		localDisplay.setText(R.string.c_syntax_error);
 		localDisplay.setJsclOperation(operation);
+		localDisplay.setGenericResult(null);
 		localDisplay.setValid(false);
 		localDisplay.setErrorMessage(e.getLocalizedMessage());
 	}
@@ -355,6 +404,7 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 		display.setValid(editorHistoryState.isValid());
 		display.setErrorMessage(editorHistoryState.getErrorMessage());
 		display.setJsclOperation(editorHistoryState.getJsclOperation());
+		display.setGenericResult(editorHistoryState.getGenericResult());
 	}
 
 	private void setValuesFromHistory(@NotNull TextView editText, EditorHistoryState editorHistoryState) {

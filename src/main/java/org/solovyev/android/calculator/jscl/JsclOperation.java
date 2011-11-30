@@ -6,6 +6,7 @@
 package org.solovyev.android.calculator.jscl;
 
 
+import jscl.math.Generic;
 import jscl.text.ParseException;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.model.CalculatorEngine;
@@ -21,6 +22,12 @@ public enum JsclOperation {
 		public String evaluate(@NotNull String expression) throws ParseException {
 			return CalculatorEngine.instance.getEngine().simplify(expression);
 		}
+
+		@NotNull
+		@Override
+		public Generic evaluateGeneric(@NotNull String expression) throws ParseException {
+			return CalculatorEngine.instance.getEngine().simplifyGeneric(expression);
+		}
 	},
 
 	elementary(DummyTextProcessor.instance) {
@@ -30,6 +37,12 @@ public enum JsclOperation {
 			return CalculatorEngine.instance.getEngine().elementary(expression);
 
 		}
+
+		@NotNull
+		@Override
+		public Generic evaluateGeneric(@NotNull String expression) throws ParseException {
+			return CalculatorEngine.instance.getEngine().elementaryGeneric(expression);
+		}
 	},
 
 	numeric(new FromJsclNumericTextProcessor()) {
@@ -37,6 +50,12 @@ public enum JsclOperation {
 		@Override
 		public String evaluate(@NotNull String expression) throws ParseException {
 			return CalculatorEngine.instance.getEngine().evaluate(expression);
+		}
+
+		@NotNull
+		@Override
+		public Generic evaluateGeneric(@NotNull String expression) throws ParseException {
+			return CalculatorEngine.instance.getEngine().evaluateGeneric(expression);
 		}
 	};
 
@@ -54,4 +73,9 @@ public enum JsclOperation {
 
 	@NotNull
 	public abstract String evaluate(@NotNull String expression) throws ParseException;
+
+	@NotNull
+	public abstract Generic evaluateGeneric(@NotNull String expression) throws ParseException;
+
+
 }

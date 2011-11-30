@@ -19,6 +19,7 @@ import android.widget.*;
 import jscl.text.Identifier;
 import jscl.text.MutableInt;
 import jscl.text.ParseException;
+import jscl.text.Parser;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.math.MathType;
@@ -301,7 +302,7 @@ public class CalculatorVarsActivity extends ListActivity {
 
 		if (!StringUtils.isEmpty(name)) {
 			try {
-				Identifier.parser.parse(name, new MutableInt(0), null);
+				Identifier.parser.parse(Parser.Parameters.newInstance(name, new MutableInt(0), CalculatorEngine.instance.getEngine()), null);
 				result = true;
 			} catch (ParseException e) {
 				// not valid name;
