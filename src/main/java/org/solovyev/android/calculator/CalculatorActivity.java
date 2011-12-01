@@ -74,7 +74,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		super.onCreate(savedInstanceState);
 		setLayout(preferences);
 
-		ResourceCache.instance.initCaptions(R.string.class, this);
+		ResourceCache.instance.initCaptions(ApplicationContext.getInstance(), R.string.class);
 		firstTimeInit(preferences);
 
 		vibrator = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
