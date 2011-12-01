@@ -10,6 +10,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Toast;
@@ -24,19 +25,25 @@ import jscl.math.numeric.Real;
 import jscl.text.ParseException;
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
-import org.achartengine.chart.AbstractChart;
 import org.achartengine.chart.LineChart;
+import org.achartengine.model.Point;
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.BasicStroke;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
+import org.achartengine.tools.PanListener;
+import org.achartengine.tools.ZoomEvent;
+import org.achartengine.tools.ZoomListener;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.view.widgets.NumberPicker;
 import org.solovyev.common.utils.MutableObject;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * User: serso
@@ -45,7 +52,7 @@ import java.io.Serializable;
  */
 public class CalculatorPlotActivity extends Activity {
 
-	private static final int DEFAULT_NUMBER_OF_STEPS = 100;
+	private static final int DEFAULT_NUMBER_OF_STEPS = 200;
 
 	private static final int DEFAULT_MIN_NUMBER = -10;
 
@@ -53,7 +60,7 @@ public class CalculatorPlotActivity extends Activity {
 
 	public static final String INPUT = "org.solovyev.android.calculator.CalculatorPlotActivity_input";
 
-	public static final long EVAL_DELAY_MILLIS = 1000;
+	public static final long EVAL_DELAY_MILLIS = 300;
 
 	/**
 	 * The encapsulated graphical view.
@@ -65,10 +72,6 @@ public class CalculatorPlotActivity extends Activity {
 
 	@NotNull
 	private Constant variable;
-
-	private double minValue = DEFAULT_MIN_NUMBER;
-
-	private double maxValue = DEFAULT_MAX_NUMBER;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -90,19 +93,7 @@ public class CalculatorPlotActivity extends Activity {
 
 			setContentView(R.layout.calc_plot_view);
 
-			setGraphicalView(minValue, maxValue);
-
-			final NumberPicker minXNumberPicker = (NumberPicker)findViewById(R.id.plot_x_min_value);
-			final NumberPicker maxXNumberPicker = (NumberPicker)findViewById(R.id.plot_x_max_value);
-
-			minXNumberPicker.setRange(Integer.MIN_VALUE, Integer.MAX_VALUE);
-			minXNumberPicker.setCurrent(DEFAULT_MIN_NUMBER);
-			maxXNumberPicker.setRange(Integer.MIN_VALUE, Integer.MAX_VALUE);
-			maxXNumberPicker.setCurrent(DEFAULT_MAX_NUMBER);
-
-
-			minXNumberPicker.setOnChangeListener(new BoundariesChangeListener(true));
-			maxXNumberPicker.setOnChangeListener(new BoundariesChangeListener(false));
+			setGraphicalView(DEFAULT_MIN_NUMBER, DEFAULT_MAX_NUMBER);
 
 		} catch (ParseException e) {
 			Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
@@ -111,75 +102,90 @@ public class CalculatorPlotActivity extends Activity {
 	}
 
 	private void setGraphicalView(final double minValue, final double maxValue) {
-		final ViewGroup graphContainer = (ViewGroup) findViewById(R.id.plot_graph_container);
+		final ViewGroup graphContainer = (ViewGroup) findViewById(R.id.plot_view_container);
 
 		if (graphicalView != null) {
 			graphContainer.removeView(graphicalView);
 		}
 
-		graphicalView = new GraphicalView(this, prepareChart(minValue, maxValue, expression, variable));
+		final LineChart chart = prepareChart(minValue, maxValue, expression, variable);
+		graphicalView = new GraphicalView(this, chart);
+		graphicalView.addZoomListener(new ZoomListener() {
+			@Override
+			public void zoomApplied(ZoomEvent e) {
+				updateDataSets(chart);
+			}
+
+			@Override
+			public void zoomReset() {
+				updateDataSets(chart);
+			}
+		}, true, true);
+
+		graphicalView.addPanListener(new PanListener() {
+			@Override
+			public void panApplied() {
+				updateDataSets(chart);
+			}
+
+		});
 		graphContainer.addView(graphicalView);
+	}
+
+	private void updateDataSets(@NotNull final LineChart chart) {
+		pendingOperation.setObject(new Runnable() {
+			@Override
+			public void run() {
+				// allow only one runner at one time
+				synchronized (pendingOperation) {
+					//lock all operations with history
+					if (pendingOperation.getObject() == this) {
+						final XYMultipleSeriesRenderer dr = chart.getRenderer();
+						Log.d(CalculatorPlotActivity.class.getName(), "x = [" + dr.getXAxisMin() + ", " + dr.getXAxisMax() + "], y = [" + dr.getYAxisMin() + ", " + dr.getYAxisMax() + "]");
+
+						final XYSeries realSeries = chart.getDataset().getSeriesAt(0);
+
+						final XYSeries imagSeries;
+						if (chart.getDataset().getSeriesCount() > 1) {
+							imagSeries = chart.getDataset().getSeriesAt(1);
+						} else {
+							imagSeries = new XYSeries(getImagFunctionName(CalculatorPlotActivity.this.expression, CalculatorPlotActivity.this.variable));
+						}
+
+						if (addXY(dr.getXAxisMin(), dr.getXAxisMax(), expression, variable, realSeries, imagSeries)) {
+							if (chart.getDataset().getSeriesCount() <= 1) {
+								chart.getDataset().addSeries(imagSeries);
+								chart.getRenderer().addSeriesRenderer(createImagRenderer());
+							}
+						}
+
+						graphicalView.repaint();
+					}
+				}
+			}
+		});
+
+		new Handler().postDelayed(pendingOperation.getObject(), EVAL_DELAY_MILLIS);
+	}
+
+	@NotNull
+	private static String getImagFunctionName(@NotNull Generic expression, @NotNull Constant variable) {
+		return "g(" + variable.getName() +")" + " = " + "Im(" + expression.toString() + ")";
+	}
+
+	@NotNull
+	private static String getRealFunctionName(@NotNull Generic expression, @NotNull Constant variable) {
+		return "ƒ(" + variable.getName() +")" + " = " + expression.toString();
 	}
 
 	@NotNull
 	private final static MutableObject<Runnable> pendingOperation = new MutableObject<Runnable>();
 
-	private class BoundariesChangeListener implements NumberPicker.OnChangedListener {
+	private static LineChart prepareChart(final double minValue, final double maxValue, @NotNull final Generic expression, @NotNull final Constant variable) {
+		final XYSeries realSeries = new XYSeries(getRealFunctionName(expression, variable));
+		final XYSeries imagSeries = new XYSeries(getImagFunctionName(expression, variable));
 
-		private boolean min;
-
-		private BoundariesChangeListener(boolean min) {
-			this.min = min;
-		}
-
-
-		@Override
-		public void onChanged(NumberPicker picker, int oldVal, final int newVal) {
-			if (min) {
-				minValue = newVal;
-			} else {
-				maxValue = newVal;
-			}
-
-			pendingOperation.setObject(new Runnable() {
-				@Override
-				public void run() {
-					// allow only one runner at one time
-					synchronized (pendingOperation) {
-						//lock all operations with history
-						if (pendingOperation.getObject() == this) {
-							// actually nothing shall be logged while text operations are done
-							setGraphicalView(CalculatorPlotActivity.this.minValue, CalculatorPlotActivity.this.maxValue);
-						}
-					}
-				}
-			});
-
-			new Handler().postDelayed(pendingOperation.getObject(), EVAL_DELAY_MILLIS);
-		}
-	}
-
-	private static AbstractChart prepareChart(final double minValue, final double maxValue, @NotNull final Generic expression, @NotNull final Constant variable) {
-		final XYSeries realSeries = new XYSeries(expression.toString());
-		final XYSeries imagSeries = new XYSeries("Im(" + expression.toString() + ")");
-
-		boolean imagExists = false;
-
-		final double min = Math.min(minValue, maxValue);
-		final double max = Math.max(minValue, maxValue);
-		final int numberOfSteps = DEFAULT_NUMBER_OF_STEPS;
-		final double step = Math.max((max - min) / numberOfSteps, 0.001);
-		double x = min;
-		while (x <= max) {
-			Generic numeric = expression.substitute(variable, Expression.valueOf(x)).numeric();
-			final Complex c = unwrap(numeric);
-			realSeries.add(x, prepareY(c.realPart()));
-			imagSeries.add(x, prepareY(c.imaginaryPart()));
-			if (c.imaginaryPart() != 0d) {
-				imagExists = true;
-			}
-			x += step;
-		}
+		boolean imagExists = addXY(minValue, maxValue, expression, variable, realSeries, imagSeries);
 
 		final XYMultipleSeriesDataset data = new XYMultipleSeriesDataset();
 		data.addSeries(realSeries);
@@ -188,18 +194,107 @@ public class CalculatorPlotActivity extends Activity {
 		}
 
 		final XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
-		renderer.setZoomEnabled(false);
-		renderer.setZoomEnabled(false, false);
 		renderer.addSeriesRenderer(createCommonRenderer());
-		renderer.setPanEnabled(false);
-		renderer.setPanEnabled(false, false);
+		renderer.setShowGrid(true);
+		renderer.setXTitle(variable.getName());
+		renderer.setYTitle("f(" + variable.getName() +")");
 		if (imagExists) {
-			final XYSeriesRenderer imagRenderer = createCommonRenderer();
-			imagRenderer.setStroke(BasicStroke.DOTTED);
-			renderer.addSeriesRenderer(imagRenderer);
+			renderer.addSeriesRenderer(createImagRenderer());
 		}
 
 		return new LineChart(data, renderer);
+	}
+
+	private static XYSeriesRenderer createImagRenderer() {
+		final XYSeriesRenderer imagRenderer = createCommonRenderer();
+		imagRenderer.setStroke(BasicStroke.DOTTED);
+		return imagRenderer;
+	}
+
+	private static boolean addXY(double minValue, double maxValue, Generic expression, Constant variable, @NotNull XYSeries realSeries, @NotNull XYSeries imagSeries) {
+		boolean imagExists = false;
+
+		final double min = 1.5 * Math.min(minValue, maxValue);
+		final double max = 1.5 * Math.max(minValue, maxValue);
+
+		final int numberOfSteps = DEFAULT_NUMBER_OF_STEPS;
+		final double step = Math.max((max - min) / numberOfSteps, 0.001);
+		double x = min;
+		while (x <= max) {
+
+			boolean needToCalculateRealY = needToCalculate(realSeries, step, x);
+
+			if (needToCalculateRealY) {
+				Generic numeric = expression.substitute(variable, Expression.valueOf(x)).numeric();
+				final Complex c = unwrap(numeric);
+				Double y = prepareY(c.realPart());
+				if (y != null) {
+					realSeries.add(x, y);
+				}
+
+				boolean needToCalculateImagY = needToCalculate(imagSeries, step, x);
+				if (needToCalculateImagY) {
+					y = prepareY(c.imaginaryPart());
+					if (y != null) {
+						imagSeries.add(x, y);
+					}
+					if (c.imaginaryPart() != 0d) {
+						imagExists = true;
+					}
+				}
+			} else {
+				boolean needToCalculateImagY = needToCalculate(imagSeries, step, x);
+				if (needToCalculateImagY) {
+					Generic numeric = expression.substitute(variable, Expression.valueOf(x)).numeric();
+					final Complex c = unwrap(numeric);
+					Double y = prepareY(c.imaginaryPart());
+					if (y != null) {
+						imagSeries.add(x, y);
+					}
+					if (c.imaginaryPart() != 0d) {
+						imagExists = true;
+					}
+				}
+			}
+
+			x += step;
+		}
+
+		sortSeries(realSeries);
+		if (imagExists) {
+			sortSeries(imagSeries);
+		}
+
+		return imagExists;
+	}
+
+	private static boolean needToCalculate(@NotNull XYSeries series, double step, double x) {
+		boolean needToCalculateY = true;
+		for ( int i = 0; i < series.getItemCount(); i++ ){
+			if ( Math.abs(x - series.getX(i)) < step ) {
+				needToCalculateY = false;
+				break;
+			}
+		}
+		return needToCalculateY;
+	}
+
+	private static void sortSeries(@NotNull XYSeries series) {
+		final List<Point> values = new ArrayList<Point>(series.getItemCount());
+		for (int i = 0; i < series.getItemCount(); i++) {
+			values.add(new Point((float)series.getX(i), (float)series.getY(i)));
+		}
+
+		Collections.sort(values, new Comparator<Point>() {
+			@Override
+			public int compare(Point point, Point point1) {
+				return Float.compare(point.getX(), point1.getX());
+			}
+		});
+		series.clear();
+		for (Point value : values) {
+			series.add(value.getX(), value.getY());
+		}
 	}
 
 	@NotNull
@@ -210,9 +305,10 @@ public class CalculatorPlotActivity extends Activity {
 		return renderer;
 	}
 
-	private static double prepareY(double y) {
-		if (Double.isNaN(y) || Double.isInfinite(y)) {
-			return 0d;
+	@Nullable
+	private static Double prepareY(double y) {
+		if (Double.isNaN(y)) {
+			return null;
 		} else {
 			return y;
 		}
