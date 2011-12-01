@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+			  a:id="@+id/plot_view_container"
+			  a:orientation="horizontal"
+			  a:layout_width="fill_parent"
+			  a:layout_height="fill_parent">
+
+	<LinearLayout
+			a:id="@+id/plot_graph_container"
+			a:orientation="vertical"
+			a:layout_width="wrap_content"
+			a:layout_height="wrap_content"
+			a:layout_weight="3">
+
+	</LinearLayout>
+
+	<LinearLayout
+			a:orientation="vertical"
+			a:layout_width="wrap_content"
+			a:layout_height="wrap_content"
+			a:layout_weight="1">
+
+		<TextView a:layout_height="wrap_content"
+				  a:layout_width="fill_parent"
+				  a:padding="6dp"
+				  style="@style/default_text_size"
+				  a:text="@string/c_min_x_value"/>
+
+		<org.solovyev.android.view.widgets.NumberPicker
+				a:id="@+id/plot_x_min_value"
+				a:layout_width="wrap_content"
+				a:layout_height="wrap_content"/>
+
+		<TextView a:layout_height="wrap_content"
+				  a:layout_width="fill_parent"
+				  a:padding="6dp"
+				  style="@style/default_text_size"
+				  a:text="@string/c_max_x_value"/>
+
+		<org.solovyev.android.view.widgets.NumberPicker
+				a:id="@+id/plot_x_max_value"
+				a:layout_width="wrap_content"
+				a:layout_height="wrap_content"/>
+
+	</LinearLayout>
+
+</LinearLayout>

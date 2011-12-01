@@ -6,7 +6,7 @@
 
 package org.solovyev.android.calculator.jscl;
 
-import jscl.text.Messages;
+import jscl.text.msg.Messages;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.math.MathType;

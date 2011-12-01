@@ -29,6 +29,8 @@ public class AutoResizeTextView extends TextView {
 	// Minimum text size for this text view
 	public static final float MIN_TEXT_SIZE = 20;
 
+	private float initialTextSize = 100;
+
 	// Interface for resize notifications
 	public interface OnTextResizeListener {
 		public void onTextResize(TextView textView, float oldSize, float newSize);
@@ -207,7 +209,8 @@ public class AutoResizeTextView extends TextView {
 		Log.d(this.getClass().getName(), "Old text size: " + oldTextSize);
 
 		// If there is a max text size set, use the lesser of that and the default text size
-		float newTextSize = 100;
+		// todo serso: +2 is a workaround => to be checked boundary constraints
+		float newTextSize = initialTextSize + 2;
 
 		int newTextHeight;
 
@@ -227,7 +230,7 @@ public class AutoResizeTextView extends TextView {
 					if (newTextSize <= minTextSize) {
 						break;
 					}
-					newTextSize = Math.max(newTextSize - 2, minTextSize);
+					newTextSize = Math.max(newTextSize - 1, minTextSize);
 					newTextHeight = getTextRect(text, textPaint, width, newTextSize);
 					logDimensions(newTextSize, newTextHeight);
 				}
@@ -236,7 +239,7 @@ public class AutoResizeTextView extends TextView {
 					if (newTextSize <= minTextSize) {
 						break;
 					}
-					newTextSize = Math.max(newTextSize + 2, minTextSize);
+					newTextSize = Math.max(newTextSize + 1, minTextSize);
 					newTextHeight = getTextRect(text, textPaint, width, newTextSize);
 					logDimensions(newTextSize, newTextHeight);
 				}
@@ -246,6 +249,8 @@ public class AutoResizeTextView extends TextView {
 				((Editable) text).delete(text.length() - 1, text.length());
 			}
 		}
+
+		initialTextSize = newTextSize;
 
 		// If we had reached our minimum text size and still don't fit, append an ellipsis
 		if (addEllipsis && newTextSize == minTextSize && newTextHeight > height) {
