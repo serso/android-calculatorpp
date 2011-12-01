@@ -16,7 +16,9 @@ import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
+import org.achartengine.util.MathHelper;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.help.HelpActivity;
 import org.solovyev.common.utils.StringUtils;
 
@@ -56,45 +58,10 @@ public class CalculatorActivityLauncher {
 	}
 
 	public static void plotGraph(@NotNull final Context context, @NotNull Generic generic, @NotNull Constant constant) throws ArithmeticException {
-
-		final XYSeries series = new XYSeries(generic.toString());
-
-		final double min = -10;
-		final double max = 10;
-		final double step = 0.5;
-		double x = min;
-		while (x <= max) {
-			Generic numeric = generic.substitute(constant, Expression.valueOf(x)).numeric();
-			series.add(x, unwrap(numeric));
-			x += step;
-		}
-		final XYMultipleSeriesDataset data = new XYMultipleSeriesDataset();
-		data.addSeries(series);
-		final XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
-		renderer.addSeriesRenderer(new XYSeriesRenderer());
-		final Intent intent = ChartFactory.getLineChartIntent(context, data, renderer);
+		final Intent intent = new Intent();
+		intent.putExtra(CalculatorPlotActivity.INPUT, new CalculatorPlotActivity.Input(generic.toString(), constant.getName()));
 		intent.setClass(context, CalculatorPlotActivity.class);
 		context.startActivity(intent);
-	}
-
-	private static double unwrap(Generic numeric) {
-		if ( numeric instanceof JsclInteger) {
-			return ((JsclInteger) numeric).intValue();
-		} else if ( numeric instanceof NumericWrapper ) {
-			return unwrap(((NumericWrapper) numeric).content());
-		} else {
-			throw  new ArithmeticException();
-		}
-	}
-
-	private static double unwrap(Numeric content) {
-		if (content instanceof Real) {
-			return ((Real) content).doubleValue();
-		} else if ( content instanceof Complex) {
-			return ((Complex) content).realPart();
-		} else {
-			throw  new ArithmeticException();
-		}
 	}
 
 	public static void createVar(@NotNull final Context context, @NotNull CalculatorModel calculatorModel) {

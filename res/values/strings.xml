@@ -277,5 +277,7 @@ Check the \'Round result\' preference in application settings - it should be tur
 	<string name="msg_6">Infinite loop is detected in expression</string>
 
 	<string name="c_plot_graph">Graph</string>
+	<string name="c_min_x_value">From</string>
+	<string name="c_max_x_value">To</string>
 
 </resources>

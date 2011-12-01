@@ -12,7 +12,8 @@
 			  a:targetSdkVersion="8"/>
 
 	<application a:icon="@drawable/icon"
-				 a:label="@string/c_app_name">
+				 a:label="@string/c_app_name"
+				 a:name=".ApplicationContext">
 
 		<activity a:name=".CalculatorActivity"
 				  a:label="@string/c_app_name">
@@ -30,8 +31,7 @@
 
 		<activity a:name=".CalculatorHistoryActivity"
 				  a:label="@string/c_app_history"
-				  a:configChanges="orientation|keyboardHidden">
-		</activity>
+				  a:configChanges="orientation|keyboardHidden"/>
 
 		<activity a:name=".AboutActivity"
 				  a:label="@string/c_about"
@@ -55,23 +55,18 @@
 
 		<activity a:name=".CalculatorFunctionsActivity"
 				  a:label="@string/c_functions"
-				  a:configChanges="orientation|keyboardHidden">
-		</activity>
+				  a:configChanges="orientation|keyboardHidden"/>
 
 		<activity a:name=".CalculatorOperatorsActivity"
 				  a:label="@string/c_operators"
-				  a:configChanges="orientation|keyboardHidden">
-		</activity>
+				  a:configChanges="orientation|keyboardHidden"/>
 
 		<activity a:name=".CalculatorVarsActivity"
 				  a:label="@string/c_vars_and_constants"
-				  a:configChanges="orientation|keyboardHidden">
-		</activity>
+				  a:configChanges="orientation|keyboardHidden"/>
 
 		<activity a:name=".CalculatorPlotActivity"
-				  a:label="@string/c_plot_graph"
-				  a:configChanges="orientation|keyboardHidden">
-		</activity>
+				  a:label="@string/c_plot_graph"/>
 
 	</application>
 </manifest>
