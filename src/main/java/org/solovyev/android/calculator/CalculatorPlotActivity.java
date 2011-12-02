@@ -216,7 +216,7 @@ public class CalculatorPlotActivity extends Activity {
 		renderer.setShowGrid(true);
 		renderer.setXTitle(variable.getName());
 		renderer.setYTitle("f(" + variable.getName() + ")");
-		renderer.setYAxisAlign(Paint.Align.CENTER, 0);
+		//renderer.setYAxisAlign(Paint.Align.CENTER, 0);
 		if (imagExists) {
 			renderer.addSeriesRenderer(createImagRenderer());
 		}
