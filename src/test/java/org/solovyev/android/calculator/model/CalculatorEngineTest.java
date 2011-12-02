@@ -7,6 +7,8 @@ package org.solovyev.android.calculator.model;
 
 import jscl.AngleUnit;
 import jscl.math.Expression;
+import jscl.math.Generic;
+import jscl.math.function.Constant;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -79,6 +81,13 @@ public class CalculatorEngineTest {
 	public void testEvaluate() throws Exception {
 		final CalculatorEngine cm = CalculatorEngine.instance;
 
+		Assert.assertEquals("cos(t)+10%", cm.evaluate(JsclOperation.simplify, "cos(t)+10%").getResult());
+
+		final Generic expression = cm.getEngine().simplifyGeneric("cos(t)+10%");
+		expression.substitute(new Constant("t"), Expression.valueOf(100d));
+
+		Assert.assertEquals("it", cm.evaluate(JsclOperation.simplify, "it").getResult());
+		Assert.assertEquals("10%", cm.evaluate(JsclOperation.simplify, "10%").getResult());
 		Assert.assertEquals("0", cm.evaluate(JsclOperation.numeric, "eq(0, 1)").getResult());
 		Assert.assertEquals("1", cm.evaluate(JsclOperation.numeric, "eq(1, 1)").getResult());
 		Assert.assertEquals("1", cm.evaluate(JsclOperation.numeric, "eq(  1,   1)").getResult());
