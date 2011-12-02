@@ -8,6 +8,7 @@ package org.solovyev.android.calculator;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -98,6 +99,9 @@ public class CalculatorPlotActivity extends Activity {
 		} catch (ParseException e) {
 			Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
 			finish();
+		} catch (ArithmeticException e) {
+			Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+			finish();
 		}
 	}
 
@@ -109,6 +113,10 @@ public class CalculatorPlotActivity extends Activity {
 		}
 
 		final LineChart chart = prepareChart(minValue, maxValue, expression, variable);
+
+		// reverting boundaries (as in prepareChart() we add some cached values )
+		chart.getRenderer().setXAxisMin(DEFAULT_MIN_NUMBER);
+		chart.getRenderer().setXAxisMax(DEFAULT_MAX_NUMBER);
 		graphicalView = new GraphicalView(this, chart);
 		graphicalView.addZoomListener(new ZoomListener() {
 			@Override
@@ -141,7 +149,8 @@ public class CalculatorPlotActivity extends Activity {
 					//lock all operations with history
 					if (pendingOperation.getObject() == this) {
 						final XYMultipleSeriesRenderer dr = chart.getRenderer();
-						Log.d(CalculatorPlotActivity.class.getName(), "x = [" + dr.getXAxisMin() + ", " + dr.getXAxisMax() + "], y = [" + dr.getYAxisMin() + ", " + dr.getYAxisMax() + "]");
+
+						//Log.d(CalculatorPlotActivity.class.getName(), "x = [" + dr.getXAxisMin() + ", " + dr.getXAxisMax() + "], y = [" + dr.getYAxisMin() + ", " + dr.getYAxisMax() + "]");
 
 						final XYSeries realSeries = chart.getDataset().getSeriesAt(0);
 
@@ -152,18 +161,27 @@ public class CalculatorPlotActivity extends Activity {
 							imagSeries = new XYSeries(getImagFunctionName(CalculatorPlotActivity.this.expression, CalculatorPlotActivity.this.variable));
 						}
 
-						if (addXY(dr.getXAxisMin(), dr.getXAxisMax(), expression, variable, realSeries, imagSeries)) {
-							if (chart.getDataset().getSeriesCount() <= 1) {
-								chart.getDataset().addSeries(imagSeries);
-								chart.getRenderer().addSeriesRenderer(createImagRenderer());
+						try {
+							if (addXY(dr.getXAxisMin(), dr.getXAxisMax(), expression, variable, realSeries, imagSeries)) {
+								if (chart.getDataset().getSeriesCount() <= 1) {
+									chart.getDataset().addSeries(imagSeries);
+									chart.getRenderer().addSeriesRenderer(createImagRenderer());
+								}
 							}
+						} catch (ArithmeticException e) {
+							// todo serso: translate
+							Toast.makeText(CalculatorPlotActivity.this, "Arithmetic error: " + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+							CalculatorPlotActivity.this.finish();
 						}
 
-						graphicalView.repaint();
+						if (pendingOperation.getObject() == this) {
+							graphicalView.repaint();
+						}
 					}
 				}
 			}
 		});
+
 
 		new Handler().postDelayed(pendingOperation.getObject(), EVAL_DELAY_MILLIS);
 	}
@@ -197,7 +215,8 @@ public class CalculatorPlotActivity extends Activity {
 		renderer.addSeriesRenderer(createCommonRenderer());
 		renderer.setShowGrid(true);
 		renderer.setXTitle(variable.getName());
-		renderer.setYTitle("f(" + variable.getName() +")");
+		renderer.setYTitle("f(" + variable.getName() + ")");
+		renderer.setYAxisAlign(Paint.Align.CENTER, 0);
 		if (imagExists) {
 			renderer.addSeriesRenderer(createImagRenderer());
 		}
