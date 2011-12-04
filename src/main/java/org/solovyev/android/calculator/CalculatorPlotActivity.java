@@ -272,8 +272,6 @@ public class CalculatorPlotActivity extends Activity {
 		Double prevRealY = null;
 		Double prevX = null;
 		Double prevImagY = null;
-		boolean wasRealSingularity = false;
-		boolean wasImagSingularity = false;
 		while (x <= max) {
 
 			boolean needToCalculateRealY = needToCalculate(realSeries, step, x);
@@ -283,7 +281,7 @@ public class CalculatorPlotActivity extends Activity {
 				final Complex c = unwrap(numeric);
 				Double y = prepareY(c.realPart());
 				if (y != null) {
-					wasRealSingularity = addSingularityPoint(realSeries, prevX, x, prevRealY, y, wasRealSingularity);
+					addSingularityPoint(realSeries, prevX, x, prevRealY, y);
 					realSeries.add(x, y);
 					prevRealY = y;
 					prevX = x;
@@ -293,7 +291,7 @@ public class CalculatorPlotActivity extends Activity {
 				if (needToCalculateImagY) {
 					y = prepareY(c.imaginaryPart());
 					if (y != null) {
-						wasImagSingularity = addSingularityPoint(imagSeries, prevX, x, prevImagY, y, wasImagSingularity);
+						addSingularityPoint(imagSeries, prevX, x, prevImagY, y);
 						imagSeries.add(x, y);
 						prevImagY = y;
 						prevX = x;
@@ -309,7 +307,7 @@ public class CalculatorPlotActivity extends Activity {
 					final Complex c = unwrap(numeric);
 					Double y = prepareY(c.imaginaryPart());
 					if (y != null) {
-						wasImagSingularity = addSingularityPoint(imagSeries, prevX, x, prevImagY, y, wasImagSingularity);
+						addSingularityPoint(imagSeries, prevX, x, prevImagY, y);
 						imagSeries.add(x, y);
 						prevImagY = y;
 						prevX = x;
@@ -333,17 +331,14 @@ public class CalculatorPlotActivity extends Activity {
 
 	// todo serso: UNABLE TO PLOT i/ln(t)!!!
 
-	private static boolean addSingularityPoint(@NotNull XYSeries series, @Nullable Double prevX, @NotNull Double x, @Nullable Double prevY, @NotNull Double y, boolean wasSingularity) {
-		if ( !wasSingularity && prevX  != null && prevY != null) {
-			if ( y > 0.00000000001d && prevY > 0.00000000001d && (Math.abs(prevY / y) > MAX_Y_DIFF || Math.abs(y / prevY) > MAX_Y_DIFF)) {
+	private static void addSingularityPoint(@NotNull XYSeries series, @Nullable Double prevX, @NotNull Double x, @Nullable Double prevY, @NotNull Double y) {
+		if (prevX  != null && prevY != null) {
+			if ( (Math.abs(y) > 0.00000000001d && Math.abs(prevY / y) > MAX_Y_DIFF) || (Math.abs(prevY) > 0.00000000001d && Math.abs(y / prevY) > MAX_Y_DIFF)) {
 				//Log.d(CalculatorPlotActivity.class.getName(), "Singularity! Prev point: (" + prevX + ", " + prevY + "), current point: (" +x+ ", " + y +")" );
 				//Log.d(CalculatorPlotActivity.class.getName(), String.valueOf(prevX + Math.abs(x - prevX) / 2) +  ", null");
 				series.add( prevX + Math.abs(x - prevX) / 2, MathHelper.NULL_VALUE);
-				return true;
 			}
 		}
-
-		return false;
 	}
 
 	private static boolean needToCalculate(@NotNull XYSeries series, double step, double x) {
