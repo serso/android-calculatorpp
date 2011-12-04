@@ -10,7 +10,6 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Toast;
@@ -64,6 +63,8 @@ public class CalculatorPlotActivity extends Activity {
 
 	public static final long EVAL_DELAY_MILLIS = 400;
 
+	private XYChart chart;
+
 	/**
 	 * The encapsulated graphical view.
 	 */
@@ -75,7 +76,7 @@ public class CalculatorPlotActivity extends Activity {
 	@NotNull
 	private Constant variable;
 
-	private static final double MAX_Y_DIFF = Math.pow(10, 10);
+	private static final double MAX_Y_DIFF = Math.pow(10, 6);
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +98,8 @@ public class CalculatorPlotActivity extends Activity {
 
 			setContentView(R.layout.calc_plot_view);
 
-			setGraphicalView(DEFAULT_MIN_NUMBER, DEFAULT_MAX_NUMBER);
+			final Object lastNonConfigurationInstance = getLastNonConfigurationInstance();
+			setGraphicalView(lastNonConfigurationInstance instanceof PlotBoundaries ? (PlotBoundaries)lastNonConfigurationInstance : null);
 
 		} catch (ParseException e) {
 			Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
@@ -108,14 +110,17 @@ public class CalculatorPlotActivity extends Activity {
 		}
 	}
 
-	private void setGraphicalView(final double minValue, final double maxValue) {
+	private void setGraphicalView(@Nullable PlotBoundaries plotBoundaries) {
+		double minValue = plotBoundaries == null ? DEFAULT_MIN_NUMBER : plotBoundaries.xMin;
+		double maxValue = plotBoundaries == null ? DEFAULT_MAX_NUMBER : plotBoundaries.xMax;
+
 		final ViewGroup graphContainer = (ViewGroup) findViewById(R.id.plot_view_container);
 
 		if (graphicalView != null) {
 			graphContainer.removeView(graphicalView);
 		}
 
-		final XYChart chart = prepareChart(minValue, maxValue, expression, variable);
+		chart = prepareChart(minValue, maxValue, expression, variable);
 
 		// reverting boundaries (as in prepareChart() we add some cached values )
 		double minX = Double.MAX_VALUE;
@@ -131,12 +136,19 @@ public class CalculatorPlotActivity extends Activity {
 			maxY = Math.max(maxY, series.getMaxY());
 		}
 
-		Log.d(CalculatorPlotActivity.class.getName(), "min x: " +minX +", min y: " + minY + ", max x: " + maxX + ", max y: " + maxY);
+		//Log.d(CalculatorPlotActivity.class.getName(), "min x: " +minX +", min y: " + minY + ", max x: " + maxX + ", max y: " + maxY);
 
-		chart.getRenderer().setXAxisMin(Math.max(minX, DEFAULT_MIN_NUMBER));
-		chart.getRenderer().setYAxisMin(Math.max(minY, DEFAULT_MIN_NUMBER));
-		chart.getRenderer().setXAxisMax(Math.min(maxX, DEFAULT_MAX_NUMBER));
-		chart.getRenderer().setYAxisMax(Math.min(maxY, DEFAULT_MAX_NUMBER));
+		if (plotBoundaries == null) {
+			chart.getRenderer().setXAxisMin(Math.max(minX, minValue));
+			chart.getRenderer().setYAxisMin(Math.max(minY, minValue));
+			chart.getRenderer().setXAxisMax(Math.min(maxX, maxValue));
+			chart.getRenderer().setYAxisMax(Math.min(maxY, maxValue));
+		} else {
+			chart.getRenderer().setXAxisMin(plotBoundaries.xMin);
+			chart.getRenderer().setYAxisMin(plotBoundaries.yMin);
+			chart.getRenderer().setXAxisMax(plotBoundaries.xMax);
+			chart.getRenderer().setYAxisMax(plotBoundaries.yMax);
+		}
 
 		graphicalView = new GraphicalView(this, chart);
 		graphicalView.addZoomListener(new ZoomListener() {
@@ -333,7 +345,7 @@ public class CalculatorPlotActivity extends Activity {
 
 	private static void addSingularityPoint(@NotNull XYSeries series, @Nullable Double prevX, @NotNull Double x, @Nullable Double prevY, @NotNull Double y) {
 		if (prevX  != null && prevY != null) {
-			if ( (Math.abs(y) > 0.00000000001d && Math.abs(prevY / y) > MAX_Y_DIFF) || (Math.abs(prevY) > 0.00000000001d && Math.abs(y / prevY) > MAX_Y_DIFF)) {
+			if ( (Math.abs(y) > 0d && Math.abs(prevY / y) > MAX_Y_DIFF) || (Math.abs(prevY) > 0d && Math.abs(y / prevY) > MAX_Y_DIFF)) {
 				//Log.d(CalculatorPlotActivity.class.getName(), "Singularity! Prev point: (" + prevX + ", " + prevY + "), current point: (" +x+ ", " + y +")" );
 				//Log.d(CalculatorPlotActivity.class.getName(), String.valueOf(prevX + Math.abs(x - prevX) / 2) +  ", null");
 				series.add( prevX + Math.abs(x - prevX) / 2, MathHelper.NULL_VALUE);
@@ -352,7 +364,35 @@ public class CalculatorPlotActivity extends Activity {
 		return needToCalculateY;
 	}
 
-	public static final class Point implements Serializable {
+	@Override
+	public Object onRetainNonConfigurationInstance() {
+		return new PlotBoundaries(chart.getRenderer());
+	}
+
+	private static final class PlotBoundaries implements Serializable {
+
+		private final double xMin;
+		private final double xMax;
+		private final double yMin;
+		private final double yMax;
+
+
+		public PlotBoundaries(double xMin, double xMax, double yMin, double yMax) {
+			this.xMin = xMin;
+			this.xMax = xMax;
+			this.yMin = yMin;
+			this.yMax = yMax;
+		}
+
+		public PlotBoundaries(@NotNull XYMultipleSeriesRenderer renderer) {
+			this.xMin = renderer.getXAxisMin();
+			this.yMin = renderer.getYAxisMin();
+			this.xMax = renderer.getXAxisMax();
+			this.yMax = renderer.getYAxisMax();
+		}
+	}
+
+	private static final class Point implements Serializable {
 		/**
 		 * The X axis coordinate value.
 		 */
