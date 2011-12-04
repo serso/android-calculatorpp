@@ -8,10 +8,8 @@ package org.solovyev.android.calculator;
 
 import android.app.Activity;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Toast;
@@ -27,6 +25,8 @@ import jscl.text.ParseException;
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
 import org.achartengine.chart.LineChart;
+import org.achartengine.chart.PointStyle;
+import org.achartengine.chart.XYChart;
 import org.achartengine.model.Point;
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
@@ -36,6 +36,7 @@ import org.achartengine.renderer.XYSeriesRenderer;
 import org.achartengine.tools.PanListener;
 import org.achartengine.tools.ZoomEvent;
 import org.achartengine.tools.ZoomListener;
+import org.achartengine.util.MathHelper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.common.utils.MutableObject;
@@ -61,7 +62,7 @@ public class CalculatorPlotActivity extends Activity {
 
 	public static final String INPUT = "org.solovyev.android.calculator.CalculatorPlotActivity_input";
 
-	public static final long EVAL_DELAY_MILLIS = 300;
+	public static final long EVAL_DELAY_MILLIS = 400;
 
 	/**
 	 * The encapsulated graphical view.
@@ -73,6 +74,8 @@ public class CalculatorPlotActivity extends Activity {
 
 	@NotNull
 	private Constant variable;
+
+	private static final double MAX_Y_DIFF = Math.pow(10, 10);
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -112,11 +115,13 @@ public class CalculatorPlotActivity extends Activity {
 			graphContainer.removeView(graphicalView);
 		}
 
-		final LineChart chart = prepareChart(minValue, maxValue, expression, variable);
+		final XYChart chart = prepareChart(minValue, maxValue, expression, variable);
 
 		// reverting boundaries (as in prepareChart() we add some cached values )
 		chart.getRenderer().setXAxisMin(DEFAULT_MIN_NUMBER);
+		chart.getRenderer().setYAxisMin(DEFAULT_MIN_NUMBER);
 		chart.getRenderer().setXAxisMax(DEFAULT_MAX_NUMBER);
+		chart.getRenderer().setYAxisMax(DEFAULT_MAX_NUMBER);
 		graphicalView = new GraphicalView(this, chart);
 		graphicalView.addZoomListener(new ZoomListener() {
 			@Override
@@ -140,7 +145,7 @@ public class CalculatorPlotActivity extends Activity {
 		graphContainer.addView(graphicalView);
 	}
 
-	private void updateDataSets(@NotNull final LineChart chart) {
+	private void updateDataSets(@NotNull final XYChart chart) {
 		pendingOperation.setObject(new Runnable() {
 			@Override
 			public void run() {
@@ -199,7 +204,7 @@ public class CalculatorPlotActivity extends Activity {
 	@NotNull
 	private final static MutableObject<Runnable> pendingOperation = new MutableObject<Runnable>();
 
-	private static LineChart prepareChart(final double minValue, final double maxValue, @NotNull final Generic expression, @NotNull final Constant variable) {
+	private static XYChart prepareChart(final double minValue, final double maxValue, @NotNull final Generic expression, @NotNull final Constant variable) {
 		final XYSeries realSeries = new XYSeries(getRealFunctionName(expression, variable));
 		final XYSeries imagSeries = new XYSeries(getImagFunctionName(expression, variable));
 
@@ -212,11 +217,12 @@ public class CalculatorPlotActivity extends Activity {
 		}
 
 		final XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
-		renderer.addSeriesRenderer(createCommonRenderer());
 		renderer.setShowGrid(true);
 		renderer.setXTitle(variable.getName());
 		renderer.setYTitle("f(" + variable.getName() + ")");
-		//renderer.setYAxisAlign(Paint.Align.CENTER, 0);
+		renderer.setChartTitleTextSize(20);
+
+		renderer.addSeriesRenderer(createCommonRenderer());
 		if (imagExists) {
 			renderer.addSeriesRenderer(createImagRenderer());
 		}
@@ -226,19 +232,28 @@ public class CalculatorPlotActivity extends Activity {
 
 	private static XYSeriesRenderer createImagRenderer() {
 		final XYSeriesRenderer imagRenderer = createCommonRenderer();
-		imagRenderer.setStroke(BasicStroke.DOTTED);
+		imagRenderer.setStroke(BasicStroke.DASHED);
+		imagRenderer.setColor(Color.DKGRAY);
 		return imagRenderer;
 	}
 
 	private static boolean addXY(double minValue, double maxValue, Generic expression, Constant variable, @NotNull XYSeries realSeries, @NotNull XYSeries imagSeries) {
 		boolean imagExists = false;
 
-		final double min = 1.5 * Math.min(minValue, maxValue);
-		final double max = 1.5 * Math.max(minValue, maxValue);
+		double min = Math.min(minValue, maxValue);
+		double max = Math.max(minValue, maxValue);
+		double dist = max - min;
+		min = min - dist;
+		max = max + dist;
 
 		final int numberOfSteps = DEFAULT_NUMBER_OF_STEPS;
-		final double step = Math.max((max - min) / numberOfSteps, 0.001);
+		final double step = Math.max((max - min) / numberOfSteps, 0.000000001);
 		double x = min;
+		Double prevRealY = null;
+		Double prevX = null;
+		Double prevImagY = null;
+		double maxY = Double.NEGATIVE_INFINITY;
+		double minY = Double.POSITIVE_INFINITY;
 		while (x <= max) {
 
 			boolean needToCalculateRealY = needToCalculate(realSeries, step, x);
@@ -248,14 +263,24 @@ public class CalculatorPlotActivity extends Activity {
 				final Complex c = unwrap(numeric);
 				Double y = prepareY(c.realPart());
 				if (y != null) {
+					//addInfPoint(realSeries, prevX, x, prevRealY, y);
 					realSeries.add(x, y);
+					maxY = Math.max(maxY,  y);
+					minY = Math.min(minY, y);
+					prevRealY = y;
+					prevX = x;
 				}
 
 				boolean needToCalculateImagY = needToCalculate(imagSeries, step, x);
 				if (needToCalculateImagY) {
 					y = prepareY(c.imaginaryPart());
 					if (y != null) {
+						//addInfPoint(imagSeries, prevX, x, prevImagY, y);
 						imagSeries.add(x, y);
+						maxY = Math.max(maxY,  y);
+						minY = Math.min(minY,  y);
+						prevImagY = y;
+						prevX = x;
 					}
 					if (c.imaginaryPart() != 0d) {
 						imagExists = true;
@@ -268,7 +293,12 @@ public class CalculatorPlotActivity extends Activity {
 					final Complex c = unwrap(numeric);
 					Double y = prepareY(c.imaginaryPart());
 					if (y != null) {
+						//addInfPoint(imagSeries, prevX, x, prevImagY, y);
 						imagSeries.add(x, y);
+						maxY = Math.max(maxY,  y);
+						minY = Math.min(minY, y);
+						prevImagY = y;
+						prevX = x;
 					}
 					if (c.imaginaryPart() != 0d) {
 						imagExists = true;
@@ -285,6 +315,14 @@ public class CalculatorPlotActivity extends Activity {
 		}
 
 		return imagExists;
+	}
+
+	private static void addInfPoint(@NotNull XYSeries series, @Nullable Double prevX, @NotNull Double x, @Nullable Double prevY, @NotNull Double y) {
+		if ( prevX  != null && prevY != null) {
+			if ( Math.abs(prevY / y) > MAX_Y_DIFF || Math.abs(y / prevY) > MAX_Y_DIFF) {
+				series.add( prevX + Math.abs(x - prevX) / 2, MathHelper.NULL_VALUE);
+			}
+		}
 	}
 
 	private static boolean needToCalculate(@NotNull XYSeries series, double step, double x) {
@@ -319,6 +357,9 @@ public class CalculatorPlotActivity extends Activity {
 	@NotNull
 	private static XYSeriesRenderer createCommonRenderer() {
 		final XYSeriesRenderer renderer = new XYSeriesRenderer();
+		renderer.setFillPoints(true);
+		renderer.setPointStyle(PointStyle.POINT);
+		renderer.setLineWidth(3);
 		renderer.setColor(Color.WHITE);
 		renderer.setStroke(BasicStroke.SOLID);
 		return renderer;
