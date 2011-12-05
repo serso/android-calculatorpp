@@ -3,22 +3,10 @@ package org.solovyev.android.calculator;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
-import jscl.math.Expression;
 import jscl.math.Generic;
-import jscl.math.JsclInteger;
-import jscl.math.NumericWrapper;
 import jscl.math.function.Constant;
-import jscl.math.numeric.Complex;
-import jscl.math.numeric.Numeric;
-import jscl.math.numeric.Real;
 import org.achartengine.ChartFactory;
-import org.achartengine.model.XYMultipleSeriesDataset;
-import org.achartengine.model.XYSeries;
-import org.achartengine.renderer.XYMultipleSeriesRenderer;
-import org.achartengine.renderer.XYSeriesRenderer;
-import org.achartengine.util.MathHelper;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.help.HelpActivity;
 import org.solovyev.common.utils.StringUtils;
 
@@ -57,8 +45,9 @@ public class CalculatorActivityLauncher {
 		context.startActivity(new Intent(context, CalculatorVarsActivity.class));
 	}
 
-	public static void plotGraph(@NotNull final Context context, @NotNull Generic generic, @NotNull Constant constant) throws ArithmeticException {
+	public static void plotGraph(@NotNull final Context context, @NotNull Generic generic, @NotNull Constant constant){
 		final Intent intent = new Intent();
+		intent.putExtra(ChartFactory.TITLE, context.getString(R.string.c_graph));
 		intent.putExtra(CalculatorPlotActivity.INPUT, new CalculatorPlotActivity.Input(generic.toString(), constant.getName()));
 		intent.setClass(context, CalculatorPlotActivity.class);
 		context.startActivity(intent);
