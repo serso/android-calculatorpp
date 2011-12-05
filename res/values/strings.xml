@@ -33,7 +33,8 @@
 		Italian - Gabriele Ravanetti\n\n
 		This application uses next open source libraries:\n
 		<a href="http://simple.sourceforge.net">Simple (XML serialization)</a>\n
-		<a href="http://meditorworld.appspot.com/meditor.txt">JSCL</a>
+		<a href="http://meditorworld.appspot.com/meditor.txt">JSCL</a>\n
+		<a href="http://www.achartengine.org/">AChartEngine</a>
 	</string>
 
 	<string name="c_undo">undo</string>
@@ -42,6 +43,10 @@
 	<string name="c_erase">clear</string>
 	<string name="c_paste">paste</string>
 	<string name="c_vars">vars</string>
+
+	<string name="c_copy">Copy</string>
+	<string name="c_plot">Plot graph</string>
+	<string name="c_graph">Graph</string>
 
 	<string name="c_calc_color_display_title">Highlight expressions</string>
 	<string name="c_calc_round_result_title">Round result</string>
@@ -240,7 +245,7 @@ e ^ i = 0.5403 + 0.84147i\n
 \n
 <b>Can C++ plot graph of the function?</b>\n
 \n
-No, currently C++ cannot plot functions\' graphs.\n
+Yes, type expression which contains 1 undefined variable (e.g. cos(t) and t has no value) and click on the result. In the context menu choose \'Plot graph\'.\n
 \n
 <b>Does C++ support matrix calculations?</b>\n
 \n
