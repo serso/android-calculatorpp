@@ -8,6 +8,7 @@ package org.solovyev.android.calculator;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.text.ClipboardManager;
@@ -69,58 +70,7 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 		this.editor.setHighlightText(preferences.getBoolean(activity.getString(R.string.p_calc_color_display_key), colorExpressionsInBracketsDefault));
 
 		this.display = (CalculatorDisplay) activity.findViewById(R.id.calculatorDisplay);
-		this.display.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (v instanceof CalculatorDisplay) {
-					final CalculatorDisplay cd = (CalculatorDisplay)v;
-					if (cd.isValid()) {
-						switch (cd.getJsclOperation()) {
-							case simplify:
-								Generic genericResult = cd.getGenericResult();
-								if ( genericResult != null ) {
-									final Set<Constant> notSystemConstants = new HashSet<Constant>();
-									for (Constant constant : genericResult.getConstants()) {
-										Var var = CalculatorEngine.instance.getVarsRegister().get(constant.getName());
-										if (var != null && !var.isSystem()) {
-											notSystemConstants.add(constant);
-										}
-									}
-
-									if ( notSystemConstants.size() > 0 ) {
-										if (notSystemConstants.size() > 1) {
-											copyResult(activity, cd);
-										} else {
-											final Constant constant = CollectionsUtils.getFirstCollectionElement(notSystemConstants);
-											assert constant != null;
-											try {
-												CalculatorActivityLauncher.plotGraph(activity, genericResult, constant);
-											} catch (ArithmeticException e) {
-												copyResult(activity, cd);
-											}
-										}
-									} else {
-										copyResult(activity, cd);
-									}
-								} else {
-									copyResult(activity, cd);
-								}
-								break;
-							case elementary:
-							case numeric:
-								copyResult(activity, cd);
-								break;
-						}
-					} else {
-						final String errorMessage = cd.getErrorMessage();
-						if ( errorMessage != null ) {
-							showEvaluationError(activity, errorMessage);
-						}
-					}
-				}
-			}
-		});
-
+		this.display.setOnClickListener(new CalculatorDisplayOnClickListener(activity));
 
 		final CalculatorHistoryState lastState = CalculatorHistory.instance.getLastHistoryState();
 		if (lastState == null) {
@@ -438,5 +388,74 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 	@NotNull
 	public CalculatorDisplay getDisplay() {
 		return display;
+	}
+
+	private static class CalculatorDisplayOnClickListener implements View.OnClickListener {
+
+		@NotNull
+		private final Activity activity;
+
+		public CalculatorDisplayOnClickListener(@NotNull Activity activity) {
+			this.activity = activity;
+		}
+
+		@Override
+		public void onClick(View v) {
+			if (v instanceof CalculatorDisplay) {
+				final CalculatorDisplay cd = (CalculatorDisplay)v;
+				if (cd.isValid()) {
+					switch (cd.getJsclOperation()) {
+						case simplify:
+							final Generic genericResult = cd.getGenericResult();
+							if ( genericResult != null ) {
+								final Set<Constant> notSystemConstants = new HashSet<Constant>();
+								for (Constant constant : genericResult.getConstants()) {
+									Var var = CalculatorEngine.instance.getVarsRegister().get(constant.getName());
+									if (var != null && !var.isSystem()) {
+										notSystemConstants.add(constant);
+									}
+								}
+
+								if ( notSystemConstants.size() > 0 ) {
+									if (notSystemConstants.size() > 1) {
+										copyResult(activity, cd);
+									} else {
+										final CharSequence[] items = {activity.getText(R.string.c_plot), activity.getText(R.string.c_copy)};
+
+										AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+										builder.setItems(items, new DialogInterface.OnClickListener() {
+											public void onClick(DialogInterface dialog, int item) {
+												if (item == 0) {
+													final Constant constant = CollectionsUtils.getFirstCollectionElement(notSystemConstants);
+													assert constant != null;
+													CalculatorActivityLauncher.plotGraph(activity, genericResult, constant);
+												} else if ( item == 1 ) {
+													copyResult(activity, cd);
+												}
+											}
+										});
+										builder.create().show();
+
+									}
+								} else {
+									copyResult(activity, cd);
+								}
+							} else {
+								copyResult(activity, cd);
+							}
+							break;
+						case elementary:
+						case numeric:
+							copyResult(activity, cd);
+							break;
+					}
+				} else {
+					final String errorMessage = cd.getErrorMessage();
+					if ( errorMessage != null ) {
+						showEvaluationError(activity, errorMessage);
+					}
+				}
+			}
+		}
 	}
 }
