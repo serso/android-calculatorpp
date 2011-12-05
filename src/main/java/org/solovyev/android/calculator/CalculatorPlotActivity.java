@@ -10,6 +10,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Toast;
@@ -21,6 +22,7 @@ import jscl.math.function.Constant;
 import jscl.math.numeric.Complex;
 import jscl.math.numeric.Numeric;
 import jscl.math.numeric.Real;
+import jscl.text.MutableInt;
 import jscl.text.ParseException;
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
@@ -130,13 +132,26 @@ public class CalculatorPlotActivity extends Activity {
 		double maxY = Double.MIN_VALUE;
 
 		for (XYSeries series : chart.getDataset().getSeries()) {
-			minX = Math.min(minX, series.getMinX());
-			minY = Math.min(minY, series.getMinY());
-			maxX = Math.max(maxX, series.getMaxX());
-			maxY = Math.max(maxY, series.getMaxY());
+			if (checkMinMaxValue(series.getMinX())) {
+				minX = Math.min(minX, series.getMinX());
+			}
+
+			if (checkMinMaxValue(series.getMinY())) {
+				minY = Math.min(minY, series.getMinY());
+			}
+
+			if (checkMinMaxValue(series.getMaxX())) {
+				maxX = Math.max(maxX, series.getMaxX());
+			}
+
+			if (checkMinMaxValue(series.getMaxY())) {
+				maxY = Math.max(maxY, series.getMaxY());
+			}
 		}
 
-		//Log.d(CalculatorPlotActivity.class.getName(), "min x: " +minX +", min y: " + minY + ", max x: " + maxX + ", max y: " + maxY);
+		Log.d(CalculatorPlotActivity.class.getName(), "min x: " + minX + ", min y: " + minY + ", max x: " + maxX + ", max y: " + maxY);
+		Log.d(CalculatorPlotActivity.class.getName(), "Plot boundaries are " + plotBoundaries);
+
 
 		if (plotBoundaries == null) {
 			chart.getRenderer().setXAxisMin(Math.max(minX, minValue));
@@ -173,6 +188,10 @@ public class CalculatorPlotActivity extends Activity {
 		graphContainer.addView(graphicalView);
 
 		updateDataSets(chart);
+	}
+
+	private boolean checkMinMaxValue(@NotNull Double value) {
+		return !value.equals(MathHelper.NULL_VALUE);
 	}
 
 	private void updateDataSets(@NotNull final XYChart chart) {
@@ -279,18 +298,22 @@ public class CalculatorPlotActivity extends Activity {
 		}
 
 		final int numberOfSteps = DEFAULT_NUMBER_OF_STEPS;
-		final double step = Math.max((max - min) / numberOfSteps, 0.000000001);
-		double x = min;
+		final double step = Math.max( dist / numberOfSteps, 0.000000001);
+
 		Double prevRealY = null;
 		Double prevX = null;
 		Double prevImagY = null;
+
+		final MutableInt realSeriesI = new MutableInt(0);
+		final MutableInt imagSeriesI = new MutableInt(0);
+
+		double x = min;
 		while (x <= max) {
 
-			boolean needToCalculateRealY = needToCalculate(realSeries, step, x);
+			boolean needToCalculateRealY = needToCalculate(realSeries, step, x, realSeriesI);
 
 			if (needToCalculateRealY) {
-				Generic numeric = expression.substitute(variable, Expression.valueOf(x)).numeric();
-				final Complex c = unwrap(numeric);
+				final Complex c = calculatorExpression(expression, variable, x);
 				Double y = prepareY(c.realPart());
 				if (y != null) {
 					addSingularityPoint(realSeries, prevX, x, prevRealY, y);
@@ -299,7 +322,7 @@ public class CalculatorPlotActivity extends Activity {
 					prevX = x;
 				}
 
-				boolean needToCalculateImagY = needToCalculate(imagSeries, step, x);
+				boolean needToCalculateImagY = needToCalculate(imagSeries, step, x, imagSeriesI);
 				if (needToCalculateImagY) {
 					y = prepareY(c.imaginaryPart());
 					if (y != null) {
@@ -313,10 +336,9 @@ public class CalculatorPlotActivity extends Activity {
 					}
 				}
 			} else {
-				boolean needToCalculateImagY = needToCalculate(imagSeries, step, x);
+				boolean needToCalculateImagY = needToCalculate(imagSeries, step, x, imagSeriesI);
 				if (needToCalculateImagY) {
-					Generic numeric = expression.substitute(variable, Expression.valueOf(x)).numeric();
-					final Complex c = unwrap(numeric);
+					final Complex c = calculatorExpression(expression, variable, x);
 					Double y = prepareY(c.imaginaryPart());
 					if (y != null) {
 						addSingularityPoint(imagSeries, prevX, x, prevImagY, y);
@@ -341,6 +363,11 @@ public class CalculatorPlotActivity extends Activity {
 		return imagExists;
 	}
 
+	@NotNull
+	private static Complex calculatorExpression(@NotNull Generic expression, @NotNull Constant variable, double x) {
+		return unwrap(expression.substitute(variable, Expression.valueOf(x)).numeric());
+	}
+
 	// todo serso: UNABLE TO PLOT i/ln(t)!!!
 
 	private static void addSingularityPoint(@NotNull XYSeries series, @Nullable Double prevX, @NotNull Double x, @Nullable Double prevY, @NotNull Double y) {
@@ -353,10 +380,10 @@ public class CalculatorPlotActivity extends Activity {
 		}
 	}
 
-	private static boolean needToCalculate(@NotNull XYSeries series, double step, double x) {
+	private static boolean needToCalculate(@NotNull XYSeries series, double step, double x, @NotNull MutableInt i) {
 		boolean needToCalculateY = true;
-		for ( int i = 0; i < series.getItemCount(); i++ ){
-			if ( Math.abs(x - series.getX(i)) < step ) {
+		for ( ; i.intValue() < series.getItemCount(); i.increment() ){
+			if ( Math.abs(x - series.getX(i.intValue())) < step ) {
 				needToCalculateY = false;
 				break;
 			}
@@ -389,6 +416,16 @@ public class CalculatorPlotActivity extends Activity {
 			this.yMin = renderer.getYAxisMin();
 			this.xMax = renderer.getXAxisMax();
 			this.yMax = renderer.getYAxisMax();
+		}
+
+		@Override
+		public String toString() {
+			return "PlotBoundaries{" +
+					"yMax=" + yMax +
+					", yMin=" + yMin +
+					", xMax=" + xMax +
+					", xMin=" + xMin +
+					'}';
 		}
 	}
 
@@ -440,9 +477,12 @@ public class CalculatorPlotActivity extends Activity {
 				return Double.compare(point.getX(), point1.getX());
 			}
 		});
+
+		Log.d(CalculatorPlotActivity.class.getName(), "Points for " + series.getTitle());
 		series.clear();
 		for (Point value : values) {
 			series.add(value.getX(), value.getY());
+			Log.d(CalculatorPlotActivity.class.getName(), "x = " + value.getX() + ", y = " + value.getY());
 		}
 	}
 
