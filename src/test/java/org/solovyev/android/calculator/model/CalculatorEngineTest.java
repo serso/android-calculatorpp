@@ -153,6 +153,7 @@ public class CalculatorEngineTest {
 
 		try {
 			cm.getEngine().setDefaultAngleUnit(AngleUnit.rad);
+			Assert.assertEquals("0.451", cm.evaluate(JsclOperation.numeric, "acos(0.8999999999999811)").getResult());
 			Assert.assertEquals("-0.959", cm.evaluate(JsclOperation.numeric, "sin(5)").getResult());
 			Assert.assertEquals("-4.795", cm.evaluate(JsclOperation.numeric, "sin(5)si").getResult());
 			Assert.assertEquals("-23.973", cm.evaluate(JsclOperation.numeric, "sisin(5)si").getResult());
