@@ -105,6 +105,13 @@
 	<string name="p_turns">Turns</string>
 	<string name="c_angle_units_summary">Defines the default units for angles.</string>
 
+	<string name="c_calc_numeral_bases">Numeral systems</string>
+	<string name="c_numeral_bases_summary">Defines the default numeral system for all input numbers.</string>
+	<string name="p_dec">Decimal</string>
+	<string name="p_hex">Hexadecimal</string>
+	<string name="p_oct">Octal</string>
+	<string name="p_bin">Binary</string>
+
 	<string name="c_calc_theme">Theme</string>
 	<string name="p_default_theme">Default</string>
 	<string name="p_violet_theme">Violet</string>

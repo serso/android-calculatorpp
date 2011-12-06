@@ -60,4 +60,17 @@
 		<item>turns</item>
 	</string-array>
 
+	<string-array name="p_numeral_bases_names">
+		<item>@string/p_dec</item>
+		<item>@string/p_hex</item>
+		<item>@string/p_oct</item>
+		<item>@string/p_bin</item>
+	</string-array>
+	<string-array name="p_numeral_bases">
+		<item>dec</item>
+		<item>hex</item>
+		<item>oct</item>
+		<item>bin</item>
+	</string-array>
+
 </resources>

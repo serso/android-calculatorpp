@@ -34,7 +34,7 @@ public class AngleUnitsButton extends DirectionDragButton {
 
 		if (result != null) {
 			final Resources resources = getResources();
-			if ( CalculatorEngine.instance.getEngine().getDefaultAngleUnit().name().equals(getDirectionText(direction)) ) {
+			if ( CalculatorEngine.instance.getEngine().getAngleUnits().name().equals(getDirectionText(direction)) ) {
 				result.setColor(resources.getColor(R.color.selected_angle_unit_text_color));
 			} else {
 				result.setColor(resources.getColor(R.color.default_text_color));
