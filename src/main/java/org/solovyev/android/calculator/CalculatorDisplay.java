@@ -14,6 +14,7 @@ import jscl.math.Generic;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.jscl.JsclOperation;
+import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.calculator.model.ParseException;
 import org.solovyev.android.calculator.model.TextProcessor;
 import org.solovyev.android.view.AutoResizeTextView;
@@ -34,7 +35,7 @@ public class CalculatorDisplay extends AutoResizeTextView {
 	private JsclOperation jsclOperation = JsclOperation.numeric;
 
 	@NotNull
-	private final static TextProcessor<TextHighlighter.Result> textHighlighter = new TextHighlighter(Color.WHITE, true);
+	private final static TextProcessor<TextHighlighter.Result> textHighlighter = new TextHighlighter(Color.WHITE, true, CalculatorEngine.instance.getEngine());
 
 	@Nullable
 	private Generic genericResult;
