@@ -102,7 +102,14 @@
 	<string name="p_rad">Радианы</string>
 	<string name="p_grad">Грады</string>
 	<string name="p_turns">Обороты</string>
-	<string name="c_angle_units_summary">Определяет единицы измерения углов.</string>
+	<string name="c_angle_units_summary">Устанавливает единицы измерения углов.</string>
+
+	<string name="c_calc_numeral_bases">Системы счичления</string>
+	<string name="c_numeral_bases_summary">Устанавливает систему счисления для всех вводимых чисел.</string>
+	<string name="p_dec">Десятичная</string>
+	<string name="p_hex">Шестнадцатеричная</string>
+	<string name="p_oct">Восьмиричная</string>
+	<string name="p_bin">Бинарная</string>
 
 	<string name="c_calc_theme">Тема оформления</string>
 	<string name="p_default_theme">По умолчанию</string>
