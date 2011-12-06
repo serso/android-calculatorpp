@@ -277,4 +277,7 @@ e ^ i = 0.5403 + 0.84147i\n
 	<string name="msg_5">Для функции {0} не определены параметры</string>
 	<string name="msg_6">В выражении найден Бесконечный цикл - проверьте выражение</string>
 
+	<string name="c_swipe_distance">Длина свайпа для клавиш</string>
+	<string name="c_swipe_distance_summary">Устанавливает длину свайпа для клавиш которые поддерживают дополнительные действия по свайпу</string>
+
 </resources>
