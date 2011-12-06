@@ -338,7 +338,7 @@ public enum CalculatorEngine {
 	}
 
 	public void setDefaultAngleUnits(@NotNull AngleUnit angleUnits) {
-		getEngine().setDefaultAngleUnit(angleUnits);
+		getEngine().setAngleUnits(angleUnits);
 	}
 
 	// for tests only

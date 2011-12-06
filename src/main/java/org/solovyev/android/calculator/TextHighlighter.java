@@ -6,6 +6,7 @@
 
 package org.solovyev.android.calculator;
 
+import jscl.MathContext;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.NumberBuilder;
@@ -19,6 +20,9 @@ import org.solovyev.common.utils.MutableObject;
  * Time: 9:47 PM
  */
 public class TextHighlighter implements TextProcessor<TextHighlighter.Result> {
+
+	@NotNull
+	public final MathContext mathContext;
 
 	public static class Result implements CharSequence {
 
@@ -63,9 +67,10 @@ public class TextHighlighter implements TextProcessor<TextHighlighter.Result> {
 	private final int colorBlue;
 	private final boolean simpleFormat;
 
-	public TextHighlighter(int baseColor, boolean simpleFormat) {
+	public TextHighlighter(int baseColor, boolean simpleFormat, @NotNull MathContext mathContext) {
 		this.color = baseColor;
 		this.simpleFormat = simpleFormat;
+		this.mathContext = mathContext;
 		//this.colorRed = Color.red(baseColor);
 		this.colorRed = (baseColor >> 16) & 0xFF;
 		//this.colorGreen = Color.green(baseColor);
@@ -86,7 +91,7 @@ public class TextHighlighter implements TextProcessor<TextHighlighter.Result> {
 
 		int numberOffset = 0;
 
-		final NumberBuilder numberBuilder = new NumberBuilder(simpleFormat);
+		final NumberBuilder numberBuilder = new NumberBuilder(simpleFormat, mathContext.getNumeralBase());
 		for (int i = 0; i < text.length(); i++) {
 			MathType.Result mathType = MathType.getType(text, i);
 
