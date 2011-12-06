@@ -1,5 +1,7 @@
 package org.solovyev.android.calculator.model;
 
+import jscl.MathContext;
+import jscl.MathEngine;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.math.MathType;
@@ -15,11 +17,18 @@ import java.util.List;
 public class FromJsclSimplifyTextProcessor implements TextProcessor<String> {
 
 	@NotNull
+	private final MathContext mathContext;
+
+	public FromJsclSimplifyTextProcessor(@NotNull MathContext mathContext) {
+		this.mathContext = mathContext;
+	}
+
+	@NotNull
 	@Override
 	public String process(@NotNull String s) throws ParseException {
 		final StringBuilder sb = new StringBuilder();
 
-		final NumberBuilder numberBuilder = new NumberBuilder(true);
+		final NumberBuilder numberBuilder = new NumberBuilder(true, mathContext.getNumeralBase());
 		for (int i = 0; i < s.length(); i++) {
 			final MathType.Result mathTypeResult = MathType.getType(s, i);
 

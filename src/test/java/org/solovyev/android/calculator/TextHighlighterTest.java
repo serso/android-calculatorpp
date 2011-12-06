@@ -6,6 +6,7 @@
 
 package org.solovyev.android.calculator;
 
+import jscl.JsclMathEngine;
 import junit.framework.Assert;
 import org.junit.Test;
 import org.solovyev.android.calculator.model.TextProcessor;
@@ -22,7 +23,7 @@ public class TextHighlighterTest {
 
 	@Test
 	public void testProcess() throws Exception {
-		TextProcessor textHighlighter = new TextHighlighter(0, true);
+		TextProcessor textHighlighter = new TextHighlighter(0, true, JsclMathEngine.instance);
 
 		final Random random = new Random(new Date().getTime());
 		for (int i = 0; i < 1000; i++) {
@@ -44,14 +45,14 @@ public class TextHighlighterTest {
 		Assert.assertEquals("1 000 000", textHighlighter.process("1000000").toString());
 		Assert.assertEquals("1 000 000", textHighlighter.process("1000000").toString());
 
-		textHighlighter = new TextHighlighter(0, false);
+		textHighlighter = new TextHighlighter(0, false, JsclMathEngine.instance);
 		Assert.assertEquals("0.1E3", textHighlighter.process("0.1E3").toString());
 		Assert.assertEquals("1E3", textHighlighter.process("1E3").toString());
 		Assert.assertEquals("1 000 000E3", textHighlighter.process("1000000E3").toString());
 		Assert.assertEquals("-1 000 000E3", textHighlighter.process("-1000000E3").toString());
 		Assert.assertEquals("-1 000 000E-3", textHighlighter.process("-1000000E-3").toString());
 		Assert.assertEquals("-1 000 000E-30000", textHighlighter.process("-1000000E-30000").toString());
-		textHighlighter = new TextHighlighter(0, true);
+		textHighlighter = new TextHighlighter(0, true, JsclMathEngine.instance);
 
 		textHighlighter.process("cannot calculate 3^10^10 !!!\n" +
 				"        unable to enter 0. FIXED\n" +

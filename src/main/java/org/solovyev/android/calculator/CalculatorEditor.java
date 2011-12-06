@@ -7,15 +7,16 @@ package org.solovyev.android.calculator;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.os.Build;
 import android.text.Html;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.widget.EditText;
 import org.jetbrains.annotations.NotNull;
+import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.calculator.model.ParseException;
 import org.solovyev.android.calculator.model.TextProcessor;
+import org.solovyev.common.math.calculators.Calculator;
 
 /**
  * User: serso
@@ -27,7 +28,7 @@ public class CalculatorEditor extends EditText {
 	private boolean highlightText = true;
 
 	@NotNull
-	private final static TextProcessor<TextHighlighter.Result> textHighlighter = new TextHighlighter(Color.WHITE, false);
+	private final static TextProcessor<TextHighlighter.Result> textHighlighter = new TextHighlighter(Color.WHITE, false, CalculatorEngine.instance.getEngine());
 
 	public CalculatorEditor(Context context) {
 		super(context);
