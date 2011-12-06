@@ -30,6 +30,9 @@
 	<string name="p_calc_angle_units_key">org.solovyev.android.calculator.CalculatorActivity_angle_units</string>
 	<string name="p_calc_angle_units">deg</string>
 
+	<string name="p_calc_numeral_bases_key">org.solovyev.android.calculator.CalculatorActivity_numeral_bases</string>
+	<string name="p_calc_numeral_bases">dec</string>
+
 	<string name="p_calc_theme_key">org.solovyev.android.calculator.CalculatorActivity_calc_theme</string>
 	<string name="p_calc_theme">default_theme</string>
 

@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import jscl.AngleUnit;
 import jscl.JsclMathEngine;
 import jscl.MathEngine;
+import jscl.NumeralBase;
 import jscl.math.Generic;
 import jscl.math.function.Function;
 import jscl.math.operator.Operator;
@@ -48,8 +49,12 @@ public enum CalculatorEngine {
 	public static final String RESULT_PRECISION_P_KEY = "org.solovyev.android.calculator.CalculatorModel_result_precision";
 	public static final String RESULT_PRECISION_DEFAULT = "5";
 
+	public static final String NUMERAL_BASES_P_KEY = "org.solovyev.android.calculator.CalculatorActivity_numeral_bases";
+	public static final String NUMERAL_BASES_DEFAULT = "dec";
+
 	public static final String ANGLE_UNITS_P_KEY = "org.solovyev.android.calculator.CalculatorActivity_angle_units";
 	public static final String ANGLE_UNITS_DEFAULT = "deg";
+
 	public static final int DEFAULT_TIMEOUT = 3000;
 
 	@NotNull
@@ -285,7 +290,8 @@ public enum CalculatorEngine {
 				//noinspection ConstantConditions
 				this.setPrecision(integerNumberMapper.parseValue(preferences.getString(RESULT_PRECISION_P_KEY, RESULT_PRECISION_DEFAULT)));
 				this.setRoundResult(preferences.getBoolean(ROUND_RESULT_P_KEY, ROUND_RESULT_DEFAULT));
-				this.setDefaultAngleUnits(AngleUnit.valueOf(preferences.getString(ANGLE_UNITS_P_KEY, ANGLE_UNITS_DEFAULT)));
+				this.setAngleUnits(AngleUnit.valueOf(preferences.getString(ANGLE_UNITS_P_KEY, ANGLE_UNITS_DEFAULT)));
+				this.setNumeralBase(NumeralBase.valueOf(preferences.getString(NUMERAL_BASES_P_KEY, NUMERAL_BASES_DEFAULT)));
 
 				final String groupingSeparator = preferences.getString(GROUPING_SEPARATOR_P_KEY, GROUPING_SEPARATOR_DEFAULT);
 				if (StringUtils.isEmpty(groupingSeparator)) {
@@ -337,8 +343,12 @@ public enum CalculatorEngine {
 		this.timeout = timeout;
 	}
 
-	public void setDefaultAngleUnits(@NotNull AngleUnit angleUnits) {
+	public void setAngleUnits(@NotNull AngleUnit angleUnits) {
 		getEngine().setAngleUnits(angleUnits);
+	}
+
+	public void setNumeralBase(@NotNull NumeralBase numeralBase) {
+		getEngine().setNumeralBase(numeralBase);
 	}
 
 	// for tests only

@@ -29,6 +29,12 @@
 						a:summary="@string/c_angle_units_summary"
 						a:entryValues="@array/p_angle_units"/>
 
+		<ListPreference a:key="@string/p_calc_numeral_bases_key"
+						a:title="@string/c_calc_numeral_bases"
+						a:entries="@array/p_numeral_bases_names"
+						a:summary="@string/c_numeral_bases_summary"
+						a:entryValues="@array/p_numeral_bases"/>
+
 	</PreferenceCategory>
 
 
