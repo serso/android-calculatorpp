@@ -33,9 +33,9 @@ public class CalculatorPreferencesActivity extends PreferenceActivity implements
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
 		if (CalculatorEngine.ROUND_RESULT_P_KEY.equals(key)) {
-			findPreference(CalculatorEngine.RESULT_PRECISION_P_KEY).setEnabled(preferences.getBoolean(key, true));
+			findPreference(CalculatorEngine.RESULT_PRECISION_P_KEY).setEnabled(preferences.getBoolean(key, CalculatorEngine.ROUND_RESULT_DEFAULT));
 		} else if (VibratorContainer.HAPTIC_FEEDBACK_P_KEY.equals(key)) {
-			findPreference(VibratorContainer.HAPTIC_FEEDBACK_DURATION_P_KEY).setEnabled(preferences.getBoolean(key, true));
+			findPreference(VibratorContainer.HAPTIC_FEEDBACK_DURATION_P_KEY).setEnabled(preferences.getBoolean(key, VibratorContainer.HAPTIC_FEEDBACK_DEFAULT));
 		}
 	}
 }

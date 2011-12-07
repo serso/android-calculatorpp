@@ -136,7 +136,7 @@ public class MyXYSeries extends XYSeries {
 	 * @param x the value for the X axis
 	 * @param y the value for the Y axis
 	 */
-	public synchronized void add(double x, double y) {
+	public void add(double x, double y) {
 		boolean added = false;
 		for (int i = 0; i < mX.size(); i++ ) {
 			if ( mX.get(i) > x ) {
@@ -174,7 +174,7 @@ public class MyXYSeries extends XYSeries {
 	 *
 	 * @param index the index in the series of the value to remove
 	 */
-	public synchronized void remove(int index) {
+	public void remove(int index) {
 		double removedX = mX.remove(index);
 		double removedY = mY.remove(index);
 		if (removedX == mMinX || removedX == mMaxX || removedY == mMinY || removedY == mMaxY) {
@@ -185,7 +185,7 @@ public class MyXYSeries extends XYSeries {
 	/**
 	 * Removes all the existing values from the series.
 	 */
-	public synchronized void clear() {
+	public void clear() {
 		mX.clear();
 		mY.clear();
 		initRange();
@@ -197,7 +197,7 @@ public class MyXYSeries extends XYSeries {
 	 * @param index the index
 	 * @return the X value
 	 */
-	public synchronized double getX(int index) {
+	public double getX(int index) {
 		return mX.get(index);
 	}
 
@@ -207,7 +207,7 @@ public class MyXYSeries extends XYSeries {
 	 * @param index the index
 	 * @return the Y value
 	 */
-	public synchronized double getY(int index) {
+	public double getY(int index) {
 		return mY.get(index);
 	}
 
@@ -216,7 +216,7 @@ public class MyXYSeries extends XYSeries {
 	 *
 	 * @return the series item count
 	 */
-	public synchronized int getItemCount() {
+	public int getItemCount() {
 		return mX == null ? 0 : mX.size();
 	}
 

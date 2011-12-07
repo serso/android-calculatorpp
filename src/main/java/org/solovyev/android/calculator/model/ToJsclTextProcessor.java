@@ -22,16 +22,16 @@ class ToJsclTextProcessor implements TextProcessor<PreparedExpression> {
 
 	@Override
 	@NotNull
-	public PreparedExpression process(@NotNull String s) throws ParseException {
+	public PreparedExpression process(@NotNull String s) throws CalculatorParseException {
 		return processWithDepth(s, 0, new ArrayList<Var>());
 	}
 
-	private static PreparedExpression processWithDepth(@NotNull String s, int depth, @NotNull List<Var> undefinedVars) throws ParseException {
+	private static PreparedExpression processWithDepth(@NotNull String s, int depth, @NotNull List<Var> undefinedVars) throws CalculatorParseException {
 		return replaceVariables(processExpression(s).toString(), depth, undefinedVars);
 	}
 
 	@NotNull
-	private static StringBuilder processExpression(@NotNull String s) throws ParseException {
+	private static StringBuilder processExpression(@NotNull String s) throws CalculatorParseException {
 		final StartsWithFinder startsWithFinder = new StartsWithFinder(s, 0);
 		final StringBuilder result = new StringBuilder();
 
@@ -57,7 +57,7 @@ class ToJsclTextProcessor implements TextProcessor<PreparedExpression> {
 			if (mathTypeBefore != null &&
 					(mathTypeBefore.getMathType() == MathType.function || mathTypeBefore.getMathType() == MathType.operator) &&
 						CollectionsUtils.find(MathType.openGroupSymbols, startsWithFinder) != null) {
-				throw new ParseException(Messages.msg_5, i, s, mathTypeBefore.getMatch());
+				throw new CalculatorParseException(Messages.msg_5, i, s, mathTypeBefore.getMatch());
 			}
 
 			i = mathTypeResult.processToJscl(result, i);
@@ -66,9 +66,9 @@ class ToJsclTextProcessor implements TextProcessor<PreparedExpression> {
 	}
 
 	@NotNull
-	private static PreparedExpression replaceVariables(@NotNull final String s, int depth, @NotNull List<Var> undefinedVars) throws ParseException {
+	private static PreparedExpression replaceVariables(@NotNull final String s, int depth, @NotNull List<Var> undefinedVars) throws CalculatorParseException {
 		if (depth >= MAX_DEPTH) {
-			throw new ParseException(Messages.msg_6, s);
+			throw new CalculatorParseException(Messages.msg_6, s);
 		} else {
 			depth++;
 		}

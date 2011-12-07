@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.model.CalculatorEngine;
-import org.solovyev.android.calculator.model.ParseException;
+import org.solovyev.android.calculator.model.CalculatorParseException;
 import org.solovyev.android.calculator.model.TextProcessor;
 import org.solovyev.android.view.AutoResizeTextView;
 
@@ -97,7 +97,7 @@ public class CalculatorDisplay extends AutoResizeTextView {
 			try {
 				TextHighlighter.Result result = textHighlighter.process(text);
 				text = result.toString();
-			} catch (ParseException e) {
+			} catch (CalculatorParseException e) {
 				Log.e(this.getClass().getName(), e.getMessage(), e);
 			}
 

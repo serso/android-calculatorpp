@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.CalculatorEngine;
-import org.solovyev.android.calculator.model.ParseException;
+import org.solovyev.android.calculator.model.CalculatorParseException;
 import org.solovyev.android.calculator.model.TextProcessor;
 import org.solovyev.common.utils.StringUtils;
 
@@ -24,7 +24,7 @@ class FromJsclNumericTextProcessor implements TextProcessor<String> {
 
 	@NotNull
 	@Override
-	public String process(@NotNull String result) throws ParseException {
+	public String process(@NotNull String result) throws CalculatorParseException {
 		try {
 			final Double doubleValue = Double.valueOf(result);
 
@@ -39,7 +39,7 @@ class FromJsclNumericTextProcessor implements TextProcessor<String> {
 				result = createResultForComplexNumber(result.replace(MathType.IMAGINARY_NUMBER_JSCL, MathType.IMAGINARY_NUMBER));
 			} catch (NumberFormatException e1) {
 				// throw original one
-				throw new ParseException(new jscl.text.ParseException(Messages.msg_8, 0, result, result));
+				throw new CalculatorParseException(new jscl.text.ParseException(Messages.msg_8, 0, result, result));
 			}
 		}
 

@@ -14,9 +14,8 @@ import android.view.ContextMenu;
 import android.widget.EditText;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.model.CalculatorEngine;
-import org.solovyev.android.calculator.model.ParseException;
+import org.solovyev.android.calculator.model.CalculatorParseException;
 import org.solovyev.android.calculator.model.TextProcessor;
-import org.solovyev.common.math.calculators.Calculator;
 
 /**
  * User: serso
@@ -81,7 +80,7 @@ public class CalculatorEditor extends EditText {
 				selectionStart += result.getOffset();
 				selectionEnd += result.getOffset();
 				text = result.toString();
-			} catch (ParseException e) {
+			} catch (CalculatorParseException e) {
 				Log.e(this.getClass().getName(), e.getMessage(), e);
 			}
 

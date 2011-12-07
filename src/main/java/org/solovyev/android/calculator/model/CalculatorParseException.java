@@ -21,7 +21,7 @@ import java.util.Locale;
  * Date: 10/6/11
  * Time: 9:25 PM
  */
-public class ParseException extends SersoException implements Message {
+public class CalculatorParseException extends SersoException implements Message {
 
 	@NotNull
 	private final Message message;
@@ -32,19 +32,19 @@ public class ParseException extends SersoException implements Message {
 	@Nullable
 	private final Integer position;
 
-	public ParseException(@NotNull jscl.text.ParseException jsclParseException) {
+	public CalculatorParseException(@NotNull jscl.text.ParseException jsclParseException) {
 		this.message = jsclParseException;
 		this.expression = jsclParseException.getExpression();
 		this.position = jsclParseException.getPosition();
 	}
 
-	public ParseException(@NotNull String messageId, @Nullable Integer position, @NotNull String expression, Object... parameters) {
+	public CalculatorParseException(@NotNull String messageId, @Nullable Integer position, @NotNull String expression, Object... parameters) {
 		this.message = new AndroidMessage(messageId, MessageType.error, parameters);
 		this.expression = expression;
 		this.position = position;
 	}
 
-	public ParseException(@NotNull String messageId, @NotNull String expression, Object... parameters) {
+	public CalculatorParseException(@NotNull String messageId, @NotNull String expression, Object... parameters) {
 		this(messageId, null, expression, parameters);
 	}
 

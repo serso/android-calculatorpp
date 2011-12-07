@@ -10,5 +10,5 @@ import org.jetbrains.annotations.NotNull;
 public interface TextProcessor<T extends CharSequence> {
 
 	@NotNull
-	T process(@NotNull String s) throws ParseException;
+	T process(@NotNull String s) throws CalculatorParseException;
 }

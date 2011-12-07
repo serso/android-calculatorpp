@@ -39,7 +39,7 @@ public final class PlotUtils {
 								@NotNull MyXYSeries realSeries,
 								@NotNull MyXYSeries imagSeries,
 								boolean addExtra,
-								int numberOfSteps) {
+								int numberOfSteps) throws ArithmeticException {
 
 		boolean imagExists = false;
 

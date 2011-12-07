@@ -20,6 +20,7 @@ import org.solovyev.common.NumberMapper;
 public class VibratorContainer implements SharedPreferences.OnSharedPreferenceChangeListener {
 
 	public static final String HAPTIC_FEEDBACK_P_KEY = "org.solovyev.android.calculator.CalculatorModel_haptic_feedback";
+	public static final boolean HAPTIC_FEEDBACK_DEFAULT = false;
 	public static final String HAPTIC_FEEDBACK_DURATION_P_KEY = "org.solovyev.android.calculator.CalculatorActivity_calc_haptic_feedback_duration_key";
 
 	private final static NumberMapper<Long> mapper = new NumberMapper<Long>(Long.class);
@@ -50,7 +51,7 @@ public class VibratorContainer implements SharedPreferences.OnSharedPreferenceCh
 
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences preferences, @Nullable String key) {
-		if (preferences.getBoolean(HAPTIC_FEEDBACK_P_KEY, false)) {
+		if (preferences.getBoolean(HAPTIC_FEEDBACK_P_KEY, VibratorContainer.HAPTIC_FEEDBACK_DEFAULT)) {
 			//noinspection ConstantConditions
 			this.time = getScaledValue(mapper.parseValue(preferences.getString(HAPTIC_FEEDBACK_DURATION_P_KEY, mapper.formatValue(getScaledValue(defaultVibrationTime)))));
 		} else {
