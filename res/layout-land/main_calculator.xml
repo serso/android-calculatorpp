@@ -52,10 +52,12 @@
 					 a:layout_height="fill_parent"
 					 a:layout_weight="4"/>
 
-			<org.solovyev.android.view.widgets.ColorButton xmlns:a="http://schemas.android.com/apk/res/android"
+			<org.solovyev.android.view.widgets.NumeralBasesButton xmlns:a="http://schemas.android.com/apk/res/android"
 														   xmlns:calc="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
 														   a:id="@+id/clearButton"
+														   calc:textUp="dec"
 														   a:text="@string/c_clear"
+														   calc:textDown="bin"
 														   a:textStyle="bold"
 														   style="?controlImageButtonStyle"
 														   a:onClick="clearButtonClickHandler"
