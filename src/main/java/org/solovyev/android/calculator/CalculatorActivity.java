@@ -22,6 +22,7 @@ import android.view.*;
 import android.widget.EditText;
 import android.widget.TextView;
 import jscl.AngleUnit;
+import jscl.NumeralBase;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.math.MathType;
@@ -114,8 +115,14 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 		final AngleUnitsButton angleUnitsButton = (AngleUnitsButton) findViewById(R.id.sixDigitButton);
 		if (angleUnitsButton != null) {
-			final OnDragListener varsOnDragListener = new OnDragListenerVibrator(newOnDragListener(new AngleUnitsChanger(), dragPreferences), vibrator, preferences);
-			angleUnitsButton.setOnDragListener(varsOnDragListener);
+			final OnDragListener onDragListener = new OnDragListenerVibrator(newOnDragListener(new AngleUnitsChanger(), dragPreferences), vibrator, preferences);
+			angleUnitsButton.setOnDragListener(onDragListener);
+		}
+
+		final NumeralBasesButton numeralBasesButton = (NumeralBasesButton) findViewById(R.id.clearButton);
+		if (numeralBasesButton != null) {
+			final OnDragListener onDragListener = new OnDragListenerVibrator(newOnDragListener(new NumeralBasesChanger(), dragPreferences), vibrator, preferences);
+			numeralBasesButton.setOnDragListener(onDragListener);
 		}
 
 		final DragButton varsButton = (DragButton) findViewById(R.id.varsButton);
@@ -160,6 +167,39 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 			return result;
 		}
 	}
+
+	private class NumeralBasesChanger implements SimpleOnDragListener.DragProcessor {
+
+		@Override
+		public boolean processDragEvent(@NotNull DragDirection dragDirection,
+										@NotNull DragButton dragButton,
+										@NotNull Point2d startPoint2d,
+										@NotNull MotionEvent motionEvent) {
+			boolean result = false;
+
+			if ( dragButton instanceof NumeralBasesButton ) {
+				final String directionText = ((NumeralBasesButton) dragButton).getText(dragDirection);
+				if ( directionText != null ) {
+					try {
+
+						final NumeralBase numeralBase = NumeralBase.valueOf(directionText);
+
+						final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(CalculatorActivity.this);
+						final SharedPreferences.Editor editor = preferences.edit();
+						editor.putString(CalculatorEngine.NUMERAL_BASES_P_KEY, numeralBase.name());
+						editor.commit();
+
+						result = true;
+					} catch (IllegalArgumentException e) {
+						Log.d(this.getClass().getName(), "Unsupported numeral base: " + directionText);
+					}
+				}
+			}
+
+			return result;
+		}
+	}
+
 
 	private class VarsDragProcessor implements SimpleOnDragListener.DragProcessor {
 

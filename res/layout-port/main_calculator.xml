@@ -40,7 +40,7 @@
 			<include layout="@layout/calc_eight_digit_button"/>
 			<include layout="@layout/calc_nine_digit_button"/>
 			<include layout="@layout/calc_multiplication_button"/>
-			<include layout="@layout/calc_clear_button"/>
+			<include layout="@layout/calc_erase_button"/>
 
 		</LinearLayout>
 
@@ -50,7 +50,7 @@
 			<include layout="@layout/calc_five_digit_button"/>
 			<include layout="@layout/calc_six_digit_button"/>
 			<include layout="@layout/calc_division_button"/>
-			<include layout="@layout/calc_erase_button"/>
+			<include layout="@layout/calc_clear_button"/>
 
 		</LinearLayout>
 
