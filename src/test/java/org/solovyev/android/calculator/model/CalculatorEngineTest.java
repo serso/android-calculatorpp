@@ -6,6 +6,7 @@
 package org.solovyev.android.calculator.model;
 
 import jscl.AngleUnit;
+import jscl.NumeralBase;
 import jscl.math.Expression;
 import jscl.math.Generic;
 import jscl.math.function.Constant;
@@ -41,7 +42,7 @@ public class CalculatorEngineTest {
 		try {
 			cm.evaluate(JsclOperation.numeric, "3^10^10^10");
 			Assert.fail();
-		} catch (ParseException e) {
+		} catch (CalculatorParseException e) {
 			if (e.getMessageCode().equals(Messages.msg_3)) {
 
 			} else {
@@ -53,7 +54,7 @@ public class CalculatorEngineTest {
 		try {
 			cm.evaluate(JsclOperation.numeric, "9999999!");
 			Assert.fail();
-		} catch (ParseException e) {
+		} catch (CalculatorParseException e) {
 			if (e.getMessageCode().equals(Messages.msg_3)) {
 
 			} else {
@@ -136,7 +137,7 @@ public class CalculatorEngineTest {
 		try {
 			junit.framework.Assert.assertEquals("√(-1)!", cm.evaluate(JsclOperation.numeric, "i!").getResult());
 			fail();
-		} catch (ParseException e) {
+		} catch (CalculatorParseException e) {
 		}
 
 		junit.framework.Assert.assertEquals("1", cm.evaluate(JsclOperation.numeric, "(π/π)!").getResult());
@@ -144,7 +145,7 @@ public class CalculatorEngineTest {
 		try {
 			junit.framework.Assert.assertEquals("i", cm.evaluate(JsclOperation.numeric, "(-1)i!").getResult());
 			fail();
-		} catch (ParseException e) {
+		} catch (CalculatorParseException e) {
 
 		}
 		junit.framework.Assert.assertEquals("24i", cm.evaluate(JsclOperation.numeric, "4!i").getResult());
@@ -213,7 +214,7 @@ public class CalculatorEngineTest {
 	}
 
 	@Test
-	public void testI() throws ParseException {
+	public void testI() throws CalculatorParseException, CalculatorEvalException {
 		final CalculatorEngine cm = CalculatorEngine.instance;
 
 		Assert.assertEquals("-i", cm.evaluate(JsclOperation.numeric, "i^3").getResult());
@@ -243,13 +244,13 @@ public class CalculatorEngineTest {
 		try {
 			cm.evaluate(JsclOperation.numeric, "cos(cos(cos(cos(acos(acos(acos(acos(acos(acos(acos(acos(cos(cos(cos(cos(cosh(acos(cos(cos(cos(cos(cos(acos(acos(acos(acos(acos(acos(acos(acos(cos(cos(cos(cos(cosh(acos(cos())))))))))))))))))))))))))))))))))))))");
 			Assert.fail();
-		} catch (ParseException e) {
+		} catch (CalculatorParseException e) {
 		}
 		Assert.assertEquals("0.34+1.382i", cm.evaluate(JsclOperation.numeric, "ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(100)))))))))))))))").getResult());
 		try {
 			cm.evaluate(JsclOperation.numeric, "cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos())))))))))))))))))))))))))))))))))))");
 			Assert.fail();
-		} catch (ParseException e) {
+		} catch (CalculatorParseException e) {
 		}
 
 		final AngleUnit defaultAngleUnit = cm.getEngine().getAngleUnits();
@@ -266,7 +267,7 @@ public class CalculatorEngineTest {
 		try {
 			cm.evaluate(JsclOperation.numeric, "sin");
 			Assert.fail();
-		} catch (ParseException e) {
+		} catch (CalculatorParseException e) {
 		}
 	}
 
@@ -334,7 +335,7 @@ public class CalculatorEngineTest {
 			try {
 				Assert.assertEquals("0.017", cm.evaluate(JsclOperation.numeric, "°"));
 				fail();
-			} catch (ParseException e) {
+		} catch (CalculatorParseException e) {
 
 			}
 
@@ -345,12 +346,31 @@ public class CalculatorEngineTest {
 			try {
 				Assert.assertEquals("∂(cos(t), t, t,1°)", cm.evaluate(JsclOperation.numeric, "∂(cos(t),t,t,1°)").getResult());
 				fail();
-			} catch (ParseException e) {
+			} catch (CalculatorParseException e) {
 			}
 
 			Assert.assertEquals("∂(cos(t), t, t,1°)", cm.evaluate(JsclOperation.simplify, "∂(cos(t),t,t,1°)").getResult());
 		} finally {
 			cm.getEngine().setAngleUnits(defaultAngleUnit);
+		}
+	}
+
+	@Test
+	public void testNumeralSystems() throws Exception {
+		final CalculatorEngine cm = CalculatorEngine.instance;
+
+		final NumeralBase defaultNumeralBase = cm.getEngine().getNumeralBase();
+		try{
+			cm.getEngine().setNumeralBase(NumeralBase.bin);
+			Assert.assertEquals("101", cm.evaluate(JsclOperation.numeric, "10+11").getResult());
+			try {
+				cm.evaluate(JsclOperation.numeric, "10/11");
+				fail();
+			} catch (CalculatorParseException e) {
+				// ok
+			}
+		} finally {
+			cm.setNumeralBase(defaultNumeralBase);
 		}
 	}
 }

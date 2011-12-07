@@ -1,7 +1,6 @@
 package org.solovyev.android.calculator.model;
 
 import jscl.MathContext;
-import jscl.MathEngine;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.math.MathType;
@@ -25,7 +24,7 @@ public class FromJsclSimplifyTextProcessor implements TextProcessor<String> {
 
 	@NotNull
 	@Override
-	public String process(@NotNull String s) throws ParseException {
+	public String process(@NotNull String s) throws CalculatorParseException {
 		final StringBuilder sb = new StringBuilder();
 
 		final NumberBuilder numberBuilder = new NumberBuilder(true, mathContext.getNumeralBase());

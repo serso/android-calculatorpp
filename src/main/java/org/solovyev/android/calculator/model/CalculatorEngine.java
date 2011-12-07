@@ -7,10 +7,7 @@ package org.solovyev.android.calculator.model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import jscl.AngleUnit;
-import jscl.JsclMathEngine;
-import jscl.MathEngine;
-import jscl.NumeralBase;
+import jscl.*;
 import jscl.math.Generic;
 import jscl.math.function.Function;
 import jscl.math.operator.Operator;
@@ -157,13 +154,13 @@ public enum CalculatorEngine {
 	}
 
 	public Result evaluate(@NotNull JsclOperation operation,
-						   @NotNull String expression) throws ParseException {
+						   @NotNull String expression) throws CalculatorParseException, CalculatorEvalException {
 		return evaluate(operation, expression, null);
 	}
 
 	public Result evaluate(@NotNull JsclOperation operation,
 						   @NotNull String expression,
-						   @Nullable MessageRegistry mr) throws ParseException {
+						   @Nullable MessageRegistry mr) throws CalculatorParseException, CalculatorEvalException {
 		synchronized (lock) {
 			final StringBuilder sb = new StringBuilder();
 
@@ -189,9 +186,9 @@ public enum CalculatorEngine {
 			final String jsclExpression = sb.toString();
 			final JsclOperation finalOperation = operation;
 
-			final String result;
 			final MutableObject<Generic> calculationResult = new MutableObject<Generic>(null);
-			final MutableObject<ParseException> exception = new MutableObject<ParseException>(null);
+			final MutableObject<CalculatorParseException> parseException = new MutableObject<CalculatorParseException>(null);
+			final MutableObject<CalculatorEvalException> evalException = new MutableObject<CalculatorEvalException>(null);
 			final MutableObject<Thread> calculationThread = new MutableObject<Thread>(null);
 
 			final CountDownLatch latch = new CountDownLatch(1);
@@ -204,16 +201,23 @@ public enum CalculatorEngine {
 						//Log.d(CalculatorEngine.class.getName(), "Calculation thread started work: " + thread.getName());
 						//System.out.println(jsclExpression);
 						calculationThread.setObject(thread);
-						calculationResult.setObject(finalOperation.evaluateGeneric(jsclExpression));
+						final Generic genericResult = finalOperation.evaluateGeneric(jsclExpression);
+
+						// NOTE: toString() method must be called here as ArithmeticOperationException may occur in it (just to avoid later check!)
+						genericResult.toString();
+
+						calculationResult.setObject(genericResult);
+					} catch (AbstractJsclArithmeticException e) {
+						evalException.setObject(new CalculatorEvalException(e, jsclExpression));
 					} catch (ArithmeticException e) {
 						//System.out.println(e.getMessage());
-						exception.setObject(new ParseException(Messages.msg_1, jsclExpression, e.getMessage()));
+						parseException.setObject(new CalculatorParseException(Messages.msg_1, jsclExpression, e.getMessage()));
 					} catch (StackOverflowError e) {
 						//System.out.println(StringUtils.fromStackTrace(e.getStackTrace()));
-						exception.setObject(new ParseException(Messages.msg_2, jsclExpression));
+						parseException.setObject(new CalculatorParseException(Messages.msg_2, jsclExpression));
 					} catch (jscl.text.ParseException e) {
 						//System.out.println(e.getMessage());
-						exception.setObject(new ParseException(e));
+						parseException.setObject(new CalculatorParseException(e));
 					} catch (ParseInterruptedException e) {
 						//System.out.println(e.getMessage());
 						// do nothing - we ourselves interrupt the calculations
@@ -230,7 +234,8 @@ public enum CalculatorEngine {
 				latch.await(timeout, TimeUnit.MILLISECONDS);
 				//Log.d(CalculatorEngine.class.getName(), "Main thread got up: " + Thread.currentThread().getName());
 
-				final ParseException evalErrorLocal = exception.getObject();
+				final CalculatorParseException parseExceptionObject = parseException.getObject();
+				final CalculatorEvalException evalExceptionObject = evalException.getObject();
 				final Object calculationResultLocal = calculationResult.getObject();
 				final Thread calculationThreadLocal = calculationThread.getObject();
 
@@ -240,19 +245,24 @@ public enum CalculatorEngine {
 					//calculationThreadLocal.stop();
 				}
 
-				if (evalErrorLocal != null) {
+				if (parseExceptionObject != null || evalExceptionObject != null) {
 					if (finalOperation == JsclOperation.numeric && preparedExpression.isExistsUndefinedVar()) {
 						return evaluate(JsclOperation.simplify, expression, mr);
 					}
-					throw evalErrorLocal;
+
+					if (parseExceptionObject != null) {
+						throw parseExceptionObject;
+					} else {
+						throw evalExceptionObject;
+					}
 				}
 
 				if (calculationResultLocal == null) {
-					throw new ParseException(Messages.msg_3, jsclExpression);
+					throw new CalculatorParseException(Messages.msg_3, jsclExpression);
 				}
 
 			} catch (InterruptedException e) {
-				throw new ParseException(Messages.msg_4, jsclExpression);
+				throw new CalculatorParseException(Messages.msg_4, jsclExpression);
 			}
 
 			final Generic genericResult = calculationResult.getObject();

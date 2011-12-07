@@ -10,7 +10,7 @@ import jscl.MathContext;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.NumberBuilder;
-import org.solovyev.android.calculator.model.ParseException;
+import org.solovyev.android.calculator.model.CalculatorParseException;
 import org.solovyev.android.calculator.model.TextProcessor;
 import org.solovyev.common.utils.MutableObject;
 
@@ -81,7 +81,7 @@ public class TextHighlighter implements TextProcessor<TextHighlighter.Result> {
 
 	@NotNull
 	@Override
-	public Result process(@NotNull String text) throws ParseException {
+	public Result process(@NotNull String text) throws CalculatorParseException {
 		final String result;
 
 		int maxNumberOfOpenGroupSymbols = 0;

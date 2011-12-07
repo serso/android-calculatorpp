@@ -12,7 +12,6 @@ import android.graphics.Paint;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.model.CalculatorEngine;
 
@@ -27,21 +26,18 @@ public class AngleUnitsButton extends DirectionDragButton {
 		super(context, attrs);
 	}
 
-	@Nullable
 	@Override
-	protected TextPaint initUpDownTextPaint(@Nullable Paint paint, @NotNull DragDirection direction) {
-		final TextPaint result = super.initUpDownTextPaint(paint, direction);
+	protected void initDirectionTextPaint(@NotNull Paint basePaint,
+										  @NotNull DirectionTextData directionTextData,
+										  @NotNull Resources resources) {
+		super.initDirectionTextPaint(basePaint, directionTextData, resources);
 
-		if (result != null) {
-			final Resources resources = getResources();
-			if ( CalculatorEngine.instance.getEngine().getAngleUnits().name().equals(getDirectionText(direction)) ) {
-				result.setColor(resources.getColor(R.color.selected_angle_unit_text_color));
-			} else {
-				result.setColor(resources.getColor(R.color.default_text_color));
-				result.setAlpha(getDefaultDirectionTextAlpha());
-			}
+		final TextPaint directionTextPaint = directionTextData.getPaint();
+		if (CalculatorEngine.instance.getEngine().getAngleUnits().name().equals(directionTextData.getText())) {
+			directionTextPaint.setColor(resources.getColor(R.color.selected_angle_unit_text_color));
+		} else {
+			directionTextPaint.setColor(resources.getColor(R.color.default_text_color));
+			directionTextPaint.setAlpha(getDefaultDirectionTextAlpha());
 		}
-
-		return result;
 	}
 }
