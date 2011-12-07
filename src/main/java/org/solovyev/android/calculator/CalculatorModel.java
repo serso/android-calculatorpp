@@ -25,11 +25,13 @@ import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.CalculatorEngine;
-import org.solovyev.android.calculator.model.ParseException;
+import org.solovyev.android.calculator.model.CalculatorEvalException;
+import org.solovyev.android.calculator.model.CalculatorParseException;
 import org.solovyev.android.calculator.model.Var;
 import org.solovyev.android.view.CursorControl;
 import org.solovyev.android.view.HistoryControl;
 import org.solovyev.common.BooleanMapper;
+import org.solovyev.common.msg.Message;
 import org.solovyev.common.utils.CollectionsUtils;
 import org.solovyev.common.utils.MutableObject;
 import org.solovyev.common.utils.StringUtils;
@@ -235,7 +237,9 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 				}
 				display.setJsclOperation(result.getUserOperation());
 				display.setGenericResult(result.getGenericResult());
-			} catch (ParseException e) {
+			} catch (CalculatorParseException e) {
+				handleEvaluationException(expression, display, operation, e);
+			} catch (CalculatorEvalException e) {
 				handleEvaluationException(expression, display, operation, e);
 			}
 		} else {
@@ -252,8 +256,8 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 	private void handleEvaluationException(@NotNull String expression,
 										   @NotNull CalculatorDisplay localDisplay,
 										   @NotNull JsclOperation operation,
-										   @NotNull ParseException e) {
-		Log.d(CalculatorModel.class.getName(), "Evaluation failed for : " + expression + ". Error message: " + e.getMessage());
+										   @NotNull Message e) {
+		Log.d(CalculatorModel.class.getName(), "Evaluation failed for : " + expression + ". Error message: " + e);
 		localDisplay.setText(R.string.c_syntax_error);
 		localDisplay.setJsclOperation(operation);
 		localDisplay.setGenericResult(null);

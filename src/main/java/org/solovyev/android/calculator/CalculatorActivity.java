@@ -139,7 +139,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 			boolean result = false;
 
 			if ( dragButton instanceof AngleUnitsButton ) {
-				final String directionText = ((AngleUnitsButton) dragButton).getDirectionText(dragDirection);
+				final String directionText = ((AngleUnitsButton) dragButton).getText(dragDirection);
 				if ( directionText != null ) {
 					try {
 
@@ -508,7 +508,8 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		if (CalculatorEngine.GROUPING_SEPARATOR_P_KEY.equals(key) ||
 				CalculatorEngine.ROUND_RESULT_P_KEY.equals(key) ||
 					CalculatorEngine.RESULT_PRECISION_P_KEY.equals(key) ||
-						CalculatorEngine.ANGLE_UNITS_P_KEY.equals(key)) {
+						CalculatorEngine.ANGLE_UNITS_P_KEY.equals(key) ||
+							CalculatorEngine.NUMERAL_BASES_P_KEY.equals(key)) {
 			CalculatorEngine.instance.reset(this, preferences);
 			this.calculatorModel.evaluate();
 		}

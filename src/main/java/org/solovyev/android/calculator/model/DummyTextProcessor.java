@@ -19,7 +19,7 @@ public enum DummyTextProcessor implements TextProcessor<String> {
 
 	@NotNull
 	@Override
-	public String process(@NotNull String s) throws ParseException {
+	public String process(@NotNull String s) throws CalculatorParseException {
 		return s;
 	}
 }

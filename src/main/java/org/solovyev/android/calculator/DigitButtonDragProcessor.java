@@ -30,7 +30,7 @@ public class DigitButtonDragProcessor implements SimpleOnDragListener.DragProces
 	@Override
 	public boolean processDragEvent(@NotNull DragDirection dragDirection, @NotNull DragButton dragButton, @NotNull Point2d startPoint2d, @NotNull MotionEvent motionEvent) {
 		assert dragButton instanceof DirectionDragButton;
-		calculatorModel.processDigitButtonAction(((DirectionDragButton) dragButton).getDirectionText(dragDirection));
+		calculatorModel.processDigitButtonAction(((DirectionDragButton) dragButton).getText(dragDirection));
 		return true;
 	}
 

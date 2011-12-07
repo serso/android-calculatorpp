@@ -23,7 +23,7 @@ public class ToJsclTextProcessorTest {
 	}
 
 	@Test
-	public void testSpecialCases() throws ParseException {
+	public void testSpecialCases() throws CalculatorParseException {
 		final ToJsclTextProcessor preprocessor = new ToJsclTextProcessor();
 		Assert.assertEquals( "3^E10", preprocessor.process("3^E10").toString());
 	}
@@ -62,30 +62,30 @@ public class ToJsclTextProcessorTest {
 		try {
 			preprocessor.process("ln()");
 			Assert.fail();
-		} catch (ParseException e) {
+		} catch (CalculatorParseException e) {
 		}
 		try {
 			preprocessor.process("ln()ln()");
 			Assert.fail();
-		} catch (ParseException e) {
+		} catch (CalculatorParseException e) {
 		}
 
 		try {
 			preprocessor.process("eln()eln()ln()ln()ln()e");
 			Assert.fail();
-		} catch (ParseException e) {
+		} catch (CalculatorParseException e) {
 		}
 
 		try {
 			preprocessor.process("ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln()))))))))))))))");
 			Assert.fail();
-		} catch (ParseException e) {
+		} catch (CalculatorParseException e) {
 		}
 
 		try {
 			preprocessor.process("cos(cos(cos(cos(acos(acos(acos(acos(acos(acos(acos(acos(cos(cos(cos(cos(cosh(acos(cos(cos(cos(cos(cos(acos(acos(acos(acos(acos(acos(acos(acos(cos(cos(cos(cos(cosh(acos(cos())))))))))))))))))))))))))))))))))))))");
 			Assert.fail();
-		} catch (ParseException e) {
+		} catch (CalculatorParseException e) {
 		}
 	}
 

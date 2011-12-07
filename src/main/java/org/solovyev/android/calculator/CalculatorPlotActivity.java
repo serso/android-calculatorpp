@@ -46,7 +46,7 @@ import java.io.Serializable;
  */
 public class CalculatorPlotActivity extends Activity {
 
-	private static final int DEFAULT_NUMBER_OF_STEPS = 200;
+	private static final int DEFAULT_NUMBER_OF_STEPS = 100;
 
 	private static final int DEFAULT_MIN_NUMBER = -10;
 
@@ -54,7 +54,7 @@ public class CalculatorPlotActivity extends Activity {
 
 	public static final String INPUT = "org.solovyev.android.calculator.CalculatorPlotActivity_input";
 
-	public static final long EVAL_DELAY_MILLIS = 200;
+	public static final long EVAL_DELAY_MILLIS = 400;
 
 	private XYChart chart;
 
@@ -165,7 +165,7 @@ public class CalculatorPlotActivity extends Activity {
 		});
 		graphContainer.addView(graphicalView);
 
-		updateDataSets(chart, 100);
+		updateDataSets(chart, 50);
 	}
 
 
@@ -277,14 +277,6 @@ public class CalculatorPlotActivity extends Activity {
 		private final double yMin;
 		private final double yMax;
 
-
-		public PlotBoundaries(double xMin, double xMax, double yMin, double yMax) {
-			this.xMin = xMin;
-			this.xMax = xMax;
-			this.yMin = yMin;
-			this.yMax = yMax;
-		}
-
 		public PlotBoundaries(@NotNull XYMultipleSeriesRenderer renderer) {
 			this.xMin = renderer.getXAxisMin();
 			this.yMin = renderer.getYAxisMin();
@@ -300,41 +292,6 @@ public class CalculatorPlotActivity extends Activity {
 					", xMax=" + xMax +
 					", xMin=" + xMin +
 					'}';
-		}
-	}
-
-	private static final class Point implements Serializable {
-		/**
-		 * The X axis coordinate value.
-		 */
-		private double x;
-		/**
-		 * The Y axis coordinate value.
-		 */
-		private double  y;
-
-		public Point() {
-		}
-
-		public Point(double  x, double  y) {
-			this.x = x;
-			this.y = y;
-		}
-
-		public double  getX() {
-			return x;
-		}
-
-		public double  getY() {
-			return y;
-		}
-
-		public void setX(double  x) {
-			this.x = x;
-		}
-
-		public void setY(double  y) {
-			this.y = y;
 		}
 	}
 
