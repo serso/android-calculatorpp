@@ -29,25 +29,50 @@ public class DirectionDragButton extends DragButton {
 	private final static Float DEFAULT_DIRECTION_TEXT_SCALE = 0.33f;
 
 	@Nullable
-	private String textUp;
-
-	@Nullable
-	private String textDown;
-
-	@Nullable
 	private String textMiddle;
 
-	@NotNull
-	private Point2d textUpPosition;
+	private static class DirectionTextData {
 
-	@NotNull
-	private Point2d textDownPosition;
+		@NotNull
+		private String text;
 
-	@NotNull
-	private TextPaint upTextPaint;
+		@NotNull
+		private Point2d position;
 
-	@NotNull
-	private TextPaint downTextPaint;
+		@NotNull
+		private TextPaint paint;
+
+		private DirectionTextData(@NotNull String text) {
+			this.text = text;
+		}
+
+		@NotNull
+		public String getText() {
+			return text;
+		}
+
+		public void setText(@NotNull String text) {
+			this.text = text;
+		}
+
+		@NotNull
+		public Point2d getPosition() {
+			return position;
+		}
+
+		public void setPosition(@NotNull Point2d position) {
+			this.position = position;
+		}
+
+		@NotNull
+		public TextPaint getPaint() {
+			return paint;
+		}
+
+		public void setPaint(@NotNull TextPaint paint) {
+			this.paint = paint;
+		}
+	}
 
 	@Nullable
 	private Float directionTextScale = DEFAULT_DIRECTION_TEXT_SCALE;
