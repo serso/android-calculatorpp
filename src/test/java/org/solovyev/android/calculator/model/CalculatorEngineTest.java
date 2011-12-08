@@ -366,7 +366,7 @@ public class CalculatorEngineTest {
 			try {
 				cm.evaluate(JsclOperation.numeric, "10/11");
 				fail();
-			} catch (CalculatorParseException e) {
+			} catch (CalculatorEvalException e) {
 				// ok
 			}
 		} finally {
