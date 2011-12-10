@@ -6,6 +6,7 @@
 package org.solovyev.android.calculator;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.text.Html;
 import android.util.AttributeSet;
@@ -22,7 +23,10 @@ import org.solovyev.android.calculator.model.TextProcessor;
  * Date: 9/17/11
  * Time: 12:25 AM
  */
-public class CalculatorEditor extends EditText {
+public class CalculatorEditor extends EditText implements SharedPreferences.OnSharedPreferenceChangeListener {
+
+	private static final String CALC_COLOR_DISPLAY_KEY = "org.solovyev.android.calculator.CalculatorModel_color_display";
+	private static final boolean CALC_COLOR_DISPLAY_DEFAULT = true;
 
 	private boolean highlightText = true;
 
@@ -103,5 +107,16 @@ public class CalculatorEditor extends EditText {
 	public void setHighlightText(boolean highlightText) {
 		this.highlightText = highlightText;
 		redraw();
+	}
+
+	@Override
+	public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
+		if (CALC_COLOR_DISPLAY_KEY.equals(key)) {
+			this.setHighlightText(preferences.getBoolean(CALC_COLOR_DISPLAY_KEY, CALC_COLOR_DISPLAY_DEFAULT));
+		}
+	}
+
+	public void init(@NotNull SharedPreferences preferences) {
+		onSharedPreferenceChanged(preferences, CALC_COLOR_DISPLAY_KEY);
 	}
 }
