@@ -43,7 +43,6 @@
 
 	<string name="c_undo">annulla</string>
 	<string name="c_redo">rifai</string>
-	<string name="c_clear">CE</string>
 	<string name="c_erase">cancella</string>
 	<string name="c_paste">incolla</string>
 	<string name="c_vars">vars</string>
@@ -255,7 +254,7 @@ Controlla l\'opzione \'Arrotonda risultato\' nelle impostazioni dell\'applicazio
 2. Utilizza = (nell\'angolo in alto a destra del pulsante = ) per semplificare l\'espressione\n\n
 3. Basta fare click sul risultato per copiarlo negli appunti\n\n
 4. Usa raramente il pulsante =  - il risultato è calcolato in tempo reale\n\n
-4. Aggiungi costanti per i valori usati spesso (è possibile salvare anche le espressioni)\n\n
+5. Aggiungi costanti per i valori usati spesso (è possibile salvare anche le espressioni)\n\n
 	</string>
 
 	<string name="c_screens_content">

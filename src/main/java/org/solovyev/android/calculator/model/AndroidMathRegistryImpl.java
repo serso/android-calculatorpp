@@ -9,8 +9,7 @@ package org.solovyev.android.calculator.model;
 import android.content.Context;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.R;
-import org.solovyev.android.calculator.RClassUtils;
+import org.solovyev.android.view.prefs.ResourceCache;
 import org.solovyev.common.definitions.IBuilder;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.math.MathRegistry;
@@ -42,27 +41,17 @@ public abstract class AndroidMathRegistryImpl<T extends MathEntity> implements A
 	@Nullable
 	@Override
 	public String getDescription(@NotNull Context context, @NotNull String name) {
-		final String result;
-
-		final Map<String, Integer> stringsCache = RClassUtils.getCache(R.string.class);
-
-		final Integer stringId;
+		final String stringName;
 
 		final Map<String, String> substitutes = getSubstitutes();
 		final String substitute = substitutes.get(name);
 		if (substitute == null) {
-			stringId = stringsCache.get(prefix + name);
+			stringName = prefix + name;
 		} else {
-			stringId = stringsCache.get(prefix + substitute);
+			stringName = prefix + substitute;
 		}
 
-		if (stringId != null) {
-			result = context.getString(stringId);
-		} else {
-			result = null;
-		}
-
-		return result;
+		return ResourceCache.instance.getCaption(stringName);
 	}
 
 	@NotNull

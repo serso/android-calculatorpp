@@ -30,7 +30,6 @@ import org.solovyev.android.calculator.model.CalculatorParseException;
 import org.solovyev.android.calculator.model.Var;
 import org.solovyev.android.view.CursorControl;
 import org.solovyev.android.view.HistoryControl;
-import org.solovyev.common.BooleanMapper;
 import org.solovyev.common.msg.Message;
 import org.solovyev.common.utils.CollectionsUtils;
 import org.solovyev.common.utils.MutableObject;
@@ -66,10 +65,8 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 		this.calculatorEngine = calculator;
 
 		this.editor = (CalculatorEditor) activity.findViewById(R.id.calculatorEditor);
-
-		final Boolean colorExpressionsInBracketsDefault = new BooleanMapper().parseValue(activity.getString(R.string.p_calc_color_display));
-		assert colorExpressionsInBracketsDefault != null;
-		this.editor.setHighlightText(preferences.getBoolean(activity.getString(R.string.p_calc_color_display_key), colorExpressionsInBracketsDefault));
+		this.editor.init(preferences);
+		preferences.registerOnSharedPreferenceChangeListener(editor);
 
 		this.display = (CalculatorDisplay) activity.findViewById(R.id.calculatorDisplay);
 		this.display.setOnClickListener(new CalculatorDisplayOnClickListener(activity));
@@ -382,11 +379,6 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 
 	private CalculatorDisplayHistoryState getCalculatorDisplayHistoryState(@NotNull CalculatorDisplay display) {
 		return CalculatorDisplayHistoryState.newInstance(display);
-	}
-
-	@NotNull
-	public CalculatorEditor getEditor() {
-		return editor;
 	}
 
 	@NotNull

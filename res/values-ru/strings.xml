@@ -29,7 +29,8 @@
 		Если вы хотите поддержать проект материально\nвы можете сделать это через \n<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=se%2esolovyev%40gmail%2ecom&amp;lc=RU&amp;item_name=Android%20Calculator&amp;currency_code=USD&amp;bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted">http://paypal.com</a>\n\n
 		Если вам понравилось приложение -\nпоставьте 5 звёздочек в\n<a href="https://market.android.com/details?id=org.solovyev.android.calculator">андроид.маркете</a>\n\n
 		Спасибо тем, кто переводил Калькулятор++:\n
-		на итальянский - Gabriele Ravanetti\n\n
+		на итальянский - Gabriele Ravanetti\n
+		на испанский - Jordi Luna\т\n
 		Это приложение использует следующие открытые библиотеки:\n
 		<a href="http://simple.sourceforge.net">Simple (XML serialization)</a>\n
 		<a href="http://meditorworld.appspot.com/meditor.txt">JSCL</a>\n
@@ -104,7 +105,7 @@
 	<string name="p_turns">Обороты</string>
 	<string name="c_angle_units_summary">Устанавливает единицы измерения углов.</string>
 
-	<string name="c_calc_numeral_bases">Системы счичления</string>
+	<string name="c_calc_numeral_bases">Системы счисления</string>
 	<string name="c_numeral_bases_summary">Устанавливает систему счисления для всех вводимых чисел.</string>
 	<string name="p_dec">Десятичная</string>
 	<string name="p_hex">Шестнадцатеричная</string>
@@ -264,8 +265,8 @@ e ^ i = 0.5403 + 0.84147i\n
 2. Используйте ≡ (в верхнем правом углу кнопки =) для упрощения выражения.\n\n
 3. Нажмите на результат для того, чтобы скопировать его в буфер обмена.\n\n
 4. Используйте кнопку = реже - результат вычисляется на лету.\n\n
-4. Создайте константы для часто используемых значений (таким образом вы можете даже сохранять выражения).
-5. Используйте переменные расположенные на 4 и 5 клавише.\n\n
+5. Создайте константы для часто используемых значений (таким образом вы можете даже сохранять выражения).
+6. Используйте переменные расположенные на 4 и 5 клавише.\n\n
 	</string>
 
 	<string name="c_screens_content">
