@@ -30,7 +30,6 @@ import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.view.FontSizeAdjuster;
 import org.solovyev.android.view.prefs.ResourceCache;
 import org.solovyev.android.view.widgets.*;
-import org.solovyev.common.BooleanMapper;
 import org.solovyev.common.utils.Announcer;
 import org.solovyev.common.utils.Point2d;
 import org.solovyev.common.utils.history.HistoryAction;
@@ -288,7 +287,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 
 	private synchronized void setLayout(@NotNull SharedPreferences preferences) {
-		final Map<String, Integer> layouts = RClassUtils.getCache(R.layout.class);
+		final Map<String, Integer> layouts = ResourceCache.instance.getNameToIdCache(R.layout.class);
 
 		layoutName = preferences.getString(getString(R.string.p_calc_layout_key), getString(R.string.p_calc_layout));
 
@@ -304,7 +303,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	}
 
 	private synchronized void setTheme(@NotNull SharedPreferences preferences) {
-		final Map<String, Integer> styles = RClassUtils.getCache(R.style.class);
+		final Map<String, Integer> styles = ResourceCache.instance.getNameToIdCache(R.style.class);
 
 		themeName = preferences.getString(getString(R.string.p_calc_theme_key), getString(R.string.p_calc_theme));
 
@@ -553,9 +552,5 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 			CalculatorEngine.instance.reset(this, preferences);
 			this.calculatorModel.evaluate();
 		}
-
-		final Boolean colorExpressionsInBracketsDefault = new BooleanMapper().parseValue(this.getString(R.string.p_calc_color_display));
-		assert colorExpressionsInBracketsDefault != null;
-		this.calculatorModel.getEditor().setHighlightText(preferences.getBoolean(this.getString(R.string.p_calc_color_display_key), colorExpressionsInBracketsDefault));
 	}
 }

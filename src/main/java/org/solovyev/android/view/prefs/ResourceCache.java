@@ -30,6 +30,9 @@ public enum ResourceCache {
 
 	instance;
 
+	@NotNull
+	private static final Locale DEFAULT_LOCALE = Locale.ENGLISH;
+
 	// ids of drag buttons in R.class
 	private List<Integer> dragButtonIds = null;
 
@@ -44,6 +47,9 @@ public enum ResourceCache {
 
 	private Context context;
 
+	@NotNull
+	private final NameToIdCache nameToIdCache = new NameToIdCache();
+
 	public List<Integer> getDragButtonIds() {
 		return dragButtonIds;
 	}
@@ -54,7 +60,8 @@ public enum ResourceCache {
 
 	/**
 	 * Method load captions for default locale using android R class
-	 * @param context STATIC CONTEXT
+	 *
+	 * @param context	   STATIC CONTEXT
 	 * @param resourceClass class of captions in android (SUBCLASS of R class)
 	 */
 	public void initCaptions(@NotNull Context context, @NotNull Class<?> resourceClass) {
@@ -63,9 +70,10 @@ public enum ResourceCache {
 
 	/**
 	 * Method load captions for specified locale using android R class
-	 * @param context STATIC CONTEXT
+	 *
+	 * @param context	   STATIC CONTEXT
 	 * @param resourceClass class of captions in android (SUBCLASS of R class)
-	 * @param locale language to be used for translation
+	 * @param locale		language to be used for translation
 	 */
 	public void initCaptions(@NotNull Context context, @NotNull Class<?> resourceClass, @NotNull Locale locale) {
 		assert this.resourceClass == null || this.resourceClass.equals(resourceClass);
@@ -84,6 +92,8 @@ public enum ResourceCache {
 						captionsByLanguage.put(field.getName(), context.getString(captionId));
 					} catch (IllegalAccessException e) {
 						Log.e(ResourceCache.class.getName(), e.getMessage());
+					} catch (Resources.NotFoundException e) {
+						Log.e(ResourceCache.class.getName(), "Caption with name " + field.getName() + " was not found for " + locale.getLanguage() + " language: " + e.getMessage());
 					}
 				}
 			}
@@ -107,15 +117,15 @@ public enum ResourceCache {
 
 
 	/**
-	 * @param captionId  id of caption to be translated
-	 * @param locale language to be used for translation
+	 * @param captionId id of caption to be translated
+	 * @param locale	language to be used for translation
 	 * @return translation by caption id in specified language, null if no translation in specified language present
 	 */
 	@Nullable
 	public String getCaption(@NotNull String captionId, @NotNull final Locale locale) {
 		Map<String, String> captionsByLanguage = captions.get(locale.getLanguage());
 		if (captionsByLanguage != null) {
-			return captionsByLanguage.get(captionId);
+			return getCaption(captionsByLanguage, captionId, locale);
 		} else {
 			assert resourceClass != null && context != null;
 
@@ -123,11 +133,20 @@ public enum ResourceCache {
 
 			captionsByLanguage = captions.get(locale.getLanguage());
 			if (captionsByLanguage != null) {
-				return captionsByLanguage.get(captionId);
+				return getCaption(captionsByLanguage, captionId, locale);
 			}
 		}
 
 		return null;
+	}
+
+	@Nullable
+	private String getCaption(@NotNull Map<String, String> captionsByLanguage, @NotNull String captionId, @NotNull Locale locale) {
+		String result = captionsByLanguage.get(captionId);
+		if (result == null && !locale.getLanguage().equals(DEFAULT_LOCALE.getLanguage())) {
+			result = getCaption(captionId, DEFAULT_LOCALE);
+		}
+		return result;
 	}
 
 	public void init(@NotNull Class<?> resourceClass, @NotNull Activity activity) {
@@ -152,4 +171,44 @@ public enum ResourceCache {
 			}
 		}
 	}
+
+	@NotNull
+	public Map<String, Integer> getNameToIdCache(@NotNull Class<?> clazz) {
+		return this.nameToIdCache.getCache(clazz);
+	}
+
+	private static class NameToIdCache {
+
+		@NotNull
+		private final Map<Class<?>, Map<String, Integer>> caches = new HashMap<Class<?>, Map<String, Integer>>(3);
+
+		// not intended for instantiation
+		private NameToIdCache() {
+		}
+
+		@NotNull
+		public Map<String, Integer> getCache(@NotNull Class<?> clazz) {
+			Map<String, Integer> result = caches.get(clazz);
+
+			if (result == null) {
+				result = new HashMap<String, Integer>();
+
+				for (Field field : clazz.getDeclaredFields()) {
+					int modifiers = field.getModifiers();
+					if (Modifier.isFinal(modifiers) && Modifier.isStatic(modifiers)) {
+						try {
+							result.put(field.getName(), field.getInt(clazz));
+						} catch (IllegalAccessException e) {
+							Log.e(CalculatorActivity.class.getName(), e.getMessage());
+						}
+					}
+				}
+
+				caches.put(clazz, result);
+			}
+
+			return result;
+		}
+	}
+
 }

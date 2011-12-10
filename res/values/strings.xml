@@ -30,7 +30,8 @@
 		If you want to support the project\nyou can donate money via\n<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=se%2esolovyev%40gmail%2ecom&amp;lc=RU&amp;item_name=Android%20Calculator&amp;currency_code=USD&amp;bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted">http://paypal.com</a>\n\n
 		If you like the application\nrank it with 5 stars in\n<a href="https://market.android.com/details?id=org.solovyev.android.calculator">android.market</a>\n\n
 		Thanks to people who translate Calculator++ in different languages:\n
-		Italian - Gabriele Ravanetti\n\n
+		Italian - Gabriele Ravanetti\n
+		Spanish - Jordi Luna\n\n
 		This application uses next open source libraries:\n
 		<a href="http://simple.sourceforge.net">Simple (XML serialization)</a>\n
 		<a href="http://meditorworld.appspot.com/meditor.txt">JSCL</a>\n
@@ -39,7 +40,7 @@
 
 	<string name="c_undo">undo</string>
 	<string name="c_redo">redo</string>
-	<string name="c_clear">CE</string>
+	<string name="c_clear">C</string>
 	<string name="c_erase">clear</string>
 	<string name="c_paste">paste</string>
 	<string name="c_vars">vars</string>
@@ -267,8 +268,8 @@ Check the \'Round result\' preference in application settings - it should be tur
 2. Use ≡ (in the top right corner of = button) to simplify expression\n\n
 3. Just click on the result to copy it to the clipboard\n\n
 4. Use = button seldom - result is calculating on the fly\n\n
-4. Add constants for often used values (you can even save expressions)\n\n
-5. Use variables located on 4 and 5 buttons\n\n
+5. Add constants for often used values (you can even save expressions)\n\n
+6. Use variables located on 4 and 5 buttons\n\n
 	</string>
 
 	<string name="c_screens_content">
