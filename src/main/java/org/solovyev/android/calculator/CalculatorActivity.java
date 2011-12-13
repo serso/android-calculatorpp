@@ -66,6 +66,8 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		Log.d(this.getClass().getName(), "org.solovyev.android.calculator.CalculatorActivity.onCreate()");
 
+		final boolean customTitleSupported = requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
 		setDefaultValues(preferences);
@@ -73,6 +75,13 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		setTheme(preferences);
 		super.onCreate(savedInstanceState);
 		setLayout(preferences);
+
+		if (customTitleSupported) {
+			getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.calc_title);
+			final CalculatorAdditionalTitle additionalAdditionalTitleText = (CalculatorAdditionalTitle)findViewById(R.id.additional_title_text);
+			additionalAdditionalTitleText.init(preferences);
+			preferences.registerOnSharedPreferenceChangeListener(additionalAdditionalTitleText);
+		}
 
 		ResourceCache.instance.initCaptions(ApplicationContext.getInstance(), R.string.class);
 		firstTimeInit(preferences);
@@ -137,6 +146,8 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 	private class AngleUnitsChanger implements SimpleOnDragListener.DragProcessor {
 
+		private final DigitButtonDragProcessor processor = new DigitButtonDragProcessor(calculatorModel);
+
 		@Override
 		public boolean processDragEvent(@NotNull DragDirection dragDirection,
 										@NotNull DragButton dragButton,
@@ -144,22 +155,26 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 										@NotNull MotionEvent motionEvent) {
 			boolean result = false;
 
-			if ( dragButton instanceof AngleUnitsButton ) {
-				final String directionText = ((AngleUnitsButton) dragButton).getText(dragDirection);
-				if ( directionText != null ) {
-					try {
+			if (dragButton instanceof AngleUnitsButton) {
+				if (dragDirection == DragDirection.up || dragDirection == DragDirection.down ) {
+					final String directionText = ((AngleUnitsButton) dragButton).getText(dragDirection);
+					if ( directionText != null ) {
+						try {
 
-						final AngleUnit angleUnits = AngleUnit.valueOf(directionText);
+							final AngleUnit angleUnits = AngleUnit.valueOf(directionText);
 
-						final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(CalculatorActivity.this);
-						final SharedPreferences.Editor editor = preferences.edit();
-						editor.putString(CalculatorEngine.ANGLE_UNITS_P_KEY, angleUnits.name());
-						editor.commit();
+							final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(CalculatorActivity.this);
+							final SharedPreferences.Editor editor = preferences.edit();
+							editor.putString(CalculatorEngine.ANGLE_UNITS_P_KEY, angleUnits.name());
+							editor.commit();
 
-						result = true;
-					} catch (IllegalArgumentException e) {
-						Log.d(this.getClass().getName(), "Unsupported angle units: " + directionText);
+							result = true;
+						} catch (IllegalArgumentException e) {
+							Log.d(this.getClass().getName(), "Unsupported angle units: " + directionText);
+						}
 					}
+				} else if ( dragDirection == DragDirection.left ) {
+					result = processor.processDragEvent(dragDirection, dragButton, startPoint2d, motionEvent);
 				}
 			}
 
@@ -533,6 +548,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		}
 
 		calculatorModel = CalculatorModel.instance.init(this, preferences, CalculatorEngine.instance);
+		calculatorModel.evaluate();
 	}
 
 	@Override

@@ -6,6 +6,8 @@
 
 package org.solovyev.android.calculator.model;
 
+import jscl.JsclMathEngine;
+import jscl.NumeralBase;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -119,5 +121,21 @@ public class ToJsclTextProcessorTest {
 
 	@Test
 	public void testPostfixFunction() throws Exception {
+	}
+
+	@Test
+	public void testNumeralBases() throws Exception {
+		final ToJsclTextProcessor processor = new ToJsclTextProcessor();
+
+		final NumeralBase defaultNumeralBase = JsclMathEngine.instance.getNumeralBase();
+		try{
+			JsclMathEngine.instance.setNumeralBase(NumeralBase.bin);
+			Assert.assertEquals("101", JsclMathEngine.instance.evaluate("10+11"));
+
+			JsclMathEngine.instance.setNumeralBase(NumeralBase.hex);
+			Assert.assertEquals("56ce+cad", processor.process("56ce+cad").getExpression());
+		} finally {
+			JsclMathEngine.instance.setNumeralBase(defaultNumeralBase);
+		}
 	}
 }

@@ -10,6 +10,7 @@
 													   xmlns:calc="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
 													   a:id="@+id/sevenDigitButton" a:text="7"
 													   calc:textUp="i"
+													   calc:textLeft="0x:"
 													   calc:textDown="!"
 													   calc:directionTextScale="0.5"
 

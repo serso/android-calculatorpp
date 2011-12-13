@@ -48,6 +48,11 @@ public class TextHighlighterTest {
 		textHighlighter = new TextHighlighter(0, false, JsclMathEngine.instance);
 		Assert.assertEquals("0.1E3", textHighlighter.process("0.1E3").toString());
 		Assert.assertEquals("1E3", textHighlighter.process("1E3").toString());
+		Assert.assertEquals("2<font color=\"#008000\">0x:</font>", textHighlighter.process("20x:").toString());
+		Assert.assertEquals("20x", textHighlighter.process("20x").toString());
+		Assert.assertEquals("22x", textHighlighter.process("22x").toString());
+		Assert.assertEquals("20t", textHighlighter.process("20t").toString());
+		Assert.assertEquals("20k", textHighlighter.process("20k").toString());
 		Assert.assertEquals("1 000 000E3", textHighlighter.process("1000000E3").toString());
 		Assert.assertEquals("-1 000 000E3", textHighlighter.process("-1000000E3").toString());
 		Assert.assertEquals("-1 000 000E-3", textHighlighter.process("-1000000E-3").toString());

@@ -6,6 +6,20 @@
 
 <resources>
 
+	<style name="WindowTitle">
+        <item name="android:singleLine">true</item>
+        <item name="android:textAppearance">@style/TextAppearance_WindowTitle</item>
+        <item name="android:shadowColor">#BB000000</item>
+        <item name="android:shadowRadius">2.75</item>
+    </style>
+
+	<style name="TextAppearance_WindowTitle">
+        <item name="android:textColor">#fff</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
 	<style name="default_text_size">
 		<item name="android:textSize">20dp</item>
 	</style>

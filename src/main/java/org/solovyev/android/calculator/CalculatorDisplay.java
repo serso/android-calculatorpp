@@ -35,7 +35,7 @@ public class CalculatorDisplay extends AutoResizeTextView {
 	private JsclOperation jsclOperation = JsclOperation.numeric;
 
 	@NotNull
-	private final static TextProcessor<TextHighlighter.Result> textHighlighter = new TextHighlighter(Color.WHITE, true, CalculatorEngine.instance.getEngine());
+	private final static TextProcessor<TextHighlighter.Result, String> textHighlighter = new TextHighlighter(Color.WHITE, true, CalculatorEngine.instance.getEngine());
 
 	@Nullable
 	private Generic genericResult;

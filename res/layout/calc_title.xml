@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+  ~ For more information, please, contact se.solovyev@gmail.com
+  ~ or visit http://se.solovyev.org
+  -->
+
+<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+			  a:orientation="horizontal"
+			  a:gravity="center_vertical"
+			  a:layout_width="fill_parent"
+			  a:layout_height="fill_parent">
+
+	<TextView
+		a:layout_width="wrap_content"
+		a:layout_height="wrap_content"
+		a:layout_gravity="left"
+		style="@style/WindowTitle"
+		a:text="@string/c_app_name"/>
+
+	<org.solovyev.android.calculator.CalculatorAdditionalTitle
+		a:id="@+id/additional_title_text"
+		a:layout_width="fill_parent"
+		a:layout_height="wrap_content"
+		style="@style/WindowTitle"
+		a:gravity="center_vertical|right"
+		a:layout_gravity="right"/>
+
+</LinearLayout>

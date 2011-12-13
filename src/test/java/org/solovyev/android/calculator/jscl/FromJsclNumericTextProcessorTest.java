@@ -6,8 +6,12 @@
 
 package org.solovyev.android.calculator.jscl;
 
+import jscl.math.Expression;
+import jscl.math.Generic;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.solovyev.android.calculator.model.CalculatorEngine;
 
 /**
  * User: serso
@@ -16,13 +20,20 @@ import org.junit.Test;
  */
 public class FromJsclNumericTextProcessorTest {
 
+		@BeforeClass
+	public static void setUp() throws Exception {
+		CalculatorEngine.instance.init(null, null);
+	}
+
 	@Test
 	public void testCreateResultForComplexNumber() throws Exception {
 		final FromJsclNumericTextProcessor cm = new FromJsclNumericTextProcessor();
 
-		Assert.assertEquals("1.22133+23 123i", cm.createResultForComplexNumber("1.22133232+23123*i"));
-		Assert.assertEquals("1.22133+1.2i", cm.createResultForComplexNumber("1.22133232+1.2*i"));
-		Assert.assertEquals("1.22i", cm.createResultForComplexNumber("1.22*i"));
-		Assert.assertEquals("i", cm.createResultForComplexNumber("i"));
+		Assert.assertEquals("1.22133+23 123i", cm.process(Expression.valueOf("1.22133232+23123*i").numeric()));
+		Assert.assertEquals("1.22133+1.2i", cm.process(Expression.valueOf("1.22133232+1.2*i").numeric()));
+		Assert.assertEquals("1.22i", cm.process(Expression.valueOf("1.22*i").numeric()));
+		Assert.assertEquals("i", cm.process(Expression.valueOf("i").numeric()));
+		Generic numeric = Expression.valueOf("e^(π*i)+1").numeric();
+		junit.framework.Assert.assertEquals("0i", cm.process(numeric));
 	}
 }

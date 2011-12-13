@@ -49,7 +49,7 @@ public class NumberBuilder {
 
 		final MathType.Result possibleResult;
 		if ((CollectionsUtils.contains(mathTypeResult.getMathType(), MathType.digit, MathType.numeral_base, MathType.dot, MathType.grouping_separator, MathType.power_10) ||
-				isSignAfterE(mathTypeResult)) && numeralBaseCheck(mathTypeResult)) {
+				isSignAfterE(mathTypeResult)) && numeralBaseCheck(mathTypeResult) && numeralBaseInTheStart(mathTypeResult.getMathType())) {
 			if (numberBuilder == null) {
 				numberBuilder = new StringBuilder();
 			}
@@ -66,6 +66,10 @@ public class NumberBuilder {
 		}
 
 		return possibleResult == null ? mathTypeResult : possibleResult;
+	}
+
+	private boolean numeralBaseInTheStart(@NotNull MathType mathType) {
+		return mathType != MathType.numeral_base || numberBuilder == null;
 	}
 
 	private boolean numeralBaseCheck( @NotNull MathType.Result mathType ) {

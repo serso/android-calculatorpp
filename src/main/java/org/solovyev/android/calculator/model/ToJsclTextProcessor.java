@@ -15,7 +15,7 @@ import org.solovyev.common.utils.CollectionsUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-class ToJsclTextProcessor implements TextProcessor<PreparedExpression> {
+class ToJsclTextProcessor implements TextProcessor<PreparedExpression, String> {
 
 	@NotNull
 	private static final Integer MAX_DEPTH = 20;
