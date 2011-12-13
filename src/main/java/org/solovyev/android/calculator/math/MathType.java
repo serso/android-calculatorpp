@@ -5,6 +5,7 @@
 
 package org.solovyev.android.calculator.math;
 
+import jscl.JsclMathEngine;
 import jscl.NumeralBase;
 import jscl.math.function.Constant;
 import org.jetbrains.annotations.NotNull;
@@ -336,6 +337,14 @@ public enum MathType {
 		for (MathType mathType : getMathTypesByPriority()) {
 			final String s = CollectionsUtils.find(mathType.getTokens(), startsWithFinder);
 			if (s != null) {
+				if ( s.length() == 1 ) {
+					if (JsclMathEngine.instance.getNumeralBase() == NumeralBase.hex) {
+						final Character ch = s.charAt(0);
+						if ( NumeralBase.hex.getAcceptableCharacters().contains(ch) ) {
+							return new Result(MathType.digit, s);
+						}
+					}
+				}
 				return new Result(mathType, s);
 			}
 		}

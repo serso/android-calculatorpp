@@ -7,8 +7,8 @@ import org.jetbrains.annotations.NotNull;
  * Date: 9/26/11
  * Time: 12:12 PM
  */
-public interface TextProcessor<T extends CharSequence> {
+public interface TextProcessor<TO extends CharSequence, FROM> {
 
 	@NotNull
-	T process(@NotNull String s) throws CalculatorParseException;
+	TO process(@NotNull FROM from) throws CalculatorParseException;
 }

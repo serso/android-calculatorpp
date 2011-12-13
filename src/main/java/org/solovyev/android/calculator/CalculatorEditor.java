@@ -31,7 +31,7 @@ public class CalculatorEditor extends EditText implements SharedPreferences.OnSh
 	private boolean highlightText = true;
 
 	@NotNull
-	private final static TextProcessor<TextHighlighter.Result> textHighlighter = new TextHighlighter(Color.WHITE, false, CalculatorEngine.instance.getEngine());
+	private final static TextProcessor<TextHighlighter.Result, String> textHighlighter = new TextHighlighter(Color.WHITE, false, CalculatorEngine.instance.getEngine());
 
 	public CalculatorEditor(Context context) {
 		super(context);

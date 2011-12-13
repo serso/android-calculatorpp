@@ -120,7 +120,18 @@ public class DirectionDragButton extends DragButton {
 			@NotNull
 			@Override
 			public Point2d getTextPosition(@NotNull Paint paint, @NotNull Paint basePaint, @NotNull CharSequence text, CharSequence baseText, int w, int h) {
-				throw new UnsupportedOperationException("Not implemented yet!");
+				final Point2d result = new Point2d();
+
+				float width = paint.measureText(" ");
+				result.setX(width);
+
+				float selfHeight = paint.ascent() + paint.descent();
+
+				basePaint.measureText(StringUtils.getNotEmpty(baseText, "|"));
+
+				result.setY(h / 2 - selfHeight / 2);
+
+				return result;
 			}
 		}/*,
 		right(DragDirection.right) {
@@ -163,9 +174,9 @@ public class DirectionDragButton extends DragButton {
 		}
 
 		@Nullable
-		public static GuiDragDirection valueOf ( @NotNull DragDirection dragDirection ) {
+		public static GuiDragDirection valueOf(@NotNull DragDirection dragDirection) {
 			for (GuiDragDirection guiDragDirection : values()) {
-				if ( guiDragDirection.dragDirection == dragDirection ) {
+				if (guiDragDirection.dragDirection == dragDirection) {
 					return guiDragDirection;
 				}
 			}
@@ -204,7 +215,7 @@ public class DirectionDragButton extends DragButton {
 					default:
 						// try drag direction text
 						for (GuiDragDirection guiDragDirection : GuiDragDirection.values()) {
-							if ( guiDragDirection.getAttributeId() == attr ) {
+							if (guiDragDirection.getAttributeId() == attr) {
 								this.directionTextDataMap.put(guiDragDirection, new DirectionTextData(guiDragDirection, attrValue));
 								break;
 							}
