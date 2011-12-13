@@ -132,8 +132,8 @@ public class CalculatorEngineTest {
 		junit.framework.Assert.assertEquals("24", cm.evaluate(JsclOperation.numeric, "(2.0+2.0)!").getResult());
 		junit.framework.Assert.assertEquals("24", cm.evaluate(JsclOperation.numeric, "4.0!").getResult());
 		junit.framework.Assert.assertEquals("720", cm.evaluate(JsclOperation.numeric, "3!!").getResult());
-		junit.framework.Assert.assertEquals("36.0", Expression.valueOf("3!^2").numeric().toString());
-		junit.framework.Assert.assertEquals("3.0", Expression.valueOf("cubic(27)").numeric().toString());
+		junit.framework.Assert.assertEquals("36", Expression.valueOf("3!^2").numeric().toString());
+		junit.framework.Assert.assertEquals("3", Expression.valueOf("cubic(27)").numeric().toString());
 		try {
 			junit.framework.Assert.assertEquals("√(-1)!", cm.evaluate(JsclOperation.numeric, "i!").getResult());
 			fail();
@@ -369,8 +369,12 @@ public class CalculatorEngineTest {
 			} catch (CalculatorEvalException e) {
 				// ok
 			}
+
+			cm.getEngine().setNumeralBase(NumeralBase.hex);
+			Assert.assertEquals("637b", cm.evaluate(JsclOperation.numeric, "56ce+cad").getResult());
 		} finally {
 			cm.setNumeralBase(defaultNumeralBase);
 		}
 	}
+
 }

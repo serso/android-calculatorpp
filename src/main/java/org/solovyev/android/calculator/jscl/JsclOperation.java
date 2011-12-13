@@ -60,14 +60,14 @@ public enum JsclOperation {
 	};
 
 	@NotNull
-	private final TextProcessor<String> fromProcessor;
+	private final TextProcessor<String, Generic> fromProcessor;
 
-	JsclOperation(@NotNull TextProcessor<String> fromProcessor) {
+	JsclOperation(@NotNull TextProcessor<String, Generic> fromProcessor) {
 		this.fromProcessor = fromProcessor;
 	}
 
 	@NotNull
-	public TextProcessor<String> getFromProcessor() {
+	public TextProcessor<String, Generic> getFromProcessor() {
 		return fromProcessor;
 	}
 

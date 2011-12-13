@@ -8,18 +8,27 @@ package org.solovyev.android.calculator;
 
 import jscl.MathContext;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.NumberBuilder;
 import org.solovyev.android.calculator.model.CalculatorParseException;
 import org.solovyev.android.calculator.model.TextProcessor;
 import org.solovyev.common.utils.MutableObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * User: serso
  * Date: 10/12/11
  * Time: 9:47 PM
  */
-public class TextHighlighter implements TextProcessor<TextHighlighter.Result> {
+public class TextHighlighter implements TextProcessor<TextHighlighter.Result, String> {
+
+	private static final Map<String, String> nbFontAttributes = new HashMap<String, String>();
+	static {
+		nbFontAttributes.put("color", "#008000");
+	}
 
 	@NotNull
 	public final MathContext mathContext;
@@ -99,6 +108,7 @@ public class TextHighlighter implements TextProcessor<TextHighlighter.Result> {
 		    numberBuilder.process(text1, mathType, localNumberOffset);
 			numberOffset += localNumberOffset.getObject();
 
+			final String match = mathType.getMatch();
 			switch (mathType.getMathType()) {
 				case open_group_symbol:
 					numberOfOpenGroupSymbols++;
@@ -110,19 +120,26 @@ public class TextHighlighter implements TextProcessor<TextHighlighter.Result> {
 					text1.append(text.charAt(i));
 					break;
 				case operator:
-					text1.append(mathType.getMatch());
-					if (mathType.getMatch().length() > 1) {
-						i += mathType.getMatch().length() - 1;
+					text1.append(match);
+					if (match.length() > 1) {
+						i += match.length() - 1;
 					}
 					break;
 				case function:
-					i = processHighlightedText(text1, i, mathType.getMatch(), "i");
+					i = processHighlightedText(text1, i, match, "i", null);
 					break;
 				case constant:
-					i = processHighlightedText(text1, i, mathType.getMatch(), "b");
+					i = processHighlightedText(text1, i, match, "b", null);
+					break;
+				case numeral_base:
+					i = processHighlightedText(text1, i, match, "font", nbFontAttributes);
 					break;
 				default:
-					text1.append(text.charAt(i));
+					if (mathType.getMathType() == MathType.text || match.length() <= 1) {
+						text1.append(text.charAt(i));
+					} else {
+						i += match.length() - 1;
+					}
 			}
 		}
 
@@ -150,10 +167,19 @@ public class TextHighlighter implements TextProcessor<TextHighlighter.Result> {
 		return new Result(result, numberOffset);
 	}
 
-	private int processHighlightedText(@NotNull StringBuilder result, int i, @NotNull String functionName, @NotNull String tag) {
-		result.append("<").append(tag).append(">").append(functionName).append("</").append(tag).append(">");
-		if (functionName.length() > 1) {
-			return i + functionName.length() - 1;
+	private int processHighlightedText(@NotNull StringBuilder result, int i, @NotNull String match, @NotNull String tag, @Nullable Map<String, String> tagAttributes) {
+		result.append("<").append(tag);
+
+		if ( tagAttributes != null ) {
+			for (Map.Entry<String, String> entry : tagAttributes.entrySet()) {
+				// attr1="attr1_value" attr2="attr2_value"
+				result.append(" ").append(entry.getKey()).append("=\"").append(entry.getValue()).append("\"");
+			}
+		}
+
+		result.append(">").append(match).append("</").append(tag).append(">");
+		if (match.length() > 1) {
+			return i + match.length() - 1;
 		} else {
 			return i;
 		}

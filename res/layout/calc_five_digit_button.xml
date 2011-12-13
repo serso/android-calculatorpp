@@ -10,6 +10,7 @@
 													   a:id="@+id/fiveDigitButton"
 													   a:text="5"
 													   calc:textUp="t"
+													   calc:textLeft="e"
 													   calc:textDown="j"
 													   style="?digitButtonStyle"
 													   a:onClick="digitButtonClickHandler"/>

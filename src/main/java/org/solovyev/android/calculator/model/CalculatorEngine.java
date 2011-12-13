@@ -20,10 +20,7 @@ import org.solovyev.common.msg.MessageRegistry;
 import org.solovyev.common.utils.MutableObject;
 import org.solovyev.common.utils.StringUtils;
 
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.util.Locale;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -38,7 +35,6 @@ public enum CalculatorEngine {
 	instance;
 
 	public static final String GROUPING_SEPARATOR_P_KEY = "org.solovyev.android.calculator.CalculatorActivity_calc_grouping_separator";
-	private static final String GROUPING_SEPARATOR_DEFAULT = " ";
 
 	public static final String ROUND_RESULT_P_KEY = "org.solovyev.android.calculator.CalculatorModel_round_result";
 	public static final boolean ROUND_RESULT_DEFAULT = true;
@@ -57,15 +53,11 @@ public enum CalculatorEngine {
 	@NotNull
 	private final Object lock = new Object();
 
-	private boolean roundResult = true;
-
-	private int precision = 5;
-
 	@NotNull
 	private MathEngine engine = JsclMathEngine.instance;
 
 	@NotNull
-	public final TextProcessor<PreparedExpression> preprocessor = new ToJsclTextProcessor();
+	public final TextProcessor<PreparedExpression, String> preprocessor = new ToJsclTextProcessor();
 
 	@NotNull
 	private final AndroidVarsRegistry varsRegister = new AndroidVarsRegistryImpl(engine.getConstantsRegistry());
@@ -79,45 +71,19 @@ public enum CalculatorEngine {
 	private final AndroidMathRegistry<Operator> postfixFunctionsRegistry = new AndroidPostfixFunctionsRegistry(engine.getPostfixFunctionsRegistry());
 
 	@NotNull
-	private DecimalFormatSymbols decimalGroupSymbols = new DecimalFormatSymbols(Locale.getDefault());
-
-	{
-		decimalGroupSymbols.setDecimalSeparator('.');
-		decimalGroupSymbols.setGroupingSeparator(GROUPING_SEPARATOR_DEFAULT.charAt(0));
-	}
-
-	private boolean useGroupingSeparator = true;
-
-	@NotNull
 	private ThreadKiller threadKiller = new AndroidThreadKiller();
 
 	// calculation thread timeout in milliseconds, after timeout thread would be interrupted
 	private int timeout = DEFAULT_TIMEOUT;
 
-	@NotNull
-	public String format(@NotNull Double value) {
-		return format(value, true);
+	CalculatorEngine() {
+		this.engine.setRoundResult(true);
+		this.engine.setUseGroupingSeparator(true);
 	}
 
 	@NotNull
 	public String format(@NotNull Double value, boolean round) {
-		if (!value.isInfinite() && !value.isNaN()) {
-			final DecimalFormat df = new DecimalFormat();
-			df.setDecimalFormatSymbols(decimalGroupSymbols);
-			df.setGroupingUsed(useGroupingSeparator);
-			if (round) {
-				if (isRoundResult()) {
-					df.setMaximumFractionDigits(instance.getPrecision());
-					return df.format(new BigDecimal(value).setScale(instance.getPrecision(), BigDecimal.ROUND_HALF_UP).doubleValue());
-				} else {
-					return String.valueOf(value);
-				}
-			} else {
-				return df.format(value);
-			}
-		} else {
-			return String.valueOf(value);
-		}
+		return getEngine().format(value, round);
 	}
 
 	public static class Result {
@@ -267,24 +233,16 @@ public enum CalculatorEngine {
 
 			final Generic genericResult = calculationResult.getObject();
 
-			return new Result(operation.getFromProcessor().process(genericResult.toString()), operation, genericResult);
+			return new Result(operation.getFromProcessor().process(genericResult), operation, genericResult);
 		}
 	}
 
-	private int getPrecision() {
-		return precision;
-	}
-
 	public void setPrecision(int precision) {
-		this.precision = precision;
-	}
-
-	private boolean isRoundResult() {
-		return roundResult;
+		this.getEngine().setPrecision(precision);
 	}
 
 	public void setRoundResult(boolean roundResult) {
-		this.roundResult = roundResult;
+		this.getEngine().setRoundResult(roundResult);
 	}
 
 	public void init(@Nullable Context context, @Nullable SharedPreferences preferences) {
@@ -300,15 +258,15 @@ public enum CalculatorEngine {
 				//noinspection ConstantConditions
 				this.setPrecision(integerNumberMapper.parseValue(preferences.getString(RESULT_PRECISION_P_KEY, RESULT_PRECISION_DEFAULT)));
 				this.setRoundResult(preferences.getBoolean(ROUND_RESULT_P_KEY, ROUND_RESULT_DEFAULT));
-				this.setAngleUnits(AngleUnit.valueOf(preferences.getString(ANGLE_UNITS_P_KEY, ANGLE_UNITS_DEFAULT)));
-				this.setNumeralBase(NumeralBase.valueOf(preferences.getString(NUMERAL_BASES_P_KEY, NUMERAL_BASES_DEFAULT)));
+				this.setAngleUnits(getAngleUnitsFromPrefs(preferences));
+				this.setNumeralBase(getNumeralBaseFromPrefs(preferences));
 
-				final String groupingSeparator = preferences.getString(GROUPING_SEPARATOR_P_KEY, GROUPING_SEPARATOR_DEFAULT);
+				final String groupingSeparator = preferences.getString(GROUPING_SEPARATOR_P_KEY, JsclMathEngine.GROUPING_SEPARATOR_DEFAULT);
 				if (StringUtils.isEmpty(groupingSeparator)) {
-					this.useGroupingSeparator = false;
+					this.getEngine().setUseGroupingSeparator(false);
 				} else {
-					this.useGroupingSeparator = true;
-					this.decimalGroupSymbols.setGroupingSeparator(groupingSeparator.charAt(0));
+					this.getEngine().setUseGroupingSeparator(true);
+					this.getEngine().setGroupingSeparator(groupingSeparator.charAt(0));
 				}
 			}
 
@@ -316,10 +274,20 @@ public enum CalculatorEngine {
 		}
 	}
 
+	@NotNull
+	public NumeralBase getNumeralBaseFromPrefs(@NotNull SharedPreferences preferences) {
+		return NumeralBase.valueOf(preferences.getString(NUMERAL_BASES_P_KEY, NUMERAL_BASES_DEFAULT));
+	}
+
+	@NotNull
+	public AngleUnit getAngleUnitsFromPrefs(@NotNull SharedPreferences preferences) {
+		return AngleUnit.valueOf(preferences.getString(ANGLE_UNITS_P_KEY, ANGLE_UNITS_DEFAULT));
+	}
+
 	//for tests only
 	void setDecimalGroupSymbols(@NotNull DecimalFormatSymbols decimalGroupSymbols) {
 		synchronized (lock) {
-			this.decimalGroupSymbols = decimalGroupSymbols;
+			this.getEngine().setDecimalGroupSymbols(decimalGroupSymbols);
 		}
 	}
 

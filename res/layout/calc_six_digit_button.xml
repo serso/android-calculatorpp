@@ -11,6 +11,7 @@
 													   calc:textUp="deg"
 													   a:id="@+id/sixDigitButton"
 													   a:text="6"
+													   calc:textLeft="f"
 													   calc:textDown="rad"
 													   style="?digitButtonStyle"
 													   a:onClick="digitButtonClickHandler"/>

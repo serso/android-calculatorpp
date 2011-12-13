@@ -11,6 +11,7 @@
 													   a:id="@+id/threeDigitButton"
 													   a:text="3"
 													   calc:textUp="tan"
+													   calc:textLeft="c"
 													   calc:textDown="atan"
 													   style="?digitButtonStyle"
 													   a:onClick="digitButtonClickHandler"/>

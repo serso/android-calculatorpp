@@ -62,6 +62,7 @@ public class SimpleOnDragListener implements OnDragListener, DragPreferencesChan
 		DragDirection direction = null;
 		for (Map.Entry<DragDirection, DragPreference> directionEntry : distancePreferences.getDirectionPreferences().entrySet()) {
 
+			Log.d(String.valueOf(dragButton.getId()), "Drag direction: " + directionEntry.getKey());
 			Log.d(String.valueOf(dragButton.getId()), "Trying direction interval: " + directionEntry.getValue().getInterval());
 
 			if (isInInterval(directionEntry.getValue().getInterval(), distance)) {
@@ -180,7 +181,7 @@ public class SimpleOnDragListener implements OnDragListener, DragPreferencesChan
 
 					transformInterval(preferenceType, dragDirection, intervalPref);
 
-					Log.d(SimpleOnDragListener.class.getName(), "Preference loaded. Id: " + preferenceId + ", value: " + intervalPref.toString());
+					Log.d(SimpleOnDragListener.class.getName(), "Preference loaded for " + dragDirection +". Id: " + preferenceId + ", value: " + intervalPref.toString());
 
 					final DragPreference directionPreference = new DragPreference(dragDirection, intervalPref);
 
@@ -207,9 +208,12 @@ public class SimpleOnDragListener implements OnDragListener, DragPreferencesChan
 			if (dragDirection == DragDirection.up) {
 				interval.setLeftBorder(180f - rightBorder);
 				interval.setRightBorder(180f - leftBorder);
-			} else if (dragDirection == DragDirection.left || dragDirection == DragDirection.right) {
+			} else if (dragDirection == DragDirection.left ) {
 				interval.setLeftBorder(90f - rightBorder / 2);
-				interval.setRightBorder(90f + leftBorder / 2);
+				interval.setRightBorder(90f + rightBorder / 2);
+			} else if ( dragDirection == DragDirection.right ) {
+				interval.setLeftBorder(180f + 90f - rightBorder / 2);
+				interval.setRightBorder(180f + 90f + rightBorder / 2);
 			}
 		}
 
