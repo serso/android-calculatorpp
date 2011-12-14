@@ -12,7 +12,6 @@
 													   calc:textUp="i"
 													   calc:textLeft="0x:"
 													   calc:textDown="!"
-													   calc:directionTextScale="0.5"
-
+													   calc:directionTextScale="0.5;0.5;0.5;0.33"
 													   style="?digitButtonStyle"
 													   a:onClick="digitButtonClickHandler"/>

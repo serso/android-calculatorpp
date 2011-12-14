@@ -132,7 +132,7 @@ public class TextHighlighter implements TextProcessor<TextHighlighter.Result, St
 					i = processHighlightedText(text1, i, match, "b", null);
 					break;
 				case numeral_base:
-					i = processHighlightedText(text1, i, match, "font", nbFontAttributes);
+					i = processHighlightedText(text1, i, match, "b", null);
 					break;
 				default:
 					if (mathType.getMathType() == MathType.text || match.length() <= 1) {

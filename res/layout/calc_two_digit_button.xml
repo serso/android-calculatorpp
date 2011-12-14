@@ -11,7 +11,7 @@
 													   a:id="@+id/twoDigitButton"
 													   a:text="2"
 													   calc:textUp="cos"
-													   calc:textLeft="b"
+													   calc:textLeft="B"
 													   calc:textDown="acos"
 													   style="?digitButtonStyle"
 													   a:onClick="digitButtonClickHandler"/>

@@ -6,7 +6,11 @@
 
 package org.solovyev.android.calculator.model;
 
+import jscl.MathEngine;
 import jscl.NumeralBase;
+import jscl.math.numeric.Numeric;
+import jscl.math.numeric.Real;
+import jscl.text.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.math.MathType;
@@ -105,6 +109,7 @@ public class NumberBuilder {
 	public MathType.Result process(@NotNull StringBuilder sb, @Nullable MutableObject<Integer> numberOffset) {
 		int numberOfTokens = 0;
 
+		final NumeralBase localNb;
 		if (numberBuilder != null) {
 			try {
 				number = numberBuilder.toString();
@@ -116,22 +121,26 @@ public class NumberBuilder {
 					numberOfTokens += number.length() - newNumber.length();
 					number = newNumber;
 				}
-				Double.valueOf(number);
+				
+				toDouble(number, getNumeralBase());
+				
 			} catch (NumberFormatException e) {
 				number = null;
 			}
 
 			numberBuilder = null;
+			localNb = getNumeralBase();
 			nb = defaultNumeralBase;
 		} else {
 			number = null;
+			localNb = getNumeralBase();
 		}
 
-		return replaceSystemVars(sb, number, numberOfTokens, numberOffset);
+		return replaceSystemVars(sb, number, numberOfTokens, numberOffset, localNb, simpleFormat);
 	}
 
 	@Nullable
-	private MathType.Result replaceSystemVars(StringBuilder sb, String number, int numberOfTokens, @Nullable MutableObject<Integer> numberOffset) {
+	private static MathType.Result replaceSystemVars(StringBuilder sb, String number, int numberOfTokens, @Nullable MutableObject<Integer> numberOffset, @NotNull NumeralBase nb, boolean simpleFormat) {
 		MathType.Result result = null;
 
 		if (number != null) {
@@ -156,13 +165,18 @@ public class NumberBuilder {
 					int indexOfDot = number.indexOf('.');
 
 					if (indexOfDot < 0) {
-						int indexOfE = number.indexOf('E');
+						int indexOfE;
+						if (nb == NumeralBase.hex) {
+							indexOfE = -1;
+						} else {
+							indexOfE = number.indexOf('E');
+						}
 						if (indexOfE < 0) {
-							formattedNumber = CalculatorEngine.instance.format(Double.valueOf(number), false);
+							formattedNumber = Numeric.toString(toDouble(number, nb), nb);
 						} else {
 							final String part;
 							if (indexOfDot != 0) {
-								part = CalculatorEngine.instance.format(Double.valueOf(number.substring(0, indexOfE)), false);
+								part = Numeric.toString(toDouble(number.substring(0, indexOfE), nb), nb);
 							} else {
 								part = "";
 							}
@@ -171,14 +185,14 @@ public class NumberBuilder {
 					} else {
 						final String integerPart;
 						if (indexOfDot != 0) {
-							integerPart = CalculatorEngine.instance.format(Double.valueOf(number.substring(0, indexOfDot)), false);
+							integerPart = Numeric.toString(toDouble(number.substring(0, indexOfDot), nb), nb);
 						} else {
 							integerPart = "";
 						}
 						formattedNumber = integerPart + number.substring(indexOfDot);
 					}
 				} else {
-					formattedNumber = CalculatorEngine.instance.format(Double.valueOf(number), true);
+					formattedNumber = Numeric.toString(toDouble(number, nb), nb);
 				}
 
 				if (numberOffset != null) {
@@ -192,6 +206,35 @@ public class NumberBuilder {
 	}
 
 	public boolean isHexMode() {
-		return nb == NumeralBase.hex;
+		return nb == NumeralBase.hex || ( nb == null && defaultNumeralBase == NumeralBase.hex);
+	}
+
+	@NotNull
+	private NumeralBase getNumeralBase(){
+		return nb == null ? defaultNumeralBase : nb;
+	}
+	
+	@NotNull
+	private static Double toDouble(@NotNull String s, @NotNull NumeralBase nb) throws NumberFormatException{
+
+		final MathEngine me = CalculatorEngine.instance.getEngine();
+
+		final NumeralBase defaultNb = me.getNumeralBase();
+		try {
+			me.setNumeralBase(nb);
+
+			try {
+				return JsclIntegerParser.parser.parse(Parser.Parameters.newInstance(s, new MutableInt(0), me), null).content().doubleValue();
+			} catch (ParseException e) {
+				try {
+					return ((Real) DoubleParser.parser.parse(Parser.Parameters.newInstance(s, new MutableInt(0), me), null).content()).doubleValue();
+				} catch (ParseException e1) {
+					throw new NumberFormatException();
+				}
+			}
+
+		} finally {
+			me.setNumeralBase(defaultNb);
+		}
 	}
 }

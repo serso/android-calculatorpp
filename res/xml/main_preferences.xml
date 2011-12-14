@@ -76,7 +76,7 @@
 				a:title="@string/c_swipe_distance"
 				a:summary="@string/c_swipe_distance_summary"
 				a:text=" pxs"
-				a:defaultValue="15;350"
+				a:defaultValue="35;350"
 				range:steps="10"
 				range:boundaries="10;500"/>
 

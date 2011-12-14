@@ -49,9 +49,9 @@ public class NumeralBaseTest {
 				testExpression(line, new Expression2());
 				testExpression(line, new Expression3());
 
-				final String dec = line[0];
-				final String hex = "0x:" + line[1];
-				final String bin = "0b:" + line[2];
+				final String dec = line[0].toUpperCase();
+				final String hex = "0x:" + line[1].toUpperCase();
+				final String bin = "0b:" + line[2].toUpperCase();
 
 				final List<String> input = new ArrayList<String>();
 				input.add(dec);
@@ -93,9 +93,9 @@ public class NumeralBaseTest {
 	}
 
 	public static void testExpression(@NotNull String[] line, @NotNull Converter<String, String> converter) throws ParseException, CalculatorEvalException, CalculatorParseException {
-		final String dec = line[0];
-		final String hex = "0x:" + line[1];
-		final String bin = "0b:" + line[2];
+		final String dec = line[0].toUpperCase();
+		final String hex = "0x:" + line[1].toUpperCase();
+		final String bin = "0b:" + line[2].toUpperCase();
 
 		final String decExpression = converter.convert(dec);
 		final String decResult = CalculatorEngine.instance.evaluate(JsclOperation.numeric, decExpression).getResult();
