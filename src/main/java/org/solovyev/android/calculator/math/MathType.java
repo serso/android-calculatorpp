@@ -318,12 +318,14 @@ public enum MathType {
 	/**
 	 * Method determines mathematical entity type for text substring starting from ith index
 	 *
+	 *
 	 * @param text analyzed text
 	 * @param i	index which points to start of substring
+	 * @param hexMode
 	 * @return math entity type of substring starting from ith index of specified text
 	 */
 	@NotNull
-	public static Result getType(@NotNull String text, int i) {
+	public static Result getType(@NotNull String text, int i, boolean hexMode) {
 		if (i < 0) {
 			throw new IllegalArgumentException("I must be more or equals to 0.");
 		} else if (i >= text.length() && i != 0) {
@@ -338,7 +340,7 @@ public enum MathType {
 			final String s = CollectionsUtils.find(mathType.getTokens(), startsWithFinder);
 			if (s != null) {
 				if ( s.length() == 1 ) {
-					if (JsclMathEngine.instance.getNumeralBase() == NumeralBase.hex) {
+					if (hexMode || JsclMathEngine.instance.getNumeralBase() == NumeralBase.hex) {
 						final Character ch = s.charAt(0);
 						if ( NumeralBase.hex.getAcceptableCharacters().contains(ch) ) {
 							return new Result(MathType.digit, s);

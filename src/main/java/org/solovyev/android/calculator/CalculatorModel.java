@@ -285,7 +285,7 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 					int cursorPositionOffset = 0;
 					final StringBuilder textToBeInserted = new StringBuilder(text);
 
-					final MathType.Result mathType = MathType.getType(text, 0);
+					final MathType.Result mathType = MathType.getType(text, 0, false);
 					switch (mathType.getMathType()) {
 						case function:
 							textToBeInserted.append("()");
