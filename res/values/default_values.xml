@@ -7,7 +7,7 @@
 
 <resources>
 	<string name="p_drag_distance_key">org.solovyev.android.calculator.DragButtonCalibrationActivity_distance</string>
-	<string name="p_drag_distance">15;350</string>
+	<string name="p_drag_distance">35;350</string>
 
 	<string name="p_drag_angle_key">org.solovyev.android.calculator.DragButtonCalibrationActivity_angle</string>
 	<string name="p_drag_angle">0;45</string>

@@ -4,7 +4,7 @@
 		<attr name="textUp" format="string"/>
 		<attr name="textDown" format="string"/>
 		<attr name="textLeft" format="string"/>
-		<attr name="directionTextScale" format="float"/>
+		<attr name="directionTextScale" format="string"/>
 		<attr name="hTextPosition" format="float"/>
 	</declare-styleable>
 

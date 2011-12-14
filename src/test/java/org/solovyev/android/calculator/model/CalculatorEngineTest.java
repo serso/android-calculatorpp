@@ -367,12 +367,12 @@ public class CalculatorEngineTest {
 	public void testNumeralSystems() throws Exception {
 		final CalculatorEngine cm = CalculatorEngine.instance;
 
-		Assert.assertEquals("11 259 375", cm.evaluate(JsclOperation.numeric, "0x:abcdef").getResult());
-		Assert.assertEquals("30 606 154.462", cm.evaluate(JsclOperation.numeric, "0x:abcdef*e").getResult());
-		Assert.assertEquals("30 606 154.462", cm.evaluate(JsclOperation.numeric, "e*0x:abcdef").getResult());
-		Assert.assertEquals("2.718", cm.evaluate(JsclOperation.numeric, "e*0x:abcdef/0x:abcdef").getResult());
-		Assert.assertEquals("30 606 154.462", cm.evaluate(JsclOperation.numeric, "0x:abcdef*e*0x:abcdef/0x:abcdef").getResult());
-		Assert.assertEquals("30 606 154.462", cm.evaluate(JsclOperation.numeric, "c+0x:abcdef*e*0x:abcdef/0x:abcdef-c+0x:c-0x:c").getResult());
+		Assert.assertEquals("11 259 375", cm.evaluate(JsclOperation.numeric, "0x:ABCDEF").getResult());
+		Assert.assertEquals("30 606 154.462", cm.evaluate(JsclOperation.numeric, "0x:ABCDEF*e").getResult());
+		Assert.assertEquals("30 606 154.462", cm.evaluate(JsclOperation.numeric, "e*0x:ABCDEF").getResult());
+		Assert.assertEquals("2.718", cm.evaluate(JsclOperation.numeric, "e*0x:ABCDEF/0x:ABCDEF").getResult());
+		Assert.assertEquals("30 606 154.462", cm.evaluate(JsclOperation.numeric, "0x:ABCDEF*e*0x:ABCDEF/0x:ABCDEF").getResult());
+		Assert.assertEquals("30 606 154.462", cm.evaluate(JsclOperation.numeric, "c+0x:ABCDEF*e*0x:ABCDEF/0x:ABCDEF-c+0x:C-0x:C").getResult());
 		Assert.assertEquals("1 446 257 064 651.832", cm.evaluate(JsclOperation.numeric, "28*28 * sin(28) - 0b:1101 + √(28) + exp ( 28) ").getResult());
 		Assert.assertEquals("13", cm.evaluate(JsclOperation.numeric, "0b:1101").getResult());
 
@@ -388,7 +388,8 @@ public class CalculatorEngineTest {
 			}
 
 			cm.getEngine().setNumeralBase(NumeralBase.hex);
-			Assert.assertEquals("637b", cm.evaluate(JsclOperation.numeric, "56ce+cad").getResult());
+			Assert.assertEquals("637B", cm.evaluate(JsclOperation.numeric, "56CE+CAD").getResult());
+			Assert.assertEquals("E", cm.evaluate(JsclOperation.numeric, "E").getResult());
 		} finally {
 			cm.setNumeralBase(defaultNumeralBase);
 		}

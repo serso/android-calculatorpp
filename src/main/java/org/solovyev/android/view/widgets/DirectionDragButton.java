@@ -15,10 +15,14 @@ import android.util.AttributeSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.R;
+import org.solovyev.common.NumberParser;
+import org.solovyev.common.utils.CollectionsUtils;
 import org.solovyev.common.utils.Point2d;
 import org.solovyev.common.utils.StringUtils;
 
 import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -29,7 +33,10 @@ import java.util.Map;
 public class DirectionDragButton extends DragButton {
 
 	@NotNull
-	private final static Float DEFAULT_DIRECTION_TEXT_SCALE = 0.33f;
+	private final static Float DEFAULT_DIRECTION_TEXT_SCALE_FLOAT = 0.33f;
+
+	@NotNull
+	private final static String DEFAULT_DIRECTION_TEXT_SCALE = "0.33;0.33;0.33;0.33";
 
 	@Nullable
 	private String textMiddle;
@@ -47,6 +54,9 @@ public class DirectionDragButton extends DragButton {
 
 		@NotNull
 		private TextPaint paint;
+
+		@NotNull
+		private Float textScale;
 
 		private DirectionTextData(@NotNull GuiDragDirection guiDragDirection, @NotNull String text) {
 			this.guiDragDirection = guiDragDirection;
@@ -84,10 +94,19 @@ public class DirectionDragButton extends DragButton {
 		public void setPaint(@NotNull TextPaint paint) {
 			this.paint = paint;
 		}
+
+		@NotNull
+		public Float getTextScale() {
+			return textScale;
+		}
+
+		public void setTextScale(@NotNull Float textScale) {
+			this.textScale = textScale;
+		}
 	}
 
 	protected static enum GuiDragDirection {
-		up(DragDirection.up) {
+		up(DragDirection.up, 0) {
 			@Override
 			public int getAttributeId() {
 				return R.styleable.DragButton_textUp;
@@ -99,7 +118,7 @@ public class DirectionDragButton extends DragButton {
 				return getUpDownTextPosition(paint, basePaint, text, baseText, 1, w, h);
 			}
 		},
-		down(DragDirection.down) {
+		down(DragDirection.down, 2) {
 			@Override
 			public int getAttributeId() {
 				return R.styleable.DragButton_textDown;
@@ -111,7 +130,7 @@ public class DirectionDragButton extends DragButton {
 				return getUpDownTextPosition(paint, basePaint, text, baseText, -1, w, h);
 			}
 		},
-		left(DragDirection.left) {
+		left(DragDirection.left, 3) {
 			@Override
 			public int getAttributeId() {
 				return R.styleable.DragButton_textLeft;
@@ -134,7 +153,7 @@ public class DirectionDragButton extends DragButton {
 				return result;
 			}
 		}/*,
-		right(DragDirection.right) {
+		right(DragDirection.right, 1) {
 			@Override
 			public int getAttributeId() {
 				return 0;
@@ -144,11 +163,18 @@ public class DirectionDragButton extends DragButton {
 		@NotNull
 		private final DragDirection dragDirection;
 
-		GuiDragDirection(@NotNull DragDirection dragDirection) {
+		private final int attributePosition;
+
+		GuiDragDirection(@NotNull DragDirection dragDirection, int attributePosition) {
 			this.dragDirection = dragDirection;
+			this.attributePosition = attributePosition;
 		}
 
 		public abstract int getAttributeId();
+
+		public int getAttributePosition() {
+			return attributePosition;
+		}
 
 		@NotNull
 		public abstract Point2d getTextPosition(@NotNull Paint paint, @NotNull Paint basePaint, @NotNull CharSequence text, CharSequence baseText, int w, int h);
@@ -188,7 +214,7 @@ public class DirectionDragButton extends DragButton {
 	private final Map<GuiDragDirection, DirectionTextData> directionTextDataMap = new EnumMap<GuiDragDirection, DirectionTextData>(GuiDragDirection.class);
 
 	@NotNull
-	private Float directionTextScale = DEFAULT_DIRECTION_TEXT_SCALE;
+	private String directionTextScale = DEFAULT_DIRECTION_TEXT_SCALE;
 
 	private boolean initialized = false;
 
@@ -210,7 +236,7 @@ public class DirectionDragButton extends DragButton {
 			if (!StringUtils.isEmpty(attrValue)) {
 				switch (attr) {
 					case R.styleable.DragButton_directionTextScale:
-						this.directionTextScale = Float.valueOf(attrValue);
+						this.directionTextScale = attrValue;
 						break;
 					default:
 						// try drag direction text
@@ -222,6 +248,13 @@ public class DirectionDragButton extends DragButton {
 						}
 						break;
 				}
+			}
+		}
+
+		for (Map.Entry<GuiDragDirection, Float> entry : getDirectionTextScales().entrySet()) {
+			final DirectionTextData dtd = directionTextDataMap.get(entry.getKey());
+			if (dtd != null) {
+				dtd.setTextScale(entry.getValue());
 			}
 		}
 
@@ -275,7 +308,7 @@ public class DirectionDragButton extends DragButton {
 
 		directionTextPaint.setColor(resources.getColor(R.color.button_text_color));
 		directionTextPaint.setAlpha(getDefaultDirectionTextAlpha());
-		directionTextPaint.setTextSize(basePaint.getTextSize() * getDirectionTextScale());
+		directionTextPaint.setTextSize(basePaint.getTextSize() * directionTextData.getTextScale());
 
 		directionTextData.setPaint(directionTextPaint);
 	}
@@ -313,8 +346,35 @@ public class DirectionDragButton extends DragButton {
 
 
 	@NotNull
-	public Float getDirectionTextScale() {
+	public String getDirectionTextScale() {
 		return directionTextScale;
+	}
+
+	@NotNull
+	private Map<GuiDragDirection, Float> getDirectionTextScales() {
+		final List<Float> scales = CollectionsUtils.split(getDirectionTextScale(), ";", new NumberParser<Float>(Float.class));
+
+		final Map<GuiDragDirection, Float> result = new HashMap<GuiDragDirection, Float>();
+		for (GuiDragDirection guiDragDirection : GuiDragDirection.values()) {
+			result.put(guiDragDirection, DEFAULT_DIRECTION_TEXT_SCALE_FLOAT);
+		}
+
+		if (scales.size() == 1) {
+			final Float scale = scales.get(0);
+			for (Map.Entry<GuiDragDirection, Float> entry : result.entrySet()) {
+				entry.setValue(scale);
+			}
+		} else {
+			for (int i = 0; i < scales.size(); i++) {
+				for (GuiDragDirection guiDragDirection : GuiDragDirection.values()) {
+					if (guiDragDirection.getAttributePosition() == i) {
+						result.put(guiDragDirection, scales.get(i));
+					}
+				}
+			}
+		}
+
+		return result;
 	}
 
 }
