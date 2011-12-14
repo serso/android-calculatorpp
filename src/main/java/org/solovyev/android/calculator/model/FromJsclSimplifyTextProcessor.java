@@ -35,7 +35,7 @@ public class FromJsclSimplifyTextProcessor implements TextProcessor<String, Gene
 
 		final NumberBuilder numberBuilder = new NumberBuilder(true, mathContext.getNumeralBase());
 		for (int i = 0; i < s.length(); i++) {
-			final MathType.Result mathTypeResult = MathType.getType(s, i);
+			final MathType.Result mathTypeResult = MathType.getType(s, i, numberBuilder.isHexMode());
 
 			numberBuilder.process(sb, mathTypeResult, null);
 
@@ -58,7 +58,7 @@ public class FromJsclSimplifyTextProcessor implements TextProcessor<String, Gene
 		for (int i = 0; i < s.length(); i++) {
 			mathTypeBefore = mathType;
 			if (mathTypeAfter == null) {
-				mathType = MathType.getType(s, i);
+				mathType = MathType.getType(s, i, false);
 			} else {
 				mathType = mathTypeAfter;
 			}
@@ -66,7 +66,7 @@ public class FromJsclSimplifyTextProcessor implements TextProcessor<String, Gene
 			char ch = s.charAt(i);
 			if (ch == '*') {
 				if (i + 1 < s.length()) {
-					mathTypeAfter = MathType.getType(s, i + 1);
+					mathTypeAfter = MathType.getType(s, i + 1, false);
 				} else {
 					mathTypeAfter = null;
 				}

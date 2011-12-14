@@ -190,4 +190,8 @@ public class NumberBuilder {
 
 		return result;
 	}
+
+	public boolean isHexMode() {
+		return nb == NumeralBase.hex;
+	}
 }

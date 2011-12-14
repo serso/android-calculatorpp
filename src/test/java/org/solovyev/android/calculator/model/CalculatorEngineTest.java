@@ -6,6 +6,7 @@
 package org.solovyev.android.calculator.model;
 
 import jscl.AngleUnit;
+import jscl.JsclMathEngine;
 import jscl.NumeralBase;
 import jscl.math.Expression;
 import jscl.math.Generic;
@@ -275,16 +276,23 @@ public class CalculatorEngineTest {
 	public void testRounding() throws Exception {
 		final CalculatorEngine cm = CalculatorEngine.instance;
 
-		DecimalFormatSymbols decimalGroupSymbols = new DecimalFormatSymbols(Locale.getDefault());
-		decimalGroupSymbols.setDecimalSeparator('.');
-		decimalGroupSymbols.setGroupingSeparator('\'');
-		cm.setDecimalGroupSymbols(decimalGroupSymbols);
-		cm.setPrecision(2);
-		Assert.assertEquals("12'345'678.9", cm.evaluate(JsclOperation.numeric, "1.23456789E7").getResult());
-		cm.setPrecision(10);
-		Assert.assertEquals("12'345'678.9", cm.evaluate(JsclOperation.numeric, "1.23456789E7").getResult());
-		Assert.assertEquals("123'456'789", cm.evaluate(JsclOperation.numeric, "1.234567890E8").getResult());
-		Assert.assertEquals("1'234'567'890.1", cm.evaluate(JsclOperation.numeric, "1.2345678901E9").getResult());
+		try {
+			DecimalFormatSymbols decimalGroupSymbols = new DecimalFormatSymbols(Locale.getDefault());
+			decimalGroupSymbols.setDecimalSeparator('.');
+			decimalGroupSymbols.setGroupingSeparator('\'');
+			cm.setDecimalGroupSymbols(decimalGroupSymbols);
+			cm.setPrecision(2);
+			Assert.assertEquals("12'345'678.9", cm.evaluate(JsclOperation.numeric, "1.23456789E7").getResult());
+			cm.setPrecision(10);
+			Assert.assertEquals("12'345'678.9", cm.evaluate(JsclOperation.numeric, "1.23456789E7").getResult());
+			Assert.assertEquals("123'456'789", cm.evaluate(JsclOperation.numeric, "1.234567890E8").getResult());
+			Assert.assertEquals("1'234'567'890.1", cm.evaluate(JsclOperation.numeric, "1.2345678901E9").getResult());
+		} finally {
+			DecimalFormatSymbols decimalGroupSymbols = new DecimalFormatSymbols(Locale.getDefault());
+			decimalGroupSymbols.setDecimalSeparator('.');
+			decimalGroupSymbols.setGroupingSeparator(JsclMathEngine.GROUPING_SEPARATOR_DEFAULT.charAt(0));
+			cm.setDecimalGroupSymbols(decimalGroupSymbols);
+		}
 	}
 
 	@Test
@@ -358,6 +366,15 @@ public class CalculatorEngineTest {
 	@Test
 	public void testNumeralSystems() throws Exception {
 		final CalculatorEngine cm = CalculatorEngine.instance;
+
+		Assert.assertEquals("11 259 375", cm.evaluate(JsclOperation.numeric, "0x:abcdef").getResult());
+		Assert.assertEquals("30 606 154.462", cm.evaluate(JsclOperation.numeric, "0x:abcdef*e").getResult());
+		Assert.assertEquals("30 606 154.462", cm.evaluate(JsclOperation.numeric, "e*0x:abcdef").getResult());
+		Assert.assertEquals("2.718", cm.evaluate(JsclOperation.numeric, "e*0x:abcdef/0x:abcdef").getResult());
+		Assert.assertEquals("30 606 154.462", cm.evaluate(JsclOperation.numeric, "0x:abcdef*e*0x:abcdef/0x:abcdef").getResult());
+		Assert.assertEquals("30 606 154.462", cm.evaluate(JsclOperation.numeric, "c+0x:abcdef*e*0x:abcdef/0x:abcdef-c+0x:c-0x:c").getResult());
+		Assert.assertEquals("1 446 257 064 651.832", cm.evaluate(JsclOperation.numeric, "28*28 * sin(28) - 0b:1101 + √(28) + exp ( 28) ").getResult());
+		Assert.assertEquals("13", cm.evaluate(JsclOperation.numeric, "0b:1101").getResult());
 
 		final NumeralBase defaultNumeralBase = cm.getEngine().getNumeralBase();
 		try{
