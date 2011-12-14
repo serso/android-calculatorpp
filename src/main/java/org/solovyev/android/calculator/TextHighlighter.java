@@ -102,7 +102,7 @@ public class TextHighlighter implements TextProcessor<TextHighlighter.Result, St
 
 		final NumberBuilder numberBuilder = new NumberBuilder(simpleFormat, mathContext.getNumeralBase());
 		for (int i = 0; i < text.length(); i++) {
-			MathType.Result mathType = MathType.getType(text, i);
+			MathType.Result mathType = MathType.getType(text, i, numberBuilder.isHexMode());
 
 			final MutableObject<Integer> localNumberOffset  = new MutableObject<Integer>(0);
 		    numberBuilder.process(text1, mathType, localNumberOffset);

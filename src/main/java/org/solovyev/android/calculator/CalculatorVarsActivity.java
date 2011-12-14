@@ -233,7 +233,7 @@ public class CalculatorVarsActivity extends ListActivity {
 					}
 
 					if (canBeSaved) {
-						final MathType.Result mathType = MathType.getType(name, 0);
+						final MathType.Result mathType = MathType.getType(name, 0, false);
 
 						if (mathType.getMathType() == MathType.text || mathType.getMathType() == MathType.constant) {
 

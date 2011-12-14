@@ -25,24 +25,24 @@ public class MathTypeTest {
 
 	@Test
 	public void testGetType() throws Exception {
-		Assert.assertEquals(MathType.function, MathType.getType("sin", 0).getMathType());
-		Assert.assertEquals(MathType.text, MathType.getType("sn", 0).getMathType());
-		Assert.assertEquals(MathType.text, MathType.getType("s", 0).getMathType());
-		Assert.assertEquals(MathType.text, MathType.getType("", 0).getMathType());
+		Assert.assertEquals(MathType.function, MathType.getType("sin", 0, false).getMathType());
+		Assert.assertEquals(MathType.text, MathType.getType("sn", 0, false).getMathType());
+		Assert.assertEquals(MathType.text, MathType.getType("s", 0, false).getMathType());
+		Assert.assertEquals(MathType.text, MathType.getType("", 0, false).getMathType());
 
 		try {
-			Assert.assertEquals(MathType.text, MathType.getType("22", -1).getMathType());
+			Assert.assertEquals(MathType.text, MathType.getType("22", -1, false).getMathType());
 			Assert.fail();
 		} catch (IllegalArgumentException e) {
 		}
 
 		try {
-			Assert.assertEquals(MathType.text, MathType.getType("22", 2).getMathType());
+			Assert.assertEquals(MathType.text, MathType.getType("22", 2, false).getMathType());
 			Assert.fail();
 		} catch (IllegalArgumentException e) {
 		}
 
-		Assert.assertEquals("atanh", MathType.getType("atanh", 0).getMatch());
+		Assert.assertEquals("atanh", MathType.getType("atanh", 0, false).getMatch());
 	}
 
 /*	@Test
