@@ -133,7 +133,7 @@ public enum CalculatorEngine {
 			final PreparedExpression preparedExpression = preprocessor.process(expression);
 			sb.append(preparedExpression);
 
-			//Log.d(CalculatorEngine.class.getName(), "Preprocessed expression: " + preprocessedExpression);
+			//Log.d(CalculatorEngine.class.getName(), "Preprocessed expression: " + preparedExpression);
 			/*if (operation == JsclOperation.numeric && preparedExpression.isExistsUndefinedVar()) {
 				operation = JsclOperation.simplify;
 

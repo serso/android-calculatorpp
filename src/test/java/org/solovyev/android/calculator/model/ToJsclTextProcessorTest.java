@@ -62,18 +62,24 @@ public class ToJsclTextProcessorTest {
 		Assert.assertEquals( "E(-1.2)", preprocessor.process("E(-1.2)").toString());
 		Assert.assertEquals( "EE", preprocessor.process("EE").toString());
 
-		Assert.assertEquals( "0x:abcdef", preprocessor.process("0x:abcdef").toString());
-		Assert.assertEquals( "0x:abcdef", preprocessor.process("0x:a bc def").toString());
-		Assert.assertEquals( "0x:abcdef", preprocessor.process("0x:a bc                           def").toString());
-		Assert.assertEquals( "0x:abcdef*0*x", preprocessor.process("0x:a bc def*0x").toString());
-		Assert.assertEquals( "0x:abcdef001*0*x", preprocessor.process("0x:a bc def001*0x").toString());
-		Assert.assertEquals( "0x:abcdef001*0*c", preprocessor.process("0x:a bc def001*0c").toString());
-		Assert.assertEquals( "0x:abcdef001*c", preprocessor.process("0x:a bc def001*c").toString());
+		try {
+			CalculatorEngine.instance.getEngine().setNumeralBase(NumeralBase.hex);
+			Assert.assertEquals( "22F*exp(F)", preprocessor.process("22Fexp(F)").toString());
+		} finally {
+			CalculatorEngine.instance.getEngine().setNumeralBase(NumeralBase.dec);
+		}
+		Assert.assertEquals( "0x:ABCDEF", preprocessor.process("0x:ABCDEF").toString());
+		Assert.assertEquals( "0x:ABCDEF", preprocessor.process("0x:A BC DEF").toString());
+		Assert.assertEquals( "0x:ABCDEF", preprocessor.process("0x:A BC                           DEF").toString());
+		Assert.assertEquals( "0x:ABCDEF*0*x", preprocessor.process("0x:A BC DEF*0x").toString());
+		Assert.assertEquals( "0x:ABCDEF001*0*x", preprocessor.process("0x:A BC DEF001*0x").toString());
+		Assert.assertEquals( "0x:ABCDEF001*0*c", preprocessor.process("0x:A BC DEF001*0c").toString());
+		Assert.assertEquals( "0x:ABCDEF001*c", preprocessor.process("0x:A BC DEF001*c").toString());
 		Assert.assertEquals( "0b:1101", preprocessor.process("0b:1101").toString());
-		Assert.assertEquals( "0x:1c", preprocessor.process("0x:1c").toString());
-		Assert.assertEquals( "0x:1c", preprocessor.process(" 0x:1c").toString());
-		Assert.assertEquals( "0x:1c*0x:1c*sin(0x:1c)-0b:1101+√(0x:1c)+exp(0x:1c)", preprocessor.process("0x:1c*0x:1c * sin(0x:1c) - 0b:1101 + √(0x:1c) + exp ( 0x:1c)").toString());
-		Assert.assertEquals( "0x:1c*0x:1c*sin(0x:1c)-0b:1101+√(0x:1c)+exp(0x:1c)", preprocessor.process("0x:1c*0x:1c * sin(0x:1c) - 0b:1101 + √(0x:1c) + exp ( 0x:1c)").toString());
+		Assert.assertEquals( "0x:1C", preprocessor.process("0x:1C").toString());
+		Assert.assertEquals( "0x:1C", preprocessor.process(" 0x:1C").toString());
+		Assert.assertEquals( "0x:1C*0x:1C*sin(0x:1C)-0b:1101+√(0x:1C)+exp(0x:1C)", preprocessor.process("0x:1C*0x:1C * sin(0x:1C) - 0b:1101 + √(0x:1C) + exp ( 0x:1C)").toString());
+		Assert.assertEquals( "0x:1C*0x:1C*sin(0x:1C)-0b:1101+√(0x:1C)+exp(0x:1C)", preprocessor.process("0x:1C*0x:1C * sin(0x:1C) - 0b:1101 + √(0x:1C) + exp ( 0x:1C)").toString());
 
 		try {
 			preprocessor.process("ln()");
@@ -147,7 +153,7 @@ public class ToJsclTextProcessorTest {
 			Assert.assertEquals("101", JsclMathEngine.instance.evaluate("10+11"));
 
 			JsclMathEngine.instance.setNumeralBase(NumeralBase.hex);
-			Assert.assertEquals("56ce+cad", processor.process("56ce+cad").getExpression());
+			Assert.assertEquals("56CE+CAD", processor.process("56CE+CAD").getExpression());
 		} finally {
 			JsclMathEngine.instance.setNumeralBase(defaultNumeralBase);
 		}
