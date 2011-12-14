@@ -5,6 +5,7 @@ import jscl.JsclMathEngine;
 import jscl.MathEngine;
 import jscl.math.Expression;
 import jscl.text.ParseException;
+import jscl.util.ExpressionGenerator;
 import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -13,6 +14,8 @@ import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.common.utils.Converter;
 
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * User: serso
@@ -45,6 +48,42 @@ public class NumeralBaseTest {
 				testExpression(line, new Expression1());
 				testExpression(line, new Expression2());
 				testExpression(line, new Expression3());
+
+				final String dec = line[0];
+				final String hex = "0x:" + line[1];
+				final String bin = "0b:" + line[2];
+
+				final List<String> input = new ArrayList<String>();
+				input.add(dec);
+				input.add(hex);
+				input.add(bin);
+
+				System.out.println("Dec: " + dec);
+				System.out.println("Hex: " + hex);
+				System.out.println("Bin: " + bin);
+
+				final ExpressionGenerator eg = new ExpressionGenerator(input, 20);
+				final List<String> expressions = eg.generate();
+
+				final String decExpression = expressions.get(0);
+				final String hexExpression = expressions.get(1);
+				final String binExpression = expressions.get(2);
+
+				System.out.println("Dec expression: " + decExpression);
+				System.out.println("Hex expression: " + hexExpression);
+				System.out.println("Bin expression: " + binExpression);
+
+				final String decResult = Expression.valueOf(decExpression).numeric().toString();
+				System.out.println("Dec result: " + decResult);
+
+				final String hexResult = Expression.valueOf(hexExpression).numeric().toString();
+				System.out.println("Hex result: " + hexResult);
+
+				final String binResult = Expression.valueOf(binExpression).numeric().toString();
+				System.out.println("Bin result: " + binResult);
+
+				Assert.assertEquals("dec-hex: " + decExpression + " : " + hexExpression, decResult, hexResult);
+				Assert.assertEquals("dec-bin: " + decExpression + " : " + binExpression, decResult, binResult);
 			}
 		} finally {
 			if (reader != null) {
