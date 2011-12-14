@@ -5,7 +5,7 @@ import jscl.JsclMathEngine;
 import jscl.MathEngine;
 import jscl.math.Expression;
 import jscl.text.ParseException;
-import jscl.util.ExpressionGenerator;
+import jscl.util.ExpressionGeneratorWithInput;
 import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -37,7 +37,7 @@ public class NumeralBaseTest {
 		try {
 			final MathEngine me = JsclMathEngine.instance;
 
-			reader = new CSVReader(new InputStreamReader(NumeralBaseTest.class.getResourceAsStream("/jscl/math/nb_table.csv")), '\t');
+			reader = new CSVReader(new InputStreamReader(NumeralBaseTest.class.getResourceAsStream("/org/solovyev/android/calculator/model/nb_table.csv")), '\t');
 
 			// skip first line
 			reader.readNext();
@@ -62,7 +62,7 @@ public class NumeralBaseTest {
 				System.out.println("Hex: " + hex);
 				System.out.println("Bin: " + bin);
 
-				final ExpressionGenerator eg = new ExpressionGenerator(input, 20);
+				final ExpressionGeneratorWithInput eg = new ExpressionGeneratorWithInput(input, 20);
 				final List<String> expressions = eg.generate();
 
 				final String decExpression = expressions.get(0);
