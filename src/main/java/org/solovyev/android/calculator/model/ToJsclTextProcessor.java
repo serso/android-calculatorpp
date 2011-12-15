@@ -8,7 +8,6 @@ package org.solovyev.android.calculator.model;
 
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.StartsWithFinder;
-import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.common.utils.CollectionsUtils;
 
@@ -36,11 +35,9 @@ class ToJsclTextProcessor implements TextProcessor<PreparedExpression, String> {
 		final StringBuilder result = new StringBuilder();
 
 		MathType.Result mathTypeResult = null;
-		MathType.Result mathTypeBefore = null;
+		MathType.Result mathTypeBefore;
 
-		final StringBuilder sb = new StringBuilder(s);
-
-		final NumberBuilder nb = new NumberBuilder(false, CalculatorEngine.instance.getEngine());
+		final LiteNumberBuilder nb = new LiteNumberBuilder(CalculatorEngine.instance.getEngine());
 		for (int i = 0; i < s.length(); i++) {
 			if (s.charAt(i) == ' ') continue;
 			startsWithFinder.setI(i);
@@ -49,7 +46,7 @@ class ToJsclTextProcessor implements TextProcessor<PreparedExpression, String> {
 
 			mathTypeResult = MathType.getType(s, i, nb.isHexMode());
 
-			nb.process(sb, mathTypeResult, null);
+			nb.process(mathTypeResult);
 
 			if (mathTypeBefore != null) {
 
@@ -131,9 +128,5 @@ class ToJsclTextProcessor implements TextProcessor<PreparedExpression, String> {
 		}
 
 		return new PreparedExpression(result.toString(), undefinedVars);
-	}
-
-	public static String wrap(@NotNull JsclOperation operation, @NotNull String s) {
-		return operation.name() + "(\"" + s + "\");";
 	}
 }

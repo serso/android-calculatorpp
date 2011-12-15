@@ -10,10 +10,7 @@ import jscl.MathContext;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.math.MathType;
-import org.solovyev.android.calculator.model.CalculatorEngine;
-import org.solovyev.android.calculator.model.CalculatorParseException;
-import org.solovyev.android.calculator.model.NumberBuilder;
-import org.solovyev.android.calculator.model.TextProcessor;
+import org.solovyev.android.calculator.model.*;
 import org.solovyev.common.utils.MutableObject;
 
 import java.util.HashMap;
@@ -27,6 +24,7 @@ import java.util.Map;
 public class TextHighlighter implements TextProcessor<TextHighlighter.Result, String> {
 
 	private static final Map<String, String> nbFontAttributes = new HashMap<String, String>();
+
 	static {
 		nbFontAttributes.put("color", "#008000");
 	}
@@ -75,11 +73,11 @@ public class TextHighlighter implements TextProcessor<TextHighlighter.Result, St
 	private final int colorRed;
 	private final int colorGreen;
 	private final int colorBlue;
-	private final boolean allowScientificFormat;
+	private final boolean formatNumber;
 
-	public TextHighlighter(int baseColor, boolean allowScientificFormat, @NotNull MathContext mathContext) {
+	public TextHighlighter(int baseColor, boolean formatNumber, @NotNull MathContext mathContext) {
 		this.color = baseColor;
-		this.allowScientificFormat = allowScientificFormat;
+		this.formatNumber = formatNumber;
 		this.mathContext = mathContext;
 		//this.colorRed = Color.red(baseColor);
 		this.colorRed = (baseColor >> 16) & 0xFF;
@@ -99,15 +97,24 @@ public class TextHighlighter implements TextProcessor<TextHighlighter.Result, St
 
 		final StringBuilder text1 = new StringBuilder();
 
-		int numberOffset = 0;
+		int resultOffset = 0;
 
-		final NumberBuilder numberBuilder = new NumberBuilder(allowScientificFormat, CalculatorEngine.instance.getEngine());
+		final AbstractNumberBuilder numberBuilder;
+		if (!formatNumber) {
+			numberBuilder = new LiteNumberBuilder(CalculatorEngine.instance.getEngine());
+		} else {
+			numberBuilder = new NumberBuilder(CalculatorEngine.instance.getEngine());
+		}
 		for (int i = 0; i < text.length(); i++) {
 			MathType.Result mathType = MathType.getType(text, i, numberBuilder.isHexMode());
 
-			final MutableObject<Integer> localNumberOffset  = new MutableObject<Integer>(0);
-		    numberBuilder.process(text1, mathType, localNumberOffset);
-			numberOffset += localNumberOffset.getObject();
+			if (numberBuilder instanceof NumberBuilder) {
+				final MutableObject<Integer> numberOffset = new MutableObject<Integer>(0);
+				((NumberBuilder) numberBuilder).process(text1, mathType, numberOffset);
+				resultOffset += numberOffset.getObject();
+			} else {
+				((LiteNumberBuilder) numberBuilder).process(mathType);
+			}
 
 			final String match = mathType.getMatch();
 			switch (mathType.getMathType()) {
@@ -144,9 +151,11 @@ public class TextHighlighter implements TextProcessor<TextHighlighter.Result, St
 			}
 		}
 
-		final MutableObject<Integer> localNumberOffset  = new MutableObject<Integer>(0);
-		numberBuilder.processNumber(text1, localNumberOffset);
-		numberOffset += localNumberOffset.getObject();
+		if (numberBuilder instanceof NumberBuilder) {
+			final MutableObject<Integer> numberOffset = new MutableObject<Integer>(0);
+			((NumberBuilder) numberBuilder).processNumber(text1, numberOffset);
+			resultOffset += numberOffset.getObject();
+		}
 
 		if (maxNumberOfOpenGroupSymbols > 0) {
 
@@ -165,13 +174,13 @@ public class TextHighlighter implements TextProcessor<TextHighlighter.Result, St
 			result = text1.toString();
 		}
 
-		return new Result(result, numberOffset);
+		return new Result(result, resultOffset);
 	}
 
 	private int processHighlightedText(@NotNull StringBuilder result, int i, @NotNull String match, @NotNull String tag, @Nullable Map<String, String> tagAttributes) {
 		result.append("<").append(tag);
 
-		if ( tagAttributes != null ) {
+		if (tagAttributes != null) {
 			for (Map.Entry<String, String> entry : tagAttributes.entrySet()) {
 				// attr1="attr1_value" attr2="attr2_value"
 				result.append(" ").append(entry.getKey()).append("=\"").append(entry.getValue()).append("\"");

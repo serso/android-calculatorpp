@@ -16,7 +16,7 @@ import org.solovyev.android.calculator.model.TextProcessor;
 
 public enum JsclOperation {
 
-	simplify(new FromJsclSimplifyTextProcessor(CalculatorEngine.instance.getEngine())) {
+	simplify(new FromJsclSimplifyTextProcessor()) {
 		@NotNull
 		@Override
 		public String evaluate(@NotNull String expression) throws ParseException {
