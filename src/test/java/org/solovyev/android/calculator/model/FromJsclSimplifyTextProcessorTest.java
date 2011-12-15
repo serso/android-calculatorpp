@@ -66,7 +66,7 @@ public class FromJsclSimplifyTextProcessorTest {
 		Assert.assertEquals("20x", tp.process("20x"));
 		Assert.assertEquals("2×0x3", tp.process("2*0x3"));
 		Assert.assertEquals("2×0x:3", tp.process("2*0x:3"));
-		Assert.assertEquals("0x:3000000", tp.process("0x:3 000 000.00000000000001"));
+		Assert.assertEquals("0x:3 00 00 00", tp.process("0x:3 000 000.00000000000001"));
 
 	}
 }

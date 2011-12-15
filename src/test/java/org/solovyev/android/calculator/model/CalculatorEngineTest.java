@@ -388,7 +388,7 @@ public class CalculatorEngineTest {
 			}
 
 			cm.getEngine().setNumeralBase(NumeralBase.hex);
-			Assert.assertEquals("637B", cm.evaluate(JsclOperation.numeric, "56CE+CAD").getResult());
+			Assert.assertEquals("63 7B", cm.evaluate(JsclOperation.numeric, "56CE+CAD").getResult());
 			Assert.assertEquals("E", cm.evaluate(JsclOperation.numeric, "E").getResult());
 		} finally {
 			cm.setNumeralBase(defaultNumeralBase);
