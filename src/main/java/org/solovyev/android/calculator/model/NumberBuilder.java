@@ -27,23 +27,10 @@ import java.util.List;
  * Date: 10/23/11
  * Time: 2:57 PM
  */
-public class NumberBuilder {
+public class NumberBuilder extends AbstractNumberBuilder {
 
-	@NotNull
-	private final MathEngine engine;
-
-	@Nullable
-	private StringBuilder numberBuilder = null;
-
-	private final boolean allowScientificFormat;
-
-	@Nullable
-	private NumeralBase nb;
-
-	public NumberBuilder(boolean allowScientificFormat, @NotNull MathEngine engine) {
-		this.allowScientificFormat = allowScientificFormat;
-		this.nb = engine.getNumeralBase();
-		this.engine = engine;
+	public NumberBuilder(@NotNull MathEngine engine) {
+		super(engine);
 	}
 
 	/**
@@ -81,48 +68,6 @@ public class NumberBuilder {
 		}
 
 		return possibleResult == null ? mathTypeResult : possibleResult;
-	}
-
-	/**
-	 * Method determines if we can continue to process current number
-	 * @param mathTypeResult current math type result
-	 *
-	 * @return true if we can continue of processing of current number, if false - new number should be constructed
-	 */
-	private boolean canContinue(@NotNull MathType.Result mathTypeResult) {
-		return ((mathTypeResult.getMathType().getGroupType() == MathType.MathGroupType.number && numeralBaseCheck(mathTypeResult) && numeralBaseInTheStart(mathTypeResult.getMathType()) || isSignAfterE(mathTypeResult)));
-	}
-
-	private boolean numeralBaseInTheStart(@NotNull MathType mathType) {
-		return mathType != MathType.numeral_base || numberBuilder == null;
-	}
-
-	private boolean numeralBaseCheck(@NotNull MathType.Result mathType) {
-		if (mathType.getMathType() == MathType.digit) {
-			final Character ch = mathType.getMatch().charAt(0);
-			if (NumeralBase.hex.getAcceptableCharacters().contains(ch) && !NumeralBase.dec.getAcceptableCharacters().contains(ch)) {
-				if (nb == NumeralBase.hex) {
-					return true;
-				} else {
-					return false;
-				}
-			} else {
-				return true;
-			}
-		} else {
-			return true;
-		}
-	}
-
-	private boolean isSignAfterE(@NotNull MathType.Result mathTypeResult) {
-		if ("-".equals(mathTypeResult.getMatch()) || "+".equals(mathTypeResult.getMatch())) {
-			if (numberBuilder != null && numberBuilder.length() > 0) {
-				if (numberBuilder.charAt(numberBuilder.length() - 1) == MathType.POWER_10) {
-					return true;
-				}
-			}
-		}
-		return false;
 	}
 
 	/**
@@ -172,7 +117,7 @@ public class NumberBuilder {
 			nb = engine.getNumeralBase();
 		}
 
-		return replaceNumberInText(text, number, trimmedChars, offset, localNb, allowScientificFormat, engine);
+		return replaceNumberInText(text, number, trimmedChars, offset, localNb, engine);
 	}
 
 	@Nullable
@@ -181,7 +126,6 @@ public class NumberBuilder {
 													   int trimmedChars,
 													   @Nullable MutableObject<Integer> offset,
 													   @NotNull NumeralBase nb,
-													   boolean allowScientificFormat,
 													   @NotNull final MathEngine engine) {
 		MathType.Result result = null;
 
@@ -205,7 +149,7 @@ public class NumberBuilder {
 				text.append(constant.getName());
 				result = new MathType.Result(MathType.constant, constant.getName());
 			} else {
-				final String newNumber = formatNumber(number, nb, allowScientificFormat, engine);
+				final String newNumber = formatNumber(number, nb, engine);
 				if (offset != null) {
 					// register offset between old number and new number
 					offset.setObject(newNumber.length() - oldNumberLength);
@@ -218,58 +162,40 @@ public class NumberBuilder {
 	}
 
 	@NotNull
-	private static String formatNumber(@NotNull String number, @NotNull NumeralBase nb, boolean allowScientificFormat, @NotNull MathEngine engine) {
+	private static String formatNumber(@NotNull String number, @NotNull NumeralBase nb, @NotNull MathEngine engine) {
 		String result;
 
-		if (allowScientificFormat) {
-			int indexOfDot = number.indexOf('.');
+		int indexOfDot = number.indexOf('.');
 
-			if (indexOfDot < 0) {
-				int indexOfE;
-				if (nb == NumeralBase.hex) {
-					indexOfE = -1;
-				} else {
-					indexOfE = number.indexOf(MathType.POWER_10);
-				}
-				if (indexOfE < 0) {
-					result = toString(number, nb, engine);
-				} else {
-					final String part;
-					if (indexOfDot != 0) {
-						part = toString(number.substring(0, indexOfE), nb, engine);
-					} else {
-						part = "";
-					}
-					result = part + number.substring(indexOfE);
-				}
+		if (indexOfDot < 0) {
+			int indexOfE;
+			if (nb == NumeralBase.hex) {
+				indexOfE = -1;
 			} else {
-				final String integerPart;
-				if (indexOfDot != 0) {
-					integerPart = toString(number.substring(0, indexOfDot), nb, engine);
+				indexOfE = number.indexOf(MathType.POWER_10);
+			}
+			if (indexOfE < 0) {
+				result = engine.addGroupingSeparators(nb, number);
+			} else {
+				final String partBeforeE;
+				if (indexOfE != 0) {
+					partBeforeE = engine.addGroupingSeparators(nb, number.substring(0, indexOfE));
 				} else {
-					integerPart = "";
+					partBeforeE = "";
 				}
-				result = integerPart + number.substring(indexOfDot);
+				result = partBeforeE + number.substring(indexOfE);
 			}
 		} else {
-			result = toString(number, nb, engine);
+			final String integerPart;
+			if (indexOfDot != 0) {
+				integerPart = engine.addGroupingSeparators(nb, number.substring(0, indexOfDot));
+			} else {
+				integerPart = "";
+			}
+			result = integerPart + number.substring(indexOfDot);
 		}
 
 		return result;
-	}
-
-	@NotNull
-	private static String toString(@NotNull String value, @NotNull NumeralBase nb, @NotNull MathContext mathContext) {
-		return mathContext.format(toDouble(value, nb, mathContext), nb);
-	}
-
-	public boolean isHexMode() {
-		return nb == NumeralBase.hex || (nb == null && engine.getNumeralBase() == NumeralBase.hex);
-	}
-
-	@NotNull
-	private NumeralBase getNumeralBase() {
-		return nb == null ? engine.getNumeralBase() : nb;
 	}
 
 	@NotNull

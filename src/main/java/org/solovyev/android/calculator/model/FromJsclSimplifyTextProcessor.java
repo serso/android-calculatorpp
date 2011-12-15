@@ -1,6 +1,5 @@
 package org.solovyev.android.calculator.model;
 
-import jscl.MathContext;
 import jscl.math.Generic;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -16,35 +15,17 @@ import java.util.List;
  */
 public class FromJsclSimplifyTextProcessor implements TextProcessor<String, Generic> {
 
-	@NotNull
-	private final MathContext mathContext;
-
-	public FromJsclSimplifyTextProcessor(@NotNull MathContext mathContext) {
-		this.mathContext = mathContext;
+	public FromJsclSimplifyTextProcessor() {
 	}
 
 	@NotNull
 	@Override
 	public String process(@NotNull Generic from) throws CalculatorParseException {
-		final String s = from.toString();
-		return process(s);
+		return removeMultiplicationSigns(from.toString());
 	}
 
 	public String process(@NotNull String s) {
-		final StringBuilder sb = new StringBuilder();
-
-		final NumberBuilder nb = new NumberBuilder(false, CalculatorEngine.instance.getEngine());
-		for (int i = 0; i < s.length(); i++) {
-			final MathType.Result mathTypeResult = MathType.getType(s, i, nb.isHexMode());
-
-			nb.process(sb, mathTypeResult, null);
-
-			i = mathTypeResult.processFromJscl(sb, i);
-		}
-
-		nb.processNumber(sb, null);
-
-		return removeMultiplicationSigns(sb.toString());
+		return removeMultiplicationSigns(s);
 	}
 
 	@NotNull
