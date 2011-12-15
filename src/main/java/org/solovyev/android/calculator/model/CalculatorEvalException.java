@@ -6,6 +6,7 @@
 
 package org.solovyev.android.calculator.model;
 
+import jscl.AbstractJsclArithmeticException;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.common.exceptions.SersoException;
 import org.solovyev.common.msg.Message;
@@ -27,7 +28,8 @@ public class CalculatorEvalException extends SersoException implements Message {
 	@NotNull
 	private final String expression;
 
-	public CalculatorEvalException(@NotNull Message message, String expression) {
+	public CalculatorEvalException(@NotNull Message message, @NotNull Throwable cause, String expression) {
+		super(cause);
 		this.message = message;
 		this.expression = expression;
 	}

@@ -21,7 +21,7 @@ import java.util.*;
 
 public enum MathType {
 
-	numeral_base(50, true, false) {
+	numeral_base(50, true, false, MathGroupType.number) {
 
 		private final List<String> tokens = new ArrayList<String>(10);
 		{
@@ -40,23 +40,23 @@ public enum MathType {
 		}
 	},
 
-	dot(200, true, true, ".") {
+	dot(200, true, true, MathGroupType.number, ".") {
 		@Override
 		public boolean isNeedMultiplicationSignBefore(@NotNull MathType mathTypeBefore) {
 			return super.isNeedMultiplicationSignBefore(mathTypeBefore) && mathTypeBefore != digit;
 		}
 	},
 
-	grouping_separator(250, false, false, "'", " "){
+	grouping_separator(250, false, false, MathGroupType.number, "'", " "){
 		@Override
 		public int processToJscl(@NotNull StringBuilder result, int i, @NotNull String match) throws CalculatorParseException {
 			return i;
 		}
 	},
 
-	power_10(300, false, false, "E"),
+	power_10(300, false, false, MathGroupType.number, "E"),
 
-	postfix_function(400, false, true) {
+	postfix_function(400, false, true, MathGroupType.function) {
 		@NotNull
 		@Override
 		public List<String> getTokens() {
@@ -64,8 +64,8 @@ public enum MathType {
 		}
 	},
 
-	unary_operation(500, false, false, "-", "="),
-	binary_operation(600, false, false, "-", "+", "*", "×", "∙", "/", "^") {
+	unary_operation(500, false, false, MathGroupType.operation, "-", "="),
+	binary_operation(600, false, false, MathGroupType.operation, "-", "+", "*", "×", "∙", "/", "^") {
 		@Override
 		protected String getSubstituteToJscl(@NotNull String match) {
 			if (match.equals("×") || match.equals("∙")) {
@@ -76,7 +76,7 @@ public enum MathType {
 		}
 	},
 
-	open_group_symbol(800, true, false, "[", "(", "{") {
+	open_group_symbol(800, true, false, MathGroupType.other, "[", "(", "{") {
 		@Override
 		public boolean isNeedMultiplicationSignBefore(@NotNull MathType mathTypeBefore) {
 			return super.isNeedMultiplicationSignBefore(mathTypeBefore) && mathTypeBefore != function && mathTypeBefore != operator;
@@ -88,7 +88,7 @@ public enum MathType {
 		}
 	},
 
-	close_group_symbol(900, false, true, "]", ")", "}") {
+	close_group_symbol(900, false, true, MathGroupType.other, "]", ")", "}") {
 		@Override
 		public boolean isNeedMultiplicationSignBefore(@NotNull MathType mathTypeBefore) {
 			return false;
@@ -100,7 +100,7 @@ public enum MathType {
 		}
 	},
 
-	function(1000, true, true) {
+	function(1000, true, true, MathGroupType.function) {
 		@NotNull
 		@Override
 		public List<String> getTokens() {
@@ -108,7 +108,7 @@ public enum MathType {
 		}
 	},
 
-	operator(1050, true, true) {
+	operator(1050, true, true, MathGroupType.function) {
 		@NotNull
 		@Override
 		public List<String> getTokens() {
@@ -116,7 +116,7 @@ public enum MathType {
 		}
 	},
 
-	constant(1100, true, true) {
+	constant(1100, true, true, MathGroupType.other) {
 		@NotNull
 		@Override
 		public List<String> getTokens() {
@@ -129,7 +129,7 @@ public enum MathType {
 		}
 	},
 
-	digit(1125, true, true) {
+	digit(1125, true, true, MathGroupType.number) {
 
 		private final List<String> tokens = new ArrayList<String>(16);
 		{
@@ -149,9 +149,9 @@ public enum MathType {
 		}
 	},
 
-	comma(1150, false, false, ","),
+	comma(1150, false, false, MathGroupType.other, ","),
 
-	text(1200, false, false) {
+	text(1200, false, false, MathGroupType.other) {
 		@Override
 		public int processToJscl(@NotNull StringBuilder result, int i, @NotNull String match) {
 			if (match.length() > 0) {
@@ -169,6 +169,13 @@ public enum MathType {
 		}
 	};
 
+	public static enum MathGroupType {
+		function,
+		number,
+		operation,
+		other
+	}
+
 	@NotNull
 	private final List<String> tokens;
 
@@ -179,24 +186,35 @@ public enum MathType {
 
 	private final boolean needMultiplicationSignAfter;
 
+	@NotNull
+	private final MathGroupType groupType;
+
 	MathType(@NotNull Integer priority,
 			 boolean needMultiplicationSignBefore,
 			 boolean needMultiplicationSignAfter,
+			 @NotNull MathGroupType groupType,
 			 @NotNull String... tokens) {
-		this(priority, needMultiplicationSignBefore, needMultiplicationSignAfter, CollectionsUtils.asList(tokens));
+		this(priority, needMultiplicationSignBefore, needMultiplicationSignAfter, groupType, CollectionsUtils.asList(tokens));
 	}
 
 	MathType(@NotNull Integer priority,
 			 boolean needMultiplicationSignBefore,
 			 boolean needMultiplicationSignAfter,
+			 @NotNull MathGroupType groupType,
 			 @NotNull List<String> tokens) {
 		this.priority = priority;
 		this.needMultiplicationSignBefore = needMultiplicationSignBefore;
 		this.needMultiplicationSignAfter = needMultiplicationSignAfter;
+		this.groupType = groupType;
 		this.tokens = Collections.unmodifiableList(tokens);
 	}
 
-/*	public static int getPostfixFunctionStart(@NotNull CharSequence s, int position) throws ParseException {
+	@NotNull
+	public MathGroupType getGroupType() {
+		return groupType;
+	}
+
+	/*	public static int getPostfixFunctionStart(@NotNull CharSequence s, int position) throws ParseException {
 		assert s.length() > position;
 
 		int numberOfOpenGroups = 0;

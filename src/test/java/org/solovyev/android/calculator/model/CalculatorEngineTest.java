@@ -183,6 +183,18 @@ public class CalculatorEngineTest {
 		Assert.assertEquals("100", cm.evaluate(JsclOperation.numeric, "0.1E3").getResult());
 		Assert.assertEquals("3.957", cm.evaluate(JsclOperation.numeric, "ln(8)lg(8)+ln(8)").getResult());
 
+		Assert.assertEquals("0.933", cm.evaluate(JsclOperation.numeric, "0x:E/0x:F").getResult());
+
+		try {
+		 	cm.getEngine().setNumeralBase(NumeralBase.hex);
+			Assert.assertEquals("E/F", cm.evaluate(JsclOperation.numeric, "0x:E/0x:F").getResult());
+			Assert.assertEquals("E/F", cm.evaluate(JsclOperation.simplify, "0x:E/0x:F").getResult());
+			Assert.assertEquals("E/F", cm.evaluate(JsclOperation.numeric, "E/F").getResult());
+			Assert.assertEquals("E/F", cm.evaluate(JsclOperation.simplify, "E/F").getResult());
+		} finally {
+			cm.getEngine().setNumeralBase(NumeralBase.dec);
+		}
+
 		Assert.assertEquals("0", cm.evaluate(JsclOperation.numeric, "((((((0))))))").getResult());
 		Assert.assertEquals("0", cm.evaluate(JsclOperation.numeric, "((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((0))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))").getResult());
 

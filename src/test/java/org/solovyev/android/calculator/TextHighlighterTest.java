@@ -26,7 +26,7 @@ public class TextHighlighterTest {
 
 	@Test
 	public void testProcess() throws Exception {
-		TextProcessor<?, String> textHighlighter = new TextHighlighter(0, true, JsclMathEngine.instance);
+		TextProcessor<?, String> textHighlighter = new TextHighlighter(0, false, JsclMathEngine.instance);
 
 		final Random random = new Random(new Date().getTime());
 		for (int i = 0; i < 1000; i++) {
@@ -48,7 +48,7 @@ public class TextHighlighterTest {
 		Assert.assertEquals("1 000 000", textHighlighter.process("1000000").toString());
 		Assert.assertEquals("1 000 000", textHighlighter.process("1000000").toString());
 
-		textHighlighter = new TextHighlighter(0, false, JsclMathEngine.instance);
+		textHighlighter = new TextHighlighter(0, true, JsclMathEngine.instance);
 		Assert.assertEquals("0.1E3", textHighlighter.process("0.1E3").toString());
 		Assert.assertEquals("1E3", textHighlighter.process("1E3").toString());
 		Assert.assertEquals("2<b>0x:</b>", textHighlighter.process("20x:").toString());
@@ -60,7 +60,7 @@ public class TextHighlighterTest {
 		Assert.assertEquals("-1 000 000E3", textHighlighter.process("-1000000E3").toString());
 		Assert.assertEquals("-1 000 000E-3", textHighlighter.process("-1000000E-3").toString());
 		Assert.assertEquals("-1 000 000E-30000", textHighlighter.process("-1000000E-30000").toString());
-		textHighlighter = new TextHighlighter(0, true, JsclMathEngine.instance);
+		textHighlighter = new TextHighlighter(0, false, JsclMathEngine.instance);
 
 		textHighlighter.process("cannot calculate 3^10^10 !!!\n" +
 				"        unable to enter 0. FIXED\n" +
