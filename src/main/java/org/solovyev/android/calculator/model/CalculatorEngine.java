@@ -81,11 +81,6 @@ public enum CalculatorEngine {
 		this.engine.setUseGroupingSeparator(true);
 	}
 
-	@NotNull
-	public String format(@NotNull Double value, boolean round) {
-		return getEngine().format(value, round);
-	}
-
 	public static class Result {
 
 		@NotNull

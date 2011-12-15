@@ -84,8 +84,8 @@ public class TextHighlighterTest {
 		Assert.assertEquals("<b>0x:</b>6F", textHighlighter.process("0x:6F.B").toString());
 		Assert.assertEquals("<b>0x:</b>6F", textHighlighter.process("0x:006F.B").toString());
 		Assert.assertEquals("<b>0x:</b>0", textHighlighter.process("0x:0").toString());
-		Assert.assertEquals("<b>0x:</b>FF33233FFE", textHighlighter.process("0x:FF33233FFE").toString());
-		Assert.assertEquals("<b>0x:</b>FF33233FFE", textHighlighter.process("0x:FF33 233 FFE").toString());
+		Assert.assertEquals("<b>0x:</b>FF 33 23 3F FE", textHighlighter.process("0x:FF33233FFE").toString());
+		Assert.assertEquals("<b>0x:</b>FF 33 23 3F FE", textHighlighter.process("0x:FF33 233 FFE").toString());
 
 		final MathEngine me = CalculatorEngine.instance.getEngine();
 		try {
@@ -104,25 +104,25 @@ public class TextHighlighterTest {
 			me.setNumeralBase(NumeralBase.dec);
 		}
 
-		Assert.assertEquals("<b>0b:</b>110101", textHighlighter.process("0b:110101").toString());
-		Assert.assertEquals("<b>0b:</b>110101", textHighlighter.process("0b:110101.").toString());
-		Assert.assertEquals("<b>0b:</b>110101", textHighlighter.process("0b:110101.101").toString());
-		Assert.assertEquals("<b>0b:</b>11010100", textHighlighter.process("0b:11010100.1").toString());
-		Assert.assertEquals("<b>0b:</b>110101", textHighlighter.process("0b:110101.0").toString());
+		Assert.assertEquals("<b>0b:</b>11 0101", textHighlighter.process("0b:110101").toString());
+		Assert.assertEquals("<b>0b:</b>11 0101", textHighlighter.process("0b:110101.").toString());
+		Assert.assertEquals("<b>0b:</b>11 0101", textHighlighter.process("0b:110101.101").toString());
+		Assert.assertEquals("<b>0b:</b>1101 0100", textHighlighter.process("0b:11010100.1").toString());
+		Assert.assertEquals("<b>0b:</b>11 0101", textHighlighter.process("0b:110101.0").toString());
 		Assert.assertEquals("<b>0b:</b>0", textHighlighter.process("0b:0").toString());
-		Assert.assertEquals("<b>0b:</b>1010100101111010101001", textHighlighter.process("0b:1010100101111010101001").toString());
-		Assert.assertEquals("<b>0b:</b>1010100101111010101001", textHighlighter.process("0b:101 010   01 0 111   1 0 10101001").toString());
+		Assert.assertEquals("<b>0b:</b>10 1010 0101 1110 1010 1001", textHighlighter.process("0b:1010100101111010101001").toString());
+		Assert.assertEquals("<b>0b:</b>10 1010 0101 1110 1010 1001", textHighlighter.process("0b:101 010   01 0 111   1 0 10101001").toString());
 
 		try {
 			me.setNumeralBase(NumeralBase.bin);
-		Assert.assertEquals("110101", textHighlighter.process("110101").toString());
-		Assert.assertEquals("110101", textHighlighter.process("110101.").toString());
-		Assert.assertEquals("110101", textHighlighter.process("110101.101").toString());
-		Assert.assertEquals("11010100", textHighlighter.process("11010100.1").toString());
-		Assert.assertEquals("110101", textHighlighter.process("110101.0").toString());
+		Assert.assertEquals("11 0101", textHighlighter.process("110101").toString());
+		Assert.assertEquals("11 0101", textHighlighter.process("110101.").toString());
+		Assert.assertEquals("11 0101", textHighlighter.process("110101.101").toString());
+		Assert.assertEquals("1101 0100", textHighlighter.process("11010100.1").toString());
+		Assert.assertEquals("11 0101", textHighlighter.process("110101.0").toString());
 		Assert.assertEquals("0", textHighlighter.process("0").toString());
-		Assert.assertEquals("1010100101111010101001", textHighlighter.process("1010100101111010101001").toString());
-		Assert.assertEquals("1010100101111010101001", textHighlighter.process("101 010   01 0 111   1 0 10101001").toString());
+		Assert.assertEquals("10 1010 0101 1110 1010 1001", textHighlighter.process("1010100101111010101001").toString());
+		Assert.assertEquals("10 1010 0101 1110 1010 1001", textHighlighter.process("101 010   01 0 111   1 0 10101001").toString());
 		} finally {
 			me.setNumeralBase(NumeralBase.dec);
 		}
