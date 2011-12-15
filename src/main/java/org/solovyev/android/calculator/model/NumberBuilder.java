@@ -172,11 +172,11 @@ public class NumberBuilder {
 							indexOfE = number.indexOf('E');
 						}
 						if (indexOfE < 0) {
-							formattedNumber = Numeric.toString(toDouble(number, nb), nb);
+							formattedNumber = toString(toDouble(number, nb), nb);
 						} else {
 							final String part;
 							if (indexOfDot != 0) {
-								part = Numeric.toString(toDouble(number.substring(0, indexOfE), nb), nb);
+								part = toString(toDouble(number.substring(0, indexOfE), nb), nb);
 							} else {
 								part = "";
 							}
@@ -185,14 +185,14 @@ public class NumberBuilder {
 					} else {
 						final String integerPart;
 						if (indexOfDot != 0) {
-							integerPart = Numeric.toString(toDouble(number.substring(0, indexOfDot), nb), nb);
+							integerPart = toString(toDouble(number.substring(0, indexOfDot), nb), nb);
 						} else {
 							integerPart = "";
 						}
 						formattedNumber = integerPart + number.substring(indexOfDot);
 					}
 				} else {
-					formattedNumber = Numeric.toString(toDouble(number, nb), nb);
+					formattedNumber = toString(toDouble(number, nb), nb);
 				}
 
 				if (numberOffset != null) {
@@ -203,6 +203,11 @@ public class NumberBuilder {
 		}
 
 		return result;
+	}
+
+	@NotNull
+	private static String toString(@NotNull Double value, @NotNull NumeralBase nb) {
+		return CalculatorEngine.instance.getEngine().format(value, nb);
 	}
 
 	public boolean isHexMode() {
