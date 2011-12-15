@@ -388,16 +388,18 @@ public class CalculatorEngineTest {
 		Assert.assertEquals("1 446 257 064 651.832", cm.evaluate(JsclOperation.numeric, "28*28 * sin(28) - 0b:1101 + √(28) + exp ( 28) ").getResult());
 		Assert.assertEquals("13", cm.evaluate(JsclOperation.numeric, "0b:1101").getResult());
 
+		try {
+			cm.evaluate(JsclOperation.numeric, "0b:π").getResult();
+			Assert.fail();
+		} catch (CalculatorParseException e) {
+			// ok
+		}
+
 		final NumeralBase defaultNumeralBase = cm.getEngine().getNumeralBase();
 		try{
 			cm.getEngine().setNumeralBase(NumeralBase.bin);
 			Assert.assertEquals("101", cm.evaluate(JsclOperation.numeric, "10+11").getResult());
-			try {
-				cm.evaluate(JsclOperation.numeric, "10/11");
-				fail();
-			} catch (CalculatorEvalException e) {
-				// ok
-			}
+			Assert.assertEquals("10/11", cm.evaluate(JsclOperation.numeric, "10/11").getResult());
 
 			cm.getEngine().setNumeralBase(NumeralBase.hex);
 			Assert.assertEquals("63 7B", cm.evaluate(JsclOperation.numeric, "56CE+CAD").getResult());
