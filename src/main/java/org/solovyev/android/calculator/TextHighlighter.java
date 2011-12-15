@@ -146,6 +146,7 @@ public class TextHighlighter implements TextProcessor<TextHighlighter.Result, St
 					if (mathType.getMathType() == MathType.text || match.length() <= 1) {
 						text1.append(text.charAt(i));
 					} else {
+						text1.append(match);
 						i += match.length() - 1;
 					}
 			}

@@ -184,6 +184,7 @@
 	<string name="c_op_description_integral_ab">Integrates function \'f(x)\' by \'x\' variable from \'a\' to \'b\'.</string>
 
 	<string name="c_pf_description_factorial">Gives the factorial of the expression before.</string>
+	<string name="c_pf_description_double_factorial">Gives the double factorial of the expression before.</string>
 	<string name="c_pf_description_percent" formatted="false">Gives the percent value of the expression
 		before.\nExamples:\n
 		100 + 50% = 150\n

@@ -56,6 +56,7 @@ public class TextHighlighterTest {
 		Assert.assertEquals("22x", textHighlighter.process("22x").toString());
 		Assert.assertEquals("20t", textHighlighter.process("20t").toString());
 		Assert.assertEquals("20k", textHighlighter.process("20k").toString());
+		Assert.assertEquals("3!!", textHighlighter.process("3!!").toString());
 		Assert.assertEquals("2", textHighlighter.process("2").toString());
 		Assert.assertEquals("21", textHighlighter.process("21").toString());
 		Assert.assertEquals("214", textHighlighter.process("214").toString());
