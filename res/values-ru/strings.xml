@@ -183,6 +183,7 @@
 	<string name="c_op_description_integral_ab">Интегрирует функцию \'f(x)\' по переменной \'x\' от \'a\' до \'b\'.</string>
 
 	<string name="c_pf_description_factorial">Возвращает факториал от предыдущего выражения.</string>
+	<string name="c_pf_description_double_factorial">Возвращает двойной факториал от предыдущего выражения.</string>
 	<string name="c_pf_description_percent" formatted="false">Возвращает процентное значение от предыдущего выражения.\nПримеры:\n
 		100 + 50% = 150\n
 		100 * 50% = 50\n
