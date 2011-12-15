@@ -6,7 +6,6 @@
 
 package org.solovyev.android.calculator.model;
 
-import jscl.JsclMathEngine;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.StartsWithFinder;
 import org.solovyev.android.calculator.jscl.JsclOperation;
@@ -41,7 +40,7 @@ class ToJsclTextProcessor implements TextProcessor<PreparedExpression, String> {
 
 		final StringBuilder sb = new StringBuilder(s);
 
-		final NumberBuilder nb = new NumberBuilder(true, CalculatorEngine.instance.getEngine().getNumeralBase());
+		final NumberBuilder nb = new NumberBuilder(false, CalculatorEngine.instance.getEngine());
 		for (int i = 0; i < s.length(); i++) {
 			if (s.charAt(i) == ' ') continue;
 			startsWithFinder.setI(i);

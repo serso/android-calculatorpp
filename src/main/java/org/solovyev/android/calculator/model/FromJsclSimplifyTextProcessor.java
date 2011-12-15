@@ -33,16 +33,16 @@ public class FromJsclSimplifyTextProcessor implements TextProcessor<String, Gene
 	public String process(@NotNull String s) {
 		final StringBuilder sb = new StringBuilder();
 
-		final NumberBuilder numberBuilder = new NumberBuilder(true, mathContext.getNumeralBase());
+		final NumberBuilder nb = new NumberBuilder(false, CalculatorEngine.instance.getEngine());
 		for (int i = 0; i < s.length(); i++) {
-			final MathType.Result mathTypeResult = MathType.getType(s, i, numberBuilder.isHexMode());
+			final MathType.Result mathTypeResult = MathType.getType(s, i, nb.isHexMode());
 
-			numberBuilder.process(sb, mathTypeResult, null);
+			nb.process(sb, mathTypeResult, null);
 
 			i = mathTypeResult.processFromJscl(sb, i);
 		}
 
-		numberBuilder.process(sb, null);
+		nb.processNumber(sb, null);
 
 		return removeMultiplicationSigns(sb.toString());
 	}
