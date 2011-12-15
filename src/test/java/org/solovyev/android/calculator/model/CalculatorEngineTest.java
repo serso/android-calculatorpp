@@ -113,7 +113,7 @@ public class CalculatorEngineTest {
 		Assert.assertEquals("2+i", cm.evaluate(JsclOperation.numeric, "2*1+√(-1)").getResult());
 		try {
 			cm.getEngine().setAngleUnits(AngleUnit.rad);
-			Assert.assertEquals("0.921+3.142i", cm.evaluate(JsclOperation.numeric, "ln(5cosh(38π√(2cos(2))))").getResult());
+			Assert.assertEquals("0.921+πi", cm.evaluate(JsclOperation.numeric, "ln(5cosh(38π√(2cos(2))))").getResult());
 			Assert.assertEquals("-3.41+3.41i", cm.evaluate(JsclOperation.numeric, "(5tan(2i)+2i)/(1-i)").getResult());
 		} finally {
 			cm.getEngine().setAngleUnits(defaultAngleUnit);
@@ -132,7 +132,7 @@ public class CalculatorEngineTest {
 		junit.framework.Assert.assertEquals("120", cm.evaluate(JsclOperation.numeric, "(2+2+1)!").getResult());
 		junit.framework.Assert.assertEquals("24", cm.evaluate(JsclOperation.numeric, "(2.0+2.0)!").getResult());
 		junit.framework.Assert.assertEquals("24", cm.evaluate(JsclOperation.numeric, "4.0!").getResult());
-		junit.framework.Assert.assertEquals("720", cm.evaluate(JsclOperation.numeric, "3!!").getResult());
+		junit.framework.Assert.assertEquals("720", cm.evaluate(JsclOperation.numeric, "(3!)!").getResult());
 		junit.framework.Assert.assertEquals("36", Expression.valueOf("3!^2").numeric().toString());
 		junit.framework.Assert.assertEquals("3", Expression.valueOf("cubic(27)").numeric().toString());
 		try {
@@ -353,7 +353,7 @@ public class CalculatorEngineTest {
 		Assert.assertEquals("11 259 375", cm.evaluate(JsclOperation.numeric, "0x:ABCDEF").getResult());
 		Assert.assertEquals("30 606 154.462", cm.evaluate(JsclOperation.numeric, "0x:ABCDEF*e").getResult());
 		Assert.assertEquals("30 606 154.462", cm.evaluate(JsclOperation.numeric, "e*0x:ABCDEF").getResult());
-		Assert.assertEquals("2.718", cm.evaluate(JsclOperation.numeric, "e*0x:ABCDEF/0x:ABCDEF").getResult());
+		Assert.assertEquals("e", cm.evaluate(JsclOperation.numeric, "e*0x:ABCDEF/0x:ABCDEF").getResult());
 		Assert.assertEquals("30 606 154.462", cm.evaluate(JsclOperation.numeric, "0x:ABCDEF*e*0x:ABCDEF/0x:ABCDEF").getResult());
 		Assert.assertEquals("30 606 154.462", cm.evaluate(JsclOperation.numeric, "c+0x:ABCDEF*e*0x:ABCDEF/0x:ABCDEF-c+0x:C-0x:C").getResult());
 		Assert.assertEquals("1 446 257 064 651.832", cm.evaluate(JsclOperation.numeric, "28*28 * sin(28) - 0b:1101 + √(28) + exp ( 28) ").getResult());

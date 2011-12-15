@@ -25,6 +25,7 @@ public class AndroidPostfixFunctionsRegistry extends AndroidMathRegistryImpl<Ope
 	static {
 		substitutes.put("%", "percent");
 		substitutes.put("!", "factorial");
+		substitutes.put("!!", "double_factorial");
 		substitutes.put("°", "degree");
 	}
 
