@@ -6,9 +6,10 @@
 
 package org.solovyev.android.calculator.model;
 
+import jscl.MathContext;
 import jscl.MathEngine;
 import jscl.NumeralBase;
-import jscl.math.numeric.Numeric;
+import jscl.math.function.IConstant;
 import jscl.math.numeric.Real;
 import jscl.text.*;
 import org.jetbrains.annotations.NotNull;
@@ -28,59 +29,79 @@ import java.util.List;
  */
 public class NumberBuilder {
 
+	@NotNull
+	private final MathEngine engine;
+
 	@Nullable
 	private StringBuilder numberBuilder = null;
-	@Nullable
-	private String number = null;
 
-	private final boolean simpleFormat;
-
-	@NotNull
-	private final NumeralBase defaultNumeralBase;
+	private final boolean allowScientificFormat;
 
 	@Nullable
 	private NumeralBase nb;
 
-	public NumberBuilder(boolean simpleFormat, @NotNull NumeralBase defaultNumeralBase) {
-		this.simpleFormat = simpleFormat;
-		this.defaultNumeralBase = defaultNumeralBase;
-		this.nb = defaultNumeralBase;
+	public NumberBuilder(boolean allowScientificFormat, @NotNull MathEngine engine) {
+		this.allowScientificFormat = allowScientificFormat;
+		this.nb = engine.getNumeralBase();
+		this.engine = engine;
 	}
 
+	/**
+	 * Method replaces number in text according to some rules (e.g. formatting)
+	 *
+	 * @param text text where number can be replaced
+	 * @param mathTypeResult math type result of current token
+	 * @param offset offset between new number length and old number length (newNumberLength - oldNumberLength)
+	 *
+	 *
+	 * @return new math type result (as one can be changed due to substituting of number with constant)
+	 */
 	@NotNull
-	public MathType.Result process(@NotNull StringBuilder sb, @NotNull MathType.Result mathTypeResult, @Nullable MutableObject<Integer> numberOffset) {
-		number = null;
-
+	public MathType.Result process(@NotNull StringBuilder text, @NotNull MathType.Result mathTypeResult, @Nullable MutableObject<Integer> offset) {
 		final MathType.Result possibleResult;
-		if ((CollectionsUtils.contains(mathTypeResult.getMathType(), MathType.digit, MathType.numeral_base, MathType.dot, MathType.grouping_separator, MathType.power_10) ||
-				isSignAfterE(mathTypeResult)) && numeralBaseCheck(mathTypeResult) && numeralBaseInTheStart(mathTypeResult.getMathType())) {
+		if (canContinue(mathTypeResult)) {
+			// let's continue building number
 			if (numberBuilder == null) {
+				// if new number => create new builder
 				numberBuilder = new StringBuilder();
 			}
 
 			if (mathTypeResult.getMathType() != MathType.numeral_base) {
+				// just add matching string
 				numberBuilder.append(mathTypeResult.getMatch());
 			} else {
+				// set explicitly numeral base (do not include it into number)
 				nb = NumeralBase.getByPrefix(mathTypeResult.getMatch());
 			}
 
 			possibleResult = null;
 		} else {
-			possibleResult = process(sb, numberOffset);
+			// process current number (and go to the next one)
+			possibleResult = processNumber(text, offset);
 		}
 
 		return possibleResult == null ? mathTypeResult : possibleResult;
+	}
+
+	/**
+	 * Method determines if we can continue to process current number
+	 * @param mathTypeResult current math type result
+	 *
+	 * @return true if we can continue of processing of current number, if false - new number should be constructed
+	 */
+	private boolean canContinue(@NotNull MathType.Result mathTypeResult) {
+		return ((mathTypeResult.getMathType().getGroupType() == MathType.MathGroupType.number && numeralBaseCheck(mathTypeResult) && numeralBaseInTheStart(mathTypeResult.getMathType()) || isSignAfterE(mathTypeResult)));
 	}
 
 	private boolean numeralBaseInTheStart(@NotNull MathType mathType) {
 		return mathType != MathType.numeral_base || numberBuilder == null;
 	}
 
-	private boolean numeralBaseCheck( @NotNull MathType.Result mathType ) {
-		if ( mathType.getMathType() == MathType.digit ) {
+	private boolean numeralBaseCheck(@NotNull MathType.Result mathType) {
+		if (mathType.getMathType() == MathType.digit) {
 			final Character ch = mathType.getMatch().charAt(0);
-			if ( NumeralBase.hex.getAcceptableCharacters().contains(ch) && !NumeralBase.dec.getAcceptableCharacters().contains(ch) ) {
-				if ( nb == NumeralBase.hex ) {
+			if (NumeralBase.hex.getAcceptableCharacters().contains(ch) && !NumeralBase.dec.getAcceptableCharacters().contains(ch)) {
+				if (nb == NumeralBase.hex) {
 					return true;
 				} else {
 					return false;
@@ -104,101 +125,92 @@ public class NumberBuilder {
 		return false;
 	}
 
-
+	/**
+	 * Method replaces number in text according to some rules (e.g. formatting)
+	 *
+	 * @param text text where number can be replaced
+	 * @param offset offset between new number length and old number length (newNumberLength - oldNumberLength)
+	 *
+	 * @return new math type result (as one can be changed due to substituting of number with constant)
+	 */
 	@Nullable
-	public MathType.Result process(@NotNull StringBuilder sb, @Nullable MutableObject<Integer> numberOffset) {
-		int numberOfTokens = 0;
+	public MathType.Result processNumber(@NotNull StringBuilder text, @Nullable MutableObject<Integer> offset) {
+		// total number of trimmed chars
+		int trimmedChars = 0;
 
-		final NumeralBase localNb;
+		String number = null;
+
+		// save numeral base (as later it might be replaced)
+		final NumeralBase localNb = getNumeralBase();
+
 		if (numberBuilder != null) {
 			try {
 				number = numberBuilder.toString();
-				List<String> tokens = new ArrayList<String>();
+
+				// let's get rid of unnecessary characters (grouping separators, + after E)
+				final List<String> tokens = new ArrayList<String>();
 				tokens.addAll(MathType.grouping_separator.getTokens());
+				// + after E can be omitted: 10+E = 10E (NOTE: - cannot be omitted )
 				tokens.add("+");
 				for (String groupingSeparator : tokens) {
-					String newNumber = number.replace(groupingSeparator, "");
-					numberOfTokens += number.length() - newNumber.length();
-					number = newNumber;
+					final String trimmedNumber = number.replace(groupingSeparator, "");
+					trimmedChars += number.length() - trimmedNumber.length();
+					number = trimmedNumber;
 				}
-				
-				toDouble(number, getNumeralBase());
-				
+
+				// check if number still valid
+				toDouble(number, getNumeralBase(), engine);
+
 			} catch (NumberFormatException e) {
+				// number is not valid => stop
 				number = null;
 			}
 
 			numberBuilder = null;
-			localNb = getNumeralBase();
-			nb = defaultNumeralBase;
-		} else {
-			number = null;
-			localNb = getNumeralBase();
+
+			// must set default numeral base (exit numeral base mode)
+			nb = engine.getNumeralBase();
 		}
 
-		return replaceSystemVars(sb, number, numberOfTokens, numberOffset, localNb, simpleFormat);
+		return replaceNumberInText(text, number, trimmedChars, offset, localNb, allowScientificFormat, engine);
 	}
 
 	@Nullable
-	private static MathType.Result replaceSystemVars(StringBuilder sb, String number, int numberOfTokens, @Nullable MutableObject<Integer> numberOffset, @NotNull NumeralBase nb, boolean simpleFormat) {
+	private static MathType.Result replaceNumberInText(@NotNull StringBuilder text,
+													   @Nullable String number,
+													   int trimmedChars,
+													   @Nullable MutableObject<Integer> offset,
+													   @NotNull NumeralBase nb,
+													   boolean allowScientificFormat,
+													   @NotNull final MathEngine engine) {
 		MathType.Result result = null;
 
 		if (number != null) {
 			final String finalNumber = number;
-			final Var var = CollectionsUtils.find(CalculatorEngine.instance.getVarsRegister().getSystemEntities(), new Finder<Var>() {
+
+			// detect if current number is precisely equals to constant in constants' registry  (NOTE: ONLY FOR SYSTEM CONSTANTS)
+			final IConstant constant = CollectionsUtils.find(engine.getConstantsRegistry().getSystemEntities(), new Finder<IConstant>() {
 				@Override
-				public boolean isFound(@Nullable Var var) {
-					return var != null && finalNumber.equals(var.getValue());
+				public boolean isFound(@Nullable IConstant constant) {
+					return constant != null && finalNumber.equals(constant.getValue());
 				}
 			});
 
-			if (var != null) {
-				sb.delete(sb.length() - number.length() - numberOfTokens, sb.length());
-				sb.append(var.getName());
-				result = new MathType.Result(MathType.constant, var.getName());
+			// in any case remove old number from text
+			final int oldNumberLength = number.length() + trimmedChars;
+			text.delete(text.length() - oldNumberLength, text.length());
+
+			if (constant != null) {
+				// let's change number with constant from registry
+				text.append(constant.getName());
+				result = new MathType.Result(MathType.constant, constant.getName());
 			} else {
-				sb.delete(sb.length() - number.length() - numberOfTokens, sb.length());
-
-				final String formattedNumber;
-
-				if (!simpleFormat) {
-					int indexOfDot = number.indexOf('.');
-
-					if (indexOfDot < 0) {
-						int indexOfE;
-						if (nb == NumeralBase.hex) {
-							indexOfE = -1;
-						} else {
-							indexOfE = number.indexOf('E');
-						}
-						if (indexOfE < 0) {
-							formattedNumber = toString(toDouble(number, nb), nb);
-						} else {
-							final String part;
-							if (indexOfDot != 0) {
-								part = toString(toDouble(number.substring(0, indexOfE), nb), nb);
-							} else {
-								part = "";
-							}
-							formattedNumber = part + number.substring(indexOfE);
-						}
-					} else {
-						final String integerPart;
-						if (indexOfDot != 0) {
-							integerPart = toString(toDouble(number.substring(0, indexOfDot), nb), nb);
-						} else {
-							integerPart = "";
-						}
-						formattedNumber = integerPart + number.substring(indexOfDot);
-					}
-				} else {
-					formattedNumber = toString(toDouble(number, nb), nb);
+				final String newNumber = formatNumber(number, nb, allowScientificFormat, engine);
+				if (offset != null) {
+					// register offset between old number and new number
+					offset.setObject(newNumber.length() - oldNumberLength);
 				}
-
-				if (numberOffset != null) {
-					numberOffset.setObject(formattedNumber.length() - number.length() - numberOfTokens);
-				}
-				sb.append(formattedNumber);
+				text.append(newNumber);
 			}
 		}
 
@@ -206,40 +218,78 @@ public class NumberBuilder {
 	}
 
 	@NotNull
-	private static String toString(@NotNull Double value, @NotNull NumeralBase nb) {
-		return CalculatorEngine.instance.getEngine().format(value, nb);
+	private static String formatNumber(@NotNull String number, @NotNull NumeralBase nb, boolean allowScientificFormat, @NotNull MathEngine engine) {
+		String result;
+
+		if (allowScientificFormat) {
+			int indexOfDot = number.indexOf('.');
+
+			if (indexOfDot < 0) {
+				int indexOfE;
+				if (nb == NumeralBase.hex) {
+					indexOfE = -1;
+				} else {
+					indexOfE = number.indexOf(MathType.POWER_10);
+				}
+				if (indexOfE < 0) {
+					result = toString(number, nb, engine);
+				} else {
+					final String part;
+					if (indexOfDot != 0) {
+						part = toString(number.substring(0, indexOfE), nb, engine);
+					} else {
+						part = "";
+					}
+					result = part + number.substring(indexOfE);
+				}
+			} else {
+				final String integerPart;
+				if (indexOfDot != 0) {
+					integerPart = toString(number.substring(0, indexOfDot), nb, engine);
+				} else {
+					integerPart = "";
+				}
+				result = integerPart + number.substring(indexOfDot);
+			}
+		} else {
+			result = toString(number, nb, engine);
+		}
+
+		return result;
+	}
+
+	@NotNull
+	private static String toString(@NotNull String value, @NotNull NumeralBase nb, @NotNull MathContext mathContext) {
+		return mathContext.format(toDouble(value, nb, mathContext), nb);
 	}
 
 	public boolean isHexMode() {
-		return nb == NumeralBase.hex || ( nb == null && defaultNumeralBase == NumeralBase.hex);
+		return nb == NumeralBase.hex || (nb == null && engine.getNumeralBase() == NumeralBase.hex);
 	}
 
 	@NotNull
-	private NumeralBase getNumeralBase(){
-		return nb == null ? defaultNumeralBase : nb;
+	private NumeralBase getNumeralBase() {
+		return nb == null ? engine.getNumeralBase() : nb;
 	}
-	
+
 	@NotNull
-	private static Double toDouble(@NotNull String s, @NotNull NumeralBase nb) throws NumberFormatException{
-
-		final MathEngine me = CalculatorEngine.instance.getEngine();
-
-		final NumeralBase defaultNb = me.getNumeralBase();
+	private static Double toDouble(@NotNull String s, @NotNull NumeralBase nb, @NotNull final MathContext mc) throws NumberFormatException {
+		final NumeralBase defaultNb = mc.getNumeralBase();
 		try {
-			me.setNumeralBase(nb);
+			mc.setNumeralBase(nb);
 
 			try {
-				return JsclIntegerParser.parser.parse(Parser.Parameters.newInstance(s, new MutableInt(0), me), null).content().doubleValue();
+				return JsclIntegerParser.parser.parse(Parser.Parameters.newInstance(s, new MutableInt(0), mc), null).content().doubleValue();
 			} catch (ParseException e) {
 				try {
-					return ((Real) DoubleParser.parser.parse(Parser.Parameters.newInstance(s, new MutableInt(0), me), null).content()).doubleValue();
+					return ((Real) DoubleParser.parser.parse(Parser.Parameters.newInstance(s, new MutableInt(0), mc), null).content()).doubleValue();
 				} catch (ParseException e1) {
 					throw new NumberFormatException();
 				}
 			}
 
 		} finally {
-			me.setNumeralBase(defaultNb);
+			mc.setNumeralBase(defaultNb);
 		}
 	}
 }

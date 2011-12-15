@@ -10,8 +10,9 @@ import jscl.MathContext;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.math.MathType;
-import org.solovyev.android.calculator.model.NumberBuilder;
+import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.calculator.model.CalculatorParseException;
+import org.solovyev.android.calculator.model.NumberBuilder;
 import org.solovyev.android.calculator.model.TextProcessor;
 import org.solovyev.common.utils.MutableObject;
 
@@ -74,11 +75,11 @@ public class TextHighlighter implements TextProcessor<TextHighlighter.Result, St
 	private final int colorRed;
 	private final int colorGreen;
 	private final int colorBlue;
-	private final boolean simpleFormat;
+	private final boolean allowScientificFormat;
 
-	public TextHighlighter(int baseColor, boolean simpleFormat, @NotNull MathContext mathContext) {
+	public TextHighlighter(int baseColor, boolean allowScientificFormat, @NotNull MathContext mathContext) {
 		this.color = baseColor;
-		this.simpleFormat = simpleFormat;
+		this.allowScientificFormat = allowScientificFormat;
 		this.mathContext = mathContext;
 		//this.colorRed = Color.red(baseColor);
 		this.colorRed = (baseColor >> 16) & 0xFF;
@@ -100,7 +101,7 @@ public class TextHighlighter implements TextProcessor<TextHighlighter.Result, St
 
 		int numberOffset = 0;
 
-		final NumberBuilder numberBuilder = new NumberBuilder(simpleFormat, mathContext.getNumeralBase());
+		final NumberBuilder numberBuilder = new NumberBuilder(allowScientificFormat, CalculatorEngine.instance.getEngine());
 		for (int i = 0; i < text.length(); i++) {
 			MathType.Result mathType = MathType.getType(text, i, numberBuilder.isHexMode());
 
@@ -144,7 +145,7 @@ public class TextHighlighter implements TextProcessor<TextHighlighter.Result, St
 		}
 
 		final MutableObject<Integer> localNumberOffset  = new MutableObject<Integer>(0);
-		numberBuilder.process(text1, localNumberOffset);
+		numberBuilder.processNumber(text1, localNumberOffset);
 		numberOffset += localNumberOffset.getObject();
 
 		if (maxNumberOfOpenGroupSymbols > 0) {

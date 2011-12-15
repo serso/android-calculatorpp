@@ -169,7 +169,7 @@ public enum CalculatorEngine {
 
 						calculationResult.setObject(genericResult);
 					} catch (AbstractJsclArithmeticException e) {
-						evalException.setObject(new CalculatorEvalException(e, jsclExpression));
+						evalException.setObject(new CalculatorEvalException(e, e, jsclExpression));
 					} catch (ArithmeticException e) {
 						//System.out.println(e.getMessage());
 						parseException.setObject(new CalculatorParseException(Messages.msg_1, jsclExpression, e.getMessage()));
@@ -207,7 +207,8 @@ public enum CalculatorEngine {
 				}
 
 				if (parseExceptionObject != null || evalExceptionObject != null) {
-					if (finalOperation == JsclOperation.numeric && preparedExpression.isExistsUndefinedVar()) {
+					if (finalOperation == JsclOperation.numeric &&
+							( preparedExpression.isExistsUndefinedVar() || ( evalExceptionObject != null && evalExceptionObject.getCause() instanceof NumeralBaseException)) ) {
 						return evaluate(JsclOperation.simplify, expression, mr);
 					}
 
