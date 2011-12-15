@@ -19,6 +19,7 @@ import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.*;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import jscl.AngleUnit;
@@ -140,6 +141,8 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		}
 
 		CalculatorEngine.instance.reset(this, preferences);
+
+		initMultiplicationButton();
 
 		preferences.registerOnSharedPreferenceChangeListener(this);
 	}
@@ -410,7 +413,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	@SuppressWarnings({"UnusedDeclaration"})
 	public void digitButtonClickHandler(@NotNull View v) {
 		Log.d(String.valueOf(v.getId()), "digitButtonClickHandler() for: " + v.getId() + ". Pressed: " + v.isPressed());
-		calculatorModel.processDigitButtonAction(((DirectionDragButton) v).getTextMiddle());
+		calculatorModel.processDigitButtonAction(((DirectionDragButton) v).getText().toString());
 	}
 
 	@SuppressWarnings({"UnusedDeclaration"})
@@ -561,12 +564,24 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		dpclRegister.announce().onDragPreferencesChange(SimpleOnDragListener.getPreferences(preferences, this));
 
 		if (CalculatorEngine.GROUPING_SEPARATOR_P_KEY.equals(key) ||
+				CalculatorEngine.MULTIPLICATION_SIGN_P_KEY.equals(key) ||
 				CalculatorEngine.ROUND_RESULT_P_KEY.equals(key) ||
 					CalculatorEngine.RESULT_PRECISION_P_KEY.equals(key) ||
 						CalculatorEngine.ANGLE_UNITS_P_KEY.equals(key) ||
 							CalculatorEngine.NUMERAL_BASES_P_KEY.equals(key)) {
 			CalculatorEngine.instance.reset(this, preferences);
 			this.calculatorModel.evaluate();
+		}
+
+		if ( CalculatorEngine.MULTIPLICATION_SIGN_P_KEY.equals(key) ) {
+			initMultiplicationButton();
+		}
+	}
+
+	private void initMultiplicationButton() {
+		final View multiplicationButton = findViewById(R.id.multiplicationButton);
+		if ( multiplicationButton instanceof Button) {
+			((Button) multiplicationButton).setText(CalculatorEngine.instance.getMultiplicationSign());
 		}
 	}
 }

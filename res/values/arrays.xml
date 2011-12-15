@@ -27,6 +27,12 @@
 		<item>" "</item>
 	</string-array>
 
+	<string-array name="p_multiplication_sign_values">
+		<item>"*"</item>
+		<item>"×"</item>
+		<item>"∙"</item>
+	</string-array>
+
 	<string-array name="p_layout_names">
 		<item>@string/p_layout_cellphone</item>
 		<item>@string/p_layout_calculator</item>

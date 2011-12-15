@@ -127,6 +127,8 @@
 	<string name="p_grouping_separator_space">Пробел ( )</string>
 	<string name="c_calc_grouping_separator">Разделитель разрядов</string>
 	<string name="c_calc_grouping_separator_summary">Устанавливает разделитель разрядов числа</string>
+	<string name="c_calc_multiplication_sign">Знак произведения</string>
+	<string name="c_calc_multiplication_sign_summary">Устанавливает знак произведения</string>
 
 	<string name="c_calc_layout">Раскладка</string>
 	<string name="p_layout_cellphone">Телефон</string>

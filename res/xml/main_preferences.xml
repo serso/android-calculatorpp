@@ -23,6 +23,12 @@
 						a:summary="@string/c_calc_grouping_separator_summary"
 						a:entryValues="@array/p_grouping_separator_values"/>
 
+		<ListPreference a:key="@string/p_calc_multiplication_sign_key"
+						a:title="@string/c_calc_multiplication_sign"
+						a:entries="@array/p_multiplication_sign_values"
+						a:summary="@string/c_calc_multiplication_sign_summary"
+						a:entryValues="@array/p_multiplication_sign_values"/>
+
 		<ListPreference a:key="@string/p_calc_angle_units_key"
 						a:title="@string/c_calc_angle_units"
 						a:entries="@array/p_angle_units_names"
