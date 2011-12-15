@@ -38,9 +38,6 @@ public class DirectionDragButton extends DragButton {
 	@NotNull
 	private final static String DEFAULT_DIRECTION_TEXT_SCALE = "0.33;0.33;0.33;0.33";
 
-	@Nullable
-	private String textMiddle;
-
 	protected static class DirectionTextData {
 
 		@NotNull
@@ -258,9 +255,6 @@ public class DirectionDragButton extends DragButton {
 			}
 		}
 
-		// backup text
-		this.textMiddle = String.valueOf(getText());
-
 		super.init(context);
 		initialized = true;
 	}
@@ -325,11 +319,6 @@ public class DirectionDragButton extends DragButton {
 	@Nullable
 	public String getTextDown() {
 		return getText(GuiDragDirection.down);
-	}
-
-	@Nullable
-	public String getTextMiddle() {
-		return textMiddle;
 	}
 
 	@Nullable

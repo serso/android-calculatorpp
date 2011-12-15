@@ -36,6 +36,9 @@ public enum CalculatorEngine {
 
 	public static final String GROUPING_SEPARATOR_P_KEY = "org.solovyev.android.calculator.CalculatorActivity_calc_grouping_separator";
 
+	public static final String MULTIPLICATION_SIGN_P_KEY = "org.solovyev.android.calculator.CalculatorActivity_calc_multiplication_sign";
+	public static final String MULTIPLICATION_SIGN_DEFAULT = "×";
+
 	public static final String ROUND_RESULT_P_KEY = "org.solovyev.android.calculator.CalculatorModel_round_result";
 	public static final boolean ROUND_RESULT_DEFAULT = true;
 
@@ -47,6 +50,7 @@ public enum CalculatorEngine {
 
 	public static final String ANGLE_UNITS_P_KEY = "org.solovyev.android.calculator.CalculatorActivity_angle_units";
 	public static final String ANGLE_UNITS_DEFAULT = "deg";
+
 
 	public static final int DEFAULT_TIMEOUT = 3000;
 
@@ -76,9 +80,21 @@ public enum CalculatorEngine {
 	// calculation thread timeout in milliseconds, after timeout thread would be interrupted
 	private int timeout = DEFAULT_TIMEOUT;
 
+	@NotNull
+	private String multiplicationSign = MULTIPLICATION_SIGN_DEFAULT;
+
 	CalculatorEngine() {
 		this.engine.setRoundResult(true);
 		this.engine.setUseGroupingSeparator(true);
+	}
+
+	@NotNull
+	public String getMultiplicationSign() {
+		return multiplicationSign;
+	}
+
+	public void setMultiplicationSign(@NotNull String multiplicationSign) {
+		this.multiplicationSign = multiplicationSign;
 	}
 
 	public static class Result {
@@ -256,6 +272,7 @@ public enum CalculatorEngine {
 				this.setRoundResult(preferences.getBoolean(ROUND_RESULT_P_KEY, ROUND_RESULT_DEFAULT));
 				this.setAngleUnits(getAngleUnitsFromPrefs(preferences));
 				this.setNumeralBase(getNumeralBaseFromPrefs(preferences));
+				this.setMultiplicationSign(preferences.getString(MULTIPLICATION_SIGN_P_KEY, MULTIPLICATION_SIGN_DEFAULT));
 
 				final String groupingSeparator = preferences.getString(GROUPING_SEPARATOR_P_KEY, JsclMathEngine.GROUPING_SEPARATOR_DEFAULT);
 				if (StringUtils.isEmpty(groupingSeparator)) {

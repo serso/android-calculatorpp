@@ -53,7 +53,7 @@ public class FromJsclSimplifyTextProcessor implements TextProcessor<String, Gene
 				}
 
 				if (needMultiplicationSign(mathTypeBefore == null ? null : mathTypeBefore.getMathType(), mathTypeAfter == null ? null : mathTypeAfter.getMathType())) {
-					sb.append("×");
+					sb.append(CalculatorEngine.instance.getMultiplicationSign());
 				}
 
 			} else {
