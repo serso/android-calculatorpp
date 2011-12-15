@@ -40,7 +40,11 @@ public abstract class AbstractNumberBuilder {
 	 * @return true if we can continue of processing of current number, if false - new number should be constructed
 	 */
 	protected boolean canContinue(@NotNull MathType.Result mathTypeResult) {
-		return ((mathTypeResult.getMathType().getGroupType() == MathType.MathGroupType.number && numeralBaseCheck(mathTypeResult) && numeralBaseInTheStart(mathTypeResult.getMathType()) || isSignAfterE(mathTypeResult)));
+		return ((mathTypeResult.getMathType().getGroupType() == MathType.MathGroupType.number && !spaceBefore(mathTypeResult) && numeralBaseCheck(mathTypeResult) && numeralBaseInTheStart(mathTypeResult.getMathType()) || isSignAfterE(mathTypeResult)));
+	}
+
+	private boolean spaceBefore(@NotNull MathType.Result mathTypeResult) {
+		return numberBuilder == null && mathTypeResult.getMatch().trim().isEmpty();
 	}
 
 	private boolean numeralBaseInTheStart(@NotNull MathType mathType) {

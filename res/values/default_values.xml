@@ -44,6 +44,9 @@
 	<string name="p_calc_grouping_separator_key">org.solovyev.android.calculator.CalculatorActivity_calc_grouping_separator</string>
 	<string name="p_calc_grouping_separator">" "</string>
 
+	<string name="p_calc_multiplication_sign_key">org.solovyev.android.calculator.CalculatorActivity_calc_multiplication_sign</string>
+	<string name="p_calc_multiplication_sign">"×"</string>
+
 	<string name="p_calc_haptic_feedback_duration_key">org.solovyev.android.calculator.CalculatorActivity_calc_haptic_feedback_duration_key</string>
 	<string name="p_calc_haptic_feedback_duration">" "</string>
 

@@ -90,7 +90,7 @@ public class ColorButton extends Button {
 		feedbackPaint.setStrokeWidth(2);
 
 
-		if (CollectionsUtils.contains(getText().toString(), Arrays.asList("+", "-", "/", "×"))) {
+		if (CollectionsUtils.contains(getText().toString(), Arrays.asList("+", "-", "/", "×", "*", "∙"))) {
 			getPaint().setColor(resources.getColor(R.color.button_operator_text_color));
 		} else if (getText().toString().equals("C"))  {
 			getPaint().setColor(resources.getColor(R.color.button_ce_text_color));
