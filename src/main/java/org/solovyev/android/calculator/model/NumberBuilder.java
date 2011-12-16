@@ -130,32 +130,16 @@ public class NumberBuilder extends AbstractNumberBuilder {
 		MathType.Result result = null;
 
 		if (number != null) {
-			final String finalNumber = number;
-
-			// detect if current number is precisely equals to constant in constants' registry  (NOTE: ONLY FOR SYSTEM CONSTANTS)
-			final IConstant constant = CollectionsUtils.find(engine.getConstantsRegistry().getSystemEntities(), new Finder<IConstant>() {
-				@Override
-				public boolean isFound(@Nullable IConstant constant) {
-					return constant != null && finalNumber.equals(constant.getValue());
-				}
-			});
-
 			// in any case remove old number from text
 			final int oldNumberLength = number.length() + trimmedChars;
 			text.delete(text.length() - oldNumberLength, text.length());
 
-			if (constant != null) {
-				// let's change number with constant from registry
-				text.append(constant.getName());
-				result = new MathType.Result(MathType.constant, constant.getName());
-			} else {
-				final String newNumber = formatNumber(number, nb, engine);
-				if (offset != null) {
-					// register offset between old number and new number
-					offset.setObject(newNumber.length() - oldNumberLength);
-				}
-				text.append(newNumber);
+			final String newNumber = formatNumber(number, nb, engine);
+			if (offset != null) {
+				// register offset between old number and new number
+				offset.setObject(newNumber.length() - oldNumberLength);
 			}
+			text.append(newNumber);
 		}
 
 		return result;
