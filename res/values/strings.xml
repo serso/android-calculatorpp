@@ -299,4 +299,7 @@ Check the \'Round result\' preference in application settings - it should be tur
 	<string name="c_swipe_distance">Swipe distance for buttons</string>
 	<string name="c_swipe_distance_summary">Sets swipe distance for buttons that support additional swipe actions</string>
 
+	<string name="c_comment">Comment</string>
+	<string name="c_history_item_saved">Saved</string>
+
 </resources>

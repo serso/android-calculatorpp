@@ -15,6 +15,8 @@ import java.util.List;
  */
 public class FromJsclSimplifyTextProcessor implements TextProcessor<String, Generic> {
 
+	public static final FromJsclSimplifyTextProcessor instance = new FromJsclSimplifyTextProcessor();
+
 	public FromJsclSimplifyTextProcessor() {
 	}
 

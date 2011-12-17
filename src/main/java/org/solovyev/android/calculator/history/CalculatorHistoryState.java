@@ -3,27 +3,44 @@
  * For more information, please, contact se.solovyev@gmail.com
  */
 
-package org.solovyev.android.calculator;
+package org.solovyev.android.calculator.history;
 
 import org.jetbrains.annotations.NotNull;
+import org.simpleframework.xml.Element;
+import org.simpleframework.xml.Root;
+import org.solovyev.android.calculator.ICalculatorDisplay;
 
 /**
  * User: serso
  * Date: 9/11/11
  * Time: 12:16 AM
  */
-public class CalculatorHistoryState extends AbstractHistoryState{
 
+@Root
+public class CalculatorHistoryState extends AbstractHistoryState {
+
+	@Element
 	@NotNull
 	private EditorHistoryState editorState;
 
+	@Element
 	@NotNull
 	private CalculatorDisplayHistoryState displayState;
 
-	public CalculatorHistoryState(@NotNull EditorHistoryState editorState,
+	private CalculatorHistoryState() {
+		// for xml
+	}
+
+	private CalculatorHistoryState(@NotNull EditorHistoryState editorState,
 								  @NotNull CalculatorDisplayHistoryState displayState) {
 		this.editorState = editorState;
 		this.displayState = displayState;
+	}
+
+	public static CalculatorHistoryState newInstance(@NotNull Editor editor, @NotNull ICalculatorDisplay display) {
+		final EditorHistoryState editorHistoryState = EditorHistoryState.newInstance(editor);
+		final CalculatorDisplayHistoryState displayHistoryState = CalculatorDisplayHistoryState.newInstance(display);
+		return new CalculatorHistoryState(editorHistoryState, displayHistoryState);
 	}
 
 	@NotNull
@@ -70,5 +87,10 @@ public class CalculatorHistoryState extends AbstractHistoryState{
 		int result = editorState.hashCode();
 		result = 31 * result + displayState.hashCode();
 		return result;
+	}
+
+	public void setValuesFromHistory(@NotNull Editor editor, @NotNull ICalculatorDisplay display) {
+		this.getEditorState().setValuesFromHistory(editor);
+		this.getDisplayState().setValuesFromHistory(display);
 	}
 }

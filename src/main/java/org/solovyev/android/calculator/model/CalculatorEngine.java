@@ -283,7 +283,7 @@ public enum CalculatorEngine {
 				}
 			}
 
-			varsRegister.init(context, preferences);
+			varsRegister.load(context, preferences);
 		}
 	}
 

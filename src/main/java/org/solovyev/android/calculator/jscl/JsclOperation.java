@@ -16,66 +16,55 @@ import org.solovyev.android.calculator.model.TextProcessor;
 
 public enum JsclOperation {
 
-	simplify(new FromJsclSimplifyTextProcessor()) {
-		@NotNull
-		@Override
-		public String evaluate(@NotNull String expression) throws ParseException {
-			return CalculatorEngine.instance.getEngine().simplify(expression);
-		}
+	simplify,
+	elementary,
+	numeric;
 
-		@NotNull
-		@Override
-		public Generic evaluateGeneric(@NotNull String expression) throws ParseException {
-			return CalculatorEngine.instance.getEngine().simplifyGeneric(expression);
-		}
-	},
-
-	elementary(DummyTextProcessor.instance) {
-		@NotNull
-		@Override
-		public String evaluate(@NotNull String expression) throws ParseException {
-			return CalculatorEngine.instance.getEngine().elementary(expression);
-
-		}
-
-		@NotNull
-		@Override
-		public Generic evaluateGeneric(@NotNull String expression) throws ParseException {
-			return CalculatorEngine.instance.getEngine().elementaryGeneric(expression);
-		}
-	},
-
-	numeric(new FromJsclNumericTextProcessor()) {
-		@NotNull
-		@Override
-		public String evaluate(@NotNull String expression) throws ParseException {
-			return CalculatorEngine.instance.getEngine().evaluate(expression);
-		}
-
-		@NotNull
-		@Override
-		public Generic evaluateGeneric(@NotNull String expression) throws ParseException {
-			return CalculatorEngine.instance.getEngine().evaluateGeneric(expression);
-		}
-	};
-
-	@NotNull
-	private final TextProcessor<String, Generic> fromProcessor;
-
-	JsclOperation(@NotNull TextProcessor<String, Generic> fromProcessor) {
-		this.fromProcessor = fromProcessor;
+	JsclOperation() {
 	}
+
 
 	@NotNull
 	public TextProcessor<String, Generic> getFromProcessor() {
-		return fromProcessor;
+		switch (this) {
+			case simplify:
+				return FromJsclSimplifyTextProcessor.instance;
+			case elementary:
+				return DummyTextProcessor.instance;
+			case numeric:
+				return FromJsclNumericTextProcessor.instance;
+			default:
+				throw new UnsupportedOperationException();
+		}
 	}
 
 	@NotNull
-	public abstract String evaluate(@NotNull String expression) throws ParseException;
+	public final String evaluate(@NotNull String expression) throws ParseException {
+		switch (this) {
+			case simplify:
+				return CalculatorEngine.instance.getEngine().simplify(expression);
+			case elementary:
+				return CalculatorEngine.instance.getEngine().elementary(expression);
+			case numeric:
+				return CalculatorEngine.instance.getEngine().evaluate(expression);
+			default:
+				throw new UnsupportedOperationException();
+		}
+	}
 
 	@NotNull
-	public abstract Generic evaluateGeneric(@NotNull String expression) throws ParseException;
+	public final Generic evaluateGeneric(@NotNull String expression) throws ParseException {
+		switch (this) {
+			case simplify:
+				return CalculatorEngine.instance.getEngine().simplifyGeneric(expression);
+			case elementary:
+				return CalculatorEngine.instance.getEngine().elementaryGeneric(expression);
+			case numeric:
+				return CalculatorEngine.instance.getEngine().evaluateGeneric(expression);
+			default:
+				throw new UnsupportedOperationException();
+		}
+	}
 
 
 }

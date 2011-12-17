@@ -26,6 +26,7 @@ import jscl.AngleUnit;
 import jscl.NumeralBase;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.calculator.history.CalculatorHistoryState;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.view.FontSizeAdjuster;

@@ -19,7 +19,7 @@ import org.solovyev.common.math.MathRegistry;
  */
 public interface AndroidVarsRegistry extends MathRegistry<Var>{
 
-	void init(@Nullable Context context, @Nullable SharedPreferences preferences);
+	void load(@Nullable Context context, @Nullable SharedPreferences preferences);
 
 	void save(@NotNull Context context);
 }

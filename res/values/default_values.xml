@@ -28,6 +28,7 @@
 	<string name="p_calc_round_result">true</string>
 
 	<string name="p_calc_vars">org.solovyev.android.calculator.CalculatorModel_vars</string>
+	<string name="p_calc_history">org.solovyev.android.calculator.CalculatorModel_history</string>
 
 	<string name="p_calc_angle_units_key">org.solovyev.android.calculator.CalculatorActivity_angle_units</string>
 	<string name="p_calc_angle_units">deg</string>

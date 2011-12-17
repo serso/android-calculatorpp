@@ -3,31 +3,40 @@
  * For more information, please, contact se.solovyev@gmail.com
  */
 
-package org.solovyev.android.calculator;
+package org.solovyev.android.calculator.history;
 
-import android.widget.TextView;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.simpleframework.xml.Element;
+import org.simpleframework.xml.Root;
 
+@Root
 public class EditorHistoryState {
 
+	@Element
 	private int cursorPosition;
 
+	@Element(required = false)
 	@Nullable
 	private String text;
 
 	private EditorHistoryState() {
+		// for xml
 	}
 
-
 	@NotNull
-	public static EditorHistoryState newInstance(@NotNull TextView textView) {
+	public static EditorHistoryState newInstance(@NotNull Editor editor) {
 		final EditorHistoryState result = new EditorHistoryState();
 
-		result.text = String.valueOf(textView.getText());
-		result.cursorPosition = textView.getSelectionStart();
+		result.text = String.valueOf(editor.getText());
+		result.cursorPosition = editor.getSelection();
 
 		return result;
+	}
+
+	public void setValuesFromHistory(@NotNull Editor editor) {
+		editor.setText(this.getText());
+		editor.setSelection(this.getCursorPosition());
 	}
 
 	@Nullable

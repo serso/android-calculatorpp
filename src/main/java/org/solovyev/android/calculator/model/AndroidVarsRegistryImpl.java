@@ -37,7 +37,7 @@ class AndroidVarsRegistryImpl implements AndroidVarsRegistry {
 		this.mathRegistry = mathRegistry;
 	}
 
-	public synchronized void init(@Nullable Context context, @Nullable SharedPreferences preferences) {
+	public synchronized void load(@Nullable Context context, @Nullable SharedPreferences preferences) {
 
 		if (context != null && preferences != null) {
 			final String value = preferences.getString(context.getString(R.string.p_calc_vars), null);

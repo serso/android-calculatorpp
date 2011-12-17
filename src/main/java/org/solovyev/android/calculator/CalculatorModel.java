@@ -22,6 +22,9 @@ import jscl.math.Generic;
 import jscl.math.function.Constant;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.calculator.history.CalculatorHistory;
+import org.solovyev.android.calculator.history.CalculatorHistoryState;
+import org.solovyev.android.calculator.history.TextViewEditorAdapter;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.CalculatorEngine;
@@ -335,8 +338,8 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 	public void setCurrentHistoryState(@NotNull CalculatorHistoryState editorHistoryState) {
 		synchronized (CalculatorHistory.instance) {
 			Log.d(this.getClass().getName(), "Saved history found: " + editorHistoryState);
-			setValuesFromHistory(this.editor, editorHistoryState.getEditorState());
-			setValuesFromHistory(this.display, editorHistoryState.getDisplayState());
+
+			editorHistoryState.setValuesFromHistory(new TextViewEditorAdapter(this.editor), this.display);
 
 			final String expression = this.editor.getText().toString();
 			if ( !StringUtils.isEmpty(expression) ) {
@@ -350,35 +353,12 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 		}
 	}
 
-	private void setValuesFromHistory(@NotNull CalculatorDisplay display, CalculatorDisplayHistoryState editorHistoryState) {
-		setValuesFromHistory(display, editorHistoryState.getEditorHistoryState());
-		display.setValid(editorHistoryState.isValid());
-		display.setErrorMessage(editorHistoryState.getErrorMessage());
-		display.setJsclOperation(editorHistoryState.getJsclOperation());
-		display.setGenericResult(editorHistoryState.getGenericResult());
-	}
-
-	private void setValuesFromHistory(@NotNull TextView editText, EditorHistoryState editorHistoryState) {
-		editText.setText(editorHistoryState.getText());
-		if (editText instanceof EditText) {
-			((EditText) editText).setSelection(editorHistoryState.getCursorPosition());
-		}
-	}
-
 	@Override
 	@NotNull
 	public CalculatorHistoryState getCurrentHistoryState() {
 		synchronized (CalculatorHistory.instance) {
-			return new CalculatorHistoryState(getEditorHistoryState(this.editor), getCalculatorDisplayHistoryState(this.display));
+			return CalculatorHistoryState.newInstance(new TextViewEditorAdapter(this.editor), this.display);
 		}
-	}
-
-	private EditorHistoryState getEditorHistoryState(@NotNull TextView textView) {
-		return EditorHistoryState.newInstance(textView);
-	}
-
-	private CalculatorDisplayHistoryState getCalculatorDisplayHistoryState(@NotNull CalculatorDisplay display) {
-		return CalculatorDisplayHistoryState.newInstance(display);
 	}
 
 	@NotNull

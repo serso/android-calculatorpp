@@ -3,11 +3,15 @@
  * For more information, please, contact se.solovyev@gmail.com
  */
 
-package org.solovyev.android.calculator;
+package org.solovyev.android.calculator.history;
 
 import jscl.math.Generic;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.simpleframework.xml.Element;
+import org.simpleframework.xml.Root;
+import org.simpleframework.xml.Transient;
+import org.solovyev.android.calculator.ICalculatorDisplay;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 
 /**
@@ -15,30 +19,38 @@ import org.solovyev.android.calculator.jscl.JsclOperation;
  * Date: 9/17/11
  * Time: 11:05 PM
  */
+
+@Root
 public class CalculatorDisplayHistoryState {
 
+	@Transient
 	private boolean valid = true;
 
+	@Transient
 	@Nullable
 	private String errorMessage = null;
 
+	@Element
 	@NotNull
-	private EditorHistoryState editorHistoryState;
+	private EditorHistoryState editorState;
 
+	@Element
 	@NotNull
 	private JsclOperation jsclOperation;
 
+	@Transient
 	@Nullable
 	private Generic genericResult;
 
 	private CalculatorDisplayHistoryState() {
+		// for xml
 	}
 
 	@NotNull
-	public static CalculatorDisplayHistoryState newInstance(@NotNull CalculatorDisplay display) {
+	public static CalculatorDisplayHistoryState newInstance(@NotNull ICalculatorDisplay display) {
 		final CalculatorDisplayHistoryState result = new CalculatorDisplayHistoryState();
 
-		result.editorHistoryState = EditorHistoryState.newInstance(display);
+		result.editorState = EditorHistoryState.newInstance(display);
 		result.valid = display.isValid();
 		result.jsclOperation = display.getJsclOperation();
 		result.genericResult = display.getGenericResult();
@@ -47,13 +59,22 @@ public class CalculatorDisplayHistoryState {
 		return result;
 	}
 
+	public void setValuesFromHistory(@NotNull ICalculatorDisplay display) {
+		this.getEditorState().setValuesFromHistory(display);
+		display.setValid(this.isValid());
+		display.setErrorMessage(this.getErrorMessage());
+		display.setJsclOperation(this.getJsclOperation());
+		display.setGenericResult(this.getGenericResult());
+	}
+
+
 	public boolean isValid() {
 		return valid;
 	}
 
 	@NotNull
-	public EditorHistoryState getEditorHistoryState() {
-		return editorHistoryState;
+	public EditorHistoryState getEditorState() {
+		return editorState;
 	}
 
 	@NotNull
@@ -71,6 +92,7 @@ public class CalculatorDisplayHistoryState {
 		return genericResult;
 	}
 
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
@@ -78,9 +100,7 @@ public class CalculatorDisplayHistoryState {
 
 		CalculatorDisplayHistoryState that = (CalculatorDisplayHistoryState) o;
 
-		if (valid != that.valid) return false;
-		if (!editorHistoryState.equals(that.editorHistoryState)) return false;
-		if (errorMessage != null ? !errorMessage.equals(that.errorMessage) : that.errorMessage != null) return false;
+		if (!editorState.equals(that.editorState)) return false;
 		if (jsclOperation != that.jsclOperation) return false;
 
 		return true;
@@ -88,9 +108,7 @@ public class CalculatorDisplayHistoryState {
 
 	@Override
 	public int hashCode() {
-		int result = (valid ? 1 : 0);
-		result = 31 * result + (errorMessage != null ? errorMessage.hashCode() : 0);
-		result = 31 * result + editorHistoryState.hashCode();
+		int result = editorState.hashCode();
 		result = 31 * result + jsclOperation.hashCode();
 		return result;
 	}
@@ -100,7 +118,7 @@ public class CalculatorDisplayHistoryState {
 		return "CalculatorDisplayHistoryState{" +
 				"valid=" + valid +
 				", errorMessage='" + errorMessage + '\'' +
-				", editorHistoryState=" + editorHistoryState +
+				", editorHistoryState=" + editorState +
 				", jsclOperation=" + jsclOperation +
 				'}';
 	}

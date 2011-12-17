@@ -24,7 +24,7 @@ import org.solovyev.android.view.AutoResizeTextView;
  * Date: 9/17/11
  * Time: 10:58 PM
  */
-public class CalculatorDisplay extends AutoResizeTextView {
+public class CalculatorDisplay extends AutoResizeTextView implements ICalculatorDisplay{
 
 	private boolean valid = true;
 
@@ -52,10 +52,12 @@ public class CalculatorDisplay extends AutoResizeTextView {
 		super(context, attrs, defStyle);
 	}
 
+	@Override
 	public boolean isValid() {
 		return valid;
 	}
 
+	@Override
 	public void setValid(boolean valid) {
 		this.valid = valid;
 		if (valid) {
@@ -63,19 +65,23 @@ public class CalculatorDisplay extends AutoResizeTextView {
 		}
 	}
 
+	@Override
 	@Nullable
 	public String getErrorMessage() {
 		return errorMessage;
 	}
 
+	@Override
 	public void setErrorMessage(@Nullable String errorMessage) {
 		this.errorMessage = errorMessage;
 	}
 
+	@Override
 	public void setJsclOperation(@NotNull JsclOperation jsclOperation) {
 		this.jsclOperation = jsclOperation;
 	}
 
+	@Override
 	@NotNull
 	public JsclOperation getJsclOperation() {
 		return jsclOperation;
@@ -111,12 +117,24 @@ public class CalculatorDisplay extends AutoResizeTextView {
 		resizeText();
 	}
 
+	@Override
 	public void setGenericResult(@Nullable Generic genericResult) {
 		this.genericResult = genericResult;
 	}
 
+	@Override
 	@Nullable
 	public Generic getGenericResult() {
 		return genericResult;
+	}
+
+	@Override
+	public int getSelection() {
+		return this.getSelectionStart();
+	}
+
+	@Override
+	public void setSelection(int selection) {
+		// not supported by TextView
 	}
 }

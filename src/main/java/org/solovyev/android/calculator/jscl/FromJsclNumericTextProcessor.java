@@ -18,6 +18,8 @@ import org.solovyev.android.calculator.model.TextProcessor;
  */
 class FromJsclNumericTextProcessor implements TextProcessor<String, Generic> {
 
+	public static final FromJsclNumericTextProcessor instance = new FromJsclNumericTextProcessor();
+
 	@NotNull
 	@Override
 	public String process(@NotNull Generic numeric) throws CalculatorParseException {
