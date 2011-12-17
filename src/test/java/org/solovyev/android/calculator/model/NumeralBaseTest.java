@@ -58,9 +58,9 @@ public class NumeralBaseTest {
 				input.add(hex);
 				input.add(bin);
 
-				System.out.println("Dec: " + dec);
-				System.out.println("Hex: " + hex);
-				System.out.println("Bin: " + bin);
+				//System.out.println("Dec: " + dec);
+				//System.out.println("Hex: " + hex);
+				//System.out.println("Bin: " + bin);
 
 				final ExpressionGeneratorWithInput eg = new ExpressionGeneratorWithInput(input, 20);
 				final List<String> expressions = eg.generate();
@@ -69,18 +69,18 @@ public class NumeralBaseTest {
 				final String hexExpression = expressions.get(1);
 				final String binExpression = expressions.get(2);
 
-				System.out.println("Dec expression: " + decExpression);
-				System.out.println("Hex expression: " + hexExpression);
-				System.out.println("Bin expression: " + binExpression);
+				//System.out.println("Dec expression: " + decExpression);
+				//System.out.println("Hex expression: " + hexExpression);
+				//System.out.println("Bin expression: " + binExpression);
 
 				final String decResult = Expression.valueOf(decExpression).numeric().toString();
-				System.out.println("Dec result: " + decResult);
+				//System.out.println("Dec result: " + decResult);
 
 				final String hexResult = Expression.valueOf(hexExpression).numeric().toString();
-				System.out.println("Hex result: " + hexResult);
+				//System.out.println("Hex result: " + hexResult);
 
 				final String binResult = Expression.valueOf(binExpression).numeric().toString();
-				System.out.println("Bin result: " + binResult);
+				//System.out.println("Bin result: " + binResult);
 
 				Assert.assertEquals("dec-hex: " + decExpression + " : " + hexExpression, decResult, hexResult);
 				Assert.assertEquals("dec-bin: " + decExpression + " : " + binExpression, decResult, binResult);
