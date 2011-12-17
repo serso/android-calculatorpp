@@ -10,9 +10,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
-import org.solovyev.common.utils.history.HistoryHelper;
 
 import java.io.StringWriter;
+import java.util.List;
 
 /**
  * User: serso
@@ -26,13 +26,13 @@ class HistoryUtils {
 		throw new AssertionError();
 	}
 
-	public static void fromXml(@Nullable String xml, @NotNull HistoryHelper<CalculatorHistoryState> calculatorHistory) {
+	public static void fromXml(@Nullable String xml, @NotNull List<CalculatorHistoryState> historyItems) {
 		if (xml != null) {
 			final Serializer serializer = new Persister();
 			try {
 				final History history = serializer.read(History.class, xml);
 				for (CalculatorHistoryState historyItem : history.getHistoryItems()) {
-					calculatorHistory.addState(historyItem);
+					historyItems.add(historyItem);
 				}
 			} catch (Exception e) {
 				throw new RuntimeException(e);
@@ -41,9 +41,9 @@ class HistoryUtils {
 	}
 
 	@NotNull
-	public static String toXml(@NotNull HistoryHelper<CalculatorHistoryState> calculatorHistory) {
+	public static String toXml(@NotNull List<CalculatorHistoryState> historyItems) {
 		final History history = new History();
-		for (CalculatorHistoryState historyState : calculatorHistory.getStates()) {
+		for (CalculatorHistoryState historyState : historyItems) {
 			if (historyState.isSaved()) {
 				history.getHistoryItems().add(historyState);
 			}

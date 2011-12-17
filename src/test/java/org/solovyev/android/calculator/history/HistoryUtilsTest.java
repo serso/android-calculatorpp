@@ -18,7 +18,9 @@ import org.solovyev.common.utils.EqualsTool;
 import org.solovyev.common.utils.history.HistoryHelper;
 import org.solovyev.common.utils.history.SimpleHistoryHelper;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * User: serso
@@ -136,12 +138,12 @@ public class HistoryUtilsTest {
 		state.setTime(date);
 		history.addState(state);
 
-		Assert.assertEquals(emptyHistory, HistoryUtils.toXml(history));
+		Assert.assertEquals(emptyHistory, HistoryUtils.toXml(history.getStates()));
 
 
 		state.setSaved(true);
 
-		Assert.assertEquals(toXml1, HistoryUtils.toXml(history));
+		Assert.assertEquals(toXml1, HistoryUtils.toXml(history.getStates()));
 
 		calculatorDisplay = new TestCalculatorDisplay();
 		calculatorDisplay.setErrorMessage(null);
@@ -188,11 +190,15 @@ public class HistoryUtilsTest {
 		state.setTime(date);
 		history.addState(state);
 
-		String xml = HistoryUtils.toXml(history);
+		String xml = HistoryUtils.toXml(history.getStates());
 		Assert.assertEquals(toXml2, xml);
 
+		final List<CalculatorHistoryState> fromXml = new ArrayList<CalculatorHistoryState>();
 		final HistoryHelper<CalculatorHistoryState> historyFromXml = new SimpleHistoryHelper<CalculatorHistoryState>();
-		HistoryUtils.fromXml(xml, historyFromXml);
+		HistoryUtils.fromXml(xml, fromXml);
+		for (CalculatorHistoryState historyState : fromXml) {
+			historyFromXml.addState(historyState);
+		}
 
 		Assert.assertEquals(history.getStates().size(), historyFromXml.getStates().size());
 

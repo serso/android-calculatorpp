@@ -21,7 +21,7 @@ import org.solovyev.android.calculator.jscl.JsclOperation;
  */
 
 @Root
-public class CalculatorDisplayHistoryState {
+public class CalculatorDisplayHistoryState implements Cloneable {
 
 	@Transient
 	private boolean valid = true;
@@ -121,5 +121,18 @@ public class CalculatorDisplayHistoryState {
 				", editorHistoryState=" + editorState +
 				", jsclOperation=" + jsclOperation +
 				'}';
+	}
+
+	@Override
+	protected CalculatorDisplayHistoryState clone() {
+		try {
+			final CalculatorDisplayHistoryState clone = (CalculatorDisplayHistoryState) super.clone();
+
+			clone.editorState = this.editorState.clone();
+
+			return clone;
+		} catch (CloneNotSupportedException e) {
+			throw new RuntimeException(e);
+		}
 	}
 }

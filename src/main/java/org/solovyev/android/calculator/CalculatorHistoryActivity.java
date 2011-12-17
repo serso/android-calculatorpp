@@ -38,6 +38,21 @@ import java.util.List;
  */
 public class CalculatorHistoryActivity extends ListActivity {
 
+	private static final Comparator<CalculatorHistoryState> COMPARATOR = new Comparator<CalculatorHistoryState>() {
+		@Override
+		public int compare(CalculatorHistoryState state1, CalculatorHistoryState state2) {
+			if (state1.isSaved() == state2.isSaved()) {
+				return state2.getTime().compareTo(state1.getTime());
+			} else if (state1.isSaved()) {
+				return -1;
+			} else if (state2.isSaved()) {
+				return 1;
+			}
+			return 0;
+		}
+	};
+
+
 	@NotNull
 	private HistoryArrayAdapter adapter;
 
@@ -84,7 +99,7 @@ public class CalculatorHistoryActivity extends ListActivity {
 
 		lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 			@Override
-			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+			public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
 				final CalculatorHistoryState historyState = (CalculatorHistoryState) parent.getItemAtPosition(position);
 
 				final Context context = CalculatorHistoryActivity.this;
@@ -96,23 +111,23 @@ public class CalculatorHistoryActivity extends ListActivity {
 					public void onClick(DialogInterface dialog, int item) {
 						if (item == 0) {
 							if (!historyState.isSaved()) {
-								historyState.setSaved(true);
-								CalculatorHistory.instance.getSavedHistory().addState(historyState);
+								final CalculatorHistoryState savedHistoryItem = CalculatorHistory.instance.addSavedState(historyState);
 								CalculatorHistory.instance.save(context);
+								adapter.add(savedHistoryItem);
+								adapter.sort(COMPARATOR);
 								CalculatorHistoryActivity.this.adapter.notifyDataSetChanged();
 								Toast.makeText(context, "History item was successfully saved!", Toast.LENGTH_LONG).show();
 							} else {
 								Toast.makeText(context, "History item was already saved!", Toast.LENGTH_LONG).show();
 							}
 						} else if (item == 1) {
+							adapter.remove(historyState);
+							adapter.sort(COMPARATOR);
 							if (historyState.isSaved()) {
-								historyState.setSaved(false);
-								CalculatorHistory.instance.save(context);
-								CalculatorHistory.instance.getSavedHistory().clear();
-								CalculatorHistory.instance.load(context, PreferenceManager.getDefaultSharedPreferences(context));
-								CalculatorHistoryActivity.this.adapter.notifyDataSetChanged();
+								CalculatorHistory.instance.removeSavedHistory(historyState, context, PreferenceManager.getDefaultSharedPreferences(context));
 								Toast.makeText(context, "History item was removed!", Toast.LENGTH_LONG).show();
 							}
+							CalculatorHistoryActivity.this.adapter.notifyDataSetChanged();
 						}
 					}
 				});
@@ -124,21 +139,9 @@ public class CalculatorHistoryActivity extends ListActivity {
 
 	private static List<CalculatorHistoryState> getHistoryList() {
 		final List<CalculatorHistoryState> calculatorHistoryStates = new ArrayList<CalculatorHistoryState>(CalculatorHistory.instance.getStates());
-		calculatorHistoryStates.addAll(CalculatorHistory.instance.getSavedHistory().getStates());
+		calculatorHistoryStates.addAll(CalculatorHistory.instance.getSavedHistory());
 
-		Collections.sort(calculatorHistoryStates, new Comparator<CalculatorHistoryState>() {
-			@Override
-			public int compare(CalculatorHistoryState state1, CalculatorHistoryState state2) {
-				if ( state1.isSaved() == state2.isSaved() ) {
-					return state2.getTime().compareTo(state1.getTime());
-				} else if ( state1.isSaved() ) {
-					return -1;
-				} else if ( state2.isSaved() ) {
-					return 1;
-				}
-				return 0;
-			}
-		});
+		Collections.sort(calculatorHistoryStates, COMPARATOR);
 
 		final FilterRulesChain<CalculatorHistoryState> filterRulesChain = new FilterRulesChain<CalculatorHistoryState>();
 		filterRulesChain.addFilterRule(new FilterRule<CalculatorHistoryState>() {
@@ -218,9 +221,18 @@ public class CalculatorHistoryActivity extends ListActivity {
 	}
 
 	private void clearHistory() {
+		final List<CalculatorHistoryState> historyStates = new ArrayList<CalculatorHistoryState>(CalculatorHistory.instance.getStates());
 		CalculatorHistory.instance.clear();
+		for (CalculatorHistoryState historyState : historyStates) {
+			adapter.remove(historyState);
+		}
 
-		Toast.makeText(this, R.string.c_history_is_empty, Toast.LENGTH_SHORT).show();
-		this.finish();
+		if (adapter.getCount() > 0) {
+			adapter.sort(COMPARATOR);
+			adapter.notifyDataSetChanged();
+		} else {
+			Toast.makeText(this, R.string.c_history_is_empty, Toast.LENGTH_SHORT).show();
+			this.finish();
+		}
 	}
 }

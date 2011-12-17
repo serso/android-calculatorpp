@@ -26,6 +26,7 @@ import jscl.AngleUnit;
 import jscl.NumeralBase;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.calculator.history.CalculatorHistory;
 import org.solovyev.android.calculator.history.CalculatorHistoryState;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.CalculatorEngine;
@@ -90,6 +91,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 		vibrator = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
 
+		CalculatorHistory.instance.load(this, preferences);
 		calculatorModel = CalculatorModel.instance.init(this, preferences, CalculatorEngine.instance);
 
 		dpclRegister.clear();

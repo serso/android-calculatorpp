@@ -16,6 +16,8 @@ import org.solovyev.common.utils.history.HistoryAction;
 import org.solovyev.common.utils.history.HistoryHelper;
 import org.solovyev.common.utils.history.SimpleHistoryHelper;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -31,7 +33,7 @@ public enum CalculatorHistory implements HistoryHelper<CalculatorHistoryState> {
 	private final HistoryHelper<CalculatorHistoryState> history = new SimpleHistoryHelper<CalculatorHistoryState>();
 
 	@NotNull
-	private final HistoryHelper<CalculatorHistoryState> savedHistory = new SimpleHistoryHelper<CalculatorHistoryState>();
+	private final List<CalculatorHistoryState> savedHistory = new ArrayList<CalculatorHistoryState> ();
 
 	@Override
 	public boolean isEmpty() {
@@ -89,15 +91,13 @@ public enum CalculatorHistory implements HistoryHelper<CalculatorHistoryState> {
 		this.history.clear();
 	}
 
-	@NotNull
-	public HistoryHelper<CalculatorHistoryState> getSavedHistory() {
-		return savedHistory;
-	}
-
 	public void load(@Nullable Context context, @Nullable SharedPreferences preferences) {
 		if (context != null && preferences != null) {
 			final String value = preferences.getString(context.getString(R.string.p_calc_history), null);
 			HistoryUtils.fromXml(value, this.savedHistory);
+			for (CalculatorHistoryState historyState : savedHistory) {
+				historyState.setSaved(true);
+			}
 		}
 	}
 
@@ -110,4 +110,31 @@ public enum CalculatorHistory implements HistoryHelper<CalculatorHistoryState> {
 		editor.commit();
 	}
 
+	@NotNull
+	public List<CalculatorHistoryState> getSavedHistory() {
+		return Collections.unmodifiableList(savedHistory);
+	}
+
+	@NotNull
+	public CalculatorHistoryState addSavedState(@NotNull CalculatorHistoryState historyState) {
+		if (historyState.isSaved()) {
+			return historyState;
+		} else {
+			final CalculatorHistoryState savedState = historyState.clone();
+
+			savedState.setSaved(true);
+
+			savedHistory.add(savedState);
+
+			return savedState;
+		}
+	}
+
+
+	public void removeSavedHistory(@NotNull CalculatorHistoryState historyState, @NotNull Context context, @NotNull SharedPreferences preferences) {
+		historyState.setSaved(false);
+		save(context);
+		this.savedHistory.clear();
+		load(context, preferences);
+	}
 }

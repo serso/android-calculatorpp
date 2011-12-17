@@ -18,7 +18,7 @@ import java.util.Date;
  * Date: 10/15/11
  * Time: 1:45 PM
  */
-public class AbstractHistoryState {
+public class AbstractHistoryState implements Cloneable{
 
 	@Element
 	@NotNull
@@ -55,5 +55,19 @@ public class AbstractHistoryState {
 
 	public void setSaved(boolean saved) {
 		this.saved = saved;
+	}
+
+	@Override
+	protected AbstractHistoryState clone() {
+		AbstractHistoryState clone;
+
+		try {
+			clone = (AbstractHistoryState)super.clone();
+			clone.time = new Date(this.time.getTime());
+		} catch (CloneNotSupportedException e) {
+			throw new UnsupportedOperationException(e);
+		}
+
+		return clone;
 	}
 }

@@ -11,7 +11,7 @@ import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
 @Root
-public class EditorHistoryState {
+public class EditorHistoryState implements Cloneable{
 
 	@Element
 	private int cursorPosition;
@@ -74,5 +74,14 @@ public class EditorHistoryState {
 				"cursorPosition=" + cursorPosition +
 				", text='" + text + '\'' +
 				'}';
+	}
+
+	@Override
+	protected EditorHistoryState clone() {
+		try {
+			return (EditorHistoryState)super.clone();
+		} catch (CloneNotSupportedException e) {
+			throw new UnsupportedOperationException(e);
+		}
 	}
 }
