@@ -198,7 +198,7 @@ Attualente C++ non supporta questa funzione ma è possibile utilizzare le funzio
 <b>Esempi:</b>\n
 268° = 4.67748\n
 30.21° = 0.52726\n
-rad(30, 21, 0) = 0.52726\n
+rad(30, 21, 0) = 0.52971\n
 deg(4.67748) = 268\n
 \n
 <b>C++ supporta la %?</b>\n
@@ -233,7 +233,7 @@ Sì, basta inserire una espressione complessa (usando i o √(-1) come numero im
 \n
 <b>Esempi:</b>\n
 \n
-(2i + 1) ^ = -3 + 4i\n
+(2i + 1) ^ 2 = -3 + 4i\n
 e ^ i = 0.5403 + 0.84147i\n
 \n
 <b>C++ può disegnare i grafici delle funzioni?</b>\n

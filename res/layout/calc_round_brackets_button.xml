@@ -13,6 +13,6 @@
 													   a:text="()"
 													   c:textDown=")"
 													   c:textLeft="(…)"
-													   c:directionTextScale="0.5"
+													   c:directionTextScale="0.5;0.5;0.5;0.33"
 													   style="?digitButtonStyle"
 													   a:onClick="digitButtonClickHandler"/>

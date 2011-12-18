@@ -202,6 +202,12 @@ public class HistoryUtilsTest {
 
 		Assert.assertEquals(history.getStates().size(), historyFromXml.getStates().size());
 
+		for (CalculatorHistoryState historyState : history.getStates()) {
+			historyState.setId(0);
+		}
+		for (CalculatorHistoryState historyState : historyFromXml.getStates()) {
+			historyState.setId(0);
+		}
 		Assert.assertTrue(EqualsTool.areEqual(history.getStates(), historyFromXml.getStates(), new CollectionEqualizer<CalculatorHistoryState>(null)));
 	}
 

@@ -14,5 +14,6 @@
 													   c:textLeft="F"
 													   c:textRight="grad"
 													   c:textDown="rad"
+													   c:directionTextScale="0.33;0.30;0.33;0.33"
 													   style="?digitButtonStyle"
 													   a:onClick="digitButtonClickHandler"/>

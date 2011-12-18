@@ -31,8 +31,8 @@ import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.calculator.model.CalculatorEvalException;
 import org.solovyev.android.calculator.model.CalculatorParseException;
 import org.solovyev.android.calculator.model.Var;
-import org.solovyev.android.view.CursorControl;
-import org.solovyev.android.view.HistoryControl;
+import org.solovyev.android.view.*;
+import org.solovyev.android.view.prefs.ResourceCache;
 import org.solovyev.common.msg.Message;
 import org.solovyev.common.utils.CollectionsUtils;
 import org.solovyev.common.utils.MutableObject;
@@ -396,21 +396,19 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 									if (notSystemConstants.size() > 1) {
 										copyResult(activity, cd);
 									} else {
-										final CharSequence[] items = {activity.getText(R.string.c_plot), activity.getText(R.string.c_copy)};
 
-										AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-										builder.setItems(items, new DialogInterface.OnClickListener() {
+										final AMenu<CalculatorDisplayMenuItem> menu = new EnumMenu<CalculatorDisplayMenuItem>(CalculatorDisplayMenuItem.class);
+
+										final AlertDialog.Builder menuBuilder = new AlertDialog.Builder(activity);
+										menuBuilder.setItems(menu.getMenuCaptions(), new DialogInterface.OnClickListener() {
 											public void onClick(DialogInterface dialog, int item) {
-												if (item == 0) {
-													final Constant constant = CollectionsUtils.getFirstCollectionElement(notSystemConstants);
-													assert constant != null;
-													CalculatorActivityLauncher.plotGraph(activity, genericResult, constant);
-												} else if ( item == 1 ) {
-													copyResult(activity, cd);
+												final AMenuItem<CalculatorDisplayMenuData> menuItem = menu.itemAt(item);
+												if ( menuItem != null ){
+													menuItem.doAction(new CalculatorDisplayMenuData(cd, genericResult, notSystemConstants), activity);
 												}
 											}
 										});
-										builder.create().show();
+										menuBuilder.create().show();
 
 									}
 								} else {
@@ -432,6 +430,70 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 					}
 				}
 			}
+		}
+	}
+
+	private static class CalculatorDisplayMenuData {
+
+		@NotNull
+		private final CalculatorDisplay display;
+
+		@NotNull
+		private final Generic result;
+
+		@NotNull
+		private final Set<Constant> notSystemConstants;
+
+		private CalculatorDisplayMenuData(@NotNull CalculatorDisplay display, @NotNull Generic result, @NotNull Set<Constant> notSystemConstants) {
+			this.display = display;
+			this.result = result;
+			this.notSystemConstants = notSystemConstants;
+		}
+
+		@NotNull
+		public CalculatorDisplay getDisplay() {
+			return display;
+		}
+
+		@NotNull
+		public Generic getResult() {
+			return result;
+		}
+
+		@NotNull
+		public Set<Constant> getNotSystemConstants() {
+			return notSystemConstants;
+		}
+	}
+
+	private static enum CalculatorDisplayMenuItem implements AMenuItem<CalculatorDisplayMenuData> {
+		plot("c_plot"){
+			@Override
+			public void doAction(@NotNull CalculatorDisplayMenuData data, @NotNull Context context) {
+				final Constant constant = CollectionsUtils.getFirstCollectionElement(data.getNotSystemConstants());
+				assert constant != null;
+				CalculatorActivityLauncher.plotGraph(context, data.getResult(), constant);
+			}
+		},
+		copy("c_copy"){
+			@Override
+			public void doAction(@NotNull CalculatorDisplayMenuData data, @NotNull Context context) {
+				copyResult(context, data.getDisplay());
+			}
+		};
+
+		private final String captionId;
+
+		CalculatorDisplayMenuItem(@NotNull String captionId) {
+
+			this.captionId = captionId;
+		}
+
+		@NotNull
+		@Override
+		public String getCaption() {
+			final String caption = ResourceCache.instance.getCaption(captionId);
+			return caption == null ? name() : caption;
 		}
 	}
 }
