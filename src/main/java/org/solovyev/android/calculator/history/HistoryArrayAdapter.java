@@ -44,21 +44,25 @@ public class HistoryArrayAdapter extends ArrayAdapter<CalculatorHistoryState> {
 		editor.setText(AbstractHistoryActivity.getHistoryText(state));
 
 		final TextView commentView = (TextView) result.findViewById(R.id.history_item_comment);
-		final String comment = state.getComment();
-		if (!StringUtils.isEmpty(comment)) {
-			commentView.setText(comment);
-		} else {
-			commentView.setText("");
+		if (commentView != null) {
+			final String comment = state.getComment();
+			if (!StringUtils.isEmpty(comment)) {
+				commentView.setText(comment);
+			} else {
+				commentView.setText("");
+			}
 		}
 
 		final TextView status = (TextView) result.findViewById(R.id.history_item_status);
-		if (state.isSaved()) {
-			status.setText(ResourceCache.instance.getCaption("c_history_item_saved"));
-		} else {
-			if ( AbstractHistoryActivity.isAlreadySaved(state) ) {
-				status.setText(ResourceCache.instance.getCaption("c_history_item_already_saved"));
+		if (status != null) {
+			if (state.isSaved()) {
+				status.setText(ResourceCache.instance.getCaption("c_history_item_saved"));
 			} else {
-				status.setText(ResourceCache.instance.getCaption("c_history_item_not_saved"));
+				if ( AbstractHistoryActivity.isAlreadySaved(state) ) {
+					status.setText(ResourceCache.instance.getCaption("c_history_item_already_saved"));
+				} else {
+					status.setText(ResourceCache.instance.getCaption("c_history_item_not_saved"));
+				}
 			}
 		}
 

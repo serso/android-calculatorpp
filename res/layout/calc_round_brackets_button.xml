@@ -8,10 +8,11 @@
 
 <org.solovyev.android.view.widgets.DirectionDragButton xmlns:a="http://schemas.android.com/apk/res/android"
 													   xmlns:c="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
-													   a:id="@+id/roundBracketsButton" a:text="()"
+													   a:id="@+id/roundBracketsButton"
 													   c:textUp="("
+													   a:text="()"
 													   c:textDown=")"
+													   c:textLeft="(…)"
 													   c:directionTextScale="0.5"
-
 													   style="?digitButtonStyle"
 													   a:onClick="digitButtonClickHandler"/>

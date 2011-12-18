@@ -7,6 +7,7 @@
 package org.solovyev.android.calculator.history;
 
 import org.jetbrains.annotations.NotNull;
+import org.solovyev.android.calculator.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +18,20 @@ import java.util.List;
  * Time: 7:39 PM
  */
 public class HistoryActivityTab extends AbstractHistoryActivity {
+	@Override
+	protected int getLayoutId() {
+		return R.layout.history;
+	}
+
 	@NotNull
 	@Override
 	protected List<CalculatorHistoryState> getHistoryItems() {
 		return new ArrayList<CalculatorHistoryState>(CalculatorHistory.instance.getStates());
+	}
+
+	@Override
+	protected void clearHistory() {
+		CalculatorHistory.instance.clear();
+		getAdapter().clear();
 	}
 }

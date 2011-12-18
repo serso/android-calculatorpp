@@ -10,7 +10,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.preference.PreferenceManager;
 import android.text.ClipboardManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -98,7 +97,7 @@ public enum HistoryItemMenuItem implements AMenuItem<HistoryItemMenuData> {
 			final CalculatorHistoryState historyState = data.getHistoryState();
 			if (historyState.isSaved()) {
 				data.getAdapter().remove(historyState);
-				CalculatorHistory.instance.removeSavedHistory(historyState, context, PreferenceManager.getDefaultSharedPreferences(context));
+				CalculatorHistory.instance.removeSavedHistory(historyState, context);
 				Toast.makeText(context, "History item was removed!", Toast.LENGTH_LONG).show();
 				data.getAdapter().notifyDataSetChanged();
 			}

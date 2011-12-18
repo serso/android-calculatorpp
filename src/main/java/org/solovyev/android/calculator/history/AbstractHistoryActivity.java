@@ -50,7 +50,7 @@ public abstract class AbstractHistoryActivity extends ListActivity {
 
 
 	@NotNull
-	private HistoryArrayAdapter adapter;
+	private ArrayAdapter<CalculatorHistoryState> adapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +63,7 @@ public abstract class AbstractHistoryActivity extends ListActivity {
 			this.finish();
 		}*/
 
-		adapter = new HistoryArrayAdapter(this, R.layout.history, R.id.history_item, new ArrayList<CalculatorHistoryState>());
+		adapter = new HistoryArrayAdapter(this, getLayoutId(), R.id.history_item, new ArrayList<CalculatorHistoryState>());
 		setListAdapter(adapter);
 
 		final ListView lv = getListView();
@@ -121,6 +121,8 @@ public abstract class AbstractHistoryActivity extends ListActivity {
 			}
 		});
 	}
+
+	protected abstract int getLayoutId();
 
 	@Override
 	protected void onResume() {
@@ -241,18 +243,10 @@ public abstract class AbstractHistoryActivity extends ListActivity {
 		return result;
 	}
 
-	private void clearHistory() {
-		final List<CalculatorHistoryState> historyStates = new ArrayList<CalculatorHistoryState>(CalculatorHistory.instance.getStates());
-		CalculatorHistory.instance.clear();
-		for (CalculatorHistoryState historyState : historyStates) {
-			adapter.remove(historyState);
-		}
+	protected abstract void clearHistory();
 
-		if (adapter.getCount() > 0) {
-			adapter.notifyDataSetChanged();
-		} else {
-			Toast.makeText(this, R.string.c_history_is_empty, Toast.LENGTH_SHORT).show();
-			this.finish();
-		}
+	@NotNull
+	protected ArrayAdapter<CalculatorHistoryState> getAdapter() {
+		return adapter;
 	}
 }

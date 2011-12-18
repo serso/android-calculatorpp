@@ -121,27 +121,29 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 		final DragButton equalsButton = (DragButton) findViewById(R.id.equalsButton);
 		if (equalsButton != null) {
-			final OnDragListener evalOnDragListener = new OnDragListenerVibrator(newOnDragListener(new EvalDragProcessor(calculatorModel), dragPreferences), vibrator, preferences);
-			equalsButton.setOnDragListener(evalOnDragListener);
+			equalsButton.setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new EvalDragProcessor(calculatorModel), dragPreferences), vibrator, preferences));
 		}
 
 		final AngleUnitsButton angleUnitsButton = (AngleUnitsButton) findViewById(R.id.sixDigitButton);
 		if (angleUnitsButton != null) {
-			final OnDragListener onDragListener = new OnDragListenerVibrator(newOnDragListener(new AngleUnitsChanger(), dragPreferences), vibrator, preferences);
-			angleUnitsButton.setOnDragListener(onDragListener);
+			angleUnitsButton.setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new AngleUnitsChanger(), dragPreferences), vibrator, preferences));
 		}
 
 		final NumeralBasesButton numeralBasesButton = (NumeralBasesButton) findViewById(R.id.clearButton);
 		if (numeralBasesButton != null) {
-			final OnDragListener onDragListener = new OnDragListenerVibrator(newOnDragListener(new NumeralBasesChanger(), dragPreferences), vibrator, preferences);
-			numeralBasesButton.setOnDragListener(onDragListener);
+			numeralBasesButton.setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new NumeralBasesChanger(), dragPreferences), vibrator, preferences));
 		}
 
 		final DragButton varsButton = (DragButton) findViewById(R.id.varsButton);
 		if (varsButton != null) {
-			final OnDragListener varsOnDragListener = new OnDragListenerVibrator(newOnDragListener(new VarsDragProcessor(), dragPreferences), vibrator, preferences);
-			varsButton.setOnDragListener(varsOnDragListener);
+			varsButton.setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new VarsDragProcessor(), dragPreferences), vibrator, preferences));
 		}
+
+		final DragButton roundBracketsButton = (DragButton) findViewById(R.id.roundBracketsButton);
+		if ( roundBracketsButton != null ) {
+			roundBracketsButton.setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new RoundBracketsDrgProcessor(), dragPreferences), vibrator, preferences));
+		}
+
 
 		CalculatorEngine.instance.reset(this, preferences);
 
@@ -587,6 +589,30 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		final View multiplicationButton = findViewById(R.id.multiplicationButton);
 		if ( multiplicationButton instanceof Button) {
 			((Button) multiplicationButton).setText(CalculatorEngine.instance.getMultiplicationSign());
+		}
+	}
+
+	private static class RoundBracketsDrgProcessor implements SimpleOnDragListener.DragProcessor {
+		@Override
+		public boolean processDragEvent(@NotNull DragDirection dragDirection, @NotNull DragButton dragButton, @NotNull Point2d startPoint2d, @NotNull MotionEvent motionEvent) {
+			boolean result = false;
+			if ( dragDirection == DragDirection.left ) {
+				CalculatorModel.instance.doTextOperation(new CalculatorModel.TextOperation() {
+					@Override
+					public void doOperation(@NotNull EditText editor) {
+						final int cursorPosition = editor.getSelectionStart();
+						final StringBuilder text = new StringBuilder("(");
+						final String oldText = editor.getText().toString();
+						text.append(oldText.substring(0, cursorPosition));
+						text.append(")");
+						text.append(oldText.substring(cursorPosition));
+						editor.setText(text);
+						editor.setSelection(cursorPosition + 2);
+					}
+				});
+				result = true;
+			}
+			return result;
 		}
 	}
 }

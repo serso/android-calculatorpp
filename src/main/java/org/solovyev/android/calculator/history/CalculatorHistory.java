@@ -136,8 +136,12 @@ public enum CalculatorHistory implements HistoryHelper<CalculatorHistoryState> {
 		}
 	}
 
+	public void clearSavedHistory(@NotNull Context context) {
+		this.savedHistory.clear();
+		save(context);
+	}
 
-	public void removeSavedHistory(@NotNull CalculatorHistoryState historyState, @NotNull Context context, @NotNull SharedPreferences preferences) {
+	public void removeSavedHistory(@NotNull CalculatorHistoryState historyState, @NotNull Context context) {
 		historyState.setSaved(false);
 		this.savedHistory.remove(historyState);
 		save(context);

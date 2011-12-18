@@ -26,6 +26,8 @@
 
 		<TextView a:id="@+id/history_edit_expression"
 				  a:layout_width="fill_parent"
+				  a:padding="6dp"
+				  a:textStyle="bold"
 				  a:layout_height="wrap_content"
 				  style="@style/default_text_size">
 		</TextView>
@@ -39,6 +41,9 @@
 		<EditText a:id="@+id/history_edit_comment"
 				  a:layout_width="fill_parent"
 				  a:layout_height="wrap_content"
+				  a:minLines="4"
+				  a:maxLines="4"
+				  a:gravity="top|left"
 				  style="@style/default_text_size">
 		</EditText>
 
