@@ -29,6 +29,9 @@ public enum CalculatorHistory implements HistoryHelper<CalculatorHistoryState> {
 
 	instance;
 
+	// todo serso: not synchronized
+	private int counter = 0;
+
 	@NotNull
 	private final HistoryHelper<CalculatorHistoryState> history = new SimpleHistoryHelper<CalculatorHistoryState>();
 
@@ -97,6 +100,7 @@ public enum CalculatorHistory implements HistoryHelper<CalculatorHistoryState> {
 			HistoryUtils.fromXml(value, this.savedHistory);
 			for (CalculatorHistoryState historyState : savedHistory) {
 				historyState.setSaved(true);
+				historyState.setId(counter++);
 			}
 		}
 	}
@@ -122,6 +126,7 @@ public enum CalculatorHistory implements HistoryHelper<CalculatorHistoryState> {
 		} else {
 			final CalculatorHistoryState savedState = historyState.clone();
 
+			savedState.setId(counter++);
 			savedState.setSaved(true);
 
 			savedHistory.add(savedState);
@@ -133,8 +138,7 @@ public enum CalculatorHistory implements HistoryHelper<CalculatorHistoryState> {
 
 	public void removeSavedHistory(@NotNull CalculatorHistoryState historyState, @NotNull Context context, @NotNull SharedPreferences preferences) {
 		historyState.setSaved(false);
+		this.savedHistory.remove(historyState);
 		save(context);
-		this.savedHistory.clear();
-		load(context, preferences);
 	}
 }

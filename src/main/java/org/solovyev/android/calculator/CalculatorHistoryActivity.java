@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.view.*;
 import android.widget.*;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.history.*;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.view.AMenu;
@@ -99,6 +100,7 @@ public class CalculatorHistoryActivity extends ListActivity {
 					if (isAlreadySaved(historyState)) {
 						menuItems.remove(HistoryItemMenuItem.save);
 					}
+					menuItems.remove(HistoryItemMenuItem.remove);
 					menuItems.remove(HistoryItemMenuItem.edit);
 				}
 
@@ -128,7 +130,15 @@ public class CalculatorHistoryActivity extends ListActivity {
 		boolean result = false;
 		try {
 			historyState.setSaved(true);
-			if ( CalculatorHistory.instance.getSavedHistory().contains(historyState) ) {
+			if ( CollectionsUtils.contains(historyState, CalculatorHistory.instance.getSavedHistory(), new Equalizer<CalculatorHistoryState>() {
+				@Override
+				public boolean equals(@Nullable CalculatorHistoryState first, @Nullable CalculatorHistoryState second) {
+					return first != null && second != null &&
+							first.getTime().getTime() == second.getTime().getTime() &&
+								first.getDisplayState().equals(second.getDisplayState()) &&
+									first.getEditorState().equals(second.getEditorState());
+				}
+			}) ) {
 				result = true;
 			}
 		} finally {
@@ -199,10 +209,14 @@ public class CalculatorHistoryActivity extends ListActivity {
 			}
 
 			final TextView status = (TextView) result.findViewById(R.id.history_item_status);
-			if (state.isSaved() || isAlreadySaved(state)) {
+			if (state.isSaved()) {
 				status.setText(ResourceCache.instance.getCaption("c_history_item_saved"));
 			} else {
-				status.setText(ResourceCache.instance.getCaption("c_history_item_not_saved"));
+				if ( isAlreadySaved(state) ) {
+					status.setText(ResourceCache.instance.getCaption("c_history_item_already_saved"));
+				} else {
+					status.setText(ResourceCache.instance.getCaption("c_history_item_not_saved"));
+				}
 			}
 
 			return result;

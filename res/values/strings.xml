@@ -309,6 +309,7 @@ Check the \'Round result\' preference in application settings - it should be tur
 	<string name="c_copy_expression">Copy expression</string>
 	<string name="c_copy_result">Copy result</string>
 	<string name="c_history_expression">Value</string>
+	<string name="c_history_item_already_saved">Already saved (see entries above)</string>
 	<string name="c_history_comment">Comment</string>
 	<string name="c_save_history">Save history</string>
 	<string name="c_edit_history">Modify history</string>

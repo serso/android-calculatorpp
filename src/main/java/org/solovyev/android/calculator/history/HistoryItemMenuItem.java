@@ -91,12 +91,12 @@ public enum HistoryItemMenuItem implements AMenuItem<HistoryItemMenuData> {
 		@Override
 		public void doAction(@NotNull HistoryItemMenuData data, @NotNull Context context) {
 			final CalculatorHistoryState historyState = data.getHistoryState();
-			data.getAdapter().remove(historyState);
 			if (historyState.isSaved()) {
+				data.getAdapter().remove(historyState);
 				CalculatorHistory.instance.removeSavedHistory(historyState, context, PreferenceManager.getDefaultSharedPreferences(context));
 				Toast.makeText(context, "History item was removed!", Toast.LENGTH_LONG).show();
+				data.getAdapter().notifyDataSetChanged();
 			}
-			data.getAdapter().notifyDataSetChanged();
 		}
 	};
 

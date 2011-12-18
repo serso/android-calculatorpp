@@ -31,6 +31,17 @@ public class AbstractHistoryState implements Cloneable{
 	@Transient
 	private boolean saved;
 
+	@Transient
+	private int id = 0;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	@NotNull
 	public Date getTime() {
 		return time;

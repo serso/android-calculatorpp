@@ -77,6 +77,7 @@ public class CalculatorHistoryState extends AbstractHistoryState {
 		CalculatorHistoryState that = (CalculatorHistoryState) o;
 
 		if (this.isSaved() != that.isSaved()) return false;
+		if (this.getId() != that.getId()) return false;
 		if (!displayState.equals(that.displayState)) return false;
 		if (!editorState.equals(that.editorState)) return false;
 
@@ -86,6 +87,7 @@ public class CalculatorHistoryState extends AbstractHistoryState {
 	@Override
 	public int hashCode() {
 		int result = Boolean.valueOf(isSaved()).hashCode();
+		result = 31 * result + getId();
 		result = 31 * result + editorState.hashCode();
 		result = 31 * result + displayState.hashCode();
 		return result;
