@@ -308,7 +308,7 @@ public class DirectionDragButton extends DragButton {
 	}
 
 	protected static int getDefaultDirectionTextAlpha() {
-		return 150;
+		return 100;
 	}
 
 	@Nullable

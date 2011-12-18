@@ -301,5 +301,17 @@ Check the \'Round result\' preference in application settings - it should be tur
 
 	<string name="c_comment">Comment</string>
 	<string name="c_history_item_saved">Saved</string>
+	<string name="c_history_item_not_saved">Not saved</string>
+	<string name="c_expression_copied">Expression copied to the clipboard</string>
+	<string name="c_history_item_status">Status: </string>
+	<string name="c_history_item_comment">Comment: </string>
+	<string name="c_use_expression">Use</string>
+	<string name="c_copy_expression">Copy expression</string>
+	<string name="c_copy_result">Copy result</string>
+	<string name="c_history_expression">Value</string>
+	<string name="c_history_comment">Comment</string>
+	<string name="c_save_history">Save history</string>
+	<string name="c_edit_history">Modify history</string>
+	<string name="c_edit">Modify</string>
 
 </resources>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+  ~ For more information, please, contact se.solovyev@gmail.com
+  ~ or visit http://se.solovyev.org
+  -->
+
+<ScrollView xmlns:a="http://schemas.android.com/apk/res/android"
+			a:layout_width="fill_parent"
+			a:layout_height="fill_parent">
+
+	<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+				  a:id="@+id/history_edit"
+				  a:orientation="vertical"
+				  a:layout_width="fill_parent"
+				  a:layout_height="fill_parent"
+				  a:scrollbars="vertical"
+				  a:scrollbarAlwaysDrawVerticalTrack="true">
+
+		<TextView a:layout_height="fill_parent"
+				  a:layout_width="fill_parent"
+				  a:padding="6dp"
+				  style="@style/default_text_size"
+				  a:text="@string/c_history_expression"/>
+
+		<TextView a:id="@+id/history_edit_expression"
+				  a:layout_width="fill_parent"
+				  a:layout_height="wrap_content"
+				  style="@style/default_text_size">
+		</TextView>
+
+		<TextView a:layout_height="fill_parent"
+				  a:layout_width="fill_parent"
+				  style="@style/default_text_size"
+				  a:padding="6dp"
+				  a:text="@string/c_history_comment"/>
+
+		<EditText a:id="@+id/history_edit_comment"
+				  a:layout_width="fill_parent"
+				  a:layout_height="wrap_content"
+				  style="@style/default_text_size">
+		</EditText>
+
+	</LinearLayout>
+
+</ScrollView>

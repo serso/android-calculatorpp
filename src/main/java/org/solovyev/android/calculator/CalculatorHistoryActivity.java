@@ -11,19 +11,17 @@ import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.*;
 import android.widget.*;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.calculator.history.CalculatorHistory;
-import org.solovyev.android.calculator.history.CalculatorHistoryState;
-import org.solovyev.android.calculator.history.EditorHistoryState;
+import org.solovyev.android.calculator.history.*;
 import org.solovyev.android.calculator.jscl.JsclOperation;
+import org.solovyev.android.view.AMenu;
+import org.solovyev.android.view.AMenuItem;
+import org.solovyev.android.view.MenuImpl;
 import org.solovyev.android.view.prefs.ResourceCache;
+import org.solovyev.common.utils.*;
 import org.solovyev.common.utils.Filter;
-import org.solovyev.common.utils.FilterRule;
-import org.solovyev.common.utils.FilterRulesChain;
-import org.solovyev.common.utils.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -80,20 +78,7 @@ public class CalculatorHistoryActivity extends ListActivity {
 									final int position,
 									final long id) {
 
-				final CalculatorHistoryState historyState = (CalculatorHistoryState) parent.getItemAtPosition(position);
-
-				CalculatorModel.instance.doTextOperation(new CalculatorModel.TextOperation() {
-					@Override
-					public void doOperation(@NotNull EditText editor) {
-						final EditorHistoryState editorState = historyState.getEditorState();
-						editor.setText(editorState.getText());
-						editor.setSelection(editorState.getCursorPosition());
-					}
-				}, false, historyState.getDisplayState().getJsclOperation(), true);
-
-				CalculatorModel.instance.setCursorOnEnd();
-
-				CalculatorHistoryActivity.this.finish();
+				useHistoryItem((CalculatorHistoryState) parent.getItemAtPosition(position), CalculatorHistoryActivity.this);
 			}
 		});
 
@@ -104,30 +89,30 @@ public class CalculatorHistoryActivity extends ListActivity {
 
 				final Context context = CalculatorHistoryActivity.this;
 
-				final CharSequence[] items = {context.getText(R.string.c_save), context.getText(R.string.c_remove)};
+				final HistoryItemMenuData data = new HistoryItemMenuData(historyState, adapter);
+
+				final List<HistoryItemMenuItem> menuItems = CollectionsUtils.asList(HistoryItemMenuItem.values());
+
+				if (historyState.isSaved()) {
+					menuItems.remove(HistoryItemMenuItem.save);
+				} else {
+					if (isAlreadySaved(historyState)) {
+						menuItems.remove(HistoryItemMenuItem.save);
+					}
+					menuItems.remove(HistoryItemMenuItem.edit);
+				}
+
+				if (historyState.getDisplayState().isValid() && StringUtils.isEmpty(historyState.getDisplayState().getEditorState().getText())) {
+					menuItems.remove(HistoryItemMenuItem.copy_result);
+				}
+				final AMenu<HistoryItemMenuItem> historyItemMenu = new MenuImpl<HistoryItemMenuItem>(menuItems);
 
 				AlertDialog.Builder builder = new AlertDialog.Builder(context);
-				builder.setItems(items, new DialogInterface.OnClickListener() {
+				builder.setItems(historyItemMenu.getMenuCaptions(), new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int item) {
-						if (item == 0) {
-							if (!historyState.isSaved()) {
-								final CalculatorHistoryState savedHistoryItem = CalculatorHistory.instance.addSavedState(historyState);
-								CalculatorHistory.instance.save(context);
-								adapter.add(savedHistoryItem);
-								adapter.sort(COMPARATOR);
-								CalculatorHistoryActivity.this.adapter.notifyDataSetChanged();
-								Toast.makeText(context, "History item was successfully saved!", Toast.LENGTH_LONG).show();
-							} else {
-								Toast.makeText(context, "History item was already saved!", Toast.LENGTH_LONG).show();
-							}
-						} else if (item == 1) {
-							adapter.remove(historyState);
-							adapter.sort(COMPARATOR);
-							if (historyState.isSaved()) {
-								CalculatorHistory.instance.removeSavedHistory(historyState, context, PreferenceManager.getDefaultSharedPreferences(context));
-								Toast.makeText(context, "History item was removed!", Toast.LENGTH_LONG).show();
-							}
-							CalculatorHistoryActivity.this.adapter.notifyDataSetChanged();
+						final AMenuItem<HistoryItemMenuData> historyItemMenuItem = historyItemMenu.itemAt(item);
+						if (historyItemMenuItem != null) {
+							historyItemMenuItem.doAction(data, context);
 						}
 					}
 				});
@@ -135,6 +120,37 @@ public class CalculatorHistoryActivity extends ListActivity {
 				return true;
 			}
 		});
+	}
+
+	public static boolean isAlreadySaved(@NotNull CalculatorHistoryState historyState) {
+		assert !historyState.isSaved();
+
+		boolean result = false;
+		try {
+			historyState.setSaved(true);
+			if ( CalculatorHistory.instance.getSavedHistory().contains(historyState) ) {
+				result = true;
+			}
+		} finally {
+			historyState.setSaved(false);
+		}
+		return result;
+	}
+
+	public static void useHistoryItem(@NotNull final CalculatorHistoryState historyState, @NotNull CalculatorHistoryActivity activity) {
+
+		CalculatorModel.instance.doTextOperation(new CalculatorModel.TextOperation() {
+			@Override
+			public void doOperation(@NotNull EditText editor) {
+				final EditorHistoryState editorState = historyState.getEditorState();
+				editor.setText(editorState.getText());
+				editor.setSelection(editorState.getCursorPosition());
+			}
+		}, false, historyState.getDisplayState().getJsclOperation(), true);
+
+		CalculatorModel.instance.setCursorOnEnd();
+
+		activity.finish();
 	}
 
 	private static List<CalculatorHistoryState> getHistoryList() {
@@ -156,7 +172,7 @@ public class CalculatorHistoryActivity extends ListActivity {
 		return calculatorHistoryStates;
 	}
 
-	private static class HistoryArrayAdapter extends ArrayAdapter<CalculatorHistoryState> {
+	public class HistoryArrayAdapter extends ArrayAdapter<CalculatorHistoryState> {
 
 		private HistoryArrayAdapter(Context context, int resource, int textViewResourceId, @NotNull List<CalculatorHistoryState> historyList) {
 			super(context, resource, textViewResourceId, historyList);
@@ -172,33 +188,54 @@ public class CalculatorHistoryActivity extends ListActivity {
 			time.setText(new SimpleDateFormat().format(state.getTime()));
 
 			final TextView editor = (TextView) result.findViewById(R.id.history_item);
-			final StringBuilder historyText = new StringBuilder();
-			historyText.append(state.getEditorState().getText());
-			historyText.append(getIdentitySign(state.getDisplayState().getJsclOperation()));
-			historyText.append(state.getDisplayState().getEditorState().getText());
+			editor.setText(getHistoryText(state));
+
+			final TextView commentView = (TextView) result.findViewById(R.id.history_item_comment);
 			final String comment = state.getComment();
 			if (!StringUtils.isEmpty(comment)) {
-				historyText.append("\n");
-				historyText.append(ResourceCache.instance.getCaption("c_comment")).append(": ");
-				historyText.append(comment);
+				commentView.setText(comment);
+			} else {
+				commentView.setText("");
 			}
-			if ( state.isSaved() ) {
-				historyText.append("\n");
-				historyText.append(ResourceCache.instance.getCaption("c_history_item_saved"));
+
+			final TextView status = (TextView) result.findViewById(R.id.history_item_status);
+			if (state.isSaved() || isAlreadySaved(state)) {
+				status.setText(ResourceCache.instance.getCaption("c_history_item_saved"));
+			} else {
+				status.setText(ResourceCache.instance.getCaption("c_history_item_not_saved"));
 			}
-			editor.setText(historyText);
 
 			return result;
 		}
 
-		@NotNull
-		private String getIdentitySign(@NotNull JsclOperation jsclOperation) {
-			return jsclOperation == JsclOperation.simplify ? "≡" : "=";
+		@Override
+		public void notifyDataSetChanged() {
+			this.setNotifyOnChange(false);
+			this.sort(COMPARATOR);
+			this.setNotifyOnChange(true);
+			super.notifyDataSetChanged();
 		}
 	}
 
+	@NotNull
+	public static String getHistoryText(@NotNull CalculatorHistoryState state) {
+		final StringBuilder result = new StringBuilder();
+		result.append(state.getEditorState().getText());
+		result.append(getIdentitySign(state.getDisplayState().getJsclOperation()));
+		final String expressionResult = state.getDisplayState().getEditorState().getText();
+		if (expressionResult != null) {
+			result.append(expressionResult);
+		}
+		return result.toString();
+	}
+
+	@NotNull
+	private static String getIdentitySign(@NotNull JsclOperation jsclOperation) {
+		return jsclOperation == JsclOperation.simplify ? "≡" : "=";
+	}
+
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
+	public boolean onCreateOptionsMenu(android.view.Menu menu) {
 		final MenuInflater menuInflater = getMenuInflater();
 		menuInflater.inflate(R.menu.history_menu, menu);
 		return true;
@@ -228,7 +265,6 @@ public class CalculatorHistoryActivity extends ListActivity {
 		}
 
 		if (adapter.getCount() > 0) {
-			adapter.sort(COMPARATOR);
 			adapter.notifyDataSetChanged();
 		} else {
 			Toast.makeText(this, R.string.c_history_is_empty, Toast.LENGTH_SHORT).show();

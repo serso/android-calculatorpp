@@ -6,10 +6,12 @@
 
 <resources>
 
-	<style name="history_time" parent="var_text">
-	</style>
+	<style name="history_time" parent="var_text"/>
 
-	<style name="history_item" parent="var_description">
+	<style name="history_item" parent="var_description"/>
+	<style name="history_item_label" parent="var_description">
+		<item name="android:textStyle">bold</item>
+		<item name="android:textColor">@android:color/white</item>
 	</style>
 
 </resources>

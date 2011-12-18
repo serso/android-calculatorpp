@@ -19,6 +19,38 @@
 	<TextView a:id="@+id/history_item"
 			  a:layout_width="fill_parent"
 			  a:layout_height="fill_parent"
+			  a:textColor="@color/button_operator_text_color"
 			  style="@style/history_item"/>
+
+	<LinearLayout a:orientation="horizontal"
+				  a:layout_width="fill_parent"
+				  a:layout_height="fill_parent">
+
+		<TextView a:id="@+id/history_item_comment_label"
+				  a:layout_width="wrap_content"
+				  a:layout_height="fill_parent"
+				  a:text="@string/c_history_item_comment"
+				  style="@style/history_item_label"/>
+
+		<TextView a:id="@+id/history_item_comment"
+				  a:layout_width="fill_parent"
+				  a:layout_height="fill_parent"
+				  style="@style/history_item"/>
+	</LinearLayout>
+
+	<LinearLayout a:orientation="horizontal"
+			a:layout_width="fill_parent"
+			a:layout_height="fill_parent">
+
+		<TextView a:layout_width="wrap_content"
+				  a:layout_height="fill_parent"
+				  a:text="@string/c_history_item_status"
+				  style="@style/history_item_label"/>
+
+		<TextView a:id="@+id/history_item_status"
+				  a:layout_width="fill_parent"
+				  a:layout_height="fill_parent"
+				  style="@style/history_item"/>
+	</LinearLayout>
 
 </LinearLayout>
