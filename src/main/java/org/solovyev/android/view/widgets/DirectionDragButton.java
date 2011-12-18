@@ -136,26 +136,22 @@ public class DirectionDragButton extends DragButton {
 			@NotNull
 			@Override
 			public Point2d getTextPosition(@NotNull Paint paint, @NotNull Paint basePaint, @NotNull CharSequence text, CharSequence baseText, int w, int h) {
-				final Point2d result = new Point2d();
-
-				float width = paint.measureText(" ");
-				result.setX(width);
-
-				float selfHeight = paint.ascent() + paint.descent();
-
-				basePaint.measureText(StringUtils.getNotEmpty(baseText, "|"));
-
-				result.setY(h / 2 - selfHeight / 2);
-
-				return result;
+				return getLeftRightTextPosition(paint, basePaint, text, baseText, w, h, true);
 			}
-		}/*,
+		},
+
 		right(DragDirection.right, 1) {
 			@Override
 			public int getAttributeId() {
-				return 0;
+				return R.styleable.DragButton_textRight;
 			}
-		}*/;
+
+			@NotNull
+			@Override
+			public Point2d getTextPosition(@NotNull Paint paint, @NotNull Paint basePaint, @NotNull CharSequence text, CharSequence baseText, int w, int h) {
+				return getLeftRightTextPosition(paint, basePaint, text, baseText, w, h, false);
+			}
+		};
 
 		@NotNull
 		private final DragDirection dragDirection;
@@ -175,6 +171,27 @@ public class DirectionDragButton extends DragButton {
 
 		@NotNull
 		public abstract Point2d getTextPosition(@NotNull Paint paint, @NotNull Paint basePaint, @NotNull CharSequence text, CharSequence baseText, int w, int h);
+
+		@NotNull
+		private static Point2d getLeftRightTextPosition(@NotNull Paint paint, @NotNull Paint basePaint, CharSequence text, @NotNull CharSequence baseText, int w, int h, boolean left) {
+			final Point2d result = new Point2d();
+
+			if (left) {
+				float width = paint.measureText(" ");
+				result.setX(width);
+			} else {
+				float width = paint.measureText(text.toString() + " ");
+				result.setX(w - width);
+			}
+
+			float selfHeight = paint.ascent() + paint.descent();
+
+			basePaint.measureText(StringUtils.getNotEmpty(baseText, "|"));
+
+			result.setY(h / 2 - selfHeight / 2);
+
+			return result;
+		}
 
 		@NotNull
 		private static Point2d getUpDownTextPosition(@NotNull Paint paint, @NotNull Paint basePaint, @NotNull CharSequence text, CharSequence baseText, float direction, int w, int h) {

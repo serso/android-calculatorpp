@@ -7,11 +7,11 @@
   -->
 
 <org.solovyev.android.view.widgets.DirectionDragButton xmlns:a="http://schemas.android.com/apk/res/android"
-													   xmlns:calc="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
+													   xmlns:c="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
 													   a:id="@+id/twoDigitButton"
 													   a:text="2"
-													   calc:textUp="cos"
-													   calc:textLeft="B"
-													   calc:textDown="acos"
+													   c:textUp="cos"
+													   c:textLeft="B"
+													   c:textDown="acos"
 													   style="?digitButtonStyle"
 													   a:onClick="digitButtonClickHandler"/>

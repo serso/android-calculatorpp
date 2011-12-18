@@ -7,7 +7,7 @@
   -->
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-			  xmlns:calc="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
+			  xmlns:c="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
 			  a:orientation="vertical"
 			  a:layout_width="fill_parent"
 			  a:layout_height="fill_parent"
@@ -24,11 +24,11 @@
 		<LinearLayout a:layout_weight="1" a:layout_width="fill_parent" a:layout_height="0dp">
 
 			<org.solovyev.android.view.widgets.DirectionDragButton xmlns:a="http://schemas.android.com/apk/res/android"
-																   xmlns:calc="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
+																   xmlns:c="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
 																   a:id="@+id/leftButton"
-																   calc:textUp="◀◀"
+																   c:textUp="◀◀"
 																   a:text="◀"
-																   calc:directionTextScale="0.5"
+																   c:directionTextScale="0.5"
 																   style="?controlButtonStyle"
 																   a:onClick="moveLeftButtonClickHandler"
 																   a:layout_width="0dp"
@@ -37,7 +37,7 @@
 
 
 			<org.solovyev.android.view.widgets.ColorButton xmlns:a="http://schemas.android.com/apk/res/android"
-														   xmlns:calc="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
+														   xmlns:c="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
 														   a:id="@+id/eraseButton"
 														   a:drawableTop="@drawable/sym_keyboard_delete"
 														   style="?controlImageButtonStyle"
@@ -53,11 +53,13 @@
 					 a:layout_weight="4"/>
 
 			<org.solovyev.android.view.widgets.NumeralBasesButton xmlns:a="http://schemas.android.com/apk/res/android"
-														   xmlns:calc="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
+														   xmlns:c="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
 														   a:id="@+id/clearButton"
-														   calc:textUp="dec"
+														   c:textUp="dec"
+														   c:textRight="oct"
 														   a:text="@string/c_clear"
-														   calc:textDown="bin"
+														   c:textDown="bin"
+														   c:textLeft="hex"
 														   a:textStyle="bold"
 														   style="?controlImageButtonStyle"
 														   a:onClick="clearButtonClickHandler"
@@ -66,11 +68,11 @@
 														   a:layout_weight="1"/>
 
 			<org.solovyev.android.view.widgets.DirectionDragButton xmlns:a="http://schemas.android.com/apk/res/android"
-																   xmlns:calc="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
+																   xmlns:c="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
 																   a:id="@+id/rightButton"
-																   calc:textUp="▶▶"
+																   c:textUp="▶▶"
 																   a:text="▶"
-																   calc:directionTextScale="0.5"
+																   c:directionTextScale="0.5"
 																   style="?controlButtonStyle"
 																   a:onClick="moveRightButtonClickHandler"
 																   a:layout_width="0dp"

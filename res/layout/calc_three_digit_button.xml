@@ -7,11 +7,11 @@
   -->
 
 <org.solovyev.android.view.widgets.DirectionDragButton xmlns:a="http://schemas.android.com/apk/res/android"
-													   xmlns:calc="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
+													   xmlns:c="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
 													   a:id="@+id/threeDigitButton"
 													   a:text="3"
-													   calc:textUp="tan"
-													   calc:textLeft="C"
-													   calc:textDown="atan"
+													   c:textUp="tan"
+													   c:textLeft="C"
+													   c:textDown="atan"
 													   style="?digitButtonStyle"
 													   a:onClick="digitButtonClickHandler"/>

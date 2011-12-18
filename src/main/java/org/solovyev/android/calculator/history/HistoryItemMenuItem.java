@@ -19,7 +19,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.calculator.CalculatorHistoryActivity;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.view.AMenuItem;
 import org.solovyev.android.view.prefs.ResourceCache;
@@ -31,16 +30,18 @@ import org.solovyev.common.utils.StringUtils;
 * Time: 3:09 PM
 */
 public enum HistoryItemMenuItem implements AMenuItem<HistoryItemMenuData> {
+
 	use("c_use_expression") {
 		@Override
 		public void doAction(@NotNull HistoryItemMenuData data, @NotNull Context context) {
-			if (context instanceof CalculatorHistoryActivity) {
-				CalculatorHistoryActivity.useHistoryItem(data.getHistoryState(), (CalculatorHistoryActivity) context);
+			if (context instanceof AbstractHistoryActivity) {
+				AbstractHistoryActivity.useHistoryItem(data.getHistoryState(), (AbstractHistoryActivity) context);
 			} else {
 				Log.e(HistoryItemMenuItem.class.getName(), CalculatorHistoryActivity.class + " must be passed as context!");
 			}
 		}
 	},
+
 	copy_expression("c_copy_expression") {
 		@Override
 		public void doAction(@NotNull HistoryItemMenuData data, @NotNull Context context) {
@@ -53,6 +54,7 @@ public enum HistoryItemMenuItem implements AMenuItem<HistoryItemMenuData> {
 			}
 		}
 	},
+
 	copy_result("c_copy_result") {
 		@Override
 		public void doAction(@NotNull HistoryItemMenuData data, @NotNull Context context) {
@@ -65,6 +67,7 @@ public enum HistoryItemMenuItem implements AMenuItem<HistoryItemMenuData> {
 			}
 		}
 	},
+
 	save("c_save") {
 		@Override
 		public void doAction(@NotNull final HistoryItemMenuData data, @NotNull final Context context) {
@@ -76,6 +79,7 @@ public enum HistoryItemMenuItem implements AMenuItem<HistoryItemMenuData> {
 			}
 		}
 	},
+
 	edit("c_edit") {
 		@Override
 		public void doAction(@NotNull final HistoryItemMenuData data, @NotNull final Context context) {
@@ -87,6 +91,7 @@ public enum HistoryItemMenuItem implements AMenuItem<HistoryItemMenuData> {
 			}
 		}
 	},
+
 	remove("c_remove") {
 		@Override
 		public void doAction(@NotNull HistoryItemMenuData data, @NotNull Context context) {
@@ -106,7 +111,7 @@ public enum HistoryItemMenuItem implements AMenuItem<HistoryItemMenuData> {
 		final LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		final View editView = layoutInflater.inflate(R.layout.history_edit, null);
 		final TextView historyExpression = (TextView)editView.findViewById(R.id.history_edit_expression);
-		historyExpression.setText(CalculatorHistoryActivity.getHistoryText(historyState));
+		historyExpression.setText(AbstractHistoryActivity.getHistoryText(historyState));
 
 		final EditText comment = (EditText)editView.findViewById(R.id.history_edit_comment);
 		comment.setText(historyState.getComment());
@@ -122,7 +127,8 @@ public enum HistoryItemMenuItem implements AMenuItem<HistoryItemMenuData> {
 							final CalculatorHistoryState savedHistoryItem = CalculatorHistory.instance.addSavedState(historyState);
 							savedHistoryItem.setComment(comment.getText().toString());
 							CalculatorHistory.instance.save(context);
-							data.getAdapter().add(savedHistoryItem);
+							// we don't need to add element to the adapter as adapter of another activity must be updated and not this
+							//data.getAdapter().add(savedHistoryItem);
 						} else {
 							historyState.setComment(comment.getText().toString());
 							CalculatorHistory.instance.save(context);

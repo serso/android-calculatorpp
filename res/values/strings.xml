@@ -314,5 +314,6 @@ Check the \'Round result\' preference in application settings - it should be tur
 	<string name="c_save_history">Save history</string>
 	<string name="c_edit_history">Modify history</string>
 	<string name="c_edit">Modify</string>
+	<string name="c_saved_history">Saved history</string>
 
 </resources>

@@ -4,7 +4,7 @@
  * or visit http://se.solovyev.org
  */
 
-package org.solovyev.android.calculator.help;
+package org.solovyev.android.calculator.history;
 
 import android.app.Activity;
 import android.app.TabActivity;
@@ -17,22 +17,21 @@ import org.solovyev.android.calculator.R;
 
 /**
  * User: serso
- * Date: 11/19/11
- * Time: 11:35 AM
+ * Date: 12/18/11
+ * Time: 7:37 PM
  */
-public class HelpActivity extends TabActivity {
+public class CalculatorHistoryActivity extends TabActivity {
 
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.help);
+		setContentView(R.layout.history_tabs);
 
 		final TabHost tabHost = getTabHost();
 
-		createTab(tabHost, "faq", R.string.c_faq, HelpFaqActivity.class);
-		createTab(tabHost, "hints", R.string.c_hints, HelpHintsActivity.class);
-		createTab(tabHost, "screens", R.string.c_screens, HelpScreensActivity.class);
+		createTab(tabHost, "saved_history", R.string.c_saved_history, SavedHistoryActivityTab.class);
+		createTab(tabHost, "history", R.string.c_history, HistoryActivityTab.class);
 
 		tabHost.setCurrentTab(0);
 	}

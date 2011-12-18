@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-			  xmlns:calc="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
+			  xmlns:c="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
 			  a:orientation="vertical"
 			  a:layout_width="fill_parent"
 			  a:layout_height="fill_parent"
@@ -23,16 +23,16 @@
 
 			<org.solovyev.android.view.widgets.DirectionDragButton a:id="@+id/calibrationButtonLeft"
 														   a:text=""
-														   calc:textUp="@string/c_up"
-														   calc:textDown="@string/c_down"
+														   c:textUp="@string/c_up"
+														   c:textDown="@string/c_down"
 														   a:layout_width="80dp"
 														   a:layout_height="80dp"
 														   style="?digitButtonStyle"/>
 
 			<org.solovyev.android.view.widgets.DirectionDragButton a:id="@+id/calibrationButtonRight"
 														   a:text=""
-														   calc:textUp="@string/c_up"
-														   calc:textDown="@string/c_down"
+														   c:textUp="@string/c_up"
+														   c:textDown="@string/c_down"
 														   a:layout_width="80dp"
 														   a:layout_height="80dp"
 														   style="?digitButtonStyle"/>

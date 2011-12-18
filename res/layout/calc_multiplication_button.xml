@@ -7,12 +7,12 @@
   -->
 
 <org.solovyev.android.view.widgets.DirectionDragButton xmlns:a="http://schemas.android.com/apk/res/android"
-													   xmlns:calc="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
+													   xmlns:c="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
 													   a:id="@+id/multiplicationButton"
 													   a:text="×"
-													   calc:textUp="^"
-													   calc:textDown="^2"
+													   c:textUp="^"
+													   c:textDown="^2"
 													   style="?digitButtonStyle"
-													   calc:directionTextScale="0.5"
+													   c:directionTextScale="0.5"
 
 													   a:onClick="digitButtonClickHandler"/>

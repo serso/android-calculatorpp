@@ -7,7 +7,7 @@
   -->
 
 <org.solovyev.android.view.widgets.ColorButton xmlns:a="http://schemas.android.com/apk/res/android"
-			 xmlns:calc="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
+			 xmlns:c="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
 			 a:id="@+id/pasteButton"
 			 a:drawableTop="@drawable/copy"
 			 style="?controlImageButtonStyle"

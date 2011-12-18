@@ -162,7 +162,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 			boolean result = false;
 
 			if (dragButton instanceof AngleUnitsButton) {
-				if (dragDirection == DragDirection.up || dragDirection == DragDirection.down ) {
+				if (dragDirection != DragDirection.left ) {
 					final String directionText = ((AngleUnitsButton) dragButton).getText(dragDirection);
 					if ( directionText != null ) {
 						try {
@@ -564,7 +564,9 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences preferences, @Nullable String key) {
-		dpclRegister.announce().onDragPreferencesChange(SimpleOnDragListener.getPreferences(preferences, this));
+		if (key != null && key.startsWith("org.solovyev.android.calculator.DragButtonCalibrationActivity")) {
+			dpclRegister.announce().onDragPreferencesChange(SimpleOnDragListener.getPreferences(preferences, this));
+		}
 
 		if (CalculatorEngine.GROUPING_SEPARATOR_P_KEY.equals(key) ||
 				CalculatorEngine.MULTIPLICATION_SIGN_P_KEY.equals(key) ||

@@ -17,7 +17,7 @@
 
 		<activity a:name=".CalculatorActivity"
 				  a:label="@string/c_app_name">
-			                                                                                                                 s
+
 			<intent-filter>
 				<action a:name="android.intent.action.MAIN"/>
 				<category a:name="android.intent.category.LAUNCHER"/>
@@ -29,8 +29,16 @@
 				  a:label="@string/c_app_settings"
 				  a:configChanges="orientation|keyboardHidden"/>
 
-		<activity a:name=".CalculatorHistoryActivity"
+		<activity a:name=".history.CalculatorHistoryActivity"
 				  a:label="@string/c_app_history"
+				  a:configChanges="orientation|keyboardHidden"/>
+
+	   	<activity a:name=".history.HistoryActivityTab"
+				  a:label="@string/c_history"
+				  a:configChanges="orientation|keyboardHidden"/>
+
+		<activity a:name=".history.SavedHistoryActivityTab"
+				  a:label="@string/c_saved_history"
 				  a:configChanges="orientation|keyboardHidden"/>
 
 		<activity a:name=".AboutActivity"

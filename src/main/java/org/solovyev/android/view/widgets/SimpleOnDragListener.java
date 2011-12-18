@@ -12,10 +12,7 @@ import android.view.MotionEvent;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.R;
 import org.solovyev.common.NumberIntervalMapper;
-import org.solovyev.common.utils.Interval;
-import org.solovyev.common.utils.Mapper;
-import org.solovyev.common.utils.MathUtils;
-import org.solovyev.common.utils.Point2d;
+import org.solovyev.common.utils.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -53,7 +50,12 @@ public class SimpleOnDragListener implements OnDragListener, DragPreferencesChan
 		final Point2d endPoint = new Point2d(motionEvent.getX(), motionEvent.getY());
 
 		final float distance = MathUtils.getDistance(startPoint, endPoint);
-		final double angle = Math.toDegrees(MathUtils.getAngle(startPoint, MathUtils.sum(startPoint, axis), endPoint));
+
+		final MutableObject<Boolean> right = new MutableObject<Boolean>();
+		final double angle = Math.toDegrees(MathUtils.getAngle(startPoint, MathUtils.sum(startPoint, axis), endPoint, right));
+		Log.d(String.valueOf(dragButton.getId()), "Angle: " + angle);
+		Log.d(String.valueOf(dragButton.getId()), "Is right?: " + right.getObject());
+
 		final double duration = motionEvent.getEventTime() - motionEvent.getDownTime();
 
 		final Preference distancePreferences = preferences.getPreferencesMap().get(PreferenceType.distance);
@@ -66,23 +68,21 @@ public class SimpleOnDragListener implements OnDragListener, DragPreferencesChan
 			Log.d(String.valueOf(dragButton.getId()), "Trying direction interval: " + directionEntry.getValue().getInterval());
 
 			if (isInInterval(directionEntry.getValue().getInterval(), distance)) {
-				for (Map.Entry<DragDirection, DragPreference> angleEntry : anglePreferences.getDirectionPreferences().entrySet()) {
+				final DragPreference anglePreference = anglePreferences.getDirectionPreferences().get(directionEntry.getKey());
 
-					Log.d(String.valueOf(dragButton.getId()), "Trying angle interval: " + angleEntry.getValue().getInterval());
+				Log.d(String.valueOf(dragButton.getId()), "Trying angle interval: " + anglePreference.getInterval());
 
-					if (isInInterval(angleEntry.getValue().getInterval(), (float) angle)) {
-
-						Log.d(String.valueOf(dragButton.getId()), "MATCH! Direction: " + angleEntry.getKey());
-
-						direction = angleEntry.getKey();
+				if (directionEntry.getKey() == DragDirection.left && right.getObject()) {
+				} else if (directionEntry.getKey() == DragDirection.right && !right.getObject()) {
+				} else {
+					if (isInInterval(anglePreference.getInterval(), (float) angle)) {
+						direction = directionEntry.getKey();
+						Log.d(String.valueOf(dragButton.getId()), "MATCH! Direction: " + direction);
 						break;
 					}
 				}
 			}
 
-			if (direction != null) {
-				break;
-			}
 		}
 
 		if (direction != null) {
@@ -116,7 +116,9 @@ public class SimpleOnDragListener implements OnDragListener, DragPreferencesChan
 
 		Log.d(String.valueOf(dragButton.getId()), "Start point: " + startPoint + ", End point: " + endPoint);
 		Log.d(String.valueOf(dragButton.getId()), "Distance: " + MathUtils.getDistance(startPoint, endPoint));
-		Log.d(String.valueOf(dragButton.getId()), "Angle: " + Math.toDegrees(MathUtils.getAngle(startPoint, MathUtils.sum(startPoint, axis), endPoint)));
+		final MutableObject<Boolean> right = new MutableObject<Boolean>();
+		Log.d(String.valueOf(dragButton.getId()), "Angle: " + Math.toDegrees(MathUtils.getAngle(startPoint, MathUtils.sum(startPoint, axis), endPoint, right)));
+		Log.d(String.valueOf(dragButton.getId()), "Is right angle? " + right);
 		Log.d(String.valueOf(dragButton.getId()), "Axis: " + axis + " Vector: " + MathUtils.subtract(endPoint, startPoint));
 		Log.d(String.valueOf(dragButton.getId()), "Total time: " + (motionEvent.getEventTime() - motionEvent.getDownTime()) + " ms");
 	}
@@ -209,11 +211,11 @@ public class SimpleOnDragListener implements OnDragListener, DragPreferencesChan
 				interval.setLeftBorder(180f - rightBorder);
 				interval.setRightBorder(180f - leftBorder);
 			} else if (dragDirection == DragDirection.left ) {
-				interval.setLeftBorder(90f - rightBorder / 2);
-				interval.setRightBorder(90f + rightBorder / 2);
+				interval.setLeftBorder(90f - rightBorder);
+				interval.setRightBorder(90f + rightBorder);
 			} else if ( dragDirection == DragDirection.right ) {
-				interval.setLeftBorder(180f + 90f - rightBorder / 2);
-				interval.setRightBorder(180f + 90f + rightBorder / 2);
+				interval.setLeftBorder(90f - rightBorder);
+				interval.setRightBorder(90f + rightBorder);
 			}
 		}
 

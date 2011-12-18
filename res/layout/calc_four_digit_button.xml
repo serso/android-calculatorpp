@@ -6,11 +6,11 @@
   ~ or visit http://se.solovyev.org
   -->
 <org.solovyev.android.view.widgets.DirectionDragButton xmlns:a="http://schemas.android.com/apk/res/android"
-													   xmlns:calc="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
+													   xmlns:c="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
 													   a:id="@+id/fourDigitButton"
 													   a:text="4"
-													   calc:textUp="x"
-													   calc:textLeft="D"
-													   calc:textDown="y"
+													   c:textUp="x"
+													   c:textLeft="D"
+													   c:textDown="y"
 													   style="?digitButtonStyle"
 													   a:onClick="digitButtonClickHandler"/>

@@ -8,6 +8,7 @@ import jscl.math.function.Constant;
 import org.achartengine.ChartFactory;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.help.HelpActivity;
+import org.solovyev.android.calculator.history.CalculatorHistoryActivity;
 import org.solovyev.common.utils.StringUtils;
 
 /**

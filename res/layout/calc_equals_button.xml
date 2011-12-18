@@ -7,11 +7,11 @@
   -->
 <org.solovyev.android.view.widgets.DirectionDragButton
 		xmlns:a="http://schemas.android.com/apk/res/android"
-		xmlns:calc="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
+		xmlns:c="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
 		a:id="@+id/equalsButton"
-		calc:textUp="≡"
+		c:textUp="≡"
 		a:text="="
-		calc:directionTextScale="0.5"
+		c:directionTextScale="0.5"
 		a:layout_width="fill_parent"
 		a:layout_height="fill_parent"
 		style="?controlButtonStyle"

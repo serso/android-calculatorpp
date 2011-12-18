@@ -4,7 +4,7 @@
  * or visit http://se.solovyev.org
  */
 
-package org.solovyev.android.calculator;
+package org.solovyev.android.calculator.history;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
@@ -15,16 +15,15 @@ import android.view.*;
 import android.widget.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.history.*;
+import org.solovyev.android.calculator.CalculatorModel;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.view.AMenu;
 import org.solovyev.android.view.AMenuItem;
 import org.solovyev.android.view.MenuImpl;
-import org.solovyev.android.view.prefs.ResourceCache;
 import org.solovyev.common.utils.*;
 import org.solovyev.common.utils.Filter;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -32,9 +31,9 @@ import java.util.*;
  * Date: 10/15/11
  * Time: 1:13 PM
  */
-public class CalculatorHistoryActivity extends ListActivity {
+public abstract class AbstractHistoryActivity extends ListActivity {
 
-	private static final Comparator<CalculatorHistoryState> COMPARATOR = new Comparator<CalculatorHistoryState>() {
+	public static final Comparator<CalculatorHistoryState> COMPARATOR = new Comparator<CalculatorHistoryState>() {
 		@Override
 		public int compare(CalculatorHistoryState state1, CalculatorHistoryState state2) {
 			if (state1.isSaved() == state2.isSaved()) {
@@ -59,13 +58,12 @@ public class CalculatorHistoryActivity extends ListActivity {
 
 		setContentView(R.layout.history_activity);
 
-		final List<CalculatorHistoryState> historyList = getHistoryList();
-		if ( historyList.isEmpty() ) {
+/*		if ( historyList.isEmpty() ) {
 			Toast.makeText(this, R.string.c_history_is_empty, Toast.LENGTH_SHORT).show();
 			this.finish();
-		}
+		}*/
 
-		adapter = new HistoryArrayAdapter(this, R.layout.history, R.id.history_item, historyList);
+		adapter = new HistoryArrayAdapter(this, R.layout.history, R.id.history_item, new ArrayList<CalculatorHistoryState>());
 		setListAdapter(adapter);
 
 		final ListView lv = getListView();
@@ -77,7 +75,7 @@ public class CalculatorHistoryActivity extends ListActivity {
 									final int position,
 									final long id) {
 
-				useHistoryItem((CalculatorHistoryState) parent.getItemAtPosition(position), CalculatorHistoryActivity.this);
+				useHistoryItem((CalculatorHistoryState) parent.getItemAtPosition(position), AbstractHistoryActivity.this);
 			}
 		});
 
@@ -86,7 +84,7 @@ public class CalculatorHistoryActivity extends ListActivity {
 			public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
 				final CalculatorHistoryState historyState = (CalculatorHistoryState) parent.getItemAtPosition(position);
 
-				final Context context = CalculatorHistoryActivity.this;
+				final Context context = AbstractHistoryActivity.this;
 
 				final HistoryItemMenuData data = new HistoryItemMenuData(historyState, adapter);
 
@@ -105,10 +103,11 @@ public class CalculatorHistoryActivity extends ListActivity {
 				if (historyState.getDisplayState().isValid() && StringUtils.isEmpty(historyState.getDisplayState().getEditorState().getText())) {
 					menuItems.remove(HistoryItemMenuItem.copy_result);
 				}
+
 				final AMenu<HistoryItemMenuItem> historyItemMenu = new MenuImpl<HistoryItemMenuItem>(menuItems);
 
-				AlertDialog.Builder builder = new AlertDialog.Builder(context);
-				builder.setItems(historyItemMenu.getMenuCaptions(), new DialogInterface.OnClickListener() {
+				final AlertDialog.Builder menuDialogBuilder = new AlertDialog.Builder(context);
+				menuDialogBuilder.setItems(historyItemMenu.getMenuCaptions(), new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int item) {
 						final AMenuItem<HistoryItemMenuData> historyItemMenuItem = historyItemMenu.itemAt(item);
 						if (historyItemMenuItem != null) {
@@ -116,10 +115,29 @@ public class CalculatorHistoryActivity extends ListActivity {
 						}
 					}
 				});
-				builder.create().show();
+				menuDialogBuilder.create().show();
+
 				return true;
 			}
 		});
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+
+		final List<CalculatorHistoryState> historyList = getHistoryList();
+		try {
+			this.adapter.setNotifyOnChange(false);
+			this.adapter.clear();
+			for (CalculatorHistoryState historyState : historyList) {
+				this.adapter.add(historyState);
+			}
+		} finally {
+			this.adapter.setNotifyOnChange(true);
+		}
+
+		this.adapter.notifyDataSetChanged();
 	}
 
 	public static boolean isAlreadySaved(@NotNull CalculatorHistoryState historyState) {
@@ -145,7 +163,7 @@ public class CalculatorHistoryActivity extends ListActivity {
 		return result;
 	}
 
-	public static void useHistoryItem(@NotNull final CalculatorHistoryState historyState, @NotNull CalculatorHistoryActivity activity) {
+	public static void useHistoryItem(@NotNull final CalculatorHistoryState historyState, @NotNull AbstractHistoryActivity activity) {
 
 		CalculatorModel.instance.doTextOperation(new CalculatorModel.TextOperation() {
 			@Override
@@ -161,9 +179,9 @@ public class CalculatorHistoryActivity extends ListActivity {
 		activity.finish();
 	}
 
-	private static List<CalculatorHistoryState> getHistoryList() {
-		final List<CalculatorHistoryState> calculatorHistoryStates = new ArrayList<CalculatorHistoryState>(CalculatorHistory.instance.getStates());
-		calculatorHistoryStates.addAll(CalculatorHistory.instance.getSavedHistory());
+	@NotNull
+	private List<CalculatorHistoryState> getHistoryList() {
+		final List<CalculatorHistoryState> calculatorHistoryStates = getHistoryItems();
 
 		Collections.sort(calculatorHistoryStates, COMPARATOR);
 
@@ -180,54 +198,8 @@ public class CalculatorHistoryActivity extends ListActivity {
 		return calculatorHistoryStates;
 	}
 
-	public class HistoryArrayAdapter extends ArrayAdapter<CalculatorHistoryState> {
-
-		private HistoryArrayAdapter(Context context, int resource, int textViewResourceId, @NotNull List<CalculatorHistoryState> historyList) {
-			super(context, resource, textViewResourceId, historyList);
-		}
-
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			final ViewGroup result = (ViewGroup) super.getView(position, convertView, parent);
-
-			final CalculatorHistoryState state = getItem(position);
-
-			final TextView time = (TextView) result.findViewById(R.id.history_time);
-			time.setText(new SimpleDateFormat().format(new Date(state.getTime())));
-
-			final TextView editor = (TextView) result.findViewById(R.id.history_item);
-			editor.setText(getHistoryText(state));
-
-			final TextView commentView = (TextView) result.findViewById(R.id.history_item_comment);
-			final String comment = state.getComment();
-			if (!StringUtils.isEmpty(comment)) {
-				commentView.setText(comment);
-			} else {
-				commentView.setText("");
-			}
-
-			final TextView status = (TextView) result.findViewById(R.id.history_item_status);
-			if (state.isSaved()) {
-				status.setText(ResourceCache.instance.getCaption("c_history_item_saved"));
-			} else {
-				if ( isAlreadySaved(state) ) {
-					status.setText(ResourceCache.instance.getCaption("c_history_item_already_saved"));
-				} else {
-					status.setText(ResourceCache.instance.getCaption("c_history_item_not_saved"));
-				}
-			}
-
-			return result;
-		}
-
-		@Override
-		public void notifyDataSetChanged() {
-			this.setNotifyOnChange(false);
-			this.sort(COMPARATOR);
-			this.setNotifyOnChange(true);
-			super.notifyDataSetChanged();
-		}
-	}
+	@NotNull
+	protected abstract List<CalculatorHistoryState> getHistoryItems();
 
 	@NotNull
 	public static String getHistoryText(@NotNull CalculatorHistoryState state) {

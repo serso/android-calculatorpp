@@ -7,11 +7,11 @@
   -->
 
 <org.solovyev.android.view.widgets.DirectionDragButton xmlns:a="http://schemas.android.com/apk/res/android"
-													   xmlns:calc="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
+													   xmlns:c="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
 													   a:id="@+id/eightDigitButton" a:text="8"
-													   calc:textUp="ln"
-													   calc:textLeft="0o:"
-													   calc:textDown="lg"
-													   calc:directionTextScale="0.5;0.5;0.5;0.33"
+													   c:textUp="ln"
+													   c:textLeft="0o:"
+													   c:textDown="lg"
+													   c:directionTextScale="0.5;0.5;0.5;0.33"
 													   style="?digitButtonStyle"
 													   a:onClick="digitButtonClickHandler"/>

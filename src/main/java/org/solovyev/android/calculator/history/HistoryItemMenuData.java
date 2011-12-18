@@ -7,7 +7,6 @@
 package org.solovyev.android.calculator.history;
 
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.calculator.CalculatorHistoryActivity;
 
 /**
 * User: serso
@@ -17,12 +16,12 @@ import org.solovyev.android.calculator.CalculatorHistoryActivity;
 public class HistoryItemMenuData {
 
 	@NotNull
-	private final CalculatorHistoryActivity.HistoryArrayAdapter adapter;
+	private final HistoryArrayAdapter adapter;
 
 	@NotNull
 	private final CalculatorHistoryState historyState;
 
-	public HistoryItemMenuData(@NotNull CalculatorHistoryState historyState, CalculatorHistoryActivity.HistoryArrayAdapter adapter) {
+	public HistoryItemMenuData(@NotNull CalculatorHistoryState historyState, HistoryArrayAdapter adapter) {
 		this.historyState = historyState;
 		this.adapter = adapter;
 	}
@@ -33,7 +32,7 @@ public class HistoryItemMenuData {
 	}
 
 	@NotNull
-	public CalculatorHistoryActivity.HistoryArrayAdapter getAdapter() {
+	public HistoryArrayAdapter getAdapter() {
 		return adapter;
 	}
 }
