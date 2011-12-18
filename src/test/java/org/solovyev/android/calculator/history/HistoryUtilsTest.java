@@ -41,7 +41,7 @@ public class HistoryUtilsTest {
 	private static final String toXml1 = "<history>\n" +
 			"   <historyItems class=\"java.util.ArrayList\">\n" +
 			"      <calculatorHistoryState>\n" +
-			"         <time>1970-01-02 06:46:40.0 MSK</time>\n" +
+			"         <time>100000000</time>\n" +
 			"         <editorState>\n" +
 			"            <cursorPosition>3</cursorPosition>\n" +
 			"            <text>1+1</text>\n" +
@@ -60,7 +60,7 @@ public class HistoryUtilsTest {
 	private static final String toXml2 = "<history>\n" +
 			"   <historyItems class=\"java.util.ArrayList\">\n" +
 			"      <calculatorHistoryState>\n" +
-			"         <time>1970-01-02 06:46:40.0 MSK</time>\n" +
+			"         <time>100000000</time>\n" +
 			"         <editorState>\n" +
 			"            <cursorPosition>3</cursorPosition>\n" +
 			"            <text>1+1</text>\n" +
@@ -74,7 +74,7 @@ public class HistoryUtilsTest {
 			"         </displayState>\n" +
 			"      </calculatorHistoryState>\n" +
 			"      <calculatorHistoryState>\n" +
-			"         <time>1970-01-02 06:46:40.0 MSK</time>\n" +
+			"         <time>100000000</time>\n" +
 			"         <editorState>\n" +
 			"            <cursorPosition>2</cursorPosition>\n" +
 			"            <text>5/6</text>\n" +
@@ -88,7 +88,7 @@ public class HistoryUtilsTest {
 			"         </displayState>\n" +
 			"      </calculatorHistoryState>\n" +
 			"      <calculatorHistoryState>\n" +
-			"         <time>1970-01-02 06:46:40.0 MSK</time>\n" +
+			"         <time>100000000</time>\n" +
 			"         <editorState>\n" +
 			"            <cursorPosition>1</cursorPosition>\n" +
 			"            <text>null</text>\n" +
@@ -102,7 +102,7 @@ public class HistoryUtilsTest {
 			"         </displayState>\n" +
 			"      </calculatorHistoryState>\n" +
 			"      <calculatorHistoryState>\n" +
-			"         <time>1970-01-02 06:46:40.0 MSK</time>\n" +
+			"         <time>100000000</time>\n" +
 			"         <editorState>\n" +
 			"            <cursorPosition>0</cursorPosition>\n" +
 			"            <text>4+5/35sin(41)+dfdsfsdfs</text>\n" +
@@ -135,7 +135,7 @@ public class HistoryUtilsTest {
 		calculatorEditor.setText("1+1");
 
 		CalculatorHistoryState state = CalculatorHistoryState.newInstance(calculatorEditor, calculatorDisplay);
-		state.setTime(date);
+		state.setTime(date.getTime());
 		history.addState(state);
 
 		Assert.assertEquals(emptyHistory, HistoryUtils.toXml(history.getStates()));
@@ -157,7 +157,7 @@ public class HistoryUtilsTest {
 
 		state = CalculatorHistoryState.newInstance(calculatorEditor, calculatorDisplay);
 		state.setSaved(true);
-		state.setTime(date);
+		state.setTime(date.getTime());
 		history.addState(state);
 
 		calculatorDisplay = new TestCalculatorDisplay();
@@ -172,7 +172,7 @@ public class HistoryUtilsTest {
 
 		state = CalculatorHistoryState.newInstance(calculatorEditor, calculatorDisplay);
 		state.setSaved(true);
-		state.setTime(date);
+		state.setTime(date.getTime());
 		history.addState(state);
 
 		calculatorDisplay = new TestCalculatorDisplay();
@@ -187,7 +187,7 @@ public class HistoryUtilsTest {
 
 		state = CalculatorHistoryState.newInstance(calculatorEditor, calculatorDisplay);
 		state.setSaved(true);
-		state.setTime(date);
+		state.setTime(date.getTime());
 		history.addState(state);
 
 		String xml = HistoryUtils.toXml(history.getStates());

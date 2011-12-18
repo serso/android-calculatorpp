@@ -21,8 +21,7 @@ import java.util.Date;
 public class AbstractHistoryState implements Cloneable{
 
 	@Element
-	@NotNull
-	private Date time = new Date();
+	private long time = new Date().getTime();
 
 	@Element(required = false)
 	@Nullable
@@ -42,12 +41,11 @@ public class AbstractHistoryState implements Cloneable{
 		this.id = id;
 	}
 
-	@NotNull
-	public Date getTime() {
+	public long getTime() {
 		return time;
 	}
 
-	public void setTime(@NotNull Date time) {
+	public void setTime(long time) {
 		this.time = time;
 	}
 
@@ -74,7 +72,6 @@ public class AbstractHistoryState implements Cloneable{
 
 		try {
 			clone = (AbstractHistoryState)super.clone();
-			clone.time = new Date(this.time.getTime());
 		} catch (CloneNotSupportedException e) {
 			throw new UnsupportedOperationException(e);
 		}

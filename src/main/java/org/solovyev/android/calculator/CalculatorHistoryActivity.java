@@ -25,10 +25,7 @@ import org.solovyev.common.utils.*;
 import org.solovyev.common.utils.Filter;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 /**
  * User: serso
@@ -41,7 +38,8 @@ public class CalculatorHistoryActivity extends ListActivity {
 		@Override
 		public int compare(CalculatorHistoryState state1, CalculatorHistoryState state2) {
 			if (state1.isSaved() == state2.isSaved()) {
-				return state2.getTime().compareTo(state1.getTime());
+				long l = state2.getTime() - state1.getTime();
+				return l > 0l ? 1 : (l < 0l ? -1 : 0);
 			} else if (state1.isSaved()) {
 				return -1;
 			} else if (state2.isSaved()) {
@@ -134,7 +132,7 @@ public class CalculatorHistoryActivity extends ListActivity {
 				@Override
 				public boolean equals(@Nullable CalculatorHistoryState first, @Nullable CalculatorHistoryState second) {
 					return first != null && second != null &&
-							first.getTime().getTime() == second.getTime().getTime() &&
+							first.getTime() == second.getTime() &&
 								first.getDisplayState().equals(second.getDisplayState()) &&
 									first.getEditorState().equals(second.getEditorState());
 				}
@@ -195,7 +193,7 @@ public class CalculatorHistoryActivity extends ListActivity {
 			final CalculatorHistoryState state = getItem(position);
 
 			final TextView time = (TextView) result.findViewById(R.id.history_time);
-			time.setText(new SimpleDateFormat().format(state.getTime()));
+			time.setText(new SimpleDateFormat().format(new Date(state.getTime())));
 
 			final TextView editor = (TextView) result.findViewById(R.id.history_item);
 			editor.setText(getHistoryText(state));

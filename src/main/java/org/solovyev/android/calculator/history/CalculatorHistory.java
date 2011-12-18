@@ -97,6 +97,7 @@ public enum CalculatorHistory implements HistoryHelper<CalculatorHistoryState> {
 	public void load(@Nullable Context context, @Nullable SharedPreferences preferences) {
 		if (context != null && preferences != null) {
 			final String value = preferences.getString(context.getString(R.string.p_calc_history), null);
+			this.savedHistory.clear();
 			HistoryUtils.fromXml(value, this.savedHistory);
 			for (CalculatorHistoryState historyState : savedHistory) {
 				historyState.setSaved(true);
