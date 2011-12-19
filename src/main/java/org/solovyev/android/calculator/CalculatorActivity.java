@@ -80,10 +80,15 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		setLayout(preferences);
 
 		if (customTitleSupported) {
-			getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.calc_title);
-			final CalculatorAdditionalTitle additionalAdditionalTitleText = (CalculatorAdditionalTitle)findViewById(R.id.additional_title_text);
-			additionalAdditionalTitleText.init(preferences);
-			preferences.registerOnSharedPreferenceChangeListener(additionalAdditionalTitleText);
+			try {
+				getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.calc_title);
+				final CalculatorAdditionalTitle additionalAdditionalTitleText = (CalculatorAdditionalTitle)findViewById(R.id.additional_title_text);
+				additionalAdditionalTitleText.init(preferences);
+				preferences.registerOnSharedPreferenceChangeListener(additionalAdditionalTitleText);
+			} catch (ClassCastException e) {
+				// super fix for issue with class cast in android.view.Window.setFeatureInt() (see app error reports)
+				Log.d(CalculatorActivity.class.getName(), e.getMessage(), e);
+			}
 		}
 
 		ResourceCache.instance.initCaptions(ApplicationContext.getInstance(), R.string.class);
@@ -141,7 +146,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 		final DragButton roundBracketsButton = (DragButton) findViewById(R.id.roundBracketsButton);
 		if ( roundBracketsButton != null ) {
-			roundBracketsButton.setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new RoundBracketsDrgProcessor(), dragPreferences), vibrator, preferences));
+			roundBracketsButton.setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new RoundBracketsDragProcessor(), dragPreferences), vibrator, preferences));
 		}
 
 
@@ -592,7 +597,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		}
 	}
 
-	private static class RoundBracketsDrgProcessor implements SimpleOnDragListener.DragProcessor {
+	private static class RoundBracketsDragProcessor implements SimpleOnDragListener.DragProcessor {
 		@Override
 		public boolean processDragEvent(@NotNull DragDirection dragDirection, @NotNull DragButton dragButton, @NotNull Point2d startPoint2d, @NotNull MotionEvent motionEvent) {
 			boolean result = false;
@@ -611,6 +616,8 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 					}
 				});
 				result = true;
+			} else {
+				result = new DigitButtonDragProcessor(CalculatorModel.instance).processDragEvent(dragDirection, dragButton, startPoint2d, motionEvent);
 			}
 			return result;
 		}
