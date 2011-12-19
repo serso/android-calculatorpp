@@ -10,7 +10,7 @@
 													   xmlns:c="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
 													   a:id="@+id/eightDigitButton" a:text="8"
 													   c:textUp="ln"
-													   c:textLeft="0o:"
+													   c:textLeft="0d:"
 													   c:textDown="lg"
 													   c:directionTextScale="0.5;0.5;0.5;0.33"
 													   style="?digitButtonStyle"
