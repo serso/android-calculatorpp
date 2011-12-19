@@ -204,9 +204,11 @@ public class HistoryUtilsTest {
 
 		for (CalculatorHistoryState historyState : history.getStates()) {
 			historyState.setId(0);
+			historyState.setSaved(true);
 		}
 		for (CalculatorHistoryState historyState : historyFromXml.getStates()) {
 			historyState.setId(0);
+			historyState.setSaved(true);
 		}
 		Assert.assertTrue(EqualsTool.areEqual(history.getStates(), historyFromXml.getStates(), new CollectionEqualizer<CalculatorHistoryState>(null)));
 	}

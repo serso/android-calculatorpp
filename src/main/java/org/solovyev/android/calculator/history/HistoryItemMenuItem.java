@@ -30,18 +30,18 @@ import org.solovyev.common.utils.StringUtils;
 */
 public enum HistoryItemMenuItem implements AMenuItem<HistoryItemMenuData> {
 
-	use("c_use_expression") {
+	use(R.string.c_use_expression) {
 		@Override
 		public void doAction(@NotNull HistoryItemMenuData data, @NotNull Context context) {
 			if (context instanceof AbstractHistoryActivity) {
 				AbstractHistoryActivity.useHistoryItem(data.getHistoryState(), (AbstractHistoryActivity) context);
 			} else {
-				Log.e(HistoryItemMenuItem.class.getName(), CalculatorHistoryActivity.class + " must be passed as context!");
+				Log.e(HistoryItemMenuItem.class.getName(), AbstractHistoryActivity.class + " must be passed as context!");
 			}
 		}
 	},
 
-	copy_expression("c_copy_expression") {
+	copy_expression(R.string.c_copy_expression) {
 		@Override
 		public void doAction(@NotNull HistoryItemMenuData data, @NotNull Context context) {
 			final CalculatorHistoryState calculatorHistoryState = data.getHistoryState();
@@ -54,7 +54,7 @@ public enum HistoryItemMenuItem implements AMenuItem<HistoryItemMenuData> {
 		}
 	},
 
-	copy_result("c_copy_result") {
+	copy_result(R.string.c_copy_result) {
 		@Override
 		public void doAction(@NotNull HistoryItemMenuData data, @NotNull Context context) {
 			final CalculatorHistoryState calculatorHistoryState = data.getHistoryState();
@@ -67,38 +67,38 @@ public enum HistoryItemMenuItem implements AMenuItem<HistoryItemMenuData> {
 		}
 	},
 
-	save("c_save") {
+	save(R.string.c_save) {
 		@Override
 		public void doAction(@NotNull final HistoryItemMenuData data, @NotNull final Context context) {
 			final CalculatorHistoryState historyState = data.getHistoryState();
 			if (!historyState.isSaved()) {
 				createEditHistoryDialog(data, context, true);
 			} else {
-				Toast.makeText(context, "History item was already saved!", Toast.LENGTH_LONG).show();
+				Toast.makeText(context, context.getText(R.string.c_history_already_saved), Toast.LENGTH_LONG).show();
 			}
 		}
 	},
 
-	edit("c_edit") {
+	edit(R.string.c_edit) {
 		@Override
 		public void doAction(@NotNull final HistoryItemMenuData data, @NotNull final Context context) {
 			final CalculatorHistoryState historyState = data.getHistoryState();
 			if (historyState.isSaved()) {
 				createEditHistoryDialog(data, context, false);
 			} else {
-				Toast.makeText(context, "History item must be saved before editing!", Toast.LENGTH_LONG).show();
+				Toast.makeText(context, context.getText(R.string.c_history_must_be_saved), Toast.LENGTH_LONG).show();
 			}
 		}
 	},
 
-	remove("c_remove") {
+	remove(R.string.c_remove) {
 		@Override
 		public void doAction(@NotNull HistoryItemMenuData data, @NotNull Context context) {
 			final CalculatorHistoryState historyState = data.getHistoryState();
 			if (historyState.isSaved()) {
 				data.getAdapter().remove(historyState);
 				CalculatorHistory.instance.removeSavedHistory(historyState, context);
-				Toast.makeText(context, "History item was removed!", Toast.LENGTH_LONG).show();
+				Toast.makeText(context, context.getText(R.string.c_history_was_removed), Toast.LENGTH_LONG).show();
 				data.getAdapter().notifyDataSetChanged();
 			}
 		}
@@ -133,7 +133,7 @@ public enum HistoryItemMenuItem implements AMenuItem<HistoryItemMenuData> {
 							CalculatorHistory.instance.save(context);
 						}
 						data.getAdapter().notifyDataSetChanged();
-						Toast.makeText(context, "History item was successfully saved!", Toast.LENGTH_LONG).show();
+						Toast.makeText(context, context.getText(R.string.c_history_saved), Toast.LENGTH_LONG).show();
 					}
 				})
 				.setView(editView);
@@ -141,22 +141,15 @@ public enum HistoryItemMenuItem implements AMenuItem<HistoryItemMenuData> {
 		builder.create().show();
 	}
 
-	@NotNull
-	private final String captionId;
+	private final int captionId;
 
-	private HistoryItemMenuItem(@NotNull String captionId) {
+	private HistoryItemMenuItem(int captionId) {
 		this.captionId = captionId;
 	}
 
 	@NotNull
 	@Override
-	public String getCaption() {
-		final String caption = ResourceCache.instance.getCaption(getCaptionId());
-		return caption == null ? this.name() : caption;
-	}
-
-	@NotNull
-	public String getCaptionId() {
-		return captionId;
+	public String getCaption(@NotNull Context context) {
+		return context.getString(captionId);
 	}
 }

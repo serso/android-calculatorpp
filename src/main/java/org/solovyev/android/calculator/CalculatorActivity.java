@@ -556,7 +556,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		}
 
 		calculatorModel = CalculatorModel.instance.init(this, preferences, CalculatorEngine.instance);
-		calculatorModel.evaluate();
+		calculatorModel.evaluate(calculatorModel.getDisplay().getJsclOperation());
 	}
 
 	@Override

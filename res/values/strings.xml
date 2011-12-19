@@ -315,5 +315,9 @@ Check the \'Round result\' preference in application settings - it should be tur
 	<string name="c_edit_history">Modify history</string>
 	<string name="c_edit">Modify</string>
 	<string name="c_saved_history">Saved history</string>
+	<string name="c_history_already_saved">History was already saved!</string>
+	<string name="c_history_must_be_saved">History must be saved before editing!</string>
+	<string name="c_history_was_removed">History was successfully removed!</string>
+	<string name="c_history_saved">History was successfully saved!</string>
 
 </resources>

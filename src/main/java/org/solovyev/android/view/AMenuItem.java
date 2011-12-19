@@ -17,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
 public interface AMenuItem<T> {
 
 	@NotNull
-	String getCaption();
+	String getCaption(@NotNull Context context);
 
 	void doAction(@NotNull T data, @NotNull Context context);
 }

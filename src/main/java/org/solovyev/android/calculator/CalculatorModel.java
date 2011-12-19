@@ -32,7 +32,6 @@ import org.solovyev.android.calculator.model.CalculatorEvalException;
 import org.solovyev.android.calculator.model.CalculatorParseException;
 import org.solovyev.android.calculator.model.Var;
 import org.solovyev.android.view.*;
-import org.solovyev.android.view.prefs.ResourceCache;
 import org.solovyev.common.msg.Message;
 import org.solovyev.common.utils.CollectionsUtils;
 import org.solovyev.common.utils.MutableObject;
@@ -213,6 +212,10 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 	@Override
 	public void evaluate() {
    		evaluate(false, this.editor.getText().toString(), JsclOperation.numeric, null);
+	}
+
+	public void evaluate(@NotNull JsclOperation operation) {
+   		evaluate(false, this.editor.getText().toString(), operation, null);
 	}
 
 	@Override
@@ -396,20 +399,8 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 									if (notSystemConstants.size() > 1) {
 										copyResult(activity, cd);
 									} else {
-
-										final AMenu<CalculatorDisplayMenuItem> menu = new EnumMenu<CalculatorDisplayMenuItem>(CalculatorDisplayMenuItem.class);
-
-										final AlertDialog.Builder menuBuilder = new AlertDialog.Builder(activity);
-										menuBuilder.setItems(menu.getMenuCaptions(), new DialogInterface.OnClickListener() {
-											public void onClick(DialogInterface dialog, int item) {
-												final AMenuItem<CalculatorDisplayMenuData> menuItem = menu.itemAt(item);
-												if ( menuItem != null ){
-													menuItem.doAction(new CalculatorDisplayMenuData(cd, genericResult, notSystemConstants), activity);
-												}
-											}
-										});
-										menuBuilder.create().show();
-
+										final AMenuBuilder<CalculatorDisplayMenuItem, CalculatorDisplayMenuData> menuBuilder = AMenuBuilder.newInstance(activity, CalculatorDisplayMenuItem.class);
+										menuBuilder.create(new CalculatorDisplayMenuData(cd, genericResult, notSystemConstants)).show();
 									}
 								} else {
 									copyResult(activity, cd);
@@ -467,7 +458,7 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 	}
 
 	private static enum CalculatorDisplayMenuItem implements AMenuItem<CalculatorDisplayMenuData> {
-		plot("c_plot"){
+		plot(R.string.c_plot){
 			@Override
 			public void doAction(@NotNull CalculatorDisplayMenuData data, @NotNull Context context) {
 				final Constant constant = CollectionsUtils.getFirstCollectionElement(data.getNotSystemConstants());
@@ -475,25 +466,23 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 				CalculatorActivityLauncher.plotGraph(context, data.getResult(), constant);
 			}
 		},
-		copy("c_copy"){
+		copy(R.string.c_copy){
 			@Override
 			public void doAction(@NotNull CalculatorDisplayMenuData data, @NotNull Context context) {
 				copyResult(context, data.getDisplay());
 			}
 		};
 
-		private final String captionId;
+		private final int captionId;
 
-		CalculatorDisplayMenuItem(@NotNull String captionId) {
-
+		CalculatorDisplayMenuItem(@NotNull int captionId) {
 			this.captionId = captionId;
 		}
 
 		@NotNull
 		@Override
-		public String getCaption() {
-			final String caption = ResourceCache.instance.getCaption(captionId);
-			return caption == null ? name() : caption;
+		public String getCaption(@NotNull Context context) {
+			return context.getString(captionId);
 		}
 	}
 }

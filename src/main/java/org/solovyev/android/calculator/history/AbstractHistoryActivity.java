@@ -19,6 +19,7 @@ import org.solovyev.android.calculator.CalculatorModel;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.view.AMenu;
+import org.solovyev.android.view.AMenuBuilder;
 import org.solovyev.android.view.AMenuItem;
 import org.solovyev.android.view.MenuImpl;
 import org.solovyev.common.utils.*;
@@ -57,11 +58,6 @@ public abstract class AbstractHistoryActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.history_activity);
-
-/*		if ( historyList.isEmpty() ) {
-			Toast.makeText(this, R.string.c_history_is_empty, Toast.LENGTH_SHORT).show();
-			this.finish();
-		}*/
 
 		adapter = new HistoryArrayAdapter(this, getLayoutId(), R.id.history_item, new ArrayList<CalculatorHistoryState>());
 		setListAdapter(adapter);
@@ -104,18 +100,8 @@ public abstract class AbstractHistoryActivity extends ListActivity {
 					menuItems.remove(HistoryItemMenuItem.copy_result);
 				}
 
-				final AMenu<HistoryItemMenuItem> historyItemMenu = new MenuImpl<HistoryItemMenuItem>(menuItems);
-
-				final AlertDialog.Builder menuDialogBuilder = new AlertDialog.Builder(context);
-				menuDialogBuilder.setItems(historyItemMenu.getMenuCaptions(), new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int item) {
-						final AMenuItem<HistoryItemMenuData> historyItemMenuItem = historyItemMenu.itemAt(item);
-						if (historyItemMenuItem != null) {
-							historyItemMenuItem.doAction(data, context);
-						}
-					}
-				});
-				menuDialogBuilder.create().show();
+				final AMenuBuilder<HistoryItemMenuItem, HistoryItemMenuData> menuBuilder = AMenuBuilder.newInstance(context, MenuImpl.newInstance(menuItems));
+				menuBuilder.create(data).show();
 
 				return true;
 			}

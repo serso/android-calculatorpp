@@ -135,7 +135,7 @@ public enum CalculatorEngine {
 		return evaluate(operation, expression, null);
 	}
 
-	public Result evaluate(@NotNull JsclOperation operation,
+	public Result evaluate(@NotNull final JsclOperation operation,
 						   @NotNull String expression,
 						   @Nullable MessageRegistry mr) throws CalculatorParseException, CalculatorEvalException {
 		synchronized (lock) {
@@ -161,7 +161,6 @@ public enum CalculatorEngine {
 			}*/
 
 			final String jsclExpression = sb.toString();
-			final JsclOperation finalOperation = operation;
 
 			final MutableObject<Generic> calculationResult = new MutableObject<Generic>(null);
 			final MutableObject<CalculatorParseException> parseException = new MutableObject<CalculatorParseException>(null);
@@ -178,7 +177,7 @@ public enum CalculatorEngine {
 						//Log.d(CalculatorEngine.class.getName(), "Calculation thread started work: " + thread.getName());
 						//System.out.println(jsclExpression);
 						calculationThread.setObject(thread);
-						final Generic genericResult = finalOperation.evaluateGeneric(jsclExpression);
+						final Generic genericResult = operation.evaluateGeneric(jsclExpression);
 
 						// NOTE: toString() method must be called here as ArithmeticOperationException may occur in it (just to avoid later check!)
 						genericResult.toString();
@@ -223,7 +222,7 @@ public enum CalculatorEngine {
 				}
 
 				if (parseExceptionObject != null || evalExceptionObject != null) {
-					if (finalOperation == JsclOperation.numeric &&
+					if (operation == JsclOperation.numeric &&
 							( preparedExpression.isExistsUndefinedVar() || ( evalExceptionObject != null && evalExceptionObject.getCause() instanceof NumeralBaseException)) ) {
 						return evaluate(JsclOperation.simplify, expression, mr);
 					}

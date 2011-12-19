@@ -6,6 +6,7 @@
 
 package org.solovyev.android.view;
 
+import android.content.Context;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -13,13 +14,18 @@ import org.jetbrains.annotations.NotNull;
  * Date: 12/18/11
  * Time: 1:34 PM
  */
-public class EnumMenu<T extends Enum & AMenuItem> implements AMenu<T> {
+public class EnumMenu<T extends Enum & AMenuItem<D>, D> implements AMenu<T, D> {
 
 	@NotNull
-	private final AMenu<T> menu;
+	private final AMenu<T, D> menu;
 
-	public EnumMenu(Class<T> enumClass) {
-		this.menu = new MenuImpl<T>(enumClass.getEnumConstants());
+	@NotNull
+	public static <T extends Enum & AMenuItem<D>, D> AMenu<T, D> newInstance(@NotNull Class<T> enumClass) {
+		return new EnumMenu<T, D>(enumClass);
+	}
+
+	private EnumMenu(Class<T> enumClass) {
+		this.menu = MenuImpl.newInstance(enumClass.getEnumConstants());
 	}
 
 	@Override
@@ -29,7 +35,7 @@ public class EnumMenu<T extends Enum & AMenuItem> implements AMenu<T> {
 
 	@NotNull
 	@Override
-	public CharSequence[] getMenuCaptions() {
-		return this.menu.getMenuCaptions();
+	public CharSequence[] getMenuCaptions(@NotNull final Context context) {
+		return this.menu.getMenuCaptions(context);
 	}
 }

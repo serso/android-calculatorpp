@@ -7,6 +7,7 @@
 package org.solovyev.android.calculator.history;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -56,12 +57,12 @@ public class HistoryArrayAdapter extends ArrayAdapter<CalculatorHistoryState> {
 		final TextView status = (TextView) result.findViewById(R.id.history_item_status);
 		if (status != null) {
 			if (state.isSaved()) {
-				status.setText(ResourceCache.instance.getCaption("c_history_item_saved"));
+				status.setText(getContext().getString(R.string.c_history_item_saved));
 			} else {
 				if ( AbstractHistoryActivity.isAlreadySaved(state) ) {
-					status.setText(ResourceCache.instance.getCaption("c_history_item_already_saved"));
+					status.setText(getContext().getString(R.string.c_history_item_already_saved));
 				} else {
-					status.setText(ResourceCache.instance.getCaption("c_history_item_not_saved"));
+					status.setText(getContext().getString(R.string.c_history_item_not_saved));
 				}
 			}
 		}

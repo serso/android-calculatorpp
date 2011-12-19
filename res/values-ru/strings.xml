@@ -308,4 +308,9 @@ e ^ i = 0.5403 + 0.84147i\n
 	<string name="c_edit">Изменить</string>
 	<string name="c_saved_history">Сохранённая история</string>
 
+	<string name="c_history_already_saved">История уже была сохранена!</string>
+	<string name="c_history_must_be_saved">История должна быть сохранена перед редактированием!</string>
+	<string name="c_history_was_removed">История успешно удалена!</string>
+	<string name="c_history_saved">История успешно сохранена!</string>
+
 </resources>
