@@ -30,11 +30,11 @@
 		<item name="android:padding">5dp</item>
 	</style>
 
-	<style name="var_text_parent">
+	<style name="math_entity_text_parent">
 		<item name="android:textSize">20dp</item>
 	</style>
 
-	<style name="var_description_parent">
+	<style name="math_entity_description_parent">
 		<item name="android:textSize">15dp</item>
 	</style>
 

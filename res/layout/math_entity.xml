@@ -16,18 +16,18 @@
 			a:layout_width="fill_parent"
 			a:layout_height="fill_parent">
 
-		<TextView a:id="@+id/var_text"
+		<TextView a:id="@+id/math_entity_text"
 				  a:layout_width="fill_parent"
 				  a:layout_height="fill_parent"
-				  style="@style/var_text">
+				  style="@style/math_entity_text">
 		</TextView>
 
 	</LinearLayout>
 
-	<TextView a:id="@+id/var_description"
+	<TextView a:id="@+id/math_entity_description"
 			  a:layout_width="fill_parent"
 			  a:layout_height="fill_parent"
-			  style="@style/var_description">
+			  style="@style/math_entity_description">
 	</TextView>
 
 </LinearLayout>

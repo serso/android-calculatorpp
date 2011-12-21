@@ -234,4 +234,25 @@ class AndroidVarsRegistryImpl implements AndroidVarsRegistry {
 			return null;
 		}
 	}
+
+    @Override
+    public String getDescription(@NotNull Context context, @NotNull String mathEntityName) {
+        final Var var = get(mathEntityName);
+        if (var != null) {
+            return var.getDescription();
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public String getCategory(@NotNull Var var) {
+        for (Category category : Category.values()) {
+            if ( category.isInCategory(var) ) {
+                return category.name();
+            }
+        }
+
+        return null;
+    }
 }

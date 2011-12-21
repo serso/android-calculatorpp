@@ -14,6 +14,7 @@ import android.widget.TabHost;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.R;
+import org.solovyev.android.view.prefs.AndroidUtils;
 
 /**
  * User: serso
@@ -26,7 +27,7 @@ public class CalculatorHistoryActivity extends TabActivity {
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.history_tabs);
+		setContentView(R.layout.tabs);
 
 		final TabHost tabHost = getTabHost();
 
@@ -34,6 +35,8 @@ public class CalculatorHistoryActivity extends TabActivity {
 		createTab(tabHost, "history", R.string.c_history, HistoryActivityTab.class);
 
 		tabHost.setCurrentTab(0);
+
+        AndroidUtils.centerAndWrapTabsFor(tabHost);
 	}
 
 	private void createTab(@NotNull TabHost tabHost,
@@ -46,7 +49,7 @@ public class CalculatorHistoryActivity extends TabActivity {
 		final Intent intent = new Intent().setClass(this, activityClass);
 
 		// Initialize a TabSpec for each tab and add it to the TabHost
-		spec = tabHost.newTabSpec(tabId).setIndicator(getString(tabCaptionId)).setContent(intent);
+		spec = tabHost.newTabSpec(tabId).setIndicator(this.getString(tabCaptionId)).setContent(intent);
 
 		tabHost.addTab(spec);
 	}

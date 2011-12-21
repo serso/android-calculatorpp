@@ -61,7 +61,11 @@
 				  a:label="@string/c_help"
 				  a:configChanges="orientation|keyboardHidden"/>
 
-		<activity a:name=".CalculatorFunctionsActivity"
+        <activity a:name=".CalculatorFunctionsActivity"
+                  a:label="@string/c_functions"
+                  a:configChanges="orientation|keyboardHidden"/>
+
+		<activity a:name=".CalculatorFunctionsTabActivity"
 				  a:label="@string/c_functions"
 				  a:configChanges="orientation|keyboardHidden"/>
 
@@ -69,7 +73,11 @@
 				  a:label="@string/c_operators"
 				  a:configChanges="orientation|keyboardHidden"/>
 
-		<activity a:name=".CalculatorVarsActivity"
+        <activity a:name=".CalculatorVarsActivity"
+                  a:label="@string/c_vars_and_constants"
+                  a:configChanges="orientation|keyboardHidden"/>
+
+		<activity a:name=".CalculatorVarsTabActivity"
 				  a:label="@string/c_vars_and_constants"
 				  a:configChanges="orientation|keyboardHidden"/>
 

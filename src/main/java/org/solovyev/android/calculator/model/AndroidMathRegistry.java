@@ -7,7 +7,6 @@
 package org.solovyev.android.calculator.model;
 
 import android.content.Context;
-import jscl.math.function.Function;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.common.math.MathEntity;
@@ -21,5 +20,8 @@ import org.solovyev.common.math.MathRegistry;
 public interface AndroidMathRegistry<T extends MathEntity> extends MathRegistry<T> {
 
 	@Nullable
-	String getDescription(@NotNull Context context, @NotNull String functionName);
+	String getDescription(@NotNull Context context, @NotNull String mathEntityName);
+
+    @Nullable
+    String getCategory(@NotNull T mathEntity);
 }

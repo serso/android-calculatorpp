@@ -40,13 +40,13 @@ public abstract class AndroidMathRegistryImpl<T extends MathEntity> implements A
 
 	@Nullable
 	@Override
-	public String getDescription(@NotNull Context context, @NotNull String name) {
+	public String getDescription(@NotNull Context context, @NotNull String mathEntityName) {
 		final String stringName;
 
 		final Map<String, String> substitutes = getSubstitutes();
-		final String substitute = substitutes.get(name);
+		final String substitute = substitutes.get(mathEntityName);
 		if (substitute == null) {
-			stringName = prefix + name;
+			stringName = prefix + mathEntityName;
 		} else {
 			stringName = prefix + substitute;
 		}

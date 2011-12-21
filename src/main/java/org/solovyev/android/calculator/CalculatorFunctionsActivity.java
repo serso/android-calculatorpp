@@ -6,106 +6,33 @@
 
 package org.solovyev.android.calculator;
 
-import android.app.ListActivity;
-import android.content.Context;
+import android.app.TabActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.*;
-import jscl.math.function.Function;
-import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.calculator.model.CalculatorEngine;
-import org.solovyev.android.calculator.model.Var;
-import org.solovyev.common.utils.StringUtils;
-
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import android.widget.TabHost;
+import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.calculator.model.AndroidFunctionsMathRegistry;
+import org.solovyev.android.view.prefs.AndroidUtils;
 
 /**
  * User: serso
- * Date: 10/29/11
- * Time: 4:55 PM
+ * Date: 12/21/11
+ * Time: 10:33 PM
  */
-public class CalculatorFunctionsActivity extends ListActivity {
+public class CalculatorFunctionsActivity extends TabActivity {
 
-	@NotNull
-	private FunctionsArrayAdapter adapter;
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+        setContentView(R.layout.tabs);
 
-		setContentView(R.layout.functions);
+        final TabHost tabHost = getTabHost();
 
-		adapter = new FunctionsArrayAdapter(this, R.layout.var, R.id.var_text, new ArrayList<Function>(CalculatorEngine.instance.getFunctionsRegistry().getEntities()));
-		setListAdapter(adapter);
+        for (AndroidFunctionsMathRegistry.Category category : AndroidFunctionsMathRegistry.Category.getCategoriesByTabOrder()) {
+            AbstractMathEntityListActivity.createTab(this, tabHost, category.name(), category.name(), category.getCaptionId(), CalculatorFunctionsTabActivity.class, null);
+        }
 
-		final ListView lv = getListView();
-		lv.setTextFilterEnabled(true);
-
-		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			public void onItemClick(final AdapterView<?> parent,
-									final View view,
-									final int position,
-									final long id) {
-
-				CalculatorModel.instance.processDigitButtonAction(((Function) parent.getItemAtPosition(position)).getName(), false);
-
-				CalculatorFunctionsActivity.this.finish();
-			}
-		});
-
-		sort();
-
-	}
-
-	private void sort() {
-		CalculatorFunctionsActivity.this.adapter.sort(new Comparator<Function>() {
-			@Override
-			public int compare(Function function1, Function function2) {
-				return function1.getName().compareTo(function2.getName());
-			}
-		});
-
-		CalculatorFunctionsActivity.this.adapter.notifyDataSetChanged();
-	}
-
-	private class FunctionsArrayAdapter extends ArrayAdapter<Function> {
-
-		private FunctionsArrayAdapter(Context context, int resource, int textViewResourceId, List<Function> objects) {
-			super(context, resource, textViewResourceId, objects);
-		}
-
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			final ViewGroup result = (ViewGroup) super.getView(position, convertView, parent);
-
-			final Function function = getItem(position);
-
-			final String functionDescription = CalculatorEngine.instance.getFunctionsRegistry().getDescription(getContext(), function.getName());
-			if (!StringUtils.isEmpty(functionDescription)) {
-				TextView description = (TextView) result.findViewById(R.id.var_description);
-				if (description == null) {
-					final LayoutInflater layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-					final ViewGroup itemView = (ViewGroup) layoutInflater.inflate(R.layout.var, null);
-					description = (TextView) itemView.findViewById(R.id.var_description);
-					itemView.removeView(description);
-					result.addView(description);
-				}
-				description.setText(functionDescription);
-			} else {
-				TextView description = (TextView) result.findViewById(R.id.var_description);
-				if (description != null) {
-					result.removeView(description);
-				}
-			}
-
-
-			return result;
-		}
-	}
-
+        AndroidUtils.centerAndWrapTabsFor(tabHost);
+    }
 
 }

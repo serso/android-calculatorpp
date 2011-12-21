@@ -58,9 +58,9 @@ public class CalculatorActivityLauncher {
 		if (calculatorModel.getDisplay().isValid() ) {
 			final String varValue = calculatorModel.getDisplay().getText().toString();
 			if (!StringUtils.isEmpty(varValue)) {
-				if (CalculatorVarsActivity.isValidValue(varValue)) {
+				if (CalculatorVarsTabActivity.isValidValue(varValue)) {
 					final Intent intent = new Intent(context, CalculatorVarsActivity.class);
-					intent.putExtra(CalculatorVarsActivity.CREATE_VAR_EXTRA_STRING, varValue);
+					intent.putExtra(CalculatorVarsTabActivity.CREATE_VAR_EXTRA_STRING, varValue);
 					context.startActivity(intent);
 				} else {
 					Toast.makeText(context, R.string.c_not_valid_result, Toast.LENGTH_SHORT).show();

@@ -42,4 +42,9 @@ public class AndroidPostfixFunctionsRegistry extends AndroidMathRegistryImpl<Ope
 	protected Map<String, String> getSubstitutes() {
 		return substitutes;
 	}
+
+    @Override
+    public String getCategory(@NotNull Operator mathEntity) {
+        return null;
+    }
 }

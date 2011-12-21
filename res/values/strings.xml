@@ -321,4 +321,13 @@ Check the \'Round result\' preference in application settings - it should be tur
 	<string name="c_history_was_removed">History was successfully removed!</string>
 	<string name="c_history_saved">History was successfully saved!</string>
 
+
+	<string name="c_fun_category_trig">Trigonometric</string>
+	<string name="c_fun_category_hyper_trig">Hyperbolic trigonometric</string>
+	<string name="c_fun_category_comparison">Comparison</string>
+	<string name="c_fun_category_common">Common</string>
+
+	<string name="c_var_system">System</string>
+	<string name="c_var_my">My</string>
+
 </resources>

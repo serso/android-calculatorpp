@@ -7,7 +7,7 @@
 
 <resources>
 
-	<style name="var_text" parent="var_text_parent">
+	<style name="math_entity_text" parent="math_entity_text_parent">
 		<item name="android:paddingTop">6dp</item>
 		<item name="android:paddingLeft">6dp</item>
 		<item name="android:paddingRight">6dp</item>
@@ -16,7 +16,7 @@
 		<item name="android:textColor">@android:color/white</item>
 	</style>
 
-	<style name="var_description" parent="var_description_parent">
+	<style name="math_entity_description" parent="math_entity_description_parent">
 		<item name="android:paddingTop">0dp</item>
 		<item name="android:paddingLeft">6dp</item>
 		<item name="android:paddingRight">6dp</item>
