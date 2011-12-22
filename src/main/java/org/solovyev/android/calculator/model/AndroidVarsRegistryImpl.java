@@ -15,92 +15,41 @@ import org.jetbrains.annotations.Nullable;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 import org.solovyev.android.calculator.R;
-import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.common.definitions.IBuilder;
 import org.solovyev.common.math.MathRegistry;
 
 import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * User: serso
  * Date: 9/29/11
  * Time: 4:57 PM
  */
-class AndroidVarsRegistryImpl implements AndroidVarsRegistry {
+class AndroidVarsRegistryImpl extends AbstractAndroidMathRegistry<IConstant, Var> {
 
 	@NotNull
-	private final MathRegistry<IConstant> mathRegistry;
+	private static final Map<String, String> substitutes = new HashMap<String, String>();
+	static {
+		substitutes.put("π", "pi");
+		substitutes.put("∞", "inf");
+		substitutes.put("h", "h_reduced");
+		substitutes.put("NaN", "nan");
+	}
 
 	protected AndroidVarsRegistryImpl(@NotNull MathRegistry<IConstant> mathRegistry) {
-		this.mathRegistry = mathRegistry;
+		super(mathRegistry, "c_var_description_");
+	}
+
+	@NotNull
+	@Override
+	protected Map<String, String> getSubstitutes() {
+		return substitutes;
 	}
 
 	public synchronized void load(@Nullable Context context, @Nullable SharedPreferences preferences) {
-
-		if (context != null && preferences != null) {
-			final String value = preferences.getString(context.getString(R.string.p_calc_vars), null);
-			if (value != null) {
-				final Serializer serializer = new Persister();
-				try {
-					final Vars vars = serializer.read(Vars.class, value);
-					for (Var var : vars.getVars()) {
-						if (!contains(var.getName())) {
-							add(new Var.Builder(var));
-						}
-					}
-				} catch (Exception e) {
-					throw new RuntimeException(e);
-				}
-			}
-		}
-
-
-		for (String systemVarName : MathType.constants) {
-
-			final Var.Builder builder;
-			final Integer varDescription;
-
-			if (systemVarName.equals(MathType.E)) {
-				builder = createBuilder(systemVarName, String.valueOf(Math.E));
-				varDescription = R.string.c_e_description;
-			} else if (systemVarName.equals(MathType.PI)) {
-				builder = createBuilder(systemVarName, String.valueOf(Math.PI));
-				varDescription = R.string.c_pi_description;
-			} else if (systemVarName.equals(MathType.C)) {
-				builder = createBuilder(systemVarName, String.valueOf(MathType.C_VALUE));
-				varDescription = R.string.c_c_description;
-			} else if (systemVarName.equals(MathType.G)) {
-				builder = createBuilder(systemVarName, String.valueOf(MathType.G_VALUE));
-				varDescription = R.string.c_g_description;
-				/*			} else if (systemVarName.equals(MathType.H)) {
-														builder = new Var.Builder(systemVarName, MathType.H_VALUE);
-														varDescription = R.string.c_h_description;*/
-			} else if (systemVarName.equals(MathType.H_REDUCED)) {
-				builder = createBuilder(systemVarName, String.valueOf(MathType.H_REDUCED_VALUE));
-				varDescription = R.string.c_h_reduced_description;
-			} else if (systemVarName.equals(MathType.IMAGINARY_NUMBER)) {
-				builder = createBuilder(systemVarName, MathType.IMAGINARY_NUMBER_JSCL);
-				varDescription = R.string.c_i_description;
-			} else if (systemVarName.equals(MathType.NAN)) {
-				builder = createBuilder(systemVarName, MathType.NAN);
-				varDescription = R.string.c_nan_description;
-			} else if (systemVarName.equals(MathType.INFINITY)) {
-				builder = createBuilder(systemVarName, MathType.INFINITY_JSCL);
-				varDescription = R.string.c_infinity_description;
-			} else {
-				throw new IllegalArgumentException(systemVarName + " is not supported yet!");
-			}
-
-			builder.setSystem(true);
-
-			if (context != null) {
-				builder.setDescription(context.getString(varDescription));
-			}
-
-			add(builder);
-		}
+		super.load(context, preferences);
 
 		tryToAddAuxVar("x");
 		tryToAddAuxVar("y");
@@ -114,140 +63,59 @@ class AndroidVarsRegistryImpl implements AndroidVarsRegistry {
 		}*/
 	}
 
+
+	@NotNull
+	@Override
+	protected IBuilder<? extends IConstant> createBuilder(@NotNull Var entity) {
+		return new Var.Builder(entity);
+	}
+
+	@NotNull
+	@Override
+	protected Class<? extends MathEntityPersistenceContainer<Var>> getPersistenceContainerClass() {
+		return Vars.class;
+	}
+
+	@NotNull
+	@Override
+	protected MathEntityPersistenceContainer<Var> createPersistenceContainer() {
+		return new Vars();
+	}
+
+	@NotNull
+	protected Integer getPreferenceStringId() {
+		return R.string.p_calc_vars;
+	}
+
 	private void tryToAddAuxVar(@NotNull String name) {
 		if ( !contains(name) ) {
 			add(new Var.Builder(name, (String)null));
 		}
 	}
 
-	private Var.Builder createBuilder(@NotNull String varName, @NotNull String varValue) {
-		final Var.Builder result;
-
-		final IConstant varFromRegistry = mathRegistry.get(varName);
-		if (varFromRegistry == null) {
-			result = new Var.Builder(varName, varValue);
-		} else {
-			result = new Var.Builder(varFromRegistry);
-		}
-
-		return result;
-	}
-
-	@Override
-	public synchronized void save(@NotNull Context context) {
-		final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-		final SharedPreferences.Editor editor = settings.edit();
-
-		final Vars vars = new Vars();
-		for (Var var : this.getEntities()) {
-			if (!var.isSystem()) {
-				vars.getVars().add(var);
-			}
-		}
-
-		final StringWriter sw = new StringWriter();
-		final Serializer serializer = new Persister();
-		try {
-			serializer.write(vars, sw);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-
-		editor.putString(context.getString(R.string.p_calc_vars), sw.toString());
-
-		editor.commit();
-	}
-
 	@NotNull
 	@Override
-	public List<Var> getEntities() {
-		final List<Var> result = new ArrayList<Var>();
-		for (IConstant iConstant : mathRegistry.getEntities()) {
-			result.add(transform(iConstant));
-		}
-		return result;
-	}
-
-	@NotNull
-	@Override
-	public List<Var> getSystemEntities() {
-		final List<Var> result = new ArrayList<Var>();
-		for (IConstant iConstant : mathRegistry.getSystemEntities()) {
-			result.add(transform(iConstant));
-		}
-		return result;
-	}
-
-	@Override
-	public Var add(@NotNull IBuilder<? extends Var> IBuilder) {
-		IConstant result = mathRegistry.add(IBuilder);
-		if (result instanceof Var) {
-			return (Var) result;
-		} else if (result != null) {
-			return transform(result);
+	protected Var transform(@NotNull IConstant entity) {
+		if (entity instanceof Var) {
+			return (Var) entity;
 		} else {
-			return null;
-		}
-	}
-
-	@NotNull
-	private Var transform(@NotNull IConstant result) {
-		return new Var.Builder(result).create();
-	}
-
-	@Override
-	public void remove(@NotNull Var var) {
-		mathRegistry.remove(var);
-	}
-
-	@NotNull
-	@Override
-	public List<String> getNames() {
-		return mathRegistry.getNames();
-	}
-
-	@Override
-	public boolean contains(@NotNull String name) {
-		return mathRegistry.contains(name);
-	}
-
-	@Override
-	public Var get(@NotNull String name) {
-		IConstant result = mathRegistry.get(name);
-		if (result instanceof Var) {
-			return (Var) result;
-		} else if (result != null) {
-			return transform(result);
-		} else {
-			return null;
+			return new Var.Builder(entity).create();
 		}
 	}
 
 	@Override
-	public Var getById(@NotNull Integer id) {
-		final IConstant result = mathRegistry.getById(id);
-		if (result instanceof Var) {
-			return (Var) result;
-		} else if (result != null) {
-			return transform(result);
-		} else {
-			return null;
-		}
-	}
-
-    @Override
     public String getDescription(@NotNull Context context, @NotNull String mathEntityName) {
-        final Var var = get(mathEntityName);
-        if (var != null) {
+        final IConstant var = get(mathEntityName);
+        if (var != null && !var.isSystem()) {
             return var.getDescription();
         } else {
-            return null;
+            return super.getDescription(context, mathEntityName);
         }
     }
 
     @Override
-    public String getCategory(@NotNull Var var) {
-        for (Category category : Category.values()) {
+    public String getCategory(@NotNull IConstant var) {
+        for (VarCategory category : VarCategory.values()) {
             if ( category.isInCategory(var) ) {
                 return category.name();
             }

@@ -25,7 +25,7 @@ import org.solovyev.common.utils.StringUtils;
  */
 
 @Root
-public class Var implements IConstant {
+public class Var implements IConstant, MathPersistenceEntity {
 
 	@Transient
 	private Integer id;
@@ -225,17 +225,7 @@ public class Var implements IConstant {
 
 	@Override
 	public String toString() {
-		final Double doubleValue = getDoubleValue();
-		if (doubleValue == null) {
-			final String stringValue = getValue();
-			if (!StringUtils.isEmpty(stringValue)) {
-				return getName() + " = " + stringValue;
-			} else {
-				return getName();
-			}
-		} else {
-			return getName() + " = " + doubleValue;
-		}
+		return ExtendedConstant.toString(this);
 	}
 
 	@Override

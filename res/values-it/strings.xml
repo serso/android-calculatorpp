@@ -72,15 +72,15 @@
 	<string name="c_name.is.not.valid">Il nome della costante non è valido: il nome deve iniziare con una lettera, può contenere lettere, cifre e underscore.</string>
 	<string name="c_sys.var.cannot.be.changed">La variabile di sistema non può essere cambiata!</string>
 	
-	<string name="c_pi_description">Rapporto tra la circonferenza di qualsiasi cerchio col suo diametro</string>
-	<string name="c_e_description">Unico numero reale tale che il valore della derivata (pendenza della retta tangente) della funzione f(x) = e^x nel punto x = 0 che è uguale a 1</string>
-	<string name="c_i_description">Unità immaginaria, definita come i^2 = -1</string>
-	<string name="c_c_description">Velocità della luce nel vuoto, m·s^-1</string>
-	<string name="c_g_description">La costante gravitazionale è una costante fisica empirica coinvolta nel calcolo dell\' attrazione gravitazionale tra gli oggetti con massa, m^3·kg^−1·s^−2</string>
-	<string name="c_h_description">Costante fisica che riflette la dimensione dei quanti di energia in meccanica quantistica, J·s</string>
-	<string name="c_h_reduced_description">Costante di riduzione di Planck, J·s</string>
-	<string name="c_nan_description">Non è un numero</string>
-	<string name="c_infinity_description">Infinito</string>
+	<string name="c_var_description_pi">Rapporto tra la circonferenza di qualsiasi cerchio col suo diametro</string>
+	<string name="c_var_description_e">Unico numero reale tale che il valore della derivata (pendenza della retta tangente) della funzione f(x) = e^x nel punto x = 0 che è uguale a 1</string>
+	<string name="c_var_description_i">Unità immaginaria, definita come i^2 = -1</string>
+	<string name="c_var_description_c">Velocità della luce nel vuoto, m·s^-1</string>
+	<string name="c_var_description_G">La costante gravitazionale è una costante fisica empirica coinvolta nel calcolo dell\' attrazione gravitazionale tra gli oggetti con massa, m^3·kg^−1·s^−2</string>
+	<string name="c_var_description_h">Costante fisica che riflette la dimensione dei quanti di energia in meccanica quantistica, J·s</string>
+	<string name="c_var_description_h_reduced">Costante di riduzione di Planck, J·s</string>
+	<string name="c_var_description_nan">Non è un numero</string>
+	<string name="c_var_description_inf">Infinito</string>
 
 	<string name="c_calc_editor_hint">Inserisci una nuova espressione</string>
 	<string name="c_press_to_copy">Premi per copiare</string>

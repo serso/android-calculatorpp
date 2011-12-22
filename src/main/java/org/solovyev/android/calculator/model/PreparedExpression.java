@@ -6,6 +6,7 @@
 
 package org.solovyev.android.calculator.model;
 
+import jscl.math.function.IConstant;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -21,9 +22,9 @@ public class PreparedExpression implements CharSequence{
 	private String expression;
 
 	@NotNull
-	private List<Var> undefinedVars;
+	private List<IConstant> undefinedVars;
 
-	public PreparedExpression(@NotNull String expression, @NotNull List<Var> undefinedVars) {
+	public PreparedExpression(@NotNull String expression, @NotNull List<IConstant> undefinedVars) {
 		this.expression = expression;
 		this.undefinedVars = undefinedVars;
 	}
@@ -38,7 +39,7 @@ public class PreparedExpression implements CharSequence{
 	}
 
 	@NotNull
-	public List<Var> getUndefinedVars() {
+	public List<IConstant> getUndefinedVars() {
 		return undefinedVars;
 	}
 

@@ -6,6 +6,7 @@
 
 package org.solovyev.android.calculator.model;
 
+import jscl.math.function.IConstant;
 import junit.framework.Assert;
 import org.junit.Test;
 import org.simpleframework.xml.Serializer;
@@ -40,9 +41,9 @@ public class VarTest {
 	public void testXml() throws Exception {
 		final Vars vars = new Vars();
 		Var first = new Var.Builder("e", Math.E).setDescription("description").setSystem(true).create();
-		vars.getVars().add(first);
+		vars.getEntities().add(first);
 		Var second = new Var.Builder(";", 3d).setSystem(true).create();
-		vars.getVars().add(second);
+		vars.getEntities().add(second);
 
 		final StringWriter sw = new StringWriter();
 		final Serializer serializer = new Persister();
@@ -50,17 +51,16 @@ public class VarTest {
 
 		Assert.assertEquals(xml, sw.toString());
 
-
 		final Vars result = serializer.read(Vars.class, xml);
-		final Var actualFirst = result.getVars().get(0);
-		final Var actualSecond = result.getVars().get(1);
+		final IConstant actualFirst = result.getEntities().get(0);
+		final IConstant actualSecond = result.getEntities().get(1);
 
 		areEqual(first, actualFirst);
 		areEqual(second, actualSecond);
 
 	}
 
-	private void areEqual(Var expected, Var actual) {
+	private void areEqual(IConstant expected, IConstant actual) {
 		Assert.assertEquals(expected.getName(), actual.getName());
 		Assert.assertEquals(expected.getDescription(), actual.getDescription());
 		Assert.assertEquals(expected.getValue(), actual.getValue());

@@ -331,7 +331,6 @@ public enum MathType {
 	public final static String INFINITY = "∞";
 	public final static String INFINITY_JSCL = "Infinity";
 
-	public static final List<String> constants = Arrays.asList(E, PI, C, G, H_REDUCED, IMAGINARY_NUMBER, NAN, INFINITY);
 
 	/**
 	 * Method determines mathematical entity type for text substring starting from ith index

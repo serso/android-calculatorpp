@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import jscl.math.function.IConstant;
 import jscl.text.Identifier;
 import jscl.text.MutableInt;
 import jscl.text.ParseException;
@@ -24,7 +25,7 @@ import jscl.text.Parser;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.math.MathType;
-import org.solovyev.android.calculator.model.AndroidVarsRegistry;
+import org.solovyev.android.calculator.model.AndroidMathRegistry;
 import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.calculator.model.Var;
 import org.solovyev.common.utils.CollectionsUtils;
@@ -40,7 +41,7 @@ import java.util.List;
  * Date: 9/28/11
  * Time: 10:55 PM
  */
-public class CalculatorVarsTabActivity extends AbstractMathEntityListActivity<Var> {
+public class CalculatorVarsTabActivity extends AbstractMathEntityListActivity<IConstant> {
 
 	public static final String CREATE_VAR_EXTRA_STRING = "org.solovyev.android.calculator.CalculatorVarsActivity_create_var";
 
@@ -89,12 +90,12 @@ public class CalculatorVarsTabActivity extends AbstractMathEntityListActivity<Va
 
     @NotNull
     @Override
-    protected List<Var> getMathEntities() {
-        final List<Var> result = new ArrayList<Var>(CalculatorEngine.instance.getVarsRegister().getEntities());
+    protected List<IConstant> getMathEntities() {
+        final List<IConstant> result = new ArrayList<IConstant>(CalculatorEngine.instance.getVarsRegister().getEntities());
 
-        CollectionsUtils.removeAll(result, new Finder<Var>() {
+        CollectionsUtils.removeAll(result, new Finder<IConstant>() {
             @Override
-            public boolean isFound(@Nullable Var var) {
+            public boolean isFound(@Nullable IConstant var) {
                 return var != null && CollectionsUtils.contains(var.getName(), MathType.INFINITY_JSCL, MathType.NAN);
             }
         });
@@ -103,7 +104,7 @@ public class CalculatorVarsTabActivity extends AbstractMathEntityListActivity<Va
     }
 
     @Override
-    protected String getMathEntityCategory(@NotNull Var var) {
+    protected String getMathEntityCategory(@NotNull IConstant var) {
         return CalculatorEngine.instance.getVarsRegister().getCategory(var);
     }
 
@@ -214,12 +215,12 @@ public class CalculatorVarsTabActivity extends AbstractMathEntityListActivity<Va
 				String description = editDescription.getText().toString();
 
 
-				final AndroidVarsRegistry varsRegistry = CalculatorEngine.instance.getVarsRegister();
+				final AndroidMathRegistry<IConstant> varsRegistry = CalculatorEngine.instance.getVarsRegister();
 				if (isValidName(name)) {
 
 					boolean canBeSaved = false;
 
-					final Var varFromRegister = varsRegistry.get(name);
+					final IConstant varFromRegister = varsRegistry.get(name);
 					if ( varFromRegister == null ) {
 						canBeSaved = true;
 					} else if ( editedInstance != null && varFromRegister.getId().equals(editedInstance.getId()) ) {
@@ -264,7 +265,7 @@ public class CalculatorVarsTabActivity extends AbstractMathEntityListActivity<Va
 					Toast.makeText(CalculatorVarsTabActivity.this, getString(error), Toast.LENGTH_LONG).show();
 					createEditVariableDialog(editedInstance, name, value, description);
 				} else {
-                    final Var addedVar = varsRegistry.add(varBuilder);
+                    final IConstant addedVar = varsRegistry.add(varBuilder);
 	                if (isInCategory(addedVar)) {
                         if ( editedInstance != null ) {
                             CalculatorVarsTabActivity.this.getAdapter().remove(editedInstance);
@@ -363,7 +364,7 @@ public class CalculatorVarsTabActivity extends AbstractMathEntityListActivity<Va
                 if (isInCategory(var)) {
                     getAdapter().remove(var);
                 }
-                final AndroidVarsRegistry varsRegistry = CalculatorEngine.instance.getVarsRegister();
+                final AndroidMathRegistry<IConstant> varsRegistry = CalculatorEngine.instance.getVarsRegister();
 				varsRegistry.remove(var);
 				varsRegistry.save(CalculatorVarsTabActivity.this);
                 if (isInCategory(var)) {

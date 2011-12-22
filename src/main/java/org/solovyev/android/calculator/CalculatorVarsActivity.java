@@ -10,7 +10,7 @@ import android.app.TabActivity;
 import android.os.Bundle;
 import android.widget.TabHost;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.model.AndroidVarsRegistry;
+import org.solovyev.android.calculator.model.VarCategory;
 import org.solovyev.android.view.prefs.AndroidUtils;
 
 /**
@@ -28,8 +28,8 @@ public class CalculatorVarsActivity extends TabActivity {
 
         final TabHost tabHost = getTabHost();
 
-        for (AndroidVarsRegistry.Category category : AndroidVarsRegistry.Category.getCategoriesByTabOrder()) {
-            if (category == AndroidVarsRegistry.Category.my) {
+        for (VarCategory category : VarCategory.getCategoriesByTabOrder()) {
+            if (category == VarCategory.my) {
                 AbstractMathEntityListActivity.createTab(this, tabHost, category.name(), category.name(), category.getCaptionId(), CalculatorVarsTabActivity.class, getIntent());
             } else {
                 AbstractMathEntityListActivity.createTab(this, tabHost, category.name(), category.name(), category.getCaptionId(), CalculatorVarsTabActivity.class, null);

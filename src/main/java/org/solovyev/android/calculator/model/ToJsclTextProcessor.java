@@ -6,6 +6,7 @@
 
 package org.solovyev.android.calculator.model;
 
+import jscl.math.function.IConstant;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.StartsWithFinder;
 import org.solovyev.android.calculator.math.MathType;
@@ -22,10 +23,10 @@ class ToJsclTextProcessor implements TextProcessor<PreparedExpression, String> {
 	@Override
 	@NotNull
 	public PreparedExpression process(@NotNull String s) throws CalculatorParseException {
-		return processWithDepth(s, 0, new ArrayList<Var>());
+		return processWithDepth(s, 0, new ArrayList<IConstant>());
 	}
 
-	private static PreparedExpression processWithDepth(@NotNull String s, int depth, @NotNull List<Var> undefinedVars) throws CalculatorParseException {
+	private static PreparedExpression processWithDepth(@NotNull String s, int depth, @NotNull List<IConstant> undefinedVars) throws CalculatorParseException {
 		return replaceVariables(processExpression(s).toString(), depth, undefinedVars);
 	}
 
@@ -69,7 +70,7 @@ class ToJsclTextProcessor implements TextProcessor<PreparedExpression, String> {
 	}
 
 	@NotNull
-	private static PreparedExpression replaceVariables(@NotNull final String s, int depth, @NotNull List<Var> undefinedVars) throws CalculatorParseException {
+	private static PreparedExpression replaceVariables(@NotNull final String s, int depth, @NotNull List<IConstant> undefinedVars) throws CalculatorParseException {
 		if (depth >= MAX_DEPTH) {
 			throw new CalculatorParseException(Messages.msg_6, s);
 		} else {
@@ -89,7 +90,7 @@ class ToJsclTextProcessor implements TextProcessor<PreparedExpression, String> {
 				if (operatorName == null) {
 					String varName = CollectionsUtils.find(CalculatorEngine.instance.getVarsRegister().getNames(), startsWithFinder);
 					if (varName != null) {
-						final Var var = CalculatorEngine.instance.getVarsRegister().get(varName);
+						final IConstant var = CalculatorEngine.instance.getVarsRegister().get(varName);
 						if (var != null) {
 							if (!var.isDefined()) {
 								undefinedVars.add(var);

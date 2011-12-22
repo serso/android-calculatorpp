@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import jscl.*;
 import jscl.math.Generic;
 import jscl.math.function.Function;
+import jscl.math.function.IConstant;
 import jscl.math.operator.Operator;
 import jscl.text.ParseInterruptedException;
 import org.jetbrains.annotations.NotNull;
@@ -64,7 +65,7 @@ public enum CalculatorEngine {
 	public final TextProcessor<PreparedExpression, String> preprocessor = new ToJsclTextProcessor();
 
 	@NotNull
-	private final AndroidVarsRegistry varsRegister = new AndroidVarsRegistryImpl(engine.getConstantsRegistry());
+	private final AndroidMathRegistry<IConstant> varsRegister = new AndroidVarsRegistryImpl(engine.getConstantsRegistry());
 
 	@NotNull
 	private final AndroidMathRegistry<jscl.math.function.Function> functionsRegistry = new AndroidFunctionsMathRegistry(engine.getFunctionsRegistry());
@@ -304,7 +305,7 @@ public enum CalculatorEngine {
 	}
 
 	@NotNull
-	public AndroidVarsRegistry getVarsRegister() {
+	public AndroidMathRegistry<IConstant> getVarsRegister() {
 		return varsRegister;
 	}
 

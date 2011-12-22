@@ -1,5 +1,6 @@
 package org.solovyev.android.calculator.model;
 
+import jscl.math.function.IConstant;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
@@ -13,15 +14,15 @@ import java.util.List;
  */
 
 @Root
-public class Vars {
+public class Vars implements MathEntityPersistenceContainer<Var> {
 
-	@ElementList
+	@ElementList(type = Var.class)
 	private List<Var> vars = new ArrayList<Var>();
 
 	public Vars() {
 	}
 
-	public List<Var> getVars() {
+	public List<Var> getEntities() {
 		return vars;
 	}
 }

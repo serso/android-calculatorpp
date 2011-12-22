@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import jscl.math.Generic;
 import jscl.math.function.Constant;
+import jscl.math.function.IConstant;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.history.CalculatorHistory;
@@ -389,8 +390,8 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 							if ( genericResult != null ) {
 								final Set<Constant> notSystemConstants = new HashSet<Constant>();
 								for (Constant constant : genericResult.getConstants()) {
-									Var var = CalculatorEngine.instance.getVarsRegister().get(constant.getName());
-									if (var != null && !var.isSystem()) {
+									IConstant var = CalculatorEngine.instance.getVarsRegister().get(constant.getName());
+									if (var != null && !var.isSystem() && !var.isDefined()) {
 										notSystemConstants.add(constant);
 									}
 								}
@@ -410,6 +411,8 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 							}
 							break;
 						case elementary:
+							copyResult(activity, cd);
+							break;
 						case numeric:
 							copyResult(activity, cd);
 							break;

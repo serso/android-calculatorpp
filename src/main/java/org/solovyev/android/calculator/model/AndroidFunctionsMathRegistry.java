@@ -6,12 +6,13 @@
 
 package org.solovyev.android.calculator.model;
 
-import jscl.math.function.ArcTrigonometric;
-import jscl.math.function.Comparison;
-import jscl.math.function.Function;
-import jscl.math.function.Trigonometric;
+import android.content.Context;
+import android.content.SharedPreferences;
+import jscl.math.function.*;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.R;
+import org.solovyev.common.definitions.IBuilder;
 import org.solovyev.common.math.MathRegistry;
 import org.solovyev.common.utils.CollectionsUtils;
 
@@ -22,7 +23,7 @@ import java.util.*;
  * Date: 11/17/11
  * Time: 11:28 PM
  */
-public class AndroidFunctionsMathRegistry extends AndroidMathRegistryImpl<jscl.math.function.Function> {
+public class AndroidFunctionsMathRegistry extends AbstractAndroidMathRegistry<Function, AFunction> {
 
     public static enum Category {
 
@@ -124,4 +125,40 @@ public class AndroidFunctionsMathRegistry extends AndroidMathRegistryImpl<jscl.m
         
         return null;
     }
+
+	@NotNull
+	@Override
+	protected IBuilder<? extends Function> createBuilder(@NotNull AFunction entity) {
+		return new CustomFunction.Builder(entity.getName(), entity.getParameterNamesAsArray(), entity.getContent());
+	}
+
+	@NotNull
+	@Override
+	protected Class<? extends MathEntityPersistenceContainer<AFunction>> getPersistenceContainerClass() {
+		return Functions.class;
+	}
+
+	@Override
+	protected Integer getPreferenceStringId() {
+		return R.string.p_calc_functions;
+	}
+
+	@Override
+	protected AFunction transform(@NotNull Function entity) {
+		if (entity instanceof CustomFunction) {
+			final AFunction result = new AFunction();
+			result.setName(entity.getName());
+			result.setContent(((CustomFunction) entity).getContent());
+			result.setParameterNames(((CustomFunction) entity).getParameterNames());
+			return result;
+		} else {
+			return null;
+		}
+	}
+
+	@NotNull
+	@Override
+	protected MathEntityPersistenceContainer<AFunction> createPersistenceContainer() {
+		return new Functions();
+	}
 }
