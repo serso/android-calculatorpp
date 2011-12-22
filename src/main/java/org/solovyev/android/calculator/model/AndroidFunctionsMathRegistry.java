@@ -6,11 +6,8 @@
 
 package org.solovyev.android.calculator.model;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import jscl.math.function.*;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.R;
 import org.solovyev.common.definitions.IBuilder;
 import org.solovyev.common.math.MathRegistry;
@@ -50,8 +47,15 @@ public class AndroidFunctionsMathRegistry extends AbstractAndroidMathRegistry<Fu
                 return function instanceof Comparison;
             }
         },
+
+		my(R.string.c_fun_category_my, 0) {
+			@Override
+			boolean isInCategory(@NotNull Function function) {
+				return !function.isSystem();
+			}
+		},
         
-        common(R.string.c_fun_category_common, 0) {
+        common(R.string.c_fun_category_common, 100) {
             @Override
             boolean isInCategory(@NotNull Function function) {
                 for (Category category : values()) {

@@ -4,7 +4,7 @@
  * or visit http://se.solovyev.org
  */
 
-package org.solovyev.android.calculator;
+package org.solovyev.android.calculator.math.edit;
 
 import android.app.Activity;
 import android.app.ListActivity;
@@ -17,6 +17,8 @@ import android.view.ViewGroup;
 import android.widget.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.calculator.CalculatorModel;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.model.AndroidMathRegistry;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.utils.EqualsTool;
@@ -24,6 +26,7 @@ import org.solovyev.common.utils.Filter;
 import org.solovyev.common.utils.FilterRule;
 import org.solovyev.common.utils.StringUtils;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
@@ -35,6 +38,8 @@ import java.util.List;
 public abstract class AbstractMathEntityListActivity<T extends MathEntity> extends ListActivity {
 
     public static final String MATH_ENTITY_CATEGORY_EXTRA_STRING = "org.solovyev.android.calculator.CalculatorVarsActivity_math_entity_category";
+
+	protected final static List<Character> acceptableChars = Arrays.asList(StringUtils.toObject("1234567890abcdefghijklmnopqrstuvwxyzйцукенгшщзхъфывапролджэячсмитьбюё_".toCharArray()));
 
     @NotNull
     private MathEntityArrayAdapter<T> adapter;
@@ -138,7 +143,7 @@ public abstract class AbstractMathEntityListActivity<T extends MathEntity> exten
     protected abstract List<T> getMathEntities();
     
     @Nullable
-    protected abstract String getMathEntityCategory(@NotNull T t);
+    abstract String getMathEntityCategory(@NotNull T t);
 
     protected void sort() {
         AbstractMathEntityListActivity.this.adapter.sort(new Comparator<T>() {
@@ -151,12 +156,17 @@ public abstract class AbstractMathEntityListActivity<T extends MathEntity> exten
         AbstractMathEntityListActivity.this.adapter.notifyDataSetChanged();
     }
 
-    protected static class MathEntityArrayAdapter<T extends MathEntity> extends ArrayAdapter<T> {
+	protected static class MathEntityArrayAdapter<T extends MathEntity> extends ArrayAdapter<T> {
 
         @NotNull
         private final MathEntityDescriptionGetter descriptionGetter;
 
-        private MathEntityArrayAdapter(@NotNull MathEntityDescriptionGetter descriptionGetter,  @NotNull Context context, int resource, int textViewResourceId, @NotNull List<T> objects) {
+        private MathEntityArrayAdapter(@NotNull MathEntityDescriptionGetter descriptionGetter,
+									   @NotNull Context context,
+									   int resource,
+									   int textViewResourceId,
+									   @NotNull List<T> objects) {
+
             super(context, resource, textViewResourceId, objects);
             this.descriptionGetter = descriptionGetter;
         }

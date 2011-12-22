@@ -8,7 +8,6 @@ package org.solovyev.android.calculator;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.text.ClipboardManager;
@@ -31,7 +30,6 @@ import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.calculator.model.CalculatorEvalException;
 import org.solovyev.android.calculator.model.CalculatorParseException;
-import org.solovyev.android.calculator.model.Var;
 import org.solovyev.android.view.*;
 import org.solovyev.common.msg.Message;
 import org.solovyev.common.utils.CollectionsUtils;
@@ -52,7 +50,7 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 	instance;
 
 	// millis to wait before evaluation after user edit action
-	public static final int EVAL_DELAY_MILLIS = 1000;
+	public static final int EVAL_DELAY_MILLIS = 400;
 
 	@NotNull
 	private CalculatorEditor editor;
@@ -390,7 +388,7 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 							if ( genericResult != null ) {
 								final Set<Constant> notSystemConstants = new HashSet<Constant>();
 								for (Constant constant : genericResult.getConstants()) {
-									IConstant var = CalculatorEngine.instance.getVarsRegister().get(constant.getName());
+									IConstant var = CalculatorEngine.instance.getVarsRegistry().get(constant.getName());
 									if (var != null && !var.isSystem() && !var.isDefined()) {
 										notSystemConstants.add(constant);
 									}

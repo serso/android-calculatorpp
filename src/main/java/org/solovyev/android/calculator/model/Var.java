@@ -48,7 +48,7 @@ public class Var implements IConstant, MathPersistenceEntity {
 	@Transient
 	private Constant constant;
 
-	public static class Builder implements IBuilder<Var> {
+	public static class Builder implements IBuilder<Var>, MathEntityBuilder<Var> {
 
 		@NotNull
 		private String name;
@@ -97,12 +97,16 @@ public class Var implements IConstant, MathPersistenceEntity {
 		}
 
 
-		public void setName(@NotNull String name) {
+		@NotNull
+		public Builder setName(@NotNull String name) {
 			this.name = name;
+			return this;
 		}
 
-		public void setValue(@Nullable String value) {
+		@NotNull
+		public Builder setValue(@Nullable String value) {
 			this.value = value;
+			return this;
 		}
 
 		protected Builder setSystem(boolean system) {
@@ -110,6 +114,7 @@ public class Var implements IConstant, MathPersistenceEntity {
 			return this;
 		}
 
+		@NotNull
 		public Builder setDescription(@Nullable String description) {
 			this.description = description;
 			return this;

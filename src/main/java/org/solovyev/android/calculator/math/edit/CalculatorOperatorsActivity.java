@@ -1,4 +1,4 @@
-package org.solovyev.android.calculator;
+package org.solovyev.android.calculator.math.edit;
 
 import android.content.Context;
 import jscl.math.operator.Operator;

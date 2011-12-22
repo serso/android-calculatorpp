@@ -4,12 +4,13 @@
  * or visit http://se.solovyev.org
  */
 
-package org.solovyev.android.calculator;
+package org.solovyev.android.calculator.math.edit;
 
 import android.app.TabActivity;
 import android.os.Bundle;
 import android.widget.TabHost;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.model.AndroidFunctionsMathRegistry;
 import org.solovyev.android.view.prefs.AndroidUtils;
 

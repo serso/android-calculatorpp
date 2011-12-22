@@ -65,7 +65,7 @@ public enum CalculatorEngine {
 	public final TextProcessor<PreparedExpression, String> preprocessor = new ToJsclTextProcessor();
 
 	@NotNull
-	private final AndroidMathRegistry<IConstant> varsRegister = new AndroidVarsRegistryImpl(engine.getConstantsRegistry());
+	private final AndroidMathRegistry<IConstant> varsRegistry = new AndroidVarsRegistryImpl(engine.getConstantsRegistry());
 
 	@NotNull
 	private final AndroidMathRegistry<jscl.math.function.Function> functionsRegistry = new AndroidFunctionsMathRegistry(engine.getFunctionsRegistry());
@@ -283,7 +283,7 @@ public enum CalculatorEngine {
 				}
 			}
 
-			varsRegister.load(context, preferences);
+			varsRegistry.load(context, preferences);
 		}
 	}
 
@@ -305,8 +305,8 @@ public enum CalculatorEngine {
 	}
 
 	@NotNull
-	public AndroidMathRegistry<IConstant> getVarsRegister() {
-		return varsRegister;
+	public AndroidMathRegistry<IConstant> getVarsRegistry() {
+		return varsRegistry;
 	}
 
 	@NotNull

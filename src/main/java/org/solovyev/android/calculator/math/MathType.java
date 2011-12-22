@@ -120,7 +120,7 @@ public enum MathType {
 		@NotNull
 		@Override
 		public List<String> getTokens() {
-			return CalculatorEngine.instance.getVarsRegister().getNames();
+			return CalculatorEngine.instance.getVarsRegistry().getNames();
 		}
 
 		@Override

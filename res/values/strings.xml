@@ -75,7 +75,7 @@
 	<string name="c_sys.var.cannot.be.changed">System variable cannot be changed!</string>
 
 	<string name="c_var_description_pi">Ratio of any circle\'s circumference to its diameter. Note: this constant is degree unit dependent => rad: 3.14, deg: 180.0</string>
-	<string name="c_var_description_PI">Ratio of any circle\'s circumference to its diameter. Note: this constant is degree unit independent => rad: 3.14, rad: 3.14</string>
+	<string name="c_var_description_PI">Ratio of any circle\'s circumference to its diameter. Note: this constant is degree unit independent => rad: 3.14, deg: 3.14</string>
 	<string name="c_var_description_e">Unique real number such that the value of the derivative (slope of the tangent line) of the function f(x) = e^x at the point x = 0 is equal to 1</string>
 	<string name="c_var_description_i">Imaginary unit, defined such that i^2 = −1</string>
 	<string name="c_var_description_c">Speed of light in vacuum, m·s^-1</string>
@@ -327,6 +327,7 @@ Check the \'Round result\' preference in application settings - it should be tur
 	<string name="c_fun_category_hyper_trig">Hyperbolic trigonometric</string>
 	<string name="c_fun_category_comparison">Comparison</string>
 	<string name="c_fun_category_common">Common</string>
+	<string name="c_fun_category_my">My</string>
 
 	<string name="c_var_system">System</string>
 	<string name="c_var_my">My</string>

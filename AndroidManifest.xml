@@ -61,23 +61,23 @@
 				  a:label="@string/c_help"
 				  a:configChanges="orientation|keyboardHidden"/>
 
-        <activity a:name=".CalculatorFunctionsActivity"
+        <activity a:name=".math.edit.CalculatorFunctionsActivity"
                   a:label="@string/c_functions"
                   a:configChanges="orientation|keyboardHidden"/>
 
-		<activity a:name=".CalculatorFunctionsTabActivity"
+		<activity a:name=".math.edit.CalculatorFunctionsTabActivity"
 				  a:label="@string/c_functions"
 				  a:configChanges="orientation|keyboardHidden"/>
 
-		<activity a:name=".CalculatorOperatorsActivity"
+		<activity a:name=".math.edit.CalculatorOperatorsActivity"
 				  a:label="@string/c_operators"
 				  a:configChanges="orientation|keyboardHidden"/>
 
-        <activity a:name=".CalculatorVarsActivity"
+        <activity a:name=".math.edit.CalculatorVarsActivity"
                   a:label="@string/c_vars_and_constants"
                   a:configChanges="orientation|keyboardHidden"/>
 
-		<activity a:name=".CalculatorVarsTabActivity"
+		<activity a:name=".math.edit.CalculatorVarsTabActivity"
 				  a:label="@string/c_vars_and_constants"
 				  a:configChanges="orientation|keyboardHidden"/>
 

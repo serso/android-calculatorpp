@@ -178,7 +178,7 @@ public class CalculatorEngineTest {
 		}
 		junit.framework.Assert.assertEquals("24i", cm.evaluate(JsclOperation.numeric, "4!i").getResult());
 
-		CalculatorEngine.instance.getVarsRegister().add(new Var.Builder("si", 5d));
+		CalculatorEngine.instance.getVarsRegistry().add(new Var.Builder("si", 5d));
 
 		try {
 			cm.getEngine().setAngleUnits(AngleUnit.rad);
@@ -192,14 +192,14 @@ public class CalculatorEngineTest {
 			cm.getEngine().setAngleUnits(defaultAngleUnit);
 		}
 
-		CalculatorEngine.instance.getVarsRegister().add(new Var.Builder("s", 1d));
+		CalculatorEngine.instance.getVarsRegistry().add(new Var.Builder("s", 1d));
 		Assert.assertEquals("5", cm.evaluate(JsclOperation.numeric, "si").getResult());
 
-		CalculatorEngine.instance.getVarsRegister().add(new Var.Builder("k", 3.5d));
-		CalculatorEngine.instance.getVarsRegister().add(new Var.Builder("k1", 4d));
+		CalculatorEngine.instance.getVarsRegistry().add(new Var.Builder("k", 3.5d));
+		CalculatorEngine.instance.getVarsRegistry().add(new Var.Builder("k1", 4d));
 		Assert.assertEquals("4", cm.evaluate(JsclOperation.numeric, "k11").getResult());
 
-		CalculatorEngine.instance.getVarsRegister().add(new Var.Builder("t", (String) null));
+		CalculatorEngine.instance.getVarsRegistry().add(new Var.Builder("t", (String) null));
 		Assert.assertEquals("11t", cm.evaluate(JsclOperation.numeric, "t11").getResult());
 		Assert.assertEquals("11et", cm.evaluate(JsclOperation.numeric, "t11e").getResult());
 		Assert.assertEquals("∞", cm.evaluate(JsclOperation.numeric, "∞").getResult());
@@ -245,10 +245,10 @@ public class CalculatorEngineTest {
 			cm.setTimeout(3000);
 		}*/
 
-		CalculatorEngine.instance.getVarsRegister().add(new Var.Builder("t", (String) null));
+		CalculatorEngine.instance.getVarsRegistry().add(new Var.Builder("t", (String) null));
 		Assert.assertEquals("2t", cm.evaluate(JsclOperation.simplify, "∂(t^2,t)").getResult());
 		Assert.assertEquals("2t", cm.evaluate(JsclOperation.numeric, "∂(t^2,t)").getResult());
-		CalculatorEngine.instance.getVarsRegister().add(new Var.Builder("t", "2"));
+		CalculatorEngine.instance.getVarsRegistry().add(new Var.Builder("t", "2"));
 		Assert.assertEquals("2t", cm.evaluate(JsclOperation.simplify, "∂(t^2,t)").getResult());
 		Assert.assertEquals("4", cm.evaluate(JsclOperation.numeric, "∂(t^2,t)").getResult());
 	}
@@ -301,7 +301,7 @@ public class CalculatorEngineTest {
 			cm.getEngine().setAngleUnits(defaultAngleUnit);
 		}
 
-		CalculatorEngine.instance.getVarsRegister().add(new Var.Builder("si", 5d));
+		CalculatorEngine.instance.getVarsRegistry().add(new Var.Builder("si", 5d));
 		Assert.assertEquals("5", cm.evaluate(JsclOperation.numeric, "si").getResult());
 
 		try {
