@@ -50,7 +50,6 @@
 														   xmlns:c="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
 														   a:id="@+id/clearButton"
 														   c:textUp="dec"
-														   c:textRight="oct"
 														   a:text="@string/c_clear"
 														   c:textDown="bin"
 														   c:textLeft="hex"
