@@ -1,0 +1,26 @@
+<!--
+  ~ Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+  ~ For more information, please, contact se.solovyev@gmail.com
+  ~ or visit http://se.solovyev.org
+  -->
+
+<resources>
+
+	<string name="c_about">About</string>
+
+	<string name="c_about_content">Copyright (c) 2009-2011\n\n<b>Created by serso aka se.solovyev</b>\n\n
+		This program is open source:\nall source code can be found on\n<a href="https://github.com/serso/android_calculator">http://github.com</a>\n\n
+		For more information please\ncontact the author by email\n<a href="mailto:se.solovyev@gmail.com">se.solovyev@gmail.com</a>
+		\nor visit\n<a href="http://se.solovyev.org">http://se.solovyev.org</a>\n\n
+		If you want to support the project\nyou can donate money via\n<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=se%2esolovyev%40gmail%2ecom&amp;lc=RU&amp;item_name=Android%20Calculator&amp;currency_code=USD&amp;bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted">http://paypal.com</a>\n\n
+		If you like the application\nrank it with 5 stars in\n<a href="https://market.android.com/details?id=org.solovyev.android.calculator">android.market</a>\n\n
+		Thanks to people who translate Calculator++ in different languages:\n
+		Italian - Gabriele Ravanetti\n
+		Spanish - Jordi Luna\n\n
+		This application uses next open source libraries:\n
+		<a href="http://simple.sourceforge.net">Simple (XML serialization)</a>\n
+		<a href="http://meditorworld.appspot.com/meditor.txt">JSCL</a>\n
+		<a href="http://www.achartengine.org/">AChartEngine</a>
+	</string>
+
+</resources>

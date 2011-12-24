@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+  ~ For more information, please, contact se.solovyev@gmail.com
+  ~ or visit http://se.solovyev.org
+  -->
+
 <resources>
 	<string name="c_app_name">Calculadora++</string>
 	<string name="c_app_icon_name">Calc++</string>
@@ -7,7 +14,6 @@
 	<string name="c_result_copied">Resultado copiado al Portapapeles!</string>
 	<string name="c_settings">Configuración</string>
 	<string name="c_help">Ayuda</string>
-	<string name="c_about">Acerca de</string>
 	<string name="c_vars_and_constants">Variables y Constantes</string>
 	<!--PREFERENCE ACTIVITY-->
 	<string name="c_prefs_main_category">Ajustes principales</string>
@@ -16,38 +22,9 @@
 	<string name="c_prefs_drag_button_category">Configuración del deslizamiento de los botones</string>
 
 
-	<string name="c_prefs_drag_button_calibration">Calibración del deslizamiento de los botones</string>
-	<string name="c_prefs_drag_button_calibration_summary">Permite calibrar el comportamiento del deslizamiento de los botones</string>
 	<string name="c_down">Abajo</string>
 	<string name="c_up">Arriba</string>
 	<string name="c_restart">Reiniciar</string>
-
-
-	<string name="c_about_content" formatted="false">Copyright (c) 2009-2011\n\n<b>Creado por serso aka se.solovyev</b>\n\n
-		Este programa es Open Source:\n
-		Todo el código fuente puede encontrarse en\n
-		<a href="https://github.com/serso/android_calculator">http://github.com</a>\n\n
-		Para más información, por favor,\n
-		contacte con el autor al mail\n
-		<a href="mailto:se.solovyev@gmail.com">se.solovyev@gmail.com</a>\n
-		o visite\n
-		<a href="http://se.solovyev.org">http://se.solovyev.org</a>\n\n
-		Si desea apoyar el proyecto,\n
-		puede hacer una donación vía\n
-		<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=se%2esolovyev%40gmail%2ecom&amp;lc=RU&amp;item_name=Android%20Calculator&amp;currency_code=USD&amp;bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted">\n
-			http://paypal.com
-		</a>\n\n
-		Si le gusta la aplicación\n
-		valórela con 5 estrellas en\n
-		<a href="https://market.android.com/details?id=org.solovyev.android.calculator">android.market</a>\n\n
-		Gracias a las personas que han traducido Calculadora++ a los diferentes idiomas:\n
-		Español - Jordi Luna\n
-		Italiano - Gabriele Ravanetti\n\n
-		Esta aplicación utiliza las siguiente librerías Open Source:\n
-		<a href="http://simple.sourceforge.net">Simple (XML serialization)</a>\n
-		<a href="http://meditorworld.appspot.com/meditor.txt">JSCL</a>\n
-		<a href="http://www.achartengine.org/">AChartEngine</a>
-	</string>
 
 	<string name="c_undo">deshacer</string>
 	<string name="c_redo">rehacer</string>
@@ -55,6 +32,11 @@
 	<string name="c_erase">borrar</string>
 	<string name="c_paste">pegar</string>
 	<string name="c_vars">vars</string>
+
+	<string name="c_copy">Copiar</string>
+	<string name="c_plot">Parcela gráfico</string>
+	<string name="c_graph">Gráfico</string>
+
 	<string name="c_calc_color_display_title">Resaltar expresiones</string>
 	<string name="c_calc_round_result_title">Redondear resultado</string>
 	<string name="c_calc_round_result_summary">Activar redondeo del resultado</string>
@@ -73,6 +55,7 @@
 	<string name="c_var_description">Descripción</string>
 	<string name="c_var_create_var">Crear variable</string>
 	<string name="c_var_edit_var">Editar variable</string>
+
 	<string name="c_value.is.not.a.number">¡El valor debe ser numérico o estar vacío!</string>
 	<string name="c_var.name.clashes">La variable name entra en conflicto con la función name!</string>
 	<string name="c_var.already.exists">¡Ya existe una variable con el mismo nombre!</string>
@@ -82,27 +65,26 @@
 	<string name="c_calc_editor_hint">Introducir nuevo cálculo</string>
 	<string name="c_press_to_copy">Pulsar para copiar</string>
 	<string name="c_continue">Continuar</string>
-	<string name="c_donate">Donar</string>
-	<string name="c_donate_text" formatted="false">Puede dar las gracias por mail al autor de este programa\n\n
-		<a href="mailto:se.solovyev@gmail.com">se.solovyev@gmail.com</a>\n\n
-		donar dinero a través de\n\n
-		<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=se%2esolovyev%40gmail%2ecom&amp;lc=RU&amp;item_name=Android%20Calculator&amp;currency_code=USD&amp;bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted">
-			http://paypal.com
-		</a>\n\n
-		o evaluar el programa con 5 estrellas en\n\n
-		<a href="https://market.android.com/details?id=org.solovyev.android.calculator">android.market</a>\n
-	</string>
 	<string name="c_history">Historial</string>
 	<string name="c_history_button">M</string>
 	<string name="c_history_is_empty">¡El Historial está vacío!</string>
 	<string name="c_app_history">Historial</string>
 	<string name="c_char_is_not_accepted">El caracter \'%s\' no es aceptado en la variable name!</string>
+
 	<string name="c_calc_angle_units">Unidades de Ángulos</string>
 	<string name="p_deg">Grados</string>
 	<string name="p_rad">Radianes</string>
 	<string name="p_grad">Gradianes</string>
 	<string name="p_turns">Vueltas</string>
 	<string name="c_angle_units_summary">Define la unidad para ángulos predeterminada.</string>
+
+	<string name="c_calc_numeral_bases">Sistemas de numeración</string>
+	<string name="c_numeral_bases_summary">Define el sistema de numeración por defecto para todos los números de entrada.</string>
+	<string name="p_dec">Secimal</string>
+	<string name="p_hex">Hexadecimal</string>
+	<string name="p_oct">Octal</string>
+	<string name="p_bin">Binario</string>
+
 	<string name="c_calc_theme">Tema</string>
 	<string name="p_default_theme">Predeterminado</string>
 	<string name="p_violet_theme">Violeta</string>
@@ -112,142 +94,60 @@
 	<string name="c_calc_theme_summary">Establecer el tema para la Calculadora</string>
 	<string name="c_clear_history">Limpiar historial</string>
 	<string name="c_simplify_instead_of_numeric">Las constantes siguientes no están definidas: {0}!</string>
+
 	<string name="p_grouping_separator_no">No usar separador de Grupos</string>
 	<string name="p_grouping_separator_apostrophe">Apóstrofe (\')</string>
 	<string name="p_grouping_separator_space">Espacio ( )</string>
 	<string name="c_calc_grouping_separator">Separador de Grupos</string>
 	<string name="c_calc_grouping_separator_summary">Establecer el separador de Grupos</string>
+	<string name="c_calc_multiplication_sign">Signo de multiplicación</string>
+	<string name="c_calc_multiplication_sign_summary">Establece signo de multiplicación</string>
+
 	<string name="c_calc_layout">Plantilla</string>
 	<string name="p_layout_cellphone">Teléfono</string>
 	<string name="p_layout_calculator">Calculadora</string>
 	<string name="c_calc_layout_summary">Establecer la plantilla de los botones</string>
+
 	<string name="c_calc_haptic_feedback_title">Configurar vibración</string>
 	<string name="c_calc_haptic_feedback_summary">Vibrar al pulsar un botón</string>
+
 	<string name="p_calc_haptic_feedback_strength_short">Corto</string>
 	<string name="p_calc_haptic_feedback_strength_middle">Medio</string>
 	<string name="p_calc_haptic_feedback_strength_long">Largo</string>
+
 	<string name="p_calc_haptic_feedback_duration_title">Duración de la vibración</string>
 	<string name="p_calc_haptic_feedback_duration_summary">Duración de la vibración al pulsar un butón</string>
 
 	<string name="c_empty_var_error">No se puede crear una constante vacía!</string>
 	<string name="c_not_valid_result">El resultado actual no es válido!</string>
+	<!--
+		<string name="c_plot_graph">Graph</string>
+	<string name="c_min_x_value">From</string>
+	<string name="c_max_x_value">To</string>
 
-	<string name="c_faq">FAQ</string>
-	<string name="c_hints">Consejos</string>
-	<string name="c_screens">Pantallas</string>
-	<string name="c_faq_content" formatted="false">
-		<b>¿Como puedo utilizar las funciones indicadas en las esquinas superior e inferior derechas de los botones?</b>\n\n
+	<string name="c_swipe_distance">Swipe distance for buttons</string>
+	<string name="c_swipe_distance_summary">Sets swipe distance for buttons that support additional swipe actions</string>
 
-		Mantenga pulsado el botón y deslícelo ligeramente hacia arriba o abajo. En función del valor mostrado en el\n
-		botón se realizará la acción deseada.\n\n
+	<string name="c_comment">Comment</string>
+	<string name="c_history_item_saved">Saved</string>
+	<string name="c_history_item_not_saved">Not saved</string>
+	<string name="c_expression_copied">Expression copied to the clipboard!</string>
+	<string name="c_history_item_status">Status: </string>
+	<string name="c_history_item_comment">Comment: </string>
+	<string name="c_use_expression">Use</string>
+	<string name="c_copy_expression">Copy expression</string>
+	<string name="c_copy_result">Copy result</string>
+	<string name="c_history_expression">Value</string>
+	<string name="c_history_item_already_saved">Saved (see \'Saved history\' tab)</string>
+	<string name="c_history_comment">Comment</string>
+	<string name="c_save_history">Save history</string>
+	<string name="c_edit_history">Modify history</string>
+	<string name="c_edit">Modify</string>
+	<string name="c_saved_history">Saved history</string>
 
-		<b>¿Como puedo conmutar entre Radianes y Grados?</b>\n\n
-
-		Para conmutar entre las diferentes unidades de ángulo, puede ajustar la opción preferida en la configuración de\n
-		la aplicación\n
-		o bién utilizar el conmutador ubicado en el botón 6\n
-		(el valor actual está resaltado en color amarillo).\n
-		También puede utilizar las funciones deg() y rad() y el operador ° para convertir grados a radianes y viceversa.\n\n
-
-		<b>Ejemplos:</b>\n
-		268° = 4.67748\n
-		30.21° = 0.52726\n
-		rad(30, 21, 0) = 0.52971\n
-		deg(4.67748) = 268\n\n
-
-		<b>¿Soporta C+ %?</b>\n\n
-
-		Si, la función % puede encontrarse en la esquina superior derecha del botón / .\n\n
-
-		<b>Ejemplos:</b>\n\n
-
-		100 + 50% = 150\n
-		100 * 50% = 50\n
-		100 + 100 * 50% * 50% = 125\n
-		100 + (100 * 50% * (25 + 25)% + 100%) = 150\n\n
-
-		<b>Nota:</b>\n\n
-
-		100 + (20 + 20)% = 140,\n
-		<b>pero</b>\n
-		100+ (20% + 20%) = 124.0\n
-		100 + 50% ^ 2 = 2600,\n
-		<b>pero</b>\n
-		100 + 50 ^ 2% = 101.08\n\n
-
-		<b>¿Soporta C+ cálculos fraccionarios?</b>\n\n
-
-		Si, puede teclear la expresión fraccionaria en el editor y utilizar ≡ (en la esquina superior derecha del botón\n
-		= ). También puede utilizar ≡ para simplificar la expresión.\n\n
-
-		<b>Ejemplos:</b>\n\n
-
-		2/3 + 5/9 ≡ 11/9\n
-		2/9 + 3/123 ≡ 91/369\n
-		(6 - t) ^ 3 ≡ 216 - 108t + 18t ^ 2 - t ^ 3\n\n
-
-		<b>¿Soporta C+ cálculos complejos?</b>\n\n
-
-		Si, simplemente introduzca la expresión compleja (utilizando i o √(-1) como número imaginario).\n\n
-
-		<b>Ejemplos:</b>\n\n
-
-		(2i + 1) ^ 2 = -3 + 4i\n
-		e ^ i = 0.5403 + 0.84147i\n\n
-
-		<b>¿Puede C+ dibujar gráficas de las funciones?</b>\n\n
-
-		No, actualmente C+ no puede dibujar gráficas.\n\n
-
-		<b>¿Soporta C+ cálculos matriciales?</b>\n\n
-
-		No, no los soporta.\n\n
-
-		<b>¿Porqué obtengo 1.76732452452345E-17 en lugar de 0?</b>\n\n
-
-		Compruebe la opción \'Redondear resultado\' en la configuración de la aplicación - debe activarla.\n
-	</string>
-	<string name="c_hints_content">1. Puede omitir signos de multiplicación innecesarios (en lugar de 3*t o t*sin(π*t)simplemente escriba 3t o tsin(πt))\n\n
-
-		2. Utilice ≡ (en la esquina superior derecha del botón = ) para simplificar la expresión\n\n
-
-		3. Haga clic en el resultado para copiarlo al portapapeles\n\n
-
-		4. Raravez deberá utilizar el botón = ya que el resultado se va calculando automáticamente conforme introduce las funciones\n\n
-
-		5. Añada constantes para los valores usados habitualmente (incluso puede grabar expresiones)\n\n
-
-		6. Utilice las variables ubicadas en los botones 4 y 5\n\n
-
-	</string>
-	<string name="c_screens_content">1.
-		<b>Pantalla principal:</b>
-		Se muestra al inicio de la aplicación. Puede llegar a ella desde otra pantalla pulsando el botón Atrás.\n\n
-
-		2.
-		<b>Pantalla de Variables y Constantes:</b>
-		contiene una lista de las constantes disponibles. Puede añadir más constantes y variables haciendo clic en el
-		botón Añadir. Un Clic corto en variable/constante la inserta en el editor, Clic largo - abre la ventana del
-		editor de variables. Puede llegar a ella desde la pantalla principal pulsando el botón π,… .\n\n
-
-		3.
-		<b>Pantalla de Funciones:</b>
-		contiene una lista de todas las funciones disponibles. Un Clic corto en la función la inserta en el editor.
-		Puede llegar a ella desde la pantalla principal pulsando el botón f(x).\n\n
-
-		4.
-		<b>Pantalla de Operadores:</b>
-		contiene una lista de todos los operadores disponibles. Un Clic corto en el operador lo inserta en el editor.
-		Puede llegar a él desde la pantalla principal pulsando el botón ∂,… .\n\n
-
-		5.
-		<b>Pantalla de Historial:</b>
-		contiene una lista de todas las acciones realizadas por el usuario. Un Clic corto en el elemento Historial lo
-		inserta en el editor. Puede llegar a él desde la pantalla principal pulsando el botón M .\n\n
-
-		6.
-		<b>Pantalla de Configuración:</b>
-		contiene los ajustes de la aplicación. Puede llegar a él desde la pantalla principal seleccionando la opción
-		Configuración del menú.\n\n
-	</string>
+	<string name="c_history_already_saved">History was already saved!</string>
+	<string name="c_history_must_be_saved">History must be saved before editing!</string>
+	<string name="c_history_was_removed">History was successfully removed!</string>
+	<string name="c_history_saved">History was successfully saved!</string>
+	-->
 </resources>
