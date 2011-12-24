@@ -99,6 +99,9 @@ public class AndroidFunctionsMathRegistry extends AbstractAndroidMathRegistry<Fu
                 }
             });
 
+			// todo serso: current solution (as creating functions is not implemented yet)
+			result.remove(my);
+
             return result;
         }
     }
