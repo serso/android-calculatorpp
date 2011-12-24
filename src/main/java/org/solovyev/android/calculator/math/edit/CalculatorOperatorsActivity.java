@@ -4,9 +4,11 @@ import android.content.Context;
 import jscl.math.operator.Operator;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.model.CalculatorEngine;
+import org.solovyev.android.view.AMenuItem;
 import org.solovyev.common.utils.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -17,7 +19,13 @@ import java.util.List;
 
 public class CalculatorOperatorsActivity extends AbstractMathEntityListActivity<Operator> {
 
-    @NotNull
+	@NotNull
+	@Override
+	protected List<AMenuItem<Operator>> getMenuItemsOnLongClick(@NotNull Operator item) {
+		return Collections.emptyList();
+	}
+
+	@NotNull
     @Override
     protected MathEntityDescriptionGetter getDescriptionGetter() {
         return new OperatorDescriptionGetter();

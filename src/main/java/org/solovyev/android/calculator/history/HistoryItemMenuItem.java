@@ -20,7 +20,6 @@ import android.widget.Toast;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.view.AMenuItem;
-import org.solovyev.android.view.prefs.ResourceCache;
 import org.solovyev.common.utils.StringUtils;
 
 /**
@@ -30,7 +29,7 @@ import org.solovyev.common.utils.StringUtils;
 */
 public enum HistoryItemMenuItem implements AMenuItem<HistoryItemMenuData> {
 
-	use(R.string.c_use_expression) {
+	use(R.string.c_use) {
 		@Override
 		public void doAction(@NotNull HistoryItemMenuData data, @NotNull Context context) {
 			if (context instanceof AbstractHistoryActivity) {

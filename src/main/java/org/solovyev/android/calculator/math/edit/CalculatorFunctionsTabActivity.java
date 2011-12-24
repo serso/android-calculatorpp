@@ -6,12 +6,20 @@
 
 package org.solovyev.android.calculator.math.edit;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.text.ClipboardManager;
 import jscl.math.function.Function;
 import org.jetbrains.annotations.NotNull;
+import org.solovyev.android.calculator.CalculatorModel;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.model.CalculatorEngine;
+import org.solovyev.android.view.AMenuItem;
+import org.solovyev.common.utils.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -20,6 +28,48 @@ import java.util.List;
  * Time: 4:55 PM
  */
 public class CalculatorFunctionsTabActivity extends AbstractMathEntityListActivity<Function> {
+
+	private static enum LongClickMenuItem implements AMenuItem<Function>{
+		use(R.string.c_use) {
+			@Override
+			public void doAction(@NotNull Function data, @NotNull Context context) {
+				CalculatorModel.instance.processDigitButtonAction(data.getName(), false);
+				if (context instanceof Activity) {
+					((Activity) context).finish();
+				}
+			}
+		},
+
+		/*edit(R.string.c_edit) {
+			@Override
+			public void doAction(@NotNull Function data, @NotNull Context context) {
+				if (context instanceof AbstractMathEntityListActivity) {
+				}
+			}
+		},*/
+
+		copy_description(R.string.c_copy_description) {
+			@Override
+			public void doAction(@NotNull Function data, @NotNull Context context) {
+				final String text = CalculatorEngine.instance.getFunctionsRegistry().getDescription(context, data.getName());
+				if (!StringUtils.isEmpty(text)) {
+					final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
+					clipboard.setText(text);
+				}
+			}
+		};
+		private final int captionId;
+
+		LongClickMenuItem(int captionId) {
+			this.captionId = captionId;
+		}
+
+		@NotNull
+		@Override
+		public String getCaption(@NotNull Context context) {
+			return context.getString(captionId);
+		}
+	}
 
 	public static final String CREATE_FUN_EXTRA_STRING = "org.solovyev.android.calculator.math.edit.CalculatorFunctionsTabActivity_create_fun";
 
@@ -53,6 +103,18 @@ public class CalculatorFunctionsTabActivity extends AbstractMathEntityListActivi
 				intent.removeExtra(CREATE_FUN_EXTRA_STRING);
 			}
 		}*/
+	}
+
+	@NotNull
+	@Override
+	protected List<AMenuItem<Function>> getMenuItemsOnLongClick(@NotNull Function item) {
+		List<AMenuItem<Function>> result = new ArrayList<AMenuItem<Function>>(Arrays.asList(LongClickMenuItem.values()));
+		
+		if ( StringUtils.isEmpty(CalculatorEngine.instance.getFunctionsRegistry().getDescription(this, item.getName())) ) {
+			result.remove(LongClickMenuItem.copy_description);
+		}
+		
+		return result;
 	}
 
 /*	private static void createEditVariableDialog(@NotNull final AbstractMathEntityListActivity<Function> activity,

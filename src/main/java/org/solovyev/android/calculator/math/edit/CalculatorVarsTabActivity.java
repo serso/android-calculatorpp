@@ -6,28 +6,33 @@
 
 package org.solovyev.android.calculator.math.edit;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.ClipboardManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.*;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Toast;
 import jscl.math.function.IConstant;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.calculator.CalculatorModel;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.calculator.model.Var;
+import org.solovyev.android.view.AMenuItem;
 import org.solovyev.common.utils.CollectionsUtils;
 import org.solovyev.common.utils.Finder;
 import org.solovyev.common.utils.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -37,6 +42,60 @@ import java.util.List;
  */
 public class CalculatorVarsTabActivity extends AbstractMathEntityListActivity<IConstant> {
 
+	private static enum LongClickMenuItem implements AMenuItem<IConstant>{
+		use(R.string.c_use) {
+			@Override
+			public void doAction(@NotNull IConstant data, @NotNull Context context) {
+				CalculatorModel.instance.processDigitButtonAction(data.getName(), false);
+				if (context instanceof Activity) {
+					((Activity) context).finish();
+				}
+			}
+		},
+
+		edit(R.string.c_edit) {
+			@Override
+			public void doAction(@NotNull IConstant data, @NotNull Context context) {
+				if (context instanceof AbstractMathEntityListActivity) {
+					createEditVariableDialog((AbstractMathEntityListActivity<IConstant>)context, data, data.getName(), StringUtils.getNotEmpty(data.getValue(), ""), data.getDescription());
+				}
+			}
+		},
+
+		copy_value(R.string.c_copy_value) {
+			@Override
+			public void doAction(@NotNull IConstant data, @NotNull Context context) {
+				final String text = data.getValue();
+				if (!StringUtils.isEmpty(text)) {
+					final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
+					clipboard.setText(text);
+				}
+			}
+		},
+
+		copy_description(R.string.c_copy_description) {
+			@Override
+			public void doAction(@NotNull IConstant data, @NotNull Context context) {
+				final String text = CalculatorEngine.instance.getVarsRegistry().getDescription(context, data.getName());
+				if (!StringUtils.isEmpty(text)) {
+					final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
+					clipboard.setText(text);
+				}
+			}
+		};
+		private final int captionId;
+
+		LongClickMenuItem(int captionId) {
+			this.captionId = captionId;
+		}
+
+		@NotNull
+		@Override
+		public String getCaption(@NotNull Context context) {
+			return context.getString(captionId);
+		}
+	}
+	
 	public static final String CREATE_VAR_EXTRA_STRING = "org.solovyev.android.calculator.math.edit.CalculatorVarsTabActivity_create_var";
 
 	@Override
@@ -48,15 +107,6 @@ public class CalculatorVarsTabActivity extends AbstractMathEntityListActivity<IC
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-			@Override
-			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-				final IConstant iConstant = (IConstant) parent.getItemAtPosition(position);
-				createEditVariableDialog(CalculatorVarsTabActivity.this, iConstant, iConstant.getName(), StringUtils.getNotEmpty(iConstant.getValue(), ""), iConstant.getDescription());
-				return true;
-			}
-		});
-
 		final Intent intent = getIntent();
 		if (intent != null) {
 			final String varValue = intent.getStringExtra(CREATE_VAR_EXTRA_STRING);
@@ -67,6 +117,26 @@ public class CalculatorVarsTabActivity extends AbstractMathEntityListActivity<IC
 				intent.removeExtra(CREATE_VAR_EXTRA_STRING);
 			}
 		}
+	}
+
+	@NotNull
+	@Override
+	protected List<AMenuItem<IConstant>> getMenuItemsOnLongClick(@NotNull IConstant item) {
+		final List<AMenuItem<IConstant>> result = new ArrayList<AMenuItem<IConstant>>(Arrays.asList(LongClickMenuItem.values()));
+		
+		if ( item.isSystem() ) {
+			result.remove(LongClickMenuItem.edit);
+		}
+		
+		if ( StringUtils.isEmpty(CalculatorEngine.instance.getVarsRegistry().getDescription(this, item.getName())) ) {
+			result.remove(LongClickMenuItem.copy_description);
+		}
+
+		if ( StringUtils.isEmpty(item.getValue()) ) {
+			result.remove(LongClickMenuItem.copy_value);
+		}
+		
+		return result;
 	}
 
 	@NotNull

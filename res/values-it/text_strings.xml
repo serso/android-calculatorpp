@@ -134,7 +134,7 @@
 	<string name="c_expression_copied">Espressione copiato negli appunti!</string>
 	<string name="c_history_item_status">Stato: </string>
 	<string name="c_history_item_comment">Commento: </string>
-	<string name="c_use_expression">Uso</string>
+	<string name="c_use">Uso</string>
 	<string name="c_copy_expression">Copia espressione</string>
 	<string name="c_copy_result">Copia risultato</string>
 	<string name="c_history_expression">Valore</string>

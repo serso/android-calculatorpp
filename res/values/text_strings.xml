@@ -134,7 +134,7 @@
 	<string name="c_expression_copied">Expression copied to the clipboard!</string>
 	<string name="c_history_item_status">Status: </string>
 	<string name="c_history_item_comment">Comment: </string>
-	<string name="c_use_expression">Use</string>
+	<string name="c_use">Use</string>
 	<string name="c_copy_expression">Copy expression</string>
 	<string name="c_copy_result">Copy result</string>
 	<string name="c_history_expression">Value</string>
@@ -149,5 +149,8 @@
 	<string name="c_history_must_be_saved">History must be saved before editing!</string>
 	<string name="c_history_was_removed">History was successfully removed!</string>
 	<string name="c_history_saved">History was successfully saved!</string>
+
+	<string name="c_copy_description">Copy description</string>
+	<string name="c_copy_value">Copy value</string>
 
 </resources>

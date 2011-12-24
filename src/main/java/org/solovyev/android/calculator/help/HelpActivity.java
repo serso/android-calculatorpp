@@ -14,6 +14,7 @@ import android.widget.TabHost;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.R;
+import org.solovyev.android.view.prefs.AndroidUtils;
 
 /**
  * User: serso
@@ -35,6 +36,8 @@ public class HelpActivity extends TabActivity {
 		createTab(tabHost, "screens", R.string.c_screens, HelpScreensActivity.class);
 
 		tabHost.setCurrentTab(0);
+
+		AndroidUtils.centerAndWrapTabsFor(tabHost);
 	}
 
 	private void createTab(@NotNull TabHost tabHost,

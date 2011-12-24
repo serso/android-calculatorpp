@@ -20,6 +20,9 @@ import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.CalculatorModel;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.model.AndroidMathRegistry;
+import org.solovyev.android.view.AMenuBuilder;
+import org.solovyev.android.view.AMenuItem;
+import org.solovyev.android.view.MenuImpl;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.utils.EqualsTool;
 import org.solovyev.common.utils.Filter;
@@ -101,9 +104,28 @@ public abstract class AbstractMathEntityListActivity<T extends MathEntity> exten
                 AbstractMathEntityListActivity.this.finish();
             }
         });
-    }
 
-    @Override
+		getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+			@Override
+			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+				final T item = (T) parent.getItemAtPosition(position);
+
+				final List<AMenuItem<T>> menuItems = getMenuItemsOnLongClick(item);
+
+				if (!menuItems.isEmpty()) {
+					final AMenuBuilder<AMenuItem<T>, T> menuBuilder = AMenuBuilder.newInstance(AbstractMathEntityListActivity.this, MenuImpl.newInstance(menuItems));
+					menuBuilder.create(item).show();
+				}
+
+				return true;
+			}
+		});
+	}
+
+	@NotNull
+	protected abstract List<AMenuItem<T>> getMenuItemsOnLongClick(@NotNull T item);
+
+	@Override
     protected void onResume() {
         super.onResume();
 

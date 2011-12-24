@@ -134,7 +134,7 @@
 	<string name="c_expression_copied">Выражение скопировано в буфер!</string>
 	<string name="c_history_item_status">Статус: </string>
 	<string name="c_history_item_comment">Комментарий: </string>
-	<string name="c_use_expression">Использовать</string>
+	<string name="c_use">Использовать</string>
 	<string name="c_copy_expression">Копировать выражение</string>
 	<string name="c_copy_result">Копировать результат</string>
 	<string name="c_history_expression">Значение</string>
