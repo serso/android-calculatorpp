@@ -18,7 +18,7 @@
 	<string name="c_fun_description_acot">Арккотангенс - обратная функция к котангенсу.</string>
 	<string name="c_fun_description_ln">Натуральный логарифм - логарифм по основанию e.</string>
 	<string name="c_fun_description_lg">Десятичный логарифм - логарифм по основанию 10.</string>
-	<string name="c_fun_description_log">Логирифм по заданному основанию.</string>
+	<string name="c_fun_description_log">Логaрифм по заданному основанию.</string>
 	<string name="c_fun_description_exp">Экспонента.</string>
 	<string name="c_fun_description_sqrt">Функция квадратного корня.</string>
 	<string name="c_fun_description_cubic">Функция кубического корня.</string>
