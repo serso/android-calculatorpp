@@ -1,0 +1,31 @@
+<!--
+  ~ Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+  ~ For more information, please, contact se.solovyev@gmail.com
+  ~ or visit http://se.solovyev.org
+  -->
+
+<resources>
+
+	<string name="c_operators">Operadores</string>
+
+	<string name="c_op_description_mod">El módulo operación encuentra el resto de la división de \'x\' por \'y\'.</string>
+	<string name="c_op_description_sum">Función Suma \'f(i)\', iterativamente a través de \'i\' desde \'from\' hasta \'to\'.</string>
+	<string name="c_op_description_product">Devuelve el producto de las funciones \'f(i)\', iterativamente a través de \'i\' desde \'from\' hasta \'to\'.</string>
+	<string name="c_op_description_derivative">Devuelve el derivado de orden \'order\' (por defecto = 1) de funciones \'f(x)\' por \'x\' variable y calcula en el punto \'x_point\' (por defecto = el mismo que \'x\').</string>
+	<string name="c_op_description_integral">Devuelve la integral de la función \'f(x)\' por \'x\' variable.</string>
+	<string name="c_op_description_integral_ab">Función integral \'f(x)\' por \'x\' variable desde \'a\' hasta \'b\'.</string>
+
+	<string name="c_pf_description_factorial">Devuelve el factorial de la expresión antes.</string>
+	<string name="c_pf_description_double_factorial">Devuelve el doble factorial de la expresión antes.</string>
+	<string name="c_pf_description_percent" formatted="false">Devuelve el valor porcentaje de la expresión antes.\nEjemplos:\n
+		100 + 50% = 150\n
+		100 * 50% = 50\n
+		100 + 100 * 50% * 50% = 125
+	</string>
+	<string name="c_pf_description_degree">Convierte Grados a Radianes.\n
+		Ejemplos:\n
+		268° = 4.67748\n
+		30.21° = 0.52726
+	</string>
+
+</resources>

@@ -1,0 +1,14 @@
+<!--
+  ~ Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+  ~ For more information, please, contact se.solovyev@gmail.com
+  ~ or visit http://se.solovyev.org
+  -->
+
+<resources>
+	<string name="msg_1">Arithmetic error occurred: {0}</string>
+	<string name="msg_2">Too complex expression</string>
+	<string name="msg_3">Too long execution time - check the expression</string>
+	<string name="msg_4">Evaluation was cancelled</string>
+	<string name="msg_5">No parameters are specified for function: {0}</string>
+	<string name="msg_6">Infinite loop is detected in expression</string>
+</resources>

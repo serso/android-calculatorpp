@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="c_app_name">Calculator++</string>
+	<string name="c_app_name">Calculator++</string>
 	<string name="c_app_icon_name">Calc++</string>
     <string name="c_app_settings">Settings</string>
     <string name="c_syntax_error">Error</string>
@@ -74,17 +74,6 @@
 	<string name="c_name.is.not.valid">Name of constant is not valid: name must start with letter, can contain letters, digits and underscore.</string>
 	<string name="c_sys.var.cannot.be.changed">System variable cannot be changed!</string>
 
-	<string name="c_var_description_pi">Ratio of any circle\'s circumference to its diameter. Note: this constant is degree unit dependent => rad: 3.14, deg: 180.0</string>
-	<string name="c_var_description_PI">Ratio of any circle\'s circumference to its diameter. Note: this constant is degree unit independent => rad: 3.14, deg: 3.14</string>
-	<string name="c_var_description_e">Unique real number such that the value of the derivative (slope of the tangent line) of the function f(x) = e^x at the point x = 0 is equal to 1</string>
-	<string name="c_var_description_i">Imaginary unit, defined such that i^2 = −1</string>
-	<string name="c_var_description_c">Speed of light in vacuum, m·s^-1</string>
-	<string name="c_var_description_G">The gravitational constant is an empirical physical constant involved in the calculation of the gravitational attraction between objects with mass, m^3·kg^−1·s^−2</string>
-	<string name="c_var_description_h">Physical constant reflecting the sizes of energy quanta in quantum mechanics, J·s</string>
-	<string name="c_var_description_h_reduced">Reduced Planck constant, J·s</string>
-	<string name="c_var_description_nan">Not a number</string>
-	<string name="c_var_description_inf">Infinity</string>
-
 	<string name="c_calc_editor_hint">Enter new expression</string>
 	<string name="c_press_to_copy">Press to copy</string>
 	<string name="c_continue">Continue</string>
@@ -146,57 +135,9 @@
 
 	<string name="p_calc_haptic_feedback_duration_title">Haptic feedback duration</string>
 	<string name="p_calc_haptic_feedback_duration_summary">Duration vibration on button click</string>
-	<string name="c_functions">Functions</string>
-
-	<string name="c_fun_description_sin">Trigonometric sine function.</string>
-	<string name="c_fun_description_cos">Trigonometric cosine function.</string>
-	<string name="c_fun_description_tan">Trigonometric tangent function.</string>
-	<string name="c_fun_description_cot">Trigonometric cotangent function.</string>
-	<string name="c_fun_description_asin">Arcsine - the inverse of sine function.</string>
-	<string name="c_fun_description_acos">Arccosine - the inverse of cosine function.</string>
-	<string name="c_fun_description_atan">Arctangent - the inverse of tangent function.</string>
-	<string name="c_fun_description_acot">Arccotangent - the inverse of cotangent function.</string>
-	<string name="c_fun_description_ln">Natural logarithm - logarithm the base e.</string>
-	<string name="c_fun_description_lg">Decadic logarithm - logarithm the base 10.</string>
-	<string name="c_fun_description_exp">Exponential function.</string>
-	<string name="c_fun_description_sqrt">Square root function.</string>
-	<string name="c_fun_description_cubic">Cubic root function.</string>
-	<string name="c_fun_description_abs">Function that gives absolute value of an argument.</string>
-	<string name="c_fun_description_sgn">Function that gives the sign of an argument: -1 if argument is less than 0, 0 if equals to 0, 1 if more than 0.</string>
-	<string name="c_fun_description_eq">Equals function - gives 1 if two arguments are equals, 0 otherwise.</string>
-	<string name="c_fun_description_le">Lesser-or-equals function - gives 1 if two arguments are equals or first is less than second, 0 otherwise.</string>
-	<string name="c_fun_description_ge">Greater-or-equals function - gives 1 if two arguments are equals or first is greater than second, 0 otherwise.</string>
-	<string name="c_fun_description_ne">Not-equals function - gives 1 if two arguments are not equals, 0 otherwise.</string>
-	<string name="c_fun_description_lt">Lesser function - gives 1 if first argument is less than second, 0 otherwise.</string>
-	<string name="c_fun_description_gt">Greater function - gives 1 if first argument is greater than second, 0 otherwise.</string>
-	<string name="c_fun_description_rad">Converts degrees into radians: d - degrees, m - minutes (default = 0), s - seconds (default = 0).</string>
-	<string name="c_fun_description_dms">Converts degrees from DMS notation to decimal notation: d - degrees, m - minutes (default = 0), s - seconds (default = 0).</string>
-	<string name="c_fun_description_deg">Converts radians into degrees.</string>
 
 	<string name="c_empty_var_error">Unable to create empty constant!</string>
 	<string name="c_not_valid_result">Current result is not valid!</string>
-	<string name="c_operators">Operators</string>
-
-	<string name="c_op_description_mod">Modulo operation finds the remainder of division of \'x\' by \'y\'.</string>
-	<string name="c_op_description_sum">Sums functions \'f(i)\', iterating through \'i\' from \'from\' to \'to\'.</string>
-	<string name="c_op_description_product">Gives product of functions \'f(i)\', iterating through \'i\' from \'from\' to \'to\'.</string>
-	<string name="c_op_description_derivative">Gives derivative of order \'order\' (default = 1) of functions \'f(x)\' by \'x\' variable and calculates at point \'x_point\' (default = same as \'x\').</string>
-	<string name="c_op_description_integral">Gives integral of function \'f(x)\' by \'x\' variable.</string>
-	<string name="c_op_description_integral_ab">Integrates function \'f(x)\' by \'x\' variable from \'a\' to \'b\'.</string>
-
-	<string name="c_pf_description_factorial">Gives the factorial of the expression before.</string>
-	<string name="c_pf_description_double_factorial">Gives the double factorial of the expression before.</string>
-	<string name="c_pf_description_percent" formatted="false">Gives the percent value of the expression
-		before.\nExamples:\n
-		100 + 50% = 150\n
-		100 * 50% = 50\n
-		100 + 100 * 50% * 50% = 125
-	</string>
-	<string name="c_pf_description_degree">Converts degrees to radians.\n
-		Examples:\n
-		268° = 4.67748\n
-		30.21° = 0.52726
-	</string>
 
 	<string name="c_faq">FAQ</string>
 	<string name="c_hints">Hints</string>
@@ -285,14 +226,6 @@ Check the \'Round result\' preference in application settings - it should be tur
 6. <b>Settings screen:</b> contains application preferences. Can be reached from the main screen by pressing Settings in menu.
 			</string>
 
-
-	<string name="msg_1">Arithmetic error occurred: {0}</string>
-	<string name="msg_2">Too complex expression</string>
-	<string name="msg_3">Too long execution time - check the expression</string>
-	<string name="msg_4">Evaluation was cancelled</string>
-	<string name="msg_5">No parameters are specified for function: {0}</string>
-	<string name="msg_6">Infinite loop is detected in expression</string>
-
 	<string name="c_plot_graph">Graph</string>
 	<string name="c_min_x_value">From</string>
 	<string name="c_max_x_value">To</string>
@@ -321,15 +254,5 @@ Check the \'Round result\' preference in application settings - it should be tur
 	<string name="c_history_must_be_saved">History must be saved before editing!</string>
 	<string name="c_history_was_removed">History was successfully removed!</string>
 	<string name="c_history_saved">History was successfully saved!</string>
-
-
-	<string name="c_fun_category_trig">Trigonometric</string>
-	<string name="c_fun_category_hyper_trig">Hyperbolic trigonometric</string>
-	<string name="c_fun_category_comparison">Comparison</string>
-	<string name="c_fun_category_common">Common</string>
-	<string name="c_fun_category_my">My</string>
-
-	<string name="c_var_system">System</string>
-	<string name="c_var_my">My</string>
 
 </resources>

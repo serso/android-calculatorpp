@@ -1,0 +1,14 @@
+<!--
+  ~ Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+  ~ For more information, please, contact se.solovyev@gmail.com
+  ~ or visit http://se.solovyev.org
+  -->
+
+<resources>
+	<string name="msg_1">Арифметическая ошибка: {0}</string>
+	<string name="msg_2">Слишком сложное выражение</string>
+	<string name="msg_3">Вычисление выражения занимает слишком много времени - проверьте выражение</string>
+	<string name="msg_4">Вычисление было отменено</string>
+	<string name="msg_5">Для функции {0} не определены параметры</string>
+	<string name="msg_6">В выражении найден Бесконечный цикл - проверьте выражение</string>
+</resources>

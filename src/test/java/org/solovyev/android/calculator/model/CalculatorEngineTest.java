@@ -11,6 +11,7 @@ import jscl.NumeralBase;
 import jscl.math.Expression;
 import jscl.math.Generic;
 import jscl.math.function.Constant;
+import jscl.math.function.CustomFunction;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -405,5 +406,23 @@ public class CalculatorEngineTest {
 		} finally {
 			cm.setNumeralBase(defaultNumeralBase);
 		}
+	}
+
+	@Test
+	public void testLog() throws Exception {
+		final CalculatorEngine cm = CalculatorEngine.instance;
+
+		Assert.assertEquals("∞", Expression.valueOf("1/0").numeric().toString());
+		Assert.assertEquals("∞", Expression.valueOf("ln(10)/ln(1)").numeric().toString());
+
+		// logarithm
+		Assert.assertEquals("ln(b)/ln(a)", ((CustomFunction) cm.getFunctionsRegistry().get("log")).getContent());
+		Assert.assertEquals("∞", cm.evaluate(JsclOperation.numeric, "log(1, 10)").getResult());
+		Assert.assertEquals("3.322", cm.evaluate(JsclOperation.numeric, "log(2, 10)").getResult());
+		Assert.assertEquals("1.431", cm.evaluate(JsclOperation.numeric, "log(5, 10)").getResult());
+		Assert.assertEquals("0.96", cm.evaluate(JsclOperation.numeric, "log(11, 10)").getResult());
+		Assert.assertEquals("1/(bln(a))", cm.evaluate(JsclOperation.simplify, "∂(log(a, b), b)").getResult());
+		Assert.assertEquals("-ln(b)/(aln(a)^2)", cm.evaluate(JsclOperation.simplify, "∂(log(a, b), a)").getResult());
+
 	}
 }

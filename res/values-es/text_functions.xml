@@ -1,0 +1,42 @@
+<!--
+  ~ Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+  ~ For more information, please, contact se.solovyev@gmail.com
+  ~ or visit http://se.solovyev.org
+  -->
+
+<resources>
+
+	<string name="c_functions">Funciones</string>
+
+	<string name="c_fun_description_sin">Función trigonométrica seno.</string>
+	<string name="c_fun_description_cos">Función trigonométrica coseno.</string>
+	<string name="c_fun_description_tan">Función trigonométrica tangente.</string>
+	<string name="c_fun_description_cot">Función trigonométrica cotangente.</string>
+	<string name="c_fun_description_asin">Arcseno - El inverso de la función seno.</string>
+	<string name="c_fun_description_acos">Arccoseno - El inverso de la función coseno.</string>
+	<string name="c_fun_description_atan">Arctangente - El inverso de la función tangente.</string>
+	<string name="c_fun_description_acot">Arccotangente - El inverso de la función cotangente.</string>
+	<string name="c_fun_description_ln">Logaritmo neperiano - logaritmo de base e.</string>
+	<string name="c_fun_description_lg">Decadic logaritmo - logaritmo de base 10.</string>
+	<string name="c_fun_description_exp">Función exponencial.</string>
+	<string name="c_fun_description_sqrt">Función Raíz cuadrado.</string>
+	<string name="c_fun_description_cubic">Función Raíz cuadrada.</string>
+	<string name="c_fun_description_abs">Función que devuelve el valor absoluto de un argumento.</string>
+	<string name="c_fun_description_sgn">Función que devuelve el signo de un argumento: -1 si el argumento es menor que 0, 0 si es igual a 0, 1 si es mayor que 0.</string>
+	<string name="c_fun_description_eq">Función Igual - Devuelve 1 si dos argumentos son iguales, 0 si no lo son.</string>
+	<string name="c_fun_description_le">Función Menor o igual - Devuelve 1 si dos argumentos son iguales o el primero es menor que el segundo, 0 si el primero es mayor.</string>
+	<string name="c_fun_description_ge">Función Mayor o igual - Devuelve 1 si dos argumentos son iguales o si el primero es mayor que el segundo, 0 si el primero es menor.</string>
+	<string name="c_fun_description_ne">Función Distinto - Devuelve 1 si dos argumentos no son iguales, 0 si son idénticos.</string>
+	<string name="c_fun_description_lt">Función Menor - Devuelve 1 si el primer argumento es menor que el segundo, 0 si no lo es.</string>
+	<string name="c_fun_description_gt">Función Mayor - Devuelve 1 si el primer argumento es mayor que el segundo, 0 si no lo es.</string>
+	<string name="c_fun_description_rad">Convierte grados a radianes: d - grados, m - minutos (por defecto = 0), s - segundos (por defecto = 0).</string>
+	<string name="c_fun_description_dms">Convierte grados de notación DMS a notación decimal: d - grados, m - minutos (por defecto = 0), s - segundos (por defecto = 0).</string>
+	<string name="c_fun_description_deg">Convierte radianes a grados.</string>
+
+	<string name="c_fun_category_trig">Trigonométrico</string>
+	<string name="c_fun_category_hyper_trig">Hiperbólicas trigonométricas</string>
+	<string name="c_fun_category_comparison">Comparación</string>
+	<string name="c_fun_category_common">Común</string>
+	<string name="c_fun_category_my">Mis</string>
+
+</resources>

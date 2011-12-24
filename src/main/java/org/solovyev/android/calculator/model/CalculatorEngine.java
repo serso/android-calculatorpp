@@ -284,6 +284,9 @@ public enum CalculatorEngine {
 			}
 
 			varsRegistry.load(context, preferences);
+			functionsRegistry.load(context, preferences);
+			operatorsRegistry.load(context, preferences);
+			postfixFunctionsRegistry.load(context, preferences);
 		}
 	}
 

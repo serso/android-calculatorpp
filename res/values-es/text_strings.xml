@@ -78,15 +78,7 @@
 	<string name="c_var.already.exists">¡Ya existe una variable con el mismo nombre!</string>
 	<string name="c_name.is.not.valid">El nombre de la Constante no es válido: el nombre debe comenzar con una letra,puede contener letras, dígitos y líneas.</string>
 	<string name="c_sys.var.cannot.be.changed">¡Una Variable de Sistema no puede ser cambiada!</string>
-	<string name="c_var_description_pi">Ratio de la circunferencia del círculo a su diámetro</string>
-	<string name="c_var_description_e">Número real único como el valor de la derivada (pendiente de la línea tangente) de la función f(x) = e^x en el punto x = 0 es igual a 1</string>
-	<string name="c_var_description_i">Unidad imaginaria, definida como i^2 = −1</string>
-	<string name="c_var_description_c">Velocidad de la luz en vacío, m·s^-1</string>
-	<string name="c_var_description_G">La constante gravitatoria es una constante física empírica consistente en el cálculo de la atracción gravitatoria entre objetos con masa, m^3·kg^−1·s^−2</string>
-	<string name="c_var_description_h">Constante física que refleja los tamaños de energía cuántica en mecánica cuántica, J·s</string>
-	<string name="c_var_description_h_reduced">Constante Planck reducida, J·s</string>
-	<string name="c_var_description_nan">No es un número</string>
-	<string name="c_var_description_inf">Infinito</string>
+
 	<string name="c_calc_editor_hint">Introducir nuevo cálculo</string>
 	<string name="c_press_to_copy">Pulsar para copiar</string>
 	<string name="c_continue">Continuar</string>
@@ -136,52 +128,10 @@
 	<string name="p_calc_haptic_feedback_strength_long">Largo</string>
 	<string name="p_calc_haptic_feedback_duration_title">Duración de la vibración</string>
 	<string name="p_calc_haptic_feedback_duration_summary">Duración de la vibración al pulsar un butón</string>
-	<string name="c_functions">Funciones</string>
-	<string name="c_fun_description_sin">Función trigonométrica seno.</string>
-	<string name="c_fun_description_cos">Función trigonométrica coseno.</string>
-	<string name="c_fun_description_tan">Función trigonométrica tangente.</string>
-	<string name="c_fun_description_cot">Función trigonométrica cotangente.</string>
-	<string name="c_fun_description_asin">Arcseno - El inverso de la función seno.</string>
-	<string name="c_fun_description_acos">Arccoseno - El inverso de la función coseno.</string>
-	<string name="c_fun_description_atan">Arctangente - El inverso de la función tangente.</string>
-	<string name="c_fun_description_acot">Arccotangente - El inverso de la función cotangente.</string>
-	<string name="c_fun_description_ln">Logaritmo neperiano - logaritmo de base e.</string>
-	<string name="c_fun_description_lg">Decadic logaritmo - logaritmo de base 10.</string>
-	<string name="c_fun_description_exp">Función exponencial.</string>
-	<string name="c_fun_description_sqrt">Función Raíz cuadrado.</string>
-	<string name="c_fun_description_cubic">Función Raíz cuadrada.</string>
-	<string name="c_fun_description_abs">Función que devuelve el valor absoluto de un argumento.</string>
-	<string name="c_fun_description_sgn">Función que devuelve el signo de un argumento: -1 si el argumento es menor que 0, 0 si es igual a 0, 1 si es mayor que 0.</string>
-	<string name="c_fun_description_eq">Función Igual - Devuelve 1 si dos argumentos son iguales, 0 si no lo son.</string>
-	<string name="c_fun_description_le">Función Menor o igual - Devuelve 1 si dos argumentos son iguales o el primero es menor que el segundo, 0 si el primero es mayor.</string>
-	<string name="c_fun_description_ge">Función Mayor o igual - Devuelve 1 si dos argumentos son iguales o si el primero es mayor que el segundo, 0 si el primero es menor.</string>
-	<string name="c_fun_description_ne">Función Distinto - Devuelve 1 si dos argumentos no son iguales, 0 si son idénticos.</string>
-	<string name="c_fun_description_lt">Función Menor - Devuelve 1 si el primer argumento es menor que el segundo, 0 si no lo es.</string>
-	<string name="c_fun_description_gt">Función Mayor - Devuelve 1 si el primer argumento es mayor que el segundo, 0 si no lo es.</string>
-	<string name="c_fun_description_rad">Convierte grados a radianes: d - grados, m - minutos (por defecto = 0), s - segundos (por defecto = 0).</string>
-	<string name="c_fun_description_dms">Convierte grados de notación DMS a notación decimal: d - grados, m - minutos (por defecto = 0), s - segundos (por defecto = 0).</string>
-	<string name="c_fun_description_deg">Convierte radianes a grados.</string>
+
 	<string name="c_empty_var_error">No se puede crear una constante vacía!</string>
 	<string name="c_not_valid_result">El resultado actual no es válido!</string>
-	<string name="c_operators">Operadores</string>
-	<string name="c_op_description_mod">El módulo operación encuentra el resto de la división de \'x\' por \'y\'.</string>
-	<string name="c_op_description_sum">Función Suma \'f(i)\', iterativamente a través de \'i\' desde \'from\' hasta \'to\'.</string>
-	<string name="c_op_description_product">Devuelve el producto de las funciones \'f(i)\', iterativamente a través de \'i\' desde \'from\' hasta \'to\'.</string>
-	<string name="c_op_description_derivative">Devuelve el derivado de orden \'order\' (por defecto = 1) de funciones \'f(x)\' por \'x\' variable y calcula en el punto \'x_point\' (por defecto = el mismo que \'x\').</string>
-	<string name="c_op_description_integral">Devuelve la integral de la función \'f(x)\' por \'x\' variable.</string>
-	<string name="c_op_description_integral_ab">Función integral \'f(x)\' por \'x\' variable desde \'a\' hasta \'b\'.</string>
-	<string name="c_pf_description_factorial">Devuelve el factorial de la expresión antes.</string>
-	<string name="c_pf_description_percent" formatted="false">Devuelve el valor porcentaje de la expresión antes.\n
-		Ejemplos:\n
-		100 + 50% = 150\n
-		100 * 50% = 50\n
-		100 + 100 * 50% * 50% = 125\n
-	</string>
-	<string name="c_pf_description_degree">Convierte Grados a Radianes.\n
-		Ejemplos:\n
-		268° = 4.67748\n
-		30.21° = 0.52726\n
-	</string>
+
 	<string name="c_faq">FAQ</string>
 	<string name="c_hints">Consejos</string>
 	<string name="c_screens">Pantallas</string>
