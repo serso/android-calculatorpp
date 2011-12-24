@@ -7,7 +7,7 @@
 <resources>
 
 	<string name="c_var_description_pi">Отношение длины окружности к диаметру. Внимание: эта постоянная зависит от единиц измерения углов => rad: 3.14, deg: 180.0</string>
-	<string name="c_var_description_PI">Отношение длины окружности к диаметру. Внимание: эта постоянная не зависит от единиц измерения углов => rad: 3.14, rad: 3.14</string>
+	<string name="c_var_description_PI">Отношение длины окружности к диаметру. Внимание: эта постоянная не зависит от единиц измерения углов => rad: 3.14, deg: 3.14</string>
 	<string name="c_var_description_e">Вещественное число, такое что производная функции f(x) = e^x в точке x = 0 равно 1</string>
 	<string name="c_var_description_i">Мнимая единица, определённая как i^2 = −1</string>
 	<string name="c_var_description_c">Скорость света в вакууме, м·с^-1</string>
