@@ -120,8 +120,8 @@
 
 	<string name="c_empty_var_error">No se puede crear una constante vacía!</string>
 	<string name="c_not_valid_result">El resultado actual no es válido!</string>
-	<!--
-		<string name="c_plot_graph">Graph</string>
+
+	<string name="c_plot_graph">Gráfico</string>
 	<string name="c_min_x_value">From</string>
 	<string name="c_max_x_value">To</string>
 
@@ -129,25 +129,28 @@
 	<string name="c_swipe_distance_summary">Sets swipe distance for buttons that support additional swipe actions</string>
 
 	<string name="c_comment">Comment</string>
-	<string name="c_history_item_saved">Saved</string>
-	<string name="c_history_item_not_saved">Not saved</string>
-	<string name="c_expression_copied">Expression copied to the clipboard!</string>
-	<string name="c_history_item_status">Status: </string>
-	<string name="c_history_item_comment">Comment: </string>
-	<string name="c_use">Use</string>
-	<string name="c_copy_expression">Copy expression</string>
-	<string name="c_copy_result">Copy result</string>
-	<string name="c_history_expression">Value</string>
-	<string name="c_history_item_already_saved">Saved (see \'Saved history\' tab)</string>
-	<string name="c_history_comment">Comment</string>
-	<string name="c_save_history">Save history</string>
-	<string name="c_edit_history">Modify history</string>
-	<string name="c_edit">Modify</string>
-	<string name="c_saved_history">Saved history</string>
+	<string name="c_history_item_saved">Guardado</string>
+	<string name="c_history_item_not_saved">No se guarda</string>
+	<string name="c_expression_copied">Expresión copiada en el portapapeles!</string>
+	<string name="c_history_item_status">Estado: </string>
+	<string name="c_history_item_comment">Comentario: </string>
+	<string name="c_use">Utilizar</string>
+	<string name="c_copy_expression">Copia de la expresión</string>
+	<string name="c_copy_result">Copia resultado</string>
+	<string name="c_history_expression">Valor</string>
+	<string name="c_history_item_already_saved">Salvo (ver \'La historia guardada\' ficha)</string>
+	<string name="c_history_comment">Comentario</string>
+	<string name="c_save_history">Guardar el historial de</string>
+	<string name="c_edit_history">Modificar la historia</string>
+	<string name="c_edit">modificar</string>
+	<string name="c_saved_history">La historia guardada</string>
 
-	<string name="c_history_already_saved">History was already saved!</string>
-	<string name="c_history_must_be_saved">History must be saved before editing!</string>
-	<string name="c_history_was_removed">History was successfully removed!</string>
-	<string name="c_history_saved">History was successfully saved!</string>
-	-->
+	<string name="c_history_already_saved">La historia se salvó ya!</string>
+	<string name="c_history_must_be_saved">La historia debe ser salvado antes de editar!</string>
+	<string name="c_history_was_removed">La historia se ha eliminado correctamente!</string>
+	<string name="c_history_saved">La historia se ha guardado correctamente!</string>
+
+	<string name="c_copy_description">Сopia de la descripción</string>
+	<string name="c_copy_value">Сopia el valor</string>
+
 </resources>

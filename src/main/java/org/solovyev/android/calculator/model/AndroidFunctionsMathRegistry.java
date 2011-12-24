@@ -58,7 +58,7 @@ public class AndroidFunctionsMathRegistry extends AbstractAndroidMathRegistry<Fu
 			}
 		},
         
-        common(R.string.c_fun_category_common, 100) {
+        common(R.string.c_fun_category_common, 50) {
             @Override
             boolean isInCategory(@NotNull Function function) {
                 for (Category category : values()) {
@@ -120,7 +120,7 @@ public class AndroidFunctionsMathRegistry extends AbstractAndroidMathRegistry<Fu
 	public void load(@Nullable Context context, @Nullable SharedPreferences preferences) {
 		super.load(context, preferences);
 
-		add(new CustomFunction.Builder(true, "log", new String[]{"a", "b"}, "ln(b)/ln(a)"));
+		add(new CustomFunction.Builder(true, "log", new String[]{"base", "x"}, "ln(x)/ln(base)"));
 	}
 
 	@NotNull

@@ -23,6 +23,7 @@ package org.solovyev.android.view.widgets;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
@@ -64,7 +65,6 @@ public class ColorButton extends Button {
 
 	private static final float H_TEXT_POSITION_DEFAULT_VALUE = 0.5f;
 
-	// todo serso: check - currently not worked
 	private float hTextPosition = H_TEXT_POSITION_DEFAULT_VALUE;
 
 	public ColorButton(Context context, AttributeSet attrs) {
@@ -74,6 +74,22 @@ public class ColorButton extends Button {
 	public ColorButton(Context context, AttributeSet attrs, boolean init) {
 		super(context, attrs);
 
+		TypedArray a = context.obtainStyledAttributes(attrs, org.solovyev.android.calculator.R.styleable.DragButton);
+		final int N = a.getIndexCount();
+		for (int i = 0; i < N; i++) {
+			int attr = a.getIndex(i);
+
+			final String attrValue = a.getString(attr);
+
+			if (!StringUtils.isEmpty(attrValue)) {
+				switch (attr) {
+					case R.styleable.DragButton_hTextPosition:
+						this.hTextPosition = Float.valueOf(attrValue);
+						break;
+				}
+			}
+		}
+		
 		if (init) {
 			init(context);
 		}
@@ -217,14 +233,6 @@ public class ColorButton extends Button {
 
 	private void vibrate() {
 	 	this.onClickListener.onClick(this);
-	}
-
-	public float getHTextPosition() {
-		return hTextPosition;
-	}
-
-	public void setHTextPosition(float hTextPosition) {
-		this.hTextPosition = hTextPosition;
 	}
 
 	@Override

@@ -18,6 +18,7 @@
 	<string name="c_fun_description_acot">Arccotangent - the inverse of cotangent function.</string>
 	<string name="c_fun_description_ln">Natural logarithm - logarithm the base e.</string>
 	<string name="c_fun_description_lg">Decadic logarithm - logarithm the base 10.</string>
+	<string name="c_fun_description_log">Logarithm - logarithm the specified base.</string>
 	<string name="c_fun_description_exp">Exponential function.</string>
 	<string name="c_fun_description_sqrt">Square root function.</string>
 	<string name="c_fun_description_cubic">Cubic root function.</string>

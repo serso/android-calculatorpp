@@ -36,6 +36,9 @@ public class DirectionDragButton extends DragButton {
 	private final static Float DEFAULT_DIRECTION_TEXT_SCALE_FLOAT = 0.33f;
 
 	@NotNull
+	private final static Integer DEFAULT_DIRECTION_TEXT_ALPHA = 140;
+
+	@NotNull
 	private final static String DEFAULT_DIRECTION_TEXT_SCALE = "0.33;0.33;0.33;0.33";
 
 	protected static class DirectionTextData {
@@ -106,7 +109,7 @@ public class DirectionDragButton extends DragButton {
 		up(DragDirection.up, 0) {
 			@Override
 			public int getAttributeId() {
-				return R.styleable.DragButton_textUp;
+				return R.styleable.DirectionDragButton_textUp;
 			}
 
 			@NotNull
@@ -118,7 +121,7 @@ public class DirectionDragButton extends DragButton {
 		down(DragDirection.down, 2) {
 			@Override
 			public int getAttributeId() {
-				return R.styleable.DragButton_textDown;
+				return R.styleable.DirectionDragButton_textDown;
 			}
 
 			@NotNull
@@ -130,7 +133,7 @@ public class DirectionDragButton extends DragButton {
 		left(DragDirection.left, 3) {
 			@Override
 			public int getAttributeId() {
-				return R.styleable.DragButton_textLeft;
+				return R.styleable.DirectionDragButton_textLeft;
 			}
 
 			@NotNull
@@ -143,7 +146,7 @@ public class DirectionDragButton extends DragButton {
 		right(DragDirection.right, 1) {
 			@Override
 			public int getAttributeId() {
-				return R.styleable.DragButton_textRight;
+				return R.styleable.DirectionDragButton_textRight;
 			}
 
 			@NotNull
@@ -230,6 +233,9 @@ public class DirectionDragButton extends DragButton {
 	@NotNull
 	private String directionTextScale = DEFAULT_DIRECTION_TEXT_SCALE;
 
+	@NotNull
+	private Integer directionTextAlpha = DEFAULT_DIRECTION_TEXT_ALPHA;
+
 	private boolean initialized = false;
 
 	public DirectionDragButton(Context context, @NotNull AttributeSet attrs) {
@@ -239,7 +245,7 @@ public class DirectionDragButton extends DragButton {
 
 	private void init(@NotNull Context context, @NotNull AttributeSet attrs) {
 
-		TypedArray a = context.obtainStyledAttributes(attrs, org.solovyev.android.calculator.R.styleable.DragButton);
+		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.DirectionDragButton);
 
 		final int N = a.getIndexCount();
 		for (int i = 0; i < N; i++) {
@@ -249,8 +255,11 @@ public class DirectionDragButton extends DragButton {
 
 			if (!StringUtils.isEmpty(attrValue)) {
 				switch (attr) {
-					case R.styleable.DragButton_directionTextScale:
+					case R.styleable.DirectionDragButton_directionTextScale:
 						this.directionTextScale = attrValue;
+						break;
+					case R.styleable.DirectionDragButton_directionTextAlpha:
+						this.directionTextAlpha = Integer.valueOf(attrValue);
 						break;
 					default:
 						// try drag direction text
@@ -318,14 +327,14 @@ public class DirectionDragButton extends DragButton {
 		final TextPaint directionTextPaint = new TextPaint(basePaint);
 
 		directionTextPaint.setColor(resources.getColor(R.color.button_text_color));
-		directionTextPaint.setAlpha(getDefaultDirectionTextAlpha());
+		directionTextPaint.setAlpha(getDirectionTextAlpha());
 		directionTextPaint.setTextSize(basePaint.getTextSize() * directionTextData.getTextScale());
 
 		directionTextData.setPaint(directionTextPaint);
 	}
 
-	protected static int getDefaultDirectionTextAlpha() {
-		return 120;
+	protected int getDirectionTextAlpha() {
+		return directionTextAlpha;
 	}
 
 	@Nullable

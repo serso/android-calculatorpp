@@ -18,6 +18,7 @@
 	<string name="c_fun_description_acot">Arccotangente - El inverso de la función cotangente.</string>
 	<string name="c_fun_description_ln">Logaritmo neperiano - logaritmo de base e.</string>
 	<string name="c_fun_description_lg">Decadic logaritmo - logaritmo de base 10.</string>
+	<string name="c_fun_description_log">Logaritmo - logaritmo de la base especificada.</string>
 	<string name="c_fun_description_exp">Función exponencial.</string>
 	<string name="c_fun_description_sqrt">Función Raíz cuadrado.</string>
 	<string name="c_fun_description_cubic">Función Raíz cuadrada.</string>

@@ -150,4 +150,7 @@
 	<string name="c_history_was_removed">La storia è stata rimossa con successo!</string>
 	<string name="c_history_saved">La storia è stata salvata correttamente!</string>
 
+	<string name="c_copy_description">Сopia descrizione</string>
+	<string name="c_copy_value">Сopia il valore</string>
+
 </resources>

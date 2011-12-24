@@ -18,6 +18,7 @@
 	<string name="c_fun_description_acot">Arccotangente - inversa della funzione cotangente.</string>
 	<string name="c_fun_description_ln">Logaritmo naturale - logaritmo in base e.</string>
 	<string name="c_fun_description_lg">Logaritmo decimale - logaritmo in base 10.</string>
+	<string name="c_fun_description_log">Logaritmo - logaritmo nella base specificata.</string>
 	<string name="c_fun_description_exp">Funzione esponenziale.</string>
 	<string name="c_fun_description_sqrt">Funzione radice quadrata.</string>
 	<string name="c_fun_description_cubic">Funzione radice cubica.</string>

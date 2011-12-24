@@ -37,7 +37,7 @@ public class NumeralBasesButton extends DirectionDragButton {
 			directionTextPaint.setColor(resources.getColor(R.color.selected_angle_unit_text_color));
 		} else {
 			directionTextPaint.setColor(resources.getColor(R.color.default_text_color));
-			directionTextPaint.setAlpha(getDefaultDirectionTextAlpha());
+			directionTextPaint.setAlpha(getDirectionTextAlpha());
 		}
 	}
 }
