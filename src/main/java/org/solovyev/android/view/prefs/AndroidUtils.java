@@ -6,6 +6,10 @@
 
 package org.solovyev.android.view.prefs;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,4 +56,37 @@ public final class AndroidUtils {
             }
         }
     }
+
+	public static void addTab(@NotNull Context context,
+							  @NotNull TabHost tabHost,
+							  @NotNull String tabId,
+							  int tabCaptionId,
+							  @NotNull Class<? extends Activity> activityClass) {
+
+		TabHost.TabSpec spec;
+
+		final Intent intent = new Intent().setClass(context, activityClass);
+
+		// Initialize a TabSpec for each tab and add it to the TabHost
+		spec = tabHost.newTabSpec(tabId).setIndicator(context.getString(tabCaptionId)).setContent(intent);
+
+		tabHost.addTab(spec);
+	}
+
+
+	/**
+	 * @param context context
+	 * @param appPackageName - full name of the package of an app, 'com.example.app' for example.
+	 * @return version number we are currently in
+	 */
+	public static int getAppVersionCode(@NotNull Context context, @NotNull String appPackageName) {
+		try {
+			return context.getPackageManager().getPackageInfo(appPackageName, 0).versionCode;
+		} catch (PackageManager.NameNotFoundException e) {
+			// App not installed!
+		}
+		return -1;
+	}
+
 }
+

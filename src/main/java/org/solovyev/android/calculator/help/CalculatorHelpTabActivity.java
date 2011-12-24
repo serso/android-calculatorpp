@@ -21,7 +21,7 @@ import org.solovyev.android.view.prefs.AndroidUtils;
  * Date: 11/19/11
  * Time: 11:35 AM
  */
-public class HelpActivity extends TabActivity {
+public class CalculatorHelpTabActivity extends TabActivity {
 
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {

@@ -86,6 +86,12 @@
 				range:steps="10"
 				range:boundaries="10;500"/>
 
+		<android.preference.CheckBoxPreference
+				a:key="@string/p_calc_show_release_notes_key"
+				a:summary="@string/c_calc_show_release_notes_summary"
+				a:title="@string/c_calc_show_release_notes_title"
+				a:defaultValue="true"/>
+
 <!--	  <org.solovyev.android.view.prefs.FloatRangeSeekBarPreference
 			  a:key="@string/p_drag_duration_key"
 			  a:title="Duration of drag event"

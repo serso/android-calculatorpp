@@ -1,10 +1,9 @@
 /*
  * Copyright (c) 2009-2011. Created by serso aka se.solovyev.
  * For more information, please, contact se.solovyev@gmail.com
- * or visit http://se.solovyev.org
  */
 
-package org.solovyev.android.calculator.history;
+package org.solovyev.android.calculator.about;
 
 import android.app.TabActivity;
 import android.os.Bundle;
@@ -15,10 +14,10 @@ import org.solovyev.android.view.prefs.AndroidUtils;
 
 /**
  * User: serso
- * Date: 12/18/11
- * Time: 7:37 PM
+ * Date: 9/16/11
+ * Time: 11:52 PM
  */
-public class CalculatorHistoryActivity extends TabActivity {
+public class CalculatorAboutTabActivity extends TabActivity {
 
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,12 +27,10 @@ public class CalculatorHistoryActivity extends TabActivity {
 
 		final TabHost tabHost = getTabHost();
 
-		AndroidUtils.addTab(this, tabHost, "saved_history", R.string.c_saved_history, SavedHistoryActivityTab.class);
-		AndroidUtils.addTab(this, tabHost, "history", R.string.c_history, HistoryActivityTab.class);
+		AndroidUtils.addTab(this, tabHost, "about", R.string.c_about, CalculatorAboutActivity.class);
+		AndroidUtils.addTab(this, tabHost, "release_notes", R.string.c_release_notes, CalculatorReleaseNotesActivity.class);
 
 		tabHost.setCurrentTab(0);
-
-        AndroidUtils.centerAndWrapTabsFor(tabHost);
+		AndroidUtils.centerAndWrapTabsFor(tabHost);
 	}
-
 }

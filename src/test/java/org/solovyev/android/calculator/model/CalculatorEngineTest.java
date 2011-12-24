@@ -416,7 +416,7 @@ public class CalculatorEngineTest {
 		Assert.assertEquals("∞", Expression.valueOf("ln(10)/ln(1)").numeric().toString());
 
 		// logarithm
-		Assert.assertEquals("ln(b)/ln(a)", ((CustomFunction) cm.getFunctionsRegistry().get("log")).getContent());
+		Assert.assertEquals("ln(x)/ln(base)", ((CustomFunction) cm.getFunctionsRegistry().get("log")).getContent());
 		Assert.assertEquals("∞", cm.evaluate(JsclOperation.numeric, "log(1, 10)").getResult());
 		Assert.assertEquals("3.322", cm.evaluate(JsclOperation.numeric, "log(2, 10)").getResult());
 		Assert.assertEquals("1.431", cm.evaluate(JsclOperation.numeric, "log(5, 10)").getResult());

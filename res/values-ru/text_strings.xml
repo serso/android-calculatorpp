@@ -153,4 +153,9 @@
 	<string name="c_copy_description">Копироват описание</string>
 	<string name="c_copy_value">Копировать значение</string>
 
+	<string name="c_first_start_text">Спасибо за выбор Калькулятора++!</string>
+
+	<string name="c_calc_show_release_notes_title">Показывать замечания к выпуску</string>
+	<string name="c_calc_show_release_notes_summary">Определяет показывать или нет всплывающее окно с замечаниями к выпуску после обновления новой версии</string>
+
 </resources>

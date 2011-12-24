@@ -12,7 +12,7 @@
 													   a:text="×"
 													   c:textUp="^"
 													   c:textDown="^2"
+													   c:textLeft="PI"
 													   style="?digitButtonStyle"
 													   c:directionTextScale="0.5"
-
 													   a:onClick="digitButtonClickHandler"/>

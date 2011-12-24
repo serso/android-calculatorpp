@@ -41,11 +41,19 @@
 				  a:label="@string/c_saved_history"
 				  a:configChanges="orientation|keyboardHidden"/>
 
-		<activity a:name=".AboutActivity"
+		<activity a:name=".about.CalculatorAboutTabActivity"
 				  a:label="@string/c_about"
 				  a:configChanges="orientation|keyboardHidden"/>
 
-		<activity a:name=".help.HelpActivity"
+		<activity a:name=".about.CalculatorAboutActivity"
+				  a:label="@string/c_about"
+				  a:configChanges="orientation|keyboardHidden"/>
+
+		<activity a:name=".about.CalculatorReleaseNotesActivity"
+				  a:label="@string/c_about"
+				  a:configChanges="orientation|keyboardHidden"/>
+
+		<activity a:name=".help.CalculatorHelpTabActivity"
 				  a:label="@string/c_help"
 				  a:configChanges="orientation|keyboardHidden"/>
 

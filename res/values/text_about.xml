@@ -23,4 +23,51 @@
 		<a href="http://www.achartengine.org/">AChartEngine</a>
 	</string>
 
+	<string name="c_release_notes">Release notes</string>
+	<string name="c_release_notes_for_title">"Release notes for version "</string>
+	
+	<string name="c_release_notes_for_4">
+		1. Haptic feedback\n
+		2. Two layouts: calculator and cellphone\n
+		3. New constants\n
+		4. ERROR message is not so often now
+	</string>
+
+	<string name="c_release_notes_for_5">
+		1. Screen with all functions\n
+		2. Added support for decimal logarithm, factorial, comparison functions\n
+		3. Haptic feedback duration preference
+	</string>
+
+	<string name="c_release_notes_for_6">
+		1. Saving constants in two clicks (use +π button)\n
+		2. Result size is auto adjusted to fill all spare space\n
+		3. Fix for Xperia Ray blank result\n
+		4. Double factorial fix\n
+		5. Degrees added (use °: e.g. 30° and result will be converted into radians)
+	</string>
+
+	<string name="c_release_notes_for_7">
+		1. Support for entering numbers in scientific notation (2.3E2)\n
+		2. Added functions: deg(), rad() to convert from radians to degrees and vice versa\n
+		3. Added support for installing application on sd card\n
+		4. Added possibility to save entire expression as constant (e.g. type ln(6t), press +π button, enter name and save)\n
+		5. Fixed bug with abs() function and complex argument\n
+		6. Fixed bug with displaying result
+	</string>
+
+	<string name="c_release_notes_for_8">
+		1. Fixed bug with i^3\n
+		2. Fixed crash in case of many brackets
+	</string>
+
+	<string name="c_release_notes_for_20">
+		1. New swipe actions (left, right)\n
+		2. Extended history: save, remove, copy, use from history screen (use long click for additional actions)\n
+		3. Added Spanish language\n
+		4. Full numeral base support (dec, hex, oct, bin)\n
+		5. !!!: Fix for multiplication sign on some devices - if you have strange symbols instead of × - go to the settings and change multiplication sign to *\n
+		6. Bug fixes: correct double factorial calculation, 20x fix, e^(pi*i)+1 fix and others
+	</string>
+
 </resources>

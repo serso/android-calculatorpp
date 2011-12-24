@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.text.ClipboardManager;
+import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.util.TypedValue;
@@ -26,15 +27,18 @@ import jscl.AngleUnit;
 import jscl.NumeralBase;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.calculator.about.CalculatorReleaseNotesActivity;
 import org.solovyev.android.calculator.history.CalculatorHistory;
 import org.solovyev.android.calculator.history.CalculatorHistoryState;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.view.FontSizeAdjuster;
+import org.solovyev.android.view.prefs.AndroidUtils;
 import org.solovyev.android.view.prefs.ResourceCache;
 import org.solovyev.android.view.widgets.*;
 import org.solovyev.common.utils.Announcer;
 import org.solovyev.common.utils.Point2d;
+import org.solovyev.common.utils.StringUtils;
 import org.solovyev.common.utils.history.HistoryAction;
 
 import java.text.DecimalFormatSymbols;
@@ -44,6 +48,13 @@ import java.util.Map;
 public class CalculatorActivity extends Activity implements FontSizeAdjuster, SharedPreferences.OnSharedPreferenceChangeListener {
 
 	private static final int HVGA_WIDTH_PIXELS = 320;
+	
+	@NotNull
+	public static final String APP_VERSION_P_KEY = "application.version";
+
+	@NotNull
+	public static final String SHOW_RELEASE_NOTES_P_KEY = "org.solovyev.android.calculator.CalculatorActivity_show_release_notes";
+	public static final boolean SHOW_RELEASE_NOTES_P_DEFAULT = true;
 
 	@NotNull
 	private final Announcer<DragPreferencesChangeListener> dpclRegister = new Announcer<DragPreferencesChangeListener>(DragPreferencesChangeListener.class);
@@ -348,9 +359,37 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 	private synchronized void firstTimeInit(@NotNull SharedPreferences preferences) {
 		if (!initialized) {
-			ResourceCache.instance.init(R.id.class, this);
+			
+			final int savedVersion = preferences.getInt(APP_VERSION_P_KEY, -1);
+			final int appVersion = AndroidUtils.getAppVersionCode(this, CalculatorActivity.class.getPackage().getName());
+			
+			final SharedPreferences.Editor pEditor = preferences.edit();
+			pEditor.putInt(APP_VERSION_P_KEY, appVersion);
+			pEditor.commit();
 
+			if (savedVersion == -1) {
+				// new start
+				final AlertDialog.Builder builder = new AlertDialog.Builder(this).setMessage(R.string.c_first_start_text);
+				builder.setPositiveButton(android.R.string.ok, null);
+				builder.create().show();
+			} else {
+				if (savedVersion < appVersion) {
+					final boolean showReleaseNotes = preferences.getBoolean(SHOW_RELEASE_NOTES_P_KEY, SHOW_RELEASE_NOTES_P_DEFAULT);
+					if (showReleaseNotes) {
+						final String releaseNotes = CalculatorReleaseNotesActivity.getReleaseNotes(this, savedVersion + 1);
+						if (!StringUtils.isEmpty(releaseNotes)) {
+							final AlertDialog.Builder builder = new AlertDialog.Builder(this).setMessage(Html.fromHtml(releaseNotes));
+							builder.setPositiveButton(android.R.string.ok, null);
+							builder.setTitle(R.string.c_release_notes);
+							builder.create().show();
+						}
+					}
+				}
+			}
+
+			ResourceCache.instance.init(R.id.class, this);
 			CalculatorEngine.instance.init(this, preferences);
+
 			initialized = true;
 		}
 	}

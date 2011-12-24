@@ -8,6 +8,7 @@ package org.solovyev.android.view.prefs;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.util.Log;
 import android.view.View;
@@ -84,22 +85,41 @@ public enum ResourceCache {
 		if (!initialized(locale)) {
 			final Map<String, String> captionsByLanguage = new HashMap<String, String>();
 
-			for (Field field : resourceClass.getDeclaredFields()) {
-				int modifiers = field.getModifiers();
-				if (Modifier.isFinal(modifiers) && Modifier.isStatic(modifiers)) {
-					try {
-						int captionId = field.getInt(resourceClass);
-						captionsByLanguage.put(field.getName(), context.getString(captionId));
-					} catch (IllegalAccessException e) {
-						Log.e(ResourceCache.class.getName(), e.getMessage());
-					} catch (Resources.NotFoundException e) {
-						Log.e(ResourceCache.class.getName(), "Caption with name " + field.getName() + " was not found for " + locale.getLanguage() + " language: " + e.getMessage());
+			final Locale defaultLocale = Locale.getDefault();
+
+			try {
+				if (!defaultLocale.getLanguage().equals(locale.getLanguage())) {
+					updateConfiguration(context, locale);
+				}
+
+				for (Field field : resourceClass.getDeclaredFields()) {
+					int modifiers = field.getModifiers();
+					if (Modifier.isFinal(modifiers) && Modifier.isStatic(modifiers)) {
+						try {
+							int captionId = field.getInt(resourceClass);
+							captionsByLanguage.put(field.getName(), context.getString(captionId));
+						} catch (IllegalAccessException e) {
+							Log.e(ResourceCache.class.getName(), e.getMessage());
+						} catch (Resources.NotFoundException e) {
+							Log.e(ResourceCache.class.getName(), "Caption with name " + field.getName() + " was not found for " + locale.getLanguage() + " language: " + e.getMessage());
+						}
 					}
+				}
+			} finally {
+				if (!defaultLocale.getLanguage().equals(locale.getLanguage())) {
+					updateConfiguration(context, defaultLocale);
 				}
 			}
 
 			captions.put(locale.getLanguage(), captionsByLanguage);
 		}
+	}
+
+	private static void updateConfiguration(@NotNull Context context, @NotNull Locale locale) {
+		Locale.setDefault(locale);
+		final Configuration config = new Configuration();
+		config.locale = locale;
+		context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
 	}
 
 	private boolean initialized(@NotNull Locale locale) {
