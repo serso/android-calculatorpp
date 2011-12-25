@@ -116,4 +116,13 @@
 		6. Bug fixes: correct double factorial calculation, 20x fix, e^(pi*i)+1 fix and others
 	</string>
 
+	<string name="c_release_notes_for_21">
+		1. Release notes screen added\n
+		2. Added categories in functions and constants screens\n
+		3. Additional actions are available for constants, functions and operators (long click on the item and choose from context menu)\n
+		4. Logarithm function added - calculate logarithm of any base \n
+		5. Back button preference\n
+		6. Variant of π constant independent from angle units
+	</string>
+
 </resources>
