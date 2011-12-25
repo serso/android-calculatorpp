@@ -1,14 +1,18 @@
 package org.solovyev.android.calculator.math.edit;
 
+import android.app.Activity;
 import android.content.Context;
+import android.text.ClipboardManager;
 import jscl.math.operator.Operator;
 import org.jetbrains.annotations.NotNull;
+import org.solovyev.android.calculator.CalculatorModel;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.view.AMenuItem;
 import org.solovyev.common.utils.StringUtils;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -19,16 +23,57 @@ import java.util.List;
 
 public class CalculatorOperatorsActivity extends AbstractMathEntityListActivity<Operator> {
 
+	private static enum LongClickMenuItem implements AMenuItem<Operator> {
+
+		use(R.string.c_use) {
+			@Override
+			public void doAction(@NotNull Operator data, @NotNull Context context) {
+				CalculatorModel.instance.processDigitButtonAction(data.getName(), false);
+				if (context instanceof Activity) {
+					((Activity) context).finish();
+				}
+			}
+		},
+
+		copy_description(R.string.c_copy_description) {
+			@Override
+			public void doAction(@NotNull Operator data, @NotNull Context context) {
+				final String text = OperatorDescriptionGetter.instance.getDescription(context, data.getName());
+				if (!StringUtils.isEmpty(text)) {
+					final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
+					clipboard.setText(text);
+				}
+			}
+		};
+		private final int captionId;
+
+		LongClickMenuItem(int captionId) {
+			this.captionId = captionId;
+		}
+
+		@NotNull
+		@Override
+		public String getCaption(@NotNull Context context) {
+			return context.getString(captionId);
+		}
+	}
+
 	@NotNull
 	@Override
 	protected List<AMenuItem<Operator>> getMenuItemsOnLongClick(@NotNull Operator item) {
-		return Collections.emptyList();
+		final List<AMenuItem<Operator>> result = new ArrayList<AMenuItem<Operator>>(Arrays.asList(LongClickMenuItem.values()));
+
+		if ( StringUtils.isEmpty(OperatorDescriptionGetter.instance.getDescription(this, item.getName())) ) {
+			result.remove(LongClickMenuItem.copy_description);
+		}
+
+		return result;
 	}
 
 	@NotNull
     @Override
     protected MathEntityDescriptionGetter getDescriptionGetter() {
-        return new OperatorDescriptionGetter();
+        return OperatorDescriptionGetter.instance;
     }
 
 
@@ -53,7 +98,9 @@ public class CalculatorOperatorsActivity extends AbstractMathEntityListActivity<
         return result;
     }
 
-    private static class OperatorDescriptionGetter implements MathEntityDescriptionGetter {
+    private static enum OperatorDescriptionGetter implements MathEntityDescriptionGetter {
+
+		instance;
 
         @Override
         public String getDescription(@NotNull Context context, @NotNull String mathEntityName) {
