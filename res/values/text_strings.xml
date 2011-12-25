@@ -153,7 +153,8 @@
 	<string name="c_copy_description">Copy description</string>
 	<string name="c_copy_value">Copy value</string>
 
-	<string name="c_first_start_text">Thank you for choosing Calculator++!</string>
+	<string name="c_first_start_text">Thank you for choosing Calculator++!\n\nCalculator++ is a powerful tool for making everyday calculations.\n\nIt\'s highly recommended to read the FAQ and hints before the work to use all the features of application (press Menu button and then Help)</string>
+	<string name="c_first_start_text_title">Welcome</string>
 
 	<string name="c_calc_show_release_notes_title">Show release notes</string>
 	<string name="c_calc_show_release_notes_summary">Defines if release notes popup window should appear after update to the new version</string>

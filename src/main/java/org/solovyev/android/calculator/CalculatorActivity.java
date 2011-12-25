@@ -371,6 +371,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 				// new start
 				final AlertDialog.Builder builder = new AlertDialog.Builder(this).setMessage(R.string.c_first_start_text);
 				builder.setPositiveButton(android.R.string.ok, null);
+				builder.setTitle(R.string.c_first_start_text_title);
 				builder.create().show();
 			} else {
 				if (savedVersion < appVersion) {
