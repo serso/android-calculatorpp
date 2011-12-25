@@ -61,6 +61,52 @@
 		2. Fixed crash in case of many brackets
 	</string>
 
+	<string name="c_release_notes_for_9" formatted="false">
+		1. Percentage calculations.\n
+		Examples:\n
+		100+50%=150,\n
+		100*50%=50,\n
+		100+100*50%*50%=125,\n
+		100+(100*50%*(25+25)%+100%)=150\n
+		NOTE:\n
+		100+(20+20)%=140, but 100+(20%+20%)=124.0\n
+		100+50%^2=2600, but 100+50^2%=101.08
+	</string>
+
+	<string name="c_release_notes_for_12">
+		1. Help screen added\n
+		2. Support for differentiation, integration, calculation of sum and product.\n
+		Examples:\n
+		∂(cos(t),t)=-sin(t)\n
+		2∂(tcos(t),t,2)=-4.469\n
+		Σ(n/n!,n,1,20)=2.7182\n
+		∫(1/x, x)=ln(x)\n
+		∫ab(x, x, 0, 10)=50.0
+	</string>
+
+	<string name="c_release_notes_for_13">
+		1. Fixed crashes\n
+		2. Added variables on the main screen
+	</string>
+
+	<string name="c_release_notes_for_14">
+		1. Support for different angle units: radians, degrees, gradians, turns\n
+		2. Easy toggling between radians and degrees: use the toggle switch located on the 6 button\n
+		3. Application is translated in Italian (thanks to Gabriele Ravanetti)\n
+		4. Fixed bug with simplification of √(π^2)
+	</string>
+
+	<string name="c_release_notes_for_15">
+		1. Added functions\' plotting: type expression which contains 1 undefined variable (e.g. cos(t)) and click on the result. In the context menu choose \'Plot graph\'. Supported features: zoom in/out, moving graph, plotting imaginary part
+	</string>
+
+	<string name="c_release_notes_for_16">
+		1. Buttons swipe preference\n
+		2. Added support for different numeral bases (currently supported: dec, bin, oct). Dec and bin can be chosen from main screen (CE button) and from app preferences\n
+		3. Fixed √ simplification problem\n
+		4. Performance improvements in functions\' plotting
+	</string>
+
 	<string name="c_release_notes_for_20">
 		1. New swipe actions (left, right)\n
 		2. Extended history: save, remove, copy, use from history screen (use long click for additional actions)\n
