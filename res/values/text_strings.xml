@@ -159,4 +159,7 @@
 	<string name="c_calc_show_release_notes_title">Show release notes</string>
 	<string name="c_calc_show_release_notes_summary">Defines if release notes popup window should appear after update to the new version</string>
 
+	<string name="c_calc_use_back_button_as_prev_summary">Defines the behaviour of the Back button</string>
+	<string name="c_calc_use_back_button_as_prev_title">Use Back button as history prev</string>
+
 </resources>

@@ -92,6 +92,12 @@
 				a:title="@string/c_calc_show_release_notes_title"
 				a:defaultValue="true"/>
 
+		<android.preference.CheckBoxPreference
+				a:key="@string/p_calc_use_back_button_as_prev_key"
+				a:summary="@string/c_calc_use_back_button_as_prev_summary"
+				a:title="@string/c_calc_use_back_button_as_prev_title"
+				a:defaultValue="false"/>
+
 <!--	  <org.solovyev.android.view.prefs.FloatRangeSeekBarPreference
 			  a:key="@string/p_drag_duration_key"
 			  a:title="Duration of drag event"

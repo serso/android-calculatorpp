@@ -24,6 +24,9 @@
 	<string name="p_calc_haptic_feedback_key">org.solovyev.android.calculator.CalculatorModel_haptic_feedback</string>
 	<string name="p_calc_haptic_feedback">false</string>
 
+	<string name="p_calc_use_back_button_as_prev_key">org.solovyev.android.calculator.CalculatorActivity_use_back_button_as_prev</string>
+	<string name="p_calc_use_back_button_as_prev">false</string>
+
 	<string name="p_calc_show_release_notes_key">org.solovyev.android.calculator.CalculatorActivity_show_release_notes</string>
 	<string name="p_calc_show_release_notes">true</string>
 

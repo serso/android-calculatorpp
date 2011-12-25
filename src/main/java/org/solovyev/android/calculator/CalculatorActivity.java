@@ -57,6 +57,10 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	public static final boolean SHOW_RELEASE_NOTES_P_DEFAULT = true;
 
 	@NotNull
+	public static final String USE_BACK_AS_PREV_P_KEY = "org.solovyev.android.calculator.CalculatorActivity_use_back_button_as_prev";
+	public static final boolean USE_BACK_AS_PREV_DEFAULT = false;
+
+	@NotNull
 	private final Announcer<DragPreferencesChangeListener> dpclRegister = new Announcer<DragPreferencesChangeListener>(DragPreferencesChangeListener.class);
 
 	@NotNull
@@ -72,6 +76,8 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 	@Nullable
 	private Vibrator vibrator;
+
+	private boolean useBackAsPrev = USE_BACK_AS_PREV_DEFAULT;
 
 	/**
 	 * Called when the activity is first created.
@@ -510,8 +516,10 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			calculatorModel.doHistoryAction(HistoryAction.undo);
-			return true;
+			if (useBackAsPrev) {
+				calculatorModel.doHistoryAction(HistoryAction.undo);
+				return true;
+			}
 		}
 		return super.onKeyDown(keyCode, event);
 	}
@@ -623,6 +631,10 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 							CalculatorEngine.NUMERAL_BASES_P_KEY.equals(key)) {
 			CalculatorEngine.instance.reset(this, preferences);
 			this.calculatorModel.evaluate();
+		}
+
+		if ( USE_BACK_AS_PREV_P_KEY.equals(key) ) {
+			useBackAsPrev = preferences.getBoolean(USE_BACK_AS_PREV_P_KEY, USE_BACK_AS_PREV_DEFAULT);
 		}
 
 		if ( CalculatorEngine.MULTIPLICATION_SIGN_P_KEY.equals(key) ) {

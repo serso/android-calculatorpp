@@ -159,4 +159,7 @@
 	<string name="c_calc_show_release_notes_title">Показывать замечания к выпуску</string>
 	<string name="c_calc_show_release_notes_summary">Определяет показывать или нет всплывающее окно с замечаниями к выпуску после обновления новой версии</string>
 
+	<string name="c_calc_use_back_button_as_prev_summary">Устанавливает поведение по нажатию на кнопку Назад</string>
+	<string name="c_calc_use_back_button_as_prev_title">Использовать кнопку назад как назад по истории</string>
+
 </resources>
