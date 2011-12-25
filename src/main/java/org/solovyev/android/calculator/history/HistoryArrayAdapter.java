@@ -7,14 +7,12 @@
 package org.solovyev.android.calculator.history;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.R;
-import org.solovyev.android.view.prefs.ResourceCache;
 import org.solovyev.common.utils.StringUtils;
 
 import java.text.SimpleDateFormat;

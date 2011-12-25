@@ -23,8 +23,8 @@
 		<a href="http://www.achartengine.org/">AChartEngine</a>
 	</string>
 
-	<string name="c_release_notes">Замечания к выпуску</string>
-	<string name="c_release_notes_for_title">"Замечания к выпуску версии "</string>
+	<string name="c_release_notes">Примечания к выпуску</string>
+	<string name="c_release_notes_for_title">"Примечания к выпуску версии "</string>
 
 	<string name="c_release_notes_for_4">
 		1. Отклик на нажатие\n

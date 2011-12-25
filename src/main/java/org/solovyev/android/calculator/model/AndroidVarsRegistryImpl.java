@@ -8,17 +8,13 @@ package org.solovyev.android.calculator.model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import jscl.math.function.IConstant;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.simpleframework.xml.Serializer;
-import org.simpleframework.xml.core.Persister;
 import org.solovyev.android.calculator.R;
 import org.solovyev.common.definitions.IBuilder;
 import org.solovyev.common.math.MathRegistry;
 
-import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,6 +29,7 @@ class AndroidVarsRegistryImpl extends AbstractAndroidMathRegistry<IConstant, Var
 	private static final Map<String, String> substitutes = new HashMap<String, String>();
 	static {
 		substitutes.put("π", "pi");
+		substitutes.put("Π", "PI");
 		substitutes.put("∞", "inf");
 		substitutes.put("h", "h_reduced");
 		substitutes.put("NaN", "nan");

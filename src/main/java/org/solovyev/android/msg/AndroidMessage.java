@@ -7,7 +7,7 @@
 package org.solovyev.android.msg;
 
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.view.prefs.ResourceCache;
+import org.solovyev.android.ResourceCache;
 import org.solovyev.common.msg.AbstractMessage;
 import org.solovyev.common.msg.MessageType;
 

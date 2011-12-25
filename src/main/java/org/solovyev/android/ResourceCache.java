@@ -4,7 +4,7 @@
  * or visit http://se.solovyev.org
  */
 
-package org.solovyev.android.view.prefs;
+package org.solovyev.android;
 
 import android.app.Activity;
 import android.content.Context;

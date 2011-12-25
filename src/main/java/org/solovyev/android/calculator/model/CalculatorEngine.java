@@ -16,12 +16,19 @@ import jscl.text.ParseInterruptedException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.jscl.JsclOperation;
+import org.solovyev.android.view.prefs.BooleanPreference;
+import org.solovyev.android.view.prefs.EnumMapper;
+import org.solovyev.android.view.prefs.Preference;
+import org.solovyev.android.view.prefs.StringPreference;
 import org.solovyev.common.NumberMapper;
 import org.solovyev.common.msg.MessageRegistry;
 import org.solovyev.common.utils.MutableObject;
 import org.solovyev.common.utils.StringUtils;
 
 import java.text.DecimalFormatSymbols;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -35,22 +42,46 @@ public enum CalculatorEngine {
 
 	instance;
 
-	public static final String GROUPING_SEPARATOR_P_KEY = "org.solovyev.android.calculator.CalculatorActivity_calc_grouping_separator";
+	private static final String GROUPING_SEPARATOR_P_KEY = "org.solovyev.android.calculator.CalculatorActivity_calc_grouping_separator";
 
-	public static final String MULTIPLICATION_SIGN_P_KEY = "org.solovyev.android.calculator.CalculatorActivity_calc_multiplication_sign";
-	public static final String MULTIPLICATION_SIGN_DEFAULT = "×";
+	private static final String MULTIPLICATION_SIGN_P_KEY = "org.solovyev.android.calculator.CalculatorActivity_calc_multiplication_sign";
+	private static final String MULTIPLICATION_SIGN_DEFAULT = "×";
 
-	public static final String ROUND_RESULT_P_KEY = "org.solovyev.android.calculator.CalculatorModel_round_result";
-	public static final boolean ROUND_RESULT_DEFAULT = true;
+	private static final String ROUND_RESULT_P_KEY = "org.solovyev.android.calculator.CalculatorModel_round_result";
+	private static final boolean ROUND_RESULT_DEFAULT = true;
 
-	public static final String RESULT_PRECISION_P_KEY = "org.solovyev.android.calculator.CalculatorModel_result_precision";
-	public static final String RESULT_PRECISION_DEFAULT = "5";
+	private static final String RESULT_PRECISION_P_KEY = "org.solovyev.android.calculator.CalculatorModel_result_precision";
+	private static final String RESULT_PRECISION_DEFAULT = "5";
 
-	public static final String NUMERAL_BASES_P_KEY = "org.solovyev.android.calculator.CalculatorActivity_numeral_bases";
-	public static final String NUMERAL_BASES_DEFAULT = "dec";
+	private static final String NUMERAL_BASES_P_KEY = "org.solovyev.android.calculator.CalculatorActivity_numeral_bases";
+	private static final String NUMERAL_BASES_DEFAULT = "dec";
 
-	public static final String ANGLE_UNITS_P_KEY = "org.solovyev.android.calculator.CalculatorActivity_angle_units";
-	public static final String ANGLE_UNITS_DEFAULT = "deg";
+	private static final String ANGLE_UNITS_P_KEY = "org.solovyev.android.calculator.CalculatorActivity_angle_units";
+	private static final String ANGLE_UNITS_DEFAULT = "deg";
+
+	public static class Preferences {
+	 	public static final Preference<String> groupingSeparator = StringPreference.newInstance(GROUPING_SEPARATOR_P_KEY, JsclMathEngine.GROUPING_SEPARATOR_DEFAULT);
+	 	public static final Preference<String> multiplicationSign = StringPreference.newInstance(MULTIPLICATION_SIGN_P_KEY, MULTIPLICATION_SIGN_DEFAULT);
+	 	public static final Preference<Integer> precision = StringPreference.newInstance(RESULT_PRECISION_P_KEY, RESULT_PRECISION_DEFAULT, new NumberMapper<Integer>(Integer.class));
+	 	public static final Preference<Boolean> roundResult = new BooleanPreference(ROUND_RESULT_P_KEY, ROUND_RESULT_DEFAULT);
+	 	public static final Preference<NumeralBase> numeralBase = StringPreference.newInstance(NUMERAL_BASES_P_KEY, NUMERAL_BASES_DEFAULT, EnumMapper.newInstance(NumeralBase.class));
+	 	public static final Preference<AngleUnit> angleUnit = StringPreference.newInstance(ANGLE_UNITS_P_KEY, ANGLE_UNITS_DEFAULT, EnumMapper.newInstance(AngleUnit.class));
+
+		private static final List<String> preferenceKeys = new ArrayList<String>();
+		static {
+			preferenceKeys.add(groupingSeparator.getKey());
+			preferenceKeys.add(multiplicationSign.getKey());
+			preferenceKeys.add(precision.getKey());
+			preferenceKeys.add(roundResult.getKey());
+			preferenceKeys.add(numeralBase.getKey());
+			preferenceKeys.add(angleUnit.getKey());
+		}
+
+		@NotNull
+		public static List<String> getPreferenceKeys() {
+	  		return Collections.unmodifiableList(preferenceKeys);
+		}
+	}
 
 
 	public static final int DEFAULT_TIMEOUT = 3000;
@@ -266,15 +297,13 @@ public enum CalculatorEngine {
 	public void reset(@Nullable Context context, @Nullable SharedPreferences preferences) {
 		synchronized (lock) {
 			if (preferences != null) {
-				final NumberMapper<Integer> integerNumberMapper = new NumberMapper<Integer>(Integer.class);
-				//noinspection ConstantConditions
-				this.setPrecision(integerNumberMapper.parseValue(preferences.getString(RESULT_PRECISION_P_KEY, RESULT_PRECISION_DEFAULT)));
-				this.setRoundResult(preferences.getBoolean(ROUND_RESULT_P_KEY, ROUND_RESULT_DEFAULT));
+				this.setPrecision(Preferences.precision.getPreference(preferences));
+				this.setRoundResult(Preferences.roundResult.getPreference(preferences));
 				this.setAngleUnits(getAngleUnitsFromPrefs(preferences));
 				this.setNumeralBase(getNumeralBaseFromPrefs(preferences));
-				this.setMultiplicationSign(preferences.getString(MULTIPLICATION_SIGN_P_KEY, MULTIPLICATION_SIGN_DEFAULT));
+				this.setMultiplicationSign(Preferences.multiplicationSign.getPreference(preferences));
 
-				final String groupingSeparator = preferences.getString(GROUPING_SEPARATOR_P_KEY, JsclMathEngine.GROUPING_SEPARATOR_DEFAULT);
+				final String groupingSeparator = Preferences.groupingSeparator.getPreference(preferences);
 				if (StringUtils.isEmpty(groupingSeparator)) {
 					this.getEngine().setUseGroupingSeparator(false);
 				} else {
@@ -292,12 +321,12 @@ public enum CalculatorEngine {
 
 	@NotNull
 	public NumeralBase getNumeralBaseFromPrefs(@NotNull SharedPreferences preferences) {
-		return NumeralBase.valueOf(preferences.getString(NUMERAL_BASES_P_KEY, NUMERAL_BASES_DEFAULT));
+		return Preferences.numeralBase.getPreference(preferences);
 	}
 
 	@NotNull
 	public AngleUnit getAngleUnitsFromPrefs(@NotNull SharedPreferences preferences) {
-		return AngleUnit.valueOf(preferences.getString(ANGLE_UNITS_P_KEY, ANGLE_UNITS_DEFAULT));
+		return Preferences.angleUnit.getPreference(preferences);
 	}
 
 	//for tests only

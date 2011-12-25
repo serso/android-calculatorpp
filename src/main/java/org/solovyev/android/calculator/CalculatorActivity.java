@@ -27,14 +27,14 @@ import jscl.AngleUnit;
 import jscl.NumeralBase;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.AndroidUtils;
+import org.solovyev.android.ResourceCache;
 import org.solovyev.android.calculator.about.CalculatorReleaseNotesActivity;
 import org.solovyev.android.calculator.history.CalculatorHistory;
 import org.solovyev.android.calculator.history.CalculatorHistoryState;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.view.FontSizeAdjuster;
-import org.solovyev.android.view.prefs.AndroidUtils;
-import org.solovyev.android.view.prefs.ResourceCache;
 import org.solovyev.android.view.widgets.*;
 import org.solovyev.common.utils.Announcer;
 import org.solovyev.common.utils.Point2d;
@@ -194,9 +194,8 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 							final AngleUnit angleUnits = AngleUnit.valueOf(directionText);
 
 							final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(CalculatorActivity.this);
-							final SharedPreferences.Editor editor = preferences.edit();
-							editor.putString(CalculatorEngine.ANGLE_UNITS_P_KEY, angleUnits.name());
-							editor.commit();
+
+							CalculatorEngine.Preferences.angleUnit.putPreference(preferences, angleUnits);
 
 							result = true;
 						} catch (IllegalArgumentException e) {
@@ -229,9 +228,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 						final NumeralBase numeralBase = NumeralBase.valueOf(directionText);
 
 						final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(CalculatorActivity.this);
-						final SharedPreferences.Editor editor = preferences.edit();
-						editor.putString(CalculatorEngine.NUMERAL_BASES_P_KEY, numeralBase.name());
-						editor.commit();
+						CalculatorEngine.Preferences.numeralBase.putPreference(preferences, numeralBase);
 
 						result = true;
 					} catch (IllegalArgumentException e) {
@@ -264,7 +261,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	}
 
 	private void setDefaultValues(@NotNull SharedPreferences preferences) {
-		if (!preferences.contains(CalculatorEngine.GROUPING_SEPARATOR_P_KEY)) {
+		if (!preferences.contains(CalculatorEngine.Preferences.groupingSeparator.getKey())) {
 			final Locale locale = Locale.getDefault();
 			if (locale != null) {
 				final DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(locale);
@@ -275,17 +272,19 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 				} else {
 					groupingSeparator = " ";
 				}
-				final SharedPreferences.Editor editor = preferences.edit();
-				editor.putString(CalculatorEngine.GROUPING_SEPARATOR_P_KEY, groupingSeparator);
-				editor.commit();
+
+				CalculatorEngine.Preferences.groupingSeparator.putPreference(preferences, groupingSeparator);
 			}
 		}
 
-		if (!preferences.contains(CalculatorEngine.ANGLE_UNITS_P_KEY)) {
-			final SharedPreferences.Editor editor = preferences.edit();
-			editor.putString(CalculatorEngine.ANGLE_UNITS_P_KEY, CalculatorEngine.ANGLE_UNITS_DEFAULT);
-			editor.commit();
+		if (!preferences.contains(CalculatorEngine.Preferences.angleUnit.getKey())) {
+			CalculatorEngine.Preferences.angleUnit.putDefault(preferences);
 		}
+
+		if (!preferences.contains(CalculatorEngine.Preferences.numeralBase.getKey())) {
+			CalculatorEngine.Preferences.numeralBase.putDefault(preferences);
+		}
+
 	}
 
 	private synchronized void setOnDragListeners(@NotNull SimpleOnDragListener.Preferences dragPreferences, @NotNull SharedPreferences preferences) {
@@ -623,12 +622,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 			dpclRegister.announce().onDragPreferencesChange(SimpleOnDragListener.getPreferences(preferences, this));
 		}
 
-		if (CalculatorEngine.GROUPING_SEPARATOR_P_KEY.equals(key) ||
-				CalculatorEngine.MULTIPLICATION_SIGN_P_KEY.equals(key) ||
-				CalculatorEngine.ROUND_RESULT_P_KEY.equals(key) ||
-					CalculatorEngine.RESULT_PRECISION_P_KEY.equals(key) ||
-						CalculatorEngine.ANGLE_UNITS_P_KEY.equals(key) ||
-							CalculatorEngine.NUMERAL_BASES_P_KEY.equals(key)) {
+		if (CalculatorEngine.Preferences.getPreferenceKeys().contains(key)) {
 			CalculatorEngine.instance.reset(this, preferences);
 			this.calculatorModel.evaluate();
 		}
@@ -637,7 +631,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 			useBackAsPrev = preferences.getBoolean(USE_BACK_AS_PREV_P_KEY, USE_BACK_AS_PREV_DEFAULT);
 		}
 
-		if ( CalculatorEngine.MULTIPLICATION_SIGN_P_KEY.equals(key) ) {
+		if ( CalculatorEngine.Preferences.multiplicationSign.getKey().equals(key) ) {
 			initMultiplicationButton();
 		}
 	}

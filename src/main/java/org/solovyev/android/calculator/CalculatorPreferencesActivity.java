@@ -26,14 +26,14 @@ public class CalculatorPreferencesActivity extends PreferenceActivity implements
 
 		final SharedPreferences preferences = getPreferenceManager().getSharedPreferences();
 		preferences.registerOnSharedPreferenceChangeListener(this);
-		onSharedPreferenceChanged(preferences, CalculatorEngine.ROUND_RESULT_P_KEY);
+		onSharedPreferenceChanged(preferences, CalculatorEngine.Preferences.roundResult.getKey());
 		onSharedPreferenceChanged(preferences, VibratorContainer.HAPTIC_FEEDBACK_P_KEY);
 	}
 
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
-		if (CalculatorEngine.ROUND_RESULT_P_KEY.equals(key)) {
-			findPreference(CalculatorEngine.RESULT_PRECISION_P_KEY).setEnabled(preferences.getBoolean(key, CalculatorEngine.ROUND_RESULT_DEFAULT));
+		if (CalculatorEngine.Preferences.roundResult.getKey().equals(key)) {
+			findPreference(CalculatorEngine.Preferences.roundResult.getKey()).setEnabled(preferences.getBoolean(key, CalculatorEngine.Preferences.roundResult.getDefaultValue()));
 		} else if (VibratorContainer.HAPTIC_FEEDBACK_P_KEY.equals(key)) {
 			findPreference(VibratorContainer.HAPTIC_FEEDBACK_DURATION_P_KEY).setEnabled(preferences.getBoolean(key, VibratorContainer.HAPTIC_FEEDBACK_DEFAULT));
 		}

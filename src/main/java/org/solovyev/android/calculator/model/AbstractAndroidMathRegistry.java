@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
-import org.solovyev.android.view.prefs.ResourceCache;
+import org.solovyev.android.ResourceCache;
 import org.solovyev.common.definitions.IBuilder;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.math.MathRegistry;
