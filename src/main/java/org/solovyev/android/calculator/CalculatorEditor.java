@@ -8,6 +8,7 @@ package org.solovyev.android.calculator;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Build;
 import android.text.Html;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -17,6 +18,8 @@ import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.calculator.model.CalculatorParseException;
 import org.solovyev.android.calculator.model.TextProcessor;
+import org.solovyev.common.utils.CollectionsUtils;
+import org.solovyev.common.utils.StringUtils;
 
 /**
  * User: serso
@@ -48,12 +51,18 @@ public class CalculatorEditor extends EditText implements SharedPreferences.OnSh
 	@Override
 	public boolean onCheckIsTextEditor() {
 		// fix for missing cursor in android
-		//if ( Build.VERSION.SDK_INT >= 11 ) {
+		if ( Build.VERSION.SDK_INT >= 11 ) {
 			// cannot be applied as in that case soft keyboard appears on application start
+			for (StackTraceElement stackTraceElement : CollectionsUtils.asList(Thread.currentThread().getStackTrace())) {
+				if ( "isCursorVisible".equals(stackTraceElement.getMethodName()) ) {
+					return true;
+				}
+			}
+			return false;
 			//return true;
-		//} else {
-		return false;
-		//}
+		} else {
+			return false;
+		}
 	}
 
 	@Override
