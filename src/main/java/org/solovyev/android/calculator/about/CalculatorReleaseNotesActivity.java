@@ -64,7 +64,7 @@ public class CalculatorReleaseNotesActivity extends Activity {
 					first = false;
 				}
 				releaseNotesForVersion = releaseNotesForVersion.replace("\n", "<br/>");
-				result.append("<b>").append(releaseNotesForTitle).append(i).append("</b><br/>");
+				result.append("<b>").append(releaseNotesForTitle).append(i).append("</b><br/><br/>");
 				result.append(releaseNotesForVersion);
 			}
 		}

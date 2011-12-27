@@ -50,16 +50,19 @@ public class CalculatorEditor extends EditText implements SharedPreferences.OnSh
 
 	@Override
 	public boolean onCheckIsTextEditor() {
-		// fix for missing cursor in android
+		// Main goal of this implementation is to hide android soft keyboard from appearing when working with text input
+
+		// todo serso: refactor
+		// NOTE: do not copy or reuse code below, it's completely SHIT!!!
+
 		if ( Build.VERSION.SDK_INT >= 11 ) {
-			// cannot be applied as in that case soft keyboard appears on application start
+			// fix for missing cursor in android 3 and higher
 			for (StackTraceElement stackTraceElement : CollectionsUtils.asList(Thread.currentThread().getStackTrace())) {
 				if ( "isCursorVisible".equals(stackTraceElement.getMethodName()) ) {
 					return true;
 				}
 			}
 			return false;
-			//return true;
 		} else {
 			return false;
 		}
