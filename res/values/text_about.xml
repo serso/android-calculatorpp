@@ -132,7 +132,8 @@
 
 	<string name="c_release_notes_for_23">
 		1. Fix for calculating inverse trigonometric functions in complex field\n
-		2. Removed time delay for calculation
+		2. Removed time delay for calculation\n
+		3. Fix the problem with 200 - 10% = π
 	</string>
 
 </resources>
