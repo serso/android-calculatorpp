@@ -130,4 +130,9 @@
 		2. Fix for substituting 3.14... with Π constant
 	</string>
 
+	<string name="c_release_notes_for_23">
+		1. Fix for calculating inverse trigonometric functions in complex field\n
+		2. Removed time delay for calculation
+	</string>
+
 </resources>

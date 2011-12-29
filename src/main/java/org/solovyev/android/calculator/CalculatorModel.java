@@ -50,7 +50,7 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 	instance;
 
 	// millis to wait before evaluation after user edit action
-	public static final int EVAL_DELAY_MILLIS = 400;
+	public static final int EVAL_DELAY_MILLIS = 0;
 
 	@NotNull
 	private CalculatorEditor editor;
