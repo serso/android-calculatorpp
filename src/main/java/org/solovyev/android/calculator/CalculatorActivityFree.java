@@ -11,16 +11,16 @@ import org.jetbrains.annotations.NotNull;
 /**
  * User: serso
  * Date: 1/2/12
- * Time: 9:33 PM
+ * Time: 9:32 PM
  */
-public class CalculatorActivity extends AbstractCalculatorActivity {
+public class CalculatorActivityFree extends AbstractCalculatorActivity {
 
-	public CalculatorActivity() {
+	public CalculatorActivityFree() {
 		super(createApplicationData());
 	}
 
 	@NotNull
 	private static ApplicationData createApplicationData() {
-		return new ApplicationDataImpl(false, R.string.c_app_name, ApplicationData.Type.pro);
+		return new ApplicationDataImpl(true, R.string.c_app_name_free, ApplicationData.Type.free);
 	}
 }

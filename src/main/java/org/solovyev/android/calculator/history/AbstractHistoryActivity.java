@@ -6,26 +6,29 @@
 
 package org.solovyev.android.calculator.history;
 
-import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.view.*;
-import android.widget.*;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ListView;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.CalculatorModel;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.jscl.JsclOperation;
-import org.solovyev.android.view.AMenu;
 import org.solovyev.android.view.AMenuBuilder;
-import org.solovyev.android.view.AMenuItem;
 import org.solovyev.android.view.MenuImpl;
 import org.solovyev.common.utils.*;
-import org.solovyev.common.utils.Filter;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * User: serso

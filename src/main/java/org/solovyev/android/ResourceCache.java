@@ -15,7 +15,6 @@ import android.view.View;
 import android.widget.Button;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.CalculatorActivity;
 import org.solovyev.android.view.widgets.DragButton;
 
 import java.lang.reflect.Field;
@@ -219,7 +218,7 @@ public enum ResourceCache {
 						try {
 							result.put(field.getName(), field.getInt(clazz));
 						} catch (IllegalAccessException e) {
-							Log.e(CalculatorActivity.class.getName(), e.getMessage());
+							Log.e(ResourceCache.class.getName(), e.getMessage());
 						}
 					}
 				}

@@ -280,7 +280,6 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 	}
 
 	public void processDigitButtonAction(@Nullable final String text, boolean delayEvaluate) {
-		//Toast.makeText(CalculatorActivity.this, text, Toast.LENGTH_SHORT).show();
 
 		if (!StringUtils.isEmpty(text)) {
 			doTextOperation(new CalculatorModel.TextOperation() {

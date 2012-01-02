@@ -13,9 +13,9 @@
 
 	<application a:icon="@drawable/icon"
 				 a:label="@string/c_app_name"
-				 a:name=".ApplicationContext">
+				 a:name="org.solovyev.android.calculator.ApplicationContext">
 
-		<activity a:name=".CalculatorActivity"
+		<activity a:name="org.solovyev.android.calculator.CalculatorActivityFree"
 				  a:label="@string/c_app_name">
 
 			<intent-filter>
@@ -25,71 +25,71 @@
 
 		</activity>
 
-		<activity a:name=".CalculatorPreferencesActivity"
+		<activity a:name="org.solovyev.android.calculator.CalculatorPreferencesActivity"
 				  a:label="@string/c_app_settings"
 				  a:configChanges="orientation|keyboardHidden"/>
 
-		<activity a:name=".history.CalculatorHistoryActivity"
+		<activity a:name="org.solovyev.android.calculator.history.CalculatorHistoryActivity"
 				  a:label="@string/c_app_history"
 				  a:configChanges="orientation|keyboardHidden"/>
 
-	   	<activity a:name=".history.HistoryActivityTab"
+	   	<activity a:name="org.solovyev.android.calculator.history.HistoryActivityTab"
 				  a:label="@string/c_history"
 				  a:configChanges="orientation|keyboardHidden"/>
 
-		<activity a:name=".history.SavedHistoryActivityTab"
+		<activity a:name="org.solovyev.android.calculator.history.SavedHistoryActivityTab"
 				  a:label="@string/c_saved_history"
 				  a:configChanges="orientation|keyboardHidden"/>
 
-		<activity a:name=".about.CalculatorAboutTabActivity"
+		<activity a:name="org.solovyev.android.calculator.about.CalculatorAboutTabActivity"
 				  a:label="@string/c_about"
 				  a:configChanges="orientation|keyboardHidden"/>
 
-		<activity a:name=".about.CalculatorAboutActivity"
+		<activity a:name="org.solovyev.android.calculator.about.CalculatorAboutActivity"
 				  a:label="@string/c_about"
 				  a:configChanges="orientation|keyboardHidden"/>
 
-		<activity a:name=".about.CalculatorReleaseNotesActivity"
+		<activity a:name="org.solovyev.android.calculator.about.CalculatorReleaseNotesActivity"
 				  a:label="@string/c_about"
 				  a:configChanges="orientation|keyboardHidden"/>
 
-		<activity a:name=".help.CalculatorHelpTabActivity"
+		<activity a:name="org.solovyev.android.calculator.help.CalculatorHelpTabActivity"
 				  a:label="@string/c_help"
 				  a:configChanges="orientation|keyboardHidden"/>
 
-		<activity a:name=".help.HelpFaqActivity"
+		<activity a:name="org.solovyev.android.calculator.help.HelpFaqActivity"
 				  a:label="@string/c_help"
 				  a:configChanges="orientation|keyboardHidden"/>
 
-		<activity a:name=".help.HelpHintsActivity"
+		<activity a:name="org.solovyev.android.calculator.help.HelpHintsActivity"
 				  a:label="@string/c_help"
 				  a:configChanges="orientation|keyboardHidden"/>
 
-		<activity a:name=".help.HelpScreensActivity"
+		<activity a:name="org.solovyev.android.calculator.help.HelpScreensActivity"
 				  a:label="@string/c_help"
 				  a:configChanges="orientation|keyboardHidden"/>
 
-        <activity a:name=".math.edit.CalculatorFunctionsActivity"
+        <activity a:name="org.solovyev.android.calculator.math.edit.CalculatorFunctionsActivity"
                   a:label="@string/c_functions"
                   a:configChanges="orientation|keyboardHidden"/>
 
-		<activity a:name=".math.edit.CalculatorFunctionsTabActivity"
+		<activity a:name="org.solovyev.android.calculator.math.edit.CalculatorFunctionsTabActivity"
 				  a:label="@string/c_functions"
 				  a:configChanges="orientation|keyboardHidden"/>
 
-		<activity a:name=".math.edit.CalculatorOperatorsActivity"
+		<activity a:name="org.solovyev.android.calculator.math.edit.CalculatorOperatorsActivity"
 				  a:label="@string/c_operators"
 				  a:configChanges="orientation|keyboardHidden"/>
 
-        <activity a:name=".math.edit.CalculatorVarsActivity"
+        <activity a:name="org.solovyev.android.calculator.math.edit.CalculatorVarsActivity"
                   a:label="@string/c_vars_and_constants"
                   a:configChanges="orientation|keyboardHidden"/>
 
-		<activity a:name=".math.edit.CalculatorVarsTabActivity"
+		<activity a:name="org.solovyev.android.calculator.math.edit.CalculatorVarsTabActivity"
 				  a:label="@string/c_vars_and_constants"
 				  a:configChanges="orientation|keyboardHidden"/>
 
-		<activity a:name=".CalculatorPlotActivity"
+		<activity a:name="org.solovyev.android.calculator.CalculatorPlotActivity"
 				  a:label="@string/c_plot_graph"/>
 
 	</application>

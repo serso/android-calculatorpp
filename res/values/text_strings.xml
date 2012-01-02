@@ -8,6 +8,7 @@
 
 <resources>
 	<string name="c_app_name">Calculator++</string>
+	<string name="c_app_name_free">Calculator++ Free</string>
 	<string name="c_app_icon_name">Calc++</string>
     <string name="c_app_settings">Settings</string>
     <string name="c_syntax_error">Error</string>
@@ -161,5 +162,8 @@
 
 	<string name="c_calc_use_back_button_as_prev_summary">Defines the behaviour of the Back button</string>
 	<string name="c_calc_use_back_button_as_prev_title">Use Back button as history prev</string>
+
+	<string name="c_warning">Warning</string>
+	<string name="c_remove_prev_app_warning">It seems that you\'ve installed another version of Calculator++.\nFor correct work of the application please remove previous version, all user data will be automatically transferred to the new version.</string>
 
 </resources>

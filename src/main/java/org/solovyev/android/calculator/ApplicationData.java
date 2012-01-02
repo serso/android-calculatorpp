@@ -11,16 +11,22 @@ import org.jetbrains.annotations.NotNull;
 /**
  * User: serso
  * Date: 1/2/12
- * Time: 9:33 PM
+ * Time: 9:08 PM
  */
-public class CalculatorActivity extends AbstractCalculatorActivity {
+public interface ApplicationData {
 
-	public CalculatorActivity() {
-		super(createApplicationData());
+	public static enum Type {
+		free,
+		pro
 	}
+
+	boolean isFree();
+
+	boolean isShowAd();
+
+	int getApplicationTitle();
 
 	@NotNull
-	private static ApplicationData createApplicationData() {
-		return new ApplicationDataImpl(false, R.string.c_app_name, ApplicationData.Type.pro);
-	}
+	Type getType();
+
 }

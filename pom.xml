@@ -9,7 +9,7 @@
 	<artifactId>calculator</artifactId>
 	<version>1.1.4</version>
 
-	<packaging>pom</packaging>
+	<packaging>jar</packaging>
 
 	<properties>
 		<additionalLibs>${basedir}/src/misc/lib</additionalLibs>
@@ -80,7 +80,6 @@
 			<systemPath>${additionalLibs}/achartengine-0.7.0.jar</systemPath>
 		</dependency>
 
-
 		<dependency>
 			<groupId>com.intellij</groupId>
 			<artifactId>annotations</artifactId>
@@ -88,5 +87,4 @@
 		</dependency>
 
 	</dependencies>
-
 </project>

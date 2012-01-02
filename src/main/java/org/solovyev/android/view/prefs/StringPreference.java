@@ -37,6 +37,11 @@ public class StringPreference<T> extends AbstractPreference<T> {
 		return new StringPreference<T>(id, parser.parseValue(defaultValue), parser);
 	}
 
+	@NotNull
+	public static <T extends Enum> StringPreference<T> newInstance(@NotNull String id, @Nullable T defaultValue, @NotNull Class<T> enumType) {
+		return new StringPreference<T>(id, defaultValue, new EnumMapper<T>(enumType));
+	}
+
 	@Override
 	protected T getPersistedValue(@NotNull SharedPreferences preferences) {
 		return mapper.parseValue(preferences.getString(getKey(), null));

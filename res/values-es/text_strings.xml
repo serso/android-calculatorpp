@@ -8,6 +8,7 @@
 
 <resources>
 	<string name="c_app_name">Calculadora++</string>
+	<string name="c_app_name_free">Calculadora++ Free</string>
 	<string name="c_app_icon_name">Calc++</string>
 	<string name="c_app_settings">Configuración</string>
 	<string name="c_syntax_error">Error</string>
