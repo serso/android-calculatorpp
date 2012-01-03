@@ -87,7 +87,7 @@ public class CalculatorApplication extends android.app.Application {
 
 			@Override
 			public String getPublicKey() {
-				return CalculatorSecurity.PK;
+				return CalculatorSecurity.getPK();
 			}
 		});
 		BillingController.checkBillingSupported(this);

@@ -6,6 +6,8 @@
 
 package org.solovyev.android.calculator;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * User: serso
  * Date: 1/4/12
@@ -13,8 +15,11 @@ package org.solovyev.android.calculator;
  */
 public final class CalculatorSecurity {
 
-	public static final String PK = "org.solovyev.android.calculator";
-
 	private CalculatorSecurity() {
+	}
+
+	@NotNull
+	public static String getPK() {
+		return "org.solovyev.android.calculator";
 	}
 }
