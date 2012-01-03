@@ -15,6 +15,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TabHost;
 import android.widget.TextView;
+import com.google.ads.AdRequest;
+import com.google.ads.AdSize;
+import com.google.ads.AdView;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -24,38 +27,38 @@ import org.jetbrains.annotations.NotNull;
  */
 public final class AndroidUtils {
 
-    // not intended for instantiation
-    private AndroidUtils() {
-        throw new AssertionError();
-    }
+	// not intended for instantiation
+	private AndroidUtils() {
+		throw new AssertionError();
+	}
 
-    public static void centerAndWrapTabsFor(@NotNull TabHost tabHost) {
-        int tabCount = tabHost.getTabWidget().getTabCount();
-        for (int i = 0; i < tabCount; i++) {
-            final View view = tabHost.getTabWidget().getChildTabViewAt(i);
-            if ( view != null ) {
-                if (view.getLayoutParams().height > 0) {
-                    // reduce height of the tab
-                    view.getLayoutParams().height *= 0.8;
-                }
+	public static void centerAndWrapTabsFor(@NotNull TabHost tabHost) {
+		int tabCount = tabHost.getTabWidget().getTabCount();
+		for (int i = 0; i < tabCount; i++) {
+			final View view = tabHost.getTabWidget().getChildTabViewAt(i);
+			if (view != null) {
+				if (view.getLayoutParams().height > 0) {
+					// reduce height of the tab
+					view.getLayoutParams().height *= 0.8;
+				}
 
-                //  get title text view
-                final View textView = view.findViewById(android.R.id.title);
-                if ( textView instanceof TextView) {
-                    // just in case check the type
+				//  get title text view
+				final View textView = view.findViewById(android.R.id.title);
+				if (textView instanceof TextView) {
+					// just in case check the type
 
-                    // center text
-                    ((TextView) textView).setGravity(Gravity.CENTER);
-                    // wrap text
-                    ((TextView) textView).setSingleLine(false);
+					// center text
+					((TextView) textView).setGravity(Gravity.CENTER);
+					// wrap text
+					((TextView) textView).setSingleLine(false);
 
-                    // explicitly set layout parameters
-                    textView.getLayoutParams().height = ViewGroup.LayoutParams.FILL_PARENT;
-                    textView.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
-                }
-            }
-        }
-    }
+					// explicitly set layout parameters
+					textView.getLayoutParams().height = ViewGroup.LayoutParams.FILL_PARENT;
+					textView.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+				}
+			}
+		}
+	}
 
 	public static void addTab(@NotNull Context context,
 							  @NotNull TabHost tabHost,
@@ -75,7 +78,7 @@ public final class AndroidUtils {
 
 
 	/**
-	 * @param context context
+	 * @param context		context
 	 * @param appPackageName - full name of the package of an app, 'com.example.app' for example.
 	 * @return version number we are currently in
 	 */
@@ -86,6 +89,24 @@ public final class AndroidUtils {
 			// App not installed!
 		}
 		return -1;
+	}
+
+	@NotNull
+	public static AdView createAndInflateAdView(@NotNull Activity activity, int layoutId, String admobAccountId) {
+		// Create the adView
+		final AdView adView = new AdView(activity, AdSize.BANNER, admobAccountId);
+
+		// Lookup your LinearLayout assuming it’s been given
+		// the attribute android:id="@+id/mainLayout"
+		final ViewGroup layout = (ViewGroup) activity.findViewById(layoutId);
+
+		// Add the adView to it
+		layout.addView(adView);
+
+		// Initiate a generic request to load it with an ad
+		adView.loadAd(new AdRequest());
+
+		return adView;
 	}
 
 }

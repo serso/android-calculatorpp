@@ -2,6 +2,14 @@
 
 <PreferenceScreen xmlns:a="http://schemas.android.com/apk/res/android"
 				  xmlns:range="http://schemas.android.com/apk/res/org.solovyev.android.calculator">
+
+<!--	<SwitchPreference
+			a:key="@string/p_calc_round_result_key"
+			a:summary="@string/c_calc_round_result_summary"
+			a:title="@string/c_calc_round_result_title"
+			a:defaultValue="false"
+		/>-->
+
 	<PreferenceCategory a:title="@string/c_prefs_calculations_category">
 
 		<android.preference.CheckBoxPreference

@@ -164,5 +164,7 @@
 	<string name="c_calc_use_back_button_as_prev_title">Использовать кнопку назад как назад по истории</string>
 
 	<string name="c_warning">Внимание</string>
+	<string name="c_error">Ошибка</string>
+	<string name="c_billing_error">Биллинг не поддерживается!</string>
 
 </resources>

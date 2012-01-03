@@ -7,6 +7,9 @@
 		  a:versionName="1.2.23">
 
 	<uses-permission a:name="android.permission.VIBRATE"/>
+	<uses-permission a:name="android.permission.INTERNET"/>
+	<uses-permission a:name="android.permission.ACCESS_NETWORK_STATE"/>
+	<uses-permission a:name="com.android.vending.BILLING" />
 
 	<uses-sdk a:minSdkVersion="4"
 			  a:targetSdkVersion="8"/>
@@ -16,6 +19,7 @@
 				 a:name=".ApplicationContext">
 
 		<activity a:name=".CalculatorActivity"
+				  a:windowSoftInputMode="adjustPan"
 				  a:label="@string/c_app_name">
 
 			<intent-filter>
@@ -91,6 +95,18 @@
 
 		<activity a:name=".CalculatorPlotActivity"
 				  a:label="@string/c_plot_graph"/>
+
+		<activity a:name="com.google.ads.AdActivity"
+				  a:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>
+
+		<service a:name="net.robotmedia.billing.BillingService"/>
+		<receiver a:name="net.robotmedia.billing.BillingReceiver">
+			<intent-filter>
+				<action a:name="com.android.vending.billing.IN_APP_NOTIFY"/>
+				<action a:name="com.android.vending.billing.RESPONSE_CODE"/>
+				<action a:name="com.android.vending.billing.PURCHASE_STATE_CHANGED"/>
+			</intent-filter>
+		</receiver>
 
 	</application>
 </manifest>

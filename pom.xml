@@ -89,6 +89,14 @@
 		</dependency>
 
 		<dependency>
+			<groupId>android-billing-library</groupId>
+			<artifactId>android-billing-library</artifactId>
+			<version>0.1</version>
+			<scope>system</scope>
+			<systemPath>${additionalLibs}/AndroidBillingLibrary.jar</systemPath>
+		</dependency>
+
+		<dependency>
 			<groupId>com.intellij</groupId>
 			<artifactId>annotations</artifactId>
 			<version>7.0.3</version>

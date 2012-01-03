@@ -23,6 +23,7 @@ import android.view.*;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import com.google.ads.AdView;
 import jscl.AngleUnit;
 import jscl.NumeralBase;
 import org.jetbrains.annotations.NotNull;
@@ -38,6 +39,7 @@ import org.solovyev.android.view.FontSizeAdjuster;
 import org.solovyev.android.view.prefs.IntegerPreference;
 import org.solovyev.android.view.prefs.Preference;
 import org.solovyev.android.view.widgets.*;
+import org.solovyev.android.view.widgets.DragEvent;
 import org.solovyev.common.utils.Announcer;
 import org.solovyev.common.utils.Point2d;
 import org.solovyev.common.utils.StringUtils;
@@ -50,6 +52,7 @@ import java.util.Map;
 public class CalculatorActivity extends Activity implements FontSizeAdjuster, SharedPreferences.OnSharedPreferenceChangeListener {
 
 	private static final int HVGA_WIDTH_PIXELS = 320;
+	public static final String ADMOB_USER_ID = "a14f02cf9c80cbc";
 
 	public static class Preferences {
 		@NotNull
@@ -85,6 +88,9 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 	private boolean useBackAsPrev = USE_BACK_AS_PREV_DEFAULT;
 
+	@Nullable
+	private AdView adView;
+
 	/**
 	 * Called when the activity is first created.
 	 */
@@ -100,6 +106,8 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		setTheme(preferences);
 		super.onCreate(savedInstanceState);
 		setLayout(preferences);
+
+		//adView = AndroidUtils.createAndInflateAdView(this, R.id.ad_parent_view, ADMOB_USER_ID);
 
 		if (customTitleSupported) {
 			try {
@@ -617,6 +625,9 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 	@Override
 	protected void onDestroy() {
+		if ( adView != null ) {
+			adView.destroy();
+		}
 		super.onDestroy();
 	}
 
