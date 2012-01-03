@@ -112,7 +112,7 @@ public class FunctionEditorSaver implements DialogInterface.OnClickListener{
 							error = null;
 						} else {
 							// value is not empty => must be a number
-							boolean valid = CalculatorVarsTabActivity.isValidValue(value);
+							boolean valid = CalculatorVarsActivity.isValidValue(value);
 
 							if (valid) {
 								varBuilder.setName(name);

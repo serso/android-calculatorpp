@@ -20,6 +20,8 @@ import com.google.ads.AdSize;
 import com.google.ads.AdView;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 /**
  * User: serso
  * Date: 12/21/11
@@ -92,7 +94,10 @@ public final class AndroidUtils {
 	}
 
 	@NotNull
-	public static AdView createAndInflateAdView(@NotNull Activity activity, int layoutId, String admobAccountId) {
+	public static AdView createAndInflateAdView(@NotNull Activity activity,
+												@NotNull String admobAccountId,
+												int layoutId,
+												@NotNull List<String> keywords) {
 		// Create the adView
 		final AdView adView = new AdView(activity, AdSize.BANNER, admobAccountId);
 
@@ -104,7 +109,16 @@ public final class AndroidUtils {
 		layout.addView(adView);
 
 		// Initiate a generic request to load it with an ad
-		adView.loadAd(new AdRequest());
+		final AdRequest adRequest = new AdRequest();
+
+		// todo serso: revert - only for tests
+		adRequest.addTestDevice(AdRequest.TEST_EMULATOR);
+		adRequest.addTestDevice("DB3C2F605A1296971898F0E60224A927");
+
+		for (String keyword : keywords) {
+			adRequest.addKeyword(keyword);
+		}
+		adView.loadAd(adRequest);
 
 		return adView;
 	}

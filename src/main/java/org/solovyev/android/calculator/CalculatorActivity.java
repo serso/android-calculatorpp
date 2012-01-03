@@ -52,7 +52,6 @@ import java.util.Map;
 public class CalculatorActivity extends Activity implements FontSizeAdjuster, SharedPreferences.OnSharedPreferenceChangeListener {
 
 	private static final int HVGA_WIDTH_PIXELS = 320;
-	public static final String ADMOB_USER_ID = "a14f02cf9c80cbc";
 
 	public static class Preferences {
 		@NotNull
@@ -121,7 +120,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 			}
 		}
 
-		ResourceCache.instance.initCaptions(ApplicationContext.getInstance(), R.string.class);
+		ResourceCache.instance.initCaptions(CalculatorApplication.getInstance(), R.string.class);
 		firstTimeInit(preferences);
 
 		vibrator = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);

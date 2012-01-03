@@ -109,7 +109,7 @@ class VarEditorSaver<T extends MathEntity> implements DialogInterface.OnClickLis
 							error = null;
 						} else {
 							// value is not empty => must be a number
-							boolean valid = CalculatorVarsTabActivity.isValidValue(value);
+							boolean valid = CalculatorVarsActivity.isValidValue(value);
 
 							if (valid) {
 								varBuilder.setName(name);

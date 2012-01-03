@@ -15,8 +15,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import com.google.ads.AdView;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.calculator.CalculatorApplication;
 import org.solovyev.android.calculator.CalculatorModel;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.model.AndroidMathRegistry;
@@ -50,7 +52,10 @@ public abstract class AbstractMathEntityListActivity<T extends MathEntity> exten
     @Nullable
     private String category;
 
-    static void createTab(@NotNull Context context,
+	@Nullable
+	private AdView adView;
+
+	static void createTab(@NotNull Context context,
                           @NotNull TabHost tabHost,
                           @NotNull String tabId,
                           @NotNull String categoryId,
@@ -85,7 +90,9 @@ public abstract class AbstractMathEntityListActivity<T extends MathEntity> exten
 
         setContentView(getLayoutId());
 
-        final Intent intent = getIntent();
+		adView = CalculatorApplication.inflateAd(this);
+
+		final Intent intent = getIntent();
         if ( intent != null ) {
             category = intent.getStringExtra(MATH_ENTITY_CATEGORY_EXTRA_STRING);
         }
@@ -120,6 +127,14 @@ public abstract class AbstractMathEntityListActivity<T extends MathEntity> exten
 				return true;
 			}
 		});
+	}
+
+	@Override
+	protected void onDestroy() {
+		if (this.adView != null) {
+			this.adView.destroy();
+		}
+		super.onDestroy();
 	}
 
 	@NotNull

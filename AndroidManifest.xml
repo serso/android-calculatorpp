@@ -3,8 +3,8 @@
 <manifest xmlns:a="http://schemas.android.com/apk/res/android"
 		  package="org.solovyev.android.calculator"
 		  a:installLocation="auto"
-		  a:versionCode="23"
-		  a:versionName="1.2.23">
+		  a:versionCode="24"
+		  a:versionName="1.2.24">
 
 	<uses-permission a:name="android.permission.VIBRATE"/>
 	<uses-permission a:name="android.permission.INTERNET"/>
@@ -16,7 +16,7 @@
 
 	<application a:icon="@drawable/icon"
 				 a:label="@string/c_app_name"
-				 a:name=".ApplicationContext">
+				 a:name=".CalculatorApplication">
 
 		<activity a:name=".CalculatorActivity"
 				  a:windowSoftInputMode="adjustPan"
@@ -33,7 +33,7 @@
 				  a:label="@string/c_app_settings"
 				  a:configChanges="orientation|keyboardHidden"/>
 
-		<activity a:name=".history.CalculatorHistoryActivity"
+		<activity a:name=".history.CalculatorHistoryTabActivity"
 				  a:label="@string/c_app_history"
 				  a:configChanges="orientation|keyboardHidden"/>
 
@@ -73,11 +73,11 @@
 				  a:label="@string/c_help"
 				  a:configChanges="orientation|keyboardHidden"/>
 
-        <activity a:name=".math.edit.CalculatorFunctionsActivity"
+        <activity a:name=".math.edit.CalculatorFunctionsTabActivity"
                   a:label="@string/c_functions"
                   a:configChanges="orientation|keyboardHidden"/>
 
-		<activity a:name=".math.edit.CalculatorFunctionsTabActivity"
+		<activity a:name=".math.edit.CalculatorFunctionsActivity"
 				  a:label="@string/c_functions"
 				  a:configChanges="orientation|keyboardHidden"/>
 
@@ -85,18 +85,18 @@
 				  a:label="@string/c_operators"
 				  a:configChanges="orientation|keyboardHidden"/>
 
-        <activity a:name=".math.edit.CalculatorVarsActivity"
+        <activity a:name=".math.edit.CalculatorVarsTabActivity"
                   a:label="@string/c_vars_and_constants"
                   a:configChanges="orientation|keyboardHidden"/>
 
-		<activity a:name=".math.edit.CalculatorVarsTabActivity"
+		<activity a:name=".math.edit.CalculatorVarsActivity"
 				  a:label="@string/c_vars_and_constants"
 				  a:configChanges="orientation|keyboardHidden"/>
 
 		<activity a:name=".CalculatorPlotActivity"
 				  a:label="@string/c_plot_graph"/>
 
-<!--		<activity a:name="com.google.ads.AdActivity"
+		<activity a:name="com.google.ads.AdActivity"
 				  a:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>
 
 		<service a:name="net.robotmedia.billing.BillingService"/>
@@ -106,7 +106,7 @@
 				<action a:name="com.android.vending.billing.RESPONSE_CODE"/>
 				<action a:name="com.android.vending.billing.PURCHASE_STATE_CHANGED"/>
 			</intent-filter>
-		</receiver>-->
+		</receiver>
 
 	</application>
 </manifest>

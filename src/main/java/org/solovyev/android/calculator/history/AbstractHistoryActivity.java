@@ -16,8 +16,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import com.google.ads.AdView;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.calculator.CalculatorApplication;
 import org.solovyev.android.calculator.CalculatorModel;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.jscl.JsclOperation;
@@ -56,11 +58,16 @@ public abstract class AbstractHistoryActivity extends ListActivity {
 	@NotNull
 	private ArrayAdapter<CalculatorHistoryState> adapter;
 
+	@Nullable
+	private AdView adView;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.history_activity);
+
+		adView = CalculatorApplication.inflateAd(this);
 
 		adapter = new HistoryArrayAdapter(this, getLayoutId(), R.id.history_item, new ArrayList<CalculatorHistoryState>());
 		setListAdapter(adapter);
@@ -109,6 +116,14 @@ public abstract class AbstractHistoryActivity extends ListActivity {
 				return true;
 			}
 		});
+	}
+
+	@Override
+	protected void onDestroy() {
+		if ( this.adView != null ) {
+			this.adView.destroy();
+		}
+		super.onDestroy();
 	}
 
 	protected abstract int getLayoutId();

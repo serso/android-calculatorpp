@@ -18,7 +18,7 @@ import org.solovyev.android.calculator.R;
  * Date: 12/18/11
  * Time: 7:37 PM
  */
-public class CalculatorHistoryActivity extends TabActivity {
+public class CalculatorHistoryTabActivity extends TabActivity {
 
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,5 +35,4 @@ public class CalculatorHistoryActivity extends TabActivity {
 
         AndroidUtils.centerAndWrapTabsFor(tabHost);
 	}
-
 }

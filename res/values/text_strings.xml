@@ -167,4 +167,6 @@
 	<string name="c_error">Error</string>
 	<string name="c_billing_error">Billing is not supported!</string>
 
+	<string name="c_calc_ad_free_title">Get rid of ads!</string>
+
 </resources>

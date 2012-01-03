@@ -167,4 +167,6 @@
 	<string name="c_error">Ошибка</string>
 	<string name="c_billing_error">Биллинг не поддерживается!</string>
 
+	<string name="c_calc_ad_free_title">Избавиться от рекламы!</string>
+
 </resources>

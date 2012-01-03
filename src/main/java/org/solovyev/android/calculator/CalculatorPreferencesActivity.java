@@ -27,34 +27,25 @@ public class CalculatorPreferencesActivity extends PreferenceActivity implements
 
 		addPreferencesFromResource(R.xml.main_preferences);
 
-		/*final Preference buyPref = findPreference(ApplicationContext.AD_FREE_APPLICATION_P_KEY);
-		buyPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-			// при нажатии на кнопку Убрать рекламу в настройках
+		final Preference addFreePreference = findPreference(CalculatorApplication.AD_FREE_P_KEY);
+
+		addFreePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 			public boolean onPreferenceClick(Preference preference) {
-				// проверяем поддерживается ли покупка в приложениях
+
+				// check billing availability
 				if (BillingController.checkBillingSupported(CalculatorPreferencesActivity.this) != BillingController.BillingStatus.SUPPORTED) {
-					// показываем сообщение, что покупка не поддерживается
+					// warn about not supported billing
 					new AlertDialog.Builder(CalculatorPreferencesActivity.this).setTitle(R.string.c_error).setMessage(R.string.c_billing_error).create().show();
 				} else {
-					// проверяем не купил ли пользователь уже нашу опцию
-					boolean purchased = BillingController.isPurchased(getApplicationContext(), ApplicationContext.AD_FREE_APPLICATION);
-					if (!purchased) {
-						// если не купил (или мы просто об этом пока не знаем? пользователь удалял
-						// приложение со всем данными?), то пытаемся восстановить транзакции
-						BillingController.restoreTransactions(CalculatorPreferencesActivity.this);
-						// следующая строка (проверка еще раз не купил ли пользователь приложение) -
-						// не очень правильный подход - вызвав restoreTransactions,
-						// ответ мы получим не сразу
-						purchased = BillingController.isPurchased(getApplicationContext(), ApplicationContext.AD_FREE_APPLICATION);
-						if (!purchased) {
-							// наконец, показываем пользователю стандартное окно для покупки опции
-							BillingController.requestPurchase(CalculatorPreferencesActivity.this, ApplicationContext.AD_FREE_APPLICATION);
-						}
+					if (!CalculatorApplication.isAdFree(CalculatorPreferencesActivity.this)) {
+						// not purchased => show purchase window for user
+						BillingController.requestPurchase(CalculatorPreferencesActivity.this, CalculatorApplication.AD_FREE_PRODUCT_ID);
 					}
 				}
+
 				return true;
 			}
-		});*/
+		});
 
 		final SharedPreferences preferences = getPreferenceManager().getSharedPreferences();
 		preferences.registerOnSharedPreferenceChangeListener(this);
@@ -62,7 +53,7 @@ public class CalculatorPreferencesActivity extends PreferenceActivity implements
 		onSharedPreferenceChanged(preferences, VibratorContainer.HAPTIC_FEEDBACK_P_KEY);
 	}
 
-		@Override
+	@Override
 	public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
 		if (CalculatorEngine.Preferences.roundResult.getKey().equals(key)) {
 			findPreference(CalculatorEngine.Preferences.roundResult.getKey()).setEnabled(preferences.getBoolean(key, CalculatorEngine.Preferences.roundResult.getDefaultValue()));

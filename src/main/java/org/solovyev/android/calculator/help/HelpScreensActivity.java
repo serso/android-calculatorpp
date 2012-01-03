@@ -6,9 +6,6 @@
 
 package org.solovyev.android.calculator.help;
 
-import android.app.Activity;
-import android.os.Bundle;
-import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.R;
 
 /**
@@ -16,12 +13,10 @@ import org.solovyev.android.calculator.R;
  * Date: 11/19/11
  * Time: 11:38 AM
  */
-public class HelpScreensActivity extends Activity {
+public class HelpScreensActivity extends AbstractHelpActivity{
 
-	@Override
-	public void onCreate(@Nullable Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		setContentView(R.layout.help_screens);
+	public HelpScreensActivity() {
+		super(R.layout.help_screens);
 	}
+
 }

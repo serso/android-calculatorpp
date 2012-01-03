@@ -9,11 +9,11 @@ import org.achartengine.ChartFactory;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.about.CalculatorAboutTabActivity;
 import org.solovyev.android.calculator.help.CalculatorHelpTabActivity;
-import org.solovyev.android.calculator.history.CalculatorHistoryActivity;
-import org.solovyev.android.calculator.math.edit.CalculatorFunctionsActivity;
+import org.solovyev.android.calculator.history.CalculatorHistoryTabActivity;
+import org.solovyev.android.calculator.math.edit.CalculatorFunctionsTabActivity;
 import org.solovyev.android.calculator.math.edit.CalculatorOperatorsActivity;
-import org.solovyev.android.calculator.math.edit.CalculatorVarsActivity;
 import org.solovyev.android.calculator.math.edit.CalculatorVarsTabActivity;
+import org.solovyev.android.calculator.math.edit.CalculatorVarsActivity;
 import org.solovyev.common.utils.StringUtils;
 
 /**
@@ -24,7 +24,7 @@ import org.solovyev.common.utils.StringUtils;
 public class CalculatorActivityLauncher {
 
 	public static void showHistory(@NotNull final Context context) {
-		context.startActivity(new Intent(context, CalculatorHistoryActivity.class));
+		context.startActivity(new Intent(context, CalculatorHistoryTabActivity.class));
 	}
 
 	public static void showHelp(@NotNull final Context context) {
@@ -40,7 +40,7 @@ public class CalculatorActivityLauncher {
 	}
 
 	public static void showFunctions(@NotNull final Context context) {
-		context.startActivity(new Intent(context, CalculatorFunctionsActivity.class));
+		context.startActivity(new Intent(context, CalculatorFunctionsTabActivity.class));
 	}
 
 	public static void showOperators(@NotNull final Context context) {
@@ -48,7 +48,7 @@ public class CalculatorActivityLauncher {
 	}
 
 	public static void showVars(@NotNull final Context context) {
-		context.startActivity(new Intent(context, CalculatorVarsActivity.class));
+		context.startActivity(new Intent(context, CalculatorVarsTabActivity.class));
 	}
 
 	public static void plotGraph(@NotNull final Context context, @NotNull Generic generic, @NotNull Constant constant){
@@ -63,9 +63,9 @@ public class CalculatorActivityLauncher {
 		if (calculatorModel.getDisplay().isValid() ) {
 			final String varValue = calculatorModel.getDisplay().getText().toString();
 			if (!StringUtils.isEmpty(varValue)) {
-				if (CalculatorVarsTabActivity.isValidValue(varValue)) {
-					final Intent intent = new Intent(context, CalculatorVarsActivity.class);
-					intent.putExtra(CalculatorVarsTabActivity.CREATE_VAR_EXTRA_STRING, varValue);
+				if (CalculatorVarsActivity.isValidValue(varValue)) {
+					final Intent intent = new Intent(context, CalculatorVarsTabActivity.class);
+					intent.putExtra(CalculatorVarsActivity.CREATE_VAR_EXTRA_STRING, varValue);
 					context.startActivity(intent);
 				} else {
 					Toast.makeText(context, R.string.c_not_valid_result, Toast.LENGTH_SHORT).show();

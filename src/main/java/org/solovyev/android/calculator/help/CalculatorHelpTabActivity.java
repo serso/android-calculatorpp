@@ -27,7 +27,7 @@ public class CalculatorHelpTabActivity extends TabActivity {
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.help);
+		setContentView(R.layout.tabs);
 
 		final TabHost tabHost = getTabHost();
 
