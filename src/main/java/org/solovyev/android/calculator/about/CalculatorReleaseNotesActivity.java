@@ -15,7 +15,7 @@ import android.widget.TextView;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.AndroidUtils;
 import org.solovyev.android.ResourceCache;
-import org.solovyev.android.calculator.AbstractCalculatorActivity;
+import org.solovyev.android.calculator.CalculatorActivity;
 import org.solovyev.android.calculator.R;
 import org.solovyev.common.utils.StringUtils;
 
@@ -50,7 +50,7 @@ public class CalculatorReleaseNotesActivity extends Activity {
 		final StringBuilder result = new StringBuilder();
 
 		final String releaseNotesForTitle = context.getString(R.string.c_release_notes_for_title);
-		final int version = AndroidUtils.getAppVersionCode(context, AbstractCalculatorActivity.class.getPackage().getName());
+		final int version = AndroidUtils.getAppVersionCode(context, CalculatorActivity.class.getPackage().getName());
 
 		boolean first = true;
 		for ( int i = version; i >= minVersion; i-- ) {

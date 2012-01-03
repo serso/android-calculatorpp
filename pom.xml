@@ -49,7 +49,7 @@
 					<groupId>xerces</groupId>
 				</exclusion>
 			</exclusions>
-<!--			<scope>system</scope>
+			<!--			<scope>system</scope>
 			<systemPath>${additionalLibs}/jscl.jar</systemPath>-->
 		</dependency>
 
@@ -78,6 +78,14 @@
 			<version>0.7.0</version>
 			<scope>system</scope>
 			<systemPath>${additionalLibs}/achartengine-0.7.0.jar</systemPath>
+		</dependency>
+
+		<dependency>
+			<groupId>admob</groupId>
+			<artifactId>admob</artifactId>
+			<version>4.3.1</version>
+			<scope>system</scope>
+			<systemPath>${additionalLibs}/GoogleAdMobAdsSdk-4.3.1.jar</systemPath>
 		</dependency>
 
 		<dependency>
