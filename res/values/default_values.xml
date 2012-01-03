@@ -58,7 +58,7 @@
 	<string name="p_calc_haptic_feedback_duration_key">org.solovyev.android.calculator.CalculatorActivity_calc_haptic_feedback_duration_key</string>
 	<string name="p_calc_haptic_feedback_duration">" "</string>
 
-	<string name="p_calc_ad_free_key">org.solovyev.android.calculator_ad_free_application</string>
+	<string name="p_calc_ad_free_key">org.solovyev.android.calculator_ad_free</string>
 	<string name="p_calc_ad_free">false</string>
 
 </resources>

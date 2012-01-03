@@ -1,6 +1,5 @@
 package org.solovyev.android.calculator;
 
-import net.robotmedia.billing.BillingController;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -10,8 +9,8 @@ import org.jetbrains.annotations.NotNull;
  */
 public class ApplicationContext extends android.app.Application {
 
-	public static final String AD_FREE_APPLICATION = "ad_free_application";
-	public static final String AD_FREE_APPLICATION_P_KEY = "org.solovyev.android.calculator_ad_free_application";
+	public static final String AD_FREE = "ad_free";
+	public static final String AD_FREE_P_KEY = "org.solovyev.android.calculator_ad_free";
 
 	@NotNull
 	private static ApplicationContext instance;
