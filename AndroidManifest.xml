@@ -96,7 +96,7 @@
 		<activity a:name=".CalculatorPlotActivity"
 				  a:label="@string/c_plot_graph"/>
 
-		<activity a:name="com.google.ads.AdActivity"
+<!--		<activity a:name="com.google.ads.AdActivity"
 				  a:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>
 
 		<service a:name="net.robotmedia.billing.BillingService"/>
@@ -106,7 +106,7 @@
 				<action a:name="com.android.vending.billing.RESPONSE_CODE"/>
 				<action a:name="com.android.vending.billing.PURCHASE_STATE_CHANGED"/>
 			</intent-filter>
-		</receiver>
+		</receiver>-->
 
 	</application>
 </manifest>
