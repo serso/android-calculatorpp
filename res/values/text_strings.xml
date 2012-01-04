@@ -154,7 +154,7 @@
 	<string name="c_copy_description">Copy description</string>
 	<string name="c_copy_value">Copy value</string>
 
-	<string name="c_first_start_text">Thank you for choosing Calculator++!\n\nCalculator++ is a powerful tool for making everyday calculations.\n\nIt\'s highly recommended to read the FAQ and hints before the work to use all the features of application (press Menu button and then Help)</string>
+	<string name="c_first_start_text">Thank you for choosing Calculator++!\n\nCalculator++ is a powerful tool for making everyday calculations.\n\nTo get rid of the ads and support the project you can use special option from application settings.\n\nIt\'s highly recommended to read the FAQ and hints before the work to use all the features of application (press Menu button and then Help)</string>
 	<string name="c_first_start_text_title">Welcome</string>
 
 	<string name="c_calc_show_release_notes_title">Show release notes</string>
@@ -167,7 +167,7 @@
 	<string name="c_error">Error</string>
 	<string name="c_billing_error">Billing is not supported!</string>
 
-	<string name="c_calc_ad_free_title">Get rid of ads!</string>
+	<string name="c_calc_ad_free_title">Get rid of ads and support the project</string>
 	<string name="c_calc_ad_free_summary">50% offer for first 100 customers</string>
 
 </resources>

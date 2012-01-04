@@ -90,6 +90,7 @@ public class CalculatorApplication extends android.app.Application {
 				return CalculatorSecurity.getPK();
 			}
 		});
+
 		BillingController.checkBillingSupported(this);
 	}
 }

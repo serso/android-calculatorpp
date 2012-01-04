@@ -6,6 +6,7 @@
 	<Preference
 			a:key="@string/p_calc_ad_free_key"
 			a:title="@string/c_calc_ad_free_title"
+			a:summary="@string/c_calc_ad_free_summary"
 			a:defaultValue="false"
 		/>
 

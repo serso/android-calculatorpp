@@ -39,7 +39,7 @@ public class CalculatorPreferencesActivity extends PreferenceActivity implements
 				} else {
 					if (!CalculatorApplication.isAdFree(CalculatorPreferencesActivity.this)) {
 						// not purchased => show purchase window for user
-						BillingController.requestPurchase(CalculatorPreferencesActivity.this, CalculatorApplication.AD_FREE_PRODUCT_ID);
+						BillingController.requestPurchase(CalculatorPreferencesActivity.this, CalculatorApplication.AD_FREE_PRODUCT_ID, true);
 					}
 				}
 
