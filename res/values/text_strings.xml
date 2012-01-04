@@ -168,5 +168,6 @@
 	<string name="c_billing_error">Billing is not supported!</string>
 
 	<string name="c_calc_ad_free_title">Get rid of ads!</string>
+	<string name="c_calc_ad_free_summary">50% offer for first 100 customers</string>
 
 </resources>

@@ -11,6 +11,14 @@
 	<string name="c_screens">Screens</string>
 
 	<string name="c_faq_content" formatted="false">
+		<b>How can I get rid of the ads?</b>\n
+		\n
+		You can do it by purchasing the special option in the main application preferences.\n
+		\n
+		<b>Why Calculator++ needs INTERNET permission?</b>\n
+		\n
+		Currently application needs such permission only for one purpose - to show ads. If you buy the 'Ad Free' option C++ will never use your internet connection.\n
+		\n
 		<b>How can I use functions written in the top right and bottom right corners of the button?</b>\n
 		\n
 		Push the button and slide lightly up or down. Depending on value showed on the button action will occur.\n

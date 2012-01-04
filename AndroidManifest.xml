@@ -9,7 +9,7 @@
 	<uses-permission a:name="android.permission.VIBRATE"/>
 	<uses-permission a:name="android.permission.INTERNET"/>
 	<uses-permission a:name="android.permission.ACCESS_NETWORK_STATE"/>
-	<uses-permission a:name="com.android.vending.BILLING" />
+	<uses-permission a:name="com.android.vending.BILLING"/>
 
 	<uses-sdk a:minSdkVersion="4"
 			  a:targetSdkVersion="8"/>

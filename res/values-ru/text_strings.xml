@@ -168,5 +168,6 @@
 	<string name="c_billing_error">Биллинг не поддерживается!</string>
 
 	<string name="c_calc_ad_free_title">Избавиться от рекламы!</string>
+	<string name="c_calc_ad_free_summary">Скидка 50% для первых 100 покупателей</string>
 
 </resources>
