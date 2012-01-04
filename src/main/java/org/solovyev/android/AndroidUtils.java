@@ -112,8 +112,8 @@ public final class AndroidUtils {
 		final AdRequest adRequest = new AdRequest();
 
 		// todo serso: revert - only for tests
-		adRequest.addTestDevice(AdRequest.TEST_EMULATOR);
-		adRequest.addTestDevice("DB3C2F605A1296971898F0E60224A927");
+		//adRequest.addTestDevice(AdRequest.TEST_EMULATOR);
+		//adRequest.addTestDevice("DB3C2F605A1296971898F0E60224A927");
 
 		for (String keyword : keywords) {
 			adRequest.addKeyword(keyword);
