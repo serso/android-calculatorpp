@@ -121,8 +121,6 @@ public final class AndroidUtils {
 		// Create the adView
 		final AdView adView = new AdView(activity, AdSize.BANNER, admobAccountId);
 
-		// Lookup your LinearLayout assuming it’s been given
-		// the attribute android:id="@+id/mainLayout"
 		final ViewGroup layout = (ViewGroup) activity.findViewById(layoutId);
 
 		// Add the adView to it
