@@ -26,6 +26,8 @@ import android.widget.TextView;
 import com.google.ads.AdView;
 import jscl.AngleUnit;
 import jscl.NumeralBase;
+import net.robotmedia.billing.BillingController;
+import net.robotmedia.billing.IBillingObserver;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.AndroidUtils;
@@ -52,6 +54,9 @@ import java.util.Map;
 public class CalculatorActivity extends Activity implements FontSizeAdjuster, SharedPreferences.OnSharedPreferenceChangeListener {
 
 	private static final int HVGA_WIDTH_PIXELS = 320;
+
+	@Nullable
+	private IBillingObserver billingObserver;
 
 	public static class Preferences {
 		@NotNull
@@ -377,6 +382,10 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	private synchronized void firstTimeInit(@NotNull SharedPreferences preferences) {
 		if (!initialized) {
 
+			billingObserver = new CalculatorBillingObserver(this);
+			BillingController.registerObserver(billingObserver);
+			BillingController.checkBillingSupported(this);
+
 			final int savedVersion = Preferences.appVersion.getPreference(preferences);
 
 			final int appVersion = AndroidUtils.getAppVersionCode(this, CalculatorActivity.class.getPackage().getName());
@@ -627,6 +636,11 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		if ( adView != null ) {
 			adView.destroy();
 		}
+
+		if (billingObserver !=  null) {
+			BillingController.unregisterObserver(billingObserver);
+		}
+
 		super.onDestroy();
 	}
 

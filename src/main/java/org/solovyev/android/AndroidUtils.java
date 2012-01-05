@@ -10,6 +10,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,31 +37,49 @@ public final class AndroidUtils {
 	}
 
 	public static void centerAndWrapTabsFor(@NotNull TabHost tabHost) {
-		int tabCount = tabHost.getTabWidget().getTabCount();
-		for (int i = 0; i < tabCount; i++) {
-			final View view = tabHost.getTabWidget().getChildTabViewAt(i);
-			if (view != null) {
-				if (view.getLayoutParams().height > 0) {
-					// reduce height of the tab
-					view.getLayoutParams().height *= 0.8;
-				}
+		if (allowCenterAndWrappingTabs()) {
+			int tabCount = tabHost.getTabWidget().getTabCount();
+			for (int i = 0; i < tabCount; i++) {
+				final View view = tabHost.getTabWidget().getChildTabViewAt(i);
+				if (view != null) {
+					if (view.getLayoutParams().height > 0) {
+						// reduce height of the tab
+						view.getLayoutParams().height *= 0.8;
+					}
 
-				//  get title text view
-				final View textView = view.findViewById(android.R.id.title);
-				if (textView instanceof TextView) {
-					// just in case check the type
+					//  get title text view
+					final View textView = view.findViewById(android.R.id.title);
+					if (textView instanceof TextView) {
+						// just in case check the type
 
-					// center text
-					((TextView) textView).setGravity(Gravity.CENTER);
-					// wrap text
-					((TextView) textView).setSingleLine(false);
+						// center text
+						((TextView) textView).setGravity(Gravity.CENTER);
+						// wrap text
+						((TextView) textView).setSingleLine(false);
 
-					// explicitly set layout parameters
-					textView.getLayoutParams().height = ViewGroup.LayoutParams.FILL_PARENT;
-					textView.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+						// explicitly set layout parameters
+						textView.getLayoutParams().height = ViewGroup.LayoutParams.FILL_PARENT;
+						textView.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+					}
 				}
 			}
 		}
+	}
+
+	private static boolean allowCenterAndWrappingTabs() {
+  		boolean result = true;
+
+		String deviceModel = Build.MODEL;
+		if (deviceModel != null) {
+			deviceModel = deviceModel.toUpperCase();
+			if (deviceModel.contains("M1") || deviceModel.contains("MIONE") || deviceModel.contains("MI-ONE")) {
+				// Xiaomi Phone MiOne => do not allow to center and wrap tabs
+				result = false;
+				Log.i(AndroidUtils.class.getName(), "Device model doesn't support center and wrap of tabs: " + Build.MODEL);
+			}
+		}
+
+		return result;
 	}
 
 	public static void addTab(@NotNull Context context,

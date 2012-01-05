@@ -36,20 +36,24 @@ public class CalculatorApplication extends android.app.Application {
 		return instance;
 	}
 
-	public static boolean isAdFreeApprox(@NotNull Context context) {
+	private static boolean isAdFreePurchased(@NotNull Context context) {
 		return BillingController.isPurchased(context.getApplicationContext(), AD_FREE_PRODUCT_ID);
 	}
 
+	private static boolean transactionsRestored = false;
+
 	public static boolean isAdFree(@NotNull Context context) {
 		// check if user already bought this product
-		boolean purchased = isAdFreeApprox(context);
-		if (!purchased) {
+		boolean purchased = isAdFreePurchased(context);
+		if (!purchased && !transactionsRestored) {
 			// we must to restore all transactions done by user to guarantee that product was purchased or not
 			BillingController.restoreTransactions(context);
 
+			transactionsRestored = true;
+
 			// todo serso: may be call net.robotmedia.billing.BillingController.restoreTransactions() always before first check and get rid of second check
 			// check the billing one more time
-			purchased = isAdFreeApprox(context);
+			purchased = isAdFreePurchased(context);
 		}
 		return purchased;
 	}
@@ -62,9 +66,8 @@ public class CalculatorApplication extends android.app.Application {
 	@Nullable
 	public static AdView inflateAd(@NotNull Activity activity, int parentViewId) {
 		AdView result = null;
-		if ( !isAdFreeApprox(activity) ) {
+		if ( !isAdFree(activity) ) {
 			Log.d(activity.getClass().getName(), "Application is not ad free - inflating ad!");
-			//final List<String> keywords = Arrays.asList("math", "mathematics", "finance", "physics", "dynamics");
 			final List<String> keywords = Collections.emptyList();
 			result = AndroidUtils.createAndInflateAdView(activity, ADMOB_USER_ID, parentViewId, keywords);
 		} else {
@@ -78,6 +81,7 @@ public class CalculatorApplication extends android.app.Application {
 	public void onCreate() {
 		super.onCreate();
 
+		//BillingController.setDebug(true);
 		BillingController.setConfiguration(new BillingController.IConfiguration() {
 
 			@Override
@@ -90,7 +94,5 @@ public class CalculatorApplication extends android.app.Application {
 				return CalculatorSecurity.getPK();
 			}
 		});
-
-		BillingController.checkBillingSupported(this);
 	}
 }
