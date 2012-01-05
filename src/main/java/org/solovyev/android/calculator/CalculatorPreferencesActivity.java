@@ -29,23 +29,27 @@ public class CalculatorPreferencesActivity extends PreferenceActivity implements
 
 		final Preference addFreePreference = findPreference(CalculatorApplication.AD_FREE_P_KEY);
 
-		addFreePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-			public boolean onPreferenceClick(Preference preference) {
+		if (!CalculatorApplication.isAdFree(this)) {
+			addFreePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+				public boolean onPreferenceClick(Preference preference) {
 
-				// check billing availability
-				if (BillingController.checkBillingSupported(CalculatorPreferencesActivity.this) != BillingController.BillingStatus.SUPPORTED) {
-					// warn about not supported billing
-					new AlertDialog.Builder(CalculatorPreferencesActivity.this).setTitle(R.string.c_error).setMessage(R.string.c_billing_error).create().show();
-				} else {
-					if (!CalculatorApplication.isAdFree(CalculatorPreferencesActivity.this)) {
-						// not purchased => show purchase window for user
-						BillingController.requestPurchase(CalculatorPreferencesActivity.this, CalculatorApplication.AD_FREE_PRODUCT_ID, true);
+					// check billing availability
+					if (BillingController.checkBillingSupported(CalculatorPreferencesActivity.this) != BillingController.BillingStatus.SUPPORTED) {
+						// warn about not supported billing
+						new AlertDialog.Builder(CalculatorPreferencesActivity.this).setTitle(R.string.c_error).setMessage(R.string.c_billing_error).create().show();
+					} else {
+						if (!CalculatorApplication.isAdFree(CalculatorPreferencesActivity.this)) {
+							// not purchased => show purchase window for user
+							BillingController.requestPurchase(CalculatorPreferencesActivity.this, CalculatorApplication.AD_FREE_PRODUCT_ID, true);
+						}
 					}
-				}
 
-				return true;
-			}
-		});
+					return true;
+				}
+			});
+		} else {
+			addFreePreference.setEnabled(false);
+		}
 
 		final SharedPreferences preferences = getPreferenceManager().getSharedPreferences();
 		preferences.registerOnSharedPreferenceChangeListener(this);

@@ -165,9 +165,9 @@
 
 	<string name="c_warning">Warning</string>
 	<string name="c_error">Error</string>
-	<string name="c_billing_error">Billing is not supported!</string>
+	<string name="c_billing_error">Billing is not supported: you must have Google Checkout account linked to your Google account and must be connected to the internet.</string>
 
-	<string name="c_calc_ad_free_title">Get rid of ads and support the project</string>
+	<string name="c_calc_ad_free_title">Get rid of ads!</string>
 	<string name="c_calc_ad_free_summary">50% offer for first 100 customers</string>
 
 </resources>
