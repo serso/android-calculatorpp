@@ -252,6 +252,13 @@ public class CalculatorEngineTest {
 		CalculatorEngine.instance.getVarsRegistry().add(new Var.Builder("t", "2"));
 		Assert.assertEquals("2t", cm.evaluate(JsclOperation.simplify, "∂(t^2,t)").getResult());
 		Assert.assertEquals("4", cm.evaluate(JsclOperation.numeric, "∂(t^2,t)").getResult());
+
+		Assert.assertEquals("-x+x*ln(x)", cm.getEngine().simplify("∫(ln(x), x)"));
+		Assert.assertEquals("-(x-x*ln(x))/(ln(2)+ln(5))", cm.getEngine().simplify("∫(log(10, x), x)"));
+
+		Assert.assertEquals("∫((ln(2)+ln(5))/ln(x), x)", cm.getEngine().simplify("∫(ln(10)/ln(x), x)"));
+		Assert.assertEquals("∫(ln(10)/ln(x), x)", Expression.valueOf("∫(log(x, 10), x)").expand().toString());
+		Assert.assertEquals("∫((ln(2)+ln(5))/ln(x), x)", cm.getEngine().simplify("∫(log(x, 10), x)"));
 	}
 
 	@Test
