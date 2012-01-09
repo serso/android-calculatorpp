@@ -13,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.AndroidUtils;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.model.AndroidFunctionsMathRegistry;
+import org.solovyev.android.view.LastTabSaver;
 
 /**
  * User: serso
@@ -20,6 +21,9 @@ import org.solovyev.android.calculator.model.AndroidFunctionsMathRegistry;
  * Time: 10:33 PM
  */
 public class CalculatorFunctionsTabActivity extends TabActivity {
+
+	@Nullable
+	private LastTabSaver lastTabSaver;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,7 +37,16 @@ public class CalculatorFunctionsTabActivity extends TabActivity {
             AbstractMathEntityListActivity.createTab(this, tabHost, category.name(), category.name(), category.getCaptionId(), CalculatorFunctionsActivity.class, null);
         }
 
+		this.lastTabSaver = new LastTabSaver(this, AndroidFunctionsMathRegistry.Category.common.name());
+
         AndroidUtils.centerAndWrapTabsFor(tabHost);
     }
 
+	@Override
+	protected void onDestroy() {
+		if (lastTabSaver != null) {
+			this.lastTabSaver.destroy();
+		}
+		super.onDestroy();
+	}
 }

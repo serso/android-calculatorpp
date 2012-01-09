@@ -11,6 +11,7 @@ import android.widget.TabHost;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.AndroidUtils;
 import org.solovyev.android.calculator.R;
+import org.solovyev.android.view.LastTabSaver;
 
 /**
  * User: serso
@@ -18,6 +19,9 @@ import org.solovyev.android.calculator.R;
  * Time: 11:52 PM
  */
 public class CalculatorAboutTabActivity extends TabActivity {
+
+	@Nullable
+	private LastTabSaver lastTabSaver;
 
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,7 +34,17 @@ public class CalculatorAboutTabActivity extends TabActivity {
 		AndroidUtils.addTab(this, tabHost, "about", R.string.c_about, CalculatorAboutActivity.class);
 		AndroidUtils.addTab(this, tabHost, "release_notes", R.string.c_release_notes, CalculatorReleaseNotesActivity.class);
 
-		tabHost.setCurrentTab(0);
+		lastTabSaver = new LastTabSaver(this, "about");
+
 		AndroidUtils.centerAndWrapTabsFor(tabHost);
+	}
+
+	@Override
+	protected void onDestroy() {
+		if ( this.lastTabSaver != null ) {
+			this.lastTabSaver.destroy();
+		}
+
+		super.onDestroy();
 	}
 }

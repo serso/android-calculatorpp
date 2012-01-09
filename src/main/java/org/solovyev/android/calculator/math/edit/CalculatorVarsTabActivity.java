@@ -13,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.AndroidUtils;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.model.VarCategory;
+import org.solovyev.android.view.LastTabSaver;
 
 /**
  * User: serso
@@ -20,6 +21,9 @@ import org.solovyev.android.calculator.model.VarCategory;
  * Time: 11:05 PM
  */
 public class CalculatorVarsTabActivity extends TabActivity {
+
+	@Nullable
+	private LastTabSaver lastTabSaver;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,8 +41,16 @@ public class CalculatorVarsTabActivity extends TabActivity {
             }
         }
 
-        tabHost.setCurrentTab(0);
+		this.lastTabSaver = new LastTabSaver(this, VarCategory.my.name());
+
         AndroidUtils.centerAndWrapTabsFor(tabHost);
     }
 
+	@Override
+	protected void onDestroy() {
+		if (lastTabSaver != null) {
+			lastTabSaver.destroy();
+		}
+		super.onDestroy();
+	}
 }

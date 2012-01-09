@@ -15,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.AndroidUtils;
 import org.solovyev.android.calculator.R;
+import org.solovyev.android.view.LastTabSaver;
 
 /**
  * User: serso
@@ -22,6 +23,9 @@ import org.solovyev.android.calculator.R;
  * Time: 11:35 AM
  */
 public class CalculatorHelpTabActivity extends TabActivity {
+
+	@Nullable
+	private LastTabSaver lastTabSaver;
 
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,7 +39,7 @@ public class CalculatorHelpTabActivity extends TabActivity {
 		createTab(tabHost, "hints", R.string.c_hints, HelpHintsActivity.class);
 		createTab(tabHost, "screens", R.string.c_screens, HelpScreensActivity.class);
 
-		tabHost.setCurrentTab(0);
+		this.lastTabSaver = new LastTabSaver(this, "faq");
 
 		AndroidUtils.centerAndWrapTabsFor(tabHost);
 	}
@@ -53,5 +57,14 @@ public class CalculatorHelpTabActivity extends TabActivity {
 		spec = tabHost.newTabSpec(tabId).setIndicator(getString(tabCaptionId)).setContent(intent);
 
 		tabHost.addTab(spec);
+	}
+
+	@Override
+	protected void onDestroy() {
+		if (this.lastTabSaver != null) {
+			this.lastTabSaver.destroy();
+		}
+
+		super.onDestroy();
 	}
 }
