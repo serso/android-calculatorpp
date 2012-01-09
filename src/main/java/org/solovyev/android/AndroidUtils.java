@@ -79,6 +79,18 @@ public final class AndroidUtils {
 			}
 		}
 
+		if (result) {
+			String buildId = Build.DISPLAY;
+			if (buildId != null) {
+				buildId = buildId.toUpperCase();
+				if (buildId.contains("MIUI")) {
+					// fix for MIUI ROM
+					result = false;
+					Log.i(AndroidUtils.class.getName(), "Device build doesn't support center and wrap of tabs: " + Build.DISPLAY);
+				}
+			}
+		}
+
 		return result;
 	}
 
