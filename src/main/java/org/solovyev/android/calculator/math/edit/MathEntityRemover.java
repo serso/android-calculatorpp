@@ -58,17 +58,7 @@ class MathEntityRemover<T extends MathEntity> implements DialogInterface.OnClick
 	@Override
 	public void onClick(DialogInterface dialog, int which) {
 		if (!confirmed) {
-			final TextView question = new TextView(activity);
-			question.setText(String.format(activity.getString(R.string.c_var_removal_confirmation_question), mathEntity.getName()));
-			question.setPadding(6, 6, 6, 6);
-			final AlertDialog.Builder builder = new AlertDialog.Builder(activity)
-					.setCancelable(true)
-					.setView(question)
-					.setTitle(R.string.c_var_removal_confirmation)
-					.setNegativeButton(R.string.c_no, callbackOnCancel)
-					.setPositiveButton(R.string.c_yes, new MathEntityRemover<T>(mathEntity, callbackOnCancel, true, varsRegistry, activity));
-
-			builder.create().show();
+			showConfirmationDialog();
 		} else {
 			if (activity.isInCategory(mathEntity)) {
 				activity.getAdapter().remove(mathEntity);
@@ -80,5 +70,19 @@ class MathEntityRemover<T extends MathEntity> implements DialogInterface.OnClick
 				activity.getAdapter().notifyDataSetChanged();
 			}
 		}
+	}
+
+	public void showConfirmationDialog() {
+		final TextView question = new TextView(activity);
+		question.setText(String.format(activity.getString(R.string.c_var_removal_confirmation_question), mathEntity.getName()));
+		question.setPadding(6, 6, 6, 6);
+		final AlertDialog.Builder builder = new AlertDialog.Builder(activity)
+				.setCancelable(true)
+				.setView(question)
+				.setTitle(R.string.c_var_removal_confirmation)
+				.setNegativeButton(R.string.c_no, callbackOnCancel)
+				.setPositiveButton(R.string.c_yes, new MathEntityRemover<T>(mathEntity, callbackOnCancel, true, varsRegistry, activity));
+
+		builder.create().show();
 	}
 }

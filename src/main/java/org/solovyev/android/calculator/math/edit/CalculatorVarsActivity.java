@@ -62,6 +62,15 @@ public class CalculatorVarsActivity extends AbstractMathEntityListActivity<ICons
 			}
 		},
 
+		remove(R.string.c_remove) {
+			@Override
+			public void doAction(@NotNull IConstant data, @NotNull Context context) {
+				if (context instanceof AbstractMathEntityListActivity) {
+					new MathEntityRemover<IConstant>(data, null, CalculatorEngine.instance.getVarsRegistry(), ((AbstractMathEntityListActivity<IConstant>) context)).showConfirmationDialog();
+				}
+			}
+		},
+
 		copy_value(R.string.c_copy_value) {
 			@Override
 			public void doAction(@NotNull IConstant data, @NotNull Context context) {
@@ -126,6 +135,7 @@ public class CalculatorVarsActivity extends AbstractMathEntityListActivity<ICons
 		
 		if ( item.isSystem() ) {
 			result.remove(LongClickMenuItem.edit);
+			result.remove(LongClickMenuItem.remove);
 		}
 		
 		if ( StringUtils.isEmpty(CalculatorEngine.instance.getVarsRegistry().getDescription(this, item.getName())) ) {
