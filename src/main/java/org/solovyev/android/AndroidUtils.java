@@ -21,6 +21,7 @@ import com.google.ads.AdRequest;
 import com.google.ads.AdSize;
 import com.google.ads.AdView;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -151,6 +152,36 @@ public final class AndroidUtils {
 		adView.loadAd(adRequest);
 
 		return adView;
+	}
+
+	public static <T> void processViewsOfType(@NotNull View view, @NotNull Class<T> clazz, @NotNull ViewProcessor<T> viewProcessor) {
+		processViewsOfType0(view, clazz, viewProcessor);
+	}
+
+	public static void processViews(@NotNull View view, @NotNull ViewProcessor<View> viewProcessor) {
+		processViewsOfType0(view, null, viewProcessor);
+	}
+
+	private static <T> void processViewsOfType0(@NotNull View view, @Nullable Class<T> clazz, @NotNull ViewProcessor<T> viewProcessor) {
+		if (view instanceof ViewGroup) {
+			final ViewGroup viewGroup = (ViewGroup) view;
+
+			if (clazz == null || ViewGroup.class.isAssignableFrom(clazz)) {
+				//noinspection unchecked
+				viewProcessor.process((T) viewGroup);
+			}
+
+			for (int index = 0; index < viewGroup.getChildCount(); index++) {
+				processViewsOfType0(viewGroup.getChildAt(index), clazz, viewProcessor);
+			}
+		} else if (clazz == null || view.getClass().isAssignableFrom(clazz)) {
+			//noinspection unchecked
+			viewProcessor.process((T) view);
+		}
+	}
+
+	public static interface ViewProcessor<V> {
+		void process(@NotNull V view);
 	}
 
 }

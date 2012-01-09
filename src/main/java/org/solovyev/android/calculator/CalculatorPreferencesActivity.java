@@ -32,10 +32,10 @@ public class CalculatorPreferencesActivity extends PreferenceActivity implements
 
 		addPreferencesFromResource(R.xml.main_preferences);
 
-		final Preference addFreePreference = findPreference(CalculatorApplication.AD_FREE_P_KEY);
+		final Preference adFreePreference = findPreference(CalculatorApplication.AD_FREE_P_KEY);
 
 		if (!CalculatorApplication.isAdFree(this)) {
-			addFreePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+ 			adFreePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 				public boolean onPreferenceClick(Preference preference) {
 
 					// check billing availability
@@ -56,7 +56,7 @@ public class CalculatorPreferencesActivity extends PreferenceActivity implements
 				}
 			});
 		} else {
-			addFreePreference.setEnabled(false);
+			adFreePreference.setEnabled(false);
 		}
 
 		BillingController.registerObserver(this);
