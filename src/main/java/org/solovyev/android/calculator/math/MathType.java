@@ -7,7 +7,7 @@ package org.solovyev.android.calculator.math;
 
 import jscl.JsclMathEngine;
 import jscl.NumeralBase;
-import jscl.math.function.Constant;
+import jscl.math.function.Constants;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.StartsWithFinder;
@@ -125,7 +125,7 @@ public enum MathType {
 
 		@Override
 		protected String getSubstituteFromJscl(@NotNull String match) {
-			return Constant.INF_CONST2.getName().equals(match) ? MathType.INFINITY : super.getSubstituteFromJscl(match);
+			return Constants.INF_2.getName().equals(match) ? MathType.INFINITY : super.getSubstituteFromJscl(match);
 		}
 	},
 

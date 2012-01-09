@@ -147,4 +147,13 @@
 		or help to translate the application to your native language.
 	</string>
 
+	<string name="c_release_notes_for_25">
+		1. Integration of ln() and lg()\n
+		2. Last opened tab is remembered now (history, variables etc)\n
+		3. Remove option from context menu for variables\n
+		4. 1/0 bug\n
+		5. Gui defect for MIUI roms\n
+		6. Double zero (00) key
+	</string>
+
 </resources>
