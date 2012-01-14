@@ -12,7 +12,7 @@
 
 	<PreferenceCategory a:title="@string/c_prefs_calculations_category">
 
-		<org.solovyev.android.view.prefs.AdViewPreference
+		<org.solovyev.android.ads.AdViewPreference
 			 a:key="admob_01"
 			 a:layout="@layout/admob_pref"/>
 
@@ -22,7 +22,7 @@
 				a:title="@string/c_calc_round_result_title"
 				a:defaultValue="true"/>
 
-		<org.solovyev.android.view.prefs.NumberPickerDialogPreference
+		<org.solovyev.android.prefs.NumberPickerDialogPreference
 				a:key="@string/p_calc_result_precision_key"
 				a:title="@string/p_calc_result_precision_title"
 				a:summary="@string/c_calc_result_precision_summary"
@@ -58,7 +58,7 @@
 
 	<PreferenceCategory a:title="@string/c_prefs_appearance_category">
 
-		<org.solovyev.android.view.prefs.AdViewPreference
+		<org.solovyev.android.ads.AdViewPreference
 			 a:key="admob_02"
 			 a:layout="@layout/admob_pref"/>
 
@@ -93,7 +93,7 @@
 						a:entryValues="@array/p_layout_values"/>
 
 
-		<org.solovyev.android.view.prefs.FloatRangeSeekBarPreference
+		<org.solovyev.android.prefs.FloatRangeSeekBarPreference
 				a:key="@string/p_drag_distance_key"
 				a:title="@string/c_swipe_distance"
 				a:summary="@string/c_swipe_distance_summary"

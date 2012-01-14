@@ -33,7 +33,7 @@ public class CalculatorPreferencesActivity extends PreferenceActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		addPreferencesFromResource(R.xml.main_preferences);
+		addPreferencesFromResource(R.xml.preferences);
 
 		final Preference adFreePreference = findPreference(CalculatorApplication.AD_FREE_P_KEY);
 		adFreePreference.setEnabled(false);
