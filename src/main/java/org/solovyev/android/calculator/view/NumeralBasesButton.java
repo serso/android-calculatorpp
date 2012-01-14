@@ -4,7 +4,7 @@
  * or visit http://se.solovyev.org
  */
 
-package org.solovyev.android.view.widgets;
+package org.solovyev.android.calculator.view;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -14,6 +14,7 @@ import android.util.AttributeSet;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.model.CalculatorEngine;
+import org.solovyev.android.view.widgets.DirectionDragButton;
 
 /**
  * User: serso

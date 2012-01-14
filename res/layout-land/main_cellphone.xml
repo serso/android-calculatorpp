@@ -47,7 +47,7 @@
 					 a:layout_height="fill_parent"
 					 a:layout_weight="4"/>
 
-			<org.solovyev.android.view.widgets.NumeralBasesButton xmlns:a="http://schemas.android.com/apk/res/android"
+			<org.solovyev.android.calculator.view.NumeralBasesButton xmlns:a="http://schemas.android.com/apk/res/android"
 														   xmlns:c="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
 														   a:id="@+id/clearButton"
 														   c:textUp="dec"

@@ -4,7 +4,7 @@
  * or visit http://se.solovyev.org
  */
 
-package org.solovyev.android.calculator;
+package org.solovyev.android.calculator.plot;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -33,8 +33,7 @@ import org.achartengine.tools.ZoomEvent;
 import org.achartengine.tools.ZoomListener;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.plot.MyXYSeries;
-import org.solovyev.android.calculator.plot.PlotUtils;
+import org.solovyev.android.calculator.R;
 import org.solovyev.common.utils.MutableObject;
 
 import java.io.Serializable;

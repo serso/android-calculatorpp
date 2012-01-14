@@ -4,7 +4,7 @@
  * or visit http://se.solovyev.org
  */
 
-package org.solovyev.android.calculator;
+package org.solovyev.android.calculator.view;
 
 import jscl.MathContext;
 import org.jetbrains.annotations.NotNull;

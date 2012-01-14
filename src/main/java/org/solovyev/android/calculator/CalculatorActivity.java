@@ -37,6 +37,8 @@ import org.solovyev.android.calculator.history.CalculatorHistory;
 import org.solovyev.android.calculator.history.CalculatorHistoryState;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.CalculatorEngine;
+import org.solovyev.android.calculator.view.AngleUnitsButton;
+import org.solovyev.android.calculator.view.NumeralBasesButton;
 import org.solovyev.android.view.FontSizeAdjuster;
 import org.solovyev.android.view.prefs.IntegerPreference;
 import org.solovyev.android.view.prefs.Preference;
@@ -126,6 +128,10 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		}
 
 		ResourceCache.instance.initCaptions(CalculatorApplication.getInstance(), R.string.class);
+
+		billingObserver = new CalculatorBillingObserver(this);
+		BillingController.registerObserver(billingObserver);
+
 		firstTimeInit(preferences);
 
 		// init billing controller
@@ -384,9 +390,6 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 	private synchronized void firstTimeInit(@NotNull SharedPreferences preferences) {
 		if (!initialized) {
-
-			billingObserver = new CalculatorBillingObserver(this);
-			BillingController.registerObserver(billingObserver);
 
 			final int savedVersion = Preferences.appVersion.getPreference(preferences);
 

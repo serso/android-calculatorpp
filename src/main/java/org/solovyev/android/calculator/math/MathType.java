@@ -10,7 +10,7 @@ import jscl.NumeralBase;
 import jscl.math.function.Constants;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.StartsWithFinder;
+import org.solovyev.common.StartsWithFinder;
 import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.calculator.model.CalculatorParseException;
 import org.solovyev.common.utils.CollectionsUtils;

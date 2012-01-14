@@ -8,7 +8,7 @@ package org.solovyev.android.calculator.model;
 
 import jscl.math.function.IConstant;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.calculator.StartsWithFinder;
+import org.solovyev.common.StartsWithFinder;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.common.utils.CollectionsUtils;
 

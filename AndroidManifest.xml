@@ -93,7 +93,7 @@
 				  a:label="@string/c_vars_and_constants"
 				  a:configChanges="orientation|keyboardHidden"/>
 
-		<activity a:name=".CalculatorPlotActivity"
+		<activity a:name=".plot.CalculatorPlotActivity"
 				  a:label="@string/c_plot_graph"/>
 
 		<activity a:name="com.google.ads.AdActivity"

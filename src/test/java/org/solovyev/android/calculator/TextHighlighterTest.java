@@ -13,6 +13,7 @@ import junit.framework.Assert;
 import org.junit.Test;
 import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.calculator.model.TextProcessor;
+import org.solovyev.android.calculator.view.TextHighlighter;
 
 import java.util.Date;
 import java.util.Random;
