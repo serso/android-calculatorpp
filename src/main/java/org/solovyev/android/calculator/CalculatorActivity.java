@@ -40,9 +40,11 @@ import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.calculator.view.AngleUnitsButton;
 import org.solovyev.android.calculator.view.NumeralBasesButton;
+import org.solovyev.android.history.HistoryDragProcessor;
 import org.solovyev.android.prefs.IntegerPreference;
 import org.solovyev.android.prefs.Preference;
 import org.solovyev.android.view.*;
+import org.solovyev.android.view.drag.*;
 import org.solovyev.common.utils.Announcer;
 import org.solovyev.common.utils.Point2d;
 import org.solovyev.common.utils.StringUtils;
@@ -343,7 +345,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		}
 
 		@Override
-		public boolean onDrag(@NotNull DragButton dragButton, @NotNull org.solovyev.android.view.DragEvent event) {
+		public boolean onDrag(@NotNull DragButton dragButton, @NotNull org.solovyev.android.view.drag.DragEvent event) {
 			boolean result = super.onDrag(dragButton, event);
 
 			if (result) {

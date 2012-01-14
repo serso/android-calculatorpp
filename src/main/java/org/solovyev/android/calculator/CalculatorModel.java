@@ -23,7 +23,7 @@ import jscl.math.function.IConstant;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.CursorControl;
-import org.solovyev.android.HistoryControl;
+import org.solovyev.android.history.HistoryControl;
 import org.solovyev.android.calculator.history.CalculatorHistory;
 import org.solovyev.android.calculator.history.CalculatorHistoryState;
 import org.solovyev.android.calculator.history.TextViewEditorAdapter;
