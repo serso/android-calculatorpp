@@ -10,7 +10,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import com.google.ads.AdView;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.CalculatorApplication;
+import org.solovyev.android.ads.AdsController;
 
 /**
  * User: serso
@@ -35,7 +35,7 @@ public class AbstractHelpActivity extends Activity {
 		setContentView(layoutId);
 
 		// do not inflate ad in help (as some problems were encountered dut to ScrollView - no space for ad banner)
-		adView = CalculatorApplication.inflateAd(this);
+		adView = AdsController.getInstance().inflateAd(this);
 	}
 
 	@Override

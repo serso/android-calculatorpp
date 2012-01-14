@@ -1,22 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<declare-styleable name="DirectionDragButton">
-		<attr name="textUp" format="string"/>
-		<attr name="textDown" format="string"/>
-		<attr name="textRight" format="string"/>
-		<attr name="textLeft" format="string"/>
-		<attr name="directionTextScale" format="string"/>
-		<attr name="directionTextAlpha" format="integer"/>
-	</declare-styleable>
-
-	<declare-styleable name="DragButton">
-		<attr name="hTextPosition" format="float"/>
-	</declare-styleable>
-
-	<declare-styleable name="NumberRangeSeekBar">
-		<attr name="boundaries" format="string"/>
-		<attr name="steps" format="integer"/>
-	</declare-styleable>
 
 	<attr name="digitButtonStyle" format="reference" />
 	<attr name="controlButtonStyle" format="reference" />

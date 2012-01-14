@@ -1,17 +1,8 @@
 package org.solovyev.android.calculator;
 
-import android.app.Activity;
-import android.content.Context;
-import android.util.Log;
-import android.view.ViewGroup;
-import com.google.ads.AdView;
 import net.robotmedia.billing.BillingController;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.AndroidUtils;
-
-import java.util.Collections;
-import java.util.List;
+import org.solovyev.android.ads.AdsController;
 
 /**
  * User: serso
@@ -37,53 +28,11 @@ public class CalculatorApplication extends android.app.Application {
 		return instance;
 	}
 
-	private static boolean isAdFreePurchased(@NotNull Context context) {
-		return BillingController.isPurchased(context.getApplicationContext(), AD_FREE_PRODUCT_ID);
-	}
-
-	private static boolean transactionsRestored = false;
-
-	public static boolean isAdFree(@NotNull Context context) {
-		// check if user already bought this product
-		boolean purchased = isAdFreePurchased(context);
-		if (!purchased && !transactionsRestored) {
-			// we must to restore all transactions done by user to guarantee that product was purchased or not
-			BillingController.restoreTransactions(context);
-
-			transactionsRestored = true;
-
-			// todo serso: may be call net.robotmedia.billing.BillingController.restoreTransactions() always before first check and get rid of second check
-			// check the billing one more time
-			purchased = isAdFreePurchased(context);
-		}
-		return purchased;
-	}
-
-	@Nullable
-	public static AdView inflateAd(@NotNull Activity activity) {
-		return inflateAd(activity, null, R.id.ad_parent_view);
-	}
-
-	@Nullable
-	public static AdView inflateAd(@NotNull Activity activity, @Nullable ViewGroup parentView, int parentViewId) {
-		AdView result = null;
-		if ( !isAdFree(activity) ) {
-			Log.d(activity.getClass().getName(), "Application is not ad free - inflating ad!");
-			final List<String> keywords = Collections.emptyList();
-			result = AndroidUtils.createAndInflateAdView(activity, ADMOB_USER_ID, parentView, parentViewId, keywords);
-		} else {
-			Log.d(activity.getClass().getName(), "Application is ad free - no ads!");
-		}
-
-		return result;
-	}
-
 	@Override
 	public void onCreate() {
 		super.onCreate();
 
-		//BillingController.setDebug(true);
-		BillingController.setConfiguration(new BillingController.IConfiguration() {
+		AdsController.getInstance().init(ADMOB_USER_ID, AD_FREE_PRODUCT_ID, new BillingController.IConfiguration() {
 
 			@Override
 			public byte[] getObfuscationSalt() {

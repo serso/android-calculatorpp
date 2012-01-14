@@ -19,7 +19,7 @@ import android.widget.ListView;
 import com.google.ads.AdView;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.CalculatorApplication;
+import org.solovyev.android.ads.AdsController;
 import org.solovyev.android.calculator.CalculatorModel;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.jscl.JsclOperation;
@@ -67,7 +67,7 @@ public abstract class AbstractHistoryActivity extends ListActivity {
 
 		setContentView(R.layout.history_activity);
 
-		adView = CalculatorApplication.inflateAd(this);
+		adView = AdsController.getInstance().inflateAd(this);
 
 		adapter = new HistoryArrayAdapter(this, getLayoutId(), R.id.history_item, new ArrayList<CalculatorHistoryState>());
 		setListAdapter(adapter);

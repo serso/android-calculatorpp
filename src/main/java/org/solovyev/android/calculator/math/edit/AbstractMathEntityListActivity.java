@@ -18,7 +18,7 @@ import android.widget.*;
 import com.google.ads.AdView;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.CalculatorApplication;
+import org.solovyev.android.ads.AdsController;
 import org.solovyev.android.calculator.CalculatorModel;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.model.AndroidMathRegistry;
@@ -90,7 +90,7 @@ public abstract class AbstractMathEntityListActivity<T extends MathEntity> exten
 
         setContentView(getLayoutId());
 
-		adView = CalculatorApplication.inflateAd(this);
+		adView = AdsController.getInstance().inflateAd(this);
 
 		final Intent intent = getIntent();
         if ( intent != null ) {

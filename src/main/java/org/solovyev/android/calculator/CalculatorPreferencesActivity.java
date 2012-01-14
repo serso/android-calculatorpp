@@ -18,6 +18,7 @@ import net.robotmedia.billing.BillingRequest;
 import net.robotmedia.billing.IBillingObserver;
 import net.robotmedia.billing.model.Transaction;
 import org.solovyev.android.AndroidUtils;
+import org.solovyev.android.ads.AdsController;
 import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.view.widgets.VibratorContainer;
 
@@ -63,7 +64,7 @@ public class CalculatorPreferencesActivity extends PreferenceActivity implements
 	private void setAdFreeAction() {
 		final Preference adFreePreference = findPreference(CalculatorApplication.AD_FREE_P_KEY);
 
-		if (!CalculatorApplication.isAdFree(this)) {
+		if (!AdsController.getInstance().isAdFree(this)) {
 			Log.d(CalculatorPreferencesActivity.class.getName(), "Ad free is not purchased - enable preference!");
 
 			adFreePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -76,7 +77,7 @@ public class CalculatorPreferencesActivity extends PreferenceActivity implements
 						new AlertDialog.Builder(CalculatorPreferencesActivity.this).setTitle(R.string.c_error).setMessage(R.string.c_billing_error).create().show();
 					} else {
 						Log.d(CalculatorPreferencesActivity.class.getName(), "Billing is supported - continue!");
-						if (!CalculatorApplication.isAdFree(CalculatorPreferencesActivity.this)) {
+						if (!AdsController.getInstance().isAdFree(CalculatorPreferencesActivity.this)) {
 							Log.d(CalculatorPreferencesActivity.class.getName(), "Item not purchased - try to purchase!");
 
 							// not purchased => purchasing
