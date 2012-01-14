@@ -2,8 +2,9 @@ package org.solovyev.common;
 
 import junit.framework.Assert;
 import org.junit.Test;
+import org.solovyev.common.text.Mapper;
+import org.solovyev.common.text.NumberIntervalMapper;
 import org.solovyev.common.utils.Interval;
-import org.solovyev.common.utils.Mapper;
 import org.solovyev.common.utils.NumberInterval;
 
 /**

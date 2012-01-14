@@ -16,12 +16,12 @@ import jscl.text.ParseInterruptedException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.jscl.JsclOperation;
-import org.solovyev.android.view.prefs.BooleanPreference;
-import org.solovyev.android.view.prefs.EnumMapper;
-import org.solovyev.android.view.prefs.Preference;
-import org.solovyev.android.view.prefs.StringPreference;
-import org.solovyev.common.NumberMapper;
+import org.solovyev.android.prefs.BooleanPreference;
+import org.solovyev.common.text.EnumMapper;
+import org.solovyev.android.prefs.Preference;
+import org.solovyev.android.prefs.StringPreference;
 import org.solovyev.common.msg.MessageRegistry;
+import org.solovyev.common.text.NumberMapper;
 import org.solovyev.common.utils.MutableObject;
 import org.solovyev.common.utils.StringUtils;
 

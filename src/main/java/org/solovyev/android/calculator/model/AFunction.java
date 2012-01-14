@@ -10,8 +10,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
+import org.solovyev.common.text.StringMapper;
 import org.solovyev.common.utils.CollectionsUtils;
-import org.solovyev.common.utils.StringMapper;
 
 import java.util.List;
 
