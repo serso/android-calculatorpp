@@ -9,12 +9,19 @@
 			a:layout_width="fill_parent"
 			a:layout_height="fill_parent">
 
-	<TextView
-			xmlns:a="http://schemas.android.com/apk/res/android"
-			a:text="@string/c_hints_content"
-			a:gravity="top|left"
-			a:layout_weight="1"
-			a:scrollbars="vertical"
-			style="@style/about_style"/>
+	<LinearLayout
+			a:orientation="vertical"
+			a:id="@+id/ad_parent_view"
+			a:layout_width="fill_parent"
+			a:layout_height="fill_parent">
+
+		<TextView
+				xmlns:a="http://schemas.android.com/apk/res/android"
+				a:text="@string/c_hints_content"
+				a:gravity="top|left"
+				a:layout_weight="1"
+				a:scrollbars="vertical"
+				style="@style/about_style"/>
+	</LinearLayout>
 
 </ScrollView>

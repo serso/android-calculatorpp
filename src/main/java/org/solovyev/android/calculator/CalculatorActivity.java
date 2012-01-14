@@ -599,24 +599,6 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		view.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontPixelSize * ratio);
 	}
 
-	public void restart() {
-		final Intent intent = getIntent();
-		/*
-		for compatibility with android_1.6_compatibility
-		overridePendingTransition(0, 0);
-		intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);*/
-
-		Log.d(this.getClass().getName(), "Finishing current activity!");
-		finish();
-
-		/*
-		for compatibility with android_1.6_compatibility
-
-		overridePendingTransition(0, 0);*/
-		Log.d(this.getClass().getName(), "Starting new activity!");
-		startActivity(intent);
-	}
-
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -626,7 +608,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		final String newLayoutName = preferences.getString(getString(R.string.p_calc_layout_key), getString(R.string.p_calc_layout));
 		final String newThemeName = preferences.getString(getString(R.string.p_calc_theme_key), getString(R.string.p_calc_theme));
 		if (!themeName.equals(newThemeName) || !layoutName.equals(newLayoutName)) {
-			restart();
+			AndroidUtils.restartActivity(this);
 		}
 
 		calculatorModel = CalculatorModel.instance.init(this, preferences, CalculatorEngine.instance);

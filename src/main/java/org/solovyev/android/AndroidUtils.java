@@ -129,12 +129,13 @@ public final class AndroidUtils {
 	@NotNull
 	public static AdView createAndInflateAdView(@NotNull Activity activity,
 												@NotNull String admobAccountId,
+												@Nullable ViewGroup parentView,
 												int layoutId,
 												@NotNull List<String> keywords) {
+		final ViewGroup layout = parentView != null ? parentView : (ViewGroup) activity.findViewById(layoutId);
+
 		// Create the adView
 		final AdView adView = new AdView(activity, AdSize.BANNER, admobAccountId);
-
-		final ViewGroup layout = (ViewGroup) activity.findViewById(layoutId);
 
 		// Add the adView to it
 		layout.addView(adView);
@@ -182,6 +183,24 @@ public final class AndroidUtils {
 
 	public static interface ViewProcessor<V> {
 		void process(@NotNull V view);
+	}
+
+	public static void restartActivity(@NotNull Activity activity) {
+		final Intent intent = activity.getIntent();
+		/*
+		for compatibility with android_1.6_compatibility
+		overridePendingTransition(0, 0);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);*/
+
+		Log.d(activity.getClass().getName(), "Finishing current activity!");
+		activity.finish();
+
+		/*
+		for compatibility with android_1.6_compatibility
+
+		overridePendingTransition(0, 0);*/
+		Log.d(activity.getClass().getName(), "Starting new activity!");
+		activity.startActivity(intent);
 	}
 
 }

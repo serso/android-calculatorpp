@@ -3,6 +3,7 @@ package org.solovyev.android.calculator;
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
+import android.view.ViewGroup;
 import com.google.ads.AdView;
 import net.robotmedia.billing.BillingController;
 import org.jetbrains.annotations.NotNull;
@@ -60,16 +61,16 @@ public class CalculatorApplication extends android.app.Application {
 
 	@Nullable
 	public static AdView inflateAd(@NotNull Activity activity) {
-		return inflateAd(activity, R.id.ad_parent_view);
+		return inflateAd(activity, null, R.id.ad_parent_view);
 	}
 
 	@Nullable
-	public static AdView inflateAd(@NotNull Activity activity, int parentViewId) {
+	public static AdView inflateAd(@NotNull Activity activity, @Nullable ViewGroup parentView, int parentViewId) {
 		AdView result = null;
 		if ( !isAdFree(activity) ) {
 			Log.d(activity.getClass().getName(), "Application is not ad free - inflating ad!");
 			final List<String> keywords = Collections.emptyList();
-			result = AndroidUtils.createAndInflateAdView(activity, ADMOB_USER_ID, parentViewId, keywords);
+			result = AndroidUtils.createAndInflateAdView(activity, ADMOB_USER_ID, parentView, parentViewId, keywords);
 		} else {
 			Log.d(activity.getClass().getName(), "Application is ad free - no ads!");
 		}

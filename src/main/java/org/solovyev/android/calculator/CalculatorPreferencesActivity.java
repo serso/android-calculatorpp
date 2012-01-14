@@ -17,6 +17,7 @@ import net.robotmedia.billing.BillingController;
 import net.robotmedia.billing.BillingRequest;
 import net.robotmedia.billing.IBillingObserver;
 import net.robotmedia.billing.model.Transaction;
+import org.solovyev.android.AndroidUtils;
 import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.view.widgets.VibratorContainer;
 
@@ -135,17 +136,19 @@ public class CalculatorPreferencesActivity extends PreferenceActivity implements
 	@Override
 	public void onPurchaseStateChanged(String itemId, Transaction.PurchaseState state) {
 		if (CalculatorApplication.AD_FREE_PRODUCT_ID.equals(itemId)) {
-			final Preference addFreePreference = findPreference(CalculatorApplication.AD_FREE_P_KEY);
-			if (addFreePreference != null) {
+			final Preference adFreePreference = findPreference(CalculatorApplication.AD_FREE_P_KEY);
+			if (adFreePreference != null) {
 				switch (state) {
 					case PURCHASED:
-						addFreePreference.setEnabled(false);
+						adFreePreference.setEnabled(false);
+						// restart activity to disable ads
+						AndroidUtils.restartActivity(this);
 						break;
 					case CANCELLED:
-						addFreePreference.setEnabled(true);
+						adFreePreference.setEnabled(true);
 						break;
 					case REFUNDED:
-						addFreePreference.setEnabled(true);
+						adFreePreference.setEnabled(true);
 						break;
 				}
 			} else {
