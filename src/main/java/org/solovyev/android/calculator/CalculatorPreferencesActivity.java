@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.util.Log;
+import android.widget.Toast;
 import net.robotmedia.billing.BillingController;
 import net.robotmedia.billing.BillingRequest;
 import net.robotmedia.billing.IBillingObserver;
@@ -33,9 +34,38 @@ public class CalculatorPreferencesActivity extends PreferenceActivity implements
 		addPreferencesFromResource(R.xml.main_preferences);
 
 		final Preference adFreePreference = findPreference(CalculatorApplication.AD_FREE_P_KEY);
+		adFreePreference.setEnabled(false);
+
+		// observer must be set before net.robotmedia.billing.BillingController.checkBillingSupported()
+		BillingController.registerObserver(this);
+
+		// check billing support one more time as user can turn on internet while he is in current activity
+		switch (BillingController.checkBillingSupported(CalculatorPreferencesActivity.this)) {
+			case UNKNOWN:
+				// unknown => will wait the invocation of onBillingChecked()
+				Log.d(CalculatorPreferencesActivity.class.getName(), "Billing state in unknown - waiting!");
+				break;
+			case SUPPORTED:
+				onBillingChecked(true);
+				break;
+			case UNSUPPORTED:
+				 onBillingChecked(false);
+				break;
+		}
+
+		final SharedPreferences preferences = getPreferenceManager().getSharedPreferences();
+		preferences.registerOnSharedPreferenceChangeListener(this);
+		onSharedPreferenceChanged(preferences, CalculatorEngine.Preferences.roundResult.getKey());
+		onSharedPreferenceChanged(preferences, VibratorContainer.HAPTIC_FEEDBACK_P_KEY);
+	}
+
+	private void setAdFreeAction() {
+		final Preference adFreePreference = findPreference(CalculatorApplication.AD_FREE_P_KEY);
 
 		if (!CalculatorApplication.isAdFree(this)) {
- 			adFreePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+			Log.d(CalculatorPreferencesActivity.class.getName(), "Ad free is not purchased - enable preference!");
+
+			adFreePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 				public boolean onPreferenceClick(Preference preference) {
 
 					// check billing availability
@@ -47,24 +77,28 @@ public class CalculatorPreferencesActivity extends PreferenceActivity implements
 						Log.d(CalculatorPreferencesActivity.class.getName(), "Billing is supported - continue!");
 						if (!CalculatorApplication.isAdFree(CalculatorPreferencesActivity.this)) {
 							Log.d(CalculatorPreferencesActivity.class.getName(), "Item not purchased - try to purchase!");
-							// not purchased => show purchase window for user
+
+							// not purchased => purchasing
+							Toast.makeText(CalculatorPreferencesActivity.this, R.string.c_calc_purchasing, Toast.LENGTH_SHORT).show();
+
+							// show purchase window for user
 							BillingController.requestPurchase(CalculatorPreferencesActivity.this, CalculatorApplication.AD_FREE_PRODUCT_ID, true);
+						} else {
+							// disable preference
+							adFreePreference.setEnabled(false);
+							// and show message to user
+							Toast.makeText(CalculatorPreferencesActivity.this, R.string.c_calc_already_purchased, Toast.LENGTH_SHORT).show();
 						}
 					}
 
 					return true;
 				}
 			});
+			adFreePreference.setEnabled(true);
 		} else {
+			Log.d(CalculatorPreferencesActivity.class.getName(), "Ad free is not purchased - disable preference!");
 			adFreePreference.setEnabled(false);
 		}
-
-		BillingController.registerObserver(this);
-
-		final SharedPreferences preferences = getPreferenceManager().getSharedPreferences();
-		preferences.registerOnSharedPreferenceChangeListener(this);
-		onSharedPreferenceChanged(preferences, CalculatorEngine.Preferences.roundResult.getKey());
-		onSharedPreferenceChanged(preferences, VibratorContainer.HAPTIC_FEEDBACK_P_KEY);
 	}
 
 	@Override
@@ -84,7 +118,13 @@ public class CalculatorPreferencesActivity extends PreferenceActivity implements
 
 	@Override
 	public void onBillingChecked(boolean supported) {
-		// do nothing
+		if ( supported ) {
+			setAdFreeAction();
+		} else {
+			final Preference adFreePreference = findPreference(CalculatorApplication.AD_FREE_P_KEY);
+			adFreePreference.setEnabled(false);
+			Log.d(CalculatorPreferencesActivity.class.getName(), "Billing is not supported!");
+		}
 	}
 
 	@Override
