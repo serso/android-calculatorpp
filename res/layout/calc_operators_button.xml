@@ -6,7 +6,7 @@
   ~ or visit http://se.solovyev.org
   -->
 
-<org.solovyev.android.view.widgets.DirectionDragButton xmlns:a="http://schemas.android.com/apk/res/android"
+<org.solovyev.android.view.DirectionDragButton xmlns:a="http://schemas.android.com/apk/res/android"
 													   a:id="@+id/functionsButton"
 													   a:text="∂,…"
 													   a:onClick="operatorsButtonClickHandler"

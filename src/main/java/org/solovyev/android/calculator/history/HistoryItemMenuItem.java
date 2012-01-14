@@ -19,7 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.R;
-import org.solovyev.android.view.AMenuItem;
+import org.solovyev.android.menu.AMenuItem;
 import org.solovyev.common.utils.StringUtils;
 
 /**

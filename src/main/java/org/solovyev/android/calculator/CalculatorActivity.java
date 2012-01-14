@@ -31,6 +31,7 @@ import net.robotmedia.billing.IBillingObserver;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.AndroidUtils;
+import org.solovyev.android.FontSizeAdjuster;
 import org.solovyev.android.ResourceCache;
 import org.solovyev.android.calculator.about.CalculatorReleaseNotesActivity;
 import org.solovyev.android.calculator.history.CalculatorHistory;
@@ -39,11 +40,9 @@ import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.calculator.view.AngleUnitsButton;
 import org.solovyev.android.calculator.view.NumeralBasesButton;
-import org.solovyev.android.view.FontSizeAdjuster;
 import org.solovyev.android.prefs.IntegerPreference;
 import org.solovyev.android.prefs.Preference;
-import org.solovyev.android.view.widgets.*;
-import org.solovyev.android.view.widgets.DragEvent;
+import org.solovyev.android.view.*;
 import org.solovyev.common.utils.Announcer;
 import org.solovyev.common.utils.Point2d;
 import org.solovyev.common.utils.StringUtils;
@@ -344,7 +343,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		}
 
 		@Override
-		public boolean onDrag(@NotNull DragButton dragButton, @NotNull DragEvent event) {
+		public boolean onDrag(@NotNull DragButton dragButton, @NotNull org.solovyev.android.view.DragEvent event) {
 			boolean result = super.onDrag(dragButton, event);
 
 			if (result) {

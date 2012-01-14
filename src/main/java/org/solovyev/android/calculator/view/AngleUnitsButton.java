@@ -14,7 +14,7 @@ import android.util.AttributeSet;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.model.CalculatorEngine;
-import org.solovyev.android.view.widgets.DirectionDragButton;
+import org.solovyev.android.view.DirectionDragButton;
 
 /**
  * User: serso

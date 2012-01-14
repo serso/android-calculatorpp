@@ -6,7 +6,7 @@
   ~ or visit http://se.solovyev.org
   -->
 
-<org.solovyev.android.view.widgets.DirectionDragButton xmlns:a="http://schemas.android.com/apk/res/android"
+<org.solovyev.android.view.DirectionDragButton xmlns:a="http://schemas.android.com/apk/res/android"
 													   xmlns:c="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
 													   a:id="@+id/oneDigitButton"
 													   a:text="1"

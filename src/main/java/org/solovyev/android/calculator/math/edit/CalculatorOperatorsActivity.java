@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.CalculatorModel;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.model.CalculatorEngine;
-import org.solovyev.android.view.AMenuItem;
+import org.solovyev.android.menu.AMenuItem;
 import org.solovyev.common.utils.StringUtils;
 
 import java.util.ArrayList;

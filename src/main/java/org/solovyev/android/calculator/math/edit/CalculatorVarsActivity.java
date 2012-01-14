@@ -26,7 +26,7 @@ import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.calculator.model.Var;
-import org.solovyev.android.view.AMenuItem;
+import org.solovyev.android.menu.AMenuItem;
 import org.solovyev.common.utils.CollectionsUtils;
 import org.solovyev.common.utils.Finder;
 import org.solovyev.common.utils.StringUtils;

@@ -20,7 +20,7 @@ import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.calculator.model.CalculatorParseException;
 import org.solovyev.android.calculator.model.TextProcessor;
 import org.solovyev.android.calculator.view.TextHighlighter;
-import org.solovyev.android.view.AMenuItem;
+import org.solovyev.android.menu.AMenuItem;
 import org.solovyev.android.view.AutoResizeTextView;
 
 import java.util.HashSet;

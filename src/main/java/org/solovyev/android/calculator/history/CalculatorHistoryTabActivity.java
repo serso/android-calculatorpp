@@ -11,8 +11,8 @@ import android.os.Bundle;
 import android.widget.TabHost;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.AndroidUtils;
+import org.solovyev.android.LastTabSaver;
 import org.solovyev.android.calculator.R;
-import org.solovyev.android.view.LastTabSaver;
 
 /**
  * User: serso

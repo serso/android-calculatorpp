@@ -20,7 +20,7 @@ import net.robotmedia.billing.model.Transaction;
 import org.solovyev.android.AndroidUtils;
 import org.solovyev.android.ads.AdsController;
 import org.solovyev.android.calculator.model.CalculatorEngine;
-import org.solovyev.android.view.widgets.VibratorContainer;
+import org.solovyev.android.view.VibratorContainer;
 
 /**
  * User: serso

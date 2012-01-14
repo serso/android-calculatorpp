@@ -18,7 +18,7 @@
 
 		<LinearLayout a:layout_weight="1" a:layout_width="fill_parent" a:layout_height="0dp">
 
-			<org.solovyev.android.view.widgets.DirectionDragButton xmlns:a="http://schemas.android.com/apk/res/android"
+			<org.solovyev.android.view.DirectionDragButton xmlns:a="http://schemas.android.com/apk/res/android"
 																   xmlns:c="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
 																   a:id="@+id/leftButton"
 																   c:textUp="◀◀"
@@ -31,7 +31,7 @@
 																   a:layout_weight="1"/>
 
 
-			<org.solovyev.android.view.widgets.ColorButton xmlns:a="http://schemas.android.com/apk/res/android"
+			<org.solovyev.android.view.ColorButton xmlns:a="http://schemas.android.com/apk/res/android"
 														   xmlns:c="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
 														   a:id="@+id/eraseButton"
 														   a:drawableTop="@drawable/sym_keyboard_delete"
@@ -61,7 +61,7 @@
 														   a:layout_height="fill_parent"
 														   a:layout_weight="1"/>
 
-			<org.solovyev.android.view.widgets.DirectionDragButton xmlns:a="http://schemas.android.com/apk/res/android"
+			<org.solovyev.android.view.DirectionDragButton xmlns:a="http://schemas.android.com/apk/res/android"
 																   xmlns:c="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
 																   a:id="@+id/rightButton"
 																   c:textUp="▶▶"

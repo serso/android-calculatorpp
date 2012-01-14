@@ -21,7 +21,7 @@
 					   a:layout_width="80dp"
 					   a:layout_height="80dp"/>
 
-			<org.solovyev.android.view.widgets.DirectionDragButton a:id="@+id/calibrationButtonLeft"
+			<org.solovyev.android.view.DirectionDragButton a:id="@+id/calibrationButtonLeft"
 														   a:text=""
 														   c:textUp="@string/c_up"
 														   c:textDown="@string/c_down"
@@ -29,7 +29,7 @@
 														   a:layout_height="80dp"
 														   style="?digitButtonStyle"/>
 
-			<org.solovyev.android.view.widgets.DirectionDragButton a:id="@+id/calibrationButtonRight"
+			<org.solovyev.android.view.DirectionDragButton a:id="@+id/calibrationButtonRight"
 														   a:text=""
 														   c:textUp="@string/c_up"
 														   c:textDown="@string/c_down"

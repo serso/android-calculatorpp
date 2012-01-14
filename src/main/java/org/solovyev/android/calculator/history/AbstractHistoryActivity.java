@@ -23,8 +23,8 @@ import org.solovyev.android.ads.AdsController;
 import org.solovyev.android.calculator.CalculatorModel;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.jscl.JsclOperation;
-import org.solovyev.android.view.AMenuBuilder;
-import org.solovyev.android.view.MenuImpl;
+import org.solovyev.android.menu.AMenuBuilder;
+import org.solovyev.android.menu.MenuImpl;
 import org.solovyev.common.utils.*;
 
 import java.util.ArrayList;
