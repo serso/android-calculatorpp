@@ -128,6 +128,9 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		ResourceCache.instance.initCaptions(CalculatorApplication.getInstance(), R.string.class);
 		firstTimeInit(preferences);
 
+		// init billing controller
+		BillingController.checkBillingSupported(this);
+
 		vibrator = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
 
 		CalculatorHistory.instance.load(this, preferences);
@@ -384,7 +387,6 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 			billingObserver = new CalculatorBillingObserver(this);
 			BillingController.registerObserver(billingObserver);
-			BillingController.checkBillingSupported(this);
 
 			final int savedVersion = Preferences.appVersion.getPreference(preferences);
 
