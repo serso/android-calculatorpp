@@ -156,4 +156,11 @@
 		6. Double zero (00) key
 	</string>
 
+	<string name="c_release_notes_for_26">
+		1. Integration of trigonometric functions is disabled for not radian angles\n
+		2. Bug with 1/0 = -1/0 fixed\n
+		3. Bug with ∫(sin(t°), t) fixed\n
+		4. Other small fixes
+	</string>
+
 </resources>
