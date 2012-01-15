@@ -9,7 +9,11 @@
 	<artifactId>calculator</artifactId>
 	<version>1.1.4</version>
 
-	<packaging>jar</packaging>
+	<modules>
+		<module>../android_common</module>
+	</modules>
+
+	<packaging>pom</packaging>
 
 	<properties>
 		<additionalLibs>${basedir}/src/misc/lib</additionalLibs>
@@ -37,6 +41,12 @@
 			<groupId>org.solovyev</groupId>
 			<artifactId>common</artifactId>
 			<version>0.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.solovyev.android</groupId>
+			<artifactId>common</artifactId>
+			<version>0.1</version>
 		</dependency>
 
 		<dependency>
