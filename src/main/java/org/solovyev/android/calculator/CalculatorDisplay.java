@@ -49,6 +49,7 @@ public class CalculatorDisplay extends AutoResizeTextView implements ICalculator
 		plot(R.string.c_plot_graph) {
 			@Override
 			public void doAction(@NotNull CalculatorDisplay data, @NotNull Context context) {
+
 				//To change body of implemented methods use File | Settings | File Templates.
 			}
 
