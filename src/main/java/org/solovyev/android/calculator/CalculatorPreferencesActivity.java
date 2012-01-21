@@ -14,9 +14,10 @@ import android.preference.PreferenceActivity;
 import android.util.Log;
 import android.widget.Toast;
 import net.robotmedia.billing.BillingController;
-import net.robotmedia.billing.BillingRequest;
 import net.robotmedia.billing.IBillingObserver;
 import net.robotmedia.billing.model.Transaction;
+import net.robotmedia.billing.requests.ResponseCode;
+import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.AndroidUtils;
 import org.solovyev.android.ads.AdsController;
 import org.solovyev.android.calculator.model.CalculatorEngine;
@@ -130,12 +131,17 @@ public class CalculatorPreferencesActivity extends PreferenceActivity implements
 	}
 
 	@Override
-	public void onPurchaseIntent(String itemId, PendingIntent purchaseIntent) {
+	public void onPurchaseIntent(@NotNull String itemId, @NotNull PendingIntent purchaseIntent) {
 		// do nothing
 	}
 
 	@Override
-	public void onPurchaseStateChanged(String itemId, Transaction.PurchaseState state) {
+	public void onPurchaseIntentFailure(@NotNull String s, @NotNull ResponseCode responseCode) {
+		// do nothing
+	}
+
+	@Override
+	public void onPurchaseStateChanged(@NotNull String itemId, @NotNull Transaction.PurchaseState state) {
 		if (CalculatorApplication.AD_FREE_PRODUCT_ID.equals(itemId)) {
 			final Preference adFreePreference = findPreference(CalculatorApplication.AD_FREE_P_KEY);
 			if (adFreePreference != null) {
@@ -158,7 +164,7 @@ public class CalculatorPreferencesActivity extends PreferenceActivity implements
 	}
 
 	@Override
-	public void onRequestPurchaseResponse(String itemId, BillingRequest.ResponseCode response) {
+	public void onRequestPurchaseResponse(@NotNull String itemId, @NotNull ResponseCode response) {
 		// do nothing
 	}
 

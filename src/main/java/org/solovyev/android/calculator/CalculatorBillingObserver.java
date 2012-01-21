@@ -7,9 +7,9 @@
 package org.solovyev.android.calculator;
 
 import android.app.Activity;
-import net.robotmedia.billing.BillingRequest;
 import net.robotmedia.billing.helper.AbstractBillingObserver;
 import net.robotmedia.billing.model.Transaction;
+import net.robotmedia.billing.requests.ResponseCode;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -29,12 +29,17 @@ public class CalculatorBillingObserver extends AbstractBillingObserver {
 	}
 
 	@Override
-	public void onPurchaseStateChanged(String itemId, Transaction.PurchaseState state) {
+	public void onPurchaseIntentFailure(@NotNull String s, @NotNull ResponseCode responseCode) {
 		// do nothing
 	}
 
 	@Override
-	public void onRequestPurchaseResponse(String itemId, BillingRequest.ResponseCode response) {
+	public void onPurchaseStateChanged(@NotNull String itemId, @NotNull Transaction.PurchaseState state) {
+		// do nothing
+	}
+
+	@Override
+	public void onRequestPurchaseResponse(@NotNull String itemId, @NotNull ResponseCode response) {
 		// do nothing
 	}
 }
