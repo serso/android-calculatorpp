@@ -319,6 +319,27 @@ public enum CalculatorEngine {
 		}
 	}
 
+	public void softReset(@Nullable Context context, @Nullable SharedPreferences preferences) {
+		synchronized (lock) {
+			if (preferences != null) {
+				this.setPrecision(Preferences.precision.getPreference(preferences));
+				this.setRoundResult(Preferences.roundResult.getPreference(preferences));
+				this.setAngleUnits(getAngleUnitsFromPrefs(preferences));
+				this.setNumeralBase(getNumeralBaseFromPrefs(preferences));
+				this.setMultiplicationSign(Preferences.multiplicationSign.getPreference(preferences));
+
+				final String groupingSeparator = Preferences.groupingSeparator.getPreference(preferences);
+				if (StringUtils.isEmpty(groupingSeparator)) {
+					this.getEngine().setUseGroupingSeparator(false);
+				} else {
+					this.getEngine().setUseGroupingSeparator(true);
+					this.getEngine().setGroupingSeparator(groupingSeparator.charAt(0));
+				}
+			}
+		}
+	}
+
+
 	@NotNull
 	public NumeralBase getNumeralBaseFromPrefs(@NotNull SharedPreferences preferences) {
 		return Preferences.numeralBase.getPreference(preferences);

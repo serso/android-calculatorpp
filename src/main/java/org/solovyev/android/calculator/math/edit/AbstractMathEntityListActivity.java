@@ -46,7 +46,7 @@ public abstract class AbstractMathEntityListActivity<T extends MathEntity> exten
 
 	protected final static List<Character> acceptableChars = Arrays.asList(StringUtils.toObject("1234567890abcdefghijklmnopqrstuvwxyzйцукенгшщзхъфывапролджэячсмитьбюё_".toCharArray()));
 
-    @NotNull
+    @Nullable
     private MathEntityArrayAdapter<T> adapter;
     
     @Nullable
@@ -169,11 +169,6 @@ public abstract class AbstractMathEntityListActivity<T extends MathEntity> exten
     }
 
     @NotNull
-    protected MathEntityArrayAdapter<T> getAdapter() {
-        return adapter;
-    }
-
-    @NotNull
     protected abstract MathEntityDescriptionGetter getDescriptionGetter();
 
     @NotNull
@@ -183,15 +178,18 @@ public abstract class AbstractMathEntityListActivity<T extends MathEntity> exten
     abstract String getMathEntityCategory(@NotNull T t);
 
     protected void sort() {
-        AbstractMathEntityListActivity.this.adapter.sort(new Comparator<T>() {
-            @Override
-            public int compare(T function1, T function2) {
-                return function1.getName().compareTo(function2.getName());
-            }
-        });
+		final MathEntityArrayAdapter<T> localAdapter = adapter;
+		if (localAdapter != null) {
+			localAdapter.sort(new Comparator<T>() {
+				@Override
+				public int compare(T function1, T function2) {
+					return function1.getName().compareTo(function2.getName());
+				}
+			});
 
-        AbstractMathEntityListActivity.this.adapter.notifyDataSetChanged();
-    }
+			localAdapter.notifyDataSetChanged();
+		}
+	}
 
 	protected static class MathEntityArrayAdapter<T extends MathEntity> extends ArrayAdapter<T> {
 
@@ -257,4 +255,22 @@ public abstract class AbstractMathEntityListActivity<T extends MathEntity> exten
         @Nullable
         String getDescription(@NotNull Context context, @NotNull String mathEntityName);
     }
+
+	public void addToAdapter(@NotNull T mathEntity) {
+		if (this.adapter != null) {
+			this.adapter.add(mathEntity);
+		}
+	}
+
+	public void removeFromAdapter(@NotNull T mathEntity) {
+		if (this.adapter != null) {
+			this.adapter.remove(mathEntity);
+		}
+	}
+
+	public void notifyAdapter() {
+		if (this.adapter != null) {
+			this.adapter.notifyDataSetChanged();
+		}
+	}
 }

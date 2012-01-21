@@ -7,16 +7,12 @@ package org.solovyev.android.calculator;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.text.ClipboardManager;
 import android.text.Html;
-import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.*;
@@ -43,7 +39,7 @@ import org.solovyev.android.calculator.view.NumeralBasesButton;
 import org.solovyev.android.history.HistoryDragProcessor;
 import org.solovyev.android.prefs.IntegerPreference;
 import org.solovyev.android.prefs.Preference;
-import org.solovyev.android.view.*;
+import org.solovyev.android.view.VibratorContainer;
 import org.solovyev.android.view.drag.*;
 import org.solovyev.common.utils.Announcer;
 import org.solovyev.common.utils.Point2d;
@@ -124,7 +120,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 				preferences.registerOnSharedPreferenceChangeListener(additionalAdditionalTitleText);
 			} catch (ClassCastException e) {
 				// super fix for issue with class cast in android.view.Window.setFeatureInt() (see app error reports)
-				Log.d(CalculatorActivity.class.getName(), e.getMessage(), e);
+				Log.e(CalculatorActivity.class.getName(), e.getMessage(), e);
 			}
 		}
 
@@ -194,7 +190,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		}
 
 
-		CalculatorEngine.instance.reset(this, preferences);
+		CalculatorEngine.instance.softReset(this, preferences);
 
 		initMultiplicationButton();
 
@@ -420,7 +416,6 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 			}
 
 			ResourceCache.instance.init(R.id.class, this);
-			CalculatorEngine.instance.init(this, preferences);
 
 			initialized = true;
 		}
@@ -512,30 +507,9 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		CalculatorActivityLauncher.showVars(this);
 	}
 
-	private final static String paypalDonateUrl = "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=se%2esolovyev%40gmail%2ecom&lc=RU&item_name=Android%20Calculator&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted";
-
 	@SuppressWarnings({"UnusedDeclaration"})
 	public void donateButtonClickHandler(@NotNull View v) {
-		final LayoutInflater layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-		final View view = layoutInflater.inflate(R.layout.donate, null);
-
-		final TextView donate = (TextView) view.findViewById(R.id.donateText);
-		donate.setMovementMethod(LinkMovementMethod.getInstance());
-
-		final AlertDialog.Builder builder = new AlertDialog.Builder(this)
-				.setCancelable(true)
-				.setNegativeButton(R.string.c_cancel, null)
-				.setPositiveButton(R.string.c_donate, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						final Intent i = new Intent(Intent.ACTION_VIEW);
-						i.setData(Uri.parse(paypalDonateUrl));
-						startActivity(i);
-					}
-				})
-				.setView(view);
-
-		builder.create().show();
+		CalculatorApplication.showDonationDialog(this);
 	}
 
 	@Override
@@ -639,7 +613,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		}
 
 		if (CalculatorEngine.Preferences.getPreferenceKeys().contains(key)) {
-			CalculatorEngine.instance.reset(this, preferences);
+			CalculatorEngine.instance.softReset(this, preferences);
 			this.calculatorModel.evaluate();
 		}
 

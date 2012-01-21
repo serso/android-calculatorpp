@@ -140,9 +140,9 @@ public class FunctionEditorSaver implements DialogInterface.OnClickListener{
 				final Function addedVar = mathRegistry.add(varBuilder);
 				if (activity.isInCategory(addedVar)) {
 					if (editedInstance != null) {
-						activity.getAdapter().remove(editedInstance);
+						activity.removeFromAdapter(editedInstance);
 					}
-					activity.getAdapter().add(addedVar);
+					activity.addToAdapter(addedVar);
 				}
 
 				mathRegistry.save(activity);

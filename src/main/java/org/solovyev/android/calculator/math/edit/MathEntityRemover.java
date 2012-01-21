@@ -61,13 +61,13 @@ class MathEntityRemover<T extends MathEntity> implements DialogInterface.OnClick
 			showConfirmationDialog();
 		} else {
 			if (activity.isInCategory(mathEntity)) {
-				activity.getAdapter().remove(mathEntity);
+				activity.removeFromAdapter(mathEntity);
 			}
 
 			varsRegistry.remove(mathEntity);
 			varsRegistry.save(activity);
 			if (activity.isInCategory(mathEntity)) {
-				activity.getAdapter().notifyDataSetChanged();
+				activity.notifyAdapter();
 			}
 		}
 	}

@@ -73,7 +73,6 @@ public class CalculatorEditor extends EditText implements SharedPreferences.OnSh
 		super.onCreateContextMenu(menu);
 
 		menu.removeItem(android.R.id.selectAll);
-		menu.removeItem(android.R.id.startSelectingText);
 	}
 
 	@Override

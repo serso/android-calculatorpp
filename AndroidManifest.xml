@@ -29,6 +29,7 @@
 
 		</activity>
 
+		<!--NOTE: a:configChanges="orientation|keyboardHidden" is needed to correct work of dialog windows (not to close them on orientation change) -->
 		<activity a:name=".CalculatorPreferencesActivity"
 				  a:label="@string/c_app_settings"
 				  a:configChanges="orientation|keyboardHidden"/>

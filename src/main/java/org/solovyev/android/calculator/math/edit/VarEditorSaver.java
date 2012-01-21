@@ -137,9 +137,9 @@ class VarEditorSaver<T extends MathEntity> implements DialogInterface.OnClickLis
 				final T addedVar = mathRegistry.add(varBuilder);
 				if (activity.isInCategory(addedVar)) {
 					if (editedInstance != null) {
-						activity.getAdapter().remove(editedInstance);
+						activity.removeFromAdapter(editedInstance);
 					}
-					activity.getAdapter().add(addedVar);
+					activity.addToAdapter(addedVar);
 				}
 
 				mathRegistry.save(activity);
