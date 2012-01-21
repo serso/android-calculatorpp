@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Toast;
@@ -53,7 +54,7 @@ public class CalculatorPlotActivity extends Activity {
 
 	public static final String INPUT = "org.solovyev.android.calculator.CalculatorPlotActivity_input";
 
-	public static final long EVAL_DELAY_MILLIS = 400;
+	public static final long EVAL_DELAY_MILLIS = 200;
 
 	private XYChart chart;
 
@@ -143,6 +144,7 @@ public class CalculatorPlotActivity extends Activity {
 		}
 
 		graphicalView = new GraphicalView(this, chart);
+
 		graphicalView.addZoomListener(new ZoomListener() {
 			@Override
 			public void zoomApplied(ZoomEvent e) {
@@ -249,6 +251,9 @@ public class CalculatorPlotActivity extends Activity {
 		renderer.setYTitle("f(" + variable.getName() + ")");
 		renderer.setChartTitleTextSize(20);
 
+		renderer.setZoomEnabled(true);
+		renderer.setZoomButtonsVisible(true);
+
 		renderer.addSeriesRenderer(createCommonRenderer());
 		if (imagExists) {
 			renderer.addSeriesRenderer(createImagRenderer());
@@ -305,6 +310,15 @@ public class CalculatorPlotActivity extends Activity {
 		renderer.setStroke(BasicStroke.SOLID);
 		return renderer;
 	}
+
+	public void zoomInClickHandler(@NotNull View v) {
+		this.graphicalView.zoomIn();
+	}
+
+	public void zoomOutClickHandler(@NotNull View v) {
+		this.graphicalView.zoomOut();
+	}
+
 
 
 	public static class Input implements Serializable {
