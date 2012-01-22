@@ -21,7 +21,7 @@ import jscl.math.function.Constant;
 import jscl.text.ParseException;
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
-import org.achartengine.chart.LineChart;
+import org.achartengine.chart.CubicLineChart;
 import org.achartengine.chart.PointStyle;
 import org.achartengine.chart.XYChart;
 import org.achartengine.model.XYMultipleSeriesDataset;
@@ -45,6 +45,8 @@ import java.io.Serializable;
  * Time: 12:40 AM
  */
 public class CalculatorPlotActivity extends Activity {
+
+	private static final String TAG = CalculatorPlotActivity.class.getSimpleName();
 
 	private static final int DEFAULT_NUMBER_OF_STEPS = 100;
 
@@ -160,6 +162,7 @@ public class CalculatorPlotActivity extends Activity {
 		graphicalView.addPanListener(new PanListener() {
 			@Override
 			public void panApplied() {
+				Log.d(TAG, "org.achartengine.tools.PanListener.panApplied");
 				updateDataSets(chart);
 			}
 
@@ -182,6 +185,9 @@ public class CalculatorPlotActivity extends Activity {
 				synchronized (pendingOperation) {
 					//lock all operations with history
 					if (pendingOperation.getObject() == this) {
+
+						Log.d(TAG, "org.solovyev.android.calculator.plot.CalculatorPlotActivity.updateDataSets");
+
 						final XYMultipleSeriesRenderer dr = chart.getRenderer();
 
 						//Log.d(CalculatorPlotActivity.class.getName(), "x = [" + dr.getXAxisMin() + ", " + dr.getXAxisMax() + "], y = [" + dr.getYAxisMin() + ", " + dr.getYAxisMax() + "]");
@@ -259,7 +265,7 @@ public class CalculatorPlotActivity extends Activity {
 			renderer.addSeriesRenderer(createImagRenderer());
 		}
 
-		return new LineChart(data, renderer);
+		return new CubicLineChart(data, renderer, 0.1f);
 	}
 
 	private static XYSeriesRenderer createImagRenderer() {
