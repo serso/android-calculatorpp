@@ -42,19 +42,7 @@ public class CalculatorPreferencesActivity extends PreferenceActivity implements
 		// observer must be set before net.robotmedia.billing.BillingController.checkBillingSupported()
 		BillingController.registerObserver(this);
 
-		// check billing support one more time as user can turn on internet while he is in current activity
-		switch (BillingController.checkBillingSupported(CalculatorPreferencesActivity.this)) {
-			case UNKNOWN:
-				// unknown => will wait the invocation of onBillingChecked()
-				Log.d(CalculatorPreferencesActivity.class.getName(), "Billing state in unknown - waiting!");
-				break;
-			case SUPPORTED:
-				onBillingChecked(true);
-				break;
-			case UNSUPPORTED:
-				 onBillingChecked(false);
-				break;
-		}
+		BillingController.checkBillingSupported(CalculatorPreferencesActivity.this);
 
 		final SharedPreferences preferences = getPreferenceManager().getSharedPreferences();
 		preferences.registerOnSharedPreferenceChangeListener(this);
