@@ -15,8 +15,8 @@ import android.util.Log;
 import android.widget.Toast;
 import net.robotmedia.billing.BillingController;
 import net.robotmedia.billing.IBillingObserver;
+import net.robotmedia.billing.ResponseCode;
 import net.robotmedia.billing.model.Transaction;
-import net.robotmedia.billing.requests.ResponseCode;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.AndroidUtils;
 import org.solovyev.android.ads.AdsController;
@@ -108,7 +108,7 @@ public class CalculatorPreferencesActivity extends PreferenceActivity implements
 	}
 
 	@Override
-	public void onBillingChecked(boolean supported) {
+	public void onCheckBillingSupportedResponse(boolean supported) {
 		if ( supported ) {
 			setAdFreeAction();
 		} else {
@@ -119,12 +119,12 @@ public class CalculatorPreferencesActivity extends PreferenceActivity implements
 	}
 
 	@Override
-	public void onPurchaseIntent(@NotNull String itemId, @NotNull PendingIntent purchaseIntent) {
+	public void onPurchaseIntentOK(@NotNull String productId, @NotNull PendingIntent purchaseIntent) {
 		// do nothing
 	}
 
 	@Override
-	public void onPurchaseIntentFailure(@NotNull String s, @NotNull ResponseCode responseCode) {
+	public void onPurchaseIntentFailure(@NotNull String productId, @NotNull ResponseCode responseCode) {
 		// do nothing
 	}
 
