@@ -7,7 +7,8 @@
   -->
 
 <LinearLayout
-		xmlns:android="http://schemas.android.com/apk/res/android"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent" android:orientation="vertical">
+		xmlns:a="http://schemas.android.com/apk/res/android"
+		a:layout_width="fill_parent"
+		a:layout_height="fill_parent"
+		a:orientation="vertical">
 </LinearLayout>
