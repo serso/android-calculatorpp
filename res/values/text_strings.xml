@@ -173,4 +173,10 @@
 	<string name="c_calc_already_purchased">Ad free option was already purchased!</string>
 	<string name="c_calc_purchasing">Purchasing...</string>
 
+	<string name="c_feedback_title">Feedback</string>
+	<string name="c_feedback_text">You have been using Calculator++ for some time \n
+		and it\'s important for us to know your opinion about application.\n\n
+		Please rate Calculator++ \non <a href="https://market.android.com/details?id=org.solovyev.android.calculator">android.market</a>,\n leave a comment or \ndiscuss application \non our <a href="http://calculatorpp.com/forum/">forum</a>
+	</string>
+
 </resources>

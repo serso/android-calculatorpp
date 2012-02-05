@@ -173,4 +173,10 @@
 	<string name="c_calc_already_purchased">Опция уже была куплена!</string>
 	<string name="c_calc_purchasing">Покупаем...</string>
 
+	<string name="c_feedback_title">Отзыв</string>
+	<string name="c_feedback_text">Вы используете Калькулятор++ некоторое время\n
+		и для нас важно узнать ваше мнение о приложении.\n\n
+		Пожалуйста, оцените Калькулятор++ \nна <a href="https://market.android.com/details?id=org.solovyev.android.calculator">андроид.маркете</a>,\n оставьте комментарий или \nобсудите приложение \nна нашем <a href="http://calculatorpp.com/forum/">форуме</a>
+	</string>
+
 </resources>

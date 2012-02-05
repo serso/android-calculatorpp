@@ -13,6 +13,7 @@ import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.text.ClipboardManager;
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.*;
@@ -37,6 +38,7 @@ import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.calculator.view.AngleUnitsButton;
 import org.solovyev.android.calculator.view.NumeralBasesButton;
 import org.solovyev.android.history.HistoryDragProcessor;
+import org.solovyev.android.prefs.BooleanPreference;
 import org.solovyev.android.prefs.IntegerPreference;
 import org.solovyev.android.prefs.Preference;
 import org.solovyev.android.view.VibratorContainer;
@@ -62,7 +64,21 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		private static final String APP_VERSION_P_KEY = "application.version";
 		private static final int APP_VERSION_DEFAULT = -1;
 		public static final Preference<Integer> appVersion = new IntegerPreference(APP_VERSION_P_KEY, APP_VERSION_DEFAULT);
+
+		private static final Preference<Integer> appOpenedCounter = new IntegerPreference(APP_OPENED_COUNTER_P_KEY, APP_OPENED_COUNTER_P_DEFAULT);
+		private static final Preference<Boolean> feedbackWindowShown = new BooleanPreference(FEEDBACK_WINDOW_SHOWN_P_KEY, FEEDBACK_WINDOW_SHOWN_P_DEFAULT);
 	}
+
+	@NotNull
+	private static final String APP_OPENED_COUNTER_P_KEY = "app_opened_counter";
+	private static final Integer APP_OPENED_COUNTER_P_DEFAULT = 0;
+
+
+
+
+	@NotNull
+	public static final String FEEDBACK_WINDOW_SHOWN_P_KEY = "feedback_window_shown";
+	public static final boolean FEEDBACK_WINDOW_SHOWN_P_DEFAULT = false;
 
 	@NotNull
 	public static final String SHOW_RELEASE_NOTES_P_KEY = "org.solovyev.android.calculator.CalculatorActivity_show_release_notes";
@@ -387,6 +403,10 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 	private synchronized void firstTimeInit(@NotNull SharedPreferences preferences) {
 		if (!initialized) {
+			final Integer appOpenedCounter = Preferences.appOpenedCounter.getPreference(preferences);
+			if (appOpenedCounter != null) {
+				Preferences.appOpenedCounter.putPreference(preferences, appOpenedCounter + 1);
+			}
 
 			final int savedVersion = Preferences.appVersion.getPreference(preferences);
 
@@ -394,12 +414,14 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 			Preferences.appVersion.putPreference(preferences, appVersion);
 
+			boolean dialogShown = false;
 			if (savedVersion == Preferences.APP_VERSION_DEFAULT) {
 				// new start
 				final AlertDialog.Builder builder = new AlertDialog.Builder(this).setMessage(R.string.c_first_start_text);
 				builder.setPositiveButton(android.R.string.ok, null);
 				builder.setTitle(R.string.c_first_start_text_title);
 				builder.create().show();
+				dialogShown = true;
 			} else {
 				if (savedVersion < appVersion) {
 					final boolean showReleaseNotes = preferences.getBoolean(SHOW_RELEASE_NOTES_P_KEY, SHOW_RELEASE_NOTES_P_DEFAULT);
@@ -410,10 +432,34 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 							builder.setPositiveButton(android.R.string.ok, null);
 							builder.setTitle(R.string.c_release_notes);
 							builder.create().show();
+							dialogShown = true;
 						}
 					}
 				}
 			}
+
+
+			//Log.d(this.getClass().getName(), "Application was opened " + appOpenedCounter + " time!");
+			if (!dialogShown) {
+				if ( appOpenedCounter != null && appOpenedCounter > 10 ) {
+					final Boolean feedbackWindowShown = Preferences.feedbackWindowShown.getPreference(preferences);
+					if ( feedbackWindowShown != null && !feedbackWindowShown ) {
+						final LayoutInflater layoutInflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
+						final View view = layoutInflater.inflate(R.layout.feedback, null);
+
+						final TextView feedbackTextView = (TextView) view.findViewById(R.id.feedbackText);
+						feedbackTextView.setMovementMethod(LinkMovementMethod.getInstance());
+
+						final AlertDialog.Builder builder = new AlertDialog.Builder(this).setView(view);
+						builder.setPositiveButton(android.R.string.ok, null);
+						builder.create().show();
+
+						dialogShown = true;
+						Preferences.feedbackWindowShown.putPreference(preferences, true);
+					}
+				}
+			}
+
 
 			ResourceCache.instance.init(R.id.class, this);
 
