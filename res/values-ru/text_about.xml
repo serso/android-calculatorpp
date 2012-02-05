@@ -9,10 +9,12 @@
 	<string name="c_about">О программе</string>
 
 	<string name="c_about_content">Copyright (c) 2009-2011\n\n<b>Программа создана\nserso aka se.solovyev</b>\n\n
+		Сайт приложения: <a href="http://calculatorpp.com/forum/">http://calculatorpp.com/forum/</a>\n\n
 		Эта программа с открытыми исходным кодом:\nон может быть найден на \n<a href="https://github.com/serso/android_calculator">http://github.com</a>\n\n
 		За подробной информацией, пожалуйста,\nобращайтесь на почту\n<a href="mailto:se.solovyev@gmail.com">se.solovyev@gmail.com</a>\n
 		или посетите сайт \n<a href="http://se.solovyev.org">http://se.solovyev.org</a>\n\n
-		Если вы хотите поддержать проект материально\nвы можете сделать это через \n<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=se%2esolovyev%40gmail%2ecom&amp;lc=RU&amp;item_name=Android%20Calculator&amp;currency_code=USD&amp;bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted">http://paypal.com</a>\n\n
+		Если вы хотите поддержать проект материально\nвы можете купить специальную опцию из настроек приложения\n
+		перевести средства через \n<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=se%2esolovyev%40gmail%2ecom&amp;lc=RU&amp;item_name=Android%20Calculator&amp;currency_code=USD&amp;bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted">http://paypal.com</a>\n\n
 		Если вам понравилось приложение -\nпоставьте 5 звёздочек в\n<a href="https://market.android.com/details?id=org.solovyev.android.calculator">андроид.маркете</a>\n\n
 		Спасибо тем, кто переводил Калькулятор++:\n
 		на итальянский - Gabriele Ravanetti\n
@@ -161,6 +163,18 @@
 		2. Исправлена проблема 1/0 = -1/0\n
 		3. Исправлена проблема ∫(sin(t°), t)\n
 		4. Исправлены другие мелкие проблемы
+	</string>
+
+
+	<string name="c_release_notes_for_27">
+		От разработчика:\n\n
+		Я рад сообщить, что у Калькулятора++ появился собственный форум: http://calculatorpp.com/forum/.\n
+		Здесь вы можете найти всю последнюю информацию о приложении, узнать об известных проблемах и внести свои предложения.\n
+		Для входа вы можете использовать аккаунт социальной сети (Facebook, Twitter или Google).\n\n
+		1. Добавлены кнопки управления масштаб на графике\n
+		2. Исправлены проблемы с биллингом\n
+		3. Исправлена проблема с сохранением констант\n
+		4. Исправлены другие проблемы
 	</string>
 
 </resources>

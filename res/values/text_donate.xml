@@ -10,6 +10,7 @@
 
 	<string name="c_donate_text">You can thank the author of this program by email\n\n
 		<a href="mailto:se.solovyev@gmail.com">se.solovyev@gmail.com</a>\n\n
+		buying a special option from application preferences\n\n
 		donating money via\n\n<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=se%2esolovyev%40gmail%2ecom&amp;lc=RU&amp;item_name=Android%20Calculator&amp;currency_code=USD&amp;bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted">http://paypal.com</a>\n\n
 		or setting 5 stars in\n\n<a href="https://market.android.com/details?id=org.solovyev.android.calculator">android.market</a>
 	</string>
