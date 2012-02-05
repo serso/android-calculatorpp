@@ -3,8 +3,8 @@
 <manifest xmlns:a="http://schemas.android.com/apk/res/android"
 		  package="org.solovyev.android.calculator"
 		  a:installLocation="auto"
-		  a:versionCode="27"
-		  a:versionName="1.2.27">
+		  a:versionCode="28"
+		  a:versionName="1.2.28">
 
 	<uses-permission a:name="android.permission.VIBRATE"/>
 	<uses-permission a:name="android.permission.INTERNET"/>
@@ -20,6 +20,7 @@
 
 		<activity a:name=".CalculatorActivity"
 				  a:windowSoftInputMode="adjustPan"
+				  a:hardwareAccelerated="false"
 				  a:label="@string/c_app_name">
 
 			<intent-filter>

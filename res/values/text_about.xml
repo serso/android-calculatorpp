@@ -173,7 +173,8 @@
 		1. Zoom buttons on graph plotter\n
 		2. Billing bug fixes\n
 		3. Fixed bug with saving constants\n
-		4. Other small fixes
+		4. Android 4 GUI artifacts fixed (aka hardware acceleration problem)\n
+		5. Other small fixes
 	</string>
 
 </resources>
