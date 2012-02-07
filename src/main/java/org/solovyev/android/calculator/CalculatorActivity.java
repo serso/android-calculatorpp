@@ -8,17 +8,20 @@ package org.solovyev.android.calculator;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.text.ClipboardManager;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.*;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.google.ads.AdView;
 import jscl.AngleUnit;
@@ -228,9 +231,9 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 			angleUnitsButton.setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new AngleUnitsChanger(), dragPreferences), vibrator, preferences));
 		}
 
-		final NumeralBasesButton numeralBasesButton = (NumeralBasesButton) findViewById(R.id.clearButton);
-		if (numeralBasesButton != null) {
-			numeralBasesButton.setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new NumeralBasesChanger(), dragPreferences), vibrator, preferences));
+		final NumeralBasesButton clearButton = (NumeralBasesButton) findViewById(R.id.clearButton);
+		if (clearButton != null) {
+			clearButton.setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new NumeralBasesChanger(), dragPreferences), vibrator, preferences));
 		}
 
 		final DragButton varsButton = (DragButton) findViewById(R.id.varsButton);
@@ -256,9 +259,49 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 					colorButton.setDrawMagicFlame(false);
 				}
 			});
+
+			fixMargins(2, 2);
+		} else {
+			fixMargins(1, 1);
 		}
 
 		preferences.registerOnSharedPreferenceChangeListener(this);
+	}
+
+	private void fixMargins(int marginLeft, int marginBottom) {
+		// sad but true
+
+		final View equalsButton = findViewById(R.id.equalsButton);
+		final View rightButton = findViewById(R.id.rightButton);
+		final View leftButton = findViewById(R.id.leftButton);
+		final View clearButton = findViewById(R.id.clearButton);
+		final View eraseButton = findViewById(R.id.eraseButton);
+
+		int orientation = getResources().getConfiguration().orientation;
+		if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+			setMarginsForView(equalsButton, marginLeft, marginBottom);
+			setMarginsForView(calculatorModel.getDisplay(), marginLeft, marginBottom);
+		} else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+			setMarginsForView(leftButton, marginLeft, marginBottom);
+			setMarginsForView(eraseButton, marginLeft, marginBottom);
+			setMarginsForView(clearButton, marginLeft, marginBottom);
+			setMarginsForView(rightButton, marginLeft, marginBottom);
+			// magic magic magic
+			setMarginsForView(calculatorModel.getDisplay(), 3 * marginLeft, marginBottom);
+		}
+	}
+
+	private void setMarginsForView(@NotNull View view, int marginLeft, int marginBottom) {
+		// IMPORTANT: this is workaround for probably android bug
+		// currently margin values set in styles are not applied for some reasons to the views (using include tag) => set them manually
+
+		final DisplayMetrics dm = getResources().getDisplayMetrics();
+		if (view.getLayoutParams() instanceof LinearLayout.LayoutParams) {
+			final LinearLayout.LayoutParams oldParams = (LinearLayout.LayoutParams) view.getLayoutParams();
+			final LinearLayout.LayoutParams newParams = new LinearLayout.LayoutParams(oldParams.width, oldParams.height, oldParams.weight);
+			newParams.setMargins(AndroidUtils.toPixels(dm, marginLeft), 0, 0, AndroidUtils.toPixels(dm, marginBottom));
+			view.setLayoutParams(newParams);
+		}
 	}
 
 	private class AngleUnitsChanger implements SimpleOnDragListener.DragProcessor {
