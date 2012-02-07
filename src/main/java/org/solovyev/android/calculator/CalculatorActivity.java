@@ -41,6 +41,8 @@ import org.solovyev.android.history.HistoryDragProcessor;
 import org.solovyev.android.prefs.BooleanPreference;
 import org.solovyev.android.prefs.IntegerPreference;
 import org.solovyev.android.prefs.Preference;
+import org.solovyev.android.prefs.StringPreference;
+import org.solovyev.android.view.ColorButton;
 import org.solovyev.android.view.VibratorContainer;
 import org.solovyev.android.view.drag.*;
 import org.solovyev.common.utils.Announcer;
@@ -59,6 +61,40 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	@Nullable
 	private IBillingObserver billingObserver;
 
+	public static enum Theme {
+
+		default_theme(ThemeType.other, R.style.default_theme),
+		violet_theme(ThemeType.other, R.style.violet_theme),
+		light_blue_theme(ThemeType.other, R.style.light_blue_theme),
+		metro_theme(ThemeType.metro, R.style.metro_theme);
+
+		@NotNull
+		private final ThemeType themeType;
+
+		@NotNull
+		private final Integer themeId;
+
+		Theme(@NotNull ThemeType themeType, Integer themeId) {
+			this.themeType = themeType;
+			this.themeId = themeId;
+		}
+
+		@NotNull
+		public ThemeType getThemeType() {
+			return themeType;
+		}
+
+		@NotNull
+		public Integer getThemeId() {
+			return themeId;
+		}
+	}
+
+	public static enum ThemeType {
+		metro,
+		other
+	}
+
 	public static class Preferences {
 		@NotNull
 		private static final String APP_VERSION_P_KEY = "application.version";
@@ -67,14 +103,16 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 		private static final Preference<Integer> appOpenedCounter = new IntegerPreference(APP_OPENED_COUNTER_P_KEY, APP_OPENED_COUNTER_P_DEFAULT);
 		private static final Preference<Boolean> feedbackWindowShown = new BooleanPreference(FEEDBACK_WINDOW_SHOWN_P_KEY, FEEDBACK_WINDOW_SHOWN_P_DEFAULT);
+		private static final Preference<Theme> theme = StringPreference.newInstance(THEME_P_KEY, THEME_P_DEFAULT, Theme.class);
 	}
+
+	@NotNull
+	private static final String THEME_P_KEY = "org.solovyev.android.calculator.CalculatorActivity_calc_theme";
+	private static final Theme THEME_P_DEFAULT = Theme.default_theme;
 
 	@NotNull
 	private static final String APP_OPENED_COUNTER_P_KEY = "app_opened_counter";
 	private static final Integer APP_OPENED_COUNTER_P_DEFAULT = 0;
-
-
-
 
 	@NotNull
 	public static final String FEEDBACK_WINDOW_SHOWN_P_KEY = "feedback_window_shown";
@@ -97,7 +135,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	private volatile boolean initialized;
 
 	@NotNull
-	private String themeName;
+	private Theme theme;
 
 	@NotNull
 	private String layoutName;
@@ -209,6 +247,16 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		CalculatorEngine.instance.softReset(this, preferences);
 
 		initMultiplicationButton();
+
+		if (theme.getThemeType() == ThemeType.metro) {
+			// for metro themes we should turn off magic flames
+			AndroidUtils.processViewsOfType(this.getWindow().getDecorView(), ColorButton.class, new AndroidUtils.ViewProcessor<ColorButton>() {
+				@Override
+				public void process(@NotNull ColorButton colorButton) {
+					colorButton.setDrawMagicFlame(false);
+				}
+			});
+		}
 
 		preferences.registerOnSharedPreferenceChangeListener(this);
 	}
@@ -386,19 +434,14 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	}
 
 	private synchronized void setTheme(@NotNull SharedPreferences preferences) {
-		final Map<String, Integer> styles = ResourceCache.instance.getNameToIdCache(R.style.class);
 
-		themeName = preferences.getString(getString(R.string.p_calc_theme_key), getString(R.string.p_calc_theme));
-
-		Integer styleId = styles.get(themeName);
-		if (styleId == null) {
-			Log.d(this.getClass().getName(), "No saved theme found => applying default theme: " + R.style.default_theme);
-			styleId = R.style.default_theme;
-		} else {
-			Log.d(this.getClass().getName(), "Saved theme found: " + styleId);
+		try {
+			theme = Preferences.theme.getPreference(preferences);
+		} catch (IllegalArgumentException e) {
+			theme = Theme.default_theme;
 		}
 
-		setTheme(styleId);
+		setTheme(theme.getThemeId());
 	}
 
 	private synchronized void firstTimeInit(@NotNull SharedPreferences preferences) {
@@ -630,8 +673,8 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
 		final String newLayoutName = preferences.getString(getString(R.string.p_calc_layout_key), getString(R.string.p_calc_layout));
-		final String newThemeName = preferences.getString(getString(R.string.p_calc_theme_key), getString(R.string.p_calc_theme));
-		if (!themeName.equals(newThemeName) || !layoutName.equals(newLayoutName)) {
+		final Theme newTheme = Preferences.theme.getPreference(preferences);
+		if (!theme.equals(newTheme) || !layoutName.equals(newLayoutName)) {
 			AndroidUtils.restartActivity(this);
 		}
 

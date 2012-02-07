@@ -1,0 +1,23 @@
+<resources>
+
+	<style name="metro_digit_button_style" parent="button_style">
+		<item name="android:background">@drawable/metro_button_dark</item>
+		<item name="android:layout_marginLeft">2dp</item>
+		<item name="android:layout_marginBottom">2dp</item>
+	</style>
+
+	<style name="metro_control_button_style" parent="metro_digit_button_style">
+		<item name="android:background">@drawable/metro_button_light</item>
+	</style>
+
+	<style name="metro_control_image_button_style" parent="metro_control_button_style">
+		<item name="android:padding">6dp</item>
+	</style>
+
+	<style name="metro_theme">
+		<item name="digitButtonStyle">@style/metro_digit_button_style</item>
+		<item name="controlButtonStyle">@style/metro_control_button_style</item>
+		<item name="controlImageButtonStyle">@style/metro_control_image_button_style</item>
+	</style>
+
+</resources>

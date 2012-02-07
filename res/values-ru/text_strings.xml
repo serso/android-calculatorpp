@@ -90,6 +90,7 @@
 	<string name="p_default_theme">По умолчанию</string>
 	<string name="p_violet_theme">Фиолетовая</string>
 	<string name="p_light_blue_theme">Голубая</string>
+	<string name="p_metro_theme">Метро</string>
 	<string name="c_calc_result_precision_summary">Точность результата(все вычисления производятся максимально точно)</string>
 	<string name="c_calc_color_display_summary">Включает/выключает подсветку синтаксиса в поле редактирования калькулятора</string>
 	<string name="c_calc_theme_summary">Устанавливает тему оформления приложения</string>
