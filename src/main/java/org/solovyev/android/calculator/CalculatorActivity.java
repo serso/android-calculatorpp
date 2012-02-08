@@ -111,7 +111,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 	@NotNull
 	private static final String THEME_P_KEY = "org.solovyev.android.calculator.CalculatorActivity_calc_theme";
-	private static final Theme THEME_P_DEFAULT = Theme.default_theme;
+	private static final Theme THEME_P_DEFAULT = Theme.metro_theme;
 
 	@NotNull
 	private static final String APP_OPENED_COUNTER_P_KEY = "app_opened_counter";
