@@ -15,6 +15,6 @@
 -->
 
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <gradient android:startColor="#1aa1e1" android:endColor="#1aa1e1"/>
+    <gradient android:startColor="#10648c" android:endColor="#10648c"/>
     <corners android:radius="1dp" />
 </shape>

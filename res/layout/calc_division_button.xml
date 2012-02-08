@@ -13,5 +13,5 @@
 													   a:text="/"
 													   c:textDown="√"
 													   c:directionTextScale="0.5"
-													   style="?digitButtonStyle"
+													   style="?operationButtonStyle"
 													   a:onClick="digitButtonClickHandler"/>

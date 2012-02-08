@@ -15,6 +15,10 @@
 		<item name="android:background">@drawable/blue_button_dark</item>
 	</style>
 
+	<style name="light_blue_operation_button_style" parent="light_blue_digit_button_style">
+		<item name="android:textColor">@color/button_operator_text_color</item>
+	</style>
+
 	<style name="light_blue_control_image_button_style" parent="light_blue_control_button_style">
 		<item name="android:padding">6dp</item>
 	</style>
@@ -23,6 +27,7 @@
 		<item name="digitButtonStyle">@style/light_blue_digit_button_style</item>
 		<item name="controlButtonStyle">@style/light_blue_control_button_style</item>
 		<item name="controlImageButtonStyle">@style/light_blue_control_image_button_style</item>
+		<item name="operationButtonStyle">@style/light_blue_operation_button_style</item>
 	</style>
 
 </resources>
