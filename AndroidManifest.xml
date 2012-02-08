@@ -97,5 +97,6 @@
 		<activity a:name=".plot.CalculatorPlotActivity"
 				  a:label="@string/c_plot_graph"/>
 
+
 	</application>
 </manifest>
