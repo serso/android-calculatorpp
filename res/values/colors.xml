@@ -10,7 +10,7 @@
 	<color name="button_operator_text_color">#ffffff99</color>
 	<color name="button_ce_text_color">#ffffffff</color>
 	<color name="default_text_color">#ffffffff</color>
-	<color name="display_error_text_color">#44ffffff</color>
+	<color name="display_error_text_color">#ff1f1f1f</color>
 	<color name="selected_angle_unit_text_color">#ffffff99</color>
 	<color name="default_background">#ff000000</color>
 </resources>
