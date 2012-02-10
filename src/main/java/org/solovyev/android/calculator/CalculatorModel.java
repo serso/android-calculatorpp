@@ -172,9 +172,10 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 
 		final CalculatorHistoryState localHistoryState;
 		if (historyState == null) {
-			this.display.setText("");
+			//this.display.setText("");
 			localHistoryState = getCurrentHistoryState();
 		} else {
+			this.display.setText(historyState.getDisplayState().getEditorState().getText());
 			localHistoryState = historyState;
 		}
 
@@ -263,7 +264,12 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 										   @NotNull JsclOperation operation,
 										   @NotNull Message e) {
 		Log.d(CalculatorModel.class.getName(), "Evaluation failed for : " + expression + ". Error message: " + e);
-		localDisplay.setText(R.string.c_syntax_error);
+		if ( StringUtils.isEmpty(localDisplay.getText()) ) {
+			// if previous display state was empty -> show error
+			localDisplay.setText(R.string.c_syntax_error);
+		} else {
+			// show previous result instead of error caption (actually previous result will be greyed)
+		}
 		localDisplay.setJsclOperation(operation);
 		localDisplay.setGenericResult(null);
 		localDisplay.setValid(false);

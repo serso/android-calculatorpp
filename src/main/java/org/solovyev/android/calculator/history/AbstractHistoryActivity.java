@@ -171,6 +171,8 @@ public abstract class AbstractHistoryActivity extends ListActivity {
 
 	public static void useHistoryItem(@NotNull final CalculatorHistoryState historyState, @NotNull AbstractHistoryActivity activity) {
 
+		// before evaluating history item - clear display (in order to get Error message in display if evaluation fail)
+		CalculatorModel.instance.getDisplay().setText("");
 		CalculatorModel.instance.doTextOperation(new CalculatorModel.TextOperation() {
 			@Override
 			public void doOperation(@NotNull EditText editor) {
