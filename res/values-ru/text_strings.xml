@@ -110,6 +110,7 @@
 	<string name="c_calc_layout">Раскладка</string>
 	<string name="p_layout_cellphone">Телефон</string>
 	<string name="p_layout_calculator">Калькулятор</string>
+	<string name="p_layout_simple">Простая</string>
 	<string name="c_calc_layout_summary">Устанавливает раскладку кнопок</string>
 
 	<string name="c_calc_haptic_feedback_title">Отклик на нажатие</string>
@@ -181,5 +182,9 @@
 		и для нас важно узнать ваше мнение о приложении.\n\n
 		Пожалуйста, оцените Калькулятор++ \nна <a href="https://market.android.com/details?id=org.solovyev.android.calculator">андроид.маркете</a>,\n оставьте комментарий или \nобсудите приложение \nна нашем <a href="http://calculatorpp.com/forum/">форуме</a>
 	</string>
+
+	<string name="c_angle_units_changed_to">Единицы измерения углов изменены на \'%s\'!</string>
+	<string name="c_numeral_base_changed_to">Система счисления изменена на \'%s\'!</string>
+
 
 </resources>

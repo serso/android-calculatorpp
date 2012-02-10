@@ -110,6 +110,7 @@
 	<string name="c_calc_layout">Layout</string>
 	<string name="p_layout_cellphone">Cellphone</string>
 	<string name="p_layout_calculator">Calculator</string>
+	<string name="p_layout_simple">Simple</string>
 	<string name="c_calc_layout_summary">Sets layout of buttons</string>
 
 	<string name="c_calc_haptic_feedback_title">Haptic feedback</string>
@@ -181,5 +182,9 @@
 		and it\'s important for us to know your opinion about application.\n\n
 		Please rate Calculator++ \non <a href="https://market.android.com/details?id=org.solovyev.android.calculator">android.market</a>,\n leave a comment or \ndiscuss application \non our <a href="http://calculatorpp.com/forum/">forum</a>
 	</string>
+
+	<string name="c_angle_units_changed_to">Angle units changed to \'%s\'!</string>
+	<string name="c_numeral_base_changed_to">Numeral base changed to \'%s\'!</string>
+
 
 </resources>

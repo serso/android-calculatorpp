@@ -19,10 +19,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.*;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.*;
 import com.google.ads.AdView;
 import jscl.AngleUnit;
 import jscl.NumeralBase;
@@ -55,7 +52,6 @@ import org.solovyev.common.utils.history.HistoryAction;
 
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
-import java.util.Map;
 
 public class CalculatorActivity extends Activity implements FontSizeAdjuster, SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -100,6 +96,22 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		other
 	}
 
+	public static enum Layout {
+		main_calculator(R.layout.main_calculator),
+		main_cellphone(R.layout.main_cellphone),
+		simple(R.layout.main_calculator);
+
+		private final int layoutId;
+
+		Layout(int layoutId) {
+			this.layoutId = layoutId;
+		}
+
+		public int getLayoutId() {
+			return layoutId;
+		}
+	}
+
 	public static class Preferences {
 		@NotNull
 		private static final String APP_VERSION_P_KEY = "application.version";
@@ -109,7 +121,12 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		private static final Preference<Integer> appOpenedCounter = new IntegerPreference(APP_OPENED_COUNTER_P_KEY, APP_OPENED_COUNTER_P_DEFAULT);
 		private static final Preference<Boolean> feedbackWindowShown = new BooleanPreference(FEEDBACK_WINDOW_SHOWN_P_KEY, FEEDBACK_WINDOW_SHOWN_P_DEFAULT);
 		private static final Preference<Theme> theme = StringPreference.newInstance(THEME_P_KEY, THEME_P_DEFAULT, Theme.class);
+		private static final Preference<Layout> layout = StringPreference.newInstance(LAYOUT_P_KEY, LAYOUT_P_DEFAULT, Layout.class);
 	}
+
+	@NotNull
+	private static final String LAYOUT_P_KEY = "org.solovyev.android.calculator.CalculatorActivity_calc_layout";
+	private static final Layout LAYOUT_P_DEFAULT = Layout.main_calculator;
 
 	@NotNull
 	private static final String THEME_P_KEY = "org.solovyev.android.calculator.CalculatorActivity_calc_theme";
@@ -143,7 +160,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	private Theme theme;
 
 	@NotNull
-	private String layoutName;
+	private Layout layout;
 
 	@Nullable
 	private Vibrator vibrator;
@@ -267,7 +284,36 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 			fixMargins(1, 1);
 		}
 
+		if (layout == Layout.simple) {
+			toggleButtonDirectionText(R.id.oneDigitButton, false, DragDirection.left, DragDirection.up, DragDirection.down);
+			toggleButtonDirectionText(R.id.twoDigitButton, false, DragDirection.left, DragDirection.up, DragDirection.down);
+			toggleButtonDirectionText(R.id.threeDigitButton, false, DragDirection.left, DragDirection.up, DragDirection.down);
+
+			toggleButtonDirectionText(R.id.sevenDigitButton, false, DragDirection.left, DragDirection.up, DragDirection.down);
+			toggleButtonDirectionText(R.id.eightDigitButton, false, DragDirection.left, DragDirection.up, DragDirection.down);
+
+			toggleButtonDirectionText(R.id.fourDigitButton, false, DragDirection.left, DragDirection.down);
+			toggleButtonDirectionText(R.id.fiveDigitButton, false, DragDirection.left, DragDirection.down);
+			toggleButtonDirectionText(R.id.sixDigitButton, false, DragDirection.left);
+
+			toggleButtonDirectionText(R.id.nineDigitButton, false, DragDirection.left);
+
+			toggleButtonDirectionText(R.id.multiplicationButton, false, DragDirection.left);
+			toggleButtonDirectionText(R.id.plusButton, false, DragDirection.down, DragDirection.up);
+
+		}
+
 		preferences.registerOnSharedPreferenceChangeListener(this);
+	}
+
+	private void toggleButtonDirectionText(int id, boolean showDirectionText, @NotNull DragDirection... dragDirections) {
+		final View v = findViewById(id);
+		if (v instanceof DirectionDragButton ) {
+			final DirectionDragButton button = (DirectionDragButton)v;
+			for (DragDirection dragDirection : dragDirections) {
+				button.showDirectionText(showDirectionText, dragDirection);
+			}
+		}
 	}
 
 	private void fixMargins(int marginLeft, int marginBottom) {
@@ -329,6 +375,8 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 							CalculatorEngine.Preferences.angleUnit.putPreference(preferences, angleUnits);
 
+							Toast.makeText(CalculatorActivity.this, CalculatorActivity.this.getString(R.string.c_angle_units_changed_to, angleUnits.name()), Toast.LENGTH_LONG).show();
+
 							result = true;
 						} catch (IllegalArgumentException e) {
 							Log.d(this.getClass().getName(), "Unsupported angle units: " + directionText);
@@ -361,6 +409,8 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 						final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(CalculatorActivity.this);
 						CalculatorEngine.Preferences.numeralBase.putPreference(preferences, numeralBase);
+
+						Toast.makeText(CalculatorActivity.this, CalculatorActivity.this.getString(R.string.c_numeral_base_changed_to, numeralBase.name()), Toast.LENGTH_LONG).show();
 
 						result = true;
 					} catch (IllegalArgumentException e) {
@@ -463,23 +513,16 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 
 	private synchronized void setLayout(@NotNull SharedPreferences preferences) {
-		final Map<String, Integer> layouts = ResourceCache.instance.getNameToIdCache(R.layout.class);
-
-		layoutName = preferences.getString(getString(R.string.p_calc_layout_key), getString(R.string.p_calc_layout));
-
-		Integer layoutId = layouts.get(layoutName);
-		if (layoutId == null) {
-			Log.d(this.getClass().getName(), "No saved layout found => applying default layout: " + R.layout.main_calculator);
-			layoutId = R.layout.main_calculator;
-		} else {
-			Log.d(this.getClass().getName(), "Saved layout found: " + layoutId);
+		try {
+			layout = Preferences.layout.getPreference(preferences);
+		} catch (IllegalArgumentException e) {
+			layout = LAYOUT_P_DEFAULT;
 		}
 
-		setContentView(layoutId);
+		setContentView(layout.getLayoutId());
 	}
 
 	private synchronized void setTheme(@NotNull SharedPreferences preferences) {
-
 		try {
 			theme = Preferences.theme.getPreference(preferences);
 		} catch (IllegalArgumentException e) {
@@ -717,9 +760,9 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-		final String newLayoutName = preferences.getString(getString(R.string.p_calc_layout_key), getString(R.string.p_calc_layout));
+		final Layout newLayout = Preferences.layout.getPreference(preferences);
 		final Theme newTheme = Preferences.theme.getPreference(preferences);
-		if (!theme.equals(newTheme) || !layoutName.equals(newLayoutName)) {
+		if (!theme.equals(newTheme) || !layout.equals(newLayout)) {
 			AndroidUtils.restartActivity(this);
 		}
 
