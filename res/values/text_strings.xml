@@ -87,10 +87,12 @@
 	<string name="p_bin">Binary</string>
 
 	<string name="c_calc_theme">Theme</string>
-	<string name="p_default_theme">Default</string>
+	<string name="p_default_theme">Grey</string>
 	<string name="p_violet_theme">Violet</string>
 	<string name="p_light_blue_theme">Light Blue</string>
-	<string name="p_metro_theme">Metro</string>
+	<string name="p_metro_blue_theme">Metro Blue (Default)</string>
+	<string name="p_metro_green_theme">Metro Green</string>
+	<string name="p_metro_purple_theme">Metro Purple</string>
 	<string name="c_calc_result_precision_summary">Precision of result value (all calculations are done with maximum precision regardless of the value of this option)</string>
 	<string name="c_calc_color_display_summary">Toggles colouring and styling in calculator editor</string>
 	<string name="c_calc_theme_summary">Sets the theme for calculator</string>

@@ -9,13 +9,17 @@
 		<item>@string/p_default_theme</item>
 		<item>@string/p_violet_theme</item>
 		<item>@string/p_light_blue_theme</item>
-		<item>@string/p_metro_theme</item>
+		<item>@string/p_metro_blue_theme</item>
+		<item>@string/p_metro_green_theme</item>
+		<item>@string/p_metro_purple_theme</item>
 	</string-array>
 	<string-array name="p_theme_values">
 		<item>default_theme</item>
 		<item>violet_theme</item>
 		<item>light_blue_theme</item>
-		<item>metro_theme</item>
+		<item>metro_blue_theme</item>
+		<item>metro_green_theme</item>
+		<item>metro_purple_theme</item>
 	</string-array>
 
 	<string-array name="p_grouping_separator_names">

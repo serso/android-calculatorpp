@@ -69,7 +69,9 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		default_theme(ThemeType.other, R.style.default_theme),
 		violet_theme(ThemeType.other, R.style.violet_theme),
 		light_blue_theme(ThemeType.other, R.style.light_blue_theme),
-		metro_theme(ThemeType.metro, R.style.metro_theme);
+		metro_blue_theme(ThemeType.metro, R.style.metro_blue_theme),
+		metro_purple_theme(ThemeType.metro, R.style.metro_purple_theme),
+		metro_green_theme(ThemeType.metro, R.style.metro_green_theme);
 
 		@NotNull
 		private final ThemeType themeType;
@@ -111,7 +113,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 	@NotNull
 	private static final String THEME_P_KEY = "org.solovyev.android.calculator.CalculatorActivity_calc_theme";
-	private static final Theme THEME_P_DEFAULT = Theme.default_theme;
+	private static final Theme THEME_P_DEFAULT = Theme.metro_blue_theme;
 
 	@NotNull
 	private static final String APP_OPENED_COUNTER_P_KEY = "app_opened_counter";
@@ -481,7 +483,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		try {
 			theme = Preferences.theme.getPreference(preferences);
 		} catch (IllegalArgumentException e) {
-			theme = Theme.default_theme;
+			theme = THEME_P_DEFAULT;
 		}
 
 		setTheme(theme.getThemeId());
