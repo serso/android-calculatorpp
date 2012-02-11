@@ -289,12 +289,14 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 			toggleButtonDirectionText(R.id.twoDigitButton, false, DragDirection.left, DragDirection.up, DragDirection.down);
 			toggleButtonDirectionText(R.id.threeDigitButton, false, DragDirection.left, DragDirection.up, DragDirection.down);
 
+			toggleButtonDirectionText(R.id.sixDigitButton, false, DragDirection.left, DragDirection.up, DragDirection.down);
 			toggleButtonDirectionText(R.id.sevenDigitButton, false, DragDirection.left, DragDirection.up, DragDirection.down);
 			toggleButtonDirectionText(R.id.eightDigitButton, false, DragDirection.left, DragDirection.up, DragDirection.down);
 
+			toggleButtonDirectionText(R.id.clearButton, false, DragDirection.left, DragDirection.up, DragDirection.down);
+
 			toggleButtonDirectionText(R.id.fourDigitButton, false, DragDirection.left, DragDirection.down);
 			toggleButtonDirectionText(R.id.fiveDigitButton, false, DragDirection.left, DragDirection.down);
-			toggleButtonDirectionText(R.id.sixDigitButton, false, DragDirection.left);
 
 			toggleButtonDirectionText(R.id.nineDigitButton, false, DragDirection.left);
 
