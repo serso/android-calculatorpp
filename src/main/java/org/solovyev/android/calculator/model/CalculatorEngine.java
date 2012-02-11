@@ -47,6 +47,9 @@ public enum CalculatorEngine {
 	private static final String MULTIPLICATION_SIGN_P_KEY = "org.solovyev.android.calculator.CalculatorActivity_calc_multiplication_sign";
 	private static final String MULTIPLICATION_SIGN_DEFAULT = "×";
 
+	private static final String SCIENCE_NOTATION_P_KEY = "calculation.output.science_notation";
+	private static final boolean SCIENCE_NOTATION_DEFAULT = false;
+
 	private static final String ROUND_RESULT_P_KEY = "org.solovyev.android.calculator.CalculatorModel_round_result";
 	private static final boolean ROUND_RESULT_DEFAULT = true;
 
@@ -60,14 +63,16 @@ public enum CalculatorEngine {
 	private static final String ANGLE_UNITS_DEFAULT = "deg";
 
 	public static class Preferences {
-	 	public static final Preference<String> groupingSeparator = StringPreference.newInstance(GROUPING_SEPARATOR_P_KEY, JsclMathEngine.GROUPING_SEPARATOR_DEFAULT);
-	 	public static final Preference<String> multiplicationSign = StringPreference.newInstance(MULTIPLICATION_SIGN_P_KEY, MULTIPLICATION_SIGN_DEFAULT);
-	 	public static final Preference<Integer> precision = StringPreference.newInstance(RESULT_PRECISION_P_KEY, RESULT_PRECISION_DEFAULT, new NumberMapper<Integer>(Integer.class));
-	 	public static final Preference<Boolean> roundResult = new BooleanPreference(ROUND_RESULT_P_KEY, ROUND_RESULT_DEFAULT);
-	 	public static final Preference<NumeralBase> numeralBase = StringPreference.newInstance(NUMERAL_BASES_P_KEY, NUMERAL_BASES_DEFAULT, EnumMapper.newInstance(NumeralBase.class));
-	 	public static final Preference<AngleUnit> angleUnit = StringPreference.newInstance(ANGLE_UNITS_P_KEY, ANGLE_UNITS_DEFAULT, EnumMapper.newInstance(AngleUnit.class));
+		public static final Preference<String> groupingSeparator = StringPreference.newInstance(GROUPING_SEPARATOR_P_KEY, JsclMathEngine.GROUPING_SEPARATOR_DEFAULT);
+		public static final Preference<String> multiplicationSign = StringPreference.newInstance(MULTIPLICATION_SIGN_P_KEY, MULTIPLICATION_SIGN_DEFAULT);
+		public static final Preference<Integer> precision = StringPreference.newInstance(RESULT_PRECISION_P_KEY, RESULT_PRECISION_DEFAULT, new NumberMapper<Integer>(Integer.class));
+		public static final Preference<Boolean> roundResult = new BooleanPreference(ROUND_RESULT_P_KEY, ROUND_RESULT_DEFAULT);
+		public static final Preference<NumeralBase> numeralBase = StringPreference.newInstance(NUMERAL_BASES_P_KEY, NUMERAL_BASES_DEFAULT, EnumMapper.newInstance(NumeralBase.class));
+		public static final Preference<AngleUnit> angleUnit = StringPreference.newInstance(ANGLE_UNITS_P_KEY, ANGLE_UNITS_DEFAULT, EnumMapper.newInstance(AngleUnit.class));
+		public static final Preference<Boolean> scienceNotation = new BooleanPreference(SCIENCE_NOTATION_P_KEY, SCIENCE_NOTATION_DEFAULT);
 
 		private static final List<String> preferenceKeys = new ArrayList<String>();
+
 		static {
 			preferenceKeys.add(groupingSeparator.getKey());
 			preferenceKeys.add(multiplicationSign.getKey());
@@ -75,11 +80,12 @@ public enum CalculatorEngine {
 			preferenceKeys.add(roundResult.getKey());
 			preferenceKeys.add(numeralBase.getKey());
 			preferenceKeys.add(angleUnit.getKey());
+			preferenceKeys.add(scienceNotation.getKey());
 		}
 
 		@NotNull
 		public static List<String> getPreferenceKeys() {
-	  		return Collections.unmodifiableList(preferenceKeys);
+			return Collections.unmodifiableList(preferenceKeys);
 		}
 	}
 
@@ -255,7 +261,7 @@ public enum CalculatorEngine {
 
 				if (parseExceptionObject != null || evalExceptionObject != null) {
 					if (operation == JsclOperation.numeric &&
-							( preparedExpression.isExistsUndefinedVar() || ( evalExceptionObject != null && evalExceptionObject.getCause() instanceof NumeralBaseException)) ) {
+							(preparedExpression.isExistsUndefinedVar() || (evalExceptionObject != null && evalExceptionObject.getCause() instanceof NumeralBaseException))) {
 						return evaluate(JsclOperation.simplify, expression, mr);
 					}
 
@@ -296,21 +302,7 @@ public enum CalculatorEngine {
 
 	public void reset(@Nullable Context context, @Nullable SharedPreferences preferences) {
 		synchronized (lock) {
-			if (preferences != null) {
-				this.setPrecision(Preferences.precision.getPreference(preferences));
-				this.setRoundResult(Preferences.roundResult.getPreference(preferences));
-				this.setAngleUnits(getAngleUnitsFromPrefs(preferences));
-				this.setNumeralBase(getNumeralBaseFromPrefs(preferences));
-				this.setMultiplicationSign(Preferences.multiplicationSign.getPreference(preferences));
-
-				final String groupingSeparator = Preferences.groupingSeparator.getPreference(preferences);
-				if (StringUtils.isEmpty(groupingSeparator)) {
-					this.getEngine().setUseGroupingSeparator(false);
-				} else {
-					this.getEngine().setUseGroupingSeparator(true);
-					this.getEngine().setGroupingSeparator(groupingSeparator.charAt(0));
-				}
-			}
+			softReset(context, preferences);
 
 			varsRegistry.load(context, preferences);
 			functionsRegistry.load(context, preferences);
@@ -327,6 +319,7 @@ public enum CalculatorEngine {
 				this.setAngleUnits(getAngleUnitsFromPrefs(preferences));
 				this.setNumeralBase(getNumeralBaseFromPrefs(preferences));
 				this.setMultiplicationSign(Preferences.multiplicationSign.getPreference(preferences));
+				this.setScienceNotation(Preferences.scienceNotation.getPreference(preferences));
 
 				final String groupingSeparator = Preferences.groupingSeparator.getPreference(preferences);
 				if (StringUtils.isEmpty(groupingSeparator)) {
@@ -389,6 +382,10 @@ public enum CalculatorEngine {
 
 	public void setAngleUnits(@NotNull AngleUnit angleUnits) {
 		getEngine().setAngleUnits(angleUnits);
+	}
+
+	public void setScienceNotation(boolean scienceNotation) {
+		getEngine().setScienceNotation(scienceNotation);
 	}
 
 	public void setNumeralBase(@NotNull NumeralBase numeralBase) {

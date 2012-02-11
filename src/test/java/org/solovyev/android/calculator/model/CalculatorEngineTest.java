@@ -262,6 +262,14 @@ public class CalculatorEngineTest {
 	}
 
 	@Test
+	public void testFormatting() throws Exception {
+		final CalculatorEngine ce = CalculatorEngine.instance;
+
+		Assert.assertEquals("12 345", ce.evaluate(JsclOperation.simplify, "12345").getResult());
+
+	}
+
+	@Test
 	public void testI() throws CalculatorParseException, CalculatorEvalException {
 		final CalculatorEngine cm = CalculatorEngine.instance;
 

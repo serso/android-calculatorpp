@@ -20,6 +20,7 @@
 	<string name="c_prefs_main_category">Main settings</string>
 	<string name="c_prefs_calculations_category">Calculation settings</string>
 	<string name="c_prefs_appearance_category">Appearance settings</string>
+	<string name="c_prefs_other_category">Other settings</string>
 	<string name="c_prefs_drag_button_category">Drag buttons settings</string>
 
 
@@ -41,6 +42,8 @@
 	<string name="c_calc_color_display_title">Highlight expressions</string>
 	<string name="c_calc_round_result_title">Round result</string>
 	<string name="c_calc_round_result_summary">Toggles rounding of the result</string>
+	<string name="c_calc_science_notation_title">Always scientific notation</string>
+	<string name="c_calc_science_notation_summary">If turned on forces to use only scientific notation of output (12.34E-12)</string>
 	<string name="p_calc_result_precision_title">Precision of result</string>
 	<string name="c_exit">Exit</string>
 	<string name="c_add">Add</string>
