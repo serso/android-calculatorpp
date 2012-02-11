@@ -45,6 +45,8 @@
 	<string name="c_calc_science_notation_title">Результат в научной форме</string>
 	<string name="c_calc_science_notation_summary">Если включено - результат будет всегда записан в научной форме (12.34E-12)</string>
 	<string name="p_calc_result_precision_title">Точность результата</string>
+	<string name="p_calc_max_calculation_time_title">Максимальное время вычисления</string>
+	<string name="p_calc_max_calculation_time_summary">Если вычисления превысят установленный предел - калькулятор остановится с ошибкой</string>
 	<string name="c_exit">Выход</string>
 	<string name="c_add">Добавить</string>
 	<string name="c_cancel">Отмена</string>

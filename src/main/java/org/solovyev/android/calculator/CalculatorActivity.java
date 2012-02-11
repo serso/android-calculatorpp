@@ -793,7 +793,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 		if (CalculatorEngine.Preferences.getPreferenceKeys().contains(key)) {
 			CalculatorEngine.instance.softReset(this, preferences);
-			this.calculatorModel.evaluate();
+			//this.calculatorModel.evaluate();
 		}
 
 		if ( USE_BACK_AS_PREV_P_KEY.equals(key) ) {

@@ -45,6 +45,8 @@
 	<string name="c_calc_science_notation_title">Always scientific notation</string>
 	<string name="c_calc_science_notation_summary">If turned on forces to use only scientific notation of output (12.34E-12)</string>
 	<string name="p_calc_result_precision_title">Precision of result</string>
+	<string name="p_calc_max_calculation_time_title">Maximum calculation time</string>
+	<string name="p_calc_max_calculation_time_summary">If calculations exceed specified limit - calculator halts with error</string>
 	<string name="c_exit">Exit</string>
 	<string name="c_add">Add</string>
 	<string name="c_cancel">Cancel</string>

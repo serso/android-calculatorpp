@@ -53,6 +53,13 @@
 						a:summary="@string/c_numeral_bases_summary"
 						a:entryValues="@array/p_numeral_bases"/>
 
+		<org.solovyev.android.prefs.NumberPickerDialogPreference
+				a:key="@string/p_calc_max_calculation_time_key"
+				a:title="@string/p_calc_max_calculation_time_title"
+				a:summary="@string/p_calc_max_calculation_time_summary"
+				a:defaultValue="5"
+				range:boundaries="3;1000"/>
+
 	</PreferenceScreen>
 
 	<PreferenceScreen

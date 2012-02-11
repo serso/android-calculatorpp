@@ -47,6 +47,9 @@ public enum CalculatorEngine {
 	private static final String MULTIPLICATION_SIGN_P_KEY = "org.solovyev.android.calculator.CalculatorActivity_calc_multiplication_sign";
 	private static final String MULTIPLICATION_SIGN_DEFAULT = "×";
 
+	private static final String MAX_CALCULATION_TIME_P_KEY = "calculation.max_calculation_time";
+	private static final String MAX_CALCULATION_TIME_DEFAULT = "5";
+
 	private static final String SCIENCE_NOTATION_P_KEY = "calculation.output.science_notation";
 	private static final boolean SCIENCE_NOTATION_DEFAULT = false;
 
@@ -70,6 +73,7 @@ public enum CalculatorEngine {
 		public static final Preference<NumeralBase> numeralBase = StringPreference.newInstance(NUMERAL_BASES_P_KEY, NUMERAL_BASES_DEFAULT, EnumMapper.newInstance(NumeralBase.class));
 		public static final Preference<AngleUnit> angleUnit = StringPreference.newInstance(ANGLE_UNITS_P_KEY, ANGLE_UNITS_DEFAULT, EnumMapper.newInstance(AngleUnit.class));
 		public static final Preference<Boolean> scienceNotation = new BooleanPreference(SCIENCE_NOTATION_P_KEY, SCIENCE_NOTATION_DEFAULT);
+		public static final Preference<Integer> maxCalculationTime = StringPreference.newInstance(MAX_CALCULATION_TIME_P_KEY, MAX_CALCULATION_TIME_DEFAULT, new NumberMapper<Integer>(Integer.class));
 
 		private static final List<String> preferenceKeys = new ArrayList<String>();
 
@@ -81,6 +85,7 @@ public enum CalculatorEngine {
 			preferenceKeys.add(numeralBase.getKey());
 			preferenceKeys.add(angleUnit.getKey());
 			preferenceKeys.add(scienceNotation.getKey());
+			preferenceKeys.add(maxCalculationTime.getKey());
 		}
 
 		@NotNull
@@ -88,9 +93,6 @@ public enum CalculatorEngine {
 			return Collections.unmodifiableList(preferenceKeys);
 		}
 	}
-
-
-	public static final int DEFAULT_TIMEOUT = 3000;
 
 	@NotNull
 	private final Object lock = new Object();
@@ -115,8 +117,8 @@ public enum CalculatorEngine {
 	@NotNull
 	private ThreadKiller threadKiller = new AndroidThreadKiller();
 
-	// calculation thread timeout in milliseconds, after timeout thread would be interrupted
-	private int timeout = DEFAULT_TIMEOUT;
+	// calculation thread timeout in seconds, after timeout thread would be interrupted
+	private int timeout = Integer.valueOf(MAX_CALCULATION_TIME_DEFAULT);
 
 	@NotNull
 	private String multiplicationSign = MULTIPLICATION_SIGN_DEFAULT;
@@ -245,7 +247,7 @@ public enum CalculatorEngine {
 
 			try {
 				//Log.d(CalculatorEngine.class.getName(), "Main thread is waiting: " + Thread.currentThread().getName());
-				latch.await(timeout, TimeUnit.MILLISECONDS);
+				latch.await(timeout, TimeUnit.SECONDS);
 				//Log.d(CalculatorEngine.class.getName(), "Main thread got up: " + Thread.currentThread().getName());
 
 				final CalculatorParseException parseExceptionObject = parseException.getObject();
@@ -320,6 +322,7 @@ public enum CalculatorEngine {
 				this.setNumeralBase(getNumeralBaseFromPrefs(preferences));
 				this.setMultiplicationSign(Preferences.multiplicationSign.getPreference(preferences));
 				this.setScienceNotation(Preferences.scienceNotation.getPreference(preferences));
+				this.setTimeout(Preferences.maxCalculationTime.getPreference(preferences));
 
 				final String groupingSeparator = Preferences.groupingSeparator.getPreference(preferences);
 				if (StringUtils.isEmpty(groupingSeparator)) {
@@ -375,7 +378,7 @@ public enum CalculatorEngine {
 		return engine;
 	}
 
-	// for tests
+	// package protected for tests
 	void setTimeout(int timeout) {
 		this.timeout = timeout;
 	}
