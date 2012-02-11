@@ -445,7 +445,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	}
 
 	private void setDefaultValues(@NotNull SharedPreferences preferences) {
-		if (!preferences.contains(CalculatorEngine.Preferences.groupingSeparator.getKey())) {
+		if (!CalculatorEngine.Preferences.groupingSeparator.isSet(preferences)) {
 			final Locale locale = Locale.getDefault();
 			if (locale != null) {
 				final DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(locale);
@@ -461,12 +461,19 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 			}
 		}
 
-		if (!preferences.contains(CalculatorEngine.Preferences.angleUnit.getKey())) {
+		if (!CalculatorEngine.Preferences.angleUnit.isSet(preferences)) {
 			CalculatorEngine.Preferences.angleUnit.putDefault(preferences);
 		}
 
-		if (!preferences.contains(CalculatorEngine.Preferences.numeralBase.getKey())) {
+		if (!CalculatorEngine.Preferences.numeralBase.isSet(preferences)) {
 			CalculatorEngine.Preferences.numeralBase.putDefault(preferences);
+		}
+
+		if (!CalculatorEngine.Preferences.multiplicationSign.isSet(preferences)) {
+			if ( AndroidUtils.isPhoneModel(AndroidUtils.PhoneModel.samsung_galaxy_s) || AndroidUtils.isPhoneModel(AndroidUtils.PhoneModel.samsung_galaxy_s_2) ) {
+				// workaround ofr samsung galaxy s phones
+				CalculatorEngine.Preferences.multiplicationSign.putPreference(preferences, "*");
+			}
 		}
 
 	}
@@ -793,7 +800,9 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 		if (CalculatorEngine.Preferences.getPreferenceKeys().contains(key)) {
 			CalculatorEngine.instance.softReset(this, preferences);
-			//this.calculatorModel.evaluate();
+
+			// reevaluate in order to update values (in case of preferences changed from the main window, like numeral bases and angle units)
+			this.calculatorModel.evaluate();
 		}
 
 		if ( USE_BACK_AS_PREV_P_KEY.equals(key) ) {
