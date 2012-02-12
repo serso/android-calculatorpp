@@ -14,7 +14,6 @@ import net.robotmedia.billing.BillingController;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.ads.AdsController;
 import org.solovyev.android.calculator.model.CalculatorEngine;
-import org.solovyev.android.errors.CustomExceptionHandler;
 
 /**
  * User: serso
@@ -88,6 +87,6 @@ public class CalculatorApplication extends android.app.Application {
 	}
 
 	public static void registerOnRemoteStackTrace() {
-		Thread.setDefaultUncaughtExceptionHandler(new CustomExceptionHandler(null, REMOTE_STACK_TRACE_URL));
+		//Thread.setDefaultUncaughtExceptionHandler(new CustomExceptionHandler(null, REMOTE_STACK_TRACE_URL));
 	}
 }
