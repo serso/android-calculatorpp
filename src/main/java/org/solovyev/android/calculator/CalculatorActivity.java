@@ -188,8 +188,6 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		super.onCreate(savedInstanceState);
 		setLayout(preferences);
 
-		//adView = AndroidUtils.createAndInflateAdView(this, R.id.ad_parent_view, ADMOB_USER_ID);
-
 		if (customTitleSupported) {
 			try {
 				getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.calc_title);
@@ -306,6 +304,8 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 			toggleButtonDirectionText(R.id.plusButton, false, DragDirection.down, DragDirection.up);
 
 		}
+
+		//adView = AndroidUtils.createAndInflateAdView(this, R.id.ad_parent_view, ADMOB_USER_ID);
 
 		preferences.registerOnSharedPreferenceChangeListener(this);
 	}
@@ -578,6 +578,11 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 						}
 					}
 				}
+			}
+
+			if ( savedVersion < 29 ) {
+				// just in case
+				CalculatorPreferencesActivity.removeBillingInformation(this, preferences);
 			}
 
 

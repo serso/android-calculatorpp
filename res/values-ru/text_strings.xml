@@ -113,8 +113,8 @@
 	<string name="c_calc_multiplication_sign_summary">Устанавливает знак произведения</string>
 
 	<string name="c_calc_layout">Раскладка</string>
-	<string name="p_layout_cellphone">Телефон</string>
-	<string name="p_layout_calculator">Калькулятор</string>
+	<string name="p_layout_cellphone">Научная (телефон)</string>
+	<string name="p_layout_calculator">Научная</string>
 	<string name="p_layout_simple">Простая</string>
 	<string name="c_calc_layout_summary">Устанавливает раскладку кнопок</string>
 
@@ -172,6 +172,9 @@
 	<string name="c_calc_use_back_button_as_prev_summary">Устанавливает поведение по нажатию на кнопку Назад</string>
 	<string name="c_calc_use_back_button_as_prev_title">Использовать кнопку назад как назад по истории</string>
 
+	<string name="c_clear_billing_info_summary">Информация о покупках будет обновлена с сервера</string>
+	<string name="c_clear_billing_info_title">Очистить информация о покупках</string>
+
 	<string name="c_warning">Внимание</string>
 	<string name="c_error">Ошибка</string>
 	<string name="c_billing_error">Биллинг не поддерживается: вы должны иметь Google Checkout аккаунт привязанный в вашему Google аккаунту и должны быть подключены к интернету.</string>
@@ -181,6 +184,7 @@
 
 	<string name="c_calc_already_purchased">Опция уже была куплена!</string>
 	<string name="c_calc_purchasing">Покупаем...</string>
+	<string name="c_calc_clearing">Очищаем...</string>
 
 	<string name="c_feedback_title">Отзыв</string>
 	<string name="c_feedback_text">Вы используете Калькулятор++ некоторое время\n

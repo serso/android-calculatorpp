@@ -113,8 +113,8 @@
 	<string name="c_calc_multiplication_sign_summary">Sets multiplication sign</string>
 
 	<string name="c_calc_layout">Layout</string>
-	<string name="p_layout_cellphone">Cellphone</string>
-	<string name="p_layout_calculator">Calculator</string>
+	<string name="p_layout_cellphone">Scientific (cellphone)</string>
+	<string name="p_layout_calculator">Scientific</string>
 	<string name="p_layout_simple">Simple</string>
 	<string name="c_calc_layout_summary">Sets layout of buttons</string>
 
@@ -172,6 +172,9 @@
 	<string name="c_calc_use_back_button_as_prev_summary">Defines the behaviour of the Back button</string>
 	<string name="c_calc_use_back_button_as_prev_title">Use Back button as history prev</string>
 
+	<string name="c_clear_billing_info_summary">Billing information will be reloaded from the server</string>
+	<string name="c_clear_billing_info_title">Clear billing information</string>
+
 	<string name="c_warning">Warning</string>
 	<string name="c_error">Error</string>
 	<string name="c_billing_error">Billing is not supported: you must have Google Checkout account linked to your Google account and must be connected to the internet.</string>
@@ -181,6 +184,7 @@
 
 	<string name="c_calc_already_purchased">Ad free option was already purchased!</string>
 	<string name="c_calc_purchasing">Purchasing...</string>
+	<string name="c_calc_clearing">Clearing...</string>
 
 	<string name="c_feedback_title">Feedback</string>
 	<string name="c_feedback_text">You have been using Calculator++ for some time \n
