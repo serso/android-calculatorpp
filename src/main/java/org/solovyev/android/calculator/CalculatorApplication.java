@@ -14,6 +14,7 @@ import net.robotmedia.billing.BillingController;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.ads.AdsController;
 import org.solovyev.android.calculator.model.CalculatorEngine;
+import org.solovyev.android.errors.CustomExceptionHandler;
 
 /**
  * User: serso
@@ -28,6 +29,7 @@ public class CalculatorApplication extends android.app.Application {
 	public static final String AD_FREE_P_KEY = "org.solovyev.android.calculator_ad_free";
 
 	public static final String ADMOB_USER_ID = "a14f02cf9c80cbc";
+	public static final String REMOTE_STACK_TRACE_URL = "http://calculatorpp.com/crash_reports/upload.php";
 
 	@NotNull
 	private static CalculatorApplication instance;
@@ -83,5 +85,9 @@ public class CalculatorApplication extends android.app.Application {
 				.setView(view);
 
 		builder.create().show();
+	}
+
+	public static void registerOnRemoteStackTrace() {
+		Thread.setDefaultUncaughtExceptionHandler(new CustomExceptionHandler(null, REMOTE_STACK_TRACE_URL));
 	}
 }

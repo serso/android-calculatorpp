@@ -176,6 +176,8 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 
+		CalculatorApplication.registerOnRemoteStackTrace();
+
 		final boolean customTitleSupported = requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
