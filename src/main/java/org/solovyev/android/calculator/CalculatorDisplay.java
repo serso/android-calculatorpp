@@ -133,6 +133,9 @@ public class CalculatorDisplay extends AutoResizeTextView implements ICalculator
 		this.valid = valid;
 		if (valid) {
 			errorMessage = null;
+			setTextColor(getResources().getColor(R.color.default_text_color));
+		} else {
+			setTextColor(getResources().getColor(R.color.display_error_text_color));
 		}
 	}
 

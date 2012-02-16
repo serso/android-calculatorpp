@@ -18,6 +18,9 @@
 	<string name="p_calc_result_precision_key">org.solovyev.android.calculator.CalculatorModel_result_precision</string>
 	<string name="p_calc_result_precision">5</string>
 
+	<string name="p_calc_max_calculation_time_key">calculation.max_calculation_time</string>
+	<string name="p_calc_max_calculation_time">5</string>
+
 	<string name="p_calc_color_display_key">org.solovyev.android.calculator.CalculatorModel_color_display</string>
 	<string name="p_calc_color_display">true</string>
 
@@ -27,11 +30,16 @@
 	<string name="p_calc_use_back_button_as_prev_key">org.solovyev.android.calculator.CalculatorActivity_use_back_button_as_prev</string>
 	<string name="p_calc_use_back_button_as_prev">false</string>
 
+	<string name="p_clear_billing_info_key">clear_billing_info</string>
+
 	<string name="p_calc_show_release_notes_key">org.solovyev.android.calculator.CalculatorActivity_show_release_notes</string>
 	<string name="p_calc_show_release_notes">true</string>
 
 	<string name="p_calc_round_result_key">org.solovyev.android.calculator.CalculatorModel_round_result</string>
 	<string name="p_calc_round_result">true</string>
+
+	<string name="p_calc_science_notation_key">calculation.output.science_notation</string>
+	<string name="p_calc_science_notation">false</string>
 
 	<string name="p_calc_functions">org.solovyev.android.calculator.CalculatorModel_functions</string>
 	<string name="p_calc_vars">org.solovyev.android.calculator.CalculatorModel_vars</string>

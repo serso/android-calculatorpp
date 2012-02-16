@@ -28,6 +28,7 @@ public class CalculatorApplication extends android.app.Application {
 	public static final String AD_FREE_P_KEY = "org.solovyev.android.calculator_ad_free";
 
 	public static final String ADMOB_USER_ID = "a14f02cf9c80cbc";
+	public static final String REMOTE_STACK_TRACE_URL = "http://calculatorpp.com/crash_reports/upload.php";
 
 	@NotNull
 	private static CalculatorApplication instance;
@@ -83,5 +84,9 @@ public class CalculatorApplication extends android.app.Application {
 				.setView(view);
 
 		builder.create().show();
+	}
+
+	public static void registerOnRemoteStackTrace() {
+		//Thread.setDefaultUncaughtExceptionHandler(new CustomExceptionHandler(null, REMOTE_STACK_TRACE_URL));
 	}
 }

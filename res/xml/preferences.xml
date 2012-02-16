@@ -8,13 +8,17 @@
 			a:title="@string/c_calc_ad_free_title"
 			a:summary="@string/c_calc_ad_free_summary"
 			a:defaultValue="false"
-		/>
+			/>
 
-	<PreferenceCategory a:title="@string/c_prefs_calculations_category">
+	<org.solovyev.android.ads.AdViewPreference
+			a:key="admob_01"
+			a:layout="@layout/admob_pref"/>
+
+	<PreferenceScreen a:title="@string/c_prefs_calculations_category">
 
 		<org.solovyev.android.ads.AdViewPreference
-			 a:key="admob_01"
-			 a:layout="@layout/admob_pref"/>
+				a:key="admob_02"
+				a:layout="@layout/admob_pref"/>
 
 		<android.preference.CheckBoxPreference
 				a:key="@string/p_calc_round_result_key"
@@ -29,17 +33,17 @@
 				a:defaultValue="5"
 				range:boundaries="0;16"/>
 
+		<android.preference.CheckBoxPreference
+				a:key="@string/p_calc_science_notation_key"
+				a:summary="@string/c_calc_science_notation_summary"
+				a:title="@string/c_calc_science_notation_title"
+				a:defaultValue="false"/>
+
 		<ListPreference a:key="@string/p_calc_grouping_separator_key"
 						a:title="@string/c_calc_grouping_separator"
 						a:entries="@array/p_grouping_separator_names"
 						a:summary="@string/c_calc_grouping_separator_summary"
 						a:entryValues="@array/p_grouping_separator_values"/>
-
-		<ListPreference a:key="@string/p_calc_multiplication_sign_key"
-						a:title="@string/c_calc_multiplication_sign"
-						a:entries="@array/p_multiplication_sign_values"
-						a:summary="@string/c_calc_multiplication_sign_summary"
-						a:entryValues="@array/p_multiplication_sign_values"/>
 
 		<ListPreference a:key="@string/p_calc_angle_units_key"
 						a:title="@string/c_calc_angle_units"
@@ -53,14 +57,21 @@
 						a:summary="@string/c_numeral_bases_summary"
 						a:entryValues="@array/p_numeral_bases"/>
 
-	</PreferenceCategory>
+		<org.solovyev.android.prefs.NumberPickerDialogPreference
+				a:key="@string/p_calc_max_calculation_time_key"
+				a:title="@string/p_calc_max_calculation_time_title"
+				a:summary="@string/p_calc_max_calculation_time_summary"
+				a:defaultValue="5"
+				range:boundaries="3;1000"/>
 
+	</PreferenceScreen>
 
-	<PreferenceCategory a:title="@string/c_prefs_appearance_category">
+	<PreferenceScreen
+			a:title="@string/c_prefs_appearance_category">
 
 		<org.solovyev.android.ads.AdViewPreference
-			 a:key="admob_02"
-			 a:layout="@layout/admob_pref"/>
+				a:key="admob_03"
+				a:layout="@layout/admob_pref"/>
 
 		<android.preference.CheckBoxPreference
 				a:key="@string/p_calc_color_display_key"
@@ -79,6 +90,12 @@
 						a:entries="@array/p_calc_haptic_feedback_duration_names"
 						a:summary="@string/p_calc_haptic_feedback_duration_summary"
 						a:entryValues="@array/p_calc_haptic_feedback_duration_values"/>
+
+		<ListPreference a:key="@string/p_calc_multiplication_sign_key"
+						a:title="@string/c_calc_multiplication_sign"
+						a:entries="@array/p_multiplication_sign_values"
+						a:summary="@string/c_calc_multiplication_sign_summary"
+						a:entryValues="@array/p_multiplication_sign_values"/>
 
 		<ListPreference a:key="@string/p_calc_theme_key"
 						a:title="@string/c_calc_theme"
@@ -102,6 +119,30 @@
 				range:steps="10"
 				range:boundaries="10;500"/>
 
+		<!--	  <org.solovyev.android.prefs.FloatRangeSeekBarPreference
+									  a:key="@string/p_drag_duration_key"
+									  a:title="Duration of drag event"
+									  a:text=" ms"
+									  a:defaultValue="40;2500"
+									  range:steps="10"
+									  range:boundaries="5;4000"/>
+						
+							  <org.solovyev.android.prefs.FloatRangeSeekBarPreference
+									  a:key="@string/p_drag_angle_key"
+									  a:title="Angle of drag event"
+									  a:text=" degrees"
+									  a:defaultValue="0;45"
+									  range:steps="5"
+									  range:boundaries="0;45"/>-->
+	</PreferenceScreen>
+
+	<PreferenceScreen
+			a:title="@string/c_prefs_other_category">
+
+		<org.solovyev.android.ads.AdViewPreference
+				a:key="admob_04"
+				a:layout="@layout/admob_pref"/>
+
 		<android.preference.CheckBoxPreference
 				a:key="@string/p_calc_show_release_notes_key"
 				a:summary="@string/c_calc_show_release_notes_summary"
@@ -114,21 +155,11 @@
 				a:title="@string/c_calc_use_back_button_as_prev_title"
 				a:defaultValue="false"/>
 
-<!--	  <org.solovyev.android.prefs.FloatRangeSeekBarPreference
-			  a:key="@string/p_drag_duration_key"
-			  a:title="Duration of drag event"
-			  a:text=" ms"
-			  a:defaultValue="40;2500"
-			  range:steps="10"
-			  range:boundaries="5;4000"/>
+		<Preference
+				a:key="@string/p_clear_billing_info_key"
+				a:summary="@string/c_clear_billing_info_summary"
+				a:title="@string/c_clear_billing_info_title"/>
 
-	  <org.solovyev.android.prefs.FloatRangeSeekBarPreference
-			  a:key="@string/p_drag_angle_key"
-			  a:title="Angle of drag event"
-			  a:text=" degrees"
-			  a:defaultValue="0;45"
-			  range:steps="5"
-			  range:boundaries="0;45"/>-->
-	</PreferenceCategory>
+	</PreferenceScreen>
 
 </PreferenceScreen>

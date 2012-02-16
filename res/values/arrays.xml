@@ -9,13 +9,17 @@
 		<item>@string/p_default_theme</item>
 		<item>@string/p_violet_theme</item>
 		<item>@string/p_light_blue_theme</item>
-		<item>@string/p_metro_theme</item>
+		<item>@string/p_metro_blue_theme</item>
+		<item>@string/p_metro_green_theme</item>
+		<item>@string/p_metro_purple_theme</item>
 	</string-array>
 	<string-array name="p_theme_values">
 		<item>default_theme</item>
 		<item>violet_theme</item>
 		<item>light_blue_theme</item>
-		<item>metro_theme</item>
+		<item>metro_blue_theme</item>
+		<item>metro_green_theme</item>
+		<item>metro_purple_theme</item>
 	</string-array>
 
 	<string-array name="p_grouping_separator_names">
@@ -36,12 +40,14 @@
 	</string-array>
 
 	<string-array name="p_layout_names">
-		<item>@string/p_layout_cellphone</item>
 		<item>@string/p_layout_calculator</item>
+		<item>@string/p_layout_simple</item>
+		<item>@string/p_layout_cellphone</item>
 	</string-array>
 	<string-array name="p_layout_values">
-		<item>main_cellphone</item>
 		<item>main_calculator</item>
+		<item>simple</item>
+		<item>main_cellphone</item>
 	</string-array>
 
 	<string-array name="p_calc_haptic_feedback_duration_names">

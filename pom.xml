@@ -30,6 +30,13 @@
 
 	<dependencies>
 
+<!--		<dependency>
+			<groupId>com.google.android</groupId>
+			<artifactId>android</artifactId>
+			<version>2.3.3</version>
+			<scope>provided</scope>
+		</dependency>-->
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -102,8 +109,6 @@
 			<groupId>org.solovyev.android</groupId>
 			<artifactId>billing</artifactId>
 			<version>0.1</version>
-			<scope>system</scope>
-			<systemPath>${additionalLibs}/android_billing.jar</systemPath>
 		</dependency>
 
 		<dependency>
@@ -113,4 +118,76 @@
 		</dependency>
 
 	</dependencies>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<artifactId>maven-jarsigner-plugin</artifactId>
+					<version>1.2</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>2.4.3</version>
+					<configuration>
+						<encoding>UTF-8</encoding>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>com.jayway.maven.plugins.android.generation2</groupId>
+					<artifactId>android-maven-plugin</artifactId>
+					<version>3.1.1</version>
+					<configuration>
+						<sdk>
+							<platform>9</platform>
+						</sdk>
+						<emulator>
+							<avd>23</avd>
+							<wait>10000</wait>
+							<!--<options>-no-skin</options>-->
+						</emulator>
+						<zipalign>
+							<verbose>true</verbose>
+						</zipalign>
+						<undeployBeforeDeploy>true</undeployBeforeDeploy>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>com.pyx4me</groupId>
+					<artifactId>proguard-maven-plugin</artifactId>
+					<version>2.0.4</version>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>build-helper-maven-plugin</artifactId>
+					<version>1.5</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+	<profiles>
+		<profile>
+			<!-- the standard profile runs the instrumentation tests -->
+			<id>standard</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<profile>
+			<!-- the release profile does sign, proguard, zipalign ... but does not run instrumentation tests -->
+			<id>release</id>
+			<!-- via this activation the profile is automatically used when the release is done with the maven release
+						plugin -->
+			<activation>
+				<property>
+					<name>performRelease</name>
+					<value>true</value>
+				</property>
+			</activation>
+		</profile>
+	</profiles>
+
+
 </project>

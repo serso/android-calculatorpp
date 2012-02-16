@@ -7,15 +7,18 @@ package org.solovyev.android.calculator;
 
 import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 import net.robotmedia.billing.BillingController;
 import net.robotmedia.billing.IBillingObserver;
 import net.robotmedia.billing.ResponseCode;
+import net.robotmedia.billing.helper.AbstractBillingObserver;
 import net.robotmedia.billing.model.Transaction;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.AndroidUtils;
@@ -29,6 +32,8 @@ import org.solovyev.android.view.VibratorContainer;
  * Time: 6:37 PM
  */
 public class CalculatorPreferencesActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener, IBillingObserver {
+
+	public static final String CLEAR_BILLING_INFO = "clear_billing_info";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +53,29 @@ public class CalculatorPreferencesActivity extends PreferenceActivity implements
 		preferences.registerOnSharedPreferenceChangeListener(this);
 		onSharedPreferenceChanged(preferences, CalculatorEngine.Preferences.roundResult.getKey());
 		onSharedPreferenceChanged(preferences, VibratorContainer.HAPTIC_FEEDBACK_P_KEY);
+
+		final Preference clearBillingInfoPreference = findPreference(CLEAR_BILLING_INFO);
+		if (clearBillingInfoPreference != null) {
+			clearBillingInfoPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+				@Override
+				public boolean onPreferenceClick(Preference preference) {
+
+					Toast.makeText(CalculatorPreferencesActivity.this, R.string.c_calc_clearing, Toast.LENGTH_SHORT).show();
+
+					removeBillingInformation(CalculatorPreferencesActivity.this, PreferenceManager.getDefaultSharedPreferences(CalculatorPreferencesActivity.this));
+
+					return true;
+				}
+			});
+		}
+	}
+
+	public static void removeBillingInformation(@NotNull Context context, @NotNull SharedPreferences preferences) {
+		final SharedPreferences.Editor editor = preferences.edit();
+		editor.putBoolean(AbstractBillingObserver.KEY_TRANSACTIONS_RESTORED, false);
+		editor.commit();
+
+		BillingController.dropBillingData(context);
 	}
 
 	private void setAdFreeAction() {
@@ -109,7 +137,7 @@ public class CalculatorPreferencesActivity extends PreferenceActivity implements
 
 	@Override
 	public void onCheckBillingSupportedResponse(boolean supported) {
-		if ( supported ) {
+		if (supported) {
 			setAdFreeAction();
 		} else {
 			final Preference adFreePreference = findPreference(CalculatorApplication.AD_FREE_P_KEY);
@@ -158,6 +186,11 @@ public class CalculatorPreferencesActivity extends PreferenceActivity implements
 
 	@Override
 	public void onTransactionsRestored() {
+		// do nothing
+	}
+
+	@Override
+	public void onErrorRestoreTransactions(@NotNull ResponseCode responseCode) {
 		// do nothing
 	}
 }
