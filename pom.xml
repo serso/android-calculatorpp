@@ -109,8 +109,6 @@
 			<groupId>org.solovyev.android</groupId>
 			<artifactId>billing</artifactId>
 			<version>0.1</version>
-			<scope>system</scope>
-			<systemPath>${additionalLibs}/android_billing.jar</systemPath>
 		</dependency>
 
 		<dependency>
@@ -176,9 +174,6 @@
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
-			<modules>
-				<module>../android_common</module>
-			</modules>
 		</profile>
 		<profile>
 			<!-- the release profile does sign, proguard, zipalign ... but does not run instrumentation tests -->
@@ -191,9 +186,6 @@
 					<value>true</value>
 				</property>
 			</activation>
-			<modules>
-				<module>../android_common</module>
-			</modules>
 		</profile>
 	</profiles>
 

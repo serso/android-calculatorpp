@@ -180,7 +180,7 @@
 	<string name="c_billing_error">Биллинг не поддерживается: вы должны иметь Google Checkout аккаунт привязанный в вашему Google аккаунту и должны быть подключены к интернету.</string>
 
 	<string name="c_calc_ad_free_title">Поддержать проект</string>
-	<string name="c_calc_ad_free_summary">И избавиться от рекламы</string>
+	<string name="c_calc_ad_free_summary">И убрать рекламу</string>
 
 	<string name="c_calc_already_purchased">Опция уже была куплена!</string>
 	<string name="c_calc_purchasing">Покупаем...</string>

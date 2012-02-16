@@ -580,11 +580,6 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 				}
 			}
 
-			if ( savedVersion < 29 ) {
-				// just in case
-				CalculatorPreferencesActivity.removeBillingInformation(this, preferences);
-			}
-
 
 			//Log.d(this.getClass().getName(), "Application was opened " + appOpenedCounter + " time!");
 			if (!dialogShown) {

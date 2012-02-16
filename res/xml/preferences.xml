@@ -10,7 +10,15 @@
 			a:defaultValue="false"
 			/>
 
+	<org.solovyev.android.ads.AdViewPreference
+			a:key="admob_01"
+			a:layout="@layout/admob_pref"/>
+
 	<PreferenceScreen a:title="@string/c_prefs_calculations_category">
+
+		<org.solovyev.android.ads.AdViewPreference
+				a:key="admob_02"
+				a:layout="@layout/admob_pref"/>
 
 		<android.preference.CheckBoxPreference
 				a:key="@string/p_calc_round_result_key"
@@ -60,6 +68,10 @@
 
 	<PreferenceScreen
 			a:title="@string/c_prefs_appearance_category">
+
+		<org.solovyev.android.ads.AdViewPreference
+				a:key="admob_03"
+				a:layout="@layout/admob_pref"/>
 
 		<android.preference.CheckBoxPreference
 				a:key="@string/p_calc_color_display_key"
@@ -126,6 +138,10 @@
 
 	<PreferenceScreen
 			a:title="@string/c_prefs_other_category">
+
+		<org.solovyev.android.ads.AdViewPreference
+				a:key="admob_04"
+				a:layout="@layout/admob_pref"/>
 
 		<android.preference.CheckBoxPreference
 				a:key="@string/p_calc_show_release_notes_key"
