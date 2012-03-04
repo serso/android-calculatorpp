@@ -11,7 +11,7 @@
     <version>1.1.4</version>
 
     <modules>
-        <module>../android_common</module>
+        <module>../common</module>
         <module>calculatorpp-main</module>
         <module>calculatorpp-test</module>
     </modules>
@@ -68,7 +68,7 @@
                             <platform>15</platform>
                         </sdk>
 
-<!--                        <emulator>
+                        <!--                        <emulator>
                             <avd>23</avd>
                             <wait>10000</wait>
                             &lt;!&ndash;<options>-no-skin</options>&ndash;&gt;
@@ -101,15 +101,18 @@
     </build>
 
     <profiles>
+
         <profile>
             <!-- the standard profile runs the instrumentation tests -->
             <id>standard</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
+
         </profile>
+
         <profile>
-            <!-- the release profile does sign, proguard, zipalign ... but does not run instrumentation tests -->
+            <!-- the release profile does sign, proguard, zipalign  -->
             <id>release</id>
             <!-- via this activation the profile is automatically used when the release is done with the maven release
             plugin -->
@@ -119,9 +122,9 @@
                     <value>true</value>
                 </property>
             </activation>
+
         </profile>
     </profiles>
-
 
 
 </project>
