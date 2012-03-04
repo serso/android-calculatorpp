@@ -6,9 +6,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.solovyev.android</groupId>
-    <artifactId>calculatorpp</artifactId>
+    <artifactId>calculatorpp-parent</artifactId>
     <packaging>pom</packaging>
-    <version>1.1.4</version>
+    <version>1.2.34</version>
 
     <modules>
         <module>../common</module>

@@ -5,14 +5,14 @@
 
     <parent>
         <groupId>org.solovyev.android</groupId>
-        <artifactId>calculatorpp</artifactId>
-        <version>1.1.4</version>
+        <artifactId>calculatorpp-parent</artifactId>
+        <version>1.2.34</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.solovyev.android</groupId>
-    <artifactId>calculatorpp-main</artifactId>
+    <artifactId>calculatorpp</artifactId>
     <packaging>apk</packaging>
 
     <properties>
@@ -204,8 +204,8 @@
                         </goals>
                         <configuration>
                             <files>
-                                <file>${basedir}/src/misc/env/jarsigner.properties</file>
-                                <file>${basedir}/src/misc/env/env.properties</file>
+                                <file>${project.basedir}/src/misc/env/jarsigner.properties</file>
+                                <file>${project.basedir}/src/misc/env/env.properties</file>
                             </files>
                         </configuration>
                     </execution>
@@ -269,13 +269,13 @@
                                     <removeExistingSignatures>true</removeExistingSignatures>
                                     <archiveDirectory/>
                                     <includes>
-                                        <include>${project.build.directory}/${project.artifactId}.apk</include>
+                                        <include>${project.build.directory}/${project.artifactId}-${project.version}.apk</include>
                                     </includes>
                                     <keystore>${sign.keystore}</keystore>
                                     <alias>${sign.alias}</alias>
                                     <storepass>${sign.storepass}</storepass>
                                     <keypass>${sign.keypass}</keypass>
-                                    <verbose>true</verbose>
+                                    <verbose>false</verbose>
                                 </configuration>
                             </execution>
                         </executions>
@@ -288,23 +288,27 @@
                         <artifactId>android-maven-plugin</artifactId>
                         <inherited>true</inherited>
                         <configuration>
+
                             <sign>
                                 <debug>false</debug>
                             </sign>
+
                             <zipalign>
-                                <verbose>true</verbose>
-                                <inputApk>${project.build.directory}/${project.artifactId}.apk</inputApk>
-                                <outputApk>${project.build.directory}/${project.artifactId}-signed-aligned.apk
-                                </outputApk>
+                                <verbose>false</verbose>
+                                <inputApk>${project.build.directory}/${project.artifactId}-${project.version}.apk</inputApk>
+                                <outputApk>${project.build.directory}/${project.artifactId}-${project.version}-signed-aligned.apk</outputApk>
                             </zipalign>
+
                             <manifest>
                                 <debuggable>false</debuggable>
                                 <versionCodeAutoIncrement>true</versionCodeAutoIncrement>
                             </manifest>
+
                             <proguard>
-                                <skip>false</skip>
+                                <skip>true</skip>
                             </proguard>
                         </configuration>
+
                         <executions>
                             <execution>
                                 <id>manifestUpdate</id>
@@ -328,7 +332,7 @@
                         <configuration>
                             <artifacts>
                                 <artifact>
-                                    <file>${project.build.directory}/${project.artifactId}-signed-aligned.apk</file>
+                                    <file>${project.build.directory}/${project.artifactId}-${project.version}-signed-aligned.apk</file>
                                     <type>apk</type>
                                     <classifier>signed-aligned</classifier>
                                 </artifact>
