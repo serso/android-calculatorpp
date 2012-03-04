@@ -1,193 +1,397 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.solovyev.android</groupId>
-	<artifactId>calculator</artifactId>
-	<version>1.1.4</version>
+    <groupId>org.solovyev.android</groupId>
+    <artifactId>calculatorpp</artifactId>
+    <packaging>apk</packaging>
+    <version>1.1.4</version>
 
-	<modules>
-		<module>../android_common</module>
-	</modules>
+    <modules>
+        <module>../android_common</module>
+    </modules>
 
-	<packaging>pom</packaging>
+    <properties>
+        <additionalLibs>${basedir}/src/misc/lib</additionalLibs>
+    </properties>
 
-	<properties>
-		<additionalLibs>${basedir}/src/misc/lib</additionalLibs>
-	</properties>
+    <repositories>
+        <repository>
+            <id>congrace.de</id>
+            <name>releases</name>
+            <url>http://nexus.congrace.de/nexus/content/repositories/releases/</url>
+            <layout>default</layout>
+        </repository>
+    </repositories>
 
-	<repositories>
-		<repository>
-			<id>congrace.de</id>
-			<name>releases</name>
-			<url>http://nexus.congrace.de/nexus/content/repositories/releases/</url>
-			<layout>default</layout>
-		</repository>
-	</repositories>
+    <dependencies>
 
-	<dependencies>
+        <dependency>
+            <groupId>com.google.android</groupId>
+            <artifactId>android</artifactId>
+            <version>2.3.1</version>
+        </dependency>
 
-<!--		<dependency>
-			<groupId>com.google.android</groupId>
-			<artifactId>android</artifactId>
-			<version>2.3.3</version>
-			<scope>provided</scope>
-		</dependency>-->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.8.2</version>
+            <scope>test</scope>
+        </dependency>
 
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.8.2</version>
-			<scope>test</scope>
-		</dependency>
+        <dependency>
+            <groupId>org.solovyev</groupId>
+            <artifactId>common</artifactId>
+            <version>0.3</version>
+        </dependency>
 
-		<dependency>
-			<groupId>org.solovyev</groupId>
-			<artifactId>common</artifactId>
-			<version>0.3</version>
-		</dependency>
+        <dependency>
+            <groupId>org.solovyev.android</groupId>
+            <artifactId>common</artifactId>
+            <version>0.1</version>
+        </dependency>
 
-		<dependency>
-			<groupId>org.solovyev.android</groupId>
-			<artifactId>common</artifactId>
-			<version>0.1</version>
-		</dependency>
+        <dependency>
+            <groupId>org.solovyev</groupId>
+            <artifactId>jscl</artifactId>
+            <version>0.0.1</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>xercesImpl</artifactId>
+                    <groupId>xerces</groupId>
+                </exclusion>
+            </exclusions>
+            <!--			<scope>system</scope>
+               <systemPath>${additionalLibs}/jscl.jar</systemPath>-->
+        </dependency>
 
-		<dependency>
-			<groupId>org.solovyev</groupId>
-			<artifactId>jscl</artifactId>
-			<version>0.0.1</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>xercesImpl</artifactId>
-					<groupId>xerces</groupId>
-				</exclusion>
-			</exclusions>
-			<!--			<scope>system</scope>
-			<systemPath>${additionalLibs}/jscl.jar</systemPath>-->
-		</dependency>
+        <dependency>
+            <groupId>net.sf.opencsv</groupId>
+            <artifactId>opencsv</artifactId>
+            <version>2.0</version>
+            <scope>test</scope>
+        </dependency>
 
-		<dependency>
-			<groupId>net.sf.opencsv</groupId>
-			<artifactId>opencsv</artifactId>
-			<version>2.0</version>
-			<scope>test</scope>
-		</dependency>
+        <dependency>
+            <groupId>org.simpleframework</groupId>
+            <artifactId>simple-xml</artifactId>
+            <version>2.6.1</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>stax-api</artifactId>
+                    <groupId>stax</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
-		<dependency>
-			<groupId>org.simpleframework</groupId>
-			<artifactId>simple-xml</artifactId>
-			<version>2.6.1</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>stax-api</artifactId>
-					<groupId>stax</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
+        <dependency>
+            <groupId>achartengine</groupId>
+            <artifactId>achartengine</artifactId>
+            <version>0.7.0</version>
+            <scope>system</scope>
+            <systemPath>${additionalLibs}/achartengine-0.7.0.jar</systemPath>
+        </dependency>
 
-		<dependency>
-			<groupId>achartengine</groupId>
-			<artifactId>achartengine</artifactId>
-			<version>0.7.0</version>
-			<scope>system</scope>
-			<systemPath>${additionalLibs}/achartengine-0.7.0.jar</systemPath>
-		</dependency>
+        <dependency>
+            <groupId>admob</groupId>
+            <artifactId>admob</artifactId>
+            <version>4.3.1</version>
+            <scope>system</scope>
+            <systemPath>${additionalLibs}/GoogleAdMobAdsSdk-4.3.1.jar</systemPath>
+        </dependency>
 
-		<dependency>
-			<groupId>admob</groupId>
-			<artifactId>admob</artifactId>
-			<version>4.3.1</version>
-			<scope>system</scope>
-			<systemPath>${additionalLibs}/GoogleAdMobAdsSdk-4.3.1.jar</systemPath>
-		</dependency>
+        <dependency>
+            <groupId>org.solovyev.android</groupId>
+            <artifactId>billing</artifactId>
+            <version>0.1</version>
+        </dependency>
 
-		<dependency>
-			<groupId>org.solovyev.android</groupId>
-			<artifactId>billing</artifactId>
-			<version>0.1</version>
-		</dependency>
+        <dependency>
+            <groupId>com.intellij</groupId>
+            <artifactId>annotations</artifactId>
+            <version>7.0.3</version>
+        </dependency>
 
-		<dependency>
-			<groupId>com.intellij</groupId>
-			<artifactId>annotations</artifactId>
-			<version>7.0.3</version>
-		</dependency>
+        <dependency>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>properties-maven-plugin</artifactId>
+            <version>1.0-alpha-1</version>
+        </dependency>
 
-	</dependencies>
+    </dependencies>
 
-	<build>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<artifactId>maven-jarsigner-plugin</artifactId>
-					<version>1.2</version>
-				</plugin>
-				<plugin>
-					<artifactId>maven-resources-plugin</artifactId>
-					<version>2.4.3</version>
-					<configuration>
-						<encoding>UTF-8</encoding>
-					</configuration>
-				</plugin>
+    <build>
 
-				<plugin>
-					<groupId>com.jayway.maven.plugins.android.generation2</groupId>
-					<artifactId>android-maven-plugin</artifactId>
-					<version>3.1.1</version>
-					<configuration>
-						<sdk>
-							<platform>9</platform>
-						</sdk>
-						<emulator>
-							<avd>23</avd>
-							<wait>10000</wait>
-							<!--<options>-no-skin</options>-->
-						</emulator>
-						<zipalign>
-							<verbose>true</verbose>
-						</zipalign>
-						<undeployBeforeDeploy>true</undeployBeforeDeploy>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>com.pyx4me</groupId>
-					<artifactId>proguard-maven-plugin</artifactId>
-					<version>2.0.4</version>
-				</plugin>
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>build-helper-maven-plugin</artifactId>
-					<version>1.5</version>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-	</build>
+        <!-- specifying the resources: e.g. layout.xml, strings.xml etc-->
+        <resources>
 
-	<profiles>
-		<profile>
-			<!-- the standard profile runs the instrumentation tests -->
-			<id>standard</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-		</profile>
-		<profile>
-			<!-- the release profile does sign, proguard, zipalign ... but does not run instrumentation tests -->
-			<id>release</id>
-			<!-- via this activation the profile is automatically used when the release is done with the maven release
-						plugin -->
-			<activation>
-				<property>
-					<name>performRelease</name>
-					<value>true</value>
-				</property>
-			</activation>
-		</profile>
-	</profiles>
+            <!-- a pair definition for resource filtering of xml files only (not binary files since they get mangled -->
+            <resource>
+                <directory>${project.basedir}/res</directory>
+                <filtering>true</filtering>
+                <targetPath>${project.build.directory}/filtered-res</targetPath>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+
+            <resource>
+                <directory>${project.basedir}/res</directory>
+                <filtering>false</filtering>
+                <targetPath>${project.build.directory}/filtered-res</targetPath>
+                <excludes>
+                    <exclude>**/*.xml</exclude>
+                </excludes>
+
+            </resource>
+        </resources>
+
+        <plugins>
+
+            <plugin>
+                <groupId>com.jayway.maven.plugins.android.generation2</groupId>
+                <artifactId>android-maven-plugin</artifactId>
+                <extensions>true</extensions>
+                <configuration>
+                    <resourceDirectory>${project.build.directory}/filtered-res</resourceDirectory>
+                    <manifest>
+                        <debuggable>true</debuggable>
+                    </manifest>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>manifestUpdate</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>manifest-update</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>alignApk</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>zipalign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>properties-maven-plugin</artifactId>
+                <version>1.0-alpha-2</version>
+                <executions>
+                    <execution>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>read-project-properties</goal>
+                        </goals>
+                        <configuration>
+                            <files>
+                                <file>${basedir}/src/misc/env/jarsigner.properties</file>
+                            </files>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+
+        <pluginManagement>
+
+            <plugins>
+                <plugin>
+                    <artifactId>maven-jarsigner-plugin</artifactId>
+                    <version>1.2</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>2.4.3</version>
+                    <configuration>
+                        <encoding>UTF-8</encoding>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>com.jayway.maven.plugins.android.generation2</groupId>
+                    <artifactId>android-maven-plugin</artifactId>
+                    <version>3.1.1</version>
+                    <configuration>
+                        <sdk>
+                            <platform>9</platform>
+                        </sdk>
+                        <emulator>
+                            <avd>23</avd>
+                            <wait>10000</wait>
+                            <!--<options>-no-skin</options>-->
+                        </emulator>
+                        <zipalign>
+                            <verbose>true</verbose>
+                        </zipalign>
+                        <undeployBeforeDeploy>true</undeployBeforeDeploy>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>com.pyx4me</groupId>
+                    <artifactId>proguard-maven-plugin</artifactId>
+                    <version>2.0.4</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <version>1.5</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <profiles>
+
+        <profile>
+            <!-- the standard profile runs the instrumentation tests -->
+            <id>standard</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+
+
+        <profile>
+            <id>development</id>
+            <!-- using this since activeByDefault does not work well with multiple profiles -->
+            <activation>
+                <property>
+                    <name>environment</name>
+                    <value>!production</value>
+                </property>
+            </activation>
+            <properties>
+                <deployment.stage>In Development</deployment.stage>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>production</id>
+            <properties>
+                <deployment.stage>In Production</deployment.stage>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>release</id>
+            <!-- via this activation the profile is automatically used when the release is done with the maven release
+            plugin -->
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jarsigner-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>signing</id>
+                                <goals>
+                                    <goal>sign</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                                <phase>package</phase>
+                                <inherited>true</inherited>
+                                <configuration>
+                                    <removeExistingSignatures>true</removeExistingSignatures>
+                                    <archiveDirectory/>
+                                    <includes>
+                                        <include>${project.build.directory}/${project.artifactId}.apk</include>
+                                    </includes>
+                                    <keystore>${sign.keystore}</keystore>
+                                    <alias>${sign.alias}</alias>
+                                    <storepass>${sign.storepass}</storepass>
+                                    <keypass>${sign.keypass}</keypass>
+                                    <verbose>true</verbose>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- the signed apk then needs to be zipaligned and we activate proguard and we run the manifest
+                    update -->
+                    <plugin>
+                        <groupId>com.jayway.maven.plugins.android.generation2</groupId>
+                        <artifactId>android-maven-plugin</artifactId>
+                        <inherited>true</inherited>
+                        <configuration>
+                            <sign>
+                                <debug>false</debug>
+                            </sign>
+                            <zipalign>
+                                <verbose>true</verbose>
+                                <inputApk>${project.build.directory}/${project.artifactId}.apk</inputApk>
+                                <outputApk>${project.build.directory}/${project.artifactId}-signed-aligned.apk
+                                </outputApk>
+                            </zipalign>
+                            <manifest>
+                                <debuggable>false</debuggable>
+                                <versionCodeAutoIncrement>true</versionCodeAutoIncrement>
+                            </manifest>
+                            <proguard>
+                                <skip>false</skip>
+                            </proguard>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>manifestUpdate</id>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>manifest-update</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>alignApk</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>zipalign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>build-helper-maven-plugin</artifactId>
+                        <configuration>
+                            <artifacts>
+                                <artifact>
+                                    <file>${project.build.directory}/${project.artifactId}-signed-aligned.apk</file>
+                                    <type>apk</type>
+                                    <classifier>signed-aligned</classifier>
+                                </artifact>
+                                <artifact>
+                                    <file>${project.build.directory}/proguard/mapping.txt</file>
+                                    <type>map</type>
+                                    <classifier>release</classifier>
+                                </artifact>
+                            </artifacts>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>attach-signed-aligned</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>attach-artifact</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 
 </project>
