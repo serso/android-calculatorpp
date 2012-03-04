@@ -12,7 +12,7 @@
 
     <modules>
         <module>../android_common</module>
-        <module>android-calculator-app</module>
+        <module>calculatorpp-main</module>
     </modules>
 
     <dependencyManagement>
