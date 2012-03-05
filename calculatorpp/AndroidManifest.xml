@@ -8,7 +8,7 @@
 
 	<uses-sdk android:minSdkVersion="4" android:targetSdkVersion="8"/>
 
-	<application android:debuggable="false" android:hardwareAccelerated="false" android:icon="@drawable/icon" android:label="@string/c_app_name" android:name=".CalculatorApplication">
+	<application android:debuggable="true" android:hardwareAccelerated="false" android:icon="@drawable/icon" android:label="@string/c_app_name" android:name=".CalculatorApplication">
 
 		<activity android:label="@string/c_app_name" android:name=".CalculatorActivity" android:windowSoftInputMode="adjustPan">
 
@@ -18,6 +18,8 @@
 			</intent-filter>
 
 		</activity>
+        
+        <service android:name="org.solovyev.android.calculator.CalculationService"/>
 
 		<!--NOTE: a:configChanges="orientation|keyboardHidden" is needed to correct work of dialog windows (not to close them on orientation change) -->
 		<activity android:configChanges="orientation|keyboardHidden" android:label="@string/c_app_settings" android:name=".CalculatorPreferencesActivity"/>

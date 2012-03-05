@@ -57,6 +57,13 @@
         </dependency>
 
         <dependency>
+            <groupId>org.solovyev.android</groupId>
+            <artifactId>calculatorpp-service</artifactId>
+            <version>0.1</version>
+            <type>apklib</type>
+        </dependency>
+
+        <dependency>
             <groupId>org.solovyev</groupId>
             <artifactId>jscl</artifactId>
             <version>0.0.1</version>

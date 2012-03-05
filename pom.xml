@@ -12,6 +12,7 @@
 
     <modules>
         <module>../common</module>
+        <module>calculatorpp-service</module>
         <module>calculatorpp</module>
         <module>calculatorpp-test</module>
     </modules>
@@ -26,7 +27,7 @@
             <dependency>
                 <groupId>com.google.android</groupId>
                 <artifactId>android</artifactId>
-                <version>2.3.3</version>
+                <version>4.0.1.2</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
@@ -68,11 +69,11 @@
                             <platform>15</platform>
                         </sdk>
 
-                        <!--                        <emulator>
+                        <emulator>
                             <avd>23</avd>
                             <wait>10000</wait>
-                            &lt;!&ndash;<options>-no-skin</options>&ndash;&gt;
-                        </emulator>-->
+                            <!--<options>-no-skin</options>-->
+                        </emulator>
 
                         <zipalign>
                             <verbose>true</verbose>
