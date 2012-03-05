@@ -12,7 +12,7 @@
 
     <modules>
         <module>../common</module>
-        <module>calculatorpp-main</module>
+        <module>calculatorpp</module>
         <module>calculatorpp-test</module>
     </modules>
 
