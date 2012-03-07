@@ -11,9 +11,8 @@
     <version>1.2.34</version>
 
     <modules>
-        <module>../common</module>
+		<module>calculatorpp</module>
         <module>calculatorpp-service</module>
-        <module>calculatorpp</module>
         <module>calculatorpp-test</module>
     </modules>
 
