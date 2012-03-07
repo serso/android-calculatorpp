@@ -120,7 +120,7 @@
             <groupId>org.solovyev.android</groupId>
             <artifactId>billing</artifactId>
             <version>0.1</version>
-            <type>apklib</type>
+            <!--<type>apklib</type>-->
         </dependency>
 
         <dependency>
