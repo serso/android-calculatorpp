@@ -7,9 +7,10 @@ package org.solovyev.android.calculator;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.SharedPreferences;
+import android.content.*;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.text.ClipboardManager;
@@ -53,14 +54,28 @@ import org.solovyev.common.utils.history.HistoryAction;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
-public class CalculatorActivity extends Activity implements FontSizeAdjuster, SharedPreferences.OnSharedPreferenceChangeListener {
+public class CalculatorActivity extends Activity implements FontSizeAdjuster, SharedPreferences.OnSharedPreferenceChangeListener, ServiceConnection {
 
 	private static final int HVGA_WIDTH_PIXELS = 320;
 
 	@Nullable
 	private IBillingObserver billingObserver;
 
-	public static enum Theme {
+    @Nullable
+    private ICalculationService calculationService;
+
+    @Override
+    public void onServiceConnected(ComponentName componentName, IBinder binder) {
+        if (binder instanceof LocalBinder) {
+            calculationService = (ICalculationService)((LocalBinder) binder).getService();
+        }
+    }
+
+    @Override
+    public void onServiceDisconnected(ComponentName componentName) {
+    }
+
+    public static enum Theme {
 
 		default_theme(ThemeType.other, R.style.default_theme),
 		violet_theme(ThemeType.other, R.style.violet_theme),
@@ -187,6 +202,8 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		setTheme(preferences);
 		super.onCreate(savedInstanceState);
 		setLayout(preferences);
+
+        bindService(new Intent(this, CalculationServiceImpl.class), this, Context.BIND_AUTO_CREATE);
 
 		if (customTitleSupported) {
 			try {
