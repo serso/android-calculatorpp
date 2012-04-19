@@ -1,0 +1,43 @@
+<!--
+  ~ Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+  ~ For more information, please, contact se.solovyev@gmail.com
+  ~ or visit http://se.solovyev.org
+  -->
+
+<resources>
+
+	<string name="c_functions">Функції</string>
+
+	<string name="c_fun_decription_sin">Тригонометрична фунція синус.</string>
+	<string name="c_fun_description_cos">Тригонометрична функція косинус.</string>
+	<string name="c_fun_description_tan">Тригонометрична функція тангенс.</string>
+	<string name="c_fun_description_cot">Тригонометрична функція котангенс.</string>
+	<string name="c_fun_description_asin">Арксинус - обернена функція до синуса.</string>
+	<string name="c_fun_description_acos">Арккосинус - обернена функція до косинуса.</string>
+	<string name="c_fun_description_atan">Арктангенс - обернена функція до тангенса.</string>
+	<string name="c_fun_description_acot">Арккотангенс - обернена функція до котангенса.</string>
+	<string name="c_fun_description_ln">Натуральний логариф - логарифм за основою e.</string>
+	<string name="c_fun_description_lg">Десятковий логарифм - логарифм за основою 10.</string>
+	<string name="c_fun_description_log">Логарифм - логарифм за заданою основою.</string>
+	<string name="c_fun_description_exp">Експонента.</string>
+	<string name="c_fun_description_sqrt">Квадратний корінь.</string>
+	<string name="c_fun_description_cubic">Кубічний корінь.</string>
+	<string name="c_fun_description_abs">Абсолютне значення (модуль) аргумента.</string>
+	<string name="c_fun_description_sgn">Знак аргумента: -1, якщо аргумент менший за 0, 0, якщо рівний 0, 1, якщо більший за 0.</string>
+	<string name="c_fun_description_eq">Фунцкія рівності - дає результат 1, якщо обидва аргументи рівні, інакше 0.</string>
+	<string name="c_fun_description_le">Функція менше-або-дорівнює - дає результат 1, якщо обидва аргументи рівні або перший менший другого, інакше 0.</string>
+	<string name="c_fun_description_ge">Функція більше-або-дорівнює - дає результат 1, якщо обидва аргументи рівні або перший більший другого, інакше 0.</string>
+	<string name="c_fun_description_ne">Функція не-дорівнює - дає результат 1, якщо обидва аргументи не рівні, інакше 0.</string>
+	<string name="c_fun_description_lt">Функція менше - дає результат 1, якщо перший аргумент менший другого, інакше 0.</string>
+	<string name="c_fun_description_gt">Функція більше - дає результат 1, якщо перший аргумент більший другого, інакше 0.</string>
+	<string name="c_fun_description_rad">Перетворює градуси у радіани: d - градуси, m - мінути (по замовчуванню = 0), s - секунди (за замовчуванням = 0).</string>
+	<string name="c_fun_description_dms">Перетворює градуси із шістдесяткової системи у десяткову: d - градуси, m - мінути (за замовчуванням = 0), s - секунди (за замовчуванням = 0).</string>
+	<string name="c_fun_description_deg">Перетворює радіани у градуси.</string>
+
+	<string name="c_fun_category_trig">Тригонометричні</string>
+	<string name="c_fun_category_hyper_trig">Гіперболічні</string>
+	<string name="c_fun_category_comparison">Порівняння</string>
+	<string name="c_fun_category_common">Загальні</string>
+	<string name="c_fun_category_my">Власні</string>
+
+</resources>

@@ -1,0 +1,31 @@
+<!--
+  ~ Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+  ~ For more information, please, contact se.solovyev@gmail.com
+  ~ or visit http://se.solovyev.org
+  -->
+
+<resources>
+
+	<string name="c_operators">Оператори</string>
+
+	<string name="c_op_description_mod">Обчислює остачу від ділення \'x\' на \'y\'.</string>
+	<string name="c_op_description_sum">Сумує функції \'f(i)\', де змінна \'i\' міняється від \'from\' до \'to\'.</string>
+	<string name="c_op_description_product">Обчислює добуток функцій \'f(i)\', де змінна \'i\' міняється від \'from\' до \'to\'.</string>
+	<string name="c_op_description_derivative">Повертає похідну порядку \'order\' (по замовчуванню = 1) функції \'f(x)\' по змінній \'x\' та обчислює її значення у точці \'x_point\' (за замовчуванням = така ж як \'x\').</string>
+	<string name="c_op_description_integral">Повертає інтеграл функції \'f(x)\' по змінній \'x\'.</string>
+	<string name="c_op_description_integral_ab">Інтегрує функцію \'f(x)\' по змінній \'x\' від \'a\' до \'b\'.</string>
+
+	<string name="c_pf_description_factorial">Обчислює факторіал від попереднього виразу.</string>
+	<string name="c_pf_description_double_factorial">Обчислює подвійний факторіал від попереднього виразу.</string>
+	<string name="c_pf_description_percent" formatted="false">Обчислює відсоток від попереднього виразу.\nПриклади:\n
+		100 + 50% = 150\n
+		100 * 50% = 50\n
+		100 + 100 * 50% * 50% = 125
+	</string>
+	<string name="c_pf_description_degree">Перетворює градуси у радіани.\n
+		Приклади:\n
+		268° = 4.67748\n
+		30.21° = 0.52726
+	</string>
+
+</resources>
