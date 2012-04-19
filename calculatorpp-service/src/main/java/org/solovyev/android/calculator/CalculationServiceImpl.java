@@ -12,10 +12,13 @@ import org.jetbrains.annotations.NotNull;
  * Date: 3/5/12
  * Time: 10:23 PM
  */
-public class CalculationService extends Service {
+public class CalculationServiceImpl extends Service implements ICalculationService {
 
     @NotNull
     private ServiceHandler handler;
+
+    public CalculationServiceImpl() {
+    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -56,7 +59,7 @@ public class CalculationService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        return null;
+        return new LocalBinder<ICalculationService>(this);
     }
 
     private final class ServiceHandler extends Handler {
@@ -67,7 +70,7 @@ public class CalculationService extends Service {
 
         @Override
         public void handleMessage(@NotNull Message msg) {
-            Toast.makeText(CalculationService.this, "Doing job!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(CalculationServiceImpl.this, "Doing job!", Toast.LENGTH_SHORT).show();
             stopSelf(msg.arg1);
         }
     }

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+  ~ For more information, please, contact se.solovyev@gmail.com
+  ~ or visit http://se.solovyev.org
+  -->
+
+<resources>
+	<string name="c_app_name">Калькулятор++</string>
+	<string name="c_app_name_free">Калькулятор++ Free</string>
+	<string name="c_app_icon_name">Кальк++</string>
+    <string name="c_app_settings">Налаштування</string>
+    <string name="c_syntax_error">Помилка</string>
+    <string name="c_result_copied">Результат скопійовано у буфер!</string>
+	<string name="c_settings">Налаштування</string>
+	<string name="c_help">Допомога</string>
+	<string name="c_vars_and_constants">Змінні та константи</string>
+	<!--PREFERENCE ACTIVITY-->
+	<string name="c_prefs_main_category">Основні налаштування</string>
+	<string name="c_prefs_calculations_category">Налаштування обчислень</string>
+	<string name="c_prefs_appearance_category">Налаштування вигляду</string>
+	<string name="c_prefs_other_category">Інші налаштування</string>
+	<string name="c_prefs_drag_button_category">Налаштування кнопок</string>
+
+
+	<string name="c_down">Вниз</string>
+	<string name="c_up">Вгору</string>
+	<string name="c_restart">Перезавантаження</string>
+
+	<string name="c_undo">назад</string>
+	<string name="c_redo">вперед</string>
+	<string name="c_clear">C</string>
+	<string name="c_erase">вилучити</string>
+	<string name="c_paste">вставити</string>
+	<string name="c_vars">змінні</string>
+
+	<string name="c_copy">Копіювати</string>
+	<string name="c_plot">Побудувати графік</string>
+	<string name="c_graph">Графік</string>
+
+	<string name="c_calc_color_display_title">Підсвітка виразів</string>
+	<string name="c_calc_round_result_title">Заокруглювати результат</string>
+	<string name="c_calc_round_result_summary">Включити/вимкнути заокруглення результату</string>
+	<string name="c_calc_science_notation_title">Завжди експоненціальна форма</string>
+	<string name="c_calc_science_notation_summary">Якщо включено, то результат буде записано лише у експоненціальній формі (12.34E-12)</string>
+	<string name="p_calc_result_precision_title">Точність результату</string>
+	<string name="p_calc_max_calculation_time_title">Максимальний час обчислень</string>
+	<string name="p_calc_max_calculation_time_summary">Якщо тривалість обчислень перевищить встановлену межу, то калькулятор зупиниться з помилкою</string>
+	<string name="c_exit">Вийти</string>
+	<string name="c_add">Додати</string>
+	<string name="c_cancel">Скасувати</string>
+	<string name="c_save">Зберегти</string>
+	<string name="c_remove">Вилучити</string>
+	<string name="c_yes">Так</string>
+	<string name="c_no">Ні</string>
+	<string name="c_var_removal_confirmation">Підтвердження вилучення</string>
+	<string name="c_var_removal_confirmation_question">Ви дійсно хочете вилучити змінну \'%s\'?</string>
+	<string name="c_var_name">Ім’я</string>
+	<string name="c_var_value">Значення</string>
+	<string name="c_var_description">Опис</string>
+	<string name="c_var_create_var">Створити змінну</string>
+	<string name="c_var_edit_var">Редагувати змінну</string>
+
+	<string name="c_value.is.not.a.number">Значення може бути порожнім або числом!</string>
+	<string name="c_var.name.clashes">Ім’я змінної не може бути зарезервованим системним ім’ям!</string>
+	<string name="c_var.already.exists">Змінна з таким іменем вже існує!</string>
+	<string name="c_name.is.not.valid">Невірне ім’я змінної: воно мусить починатися з букви, може містити букви, цифри та знак підкреслення (_).</string>
+	<string name="c_sys.var.cannot.be.changed">Системну змінну не можна змінювати!</string>
+
+	<string name="c_calc_editor_hint">Введіть новий вираз</string>
+	<string name="c_press_to_copy">натисніть для копіювання</string>
+	<string name="c_continue">Продовжити</string>
+	<string name="c_history">Історія</string>
+	<string name="c_history_button">M</string>
+	<string name="c_history_is_empty">Іторія порожня!</string>
+	<string name="c_app_history">Іторія</string>
+	<string name="c_char_is_not_accepted">Символ \'%s\' не допустимий у імені змінної!</string>
+
+	<string name="c_calc_angle_units">Одиниці виміру кутів</string>
+	<string name="p_deg">Градуси</string>
+	<string name="p_rad">Радіани</string>
+	<string name="p_grad">Градуси</string>
+	<string name="p_turns">Обороти</string>
+	<string name="c_angle_units_summary">Визначає типову одиницю виміру кутів.</string>
+
+	<string name="c_calc_numeral_bases">Системи числення</string>
+	<string name="c_numeral_bases_summary">Визначає типову систему числення для усіх введених чисел.</string>
+	<string name="p_dec">Десяткова</string>
+	<string name="p_hex">Шістнадцяткова</string>
+	<string name="p_oct">Вісімкова</string>
+	<string name="p_bin">Двійкова</string>
+
+	<string name="c_calc_theme">Тема</string>
+	<string name="p_default_theme">Сіра</string>
+	<string name="p_violet_theme">Фіолетова</string>
+	<string name="p_light_blue_theme">Блакитна</string>
+	<string name="p_metro_blue_theme">Метро Синя (типова)</string>
+	<string name="p_metro_green_theme">Метро Зелена</string>
+	<string name="p_metro_purple_theme">Метро Пурпурова</string>
+	<string name="c_calc_result_precision_summary">Точність результату (усі обчислення проводяться максимально точно)</string>
+	<string name="c_calc_color_display_summary">Включити/вимкнути підсвітку у редакторі калькулятора</string>
+	<string name="c_calc_theme_summary">Встановити тему калькулятора</string>
+	<string name="c_clear_history">Очистити історію</string>
+	<string name="c_simplify_instead_of_numeric">наступні сталі невизначені: {0}!</string>
+
+	<string name="p_grouping_separator_no">Не використовувати роздільник класів</string>
+	<string name="p_grouping_separator_apostrophe">Апостроф (\')</string>
+	<string name="p_grouping_separator_space">Пропуск ( )</string>
+	<string name="c_calc_grouping_separator">Роздільник класів</string>
+	<string name="c_calc_grouping_separator_summary">Задає роздільник класів</string>
+	<string name="c_calc_multiplication_sign">Знак множення</string>
+	<string name="c_calc_multiplication_sign_summary">Задає знак множення</string>
+
+	<string name="c_calc_layout">Розкладка</string>
+	<string name="p_layout_cellphone">Наукова (телефон)</string>
+	<string name="p_layout_calculator">Наукова</string>
+	<string name="p_layout_simple">Проста</string>
+	<string name="c_calc_layout_summary">Задає розкладку кнопок</string>
+
+	<string name="c_calc_haptic_feedback_title">Вібрація при натисканні</string>
+	<string name="c_calc_haptic_feedback_summary">Включити/виключити вібрацію при натисканні</string>
+
+	<string name="p_calc_haptic_feedback_strength_short">Коротка</string>
+	<string name="p_calc_haptic_feedback_strength_middle">Середня</string>
+	<string name="p_calc_haptic_feedback_strength_long">Велика</string>
+
+	<string name="p_calc_haptic_feedback_duration_title">Тривалість вібрації</string>
+	<string name="p_calc_haptic_feedback_duration_summary">Тривалість вібрації на натискання</string>
+
+	<string name="c_empty_var_error">Не можна створити порожню константу!</string>
+	<string name="c_not_valid_result">Поточний результат не допустимий!</string>
+
+	<string name="c_plot_graph">Графік</string>
+	<string name="c_min_x_value">Від</string>
+	<string name="c_max_x_value">До</string>
+
+	<string name="c_swipe_distance">Відстань розмаху (свайпу) для кнопок</string>
+	<string name="c_swipe_distance_summary">Задає відстань розмаху для кнопок, які підтримують додаткові дії для свайпу</string>
+
+	<string name="c_comment">Коментар</string>
+	<string name="c_history_item_saved">Збережено</string>
+	<string name="c_history_item_not_saved">Не збережено</string>
+	<string name="c_expression_copied">Вираз скопійовано до буфера!</string>
+	<string name="c_history_item_status">Статус: </string>
+	<string name="c_history_item_comment">Коментар: </string>
+	<string name="c_use">Використовувати</string>
+	<string name="c_copy_expression">Копіювати вираз</string>
+	<string name="c_copy_result">Копіювати результат</string>
+	<string name="c_history_expression">Значення</string>
+	<string name="c_history_item_already_saved">Збережено (див. вкладку \'Збережена історія\')</string>
+	<string name="c_history_comment">Коментар</string>
+	<string name="c_save_history">Зберегти історію</string>
+	<string name="c_edit_history">Змінити історію</string>
+	<string name="c_edit">Змінити</string>
+	<string name="c_saved_history">Збережена історія</string>
+
+	<string name="c_history_already_saved">Історія вже збережена!</string>
+	<string name="c_history_must_be_saved">Історію необхідно зберегти перед редагуванням!</string>
+	<string name="c_history_was_removed">Історія успішно видалена!</string>
+	<string name="c_history_saved">Історія успішно збережена!</string>
+
+	<string name="c_copy_description">Копіювати опис</string>
+	<string name="c_copy_value">Копіювати значення</string>
+
+	<string name="c_first_start_text">Дякуємо вам за вибір Калькулятор++!\n\nКалькулятор++ - це потужний інструмент для проведення щоденних розрахунків.\n\nЩоб вилучити рекламу та підтримати проект ви можете вибрати спеціальну опцію у налаштуваннях програми.\n\nПеред початком робота рекомендується прочитати ЧаП та підказки для використання усіх можливостей програми (натисніть кнопку Меню і тоді Допомога)</string>
+	<string name="c_first_start_text_title">Вітаємо</string>
+
+	<string name="c_calc_show_release_notes_title">Показувати замітки до випуску</string>
+	<string name="c_calc_show_release_notes_summary">Визначає, чи показувати спливаюче вікно з примітками до випуску після оновлення до нової версії</string>
+
+	<string name="c_calc_use_back_button_as_prev_summary">Визначити поведінку кнопку Назад</string>
+	<string name="c_calc_use_back_button_as_prev_title">Використовувати кнопку Назад як назад по історії</string>
+
+	<string name="c_clear_billing_info_summary">Інформація про купівлю буде оновлена із сервера</string>
+	<string name="c_clear_billing_info_title">Очистити інформацію про купівлю</string>
+
+	<string name="c_warning">Увага</string>
+	<string name="c_error">Помилка</string>
+	<string name="c_billing_error">Біллінг не підтримується: ви повинні мати обліковий запис Google Checkout, пов'язаний з вашим обліковим записом Google і мати підключення до Інтернету.</string>
+
+	<string name="c_calc_ad_free_title">Підтримати проект</string>
+	<string name="c_calc_ad_free_summary">І позбутися реклами</string>
+
+	<string name="c_calc_already_purchased">Опція вже куплена!</string>
+	<string name="c_calc_purchasing">Купуємо...</string>
+	<string name="c_calc_clearing">Очищаємо...</string>
+
+	<string name="c_feedback_title">Зворотній зв’язок</string>
+	<string name="c_feedback_text">Ви вже використовуєте Калькулятор++ деякий час \n
+		і для нас важливо знати вашу думку про програму.\n\n
+		Будь ласка, оцініть Калькулятор++ \nна <a href="https://market.android.com/details?id=org.solovyev.android.calculator">Google Play</a>,\n залиште коментар або \nобговоріть програму \nна нашому <a href="http://calculatorpp.com/forum/">форумі</a>
+	</string>
+
+	<string name="c_angle_units_changed_to">Одиниці виміру кутів змінено на \'%s\'!</string>
+	<string name="c_numeral_base_changed_to">Система числення змінена на \'%s\'!</string>
+
+
+</resources>

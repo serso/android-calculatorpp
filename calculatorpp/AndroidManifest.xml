@@ -19,7 +19,7 @@
 
 		</activity>
         
-        <service android:name="org.solovyev.android.calculator.CalculationService"/>
+        <service android:name=".CalculationServiceImpl"/>
 
 		<!--NOTE: a:configChanges="orientation|keyboardHidden" is needed to correct work of dialog windows (not to close them on orientation change) -->
 		<activity android:configChanges="orientation|keyboardHidden" android:label="@string/c_app_settings" android:name=".CalculatorPreferencesActivity"/>
