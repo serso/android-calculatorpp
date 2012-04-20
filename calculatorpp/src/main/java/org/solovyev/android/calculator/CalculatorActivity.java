@@ -77,6 +77,9 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 	private boolean useBackAsPrev;
 
+    @NotNull
+    private NumeralBaseButtons numeralBaseButtons = new NumeralBaseButtons();
+
 	/**
 	 * Called when the activity is first created.
 	 */
@@ -194,25 +197,33 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		}
 
 		if (layout == CalculatorPreferences.Gui.Layout.simple) {
-			toggleButtonDirectionText(R.id.oneDigitButton, false, DragDirection.left, DragDirection.up, DragDirection.down);
-			toggleButtonDirectionText(R.id.twoDigitButton, false, DragDirection.left, DragDirection.up, DragDirection.down);
-			toggleButtonDirectionText(R.id.threeDigitButton, false, DragDirection.left, DragDirection.up, DragDirection.down);
+			toggleButtonDirectionText(R.id.oneDigitButton, false, DragDirection.up, DragDirection.down);
+			toggleButtonDirectionText(R.id.twoDigitButton, false, DragDirection.up, DragDirection.down);
+			toggleButtonDirectionText(R.id.threeDigitButton, false, DragDirection.up, DragDirection.down);
 
-			toggleButtonDirectionText(R.id.sixDigitButton, false, DragDirection.left, DragDirection.up, DragDirection.down);
+			toggleButtonDirectionText(R.id.sixDigitButton, false, DragDirection.up, DragDirection.down);
 			toggleButtonDirectionText(R.id.sevenDigitButton, false, DragDirection.left, DragDirection.up, DragDirection.down);
 			toggleButtonDirectionText(R.id.eightDigitButton, false, DragDirection.left, DragDirection.up, DragDirection.down);
 
 			toggleButtonDirectionText(R.id.clearButton, false, DragDirection.left, DragDirection.up, DragDirection.down);
 
-			toggleButtonDirectionText(R.id.fourDigitButton, false, DragDirection.left, DragDirection.down);
-			toggleButtonDirectionText(R.id.fiveDigitButton, false, DragDirection.left, DragDirection.down);
+			toggleButtonDirectionText(R.id.fourDigitButton, false,  DragDirection.down);
+			toggleButtonDirectionText(R.id.fiveDigitButton, false,  DragDirection.down);
 
 			toggleButtonDirectionText(R.id.nineDigitButton, false, DragDirection.left);
 
 			toggleButtonDirectionText(R.id.multiplicationButton, false, DragDirection.left);
 			toggleButtonDirectionText(R.id.plusButton, false, DragDirection.down, DragDirection.up);
-
 		}
+
+        numeralBaseButtons.clear();
+        numeralBaseButtons.addButtonId(R.id.oneDigitButton);
+        numeralBaseButtons.addButtonId(R.id.twoDigitButton);
+        numeralBaseButtons.addButtonId(R.id.threeDigitButton);
+        numeralBaseButtons.addButtonId(R.id.fourDigitButton);
+        numeralBaseButtons.addButtonId(R.id.fiveDigitButton);
+        numeralBaseButtons.addButtonId(R.id.sixDigitButton);
+        numeralBaseButtons.toggleNumericDigits(this, preferences);
 
 		preferences.registerOnSharedPreferenceChangeListener(this);
 	}
@@ -658,6 +669,10 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		if ( CalculatorPreferences.Gui.usePrevAsBack.getKey().equals(key) ) {
 			useBackAsPrev = CalculatorPreferences.Gui.usePrevAsBack.getPreference(preferences);
 		}
+
+        if (CalculatorEngine.Preferences.numeralBase.getKey().equals(key)) {
+            numeralBaseButtons.toggleNumericDigits(this, preferences);
+        }
 
 		if ( CalculatorEngine.Preferences.multiplicationSign.getKey().equals(key) ) {
 			initMultiplicationButton();
