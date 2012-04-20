@@ -21,7 +21,6 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.*;
 import android.widget.*;
-import com.google.ads.AdView;
 import jscl.AngleUnit;
 import jscl.NumeralBase;
 import net.robotmedia.billing.BillingController;
@@ -30,29 +29,24 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.AndroidUtils;
 import org.solovyev.android.FontSizeAdjuster;
+import org.solovyev.android.LocalBinder;
 import org.solovyev.android.ResourceCache;
 import org.solovyev.android.calculator.about.CalculatorReleaseNotesActivity;
 import org.solovyev.android.calculator.history.CalculatorHistory;
 import org.solovyev.android.calculator.history.CalculatorHistoryState;
-import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.calculator.view.AngleUnitsButton;
+import org.solovyev.android.calculator.view.CalculatorAdditionalTitle;
 import org.solovyev.android.calculator.view.NumeralBasesButton;
+import org.solovyev.android.calculator.view.OnDragListenerVibrator;
 import org.solovyev.android.history.HistoryDragProcessor;
-import org.solovyev.android.prefs.BooleanPreference;
-import org.solovyev.android.prefs.IntegerPreference;
-import org.solovyev.android.prefs.Preference;
-import org.solovyev.android.prefs.StringPreference;
 import org.solovyev.android.view.ColorButton;
-import org.solovyev.android.view.VibratorContainer;
 import org.solovyev.android.view.drag.*;
 import org.solovyev.common.utils.Announcer;
+import org.solovyev.common.utils.EqualsTool;
 import org.solovyev.common.utils.Point2d;
 import org.solovyev.common.utils.StringUtils;
 import org.solovyev.common.utils.history.HistoryAction;
-
-import java.text.DecimalFormatSymbols;
-import java.util.Locale;
 
 public class CalculatorActivity extends Activity implements FontSizeAdjuster, SharedPreferences.OnSharedPreferenceChangeListener, ServiceConnection {
 
@@ -64,106 +58,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
     @Nullable
     private ICalculationService calculationService;
 
-    @Override
-    public void onServiceConnected(ComponentName componentName, IBinder binder) {
-        if (binder instanceof LocalBinder) {
-            calculationService = (ICalculationService)((LocalBinder) binder).getService();
-        }
-    }
-
-    @Override
-    public void onServiceDisconnected(ComponentName componentName) {
-    }
-
-    public static enum Theme {
-
-		default_theme(ThemeType.other, R.style.default_theme),
-		violet_theme(ThemeType.other, R.style.violet_theme),
-		light_blue_theme(ThemeType.other, R.style.light_blue_theme),
-		metro_blue_theme(ThemeType.metro, R.style.metro_blue_theme),
-		metro_purple_theme(ThemeType.metro, R.style.metro_purple_theme),
-		metro_green_theme(ThemeType.metro, R.style.metro_green_theme);
-
-		@NotNull
-		private final ThemeType themeType;
-
-		@NotNull
-		private final Integer themeId;
-
-		Theme(@NotNull ThemeType themeType, Integer themeId) {
-			this.themeType = themeType;
-			this.themeId = themeId;
-		}
-
-		@NotNull
-		public ThemeType getThemeType() {
-			return themeType;
-		}
-
-		@NotNull
-		public Integer getThemeId() {
-			return themeId;
-		}
-	}
-
-	public static enum ThemeType {
-		metro,
-		other
-	}
-
-	public static enum Layout {
-		main_calculator(R.layout.main_calculator),
-		main_cellphone(R.layout.main_cellphone),
-		simple(R.layout.main_calculator);
-
-		private final int layoutId;
-
-		Layout(int layoutId) {
-			this.layoutId = layoutId;
-		}
-
-		public int getLayoutId() {
-			return layoutId;
-		}
-	}
-
-	public static class Preferences {
-		@NotNull
-		private static final String APP_VERSION_P_KEY = "application.version";
-		private static final int APP_VERSION_DEFAULT = -1;
-		public static final Preference<Integer> appVersion = new IntegerPreference(APP_VERSION_P_KEY, APP_VERSION_DEFAULT);
-
-		private static final Preference<Integer> appOpenedCounter = new IntegerPreference(APP_OPENED_COUNTER_P_KEY, APP_OPENED_COUNTER_P_DEFAULT);
-		private static final Preference<Boolean> feedbackWindowShown = new BooleanPreference(FEEDBACK_WINDOW_SHOWN_P_KEY, FEEDBACK_WINDOW_SHOWN_P_DEFAULT);
-		private static final Preference<Theme> theme = StringPreference.newInstance(THEME_P_KEY, THEME_P_DEFAULT, Theme.class);
-		private static final Preference<Layout> layout = StringPreference.newInstance(LAYOUT_P_KEY, LAYOUT_P_DEFAULT, Layout.class);
-	}
-
-	@NotNull
-	private static final String LAYOUT_P_KEY = "org.solovyev.android.calculator.CalculatorActivity_calc_layout";
-	private static final Layout LAYOUT_P_DEFAULT = Layout.main_calculator;
-
-	@NotNull
-	private static final String THEME_P_KEY = "org.solovyev.android.calculator.CalculatorActivity_calc_theme";
-	private static final Theme THEME_P_DEFAULT = Theme.metro_blue_theme;
-
-	@NotNull
-	private static final String APP_OPENED_COUNTER_P_KEY = "app_opened_counter";
-	private static final Integer APP_OPENED_COUNTER_P_DEFAULT = 0;
-
-	@NotNull
-	public static final String FEEDBACK_WINDOW_SHOWN_P_KEY = "feedback_window_shown";
-	public static final boolean FEEDBACK_WINDOW_SHOWN_P_DEFAULT = false;
-
-	@NotNull
-	public static final String SHOW_RELEASE_NOTES_P_KEY = "org.solovyev.android.calculator.CalculatorActivity_show_release_notes";
-	public static final boolean SHOW_RELEASE_NOTES_P_DEFAULT = true;
-
-	@NotNull
-	public static final String USE_BACK_AS_PREV_P_KEY = "org.solovyev.android.calculator.CalculatorActivity_use_back_button_as_prev";
-	public static final boolean USE_BACK_AS_PREV_DEFAULT = false;
-
-	@NotNull
+    @NotNull
 	private final Announcer<DragPreferencesChangeListener> dpclRegister = new Announcer<DragPreferencesChangeListener>(DragPreferencesChangeListener.class);
 
 	@NotNull
@@ -172,18 +67,15 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	private volatile boolean initialized;
 
 	@NotNull
-	private Theme theme;
+	private CalculatorPreferences.Gui.Theme theme;
 
 	@NotNull
-	private Layout layout;
+	private CalculatorPreferences.Gui.Layout layout;
 
 	@Nullable
 	private Vibrator vibrator;
 
-	private boolean useBackAsPrev = USE_BACK_AS_PREV_DEFAULT;
-
-	@Nullable
-	private AdView adView;
+	private boolean useBackAsPrev;
 
 	/**
 	 * Called when the activity is first created.
@@ -197,7 +89,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-		setDefaultValues(preferences);
+		CalculatorPreferences.setDefaultValues(preferences);
 
 		setTheme(preferences);
 		super.onCreate(savedInstanceState);
@@ -287,7 +179,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 		initMultiplicationButton();
 
-		if (theme.getThemeType() == ThemeType.metro) {
+		if (theme.getThemeType() == CalculatorPreferences.Gui.ThemeType.metro) {
 			// for metro themes we should turn off magic flames
 			AndroidUtils.processViewsOfType(this.getWindow().getDecorView(), ColorButton.class, new AndroidUtils.ViewProcessor<ColorButton>() {
 				@Override
@@ -301,7 +193,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 			fixMargins(1, 1);
 		}
 
-		if (layout == Layout.simple) {
+		if (layout == CalculatorPreferences.Gui.Layout.simple) {
 			toggleButtonDirectionText(R.id.oneDigitButton, false, DragDirection.left, DragDirection.up, DragDirection.down);
 			toggleButtonDirectionText(R.id.twoDigitButton, false, DragDirection.left, DragDirection.up, DragDirection.down);
 			toggleButtonDirectionText(R.id.threeDigitButton, false, DragDirection.left, DragDirection.up, DragDirection.down);
@@ -321,8 +213,6 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 			toggleButtonDirectionText(R.id.plusButton, false, DragDirection.down, DragDirection.up);
 
 		}
-
-		//adView = AndroidUtils.createAndInflateAdView(this, R.id.ad_parent_view, ADMOB_USER_ID);
 
 		preferences.registerOnSharedPreferenceChangeListener(this);
 	}
@@ -463,41 +353,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		}
 	}
 
-	private void setDefaultValues(@NotNull SharedPreferences preferences) {
-		if (!CalculatorEngine.Preferences.groupingSeparator.isSet(preferences)) {
-			final Locale locale = Locale.getDefault();
-			if (locale != null) {
-				final DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(locale);
-				int index = MathType.grouping_separator.getTokens().indexOf(String.valueOf(decimalFormatSymbols.getGroupingSeparator()));
-				final String groupingSeparator;
-				if (index >= 0) {
-					groupingSeparator = MathType.grouping_separator.getTokens().get(index);
-				} else {
-					groupingSeparator = " ";
-				}
-
-				CalculatorEngine.Preferences.groupingSeparator.putPreference(preferences, groupingSeparator);
-			}
-		}
-
-		if (!CalculatorEngine.Preferences.angleUnit.isSet(preferences)) {
-			CalculatorEngine.Preferences.angleUnit.putDefault(preferences);
-		}
-
-		if (!CalculatorEngine.Preferences.numeralBase.isSet(preferences)) {
-			CalculatorEngine.Preferences.numeralBase.putDefault(preferences);
-		}
-
-		if (!CalculatorEngine.Preferences.multiplicationSign.isSet(preferences)) {
-			if ( AndroidUtils.isPhoneModel(AndroidUtils.PhoneModel.samsung_galaxy_s) || AndroidUtils.isPhoneModel(AndroidUtils.PhoneModel.samsung_galaxy_s_2) ) {
-				// workaround ofr samsung galaxy s phones
-				CalculatorEngine.Preferences.multiplicationSign.putPreference(preferences, "*");
-			}
-		}
-
-	}
-
-	private synchronized void setOnDragListeners(@NotNull SimpleOnDragListener.Preferences dragPreferences, @NotNull SharedPreferences preferences) {
+    private synchronized void setOnDragListeners(@NotNull SimpleOnDragListener.Preferences dragPreferences, @NotNull SharedPreferences preferences) {
 		final OnDragListener onDragListener = new OnDragListenerVibrator(newOnDragListener(new DigitButtonDragProcessor(calculatorModel), dragPreferences), vibrator, preferences);
 
 		for (Integer dragButtonId : ResourceCache.instance.getDragButtonIds()) {
@@ -513,68 +369,47 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		return onDragListener;
 	}
 
-	private class OnDragListenerVibrator extends OnDragListenerWrapper {
+    @Override
+    public void onServiceConnected(ComponentName componentName, IBinder binder) {
+        if (binder instanceof LocalBinder) {
+            calculationService = (ICalculationService)((LocalBinder) binder).getService();
+        }
+    }
 
-		private static final float VIBRATION_TIME_SCALE = 0.5f;
-
-		@NotNull
-		private final VibratorContainer vibrator;
-
-		public OnDragListenerVibrator(@NotNull OnDragListener onDragListener,
-									  @Nullable Vibrator vibrator,
-									  @NotNull SharedPreferences preferences) {
-			super(onDragListener);
-			this.vibrator = new VibratorContainer(vibrator, preferences, VIBRATION_TIME_SCALE);
-		}
-
-		@Override
-		public boolean onDrag(@NotNull DragButton dragButton, @NotNull org.solovyev.android.view.drag.DragEvent event) {
-			boolean result = super.onDrag(dragButton, event);
-
-			if (result) {
-				vibrator.vibrate();
-			}
-
-			return result;
-		}
-	}
+    @Override
+    public void onServiceDisconnected(ComponentName componentName) {
+    }
 
 
 	private synchronized void setLayout(@NotNull SharedPreferences preferences) {
-		try {
-			layout = Preferences.layout.getPreference(preferences);
-		} catch (IllegalArgumentException e) {
-			layout = LAYOUT_P_DEFAULT;
-		}
+        layout = CalculatorPreferences.Gui.layout.getPreferenceNoError(preferences);
 
-		setContentView(layout.getLayoutId());
+        setContentView(layout.getLayoutId());
 	}
 
 	private synchronized void setTheme(@NotNull SharedPreferences preferences) {
-		try {
-			theme = Preferences.theme.getPreference(preferences);
-		} catch (IllegalArgumentException e) {
-			theme = THEME_P_DEFAULT;
-		}
+		theme = CalculatorPreferences.Gui.theme.getPreferenceNoError(preferences);
 
 		setTheme(theme.getThemeId());
 	}
 
 	private synchronized void firstTimeInit(@NotNull SharedPreferences preferences) {
 		if (!initialized) {
-			final Integer appOpenedCounter = Preferences.appOpenedCounter.getPreference(preferences);
+            this.useBackAsPrev = CalculatorPreferences.Gui.usePrevAsBack.getPreference(preferences);
+
+            final Integer appOpenedCounter = CalculatorPreferences.appOpenedCounter.getPreference(preferences);
 			if (appOpenedCounter != null) {
-				Preferences.appOpenedCounter.putPreference(preferences, appOpenedCounter + 1);
+				CalculatorPreferences.appOpenedCounter.putPreference(preferences, appOpenedCounter + 1);
 			}
 
-			final int savedVersion = Preferences.appVersion.getPreference(preferences);
+			final Integer savedVersion = CalculatorPreferences.appVersion.getPreference(preferences);
 
 			final int appVersion = AndroidUtils.getAppVersionCode(this, CalculatorActivity.class.getPackage().getName());
 
-			Preferences.appVersion.putPreference(preferences, appVersion);
+			CalculatorPreferences.appVersion.putPreference(preferences, appVersion);
 
 			boolean dialogShown = false;
-			if (savedVersion == Preferences.APP_VERSION_DEFAULT) {
+			if (EqualsTool.areEqual(savedVersion, CalculatorPreferences.appVersion.getDefaultValue())) {
 				// new start
 				final AlertDialog.Builder builder = new AlertDialog.Builder(this).setMessage(R.string.c_first_start_text);
 				builder.setPositiveButton(android.R.string.ok, null);
@@ -583,7 +418,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 				dialogShown = true;
 			} else {
 				if (savedVersion < appVersion) {
-					final boolean showReleaseNotes = preferences.getBoolean(SHOW_RELEASE_NOTES_P_KEY, SHOW_RELEASE_NOTES_P_DEFAULT);
+					final boolean showReleaseNotes = CalculatorPreferences.Gui.showReleaseNotes.getPreference(preferences);
 					if (showReleaseNotes) {
 						final String releaseNotes = CalculatorReleaseNotesActivity.getReleaseNotes(this, savedVersion + 1);
 						if (!StringUtils.isEmpty(releaseNotes)) {
@@ -601,7 +436,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 			//Log.d(this.getClass().getName(), "Application was opened " + appOpenedCounter + " time!");
 			if (!dialogShown) {
 				if ( appOpenedCounter != null && appOpenedCounter > 10 ) {
-					final Boolean feedbackWindowShown = Preferences.feedbackWindowShown.getPreference(preferences);
+					final Boolean feedbackWindowShown = CalculatorPreferences.Gui.feedbackWindowShown.getPreference(preferences);
 					if ( feedbackWindowShown != null && !feedbackWindowShown ) {
 						final LayoutInflater layoutInflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
 						final View view = layoutInflater.inflate(R.layout.feedback, null);
@@ -614,7 +449,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 						builder.create().show();
 
 						dialogShown = true;
-						Preferences.feedbackWindowShown.putPreference(preferences, true);
+						CalculatorPreferences.Gui.feedbackWindowShown.putPreference(preferences, true);
 					}
 				}
 			}
@@ -788,8 +623,8 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-		final Layout newLayout = Preferences.layout.getPreference(preferences);
-		final Theme newTheme = Preferences.theme.getPreference(preferences);
+		final CalculatorPreferences.Gui.Layout newLayout = CalculatorPreferences.Gui.layout.getPreference(preferences);
+		final CalculatorPreferences.Gui.Theme newTheme = CalculatorPreferences.Gui.theme.getPreference(preferences);
 		if (!theme.equals(newTheme) || !layout.equals(newLayout)) {
 			AndroidUtils.restartActivity(this);
 		}
@@ -800,10 +635,6 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 	@Override
 	protected void onDestroy() {
-		if ( adView != null ) {
-			adView.destroy();
-		}
-
 		if (billingObserver !=  null) {
 			BillingController.unregisterObserver(billingObserver);
 		}
@@ -824,8 +655,8 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 			this.calculatorModel.evaluate();
 		}
 
-		if ( USE_BACK_AS_PREV_P_KEY.equals(key) ) {
-			useBackAsPrev = preferences.getBoolean(USE_BACK_AS_PREV_P_KEY, USE_BACK_AS_PREV_DEFAULT);
+		if ( CalculatorPreferences.Gui.usePrevAsBack.getKey().equals(key) ) {
+			useBackAsPrev = CalculatorPreferences.Gui.usePrevAsBack.getPreference(preferences);
 		}
 
 		if ( CalculatorEngine.Preferences.multiplicationSign.getKey().equals(key) ) {

@@ -19,7 +19,7 @@
 		style="@style/WindowTitle"
 		a:text="@string/c_app_name"/>
 
-	<org.solovyev.android.calculator.CalculatorAdditionalTitle
+	<org.solovyev.android.calculator.view.CalculatorAdditionalTitle
 		a:id="@+id/additional_title_text"
 		a:layout_width="fill_parent"
 		a:layout_height="wrap_content"

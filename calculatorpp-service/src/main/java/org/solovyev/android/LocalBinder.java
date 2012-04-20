@@ -1,4 +1,4 @@
-package org.solovyev.android.calculator;
+package org.solovyev.android;
 
 import android.os.Binder;
 import org.jetbrains.annotations.NotNull;

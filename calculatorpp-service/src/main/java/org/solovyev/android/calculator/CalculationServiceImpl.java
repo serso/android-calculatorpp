@@ -6,6 +6,7 @@ import android.os.*;
 import android.os.Process;
 import android.widget.Toast;
 import org.jetbrains.annotations.NotNull;
+import org.solovyev.android.LocalBinder;
 
 /**
  * User: serso
@@ -22,7 +23,7 @@ public class CalculationServiceImpl extends Service implements ICalculationServi
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Toast.makeText(this, ".CalculationService.onStartCommand", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, ".CalculationService.onStartCommand", Toast.LENGTH_SHORT).show();
 
         // For each start request, send a message to start a job and deliver the
         // start ID so we know which request we're stopping when we finish the job
@@ -37,7 +38,7 @@ public class CalculationServiceImpl extends Service implements ICalculationServi
 
     @Override
     public void onCreate() {
-        Toast.makeText(this, ".CalculationService.onCreate", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, ".CalculationService.onCreate", Toast.LENGTH_SHORT).show();
         // first time initialization
 
         // Start up the thread running the service.  Note that we create a
@@ -54,7 +55,7 @@ public class CalculationServiceImpl extends Service implements ICalculationServi
     @Override
     public void onDestroy() {
         // last time call
-        Toast.makeText(this, ".CalculationService.onDestroy", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, ".CalculationService.onDestroy", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -70,7 +71,7 @@ public class CalculationServiceImpl extends Service implements ICalculationServi
 
         @Override
         public void handleMessage(@NotNull Message msg) {
-            Toast.makeText(CalculationServiceImpl.this, "Doing job!", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(CalculationServiceImpl.this, "Doing job!", Toast.LENGTH_SHORT).show();
             stopSelf(msg.arg1);
         }
     }
