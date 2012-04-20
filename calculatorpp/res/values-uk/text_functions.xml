@@ -8,7 +8,7 @@
 
 	<string name="c_functions">Функції</string>
 
-	<string name="c_fun_decription_sin">Тригонометрична фунція синус.</string>
+	<string name="c_fun_description_sin">Тригонометрична фунція синус.</string>
 	<string name="c_fun_description_cos">Тригонометрична функція косинус.</string>
 	<string name="c_fun_description_tan">Тригонометрична функція тангенс.</string>
 	<string name="c_fun_description_cot">Тригонометрична функція котангенс.</string>

@@ -177,7 +177,7 @@
 
 	<string name="c_warning">Увага</string>
 	<string name="c_error">Помилка</string>
-	<string name="c_billing_error">Біллінг не підтримується: ви повинні мати обліковий запис Google Checkout, пов'язаний з вашим обліковим записом Google і мати підключення до Інтернету.</string>
+	<string name="c_billing_error">Біллінг не підтримується: ви повинні мати обліковий запис Google Checkout, пов’язаний з вашим обліковим записом Google і мати підключення до Інтернету.</string>
 
 	<string name="c_calc_ad_free_title">Підтримати проект</string>
 	<string name="c_calc_ad_free_summary">І позбутися реклами</string>

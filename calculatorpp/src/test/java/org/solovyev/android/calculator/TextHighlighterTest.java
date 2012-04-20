@@ -53,10 +53,10 @@ public class TextHighlighterTest {
 		Assert.assertEquals("0.1E3", textHighlighter.process("0.1E3").toString());
 		Assert.assertEquals("1E3", textHighlighter.process("1E3").toString());
 		Assert.assertEquals("2<b>0x:</b>", textHighlighter.process("20x:").toString());
-		Assert.assertEquals("20x", textHighlighter.process("20x").toString());
-		Assert.assertEquals("22x", textHighlighter.process("22x").toString());
-		Assert.assertEquals("20t", textHighlighter.process("20t").toString());
-		Assert.assertEquals("20k", textHighlighter.process("20k").toString());
+		Assert.assertEquals("20g", textHighlighter.process("20g").toString());
+		Assert.assertEquals("22g", textHighlighter.process("22g").toString());
+		Assert.assertEquals("20ю", textHighlighter.process("20ю").toString());
+		Assert.assertEquals("20ъ", textHighlighter.process("20ъ").toString());
 		Assert.assertEquals("3!!", textHighlighter.process("3!!").toString());
 		Assert.assertEquals("2", textHighlighter.process("2").toString());
 		Assert.assertEquals("21", textHighlighter.process("21").toString());
