@@ -14,6 +14,8 @@ import org.jetbrains.annotations.Nullable;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 import org.solovyev.android.ResourceCache;
+import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.about.TextHelper;
 import org.solovyev.common.definitions.IBuilder;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.math.MathRegistry;
@@ -56,7 +58,7 @@ public abstract class AbstractAndroidMathRegistry<T extends MathEntity, P extend
 			stringName = prefix + substitute;
 		}
 
-		return ResourceCache.instance.getCaption(stringName);
+		return new TextHelper(context.getResources(), R.class.getPackage().getName()).getText(stringName);
 	}
 
 	public synchronized void load(@Nullable Context context, @Nullable SharedPreferences preferences) {

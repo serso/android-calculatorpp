@@ -13,6 +13,7 @@ import android.util.Log;
 import jscl.math.Generic;
 import jscl.math.function.Constant;
 import jscl.math.function.IConstant;
+import jscl.math.numeric.Numeric;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.jscl.JsclOperation;
@@ -20,8 +21,10 @@ import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.calculator.model.CalculatorParseException;
 import org.solovyev.android.calculator.model.TextProcessor;
 import org.solovyev.android.calculator.view.TextHighlighter;
+import org.solovyev.android.calculator.view.UnitsConverter;
 import org.solovyev.android.menu.AMenuItem;
 import org.solovyev.android.view.AutoResizeTextView;
+import org.solovyev.common.utils.CollectionsUtils;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -33,51 +36,70 @@ import java.util.Set;
  */
 public class CalculatorDisplay extends AutoResizeTextView implements ICalculatorDisplay{
 
-	public static enum Menu implements AMenuItem<CalculatorDisplay> {
-		to_bin(0) {
-			@Override
-			public void doAction(@NotNull CalculatorDisplay data, @NotNull Context context) {
-				//To change body of implemented methods use File | Settings | File Templates.
-			}
+	public static enum MenuItem implements AMenuItem<CalculatorDisplay> {
 
-			@Override
-			protected boolean isItemVisibleFor(@NotNull Generic generic, @NotNull JsclOperation operation) {
-				return false;
-			}
-		},
+        copy(R.string.c_copy) {
+            @Override
+            public void doAction(@NotNull CalculatorDisplay data, @NotNull Context context) {
+                CalculatorModel.copyResult(context, data);
+            }
+        },
 
-		plot(R.string.c_plot_graph) {
-			@Override
-			public void doAction(@NotNull CalculatorDisplay data, @NotNull Context context) {
+        convert(R.string.c_convert) {
+            @Override
+            public void doAction(@NotNull CalculatorDisplay data, @NotNull Context context) {
+                // todo serso: continue
+                new UnitsConverter();
+            }
 
-				//To change body of implemented methods use File | Settings | File Templates.
-			}
+            @Override
+            protected boolean isItemVisibleFor(@NotNull Generic generic, @NotNull JsclOperation operation) {
+                return operation == JsclOperation.numeric && generic.getConstants().isEmpty();
+            }
+        },
+
+		plot(R.string.c_plot) {
+            @Override
+            public void doAction(@NotNull CalculatorDisplay data, @NotNull Context context) {
+                final Generic generic = data.getGenericResult();
+                assert generic != null;
+
+                final Constant constant = CollectionsUtils.getFirstCollectionElement(getNotSystemConstants(generic));
+                assert constant != null;
+                CalculatorActivityLauncher.plotGraph(context, generic, constant);
+            }
 
 			@Override
 			protected boolean isItemVisibleFor(@NotNull Generic generic, @NotNull JsclOperation operation) {
 				boolean result = false;
 
 				if (operation == JsclOperation.simplify) {
-					final Set<Constant> notSystemConstants = new HashSet<Constant>();
-					for (Constant constant : generic.getConstants()) {
-						IConstant var = CalculatorEngine.instance.getVarsRegistry().get(constant.getName());
-						if (var != null && !var.isSystem() && !var.isDefined()) {
-							notSystemConstants.add(constant);
-						}
-					}
-
-					if (notSystemConstants.size() == 1) {
+                    if (getNotSystemConstants(generic).size() == 1) {
 						result = true;
 					}
 				}
 
 				return result;
 			}
-		};
+
+            @NotNull
+            private Set<Constant> getNotSystemConstants(@NotNull Generic generic) {
+                final Set<Constant> notSystemConstants = new HashSet<Constant>();
+
+                for (Constant constant : generic.getConstants()) {
+                    IConstant var = CalculatorEngine.instance.getVarsRegistry().get(constant.getName());
+                    if (var != null && !var.isSystem() && !var.isDefined()) {
+                        notSystemConstants.add(constant);
+                    }
+                }
+
+                return notSystemConstants;
+            }
+        };
 
 		private final int captionId;
 
-		Menu(int captionId) {
+		MenuItem(int captionId) {
 			this.captionId = captionId;
 		}
 

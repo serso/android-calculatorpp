@@ -8,6 +8,7 @@ package org.solovyev.android.calculator.about;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -52,9 +53,11 @@ public class CalculatorReleaseNotesActivity extends Activity {
 		final String releaseNotesForTitle = context.getString(R.string.c_release_notes_for_title);
 		final int version = AndroidUtils.getAppVersionCode(context, CalculatorActivity.class.getPackage().getName());
 
+        final TextHelper textHelper = new TextHelper(context.getResources(), R.class.getPackage().getName());
+
 		boolean first = true;
 		for ( int i = version; i >= minVersion; i-- ) {
-			String releaseNotesForVersion = ResourceCache.instance.getCaption("c_release_notes_for_" + i);
+			String releaseNotesForVersion = textHelper.getText("c_release_notes_for_" + i);
 			if (!StringUtils.isEmpty(releaseNotesForVersion)){
 				assert releaseNotesForVersion != null;
 				if ( !first ) {

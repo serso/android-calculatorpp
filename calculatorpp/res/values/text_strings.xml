@@ -131,6 +131,7 @@
 	<string name="c_empty_var_error">Unable to create empty constant!</string>
 	<string name="c_not_valid_result">Current result is not valid!</string>
 
+	<string name="c_convert">Convert to…</string>
 	<string name="c_plot_graph">Graph</string>
 	<string name="c_min_x_value">From</string>
 	<string name="c_max_x_value">To</string>

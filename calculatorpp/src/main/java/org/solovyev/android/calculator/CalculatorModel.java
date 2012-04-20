@@ -17,13 +17,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import jscl.math.Generic;
-import jscl.math.function.Constant;
-import jscl.math.function.IConstant;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.CursorControl;
-import org.solovyev.android.history.HistoryControl;
 import org.solovyev.android.calculator.history.CalculatorHistory;
 import org.solovyev.android.calculator.history.CalculatorHistoryState;
 import org.solovyev.android.calculator.history.TextViewEditorAdapter;
@@ -32,16 +28,16 @@ import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.calculator.model.CalculatorEvalException;
 import org.solovyev.android.calculator.model.CalculatorParseException;
+import org.solovyev.android.history.HistoryControl;
 import org.solovyev.android.menu.AMenuBuilder;
-import org.solovyev.android.menu.AMenuItem;
+import org.solovyev.android.menu.MenuImpl;
 import org.solovyev.common.msg.Message;
-import org.solovyev.common.utils.CollectionsUtils;
 import org.solovyev.common.utils.MutableObject;
 import org.solovyev.common.utils.StringUtils;
 import org.solovyev.common.utils.history.HistoryAction;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * User: serso
@@ -387,111 +383,24 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 
 		@Override
 		public void onClick(View v) {
-			if (v instanceof CalculatorDisplay) {
-				final CalculatorDisplay cd = (CalculatorDisplay)v;
-				if (cd.isValid()) {
-					switch (cd.getJsclOperation()) {
-						case simplify:
-							final Generic genericResult = cd.getGenericResult();
-							if ( genericResult != null ) {
-								final Set<Constant> notSystemConstants = new HashSet<Constant>();
-								for (Constant constant : genericResult.getConstants()) {
-									IConstant var = CalculatorEngine.instance.getVarsRegistry().get(constant.getName());
-									if (var != null && !var.isSystem() && !var.isDefined()) {
-										notSystemConstants.add(constant);
-									}
-								}
+            if (v instanceof CalculatorDisplay) {
+                final CalculatorDisplay cd = (CalculatorDisplay) v;
 
-								if ( notSystemConstants.size() > 0 ) {
-									if (notSystemConstants.size() > 1) {
-										copyResult(activity, cd);
-									} else {
-										final AMenuBuilder<CalculatorDisplayMenuItem, CalculatorDisplayMenuData> menuBuilder = AMenuBuilder.newInstance(activity, CalculatorDisplayMenuItem.class);
-										menuBuilder.create(new CalculatorDisplayMenuData(cd, genericResult, notSystemConstants)).show();
-									}
-								} else {
-									copyResult(activity, cd);
-								}
-							} else {
-								copyResult(activity, cd);
-							}
-							break;
-						case elementary:
-							copyResult(activity, cd);
-							break;
-						case numeric:
-							copyResult(activity, cd);
-							break;
-					}
-				} else {
-					final String errorMessage = cd.getErrorMessage();
-					if ( errorMessage != null ) {
-						showEvaluationError(activity, errorMessage);
-					}
-				}
-			}
-		}
-	}
-
-	private static class CalculatorDisplayMenuData {
-
-		@NotNull
-		private final CalculatorDisplay display;
-
-		@NotNull
-		private final Generic result;
-
-		@NotNull
-		private final Set<Constant> notSystemConstants;
-
-		private CalculatorDisplayMenuData(@NotNull CalculatorDisplay display, @NotNull Generic result, @NotNull Set<Constant> notSystemConstants) {
-			this.display = display;
-			this.result = result;
-			this.notSystemConstants = notSystemConstants;
-		}
-
-		@NotNull
-		public CalculatorDisplay getDisplay() {
-			return display;
-		}
-
-		@NotNull
-		public Generic getResult() {
-			return result;
-		}
-
-		@NotNull
-		public Set<Constant> getNotSystemConstants() {
-			return notSystemConstants;
-		}
-	}
-
-	private static enum CalculatorDisplayMenuItem implements AMenuItem<CalculatorDisplayMenuData> {
-		plot(R.string.c_plot){
-			@Override
-			public void doAction(@NotNull CalculatorDisplayMenuData data, @NotNull Context context) {
-				final Constant constant = CollectionsUtils.getFirstCollectionElement(data.getNotSystemConstants());
-				assert constant != null;
-				CalculatorActivityLauncher.plotGraph(context, data.getResult(), constant);
-			}
-		},
-		copy(R.string.c_copy){
-			@Override
-			public void doAction(@NotNull CalculatorDisplayMenuData data, @NotNull Context context) {
-				copyResult(context, data.getDisplay());
-			}
-		};
-
-		private final int captionId;
-
-		CalculatorDisplayMenuItem(@NotNull int captionId) {
-			this.captionId = captionId;
-		}
-
-		@NotNull
-		@Override
-		public String getCaption(@NotNull Context context) {
-			return context.getString(captionId);
-		}
-	}
+                if (cd.isValid()) {
+                    final List<CalculatorDisplay.MenuItem> filteredMenuItems = new ArrayList<CalculatorDisplay.MenuItem>(CalculatorDisplay.MenuItem.values().length);
+                    for (CalculatorDisplay.MenuItem menuItem : CalculatorDisplay.MenuItem.values()) {
+                        if (menuItem.isItemVisible(cd)) {
+                            filteredMenuItems.add(menuItem);
+                        }
+                    }
+                    AMenuBuilder.newInstance(activity, MenuImpl.newInstance(filteredMenuItems)).create(cd).show();
+                } else {
+                    final String errorMessage = cd.getErrorMessage();
+                    if (errorMessage != null) {
+                        showEvaluationError(activity, errorMessage);
+                    }
+                }
+            }
+        }
+    }
 }
