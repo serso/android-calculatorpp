@@ -183,21 +183,9 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 		initMultiplicationButton();
 
-		if (theme.getThemeType() == CalculatorPreferences.Gui.ThemeType.metro) {
-			// for metro themes we should turn off magic flames
-			AndroidUtils.processViewsOfType(this.getWindow().getDecorView(), ColorButton.class, new AndroidUtils.ViewProcessor<ColorButton>() {
-				@Override
-				public void process(@NotNull ColorButton colorButton) {
-					colorButton.setDrawMagicFlame(false);
-				}
-			});
+        fixThemeParameters(true);
 
-			fixMargins(2, 2);
-		} else {
-			fixMargins(1, 1);
-		}
-
-		if (layout == CalculatorPreferences.Gui.Layout.simple) {
+        if (layout == CalculatorPreferences.Gui.Layout.simple) {
 			toggleButtonDirectionText(R.id.oneDigitButton, false, DragDirection.up, DragDirection.down);
 			toggleButtonDirectionText(R.id.twoDigitButton, false, DragDirection.up, DragDirection.down);
 			toggleButtonDirectionText(R.id.threeDigitButton, false, DragDirection.up, DragDirection.down);
@@ -226,12 +214,33 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
         numeralBaseButtons.addButtonId(R.id.sixDigitButton);
         numeralBaseButtons.toggleNumericDigits(this, preferences);
 
+        toggleEqualsButton(preferences);
+
         toggleOrientationChange(preferences);
 
         preferences.registerOnSharedPreferenceChangeListener(this);
 	}
 
-	private void toggleButtonDirectionText(int id, boolean showDirectionText, @NotNull DragDirection... dragDirections) {
+    private void fixThemeParameters(boolean fixMagicFlames) {
+        if (theme.getThemeType() == CalculatorPreferences.Gui.ThemeType.metro) {
+
+            if (fixMagicFlames) {
+                // for metro themes we should turn off magic flames
+                AndroidUtils.processViewsOfType(this.getWindow().getDecorView(), ColorButton.class, new AndroidUtils.ViewProcessor<ColorButton>() {
+                    @Override
+                    public void process(@NotNull ColorButton colorButton) {
+                        colorButton.setDrawMagicFlame(false);
+                    }
+                });
+            }
+
+            fixMargins(2, 2);
+        } else {
+            fixMargins(1, 1);
+        }
+    }
+
+    private void toggleButtonDirectionText(int id, boolean showDirectionText, @NotNull DragDirection... dragDirections) {
 		final View v = findViewById(id);
 		if (v instanceof DirectionDragButton ) {
 			final DirectionDragButton button = (DirectionDragButton)v;
@@ -250,7 +259,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		final View clearButton = findViewById(R.id.clearButton);
 		final View eraseButton = findViewById(R.id.eraseButton);
 
-		int orientation = getResources().getConfiguration().orientation;
+		int orientation = AndroidUtils.getScreenOrientation(this);
 		if (orientation == Configuration.ORIENTATION_PORTRAIT) {
 			setMarginsForView(equalsButton, marginLeft, marginBottom);
 			setMarginsForView(calculatorModel.getDisplay(), marginLeft, marginBottom);
@@ -673,8 +682,8 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 			useBackAsPrev = CalculatorPreferences.Gui.usePrevAsBack.getPreference(preferences);
 		}
 
-        if ( CalculatorPreferences.Gui.autoOrientation.getKey().equals(key) ) {
-            toggleOrientationChange(preferences);
+        if ( CalculatorPreferences.Gui.showEqualsButton.getKey().equals(key) ) {
+            toggleEqualsButton(preferences);
         }
 
         if (CalculatorEngine.Preferences.numeralBase.getKey().equals(key)) {
@@ -684,7 +693,27 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		if ( CalculatorEngine.Preferences.multiplicationSign.getKey().equals(key) ) {
 			initMultiplicationButton();
 		}
+
+        if ( CalculatorPreferences.Gui.autoOrientation.getKey().equals(key) ) {
+            toggleOrientationChange(preferences);
+        }
 	}
+
+    private void toggleEqualsButton(@Nullable SharedPreferences preferences) {
+        preferences = preferences == null ? PreferenceManager.getDefaultSharedPreferences(this) : preferences;
+
+        if (AndroidUtils.getScreenOrientation(this) == Configuration.ORIENTATION_PORTRAIT || !CalculatorPreferences.Gui.autoOrientation.getPreference(preferences)) {
+            final DragButton button = (DragButton)findViewById(R.id.equalsButton);
+            if (CalculatorPreferences.Gui.showEqualsButton.getPreference(preferences)) {
+                button.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.FILL_PARENT, 1f));
+                calculatorModel.getDisplay().setBackgroundDrawable(null);
+            } else {
+                button.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.FILL_PARENT, 0f));
+                calculatorModel.getDisplay().setBackgroundDrawable(this.getResources().getDrawable(R.drawable.equals9));
+            }
+            fixThemeParameters(false);
+        }
+    }
 
     private void toggleOrientationChange(@Nullable SharedPreferences preferences) {
         preferences = preferences == null ? PreferenceManager.getDefaultSharedPreferences(this) : preferences;
