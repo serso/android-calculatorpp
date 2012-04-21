@@ -394,7 +394,11 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
                             filteredMenuItems.add(menuItem);
                         }
                     }
-                    AMenuBuilder.newInstance(activity, MenuImpl.newInstance(filteredMenuItems)).create(cd).show();
+
+                    if (!filteredMenuItems.isEmpty()) {
+                        AMenuBuilder.newInstance(activity, MenuImpl.newInstance(filteredMenuItems)).create(cd).show();
+                    }
+
                 } else {
                     final String errorMessage = cd.getErrorMessage();
                     if (errorMessage != null) {

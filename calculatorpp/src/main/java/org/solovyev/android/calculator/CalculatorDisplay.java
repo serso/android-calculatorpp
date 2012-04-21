@@ -13,15 +13,14 @@ import android.util.Log;
 import jscl.math.Generic;
 import jscl.math.function.Constant;
 import jscl.math.function.IConstant;
-import jscl.math.numeric.Numeric;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.calculator.model.CalculatorParseException;
 import org.solovyev.android.calculator.model.TextProcessor;
+import org.solovyev.android.calculator.view.NumeralBaseConverterDialog;
 import org.solovyev.android.calculator.view.TextHighlighter;
-import org.solovyev.android.calculator.view.UnitsConverter;
 import org.solovyev.android.menu.AMenuItem;
 import org.solovyev.android.view.AutoResizeTextView;
 import org.solovyev.common.utils.CollectionsUtils;
@@ -48,8 +47,7 @@ public class CalculatorDisplay extends AutoResizeTextView implements ICalculator
         convert(R.string.c_convert) {
             @Override
             public void doAction(@NotNull CalculatorDisplay data, @NotNull Context context) {
-                // todo serso: continue
-                new UnitsConverter();
+                new NumeralBaseConverterDialog(data.getGenericResult().toString()).show(context);
             }
 
             @Override

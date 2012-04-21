@@ -195,6 +195,7 @@
 
 	<string name="c_angle_units_changed_to">Angle units changed to \'%s\'!</string>
 	<string name="c_numeral_base_changed_to">Numeral base changed to \'%s\'!</string>
+	<string name="c_conversion_tool">Conversion tool</string>
 
 
 </resources>

@@ -1,0 +1,105 @@
+package org.solovyev.android.calculator.view;
+
+import android.app.AlertDialog;
+import android.content.Context;
+import android.view.View;
+import android.view.WindowManager;
+import jscl.NumeralBase;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.NumeralBaseUnitType;
+import org.solovyev.android.Unit;
+import org.solovyev.android.UnitImpl;
+import org.solovyev.android.calculator.CalculatorModel;
+import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.model.CalculatorEngine;
+import org.solovyev.android.calculator.model.CalculatorParseException;
+import org.solovyev.android.calculator.model.ToJsclTextProcessor;
+import org.solovyev.common.utils.MutableObject;
+import org.solovyev.common.utils.StringUtils;
+
+import java.util.Arrays;
+
+/**
+ * User: serso
+ * Date: 4/22/12
+ * Time: 12:20 AM
+ */
+public class NumeralBaseConverterDialog {
+
+    @Nullable
+    private String initialFromValue;
+
+    public NumeralBaseConverterDialog(String initialFromValue) {
+        this.initialFromValue = initialFromValue;
+    }
+
+    public void show(@NotNull Context context) {
+        final UnitConverterViewBuilder b = new UnitConverterViewBuilder();
+        b.setFromUnitTypes(Arrays.asList(NumeralBaseUnitType.values()));
+        b.setToUnitTypes(Arrays.asList(NumeralBaseUnitType.values()));
+
+        if (!StringUtils.isEmpty(initialFromValue)) {
+            String value = initialFromValue;
+            try {
+                value = ToJsclTextProcessor.getInstance().process(value).getExpression();
+                b.setFromValue(UnitImpl.newInstance(value, NumeralBaseUnitType.valueOf(CalculatorEngine.instance.getEngine().getNumeralBase())));
+            } catch (CalculatorParseException e) {
+                b.setFromValue(UnitImpl.newInstance(value, NumeralBaseUnitType.valueOf(CalculatorEngine.instance.getEngine().getNumeralBase())));
+            }
+        } else {
+            b.setFromValue(UnitImpl.newInstance("", NumeralBaseUnitType.valueOf(CalculatorEngine.instance.getEngine().getNumeralBase())));
+        }
+
+        b.setConverter(NumeralBaseUnitType.getConverter());
+
+        final MutableObject<AlertDialog> alertDialogHolder = new MutableObject<AlertDialog>();
+        b.setOkButtonOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final AlertDialog alertDialog = alertDialogHolder.getObject();
+                if (alertDialog != null) {
+                    alertDialog.dismiss();
+                }
+            }
+        });
+
+        b.setCustomButtonData(new UnitConverterViewBuilder.CustomButtonData(context.getString(R.string.c_use), new UnitConverterViewBuilder.CustomButtonOnClickListener() {
+            @Override
+            public void onClick(@NotNull Unit<String> fromUnits, @NotNull Unit<String> toUnits) {
+                String toUnitsValue = toUnits.getValue();
+
+                if (!toUnits.getUnitType().equals(NumeralBaseUnitType.valueOf(CalculatorEngine.instance.getEngine().getNumeralBase()))) {
+                    for (NumeralBase nb : NumeralBase.values()) {
+                        if (NumeralBaseUnitType.valueOf(nb).equals(toUnits.getUnitType())) {
+                            toUnitsValue = nb.getJsclPrefix() + toUnitsValue;
+                            break;
+                        }
+                    }
+                }
+
+                CalculatorModel.instance.processDigitButtonAction(toUnitsValue, false);
+                final AlertDialog alertDialog = alertDialogHolder.getObject();
+                if (alertDialog != null) {
+                    alertDialog.dismiss();
+                }
+            }
+        }));
+
+        final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
+        alertBuilder.setView(b.build(context));
+        alertBuilder.setTitle(R.string.c_conversion_tool);
+
+        final AlertDialog alertDialog = alertBuilder.create();
+
+        final WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(alertDialog.getWindow().getAttributes());
+
+        lp.width = WindowManager.LayoutParams.FILL_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        alertDialogHolder.setObject(alertDialog);
+        alertDialog.show();
+        alertDialog.getWindow().setAttributes(lp);
+    }
+}

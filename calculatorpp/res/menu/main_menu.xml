@@ -8,11 +8,15 @@
 	<item a:id="@+id/main_menu_item_history"
 		  a:title="@string/c_history"/>
 
+    <item a:id="@+id/main_menu_conversion_tool"
+          a:title="@string/c_conversion_tool"/>
+
 	<item a:id="@+id/main_menu_item_help"
 		  a:title="@string/c_help"/>
 
 	<item a:id="@+id/main_menu_item_about"
 		  a:title="@string/c_about"/>
+
 
 	<item a:id="@+id/main_menu_item_exit"
 		  a:title="@string/c_exit"/>

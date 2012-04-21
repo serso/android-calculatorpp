@@ -36,10 +36,7 @@ import org.solovyev.android.calculator.about.CalculatorReleaseNotesActivity;
 import org.solovyev.android.calculator.history.CalculatorHistory;
 import org.solovyev.android.calculator.history.CalculatorHistoryState;
 import org.solovyev.android.calculator.model.CalculatorEngine;
-import org.solovyev.android.calculator.view.AngleUnitsButton;
-import org.solovyev.android.calculator.view.CalculatorAdditionalTitle;
-import org.solovyev.android.calculator.view.NumeralBasesButton;
-import org.solovyev.android.calculator.view.OnDragListenerVibrator;
+import org.solovyev.android.calculator.view.*;
 import org.solovyev.android.history.HistoryDragProcessor;
 import org.solovyev.android.view.ColorButton;
 import org.solovyev.android.view.drag.*;
@@ -615,6 +612,10 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 				CalculatorActivityLauncher.showHelp(this);
 				result = true;
 				break;
+            case R.id.main_menu_conversion_tool:
+                new NumeralBaseConverterDialog(null).show(this);
+                result = true;
+                break;
 			case R.id.main_menu_item_exit:
 				this.finish();
 				result = true;
