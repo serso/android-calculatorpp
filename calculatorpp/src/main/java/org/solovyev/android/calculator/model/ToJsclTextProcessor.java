@@ -15,12 +15,24 @@ import org.solovyev.common.utils.CollectionsUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-class ToJsclTextProcessor implements TextProcessor<PreparedExpression, String> {
+public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, String> {
 
 	@NotNull
 	private static final Integer MAX_DEPTH = 20;
 
-	@Override
+    @NotNull
+    private static final TextProcessor<PreparedExpression, String> instance = new ToJsclTextProcessor();
+
+    private ToJsclTextProcessor() {
+    }
+
+
+    @NotNull
+    public static TextProcessor<PreparedExpression, String> getInstance() {
+        return instance;
+    }
+
+    @Override
 	@NotNull
 	public PreparedExpression process(@NotNull String s) throws CalculatorParseException {
 		return processWithDepth(s, 0, new ArrayList<IConstant>());

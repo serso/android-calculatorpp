@@ -101,7 +101,7 @@ public enum CalculatorEngine {
 	private MathEngine engine = JsclMathEngine.instance;
 
 	@NotNull
-	public final TextProcessor<PreparedExpression, String> preprocessor = new ToJsclTextProcessor();
+	public final TextProcessor<PreparedExpression, String> preprocessor = ToJsclTextProcessor.getInstance();
 
 	@NotNull
 	private final AndroidMathRegistry<IConstant> varsRegistry = new AndroidVarsRegistryImpl(engine.getConstantsRegistry());

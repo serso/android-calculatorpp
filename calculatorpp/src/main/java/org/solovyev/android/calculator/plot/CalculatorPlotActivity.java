@@ -35,6 +35,9 @@ import org.achartengine.tools.ZoomListener;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.model.CalculatorParseException;
+import org.solovyev.android.calculator.model.PreparedExpression;
+import org.solovyev.android.calculator.model.ToJsclTextProcessor;
 import org.solovyev.common.utils.MutableObject;
 
 import java.io.Serializable;
@@ -79,7 +82,8 @@ public class CalculatorPlotActivity extends Activity {
 		final Input input = (Input) extras.getSerializable(INPUT);
 
 		try {
-			this.expression = Expression.valueOf(input.getExpression());
+            final PreparedExpression preparedExpression = ToJsclTextProcessor.getInstance().process(input.getExpression());
+            this.expression = Expression.valueOf(preparedExpression.getExpression());
 			this.variable = new Constant(input.getVariableName());
 
 			String title = extras.getString(ChartFactory.TITLE);
@@ -100,8 +104,11 @@ public class CalculatorPlotActivity extends Activity {
 		} catch (ArithmeticException e) {
 			Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
 			finish();
-		}
-	}
+		} catch (CalculatorParseException e) {
+            Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+            finish();
+        }
+    }
 
 	private void setGraphicalView(@Nullable PlotBoundaries plotBoundaries) {
 		double minValue = plotBoundaries == null ? DEFAULT_MIN_NUMBER : plotBoundaries.xMin;

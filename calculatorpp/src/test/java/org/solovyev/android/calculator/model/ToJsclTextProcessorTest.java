@@ -26,13 +26,13 @@ public class ToJsclTextProcessorTest {
 
 	@Test
 	public void testSpecialCases() throws CalculatorParseException {
-		final ToJsclTextProcessor preprocessor = new ToJsclTextProcessor();
+		final TextProcessor<PreparedExpression, String> preprocessor = ToJsclTextProcessor.getInstance();
 		Assert.assertEquals( "3^E10", preprocessor.process("3^E10").toString());
 	}
 
 	@Test
 	public void testProcess() throws Exception {
-		final ToJsclTextProcessor preprocessor = new ToJsclTextProcessor();
+		final TextProcessor<PreparedExpression, String> preprocessor = ToJsclTextProcessor.getInstance();
 
 		Assert.assertEquals( "", preprocessor.process("").toString());
 		Assert.assertEquals( "()", preprocessor.process("[]").toString());
@@ -113,7 +113,7 @@ public class ToJsclTextProcessorTest {
 
 	@Test
 	public void testDegrees() throws Exception {
-		final ToJsclTextProcessor preprocessor = new ToJsclTextProcessor();
+		final TextProcessor<PreparedExpression, String> preprocessor = ToJsclTextProcessor.getInstance();
 
 		Assert.assertEquals( "", preprocessor.process("").toString());
 	/*	try {
@@ -145,7 +145,7 @@ public class ToJsclTextProcessorTest {
 
 	@Test
 	public void testNumeralBases() throws Exception {
-		final ToJsclTextProcessor processor = new ToJsclTextProcessor();
+		final TextProcessor<PreparedExpression, String> processor = ToJsclTextProcessor.getInstance();
 
 		final NumeralBase defaultNumeralBase = JsclMathEngine.instance.getNumeralBase();
 		try{
