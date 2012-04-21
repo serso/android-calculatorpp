@@ -141,7 +141,7 @@ public class CalculatorEngineTest {
 		Assert.assertEquals("2+i", cm.evaluate(JsclOperation.numeric, "2*1+√(-1)").getResult());
 		try {
 			cm.getEngine().setAngleUnits(AngleUnit.rad);
-			Assert.assertEquals("0.921+πi", cm.evaluate(JsclOperation.numeric, "ln(5cosh(38π√(2cos(2))))").getResult());
+			Assert.assertEquals("0.921+Πi", cm.evaluate(JsclOperation.numeric, "ln(5cosh(38π√(2cos(2))))").getResult());
 			Assert.assertEquals("-3.41+3.41i", cm.evaluate(JsclOperation.numeric, "(5tan(2i)+2i)/(1-i)").getResult());
 		} finally {
 			cm.getEngine().setAngleUnits(defaultAngleUnit);

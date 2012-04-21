@@ -6,8 +6,8 @@
 
 <resources>
 
-	<string name="c_var_description_pi">Ratio de la circunferencia del círculo a su diámetro. Nota: esta constante es la unidad de medida dependiente => rad: 3,14, deg: 180,0</string>
-	<string name="c_var_description_PI">Ratio de la circunferencia del círculo a su diámetro. Nota: esta constante es la unidad de medida independientes => rad: 3.14, deg: 3.14</string>
+	<string name="c_var_description_PI">Ratio de la circunferencia del círculo a su diámetro. Nota: esta constante es la unidad de medida dependiente => rad: 3,14, deg: 180,0</string>
+	<string name="c_var_description_pi">Ratio de la circunferencia del círculo a su diámetro. Nota: esta constante es la unidad de medida independientes => rad: 3.14, deg: 3.14</string>
 	<string name="c_var_description_e">Número real único como el valor de la derivada (pendiente de la línea tangente) de la función f(x) = e^x en el punto x = 0 es igual a 1</string>
 	<string name="c_var_description_i">Unidad imaginaria, definida como i^2 = −1</string>
 	<string name="c_var_description_c">Velocidad de la luz en vacío, m·s^-1</string>

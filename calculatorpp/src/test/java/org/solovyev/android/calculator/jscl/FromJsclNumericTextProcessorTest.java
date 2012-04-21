@@ -33,7 +33,7 @@ public class FromJsclNumericTextProcessorTest {
 		Assert.assertEquals("1.22133+1.2i", cm.process(Expression.valueOf("1.22133232+1.2*i").numeric()));
 		Assert.assertEquals("1.22i", cm.process(Expression.valueOf("1.22*i").numeric()));
 		Assert.assertEquals("i", cm.process(Expression.valueOf("i").numeric()));
-		Generic numeric = Expression.valueOf("e^(π*i)+1").numeric();
+		Generic numeric = Expression.valueOf("e^(Π*i)+1").numeric();
 		junit.framework.Assert.assertEquals("0i", cm.process(numeric));
 	}
 }

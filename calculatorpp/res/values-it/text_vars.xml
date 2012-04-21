@@ -6,8 +6,8 @@
 
 <resources>
 
-	<string name="c_var_description_pi">Rapporto tra la circonferenza di qualsiasi cerchio col suo diametro. Nota: questa costante è l\'unità di misura dipende => rad: 3.14, deg: 180.0</string>
-	<string name="c_var_description_PI">Rapporto tra la circonferenza di qualsiasi cerchio col suo diametro. Nota: questa costante è l\'unità di misura indipendente => rad: 3.14, deg: 3.14</string>
+	<string name="c_var_description_PI">Rapporto tra la circonferenza di qualsiasi cerchio col suo diametro. Nota: questa costante è l\'unità di misura dipende => rad: 3.14, deg: 180.0</string>
+	<string name="c_var_description_pi">Rapporto tra la circonferenza di qualsiasi cerchio col suo diametro. Nota: questa costante è l\'unità di misura indipendente => rad: 3.14, deg: 3.14</string>
 	<string name="c_var_description_e">Unico numero reale tale che il valore della derivata (pendenza della retta tangente) della funzione f(x) = e^x nel punto x = 0 che è uguale a 1</string>
 	<string name="c_var_description_i">Unità immaginaria, definita come i^2 = -1</string>
 	<string name="c_var_description_c">Velocità della luce nel vuoto, m·s^-1</string>
