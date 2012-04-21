@@ -134,6 +134,13 @@
 									  a:defaultValue="0;45"
 									  range:steps="5"
 									  range:boundaries="0;45"/>-->
+
+        <android.preference.CheckBoxPreference
+                a:key="autoOrientation"
+                a:title="@string/c_auto_orientation_title"
+                a:summary="@string/c_auto_orientation_summary"
+                a:defaultValue="false"/>
+
 	</PreferenceScreen>
 
 	<PreferenceScreen

@@ -18,7 +18,6 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <android.sdk.path>/home/ssolovyev/projects/org.solovyev/misc/lib/android-sdk-linux_x86</android.sdk.path>
     </properties>
 
     <dependencyManagement>

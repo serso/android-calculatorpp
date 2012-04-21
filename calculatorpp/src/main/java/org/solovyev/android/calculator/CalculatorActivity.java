@@ -8,6 +8,7 @@ package org.solovyev.android.calculator;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.*;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -225,7 +226,9 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
         numeralBaseButtons.addButtonId(R.id.sixDigitButton);
         numeralBaseButtons.toggleNumericDigits(this, preferences);
 
-		preferences.registerOnSharedPreferenceChangeListener(this);
+        toggleOrientationChange(preferences);
+
+        preferences.registerOnSharedPreferenceChangeListener(this);
 	}
 
 	private void toggleButtonDirectionText(int id, boolean showDirectionText, @NotNull DragDirection... dragDirections) {
@@ -670,6 +673,10 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 			useBackAsPrev = CalculatorPreferences.Gui.usePrevAsBack.getPreference(preferences);
 		}
 
+        if ( CalculatorPreferences.Gui.autoOrientation.getKey().equals(key) ) {
+            toggleOrientationChange(preferences);
+        }
+
         if (CalculatorEngine.Preferences.numeralBase.getKey().equals(key)) {
             numeralBaseButtons.toggleNumericDigits(this, preferences);
         }
@@ -679,7 +686,16 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		}
 	}
 
-	private void initMultiplicationButton() {
+    private void toggleOrientationChange(@Nullable SharedPreferences preferences) {
+        preferences = preferences == null ? PreferenceManager.getDefaultSharedPreferences(this) : preferences;
+        if (CalculatorPreferences.Gui.autoOrientation.getPreference(preferences)) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+        } else {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
+    }
+
+    private void initMultiplicationButton() {
 		final View multiplicationButton = findViewById(R.id.multiplicationButton);
 		if ( multiplicationButton instanceof Button) {
 			((Button) multiplicationButton).setText(CalculatorEngine.instance.getMultiplicationSign());

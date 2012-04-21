@@ -10,7 +10,9 @@
 
 	<application android:debuggable="true" android:hardwareAccelerated="false" android:icon="@drawable/icon" android:label="@string/c_app_name" android:name=".CalculatorApplication">
 
-		<activity android:label="@string/c_app_name" android:name=".CalculatorActivity" android:windowSoftInputMode="adjustPan">
+		<activity android:label="@string/c_app_name"
+                  android:name=".CalculatorActivity"
+                  android:windowSoftInputMode="adjustPan">
 
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"/>
