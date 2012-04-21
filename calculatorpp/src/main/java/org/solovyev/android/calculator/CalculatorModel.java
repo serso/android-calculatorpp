@@ -199,6 +199,7 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 			if (historyState == null) {
 				CalculatorHistory.instance.addState(localHistoryState);
 			}
+            // todo serso: this is not correct - operation is processing still in the same thread
 			new Handler().postDelayed(pendingOperation.getObject(), EVAL_DELAY_MILLIS);
 		} else {
 			pendingOperation.getObject().run();

@@ -41,7 +41,11 @@ public abstract class AbstractNumberBuilder {
 	 * @return true if we can continue of processing of current number, if false - new number should be constructed
 	 */
 	protected boolean canContinue(@NotNull MathType.Result mathTypeResult) {
-		return ((mathTypeResult.getMathType().getGroupType() == MathType.MathGroupType.number && !spaceBefore(mathTypeResult) && numeralBaseCheck(mathTypeResult) && numeralBaseInTheStart(mathTypeResult.getMathType()) || isSignAfterE(mathTypeResult)));
+        boolean result = mathTypeResult.getMathType().getGroupType() == MathType.MathGroupType.number &&
+                            !spaceBefore(mathTypeResult) &&
+                                numeralBaseCheck(mathTypeResult) &&
+                                    numeralBaseInTheStart(mathTypeResult.getMathType()) || isSignAfterE(mathTypeResult);
+        return result;
 	}
 
 	private boolean spaceBefore(@NotNull MathType.Result mathTypeResult) {
@@ -57,15 +61,17 @@ public abstract class AbstractNumberBuilder {
 	}
 
 	private boolean isSignAfterE(@NotNull MathType.Result mathTypeResult) {
-		if ("-".equals(mathTypeResult.getMatch()) || "+".equals(mathTypeResult.getMatch())) {
-			final StringBuilder localNb = numberBuilder;
-			if (localNb != null && localNb.length() > 0) {
-				if (localNb.charAt(localNb.length() - 1) == MathType.POWER_10) {
-					return true;
-				}
-			}
-		}
-		return false;
+        if (!isHexMode()) {
+            if ("-".equals(mathTypeResult.getMatch()) || "+".equals(mathTypeResult.getMatch())) {
+                final StringBuilder localNb = numberBuilder;
+                if (localNb != null && localNb.length() > 0) {
+                    if (localNb.charAt(localNb.length() - 1) == MathType.POWER_10) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
 	}
 
 	public boolean isHexMode() {

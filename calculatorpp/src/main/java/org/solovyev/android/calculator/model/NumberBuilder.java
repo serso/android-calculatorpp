@@ -9,14 +9,11 @@ package org.solovyev.android.calculator.model;
 import jscl.MathContext;
 import jscl.MathEngine;
 import jscl.NumeralBase;
-import jscl.math.function.IConstant;
 import jscl.math.numeric.Real;
 import jscl.text.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.math.MathType;
-import org.solovyev.common.utils.CollectionsUtils;
-import org.solovyev.common.utils.Finder;
 import org.solovyev.common.utils.MutableObject;
 
 import java.util.ArrayList;

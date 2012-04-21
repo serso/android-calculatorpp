@@ -98,6 +98,7 @@ public class TextHighlighterTest {
 			me.setNumeralBase(NumeralBase.hex);
 			Assert.assertEquals("E", textHighlighter.process("E").toString());
 			Assert.assertEquals(".E", textHighlighter.process(".E").toString());
+			Assert.assertEquals("E+", textHighlighter.process("E+").toString());
 			Assert.assertEquals("E.", textHighlighter.process("E.").toString());
 			Assert.assertEquals(".E.", textHighlighter.process(".E.").toString());
 			Assert.assertEquals("6F", textHighlighter.process("6F").toString());
