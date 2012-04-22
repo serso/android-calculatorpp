@@ -9,7 +9,7 @@
 	<string name="c_about">Acerca de</string>
 
 	<string name="c_about_content" formatted="false">Copyright (c) 2009-2011\n\n<b>Creado por serso aka se.solovyev</b>\n\n
-		Este programa es Open Source:\nTodo el código fuente puede encontrarse en\n<a href="https://github.com/serso/android_calculator">http://github.com</a>\n\n
+		Este programa es Open Source:\nTodo el código fuente puede encontrarse en\n<a href="https://github.com/serso/android-calculatorpp">http://github.com</a>\n\n
 		Para más información, por favor,\ncontacte con el autor al mail\n<a href="mailto:se.solovyev@gmail.com">se.solovyev@gmail.com</a>\n
 		o visite\n<a href="http://se.solovyev.org">http://se.solovyev.org</a>\n\n
 		Si desea apoyar el proyecto,\npuede hacer una donación vía\n<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=se%2esolovyev%40gmail%2ecom&amp;lc=RU&amp;item_name=Android%20Calculator&amp;currency_code=USD&amp;bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted">\nhttp://paypal.com</a>\n\n
