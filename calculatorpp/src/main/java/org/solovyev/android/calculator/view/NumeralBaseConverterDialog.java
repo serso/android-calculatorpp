@@ -64,7 +64,7 @@ public class NumeralBaseConverterDialog {
             }
         });
 
-        b.setCustomButtonData(new UnitConverterViewBuilder.CustomButtonData(context.getString(R.string.c_use), new UnitConverterViewBuilder.CustomButtonOnClickListener() {
+        b.setCustomButtonData(new UnitConverterViewBuilder.CustomButtonData(context.getString(R.string.c_use_short), new UnitConverterViewBuilder.CustomButtonOnClickListener() {
             @Override
             public void onClick(@NotNull Unit<String> fromUnits, @NotNull Unit<String> toUnits) {
                 String toUnitsValue = toUnits.getValue();

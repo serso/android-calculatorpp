@@ -145,6 +145,7 @@
 	<string name="c_history_item_status">Статус: </string>
 	<string name="c_history_item_comment">Коментар: </string>
 	<string name="c_use">Використовувати</string>
+    <string name="c_use_short">Вик.</string>
 	<string name="c_copy_expression">Копіювати вираз</string>
 	<string name="c_copy_result">Копіювати результат</string>
 	<string name="c_history_expression">Значення</string>
