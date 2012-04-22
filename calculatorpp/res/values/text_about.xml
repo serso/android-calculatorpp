@@ -15,7 +15,7 @@
 		\nor visit\n<a href="http://se.solovyev.org">http://se.solovyev.org</a>\n\n
 		If you want to support the project\n\nyou can buy a special option from application preferences\n\n
 		donate money via\n<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=se%2esolovyev%40gmail%2ecom&amp;lc=RU&amp;item_name=Android%20Calculator&amp;currency_code=USD&amp;bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted">http://paypal.com</a>\n\n
-		If you like the application\nrank it with 5 stars in\n<a href="https://market.android.com/details?id=org.solovyev.android.calculator">android.market</a>\n\n
+		If you like the application\nrank it with 5 stars in\n<a href="https://market.android.com/details?id=org.solovyev.android.calculator">Google Play</a>\n\n
 		Thanks to people who translate Calculator++ in different languages:\n
 		Italian - Gabriele Ravanetti\n
 		Spanish - Jordi Luna\n\n
@@ -141,11 +141,11 @@
 	<string name="c_release_notes_for_24">
 		Note from developer\n\n
 		Sorry to inform you but this version of application brings built-in ads.\n
-		I haven\'t seen in android.market calculator with similar capabilities and I don\'t think I will see it in the close future.\n
+		I haven\'t seen in Google Play calculator with similar capabilities and I don\'t think I will see it in the close future.\n
 		But still I want to extend it\'s functionality and support already implemented. The thing is that I cannot do it anymore for free - it takes too much time and great efforts from me as
 		application has become rather big and complex.\n
 		If you want to support the project and remove the ads please purchase special option from application preferences,\n
-		if you don\'t want to pay or can\'t do it - you still can thank the author of this program by email: se.solovyev@gmail.com, rate application with high mark in android.market\n
+		if you don\'t want to pay or can\'t do it - you still can thank the author of this program by email: se.solovyev@gmail.com, rate application with high mark in Google Play\n
 		or help to translate the application to your native language.
 	</string>
 
