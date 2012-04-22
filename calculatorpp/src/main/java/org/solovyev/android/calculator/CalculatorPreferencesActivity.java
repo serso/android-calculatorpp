@@ -52,7 +52,7 @@ public class CalculatorPreferencesActivity extends PreferenceActivity implements
 		final SharedPreferences preferences = getPreferenceManager().getSharedPreferences();
 		preferences.registerOnSharedPreferenceChangeListener(this);
 		onSharedPreferenceChanged(preferences, CalculatorEngine.Preferences.roundResult.getKey());
-		onSharedPreferenceChanged(preferences, VibratorContainer.HAPTIC_FEEDBACK_P_KEY);
+		onSharedPreferenceChanged(preferences, VibratorContainer.Preferences.hapticFeedbackEnabled.getKey());
 
 		final Preference clearBillingInfoPreference = findPreference(CLEAR_BILLING_INFO);
 		if (clearBillingInfoPreference != null) {
@@ -130,8 +130,8 @@ public class CalculatorPreferencesActivity extends PreferenceActivity implements
 	public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
 		if (CalculatorEngine.Preferences.roundResult.getKey().equals(key)) {
 			findPreference(CalculatorEngine.Preferences.precision.getKey()).setEnabled(preferences.getBoolean(key, CalculatorEngine.Preferences.roundResult.getDefaultValue()));
-		} else if (VibratorContainer.HAPTIC_FEEDBACK_P_KEY.equals(key)) {
-			findPreference(VibratorContainer.HAPTIC_FEEDBACK_DURATION_P_KEY).setEnabled(preferences.getBoolean(key, VibratorContainer.HAPTIC_FEEDBACK_DEFAULT));
+		} else if (VibratorContainer.Preferences.hapticFeedbackEnabled.getKey().equals(key)) {
+			findPreference(VibratorContainer.Preferences.hapticFeedbackDuration.getKey()).setEnabled(VibratorContainer.Preferences.hapticFeedbackEnabled.getPreference(preferences));
 		}
 	}
 

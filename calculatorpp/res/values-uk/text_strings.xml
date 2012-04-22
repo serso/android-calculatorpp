@@ -183,8 +183,8 @@
 	<string name="c_calc_ad_free_summary">І позбутися реклами</string>
 
 	<string name="c_calc_already_purchased">Опція вже куплена!</string>
-	<string name="c_calc_purchasing">Купуємо...</string>
-	<string name="c_calc_clearing">Очищаємо...</string>
+	<string name="c_calc_purchasing">Купуємо…</string>
+	<string name="c_calc_clearing">Очищаємо…</string>
 
 	<string name="c_feedback_title">Зворотній зв’язок</string>
 	<string name="c_feedback_text">Ви вже використовуєте Калькулятор++ деякий час \n
@@ -194,6 +194,6 @@
 
 	<string name="c_angle_units_changed_to">Одиниці виміру кутів змінено на \'%s\'!</string>
 	<string name="c_numeral_base_changed_to">Система числення змінена на \'%s\'!</string>
-
+    <string name="c_conversion_tool">Перевод единиц</string>
 
 </resources>

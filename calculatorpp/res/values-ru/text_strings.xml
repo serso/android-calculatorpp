@@ -183,8 +183,8 @@
 	<string name="c_calc_ad_free_summary">И убрать рекламу</string>
 
 	<string name="c_calc_already_purchased">Опция уже была куплена!</string>
-	<string name="c_calc_purchasing">Покупаем...</string>
-	<string name="c_calc_clearing">Очищаем...</string>
+	<string name="c_calc_purchasing">Покупаем…</string>
+	<string name="c_calc_clearing">Очищаем…</string>
 
 	<string name="c_feedback_title">Отзыв</string>
 	<string name="c_feedback_text">Вы используете Калькулятор++ некоторое время\n
@@ -194,6 +194,6 @@
 
 	<string name="c_angle_units_changed_to">Единицы измерения углов изменены на \'%s\'!</string>
 	<string name="c_numeral_base_changed_to">Система счисления изменена на \'%s\'!</string>
-
+    <string name="c_conversion_tool">Перевод единиц</string>
 
 </resources>

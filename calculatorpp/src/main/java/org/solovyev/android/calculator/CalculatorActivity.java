@@ -204,9 +204,9 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
         numeralBaseButtons.toggleNumericDigits(this, preferences);
 
-        toggleEqualsButton(preferences);
-
         toggleOrientationChange(preferences);
+
+        toggleEqualsButton(preferences);
 
         preferences.registerOnSharedPreferenceChangeListener(this);
 	}
@@ -678,10 +678,6 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 			useBackAsPrev = CalculatorPreferences.Gui.usePrevAsBack.getPreference(preferences);
 		}
 
-        if ( CalculatorPreferences.Gui.showEqualsButton.getKey().equals(key) ) {
-            toggleEqualsButton(preferences);
-        }
-
         if (CalculatorEngine.Preferences.numeralBase.getKey().equals(key)) {
             numeralBaseButtons.toggleNumericDigits(this, preferences);
         }
@@ -693,19 +689,32 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
         if ( CalculatorPreferences.Gui.autoOrientation.getKey().equals(key) ) {
             toggleOrientationChange(preferences);
         }
+
+        if ( CalculatorPreferences.Gui.showEqualsButton.getKey().equals(key) ) {
+            toggleEqualsButton(preferences);
+        }
 	}
 
     private void toggleEqualsButton(@Nullable SharedPreferences preferences) {
         preferences = preferences == null ? PreferenceManager.getDefaultSharedPreferences(this) : preferences;
 
+
         if (AndroidUtils.getScreenOrientation(this) == Configuration.ORIENTATION_PORTRAIT || !CalculatorPreferences.Gui.autoOrientation.getPreference(preferences)) {
+            final Display display = this.getWindowManager().getDefaultDisplay();
+
             final DragButton button = (DragButton)findViewById(R.id.equalsButton);
             if (CalculatorPreferences.Gui.showEqualsButton.getPreference(preferences)) {
                 button.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.FILL_PARENT, 1f));
-                calculatorModel.getDisplay().setBackgroundDrawable(null);
+                if (display.getWidth() <= 480) {
+                    // mobile phones
+                    calculatorModel.getDisplay().setBackgroundDrawable(null);
+                }
             } else {
                 button.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.FILL_PARENT, 0f));
-                calculatorModel.getDisplay().setBackgroundDrawable(this.getResources().getDrawable(R.drawable.equals9));
+                if (display.getWidth() <= 480) {
+                    // mobile phones
+                    calculatorModel.getDisplay().setBackgroundDrawable(this.getResources().getDrawable(R.drawable.equals9));
+                }
             }
             fixThemeParameters(false);
         }

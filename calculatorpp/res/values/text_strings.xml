@@ -181,11 +181,11 @@
 	<string name="c_billing_error">Billing is not supported: you must have Google Checkout account linked to your Google account and must be connected to the internet.</string>
 
 	<string name="c_calc_ad_free_title">Support the project</string>
-	<string name="c_calc_ad_free_summary">And remove the ads</string>
+	<string name="c_calc_ad_free_summary">And remove the advertisement</string>
 
-	<string name="c_calc_already_purchased">Ad free option was already purchased!</string>
-	<string name="c_calc_purchasing">Purchasing...</string>
-	<string name="c_calc_clearing">Clearing...</string>
+	<string name="c_calc_already_purchased">Ad free option has been already purchased!</string>
+	<string name="c_calc_purchasing">Purchasing…</string>
+	<string name="c_calc_clearing">Clearing…</string>
 
 	<string name="c_feedback_title">Feedback</string>
 	<string name="c_feedback_text">You have been using Calculator++ for some time \n

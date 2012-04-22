@@ -18,8 +18,9 @@
 		If you like the application\nrank it with 5 stars in\n<a href="https://market.android.com/details?id=org.solovyev.android.calculator">Google Play</a>\n\n
 		Thanks to people who translate Calculator++ in different languages:\n
 		Italian - Gabriele Ravanetti\n
-		Spanish - Jordi Luna\n\n
-		This application uses next open source libraries:\n
+		Spanish - Jordi Luna\n
+        Ukrainian - Андрій Бандура\n\n
+        This application uses next open source libraries:\n
 		<a href="http://simple.sourceforge.net">Simple (XML serialization)</a>\n
 		<a href="http://meditorworld.appspot.com/meditor.txt">JSCL</a>\n
 		<a href="http://www.achartengine.org/">AChartEngine</a>
@@ -189,6 +190,17 @@
 		9. Sgn(0) problem fixed\n
 		10. Billing problems fixes
 	</string>
+
+    <string name="c_release_notes_for_34">
+        1. Ukrainian localization (Андрій Бандура)\n
+        2. HEX digits are not shown in not HEX mode\n
+        3. Preference for disabling display auto rotation\n
+        4. Preference for hiding equals button\n
+        5. Fixed plot problem\n
+        6. Fixed E+ problem (HEX mode)\n
+        7. π and Π are switched\n
+        8. Conversion tool added (tap on display or choose from application menu)
+    </string>
 
 
 </resources>

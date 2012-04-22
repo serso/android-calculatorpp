@@ -7,8 +7,7 @@
   -->
 
 <org.solovyev.android.view.ColorButton xmlns:a="http://schemas.android.com/apk/res/android"
-			 xmlns:c="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
 			 a:id="@+id/pasteButton"
-			 a:drawableTop="@drawable/heart"
+			 a:drawableTop="@drawable/heart2"
 			 style="?controlImageButtonStyle"
 			 a:onClick="donateButtonClickHandler"/>
