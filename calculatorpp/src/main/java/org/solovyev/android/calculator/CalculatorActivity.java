@@ -202,13 +202,6 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 			toggleButtonDirectionText(R.id.plusButton, false, DragDirection.down, DragDirection.up);
 		}
 
-        numeralBaseButtons.clear();
-        numeralBaseButtons.addButtonId(R.id.oneDigitButton);
-        numeralBaseButtons.addButtonId(R.id.twoDigitButton);
-        numeralBaseButtons.addButtonId(R.id.threeDigitButton);
-        numeralBaseButtons.addButtonId(R.id.fourDigitButton);
-        numeralBaseButtons.addButtonId(R.id.fiveDigitButton);
-        numeralBaseButtons.addButtonId(R.id.sixDigitButton);
         numeralBaseButtons.toggleNumericDigits(this, preferences);
 
         toggleEqualsButton(preferences);
@@ -549,8 +542,10 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	@SuppressWarnings({"UnusedDeclaration"})
 	public void digitButtonClickHandler(@NotNull View v) {
 		Log.d(String.valueOf(v.getId()), "digitButtonClickHandler() for: " + v.getId() + ". Pressed: " + v.isPressed());
-		calculatorModel.processDigitButtonAction(((DirectionDragButton) v).getText().toString());
-	}
+        if (((ColorButton) v).isShowText()) {
+            calculatorModel.processDigitButtonAction(((ColorButton) v).getText().toString());
+        }
+    }
 
 	@SuppressWarnings({"UnusedDeclaration"})
 	public void functionsButtonClickHandler(@NotNull View v) {
