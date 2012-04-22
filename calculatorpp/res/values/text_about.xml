@@ -199,7 +199,8 @@
         5. Fixed plot problem\n
         6. Fixed E+ problem (HEX mode)\n
         7. π and Π are switched\n
-        8. Conversion tool added (tap on display or choose from application menu)
+        8. Conversion tool added (tap on display or choose from application menu)\n
+        9. Wrong lg() integration and differentiation fixed
     </string>
 
 
