@@ -13,7 +13,7 @@ import org.solovyev.android.calculator.model.CalculatorEngine;
  */
 public class NumeralBaseButtons {
 
-    public synchronized void toggleNumericDigits(@NotNull Activity activity, @NotNull NumeralBase currentNumeralBase) {
+    private synchronized void toggleNumericDigits(@NotNull Activity activity, @NotNull NumeralBase currentNumeralBase) {
         for (NumeralBase numeralBase : NumeralBase.values()) {
             if ( currentNumeralBase != numeralBase ) {
                 AndroidNumeralBase.valueOf(numeralBase).toggleButtons(false, activity);
@@ -24,7 +24,12 @@ public class NumeralBaseButtons {
     }
 
     public synchronized void toggleNumericDigits(@NotNull Activity activity, @NotNull SharedPreferences preferences) {
-        final NumeralBase nb = CalculatorEngine.Preferences.numeralBase.getPreference(preferences);
-        this.toggleNumericDigits(activity, nb);
+        if (CalculatorPreferences.Gui.hideNumeralBaseDigits.getPreference(preferences)) {
+            final NumeralBase nb = CalculatorEngine.Preferences.numeralBase.getPreference(preferences);
+            this.toggleNumericDigits(activity, nb);
+        } else {
+            // set HEX to show all digits
+            AndroidNumeralBase.valueOf(NumeralBase.hex).toggleButtons(true, activity);
+        }
     }
 }
