@@ -16,6 +16,7 @@ import org.solovyev.android.calculator.CalculatorModel;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.menu.AMenuItem;
+import org.solovyev.android.menu.LabeledMenuItem;
 import org.solovyev.common.utils.StringUtils;
 
 import java.util.ArrayList;
@@ -29,10 +30,10 @@ import java.util.List;
  */
 public class CalculatorFunctionsActivity extends AbstractMathEntityListActivity<Function> {
 
-	private static enum LongClickMenuItem implements AMenuItem<Function>{
+	private static enum LongClickMenuItem implements LabeledMenuItem<Function> {
 		use(R.string.c_use) {
 			@Override
-			public void doAction(@NotNull Function data, @NotNull Context context) {
+			public void onClick(@NotNull Function data, @NotNull Context context) {
 				CalculatorModel.instance.processDigitButtonAction(data.getName(), false);
 				if (context instanceof Activity) {
 					((Activity) context).finish();
@@ -50,7 +51,7 @@ public class CalculatorFunctionsActivity extends AbstractMathEntityListActivity<
 
 		copy_description(R.string.c_copy_description) {
 			@Override
-			public void doAction(@NotNull Function data, @NotNull Context context) {
+			public void onClick(@NotNull Function data, @NotNull Context context) {
 				final String text = CalculatorEngine.instance.getFunctionsRegistry().getDescription(context, data.getName());
 				if (!StringUtils.isEmpty(text)) {
 					final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
@@ -107,8 +108,8 @@ public class CalculatorFunctionsActivity extends AbstractMathEntityListActivity<
 
 	@NotNull
 	@Override
-	protected List<AMenuItem<Function>> getMenuItemsOnLongClick(@NotNull Function item) {
-		List<AMenuItem<Function>> result = new ArrayList<AMenuItem<Function>>(Arrays.asList(LongClickMenuItem.values()));
+	protected List<LabeledMenuItem<Function>> getMenuItemsOnLongClick(@NotNull Function item) {
+		List<LabeledMenuItem<Function>> result = new ArrayList<LabeledMenuItem<Function>>(Arrays.asList(LongClickMenuItem.values()));
 		
 		if ( StringUtils.isEmpty(CalculatorEngine.instance.getFunctionsRegistry().getDescription(this, item.getName())) ) {
 			result.remove(LongClickMenuItem.copy_description);

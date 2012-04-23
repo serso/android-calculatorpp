@@ -26,7 +26,7 @@ import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.calculator.model.Var;
-import org.solovyev.android.menu.AMenuItem;
+import org.solovyev.android.menu.LabeledMenuItem;
 import org.solovyev.common.utils.CollectionsUtils;
 import org.solovyev.common.utils.Finder;
 import org.solovyev.common.utils.StringUtils;
@@ -42,10 +42,10 @@ import java.util.List;
  */
 public class CalculatorVarsActivity extends AbstractMathEntityListActivity<IConstant> {
 
-	private static enum LongClickMenuItem implements AMenuItem<IConstant>{
+	private static enum LongClickMenuItem implements LabeledMenuItem<IConstant>{
 		use(R.string.c_use) {
 			@Override
-			public void doAction(@NotNull IConstant data, @NotNull Context context) {
+			public void onClick(@NotNull IConstant data, @NotNull Context context) {
 				CalculatorModel.instance.processDigitButtonAction(data.getName(), false);
 				if (context instanceof Activity) {
 					((Activity) context).finish();
@@ -55,7 +55,7 @@ public class CalculatorVarsActivity extends AbstractMathEntityListActivity<ICons
 
 		edit(R.string.c_edit) {
 			@Override
-			public void doAction(@NotNull IConstant data, @NotNull Context context) {
+			public void onClick(@NotNull IConstant data, @NotNull Context context) {
 				if (context instanceof AbstractMathEntityListActivity) {
 					createEditVariableDialog((AbstractMathEntityListActivity<IConstant>)context, data, data.getName(), StringUtils.getNotEmpty(data.getValue(), ""), data.getDescription());
 				}
@@ -64,7 +64,7 @@ public class CalculatorVarsActivity extends AbstractMathEntityListActivity<ICons
 
 		remove(R.string.c_remove) {
 			@Override
-			public void doAction(@NotNull IConstant data, @NotNull Context context) {
+			public void onClick(@NotNull IConstant data, @NotNull Context context) {
 				if (context instanceof AbstractMathEntityListActivity) {
 					new MathEntityRemover<IConstant>(data, null, CalculatorEngine.instance.getVarsRegistry(), ((AbstractMathEntityListActivity<IConstant>) context)).showConfirmationDialog();
 				}
@@ -73,7 +73,7 @@ public class CalculatorVarsActivity extends AbstractMathEntityListActivity<ICons
 
 		copy_value(R.string.c_copy_value) {
 			@Override
-			public void doAction(@NotNull IConstant data, @NotNull Context context) {
+			public void onClick(@NotNull IConstant data, @NotNull Context context) {
 				final String text = data.getValue();
 				if (!StringUtils.isEmpty(text)) {
 					final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
@@ -84,7 +84,7 @@ public class CalculatorVarsActivity extends AbstractMathEntityListActivity<ICons
 
 		copy_description(R.string.c_copy_description) {
 			@Override
-			public void doAction(@NotNull IConstant data, @NotNull Context context) {
+			public void onClick(@NotNull IConstant data, @NotNull Context context) {
 				final String text = CalculatorEngine.instance.getVarsRegistry().getDescription(context, data.getName());
 				if (!StringUtils.isEmpty(text)) {
 					final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
@@ -130,8 +130,8 @@ public class CalculatorVarsActivity extends AbstractMathEntityListActivity<ICons
 
 	@NotNull
 	@Override
-	protected List<AMenuItem<IConstant>> getMenuItemsOnLongClick(@NotNull IConstant item) {
-		final List<AMenuItem<IConstant>> result = new ArrayList<AMenuItem<IConstant>>(Arrays.asList(LongClickMenuItem.values()));
+	protected List<LabeledMenuItem<IConstant>> getMenuItemsOnLongClick(@NotNull IConstant item) {
+		final List<LabeledMenuItem<IConstant>> result = new ArrayList<LabeledMenuItem<IConstant>>(Arrays.asList(LongClickMenuItem.values()));
 		
 		if ( item.isSystem() ) {
 			result.remove(LongClickMenuItem.edit);

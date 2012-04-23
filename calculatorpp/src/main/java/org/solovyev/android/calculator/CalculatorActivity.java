@@ -28,10 +28,7 @@ import net.robotmedia.billing.BillingController;
 import net.robotmedia.billing.IBillingObserver;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.AndroidUtils;
-import org.solovyev.android.FontSizeAdjuster;
-import org.solovyev.android.LocalBinder;
-import org.solovyev.android.ResourceCache;
+import org.solovyev.android.*;
 import org.solovyev.android.calculator.about.CalculatorReleaseNotesActivity;
 import org.solovyev.android.calculator.history.CalculatorHistory;
 import org.solovyev.android.calculator.history.CalculatorHistoryState;
@@ -47,6 +44,9 @@ import org.solovyev.common.utils.StringUtils;
 import org.solovyev.common.utils.history.HistoryAction;
 
 public class CalculatorActivity extends Activity implements FontSizeAdjuster, SharedPreferences.OnSharedPreferenceChangeListener, ServiceConnection {
+
+    @NotNull
+    public static final String TAG = "Calculator++";
 
 	private static final int HVGA_WIDTH_PIXELS = 320;
 
@@ -78,7 +78,10 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
     @NotNull
     private NumeralBaseButtons numeralBaseButtons = new NumeralBaseButtons();
 
-	/**
+    @NotNull
+    private ActivityMenu menu = LayoutActivityMenu.newInstance(R.menu.main_menu, CalculatorMenu.class);
+
+    /**
 	 * Called when the activity is first created.
 	 */
 	@Override
@@ -579,48 +582,15 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	}
 
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		final MenuInflater menuInflater = getMenuInflater();
-		menuInflater.inflate(R.menu.main_menu, menu);
-		return true;
-	}
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return this.menu.onCreateOptionsMenu(this, menu);
+    }
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		boolean result;
-
-		switch (item.getItemId()) {
-			case R.id.main_menu_item_settings:
-				CalculatorActivityLauncher.showSettings(this);
-				result = true;
-				break;
-			case R.id.main_menu_item_history:
-				CalculatorActivityLauncher.showHistory(this);
-				result = true;
-				break;
-			case R.id.main_menu_item_about:
-				CalculatorActivityLauncher.showAbout(this);
-				result = true;
-				break;
-			case R.id.main_menu_item_help:
-				CalculatorActivityLauncher.showHelp(this);
-				result = true;
-				break;
-            case R.id.main_menu_conversion_tool:
-                new NumeralBaseConverterDialog(null).show(this);
-                result = true;
-                break;
-			case R.id.main_menu_item_exit:
-				this.finish();
-				result = true;
-				break;
-			default:
-				result = super.onOptionsItemSelected(item);
-		}
-
-		return result;
-	}
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return menu.onOptionsItemSelected(this, item);
+    }
 
 	/**
 	 * The font sizes in the layout files are specified for a HVGA display.
