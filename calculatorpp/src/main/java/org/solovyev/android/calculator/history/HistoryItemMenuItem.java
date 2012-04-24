@@ -19,7 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.R;
-import org.solovyev.android.menu.AMenuItem;
+import org.solovyev.android.menu.LabeledMenuItem;
 import org.solovyev.common.utils.StringUtils;
 
 /**
@@ -27,11 +27,11 @@ import org.solovyev.common.utils.StringUtils;
 * Date: 12/18/11
 * Time: 3:09 PM
 */
-public enum HistoryItemMenuItem implements AMenuItem<HistoryItemMenuData> {
+public enum HistoryItemMenuItem implements LabeledMenuItem<HistoryItemMenuData> {
 
 	use(R.string.c_use) {
 		@Override
-		public void doAction(@NotNull HistoryItemMenuData data, @NotNull Context context) {
+		public void onClick(@NotNull HistoryItemMenuData data, @NotNull Context context) {
 			if (context instanceof AbstractHistoryActivity) {
 				AbstractHistoryActivity.useHistoryItem(data.getHistoryState(), (AbstractHistoryActivity) context);
 			} else {
@@ -42,7 +42,7 @@ public enum HistoryItemMenuItem implements AMenuItem<HistoryItemMenuData> {
 
 	copy_expression(R.string.c_copy_expression) {
 		@Override
-		public void doAction(@NotNull HistoryItemMenuData data, @NotNull Context context) {
+		public void onClick(@NotNull HistoryItemMenuData data, @NotNull Context context) {
 			final CalculatorHistoryState calculatorHistoryState = data.getHistoryState();
 			final String text = calculatorHistoryState.getEditorState().getText();
 			if (!StringUtils.isEmpty(text)) {
@@ -55,7 +55,7 @@ public enum HistoryItemMenuItem implements AMenuItem<HistoryItemMenuData> {
 
 	copy_result(R.string.c_copy_result) {
 		@Override
-		public void doAction(@NotNull HistoryItemMenuData data, @NotNull Context context) {
+		public void onClick(@NotNull HistoryItemMenuData data, @NotNull Context context) {
 			final CalculatorHistoryState calculatorHistoryState = data.getHistoryState();
 			final String text = calculatorHistoryState.getDisplayState().getEditorState().getText();
 			if (!StringUtils.isEmpty(text)) {
@@ -68,7 +68,7 @@ public enum HistoryItemMenuItem implements AMenuItem<HistoryItemMenuData> {
 
 	save(R.string.c_save) {
 		@Override
-		public void doAction(@NotNull final HistoryItemMenuData data, @NotNull final Context context) {
+		public void onClick(@NotNull final HistoryItemMenuData data, @NotNull final Context context) {
 			final CalculatorHistoryState historyState = data.getHistoryState();
 			if (!historyState.isSaved()) {
 				createEditHistoryDialog(data, context, true);
@@ -80,7 +80,7 @@ public enum HistoryItemMenuItem implements AMenuItem<HistoryItemMenuData> {
 
 	edit(R.string.c_edit) {
 		@Override
-		public void doAction(@NotNull final HistoryItemMenuData data, @NotNull final Context context) {
+		public void onClick(@NotNull final HistoryItemMenuData data, @NotNull final Context context) {
 			final CalculatorHistoryState historyState = data.getHistoryState();
 			if (historyState.isSaved()) {
 				createEditHistoryDialog(data, context, false);
@@ -92,7 +92,7 @@ public enum HistoryItemMenuItem implements AMenuItem<HistoryItemMenuData> {
 
 	remove(R.string.c_remove) {
 		@Override
-		public void doAction(@NotNull HistoryItemMenuData data, @NotNull Context context) {
+		public void onClick(@NotNull HistoryItemMenuData data, @NotNull Context context) {
 			final CalculatorHistoryState historyState = data.getHistoryState();
 			if (historyState.isSaved()) {
 				data.getAdapter().remove(historyState);

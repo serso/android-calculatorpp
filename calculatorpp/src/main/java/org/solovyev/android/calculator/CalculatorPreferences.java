@@ -36,6 +36,7 @@ public final class CalculatorPreferences {
         public static final Preference<Boolean> usePrevAsBack = new BooleanPreference("org.solovyev.android.calculator.CalculatorActivity_use_back_button_as_prev", false);
         public static final Preference<Boolean> showEqualsButton = new BooleanPreference("showEqualsButton", true);
         public static final Preference<Boolean> autoOrientation = new BooleanPreference("autoOrientation", true);
+        public static final Preference<Boolean> hideNumeralBaseDigits = new BooleanPreference("hideNumeralBaseDigits", true);
 
         public static enum Theme {
 

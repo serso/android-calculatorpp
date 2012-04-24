@@ -148,6 +148,13 @@
                 a:summary="@string/c_show_equals_button_summary"
                 a:defaultValue="true"/>
 
+        <android.preference.CheckBoxPreference
+                a:key="hideNumeralBaseDigits"
+                a:title="@string/c_hide_numeral_base_digits_title"
+                a:summary="@string/c_hide_numeral_base_digits_summary"
+                a:defaultValue="true"/>
+
+
 	</PreferenceScreen>
 
 	<PreferenceScreen

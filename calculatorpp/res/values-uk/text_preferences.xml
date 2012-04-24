@@ -4,4 +4,7 @@
 
     <string name="c_show_equals_button_title">Показывать клавишу равно</string>
     <string name="c_show_equals_button_summary">Если включено, то клавиша равно будет показана</string>
+
+    <string name="c_hide_numeral_base_digits_title">Не показывать цифры из других систем счисления</string>
+    <string name="c_hide_numeral_base_digits_summary">Если включено, то цифры из других систем счисления будут спрятаны</string>
 </resources>

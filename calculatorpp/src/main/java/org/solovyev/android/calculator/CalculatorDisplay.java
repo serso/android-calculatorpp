@@ -21,7 +21,7 @@ import org.solovyev.android.calculator.model.CalculatorParseException;
 import org.solovyev.android.calculator.model.TextProcessor;
 import org.solovyev.android.calculator.view.NumeralBaseConverterDialog;
 import org.solovyev.android.calculator.view.TextHighlighter;
-import org.solovyev.android.menu.AMenuItem;
+import org.solovyev.android.menu.LabeledMenuItem;
 import org.solovyev.android.view.AutoResizeTextView;
 import org.solovyev.common.utils.CollectionsUtils;
 
@@ -35,18 +35,18 @@ import java.util.Set;
  */
 public class CalculatorDisplay extends AutoResizeTextView implements ICalculatorDisplay{
 
-	public static enum MenuItem implements AMenuItem<CalculatorDisplay> {
+	public static enum MenuItem implements LabeledMenuItem<CalculatorDisplay> {
 
         copy(R.string.c_copy) {
             @Override
-            public void doAction(@NotNull CalculatorDisplay data, @NotNull Context context) {
+            public void onClick(@NotNull CalculatorDisplay data, @NotNull Context context) {
                 CalculatorModel.copyResult(context, data);
             }
         },
 
         convert(R.string.c_convert) {
             @Override
-            public void doAction(@NotNull CalculatorDisplay data, @NotNull Context context) {
+            public void onClick(@NotNull CalculatorDisplay data, @NotNull Context context) {
                 new NumeralBaseConverterDialog(data.getGenericResult().toString()).show(context);
             }
 
@@ -58,7 +58,7 @@ public class CalculatorDisplay extends AutoResizeTextView implements ICalculator
 
 		plot(R.string.c_plot) {
             @Override
-            public void doAction(@NotNull CalculatorDisplay data, @NotNull Context context) {
+            public void onClick(@NotNull CalculatorDisplay data, @NotNull Context context) {
                 final Generic generic = data.getGenericResult();
                 assert generic != null;
 

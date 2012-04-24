@@ -9,6 +9,7 @@ import org.solovyev.android.calculator.CalculatorModel;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.menu.AMenuItem;
+import org.solovyev.android.menu.LabeledMenuItem;
 import org.solovyev.common.utils.StringUtils;
 
 import java.util.ArrayList;
@@ -23,11 +24,11 @@ import java.util.List;
 
 public class CalculatorOperatorsActivity extends AbstractMathEntityListActivity<Operator> {
 
-	private static enum LongClickMenuItem implements AMenuItem<Operator> {
+	private static enum LongClickMenuItem implements LabeledMenuItem<Operator> {
 
 		use(R.string.c_use) {
 			@Override
-			public void doAction(@NotNull Operator data, @NotNull Context context) {
+			public void onClick(@NotNull Operator data, @NotNull Context context) {
 				CalculatorModel.instance.processDigitButtonAction(data.getName(), false);
 				if (context instanceof Activity) {
 					((Activity) context).finish();
@@ -37,7 +38,7 @@ public class CalculatorOperatorsActivity extends AbstractMathEntityListActivity<
 
 		copy_description(R.string.c_copy_description) {
 			@Override
-			public void doAction(@NotNull Operator data, @NotNull Context context) {
+			public void onClick(@NotNull Operator data, @NotNull Context context) {
 				final String text = OperatorDescriptionGetter.instance.getDescription(context, data.getName());
 				if (!StringUtils.isEmpty(text)) {
 					final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
@@ -60,8 +61,8 @@ public class CalculatorOperatorsActivity extends AbstractMathEntityListActivity<
 
 	@NotNull
 	@Override
-	protected List<AMenuItem<Operator>> getMenuItemsOnLongClick(@NotNull Operator item) {
-		final List<AMenuItem<Operator>> result = new ArrayList<AMenuItem<Operator>>(Arrays.asList(LongClickMenuItem.values()));
+	protected List<LabeledMenuItem<Operator>> getMenuItemsOnLongClick(@NotNull Operator item) {
+		final List<LabeledMenuItem<Operator>> result = new ArrayList<LabeledMenuItem<Operator>>(Arrays.asList(LongClickMenuItem.values()));
 
 		if ( StringUtils.isEmpty(OperatorDescriptionGetter.instance.getDescription(this, item.getName())) ) {
 			result.remove(LongClickMenuItem.copy_description);
