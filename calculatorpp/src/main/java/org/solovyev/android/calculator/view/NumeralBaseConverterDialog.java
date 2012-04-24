@@ -4,12 +4,11 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.view.View;
 import android.view.WindowManager;
-import jscl.NumeralBase;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.AndroidNumeralBase;
 import org.solovyev.android.Unit;
 import org.solovyev.android.UnitImpl;
+import org.solovyev.android.calculator.AndroidNumeralBase;
 import org.solovyev.android.calculator.CalculatorModel;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.model.CalculatorEngine;
@@ -70,12 +69,7 @@ public class NumeralBaseConverterDialog {
                 String toUnitsValue = toUnits.getValue();
 
                 if (!toUnits.getUnitType().equals(AndroidNumeralBase.valueOf(CalculatorEngine.instance.getEngine().getNumeralBase()))) {
-                    for (NumeralBase nb : NumeralBase.values()) {
-                        if (AndroidNumeralBase.valueOf(nb).equals(toUnits.getUnitType())) {
-                            toUnitsValue = nb.getJsclPrefix() + toUnitsValue;
-                            break;
-                        }
-                    }
+                    toUnitsValue = ((AndroidNumeralBase) toUnits.getUnitType()).getNumeralBase().getJsclPrefix() + toUnitsValue;
                 }
 
                 CalculatorModel.instance.processDigitButtonAction(toUnitsValue, false);

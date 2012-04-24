@@ -33,7 +33,7 @@
             <dependency>
                 <groupId>org.solovyev.android</groupId>
                 <artifactId>common</artifactId>
-                <version>0.1.3</version>
+                <version>0.1.4</version>
                 <type>apklib</type>
             </dependency>
 

@@ -172,11 +172,32 @@ public class UnitConverterViewBuilder implements ViewBuilder<View> {
         final EditText toEditText = (EditText) main.findViewById(R.id.units_to);
 
         final String from = fromEditText.getText().toString();
+        try {
+            toEditText.setText(doConversion(converter, from, getFromUnitType(main), getToUnitType(main)));
+        } catch (ConversionException e) {
+            toEditText.setText(context.getString(R.string.c_error));
+        }
+    }
+
+    public static final class ConversionException extends Exception {
+        private ConversionException() {
+        }
+
+        private ConversionException(Throwable throwable) {
+            super(throwable);
+        }
+    }
+
+    @NotNull
+    public static String doConversion(@NotNull UnitConverter<String> converter,
+                                      @Nullable String from,
+                                      @NotNull UnitType<String> fromUnitType,
+                                      @NotNull UnitType<String> toUnitType) throws ConversionException{
+        final String result;
+
         if (StringUtils.isEmpty(from)) {
-            toEditText.setText("");
+            result = "";
         } else {
-            final UnitType<String> fromUnitType = getFromUnitType(main);
-            final UnitType<String> toUnitType = getToUnitType(main);
 
             String to = null;
             try {
@@ -184,11 +205,13 @@ public class UnitConverterViewBuilder implements ViewBuilder<View> {
                     to = converter.convert(UnitImpl.newInstance(from, fromUnitType), toUnitType).getValue();
                 }
             } catch (RuntimeException e) {
-                to = context.getString(R.string.c_error);
+                throw new ConversionException(e);
             }
 
-            toEditText.setText(to);
+            result = to;
         }
+
+        return result;
     }
 
     @NotNull

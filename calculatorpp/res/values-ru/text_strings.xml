@@ -199,4 +199,8 @@
 
     <string name="c_convert">Перевести в…</string>
 
+    <string name="convert_to_hex">Перевести в hex</string>
+    <string name="convert_to_bin">Перевести в bin</string>
+    <string name="convert_to_dec">Перевести в dec</string>
+
 </resources>

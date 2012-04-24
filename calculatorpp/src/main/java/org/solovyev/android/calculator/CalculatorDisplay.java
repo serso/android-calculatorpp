@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.text.Html;
 import android.util.AttributeSet;
 import android.util.Log;
+import jscl.NumeralBase;
 import jscl.math.Generic;
 import jscl.math.function.Constant;
 import jscl.math.function.IConstant;
@@ -19,11 +20,15 @@ import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.calculator.model.CalculatorParseException;
 import org.solovyev.android.calculator.model.TextProcessor;
+import org.solovyev.android.calculator.model.ToJsclTextProcessor;
 import org.solovyev.android.calculator.view.NumeralBaseConverterDialog;
 import org.solovyev.android.calculator.view.TextHighlighter;
+import org.solovyev.android.calculator.view.UnitConverterViewBuilder;
+import org.solovyev.android.menu.AMenuItem;
 import org.solovyev.android.menu.LabeledMenuItem;
 import org.solovyev.android.view.AutoResizeTextView;
 import org.solovyev.common.utils.CollectionsUtils;
+import org.solovyev.common.utils.StringUtils;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -35,12 +40,121 @@ import java.util.Set;
  */
 public class CalculatorDisplay extends AutoResizeTextView implements ICalculatorDisplay{
 
-	public static enum MenuItem implements LabeledMenuItem<CalculatorDisplay> {
+    private static enum ConversionMenuItem implements AMenuItem<CalculatorDisplay> {
+        convert_to_bin(NumeralBase.bin),
+        convert_to_dec(NumeralBase.dec),
+        convert_to_hex(NumeralBase.hex);
+
+        @NotNull
+        private final NumeralBase toNumeralBase;
+
+        private ConversionMenuItem(@NotNull NumeralBase toNumeralBase) {
+            this.toNumeralBase = toNumeralBase;
+        }
+
+        protected boolean isItemVisibleFor(@NotNull Generic generic, @NotNull JsclOperation operation) {
+            boolean result = false;
+
+            if (operation == JsclOperation.numeric) {
+                if (generic.getConstants().isEmpty()) {
+                    try {
+                        convert(generic);
+
+                        // conversion possible => return true
+                        result = true;
+
+                    } catch (UnitConverterViewBuilder.ConversionException e) {
+                        // conversion is not possible => return false
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        @Override
+        public void onClick(@NotNull CalculatorDisplay data, @NotNull Context context) {
+            final NumeralBase fromNumeralBase = CalculatorEngine.instance.getEngine().getNumeralBase();
+
+            String to;
+            try {
+                to = convert(data.getGenericResult());
+
+                // add prefix
+                if (fromNumeralBase != toNumeralBase) {
+                    to = toNumeralBase.getJsclPrefix() + to;
+                }
+            } catch (UnitConverterViewBuilder.ConversionException e) {
+                to = context.getString(R.string.c_error);
+            }
+
+            data.setText(to);
+            data.redraw();
+        }
+
+        @NotNull
+        private String convert(@NotNull Generic generic) throws UnitConverterViewBuilder.ConversionException {
+            final NumeralBase fromNumeralBase = CalculatorEngine.instance.getEngine().getNumeralBase();
+
+            if (fromNumeralBase != toNumeralBase) {
+                String from = generic.toString();
+                if (!StringUtils.isEmpty(from)) {
+                    try {
+                        from = ToJsclTextProcessor.getInstance().process(from).getExpression();
+                    } catch (CalculatorParseException e) {
+                        // ok, problems while processing occurred
+                    }
+                }
+
+                return UnitConverterViewBuilder.doConversion(AndroidNumeralBase.getConverter(), from, AndroidNumeralBase.valueOf(fromNumeralBase), AndroidNumeralBase.valueOf(toNumeralBase));
+            } else {
+                return generic.toString();
+            }
+        }
+    }
+
+    public static enum MenuItem implements LabeledMenuItem<CalculatorDisplay> {
 
         copy(R.string.c_copy) {
             @Override
             public void onClick(@NotNull CalculatorDisplay data, @NotNull Context context) {
                 CalculatorModel.copyResult(context, data);
+            }
+        },
+
+        convert_to_bin(R.string.convert_to_bin) {
+            @Override
+            public void onClick(@NotNull CalculatorDisplay data, @NotNull Context context) {
+                ConversionMenuItem.convert_to_bin.onClick(data, context);
+            }
+
+            @Override
+            protected boolean isItemVisibleFor(@NotNull Generic generic, @NotNull JsclOperation operation) {
+                return ConversionMenuItem.convert_to_bin.isItemVisibleFor(generic, operation);
+            }
+        },
+
+        convert_to_dec(R.string.convert_to_dec) {
+            @Override
+            public void onClick(@NotNull CalculatorDisplay data, @NotNull Context context) {
+                ConversionMenuItem.convert_to_dec.onClick(data, context);
+            }
+
+            @Override
+            protected boolean isItemVisibleFor(@NotNull Generic generic, @NotNull JsclOperation operation) {
+                return ConversionMenuItem.convert_to_dec.isItemVisibleFor(generic, operation);
+            }
+        },
+
+        convert_to_hex(R.string.convert_to_hex) {
+            @Override
+            public void onClick(@NotNull CalculatorDisplay data, @NotNull Context context) {
+                ConversionMenuItem.convert_to_hex.onClick(data, context);
+            }
+
+            @Override
+            protected boolean isItemVisibleFor(@NotNull Generic generic, @NotNull JsclOperation operation) {
+                return ConversionMenuItem.convert_to_hex.isItemVisibleFor(generic, operation);
             }
         },
 

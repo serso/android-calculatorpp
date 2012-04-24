@@ -100,6 +100,11 @@ public enum AndroidNumeralBase implements UnitType<String> {
     }
 
     @NotNull
+    public NumeralBase getNumeralBase() {
+        return numeralBase;
+    }
+
+    @NotNull
     @Override
     public Class<String> getUnitValueClass() {
         return String.class;
