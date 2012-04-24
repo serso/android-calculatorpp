@@ -195,6 +195,8 @@
 
 	<string name="c_angle_units_changed_to">Единицы измерения углов изменены на \'%s\'!</string>
 	<string name="c_numeral_base_changed_to">Система счисления изменена на \'%s\'!</string>
-    <string name="c_conversion_tool">Перевод единиц</string>
+    <string name="c_conversion_tool">Перевод величин</string>
+
+    <string name="c_convert">Перевести в…</string>
 
 </resources>
