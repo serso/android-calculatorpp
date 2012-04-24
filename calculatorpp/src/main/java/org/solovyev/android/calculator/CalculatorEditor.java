@@ -10,10 +10,14 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.text.Html;
+import android.text.InputType;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.calculator.model.CalculatorParseException;
@@ -37,27 +41,52 @@ public class CalculatorEditor extends EditText implements SharedPreferences.OnSh
 
 	public CalculatorEditor(Context context) {
 		super(context);
+        init();
 	}
 
 	public CalculatorEditor(Context context, AttributeSet attrs) {
 		super(context, attrs);
-	}
+        init();
+    }
 
-	public CalculatorEditor(Context context, AttributeSet attrs, int defStyle) {
+    private void init() {
+        this.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                final TextView textView = (TextView)v;
+                // backup the input type
+                int inputType = textView.getInputType();
+
+                // disable soft input
+                textView.setInputType(InputType.TYPE_NULL);
+
+                // call native handler
+                textView.onTouchEvent(event);
+
+                // restore input type
+                textView.setInputType(inputType);
+
+                // consume touch even
+                return true;
+            }
+        });
+    }
+
+
+    @Override
+    public boolean onCheckIsTextEditor() {
+        if (Build.VERSION.SDK_INT >= 11) {
+            // fix for missing cursor in android 3 and higher
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public CalculatorEditor(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-	}
-
-	@Override
-	public boolean onCheckIsTextEditor() {
-		// Main goal of this implementation is to hide android soft keyboard from appearing when working with text input
-
-		if ( Build.VERSION.SDK_INT >= 11 ) {
-			// fix for missing cursor in android 3 and higher
-			return true;
-		} else {
-			return false;
-		}
-	}
+        init();
+    }
 
 	@Override
 	protected void onCreateContextMenu(ContextMenu menu) {
