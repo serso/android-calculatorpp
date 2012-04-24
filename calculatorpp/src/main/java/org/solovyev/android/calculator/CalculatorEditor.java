@@ -10,19 +10,16 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.text.Html;
-import android.text.InputType;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.ContextMenu;
-import android.view.MotionEvent;
-import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.calculator.model.CalculatorParseException;
 import org.solovyev.android.calculator.model.TextProcessor;
 import org.solovyev.android.calculator.view.TextHighlighter;
+import org.solovyev.common.utils.CollectionsUtils;
 
 /**
  * User: serso
@@ -50,7 +47,9 @@ public class CalculatorEditor extends EditText implements SharedPreferences.OnSh
     }
 
     private void init() {
-        this.setOnTouchListener(new OnTouchListener() {
+        // NOTE: in this solution cursor is missing
+
+        /*this.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 final TextView textView = (TextView)v;
@@ -69,15 +68,29 @@ public class CalculatorEditor extends EditText implements SharedPreferences.OnSh
                 // consume touch even
                 return true;
             }
-        });
+        });*/
     }
 
 
     @Override
     public boolean onCheckIsTextEditor() {
-        if (Build.VERSION.SDK_INT >= 11) {
+        // NOTE: code below can be used carefully and should not be copied without special intention
+        // The main purpose of code is to disable soft input (virtual keyboard) but leave all the TextEdit functionality, like cursor, scrolling, copy/paste menu etc
+
+        if ( Build.VERSION.SDK_INT >= 11 ) {
             // fix for missing cursor in android 3 and higher
-            return true;
+            try {
+                // IDEA: return false always except if method was called from TextView.isCursorVisible() method
+                for (StackTraceElement stackTraceElement : CollectionsUtils.asList(Thread.currentThread().getStackTrace())) {
+                    if ( "isCursorVisible".equals(stackTraceElement.getMethodName()) ) {
+                        return true;
+                    }
+                }
+            } catch (RuntimeException e) {
+                // just in case...
+            }
+
+            return false;
         } else {
             return false;
         }
