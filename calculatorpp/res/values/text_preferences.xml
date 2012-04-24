@@ -5,6 +5,6 @@
     <string name="c_show_equals_button_title">Show equals button</string>
     <string name="c_show_equals_button_summary">If turned on equals button is shown</string>
 
-    <string name="c_hide_numeral_base_digits_title">Hide other numeral base digits</string>
-    <string name="c_hide_numeral_base_digits_summary">If turned on other numeral base digits base will be hidden</string>
+    <string name="c_hide_numeral_base_digits_title">Hide numeral base digits</string>
+    <string name="c_hide_numeral_base_digits_summary">If turned on numeral base digits of other numeral bases will be hidden</string>
 </resources>

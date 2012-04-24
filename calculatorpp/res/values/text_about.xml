@@ -203,5 +203,10 @@
         9. Wrong lg() integration and differentiation fixed
     </string>
 
+    <string name="c_release_notes_for_39">
+        1. Virtual keyboard are now not shown on Android 4 ICS\n
+        2. Fast number conversion from display context menu\n
+        3. Minor GUI fixes
+    </string>
 
 </resources>
