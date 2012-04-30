@@ -35,6 +35,8 @@ import org.solovyev.android.calculator.history.CalculatorHistoryState;
 import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.calculator.view.*;
 import org.solovyev.android.history.HistoryDragProcessor;
+import org.solovyev.android.menu.ActivityMenu;
+import org.solovyev.android.menu.ListActivityMenu;
 import org.solovyev.android.view.ColorButton;
 import org.solovyev.android.view.drag.*;
 import org.solovyev.common.utils.Announcer;
@@ -79,7 +81,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
     private NumeralBaseButtons numeralBaseButtons = new NumeralBaseButtons();
 
     @NotNull
-    private ActivityMenu menu = LayoutActivityMenu.newInstance(R.menu.main_menu, CalculatorMenu.class);
+    private ActivityMenu menu = ListActivityMenu.newInstance(R.menu.main_menu, CalculatorMenu.class);
 
     /**
 	 * Called when the activity is first created.

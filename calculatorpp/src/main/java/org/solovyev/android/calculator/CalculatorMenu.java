@@ -5,15 +5,15 @@ import android.content.Context;
 import android.util.Log;
 import android.view.MenuItem;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.LayoutActivityMenu;
 import org.solovyev.android.calculator.view.NumeralBaseConverterDialog;
+import org.solovyev.android.menu.ActivityMenuItem;
 
 /**
  * User: serso
  * Date: 4/23/12
  * Time: 2:25 PM
  */
-enum CalculatorMenu implements LayoutActivityMenu.LayoutMenuItem {
+enum CalculatorMenu implements ActivityMenuItem {
 
     settings(R.id.main_menu_item_settings){
         @Override
