@@ -28,15 +28,21 @@ import net.robotmedia.billing.BillingController;
 import net.robotmedia.billing.IBillingObserver;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.*;
+import org.solovyev.android.AndroidUtils;
+import org.solovyev.android.FontSizeAdjuster;
+import org.solovyev.android.LocalBinder;
+import org.solovyev.android.ResourceCache;
 import org.solovyev.android.calculator.about.CalculatorReleaseNotesActivity;
 import org.solovyev.android.calculator.history.CalculatorHistory;
 import org.solovyev.android.calculator.history.CalculatorHistoryState;
 import org.solovyev.android.calculator.model.CalculatorEngine;
-import org.solovyev.android.calculator.view.*;
+import org.solovyev.android.calculator.view.AngleUnitsButton;
+import org.solovyev.android.calculator.view.CalculatorAdditionalTitle;
+import org.solovyev.android.calculator.view.NumeralBasesButton;
+import org.solovyev.android.calculator.view.OnDragListenerVibrator;
 import org.solovyev.android.history.HistoryDragProcessor;
 import org.solovyev.android.menu.ActivityMenu;
-import org.solovyev.android.menu.ListActivityMenu;
+import org.solovyev.android.menu.LayoutActivityMenu;
 import org.solovyev.android.view.ColorButton;
 import org.solovyev.android.view.drag.*;
 import org.solovyev.common.utils.Announcer;
@@ -81,7 +87,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
     private NumeralBaseButtons numeralBaseButtons = new NumeralBaseButtons();
 
     @NotNull
-    private ActivityMenu menu = ListActivityMenu.newInstance(R.menu.main_menu, CalculatorMenu.class);
+    private ActivityMenu menu = LayoutActivityMenu.newInstance(R.menu.main_menu, CalculatorMenu.class);
 
     /**
 	 * Called when the activity is first created.

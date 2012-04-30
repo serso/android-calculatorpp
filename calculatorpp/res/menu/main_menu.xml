@@ -17,7 +17,6 @@
 	<item a:id="@+id/main_menu_item_about"
 		  a:title="@string/c_about"/>
 
-
 	<item a:id="@+id/main_menu_item_exit"
 		  a:title="@string/c_exit"/>
 </menu>
