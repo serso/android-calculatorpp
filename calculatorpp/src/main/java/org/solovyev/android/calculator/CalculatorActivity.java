@@ -43,6 +43,7 @@ import org.solovyev.android.calculator.view.OnDragListenerVibrator;
 import org.solovyev.android.history.HistoryDragProcessor;
 import org.solovyev.android.menu.ActivityMenu;
 import org.solovyev.android.menu.LayoutActivityMenu;
+import org.solovyev.android.prefs.Preference;
 import org.solovyev.android.view.ColorButton;
 import org.solovyev.android.view.drag.*;
 import org.solovyev.common.utils.Announcer;
@@ -460,24 +461,13 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 			//Log.d(this.getClass().getName(), "Application was opened " + appOpenedCounter + " time!");
 			if (!dialogShown) {
 				if ( appOpenedCounter != null && appOpenedCounter > 10 ) {
-					final Boolean feedbackWindowShown = CalculatorPreferences.Gui.feedbackWindowShown.getPreference(preferences);
-					if ( feedbackWindowShown != null && !feedbackWindowShown ) {
-						final LayoutInflater layoutInflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
-						final View view = layoutInflater.inflate(R.layout.feedback, null);
-
-						final TextView feedbackTextView = (TextView) view.findViewById(R.id.feedbackText);
-						feedbackTextView.setMovementMethod(LinkMovementMethod.getInstance());
-
-						final AlertDialog.Builder builder = new AlertDialog.Builder(this).setView(view);
-						builder.setPositiveButton(android.R.string.ok, null);
-						builder.create().show();
-
-						dialogShown = true;
-						CalculatorPreferences.Gui.feedbackWindowShown.putPreference(preferences, true);
-					}
+                    dialogShown = showSpecialWindow(preferences, CalculatorPreferences.Gui.feedbackWindowShown, R.layout.feedback, R.id.feedbackText);
 				}
 			}
 
+            if ( !dialogShown ) {
+                dialogShown = showSpecialWindow(preferences, CalculatorPreferences.Gui.notesppAnnounceShown, R.layout.notespp_announce, R.id.notespp_announce);
+            }
 
 			ResourceCache.instance.init(R.id.class, this);
 
@@ -485,7 +475,29 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		}
 	}
 
-	@SuppressWarnings({"UnusedDeclaration"})
+    private boolean showSpecialWindow(@NotNull SharedPreferences preferences, @NotNull Preference<Boolean> specialWindowShownPref, int layoutId, int textViewId) {
+        boolean result = false;
+
+        final Boolean specialWindowShown = specialWindowShownPref.getPreference(preferences);
+        if ( specialWindowShown != null && !specialWindowShown ) {
+            final LayoutInflater layoutInflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
+            final View view = layoutInflater.inflate(layoutId, null);
+
+            final TextView feedbackTextView = (TextView) view.findViewById(textViewId);
+            feedbackTextView.setMovementMethod(LinkMovementMethod.getInstance());
+
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this).setView(view);
+            builder.setPositiveButton(android.R.string.ok, null);
+            builder.create().show();
+
+            result = true;
+            specialWindowShownPref.putPreference(preferences, true);
+        }
+
+        return result;
+    }
+
+    @SuppressWarnings({"UnusedDeclaration"})
 	public void elementaryButtonClickHandler(@NotNull View v) {
 		throw new UnsupportedOperationException("Not implemented yet!");
 	}

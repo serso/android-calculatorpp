@@ -32,6 +32,7 @@ public final class CalculatorPreferences {
         public static final Preference<Theme> theme = StringPreference.newInstance("org.solovyev.android.calculator.CalculatorActivity_calc_theme", Theme.metro_blue_theme, Theme.class);
         public static final Preference<Layout> layout = StringPreference.newInstance("org.solovyev.android.calculator.CalculatorActivity_calc_layout", Layout.main_calculator, Layout.class);
         public static final Preference<Boolean> feedbackWindowShown = new BooleanPreference("feedback_window_shown", false);
+        public static final Preference<Boolean> notesppAnnounceShown = new BooleanPreference("notespp_announce_shown", false);
         public static final Preference<Boolean> showReleaseNotes = new BooleanPreference("org.solovyev.android.calculator.CalculatorActivity_show_release_notes", true);
         public static final Preference<Boolean> usePrevAsBack = new BooleanPreference("org.solovyev.android.calculator.CalculatorActivity_use_back_button_as_prev", false);
         public static final Preference<Boolean> showEqualsButton = new BooleanPreference("showEqualsButton", true);

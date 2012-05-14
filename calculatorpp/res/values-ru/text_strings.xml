@@ -193,6 +193,10 @@
 		Пожалуйста, оцените Калькулятор++ \nна <a href="https://market.android.com/details?id=org.solovyev.android.calculator">Google Play</a>,\n оставьте комментарий или \nобсудите приложение \nна нашем <a href="http://calculatorpp.com/forum/">форуме</a>
 	</string>
 
+    <string name="c_notespp_announce_text">Хорошие новости - я только что выпустил новое приложение под Андроид под названием <a href="https://play.google.com/store/apps/details?id=org.solovyev.android.notes">Заметки++</a>.\n
+        Если вы заинтересованы в быстром и удобном способе оставлять заметки пройдите по <a href="https://play.google.com/store/apps/details?id=org.solovyev.android.notes">ссылке</a> и попробуйте Заметки++!
+    </string>
+
 	<string name="c_angle_units_changed_to">Единицы измерения углов изменены на \'%s\'!</string>
 	<string name="c_numeral_base_changed_to">Система счисления изменена на \'%s\'!</string>
     <string name="c_conversion_tool">Перевод величин</string>

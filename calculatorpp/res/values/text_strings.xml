@@ -193,6 +193,10 @@
 		Please rate Calculator++ \non <a href="https://market.android.com/details?id=org.solovyev.android.calculator">Google Play</a>,\n leave a comment or \ndiscuss application \non our <a href="http://calculatorpp.com/forum/">forum</a>
 	</string>
 
+    <string name="c_notespp_announce_text">Good news - I just released new application for Android called <a href="https://play.google.com/store/apps/details?id=org.solovyev.android.notes">Notes++</a>.\n
+        If you\'re interesting in fast and easy way of making notes please follow the <a href="https://play.google.com/store/apps/details?id=org.solovyev.android.notes">link</a> and try Notes++!
+    </string>
+
 	<string name="c_angle_units_changed_to">Angle units changed to \'%s\'!</string>
 	<string name="c_numeral_base_changed_to">Numeral base changed to \'%s\'!</string>
 	<string name="c_conversion_tool">Conversion tool</string>
