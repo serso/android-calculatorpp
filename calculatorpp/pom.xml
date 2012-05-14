@@ -15,10 +15,6 @@
     <artifactId>calculatorpp</artifactId>
     <packaging>apk</packaging>
 
-    <properties>
-        <additionalLibs>${basedir}/src/misc/lib</additionalLibs>
-    </properties>
-
     <repositories>
         <repository>
             <id>congrace.de</id>
@@ -71,8 +67,6 @@
                     <groupId>xerces</groupId>
                 </exclusion>
             </exclusions>
-            <!--			<scope>system</scope>
-               <systemPath>${additionalLibs}/jscl.jar</systemPath>-->
         </dependency>
 
         <dependency>
@@ -102,16 +96,12 @@
             <groupId>achartengine</groupId>
             <artifactId>achartengine</artifactId>
             <version>0.7.0</version>
-            <scope>system</scope>
-            <systemPath>${additionalLibs}/achartengine-0.7.0.jar</systemPath>
         </dependency>
 
         <dependency>
             <groupId>admob</groupId>
             <artifactId>admob</artifactId>
-            <version>4.3.1</version>
-            <scope>system</scope>
-            <systemPath>${additionalLibs}/GoogleAdMobAdsSdk-4.3.1.jar</systemPath>
+            <version>6.0.0</version>
         </dependency>
 
         <dependency>
