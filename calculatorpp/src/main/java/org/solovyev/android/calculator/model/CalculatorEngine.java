@@ -114,7 +114,7 @@ public enum CalculatorEngine {
 
 	private final AndroidMathRegistry<Operator> postfixFunctionsRegistry = new AndroidPostfixFunctionsRegistry(engine.getPostfixFunctionsRegistry());
 
-	@NotNull
+	@Nullable
 	private ThreadKiller threadKiller = new AndroidThreadKiller();
 
 	// calculation thread timeout in seconds, after timeout thread would be interrupted
@@ -256,9 +256,10 @@ public enum CalculatorEngine {
 				final Thread calculationThreadLocal = calculationThread.getObject();
 
 				if (calculationThreadLocal != null) {
-					// todo serso: interrupt doesn't stop the thread but it MUST be killed
-					threadKiller.killThread(calculationThreadLocal);
-					//calculationThreadLocal.stop();
+                    if (threadKiller != null) {
+                        threadKiller.killThread(calculationThreadLocal);
+                    }
+                    //calculationThreadLocal.stop();
 				}
 
 				if (parseExceptionObject != null || evalExceptionObject != null) {
@@ -396,7 +397,7 @@ public enum CalculatorEngine {
 	}
 
 	// for tests only
-	void setThreadKiller(@NotNull ThreadKiller threadKiller) {
+	void setThreadKiller(@Nullable ThreadKiller threadKiller) {
 		this.threadKiller = threadKiller;
 	}
 
