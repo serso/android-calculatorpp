@@ -6,28 +6,28 @@
 
 <resources>
 
-	<string name="c_about">About</string>
+	<string name="c_about">關於</string>
 
 	<string name="c_about_content">Copyright (c) 2009-2011\n\n<b>Created by serso aka se.solovyev</b>\n\n
-		Application web site: <a href="http://calculatorpp.com/forum/">http://calculatorpp.com/forum/</a>\n\n
-		This program is open source:\nall source code can be found on\n<a href="https://github.com/serso/android-calculatorpp">http://github.com</a>\n\n
-		For more information please\ncontact the author by email\n<a href="mailto:se.solovyev@gmail.com">se.solovyev@gmail.com</a>
-		\nor visit\n<a href="http://se.solovyev.org">http://se.solovyev.org</a>\n\n
-		If you want to support the project\n\nyou can buy a special option from application preferences\n\n
-		donate money via\n<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=se%2esolovyev%40gmail%2ecom&amp;lc=RU&amp;item_name=Android%20Calculator&amp;currency_code=USD&amp;bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted">http://paypal.com</a>\n\n
-		If you like the application\nrank it with 5 stars in\n<a href="https://market.android.com/details?id=org.solovyev.android.calculator">Google Play</a>\n\n
-		Thanks to people who translate Calculator++ in different languages:\n
-		Italian - Gabriele Ravanetti\n
-		Spanish - Jordi Luna\n
-        Ukrainian - Андрій Бандура\n\n
-        This application uses next open source libraries:\n
-		<a href="http://simple.sourceforge.net">Simple (XML serialization)</a>\n
+		程式網站: <a href="http://calculatorpp.com/forum/">http://calculatorpp.com/forum/</a>\n\n
+		此程式為開放源碼軟體:\n原始碼位於\n<a href="https://github.com/serso/android-calculatorpp">http://github.com</a>\n\n
+		如果您需要更多資訊\n請寄信至作者信箱\n<a href="mailto:se.solovyev@gmail.com">se.solovyev@gmail.com</a>
+		\n或是造訪\n<a href="http://se.solovyev.org">http://se.solovyev.org</a>\n\n
+		如果您想要支持此專案\n\n您可以從程式設定頁面中購買一個特別的選項\n\n
+		捐款到\n<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=se%2esolovyev%40gmail%2ecom&amp;lc=RU&amp;item_name=Android%20Calculator&amp;currency_code=USD&amp;bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted">http://paypal.com</a>\n\n
+		如果您喜歡這個程式\n請在 <a href="https://market.android.com/details?id=org.solovyev.android.calculator">Google Play</a> 中將它評等為五顆星\n\n
+		感謝以下 Calculator++ 的翻譯者:\n
+		義大利文 - Gabriele Ravanetti\n
+		西班牙文 - Jordi Luna\n
+        烏克蘭文 - Андрій Бандура\n\n
+        此程式使用以下開放源碼的函式庫:\n
+		<a href="http://simple.sourceforge.net">Simple (XML 序列化)</a>\n
 		<a href="http://meditorworld.appspot.com/meditor.txt">JSCL</a>\n
 		<a href="http://www.achartengine.org/">AChartEngine</a>
 	</string>
 
-	<string name="c_release_notes">Release notes</string>
-	<string name="c_release_notes_for_title">"Release notes for version "</string>
+	<string name="c_release_notes">發行公告</string>
+	<string name="c_release_notes_for_title">"發行公告版本 "</string>
 	
 	<string name="c_release_notes_for_4">
 		1. Haptic feedback\n

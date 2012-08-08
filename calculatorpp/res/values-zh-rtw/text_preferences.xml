@@ -1,10 +1,10 @@
 <resources>
-    <string name="c_auto_orientation_title">Toggle screen orientation change</string>
-    <string name="c_auto_orientation_summary">If turned on calculator will change screen orientation automatically</string>
+    <string name="c_auto_orientation_title">自動切換螢幕方向</string>
+    <string name="c_auto_orientation_summary">是否自動切換螢幕顯示的方向</string>
 
-    <string name="c_show_equals_button_title">Show equals button</string>
-    <string name="c_show_equals_button_summary">If turned on equals button is shown</string>
+	 <string name="c_show_equals_button_title">顯示「等於」按鈕<string>
+    <string name="c_show_equals_button_summary">是否顯示「等於」按鈕</string>
 
-    <string name="c_hide_numeral_base_digits_title">Hide numeral base digits</string>
-    <string name="c_hide_numeral_base_digits_summary">If turned on numeral base digits of other numeral bases will be hidden</string>
+    <string name="c_hide_numeral_base_digits_title">隱藏其他進位的數字</string>
+    <string name="c_hide_numeral_base_digits_summary">是否隱藏目前進位制以外的數字鍵</string>
 </resources>
