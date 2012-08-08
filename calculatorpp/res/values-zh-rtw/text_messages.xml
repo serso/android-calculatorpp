@@ -5,10 +5,10 @@
   -->
 
 <resources>
-	<string name="msg_1">Arithmetic error occurred: {0}</string>
-	<string name="msg_2">Too complex expression</string>
-	<string name="msg_3">Too long execution time - check the expression</string>
-	<string name="msg_4">Evaluation was cancelled</string>
-	<string name="msg_5">No parameters are specified for function: {0}</string>
-	<string name="msg_6">Infinite loop is detected in expression</string>
+	<string name="msg_1">計算錯誤: {0}</string>
+	<string name="msg_2">計算式過於複雜</string>
+	<string name="msg_3">執行逾時 - 請檢查計算式</string>
+	<string name="msg_4">計算已取消</string>
+	<string name="msg_5">未指定函數參數: {0}</string>
+	<string name="msg_6">計算式包含無窮迴圈</string>
 </resources>
