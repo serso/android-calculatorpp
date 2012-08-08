@@ -2,7 +2,7 @@
     <string name="c_auto_orientation_title">自動切換螢幕方向</string>
     <string name="c_auto_orientation_summary">是否自動切換螢幕顯示的方向</string>
 
-	 <string name="c_show_equals_button_title">顯示「等於」按鈕<string>
+	 <string name="c_show_equals_button_title">顯示「等於」按鈕</string>
     <string name="c_show_equals_button_summary">是否顯示「等於」按鈕</string>
 
     <string name="c_hide_numeral_base_digits_title">隱藏其他進位的數字</string>
