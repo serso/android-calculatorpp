@@ -1,0 +1,43 @@
+<!--
+  ~ Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+  ~ For more information, please, contact se.solovyev@gmail.com
+  ~ or visit http://se.solovyev.org
+  -->
+
+<resources>
+
+	<string name="c_functions">Functions</string>
+
+	<string name="c_fun_description_sin">Trigonometric sine function.</string>
+	<string name="c_fun_description_cos">Trigonometric cosine function.</string>
+	<string name="c_fun_description_tan">Trigonometric tangent function.</string>
+	<string name="c_fun_description_cot">Trigonometric cotangent function.</string>
+	<string name="c_fun_description_asin">Arcsine - the inverse of sine function.</string>
+	<string name="c_fun_description_acos">Arccosine - the inverse of cosine function.</string>
+	<string name="c_fun_description_atan">Arctangent - the inverse of tangent function.</string>
+	<string name="c_fun_description_acot">Arccotangent - the inverse of cotangent function.</string>
+	<string name="c_fun_description_ln">Natural logarithm - logarithm the base e.</string>
+	<string name="c_fun_description_lg">Decadic logarithm - logarithm the base 10.</string>
+	<string name="c_fun_description_log">Logarithm - logarithm the specified base.</string>
+	<string name="c_fun_description_exp">Exponential function.</string>
+	<string name="c_fun_description_sqrt">Square root function.</string>
+	<string name="c_fun_description_cubic">Cubic root function.</string>
+	<string name="c_fun_description_abs">Function that gives absolute value of an argument.</string>
+	<string name="c_fun_description_sgn">Function that gives the sign of an argument: -1 if argument is less than 0, 0 if equals to 0, 1 if more than 0.</string>
+	<string name="c_fun_description_eq">Equals function - gives 1 if two arguments are equals, 0 otherwise.</string>
+	<string name="c_fun_description_le">Lesser-or-equals function - gives 1 if two arguments are equals or first is less than second, 0 otherwise.</string>
+	<string name="c_fun_description_ge">Greater-or-equals function - gives 1 if two arguments are equals or first is greater than second, 0 otherwise.</string>
+	<string name="c_fun_description_ne">Not-equals function - gives 1 if two arguments are not equals, 0 otherwise.</string>
+	<string name="c_fun_description_lt">Lesser function - gives 1 if first argument is less than second, 0 otherwise.</string>
+	<string name="c_fun_description_gt">Greater function - gives 1 if first argument is greater than second, 0 otherwise.</string>
+	<string name="c_fun_description_rad">Converts degrees into radians: d - degrees, m - minutes (default = 0), s - seconds (default = 0).</string>
+	<string name="c_fun_description_dms">Converts degrees from DMS notation to decimal notation: d - degrees, m - minutes (default = 0), s - seconds (default = 0).</string>
+	<string name="c_fun_description_deg">Converts radians into degrees.</string>
+
+	<string name="c_fun_category_trig">Trigonometric</string>
+	<string name="c_fun_category_hyper_trig">Hyperbolic trigonometric</string>
+	<string name="c_fun_category_comparison">Comparison</string>
+	<string name="c_fun_category_common">Common</string>
+	<string name="c_fun_category_my">My</string>
+
+</resources>

@@ -1,0 +1,212 @@
+<!--
+  ~ Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+  ~ For more information, please, contact se.solovyev@gmail.com
+  ~ or visit http://se.solovyev.org
+  -->
+
+<resources>
+
+	<string name="c_about">About</string>
+
+	<string name="c_about_content">Copyright (c) 2009-2011\n\n<b>Created by serso aka se.solovyev</b>\n\n
+		Application web site: <a href="http://calculatorpp.com/forum/">http://calculatorpp.com/forum/</a>\n\n
+		This program is open source:\nall source code can be found on\n<a href="https://github.com/serso/android-calculatorpp">http://github.com</a>\n\n
+		For more information please\ncontact the author by email\n<a href="mailto:se.solovyev@gmail.com">se.solovyev@gmail.com</a>
+		\nor visit\n<a href="http://se.solovyev.org">http://se.solovyev.org</a>\n\n
+		If you want to support the project\n\nyou can buy a special option from application preferences\n\n
+		donate money via\n<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=se%2esolovyev%40gmail%2ecom&amp;lc=RU&amp;item_name=Android%20Calculator&amp;currency_code=USD&amp;bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted">http://paypal.com</a>\n\n
+		If you like the application\nrank it with 5 stars in\n<a href="https://market.android.com/details?id=org.solovyev.android.calculator">Google Play</a>\n\n
+		Thanks to people who translate Calculator++ in different languages:\n
+		Italian - Gabriele Ravanetti\n
+		Spanish - Jordi Luna\n
+        Ukrainian - Андрій Бандура\n\n
+        This application uses next open source libraries:\n
+		<a href="http://simple.sourceforge.net">Simple (XML serialization)</a>\n
+		<a href="http://meditorworld.appspot.com/meditor.txt">JSCL</a>\n
+		<a href="http://www.achartengine.org/">AChartEngine</a>
+	</string>
+
+	<string name="c_release_notes">Release notes</string>
+	<string name="c_release_notes_for_title">"Release notes for version "</string>
+	
+	<string name="c_release_notes_for_4">
+		1. Haptic feedback\n
+		2. Two layouts: calculator and cellphone\n
+		3. New constants\n
+		4. ERROR message is not so often now
+	</string>
+
+	<string name="c_release_notes_for_5">
+		1. Screen with all functions\n
+		2. Added support for decimal logarithm, factorial, comparison functions\n
+		3. Haptic feedback duration preference
+	</string>
+
+	<string name="c_release_notes_for_6">
+		1. Saving constants in two clicks (use +π button)\n
+		2. Result size is auto adjusted to fill all spare space\n
+		3. Fix for Xperia Ray blank result\n
+		4. Double factorial fix\n
+		5. Degrees added (use °: e.g. 30° and result will be converted into radians)
+	</string>
+
+	<string name="c_release_notes_for_7">
+		1. Support for entering numbers in scientific notation (2.3E2)\n
+		2. Added functions: deg(), rad() to convert from radians to degrees and vice versa\n
+		3. Added support for installing application on sd card\n
+		4. Added possibility to save entire expression as constant (e.g. type ln(6t), press +π button, enter name and save)\n
+		5. Fixed bug with abs() function and complex argument\n
+		6. Fixed bug with displaying result
+	</string>
+
+	<string name="c_release_notes_for_8">
+		1. Fixed bug with i^3\n
+		2. Fixed crash in case of many brackets
+	</string>
+
+	<string name="c_release_notes_for_9" formatted="false">
+		1. Percentage calculations.\n
+		Examples:\n
+		100+50%=150,\n
+		100*50%=50,\n
+		100+100*50%*50%=125,\n
+		100+(100*50%*(25+25)%+100%)=150\n
+		NOTE:\n
+		100+(20+20)%=140, but 100+(20%+20%)=124.0\n
+		100+50%^2=2600, but 100+50^2%=101.08
+	</string>
+
+	<string name="c_release_notes_for_12">
+		1. Help screen added\n
+		2. Support for differentiation, integration, calculation of sum and product.\n
+		Examples:\n
+		∂(cos(t),t)=-sin(t)\n
+		2∂(tcos(t),t,2)=-4.469\n
+		Σ(n/n!,n,1,20)=2.7182\n
+		∫(1/x, x)=ln(x)\n
+		∫ab(x, x, 0, 10)=50.0
+	</string>
+
+	<string name="c_release_notes_for_13">
+		1. Fixed crashes\n
+		2. Added variables on the main screen
+	</string>
+
+	<string name="c_release_notes_for_14">
+		1. Support for different angle units: radians, degrees, gradians, turns\n
+		2. Easy toggling between radians and degrees: use the toggle switch located on the 6 button\n
+		3. Application is translated in Italian (thanks to Gabriele Ravanetti)\n
+		4. Fixed bug with simplification of √(π^2)
+	</string>
+
+	<string name="c_release_notes_for_15">
+		1. Added functions\' plotting: type expression which contains 1 undefined variable (e.g. cos(t)) and click on the result. In the context menu choose \'Plot graph\'. Supported features: zoom in/out, moving graph, plotting imaginary part
+	</string>
+
+	<string name="c_release_notes_for_16">
+		1. Buttons swipe preference\n
+		2. Added support for different numeral bases (currently supported: dec, bin, oct). Dec and bin can be chosen from main screen (CE button) and from app preferences\n
+		3. Fixed √ simplification problem\n
+		4. Performance improvements in functions\' plotting
+	</string>
+
+	<string name="c_release_notes_for_20">
+		1. New swipe actions (left, right)\n
+		2. Extended history: save, remove, copy, use from history screen (use long click for additional actions)\n
+		3. Added Spanish language\n
+		4. Full numeral base support (dec, hex, oct, bin)\n
+		5. !!!: Fix for multiplication sign on some devices - if you have strange symbols instead of × - go to the settings and change multiplication sign to *\n
+		6. Bug fixes: correct double factorial calculation, 20x fix, e^(pi*i)+1 fix and others
+	</string>
+
+	<string name="c_release_notes_for_21">
+		1. Release notes screen added\n
+		2. Added categories in functions and constants screens\n
+		3. Additional actions are available for constants, functions and operators (long click on the item and choose from context menu)\n
+		4. Logarithm function added - calculate logarithm of any base \n
+		5. Back button preference\n
+		6. Variant of π constant independent from angle units
+	</string>
+
+	<string name="c_release_notes_for_22">
+		1. Fix for missing cursor in Android 3 and higher\n
+		2. Fix for substituting 3.14... with Π constant
+	</string>
+
+	<string name="c_release_notes_for_23">
+		1. Fix for calculating inverse trigonometric functions in complex field\n
+		2. Removed time delay for calculation\n
+		3. Fix the problem with 200 - 10% = π
+	</string>
+
+	<string name="c_release_notes_for_24">
+		Note from developer\n\n
+		Sorry to inform you but this version of application brings built-in ads.\n
+		I haven\'t seen in Google Play calculator with similar capabilities and I don\'t think I will see it in the close future.\n
+		But still I want to extend it\'s functionality and support already implemented. The thing is that I cannot do it anymore for free - it takes too much time and great efforts from me as
+		application has become rather big and complex.\n
+		If you want to support the project and remove the ads please purchase special option from application preferences,\n
+		if you don\'t want to pay or can\'t do it - you still can thank the author of this program by email: se.solovyev@gmail.com, rate application with high mark in Google Play\n
+		or help to translate the application to your native language.
+	</string>
+
+	<string name="c_release_notes_for_25">
+		1. Integration of ln() and lg()\n
+		2. Last opened tab is remembered now (history, variables etc)\n
+		3. Remove option from context menu for variables\n
+		4. 1/0 bug\n
+		5. Gui defect for MIUI roms\n
+		6. Double zero (00) key
+	</string>
+
+	<string name="c_release_notes_for_26">
+		1. Integration of trigonometric functions is disabled for not radian angles\n
+		2. Bug with 1/0 = -1/0 fixed\n
+		3. Bug with ∫(sin(t°), t) fixed\n
+		4. Other small fixes
+	</string>
+
+	<string name="c_release_notes_for_27">
+		Note from developer:\n\n
+		I\'m glad to inform you that I\'ve started a forum for Calculator++: http://calculatorpp.com/forum/.\n
+		Here you can find latest information about application, check for known issues, submit bugs or suggest new features.\n
+		You can use your social account to login (Facebook, Twitter or Google are supported).\n\n
+		1. Zoom buttons on graph plotter\n
+		2. Billing bug fixes\n
+		3. Fixed bug with saving constants\n
+		4. Android 4 GUI artifacts fixed (aka hardware acceleration problem)\n
+		5. Other small fixes
+	</string>
+
+	<string name="c_release_notes_for_29">
+		1. New Metro theme with 3 color variations (old themes are still available)\n
+		2. Simple layout (Default layout is still scientific)\n
+		3. Preferences screen changes\n
+		4. Maximum calculation time preference added\n
+		5. Always scientific notation option added\n
+		6. Remove billing information option added\n
+		7. Error label is substituted with greyed text\n
+		8. Special layout for x-high density displays (aka Galaxy Note support)\n
+		9. Sgn(0) problem fixed\n
+		10. Billing problems fixes
+	</string>
+
+    <string name="c_release_notes_for_34">
+        1. Ukrainian localization (Андрій Бандура)\n
+        2. HEX digits are not shown in not HEX mode\n
+        3. Preference for disabling display auto rotation\n
+        4. Preference for hiding equals button\n
+        5. Fixed plot problem\n
+        6. Fixed E+ problem (HEX mode)\n
+        7. π and Π are switched\n
+        8. Conversion tool added (tap on display or choose from application menu)\n
+        9. Wrong lg() integration and differentiation fixed
+    </string>
+
+    <string name="c_release_notes_for_39">
+        1. Virtual keyboard are now not shown on Android 4 ICS\n
+        2. Fast number conversion from display context menu\n
+        3. Minor GUI fixes
+    </string>
+
+</resources>
