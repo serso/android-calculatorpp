@@ -11,96 +11,97 @@
 	<string name="c_screens">Screens</string>
 
 	<string name="c_faq_content" formatted="false">
-		<b>How can I remove the ads?</b>\n
+		<b>如何移除廣告?</b>\n
 		\n
-		You can do it by purchasing the special option in the main application preferences.\n
-        Purchase is done with Google Play and is linked to your google account.\n
-        All your devices where same google account is set will be aware of purchase and will not show the advertisement.\n
+		您可以在設定選單中購買一個移除廣告的選項.\n
+        您可以透過 Google Play 購買, 購買的紀錄將會紀錄在您的 Google 帳號中.\n
+        所有使用您 Google 帳號的裝置都會記得您的購買而隱藏廣告.\n
 		\n
-		<b>Why Calculator++ needs INTERNET permission?</b>\n
+		<b>為何 Calculator++ 需要使用網際網路的權限?</b>\n
 		\n
-		Currently application needs such permission only for one purpose - to show ads. If you buy the special option C++ will never use your internet connection.\n
+		目前使用網際網路只有一個功能--顯示廣告. 若您已購買移除廣告的選項, 則 Calculator++ 將不會使用網路連線.\n
 		\n
-		<b>How can I use functions written in the top right and bottom right corners of the button?</b>\n
+		<b>如何使用顯示於按鍵右上方與左上方的功能?</b>\n
 		\n
-		Push the button and slide lightly up or down. Depending on value showed on the button action will occur.\n
+		按下按鍵, 並稍微往功能顯示的方向滑動, 如此將執行選擇的功能.\n
 		\n
-		<b>How can I toggle between radians and degrees?</b>\n
+		<b>如何切換角度與弳度?</b>\n
 		\n
-		To toggle between different angle units you can either change appropriate option in application settings\n or use the toggle switch located on the 6 button\n
-		(current value is lighted with yellow color).\n
-		Also you can use deg() and rad() functions and ° operator to convert degrees to radians and vice versa.\n
+		您可以在設定選單中選擇角度單位或是利用位於按鍵 6 上的功能來切換角度/弳度.
 		\n
-		<b>Examples:</b>\n
+		(目前使用的單位會以黃色標示).\n
+		您也可以使用 deg() 和 rad() 這兩個函數或是 ° 運算子在角度和弳度之間轉換.\n
+		\n
+		<b>例:</b>\n
 		268° = 4.67748\n
 		30.21° = 0.52726\n
 		rad(30, 21, 0) = 0.52971\n
 		deg(4.67748) = 268\n
 		\n
-		<b>Does C++ support %?</b>\n
+		<b>Calculator++ 是否支援 % (百分比) 運算子?</b>\n
 		\n
-		Yes, % function can be found in the top right corner of / button.\n
+		是的, % 位於 / 按鍵的右上角.\n
 		\n
-		<b>Examples:</b>\n
+		<b>例:</b>\n
 		\n
 		100 + 50% = 150\n
 		100 * 50% = 50\n
 		100 + 100 * 50% * 50% = 125\n
 		100 + (100 * 50% * (25 + 25)% + 100%) = 150\n
 		\n
-		<b>Note:</b>\n
+		<b>注意:</b>\n
 		\n
-		100 + (20 + 20)% = 140, <b>but</b> 100+  (20% + 20%) = 124.0\n
-		100 + 50% ^ 2 = 2600, <b>but</b> 100 + 50 ^ 2% = 101.08\n
+		100 + (20 + 20)% = 140, <b>但是</b> 100+  (20% + 20%) = 124.0\n
+		100 + 50% ^ 2 = 2600, <b>但是</b> 100 + 50 ^ 2% = 101.08\n
 		\n
-		<b>Does C++ support fractional calculations?</b>\n
+		<b>Calculator++ 是否支援分數運算?</b>\n
 		\n
-		Yes, you can type your fractional expression in the editor and use ≡ (in the top right corner of = button). Also you can use ≡ to simplify expression.\n
+		是的, 您可以輸入分數計算式, 然後按下 ≡ 按鍵 (位於 = 按鍵的右上角). 您也可以使用 ≡ 來簡化計算式.\n
 		\n
-		<b>Examples:</b>\n
+		<b>例:</b>\n
 		\n
 		2/3 + 5/9 ≡ 11/9\n
 		2/9 + 3/123 ≡ 91/369\n
 		(6 - t) ^ 3 ≡ 216 - 108t + 18t ^ 2 - t ^ 3\n
 		\n
-		<b>Does C++ support complex calculations?</b>\n
+		<b>Calculator++ 是否支援複數運算?</b>\n
 		\n
-		Yes, just enter complex expression (using i or √(-1) as imaginary number).\n
+		是的, 直接輸入複數計算式即可 (使用 i 或 √(-1) 來代表虛數單位).\n
 		\n
-		<b>Examples:</b>\n
+		<b>例:</b>\n
 		\n
 		(2i + 1) ^ 2 = -3 + 4i\n
 		e ^ i = 0.5403 + 0.84147i\n
 		\n
-		<b>Can C++ plot graph of the function?</b>\n
+		<b>Calculator++ 是否可以繪製函數圖形?</b>\n
 		\n
-		Yes, type expression which contains 1 undefined variable (e.g. cos(t) and t has no value) and click on the result. In the context menu choose \'Plot graph\'.\n
+		是的, 輸入包含 1 個未定義變數的函數 (例如 cos(t), t 沒有定義值), 然後點擊輸出的答案. 在出現的選單中選擇 \'繪圖\'.\n
 		\n
-		<b>Does C++ support matrix calculations?</b>\n
+		<b>Calculator++ 是否支援矩陣運算?</b>\n
 		\n
-		No, it doesn\'t.\n
+		沒有.\n
 		\n
-		<b>Why I\'ve got 1.76732452452345E-17 instead of 0?</b>\n
+		<b>為甚麼結果是 1.76732452452345E-17 而不是 0?</b>\n
 		\n
-		Check the \'Round result\' preference in application settings - it should be turned on.\n
+		請檢查設定選單中的 \'四捨五入\' 選項 - 它應該已被啟用.\n
 	</string>
 
 	<string name="c_hints_content">
-		1. You can omit unnecessary multiplication signs (instead of 3*t or t*sin(π*t) just type 3t or tsin(πt))\n\n
-		2. Use ≡ (in the top right corner of = button) to simplify expression\n\n
-		3. Just click on the result to copy it to the clipboard\n\n
-		4. Use = button seldom - result is calculating on the fly\n\n
-		5. Add constants for often used values (you can even save expressions)\n\n
-		6. Use variables located on 4 and 5 buttons\n\n
+		1. 在輸入的時候, 您可以忽略多餘的乘號 (例如 3*t 和 t*sin(π*t) 可以簡化成 3t 和 tsin(πt))\n\n
+		2. 使用 ≡ (在 = 按鍵的右上角) 來簡化計算式\n\n
+		3. 直接按下計算結果將結果複製到剪貼簿\n\n
+		4. 盡量少用 = 按鈕 - 程式將即時計算答案\n\n
+		5. 將常用的數值儲存成常數 (如此可以減少計算式的長度)\n\n
+		6. 多利用位於 4 和 5 按鈕上的變數名稱\n\n
 	</string>
 
 	<string name="c_screens_content">
-		1. <b>Main screen:</b> is shown on application start, can be reached from another screen by pressing Back button.\n\n
-		2. <b>Variables and Constants screen:</b> contains list of available constants. User may add some constants and variables here by clicking Add button. Short click on variable/constant inserts it into the editor, long click - opens variable editor window. Can be reached from the main screen by pressing π,… button.\n\n
-		3. <b>Functions screen:</b> contains list of all available functions. Short click on function inserts it into the editor. Can be reached from the main screen by pressing f(x) button.\n\n
-		4. <b>Operators screen:</b> contains list of all available operators. Short click on operator inserts it into the editor. Can be reached from the main screen by pressing ∂,… button.\n\n
-		5. <b>History screen:</b> contains list of all actions done by user.  Short click on history item sets it into the editor. Can be reached from the main screen by pressing M button.\n\n
-		6. <b>Settings screen:</b> contains application preferences. Can be reached from the main screen by pressing Settings in menu.
+		1. <b>主畫面:</b> 在程式啟動時顯示, 在其他畫面的時候, 可以按下跳出鍵以回到主畫面.\n\n
+		2. <b>變數與常數畫面:</b> 顯示可用的常數. 使用者可以按下「新增」按鈕以新增常數或變數. 短按變數將它插入主畫面的編輯器中, 長按會開啟編輯畫面. 可以從從主畫面中的 π,… 按鈕進入.\n\n
+		3. <b>函數畫面:</b> 顯示可用的函數. 短按函數將它插入主畫面的編輯器中. 可以從主畫面中的 f(x) 按鈕進入.\n\n
+		4. <b>運算子畫面:</b> 顯示所有可用的運算子. 短按運算子將它插入主畫面的編輯器中. 可以從主畫面中的 ∂,… 按鈕進入.\n\n
+		5. <b>紀錄畫面:</b> 顯示使用者過去的使用紀錄. 短按項目將它插入主畫面的編輯器中. 可以從主畫面中的 M 按鈕進入.\n\n
+		6. <b>設定畫面:</b> 包含程式的設定. 在主畫面中按下選單鍵, 選擇「設定」選項以進入.
 	</string>
 
 </resources>
