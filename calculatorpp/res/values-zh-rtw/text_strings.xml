@@ -40,7 +40,7 @@
 	<string name="c_graph">圖表</string>
 
 	<string name="c_calc_color_display_title">語法標示計算式</string>
-	<string name="c_calc_round_result_title">將答案四捨五入</string>
+	<string name="c_calc_round_result_title">四捨五入</string>
 	<string name="c_calc_round_result_summary">切換答案四捨五入</string>
 	<string name="c_calc_science_notation_title">永遠使用科學記號</string>
 	<string name="c_calc_science_notation_summary">開啟此選項，則答案將永遠使用科學記號表示 (例: 12.34E-12)</string>
