@@ -6,8 +6,8 @@
 
 <resources>
 
-	<string name="c_var_description_PI">圓周長與直徑之比值. 註: 此常數會隨著角度單位改變 => rad: 3.14, deg: 180.0</string>
-	<string name="c_var_description_pi">圓周長與直徑之比值. 註: 此常數會隨著角度單位改變 => rad: 3.14, deg: 180.0</string>
+	<string name="c_var_description_PI">圓周長與直徑之比值. 注意: 此常數會隨著角度單位改變 => rad: 3.14, deg: 180.0</string>
+	<string name="c_var_description_pi">圓周長與直徑之比值. 注意: 此常數會隨著角度單位改變 => rad: 3.14, deg: 180.0</string>
 	<string name="c_var_description_e">唯一一個使得 f(x) = e^x 的微分(切線斜率) 在 x = 0 時為 1 的自然數.</string>
 	<string name="c_var_description_i">虛數單位, 定義為 i^2 = -1.</string>
 	<string name="c_var_description_c">真空中的光速, 單位為 m·s^-1</string>
