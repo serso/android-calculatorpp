@@ -30,56 +30,56 @@
 	<string name="c_release_notes_for_title">"發行公告版本 "</string>
 	
 	<string name="c_release_notes_for_4">
-		1. Haptic feedback\n
-		2. Two layouts: calculator and cellphone\n
-		3. New constants\n
-		4. ERROR message is not so often now
+		1. 觸控回饋\n
+		2. 兩種版面配置: 計算機與手機\n
+		3. 增加新的常數\n
+		4. 錯誤訊息不再那麼頻繁
 	</string>
 
 	<string name="c_release_notes_for_5">
-		1. Screen with all functions\n
-		2. Added support for decimal logarithm, factorial, comparison functions\n
-		3. Haptic feedback duration preference
+		1. 在螢幕上顯示所有功能\n
+		2. 新增十進位對數, 階乘, 比較函數\n
+		3. 設定選單中的觸控回饋
 	</string>
 
 	<string name="c_release_notes_for_6">
-		1. Saving constants in two clicks (use +π button)\n
-		2. Result size is auto adjusted to fill all spare space\n
+		1. 按兩下即可新增常數 (使用+π 按鍵)\n
+		2. 自動調整計算結果的大小以符合頁面\n
 		3. Fix for Xperia Ray blank result\n
-		4. Double factorial fix\n
-		5. Degrees added (use °: e.g. 30° and result will be converted into radians)
+		4. 修正雙階乘\n
+		5. 加入角度符號 (使用 °: 例如輸入 30° 結果會被轉換成弳度)
 	</string>
 
 	<string name="c_release_notes_for_7">
-		1. Support for entering numbers in scientific notation (2.3E2)\n
-		2. Added functions: deg(), rad() to convert from radians to degrees and vice versa\n
-		3. Added support for installing application on sd card\n
-		4. Added possibility to save entire expression as constant (e.g. type ln(6t), press +π button, enter name and save)\n
-		5. Fixed bug with abs() function and complex argument\n
-		6. Fixed bug with displaying result
+		1. 支援科學記號輸入 (2.3E2)\n
+		2. 新增函數: deg(), rad() 進行角度和弳度的轉換\n
+		3. 支援安裝在 SD 卡上\n
+		4. 可以將整個計算式儲存成常數 (例如輸入 ln(6t), 按下 +π 按鈕, 輸入常數名稱後儲存)\n
+		5. 修正 abs() 函數代入複數時會發生的的錯誤\n
+		6. 修正顯示結果的錯誤
 	</string>
 
 	<string name="c_release_notes_for_8">
-		1. Fixed bug with i^3\n
-		2. Fixed crash in case of many brackets
+		1. 修正 i^3 的錯誤\n
+		2. 修正太多括號程式會當掉的錯誤
 	</string>
 
 	<string name="c_release_notes_for_9" formatted="false">
-		1. Percentage calculations.\n
-		Examples:\n
+		1. 百分比計算.\n
+		例:\n
 		100+50%=150,\n
 		100*50%=50,\n
 		100+100*50%*50%=125,\n
 		100+(100*50%*(25+25)%+100%)=150\n
-		NOTE:\n
-		100+(20+20)%=140, but 100+(20%+20%)=124.0\n
-		100+50%^2=2600, but 100+50^2%=101.08
+		注意:\n
+		100+(20+20)%=140, 但是 100+(20%+20%)=124.0\n
+		100+50%^2=2600, 但是 100+50^2%=101.08
 	</string>
 
 	<string name="c_release_notes_for_12">
-		1. Help screen added\n
-		2. Support for differentiation, integration, calculation of sum and product.\n
-		Examples:\n
+		1. 新增說明畫面\n
+		2. 支援微分、積分、總和、乘積.\n
+		例:\n
 		∂(cos(t),t)=-sin(t)\n
 		2∂(tcos(t),t,2)=-4.469\n
 		Σ(n/n!,n,1,20)=2.7182\n
@@ -88,125 +88,123 @@
 	</string>
 
 	<string name="c_release_notes_for_13">
-		1. Fixed crashes\n
-		2. Added variables on the main screen
+		1. 修正一些當機的錯誤\n
+		2. 在主畫面上加入變數
 	</string>
 
 	<string name="c_release_notes_for_14">
-		1. Support for different angle units: radians, degrees, gradians, turns\n
-		2. Easy toggling between radians and degrees: use the toggle switch located on the 6 button\n
-		3. Application is translated in Italian (thanks to Gabriele Ravanetti)\n
-		4. Fixed bug with simplification of √(π^2)
+		1. 支援不同的角度單位: 弳度, 角度, 梯度, 轉\n
+		2. 快速切換角度/弳度: 使用 6 按鍵上的功能鍵\n
+		3. 加入義大利文翻譯 (感謝 Gabriele Ravanetti)\n
+		4. 修正簡化 √(π^2) 的錯誤
 	</string>
 
 	<string name="c_release_notes_for_15">
-		1. Added functions\' plotting: type expression which contains 1 undefined variable (e.g. cos(t)) and click on the result. In the context menu choose \'Plot graph\'. Supported features: zoom in/out, moving graph, plotting imaginary part
-	</string>
+		1. 新增函數繪圖功能: 輸入包含 1 個未定義變數的計算式再點擊計算結果, 選擇「繪圖」. 支援縮放、平移及繪製虛數部份.	</string>
 
 	<string name="c_release_notes_for_16">
-		1. Buttons swipe preference\n
-		2. Added support for different numeral bases (currently supported: dec, bin, oct). Dec and bin can be chosen from main screen (CE button) and from app preferences\n
-		3. Fixed √ simplification problem\n
-		4. Performance improvements in functions\' plotting
+		1. 按鈕滑動選項\n
+		2. 支援不同的進位制 (目前支援: 十進位, 二進位, 八進位). 十進位和二進位可以在主畫面 (CE 按鍵) 及設定選單中選擇\n
+		3. 修正 √ 簡化的錯誤\n
+		4. 提昇函數繪製的效能
 	</string>
 
 	<string name="c_release_notes_for_20">
-		1. New swipe actions (left, right)\n
-		2. Extended history: save, remove, copy, use from history screen (use long click for additional actions)\n
-		3. Added Spanish language\n
-		4. Full numeral base support (dec, hex, oct, bin)\n
-		5. !!!: Fix for multiplication sign on some devices - if you have strange symbols instead of × - go to the settings and change multiplication sign to *\n
-		6. Bug fixes: correct double factorial calculation, 20x fix, e^(pi*i)+1 fix and others
+		1. 新的滑動動作 (左, 右)\n
+		2. 擴充紀錄功能: 紀錄畫面中的 儲存, 移除, 複製, 使用 (長按以選擇動作)\n
+		3. 加入西班牙文翻譯\n
+		4. 支援所有常用進位制 (十進位, 十六進位, 八進位, 二進位)\n
+		5. !!!: 修正某些裝置上的乘號 - 如果您的裝置上出現其他符號而不是 × , 在設定選單中將乘號設為 *\n
+		6. 錯誤修正: 修正雙階乘計算, 20x, e^(pi*i)+1, ...
 	</string>
 
 	<string name="c_release_notes_for_21">
-		1. Release notes screen added\n
-		2. Added categories in functions and constants screens\n
-		3. Additional actions are available for constants, functions and operators (long click on the item and choose from context menu)\n
-		4. Logarithm function added - calculate logarithm of any base \n
-		5. Back button preference\n
-		6. Variant of π constant independent from angle units
+		1. 加入發行公告畫面\n
+		2. 在函數和常數畫面中加入分類標示\n
+		3. 增加常數、函數、運算子選單中的功能 (長按以選擇功能)\n
+		4. 加入對數函數 - 計算任何底數的對數 \n
+		5. 加入退出鍵選項\n
+		6. 新增不受角度單位影響的 π 常數
 	</string>
 
 	<string name="c_release_notes_for_22">
-		1. Fix for missing cursor in Android 3 and higher\n
-		2. Fix for substituting 3.14... with Π constant
+		1. 修正 Android 3 之後的版本不顯示指標的錯誤\n
+		2. 修正直接代入 3.14... 到 Π 常數的錯誤
 	</string>
 
 	<string name="c_release_notes_for_23">
-		1. Fix for calculating inverse trigonometric functions in complex field\n
-		2. Removed time delay for calculation\n
-		3. Fix the problem with 200 - 10% = π
+		1. 修正反三角函數在複數計算中的錯誤\n
+		2. 移除計算延遲\n
+		3. 修正 200 - 10% = π 的錯誤
 	</string>
 
 	<string name="c_release_notes_for_24">
-		Note from developer\n\n
-		Sorry to inform you but this version of application brings built-in ads.\n
-		I haven\'t seen in Google Play calculator with similar capabilities and I don\'t think I will see it in the close future.\n
-		But still I want to extend it\'s functionality and support already implemented. The thing is that I cannot do it anymore for free - it takes too much time and great efforts from me as
-		application has become rather big and complex.\n
-		If you want to support the project and remove the ads please purchase special option from application preferences,\n
-		if you don\'t want to pay or can\'t do it - you still can thank the author of this program by email: se.solovyev@gmail.com, rate application with high mark in Google Play\n
-		or help to translate the application to your native language.
+		來自開發者的訊息\n\n
+		很抱歉通知您, 從這個版本之後此程式將置入廣告.\n
+		我從沒有在 Google Play 上看到像這樣的計算機程式, 我認為近期也不會出現.\n
+		即使如此, 我還是希望繼續增加新的功能以及維護既有的功能, 但我再也無法無償地繼續開發了 - 因為這個程式已經變得過於龐大, 需要花費我太多時間精力.\n
+		如果您想要支持這個專案並移除廣告, 請從程式選單中購買一個特殊選項,\n
+		如果您不想要付錢或是無法付錢, 您還是可以藉由 email(se.solovyev@gmail.com) 來感謝作者, 在 Google Play 中給此程式較好的評分\n
+		或是幫忙將此程式翻譯成您的語言.
 	</string>
 
 	<string name="c_release_notes_for_25">
-		1. Integration of ln() and lg()\n
-		2. Last opened tab is remembered now (history, variables etc)\n
-		3. Remove option from context menu for variables\n
-		4. 1/0 bug\n
-		5. Gui defect for MIUI roms\n
-		6. Double zero (00) key
+		1. ln() and lg() 的積分\n
+		2. 記得最後開啟的頁籤 (紀錄、變數等)\n
+		3. 移除變數選單的選項\n
+		4. 修正 1/0\n
+		5. 修正使用 MIUI roms 時的圖形介面錯誤\n
+		6. 新增 00 按鍵
 	</string>
 
 	<string name="c_release_notes_for_26">
-		1. Integration of trigonometric functions is disabled for not radian angles\n
-		2. Bug with 1/0 = -1/0 fixed\n
-		3. Bug with ∫(sin(t°), t) fixed\n
-		4. Other small fixes
+		1. 關閉非弳度單位的三角函數積分\n
+		2. 修正 1/0 = -1/0\n
+		3. 修正 ∫(sin(t°), t)\n
+		4. 其他小修正
 	</string>
 
 	<string name="c_release_notes_for_27">
-		Note from developer:\n\n
-		I\'m glad to inform you that I\'ve started a forum for Calculator++: http://calculatorpp.com/forum/.\n
-		Here you can find latest information about application, check for known issues, submit bugs or suggest new features.\n
-		You can use your social account to login (Facebook, Twitter or Google are supported).\n\n
-		1. Zoom buttons on graph plotter\n
-		2. Billing bug fixes\n
-		3. Fixed bug with saving constants\n
-		4. Android 4 GUI artifacts fixed (aka hardware acceleration problem)\n
-		5. Other small fixes
+		來自開發者的訊息:\n\n
+		我很高興可以通知您, 我創立了一個 Calculator++ 的論壇: http://calculatorpp.com/forum/.\n
+		您可以在這裡找到程式最新的資訊、檢查已知問題、提報錯誤和建議新功能.\n
+		您可以使用常用社群網站的帳號登入 (可用 Facebook, Twitter 和 Google).\n\n
+		1. 在繪圖介面上顯示縮放按鈕\n
+		2. 修復付款錯誤\n
+		3. 修正儲存常數的錯誤\n
+		4. 修正 Android 4 GUI 硬體加速問題
+		5. 其他小修正
 	</string>
 
 	<string name="c_release_notes_for_29">
-		1. New Metro theme with 3 color variations (old themes are still available)\n
-		2. Simple layout (Default layout is still scientific)\n
-		3. Preferences screen changes\n
-		4. Maximum calculation time preference added\n
-		5. Always scientific notation option added\n
-		6. Remove billing information option added\n
-		7. Error label is substituted with greyed text\n
-		8. Special layout for x-high density displays (aka Galaxy Note support)\n
-		9. Sgn(0) problem fixed\n
-		10. Billing problems fixes
+		1. 增加 3 種顏色變化的 Metro 主題 (之前的主題仍然支援)\n
+		2. 增加 Simple 版面配置 (科學計算仍然是預設的版面配置)\n
+		3. 修改設定選單\n
+		4. 新增計算時間限制選項\n
+		5. 新增「永遠使用科學記號」選項\n
+		6. 新增移除購買選項\n
+		7. 用灰色文字取代標籤\n
+		8. 對 Galaxy Note 使用特殊的版面配置\n
+		9. 修正 Sgn(0) 的錯誤\n
+		10. 修正付款錯誤
 	</string>
 
     <string name="c_release_notes_for_34">
-        1. Ukrainian localization (Андрій Бандура)\n
-        2. HEX digits are not shown in not HEX mode\n
-        3. Preference for disabling display auto rotation\n
-        4. Preference for hiding equals button\n
-        5. Fixed plot problem\n
-        6. Fixed E+ problem (HEX mode)\n
-        7. π and Π are switched\n
-        8. Conversion tool added (tap on display or choose from application menu)\n
-        9. Wrong lg() integration and differentiation fixed
+        1. 烏克蘭文翻譯 (Андрій Бандура)\n
+        2. 在其他進位制下不顯示十六進位的數字\n
+        3. 新增避免自動轉換顯示方向的選項\n
+        4. 新增隱藏等號按鈕的選項\n
+        5. 修正繪圖錯誤\n
+        6. 修正 E+ 的錯誤 (十六進位模式)\n
+        7. 交換 π 和 Π\n
+        8. 新增轉換工具 (按下顯示區域或在選單中選擇)\n
+        9. 修正 lg() 微分積分的錯誤
     </string>
 
     <string name="c_release_notes_for_39">
-        1. Virtual keyboard are now not shown on Android 4 ICS\n
-        2. Fast number conversion from display context menu\n
-        3. Minor GUI fixes
+        1. 在 Android 4 ICS 上不顯示虛擬鍵盤\n
+        2. 在長按選單中新增快速數值轉換\n
+        3. 圖形介面小修正
     </string>
 
 </resources>
