@@ -180,8 +180,8 @@
 	<string name="c_error">Помилка</string>
 	<string name="c_billing_error">Біллінг не підтримується: ви повинні мати обліковий запис Google Checkout, пов’язаний з вашим обліковим записом Google і мати підключення до Інтернету.</string>
 
-	<string name="c_calc_ad_free_title">Підтримати проект</string>
-	<string name="c_calc_ad_free_summary">І позбутися реклами</string>
+	<string name="c_calc_ad_free_title">Підтримайте проект</string>
+	<string name="c_calc_ad_free_summary">і позбудьтеся реклами!</string>
 
 	<string name="c_calc_already_purchased">Опція вже куплена!</string>
 	<string name="c_calc_purchasing">Купуємо…</string>
@@ -195,12 +195,12 @@
 
 	<string name="c_angle_units_changed_to">Одиниці виміру кутів змінено на \'%s\'!</string>
 	<string name="c_numeral_base_changed_to">Система числення змінена на \'%s\'!</string>
-    <string name="c_conversion_tool">Перевод величин</string>
+    <string name="c_conversion_tool">Перетворення чисел</string>
 
-    <string name="c_convert">Перевести в…</string>
+    <string name="c_convert">Перетворити в…</string>
 
-    <string name="convert_to_hex">Перевести в hex</string>
-    <string name="convert_to_bin">Перевести в bin</string>
-    <string name="convert_to_dec">Перевести в dec</string>
+    <string name="convert_to_hex">Перетворити в hex</string>
+    <string name="convert_to_bin">Перетворити в bin</string>
+    <string name="convert_to_dec">Перетворити в dec</string>
 
 </resources>
