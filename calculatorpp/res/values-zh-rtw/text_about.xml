@@ -1,0 +1,210 @@
+<!--
+  ~ Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+  ~ For more information, please, contact se.solovyev@gmail.com
+  ~ or visit http://se.solovyev.org
+  -->
+
+<resources>
+
+	<string name="c_about">關於</string>
+
+	<string name="c_about_content">Copyright (c) 2009-2011\n\n<b>Created by serso aka se.solovyev</b>\n\n
+		程式網站: <a href="http://calculatorpp.com/forum/">http://calculatorpp.com/forum/</a>\n\n
+		此程式為開放源碼軟體:\n原始碼位於\n<a href="https://github.com/serso/android-calculatorpp">http://github.com</a>\n\n
+		如果您需要更多資訊\n請寄信至作者信箱\n<a href="mailto:se.solovyev@gmail.com">se.solovyev@gmail.com</a>
+		\n或是造訪\n<a href="http://se.solovyev.org">http://se.solovyev.org</a>\n\n
+		如果您想要支持此專案\n\n您可以從程式設定頁面中購買一個特別的選項\n\n
+		捐款到\n<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=se%2esolovyev%40gmail%2ecom&amp;lc=RU&amp;item_name=Android%20Calculator&amp;currency_code=USD&amp;bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted">http://paypal.com</a>\n\n
+		如果您喜歡這個程式\n請在 <a href="https://market.android.com/details?id=org.solovyev.android.calculator">Google Play</a> 中將它評等為五顆星\n\n
+		感謝以下 Calculator++ 的翻譯者:\n
+		義大利文 - Gabriele Ravanetti\n
+		西班牙文 - Jordi Luna\n
+        烏克蘭文 - Андрій Бандура\n\n
+        此程式使用以下開放源碼的函式庫:\n
+		<a href="http://simple.sourceforge.net">Simple (XML 序列化)</a>\n
+		<a href="http://meditorworld.appspot.com/meditor.txt">JSCL</a>\n
+		<a href="http://www.achartengine.org/">AChartEngine</a>
+	</string>
+
+	<string name="c_release_notes">發行公告</string>
+	<string name="c_release_notes_for_title">"發行公告版本 "</string>
+	
+	<string name="c_release_notes_for_4">
+		1. 觸控回饋\n
+		2. 兩種版面配置: 計算機與手機\n
+		3. 增加新的常數\n
+		4. 錯誤訊息不再那麼頻繁
+	</string>
+
+	<string name="c_release_notes_for_5">
+		1. 在螢幕上顯示所有功能\n
+		2. 新增十進位對數, 階乘, 比較函數\n
+		3. 設定選單中的觸控回饋
+	</string>
+
+	<string name="c_release_notes_for_6">
+		1. 按兩下即可新增常數 (使用+π 按鍵)\n
+		2. 自動調整計算結果的大小以符合頁面\n
+		3. Fix for Xperia Ray blank result\n
+		4. 修正雙階乘\n
+		5. 加入角度符號 (使用 °: 例如輸入 30° 結果會被轉換成弳度)
+	</string>
+
+	<string name="c_release_notes_for_7">
+		1. 支援科學記號輸入 (2.3E2)\n
+		2. 新增函數: deg(), rad() 進行角度和弳度的轉換\n
+		3. 支援安裝在 SD 卡上\n
+		4. 可以將整個計算式儲存成常數 (例如輸入 ln(6t), 按下 +π 按鈕, 輸入常數名稱後儲存)\n
+		5. 修正 abs() 函數代入複數時會發生的的錯誤\n
+		6. 修正顯示結果的錯誤
+	</string>
+
+	<string name="c_release_notes_for_8">
+		1. 修正 i^3 的錯誤\n
+		2. 修正太多括號程式會當掉的錯誤
+	</string>
+
+	<string name="c_release_notes_for_9" formatted="false">
+		1. 百分比計算.\n
+		例:\n
+		100+50%=150,\n
+		100*50%=50,\n
+		100+100*50%*50%=125,\n
+		100+(100*50%*(25+25)%+100%)=150\n
+		注意:\n
+		100+(20+20)%=140, 但是 100+(20%+20%)=124.0\n
+		100+50%^2=2600, 但是 100+50^2%=101.08
+	</string>
+
+	<string name="c_release_notes_for_12">
+		1. 新增說明畫面\n
+		2. 支援微分、積分、總和、乘積.\n
+		例:\n
+		∂(cos(t),t)=-sin(t)\n
+		2∂(tcos(t),t,2)=-4.469\n
+		Σ(n/n!,n,1,20)=2.7182\n
+		∫(1/x, x)=ln(x)\n
+		∫ab(x, x, 0, 10)=50.0
+	</string>
+
+	<string name="c_release_notes_for_13">
+		1. 修正一些當機的錯誤\n
+		2. 在主畫面上加入變數
+	</string>
+
+	<string name="c_release_notes_for_14">
+		1. 支援不同的角度單位: 弳度, 角度, 梯度, 轉\n
+		2. 快速切換角度/弳度: 使用 6 按鍵上的功能鍵\n
+		3. 加入義大利文翻譯 (感謝 Gabriele Ravanetti)\n
+		4. 修正簡化 √(π^2) 的錯誤
+	</string>
+
+	<string name="c_release_notes_for_15">
+		1. 新增函數繪圖功能: 輸入包含 1 個未定義變數的計算式再點擊計算結果, 選擇「繪圖」. 支援縮放、平移及繪製虛數部份.	</string>
+
+	<string name="c_release_notes_for_16">
+		1. 按鈕滑動選項\n
+		2. 支援不同的進位制 (目前支援: 十進位, 二進位, 八進位). 十進位和二進位可以在主畫面 (CE 按鍵) 及設定選單中選擇\n
+		3. 修正 √ 簡化的錯誤\n
+		4. 提昇函數繪製的效能
+	</string>
+
+	<string name="c_release_notes_for_20">
+		1. 新的滑動動作 (左, 右)\n
+		2. 擴充紀錄功能: 紀錄畫面中的 儲存, 移除, 複製, 使用 (長按以選擇動作)\n
+		3. 加入西班牙文翻譯\n
+		4. 支援所有常用進位制 (十進位, 十六進位, 八進位, 二進位)\n
+		5. !!!: 修正某些裝置上的乘號 - 如果您的裝置上出現其他符號而不是 × , 在設定選單中將乘號設為 *\n
+		6. 錯誤修正: 修正雙階乘計算, 20x, e^(pi*i)+1, ...
+	</string>
+
+	<string name="c_release_notes_for_21">
+		1. 加入發行公告畫面\n
+		2. 在函數和常數畫面中加入分類標示\n
+		3. 增加常數、函數、運算子選單中的功能 (長按以選擇功能)\n
+		4. 加入對數函數 - 計算任何底數的對數 \n
+		5. 加入退出鍵選項\n
+		6. 新增不受角度單位影響的 π 常數
+	</string>
+
+	<string name="c_release_notes_for_22">
+		1. 修正 Android 3 之後的版本不顯示指標的錯誤\n
+		2. 修正直接代入 3.14... 到 Π 常數的錯誤
+	</string>
+
+	<string name="c_release_notes_for_23">
+		1. 修正反三角函數在複數計算中的錯誤\n
+		2. 移除計算延遲\n
+		3. 修正 200 - 10% = π 的錯誤
+	</string>
+
+	<string name="c_release_notes_for_24">
+		來自開發者的訊息\n\n
+		很抱歉通知您, 從這個版本之後此程式將置入廣告.\n
+		我從沒有在 Google Play 上看到像這樣的計算機程式, 我認為近期也不會出現.\n
+		即使如此, 我還是希望繼續增加新的功能以及維護既有的功能, 但我再也無法無償地繼續開發了 - 因為這個程式已經變得過於龐大, 需要花費我太多時間精力.\n
+		如果您想要支持這個專案並移除廣告, 請從程式選單中購買一個特殊選項,\n
+		如果您不想要付錢或是無法付錢, 您還是可以藉由 email(se.solovyev@gmail.com) 來感謝作者, 在 Google Play 中給此程式較好的評分\n
+		或是幫忙將此程式翻譯成您的語言.
+	</string>
+
+	<string name="c_release_notes_for_25">
+		1. ln() and lg() 的積分\n
+		2. 記得最後開啟的頁籤 (紀錄、變數等)\n
+		3. 移除變數選單的選項\n
+		4. 修正 1/0\n
+		5. 修正使用 MIUI roms 時的圖形介面錯誤\n
+		6. 新增 00 按鍵
+	</string>
+
+	<string name="c_release_notes_for_26">
+		1. 關閉非弳度單位的三角函數積分\n
+		2. 修正 1/0 = -1/0\n
+		3. 修正 ∫(sin(t°), t)\n
+		4. 其他小修正
+	</string>
+
+	<string name="c_release_notes_for_27">
+		來自開發者的訊息:\n\n
+		我很高興可以通知您, 我創立了一個 Calculator++ 的論壇: http://calculatorpp.com/forum/.\n
+		您可以在這裡找到程式最新的資訊、檢查已知問題、提報錯誤和建議新功能.\n
+		您可以使用常用社群網站的帳號登入 (可用 Facebook, Twitter 和 Google).\n\n
+		1. 在繪圖介面上顯示縮放按鈕\n
+		2. 修復付款錯誤\n
+		3. 修正儲存常數的錯誤\n
+		4. 修正 Android 4 GUI 硬體加速問題
+		5. 其他小修正
+	</string>
+
+	<string name="c_release_notes_for_29">
+		1. 增加 3 種顏色變化的 Metro 主題 (之前的主題仍然支援)\n
+		2. 增加 Simple 版面配置 (科學計算仍然是預設的版面配置)\n
+		3. 修改設定選單\n
+		4. 新增計算時間限制選項\n
+		5. 新增「永遠使用科學記號」選項\n
+		6. 新增移除購買選項\n
+		7. 用灰色文字取代標籤\n
+		8. 對 Galaxy Note 使用特殊的版面配置\n
+		9. 修正 Sgn(0) 的錯誤\n
+		10. 修正付款錯誤
+	</string>
+
+    <string name="c_release_notes_for_34">
+        1. 烏克蘭文翻譯 (Андрій Бандура)\n
+        2. 在其他進位制下不顯示十六進位的數字\n
+        3. 新增避免自動轉換顯示方向的選項\n
+        4. 新增隱藏等號按鈕的選項\n
+        5. 修正繪圖錯誤\n
+        6. 修正 E+ 的錯誤 (十六進位模式)\n
+        7. 交換 π 和 Π\n
+        8. 新增轉換工具 (按下顯示區域或在選單中選擇)\n
+        9. 修正 lg() 微分積分的錯誤
+    </string>
+
+    <string name="c_release_notes_for_39">
+        1. 在 Android 4 ICS 上不顯示虛擬鍵盤\n
+        2. 在長按選單中新增快速數值轉換\n
+        3. 圖形介面小修正
+    </string>
+
+</resources>
