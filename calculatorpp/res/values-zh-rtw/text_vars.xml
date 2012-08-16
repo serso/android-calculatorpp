@@ -1,0 +1,23 @@
+<!--
+  ~ Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+  ~ For more information, please, contact se.solovyev@gmail.com
+  ~ or visit http://se.solovyev.org
+  -->
+
+<resources>
+
+	<string name="c_var_description_PI">圓周長與直徑之比值. 注意: 此常數會隨著角度單位改變 => rad: 3.14, deg: 180.0</string>
+	<string name="c_var_description_pi">圓周長與直徑之比值. 注意: 此常數會隨著角度單位改變 => rad: 3.14, deg: 180.0</string>
+	<string name="c_var_description_e">唯一一個使得 f(x) = e^x 的微分(切線斜率) 在 x = 0 時為 1 的自然數.</string>
+	<string name="c_var_description_i">虛數單位, 定義為 i^2 = -1.</string>
+	<string name="c_var_description_c">真空中的光速, 單位為 m·s^-1</string>
+	<string name="c_var_description_G">重力常數, 計算物質間萬有引力時需要用到的常數(實驗值), 單位為 m^3·kg^−1·s^−2</string>
+	<string name="c_var_description_h">普朗克常數, 用來描述量子大小的物理常數, 單位為 J·s</string>
+	<string name="c_var_description_h_reduced">約化普朗克常數(普朗克常數/(2*pi)), 單位為 J·s</string>
+	<string name="c_var_description_nan">NaN</string>
+	<string name="c_var_description_inf">無限大</string>
+
+	<string name="c_var_system">內建</string>
+	<string name="c_var_my">自訂</string>
+
+</resources>

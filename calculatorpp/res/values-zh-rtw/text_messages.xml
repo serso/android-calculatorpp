@@ -1,0 +1,14 @@
+<!--
+  ~ Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+  ~ For more information, please, contact se.solovyev@gmail.com
+  ~ or visit http://se.solovyev.org
+  -->
+
+<resources>
+	<string name="msg_1">計算錯誤: {0}</string>
+	<string name="msg_2">計算式過於複雜</string>
+	<string name="msg_3">執行逾時 - 請檢查計算式</string>
+	<string name="msg_4">計算已取消</string>
+	<string name="msg_5">未指定函數參數: {0}</string>
+	<string name="msg_6">計算式包含無窮迴圈</string>
+</resources>
