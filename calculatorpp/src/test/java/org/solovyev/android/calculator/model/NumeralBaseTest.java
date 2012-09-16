@@ -11,7 +11,7 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.solovyev.android.calculator.jscl.JsclOperation;
-import org.solovyev.common.utils.Converter;
+import org.solovyev.common.Converter;
 
 import java.io.InputStreamReader;
 import java.util.ArrayList;

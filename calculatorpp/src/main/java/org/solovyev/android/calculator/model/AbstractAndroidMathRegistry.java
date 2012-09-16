@@ -13,10 +13,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
-import org.solovyev.android.ResourceCache;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.about.TextHelper;
-import org.solovyev.common.definitions.IBuilder;
+import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.math.MathRegistry;
 
@@ -90,7 +89,7 @@ public abstract class AbstractAndroidMathRegistry<T extends MathEntity, P extend
 	}
 
 	@NotNull
-	protected abstract IBuilder<? extends T> createBuilder(@NotNull P entity);
+	protected abstract JBuilder<? extends T> createBuilder(@NotNull P entity);
 
 	@NotNull
 	protected abstract Class<? extends MathEntityPersistenceContainer<P>> getPersistenceContainerClass();
@@ -150,8 +149,8 @@ public abstract class AbstractAndroidMathRegistry<T extends MathEntity, P extend
 	}
 
 	@Override
-	public T add(@NotNull IBuilder<? extends T> IBuilder) {
-		return mathRegistry.add(IBuilder);
+	public T add(@NotNull JBuilder<? extends T> JBuilder) {
+		return mathRegistry.add(JBuilder);
 	}
 
 	@Override

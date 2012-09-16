@@ -10,8 +10,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
+import org.solovyev.common.collections.CollectionsUtils;
+import org.solovyev.common.text.CollectionTransformations;
 import org.solovyev.common.text.StringMapper;
-import org.solovyev.common.utils.CollectionsUtils;
 
 import java.util.List;
 
@@ -62,7 +63,7 @@ public class AFunction implements MathPersistenceEntity {
 	}
 
 	public void setParameterNames(@Nullable String[] parameterNames) {
-		this.parameterNames = CollectionsUtils.formatValue(CollectionsUtils.asList(parameterNames), ";", new StringMapper());
+		this.parameterNames = CollectionTransformations.formatValue(CollectionsUtils.asList(parameterNames), ";", new StringMapper());
 	}
 
 	public void setParameterNames(@Nullable String parameterNames) {
@@ -71,7 +72,7 @@ public class AFunction implements MathPersistenceEntity {
 
 	@NotNull
 	public String[] getParameterNamesAsArray() {
-		final List<String> parameterNamesAsList = CollectionsUtils.split(parameterNames, ";");
+		final List<String> parameterNamesAsList = CollectionTransformations.split(parameterNames, ";");
 		return parameterNamesAsList.toArray(new String[parameterNamesAsList.size()]);
 	}
 }

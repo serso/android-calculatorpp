@@ -12,7 +12,7 @@ import jscl.math.function.IConstant;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.R;
-import org.solovyev.common.definitions.IBuilder;
+import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathRegistry;
 
 import java.util.HashMap;
@@ -63,7 +63,7 @@ class AndroidVarsRegistryImpl extends AbstractAndroidMathRegistry<IConstant, Var
 
 	@NotNull
 	@Override
-	protected IBuilder<? extends IConstant> createBuilder(@NotNull Var entity) {
+	protected JBuilder<? extends IConstant> createBuilder(@NotNull Var entity) {
 		return new Var.Builder(entity);
 	}
 

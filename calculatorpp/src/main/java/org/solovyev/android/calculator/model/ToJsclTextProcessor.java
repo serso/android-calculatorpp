@@ -10,7 +10,7 @@ import jscl.math.function.IConstant;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.common.StartsWithFinder;
 import org.solovyev.android.calculator.math.MathType;
-import org.solovyev.common.utils.CollectionsUtils;
+import org.solovyev.common.collections.CollectionsUtils;
 
 import java.util.ArrayList;
 import java.util.List;

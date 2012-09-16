@@ -12,9 +12,9 @@ import jscl.math.function.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.R;
-import org.solovyev.common.definitions.IBuilder;
+import org.solovyev.common.JBuilder;
+import org.solovyev.common.collections.CollectionsUtils;
 import org.solovyev.common.math.MathRegistry;
-import org.solovyev.common.utils.CollectionsUtils;
 
 import java.util.*;
 
@@ -145,7 +145,7 @@ public class AndroidFunctionsMathRegistry extends AbstractAndroidMathRegistry<Fu
 
 	@NotNull
 	@Override
-	protected IBuilder<? extends Function> createBuilder(@NotNull AFunction entity) {
+	protected JBuilder<? extends Function> createBuilder(@NotNull AFunction entity) {
 		return new CustomFunction.Builder(entity.getName(), entity.getParameterNamesAsArray(), entity.getContent());
 	}
 

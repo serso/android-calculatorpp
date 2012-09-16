@@ -10,11 +10,11 @@ import jscl.NumeralBase;
 import jscl.math.function.Constants;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.common.JPredicate;
 import org.solovyev.common.StartsWithFinder;
 import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.calculator.model.CalculatorParseException;
-import org.solovyev.common.utils.CollectionsUtils;
-import org.solovyev.common.utils.Finder;
+import org.solovyev.common.collections.CollectionsUtils;
 
 import java.util.*;
 
@@ -425,7 +425,7 @@ public enum MathType {
 		}
 	}
 
-	private static class EndsWithFinder implements Finder<String> {
+	private static class EndsWithFinder implements JPredicate<String> {
 
 		private int i;
 
@@ -437,7 +437,7 @@ public enum MathType {
 		}
 
 		@Override
-		public boolean isFound(@Nullable String s) {
+		public boolean apply(@Nullable String s) {
 			return targetString.subSequence(0, i).toString().endsWith(s);
 		}
 

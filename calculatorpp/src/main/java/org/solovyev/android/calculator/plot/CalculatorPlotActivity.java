@@ -38,7 +38,7 @@ import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.model.CalculatorParseException;
 import org.solovyev.android.calculator.model.PreparedExpression;
 import org.solovyev.android.calculator.model.ToJsclTextProcessor;
-import org.solovyev.common.utils.MutableObject;
+import org.solovyev.common.MutableObject;
 
 import java.io.Serializable;
 

@@ -18,7 +18,7 @@ import org.solovyev.android.AndroidUtils;
 import org.solovyev.android.ResourceCache;
 import org.solovyev.android.calculator.CalculatorActivity;
 import org.solovyev.android.calculator.R;
-import org.solovyev.common.utils.StringUtils;
+import org.solovyev.common.text.StringUtils;
 
 /**
  * User: serso

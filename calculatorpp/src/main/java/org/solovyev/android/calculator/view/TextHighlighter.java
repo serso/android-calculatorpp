@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.*;
-import org.solovyev.common.utils.MutableObject;
+import org.solovyev.common.MutableObject;
 
 import java.util.HashMap;
 import java.util.Map;

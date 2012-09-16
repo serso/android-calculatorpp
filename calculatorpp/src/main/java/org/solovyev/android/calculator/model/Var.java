@@ -14,9 +14,9 @@ import org.jetbrains.annotations.Nullable;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 import org.simpleframework.xml.Transient;
-import org.solovyev.common.definitions.IBuilder;
+import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathEntity;
-import org.solovyev.common.utils.StringUtils;
+import org.solovyev.common.text.StringUtils;
 
 /**
  * User: serso
@@ -48,7 +48,7 @@ public class Var implements IConstant, MathPersistenceEntity {
 	@Transient
 	private Constant constant;
 
-	public static class Builder implements IBuilder<Var>, MathEntityBuilder<Var> {
+	public static class Builder implements JBuilder<Var>, MathEntityBuilder<Var> {
 
 		@NotNull
 		private String name;

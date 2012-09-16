@@ -2,7 +2,6 @@ package org.solovyev.common.math;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.solovyev.common.utils.MathUtils;
 
 /**
  * User: serso

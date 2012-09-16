@@ -13,10 +13,10 @@ import org.jetbrains.annotations.Nullable;
 import org.junit.Test;
 import org.solovyev.android.calculator.ICalculatorDisplay;
 import org.solovyev.android.calculator.jscl.JsclOperation;
-import org.solovyev.common.utils.CollectionEqualizer;
-import org.solovyev.common.utils.EqualsTool;
-import org.solovyev.common.utils.history.HistoryHelper;
-import org.solovyev.common.utils.history.SimpleHistoryHelper;
+import org.solovyev.common.equals.CollectionEqualizer;
+import org.solovyev.common.equals.EqualsTool;
+import org.solovyev.common.history.HistoryHelper;
+import org.solovyev.common.history.SimpleHistoryHelper;
 
 import java.util.ArrayList;
 import java.util.Date;

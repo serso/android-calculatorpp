@@ -23,14 +23,13 @@ import org.solovyev.android.calculator.CalculatorModel;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.model.AndroidMathRegistry;
 import org.solovyev.android.menu.AMenuBuilder;
-import org.solovyev.android.menu.AMenuItem;
 import org.solovyev.android.menu.LabeledMenuItem;
 import org.solovyev.android.menu.MenuImpl;
+import org.solovyev.common.equals.EqualsTool;
+import org.solovyev.common.filter.FilterRule;
+import org.solovyev.common.filter.Filter;
 import org.solovyev.common.math.MathEntity;
-import org.solovyev.common.utils.EqualsTool;
-import org.solovyev.common.utils.Filter;
-import org.solovyev.common.utils.FilterRule;
-import org.solovyev.common.utils.StringUtils;
+import org.solovyev.common.text.StringUtils;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -161,7 +160,7 @@ public abstract class AbstractMathEntityListActivity<T extends MathEntity> exten
                 return !isInCategory(t);
             }
         }).filter(result.iterator());
-        
+
         return result; 
     }
 

@@ -25,7 +25,12 @@ import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.menu.AMenuBuilder;
 import org.solovyev.android.menu.MenuImpl;
-import org.solovyev.common.utils.*;
+import org.solovyev.common.collections.CollectionsUtils;
+import org.solovyev.common.equals.Equalizer;
+import org.solovyev.common.filter.Filter;
+import org.solovyev.common.filter.FilterRule;
+import org.solovyev.common.filter.FilterRulesChain;
+import org.solovyev.common.text.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;

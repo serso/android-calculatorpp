@@ -3,7 +3,7 @@ package org.solovyev.android.calculator.model;
 import jscl.math.function.IConstant;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.R;
-import org.solovyev.common.utils.CollectionsUtils;
+import org.solovyev.common.collections.CollectionsUtils;
 
 import java.util.Collections;
 import java.util.Comparator;

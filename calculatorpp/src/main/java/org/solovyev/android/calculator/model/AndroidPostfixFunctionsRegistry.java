@@ -11,7 +11,7 @@ import android.content.SharedPreferences;
 import jscl.math.operator.Operator;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.common.definitions.IBuilder;
+import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathRegistry;
 
 import java.util.HashMap;
@@ -59,7 +59,7 @@ public class AndroidPostfixFunctionsRegistry extends AbstractAndroidMathRegistry
 
 	@NotNull
 	@Override
-	protected IBuilder<? extends Operator> createBuilder(@NotNull MathPersistenceEntity entity) {
+	protected JBuilder<? extends Operator> createBuilder(@NotNull MathPersistenceEntity entity) {
 		return null;  //To change body of implemented methods use File | Settings | File Templates.
 	}
 

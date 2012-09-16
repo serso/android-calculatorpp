@@ -116,7 +116,7 @@
 				a:summary="@string/c_swipe_distance_summary"
 				a:text=" pxs"
 				a:defaultValue="35;350"
-				range:steps="10"
+				range:step="10"
 				range:boundaries="10;500"/>
 
 		<!--	  <org.solovyev.android.prefs.FloatRangeSeekBarPreference

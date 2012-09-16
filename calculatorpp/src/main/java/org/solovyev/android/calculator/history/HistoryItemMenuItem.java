@@ -20,7 +20,7 @@ import android.widget.Toast;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.menu.LabeledMenuItem;
-import org.solovyev.common.utils.StringUtils;
+import org.solovyev.common.text.StringUtils;
 
 /**
 * User: serso

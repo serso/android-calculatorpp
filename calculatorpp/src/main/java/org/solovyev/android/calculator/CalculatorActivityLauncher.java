@@ -15,7 +15,7 @@ import org.solovyev.android.calculator.math.edit.CalculatorOperatorsActivity;
 import org.solovyev.android.calculator.math.edit.CalculatorVarsTabActivity;
 import org.solovyev.android.calculator.math.edit.CalculatorVarsActivity;
 import org.solovyev.android.calculator.plot.CalculatorPlotActivity;
-import org.solovyev.common.utils.StringUtils;
+import org.solovyev.common.text.StringUtils;
 
 /**
  * User: serso

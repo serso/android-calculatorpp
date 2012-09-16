@@ -13,7 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.R;
-import org.solovyev.common.utils.StringUtils;
+import org.solovyev.common.text.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

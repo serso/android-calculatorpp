@@ -8,14 +8,14 @@ package org.solovyev.android.calculator;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.common.utils.Finder;
+import org.solovyev.common.JPredicate;
 
 /**
  * User: serso
  * Date: 10/3/11
  * Time: 12:54 AM
  */
-public class CharacterAtPositionFinder implements Finder<Character> {
+public class CharacterAtPositionFinder implements JPredicate<Character> {
 
 	private int i;
 
@@ -28,7 +28,7 @@ public class CharacterAtPositionFinder implements Finder<Character> {
 	}
 
 	@Override
-	public boolean isFound(@Nullable Character s) {
+	public boolean apply(@Nullable Character s) {
 		return s != null && s.equals(targetString.charAt(i));
 	}
 

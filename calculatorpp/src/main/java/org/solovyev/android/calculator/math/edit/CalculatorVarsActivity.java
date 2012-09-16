@@ -27,9 +27,9 @@ import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.calculator.model.Var;
 import org.solovyev.android.menu.LabeledMenuItem;
-import org.solovyev.common.utils.CollectionsUtils;
-import org.solovyev.common.utils.Finder;
-import org.solovyev.common.utils.StringUtils;
+import org.solovyev.common.JPredicate;
+import org.solovyev.common.collections.CollectionsUtils;
+import org.solovyev.common.text.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -165,9 +165,9 @@ public class CalculatorVarsActivity extends AbstractMathEntityListActivity<ICons
 	protected List<IConstant> getMathEntities() {
 		final List<IConstant> result = new ArrayList<IConstant>(CalculatorEngine.instance.getVarsRegistry().getEntities());
 
-		CollectionsUtils.removeAll(result, new Finder<IConstant>() {
+		CollectionsUtils.removeAll(result, new JPredicate<IConstant>() {
 			@Override
-			public boolean isFound(@Nullable IConstant var) {
+			public boolean apply(@Nullable IConstant var) {
 				return var != null && CollectionsUtils.contains(var.getName(), MathType.INFINITY_JSCL, MathType.NAN);
 			}
 		});

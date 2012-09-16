@@ -17,7 +17,7 @@ import org.solovyev.android.UnitType;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.view.ViewBuilder;
 import org.solovyev.android.view.ViewFromLayoutBuilder;
-import org.solovyev.common.utils.StringUtils;
+import org.solovyev.common.text.StringUtils;
 
 import java.util.Collections;
 import java.util.List;

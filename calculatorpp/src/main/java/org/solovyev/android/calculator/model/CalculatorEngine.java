@@ -17,13 +17,13 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.prefs.BooleanPreference;
-import org.solovyev.common.text.EnumMapper;
 import org.solovyev.android.prefs.Preference;
 import org.solovyev.android.prefs.StringPreference;
+import org.solovyev.common.MutableObject;
 import org.solovyev.common.msg.MessageRegistry;
+import org.solovyev.common.text.EnumMapper;
 import org.solovyev.common.text.NumberMapper;
-import org.solovyev.common.utils.MutableObject;
-import org.solovyev.common.utils.StringUtils;
+import org.solovyev.common.text.StringUtils;
 
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;

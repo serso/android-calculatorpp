@@ -27,8 +27,8 @@ import org.solovyev.android.calculator.view.UnitConverterViewBuilder;
 import org.solovyev.android.menu.AMenuItem;
 import org.solovyev.android.menu.LabeledMenuItem;
 import org.solovyev.android.view.AutoResizeTextView;
-import org.solovyev.common.utils.CollectionsUtils;
-import org.solovyev.common.utils.StringUtils;
+import org.solovyev.common.collections.CollectionsUtils;
+import org.solovyev.common.text.StringUtils;
 
 import java.util.HashSet;
 import java.util.Set;

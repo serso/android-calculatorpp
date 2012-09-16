@@ -31,10 +31,10 @@ import org.solovyev.android.calculator.model.CalculatorParseException;
 import org.solovyev.android.history.HistoryControl;
 import org.solovyev.android.menu.AMenuBuilder;
 import org.solovyev.android.menu.MenuImpl;
+import org.solovyev.common.MutableObject;
+import org.solovyev.common.history.HistoryAction;
 import org.solovyev.common.msg.Message;
-import org.solovyev.common.utils.MutableObject;
-import org.solovyev.common.utils.StringUtils;
-import org.solovyev.common.utils.history.HistoryAction;
+import org.solovyev.common.text.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -329,19 +329,19 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 
 	}
 
-	@Override
-	public void doHistoryAction(@NotNull HistoryAction historyAction) {
-		synchronized (CalculatorHistory.instance) {
-			if (CalculatorHistory.instance.isActionAvailable(historyAction)) {
-				final CalculatorHistoryState newState = CalculatorHistory.instance.doAction(historyAction, getCurrentHistoryState());
-				if (newState != null) {
-					setCurrentHistoryState(newState);
-				}
-			}
-		}
-	}
+    @Override
+    public void doHistoryAction(@NotNull HistoryAction historyAction) {
+        synchronized (CalculatorHistory.instance) {
+            if (CalculatorHistory.instance.isActionAvailable(historyAction)) {
+                final CalculatorHistoryState newState = CalculatorHistory.instance.doAction(historyAction, getCurrentHistoryState());
+                if (newState != null) {
+                    setCurrentHistoryState(newState);
+                }
+            }
+        }
+    }
 
-	@Override
+    @Override
 	public void setCurrentHistoryState(@NotNull CalculatorHistoryState editorHistoryState) {
 		synchronized (CalculatorHistory.instance) {
 			Log.d(this.getClass().getName(), "Saved history found: " + editorHistoryState);

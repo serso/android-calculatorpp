@@ -13,7 +13,7 @@ import org.solovyev.android.menu.IdentifiableMenuItem;
  * Date: 4/23/12
  * Time: 2:25 PM
  */
-enum CalculatorMenu implements IdentifiableMenuItem {
+enum CalculatorMenu implements IdentifiableMenuItem<MenuItem> {
 
     settings(R.id.main_menu_item_settings){
         @Override

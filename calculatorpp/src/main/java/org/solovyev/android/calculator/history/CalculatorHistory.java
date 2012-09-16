@@ -12,9 +12,9 @@ import android.preference.PreferenceManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.R;
-import org.solovyev.common.utils.history.HistoryAction;
-import org.solovyev.common.utils.history.HistoryHelper;
-import org.solovyev.common.utils.history.SimpleHistoryHelper;
+import org.solovyev.common.history.HistoryAction;
+import org.solovyev.common.history.HistoryHelper;
+import org.solovyev.common.history.SimpleHistoryHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;

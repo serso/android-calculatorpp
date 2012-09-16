@@ -46,11 +46,11 @@ import org.solovyev.android.menu.LayoutActivityMenu;
 import org.solovyev.android.prefs.Preference;
 import org.solovyev.android.view.ColorButton;
 import org.solovyev.android.view.drag.*;
-import org.solovyev.common.utils.Announcer;
-import org.solovyev.common.utils.EqualsTool;
-import org.solovyev.common.utils.Point2d;
-import org.solovyev.common.utils.StringUtils;
-import org.solovyev.common.utils.history.HistoryAction;
+import org.solovyev.common.Announcer;
+import org.solovyev.common.equals.EqualsTool;
+import org.solovyev.common.math.Point2d;
+import org.solovyev.common.text.StringUtils;
+import org.solovyev.common.history.HistoryAction;
 
 public class CalculatorActivity extends Activity implements FontSizeAdjuster, SharedPreferences.OnSharedPreferenceChangeListener, ServiceConnection {
 
@@ -469,7 +469,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
                 dialogShown = showSpecialWindow(preferences, CalculatorPreferences.Gui.notesppAnnounceShown, R.layout.notespp_announce, R.id.notespp_announce);
             }
 
-			ResourceCache.instance.init(R.id.class, this);
+			ResourceCache.instance.initCaptions(this, R.id.class);
 
 			initialized = true;
 		}
