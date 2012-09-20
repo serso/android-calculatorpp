@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.calculator.CalculatorImpl;
 import org.solovyev.math.units.Unit;
 import org.solovyev.math.units.UnitConverter;
 import org.solovyev.math.units.UnitImpl;
@@ -17,7 +18,6 @@ import org.solovyev.math.units.UnitType;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.view.ViewBuilder;
 import org.solovyev.android.view.ViewFromLayoutBuilder;
-import org.solovyev.common.text.StringUtils;
 
 import java.util.Collections;
 import java.util.List;
@@ -173,45 +173,10 @@ public class UnitConverterViewBuilder implements ViewBuilder<View> {
 
         final String from = fromEditText.getText().toString();
         try {
-            toEditText.setText(doConversion(converter, from, getFromUnitType(main), getToUnitType(main)));
-        } catch (ConversionException e) {
+            toEditText.setText(CalculatorImpl.doConversion(converter, from, getFromUnitType(main), getToUnitType(main)));
+        } catch (CalculatorImpl.ConversionException e) {
             toEditText.setText(context.getString(R.string.c_error));
         }
-    }
-
-    public static final class ConversionException extends Exception {
-        private ConversionException() {
-        }
-
-        private ConversionException(Throwable throwable) {
-            super(throwable);
-        }
-    }
-
-    @NotNull
-    public static String doConversion(@NotNull UnitConverter<String> converter,
-                                      @Nullable String from,
-                                      @NotNull UnitType<String> fromUnitType,
-                                      @NotNull UnitType<String> toUnitType) throws ConversionException{
-        final String result;
-
-        if (StringUtils.isEmpty(from)) {
-            result = "";
-        } else {
-
-            String to = null;
-            try {
-                if (converter.isSupported(fromUnitType, toUnitType)) {
-                    to = converter.convert(UnitImpl.newInstance(from, fromUnitType), toUnitType).getValue();
-                }
-            } catch (RuntimeException e) {
-                throw new ConversionException(e);
-            }
-
-            result = to;
-        }
-
-        return result;
     }
 
     @NotNull

@@ -97,10 +97,9 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 		copyResult(context, display);
 	}
 
-	public static void copyResult(@NotNull Context context, @NotNull final CalculatorDisplayView display) {
-        final CalculatorDisplayViewState displayViewState = display.getState();
-		if (displayViewState.isValid()) {
-			final CharSequence text = display.getText();
+	public static void copyResult(@NotNull Context context, @NotNull final CalculatorDisplayViewState viewState) {
+		if (viewState.isValid()) {
+			final CharSequence text = viewState.getText();
 			if (!StringUtils.isEmpty(text)) {
 				final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
 				clipboard.setText(text.toString());

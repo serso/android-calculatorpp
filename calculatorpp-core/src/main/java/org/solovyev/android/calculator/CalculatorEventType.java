@@ -28,7 +28,19 @@ public enum CalculatorEventType {
     calculation_finished,
 
     // @NotNull org.solovyev.android.calculator.CalculatorFailure
-    calculation_failed;
+    calculation_failed,
+
+    /*
+    **********************************************************************
+    *
+    *                           CONVERSION
+    *
+    **********************************************************************
+    */
+    conversion_started,
+
+    // @NotNull String conversion result
+    conversion_finished;
 
     public boolean isOfType(@NotNull CalculatorEventType... types) {
         for (CalculatorEventType type : types) {

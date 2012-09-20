@@ -13,8 +13,9 @@ public interface CalculatorEventDataId {
     // the higher id => the later event
     long getEventId();
 
+    // the higher id => the later event
     @Nullable
-    Long getCalculationId();
+    Long getSequenceId();
 
     boolean isAfter(@NotNull CalculatorEventDataId calculatorEventDataId);
 }

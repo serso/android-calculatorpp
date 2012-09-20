@@ -13,18 +13,16 @@ class CalculatorEventDataIdImpl implements CalculatorEventDataId {
     private final long eventId;
 
     @Nullable
-    private final Long calculationId;
+    private final Long sequenceId;
 
-    private CalculatorEventDataIdImpl(long id,
-                                      @Nullable Long calculationId) {
+    private CalculatorEventDataIdImpl(long id, @Nullable Long sequenceId) {
         this.eventId = id;
-        this.calculationId = calculationId;
+        this.sequenceId = sequenceId;
     }
 
     @NotNull
-    static CalculatorEventDataId newInstance(long id,
-                                                    @Nullable Long calculationId) {
-        return new CalculatorEventDataIdImpl(id, calculationId);
+    static CalculatorEventDataId newInstance(long id, @Nullable Long sequenceId) {
+        return new CalculatorEventDataIdImpl(id, sequenceId);
     }
 
     @Override
@@ -34,8 +32,8 @@ class CalculatorEventDataIdImpl implements CalculatorEventDataId {
 
     @Nullable
     @Override
-    public Long getCalculationId() {
-        return this.calculationId;
+    public Long getSequenceId() {
+        return this.sequenceId;
     }
 
     @Override
@@ -51,7 +49,7 @@ class CalculatorEventDataIdImpl implements CalculatorEventDataId {
         CalculatorEventDataIdImpl that = (CalculatorEventDataIdImpl) o;
 
         if (eventId != that.eventId) return false;
-        if (calculationId != null ? !calculationId.equals(that.calculationId) : that.calculationId != null)
+        if (sequenceId != null ? !sequenceId.equals(that.sequenceId) : that.sequenceId != null)
             return false;
 
         return true;
@@ -60,7 +58,7 @@ class CalculatorEventDataIdImpl implements CalculatorEventDataId {
     @Override
     public int hashCode() {
         int result = (int) (eventId ^ (eventId >>> 32));
-        result = 31 * result + (calculationId != null ? calculationId.hashCode() : 0);
+        result = 31 * result + (sequenceId != null ? sequenceId.hashCode() : 0);
         return result;
     }
 }
