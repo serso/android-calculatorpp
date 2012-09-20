@@ -35,6 +35,11 @@
             <artifactId>jscl</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.simpleframework</groupId>
+            <artifactId>simple-xml</artifactId>
+        </dependency>
+
     </dependencies>
 
     

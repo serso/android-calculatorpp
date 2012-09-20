@@ -27,7 +27,6 @@ import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.calculator.model.CalculatorEvalException;
-import org.solovyev.android.calculator.model.CalculatorParseException;
 import org.solovyev.android.history.HistoryControl;
 import org.solovyev.android.menu.AMenuBuilder;
 import org.solovyev.android.menu.MenuImpl;

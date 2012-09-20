@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.CalculatorLocatorImpl;
 import org.solovyev.common.JPredicate;
 import org.solovyev.common.StartsWithFinder;
-import org.solovyev.android.calculator.model.CalculatorParseException;
+import org.solovyev.android.calculator.CalculatorParseException;
 import org.solovyev.common.collections.CollectionsUtils;
 
 import java.util.*;

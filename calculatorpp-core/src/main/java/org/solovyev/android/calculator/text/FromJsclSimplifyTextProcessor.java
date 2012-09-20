@@ -1,11 +1,11 @@
-package org.solovyev.android.calculator.model;
+package org.solovyev.android.calculator.text;
 
 import jscl.math.Generic;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.CalculatorLocator;
 import org.solovyev.android.calculator.CalculatorLocatorImpl;
 import org.solovyev.android.calculator.math.MathType;
+import org.solovyev.android.calculator.CalculatorParseException;
 
 import java.util.Arrays;
 import java.util.List;

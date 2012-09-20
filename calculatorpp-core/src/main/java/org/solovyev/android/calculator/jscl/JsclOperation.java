@@ -10,9 +10,9 @@ import jscl.math.Generic;
 import jscl.text.ParseException;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.CalculatorLocatorImpl;
-import org.solovyev.android.calculator.model.DummyTextProcessor;
-import org.solovyev.android.calculator.model.FromJsclSimplifyTextProcessor;
-import org.solovyev.android.calculator.model.TextProcessor;
+import org.solovyev.android.calculator.text.DummyTextProcessor;
+import org.solovyev.android.calculator.text.FromJsclSimplifyTextProcessor;
+import org.solovyev.android.calculator.text.TextProcessor;
 
 public enum JsclOperation {
 

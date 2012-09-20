@@ -1,6 +1,7 @@
-package org.solovyev.android.calculator.model;
+package org.solovyev.android.calculator.text;
 
 import org.jetbrains.annotations.NotNull;
+import org.solovyev.android.calculator.CalculatorParseException;
 
 /**
  * User: serso

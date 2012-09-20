@@ -8,8 +8,8 @@ package org.solovyev.android.calculator.jscl;
 
 import jscl.math.Generic;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.calculator.model.CalculatorParseException;
-import org.solovyev.android.calculator.model.TextProcessor;
+import org.solovyev.android.calculator.CalculatorParseException;
+import org.solovyev.android.calculator.text.TextProcessor;
 
 /**
  * User: serso

@@ -4,10 +4,11 @@
  * or visit http://se.solovyev.org
  */
 
-package org.solovyev.android.calculator.model;
+package org.solovyev.android.calculator.text;
 
 import jscl.math.Generic;
 import org.jetbrains.annotations.NotNull;
+import org.solovyev.android.calculator.CalculatorParseException;
 
 /**
  * User: serso

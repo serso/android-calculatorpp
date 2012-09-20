@@ -12,7 +12,7 @@ import org.solovyev.android.calculator.AndroidNumeralBase;
 import org.solovyev.android.calculator.CalculatorModel;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.model.CalculatorEngine;
-import org.solovyev.android.calculator.model.CalculatorParseException;
+import org.solovyev.android.calculator.CalculatorParseException;
 import org.solovyev.android.calculator.model.ToJsclTextProcessor;
 import org.solovyev.common.MutableObject;
 import org.solovyev.common.text.StringUtils;
