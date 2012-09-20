@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.solovyev.android.calculator.CalculatorEvalException;
 import org.solovyev.android.calculator.CalculatorParseException;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.common.Converter;

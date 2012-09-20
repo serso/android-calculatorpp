@@ -17,7 +17,7 @@ import org.solovyev.android.calculator.jscl.JsclOperation;
  * Date: 12/17/11
  * Time: 9:45 PM
  */
-public interface ICalculatorDisplay extends Editor{
+public interface JCalculatorDisplay extends Editor{
 
 	boolean isValid();
 

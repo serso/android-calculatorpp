@@ -20,13 +20,12 @@ import android.widget.Toast;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.CursorControl;
-import org.solovyev.android.calculator.history.CalculatorHistory;
+import org.solovyev.android.calculator.history.AndroidCalculatorHistoryImpl;
 import org.solovyev.android.calculator.history.CalculatorHistoryState;
 import org.solovyev.android.calculator.history.TextViewEditorAdapter;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.CalculatorEngine;
-import org.solovyev.android.calculator.model.CalculatorEvalException;
 import org.solovyev.android.history.HistoryControl;
 import org.solovyev.android.menu.AMenuBuilder;
 import org.solovyev.android.menu.MenuImpl;
@@ -70,7 +69,7 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 		this.display = (CalculatorDisplay) activity.findViewById(R.id.calculatorDisplay);
 		this.display.setOnClickListener(new CalculatorDisplayOnClickListener(activity));
 
-		final CalculatorHistoryState lastState = CalculatorHistory.instance.getLastHistoryState();
+		final CalculatorHistoryState lastState = AndroidCalculatorHistoryImpl.instance.getLastHistoryState();
 		if (lastState == null) {
 			saveHistoryState();
 		} else {
@@ -110,7 +109,7 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 	}
 
 	private void saveHistoryState() {
-		CalculatorHistory.instance.addState(getCurrentHistoryState());
+		AndroidCalculatorHistoryImpl.instance.addState(getCurrentHistoryState());
 	}
 
 	public void setCursorOnStart() {
@@ -196,14 +195,14 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 
 		if (delayEvaluate) {
 			if (historyState == null) {
-				CalculatorHistory.instance.addState(localHistoryState);
+				AndroidCalculatorHistoryImpl.instance.addState(localHistoryState);
 			}
             // todo serso: this is not correct - operation is processing still in the same thread
 			new Handler().postDelayed(pendingOperation.getObject(), EVAL_DELAY_MILLIS);
 		} else {
 			pendingOperation.getObject().run();
 			if (historyState == null) {
-				CalculatorHistory.instance.addState(localHistoryState);
+				AndroidCalculatorHistoryImpl.instance.addState(localHistoryState);
 			}
 		}
 	}
@@ -330,9 +329,9 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 
     @Override
     public void doHistoryAction(@NotNull HistoryAction historyAction) {
-        synchronized (CalculatorHistory.instance) {
-            if (CalculatorHistory.instance.isActionAvailable(historyAction)) {
-                final CalculatorHistoryState newState = CalculatorHistory.instance.doAction(historyAction, getCurrentHistoryState());
+        synchronized (AndroidCalculatorHistoryImpl.instance) {
+            if (AndroidCalculatorHistoryImpl.instance.isActionAvailable(historyAction)) {
+                final CalculatorHistoryState newState = AndroidCalculatorHistoryImpl.instance.doAction(historyAction, getCurrentHistoryState());
                 if (newState != null) {
                     setCurrentHistoryState(newState);
                 }
@@ -342,7 +341,7 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 
     @Override
 	public void setCurrentHistoryState(@NotNull CalculatorHistoryState editorHistoryState) {
-		synchronized (CalculatorHistory.instance) {
+		synchronized (AndroidCalculatorHistoryImpl.instance) {
 			Log.d(this.getClass().getName(), "Saved history found: " + editorHistoryState);
 
 			editorHistoryState.setValuesFromHistory(new TextViewEditorAdapter(this.editor), this.display);
@@ -362,7 +361,7 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 	@Override
 	@NotNull
 	public CalculatorHistoryState getCurrentHistoryState() {
-		synchronized (CalculatorHistory.instance) {
+		synchronized (AndroidCalculatorHistoryImpl.instance) {
 			return CalculatorHistoryState.newInstance(new TextViewEditorAdapter(this.editor), this.display);
 		}
 	}

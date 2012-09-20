@@ -12,6 +12,8 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.solovyev.android.calculator.CalculatorParseException;
+import org.solovyev.android.calculator.PreparedExpression;
+import org.solovyev.android.calculator.ToJsclTextProcessor;
 import org.solovyev.android.calculator.text.TextProcessor;
 
 /**

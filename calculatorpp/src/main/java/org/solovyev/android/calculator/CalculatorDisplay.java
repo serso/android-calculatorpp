@@ -19,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.calculator.text.TextProcessor;
-import org.solovyev.android.calculator.model.ToJsclTextProcessor;
+import org.solovyev.android.calculator.ToJsclTextProcessor;
 import org.solovyev.android.calculator.view.NumeralBaseConverterDialog;
 import org.solovyev.android.calculator.view.TextHighlighter;
 import org.solovyev.android.calculator.view.UnitConverterViewBuilder;
@@ -37,7 +37,7 @@ import java.util.Set;
  * Date: 9/17/11
  * Time: 10:58 PM
  */
-public class CalculatorDisplay extends AutoResizeTextView implements ICalculatorDisplay{
+public class CalculatorDisplay extends AutoResizeTextView implements JCalculatorDisplay {
 
     private static enum ConversionMenuItem implements AMenuItem<CalculatorDisplay> {
         convert_to_bin(NumeralBase.bin),

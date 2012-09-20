@@ -11,7 +11,7 @@ import org.jetbrains.annotations.Nullable;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 import org.simpleframework.xml.Transient;
-import org.solovyev.android.calculator.ICalculatorDisplay;
+import org.solovyev.android.calculator.JCalculatorDisplay;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 
 /**
@@ -47,7 +47,7 @@ public class CalculatorDisplayHistoryState implements Cloneable {
 	}
 
 	@NotNull
-	public static CalculatorDisplayHistoryState newInstance(@NotNull ICalculatorDisplay display) {
+	public static CalculatorDisplayHistoryState newInstance(@NotNull JCalculatorDisplay display) {
 		final CalculatorDisplayHistoryState result = new CalculatorDisplayHistoryState();
 
 		result.editorState = EditorHistoryState.newInstance(display);
@@ -59,7 +59,7 @@ public class CalculatorDisplayHistoryState implements Cloneable {
 		return result;
 	}
 
-	public void setValuesFromHistory(@NotNull ICalculatorDisplay display) {
+	public void setValuesFromHistory(@NotNull JCalculatorDisplay display) {
 		this.getEditorState().setValuesFromHistory(display);
 		display.setValid(this.isValid());
 		display.setErrorMessage(this.getErrorMessage());

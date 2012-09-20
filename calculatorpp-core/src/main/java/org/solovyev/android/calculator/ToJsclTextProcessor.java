@@ -4,12 +4,13 @@
  * or visit http://se.solovyev.org
  */
 
-package org.solovyev.android.calculator.model;
+package org.solovyev.android.calculator;
 
 import jscl.math.function.IConstant;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.CalculatorApplication;
 import org.solovyev.android.calculator.CalculatorParseException;
+import org.solovyev.android.calculator.PreparedExpression;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.text.TextProcessor;
 import org.solovyev.android.msg.AndroidMessage;

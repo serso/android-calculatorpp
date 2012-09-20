@@ -36,8 +36,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.CalculatorParseException;
-import org.solovyev.android.calculator.model.PreparedExpression;
-import org.solovyev.android.calculator.model.ToJsclTextProcessor;
+import org.solovyev.android.calculator.PreparedExpression;
+import org.solovyev.android.calculator.ToJsclTextProcessor;
 import org.solovyev.common.MutableObject;
 
 import java.io.Serializable;
