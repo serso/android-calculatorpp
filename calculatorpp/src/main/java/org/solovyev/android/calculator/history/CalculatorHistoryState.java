@@ -8,6 +8,7 @@ package org.solovyev.android.calculator.history;
 import org.jetbrains.annotations.NotNull;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
+import org.solovyev.android.calculator.Editor;
 import org.solovyev.android.calculator.ICalculatorDisplay;
 
 /**

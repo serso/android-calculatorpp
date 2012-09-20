@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
+import org.solovyev.android.calculator.Editor;
 
 @Root
 public class EditorHistoryState implements Cloneable{

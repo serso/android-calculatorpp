@@ -16,13 +16,16 @@ import jscl.text.ParseInterruptedException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.CalculatorApplication;
+import org.solovyev.android.calculator.JCalculatorEngine;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.jscl.JsclOperation;
+import org.solovyev.android.msg.AndroidMessage;
 import org.solovyev.android.prefs.BooleanPreference;
 import org.solovyev.android.prefs.Preference;
 import org.solovyev.android.prefs.StringPreference;
 import org.solovyev.common.MutableObject;
 import org.solovyev.common.msg.MessageRegistry;
+import org.solovyev.common.msg.MessageType;
 import org.solovyev.common.text.EnumMapper;
 import org.solovyev.common.text.NumberMapper;
 import org.solovyev.common.text.StringUtils;
@@ -40,7 +43,7 @@ import java.util.concurrent.TimeUnit;
  * Time: 11:38 PM
  */
 
-public enum CalculatorEngine {
+public enum CalculatorEngine implements JCalculatorEngine {
 
 	instance;
 
@@ -130,7 +133,8 @@ public enum CalculatorEngine {
 		this.engine.setUseGroupingSeparator(true);
 	}
 
-	@NotNull
+	@Override
+    @NotNull
 	public String getMultiplicationSign() {
 		return multiplicationSign;
 	}
@@ -229,10 +233,12 @@ public enum CalculatorEngine {
 						evalException.setObject(new CalculatorEvalException(e, e, jsclExpression));
 					} catch (ArithmeticException e) {
 						//System.out.println(e.getMessage());
-						parseException.setObject(new CalculatorParseException(R.string.msg_1, CalculatorApplication.getInstance(), jsclExpression, e.getMessage()));
+                        final AndroidMessage androidMessage = new AndroidMessage(R.string.msg_1, MessageType.error, CalculatorApplication.getInstance(), e.getMessage());
+                        parseException.setObject(new CalculatorParseException(jsclExpression, androidMessage));
 					} catch (StackOverflowError e) {
 						//System.out.println(StringUtils.fromStackTrace(e.getStackTrace()));
-						parseException.setObject(new CalculatorParseException(R.string.msg_2, CalculatorApplication.getInstance(), jsclExpression));
+                        final AndroidMessage androidMessage = new AndroidMessage(R.string.msg_2, MessageType.error, CalculatorApplication.getInstance());
+                        parseException.setObject(new CalculatorParseException(jsclExpression, androidMessage));
 					} catch (jscl.text.ParseException e) {
 						//System.out.println(e.getMessage());
 						parseException.setObject(new CalculatorParseException(e));
@@ -278,11 +284,13 @@ public enum CalculatorEngine {
 				}
 
 				if (calculationResultLocal == null) {
-					throw new CalculatorParseException(R.string.msg_3, CalculatorApplication.getInstance(), jsclExpression);
+                    final AndroidMessage androidMessage = new AndroidMessage(R.string.msg_3, MessageType.error, CalculatorApplication.getInstance());
+                    throw new CalculatorParseException(jsclExpression, androidMessage);
 				}
 
 			} catch (InterruptedException e) {
-				throw new CalculatorParseException(R.string.msg_4, CalculatorApplication.getInstance(), jsclExpression);
+                final AndroidMessage androidMessage = new AndroidMessage(R.string.msg_4, MessageType.error, CalculatorApplication.getInstance());
+                throw new CalculatorParseException(jsclExpression, androidMessage);
 			}
 
 			final Generic genericResult = calculationResult.getObject();
@@ -356,27 +364,32 @@ public enum CalculatorEngine {
 		}
 	}
 
-	@NotNull
+	@Override
+    @NotNull
 	public AndroidMathRegistry<IConstant> getVarsRegistry() {
 		return varsRegistry;
 	}
 
-	@NotNull
+	@Override
+    @NotNull
 	public AndroidMathRegistry<Function> getFunctionsRegistry() {
 		return functionsRegistry;
 	}
 
-	@NotNull
+	@Override
+    @NotNull
 	public AndroidMathRegistry<Operator> getOperatorsRegistry() {
 		return operatorsRegistry;
 	}
 
-	@NotNull
+	@Override
+    @NotNull
 	public AndroidMathRegistry<Operator> getPostfixFunctionsRegistry() {
 		return postfixFunctionsRegistry;
 	}
 
-	@NotNull
+	@Override
+    @NotNull
 	public MathEngine getEngine() {
 		return engine;
 	}

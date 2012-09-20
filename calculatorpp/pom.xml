@@ -82,13 +82,6 @@
         <dependency>
             <groupId>org.solovyev</groupId>
             <artifactId>jscl</artifactId>
-            <version>0.0.2</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>xercesImpl</artifactId>
-                    <groupId>xerces</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <!--OTHER-->

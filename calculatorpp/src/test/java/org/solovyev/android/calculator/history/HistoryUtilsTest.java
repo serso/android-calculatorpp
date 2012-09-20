@@ -11,6 +11,7 @@ import junit.framework.Assert;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.junit.Test;
+import org.solovyev.android.calculator.Editor;
 import org.solovyev.android.calculator.ICalculatorDisplay;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.common.equals.CollectionEqualizer;

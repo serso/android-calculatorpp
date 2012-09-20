@@ -73,6 +73,18 @@
             </dependency>
 
             <dependency>
+                <groupId>org.solovyev</groupId>
+                <artifactId>jscl</artifactId>
+                <version>0.0.2</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>xercesImpl</artifactId>
+                        <groupId>xerces</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
                 <groupId>org.solovyev.android</groupId>
                 <artifactId>android-common-other</artifactId>
                 <type>apklib</type>

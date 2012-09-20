@@ -30,6 +30,11 @@
             <artifactId>annotations</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.solovyev</groupId>
+            <artifactId>jscl</artifactId>
+        </dependency>
+
     </dependencies>
 
     

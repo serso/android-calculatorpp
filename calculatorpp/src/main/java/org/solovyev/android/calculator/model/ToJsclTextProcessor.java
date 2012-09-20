@@ -10,9 +10,11 @@ import jscl.math.function.IConstant;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.CalculatorApplication;
 import org.solovyev.android.calculator.R;
+import org.solovyev.android.msg.AndroidMessage;
 import org.solovyev.common.StartsWithFinder;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.common.collections.CollectionsUtils;
+import org.solovyev.common.msg.MessageType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +77,8 @@ public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, St
 			if (mathTypeBefore != null &&
 					(mathTypeBefore.getMathType() == MathType.function || mathTypeBefore.getMathType() == MathType.operator) &&
 						CollectionsUtils.find(MathType.openGroupSymbols, startsWithFinder) != null) {
-				throw new CalculatorParseException(R.string.msg_5, CalculatorApplication.getInstance(), i, s, mathTypeBefore.getMatch());
+                final AndroidMessage androidMessage = new AndroidMessage(R.string.msg_5, MessageType.error, CalculatorApplication.getInstance(), mathTypeBefore.getMatch());
+                throw new CalculatorParseException(i, s, androidMessage);
 			}
 
 			i = mathTypeResult.processToJscl(result, i);
@@ -86,7 +89,8 @@ public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, St
 	@NotNull
 	private static PreparedExpression replaceVariables(@NotNull final String s, int depth, @NotNull List<IConstant> undefinedVars) throws CalculatorParseException {
 		if (depth >= MAX_DEPTH) {
-			throw new CalculatorParseException(R.string.msg_6, CalculatorApplication.getInstance(), s);
+            final AndroidMessage androidMessage = new AndroidMessage(R.string.msg_6, MessageType.error, CalculatorApplication.getInstance());
+            throw new CalculatorParseException(s, androidMessage);
 		} else {
 			depth++;
 		}
