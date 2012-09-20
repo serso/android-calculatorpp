@@ -8,6 +8,8 @@ package org.solovyev.android.calculator.model;
 
 import jscl.math.function.IConstant;
 import org.jetbrains.annotations.NotNull;
+import org.solovyev.android.calculator.CalculatorApplication;
+import org.solovyev.android.calculator.R;
 import org.solovyev.common.StartsWithFinder;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.common.collections.CollectionsUtils;
@@ -73,7 +75,7 @@ public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, St
 			if (mathTypeBefore != null &&
 					(mathTypeBefore.getMathType() == MathType.function || mathTypeBefore.getMathType() == MathType.operator) &&
 						CollectionsUtils.find(MathType.openGroupSymbols, startsWithFinder) != null) {
-				throw new CalculatorParseException(Messages.msg_5, i, s, mathTypeBefore.getMatch());
+				throw new CalculatorParseException(R.string.msg_5, CalculatorApplication.getInstance(), i, s, mathTypeBefore.getMatch());
 			}
 
 			i = mathTypeResult.processToJscl(result, i);
@@ -84,7 +86,7 @@ public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, St
 	@NotNull
 	private static PreparedExpression replaceVariables(@NotNull final String s, int depth, @NotNull List<IConstant> undefinedVars) throws CalculatorParseException {
 		if (depth >= MAX_DEPTH) {
-			throw new CalculatorParseException(Messages.msg_6, s);
+			throw new CalculatorParseException(R.string.msg_6, CalculatorApplication.getInstance(), s);
 		} else {
 			depth++;
 		}

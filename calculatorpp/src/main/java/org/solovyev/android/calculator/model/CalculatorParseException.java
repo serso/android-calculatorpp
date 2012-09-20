@@ -6,6 +6,7 @@
 
 package org.solovyev.android.calculator.model;
 
+import android.app.Application;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.msg.AndroidMessage;
@@ -38,14 +39,14 @@ public class CalculatorParseException extends SersoException implements Message 
 		this.position = jsclParseException.getPosition();
 	}
 
-	public CalculatorParseException(@NotNull String messageId, @Nullable Integer position, @NotNull String expression, Object... parameters) {
-		this.message = new AndroidMessage(messageId, MessageType.error, parameters);
+	public CalculatorParseException(@NotNull Integer messageId, @NotNull Application application, @Nullable Integer position, @NotNull String expression, Object... parameters) {
+		this.message = new AndroidMessage(messageId, MessageType.error, application, parameters);
 		this.expression = expression;
 		this.position = position;
 	}
 
-	public CalculatorParseException(@NotNull String messageId, @NotNull String expression, Object... parameters) {
-		this(messageId, null, expression, parameters);
+	public CalculatorParseException(@NotNull Integer messageId, @NotNull Application application, @NotNull String expression, Object... parameters) {
+		this(messageId, application, null, expression, parameters);
 	}
 
 	@NotNull

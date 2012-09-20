@@ -31,7 +31,6 @@ import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.AndroidUtils;
 import org.solovyev.android.FontSizeAdjuster;
 import org.solovyev.android.LocalBinder;
-import org.solovyev.android.ResourceCache;
 import org.solovyev.android.calculator.about.CalculatorReleaseNotesActivity;
 import org.solovyev.android.calculator.history.CalculatorHistory;
 import org.solovyev.android.calculator.history.CalculatorHistoryState;
@@ -51,6 +50,11 @@ import org.solovyev.common.equals.EqualsTool;
 import org.solovyev.common.math.Point2d;
 import org.solovyev.common.text.StringUtils;
 import org.solovyev.common.history.HistoryAction;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CalculatorActivity extends Activity implements FontSizeAdjuster, SharedPreferences.OnSharedPreferenceChangeListener, ServiceConnection {
 
@@ -121,8 +125,6 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 				Log.e(CalculatorActivity.class.getName(), e.getMessage(), e);
 			}
 		}
-
-		ResourceCache.instance.initCaptions(CalculatorApplication.getInstance(), R.string.class);
 
 		billingObserver = new CalculatorBillingObserver(this);
 		BillingController.registerObserver(billingObserver);
@@ -381,7 +383,28 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
     private synchronized void setOnDragListeners(@NotNull SimpleOnDragListener.Preferences dragPreferences, @NotNull SharedPreferences preferences) {
 		final OnDragListener onDragListener = new OnDragListenerVibrator(newOnDragListener(new DigitButtonDragProcessor(calculatorModel), dragPreferences), vibrator, preferences);
 
-		for (Integer dragButtonId : ResourceCache.instance.getDragButtonIds()) {
+        final List<Integer> dragButtonIds = new ArrayList<Integer>();
+        final List<Integer> buttonIds = new ArrayList<Integer>();
+
+        for (Field field : R.id.class.getDeclaredFields()) {
+            int modifiers = field.getModifiers();
+            if (Modifier.isFinal(modifiers) && Modifier.isStatic(modifiers)) {
+                try {
+                    int viewId = field.getInt(R.id.class);
+                    final View view = this.findViewById(viewId);
+                    if (view instanceof DragButton) {
+                        dragButtonIds.add(viewId);
+                    }
+                    if (view instanceof Button) {
+                        buttonIds.add(viewId);
+                    }
+                } catch (IllegalAccessException e) {
+                    Log.e(R.id.class.getName(), e.getMessage());
+                }
+            }
+        }
+
+		for (Integer dragButtonId : dragButtonIds) {
 			((DragButton) findViewById(dragButtonId)).setOnDragListener(onDragListener);
 		}
 	}
@@ -468,8 +491,6 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
             if ( !dialogShown ) {
                 dialogShown = showSpecialWindow(preferences, CalculatorPreferences.Gui.notesppAnnounceShown, R.layout.notespp_announce, R.id.notespp_announce);
             }
-
-			ResourceCache.instance.initCaptions(this, R.id.class);
 
 			initialized = true;
 		}

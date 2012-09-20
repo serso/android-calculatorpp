@@ -15,6 +15,8 @@ import jscl.math.operator.Operator;
 import jscl.text.ParseInterruptedException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.calculator.CalculatorApplication;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.prefs.BooleanPreference;
 import org.solovyev.android.prefs.Preference;
@@ -227,10 +229,10 @@ public enum CalculatorEngine {
 						evalException.setObject(new CalculatorEvalException(e, e, jsclExpression));
 					} catch (ArithmeticException e) {
 						//System.out.println(e.getMessage());
-						parseException.setObject(new CalculatorParseException(Messages.msg_1, jsclExpression, e.getMessage()));
+						parseException.setObject(new CalculatorParseException(R.string.msg_1, CalculatorApplication.getInstance(), jsclExpression, e.getMessage()));
 					} catch (StackOverflowError e) {
 						//System.out.println(StringUtils.fromStackTrace(e.getStackTrace()));
-						parseException.setObject(new CalculatorParseException(Messages.msg_2, jsclExpression));
+						parseException.setObject(new CalculatorParseException(R.string.msg_2, CalculatorApplication.getInstance(), jsclExpression));
 					} catch (jscl.text.ParseException e) {
 						//System.out.println(e.getMessage());
 						parseException.setObject(new CalculatorParseException(e));
@@ -276,11 +278,11 @@ public enum CalculatorEngine {
 				}
 
 				if (calculationResultLocal == null) {
-					throw new CalculatorParseException(Messages.msg_3, jsclExpression);
+					throw new CalculatorParseException(R.string.msg_3, CalculatorApplication.getInstance(), jsclExpression);
 				}
 
 			} catch (InterruptedException e) {
-				throw new CalculatorParseException(Messages.msg_4, jsclExpression);
+				throw new CalculatorParseException(R.string.msg_4, CalculatorApplication.getInstance(), jsclExpression);
 			}
 
 			final Generic genericResult = calculationResult.getObject();

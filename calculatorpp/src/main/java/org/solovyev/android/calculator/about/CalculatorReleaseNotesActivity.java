@@ -15,7 +15,6 @@ import android.text.method.LinkMovementMethod;
 import android.widget.TextView;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.AndroidUtils;
-import org.solovyev.android.ResourceCache;
 import org.solovyev.android.calculator.CalculatorActivity;
 import org.solovyev.android.calculator.R;
 import org.solovyev.common.text.StringUtils;
