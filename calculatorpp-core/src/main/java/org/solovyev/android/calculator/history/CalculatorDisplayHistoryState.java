@@ -11,8 +11,11 @@ import org.jetbrains.annotations.Nullable;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 import org.simpleframework.xml.Transient;
-import org.solovyev.android.calculator.JCalculatorDisplay;
+import org.solovyev.android.calculator.CalculatorDisplay;
+import org.solovyev.android.calculator.CalculatorDisplayViewState;
+import org.solovyev.android.calculator.CalculatorDisplayViewStateImpl;
 import org.solovyev.android.calculator.jscl.JsclOperation;
+import org.solovyev.common.text.StringUtils;
 
 /**
  * User: serso
@@ -47,24 +50,27 @@ public class CalculatorDisplayHistoryState implements Cloneable {
 	}
 
 	@NotNull
-	public static CalculatorDisplayHistoryState newInstance(@NotNull JCalculatorDisplay display) {
+	public static CalculatorDisplayHistoryState newInstance(@NotNull CalculatorDisplay display) {
 		final CalculatorDisplayHistoryState result = new CalculatorDisplayHistoryState();
 
-		result.editorState = EditorHistoryState.newInstance(display);
-		result.valid = display.isValid();
-		result.jsclOperation = display.getJsclOperation();
-		result.genericResult = display.getGenericResult();
-		result.errorMessage = display.getErrorMessage();
+		result.editorState = EditorHistoryState.newInstance(display.getViewState());
+
+        final CalculatorDisplayViewState displayViewState = display.getViewState();
+
+		result.valid = displayViewState.isValid();
+		result.jsclOperation = displayViewState.getOperation();
+		result.genericResult = displayViewState.getResult();
+		result.errorMessage = displayViewState.getErrorMessage();
 
 		return result;
 	}
 
-	public void setValuesFromHistory(@NotNull JCalculatorDisplay display) {
-		this.getEditorState().setValuesFromHistory(display);
-		display.setValid(this.isValid());
-		display.setErrorMessage(this.getErrorMessage());
-		display.setJsclOperation(this.getJsclOperation());
-		display.setGenericResult(this.getGenericResult());
+	public void setValuesFromHistory(@NotNull CalculatorDisplay display) {
+        if ( this.isValid() ) {
+            display.setViewState(CalculatorDisplayViewStateImpl.newValidState(this.getJsclOperation(), this.getGenericResult(), StringUtils.getNotEmpty(this.getEditorState().getText(), ""), this.getEditorState().getCursorPosition()));
+        } else {
+            display.setViewState(CalculatorDisplayViewStateImpl.newErrorState(this.getJsclOperation(), StringUtils.getNotEmpty(this.getErrorMessage(), "")));
+        }
 	}
 
 

@@ -8,7 +8,7 @@ import org.jetbrains.annotations.Nullable;
  * Date: 20.09.12
  * Time: 18:18
  */
-public class CalculatorEventDataIdImpl implements CalculatorEventDataId {
+class CalculatorEventDataIdImpl implements CalculatorEventDataId {
 
     private final long eventId;
 
@@ -22,7 +22,7 @@ public class CalculatorEventDataIdImpl implements CalculatorEventDataId {
     }
 
     @NotNull
-    public static CalculatorEventDataId newInstance(long id,
+    static CalculatorEventDataId newInstance(long id,
                                                     @Nullable Long calculationId) {
         return new CalculatorEventDataIdImpl(id, calculationId);
     }
@@ -36,6 +36,11 @@ public class CalculatorEventDataIdImpl implements CalculatorEventDataId {
     @Override
     public Long getCalculationId() {
         return this.calculationId;
+    }
+
+    @Override
+    public boolean isAfter(@NotNull CalculatorEventDataId calculatorEventDataId) {
+        return this.eventId > calculatorEventDataId.getEventId();
     }
 
     @Override

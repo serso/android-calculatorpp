@@ -53,7 +53,7 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 	private CalculatorEditor editor;
 
 	@NotNull
-	private CalculatorDisplay display;
+	private AndroidCalculatorDisplayView display;
 
 	@NotNull
 	private CalculatorEngine calculatorEngine;
@@ -66,7 +66,7 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 		this.editor.init(preferences);
 		preferences.registerOnSharedPreferenceChangeListener(editor);
 
-		this.display = (CalculatorDisplay) activity.findViewById(R.id.calculatorDisplay);
+		this.display = (AndroidCalculatorDisplayView) activity.findViewById(R.id.calculatorDisplay);
 		this.display.setOnClickListener(new CalculatorDisplayOnClickListener(activity));
 
 		final CalculatorHistoryState lastState = AndroidCalculatorHistoryImpl.instance.getLastHistoryState();
@@ -97,8 +97,9 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 		copyResult(context, display);
 	}
 
-	public static void copyResult(@NotNull Context context, @NotNull final CalculatorDisplay display) {
-		if (display.isValid()) {
+	public static void copyResult(@NotNull Context context, @NotNull final CalculatorDisplayView display) {
+        final CalculatorDisplayViewState displayViewState = display.getState();
+		if (displayViewState.isValid()) {
 			final CharSequence text = display.getText();
 			if (!StringUtils.isEmpty(text)) {
 				final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
@@ -228,16 +229,16 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 		if (!StringUtils.isEmpty(expression)) {
 			try {
 				Log.d(CalculatorModel.class.getName(), "Trying to evaluate '" + operation + "': " + expression /*+ StringUtils.fromStackTrace(Thread.currentThread().getStackTrace())*/);
-				final CalculatorEngine.Result result = calculatorEngine.evaluate(operation, expression);
+				final CalculatorOutput result = calculatorEngine.evaluate(operation, expression);
 
 				// todo serso: second condition might replaced with expression.equals(this.editor.getText().toString()) ONLY if expression will be formatted with text highlighter
 				if (currentRunner == pendingOperation.getObject() && this.editor.getText().length() > 0) {
-					display.setText(result.getResult());
+					display.setText(result.getStringResult());
 				} else {
 					display.setText("");
 				}
-				display.setJsclOperation(result.getUserOperation());
-				display.setGenericResult(result.getGenericResult());
+				display.setJsclOperation(result.getOperation());
+				display.setGenericResult(result.getResult());
 			} catch (CalculatorParseException e) {
 				handleEvaluationException(expression, display, operation, e);
 			} catch (CalculatorEvalException e) {
@@ -255,7 +256,7 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 	}
 
 	private void handleEvaluationException(@NotNull String expression,
-										   @NotNull CalculatorDisplay localDisplay,
+										   @NotNull AndroidCalculatorDisplayView localDisplay,
 										   @NotNull JsclOperation operation,
 										   @NotNull Message e) {
 		Log.d(CalculatorModel.class.getName(), "Evaluation failed for : " + expression + ". Error message: " + e);
@@ -367,7 +368,7 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 	}
 
 	@NotNull
-	public CalculatorDisplay getDisplay() {
+	public AndroidCalculatorDisplayView getDisplay() {
 		return display;
 	}
 
@@ -382,13 +383,15 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
 
 		@Override
 		public void onClick(View v) {
-            if (v instanceof CalculatorDisplay) {
-                final CalculatorDisplay cd = (CalculatorDisplay) v;
+            if (v instanceof CalculatorDisplayView) {
+                final CalculatorDisplay cd = CalculatorLocatorImpl.getInstance().getCalculatorDisplay();
 
-                if (cd.isValid()) {
-                    final List<CalculatorDisplay.MenuItem> filteredMenuItems = new ArrayList<CalculatorDisplay.MenuItem>(CalculatorDisplay.MenuItem.values().length);
-                    for (CalculatorDisplay.MenuItem menuItem : CalculatorDisplay.MenuItem.values()) {
-                        if (menuItem.isItemVisible(cd)) {
+                final CalculatorDisplayViewState displayViewState = cd.getViewState();
+
+                if (displayViewState.isValid()) {
+                    final List<AndroidCalculatorDisplayView.MenuItem> filteredMenuItems = new ArrayList<AndroidCalculatorDisplayView.MenuItem>(AndroidCalculatorDisplayView.MenuItem.values().length);
+                    for (AndroidCalculatorDisplayView.MenuItem menuItem : AndroidCalculatorDisplayView.MenuItem.values()) {
+                        if (menuItem.isItemVisible(displayViewState)) {
                             filteredMenuItems.add(menuItem);
                         }
                     }
@@ -398,7 +401,7 @@ public enum CalculatorModel implements CursorControl, HistoryControl<CalculatorH
                     }
 
                 } else {
-                    final String errorMessage = cd.getErrorMessage();
+                    final String errorMessage = displayViewState.getErrorMessage();
                     if (errorMessage != null) {
                         showEvaluationError(activity, errorMessage);
                     }

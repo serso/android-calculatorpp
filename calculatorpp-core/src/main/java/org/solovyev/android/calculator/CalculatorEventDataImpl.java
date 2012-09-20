@@ -13,8 +13,13 @@ class CalculatorEventDataImpl implements CalculatorEventData {
     @NotNull
     private CalculatorEventDataId calculatorEventDataId;
 
-    CalculatorEventDataImpl(@NotNull CalculatorEventDataId calculatorEventDataId) {
+    private CalculatorEventDataImpl(@NotNull CalculatorEventDataId calculatorEventDataId) {
         this.calculatorEventDataId = calculatorEventDataId;
+    }
+
+    @NotNull
+    public static CalculatorEventData newInstance(@NotNull CalculatorEventDataId calculatorEventDataId) {
+        return new CalculatorEventDataImpl(calculatorEventDataId);
     }
 
     @Override
@@ -26,6 +31,11 @@ class CalculatorEventDataImpl implements CalculatorEventData {
     @Nullable
     public Long getCalculationId() {
         return calculatorEventDataId.getCalculationId();
+    }
+
+    @Override
+    public boolean isAfter(@NotNull CalculatorEventDataId calculatorEventDataId) {
+        return this.calculatorEventDataId.isAfter(calculatorEventDataId);
     }
 
     @Override

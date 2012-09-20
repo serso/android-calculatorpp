@@ -11,8 +11,8 @@ import junit.framework.Assert;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.junit.Test;
+import org.solovyev.android.calculator.CalculatorDisplay;
 import org.solovyev.android.calculator.Editor;
-import org.solovyev.android.calculator.JCalculatorDisplay;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.common.equals.CollectionEqualizer;
 import org.solovyev.common.equals.EqualsTool;
@@ -125,7 +125,7 @@ public class HistoryUtilsTest {
 
 		HistoryHelper<CalculatorHistoryState> history = new SimpleHistoryHelper<CalculatorHistoryState>();
 
-		JCalculatorDisplay calculatorDisplay = new TestCalculatorDisplay();
+		CalculatorDisplay calculatorDisplay = new TestCalculatorDisplay();
 		calculatorDisplay.setErrorMessage("error_msg1");
 		calculatorDisplay.setText("Error");
 		calculatorDisplay.setSelection(1);
@@ -215,7 +215,7 @@ public class HistoryUtilsTest {
 	}
 
 
-	private static class TestCalculatorDisplay implements JCalculatorDisplay {
+	private static class TestCalculatorDisplay implements CalculatorDisplay {
 
 		@NotNull
 		private final TestEditor testEditor = new TestEditor();

@@ -142,45 +142,12 @@ public enum CalculatorEngine implements JCalculatorEngine {
 		this.multiplicationSign = multiplicationSign;
 	}
 
-	public static class Result {
-
-		@NotNull
-		private Generic genericResult;
-
-		@NotNull
-		private String result;
-
-		@NotNull
-		private JsclOperation userOperation;
-
-		public Result(@NotNull String result, @NotNull JsclOperation userOperation, @NotNull Generic genericResult) {
-			this.result = result;
-			this.userOperation = userOperation;
-			this.genericResult = genericResult;
-		}
-
-		@NotNull
-		public String getResult() {
-			return result;
-		}
-
-		@NotNull
-		public JsclOperation getUserOperation() {
-			return userOperation;
-		}
-
-		@NotNull
-		public Generic getGenericResult() {
-			return genericResult;
-		}
-	}
-
-	public Result evaluate(@NotNull JsclOperation operation,
+    public CalculatorOutput evaluate(@NotNull JsclOperation operation,
 						   @NotNull String expression) throws CalculatorParseException, CalculatorEvalException {
 		return evaluate(operation, expression, null);
 	}
 
-	public Result evaluate(@NotNull final JsclOperation operation,
+	public CalculatorOutput evaluate(@NotNull final JsclOperation operation,
 						   @NotNull String expression,
 						   @Nullable MessageRegistry mr) throws CalculatorParseException, CalculatorEvalException {
 		synchronized (lock) {
@@ -294,7 +261,7 @@ public enum CalculatorEngine implements JCalculatorEngine {
 
 			final Generic genericResult = calculationResult.getObject();
 
-			return new Result(operation.getFromProcessor().process(genericResult), operation, genericResult);
+			return new CalculatorOutputImpl(operation.getFromProcessor().process(genericResult), operation, genericResult);
 		}
 	}
 

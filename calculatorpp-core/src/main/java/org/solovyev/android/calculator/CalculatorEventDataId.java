@@ -1,5 +1,6 @@
 package org.solovyev.android.calculator;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -14,4 +15,6 @@ public interface CalculatorEventDataId {
 
     @Nullable
     Long getCalculationId();
+
+    boolean isAfter(@NotNull CalculatorEventDataId calculatorEventDataId);
 }

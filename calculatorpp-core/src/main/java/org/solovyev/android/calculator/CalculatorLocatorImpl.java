@@ -13,6 +13,12 @@ public class CalculatorLocatorImpl implements CalculatorLocator {
     private JCalculatorEngine calculatorEngine;
 
     @NotNull
+    private CalculatorDisplay calculatorDisplay = new CalculatorDisplayImpl();
+
+    @NotNull
+    private Calculator calculator = new CalculatorImpl();
+
+    @NotNull
     private static final CalculatorLocator instance = new CalculatorLocatorImpl();
 
     private CalculatorLocatorImpl() {
@@ -29,8 +35,20 @@ public class CalculatorLocatorImpl implements CalculatorLocator {
         return calculatorEngine;
     }
 
+    @NotNull
+    @Override
+    public Calculator getCalculator() {
+        return this.calculator;
+    }
+
     @Override
     public void setCalculatorEngine(@NotNull JCalculatorEngine calculatorEngine) {
         this.calculatorEngine = calculatorEngine;
+    }
+
+    @Override
+    @NotNull
+    public CalculatorDisplay getCalculatorDisplay() {
+        return calculatorDisplay;
     }
 }
