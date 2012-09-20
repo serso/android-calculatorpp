@@ -111,28 +111,20 @@
         <plugins>
 
             <plugin>
-                <groupId>com.jayway.maven.plugins.android.generation2</groupId>
-                <artifactId>android-maven-plugin</artifactId>
-                <extensions>true</extensions>
-
-                <configuration>
-                    <manifest>
-                        <debuggable>true</debuggable>
-                    </manifest>
-                </configuration>
-
+                <groupId>com.electriccloud</groupId>
+                <artifactId>javac2-maven-plugin</artifactId>
+                <version>1.0.1</version>
                 <executions>
-
                     <execution>
-                        <id>manifestUpdate</id>
-                        <phase>process-resources</phase>
+                        <id>@NotNull Instrumentation</id>
                         <goals>
-                            <goal>manifest-update</goal>
+                            <goal>instrument</goal>
                         </goals>
+                        <!--compile phase instead of process-classes because of proguard.
+                        @NotNull instrumentation will be done now after compilation and before proguard-->
+                        <phase>compile</phase>
                     </execution>
-
                 </executions>
-
             </plugin>
 
         </plugins>
