@@ -11,6 +11,8 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.calculator.CalculatorEventData;
+import org.solovyev.android.calculator.CalculatorEventType;
 import org.solovyev.android.calculator.R;
 import org.solovyev.common.history.HistoryAction;
 
@@ -141,5 +143,10 @@ public enum AndroidCalculatorHistoryImpl implements AndroidCalculatorHistory {
     @Override
     public void removeSavedHistory(@NotNull CalculatorHistoryState historyState) {
         calculatorHistory.removeSavedHistory(historyState);
+    }
+
+    @Override
+    public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
+        calculatorHistory.onCalculatorEvent(calculatorEventData, calculatorEventType, data);
     }
 }

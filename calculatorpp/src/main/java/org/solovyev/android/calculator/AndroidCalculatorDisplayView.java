@@ -7,6 +7,7 @@ package org.solovyev.android.calculator;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Handler;
 import android.text.Html;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -33,132 +34,41 @@ import java.util.Set;
  */
 public class AndroidCalculatorDisplayView extends AutoResizeTextView implements CalculatorDisplayView {
 
-    public static enum MenuItem implements LabeledMenuItem<CalculatorDisplayViewState> {
+    /*
+    **********************************************************************
+    *
+    *                           STATIC FIELDS
+    *
+    **********************************************************************
+    */
 
-        copy(R.string.c_copy) {
-            @Override
-            public void onClick(@NotNull CalculatorDisplayViewState data, @NotNull Context context) {
-                CalculatorModel.copyResult(context, data);
-            }
-        },
+    @NotNull
+    private final static TextProcessor<TextHighlighter.Result, String> textHighlighter = new TextHighlighter(Color.WHITE, false, CalculatorEngine.instance.getEngine());
 
-        convert_to_bin(R.string.convert_to_bin) {
-            @Override
-            public void onClick(@NotNull CalculatorDisplayViewState data, @NotNull Context context) {
-                ConversionMenuItem.convert_to_bin.onClick(data, context);
-            }
-
-            @Override
-            protected boolean isItemVisibleFor(@NotNull Generic generic, @NotNull JsclOperation operation) {
-                return ConversionMenuItem.convert_to_bin.isItemVisibleFor(generic, operation);
-            }
-        },
-
-        convert_to_dec(R.string.convert_to_dec) {
-            @Override
-            public void onClick(@NotNull CalculatorDisplayViewState data, @NotNull Context context) {
-                ConversionMenuItem.convert_to_dec.onClick(data, context);
-            }
-
-            @Override
-            protected boolean isItemVisibleFor(@NotNull Generic generic, @NotNull JsclOperation operation) {
-                return ConversionMenuItem.convert_to_dec.isItemVisibleFor(generic, operation);
-            }
-        },
-
-        convert_to_hex(R.string.convert_to_hex) {
-            @Override
-            public void onClick(@NotNull CalculatorDisplayViewState data, @NotNull Context context) {
-                ConversionMenuItem.convert_to_hex.onClick(data, context);
-            }
-
-            @Override
-            protected boolean isItemVisibleFor(@NotNull Generic generic, @NotNull JsclOperation operation) {
-                return ConversionMenuItem.convert_to_hex.isItemVisibleFor(generic, operation);
-            }
-        },
-
-        convert(R.string.c_convert) {
-            @Override
-            public void onClick(@NotNull CalculatorDisplayViewState data, @NotNull Context context) {
-                final Generic result = data.getResult();
-                if (result != null) {
-                    new NumeralBaseConverterDialog(result.toString()).show(context);
-                }
-            }
-
-            @Override
-            protected boolean isItemVisibleFor(@NotNull Generic generic, @NotNull JsclOperation operation) {
-                return operation == JsclOperation.numeric && generic.getConstants().isEmpty();
-            }
-        },
-
-        plot(R.string.c_plot) {
-            @Override
-            public void onClick(@NotNull CalculatorDisplayViewState data, @NotNull Context context) {
-                final Generic generic = data.getResult();
-                assert generic != null;
-
-                final Constant constant = CollectionsUtils.getFirstCollectionElement(getNotSystemConstants(generic));
-                assert constant != null;
-                CalculatorActivityLauncher.plotGraph(context, generic, constant);
-            }
-
-            @Override
-            protected boolean isItemVisibleFor(@NotNull Generic generic, @NotNull JsclOperation operation) {
-                boolean result = false;
-
-                if (operation == JsclOperation.simplify) {
-                    if (getNotSystemConstants(generic).size() == 1) {
-                        result = true;
-                    }
-                }
-
-                return result;
-            }
-
-            @NotNull
-            private Set<Constant> getNotSystemConstants(@NotNull Generic generic) {
-                final Set<Constant> notSystemConstants = new HashSet<Constant>();
-
-                for (Constant constant : generic.getConstants()) {
-                    IConstant var = CalculatorEngine.instance.getVarsRegistry().get(constant.getName());
-                    if (var != null && !var.isSystem() && !var.isDefined()) {
-                        notSystemConstants.add(constant);
-                    }
-                }
-
-                return notSystemConstants;
-            }
-        };
-
-        private final int captionId;
-
-        MenuItem(int captionId) {
-            this.captionId = captionId;
-        }
-
-        public final boolean isItemVisible(@NotNull CalculatorDisplayViewState displayViewState) {
-            //noinspection ConstantConditions
-            return displayViewState.isValid() && displayViewState.getResult() != null && isItemVisibleFor(displayViewState.getResult(), displayViewState.getOperation());
-        }
-
-        protected boolean isItemVisibleFor(@NotNull Generic generic, @NotNull JsclOperation operation) {
-            return true;
-        }
-
-        @NotNull
-        @Override
-        public String getCaption(@NotNull Context context) {
-            return context.getString(captionId);
-        }
-    }
+    /*
+    **********************************************************************
+    *
+    *                           FIELDS
+    *
+    **********************************************************************
+    */
 
     @NotNull
     private CalculatorDisplayViewState state = CalculatorDisplayViewStateImpl.newDefaultInstance();
 
     @NotNull
-    private final static TextProcessor<TextHighlighter.Result, String> textHighlighter = new TextHighlighter(Color.WHITE, false, CalculatorEngine.instance.getEngine());
+    private final Object lock = new Object();
+
+    @NotNull
+    private final Handler handler = new Handler();
+
+    /*
+    **********************************************************************
+    *
+    *                           CONSTRUCTORS
+    *
+    **********************************************************************
+    */
 
     public AndroidCalculatorDisplayView(Context context) {
         super(context);
@@ -172,35 +82,50 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
         super(context, attrs, defStyle);
     }
 
+    /*
+    **********************************************************************
+    *
+    *                           METHODS
+    *
+    **********************************************************************
+    */
+
     public boolean isValid() {
-        return this.state.isValid();
+        synchronized (lock) {
+            return this.state.isValid();
+        }
     }
 
-
     @Override
-    public void setState(@NotNull CalculatorDisplayViewState state) {
-        this.state = state;
-        if ( state.isValid() ) {
-            setTextColor(getResources().getColor(R.color.default_text_color));
-            setText(state.getStringResult());
-        } else {
-            setTextColor(getResources().getColor(R.color.display_error_text_color));
-            setText(state.getErrorMessage());
-        }
+    public void setState(@NotNull final CalculatorDisplayViewState state) {
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                synchronized (lock) {
+                    AndroidCalculatorDisplayView.this.state = state;
+                    if ( state.isValid() ) {
+                        setTextColor(getResources().getColor(R.color.default_text_color));
+                        setText(state.getStringResult());
+                        redraw();
+                    } else {
+                        setTextColor(getResources().getColor(R.color.display_error_text_color));
+                        setText(state.getErrorMessage());
+                        redraw();
+                    }
+                }
+            }
+        }, 1);
     }
 
     @NotNull
     @Override
     public CalculatorDisplayViewState getState() {
-        return this.state;
+        synchronized (lock) {
+            return this.state;
+        }
     }
 
-    @Override
-    public void setText(CharSequence text, BufferType type) {
-        super.setText(text, type);
-    }
-
-    public synchronized void redraw() {
+    private synchronized void redraw() {
         if (isValid()) {
             String text = getText().toString();
 
@@ -221,15 +146,5 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
         setAddEllipsis(false);
         setMinTextSize(10);
         resizeText();
-    }
-
-    @Override
-    public int getSelection() {
-        return this.getSelectionStart();
-    }
-
-    @Override
-    public void setSelection(int selection) {
-        // not supported by TextView
     }
 }

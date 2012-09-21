@@ -18,5 +18,8 @@ public interface CalculatorLocator {
     @NotNull
     CalculatorDisplay getCalculatorDisplay();
 
+    @NotNull
+    CalculatorEditor getCalculatorEditor();
+
     void setCalculatorEngine(@NotNull JCalculatorEngine calculatorEngine);
 }

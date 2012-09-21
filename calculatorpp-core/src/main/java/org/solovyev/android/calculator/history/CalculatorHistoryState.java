@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 import org.solovyev.android.calculator.CalculatorDisplay;
+import org.solovyev.android.calculator.CalculatorEditor;
 import org.solovyev.android.calculator.Editor;
 
 /**
@@ -38,10 +39,13 @@ public class CalculatorHistoryState extends AbstractHistoryState {
 		this.displayState = displayState;
 	}
 
-	public static CalculatorHistoryState newInstance(@NotNull Editor editor, @NotNull CalculatorDisplay display) {
-		final EditorHistoryState editorHistoryState = EditorHistoryState.newInstance(editor);
-		final CalculatorDisplayHistoryState displayHistoryState = CalculatorDisplayHistoryState.newInstance(display);
-		return new CalculatorHistoryState(editorHistoryState, displayHistoryState);
+	public static CalculatorHistoryState newInstance(@NotNull CalculatorEditor editor,
+                                                     @NotNull CalculatorDisplay display) {
+		final EditorHistoryState editorHistoryState = EditorHistoryState.newInstance(editor.getViewState());
+
+		final CalculatorDisplayHistoryState displayHistoryState = CalculatorDisplayHistoryState.newInstance(display.getViewState());
+
+        return new CalculatorHistoryState(editorHistoryState, displayHistoryState);
 	}
 
 	@NotNull

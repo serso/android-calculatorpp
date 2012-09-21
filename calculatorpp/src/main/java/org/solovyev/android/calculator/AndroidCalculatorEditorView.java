@@ -25,7 +25,7 @@ import org.solovyev.common.collections.CollectionsUtils;
  * Date: 9/17/11
  * Time: 12:25 AM
  */
-public class CalculatorEditor extends EditText implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class AndroidCalculatorEditorView extends EditText implements SharedPreferences.OnSharedPreferenceChangeListener, CalculatorEditorView {
 
 	private static final String CALC_COLOR_DISPLAY_KEY = "org.solovyev.android.calculator.CalculatorModel_color_display";
 	private static final boolean CALC_COLOR_DISPLAY_DEFAULT = true;
@@ -35,39 +35,16 @@ public class CalculatorEditor extends EditText implements SharedPreferences.OnSh
 	@NotNull
 	private final static TextProcessor<TextHighlighter.Result, String> textHighlighter = new TextHighlighter(Color.WHITE, true, CalculatorEngine.instance.getEngine());
 
-	public CalculatorEditor(Context context) {
+	public AndroidCalculatorEditorView(Context context) {
 		super(context);
-        init();
 	}
 
-	public CalculatorEditor(Context context, AttributeSet attrs) {
+	public AndroidCalculatorEditorView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-        init();
     }
 
-    private void init() {
-        // NOTE: in this solution cursor is missing
-
-        /*this.setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                final TextView textView = (TextView)v;
-                // backup the input type
-                int inputType = textView.getInputType();
-
-                // disable soft input
-                textView.setInputType(InputType.TYPE_NULL);
-
-                // call native handler
-                textView.onTouchEvent(event);
-
-                // restore input type
-                textView.setInputType(inputType);
-
-                // consume touch even
-                return true;
-            }
-        });*/
+    public AndroidCalculatorEditorView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
     }
 
 
@@ -95,21 +72,11 @@ public class CalculatorEditor extends EditText implements SharedPreferences.OnSh
         }
     }
 
-    public CalculatorEditor(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
-        init();
-    }
-
 	@Override
 	protected void onCreateContextMenu(ContextMenu menu) {
 		super.onCreateContextMenu(menu);
 
 		menu.removeItem(android.R.id.selectAll);
-	}
-
-	@Override
-	public void setText(CharSequence text, BufferType type) {
-		super.setText(text, type);
 	}
 
 	public synchronized void redraw() {

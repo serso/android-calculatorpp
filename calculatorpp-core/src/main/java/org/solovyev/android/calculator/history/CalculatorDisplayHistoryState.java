@@ -50,17 +50,15 @@ public class CalculatorDisplayHistoryState implements Cloneable {
 	}
 
 	@NotNull
-	public static CalculatorDisplayHistoryState newInstance(@NotNull CalculatorDisplay display) {
+	public static CalculatorDisplayHistoryState newInstance(@NotNull CalculatorDisplayViewState viewState) {
 		final CalculatorDisplayHistoryState result = new CalculatorDisplayHistoryState();
 
-		result.editorState = EditorHistoryState.newInstance(display.getViewState());
+        result.editorState = EditorHistoryState.newInstance(viewState);
 
-        final CalculatorDisplayViewState displayViewState = display.getViewState();
-
-		result.valid = displayViewState.isValid();
-		result.jsclOperation = displayViewState.getOperation();
-		result.genericResult = displayViewState.getResult();
-		result.errorMessage = displayViewState.getErrorMessage();
+		result.valid = viewState.isValid();
+		result.jsclOperation = viewState.getOperation();
+		result.genericResult = viewState.getResult();
+		result.errorMessage = viewState.getErrorMessage();
 
 		return result;
 	}

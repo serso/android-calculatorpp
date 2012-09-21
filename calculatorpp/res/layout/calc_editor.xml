@@ -11,7 +11,7 @@
 			  a:layout_width="fill_parent"
 			  a:layout_height="0dp">
 
-	<org.solovyev.android.calculator.CalculatorEditor
+	<org.solovyev.android.calculator.AndroidCalculatorEditorView
 			a:id="@+id/calculatorEditor"
 			style="@style/editor_style"
             a:textIsSelectable="true"

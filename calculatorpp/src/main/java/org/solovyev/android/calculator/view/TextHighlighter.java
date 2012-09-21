@@ -173,7 +173,7 @@ public class TextHighlighter implements TextProcessor<TextHighlighter.Result, St
 				text2.append(s.charAt(i));
 			}
 
-			//Log.d(CalculatorEditor.class.getName(), text2.toString());
+			//Log.d(AndroidCalculatorEditorView.class.getName(), text2.toString());
 
 			result = text2.toString();
 		} else {

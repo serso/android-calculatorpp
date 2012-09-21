@@ -10,6 +10,7 @@ import org.jetbrains.annotations.Nullable;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 import org.solovyev.android.calculator.CalculatorDisplayViewState;
+import org.solovyev.android.calculator.CalculatorEditorViewState;
 import org.solovyev.android.calculator.Editor;
 
 @Root
@@ -27,11 +28,11 @@ public class EditorHistoryState implements Cloneable{
 	}
 
 	@NotNull
-	public static EditorHistoryState newInstance(@NotNull Editor editor) {
+	public static EditorHistoryState newInstance(@NotNull CalculatorEditorViewState viewState) {
 		final EditorHistoryState result = new EditorHistoryState();
 
-		result.text = String.valueOf(editor.getText());
-		result.cursorPosition = editor.getSelection();
+		result.text = String.valueOf(viewState.getText());
+		result.cursorPosition = viewState.getSelection();
 
 		return result;
 	}

@@ -17,5 +17,7 @@ public interface CalculatorEventDataId {
     @Nullable
     Long getSequenceId();
 
-    boolean isAfter(@NotNull CalculatorEventDataId calculatorEventDataId);
+    boolean isAfter(@NotNull CalculatorEventDataId that);
+
+    boolean isSameSequence(@NotNull CalculatorEventDataId that);
 }

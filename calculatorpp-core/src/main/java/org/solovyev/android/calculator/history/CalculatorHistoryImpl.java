@@ -2,6 +2,7 @@ package org.solovyev.android.calculator.history;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.calculator.*;
 import org.solovyev.common.history.HistoryAction;
 import org.solovyev.common.history.HistoryHelper;
 import org.solovyev.common.history.SimpleHistoryHelper;
@@ -25,6 +26,9 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
 
     @NotNull
     private final List<CalculatorHistoryState> savedHistory = new ArrayList<CalculatorHistoryState>();
+
+    @NotNull
+    private CalculatorEventDataId lastEventDataId = CalculatorLocatorImpl.getInstance().getCalculator().createFirstEventDataId();
 
     @Override
     public boolean isEmpty() {
@@ -127,5 +131,27 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
     @Override
     public void removeSavedHistory(@NotNull CalculatorHistoryState historyState) {
         this.savedHistory.remove(historyState);
+    }
+
+    @Override
+    public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData,
+                                  @NotNull CalculatorEventType calculatorEventType,
+                                  @Nullable Object data) {
+        if (calculatorEventType.isOfType(CalculatorEventType.calculation_started, CalculatorEventType.calculation_result, CalculatorEventType.calculation_failed)) {
+
+            if ( calculatorEventData.isAfter(this.lastEventDataId) ) {
+
+                switch (calculatorEventType) {
+                    case calculation_started:
+                        CalculatorHistoryState.newInstance()
+                        break;
+                }
+
+                CalculatorLocatorImpl.getInstance().getCalculatorDisplay().get
+                CalculatorHistoryState.newInstance(new TextViewEditorAdapter(this.editor), display);
+
+                this.lastEventDataId = calculatorEventData;
+            }
+        }
     }
 }
