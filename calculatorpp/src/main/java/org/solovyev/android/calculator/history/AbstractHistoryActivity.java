@@ -14,12 +14,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
 import com.google.ads.AdView;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.ads.AdsController;
+import org.solovyev.android.calculator.CalculatorEditor;
+import org.solovyev.android.calculator.CalculatorLocatorImpl;
 import org.solovyev.android.calculator.CalculatorModel;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.jscl.JsclOperation;
@@ -175,19 +176,8 @@ public abstract class AbstractHistoryActivity extends ListActivity {
 	}
 
 	public static void useHistoryItem(@NotNull final CalculatorHistoryState historyState, @NotNull AbstractHistoryActivity activity) {
-
-		// before evaluating history item - clear display (in order to get Error message in display if evaluation fail)
-		CalculatorModel.instance.getDisplay().setText("");
-		CalculatorModel.instance.doTextOperation(new CalculatorModel.TextOperation() {
-			@Override
-			public void doOperation(@NotNull EditText editor) {
-				final EditorHistoryState editorState = historyState.getEditorState();
-				editor.setText(editorState.getText());
-				editor.setSelection(editorState.getCursorPosition());
-			}
-		}, false, historyState.getDisplayState().getJsclOperation(), true);
-
-		CalculatorModel.instance.setCursorOnEnd();
+        final EditorHistoryState editorState = historyState.getEditorState();
+        CalculatorLocatorImpl.getInstance().getCalculatorEditor().setText(StringUtils.getNotEmpty(editorState.getText(), ""), editorState.getCursorPosition())
 
 		activity.finish();
 	}

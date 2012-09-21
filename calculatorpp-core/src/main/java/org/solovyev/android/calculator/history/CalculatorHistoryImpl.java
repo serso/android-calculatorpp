@@ -140,6 +140,7 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
         if (calculatorEventType.isOfType(CalculatorEventType.calculation_started, CalculatorEventType.calculation_result, CalculatorEventType.calculation_failed)) {
 
             if ( calculatorEventData.isAfter(this.lastEventDataId) ) {
+/*
 
                 switch (calculatorEventType) {
                     case calculation_started:
@@ -149,6 +150,7 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
 
                 CalculatorLocatorImpl.getInstance().getCalculatorDisplay().get
                 CalculatorHistoryState.newInstance(new TextViewEditorAdapter(this.editor), display);
+*/
 
                 this.lastEventDataId = calculatorEventData;
             }

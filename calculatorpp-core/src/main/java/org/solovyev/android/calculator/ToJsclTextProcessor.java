@@ -8,12 +8,7 @@ package org.solovyev.android.calculator;
 
 import jscl.math.function.IConstant;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.calculator.CalculatorApplication;
-import org.solovyev.android.calculator.CalculatorParseException;
-import org.solovyev.android.calculator.PreparedExpression;
-import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.text.TextProcessor;
-import org.solovyev.android.msg.AndroidMessage;
 import org.solovyev.common.StartsWithFinder;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.common.collections.CollectionsUtils;
@@ -57,7 +52,7 @@ public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, St
 		MathType.Result mathTypeResult = null;
 		MathType.Result mathTypeBefore;
 
-		final LiteNumberBuilder nb = new LiteNumberBuilder(CalculatorEngine.instance.getEngine());
+		final LiteNumberBuilder nb = new LiteNumberBuilder(CalculatorLocatorImpl.getInstance().getCalculatorEngine().getEngine());
 		for (int i = 0; i < s.length(); i++) {
 			if (s.charAt(i) == ' ') continue;
 			startsWithFinder.setI(i);
@@ -80,8 +75,7 @@ public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, St
 			if (mathTypeBefore != null &&
 					(mathTypeBefore.getMathType() == MathType.function || mathTypeBefore.getMathType() == MathType.operator) &&
 						CollectionsUtils.find(MathType.openGroupSymbols, startsWithFinder) != null) {
-                final AndroidMessage androidMessage = new AndroidMessage(R.string.msg_5, MessageType.error, CalculatorApplication.getInstance(), mathTypeBefore.getMatch());
-                throw new CalculatorParseException(i, s, androidMessage);
+                throw new CalculatorParseException(i, s, new CalculatorMessage(CalculatorMessages.msg_005, MessageType.error, mathTypeBefore.getMatch()));
 			}
 
 			i = mathTypeResult.processToJscl(result, i);
@@ -92,8 +86,7 @@ public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, St
 	@NotNull
 	private static PreparedExpression replaceVariables(@NotNull final String s, int depth, @NotNull List<IConstant> undefinedVars) throws CalculatorParseException {
 		if (depth >= MAX_DEPTH) {
-            final AndroidMessage androidMessage = new AndroidMessage(R.string.msg_6, MessageType.error, CalculatorApplication.getInstance());
-            throw new CalculatorParseException(s, androidMessage);
+            throw new CalculatorParseException(s, new CalculatorMessage(CalculatorMessages.msg_006, MessageType.error));
 		} else {
 			depth++;
 		}
@@ -109,9 +102,9 @@ public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, St
 			if (functionName == null) {
 				String operatorName = CollectionsUtils.find(MathType.operator.getTokens(), startsWithFinder);
 				if (operatorName == null) {
-					String varName = CollectionsUtils.find(CalculatorEngine.instance.getVarsRegistry().getNames(), startsWithFinder);
+					String varName = CollectionsUtils.find(CalculatorLocatorImpl.getInstance().getCalculatorEngine().getVarsRegistry().getNames(), startsWithFinder);
 					if (varName != null) {
-						final IConstant var = CalculatorEngine.instance.getVarsRegistry().get(varName);
+						final IConstant var = CalculatorLocatorImpl.getInstance().getCalculatorEngine().getVarsRegistry().get(varName);
 						if (var != null) {
 							if (!var.isDefined()) {
 								undefinedVars.add(var);

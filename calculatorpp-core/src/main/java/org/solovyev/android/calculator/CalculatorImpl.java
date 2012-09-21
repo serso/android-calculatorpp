@@ -26,7 +26,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * Date: 20.09.12
  * Time: 16:42
  */
-public class CalculatorImpl implements Calculator {
+public class CalculatorImpl implements Calculator, CalculatorEventListener {
 
     private static final long FIRST_ID = 0;
 
@@ -46,6 +46,7 @@ public class CalculatorImpl implements Calculator {
     private final Executor threadPoolExecutor = Executors.newFixedThreadPool(10);
 
     public CalculatorImpl() {
+        this.addCalculatorEventListener(this);
     }
 
     @NotNull
@@ -155,6 +156,21 @@ public class CalculatorImpl implements Calculator {
                 } else {
                     fireCalculatorEvent(newConversionEventData(sequenceId), CalculatorEventType.conversion_finished, generic.toString());
                 }
+            }
+        });
+
+        return eventDataId;
+    }
+
+    @NotNull
+    @Override
+    public CalculatorEventDataId fireCalculatorEvent(@NotNull final CalculatorEventType calculatorEventType, @Nullable final Object data) {
+        final CalculatorEventDataId eventDataId = nextCalculatorEventDataId();
+
+        threadPoolExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                fireCalculatorEvent(CalculatorEventDataImpl.newInstance(eventDataId), calculatorEventType, data);
             }
         });
 
@@ -278,6 +294,15 @@ public class CalculatorImpl implements Calculator {
     @Override
     public void fireCalculatorEvents(@NotNull List<CalculatorEvent> calculatorEvents) {
         calculatorEventContainer.fireCalculatorEvents(calculatorEvents);
+    }
+
+    @Override
+    public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
+        if ( calculatorEventType == CalculatorEventType.editor_state_changed ) {
+            final CalculatorEditorChangeEventData changeEventData = (CalculatorEditorChangeEventData) data;
+
+            evaluate(JsclOperation.numeric, changeEventData.getNewState().getText());
+        }
     }
 
     public static final class ConversionException extends Exception {

@@ -40,7 +40,18 @@ public enum CalculatorEventType {
     conversion_started,
 
     // @NotNull String conversion result
-    conversion_finished;
+    conversion_finished,
+
+    /*
+    **********************************************************************
+    *
+    *                           EDITOR
+    *
+    **********************************************************************
+    */
+
+    // @NotNull org.solovyev.android.calculator.CalculatorEditorChangeEventData
+    editor_state_changed;
 
     public boolean isOfType(@NotNull CalculatorEventType... types) {
         for (CalculatorEventType type : types) {

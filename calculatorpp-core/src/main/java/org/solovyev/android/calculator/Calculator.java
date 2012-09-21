@@ -27,4 +27,8 @@ public interface Calculator extends CalculatorEventContainer {
 
     @NotNull
     CalculatorEventDataId convert(@NotNull Generic generic, @NotNull NumeralBase to);
+
+    @NotNull
+    CalculatorEventDataId fireCalculatorEvent(@NotNull CalculatorEventType calculatorEventType, @Nullable Object data);
+
 }

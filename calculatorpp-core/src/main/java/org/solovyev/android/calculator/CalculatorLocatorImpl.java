@@ -16,10 +16,10 @@ public class CalculatorLocatorImpl implements CalculatorLocator {
     private final CalculatorDisplay calculatorDisplay = new CalculatorDisplayImpl();
 
     @NotNull
-    private final CalculatorEditor calculatorEditor = new CalculatorEditorImpl();
+    private final Calculator calculator = new CalculatorImpl();
 
     @NotNull
-    private final Calculator calculator = new CalculatorImpl();
+    private final CalculatorEditor calculatorEditor = new CalculatorEditorImpl(calculator);
 
     @NotNull
     private static final CalculatorLocator instance = new CalculatorLocatorImpl();

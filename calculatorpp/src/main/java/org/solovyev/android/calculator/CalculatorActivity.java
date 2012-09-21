@@ -537,10 +537,8 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	public void eraseButtonClickHandler(@NotNull View v) {
 		calculatorModel.doTextOperation(new CalculatorModel.TextOperation() {
 			@Override
-			public void doOperation(@NotNull EditText editor) {
-				if (editor.getSelectionStart() > 0) {
-					editor.getText().delete(editor.getSelectionStart() - 1, editor.getSelectionStart());
-				}
+			public void doOperation(@NotNull CalculatorEditor editor) {
+				editor.erase();
 			}
 		});
 	}
@@ -564,10 +562,10 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	public void pasteButtonClickHandler(@NotNull View v) {
 		calculatorModel.doTextOperation(new CalculatorModel.TextOperation() {
 			@Override
-			public void doOperation(@NotNull EditText editor) {
+			public void doOperation(@NotNull CalculatorEditor editor) {
 				final ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 				if (clipboard.hasText()) {
-					editor.getText().insert(editor.getSelectionStart(), clipboard.getText());
+                    editor.insert(String.valueOf(clipboard.getText()));
 				}
 			}
 		});
@@ -754,15 +752,18 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 			if ( dragDirection == DragDirection.left ) {
 				CalculatorModel.instance.doTextOperation(new CalculatorModel.TextOperation() {
 					@Override
-					public void doOperation(@NotNull EditText editor) {
-						final int cursorPosition = editor.getSelectionStart();
-						final StringBuilder text = new StringBuilder("(");
-						final String oldText = editor.getText().toString();
-						text.append(oldText.substring(0, cursorPosition));
-						text.append(")");
-						text.append(oldText.substring(cursorPosition));
-						editor.setText(text);
-						editor.setSelection(cursorPosition + 2);
+					public void doOperation(@NotNull CalculatorEditor editor) {
+                        CalculatorEditorViewState viewState = editor.getViewState();
+
+                        final int cursorPosition = viewState.getSelection();
+                        final String oldText = viewState.getText();
+
+                        final StringBuilder newText = new StringBuilder(oldText.length() + 2);
+                        newText.append("(");
+						newText.append(oldText.substring(0, cursorPosition));
+						newText.append(")");
+						newText.append(oldText.substring(cursorPosition));
+						editor.setText(newText.toString(), cursorPosition + 2);
 					}
 				});
 				result = true;

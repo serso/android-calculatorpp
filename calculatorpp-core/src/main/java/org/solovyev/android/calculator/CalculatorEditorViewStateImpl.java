@@ -46,4 +46,12 @@ public class CalculatorEditorViewStateImpl implements CalculatorEditorViewState 
 
         return result;
     }
+
+    @NotNull
+    public static CalculatorEditorViewState newInstance(@NotNull String text, int selection) {
+        final CalculatorEditorViewStateImpl result = new CalculatorEditorViewStateImpl();
+        result.text = text;
+        result.selection = selection;
+        return result;
+    }
 }

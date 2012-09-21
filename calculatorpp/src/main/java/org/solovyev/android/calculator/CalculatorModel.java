@@ -14,7 +14,6 @@ import android.text.ClipboardManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import org.jetbrains.annotations.NotNull;
@@ -37,7 +36,7 @@ import org.solovyev.common.text.StringUtils;
  * Date: 9/12/11
  * Time: 11:15 PM
  */
-public enum CalculatorModel implements HistoryControl<CalculatorHistoryState>, CalculatorEngineControl {
+public enum CalculatorModel implements HistoryControl<CalculatorHistoryState>, CalculatorEngineControl, CursorControl {
 
 	instance;
 
@@ -271,7 +270,7 @@ public enum CalculatorModel implements HistoryControl<CalculatorHistoryState>, C
 			doTextOperation(new CalculatorModel.TextOperation() {
 
 				@Override
-				public void doOperation(@NotNull EditText editor) {
+				public void doOperation(@NotNull CalculatorEditor editor) {
 					int cursorPositionOffset = 0;
 					final StringBuilder textToBeInserted = new StringBuilder(text);
 
@@ -296,16 +295,36 @@ public enum CalculatorModel implements HistoryControl<CalculatorHistoryState>, C
 						}
 					}
 
-					editor.getText().insert(editor.getSelectionStart(), textToBeInserted.toString());
-					editor.setSelection(editor.getSelectionStart() + cursorPositionOffset, editor.getSelectionEnd() + cursorPositionOffset);
+					editor.insert(textToBeInserted.toString());
+					editor.moveSelection(cursorPositionOffset);
 				}
 			}, delayEvaluate);
 		}
 	}
 
-	public static interface TextOperation {
+    @Override
+    public void setCursorOnStart() {
+        this.editor.setCursorOnStart();
+    }
 
-		void doOperation(@NotNull EditText editor);
+    @Override
+    public void setCursorOnEnd() {
+        this.editor.setCursorOnEnd();
+    }
+
+    @Override
+    public void moveCursorLeft() {
+        this.editor.moveCursorLeft();
+    }
+
+    @Override
+    public void moveCursorRight() {
+        this.editor.moveCursorRight();
+    }
+
+    public static interface TextOperation {
+
+		void doOperation(@NotNull CalculatorEditor editor);
 
 	}
 
