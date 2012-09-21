@@ -177,6 +177,14 @@ public class CalculatorEditorImpl implements CalculatorEditor {
         synchronized (viewLock) {
             int selection = this.lastViewState.getSelection() + offset;
 
+            return setSelection(selection);
+        }
+    }
+
+    @NotNull
+    @Override
+    public CalculatorEditorViewState setSelection(int selection) {
+        synchronized (viewLock) {
             selection = correctSelection(selection, this.lastViewState.getText());
 
             final CalculatorEditorViewState result = CalculatorEditorViewStateImpl.newSelection(this.lastViewState, selection);

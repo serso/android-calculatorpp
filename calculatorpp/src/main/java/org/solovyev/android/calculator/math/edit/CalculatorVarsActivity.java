@@ -46,7 +46,7 @@ public class CalculatorVarsActivity extends AbstractMathEntityListActivity<ICons
 		use(R.string.c_use) {
 			@Override
 			public void onClick(@NotNull IConstant data, @NotNull Context context) {
-				CalculatorModel.instance.processDigitButtonAction(data.getName(), false);
+				CalculatorModel.instance.processDigitButtonAction(data.getName());
 				if (context instanceof Activity) {
 					((Activity) context).finish();
 				}

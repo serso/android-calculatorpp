@@ -31,15 +31,10 @@ enum ConversionMenuItem implements AMenuItem<CalculatorDisplayViewState> {
 
         if (operation == JsclOperation.numeric) {
             if (generic.getConstants().isEmpty()) {
-                try {
-                    convert(generic);
+                convert(generic);
 
-                    // conversion possible => return true
-                    result = true;
-
-                } catch (CalculatorImpl.ConversionException e) {
-                    // conversion is not possible => return false
-                }
+                // conversion possible => return true
+                result = true;
             }
         }
 

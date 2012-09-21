@@ -27,6 +27,13 @@
         </dependency>
 
         <dependency>
+            <groupId>org.solovyev.android</groupId>
+            <artifactId>calculatorpp-service</artifactId>
+            <version>1.3.2</version>
+            <type>apklib</type>
+        </dependency>
+
+        <dependency>
             <groupId>org.solovyev</groupId>
             <artifactId>common-core</artifactId>
         </dependency>
@@ -193,22 +200,6 @@
 
             <build>
                 <plugins>
-
-                    <plugin>
-                        <groupId>com.jayway.maven.plugins.android.generation2</groupId>
-                        <artifactId>android-maven-plugin</artifactId>
-
-                        <executions>
-                            <execution>
-                                <id>alignApk</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>zipalign</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-
-                    </plugin>
 
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>

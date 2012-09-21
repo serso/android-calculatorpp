@@ -10,8 +10,9 @@ import org.jetbrains.annotations.Nullable;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 import org.solovyev.android.calculator.CalculatorDisplayViewState;
+import org.solovyev.android.calculator.CalculatorEditor;
 import org.solovyev.android.calculator.CalculatorEditorViewState;
-import org.solovyev.android.calculator.Editor;
+import org.solovyev.common.text.StringUtils;
 
 @Root
 public class EditorHistoryState implements Cloneable{
@@ -47,8 +48,8 @@ public class EditorHistoryState implements Cloneable{
         return result;
     }
 
-	public void setValuesFromHistory(@NotNull Editor editor) {
-		editor.setText(this.getText());
+	public void setValuesFromHistory(@NotNull CalculatorEditor editor) {
+		editor.setText(StringUtils.getNotEmpty(this.getText(), ""));
 		editor.setSelection(this.getCursorPosition());
 	}
 

@@ -218,14 +218,6 @@
             </plugins>
         </pluginManagement>
 
-        <extensions>
-            <extension>
-                <groupId>com.jayway.maven.plugins.android.generation2</groupId>
-                <artifactId>android-maven-plugin</artifactId>
-                <version>3.1.1</version>
-            </extension>
-        </extensions>
-
     </build>
 
     <profiles>

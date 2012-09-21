@@ -106,7 +106,7 @@ public abstract class AbstractMathEntityListActivity<T extends MathEntity> exten
                                     final int position,
                                     final long id) {
 
-                CalculatorModel.instance.processDigitButtonAction(((MathEntity) parent.getItemAtPosition(position)).getName(), false);
+                CalculatorModel.instance.processDigitButtonAction(((MathEntity) parent.getItemAtPosition(position)).getName());
 
                 AbstractMathEntityListActivity.this.finish();
             }

@@ -19,9 +19,7 @@ import com.google.ads.AdView;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.ads.AdsController;
-import org.solovyev.android.calculator.CalculatorEditor;
 import org.solovyev.android.calculator.CalculatorLocatorImpl;
-import org.solovyev.android.calculator.CalculatorModel;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.menu.AMenuBuilder;
@@ -177,7 +175,7 @@ public abstract class AbstractHistoryActivity extends ListActivity {
 
 	public static void useHistoryItem(@NotNull final CalculatorHistoryState historyState, @NotNull AbstractHistoryActivity activity) {
         final EditorHistoryState editorState = historyState.getEditorState();
-        CalculatorLocatorImpl.getInstance().getCalculatorEditor().setText(StringUtils.getNotEmpty(editorState.getText(), ""), editorState.getCursorPosition())
+        CalculatorLocatorImpl.getInstance().getCalculatorEditor().setText(StringUtils.getNotEmpty(editorState.getText(), ""), editorState.getCursorPosition());
 
 		activity.finish();
 	}

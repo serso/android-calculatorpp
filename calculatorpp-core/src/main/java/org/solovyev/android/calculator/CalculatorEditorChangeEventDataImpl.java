@@ -15,7 +15,8 @@ public class CalculatorEditorChangeEventDataImpl implements CalculatorEditorChan
     @NotNull
     private CalculatorEditorViewState newState;
 
-    public CalculatorEditorChangeEventDataImpl(@NotNull CalculatorEditorViewState oldState, @NotNull CalculatorEditorViewState newState) {
+    public CalculatorEditorChangeEventDataImpl(@NotNull CalculatorEditorViewState oldState,
+                                               @NotNull CalculatorEditorViewState newState) {
         this.oldState = oldState;
         this.newState = newState;
     }

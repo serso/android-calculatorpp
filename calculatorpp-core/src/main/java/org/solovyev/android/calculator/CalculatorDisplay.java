@@ -18,6 +18,9 @@ public interface CalculatorDisplay extends CalculatorEventListener {
 
     void setView(@Nullable CalculatorDisplayView view);
 
+    @Nullable
+    CalculatorDisplayView getView();
+
     @NotNull
     CalculatorDisplayViewState getViewState();
 

@@ -1,6 +1,5 @@
 package org.solovyev.android.calculator;
 
-import android.util.Log;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.common.utils.ListListenersContainer;
@@ -41,7 +40,7 @@ public class ListCalculatorEventContainer implements CalculatorEventContainer {
         final List<CalculatorEventListener> listeners = this.listeners.getListeners();
 
         for (CalculatorEvent e : calculatorEvents) {
-            Log.d(TAG, "Event: " + e.getCalculatorEventType() + " with data: " + e.getData());
+            //Log.d(TAG, "Event: " + e.getCalculatorEventType() + " with data: " + e.getData());
             for (CalculatorEventListener listener : listeners) {
                 listener.onCalculatorEvent(e.getCalculatorEventData(), e.getCalculatorEventType(), e.getData());
             }

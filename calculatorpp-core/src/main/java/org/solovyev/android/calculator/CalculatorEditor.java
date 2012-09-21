@@ -70,4 +70,7 @@ public interface CalculatorEditor extends CalculatorEventListener/*, CursorContr
 
     @NotNull
     CalculatorEditorViewState moveSelection(int offset);
+
+    @NotNull
+    CalculatorEditorViewState setSelection(int selection);
 }

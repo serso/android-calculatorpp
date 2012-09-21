@@ -28,7 +28,7 @@ public class CalculatorOperatorsActivity extends AbstractMathEntityListActivity<
 		use(R.string.c_use) {
 			@Override
 			public void onClick(@NotNull Operator data, @NotNull Context context) {
-				CalculatorModel.instance.processDigitButtonAction(data.getName(), false);
+				CalculatorModel.instance.processDigitButtonAction(data.getName());
 				if (context instanceof Activity) {
 					((Activity) context).finish();
 				}

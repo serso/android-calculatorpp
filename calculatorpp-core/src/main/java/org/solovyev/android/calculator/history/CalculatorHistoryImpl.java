@@ -12,6 +12,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static org.solovyev.android.calculator.CalculatorEventType.display_state_changed;
+import static org.solovyev.android.calculator.CalculatorEventType.editor_state_changed;
+
 /**
  * User: Solovyev_S
  * Date: 20.09.12
@@ -28,7 +31,10 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
     private final List<CalculatorHistoryState> savedHistory = new ArrayList<CalculatorHistoryState>();
 
     @NotNull
-    private CalculatorEventDataId lastEventDataId = CalculatorLocatorImpl.getInstance().getCalculator().createFirstEventDataId();
+    private volatile CalculatorEventDataId lastEventDataId = CalculatorLocatorImpl.getInstance().getCalculator().createFirstEventDataId();
+
+    @Nullable
+    private volatile CalculatorEditorViewState lastEditorViewState;
 
     @Override
     public boolean isEmpty() {
@@ -137,22 +143,26 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
     public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData,
                                   @NotNull CalculatorEventType calculatorEventType,
                                   @Nullable Object data) {
-        if (calculatorEventType.isOfType(CalculatorEventType.calculation_started, CalculatorEventType.calculation_result, CalculatorEventType.calculation_failed)) {
+        if (calculatorEventType.isOfType(editor_state_changed, display_state_changed)) {
 
-            if ( calculatorEventData.isAfter(this.lastEventDataId) ) {
-/*
-
-                switch (calculatorEventType) {
-                    case calculation_started:
-                        CalculatorHistoryState.newInstance()
-                        break;
-                }
-
-                CalculatorLocatorImpl.getInstance().getCalculatorDisplay().get
-                CalculatorHistoryState.newInstance(new TextViewEditorAdapter(this.editor), display);
-*/
+            if (calculatorEventData.isAfter(this.lastEventDataId)) {
+                final boolean sameSequence = calculatorEventData.isSameSequence(this.lastEventDataId);
 
                 this.lastEventDataId = calculatorEventData;
+
+                switch (calculatorEventType) {
+                    case editor_state_changed:
+                        final CalculatorEditorChangeEventData changeEventData = (CalculatorEditorChangeEventData) data;
+                        lastEditorViewState = changeEventData.getNewState();
+                        break;
+                    case display_state_changed:
+                        if (sameSequence) {
+
+                        } else {
+                            lastEditorViewState = null;
+                        }
+                        break;
+                }
             }
         }
     }

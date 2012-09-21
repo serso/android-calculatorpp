@@ -72,7 +72,7 @@ public class NumeralBaseConverterDialog {
                     toUnitsValue = ((AndroidNumeralBase) toUnits.getUnitType()).getNumeralBase().getJsclPrefix() + toUnitsValue;
                 }
 
-                CalculatorModel.instance.processDigitButtonAction(toUnitsValue, false);
+                CalculatorModel.instance.processDigitButtonAction(toUnitsValue);
                 final AlertDialog alertDialog = alertDialogHolder.getObject();
                 if (alertDialog != null) {
                     alertDialog.dismiss();

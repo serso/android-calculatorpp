@@ -35,7 +35,10 @@ public class AndroidCalculatorEditorView extends EditText implements SharedPrefe
 	@NotNull
 	private final static TextProcessor<TextHighlighter.Result, String> textHighlighter = new TextHighlighter(Color.WHITE, true, CalculatorEngine.instance.getEngine());
 
-	public AndroidCalculatorEditorView(Context context) {
+    @NotNull
+    private CalculatorEditorViewState viewState = CalculatorEditorViewStateImpl.newDefaultInstance();
+
+    public AndroidCalculatorEditorView(Context context) {
 		super(context);
 	}
 
@@ -129,4 +132,11 @@ public class AndroidCalculatorEditorView extends EditText implements SharedPrefe
 	public void init(@NotNull SharedPreferences preferences) {
 		onSharedPreferenceChanged(preferences, CALC_COLOR_DISPLAY_KEY);
 	}
+
+    @Override
+    public void setState(@NotNull CalculatorEditorViewState viewState) {
+        this.viewState = viewState;
+        this.setText(viewState.getText());
+        this.setSelection(viewState.getSelection());
+    }
 }

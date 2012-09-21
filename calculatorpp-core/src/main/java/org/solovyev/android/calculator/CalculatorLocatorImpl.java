@@ -13,13 +13,13 @@ public class CalculatorLocatorImpl implements CalculatorLocator {
     private JCalculatorEngine calculatorEngine;
 
     @NotNull
-    private final CalculatorDisplay calculatorDisplay = new CalculatorDisplayImpl();
-
-    @NotNull
     private final Calculator calculator = new CalculatorImpl();
 
     @NotNull
     private final CalculatorEditor calculatorEditor = new CalculatorEditorImpl(calculator);
+
+    @NotNull
+    private final CalculatorDisplay calculatorDisplay = new CalculatorDisplayImpl(calculator);
 
     @NotNull
     private static final CalculatorLocator instance = new CalculatorLocatorImpl();

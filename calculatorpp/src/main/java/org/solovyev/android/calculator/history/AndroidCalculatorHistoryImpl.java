@@ -34,8 +34,10 @@ public enum AndroidCalculatorHistoryImpl implements AndroidCalculatorHistory {
 	public void load(@Nullable Context context, @Nullable SharedPreferences preferences) {
 		if (context != null && preferences != null) {
 			final String value = preferences.getString(context.getString(R.string.p_calc_history), null);
-			calculatorHistory.fromXml(value);
-		}
+            if (value != null) {
+                calculatorHistory.fromXml(value);
+            }
+        }
 	}
 
 	@Override

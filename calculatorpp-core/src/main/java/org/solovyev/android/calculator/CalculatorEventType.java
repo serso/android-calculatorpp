@@ -51,7 +51,10 @@ public enum CalculatorEventType {
     */
 
     // @NotNull org.solovyev.android.calculator.CalculatorEditorChangeEventData
-    editor_state_changed;
+    editor_state_changed,
+
+    // @NotNull CalculatorDisplayChangeEventData
+    display_state_changed;
 
     public boolean isOfType(@NotNull CalculatorEventType... types) {
         for (CalculatorEventType type : types) {

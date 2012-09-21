@@ -27,8 +27,8 @@ class CalculatorEventDataImpl implements CalculatorEventData {
         return calculatorEventDataId.getEventId();
     }
 
+    @NotNull
     @Override
-    @Nullable
     public Long getSequenceId() {
         return calculatorEventDataId.getSequenceId();
     }

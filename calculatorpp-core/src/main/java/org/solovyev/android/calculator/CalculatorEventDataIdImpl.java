@@ -1,7 +1,6 @@
 package org.solovyev.android.calculator;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * User: Solovyev_S
@@ -10,18 +9,20 @@ import org.jetbrains.annotations.Nullable;
  */
 class CalculatorEventDataIdImpl implements CalculatorEventDataId {
 
+    private static final long NO_SEQUENCE = -1L;
+
     private final long eventId;
 
-    @Nullable
-    private final Long sequenceId;
+    @NotNull
+    private Long sequenceId = NO_SEQUENCE;
 
-    private CalculatorEventDataIdImpl(long id, @Nullable Long sequenceId) {
+    private CalculatorEventDataIdImpl(long id, @NotNull Long sequenceId) {
         this.eventId = id;
         this.sequenceId = sequenceId;
     }
 
     @NotNull
-    static CalculatorEventDataId newInstance(long id, @Nullable Long sequenceId) {
+    static CalculatorEventDataId newInstance(long id, @NotNull Long sequenceId) {
         return new CalculatorEventDataIdImpl(id, sequenceId);
     }
 
@@ -30,7 +31,7 @@ class CalculatorEventDataIdImpl implements CalculatorEventDataId {
         return this.eventId;
     }
 
-    @Nullable
+    @NotNull
     @Override
     public Long getSequenceId() {
         return this.sequenceId;
@@ -43,7 +44,7 @@ class CalculatorEventDataIdImpl implements CalculatorEventDataId {
 
     @Override
     public boolean isSameSequence(@NotNull CalculatorEventDataId that) {
-        return this.sequenceId != null && this.sequenceId.equals(that.getSequenceId());
+        return !this.sequenceId.equals(NO_SEQUENCE) && this.sequenceId.equals(that.getSequenceId());
     }
 
     @Override
@@ -54,7 +55,7 @@ class CalculatorEventDataIdImpl implements CalculatorEventDataId {
         CalculatorEventDataIdImpl that = (CalculatorEventDataIdImpl) o;
 
         if (eventId != that.eventId) return false;
-        if (sequenceId != null ? !sequenceId.equals(that.sequenceId) : that.sequenceId != null)
+        if (!sequenceId.equals(that.sequenceId))
             return false;
 
         return true;
@@ -63,7 +64,7 @@ class CalculatorEventDataIdImpl implements CalculatorEventDataId {
     @Override
     public int hashCode() {
         int result = (int) (eventId ^ (eventId >>> 32));
-        result = 31 * result + (sequenceId != null ? sequenceId.hashCode() : 0);
+        result = 31 * result + (sequenceId.hashCode());
         return result;
     }
 }

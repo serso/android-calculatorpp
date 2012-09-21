@@ -61,8 +61,9 @@ public class CalculatorActivityLauncher {
 	}
 
 	public static void createVar(@NotNull final Context context, @NotNull CalculatorModel calculatorModel) {
-		if (calculatorModel.getDisplay().isValid() ) {
-			final String varValue = calculatorModel.getDisplay().getText().toString();
+        final CalculatorDisplayViewState viewState = calculatorModel.getDisplay().getViewState();
+        if (viewState.isValid() ) {
+			final String varValue = viewState.getText();
 			if (!StringUtils.isEmpty(varValue)) {
 				if (CalculatorVarsActivity.isValidValue(varValue)) {
 					final Intent intent = new Intent(context, CalculatorVarsTabActivity.class);

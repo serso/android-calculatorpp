@@ -8,9 +8,7 @@ package org.solovyev.android.calculator.history;
 import org.jetbrains.annotations.NotNull;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
-import org.solovyev.android.calculator.CalculatorDisplay;
-import org.solovyev.android.calculator.CalculatorEditor;
-import org.solovyev.android.calculator.Editor;
+import org.solovyev.android.calculator.*;
 
 /**
  * User: serso
@@ -39,16 +37,26 @@ public class CalculatorHistoryState extends AbstractHistoryState {
 		this.displayState = displayState;
 	}
 
+    @NotNull
 	public static CalculatorHistoryState newInstance(@NotNull CalculatorEditor editor,
                                                      @NotNull CalculatorDisplay display) {
-		final EditorHistoryState editorHistoryState = EditorHistoryState.newInstance(editor.getViewState());
+        final CalculatorEditorViewState editorViewState = editor.getViewState();
+        final CalculatorDisplayViewState displayViewState = display.getViewState();
 
-		final CalculatorDisplayHistoryState displayHistoryState = CalculatorDisplayHistoryState.newInstance(display.getViewState());
-
-        return new CalculatorHistoryState(editorHistoryState, displayHistoryState);
+        return newInstance(editorViewState, displayViewState);
 	}
 
-	@NotNull
+    @NotNull
+    public static CalculatorHistoryState newInstance(@NotNull CalculatorEditorViewState editorViewState,
+                                                      @NotNull CalculatorDisplayViewState displayViewState) {
+        final EditorHistoryState editorHistoryState = EditorHistoryState.newInstance(editorViewState);
+
+        final CalculatorDisplayHistoryState displayHistoryState = CalculatorDisplayHistoryState.newInstance(displayViewState);
+
+        return new CalculatorHistoryState(editorHistoryState, displayHistoryState);
+    }
+
+    @NotNull
 	public EditorHistoryState getEditorState() {
 		return editorState;
 	}
@@ -98,7 +106,7 @@ public class CalculatorHistoryState extends AbstractHistoryState {
 		return result;
 	}
 
-	public void setValuesFromHistory(@NotNull Editor editor, @NotNull CalculatorDisplay display) {
+	public void setValuesFromHistory(@NotNull CalculatorEditor editor, @NotNull CalculatorDisplay display) {
 		this.getEditorState().setValuesFromHistory(editor);
 		this.getDisplayState().setValuesFromHistory(display);
 	}

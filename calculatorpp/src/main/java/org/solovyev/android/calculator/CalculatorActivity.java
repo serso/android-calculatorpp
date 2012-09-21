@@ -92,7 +92,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
     private NumeralBaseButtons numeralBaseButtons = new NumeralBaseButtons();
 
     @NotNull
-    private ActivityMenu menu = LayoutActivityMenu.newInstance(R.menu.main_menu, CalculatorMenu.class);
+    private ActivityMenu<Menu, MenuItem> menu = LayoutActivityMenu.newInstance(R.menu.main_menu, CalculatorMenu.class);
 
     /**
 	 * Called when the activity is first created.
@@ -266,14 +266,14 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		int orientation = AndroidUtils.getScreenOrientation(this);
 		if (orientation == Configuration.ORIENTATION_PORTRAIT) {
 			setMarginsForView(equalsButton, marginLeft, marginBottom);
-			setMarginsForView(calculatorModel.getDisplay(), marginLeft, marginBottom);
+			setMarginsForView(getCalculatorDisplayView(), marginLeft, marginBottom);
 		} else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
 			setMarginsForView(leftButton, marginLeft, marginBottom);
 			setMarginsForView(eraseButton, marginLeft, marginBottom);
 			setMarginsForView(clearButton, marginLeft, marginBottom);
 			setMarginsForView(rightButton, marginLeft, marginBottom);
 			// magic magic magic
-			setMarginsForView(calculatorModel.getDisplay(), 3 * marginLeft, marginBottom);
+			setMarginsForView(getCalculatorDisplayView(), 3 * marginLeft, marginBottom);
 		}
 	}
 
@@ -658,7 +658,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		}
 
 		calculatorModel = CalculatorModel.instance.init(this, preferences, CalculatorEngine.instance);
-		calculatorModel.evaluate(calculatorModel.getDisplay().getJsclOperation());
+		calculatorModel.evaluate();
 	}
 
 	@Override
@@ -716,17 +716,22 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
                 button.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.FILL_PARENT, 1f));
                 if (display.getWidth() <= 480) {
                     // mobile phones
-                    calculatorModel.getDisplay().setBackgroundDrawable(null);
+                    getCalculatorDisplayView().setBackgroundDrawable(null);
                 }
             } else {
                 button.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.FILL_PARENT, 0f));
                 if (display.getWidth() <= 480) {
                     // mobile phones
-                    calculatorModel.getDisplay().setBackgroundDrawable(this.getResources().getDrawable(R.drawable.equals9));
+                    getCalculatorDisplayView().setBackgroundDrawable(this.getResources().getDrawable(R.drawable.equals9));
                 }
             }
             fixThemeParameters(false);
         }
+    }
+
+    @NotNull
+    private AndroidCalculatorDisplayView getCalculatorDisplayView() {
+        return (AndroidCalculatorDisplayView) calculatorModel.getDisplay().getView();
     }
 
     private void toggleOrientationChange(@Nullable SharedPreferences preferences) {

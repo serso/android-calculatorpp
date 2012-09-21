@@ -53,7 +53,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
     public static String doConversion(@NotNull UnitConverter<String> converter,
                                       @Nullable String from,
                                       @NotNull UnitType<String> fromUnitType,
-                                      @NotNull UnitType<String> toUnitType) throws ConversionException{
+                                      @NotNull UnitType<String> toUnitType) throws ConversionException {
         final String result;
 
         if (StringUtils.isEmpty(from)) {
@@ -76,7 +76,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
     }
 
     @NotNull
-    private CalculatorEventDataId nextCalculatorEventDataId() {
+    private CalculatorEventDataId nextEventDataId() {
         long eventId = counter.incrementAndGet();
         return CalculatorEventDataIdImpl.newInstance(eventId, eventId);
     }
@@ -101,24 +101,32 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
         return CalculatorEventDataIdImpl.newInstance(FIRST_ID, FIRST_ID);
     }
 
-    @Override
-    public void evaluate(@NotNull JsclOperation operation,
-                         @NotNull String expression) {
-        evaluate(operation, expression, null);
-    }
-
-    @Override
     @NotNull
+    @Override
     public CalculatorEventDataId evaluate(@NotNull final JsclOperation operation,
-                                          @NotNull final String expression,
-                                          @Nullable final MessageRegistry mr) {
+                                          @NotNull final String expression) {
 
-        final CalculatorEventDataId eventDataId = nextCalculatorEventDataId();
+        final CalculatorEventDataId eventDataId = nextEventDataId();
 
         threadPoolExecutor.execute(new Runnable() {
             @Override
             public void run() {
-                CalculatorImpl.this.evaluate(eventDataId.getSequenceId(), operation, expression, mr);
+                CalculatorImpl.this.evaluate(eventDataId.getSequenceId(), operation, expression, null);
+            }
+        });
+
+        return eventDataId;
+    }
+
+    @NotNull
+    @Override
+    public CalculatorEventDataId evaluate(@NotNull final JsclOperation operation, @NotNull final String expression, @NotNull Long sequenceId) {
+        final CalculatorEventDataId eventDataId = nextEventDataId(sequenceId);
+
+        threadPoolExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                CalculatorImpl.this.evaluate(eventDataId.getSequenceId(), operation, expression, null);
             }
         });
 
@@ -129,13 +137,12 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
     @Override
     public CalculatorEventDataId convert(@NotNull final Generic generic,
                                          @NotNull final NumeralBase to) {
-        final CalculatorEventDataId eventDataId = nextCalculatorEventDataId();
+        final CalculatorEventDataId eventDataId = nextEventDataId();
 
         threadPoolExecutor.execute(new Runnable() {
             @Override
             public void run() {
                 final Long sequenceId = eventDataId.getSequenceId();
-                assert sequenceId != null;
 
                 fireCalculatorEvent(newConversionEventData(sequenceId), CalculatorEventType.conversion_started, null);
 
@@ -165,7 +172,22 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
     @NotNull
     @Override
     public CalculatorEventDataId fireCalculatorEvent(@NotNull final CalculatorEventType calculatorEventType, @Nullable final Object data) {
-        final CalculatorEventDataId eventDataId = nextCalculatorEventDataId();
+        final CalculatorEventDataId eventDataId = nextEventDataId();
+
+        threadPoolExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                fireCalculatorEvent(CalculatorEventDataImpl.newInstance(eventDataId), calculatorEventType, data);
+            }
+        });
+
+        return eventDataId;
+    }
+
+    @NotNull
+    @Override
+    public CalculatorEventDataId fireCalculatorEvent(@NotNull final CalculatorEventType calculatorEventType, @Nullable final Object data, @NotNull Long sequenceId) {
+        final CalculatorEventDataId eventDataId = nextEventDataId(sequenceId);
 
         threadPoolExecutor.execute(new Runnable() {
             @Override
@@ -298,10 +320,10 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 
     @Override
     public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
-        if ( calculatorEventType == CalculatorEventType.editor_state_changed ) {
+        if (calculatorEventType == CalculatorEventType.editor_state_changed) {
             final CalculatorEditorChangeEventData changeEventData = (CalculatorEditorChangeEventData) data;
 
-            evaluate(JsclOperation.numeric, changeEventData.getNewState().getText());
+            evaluate(JsclOperation.numeric, changeEventData.getNewState().getText(), calculatorEventData.getSequenceId());
         }
     }
 

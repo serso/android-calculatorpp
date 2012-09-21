@@ -9,7 +9,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Handler;
 import android.text.ClipboardManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,14 +20,11 @@ import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.CursorControl;
 import org.solovyev.android.calculator.history.AndroidCalculatorHistoryImpl;
 import org.solovyev.android.calculator.history.CalculatorHistoryState;
-import org.solovyev.android.calculator.history.TextViewEditorAdapter;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.history.HistoryControl;
-import org.solovyev.common.MutableObject;
 import org.solovyev.common.history.HistoryAction;
-import org.solovyev.common.msg.Message;
 import org.solovyev.common.text.StringUtils;
 
 /**
@@ -38,19 +34,19 @@ import org.solovyev.common.text.StringUtils;
  */
 public enum CalculatorModel implements HistoryControl<CalculatorHistoryState>, CalculatorEngineControl, CursorControl {
 
-	instance;
+    instance;
 
-	// millis to wait before evaluation after user edit action
-	public static final int EVAL_DELAY_MILLIS = 0;
+    // millis to wait before evaluation after user edit action
+    public static final int EVAL_DELAY_MILLIS = 0;
 
-	@NotNull
-	private final CalculatorEditor editor;
+    @NotNull
+    private final CalculatorEditor editor;
 
     @NotNull
     private final CalculatorDisplay display;
 
     @NotNull
-	private CalculatorEngine calculatorEngine;
+    private CalculatorEngine calculatorEngine;
 
     private CalculatorModel() {
         display = CalculatorLocatorImpl.getInstance().getCalculatorDisplay();
@@ -58,249 +54,103 @@ public enum CalculatorModel implements HistoryControl<CalculatorHistoryState>, C
     }
 
     public CalculatorModel init(@NotNull final Activity activity, @NotNull SharedPreferences preferences, @NotNull CalculatorEngine calculator) {
-		Log.d(this.getClass().getName(), "CalculatorModel initialization with activity: " + activity);
-		this.calculatorEngine = calculator;
+        Log.d(this.getClass().getName(), "CalculatorModel initialization with activity: " + activity);
+        this.calculatorEngine = calculator;
 
-		final AndroidCalculatorEditorView editorView = (AndroidCalculatorEditorView) activity.findViewById(R.id.calculatorEditor);
+        final AndroidCalculatorEditorView editorView = (AndroidCalculatorEditorView) activity.findViewById(R.id.calculatorEditor);
         editorView.init(preferences);
-		preferences.registerOnSharedPreferenceChangeListener(editorView);
+        preferences.registerOnSharedPreferenceChangeListener(editorView);
         editor.setView(editorView);
 
         final AndroidCalculatorDisplayView displayView = (AndroidCalculatorDisplayView) activity.findViewById(R.id.calculatorDisplay);
-		displayView.setOnClickListener(new CalculatorDisplayOnClickListener(activity));
+        displayView.setOnClickListener(new CalculatorDisplayOnClickListener(activity));
         display.setView(displayView);
 
-		final CalculatorHistoryState lastState = AndroidCalculatorHistoryImpl.instance.getLastHistoryState();
-		if (lastState == null) {
-			saveHistoryState();
-		} else {
-			setCurrentHistoryState(lastState);
-		}
+        final CalculatorHistoryState lastState = AndroidCalculatorHistoryImpl.instance.getLastHistoryState();
+        if (lastState == null) {
+            saveHistoryState();
+        } else {
+            setCurrentHistoryState(lastState);
+        }
 
 
-		return this;
-	}
+        return this;
+    }
 
-	public static void showEvaluationError(@NotNull Activity activity, @NotNull final String errorMessage) {
-		final LayoutInflater layoutInflater = (LayoutInflater) activity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+    public static void showEvaluationError(@NotNull Activity activity, @NotNull final String errorMessage) {
+        final LayoutInflater layoutInflater = (LayoutInflater) activity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 
-		final View errorMessageView = layoutInflater.inflate(R.layout.display_error_message, null);
-		((TextView) errorMessageView.findViewById(R.id.error_message_text_view)).setText(errorMessage);
+        final View errorMessageView = layoutInflater.inflate(R.layout.display_error_message, null);
+        ((TextView) errorMessageView.findViewById(R.id.error_message_text_view)).setText(errorMessage);
 
-		final AlertDialog.Builder builder = new AlertDialog.Builder(activity)
-				.setPositiveButton(R.string.c_cancel, null)
-				.setView(errorMessageView);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(activity)
+                .setPositiveButton(R.string.c_cancel, null)
+                .setView(errorMessageView);
 
-		builder.create().show();
-	}
+        builder.create().show();
+    }
 
-	public void copyResult(@NotNull Context context) {
-		copyResult(context, display.getViewState());
-	}
+    public void copyResult(@NotNull Context context) {
+        copyResult(context, display.getViewState());
+    }
 
-	public static void copyResult(@NotNull Context context, @NotNull final CalculatorDisplayViewState viewState) {
-		if (viewState.isValid()) {
-			final CharSequence text = viewState.getText();
-			if (!StringUtils.isEmpty(text)) {
-				final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
-				clipboard.setText(text.toString());
-				Toast.makeText(context, context.getText(R.string.c_result_copied), Toast.LENGTH_SHORT).show();
-			}
-		}
-	}
+    public static void copyResult(@NotNull Context context,
+                                  @NotNull final CalculatorDisplayViewState viewState) {
+        if (viewState.isValid()) {
+            final CharSequence text = viewState.getText();
+            if (!StringUtils.isEmpty(text)) {
+                final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
+                clipboard.setText(text.toString());
+                Toast.makeText(context, context.getText(R.string.c_result_copied), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 
-	private void saveHistoryState() {
-		AndroidCalculatorHistoryImpl.instance.addState(getCurrentHistoryState());
-	}
+    private void saveHistoryState() {
+        AndroidCalculatorHistoryImpl.instance.addState(getCurrentHistoryState());
+    }
 
-	public void doTextOperation(@NotNull TextOperation operation) {
-		doTextOperation(operation, true);
-	}
+    public void doTextOperation(@NotNull TextOperation operation) {
+        operation.doOperation(CalculatorLocatorImpl.getInstance().getCalculatorEditor());
+    }
 
-	public void doTextOperation(@NotNull TextOperation operation, boolean delayEvaluate) {
-		doTextOperation(operation, delayEvaluate, JsclOperation.numeric, false);
-	}
+    public void processDigitButtonAction(@Nullable final String text) {
 
-	public void doTextOperation(@NotNull TextOperation operation, boolean delayEvaluate, @NotNull JsclOperation jsclOperation, boolean forceEval) {
-		final String editorStateBefore = this.editor.getText().toString();
+        if (!StringUtils.isEmpty(text)) {
+            doTextOperation(new CalculatorModel.TextOperation() {
 
-		Log.d(CalculatorModel.class.getName(), "Editor state changed before '" + editorStateBefore + "'");
-		operation.doOperation(this.editor);
-		//Log.d(CalculatorModel.class.getName(), "Doing text operation" + StringUtils.fromStackTrace(Thread.currentThread().getStackTrace()));
+                @Override
+                public void doOperation(@NotNull CalculatorEditor editor) {
+                    int cursorPositionOffset = 0;
+                    final StringBuilder textToBeInserted = new StringBuilder(text);
 
-		final String editorStateAfter = this.editor.getText().toString();
-		if (forceEval ||!editorStateBefore.equals(editorStateAfter)) {
+                    final MathType.Result mathType = MathType.getType(text, 0, false);
+                    switch (mathType.getMathType()) {
+                        case function:
+                            textToBeInserted.append("()");
+                            cursorPositionOffset = -1;
+                            break;
+                        case operator:
+                            textToBeInserted.append("()");
+                            cursorPositionOffset = -1;
+                            break;
+                        case comma:
+                            textToBeInserted.append(" ");
+                            break;
+                    }
 
-			editor.redraw();
+                    if (cursorPositionOffset == 0) {
+                        if (MathType.openGroupSymbols.contains(text)) {
+                            cursorPositionOffset = -1;
+                        }
+                    }
 
-			evaluate(delayEvaluate, editorStateAfter, jsclOperation, null);
-		}
-	}
-
-	@NotNull
-	private final static MutableObject<Runnable> pendingOperation = new MutableObject<Runnable>();
-
-	private void evaluate(boolean delayEvaluate,
-						  @NotNull final String expression,
-						  @NotNull final JsclOperation operation,
-						  @Nullable CalculatorHistoryState historyState) {
-
-		final CalculatorHistoryState localHistoryState;
-		if (historyState == null) {
-			//this.display.setText("");
-			localHistoryState = getCurrentHistoryState();
-		} else {
-			this.display.setText(historyState.getDisplayState().getEditorState().getText());
-			localHistoryState = historyState;
-		}
-
-		pendingOperation.setObject(new Runnable() {
-			@Override
-			public void run() {
-				// allow only one runner at one time
-				synchronized (pendingOperation) {
-					//lock all operations with history
-					if (pendingOperation.getObject() == this) {
-						// actually nothing shall be logged while text operations are done
-						evaluate(expression, operation, this);
-
-						if (pendingOperation.getObject() == this) {
-							// todo serso: of course there is small probability that someone will set pendingOperation after if statement but before .setObject(null)
-							pendingOperation.setObject(null);
-							localHistoryState.setDisplayState(getCurrentHistoryState().getDisplayState());
-						}
-					}
-				}
-			}
-		});
-
-		if (delayEvaluate) {
-			if (historyState == null) {
-				AndroidCalculatorHistoryImpl.instance.addState(localHistoryState);
-			}
-            // todo serso: this is not correct - operation is processing still in the same thread
-			new Handler().postDelayed(pendingOperation.getObject(), EVAL_DELAY_MILLIS);
-		} else {
-			pendingOperation.getObject().run();
-			if (historyState == null) {
-				AndroidCalculatorHistoryImpl.instance.addState(localHistoryState);
-			}
-		}
-	}
-
-	@Override
-	public void evaluate() {
-   		evaluate(false, this.editor.getText().toString(), JsclOperation.numeric, null);
-	}
-
-	public void evaluate(@NotNull JsclOperation operation) {
-   		evaluate(false, this.editor.getText().toString(), operation, null);
-	}
-
-	@Override
-	public void simplify() {
-   		evaluate(false, this.editor.getText().toString(), JsclOperation.simplify, null);
-	}
-
-	private void evaluate(@Nullable final String expression,
-						  @NotNull JsclOperation operation,
-						  @NotNull Runnable currentRunner) {
-
-		if (!StringUtils.isEmpty(expression)) {
-			try {
-				Log.d(CalculatorModel.class.getName(), "Trying to evaluate '" + operation + "': " + expression /*+ StringUtils.fromStackTrace(Thread.currentThread().getStackTrace())*/);
-				final CalculatorOutput result = calculatorEngine.evaluate(operation, expression);
-
-				// todo serso: second condition might replaced with expression.equals(this.editor.getText().toString()) ONLY if expression will be formatted with text highlighter
-				if (currentRunner == pendingOperation.getObject() && this.editor.getText().length() > 0) {
-					display.setText(result.getStringResult());
-				} else {
-					display.setText("");
-				}
-				display.setJsclOperation(result.getOperation());
-				display.setGenericResult(result.getResult());
-			} catch (CalculatorParseException e) {
-				handleEvaluationException(expression, display, operation, e);
-			} catch (CalculatorEvalException e) {
-				handleEvaluationException(expression, display, operation, e);
-			}
-		} else {
-			this.display.setText("");
-			this.display.setJsclOperation(operation);
-			this.display.setGenericResult(null);
-		}
-
-
-
-		this.display.redraw();
-	}
-
-	private void handleEvaluationException(@NotNull String expression,
-										   @NotNull AndroidCalculatorDisplayView localDisplay,
-										   @NotNull JsclOperation operation,
-										   @NotNull Message e) {
-		Log.d(CalculatorModel.class.getName(), "Evaluation failed for : " + expression + ". Error message: " + e);
-		if ( StringUtils.isEmpty(localDisplay.getText()) ) {
-			// if previous display state was empty -> show error
-			localDisplay.setText(R.string.c_syntax_error);
-		} else {
-			// show previous result instead of error caption (actually previous result will be greyed)
-		}
-		localDisplay.setJsclOperation(operation);
-		localDisplay.setGenericResult(null);
-		localDisplay.setValid(false);
-		localDisplay.setErrorMessage(e.getLocalizedMessage());
-	}
-
-	public void clear() {
-		if (!StringUtils.isEmpty(editor.getText()) || !StringUtils.isEmpty(display.getText())) {
-			editor.getText().clear();
-			display.setText("");
-			saveHistoryState();
-		}
-	}
-
-	public void processDigitButtonAction(@Nullable final String text) {
-		processDigitButtonAction(text, true);
-	}
-
-	public void processDigitButtonAction(@Nullable final String text, boolean delayEvaluate) {
-
-		if (!StringUtils.isEmpty(text)) {
-			doTextOperation(new CalculatorModel.TextOperation() {
-
-				@Override
-				public void doOperation(@NotNull CalculatorEditor editor) {
-					int cursorPositionOffset = 0;
-					final StringBuilder textToBeInserted = new StringBuilder(text);
-
-					final MathType.Result mathType = MathType.getType(text, 0, false);
-					switch (mathType.getMathType()) {
-						case function:
-							textToBeInserted.append("()");
-							cursorPositionOffset = -1;
-							break;
-						case operator:
-							textToBeInserted.append("()");
-							cursorPositionOffset = -1;
-							break;
-						case comma:
-							textToBeInserted.append(" ");
-							break;
-					}
-
-					if (cursorPositionOffset == 0) {
-						if (MathType.openGroupSymbols.contains(text)) {
-							cursorPositionOffset = -1;
-						}
-					}
-
-					editor.insert(textToBeInserted.toString());
-					editor.moveSelection(cursorPositionOffset);
-				}
-			}, delayEvaluate);
-		}
-	}
+                    editor.insert(textToBeInserted.toString());
+                    editor.moveSelection(cursorPositionOffset);
+                }
+            });
+        }
+    }
 
     @Override
     public void setCursorOnStart() {
@@ -322,11 +172,25 @@ public enum CalculatorModel implements HistoryControl<CalculatorHistoryState>, C
         this.editor.moveCursorRight();
     }
 
+    @Override
+    public void evaluate() {
+        CalculatorLocatorImpl.getInstance().getCalculator().evaluate(JsclOperation.numeric, this.editor.getViewState().getText());
+    }
+
+    @Override
+    public void simplify() {
+        CalculatorLocatorImpl.getInstance().getCalculator().evaluate(JsclOperation.simplify, this.editor.getViewState().getText());
+    }
+
+    public void clear() {
+        // todo serso:
+    }
+
     public static interface TextOperation {
 
-		void doOperation(@NotNull CalculatorEditor editor);
+        void doOperation(@NotNull CalculatorEditor editor);
 
-	}
+    }
 
     @Override
     public void doHistoryAction(@NotNull HistoryAction historyAction) {
@@ -341,35 +205,25 @@ public enum CalculatorModel implements HistoryControl<CalculatorHistoryState>, C
     }
 
     @Override
-	public void setCurrentHistoryState(@NotNull CalculatorHistoryState editorHistoryState) {
-		synchronized (AndroidCalculatorHistoryImpl.instance) {
-			Log.d(this.getClass().getName(), "Saved history found: " + editorHistoryState);
+    public void setCurrentHistoryState(@NotNull CalculatorHistoryState editorHistoryState) {
+        synchronized (AndroidCalculatorHistoryImpl.instance) {
+            Log.d(this.getClass().getName(), "Saved history found: " + editorHistoryState);
 
-			editorHistoryState.setValuesFromHistory(new TextViewEditorAdapter(this.editor), this.display);
+            editorHistoryState.setValuesFromHistory(this.editor, this.display);
+        }
+    }
 
-			final String expression = this.editor.getText().toString();
-			if ( !StringUtils.isEmpty(expression) ) {
-				if ( StringUtils.isEmpty(this.display.getText().toString()) ) {
-					evaluate(false, expression, this.display.getJsclOperation(), editorHistoryState);
-				}
-			}
+    @Override
+    @NotNull
+    public CalculatorHistoryState getCurrentHistoryState() {
+        synchronized (AndroidCalculatorHistoryImpl.instance) {
+            return CalculatorHistoryState.newInstance(this.editor, display);
+        }
+    }
 
-			editor.redraw();
-			//display.redraw();
-		}
-	}
-
-	@Override
-	@NotNull
-	public CalculatorHistoryState getCurrentHistoryState() {
-		synchronized (AndroidCalculatorHistoryImpl.instance) {
-            return CalculatorHistoryState.newInstance(new TextViewEditorAdapter(this.editor), display);
-		}
-	}
-
-	@NotNull
-	public CalculatorDisplay getDisplay() {
-		return display;
-	}
+    @NotNull
+    public CalculatorDisplay getDisplay() {
+        return display;
+    }
 
 }
