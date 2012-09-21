@@ -1,7 +1,5 @@
 package org.solovyev.android.calculator;
 
-import jscl.NumeralBase;
-import jscl.math.Generic;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.jscl.JsclOperation;
@@ -24,7 +22,4 @@ public interface Calculator extends CalculatorEventContainer {
     CalculatorEventDataId evaluate(@NotNull JsclOperation operation,
                                    @NotNull String expression,
                                    @Nullable MessageRegistry mr);
-
-    @NotNull
-    CalculatorEventDataId convert(@NotNull Generic generic, @NotNull NumeralBase to);
 }

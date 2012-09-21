@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.text.Html;
 import android.util.AttributeSet;
 import android.util.Log;
+import jscl.NumeralBase;
 import jscl.math.Generic;
 import jscl.math.function.Constant;
 import jscl.math.function.IConstant;
@@ -19,9 +20,12 @@ import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.calculator.text.TextProcessor;
 import org.solovyev.android.calculator.view.NumeralBaseConverterDialog;
 import org.solovyev.android.calculator.view.TextHighlighter;
+import org.solovyev.android.calculator.view.UnitConverterViewBuilder;
+import org.solovyev.android.menu.AMenuItem;
 import org.solovyev.android.menu.LabeledMenuItem;
 import org.solovyev.android.view.AutoResizeTextView;
 import org.solovyev.common.collections.CollectionsUtils;
+import org.solovyev.common.text.StringUtils;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -33,18 +37,95 @@ import java.util.Set;
  */
 public class AndroidCalculatorDisplayView extends AutoResizeTextView implements CalculatorDisplayView {
 
-    public static enum MenuItem implements LabeledMenuItem<CalculatorDisplayViewState> {
+    private static enum ConversionMenuItem implements AMenuItem<CalculatorDisplayView> {
+        convert_to_bin(NumeralBase.bin),
+        convert_to_dec(NumeralBase.dec),
+        convert_to_hex(NumeralBase.hex);
+
+        @NotNull
+        private final NumeralBase toNumeralBase;
+
+        private ConversionMenuItem(@NotNull NumeralBase toNumeralBase) {
+            this.toNumeralBase = toNumeralBase;
+        }
+
+        protected boolean isItemVisibleFor(@NotNull Generic generic, @NotNull JsclOperation operation) {
+            boolean result = false;
+
+            if (operation == JsclOperation.numeric) {
+                if (generic.getConstants().isEmpty()) {
+                    try {
+                        convert(generic);
+
+                        // conversion possible => return true
+                        result = true;
+
+                    } catch (UnitConverterViewBuilder.ConversionException e) {
+                        // conversion is not possible => return false
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        @Override
+        public void onClick(@NotNull CalculatorDisplayView data, @NotNull Context context) {
+            final NumeralBase fromNumeralBase = CalculatorEngine.instance.getEngine().getNumeralBase();
+
+            final Generic lastResult = CalculatorLocatorImpl.getInstance().getCalculatorDisplay().getViewState().getResult();
+
+            if (lastResult != null) {
+                String to;
+                try {
+                    to = convert(lastResult);
+
+                    // add prefix
+                    if (fromNumeralBase != toNumeralBase) {
+                        to = toNumeralBase.getJsclPrefix() + to;
+                    }
+                } catch (UnitConverterViewBuilder.ConversionException e) {
+                    to = context.getString(R.string.c_error);
+                }
+
+                data.setText(to);
+                //data.redraw();
+            }
+        }
+
+        @NotNull
+        private String convert(@NotNull Generic generic) throws UnitConverterViewBuilder.ConversionException {
+            final NumeralBase fromNumeralBase = CalculatorEngine.instance.getEngine().getNumeralBase();
+
+            if (fromNumeralBase != toNumeralBase) {
+                String from = generic.toString();
+                if (!StringUtils.isEmpty(from)) {
+                    try {
+                        from = ToJsclTextProcessor.getInstance().process(from).getExpression();
+                    } catch (CalculatorParseException e) {
+                        // ok, problems while processing occurred
+                    }
+                }
+
+                return UnitConverterViewBuilder.doConversion(AndroidNumeralBase.getConverter(), from, AndroidNumeralBase.valueOf(fromNumeralBase), AndroidNumeralBase.valueOf(toNumeralBase));
+            } else {
+                return generic.toString();
+            }
+        }
+    }
+
+    public static enum MenuItem implements LabeledMenuItem<CalculatorDisplayView> {
 
         copy(R.string.c_copy) {
             @Override
-            public void onClick(@NotNull CalculatorDisplayViewState data, @NotNull Context context) {
+            public void onClick(@NotNull CalculatorDisplayView data, @NotNull Context context) {
                 CalculatorModel.copyResult(context, data);
             }
         },
 
         convert_to_bin(R.string.convert_to_bin) {
             @Override
-            public void onClick(@NotNull CalculatorDisplayViewState data, @NotNull Context context) {
+            public void onClick(@NotNull CalculatorDisplayView data, @NotNull Context context) {
                 ConversionMenuItem.convert_to_bin.onClick(data, context);
             }
 
@@ -56,7 +137,7 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
 
         convert_to_dec(R.string.convert_to_dec) {
             @Override
-            public void onClick(@NotNull CalculatorDisplayViewState data, @NotNull Context context) {
+            public void onClick(@NotNull CalculatorDisplayView data, @NotNull Context context) {
                 ConversionMenuItem.convert_to_dec.onClick(data, context);
             }
 
@@ -68,7 +149,7 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
 
         convert_to_hex(R.string.convert_to_hex) {
             @Override
-            public void onClick(@NotNull CalculatorDisplayViewState data, @NotNull Context context) {
+            public void onClick(@NotNull CalculatorDisplayView data, @NotNull Context context) {
                 ConversionMenuItem.convert_to_hex.onClick(data, context);
             }
 
@@ -80,8 +161,8 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
 
         convert(R.string.c_convert) {
             @Override
-            public void onClick(@NotNull CalculatorDisplayViewState data, @NotNull Context context) {
-                final Generic result = data.getResult();
+            public void onClick(@NotNull CalculatorDisplayView data, @NotNull Context context) {
+                final Generic result = data.getState().getResult();
                 if (result != null) {
                     new NumeralBaseConverterDialog(result.toString()).show(context);
                 }
@@ -95,8 +176,8 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
 
         plot(R.string.c_plot) {
             @Override
-            public void onClick(@NotNull CalculatorDisplayViewState data, @NotNull Context context) {
-                final Generic generic = data.getResult();
+            public void onClick(@NotNull CalculatorDisplayView data, @NotNull Context context) {
+                final Generic generic = data.getState().getResult();
                 assert generic != null;
 
                 final Constant constant = CollectionsUtils.getFirstCollectionElement(getNotSystemConstants(generic));
