@@ -96,7 +96,7 @@ public enum HistoryItemMenuItem implements LabeledMenuItem<HistoryItemMenuData> 
 			final CalculatorHistoryState historyState = data.getHistoryState();
 			if (historyState.isSaved()) {
 				data.getAdapter().remove(historyState);
-				AndroidCalculatorHistoryImpl.instance.removeSavedHistory(historyState, context);
+				CalculatorHistory.instance.removeSavedHistory(historyState, context);
 				Toast.makeText(context, context.getText(R.string.c_history_was_removed), Toast.LENGTH_LONG).show();
 				data.getAdapter().notifyDataSetChanged();
 			}
@@ -122,14 +122,14 @@ public enum HistoryItemMenuItem implements LabeledMenuItem<HistoryItemMenuData> 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						if (save) {
-							final CalculatorHistoryState savedHistoryItem = AndroidCalculatorHistoryImpl.instance.addSavedState(historyState);
+							final CalculatorHistoryState savedHistoryItem = CalculatorHistory.instance.addSavedState(historyState);
 							savedHistoryItem.setComment(comment.getText().toString());
-							AndroidCalculatorHistoryImpl.instance.save(context);
+							CalculatorHistory.instance.save(context);
 							// we don't need to add element to the adapter as adapter of another activity must be updated and not this
 							//data.getAdapter().add(savedHistoryItem);
 						} else {
 							historyState.setComment(comment.getText().toString());
-							AndroidCalculatorHistoryImpl.instance.save(context);
+							CalculatorHistory.instance.save(context);
 						}
 						data.getAdapter().notifyDataSetChanged();
 						Toast.makeText(context, context.getText(R.string.c_history_saved), Toast.LENGTH_LONG).show();

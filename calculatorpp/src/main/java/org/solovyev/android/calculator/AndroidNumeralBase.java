@@ -3,10 +3,10 @@ package org.solovyev.android.calculator;
 import android.app.Activity;
 import jscl.NumeralBase;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.math.units.Unit;
-import org.solovyev.math.units.UnitConverter;
-import org.solovyev.math.units.UnitImpl;
-import org.solovyev.math.units.UnitType;
+import org.solovyev.android.Unit;
+import org.solovyev.android.UnitConverter;
+import org.solovyev.android.UnitImpl;
+import org.solovyev.android.UnitType;
 import org.solovyev.android.view.drag.DirectionDragButton;
 import org.solovyev.android.view.drag.DragDirection;
 

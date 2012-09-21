@@ -4,8 +4,6 @@ import junit.framework.Assert;
 import org.jetbrains.annotations.NotNull;
 import org.junit.Test;
 import org.solovyev.android.calculator.AndroidNumeralBase;
-import org.solovyev.math.units.Unit;
-import org.solovyev.math.units.UnitConverter;
 
 import java.util.Date;
 import java.util.Random;

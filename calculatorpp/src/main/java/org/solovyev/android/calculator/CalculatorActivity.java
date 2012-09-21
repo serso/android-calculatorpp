@@ -32,7 +32,7 @@ import org.solovyev.android.AndroidUtils;
 import org.solovyev.android.FontSizeAdjuster;
 import org.solovyev.android.LocalBinder;
 import org.solovyev.android.calculator.about.CalculatorReleaseNotesActivity;
-import org.solovyev.android.calculator.history.AndroidCalculatorHistoryImpl;
+import org.solovyev.android.calculator.history.CalculatorHistory;
 import org.solovyev.android.calculator.history.CalculatorHistoryState;
 import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.calculator.view.AngleUnitsButton;
@@ -136,7 +136,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 		vibrator = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
 
-		AndroidCalculatorHistoryImpl.instance.load(this, preferences);
+		CalculatorHistory.instance.load(this, preferences);
 		calculatorModel = CalculatorModel.instance.init(this, preferences, CalculatorEngine.instance);
 
 		dpclRegister.clear();

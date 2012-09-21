@@ -10,7 +10,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.Editor;
 
 /**
  * User: serso

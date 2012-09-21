@@ -10,8 +10,6 @@ import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.solovyev.android.calculator.CalculatorEvalException;
-import org.solovyev.android.calculator.CalculatorParseException;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.common.Converter;
 
@@ -100,11 +98,11 @@ public class NumeralBaseTest {
 		final String bin = "0b:" + line[2].toUpperCase();
 
 		final String decExpression = converter.convert(dec);
-		final String decResult = CalculatorEngine.instance.evaluate(JsclOperation.numeric, decExpression).getStringResult();
+		final String decResult = CalculatorEngine.instance.evaluate(JsclOperation.numeric, decExpression).getResult();
 		final String hexExpression = converter.convert(hex);
-		final String hexResult = CalculatorEngine.instance.evaluate(JsclOperation.numeric, hexExpression).getStringResult();
+		final String hexResult = CalculatorEngine.instance.evaluate(JsclOperation.numeric, hexExpression).getResult();
 		final String binExpression = converter.convert(bin);
-		final String binResult = CalculatorEngine.instance.evaluate(JsclOperation.numeric, binExpression).getStringResult();
+		final String binResult = CalculatorEngine.instance.evaluate(JsclOperation.numeric, binExpression).getResult();
 
 		Assert.assertEquals("dec-hex: " + decExpression + " : " + hexExpression, decResult, hexResult);
 		Assert.assertEquals("dec-bin: " + decExpression + " : " + binExpression, decResult, binResult);

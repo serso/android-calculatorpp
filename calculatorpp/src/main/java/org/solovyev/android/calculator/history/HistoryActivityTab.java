@@ -26,12 +26,12 @@ public class HistoryActivityTab extends AbstractHistoryActivity {
 	@NotNull
 	@Override
 	protected List<CalculatorHistoryState> getHistoryItems() {
-		return new ArrayList<CalculatorHistoryState>(AndroidCalculatorHistoryImpl.instance.getStates());
+		return new ArrayList<CalculatorHistoryState>(CalculatorHistory.instance.getStates());
 	}
 
 	@Override
 	protected void clearHistory() {
-		AndroidCalculatorHistoryImpl.instance.clear();
+		CalculatorHistory.instance.clear();
 		getAdapter().clear();
 	}
 }
