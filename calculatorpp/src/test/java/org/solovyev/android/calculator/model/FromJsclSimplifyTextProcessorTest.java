@@ -3,6 +3,7 @@ package org.solovyev.android.calculator.model;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.solovyev.android.calculator.text.FromJsclSimplifyTextProcessor;
 
 import java.text.DecimalFormatSymbols;
 

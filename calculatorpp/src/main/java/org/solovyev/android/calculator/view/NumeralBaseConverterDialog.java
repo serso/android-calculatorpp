@@ -6,14 +6,14 @@ import android.view.View;
 import android.view.WindowManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.Unit;
-import org.solovyev.android.UnitImpl;
+import org.solovyev.math.units.Unit;
+import org.solovyev.math.units.UnitImpl;
 import org.solovyev.android.calculator.AndroidNumeralBase;
 import org.solovyev.android.calculator.CalculatorModel;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.model.CalculatorEngine;
-import org.solovyev.android.calculator.model.CalculatorParseException;
-import org.solovyev.android.calculator.model.ToJsclTextProcessor;
+import org.solovyev.android.calculator.CalculatorParseException;
+import org.solovyev.android.calculator.ToJsclTextProcessor;
 import org.solovyev.common.MutableObject;
 import org.solovyev.common.text.StringUtils;
 

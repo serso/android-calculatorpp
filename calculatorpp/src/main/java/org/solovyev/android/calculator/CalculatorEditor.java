@@ -16,8 +16,7 @@ import android.view.ContextMenu;
 import android.widget.EditText;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.model.CalculatorEngine;
-import org.solovyev.android.calculator.model.CalculatorParseException;
-import org.solovyev.android.calculator.model.TextProcessor;
+import org.solovyev.android.calculator.text.TextProcessor;
 import org.solovyev.android.calculator.view.TextHighlighter;
 import org.solovyev.common.collections.CollectionsUtils;
 

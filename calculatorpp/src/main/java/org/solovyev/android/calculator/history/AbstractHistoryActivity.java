@@ -157,7 +157,7 @@ public abstract class AbstractHistoryActivity extends ListActivity {
 		boolean result = false;
 		try {
 			historyState.setSaved(true);
-			if ( CollectionsUtils.contains(historyState, CalculatorHistory.instance.getSavedHistory(), new Equalizer<CalculatorHistoryState>() {
+			if ( CollectionsUtils.contains(historyState, AndroidCalculatorHistoryImpl.instance.getSavedHistory(), new Equalizer<CalculatorHistoryState>() {
 				@Override
 				public boolean equals(@Nullable CalculatorHistoryState first, @Nullable CalculatorHistoryState second) {
 					return first != null && second != null &&

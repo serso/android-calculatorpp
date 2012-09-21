@@ -19,6 +19,13 @@
     <dependencies>
 
         <!-- OWN -->
+
+        <dependency>
+            <groupId>org.solovyev.android</groupId>
+            <artifactId>calculatorpp-core</artifactId>
+            <version>1.3.1</version>
+        </dependency>
+
         <dependency>
             <groupId>org.solovyev</groupId>
             <artifactId>common-core</artifactId>
@@ -75,13 +82,6 @@
         <dependency>
             <groupId>org.solovyev</groupId>
             <artifactId>jscl</artifactId>
-            <version>0.0.2</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>xercesImpl</artifactId>
-                    <groupId>xerces</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <!--OTHER-->
@@ -90,13 +90,6 @@
             <groupId>com.google.android</groupId>
             <artifactId>android</artifactId>
             <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.8.2</version>
-            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -109,17 +102,6 @@
         <dependency>
             <groupId>org.simpleframework</groupId>
             <artifactId>simple-xml</artifactId>
-            <version>2.6.1</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>stax-api</artifactId>
-                    <groupId>stax</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>xpp3</artifactId>
-                    <groupId>xpp3</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>
@@ -148,9 +130,14 @@
         </dependency>
 
         <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
             <groupId>com.intellij</groupId>
             <artifactId>annotations</artifactId>
-            <version>7.0.3</version>
         </dependency>
 
     </dependencies>

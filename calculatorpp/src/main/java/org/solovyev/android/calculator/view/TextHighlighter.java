@@ -9,8 +9,13 @@ package org.solovyev.android.calculator.view;
 import jscl.MathContext;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.calculator.AbstractNumberBuilder;
+import org.solovyev.android.calculator.CalculatorParseException;
+import org.solovyev.android.calculator.LiteNumberBuilder;
+import org.solovyev.android.calculator.NumberBuilder;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.*;
+import org.solovyev.android.calculator.text.TextProcessor;
 import org.solovyev.common.MutableObject;
 
 import java.util.HashMap;
