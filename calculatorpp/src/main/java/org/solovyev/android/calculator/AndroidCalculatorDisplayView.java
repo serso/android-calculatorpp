@@ -12,7 +12,6 @@ import android.text.Html;
 import android.util.AttributeSet;
 import android.util.Log;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.calculator.text.TextProcessor;
 import org.solovyev.android.calculator.view.TextHighlighter;
 import org.solovyev.android.view.AutoResizeTextView;
@@ -33,7 +32,7 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
     */
 
     @NotNull
-    private final static TextProcessor<TextHighlighter.Result, String> textHighlighter = new TextHighlighter(Color.WHITE, false, CalculatorEngine.instance.getEngine());
+    private final static TextProcessor<TextHighlighter.Result, String> textHighlighter = new TextHighlighter(Color.WHITE, false, CalculatorLocatorImpl.getInstance().getEngine().getEngine());
 
     /*
     **********************************************************************

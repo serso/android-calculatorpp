@@ -6,7 +6,6 @@ import jscl.math.function.Constant;
 import jscl.math.function.IConstant;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.jscl.JsclOperation;
-import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.calculator.view.NumeralBaseConverterDialog;
 import org.solovyev.android.menu.LabeledMenuItem;
 import org.solovyev.common.collections.CollectionsUtils;
@@ -24,7 +23,7 @@ public enum CalculatorDisplayMenuItem implements LabeledMenuItem<CalculatorDispl
     copy(R.string.c_copy) {
         @Override
         public void onClick(@NotNull CalculatorDisplayViewState data, @NotNull Context context) {
-            CalculatorModel.copyResult(context, data);
+            CalculatorLocatorImpl.getInstance().getKeyboard().copyButtonPressed();
         }
     },
 
@@ -108,7 +107,7 @@ public enum CalculatorDisplayMenuItem implements LabeledMenuItem<CalculatorDispl
             final Set<Constant> notSystemConstants = new HashSet<Constant>();
 
             for (Constant constant : generic.getConstants()) {
-                IConstant var = CalculatorEngine.instance.getVarsRegistry().get(constant.getName());
+                IConstant var = CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry().get(constant.getName());
                 if (var != null && !var.isSystem() && !var.isDefined()) {
                     notSystemConstants.add(constant);
                 }

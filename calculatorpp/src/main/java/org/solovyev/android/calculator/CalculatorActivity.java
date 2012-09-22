@@ -34,9 +34,8 @@ import org.solovyev.android.AndroidUtils;
 import org.solovyev.android.FontSizeAdjuster;
 import org.solovyev.android.LocalBinder;
 import org.solovyev.android.calculator.about.CalculatorReleaseNotesActivity;
-import org.solovyev.android.calculator.history.AndroidCalculatorHistoryImpl;
 import org.solovyev.android.calculator.history.CalculatorHistoryState;
-import org.solovyev.android.calculator.model.CalculatorEngine;
+import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 import org.solovyev.android.calculator.view.AngleUnitsButton;
 import org.solovyev.android.calculator.view.CalculatorAdditionalTitle;
 import org.solovyev.android.calculator.view.NumeralBasesButton;
@@ -73,9 +72,6 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
     @NotNull
 	private final Announcer<DragPreferencesChangeListener> dpclRegister = new Announcer<DragPreferencesChangeListener>(DragPreferencesChangeListener.class);
-
-	@NotNull
-	private CalculatorModel calculatorModel;
 
 	private volatile boolean initialized;
 
@@ -138,8 +134,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 		vibrator = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
 
-		AndroidCalculatorHistoryImpl.instance.load(this, preferences);
-		calculatorModel = CalculatorModel.instance.init(this, preferences);
+        getCalculator().init(this, preferences);
 
 		dpclRegister.clear();
 
@@ -147,7 +142,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 		setOnDragListeners(dragPreferences, preferences);
 
-		final OnDragListener historyOnDragListener = new OnDragListenerVibrator(newOnDragListener(new HistoryDragProcessor<CalculatorHistoryState>(this.calculatorModel), dragPreferences), vibrator, preferences);
+		final OnDragListener historyOnDragListener = new OnDragListenerVibrator(newOnDragListener(new HistoryDragProcessor<CalculatorHistoryState>(getCalculator()), dragPreferences), vibrator, preferences);
 		((DragButton) findViewById(R.id.historyButton)).setOnDragListener(historyOnDragListener);
 
 		((DragButton) findViewById(R.id.subtractionButton)).setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new SimpleOnDragListener.DragProcessor() {
@@ -162,13 +157,13 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		}, dragPreferences), vibrator, preferences));
 
 
-		final OnDragListener toPositionOnDragListener = new OnDragListenerVibrator(new SimpleOnDragListener(new CursorDragProcessor(calculatorModel), dragPreferences), vibrator, preferences);
+		final OnDragListener toPositionOnDragListener = new OnDragListenerVibrator(new SimpleOnDragListener(new CursorDragProcessor(), dragPreferences), vibrator, preferences);
 		((DragButton) findViewById(R.id.rightButton)).setOnDragListener(toPositionOnDragListener);
 		((DragButton) findViewById(R.id.leftButton)).setOnDragListener(toPositionOnDragListener);
 
 		final DragButton equalsButton = (DragButton) findViewById(R.id.equalsButton);
 		if (equalsButton != null) {
-			equalsButton.setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new EvalDragProcessor(calculatorModel), dragPreferences), vibrator, preferences));
+			equalsButton.setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new EvalDragProcessor(), dragPreferences), vibrator, preferences));
 		}
 
 		final AngleUnitsButton angleUnitsButton = (AngleUnitsButton) findViewById(R.id.sixDigitButton);
@@ -192,7 +187,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		}
 
 
-		CalculatorEngine.instance.softReset(this, preferences);
+        getEngine().softReset();
 
 		initMultiplicationButton();
 
@@ -226,6 +221,16 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
         preferences.registerOnSharedPreferenceChangeListener(this);
 	}
+
+    @NotNull
+    private AndroidCalculatorEngine getEngine() {
+        return ((AndroidCalculatorEngine) CalculatorLocatorImpl.getInstance().getEngine());
+    }
+
+    @NotNull
+    private AndroidCalculator getCalculator() {
+        return ((AndroidCalculator) CalculatorLocatorImpl.getInstance().getCalculator());
+    }
 
     private void fixThemeParameters(boolean fixMagicFlames) {
         if (theme.getThemeType() == CalculatorPreferences.Gui.ThemeType.metro) {
@@ -294,7 +299,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 	private class AngleUnitsChanger implements SimpleOnDragListener.DragProcessor {
 
-		private final DigitButtonDragProcessor processor = new DigitButtonDragProcessor(CalculatorLocatorImpl.getInstance().getCalculatorKeyboard());
+		private final DigitButtonDragProcessor processor = new DigitButtonDragProcessor(getKeyboard());
 
 		@Override
 		public boolean processDragEvent(@NotNull DragDirection dragDirection,
@@ -313,7 +318,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 							final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(CalculatorActivity.this);
 
-							CalculatorEngine.Preferences.angleUnit.putPreference(preferences, angleUnits);
+							AndroidCalculatorEngine.Preferences.angleUnit.putPreference(preferences, angleUnits);
 
 							Toast.makeText(CalculatorActivity.this, CalculatorActivity.this.getString(R.string.c_angle_units_changed_to, angleUnits.name()), Toast.LENGTH_LONG).show();
 
@@ -348,7 +353,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 						final NumeralBase numeralBase = NumeralBase.valueOf(directionText);
 
 						final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(CalculatorActivity.this);
-						CalculatorEngine.Preferences.numeralBase.putPreference(preferences, numeralBase);
+						AndroidCalculatorEngine.Preferences.numeralBase.putPreference(preferences, numeralBase);
 
 						Toast.makeText(CalculatorActivity.this, CalculatorActivity.this.getString(R.string.c_numeral_base_changed_to, numeralBase.name()), Toast.LENGTH_LONG).show();
 
@@ -374,7 +379,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 			boolean result = false;
 
 			if (dragDirection == DragDirection.up) {
-				CalculatorActivityLauncher.createVar(CalculatorActivity.this, CalculatorActivity.this.calculatorModel);
+				CalculatorActivityLauncher.createVar(CalculatorActivity.this, CalculatorLocatorImpl.getInstance().getDisplay());
 				result = true;
 			}
 
@@ -383,7 +388,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	}
 
     private synchronized void setOnDragListeners(@NotNull SimpleOnDragListener.Preferences dragPreferences, @NotNull SharedPreferences preferences) {
-		final OnDragListener onDragListener = new OnDragListenerVibrator(newOnDragListener(new DigitButtonDragProcessor(CalculatorLocatorImpl.getInstance().getCalculatorKeyboard()), dragPreferences), vibrator, preferences);
+		final OnDragListener onDragListener = new OnDragListenerVibrator(newOnDragListener(new DigitButtonDragProcessor(getKeyboard()), dragPreferences), vibrator, preferences);
 
         final List<Integer> dragButtonIds = new ArrayList<Integer>();
         final List<Integer> buttonIds = new ArrayList<Integer>();
@@ -527,7 +532,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 	@SuppressWarnings({"UnusedDeclaration"})
 	public void numericButtonClickHandler(@NotNull View v) {
-		this.calculatorModel.evaluate();
+		getCalculator().evaluate();
 	}
 
 	@SuppressWarnings({"UnusedDeclaration"})
@@ -537,7 +542,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 	@SuppressWarnings({"UnusedDeclaration"})
 	public void eraseButtonClickHandler(@NotNull View v) {
-        CalculatorLocatorImpl.getInstance().getCalculatorEditor().erase();
+        CalculatorLocatorImpl.getInstance().getEditor().erase();
 	}
 
 	@SuppressWarnings({"UnusedDeclaration"})
@@ -547,34 +552,39 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 	@SuppressWarnings({"UnusedDeclaration"})
 	public void moveLeftButtonClickHandler(@NotNull View v) {
-		calculatorModel.moveCursorLeft();
+        getKeyboard().moveCursorLeft();
 	}
 
 	@SuppressWarnings({"UnusedDeclaration"})
 	public void moveRightButtonClickHandler(@NotNull View v) {
-		calculatorModel.moveCursorRight();
+        getKeyboard().moveCursorRight();
 	}
 
 	@SuppressWarnings({"UnusedDeclaration"})
 	public void pasteButtonClickHandler(@NotNull View v) {
-        CalculatorLocatorImpl.getInstance().getCalculatorKeyboard().pasteButtonPressed();
+        getKeyboard().pasteButtonPressed();
     }
 
 	@SuppressWarnings({"UnusedDeclaration"})
 	public void copyButtonClickHandler(@NotNull View v) {
-		calculatorModel.copyResult(this);
+		getKeyboard().copyButtonPressed();
 	}
 
-	@SuppressWarnings({"UnusedDeclaration"})
+    @NotNull
+    private static CalculatorKeyboard getKeyboard() {
+        return CalculatorLocatorImpl.getInstance().getKeyboard();
+    }
+
+    @SuppressWarnings({"UnusedDeclaration"})
 	public void clearButtonClickHandler(@NotNull View v) {
-        CalculatorLocatorImpl.getInstance().getCalculatorKeyboard().clearButtonPressed();
+        getKeyboard().clearButtonPressed();
 	}
 
 	@SuppressWarnings({"UnusedDeclaration"})
 	public void digitButtonClickHandler(@NotNull View v) {
 		Log.d(String.valueOf(v.getId()), "digitButtonClickHandler() for: " + v.getId() + ". Pressed: " + v.isPressed());
         if (((ColorButton) v).isShowText()) {
-            CalculatorLocatorImpl.getInstance().getCalculatorKeyboard().digitButtonPressed(((ColorButton) v).getText().toString());
+            getKeyboard().digitButtonPressed(((ColorButton) v).getText().toString());
         }
     }
 
@@ -602,7 +612,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			if (useBackAsPrev) {
-				calculatorModel.doHistoryAction(HistoryAction.undo);
+				getCalculator().doHistoryAction(HistoryAction.undo);
 				return true;
 			}
 		}
@@ -646,8 +656,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 			AndroidUtils.restartActivity(this);
 		}
 
-		calculatorModel = CalculatorModel.instance.init(this, preferences);
-		calculatorModel.evaluate();
+		getCalculator().evaluate();
 	}
 
 	@Override
@@ -665,22 +674,22 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 			dpclRegister.announce().onDragPreferencesChange(SimpleOnDragListener.getPreferences(preferences, this));
 		}
 
-		if (CalculatorEngine.Preferences.getPreferenceKeys().contains(key)) {
-			CalculatorEngine.instance.softReset(this, preferences);
+		if (AndroidCalculatorEngine.Preferences.getPreferenceKeys().contains(key)) {
+			CalculatorLocatorImpl.getInstance().getEngine().softReset();
 
 			// reevaluate in order to update values (in case of preferences changed from the main window, like numeral bases and angle units)
-			this.calculatorModel.evaluate();
+			this.getCalculator().evaluate();
 		}
 
 		if ( CalculatorPreferences.Gui.usePrevAsBack.getKey().equals(key) ) {
 			useBackAsPrev = CalculatorPreferences.Gui.usePrevAsBack.getPreference(preferences);
 		}
 
-        if (CalculatorEngine.Preferences.numeralBase.getKey().equals(key)) {
+        if (AndroidCalculatorEngine.Preferences.numeralBase.getKey().equals(key)) {
             numeralBaseButtons.toggleNumericDigits(this, preferences);
         }
 
-		if ( CalculatorEngine.Preferences.multiplicationSign.getKey().equals(key) ) {
+		if ( AndroidCalculatorEngine.Preferences.multiplicationSign.getKey().equals(key) ) {
 			initMultiplicationButton();
 		}
 
@@ -720,7 +729,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
     @NotNull
     private AndroidCalculatorDisplayView getCalculatorDisplayView() {
-        return (AndroidCalculatorDisplayView) calculatorModel.getDisplay().getView();
+        return (AndroidCalculatorDisplayView) CalculatorLocatorImpl.getInstance().getDisplay().getView();
     }
 
     private void toggleOrientationChange(@Nullable SharedPreferences preferences) {
@@ -735,7 +744,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
     private void initMultiplicationButton() {
 		final View multiplicationButton = findViewById(R.id.multiplicationButton);
 		if ( multiplicationButton instanceof Button) {
-			((Button) multiplicationButton).setText(CalculatorEngine.instance.getMultiplicationSign());
+			((Button) multiplicationButton).setText(CalculatorLocatorImpl.getInstance().getEngine().getMultiplicationSign());
 		}
 	}
 
@@ -745,10 +754,10 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 			final boolean result;
 
 			if ( dragDirection == DragDirection.left ) {
-				CalculatorLocatorImpl.getInstance().getCalculatorKeyboard().roundBracketsButtonPressed();
+				getKeyboard().roundBracketsButtonPressed();
 				result = true;
 			} else {
-				result = new DigitButtonDragProcessor(CalculatorLocatorImpl.getInstance().getCalculatorKeyboard()).processDragEvent(dragDirection, dragButton, startPoint2d, motionEvent);
+				result = new DigitButtonDragProcessor(getKeyboard()).processDragEvent(dragDirection, dragButton, startPoint2d, motionEvent);
 			}
 
 			return result;

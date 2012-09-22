@@ -2,6 +2,7 @@ package org.solovyev.android.calculator;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.common.gui.CursorControl;
 
 /**
  * User: Solovyev_S
@@ -21,6 +22,9 @@ public class CalculatorEditorImpl implements CalculatorEditor {
 
     @NotNull
     private final Calculator calculator;
+
+    @NotNull
+    private final CursorControlAdapter cursorControlAdapter = new CursorControlAdapter(this);
 
     public CalculatorEditorImpl(@NotNull Calculator calculator) {
         this.calculator = calculator;
@@ -65,12 +69,13 @@ public class CalculatorEditorImpl implements CalculatorEditor {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    @NotNull
-    public CalculatorEditorViewState setCursorOnStart() {
-        synchronized (viewLock) {
-            return newSelectionViewState(0);
-        }
-    }
+    /*
+    **********************************************************************
+    *
+    *                           SELECTION
+    *
+    **********************************************************************
+    */
 
     @NotNull
     private CalculatorEditorViewState newSelectionViewState(int newSelection) {
@@ -82,6 +87,14 @@ public class CalculatorEditorImpl implements CalculatorEditor {
             return this.lastViewState;
         }
     }
+
+    @NotNull
+    public CalculatorEditorViewState setCursorOnStart() {
+        synchronized (viewLock) {
+            return newSelectionViewState(0);
+        }
+    }
+
 
     @NotNull
     public CalculatorEditorViewState setCursorOnEnd() {
@@ -111,6 +124,20 @@ public class CalculatorEditorImpl implements CalculatorEditor {
             }
         }
     }
+
+    @NotNull
+    @Override
+    public CursorControl asCursorControl() {
+        return cursorControlAdapter;
+    }
+
+    /*
+    **********************************************************************
+    *
+    *                           EDITOR ACTIONS
+    *
+    **********************************************************************
+    */
 
     @NotNull
     @Override
@@ -220,5 +247,35 @@ public class CalculatorEditorImpl implements CalculatorEditor {
         int result = Math.max(selection, 0);
         result = Math.min(result, textLength);
         return result;
+    }
+
+    private static final class CursorControlAdapter implements CursorControl {
+
+        @NotNull
+        private final CalculatorEditor calculatorEditor;
+
+        private CursorControlAdapter(@NotNull CalculatorEditor calculatorEditor) {
+            this.calculatorEditor = calculatorEditor;
+        }
+
+        @Override
+        public void setCursorOnStart() {
+            this.calculatorEditor.setCursorOnStart();
+        }
+
+        @Override
+        public void setCursorOnEnd() {
+            this.calculatorEditor.setCursorOnEnd();
+        }
+
+        @Override
+        public void moveCursorLeft() {
+            this.calculatorEditor.moveCursorLeft();
+        }
+
+        @Override
+        public void moveCursorRight() {
+            this.calculatorEditor.moveCursorRight();
+        }
     }
 }

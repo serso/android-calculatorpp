@@ -12,8 +12,8 @@ import android.graphics.Paint;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import org.jetbrains.annotations.NotNull;
+import org.solovyev.android.calculator.CalculatorLocatorImpl;
 import org.solovyev.android.calculator.R;
-import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.view.drag.DirectionDragButton;
 
 /**
@@ -34,7 +34,7 @@ public class NumeralBasesButton extends DirectionDragButton {
 		super.initDirectionTextPaint(basePaint, directionTextData, resources);
 
 		final TextPaint directionTextPaint = directionTextData.getPaint();
-		if (CalculatorEngine.instance.getEngine().getNumeralBase().name().equals(directionTextData.getText())) {
+		if (CalculatorLocatorImpl.getInstance().getEngine().getEngine().getNumeralBase().name().equals(directionTextData.getText())) {
 			directionTextPaint.setColor(resources.getColor(R.color.selected_angle_unit_text_color));
 		} else {
 			directionTextPaint.setColor(resources.getColor(R.color.default_text_color));

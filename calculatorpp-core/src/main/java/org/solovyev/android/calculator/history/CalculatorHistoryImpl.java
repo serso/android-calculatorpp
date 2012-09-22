@@ -31,29 +31,41 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
     private final List<CalculatorHistoryState> savedHistory = new ArrayList<CalculatorHistoryState>();
 
     @NotNull
-    private volatile CalculatorEventDataId lastEventDataId = CalculatorLocatorImpl.getInstance().getCalculator().createFirstEventDataId();
+    private volatile CalculatorEventDataId lastEventDataId = CalculatorUtils.createFirstEventDataId();
 
     @Nullable
     private volatile CalculatorEditorViewState lastEditorViewState;
 
+    public CalculatorHistoryImpl(@NotNull Calculator calculator) {
+        calculator.addCalculatorEventListener(this);
+    }
+
     @Override
     public boolean isEmpty() {
-        return this.history.isEmpty();
+        synchronized (history) {
+            return this.history.isEmpty();
+        }
     }
 
     @Override
     public CalculatorHistoryState getLastHistoryState() {
-        return this.history.getLastHistoryState();
+        synchronized (history) {
+            return this.history.getLastHistoryState();
+        }
     }
 
     @Override
     public boolean isUndoAvailable() {
-        return history.isUndoAvailable();
+        synchronized (history) {
+            return history.isUndoAvailable();
+        }
     }
 
     @Override
     public CalculatorHistoryState undo(@Nullable CalculatorHistoryState currentState) {
-        return history.undo(currentState);
+        synchronized (history) {
+            return history.undo(currentState);
+        }
     }
 
     @Override
@@ -63,40 +75,54 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
 
     @Override
     public CalculatorHistoryState redo(@Nullable CalculatorHistoryState currentState) {
-        return history.redo(currentState);
+        synchronized (history) {
+            return history.redo(currentState);
+        }
     }
 
     @Override
     public boolean isActionAvailable(@NotNull HistoryAction historyAction) {
-        return history.isActionAvailable(historyAction);
+        synchronized (history) {
+            return history.isActionAvailable(historyAction);
+        }
     }
 
     @Override
     public CalculatorHistoryState doAction(@NotNull HistoryAction historyAction, @Nullable CalculatorHistoryState currentState) {
-        return history.doAction(historyAction, currentState);
+        synchronized (history) {
+            return history.doAction(historyAction, currentState);
+        }
     }
 
     @Override
     public void addState(@Nullable CalculatorHistoryState currentState) {
-        history.addState(currentState);
+        synchronized (history) {
+            history.addState(currentState);
+        }
     }
 
     @NotNull
     @Override
     public List<CalculatorHistoryState> getStates() {
-        return history.getStates();
+        synchronized (history) {
+            return history.getStates();
+        }
     }
 
     @Override
     public void clear() {
-        this.history.clear();
+        synchronized (history) {
+            this.history.clear();
+        }
     }
 
+    @Override
     @NotNull
     public List<CalculatorHistoryState> getSavedHistory() {
         return Collections.unmodifiableList(savedHistory);
     }
 
+    @Override
     @NotNull
     public CalculatorHistoryState addSavedState(@NotNull CalculatorHistoryState historyState) {
         if (historyState.isSaved()) {
@@ -111,6 +137,16 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
 
             return savedState;
         }
+    }
+
+    @Override
+    public void load() {
+        // todo serso: create saved/loader class
+    }
+
+    @Override
+    public void save() {
+        // todo serso: create saved/loader class
     }
 
     @Override
@@ -148,20 +184,27 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
             if (calculatorEventData.isAfter(this.lastEventDataId)) {
                 final boolean sameSequence = calculatorEventData.isSameSequence(this.lastEventDataId);
 
-                this.lastEventDataId = calculatorEventData;
+                if (sameSequence || calculatorEventData.isAfterSequence(this.lastEventDataId)) {
+                    this.lastEventDataId = calculatorEventData;
 
-                switch (calculatorEventType) {
-                    case editor_state_changed:
-                        final CalculatorEditorChangeEventData changeEventData = (CalculatorEditorChangeEventData) data;
-                        lastEditorViewState = changeEventData.getNewState();
-                        break;
-                    case display_state_changed:
-                        if (sameSequence) {
-
-                        } else {
-                            lastEditorViewState = null;
-                        }
-                        break;
+                    switch (calculatorEventType) {
+                        case editor_state_changed:
+                            final CalculatorEditorChangeEventData editorChangeData = (CalculatorEditorChangeEventData) data;
+                            lastEditorViewState = editorChangeData.getNewState();
+                            break;
+                        case display_state_changed:
+                            if (sameSequence) {
+                                if (lastEditorViewState != null) {
+                                    final CalculatorEditorViewState editorViewState = lastEditorViewState;
+                                    final CalculatorDisplayChangeEventData displayChangeData = (CalculatorDisplayChangeEventData) data;
+                                    final CalculatorDisplayViewState displayViewState = displayChangeData.getNewState();
+                                    addState(CalculatorHistoryState.newInstance(editorViewState, displayViewState));
+                                }
+                            } else {
+                                lastEditorViewState = null;
+                            }
+                            break;
+                    }
                 }
             }
         }

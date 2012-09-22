@@ -9,7 +9,7 @@ package org.solovyev.android.calculator.math;
 import junit.framework.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.solovyev.android.calculator.model.CalculatorEngine;
+import org.solovyev.android.calculator.CalculatorLocatorImpl;
 
 /**
  * User: serso
@@ -20,7 +20,7 @@ public class MathTypeTest {
 
 	@BeforeClass
 	public static void setUp() throws Exception {
-		CalculatorEngine.instance.init(null, null);
+		CalculatorLocatorImpl.getInstance().getEngine().init();
 	}
 
 	@Test

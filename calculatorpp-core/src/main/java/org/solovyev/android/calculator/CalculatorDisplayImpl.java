@@ -29,7 +29,7 @@ public class CalculatorDisplayImpl implements CalculatorDisplay {
 
     public CalculatorDisplayImpl(@NotNull Calculator calculator) {
         this.calculator = calculator;
-        this.lastCalculatorEventData = CalculatorEventDataImpl.newInstance(calculator.createFirstEventDataId());
+        this.lastCalculatorEventData = CalculatorEventDataImpl.newInstance(CalculatorUtils.createFirstEventDataId());
         this.calculator.addCalculatorEventListener(this);
     }
 
@@ -138,11 +138,11 @@ public class CalculatorDisplayImpl implements CalculatorDisplay {
     private void processCalculationCancelled(@NotNull CalculatorEvaluationEventData calculatorEventData) {
         final String errorMessage = CalculatorMessages.getBundle().getString(CalculatorMessages.syntax_error);
 
-        this.setViewState(CalculatorDisplayViewStateImpl.newErrorState(calculatorEventData.getOperation(), errorMessage));
+        this.setViewStateForSequence(CalculatorDisplayViewStateImpl.newErrorState(calculatorEventData.getOperation(), errorMessage), calculatorEventData.getSequenceId());
     }
 
     private void processCalculationResult(@NotNull CalculatorEvaluationEventData calculatorEventData, @NotNull CalculatorOutput data) {
         final String stringResult = data.getStringResult();
-        this.setViewState(CalculatorDisplayViewStateImpl.newValidState(calculatorEventData.getOperation(), data.getResult(), stringResult, 0));
+        this.setViewStateForSequence(CalculatorDisplayViewStateImpl.newValidState(calculatorEventData.getOperation(), data.getResult(), stringResult, 0), calculatorEventData.getSequenceId());
     }
 }

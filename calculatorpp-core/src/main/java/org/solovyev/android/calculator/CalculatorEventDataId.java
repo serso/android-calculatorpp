@@ -19,4 +19,6 @@ public interface CalculatorEventDataId {
     boolean isAfter(@NotNull CalculatorEventDataId that);
 
     boolean isSameSequence(@NotNull CalculatorEventDataId that);
+
+    boolean isAfterSequence(@NotNull CalculatorEventDataId that);
 }

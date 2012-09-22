@@ -18,4 +18,8 @@ public interface CalculatorKeyboard {
     void clearButtonPressed();
 
     void copyButtonPressed();
+
+    void moveCursorLeft();
+
+    void moveCursorRight();
 }

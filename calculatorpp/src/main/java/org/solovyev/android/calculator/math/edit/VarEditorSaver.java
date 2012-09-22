@@ -16,10 +16,10 @@ import jscl.text.ParseException;
 import jscl.text.Parser;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.calculator.CalculatorLocatorImpl;
+import org.solovyev.android.calculator.CalculatorMathRegistry;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.math.MathType;
-import org.solovyev.android.calculator.model.AndroidMathRegistry;
-import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.calculator.model.MathEntityBuilder;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.text.StringUtils;
@@ -49,7 +49,7 @@ class VarEditorSaver<T extends MathEntity> implements DialogInterface.OnClickLis
 	private final T editedInstance;
 
 	@NotNull
-	private final AndroidMathRegistry<T> mathRegistry;
+	private final CalculatorMathRegistry<T> mathRegistry;
 
 	@NotNull
 	private final AbstractMathEntityListActivity<T> activity;
@@ -61,7 +61,7 @@ class VarEditorSaver<T extends MathEntity> implements DialogInterface.OnClickLis
 						  @Nullable T editedInstance,
 						  @NotNull View editView,
 						  @NotNull AbstractMathEntityListActivity<T> activity,
-						  @NotNull AndroidMathRegistry<T> mathRegistry,
+						  @NotNull CalculatorMathRegistry<T> mathRegistry,
 						  @NotNull EditorCreator<T> editorCreator) {
 		this.varBuilder = varBuilder;
 		this.editedInstance = editedInstance;
@@ -142,7 +142,7 @@ class VarEditorSaver<T extends MathEntity> implements DialogInterface.OnClickLis
 					activity.addToAdapter(addedVar);
 				}
 
-				mathRegistry.save(activity);
+				mathRegistry.save();
 
 				if (activity.isInCategory(addedVar)) {
 					activity.sort();
@@ -157,7 +157,7 @@ class VarEditorSaver<T extends MathEntity> implements DialogInterface.OnClickLis
 		if (!StringUtils.isEmpty(name)) {
 			try {
 				assert name != null;
-				Identifier.parser.parse(Parser.Parameters.newInstance(name, new MutableInt(0), CalculatorEngine.instance.getEngine()), null);
+				Identifier.parser.parse(Parser.Parameters.newInstance(name, new MutableInt(0), CalculatorLocatorImpl.getInstance().getEngine().getEngine()), null);
 				result = true;
 			} catch (ParseException e) {
 				// not valid name;

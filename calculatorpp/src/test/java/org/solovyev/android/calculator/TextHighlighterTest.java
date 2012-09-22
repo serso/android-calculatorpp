@@ -11,7 +11,6 @@ import jscl.MathEngine;
 import jscl.NumeralBase;
 import junit.framework.Assert;
 import org.junit.Test;
-import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.calculator.text.TextProcessor;
 import org.solovyev.android.calculator.view.TextHighlighter;
 
@@ -93,7 +92,7 @@ public class TextHighlighterTest {
 		Assert.assertEquals("<b>0x:</b>FF33233FFE", textHighlighter.process("0x:FF33233FFE").toString());
 		Assert.assertEquals("<b>0x:</b>FF33 233 FFE", textHighlighter.process("0x:FF33 233 FFE").toString());
 
-		final MathEngine me = CalculatorEngine.instance.getEngine();
+		final MathEngine me = CalculatorLocatorImpl.getInstance().getEngine().getEngine();
 		try {
 			me.setNumeralBase(NumeralBase.hex);
 			Assert.assertEquals("E", textHighlighter.process("E").toString());

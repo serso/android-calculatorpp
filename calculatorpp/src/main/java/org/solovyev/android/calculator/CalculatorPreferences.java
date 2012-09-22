@@ -4,7 +4,7 @@ import android.content.SharedPreferences;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.AndroidUtils;
 import org.solovyev.android.calculator.math.MathType;
-import org.solovyev.android.calculator.model.CalculatorEngine;
+import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 import org.solovyev.android.prefs.BooleanPreference;
 import org.solovyev.android.prefs.IntegerPreference;
 import org.solovyev.android.prefs.Preference;
@@ -93,7 +93,7 @@ public final class CalculatorPreferences {
     }
 
     static void setDefaultValues(@NotNull SharedPreferences preferences) {
-        if (!CalculatorEngine.Preferences.groupingSeparator.isSet(preferences)) {
+        if (!AndroidCalculatorEngine.Preferences.groupingSeparator.isSet(preferences)) {
             final Locale locale = Locale.getDefault();
             if (locale != null) {
                 final DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(locale);
@@ -105,22 +105,22 @@ public final class CalculatorPreferences {
                     groupingSeparator = " ";
                 }
 
-                CalculatorEngine.Preferences.groupingSeparator.putPreference(preferences, groupingSeparator);
+                AndroidCalculatorEngine.Preferences.groupingSeparator.putPreference(preferences, groupingSeparator);
             }
         }
 
-        if (!CalculatorEngine.Preferences.angleUnit.isSet(preferences)) {
-            CalculatorEngine.Preferences.angleUnit.putDefault(preferences);
+        if (!AndroidCalculatorEngine.Preferences.angleUnit.isSet(preferences)) {
+            AndroidCalculatorEngine.Preferences.angleUnit.putDefault(preferences);
         }
 
-        if (!CalculatorEngine.Preferences.numeralBase.isSet(preferences)) {
-            CalculatorEngine.Preferences.numeralBase.putDefault(preferences);
+        if (!AndroidCalculatorEngine.Preferences.numeralBase.isSet(preferences)) {
+            AndroidCalculatorEngine.Preferences.numeralBase.putDefault(preferences);
         }
 
-        if (!CalculatorEngine.Preferences.multiplicationSign.isSet(preferences)) {
+        if (!AndroidCalculatorEngine.Preferences.multiplicationSign.isSet(preferences)) {
             if ( AndroidUtils.isPhoneModel(AndroidUtils.PhoneModel.samsung_galaxy_s) || AndroidUtils.isPhoneModel(AndroidUtils.PhoneModel.samsung_galaxy_s_2) ) {
                 // workaround ofr samsung galaxy s phones
-                CalculatorEngine.Preferences.multiplicationSign.putPreference(preferences, "*");
+                AndroidCalculatorEngine.Preferences.multiplicationSign.putPreference(preferences, "*");
             }
         }
     }

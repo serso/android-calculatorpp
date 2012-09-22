@@ -24,7 +24,6 @@ import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.CalculatorLocatorImpl;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.math.MathType;
-import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.calculator.model.Var;
 import org.solovyev.android.menu.LabeledMenuItem;
 import org.solovyev.common.JPredicate;
@@ -46,7 +45,7 @@ public class CalculatorVarsActivity extends AbstractMathEntityListActivity<ICons
 		use(R.string.c_use) {
 			@Override
 			public void onClick(@NotNull IConstant data, @NotNull Context context) {
-                CalculatorLocatorImpl.getInstance().getCalculatorKeyboard().digitButtonPressed(data.getName());
+                CalculatorLocatorImpl.getInstance().getKeyboard().digitButtonPressed(data.getName());
 				if (context instanceof Activity) {
 					((Activity) context).finish();
 				}
@@ -66,7 +65,7 @@ public class CalculatorVarsActivity extends AbstractMathEntityListActivity<ICons
 			@Override
 			public void onClick(@NotNull IConstant data, @NotNull Context context) {
 				if (context instanceof AbstractMathEntityListActivity) {
-					new MathEntityRemover<IConstant>(data, null, CalculatorEngine.instance.getVarsRegistry(), ((AbstractMathEntityListActivity<IConstant>) context)).showConfirmationDialog();
+					new MathEntityRemover<IConstant>(data, null, CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry(), ((AbstractMathEntityListActivity<IConstant>) context)).showConfirmationDialog();
 				}
 			}
 		},
@@ -85,7 +84,7 @@ public class CalculatorVarsActivity extends AbstractMathEntityListActivity<ICons
 		copy_description(R.string.c_copy_description) {
 			@Override
 			public void onClick(@NotNull IConstant data, @NotNull Context context) {
-				final String text = CalculatorEngine.instance.getVarsRegistry().getDescription(context, data.getName());
+				final String text = CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry().getDescription(data.getName());
 				if (!StringUtils.isEmpty(text)) {
 					final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
 					clipboard.setText(text);
@@ -138,7 +137,7 @@ public class CalculatorVarsActivity extends AbstractMathEntityListActivity<ICons
 			result.remove(LongClickMenuItem.remove);
 		}
 		
-		if ( StringUtils.isEmpty(CalculatorEngine.instance.getVarsRegistry().getDescription(this, item.getName())) ) {
+		if ( StringUtils.isEmpty(CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry().getDescription(item.getName())) ) {
 			result.remove(LongClickMenuItem.copy_description);
 		}
 
@@ -152,7 +151,7 @@ public class CalculatorVarsActivity extends AbstractMathEntityListActivity<ICons
 	@NotNull
 	@Override
 	protected MathEntityDescriptionGetter getDescriptionGetter() {
-		return new MathEntityDescriptionGetterImpl(CalculatorEngine.instance.getVarsRegistry());
+		return new MathEntityDescriptionGetterImpl(CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry());
 	}
 
 	@SuppressWarnings({"UnusedDeclaration"})
@@ -163,7 +162,7 @@ public class CalculatorVarsActivity extends AbstractMathEntityListActivity<ICons
 	@NotNull
 	@Override
 	protected List<IConstant> getMathEntities() {
-		final List<IConstant> result = new ArrayList<IConstant>(CalculatorEngine.instance.getVarsRegistry().getEntities());
+		final List<IConstant> result = new ArrayList<IConstant>(CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry().getEntities());
 
 		CollectionsUtils.removeAll(result, new JPredicate<IConstant>() {
 			@Override
@@ -177,7 +176,7 @@ public class CalculatorVarsActivity extends AbstractMathEntityListActivity<ICons
 
 	@Override
 	protected String getMathEntityCategory(@NotNull IConstant var) {
-		return CalculatorEngine.instance.getVarsRegistry().getCategory(var);
+		return CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry().getCategory(var);
 	}
 
 	private static void createEditVariableDialog(@NotNull final AbstractMathEntityListActivity<IConstant> activity,
@@ -234,7 +233,7 @@ public class CalculatorVarsActivity extends AbstractMathEntityListActivity<ICons
 			final AlertDialog.Builder builder = new AlertDialog.Builder(activity)
 					.setCancelable(true)
 					.setNegativeButton(R.string.c_cancel, null)
-					.setPositiveButton(R.string.c_save, new VarEditorSaver<IConstant>(varBuilder, var, editView, activity, CalculatorEngine.instance.getVarsRegistry(), new VarEditorSaver.EditorCreator<IConstant>() {
+					.setPositiveButton(R.string.c_save, new VarEditorSaver<IConstant>(varBuilder, var, editView, activity, CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry(), new VarEditorSaver.EditorCreator<IConstant>() {
 						@Override
 						public void showEditor(@NotNull AbstractMathEntityListActivity<IConstant> activity, @Nullable IConstant editedInstance, @Nullable String name, @Nullable String value, @Nullable String description) {
 							createEditVariableDialog(activity, editedInstance, name, value, description);
@@ -251,7 +250,7 @@ public class CalculatorVarsActivity extends AbstractMathEntityListActivity<ICons
 					public void onClick(DialogInterface dialog, int which) {
 						createEditVariableDialog(activity, var, name, value, description);
 					}
-				}, CalculatorEngine.instance.getVarsRegistry(), activity));
+				}, CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry(), activity));
 			} else {
 				// CREATE mode
 

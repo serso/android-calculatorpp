@@ -57,7 +57,7 @@ public enum MathType {
 		@NotNull
 		@Override
 		public List<String> getTokens() {
-			return CalculatorLocatorImpl.getInstance().getCalculatorEngine().getPostfixFunctionsRegistry().getNames();
+			return CalculatorLocatorImpl.getInstance().getEngine().getPostfixFunctionsRegistry().getNames();
 		}
 	},
 
@@ -101,7 +101,7 @@ public enum MathType {
 		@NotNull
 		@Override
 		public List<String> getTokens() {
-			return CalculatorLocatorImpl.getInstance().getCalculatorEngine().getFunctionsRegistry().getNames();
+			return CalculatorLocatorImpl.getInstance().getEngine().getFunctionsRegistry().getNames();
 		}
 	},
 
@@ -109,7 +109,7 @@ public enum MathType {
 		@NotNull
 		@Override
 		public List<String> getTokens() {
-			return CalculatorLocatorImpl.getInstance().getCalculatorEngine().getOperatorsRegistry().getNames();
+			return CalculatorLocatorImpl.getInstance().getEngine().getOperatorsRegistry().getNames();
 		}
 	},
 
@@ -117,7 +117,7 @@ public enum MathType {
 		@NotNull
 		@Override
 		public List<String> getTokens() {
-			return CalculatorLocatorImpl.getInstance().getCalculatorEngine().getVarsRegistry().getNames();
+			return CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry().getNames();
 		}
 
 		@Override

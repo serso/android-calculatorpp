@@ -6,11 +6,9 @@
 
 package org.solovyev.android.calculator.model;
 
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.app.Application;
 import jscl.math.operator.Operator;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathRegistry;
 
@@ -38,8 +36,9 @@ public class AndroidOperatorsMathRegistry extends AbstractAndroidMathRegistry<Op
 	@NotNull
 	private static final String OPERATOR_DESCRIPTION_PREFIX = "c_op_description_";
 
-	protected AndroidOperatorsMathRegistry(@NotNull MathRegistry<Operator> functionsRegistry) {
-		super(functionsRegistry, OPERATOR_DESCRIPTION_PREFIX);
+	protected AndroidOperatorsMathRegistry(@NotNull MathRegistry<Operator> functionsRegistry,
+                                           @NotNull Application application) {
+		super(functionsRegistry, OPERATOR_DESCRIPTION_PREFIX, application);
 	}
 
 	@NotNull
@@ -54,7 +53,7 @@ public class AndroidOperatorsMathRegistry extends AbstractAndroidMathRegistry<Op
     }
 
 	@Override
-	public void load(@Nullable Context context, @Nullable SharedPreferences preferences) {
+	public void load() {
 		// not supported yet
 	}
 
@@ -76,7 +75,7 @@ public class AndroidOperatorsMathRegistry extends AbstractAndroidMathRegistry<Op
 	}
 
 	@Override
-	public void save(@NotNull Context context) {
+	public void save() {
 		// not supported yet
 	}
 

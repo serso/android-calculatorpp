@@ -7,7 +7,6 @@ import jscl.math.operator.Operator;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.CalculatorLocatorImpl;
 import org.solovyev.android.calculator.R;
-import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.menu.LabeledMenuItem;
 import org.solovyev.common.text.StringUtils;
 
@@ -28,7 +27,7 @@ public class CalculatorOperatorsActivity extends AbstractMathEntityListActivity<
 		use(R.string.c_use) {
 			@Override
 			public void onClick(@NotNull Operator data, @NotNull Context context) {
-                CalculatorLocatorImpl.getInstance().getCalculatorKeyboard().digitButtonPressed(data.getName());
+                CalculatorLocatorImpl.getInstance().getKeyboard().digitButtonPressed(data.getName());
 				if (context instanceof Activity) {
 					((Activity) context).finish();
 				}
@@ -82,17 +81,17 @@ public class CalculatorOperatorsActivity extends AbstractMathEntityListActivity<
     protected List<Operator> getMathEntities() {
         final List<Operator> result = new ArrayList<Operator>();
 
-        result.addAll(CalculatorEngine.instance.getOperatorsRegistry().getEntities());
-        result.addAll(CalculatorEngine.instance.getPostfixFunctionsRegistry().getEntities());
+        result.addAll(CalculatorLocatorImpl.getInstance().getEngine().getOperatorsRegistry().getEntities());
+        result.addAll(CalculatorLocatorImpl.getInstance().getEngine().getPostfixFunctionsRegistry().getEntities());
 
         return result;
     }
 
     @Override
     protected String getMathEntityCategory(@NotNull Operator operator) {
-        String result = CalculatorEngine.instance.getOperatorsRegistry().getCategory(operator);
+        String result = CalculatorLocatorImpl.getInstance().getEngine().getOperatorsRegistry().getCategory(operator);
         if (result == null) {
-            result = CalculatorEngine.instance.getPostfixFunctionsRegistry().getCategory(operator);
+            result = CalculatorLocatorImpl.getInstance().getEngine().getPostfixFunctionsRegistry().getCategory(operator);
         }
 
         return result;
@@ -104,9 +103,9 @@ public class CalculatorOperatorsActivity extends AbstractMathEntityListActivity<
 
         @Override
         public String getDescription(@NotNull Context context, @NotNull String mathEntityName) {
-            String result = CalculatorEngine.instance.getOperatorsRegistry().getDescription(context, mathEntityName);
+            String result = CalculatorLocatorImpl.getInstance().getEngine().getOperatorsRegistry().getDescription(mathEntityName);
             if (StringUtils.isEmpty(result)) {
-                result = CalculatorEngine.instance.getPostfixFunctionsRegistry().getDescription(context, mathEntityName);
+                result = CalculatorLocatorImpl.getInstance().getEngine().getPostfixFunctionsRegistry().getDescription(mathEntityName);
             }
 
             return result;

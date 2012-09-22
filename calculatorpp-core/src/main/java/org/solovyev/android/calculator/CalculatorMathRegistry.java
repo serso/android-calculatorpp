@@ -4,10 +4,8 @@
  * or visit http://se.solovyev.org
  */
 
-package org.solovyev.android.calculator.model;
+package org.solovyev.android.calculator;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.common.math.MathEntity;
@@ -18,15 +16,15 @@ import org.solovyev.common.math.MathRegistry;
  * Date: 10/30/11
  * Time: 1:02 AM
  */
-public interface AndroidMathRegistry<T extends MathEntity> extends MathRegistry<T> {
+public interface CalculatorMathRegistry<T extends MathEntity> extends MathRegistry<T> {
 
 	@Nullable
-	String getDescription(@NotNull Context context, @NotNull String mathEntityName);
+	String getDescription(@NotNull String mathEntityName);
 
     @Nullable
     String getCategory(@NotNull T mathEntity);
 
-	void load(@Nullable Context context, @Nullable SharedPreferences preferences);
+	void load();
 
-	void save(@NotNull Context context);
+	void save();
 }

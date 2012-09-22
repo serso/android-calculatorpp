@@ -12,7 +12,7 @@ import android.widget.TextView;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.R;
-import org.solovyev.android.calculator.model.AndroidMathRegistry;
+import org.solovyev.android.calculator.CalculatorMathRegistry;
 import org.solovyev.common.math.MathEntity;
 
 /**
@@ -31,14 +31,14 @@ class MathEntityRemover<T extends MathEntity> implements DialogInterface.OnClick
 	private final boolean confirmed;
 
 	@NotNull
-	private final AndroidMathRegistry<? super T> varsRegistry;
+	private final CalculatorMathRegistry<? super T> varsRegistry;
 
 	@NotNull
 	private final AbstractMathEntityListActivity<T> activity;
 
 	public MathEntityRemover(@NotNull T mathEntity,
 							 @Nullable DialogInterface.OnClickListener callbackOnCancel,
-							 @NotNull AndroidMathRegistry<? super T> varsRegistry,
+							 @NotNull CalculatorMathRegistry<? super T> varsRegistry,
 							 @NotNull AbstractMathEntityListActivity<T> activity) {
 		this(mathEntity, callbackOnCancel, false, varsRegistry, activity);
 	}
@@ -46,7 +46,7 @@ class MathEntityRemover<T extends MathEntity> implements DialogInterface.OnClick
 	public MathEntityRemover(@NotNull T mathEntity,
 							 @Nullable DialogInterface.OnClickListener callbackOnCancel,
 							 boolean confirmed,
-							 @NotNull AndroidMathRegistry<? super T> varsRegistry,
+							 @NotNull CalculatorMathRegistry<? super T> varsRegistry,
 							 @NotNull AbstractMathEntityListActivity<T> activity) {
 		this.mathEntity = mathEntity;
 		this.callbackOnCancel = callbackOnCancel;
@@ -65,7 +65,7 @@ class MathEntityRemover<T extends MathEntity> implements DialogInterface.OnClick
 			}
 
 			varsRegistry.remove(mathEntity);
-			varsRegistry.save(activity);
+			varsRegistry.save();
 			if (activity.isInCategory(mathEntity)) {
 				activity.notifyAdapter();
 			}

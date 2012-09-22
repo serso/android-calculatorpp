@@ -6,6 +6,7 @@
 
 package org.solovyev.android.calculator.model;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -13,6 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
+import org.solovyev.android.calculator.CalculatorMathRegistry;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.about.TextHelper;
 import org.solovyev.common.JBuilder;
@@ -28,7 +30,7 @@ import java.util.Map;
  * Date: 10/30/11
  * Time: 1:03 AM
  */
-public abstract class AbstractAndroidMathRegistry<T extends MathEntity, P extends MathPersistenceEntity> implements AndroidMathRegistry<T> {
+public abstract class AbstractAndroidMathRegistry<T extends MathEntity, P extends MathPersistenceEntity> implements CalculatorMathRegistry<T> {
 
 	@NotNull
 	private final MathRegistry<T> mathRegistry;
@@ -36,17 +38,25 @@ public abstract class AbstractAndroidMathRegistry<T extends MathEntity, P extend
 	@NotNull
 	private final String prefix;
 
-	protected AbstractAndroidMathRegistry(@NotNull MathRegistry<T> mathRegistry, @NotNull String prefix) {
+    @NotNull
+    private final Context context;
+
+	protected AbstractAndroidMathRegistry(@NotNull MathRegistry<T> mathRegistry,
+                                          @NotNull String prefix,
+                                          @NotNull Application application) {
 		this.mathRegistry = mathRegistry;
 		this.prefix = prefix;
+        this.context = application;
 	}
 
-	@NotNull
+
+
+    @NotNull
 	protected abstract Map<String, String> getSubstitutes();
 
 	@Nullable
 	@Override
-	public String getDescription(@NotNull Context context, @NotNull String mathEntityName) {
+	public String getDescription(@NotNull String mathEntityName) {
 		final String stringName;
 
 		final Map<String, String> substitutes = getSubstitutes();
@@ -60,9 +70,10 @@ public abstract class AbstractAndroidMathRegistry<T extends MathEntity, P extend
 		return new TextHelper(context.getResources(), R.class.getPackage().getName()).getText(stringName);
 	}
 
-	public synchronized void load(@Nullable Context context, @Nullable SharedPreferences preferences) {
+	public synchronized void load() {
+        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-		if (context != null && preferences != null) {
+		if (preferences != null) {
 			final Integer preferenceStringId = getPreferenceStringId();
 			if (preferenceStringId != null) {
 				final String value = preferences.getString(context.getString(preferenceStringId), null);
@@ -99,7 +110,7 @@ public abstract class AbstractAndroidMathRegistry<T extends MathEntity, P extend
 
 
 	@Override
-	public synchronized void save(@NotNull Context context) {
+	public synchronized void save() {
 		final Integer preferenceStringId = getPreferenceStringId();
 
 		if (preferenceStringId != null) {

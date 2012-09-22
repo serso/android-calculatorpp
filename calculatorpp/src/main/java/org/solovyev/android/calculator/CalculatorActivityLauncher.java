@@ -60,8 +60,8 @@ public class CalculatorActivityLauncher {
 		context.startActivity(intent);
 	}
 
-	public static void createVar(@NotNull final Context context, @NotNull CalculatorModel calculatorModel) {
-        final CalculatorDisplayViewState viewState = calculatorModel.getDisplay().getViewState();
+	public static void createVar(@NotNull final Context context, @NotNull CalculatorDisplay calculatorDisplay) {
+        final CalculatorDisplayViewState viewState = calculatorDisplay.getViewState();
         if (viewState.isValid() ) {
 			final String varValue = viewState.getText();
 			if (!StringUtils.isEmpty(varValue)) {

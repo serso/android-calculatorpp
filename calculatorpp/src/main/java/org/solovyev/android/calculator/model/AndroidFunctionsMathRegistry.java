@@ -6,11 +6,9 @@
 
 package org.solovyev.android.calculator.model;
 
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.app.Application;
 import jscl.math.function.*;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.R;
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.collections.CollectionsUtils;
@@ -115,13 +113,14 @@ public class AndroidFunctionsMathRegistry extends AbstractAndroidMathRegistry<Fu
 	@NotNull
 	private static final String FUNCTION_DESCRIPTION_PREFIX = "c_fun_description_";
 
-	public AndroidFunctionsMathRegistry(@NotNull MathRegistry<jscl.math.function.Function> functionsRegistry) {
-		super(functionsRegistry, FUNCTION_DESCRIPTION_PREFIX);
+	public AndroidFunctionsMathRegistry(@NotNull MathRegistry<Function> functionsRegistry,
+                                        @NotNull Application application) {
+		super(functionsRegistry, FUNCTION_DESCRIPTION_PREFIX, application);
 	}
 
 	@Override
-	public void load(@Nullable Context context, @Nullable SharedPreferences preferences) {
-		super.load(context, preferences);
+	public void load() {
+		super.load();
 
 		add(new CustomFunction.Builder(true, "log", new String[]{"base", "x"}, "ln(x)/ln(base)"));
 	}

@@ -21,7 +21,7 @@ import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.ads.AdsController;
 import org.solovyev.android.calculator.CalculatorLocatorImpl;
 import org.solovyev.android.calculator.R;
-import org.solovyev.android.calculator.model.AndroidMathRegistry;
+import org.solovyev.android.calculator.CalculatorMathRegistry;
 import org.solovyev.android.menu.AMenuBuilder;
 import org.solovyev.android.menu.LabeledMenuItem;
 import org.solovyev.android.menu.MenuImpl;
@@ -106,7 +106,7 @@ public abstract class AbstractMathEntityListActivity<T extends MathEntity> exten
                                     final int position,
                                     final long id) {
 
-                CalculatorLocatorImpl.getInstance().getCalculatorKeyboard().digitButtonPressed(((MathEntity) parent.getItemAtPosition(position)).getName());
+                CalculatorLocatorImpl.getInstance().getKeyboard().digitButtonPressed(((MathEntity) parent.getItemAtPosition(position)).getName());
 
                 AbstractMathEntityListActivity.this.finish();
             }
@@ -238,15 +238,15 @@ public abstract class AbstractMathEntityListActivity<T extends MathEntity> exten
     protected static class MathEntityDescriptionGetterImpl implements MathEntityDescriptionGetter {
 
         @NotNull
-        private final AndroidMathRegistry<?> mathRegistry;
+        private final CalculatorMathRegistry<?> mathRegistry;
 
-        public MathEntityDescriptionGetterImpl(@NotNull AndroidMathRegistry<?> mathRegistry) {
+        public MathEntityDescriptionGetterImpl(@NotNull CalculatorMathRegistry<?> mathRegistry) {
             this.mathRegistry = mathRegistry;
         }
 
         @Override
         public String getDescription(@NotNull Context context, @NotNull String mathEntityName) {
-            return this.mathRegistry.getDescription(context, mathEntityName);
+            return this.mathRegistry.getDescription(mathEntityName);
         }
     }
 

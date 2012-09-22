@@ -6,11 +6,9 @@
 
 package org.solovyev.android.calculator.model;
 
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.app.Application;
 import jscl.math.function.IConstant;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.R;
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathRegistry;
@@ -35,8 +33,9 @@ class AndroidVarsRegistryImpl extends AbstractAndroidMathRegistry<IConstant, Var
 		substitutes.put("NaN", "nan");
 	}
 
-	protected AndroidVarsRegistryImpl(@NotNull MathRegistry<IConstant> mathRegistry) {
-		super(mathRegistry, "c_var_description_");
+	protected AndroidVarsRegistryImpl(@NotNull MathRegistry<IConstant> mathRegistry,
+                                      @NotNull Application application) {
+		super(mathRegistry, "c_var_description_", application);
 	}
 
 	@NotNull
@@ -45,8 +44,8 @@ class AndroidVarsRegistryImpl extends AbstractAndroidMathRegistry<IConstant, Var
 		return substitutes;
 	}
 
-	public synchronized void load(@Nullable Context context, @Nullable SharedPreferences preferences) {
-		super.load(context, preferences);
+	public synchronized void load() {
+		super.load();
 
 		tryToAddAuxVar("x");
 		tryToAddAuxVar("y");
@@ -101,12 +100,12 @@ class AndroidVarsRegistryImpl extends AbstractAndroidMathRegistry<IConstant, Var
 	}
 
 	@Override
-    public String getDescription(@NotNull Context context, @NotNull String mathEntityName) {
+    public String getDescription(@NotNull String mathEntityName) {
         final IConstant var = get(mathEntityName);
         if (var != null && !var.isSystem()) {
             return var.getDescription();
         } else {
-            return super.getDescription(context, mathEntityName);
+            return super.getDescription(mathEntityName);
         }
     }
 

@@ -8,8 +8,11 @@ import jscl.math.Generic;
 import jscl.text.ParseInterruptedException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.calculator.history.CalculatorHistory;
+import org.solovyev.android.calculator.history.CalculatorHistoryState;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.text.TextProcessor;
+import org.solovyev.common.history.HistoryAction;
 import org.solovyev.common.msg.MessageRegistry;
 import org.solovyev.common.msg.MessageType;
 import org.solovyev.common.text.StringUtils;
@@ -29,13 +32,11 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class CalculatorImpl implements Calculator, CalculatorEventListener {
 
-    private static final long FIRST_ID = 0;
-
     @NotNull
     private final CalculatorEventContainer calculatorEventContainer = new ListCalculatorEventContainer();
 
     @NotNull
-    private final AtomicLong counter = new AtomicLong(FIRST_ID);
+    private final AtomicLong counter = new AtomicLong(CalculatorUtils.FIRST_ID);
 
     @NotNull
     private final TextProcessor<PreparedExpression, String> preprocessor = ToJsclTextProcessor.getInstance();
@@ -93,10 +94,14 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
     **********************************************************************
     */
 
-    @NotNull
     @Override
-    public CalculatorEventDataId createFirstEventDataId() {
-        return CalculatorEventDataIdImpl.newInstance(FIRST_ID, FIRST_ID);
+    public void evaluate() {
+        this.evaluate(JsclOperation.numeric, getEditor().getViewState().getText());
+    }
+
+    @Override
+    public void simplify() {
+        this.evaluate(JsclOperation.simplify, getEditor().getViewState().getText());
     }
 
     @NotNull
@@ -144,7 +149,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 
                 fireCalculatorEvent(newConversionEventData(sequenceId), CalculatorEventType.conversion_started, null);
 
-                final NumeralBase from = CalculatorLocatorImpl.getInstance().getCalculatorEngine().getEngine().getNumeralBase();
+                final NumeralBase from = CalculatorLocatorImpl.getInstance().getEngine().getEngine().getNumeralBase();
 
                 if (from != to) {
                     String fromString = generic.toString();
@@ -197,6 +202,12 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
         return eventDataId;
     }
 
+    @Override
+    public void init() {
+        CalculatorLocatorImpl.getInstance().getEngine().init();
+        CalculatorLocatorImpl.getInstance().getHistory().load();
+    }
+
     @NotNull
     private CalculatorEventData newConversionEventData(@NotNull Long sequenceId) {
         return CalculatorEventDataImpl.newInstance(nextEventDataId(sequenceId));
@@ -215,7 +226,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 
             expression = expression.trim();
 
-            if ( StringUtils.isEmpty(expression) ) {
+            if (StringUtils.isEmpty(expression)) {
                 final CalculatorOutputImpl data = new CalculatorOutputImpl("", operation, Expression.valueOf(""));
                 fireCalculatorEvent(newCalculationEventData(operation, expression, sequenceId), CalculatorEventType.calculation_result, data);
             } else {
@@ -330,10 +341,42 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
             final String newText = changeEventData.getNewState().getText();
             final String oldText = changeEventData.getOldState().getText();
 
-            if ( !newText.equals(oldText) ) {
+            if (!newText.equals(oldText)) {
                 evaluate(JsclOperation.numeric, changeEventData.getNewState().getText(), calculatorEventData.getSequenceId());
             }
         }
+    }
+
+    @Override
+    public void doHistoryAction(@NotNull HistoryAction historyAction) {
+        final CalculatorHistory history = CalculatorLocatorImpl.getInstance().getHistory();
+        if (history.isActionAvailable(historyAction)) {
+            final CalculatorHistoryState newState = history.doAction(historyAction, getCurrentHistoryState());
+            if (newState != null) {
+                setCurrentHistoryState(newState);
+            }
+        }
+    }
+
+    @Override
+    public void setCurrentHistoryState(@NotNull CalculatorHistoryState editorHistoryState) {
+        editorHistoryState.setValuesFromHistory(getEditor(), getDisplay());
+    }
+
+    @NotNull
+    private CalculatorEditor getEditor() {
+        return CalculatorLocatorImpl.getInstance().getEditor();
+    }
+
+    @NotNull
+    @Override
+    public CalculatorHistoryState getCurrentHistoryState() {
+        return CalculatorHistoryState.newInstance(getEditor(), getDisplay());
+    }
+
+    @NotNull
+    private CalculatorDisplay getDisplay() {
+        return CalculatorLocatorImpl.getInstance().getDisplay();
     }
 
     public static final class ConversionException extends Exception {

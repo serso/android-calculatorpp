@@ -26,7 +26,7 @@ public class CalculatorDisplayOnClickListener implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if (v instanceof CalculatorDisplayView) {
-            final CalculatorDisplay cd = CalculatorLocatorImpl.getInstance().getCalculatorDisplay();
+            final CalculatorDisplay cd = CalculatorLocatorImpl.getInstance().getDisplay();
 
             final CalculatorDisplayViewState displayViewState = cd.getViewState();
 

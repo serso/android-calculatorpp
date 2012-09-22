@@ -4,17 +4,20 @@ import jscl.NumeralBase;
 import jscl.math.Generic;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.calculator.history.CalculatorHistoryState;
 import org.solovyev.android.calculator.jscl.JsclOperation;
+import org.solovyev.common.history.HistoryControl;
 
 /**
  * User: Solovyev_S
  * Date: 20.09.12
  * Time: 16:38
  */
-public interface Calculator extends CalculatorEventContainer {
+public interface Calculator extends CalculatorEventContainer, HistoryControl<CalculatorHistoryState> {
 
-    @NotNull
-    CalculatorEventDataId createFirstEventDataId();
+    void evaluate();
+
+    void simplify();
 
     @NotNull
     CalculatorEventDataId evaluate(@NotNull JsclOperation operation,
@@ -34,4 +37,5 @@ public interface Calculator extends CalculatorEventContainer {
     @NotNull
     CalculatorEventDataId fireCalculatorEvent(@NotNull CalculatorEventType calculatorEventType, @Nullable Object data, @NotNull Long sequenceId);
 
+    void init();
 }

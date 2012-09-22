@@ -23,7 +23,7 @@ import net.robotmedia.billing.model.Transaction;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.AndroidUtils;
 import org.solovyev.android.ads.AdsController;
-import org.solovyev.android.calculator.model.CalculatorEngine;
+import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 import org.solovyev.android.view.VibratorContainer;
 
 /**
@@ -51,7 +51,7 @@ public class CalculatorPreferencesActivity extends PreferenceActivity implements
 
 		final SharedPreferences preferences = getPreferenceManager().getSharedPreferences();
 		preferences.registerOnSharedPreferenceChangeListener(this);
-		onSharedPreferenceChanged(preferences, CalculatorEngine.Preferences.roundResult.getKey());
+		onSharedPreferenceChanged(preferences, AndroidCalculatorEngine.Preferences.roundResult.getKey());
 		onSharedPreferenceChanged(preferences, VibratorContainer.Preferences.hapticFeedbackEnabled.getKey());
 
 		final Preference clearBillingInfoPreference = findPreference(CLEAR_BILLING_INFO);
@@ -128,8 +128,8 @@ public class CalculatorPreferencesActivity extends PreferenceActivity implements
 
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
-		if (CalculatorEngine.Preferences.roundResult.getKey().equals(key)) {
-			findPreference(CalculatorEngine.Preferences.precision.getKey()).setEnabled(preferences.getBoolean(key, CalculatorEngine.Preferences.roundResult.getDefaultValue()));
+		if (AndroidCalculatorEngine.Preferences.roundResult.getKey().equals(key)) {
+			findPreference(AndroidCalculatorEngine.Preferences.precision.getKey()).setEnabled(preferences.getBoolean(key, AndroidCalculatorEngine.Preferences.roundResult.getDefaultValue()));
 		} else if (VibratorContainer.Preferences.hapticFeedbackEnabled.getKey().equals(key)) {
 			findPreference(VibratorContainer.Preferences.hapticFeedbackDuration.getKey()).setEnabled(VibratorContainer.Preferences.hapticFeedbackEnabled.getPreference(preferences));
 		}

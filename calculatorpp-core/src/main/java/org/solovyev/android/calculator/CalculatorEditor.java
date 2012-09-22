@@ -2,13 +2,14 @@ package org.solovyev.android.calculator;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.common.gui.CursorControl;
 
 /**
  * User: Solovyev_S
  * Date: 21.09.12
  * Time: 11:47
  */
-public interface CalculatorEditor extends CalculatorEventListener/*, CursorControl*/ {
+public interface CalculatorEditor extends CalculatorEventListener {
 
     void setView(@Nullable CalculatorEditorView view);
 
@@ -47,6 +48,9 @@ public interface CalculatorEditor extends CalculatorEventListener/*, CursorContr
      */
     @NotNull
     public CalculatorEditorViewState moveCursorRight();
+
+    @NotNull
+    CursorControl asCursorControl();
 
 
     /*

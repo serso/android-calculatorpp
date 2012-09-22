@@ -12,7 +12,8 @@ import android.util.AttributeSet;
 import android.widget.TextView;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.model.CalculatorEngine;
+import org.solovyev.android.calculator.CalculatorLocatorImpl;
+import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 
 /**
  * User: serso
@@ -39,6 +40,8 @@ public class CalculatorAdditionalTitle extends TextView implements SharedPrefere
 
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences preferences, @Nullable String key) {
-		setText(CalculatorEngine.instance.getNumeralBaseFromPrefs(preferences) + " / " + CalculatorEngine.instance.getAngleUnitsFromPrefs(preferences));
+		setText(((AndroidCalculatorEngine) CalculatorLocatorImpl.getInstance().getEngine()).getNumeralBaseFromPrefs(preferences)
+                + " / " +
+                ((AndroidCalculatorEngine) CalculatorLocatorImpl.getInstance().getEngine()).getAngleUnitsFromPrefs(preferences));
 	}
 }

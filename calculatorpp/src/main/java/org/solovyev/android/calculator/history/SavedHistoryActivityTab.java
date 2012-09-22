@@ -7,6 +7,7 @@
 package org.solovyev.android.calculator.history;
 
 import org.jetbrains.annotations.NotNull;
+import org.solovyev.android.calculator.CalculatorLocatorImpl;
 import org.solovyev.android.calculator.R;
 
 import java.util.ArrayList;
@@ -26,12 +27,12 @@ public class SavedHistoryActivityTab extends AbstractHistoryActivity {
 	@NotNull
 	@Override
 	protected List<CalculatorHistoryState> getHistoryItems() {
-		return new ArrayList<CalculatorHistoryState>(AndroidCalculatorHistoryImpl.instance.getSavedHistory());
+		return new ArrayList<CalculatorHistoryState>(CalculatorLocatorImpl.getInstance().getHistory().getSavedHistory());
 	}
 
 	@Override
 	protected void clearHistory() {
-		AndroidCalculatorHistoryImpl.instance.clearSavedHistory(this);
+        CalculatorLocatorImpl.getInstance().getHistory().clearSavedHistory();
 		getAdapter().clear();
 	}
 }

@@ -13,7 +13,7 @@ import jscl.math.Generic;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.solovyev.android.calculator.model.CalculatorEngine;
+import org.solovyev.android.calculator.CalculatorLocatorImpl;
 
 /**
  * User: serso
@@ -24,7 +24,7 @@ public class FromJsclNumericTextProcessorTest {
 
 		@BeforeClass
 	public static void setUp() throws Exception {
-		CalculatorEngine.instance.init(null, null);
+		CalculatorLocatorImpl.getInstance().getEngine().init();
 	}
 
 	@Test

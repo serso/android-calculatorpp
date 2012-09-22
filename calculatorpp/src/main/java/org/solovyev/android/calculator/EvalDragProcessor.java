@@ -20,11 +20,8 @@ import org.solovyev.common.math.Point2d;
  * Time: 9:52 PM
  */
 public class EvalDragProcessor implements SimpleOnDragListener.DragProcessor {
-	@NotNull
-	private final CalculatorEngineControl calculatorControl;
 
-	public EvalDragProcessor(@NotNull CalculatorEngineControl calculatorControl) {
-		this.calculatorControl = calculatorControl;
+	public EvalDragProcessor() {
 	}
 
 	@Override
@@ -34,7 +31,7 @@ public class EvalDragProcessor implements SimpleOnDragListener.DragProcessor {
 		if (dragButton instanceof DirectionDragButton) {
 			String text = ((DirectionDragButton) dragButton).getText(dragDirection);
 			if ("≡".equals(text)) {
-				calculatorControl.simplify();
+				CalculatorLocatorImpl.getInstance().getCalculator().simplify();
 				result = true;
 			}
 		}

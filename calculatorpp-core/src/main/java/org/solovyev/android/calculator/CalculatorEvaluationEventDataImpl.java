@@ -1,7 +1,6 @@
 package org.solovyev.android.calculator;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 
 /**
@@ -59,5 +58,10 @@ public class CalculatorEvaluationEventDataImpl implements CalculatorEvaluationEv
     @Override
     public boolean isSameSequence(@NotNull CalculatorEventDataId that) {
         return this.calculatorEventData.isSameSequence(that);
+    }
+
+    @Override
+    public boolean isAfterSequence(@NotNull CalculatorEventDataId that) {
+        return this.calculatorEventData.isAfterSequence(that);
     }
 }

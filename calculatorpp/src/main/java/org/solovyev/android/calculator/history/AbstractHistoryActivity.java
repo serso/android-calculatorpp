@@ -156,7 +156,7 @@ public abstract class AbstractHistoryActivity extends ListActivity {
 		boolean result = false;
 		try {
 			historyState.setSaved(true);
-			if ( CollectionsUtils.contains(historyState, AndroidCalculatorHistoryImpl.instance.getSavedHistory(), new Equalizer<CalculatorHistoryState>() {
+			if ( CollectionsUtils.contains(historyState, CalculatorLocatorImpl.getInstance().getHistory().getSavedHistory(), new Equalizer<CalculatorHistoryState>() {
 				@Override
 				public boolean equals(@Nullable CalculatorHistoryState first, @Nullable CalculatorHistoryState second) {
 					return first != null && second != null &&
@@ -175,7 +175,7 @@ public abstract class AbstractHistoryActivity extends ListActivity {
 
 	public static void useHistoryItem(@NotNull final CalculatorHistoryState historyState, @NotNull AbstractHistoryActivity activity) {
         final EditorHistoryState editorState = historyState.getEditorState();
-        CalculatorLocatorImpl.getInstance().getCalculatorEditor().setText(StringUtils.getNotEmpty(editorState.getText(), ""), editorState.getCursorPosition());
+        CalculatorLocatorImpl.getInstance().getEditor().setText(StringUtils.getNotEmpty(editorState.getText(), ""), editorState.getCursorPosition());
 
 		activity.finish();
 	}

@@ -5,7 +5,6 @@ import jscl.NumeralBase;
 import jscl.math.Generic;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.jscl.JsclOperation;
-import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.menu.AMenuItem;
 
 /**
@@ -43,7 +42,7 @@ enum ConversionMenuItem implements AMenuItem<CalculatorDisplayViewState> {
 
     @Override
     public void onClick(@NotNull CalculatorDisplayViewState data, @NotNull Context context) {
-        final NumeralBase fromNumeralBase = CalculatorEngine.instance.getEngine().getNumeralBase();
+        final NumeralBase fromNumeralBase = CalculatorLocatorImpl.getInstance().getEngine().getEngine().getNumeralBase();
 
         final Generic lastResult = data.getResult();
 

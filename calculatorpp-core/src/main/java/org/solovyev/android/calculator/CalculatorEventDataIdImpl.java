@@ -48,6 +48,11 @@ class CalculatorEventDataIdImpl implements CalculatorEventDataId {
     }
 
     @Override
+    public boolean isAfterSequence(@NotNull CalculatorEventDataId that) {
+        return !this.sequenceId.equals(NO_SEQUENCE) && this.sequenceId > that.getSequenceId();
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof CalculatorEventDataIdImpl)) return false;

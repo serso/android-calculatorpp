@@ -7,11 +7,10 @@ package org.solovyev.android.calculator;
 
 import android.view.MotionEvent;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.CursorControl;
-import org.solovyev.android.view.drag.DragDirection;
-import org.solovyev.android.view.drag.SimpleOnDragListener;
 import org.solovyev.android.view.drag.DirectionDragButton;
 import org.solovyev.android.view.drag.DragButton;
+import org.solovyev.android.view.drag.DragDirection;
+import org.solovyev.android.view.drag.SimpleOnDragListener;
 import org.solovyev.common.math.Point2d;
 
 /**
@@ -21,11 +20,7 @@ import org.solovyev.common.math.Point2d;
  */
 public class CursorDragProcessor implements SimpleOnDragListener.DragProcessor{
 
-	@NotNull
-	private final CursorControl cursorControl;
-
-	public CursorDragProcessor(@NotNull CursorControl cursorControl) {
-		this.cursorControl = cursorControl;
+	public CursorDragProcessor() {
 	}
 
 	@Override
@@ -35,10 +30,10 @@ public class CursorDragProcessor implements SimpleOnDragListener.DragProcessor{
 		if (dragButton instanceof DirectionDragButton) {
 			String text = ((DirectionDragButton) dragButton).getText(dragDirection);
 			if ("◀◀".equals(text)) {
-				cursorControl.setCursorOnStart();
+				CalculatorLocatorImpl.getInstance().getEditor().setCursorOnStart();
 				result = true;
 			} else if ("▶▶".equals(text)) {
-				cursorControl.setCursorOnEnd();
+                CalculatorLocatorImpl.getInstance().getEditor().setCursorOnEnd();
 				result = true;
 			}
 		}

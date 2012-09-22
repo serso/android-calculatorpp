@@ -11,8 +11,8 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.solovyev.android.calculator.CalculatorEvalException;
+import org.solovyev.android.calculator.CalculatorLocatorImpl;
 import org.solovyev.android.calculator.CalculatorParseException;
-import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.common.Converter;
 
 import java.io.InputStreamReader;
@@ -28,9 +28,9 @@ public class NumeralBaseTest {
 
 	@BeforeClass
 	public static void setUp() throws Exception {
-		CalculatorEngine.instance.init(null, null);
-		CalculatorEngine.instance.setPrecision(3);
-		CalculatorEngine.instance.setThreadKiller(new CalculatorEngine.ThreadKillerImpl());
+		CalculatorLocatorImpl.getInstance().getEngine().init();
+        ((AndroidCalculatorEngine) CalculatorLocatorImpl.getInstance().getEngine()).setPrecision(3);
+        ((AndroidCalculatorEngine) CalculatorLocatorImpl.getInstance().getEngine()).setThreadKiller(new AndroidCalculatorEngine.ThreadKillerImpl());
 	}
 
 	@Test
@@ -100,11 +100,11 @@ public class NumeralBaseTest {
 		final String bin = "0b:" + line[2].toUpperCase();
 
 		final String decExpression = converter.convert(dec);
-		final String decResult = CalculatorEngine.instance.evaluate(JsclOperation.numeric, decExpression).getStringResult();
+		final String decResult = CalculatorLocatorImpl.getInstance().getEngine().getEngine().evaluate(decExpression);
 		final String hexExpression = converter.convert(hex);
-		final String hexResult = CalculatorEngine.instance.evaluate(JsclOperation.numeric, hexExpression).getStringResult();
+		final String hexResult = CalculatorLocatorImpl.getInstance().getEngine().getEngine().evaluate(hexExpression);
 		final String binExpression = converter.convert(bin);
-		final String binResult = CalculatorEngine.instance.evaluate(JsclOperation.numeric, binExpression).getStringResult();
+		final String binResult = CalculatorLocatorImpl.getInstance().getEngine().getEngine().evaluate(binExpression);
 
 		Assert.assertEquals("dec-hex: " + decExpression + " : " + hexExpression, decResult, hexResult);
 		Assert.assertEquals("dec-bin: " + decExpression + " : " + binExpression, decResult, binResult);

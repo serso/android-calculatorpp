@@ -1,6 +1,7 @@
 package org.solovyev.android.calculator;
 
 import org.jetbrains.annotations.NotNull;
+import org.solovyev.android.calculator.history.CalculatorHistory;
 
 /**
  * User: Solovyev_S
@@ -10,19 +11,22 @@ import org.jetbrains.annotations.NotNull;
 public class CalculatorLocatorImpl implements CalculatorLocator {
 
     @NotNull
-    private JCalculatorEngine calculatorEngine;
+    private CalculatorEngine calculatorEngine;
 
     @NotNull
-    private final Calculator calculator = new CalculatorImpl();
+    private Calculator calculator;
 
     @NotNull
-    private final CalculatorEditor calculatorEditor = new CalculatorEditorImpl(calculator);
+    private CalculatorEditor calculatorEditor;
 
     @NotNull
-    private final CalculatorDisplay calculatorDisplay = new CalculatorDisplayImpl(calculator);
+    private CalculatorDisplay calculatorDisplay;
 
     @NotNull
-    private final CalculatorKeyboard calculatorKeyboard = new CalculatorKeyboardImpl(calculator);
+    private CalculatorKeyboard calculatorKeyboard;
+
+    @NotNull
+    private CalculatorHistory calculatorHistory;
 
     @NotNull
     private CalculatorNotifier calculatorNotifier = new DummyCalculatorNotifier();
@@ -36,6 +40,24 @@ public class CalculatorLocatorImpl implements CalculatorLocator {
     private CalculatorLocatorImpl() {
     }
 
+    @Override
+    public void init(@NotNull Calculator calculator,
+                     @NotNull CalculatorEngine engine,
+                     @NotNull CalculatorClipboard clipboard,
+                     @NotNull CalculatorNotifier notifier,
+                     @NotNull CalculatorHistory history) {
+
+        this.calculator = calculator;
+        this.calculatorEngine = engine;
+        this.calculatorClipboard = clipboard;
+        this.calculatorNotifier = notifier;
+        this.calculatorHistory = history;
+
+        calculatorEditor = new CalculatorEditorImpl(this.calculator);
+        calculatorDisplay = new CalculatorDisplayImpl(this.calculator);
+        calculatorKeyboard = new CalculatorKeyboardImpl(this.calculator);
+    }
+
     @NotNull
     public static CalculatorLocator getInstance() {
         return instance;
@@ -43,7 +65,7 @@ public class CalculatorLocatorImpl implements CalculatorLocator {
 
     @NotNull
     @Override
-    public JCalculatorEngine getCalculatorEngine() {
+    public CalculatorEngine getEngine() {
         return calculatorEngine;
     }
 
@@ -54,47 +76,38 @@ public class CalculatorLocatorImpl implements CalculatorLocator {
     }
 
     @Override
-    public void setCalculatorEngine(@NotNull JCalculatorEngine calculatorEngine) {
-        this.calculatorEngine = calculatorEngine;
-    }
-
-    @Override
     @NotNull
-    public CalculatorDisplay getCalculatorDisplay() {
+    public CalculatorDisplay getDisplay() {
         return calculatorDisplay;
     }
 
     @NotNull
     @Override
-    public CalculatorEditor getCalculatorEditor() {
+    public CalculatorEditor getEditor() {
         return calculatorEditor;
     }
 
     @Override
     @NotNull
-    public CalculatorKeyboard getCalculatorKeyboard() {
+    public CalculatorKeyboard getKeyboard() {
         return calculatorKeyboard;
     }
 
     @Override
     @NotNull
-    public CalculatorClipboard getCalculatorClipboard() {
+    public CalculatorClipboard getClipboard() {
         return calculatorClipboard;
     }
 
     @Override
-    public void setCalculatorClipboard(@NotNull CalculatorClipboard calculatorClipboard) {
-        this.calculatorClipboard = calculatorClipboard;
-    }
-
-    @Override
     @NotNull
-    public CalculatorNotifier getCalculatorNotifier() {
+    public CalculatorNotifier getNotifier() {
         return calculatorNotifier;
     }
 
     @Override
-    public void setCalculatorNotifier(@NotNull CalculatorNotifier calculatorNotifier) {
-        this.calculatorNotifier = calculatorNotifier;
+    @NotNull
+    public CalculatorHistory getHistory() {
+        return calculatorHistory;
     }
 }

@@ -14,7 +14,6 @@ import jscl.math.function.Function;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.CalculatorLocatorImpl;
 import org.solovyev.android.calculator.R;
-import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.menu.LabeledMenuItem;
 import org.solovyev.common.text.StringUtils;
 
@@ -33,7 +32,7 @@ public class CalculatorFunctionsActivity extends AbstractMathEntityListActivity<
 		use(R.string.c_use) {
 			@Override
 			public void onClick(@NotNull Function data, @NotNull Context context) {
-                CalculatorLocatorImpl.getInstance().getCalculatorKeyboard().digitButtonPressed(data.getName());
+                CalculatorLocatorImpl.getInstance().getKeyboard().digitButtonPressed(data.getName());
 				if (context instanceof Activity) {
 					((Activity) context).finish();
 				}
@@ -51,7 +50,7 @@ public class CalculatorFunctionsActivity extends AbstractMathEntityListActivity<
 		copy_description(R.string.c_copy_description) {
 			@Override
 			public void onClick(@NotNull Function data, @NotNull Context context) {
-				final String text = CalculatorEngine.instance.getFunctionsRegistry().getDescription(context, data.getName());
+				final String text = CalculatorLocatorImpl.getInstance().getEngine().getFunctionsRegistry().getDescription(data.getName());
 				if (!StringUtils.isEmpty(text)) {
 					final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
 					clipboard.setText(text);
@@ -110,7 +109,7 @@ public class CalculatorFunctionsActivity extends AbstractMathEntityListActivity<
 	protected List<LabeledMenuItem<Function>> getMenuItemsOnLongClick(@NotNull Function item) {
 		List<LabeledMenuItem<Function>> result = new ArrayList<LabeledMenuItem<Function>>(Arrays.asList(LongClickMenuItem.values()));
 		
-		if ( StringUtils.isEmpty(CalculatorEngine.instance.getFunctionsRegistry().getDescription(this, item.getName())) ) {
+		if ( StringUtils.isEmpty(CalculatorLocatorImpl.getInstance().getEngine().getFunctionsRegistry().getDescription(item.getName())) ) {
 			result.remove(LongClickMenuItem.copy_description);
 		}
 		
@@ -206,17 +205,17 @@ public class CalculatorFunctionsActivity extends AbstractMathEntityListActivity<
 	@NotNull
 	@Override
 	protected MathEntityDescriptionGetter getDescriptionGetter() {
-		return new MathEntityDescriptionGetterImpl(CalculatorEngine.instance.getFunctionsRegistry());
+		return new MathEntityDescriptionGetterImpl(CalculatorLocatorImpl.getInstance().getEngine().getFunctionsRegistry());
 	}
 
 	@NotNull
 	@Override
 	protected List<Function> getMathEntities() {
-		return new ArrayList<Function>(CalculatorEngine.instance.getFunctionsRegistry().getEntities());
+		return new ArrayList<Function>(CalculatorLocatorImpl.getInstance().getEngine().getFunctionsRegistry().getEntities());
 	}
 
 	@Override
 	protected String getMathEntityCategory(@NotNull Function function) {
-		return CalculatorEngine.instance.getFunctionsRegistry().getCategory(function);
+		return CalculatorLocatorImpl.getInstance().getEngine().getFunctionsRegistry().getCategory(function);
 	}
 }

@@ -42,11 +42,11 @@ public enum JsclOperation {
 	public final String evaluate(@NotNull String expression) throws ParseException {
 		switch (this) {
 			case simplify:
-				return CalculatorLocatorImpl.getInstance().getCalculatorEngine().getEngine().simplify(expression);
+				return CalculatorLocatorImpl.getInstance().getEngine().getEngine().simplify(expression);
 			case elementary:
-				return CalculatorLocatorImpl.getInstance().getCalculatorEngine().getEngine().elementary(expression);
+				return CalculatorLocatorImpl.getInstance().getEngine().getEngine().elementary(expression);
 			case numeric:
-				return CalculatorLocatorImpl.getInstance().getCalculatorEngine().getEngine().evaluate(expression);
+				return CalculatorLocatorImpl.getInstance().getEngine().getEngine().evaluate(expression);
 			default:
 				throw new UnsupportedOperationException();
 		}
@@ -56,11 +56,11 @@ public enum JsclOperation {
 	public final Generic evaluateGeneric(@NotNull String expression) throws ParseException {
 		switch (this) {
 			case simplify:
-				return CalculatorLocatorImpl.getInstance().getCalculatorEngine().getEngine().simplifyGeneric(expression);
+				return CalculatorLocatorImpl.getInstance().getEngine().getEngine().simplifyGeneric(expression);
 			case elementary:
-				return CalculatorLocatorImpl.getInstance().getCalculatorEngine().getEngine().elementaryGeneric(expression);
+				return CalculatorLocatorImpl.getInstance().getEngine().getEngine().elementaryGeneric(expression);
 			case numeric:
-				return CalculatorLocatorImpl.getInstance().getCalculatorEngine().getEngine().evaluateGeneric(expression);
+				return CalculatorLocatorImpl.getInstance().getEngine().getEngine().evaluateGeneric(expression);
 			default:
 				throw new UnsupportedOperationException();
 		}

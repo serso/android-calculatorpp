@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import jscl.NumeralBase;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.calculator.model.CalculatorEngine;
+import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 
 /**
  * User: serso
@@ -25,7 +25,7 @@ public class NumeralBaseButtons {
 
     public synchronized void toggleNumericDigits(@NotNull Activity activity, @NotNull SharedPreferences preferences) {
         if (CalculatorPreferences.Gui.hideNumeralBaseDigits.getPreference(preferences)) {
-            final NumeralBase nb = CalculatorEngine.Preferences.numeralBase.getPreference(preferences);
+            final NumeralBase nb = AndroidCalculatorEngine.Preferences.numeralBase.getPreference(preferences);
             this.toggleNumericDigits(activity, nb);
         } else {
             // set HEX to show all digits

@@ -11,6 +11,7 @@ import jscl.NumeralBase;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.solovyev.android.calculator.CalculatorLocatorImpl;
 import org.solovyev.android.calculator.CalculatorParseException;
 import org.solovyev.android.calculator.PreparedExpression;
 import org.solovyev.android.calculator.ToJsclTextProcessor;
@@ -25,7 +26,7 @@ public class ToJsclTextProcessorTest {
 
 	@BeforeClass
 	public static void setUp() throws Exception {
-		CalculatorEngine.instance.init(null, null);
+		CalculatorLocatorImpl.getInstance().getEngine().init();
 	}
 
 	@Test
@@ -67,10 +68,10 @@ public class ToJsclTextProcessorTest {
 		Assert.assertEquals( "EE", preprocessor.process("EE").toString());
 
 		try {
-			CalculatorEngine.instance.getEngine().setNumeralBase(NumeralBase.hex);
+			CalculatorLocatorImpl.getInstance().getEngine().getEngine().setNumeralBase(NumeralBase.hex);
 			Assert.assertEquals( "22F*exp(F)", preprocessor.process("22Fexp(F)").toString());
 		} finally {
-			CalculatorEngine.instance.getEngine().setNumeralBase(NumeralBase.dec);
+			CalculatorLocatorImpl.getInstance().getEngine().getEngine().setNumeralBase(NumeralBase.dec);
 		}
 		Assert.assertEquals( "0x:ABCDEF", preprocessor.process("0x:ABCDEF").toString());
 		Assert.assertEquals( "0x:ABCDEF", preprocessor.process("0x:A BC DEF").toString());

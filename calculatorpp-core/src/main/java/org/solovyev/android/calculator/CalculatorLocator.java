@@ -1,6 +1,7 @@
 package org.solovyev.android.calculator;
 
 import org.jetbrains.annotations.NotNull;
+import org.solovyev.android.calculator.history.CalculatorHistory;
 
 /**
  * User: Solovyev_S
@@ -9,30 +10,33 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface CalculatorLocator {
 
-    @NotNull
-    JCalculatorEngine getCalculatorEngine();
+    void init(@NotNull Calculator calculator,
+              @NotNull CalculatorEngine engine,
+              @NotNull CalculatorClipboard clipboard,
+              @NotNull CalculatorNotifier notifier,
+              @NotNull CalculatorHistory history);
 
     @NotNull
     Calculator getCalculator();
 
     @NotNull
-    CalculatorDisplay getCalculatorDisplay();
+    CalculatorEngine getEngine();
 
     @NotNull
-    CalculatorEditor getCalculatorEditor();
-
-    void setCalculatorEngine(@NotNull JCalculatorEngine calculatorEngine);
+    CalculatorDisplay getDisplay();
 
     @NotNull
-    CalculatorKeyboard getCalculatorKeyboard();
+    CalculatorEditor getEditor();
 
     @NotNull
-    CalculatorClipboard getCalculatorClipboard();
-
-    void setCalculatorClipboard(@NotNull CalculatorClipboard calculatorClipboard);
+    CalculatorKeyboard getKeyboard();
 
     @NotNull
-    CalculatorNotifier getCalculatorNotifier();
+    CalculatorClipboard getClipboard();
 
-    void setCalculatorNotifier(@NotNull CalculatorNotifier calculatorNotifier);
+    @NotNull
+    CalculatorNotifier getNotifier();
+
+    @NotNull
+    CalculatorHistory getHistory();
 }

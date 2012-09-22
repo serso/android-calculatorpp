@@ -9,12 +9,8 @@ package org.solovyev.android.calculator.view;
 import jscl.MathContext;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.AbstractNumberBuilder;
-import org.solovyev.android.calculator.CalculatorParseException;
-import org.solovyev.android.calculator.LiteNumberBuilder;
-import org.solovyev.android.calculator.NumberBuilder;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.math.MathType;
-import org.solovyev.android.calculator.model.*;
 import org.solovyev.android.calculator.text.TextProcessor;
 import org.solovyev.common.MutableObject;
 
@@ -106,9 +102,9 @@ public class TextHighlighter implements TextProcessor<TextHighlighter.Result, St
 
 		final AbstractNumberBuilder numberBuilder;
 		if (!formatNumber) {
-			numberBuilder = new LiteNumberBuilder(CalculatorEngine.instance.getEngine());
+			numberBuilder = new LiteNumberBuilder(CalculatorLocatorImpl.getInstance().getEngine().getEngine());
 		} else {
-			numberBuilder = new NumberBuilder(CalculatorEngine.instance.getEngine());
+			numberBuilder = new NumberBuilder(CalculatorLocatorImpl.getInstance().getEngine().getEngine());
 		}
 		for (int i = 0; i < text.length(); i++) {
 			MathType.Result mathType = MathType.getType(text, i, numberBuilder.isHexMode());

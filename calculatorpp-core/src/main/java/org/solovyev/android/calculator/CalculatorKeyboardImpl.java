@@ -49,14 +49,14 @@ public class CalculatorKeyboardImpl implements CalculatorKeyboard {
                 }
             }
 
-            final CalculatorEditor editor = CalculatorLocatorImpl.getInstance().getCalculatorEditor();
+            final CalculatorEditor editor = CalculatorLocatorImpl.getInstance().getEditor();
             editor.insert(textToBeInserted.toString(), cursorPositionOffset);
         }
     }
 
     @Override
     public void roundBracketsButtonPressed() {
-        final CalculatorEditor editor = CalculatorLocatorImpl.getInstance().getCalculatorEditor();
+        final CalculatorEditor editor = CalculatorLocatorImpl.getInstance().getEditor();
         CalculatorEditorViewState viewState = editor.getViewState();
 
         final int cursorPosition = viewState.getSelection();
@@ -72,26 +72,36 @@ public class CalculatorKeyboardImpl implements CalculatorKeyboard {
 
     @Override
     public void pasteButtonPressed() {
-        final String text = CalculatorLocatorImpl.getInstance().getCalculatorClipboard().getText();
+        final String text = CalculatorLocatorImpl.getInstance().getClipboard().getText();
         if (text != null) {
-            CalculatorLocatorImpl.getInstance().getCalculatorEditor().insert(text);
+            CalculatorLocatorImpl.getInstance().getEditor().insert(text);
         }
     }
 
     @Override
     public void clearButtonPressed() {
-        CalculatorLocatorImpl.getInstance().getCalculatorEditor().clear();
+        CalculatorLocatorImpl.getInstance().getEditor().clear();
     }
 
     @Override
     public void copyButtonPressed() {
-        final CalculatorDisplayViewState displayViewState = CalculatorLocatorImpl.getInstance().getCalculatorDisplay().getViewState();
+        final CalculatorDisplayViewState displayViewState = CalculatorLocatorImpl.getInstance().getDisplay().getViewState();
         if (displayViewState.isValid()) {
             final CharSequence text = displayViewState.getText();
             if (!StringUtils.isEmpty(text)) {
-                CalculatorLocatorImpl.getInstance().getCalculatorClipboard().setText(text);
-                CalculatorLocatorImpl.getInstance().getCalculatorNotifier().showMessage(CalculatorMessage.newInfoMessage(CalculatorMessages.result_copied));
+                CalculatorLocatorImpl.getInstance().getClipboard().setText(text);
+                CalculatorLocatorImpl.getInstance().getNotifier().showMessage(CalculatorMessage.newInfoMessage(CalculatorMessages.result_copied));
             }
         }
+    }
+
+    @Override
+    public void moveCursorLeft() {
+        CalculatorLocatorImpl.getInstance().getEditor().moveCursorLeft();
+    }
+
+    @Override
+    public void moveCursorRight() {
+        CalculatorLocatorImpl.getInstance().getEditor().moveCursorRight();
     }
 }

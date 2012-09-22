@@ -5,8 +5,10 @@
 
 package org.solovyev.android.calculator.model;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import jscl.*;
 import jscl.math.Generic;
 import jscl.math.function.Function;
@@ -42,9 +44,7 @@ import java.util.concurrent.TimeUnit;
  * Time: 11:38 PM
  */
 
-public enum CalculatorEngine implements JCalculatorEngine {
-
-	instance;
+public class AndroidCalculatorEngine implements CalculatorEngine {
 
 	private static final String GROUPING_SEPARATOR_P_KEY = "org.solovyev.android.calculator.CalculatorActivity_calc_grouping_separator";
 
@@ -108,15 +108,15 @@ public enum CalculatorEngine implements JCalculatorEngine {
 	public final TextProcessor<PreparedExpression, String> preprocessor = ToJsclTextProcessor.getInstance();
 
 	@NotNull
-	private final AndroidMathRegistry<IConstant> varsRegistry = new AndroidVarsRegistryImpl(engine.getConstantsRegistry());
+	private final CalculatorMathRegistry<IConstant> varsRegistry;
 
 	@NotNull
-	private final AndroidMathRegistry<jscl.math.function.Function> functionsRegistry = new AndroidFunctionsMathRegistry(engine.getFunctionsRegistry());
+	private final CalculatorMathRegistry<Function> functionsRegistry;
 
 	@NotNull
-	private final AndroidMathRegistry<Operator> operatorsRegistry = new AndroidOperatorsMathRegistry(engine.getOperatorsRegistry());
+	private final CalculatorMathRegistry<Operator> operatorsRegistry;
 
-	private final AndroidMathRegistry<Operator> postfixFunctionsRegistry = new AndroidPostfixFunctionsRegistry(engine.getPostfixFunctionsRegistry());
+	private final CalculatorMathRegistry<Operator> postfixFunctionsRegistry;
 
 	@Nullable
 	private ThreadKiller threadKiller = new AndroidThreadKiller();
@@ -127,10 +127,20 @@ public enum CalculatorEngine implements JCalculatorEngine {
 	@NotNull
 	private String multiplicationSign = MULTIPLICATION_SIGN_DEFAULT;
 
-	CalculatorEngine() {
+    @NotNull
+    private final Context context;
+
+	public AndroidCalculatorEngine(@NotNull Application application) {
+        this.context = application;
+
 		this.engine.setRoundResult(true);
 		this.engine.setUseGroupingSeparator(true);
-	}
+
+        this.varsRegistry = new AndroidVarsRegistryImpl(engine.getConstantsRegistry(), application);
+        this.functionsRegistry = new AndroidFunctionsMathRegistry(engine.getFunctionsRegistry(), application);
+        this.operatorsRegistry = new AndroidOperatorsMathRegistry(engine.getOperatorsRegistry(), application);
+        this.postfixFunctionsRegistry = new AndroidPostfixFunctionsRegistry(engine.getPostfixFunctionsRegistry(), application);
+    }
 
 	@Override
     @NotNull
@@ -273,47 +283,54 @@ public enum CalculatorEngine implements JCalculatorEngine {
 		this.getEngine().setRoundResult(roundResult);
 	}
 
-	public void init(@Nullable Context context, @Nullable SharedPreferences preferences) {
+	@Override
+    public void init() {
 		synchronized (lock) {
-			reset(context, preferences);
+			reset();
 		}
 	}
 
-	public void reset(@Nullable Context context, @Nullable SharedPreferences preferences) {
+	@Override
+    public void reset() {
 		synchronized (lock) {
-			softReset(context, preferences);
+            final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-			varsRegistry.load(context, preferences);
-			functionsRegistry.load(context, preferences);
-			operatorsRegistry.load(context, preferences);
-			postfixFunctionsRegistry.load(context, preferences);
+			softReset(preferences);
+
+			varsRegistry.load();
+			functionsRegistry.load();
+			operatorsRegistry.load();
+			postfixFunctionsRegistry.load();
 		}
 	}
 
-	public void softReset(@Nullable Context context, @Nullable SharedPreferences preferences) {
+	@Override
+    public void softReset() {
 		synchronized (lock) {
-			if (preferences != null) {
-				this.setPrecision(Preferences.precision.getPreference(preferences));
-				this.setRoundResult(Preferences.roundResult.getPreference(preferences));
-				this.setAngleUnits(getAngleUnitsFromPrefs(preferences));
-				this.setNumeralBase(getNumeralBaseFromPrefs(preferences));
-				this.setMultiplicationSign(Preferences.multiplicationSign.getPreference(preferences));
-				this.setScienceNotation(Preferences.scienceNotation.getPreference(preferences));
-				this.setTimeout(Preferences.maxCalculationTime.getPreference(preferences));
-
-				final String groupingSeparator = Preferences.groupingSeparator.getPreference(preferences);
-				if (StringUtils.isEmpty(groupingSeparator)) {
-					this.getEngine().setUseGroupingSeparator(false);
-				} else {
-					this.getEngine().setUseGroupingSeparator(true);
-					this.getEngine().setGroupingSeparator(groupingSeparator.charAt(0));
-				}
-			}
+            softReset(PreferenceManager.getDefaultSharedPreferences(context));
 		}
 	}
 
+    private void softReset(@NotNull SharedPreferences preferences) {
+        this.setPrecision(Preferences.precision.getPreference(preferences));
+        this.setRoundResult(Preferences.roundResult.getPreference(preferences));
+        this.setAngleUnits(getAngleUnitsFromPrefs(preferences));
+        this.setNumeralBase(getNumeralBaseFromPrefs(preferences));
+        this.setMultiplicationSign(Preferences.multiplicationSign.getPreference(preferences));
+        this.setScienceNotation(Preferences.scienceNotation.getPreference(preferences));
+        this.setTimeout(Preferences.maxCalculationTime.getPreference(preferences));
 
-	@NotNull
+        final String groupingSeparator = Preferences.groupingSeparator.getPreference(preferences);
+        if (StringUtils.isEmpty(groupingSeparator)) {
+            this.getEngine().setUseGroupingSeparator(false);
+        } else {
+            this.getEngine().setUseGroupingSeparator(true);
+            this.getEngine().setGroupingSeparator(groupingSeparator.charAt(0));
+        }
+    }
+
+
+    @NotNull
 	public NumeralBase getNumeralBaseFromPrefs(@NotNull SharedPreferences preferences) {
 		return Preferences.numeralBase.getPreference(preferences);
 	}
@@ -332,25 +349,25 @@ public enum CalculatorEngine implements JCalculatorEngine {
 
 	@Override
     @NotNull
-	public AndroidMathRegistry<IConstant> getVarsRegistry() {
+	public CalculatorMathRegistry<IConstant> getVarsRegistry() {
 		return varsRegistry;
 	}
 
 	@Override
     @NotNull
-	public AndroidMathRegistry<Function> getFunctionsRegistry() {
+	public CalculatorMathRegistry<Function> getFunctionsRegistry() {
 		return functionsRegistry;
 	}
 
 	@Override
     @NotNull
-	public AndroidMathRegistry<Operator> getOperatorsRegistry() {
+	public CalculatorMathRegistry<Operator> getOperatorsRegistry() {
 		return operatorsRegistry;
 	}
 
 	@Override
     @NotNull
-	public AndroidMathRegistry<Operator> getPostfixFunctionsRegistry() {
+	public CalculatorMathRegistry<Operator> getPostfixFunctionsRegistry() {
 		return postfixFunctionsRegistry;
 	}
 

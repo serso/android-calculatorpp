@@ -14,7 +14,6 @@ import android.util.AttributeSet;
 import android.view.ContextMenu;
 import android.widget.EditText;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.calculator.text.TextProcessor;
 import org.solovyev.android.calculator.view.TextHighlighter;
 import org.solovyev.common.collections.CollectionsUtils;
@@ -32,7 +31,7 @@ public class AndroidCalculatorEditorView extends EditText implements SharedPrefe
 	private boolean highlightText = true;
 
 	@NotNull
-	private final static TextProcessor<TextHighlighter.Result, String> textHighlighter = new TextHighlighter(Color.WHITE, true, CalculatorEngine.instance.getEngine());
+	private final static TextProcessor<TextHighlighter.Result, String> textHighlighter = new TextHighlighter(Color.WHITE, true, CalculatorLocatorImpl.getInstance().getEngine().getEngine());
 
     @NotNull
     private volatile CalculatorEditorViewState viewState = CalculatorEditorViewStateImpl.newDefaultInstance();
@@ -165,7 +164,7 @@ public class AndroidCalculatorEditorView extends EditText implements SharedPrefe
         synchronized (this) {
             if (!viewStateChange) {
                 super.onSelectionChanged(selStart, selEnd);
-                CalculatorLocatorImpl.getInstance().getCalculatorEditor().setSelection(selStart);
+                CalculatorLocatorImpl.getInstance().getEditor().setSelection(selStart);
             }
         }
     }
