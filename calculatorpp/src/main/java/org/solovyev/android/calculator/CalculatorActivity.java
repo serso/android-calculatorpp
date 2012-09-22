@@ -14,14 +14,16 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
-import android.text.ClipboardManager;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.*;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 import jscl.AngleUnit;
 import jscl.NumeralBase;
 import net.robotmedia.billing.BillingController;
@@ -47,9 +49,9 @@ import org.solovyev.android.view.ColorButton;
 import org.solovyev.android.view.drag.*;
 import org.solovyev.common.Announcer;
 import org.solovyev.common.equals.EqualsTool;
+import org.solovyev.common.history.HistoryAction;
 import org.solovyev.common.math.Point2d;
 import org.solovyev.common.text.StringUtils;
-import org.solovyev.common.history.HistoryAction;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -137,7 +139,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		vibrator = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
 
 		AndroidCalculatorHistoryImpl.instance.load(this, preferences);
-		calculatorModel = CalculatorModel.instance.init(this, preferences, CalculatorEngine.instance);
+		calculatorModel = CalculatorModel.instance.init(this, preferences);
 
 		dpclRegister.clear();
 
@@ -292,7 +294,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 	private class AngleUnitsChanger implements SimpleOnDragListener.DragProcessor {
 
-		private final DigitButtonDragProcessor processor = new DigitButtonDragProcessor(calculatorModel);
+		private final DigitButtonDragProcessor processor = new DigitButtonDragProcessor(CalculatorLocatorImpl.getInstance().getCalculatorKeyboard());
 
 		@Override
 		public boolean processDragEvent(@NotNull DragDirection dragDirection,
@@ -381,7 +383,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	}
 
     private synchronized void setOnDragListeners(@NotNull SimpleOnDragListener.Preferences dragPreferences, @NotNull SharedPreferences preferences) {
-		final OnDragListener onDragListener = new OnDragListenerVibrator(newOnDragListener(new DigitButtonDragProcessor(calculatorModel), dragPreferences), vibrator, preferences);
+		final OnDragListener onDragListener = new OnDragListenerVibrator(newOnDragListener(new DigitButtonDragProcessor(CalculatorLocatorImpl.getInstance().getCalculatorKeyboard()), dragPreferences), vibrator, preferences);
 
         final List<Integer> dragButtonIds = new ArrayList<Integer>();
         final List<Integer> buttonIds = new ArrayList<Integer>();
@@ -535,12 +537,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 	@SuppressWarnings({"UnusedDeclaration"})
 	public void eraseButtonClickHandler(@NotNull View v) {
-		calculatorModel.doTextOperation(new CalculatorModel.TextOperation() {
-			@Override
-			public void doOperation(@NotNull CalculatorEditor editor) {
-				editor.erase();
-			}
-		});
+        CalculatorLocatorImpl.getInstance().getCalculatorEditor().erase();
 	}
 
 	@SuppressWarnings({"UnusedDeclaration"})
@@ -560,16 +557,8 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 	@SuppressWarnings({"UnusedDeclaration"})
 	public void pasteButtonClickHandler(@NotNull View v) {
-		calculatorModel.doTextOperation(new CalculatorModel.TextOperation() {
-			@Override
-			public void doOperation(@NotNull CalculatorEditor editor) {
-				final ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-				if (clipboard.hasText()) {
-                    editor.insert(String.valueOf(clipboard.getText()));
-				}
-			}
-		});
-	}
+        CalculatorLocatorImpl.getInstance().getCalculatorKeyboard().pasteButtonPressed();
+    }
 
 	@SuppressWarnings({"UnusedDeclaration"})
 	public void copyButtonClickHandler(@NotNull View v) {
@@ -578,14 +567,14 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 	@SuppressWarnings({"UnusedDeclaration"})
 	public void clearButtonClickHandler(@NotNull View v) {
-		calculatorModel.clear();
+        CalculatorLocatorImpl.getInstance().getCalculatorKeyboard().clearButtonPressed();
 	}
 
 	@SuppressWarnings({"UnusedDeclaration"})
 	public void digitButtonClickHandler(@NotNull View v) {
 		Log.d(String.valueOf(v.getId()), "digitButtonClickHandler() for: " + v.getId() + ". Pressed: " + v.isPressed());
         if (((ColorButton) v).isShowText()) {
-            calculatorModel.processDigitButtonAction(((ColorButton) v).getText().toString());
+            CalculatorLocatorImpl.getInstance().getCalculatorKeyboard().digitButtonPressed(((ColorButton) v).getText().toString());
         }
     }
 
@@ -657,7 +646,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 			AndroidUtils.restartActivity(this);
 		}
 
-		calculatorModel = CalculatorModel.instance.init(this, preferences, CalculatorEngine.instance);
+		calculatorModel = CalculatorModel.instance.init(this, preferences);
 		calculatorModel.evaluate();
 	}
 
@@ -753,28 +742,15 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	private static class RoundBracketsDragProcessor implements SimpleOnDragListener.DragProcessor {
 		@Override
 		public boolean processDragEvent(@NotNull DragDirection dragDirection, @NotNull DragButton dragButton, @NotNull Point2d startPoint2d, @NotNull MotionEvent motionEvent) {
-			boolean result = false;
+			final boolean result;
+
 			if ( dragDirection == DragDirection.left ) {
-				CalculatorModel.instance.doTextOperation(new CalculatorModel.TextOperation() {
-					@Override
-					public void doOperation(@NotNull CalculatorEditor editor) {
-                        CalculatorEditorViewState viewState = editor.getViewState();
-
-                        final int cursorPosition = viewState.getSelection();
-                        final String oldText = viewState.getText();
-
-                        final StringBuilder newText = new StringBuilder(oldText.length() + 2);
-                        newText.append("(");
-						newText.append(oldText.substring(0, cursorPosition));
-						newText.append(")");
-						newText.append(oldText.substring(cursorPosition));
-						editor.setText(newText.toString(), cursorPosition + 2);
-					}
-				});
+				CalculatorLocatorImpl.getInstance().getCalculatorKeyboard().roundBracketsButtonPressed();
 				result = true;
 			} else {
-				result = new DigitButtonDragProcessor(CalculatorModel.instance).processDragEvent(dragDirection, dragButton, startPoint2d, motionEvent);
+				result = new DigitButtonDragProcessor(CalculatorLocatorImpl.getInstance().getCalculatorKeyboard()).processDragEvent(dragDirection, dragButton, startPoint2d, motionEvent);
 			}
+
 			return result;
 		}
 	}

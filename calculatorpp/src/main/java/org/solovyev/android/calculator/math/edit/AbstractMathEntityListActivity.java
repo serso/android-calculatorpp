@@ -19,7 +19,7 @@ import com.google.ads.AdView;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.ads.AdsController;
-import org.solovyev.android.calculator.CalculatorModel;
+import org.solovyev.android.calculator.CalculatorLocatorImpl;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.model.AndroidMathRegistry;
 import org.solovyev.android.menu.AMenuBuilder;
@@ -106,7 +106,7 @@ public abstract class AbstractMathEntityListActivity<T extends MathEntity> exten
                                     final int position,
                                     final long id) {
 
-                CalculatorModel.instance.processDigitButtonAction(((MathEntity) parent.getItemAtPosition(position)).getName());
+                CalculatorLocatorImpl.getInstance().getCalculatorKeyboard().digitButtonPressed(((MathEntity) parent.getItemAtPosition(position)).getName());
 
                 AbstractMathEntityListActivity.this.finish();
             }

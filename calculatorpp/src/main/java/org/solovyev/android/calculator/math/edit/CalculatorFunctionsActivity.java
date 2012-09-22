@@ -12,7 +12,7 @@ import android.os.Bundle;
 import android.text.ClipboardManager;
 import jscl.math.function.Function;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.calculator.CalculatorModel;
+import org.solovyev.android.calculator.CalculatorLocatorImpl;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.menu.LabeledMenuItem;
@@ -33,7 +33,7 @@ public class CalculatorFunctionsActivity extends AbstractMathEntityListActivity<
 		use(R.string.c_use) {
 			@Override
 			public void onClick(@NotNull Function data, @NotNull Context context) {
-				CalculatorModel.instance.processDigitButtonAction(data.getName());
+                CalculatorLocatorImpl.getInstance().getCalculatorKeyboard().digitButtonPressed(data.getName());
 				if (context instanceof Activity) {
 					((Activity) context).finish();
 				}

@@ -11,21 +11,11 @@ import android.os.Handler;
 import android.text.Html;
 import android.util.AttributeSet;
 import android.util.Log;
-import jscl.math.Generic;
-import jscl.math.function.Constant;
-import jscl.math.function.IConstant;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.calculator.text.TextProcessor;
-import org.solovyev.android.calculator.view.NumeralBaseConverterDialog;
 import org.solovyev.android.calculator.view.TextHighlighter;
-import org.solovyev.android.menu.LabeledMenuItem;
 import org.solovyev.android.view.AutoResizeTextView;
-import org.solovyev.common.collections.CollectionsUtils;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * User: serso
@@ -55,9 +45,6 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
 
     @NotNull
     private CalculatorDisplayViewState state = CalculatorDisplayViewStateImpl.newDefaultInstance();
-
-    @NotNull
-    private final Object lock = new Object();
 
     @NotNull
     private final Handler handler = new Handler();
@@ -91,7 +78,7 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
     */
 
     public boolean isValid() {
-        synchronized (lock) {
+        synchronized (this) {
             return this.state.isValid();
         }
     }
@@ -101,7 +88,7 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                synchronized (lock) {
+                synchronized (AndroidCalculatorDisplayView.this) {
                     AndroidCalculatorDisplayView.this.state = state;
                     if ( state.isValid() ) {
                         setTextColor(getResources().getColor(R.color.default_text_color));
@@ -120,7 +107,7 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
     @NotNull
     @Override
     public CalculatorDisplayViewState getState() {
-        synchronized (lock) {
+        synchronized (this) {
             return this.state;
         }
     }

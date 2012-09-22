@@ -22,4 +22,17 @@ public interface CalculatorLocator {
     CalculatorEditor getCalculatorEditor();
 
     void setCalculatorEngine(@NotNull JCalculatorEngine calculatorEngine);
+
+    @NotNull
+    CalculatorKeyboard getCalculatorKeyboard();
+
+    @NotNull
+    CalculatorClipboard getCalculatorClipboard();
+
+    void setCalculatorClipboard(@NotNull CalculatorClipboard calculatorClipboard);
+
+    @NotNull
+    CalculatorNotifier getCalculatorNotifier();
+
+    void setCalculatorNotifier(@NotNull CalculatorNotifier calculatorNotifier);
 }

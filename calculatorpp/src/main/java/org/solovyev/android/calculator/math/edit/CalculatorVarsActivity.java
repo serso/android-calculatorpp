@@ -21,7 +21,7 @@ import android.widget.Toast;
 import jscl.math.function.IConstant;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.CalculatorModel;
+import org.solovyev.android.calculator.CalculatorLocatorImpl;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.CalculatorEngine;
@@ -46,7 +46,7 @@ public class CalculatorVarsActivity extends AbstractMathEntityListActivity<ICons
 		use(R.string.c_use) {
 			@Override
 			public void onClick(@NotNull IConstant data, @NotNull Context context) {
-				CalculatorModel.instance.processDigitButtonAction(data.getName());
+                CalculatorLocatorImpl.getInstance().getCalculatorKeyboard().digitButtonPressed(data.getName());
 				if (context instanceof Activity) {
 					((Activity) context).finish();
 				}

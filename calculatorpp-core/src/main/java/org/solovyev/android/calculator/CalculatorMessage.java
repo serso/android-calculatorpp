@@ -1,7 +1,9 @@
 package org.solovyev.android.calculator;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.solovyev.common.msg.AbstractMessage;
+import org.solovyev.common.msg.Message;
 import org.solovyev.common.msg.MessageType;
 
 import java.util.List;
@@ -15,12 +17,27 @@ import java.util.ResourceBundle;
  */
 public class CalculatorMessage extends AbstractMessage {
 
-    protected CalculatorMessage(@NotNull String messageCode, @NotNull MessageType messageType, @org.jetbrains.annotations.Nullable Object... parameters) {
+    public CalculatorMessage(@NotNull String messageCode, @NotNull MessageType messageType, @Nullable Object... parameters) {
         super(messageCode, messageType, parameters);
     }
 
-    protected CalculatorMessage(@NotNull String messageCode, @NotNull MessageType messageType, @NotNull List<?> parameters) {
+    public CalculatorMessage(@NotNull String messageCode, @NotNull MessageType messageType, @NotNull List<?> parameters) {
         super(messageCode, messageType, parameters);
+    }
+
+    @NotNull
+    public static Message newInfoMessage(@NotNull String messageCode, @Nullable Object... parameters) {
+        return new CalculatorMessage(messageCode, MessageType.info, parameters);
+    }
+
+    @NotNull
+    public static Message newWarningMessage(@NotNull String messageCode, @Nullable Object... parameters) {
+        return new CalculatorMessage(messageCode, MessageType.warning, parameters);
+    }
+
+    @NotNull
+    public static Message newErrorMessage(@NotNull String messageCode, @Nullable Object... parameters) {
+        return new CalculatorMessage(messageCode, MessageType.error, parameters);
     }
 
     @Override

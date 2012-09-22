@@ -17,6 +17,7 @@ public final class CalculatorMessages {
     @NotNull
     private static final Map<Locale, ResourceBundle> bundlesByLocale = new HashMap<Locale, ResourceBundle>();
 
+
     private CalculatorMessages() {
         throw new AssertionError();
     }
@@ -40,30 +41,26 @@ public final class CalculatorMessages {
     }
 
     /* Arithmetic error occurred: {0} */
-    @NotNull
     public static final String msg_001 = "msg_1";
 
     /* Too complex expression*/
-    @NotNull
     public static final String msg_002 = "msg_2";
 
     /* Too long execution time - check the expression*/
-    @NotNull
     public static final String msg_003 = "msg_3";
 
     /* Evaluation was cancelled*/
-    @NotNull
     public static final String msg_004 = "msg_4";
 
     /* No parameters are specified for function: {0}*/
-    @NotNull
     public static final String msg_005 = "msg_5";
 
     /* Infinite loop is detected in expression*/
-    @NotNull
     public static final String msg_006 = "msg_6";
 
     /* Error */
-    @NotNull
     public static final String syntax_error = "syntax_error";
+
+    /* Result copied to clipboard! */
+    public static final String result_copied = "result_copied";
 }

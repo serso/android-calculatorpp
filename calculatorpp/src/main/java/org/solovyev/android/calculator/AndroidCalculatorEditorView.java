@@ -9,9 +9,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
-import android.text.Html;
+import android.os.Handler;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.widget.EditText;
 import org.jetbrains.annotations.NotNull;
@@ -36,7 +35,12 @@ public class AndroidCalculatorEditorView extends EditText implements SharedPrefe
 	private final static TextProcessor<TextHighlighter.Result, String> textHighlighter = new TextHighlighter(Color.WHITE, true, CalculatorEngine.instance.getEngine());
 
     @NotNull
-    private CalculatorEditorViewState viewState = CalculatorEditorViewStateImpl.newDefaultInstance();
+    private volatile CalculatorEditorViewState viewState = CalculatorEditorViewStateImpl.newDefaultInstance();
+
+    private volatile boolean viewStateChange = false;
+
+    @NotNull
+    private final Handler handler = new Handler();
 
     public AndroidCalculatorEditorView(Context context) {
 		super(context);
@@ -82,7 +86,9 @@ public class AndroidCalculatorEditorView extends EditText implements SharedPrefe
 		menu.removeItem(android.R.id.selectAll);
 	}
 
-	public synchronized void redraw() {
+    // todo serso: fix redraw
+    // Now problem is that calculator editor cursor position might be different than position of cursor in view (as some extra spaces can be inserted fur to number formatting)
+	/*private synchronized void redraw() {
 		String text = getText().toString();
 
 		int selectionStart = getSelectionStart();
@@ -111,7 +117,7 @@ public class AndroidCalculatorEditorView extends EditText implements SharedPrefe
 
 		int length = getText().length();
 		setSelection(Math.max(Math.min(length, selectionStart), 0), Math.max(Math.min(length, selectionEnd), 0));
-	}
+	}*/
 
 	public boolean isHighlightText() {
 		return highlightText;
@@ -119,7 +125,7 @@ public class AndroidCalculatorEditorView extends EditText implements SharedPrefe
 
 	public void setHighlightText(boolean highlightText) {
 		this.highlightText = highlightText;
-		redraw();
+		//redraw();
 	}
 
 	@Override
@@ -134,9 +140,33 @@ public class AndroidCalculatorEditorView extends EditText implements SharedPrefe
 	}
 
     @Override
-    public void setState(@NotNull CalculatorEditorViewState viewState) {
-        this.viewState = viewState;
-        this.setText(viewState.getText());
-        this.setSelection(viewState.getSelection());
+    public void setState(@NotNull final CalculatorEditorViewState viewState) {
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                final AndroidCalculatorEditorView editorView = AndroidCalculatorEditorView.this;
+                synchronized (editorView) {
+                    try {
+                        editorView.viewStateChange = true;
+                        editorView.viewState = viewState;
+                        editorView.setText(viewState.getText());
+                        editorView.setSelection(viewState.getSelection());
+                        //redraw();
+                    } finally {
+                        editorView.viewStateChange = false;
+                    }
+                }
+            }
+        }, 1);
+    }
+
+    @Override
+    protected void onSelectionChanged(int selStart, int selEnd) {
+        synchronized (this) {
+            if (!viewStateChange) {
+                super.onSelectionChanged(selStart, selEnd);
+                CalculatorLocatorImpl.getInstance().getCalculatorEditor().setSelection(selStart);
+            }
+        }
     }
 }

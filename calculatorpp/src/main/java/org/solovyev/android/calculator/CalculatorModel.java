@@ -9,23 +9,17 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.text.ClipboardManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.CursorControl;
 import org.solovyev.android.calculator.history.AndroidCalculatorHistoryImpl;
 import org.solovyev.android.calculator.history.CalculatorHistoryState;
 import org.solovyev.android.calculator.jscl.JsclOperation;
-import org.solovyev.android.calculator.math.MathType;
-import org.solovyev.android.calculator.model.CalculatorEngine;
 import org.solovyev.android.history.HistoryControl;
 import org.solovyev.common.history.HistoryAction;
-import org.solovyev.common.text.StringUtils;
 
 /**
  * User: serso
@@ -45,17 +39,13 @@ public enum CalculatorModel implements HistoryControl<CalculatorHistoryState>, C
     @NotNull
     private final CalculatorDisplay display;
 
-    @NotNull
-    private CalculatorEngine calculatorEngine;
-
     private CalculatorModel() {
         display = CalculatorLocatorImpl.getInstance().getCalculatorDisplay();
         editor = CalculatorLocatorImpl.getInstance().getCalculatorEditor();
     }
 
-    public CalculatorModel init(@NotNull final Activity activity, @NotNull SharedPreferences preferences, @NotNull CalculatorEngine calculator) {
+    public CalculatorModel init(@NotNull final Activity activity, @NotNull SharedPreferences preferences) {
         Log.d(this.getClass().getName(), "CalculatorModel initialization with activity: " + activity);
-        this.calculatorEngine = calculator;
 
         final AndroidCalculatorEditorView editorView = (AndroidCalculatorEditorView) activity.findViewById(R.id.calculatorEditor);
         editorView.init(preferences);
@@ -65,14 +55,6 @@ public enum CalculatorModel implements HistoryControl<CalculatorHistoryState>, C
         final AndroidCalculatorDisplayView displayView = (AndroidCalculatorDisplayView) activity.findViewById(R.id.calculatorDisplay);
         displayView.setOnClickListener(new CalculatorDisplayOnClickListener(activity));
         display.setView(displayView);
-
-        final CalculatorHistoryState lastState = AndroidCalculatorHistoryImpl.instance.getLastHistoryState();
-        if (lastState == null) {
-            saveHistoryState();
-        } else {
-            setCurrentHistoryState(lastState);
-        }
-
 
         return this;
     }
@@ -96,60 +78,11 @@ public enum CalculatorModel implements HistoryControl<CalculatorHistoryState>, C
 
     public static void copyResult(@NotNull Context context,
                                   @NotNull final CalculatorDisplayViewState viewState) {
-        if (viewState.isValid()) {
-            final CharSequence text = viewState.getText();
-            if (!StringUtils.isEmpty(text)) {
-                final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
-                clipboard.setText(text.toString());
-                Toast.makeText(context, context.getText(R.string.c_result_copied), Toast.LENGTH_SHORT).show();
-            }
-        }
+        CalculatorLocatorImpl.getInstance().getCalculatorKeyboard().copyButtonPressed();
     }
 
     private void saveHistoryState() {
         AndroidCalculatorHistoryImpl.instance.addState(getCurrentHistoryState());
-    }
-
-    public void doTextOperation(@NotNull TextOperation operation) {
-        operation.doOperation(CalculatorLocatorImpl.getInstance().getCalculatorEditor());
-    }
-
-    public void processDigitButtonAction(@Nullable final String text) {
-
-        if (!StringUtils.isEmpty(text)) {
-            doTextOperation(new CalculatorModel.TextOperation() {
-
-                @Override
-                public void doOperation(@NotNull CalculatorEditor editor) {
-                    int cursorPositionOffset = 0;
-                    final StringBuilder textToBeInserted = new StringBuilder(text);
-
-                    final MathType.Result mathType = MathType.getType(text, 0, false);
-                    switch (mathType.getMathType()) {
-                        case function:
-                            textToBeInserted.append("()");
-                            cursorPositionOffset = -1;
-                            break;
-                        case operator:
-                            textToBeInserted.append("()");
-                            cursorPositionOffset = -1;
-                            break;
-                        case comma:
-                            textToBeInserted.append(" ");
-                            break;
-                    }
-
-                    if (cursorPositionOffset == 0) {
-                        if (MathType.openGroupSymbols.contains(text)) {
-                            cursorPositionOffset = -1;
-                        }
-                    }
-
-                    editor.insert(textToBeInserted.toString());
-                    editor.moveSelection(cursorPositionOffset);
-                }
-            });
-        }
     }
 
     @Override
@@ -180,16 +113,6 @@ public enum CalculatorModel implements HistoryControl<CalculatorHistoryState>, C
     @Override
     public void simplify() {
         CalculatorLocatorImpl.getInstance().getCalculator().evaluate(JsclOperation.simplify, this.editor.getViewState().getText());
-    }
-
-    public void clear() {
-        // todo serso:
-    }
-
-    public static interface TextOperation {
-
-        void doOperation(@NotNull CalculatorEditor editor);
-
     }
 
     @Override

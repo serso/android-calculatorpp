@@ -47,6 +47,8 @@ public class CalculatorApplication extends android.app.Application {
 		super.onCreate();
 
         CalculatorLocatorImpl.getInstance().setCalculatorEngine(CalculatorEngine.instance);
+        CalculatorLocatorImpl.getInstance().setCalculatorNotifier(new AndroidCalculatorNotifier(this));
+        CalculatorLocatorImpl.getInstance().setCalculatorClipboard(new AndroidCalculatorClipboard(this));
 
 		AdsController.getInstance().init(ADMOB_USER_ID, AD_FREE_PRODUCT_ID, new BillingController.IConfiguration() {
 

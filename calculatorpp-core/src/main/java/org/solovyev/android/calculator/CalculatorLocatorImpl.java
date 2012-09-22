@@ -22,6 +22,15 @@ public class CalculatorLocatorImpl implements CalculatorLocator {
     private final CalculatorDisplay calculatorDisplay = new CalculatorDisplayImpl(calculator);
 
     @NotNull
+    private final CalculatorKeyboard calculatorKeyboard = new CalculatorKeyboardImpl(calculator);
+
+    @NotNull
+    private CalculatorNotifier calculatorNotifier = new DummyCalculatorNotifier();
+
+    @NotNull
+    private CalculatorClipboard calculatorClipboard = new DummyCalculatorClipboard();
+
+    @NotNull
     private static final CalculatorLocator instance = new CalculatorLocatorImpl();
 
     private CalculatorLocatorImpl() {
@@ -59,5 +68,33 @@ public class CalculatorLocatorImpl implements CalculatorLocator {
     @Override
     public CalculatorEditor getCalculatorEditor() {
         return calculatorEditor;
+    }
+
+    @Override
+    @NotNull
+    public CalculatorKeyboard getCalculatorKeyboard() {
+        return calculatorKeyboard;
+    }
+
+    @Override
+    @NotNull
+    public CalculatorClipboard getCalculatorClipboard() {
+        return calculatorClipboard;
+    }
+
+    @Override
+    public void setCalculatorClipboard(@NotNull CalculatorClipboard calculatorClipboard) {
+        this.calculatorClipboard = calculatorClipboard;
+    }
+
+    @Override
+    @NotNull
+    public CalculatorNotifier getCalculatorNotifier() {
+        return calculatorNotifier;
+    }
+
+    @Override
+    public void setCalculatorNotifier(@NotNull CalculatorNotifier calculatorNotifier) {
+        this.calculatorNotifier = calculatorNotifier;
     }
 }

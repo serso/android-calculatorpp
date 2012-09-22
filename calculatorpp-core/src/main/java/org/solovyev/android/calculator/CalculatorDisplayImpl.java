@@ -30,6 +30,7 @@ public class CalculatorDisplayImpl implements CalculatorDisplay {
     public CalculatorDisplayImpl(@NotNull Calculator calculator) {
         this.calculator = calculator;
         this.lastCalculatorEventData = CalculatorEventDataImpl.newInstance(calculator.createFirstEventDataId());
+        this.calculator.addCalculatorEventListener(this);
     }
 
     @Override

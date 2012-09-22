@@ -3,6 +3,7 @@ package org.solovyev.android.calculator;
 import jscl.AbstractJsclArithmeticException;
 import jscl.NumeralBase;
 import jscl.NumeralBaseException;
+import jscl.math.Expression;
 import jscl.math.Generic;
 import jscl.text.ParseInterruptedException;
 import org.jetbrains.annotations.NotNull;
@@ -35,9 +36,6 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 
     @NotNull
     private final AtomicLong counter = new AtomicLong(FIRST_ID);
-
-    @NotNull
-    private final Object lock = new Object();
 
     @NotNull
     private final TextProcessor<PreparedExpression, String> preprocessor = ToJsclTextProcessor.getInstance();
@@ -208,13 +206,19 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
                           @NotNull JsclOperation operation,
                           @NotNull String expression,
                           @Nullable MessageRegistry mr) {
-        synchronized (lock) {
 
-            PreparedExpression preparedExpression = null;
+        PreparedExpression preparedExpression = null;
 
-            fireCalculatorEvent(newCalculationEventData(operation, expression, sequenceId), CalculatorEventType.calculation_started, new CalculatorInputImpl(expression, operation));
+        fireCalculatorEvent(newCalculationEventData(operation, expression, sequenceId), CalculatorEventType.calculation_started, new CalculatorInputImpl(expression, operation));
 
-            try {
+        try {
+
+            expression = expression.trim();
+
+            if ( StringUtils.isEmpty(expression) ) {
+                final CalculatorOutputImpl data = new CalculatorOutputImpl("", operation, Expression.valueOf(""));
+                fireCalculatorEvent(newCalculationEventData(operation, expression, sequenceId), CalculatorEventType.calculation_result, data);
+            } else {
                 preparedExpression = preprocessor.process(expression);
 
                 final String jsclExpression = preparedExpression.toString();
@@ -232,23 +236,23 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
                 } catch (AbstractJsclArithmeticException e) {
                     handleException(sequenceId, operation, expression, mr, new CalculatorEvalException(e, e, jsclExpression));
                 }
-
-            } catch (ArithmeticException e) {
-                handleException(sequenceId, operation, expression, mr, preparedExpression, new CalculatorParseException(expression, new CalculatorMessage(CalculatorMessages.msg_001, MessageType.error, e.getMessage())));
-            } catch (StackOverflowError e) {
-                handleException(sequenceId, operation, expression, mr, preparedExpression, new CalculatorParseException(expression, new CalculatorMessage(CalculatorMessages.msg_002, MessageType.error)));
-            } catch (jscl.text.ParseException e) {
-                handleException(sequenceId, operation, expression, mr, preparedExpression, new CalculatorParseException(e));
-            } catch (ParseInterruptedException e) {
-
-                // do nothing - we ourselves interrupt the calculations
-                fireCalculatorEvent(newCalculationEventData(operation, expression, sequenceId), CalculatorEventType.calculation_cancelled, null);
-
-            } catch (CalculatorParseException e) {
-                handleException(sequenceId, operation, expression, mr, preparedExpression, e);
-            } finally {
-                fireCalculatorEvent(newCalculationEventData(operation, expression, sequenceId), CalculatorEventType.calculation_finished, null);
             }
+
+        } catch (ArithmeticException e) {
+            handleException(sequenceId, operation, expression, mr, preparedExpression, new CalculatorParseException(expression, new CalculatorMessage(CalculatorMessages.msg_001, MessageType.error, e.getMessage())));
+        } catch (StackOverflowError e) {
+            handleException(sequenceId, operation, expression, mr, preparedExpression, new CalculatorParseException(expression, new CalculatorMessage(CalculatorMessages.msg_002, MessageType.error)));
+        } catch (jscl.text.ParseException e) {
+            handleException(sequenceId, operation, expression, mr, preparedExpression, new CalculatorParseException(e));
+        } catch (ParseInterruptedException e) {
+
+            // do nothing - we ourselves interrupt the calculations
+            fireCalculatorEvent(newCalculationEventData(operation, expression, sequenceId), CalculatorEventType.calculation_cancelled, null);
+
+        } catch (CalculatorParseException e) {
+            handleException(sequenceId, operation, expression, mr, preparedExpression, e);
+        } finally {
+            fireCalculatorEvent(newCalculationEventData(operation, expression, sequenceId), CalculatorEventType.calculation_finished, null);
         }
     }
 
@@ -259,7 +263,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
         return new CalculatorEvaluationEventDataImpl(CalculatorEventDataImpl.newInstance(nextEventDataId(calculationId)), operation, expression);
     }
 
-    private void handleException(@NotNull Long calculationId,
+    private void handleException(@NotNull Long sequenceId,
                                  @NotNull JsclOperation operation,
                                  @NotNull String expression,
                                  @Nullable MessageRegistry mr,
@@ -270,11 +274,11 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
                 && preparedExpression != null
                 && preparedExpression.isExistsUndefinedVar()) {
 
-            evaluate(calculationId, JsclOperation.simplify, expression, mr);
+            evaluate(sequenceId, JsclOperation.simplify, expression, mr);
+        } else {
 
+            fireCalculatorEvent(newCalculationEventData(operation, expression, sequenceId), CalculatorEventType.calculation_failed, new CalculatorFailureImpl(parseException));
         }
-
-        fireCalculatorEvent(newCalculationEventData(operation, expression, calculationId), CalculatorEventType.calculation_failed, new CalculatorFailureImpl(parseException));
     }
 
     private void handleException(@NotNull Long calculationId,
@@ -323,7 +327,12 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
         if (calculatorEventType == CalculatorEventType.editor_state_changed) {
             final CalculatorEditorChangeEventData changeEventData = (CalculatorEditorChangeEventData) data;
 
-            evaluate(JsclOperation.numeric, changeEventData.getNewState().getText(), calculatorEventData.getSequenceId());
+            final String newText = changeEventData.getNewState().getText();
+            final String oldText = changeEventData.getOldState().getText();
+
+            if ( !newText.equals(oldText) ) {
+                evaluate(JsclOperation.numeric, changeEventData.getNewState().getText(), calculatorEventData.getSequenceId());
+            }
         }
     }
 

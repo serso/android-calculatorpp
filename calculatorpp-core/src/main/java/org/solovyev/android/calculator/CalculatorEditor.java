@@ -60,6 +60,9 @@ public interface CalculatorEditor extends CalculatorEventListener/*, CursorContr
     CalculatorEditorViewState erase();
 
     @NotNull
+    CalculatorEditorViewState clear();
+
+    @NotNull
     CalculatorEditorViewState setText(@NotNull String text);
 
     @NotNull
@@ -67,6 +70,9 @@ public interface CalculatorEditor extends CalculatorEventListener/*, CursorContr
 
     @NotNull
     CalculatorEditorViewState insert(@NotNull String text);
+
+    @NotNull
+    CalculatorEditorViewState insert(@NotNull String text, int selectionOffset);
 
     @NotNull
     CalculatorEditorViewState moveSelection(int offset);

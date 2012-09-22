@@ -24,6 +24,7 @@ public class CalculatorEditorImpl implements CalculatorEditor {
 
     public CalculatorEditorImpl(@NotNull Calculator calculator) {
         this.calculator = calculator;
+        this.calculator.addCalculatorEventListener(this);
     }
 
     @Override
@@ -132,6 +133,14 @@ public class CalculatorEditorImpl implements CalculatorEditor {
 
     @NotNull
     @Override
+    public CalculatorEditorViewState clear() {
+        synchronized (viewLock) {
+            return setText("");
+        }
+    }
+
+    @NotNull
+    @Override
     public CalculatorEditorViewState setText(@NotNull String text) {
         synchronized (viewLock) {
             final CalculatorEditorViewState result = CalculatorEditorViewStateImpl.newInstance(text, text.length());
@@ -156,16 +165,26 @@ public class CalculatorEditorImpl implements CalculatorEditor {
     @Override
     public CalculatorEditorViewState insert(@NotNull String text) {
         synchronized (viewLock) {
+            return insert(text, 0);
+        }
+    }
+
+    @NotNull
+    @Override
+    public CalculatorEditorViewState insert(@NotNull String text, int selectionOffset) {
+        synchronized (viewLock) {
             final int selection = this.lastViewState.getSelection();
             final String oldText = this.lastViewState.getText();
 
-            final StringBuilder newText = new StringBuilder(text.length() + oldText.length());
+            int newTextLength = text.length() + oldText.length();
+            final StringBuilder newText = new StringBuilder(newTextLength);
 
             newText.append(oldText.substring(0, selection));
             newText.append(text);
             newText.append(oldText.substring(selection));
 
-            final CalculatorEditorViewState result = CalculatorEditorViewStateImpl.newInstance(newText.toString(), text.length() + selection);
+            int newSelection = correctSelection(text.length() + selection + selectionOffset, newTextLength);
+            final CalculatorEditorViewState result = CalculatorEditorViewStateImpl.newInstance(newText.toString(), newSelection);
             setViewState(result);
             return result;
         }
@@ -194,8 +213,12 @@ public class CalculatorEditorImpl implements CalculatorEditor {
     }
 
     private int correctSelection(int selection, @NotNull String text) {
+        return correctSelection(selection, text.length());
+    }
+
+    private int correctSelection(int selection, int textLength) {
         int result = Math.max(selection, 0);
-        result = Math.min(result, text.length());
+        result = Math.min(result, textLength);
         return result;
     }
 }
