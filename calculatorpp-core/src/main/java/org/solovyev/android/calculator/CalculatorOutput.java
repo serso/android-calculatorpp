@@ -2,6 +2,7 @@ package org.solovyev.android.calculator;
 
 import jscl.math.Generic;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 
 /**
@@ -17,6 +18,8 @@ public interface CalculatorOutput {
     @NotNull
     JsclOperation getOperation();
 
-    @NotNull
+
+    // null in case of empty expression
+    @Nullable
     Generic getResult();
 }

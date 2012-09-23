@@ -3,7 +3,6 @@ package org.solovyev.android.calculator;
 import jscl.AbstractJsclArithmeticException;
 import jscl.NumeralBase;
 import jscl.NumeralBaseException;
-import jscl.math.Expression;
 import jscl.math.Generic;
 import jscl.text.ParseInterruptedException;
 import org.jetbrains.annotations.NotNull;
@@ -238,8 +237,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
             expression = expression.trim();
 
             if (StringUtils.isEmpty(expression)) {
-                final CalculatorOutputImpl data = new CalculatorOutputImpl("", operation, Expression.valueOf(""));
-                fireCalculatorEvent(newCalculationEventData(operation, expression, sequenceId), CalculatorEventType.calculation_result, data);
+                fireCalculatorEvent(newCalculationEventData(operation, expression, sequenceId), CalculatorEventType.calculation_result, CalculatorOutputImpl.newEmptyOutput(operation));
             } else {
                 preparedExpression = preprocessor.process(expression);
 
@@ -252,7 +250,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
                     // NOTE: toString() method must be called here as ArithmeticOperationException may occur in it (just to avoid later check!)
                     result.toString();
 
-                    final CalculatorOutputImpl data = new CalculatorOutputImpl(operation.getFromProcessor().process(result), operation, result);
+                    final CalculatorOutput data = CalculatorOutputImpl.newOutput(operation.getFromProcessor().process(result), operation, result);
                     fireCalculatorEvent(newCalculationEventData(operation, expression, sequenceId), CalculatorEventType.calculation_result, data);
 
                 } catch (AbstractJsclArithmeticException e) {

@@ -95,8 +95,10 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
                         redraw();
                     } else {
                         setTextColor(getResources().getColor(R.color.display_error_text_color));
-                        setText(state.getErrorMessage());
-                        redraw();
+
+                        // error messages are never shown -> just greyed out text (error message will be shown on click)
+                        //setText(state.getErrorMessage());
+                        //redraw();
                     }
                 }
             }

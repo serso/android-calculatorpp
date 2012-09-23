@@ -7,11 +7,10 @@ package org.solovyev.android.calculator;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.*;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.text.Html;
@@ -32,7 +31,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.AndroidUtils;
 import org.solovyev.android.FontSizeAdjuster;
-import org.solovyev.android.LocalBinder;
 import org.solovyev.android.calculator.about.CalculatorReleaseNotesActivity;
 import org.solovyev.android.calculator.history.CalculatorHistoryState;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
@@ -57,7 +55,7 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CalculatorActivity extends Activity implements FontSizeAdjuster, SharedPreferences.OnSharedPreferenceChangeListener, ServiceConnection {
+public class CalculatorActivity extends Activity implements FontSizeAdjuster, SharedPreferences.OnSharedPreferenceChangeListener {
 
     @NotNull
     public static final String TAG = "Calculator++";
@@ -66,9 +64,6 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 	@Nullable
 	private IBillingObserver billingObserver;
-
-    @Nullable
-    private ICalculationService calculationService;
 
     @NotNull
 	private final Announcer<DragPreferencesChangeListener> dpclRegister = new Announcer<DragPreferencesChangeListener>(DragPreferencesChangeListener.class);
@@ -109,8 +104,6 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		setTheme(preferences);
 		super.onCreate(savedInstanceState);
 		setLayout(preferences);
-
-        bindService(new Intent(this, CalculationServiceImpl.class), this, Context.BIND_AUTO_CREATE);
 
 		if (customTitleSupported) {
 			try {
@@ -420,17 +413,6 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		dpclRegister.addListener(onDragListener);
 		return onDragListener;
 	}
-
-    @Override
-    public void onServiceConnected(ComponentName componentName, IBinder binder) {
-        if (binder instanceof LocalBinder) {
-            calculationService = (ICalculationService)((LocalBinder) binder).getService();
-        }
-    }
-
-    @Override
-    public void onServiceDisconnected(ComponentName componentName) {
-    }
 
 
 	private synchronized void setLayout(@NotNull SharedPreferences preferences) {

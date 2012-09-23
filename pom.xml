@@ -13,7 +13,6 @@
 
     <modules>
 		<module>calculatorpp</module>
-        <module>calculatorpp-service</module>
         <module>calculatorpp-test</module>
         <module>calculatorpp-core</module>
     </modules>

@@ -27,13 +27,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.solovyev.android</groupId>
-            <artifactId>calculatorpp-service</artifactId>
-            <version>1.3.2</version>
-            <type>apklib</type>
-        </dependency>
-
-        <dependency>
             <groupId>org.solovyev</groupId>
             <artifactId>common-core</artifactId>
         </dependency>
@@ -76,13 +69,6 @@
         <dependency>
             <groupId>org.solovyev.android</groupId>
             <artifactId>android-common-menu</artifactId>
-            <type>apklib</type>
-        </dependency>
-
-        <dependency>
-            <groupId>org.solovyev.android</groupId>
-            <artifactId>calculatorpp-service</artifactId>
-            <version>0.1</version>
             <type>apklib</type>
         </dependency>
 

@@ -2,6 +2,7 @@ package org.solovyev.android.calculator;
 
 import jscl.math.Generic;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 
 /**
@@ -11,7 +12,7 @@ import org.solovyev.android.calculator.jscl.JsclOperation;
 */
 public class CalculatorOutputImpl implements CalculatorOutput {
 
-    @NotNull
+    @Nullable
     private Generic result;
 
     @NotNull
@@ -20,10 +21,24 @@ public class CalculatorOutputImpl implements CalculatorOutput {
     @NotNull
     private JsclOperation operation;
 
-    public CalculatorOutputImpl(@NotNull String stringResult, @NotNull JsclOperation operation, @NotNull Generic result) {
+    private CalculatorOutputImpl(@NotNull String stringResult,
+                                @NotNull JsclOperation operation,
+                                @Nullable Generic result) {
         this.stringResult = stringResult;
         this.operation = operation;
         this.result = result;
+    }
+
+    @NotNull
+    public static CalculatorOutput newOutput(@NotNull String stringResult,
+                                             @NotNull JsclOperation operation,
+                                             @NotNull Generic result) {
+        return new CalculatorOutputImpl(stringResult, operation, result);
+    }
+
+    @NotNull
+    public static CalculatorOutput newEmptyOutput(@NotNull JsclOperation operation) {
+        return new CalculatorOutputImpl("", operation, null);
     }
 
     @Override
@@ -39,7 +54,7 @@ public class CalculatorOutputImpl implements CalculatorOutput {
     }
 
     @Override
-    @NotNull
+    @Nullable
     public Generic getResult() {
         return result;
     }
