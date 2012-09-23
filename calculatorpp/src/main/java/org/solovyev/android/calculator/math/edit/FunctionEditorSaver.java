@@ -160,7 +160,7 @@ public class FunctionEditorSaver implements DialogInterface.OnClickListener{
 		if (!StringUtils.isEmpty(name)) {
 			try {
 				assert name != null;
-				Identifier.parser.parse(Parser.Parameters.newInstance(name, new MutableInt(0), CalculatorLocatorImpl.getInstance().getEngine().getEngine()), null);
+				Identifier.parser.parse(Parser.Parameters.newInstance(name, new MutableInt(0), CalculatorLocatorImpl.getInstance().getEngine().getMathEngine0()), null);
 				result = true;
 			} catch (ParseException e) {
 				// not valid name;

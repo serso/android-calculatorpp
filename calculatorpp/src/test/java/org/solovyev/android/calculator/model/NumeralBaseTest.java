@@ -30,7 +30,6 @@ public class NumeralBaseTest {
 	public static void setUp() throws Exception {
 		CalculatorLocatorImpl.getInstance().getEngine().init();
         ((AndroidCalculatorEngine) CalculatorLocatorImpl.getInstance().getEngine()).setPrecision(3);
-        ((AndroidCalculatorEngine) CalculatorLocatorImpl.getInstance().getEngine()).setThreadKiller(new AndroidCalculatorEngine.ThreadKillerImpl());
 	}
 
 	@Test
@@ -100,11 +99,11 @@ public class NumeralBaseTest {
 		final String bin = "0b:" + line[2].toUpperCase();
 
 		final String decExpression = converter.convert(dec);
-		final String decResult = CalculatorLocatorImpl.getInstance().getEngine().getEngine().evaluate(decExpression);
+		final String decResult = CalculatorLocatorImpl.getInstance().getEngine().getMathEngine().evaluate(decExpression);
 		final String hexExpression = converter.convert(hex);
-		final String hexResult = CalculatorLocatorImpl.getInstance().getEngine().getEngine().evaluate(hexExpression);
+		final String hexResult = CalculatorLocatorImpl.getInstance().getEngine().getMathEngine().evaluate(hexExpression);
 		final String binExpression = converter.convert(bin);
-		final String binResult = CalculatorLocatorImpl.getInstance().getEngine().getEngine().evaluate(binExpression);
+		final String binResult = CalculatorLocatorImpl.getInstance().getEngine().getMathEngine().evaluate(binExpression);
 
 		Assert.assertEquals("dec-hex: " + decExpression + " : " + hexExpression, decResult, hexResult);
 		Assert.assertEquals("dec-bin: " + decExpression + " : " + binExpression, decResult, binResult);

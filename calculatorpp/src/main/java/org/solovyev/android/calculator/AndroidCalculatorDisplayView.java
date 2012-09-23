@@ -32,7 +32,7 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
     */
 
     @NotNull
-    private final static TextProcessor<TextHighlighter.Result, String> textHighlighter = new TextHighlighter(Color.WHITE, false, CalculatorLocatorImpl.getInstance().getEngine().getEngine());
+    private final static TextProcessor<TextHighlighter.Result, String> textHighlighter = new TextHighlighter(Color.WHITE, false);
 
     /*
     **********************************************************************

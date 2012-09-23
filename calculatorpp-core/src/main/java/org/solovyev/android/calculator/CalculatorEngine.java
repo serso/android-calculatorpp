@@ -1,10 +1,14 @@
 package org.solovyev.android.calculator;
 
+import jscl.AngleUnit;
 import jscl.MathEngine;
+import jscl.NumeralBase;
 import jscl.math.function.Function;
 import jscl.math.function.IConstant;
 import jscl.math.operator.Operator;
 import org.jetbrains.annotations.NotNull;
+
+import java.text.DecimalFormatSymbols;
 
 /**
  * User: Solovyev_S
@@ -13,8 +17,27 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface CalculatorEngine {
 
-    @NotNull
-    String getMultiplicationSign();
+    /*
+    **********************************************************************
+    *
+    *                           INIT
+    *
+    **********************************************************************
+    */
+
+    void init();
+
+    void reset();
+
+    void softReset();
+
+    /*
+    **********************************************************************
+    *
+    *                           REGISTRIES
+    *
+    **********************************************************************
+    */
 
     @NotNull
     CalculatorMathRegistry<IConstant> getVarsRegistry();
@@ -29,11 +52,46 @@ public interface CalculatorEngine {
     CalculatorMathRegistry<Operator> getPostfixFunctionsRegistry();
 
     @NotNull
-    MathEngine getEngine();
+    CalculatorMathEngine getMathEngine();
 
-    void init();
+    @Deprecated
+    @NotNull
+    MathEngine getMathEngine0();
 
-    void reset();
+    /*
+    **********************************************************************
+    *
+    *                           PREFERENCES
+    *
+    **********************************************************************
+    */
 
-    void softReset();
+    @NotNull
+    String getMultiplicationSign();
+
+    void setUseGroupingSeparator(boolean useGroupingSeparator);
+
+    void setGroupingSeparator(char groupingSeparator);
+
+    void setPrecision(@NotNull Integer precision);
+
+    void setRoundResult(@NotNull Boolean round);
+
+    @NotNull
+    AngleUnit getAngleUnits();
+
+    void setAngleUnits(@NotNull AngleUnit angleUnits);
+
+    @NotNull
+    NumeralBase getNumeralBase();
+
+    void setNumeralBase(@NotNull NumeralBase numeralBase);
+
+    void setMultiplicationSign(@NotNull String multiplicationSign);
+
+    void setScienceNotation(@NotNull Boolean scienceNotation);
+
+    void setTimeout(@NotNull Integer timeout);
+
+    void setDecimalGroupSymbols(@NotNull DecimalFormatSymbols decimalGroupSymbols);
 }

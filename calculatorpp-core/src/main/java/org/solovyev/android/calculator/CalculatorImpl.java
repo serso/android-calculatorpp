@@ -149,7 +149,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 
                 fireCalculatorEvent(newConversionEventData(sequenceId), CalculatorEventType.conversion_started, null);
 
-                final NumeralBase from = CalculatorLocatorImpl.getInstance().getEngine().getEngine().getNumeralBase();
+                final NumeralBase from = CalculatorLocatorImpl.getInstance().getEngine().getNumeralBase();
 
                 if (from != to) {
                     String fromString = generic.toString();
@@ -236,7 +236,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 
                 try {
 
-                    final Generic result = operation.evaluateGeneric(jsclExpression);
+                    final Generic result = operation.evaluateGeneric(jsclExpression, CalculatorLocatorImpl.getInstance().getEngine().getMathEngine());
 
                     // NOTE: toString() method must be called here as ArithmeticOperationException may occur in it (just to avoid later check!)
                     result.toString();

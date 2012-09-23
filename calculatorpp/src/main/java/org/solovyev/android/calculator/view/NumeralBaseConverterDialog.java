@@ -37,12 +37,12 @@ public class NumeralBaseConverterDialog {
             String value = initialFromValue;
             try {
                 value = ToJsclTextProcessor.getInstance().process(value).getExpression();
-                b.setFromValue(UnitImpl.newInstance(value, AndroidNumeralBase.valueOf(CalculatorLocatorImpl.getInstance().getEngine().getEngine().getNumeralBase())));
+                b.setFromValue(UnitImpl.newInstance(value, AndroidNumeralBase.valueOf(CalculatorLocatorImpl.getInstance().getEngine().getNumeralBase())));
             } catch (CalculatorParseException e) {
-                b.setFromValue(UnitImpl.newInstance(value, AndroidNumeralBase.valueOf(CalculatorLocatorImpl.getInstance().getEngine().getEngine().getNumeralBase())));
+                b.setFromValue(UnitImpl.newInstance(value, AndroidNumeralBase.valueOf(CalculatorLocatorImpl.getInstance().getEngine().getNumeralBase())));
             }
         } else {
-            b.setFromValue(UnitImpl.newInstance("", AndroidNumeralBase.valueOf(CalculatorLocatorImpl.getInstance().getEngine().getEngine().getNumeralBase())));
+            b.setFromValue(UnitImpl.newInstance("", AndroidNumeralBase.valueOf(CalculatorLocatorImpl.getInstance().getEngine().getNumeralBase())));
         }
 
         b.setConverter(AndroidNumeralBase.getConverter());
@@ -63,7 +63,7 @@ public class NumeralBaseConverterDialog {
             public void onClick(@NotNull Unit<String> fromUnits, @NotNull Unit<String> toUnits) {
                 String toUnitsValue = toUnits.getValue();
 
-                if (!toUnits.getUnitType().equals(AndroidNumeralBase.valueOf(CalculatorLocatorImpl.getInstance().getEngine().getEngine().getNumeralBase()))) {
+                if (!toUnits.getUnitType().equals(AndroidNumeralBase.valueOf(CalculatorLocatorImpl.getInstance().getEngine().getNumeralBase()))) {
                     toUnitsValue = ((AndroidNumeralBase) toUnits.getUnitType()).getNumeralBase().getJsclPrefix() + toUnitsValue;
                 }
 

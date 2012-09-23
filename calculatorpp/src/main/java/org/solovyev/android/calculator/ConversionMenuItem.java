@@ -42,7 +42,7 @@ enum ConversionMenuItem implements AMenuItem<CalculatorDisplayViewState> {
 
     @Override
     public void onClick(@NotNull CalculatorDisplayViewState data, @NotNull Context context) {
-        final NumeralBase fromNumeralBase = CalculatorLocatorImpl.getInstance().getEngine().getEngine().getNumeralBase();
+        final NumeralBase fromNumeralBase = CalculatorLocatorImpl.getInstance().getEngine().getNumeralBase();
 
         final Generic lastResult = data.getResult();
 

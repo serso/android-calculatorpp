@@ -9,7 +9,7 @@ package org.solovyev.android.calculator.jscl;
 import jscl.math.Generic;
 import jscl.text.ParseException;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.calculator.CalculatorLocatorImpl;
+import org.solovyev.android.calculator.CalculatorMathEngine;
 import org.solovyev.android.calculator.text.DummyTextProcessor;
 import org.solovyev.android.calculator.text.FromJsclSimplifyTextProcessor;
 import org.solovyev.android.calculator.text.TextProcessor;
@@ -39,28 +39,28 @@ public enum JsclOperation {
 	}
 
 	@NotNull
-	public final String evaluate(@NotNull String expression) throws ParseException {
+	public final String evaluate(@NotNull String expression, @NotNull CalculatorMathEngine engine) throws ParseException {
 		switch (this) {
 			case simplify:
-				return CalculatorLocatorImpl.getInstance().getEngine().getEngine().simplify(expression);
+				return engine.simplify(expression);
 			case elementary:
-				return CalculatorLocatorImpl.getInstance().getEngine().getEngine().elementary(expression);
+				return engine.elementary(expression);
 			case numeric:
-				return CalculatorLocatorImpl.getInstance().getEngine().getEngine().evaluate(expression);
+				return engine.evaluate(expression);
 			default:
 				throw new UnsupportedOperationException();
 		}
 	}
 
 	@NotNull
-	public final Generic evaluateGeneric(@NotNull String expression) throws ParseException {
+	public final Generic evaluateGeneric(@NotNull String expression, @NotNull CalculatorMathEngine engine) throws ParseException {
 		switch (this) {
 			case simplify:
-				return CalculatorLocatorImpl.getInstance().getEngine().getEngine().simplifyGeneric(expression);
+				return engine.simplifyGeneric(expression);
 			case elementary:
-				return CalculatorLocatorImpl.getInstance().getEngine().getEngine().elementaryGeneric(expression);
+				return engine.elementaryGeneric(expression);
 			case numeric:
-				return CalculatorLocatorImpl.getInstance().getEngine().getEngine().evaluateGeneric(expression);
+				return engine.evaluateGeneric(expression);
 			default:
 				throw new UnsupportedOperationException();
 		}

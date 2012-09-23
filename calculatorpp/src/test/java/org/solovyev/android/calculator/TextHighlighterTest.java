@@ -6,7 +6,6 @@
 
 package org.solovyev.android.calculator;
 
-import jscl.JsclMathEngine;
 import jscl.MathEngine;
 import jscl.NumeralBase;
 import junit.framework.Assert;
@@ -26,7 +25,7 @@ public class TextHighlighterTest {
 
 	@Test
 	public void testProcess() throws Exception {
-		TextProcessor<?, String> textHighlighter = new TextHighlighter(0, false, JsclMathEngine.instance);
+		TextProcessor<?, String> textHighlighter = new TextHighlighter(0, false);
 
 		final Random random = new Random(new Date().getTime());
 		for (int i = 0; i < 1000; i++) {
@@ -46,7 +45,7 @@ public class TextHighlighterTest {
 		Assert.assertEquals(")", textHighlighter.process(")").toString());
 		Assert.assertEquals(")()(", textHighlighter.process(")()(").toString());
 
-		textHighlighter = new TextHighlighter(0, true, JsclMathEngine.instance);
+		textHighlighter = new TextHighlighter(0, true);
 		Assert.assertEquals("1 000 000", textHighlighter.process("1000000").toString());
 		Assert.assertEquals("1 000 000", textHighlighter.process("1000000").toString());
 		Assert.assertEquals("0.1E3", textHighlighter.process("0.1E3").toString());
@@ -65,7 +64,7 @@ public class TextHighlighterTest {
 		Assert.assertEquals("-1 000 000E3", textHighlighter.process("-1000000E3").toString());
 		Assert.assertEquals("-1 000 000E-3", textHighlighter.process("-1000000E-3").toString());
 		Assert.assertEquals("-1 000 000E-30000", textHighlighter.process("-1000000E-30000").toString());
-		textHighlighter = new TextHighlighter(0, false, JsclMathEngine.instance);
+		textHighlighter = new TextHighlighter(0, false);
 
 		textHighlighter.process("cannot calculate 3^10^10 !!!\n" +
 				"        unable to enter 0. FIXED\n" +
@@ -92,7 +91,7 @@ public class TextHighlighterTest {
 		Assert.assertEquals("<b>0x:</b>FF33233FFE", textHighlighter.process("0x:FF33233FFE").toString());
 		Assert.assertEquals("<b>0x:</b>FF33 233 FFE", textHighlighter.process("0x:FF33 233 FFE").toString());
 
-		final MathEngine me = CalculatorLocatorImpl.getInstance().getEngine().getEngine();
+		final MathEngine me = CalculatorLocatorImpl.getInstance().getEngine().getMathEngine0();
 		try {
 			me.setNumeralBase(NumeralBase.hex);
 			Assert.assertEquals("E", textHighlighter.process("E").toString());

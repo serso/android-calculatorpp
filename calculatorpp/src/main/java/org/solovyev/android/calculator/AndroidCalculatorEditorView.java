@@ -31,7 +31,7 @@ public class AndroidCalculatorEditorView extends EditText implements SharedPrefe
 	private boolean highlightText = true;
 
 	@NotNull
-	private final static TextProcessor<TextHighlighter.Result, String> textHighlighter = new TextHighlighter(Color.WHITE, true, CalculatorLocatorImpl.getInstance().getEngine().getEngine());
+	private final static TextProcessor<TextHighlighter.Result, String> textHighlighter = new TextHighlighter(Color.WHITE, true);
 
     @NotNull
     private volatile CalculatorEditorViewState viewState = CalculatorEditorViewStateImpl.newDefaultInstance();

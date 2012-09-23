@@ -6,7 +6,6 @@
 
 package org.solovyev.android.calculator.view;
 
-import jscl.MathContext;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.*;
@@ -29,9 +28,6 @@ public class TextHighlighter implements TextProcessor<TextHighlighter.Result, St
 	static {
 		nbFontAttributes.put("color", "#008000");
 	}
-
-	@NotNull
-	public final MathContext mathContext;
 
 	public static class Result implements CharSequence {
 
@@ -76,10 +72,9 @@ public class TextHighlighter implements TextProcessor<TextHighlighter.Result, St
 	private final int colorBlue;
 	private final boolean formatNumber;
 
-	public TextHighlighter(int baseColor, boolean formatNumber, @NotNull MathContext mathContext) {
+	public TextHighlighter(int baseColor, boolean formatNumber) {
 		this.color = baseColor;
 		this.formatNumber = formatNumber;
-		this.mathContext = mathContext;
 		//this.colorRed = Color.red(baseColor);
 		this.colorRed = (baseColor >> 16) & 0xFF;
 		//this.colorGreen = Color.green(baseColor);
@@ -102,9 +97,9 @@ public class TextHighlighter implements TextProcessor<TextHighlighter.Result, St
 
 		final AbstractNumberBuilder numberBuilder;
 		if (!formatNumber) {
-			numberBuilder = new LiteNumberBuilder(CalculatorLocatorImpl.getInstance().getEngine().getEngine());
+			numberBuilder = new LiteNumberBuilder(CalculatorLocatorImpl.getInstance().getEngine());
 		} else {
-			numberBuilder = new NumberBuilder(CalculatorLocatorImpl.getInstance().getEngine().getEngine());
+			numberBuilder = new NumberBuilder(CalculatorLocatorImpl.getInstance().getEngine());
 		}
 		for (int i = 0; i < text.length(); i++) {
 			MathType.Result mathType = MathType.getType(text, i, numberBuilder.isHexMode());

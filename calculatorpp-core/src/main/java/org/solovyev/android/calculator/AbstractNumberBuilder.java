@@ -6,7 +6,6 @@
 
 package org.solovyev.android.calculator;
 
-import jscl.MathEngine;
 import jscl.NumeralBase;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -21,7 +20,7 @@ import org.solovyev.common.text.StringUtils;
 public abstract class AbstractNumberBuilder {
 
 	@NotNull
-	protected final MathEngine engine;
+	protected final CalculatorEngine engine;
 
 	@Nullable
 	protected StringBuilder numberBuilder = null;
@@ -29,7 +28,7 @@ public abstract class AbstractNumberBuilder {
 	@Nullable
 	protected NumeralBase nb;
 
-	protected AbstractNumberBuilder(@NotNull MathEngine engine) {
+	protected AbstractNumberBuilder(@NotNull CalculatorEngine engine) {
 		this.engine = engine;
 		this.nb = engine.getNumeralBase();
 	}

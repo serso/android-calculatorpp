@@ -15,4 +15,4 @@
 		a:layout_width="fill_parent"
 		a:layout_height="fill_parent"
 		style="?controlButtonStyle"
-		a:onClick="numericButtonClickHandler"/>
+		a:onClick="equalsButtonClickHandler"/>

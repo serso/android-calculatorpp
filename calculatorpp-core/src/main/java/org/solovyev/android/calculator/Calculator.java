@@ -15,6 +15,16 @@ import org.solovyev.common.history.HistoryControl;
  */
 public interface Calculator extends CalculatorEventContainer, HistoryControl<CalculatorHistoryState> {
 
+    void init();
+
+    /*
+    **********************************************************************
+    *
+    *                           CALCULATIONS
+    *
+    **********************************************************************
+    */
+
     void evaluate();
 
     void simplify();
@@ -31,11 +41,16 @@ public interface Calculator extends CalculatorEventContainer, HistoryControl<Cal
     @NotNull
     CalculatorEventDataId convert(@NotNull Generic generic, @NotNull NumeralBase to);
 
+    /*
+    **********************************************************************
+    *
+    *                           EVENTS
+    *
+    **********************************************************************
+    */
     @NotNull
     CalculatorEventDataId fireCalculatorEvent(@NotNull CalculatorEventType calculatorEventType, @Nullable Object data);
 
     @NotNull
     CalculatorEventDataId fireCalculatorEvent(@NotNull CalculatorEventType calculatorEventType, @Nullable Object data, @NotNull Long sequenceId);
-
-    void init();
 }

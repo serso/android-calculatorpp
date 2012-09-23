@@ -531,7 +531,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	}
 
 	@SuppressWarnings({"UnusedDeclaration"})
-	public void numericButtonClickHandler(@NotNull View v) {
+	public void equalsButtonClickHandler(@NotNull View v) {
 		getCalculator().evaluate();
 	}
 
@@ -655,8 +655,6 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		if (!theme.equals(newTheme) || !layout.equals(newLayout)) {
 			AndroidUtils.restartActivity(this);
 		}
-
-		getCalculator().evaluate();
 	}
 
 	@Override
@@ -672,13 +670,6 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	public void onSharedPreferenceChanged(SharedPreferences preferences, @Nullable String key) {
 		if (key != null && key.startsWith("org.solovyev.android.calculator.DragButtonCalibrationActivity")) {
 			dpclRegister.announce().onDragPreferencesChange(SimpleOnDragListener.getPreferences(preferences, this));
-		}
-
-		if (AndroidCalculatorEngine.Preferences.getPreferenceKeys().contains(key)) {
-			CalculatorLocatorImpl.getInstance().getEngine().softReset();
-
-			// reevaluate in order to update values (in case of preferences changed from the main window, like numeral bases and angle units)
-			this.getCalculator().evaluate();
 		}
 
 		if ( CalculatorPreferences.Gui.usePrevAsBack.getKey().equals(key) ) {

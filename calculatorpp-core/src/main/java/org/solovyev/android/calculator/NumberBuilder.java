@@ -13,7 +13,6 @@ import jscl.math.numeric.Real;
 import jscl.text.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.AbstractNumberBuilder;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.common.MutableObject;
 
@@ -27,7 +26,7 @@ import java.util.List;
  */
 public class NumberBuilder extends AbstractNumberBuilder {
 
-	public NumberBuilder(@NotNull MathEngine engine) {
+	public NumberBuilder(@NotNull CalculatorEngine engine) {
 		super(engine);
 	}
 
@@ -102,7 +101,7 @@ public class NumberBuilder extends AbstractNumberBuilder {
 				}
 
 				// check if number still valid
-				toDouble(number, getNumeralBase(), engine);
+				toDouble(number, getNumeralBase(), engine.getMathEngine0());
 
 			} catch (NumberFormatException e) {
 				// number is not valid => stop
@@ -115,7 +114,7 @@ public class NumberBuilder extends AbstractNumberBuilder {
 			nb = engine.getNumeralBase();
 		}
 
-		return replaceNumberInText(text, number, trimmedChars, offset, localNb, engine);
+		return replaceNumberInText(text, number, trimmedChars, offset, localNb, engine.getMathEngine0());
 	}
 
 	@Nullable

@@ -37,7 +37,7 @@ public class AndroidCalculator implements Calculator {
     /*
     **********************************************************************
     *
-    *                           DELETED TO CALCULATOR
+    *                           DELEGATED TO CALCULATOR
     *
     **********************************************************************
     */

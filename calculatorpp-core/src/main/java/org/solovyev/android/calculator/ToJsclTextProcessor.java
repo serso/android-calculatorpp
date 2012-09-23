@@ -52,7 +52,7 @@ public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, St
 		MathType.Result mathTypeResult = null;
 		MathType.Result mathTypeBefore;
 
-		final LiteNumberBuilder nb = new LiteNumberBuilder(CalculatorLocatorImpl.getInstance().getEngine().getEngine());
+		final LiteNumberBuilder nb = new LiteNumberBuilder(CalculatorLocatorImpl.getInstance().getEngine());
 		for (int i = 0; i < s.length(); i++) {
 			if (s.charAt(i) == ' ') continue;
 			startsWithFinder.setI(i);
