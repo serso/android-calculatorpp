@@ -14,6 +14,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.solovyev.android.calculator.CalculatorEventType.display_state_changed;
 import static org.solovyev.android.calculator.CalculatorEventType.editor_state_changed;
+import static org.solovyev.android.calculator.CalculatorEventType.manual_calculation_requested;
 
 /**
  * User: Solovyev_S
@@ -179,7 +180,7 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
     public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData,
                                   @NotNull CalculatorEventType calculatorEventType,
                                   @Nullable Object data) {
-        if (calculatorEventType.isOfType(editor_state_changed, display_state_changed)) {
+        if (calculatorEventType.isOfType(editor_state_changed, display_state_changed, manual_calculation_requested)) {
 
             if (calculatorEventData.isAfter(this.lastEventDataId)) {
                 final boolean sameSequence = calculatorEventData.isSameSequence(this.lastEventDataId);
@@ -188,6 +189,9 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
                     this.lastEventDataId = calculatorEventData;
 
                     switch (calculatorEventType) {
+                        case manual_calculation_requested:
+                            lastEditorViewState = (CalculatorEditorViewState) data;
+                            break;
                         case editor_state_changed:
                             final CalculatorEditorChangeEventData editorChangeData = (CalculatorEditorChangeEventData) data;
                             lastEditorViewState = editorChangeData.getNewState();

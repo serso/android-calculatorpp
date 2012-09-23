@@ -39,7 +39,7 @@ import java.util.List;
  * Time: 11:38 PM
  */
 
-public class AndroidCalculatorEngine implements CalculatorEngine {
+public class AndroidCalculatorEngine implements CalculatorEngine, SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String GROUPING_SEPARATOR_P_KEY = "org.solovyev.android.calculator.CalculatorActivity_calc_grouping_separator";
 
@@ -104,6 +104,9 @@ public class AndroidCalculatorEngine implements CalculatorEngine {
 
     public AndroidCalculatorEngine(@NotNull Application application) {
         this.context = application;
+
+        PreferenceManager.getDefaultSharedPreferences(application).registerOnSharedPreferenceChangeListener(this);
+
         this.lock = new Object();
 
         final JsclMathEngine engine = JsclMathEngine.instance;
@@ -272,6 +275,14 @@ public class AndroidCalculatorEngine implements CalculatorEngine {
     @NotNull
     public String getMultiplicationSign() {
         return calculatorEngine.getMultiplicationSign();
+    }
+
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if ( Preferences.getPreferenceKeys().contains(key) ) {
+            this.softReset();
+        }
     }
 
 }

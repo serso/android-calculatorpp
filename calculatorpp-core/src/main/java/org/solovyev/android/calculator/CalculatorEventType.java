@@ -17,6 +17,10 @@ public enum CalculatorEventType {
     **********************************************************************
     */
 
+
+    // @NotNull CalculatorEditorViewState
+    manual_calculation_requested,
+
     // @NotNull org.solovyev.android.calculator.CalculatorInput
     calculation_started,
 
@@ -54,7 +58,17 @@ public enum CalculatorEventType {
     editor_state_changed,
 
     // @NotNull CalculatorDisplayChangeEventData
-    display_state_changed;
+    display_state_changed,
+
+    /*
+    **********************************************************************
+    *
+    *                           ENGINE
+    *
+    **********************************************************************
+    */
+
+    engine_preferences_changed;
 
     public boolean isOfType(@NotNull CalculatorEventType... types) {
         for (CalculatorEventType type : types) {

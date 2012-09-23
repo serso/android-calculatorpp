@@ -119,6 +119,11 @@ public class AndroidCalculator implements Calculator {
     }
 
     @Override
+    public void evaluate(@NotNull Long sequenceId) {
+        calculator.evaluate(sequenceId);
+    }
+
+    @Override
     public void simplify() {
         calculator.simplify();
     }

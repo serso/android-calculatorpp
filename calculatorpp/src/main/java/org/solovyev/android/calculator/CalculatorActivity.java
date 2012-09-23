@@ -186,9 +186,6 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 			roundBracketsButton.setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new RoundBracketsDragProcessor(), dragPreferences), vibrator, preferences));
 		}
 
-
-        getEngine().softReset();
-
 		initMultiplicationButton();
 
         fixThemeParameters(true);

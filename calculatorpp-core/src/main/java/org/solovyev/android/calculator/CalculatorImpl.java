@@ -96,12 +96,23 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 
     @Override
     public void evaluate() {
-        this.evaluate(JsclOperation.numeric, getEditor().getViewState().getText());
+        final CalculatorEditorViewState viewState = getEditor().getViewState();
+        fireCalculatorEvent(CalculatorEventType.manual_calculation_requested, viewState);
+        this.evaluate(JsclOperation.numeric, viewState.getText());
+    }
+
+    @Override
+    public void evaluate(@NotNull Long sequenceId) {
+        final CalculatorEditorViewState viewState = getEditor().getViewState();
+        fireCalculatorEvent(CalculatorEventType.manual_calculation_requested, viewState, sequenceId);
+        this.evaluate(JsclOperation.numeric, viewState.getText(), sequenceId);
     }
 
     @Override
     public void simplify() {
-        this.evaluate(JsclOperation.simplify, getEditor().getViewState().getText());
+        final CalculatorEditorViewState viewState = getEditor().getViewState();
+        fireCalculatorEvent(CalculatorEventType.manual_calculation_requested, viewState);
+        this.evaluate(JsclOperation.simplify, viewState.getText());
     }
 
     @NotNull
@@ -335,15 +346,21 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 
     @Override
     public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
-        if (calculatorEventType == CalculatorEventType.editor_state_changed) {
-            final CalculatorEditorChangeEventData changeEventData = (CalculatorEditorChangeEventData) data;
 
-            final String newText = changeEventData.getNewState().getText();
-            final String oldText = changeEventData.getOldState().getText();
+        switch (calculatorEventType) {
+            case editor_state_changed:
+                final CalculatorEditorChangeEventData changeEventData = (CalculatorEditorChangeEventData) data;
 
-            if (!newText.equals(oldText)) {
-                evaluate(JsclOperation.numeric, changeEventData.getNewState().getText(), calculatorEventData.getSequenceId());
-            }
+                final String newText = changeEventData.getNewState().getText();
+                final String oldText = changeEventData.getOldState().getText();
+
+                if (!newText.equals(oldText)) {
+                    evaluate(JsclOperation.numeric, changeEventData.getNewState().getText(), calculatorEventData.getSequenceId());
+                }
+                break;
+            case engine_preferences_changed:
+                evaluate(calculatorEventData.getSequenceId());
+                break;
         }
     }
 

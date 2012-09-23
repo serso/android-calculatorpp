@@ -27,6 +27,8 @@ public interface Calculator extends CalculatorEventContainer, HistoryControl<Cal
 
     void evaluate();
 
+    void evaluate(@NotNull Long sequenceId);
+
     void simplify();
 
     @NotNull
