@@ -91,7 +91,7 @@ public class TextHighlighter implements TextProcessor<TextHighlighter.Result, St
 		int maxNumberOfOpenGroupSymbols = 0;
 		int numberOfOpenGroupSymbols = 0;
 
-		final StringBuilder text1 = new StringBuilder();
+		final StringBuilder text1 = new StringBuilder(5 * text.length());
 
 		int resultOffset = 0;
 
@@ -156,7 +156,7 @@ public class TextHighlighter implements TextProcessor<TextHighlighter.Result, St
 
 		if (maxNumberOfOpenGroupSymbols > 0) {
 
-			final StringBuilder text2 = new StringBuilder();
+			final StringBuilder text2 = new StringBuilder(text1.length());
 
 			String s = text1.toString();
 			int i = processBracketGroup(text2, s, 0, 0, maxNumberOfOpenGroupSymbols);
