@@ -32,7 +32,10 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
     private final List<CalculatorHistoryState> savedHistory = new ArrayList<CalculatorHistoryState>();
 
     @NotNull
-    private volatile CalculatorEventData lastEventDataId = CalculatorUtils.createFirstEventDataId();
+    private volatile CalculatorEventData lastEventData = CalculatorUtils.createFirstEventDataId();
+
+    @NotNull
+    private final Object lastEventDataLock = new Object();
 
     @Nullable
     private volatile CalculatorEditorViewState lastEditorViewState;
@@ -182,11 +185,26 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
                                   @Nullable Object data) {
         if (calculatorEventType.isOfType(editor_state_changed, display_state_changed, manual_calculation_requested)) {
 
-            if (calculatorEventData.isAfter(this.lastEventDataId)) {
-                final boolean sameSequence = calculatorEventData.isSameSequence(this.lastEventDataId);
+            boolean sameSequence = false;
+            boolean afterSequence = false;
 
-                if (sameSequence || calculatorEventData.isAfterSequence(this.lastEventDataId)) {
-                    this.lastEventDataId = calculatorEventData;
+            boolean processEvent = false;
+
+            synchronized (this.lastEventDataLock) {
+                if (calculatorEventData.isAfter(this.lastEventData)) {
+
+                    sameSequence = calculatorEventData.isSameSequence(this.lastEventData);
+                    if (!sameSequence) {
+                        afterSequence = calculatorEventData.isAfterSequence(this.lastEventData);
+                        processEvent = afterSequence;
+                    } else {
+                        processEvent = true;
+                    }
+                }
+            }
+
+            if (processEvent) {
+                    this.lastEventData = calculatorEventData;
 
                     switch (calculatorEventType) {
                         case manual_calculation_requested:
@@ -210,7 +228,6 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
                             break;
                     }
                 }
-            }
         }
     }
 }
