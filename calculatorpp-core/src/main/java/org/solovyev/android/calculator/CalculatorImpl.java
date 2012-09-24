@@ -40,7 +40,10 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
     private final TextProcessor<PreparedExpression, String> preprocessor = ToJsclTextProcessor.getInstance();
 
     @NotNull
-    private final Executor threadPoolExecutor = Executors.newFixedThreadPool(10);
+    private final Executor calculationsExecutor = Executors.newFixedThreadPool(10);
+
+    @NotNull
+    private final Executor eventExecutor = Executors.newFixedThreadPool(1);
 
     public CalculatorImpl() {
         this.addCalculatorEventListener(this);
@@ -94,7 +97,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 
         final CalculatorEventData eventDataId = nextEventData();
 
-        threadPoolExecutor.execute(new Runnable() {
+        calculationsExecutor.execute(new Runnable() {
             @Override
             public void run() {
                 CalculatorImpl.this.evaluate(eventDataId.getSequenceId(), operation, expression, null);
@@ -109,7 +112,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
     public CalculatorEventData evaluate(@NotNull final JsclOperation operation, @NotNull final String expression, @NotNull Long sequenceId) {
         final CalculatorEventData eventDataId = nextEventData(sequenceId);
 
-        threadPoolExecutor.execute(new Runnable() {
+        calculationsExecutor.execute(new Runnable() {
             @Override
             public void run() {
                 CalculatorImpl.this.evaluate(eventDataId.getSequenceId(), operation, expression, null);
@@ -242,12 +245,12 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
         final CalculatorDisplayViewState displayViewState = CalculatorLocatorImpl.getInstance().getDisplay().getViewState();
         final NumeralBase from = CalculatorLocatorImpl.getInstance().getEngine().getNumeralBase();
 
-        threadPoolExecutor.execute(new Runnable() {
+        calculationsExecutor.execute(new Runnable() {
             @Override
             public void run() {
                 final Long sequenceId = eventDataId.getSequenceId();
 
-                fireCalculatorEvent(newConversionEventData(sequenceId, value, from,  to, displayViewState), CalculatorEventType.conversion_started, null);
+                fireCalculatorEvent(newConversionEventData(sequenceId, value, from, to, displayViewState), CalculatorEventType.conversion_started, null);
                 try {
 
                     final String result = doConversion(value, from, to);
@@ -316,13 +319,23 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
     }
 
     @Override
-    public void fireCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
-        calculatorEventContainer.fireCalculatorEvent(calculatorEventData, calculatorEventType, data);
+    public void fireCalculatorEvent(@NotNull final CalculatorEventData calculatorEventData, @NotNull final CalculatorEventType calculatorEventType, @Nullable final Object data) {
+        eventExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                calculatorEventContainer.fireCalculatorEvent(calculatorEventData, calculatorEventType, data);
+            }
+        });
     }
 
     @Override
-    public void fireCalculatorEvents(@NotNull List<CalculatorEvent> calculatorEvents) {
-        calculatorEventContainer.fireCalculatorEvents(calculatorEvents);
+    public void fireCalculatorEvents(@NotNull final List<CalculatorEvent> calculatorEvents) {
+        eventExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                calculatorEventContainer.fireCalculatorEvents(calculatorEvents);
+            }
+        });
     }
 
     @NotNull
@@ -330,12 +343,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
     public CalculatorEventData fireCalculatorEvent(@NotNull final CalculatorEventType calculatorEventType, @Nullable final Object data) {
         final CalculatorEventData eventData = nextEventData();
 
-        threadPoolExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                fireCalculatorEvent(eventData, calculatorEventType, data);
-            }
-        });
+        fireCalculatorEvent(eventData, calculatorEventType, data);
 
         return eventData;
     }
@@ -345,12 +353,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
     public CalculatorEventData fireCalculatorEvent(@NotNull final CalculatorEventType calculatorEventType, @Nullable final Object data, @NotNull Long sequenceId) {
         final CalculatorEventData eventData = nextEventData(sequenceId);
 
-        threadPoolExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                fireCalculatorEvent(eventData, calculatorEventType, data);
-            }
-        });
+        fireCalculatorEvent(eventData, calculatorEventType, data);
 
         return eventData;
     }

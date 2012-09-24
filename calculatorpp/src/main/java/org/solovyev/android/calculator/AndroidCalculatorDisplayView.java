@@ -8,10 +8,12 @@ package org.solovyev.android.calculator;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Handler;
+import android.text.Editable;
 import android.text.Html;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.util.Log;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.text.TextProcessor;
 import org.solovyev.android.calculator.view.TextHighlighter;
 import org.solovyev.android.view.AutoResizeTextView;
@@ -43,7 +45,12 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
     */
 
     @NotNull
-    private CalculatorDisplayViewState state = CalculatorDisplayViewStateImpl.newDefaultInstance();
+    private volatile CalculatorDisplayViewState state = CalculatorDisplayViewStateImpl.newDefaultInstance();
+
+    private volatile boolean viewStateChange = false;
+
+    @NotNull
+    private final Object lock = new Object();
 
     @NotNull
     private final Handler handler = new Handler();
@@ -58,14 +65,18 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
 
     public AndroidCalculatorDisplayView(Context context) {
         super(context);
+        this.addTextChangedListener(new TextWatcherImpl());
     }
 
     public AndroidCalculatorDisplayView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        this.addTextChangedListener(new TextWatcherImpl());
+
     }
 
     public AndroidCalculatorDisplayView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        this.addTextChangedListener(new TextWatcherImpl());
     }
 
     /*
@@ -76,63 +87,103 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
     **********************************************************************
     */
 
-    public boolean isValid() {
-        synchronized (this) {
-            return this.state.isValid();
-        }
-    }
 
     @Override
     public void setState(@NotNull final CalculatorDisplayViewState state) {
-        handler.postDelayed(new Runnable() {
+        final CharSequence text = prepareText(state.getStringResult(), state.isValid());
+
+        handler.post(new Runnable() {
             @Override
             public void run() {
-                synchronized (AndroidCalculatorDisplayView.this) {
-                    AndroidCalculatorDisplayView.this.state = state;
-                    if ( state.isValid() ) {
-                        setTextColor(getResources().getColor(R.color.default_text_color));
-                        setText(state.getStringResult());
-                        redraw();
-                    } else {
-                        setTextColor(getResources().getColor(R.color.display_error_text_color));
+                synchronized (lock) {
+                    try {
+                        viewStateChange = true;
 
-                        // error messages are never shown -> just greyed out text (error message will be shown on click)
-                        //setText(state.getErrorMessage());
-                        //redraw();
+                        AndroidCalculatorDisplayView.this.state = state;
+                        if (state.isValid()) {
+                            setTextColor(getResources().getColor(R.color.default_text_color));
+                            setText(text);
+
+                            adjustTextSize();
+
+                        } else {
+                            // update text in order to get rid of HTML tags
+                            setText(getText().toString());
+                            setTextColor(getResources().getColor(R.color.display_error_text_color));
+
+                            // error messages are never shown -> just greyed out text (error message will be shown on click)
+                            //setText(state.getErrorMessage());
+                            //redraw();
+                        }
+                    } finally {
+                        viewStateChange = false;
                     }
                 }
             }
-        }, 1);
+        });
     }
 
     @NotNull
     @Override
     public CalculatorDisplayViewState getState() {
-        synchronized (this) {
+        synchronized (lock) {
             return this.state;
         }
     }
 
-    private synchronized void redraw() {
-        if (isValid()) {
-            String text = getText().toString();
+    @Nullable
+    private static CharSequence prepareText(@Nullable String text, boolean valid) {
+        CharSequence result;
 
-            Log.d(this.getClass().getName(), text);
+        if (valid && text != null) {
+
+            //Log.d(this.getClass().getName(), text);
 
             try {
-                TextHighlighter.Result result = textHighlighter.process(text);
-                text = result.toString();
+                final TextHighlighter.Result processedText = textHighlighter.process(text);
+                text = processedText.toString();
+                result = Html.fromHtml(text);
             } catch (CalculatorParseException e) {
-                Log.e(this.getClass().getName(), e.getMessage(), e);
+                result = text;
             }
-
-            Log.d(this.getClass().getName(), text);
-            super.setText(Html.fromHtml(text), BufferType.EDITABLE);
+        } else {
+            result = text;
         }
 
+        return result;
+    }
+
+    private void adjustTextSize() {
         // todo serso: think where to move it (keep in mind org.solovyev.android.view.AutoResizeTextView.resetTextSize())
         setAddEllipsis(false);
         setMinTextSize(10);
         resizeText();
+    }
+
+
+    public void handleTextChange(Editable s) {
+        synchronized (lock) {
+            if (!viewStateChange) {
+                // external text change => need to notify display
+                // todo serso: implement
+            }
+        }
+    }
+
+    private final class TextWatcherImpl implements TextWatcher {
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            handleTextChange(s);
+        }
     }
 }

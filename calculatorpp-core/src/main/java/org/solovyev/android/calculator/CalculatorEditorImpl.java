@@ -49,7 +49,16 @@ public class CalculatorEditorImpl implements CalculatorEditor {
     }
 
     @Override
+    public void updateViewState() {
+        setViewState(this.lastViewState, false);
+    }
+
+    @Override
     public void setViewState(@NotNull CalculatorEditorViewState newViewState) {
+        setViewState(newViewState, true);
+    }
+
+    private void setViewState(CalculatorEditorViewState newViewState, boolean fireEvent) {
         synchronized (viewLock) {
             final CalculatorEditorViewState oldViewState = this.lastViewState;
 
@@ -58,7 +67,9 @@ public class CalculatorEditorImpl implements CalculatorEditor {
                 this.view.setState(newViewState);
             }
 
-            calculator.fireCalculatorEvent(CalculatorEventType.editor_state_changed, new CalculatorEditorChangeEventDataImpl(oldViewState, newViewState));
+            if (fireEvent) {
+                calculator.fireCalculatorEvent(CalculatorEventType.editor_state_changed, new CalculatorEditorChangeEventDataImpl(oldViewState, newViewState));
+            }
         }
     }
 

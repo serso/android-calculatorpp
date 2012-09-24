@@ -16,6 +16,9 @@ public interface CalculatorEditor extends CalculatorEventListener {
     @NotNull
     CalculatorEditorViewState getViewState();
 
+    // updates state of view (view.setState())
+    void updateViewState();
+
     void setViewState(@NotNull CalculatorEditorViewState viewState);
 
     /*

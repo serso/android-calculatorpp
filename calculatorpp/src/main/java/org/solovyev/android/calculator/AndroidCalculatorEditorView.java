@@ -10,10 +10,15 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.Html;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.widget.EditText;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.text.TextProcessor;
 import org.solovyev.android.calculator.view.TextHighlighter;
 import org.solovyev.common.collections.CollectionsUtils;
@@ -25,32 +30,39 @@ import org.solovyev.common.collections.CollectionsUtils;
  */
 public class AndroidCalculatorEditorView extends EditText implements SharedPreferences.OnSharedPreferenceChangeListener, CalculatorEditorView {
 
-	private static final String CALC_COLOR_DISPLAY_KEY = "org.solovyev.android.calculator.CalculatorModel_color_display";
-	private static final boolean CALC_COLOR_DISPLAY_DEFAULT = true;
+    private static final String CALC_COLOR_DISPLAY_KEY = "org.solovyev.android.calculator.CalculatorModel_color_display";
+    private static final boolean CALC_COLOR_DISPLAY_DEFAULT = true;
 
-	private boolean highlightText = true;
+    private boolean highlightText = true;
 
-	@NotNull
-	private final static TextProcessor<TextHighlighter.Result, String> textHighlighter = new TextHighlighter(Color.WHITE, true);
+    @NotNull
+    private final static TextProcessor<TextHighlighter.Result, String> textHighlighter = new TextHighlighter(Color.WHITE, false);
 
     @NotNull
     private volatile CalculatorEditorViewState viewState = CalculatorEditorViewStateImpl.newDefaultInstance();
 
     private volatile boolean viewStateChange = false;
 
+    // NOTE: static because super constructor calls some overridden methods (like onSelectionChanged and current lock is not yet created)
+    @NotNull
+    private static final Object lock = new Object();
+
     @NotNull
     private final Handler handler = new Handler();
 
     public AndroidCalculatorEditorView(Context context) {
-		super(context);
-	}
+        super(context);
+        this.addTextChangedListener(new TextWatcherImpl());
+    }
 
-	public AndroidCalculatorEditorView(Context context, AttributeSet attrs) {
-		super(context, attrs);
+    public AndroidCalculatorEditorView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        this.addTextChangedListener(new TextWatcherImpl());
     }
 
     public AndroidCalculatorEditorView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        this.addTextChangedListener(new TextWatcherImpl());
     }
 
 
@@ -59,12 +71,12 @@ public class AndroidCalculatorEditorView extends EditText implements SharedPrefe
         // NOTE: code below can be used carefully and should not be copied without special intention
         // The main purpose of code is to disable soft input (virtual keyboard) but leave all the TextEdit functionality, like cursor, scrolling, copy/paste menu etc
 
-        if ( Build.VERSION.SDK_INT >= 11 ) {
+        if (Build.VERSION.SDK_INT >= 11) {
             // fix for missing cursor in android 3 and higher
             try {
                 // IDEA: return false always except if method was called from TextView.isCursorVisible() method
                 for (StackTraceElement stackTraceElement : CollectionsUtils.asList(Thread.currentThread().getStackTrace())) {
-                    if ( "isCursorVisible".equals(stackTraceElement.getMethodName()) ) {
+                    if ("isCursorVisible".equals(stackTraceElement.getMethodName())) {
                         return true;
                     }
                 }
@@ -78,94 +90,115 @@ public class AndroidCalculatorEditorView extends EditText implements SharedPrefe
         }
     }
 
-	@Override
-	protected void onCreateContextMenu(ContextMenu menu) {
-		super.onCreateContextMenu(menu);
+    @Override
+    protected void onCreateContextMenu(ContextMenu menu) {
+        super.onCreateContextMenu(menu);
 
-		menu.removeItem(android.R.id.selectAll);
-	}
+        menu.removeItem(android.R.id.selectAll);
+    }
 
-    // todo serso: fix redraw
-    // Now problem is that calculator editor cursor position might be different than position of cursor in view (as some extra spaces can be inserted fur to number formatting)
-	/*private synchronized void redraw() {
-		String text = getText().toString();
+    @Nullable
+    private CharSequence prepareText(@NotNull String text, boolean highlightText) {
+        CharSequence result;
 
-		int selectionStart = getSelectionStart();
-		int selectionEnd = getSelectionEnd();
+         if (highlightText) {
 
-		if (highlightText) {
+             try {
+                 final TextHighlighter.Result processesText = textHighlighter.process(text);
 
-			Log.d(this.getClass().getName(), text);
+                 assert processesText.getOffset() == 0;
 
-			try {
-				final TextHighlighter.Result result = textHighlighter.process(text);
-				selectionStart += result.getOffset();
-				selectionEnd += result.getOffset();
-				text = result.toString();
-			} catch (CalculatorParseException e) {
-				Log.e(this.getClass().getName(), e.getMessage(), e);
-			}
+                 result = Html.fromHtml(processesText.toString());
+             } catch (CalculatorParseException e) {
+                 // set raw text
+                 result = text;
 
-			Log.d(this.getClass().getName(), text);
-			super.setText(Html.fromHtml(text), BufferType.EDITABLE);
-		} else {
-			super.setText(text, BufferType.EDITABLE);
-		}
+                 Log.e(this.getClass().getName(), e.getMessage(), e);
+             }
+         } else {
+             result = text;
+         }
 
-		Log.d(this.getClass().getName(), getText().toString());
+        return result;
+     }
 
-		int length = getText().length();
-		setSelection(Math.max(Math.min(length, selectionStart), 0), Math.max(Math.min(length, selectionEnd), 0));
-	}*/
+    public boolean isHighlightText() {
+        return highlightText;
+    }
 
-	public boolean isHighlightText() {
-		return highlightText;
-	}
+    public void setHighlightText(boolean highlightText) {
+        this.highlightText = highlightText;
+        CalculatorLocatorImpl.getInstance().getEditor().updateViewState();
+    }
 
-	public void setHighlightText(boolean highlightText) {
-		this.highlightText = highlightText;
-		//redraw();
-	}
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
+        if (CALC_COLOR_DISPLAY_KEY.equals(key)) {
+            this.setHighlightText(preferences.getBoolean(CALC_COLOR_DISPLAY_KEY, CALC_COLOR_DISPLAY_DEFAULT));
+        }
+    }
 
-	@Override
-	public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
-		if (CALC_COLOR_DISPLAY_KEY.equals(key)) {
-			this.setHighlightText(preferences.getBoolean(CALC_COLOR_DISPLAY_KEY, CALC_COLOR_DISPLAY_DEFAULT));
-		}
-	}
-
-	public void init(@NotNull SharedPreferences preferences) {
-		onSharedPreferenceChanged(preferences, CALC_COLOR_DISPLAY_KEY);
-	}
+    public void init(@NotNull SharedPreferences preferences) {
+        onSharedPreferenceChanged(preferences, CALC_COLOR_DISPLAY_KEY);
+    }
 
     @Override
     public void setState(@NotNull final CalculatorEditorViewState viewState) {
-        handler.postDelayed(new Runnable() {
+
+        final CharSequence text = prepareText(viewState.getText(), highlightText);
+
+        handler.post(new Runnable() {
             @Override
             public void run() {
                 final AndroidCalculatorEditorView editorView = AndroidCalculatorEditorView.this;
-                synchronized (editorView) {
+                synchronized (lock) {
                     try {
                         editorView.viewStateChange = true;
                         editorView.viewState = viewState;
-                        editorView.setText(viewState.getText());
+                        editorView.setText(text, BufferType.EDITABLE);
                         editorView.setSelection(viewState.getSelection());
-                        //redraw();
                     } finally {
                         editorView.viewStateChange = false;
                     }
                 }
             }
-        }, 1);
+        });
     }
 
     @Override
     protected void onSelectionChanged(int selStart, int selEnd) {
-        synchronized (this) {
+        synchronized (lock) {
             if (!viewStateChange) {
+                // external text change => need to notify editor
                 super.onSelectionChanged(selStart, selEnd);
                 CalculatorLocatorImpl.getInstance().getEditor().setSelection(selStart);
             }
+        }
+    }
+
+    public void handleTextChange(Editable s) {
+        synchronized (lock) {
+            if (!viewStateChange) {
+                // external text change => need to notify editor
+                CalculatorLocatorImpl.getInstance().getEditor().setText(String.valueOf(s));
+            }
+        }
+    }
+
+    private final class TextWatcherImpl implements TextWatcher {
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            handleTextChange(s);
         }
     }
 }

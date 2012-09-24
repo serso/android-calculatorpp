@@ -13,7 +13,10 @@ import static org.solovyev.android.calculator.CalculatorEventType.*;
 public class CalculatorDisplayImpl implements CalculatorDisplay {
 
     @NotNull
-    private CalculatorEventData lastCalculatorEventData;
+    private volatile CalculatorEventData lastCalculatorEventData;
+
+    @NotNull
+    private final Object lastCalculatorEventDataLock = new Object();
 
     @Nullable
     private CalculatorDisplayView view;
@@ -88,7 +91,9 @@ public class CalculatorDisplayImpl implements CalculatorDisplay {
     @Override
     @NotNull
     public CalculatorEventData getLastEventData() {
-        return lastCalculatorEventData;
+        synchronized (lastCalculatorEventDataLock) {
+            return lastCalculatorEventData;
+        }
     }
 
     @Override
@@ -97,28 +102,36 @@ public class CalculatorDisplayImpl implements CalculatorDisplay {
                                   @Nullable Object data) {
         if (calculatorEventType.isOfType(calculation_result, calculation_failed, calculation_cancelled, conversion_result, conversion_failed)) {
 
-            if (calculatorEventData.isAfter(lastCalculatorEventData)) {
-                lastCalculatorEventData = calculatorEventData;
+            boolean processEvent = false;
+            boolean sameSequence = false;
+
+            synchronized (lastCalculatorEventDataLock) {
+                if (calculatorEventData.isAfter(lastCalculatorEventData)) {
+                    sameSequence = calculatorEventData.isSameSequence(lastCalculatorEventData);
+                    lastCalculatorEventData = calculatorEventData;
+                    processEvent = true;
+                }
             }
 
-            switch (calculatorEventType) {
-                case conversion_failed:
-                    processConversationFailed((CalculatorConversionEventData) calculatorEventData, (ConversionFailure) data);
-                    break;
-                case conversion_result:
-                    processConversationResult((CalculatorConversionEventData)calculatorEventData,  (String)data);
-                    break;
-                case calculation_result:
-                    processCalculationResult((CalculatorEvaluationEventData) calculatorEventData, (CalculatorOutput) data);
-                    break;
-                case calculation_cancelled:
-                    processCalculationCancelled((CalculatorEvaluationEventData)calculatorEventData);
-                    break;
-                case calculation_failed:
-                    processCalculationFailed((CalculatorEvaluationEventData)calculatorEventData, (CalculatorFailure) data);
-                    break;
+            if (processEvent) {
+                switch (calculatorEventType) {
+                    case conversion_failed:
+                        processConversationFailed((CalculatorConversionEventData) calculatorEventData, (ConversionFailure) data);
+                        break;
+                    case conversion_result:
+                        processConversationResult((CalculatorConversionEventData)calculatorEventData,  (String)data);
+                        break;
+                    case calculation_result:
+                        processCalculationResult((CalculatorEvaluationEventData) calculatorEventData, (CalculatorOutput) data);
+                        break;
+                    case calculation_cancelled:
+                        processCalculationCancelled((CalculatorEvaluationEventData)calculatorEventData);
+                        break;
+                    case calculation_failed:
+                        processCalculationFailed((CalculatorEvaluationEventData)calculatorEventData, (CalculatorFailure) data);
+                        break;
+                }
             }
-
         }
     }
 
