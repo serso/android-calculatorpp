@@ -42,6 +42,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
     @NotNull
     private final Executor calculationsExecutor = Executors.newFixedThreadPool(10);
 
+    // NOTE: only one thread is responsible for events as all events must be done in order of their creating
     @NotNull
     private final Executor eventExecutor = Executors.newFixedThreadPool(1);
 
