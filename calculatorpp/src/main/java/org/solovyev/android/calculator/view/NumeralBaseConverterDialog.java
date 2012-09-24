@@ -7,6 +7,7 @@ import android.view.WindowManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.units.CalculatorNumeralBase;
 import org.solovyev.math.units.Unit;
 import org.solovyev.math.units.UnitImpl;
 import org.solovyev.common.MutableObject;
@@ -30,22 +31,22 @@ public class NumeralBaseConverterDialog {
 
     public void show(@NotNull Context context) {
         final UnitConverterViewBuilder b = new UnitConverterViewBuilder();
-        b.setFromUnitTypes(Arrays.asList(AndroidNumeralBase.values()));
-        b.setToUnitTypes(Arrays.asList(AndroidNumeralBase.values()));
+        b.setFromUnitTypes(Arrays.asList(CalculatorNumeralBase.values()));
+        b.setToUnitTypes(Arrays.asList(CalculatorNumeralBase.values()));
 
         if (!StringUtils.isEmpty(initialFromValue)) {
             String value = initialFromValue;
             try {
                 value = ToJsclTextProcessor.getInstance().process(value).getExpression();
-                b.setFromValue(UnitImpl.newInstance(value, AndroidNumeralBase.valueOf(CalculatorLocatorImpl.getInstance().getEngine().getNumeralBase())));
+                b.setFromValue(UnitImpl.newInstance(value, CalculatorNumeralBase.valueOf(CalculatorLocatorImpl.getInstance().getEngine().getNumeralBase())));
             } catch (CalculatorParseException e) {
-                b.setFromValue(UnitImpl.newInstance(value, AndroidNumeralBase.valueOf(CalculatorLocatorImpl.getInstance().getEngine().getNumeralBase())));
+                b.setFromValue(UnitImpl.newInstance(value, CalculatorNumeralBase.valueOf(CalculatorLocatorImpl.getInstance().getEngine().getNumeralBase())));
             }
         } else {
-            b.setFromValue(UnitImpl.newInstance("", AndroidNumeralBase.valueOf(CalculatorLocatorImpl.getInstance().getEngine().getNumeralBase())));
+            b.setFromValue(UnitImpl.newInstance("", CalculatorNumeralBase.valueOf(CalculatorLocatorImpl.getInstance().getEngine().getNumeralBase())));
         }
 
-        b.setConverter(AndroidNumeralBase.getConverter());
+        b.setConverter(CalculatorNumeralBase.getConverter());
 
         final MutableObject<AlertDialog> alertDialogHolder = new MutableObject<AlertDialog>();
         b.setOkButtonOnClickListener(new View.OnClickListener() {

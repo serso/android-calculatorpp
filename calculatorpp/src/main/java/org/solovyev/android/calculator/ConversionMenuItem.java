@@ -30,10 +30,11 @@ enum ConversionMenuItem implements AMenuItem<CalculatorDisplayViewState> {
 
         if (operation == JsclOperation.numeric) {
             if (generic.getConstants().isEmpty()) {
-                convert(generic);
-
                 // conversion possible => return true
-                result = true;
+                final NumeralBase fromNumeralBase = CalculatorLocatorImpl.getInstance().getEngine().getNumeralBase();
+                if (fromNumeralBase != toNumeralBase) {
+                    result = CalculatorLocatorImpl.getInstance().getCalculator().isConversionPossible(generic, fromNumeralBase, this.toNumeralBase);
+                }
             }
         }
 
@@ -42,16 +43,10 @@ enum ConversionMenuItem implements AMenuItem<CalculatorDisplayViewState> {
 
     @Override
     public void onClick(@NotNull CalculatorDisplayViewState data, @NotNull Context context) {
-        final NumeralBase fromNumeralBase = CalculatorLocatorImpl.getInstance().getEngine().getNumeralBase();
+        final Generic result = data.getResult();
 
-        final Generic lastResult = data.getResult();
-
-        if (lastResult != null) {
-            convert(lastResult);
+        if (result != null) {
+            CalculatorLocatorImpl.getInstance().getCalculator().convert(result, this.toNumeralBase);
         }
-    }
-
-    private void convert(@NotNull Generic generic) {
-        CalculatorLocatorImpl.getInstance().getCalculator().convert(generic, this.toNumeralBase);
     }
 }

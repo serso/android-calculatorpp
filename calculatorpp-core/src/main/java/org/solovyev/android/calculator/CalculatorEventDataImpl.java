@@ -5,46 +5,51 @@ import org.jetbrains.annotations.NotNull;
 /**
  * User: Solovyev_S
  * Date: 20.09.12
- * Time: 16:54
+ * Time: 18:18
  */
 class CalculatorEventDataImpl implements CalculatorEventData {
 
-    @NotNull
-    private CalculatorEventDataId calculatorEventDataId;
+    private static final long NO_SEQUENCE = -1L;
 
-    private CalculatorEventDataImpl(@NotNull CalculatorEventDataId calculatorEventDataId) {
-        this.calculatorEventDataId = calculatorEventDataId;
+    private final long eventId;
+
+    @NotNull
+    private Long sequenceId = NO_SEQUENCE;
+
+    private CalculatorEventDataImpl(long id, @NotNull Long sequenceId) {
+        this.eventId = id;
+        this.sequenceId = sequenceId;
     }
 
     @NotNull
-    public static CalculatorEventData newInstance(@NotNull CalculatorEventDataId calculatorEventDataId) {
-        return new CalculatorEventDataImpl(calculatorEventDataId);
+    static CalculatorEventData newInstance(long id, @NotNull Long sequenceId) {
+        return new CalculatorEventDataImpl(id, sequenceId);
     }
 
     @Override
     public long getEventId() {
-        return calculatorEventDataId.getEventId();
+        return this.eventId;
     }
 
     @NotNull
     @Override
     public Long getSequenceId() {
-        return calculatorEventDataId.getSequenceId();
+        return this.sequenceId;
     }
 
     @Override
-    public boolean isAfter(@NotNull CalculatorEventDataId that) {
-        return this.calculatorEventDataId.isAfter(that);
+    public boolean isAfter(@NotNull CalculatorEventData that) {
+        return this.eventId > that.getEventId();
     }
 
     @Override
-    public boolean isSameSequence(@NotNull CalculatorEventDataId that) {
-        return this.calculatorEventDataId.isSameSequence(that);
+    public boolean isSameSequence(@NotNull CalculatorEventData that) {
+        return !this.sequenceId.equals(NO_SEQUENCE) && this.sequenceId.equals(that.getSequenceId());
     }
 
     @Override
-    public boolean isAfterSequence(@NotNull CalculatorEventDataId that) {
-        return this.calculatorEventDataId.isAfterSequence(that);
+    public boolean isAfterSequence(@NotNull CalculatorEventData that) {
+        return !this.sequenceId.equals(NO_SEQUENCE) && this.sequenceId > that.getSequenceId();
     }
 
     @Override
@@ -54,13 +59,17 @@ class CalculatorEventDataImpl implements CalculatorEventData {
 
         CalculatorEventDataImpl that = (CalculatorEventDataImpl) o;
 
-        if (!calculatorEventDataId.equals(that.calculatorEventDataId)) return false;
+        if (eventId != that.eventId) return false;
+        if (!sequenceId.equals(that.sequenceId))
+            return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        return calculatorEventDataId.hashCode();
+        int result = (int) (eventId ^ (eventId >>> 32));
+        result = 31 * result + (sequenceId.hashCode());
+        return result;
     }
 }

@@ -11,10 +11,7 @@ import android.widget.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.CalculatorImpl;
-import org.solovyev.math.units.Unit;
-import org.solovyev.math.units.UnitConverter;
-import org.solovyev.math.units.UnitImpl;
-import org.solovyev.math.units.UnitType;
+import org.solovyev.math.units.*;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.view.ViewBuilder;
 import org.solovyev.android.view.ViewFromLayoutBuilder;
@@ -173,8 +170,8 @@ public class UnitConverterViewBuilder implements ViewBuilder<View> {
 
         final String from = fromEditText.getText().toString();
         try {
-            toEditText.setText(CalculatorImpl.doConversion(converter, from, getFromUnitType(main), getToUnitType(main)));
-        } catch (CalculatorImpl.ConversionException e) {
+            toEditText.setText(ConversionUtils.doConversion(converter, from, getFromUnitType(main), getToUnitType(main)));
+        } catch (ConversionException e) {
             toEditText.setText(context.getString(R.string.c_error));
         }
     }

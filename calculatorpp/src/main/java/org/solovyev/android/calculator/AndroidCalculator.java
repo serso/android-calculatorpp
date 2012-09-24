@@ -44,31 +44,36 @@ public class AndroidCalculator implements Calculator {
 
     @Override
     @NotNull
-    public CalculatorEventDataId evaluate(@NotNull JsclOperation operation, @NotNull String expression) {
+    public CalculatorEventData evaluate(@NotNull JsclOperation operation, @NotNull String expression) {
         return calculator.evaluate(operation, expression);
     }
 
     @Override
     @NotNull
-    public CalculatorEventDataId evaluate(@NotNull JsclOperation operation, @NotNull String expression, @NotNull Long sequenceId) {
+    public CalculatorEventData evaluate(@NotNull JsclOperation operation, @NotNull String expression, @NotNull Long sequenceId) {
         return calculator.evaluate(operation, expression, sequenceId);
     }
 
     @Override
+    public boolean isConversionPossible(@NotNull Generic generic, @NotNull NumeralBase from, @NotNull NumeralBase to) {
+        return calculator.isConversionPossible(generic, from, to);
+    }
+
+    @Override
     @NotNull
-    public CalculatorEventDataId convert(@NotNull Generic generic, @NotNull NumeralBase to) {
+    public CalculatorEventData convert(@NotNull Generic generic, @NotNull NumeralBase to) {
         return calculator.convert(generic, to);
     }
 
     @Override
     @NotNull
-    public CalculatorEventDataId fireCalculatorEvent(@NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
+    public CalculatorEventData fireCalculatorEvent(@NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
         return calculator.fireCalculatorEvent(calculatorEventType, data);
     }
 
     @Override
     @NotNull
-    public CalculatorEventDataId fireCalculatorEvent(@NotNull CalculatorEventType calculatorEventType, @Nullable Object data, @NotNull Long sequenceId) {
+    public CalculatorEventData fireCalculatorEvent(@NotNull CalculatorEventType calculatorEventType, @Nullable Object data, @NotNull Long sequenceId) {
         return calculator.fireCalculatorEvent(calculatorEventType, data, sequenceId);
     }
 

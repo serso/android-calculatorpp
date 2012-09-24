@@ -32,7 +32,7 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
     private final List<CalculatorHistoryState> savedHistory = new ArrayList<CalculatorHistoryState>();
 
     @NotNull
-    private volatile CalculatorEventDataId lastEventDataId = CalculatorUtils.createFirstEventDataId();
+    private volatile CalculatorEventData lastEventDataId = CalculatorUtils.createFirstEventDataId();
 
     @Nullable
     private volatile CalculatorEditorViewState lastEditorViewState;

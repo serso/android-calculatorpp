@@ -12,7 +12,8 @@ public enum CalculatorEventType {
     /*
     **********************************************************************
     *
-    * org.solovyev.android.calculator.CalculatorEvaluationEventData
+    *                           CALCULATION
+    *                           org.solovyev.android.calculator.CalculatorEvaluationEventData
     *
     **********************************************************************
     */
@@ -29,21 +30,27 @@ public enum CalculatorEventType {
 
     calculation_cancelled,
 
-    calculation_finished,
-
     // @NotNull org.solovyev.android.calculator.CalculatorFailure
     calculation_failed,
+
+    calculation_finished,
 
     /*
     **********************************************************************
     *
     *                           CONVERSION
+    *                           CalculatorConversionEventData
     *
     **********************************************************************
     */
     conversion_started,
 
     // @NotNull String conversion result
+    conversion_result,
+
+    // @NotNull ConversionFailure
+    conversion_failed,
+
     conversion_finished,
 
     /*

@@ -51,17 +51,17 @@ public class CalculatorEvaluationEventDataImpl implements CalculatorEvaluationEv
     }
 
     @Override
-    public boolean isAfter(@NotNull CalculatorEventDataId that) {
+    public boolean isAfter(@NotNull CalculatorEventData that) {
         return calculatorEventData.isAfter(that);
     }
 
     @Override
-    public boolean isSameSequence(@NotNull CalculatorEventDataId that) {
+    public boolean isSameSequence(@NotNull CalculatorEventData that) {
         return this.calculatorEventData.isSameSequence(that);
     }
 
     @Override
-    public boolean isAfterSequence(@NotNull CalculatorEventDataId that) {
+    public boolean isAfterSequence(@NotNull CalculatorEventData that) {
         return this.calculatorEventData.isAfterSequence(that);
     }
 }

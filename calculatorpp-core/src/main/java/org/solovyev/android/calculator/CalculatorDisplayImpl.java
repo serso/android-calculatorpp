@@ -29,7 +29,7 @@ public class CalculatorDisplayImpl implements CalculatorDisplay {
 
     public CalculatorDisplayImpl(@NotNull Calculator calculator) {
         this.calculator = calculator;
-        this.lastCalculatorEventData = CalculatorEventDataImpl.newInstance(CalculatorUtils.createFirstEventDataId());
+        this.lastCalculatorEventData = CalculatorUtils.createFirstEventDataId();
         this.calculator.addCalculatorEventListener(this);
     }
 
@@ -95,15 +95,21 @@ public class CalculatorDisplayImpl implements CalculatorDisplay {
     public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData,
                                   @NotNull CalculatorEventType calculatorEventType,
                                   @Nullable Object data) {
-        if (calculatorEventType.isOfType(calculation_result, calculation_failed, calculation_cancelled)) {
+        if (calculatorEventType.isOfType(calculation_result, calculation_failed, calculation_cancelled, conversion_result, conversion_failed)) {
 
             if (calculatorEventData.isAfter(lastCalculatorEventData)) {
                 lastCalculatorEventData = calculatorEventData;
             }
 
             switch (calculatorEventType) {
+                case conversion_failed:
+                    processConversationFailed((CalculatorConversionEventData) calculatorEventData, (ConversionFailure) data);
+                    break;
+                case conversion_result:
+                    processConversationResult((CalculatorConversionEventData)calculatorEventData,  (String)data);
+                    break;
                 case calculation_result:
-                    processCalculationResult((CalculatorEvaluationEventData)calculatorEventData, (CalculatorOutput) data);
+                    processCalculationResult((CalculatorEvaluationEventData) calculatorEventData, (CalculatorOutput) data);
                     break;
                 case calculation_cancelled:
                     processCalculationCancelled((CalculatorEvaluationEventData)calculatorEventData);
@@ -114,6 +120,12 @@ public class CalculatorDisplayImpl implements CalculatorDisplay {
             }
 
         }
+    }
+
+    private void processConversationFailed(@NotNull CalculatorConversionEventData calculatorEventData,
+                                           @NotNull ConversionFailure data) {
+        this.setViewStateForSequence(CalculatorDisplayViewStateImpl.newErrorState(calculatorEventData.getDisplayState().getOperation(), CalculatorMessages.getBundle().getString(CalculatorMessages.syntax_error)), calculatorEventData.getSequenceId());
+
     }
 
     private void processCalculationFailed(@NotNull CalculatorEvaluationEventData calculatorEventData, @NotNull CalculatorFailure data) {
@@ -144,5 +156,15 @@ public class CalculatorDisplayImpl implements CalculatorDisplay {
     private void processCalculationResult(@NotNull CalculatorEvaluationEventData calculatorEventData, @NotNull CalculatorOutput data) {
         final String stringResult = data.getStringResult();
         this.setViewStateForSequence(CalculatorDisplayViewStateImpl.newValidState(calculatorEventData.getOperation(), data.getResult(), stringResult, 0), calculatorEventData.getSequenceId());
+    }
+
+    private void processConversationResult(@NotNull CalculatorConversionEventData calculatorEventData, @NotNull String result) {
+        // add prefix
+        if (calculatorEventData.getFromNumeralBase() != calculatorEventData.getToNumeralBase()) {
+            result = calculatorEventData.getToNumeralBase().getJsclPrefix() + result;
+        }
+
+        final CalculatorDisplayViewState displayState = calculatorEventData.getDisplayState();
+        this.setViewStateForSequence(CalculatorDisplayViewStateImpl.newValidState(displayState.getOperation(), displayState.getResult(), result, 0), calculatorEventData.getSequenceId());
     }
 }

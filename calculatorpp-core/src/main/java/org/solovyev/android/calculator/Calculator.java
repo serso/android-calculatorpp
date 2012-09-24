@@ -32,16 +32,26 @@ public interface Calculator extends CalculatorEventContainer, HistoryControl<Cal
     void simplify();
 
     @NotNull
-    CalculatorEventDataId evaluate(@NotNull JsclOperation operation,
+    CalculatorEventData evaluate(@NotNull JsclOperation operation,
                                    @NotNull String expression);
 
     @NotNull
-    CalculatorEventDataId evaluate(@NotNull JsclOperation operation,
+    CalculatorEventData evaluate(@NotNull JsclOperation operation,
                                    @NotNull String expression,
                                    @NotNull Long sequenceId);
 
+    /*
+    **********************************************************************
+    *
+    *                           CONVERSION
+    *
+    **********************************************************************
+    */
+
+    boolean isConversionPossible(@NotNull Generic generic, @NotNull NumeralBase from, @NotNull NumeralBase to);
+
     @NotNull
-    CalculatorEventDataId convert(@NotNull Generic generic, @NotNull NumeralBase to);
+    CalculatorEventData convert(@NotNull Generic generic, @NotNull NumeralBase to);
 
     /*
     **********************************************************************
@@ -51,8 +61,8 @@ public interface Calculator extends CalculatorEventContainer, HistoryControl<Cal
     **********************************************************************
     */
     @NotNull
-    CalculatorEventDataId fireCalculatorEvent(@NotNull CalculatorEventType calculatorEventType, @Nullable Object data);
+    CalculatorEventData fireCalculatorEvent(@NotNull CalculatorEventType calculatorEventType, @Nullable Object data);
 
     @NotNull
-    CalculatorEventDataId fireCalculatorEvent(@NotNull CalculatorEventType calculatorEventType, @Nullable Object data, @NotNull Long sequenceId);
+    CalculatorEventData fireCalculatorEvent(@NotNull CalculatorEventType calculatorEventType, @Nullable Object data, @NotNull Long sequenceId);
 }

@@ -3,14 +3,10 @@ package org.solovyev.android.calculator;
 import android.app.Activity;
 import jscl.NumeralBase;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.math.units.Unit;
-import org.solovyev.math.units.UnitConverter;
-import org.solovyev.math.units.UnitImpl;
-import org.solovyev.math.units.UnitType;
+import org.solovyev.android.calculator.units.CalculatorNumeralBase;
 import org.solovyev.android.view.drag.DirectionDragButton;
 import org.solovyev.android.view.drag.DragDirection;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -20,9 +16,9 @@ import java.util.List;
  * Date: 4/21/12
  * Time: 8:00 PM
  */
-public enum AndroidNumeralBase implements UnitType<String> {
+public enum AndroidNumeralBase {
 
-    bin(NumeralBase.bin) {
+    bin(CalculatorNumeralBase.bin) {
         @NotNull
         @Override
         public List<Integer> getButtonIds() {
@@ -30,7 +26,7 @@ public enum AndroidNumeralBase implements UnitType<String> {
         }
     },
 
-    oct(NumeralBase.oct) {
+    oct(CalculatorNumeralBase.oct) {
         @NotNull
         @Override
         public List<Integer> getButtonIds() {
@@ -40,7 +36,7 @@ public enum AndroidNumeralBase implements UnitType<String> {
         }
     },
 
-    dec(NumeralBase.dec) {
+    dec(CalculatorNumeralBase.dec) {
         @NotNull
         @Override
         public List<Integer> getButtonIds() {
@@ -50,7 +46,7 @@ public enum AndroidNumeralBase implements UnitType<String> {
         }
     },
 
-    hex(NumeralBase.hex) {
+    hex(CalculatorNumeralBase.hex) {
 
         @NotNull
         private List<Integer> specialHexButtonIds = Arrays.asList(R.id.oneDigitButton, R.id.twoDigitButton, R.id.threeDigitButton, R.id.fourDigitButton, R.id.fiveDigitButton, R.id.sixDigitButton);
@@ -72,15 +68,10 @@ public enum AndroidNumeralBase implements UnitType<String> {
     };
 
     @NotNull
-    private final NumeralBase numeralBase;
+    private final CalculatorNumeralBase calculatorNumeralBase;
 
-    private AndroidNumeralBase(@NotNull NumeralBase numeralBase) {
-        this.numeralBase = numeralBase;
-    }
-
-    @NotNull
-    public Unit<String> createUnit(@NotNull String value) {
-        return UnitImpl.newInstance(value, this);
+    private AndroidNumeralBase(@NotNull CalculatorNumeralBase calculatorNumeralBase) {
+        this.calculatorNumeralBase = calculatorNumeralBase;
     }
 
     @NotNull
@@ -101,54 +92,13 @@ public enum AndroidNumeralBase implements UnitType<String> {
 
     @NotNull
     public NumeralBase getNumeralBase() {
-        return numeralBase;
-    }
-
-    @NotNull
-    @Override
-    public Class<String> getUnitValueClass() {
-        return String.class;
-    }
-
-    @NotNull
-    private static final Converter converter = new Converter();
-
-    @NotNull
-    public static Converter getConverter() {
-        return converter;
-    }
-
-    public static class Converter implements UnitConverter<String> {
-
-        private Converter() {
-        }
-
-        @Override
-        public boolean isSupported(@NotNull UnitType<?> from, @NotNull UnitType<String> to) {
-            return AndroidNumeralBase.class.isAssignableFrom(from.getClass()) && AndroidNumeralBase.class.isAssignableFrom(to.getClass());
-        }
-
-        @NotNull
-        @Override
-        public Unit<String> convert(@NotNull Unit<?> from, @NotNull UnitType<String> toType) {
-            if (!isSupported(from.getUnitType(), toType)) {
-                throw new IllegalArgumentException("Types are not supported!");
-            }
-
-            final AndroidNumeralBase fromTypeAndroid = (AndroidNumeralBase) from.getUnitType();
-            final NumeralBase fromNumeralBase = fromTypeAndroid.numeralBase;
-            final NumeralBase toNumeralBase = ((AndroidNumeralBase) toType).numeralBase;
-            final String fromValue = (String) from.getValue();
-
-            final BigInteger decBigInteger = fromNumeralBase.toBigInteger(fromValue);
-            return UnitImpl.newInstance(toNumeralBase.toString(decBigInteger), (AndroidNumeralBase) toType);
-        }
+        return calculatorNumeralBase.getNumeralBase();
     }
 
     @NotNull
     public static AndroidNumeralBase valueOf(@NotNull NumeralBase nb) {
         for (AndroidNumeralBase androidNumeralBase : values()) {
-            if (androidNumeralBase.numeralBase == nb) {
+            if (androidNumeralBase.calculatorNumeralBase.getNumeralBase() == nb) {
                 return androidNumeralBase;
             }
         }

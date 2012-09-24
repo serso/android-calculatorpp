@@ -16,7 +16,7 @@ public final class CalculatorUtils {
     }
 
     @NotNull
-    public static CalculatorEventDataId createFirstEventDataId() {
-        return CalculatorEventDataIdImpl.newInstance(FIRST_ID, FIRST_ID);
+    public static CalculatorEventData createFirstEventDataId() {
+        return CalculatorEventDataImpl.newInstance(FIRST_ID, FIRST_ID);
     }
 }
