@@ -46,6 +46,10 @@ public class CalculatorApplication extends android.app.Application {
 
     @Override
     public void onCreate() {
+        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        setTheme(preferences);
+
         super.onCreate();
 
         final AndroidCalculator calculator = new AndroidCalculator();
@@ -71,9 +75,12 @@ public class CalculatorApplication extends android.app.Application {
             }
         });
 
-        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-
         CalculatorPreferences.setDefaultValues(preferences);
+    }
+
+    private void setTheme(@NotNull SharedPreferences preferences) {
+        final CalculatorPreferences.Gui.Theme theme = CalculatorPreferences.Gui.getTheme(preferences);
+        setTheme(theme.getThemeId());
     }
 
     public static void showDonationDialog(@NotNull final Context context) {

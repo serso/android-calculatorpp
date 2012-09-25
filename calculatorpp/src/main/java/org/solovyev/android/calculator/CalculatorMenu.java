@@ -6,51 +6,51 @@ import android.util.Log;
 import android.view.MenuItem;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.view.NumeralBaseConverterDialog;
-import org.solovyev.android.menu.IdentifiableMenuItem;
+import org.solovyev.android.menu.LabeledMenuItem;
 
 /**
  * User: serso
  * Date: 4/23/12
  * Time: 2:25 PM
  */
-enum CalculatorMenu implements IdentifiableMenuItem<MenuItem> {
+enum CalculatorMenu implements LabeledMenuItem<MenuItem> {
 
-    settings(R.id.main_menu_item_settings){
+    settings(R.string.c_settings) {
         @Override
         public void onClick(@NotNull MenuItem data, @NotNull Context context) {
             CalculatorActivityLauncher.showSettings(context);
         }
     },
 
-    history(R.id.main_menu_item_history) {
+    history(R.string.c_history) {
         @Override
         public void onClick(@NotNull MenuItem data, @NotNull Context context) {
             CalculatorActivityLauncher.showHistory(context);
         }
     },
 
-    about(R.id.main_menu_item_about) {
+    about(R.string.c_about) {
         @Override
         public void onClick(@NotNull MenuItem data, @NotNull Context context) {
             CalculatorActivityLauncher.showAbout(context);
         }
     },
 
-    help(R.id.main_menu_item_help) {
+    help(R.string.c_help) {
         @Override
         public void onClick(@NotNull MenuItem data, @NotNull Context context) {
             CalculatorActivityLauncher.showHelp(context);
         }
     },
 
-    conversion_tool( R.id.main_menu_conversion_tool) {
+    conversion_tool(R.string.c_conversion_tool) {
         @Override
         public void onClick(@NotNull MenuItem data, @NotNull Context context) {
             new NumeralBaseConverterDialog(null).show(context);
         }
     },
 
-    exit(R.id.main_menu_item_exit) {
+    exit(R.string.c_exit) {
         @Override
         public void onClick(@NotNull MenuItem data, @NotNull Context context) {
             if (context instanceof Activity) {
@@ -61,15 +61,15 @@ enum CalculatorMenu implements IdentifiableMenuItem<MenuItem> {
         }
     };
 
-    private final int menuItemId;
+    private final int captionResId;
 
-    private CalculatorMenu (int menuItemId) {
-        this.menuItemId = menuItemId;
+    private CalculatorMenu(int captionResId) {
+        this.captionResId = captionResId;
     }
 
     @NotNull
     @Override
-    public Integer getItemId() {
-        return menuItemId;
+    public String getCaption(@NotNull Context context) {
+        return context.getString(captionResId);
     }
 }

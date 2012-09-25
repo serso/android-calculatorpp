@@ -7,7 +7,6 @@
   -->
 <LinearLayout
         xmlns:a="http://schemas.android.com/apk/res/android"
-        xmlns:c="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
         a:layout_width="match_parent"
         a:layout_height="match_parent"
         a:id="@+id/main_layout"
@@ -24,64 +23,40 @@
                   a:layout_width="match_parent"
                   a:layout_height="0dp">
 
-        <org.solovyev.android.view.drag.DirectionDragButton xmlns:a="http://schemas.android.com/apk/res/android"
-                                                            xmlns:c="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
-                                                            a:id="@+id/leftButton"
-                                                            c:textUp="◀◀"
-                                                            a:text="◀"
-                                                            c:directionTextScale="0.5"
-                                                            style="?controlButtonStyle"
-                                                            a:onClick="moveLeftButtonClickHandler"
-                                                            a:layout_width="0dp"
-                                                            a:layout_height="match_parent"
-                                                            a:layout_weight="1"/>
+        <include layout="@layout/calc_left_button"
+                 a:layout_margin="@dimen/button_margin"
+                 a:layout_width="0dp"
+                 a:layout_height="match_parent"
+                 a:layout_weight="1"/>
 
-
-        <org.solovyev.android.view.ColorButton xmlns:a="http://schemas.android.com/apk/res/android"
-                                               xmlns:c="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
-                                               a:id="@+id/eraseButton"
-                                               a:drawableTop="@drawable/sym_keyboard_delete"
-                                               style="?controlImageButtonStyle"
-                                               a:onClick="eraseButtonClickHandler"
-                                               a:layout_width="0dp"
-                                               a:layout_height="match_parent"
-                                               a:layout_weight="1"/>
+        <include layout="@layout/calc_erase_button"
+                 a:layout_margin="@dimen/button_margin"
+                 a:layout_width="0dp"
+                 a:layout_height="match_parent"
+                 a:layout_weight="1"/>
 
         <LinearLayout a:id="@+id/displayContainer"
+                      a:layout_margin="@dimen/display_margin"
                       a:layout_weight="4"
                       a:layout_width="0dp"
                       a:layout_height="match_parent"/>
 
-        <org.solovyev.android.calculator.view.NumeralBasesButton xmlns:a="http://schemas.android.com/apk/res/android"
-                                                                 xmlns:c="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
-                                                                 a:id="@+id/clearButton"
-                                                                 c:textUp="dec"
-                                                                 a:text="@string/c_clear"
-                                                                 c:textDown="bin"
-                                                                 c:textLeft="hex"
-                                                                 a:textStyle="bold"
-                                                                 style="?controlImageButtonStyle"
-                                                                 a:onClick="clearButtonClickHandler"
-                                                                 a:layout_width="0dp"
-                                                                 a:layout_height="match_parent"
-                                                                 a:layout_weight="1"/>
+        <include layout="@layout/calc_clear_button"
+                 a:layout_margin="@dimen/button_margin"
+                 a:layout_width="0dp"
+                 a:layout_height="match_parent"
+                 a:layout_weight="1"/>
 
-        <org.solovyev.android.view.drag.DirectionDragButton xmlns:a="http://schemas.android.com/apk/res/android"
-                                                            xmlns:c="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
-                                                            a:id="@+id/rightButton"
-                                                            c:textUp="▶▶"
-                                                            a:text="▶"
-                                                            c:directionTextScale="0.5"
-                                                            style="?controlButtonStyle"
-                                                            a:onClick="moveRightButtonClickHandler"
-                                                            a:layout_width="0dp"
-                                                            a:layout_height="match_parent"
-                                                            a:layout_weight="1"/>
+        <include layout="@layout/calc_right_button"
+                 a:layout_margin="@dimen/button_margin"
+                 a:layout_width="0dp"
+                 a:layout_height="match_parent"
+                 a:layout_weight="1"/>
 
     </LinearLayout>
 
     <LinearLayout a:id="@+id/keyboardContainer"
-                  a:layout_weight="4"
+                  a:layout_weight="3"
                   a:layout_width="match_parent"
                   a:layout_height="0dp"/>
 

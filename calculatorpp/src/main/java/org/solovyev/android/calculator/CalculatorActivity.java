@@ -5,12 +5,14 @@
 
 package org.solovyev.android.calculator;
 
-import android.app.*;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
@@ -24,17 +26,18 @@ import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.AndroidUtils;
 import org.solovyev.android.FontSizeAdjuster;
 import org.solovyev.android.calculator.about.CalculatorReleaseNotesActivity;
-import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 import org.solovyev.android.calculator.view.CalculatorAdditionalTitle;
+import org.solovyev.android.fragments.FragmentUtils;
 import org.solovyev.android.menu.ActivityMenu;
-import org.solovyev.android.menu.LayoutActivityMenu;
+import org.solovyev.android.menu.AndroidMenuHelper;
+import org.solovyev.android.menu.ListActivityMenu;
 import org.solovyev.android.prefs.Preference;
 import org.solovyev.android.view.ColorButton;
 import org.solovyev.common.equals.EqualsTool;
 import org.solovyev.common.history.HistoryAction;
 import org.solovyev.common.text.StringUtils;
 
-public class CalculatorActivity extends Activity implements FontSizeAdjuster, SharedPreferences.OnSharedPreferenceChangeListener {
+public class CalculatorActivity extends FragmentActivity implements FontSizeAdjuster, SharedPreferences.OnSharedPreferenceChangeListener {
 
     @NotNull
     public static final String TAG = "Calculator++";
@@ -53,7 +56,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	private boolean useBackAsPrev;
 
     @NotNull
-    private ActivityMenu<Menu, MenuItem> menu = LayoutActivityMenu.newInstance(R.menu.main_menu, CalculatorMenu.class);
+    private ActivityMenu<Menu, MenuItem> menu = ListActivityMenu.fromList(CalculatorMenu.class, AndroidMenuHelper.getInstance());
 
     /**
 	 * Called when the activity is first created.
@@ -67,15 +70,17 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-		setTheme(preferences);
+		this.theme = CalculatorPreferences.Gui.getTheme(preferences);
+        setTheme(this.theme.getThemeId());
+
 		super.onCreate(savedInstanceState);
 		setLayout(preferences);
 
         CalculatorKeyboardFragment.fixThemeParameters(true, theme, this.getWindow().getDecorView());
 
-        createFragment(CalculatorEditorFragment.class, R.id.editorContainer, "tag");
-        createFragment(CalculatorDisplayFragment.class, R.id.displayContainer, "display");
-        createFragment(CalculatorKeyboardFragment.class, R.id.keyboardContainer, "keyboard");
+        FragmentUtils.createFragment(this, CalculatorEditorFragment.class, R.id.editorContainer, "editor");
+        FragmentUtils.createFragment(this, CalculatorDisplayFragment.class, R.id.displayContainer, "display");
+        FragmentUtils.createFragment(this, CalculatorKeyboardFragment.class, R.id.keyboardContainer, "keyboard");
 
         if (customTitleSupported) {
 			try {
@@ -105,31 +110,6 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
         preferences.registerOnSharedPreferenceChangeListener(this);
 	}
 
-    private void createFragment(@NotNull Class<? extends Fragment> fragmentClass, int parentViewId, @NotNull String tag) {
-        final FragmentManager fm = getFragmentManager();
-
-        Fragment messagesFragment = fm.findFragmentByTag(tag);
-
-        final FragmentTransaction ft = fm.beginTransaction();
-        try {
-            if (messagesFragment == null) {
-                messagesFragment = Fragment.instantiate(this, fragmentClass.getName(), null);
-                ft.add(parentViewId, messagesFragment, tag);
-            } else {
-                if (messagesFragment.isDetached()) {
-                    ft.attach(messagesFragment);
-                }
-            }
-        } finally {
-            ft.commit();
-        }
-    }
-
-    @NotNull
-    private AndroidCalculatorEngine getEngine() {
-        return ((AndroidCalculatorEngine) CalculatorLocatorImpl.getInstance().getEngine());
-    }
-
     @NotNull
     private AndroidCalculator getCalculator() {
         return ((AndroidCalculator) CalculatorLocatorImpl.getInstance().getCalculator());
@@ -139,11 +119,6 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
         layout = CalculatorPreferences.Gui.layout.getPreferenceNoError(preferences);
 
         setContentView(layout.getLayoutId());
-	}
-
-	private synchronized void setTheme(@NotNull SharedPreferences preferences) {
-		theme = CalculatorPreferences.Gui.theme.getPreferenceNoError(preferences);
-		setTheme(theme.getThemeId());
 	}
 
     private static void firstTimeInit(@NotNull SharedPreferences preferences, @NotNull Context context) {
@@ -231,6 +206,20 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
     @SuppressWarnings({"UnusedDeclaration"})
     public void equalsButtonClickHandler(@NotNull View v) {
         getCalculator().evaluate();
+    }
+
+    /*
+    **********************************************************************
+    *
+    *                           MENU
+    *
+    **********************************************************************
+    */
+
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        return this.menu.onPrepareOptionsMenu(this, menu);
     }
 
     @Override
@@ -375,7 +364,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
         CalculatorActivityLauncher.showOperators(this);
     }
 
-    public static void operatorsButtonClickHandler(@NotNull Activity activity, @NotNull View view) {
+    public static void operatorsButtonClickHandler(@NotNull Activity activity) {
         CalculatorActivityLauncher.showOperators(activity);
     }
 

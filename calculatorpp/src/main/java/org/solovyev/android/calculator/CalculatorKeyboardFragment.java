@@ -1,13 +1,13 @@
 package org.solovyev.android.calculator;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.*;
 import android.widget.Button;
@@ -101,7 +101,7 @@ public class CalculatorKeyboardFragment extends Fragment implements SharedPrefer
                 @Override
                 public boolean processDragEvent(@NotNull DragDirection dragDirection, @NotNull DragButton dragButton, @NotNull Point2d startPoint2d, @NotNull MotionEvent motionEvent) {
                     if (dragDirection == DragDirection.down) {
-                        CalculatorActivity.operatorsButtonClickHandler(getActivity(), dragButton);
+                        CalculatorActivity.operatorsButtonClickHandler(getActivity());
                         return true;
                     }
                     return false;

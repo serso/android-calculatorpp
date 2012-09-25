@@ -39,6 +39,11 @@ public final class CalculatorPreferences {
         public static final Preference<Boolean> autoOrientation = new BooleanPreference("autoOrientation", true);
         public static final Preference<Boolean> hideNumeralBaseDigits = new BooleanPreference("hideNumeralBaseDigits", true);
 
+        @NotNull
+        public static Theme getTheme(@NotNull SharedPreferences preferences) {
+            return theme.getPreferenceNoError(preferences);
+        }
+
         public static enum Theme {
 
             default_theme(ThemeType.other, R.style.default_theme),
