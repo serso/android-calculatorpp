@@ -40,7 +40,7 @@ public class HistoryArrayAdapter extends ArrayAdapter<CalculatorHistoryState> {
 		time.setText(new SimpleDateFormat().format(new Date(state.getTime())));
 
 		final TextView editor = (TextView) result.findViewById(R.id.history_item);
-		editor.setText(AbstractHistoryActivity.getHistoryText(state));
+		editor.setText(AbstractCalculatorHistoryFragment.getHistoryText(state));
 
 		final TextView commentView = (TextView) result.findViewById(R.id.history_item_comment);
 		if (commentView != null) {
@@ -57,7 +57,7 @@ public class HistoryArrayAdapter extends ArrayAdapter<CalculatorHistoryState> {
 			if (state.isSaved()) {
 				status.setText(getContext().getString(R.string.c_history_item_saved));
 			} else {
-				if ( AbstractHistoryActivity.isAlreadySaved(state) ) {
+				if ( AbstractCalculatorHistoryFragment.isAlreadySaved(state) ) {
 					status.setText(getContext().getString(R.string.c_history_item_already_saved));
 				} else {
 					status.setText(getContext().getString(R.string.c_history_item_not_saved));
@@ -71,7 +71,7 @@ public class HistoryArrayAdapter extends ArrayAdapter<CalculatorHistoryState> {
 	@Override
 	public void notifyDataSetChanged() {
 		this.setNotifyOnChange(false);
-		this.sort(AbstractHistoryActivity.COMPARATOR);
+		this.sort(AbstractCalculatorHistoryFragment.COMPARATOR);
 		this.setNotifyOnChange(true);
 		super.notifyDataSetChanged();
 	}

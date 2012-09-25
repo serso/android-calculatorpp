@@ -33,10 +33,10 @@ public enum HistoryItemMenuItem implements LabeledMenuItem<HistoryItemMenuData> 
 	use(R.string.c_use) {
 		@Override
 		public void onClick(@NotNull HistoryItemMenuData data, @NotNull Context context) {
-			if (context instanceof AbstractHistoryActivity) {
-				AbstractHistoryActivity.useHistoryItem(data.getHistoryState(), (AbstractHistoryActivity) context);
+			if (context instanceof Activity) {
+				AbstractCalculatorHistoryFragment.useHistoryItem(data.getHistoryState(), (Activity) context);
 			} else {
-				Log.e(HistoryItemMenuItem.class.getName(), AbstractHistoryActivity.class + " must be passed as context!");
+				Log.e(HistoryItemMenuItem.class.getName(), AbstractCalculatorHistoryFragment.class + " must be passed as context!");
 			}
 		}
 	},
@@ -110,7 +110,7 @@ public enum HistoryItemMenuItem implements LabeledMenuItem<HistoryItemMenuData> 
 		final LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		final View editView = layoutInflater.inflate(R.layout.history_edit, null);
 		final TextView historyExpression = (TextView)editView.findViewById(R.id.history_edit_expression);
-		historyExpression.setText(AbstractHistoryActivity.getHistoryText(historyState));
+		historyExpression.setText(AbstractCalculatorHistoryFragment.getHistoryText(historyState));
 
 		final EditText comment = (EditText)editView.findViewById(R.id.history_edit_comment);
 		comment.setText(historyState.getComment());

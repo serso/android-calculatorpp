@@ -16,23 +16,24 @@ import java.util.List;
 /**
  * User: serso
  * Date: 12/18/11
- * Time: 7:40 PM
+ * Time: 7:39 PM
  */
-public class SavedHistoryActivityTab extends AbstractHistoryActivity {
+public class CalculatorHistoryFragment extends AbstractCalculatorHistoryFragment {
+
 	@Override
 	protected int getLayoutId() {
-		return R.layout.saved_history;
+		return R.layout.history;
 	}
 
 	@NotNull
 	@Override
 	protected List<CalculatorHistoryState> getHistoryItems() {
-		return new ArrayList<CalculatorHistoryState>(CalculatorLocatorImpl.getInstance().getHistory().getSavedHistory());
+		return new ArrayList<CalculatorHistoryState>(CalculatorLocatorImpl.getInstance().getHistory().getStates());
 	}
 
 	@Override
 	protected void clearHistory() {
-        CalculatorLocatorImpl.getInstance().getHistory().clearSavedHistory();
+        CalculatorLocatorImpl.getInstance().getHistory().clear();
 		getAdapter().clear();
 	}
 }

@@ -9,7 +9,7 @@
 
     <uses-sdk android:minSdkVersion="4" android:targetSdkVersion="8"/>
 
-    <application android:debuggable="true" android:hardwareAccelerated="false" android:icon="@drawable/icon" android:label="@string/c_app_name" android:name=".CalculatorApplication">
+    <application android:debuggable="true" android:hardwareAccelerated="false" android:icon="@drawable/icon" android:label="@string/c_app_name" android:name=".CalculatorApplication" android:theme="@style/metro_blue_theme">
 
         <activity android:label="@string/c_app_name" android:name=".CalculatorActivity" android:windowSoftInputMode="adjustPan">
 
@@ -23,11 +23,11 @@
         <!--NOTE: a:configChanges="orientation|keyboardHidden" is needed to correct work of dialog windows (not to close them on orientation change) -->
         <activity android:configChanges="orientation|keyboardHidden" android:label="@string/c_app_settings" android:name=".CalculatorPreferencesActivity"/>
 
-        <activity android:configChanges="orientation|keyboardHidden" android:label="@string/c_app_history" android:name=".history.CalculatorHistoryTabActivity"/>
+        <activity android:configChanges="orientation|keyboardHidden" android:label="@string/c_app_history" android:name=".history.CalculatorHistoryFragmentActivity"/>
 
-        <activity android:configChanges="orientation|keyboardHidden" android:label="@string/c_history" android:name=".history.HistoryActivityTab"/>
+        <activity android:configChanges="orientation|keyboardHidden" android:label="@string/c_history" android:name=".history.CalculatorHistoryFragment"/>
 
-        <activity android:configChanges="orientation|keyboardHidden" android:label="@string/c_saved_history" android:name=".history.SavedHistoryActivityTab"/>
+        <activity android:configChanges="orientation|keyboardHidden" android:label="@string/c_saved_history" android:name=".history.CalculatorSavedHistoryFragment"/>
 
         <activity android:configChanges="orientation|keyboardHidden" android:label="@string/c_about" android:name=".about.CalculatorAboutTabActivity"/>
 

@@ -6,15 +6,16 @@
 
 package org.solovyev.android.calculator.history;
 
-import android.app.ListActivity;
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import com.actionbarsherlock.app.SherlockListFragment;
 import com.google.ads.AdView;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -41,7 +42,8 @@ import java.util.List;
  * Date: 10/15/11
  * Time: 1:13 PM
  */
-public abstract class AbstractHistoryActivity extends ListActivity {
+public abstract class AbstractCalculatorHistoryFragment extends SherlockListFragment {
+
 
 	public static final Comparator<CalculatorHistoryState> COMPARATOR = new Comparator<CalculatorHistoryState>() {
 		@Override
@@ -65,65 +67,73 @@ public abstract class AbstractHistoryActivity extends ListActivity {
 	@Nullable
 	private AdView adView;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.history_activity, null);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        adView = AdsController.getInstance().inflateAd(this.getActivity());
+
+        adapter = new HistoryArrayAdapter(this.getActivity(), getLayoutId(), R.id.history_item, new ArrayList<CalculatorHistoryState>());
+        setListAdapter(adapter);
+
+        final ListView lv = getListView();
+        lv.setTextFilterEnabled(true);
+
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(final AdapterView<?> parent,
+                                    final View view,
+                                    final int position,
+                                    final long id) {
+
+                useHistoryItem((CalculatorHistoryState) parent.getItemAtPosition(position), getActivity());
+            }
+        });
+
+        lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                final CalculatorHistoryState historyState = (CalculatorHistoryState) parent.getItemAtPosition(position);
+
+                final Context context = getActivity();
+
+                final HistoryItemMenuData data = new HistoryItemMenuData(historyState, adapter);
+
+                final List<HistoryItemMenuItem> menuItems = CollectionsUtils.asList(HistoryItemMenuItem.values());
+
+                if (historyState.isSaved()) {
+                    menuItems.remove(HistoryItemMenuItem.save);
+                } else {
+                    if (isAlreadySaved(historyState)) {
+                        menuItems.remove(HistoryItemMenuItem.save);
+                    }
+                    menuItems.remove(HistoryItemMenuItem.remove);
+                    menuItems.remove(HistoryItemMenuItem.edit);
+                }
+
+                if (historyState.getDisplayState().isValid() && StringUtils.isEmpty(historyState.getDisplayState().getEditorState().getText())) {
+                    menuItems.remove(HistoryItemMenuItem.copy_result);
+                }
+
+                final AMenuBuilder<HistoryItemMenuItem, HistoryItemMenuData> menuBuilder = AMenuBuilder.newInstance(context, MenuImpl.newInstance(menuItems));
+                menuBuilder.create(data).show();
+
+                return true;
+            }
+        });
+    }
+
+    @Override
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		setContentView(R.layout.history_activity);
-
-		adView = AdsController.getInstance().inflateAd(this);
-
-		adapter = new HistoryArrayAdapter(this, getLayoutId(), R.id.history_item, new ArrayList<CalculatorHistoryState>());
-		setListAdapter(adapter);
-
-		final ListView lv = getListView();
-		lv.setTextFilterEnabled(true);
-
-		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			public void onItemClick(final AdapterView<?> parent,
-									final View view,
-									final int position,
-									final long id) {
-
-				useHistoryItem((CalculatorHistoryState) parent.getItemAtPosition(position), AbstractHistoryActivity.this);
-			}
-		});
-
-		lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-			@Override
-			public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-				final CalculatorHistoryState historyState = (CalculatorHistoryState) parent.getItemAtPosition(position);
-
-				final Context context = AbstractHistoryActivity.this;
-
-				final HistoryItemMenuData data = new HistoryItemMenuData(historyState, adapter);
-
-				final List<HistoryItemMenuItem> menuItems = CollectionsUtils.asList(HistoryItemMenuItem.values());
-
-				if (historyState.isSaved()) {
-					menuItems.remove(HistoryItemMenuItem.save);
-				} else {
-					if (isAlreadySaved(historyState)) {
-						menuItems.remove(HistoryItemMenuItem.save);
-					}
-					menuItems.remove(HistoryItemMenuItem.remove);
-					menuItems.remove(HistoryItemMenuItem.edit);
-				}
-
-				if (historyState.getDisplayState().isValid() && StringUtils.isEmpty(historyState.getDisplayState().getEditorState().getText())) {
-					menuItems.remove(HistoryItemMenuItem.copy_result);
-				}
-
-				final AMenuBuilder<HistoryItemMenuItem, HistoryItemMenuData> menuBuilder = AMenuBuilder.newInstance(context, MenuImpl.newInstance(menuItems));
-				menuBuilder.create(data).show();
-
-				return true;
-			}
-		});
 	}
 
 	@Override
-	protected void onDestroy() {
+	public void onDestroy() {
 		if ( this.adView != null ) {
 			this.adView.destroy();
 		}
@@ -133,7 +143,7 @@ public abstract class AbstractHistoryActivity extends ListActivity {
 	protected abstract int getLayoutId();
 
 	@Override
-	protected void onResume() {
+	public void onResume() {
 		super.onResume();
 
 		final List<CalculatorHistoryState> historyList = getHistoryList();
@@ -173,7 +183,7 @@ public abstract class AbstractHistoryActivity extends ListActivity {
 		return result;
 	}
 
-	public static void useHistoryItem(@NotNull final CalculatorHistoryState historyState, @NotNull AbstractHistoryActivity activity) {
+	public static void useHistoryItem(@NotNull final CalculatorHistoryState historyState, @NotNull Activity activity) {
         final EditorHistoryState editorState = historyState.getEditorState();
         CalculatorLocatorImpl.getInstance().getEditor().setText(StringUtils.getNotEmpty(editorState.getText(), ""), editorState.getCursorPosition());
 
@@ -219,7 +229,8 @@ public abstract class AbstractHistoryActivity extends ListActivity {
 		return jsclOperation == JsclOperation.simplify ? "≡" : "=";
 	}
 
-	@Override
+    // todo serso: menu
+/*	@Override
 	public boolean onCreateOptionsMenu(android.view.Menu menu) {
 		final MenuInflater menuInflater = getMenuInflater();
 		menuInflater.inflate(R.menu.history_menu, menu);
@@ -240,7 +251,7 @@ public abstract class AbstractHistoryActivity extends ListActivity {
 		}
 
 		return result;
-	}
+	}*/
 
 	protected abstract void clearHistory();
 

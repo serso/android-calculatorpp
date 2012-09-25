@@ -109,4 +109,9 @@ public class CalculatorApplication extends android.app.Application {
     public static void registerOnRemoteStackTrace() {
         //Thread.setDefaultUncaughtExceptionHandler(new CustomExceptionHandler(null, REMOTE_STACK_TRACE_URL));
     }
+
+    @NotNull
+    public CalculatorActivityHelper createCalculatorHistoryHelper(int layoutResId) {
+       return new CalculatorActivityHelperImpl(layoutResId);
+    }
 }

@@ -9,7 +9,7 @@ import org.achartengine.ChartFactory;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.about.CalculatorAboutTabActivity;
 import org.solovyev.android.calculator.help.CalculatorHelpTabActivity;
-import org.solovyev.android.calculator.history.CalculatorHistoryTabActivity;
+import org.solovyev.android.calculator.history.CalculatorHistoryFragmentActivity;
 import org.solovyev.android.calculator.math.edit.CalculatorFunctionsTabActivity;
 import org.solovyev.android.calculator.math.edit.CalculatorOperatorsActivity;
 import org.solovyev.android.calculator.math.edit.CalculatorVarsTabActivity;
@@ -25,7 +25,7 @@ import org.solovyev.common.text.StringUtils;
 public class CalculatorActivityLauncher {
 
 	public static void showHistory(@NotNull final Context context) {
-		context.startActivity(new Intent(context, CalculatorHistoryTabActivity.class));
+		context.startActivity(new Intent(context, CalculatorHistoryFragmentActivity.class));
 	}
 
 	public static void showHelp(@NotNull final Context context) {
