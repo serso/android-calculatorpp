@@ -13,8 +13,7 @@
 		<item name="android:layout_weight">1</item>
 		<item name="android:focusable">true</item>
 		<item name="android:background">@drawable/default_button_dark</item>
-		<item name="android:layout_marginLeft">1dp</item>
-		<item name="android:layout_marginBottom">1dp</item>
+		<item name="android:layout_margin">0.5dp</item>
 	</style>
 
 	<style name="editor_style" parent="editor_style_parent">
@@ -25,8 +24,9 @@
 
 	<style name="display_style" parent="display_style_parent">
 		<item name="android:gravity">top|right</item>
-		<item name="android:layout_width">fill_parent</item>
-		<item name="android:layout_height">fill_parent</item>
+		<item name="android:layout_width">match_parent</item>
+		<item name="android:layout_height">match_parent</item>
+        <item name="android:layout_margin">0.5dp</item>
 	</style>
 
 	<style name="about_style" parent="about_style_parent">

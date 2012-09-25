@@ -8,7 +8,6 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.*;
 import android.widget.Button;
@@ -156,7 +155,7 @@ public class CalculatorKeyboardFragment extends Fragment implements SharedPrefer
 
         numeralBaseButtons.toggleNumericDigits(this.getActivity(), preferences);
 
-        fixThemeParameters(root, true, this.getActivity(), theme);
+        fixThemeParameters(true, theme, this.getView());
 
         toggleEqualsButton(preferences, this.getActivity(), theme, root);
 
@@ -172,45 +171,20 @@ public class CalculatorKeyboardFragment extends Fragment implements SharedPrefer
         preferences.unregisterOnSharedPreferenceChangeListener(this);
     }
 
-    public static void fixThemeParameters(@NotNull View root, boolean fixMagicFlames, @NotNull Activity activity, @NotNull CalculatorPreferences.Gui.Theme theme) {
+    public static void fixThemeParameters(boolean fixMagicFlames,
+                                          @NotNull CalculatorPreferences.Gui.Theme theme,
+                                          @NotNull View root) {
         if (theme.getThemeType() == CalculatorPreferences.Gui.ThemeType.metro) {
 
             if (fixMagicFlames) {
                 // for metro themes we should turn off magic flames
-                AndroidUtils.processViewsOfType(activity.getWindow().getDecorView(), ColorButton.class, new AndroidUtils.ViewProcessor<ColorButton>() {
+                AndroidUtils.processViewsOfType(root, ColorButton.class, new AndroidUtils.ViewProcessor<ColorButton>() {
                     @Override
                     public void process(@NotNull ColorButton colorButton) {
                         colorButton.setDrawMagicFlame(false);
                     }
                 });
             }
-
-            fixMargins(root, 2, 2, activity);
-        } else {
-            fixMargins(root, 1, 1, activity);
-        }
-    }
-
-    public static void fixMargins(@NotNull View root, int marginLeft, int marginBottom, @NotNull Activity activity) {
-        // sad but true
-
-        final View equalsButton = root.findViewById(R.id.equalsButton);
-        final View rightButton = root.findViewById(R.id.rightButton);
-        final View leftButton = root.findViewById(R.id.leftButton);
-        final View clearButton = root.findViewById(R.id.clearButton);
-        final View eraseButton = root.findViewById(R.id.eraseButton);
-
-        int orientation = AndroidUtils.getScreenOrientation(activity);
-        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-            setMarginsForView(equalsButton, marginLeft, marginBottom, activity);
-            setMarginsForView(getCalculatorDisplayView(), marginLeft, marginBottom, activity);
-        } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            setMarginsForView(leftButton, marginLeft, marginBottom, activity);
-            setMarginsForView(eraseButton, marginLeft, marginBottom, activity);
-            setMarginsForView(clearButton, marginLeft, marginBottom, activity);
-            setMarginsForView(rightButton, marginLeft, marginBottom, activity);
-            // magic magic magic
-            setMarginsForView(getCalculatorDisplayView(), 3 * marginLeft, marginBottom, activity);
         }
     }
 
@@ -221,7 +195,7 @@ public class CalculatorKeyboardFragment extends Fragment implements SharedPrefer
         }
     }
 
-    private static void setMarginsForView(@Nullable View view, int marginLeft, int marginBottom, @NotNull Context context) {
+/*    private static void setMarginsForView(@Nullable View view, int marginLeft, int marginBottom, @NotNull Context context) {
         // IMPORTANT: this is workaround for probably android bug
         // currently margin values set in styles are not applied for some reasons to the views (using include tag) => set them manually
 
@@ -234,7 +208,7 @@ public class CalculatorKeyboardFragment extends Fragment implements SharedPrefer
                 view.setLayoutParams(newParams);
             }
         }
-    }
+    }*/
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -338,7 +312,7 @@ public class CalculatorKeyboardFragment extends Fragment implements SharedPrefer
                 }
             }
 
-            fixThemeParameters(root, false, activity, theme);
+            fixThemeParameters(false, theme, root);
         }
     }
 

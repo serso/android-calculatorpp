@@ -74,7 +74,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		super.onCreate(savedInstanceState);
 		setLayout(preferences);
 
-        CalculatorKeyboardFragment.fixThemeParameters(findViewById(R.id.main_layout), true, this, theme);
+        CalculatorKeyboardFragment.fixThemeParameters(true, theme, this.getWindow().getDecorView());
 
         final FragmentManager fragmentManager = getFragmentManager();
 
