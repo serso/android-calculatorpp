@@ -4,7 +4,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,6 +70,10 @@ public class CalculatorApplication extends android.app.Application {
                 return CalculatorSecurity.getPK();
             }
         });
+
+        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        CalculatorPreferences.setDefaultValues(preferences);
     }
 
     public static void showDonationDialog(@NotNull final Context context) {

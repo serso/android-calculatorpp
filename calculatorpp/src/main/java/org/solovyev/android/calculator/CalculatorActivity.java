@@ -12,22 +12,14 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.*;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-import jscl.AngleUnit;
-import jscl.NumeralBase;
 import net.robotmedia.billing.BillingController;
 import net.robotmedia.billing.IBillingObserver;
 import org.jetbrains.annotations.NotNull;
@@ -35,28 +27,15 @@ import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.AndroidUtils;
 import org.solovyev.android.FontSizeAdjuster;
 import org.solovyev.android.calculator.about.CalculatorReleaseNotesActivity;
-import org.solovyev.android.calculator.history.CalculatorHistoryState;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
-import org.solovyev.android.calculator.view.AngleUnitsButton;
 import org.solovyev.android.calculator.view.CalculatorAdditionalTitle;
-import org.solovyev.android.calculator.view.NumeralBasesButton;
-import org.solovyev.android.calculator.view.OnDragListenerVibrator;
-import org.solovyev.android.history.HistoryDragProcessor;
 import org.solovyev.android.menu.ActivityMenu;
 import org.solovyev.android.menu.LayoutActivityMenu;
 import org.solovyev.android.prefs.Preference;
 import org.solovyev.android.view.ColorButton;
-import org.solovyev.android.view.drag.*;
-import org.solovyev.common.Announcer;
 import org.solovyev.common.equals.EqualsTool;
 import org.solovyev.common.history.HistoryAction;
-import org.solovyev.common.math.Point2d;
 import org.solovyev.common.text.StringUtils;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.List;
 
 public class CalculatorActivity extends Activity implements FontSizeAdjuster, SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -68,22 +47,13 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 	@Nullable
 	private IBillingObserver billingObserver;
 
-    @NotNull
-	private final Announcer<DragPreferencesChangeListener> dpclRegister = new Announcer<DragPreferencesChangeListener>(DragPreferencesChangeListener.class);
-
 	@NotNull
 	private CalculatorPreferences.Gui.Theme theme;
 
 	@NotNull
 	private CalculatorPreferences.Gui.Layout layout;
 
-	@Nullable
-	private Vibrator vibrator;
-
 	private boolean useBackAsPrev;
-
-    @NotNull
-    private NumeralBaseButtons numeralBaseButtons = new NumeralBaseButtons();
 
     @NotNull
     private ActivityMenu<Menu, MenuItem> menu = LayoutActivityMenu.newInstance(R.menu.main_menu, CalculatorMenu.class);
@@ -100,11 +70,11 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-		CalculatorPreferences.setDefaultValues(preferences);
-
 		setTheme(preferences);
 		super.onCreate(savedInstanceState);
 		setLayout(preferences);
+
+        CalculatorKeyboardFragment.fixThemeParameters(findViewById(R.id.main_layout), true, this, theme);
 
         final FragmentManager fragmentManager = getFragmentManager();
 
@@ -118,7 +88,12 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
         fragmentTransaction.add(R.id.displayContainer, displayFragment);
         fragmentTransaction.commit();
 
-		if (customTitleSupported) {
+        fragmentTransaction = fragmentManager.beginTransaction();
+        final CalculatorKeyboardFragment keyboardFragment = new CalculatorKeyboardFragment();
+        fragmentTransaction.add(R.id.keyboardContainer, keyboardFragment);
+        fragmentTransaction.commit();
+
+        if (customTitleSupported) {
 			try {
 				getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.calc_title);
 				final CalculatorAdditionalTitle additionalAdditionalTitleText = (CalculatorAdditionalTitle)findViewById(R.id.additional_title_text);
@@ -139,88 +114,9 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		// init billing controller
 		BillingController.checkBillingSupported(this);
 
-		vibrator = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
-
-		dpclRegister.clear();
-
-		final SimpleOnDragListener.Preferences dragPreferences = SimpleOnDragListener.getPreferences(preferences, this);
-
-		setOnDragListeners(dragPreferences, preferences);
-
-		final OnDragListener historyOnDragListener = new OnDragListenerVibrator(newOnDragListener(new HistoryDragProcessor<CalculatorHistoryState>(getCalculator()), dragPreferences), vibrator, preferences);
-		((DragButton) findViewById(R.id.historyButton)).setOnDragListener(historyOnDragListener);
-
-		((DragButton) findViewById(R.id.subtractionButton)).setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new SimpleOnDragListener.DragProcessor() {
-			@Override
-			public boolean processDragEvent(@NotNull DragDirection dragDirection, @NotNull DragButton dragButton, @NotNull Point2d startPoint2d, @NotNull MotionEvent motionEvent) {
-				if (dragDirection == DragDirection.down) {
-					operatorsButtonClickHandler(dragButton);
-					return true;
-				}
-				return false;
-			}
-		}, dragPreferences), vibrator, preferences));
-
-
-		final OnDragListener toPositionOnDragListener = new OnDragListenerVibrator(new SimpleOnDragListener(new CursorDragProcessor(), dragPreferences), vibrator, preferences);
-		((DragButton) findViewById(R.id.rightButton)).setOnDragListener(toPositionOnDragListener);
-		((DragButton) findViewById(R.id.leftButton)).setOnDragListener(toPositionOnDragListener);
-
-		final DragButton equalsButton = (DragButton) findViewById(R.id.equalsButton);
-		if (equalsButton != null) {
-			equalsButton.setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new EvalDragProcessor(), dragPreferences), vibrator, preferences));
-		}
-
-		final AngleUnitsButton angleUnitsButton = (AngleUnitsButton) findViewById(R.id.sixDigitButton);
-		if (angleUnitsButton != null) {
-			angleUnitsButton.setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new AngleUnitsChanger(), dragPreferences), vibrator, preferences));
-		}
-
-		final NumeralBasesButton clearButton = (NumeralBasesButton) findViewById(R.id.clearButton);
-		if (clearButton != null) {
-			clearButton.setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new NumeralBasesChanger(), dragPreferences), vibrator, preferences));
-		}
-
-		final DragButton varsButton = (DragButton) findViewById(R.id.varsButton);
-		if (varsButton != null) {
-			varsButton.setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new VarsDragProcessor(), dragPreferences), vibrator, preferences));
-		}
-
-		final DragButton roundBracketsButton = (DragButton) findViewById(R.id.roundBracketsButton);
-		if ( roundBracketsButton != null ) {
-			roundBracketsButton.setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new RoundBracketsDragProcessor(), dragPreferences), vibrator, preferences));
-		}
-
-		initMultiplicationButton();
-
-        fixThemeParameters(true);
-
-        if (layout == CalculatorPreferences.Gui.Layout.simple) {
-			toggleButtonDirectionText(R.id.oneDigitButton, false, DragDirection.up, DragDirection.down);
-			toggleButtonDirectionText(R.id.twoDigitButton, false, DragDirection.up, DragDirection.down);
-			toggleButtonDirectionText(R.id.threeDigitButton, false, DragDirection.up, DragDirection.down);
-
-			toggleButtonDirectionText(R.id.sixDigitButton, false, DragDirection.up, DragDirection.down);
-			toggleButtonDirectionText(R.id.sevenDigitButton, false, DragDirection.left, DragDirection.up, DragDirection.down);
-			toggleButtonDirectionText(R.id.eightDigitButton, false, DragDirection.left, DragDirection.up, DragDirection.down);
-
-			toggleButtonDirectionText(R.id.clearButton, false, DragDirection.left, DragDirection.up, DragDirection.down);
-
-			toggleButtonDirectionText(R.id.fourDigitButton, false,  DragDirection.down);
-			toggleButtonDirectionText(R.id.fiveDigitButton, false,  DragDirection.down);
-
-			toggleButtonDirectionText(R.id.nineDigitButton, false, DragDirection.left);
-
-			toggleButtonDirectionText(R.id.multiplicationButton, false, DragDirection.left);
-			toggleButtonDirectionText(R.id.plusButton, false, DragDirection.down, DragDirection.up);
-		}
-
-        numeralBaseButtons.toggleNumericDigits(this, preferences);
-
         toggleOrientationChange(preferences);
 
-        // todo serso: continue
-        //toggleEqualsButton(preferences);
+        CalculatorKeyboardFragment.toggleEqualsButton(preferences, this, theme, findViewById(R.id.main_layout));
 
         preferences.registerOnSharedPreferenceChangeListener(this);
 	}
@@ -235,202 +131,7 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
         return ((AndroidCalculator) CalculatorLocatorImpl.getInstance().getCalculator());
     }
 
-    private void fixThemeParameters(boolean fixMagicFlames) {
-        if (theme.getThemeType() == CalculatorPreferences.Gui.ThemeType.metro) {
-
-            if (fixMagicFlames) {
-                // for metro themes we should turn off magic flames
-                AndroidUtils.processViewsOfType(this.getWindow().getDecorView(), ColorButton.class, new AndroidUtils.ViewProcessor<ColorButton>() {
-                    @Override
-                    public void process(@NotNull ColorButton colorButton) {
-                        colorButton.setDrawMagicFlame(false);
-                    }
-                });
-            }
-
-            fixMargins(2, 2);
-        } else {
-            fixMargins(1, 1);
-        }
-    }
-
-    private void toggleButtonDirectionText(int id, boolean showDirectionText, @NotNull DragDirection... dragDirections) {
-		final View v = findViewById(id);
-		if (v instanceof DirectionDragButton ) {
-			final DirectionDragButton button = (DirectionDragButton)v;
-			for (DragDirection dragDirection : dragDirections) {
-				button.showDirectionText(showDirectionText, dragDirection);
-			}
-		}
-	}
-
-	private void fixMargins(int marginLeft, int marginBottom) {
-		// sad but true
-
-		final View equalsButton = findViewById(R.id.equalsButton);
-		final View rightButton = findViewById(R.id.rightButton);
-		final View leftButton = findViewById(R.id.leftButton);
-		final View clearButton = findViewById(R.id.clearButton);
-		final View eraseButton = findViewById(R.id.eraseButton);
-
-		int orientation = AndroidUtils.getScreenOrientation(this);
-		if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-			setMarginsForView(equalsButton, marginLeft, marginBottom);
-            // todo serso: continue
-            //setMarginsForView(getCalculatorDisplayView(), marginLeft, marginBottom);
-		} else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-			setMarginsForView(leftButton, marginLeft, marginBottom);
-			setMarginsForView(eraseButton, marginLeft, marginBottom);
-			setMarginsForView(clearButton, marginLeft, marginBottom);
-			setMarginsForView(rightButton, marginLeft, marginBottom);
-			// magic magic magic
-            // todo serso: continue
-			//setMarginsForView(getCalculatorDisplayView(), 3 * marginLeft, marginBottom);
-		}
-	}
-
-	private void setMarginsForView(@NotNull View view, int marginLeft, int marginBottom) {
-		// IMPORTANT: this is workaround for probably android bug
-		// currently margin values set in styles are not applied for some reasons to the views (using include tag) => set them manually
-
-		final DisplayMetrics dm = getResources().getDisplayMetrics();
-		if (view.getLayoutParams() instanceof LinearLayout.LayoutParams) {
-			final LinearLayout.LayoutParams oldParams = (LinearLayout.LayoutParams) view.getLayoutParams();
-			final LinearLayout.LayoutParams newParams = new LinearLayout.LayoutParams(oldParams.width, oldParams.height, oldParams.weight);
-			newParams.setMargins(AndroidUtils.toPixels(dm, marginLeft), 0, 0, AndroidUtils.toPixels(dm, marginBottom));
-			view.setLayoutParams(newParams);
-		}
-	}
-
-	private class AngleUnitsChanger implements SimpleOnDragListener.DragProcessor {
-
-		private final DigitButtonDragProcessor processor = new DigitButtonDragProcessor(getKeyboard());
-
-		@Override
-		public boolean processDragEvent(@NotNull DragDirection dragDirection,
-										@NotNull DragButton dragButton,
-										@NotNull Point2d startPoint2d,
-										@NotNull MotionEvent motionEvent) {
-			boolean result = false;
-
-			if (dragButton instanceof AngleUnitsButton) {
-				if (dragDirection != DragDirection.left ) {
-					final String directionText = ((AngleUnitsButton) dragButton).getText(dragDirection);
-					if ( directionText != null ) {
-						try {
-
-							final AngleUnit angleUnits = AngleUnit.valueOf(directionText);
-
-							final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(CalculatorActivity.this);
-
-							AndroidCalculatorEngine.Preferences.angleUnit.putPreference(preferences, angleUnits);
-
-							Toast.makeText(CalculatorActivity.this, CalculatorActivity.this.getString(R.string.c_angle_units_changed_to, angleUnits.name()), Toast.LENGTH_LONG).show();
-
-							result = true;
-						} catch (IllegalArgumentException e) {
-							Log.d(this.getClass().getName(), "Unsupported angle units: " + directionText);
-						}
-					}
-				} else if ( dragDirection == DragDirection.left ) {
-					result = processor.processDragEvent(dragDirection, dragButton, startPoint2d, motionEvent);
-				}
-			}
-
-			return result;
-		}
-	}
-
-	private class NumeralBasesChanger implements SimpleOnDragListener.DragProcessor {
-
-		@Override
-		public boolean processDragEvent(@NotNull DragDirection dragDirection,
-										@NotNull DragButton dragButton,
-										@NotNull Point2d startPoint2d,
-										@NotNull MotionEvent motionEvent) {
-			boolean result = false;
-
-			if ( dragButton instanceof NumeralBasesButton ) {
-				final String directionText = ((NumeralBasesButton) dragButton).getText(dragDirection);
-				if ( directionText != null ) {
-					try {
-
-						final NumeralBase numeralBase = NumeralBase.valueOf(directionText);
-
-						final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(CalculatorActivity.this);
-						AndroidCalculatorEngine.Preferences.numeralBase.putPreference(preferences, numeralBase);
-
-						Toast.makeText(CalculatorActivity.this, CalculatorActivity.this.getString(R.string.c_numeral_base_changed_to, numeralBase.name()), Toast.LENGTH_LONG).show();
-
-						result = true;
-					} catch (IllegalArgumentException e) {
-						Log.d(this.getClass().getName(), "Unsupported numeral base: " + directionText);
-					}
-				}
-			}
-
-			return result;
-		}
-	}
-
-
-	private class VarsDragProcessor implements SimpleOnDragListener.DragProcessor {
-
-		@Override
-		public boolean processDragEvent(@NotNull DragDirection dragDirection,
-										@NotNull DragButton dragButton,
-										@NotNull Point2d startPoint2d,
-										@NotNull MotionEvent motionEvent) {
-			boolean result = false;
-
-			if (dragDirection == DragDirection.up) {
-				CalculatorActivityLauncher.createVar(CalculatorActivity.this, CalculatorLocatorImpl.getInstance().getDisplay());
-				result = true;
-			}
-
-			return result;
-		}
-	}
-
-    private synchronized void setOnDragListeners(@NotNull SimpleOnDragListener.Preferences dragPreferences, @NotNull SharedPreferences preferences) {
-		final OnDragListener onDragListener = new OnDragListenerVibrator(newOnDragListener(new DigitButtonDragProcessor(getKeyboard()), dragPreferences), vibrator, preferences);
-
-        final List<Integer> dragButtonIds = new ArrayList<Integer>();
-        final List<Integer> buttonIds = new ArrayList<Integer>();
-
-        for (Field field : R.id.class.getDeclaredFields()) {
-            int modifiers = field.getModifiers();
-            if (Modifier.isFinal(modifiers) && Modifier.isStatic(modifiers)) {
-                try {
-                    int viewId = field.getInt(R.id.class);
-                    final View view = this.findViewById(viewId);
-                    if (view instanceof DragButton) {
-                        dragButtonIds.add(viewId);
-                    }
-                    if (view instanceof Button) {
-                        buttonIds.add(viewId);
-                    }
-                } catch (IllegalAccessException e) {
-                    Log.e(R.id.class.getName(), e.getMessage());
-                }
-            }
-        }
-
-		for (Integer dragButtonId : dragButtonIds) {
-			((DragButton) findViewById(dragButtonId)).setOnDragListener(onDragListener);
-		}
-	}
-
-	@NotNull
-	private SimpleOnDragListener newOnDragListener(@NotNull SimpleOnDragListener.DragProcessor dragProcessor,
-												   @NotNull SimpleOnDragListener.Preferences dragPreferences) {
-		final SimpleOnDragListener onDragListener = new SimpleOnDragListener(dragProcessor, dragPreferences);
-		dpclRegister.addListener(onDragListener);
-		return onDragListener;
-	}
-
-
-	private synchronized void setLayout(@NotNull SharedPreferences preferences) {
+    private synchronized void setLayout(@NotNull SharedPreferences preferences) {
         layout = CalculatorPreferences.Gui.layout.getPreferenceNoError(preferences);
 
         setContentView(layout.getLayoutId());
@@ -512,89 +213,6 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
         return result;
     }
 
-    @SuppressWarnings({"UnusedDeclaration"})
-	public void elementaryButtonClickHandler(@NotNull View v) {
-		throw new UnsupportedOperationException("Not implemented yet!");
-	}
-
-	@SuppressWarnings({"UnusedDeclaration"})
-	public void equalsButtonClickHandler(@NotNull View v) {
-		getCalculator().evaluate();
-	}
-
-	@SuppressWarnings({"UnusedDeclaration"})
-	public void historyButtonClickHandler(@NotNull View v) {
-		CalculatorActivityLauncher.showHistory(this);
-	}
-
-	@SuppressWarnings({"UnusedDeclaration"})
-	public void eraseButtonClickHandler(@NotNull View v) {
-        CalculatorLocatorImpl.getInstance().getEditor().erase();
-	}
-
-	@SuppressWarnings({"UnusedDeclaration"})
-	public void simplifyButtonClickHandler(@NotNull View v) {
-		throw new UnsupportedOperationException("Not implemented yet!");
-	}
-
-	@SuppressWarnings({"UnusedDeclaration"})
-	public void moveLeftButtonClickHandler(@NotNull View v) {
-        getKeyboard().moveCursorLeft();
-	}
-
-	@SuppressWarnings({"UnusedDeclaration"})
-	public void moveRightButtonClickHandler(@NotNull View v) {
-        getKeyboard().moveCursorRight();
-	}
-
-	@SuppressWarnings({"UnusedDeclaration"})
-	public void pasteButtonClickHandler(@NotNull View v) {
-        getKeyboard().pasteButtonPressed();
-    }
-
-	@SuppressWarnings({"UnusedDeclaration"})
-	public void copyButtonClickHandler(@NotNull View v) {
-		getKeyboard().copyButtonPressed();
-	}
-
-    @NotNull
-    private static CalculatorKeyboard getKeyboard() {
-        return CalculatorLocatorImpl.getInstance().getKeyboard();
-    }
-
-    @SuppressWarnings({"UnusedDeclaration"})
-	public void clearButtonClickHandler(@NotNull View v) {
-        getKeyboard().clearButtonPressed();
-	}
-
-	@SuppressWarnings({"UnusedDeclaration"})
-	public void digitButtonClickHandler(@NotNull View v) {
-		Log.d(String.valueOf(v.getId()), "digitButtonClickHandler() for: " + v.getId() + ". Pressed: " + v.isPressed());
-        if (((ColorButton) v).isShowText()) {
-            getKeyboard().digitButtonPressed(((ColorButton) v).getText().toString());
-        }
-    }
-
-	@SuppressWarnings({"UnusedDeclaration"})
-	public void functionsButtonClickHandler(@NotNull View v) {
-		CalculatorActivityLauncher.showFunctions(this);
-	}
-
-	@SuppressWarnings({"UnusedDeclaration"})
-	public void operatorsButtonClickHandler(@NotNull View v) {
-		CalculatorActivityLauncher.showOperators(this);
-	}
-
-	@SuppressWarnings({"UnusedDeclaration"})
-	public void varsButtonClickHandler(@NotNull View v) {
-		CalculatorActivityLauncher.showVars(this);
-	}
-
-	@SuppressWarnings({"UnusedDeclaration"})
-	public void donateButtonClickHandler(@NotNull View v) {
-		CalculatorApplication.showDonationDialog(this);
-	}
-
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -606,6 +224,10 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		return super.onKeyDown(keyCode, event);
 	}
 
+    @SuppressWarnings({"UnusedDeclaration"})
+    public void equalsButtonClickHandler(@NotNull View v) {
+        getCalculator().evaluate();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -655,60 +277,14 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences preferences, @Nullable String key) {
-		if (key != null && key.startsWith("org.solovyev.android.calculator.DragButtonCalibrationActivity")) {
-			dpclRegister.announce().onDragPreferencesChange(SimpleOnDragListener.getPreferences(preferences, this));
-		}
-
 		if ( CalculatorPreferences.Gui.usePrevAsBack.getKey().equals(key) ) {
 			useBackAsPrev = CalculatorPreferences.Gui.usePrevAsBack.getPreference(preferences);
-		}
-
-        if (AndroidCalculatorEngine.Preferences.numeralBase.getKey().equals(key)) {
-            numeralBaseButtons.toggleNumericDigits(this, preferences);
-        }
-
-		if ( AndroidCalculatorEngine.Preferences.multiplicationSign.getKey().equals(key) ) {
-			initMultiplicationButton();
 		}
 
         if ( CalculatorPreferences.Gui.autoOrientation.getKey().equals(key) ) {
             toggleOrientationChange(preferences);
         }
-
-        if ( CalculatorPreferences.Gui.showEqualsButton.getKey().equals(key) ) {
-            toggleEqualsButton(preferences);
-        }
 	}
-
-    private void toggleEqualsButton(@Nullable SharedPreferences preferences) {
-        preferences = preferences == null ? PreferenceManager.getDefaultSharedPreferences(this) : preferences;
-
-
-        if (AndroidUtils.getScreenOrientation(this) == Configuration.ORIENTATION_PORTRAIT || !CalculatorPreferences.Gui.autoOrientation.getPreference(preferences)) {
-            final Display display = this.getWindowManager().getDefaultDisplay();
-
-            final DragButton button = (DragButton)findViewById(R.id.equalsButton);
-            if (CalculatorPreferences.Gui.showEqualsButton.getPreference(preferences)) {
-                button.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.FILL_PARENT, 1f));
-                if (display.getWidth() <= 480) {
-                    // mobile phones
-                    getCalculatorDisplayView().setBackgroundDrawable(null);
-                }
-            } else {
-                button.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.FILL_PARENT, 0f));
-                if (display.getWidth() <= 480) {
-                    // mobile phones
-                    getCalculatorDisplayView().setBackgroundDrawable(this.getResources().getDrawable(R.drawable.equals9));
-                }
-            }
-            fixThemeParameters(false);
-        }
-    }
-
-    @NotNull
-    private AndroidCalculatorDisplayView getCalculatorDisplayView() {
-        return (AndroidCalculatorDisplayView) CalculatorLocatorImpl.getInstance().getDisplay().getView();
-    }
 
     private void toggleOrientationChange(@Nullable SharedPreferences preferences) {
         preferences = preferences == null ? PreferenceManager.getDefaultSharedPreferences(this) : preferences;
@@ -719,26 +295,94 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
         }
     }
 
-    private void initMultiplicationButton() {
-		final View multiplicationButton = findViewById(R.id.multiplicationButton);
-		if ( multiplicationButton instanceof Button) {
-			((Button) multiplicationButton).setText(CalculatorLocatorImpl.getInstance().getEngine().getMultiplicationSign());
-		}
-	}
+    /*
+    **********************************************************************
+    *
+    *                           BUTTON HANDLERS
+    *
+    **********************************************************************
+    */
 
-	private static class RoundBracketsDragProcessor implements SimpleOnDragListener.DragProcessor {
-		@Override
-		public boolean processDragEvent(@NotNull DragDirection dragDirection, @NotNull DragButton dragButton, @NotNull Point2d startPoint2d, @NotNull MotionEvent motionEvent) {
-			final boolean result;
+    @SuppressWarnings({"UnusedDeclaration"})
+    public void elementaryButtonClickHandler(@NotNull View v) {
+        throw new UnsupportedOperationException("Not implemented yet!");
+    }
 
-			if ( dragDirection == DragDirection.left ) {
-				getKeyboard().roundBracketsButtonPressed();
-				result = true;
-			} else {
-				result = new DigitButtonDragProcessor(getKeyboard()).processDragEvent(dragDirection, dragButton, startPoint2d, motionEvent);
-			}
+    @SuppressWarnings({"UnusedDeclaration"})
+    public void historyButtonClickHandler(@NotNull View v) {
+        CalculatorActivityLauncher.showHistory(this);
+    }
 
-			return result;
-		}
-	}
+    @SuppressWarnings({"UnusedDeclaration"})
+    public void eraseButtonClickHandler(@NotNull View v) {
+        CalculatorLocatorImpl.getInstance().getEditor().erase();
+    }
+
+    @SuppressWarnings({"UnusedDeclaration"})
+    public void simplifyButtonClickHandler(@NotNull View v) {
+        throw new UnsupportedOperationException("Not implemented yet!");
+    }
+
+    @SuppressWarnings({"UnusedDeclaration"})
+    public void moveLeftButtonClickHandler(@NotNull View v) {
+        getKeyboard().moveCursorLeft();
+    }
+
+    @SuppressWarnings({"UnusedDeclaration"})
+    public void moveRightButtonClickHandler(@NotNull View v) {
+        getKeyboard().moveCursorRight();
+    }
+
+    @SuppressWarnings({"UnusedDeclaration"})
+    public void pasteButtonClickHandler(@NotNull View v) {
+        getKeyboard().pasteButtonPressed();
+    }
+
+    @SuppressWarnings({"UnusedDeclaration"})
+    public void copyButtonClickHandler(@NotNull View v) {
+        getKeyboard().copyButtonPressed();
+    }
+
+    @NotNull
+    private static CalculatorKeyboard getKeyboard() {
+        return CalculatorLocatorImpl.getInstance().getKeyboard();
+    }
+
+    @SuppressWarnings({"UnusedDeclaration"})
+    public void clearButtonClickHandler(@NotNull View v) {
+        getKeyboard().clearButtonPressed();
+    }
+
+    @SuppressWarnings({"UnusedDeclaration"})
+    public void digitButtonClickHandler(@NotNull View v) {
+        Log.d(String.valueOf(v.getId()), "digitButtonClickHandler() for: " + v.getId() + ". Pressed: " + v.isPressed());
+        if (((ColorButton) v).isShowText()) {
+            getKeyboard().digitButtonPressed(((ColorButton) v).getText().toString());
+        }
+    }
+
+    @SuppressWarnings({"UnusedDeclaration"})
+    public void functionsButtonClickHandler(@NotNull View v) {
+        CalculatorActivityLauncher.showFunctions(this);
+    }
+
+    @SuppressWarnings({"UnusedDeclaration"})
+    public void operatorsButtonClickHandler(@NotNull View v) {
+        CalculatorActivityLauncher.showOperators(this);
+    }
+
+    public static void operatorsButtonClickHandler(@NotNull Activity activity, @NotNull View view) {
+        CalculatorActivityLauncher.showOperators(activity);
+    }
+
+    @SuppressWarnings({"UnusedDeclaration"})
+    public void varsButtonClickHandler(@NotNull View v) {
+        CalculatorActivityLauncher.showVars(this);
+    }
+
+    @SuppressWarnings({"UnusedDeclaration"})
+    public void donateButtonClickHandler(@NotNull View v) {
+        CalculatorApplication.showDonationDialog(this);
+    }
+
 }
