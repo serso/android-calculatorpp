@@ -5,16 +5,12 @@
 
 package org.solovyev.android.calculator;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.app.*;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
@@ -77,22 +73,9 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
         CalculatorKeyboardFragment.fixThemeParameters(true, theme, this.getWindow().getDecorView());
 
-        final FragmentManager fragmentManager = getFragmentManager();
-
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        final CalculatorEditorFragment editorFragment = new CalculatorEditorFragment();
-        fragmentTransaction.add(R.id.editorContainer, editorFragment, "editor");
-        fragmentTransaction.commit();
-
-        fragmentTransaction = fragmentManager.beginTransaction();
-        final CalculatorDisplayFragment displayFragment = new CalculatorDisplayFragment();
-        fragmentTransaction.add(R.id.displayContainer, displayFragment, "display");
-        fragmentTransaction.commit();
-
-        fragmentTransaction = fragmentManager.beginTransaction();
-        final CalculatorKeyboardFragment keyboardFragment = new CalculatorKeyboardFragment();
-        fragmentTransaction.add(R.id.keyboardContainer, keyboardFragment, "keyboard");
-        fragmentTransaction.commit();
+        createFragment(CalculatorEditorFragment.class, R.id.editorContainer, "tag");
+        createFragment(CalculatorDisplayFragment.class, R.id.displayContainer, "display");
+        createFragment(CalculatorKeyboardFragment.class, R.id.keyboardContainer, "keyboard");
 
         if (customTitleSupported) {
 			try {
@@ -121,6 +104,26 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
         preferences.registerOnSharedPreferenceChangeListener(this);
 	}
+
+    private void createFragment(@NotNull Class<? extends Fragment> fragmentClass, int parentViewId, @NotNull String tag) {
+        final FragmentManager fm = getFragmentManager();
+
+        Fragment messagesFragment = fm.findFragmentByTag(tag);
+
+        final FragmentTransaction ft = fm.beginTransaction();
+        try {
+            if (messagesFragment == null) {
+                messagesFragment = Fragment.instantiate(this, fragmentClass.getName(), null);
+                ft.add(parentViewId, messagesFragment, tag);
+            } else {
+                if (messagesFragment.isDetached()) {
+                    ft.attach(messagesFragment);
+                }
+            }
+        } finally {
+            ft.commit();
+        }
+    }
 
     @NotNull
     private AndroidCalculatorEngine getEngine() {
