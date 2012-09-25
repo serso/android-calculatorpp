@@ -14,6 +14,7 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
@@ -80,17 +81,17 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         final CalculatorEditorFragment editorFragment = new CalculatorEditorFragment();
-        fragmentTransaction.add(R.id.editorContainer, editorFragment);
+        fragmentTransaction.add(R.id.editorContainer, editorFragment, "editor");
         fragmentTransaction.commit();
 
         fragmentTransaction = fragmentManager.beginTransaction();
         final CalculatorDisplayFragment displayFragment = new CalculatorDisplayFragment();
-        fragmentTransaction.add(R.id.displayContainer, displayFragment);
+        fragmentTransaction.add(R.id.displayContainer, displayFragment, "display");
         fragmentTransaction.commit();
 
         fragmentTransaction = fragmentManager.beginTransaction();
         final CalculatorKeyboardFragment keyboardFragment = new CalculatorKeyboardFragment();
-        fragmentTransaction.add(R.id.keyboardContainer, keyboardFragment);
+        fragmentTransaction.add(R.id.keyboardContainer, keyboardFragment, "keyboard");
         fragmentTransaction.commit();
 
         if (customTitleSupported) {

@@ -90,45 +90,59 @@ public class CalculatorKeyboardFragment extends Fragment implements SharedPrefer
         setOnDragListeners(root, dragPreferences, preferences);
 
         final OnDragListener historyOnDragListener = new OnDragListenerVibrator(newOnDragListener(new HistoryDragProcessor<CalculatorHistoryState>(getCalculator()), dragPreferences), vibrator, preferences);
-        ((DragButton) root.findViewById(R.id.historyButton)).setOnDragListener(historyOnDragListener);
+        final DragButton historyButton = getButton(root, R.id.historyButton);
+        if (historyButton != null) {
+            historyButton.setOnDragListener(historyOnDragListener);
+        }
 
-        ((DragButton) root.findViewById(R.id.subtractionButton)).setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new SimpleOnDragListener.DragProcessor() {
-            @Override
-            public boolean processDragEvent(@NotNull DragDirection dragDirection, @NotNull DragButton dragButton, @NotNull Point2d startPoint2d, @NotNull MotionEvent motionEvent) {
-                if (dragDirection == DragDirection.down) {
-                    CalculatorActivity.operatorsButtonClickHandler(getActivity(), dragButton);
-                    return true;
+        final DragButton subtractionButton = getButton(root, R.id.subtractionButton);
+        if (subtractionButton != null) {
+            subtractionButton.setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new SimpleOnDragListener.DragProcessor() {
+                @Override
+                public boolean processDragEvent(@NotNull DragDirection dragDirection, @NotNull DragButton dragButton, @NotNull Point2d startPoint2d, @NotNull MotionEvent motionEvent) {
+                    if (dragDirection == DragDirection.down) {
+                        CalculatorActivity.operatorsButtonClickHandler(getActivity(), dragButton);
+                        return true;
+                    }
+                    return false;
                 }
-                return false;
-            }
-        }, dragPreferences), vibrator, preferences));
+            }, dragPreferences), vibrator, preferences));
+        }
 
 
         final OnDragListener toPositionOnDragListener = new OnDragListenerVibrator(new SimpleOnDragListener(new CursorDragProcessor(), dragPreferences), vibrator, preferences);
-        ((DragButton) root.findViewById(R.id.rightButton)).setOnDragListener(toPositionOnDragListener);
-        ((DragButton) root.findViewById(R.id.leftButton)).setOnDragListener(toPositionOnDragListener);
 
-        final DragButton equalsButton = (DragButton) root.findViewById(R.id.equalsButton);
+        final DragButton rightButton = getButton(root, R.id.rightButton);
+        if (rightButton != null) {
+            rightButton.setOnDragListener(toPositionOnDragListener);
+        }
+
+        final DragButton leftButton = getButton(root, R.id.leftButton);
+        if (leftButton != null) {
+            leftButton.setOnDragListener(toPositionOnDragListener);
+        }
+
+        final DragButton equalsButton = getButton(root, R.id.equalsButton);
         if (equalsButton != null) {
             equalsButton.setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new EvalDragProcessor(), dragPreferences), vibrator, preferences));
         }
 
-        final AngleUnitsButton angleUnitsButton = (AngleUnitsButton) root.findViewById(R.id.sixDigitButton);
+        final AngleUnitsButton angleUnitsButton = (AngleUnitsButton) getButton(root, R.id.sixDigitButton);
         if (angleUnitsButton != null) {
             angleUnitsButton.setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new AngleUnitsChanger(this.getActivity()), dragPreferences), vibrator, preferences));
         }
 
-        final NumeralBasesButton clearButton = (NumeralBasesButton) root.findViewById(R.id.clearButton);
+        final NumeralBasesButton clearButton = (NumeralBasesButton) getButton(root, R.id.clearButton);
         if (clearButton != null) {
             clearButton.setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new NumeralBasesChanger(this.getActivity()), dragPreferences), vibrator, preferences));
         }
 
-        final DragButton varsButton = (DragButton) root.findViewById(R.id.varsButton);
+        final DragButton varsButton = getButton(root, R.id.varsButton);
         if (varsButton != null) {
             varsButton.setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new VarsDragProcessor(this.getActivity()), dragPreferences), vibrator, preferences));
         }
 
-        final DragButton roundBracketsButton = (DragButton) root.findViewById(R.id.roundBracketsButton);
+        final DragButton roundBracketsButton = getButton(root, R.id.roundBracketsButton);
         if (roundBracketsButton != null) {
             roundBracketsButton.setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new RoundBracketsDragProcessor(), dragPreferences), vibrator, preferences));
         }
@@ -160,6 +174,11 @@ public class CalculatorKeyboardFragment extends Fragment implements SharedPrefer
         toggleEqualsButton(preferences, this.getActivity(), theme, root);
 
         initMultiplicationButton();
+    }
+
+    @Nullable
+    private <T extends DragButton> T getButton(@NotNull View root, int buttonId) {
+        return (T) root.findViewById(buttonId);
     }
 
     @Override
@@ -240,7 +259,10 @@ public class CalculatorKeyboardFragment extends Fragment implements SharedPrefer
         }
 
         for (Integer dragButtonId : dragButtonIds) {
-            ((DragButton) root.findViewById(dragButtonId)).setOnDragListener(onDragListener);
+            final DragButton button = getButton(root, dragButtonId);
+            if (button != null) {
+                button.setOnDragListener(onDragListener);
+            }
         }
     }
 
@@ -273,7 +295,7 @@ public class CalculatorKeyboardFragment extends Fragment implements SharedPrefer
     }
 
     private void toggleButtonDirectionText(@NotNull View root, int id, boolean showDirectionText, @NotNull DragDirection... dragDirections) {
-        final View v = root.findViewById(id);
+        final View v = getButton(root, id);
         if (v instanceof DirectionDragButton ) {
             final DirectionDragButton button = (DirectionDragButton)v;
             for (DragDirection dragDirection : dragDirections) {
