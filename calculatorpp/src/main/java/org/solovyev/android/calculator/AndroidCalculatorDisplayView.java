@@ -55,6 +55,8 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
     @NotNull
     private final Handler handler = new Handler();
 
+    private volatile boolean initialized = false;
+
     /*
     **********************************************************************
     *
@@ -167,6 +169,14 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
                 // external text change => need to notify display
                 // todo serso: implement
             }
+        }
+    }
+
+    public synchronized void init(@NotNull Context context) {
+        if (!initialized) {
+            this.setOnClickListener(new CalculatorDisplayOnClickListener(context));
+
+            this.initialized = true;
         }
     }
 

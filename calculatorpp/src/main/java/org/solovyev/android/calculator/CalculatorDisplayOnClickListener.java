@@ -1,6 +1,6 @@
 package org.solovyev.android.calculator;
 
-import android.app.Activity;
+import android.content.Context;
 import android.view.View;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.menu.AMenuBuilder;
@@ -17,10 +17,10 @@ import java.util.List;
 public class CalculatorDisplayOnClickListener implements View.OnClickListener {
 
     @NotNull
-    private final Activity activity;
+    private final Context context;
 
-    public CalculatorDisplayOnClickListener(@NotNull Activity activity) {
-        this.activity = activity;
+    public CalculatorDisplayOnClickListener(@NotNull Context context) {
+        this.context = context;
     }
 
     @Override
@@ -39,13 +39,13 @@ public class CalculatorDisplayOnClickListener implements View.OnClickListener {
                 }
 
                 if (!filteredMenuItems.isEmpty()) {
-                    AMenuBuilder.newInstance(activity, MenuImpl.newInstance(filteredMenuItems)).create(displayViewState).show();
+                    AMenuBuilder.newInstance(context, MenuImpl.newInstance(filteredMenuItems)).create(displayViewState).show();
                 }
 
             } else {
                 final String errorMessage = displayViewState.getErrorMessage();
                 if (errorMessage != null) {
-                    CalculatorModel.showEvaluationError(activity, errorMessage);
+                    AndroidCalculator.showEvaluationError(context, errorMessage);
                 }
             }
         }

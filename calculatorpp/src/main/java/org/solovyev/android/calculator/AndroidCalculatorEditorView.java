@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
@@ -33,6 +34,8 @@ public class AndroidCalculatorEditorView extends EditText implements SharedPrefe
     private static final String CALC_COLOR_DISPLAY_KEY = "org.solovyev.android.calculator.CalculatorModel_color_display";
     private static final boolean CALC_COLOR_DISPLAY_DEFAULT = true;
 
+    private volatile boolean initialized = false;
+
     private boolean highlightText = true;
 
     @NotNull
@@ -52,19 +55,15 @@ public class AndroidCalculatorEditorView extends EditText implements SharedPrefe
 
     public AndroidCalculatorEditorView(Context context) {
         super(context);
-        this.addTextChangedListener(new TextWatcherImpl());
     }
 
     public AndroidCalculatorEditorView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.addTextChangedListener(new TextWatcherImpl());
     }
 
     public AndroidCalculatorEditorView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        this.addTextChangedListener(new TextWatcherImpl());
     }
-
 
     @Override
     public boolean onCheckIsTextEditor() {
@@ -138,8 +137,18 @@ public class AndroidCalculatorEditorView extends EditText implements SharedPrefe
         }
     }
 
-    public void init(@NotNull SharedPreferences preferences) {
-        onSharedPreferenceChanged(preferences, CALC_COLOR_DISPLAY_KEY);
+    public synchronized void init(@NotNull Context context) {
+        if (!initialized) {
+            final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+            preferences.registerOnSharedPreferenceChangeListener(this);
+
+            this.addTextChangedListener(new TextWatcherImpl());
+
+            onSharedPreferenceChanged(preferences, CALC_COLOR_DISPLAY_KEY);
+
+            initialized = true;
+        }
     }
 
     @Override

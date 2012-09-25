@@ -15,7 +15,10 @@
         a:layout_gravity="center"
         a:background="#ff000000">
 
-    <include layout="@layout/calc_editor"/>
+    <LinearLayout a:id="@+id/editorContainer"
+                  a:layout_weight="2"
+                  a:layout_width="match_parent"
+                  a:layout_height="0dp"/>
 
     <LinearLayout a:layout_weight="1" a:layout_width="fill_parent" a:layout_height="0dp">
 
@@ -24,10 +27,10 @@
                  a:layout_width="0dp"
                  a:layout_height="fill_parent"/>
 
-        <include layout="@layout/calc_display"
-                 a:layout_weight="4"
-                 a:layout_width="0dp"
-                 a:layout_height="fill_parent"/>
+        <LinearLayout a:id="@+id/displayContainer"
+                      a:layout_weight="4"
+                      a:layout_width="0dp"
+                      a:layout_height="match_parent"/>
 
     </LinearLayout>
 

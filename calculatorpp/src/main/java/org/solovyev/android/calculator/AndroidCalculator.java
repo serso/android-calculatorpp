@@ -1,7 +1,11 @@
 package org.solovyev.android.calculator;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 import jscl.NumeralBase;
 import jscl.math.Generic;
 import org.jetbrains.annotations.NotNull;
@@ -22,15 +26,42 @@ public class AndroidCalculator implements Calculator {
     @NotNull
     private final Calculator calculator = new CalculatorImpl();
 
-    public void init(@NotNull final Activity activity, @NotNull SharedPreferences preferences) {
-        final AndroidCalculatorEditorView editorView = (AndroidCalculatorEditorView) activity.findViewById(R.id.calculatorEditor);
-        editorView.init(preferences);
-        preferences.registerOnSharedPreferenceChangeListener(editorView);
-        CalculatorLocatorImpl.getInstance().getEditor().setView(editorView);
+    public static void showEvaluationError(@NotNull Context context, @NotNull final String errorMessage) {
+        final LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 
+        final View errorMessageView = layoutInflater.inflate(R.layout.display_error_message, null);
+        ((TextView) errorMessageView.findViewById(R.id.error_message_text_view)).setText(errorMessage);
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context)
+                .setPositiveButton(R.string.c_cancel, null)
+                .setView(errorMessageView);
+
+        builder.create().show();
+    }
+
+    public void init(@NotNull final Activity activity) {
+        setEditor(activity);
+        setDisplay(activity);
+    }
+
+    public void setDisplay(@NotNull Activity activity) {
         final AndroidCalculatorDisplayView displayView = (AndroidCalculatorDisplayView) activity.findViewById(R.id.calculatorDisplay);
-        displayView.setOnClickListener(new CalculatorDisplayOnClickListener(activity));
+        setDisplay(activity, displayView);
+    }
+
+    public void setDisplay(@NotNull Context context, @NotNull AndroidCalculatorDisplayView displayView) {
+        displayView.init(context);
         CalculatorLocatorImpl.getInstance().getDisplay().setView(displayView);
+    }
+
+    public void setEditor(@NotNull Activity activity) {
+        final AndroidCalculatorEditorView editorView = (AndroidCalculatorEditorView) activity.findViewById(R.id.calculatorEditor);
+        setEditor(activity, editorView);
+    }
+
+    public void setEditor(@NotNull Context context, @NotNull AndroidCalculatorEditorView editorView) {
+        editorView.init(context);
+        CalculatorLocatorImpl.getInstance().getEditor().setView(editorView);
     }
 
 

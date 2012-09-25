@@ -7,6 +7,9 @@ package org.solovyev.android.calculator;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
@@ -68,8 +71,6 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
     @NotNull
 	private final Announcer<DragPreferencesChangeListener> dpclRegister = new Announcer<DragPreferencesChangeListener>(DragPreferencesChangeListener.class);
 
-	private volatile boolean initialized;
-
 	@NotNull
 	private CalculatorPreferences.Gui.Theme theme;
 
@@ -105,6 +106,18 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		super.onCreate(savedInstanceState);
 		setLayout(preferences);
 
+        final FragmentManager fragmentManager = getFragmentManager();
+
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        final CalculatorEditorFragment editorFragment = new CalculatorEditorFragment();
+        fragmentTransaction.add(R.id.editorContainer, editorFragment);
+        fragmentTransaction.commit();
+
+        fragmentTransaction = fragmentManager.beginTransaction();
+        final CalculatorDisplayFragment displayFragment = new CalculatorDisplayFragment();
+        fragmentTransaction.add(R.id.displayContainer, displayFragment);
+        fragmentTransaction.commit();
+
 		if (customTitleSupported) {
 			try {
 				getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.calc_title);
@@ -120,14 +133,13 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		billingObserver = new CalculatorBillingObserver(this);
 		BillingController.registerObserver(billingObserver);
 
-		firstTimeInit(preferences);
+        this.useBackAsPrev = CalculatorPreferences.Gui.usePrevAsBack.getPreference(preferences);
+        firstTimeInit(preferences, this);
 
 		// init billing controller
 		BillingController.checkBillingSupported(this);
 
 		vibrator = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
-
-        getCalculator().init(this, preferences);
 
 		dpclRegister.clear();
 
@@ -207,7 +219,8 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
         toggleOrientationChange(preferences);
 
-        toggleEqualsButton(preferences);
+        // todo serso: continue
+        //toggleEqualsButton(preferences);
 
         preferences.registerOnSharedPreferenceChangeListener(this);
 	}
@@ -263,14 +276,16 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 		int orientation = AndroidUtils.getScreenOrientation(this);
 		if (orientation == Configuration.ORIENTATION_PORTRAIT) {
 			setMarginsForView(equalsButton, marginLeft, marginBottom);
-			setMarginsForView(getCalculatorDisplayView(), marginLeft, marginBottom);
+            // todo serso: continue
+            //setMarginsForView(getCalculatorDisplayView(), marginLeft, marginBottom);
 		} else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
 			setMarginsForView(leftButton, marginLeft, marginBottom);
 			setMarginsForView(eraseButton, marginLeft, marginBottom);
 			setMarginsForView(clearButton, marginLeft, marginBottom);
 			setMarginsForView(rightButton, marginLeft, marginBottom);
 			// magic magic magic
-			setMarginsForView(getCalculatorDisplayView(), 3 * marginLeft, marginBottom);
+            // todo serso: continue
+			//setMarginsForView(getCalculatorDisplayView(), 3 * marginLeft, marginBottom);
 		}
 	}
 
@@ -423,77 +438,70 @@ public class CalculatorActivity extends Activity implements FontSizeAdjuster, Sh
 
 	private synchronized void setTheme(@NotNull SharedPreferences preferences) {
 		theme = CalculatorPreferences.Gui.theme.getPreferenceNoError(preferences);
-
 		setTheme(theme.getThemeId());
 	}
 
-	private synchronized void firstTimeInit(@NotNull SharedPreferences preferences) {
-		if (!initialized) {
-            this.useBackAsPrev = CalculatorPreferences.Gui.usePrevAsBack.getPreference(preferences);
+    private static void firstTimeInit(@NotNull SharedPreferences preferences, @NotNull Context context) {
+        final Integer appOpenedCounter = CalculatorPreferences.appOpenedCounter.getPreference(preferences);
+        if (appOpenedCounter != null) {
+            CalculatorPreferences.appOpenedCounter.putPreference(preferences, appOpenedCounter + 1);
+        }
 
-            final Integer appOpenedCounter = CalculatorPreferences.appOpenedCounter.getPreference(preferences);
-			if (appOpenedCounter != null) {
-				CalculatorPreferences.appOpenedCounter.putPreference(preferences, appOpenedCounter + 1);
-			}
+        final Integer savedVersion = CalculatorPreferences.appVersion.getPreference(preferences);
 
-			final Integer savedVersion = CalculatorPreferences.appVersion.getPreference(preferences);
+        final int appVersion = AndroidUtils.getAppVersionCode(context, CalculatorActivity.class.getPackage().getName());
 
-			final int appVersion = AndroidUtils.getAppVersionCode(this, CalculatorActivity.class.getPackage().getName());
+        CalculatorPreferences.appVersion.putPreference(preferences, appVersion);
 
-			CalculatorPreferences.appVersion.putPreference(preferences, appVersion);
-
-			boolean dialogShown = false;
-			if (EqualsTool.areEqual(savedVersion, CalculatorPreferences.appVersion.getDefaultValue())) {
-				// new start
-				final AlertDialog.Builder builder = new AlertDialog.Builder(this).setMessage(R.string.c_first_start_text);
-				builder.setPositiveButton(android.R.string.ok, null);
-				builder.setTitle(R.string.c_first_start_text_title);
-				builder.create().show();
-				dialogShown = true;
-			} else {
-				if (savedVersion < appVersion) {
-					final boolean showReleaseNotes = CalculatorPreferences.Gui.showReleaseNotes.getPreference(preferences);
-					if (showReleaseNotes) {
-						final String releaseNotes = CalculatorReleaseNotesActivity.getReleaseNotes(this, savedVersion + 1);
-						if (!StringUtils.isEmpty(releaseNotes)) {
-							final AlertDialog.Builder builder = new AlertDialog.Builder(this).setMessage(Html.fromHtml(releaseNotes));
-							builder.setPositiveButton(android.R.string.ok, null);
-							builder.setTitle(R.string.c_release_notes);
-							builder.create().show();
-							dialogShown = true;
-						}
-					}
-				}
-			}
-
-
-			//Log.d(this.getClass().getName(), "Application was opened " + appOpenedCounter + " time!");
-			if (!dialogShown) {
-				if ( appOpenedCounter != null && appOpenedCounter > 10 ) {
-                    dialogShown = showSpecialWindow(preferences, CalculatorPreferences.Gui.feedbackWindowShown, R.layout.feedback, R.id.feedbackText);
-				}
-			}
-
-            if ( !dialogShown ) {
-                dialogShown = showSpecialWindow(preferences, CalculatorPreferences.Gui.notesppAnnounceShown, R.layout.notespp_announce, R.id.notespp_announce);
+        boolean dialogShown = false;
+        if (EqualsTool.areEqual(savedVersion, CalculatorPreferences.appVersion.getDefaultValue())) {
+            // new start
+            final AlertDialog.Builder builder = new AlertDialog.Builder(context).setMessage(R.string.c_first_start_text);
+            builder.setPositiveButton(android.R.string.ok, null);
+            builder.setTitle(R.string.c_first_start_text_title);
+            builder.create().show();
+            dialogShown = true;
+        } else {
+            if (savedVersion < appVersion) {
+                final boolean showReleaseNotes = CalculatorPreferences.Gui.showReleaseNotes.getPreference(preferences);
+                if (showReleaseNotes) {
+                    final String releaseNotes = CalculatorReleaseNotesActivity.getReleaseNotes(context, savedVersion + 1);
+                    if (!StringUtils.isEmpty(releaseNotes)) {
+                        final AlertDialog.Builder builder = new AlertDialog.Builder(context).setMessage(Html.fromHtml(releaseNotes));
+                        builder.setPositiveButton(android.R.string.ok, null);
+                        builder.setTitle(R.string.c_release_notes);
+                        builder.create().show();
+                        dialogShown = true;
+                    }
+                }
             }
+        }
 
-			initialized = true;
-		}
-	}
 
-    private boolean showSpecialWindow(@NotNull SharedPreferences preferences, @NotNull Preference<Boolean> specialWindowShownPref, int layoutId, int textViewId) {
+        //Log.d(this.getClass().getName(), "Application was opened " + appOpenedCounter + " time!");
+        if (!dialogShown) {
+            if (appOpenedCounter != null && appOpenedCounter > 10) {
+                dialogShown = showSpecialWindow(preferences, CalculatorPreferences.Gui.feedbackWindowShown, R.layout.feedback, R.id.feedbackText, context);
+            }
+        }
+
+        if (!dialogShown) {
+            dialogShown = showSpecialWindow(preferences, CalculatorPreferences.Gui.notesppAnnounceShown, R.layout.notespp_announce, R.id.notespp_announce, context);
+        }
+    }
+
+    private static boolean showSpecialWindow(@NotNull SharedPreferences preferences, @NotNull Preference<Boolean> specialWindowShownPref, int layoutId, int textViewId, @NotNull Context context) {
         boolean result = false;
 
         final Boolean specialWindowShown = specialWindowShownPref.getPreference(preferences);
         if ( specialWindowShown != null && !specialWindowShown ) {
-            final LayoutInflater layoutInflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
+            final LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
             final View view = layoutInflater.inflate(layoutId, null);
 
             final TextView feedbackTextView = (TextView) view.findViewById(textViewId);
             feedbackTextView.setMovementMethod(LinkMovementMethod.getInstance());
 
-            final AlertDialog.Builder builder = new AlertDialog.Builder(this).setView(view);
+            final AlertDialog.Builder builder = new AlertDialog.Builder(context).setView(view);
             builder.setPositiveButton(android.R.string.ok, null);
             builder.create().show();
 
