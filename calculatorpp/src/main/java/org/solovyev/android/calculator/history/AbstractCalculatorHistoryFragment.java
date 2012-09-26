@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.google.ads.AdView;
 import org.jetbrains.annotations.NotNull;
@@ -114,12 +113,7 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 
         logDebug("onViewCreated");
 
-        final TextView fragmentTitle = (TextView) view.findViewById(R.id.fragmentTitle);
-        if (!fragmentHelper.isPane(this)) {
-            fragmentTitle.setVisibility(View.GONE);
-        } else {
-            fragmentTitle.setText(this.getString(getFragmentTitleResId()).toUpperCase());
-        }
+        fragmentHelper.setPaneTitle(this, getTitleResId());
 
         adapter = new HistoryArrayAdapter(this.getActivity(), getItemLayoutId(), R.id.history_item, new ArrayList<CalculatorHistoryState>());
         setListAdapter(adapter);
@@ -172,7 +166,7 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
         adView = AdsController.getInstance().inflateAd(this.getActivity(), (ViewGroup)view.findViewById(R.id.ad_parent_view), R.id.ad_parent_view);
     }
 
-    protected abstract int getFragmentTitleResId();
+    protected abstract int getTitleResId();
 
     @Override
 	public void onDestroy() {

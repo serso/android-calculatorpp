@@ -9,21 +9,24 @@
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
     a:orientation="vertical"
 	a:id="@+id/ad_parent_view"
-    a:layout_width="fill_parent"
-    a:layout_height="fill_parent">
+    style="?fragmentLayoutStyle"
+    a:layout_width="match_parent"
+    a:layout_height="match_parent">
 
-    <ListView
-        a:layout_width="fill_parent"
-        a:layout_height="fill_parent"
-        a:layout_weight="1"
-        a:id="@android:id/list"/>
+    <TextView a:id="@+id/fragmentTitle"
+              a:layout_height="wrap_content"
+              a:layout_width="match_parent"
+              style="?fragmentTitleStyle"/>
 
-    <Button
+    <ListView style="?fragmentListViewStyle"/>
+
+    <!-- todo serso: uncomment button-->
+<!--    <Button
         a:layout_width="wrap_content"
         a:layout_height="wrap_content"
         a:layout_gravity="center_horizontal"
         a:text="@string/c_add"
-		style="@style/add_var_button"
-        a:onClick="addVarButtonClickHandler"/>
+		style="?buttonStyle"
+        a:onClick="addVarButtonClickHandler"/>-->
 
 </LinearLayout>

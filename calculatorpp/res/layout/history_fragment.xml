@@ -1,24 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-              a:layout_width="match_parent"
-              a:layout_height="match_parent"
+              a:orientation="vertical"
+              a:id="@+id/ad_parent_view"
               style="?fragmentLayoutStyle"
-              a:orientation="vertical">
+              a:layout_width="match_parent"
+              a:layout_height="match_parent">
 
     <TextView a:id="@+id/fragmentTitle"
               a:layout_height="wrap_content"
               a:layout_width="match_parent"
               style="?fragmentTitleStyle"/>
 
-    <include layout="@layout/ad"/>
-
-    <ListView
-            a:layout_width="match_parent"
-            a:layout_height="match_parent"
-            a:id="@android:id/list"
-            a:divider="@null"
-            a:dividerHeight="0dp"
-            a:cacheColorHint="@android:color/transparent"/>
+    <ListView style="?fragmentListViewStyle"/>
 
 </LinearLayout>

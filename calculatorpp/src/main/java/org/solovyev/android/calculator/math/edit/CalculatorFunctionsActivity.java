@@ -26,54 +26,12 @@ import java.util.List;
  * Date: 10/29/11
  * Time: 4:55 PM
  */
-public class CalculatorFunctionsActivity extends AbstractMathEntityListActivity<Function> {
-
-	private static enum LongClickMenuItem implements LabeledMenuItem<Function> {
-		use(R.string.c_use) {
-			@Override
-			public void onClick(@NotNull Function data, @NotNull Context context) {
-                CalculatorLocatorImpl.getInstance().getKeyboard().digitButtonPressed(data.getName());
-				if (context instanceof Activity) {
-					((Activity) context).finish();
-				}
-			}
-		},
-
-		/*edit(R.string.c_edit) {
-			@Override
-			public void doAction(@NotNull Function data, @NotNull Context context) {
-				if (context instanceof AbstractMathEntityListActivity) {
-				}
-			}
-		},*/
-
-		copy_description(R.string.c_copy_description) {
-			@Override
-			public void onClick(@NotNull Function data, @NotNull Context context) {
-				final String text = CalculatorLocatorImpl.getInstance().getEngine().getFunctionsRegistry().getDescription(data.getName());
-				if (!StringUtils.isEmpty(text)) {
-					final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
-					clipboard.setText(text);
-				}
-			}
-		};
-		private final int captionId;
-
-		LongClickMenuItem(int captionId) {
-			this.captionId = captionId;
-		}
-
-		@NotNull
-		@Override
-		public String getCaption(@NotNull Context context) {
-			return context.getString(captionId);
-		}
-	}
+public class CalculatorFunctionsActivity extends AbstractMathEntityListFragment<Function> {
 
 	public static final String CREATE_FUN_EXTRA_STRING = "org.solovyev.android.calculator.math.edit.CalculatorFunctionsTabActivity_create_fun";
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		/*getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -104,7 +62,12 @@ public class CalculatorFunctionsActivity extends AbstractMathEntityListActivity<
 		}*/
 	}
 
-	@NotNull
+    @Override
+    protected int getTitleResId() {
+        return R.string.c_functions;
+    }
+
+    @NotNull
 	@Override
 	protected List<LabeledMenuItem<Function>> getMenuItemsOnLongClick(@NotNull Function item) {
 		List<LabeledMenuItem<Function>> result = new ArrayList<LabeledMenuItem<Function>>(Arrays.asList(LongClickMenuItem.values()));
@@ -218,4 +181,54 @@ public class CalculatorFunctionsActivity extends AbstractMathEntityListActivity<
 	protected String getMathEntityCategory(@NotNull Function function) {
 		return CalculatorLocatorImpl.getInstance().getEngine().getFunctionsRegistry().getCategory(function);
 	}
+
+    /*
+    **********************************************************************
+    *
+    *                           STATIC
+    *
+    **********************************************************************
+    */
+
+    private static enum LongClickMenuItem implements LabeledMenuItem<Function> {
+        use(R.string.c_use) {
+            @Override
+            public void onClick(@NotNull Function data, @NotNull Context context) {
+                CalculatorLocatorImpl.getInstance().getKeyboard().digitButtonPressed(data.getName());
+                if (context instanceof Activity) {
+                    ((Activity) context).finish();
+                }
+            }
+        },
+
+        /*edit(R.string.c_edit) {
+              @Override
+              public void doAction(@NotNull Function data, @NotNull Context context) {
+                  if (context instanceof AbstractMathEntityListActivity) {
+                  }
+              }
+          },*/
+
+        copy_description(R.string.c_copy_description) {
+            @Override
+            public void onClick(@NotNull Function data, @NotNull Context context) {
+                final String text = CalculatorLocatorImpl.getInstance().getEngine().getFunctionsRegistry().getDescription(data.getName());
+                if (!StringUtils.isEmpty(text)) {
+                    final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
+                    clipboard.setText(text);
+                }
+            }
+        };
+        private final int captionId;
+
+        LongClickMenuItem(int captionId) {
+            this.captionId = captionId;
+        }
+
+        @NotNull
+        @Override
+        public String getCaption(@NotNull Context context) {
+            return context.getString(captionId);
+        }
+    }
 }

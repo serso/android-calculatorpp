@@ -20,49 +20,19 @@ import java.util.List;
  * Time: 1:53 PM
  */
 
-public class CalculatorOperatorsActivity extends AbstractMathEntityListActivity<Operator> {
+public class CalculatorOperatorsActivity extends AbstractMathEntityListFragment<Operator> {
 
-	private static enum LongClickMenuItem implements LabeledMenuItem<Operator> {
+    @Override
+    protected int getTitleResId() {
+        return R.string.c_operators;
+    }
 
-		use(R.string.c_use) {
-			@Override
-			public void onClick(@NotNull Operator data, @NotNull Context context) {
-                CalculatorLocatorImpl.getInstance().getKeyboard().digitButtonPressed(data.getName());
-				if (context instanceof Activity) {
-					((Activity) context).finish();
-				}
-			}
-		},
-
-		copy_description(R.string.c_copy_description) {
-			@Override
-			public void onClick(@NotNull Operator data, @NotNull Context context) {
-				final String text = OperatorDescriptionGetter.instance.getDescription(context, data.getName());
-				if (!StringUtils.isEmpty(text)) {
-					final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
-					clipboard.setText(text);
-				}
-			}
-		};
-		private final int captionId;
-
-		LongClickMenuItem(int captionId) {
-			this.captionId = captionId;
-		}
-
-		@NotNull
-		@Override
-		public String getCaption(@NotNull Context context) {
-			return context.getString(captionId);
-		}
-	}
-
-	@NotNull
+    @NotNull
 	@Override
 	protected List<LabeledMenuItem<Operator>> getMenuItemsOnLongClick(@NotNull Operator item) {
 		final List<LabeledMenuItem<Operator>> result = new ArrayList<LabeledMenuItem<Operator>>(Arrays.asList(LongClickMenuItem.values()));
 
-		if ( StringUtils.isEmpty(OperatorDescriptionGetter.instance.getDescription(this, item.getName())) ) {
+		if ( StringUtils.isEmpty(OperatorDescriptionGetter.instance.getDescription(this.getActivity(), item.getName())) ) {
 			result.remove(LongClickMenuItem.copy_description);
 		}
 
@@ -109,6 +79,49 @@ public class CalculatorOperatorsActivity extends AbstractMathEntityListActivity<
             }
 
             return result;
+        }
+    }
+
+    /*
+    **********************************************************************
+    *
+    *                           STATIC
+    *
+    **********************************************************************
+    */
+
+    private static enum LongClickMenuItem implements LabeledMenuItem<Operator> {
+
+        use(R.string.c_use) {
+            @Override
+            public void onClick(@NotNull Operator data, @NotNull Context context) {
+                CalculatorLocatorImpl.getInstance().getKeyboard().digitButtonPressed(data.getName());
+                if (context instanceof Activity) {
+                    ((Activity) context).finish();
+                }
+            }
+        },
+
+        copy_description(R.string.c_copy_description) {
+            @Override
+            public void onClick(@NotNull Operator data, @NotNull Context context) {
+                final String text = OperatorDescriptionGetter.instance.getDescription(context, data.getName());
+                if (!StringUtils.isEmpty(text)) {
+                    final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
+                    clipboard.setText(text);
+                }
+            }
+        };
+        private final int captionId;
+
+        LongClickMenuItem(int captionId) {
+            this.captionId = captionId;
+        }
+
+        @NotNull
+        @Override
+        public String getCaption(@NotNull Context context) {
+            return context.getString(captionId);
         }
     }
 

@@ -15,8 +15,9 @@ import android.preference.PreferenceManager;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
-import android.util.TypedValue;
-import android.view.*;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import net.robotmedia.billing.BillingController;
@@ -28,6 +29,8 @@ import org.solovyev.android.FontSizeAdjuster;
 import org.solovyev.android.calculator.about.CalculatorReleaseNotesActivity;
 import org.solovyev.android.calculator.history.CalculatorHistoryFragment;
 import org.solovyev.android.calculator.history.CalculatorSavedHistoryFragment;
+import org.solovyev.android.calculator.math.edit.CalculatorVarsFragment;
+import org.solovyev.android.calculator.model.VarCategory;
 import org.solovyev.android.fragments.FragmentUtils;
 import org.solovyev.android.prefs.Preference;
 import org.solovyev.android.view.ColorButton;
@@ -74,6 +77,10 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Font
         if (findViewById(R.id.main_second_pane) != null) {
             activityHelper.addTab(this, "history", CalculatorHistoryFragment.class, null, R.string.c_history, R.id.main_second_pane);
             activityHelper.addTab(this, "saved_history", CalculatorSavedHistoryFragment.class, null, R.string.c_saved_history, R.id.main_second_pane);
+
+            for (VarCategory category : VarCategory.getCategoriesByTabOrder()) {
+                activityHelper.addTab(this, "vars_" + category.name(), CalculatorVarsFragment.class, CalculatorVarsFragment.createBundleFor(category.name()), category.getCaptionId(), R.id.main_second_pane);
+            }
             activityHelper.restoreSavedTab(this);
         }
 
@@ -211,11 +218,11 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Font
 	 */
 	@Override
 	public void adjustFontSize(@NotNull TextView view) {
-		float fontPixelSize = view.getTextSize();
+		/*float fontPixelSize = view.getTextSize();
 		Display display = getWindowManager().getDefaultDisplay();
 		int h = Math.min(display.getWidth(), display.getHeight());
 		float ratio = (float) h / HVGA_WIDTH_PIXELS;
-		view.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontPixelSize * ratio);
+		view.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontPixelSize * ratio);*/
 	}
 
     @Override

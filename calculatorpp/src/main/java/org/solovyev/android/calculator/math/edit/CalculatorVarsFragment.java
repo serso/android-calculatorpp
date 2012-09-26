@@ -10,12 +10,13 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.text.ClipboardManager;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 import jscl.math.function.IConstant;
@@ -39,95 +40,37 @@ import java.util.List;
  * Date: 9/28/11
  * Time: 10:55 PM
  */
-public class CalculatorVarsActivity extends AbstractMathEntityListActivity<IConstant> {
-
-	private static enum LongClickMenuItem implements LabeledMenuItem<IConstant>{
-		use(R.string.c_use) {
-			@Override
-			public void onClick(@NotNull IConstant data, @NotNull Context context) {
-                CalculatorLocatorImpl.getInstance().getKeyboard().digitButtonPressed(data.getName());
-				if (context instanceof Activity) {
-					((Activity) context).finish();
-				}
-			}
-		},
-
-		edit(R.string.c_edit) {
-			@Override
-			public void onClick(@NotNull IConstant data, @NotNull Context context) {
-				if (context instanceof AbstractMathEntityListActivity) {
-					createEditVariableDialog((AbstractMathEntityListActivity<IConstant>)context, data, data.getName(), StringUtils.getNotEmpty(data.getValue(), ""), data.getDescription());
-				}
-			}
-		},
-
-		remove(R.string.c_remove) {
-			@Override
-			public void onClick(@NotNull IConstant data, @NotNull Context context) {
-				if (context instanceof AbstractMathEntityListActivity) {
-					new MathEntityRemover<IConstant>(data, null, CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry(), ((AbstractMathEntityListActivity<IConstant>) context)).showConfirmationDialog();
-				}
-			}
-		},
-
-		copy_value(R.string.c_copy_value) {
-			@Override
-			public void onClick(@NotNull IConstant data, @NotNull Context context) {
-				final String text = data.getValue();
-				if (!StringUtils.isEmpty(text)) {
-					final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
-					clipboard.setText(text);
-				}
-			}
-		},
-
-		copy_description(R.string.c_copy_description) {
-			@Override
-			public void onClick(@NotNull IConstant data, @NotNull Context context) {
-				final String text = CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry().getDescription(data.getName());
-				if (!StringUtils.isEmpty(text)) {
-					final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
-					clipboard.setText(text);
-				}
-			}
-		};
-		private final int captionId;
-
-		LongClickMenuItem(int captionId) {
-			this.captionId = captionId;
-		}
-
-		@NotNull
-		@Override
-		public String getCaption(@NotNull Context context) {
-			return context.getString(captionId);
-		}
-	}
+public class CalculatorVarsFragment extends AbstractMathEntityListFragment<IConstant> {
 	
 	public static final String CREATE_VAR_EXTRA_STRING = "org.solovyev.android.calculator.math.edit.CalculatorVarsTabActivity_create_var";
 
 	@Override
-	protected int getLayoutId() {
-		return R.layout.vars;
+	protected int getLayoutResId() {
+		return R.layout.vars_fragment;
 	}
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		final Intent intent = getIntent();
-		if (intent != null) {
-			final String varValue = intent.getStringExtra(CREATE_VAR_EXTRA_STRING);
+		final Bundle bundle = getArguments();
+		if (bundle != null) {
+			final String varValue = bundle.getString(CREATE_VAR_EXTRA_STRING);
 			if (!StringUtils.isEmpty(varValue)) {
 				createEditVariableDialog(this, null, null, varValue, null);
 
 				// in order to stop intent for other tabs
-				intent.removeExtra(CREATE_VAR_EXTRA_STRING);
+                bundle.remove(CREATE_VAR_EXTRA_STRING);
 			}
 		}
 	}
 
-	@NotNull
+    @Override
+    protected int getTitleResId() {
+        return R.string.c_vars;
+    }
+
+    @NotNull
 	@Override
 	protected List<LabeledMenuItem<IConstant>> getMenuItemsOnLongClick(@NotNull IConstant item) {
 		final List<LabeledMenuItem<IConstant>> result = new ArrayList<LabeledMenuItem<IConstant>>(Arrays.asList(LongClickMenuItem.values()));
@@ -179,17 +122,19 @@ public class CalculatorVarsActivity extends AbstractMathEntityListActivity<ICons
 		return CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry().getCategory(var);
 	}
 
-	private static void createEditVariableDialog(@NotNull final AbstractMathEntityListActivity<IConstant> activity,
+	private static void createEditVariableDialog(@NotNull final AbstractMathEntityListFragment<IConstant> fragment,
 												 @Nullable final IConstant var,
 												 @Nullable final String name,
 												 @Nullable final String value,
 												 @Nullable final String description) {
-		if (var == null || !var.isSystem()) {
+        final FragmentActivity activity = fragment.getActivity();
 
-			final LayoutInflater layoutInflater = (LayoutInflater) activity.getSystemService(LAYOUT_INFLATER_SERVICE);
+        if (var == null || !var.isSystem()) {
+
+			final LayoutInflater layoutInflater = (LayoutInflater) activity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 			final View editView = layoutInflater.inflate(R.layout.var_edit, null);
 
-			final String errorMsg = activity.getString(R.string.c_char_is_not_accepted);
+			final String errorMsg = fragment.getString(R.string.c_char_is_not_accepted);
 
 			final EditText editName = (EditText) editView.findViewById(R.id.var_edit_name);
 			editName.setText(name);
@@ -209,7 +154,7 @@ public class CalculatorVarsActivity extends AbstractMathEntityListActivity<ICons
 						char c = s.charAt(i);
 						if (!acceptableChars.contains(c)) {
 							s.delete(i, i + 1);
-							Toast.makeText(activity, String.format(errorMsg, c), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(activity, String.format(errorMsg, c), Toast.LENGTH_SHORT).show();
 						}
 					}
 				}
@@ -233,9 +178,9 @@ public class CalculatorVarsActivity extends AbstractMathEntityListActivity<ICons
 			final AlertDialog.Builder builder = new AlertDialog.Builder(activity)
 					.setCancelable(true)
 					.setNegativeButton(R.string.c_cancel, null)
-					.setPositiveButton(R.string.c_save, new VarEditorSaver<IConstant>(varBuilder, var, editView, activity, CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry(), new VarEditorSaver.EditorCreator<IConstant>() {
+					.setPositiveButton(R.string.c_save, new VarEditorSaver<IConstant>(varBuilder, var, editView, fragment, CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry(), new VarEditorSaver.EditorCreator<IConstant>() {
 						@Override
-						public void showEditor(@NotNull AbstractMathEntityListActivity<IConstant> activity, @Nullable IConstant editedInstance, @Nullable String name, @Nullable String value, @Nullable String description) {
+						public void showEditor(@NotNull AbstractMathEntityListFragment<IConstant> activity, @Nullable IConstant editedInstance, @Nullable String name, @Nullable String value, @Nullable String description) {
 							createEditVariableDialog(activity, editedInstance, name, value, description);
 						}
 					}))
@@ -248,9 +193,9 @@ public class CalculatorVarsActivity extends AbstractMathEntityListActivity<ICons
 				builder.setNeutralButton(R.string.c_remove, new MathEntityRemover<IConstant>(var, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						createEditVariableDialog(activity, var, name, value, description);
+						createEditVariableDialog(fragment, var, name, value, description);
 					}
-				}, CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry(), activity));
+				}, CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry(), fragment));
 			} else {
 				// CREATE mode
 
@@ -259,7 +204,7 @@ public class CalculatorVarsActivity extends AbstractMathEntityListActivity<ICons
 
 			builder.create().show();
 		} else {
-			Toast.makeText(activity, activity.getString(R.string.c_sys_var_cannot_be_changed), Toast.LENGTH_LONG).show();
+			Toast.makeText(activity, fragment.getString(R.string.c_sys_var_cannot_be_changed), Toast.LENGTH_LONG).show();
 		}
 	}
 
@@ -268,7 +213,8 @@ public class CalculatorVarsActivity extends AbstractMathEntityListActivity<ICons
 		return true;
 	}
 
-	@Override
+    // todo serso: menu
+/*	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		final MenuInflater menuInflater = getMenuInflater();
 		menuInflater.inflate(R.menu.var_menu, menu);
@@ -289,6 +235,76 @@ public class CalculatorVarsActivity extends AbstractMathEntityListActivity<ICons
 		}
 
 		return result;
-	}
+	}*/
 
+    /*
+    **********************************************************************
+    *
+    *                           STATIC
+    *
+    **********************************************************************
+    */
+
+    private static enum LongClickMenuItem implements LabeledMenuItem<IConstant>{
+        use(R.string.c_use) {
+            @Override
+            public void onClick(@NotNull IConstant data, @NotNull Context context) {
+                CalculatorLocatorImpl.getInstance().getKeyboard().digitButtonPressed(data.getName());
+                if (context instanceof Activity) {
+                    ((Activity) context).finish();
+                }
+            }
+        },
+
+        edit(R.string.c_edit) {
+            @Override
+            public void onClick(@NotNull IConstant data, @NotNull Context context) {
+                /*if (context instanceof AbstractMathEntityListFragment) {
+                    createEditVariableDialog((AbstractMathEntityListFragment<IConstant>)context, data, data.getName(), StringUtils.getNotEmpty(data.getValue(), ""), data.getDescription());
+                }*/
+            }
+        },
+
+        remove(R.string.c_remove) {
+            @Override
+            public void onClick(@NotNull IConstant data, @NotNull Context context) {
+                /*if (context instanceof AbstractMathEntityListFragment) {
+                    new MathEntityRemover<IConstant>(data, null, CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry(), ((AbstractMathEntityListFragment<IConstant>) context)).showConfirmationDialog();
+                }*/
+            }
+        },
+
+        copy_value(R.string.c_copy_value) {
+            @Override
+            public void onClick(@NotNull IConstant data, @NotNull Context context) {
+                final String text = data.getValue();
+                if (!StringUtils.isEmpty(text)) {
+                    final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
+                    clipboard.setText(text);
+                }
+            }
+        },
+
+        copy_description(R.string.c_copy_description) {
+            @Override
+            public void onClick(@NotNull IConstant data, @NotNull Context context) {
+                final String text = CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry().getDescription(data.getName());
+                if (!StringUtils.isEmpty(text)) {
+                    final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
+                    clipboard.setText(text);
+                }
+            }
+        };
+        private final int captionId;
+
+        LongClickMenuItem(int captionId) {
+            this.captionId = captionId;
+        }
+
+        @NotNull
+        @Override
+        public String getCaption(@NotNull Context context) {
+            return context.getString(captionId);
+        }
+    }
 }

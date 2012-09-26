@@ -34,25 +34,25 @@ class MathEntityRemover<T extends MathEntity> implements DialogInterface.OnClick
 	private final CalculatorMathRegistry<? super T> varsRegistry;
 
 	@NotNull
-	private final AbstractMathEntityListActivity<T> activity;
+	private final AbstractMathEntityListFragment<T> fragment;
 
 	public MathEntityRemover(@NotNull T mathEntity,
 							 @Nullable DialogInterface.OnClickListener callbackOnCancel,
 							 @NotNull CalculatorMathRegistry<? super T> varsRegistry,
-							 @NotNull AbstractMathEntityListActivity<T> activity) {
-		this(mathEntity, callbackOnCancel, false, varsRegistry, activity);
+							 @NotNull AbstractMathEntityListFragment<T> fragment) {
+		this(mathEntity, callbackOnCancel, false, varsRegistry, fragment);
 	}
 
 	public MathEntityRemover(@NotNull T mathEntity,
 							 @Nullable DialogInterface.OnClickListener callbackOnCancel,
 							 boolean confirmed,
 							 @NotNull CalculatorMathRegistry<? super T> varsRegistry,
-							 @NotNull AbstractMathEntityListActivity<T> activity) {
+							 @NotNull AbstractMathEntityListFragment<T> fragment) {
 		this.mathEntity = mathEntity;
 		this.callbackOnCancel = callbackOnCancel;
 		this.confirmed = confirmed;
 		this.varsRegistry = varsRegistry;
-		this.activity = activity;
+		this.fragment = fragment;
 	}
 
 	@Override
@@ -60,28 +60,28 @@ class MathEntityRemover<T extends MathEntity> implements DialogInterface.OnClick
 		if (!confirmed) {
 			showConfirmationDialog();
 		} else {
-			if (activity.isInCategory(mathEntity)) {
-				activity.removeFromAdapter(mathEntity);
+			if (fragment.isInCategory(mathEntity)) {
+				fragment.removeFromAdapter(mathEntity);
 			}
 
 			varsRegistry.remove(mathEntity);
 			varsRegistry.save();
-			if (activity.isInCategory(mathEntity)) {
-				activity.notifyAdapter();
+			if (fragment.isInCategory(mathEntity)) {
+				fragment.notifyAdapter();
 			}
 		}
 	}
 
 	public void showConfirmationDialog() {
-		final TextView question = new TextView(activity);
-		question.setText(String.format(activity.getString(R.string.c_var_removal_confirmation_question), mathEntity.getName()));
+		final TextView question = new TextView(fragment.getActivity());
+		question.setText(String.format(fragment.getString(R.string.c_var_removal_confirmation_question), mathEntity.getName()));
 		question.setPadding(6, 6, 6, 6);
-		final AlertDialog.Builder builder = new AlertDialog.Builder(activity)
+		final AlertDialog.Builder builder = new AlertDialog.Builder(fragment.getActivity())
 				.setCancelable(true)
 				.setView(question)
 				.setTitle(R.string.c_var_removal_confirmation)
 				.setNegativeButton(R.string.c_no, callbackOnCancel)
-				.setPositiveButton(R.string.c_yes, new MathEntityRemover<T>(mathEntity, callbackOnCancel, true, varsRegistry, activity));
+				.setPositiveButton(R.string.c_yes, new MathEntityRemover<T>(mathEntity, callbackOnCancel, true, varsRegistry, fragment));
 
 		builder.create().show();
 	}

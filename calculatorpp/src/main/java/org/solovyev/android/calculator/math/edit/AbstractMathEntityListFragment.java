@@ -7,7 +7,6 @@
 package org.solovyev.android.calculator.math.edit;
 
 import android.app.Activity;
-import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,19 +14,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import com.actionbarsherlock.app.SherlockListFragment;
 import com.google.ads.AdView;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.ads.AdsController;
-import org.solovyev.android.calculator.CalculatorLocatorImpl;
-import org.solovyev.android.calculator.R;
-import org.solovyev.android.calculator.CalculatorMathRegistry;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.menu.AMenuBuilder;
 import org.solovyev.android.menu.LabeledMenuItem;
 import org.solovyev.android.menu.MenuImpl;
 import org.solovyev.common.equals.EqualsTool;
-import org.solovyev.common.filter.FilterRule;
 import org.solovyev.common.filter.Filter;
+import org.solovyev.common.filter.FilterRule;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.text.StringUtils;
 
@@ -40,11 +38,28 @@ import java.util.List;
  * Date: 12/21/11
  * Time: 9:24 PM
  */
-public abstract class AbstractMathEntityListActivity<T extends MathEntity> extends ListActivity {
+public abstract class AbstractMathEntityListFragment<T extends MathEntity> extends SherlockListFragment {
+
+    /*
+    **********************************************************************
+    *
+    *                           CONSTANTS
+    *
+    **********************************************************************
+    */
 
     public static final String MATH_ENTITY_CATEGORY_EXTRA_STRING = "org.solovyev.android.calculator.CalculatorVarsActivity_math_entity_category";
 
 	protected final static List<Character> acceptableChars = Arrays.asList(StringUtils.toObject("1234567890abcdefghijklmnopqrstuvwxyzйцукенгшщзхъфывапролджэячсмитьбюё_".toCharArray()));
+
+
+    /*
+    **********************************************************************
+    *
+    *                           FIELDS
+    *
+    **********************************************************************
+    */
 
     @Nullable
     private MathEntityArrayAdapter<T> adapter;
@@ -55,47 +70,35 @@ public abstract class AbstractMathEntityListActivity<T extends MathEntity> exten
 	@Nullable
 	private AdView adView;
 
-	static void createTab(@NotNull Context context,
-                          @NotNull TabHost tabHost,
-                          @NotNull String tabId,
-                          @NotNull String categoryId,
-                          int tabCaptionId,
-                          @NotNull Class<? extends Activity> activityClass,
-                          @Nullable Intent parentIntent) {
+    @NotNull
+    private CalculatorFragmentHelper fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper();
 
-        TabHost.TabSpec spec;
 
-        final Intent intent;
-        if (parentIntent != null) {
-            intent = new Intent(parentIntent);
-        } else {
-            intent = new Intent();
-        }
-        intent.setClass(context, activityClass);
-        intent.putExtra(MATH_ENTITY_CATEGORY_EXTRA_STRING, categoryId);
-
-        // Initialize a TabSpec for each tab and add it to the TabHost
-        spec = tabHost.newTabSpec(tabId).setIndicator(context.getString(tabCaptionId)).setContent(intent);
-
-        tabHost.addTab(spec);
-    }
-
-    protected int getLayoutId() {
+    protected int getLayoutResId() {
         return R.layout.math_entities;
     }
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(getLayoutId());
-
-		adView = AdsController.getInstance().inflateAd(this);
-
-		final Intent intent = getIntent();
-        if ( intent != null ) {
-            category = intent.getStringExtra(MATH_ENTITY_CATEGORY_EXTRA_STRING);
+        final Bundle bundle = getArguments();
+        if ( bundle != null ) {
+            category = bundle.getString(MATH_ENTITY_CATEGORY_EXTRA_STRING);
         }
+	}
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(getLayoutResId(), container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        this.fragmentHelper.setPaneTitle(this, getTitleResId());
 
         final ListView lv = getListView();
         lv.setTextFilterEnabled(true);
@@ -107,30 +110,32 @@ public abstract class AbstractMathEntityListActivity<T extends MathEntity> exten
                                     final long id) {
 
                 CalculatorLocatorImpl.getInstance().getKeyboard().digitButtonPressed(((MathEntity) parent.getItemAtPosition(position)).getName());
-
-                AbstractMathEntityListActivity.this.finish();
             }
         });
 
-		getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-			@Override
-			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-				final T item = (T) parent.getItemAtPosition(position);
+        getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                final T item = (T) parent.getItemAtPosition(position);
 
-				final List<LabeledMenuItem<T>> menuItems = getMenuItemsOnLongClick(item);
+                final List<LabeledMenuItem<T>> menuItems = getMenuItemsOnLongClick(item);
 
-				if (!menuItems.isEmpty()) {
-					final AMenuBuilder<LabeledMenuItem<T>, T> menuBuilder = AMenuBuilder.newInstance(AbstractMathEntityListActivity.this, MenuImpl.newInstance(menuItems));
-					menuBuilder.create(item).show();
-				}
+                if (!menuItems.isEmpty()) {
+                    final AMenuBuilder<LabeledMenuItem<T>, T> menuBuilder = AMenuBuilder.newInstance(AbstractMathEntityListFragment.this.getActivity(), MenuImpl.newInstance(menuItems));
+                    menuBuilder.create(item).show();
+                }
 
-				return true;
-			}
-		});
-	}
+                return true;
+            }
+        });
 
-	@Override
-	protected void onDestroy() {
+        adView = AdsController.getInstance().inflateAd(this.getActivity(), (ViewGroup)view.findViewById(R.id.ad_parent_view), R.id.ad_parent_view);
+    }
+
+    protected abstract int getTitleResId();
+
+    @Override
+    public void onDestroy() {
 		if (this.adView != null) {
 			this.adView.destroy();
 		}
@@ -141,10 +146,10 @@ public abstract class AbstractMathEntityListActivity<T extends MathEntity> exten
 	protected abstract List<LabeledMenuItem<T>> getMenuItemsOnLongClick(@NotNull T item);
 
 	@Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
 
-        adapter = new MathEntityArrayAdapter<T>(getDescriptionGetter(), this, R.layout.math_entity, R.id.math_entity_text, getMathEntitiesByCategory());
+        adapter = new MathEntityArrayAdapter<T>(getDescriptionGetter(), this.getActivity(), R.layout.math_entity, R.id.math_entity_text, getMathEntitiesByCategory());
         setListAdapter(adapter);
 
         sort();
@@ -216,7 +221,7 @@ public abstract class AbstractMathEntityListActivity<T extends MathEntity> exten
             if (!StringUtils.isEmpty(mathEntityDescription)) {
                 TextView description = (TextView) result.findViewById(R.id.math_entity_description);
                 if (description == null) {
-                    final LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+                    final LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
                     final ViewGroup itemView = (ViewGroup) layoutInflater.inflate(R.layout.math_entity, null);
                     description = (TextView) itemView.findViewById(R.id.math_entity_description);
                     itemView.removeView(description);
@@ -273,4 +278,44 @@ public abstract class AbstractMathEntityListActivity<T extends MathEntity> exten
 			this.adapter.notifyDataSetChanged();
 		}
 	}
+
+    /*
+    **********************************************************************
+    *
+    *                           STATIC
+    *
+    **********************************************************************
+    */
+
+    static void createTab(@NotNull Context context,
+                          @NotNull TabHost tabHost,
+                          @NotNull String tabId,
+                          @NotNull String categoryId,
+                          int tabCaptionId,
+                          @NotNull Class<? extends Activity> activityClass,
+                          @Nullable Intent parentIntent) {
+
+        TabHost.TabSpec spec;
+
+        final Intent intent;
+        if (parentIntent != null) {
+            intent = new Intent(parentIntent);
+        } else {
+            intent = new Intent();
+        }
+        intent.setClass(context, activityClass);
+        intent.putExtra(MATH_ENTITY_CATEGORY_EXTRA_STRING, categoryId);
+
+        // Initialize a TabSpec for each tab and add it to the TabHost
+        spec = tabHost.newTabSpec(tabId).setIndicator(context.getString(tabCaptionId)).setContent(intent);
+
+        tabHost.addTab(spec);
+    }
+
+    @NotNull
+    public static Bundle createBundleFor(@NotNull String categoryId) {
+        final Bundle result = new Bundle(1);
+        result.putString(MATH_ENTITY_CATEGORY_EXTRA_STRING, categoryId);
+        return result;
+    }
 }

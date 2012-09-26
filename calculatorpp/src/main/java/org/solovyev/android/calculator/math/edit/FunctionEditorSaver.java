@@ -34,7 +34,7 @@ import org.solovyev.common.text.StringUtils;
 public class FunctionEditorSaver implements DialogInterface.OnClickListener{
 
 	public static interface EditorCreator<T extends MathEntity> {
-		void showEditor(@NotNull AbstractMathEntityListActivity<T> activity,
+		void showEditor(@NotNull AbstractMathEntityListFragment<T> activity,
 						@Nullable CustomFunction editedInstance,
 						@Nullable String name,
 						@Nullable String value,
@@ -55,7 +55,7 @@ public class FunctionEditorSaver implements DialogInterface.OnClickListener{
 	private final CalculatorMathRegistry<Function> mathRegistry;
 
 	@NotNull
-	private final AbstractMathEntityListActivity<Function> activity;
+	private final AbstractMathEntityListFragment<Function> fragment;
 
 	@NotNull
 	private View editView;
@@ -63,13 +63,13 @@ public class FunctionEditorSaver implements DialogInterface.OnClickListener{
 	public FunctionEditorSaver(@NotNull MathEntityBuilder<CustomFunction> varBuilder,
 							   @Nullable CustomFunction editedInstance,
 							   @NotNull View editView,
-							   @NotNull AbstractMathEntityListActivity<Function> activity,
+							   @NotNull AbstractMathEntityListFragment<Function> fragment,
 							   @NotNull CalculatorMathRegistry<Function> mathRegistry,
 							   @NotNull EditorCreator<Function> editorCreator) {
 		this.varBuilder = varBuilder;
 		this.editedInstance = editedInstance;
 		this.editView = editView;
-		this.activity = activity;
+		this.fragment = fragment;
 		this.mathRegistry = mathRegistry;
 		this.editorCreator = editorCreator;
 	}
@@ -112,7 +112,7 @@ public class FunctionEditorSaver implements DialogInterface.OnClickListener{
 							error = null;
 						} else {
 							// value is not empty => must be a number
-							boolean valid = CalculatorVarsActivity.isValidValue(value);
+							boolean valid = CalculatorVarsFragment.isValidValue(value);
 
 							if (valid) {
 								varBuilder.setName(name);
@@ -134,21 +134,21 @@ public class FunctionEditorSaver implements DialogInterface.OnClickListener{
 			}
 
 			if (error != null) {
-				Toast.makeText(activity, activity.getString(error), Toast.LENGTH_LONG).show();
-				editorCreator.showEditor(activity, editedInstance, name, value, null, description);
+				Toast.makeText(fragment.getActivity(), fragment.getString(error), Toast.LENGTH_LONG).show();
+				editorCreator.showEditor(fragment, editedInstance, name, value, null, description);
 			} else {
 				final Function addedVar = mathRegistry.add(varBuilder);
-				if (activity.isInCategory(addedVar)) {
+				if (fragment.isInCategory(addedVar)) {
 					if (editedInstance != null) {
-						activity.removeFromAdapter(editedInstance);
+						fragment.removeFromAdapter(editedInstance);
 					}
-					activity.addToAdapter(addedVar);
+					fragment.addToAdapter(addedVar);
 				}
 
 				mathRegistry.save();
 
-				if (activity.isInCategory(addedVar)) {
-					activity.sort();
+				if (fragment.isInCategory(addedVar)) {
+					fragment.sort();
 				}
 			}
 		}

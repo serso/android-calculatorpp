@@ -11,4 +11,6 @@ import org.jetbrains.annotations.NotNull;
 public interface CalculatorFragmentHelper {
 
     boolean isPane(@NotNull Fragment fragment);
+
+    void setPaneTitle(@NotNull Fragment fragment, int titleResId);
 }

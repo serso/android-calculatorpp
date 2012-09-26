@@ -25,9 +25,24 @@
         <item name="android:layout_margin">5dp</item>
     </style>
 
+    <style name="default_fragment_list_view_style">
+         <item name="android:id">@android:id/list</item>
+         <item name="android:divider">@null</item>
+         <item name="android:dividerHeight">0dp</item>
+         <item name="android:cacheColorHint">@android:color/transparent</item>
+         <item name="android:layout_height">match_parent</item>
+         <item name="android:layout_width">match_parent</item>
+         <item name="android:layout_weight">1</item>
+    </style>
+
     <style name="default_fragment_title_style">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">25sp</item>
+        <item name="android:layout_marginLeft">6dp</item>
+    </style>
+
+    <style name="default_button_style" parent="button_style">
+        <item name="android:background">@drawable/metro_button_blue</item>
     </style>
 
     <style name="default_fragment_layout_style">
@@ -45,5 +60,7 @@
 		<item name="fragmentLayoutStyle">@style/default_fragment_layout_style</item>
 		<item name="secondPaneStyle">@style/default_second_pane_style</item>
 		<item name="fragmentTitleStyle">@style/default_fragment_title_style</item>
+		<item name="fragmentListViewStyle">@style/default_fragment_list_view_style</item>
+		<item name="buttonStyle">@style/default_button_style</item>
 	</style>
 </resources>

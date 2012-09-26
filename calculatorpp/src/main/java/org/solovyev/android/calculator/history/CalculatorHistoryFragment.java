@@ -21,7 +21,7 @@ import java.util.List;
 public class CalculatorHistoryFragment extends AbstractCalculatorHistoryFragment {
 
     @Override
-    protected int getFragmentTitleResId() {
+    protected int getTitleResId() {
         return R.string.c_history;
     }
 

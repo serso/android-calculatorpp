@@ -39,15 +39,15 @@
 
         <activity android:configChanges="orientation|keyboardHidden" android:label="@string/c_help" android:name=".help.HelpScreensActivity"/>
 
-        <activity android:configChanges="orientation|keyboardHidden" android:label="@string/c_functions" android:name=".math.edit.CalculatorFunctionsTabActivity"/>
+        <activity android:configChanges="orientation|keyboardHidden" android:label="@string/c_functions" android:name=".math.edit.CalculatorFunctionsFragmentActivity"/>
 
         <activity android:configChanges="orientation|keyboardHidden" android:label="@string/c_functions" android:name=".math.edit.CalculatorFunctionsActivity"/>
 
         <activity android:configChanges="orientation|keyboardHidden" android:label="@string/c_operators" android:name=".math.edit.CalculatorOperatorsActivity"/>
 
-        <activity android:configChanges="orientation|keyboardHidden" android:label="@string/c_vars_and_constants" android:name=".math.edit.CalculatorVarsTabActivity"/>
+        <activity android:configChanges="orientation|keyboardHidden" android:label="@string/c_vars_and_constants" android:name=".math.edit.CalculatorVarsFragmentActivity"/>
 
-        <activity android:configChanges="orientation|keyboardHidden" android:label="@string/c_vars_and_constants" android:name=".math.edit.CalculatorVarsActivity"/>
+        <activity android:configChanges="orientation|keyboardHidden" android:label="@string/c_vars_and_constants" android:name=".math.edit.CalculatorVarsFragment"/>
 
         <activity android:label="@string/c_plot_graph" android:name=".plot.CalculatorPlotActivity"/>
 

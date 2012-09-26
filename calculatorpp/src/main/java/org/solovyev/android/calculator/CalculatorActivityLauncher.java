@@ -10,10 +10,10 @@ import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.about.CalculatorAboutTabActivity;
 import org.solovyev.android.calculator.help.CalculatorHelpTabActivity;
 import org.solovyev.android.calculator.history.CalculatorHistoryFragmentActivity;
-import org.solovyev.android.calculator.math.edit.CalculatorFunctionsTabActivity;
+import org.solovyev.android.calculator.math.edit.CalculatorFunctionsFragmentActivity;
 import org.solovyev.android.calculator.math.edit.CalculatorOperatorsActivity;
-import org.solovyev.android.calculator.math.edit.CalculatorVarsTabActivity;
-import org.solovyev.android.calculator.math.edit.CalculatorVarsActivity;
+import org.solovyev.android.calculator.math.edit.CalculatorVarsFragment;
+import org.solovyev.android.calculator.math.edit.CalculatorVarsFragmentActivity;
 import org.solovyev.android.calculator.plot.CalculatorPlotActivity;
 import org.solovyev.common.text.StringUtils;
 
@@ -41,7 +41,7 @@ public class CalculatorActivityLauncher {
 	}
 
 	public static void showFunctions(@NotNull final Context context) {
-		context.startActivity(new Intent(context, CalculatorFunctionsTabActivity.class));
+		context.startActivity(new Intent(context, CalculatorFunctionsFragmentActivity.class));
 	}
 
 	public static void showOperators(@NotNull final Context context) {
@@ -49,7 +49,7 @@ public class CalculatorActivityLauncher {
 	}
 
 	public static void showVars(@NotNull final Context context) {
-		context.startActivity(new Intent(context, CalculatorVarsTabActivity.class));
+		context.startActivity(new Intent(context, CalculatorVarsFragmentActivity.class));
 	}
 
 	public static void plotGraph(@NotNull final Context context, @NotNull Generic generic, @NotNull Constant constant){
@@ -65,9 +65,9 @@ public class CalculatorActivityLauncher {
         if (viewState.isValid() ) {
 			final String varValue = viewState.getText();
 			if (!StringUtils.isEmpty(varValue)) {
-				if (CalculatorVarsActivity.isValidValue(varValue)) {
-					final Intent intent = new Intent(context, CalculatorVarsTabActivity.class);
-					intent.putExtra(CalculatorVarsActivity.CREATE_VAR_EXTRA_STRING, varValue);
+				if (CalculatorVarsFragment.isValidValue(varValue)) {
+					final Intent intent = new Intent(context, CalculatorVarsFragmentActivity.class);
+					intent.putExtra(CalculatorVarsFragment.CREATE_VAR_EXTRA_STRING, varValue);
 					context.startActivity(intent);
 				} else {
 					Toast.makeText(context, R.string.c_not_valid_result, Toast.LENGTH_SHORT).show();
