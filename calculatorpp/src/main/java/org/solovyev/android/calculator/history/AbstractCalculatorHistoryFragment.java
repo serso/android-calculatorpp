@@ -6,7 +6,6 @@
 
 package org.solovyev.android.calculator.history;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,8 +19,7 @@ import com.google.ads.AdView;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.ads.AdsController;
-import org.solovyev.android.calculator.CalculatorLocatorImpl;
-import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.menu.AMenuBuilder;
 import org.solovyev.android.menu.MenuImpl;
@@ -42,7 +40,7 @@ import java.util.List;
  * Date: 10/15/11
  * Time: 1:13 PM
  */
-public abstract class AbstractCalculatorHistoryFragment extends SherlockListFragment {
+public abstract class AbstractCalculatorHistoryFragment extends SherlockListFragment implements CalculatorEventListener {
 
 
 	public static final Comparator<CalculatorHistoryState> COMPARATOR = new Comparator<CalculatorHistoryState>() {
@@ -68,17 +66,20 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 	private AdView adView;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.history_activity, null);
+        return inflater.inflate(R.layout.history_fragment, container, false);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        adView = AdsController.getInstance().inflateAd(this.getActivity());
-
-        adapter = new HistoryArrayAdapter(this.getActivity(), getLayoutId(), R.id.history_item, new ArrayList<CalculatorHistoryState>());
+        adapter = new HistoryArrayAdapter(this.getActivity(), getItemLayoutId(), R.id.history_item, new ArrayList<CalculatorHistoryState>());
         setListAdapter(adapter);
 
         final ListView lv = getListView();
@@ -90,7 +91,7 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
                                     final int position,
                                     final long id) {
 
-                useHistoryItem((CalculatorHistoryState) parent.getItemAtPosition(position), getActivity());
+                useHistoryItem((CalculatorHistoryState) parent.getItemAtPosition(position));
             }
         });
 
@@ -125,42 +126,55 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
                 return true;
             }
         });
-    }
 
-    @Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-	}
+        adView = AdsController.getInstance().inflateAd(this.getActivity(), (ViewGroup)view.findViewById(R.id.ad_parent_view), R.id.ad_parent_view);
+    }
 
 	@Override
 	public void onDestroy() {
 		if ( this.adView != null ) {
 			this.adView.destroy();
 		}
-		super.onDestroy();
+        super.onDestroy();
 	}
 
-	protected abstract int getLayoutId();
+	protected abstract int getItemLayoutId();
 
 	@Override
 	public void onResume() {
 		super.onResume();
 
-		final List<CalculatorHistoryState> historyList = getHistoryList();
-		try {
-			this.adapter.setNotifyOnChange(false);
-			this.adapter.clear();
-			for (CalculatorHistoryState historyState : historyList) {
-				this.adapter.add(historyState);
-			}
-		} finally {
-			this.adapter.setNotifyOnChange(true);
-		}
+        CalculatorLocatorImpl.getInstance().getCalculator().addCalculatorEventListener(this);
 
-		this.adapter.notifyDataSetChanged();
+        updateAdapter();
 	}
 
-	public static boolean isAlreadySaved(@NotNull CalculatorHistoryState historyState) {
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        CalculatorLocatorImpl.getInstance().getCalculator().removeCalculatorEventListener(this);
+
+    }
+
+    private void updateAdapter() {
+        final List<CalculatorHistoryState> historyList = getHistoryList();
+
+        final ArrayAdapter<CalculatorHistoryState> adapter = getAdapter();
+        try {
+            adapter.setNotifyOnChange(false);
+            adapter.clear();
+            for (CalculatorHistoryState historyState : historyList) {
+                adapter.add(historyState);
+            }
+        } finally {
+            adapter.setNotifyOnChange(true);
+        }
+
+        adapter.notifyDataSetChanged();
+    }
+
+    public static boolean isAlreadySaved(@NotNull CalculatorHistoryState historyState) {
 		assert !historyState.isSaved();
 
 		boolean result = false;
@@ -183,11 +197,8 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 		return result;
 	}
 
-	public static void useHistoryItem(@NotNull final CalculatorHistoryState historyState, @NotNull Activity activity) {
-        final EditorHistoryState editorState = historyState.getEditorState();
-        CalculatorLocatorImpl.getInstance().getEditor().setText(StringUtils.getNotEmpty(editorState.getText(), ""), editorState.getCursorPosition());
-
-		activity.finish();
+	public static void useHistoryItem(@NotNull final CalculatorHistoryState historyState) {
+        CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.use_history_state, historyState);
 	}
 
 	@NotNull
@@ -259,4 +270,16 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 	protected ArrayAdapter<CalculatorHistoryState> getAdapter() {
 		return adapter;
 	}
+
+    @Override
+    public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
+        if ( calculatorEventType == CalculatorEventType.history_state_added ) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    updateAdapter();
+                }
+            });
+        }
+    }
 }

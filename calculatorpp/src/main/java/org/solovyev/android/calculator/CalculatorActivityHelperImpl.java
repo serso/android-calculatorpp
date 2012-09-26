@@ -1,15 +1,20 @@
 package org.solovyev.android.calculator;
 
-import android.content.Intent;
+import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.history.CalculatorHistoryFragment;
+import org.solovyev.android.AndroidUtils;
+import org.solovyev.android.fragments.FragmentUtils;
 import org.solovyev.android.sherlock.tabs.ActionBarFragmentTabListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * User: serso
@@ -37,23 +42,37 @@ public class CalculatorActivityHelperImpl implements CalculatorActivityHelper {
 
     private int layoutId;
 
-    private boolean showActionBarTabs = true;
-
     private boolean homeIcon = false;
+
+    @NotNull
+    private final List<String> fragmentTags = new ArrayList<String>();
+
+    @NotNull
+    private CalculatorPreferences.Gui.Theme theme;
+    private int navPosition = 0;
 
     public CalculatorActivityHelperImpl(int layoutId) {
         this.layoutId = layoutId;
     }
 
-    public CalculatorActivityHelperImpl(int layoutId, boolean showActionBarTabs, boolean homeIcon) {
+    public CalculatorActivityHelperImpl(int layoutId, boolean homeIcon) {
         this.layoutId = layoutId;
-        this.showActionBarTabs = showActionBarTabs;
         this.homeIcon = homeIcon;
     }
 
     @Override
-    public void onCreate(@NotNull final SherlockFragmentActivity activity, @Nullable Bundle savedInstanceState) {
+    public void onCreate(@NotNull Activity activity, @Nullable Bundle savedInstanceState) {
+        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
+
+        this.theme = CalculatorPreferences.Gui.getTheme(preferences);
+        activity.setTheme(this.theme.getThemeId());
+
         activity.setContentView(layoutId);
+    }
+
+    @Override
+    public void onCreate(@NotNull final SherlockFragmentActivity activity, @Nullable Bundle savedInstanceState) {
+        this.onCreate((Activity) activity, savedInstanceState);
 
         final ActionBar actionBar = activity.getSupportActionBar();
         actionBar.setDisplayUseLogoEnabled(false);
@@ -61,61 +80,73 @@ public class CalculatorActivityHelperImpl implements CalculatorActivityHelper {
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayShowTitleEnabled(true);
 
-        if (showActionBarTabs) {
-            actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        if (savedInstanceState != null) {
+            navPosition = savedInstanceState.getInt(SELECTED_NAV, 0);
+        }
+    }
 
-            addTab(activity, "history", CalculatorHistoryFragment.class, null, R.string.c_history, R.drawable.icon);
-            //addTab(activity, "messages", MessengerChatsFragment.class, null, R.string.c_messages, R.drawable.msg_footer_messages_icon);
-
-            // settings tab
-            final ActionBar.Tab tab = actionBar.newTab();
-            tab.setTag("settings");
-            tab.setText(R.string.c_settings);
-            //tab.setIcon(R.drawable.msg_footer_settings_icon);
-            tab.setTabListener(new ActionBar.TabListener() {
-                @Override
-                public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
-                    activity.startActivity(new Intent(activity.getApplicationContext(), CalculatorPreferencesActivity.class));
-                }
-
-                @Override
-                public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
-                }
-
-                @Override
-                public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
-                }
-            });
-            actionBar.addTab(tab);
-
-            int navPosition = -1;
-            if (savedInstanceState != null) {
-                navPosition = savedInstanceState.getInt(SELECTED_NAV, -1);
-            }
-
-            if (navPosition >= 0) {
-                activity.getSupportActionBar().setSelectedNavigationItem(navPosition);
-            }
+    @Override
+    public void restoreSavedTab(@NotNull SherlockFragmentActivity activity) {
+        final ActionBar actionBar = activity.getSupportActionBar();
+        if (navPosition >= 0 && navPosition < actionBar.getTabCount()) {
+            activity.getSupportActionBar().setSelectedNavigationItem(navPosition);
         }
     }
 
     @Override
     public void onSaveInstanceState(@NotNull SherlockFragmentActivity activity, @NotNull Bundle outState) {
+        FragmentUtils.detachFragments(activity, fragmentTags);
+
+        onSaveInstanceState((Activity) activity, outState);
         outState.putInt(SELECTED_NAV, activity.getSupportActionBar().getSelectedNavigationIndex());
     }
 
-    private void addTab(@NotNull SherlockFragmentActivity activity,
-                        @NotNull String tag,
-                        @NotNull Class<? extends Fragment> fragmentClass,
-                        @Nullable Bundle fragmentArgs,
-                        int captionResId,
-                        int iconResId) {
+    @Override
+    public void onSaveInstanceState(@NotNull Activity activity, @NotNull Bundle outState) {
+    }
+
+    @Override
+    public void onResume(@NotNull Activity activity) {
+        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
+
+        final CalculatorPreferences.Gui.Theme newTheme = CalculatorPreferences.Gui.theme.getPreference(preferences);
+        if (!theme.equals(newTheme)) {
+            AndroidUtils.restartActivity(activity);
+        }
+    }
+
+    @Override
+    public void addTab(@NotNull SherlockFragmentActivity activity,
+                       @NotNull String tag,
+                       @NotNull Class<? extends Fragment> fragmentClass,
+                       @Nullable Bundle fragmentArgs,
+                       int captionResId,
+                       int parentViewId) {
+        activity.getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
         final ActionBar actionBar = activity.getSupportActionBar();
         final ActionBar.Tab tab = actionBar.newTab();
         tab.setTag(tag);
         tab.setText(captionResId);
-        //tab.setIcon(iconResId);
-        tab.setTabListener(new ActionBarFragmentTabListener(activity, tag, fragmentClass, fragmentArgs, R.id.content_second_pane));
+        tab.setTabListener(new ActionBarFragmentTabListener(activity, tag, fragmentClass, fragmentArgs, parentViewId));
         actionBar.addTab(tab);
+
+        fragmentTags.add(tag);
+    }
+
+    @Override
+    public int getLayoutId() {
+        return layoutId;
+    }
+
+    @Override
+    @NotNull
+    public CalculatorPreferences.Gui.Theme getTheme() {
+        return theme;
+    }
+
+    @Override
+    public void onResume(@NotNull SherlockFragmentActivity activity) {
+        onResume((Activity) activity);
     }
 }

@@ -12,13 +12,13 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.*;
 import android.widget.TextView;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import net.robotmedia.billing.BillingController;
 import net.robotmedia.billing.IBillingObserver;
 import org.jetbrains.annotations.NotNull;
@@ -26,18 +26,16 @@ import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.AndroidUtils;
 import org.solovyev.android.FontSizeAdjuster;
 import org.solovyev.android.calculator.about.CalculatorReleaseNotesActivity;
-import org.solovyev.android.calculator.view.CalculatorAdditionalTitle;
+import org.solovyev.android.calculator.history.CalculatorHistoryFragment;
+import org.solovyev.android.calculator.history.CalculatorSavedHistoryFragment;
 import org.solovyev.android.fragments.FragmentUtils;
-import org.solovyev.android.menu.ActivityMenu;
-import org.solovyev.android.menu.AndroidMenuHelper;
-import org.solovyev.android.menu.ListActivityMenu;
 import org.solovyev.android.prefs.Preference;
 import org.solovyev.android.view.ColorButton;
 import org.solovyev.common.equals.EqualsTool;
 import org.solovyev.common.history.HistoryAction;
 import org.solovyev.common.text.StringUtils;
 
-public class CalculatorActivity extends FragmentActivity implements FontSizeAdjuster, SharedPreferences.OnSharedPreferenceChangeListener {
+public class CalculatorActivity extends SherlockFragmentActivity implements FontSizeAdjuster, SharedPreferences.OnSharedPreferenceChangeListener {
 
     @NotNull
     public static final String TAG = "Calculator++";
@@ -47,16 +45,10 @@ public class CalculatorActivity extends FragmentActivity implements FontSizeAdju
 	@Nullable
 	private IBillingObserver billingObserver;
 
-	@NotNull
-	private CalculatorPreferences.Gui.Theme theme;
-
-	@NotNull
-	private CalculatorPreferences.Gui.Layout layout;
-
 	private boolean useBackAsPrev;
 
     @NotNull
-    private ActivityMenu<Menu, MenuItem> menu = ListActivityMenu.fromList(CalculatorMenu.class, AndroidMenuHelper.getInstance());
+    private CalculatorActivityHelper activityHelper;
 
     /**
 	 * Called when the activity is first created.
@@ -66,23 +58,30 @@ public class CalculatorActivity extends FragmentActivity implements FontSizeAdju
 
 		CalculatorApplication.registerOnRemoteStackTrace();
 
-		final boolean customTitleSupported = requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+		/*final boolean customTitleSupported = requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);*/
 
-		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-		this.theme = CalculatorPreferences.Gui.getTheme(preferences);
-        setTheme(this.theme.getThemeId());
+        final CalculatorPreferences.Gui.Layout layout = CalculatorPreferences.Gui.layout.getPreferenceNoError(preferences);
 
-		super.onCreate(savedInstanceState);
-		setLayout(preferences);
+        activityHelper = CalculatorApplication.getInstance().createCalculatorHistoryHelper(layout.getLayoutId());
+        activityHelper.onCreate(this, savedInstanceState);
 
-        CalculatorKeyboardFragment.fixThemeParameters(true, theme, this.getWindow().getDecorView());
+        super.onCreate(savedInstanceState);
+
+        if (findViewById(R.id.main_second_pane) != null) {
+            activityHelper.addTab(this, "history", CalculatorHistoryFragment.class, null, R.string.c_history, R.id.main_second_pane);
+            activityHelper.addTab(this, "saved_history", CalculatorSavedHistoryFragment.class, null, R.string.c_saved_history, R.id.main_second_pane);
+            activityHelper.restoreSavedTab(this);
+        }
+
+        CalculatorKeyboardFragment.fixThemeParameters(true, activityHelper.getTheme(), this.getWindow().getDecorView());
 
         FragmentUtils.createFragment(this, CalculatorEditorFragment.class, R.id.editorContainer, "editor");
         FragmentUtils.createFragment(this, CalculatorDisplayFragment.class, R.id.displayContainer, "display");
         FragmentUtils.createFragment(this, CalculatorKeyboardFragment.class, R.id.keyboardContainer, "keyboard");
 
-        if (customTitleSupported) {
+        /*if (customTitleSupported) {
 			try {
 				getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.calc_title);
 				final CalculatorAdditionalTitle additionalAdditionalTitleText = (CalculatorAdditionalTitle)findViewById(R.id.additional_title_text);
@@ -92,7 +91,7 @@ public class CalculatorActivity extends FragmentActivity implements FontSizeAdju
 				// super fix for issue with class cast in android.view.Window.setFeatureInt() (see app error reports)
 				Log.e(CalculatorActivity.class.getName(), e.getMessage(), e);
 			}
-		}
+		}*/
 
 		billingObserver = new CalculatorBillingObserver(this);
 		BillingController.registerObserver(billingObserver);
@@ -105,7 +104,7 @@ public class CalculatorActivity extends FragmentActivity implements FontSizeAdju
 
         toggleOrientationChange(preferences);
 
-        CalculatorKeyboardFragment.toggleEqualsButton(preferences, this, theme, findViewById(R.id.main_layout));
+        CalculatorKeyboardFragment.toggleEqualsButton(preferences, this, activityHelper.getTheme(), findViewById(R.id.main_layout));
 
         preferences.registerOnSharedPreferenceChangeListener(this);
 	}
@@ -114,12 +113,6 @@ public class CalculatorActivity extends FragmentActivity implements FontSizeAdju
     private AndroidCalculator getCalculator() {
         return ((AndroidCalculator) CalculatorLocatorImpl.getInstance().getCalculator());
     }
-
-    private synchronized void setLayout(@NotNull SharedPreferences preferences) {
-        layout = CalculatorPreferences.Gui.layout.getPreferenceNoError(preferences);
-
-        setContentView(layout.getLayoutId());
-	}
 
     private static void firstTimeInit(@NotNull SharedPreferences preferences, @NotNull Context context) {
         final Integer appOpenedCounter = CalculatorPreferences.appOpenedCounter.getPreference(preferences);
@@ -217,7 +210,7 @@ public class CalculatorActivity extends FragmentActivity implements FontSizeAdju
     */
 
 
-    @Override
+/*    @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         return this.menu.onPrepareOptionsMenu(this, menu);
     }
@@ -230,7 +223,7 @@ public class CalculatorActivity extends FragmentActivity implements FontSizeAdju
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return menu.onOptionsItemSelected(this, item);
-    }
+    }*/
 
 	/**
 	 * The font sizes in the layout files are specified for a HVGA display.
@@ -250,13 +243,13 @@ public class CalculatorActivity extends FragmentActivity implements FontSizeAdju
 	protected void onResume() {
 		super.onResume();
 
-		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        final CalculatorPreferences.Gui.Layout newLayout = CalculatorPreferences.Gui.layout.getPreference(preferences);
+        if ( newLayout.getLayoutId() != activityHelper.getLayoutId() ) {
+            AndroidUtils.restartActivity(this);
+        }
 
-		final CalculatorPreferences.Gui.Layout newLayout = CalculatorPreferences.Gui.layout.getPreference(preferences);
-		final CalculatorPreferences.Gui.Theme newTheme = CalculatorPreferences.Gui.theme.getPreference(preferences);
-		if (!theme.equals(newTheme) || !layout.equals(newLayout)) {
-			AndroidUtils.restartActivity(this);
-		}
+        this.activityHelper.onResume(this);
 	}
 
 	@Override
@@ -265,7 +258,7 @@ public class CalculatorActivity extends FragmentActivity implements FontSizeAdju
 			BillingController.unregisterObserver(billingObserver);
 		}
 
-		super.onDestroy();
+        super.onDestroy();
 	}
 
 	@Override
@@ -278,6 +271,13 @@ public class CalculatorActivity extends FragmentActivity implements FontSizeAdju
             toggleOrientationChange(preferences);
         }
 	}
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        activityHelper.onSaveInstanceState(this, outState);
+    }
 
     private void toggleOrientationChange(@Nullable SharedPreferences preferences) {
         preferences = preferences == null ? PreferenceManager.getDefaultSharedPreferences(this) : preferences;

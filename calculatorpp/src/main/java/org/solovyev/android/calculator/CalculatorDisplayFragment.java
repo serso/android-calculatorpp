@@ -5,19 +5,18 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.actionbarsherlock.app.SherlockFragment;
 
 /**
  * User: Solovyev_S
  * Date: 25.09.12
  * Time: 12:03
  */
-public class CalculatorDisplayFragment extends Fragment {
+public class CalculatorDisplayFragment extends SherlockFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.calc_display, null);
-        view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        return view;
+        return inflater.inflate(R.layout.calc_display, container, false);
     }
 
     @Override

@@ -10,25 +10,28 @@ import android.os.Bundle;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.CalculatorActivityHelper;
-import org.solovyev.android.calculator.CalculatorApplication;
-import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.*;
 
 /**
  * User: serso
  * Date: 12/18/11
  * Time: 7:37 PM
  */
-public class CalculatorHistoryFragmentActivity extends SherlockFragmentActivity {
+public class CalculatorHistoryFragmentActivity extends SherlockFragmentActivity implements CalculatorEventListener {
 
     @NotNull
-    private final CalculatorActivityHelper activityHelper = CalculatorApplication.getInstance().createCalculatorHistoryHelper(R.layout.history_activity);
+    private final CalculatorActivityHelper activityHelper = CalculatorApplication.getInstance().createCalculatorHistoryHelper(R.layout.main_empty);
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         activityHelper.onCreate(this, savedInstanceState);
+
+        activityHelper.addTab(this, "history", CalculatorHistoryFragment.class, null, R.string.c_history, R.id.main_layout);
+        activityHelper.addTab(this, "saved_history", CalculatorSavedHistoryFragment.class, null, R.string.c_saved_history, R.id.main_layout);
+
+        CalculatorLocatorImpl.getInstance().getCalculator().addCalculatorEventListener(this);
     }
 
     @Override
@@ -36,5 +39,26 @@ public class CalculatorHistoryFragmentActivity extends SherlockFragmentActivity 
         super.onSaveInstanceState(outState);
 
         activityHelper.onSaveInstanceState(this, outState);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        activityHelper.onResume(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        CalculatorLocatorImpl.getInstance().getCalculator().removeCalculatorEventListener(this);
+    }
+
+    @Override
+    public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
+        if ( calculatorEventType == CalculatorEventType.use_history_state ) {
+            this.finish();
+        }
     }
 }

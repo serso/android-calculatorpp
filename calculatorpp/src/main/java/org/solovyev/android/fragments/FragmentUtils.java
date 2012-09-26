@@ -4,7 +4,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import org.jetbrains.annotations.NotNull;
+import org.solovyev.common.collections.CollectionsUtils;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * User: serso
@@ -33,6 +38,48 @@ public class FragmentUtils {
             }
         } finally {
             ft.commit();
+        }
+    }
+
+    public static void removeFragments(@NotNull SherlockFragmentActivity activity, @NotNull String... fragmentTags) {
+        removeFragments(activity, CollectionsUtils.asList(fragmentTags));
+    }
+
+    public static void removeFragments(@NotNull SherlockFragmentActivity activity, @NotNull List<String> fragmentTags) {
+        for (String fragmentTag : fragmentTags) {
+            removeFragment(activity, fragmentTag);
+        }
+    }
+
+    public static void detachFragments(@NotNull SherlockFragmentActivity activity, @NotNull String... fragmentTags) {
+        detachFragments(activity, CollectionsUtils.asList(fragmentTags));
+    }
+
+    public static void detachFragments(@NotNull SherlockFragmentActivity activity, @NotNull List<String> fragmentTags) {
+        for (String fragmentTag : fragmentTags) {
+            detachFragment(activity, fragmentTag);
+        }
+    }
+
+    public static void detachFragment(@NotNull SherlockFragmentActivity activity, @NotNull String fragmentTag) {
+        final Fragment fragment = activity.getSupportFragmentManager().findFragmentByTag(fragmentTag);
+        if ( fragment != null ) {
+            if ( !fragment.isDetached() ) {
+                FragmentTransaction ft = activity.getSupportFragmentManager().beginTransaction();
+                ft.detach(fragment);
+                ft.commit();
+            }
+        }
+    }
+
+    public static void removeFragment(@NotNull SherlockFragmentActivity activity, @NotNull String fragmentTag) {
+        final Fragment fragment = activity.getSupportFragmentManager().findFragmentByTag(fragmentTag);
+        if ( fragment != null ) {
+            if ( fragment.isAdded()) {
+                FragmentTransaction ft = activity.getSupportFragmentManager().beginTransaction();
+                ft.remove(fragment);
+                ft.commit();
+            }
         }
     }
 }

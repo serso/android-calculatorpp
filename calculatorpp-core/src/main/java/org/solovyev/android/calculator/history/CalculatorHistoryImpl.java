@@ -102,6 +102,7 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
     public void addState(@Nullable CalculatorHistoryState currentState) {
         synchronized (history) {
             history.addState(currentState);
+            CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.history_state_added, currentState);
         }
     }
 

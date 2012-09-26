@@ -13,6 +13,7 @@ import android.view.*;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+import com.actionbarsherlock.app.SherlockFragment;
 import jscl.AngleUnit;
 import jscl.NumeralBase;
 import org.jetbrains.annotations.NotNull;
@@ -39,7 +40,7 @@ import java.util.List;
  * Date: 25.09.12
  * Time: 12:25
  */
-public class CalculatorKeyboardFragment extends Fragment implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class CalculatorKeyboardFragment extends SherlockFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     @Nullable
     private Vibrator vibrator;
@@ -73,9 +74,7 @@ public class CalculatorKeyboardFragment extends Fragment implements SharedPrefer
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.calc_keyboard, null);
-        view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        return view;
+        return inflater.inflate(R.layout.calc_keyboard, container, false);
     }
 
     @Override

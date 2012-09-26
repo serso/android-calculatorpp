@@ -23,11 +23,7 @@
         <!--NOTE: a:configChanges="orientation|keyboardHidden" is needed to correct work of dialog windows (not to close them on orientation change) -->
         <activity android:configChanges="orientation|keyboardHidden" android:label="@string/c_app_settings" android:name=".CalculatorPreferencesActivity"/>
 
-        <activity android:configChanges="orientation|keyboardHidden" android:label="@string/c_app_history" android:name=".history.CalculatorHistoryFragmentActivity"/>
-
-        <activity android:configChanges="orientation|keyboardHidden" android:label="@string/c_history" android:name=".history.CalculatorHistoryFragment"/>
-
-        <activity android:configChanges="orientation|keyboardHidden" android:label="@string/c_saved_history" android:name=".history.CalculatorSavedHistoryFragment"/>
+        <activity android:configChanges="orientation|keyboardHidden" android:label="@string/c_history" android:name=".history.CalculatorHistoryFragmentActivity"/>
 
         <activity android:configChanges="orientation|keyboardHidden" android:label="@string/c_about" android:name=".about.CalculatorAboutTabActivity"/>
 

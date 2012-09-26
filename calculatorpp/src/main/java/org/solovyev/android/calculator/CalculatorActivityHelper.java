@@ -1,6 +1,9 @@
 package org.solovyev.android.calculator;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -13,7 +16,24 @@ import org.jetbrains.annotations.Nullable;
 public interface CalculatorActivityHelper {
 
     void onCreate(@NotNull SherlockFragmentActivity activity, @Nullable Bundle savedInstanceState);
+    void onCreate(@NotNull Activity activity, @Nullable Bundle savedInstanceState);
 
     void onSaveInstanceState(@NotNull SherlockFragmentActivity activity, @NotNull Bundle outState);
+    void onSaveInstanceState(@NotNull Activity activity, @NotNull Bundle outState);
 
+    int getLayoutId();
+
+    @NotNull
+    CalculatorPreferences.Gui.Theme getTheme();
+
+    void onResume(@NotNull SherlockFragmentActivity activity);
+    void onResume(@NotNull Activity activity);
+
+    void addTab(@NotNull SherlockFragmentActivity activity,
+                @NotNull String tag,
+                @NotNull Class<? extends Fragment> fragmentClass,
+                @Nullable Bundle fragmentArgs,
+                int captionResId, int parentViewId);
+
+    void restoreSavedTab(@NotNull SherlockFragmentActivity activity);
 }

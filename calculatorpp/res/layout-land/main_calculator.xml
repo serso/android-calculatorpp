@@ -14,51 +14,6 @@
         a:layout_gravity="center"
         a:background="@color/default_background">
 
-    <LinearLayout a:id="@+id/editorContainer"
-                  a:layout_weight="2"
-                  a:layout_width="match_parent"
-                  a:layout_height="0dp"/>
-
-    <LinearLayout a:layout_weight="1" 
-                  a:layout_width="match_parent"
-                  a:layout_height="0dp">
-
-        <include layout="@layout/calc_left_button"
-                 a:layout_margin="@dimen/button_margin"
-                 a:layout_width="0dp"
-                 a:layout_height="match_parent"
-                 a:layout_weight="1"/>
-
-        <include layout="@layout/calc_erase_button"
-                 a:layout_margin="@dimen/button_margin"
-                 a:layout_width="0dp"
-                 a:layout_height="match_parent"
-                 a:layout_weight="1"/>
-
-        <LinearLayout a:id="@+id/displayContainer"
-                      a:layout_margin="@dimen/display_margin"
-                      a:layout_weight="4"
-                      a:layout_width="0dp"
-                      a:layout_height="match_parent"/>
-
-        <include layout="@layout/calc_clear_button"
-                 a:layout_margin="@dimen/button_margin"
-                 a:layout_width="0dp"
-                 a:layout_height="match_parent"
-                 a:layout_weight="1"/>
-
-        <include layout="@layout/calc_right_button"
-                 a:layout_margin="@dimen/button_margin"
-                 a:layout_width="0dp"
-                 a:layout_height="match_parent"
-                 a:layout_weight="1"/>
-
-    </LinearLayout>
-
-    <LinearLayout a:id="@+id/keyboardContainer"
-                  a:layout_weight="3"
-                  a:layout_width="match_parent"
-                  a:layout_height="0dp"/>
-
+    <include layout="@layout/main_first_pane"/>
 
 </LinearLayout>

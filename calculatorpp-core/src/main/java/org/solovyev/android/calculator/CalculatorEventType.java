@@ -75,7 +75,21 @@ public enum CalculatorEventType {
     **********************************************************************
     */
 
-    engine_preferences_changed;
+    engine_preferences_changed,
+
+    /*
+    **********************************************************************
+    *
+    *                           HISTORY
+    *
+    **********************************************************************
+    */
+
+    // @NotNull CalculatorHistoryState
+   history_state_added,
+
+    // @NotNull CalculatorHistoryState
+   use_history_state;
 
     public boolean isOfType(@NotNull CalculatorEventType... types) {
         for (CalculatorEventType type : types) {

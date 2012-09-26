@@ -3,7 +3,7 @@ package org.solovyev.android.calculator;
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
-import android.view.MenuItem;
+import com.actionbarsherlock.view.MenuItem;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.view.NumeralBaseConverterDialog;
 import org.solovyev.android.menu.LabeledMenuItem;

@@ -33,11 +33,7 @@ public enum HistoryItemMenuItem implements LabeledMenuItem<HistoryItemMenuData> 
 	use(R.string.c_use) {
 		@Override
 		public void onClick(@NotNull HistoryItemMenuData data, @NotNull Context context) {
-			if (context instanceof Activity) {
-				AbstractCalculatorHistoryFragment.useHistoryItem(data.getHistoryState(), (Activity) context);
-			} else {
-				Log.e(HistoryItemMenuItem.class.getName(), AbstractCalculatorHistoryFragment.class + " must be passed as context!");
-			}
+			AbstractCalculatorHistoryFragment.useHistoryItem(data.getHistoryState());
 		}
 	},
 

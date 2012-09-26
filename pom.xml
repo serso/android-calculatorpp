@@ -72,6 +72,20 @@
             </dependency>
 
             <dependency>
+                <groupId>org.solovyev.android</groupId>
+                <artifactId>android-common-sherlock</artifactId>
+                <version>1.0.0</version>
+                <type>apklib</type>
+            </dependency>
+
+            <dependency>
+                <groupId>com.actionbarsherlock</groupId>
+                <artifactId>library</artifactId>
+                <version>4.0.2</version>
+                <type>apklib</type>
+            </dependency>
+
+            <dependency>
                 <groupId>org.solovyev</groupId>
                 <artifactId>jscl</artifactId>
                 <version>0.0.2</version>

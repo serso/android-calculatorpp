@@ -1,4 +1,5 @@
 <resources>
     <dimen name="button_margin">0.5dp</dimen>
-    <dimen name="display_margin">@dimen/button_margin</dimen>
+    <dimen name="display_margin">2.0dp</dimen>
+    <dimen name="display_margin_land">2.5dp</dimen>
 </resources>

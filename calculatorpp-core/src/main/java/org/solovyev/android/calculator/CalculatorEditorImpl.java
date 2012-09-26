@@ -2,7 +2,10 @@ package org.solovyev.android.calculator;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.calculator.history.CalculatorHistoryState;
+import org.solovyev.android.calculator.history.EditorHistoryState;
 import org.solovyev.common.gui.CursorControl;
+import org.solovyev.common.text.StringUtils;
 
 /**
  * User: Solovyev_S
@@ -77,7 +80,11 @@ public class CalculatorEditorImpl implements CalculatorEditor {
     public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData,
                                   @NotNull CalculatorEventType calculatorEventType,
                                   @Nullable Object data) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        if (calculatorEventType == CalculatorEventType.use_history_state) {
+            final CalculatorHistoryState calculatorHistoryState = (CalculatorHistoryState)data;
+            final EditorHistoryState editorState = calculatorHistoryState.getEditorState();
+            this.setText(StringUtils.getNotEmpty(editorState.getText(), ""), editorState.getCursorPosition());
+        }
     }
 
     /*

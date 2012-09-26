@@ -21,7 +21,7 @@ import java.util.List;
 public class CalculatorHistoryFragment extends AbstractCalculatorHistoryFragment {
 
 	@Override
-	protected int getLayoutId() {
+	protected int getItemLayoutId() {
 		return R.layout.history;
 	}
 
