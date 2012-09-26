@@ -20,7 +20,12 @@ import java.util.List;
  */
 public class CalculatorSavedHistoryFragment extends AbstractCalculatorHistoryFragment {
 
-	@Override
+    @Override
+    protected int getFragmentTitleResId() {
+        return R.string.c_saved_history;
+    }
+
+    @Override
 	protected int getItemLayoutId() {
 		return R.layout.saved_history;
 	}

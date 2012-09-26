@@ -64,7 +64,7 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Font
 
         final CalculatorPreferences.Gui.Layout layout = CalculatorPreferences.Gui.layout.getPreferenceNoError(preferences);
 
-        activityHelper = CalculatorApplication.getInstance().createCalculatorHistoryHelper(layout.getLayoutId(), TAG);
+        activityHelper = CalculatorApplication.getInstance().createActivityHelper(layout.getLayoutId(), TAG);
         activityHelper.logDebug("onCreate");
         activityHelper.onCreate(this, savedInstanceState);
 

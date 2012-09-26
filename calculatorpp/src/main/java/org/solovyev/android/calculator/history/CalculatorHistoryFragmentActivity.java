@@ -20,7 +20,7 @@ import org.solovyev.android.calculator.*;
 public class CalculatorHistoryFragmentActivity extends SherlockFragmentActivity implements CalculatorEventListener {
 
     @NotNull
-    private final CalculatorActivityHelper activityHelper = CalculatorApplication.getInstance().createCalculatorHistoryHelper(R.layout.main_empty, CalculatorHistoryFragmentActivity.class.getSimpleName());
+    private final CalculatorActivityHelper activityHelper = CalculatorApplication.getInstance().createActivityHelper(R.layout.main_empty, CalculatorHistoryFragmentActivity.class.getSimpleName());
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

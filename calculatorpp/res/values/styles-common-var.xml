@@ -11,7 +11,7 @@
 		<item name="android:paddingTop">6dp</item>
 		<item name="android:paddingLeft">6dp</item>
 		<item name="android:paddingRight">6dp</item>
-		<item name="android:paddingBottom">3dp</item>
+		<item name="android:paddingBottom">0dp</item>
 		<item name="android:textStyle">bold</item>
 		<item name="android:textColor">@android:color/white</item>
 	</style>
@@ -20,7 +20,7 @@
 		<item name="android:paddingTop">0dp</item>
 		<item name="android:paddingLeft">6dp</item>
 		<item name="android:paddingRight">6dp</item>
-		<item name="android:paddingBottom">6dp</item>
+		<item name="android:paddingBottom">0dp</item>
 		<item name="android:textColor">#bebebe</item>
 	</style>
 

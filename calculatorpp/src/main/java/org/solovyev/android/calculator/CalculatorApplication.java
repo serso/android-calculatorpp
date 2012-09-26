@@ -111,7 +111,12 @@ public class CalculatorApplication extends android.app.Application {
     }
 
     @NotNull
-    public CalculatorActivityHelper createCalculatorHistoryHelper(int layoutResId, @NotNull String logTag) {
+    public CalculatorActivityHelper createActivityHelper(int layoutResId, @NotNull String logTag) {
        return new CalculatorActivityHelperImpl(layoutResId, logTag);
+    }
+
+    @NotNull
+    public CalculatorFragmentHelper createFragmentHelper() {
+        return new CalculatorFragmentHelperImpl();
     }
 }

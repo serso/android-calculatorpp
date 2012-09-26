@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.google.ads.AdView;
 import org.jetbrains.annotations.NotNull;
@@ -43,6 +44,14 @@ import java.util.List;
  */
 public abstract class AbstractCalculatorHistoryFragment extends SherlockListFragment implements CalculatorEventListener {
 
+    /*
+    **********************************************************************
+    *
+    *                           CONSTANTS
+    *
+    **********************************************************************
+    */
+
     @NotNull
     private static final String TAG = "CalculatorHistoryFragment";
 
@@ -61,6 +70,14 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 		}
 	};
 
+    /*
+    **********************************************************************
+    *
+    *                           FIELDS
+    *
+    **********************************************************************
+    */
+
 
 	@NotNull
 	private ArrayAdapter<CalculatorHistoryState> adapter;
@@ -68,9 +85,14 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 	@Nullable
 	private AdView adView;
 
+    @NotNull
+    private CalculatorFragmentHelper fragmentHelper;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper();
 
         logDebug("onCreate");
     }
@@ -91,6 +113,13 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
         super.onViewCreated(view, savedInstanceState);
 
         logDebug("onViewCreated");
+
+        final TextView fragmentTitle = (TextView) view.findViewById(R.id.fragmentTitle);
+        if (!fragmentHelper.isPane(this)) {
+            fragmentTitle.setVisibility(View.GONE);
+        } else {
+            fragmentTitle.setText(this.getString(getFragmentTitleResId()).toUpperCase());
+        }
 
         adapter = new HistoryArrayAdapter(this.getActivity(), getItemLayoutId(), R.id.history_item, new ArrayList<CalculatorHistoryState>());
         setListAdapter(adapter);
@@ -143,7 +172,9 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
         adView = AdsController.getInstance().inflateAd(this.getActivity(), (ViewGroup)view.findViewById(R.id.ad_parent_view), R.id.ad_parent_view);
     }
 
-	@Override
+    protected abstract int getFragmentTitleResId();
+
+    @Override
 	public void onDestroy() {
         logDebug("onDestroy");
 

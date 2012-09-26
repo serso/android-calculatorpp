@@ -20,6 +20,7 @@
             a:layout_width="0dp"
             a:layout_weight="1"
             a:orientation="vertical"
+            style="?fragmentLayoutStyle"
             a:layout_gravity="center">
 
         <LinearLayout a:id="@+id/editorContainer"
@@ -72,10 +73,10 @@
     </LinearLayout>
 
 
-
     <LinearLayout a:id="@+id/main_second_pane"
                   a:orientation="vertical"
                   a:layout_height="match_parent"
+                  style="?secondPaneStyle"
                   a:layout_width="0dp"
                   a:layout_weight="1"/>
 

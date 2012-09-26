@@ -20,10 +20,30 @@
 		<item name="android:padding">6dp</item>
 	</style>
 
-	<style name="default_theme">
+    <style name="default_second_pane_style">
+        <item name="android:background">@color/second_pane_background</item>
+        <item name="android:layout_margin">5dp</item>
+    </style>
+
+    <style name="default_fragment_title_style">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">25sp</item>
+    </style>
+
+    <style name="default_fragment_layout_style">
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:layout_marginRight">0dp</item>
+    </style>
+
+	<style name="default_theme" parent="Theme.Sherlock">
 		<item name="digitButtonStyle">@style/default_digit_button_style</item>
 		<item name="controlButtonStyle">@style/default_control_button_style</item>
 		<item name="controlImageButtonStyle">@style/default_control_image_button_style</item>
 		<item name="operationButtonStyle">@style/default_operation_button_style</item>
+		<item name="fragmentLayoutStyle">@style/default_fragment_layout_style</item>
+		<item name="secondPaneStyle">@style/default_second_pane_style</item>
+		<item name="fragmentTitleStyle">@style/default_fragment_title_style</item>
 	</style>
 </resources>

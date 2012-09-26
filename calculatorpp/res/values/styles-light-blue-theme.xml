@@ -23,7 +23,7 @@
 		<item name="android:padding">6dp</item>
 	</style>
 
-	<style name="light_blue_theme">
+	<style name="light_blue_theme" parent="default_theme">
 		<item name="digitButtonStyle">@style/light_blue_digit_button_style</item>
 		<item name="controlButtonStyle">@style/light_blue_control_button_style</item>
 		<item name="controlImageButtonStyle">@style/light_blue_control_image_button_style</item>

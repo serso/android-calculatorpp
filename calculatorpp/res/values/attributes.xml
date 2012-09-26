@@ -5,5 +5,8 @@
 	<attr name="controlButtonStyle" format="reference" />
 	<attr name="controlImageButtonStyle" format="reference" />
 	<attr name="operationButtonStyle" format="reference" />
+	<attr name="fragmentLayoutStyle" format="reference" />
+	<attr name="secondPaneStyle" format="reference" />
+	<attr name="fragmentTitleStyle" format="reference" />
 
 </resources>
