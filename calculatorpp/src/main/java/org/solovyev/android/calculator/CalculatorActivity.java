@@ -38,7 +38,7 @@ import org.solovyev.common.text.StringUtils;
 public class CalculatorActivity extends SherlockFragmentActivity implements FontSizeAdjuster, SharedPreferences.OnSharedPreferenceChangeListener {
 
     @NotNull
-    public static final String TAG = "Calculator++";
+    public static final String TAG = CalculatorActivity.class.getSimpleName();
 
 	private static final int HVGA_WIDTH_PIXELS = 320;
 
@@ -64,10 +64,12 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Font
 
         final CalculatorPreferences.Gui.Layout layout = CalculatorPreferences.Gui.layout.getPreferenceNoError(preferences);
 
-        activityHelper = CalculatorApplication.getInstance().createCalculatorHistoryHelper(layout.getLayoutId());
+        activityHelper = CalculatorApplication.getInstance().createCalculatorHistoryHelper(layout.getLayoutId(), TAG);
+        activityHelper.logDebug("onCreate");
         activityHelper.onCreate(this, savedInstanceState);
 
         super.onCreate(savedInstanceState);
+        activityHelper.logDebug("super.onCreate");
 
         if (findViewById(R.id.main_second_pane) != null) {
             activityHelper.addTab(this, "history", CalculatorHistoryFragment.class, null, R.string.c_history, R.id.main_second_pane);
@@ -201,29 +203,6 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Font
         getCalculator().evaluate();
     }
 
-    /*
-    **********************************************************************
-    *
-    *                           MENU
-    *
-    **********************************************************************
-    */
-
-
-/*    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        return this.menu.onPrepareOptionsMenu(this, menu);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return this.menu.onCreateOptionsMenu(this, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return menu.onOptionsItemSelected(this, item);
-    }*/
 
 	/**
 	 * The font sizes in the layout files are specified for a HVGA display.
@@ -239,7 +218,14 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Font
 		view.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontPixelSize * ratio);
 	}
 
-	@Override
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        activityHelper.onPause(this);
+    }
+
+    @Override
 	protected void onResume() {
 		super.onResume();
 
@@ -257,6 +243,8 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Font
 		if (billingObserver !=  null) {
 			BillingController.unregisterObserver(billingObserver);
 		}
+
+        activityHelper.onDestroy(this);
 
         super.onDestroy();
 	}

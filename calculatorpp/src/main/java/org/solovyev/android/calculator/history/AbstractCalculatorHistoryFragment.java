@@ -8,6 +8,7 @@ package org.solovyev.android.calculator.history;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +43,8 @@ import java.util.List;
  */
 public abstract class AbstractCalculatorHistoryFragment extends SherlockListFragment implements CalculatorEventListener {
 
+    @NotNull
+    private static final String TAG = "CalculatorHistoryFragment";
 
 	public static final Comparator<CalculatorHistoryState> COMPARATOR = new Comparator<CalculatorHistoryState>() {
 		@Override
@@ -68,16 +71,26 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        logDebug("onCreate");
+    }
+
+    private int logDebug(@NotNull String msg) {
+        return Log.d(TAG + ": " + getTag(), msg);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.history_fragment, container, false);
+        final View result = inflater.inflate(R.layout.history_fragment, container, false);
+        logDebug("onCreateView");
+        return result;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        logDebug("onViewCreated");
 
         adapter = new HistoryArrayAdapter(this.getActivity(), getItemLayoutId(), R.id.history_item, new ArrayList<CalculatorHistoryState>());
         setListAdapter(adapter);
@@ -132,7 +145,9 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 
 	@Override
 	public void onDestroy() {
-		if ( this.adView != null ) {
+        logDebug("onDestroy");
+
+        if ( this.adView != null ) {
 			this.adView.destroy();
 		}
         super.onDestroy();
@@ -142,7 +157,10 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 
 	@Override
 	public void onResume() {
-		super.onResume();
+        logDebug("onResume");
+
+        super.onResume();
+
 
         CalculatorLocatorImpl.getInstance().getCalculator().addCalculatorEventListener(this);
 
@@ -151,6 +169,8 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 
     @Override
     public void onPause() {
+        logDebug("onPause");
+
         super.onPause();
 
         CalculatorLocatorImpl.getInstance().getCalculator().removeCalculatorEventListener(this);
@@ -274,9 +294,11 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
     @Override
     public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
         if ( calculatorEventType == CalculatorEventType.history_state_added ) {
+
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    logDebug("onCalculatorEvent");
                     updateAdapter();
                 }
             });
