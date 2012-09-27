@@ -83,6 +83,8 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Font
             activityHelper.addTab(this, "operators", CalculatorOperatorsFragment.class, null, R.string.c_operators, R.id.main_second_pane);
 
             activityHelper.restoreSavedTab(this);
+        } else {
+            getSupportActionBar().hide();
         }
 
         CalculatorKeyboardFragment.fixThemeParameters(true, activityHelper.getTheme(), this.getWindow().getDecorView());
