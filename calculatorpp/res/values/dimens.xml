@@ -1,0 +1,7 @@
+<resources>
+    <dimen name="button_margin">0.5dp</dimen>
+    <dimen name="text_size">20sp</dimen>
+    <dimen name="button_text_size">30dp</dimen>
+    <dimen name="display_text_size">25sp</dimen>
+    <dimen name="editor_text_size">25sp</dimen>
+</resources>

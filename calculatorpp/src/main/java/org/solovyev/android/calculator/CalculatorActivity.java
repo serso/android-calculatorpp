@@ -25,7 +25,6 @@ import net.robotmedia.billing.IBillingObserver;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.AndroidUtils;
-import org.solovyev.android.FontSizeAdjuster;
 import org.solovyev.android.calculator.about.CalculatorReleaseNotesActivity;
 import org.solovyev.android.calculator.history.CalculatorHistoryFragment;
 import org.solovyev.android.calculator.history.CalculatorSavedHistoryFragment;
@@ -39,12 +38,10 @@ import org.solovyev.common.equals.EqualsTool;
 import org.solovyev.common.history.HistoryAction;
 import org.solovyev.common.text.StringUtils;
 
-public class CalculatorActivity extends SherlockFragmentActivity implements FontSizeAdjuster, SharedPreferences.OnSharedPreferenceChangeListener {
+public class CalculatorActivity extends SherlockFragmentActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     @NotNull
     public static final String TAG = CalculatorActivity.class.getSimpleName();
-
-	private static final int HVGA_WIDTH_PIXELS = 320;
 
 	@Nullable
 	private IBillingObserver billingObserver;
@@ -212,21 +209,6 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Font
     public void equalsButtonClickHandler(@NotNull View v) {
         getCalculator().evaluate();
     }
-
-
-	/**
-	 * The font sizes in the layout files are specified for a HVGA display.
-	 * Adjust the font sizes accordingly if we are running on a different
-	 * display.
-	 */
-	@Override
-	public void adjustFontSize(@NotNull TextView view) {
-		/*float fontPixelSize = view.getTextSize();
-		Display display = getWindowManager().getDefaultDisplay();
-		int h = Math.min(display.getWidth(), display.getHeight());
-		float ratio = (float) h / HVGA_WIDTH_PIXELS;
-		view.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontPixelSize * ratio);*/
-	}
 
     @Override
     protected void onPause() {
