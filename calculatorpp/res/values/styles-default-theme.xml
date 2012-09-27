@@ -20,9 +20,9 @@
 		<item name="android:padding">6dp</item>
 	</style>
 
-    <style name="default_second_pane_style">
+    <style name="default_pane_style" parent="default_fragment_layout_style">
         <item name="android:background">@drawable/second_pane_background</item>
-        <item name="android:layout_margin">5dp</item>
+        <item name="android:padding">5dp</item>
     </style>
 
     <style name="default_fragment_list_view_style">
@@ -46,7 +46,7 @@
     </style>
 
     <style name="default_fragment_layout_style">
-        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:layout_marginBottom">0dp</item>
         <item name="android:layout_marginTop">5dp</item>
         <item name="android:layout_marginLeft">5dp</item>
         <item name="android:layout_marginRight">0dp</item>
@@ -58,7 +58,8 @@
 		<item name="controlImageButtonStyle">@style/default_control_image_button_style</item>
 		<item name="operationButtonStyle">@style/default_operation_button_style</item>
 		<item name="fragmentLayoutStyle">@style/default_fragment_layout_style</item>
-		<item name="secondPaneStyle">@style/default_second_pane_style</item>
+		<item name="paneStyle">@style/default_pane_style</item>
+		<item name="secondPaneStyle">@style/default_pane_style</item>
 		<item name="fragmentTitleStyle">@style/default_fragment_title_style</item>
 		<item name="fragmentListViewStyle">@style/default_fragment_list_view_style</item>
 		<item name="buttonStyle">@style/default_button_style</item>

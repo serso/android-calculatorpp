@@ -10,5 +10,6 @@
 	<attr name="fragmentTitleStyle" format="reference" />
 	<attr name="fragmentListViewStyle" format="reference" />
 	<attr name="buttonStyle" format="reference" />
+	<attr name="paneStyle" format="reference" />
 
 </resources>
