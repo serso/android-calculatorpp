@@ -84,7 +84,7 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
             getSupportActionBar().hide();
         }
 
-        CalculatorKeyboardFragment.fixThemeParameters(true, activityHelper.getTheme(), this.getWindow().getDecorView());
+        CalculatorButtons.processButtons(true, activityHelper.getTheme(), this.getWindow().getDecorView());
 
         FragmentUtils.createFragment(this, CalculatorEditorFragment.class, R.id.editorContainer, "editor");
         FragmentUtils.createFragment(this, CalculatorDisplayFragment.class, R.id.displayContainer, "display");
@@ -113,7 +113,7 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 
         toggleOrientationChange(preferences);
 
-        CalculatorKeyboardFragment.toggleEqualsButton(preferences, this, activityHelper.getTheme(), findViewById(R.id.main_layout));
+        CalculatorButtons.toggleEqualsButton(preferences, this, activityHelper.getTheme(), findViewById(R.id.main_layout));
 
         preferences.registerOnSharedPreferenceChangeListener(this);
 	}
@@ -208,13 +208,6 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
     @SuppressWarnings({"UnusedDeclaration"})
     public void equalsButtonClickHandler(@NotNull View v) {
         getCalculator().evaluate();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        activityHelper.onPause(this);
     }
 
     @Override

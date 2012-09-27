@@ -87,6 +87,8 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
         if ( bundle != null ) {
             category = bundle.getString(MATH_ENTITY_CATEGORY_EXTRA_STRING);
         }
+
+        fragmentHelper.onCreate(this);
 	}
 
     @Override
@@ -139,7 +141,10 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
 		if (this.adView != null) {
 			this.adView.destroy();
 		}
-		super.onDestroy();
+
+        fragmentHelper.onDestroy(this);
+
+        super.onDestroy();
 	}
 
 	@NotNull

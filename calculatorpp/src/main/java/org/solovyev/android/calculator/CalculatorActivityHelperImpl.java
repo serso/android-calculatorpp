@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import org.jetbrains.annotations.NotNull;
@@ -21,7 +20,7 @@ import java.util.List;
  * Date: 9/25/12
  * Time: 10:32 PM
  */
-public class CalculatorActivityHelperImpl implements CalculatorActivityHelper {
+public class CalculatorActivityHelperImpl extends AbstractCalculatorHelper implements CalculatorActivityHelper {
 
     /*
     **********************************************************************
@@ -51,12 +50,10 @@ public class CalculatorActivityHelperImpl implements CalculatorActivityHelper {
     private CalculatorPreferences.Gui.Theme theme;
     private int navPosition = 0;
 
-    @NotNull
-    private String logTag = "CalculatorActivity";
 
     public CalculatorActivityHelperImpl(int layoutId, @NotNull String logTag) {
+        super(logTag);
         this.layoutId = layoutId;
-        this.logTag = logTag;
     }
 
     public CalculatorActivityHelperImpl(int layoutId, boolean homeIcon) {
@@ -66,7 +63,7 @@ public class CalculatorActivityHelperImpl implements CalculatorActivityHelper {
 
     @Override
     public void onCreate(@NotNull Activity activity, @Nullable Bundle savedInstanceState) {
-        Log.d(logTag + ": helper", "onCreate");
+        super.onCreate(activity);
 
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
 
@@ -100,11 +97,6 @@ public class CalculatorActivityHelperImpl implements CalculatorActivityHelper {
     }
 
     @Override
-    public void logDebug(@NotNull String message) {
-        Log.d(logTag, message);
-    }
-
-    @Override
     public void onSaveInstanceState(@NotNull SherlockFragmentActivity activity, @NotNull Bundle outState) {
         onSaveInstanceState((Activity) activity, outState);
         outState.putInt(SELECTED_NAV, activity.getSupportActionBar().getSelectedNavigationIndex());
@@ -126,10 +118,7 @@ public class CalculatorActivityHelperImpl implements CalculatorActivityHelper {
 
     @Override
     public void onDestroy(@NotNull SherlockFragmentActivity activity) {
-    }
-
-    @Override
-    public void onPause(@NotNull SherlockFragmentActivity activity) {
+        super.onDestroy(activity);
     }
 
     @Override

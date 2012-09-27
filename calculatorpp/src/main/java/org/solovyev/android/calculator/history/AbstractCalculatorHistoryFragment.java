@@ -92,6 +92,7 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
         super.onCreate(savedInstanceState);
 
         fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper();
+        fragmentHelper.onCreate(this);
 
         logDebug("onCreate");
     }
@@ -175,6 +176,9 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
         if ( this.adView != null ) {
 			this.adView.destroy();
 		}
+
+        fragmentHelper.onDestroy(this);
+
         super.onDestroy();
 	}
 

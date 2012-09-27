@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
  * Date: 9/26/12
  * Time: 10:14 PM
  */
-public class CalculatorFragmentHelperImpl implements CalculatorFragmentHelper {
+public class CalculatorFragmentHelperImpl extends AbstractCalculatorHelper implements CalculatorFragmentHelper {
 
     @Override
     public boolean isPane(@NotNull Fragment fragment) {
@@ -26,5 +26,20 @@ public class CalculatorFragmentHelperImpl implements CalculatorFragmentHelper {
                 fragmentTitle.setText(fragment.getString(titleResId).toUpperCase());
             }
         }
+    }
+
+    @Override
+    public void processButtons(@NotNull Fragment fragment, @NotNull View root) {
+        super.processButtons(fragment.getActivity(), root);
+    }
+
+    @Override
+    public void onCreate(@NotNull Fragment fragment) {
+        super.onCreate(fragment.getActivity());
+    }
+
+    @Override
+    public void onDestroy(@NotNull Fragment fragment) {
+        super.onDestroy(fragment.getActivity());
     }
 }

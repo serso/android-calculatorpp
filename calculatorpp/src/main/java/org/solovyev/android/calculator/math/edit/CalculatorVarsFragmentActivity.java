@@ -70,6 +70,8 @@ public class CalculatorVarsFragmentActivity extends SherlockFragmentActivity imp
     protected void onDestroy() {
         super.onDestroy();
 
+        this.activityHelper.onDestroy(this);
+
         CalculatorLocatorImpl.getInstance().getCalculator().removeCalculatorEventListener(this);
     }
 

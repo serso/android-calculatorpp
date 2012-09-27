@@ -13,7 +13,7 @@ import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
  */
 public class NumeralBaseButtons {
 
-    private synchronized void toggleNumericDigits(@NotNull Activity activity, @NotNull NumeralBase currentNumeralBase) {
+    public synchronized void toggleNumericDigits(@NotNull Activity activity, @NotNull NumeralBase currentNumeralBase) {
         for (NumeralBase numeralBase : NumeralBase.values()) {
             if ( currentNumeralBase != numeralBase ) {
                 AndroidNumeralBase.valueOf(numeralBase).toggleButtons(false, activity);

@@ -3,6 +3,7 @@ package org.solovyev.android.calculator;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.View;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -29,6 +30,7 @@ public interface CalculatorActivityHelper {
     void onResume(@NotNull Activity activity);
 
     void onDestroy(@NotNull SherlockFragmentActivity activity);
+    void onDestroy(@NotNull Activity activity);
 
     void addTab(@NotNull SherlockFragmentActivity activity,
                 @NotNull String tag,
@@ -40,5 +42,5 @@ public interface CalculatorActivityHelper {
 
     void logDebug(@NotNull String message);
 
-    void onPause(@NotNull SherlockFragmentActivity activity);
+    void processButtons(@NotNull Activity activity, @NotNull View root);
 }
