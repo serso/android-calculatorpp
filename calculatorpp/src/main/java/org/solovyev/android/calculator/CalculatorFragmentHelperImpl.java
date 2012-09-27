@@ -19,10 +19,12 @@ public class CalculatorFragmentHelperImpl implements CalculatorFragmentHelper {
 
     public void setPaneTitle(@NotNull Fragment fragment, int titleResId) {
         final TextView fragmentTitle = (TextView) fragment.getView().findViewById(R.id.fragmentTitle);
-        if (!isPane(fragment)) {
-            fragmentTitle.setVisibility(View.GONE);
-        } else {
-            fragmentTitle.setText(fragment.getString(titleResId).toUpperCase());
+        if (fragmentTitle != null) {
+            if (!isPane(fragment)) {
+                fragmentTitle.setVisibility(View.GONE);
+            } else {
+                fragmentTitle.setText(fragment.getString(titleResId).toUpperCase());
+            }
         }
     }
 }

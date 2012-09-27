@@ -21,7 +21,7 @@
 	</style>
 
     <style name="default_second_pane_style">
-        <item name="android:background">@color/second_pane_background</item>
+        <item name="android:background">@drawable/second_pane_background</item>
         <item name="android:layout_margin">5dp</item>
     </style>
 

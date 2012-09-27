@@ -11,7 +11,7 @@ import org.solovyev.android.calculator.about.CalculatorAboutTabActivity;
 import org.solovyev.android.calculator.help.CalculatorHelpTabActivity;
 import org.solovyev.android.calculator.history.CalculatorHistoryFragmentActivity;
 import org.solovyev.android.calculator.math.edit.CalculatorFunctionsFragmentActivity;
-import org.solovyev.android.calculator.math.edit.CalculatorOperatorsActivity;
+import org.solovyev.android.calculator.math.edit.CalculatorOperatorsFragment;
 import org.solovyev.android.calculator.math.edit.CalculatorVarsFragment;
 import org.solovyev.android.calculator.math.edit.CalculatorVarsFragmentActivity;
 import org.solovyev.android.calculator.plot.CalculatorPlotActivity;
@@ -45,7 +45,7 @@ public class CalculatorActivityLauncher {
 	}
 
 	public static void showOperators(@NotNull final Context context) {
-		context.startActivity(new Intent(context, CalculatorOperatorsActivity.class));
+		context.startActivity(new Intent(context, CalculatorOperatorsFragment.class));
 	}
 
 	public static void showVars(@NotNull final Context context) {

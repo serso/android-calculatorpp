@@ -170,7 +170,7 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
     }
 
     protected boolean isInCategory(@Nullable T t) {
-        return t != null && EqualsTool.areEqual(getMathEntityCategory(t), category);
+        return t != null && (category == null || EqualsTool.areEqual(getMathEntityCategory(t), category));
     }
 
     @NotNull

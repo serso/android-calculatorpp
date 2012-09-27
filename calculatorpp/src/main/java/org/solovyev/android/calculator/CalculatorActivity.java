@@ -29,8 +29,9 @@ import org.solovyev.android.FontSizeAdjuster;
 import org.solovyev.android.calculator.about.CalculatorReleaseNotesActivity;
 import org.solovyev.android.calculator.history.CalculatorHistoryFragment;
 import org.solovyev.android.calculator.history.CalculatorSavedHistoryFragment;
+import org.solovyev.android.calculator.math.edit.CalculatorFunctionsFragment;
+import org.solovyev.android.calculator.math.edit.CalculatorOperatorsFragment;
 import org.solovyev.android.calculator.math.edit.CalculatorVarsFragment;
-import org.solovyev.android.calculator.model.VarCategory;
 import org.solovyev.android.fragments.FragmentUtils;
 import org.solovyev.android.prefs.Preference;
 import org.solovyev.android.view.ColorButton;
@@ -77,10 +78,10 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Font
         if (findViewById(R.id.main_second_pane) != null) {
             activityHelper.addTab(this, "history", CalculatorHistoryFragment.class, null, R.string.c_history, R.id.main_second_pane);
             activityHelper.addTab(this, "saved_history", CalculatorSavedHistoryFragment.class, null, R.string.c_saved_history, R.id.main_second_pane);
+            activityHelper.addTab(this, "vars", CalculatorVarsFragment.class, null, R.string.c_vars, R.id.main_second_pane);
+            activityHelper.addTab(this, "functions", CalculatorFunctionsFragment.class, null, R.string.c_functions, R.id.main_second_pane);
+            activityHelper.addTab(this, "operators", CalculatorOperatorsFragment.class, null, R.string.c_operators, R.id.main_second_pane);
 
-            for (VarCategory category : VarCategory.getCategoriesByTabOrder()) {
-                activityHelper.addTab(this, "vars_" + category.name(), CalculatorVarsFragment.class, CalculatorVarsFragment.createBundleFor(category.name()), category.getCaptionId(), R.id.main_second_pane);
-            }
             activityHelper.restoreSavedTab(this);
         }
 
