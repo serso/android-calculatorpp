@@ -6,10 +6,12 @@
 	<attr name="controlImageButtonStyle" format="reference" />
 	<attr name="operationButtonStyle" format="reference" />
 	<attr name="fragmentLayoutStyle" format="reference" />
-	<attr name="secondPaneStyle" format="reference" />
 	<attr name="fragmentTitleStyle" format="reference" />
 	<attr name="fragmentListViewStyle" format="reference" />
 	<attr name="buttonStyle" format="reference" />
 	<attr name="paneStyle" format="reference" />
+	<attr name="paneStyleTransparent" format="reference" />
+	<attr name="mainLayoutStyle" format="reference" />
+	<attr name="mainMultiPaneLayoutStyle" format="reference" />
 
 </resources>

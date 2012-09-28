@@ -6,9 +6,9 @@
   ~ or visit http://se.solovyev.org
   -->
 
-<menu xmlns:a="http://schemas.android.com/apk/res/android">
+<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+	a:id="@+id/main_layout"
+    style="?mainMultiPaneLayoutStyle"
+    a:orientation="vertical">
 
-	<item a:id="@+id/var_menu_add_var"
-		  a:title="@string/c_add"
-          a:showAsAction="always"/>
-</menu>
+</LinearLayout>

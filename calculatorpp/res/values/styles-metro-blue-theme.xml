@@ -1,6 +1,6 @@
 <resources>
 
-	<style name="metro_digit_button_style" parent="button_style">
+	<style name="metro_digit_button_style" parent="keyboard_button_style">
 		<item name="android:background">@drawable/metro_button_dark</item>
 	</style>
 

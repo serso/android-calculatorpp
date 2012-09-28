@@ -33,7 +33,7 @@ public class CalculatorKeyboardFragment extends SherlockFragment implements Shar
 
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
 
-        fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper();
+        fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(R.layout.calc_keyboard);
         fragmentHelper.onCreate(this);
 
         preferences.registerOnSharedPreferenceChangeListener(this);
@@ -44,14 +44,14 @@ public class CalculatorKeyboardFragment extends SherlockFragment implements Shar
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.calc_keyboard, container, false);
+        return fragmentHelper.onCreateView(this, inflater, container);
     }
 
     @Override
     public void onViewCreated(View root, Bundle savedInstanceState) {
         super.onViewCreated(root, savedInstanceState);
 
-        fragmentHelper.processButtons(this, root);
+        fragmentHelper.onViewCreated(this, root);
     }
 
     @Override

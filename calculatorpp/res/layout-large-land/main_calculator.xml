@@ -7,12 +7,9 @@
   -->
 <LinearLayout
         xmlns:a="http://schemas.android.com/apk/res/android"
-        a:layout_width="match_parent"
-        a:layout_height="match_parent"
         a:id="@+id/main_layout"
         a:orientation="vertical"
-        a:background="@color/default_background"
-        a:baselineAligned="false">
+        style="?mainMultiPaneLayoutStyle">
 
     <LinearLayout
             a:layout_height="0dp"
@@ -47,7 +44,7 @@
                       a:layout_width="0dp"
                       a:layout_weight="1"
                       a:orientation="vertical"
-                      style="?secondPaneStyle"/>
+                      style="?paneStyle"/>
 
     </LinearLayout>
 
@@ -55,6 +52,6 @@
                   a:layout_height="0dp"
                   a:layout_width="match_parent"
                   a:layout_weight="1"
-                  style="?fragmentLayoutStyle"/>
+                  style="?paneStyleTransparent"/>
 
 </LinearLayout>

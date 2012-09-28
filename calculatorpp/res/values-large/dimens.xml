@@ -1,3 +1,3 @@
 <resources>
-    <dimen name="button_text_size">40dp</dimen>
+    <dimen name="keyboard_button_text_size">40dp</dimen>
 </resources>

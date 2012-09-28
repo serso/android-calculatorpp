@@ -17,6 +17,7 @@ import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.text.TextProcessor;
 import org.solovyev.android.calculator.view.TextHighlighter;
 import org.solovyev.android.view.AutoResizeTextView;
+import org.solovyev.common.text.StringUtils;
 
 /**
  * User: serso

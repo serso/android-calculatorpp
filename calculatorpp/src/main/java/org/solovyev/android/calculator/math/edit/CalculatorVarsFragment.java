@@ -19,6 +19,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import jscl.math.function.IConstant;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -45,11 +48,11 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
 	public static final String CREATE_VAR_EXTRA_STRING = "org.solovyev.android.calculator.math.edit.CalculatorVarsTabActivity_create_var";
 
 	@Override
-	protected int getLayoutResId() {
+	protected int getLayoutId() {
 		return R.layout.vars_fragment;
 	}
 
-	@Override
+    @Override
     public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
@@ -63,6 +66,8 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
                 bundle.remove(CREATE_VAR_EXTRA_STRING);
 			}
 		}
+
+        setHasOptionsMenu(true);
 	}
 
     @Override
@@ -213,15 +218,20 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
 		return true;
 	}
 
-    // todo serso: menu
-/*	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		final MenuInflater menuInflater = getMenuInflater();
-		menuInflater.inflate(R.menu.var_menu, menu);
-		return true;
-	}
+    /*
+    **********************************************************************
+    *
+    *                           MENU
+    *
+    **********************************************************************
+    */
 
-	@Override
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.var_menu, menu);
+    }
+
+    @Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		boolean result;
 
@@ -235,7 +245,7 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
 		}
 
 		return result;
-	}*/
+	}
 
     /*
     **********************************************************************

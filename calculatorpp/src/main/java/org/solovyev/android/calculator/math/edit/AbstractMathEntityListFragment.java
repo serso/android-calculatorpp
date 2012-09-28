@@ -15,10 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.actionbarsherlock.app.SherlockListFragment;
-import com.google.ads.AdView;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.ads.AdsController;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.menu.AMenuBuilder;
 import org.solovyev.android.menu.LabeledMenuItem;
@@ -67,17 +65,13 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
     @Nullable
     private String category;
 
-	@Nullable
-	private AdView adView;
-
     @NotNull
-    private CalculatorFragmentHelper fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper();
+    private CalculatorFragmentHelper fragmentHelper;
 
 
-    protected int getLayoutResId() {
-        return R.layout.math_entities;
+    protected int getLayoutId() {
+        return R.layout.math_entities_fragment;
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -88,18 +82,20 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
             category = bundle.getString(MATH_ENTITY_CATEGORY_EXTRA_STRING);
         }
 
+        fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(getLayoutId());
         fragmentHelper.onCreate(this);
 	}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(getLayoutResId(), container, false);
+        return fragmentHelper.onCreateView(this, inflater, container);
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onViewCreated(View root, Bundle savedInstanceState) {
+        super.onViewCreated(root, savedInstanceState);
 
+        fragmentHelper.onViewCreated(this, root);
         this.fragmentHelper.setPaneTitle(this, getTitleResId());
 
         final ListView lv = getListView();
@@ -112,6 +108,7 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
                                     final long id) {
 
                 CalculatorLocatorImpl.getInstance().getKeyboard().digitButtonPressed(((MathEntity) parent.getItemAtPosition(position)).getName());
+                getActivity().finish();
             }
         });
 
@@ -130,18 +127,12 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
                 return true;
             }
         });
-
-        adView = AdsController.getInstance().inflateAd(this.getActivity(), (ViewGroup)view.findViewById(R.id.ad_parent_view), R.id.ad_parent_view);
     }
 
     protected abstract int getTitleResId();
 
     @Override
     public void onDestroy() {
-		if (this.adView != null) {
-			this.adView.destroy();
-		}
-
         fragmentHelper.onDestroy(this);
 
         super.onDestroy();
@@ -320,7 +311,11 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
     @NotNull
     public static Bundle createBundleFor(@NotNull String categoryId) {
         final Bundle result = new Bundle(1);
-        result.putString(MATH_ENTITY_CATEGORY_EXTRA_STRING, categoryId);
+        putCategory(result, categoryId);
         return result;
+    }
+
+    static void putCategory(@NotNull Bundle bundle, @NotNull String categoryId) {
+        bundle.putString(MATH_ENTITY_CATEGORY_EXTRA_STRING, categoryId);
     }
 }

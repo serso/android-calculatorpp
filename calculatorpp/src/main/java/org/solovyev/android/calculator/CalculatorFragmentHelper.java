@@ -1,8 +1,12 @@
 package org.solovyev.android.calculator;
 
 import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.calculator.math.edit.AbstractMathEntityListFragment;
 
 /**
  * User: serso
@@ -15,9 +19,12 @@ public interface CalculatorFragmentHelper {
 
     void setPaneTitle(@NotNull Fragment fragment, int titleResId);
 
-    void processButtons(@NotNull Fragment fragment, @NotNull View root);
-
     void onCreate(@NotNull Fragment fragment);
 
+    void onViewCreated(@NotNull Fragment fragment, @NotNull View root);
+
     void onDestroy(@NotNull Fragment fragment);
+
+    @NotNull
+    View onCreateView(@NotNull Fragment fragment, @NotNull LayoutInflater inflater, @Nullable ViewGroup container);
 }

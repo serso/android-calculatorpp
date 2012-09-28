@@ -7,11 +7,11 @@
 
 <resources>
 
-	<style name="light_blue_digit_button_style" parent="button_style">
+	<style name="light_blue_digit_button_style" parent="keyboard_button_style">
 		<item name="android:background">@drawable/blue_button</item>
 	</style>
 
-	<style name="light_blue_control_button_style" parent="button_style">
+	<style name="light_blue_control_button_style" parent="keyboard_button_style">
 		<item name="android:background">@drawable/blue_button_dark</item>
 	</style>
 

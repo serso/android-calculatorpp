@@ -7,11 +7,11 @@
   -->
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-    a:orientation="vertical"
-	a:id="@+id/ad_parent_view"
-    style="?fragmentLayoutStyle"
-    a:layout_width="match_parent"
-    a:layout_height="match_parent">
+              a:orientation="vertical"
+              a:id="@+id/main_fragment_layout"
+              style="?fragmentLayoutStyle"
+              a:layout_width="match_parent"
+              a:layout_height="match_parent">
 
     <TextView a:id="@+id/fragmentTitle"
               a:layout_height="wrap_content"
@@ -20,13 +20,12 @@
 
     <ListView style="?fragmentListViewStyle"/>
 
-    <!-- todo serso: uncomment button-->
-<!--    <Button
-        a:layout_width="wrap_content"
-        a:layout_height="wrap_content"
-        a:layout_gravity="center_horizontal"
-        a:text="@string/c_add"
-		style="?buttonStyle"
-        a:onClick="addVarButtonClickHandler"/>-->
+    <!--todo serso: uncomment-->
+    <!--<Button
+            a:id="@+id/add_var_button"
+            a:text="@string/c_add"
+            style="?buttonStyle"
+            a:onClick="addVarButtonClickHandler"
+            a:layout_marginBottom="@dimen/pane_padding"/>-->
 
 </LinearLayout>

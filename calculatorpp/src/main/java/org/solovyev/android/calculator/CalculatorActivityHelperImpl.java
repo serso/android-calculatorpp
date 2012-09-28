@@ -71,6 +71,8 @@ public class CalculatorActivityHelperImpl extends AbstractCalculatorHelper imple
         activity.setTheme(this.theme.getThemeId());
 
         activity.setContentView(layoutId);
+
+        CalculatorButtons.processButtons(true, theme, activity.getWindow().getDecorView());
     }
 
     @Override

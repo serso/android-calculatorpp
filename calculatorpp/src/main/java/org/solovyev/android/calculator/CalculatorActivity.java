@@ -84,8 +84,6 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
             getSupportActionBar().hide();
         }
 
-        CalculatorButtons.processButtons(true, activityHelper.getTheme(), this.getWindow().getDecorView());
-
         FragmentUtils.createFragment(this, CalculatorEditorFragment.class, R.id.editorContainer, "editor");
         FragmentUtils.createFragment(this, CalculatorDisplayFragment.class, R.id.displayContainer, "display");
         FragmentUtils.createFragment(this, CalculatorKeyboardFragment.class, R.id.keyboardContainer, "keyboard");

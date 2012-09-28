@@ -32,8 +32,7 @@ public class CalculatorFunctionsFragmentActivity extends SherlockFragmentActivit
         activityHelper.onCreate(this, savedInstanceState);
 
         for (AndroidFunctionsMathRegistry.Category category : AndroidFunctionsMathRegistry.Category.getCategoriesByTabOrder()) {
-            activityHelper.addTab(this, category.name(), CalculatorHistoryFragment.class, null, category.getCaptionId(), R.id.main_layout);
-
+            activityHelper.addTab(this, category.name(), CalculatorFunctionsFragment.class, AbstractMathEntityListFragment.createBundleFor(category.name()), category.getCaptionId(), R.id.main_layout);
         }
 
         CalculatorLocatorImpl.getInstance().getCalculator().addCalculatorEventListener(this);

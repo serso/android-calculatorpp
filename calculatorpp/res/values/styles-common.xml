@@ -8,13 +8,20 @@
 <resources>
 
 	<style name="button_style" parent="button_style_parent">
-		<item name="android:layout_width">fill_parent</item>
-		<item name="android:layout_height">fill_parent</item>
-		<item name="android:layout_weight">1</item>
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">wrap_content</item>
 		<item name="android:focusable">true</item>
-		<item name="android:background">@drawable/default_button_dark</item>
-		<item name="android:layout_margin">@dimen/button_margin</item>
-	</style>
+        <item name="android:background">@drawable/metro_button_blue</item>
+    </style>
+
+    <style name="keyboard_button_style" parent="keyboard_button_style_parent">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:focusable">true</item>
+        <item name="android:background">@drawable/default_button_dark</item>
+        <item name="android:layout_margin">@dimen/button_margin</item>
+    </style>
 
 	<style name="editor_style" parent="editor_style_parent">
 		<item name="android:gravity">left|top</item>

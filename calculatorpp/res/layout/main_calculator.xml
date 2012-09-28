@@ -12,8 +12,7 @@
         a:layout_height="match_parent"
         a:id="@+id/main_layout"
         a:orientation="vertical"
-        a:layout_gravity="center"
-        a:background="@color/default_background">
+        style="?mainLayoutStyle">
 
     <LinearLayout a:id="@+id/editorContainer"
                   a:layout_weight="2"

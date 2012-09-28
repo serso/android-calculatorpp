@@ -7,12 +7,9 @@
   -->
 <LinearLayout
         xmlns:a="http://schemas.android.com/apk/res/android"
-        a:layout_width="match_parent"
-        a:layout_height="match_parent"
         a:id="@+id/main_layout"
         a:orientation="vertical"
-        a:layout_gravity="center"
-        a:background="@color/default_background">
+        style="?mainLayoutStyle">
 
     <include layout="@layout/main_first_pane"/>
 

@@ -2,7 +2,7 @@
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
               a:orientation="vertical"
-              a:id="@+id/ad_parent_view"
+              a:id="@+id/main_fragment_layout"
               style="?fragmentLayoutStyle"
               a:layout_width="match_parent"
               a:layout_height="match_parent">

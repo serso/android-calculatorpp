@@ -16,10 +16,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import com.actionbarsherlock.app.SherlockListFragment;
-import com.google.ads.AdView;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.ads.AdsController;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.menu.AMenuBuilder;
@@ -81,9 +79,6 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 	@NotNull
 	private ArrayAdapter<CalculatorHistoryState> adapter;
 
-	@Nullable
-	private AdView adView;
-
     @NotNull
     private CalculatorFragmentHelper fragmentHelper;
 
@@ -91,7 +86,7 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper();
+        fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(R.layout.history_fragment);
         fragmentHelper.onCreate(this);
 
         logDebug("onCreate");
@@ -103,17 +98,16 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View result = inflater.inflate(R.layout.history_fragment, container, false);
-        logDebug("onCreateView");
-        return result;
+        return fragmentHelper.onCreateView(this, inflater, container);
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onViewCreated(View root, Bundle savedInstanceState) {
+        super.onViewCreated(root, savedInstanceState);
 
         logDebug("onViewCreated");
 
+        fragmentHelper.onViewCreated(this, root);
         fragmentHelper.setPaneTitle(this, getTitleResId());
 
         adapter = new HistoryArrayAdapter(this.getActivity(), getItemLayoutId(), R.id.history_item, new ArrayList<CalculatorHistoryState>());
@@ -163,8 +157,6 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
                 return true;
             }
         });
-
-        adView = AdsController.getInstance().inflateAd(this.getActivity(), (ViewGroup)view.findViewById(R.id.ad_parent_view), R.id.ad_parent_view);
     }
 
     protected abstract int getTitleResId();
@@ -172,10 +164,6 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
     @Override
 	public void onDestroy() {
         logDebug("onDestroy");
-
-        if ( this.adView != null ) {
-			this.adView.destroy();
-		}
 
         fragmentHelper.onDestroy(this);
 

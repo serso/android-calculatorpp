@@ -116,7 +116,7 @@ public class CalculatorApplication extends android.app.Application {
     }
 
     @NotNull
-    public CalculatorFragmentHelper createFragmentHelper() {
-        return new CalculatorFragmentHelperImpl();
+     public CalculatorFragmentHelper createFragmentHelper(int layoutId) {
+        return new CalculatorFragmentHelperImpl(layoutId);
     }
 }

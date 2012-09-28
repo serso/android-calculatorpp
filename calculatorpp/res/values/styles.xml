@@ -24,6 +24,11 @@
 		<item name="android:textSize">@dimen/text_size</item>
 	</style>
 
+    <style name="keyboard_button_style_parent">
+        <item name="android:textSize">@dimen/keyboard_button_text_size</item>
+        <item name="android:textColor">@color/button_text_color</item>
+    </style>
+
 	<style name="button_style_parent">
 		<item name="android:textSize">@dimen/button_text_size</item>
 		<item name="android:textColor">@color/button_text_color</item>

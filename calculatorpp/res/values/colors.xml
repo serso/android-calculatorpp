@@ -13,6 +13,6 @@
 	<color name="display_error_text_color">#ff393939</color>
 	<color name="selected_angle_unit_text_color">#ffffff99</color>
 	<color name="default_background">#ff000000</color>
-	<color name="second_pane_background">#ff1f1f1f</color>
+	<color name="pane_background">#ff1f1f1f</color>
     <color name="metro_button_background">#ff1f1f1f</color>
 </resources>

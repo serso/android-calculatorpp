@@ -6,7 +6,7 @@
   -->
 
 <resources>
-	<style name="violet_digit_button_style" parent="button_style">
+	<style name="violet_digit_button_style" parent="keyboard_button_style">
 		<item name="android:background">@drawable/violet_button</item>
 	</style>
 
@@ -14,7 +14,7 @@
 			<item name="android:textColor">@color/button_operator_text_color</item>
 	</style>
 
-	<style name="violet_control_button_style" parent="button_style">
+	<style name="violet_control_button_style" parent="keyboard_button_style">
 		<item name="android:background">@drawable/violet_button_dark</item>
 	</style>
 
