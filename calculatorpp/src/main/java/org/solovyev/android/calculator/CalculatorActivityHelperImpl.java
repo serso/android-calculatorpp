@@ -77,6 +77,10 @@ public class CalculatorActivityHelperImpl extends AbstractCalculatorHelper imple
         activity.setContentView(layoutId);
 
         CalculatorButtons.processButtons(true, theme, activity.getWindow().getDecorView());
+
+        if (savedInstanceState != null) {
+            navPosition = savedInstanceState.getInt(SELECTED_NAV, 0);
+        }
     }
 
     @Override
@@ -89,10 +93,7 @@ public class CalculatorActivityHelperImpl extends AbstractCalculatorHelper imple
         actionBar.setHomeButtonEnabled(false);
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayShowTitleEnabled(true);
-
-        if (savedInstanceState != null) {
-            navPosition = savedInstanceState.getInt(SELECTED_NAV, 0);
-        }
+        actionBar.setIcon(R.drawable.icon_action_bar);
     }
 
     @Override
@@ -150,10 +151,14 @@ public class CalculatorActivityHelperImpl extends AbstractCalculatorHelper imple
         final ActionBar.Tab tab = actionBar.newTab();
         tab.setTag(tag);
         tab.setText(captionResId);
-        tab.setTabListener(new ActionBarFragmentTabListener(activity, tag, fragmentClass, fragmentArgs, parentViewId));
+
+        final ActionBarFragmentTabListener listener = new ActionBarFragmentTabListener(activity, tag, fragmentClass, fragmentArgs, parentViewId);
+        tab.setTabListener(listener);
         actionBar.addTab(tab);
 
         fragmentTags.add(tag);
+
+        restoreSavedTab(activity);
     }
 
     @Override

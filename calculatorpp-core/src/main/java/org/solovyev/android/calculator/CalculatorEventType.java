@@ -89,7 +89,24 @@ public enum CalculatorEventType {
    history_state_added,
 
     // @NotNull CalculatorHistoryState
-   use_history_state;
+   use_history_state,
+
+    /*
+    **********************************************************************
+    *
+    *                           MATH ENTITIES
+    *
+    **********************************************************************
+    */
+
+    // @NotNull IConstant
+    use_constant,
+
+    // @NotNull Function
+    use_function,
+
+    // @NotNull Operator
+    use_operator;
 
     public boolean isOfType(@NotNull CalculatorEventType... types) {
         for (CalculatorEventType type : types) {

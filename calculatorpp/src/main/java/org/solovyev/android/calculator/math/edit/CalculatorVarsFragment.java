@@ -25,10 +25,12 @@ import com.actionbarsherlock.view.MenuItem;
 import jscl.math.function.IConstant;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.calculator.CalculatorEventType;
 import org.solovyev.android.calculator.CalculatorLocatorImpl;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.Var;
+import org.solovyev.android.menu.AMenuItem;
 import org.solovyev.android.menu.LabeledMenuItem;
 import org.solovyev.common.JPredicate;
 import org.solovyev.common.collections.CollectionsUtils;
@@ -73,6 +75,11 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
     @Override
     protected int getTitleResId() {
         return R.string.c_vars;
+    }
+
+    @Override
+    protected AMenuItem<IConstant> getOnClickAction() {
+        return LongClickMenuItem.use;
     }
 
     @NotNull
@@ -259,10 +266,7 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
         use(R.string.c_use) {
             @Override
             public void onClick(@NotNull IConstant data, @NotNull Context context) {
-                CalculatorLocatorImpl.getInstance().getKeyboard().digitButtonPressed(data.getName());
-                if (context instanceof Activity) {
-                    ((Activity) context).finish();
-                }
+                CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.use_constant, data);
             }
         },
 

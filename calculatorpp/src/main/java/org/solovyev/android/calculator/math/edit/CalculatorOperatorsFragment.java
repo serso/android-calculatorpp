@@ -5,8 +5,10 @@ import android.content.Context;
 import android.text.ClipboardManager;
 import jscl.math.operator.Operator;
 import org.jetbrains.annotations.NotNull;
+import org.solovyev.android.calculator.CalculatorEventType;
 import org.solovyev.android.calculator.CalculatorLocatorImpl;
 import org.solovyev.android.calculator.R;
+import org.solovyev.android.menu.AMenuItem;
 import org.solovyev.android.menu.LabeledMenuItem;
 import org.solovyev.common.text.StringUtils;
 
@@ -21,6 +23,11 @@ import java.util.List;
  */
 
 public class CalculatorOperatorsFragment extends AbstractMathEntityListFragment<Operator> {
+
+    @Override
+    protected AMenuItem<Operator> getOnClickAction() {
+        return LongClickMenuItem.use;
+    }
 
     @Override
     protected int getTitleResId() {
@@ -95,10 +102,7 @@ public class CalculatorOperatorsFragment extends AbstractMathEntityListFragment<
         use(R.string.c_use) {
             @Override
             public void onClick(@NotNull Operator data, @NotNull Context context) {
-                CalculatorLocatorImpl.getInstance().getKeyboard().digitButtonPressed(data.getName());
-                if (context instanceof Activity) {
-                    ((Activity) context).finish();
-                }
+                CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.use_operator, data);
             }
         },
 

@@ -10,10 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.about.CalculatorAboutTabActivity;
 import org.solovyev.android.calculator.help.CalculatorHelpTabActivity;
 import org.solovyev.android.calculator.history.CalculatorHistoryFragmentActivity;
-import org.solovyev.android.calculator.math.edit.CalculatorFunctionsFragmentActivity;
-import org.solovyev.android.calculator.math.edit.CalculatorOperatorsFragment;
-import org.solovyev.android.calculator.math.edit.CalculatorVarsFragment;
-import org.solovyev.android.calculator.math.edit.CalculatorVarsFragmentActivity;
+import org.solovyev.android.calculator.math.edit.*;
 import org.solovyev.android.calculator.plot.CalculatorPlotActivity;
 import org.solovyev.android.calculator.plot.CalculatorPlotFragment;
 import org.solovyev.common.text.StringUtils;
@@ -46,7 +43,7 @@ public class CalculatorActivityLauncher {
 	}
 
 	public static void showOperators(@NotNull final Context context) {
-		context.startActivity(new Intent(context, CalculatorOperatorsFragment.class));
+		context.startActivity(new Intent(context, CalculatorOperatorsFragmentActivity.class));
 	}
 
 	public static void showVars(@NotNull final Context context) {

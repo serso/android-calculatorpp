@@ -12,8 +12,10 @@ import android.os.Bundle;
 import android.text.ClipboardManager;
 import jscl.math.function.Function;
 import org.jetbrains.annotations.NotNull;
+import org.solovyev.android.calculator.CalculatorEventType;
 import org.solovyev.android.calculator.CalculatorLocatorImpl;
 import org.solovyev.android.calculator.R;
+import org.solovyev.android.menu.AMenuItem;
 import org.solovyev.android.menu.LabeledMenuItem;
 import org.solovyev.common.text.StringUtils;
 
@@ -61,6 +63,11 @@ public class CalculatorFunctionsFragment extends AbstractMathEntityListFragment<
 			}
 		}*/
 	}
+
+    @Override
+    protected AMenuItem<Function> getOnClickAction() {
+        return LongClickMenuItem.use;
+    }
 
     @Override
     protected int getTitleResId() {
@@ -194,10 +201,7 @@ public class CalculatorFunctionsFragment extends AbstractMathEntityListFragment<
         use(R.string.c_use) {
             @Override
             public void onClick(@NotNull Function data, @NotNull Context context) {
-                CalculatorLocatorImpl.getInstance().getKeyboard().digitButtonPressed(data.getName());
-                if (context instanceof Activity) {
-                    ((Activity) context).finish();
-                }
+                CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.use_function, data);
             }
         },
 

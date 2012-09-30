@@ -19,6 +19,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.menu.AMenuBuilder;
+import org.solovyev.android.menu.AMenuItem;
 import org.solovyev.android.menu.LabeledMenuItem;
 import org.solovyev.android.menu.MenuImpl;
 import org.solovyev.common.equals.EqualsTool;
@@ -105,9 +106,10 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
                                     final View view,
                                     final int position,
                                     final long id) {
-
-                CalculatorLocatorImpl.getInstance().getKeyboard().digitButtonPressed(((MathEntity) parent.getItemAtPosition(position)).getName());
-                getActivity().finish();
+                final AMenuItem<T> onClick = getOnClickAction();
+                if ( onClick != null ) {
+                    onClick.onClick(((T) parent.getItemAtPosition(position)), getActivity());
+                }
             }
         });
 
@@ -127,6 +129,9 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
             }
         });
     }
+
+    @Nullable
+    protected abstract AMenuItem<T> getOnClickAction();
 
     protected abstract int getTitleResId();
 
@@ -216,31 +221,34 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            final ViewGroup result = (ViewGroup) super.getView(position, convertView, parent);
+        public View getView(int position, @Nullable View convertView, ViewGroup parent) {
+            final ViewGroup result;
 
-            final T mathEntity = getItem(position);
+            if (convertView == null) {
+                result = (ViewGroup) super.getView(position, convertView, parent);
 
-            final String mathEntityDescription = descriptionGetter.getDescription(getContext(), mathEntity.getName());
-            if (!StringUtils.isEmpty(mathEntityDescription)) {
-                TextView description = (TextView) result.findViewById(R.id.math_entity_description);
-                if (description == null) {
-                    final LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-                    final ViewGroup itemView = (ViewGroup) layoutInflater.inflate(R.layout.math_entity, null);
-                    description = (TextView) itemView.findViewById(R.id.math_entity_description);
-                    itemView.removeView(description);
-                    result.addView(description);
-                }
-                description.setText(mathEntityDescription);
+                fillView(position, result);
             } else {
-                TextView description = (TextView) result.findViewById(R.id.math_entity_description);
-                if (description != null) {
-                    result.removeView(description);
-                }
+                result = (ViewGroup) convertView;
+                fillView(position, result);
             }
 
 
             return result;
+        }
+
+        private void fillView(int position, @NotNull ViewGroup result) {
+            final T mathEntity = getItem(position);
+
+            final String mathEntityDescription = descriptionGetter.getDescription(getContext(), mathEntity.getName());
+            if (!StringUtils.isEmpty(mathEntityDescription)) {
+                final TextView description = (TextView) result.findViewById(R.id.math_entity_description);
+                description.setVisibility(View.VISIBLE);
+                description.setText(mathEntityDescription);
+            } else {
+                final TextView description = (TextView) result.findViewById(R.id.math_entity_description);
+                description.setVisibility(View.GONE);
+            }
         }
     }
 

@@ -4,6 +4,9 @@ import jscl.AbstractJsclArithmeticException;
 import jscl.NumeralBase;
 import jscl.NumeralBaseException;
 import jscl.math.Generic;
+import jscl.math.function.Function;
+import jscl.math.function.IConstant;
+import jscl.math.operator.Operator;
 import jscl.text.ParseInterruptedException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -16,7 +19,8 @@ import org.solovyev.common.history.HistoryAction;
 import org.solovyev.common.msg.MessageRegistry;
 import org.solovyev.common.msg.MessageType;
 import org.solovyev.common.text.StringUtils;
-import org.solovyev.math.units.*;
+import org.solovyev.math.units.ConversionException;
+import org.solovyev.math.units.ConversionUtils;
 
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -381,9 +385,26 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
                     evaluate(JsclOperation.numeric, changeEventData.getNewState().getText(), calculatorEventData.getSequenceId());
                 }
                 break;
+
             case engine_preferences_changed:
                 evaluate(calculatorEventData.getSequenceId());
                 break;
+
+            case use_constant:
+                final IConstant constant = (IConstant)data;
+                CalculatorLocatorImpl.getInstance().getKeyboard().digitButtonPressed(constant.getName());
+                break;
+
+            case use_operator:
+                final Operator operator = (Operator)data;
+                CalculatorLocatorImpl.getInstance().getKeyboard().digitButtonPressed(operator.getName());
+                break;
+
+            case use_function:
+                final Function function = (Function)data;
+                CalculatorLocatorImpl.getInstance().getKeyboard().digitButtonPressed(function.getName());
+                break;
+
         }
     }
 

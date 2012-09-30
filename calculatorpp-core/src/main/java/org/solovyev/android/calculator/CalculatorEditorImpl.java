@@ -80,10 +80,12 @@ public class CalculatorEditorImpl implements CalculatorEditor {
     public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData,
                                   @NotNull CalculatorEventType calculatorEventType,
                                   @Nullable Object data) {
-        if (calculatorEventType == CalculatorEventType.use_history_state) {
-            final CalculatorHistoryState calculatorHistoryState = (CalculatorHistoryState)data;
-            final EditorHistoryState editorState = calculatorHistoryState.getEditorState();
-            this.setText(StringUtils.getNotEmpty(editorState.getText(), ""), editorState.getCursorPosition());
+        switch (calculatorEventType) {
+            case use_history_state:
+                final CalculatorHistoryState calculatorHistoryState = (CalculatorHistoryState)data;
+                final EditorHistoryState editorState = calculatorHistoryState.getEditorState();
+                this.setText(StringUtils.getNotEmpty(editorState.getText(), ""), editorState.getCursorPosition());
+                break;
         }
     }
 

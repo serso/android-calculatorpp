@@ -6,21 +6,19 @@
 
 package org.solovyev.android.calculator.math.edit;
 
-import android.content.Intent;
 import android.os.Bundle;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.history.CalculatorHistoryFragmentActivity;
-import org.solovyev.android.calculator.model.VarCategory;
 
 /**
  * User: serso
  * Date: 12/21/11
- * Time: 11:05 PM
+ * Time: 10:33 PM
  */
-public class CalculatorVarsFragmentActivity extends SherlockFragmentActivity implements CalculatorEventListener {
+public class CalculatorOperatorsFragmentActivity extends SherlockFragmentActivity implements CalculatorEventListener {
 
     @NotNull
     private final CalculatorActivityHelper activityHelper = CalculatorApplication.getInstance().createActivityHelper(R.layout.main_empty, CalculatorHistoryFragmentActivity.class.getSimpleName());
@@ -31,30 +29,7 @@ public class CalculatorVarsFragmentActivity extends SherlockFragmentActivity imp
 
         activityHelper.onCreate(this, savedInstanceState);
 
-        final Bundle bundle;
-
-        final Intent intent = getIntent();
-        if (intent != null) {
-            bundle = intent.getExtras();
-        } else {
-            bundle = null;
-        }
-
-
-        for (VarCategory category : VarCategory.getCategoriesByTabOrder()) {
-
-            final Bundle fragmentParameters;
-
-            if (category == VarCategory.my && bundle != null) {
-                AbstractMathEntityListFragment.putCategory(bundle, category.name());
-                fragmentParameters = bundle;
-            } else {
-                fragmentParameters = AbstractMathEntityListFragment.createBundleFor(category.name());
-            }
-
-            activityHelper.addTab(this, category.name(), CalculatorVarsFragment.class, fragmentParameters, category.getCaptionId(), R.id.main_layout);
-
-        }
+        activityHelper.addTab(this, "operators", CalculatorOperatorsFragment.class, null, R.string.c_operators, R.id.main_layout);
     }
 
     @Override
@@ -81,7 +56,7 @@ public class CalculatorVarsFragmentActivity extends SherlockFragmentActivity imp
     @Override
     public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
         switch (calculatorEventType) {
-            case use_constant:
+            case use_operator:
                 this.finish();
                 break;
         }

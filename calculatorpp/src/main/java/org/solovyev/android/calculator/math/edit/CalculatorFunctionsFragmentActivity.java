@@ -58,6 +58,10 @@ public class CalculatorFunctionsFragmentActivity extends SherlockFragmentActivit
 
     @Override
     public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        switch (calculatorEventType) {
+            case use_function:
+                this.finish();
+                break;
+        }
     }
 }
