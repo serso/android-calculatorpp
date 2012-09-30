@@ -11,7 +11,6 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.*;
-import org.solovyev.android.calculator.history.CalculatorHistoryFragment;
 import org.solovyev.android.calculator.history.CalculatorHistoryFragmentActivity;
 import org.solovyev.android.calculator.model.AndroidFunctionsMathRegistry;
 
@@ -34,8 +33,6 @@ public class CalculatorFunctionsFragmentActivity extends SherlockFragmentActivit
         for (AndroidFunctionsMathRegistry.Category category : AndroidFunctionsMathRegistry.Category.getCategoriesByTabOrder()) {
             activityHelper.addTab(this, category.name(), CalculatorFunctionsFragment.class, AbstractMathEntityListFragment.createBundleFor(category.name()), category.getCaptionId(), R.id.main_layout);
         }
-
-        CalculatorLocatorImpl.getInstance().getCalculator().addCalculatorEventListener(this);
     }
 
     @Override
@@ -57,8 +54,6 @@ public class CalculatorFunctionsFragmentActivity extends SherlockFragmentActivit
         super.onDestroy();
 
         this.activityHelper.onDestroy(this);
-
-        CalculatorLocatorImpl.getInstance().getCalculator().removeCalculatorEventListener(this);
     }
 
     @Override

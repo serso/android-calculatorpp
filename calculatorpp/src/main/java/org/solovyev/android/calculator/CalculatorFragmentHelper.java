@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.math.edit.AbstractMathEntityListFragment;
 
 /**
  * User: serso
@@ -21,10 +20,14 @@ public interface CalculatorFragmentHelper {
 
     void onCreate(@NotNull Fragment fragment);
 
-    void onViewCreated(@NotNull Fragment fragment, @NotNull View root);
+    void onResume(@NotNull Fragment fragment);
 
-    void onDestroy(@NotNull Fragment fragment);
+    void onPause(@NotNull Fragment fragment);
 
     @NotNull
     View onCreateView(@NotNull Fragment fragment, @NotNull LayoutInflater inflater, @Nullable ViewGroup container);
+
+    void onViewCreated(@NotNull Fragment fragment, @NotNull View root);
+
+    void onDestroy(@NotNull Fragment fragment);
 }

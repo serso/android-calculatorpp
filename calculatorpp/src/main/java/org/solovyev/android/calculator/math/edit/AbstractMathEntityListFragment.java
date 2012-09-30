@@ -82,7 +82,7 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
             category = bundle.getString(MATH_ENTITY_CATEGORY_EXTRA_STRING);
         }
 
-        fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(getLayoutId());
+        fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(getLayoutId(), getTitleResId());
         fragmentHelper.onCreate(this);
 	}
 
@@ -96,7 +96,6 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
         super.onViewCreated(root, savedInstanceState);
 
         fragmentHelper.onViewCreated(this, root);
-        this.fragmentHelper.setPaneTitle(this, getTitleResId());
 
         final ListView lv = getListView();
         lv.setTextFilterEnabled(true);
@@ -141,9 +140,18 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
 	@NotNull
 	protected abstract List<LabeledMenuItem<T>> getMenuItemsOnLongClick(@NotNull T item);
 
-	@Override
+    @Override
+    public void onPause() {
+        this.fragmentHelper.onPause(this);
+
+        super.onPause();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
+
+        this.fragmentHelper.onResume(this);
 
         adapter = new MathEntityArrayAdapter<T>(getDescriptionGetter(), this.getActivity(), R.layout.math_entity, R.id.math_entity_text, getMathEntitiesByCategory());
         setListAdapter(adapter);

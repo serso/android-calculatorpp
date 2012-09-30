@@ -15,6 +15,7 @@ import org.solovyev.android.calculator.math.edit.CalculatorOperatorsFragment;
 import org.solovyev.android.calculator.math.edit.CalculatorVarsFragment;
 import org.solovyev.android.calculator.math.edit.CalculatorVarsFragmentActivity;
 import org.solovyev.android.calculator.plot.CalculatorPlotActivity;
+import org.solovyev.android.calculator.plot.CalculatorPlotFragment;
 import org.solovyev.common.text.StringUtils;
 
 /**
@@ -55,7 +56,7 @@ public class CalculatorActivityLauncher {
 	public static void plotGraph(@NotNull final Context context, @NotNull Generic generic, @NotNull Constant constant){
 		final Intent intent = new Intent();
 		intent.putExtra(ChartFactory.TITLE, context.getString(R.string.c_graph));
-		intent.putExtra(CalculatorPlotActivity.INPUT, new CalculatorPlotActivity.Input(generic.toString(), constant.getName()));
+		intent.putExtra(CalculatorPlotFragment.INPUT, new CalculatorPlotFragment.Input(generic.toString(), constant.getName()));
 		intent.setClass(context, CalculatorPlotActivity.class);
 		context.startActivity(intent);
 	}

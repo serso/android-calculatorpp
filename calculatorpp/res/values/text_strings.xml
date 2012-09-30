@@ -207,4 +207,6 @@
     <string name="convert_to_bin">Convert to bin</string>
     <string name="convert_to_dec">Convert to dec</string>
 
+    <string name="editor">Editor</string>
+
 </resources>

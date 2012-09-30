@@ -11,6 +11,4 @@
               a:layout_width="match_parent"
               style="?fragmentTitleStyle"/>
 
-    <ListView style="?fragmentListViewStyle"/>
-
 </LinearLayout>

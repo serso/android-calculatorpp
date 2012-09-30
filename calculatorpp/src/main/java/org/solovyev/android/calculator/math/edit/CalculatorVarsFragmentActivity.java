@@ -55,8 +55,6 @@ public class CalculatorVarsFragmentActivity extends SherlockFragmentActivity imp
             activityHelper.addTab(this, category.name(), CalculatorVarsFragment.class, fragmentParameters, category.getCaptionId(), R.id.main_layout);
 
         }
-
-        CalculatorLocatorImpl.getInstance().getCalculator().addCalculatorEventListener(this);
     }
 
     @Override
@@ -78,8 +76,6 @@ public class CalculatorVarsFragmentActivity extends SherlockFragmentActivity imp
         super.onDestroy();
 
         this.activityHelper.onDestroy(this);
-
-        CalculatorLocatorImpl.getInstance().getCalculator().removeCalculatorEventListener(this);
     }
 
     @Override

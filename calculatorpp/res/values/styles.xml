@@ -36,12 +36,10 @@
 
 	<style name="display_style_parent" parent="default_text">
 		<item name="android:textSize">@dimen/display_text_size</item>
-		<item name="android:padding">3dp</item>
 	</style>
 
 	<style name="editor_style_parent" parent="default_text">
 		<item name="android:textSize">@dimen/editor_text_size</item>
-		<item name="android:padding">5dp</item>
 	</style>
 
 	<style name="about_style_parent" parent="default_text">

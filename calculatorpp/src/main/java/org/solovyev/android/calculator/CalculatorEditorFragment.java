@@ -23,21 +23,27 @@ public class CalculatorEditorFragment extends SherlockFragment {
     @NotNull
     private ActivityMenu<Menu, MenuItem> menu = ListActivityMenu.fromList(CalculatorMenu.class, SherlockMenuHelper.getInstance());
 
+    private CalculatorFragmentHelper fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(R.layout.calc_editor, R.string.editor);
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        fragmentHelper.onCreate(this);
 
         setHasOptionsMenu(true);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.calc_editor, container, false);
+        return fragmentHelper.onCreateView(this, inflater, container);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        fragmentHelper.onViewCreated(this, view);
 
         ((AndroidCalculator) CalculatorLocatorImpl.getInstance().getCalculator()).setEditor(getActivity());
     }
@@ -46,6 +52,34 @@ public class CalculatorEditorFragment extends SherlockFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
     }
+
+    @Override
+    public void onDestroy() {
+        fragmentHelper.onDestroy(this);
+        super.onDestroy();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        this.fragmentHelper.onResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        this.fragmentHelper.onPause(this);
+
+        super.onPause();
+    }
+
+    /*
+    **********************************************************************
+    *
+    *                           MENU
+    *
+    **********************************************************************
+    */
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

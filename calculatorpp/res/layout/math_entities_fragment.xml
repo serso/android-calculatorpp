@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-              a:orientation="vertical"
               a:id="@+id/main_fragment_layout"
               style="?fragmentLayoutStyle"
               a:layout_width="match_parent"

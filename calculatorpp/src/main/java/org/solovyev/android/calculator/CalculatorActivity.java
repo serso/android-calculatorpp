@@ -31,6 +31,7 @@ import org.solovyev.android.calculator.history.CalculatorSavedHistoryFragment;
 import org.solovyev.android.calculator.math.edit.CalculatorFunctionsFragment;
 import org.solovyev.android.calculator.math.edit.CalculatorOperatorsFragment;
 import org.solovyev.android.calculator.math.edit.CalculatorVarsFragment;
+import org.solovyev.android.calculator.plot.CalculatorPlotFragment;
 import org.solovyev.android.fragments.FragmentUtils;
 import org.solovyev.android.prefs.Preference;
 import org.solovyev.android.view.ColorButton;
@@ -78,6 +79,7 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
             activityHelper.addTab(this, "vars", CalculatorVarsFragment.class, null, R.string.c_vars, R.id.main_second_pane);
             activityHelper.addTab(this, "functions", CalculatorFunctionsFragment.class, null, R.string.c_functions, R.id.main_second_pane);
             activityHelper.addTab(this, "operators", CalculatorOperatorsFragment.class, null, R.string.c_operators, R.id.main_second_pane);
+            activityHelper.addTab(this, "plot", CalculatorPlotFragment.class, null, R.string.c_plot, R.id.main_second_pane);
 
             activityHelper.restoreSavedTab(this);
         } else {

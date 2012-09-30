@@ -30,8 +30,6 @@ public class CalculatorHistoryFragmentActivity extends SherlockFragmentActivity 
 
         activityHelper.addTab(this, "history", CalculatorHistoryFragment.class, null, R.string.c_history, R.id.main_layout);
         activityHelper.addTab(this, "saved_history", CalculatorSavedHistoryFragment.class, null, R.string.c_saved_history, R.id.main_layout);
-
-        CalculatorLocatorImpl.getInstance().getCalculator().addCalculatorEventListener(this);
     }
 
     @Override
@@ -53,8 +51,6 @@ public class CalculatorHistoryFragmentActivity extends SherlockFragmentActivity 
         super.onDestroy();
 
         activityHelper.onDestroy(this);
-
-        CalculatorLocatorImpl.getInstance().getCalculator().removeCalculatorEventListener(this);
     }
 
     @Override

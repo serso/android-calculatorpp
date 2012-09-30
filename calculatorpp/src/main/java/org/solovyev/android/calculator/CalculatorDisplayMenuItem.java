@@ -3,15 +3,11 @@ package org.solovyev.android.calculator;
 import android.content.Context;
 import jscl.math.Generic;
 import jscl.math.function.Constant;
-import jscl.math.function.IConstant;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.view.NumeralBaseConverterDialog;
 import org.solovyev.android.menu.LabeledMenuItem;
 import org.solovyev.common.collections.CollectionsUtils;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
 * User: Solovyev_S
@@ -84,37 +80,16 @@ public enum CalculatorDisplayMenuItem implements LabeledMenuItem<CalculatorDispl
             final Generic generic = data.getResult();
             assert generic != null;
 
-            final Constant constant = CollectionsUtils.getFirstCollectionElement(getNotSystemConstants(generic));
+            final Constant constant = CollectionsUtils.getFirstCollectionElement(CalculatorUtils.getNotSystemConstants(generic));
             assert constant != null;
             CalculatorActivityLauncher.plotGraph(context, generic, constant);
         }
 
         @Override
         protected boolean isItemVisibleFor(@NotNull Generic generic, @NotNull JsclOperation operation) {
-            boolean result = false;
-
-            if (operation == JsclOperation.simplify) {
-                if (getNotSystemConstants(generic).size() == 1) {
-                    result = true;
-                }
-            }
-
-            return result;
+            return CalculatorUtils.isPlotPossible(generic, operation);
         }
 
-        @NotNull
-        private Set<Constant> getNotSystemConstants(@NotNull Generic generic) {
-            final Set<Constant> notSystemConstants = new HashSet<Constant>();
-
-            for (Constant constant : generic.getConstants()) {
-                IConstant var = CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry().get(constant.getName());
-                if (var != null && !var.isSystem() && !var.isDefined()) {
-                    notSystemConstants.add(constant);
-                }
-            }
-
-            return notSystemConstants;
-        }
     };
 
     private final int captionId;

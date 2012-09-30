@@ -7,4 +7,8 @@
     <dimen name="editor_text_size">25sp</dimen>
     <dimen name="pane_margin">5dp</dimen>
     <dimen name="pane_padding">5dp</dimen>
+
+    <!--only for not multipane-->
+    <dimen name="editor_padding">5dp</dimen>
+    <dimen name="display_padding">3dp</dimen>
 </resources>

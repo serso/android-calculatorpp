@@ -65,6 +65,10 @@ public class CalculatorActivityHelperImpl extends AbstractCalculatorHelper imple
     public void onCreate(@NotNull Activity activity, @Nullable Bundle savedInstanceState) {
         super.onCreate(activity);
 
+        if ( activity instanceof CalculatorEventListener) {
+            CalculatorLocatorImpl.getInstance().getCalculator().addCalculatorEventListener((CalculatorEventListener)activity);
+        }
+
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
 
         this.theme = CalculatorPreferences.Gui.getTheme(preferences);
@@ -82,6 +86,7 @@ public class CalculatorActivityHelperImpl extends AbstractCalculatorHelper imple
         final ActionBar actionBar = activity.getSupportActionBar();
         actionBar.setDisplayUseLogoEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(homeIcon);
+        actionBar.setHomeButtonEnabled(false);
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayShowTitleEnabled(true);
 
@@ -119,8 +124,17 @@ public class CalculatorActivityHelperImpl extends AbstractCalculatorHelper imple
     }
 
     @Override
-    public void onDestroy(@NotNull SherlockFragmentActivity activity) {
+    public void onDestroy(@NotNull Activity activity) {
         super.onDestroy(activity);
+
+        if ( activity instanceof CalculatorEventListener) {
+            CalculatorLocatorImpl.getInstance().getCalculator().removeCalculatorEventListener((CalculatorEventListener)activity);
+        }
+    }
+
+    @Override
+    public void onDestroy(@NotNull SherlockFragmentActivity activity) {
+        this.onDestroy((Activity)activity);
     }
 
     @Override

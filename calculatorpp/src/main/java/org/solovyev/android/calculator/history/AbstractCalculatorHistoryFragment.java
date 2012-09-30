@@ -86,7 +86,7 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(R.layout.history_fragment);
+        fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(R.layout.history_fragment, getTitleResId(), false);
         fragmentHelper.onCreate(this);
 
         logDebug("onCreate");
@@ -108,7 +108,6 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
         logDebug("onViewCreated");
 
         fragmentHelper.onViewCreated(this, root);
-        fragmentHelper.setPaneTitle(this, getTitleResId());
 
         adapter = new HistoryArrayAdapter(this.getActivity(), getItemLayoutId(), R.id.history_item, new ArrayList<CalculatorHistoryState>());
         setListAdapter(adapter);
@@ -161,6 +160,23 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 
     protected abstract int getTitleResId();
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        this.fragmentHelper.onResume(this);
+
+        updateAdapter();
+    }
+
+    @Override
+    public void onPause() {
+        this.fragmentHelper.onPause(this);
+
+        super.onPause();
+    }
+
     @Override
 	public void onDestroy() {
         logDebug("onDestroy");
@@ -171,28 +187,6 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 	}
 
 	protected abstract int getItemLayoutId();
-
-	@Override
-	public void onResume() {
-        logDebug("onResume");
-
-        super.onResume();
-
-
-        CalculatorLocatorImpl.getInstance().getCalculator().addCalculatorEventListener(this);
-
-        updateAdapter();
-	}
-
-    @Override
-    public void onPause() {
-        logDebug("onPause");
-
-        super.onPause();
-
-        CalculatorLocatorImpl.getInstance().getCalculator().removeCalculatorEventListener(this);
-
-    }
 
     private void updateAdapter() {
         final List<CalculatorHistoryState> historyList = getHistoryList();

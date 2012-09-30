@@ -4,13 +4,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.google.ads.AdView;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.ads.AdsController;
+import org.solovyev.android.calculator.plot.CalculatorPlotFragment;
 
 /**
  * User: serso
@@ -24,8 +23,23 @@ public class CalculatorFragmentHelperImpl extends AbstractCalculatorHelper imple
 
     private int layoutId;
 
+    private int titleResId = -1;
+
+    private boolean listenersOnCreate = true;
+
     public CalculatorFragmentHelperImpl(int layoutId) {
         this.layoutId = layoutId;
+    }
+
+    public CalculatorFragmentHelperImpl(int layoutId, int titleResId) {
+        this.layoutId = layoutId;
+        this.titleResId = titleResId;
+    }
+
+    public CalculatorFragmentHelperImpl(int layoutId, int titleResId, boolean listenersOnCreate) {
+        this.layoutId = layoutId;
+        this.titleResId = titleResId;
+        this.listenersOnCreate = listenersOnCreate;
     }
 
     @Override
@@ -47,21 +61,57 @@ public class CalculatorFragmentHelperImpl extends AbstractCalculatorHelper imple
     @Override
     public void onCreate(@NotNull Fragment fragment) {
         super.onCreate(fragment.getActivity());
+
+        if (listenersOnCreate) {
+            if ( fragment instanceof CalculatorEventListener ) {
+                CalculatorLocatorImpl.getInstance().getCalculator().addCalculatorEventListener((CalculatorEventListener) fragment);
+            }
+        }
+    }
+
+    @Override
+    public void onResume(@NotNull Fragment fragment) {
+        if (!listenersOnCreate) {
+            if ( fragment instanceof CalculatorEventListener ) {
+                CalculatorLocatorImpl.getInstance().getCalculator().addCalculatorEventListener((CalculatorEventListener) fragment);
+            }
+        }
+    }
+
+    @Override
+    public void onPause(@NotNull Fragment fragment) {
+        if (!listenersOnCreate) {
+            if ( fragment instanceof CalculatorEventListener ) {
+                CalculatorLocatorImpl.getInstance().getCalculator().removeCalculatorEventListener((CalculatorEventListener) fragment);
+            }
+        }
     }
 
     @Override
     public void onViewCreated(@NotNull Fragment fragment, @NotNull View root) {
         final ViewGroup mainFragmentLayout = (ViewGroup) root.findViewById(R.id.main_fragment_layout);
         if (mainFragmentLayout != null) {
-            adView = AdsController.getInstance().inflateAd(fragment.getActivity(), mainFragmentLayout, R.id.main_fragment_layout);
+            if (!(fragment instanceof CalculatorPlotFragment)) {
+                adView = AdsController.getInstance().inflateAd(fragment.getActivity(), mainFragmentLayout, R.id.main_fragment_layout);
+            }
         }
 
         processButtons(fragment.getActivity(), root);
+
+        if (titleResId >= 0) {
+            this.setPaneTitle(fragment, titleResId);
+        }
     }
 
     @Override
     public void onDestroy(@NotNull Fragment fragment) {
         super.onDestroy(fragment.getActivity());
+
+        if (listenersOnCreate) {
+            if ( fragment instanceof CalculatorEventListener ) {
+                CalculatorLocatorImpl.getInstance().getCalculator().removeCalculatorEventListener((CalculatorEventListener) fragment);
+            }
+        }
 
         if (this.adView != null) {
             this.adView.destroy();

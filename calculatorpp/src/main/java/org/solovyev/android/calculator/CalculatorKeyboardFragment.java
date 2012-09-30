@@ -54,6 +54,21 @@ public class CalculatorKeyboardFragment extends SherlockFragment implements Shar
         fragmentHelper.onViewCreated(this, root);
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        this.fragmentHelper.onResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        this.fragmentHelper.onPause(this);
+
+        super.onPause();
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
