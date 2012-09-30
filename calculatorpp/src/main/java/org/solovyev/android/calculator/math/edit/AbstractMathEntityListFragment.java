@@ -226,7 +226,6 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
 
             if (convertView == null) {
                 result = (ViewGroup) super.getView(position, convertView, parent);
-
                 fillView(position, result);
             } else {
                 result = (ViewGroup) convertView;
@@ -239,6 +238,9 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
 
         private void fillView(int position, @NotNull ViewGroup result) {
             final T mathEntity = getItem(position);
+
+            final TextView text = (TextView) result.findViewById(R.id.math_entity_text);
+            text.setText(String.valueOf(mathEntity));
 
             final String mathEntityDescription = descriptionGetter.getDescription(getContext(), mathEntity.getName());
             if (!StringUtils.isEmpty(mathEntityDescription)) {
