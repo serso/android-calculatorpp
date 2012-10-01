@@ -7,18 +7,10 @@
 package org.solovyev.android.calculator.math.edit;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.text.ClipboardManager;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.Toast;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
@@ -29,7 +21,6 @@ import org.solovyev.android.calculator.CalculatorEventType;
 import org.solovyev.android.calculator.CalculatorLocatorImpl;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.math.MathType;
-import org.solovyev.android.calculator.model.Var;
 import org.solovyev.android.menu.AMenuItem;
 import org.solovyev.android.menu.LabeledMenuItem;
 import org.solovyev.common.JPredicate;
@@ -62,7 +53,7 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
 		if (bundle != null) {
 			final String varValue = bundle.getString(CREATE_VAR_EXTRA_STRING);
 			if (!StringUtils.isEmpty(varValue)) {
-				createEditVariableDialog(this, null, null, varValue, null);
+				VarEditDialogFragment.createEditVariableDialog(this, VarEditDialogFragment.Input.newFromValue(varValue));
 
 				// in order to stop intent for other tabs
                 bundle.remove(CREATE_VAR_EXTRA_STRING);
@@ -111,7 +102,7 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
 
 	@SuppressWarnings({"UnusedDeclaration"})
 	public void addVarButtonClickHandler(@NotNull View v) {
-		createEditVariableDialog(this, null, null, null, null);
+		VarEditDialogFragment.createEditVariableDialog(this, VarEditDialogFragment.Input.newInstance());
 	}
 
 	@NotNull
@@ -134,93 +125,7 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
 		return CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry().getCategory(var);
 	}
 
-	private static void createEditVariableDialog(@NotNull final AbstractMathEntityListFragment<IConstant> fragment,
-												 @Nullable final IConstant var,
-												 @Nullable final String name,
-												 @Nullable final String value,
-												 @Nullable final String description) {
-        final FragmentActivity activity = fragment.getActivity();
-
-        if (var == null || !var.isSystem()) {
-
-			final LayoutInflater layoutInflater = (LayoutInflater) activity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-			final View editView = layoutInflater.inflate(R.layout.var_edit, null);
-
-			final String errorMsg = fragment.getString(R.string.c_char_is_not_accepted);
-
-			final EditText editName = (EditText) editView.findViewById(R.id.var_edit_name);
-			editName.setText(name);
-			editName.addTextChangedListener(new TextWatcher() {
-
-				@Override
-				public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-				}
-
-				@Override
-				public void onTextChanged(CharSequence s, int start, int before, int count) {
-				}
-
-				@Override
-				public void afterTextChanged(Editable s) {
-					for (int i = 0; i < s.length(); i++) {
-						char c = s.charAt(i);
-						if (!acceptableChars.contains(c)) {
-							s.delete(i, i + 1);
-                            Toast.makeText(activity, String.format(errorMsg, c), Toast.LENGTH_SHORT).show();
-						}
-					}
-				}
-			});
-
-			final EditText editValue = (EditText) editView.findViewById(R.id.var_edit_value);
-			if (!StringUtils.isEmpty(value)) {
-				editValue.setText(value);
-			}
-
-			final EditText editDescription = (EditText) editView.findViewById(R.id.var_edit_description);
-			editDescription.setText(description);
-
-			final Var.Builder varBuilder;
-			if (var != null) {
-				varBuilder = new Var.Builder(var);
-			} else {
-				varBuilder = new Var.Builder();
-			}
-
-			final AlertDialog.Builder builder = new AlertDialog.Builder(activity)
-					.setCancelable(true)
-					.setNegativeButton(R.string.c_cancel, null)
-					.setPositiveButton(R.string.c_save, new VarEditorSaver<IConstant>(varBuilder, var, editView, fragment, CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry(), new VarEditorSaver.EditorCreator<IConstant>() {
-						@Override
-						public void showEditor(@NotNull AbstractMathEntityListFragment<IConstant> activity, @Nullable IConstant editedInstance, @Nullable String name, @Nullable String value, @Nullable String description) {
-							createEditVariableDialog(activity, editedInstance, name, value, description);
-						}
-					}))
-					.setView(editView);
-
-			if (var != null) {
-				// EDIT mode
-
-				builder.setTitle(R.string.c_var_edit_var);
-				builder.setNeutralButton(R.string.c_remove, new MathEntityRemover<IConstant>(var, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						createEditVariableDialog(fragment, var, name, value, description);
-					}
-				}, CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry(), fragment));
-			} else {
-				// CREATE mode
-
-				builder.setTitle(R.string.c_var_create_var);
-			}
-
-			builder.create().show();
-		} else {
-			Toast.makeText(activity, fragment.getString(R.string.c_sys_var_cannot_be_changed), Toast.LENGTH_LONG).show();
-		}
-	}
-
-	public static boolean isValidValue(@NotNull String value) {
+    public static boolean isValidValue(@NotNull String value) {
 		// now every string might be constant
 		return true;
 	}
@@ -244,7 +149,7 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
 
 		switch (item.getItemId()) {
 			case R.id.var_menu_add_var:
-				createEditVariableDialog(this, null, null, null, null);
+				VarEditDialogFragment.createEditVariableDialog(this, VarEditDialogFragment.Input.newInstance());
 				result = true;
 				break;
 			default:

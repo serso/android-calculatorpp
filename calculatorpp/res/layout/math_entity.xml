@@ -11,18 +11,11 @@
 			  a:layout_width="fill_parent"
 			  a:layout_height="fill_parent">
 
-	<LinearLayout
-			a:orientation="horizontal"
-			a:layout_width="fill_parent"
-			a:layout_height="fill_parent">
-
-		<TextView a:id="@+id/math_entity_text"
-				  a:layout_width="fill_parent"
-				  a:layout_height="fill_parent"
-				  style="@style/math_entity_text">
-		</TextView>
-
-	</LinearLayout>
+	<TextView a:id="@+id/math_entity_text"
+			  a:layout_width="fill_parent"
+			  a:layout_height="fill_parent"
+			  style="@style/math_entity_text">
+	</TextView>
 
 	<TextView a:id="@+id/math_entity_description"
 			  a:layout_width="fill_parent"
