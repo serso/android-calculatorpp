@@ -1,7 +1,11 @@
 package org.solovyev.android.calculator;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.solovyev.common.msg.Message;
+import org.solovyev.common.msg.MessageType;
+
+import java.util.List;
 
 /**
  * User: serso
@@ -12,5 +16,13 @@ public class DummyCalculatorNotifier implements CalculatorNotifier {
 
     @Override
     public void showMessage(@NotNull Message message) {
+    }
+
+    @Override
+    public void showMessage(@NotNull Integer messageCode, @NotNull MessageType messageType, @NotNull List<Object> parameters) {
+    }
+
+    @Override
+    public void showMessage(@NotNull Integer messageCode, @NotNull MessageType messageType, @Nullable Object... parameters) {
     }
 }

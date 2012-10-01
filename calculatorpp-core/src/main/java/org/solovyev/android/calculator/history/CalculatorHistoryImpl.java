@@ -213,14 +213,14 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
                             break;
                         case editor_state_changed:
                             final CalculatorEditorChangeEventData editorChangeData = (CalculatorEditorChangeEventData) data;
-                            lastEditorViewState = editorChangeData.getNewState();
+                            lastEditorViewState = editorChangeData.getNewValue();
                             break;
                         case display_state_changed:
                             if (sameSequence) {
                                 if (lastEditorViewState != null) {
                                     final CalculatorEditorViewState editorViewState = lastEditorViewState;
                                     final CalculatorDisplayChangeEventData displayChangeData = (CalculatorDisplayChangeEventData) data;
-                                    final CalculatorDisplayViewState displayViewState = displayChangeData.getNewState();
+                                    final CalculatorDisplayViewState displayViewState = displayChangeData.getNewValue();
                                     addState(CalculatorHistoryState.newInstance(editorViewState, displayViewState));
                                 }
                             } else {

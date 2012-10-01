@@ -64,5 +64,8 @@ public interface Calculator extends CalculatorEventContainer, HistoryControl<Cal
     CalculatorEventData fireCalculatorEvent(@NotNull CalculatorEventType calculatorEventType, @Nullable Object data);
 
     @NotNull
+    CalculatorEventData fireCalculatorEvent(@NotNull CalculatorEventType calculatorEventType, @Nullable Object data, @NotNull Object source);
+
+    @NotNull
     CalculatorEventData fireCalculatorEvent(@NotNull CalculatorEventType calculatorEventType, @Nullable Object data, @NotNull Long sequenceId);
 }

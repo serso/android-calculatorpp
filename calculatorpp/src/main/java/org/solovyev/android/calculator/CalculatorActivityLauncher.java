@@ -2,7 +2,7 @@ package org.solovyev.android.calculator;
 
 import android.content.Context;
 import android.content.Intent;
-import android.widget.Toast;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import jscl.math.Generic;
 import jscl.math.function.Constant;
 import org.achartengine.ChartFactory;
@@ -13,6 +13,7 @@ import org.solovyev.android.calculator.history.CalculatorHistoryFragmentActivity
 import org.solovyev.android.calculator.math.edit.*;
 import org.solovyev.android.calculator.plot.CalculatorPlotActivity;
 import org.solovyev.android.calculator.plot.CalculatorPlotFragment;
+import org.solovyev.common.msg.MessageType;
 import org.solovyev.common.text.StringUtils;
 
 /**
@@ -64,17 +65,21 @@ public class CalculatorActivityLauncher {
 			final String varValue = viewState.getText();
 			if (!StringUtils.isEmpty(varValue)) {
 				if (CalculatorVarsFragment.isValidValue(varValue)) {
-					final Intent intent = new Intent(context, CalculatorVarsFragmentActivity.class);
-					intent.putExtra(CalculatorVarsFragment.CREATE_VAR_EXTRA_STRING, varValue);
-					context.startActivity(intent);
-				} else {
-					Toast.makeText(context, R.string.c_not_valid_result, Toast.LENGTH_SHORT).show();
+                    if (context instanceof SherlockFragmentActivity) {
+                        VarEditDialogFragment.createEditVariableDialog(VarEditDialogFragment.Input.newFromValue(varValue), ((SherlockFragmentActivity) context).getSupportFragmentManager());
+                    } else {
+                        final Intent intent = new Intent(context, CalculatorVarsFragmentActivity.class);
+                        intent.putExtra(CalculatorVarsFragment.CREATE_VAR_EXTRA_STRING, varValue);
+                        context.startActivity(intent);
+                    }
+                } else {
+                    CalculatorLocatorImpl.getInstance().getNotifier().showMessage(R.string.c_not_valid_result, MessageType.error);
 				}
 			} else {
-				Toast.makeText(context, R.string.c_empty_var_error, Toast.LENGTH_SHORT).show();
+                CalculatorLocatorImpl.getInstance().getNotifier().showMessage(R.string.c_empty_var_error, MessageType.error);
 			}
 		} else {
-			Toast.makeText(context, R.string.c_not_valid_result, Toast.LENGTH_SHORT).show();
+            CalculatorLocatorImpl.getInstance().getNotifier().showMessage(R.string.c_not_valid_result, MessageType.error);
 		}
 	}
 }

@@ -1,6 +1,7 @@
 package org.solovyev.android.calculator;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * User: Solovyev_S
@@ -16,14 +17,22 @@ class CalculatorEventDataImpl implements CalculatorEventData {
     @NotNull
     private Long sequenceId = NO_SEQUENCE;
 
-    private CalculatorEventDataImpl(long id, @NotNull Long sequenceId) {
+    private final Object source;
+
+    private CalculatorEventDataImpl(long id, @NotNull Long sequenceId, @Nullable Object source) {
         this.eventId = id;
         this.sequenceId = sequenceId;
+        this.source = source;
     }
 
     @NotNull
     static CalculatorEventData newInstance(long id, @NotNull Long sequenceId) {
-        return new CalculatorEventDataImpl(id, sequenceId);
+        return new CalculatorEventDataImpl(id, sequenceId, null);
+    }
+
+    @NotNull
+    static CalculatorEventData newInstance(long id, @NotNull Long sequenceId, @NotNull Object source) {
+        return new CalculatorEventDataImpl(id, sequenceId, source);
     }
 
     @Override
@@ -35,6 +44,11 @@ class CalculatorEventDataImpl implements CalculatorEventData {
     @Override
     public Long getSequenceId() {
         return this.sequenceId;
+    }
+
+    @Override
+    public Object getSource() {
+        return this.source;
     }
 
     @Override

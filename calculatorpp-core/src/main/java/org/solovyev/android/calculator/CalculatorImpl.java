@@ -61,6 +61,12 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
     }
 
     @NotNull
+    private CalculatorEventData nextEventData(@NotNull Object source) {
+        long eventId = counter.incrementAndGet();
+        return CalculatorEventDataImpl.newInstance(eventId, eventId, source);
+    }
+
+    @NotNull
     private CalculatorEventData nextEventData(@NotNull Long sequenceId) {
         long eventId = counter.incrementAndGet();
         return CalculatorEventDataImpl.newInstance(eventId, sequenceId);
@@ -355,6 +361,16 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 
     @NotNull
     @Override
+    public CalculatorEventData fireCalculatorEvent(@NotNull final CalculatorEventType calculatorEventType, @Nullable final Object data, @NotNull Object source) {
+        final CalculatorEventData eventData = nextEventData(source);
+
+        fireCalculatorEvent(eventData, calculatorEventType, data);
+
+        return eventData;
+    }
+
+    @NotNull
+    @Override
     public CalculatorEventData fireCalculatorEvent(@NotNull final CalculatorEventType calculatorEventType, @Nullable final Object data, @NotNull Long sequenceId) {
         final CalculatorEventData eventData = nextEventData(sequenceId);
 
@@ -378,11 +394,11 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
             case editor_state_changed:
                 final CalculatorEditorChangeEventData changeEventData = (CalculatorEditorChangeEventData) data;
 
-                final String newText = changeEventData.getNewState().getText();
-                final String oldText = changeEventData.getOldState().getText();
+                final String newText = changeEventData.getNewValue().getText();
+                final String oldText = changeEventData.getOldValue().getText();
 
                 if (!newText.equals(oldText)) {
-                    evaluate(JsclOperation.numeric, changeEventData.getNewState().getText(), calculatorEventData.getSequenceId());
+                    evaluate(JsclOperation.numeric, changeEventData.getNewValue().getText(), calculatorEventData.getSequenceId());
                 }
                 break;
 

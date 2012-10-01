@@ -10,6 +10,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +38,7 @@ import java.util.List;
  * Date: 12/21/11
  * Time: 9:24 PM
  */
-public abstract class AbstractMathEntityListFragment<T extends MathEntity> extends SherlockListFragment {
+public abstract class AbstractMathEntityListFragment<T extends MathEntity> extends SherlockListFragment implements CalculatorEventListener {
 
     /*
     **********************************************************************
@@ -49,7 +50,7 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
 
     public static final String MATH_ENTITY_CATEGORY_EXTRA_STRING = "org.solovyev.android.calculator.CalculatorVarsActivity_math_entity_category";
 
-	protected final static List<Character> acceptableChars = Arrays.asList(StringUtils.toObject("1234567890abcdefghijklmnopqrstuvwxyzйцукенгшщзхъфывапролджэячсмитьбюё_".toCharArray()));
+    protected final static List<Character> acceptableChars = Arrays.asList(StringUtils.toObject("1234567890abcdefghijklmnopqrstuvwxyzйцукенгшщзхъфывапролджэячсмитьбюё_".toCharArray()));
 
 
     /*
@@ -62,13 +63,15 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
 
     @Nullable
     private MathEntityArrayAdapter<T> adapter;
-    
+
     @Nullable
     private String category;
 
     @NotNull
     private CalculatorFragmentHelper fragmentHelper;
 
+    @NotNull
+    private final Handler uiHandler = new Handler();
 
     protected int getLayoutId() {
         return R.layout.math_entities_fragment;
@@ -79,13 +82,13 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
         super.onCreate(savedInstanceState);
 
         final Bundle bundle = getArguments();
-        if ( bundle != null ) {
+        if (bundle != null) {
             category = bundle.getString(MATH_ENTITY_CATEGORY_EXTRA_STRING);
         }
 
         fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(getLayoutId(), getTitleResId());
         fragmentHelper.onCreate(this);
-	}
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -107,7 +110,7 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
                                     final int position,
                                     final long id) {
                 final AMenuItem<T> onClick = getOnClickAction();
-                if ( onClick != null ) {
+                if (onClick != null) {
                     onClick.onClick(((T) parent.getItemAtPosition(position)), getActivity());
                 }
             }
@@ -140,10 +143,10 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
         fragmentHelper.onDestroy(this);
 
         super.onDestroy();
-	}
+    }
 
-	@NotNull
-	protected abstract List<LabeledMenuItem<T>> getMenuItemsOnLongClick(@NotNull T item);
+    @NotNull
+    protected abstract List<LabeledMenuItem<T>> getMenuItemsOnLongClick(@NotNull T item);
 
     @Override
     public void onPause() {
@@ -175,7 +178,7 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
             }
         }).filter(result.iterator());
 
-        return result; 
+        return result;
     }
 
     protected boolean isInCategory(@Nullable T t) {
@@ -187,34 +190,34 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
 
     @NotNull
     protected abstract List<T> getMathEntities();
-    
+
     @Nullable
     abstract String getMathEntityCategory(@NotNull T t);
 
     protected void sort() {
-		final MathEntityArrayAdapter<T> localAdapter = adapter;
-		if (localAdapter != null) {
-			localAdapter.sort(new Comparator<T>() {
-				@Override
-				public int compare(T function1, T function2) {
-					return function1.getName().compareTo(function2.getName());
-				}
-			});
+        final MathEntityArrayAdapter<T> localAdapter = adapter;
+        if (localAdapter != null) {
+            localAdapter.sort(new Comparator<T>() {
+                @Override
+                public int compare(T function1, T function2) {
+                    return function1.getName().compareTo(function2.getName());
+                }
+            });
 
-			localAdapter.notifyDataSetChanged();
-		}
-	}
+            localAdapter.notifyDataSetChanged();
+        }
+    }
 
-	protected static class MathEntityArrayAdapter<T extends MathEntity> extends ArrayAdapter<T> {
+    protected static class MathEntityArrayAdapter<T extends MathEntity> extends ArrayAdapter<T> {
 
         @NotNull
         private final MathEntityDescriptionGetter descriptionGetter;
 
         private MathEntityArrayAdapter(@NotNull MathEntityDescriptionGetter descriptionGetter,
-									   @NotNull Context context,
-									   int resource,
-									   int textViewResourceId,
-									   @NotNull List<T> objects) {
+                                       @NotNull Context context,
+                                       int resource,
+                                       int textViewResourceId,
+                                       @NotNull List<T> objects) {
 
             super(context, resource, textViewResourceId, objects);
             this.descriptionGetter = descriptionGetter;
@@ -243,12 +246,12 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
             text.setText(String.valueOf(mathEntity));
 
             final String mathEntityDescription = descriptionGetter.getDescription(getContext(), mathEntity.getName());
+
+            final TextView description = (TextView) result.findViewById(R.id.math_entity_description);
             if (!StringUtils.isEmpty(mathEntityDescription)) {
-                final TextView description = (TextView) result.findViewById(R.id.math_entity_description);
                 description.setVisibility(View.VISIBLE);
                 description.setText(mathEntityDescription);
             } else {
-                final TextView description = (TextView) result.findViewById(R.id.math_entity_description);
                 description.setVisibility(View.GONE);
             }
         }
@@ -275,23 +278,28 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
         String getDescription(@NotNull Context context, @NotNull String mathEntityName);
     }
 
-	public void addToAdapter(@NotNull T mathEntity) {
-		if (this.adapter != null) {
-			this.adapter.add(mathEntity);
-		}
-	}
+    public void addToAdapter(@NotNull T mathEntity) {
+        if (this.adapter != null) {
+            this.adapter.add(mathEntity);
+        }
+    }
 
-	public void removeFromAdapter(@NotNull T mathEntity) {
-		if (this.adapter != null) {
-			this.adapter.remove(mathEntity);
-		}
-	}
+    public void removeFromAdapter(@NotNull T mathEntity) {
+        if (this.adapter != null) {
+            this.adapter.remove(mathEntity);
+        }
+    }
 
-	public void notifyAdapter() {
-		if (this.adapter != null) {
-			this.adapter.notifyDataSetChanged();
-		}
-	}
+    public void notifyAdapter() {
+        if (this.adapter != null) {
+            this.adapter.notifyDataSetChanged();
+        }
+    }
+
+    @NotNull
+    protected Handler getUiHandler() {
+        return uiHandler;
+    }
 
     /*
     **********************************************************************
@@ -335,5 +343,9 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
 
     static void putCategory(@NotNull Bundle bundle, @NotNull String categoryId) {
         bundle.putString(MATH_ENTITY_CATEGORY_EXTRA_STRING, categoryId);
+    }
+
+    @Override
+    public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
     }
 }

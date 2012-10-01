@@ -102,6 +102,12 @@ public class AndroidCalculator implements Calculator {
         return calculator.fireCalculatorEvent(calculatorEventType, data);
     }
 
+    @NotNull
+    @Override
+    public CalculatorEventData fireCalculatorEvent(@NotNull CalculatorEventType calculatorEventType, @Nullable Object data, @NotNull Object source) {
+        return calculator.fireCalculatorEvent(calculatorEventType, data, source);
+    }
+
     @Override
     @NotNull
     public CalculatorEventData fireCalculatorEvent(@NotNull CalculatorEventType calculatorEventType, @Nullable Object data, @NotNull Long sequenceId) {

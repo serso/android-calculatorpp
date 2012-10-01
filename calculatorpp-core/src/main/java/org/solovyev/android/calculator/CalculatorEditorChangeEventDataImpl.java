@@ -23,13 +23,13 @@ public class CalculatorEditorChangeEventDataImpl implements CalculatorEditorChan
 
     @NotNull
     @Override
-    public CalculatorEditorViewState getOldState() {
+    public CalculatorEditorViewState getOldValue() {
         return this.oldState;
     }
 
     @NotNull
     @Override
-    public CalculatorEditorViewState getNewState() {
+    public CalculatorEditorViewState getNewValue() {
         return this.newState;
     }
 }

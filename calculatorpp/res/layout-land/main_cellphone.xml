@@ -5,7 +5,7 @@
         xmlns:c="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
         a:layout_width="fill_parent"
         a:layout_height="fill_parent"
-        a:id="@+id/ad_parent_view"
+        a:id="@+id/main_layout"
         a:orientation="vertical"
         a:layout_gravity="center"
         a:background="#ff000000">

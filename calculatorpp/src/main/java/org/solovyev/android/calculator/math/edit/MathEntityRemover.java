@@ -7,12 +7,16 @@
 package org.solovyev.android.calculator.math.edit;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.view.View;
 import android.widget.TextView;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.CalculatorEventType;
+import org.solovyev.android.calculator.CalculatorLocatorImpl;
 import org.solovyev.android.calculator.CalculatorMathRegistry;
+import org.solovyev.android.calculator.R;
 import org.solovyev.common.math.MathEntity;
 
 /**
@@ -20,7 +24,7 @@ import org.solovyev.common.math.MathEntity;
  * Date: 12/22/11
  * Time: 9:36 PM
  */
-class MathEntityRemover<T extends MathEntity> implements DialogInterface.OnClickListener {
+class MathEntityRemover<T extends MathEntity> implements View.OnClickListener, DialogInterface.OnClickListener {
 
 	@NotNull
 	private final T mathEntity;
@@ -33,56 +37,64 @@ class MathEntityRemover<T extends MathEntity> implements DialogInterface.OnClick
 	@NotNull
 	private final CalculatorMathRegistry<? super T> varsRegistry;
 
-	@NotNull
-	private final AbstractMathEntityListFragment<T> fragment;
+    @NotNull
+    private Context context;
 
-	public MathEntityRemover(@NotNull T mathEntity,
-							 @Nullable DialogInterface.OnClickListener callbackOnCancel,
-							 @NotNull CalculatorMathRegistry<? super T> varsRegistry,
-							 @NotNull AbstractMathEntityListFragment<T> fragment) {
-		this(mathEntity, callbackOnCancel, false, varsRegistry, fragment);
+    @NotNull
+    private final Object source;
+
+    public MathEntityRemover(@NotNull T mathEntity,
+                             @Nullable DialogInterface.OnClickListener callbackOnCancel,
+                             @NotNull CalculatorMathRegistry<? super T> varsRegistry,
+                             @NotNull Context context,
+                             @NotNull Object source) {
+		this(mathEntity, callbackOnCancel, false, varsRegistry, context, source);
 	}
 
 	public MathEntityRemover(@NotNull T mathEntity,
-							 @Nullable DialogInterface.OnClickListener callbackOnCancel,
-							 boolean confirmed,
-							 @NotNull CalculatorMathRegistry<? super T> varsRegistry,
-							 @NotNull AbstractMathEntityListFragment<T> fragment) {
+                             @Nullable DialogInterface.OnClickListener callbackOnCancel,
+                             boolean confirmed,
+                             @NotNull CalculatorMathRegistry<? super T> varsRegistry,
+                             @NotNull Context context,
+                             @NotNull Object source) {
 		this.mathEntity = mathEntity;
 		this.callbackOnCancel = callbackOnCancel;
 		this.confirmed = confirmed;
 		this.varsRegistry = varsRegistry;
-		this.fragment = fragment;
-	}
+        this.context = context;
+        this.source = source;
+    }
 
-	@Override
-	public void onClick(DialogInterface dialog, int which) {
-		if (!confirmed) {
-			showConfirmationDialog();
-		} else {
-			if (fragment.isInCategory(mathEntity)) {
-				fragment.removeFromAdapter(mathEntity);
-			}
 
-			varsRegistry.remove(mathEntity);
-			varsRegistry.save();
-			if (fragment.isInCategory(mathEntity)) {
-				fragment.notifyAdapter();
-			}
-		}
-	}
 
 	public void showConfirmationDialog() {
-		final TextView question = new TextView(fragment.getActivity());
-		question.setText(String.format(fragment.getString(R.string.c_var_removal_confirmation_question), mathEntity.getName()));
+        final TextView question = new TextView(context);
+		question.setText(String.format(context.getString(R.string.c_var_removal_confirmation_question), mathEntity.getName()));
 		question.setPadding(6, 6, 6, 6);
-		final AlertDialog.Builder builder = new AlertDialog.Builder(fragment.getActivity())
+		final AlertDialog.Builder builder = new AlertDialog.Builder(context)
 				.setCancelable(true)
 				.setView(question)
 				.setTitle(R.string.c_var_removal_confirmation)
 				.setNegativeButton(R.string.c_no, callbackOnCancel)
-				.setPositiveButton(R.string.c_yes, new MathEntityRemover<T>(mathEntity, callbackOnCancel, true, varsRegistry, fragment));
+				.setPositiveButton(R.string.c_yes, new MathEntityRemover<T>(mathEntity, callbackOnCancel, true, varsRegistry, context, source));
 
 		builder.create().show();
 	}
+
+    @Override
+    public void onClick(@Nullable View v) {
+        if (!confirmed) {
+            showConfirmationDialog();
+        } else {
+            varsRegistry.remove(mathEntity);
+            varsRegistry.save();
+
+            CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.constant_removed, mathEntity, source);
+        }
+    }
+
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        onClick(null);
+    }
 }

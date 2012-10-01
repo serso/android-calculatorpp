@@ -3,7 +3,7 @@
         xmlns:a="http://schemas.android.com/apk/res/android"
         a:layout_width="fill_parent"
         a:layout_height="fill_parent"
-        a:id="@+id/ad_parent_view"
+        a:id="@+id/main_layout"
         a:orientation="vertical"
         a:layout_gravity="center"
         a:background="#ff000000">

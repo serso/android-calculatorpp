@@ -106,7 +106,16 @@ public enum CalculatorEventType {
     use_function,
 
     // @NotNull Operator
-    use_operator;
+    use_operator,
+
+    // @NotNull IConstant
+    constant_added,
+
+    // @NotNull Change<IConstant>
+    constant_changed,
+
+    // @NotNull IConstant
+    constant_removed;
 
     public boolean isOfType(@NotNull CalculatorEventType... types) {
         for (CalculatorEventType type : types) {

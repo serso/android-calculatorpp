@@ -22,13 +22,13 @@ public class CalculatorDisplayChangeEventDataImpl implements CalculatorDisplayCh
 
     @NotNull
     @Override
-    public CalculatorDisplayViewState getOldState() {
+    public CalculatorDisplayViewState getOldValue() {
         return this.oldState;
     }
 
     @NotNull
     @Override
-    public CalculatorDisplayViewState getNewState() {
+    public CalculatorDisplayViewState getNewValue() {
         return this.newState;
     }
 }

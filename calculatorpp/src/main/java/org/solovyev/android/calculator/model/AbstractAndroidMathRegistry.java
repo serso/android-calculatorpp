@@ -9,6 +9,7 @@ package org.solovyev.android.calculator.model;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.preference.PreferenceManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -16,7 +17,6 @@ import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 import org.solovyev.android.calculator.CalculatorMathRegistry;
 import org.solovyev.android.calculator.R;
-import org.solovyev.android.calculator.about.TextHelper;
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.math.MathRegistry;
@@ -67,7 +67,13 @@ public abstract class AbstractAndroidMathRegistry<T extends MathEntity, P extend
 			stringName = prefix + substitute;
 		}
 
-		return new TextHelper(context.getResources(), R.class.getPackage().getName()).getText(stringName);
+        final Resources resources = context.getResources();
+        final int stringId = resources.getIdentifier(stringName, "string", R.class.getPackage().getName());
+        try {
+            return resources.getString(stringId);
+        } catch (Resources.NotFoundException e) {
+            return null;
+        }
 	}
 
 	public synchronized void load() {

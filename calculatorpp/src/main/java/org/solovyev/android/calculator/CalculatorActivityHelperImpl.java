@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.View;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import org.jetbrains.annotations.NotNull;
@@ -76,7 +78,12 @@ public class CalculatorActivityHelperImpl extends AbstractCalculatorHelper imple
 
         activity.setContentView(layoutId);
 
-        CalculatorButtons.processButtons(true, theme, activity.getWindow().getDecorView());
+        final View root = activity.findViewById(R.id.main_layout);
+        if (root != null) {
+            CalculatorButtons.processButtons(true, theme, root);
+        } else {
+            Log.e(CalculatorActivityHelperImpl.class.getSimpleName(), "Root is null for " + activity.getClass().getName());
+        }
 
         if (savedInstanceState != null) {
             navPosition = savedInstanceState.getInt(SELECTED_NAV, 0);
@@ -92,7 +99,11 @@ public class CalculatorActivityHelperImpl extends AbstractCalculatorHelper imple
         actionBar.setDisplayHomeAsUpEnabled(homeIcon);
         actionBar.setHomeButtonEnabled(false);
         actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setDisplayShowTitleEnabled(true);
+        if (activity instanceof CalculatorActivity) {
+            actionBar.setDisplayShowTitleEnabled(false);
+        } else {
+            actionBar.setDisplayShowTitleEnabled(true);
+        }
         actionBar.setIcon(R.drawable.icon_action_bar);
     }
 

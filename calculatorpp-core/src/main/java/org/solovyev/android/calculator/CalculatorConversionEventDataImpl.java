@@ -58,6 +58,11 @@ public class CalculatorConversionEventDataImpl implements CalculatorConversionEv
     }
 
     @Override
+    public Object getSource() {
+        return calculatorEventData.getSource();
+    }
+
+    @Override
     public boolean isAfter(@NotNull CalculatorEventData that) {
         return calculatorEventData.isAfter(that);
     }

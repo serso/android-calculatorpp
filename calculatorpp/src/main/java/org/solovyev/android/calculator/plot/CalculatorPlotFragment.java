@@ -398,7 +398,7 @@ public class CalculatorPlotFragment extends SherlockFragment implements Calculat
                 if ( calculatorEventData.isAfter(this.lastCalculatorEventData) ) {
                     this.lastCalculatorEventData = calculatorEventData;
 
-                    createInputFromDisplayState(((CalculatorDisplayChangeEventData) data).getNewState());
+                    createInputFromDisplayState(((CalculatorDisplayChangeEventData) data).getNewValue());
 
                     uiHandler.post(new Runnable() {
                         @Override

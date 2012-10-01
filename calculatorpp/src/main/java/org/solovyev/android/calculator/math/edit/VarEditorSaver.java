@@ -6,22 +6,19 @@
 
 package org.solovyev.android.calculator.math.edit;
 
-import android.content.DialogInterface;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 import jscl.text.Identifier;
 import jscl.text.MutableInt;
 import jscl.text.ParseException;
 import jscl.text.Parser;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.CalculatorLocatorImpl;
-import org.solovyev.android.calculator.CalculatorMathRegistry;
-import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.MathEntityBuilder;
 import org.solovyev.common.math.MathEntity;
+import org.solovyev.common.msg.MessageType;
 import org.solovyev.common.text.StringUtils;
 
 /**
@@ -29,18 +26,7 @@ import org.solovyev.common.text.StringUtils;
  * Date: 12/22/11
  * Time: 9:52 PM
  */
-class VarEditorSaver<T extends MathEntity> implements DialogInterface.OnClickListener {
-
-	public static interface EditorCreator<T extends MathEntity> {
-		void showEditor(@NotNull AbstractMathEntityListFragment<T> activity,
-						@Nullable T editedInstance,
-						@Nullable String name,
-						@Nullable String value,
-						@Nullable String description);
-	}
-
-	@NotNull
-	private final EditorCreator<T> editorCreator;
+class VarEditorSaver<T extends MathEntity> implements View.OnClickListener {
 
 	@NotNull
 	private final MathEntityBuilder<? extends T> varBuilder;
@@ -51,105 +37,95 @@ class VarEditorSaver<T extends MathEntity> implements DialogInterface.OnClickLis
 	@NotNull
 	private final CalculatorMathRegistry<T> mathRegistry;
 
-	@NotNull
-	private final AbstractMathEntityListFragment<T> fragment;
+    @NotNull
+    private final Object source;
 
-	@NotNull
+    @NotNull
 	private View editView;
 
 	public VarEditorSaver(@NotNull MathEntityBuilder<? extends T> varBuilder,
-						  @Nullable T editedInstance,
-						  @NotNull View editView,
-						  @NotNull AbstractMathEntityListFragment<T> fragment,
-						  @NotNull CalculatorMathRegistry<T> mathRegistry,
-						  @NotNull EditorCreator<T> editorCreator) {
+                          @Nullable T editedInstance,
+                          @NotNull View editView,
+                          @NotNull CalculatorMathRegistry<T> mathRegistry,
+                          @NotNull Object source) {
 		this.varBuilder = varBuilder;
 		this.editedInstance = editedInstance;
 		this.editView = editView;
-		this.fragment = fragment;
 		this.mathRegistry = mathRegistry;
-		this.editorCreator = editorCreator;
-	}
+        this.source = source;
+    }
 
-	@Override
-	public void onClick(DialogInterface dialog, int which) {
-		if (which == DialogInterface.BUTTON_POSITIVE) {
-			final Integer error;
+    @Override
+    public void onClick(View v) {
+        final Integer error;
 
-			final EditText editName = (EditText) editView.findViewById(R.id.var_edit_name);
-			String name = editName.getText().toString();
+        final EditText editName = (EditText) editView.findViewById(R.id.var_edit_name);
+        String name = editName.getText().toString();
 
-			final EditText editValue = (EditText) editView.findViewById(R.id.var_edit_value);
-			String value = editValue.getText().toString();
+        final EditText editValue = (EditText) editView.findViewById(R.id.var_edit_value);
+        String value = editValue.getText().toString();
 
-			final EditText editDescription = (EditText) editView.findViewById(R.id.var_edit_description);
-			String description = editDescription.getText().toString();
+        final EditText editDescription = (EditText) editView.findViewById(R.id.var_edit_description);
+        String description = editDescription.getText().toString();
 
-			if (isValidName(name)) {
+        if (isValidName(name)) {
 
-				boolean canBeSaved = false;
+            boolean canBeSaved = false;
 
-				final T entityFromRegistry = mathRegistry.get(name);
-				if (entityFromRegistry == null) {
-					canBeSaved = true;
-				} else if (editedInstance != null && entityFromRegistry.getId().equals(editedInstance.getId())) {
-					canBeSaved = true;
-				}
+            final T entityFromRegistry = mathRegistry.get(name);
+            if (entityFromRegistry == null) {
+                canBeSaved = true;
+            } else if (editedInstance != null && entityFromRegistry.getId().equals(editedInstance.getId())) {
+                canBeSaved = true;
+            }
 
-				if (canBeSaved) {
-					final MathType.Result mathType = MathType.getType(name, 0, false);
+            if (canBeSaved) {
+                final MathType.Result mathType = MathType.getType(name, 0, false);
 
-					if (mathType.getMathType() == MathType.text || mathType.getMathType() == MathType.constant) {
+                if (mathType.getMathType() == MathType.text || mathType.getMathType() == MathType.constant) {
 
-						if (StringUtils.isEmpty(value)) {
-							// value is empty => undefined variable
-							varBuilder.setName(name);
-							varBuilder.setDescription(description);
-							varBuilder.setValue(null);
-							error = null;
-						} else {
-							// value is not empty => must be a number
-							boolean valid = CalculatorVarsFragment.isValidValue(value);
+                    if (StringUtils.isEmpty(value)) {
+                        // value is empty => undefined variable
+                        varBuilder.setName(name);
+                        varBuilder.setDescription(description);
+                        varBuilder.setValue(null);
+                        error = null;
+                    } else {
+                        // value is not empty => must be a number
+                        boolean valid = CalculatorVarsFragment.isValidValue(value);
 
-							if (valid) {
-								varBuilder.setName(name);
-								varBuilder.setDescription(description);
-								varBuilder.setValue(value);
-								error = null;
-							} else {
-								error = R.string.c_value_is_not_a_number;
-							}
-						}
-					} else {
-						error = R.string.c_var_name_clashes;
-					}
-				} else {
-					error = R.string.c_var_already_exists;
-				}
-			} else {
-				error = R.string.c_name_is_not_valid;
-			}
+                        if (valid) {
+                            varBuilder.setName(name);
+                            varBuilder.setDescription(description);
+                            varBuilder.setValue(value);
+                            error = null;
+                        } else {
+                            error = R.string.c_value_is_not_a_number;
+                        }
+                    }
+                } else {
+                    error = R.string.c_var_name_clashes;
+                }
+            } else {
+                error = R.string.c_var_already_exists;
+            }
+        } else {
+            error = R.string.c_name_is_not_valid;
+        }
 
-			if (error != null) {
-				Toast.makeText(fragment.getActivity(), fragment.getString(error), Toast.LENGTH_LONG).show();
-				editorCreator.showEditor(fragment, editedInstance, name, value, description);
-			} else {
-				final T addedVar = mathRegistry.add(varBuilder);
-				if (fragment.isInCategory(addedVar)) {
-					if (editedInstance != null) {
-						fragment.removeFromAdapter(editedInstance);
-					}
-					fragment.addToAdapter(addedVar);
-				}
+        if (error != null) {
+            CalculatorLocatorImpl.getInstance().getNotifier().showMessage(error, MessageType.error);
+        } else {
+            final T addedVar = mathRegistry.add(varBuilder);
+            mathRegistry.save();
 
-				mathRegistry.save();
-
-				if (fragment.isInCategory(addedVar)) {
-					fragment.sort();
-				}
-			}
-		}
-	}
+            if (editedInstance == null) {
+                CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.constant_added, addedVar, source);
+            } else {
+                CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.constant_changed, ChangeImpl.newInstance(editedInstance, addedVar), source);
+            }
+        }
+    }
 
 	boolean isValidName(@Nullable String name) {
 		boolean result = false;
