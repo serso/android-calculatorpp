@@ -20,14 +20,14 @@ public interface CalculatorFragmentHelper {
 
     void onCreate(@NotNull Fragment fragment);
 
-    void onResume(@NotNull Fragment fragment);
-
-    void onPause(@NotNull Fragment fragment);
-
     @NotNull
     View onCreateView(@NotNull Fragment fragment, @NotNull LayoutInflater inflater, @Nullable ViewGroup container);
 
     void onViewCreated(@NotNull Fragment fragment, @NotNull View root);
+
+    void onResume(@NotNull Fragment fragment);
+
+    void onPause(@NotNull Fragment fragment);
 
     void onDestroy(@NotNull Fragment fragment);
 }

@@ -208,5 +208,6 @@
     <string name="convert_to_dec">Convert to dec</string>
 
     <string name="editor">Editor</string>
+    <string name="result">Result</string>
 
 </resources>

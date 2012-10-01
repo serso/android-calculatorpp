@@ -71,28 +71,28 @@ public final class CalculatorButtons {
         if (AndroidUtils.getScreenOrientation(activity) == Configuration.ORIENTATION_PORTRAIT || !CalculatorPreferences.Gui.autoOrientation.getPreference(preferences)) {
             final Display display = activity.getWindowManager().getDefaultDisplay();
 
-            final DragButton button = (DragButton)activity.findViewById(R.id.equalsButton);
-            if (CalculatorPreferences.Gui.showEqualsButton.getPreference(preferences)) {
-                button.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.FILL_PARENT, 1f));
-                if (display.getWidth() <= 480) {
-                    // mobile phones
-                    final AndroidCalculatorDisplayView calculatorDisplayView = getCalculatorDisplayView();
-                    if (calculatorDisplayView != null) {
-                        calculatorDisplayView.setBackgroundDrawable(null);
+            final DragButton equalsButton = (DragButton)activity.findViewById(R.id.equalsButton);
+            if (equalsButton != null) {
+                if (CalculatorPreferences.Gui.showEqualsButton.getPreference(preferences)) {
+                    equalsButton.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.FILL_PARENT, 1f));
+                    if (display.getWidth() <= 480) {
+                        // mobile phones
+                        final AndroidCalculatorDisplayView calculatorDisplayView = getCalculatorDisplayView();
+                        if (calculatorDisplayView != null) {
+                            calculatorDisplayView.setBackgroundDrawable(null);
+                        }
                     }
-                }
-            } else {
-                button.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.FILL_PARENT, 0f));
-                if (display.getWidth() <= 480) {
-                    // mobile phones
-                    final AndroidCalculatorDisplayView calculatorDisplayView = getCalculatorDisplayView();
-                    if (calculatorDisplayView != null) {
-                        calculatorDisplayView.setBackgroundDrawable(activity.getResources().getDrawable(R.drawable.equals9));
+                } else {
+                    equalsButton.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.FILL_PARENT, 0f));
+                    if (display.getWidth() <= 480) {
+                        // mobile phones
+                        final AndroidCalculatorDisplayView calculatorDisplayView = getCalculatorDisplayView();
+                        if (calculatorDisplayView != null) {
+                            calculatorDisplayView.setBackgroundDrawable(activity.getResources().getDrawable(R.drawable.equals9));
+                        }
                     }
                 }
             }
-
-            processButtons(false, theme, root);
         }
     }
 
