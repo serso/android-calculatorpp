@@ -9,6 +9,21 @@
                   a:layout_width="match_parent"
                   a:layout_height="0dp">
 
+        <include layout="@layout/calc_left_button"/>
+        <include layout="@layout/calc_erase_button"/>
+        <include layout="@layout/calc_empty_button"/>
+        <include layout="@layout/calc_empty_button"/>
+        <include layout="@layout/calc_empty_button"/>
+        <include layout="@layout/calc_empty_button"/>
+        <include layout="@layout/calc_clear_button"/>
+        <include layout="@layout/calc_right_button"/>
+
+    </LinearLayout>
+
+    <LinearLayout a:layout_weight="1"
+                  a:layout_width="match_parent"
+                  a:layout_height="0dp">
+
         <include layout="@layout/calc_vars_button"/>
         <include layout="@layout/calc_copy_button"/>
         <include layout="@layout/calc_seven_digit_button"/>

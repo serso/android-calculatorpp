@@ -2,6 +2,7 @@ package org.solovyev.android.calculator;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -80,7 +81,7 @@ public class CalculatorActivityHelperImpl extends AbstractCalculatorHelper imple
 
         final View root = activity.findViewById(R.id.main_layout);
         if (root != null) {
-            CalculatorButtons.processButtons(true, theme, root);
+            processButtons(activity, root);
         } else {
             Log.e(CalculatorActivityHelperImpl.class.getSimpleName(), "Root is null for " + activity.getClass().getName());
         }
@@ -99,8 +100,12 @@ public class CalculatorActivityHelperImpl extends AbstractCalculatorHelper imple
         actionBar.setDisplayHomeAsUpEnabled(homeIcon);
         actionBar.setHomeButtonEnabled(false);
         actionBar.setDisplayShowHomeEnabled(true);
+
         if (activity instanceof CalculatorActivity) {
-            actionBar.setDisplayShowTitleEnabled(false);
+            if ( AndroidUtils.getScreenOrientation(activity) == Configuration.ORIENTATION_PORTRAIT ) {
+                actionBar.setDisplayShowTitleEnabled(true);
+            } else {
+            }
         } else {
             actionBar.setDisplayShowTitleEnabled(true);
         }

@@ -48,11 +48,11 @@
 	</style>
 
 	<style name="math_entity_text_parent">
-		<item name="android:textSize">20dp</item>
+		<item name="android:textSize">@dimen/math_entity_text_size</item>
 	</style>
 
 	<style name="math_entity_description_parent">
-		<item name="android:textSize">15dp</item>
+		<item name="android:textSize">@dimen/math_entity_description_text_size</item>
 	</style>
 
 	<style name="add_var_button_parent">

@@ -113,8 +113,6 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 
         toggleOrientationChange(preferences);
 
-        CalculatorButtons.toggleEqualsButton(preferences, this, activityHelper.getTheme(), findViewById(R.id.main_layout));
-
         preferences.registerOnSharedPreferenceChangeListener(this);
 	}
 

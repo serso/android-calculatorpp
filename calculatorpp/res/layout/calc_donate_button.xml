@@ -8,6 +8,6 @@
 
 <org.solovyev.android.view.ColorButton xmlns:a="http://schemas.android.com/apk/res/android"
 			 a:id="@+id/pasteButton"
-			 a:drawableTop="@drawable/heart2"
+			 a:drawableTop="@drawable/kb_heart"
 			 style="?controlImageButtonStyle"
 			 a:onClick="donateButtonClickHandler"/>

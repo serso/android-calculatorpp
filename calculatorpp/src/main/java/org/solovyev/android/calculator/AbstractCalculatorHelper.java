@@ -33,6 +33,9 @@ public abstract class AbstractCalculatorHelper implements SharedPreferences.OnSh
     @NotNull
     private CalculatorPreferences.Gui.Layout layout;
 
+    @NotNull
+    private CalculatorPreferences.Gui.Theme theme;
+
     @Nullable
     private Vibrator vibrator;
 
@@ -54,6 +57,7 @@ public abstract class AbstractCalculatorHelper implements SharedPreferences.OnSh
 
         vibrator = (Vibrator) activity.getSystemService(Activity.VIBRATOR_SERVICE);
         layout = CalculatorPreferences.Gui.layout.getPreferenceNoError(preferences);
+        theme = CalculatorPreferences.Gui.theme.getPreferenceNoError(preferences);
 
         preferences.registerOnSharedPreferenceChangeListener(this);
     }
@@ -146,6 +150,9 @@ public abstract class AbstractCalculatorHelper implements SharedPreferences.OnSh
             toggleButtonDirectionText(root, R.id.multiplicationButton, false, DragDirection.left);
             toggleButtonDirectionText(root, R.id.plusButton, false, DragDirection.down, DragDirection.up);
         }
+
+        CalculatorButtons.processButtons(true, theme, root);
+        CalculatorButtons.toggleEqualsButton(preferences, activity);
     }
 
     private void toggleButtonDirectionText(@NotNull View root, int id, boolean showDirectionText, @NotNull DragDirection... dragDirections) {

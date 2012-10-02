@@ -63,9 +63,7 @@ public final class CalculatorButtons {
     }
 
     public static void toggleEqualsButton(@Nullable SharedPreferences preferences,
-                                           @NotNull Activity activity,
-                                           @NotNull CalculatorPreferences.Gui.Theme theme,
-                                           @NotNull View root) {
+                                          @NotNull Activity activity) {
         preferences = preferences == null ? PreferenceManager.getDefaultSharedPreferences(activity) : preferences;
 
         if (AndroidUtils.getScreenOrientation(activity) == Configuration.ORIENTATION_PORTRAIT || !CalculatorPreferences.Gui.autoOrientation.getPreference(preferences)) {
@@ -73,22 +71,23 @@ public final class CalculatorButtons {
 
             final DragButton equalsButton = (DragButton)activity.findViewById(R.id.equalsButton);
             if (equalsButton != null) {
+                // todo serso: visibility should be changed only for some cases (like small screens)
                 if (CalculatorPreferences.Gui.showEqualsButton.getPreference(preferences)) {
-                    equalsButton.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.FILL_PARENT, 1f));
+                    equalsButton.setVisibility(View.VISIBLE);
                     if (display.getWidth() <= 480) {
                         // mobile phones
                         final AndroidCalculatorDisplayView calculatorDisplayView = getCalculatorDisplayView();
                         if (calculatorDisplayView != null) {
-                            calculatorDisplayView.setBackgroundDrawable(null);
+                            calculatorDisplayView.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
                         }
                     }
                 } else {
-                    equalsButton.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.FILL_PARENT, 0f));
+                    equalsButton.setVisibility(View.GONE);
                     if (display.getWidth() <= 480) {
                         // mobile phones
                         final AndroidCalculatorDisplayView calculatorDisplayView = getCalculatorDisplayView();
                         if (calculatorDisplayView != null) {
-                            calculatorDisplayView.setBackgroundDrawable(activity.getResources().getDrawable(R.drawable.equals9));
+                            calculatorDisplayView.setCompoundDrawablesWithIntrinsicBounds(activity.getResources().getDrawable(R.drawable.equals9), null, null, null);
                         }
                     }
                 }

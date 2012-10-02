@@ -9,6 +9,6 @@
 <org.solovyev.android.view.ColorButton xmlns:a="http://schemas.android.com/apk/res/android"
 			 xmlns:c="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
 			 a:id="@+id/pasteButton"
-			 a:drawableTop="@drawable/copy"
+			 a:drawableTop="@drawable/kb_copy"
 			 style="?controlImageButtonStyle"
 			 a:onClick="copyButtonClickHandler"/>

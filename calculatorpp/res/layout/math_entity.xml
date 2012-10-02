@@ -7,20 +7,21 @@
   -->
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-			  a:orientation="vertical"
-			  a:layout_width="fill_parent"
-			  a:layout_height="fill_parent">
+              a:layout_height="wrap_content"
+              a:layout_width="match_parent"
+              a:paddingBottom="@dimen/pane_padding"
+              a:orientation="vertical">
 
-	<TextView a:id="@+id/math_entity_text"
-			  a:layout_width="fill_parent"
-			  a:layout_height="fill_parent"
-			  style="@style/math_entity_text">
-	</TextView>
+    <TextView a:id="@+id/math_entity_text"
+              a:layout_height="wrap_content"
+              a:layout_width="match_parent"
+              style="@style/math_entity_text">
+    </TextView>
 
-	<TextView a:id="@+id/math_entity_description"
-			  a:layout_width="fill_parent"
-			  a:layout_height="fill_parent"
-			  style="@style/math_entity_description">
-	</TextView>
+    <TextView a:id="@+id/math_entity_description"
+              a:layout_height="wrap_content"
+              a:layout_width="match_parent"
+              style="@style/math_entity_description">
+    </TextView>
 
 </LinearLayout>

@@ -107,7 +107,7 @@ public class CalculatorKeyboardFragment extends SherlockFragment implements Shar
         }
 
         if ( CalculatorPreferences.Gui.showEqualsButton.getKey().equals(key) ) {
-            CalculatorButtons.toggleEqualsButton(preferences, this.getActivity(), theme, getView());
+            CalculatorButtons.toggleEqualsButton(preferences, this.getActivity());
         }
 
         if ( AndroidCalculatorEngine.Preferences.multiplicationSign.getKey().equals(key) ) {

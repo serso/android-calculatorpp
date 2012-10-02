@@ -2,4 +2,6 @@
     <dimen name="editor_text_size">15sp</dimen>
     <dimen name="display_text_size">15sp</dimen>
     <dimen name="keyboard_button_text_size">20dp</dimen>
+    <dimen name="math_entity_text_size">15sp</dimen>
+    <dimen name="math_entity_description_text_size">10sp</dimen>
 </resources>
