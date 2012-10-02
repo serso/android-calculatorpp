@@ -6,12 +6,9 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 import jscl.AngleUnit;
 import jscl.NumeralBase;
@@ -66,24 +63,22 @@ public final class CalculatorButtons {
                                           @NotNull Activity activity) {
         preferences = preferences == null ? PreferenceManager.getDefaultSharedPreferences(activity) : preferences;
 
-        if (AndroidUtils.getScreenOrientation(activity) == Configuration.ORIENTATION_PORTRAIT || !CalculatorPreferences.Gui.autoOrientation.getPreference(preferences)) {
-            final Display display = activity.getWindowManager().getDefaultDisplay();
+        final boolean large = activity.getResources().getConfiguration().isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_LARGE);
 
-            final DragButton equalsButton = (DragButton)activity.findViewById(R.id.equalsButton);
-            if (equalsButton != null) {
-                // todo serso: visibility should be changed only for some cases (like small screens)
-                if (CalculatorPreferences.Gui.showEqualsButton.getPreference(preferences)) {
-                    equalsButton.setVisibility(View.VISIBLE);
-                    if (display.getWidth() <= 480) {
-                        // mobile phones
+        if (!large) {
+            if (AndroidUtils.getScreenOrientation(activity) == Configuration.ORIENTATION_PORTRAIT
+                    || !CalculatorPreferences.Gui.autoOrientation.getPreference(preferences)) {
+
+                final DragButton equalsButton = (DragButton)activity.findViewById(R.id.equalsButton);
+                if (equalsButton != null) {
+                    if (CalculatorPreferences.Gui.showEqualsButton.getPreference(preferences)) {
+                        equalsButton.setVisibility(View.VISIBLE);
                         final AndroidCalculatorDisplayView calculatorDisplayView = getCalculatorDisplayView();
                         if (calculatorDisplayView != null) {
                             calculatorDisplayView.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
                         }
-                    }
-                } else {
-                    equalsButton.setVisibility(View.GONE);
-                    if (display.getWidth() <= 480) {
+                    } else {
+                        equalsButton.setVisibility(View.GONE);
                         // mobile phones
                         final AndroidCalculatorDisplayView calculatorDisplayView = getCalculatorDisplayView();
                         if (calculatorDisplayView != null) {
