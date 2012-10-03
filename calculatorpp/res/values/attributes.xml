@@ -8,6 +8,7 @@
 	<attr name="fragmentLayoutStyle" format="reference" />
 	<attr name="fragmentTitleStyle" format="reference" />
 	<attr name="fragmentListViewStyle" format="reference" />
+	<attr name="fragmentListViewItemStyle" format="reference" />
 	<attr name="buttonStyle" format="reference" />
 	<attr name="paneStyle" format="reference" />
 	<attr name="paneStyleTransparent" format="reference" />

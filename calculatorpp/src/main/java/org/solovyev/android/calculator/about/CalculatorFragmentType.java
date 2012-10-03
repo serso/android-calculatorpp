@@ -33,9 +33,9 @@ public enum CalculatorFragmentType {
     about(CalculatorAboutFragment.class, R.layout.about_fragment, R.string.c_about),
 
     // todo serso: rename and inflate ad
-    faq(CalculatorHelpFaqFragment.class, R.layout.help_faq, R.string.c_faq),
-    hints(CalculatorHelpHintsFragment.class, R.layout.help_hints, R.string.c_hints),
-    screens(CalculatorHelpScreensFragment.class, R.layout.help_screens, R.string.c_screens),
+    faq(CalculatorHelpFaqFragment.class, R.layout.help_faq_fragment, R.string.c_faq),
+    hints(CalculatorHelpHintsFragment.class, R.layout.help_hints_fragment, R.string.c_hints),
+    screens(CalculatorHelpScreensFragment.class, R.layout.help_screens_fragment, R.string.c_screens),
     release_notes(CalculatorReleaseNotesFragment.class, R.layout.release_notes_fragment, R.string.c_release_notes);
 
     @NotNull

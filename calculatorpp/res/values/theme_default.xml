@@ -20,6 +20,9 @@
         <item name="android:padding">6dp</item>
     </style>
 
+    <style name="default_fragment_list_view_item_style">
+    </style>
+
     <style name="default_fragment_list_view_style">
         <item name="android:id">@android:id/list</item>
         <item name="android:divider">@null</item>
@@ -77,10 +80,12 @@
         <item name="android:layout_width">match_parent</item>
     </style>
 
-    <style name="default_actionbar_tab_style" parent="@style/Widget.Sherlock.ActionBar.TabView">
+    <style name="default_actionbar_style" parent="@style/Widget.Sherlock.ActionBar">
+        <item name="background">@drawable/default_abs__ab_transparent_dark_holo</item>
     </style>
 
-    <style name="default_actionbar_tab_bar_style" parent="@style/Widget.Sherlock.ActionBar.TabBar">
+    <style name="default_actionbar_tab_style" parent="@style/Widget.Sherlock.ActionBar.TabView">
+        <item name="android:background">@drawable/default_abs__tab_indicator_ab_holo</item>
     </style>
 
     <style name="default_theme" parent="Theme.Sherlock">
@@ -90,6 +95,7 @@
         <item name="operationButtonStyle">@style/default_operation_button_style</item>
         <item name="fragmentTitleStyle">@style/default_fragment_title_style</item>
         <item name="fragmentListViewStyle">@style/default_fragment_list_view_style</item>
+        <item name="fragmentListViewItemStyle">@style/default_fragment_list_view_item_style</item>
         <item name="buttonStyle">@style/default_button_style</item>
 
         <item name="mainLayoutStyle">@style/default_main_layout_style</item>
@@ -102,6 +108,6 @@
 
         <!-- action bar-->
         <item name="actionBarTabStyle">@style/default_actionbar_tab_style</item>
-        <item name="actionBarTabBarStyle">@style/default_actionbar_tab_bar_style</item>
+        <item name="actionBarStyle">@style/default_actionbar_style</item>
     </style>
 </resources>

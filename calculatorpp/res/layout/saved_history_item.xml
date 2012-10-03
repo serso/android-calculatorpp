@@ -8,7 +8,8 @@
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
 			  a:orientation="vertical"
-			  a:layout_width="fill_parent"
+              style="?fragmentListViewItemStyle"
+              a:layout_width="fill_parent"
 			  a:layout_height="fill_parent">
 
 	<TextView a:id="@+id/history_time"

@@ -1,4 +1,5 @@
 <resources>
+    <dimen name="fragment_text_size">10sp</dimen>
     <dimen name="editor_text_size">15sp</dimen>
     <dimen name="display_text_size">15sp</dimen>
     <dimen name="keyboard_button_text_size">20dp</dimen>

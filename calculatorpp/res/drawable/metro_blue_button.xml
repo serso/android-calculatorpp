@@ -5,6 +5,6 @@
 	<item a:state_pressed="true"
 		  a:drawable="@drawable/metro_button_pressed"/>
 
-	<item a:drawable="@drawable/metro_button_blue_shape"/>
+	<item a:drawable="@drawable/metro_blue_button_shape"/>
 
 </selector>

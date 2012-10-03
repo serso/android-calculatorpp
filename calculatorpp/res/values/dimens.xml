@@ -1,6 +1,7 @@
 <resources>
     <dimen name="button_margin">0.5dp</dimen>
     <dimen name="text_size">20sp</dimen>
+    <dimen name="fragment_text_size">15sp</dimen>
     <dimen name="keyboard_button_text_size">30dp</dimen>
     <dimen name="button_text_size">20dp</dimen>
     <dimen name="display_text_size">25sp</dimen>
