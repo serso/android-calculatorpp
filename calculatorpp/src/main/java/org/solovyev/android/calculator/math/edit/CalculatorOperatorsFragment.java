@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.CalculatorEventType;
 import org.solovyev.android.calculator.CalculatorLocatorImpl;
 import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.about.CalculatorFragmentType;
 import org.solovyev.android.menu.AMenuItem;
 import org.solovyev.android.menu.LabeledMenuItem;
 import org.solovyev.common.text.StringUtils;
@@ -24,14 +25,13 @@ import java.util.List;
 
 public class CalculatorOperatorsFragment extends AbstractMathEntityListFragment<Operator> {
 
-    @Override
-    protected AMenuItem<Operator> getOnClickAction() {
-        return LongClickMenuItem.use;
+    public CalculatorOperatorsFragment() {
+        super(CalculatorFragmentType.operators);
     }
 
     @Override
-    protected int getTitleResId() {
-        return R.string.c_operators;
+    protected AMenuItem<Operator> getOnClickAction() {
+        return LongClickMenuItem.use;
     }
 
     @NotNull

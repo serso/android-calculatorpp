@@ -26,13 +26,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.AndroidUtils;
 import org.solovyev.android.calculator.about.CalculatorFragmentType;
-import org.solovyev.android.calculator.about.CalculatorReleaseNotesActivity;
-import org.solovyev.android.calculator.history.CalculatorHistoryFragment;
-import org.solovyev.android.calculator.history.CalculatorSavedHistoryFragment;
-import org.solovyev.android.calculator.math.edit.CalculatorFunctionsFragment;
-import org.solovyev.android.calculator.math.edit.CalculatorOperatorsFragment;
-import org.solovyev.android.calculator.math.edit.CalculatorVarsFragment;
-import org.solovyev.android.calculator.plot.CalculatorPlotFragment;
+import org.solovyev.android.calculator.about.CalculatorReleaseNotesFragment;
 import org.solovyev.android.fragments.FragmentUtils;
 import org.solovyev.android.prefs.Preference;
 import org.solovyev.android.view.ColorButton;
@@ -78,6 +72,7 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
             activityHelper.addTab(this, CalculatorFragmentType.functions, null, R.id.main_second_pane);
             activityHelper.addTab(this, CalculatorFragmentType.operators, null, R.id.main_second_pane);
             activityHelper.addTab(this, CalculatorFragmentType.plotter, null, R.id.main_second_pane);
+            activityHelper.addTab(this, CalculatorFragmentType.faq, null, R.id.main_second_pane);
         } else {
             getSupportActionBar().hide();
         }
@@ -141,7 +136,7 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
             if (savedVersion < appVersion) {
                 final boolean showReleaseNotes = CalculatorPreferences.Gui.showReleaseNotes.getPreference(preferences);
                 if (showReleaseNotes) {
-                    final String releaseNotes = CalculatorReleaseNotesActivity.getReleaseNotes(context, savedVersion + 1);
+                    final String releaseNotes = CalculatorReleaseNotesFragment.getReleaseNotes(context, savedVersion + 1);
                     if (!StringUtils.isEmpty(releaseNotes)) {
                         final AlertDialog.Builder builder = new AlertDialog.Builder(context).setMessage(Html.fromHtml(releaseNotes));
                         builder.setPositiveButton(android.R.string.ok, null);

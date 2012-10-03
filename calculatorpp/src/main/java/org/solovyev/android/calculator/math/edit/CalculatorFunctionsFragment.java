@@ -15,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.CalculatorEventType;
 import org.solovyev.android.calculator.CalculatorLocatorImpl;
 import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.about.CalculatorFragmentType;
 import org.solovyev.android.menu.AMenuItem;
 import org.solovyev.android.menu.LabeledMenuItem;
 import org.solovyev.common.text.StringUtils;
@@ -32,7 +33,11 @@ public class CalculatorFunctionsFragment extends AbstractMathEntityListFragment<
 
 	public static final String CREATE_FUN_EXTRA_STRING = "org.solovyev.android.calculator.math.edit.CalculatorFunctionsTabActivity_create_fun";
 
-	@Override
+    public CalculatorFunctionsFragment() {
+        super(CalculatorFragmentType.functions);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
@@ -67,11 +72,6 @@ public class CalculatorFunctionsFragment extends AbstractMathEntityListFragment<
     @Override
     protected AMenuItem<Function> getOnClickAction() {
         return LongClickMenuItem.use;
-    }
-
-    @Override
-    protected int getTitleResId() {
-        return R.string.c_functions;
     }
 
     @NotNull

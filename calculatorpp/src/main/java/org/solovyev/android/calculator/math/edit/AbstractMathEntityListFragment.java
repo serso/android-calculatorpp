@@ -19,6 +19,7 @@ import com.actionbarsherlock.app.SherlockListFragment;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.about.CalculatorFragmentType;
 import org.solovyev.android.menu.AMenuBuilder;
 import org.solovyev.android.menu.AMenuItem;
 import org.solovyev.android.menu.LabeledMenuItem;
@@ -68,13 +69,13 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
     private String category;
 
     @NotNull
-    private CalculatorFragmentHelper fragmentHelper;
+    private final CalculatorFragmentHelper fragmentHelper;
 
     @NotNull
     private final Handler uiHandler = new Handler();
 
-    protected int getLayoutId() {
-        return R.layout.math_entities_fragment;
+    protected AbstractMathEntityListFragment(@NotNull CalculatorFragmentType fragmentType) {
+        fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(fragmentType.getDefaultLayoutId(),fragmentType.getDefaultTitleResId());
     }
 
     @Override
@@ -86,7 +87,6 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
             category = bundle.getString(MATH_ENTITY_CATEGORY_EXTRA_STRING);
         }
 
-        fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(getLayoutId(), getTitleResId());
         fragmentHelper.onCreate(this);
     }
 
@@ -135,8 +135,6 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
 
     @Nullable
     protected abstract AMenuItem<T> getOnClickAction();
-
-    protected abstract int getTitleResId();
 
     @Override
     public void onDestroy() {

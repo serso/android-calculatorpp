@@ -16,8 +16,8 @@ import com.actionbarsherlock.view.MenuItem;
 import jscl.math.function.IConstant;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.AndroidUtils2;
 import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.about.CalculatorFragmentType;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.menu.AMenuItem;
 import org.solovyev.android.menu.LabeledMenuItem;
@@ -38,9 +38,8 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
 
     public static final String CREATE_VAR_EXTRA_STRING = "create_var";
 
-    @Override
-    protected int getLayoutId() {
-        return R.layout.vars_fragment;
+    public CalculatorVarsFragment() {
+        super(CalculatorFragmentType.variables);
     }
 
     @Override
@@ -59,11 +58,6 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
         }
 
         setHasOptionsMenu(true);
-    }
-
-    @Override
-    protected int getTitleResId() {
-        return R.string.c_vars;
     }
 
     @Override

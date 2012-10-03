@@ -16,9 +16,6 @@ import org.solovyev.android.AndroidUtils;
 import org.solovyev.android.calculator.about.CalculatorFragmentType;
 import org.solovyev.android.sherlock.tabs.ActionBarFragmentTabListener;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * User: serso
  * Date: 9/25/12
@@ -45,9 +42,6 @@ public class CalculatorActivityHelperImpl extends AbstractCalculatorHelper imple
     private int layoutId;
 
     private boolean homeIcon = false;
-
-    @NotNull
-    private final List<String> fragmentTags = new ArrayList<String>();
 
     @NotNull
     private CalculatorPreferences.Gui.Theme theme;
@@ -196,8 +190,6 @@ public class CalculatorActivityHelperImpl extends AbstractCalculatorHelper imple
         final ActionBarFragmentTabListener listener = new ActionBarFragmentTabListener(activity, tag, fragmentClass, fragmentArgs, parentViewId);
         tab.setTabListener(listener);
         actionBar.addTab(tab);
-
-        fragmentTags.add(tag);
     }
 
     @Override

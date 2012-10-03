@@ -1,6 +1,5 @@
 package org.solovyev.android;
 
-import android.content.res.Configuration;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -32,12 +31,5 @@ public final class AndroidUtils2 {
         // Create and show the dialog.
         dialogFragment.show(ft, fragmentTag);
 
-    }
-
-    // copied from API-15
-    public static boolean isLayoutSizeAtLeast(int size, @NotNull Configuration configuration) {
-        int cur = configuration.screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
-        if (cur == Configuration.SCREENLAYOUT_SIZE_UNDEFINED) return false;
-        return cur >= size;
     }
 }

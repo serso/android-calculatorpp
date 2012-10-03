@@ -2,7 +2,11 @@ package org.solovyev.android.calculator.about;
 
 import android.support.v4.app.Fragment;
 import org.jetbrains.annotations.NotNull;
+import org.solovyev.android.calculator.CalculatorEditorFragment;
 import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.help.CalculatorHelpFaqFragment;
+import org.solovyev.android.calculator.help.CalculatorHelpHintsFragment;
+import org.solovyev.android.calculator.help.CalculatorHelpScreensFragment;
 import org.solovyev.android.calculator.history.CalculatorHistoryFragment;
 import org.solovyev.android.calculator.history.CalculatorSavedHistoryFragment;
 import org.solovyev.android.calculator.math.edit.CalculatorFunctionsFragment;
@@ -17,30 +21,41 @@ import org.solovyev.android.calculator.plot.CalculatorPlotFragment;
  */
 public enum CalculatorFragmentType {
 
-    history(CalculatorHistoryFragment.class, "history", R.string.c_history),
-    saved_history(CalculatorSavedHistoryFragment.class, "saved_history", R.string.c_saved_history),
-    variables(CalculatorVarsFragment.class, "vars", R.string.c_vars),
-    functions(CalculatorFunctionsFragment.class, "functions", R.string.c_functions),
-    operators(CalculatorOperatorsFragment.class, "operators", R.string.c_operators),
-    plotter(CalculatorPlotFragment.class, "plotter", R.string.c_plot);
+    editor(CalculatorEditorFragment.class, R.layout.calc_editor, R.string.editor),
+    //display(CalculatorHistoryFragment.class, "history", R.layout.history_fragment, R.string.c_history),
+    //keyboard(CalculatorHistoryFragment.class, "history", R.layout.history_fragment, R.string.c_history),
+    history(CalculatorHistoryFragment.class, R.layout.history_fragment, R.string.c_history),
+    saved_history(CalculatorSavedHistoryFragment.class, R.layout.history_fragment, R.string.c_saved_history),
+    variables(CalculatorVarsFragment.class, R.layout.vars_fragment, R.string.c_vars),
+    functions(CalculatorFunctionsFragment.class, R.layout.math_entities_fragment, R.string.c_functions),
+    operators(CalculatorOperatorsFragment.class, R.layout.math_entities_fragment, R.string.c_operators),
+    plotter(CalculatorPlotFragment.class, R.layout.plot_fragment, R.string.c_plot),
+    about(CalculatorAboutFragment.class, R.layout.about_fragment, R.string.c_about),
+
+    // todo serso: rename and inflate ad
+    faq(CalculatorHelpFaqFragment.class, R.layout.help_faq, R.string.c_faq),
+    hints(CalculatorHelpHintsFragment.class, R.layout.help_hints, R.string.c_hints),
+    screens(CalculatorHelpScreensFragment.class, R.layout.help_screens, R.string.c_screens),
+    release_notes(CalculatorReleaseNotesFragment.class, R.layout.release_notes_fragment, R.string.c_release_notes);
 
     @NotNull
     private Class<? extends Fragment> fragmentClass;
 
-    @NotNull
-    private final String fragmentTag;
+    private final int defaultLayoutId;
 
     private int defaultTitleResId;
 
-    private CalculatorFragmentType(@NotNull Class<? extends Fragment> fragmentClass, @NotNull String fragmentTag, int defaultTitleResId) {
+    private CalculatorFragmentType(@NotNull Class<? extends Fragment> fragmentClass,
+                                   int defaultLayoutId,
+                                   int defaultTitleResId) {
         this.fragmentClass = fragmentClass;
-        this.fragmentTag = fragmentTag;
+        this.defaultLayoutId = defaultLayoutId;
         this.defaultTitleResId = defaultTitleResId;
     }
 
     @NotNull
     public String getFragmentTag() {
-        return fragmentTag;
+        return this.name();
     }
 
     public int getDefaultTitleResId() {
@@ -52,8 +67,12 @@ public enum CalculatorFragmentType {
         return fragmentClass;
     }
 
+    public int getDefaultLayoutId() {
+        return defaultLayoutId;
+    }
+
     @NotNull
     public String createSubFragmentTag(@NotNull String subFragmentTag) {
-        return this.fragmentTag + "_" + subFragmentTag;
+        return this.getFragmentTag() + "_" + subFragmentTag;
     }
 }

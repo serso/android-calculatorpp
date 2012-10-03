@@ -22,27 +22,17 @@
 
         <activity android:label="@string/c_app_settings" android:name=".CalculatorPreferencesActivity"/>
 
-        <activity android:label="@string/c_history" android:name=".history.CalculatorHistoryFragmentActivity"/>
-
-        <activity android:label="@string/c_about" android:name=".about.CalculatorAboutTabActivity"/>
+        <activity android:label="@string/c_history" android:name=".history.CalculatorHistoryActivity"/>
 
         <activity android:label="@string/c_about" android:name=".about.CalculatorAboutActivity"/>
 
-        <activity android:label="@string/c_about" android:name=".about.CalculatorReleaseNotesActivity"/>
+        <activity android:label="@string/c_help" android:name=".help.CalculatorHelpActivity"/>
 
-        <activity android:label="@string/c_help" android:name=".help.CalculatorHelpTabActivity"/>
+        <activity android:label="@string/c_functions" android:name=".math.edit.CalculatorFunctionsActivity"/>
 
-        <activity android:label="@string/c_help" android:name=".help.HelpFaqActivity"/>
+        <activity android:label="@string/c_operators" android:name=".math.edit.CalculatorOperatorsActivity"/>
 
-        <activity android:label="@string/c_help" android:name=".help.HelpHintsActivity"/>
-
-        <activity android:label="@string/c_help" android:name=".help.HelpScreensActivity"/>
-
-        <activity android:label="@string/c_functions" android:name=".math.edit.CalculatorFunctionsFragmentActivity"/>
-
-        <activity android:label="@string/c_operators" android:name=".math.edit.CalculatorOperatorsFragmentActivity"/>
-
-        <activity android:label="@string/c_vars_and_constants" android:name=".math.edit.CalculatorVarsFragmentActivity"/>
+        <activity android:label="@string/c_vars_and_constants" android:name=".math.edit.CalculatorVarsActivity"/>
 
         <activity android:label="@string/c_plot_graph" android:name=".plot.CalculatorPlotActivity"/>
 

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+  ~ For more information, please, contact se.solovyev@gmail.com
+  ~ or visit http://se.solovyev.org
+  -->
+
+<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+			  a:orientation="vertical"
+			  a:layout_width="fill_parent"
+			  a:layout_height="fill_parent"
+			  a:background="#ff000000">
+
+	<TextView
+			a:id="@+id/releaseNotesTextView"
+			a:layout_height="fill_parent"
+			a:layout_width="fill_parent"
+			a:layout_weight="1"
+			a:gravity="top|left"
+			a:scrollbars="vertical"
+			style="@style/about_style"/>
+
+	<!--
+			a:scrollbarFadeDuration="0" is not support in  android_1.6_compatibility
+			-->
+
+</LinearLayout>

@@ -9,6 +9,7 @@ package org.solovyev.android.calculator.history;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.CalculatorLocatorImpl;
 import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.about.CalculatorFragmentType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,14 +21,13 @@ import java.util.List;
  */
 public class CalculatorHistoryFragment extends AbstractCalculatorHistoryFragment {
 
-    @Override
-    protected int getTitleResId() {
-        return R.string.c_history;
+    public CalculatorHistoryFragment() {
+        super(CalculatorFragmentType.history);
     }
 
     @Override
 	protected int getItemLayoutId() {
-		return R.layout.history;
+		return R.layout.history_item;
 	}
 
 	@NotNull

@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.about.CalculatorFragmentType;
-import org.solovyev.android.calculator.history.CalculatorHistoryFragmentActivity;
+import org.solovyev.android.calculator.history.CalculatorHistoryActivity;
 import org.solovyev.android.calculator.model.AndroidFunctionsMathRegistry;
 
 /**
@@ -20,10 +20,10 @@ import org.solovyev.android.calculator.model.AndroidFunctionsMathRegistry;
  * Date: 12/21/11
  * Time: 10:33 PM
  */
-public class CalculatorFunctionsFragmentActivity extends SherlockFragmentActivity implements CalculatorEventListener {
+public class CalculatorFunctionsActivity extends SherlockFragmentActivity implements CalculatorEventListener {
 
     @NotNull
-    private final CalculatorActivityHelper activityHelper = CalculatorApplication.getInstance().createActivityHelper(R.layout.main_empty, CalculatorHistoryFragmentActivity.class.getSimpleName());
+    private final CalculatorActivityHelper activityHelper = CalculatorApplication.getInstance().createActivityHelper(R.layout.main_empty, CalculatorHistoryActivity.class.getSimpleName());
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

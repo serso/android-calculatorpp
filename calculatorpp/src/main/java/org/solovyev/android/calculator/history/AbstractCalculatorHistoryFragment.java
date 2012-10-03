@@ -19,6 +19,7 @@ import com.actionbarsherlock.app.SherlockListFragment;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.about.CalculatorFragmentType;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.menu.AMenuBuilder;
 import org.solovyev.android.menu.MenuImpl;
@@ -82,11 +83,14 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
     @NotNull
     private CalculatorFragmentHelper fragmentHelper;
 
+    protected AbstractCalculatorHistoryFragment(@NotNull CalculatorFragmentType fragmentType) {
+        fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(fragmentType.getDefaultLayoutId(), fragmentType.getDefaultTitleResId(), false);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(R.layout.history_fragment, getTitleResId(), false);
         fragmentHelper.onCreate(this);
 
         logDebug("onCreate");
@@ -157,9 +161,6 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
             }
         });
     }
-
-    protected abstract int getTitleResId();
-
 
     @Override
     public void onResume() {
