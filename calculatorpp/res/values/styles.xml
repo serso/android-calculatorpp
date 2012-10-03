@@ -24,40 +24,51 @@
 		<item name="android:textSize">@dimen/text_size</item>
 	</style>
 
-    <style name="keyboard_button_style_parent">
+    <style name="button_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:focusable">true</item>
+        <item name="android:background">@drawable/metro_button_blue</item>
+        <item name="android:textSize">@dimen/button_text_size</item>
+        <item name="android:textColor">@color/button_text_color</item>
+    </style>
+
+    <style name="keyboard_button_style">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:focusable">true</item>
+        <item name="android:background">@drawable/default_button_dark</item>
+        <item name="android:layout_margin">@dimen/button_margin</item>
         <item name="android:textSize">@dimen/keyboard_button_text_size</item>
         <item name="android:textColor">@color/button_text_color</item>
     </style>
 
-	<style name="button_style_parent">
-		<item name="android:textSize">@dimen/button_text_size</item>
-		<item name="android:textColor">@color/button_text_color</item>
-	</style>
+    <style name="editor_style" parent="default_text">
+        <item name="android:gravity">left|top</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:textSize">@dimen/editor_text_size</item>
+    </style>
 
-	<style name="display_style_parent" parent="default_text">
-		<item name="android:textSize">@dimen/display_text_size</item>
-	</style>
+    <style name="display_style" parent="default_text">
+        <item name="android:gravity">top|right</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textSize">@dimen/display_text_size</item>
+    </style>
 
-	<style name="editor_style_parent" parent="default_text">
-		<item name="android:textSize">@dimen/editor_text_size</item>
-	</style>
+    <style name="about_style" parent="default_text">
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:textSize">15dp</item>
+        <item name="android:padding">5dp</item>
+    </style>
 
-	<style name="about_style_parent" parent="default_text">
-		<item name="android:textSize">15dp</item>
-		<item name="android:padding">5dp</item>
-	</style>
-
-	<style name="math_entity_text_parent">
-		<item name="android:textSize">@dimen/math_entity_text_size</item>
-	</style>
-
-	<style name="math_entity_description_parent">
-		<item name="android:textSize">@dimen/math_entity_description_text_size</item>
-	</style>
-
-	<style name="add_var_button_parent">
-		<item name="android:paddingLeft">40dp</item>
-		<item name="android:paddingRight">40dp</item>
-	</style>
+    <style name="default_text">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textColor">@color/default_text_color</item>
+    </style>
 
 </resources>

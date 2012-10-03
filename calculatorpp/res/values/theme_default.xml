@@ -77,6 +77,12 @@
         <item name="android:layout_width">match_parent</item>
     </style>
 
+    <style name="default_actionbar_tab_style" parent="@style/Widget.Sherlock.ActionBar.TabView">
+    </style>
+
+    <style name="default_actionbar_tab_bar_style" parent="@style/Widget.Sherlock.ActionBar.TabBar">
+    </style>
+
     <style name="default_theme" parent="Theme.Sherlock">
         <item name="digitButtonStyle">@style/default_digit_button_style</item>
         <item name="controlButtonStyle">@style/default_control_button_style</item>
@@ -93,5 +99,9 @@
 
         <item name="paneStyle">@style/default_pane_style</item>
         <item name="paneStyleTransparent">@style/default_pane_style_transparent</item>
+
+        <!-- action bar-->
+        <item name="actionBarTabStyle">@style/default_actionbar_tab_style</item>
+        <item name="actionBarTabBarStyle">@style/default_actionbar_tab_bar_style</item>
     </style>
 </resources>

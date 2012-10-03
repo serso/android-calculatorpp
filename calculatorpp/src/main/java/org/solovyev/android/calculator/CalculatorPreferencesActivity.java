@@ -11,10 +11,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
-import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
+import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import net.robotmedia.billing.BillingController;
 import net.robotmedia.billing.IBillingObserver;
 import net.robotmedia.billing.ResponseCode;
@@ -31,7 +31,7 @@ import org.solovyev.android.view.VibratorContainer;
  * Date: 7/16/11
  * Time: 6:37 PM
  */
-public class CalculatorPreferencesActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener, IBillingObserver {
+public class CalculatorPreferencesActivity extends SherlockPreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener, IBillingObserver {
 
 	public static final String CLEAR_BILLING_INFO = "clear_billing_info";
 
