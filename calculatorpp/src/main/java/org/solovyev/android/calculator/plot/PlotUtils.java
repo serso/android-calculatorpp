@@ -37,7 +37,7 @@ public final class PlotUtils {
 								@NotNull Generic expression,
 								@NotNull Constant variable,
 								@NotNull MyXYSeries realSeries,
-								@NotNull MyXYSeries imagSeries,
+								@Nullable MyXYSeries imagSeries,
 								boolean addExtra,
 								int numberOfSteps) throws ArithmeticException {
 
@@ -72,7 +72,7 @@ public final class PlotUtils {
 					prevX = x;
 				}
 
-				boolean needToCalculateImagY = imagSeries.needToAdd(step, x);
+				boolean needToCalculateImagY = imagSeries != null && imagSeries.needToAdd(step, x);
 				if (needToCalculateImagY) {
 					y = prepareY(c.imaginaryPart());
 					if (y != null) {
@@ -86,7 +86,7 @@ public final class PlotUtils {
 					}
 				}
 			} else {
-				boolean needToCalculateImagY = imagSeries.needToAdd(step, x);
+				boolean needToCalculateImagY = imagSeries != null && imagSeries.needToAdd(step, x);
 				if (needToCalculateImagY) {
 					final Complex c = calculatorExpression(expression, variable, x);
 					Double y = prepareY(c.imaginaryPart());

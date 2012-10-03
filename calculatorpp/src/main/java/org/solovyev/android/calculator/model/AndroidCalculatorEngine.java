@@ -163,7 +163,7 @@ public class AndroidCalculatorEngine implements CalculatorEngine, SharedPreferen
     @Override
     public void init() {
         synchronized (lock) {
-            calculatorEngine.init();
+            reset();
         }
     }
 

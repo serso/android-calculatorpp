@@ -181,9 +181,12 @@ public final class CalculatorButtons {
 
                             final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-                            AndroidCalculatorEngine.Preferences.angleUnit.putPreference(preferences, angleUnits);
+                            final AngleUnit oldAngleUnits = AndroidCalculatorEngine.Preferences.angleUnit.getPreference(preferences);
+                            if (oldAngleUnits != angleUnits) {
+                                AndroidCalculatorEngine.Preferences.angleUnit.putPreference(preferences, angleUnits);
 
-                            Toast.makeText(context, context.getString(R.string.c_angle_units_changed_to, angleUnits.name()), Toast.LENGTH_LONG).show();
+                                Toast.makeText(context, context.getString(R.string.c_angle_units_changed_to, angleUnits.name()), Toast.LENGTH_LONG).show();
+                            }
 
                             result = true;
                         } catch (IllegalArgumentException e) {
@@ -223,9 +226,13 @@ public final class CalculatorButtons {
                         final NumeralBase numeralBase = NumeralBase.valueOf(directionText);
 
                         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-                        AndroidCalculatorEngine.Preferences.numeralBase.putPreference(preferences, numeralBase);
 
-                        Toast.makeText(context, context.getString(R.string.c_numeral_base_changed_to, numeralBase.name()), Toast.LENGTH_LONG).show();
+                        final NumeralBase oldNumeralBase = AndroidCalculatorEngine.Preferences.numeralBase.getPreference(preferences);
+                        if (oldNumeralBase != numeralBase) {
+                            AndroidCalculatorEngine.Preferences.numeralBase.putPreference(preferences, numeralBase);
+
+                            Toast.makeText(context, context.getString(R.string.c_numeral_base_changed_to, numeralBase.name()), Toast.LENGTH_LONG).show();
+                        }
 
                         result = true;
                     } catch (IllegalArgumentException e) {

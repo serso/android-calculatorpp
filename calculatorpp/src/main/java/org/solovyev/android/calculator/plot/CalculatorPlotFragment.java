@@ -6,9 +6,11 @@
 
 package org.solovyev.android.calculator.plot;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,7 +58,8 @@ public class CalculatorPlotFragment extends SherlockFragment implements Calculat
 
     private static final int DEFAULT_MAX_NUMBER = 10;
 
-    public static final String INPUT = "org.solovyev.android.calculator.CalculatorPlotActivity_input";
+    public static final String INPUT = "plotter_input";
+    private static final String PLOT_BOUNDARIES = "plot_boundaries";
 
     public static final long EVAL_DELAY_MILLIS = 200;
 
@@ -74,7 +77,7 @@ public class CalculatorPlotFragment extends SherlockFragment implements Calculat
     private Constant variable;
 
     @NotNull
-    private final CalculatorFragmentHelper fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(R.layout.plot_fragment, R.string.c_plot, false);
+    private final CalculatorFragmentHelper fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(R.layout.plot_fragment, R.string.c_graph, false);
 
     @NotNull
     private final Executor plotExecutor = Executors.newSingleThreadExecutor();
@@ -113,6 +116,8 @@ public class CalculatorPlotFragment extends SherlockFragment implements Calculat
             this.bgColor = getResources().getColor(android.R.color.transparent);
             prepareData();
         }
+
+        setRetainInstance(true);
     }
 
     private void createInputFromDisplayState(@NotNull CalculatorDisplayViewState displayState) {
@@ -161,7 +166,25 @@ public class CalculatorPlotFragment extends SherlockFragment implements Calculat
 
         this.fragmentHelper.onViewCreated(this, root);
 
-        updateGraphicalView(root);
+
+        PlotBoundaries plotBoundaries = null;
+        /*if ( savedInstanceState != null ) {
+            final Object object = savedInstanceState.getSerializable(PLOT_BOUNDARIES);
+            if ( object instanceof PlotBoundaries) {
+                plotBoundaries = ((PlotBoundaries) object);
+            }
+        }*/
+
+        updateGraphicalView(root, plotBoundaries);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle out) {
+        super.onSaveInstanceState(out);
+
+        /*if (chart != null) {
+            out.putSerializable(PLOT_BOUNDARIES, new PlotBoundaries(chart.getRenderer()));
+        }*/
     }
 
     @Override
@@ -172,7 +195,7 @@ public class CalculatorPlotFragment extends SherlockFragment implements Calculat
 
         if ( !inputFromArgs ) {
             createInputFromDisplayState(CalculatorLocatorImpl.getInstance().getDisplay().getViewState());
-            updateGraphicalView(getView());
+            updateGraphicalView(getView(), null);
         }
     }
 
@@ -183,11 +206,9 @@ public class CalculatorPlotFragment extends SherlockFragment implements Calculat
         super.onPause();
     }
 
-    private void updateGraphicalView(@NotNull View root) {
+    private void updateGraphicalView(@NotNull View root, @Nullable PlotBoundaries plotBoundaries) {
         if (input != null) {
-            // todo serso
-            final Object lastNonConfigurationInstance = null;//getLastNonConfigurationInstance();
-            setGraphicalView(root, lastNonConfigurationInstance instanceof PlotBoundaries ? (PlotBoundaries) lastNonConfigurationInstance : null);
+            setGraphicalView(root, plotBoundaries);
         } else {
             Toast.makeText(this.getActivity(), "Plot is not possible!", Toast.LENGTH_LONG).show();
         }
@@ -282,6 +303,9 @@ public class CalculatorPlotFragment extends SherlockFragment implements Calculat
     }
 
     private void updateDataSets(@NotNull final XYChart chart, long millisToWait) {
+        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
+        final boolean showComplexGraph = CalculatorPreferences.Graph.showComplexGraph.getPreference(preferences);
+
         pendingOperation.setObject(new Runnable() {
             @Override
             public void run() {
@@ -405,7 +429,7 @@ public class CalculatorPlotFragment extends SherlockFragment implements Calculat
                         public void run() {
                             final View view = getView();
                             if (view != null) {
-                                updateGraphicalView(view);
+                                updateGraphicalView(view, null);
                             }
                         }
                     });

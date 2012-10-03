@@ -29,10 +29,8 @@ public enum CalculatorFragmentType {
     variables(CalculatorVarsFragment.class, R.layout.vars_fragment, R.string.c_vars),
     functions(CalculatorFunctionsFragment.class, R.layout.math_entities_fragment, R.string.c_functions),
     operators(CalculatorOperatorsFragment.class, R.layout.math_entities_fragment, R.string.c_operators),
-    plotter(CalculatorPlotFragment.class, R.layout.plot_fragment, R.string.c_plot),
+    plotter(CalculatorPlotFragment.class, R.layout.plot_fragment, R.string.c_graph),
     about(CalculatorAboutFragment.class, R.layout.about_fragment, R.string.c_about),
-
-    // todo serso: rename and inflate ad
     faq(CalculatorHelpFaqFragment.class, R.layout.help_faq_fragment, R.string.c_faq),
     hints(CalculatorHelpHintsFragment.class, R.layout.help_hints_fragment, R.string.c_hints),
     screens(CalculatorHelpScreensFragment.class, R.layout.help_screens_fragment, R.string.c_screens),

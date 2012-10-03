@@ -218,5 +218,8 @@
         In order to fix the problem we need some information about it. It\'s highly recommended to send crash report via email (after pressing \'Ok\' button you will see all sent data in the new window).\n\n
         Do you want to send crash report?
     </string>
+    <string name="c_prefs_graph">Graph preferences</string>
+    <string name="c_show_complex_graph_summary">If checked complex graph will be plotted</string>
+    <string name="c_show_complex_graph_title">Show complex graph</string>
 
 </resources>

@@ -18,7 +18,7 @@
               style="?fragmentTitleStyle"/>
 
     <ScrollView a:layout_width="match_parent"
-                a:layout_height="match_parent">
+                a:layout_height="wrap_content">
 
         <TextView
                 a:text="@string/c_faq_content"

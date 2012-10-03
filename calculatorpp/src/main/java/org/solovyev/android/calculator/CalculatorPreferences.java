@@ -97,6 +97,12 @@ public final class CalculatorPreferences {
         }
     }
 
+    public static class Graph {
+        public static final Preference<Boolean> showComplexGraph = new BooleanPreference("show_complex_graph", false);
+
+    }
+
+
     static void setDefaultValues(@NotNull SharedPreferences preferences) {
         if (!AndroidCalculatorEngine.Preferences.groupingSeparator.isSet(preferences)) {
             final Locale locale = Locale.getDefault();
