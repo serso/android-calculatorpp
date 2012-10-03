@@ -92,7 +92,9 @@ public class CalculatorActivityHelperImpl extends AbstractCalculatorHelper imple
         actionBar.setDisplayShowHomeEnabled(true);
 
         toggleTitle(activity, true);
+
         actionBar.setIcon(R.drawable.icon_action_bar);
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
     }
 
     private void toggleTitle(@NotNull SherlockFragmentActivity activity, boolean showTitle) {
@@ -180,8 +182,6 @@ public class CalculatorActivityHelperImpl extends AbstractCalculatorHelper imple
                        int captionResId,
                        int parentViewId) {
         final ActionBar actionBar = activity.getSupportActionBar();
-
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
         final ActionBar.Tab tab = actionBar.newTab();
         tab.setTag(tag);
