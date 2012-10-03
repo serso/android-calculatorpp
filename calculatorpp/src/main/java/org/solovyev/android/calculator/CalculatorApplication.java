@@ -12,6 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 import net.robotmedia.billing.BillingController;
+import org.acra.ACRA;
+import org.acra.ReportingInteractionMode;
+import org.acra.annotation.ReportsCrashes;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.ads.AdsController;
 import org.solovyev.android.calculator.history.AndroidCalculatorHistory;
@@ -22,6 +25,12 @@ import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
  * Date: 12/1/11
  * Time: 1:21 PM
  */
+@ReportsCrashes(formKey = "",
+        mailTo = "se.solovyev+programming+calculatorpp+crashes@gmail.com",
+        mode = ReportingInteractionMode.DIALOG,
+        resToastText = R.string.crashed,
+        resDialogTitle = R.string.crash_dialog_title,
+        resDialogText = R.string.crash_dialog_text)
 public class CalculatorApplication extends android.app.Application {
 
     private static final String paypalDonateUrl = "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=se%2esolovyev%40gmail%2ecom&lc=RU&item_name=Android%20Calculator&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted";
@@ -30,7 +39,6 @@ public class CalculatorApplication extends android.app.Application {
     public static final String AD_FREE_P_KEY = "org.solovyev.android.calculator_ad_free";
 
     public static final String ADMOB_USER_ID = "a14f02cf9c80cbc";
-    public static final String REMOTE_STACK_TRACE_URL = "http://calculatorpp.com/crash_reports/upload.php";
 
     @NotNull
     private static CalculatorApplication instance;
@@ -46,6 +54,8 @@ public class CalculatorApplication extends android.app.Application {
 
     @Override
     public void onCreate() {
+        ACRA.init(this);
+
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         setTheme(preferences);
@@ -104,10 +114,6 @@ public class CalculatorApplication extends android.app.Application {
                 .setView(view);
 
         builder.create().show();
-    }
-
-    public static void registerOnRemoteStackTrace() {
-        //Thread.setDefaultUncaughtExceptionHandler(new CustomExceptionHandler(null, REMOTE_STACK_TRACE_URL));
     }
 
     @NotNull

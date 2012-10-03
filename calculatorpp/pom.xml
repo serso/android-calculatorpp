@@ -85,6 +85,11 @@
         </dependency>
 
         <!--OTHER-->
+        <dependency>
+            <groupId>ch.acra</groupId>
+            <artifactId>acra</artifactId>
+            <version>4.3.0</version>
+        </dependency>
 
         <dependency>
             <groupId>com.google.android</groupId>
