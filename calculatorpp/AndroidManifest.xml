@@ -20,28 +20,27 @@
 
         </activity>
 
-        <!--NOTE: a:configChanges="orientation|keyboardHidden" is needed to correct work of dialog windows (not to close them on orientation change) -->
-        <activity android:configChanges="orientation|keyboardHidden" android:label="@string/c_app_settings" android:name=".CalculatorPreferencesActivity"/>
+        <activity android:label="@string/c_app_settings" android:name=".CalculatorPreferencesActivity"/>
 
-        <activity android:configChanges="orientation|keyboardHidden" android:label="@string/c_history" android:name=".history.CalculatorHistoryFragmentActivity"/>
+        <activity android:label="@string/c_history" android:name=".history.CalculatorHistoryFragmentActivity"/>
 
-        <activity android:configChanges="orientation|keyboardHidden" android:label="@string/c_about" android:name=".about.CalculatorAboutTabActivity"/>
+        <activity android:label="@string/c_about" android:name=".about.CalculatorAboutTabActivity"/>
 
-        <activity android:configChanges="orientation|keyboardHidden" android:label="@string/c_about" android:name=".about.CalculatorAboutActivity"/>
+        <activity android:label="@string/c_about" android:name=".about.CalculatorAboutActivity"/>
 
-        <activity android:configChanges="orientation|keyboardHidden" android:label="@string/c_about" android:name=".about.CalculatorReleaseNotesActivity"/>
+        <activity android:label="@string/c_about" android:name=".about.CalculatorReleaseNotesActivity"/>
 
-        <activity android:configChanges="orientation|keyboardHidden" android:label="@string/c_help" android:name=".help.CalculatorHelpTabActivity"/>
+        <activity android:label="@string/c_help" android:name=".help.CalculatorHelpTabActivity"/>
 
-        <activity android:configChanges="orientation|keyboardHidden" android:label="@string/c_help" android:name=".help.HelpFaqActivity"/>
+        <activity android:label="@string/c_help" android:name=".help.HelpFaqActivity"/>
 
-        <activity android:configChanges="orientation|keyboardHidden" android:label="@string/c_help" android:name=".help.HelpHintsActivity"/>
+        <activity android:label="@string/c_help" android:name=".help.HelpHintsActivity"/>
 
-        <activity android:configChanges="orientation|keyboardHidden" android:label="@string/c_help" android:name=".help.HelpScreensActivity"/>
+        <activity android:label="@string/c_help" android:name=".help.HelpScreensActivity"/>
 
-        <activity android:configChanges="orientation|keyboardHidden" android:label="@string/c_functions" android:name=".math.edit.CalculatorFunctionsFragmentActivity"/>
+        <activity android:label="@string/c_functions" android:name=".math.edit.CalculatorFunctionsFragmentActivity"/>
 
-        <activity android:configChanges="orientation|keyboardHidden" android:label="@string/c_operators" android:name=".math.edit.CalculatorOperatorsFragmentActivity"/>
+        <activity android:label="@string/c_operators" android:name=".math.edit.CalculatorOperatorsFragmentActivity"/>
 
         <activity android:label="@string/c_vars_and_constants" android:name=".math.edit.CalculatorVarsFragmentActivity"/>
 

@@ -11,7 +11,10 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.about.CalculatorFragmentType;
 import org.solovyev.android.calculator.history.CalculatorHistoryFragmentActivity;
+import org.solovyev.android.calculator.model.AndroidFunctionsMathRegistry;
+import org.solovyev.android.calculator.model.AndroidOperatorsMathRegistry;
 
 /**
  * User: serso
@@ -29,7 +32,11 @@ public class CalculatorOperatorsFragmentActivity extends SherlockFragmentActivit
 
         activityHelper.onCreate(this, savedInstanceState);
 
-        activityHelper.addTab(this, "operators", CalculatorOperatorsFragment.class, null, R.string.c_operators, R.id.main_layout);
+        final CalculatorFragmentType fragmentType = CalculatorFragmentType.operators;
+
+        for (AndroidOperatorsMathRegistry.Category category : AndroidOperatorsMathRegistry.Category.getCategoriesByTabOrder()) {
+            activityHelper.addTab(this, fragmentType.createSubFragmentTag(category.name()), fragmentType.getFragmentClass(), AbstractMathEntityListFragment.createBundleFor(category.name()), category.getCaptionId(), R.id.main_layout);
+        }
     }
 
     @Override
@@ -45,6 +52,14 @@ public class CalculatorOperatorsFragmentActivity extends SherlockFragmentActivit
 
         activityHelper.onResume(this);
     }
+
+    @Override
+    protected void onPause() {
+        this.activityHelper.onPause(this);
+
+        super.onPause();
+    }
+
 
     @Override
     protected void onDestroy() {

@@ -209,5 +209,7 @@
 
     <string name="editor">Editor</string>
     <string name="result">Result</string>
+    <string name="other">Other</string>
+    <string name="derivatives">Derivatives/Integrals</string>
 
 </resources>

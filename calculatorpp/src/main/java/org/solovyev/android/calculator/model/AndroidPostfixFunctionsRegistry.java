@@ -47,7 +47,12 @@ public class AndroidPostfixFunctionsRegistry extends AbstractAndroidMathRegistry
 	}
 
     @Override
-    public String getCategory(@NotNull Operator mathEntity) {
+    public String getCategory(@NotNull Operator operator) {
+        for (AndroidOperatorsMathRegistry.Category category : AndroidOperatorsMathRegistry.Category.values()) {
+            if ( category.isInCategory(operator) ) {
+                return category.name();
+            }
+        }
         return null;
     }
 

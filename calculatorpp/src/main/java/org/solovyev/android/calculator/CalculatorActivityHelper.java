@@ -7,6 +7,7 @@ import android.view.View;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.calculator.about.CalculatorFragmentType;
 
 /**
  * User: serso
@@ -29,6 +30,9 @@ public interface CalculatorActivityHelper {
     void onResume(@NotNull SherlockFragmentActivity activity);
     void onResume(@NotNull Activity activity);
 
+    void onPause(@NotNull Activity activity);
+    void onPause(@NotNull SherlockFragmentActivity activity);
+
     void onDestroy(@NotNull SherlockFragmentActivity activity);
     void onDestroy(@NotNull Activity activity);
 
@@ -36,11 +40,17 @@ public interface CalculatorActivityHelper {
                 @NotNull String tag,
                 @NotNull Class<? extends Fragment> fragmentClass,
                 @Nullable Bundle fragmentArgs,
-                int captionResId, int parentViewId);
+                int captionResId,
+                int parentViewId);
 
-    void restoreSavedTab(@NotNull SherlockFragmentActivity activity);
+    void addTab(@NotNull SherlockFragmentActivity activity,
+                @NotNull CalculatorFragmentType fragmentType,
+                @Nullable Bundle fragmentArgs,
+                int parentViewId);
+
 
     void logDebug(@NotNull String message);
 
     void processButtons(@NotNull Activity activity, @NotNull View root);
+
 }

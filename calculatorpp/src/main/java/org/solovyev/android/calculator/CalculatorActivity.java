@@ -25,6 +25,7 @@ import net.robotmedia.billing.IBillingObserver;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.AndroidUtils;
+import org.solovyev.android.calculator.about.CalculatorFragmentType;
 import org.solovyev.android.calculator.about.CalculatorReleaseNotesActivity;
 import org.solovyev.android.calculator.history.CalculatorHistoryFragment;
 import org.solovyev.android.calculator.history.CalculatorSavedHistoryFragment;
@@ -44,7 +45,7 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
     @NotNull
     public static final String TAG = CalculatorActivity.class.getSimpleName();
 
-	@Nullable
+    @Nullable
 	private IBillingObserver billingObserver;
 
 	private boolean useBackAsPrev;
@@ -74,14 +75,12 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
         activityHelper.logDebug("super.onCreate");
 
         if (findViewById(R.id.main_second_pane) != null) {
-            activityHelper.addTab(this, "history", CalculatorHistoryFragment.class, null, R.string.c_history, R.id.main_second_pane);
-            activityHelper.addTab(this, "saved_history", CalculatorSavedHistoryFragment.class, null, R.string.c_saved_history, R.id.main_second_pane);
-            activityHelper.addTab(this, "vars", CalculatorVarsFragment.class, null, R.string.c_vars, R.id.main_second_pane);
-            activityHelper.addTab(this, "functions", CalculatorFunctionsFragment.class, null, R.string.c_functions, R.id.main_second_pane);
-            activityHelper.addTab(this, "operators", CalculatorOperatorsFragment.class, null, R.string.c_operators, R.id.main_second_pane);
-            activityHelper.addTab(this, "plot", CalculatorPlotFragment.class, null, R.string.c_plot, R.id.main_second_pane);
-
-            activityHelper.restoreSavedTab(this);
+            activityHelper.addTab(this, CalculatorFragmentType.history, null, R.id.main_second_pane);
+            activityHelper.addTab(this, CalculatorFragmentType.saved_history, null, R.id.main_second_pane);
+            activityHelper.addTab(this, CalculatorFragmentType.variables, null, R.id.main_second_pane);
+            activityHelper.addTab(this, CalculatorFragmentType.functions, null, R.id.main_second_pane);
+            activityHelper.addTab(this, CalculatorFragmentType.operators, null, R.id.main_second_pane);
+            activityHelper.addTab(this, CalculatorFragmentType.plotter, null, R.id.main_second_pane);
         } else {
             getSupportActionBar().hide();
         }
@@ -206,6 +205,13 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
     @SuppressWarnings({"UnusedDeclaration"})
     public void equalsButtonClickHandler(@NotNull View v) {
         getCalculator().evaluate();
+    }
+
+    @Override
+    protected void onPause() {
+        this.activityHelper.onPause(this);
+
+        super.onPause();
     }
 
     @Override

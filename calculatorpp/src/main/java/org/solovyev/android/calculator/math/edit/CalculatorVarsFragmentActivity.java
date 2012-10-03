@@ -12,6 +12,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.about.CalculatorFragmentType;
 import org.solovyev.android.calculator.history.CalculatorHistoryFragmentActivity;
 import org.solovyev.android.calculator.model.VarCategory;
 
@@ -40,6 +41,7 @@ public class CalculatorVarsFragmentActivity extends SherlockFragmentActivity imp
             bundle = null;
         }
 
+        final CalculatorFragmentType fragmentType = CalculatorFragmentType.variables;
 
         for (VarCategory category : VarCategory.getCategoriesByTabOrder()) {
 
@@ -52,7 +54,8 @@ public class CalculatorVarsFragmentActivity extends SherlockFragmentActivity imp
                 fragmentParameters = AbstractMathEntityListFragment.createBundleFor(category.name());
             }
 
-            activityHelper.addTab(this, category.name(), CalculatorVarsFragment.class, fragmentParameters, category.getCaptionId(), R.id.main_layout);
+
+            activityHelper.addTab(this, fragmentType.createSubFragmentTag(category.name()), fragmentType.getFragmentClass(), fragmentParameters, category.getCaptionId(), R.id.main_layout);
 
         }
     }
@@ -70,6 +73,14 @@ public class CalculatorVarsFragmentActivity extends SherlockFragmentActivity imp
 
         activityHelper.onResume(this);
     }
+
+    @Override
+    protected void onPause() {
+        this.activityHelper.onPause(this);
+
+        super.onPause();
+    }
+
 
     @Override
     protected void onDestroy() {

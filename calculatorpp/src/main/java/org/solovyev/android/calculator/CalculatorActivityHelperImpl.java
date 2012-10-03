@@ -13,6 +13,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.AndroidUtils;
+import org.solovyev.android.calculator.about.CalculatorFragmentType;
 import org.solovyev.android.sherlock.tabs.ActionBarFragmentTabListener;
 
 import java.util.ArrayList;
@@ -32,7 +33,6 @@ public class CalculatorActivityHelperImpl extends AbstractCalculatorHelper imple
     *
     **********************************************************************
     */
-    private static final String SELECTED_NAV = "selected_nav";
 
     /*
     **********************************************************************
@@ -51,8 +51,8 @@ public class CalculatorActivityHelperImpl extends AbstractCalculatorHelper imple
 
     @NotNull
     private CalculatorPreferences.Gui.Theme theme;
-    private int navPosition = 0;
 
+    private int selectedNavigationIndex = 0;
 
     public CalculatorActivityHelperImpl(int layoutId, @NotNull String logTag) {
         super(logTag);
@@ -68,8 +68,8 @@ public class CalculatorActivityHelperImpl extends AbstractCalculatorHelper imple
     public void onCreate(@NotNull Activity activity, @Nullable Bundle savedInstanceState) {
         super.onCreate(activity);
 
-        if ( activity instanceof CalculatorEventListener) {
-            CalculatorLocatorImpl.getInstance().getCalculator().addCalculatorEventListener((CalculatorEventListener)activity);
+        if (activity instanceof CalculatorEventListener) {
+            CalculatorLocatorImpl.getInstance().getCalculator().addCalculatorEventListener((CalculatorEventListener) activity);
         }
 
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
@@ -85,10 +85,6 @@ public class CalculatorActivityHelperImpl extends AbstractCalculatorHelper imple
         } else {
             Log.e(CalculatorActivityHelperImpl.class.getSimpleName(), "Root is null for " + activity.getClass().getName());
         }
-
-        if (savedInstanceState != null) {
-            navPosition = savedInstanceState.getInt(SELECTED_NAV, 0);
-        }
     }
 
     @Override
@@ -101,29 +97,34 @@ public class CalculatorActivityHelperImpl extends AbstractCalculatorHelper imple
         actionBar.setHomeButtonEnabled(false);
         actionBar.setDisplayShowHomeEnabled(true);
 
-        if (activity instanceof CalculatorActivity) {
-            if ( AndroidUtils.getScreenOrientation(activity) == Configuration.ORIENTATION_PORTRAIT ) {
-                actionBar.setDisplayShowTitleEnabled(true);
-            } else {
-            }
-        } else {
-            actionBar.setDisplayShowTitleEnabled(true);
-        }
+        toggleTitle(activity, true);
         actionBar.setIcon(R.drawable.icon_action_bar);
     }
 
-    @Override
+    private void toggleTitle(@NotNull SherlockFragmentActivity activity, boolean showTitle) {
+        final ActionBar actionBar = activity.getSupportActionBar();
+
+        if (activity instanceof CalculatorActivity) {
+            if (AndroidUtils.getScreenOrientation(activity) == Configuration.ORIENTATION_PORTRAIT) {
+                actionBar.setDisplayShowTitleEnabled(true);
+            } else {
+                actionBar.setDisplayShowTitleEnabled(false);
+            }
+        } else {
+            actionBar.setDisplayShowTitleEnabled(showTitle);
+        }
+    }
+
     public void restoreSavedTab(@NotNull SherlockFragmentActivity activity) {
         final ActionBar actionBar = activity.getSupportActionBar();
-        if (navPosition >= 0 && navPosition < actionBar.getTabCount()) {
-            activity.getSupportActionBar().setSelectedNavigationItem(navPosition);
+        if (selectedNavigationIndex >= 0 && selectedNavigationIndex < actionBar.getTabCount()) {
+            actionBar.setSelectedNavigationItem(selectedNavigationIndex);
         }
     }
 
     @Override
     public void onSaveInstanceState(@NotNull SherlockFragmentActivity activity, @NotNull Bundle outState) {
         onSaveInstanceState((Activity) activity, outState);
-        outState.putInt(SELECTED_NAV, activity.getSupportActionBar().getSelectedNavigationIndex());
     }
 
     @Override
@@ -141,17 +142,40 @@ public class CalculatorActivityHelperImpl extends AbstractCalculatorHelper imple
     }
 
     @Override
+    public void onPause(@NotNull Activity activity) {
+    }
+
+    @Override
+    public void onPause(@NotNull SherlockFragmentActivity activity) {
+        onPause((Activity) activity);
+
+        final int selectedNavigationIndex = activity.getSupportActionBar().getSelectedNavigationIndex();
+        if (selectedNavigationIndex >= 0) {
+            final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
+            final SharedPreferences.Editor editor = preferences.edit();
+            editor.putInt(getSavedTabPreferenceName(activity), selectedNavigationIndex);
+            editor.commit();
+        }
+
+    }
+
+    @NotNull
+    private String getSavedTabPreferenceName(@NotNull Activity activity) {
+        return "tab_" + activity.getClass().getSimpleName();
+    }
+
+    @Override
     public void onDestroy(@NotNull Activity activity) {
         super.onDestroy(activity);
 
-        if ( activity instanceof CalculatorEventListener) {
-            CalculatorLocatorImpl.getInstance().getCalculator().removeCalculatorEventListener((CalculatorEventListener)activity);
+        if (activity instanceof CalculatorEventListener) {
+            CalculatorLocatorImpl.getInstance().getCalculator().removeCalculatorEventListener((CalculatorEventListener) activity);
         }
     }
 
     @Override
     public void onDestroy(@NotNull SherlockFragmentActivity activity) {
-        this.onDestroy((Activity)activity);
+        this.onDestroy((Activity) activity);
     }
 
     @Override
@@ -161,9 +185,10 @@ public class CalculatorActivityHelperImpl extends AbstractCalculatorHelper imple
                        @Nullable Bundle fragmentArgs,
                        int captionResId,
                        int parentViewId) {
-        activity.getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
         final ActionBar actionBar = activity.getSupportActionBar();
+
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
         final ActionBar.Tab tab = actionBar.newTab();
         tab.setTag(tag);
         tab.setText(captionResId);
@@ -173,8 +198,11 @@ public class CalculatorActivityHelperImpl extends AbstractCalculatorHelper imple
         actionBar.addTab(tab);
 
         fragmentTags.add(tag);
+    }
 
-        restoreSavedTab(activity);
+    @Override
+    public void addTab(@NotNull SherlockFragmentActivity activity, @NotNull CalculatorFragmentType fragmentType, @Nullable Bundle fragmentArgs, int parentViewId) {
+        addTab(activity, fragmentType.getFragmentTag(), fragmentType.getFragmentClass(), fragmentArgs, fragmentType.getDefaultTitleResId(), parentViewId);
     }
 
     @Override
@@ -191,5 +219,9 @@ public class CalculatorActivityHelperImpl extends AbstractCalculatorHelper imple
     @Override
     public void onResume(@NotNull SherlockFragmentActivity activity) {
         onResume((Activity) activity);
+
+        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
+        selectedNavigationIndex = preferences.getInt(getSavedTabPreferenceName(activity), -1);
+        restoreSavedTab(activity);
     }
 }

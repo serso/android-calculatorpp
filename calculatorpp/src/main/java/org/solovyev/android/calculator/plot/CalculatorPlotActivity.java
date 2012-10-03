@@ -8,6 +8,7 @@ import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.CalculatorActivityHelper;
 import org.solovyev.android.calculator.CalculatorApplication;
 import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.about.CalculatorFragmentType;
 
 /**
  * User: serso
@@ -34,7 +35,7 @@ public class CalculatorPlotActivity extends SherlockFragmentActivity {
             arguments = null;
         }
 
-        activityHelper.addTab(this, "plot", CalculatorPlotFragment.class, arguments, R.string.c_plot, R.id.main_layout);
+        activityHelper.addTab(this, CalculatorFragmentType.plotter, arguments, R.id.main_layout);
     }
 
     @Override
@@ -50,6 +51,14 @@ public class CalculatorPlotActivity extends SherlockFragmentActivity {
 
         activityHelper.onResume(this);
     }
+
+    @Override
+    protected void onPause() {
+        this.activityHelper.onPause(this);
+
+        super.onPause();
+    }
+
 
     @Override
     protected void onDestroy() {

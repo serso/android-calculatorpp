@@ -7,13 +7,17 @@
 package org.solovyev.android.calculator.model;
 
 import android.app.Application;
-import jscl.math.operator.Operator;
+import jscl.math.function.ArcTrigonometric;
+import jscl.math.function.Comparison;
+import jscl.math.function.Trigonometric;
+import jscl.math.operator.*;
 import org.jetbrains.annotations.NotNull;
+import org.solovyev.android.calculator.R;
 import org.solovyev.common.JBuilder;
+import org.solovyev.common.collections.CollectionsUtils;
 import org.solovyev.common.math.MathRegistry;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * User: serso
@@ -48,7 +52,12 @@ public class AndroidOperatorsMathRegistry extends AbstractAndroidMathRegistry<Op
 	}
 
     @Override
-    public String getCategory(@NotNull Operator mathEntity) {
+    public String getCategory(@NotNull Operator operator) {
+        for (Category category : Category.values()) {
+            if ( category.isInCategory(operator) ) {
+                return category.name();
+            }
+        }
         return null;
     }
 
@@ -89,4 +98,83 @@ public class AndroidOperatorsMathRegistry extends AbstractAndroidMathRegistry<Op
 	protected MathEntityPersistenceContainer<MathPersistenceEntity> createPersistenceContainer() {
 		return null;  //To change body of implemented methods use File | Settings | File Templates.
 	}
+
+    /*
+    **********************************************************************
+    *
+    *                           STATIC
+    *
+    **********************************************************************
+    */
+
+    public static enum Category {
+
+        derivatives(R.string.derivatives, 100){
+            @Override
+            boolean isInCategory(@NotNull Operator operator) {
+                return operator instanceof Derivative || operator instanceof Integral || operator instanceof IndefiniteIntegral;
+            }
+        },
+
+        other(R.string.other, 200) {
+            @Override
+            boolean isInCategory(@NotNull Operator operator) {
+                return operator instanceof Sum || operator instanceof Product;
+            }
+        },
+
+        my(R.string.c_fun_category_my, 0) {
+            @Override
+            boolean isInCategory(@NotNull Operator operator) {
+                return !operator.isSystem();
+            }
+        },
+
+        common(R.string.c_fun_category_common, 50) {
+            @Override
+            boolean isInCategory(@NotNull Operator operator) {
+                for (Category category : values()) {
+                    if ( category != this ) {
+                        if ( category.isInCategory(operator) ) {
+                            return false;
+                        }
+                    }
+                }
+
+                return true;
+            }
+        };
+
+        private final int captionId;
+
+        private final int tabOrder;
+
+        Category(int captionId, int tabOrder) {
+            this.captionId = captionId;
+            this.tabOrder = tabOrder;
+        }
+
+        public int getCaptionId() {
+            return captionId;
+        }
+
+        abstract boolean isInCategory(@NotNull Operator operator);
+
+        @NotNull
+        public static List<Category> getCategoriesByTabOrder() {
+            final List<Category> result = CollectionsUtils.asList(Category.values());
+
+            Collections.sort(result, new Comparator<Category>() {
+                @Override
+                public int compare(Category category, Category category1) {
+                    return category.tabOrder - category1.tabOrder;
+                }
+            });
+
+            // todo serso: current solution (as creating operators is not implemented yet)
+            result.remove(my);
+
+            return result;
+        }
+    }
 }

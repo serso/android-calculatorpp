@@ -11,6 +11,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.about.CalculatorFragmentType;
 
 /**
  * User: serso
@@ -28,8 +29,8 @@ public class CalculatorHistoryFragmentActivity extends SherlockFragmentActivity 
 
         activityHelper.onCreate(this, savedInstanceState);
 
-        activityHelper.addTab(this, "history", CalculatorHistoryFragment.class, null, R.string.c_history, R.id.main_layout);
-        activityHelper.addTab(this, "saved_history", CalculatorSavedHistoryFragment.class, null, R.string.c_saved_history, R.id.main_layout);
+        activityHelper.addTab(this, CalculatorFragmentType.history, null, R.id.main_layout);
+        activityHelper.addTab(this, CalculatorFragmentType.saved_history, null, R.id.main_layout);
     }
 
     @Override
@@ -45,6 +46,14 @@ public class CalculatorHistoryFragmentActivity extends SherlockFragmentActivity 
 
         activityHelper.onResume(this);
     }
+
+    @Override
+    protected void onPause() {
+        this.activityHelper.onPause(this);
+
+        super.onPause();
+    }
+
 
     @Override
     protected void onDestroy() {
