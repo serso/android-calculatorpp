@@ -403,7 +403,10 @@ public class CalculatorPlotFragment extends SherlockFragment implements Calculat
                     uiHandler.post(new Runnable() {
                         @Override
                         public void run() {
-                            updateGraphicalView(getView());
+                            final View view = getView();
+                            if (view != null) {
+                                updateGraphicalView(view);
+                            }
                         }
                     });
                 }
