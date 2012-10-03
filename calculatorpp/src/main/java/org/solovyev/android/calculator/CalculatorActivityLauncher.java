@@ -7,6 +7,7 @@ import jscl.math.Generic;
 import jscl.math.function.Constant;
 import org.achartengine.ChartFactory;
 import org.jetbrains.annotations.NotNull;
+import org.solovyev.android.AndroidUtils2;
 import org.solovyev.android.calculator.about.CalculatorAboutTabActivity;
 import org.solovyev.android.calculator.help.CalculatorHelpTabActivity;
 import org.solovyev.android.calculator.history.CalculatorHistoryFragmentActivity;
@@ -66,7 +67,7 @@ public class CalculatorActivityLauncher {
 			if (!StringUtils.isEmpty(varValue)) {
 				if (CalculatorVarsFragment.isValidValue(varValue)) {
                     if (context instanceof SherlockFragmentActivity) {
-                        VarEditDialogFragment.createEditVariableDialog(VarEditDialogFragment.Input.newFromValue(varValue), ((SherlockFragmentActivity) context).getSupportFragmentManager());
+                        VarEditDialogFragment.showDialog(VarEditDialogFragment.Input.newFromValue(varValue), ((SherlockFragmentActivity) context).getSupportFragmentManager());
                     } else {
                         final Intent intent = new Intent(context, CalculatorVarsFragmentActivity.class);
                         intent.putExtra(CalculatorVarsFragment.CREATE_VAR_EXTRA_STRING, varValue);

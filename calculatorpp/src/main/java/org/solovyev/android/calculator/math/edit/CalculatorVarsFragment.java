@@ -16,6 +16,7 @@ import com.actionbarsherlock.view.MenuItem;
 import jscl.math.function.IConstant;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.AndroidUtils2;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.menu.AMenuItem;
@@ -50,7 +51,7 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
         if (bundle != null) {
             final String varValue = bundle.getString(CREATE_VAR_EXTRA_STRING);
             if (!StringUtils.isEmpty(varValue)) {
-                VarEditDialogFragment.createEditVariableDialog(VarEditDialogFragment.Input.newFromValue(varValue), this.getActivity().getSupportFragmentManager());
+                VarEditDialogFragment.showDialog(VarEditDialogFragment.Input.newFromValue(varValue), this.getActivity().getSupportFragmentManager());
 
                 // in order to stop intent for other tabs
                 bundle.remove(CREATE_VAR_EXTRA_STRING);
@@ -99,7 +100,7 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
 
     @SuppressWarnings({"UnusedDeclaration"})
     public void addVarButtonClickHandler(@NotNull View v) {
-        VarEditDialogFragment.createEditVariableDialog(VarEditDialogFragment.Input.newInstance(), this.getActivity().getSupportFragmentManager());
+        VarEditDialogFragment.showDialog(VarEditDialogFragment.Input.newInstance(), this.getActivity().getSupportFragmentManager());
     }
 
     @NotNull
@@ -146,7 +147,7 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
 
         switch (item.getItemId()) {
             case R.id.var_menu_add_var:
-                VarEditDialogFragment.createEditVariableDialog(VarEditDialogFragment.Input.newInstance(), this.getActivity().getSupportFragmentManager());
+                VarEditDialogFragment.showDialog(VarEditDialogFragment.Input.newInstance(), this.getActivity().getSupportFragmentManager());
                 result = true;
                 break;
             default:
@@ -232,7 +233,7 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
         edit(R.string.c_edit) {
             @Override
             public void onClick(@NotNull IConstant constant, @NotNull Context context) {
-                VarEditDialogFragment.createEditVariableDialog(VarEditDialogFragment.Input.newFromConstant(constant), ((SherlockFragmentActivity) context).getSupportFragmentManager());
+                VarEditDialogFragment.showDialog(VarEditDialogFragment.Input.newFromConstant(constant), ((SherlockFragmentActivity) context).getSupportFragmentManager());
             }
         },
 

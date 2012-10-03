@@ -16,6 +16,7 @@ import android.widget.Toast;
 import jscl.math.function.IConstant;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.AndroidUtils2;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.model.Var;
 
@@ -35,21 +36,6 @@ public class VarEditDialogFragment extends DialogFragment implements CalculatorE
 
     public VarEditDialogFragment(@NotNull Input input) {
         this.input = input;
-    }
-
-    public static void createEditVariableDialog(@NotNull Input input, @NotNull FragmentManager fm) {
-        final FragmentTransaction ft = fm.beginTransaction();
-
-        Fragment prev = fm.findFragmentByTag("constant-editor");
-        if (prev != null) {
-            ft.remove(prev);
-        }
-        ft.addToBackStack(null);
-
-        // Create and show the dialog.
-        final DialogFragment newFragment = new VarEditDialogFragment(input);
-        newFragment.show(ft, "constant-editor");
-
     }
 
     @Override
@@ -153,6 +139,18 @@ public class VarEditDialogFragment extends DialogFragment implements CalculatorE
                 break;
 
         }
+    }
+
+    /*
+    **********************************************************************
+    *
+    *                           STATIC
+    *
+    **********************************************************************
+    */
+
+    public static void showDialog(@NotNull Input input, @NotNull FragmentManager fm) {
+        AndroidUtils2.showDialog(new VarEditDialogFragment(input), "constant-editor", fm);
     }
 
     public static class Input {
