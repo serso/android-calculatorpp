@@ -15,6 +15,7 @@ import jscl.NumeralBase;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.AndroidUtils;
+import org.solovyev.android.AndroidUtils2;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 import org.solovyev.android.calculator.view.AngleUnitsButton;
 import org.solovyev.android.calculator.view.NumeralBasesButton;
@@ -59,11 +60,13 @@ public final class CalculatorButtons {
         }
     }
 
+
+
     public static void toggleEqualsButton(@Nullable SharedPreferences preferences,
                                           @NotNull Activity activity) {
         preferences = preferences == null ? PreferenceManager.getDefaultSharedPreferences(activity) : preferences;
 
-        final boolean large = activity.getResources().getConfiguration().isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_LARGE);
+        final boolean large = AndroidUtils2.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_LARGE, activity.getResources().getConfiguration());
 
         if (!large) {
             if (AndroidUtils.getScreenOrientation(activity) == Configuration.ORIENTATION_PORTRAIT
