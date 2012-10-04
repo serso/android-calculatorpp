@@ -16,6 +16,8 @@
               a:layout_width="match_parent"
               style="?fragmentTitleStyle"/>
 
+    <include layout="@layout/ad"/>
+
     <ScrollView a:layout_width="match_parent"
                 a:layout_height="match_parent">
 

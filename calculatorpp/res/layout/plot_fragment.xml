@@ -11,4 +11,7 @@
               a:layout_width="match_parent"
               style="?fragmentTitleStyle"/>
 
+    <include layout="@layout/ad"/>
+
+
 </LinearLayout>

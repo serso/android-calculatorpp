@@ -9,7 +9,6 @@ import com.google.ads.AdView;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.ads.AdsController;
-import org.solovyev.android.calculator.plot.CalculatorPlotFragment;
 
 /**
  * User: serso
@@ -89,11 +88,13 @@ public class CalculatorFragmentHelperImpl extends AbstractCalculatorHelper imple
 
     @Override
     public void onViewCreated(@NotNull Fragment fragment, @NotNull View root) {
+        final ViewGroup adParentView = (ViewGroup) root.findViewById(R.id.ad_parent_view);
         final ViewGroup mainFragmentLayout = (ViewGroup) root.findViewById(R.id.main_fragment_layout);
-        if (mainFragmentLayout != null) {
-            if (!(fragment instanceof CalculatorPlotFragment)) {
-                adView = AdsController.getInstance().inflateAd(fragment.getActivity(), mainFragmentLayout, R.id.main_fragment_layout);
-            }
+
+        if (adParentView != null) {
+            adView = AdsController.getInstance().inflateAd(fragment.getActivity(), adParentView, R.id.ad_parent_view);
+        } else if ( mainFragmentLayout != null ) {
+            adView = AdsController.getInstance().inflateAd(fragment.getActivity(), mainFragmentLayout, R.id.main_fragment_layout);
         }
 
         processButtons(fragment.getActivity(), root);

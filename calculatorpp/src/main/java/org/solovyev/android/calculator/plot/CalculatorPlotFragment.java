@@ -35,7 +35,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.menu.ActivityMenu;
-import org.solovyev.android.menu.LabeledMenuItem;
+import org.solovyev.android.menu.IdentifiableMenuItem;
 import org.solovyev.android.menu.ListActivityMenu;
 import org.solovyev.android.sherlock.menu.SherlockMenuHelper;
 import org.solovyev.common.MutableObject;
@@ -83,16 +83,16 @@ public class CalculatorPlotFragment extends CalculatorFragment implements Calcul
     @NotNull
     private PreparedInput preparedInput;
 
+    @Nullable
+    private Input input;
+
     @NotNull
     private CalculatorEventData lastCalculatorEventData = CalculatorUtils.createFirstEventDataId();
 
     private int bgColor;
 
-    @Nullable
-    private PlotBoundaries plotBoundaries = null;
-
     @NotNull
-    private ActivityMenu<Menu, MenuItem> fragmentMenu = ListActivityMenu.fromList(PlotMenu.class, SherlockMenuHelper.getInstance());
+    private ActivityMenu<Menu, MenuItem> fragmentMenu = ListActivityMenu.fromResource(R.menu.plot_menu, PlotMenu.class, SherlockMenuHelper.getInstance());
 
     public CalculatorPlotFragment() {
         super(CalculatorApplication.getInstance().createFragmentHelper(R.layout.plot_fragment, R.string.c_graph, false));
@@ -104,25 +104,21 @@ public class CalculatorPlotFragment extends CalculatorFragment implements Calcul
 
         final Bundle arguments = getArguments();
 
-        Input input = null;
         if (arguments != null) {
             input = (Input) arguments.getSerializable(INPUT);
         }
 
         if (input == null) {
-            this.preparedInput = prepareInputFromDisplay(CalculatorLocatorImpl.getInstance().getDisplay().getViewState());
             this.bgColor = getResources().getColor(R.color.pane_background);
         } else {
-            this.preparedInput = prepareInput(input, true);
             this.bgColor = getResources().getColor(android.R.color.transparent);
         }
 
-        setRetainInstance(true);
         setHasOptionsMenu(true);
     }
 
     @NotNull
-    private static PreparedInput prepareInputFromDisplay(@NotNull CalculatorDisplayViewState displayState) {
+    private static PreparedInput prepareInputFromDisplay(@NotNull CalculatorDisplayViewState displayState, @Nullable Bundle savedInstanceState) {
         try {
             if (displayState.isValid() && displayState.getResult() != null) {
                 final Generic expression = displayState.getResult();
@@ -130,7 +126,7 @@ public class CalculatorPlotFragment extends CalculatorFragment implements Calcul
                     final Constant constant = CollectionsUtils.getFirstCollectionElement(CalculatorUtils.getNotSystemConstants(expression));
 
                     final Input input = new Input(expression.toString(), constant.getName());
-                    return prepareInput(input, false);
+                    return prepareInput(input, false, savedInstanceState);
                 }
             }
         } catch (RuntimeException e) {
@@ -141,7 +137,7 @@ public class CalculatorPlotFragment extends CalculatorFragment implements Calcul
     }
 
     @NotNull
-    private static PreparedInput prepareInput(@NotNull Input input, boolean fromInputArgs) {
+    private static PreparedInput prepareInput(@NotNull Input input, boolean fromInputArgs, @Nullable Bundle savedInstanceState) {
         PreparedInput result;
 
         try {
@@ -149,7 +145,12 @@ public class CalculatorPlotFragment extends CalculatorFragment implements Calcul
             final Generic expression = Expression.valueOf(preparedExpression.getExpression());
             final Constant variable = new Constant(input.getVariableName());
 
-            result = PreparedInput.newInstance(input, expression, variable, fromInputArgs);
+            PlotBoundaries plotBoundaries = null;
+            if ( savedInstanceState != null ) {
+                plotBoundaries = (PlotBoundaries)savedInstanceState.getSerializable(PLOT_BOUNDARIES);
+            }
+
+            result = PreparedInput.newInstance(input, expression, variable, fromInputArgs, plotBoundaries);
         } catch (ParseException e) {
             result = PreparedInput.newErrorInstance(fromInputArgs);
             CalculatorLocatorImpl.getInstance().getNotifier().showMessage(e);
@@ -174,20 +175,13 @@ public class CalculatorPlotFragment extends CalculatorFragment implements Calcul
     }
 
     @Override
-    public void onViewCreated(View root, Bundle savedInstanceState) {
-        super.onViewCreated(root, savedInstanceState);
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-
-        /*if ( savedInstanceState != null ) {
-            final Object object = savedInstanceState.getSerializable(PLOT_BOUNDARIES);
-            if ( object instanceof PlotBoundaries) {
-                plotBoundaries = ((PlotBoundaries) object);
-            }
-        }*/
-
-        if (preparedInput.isFromInputArgs()) {
-            createChart();
-            createGraphicalView(root, null);
+        if (input == null) {
+            this.preparedInput = prepareInputFromDisplay(CalculatorLocatorImpl.getInstance().getDisplay().getViewState(), savedInstanceState);
+        } else {
+            this.preparedInput = prepareInput(input, true, savedInstanceState);
         }
     }
 
@@ -204,12 +198,8 @@ public class CalculatorPlotFragment extends CalculatorFragment implements Calcul
     public void onResume() {
         super.onResume();
 
-        if (!preparedInput.isFromInputArgs()) {
-            this.preparedInput = prepareInputFromDisplay(CalculatorLocatorImpl.getInstance().getDisplay().getViewState());
-        }
-
         createChart();
-        createGraphicalView(getView(), plotBoundaries);
+        createGraphicalView(getView(), this.preparedInput.getPlotBoundaries());
     }
 
     private void createGraphicalView(@NotNull View root, @Nullable PlotBoundaries plotBoundaries) {
@@ -342,14 +332,12 @@ public class CalculatorPlotFragment extends CalculatorFragment implements Calcul
                                     Toast.makeText(CalculatorPlotFragment.this.getActivity(), "Arithmetic error: " + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
                                 }
 
-                                if (pendingOperation.getObject() == this) {
-                                    uiHandler.post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            graphicalView.repaint();
-                                        }
-                                    });
-                                }
+                                uiHandler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        graphicalView.repaint();
+                                    }
+                                });
                             }
                         });
                     }
@@ -371,7 +359,7 @@ public class CalculatorPlotFragment extends CalculatorFragment implements Calcul
                 if (calculatorEventData.isAfter(this.lastCalculatorEventData)) {
                     this.lastCalculatorEventData = calculatorEventData;
 
-                    this.preparedInput = prepareInputFromDisplay(((CalculatorDisplayChangeEventData) data).getNewValue());
+                    this.preparedInput = prepareInputFromDisplay(((CalculatorDisplayChangeEventData) data).getNewValue(), null);
                     createChart();
 
 
@@ -380,7 +368,7 @@ public class CalculatorPlotFragment extends CalculatorFragment implements Calcul
                         public void run() {
                             final View view = getView();
                             if (view != null) {
-                                createGraphicalView(view, null);
+                                createGraphicalView(view, preparedInput.getPlotBoundaries());
                             }
                         }
                     });
@@ -388,11 +376,6 @@ public class CalculatorPlotFragment extends CalculatorFragment implements Calcul
             }
         }
     }
-
-    /*@Override
-    public Object onRetainNonConfigurationInstance() {
-        return new PlotBoundaries(chart.getRenderer());
-    }*/
 
 
 /*    public void zoomInClickHandler(@NotNull View v) {
@@ -444,25 +427,26 @@ public class CalculatorPlotFragment extends CalculatorFragment implements Calcul
     **********************************************************************
     */
 
-    private static enum PlotMenu implements LabeledMenuItem<MenuItem> {
+    private static enum PlotMenu implements IdentifiableMenuItem<MenuItem> {
 
-        preferences(R.string.c_settings) {
+        preferences(R.id.menu_plot_settings) {
             @Override
             public void onClick(@NotNull MenuItem data, @NotNull Context context) {
                 context.startActivity(new Intent(context, CalculatorPlotPreferenceActivity.class));
             }
         };
 
-        private final int captionResId;
+        private final int itemId;
 
-        private PlotMenu(int captionResId) {
-            this.captionResId = captionResId;
+        private PlotMenu(int itemId) {
+            this.itemId = itemId;
         }
+
 
         @NotNull
         @Override
-        public String getCaption(@NotNull Context context) {
-            return context.getString(captionResId);
+        public Integer getItemId() {
+            return itemId;
         }
     }
 
@@ -507,17 +491,21 @@ public class CalculatorPlotFragment extends CalculatorFragment implements Calcul
 
         private boolean fromInputArgs;
 
+        @Nullable
+        private PlotBoundaries plotBoundaries = null;
+
         private PreparedInput() {
         }
 
         @NotNull
-        public static PreparedInput newInstance(@NotNull Input input, @NotNull Generic expression, @NotNull Constant variable, boolean fromInputArgs) {
+        public static PreparedInput newInstance(@NotNull Input input, @NotNull Generic expression, @NotNull Constant variable, boolean fromInputArgs, @Nullable PlotBoundaries plotBoundaries) {
             final PreparedInput result = new PreparedInput();
 
             result.input = input;
             result.expression = expression;
             result.variable = variable;
             result.fromInputArgs = fromInputArgs;
+            result.plotBoundaries = plotBoundaries;
 
             return result;
         }
@@ -546,6 +534,11 @@ public class CalculatorPlotFragment extends CalculatorFragment implements Calcul
         @Nullable
         public Generic getExpression() {
             return expression;
+        }
+
+        @Nullable
+        public PlotBoundaries getPlotBoundaries() {
+            return plotBoundaries;
         }
 
         @Nullable

@@ -201,11 +201,22 @@ public class CalculatorActivityHelperImpl extends AbstractCalculatorHelper imple
 
     @Override
     public void setFragment(@NotNull SherlockFragmentActivity activity, @NotNull CalculatorFragmentType fragmentType, @Nullable Bundle fragmentArgs, int parentViewId) {
-        final Fragment fragment = Fragment.instantiate(activity, fragmentType.getFragmentClass().getName(), fragmentArgs);
         final FragmentManager fm = activity.getSupportFragmentManager();
-        final FragmentTransaction ft = fm.beginTransaction();
-        ft.add(parentViewId, fragment);
-        ft.commit();
+
+        Fragment fragment = fm.findFragmentByTag(fragmentType.getFragmentTag());
+        if (fragment == null) {
+            fragment = Fragment.instantiate(activity, fragmentType.getFragmentClass().getName(), fragmentArgs);
+            final FragmentTransaction ft = fm.beginTransaction();
+            ft.add(parentViewId, fragment, fragmentType.getFragmentTag());
+            ft.commit();
+        } else {
+            if ( fragment.isDetached() ) {
+                final FragmentTransaction ft = fm.beginTransaction();
+                ft.attach(fragment);
+                ft.commit();
+            }
+
+        }
     }
 
     @Override
