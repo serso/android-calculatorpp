@@ -65,7 +65,7 @@ public final class PlotUtils {
 
         while (x <= max) {
 
-            boolean needToCalculateRealY = realSeries.needToAdd(defaultStep, x);
+            boolean needToCalculateRealY = realSeries.needToAdd(step, x);
 
 			if (needToCalculateRealY) {
 				final Complex c = calculatorExpression(expression, variable, x);
@@ -77,7 +77,7 @@ public final class PlotUtils {
 					realSeries.add(x, y);
 				}
 
-				boolean needToCalculateImagY = imagSeries != null && imagSeries.needToAdd(defaultStep, x);
+				boolean needToCalculateImagY = imagSeries != null && imagSeries.needToAdd(step, x);
 				if (needToCalculateImagY) {
 					y = prepareY(c.imaginaryPart());
 					if (y != null) {
@@ -90,7 +90,7 @@ public final class PlotUtils {
 					}
 				}
 			} else {
-				boolean needToCalculateImagY = imagSeries != null && imagSeries.needToAdd(defaultStep, x);
+				boolean needToCalculateImagY = imagSeries != null && imagSeries.needToAdd(step, x);
 				if (needToCalculateImagY) {
 					final Complex c = calculatorExpression(expression, variable, x);
 					Double y = prepareY(c.imaginaryPart());
@@ -107,11 +107,7 @@ public final class PlotUtils {
 
             step = updateStep(real, step, defaultStep / 2);
 
-            if (real.isX2Defined()) {
-                x = real.getX2() + step;
-            } else {
-                x += step;
-            }
+            x += step;
         }
 
 		return imagExists;
