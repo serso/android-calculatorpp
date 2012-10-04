@@ -406,6 +406,7 @@ public class CalculatorPlotFragment extends SherlockFragment implements Calculat
         }
 
         return new CubicLineChart(data, renderer, 0.1f);
+        //return new ScatterChart(data, renderer);
     }
 
     private static XYSeriesRenderer createImagRenderer() {
@@ -473,7 +474,7 @@ public class CalculatorPlotFragment extends SherlockFragment implements Calculat
     private static XYSeriesRenderer createCommonRenderer() {
         final XYSeriesRenderer renderer = new XYSeriesRenderer();
         renderer.setFillPoints(true);
-        renderer.setPointStyle(PointStyle.POINT);
+        renderer.setPointStyle(PointStyle.CIRCLE);
         renderer.setLineWidth(3);
         renderer.setColor(Color.WHITE);
         renderer.setStroke(BasicStroke.SOLID);
