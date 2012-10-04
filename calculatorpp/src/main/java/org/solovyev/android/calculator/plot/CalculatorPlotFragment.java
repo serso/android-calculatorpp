@@ -12,12 +12,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
@@ -51,7 +50,7 @@ import java.util.concurrent.Executors;
  * Date: 12/1/11
  * Time: 12:40 AM
  */
-public class CalculatorPlotFragment extends SherlockFragment implements CalculatorEventListener, SharedPreferences.OnSharedPreferenceChangeListener {
+public class CalculatorPlotFragment extends CalculatorFragment implements CalculatorEventListener {
 
     private static final String TAG = CalculatorPlotFragment.class.getSimpleName();
 
@@ -64,32 +63,25 @@ public class CalculatorPlotFragment extends SherlockFragment implements Calculat
 
     public static final long EVAL_DELAY_MILLIS = 200;
 
+    @Nullable
     private XYChart chart;
 
     /**
      * The encapsulated graphical view.
      */
+    @Nullable
     private GraphicalView graphicalView;
 
-    @NotNull
-    private Generic expression;
-
-    @NotNull
-    private Constant variable;
-
-    @NotNull
-    private final CalculatorFragmentHelper fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(R.layout.plot_fragment, R.string.c_graph, false);
-
+    // thread which calculated data for graph view
     @NotNull
     private final Executor plotExecutor = Executors.newSingleThreadExecutor();
 
+    // thread for applying UI changes
     @NotNull
     private final Handler uiHandler = new Handler();
 
-    @Nullable
-    private Input input = null;
-
-    private boolean inputFromArgs = true;
+    @NotNull
+    private PreparedInput preparedInput;
 
     @NotNull
     private CalculatorEventData lastCalculatorEventData = CalculatorUtils.createFirstEventDataId();
@@ -102,90 +94,88 @@ public class CalculatorPlotFragment extends SherlockFragment implements Calculat
     @NotNull
     private ActivityMenu<Menu, MenuItem> fragmentMenu = ListActivityMenu.fromList(PlotMenu.class, SherlockMenuHelper.getInstance());
 
+    public CalculatorPlotFragment() {
+        super(CalculatorApplication.getInstance().createFragmentHelper(R.layout.plot_fragment, R.string.c_graph, false));
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.fragmentHelper.onCreate(this);
-
-
         final Bundle arguments = getArguments();
 
+        Input input = null;
         if (arguments != null) {
             input = (Input) arguments.getSerializable(INPUT);
         }
 
         if (input == null) {
-            inputFromArgs = false;
-            createInputFromDisplayState(CalculatorLocatorImpl.getInstance().getDisplay().getViewState());
+            this.preparedInput = prepareInputFromDisplay(CalculatorLocatorImpl.getInstance().getDisplay().getViewState());
             this.bgColor = getResources().getColor(R.color.pane_background);
         } else {
+            this.preparedInput = prepareInput(input, true);
             this.bgColor = getResources().getColor(android.R.color.transparent);
-            prepareData();
         }
-
-        PreferenceManager.getDefaultSharedPreferences(this.getActivity()).registerOnSharedPreferenceChangeListener(this);
 
         setRetainInstance(true);
         setHasOptionsMenu(true);
     }
 
-    private void createInputFromDisplayState(@NotNull CalculatorDisplayViewState displayState) {
+    @NotNull
+    private static PreparedInput prepareInputFromDisplay(@NotNull CalculatorDisplayViewState displayState) {
         try {
             if (displayState.isValid() && displayState.getResult() != null) {
                 final Generic expression = displayState.getResult();
                 if (CalculatorUtils.isPlotPossible(expression, displayState.getOperation())) {
                     final Constant constant = CollectionsUtils.getFirstCollectionElement(CalculatorUtils.getNotSystemConstants(expression));
-                    input = new Input(expression.toString(), constant.getName());
 
-                    prepareData();
+                    final Input input = new Input(expression.toString(), constant.getName());
+                    return prepareInput(input, false);
                 }
             }
         } catch (RuntimeException e) {
-            this.input = null;
             Log.e(TAG, e.getLocalizedMessage(), e);
         }
+
+        return PreparedInput.newErrorInstance(false);
     }
 
-    private void prepareData(){
+    @NotNull
+    private static PreparedInput prepareInput(@NotNull Input input, boolean fromInputArgs) {
+        PreparedInput result;
+
         try {
-            if (input != null) {
-                final PreparedExpression preparedExpression = ToJsclTextProcessor.getInstance().process(input.getExpression());
-                this.expression = Expression.valueOf(preparedExpression.getExpression());
-                this.variable = new Constant(input.getVariableName());
+            final PreparedExpression preparedExpression = ToJsclTextProcessor.getInstance().process(input.getExpression());
+            final Generic expression = Expression.valueOf(preparedExpression.getExpression());
+            final Constant variable = new Constant(input.getVariableName());
 
-                initChart();
-            }
+            result = PreparedInput.newInstance(input, expression, variable, fromInputArgs);
         } catch (ParseException e) {
-            this.input = null;
-            Toast.makeText(this.getActivity(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+            result = PreparedInput.newErrorInstance(fromInputArgs);
+            CalculatorLocatorImpl.getInstance().getNotifier().showMessage(e);
         } catch (CalculatorParseException e) {
-            this.input = null;
-            Toast.makeText(this.getActivity(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+            result = PreparedInput.newErrorInstance(fromInputArgs);
+            CalculatorLocatorImpl.getInstance().getNotifier().showMessage(e);
         }
+
+        return result;
     }
 
-    private void initChart() {
-        if (input != null) {
+    private void createChart() {
+        if (!preparedInput.isError()) {
             final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
             final Boolean interpolate = CalculatorPreferences.Graph.interpolate.getPreference(preferences);
             final GraphLineColor realLineColor = CalculatorPreferences.Graph.lineColorReal.getPreference(preferences);
             final GraphLineColor imagLineColor = CalculatorPreferences.Graph.lineColorImag.getPreference(preferences);
 
-            this.chart = PlotUtils.prepareChart(getMinValue(null), getMaxValue(null), this.expression, variable, bgColor, interpolate, realLineColor.getColor(), imagLineColor.getColor());
+            //noinspection ConstantConditions
+            this.chart = PlotUtils.prepareChart(getMinValue(null), getMaxValue(null), preparedInput.getExpression(), preparedInput.getVariable(), bgColor, interpolate, realLineColor.getColor(), imagLineColor.getColor());
         }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return this.fragmentHelper.onCreateView(this, inflater, container);
     }
 
     @Override
     public void onViewCreated(View root, Bundle savedInstanceState) {
         super.onViewCreated(root, savedInstanceState);
-
-        this.fragmentHelper.onViewCreated(this, root);
 
 
         /*if ( savedInstanceState != null ) {
@@ -195,120 +185,103 @@ public class CalculatorPlotFragment extends SherlockFragment implements Calculat
             }
         }*/
 
-        updateGraphicalView(root, plotBoundaries);
+        if (preparedInput.isFromInputArgs()) {
+            createChart();
+            createGraphicalView(root, null);
+        }
     }
 
     @Override
     public void onSaveInstanceState(Bundle out) {
         super.onSaveInstanceState(out);
 
-        /*if (chart != null) {
+        if (chart != null) {
             out.putSerializable(PLOT_BOUNDARIES, new PlotBoundaries(chart.getRenderer()));
-        }*/
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
 
-        this.fragmentHelper.onResume(this);
-
-        if ( !inputFromArgs ) {
-            createInputFromDisplayState(CalculatorLocatorImpl.getInstance().getDisplay().getViewState());
-            updateGraphicalView(getView(), null);
+        if (!preparedInput.isFromInputArgs()) {
+            this.preparedInput = prepareInputFromDisplay(CalculatorLocatorImpl.getInstance().getDisplay().getViewState());
         }
+
+        createChart();
+        createGraphicalView(getView(), plotBoundaries);
     }
 
-    @Override
-    public void onPause() {
-        this.fragmentHelper.onPause(this);
+    private void createGraphicalView(@NotNull View root, @Nullable PlotBoundaries plotBoundaries) {
+        if (!preparedInput.isError()) {
+            final XYChart chart = this.chart;
+            assert chart != null;
 
-        super.onPause();
-    }
+            double minValue = getMinValue(plotBoundaries);
+            double maxValue = getMaxValue(plotBoundaries);
 
-    private void updateGraphicalView(@NotNull View root, @Nullable PlotBoundaries plotBoundaries) {
-        if (input != null) {
-            setGraphicalView(root, plotBoundaries);
+            final ViewGroup graphContainer = (ViewGroup) root.findViewById(R.id.main_fragment_layout);
+
+            if (graphicalView != null) {
+                graphContainer.removeView(graphicalView);
+            }
+
+            // reverting boundaries (as in prepareChart() we add some cached values )
+            double minX = Double.MAX_VALUE;
+            double minY = Double.MAX_VALUE;
+
+            double maxX = Double.MIN_VALUE;
+            double maxY = Double.MIN_VALUE;
+
+            for (XYSeries series : chart.getDataset().getSeries()) {
+                minX = Math.min(minX, series.getMinX());
+                minY = Math.min(minY, series.getMinY());
+                maxX = Math.max(maxX, series.getMaxX());
+                maxY = Math.max(maxY, series.getMaxY());
+            }
+
+            if (plotBoundaries == null) {
+                chart.getRenderer().setXAxisMin(Math.max(minX, minValue));
+                chart.getRenderer().setYAxisMin(Math.max(minY, minValue));
+                chart.getRenderer().setXAxisMax(Math.min(maxX, maxValue));
+                chart.getRenderer().setYAxisMax(Math.min(maxY, maxValue));
+            } else {
+                chart.getRenderer().setXAxisMin(plotBoundaries.xMin);
+                chart.getRenderer().setYAxisMin(plotBoundaries.yMin);
+                chart.getRenderer().setXAxisMax(plotBoundaries.xMax);
+                chart.getRenderer().setYAxisMax(plotBoundaries.yMax);
+            }
+
+            graphicalView = new GraphicalView(this.getActivity(), chart);
+            graphicalView.setBackgroundColor(this.bgColor);
+
+            graphicalView.addZoomListener(new ZoomListener() {
+                @Override
+                public void zoomApplied(ZoomEvent e) {
+                    updateDataSets(chart);
+                }
+
+                @Override
+                public void zoomReset() {
+                    updateDataSets(chart);
+                }
+            }, true, true);
+
+            graphicalView.addPanListener(new PanListener() {
+                @Override
+                public void panApplied() {
+                    Log.d(TAG, "org.achartengine.tools.PanListener.panApplied");
+                    updateDataSets(chart);
+                }
+
+            });
+            graphContainer.addView(graphicalView);
+
+            updateDataSets(chart, 50);
         } else {
             Toast.makeText(this.getActivity(), "Plot is not possible!", Toast.LENGTH_LONG).show();
         }
-    }
 
-    @Override
-    public void onDestroy() {
-        this.fragmentHelper.onDestroy(this);
-
-        PreferenceManager.getDefaultSharedPreferences(this.getActivity()).unregisterOnSharedPreferenceChangeListener(this);
-
-        super.onDestroy();
-    }
-
-    private void setGraphicalView(@NotNull View root, @Nullable PlotBoundaries plotBoundaries) {
-        double minValue = getMinValue(plotBoundaries);
-        double maxValue = getMaxValue(plotBoundaries);
-
-        final ViewGroup graphContainer = (ViewGroup) root.findViewById(R.id.main_fragment_layout);
-
-        if (graphicalView != null) {
-            graphContainer.removeView(graphicalView);
-        }
-
-        // reverting boundaries (as in prepareChart() we add some cached values )
-        double minX = Double.MAX_VALUE;
-        double minY = Double.MAX_VALUE;
-
-        double maxX = Double.MIN_VALUE;
-        double maxY = Double.MIN_VALUE;
-
-        for (XYSeries series : chart.getDataset().getSeries()) {
-            minX = Math.min(minX, series.getMinX());
-            minY = Math.min(minY, series.getMinY());
-            maxX = Math.max(maxX, series.getMaxX());
-            maxY = Math.max(maxY, series.getMaxY());
-        }
-
-        Log.d(CalculatorPlotFragment.class.getName(), "min x: " + minX + ", min y: " + minY + ", max x: " + maxX + ", max y: " + maxY);
-        Log.d(CalculatorPlotFragment.class.getName(), "Plot boundaries are " + plotBoundaries);
-
-
-        if (plotBoundaries == null) {
-            chart.getRenderer().setXAxisMin(Math.max(minX, minValue));
-            chart.getRenderer().setYAxisMin(Math.max(minY, minValue));
-            chart.getRenderer().setXAxisMax(Math.min(maxX, maxValue));
-            chart.getRenderer().setYAxisMax(Math.min(maxY, maxValue));
-        } else {
-            chart.getRenderer().setXAxisMin(plotBoundaries.xMin);
-            chart.getRenderer().setYAxisMin(plotBoundaries.yMin);
-            chart.getRenderer().setXAxisMax(plotBoundaries.xMax);
-            chart.getRenderer().setYAxisMax(plotBoundaries.yMax);
-        }
-
-        graphicalView = new GraphicalView(this.getActivity(), chart);
-        graphicalView.setBackgroundColor(this.bgColor);
-
-        graphicalView.addZoomListener(new ZoomListener() {
-            @Override
-            public void zoomApplied(ZoomEvent e) {
-                updateDataSets(chart);
-            }
-
-            @Override
-            public void zoomReset() {
-                updateDataSets(chart);
-            }
-        }, true, true);
-
-        graphicalView.addPanListener(new PanListener() {
-            @Override
-            public void panApplied() {
-                Log.d(TAG, "org.achartengine.tools.PanListener.panApplied");
-                updateDataSets(chart);
-            }
-
-        });
-        graphContainer.addView(graphicalView);
-
-        updateDataSets(chart, 50);
     }
 
     private double getMaxValue(@Nullable PlotBoundaries plotBoundaries) {
@@ -327,6 +300,9 @@ public class CalculatorPlotFragment extends SherlockFragment implements Calculat
     private void updateDataSets(@NotNull final XYChart chart, long millisToWait) {
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
         final GraphLineColor imagLineColor = CalculatorPreferences.Graph.lineColorImag.getPreference(preferences);
+
+        final Generic expression = preparedInput.getExpression();
+        final Constant variable = preparedInput.getVariable();
 
         pendingOperation.setObject(new Runnable() {
             @Override
@@ -351,7 +327,7 @@ public class CalculatorPlotFragment extends SherlockFragment implements Calculat
                                 if (chart.getDataset().getSeriesCount() > 1) {
                                     imagSeries = (MyXYSeries) chart.getDataset().getSeriesAt(1);
                                 } else {
-                                    imagSeries = new MyXYSeries(PlotUtils.getImagFunctionName(CalculatorPlotFragment.this.variable), PlotUtils.DEFAULT_NUMBER_OF_STEPS * 2);
+                                    imagSeries = new MyXYSeries(PlotUtils.getImagFunctionName(variable), PlotUtils.DEFAULT_NUMBER_OF_STEPS * 2);
                                 }
 
                                 try {
@@ -390,34 +366,26 @@ public class CalculatorPlotFragment extends SherlockFragment implements Calculat
 
     @Override
     public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable final Object data) {
-        if ( calculatorEventType.isOfType(CalculatorEventType.display_state_changed) ) {
-            if ( !inputFromArgs ) {
-                if ( calculatorEventData.isAfter(this.lastCalculatorEventData) ) {
+        if (calculatorEventType.isOfType(CalculatorEventType.display_state_changed)) {
+            if (!preparedInput.isFromInputArgs()) {
+                if (calculatorEventData.isAfter(this.lastCalculatorEventData)) {
                     this.lastCalculatorEventData = calculatorEventData;
 
-                    createInputFromDisplayState(((CalculatorDisplayChangeEventData) data).getNewValue());
+                    this.preparedInput = prepareInputFromDisplay(((CalculatorDisplayChangeEventData) data).getNewValue());
+                    createChart();
+
 
                     uiHandler.post(new Runnable() {
                         @Override
                         public void run() {
                             final View view = getView();
                             if (view != null) {
-                                updateGraphicalView(view, null);
+                                createGraphicalView(view, null);
                             }
                         }
                     });
                 }
             }
-        }
-    }
-
-    @Override
-    public void onSharedPreferenceChanged(@NotNull SharedPreferences preferences, @NotNull String key) {
-        if ( CalculatorPreferences.Graph.interpolate.getKey().equals(key) ||
-                CalculatorPreferences.Graph.lineColorReal.getKey().equals(key) ||
-                    CalculatorPreferences.Graph.lineColorImag.getKey().equals(key)) {
-            initChart();
-            updateGraphicalView(getView(), plotBoundaries);
         }
     }
 
@@ -427,13 +395,13 @@ public class CalculatorPlotFragment extends SherlockFragment implements Calculat
     }*/
 
 
-    public void zoomInClickHandler(@NotNull View v) {
+/*    public void zoomInClickHandler(@NotNull View v) {
         this.graphicalView.zoomIn();
     }
 
     public void zoomOutClickHandler(@NotNull View v) {
         this.graphicalView.zoomOut();
-    }
+    }*/
 
     /*
     **********************************************************************
@@ -447,14 +415,20 @@ public class CalculatorPlotFragment extends SherlockFragment implements Calculat
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
-        fragmentMenu.onCreateOptionsMenu(this.getActivity(), menu);
+        final FragmentActivity activity = this.getActivity();
+        if (activity != null) {
+            fragmentMenu.onCreateOptionsMenu(activity, menu);
+        }
     }
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
 
-        fragmentMenu.onPrepareOptionsMenu(this.getActivity(), menu);
+        final FragmentActivity activity = this.getActivity();
+        if (activity != null) {
+            fragmentMenu.onPrepareOptionsMenu(activity, menu);
+        }
     }
 
     @Override
@@ -492,12 +466,15 @@ public class CalculatorPlotFragment extends SherlockFragment implements Calculat
         }
     }
 
-    private static final class PlotBoundaries implements Serializable {
+    public static final class PlotBoundaries implements Serializable {
 
-        private final double xMin;
-        private final double xMax;
-        private final double yMin;
-        private final double yMax;
+        private double xMin;
+        private double xMax;
+        private double yMin;
+        private double yMax;
+
+        public PlotBoundaries() {
+        }
 
         public PlotBoundaries(@NotNull XYMultipleSeriesRenderer renderer) {
             this.xMin = renderer.getXAxisMin();
@@ -514,6 +491,70 @@ public class CalculatorPlotFragment extends SherlockFragment implements Calculat
                     ", xMax=" + xMax +
                     ", xMin=" + xMin +
                     '}';
+        }
+    }
+
+    public static class PreparedInput {
+
+        @Nullable
+        private Input input;
+
+        @Nullable
+        private Generic expression;
+
+        @Nullable
+        private Constant variable;
+
+        private boolean fromInputArgs;
+
+        private PreparedInput() {
+        }
+
+        @NotNull
+        public static PreparedInput newInstance(@NotNull Input input, @NotNull Generic expression, @NotNull Constant variable, boolean fromInputArgs) {
+            final PreparedInput result = new PreparedInput();
+
+            result.input = input;
+            result.expression = expression;
+            result.variable = variable;
+            result.fromInputArgs = fromInputArgs;
+
+            return result;
+        }
+
+        @NotNull
+        public static PreparedInput newErrorInstance(boolean fromInputArgs) {
+            final PreparedInput result = new PreparedInput();
+
+            result.input = null;
+            result.expression = null;
+            result.variable = null;
+            result.fromInputArgs = fromInputArgs;
+
+            return result;
+        }
+
+        public boolean isFromInputArgs() {
+            return fromInputArgs;
+        }
+
+        @Nullable
+        public Input getInput() {
+            return input;
+        }
+
+        @Nullable
+        public Generic getExpression() {
+            return expression;
+        }
+
+        @Nullable
+        public Constant getVariable() {
+            return variable;
+        }
+
+        public boolean isError() {
+            return input == null || expression == null || variable == null;
         }
     }
 

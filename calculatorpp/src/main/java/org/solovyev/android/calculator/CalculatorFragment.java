@@ -27,6 +27,10 @@ public abstract class CalculatorFragment extends SherlockFragment {
         fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(fragmentType.getDefaultLayoutId(), fragmentType.getDefaultTitleResId());
     }
 
+    protected CalculatorFragment(@NotNull CalculatorFragmentHelper fragmentHelper) {
+        this.fragmentHelper = fragmentHelper;
+    }
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
