@@ -38,7 +38,9 @@
 
         <!--action bar-->
         <item name="actionBarTabStyle">@style/metro_blue_actionbar_tab_style</item>
+        <item name="android:actionBarTabStyle">@style/metro_blue_actionbar_tab_style</item>
         <item name="actionBarStyle">@style/metro_blue_actionbar_style</item>
+        <item name="android:actionBarStyle">@style/metro_blue_actionbar_style</item>
     </style>
 
 </resources>

@@ -6,8 +6,9 @@
 
 package org.solovyev.android.calculator.plot;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -17,25 +18,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import jscl.math.Expression;
 import jscl.math.Generic;
 import jscl.math.function.Constant;
 import jscl.text.ParseException;
 import org.achartengine.GraphicalView;
-import org.achartengine.chart.CubicLineChart;
-import org.achartengine.chart.PointStyle;
 import org.achartengine.chart.XYChart;
-import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
-import org.achartengine.renderer.BasicStroke;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
-import org.achartengine.renderer.XYSeriesRenderer;
 import org.achartengine.tools.PanListener;
 import org.achartengine.tools.ZoomEvent;
 import org.achartengine.tools.ZoomListener;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.*;
+import org.solovyev.android.menu.ActivityMenu;
+import org.solovyev.android.menu.LabeledMenuItem;
+import org.solovyev.android.menu.ListActivityMenu;
+import org.solovyev.android.sherlock.menu.SherlockMenuHelper;
 import org.solovyev.common.MutableObject;
 import org.solovyev.common.collections.CollectionsUtils;
 
@@ -48,11 +51,9 @@ import java.util.concurrent.Executors;
  * Date: 12/1/11
  * Time: 12:40 AM
  */
-public class CalculatorPlotFragment extends SherlockFragment implements CalculatorEventListener {
+public class CalculatorPlotFragment extends SherlockFragment implements CalculatorEventListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String TAG = CalculatorPlotFragment.class.getSimpleName();
-
-    private static final int DEFAULT_NUMBER_OF_STEPS = 100;
 
     private static final int DEFAULT_MIN_NUMBER = -10;
 
@@ -95,6 +96,12 @@ public class CalculatorPlotFragment extends SherlockFragment implements Calculat
 
     private int bgColor;
 
+    @Nullable
+    private PlotBoundaries plotBoundaries = null;
+
+    @NotNull
+    private ActivityMenu<Menu, MenuItem> fragmentMenu = ListActivityMenu.fromList(PlotMenu.class, SherlockMenuHelper.getInstance());
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,7 +124,10 @@ public class CalculatorPlotFragment extends SherlockFragment implements Calculat
             prepareData();
         }
 
+        PreferenceManager.getDefaultSharedPreferences(this.getActivity()).registerOnSharedPreferenceChangeListener(this);
+
         setRetainInstance(true);
+        setHasOptionsMenu(true);
     }
 
     private void createInputFromDisplayState(@NotNull CalculatorDisplayViewState displayState) {
@@ -144,7 +154,7 @@ public class CalculatorPlotFragment extends SherlockFragment implements Calculat
                 this.expression = Expression.valueOf(preparedExpression.getExpression());
                 this.variable = new Constant(input.getVariableName());
 
-                this.chart = prepareChart(getMinValue(null), getMaxValue(null), this.expression, variable, bgColor);
+                initChart();
             }
         } catch (ParseException e) {
             this.input = null;
@@ -152,6 +162,17 @@ public class CalculatorPlotFragment extends SherlockFragment implements Calculat
         } catch (CalculatorParseException e) {
             this.input = null;
             Toast.makeText(this.getActivity(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void initChart() {
+        if (input != null) {
+            final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
+            final Boolean interpolate = CalculatorPreferences.Graph.interpolate.getPreference(preferences);
+            final GraphLineColor realLineColor = CalculatorPreferences.Graph.lineColorReal.getPreference(preferences);
+            final GraphLineColor imagLineColor = CalculatorPreferences.Graph.lineColorImag.getPreference(preferences);
+
+            this.chart = PlotUtils.prepareChart(getMinValue(null), getMaxValue(null), this.expression, variable, bgColor, interpolate, realLineColor.getColor(), imagLineColor.getColor());
         }
     }
 
@@ -167,7 +188,6 @@ public class CalculatorPlotFragment extends SherlockFragment implements Calculat
         this.fragmentHelper.onViewCreated(this, root);
 
 
-        PlotBoundaries plotBoundaries = null;
         /*if ( savedInstanceState != null ) {
             final Object object = savedInstanceState.getSerializable(PLOT_BOUNDARIES);
             if ( object instanceof PlotBoundaries) {
@@ -217,6 +237,8 @@ public class CalculatorPlotFragment extends SherlockFragment implements Calculat
     @Override
     public void onDestroy() {
         this.fragmentHelper.onDestroy(this);
+
+        PreferenceManager.getDefaultSharedPreferences(this.getActivity()).unregisterOnSharedPreferenceChangeListener(this);
 
         super.onDestroy();
     }
@@ -304,7 +326,7 @@ public class CalculatorPlotFragment extends SherlockFragment implements Calculat
 
     private void updateDataSets(@NotNull final XYChart chart, long millisToWait) {
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
-        final boolean showComplexGraph = CalculatorPreferences.Graph.showComplexGraph.getPreference(preferences);
+        final GraphLineColor imagLineColor = CalculatorPreferences.Graph.lineColorImag.getPreference(preferences);
 
         pendingOperation.setObject(new Runnable() {
             @Override
@@ -329,14 +351,14 @@ public class CalculatorPlotFragment extends SherlockFragment implements Calculat
                                 if (chart.getDataset().getSeriesCount() > 1) {
                                     imagSeries = (MyXYSeries) chart.getDataset().getSeriesAt(1);
                                 } else {
-                                    imagSeries = new MyXYSeries(getImagFunctionName(CalculatorPlotFragment.this.variable), DEFAULT_NUMBER_OF_STEPS * 2);
+                                    imagSeries = new MyXYSeries(PlotUtils.getImagFunctionName(CalculatorPlotFragment.this.variable), PlotUtils.DEFAULT_NUMBER_OF_STEPS * 2);
                                 }
 
                                 try {
-                                    if (PlotUtils.addXY(dr.getXAxisMin(), dr.getXAxisMax(), expression, variable, realSeries, imagSeries, true, DEFAULT_NUMBER_OF_STEPS)) {
+                                    if (PlotUtils.addXY(dr.getXAxisMin(), dr.getXAxisMax(), expression, variable, realSeries, imagSeries, true, PlotUtils.DEFAULT_NUMBER_OF_STEPS)) {
                                         if (chart.getDataset().getSeriesCount() <= 1) {
                                             chart.getDataset().addSeries(imagSeries);
-                                            chart.getRenderer().addSeriesRenderer(createImagRenderer());
+                                            chart.getRenderer().addSeriesRenderer(PlotUtils.createImagRenderer(imagLineColor.getColor()));
                                         }
                                     }
                                 } catch (ArithmeticException e) {
@@ -364,57 +386,7 @@ public class CalculatorPlotFragment extends SherlockFragment implements Calculat
     }
 
     @NotNull
-    private static String getImagFunctionName(@NotNull Constant variable) {
-        return "g(" + variable.getName() + ")" + " = " + "Im(ƒ(" + variable.getName() + "))";
-    }
-
-    @NotNull
-    private static String getRealFunctionName(@NotNull Generic expression, @NotNull Constant variable) {
-        return "ƒ(" + variable.getName() + ")" + " = " + expression.toString();
-    }
-
-    @NotNull
     private final MutableObject<Runnable> pendingOperation = new MutableObject<Runnable>();
-
-    private static XYChart prepareChart(final double minValue, final double maxValue, @NotNull final Generic expression, @NotNull final Constant variable, int bgColor) {
-        final MyXYSeries realSeries = new MyXYSeries(getRealFunctionName(expression, variable), DEFAULT_NUMBER_OF_STEPS * 2);
-        final MyXYSeries imagSeries = new MyXYSeries(getImagFunctionName(variable), DEFAULT_NUMBER_OF_STEPS * 2);
-
-        boolean imagExists = PlotUtils.addXY(minValue, maxValue, expression, variable, realSeries, imagSeries, false, DEFAULT_NUMBER_OF_STEPS);
-
-        final XYMultipleSeriesDataset data = new XYMultipleSeriesDataset();
-        data.addSeries(realSeries);
-        if (imagExists) {
-            data.addSeries(imagSeries);
-        }
-
-        final XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
-        renderer.setShowGrid(true);
-        renderer.setXTitle(variable.getName());
-        renderer.setYTitle("f(" + variable.getName() + ")");
-        renderer.setChartTitleTextSize(20);
-        renderer.setApplyBackgroundColor(true);
-        renderer.setBackgroundColor(bgColor);
-        renderer.setMarginsColor(bgColor);
-
-        renderer.setZoomEnabled(true);
-        renderer.setZoomButtonsVisible(true);
-
-        renderer.addSeriesRenderer(createCommonRenderer());
-        if (imagExists) {
-            renderer.addSeriesRenderer(createImagRenderer());
-        }
-
-        return new CubicLineChart(data, renderer, 0.1f);
-        //return new ScatterChart(data, renderer);
-    }
-
-    private static XYSeriesRenderer createImagRenderer() {
-        final XYSeriesRenderer imagRenderer = createCommonRenderer();
-        imagRenderer.setStroke(BasicStroke.DASHED);
-        imagRenderer.setColor(Color.LTGRAY);
-        return imagRenderer;
-    }
 
     @Override
     public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable final Object data) {
@@ -439,10 +411,86 @@ public class CalculatorPlotFragment extends SherlockFragment implements Calculat
         }
     }
 
+    @Override
+    public void onSharedPreferenceChanged(@NotNull SharedPreferences preferences, @NotNull String key) {
+        if ( CalculatorPreferences.Graph.interpolate.getKey().equals(key) ||
+                CalculatorPreferences.Graph.lineColorReal.getKey().equals(key) ||
+                    CalculatorPreferences.Graph.lineColorImag.getKey().equals(key)) {
+            initChart();
+            updateGraphicalView(getView(), plotBoundaries);
+        }
+    }
+
     /*@Override
     public Object onRetainNonConfigurationInstance() {
         return new PlotBoundaries(chart.getRenderer());
     }*/
+
+
+    public void zoomInClickHandler(@NotNull View v) {
+        this.graphicalView.zoomIn();
+    }
+
+    public void zoomOutClickHandler(@NotNull View v) {
+        this.graphicalView.zoomOut();
+    }
+
+    /*
+    **********************************************************************
+    *
+    *                           MENU
+    *
+    **********************************************************************
+    */
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        fragmentMenu.onCreateOptionsMenu(this.getActivity(), menu);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+
+        fragmentMenu.onPrepareOptionsMenu(this.getActivity(), menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item) || fragmentMenu.onOptionsItemSelected(this.getActivity(), item);
+    }
+
+    /*
+    **********************************************************************
+    *
+    *                           STATIC
+    *
+    **********************************************************************
+    */
+
+    private static enum PlotMenu implements LabeledMenuItem<MenuItem> {
+
+        preferences(R.string.c_settings) {
+            @Override
+            public void onClick(@NotNull MenuItem data, @NotNull Context context) {
+                context.startActivity(new Intent(context, CalculatorPlotPreferenceActivity.class));
+            }
+        };
+
+        private final int captionResId;
+
+        private PlotMenu(int captionResId) {
+            this.captionResId = captionResId;
+        }
+
+        @NotNull
+        @Override
+        public String getCaption(@NotNull Context context) {
+            return context.getString(captionResId);
+        }
+    }
 
     private static final class PlotBoundaries implements Serializable {
 
@@ -468,27 +516,6 @@ public class CalculatorPlotFragment extends SherlockFragment implements Calculat
                     '}';
         }
     }
-
-
-    @NotNull
-    private static XYSeriesRenderer createCommonRenderer() {
-        final XYSeriesRenderer renderer = new XYSeriesRenderer();
-        renderer.setFillPoints(true);
-        renderer.setPointStyle(PointStyle.CIRCLE);
-        renderer.setLineWidth(3);
-        renderer.setColor(Color.WHITE);
-        renderer.setStroke(BasicStroke.SOLID);
-        return renderer;
-    }
-
-    public void zoomInClickHandler(@NotNull View v) {
-        this.graphicalView.zoomIn();
-    }
-
-    public void zoomOutClickHandler(@NotNull View v) {
-        this.graphicalView.zoomOut();
-    }
-
 
     public static class Input implements Serializable {
 

@@ -15,6 +15,14 @@ import jscl.math.function.Constant;
 import jscl.math.numeric.Complex;
 import jscl.math.numeric.Numeric;
 import jscl.math.numeric.Real;
+import org.achartengine.chart.CubicLineChart;
+import org.achartengine.chart.PointStyle;
+import org.achartengine.chart.ScatterChart;
+import org.achartengine.chart.XYChart;
+import org.achartengine.model.XYMultipleSeriesDataset;
+import org.achartengine.renderer.BasicStroke;
+import org.achartengine.renderer.XYMultipleSeriesRenderer;
+import org.achartengine.renderer.XYSeriesRenderer;
 import org.achartengine.util.MathHelper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -28,8 +36,9 @@ public final class PlotUtils {
 
 	private static final double MAX_Y_DIFF = 1;
 	private static final double MAX_X_DIFF = 1;
+    static final int DEFAULT_NUMBER_OF_STEPS = 100;
 
-	// not intended for instantiation
+    // not intended for instantiation
 	private PlotUtils() {
 		throw new AssertionError();
 	}
@@ -112,6 +121,81 @@ public final class PlotUtils {
 
 		return imagExists;
 	}
+
+    @NotNull
+    static String getImagFunctionName(@NotNull Constant variable) {
+        return "g(" + variable.getName() + ")" + " = " + "Im(ƒ(" + variable.getName() + "))";
+    }
+
+    @NotNull
+    private static String getRealFunctionName(@NotNull Generic expression, @NotNull Constant variable) {
+        return "ƒ(" + variable.getName() + ")" + " = " + expression.toString();
+    }
+
+    @NotNull
+    static XYChart prepareChart(final double minValue,
+                                final double maxValue,
+                                @NotNull final Generic expression,
+                                @NotNull final Constant variable,
+                                int bgColor,
+                                boolean interpolate,
+                                int realLineColor,
+                                int imagLineColor) {
+        final MyXYSeries realSeries = new MyXYSeries(getRealFunctionName(expression, variable), DEFAULT_NUMBER_OF_STEPS * 2);
+        final MyXYSeries imagSeries = new MyXYSeries(getImagFunctionName(variable), DEFAULT_NUMBER_OF_STEPS * 2);
+
+        boolean imagExists = addXY(minValue, maxValue, expression, variable, realSeries, imagSeries, false, DEFAULT_NUMBER_OF_STEPS);
+
+        final XYMultipleSeriesDataset data = new XYMultipleSeriesDataset();
+        data.addSeries(realSeries);
+        if (imagExists) {
+            data.addSeries(imagSeries);
+        }
+
+        final XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
+        renderer.setShowGrid(true);
+        renderer.setXTitle(variable.getName());
+        renderer.setYTitle("f(" + variable.getName() + ")");
+        renderer.setChartTitleTextSize(25);
+        renderer.setAxisTitleTextSize(25);
+        renderer.setLabelsTextSize(25);
+        renderer.setLegendTextSize(25);
+        renderer.setMargins(new int[]{25, 25, 25, 25});
+        renderer.setApplyBackgroundColor(true);
+        renderer.setBackgroundColor(bgColor);
+        renderer.setMarginsColor(bgColor);
+
+        renderer.setZoomEnabled(true);
+        renderer.setZoomButtonsVisible(true);
+
+        renderer.addSeriesRenderer(createCommonRenderer(realLineColor));
+        if (imagExists) {
+            renderer.addSeriesRenderer(createImagRenderer(imagLineColor));
+        }
+
+        if (interpolate) {
+            return new CubicLineChart(data, renderer, 0.1f);
+        } else {
+            return new ScatterChart(data, renderer);
+        }
+    }
+
+    static XYSeriesRenderer createImagRenderer(int color) {
+        final XYSeriesRenderer imagRenderer = createCommonRenderer(color);
+        imagRenderer.setStroke(BasicStroke.DASHED);
+        return imagRenderer;
+    }
+
+    @NotNull
+    private static XYSeriesRenderer createCommonRenderer(int color) {
+        final XYSeriesRenderer renderer = new XYSeriesRenderer();
+        renderer.setFillPoints(true);
+        renderer.setPointStyle(PointStyle.CIRCLE);
+        renderer.setLineWidth(3);
+        renderer.setColor(color);
+        renderer.setStroke(BasicStroke.SOLID);
+        return renderer;
+    }
 
     private static class Point {
         private static final double DEFAULT = Double.MIN_VALUE;

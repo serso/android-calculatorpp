@@ -35,6 +35,7 @@
         <activity android:label="@string/c_vars_and_constants" android:name=".math.edit.CalculatorVarsActivity"/>
 
         <activity android:label="@string/c_plot_graph" android:name=".plot.CalculatorPlotActivity"/>
+        <activity android:label="@string/c_settings" android:name=".plot.CalculatorPlotPreferenceActivity"/>
 
         <activity android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" android:name="com.google.ads.AdActivity"/>
 

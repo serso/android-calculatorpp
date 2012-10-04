@@ -1,5 +1,6 @@
 package org.solovyev.android.calculator.plot;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import org.jetbrains.annotations.Nullable;
@@ -27,6 +28,7 @@ public class CalculatorPlotActivity extends CalculatorFragmentActivity {
             arguments = null;
         }
 
-        getActivityHelper().addTab(this, CalculatorFragmentType.plotter, arguments, R.id.main_layout);
+        getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+        getActivityHelper().setFragment(this, CalculatorFragmentType.plotter, arguments, R.id.main_layout);
     }
 }

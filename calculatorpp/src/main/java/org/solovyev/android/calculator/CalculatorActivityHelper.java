@@ -48,6 +48,11 @@ public interface CalculatorActivityHelper {
                 @Nullable Bundle fragmentArgs,
                 int parentViewId);
 
+    void setFragment(@NotNull SherlockFragmentActivity activity,
+                    @NotNull CalculatorFragmentType fragmentType,
+                    @Nullable Bundle fragmentArgs,
+                    int parentViewId);
+
 
     void logDebug(@NotNull String message);
 

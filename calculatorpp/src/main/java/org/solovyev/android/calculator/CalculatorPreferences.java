@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.AndroidUtils;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
+import org.solovyev.android.calculator.plot.GraphLineColor;
 import org.solovyev.android.prefs.BooleanPreference;
 import org.solovyev.android.prefs.IntegerPreference;
 import org.solovyev.android.prefs.Preference;
@@ -98,7 +99,9 @@ public final class CalculatorPreferences {
     }
 
     public static class Graph {
-        public static final Preference<Boolean> showComplexGraph = new BooleanPreference("show_complex_graph", false);
+        public static final Preference<Boolean> interpolate = new BooleanPreference("graph_interpolate", true);
+        public static final Preference<GraphLineColor> lineColorReal = StringPreference.newInstance("graph_line_color_real", GraphLineColor.white, GraphLineColor.class);
+        public static final Preference<GraphLineColor> lineColorImag = StringPreference.newInstance("graph_line_color_imag", GraphLineColor.blue, GraphLineColor.class);
 
     }
 

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:a="http://schemas.android.com/apk/res/android">
+
+    <android.preference.CheckBoxPreference
+            a:key="graph_interpolate"
+            a:title="Interpolate function's graph"
+            a:summary="If checked cubic interpolation will be used in function graph drawing"/>
+
+    <ListPreference a:key="graph_line_color_real"
+                    a:title="Color of real part of functions graph"
+                    a:summary="Sets color of real part functions graph"
+                    a:entries="@array/graph_line_color_names"
+                    a:entryValues="@array/graph_line_color_values"/>
+
+    <ListPreference a:key="graph_line_color_imag"
+                    a:title="Color of imaginary part of functions graph"
+                    a:summary="Sets color of imaginary part functions graph"
+                    a:entries="@array/graph_line_color_names"
+                    a:entryValues="@array/graph_line_color_values"/>
+
+</PreferenceScreen>

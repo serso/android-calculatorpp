@@ -6,6 +6,8 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import com.actionbarsherlock.app.ActionBar;
@@ -195,6 +197,15 @@ public class CalculatorActivityHelperImpl extends AbstractCalculatorHelper imple
     @Override
     public void addTab(@NotNull SherlockFragmentActivity activity, @NotNull CalculatorFragmentType fragmentType, @Nullable Bundle fragmentArgs, int parentViewId) {
         addTab(activity, fragmentType.getFragmentTag(), fragmentType.getFragmentClass(), fragmentArgs, fragmentType.getDefaultTitleResId(), parentViewId);
+    }
+
+    @Override
+    public void setFragment(@NotNull SherlockFragmentActivity activity, @NotNull CalculatorFragmentType fragmentType, @Nullable Bundle fragmentArgs, int parentViewId) {
+        final Fragment fragment = Fragment.instantiate(activity, fragmentType.getFragmentClass().getName(), fragmentArgs);
+        final FragmentManager fm = activity.getSupportFragmentManager();
+        final FragmentTransaction ft = fm.beginTransaction();
+        ft.add(parentViewId, fragment);
+        ft.commit();
     }
 
     @Override

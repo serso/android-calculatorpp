@@ -39,7 +39,10 @@ public class CalculatorPreferencesActivity extends SherlockPreferenceActivity im
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		addPreferencesFromResource(R.xml.preferences);
+        //noinspection deprecation
+        addPreferencesFromResource(R.xml.preferences);
+        //noinspection deprecation
+        addPreferencesFromResource(R.xml.plot_preferences);
 
 		final Preference adFreePreference = findPreference(CalculatorApplication.AD_FREE_P_KEY);
 		adFreePreference.setEnabled(false);
