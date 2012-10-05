@@ -20,7 +20,8 @@
 
         </activity>
 
-        <activity android:label="@string/c_app_settings" android:name=".CalculatorPreferencesActivity"/>
+        <!-- settings must use action bar icon-->
+        <activity android:label="@string/c_app_settings" android:icon="@drawable/icon_action_bar" android:name=".CalculatorPreferencesActivity"/>
 
         <activity android:label="@string/c_history" android:name=".history.CalculatorHistoryActivity"/>
 
@@ -35,7 +36,9 @@
         <activity android:label="@string/c_vars_and_constants" android:name=".math.edit.CalculatorVarsActivity"/>
 
         <activity android:label="@string/c_plot_graph" android:name=".plot.CalculatorPlotActivity"/>
-        <activity android:label="@string/c_settings" android:name=".plot.CalculatorPlotPreferenceActivity"/>
+
+        <!-- settings must use action bar icon-->
+        <activity android:label="@string/c_settings" android:icon="@drawable/icon_action_bar" android:name=".plot.CalculatorPlotPreferenceActivity"/>
 
         <activity android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" android:name="com.google.ads.AdActivity"/>
 
@@ -49,7 +52,7 @@
         </receiver>
 
         <activity android:name="org.acra.CrashReportDialog"
-                  android:theme="@android:style/Theme.Dialog"
+                  android:theme="@style/Theme.Sherlock.Dialog"
                   android:launchMode="singleInstance"
                   android:excludeFromRecents="true"
                   android:finishOnTaskLaunch="true" />

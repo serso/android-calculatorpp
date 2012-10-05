@@ -82,10 +82,27 @@
 
     <style name="default_actionbar_style" parent="@style/Widget.Sherlock.ActionBar">
         <item name="background">@drawable/default_abs__ab_transparent_dark_holo</item>
+        <item name="android:background">@drawable/default_abs__ab_transparent_dark_holo</item>
     </style>
 
     <style name="default_actionbar_tab_style" parent="@style/Widget.Sherlock.ActionBar.TabView">
+        <item name="background">@drawable/default_abs__tab_indicator_ab_holo</item>
         <item name="android:background">@drawable/default_abs__tab_indicator_ab_holo</item>
+    </style>
+
+    <style name="default_actionbar_close_button_style" parent="@style/Widget.Sherlock.ActionButton.CloseMode">
+        <item name="android:background">@drawable/default_abs__btn_cab_done_holo_dark</item>
+        <item name="background">@drawable/default_abs__btn_cab_done_holo_dark</item>
+    </style>
+
+    <style name="default_actionbar_dropdown_style" parent="@style/Widget.Sherlock.Spinner.DropDown.ActionBar">
+        <item name="android:background">@drawable/default_abs__spinner_ab_holo_dark</item>
+        <item name="background">@drawable/default_abs__spinner_ab_holo_dark</item>
+    </style>
+
+    <style name="default_actionbar_dropdown_listview_style" parent="@style/Widget.Sherlock.ListView.DropDown">
+        <item name="android:listSelector">@drawable/default_abs__list_selector_holo_dark</item>
+        <!--<item name="listSelector">@drawable/default_abs__list_selector_holo_dark</item>-->
     </style>
 
     <style name="default_theme" parent="Theme.Sherlock">
@@ -111,5 +128,15 @@
         <item name="android:actionBarTabStyle">@style/default_actionbar_tab_style</item>
         <item name="actionBarStyle">@style/default_actionbar_style</item>
         <item name="android:actionBarStyle">@style/default_actionbar_style</item>
+        <item name="actionModeCloseButtonStyle">@style/default_actionbar_close_button_style</item>
+        <item name="android:actionModeCloseButtonStyle">@style/default_actionbar_close_button_style</item>
+        <item name="actionBarItemBackground">@drawable/default_abs__item_background_holo_dark</item>
+        <item name="android:actionBarItemBackground">@drawable/default_abs__item_background_holo_dark</item>
+        <item name="actionDropDownStyle">@style/default_actionbar_dropdown_style</item>
+        <item name="android:actionDropDownStyle">@style/default_actionbar_dropdown_style</item>
+        <item name="dropDownListViewStyle">@style/default_actionbar_dropdown_listview_style</item>
+        <item name="android:dropDownListViewStyle">@style/default_actionbar_dropdown_listview_style</item>
+
+
     </style>
 </resources>
