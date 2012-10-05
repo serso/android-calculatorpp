@@ -9,8 +9,7 @@ package org.solovyev.android.calculator.plot;
 import org.achartengine.model.XYSeries;
 import org.achartengine.util.MathHelper;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * User: serso

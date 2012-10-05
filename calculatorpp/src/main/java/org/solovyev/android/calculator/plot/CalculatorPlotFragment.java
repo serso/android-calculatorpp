@@ -171,6 +171,8 @@ public class CalculatorPlotFragment extends CalculatorFragment implements Calcul
 
             //noinspection ConstantConditions
             this.chart = PlotUtils.prepareChart(getMinValue(null), getMaxValue(null), preparedInput.getExpression(), preparedInput.getVariable(), bgColor, interpolate, realLineColor.getColor(), imagLineColor.getColor());
+        } else {
+            this.chart = null;
         }
     }
 
@@ -203,18 +205,18 @@ public class CalculatorPlotFragment extends CalculatorFragment implements Calcul
     }
 
     private void createGraphicalView(@NotNull View root, @Nullable PlotBoundaries plotBoundaries) {
+        final ViewGroup graphContainer = (ViewGroup) root.findViewById(R.id.main_fragment_layout);
+
+        if (graphicalView != null) {
+            graphContainer.removeView(graphicalView);
+        }
+
         if (!preparedInput.isError()) {
             final XYChart chart = this.chart;
             assert chart != null;
 
             double minValue = getMinValue(plotBoundaries);
             double maxValue = getMaxValue(plotBoundaries);
-
-            final ViewGroup graphContainer = (ViewGroup) root.findViewById(R.id.main_fragment_layout);
-
-            if (graphicalView != null) {
-                graphContainer.removeView(graphicalView);
-            }
 
             // reverting boundaries (as in prepareChart() we add some cached values )
             double minX = Double.MAX_VALUE;
@@ -260,7 +262,6 @@ public class CalculatorPlotFragment extends CalculatorFragment implements Calcul
             graphicalView.addPanListener(new PanListener() {
                 @Override
                 public void panApplied() {
-                    Log.d(TAG, "org.achartengine.tools.PanListener.panApplied");
                     updateDataSets(chart);
                 }
 
@@ -269,7 +270,7 @@ public class CalculatorPlotFragment extends CalculatorFragment implements Calcul
 
             updateDataSets(chart, 50);
         } else {
-            Toast.makeText(this.getActivity(), "Plot is not possible!", Toast.LENGTH_LONG).show();
+            graphicalView = null;
         }
 
     }
@@ -294,56 +295,54 @@ public class CalculatorPlotFragment extends CalculatorFragment implements Calcul
         final Generic expression = preparedInput.getExpression();
         final Constant variable = preparedInput.getVariable();
 
-        pendingOperation.setObject(new Runnable() {
-            @Override
-            public void run() {
-                // allow only one runner at one time
-                synchronized (pendingOperation) {
-                    //lock all operations with history
-                    if (pendingOperation.getObject() == this) {
+        if (expression != null && variable != null) {
+            pendingOperation.setObject(new Runnable() {
+                @Override
+                public void run() {
+                    // allow only one runner at one time
+                    synchronized (pendingOperation) {
+                        //lock all operations with history
+                        if (pendingOperation.getObject() == this) {
 
-                        plotExecutor.execute(new Runnable() {
-                            @Override
-                            public void run() {
-                                Log.d(TAG, "org.solovyev.android.calculator.plot.CalculatorPlotActivity.updateDataSets");
+                            plotExecutor.execute(new Runnable() {
+                                @Override
+                                public void run() {
+                                    final XYMultipleSeriesRenderer dr = chart.getRenderer();
 
-                                final XYMultipleSeriesRenderer dr = chart.getRenderer();
+                                    final MyXYSeries realSeries = (MyXYSeries) chart.getDataset().getSeriesAt(0);
 
-                                //Log.d(CalculatorPlotActivity.class.getName(), "x = [" + dr.getXAxisMin() + ", " + dr.getXAxisMax() + "], y = [" + dr.getYAxisMin() + ", " + dr.getYAxisMax() + "]");
+                                    final MyXYSeries imagSeries;
+                                    if (chart.getDataset().getSeriesCount() > 1) {
+                                        imagSeries = (MyXYSeries) chart.getDataset().getSeriesAt(1);
+                                    } else {
+                                        imagSeries = new MyXYSeries(PlotUtils.getImagFunctionName(variable), PlotUtils.DEFAULT_NUMBER_OF_STEPS * 2);
+                                    }
 
-                                final MyXYSeries realSeries = (MyXYSeries) chart.getDataset().getSeriesAt(0);
-
-                                final MyXYSeries imagSeries;
-                                if (chart.getDataset().getSeriesCount() > 1) {
-                                    imagSeries = (MyXYSeries) chart.getDataset().getSeriesAt(1);
-                                } else {
-                                    imagSeries = new MyXYSeries(PlotUtils.getImagFunctionName(variable), PlotUtils.DEFAULT_NUMBER_OF_STEPS * 2);
-                                }
-
-                                try {
-                                    if (PlotUtils.addXY(dr.getXAxisMin(), dr.getXAxisMax(), expression, variable, realSeries, imagSeries, true, PlotUtils.DEFAULT_NUMBER_OF_STEPS)) {
-                                        if (chart.getDataset().getSeriesCount() <= 1) {
-                                            chart.getDataset().addSeries(imagSeries);
-                                            chart.getRenderer().addSeriesRenderer(PlotUtils.createImagRenderer(imagLineColor.getColor()));
+                                    try {
+                                        if (PlotUtils.addXY(dr.getXAxisMin(), dr.getXAxisMax(), expression, variable, realSeries, imagSeries, true, PlotUtils.DEFAULT_NUMBER_OF_STEPS)) {
+                                            if (chart.getDataset().getSeriesCount() <= 1) {
+                                                chart.getDataset().addSeries(imagSeries);
+                                                chart.getRenderer().addSeriesRenderer(PlotUtils.createImagRenderer(imagLineColor.getColor()));
+                                            }
                                         }
+                                    } catch (ArithmeticException e) {
+                                        // todo serso: translate
+                                        Toast.makeText(CalculatorPlotFragment.this.getActivity(), "Arithmetic error: " + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
                                     }
-                                } catch (ArithmeticException e) {
-                                    // todo serso: translate
-                                    Toast.makeText(CalculatorPlotFragment.this.getActivity(), "Arithmetic error: " + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-                                }
 
-                                uiHandler.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        graphicalView.repaint();
-                                    }
-                                });
-                            }
-                        });
+                                    uiHandler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            graphicalView.repaint();
+                                        }
+                                    });
+                                }
+                            });
+                        }
                     }
                 }
-            }
-        });
+            });
+        }
 
 
         uiHandler.postDelayed(pendingOperation.getObject(), millisToWait);

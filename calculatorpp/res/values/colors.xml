@@ -18,4 +18,5 @@
     <color name="metro_blue_color">#10648c</color>
     <color name="metro_green_color">#088e3a</color>
     <color name="metro_purple_color">#651456</color>
+    <color name="metro_light_button_background">#393939</color>
 </resources>

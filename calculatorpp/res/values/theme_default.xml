@@ -37,7 +37,7 @@
 
     <style name="default_fragment_title_style">
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">@dimen/fragment_title_text_size</item>
     </style>
 
     <style name="default_button_style" parent="button_style">
