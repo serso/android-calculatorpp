@@ -17,6 +17,7 @@
 	</style>
 
     <style name="metro_purple_fragment_list_view_item_style" parent="default_fragment_list_view_item_style">
+        <item name="background">@drawable/metro_purple_list_item</item>
         <item name="android:background">@drawable/metro_purple_list_item</item>
     </style>
 

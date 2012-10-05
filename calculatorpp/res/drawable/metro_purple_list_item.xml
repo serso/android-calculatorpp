@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- pressed -->
-    <item android:state_pressed="true"
-          android:drawable="@color/metro_purple_color"/>
+<selector xmlns:a="http://schemas.android.com/apk/res/android">
+    <!-- Non focused states -->
+    <item a:state_focused="false" a:state_selected="false" a:state_pressed="false" a:drawable="@android:color/transparent" />
+    <item a:state_focused="false" a:state_selected="true"  a:state_pressed="false" a:drawable="@color/metro_purple_color" />
 
-    <!-- focused -->
-    <item android:state_focused="true"
-          android:drawable="@color/metro_purple_color"/>
+    <!-- Focused states -->
+    <item a:state_focused="true" a:state_selected="false" a:state_pressed="false" a:drawable="@color/metro_purple_color" />
+    <item a:state_focused="true" a:state_selected="true"  a:state_pressed="false" a:drawable="@color/metro_purple_color" />
 
-    <!-- default -->
-    <item android:drawable="@android:color/transparent"/>
+    <!-- Pressed -->
+    <!--    Non focused states -->
+    <item a:state_focused="false" a:state_selected="false" a:state_pressed="true" a:drawable="@color/metro_purple_color" />
+    <item a:state_focused="false" a:state_selected="true"  a:state_pressed="true" a:drawable="@color/metro_purple_color" />
+
+    <!--    Focused states -->
+    <item a:state_focused="true" a:state_selected="false" a:state_pressed="true" a:drawable="@color/metro_purple_color" />
+    <item a:state_focused="true" a:state_selected="true"  a:state_pressed="true" a:drawable="@color/metro_purple_color" />
 </selector>
