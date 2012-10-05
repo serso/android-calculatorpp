@@ -16,13 +16,16 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import com.actionbarsherlock.app.SherlockListFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.about.CalculatorFragmentType;
 import org.solovyev.android.calculator.jscl.JsclOperation;
-import org.solovyev.android.menu.AMenuBuilder;
-import org.solovyev.android.menu.MenuImpl;
+import org.solovyev.android.menu.*;
+import org.solovyev.android.sherlock.menu.SherlockMenuHelper;
 import org.solovyev.common.collections.CollectionsUtils;
 import org.solovyev.common.equals.Equalizer;
 import org.solovyev.common.filter.Filter;
@@ -83,6 +86,8 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
     @NotNull
     private CalculatorFragmentHelper fragmentHelper;
 
+    private ActivityMenu<Menu, MenuItem> menu = ListActivityMenu.fromResource(org.solovyev.android.calculator.R.menu.history_menu, HistoryMenu.class, SherlockMenuHelper.getInstance());
+
     protected AbstractCalculatorHistoryFragment(@NotNull CalculatorFragmentType fragmentType) {
         fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(fragmentType.getDefaultLayoutId(), fragmentType.getDefaultTitleResId(), false);
     }
@@ -92,6 +97,8 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
         super.onCreate(savedInstanceState);
 
         fragmentHelper.onCreate(this);
+
+        setHasOptionsMenu(true);
 
         logDebug("onCreate");
     }
@@ -113,7 +120,7 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 
         fragmentHelper.onViewCreated(this, root);
 
-        adapter = new HistoryArrayAdapter(this.getActivity(), getItemLayoutId(), R.id.history_item, new ArrayList<CalculatorHistoryState>());
+        adapter = new HistoryArrayAdapter(this.getActivity(), getItemLayoutId(), org.solovyev.android.calculator.R.id.history_item, new ArrayList<CalculatorHistoryState>());
         setListAdapter(adapter);
 
         final ListView lv = getListView();
@@ -272,30 +279,6 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 		return jsclOperation == JsclOperation.simplify ? "≡" : "=";
 	}
 
-    // todo serso: menu
-/*	@Override
-	public boolean onCreateOptionsMenu(android.view.Menu menu) {
-		final MenuInflater menuInflater = getMenuInflater();
-		menuInflater.inflate(R.menu.history_menu, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		boolean result;
-
-		switch (item.getItemId()) {
-			case R.id.history_menu_clear_history:
-				clearHistory();
-				result = true;
-				break;
-			default:
-				result = super.onOptionsItemSelected(item);
-		}
-
-		return result;
-	}*/
-
 	protected abstract void clearHistory();
 
 	@NotNull
@@ -305,15 +288,71 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 
     @Override
     public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
-        if ( calculatorEventType == CalculatorEventType.history_state_added ) {
+        switch (calculatorEventType) {
+            case history_state_added:
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        logDebug("onCalculatorEvent");
+                        updateAdapter();
+                    }
+                });
+                break;
 
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    logDebug("onCalculatorEvent");
-                    updateAdapter();
-                }
-            });
+            case clear_history_requested:
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        clearHistory();
+                    }
+                });
+                break;
+        }
+
+    }
+
+    /*
+    **********************************************************************
+    *
+    *                           MENU
+    *
+    **********************************************************************
+    */
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        this.menu.onCreateOptionsMenu(this.getActivity(), menu);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        this.menu.onPrepareOptionsMenu(this.getActivity(), menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return this.menu.onOptionsItemSelected(this.getActivity(), item);
+    }
+
+    private static enum HistoryMenu implements IdentifiableMenuItem<MenuItem> {
+
+        clear_history(org.solovyev.android.calculator.R.id.history_menu_clear_history) {
+            @Override
+            public void onClick(@NotNull MenuItem data, @NotNull Context context) {
+                CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.clear_history_requested, null);
+            }
+        };
+
+        private final int itemId;
+
+        HistoryMenu(int itemId) {
+            this.itemId = itemId;
+        }
+
+        @NotNull
+        @Override
+        public Integer getItemId() {
+            return this.itemId;
         }
     }
 }
