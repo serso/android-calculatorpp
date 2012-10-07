@@ -6,9 +6,12 @@
 
 package org.solovyev.android.calculator.model;
 
-import android.app.Application;
 import jscl.math.operator.Operator;
 import org.jetbrains.annotations.NotNull;
+import org.solovyev.android.calculator.AbstractCalculatorMathRegistry;
+import org.solovyev.android.calculator.MathEntityDao;
+import org.solovyev.android.calculator.MathEntityPersistenceContainer;
+import org.solovyev.android.calculator.MathPersistenceEntity;
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathRegistry;
 
@@ -20,7 +23,7 @@ import java.util.Map;
  * Date: 11/19/11
  * Time: 1:48 PM
  */
-public class AndroidPostfixFunctionsRegistry extends AbstractAndroidMathRegistry<Operator, MathPersistenceEntity> {
+public class AndroidPostfixFunctionsRegistry extends AbstractCalculatorMathRegistry<Operator, MathPersistenceEntity> {
 
 	@NotNull
 	private static final Map<String, String> substitutes = new HashMap<String, String>();
@@ -35,8 +38,8 @@ public class AndroidPostfixFunctionsRegistry extends AbstractAndroidMathRegistry
 	private static final String POSTFIX_FUNCTION_DESCRIPTION_PREFIX = "c_pf_description_";
 
 	protected AndroidPostfixFunctionsRegistry(@NotNull MathRegistry<Operator> functionsRegistry,
-                                              @NotNull Application application) {
-		super(functionsRegistry, POSTFIX_FUNCTION_DESCRIPTION_PREFIX, application);
+                                              @NotNull MathEntityDao<MathPersistenceEntity> mathEntityDao) {
+		super(functionsRegistry, POSTFIX_FUNCTION_DESCRIPTION_PREFIX, mathEntityDao);
 	}
 
 
@@ -67,18 +70,7 @@ public class AndroidPostfixFunctionsRegistry extends AbstractAndroidMathRegistry
 		return null;  //To change body of implemented methods use File | Settings | File Templates.
 	}
 
-	@NotNull
-	@Override
-	protected Class<? extends MathEntityPersistenceContainer<MathPersistenceEntity>> getPersistenceContainerClass() {
-		return null;  //To change body of implemented methods use File | Settings | File Templates.
-	}
-
-	@Override
-	protected Integer getPreferenceStringId() {
-		return null;  //To change body of implemented methods use File | Settings | File Templates.
-	}
-
-	@Override
+    @Override
 	public void save() {
 		// not supported yet
 	}

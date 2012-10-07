@@ -9,18 +9,18 @@ package org.solovyev.android.calculator.math;
 import junit.framework.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.solovyev.android.calculator.CalculatorLocatorImpl;
+import org.solovyev.android.calculator.AbstractCalculatorTest;
 
 /**
  * User: serso
  * Date: 10/5/11
  * Time: 1:25 AM
  */
-public class MathTypeTest {
+public class MathTypeTest extends AbstractCalculatorTest {
 
 	@BeforeClass
-	public static void setUp() throws Exception {
-		CalculatorLocatorImpl.getInstance().getEngine().init();
+	public static void staticSetUp() throws Exception {
+        AbstractCalculatorTest.staticSetUp();
 	}
 
 	@Test

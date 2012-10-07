@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
+import org.solovyev.android.calculator.MathPersistenceEntity;
 import org.solovyev.common.collections.CollectionsUtils;
 import org.solovyev.common.text.CollectionTransformations;
 import org.solovyev.common.text.StringMapper;

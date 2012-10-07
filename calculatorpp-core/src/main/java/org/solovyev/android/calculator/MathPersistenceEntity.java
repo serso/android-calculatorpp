@@ -4,7 +4,7 @@
  * or visit http://se.solovyev.org
  */
 
-package org.solovyev.android.calculator.model;
+package org.solovyev.android.calculator;
 
 import org.jetbrains.annotations.NotNull;
 

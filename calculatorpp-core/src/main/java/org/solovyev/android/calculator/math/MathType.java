@@ -354,7 +354,7 @@ public enum MathType {
 			final String s = CollectionsUtils.find(mathType.getTokens(), startsWithFinder);
 			if (s != null) {
 				if ( s.length() == 1 ) {
-					if (hexMode || JsclMathEngine.instance.getNumeralBase() == NumeralBase.hex) {
+					if (hexMode || JsclMathEngine.getInstance().getNumeralBase() == NumeralBase.hex) {
 						final Character ch = s.charAt(0);
 						if ( NumeralBase.hex.getAcceptableCharacters().contains(ch) ) {
 							return new Result(MathType.digit, s);

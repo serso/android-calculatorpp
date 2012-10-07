@@ -10,14 +10,15 @@ import org.junit.Test;
  * Date: 21.09.12
  * Time: 12:44
  */
-public class CalculatorEditorImplTest {
+public class CalculatorEditorImplTest extends AbstractCalculatorTest {
 
     @NotNull
     private CalculatorEditor calculatorEditor;
 
     @Before
     public void setUp() throws Exception {
-        this.calculatorEditor = new CalculatorEditorImpl(new CalculatorImpl());
+        super.setUp();
+        this.calculatorEditor = new CalculatorEditorImpl(CalculatorLocatorImpl.getInstance().getCalculator());
     }
 
     @Test

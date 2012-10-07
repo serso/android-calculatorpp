@@ -1,4 +1,4 @@
-package org.solovyev.android.calculator.model;
+package org.solovyev.android.calculator;
 
 import java.util.List;
 
@@ -8,5 +8,7 @@ import java.util.List;
  * Time: 5:03 PM
  */
 public interface MathEntityPersistenceContainer<T extends MathPersistenceEntity> {
-	public List<T> getEntities();
+
+    public List<T> getEntities();
+
 }

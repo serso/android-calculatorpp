@@ -1,8 +1,8 @@
 package org.solovyev.android.calculator.model;
 
-import jscl.math.function.IConstant;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
+import org.solovyev.android.calculator.MathEntityPersistenceContainer;
 
 import java.util.ArrayList;
 import java.util.List;

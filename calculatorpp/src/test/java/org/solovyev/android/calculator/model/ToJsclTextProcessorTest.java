@@ -152,15 +152,15 @@ public class ToJsclTextProcessorTest {
 	public void testNumeralBases() throws Exception {
 		final TextProcessor<PreparedExpression, String> processor = ToJsclTextProcessor.getInstance();
 
-		final NumeralBase defaultNumeralBase = JsclMathEngine.instance.getNumeralBase();
+		final NumeralBase defaultNumeralBase = JsclMathEngine.getInstance().getNumeralBase();
 		try{
-			JsclMathEngine.instance.setNumeralBase(NumeralBase.bin);
-			Assert.assertEquals("101", JsclMathEngine.instance.evaluate("10+11"));
+			JsclMathEngine.getInstance().setNumeralBase(NumeralBase.bin);
+			Assert.assertEquals("101", JsclMathEngine.getInstance().evaluate("10+11"));
 
-			JsclMathEngine.instance.setNumeralBase(NumeralBase.hex);
+			JsclMathEngine.getInstance().setNumeralBase(NumeralBase.hex);
 			Assert.assertEquals("56CE+CAD", processor.process("56CE+CAD").getExpression());
 		} finally {
-			JsclMathEngine.instance.setNumeralBase(defaultNumeralBase);
+			JsclMathEngine.getInstance().setNumeralBase(defaultNumeralBase);
 		}
 	}
 }

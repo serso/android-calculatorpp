@@ -13,7 +13,6 @@ import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.about.CalculatorFragmentType;
 import org.solovyev.android.calculator.history.CalculatorHistoryActivity;
-import org.solovyev.android.calculator.model.AndroidFunctionsMathRegistry;
 
 /**
  * User: serso
@@ -33,7 +32,7 @@ public class CalculatorFunctionsActivity extends SherlockFragmentActivity implem
 
         final CalculatorFragmentType fragmentType = CalculatorFragmentType.functions;
 
-        for (AndroidFunctionsMathRegistry.Category category : AndroidFunctionsMathRegistry.Category.getCategoriesByTabOrder()) {
+        for (FunctionCategory category : FunctionCategory.getCategoriesByTabOrder()) {
             activityHelper.addTab(this, fragmentType.createSubFragmentTag(category.name()), fragmentType.getFragmentClass(), AbstractMathEntityListFragment.createBundleFor(category.name()), category.getCaptionId(), R.id.main_layout);
         }
 

@@ -6,10 +6,11 @@
 
 package org.solovyev.android.calculator.model;
 
-import android.app.Application;
 import jscl.math.function.IConstant;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.AbstractCalculatorMathRegistry;
+import org.solovyev.android.calculator.MathEntityDao;
+import org.solovyev.android.calculator.MathEntityPersistenceContainer;
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathRegistry;
 
@@ -21,7 +22,7 @@ import java.util.Map;
  * Date: 9/29/11
  * Time: 4:57 PM
  */
-class AndroidVarsRegistryImpl extends AbstractAndroidMathRegistry<IConstant, Var> {
+class AndroidVarsRegistryImpl extends AbstractCalculatorMathRegistry<IConstant, Var> {
 
 	@NotNull
 	private static final Map<String, String> substitutes = new HashMap<String, String>();
@@ -34,8 +35,8 @@ class AndroidVarsRegistryImpl extends AbstractAndroidMathRegistry<IConstant, Var
 	}
 
 	protected AndroidVarsRegistryImpl(@NotNull MathRegistry<IConstant> mathRegistry,
-                                      @NotNull Application application) {
-		super(mathRegistry, "c_var_description_", application);
+                                      @NotNull MathEntityDao<Var> mathEntityDao) {
+		super(mathRegistry, "c_var_description_", mathEntityDao);
 	}
 
 	@NotNull
@@ -66,24 +67,13 @@ class AndroidVarsRegistryImpl extends AbstractAndroidMathRegistry<IConstant, Var
 		return new Var.Builder(entity);
 	}
 
-	@NotNull
-	@Override
-	protected Class<? extends MathEntityPersistenceContainer<Var>> getPersistenceContainerClass() {
-		return Vars.class;
-	}
-
-	@NotNull
+    @NotNull
 	@Override
 	protected MathEntityPersistenceContainer<Var> createPersistenceContainer() {
 		return new Vars();
 	}
 
-	@NotNull
-	protected Integer getPreferenceStringId() {
-		return R.string.p_calc_vars;
-	}
-
-	private void tryToAddAuxVar(@NotNull String name) {
+    private void tryToAddAuxVar(@NotNull String name) {
 		if ( !contains(name) ) {
 			add(new Var.Builder(name, (String)null));
 		}

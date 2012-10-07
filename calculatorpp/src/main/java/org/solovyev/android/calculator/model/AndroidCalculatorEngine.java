@@ -17,10 +17,7 @@ import jscl.math.function.Function;
 import jscl.math.function.IConstant;
 import jscl.math.operator.Operator;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.calculator.CalculatorEngine;
-import org.solovyev.android.calculator.CalculatorEngineImpl;
-import org.solovyev.android.calculator.CalculatorMathEngine;
-import org.solovyev.android.calculator.CalculatorMathRegistry;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.prefs.BooleanPreference;
 import org.solovyev.android.prefs.Preference;
 import org.solovyev.android.prefs.StringPreference;
@@ -109,12 +106,12 @@ public class AndroidCalculatorEngine implements CalculatorEngine, SharedPreferen
 
         this.lock = new Object();
 
-        final JsclMathEngine engine = JsclMathEngine.instance;
+        final JsclMathEngine engine = JsclMathEngine.getInstance();
         this.calculatorEngine = new CalculatorEngineImpl(engine,
-                new AndroidVarsRegistryImpl(engine.getConstantsRegistry(), application),
-                new AndroidFunctionsMathRegistry(engine.getFunctionsRegistry(), application),
-                new AndroidOperatorsMathRegistry(engine.getOperatorsRegistry(), application),
-                new AndroidPostfixFunctionsRegistry(engine.getPostfixFunctionsRegistry(), application),
+                new AndroidVarsRegistryImpl(engine.getConstantsRegistry(), new AndroidMathEntityDao<Var>(R.string.p_calc_vars, application, Vars.class)),
+                new AndroidFunctionsMathRegistry(engine.getFunctionsRegistry(), new AndroidMathEntityDao<AFunction>(R.string.p_calc_functions, application, Functions.class)),
+                new AndroidOperatorsMathRegistry(engine.getOperatorsRegistry(), new AndroidMathEntityDao<MathPersistenceEntity>(null, application, null)),
+                new AndroidPostfixFunctionsRegistry(engine.getPostfixFunctionsRegistry(), new AndroidMathEntityDao<MathPersistenceEntity>(null, application, null)),
                 this.lock);
     }
 

@@ -36,7 +36,7 @@ public class NumeralBaseTest {
 	public void testConversion() throws Exception {
 		CSVReader reader = null;
 		try {
-			final MathEngine me = JsclMathEngine.instance;
+			final MathEngine me = JsclMathEngine.getInstance();
 
 			reader = new CSVReader(new InputStreamReader(NumeralBaseTest.class.getResourceAsStream("/org/solovyev/android/calculator/model/nb_table.csv")), '\t');
 

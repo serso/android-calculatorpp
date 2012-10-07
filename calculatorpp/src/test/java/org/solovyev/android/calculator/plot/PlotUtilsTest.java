@@ -12,13 +12,13 @@ import junit.framework.Assert;
 import org.achartengine.model.XYSeries;
 import org.jetbrains.annotations.NotNull;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * User: serso
  * Date: 12/5/11
  * Time: 9:07 PM
  */
-
 public class PlotUtilsTest {
 
 	@Test

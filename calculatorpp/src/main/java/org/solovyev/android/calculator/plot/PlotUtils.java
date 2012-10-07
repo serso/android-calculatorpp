@@ -6,7 +6,6 @@
 
 package org.solovyev.android.calculator.plot;
 
-import android.util.Log;
 import jscl.math.Expression;
 import jscl.math.Generic;
 import jscl.math.JsclInteger;
@@ -375,7 +374,7 @@ public final class PlotUtils {
            // double dydx1 = dy2 / dx1;
 
             if ( dy2 > MAX_Y_DIFF && dx2 < MAX_X_DIFF && isDifferentSign(point.getY2(), point.getY1()) && isDifferentSign(point.getDyDx1(), point.getDyDx2())) {
-				Log.d(CalculatorPlotActivity.class.getName(), "Singularity: " + point);
+				//Log.d(CalculatorPlotActivity.class.getName(), "Singularity: " + point);
 				//Log.d(CalculatorPlotActivity.class.getName(), String.valueOf(prevX + Math.abs(x - prevX) / 2) +  ", null");
 				series.add(point.getX1() + point.getAbsDx2() / 2, MathHelper.NULL_VALUE);
                 point.clearHistory();

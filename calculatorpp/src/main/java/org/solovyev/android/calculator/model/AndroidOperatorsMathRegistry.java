@@ -6,13 +6,9 @@
 
 package org.solovyev.android.calculator.model;
 
-import android.app.Application;
-import jscl.math.function.ArcTrigonometric;
-import jscl.math.function.Comparison;
-import jscl.math.function.Trigonometric;
 import jscl.math.operator.*;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.*;
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.collections.CollectionsUtils;
 import org.solovyev.common.math.MathRegistry;
@@ -24,7 +20,7 @@ import java.util.*;
  * Date: 11/17/11
  * Time: 11:29 PM
  */
-public class AndroidOperatorsMathRegistry extends AbstractAndroidMathRegistry<Operator, MathPersistenceEntity> {
+public class AndroidOperatorsMathRegistry extends AbstractCalculatorMathRegistry<Operator, MathPersistenceEntity> {
 
 	@NotNull
 	private static final Map<String, String> substitutes = new HashMap<String, String>();
@@ -41,8 +37,8 @@ public class AndroidOperatorsMathRegistry extends AbstractAndroidMathRegistry<Op
 	private static final String OPERATOR_DESCRIPTION_PREFIX = "c_op_description_";
 
 	protected AndroidOperatorsMathRegistry(@NotNull MathRegistry<Operator> functionsRegistry,
-                                           @NotNull Application application) {
-		super(functionsRegistry, OPERATOR_DESCRIPTION_PREFIX, application);
+                                           @NotNull MathEntityDao<MathPersistenceEntity> mathEntityDao) {
+		super(functionsRegistry, OPERATOR_DESCRIPTION_PREFIX, mathEntityDao);
 	}
 
 	@NotNull
@@ -72,18 +68,7 @@ public class AndroidOperatorsMathRegistry extends AbstractAndroidMathRegistry<Op
 		return null;  //To change body of implemented methods use File | Settings | File Templates.
 	}
 
-	@NotNull
-	@Override
-	protected Class<? extends MathEntityPersistenceContainer<MathPersistenceEntity>> getPersistenceContainerClass() {
-		return null;  //To change body of implemented methods use File | Settings | File Templates.
-	}
-
-	@Override
-	protected Integer getPreferenceStringId() {
-		return null;  //To change body of implemented methods use File | Settings | File Templates.
-	}
-
-	@Override
+    @Override
 	public void save() {
 		// not supported yet
 	}
