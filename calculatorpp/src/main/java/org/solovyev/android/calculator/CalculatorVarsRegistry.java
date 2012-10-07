@@ -4,13 +4,12 @@
  * or visit http://se.solovyev.org
  */
 
-package org.solovyev.android.calculator.model;
+package org.solovyev.android.calculator;
 
 import jscl.math.function.IConstant;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.calculator.AbstractCalculatorMathRegistry;
-import org.solovyev.android.calculator.MathEntityDao;
-import org.solovyev.android.calculator.MathEntityPersistenceContainer;
+import org.solovyev.android.calculator.model.Var;
+import org.solovyev.android.calculator.model.Vars;
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathRegistry;
 
@@ -22,7 +21,7 @@ import java.util.Map;
  * Date: 9/29/11
  * Time: 4:57 PM
  */
-class CalculatorVarsRegistry extends AbstractCalculatorMathRegistry<IConstant, Var> {
+public class CalculatorVarsRegistry extends AbstractCalculatorMathRegistry<IConstant, Var> {
 
 	@NotNull
 	private static final Map<String, String> substitutes = new HashMap<String, String>();
@@ -34,7 +33,7 @@ class CalculatorVarsRegistry extends AbstractCalculatorMathRegistry<IConstant, V
 		substitutes.put("NaN", "nan");
 	}
 
-	protected CalculatorVarsRegistry(@NotNull MathRegistry<IConstant> mathRegistry,
+    public CalculatorVarsRegistry(@NotNull MathRegistry<IConstant> mathRegistry,
                                      @NotNull MathEntityDao<Var> mathEntityDao) {
 		super(mathRegistry, "c_var_description_", mathEntityDao);
 	}

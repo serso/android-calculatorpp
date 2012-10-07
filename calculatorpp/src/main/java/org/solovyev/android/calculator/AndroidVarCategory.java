@@ -1,8 +1,7 @@
-package org.solovyev.android.calculator.model;
+package org.solovyev.android.calculator;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.R;
 
 /**
  * User: serso

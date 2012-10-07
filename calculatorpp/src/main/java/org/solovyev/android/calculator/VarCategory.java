@@ -1,4 +1,4 @@
-package org.solovyev.android.calculator.model;
+package org.solovyev.android.calculator;
 
 import jscl.math.function.IConstant;
 import org.jetbrains.annotations.NotNull;
@@ -17,14 +17,14 @@ public enum VarCategory {
 
 	system(100){
 		@Override
-		boolean isInCategory(@NotNull IConstant var) {
+        public boolean isInCategory(@NotNull IConstant var) {
 			return var.isSystem();
 		}
 	},
 
 	my(0) {
 		@Override
-		boolean isInCategory(@NotNull IConstant var) {
+        public boolean isInCategory(@NotNull IConstant var) {
 			return !var.isSystem();
 		}
 	};
@@ -35,7 +35,7 @@ public enum VarCategory {
 		this.tabOrder = tabOrder;
 	}
 
-	abstract boolean isInCategory(@NotNull IConstant var);
+	public abstract boolean isInCategory(@NotNull IConstant var);
 
 	@NotNull
 	public static List<VarCategory> getCategoriesByTabOrder() {

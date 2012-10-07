@@ -4,11 +4,10 @@
  * or visit http://se.solovyev.org
  */
 
-package org.solovyev.android.calculator.model;
+package org.solovyev.android.calculator;
 
 import jscl.math.operator.Operator;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.calculator.*;
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathRegistry;
 
@@ -34,7 +33,7 @@ public class CalculatorPostfixFunctionsRegistry extends AbstractCalculatorMathRe
 	@NotNull
 	private static final String POSTFIX_FUNCTION_DESCRIPTION_PREFIX = "c_pf_description_";
 
-	protected CalculatorPostfixFunctionsRegistry(@NotNull MathRegistry<Operator> functionsRegistry,
+	public CalculatorPostfixFunctionsRegistry(@NotNull MathRegistry<Operator> functionsRegistry,
                                                  @NotNull MathEntityDao<MathPersistenceEntity> mathEntityDao) {
 		super(functionsRegistry, POSTFIX_FUNCTION_DESCRIPTION_PREFIX, mathEntityDao);
 	}

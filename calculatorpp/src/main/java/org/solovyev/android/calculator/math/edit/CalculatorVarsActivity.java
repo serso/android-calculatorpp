@@ -14,8 +14,8 @@ import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.about.CalculatorFragmentType;
 import org.solovyev.android.calculator.history.CalculatorHistoryActivity;
-import org.solovyev.android.calculator.model.AndroidVarCategory;
-import org.solovyev.android.calculator.model.VarCategory;
+import org.solovyev.android.calculator.AndroidVarCategory;
+import org.solovyev.android.calculator.VarCategory;
 
 /**
  * User: serso
