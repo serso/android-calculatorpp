@@ -9,6 +9,7 @@ package org.solovyev.android.calculator;
 import jscl.MathEngine;
 import jscl.NumeralBase;
 import junit.framework.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.solovyev.android.calculator.text.TextProcessor;
 import org.solovyev.android.calculator.view.TextHighlighter;
@@ -23,7 +24,12 @@ import java.util.Random;
  */
 public class TextHighlighterTest {
 
-	@Test
+    @Before
+    public void setUp() throws Exception {
+        CalculatorTestUtils.staticSetUp();
+    }
+
+    @Test
 	public void testProcess() throws Exception {
 		TextProcessor<?, String> textHighlighter = new TextHighlighter(0, false);
 

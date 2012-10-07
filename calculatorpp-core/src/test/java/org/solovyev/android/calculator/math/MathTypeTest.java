@@ -10,6 +10,7 @@ import junit.framework.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.solovyev.android.calculator.AbstractCalculatorTest;
+import org.solovyev.android.calculator.CalculatorTestUtils;
 
 /**
  * User: serso
@@ -20,7 +21,7 @@ public class MathTypeTest extends AbstractCalculatorTest {
 
 	@BeforeClass
 	public static void staticSetUp() throws Exception {
-        AbstractCalculatorTest.staticSetUp();
+        CalculatorTestUtils.staticSetUp();
 	}
 
 	@Test

@@ -1,9 +1,9 @@
-package org.solovyev.android.calculator.model;
+package org.solovyev.android.calculator;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.solovyev.android.calculator.CalculatorLocatorImpl;
+import org.solovyev.android.calculator.model.Var;
 import org.solovyev.android.calculator.text.FromJsclSimplifyTextProcessor;
 
 import java.text.DecimalFormatSymbols;
@@ -13,11 +13,11 @@ import java.text.DecimalFormatSymbols;
  * Date: 10/20/11
  * Time: 3:43 PM
  */
-public class FromJsclSimplifyTextProcessorTest {
+public class FromJsclSimplifyTextProcessorTest extends AbstractCalculatorTest {
 
 	@BeforeClass
-	public static void setUp() throws Exception {
-		CalculatorLocatorImpl.getInstance().getEngine().init();
+	public static void staticSetUp() throws Exception {
+		CalculatorTestUtils.staticSetUp();
 	}
 
 	@Test
@@ -28,7 +28,7 @@ public class FromJsclSimplifyTextProcessorTest {
 		//Assert.assertEquals("((e)(e))", tp.process("((2.718281828459045)*(2.718281828459045))"));
 		DecimalFormatSymbols decimalGroupSymbols = new DecimalFormatSymbols();
 		decimalGroupSymbols.setGroupingSeparator(' ');
-        ((AndroidCalculatorEngine) CalculatorLocatorImpl.getInstance().getEngine()).setDecimalGroupSymbols(decimalGroupSymbols);
+        CalculatorLocatorImpl.getInstance().getEngine().setDecimalGroupSymbols(decimalGroupSymbols);
 		//Assert.assertEquals("123 456 789e", tp.process("123456789*2.718281828459045"));
 		//Assert.assertEquals("123 456 789e", tp.process("123 456 789 * 2.718281828459045"));
 		//Assert.assertEquals("t11e", tp.process("t11*2.718281828459045"));

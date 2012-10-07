@@ -1,4 +1,4 @@
-package org.solovyev.android.calculator.plot;
+package org.solovyev.android.calculator;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 import org.jetbrains.annotations.NotNull;

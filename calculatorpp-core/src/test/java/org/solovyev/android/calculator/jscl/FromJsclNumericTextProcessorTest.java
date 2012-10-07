@@ -13,18 +13,19 @@ import jscl.math.Generic;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.solovyev.android.calculator.CalculatorLocatorImpl;
+import org.solovyev.android.calculator.AbstractCalculatorTest;
+import org.solovyev.android.calculator.CalculatorTestUtils;
 
 /**
  * User: serso
  * Date: 10/18/11
  * Time: 10:42 PM
  */
-public class FromJsclNumericTextProcessorTest {
+public class FromJsclNumericTextProcessorTest extends AbstractCalculatorTest {
 
-		@BeforeClass
-	public static void setUp() throws Exception {
-		CalculatorLocatorImpl.getInstance().getEngine().init();
+	@BeforeClass
+	public static void staticSetUp() throws Exception {
+		CalculatorTestUtils.staticSetUp();
 	}
 
 	@Test

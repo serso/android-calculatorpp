@@ -10,9 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.solovyev.android.calculator.CalculatorEvalException;
-import org.solovyev.android.calculator.CalculatorLocatorImpl;
-import org.solovyev.android.calculator.CalculatorParseException;
+import org.solovyev.android.calculator.*;
 import org.solovyev.common.Converter;
 
 import java.io.InputStreamReader;
@@ -24,12 +22,12 @@ import java.util.List;
  * Date: 12/14/11
  * Time: 4:16 PM
  */
-public class NumeralBaseTest {
+public class NumeralBaseTest extends AbstractCalculatorTest {
 
 	@BeforeClass
-	public static void setUp() throws Exception {
-		CalculatorLocatorImpl.getInstance().getEngine().init();
-        ((AndroidCalculatorEngine) CalculatorLocatorImpl.getInstance().getEngine()).setPrecision(3);
+	public static void staticSetUp() throws Exception {
+		CalculatorTestUtils.staticSetUp();
+        CalculatorLocatorImpl.getInstance().getEngine().setPrecision(3);
 	}
 
 	@Test

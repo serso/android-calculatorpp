@@ -181,6 +181,16 @@
                 </executions>
             </plugin>
 
+            <!-- as some classes are singletons we must run  each test in separate JVM-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.12.3</version>
+                <configuration>
+                    <forkMode>perTest</forkMode>
+                </configuration>
+            </plugin>
+
         </plugins>
 
         <pluginManagement>
@@ -233,16 +243,6 @@
                     <artifactId>build-helper-maven-plugin</artifactId>
                     <version>1.5</version>
                 </plugin>
-
-                <!-- as some classes are singletons we must run  each test in separate JVM-->
-<!--                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.2</version>
-                    <configuration>
-                        <forkMode>perTest</forkMode>
-                    </configuration>
-                </plugin>-->
 
             </plugins>
         </pluginManagement>

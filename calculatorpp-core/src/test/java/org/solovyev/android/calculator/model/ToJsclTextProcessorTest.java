@@ -11,10 +11,7 @@ import jscl.NumeralBase;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.solovyev.android.calculator.CalculatorLocatorImpl;
-import org.solovyev.android.calculator.CalculatorParseException;
-import org.solovyev.android.calculator.PreparedExpression;
-import org.solovyev.android.calculator.ToJsclTextProcessor;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.text.TextProcessor;
 
 /**
@@ -22,11 +19,11 @@ import org.solovyev.android.calculator.text.TextProcessor;
  * Date: 9/26/11
  * Time: 12:13 PM
  */
-public class ToJsclTextProcessorTest {
+public class ToJsclTextProcessorTest extends AbstractCalculatorTest {
 
 	@BeforeClass
-	public static void setUp() throws Exception {
-		CalculatorLocatorImpl.getInstance().getEngine().init();
+	public static void staticSetUp() throws Exception {
+        CalculatorTestUtils.staticSetUp();
 	}
 
 	@Test
