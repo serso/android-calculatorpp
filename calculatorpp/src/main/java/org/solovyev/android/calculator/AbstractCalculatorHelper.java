@@ -66,6 +66,10 @@ public abstract class AbstractCalculatorHelper implements SharedPreferences.OnSh
         Log.d(logTag, message);
     }
 
+    public void logError(@NotNull String message) {
+        Log.e(logTag, message);
+    }
+
     public void processButtons(@NotNull final Activity activity, @NotNull View root) {
         dpclRegister.clear();
 

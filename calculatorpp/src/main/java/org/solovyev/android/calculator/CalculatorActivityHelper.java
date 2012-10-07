@@ -58,4 +58,5 @@ public interface CalculatorActivityHelper {
 
     void processButtons(@NotNull Activity activity, @NotNull View root);
 
+    void logError(@NotNull String message);
 }

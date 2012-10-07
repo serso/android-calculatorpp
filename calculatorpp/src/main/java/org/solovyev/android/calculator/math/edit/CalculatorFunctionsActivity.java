@@ -7,6 +7,7 @@
 package org.solovyev.android.calculator.math.edit;
 
 import android.os.Bundle;
+import android.util.Log;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -33,7 +34,12 @@ public class CalculatorFunctionsActivity extends SherlockFragmentActivity implem
         final CalculatorFragmentType fragmentType = CalculatorFragmentType.functions;
 
         for (FunctionCategory category : FunctionCategory.getCategoriesByTabOrder()) {
-            activityHelper.addTab(this, fragmentType.createSubFragmentTag(category.name()), fragmentType.getFragmentClass(), AbstractMathEntityListFragment.createBundleFor(category.name()), category.getCaptionId(), R.id.main_layout);
+            final AndroidFunctionCategory androidCategory = AndroidFunctionCategory.valueOf(category);
+            if (androidCategory != null) {
+                activityHelper.addTab(this, fragmentType.createSubFragmentTag(category.name()), fragmentType.getFragmentClass(), AbstractMathEntityListFragment.createBundleFor(category.name()), androidCategory.getCaptionId(), R.id.main_layout);
+            } else {
+                Log.e(CalculatorFunctionsActivity.class.getSimpleName(), "Unable to find android function category for " + category);
+            }
         }
 
     }

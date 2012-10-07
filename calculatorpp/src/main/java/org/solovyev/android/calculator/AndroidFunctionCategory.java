@@ -27,7 +27,7 @@ public enum AndroidFunctionCategory {
     }
 
     @Nullable
-    public AndroidFunctionCategory valueOf( @NotNull FunctionCategory functionCategory ) {
+    public static AndroidFunctionCategory valueOf( @NotNull FunctionCategory functionCategory ) {
         for (AndroidFunctionCategory androidFunctionCategory : values()) {
             if ( androidFunctionCategory.name().equals(functionCategory.name()) ) {
                 return androidFunctionCategory;

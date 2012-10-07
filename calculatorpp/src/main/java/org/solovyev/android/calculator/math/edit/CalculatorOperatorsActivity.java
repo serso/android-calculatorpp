@@ -13,7 +13,6 @@ import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.about.CalculatorFragmentType;
 import org.solovyev.android.calculator.history.CalculatorHistoryActivity;
-import org.solovyev.android.calculator.model.AndroidOperatorsMathRegistry;
 
 /**
  * User: serso
@@ -33,8 +32,13 @@ public class CalculatorOperatorsActivity extends SherlockFragmentActivity implem
 
         final CalculatorFragmentType fragmentType = CalculatorFragmentType.operators;
 
-        for (AndroidOperatorsMathRegistry.Category category : AndroidOperatorsMathRegistry.Category.getCategoriesByTabOrder()) {
-            activityHelper.addTab(this, fragmentType.createSubFragmentTag(category.name()), fragmentType.getFragmentClass(), AbstractMathEntityListFragment.createBundleFor(category.name()), category.getCaptionId(), R.id.main_layout);
+        for (OperatorCategory category : OperatorCategory.getCategoriesByTabOrder()) {
+            final AndroidOperatorCategory androidCategory = AndroidOperatorCategory.valueOf(category);
+            if (androidCategory != null) {
+                activityHelper.addTab(this, fragmentType.createSubFragmentTag(category.name()), fragmentType.getFragmentClass(), AbstractMathEntityListFragment.createBundleFor(category.name()), androidCategory.getCaptionId(), R.id.main_layout);
+            } else {
+                activityHelper.logError("Unable to find android operator category for " + category);
+            }
         }
     }
 

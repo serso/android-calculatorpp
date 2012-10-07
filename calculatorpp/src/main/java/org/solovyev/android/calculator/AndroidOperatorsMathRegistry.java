@@ -4,41 +4,40 @@
  * or visit http://se.solovyev.org
  */
 
-package org.solovyev.android.calculator.model;
+package org.solovyev.android.calculator;
 
-import jscl.math.operator.Operator;
+import jscl.math.operator.*;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.calculator.*;
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathRegistry;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * User: serso
- * Date: 11/19/11
- * Time: 1:48 PM
+ * Date: 11/17/11
+ * Time: 11:29 PM
  */
-public class AndroidPostfixFunctionsRegistry extends AbstractCalculatorMathRegistry<Operator, MathPersistenceEntity> {
+public class AndroidOperatorsMathRegistry extends AbstractCalculatorMathRegistry<Operator, MathPersistenceEntity> {
 
 	@NotNull
 	private static final Map<String, String> substitutes = new HashMap<String, String>();
 	static {
-		substitutes.put("%", "percent");
-		substitutes.put("!", "factorial");
-		substitutes.put("!!", "double_factorial");
-		substitutes.put("°", "degree");
+		substitutes.put("Σ", "sum");
+		substitutes.put("∏", "product");
+		substitutes.put("∂", "derivative");
+		substitutes.put("∫ab", "integral_ab");
+		substitutes.put("∫", "integral");
+		substitutes.put("Σ", "sum");
 	}
 
 	@NotNull
-	private static final String POSTFIX_FUNCTION_DESCRIPTION_PREFIX = "c_pf_description_";
+	private static final String OPERATOR_DESCRIPTION_PREFIX = "c_op_description_";
 
-	protected AndroidPostfixFunctionsRegistry(@NotNull MathRegistry<Operator> functionsRegistry,
-                                              @NotNull MathEntityDao<MathPersistenceEntity> mathEntityDao) {
-		super(functionsRegistry, POSTFIX_FUNCTION_DESCRIPTION_PREFIX, mathEntityDao);
+	public AndroidOperatorsMathRegistry(@NotNull MathRegistry<Operator> functionsRegistry,
+                                           @NotNull MathEntityDao<MathPersistenceEntity> mathEntityDao) {
+		super(functionsRegistry, OPERATOR_DESCRIPTION_PREFIX, mathEntityDao);
 	}
-
 
 	@NotNull
 	@Override
@@ -82,4 +81,13 @@ public class AndroidPostfixFunctionsRegistry extends AbstractCalculatorMathRegis
 	protected MathEntityPersistenceContainer<MathPersistenceEntity> createPersistenceContainer() {
 		return null;  //To change body of implemented methods use File | Settings | File Templates.
 	}
+
+    /*
+    **********************************************************************
+    *
+    *                           STATIC
+    *
+    **********************************************************************
+    */
+
 }
