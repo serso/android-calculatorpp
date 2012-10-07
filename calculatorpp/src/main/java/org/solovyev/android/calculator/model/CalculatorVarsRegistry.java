@@ -22,7 +22,7 @@ import java.util.Map;
  * Date: 9/29/11
  * Time: 4:57 PM
  */
-class AndroidVarsRegistryImpl extends AbstractCalculatorMathRegistry<IConstant, Var> {
+class CalculatorVarsRegistry extends AbstractCalculatorMathRegistry<IConstant, Var> {
 
 	@NotNull
 	private static final Map<String, String> substitutes = new HashMap<String, String>();
@@ -34,8 +34,8 @@ class AndroidVarsRegistryImpl extends AbstractCalculatorMathRegistry<IConstant, 
 		substitutes.put("NaN", "nan");
 	}
 
-	protected AndroidVarsRegistryImpl(@NotNull MathRegistry<IConstant> mathRegistry,
-                                      @NotNull MathEntityDao<Var> mathEntityDao) {
+	protected CalculatorVarsRegistry(@NotNull MathRegistry<IConstant> mathRegistry,
+                                     @NotNull MathEntityDao<Var> mathEntityDao) {
 		super(mathRegistry, "c_var_description_", mathEntityDao);
 	}
 

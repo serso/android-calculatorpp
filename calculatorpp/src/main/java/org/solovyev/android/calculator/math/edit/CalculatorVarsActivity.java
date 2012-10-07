@@ -14,6 +14,7 @@ import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.about.CalculatorFragmentType;
 import org.solovyev.android.calculator.history.CalculatorHistoryActivity;
+import org.solovyev.android.calculator.model.AndroidVarCategory;
 import org.solovyev.android.calculator.model.VarCategory;
 
 /**
@@ -55,7 +56,13 @@ public class CalculatorVarsActivity extends SherlockFragmentActivity implements 
             }
 
 
-            activityHelper.addTab(this, fragmentType.createSubFragmentTag(category.name()), fragmentType.getFragmentClass(), fragmentParameters, category.getCaptionId(), R.id.main_layout);
+            final AndroidVarCategory androidVarCategory = AndroidVarCategory.valueOf(category);
+
+            if (androidVarCategory != null) {
+                activityHelper.addTab(this, fragmentType.createSubFragmentTag(category.name()), fragmentType.getFragmentClass(), fragmentParameters, androidVarCategory.getCaptionId(), R.id.main_layout);
+            } else {
+                activityHelper.logError("Unable to find android var category for " + category);
+            }
 
         }
     }

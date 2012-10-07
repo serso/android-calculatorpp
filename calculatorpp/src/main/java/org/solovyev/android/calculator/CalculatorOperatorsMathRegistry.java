@@ -18,7 +18,7 @@ import java.util.*;
  * Date: 11/17/11
  * Time: 11:29 PM
  */
-public class AndroidOperatorsMathRegistry extends AbstractCalculatorMathRegistry<Operator, MathPersistenceEntity> {
+public class CalculatorOperatorsMathRegistry extends AbstractCalculatorMathRegistry<Operator, MathPersistenceEntity> {
 
 	@NotNull
 	private static final Map<String, String> substitutes = new HashMap<String, String>();
@@ -34,7 +34,7 @@ public class AndroidOperatorsMathRegistry extends AbstractCalculatorMathRegistry
 	@NotNull
 	private static final String OPERATOR_DESCRIPTION_PREFIX = "c_op_description_";
 
-	public AndroidOperatorsMathRegistry(@NotNull MathRegistry<Operator> functionsRegistry,
+	public CalculatorOperatorsMathRegistry(@NotNull MathRegistry<Operator> functionsRegistry,
                                            @NotNull MathEntityDao<MathPersistenceEntity> mathEntityDao) {
 		super(functionsRegistry, OPERATOR_DESCRIPTION_PREFIX, mathEntityDao);
 	}

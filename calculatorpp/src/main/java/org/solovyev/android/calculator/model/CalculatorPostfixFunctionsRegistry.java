@@ -20,7 +20,7 @@ import java.util.Map;
  * Date: 11/19/11
  * Time: 1:48 PM
  */
-public class AndroidPostfixFunctionsRegistry extends AbstractCalculatorMathRegistry<Operator, MathPersistenceEntity> {
+public class CalculatorPostfixFunctionsRegistry extends AbstractCalculatorMathRegistry<Operator, MathPersistenceEntity> {
 
 	@NotNull
 	private static final Map<String, String> substitutes = new HashMap<String, String>();
@@ -34,8 +34,8 @@ public class AndroidPostfixFunctionsRegistry extends AbstractCalculatorMathRegis
 	@NotNull
 	private static final String POSTFIX_FUNCTION_DESCRIPTION_PREFIX = "c_pf_description_";
 
-	protected AndroidPostfixFunctionsRegistry(@NotNull MathRegistry<Operator> functionsRegistry,
-                                              @NotNull MathEntityDao<MathPersistenceEntity> mathEntityDao) {
+	protected CalculatorPostfixFunctionsRegistry(@NotNull MathRegistry<Operator> functionsRegistry,
+                                                 @NotNull MathEntityDao<MathPersistenceEntity> mathEntityDao) {
 		super(functionsRegistry, POSTFIX_FUNCTION_DESCRIPTION_PREFIX, mathEntityDao);
 	}
 

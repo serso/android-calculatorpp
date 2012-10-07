@@ -22,7 +22,7 @@ import java.util.Map;
  * Date: 11/17/11
  * Time: 11:28 PM
  */
-public class AndroidFunctionsMathRegistry extends AbstractCalculatorMathRegistry<Function, AFunction> {
+public class CalculatorFunctionsMathRegistry extends AbstractCalculatorMathRegistry<Function, AFunction> {
 
     @NotNull
 	private static final Map<String, String> substitutes = new HashMap<String, String>();
@@ -33,8 +33,8 @@ public class AndroidFunctionsMathRegistry extends AbstractCalculatorMathRegistry
 	@NotNull
 	private static final String FUNCTION_DESCRIPTION_PREFIX = "c_fun_description_";
 
-	public AndroidFunctionsMathRegistry(@NotNull MathRegistry<Function> functionsRegistry,
-                                        @NotNull MathEntityDao<AFunction> mathEntityDao) {
+	public CalculatorFunctionsMathRegistry(@NotNull MathRegistry<Function> functionsRegistry,
+                                           @NotNull MathEntityDao<AFunction> mathEntityDao) {
 		super(functionsRegistry, FUNCTION_DESCRIPTION_PREFIX, mathEntityDao);
 	}
 

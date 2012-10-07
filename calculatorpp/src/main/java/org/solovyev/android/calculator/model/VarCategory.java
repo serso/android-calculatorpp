@@ -2,7 +2,6 @@ package org.solovyev.android.calculator.model;
 
 import jscl.math.function.IConstant;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.calculator.R;
 import org.solovyev.common.collections.CollectionsUtils;
 
 import java.util.Collections;
@@ -16,31 +15,24 @@ import java.util.List;
 */
 public enum VarCategory {
 
-	system(R.string.c_var_system, 100){
+	system(100){
 		@Override
 		boolean isInCategory(@NotNull IConstant var) {
 			return var.isSystem();
 		}
 	},
 
-	my(R.string.c_var_my, 0) {
+	my(0) {
 		@Override
 		boolean isInCategory(@NotNull IConstant var) {
 			return !var.isSystem();
 		}
 	};
 
-	private final int captionId;
-
 	private final int tabOrder;
 
-	VarCategory(int captionId, int tabOrder) {
-		this.captionId = captionId;
+	VarCategory(int tabOrder) {
 		this.tabOrder = tabOrder;
-	}
-
-	public int getCaptionId() {
-		return captionId;
 	}
 
 	abstract boolean isInCategory(@NotNull IConstant var);

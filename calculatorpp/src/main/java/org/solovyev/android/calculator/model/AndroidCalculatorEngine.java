@@ -108,10 +108,10 @@ public class AndroidCalculatorEngine implements CalculatorEngine, SharedPreferen
 
         final JsclMathEngine engine = JsclMathEngine.getInstance();
         this.calculatorEngine = new CalculatorEngineImpl(engine,
-                new AndroidVarsRegistryImpl(engine.getConstantsRegistry(), new AndroidMathEntityDao<Var>(R.string.p_calc_vars, application, Vars.class)),
-                new AndroidFunctionsMathRegistry(engine.getFunctionsRegistry(), new AndroidMathEntityDao<AFunction>(R.string.p_calc_functions, application, Functions.class)),
-                new AndroidOperatorsMathRegistry(engine.getOperatorsRegistry(), new AndroidMathEntityDao<MathPersistenceEntity>(null, application, null)),
-                new AndroidPostfixFunctionsRegistry(engine.getPostfixFunctionsRegistry(), new AndroidMathEntityDao<MathPersistenceEntity>(null, application, null)),
+                new CalculatorVarsRegistry(engine.getConstantsRegistry(), new AndroidMathEntityDao<Var>(R.string.p_calc_vars, application, Vars.class)),
+                new CalculatorFunctionsMathRegistry(engine.getFunctionsRegistry(), new AndroidMathEntityDao<AFunction>(R.string.p_calc_functions, application, Functions.class)),
+                new CalculatorOperatorsMathRegistry(engine.getOperatorsRegistry(), new AndroidMathEntityDao<MathPersistenceEntity>(null, application, null)),
+                new CalculatorPostfixFunctionsRegistry(engine.getPostfixFunctionsRegistry(), new AndroidMathEntityDao<MathPersistenceEntity>(null, application, null)),
                 this.lock);
     }
 
