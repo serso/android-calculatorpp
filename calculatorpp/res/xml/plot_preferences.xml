@@ -2,21 +2,27 @@
 
 <PreferenceScreen xmlns:a="http://schemas.android.com/apk/res/android">
 
-    <android.preference.CheckBoxPreference
-            a:key="graph_interpolate"
-            a:title="Interpolate function's graph"
-            a:summary="If checked cubic interpolation will be used in function graph drawing"/>
+    <PreferenceScreen a:title="@string/prefs_graph_scren_title">
 
-    <ListPreference a:key="graph_line_color_real"
-                    a:title="Color of real part of functions graph"
-                    a:summary="Sets color of real part functions graph"
-                    a:entries="@array/graph_line_color_names"
-                    a:entryValues="@array/graph_line_color_values"/>
+        <org.solovyev.android.ads.AdViewPreference a:layout="@layout/admob_pref"/>
 
-    <ListPreference a:key="graph_line_color_imag"
-                    a:title="Color of imaginary part of functions graph"
-                    a:summary="Sets color of imaginary part functions graph"
-                    a:entries="@array/graph_line_color_names"
-                    a:entryValues="@array/graph_line_color_values"/>
+        <android.preference.CheckBoxPreference
+                a:key="graph_interpolate"
+                a:title="@string/prefs_graph_interpolate_function"
+                a:summary="If checked cubic interpolation will be used in function graph drawing"/>
+
+        <ListPreference a:key="graph_line_color_real"
+                        a:title="@string/prefs_graph_real_color_title"
+                        a:summary="@string/prefs_graph_real_color_summary"
+                        a:entries="@array/graph_line_color_names"
+                        a:entryValues="@array/graph_line_color_values"/>
+
+        <ListPreference a:key="graph_line_color_imag"
+                        a:title="@string/prefs_graph_imag_color_title"
+                        a:summary="@string/prefs_graph_imag_color_summary"
+                        a:entries="@array/graph_line_color_names"
+                        a:entryValues="@array/graph_line_color_values"/>
+
+    </PreferenceScreen>
 
 </PreferenceScreen>

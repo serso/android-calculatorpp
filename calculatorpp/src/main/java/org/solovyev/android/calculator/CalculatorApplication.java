@@ -57,6 +57,7 @@ public class CalculatorApplication extends android.app.Application {
         ACRA.init(this);
 
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        CalculatorPreferences.setDefaultValues(preferences);
 
         setTheme(preferences);
 
@@ -84,8 +85,6 @@ public class CalculatorApplication extends android.app.Application {
                 return CalculatorSecurity.getPK();
             }
         });
-
-        CalculatorPreferences.setDefaultValues(preferences);
     }
 
     private void setTheme(@NotNull SharedPreferences preferences) {

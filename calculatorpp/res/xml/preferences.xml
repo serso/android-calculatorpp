@@ -60,16 +60,6 @@
                 a:defaultValue="5"
                 range:boundaries="3;1000"/>
 
-<!--        <PreferenceScreen a:title="@string/c_prefs_graph">
-
-            <android.preference.CheckBoxPreference
-                    a:key="show_complex_graph"
-                    a:summary="@string/c_show_complex_graph_summary"
-                    a:title="@string/c_show_complex_graph_title"
-                    a:defaultValue="false"/>
-
-        </PreferenceScreen>-->
-
     </PreferenceScreen>
 
     <PreferenceScreen

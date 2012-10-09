@@ -14,7 +14,7 @@ import android.view.View;
 import android.widget.TextView;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.AndroidUtils;
-import org.solovyev.android.calculator.CalculatorActivity;
+import org.solovyev.android.calculator.CalculatorApplication;
 import org.solovyev.android.calculator.CalculatorFragment;
 import org.solovyev.android.calculator.R;
 import org.solovyev.common.text.StringUtils;
@@ -50,9 +50,9 @@ public class CalculatorReleaseNotesFragment extends CalculatorFragment {
 		final StringBuilder result = new StringBuilder();
 
 		final String releaseNotesForTitle = context.getString(R.string.c_release_notes_for_title);
-		final int version = AndroidUtils.getAppVersionCode(context, CalculatorActivity.class.getPackage().getName());
+		final int version = AndroidUtils.getAppVersionCode(context, CalculatorApplication.class.getPackage().getName());
 
-        final TextHelper textHelper = new TextHelper(context.getResources(), R.class.getPackage().getName());
+        final TextHelper textHelper = new TextHelper(context.getResources(), CalculatorApplication.class.getPackage().getName());
 
 		boolean first = true;
 		for ( int i = version; i >= minVersion; i-- ) {

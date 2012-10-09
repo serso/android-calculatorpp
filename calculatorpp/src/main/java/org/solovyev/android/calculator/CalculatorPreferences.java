@@ -102,7 +102,6 @@ public final class CalculatorPreferences {
         public static final Preference<Boolean> interpolate = new BooleanPreference("graph_interpolate", true);
         public static final Preference<GraphLineColor> lineColorReal = StringPreference.newInstance("graph_line_color_real", GraphLineColor.white, GraphLineColor.class);
         public static final Preference<GraphLineColor> lineColorImag = StringPreference.newInstance("graph_line_color_imag", GraphLineColor.blue, GraphLineColor.class);
-
     }
 
 
@@ -136,6 +135,29 @@ public final class CalculatorPreferences {
                 // workaround ofr samsung galaxy s phones
                 AndroidCalculatorEngine.Preferences.multiplicationSign.putPreference(preferences, "*");
             }
+        }
+
+        applyDefaultPreference(preferences, Gui.theme);
+        applyDefaultPreference(preferences, Gui.layout);
+        applyDefaultPreference(preferences, Gui.feedbackWindowShown);
+        applyDefaultPreference(preferences, Gui.notesppAnnounceShown);
+        applyDefaultPreference(preferences, Gui.showReleaseNotes);
+        applyDefaultPreference(preferences, Gui.usePrevAsBack);
+        applyDefaultPreference(preferences, Gui.showEqualsButton);
+        applyDefaultPreference(preferences, Gui.autoOrientation);
+        applyDefaultPreference(preferences, Gui.hideNumeralBaseDigits);
+        applyDefaultPreference(preferences, Gui.theme);
+        applyDefaultPreference(preferences, Gui.theme);
+
+        applyDefaultPreference(preferences, Graph.interpolate);
+        applyDefaultPreference(preferences, Graph.lineColorImag);
+        applyDefaultPreference(preferences, Graph.lineColorReal);
+
+    }
+
+    private static void applyDefaultPreference(@NotNull SharedPreferences preferences, @NotNull Preference<?> preference) {
+        if (!preference.isSet(preferences)) {
+            preference.putDefault(preferences);
         }
     }
 

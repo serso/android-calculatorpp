@@ -6,12 +6,15 @@ import android.view.View;
 import android.view.WindowManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.CalculatorLocatorImpl;
+import org.solovyev.android.calculator.CalculatorParseException;
+import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.ToJsclTextProcessor;
 import org.solovyev.android.calculator.units.CalculatorNumeralBase;
-import org.solovyev.math.units.Unit;
-import org.solovyev.math.units.UnitImpl;
 import org.solovyev.common.MutableObject;
 import org.solovyev.common.text.StringUtils;
+import org.solovyev.math.units.Unit;
+import org.solovyev.math.units.UnitImpl;
 
 import java.util.Arrays;
 
@@ -64,8 +67,8 @@ public class NumeralBaseConverterDialog {
             public void onClick(@NotNull Unit<String> fromUnits, @NotNull Unit<String> toUnits) {
                 String toUnitsValue = toUnits.getValue();
 
-                if (!toUnits.getUnitType().equals(AndroidNumeralBase.valueOf(CalculatorLocatorImpl.getInstance().getEngine().getNumeralBase()))) {
-                    toUnitsValue = ((AndroidNumeralBase) toUnits.getUnitType()).getNumeralBase().getJsclPrefix() + toUnitsValue;
+                if (!toUnits.getUnitType().equals(CalculatorNumeralBase.valueOf(CalculatorLocatorImpl.getInstance().getEngine().getNumeralBase()))) {
+                    toUnitsValue = ((CalculatorNumeralBase) toUnits.getUnitType()).getNumeralBase().getJsclPrefix() + toUnitsValue;
                 }
 
                 CalculatorLocatorImpl.getInstance().getKeyboard().digitButtonPressed(toUnitsValue);
