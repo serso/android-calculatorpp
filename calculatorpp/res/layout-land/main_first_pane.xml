@@ -34,9 +34,10 @@
                  a:layout_weight="1"/>
 
         <LinearLayout a:id="@+id/displayContainer"
-                      a:layout_weight="4"
+                      a:layout_height="match_parent"
                       a:layout_width="0dp"
-                      a:layout_height="match_parent"/>
+                      a:layout_weight="4"
+                      a:layout_margin="@dimen/display_margin_land"/>
 
         <include layout="@layout/calc_clear_button"
                  a:layout_margin="@dimen/button_margin"

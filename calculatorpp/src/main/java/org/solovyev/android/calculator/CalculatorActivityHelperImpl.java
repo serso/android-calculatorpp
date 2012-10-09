@@ -48,6 +48,9 @@ public class CalculatorActivityHelperImpl extends AbstractCalculatorHelper imple
     @NotNull
     private CalculatorPreferences.Gui.Theme theme;
 
+    @NotNull
+    private CalculatorPreferences.Gui.Layout layout;
+
     private int selectedNavigationIndex = 0;
 
     public CalculatorActivityHelperImpl(int layoutId, @NotNull String logTag) {
@@ -72,6 +75,8 @@ public class CalculatorActivityHelperImpl extends AbstractCalculatorHelper imple
 
         this.theme = CalculatorPreferences.Gui.getTheme(preferences);
         activity.setTheme(this.theme.getThemeId());
+
+        this.layout = CalculatorPreferences.Gui.getLayout(preferences);
 
         activity.setContentView(layoutId);
 
@@ -228,6 +233,12 @@ public class CalculatorActivityHelperImpl extends AbstractCalculatorHelper imple
     @NotNull
     public CalculatorPreferences.Gui.Theme getTheme() {
         return theme;
+    }
+
+    @Override
+    @NotNull
+    public CalculatorPreferences.Gui.Layout getLayout() {
+        return layout;
     }
 
     @Override

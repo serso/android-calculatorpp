@@ -27,6 +27,9 @@ public interface CalculatorActivityHelper {
     @NotNull
     CalculatorPreferences.Gui.Theme getTheme();
 
+    @NotNull
+    CalculatorPreferences.Gui.Layout getLayout();
+
     void onResume(@NotNull SherlockFragmentActivity activity);
     void onResume(@NotNull Activity activity);
 

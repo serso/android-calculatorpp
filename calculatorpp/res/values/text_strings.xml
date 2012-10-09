@@ -225,5 +225,4 @@
     <string name="prefs_graph_real_color_summary">Sets color of real part functions graph</string>
     <string name="prefs_graph_imag_color_title">Color of imaginary part of functions graph</string>
     <string name="prefs_graph_imag_color_summary">Sets color of imaginary part functions graph</string>
-
 </resources>

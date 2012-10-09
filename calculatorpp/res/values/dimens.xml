@@ -1,6 +1,7 @@
 <resources>
-    <dimen name="button_margin">0.5dp</dimen>
     <dimen name="text_size">20sp</dimen>
+    <dimen name="button_margin">0.5dp</dimen>
+    <dimen name="display_margin_land">2.5dp</dimen>
 
     <dimen name="fragment_text_size">15sp</dimen>
     <dimen name="fragment_title_text_size">20sp</dimen>

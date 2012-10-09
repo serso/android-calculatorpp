@@ -45,6 +45,11 @@ public final class CalculatorPreferences {
             return theme.getPreferenceNoError(preferences);
         }
 
+        @NotNull
+        public static Layout getLayout(@NotNull SharedPreferences preferences) {
+            return layout.getPreferenceNoError(preferences);
+        }
+
         public static enum Theme {
 
             default_theme(ThemeType.other, R.style.default_theme),
@@ -83,7 +88,11 @@ public final class CalculatorPreferences {
 
         public static enum Layout {
             main_calculator(R.layout.main_calculator),
-            main_cellphone(R.layout.main_cellphone),
+
+            // not used anymore
+            @Deprecated
+            main_cellphone(R.layout.main_calculator),
+
             simple(R.layout.main_calculator);
 
             private final int layoutId;
@@ -139,6 +148,9 @@ public final class CalculatorPreferences {
 
         applyDefaultPreference(preferences, Gui.theme);
         applyDefaultPreference(preferences, Gui.layout);
+        if ( Gui.layout.getPreference(preferences) == Gui.Layout.main_cellphone ) {
+            Gui.layout.putDefault(preferences);
+        }
         applyDefaultPreference(preferences, Gui.feedbackWindowShown);
         applyDefaultPreference(preferences, Gui.notesppAnnounceShown);
         applyDefaultPreference(preferences, Gui.showReleaseNotes);
@@ -146,8 +158,6 @@ public final class CalculatorPreferences {
         applyDefaultPreference(preferences, Gui.showEqualsButton);
         applyDefaultPreference(preferences, Gui.autoOrientation);
         applyDefaultPreference(preferences, Gui.hideNumeralBaseDigits);
-        applyDefaultPreference(preferences, Gui.theme);
-        applyDefaultPreference(preferences, Gui.theme);
 
         applyDefaultPreference(preferences, Graph.interpolate);
         applyDefaultPreference(preferences, Graph.lineColorImag);

@@ -207,4 +207,22 @@
     <string name="convert_to_bin">Перевести в bin</string>
     <string name="convert_to_dec">Перевести в dec</string>
 
+    <string name="editor">Редактор</string>
+    <string name="result">Результат</string>
+    <string name="other">Другие</string>
+    <string name="derivatives">Производные/Интегралы</string>
+    <string name="crashed">Калькулятор++ обнаружил ошибку…</string>
+    <string name="crash_dialog_title">Отчёт об ошибке в Калькуляторе++</string>
+    <string name="crash_dialog_text">
+        К сожалению, Калькулятор++ был остановлен ошибкой.\n\n
+        Для того чтобы исправить, её нам необходима некоторая информация. Мы рекомендуем вам послать этот отчёт об ошибке (после нажатия кнопки \'Да\' вы увидите всю передаваемую информацию в новом окне).\n\n
+        Хотите лы вы послать отчёт об ошибке?
+    </string>
+    <string name="prefs_graph_scren_title">Настройки графика</string>
+
+    <string name="prefs_graph_interpolate_function">Интерполировать график</string>
+    <string name="prefs_graph_real_color_title">Цвет вещественной части графика</string>
+    <string name="prefs_graph_real_color_summary">Устанавливает цвет вещественной части графика</string>
+    <string name="prefs_graph_imag_color_title">Цвет мнимой части графика</string>
+    <string name="prefs_graph_imag_color_summary">Устанавливает цвет мнимой части графика</string>
 </resources>

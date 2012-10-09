@@ -212,7 +212,7 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         final CalculatorPreferences.Gui.Layout newLayout = CalculatorPreferences.Gui.layout.getPreference(preferences);
-        if ( newLayout.getLayoutId() != activityHelper.getLayoutId() ) {
+        if ( newLayout != activityHelper.getLayout() ) {
             AndroidUtils.restartActivity(this);
         }
 
