@@ -94,6 +94,11 @@
                         <artifactId>xercesImpl</artifactId>
                         <groupId>xerces</groupId>
                     </exclusion>
+
+                    <exclusion>
+                        <groupId>jgraphx</groupId>
+                        <artifactId>jgraphx</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
 

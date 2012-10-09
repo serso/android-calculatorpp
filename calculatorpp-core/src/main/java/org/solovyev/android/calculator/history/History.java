@@ -21,7 +21,7 @@ import java.util.List;
 @Root
 public class History {
 
-	@ElementList
+	@ElementList(type = CalculatorHistoryState.class)
 	private List<CalculatorHistoryState> historyItems = new ArrayList<CalculatorHistoryState>();
 
 	public History() {

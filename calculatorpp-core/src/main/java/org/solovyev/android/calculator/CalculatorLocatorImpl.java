@@ -37,7 +37,7 @@ public class CalculatorLocatorImpl implements CalculatorLocator {
     @NotNull
     private static final CalculatorLocator instance = new CalculatorLocatorImpl();
 
-    private CalculatorLocatorImpl() {
+    public CalculatorLocatorImpl() {
     }
 
     @Override

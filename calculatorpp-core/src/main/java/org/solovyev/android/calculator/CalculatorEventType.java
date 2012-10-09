@@ -22,9 +22,6 @@ public enum CalculatorEventType {
     // @NotNull CalculatorEditorViewState
     manual_calculation_requested,
 
-    // @NotNull org.solovyev.android.calculator.CalculatorInput
-    calculation_started,
-
     // @NotNull org.solovyev.android.calculator.CalculatorOutput
     calculation_result,
 
@@ -32,8 +29,6 @@ public enum CalculatorEventType {
 
     // @NotNull org.solovyev.android.calculator.CalculatorFailure
     calculation_failed,
-
-    calculation_finished,
 
     /*
     **********************************************************************

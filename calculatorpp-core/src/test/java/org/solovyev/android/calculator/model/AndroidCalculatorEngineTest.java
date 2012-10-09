@@ -17,9 +17,11 @@ import jscl.text.ParseException;
 import junit.framework.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.solovyev.android.calculator.AbstractCalculatorTest;
 import org.solovyev.android.calculator.CalculatorEvalException;
 import org.solovyev.android.calculator.CalculatorLocatorImpl;
 import org.solovyev.android.calculator.CalculatorTestUtils;
+import org.solovyev.android.calculator.jscl.JsclOperation;
 
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
@@ -33,10 +35,10 @@ import static junit.framework.Assert.fail;
  */
 
 @SuppressWarnings("deprecation")
-public class AndroidCalculatorEngineTest {
+public class AndroidCalculatorEngineTest extends AbstractCalculatorTest {
 
 	@BeforeClass
-	public static void setUp() throws Exception {
+	public static void staticSetUp() throws Exception {
         CalculatorTestUtils.staticSetUp();
         CalculatorLocatorImpl.getInstance().getEngine().setPrecision(3);
 	}
@@ -50,20 +52,14 @@ public class AndroidCalculatorEngineTest {
 		try {
 			cm.setAngleUnits(AngleUnit.rad);
 			cm.setPrecision(3);
-			try {
-				Assert.assertEquals("0.017", cm.evaluate("°"));
-                fail();
-			} catch (ParseException e) {
+            CalculatorTestUtils.assertError("°");
+            CalculatorTestUtils.assertEval("0.017", "1°");
+            CalculatorTestUtils.assertEval("0.349", "20.0°");
+            CalculatorTestUtils.assertEval("0.5", "sin(30°)");
+            CalculatorTestUtils.assertEval("0.524", "asin(sin(30°))");
+            CalculatorTestUtils.assertEval("∂(cos(t), t, t, 1°)", "∂(cos(t),t,t,1°)");
 
-			}
-
-			Assert.assertEquals("0.017", cm.evaluate( "1°"));
-			Assert.assertEquals("0.349", cm.evaluate( "20.0°"));
-			Assert.assertEquals("0.5", cm.evaluate( "sin(30°)"));
-			Assert.assertEquals("0.524", cm.evaluate( "asin(sin(30°))"));
-			Assert.assertEquals("∂(cos(t), t, t, 1°)", cm.evaluate( "∂(cos(t),t,t,1°)"));
-
-			Assert.assertEquals("∂(cos(t), t, t, 1°)", cm.simplify("∂(cos(t),t,t,1°)"));
+            CalculatorTestUtils.assertEval("∂(cos(t), t, t, 1°)", "∂(cos(t),t,t,1°)", JsclOperation.simplify);
 		} finally {
 			cm.setAngleUnits(defaultAngleUnit);
 		}
@@ -116,161 +112,153 @@ public class AndroidCalculatorEngineTest {
 	public void testEvaluate() throws Exception {
 		final MathEngine cm = CalculatorLocatorImpl.getInstance().getEngine().getMathEngine0();
 
-		Assert.assertEquals("cos(t)+10%", cm.simplify( "cos(t)+10%"));
+		CalculatorTestUtils.assertEval("cos(t)+10%", "cos(t)+10%", JsclOperation.simplify);
 
 		final Generic expression = cm.simplifyGeneric("cos(t)+10%");
 		expression.substitute(new Constant("t"), Expression.valueOf(100d));
 
-		Assert.assertEquals("it", cm.simplify( "it"));
-		Assert.assertEquals("10%", cm.simplify( "10%"));
-		Assert.assertEquals("0", cm.evaluate( "eq(0, 1)"));
-		Assert.assertEquals("1", cm.evaluate( "eq(1, 1)"));
-		Assert.assertEquals("1", cm.evaluate( "eq(  1,   1)"));
-		Assert.assertEquals("1", cm.simplify( "eq(  1,   1)"));
-		Assert.assertEquals("1", cm.evaluate( "lg(10)"));
-		Assert.assertEquals("4", cm.evaluate( "2+2"));
+		CalculatorTestUtils.assertEval("it", "it", JsclOperation.simplify);
+		CalculatorTestUtils.assertEval("10%", "10%", JsclOperation.simplify);
+		CalculatorTestUtils.assertEval("0", "eq(0, 1)");
+		CalculatorTestUtils.assertEval("1", "eq(1, 1)");
+		CalculatorTestUtils.assertEval("1", "eq(  1,   1)");
+		CalculatorTestUtils.assertEval("1", "eq(  1,   1)", JsclOperation.simplify);
+		CalculatorTestUtils.assertEval("1", "lg(10)");
+		CalculatorTestUtils.assertEval("4", "2+2");
 		final AngleUnit defaultAngleUnit = cm.getAngleUnits();
 		try {
 			cm.setAngleUnits(AngleUnit.rad);
-			Assert.assertEquals("-0.757", cm.evaluate( "sin(4)"));
-			Assert.assertEquals("0.524", cm.evaluate( "asin(0.5)"));
-			Assert.assertEquals("-0.396", cm.evaluate( "sin(4)asin(0.5)"));
-			Assert.assertEquals("-0.56", cm.evaluate( "sin(4)asin(0.5)√(2)"));
-			Assert.assertEquals("-0.56", cm.evaluate( "sin(4)asin(0.5)√(2)"));
+            CalculatorTestUtils.assertEval("-0.757", "sin(4)");
+            CalculatorTestUtils.assertEval("0.524", "asin(0.5)");
+			CalculatorTestUtils.assertEval("-0.396", "sin(4)asin(0.5)");
+            CalculatorTestUtils.assertEval("-0.56", "sin(4)asin(0.5)√(2)");
+            CalculatorTestUtils.assertEval("-0.56", "sin(4)asin(0.5)√(2)");
 		} finally {
 			cm.setAngleUnits(defaultAngleUnit);
 		}
-		Assert.assertEquals("7.389", cm.evaluate( "e^2"));
-		Assert.assertEquals("7.389", cm.evaluate( "exp(1)^2"));
-		Assert.assertEquals("7.389", cm.evaluate( "exp(2)"));
-		Assert.assertEquals("2+i", cm.evaluate( "2*1+√(-1)"));
+		CalculatorTestUtils.assertEval("7.389", "e^2");
+		CalculatorTestUtils.assertEval("7.389", "exp(1)^2");
+		CalculatorTestUtils.assertEval("7.389", "exp(2)");
+		CalculatorTestUtils.assertEval("2+i", "2*1+√(-1)");
 		try {
 			cm.setAngleUnits(AngleUnit.rad);
-			Assert.assertEquals("0.921+Πi", cm.evaluate( "ln(5cosh(38π√(2cos(2))))"));
-			Assert.assertEquals("-3.41+3.41i", cm.evaluate( "(5tan(2i)+2i)/(1-i)"));
+			CalculatorTestUtils.assertEval("0.921+Πi", "ln(5cosh(38π√(2cos(2))))");
+			CalculatorTestUtils.assertEval("-3.41+3.41i", "(5tan(2i)+2i)/(1-i)");
 		} finally {
 			cm.setAngleUnits(defaultAngleUnit);
 		}
-		Assert.assertEquals("7.389i", cm.evaluate( "iexp(2)"));
-		Assert.assertEquals("2+7.389i", cm.evaluate( "2+iexp(2)"));
-		Assert.assertEquals("2+7.389i", cm.evaluate( "2+√(-1)exp(2)"));
-		Assert.assertEquals("2-2.5i", cm.evaluate( "2-2.5i"));
-		Assert.assertEquals("-2-2.5i", cm.evaluate( "-2-2.5i"));
-		Assert.assertEquals("-2+2.5i", cm.evaluate( "-2+2.5i"));
-		Assert.assertEquals("-2+2.1i", cm.evaluate( "-2+2.1i"));
-		Assert.assertEquals("-0.1-0.2i", cm.evaluate( "(1-i)/(2+6i)"));
+		CalculatorTestUtils.assertEval("7.389i", "iexp(2)");
+		CalculatorTestUtils.assertEval("2+7.389i", "2+iexp(2)");
+		CalculatorTestUtils.assertEval("2+7.389i", "2+√(-1)exp(2)");
+		CalculatorTestUtils.assertEval("2-2.5i", "2-2.5i");
+		CalculatorTestUtils.assertEval("-2-2.5i", "-2-2.5i");
+		CalculatorTestUtils.assertEval("-2+2.5i", "-2+2.5i");
+		CalculatorTestUtils.assertEval("-2+2.1i",  "-2+2.1i");
+		CalculatorTestUtils.assertEval("-0.1-0.2i", "(1-i)/(2+6i)");
 
-		junit.framework.Assert.assertEquals("24", cm.evaluate( "4!"));
-		junit.framework.Assert.assertEquals("24", cm.evaluate( "(2+2)!"));
-		junit.framework.Assert.assertEquals("120", cm.evaluate( "(2+2+1)!"));
-		junit.framework.Assert.assertEquals("24", cm.evaluate( "(2.0+2.0)!"));
-		junit.framework.Assert.assertEquals("24", cm.evaluate( "4.0!"));
-		junit.framework.Assert.assertEquals("720", cm.evaluate( "(3!)!"));
-		junit.framework.Assert.assertEquals("36", Expression.valueOf("3!^2").numeric().toString());
-		junit.framework.Assert.assertEquals("3", Expression.valueOf("cubic(27)").numeric().toString());
-		try {
-			junit.framework.Assert.assertEquals("√(-1)!", cm.evaluate( "i!"));
-			fail();
-		} catch (ParseException e) {
-		}
+        CalculatorTestUtils.assertEval("24", "4!");
+        CalculatorTestUtils.assertEval("24",  "(2+2)!");
+        CalculatorTestUtils.assertEval("120", "(2+2+1)!");
+        CalculatorTestUtils.assertEval("24", "(2.0+2.0)!");
+        CalculatorTestUtils.assertEval("24",  "4.0!");
+        CalculatorTestUtils.assertEval("720", "(3!)!");
+        CalculatorTestUtils.assertEval("36", Expression.valueOf("3!^2").numeric().toString());
+        CalculatorTestUtils.assertEval("3", Expression.valueOf("cubic(27)").numeric().toString());
+        CalculatorTestUtils.assertError("i!");
 
-		junit.framework.Assert.assertEquals("1", cm.evaluate( "(π/π)!"));
+        CalculatorTestUtils.assertEval("1", cm.evaluate( "(π/π)!"));
 
-		try {
-			junit.framework.Assert.assertEquals("i", cm.evaluate( "(-1)i!"));
-			fail();
-		} catch (ParseException e) {
-
-		}
-		junit.framework.Assert.assertEquals("24i", cm.evaluate( "4!i"));
+        CalculatorTestUtils.assertError("(-1)i!");
+        CalculatorTestUtils.assertEval("24i", "4!i");
 
 		CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry().add(new Var.Builder("si", 5d));
 
 		try {
 			cm.setAngleUnits(AngleUnit.rad);
-			Assert.assertEquals("0.451", cm.evaluate( "acos(0.8999999999999811)"));
-			Assert.assertEquals("-0.959", cm.evaluate( "sin(5)"));
-			Assert.assertEquals("-4.795", cm.evaluate( "sin(5)si"));
-			Assert.assertEquals("-23.973", cm.evaluate( "sisin(5)si"));
-			Assert.assertEquals("-23.973", cm.evaluate( "si*sin(5)si"));
-			Assert.assertEquals("-3.309", cm.evaluate( "sisin(5si)si"));
+			CalculatorTestUtils.assertEval("0.451", "acos(0.8999999999999811)");
+			CalculatorTestUtils.assertEval("-0.959", "sin(5)");
+			CalculatorTestUtils.assertEval("-4.795", "sin(5)si");
+			CalculatorTestUtils.assertEval("-23.973",  "sisin(5)si");
+			CalculatorTestUtils.assertEval("-23.973", "si*sin(5)si");
+			CalculatorTestUtils.assertEval("-3.309", "sisin(5si)si");
 		} finally {
 			cm.setAngleUnits(defaultAngleUnit);
 		}
 
 		CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry().add(new Var.Builder("s", 1d));
-		Assert.assertEquals("5", cm.evaluate( "si"));
+		CalculatorTestUtils.assertEval("5", cm.evaluate( "si"));
 
 		CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry().add(new Var.Builder("k", 3.5d));
 		CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry().add(new Var.Builder("k1", 4d));
-		Assert.assertEquals("4", cm.evaluate( "k11"));
+		CalculatorTestUtils.assertEval("4", "k11");
 
 		CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry().add(new Var.Builder("t", (String) null));
-		Assert.assertEquals("11t", cm.evaluate( "t11"));
-		Assert.assertEquals("11et", cm.evaluate( "t11e"));
-		Assert.assertEquals("∞", cm.evaluate( "∞"));
-		Assert.assertEquals("∞", cm.evaluate( "Infinity"));
-		Assert.assertEquals("11∞t", cm.evaluate( "t11∞"));
-		Assert.assertEquals("-t+t^3", cm.evaluate( "t(t-1)(t+1)"));
+		CalculatorTestUtils.assertEval("11t", "t11");
+		CalculatorTestUtils.assertEval("11et", "t11e");
+		CalculatorTestUtils.assertEval("∞", "∞");
+		CalculatorTestUtils.assertEval("∞", "Infinity");
+		CalculatorTestUtils.assertEval("11∞t", "t11∞");
+		CalculatorTestUtils.assertEval("-t+t^3", "t(t-1)(t+1)");
 
-		Assert.assertEquals("100", cm.evaluate( "0.1E3"));
-		Assert.assertEquals("3.957", cm.evaluate( "ln(8)lg(8)+ln(8)"));
+		CalculatorTestUtils.assertEval("100", "0.1E3");
+		CalculatorTestUtils.assertEval("3.957", "ln(8)lg(8)+ln(8)");
 
-		Assert.assertEquals("0.933", cm.evaluate( "0x:E/0x:F"));
+		CalculatorTestUtils.assertEval("0.933",  "0x:E/0x:F");
 
 		try {
 		 	cm.setNumeralBase(NumeralBase.hex);
-			Assert.assertEquals("E/F", cm.evaluate( "0x:E/0x:F"));
-			Assert.assertEquals("E/F", cm.simplify( "0x:E/0x:F"));
-			Assert.assertEquals("E/F", cm.evaluate( "E/F"));
-			Assert.assertEquals("E/F", cm.simplify( "E/F"));
+			CalculatorTestUtils.assertEval("E/F", "0x:E/0x:F");
+			CalculatorTestUtils.assertEval("E/F", cm.simplify( "0x:E/0x:F"));
+			CalculatorTestUtils.assertEval("E/F", "E/F");
+			CalculatorTestUtils.assertEval("E/F", cm.simplify( "E/F"));
 		} finally {
 			cm.setNumeralBase(NumeralBase.dec);
 		}
 
-		Assert.assertEquals("0", cm.evaluate( "((((((0))))))"));
-		Assert.assertEquals("0", cm.evaluate( "((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((0))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))"));
+		CalculatorTestUtils.assertEval("0", "((((((0))))))");
+		CalculatorTestUtils.assertEval("0", "((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((0))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))");
 
 
-		/*	Assert.assertEquals("0.524", cm.evaluate( "30°").getResult());
-		Assert.assertEquals("0.524", cm.evaluate( "(10+20)°").getResult());
-		Assert.assertEquals("1.047", cm.evaluate( "(10+20)°*2").getResult());
+		/*	CalculatorTestUtils.assertEval("0.524", cm.evaluate( "30°").getResult());
+		CalculatorTestUtils.assertEval("0.524", cm.evaluate( "(10+20)°").getResult());
+		CalculatorTestUtils.assertEval("1.047", cm.evaluate( "(10+20)°*2").getResult());
 		try {
-			Assert.assertEquals("0.278", cm.evaluate( "30°^2").getResult());
-			junit.framework.Assert.fail();
+			CalculatorTestUtils.assertEval("0.278", cm.evaluate( "30°^2").getResult());
+			fail();
 		} catch (ParseException e) {
 			if ( !e.getMessage().equals("Power operation after postfix function is currently unsupported!") ) {
-				junit.framework.Assert.fail();
+				fail();
 			}
 		}*//*
 
 *//*		try {
 			cm.setTimeout(5000);
-			Assert.assertEquals("2", cm.evaluate( "2!").getResult());
+			CalculatorTestUtils.assertEval("2", cm.evaluate( "2!").getResult());
 		} finally {
 			cm.setTimeout(3000);
 		}*/
 
 		CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry().add(new Var.Builder("t", (String) null));
-		Assert.assertEquals("2t", cm.simplify( "∂(t^2,t)"));
-		Assert.assertEquals("2t", cm.evaluate( "∂(t^2,t)"));
+		CalculatorTestUtils.assertEval("2t", "∂(t^2,t)", JsclOperation.simplify);
+		CalculatorTestUtils.assertEval("2t", "∂(t^2,t)");
 		CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry().add(new Var.Builder("t", "2"));
-		Assert.assertEquals("2t", cm.simplify( "∂(t^2,t)"));
-		Assert.assertEquals("4", cm.evaluate( "∂(t^2,t)"));
+		CalculatorTestUtils.assertEval("2t", "∂(t^2,t)", JsclOperation.simplify);
+		CalculatorTestUtils.assertEval("4", "∂(t^2,t)");
 
-		Assert.assertEquals("-x+x*ln(x)", cm.simplify("∫(ln(x), x)"));
-		Assert.assertEquals("-(x-x*ln(x))/(ln(2)+ln(5))", cm.simplify("∫(log(10, x), x)"));
+		CalculatorTestUtils.assertEval("-x+xln(x)", "∫(ln(x), x)", JsclOperation.simplify);
+		CalculatorTestUtils.assertEval("-(x-xln(x))/(ln(2)+ln(5))", "∫(log(10, x), x)", JsclOperation.simplify);
 
-		Assert.assertEquals("∫((ln(2)+ln(5))/ln(x), x)", cm.simplify("∫(ln(10)/ln(x), x)"));
-		Assert.assertEquals("∫(ln(10)/ln(x), x)", Expression.valueOf("∫(log(x, 10), x)").expand().toString());
-		Assert.assertEquals("∫((ln(2)+ln(5))/ln(x), x)", cm.simplify("∫(log(x, 10), x)"));
+		CalculatorTestUtils.assertEval("∫((ln(2)+ln(5))/ln(x), x)", "∫(ln(10)/ln(x), x)", JsclOperation.simplify);
+		//CalculatorTestUtils.assertEval("∫(ln(10)/ln(x), x)", Expression.valueOf("∫(log(x, 10), x)").expand().toString());
+        CalculatorTestUtils.assertEval("∫((ln(2)+ln(5))/ln(x), x)", "∫(log(x, 10), x)");
+		CalculatorTestUtils.assertEval("∫((ln(2)+ln(5))/ln(x), x)", "∫(log(x, 10), x)", JsclOperation.simplify);
 	}
 
 	@Test
 	public void testFormatting() throws Exception {
 		final MathEngine ce = CalculatorLocatorImpl.getInstance().getEngine().getMathEngine0();
 
-		Assert.assertEquals("12 345", ce.simplify( "12345"));
+		CalculatorTestUtils.assertEval("12 345", ce.simplify( "12345"));
 
 	}
 
@@ -278,7 +266,7 @@ public class AndroidCalculatorEngineTest {
 	public void testI() throws ParseException, CalculatorEvalException {
 		final MathEngine cm = CalculatorLocatorImpl.getInstance().getEngine().getMathEngine0();
 
-		Assert.assertEquals("-i", cm.evaluate( "i^3"));
+		CalculatorTestUtils.assertEval("-i", cm.evaluate( "i^3"));
 		for (int i = 0; i < 1000; i++) {
 		 	double real = (Math.random()-0.5) * 1000;
 		 	double imag = (Math.random()-0.5) * 1000;
@@ -307,7 +295,7 @@ public class AndroidCalculatorEngineTest {
 			Assert.fail();
 		} catch (ParseException e) {
 		}
-		Assert.assertEquals("0.34+1.382i", cm.evaluate( "ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(100)))))))))))))))"));
+		CalculatorTestUtils.assertEval("0.34+1.382i", "ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(100)))))))))))))))");
 		try {
 			cm.evaluate( "cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos())))))))))))))))))))))))))))))))))))");
 			Assert.fail();
@@ -317,19 +305,15 @@ public class AndroidCalculatorEngineTest {
 		final AngleUnit defaultAngleUnit = cm.getAngleUnits();
 		try {
 			cm.setAngleUnits(AngleUnit.rad);
-			Assert.assertEquals("0.739", cm.evaluate( "cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(1))))))))))))))))))))))))))))))))))))"));
+			CalculatorTestUtils.assertEval("0.739", cm.evaluate( "cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(cos(1))))))))))))))))))))))))))))))))))))"));
 		} finally {
 			cm.setAngleUnits(defaultAngleUnit);
 		}
 
 		CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry().add(new Var.Builder("si", 5d));
-		Assert.assertEquals("5", cm.evaluate( "si"));
+		CalculatorTestUtils.assertEval("5", cm.evaluate( "si"));
 
-		try {
-			cm.evaluate( "sin");
-			Assert.fail();
-		} catch (ParseException e) {
-		}
+        CalculatorTestUtils.assertError("sin");
 	}
 
 	@Test
@@ -342,11 +326,11 @@ public class AndroidCalculatorEngineTest {
 			decimalGroupSymbols.setGroupingSeparator('\'');
 			cm.setDecimalGroupSymbols(decimalGroupSymbols);
 			cm.setPrecision(2);
-			Assert.assertEquals("12'345'678.9", cm.evaluate( "1.23456789E7"));
+			CalculatorTestUtils.assertEval("12'345'678.9", cm.evaluate( "1.23456789E7"));
 			cm.setPrecision(10);
-			Assert.assertEquals("12'345'678.9", cm.evaluate( "1.23456789E7"));
-			Assert.assertEquals("123'456'789", cm.evaluate( "1.234567890E8"));
-			Assert.assertEquals("1'234'567'890.1", cm.evaluate( "1.2345678901E9"));
+			CalculatorTestUtils.assertEval("12'345'678.9", cm.evaluate( "1.23456789E7"));
+			CalculatorTestUtils.assertEval("123'456'789", cm.evaluate( "1.234567890E8"));
+			CalculatorTestUtils.assertEval("1'234'567'890.1", cm.evaluate( "1.2345678901E9"));
 		} finally {
 			cm.setPrecision(3);
 			DecimalFormatSymbols decimalGroupSymbols = new DecimalFormatSymbols(Locale.getDefault());
@@ -360,36 +344,35 @@ public class AndroidCalculatorEngineTest {
 	public void testComparisonFunction() throws Exception {
 		final MathEngine cm = CalculatorLocatorImpl.getInstance().getEngine().getMathEngine0();
 
-		Assert.assertEquals("0", cm.evaluate( "eq(0, 1)"));
-		Assert.assertEquals("1", cm.evaluate( "eq(1, 1)"));
-		Assert.assertEquals("1", cm.evaluate( "eq(1, 1.0)"));
-		Assert.assertEquals("0", cm.evaluate( "eq(1, 1.000000000000001)"));
-		Assert.assertEquals("0", cm.evaluate( "eq(1, 0)"));
+		CalculatorTestUtils.assertEval("0",  "eq(0, 1)");
+		CalculatorTestUtils.assertEval("1",  "eq(1, 1)");
+		CalculatorTestUtils.assertEval("1",  "eq(1, 1.0)");
+		CalculatorTestUtils.assertEval("0",  "eq(1, 1.000000000000001)");
+		CalculatorTestUtils.assertEval("0",  "eq(1, 0)");
 
-		Assert.assertEquals("1", cm.evaluate( "lt(0, 1)"));
-		Assert.assertEquals("0", cm.evaluate( "lt(1, 1)"));
-		Assert.assertEquals("0", cm.evaluate( "lt(1, 0)"));
+		CalculatorTestUtils.assertEval("1",  "lt(0, 1)");
+		CalculatorTestUtils.assertEval("0",  "lt(1, 1)");
+		CalculatorTestUtils.assertEval("0",  "lt(1, 0)");
 
-		Assert.assertEquals("0", cm.evaluate( "gt(0, 1)"));
-		Assert.assertEquals("0", cm.evaluate( "gt(1, 1)"));
-		Assert.assertEquals("1", cm.evaluate( "gt(1, 0)"));
+		CalculatorTestUtils.assertEval("0",  "gt(0, 1)");
+		CalculatorTestUtils.assertEval("0",  "gt(1, 1)");
+		CalculatorTestUtils.assertEval("1",  "gt(1, 0)");
 
-		Assert.assertEquals("1", cm.evaluate( "ne(0, 1)"));
-		Assert.assertEquals("0", cm.evaluate( "ne(1, 1)"));
-		Assert.assertEquals("1", cm.evaluate( "ne(1, 0)"));
+		CalculatorTestUtils.assertEval("1",  "ne(0, 1)");
+		CalculatorTestUtils.assertEval("0",  "ne(1, 1)");
+		CalculatorTestUtils.assertEval("1",  "ne(1, 0)");
 
-		Assert.assertEquals("1", cm.evaluate( "le(0, 1)"));
-		Assert.assertEquals("1", cm.evaluate( "le(1, 1)"));
-		Assert.assertEquals("0", cm.evaluate( "le(1, 0)"));
+		CalculatorTestUtils.assertEval("1",  "le(0, 1)");
+		CalculatorTestUtils.assertEval("1",  "le(1, 1)");
+		CalculatorTestUtils.assertEval("0",  "le(1, 0)");
 
-		Assert.assertEquals("0", cm.evaluate( "ge(0, 1)"));
-		Assert.assertEquals("1", cm.evaluate( "ge(1, 1)"));
-		Assert.assertEquals("1", cm.evaluate( "ge(1, 0)"));
+		CalculatorTestUtils.assertEval("0",  "ge(0, 1)");
+		CalculatorTestUtils.assertEval("1",  "ge(1, 1)");
+		CalculatorTestUtils.assertEval("1",  "ge(1, 0)");
 
-		Assert.assertEquals("0", cm.evaluate( "ap(0, 1)"));
-		Assert.assertEquals("1", cm.evaluate( "ap(1, 1)"));
-		//Assert.assertEquals("1", cm.evaluate( "ap(1, 1.000000000000001)").getResult());
-		Assert.assertEquals("0", cm.evaluate( "ap(1, 0)"));
+		CalculatorTestUtils.assertEval("0",  "ap(0, 1)");
+		CalculatorTestUtils.assertEval("1",  "ap(1, 1)");
+		CalculatorTestUtils.assertEval("0",  "ap(1, 0)");
 
 	}
 
@@ -398,31 +381,26 @@ public class AndroidCalculatorEngineTest {
 	public void testNumeralSystems() throws Exception {
 		final MathEngine cm = CalculatorLocatorImpl.getInstance().getEngine().getMathEngine0();
 
-		Assert.assertEquals("11 259 375", cm.evaluate( "0x:ABCDEF"));
-		Assert.assertEquals("30 606 154.462", cm.evaluate( "0x:ABCDEF*e"));
-		Assert.assertEquals("30 606 154.462", cm.evaluate( "e*0x:ABCDEF"));
-		Assert.assertEquals("e", cm.evaluate( "e*0x:ABCDEF/0x:ABCDEF"));
-		Assert.assertEquals("30 606 154.462", cm.evaluate( "0x:ABCDEF*e*0x:ABCDEF/0x:ABCDEF"));
-		Assert.assertEquals("30 606 154.462", cm.evaluate( "c+0x:ABCDEF*e*0x:ABCDEF/0x:ABCDEF-c+0x:C-0x:C"));
-		Assert.assertEquals("1 446 257 064 651.832", cm.evaluate( "28*28 * sin(28) - 0b:1101 + √(28) + exp ( 28) "));
-		Assert.assertEquals("13", cm.evaluate( "0b:1101"));
+		CalculatorTestUtils.assertEval("11 259 375",  "0x:ABCDEF");
+		CalculatorTestUtils.assertEval("30 606 154.462",  "0x:ABCDEF*e");
+		CalculatorTestUtils.assertEval("30 606 154.462",  "e*0x:ABCDEF");
+		CalculatorTestUtils.assertEval("e",  "e*0x:ABCDEF/0x:ABCDEF");
+		CalculatorTestUtils.assertEval("30 606 154.462",  "0x:ABCDEF*e*0x:ABCDEF/0x:ABCDEF");
+		CalculatorTestUtils.assertEval("30 606 154.462",  "c+0x:ABCDEF*e*0x:ABCDEF/0x:ABCDEF-c+0x:C-0x:C");
+		CalculatorTestUtils.assertEval("1 446 257 064 651.832",  "28*28 * sin(28) - 0b:1101 + √(28) + exp ( 28) ");
+		CalculatorTestUtils.assertEval("13",  "0b:1101");
 
-		try {
-			cm.evaluate( "0b:π");
-			Assert.fail();
-		} catch (ParseException e) {
-			// ok
-		}
+        CalculatorTestUtils.assertError("0b:π");
 
 		final NumeralBase defaultNumeralBase = cm.getNumeralBase();
 		try{
 			cm.setNumeralBase(NumeralBase.bin);
-			Assert.assertEquals("101", cm.evaluate( "10+11"));
-			Assert.assertEquals("10/11", cm.evaluate( "10/11"));
+			CalculatorTestUtils.assertEval("101", "10+11");
+            CalculatorTestUtils.assertEval("10/11", "10/11");
 
 			cm.setNumeralBase(NumeralBase.hex);
-			Assert.assertEquals("63 7B", cm.evaluate( "56CE+CAD"));
-			Assert.assertEquals("E", cm.evaluate( "E"));
+            CalculatorTestUtils.assertEval("63 7B", "56CE+CAD");
+            CalculatorTestUtils.assertEval("E",  "E");
 		} finally {
 			cm.setNumeralBase(defaultNumeralBase);
 		}
@@ -432,17 +410,17 @@ public class AndroidCalculatorEngineTest {
 	public void testLog() throws Exception {
 		final MathEngine cm = CalculatorLocatorImpl.getInstance().getEngine().getMathEngine0();
 
-		Assert.assertEquals("∞", Expression.valueOf("1/0").numeric().toString());
-		Assert.assertEquals("∞", Expression.valueOf("ln(10)/ln(1)").numeric().toString());
+		CalculatorTestUtils.assertEval("∞", Expression.valueOf("1/0").numeric().toString());
+		CalculatorTestUtils.assertEval("∞", Expression.valueOf("ln(10)/ln(1)").numeric().toString());
 
 		// logarithm
-		Assert.assertEquals("ln(x)/ln(base)", ((CustomFunction) cm.getFunctionsRegistry().get("log")).getContent());
-		Assert.assertEquals("∞", cm.evaluate( "log(1, 10)"));
-		Assert.assertEquals("3.322", cm.evaluate( "log(2, 10)"));
-		Assert.assertEquals("1.431", cm.evaluate( "log(5, 10)"));
-		Assert.assertEquals("0.96", cm.evaluate( "log(11, 10)"));
-		Assert.assertEquals("1/(bln(a))", cm.simplify( "∂(log(a, b), b)"));
-		Assert.assertEquals("-ln(b)/(aln(a)^2)", cm.simplify( "∂(log(a, b), a)"));
+		CalculatorTestUtils.assertEval("ln(x)/ln(base)", ((CustomFunction) cm.getFunctionsRegistry().get("log")).getContent());
+		CalculatorTestUtils.assertEval("∞", "log(1, 10)");
+        CalculatorTestUtils.assertEval("3.322", "log(2, 10)");
+        CalculatorTestUtils.assertEval("1.431", "log(5, 10)");
+        CalculatorTestUtils.assertEval("0.96",  "log(11, 10)");
+        CalculatorTestUtils.assertEval("1/(bln(a))", "∂(log(a, b), b)", JsclOperation.simplify);
+        CalculatorTestUtils.assertEval("-ln(b)/(aln(a)^2)", "∂(log(a, b), a)", JsclOperation.simplify);
 
 	}
 }

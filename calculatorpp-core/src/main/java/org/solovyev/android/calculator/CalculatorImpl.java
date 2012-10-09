@@ -155,8 +155,6 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 
         PreparedExpression preparedExpression = null;
 
-        fireCalculatorEvent(newCalculationEventData(operation, expression, sequenceId), CalculatorEventType.calculation_started, new CalculatorInputImpl(expression, operation));
-
         try {
 
             expression = expression.trim();
@@ -196,8 +194,6 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 
         } catch (CalculatorParseException e) {
             handleException(sequenceId, operation, expression, mr, preparedExpression, e);
-        } finally {
-            fireCalculatorEvent(newCalculationEventData(operation, expression, sequenceId), CalculatorEventType.calculation_finished, null);
         }
     }
 
@@ -234,9 +230,9 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 
         if (operation == JsclOperation.numeric && evalException.getCause() instanceof NumeralBaseException) {
             evaluate(calculationId, JsclOperation.simplify, expression, mr);
+        } else {
+            fireCalculatorEvent(newCalculationEventData(operation, expression, calculationId), CalculatorEventType.calculation_failed, new CalculatorFailureImpl(evalException));
         }
-
-        fireCalculatorEvent(newCalculationEventData(operation, expression, calculationId), CalculatorEventType.calculation_failed, new CalculatorFailureImpl(evalException));
     }
 
     /*

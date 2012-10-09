@@ -1,9 +1,15 @@
 package org.solovyev.android.calculator;
 
 import jscl.JsclMathEngine;
+import junit.framework.Assert;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.mockito.Mockito;
 import org.solovyev.android.calculator.history.CalculatorHistory;
+import org.solovyev.android.calculator.jscl.JsclOperation;
+
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 /**
  * User: serso
@@ -11,6 +17,9 @@ import org.solovyev.android.calculator.history.CalculatorHistory;
  * Time: 8:40 PM
  */
 public class CalculatorTestUtils {
+
+    // in seconds
+    public static final int TIMEOUT = 1000;
 
     public static void staticSetUp() throws Exception {
         CalculatorLocatorImpl.getInstance().init(new CalculatorImpl(), newCalculatorEngine(), Mockito.mock(CalculatorClipboard.class), Mockito.mock(CalculatorNotifier.class), Mockito.mock(CalculatorHistory.class));
@@ -29,5 +38,101 @@ public class CalculatorTestUtils {
         final CalculatorPostfixFunctionsRegistry postfixFunctionsRegistry = new CalculatorPostfixFunctionsRegistry(jsclEngine.getPostfixFunctionsRegistry(), mathEntityDao);
 
         return new CalculatorEngineImpl(jsclEngine, varsRegistry, functionsRegistry, operatorsRegistry, postfixFunctionsRegistry, null);
+    }
+
+    public static void assertEval(@NotNull String expected, @NotNull String expression) {
+       assertEval(expected, expression, JsclOperation.numeric);
+    }
+
+    public static void assertEval(@NotNull String expected, @NotNull String expression, @NotNull JsclOperation operation) {
+        final Calculator calculator = CalculatorLocatorImpl.getInstance().getCalculator();
+
+        CalculatorLocatorImpl.getInstance().getDisplay().setViewState(CalculatorDisplayViewStateImpl.newDefaultInstance());
+
+        final CountDownLatch latch = new CountDownLatch(1);
+        final TestCalculatorEventListener calculatorEventListener = new TestCalculatorEventListener(latch);
+        try {
+            calculator.addCalculatorEventListener(calculatorEventListener);
+            calculatorEventListener.setCalculatorEventData(calculator.evaluate(operation, expression));
+
+            if (latch.await(TIMEOUT, TimeUnit.SECONDS)) {
+               Assert.assertNotNull(calculatorEventListener.getResult());
+               Assert.assertEquals(expected, calculatorEventListener.getResult().getText());
+            } else {
+                Assert.fail("Too long wait for: " + expression);
+            }
+
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } finally {
+            calculator.removeCalculatorEventListener(calculatorEventListener);
+        }
+    }
+
+    public static void assertError(@NotNull String expression) {
+        assertError(expression, JsclOperation.numeric);
+    }
+
+    private static final class TestCalculatorEventListener implements  CalculatorEventListener {
+
+        @Nullable
+        private CalculatorEventData calculatorEventData;
+
+        @NotNull
+        private final CountDownLatch latch;
+
+        @Nullable
+        private volatile CalculatorDisplayViewState result = null;
+
+        public TestCalculatorEventListener(@NotNull CountDownLatch latch) {
+            this.latch = latch;
+        }
+
+        public void setCalculatorEventData(@Nullable CalculatorEventData calculatorEventData) {
+            this.calculatorEventData = calculatorEventData;
+        }
+
+        @Override
+        public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
+            if ( this.calculatorEventData != null && calculatorEventData.isSameSequence(this.calculatorEventData) ) {
+                if ( calculatorEventType == CalculatorEventType.display_state_changed ) {
+                    final CalculatorDisplayChangeEventData displayChange = (CalculatorDisplayChangeEventData)data;
+
+                    result = displayChange.getNewValue();
+
+                    latch.countDown();
+                }
+            }
+        }
+
+        @Nullable
+        public CalculatorDisplayViewState getResult() {
+            return result;
+        }
+    }
+
+    public static void assertError(@NotNull String expression, @NotNull JsclOperation operation) {
+        final Calculator calculator = CalculatorLocatorImpl.getInstance().getCalculator();
+
+        CalculatorLocatorImpl.getInstance().getDisplay().setViewState(CalculatorDisplayViewStateImpl.newDefaultInstance());
+
+        final CountDownLatch latch = new CountDownLatch(1);
+        final TestCalculatorEventListener calculatorEventListener = new TestCalculatorEventListener(latch);
+        try {
+            calculator.addCalculatorEventListener(calculatorEventListener);
+            calculatorEventListener.setCalculatorEventData(calculator.evaluate(operation, expression));
+
+            if (latch.await(TIMEOUT, TimeUnit.SECONDS)) {
+                Assert.assertNotNull(calculatorEventListener.getResult());
+                Assert.assertFalse(calculatorEventListener.getResult().isValid());
+            } else {
+                Assert.fail("Too long wait for: " + expression);
+            }
+
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } finally {
+            calculator.removeCalculatorEventListener(calculatorEventListener);
+        }
     }
 }
