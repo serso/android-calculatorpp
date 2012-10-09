@@ -295,7 +295,7 @@
                             </manifest>
 
                             <proguard>
-                                <skip>true</skip>
+                                <skip>false</skip>
                             </proguard>
                         </configuration>
 

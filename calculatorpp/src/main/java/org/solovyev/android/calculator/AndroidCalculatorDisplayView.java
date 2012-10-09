@@ -8,16 +8,13 @@ package org.solovyev.android.calculator;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Handler;
-import android.text.Editable;
 import android.text.Html;
-import android.text.TextWatcher;
 import android.util.AttributeSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.text.TextProcessor;
 import org.solovyev.android.calculator.view.TextHighlighter;
 import org.solovyev.android.view.AutoResizeTextView;
-import org.solovyev.common.text.StringUtils;
 
 /**
  * User: serso
@@ -68,18 +65,15 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
 
     public AndroidCalculatorDisplayView(Context context) {
         super(context);
-        this.addTextChangedListener(new TextWatcherImpl());
     }
 
     public AndroidCalculatorDisplayView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.addTextChangedListener(new TextWatcherImpl());
 
     }
 
     public AndroidCalculatorDisplayView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        this.addTextChangedListener(new TextWatcherImpl());
     }
 
     /*
@@ -163,38 +157,11 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
         resizeText();
     }
 
-
-    public void handleTextChange(Editable s) {
-        synchronized (lock) {
-            if (!viewStateChange) {
-                // external text change => need to notify display
-                // todo serso: implement
-            }
-        }
-    }
-
     public synchronized void init(@NotNull Context context) {
         if (!initialized) {
             this.setOnClickListener(new CalculatorDisplayOnClickListener(context));
 
             this.initialized = true;
-        }
-    }
-
-    private final class TextWatcherImpl implements TextWatcher {
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            handleTextChange(s);
         }
     }
 }

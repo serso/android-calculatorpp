@@ -1,16 +1,10 @@
 package org.solovyev.android.calculator;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
-import android.text.method.LinkMovementMethod;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.TextView;
 import net.robotmedia.billing.BillingController;
 import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;
@@ -25,6 +19,8 @@ import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
  * Date: 12/1/11
  * Time: 1:21 PM
  */
+/*@ReportsCrashes(formKey = "dEhDaW1nZU1qcFdsVUpiSnhON0c0ZHc6MQ",
+        mode = ReportingInteractionMode.TOAST)*/
 @ReportsCrashes(formKey = "",
         mailTo = "se.solovyev+programming+calculatorpp+crashes@gmail.com",
         mode = ReportingInteractionMode.DIALOG,
@@ -33,7 +29,15 @@ import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
         resDialogText = R.string.crash_dialog_text)
 public class CalculatorApplication extends android.app.Application {
 
-    private static final String paypalDonateUrl = "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=se%2esolovyev%40gmail%2ecom&lc=RU&item_name=Android%20Calculator&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted";
+    /*
+    **********************************************************************
+    *
+    *                           CONSTANTS
+    *
+    **********************************************************************
+    */
+
+    public static final String FACEBOOK_APP_URL = "http://www.facebook.com/calculatorpp";
 
     public static final String AD_FREE_PRODUCT_ID = "ad_free";
     public static final String AD_FREE_P_KEY = "org.solovyev.android.calculator_ad_free";
@@ -43,14 +47,25 @@ public class CalculatorApplication extends android.app.Application {
     @NotNull
     private static CalculatorApplication instance;
 
+    /*
+    **********************************************************************
+    *
+    *                           CONSTRUCTORS
+    *
+    **********************************************************************
+    */
+
     public CalculatorApplication() {
         instance = this;
     }
 
-    @NotNull
-    public static CalculatorApplication getInstance() {
-        return instance;
-    }
+    /*
+    **********************************************************************
+    *
+    *                           METHODS
+    *
+    **********************************************************************
+    */
 
     @Override
     public void onCreate() {
@@ -86,39 +101,15 @@ public class CalculatorApplication extends android.app.Application {
             }
         });
 
-
         BillingController.registerObserver(new CalculatorBillingObserver(this));
+
         // init billing controller
         BillingController.checkBillingSupported(this);
-
     }
 
     private void setTheme(@NotNull SharedPreferences preferences) {
         final CalculatorPreferences.Gui.Theme theme = CalculatorPreferences.Gui.getTheme(preferences);
         setTheme(theme.getThemeId());
-    }
-
-    public static void showDonationDialog(@NotNull final Context context) {
-        final LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
-        final View view = layoutInflater.inflate(R.layout.donate, null);
-
-        final TextView donate = (TextView) view.findViewById(R.id.donateText);
-        donate.setMovementMethod(LinkMovementMethod.getInstance());
-
-        final AlertDialog.Builder builder = new AlertDialog.Builder(context)
-                .setCancelable(true)
-                .setNegativeButton(R.string.c_cancel, null)
-                .setPositiveButton(R.string.c_donate, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        final Intent i = new Intent(Intent.ACTION_VIEW);
-                        i.setData(Uri.parse(paypalDonateUrl));
-                        context.startActivity(i);
-                    }
-                })
-                .setView(view);
-
-        builder.create().show();
     }
 
     @NotNull
@@ -140,4 +131,20 @@ public class CalculatorApplication extends android.app.Application {
         return new CalculatorFragmentHelperImpl(layoutId, titleResId, listenersOnCreate);
     }
 
+    /*
+    **********************************************************************
+    *
+    *                           STATIC
+    *
+    **********************************************************************
+    */
+
+    @NotNull
+    public static CalculatorApplication getInstance() {
+        return instance;
+    }
+
+    public static void likeButtonPressed(@NotNull final Context context) {
+        context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(FACEBOOK_APP_URL)));
+    }
 }

@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 public class CalculatorTestUtils {
 
     // in seconds
-    public static final int TIMEOUT = 1000;
+    public static final int TIMEOUT = 1;
 
     public static void staticSetUp() throws Exception {
         CalculatorLocatorImpl.getInstance().init(new CalculatorImpl(), newCalculatorEngine(), Mockito.mock(CalculatorClipboard.class), Mockito.mock(CalculatorNotifier.class), Mockito.mock(CalculatorHistory.class));
@@ -53,6 +53,7 @@ public class CalculatorTestUtils {
         final TestCalculatorEventListener calculatorEventListener = new TestCalculatorEventListener(latch);
         try {
             calculator.addCalculatorEventListener(calculatorEventListener);
+
             calculatorEventListener.setCalculatorEventData(calculator.evaluate(operation, expression));
 
             if (latch.await(TIMEOUT, TimeUnit.SECONDS)) {
@@ -95,11 +96,16 @@ public class CalculatorTestUtils {
         @Override
         public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
             if ( this.calculatorEventData != null && calculatorEventData.isSameSequence(this.calculatorEventData) ) {
-                if ( calculatorEventType == CalculatorEventType.display_state_changed ) {
-                    final CalculatorDisplayChangeEventData displayChange = (CalculatorDisplayChangeEventData)data;
+                if (calculatorEventType == CalculatorEventType.display_state_changed) {
+                    final CalculatorDisplayChangeEventData displayChange = (CalculatorDisplayChangeEventData) data;
 
                     result = displayChange.getNewValue();
 
+                    try {
+                        // need to sleep a little bit as await
+                        new CountDownLatch(1).await(100, TimeUnit.MILLISECONDS);
+                    } catch (InterruptedException e) {
+                    }
                     latch.countDown();
                 }
             }

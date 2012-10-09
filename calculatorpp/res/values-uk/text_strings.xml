@@ -190,7 +190,7 @@
 	<string name="c_feedback_title">Зворотній зв’язок</string>
 	<string name="c_feedback_text">Ви вже використовуєте Калькулятор++ деякий час \n
 		і для нас важливо знати вашу думку про програму.\n\n
-		Будь ласка, оцініть Калькулятор++ \nна <a href="https://market.android.com/details?id=org.solovyev.android.calculator">Google Play</a>,\n залиште коментар або \nобговоріть програму \nна нашому <a href="http://calculatorpp.com/forum/">форумі</a>
+		Будь ласка, оцініть Калькулятор++ \nна <a href="https://market.android.com/details?id=org.solovyev.android.calculator">Google Play</a>,\n залиште коментар або \nобговоріть програму \nна <a href="http://facebook.com/calculatorpp">Facebook</a>
 	</string>
 
 	<string name="c_angle_units_changed_to">Одиниці виміру кутів змінено на \'%s\'!</string>

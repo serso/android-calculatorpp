@@ -190,7 +190,7 @@
 	<string name="c_feedback_title">Отзыв</string>
 	<string name="c_feedback_text">Вы используете Калькулятор++ некоторое время\n
 		и для нас важно узнать ваше мнение о приложении.\n\n
-		Пожалуйста, оцените Калькулятор++ \nна <a href="https://market.android.com/details?id=org.solovyev.android.calculator">Google Play</a>,\n оставьте комментарий или \nобсудите приложение \nна нашем <a href="http://calculatorpp.com/forum/">форуме</a>
+		Пожалуйста, оцените Калькулятор++ \nна <a href="https://market.android.com/details?id=org.solovyev.android.calculator">Google Play</a>,\n оставьте комментарий или \nобсудите приложение \nв <a href="http://facebook.com/calculatorpp">Facebook</a>
 	</string>
 
     <string name="c_notespp_announce_text">Хорошие новости - я только что выпустил новое приложение под Андроид под названием <a href="https://play.google.com/store/apps/details?id=org.solovyev.android.notes">Заметки++</a>.\n

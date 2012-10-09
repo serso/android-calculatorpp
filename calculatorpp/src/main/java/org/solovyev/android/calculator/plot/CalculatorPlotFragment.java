@@ -87,7 +87,7 @@ public class CalculatorPlotFragment extends CalculatorFragment implements Calcul
     private Input input;
 
     @NotNull
-    private CalculatorEventData lastCalculatorEventData = CalculatorUtils.createFirstEventDataId();
+    private final CalculatorEventHolder lastEventHolder = new CalculatorEventHolder(CalculatorUtils.createFirstEventDataId());
 
     private int bgColor;
 
@@ -355,12 +355,11 @@ public class CalculatorPlotFragment extends CalculatorFragment implements Calcul
     public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable final Object data) {
         if (calculatorEventType.isOfType(CalculatorEventType.display_state_changed)) {
             if (!preparedInput.isFromInputArgs()) {
-                if (calculatorEventData.isAfter(this.lastCalculatorEventData)) {
-                    this.lastCalculatorEventData = calculatorEventData;
 
+                final CalculatorEventHolder.Result result = this.lastEventHolder.apply(calculatorEventData);
+                if (result.isNewAfter()) {
                     this.preparedInput = prepareInputFromDisplay(((CalculatorDisplayChangeEventData) data).getNewValue(), null);
                     createChart();
-
 
                     uiHandler.post(new Runnable() {
                         @Override
@@ -372,6 +371,7 @@ public class CalculatorPlotFragment extends CalculatorFragment implements Calcul
                         }
                     });
                 }
+
             }
         }
     }

@@ -27,11 +27,15 @@ public class CalculatorEditorImpl implements CalculatorEditor {
     private final Calculator calculator;
 
     @NotNull
+    private final CalculatorEventHolder lastEventHolder;
+
+    @NotNull
     private final CursorControlAdapter cursorControlAdapter = new CursorControlAdapter(this);
 
     public CalculatorEditorImpl(@NotNull Calculator calculator) {
         this.calculator = calculator;
         this.calculator.addCalculatorEventListener(this);
+        this.lastEventHolder = new CalculatorEventHolder(CalculatorUtils.createFirstEventDataId());
     }
 
     @Override
@@ -80,12 +84,16 @@ public class CalculatorEditorImpl implements CalculatorEditor {
     public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData,
                                   @NotNull CalculatorEventType calculatorEventType,
                                   @Nullable Object data) {
-        switch (calculatorEventType) {
-            case use_history_state:
-                final CalculatorHistoryState calculatorHistoryState = (CalculatorHistoryState)data;
-                final EditorHistoryState editorState = calculatorHistoryState.getEditorState();
-                this.setText(StringUtils.getNotEmpty(editorState.getText(), ""), editorState.getCursorPosition());
-                break;
+        final CalculatorEventHolder.Result result = lastEventHolder.apply(calculatorEventData);
+
+        if (result.isNewAfter()) {
+            switch (calculatorEventType) {
+                case use_history_state:
+                    final CalculatorHistoryState calculatorHistoryState = (CalculatorHistoryState)data;
+                    final EditorHistoryState editorState = calculatorHistoryState.getEditorState();
+                    this.setText(StringUtils.getNotEmpty(editorState.getText(), ""), editorState.getCursorPosition());
+                    break;
+            }
         }
     }
 

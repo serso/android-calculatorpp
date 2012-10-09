@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="auto" android:versionCode="81" android:versionName="1.3.2"
-          package="org.solovyev.android.calculator">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="auto" android:versionCode="87" android:versionName="1.3.2" package="org.solovyev.android.calculator">
 
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -9,7 +8,7 @@
 
     <uses-sdk android:minSdkVersion="4" android:targetSdkVersion="8"/>
 
-    <application android:debuggable="true" android:hardwareAccelerated="false" android:icon="@drawable/icon" android:label="@string/c_app_name" android:name=".CalculatorApplication" android:theme="@style/metro_blue_theme">
+    <application android:debuggable="false" android:hardwareAccelerated="false" android:icon="@drawable/icon" android:label="@string/c_app_name" android:name=".CalculatorApplication" android:theme="@style/metro_blue_theme">
 
         <activity android:label="@string/c_app_name" android:name=".CalculatorActivity" android:windowSoftInputMode="adjustPan">
 
@@ -21,7 +20,7 @@
         </activity>
 
         <!-- settings must use action bar icon-->
-        <activity android:label="@string/c_app_settings" android:icon="@drawable/icon_action_bar" android:name=".CalculatorPreferencesActivity"/>
+        <activity android:icon="@drawable/icon_action_bar" android:label="@string/c_app_settings" android:name=".CalculatorPreferencesActivity"/>
 
         <activity android:label="@string/c_history" android:name=".history.CalculatorHistoryActivity"/>
 
@@ -38,7 +37,7 @@
         <activity android:label="@string/c_plot_graph" android:name=".plot.CalculatorPlotActivity"/>
 
         <!-- settings must use action bar icon-->
-        <activity android:label="@string/c_settings" android:icon="@drawable/icon_action_bar" android:name=".plot.CalculatorPlotPreferenceActivity"/>
+        <activity android:icon="@drawable/icon_action_bar" android:label="@string/c_settings" android:name=".plot.CalculatorPlotPreferenceActivity"/>
 
         <activity android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" android:name="com.google.ads.AdActivity"/>
 
@@ -51,11 +50,7 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name="org.acra.CrashReportDialog"
-                  android:theme="@style/Theme.Sherlock.Dialog"
-                  android:launchMode="singleInstance"
-                  android:excludeFromRecents="true"
-                  android:finishOnTaskLaunch="true" />
+        <activity android:excludeFromRecents="true" android:finishOnTaskLaunch="true" android:launchMode="singleInstance" android:name="org.acra.CrashReportDialog" android:theme="@style/Theme.Sherlock.Dialog"/>
 
     </application>
 </manifest>

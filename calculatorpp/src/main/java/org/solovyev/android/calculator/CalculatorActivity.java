@@ -130,10 +130,6 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
                 dialogShown = showSpecialWindow(preferences, CalculatorPreferences.Gui.feedbackWindowShown, R.layout.feedback, R.id.feedbackText, context);
             }
         }
-
-        if (!dialogShown) {
-            dialogShown = showSpecialWindow(preferences, CalculatorPreferences.Gui.notesppAnnounceShown, R.layout.notespp_announce, R.id.notespp_announce, context);
-        }
     }
 
     private static boolean showSpecialWindow(@NotNull SharedPreferences preferences, @NotNull Preference<Boolean> specialWindowShownPref, int layoutId, int textViewId, @NotNull Context context) {
@@ -316,8 +312,8 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
     }
 
     @SuppressWarnings({"UnusedDeclaration"})
-    public void donateButtonClickHandler(@NotNull View v) {
-        CalculatorApplication.showDonationDialog(this);
+    public void likeButtonClickHandler(@NotNull View v) {
+        CalculatorApplication.likeButtonPressed(this);
     }
 
 }

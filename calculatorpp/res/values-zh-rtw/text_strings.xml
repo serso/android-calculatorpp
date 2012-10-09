@@ -190,7 +190,7 @@
 	<string name="c_feedback_title">回饋</string>
 	<string name="c_feedback_text">您已使用 Calculator++ 一段時間了 \n
 		我們很希望可以瞭解您對這個軟體的意見.\n\n
-		請在 <a href="https://market.android.com/details?id=org.solovyev.android.calculator">Google Play</a> 上評等 Calculator++,\n 留下評論訊息 \n或是在 <a href="http://calculatorpp.com/forum/">我們的論壇</a> 上討論.
+		請在 <a href="https://market.android.com/details?id=org.solovyev.android.calculator">Google Play</a> 上評等 Calculator++,\n 留下評論訊息 \n或是在 <a href="http://facebook.com/calculatorpp">Facebook</a> 上討論.
 	</string>
 
     <string name="c_notespp_announce_text">好消息 - 我剛發行了一個新的 Android 應用程式, 叫做 <a href="https://play.google.com/store/apps/details?id=org.solovyev.android.notes">Notes++</a>.\n

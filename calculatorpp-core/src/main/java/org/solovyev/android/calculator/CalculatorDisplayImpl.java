@@ -13,10 +13,7 @@ import static org.solovyev.android.calculator.CalculatorEventType.*;
 public class CalculatorDisplayImpl implements CalculatorDisplay {
 
     @NotNull
-    private volatile CalculatorEventData lastCalculatorEventData;
-
-    @NotNull
-    private final Object lastCalculatorEventDataLock = new Object();
+    private final CalculatorEventHolder lastEvent;
 
     @Nullable
     private CalculatorDisplayView view;
@@ -32,7 +29,7 @@ public class CalculatorDisplayImpl implements CalculatorDisplay {
 
     public CalculatorDisplayImpl(@NotNull Calculator calculator) {
         this.calculator = calculator;
-        this.lastCalculatorEventData = CalculatorUtils.createFirstEventDataId();
+        this.lastEvent = new CalculatorEventHolder(CalculatorUtils.createFirstEventDataId());
         this.calculator.addCalculatorEventListener(this);
     }
 
@@ -91,9 +88,7 @@ public class CalculatorDisplayImpl implements CalculatorDisplay {
     @Override
     @NotNull
     public CalculatorEventData getLastEventData() {
-        synchronized (lastCalculatorEventDataLock) {
-            return lastCalculatorEventData;
-        }
+        return lastEvent.getLastEventData();
     }
 
     @Override
@@ -102,18 +97,9 @@ public class CalculatorDisplayImpl implements CalculatorDisplay {
                                   @Nullable Object data) {
         if (calculatorEventType.isOfType(calculation_result, calculation_failed, calculation_cancelled, conversion_result, conversion_failed)) {
 
-            boolean processEvent = false;
-            boolean sameSequence = false;
+            final CalculatorEventHolder.Result result = lastEvent.apply(calculatorEventData);
 
-            synchronized (lastCalculatorEventDataLock) {
-                if (calculatorEventData.isAfter(lastCalculatorEventData)) {
-                    sameSequence = calculatorEventData.isSameSequence(lastCalculatorEventData);
-                    lastCalculatorEventData = calculatorEventData;
-                    processEvent = true;
-                }
-            }
-
-            if (processEvent) {
+            if (result.isNewAfter()) {
                 switch (calculatorEventType) {
                     case conversion_failed:
                         processConversationFailed((CalculatorConversionEventData) calculatorEventData, (ConversionFailure) data);

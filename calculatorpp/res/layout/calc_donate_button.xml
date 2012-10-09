@@ -7,7 +7,7 @@
   -->
 
 <org.solovyev.android.view.ColorButton xmlns:a="http://schemas.android.com/apk/res/android"
-			 a:id="@+id/pasteButton"
-			 a:drawableTop="@drawable/kb_heart"
+			 a:id="@+id/likeButton"
+			 a:drawableTop="@drawable/kb_facebook"
 			 style="?controlImageButtonStyle"
-			 a:onClick="donateButtonClickHandler"/>
+			 a:onClick="likeButtonClickHandler"/>
