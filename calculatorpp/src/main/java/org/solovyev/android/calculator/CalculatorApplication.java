@@ -85,6 +85,12 @@ public class CalculatorApplication extends android.app.Application {
                 return CalculatorSecurity.getPK();
             }
         });
+
+
+        BillingController.registerObserver(new CalculatorBillingObserver(this));
+        // init billing controller
+        BillingController.checkBillingSupported(this);
+
     }
 
     private void setTheme(@NotNull SharedPreferences preferences) {

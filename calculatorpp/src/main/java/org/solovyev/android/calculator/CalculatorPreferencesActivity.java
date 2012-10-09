@@ -52,7 +52,7 @@ public class CalculatorPreferencesActivity extends SherlockPreferenceActivity im
 
 		BillingController.checkBillingSupported(CalculatorPreferencesActivity.this);
 
-		final SharedPreferences preferences = getPreferenceManager().getSharedPreferences();
+		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		preferences.registerOnSharedPreferenceChangeListener(this);
 		onSharedPreferenceChanged(preferences, AndroidCalculatorEngine.Preferences.roundResult.getKey());
 		onSharedPreferenceChanged(preferences, VibratorContainer.Preferences.hapticFeedbackEnabled.getKey());
@@ -126,6 +126,7 @@ public class CalculatorPreferencesActivity extends SherlockPreferenceActivity im
 	@Override
 	protected void onDestroy() {
 		BillingController.unregisterObserver(this);
+        PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
 		super.onDestroy();
 	}
 

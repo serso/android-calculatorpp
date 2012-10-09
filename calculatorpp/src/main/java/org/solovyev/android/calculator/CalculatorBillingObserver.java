@@ -6,7 +6,7 @@
 
 package org.solovyev.android.calculator;
 
-import android.app.Activity;
+import android.content.Context;
 import net.robotmedia.billing.ResponseCode;
 import net.robotmedia.billing.helper.AbstractBillingObserver;
 import net.robotmedia.billing.model.Transaction;
@@ -19,8 +19,8 @@ import org.jetbrains.annotations.NotNull;
  */
 public class CalculatorBillingObserver extends AbstractBillingObserver {
 
-	public CalculatorBillingObserver(@NotNull Activity activity) {
-		super(activity);
+	public CalculatorBillingObserver(@NotNull Context context) {
+		super(context);
 	}
 
 	@Override

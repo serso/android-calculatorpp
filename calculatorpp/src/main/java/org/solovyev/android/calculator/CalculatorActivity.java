@@ -20,8 +20,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import net.robotmedia.billing.BillingController;
-import net.robotmedia.billing.IBillingObserver;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.AndroidUtils;
@@ -39,9 +37,6 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
     @NotNull
     public static final String TAG = CalculatorActivity.class.getSimpleName();
 
-    @Nullable
-	private IBillingObserver billingObserver;
-
 	private boolean useBackAsPrev;
 
     @NotNull
@@ -52,8 +47,6 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 	 */
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
-		/*final boolean customTitleSupported = requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);*/
-
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         final CalculatorPreferences.Gui.Layout layout = CalculatorPreferences.Gui.layout.getPreferenceNoError(preferences);
@@ -81,26 +74,8 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
         FragmentUtils.createFragment(this, CalculatorDisplayFragment.class, R.id.displayContainer, "display");
         FragmentUtils.createFragment(this, CalculatorKeyboardFragment.class, R.id.keyboardContainer, "keyboard");
 
-        /*if (customTitleSupported) {
-			try {
-				getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.calc_title);
-				final CalculatorAdditionalTitle additionalAdditionalTitleText = (CalculatorAdditionalTitle)findViewById(R.id.additional_title_text);
-				additionalAdditionalTitleText.init(preferences);
-				preferences.registerOnSharedPreferenceChangeListener(additionalAdditionalTitleText);
-			} catch (ClassCastException e) {
-				// super fix for issue with class cast in android.view.Window.setFeatureInt() (see app error reports)
-				Log.e(CalculatorActivity.class.getName(), e.getMessage(), e);
-			}
-		}*/
-
-		billingObserver = new CalculatorBillingObserver(this);
-		BillingController.registerObserver(billingObserver);
-
         this.useBackAsPrev = CalculatorPreferences.Gui.usePrevAsBack.getPreference(preferences);
         firstTimeInit(preferences, this);
-
-		// init billing controller
-		BillingController.checkBillingSupported(this);
 
         toggleOrientationChange(preferences);
 
@@ -221,11 +196,9 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 
 	@Override
 	protected void onDestroy() {
-		if (billingObserver !=  null) {
-			BillingController.unregisterObserver(billingObserver);
-		}
-
         activityHelper.onDestroy(this);
+
+        PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
 
         super.onDestroy();
 	}
