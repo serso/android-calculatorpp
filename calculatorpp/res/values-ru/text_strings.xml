@@ -221,6 +221,7 @@
     <string name="prefs_graph_scren_title">Настройки графика</string>
 
     <string name="prefs_graph_interpolate_function">Интерполировать график</string>
+    <string name="prefs_graph_interpolate_function_summary">Если включено - при построении графика будет использована интерполяция</string>
     <string name="prefs_graph_real_color_title">Цвет вещественной части графика</string>
     <string name="prefs_graph_real_color_summary">Устанавливает цвет вещественной части графика</string>
     <string name="prefs_graph_imag_color_title">Цвет мнимой части графика</string>

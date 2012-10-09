@@ -221,6 +221,7 @@
     <string name="prefs_graph_scren_title">Graph preferences</string>
 
     <string name="prefs_graph_interpolate_function">Interpolate function\'s graph</string>
+    <string name="prefs_graph_interpolate_function_summary">If checked cubic interpolation will be used in function graph drawing</string>
     <string name="prefs_graph_real_color_title">Color of real part of functions graph</string>
     <string name="prefs_graph_real_color_summary">Sets color of real part functions graph</string>
     <string name="prefs_graph_imag_color_title">Color of imaginary part of functions graph</string>

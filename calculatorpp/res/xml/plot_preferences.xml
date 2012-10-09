@@ -9,7 +9,7 @@
         <android.preference.CheckBoxPreference
                 a:key="graph_interpolate"
                 a:title="@string/prefs_graph_interpolate_function"
-                a:summary="If checked cubic interpolation will be used in function graph drawing"/>
+                a:summary="@string/prefs_graph_interpolate_function_summary"/>
 
         <ListPreference a:key="graph_line_color_real"
                         a:title="@string/prefs_graph_real_color_title"
