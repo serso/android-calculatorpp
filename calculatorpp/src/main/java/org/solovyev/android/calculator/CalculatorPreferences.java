@@ -10,6 +10,7 @@ import org.solovyev.android.prefs.BooleanPreference;
 import org.solovyev.android.prefs.IntegerPreference;
 import org.solovyev.android.prefs.Preference;
 import org.solovyev.android.prefs.StringPreference;
+import org.solovyev.android.view.VibratorContainer;
 
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
@@ -162,6 +163,14 @@ public final class CalculatorPreferences {
         applyDefaultPreference(preferences, Graph.interpolate);
         applyDefaultPreference(preferences, Graph.lineColorImag);
         applyDefaultPreference(preferences, Graph.lineColorReal);
+
+        if ( !VibratorContainer.Preferences.hapticFeedbackEnabled.isSet(preferences) ) {
+            VibratorContainer.Preferences.hapticFeedbackEnabled.putPreference(preferences, true);
+        }
+
+        if ( !VibratorContainer.Preferences.hapticFeedbackDuration.isSet(preferences) ) {
+            VibratorContainer.Preferences.hapticFeedbackDuration.putPreference(preferences, 60L);
+        }
 
     }
 
