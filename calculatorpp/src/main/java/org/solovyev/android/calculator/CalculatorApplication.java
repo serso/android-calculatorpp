@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import net.robotmedia.billing.BillingController;
+import net.robotmedia.billing.helper.DefaultBillingObserver;
 import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
@@ -101,10 +102,15 @@ public class CalculatorApplication extends android.app.Application {
             }
         });
 
-        BillingController.registerObserver(new CalculatorBillingObserver(this));
+        BillingController.registerObserver(new DefaultBillingObserver(this, null));
 
         // init billing controller
-        BillingController.checkBillingSupported(this);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                BillingController.checkBillingSupported(CalculatorApplication.this);
+            }
+        }).start();
     }
 
     private void setTheme(@NotNull SharedPreferences preferences) {
