@@ -87,14 +87,16 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
 
     @Override
     public void setState(@NotNull final CalculatorDisplayViewState state) {
-        final CharSequence text = prepareText(state.getStringResult(), state.isValid());
 
         handler.post(new Runnable() {
             @Override
             public void run() {
+
                 synchronized (lock) {
                     try {
                         viewStateChange = true;
+
+                        final CharSequence text = prepareText(state.getStringResult(), state.isValid());
 
                         AndroidCalculatorDisplayView.this.state = state;
                         if (state.isValid()) {

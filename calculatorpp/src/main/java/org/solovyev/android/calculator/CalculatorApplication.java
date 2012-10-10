@@ -111,6 +111,7 @@ public class CalculatorApplication extends android.app.Application {
             public void run() {
                 BillingDB.init(CalculatorApplication.this);
                 BillingController.checkBillingSupported(CalculatorApplication.this);
+                AdsController.getInstance().isAdFree(CalculatorApplication.this);
             }
         }).start();
     }
