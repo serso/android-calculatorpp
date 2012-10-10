@@ -142,8 +142,8 @@
         <dependency>
             <groupId>org.solovyev.android</groupId>
             <artifactId>billing</artifactId>
-            <version>0.1</version>
-            <!--<type>apklib</type>-->
+            <version>0.2</version>
+            <type>apklib</type>
         </dependency>
 
         <dependency>

@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 import net.robotmedia.billing.BillingController;
 import net.robotmedia.billing.helper.DefaultBillingObserver;
+import net.robotmedia.billing.model.BillingDB;
 import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
@@ -108,6 +109,7 @@ public class CalculatorApplication extends android.app.Application {
         new Thread(new Runnable() {
             @Override
             public void run() {
+                BillingDB.init(CalculatorApplication.this);
                 BillingController.checkBillingSupported(CalculatorApplication.this);
             }
         }).start();
