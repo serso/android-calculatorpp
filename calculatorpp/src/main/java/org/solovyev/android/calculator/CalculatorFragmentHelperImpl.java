@@ -91,10 +91,14 @@ public class CalculatorFragmentHelperImpl extends AbstractCalculatorHelper imple
         final ViewGroup adParentView = (ViewGroup) root.findViewById(R.id.ad_parent_view);
         final ViewGroup mainFragmentLayout = (ViewGroup) root.findViewById(R.id.main_fragment_layout);
 
-        if (adParentView != null) {
-            adView = AdsController.getInstance().inflateAd(fragment.getActivity(), adParentView, R.id.ad_parent_view);
-        } else if ( mainFragmentLayout != null ) {
-            adView = AdsController.getInstance().inflateAd(fragment.getActivity(), mainFragmentLayout, R.id.main_fragment_layout);
+        if (fragment instanceof CalculatorDisplayFragment || fragment instanceof CalculatorEditorFragment || fragment instanceof CalculatorKeyboardFragment) {
+            // no ads in those fragments
+        } else {
+            if (adParentView != null) {
+                adView = AdsController.getInstance().inflateAd(fragment.getActivity(), adParentView, R.id.ad_parent_view);
+            } else if ( mainFragmentLayout != null ) {
+                adView = AdsController.getInstance().inflateAd(fragment.getActivity(), mainFragmentLayout, R.id.main_fragment_layout);
+            }
         }
 
         processButtons(fragment.getActivity(), root);

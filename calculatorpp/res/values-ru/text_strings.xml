@@ -226,4 +226,11 @@
     <string name="prefs_graph_real_color_summary">Устанавливает цвет вещественной части графика</string>
     <string name="prefs_graph_imag_color_title">Цвет мнимой части графика</string>
     <string name="prefs_graph_imag_color_summary">Устанавливает цвет мнимой части графика</string>
+
+    <string name="p_white_line_color">Белый</string>
+    <string name="p_grey_line_color">Серый</string>
+    <string name="p_red_line_color">Красный</string>
+    <string name="p_blue_line_color">Синий</string>
+    <string name="p_green_line_color">Зелёный</string>
+
 </resources>
