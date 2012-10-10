@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:a="http://schemas.android.com/apk/res/android"
+                  xmlns:range="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceScreen a:title="@string/c_prefs_calculations_category">
+
+        <org.solovyev.android.ads.AdViewPreference a:layout="@layout/admob_pref"/>
+
+        <android.preference.CheckBoxPreference
+                a:key="@string/p_calc_round_result_key"
+                a:summary="@string/c_calc_round_result_summary"
+                a:title="@string/c_calc_round_result_title"
+                a:defaultValue="true"/>
+
+        <org.solovyev.android.prefs.IntegerPickerDialogPreference
+                a:key="@string/p_calc_result_precision_key"
+                a:title="@string/p_calc_result_precision_title"
+                a:summary="@string/c_calc_result_precision_summary"
+                a:defaultValue="5"
+                range:boundaries="0;16"/>
+
+        <android.preference.CheckBoxPreference
+                a:key="@string/p_calc_science_notation_key"
+                a:summary="@string/c_calc_science_notation_summary"
+                a:title="@string/c_calc_science_notation_title"
+                a:defaultValue="false"/>
+
+        <ListPreference a:key="@string/p_calc_grouping_separator_key"
+                        a:title="@string/c_calc_grouping_separator"
+                        a:entries="@array/p_grouping_separator_names"
+                        a:summary="@string/c_calc_grouping_separator_summary"
+                        a:entryValues="@array/p_grouping_separator_values"/>
+
+        <ListPreference a:key="@string/p_calc_angle_units_key"
+                        a:title="@string/c_calc_angle_units"
+                        a:entries="@array/p_angle_units_names"
+                        a:summary="@string/c_angle_units_summary"
+                        a:entryValues="@array/p_angle_units"/>
+
+        <ListPreference a:key="@string/p_calc_numeral_bases_key"
+                        a:title="@string/c_calc_numeral_bases"
+                        a:entries="@array/p_numeral_bases_names"
+                        a:summary="@string/c_numeral_bases_summary"
+                        a:entryValues="@array/p_numeral_bases"/>
+
+        <org.solovyev.android.prefs.IntegerPickerDialogPreference
+                a:key="@string/p_calc_max_calculation_time_key"
+                a:title="@string/p_calc_max_calculation_time_title"
+                a:summary="@string/p_calc_max_calculation_time_summary"
+                a:defaultValue="5"
+                range:boundaries="3;1000"/>
+
+    </PreferenceScreen>
+
+</PreferenceScreen>

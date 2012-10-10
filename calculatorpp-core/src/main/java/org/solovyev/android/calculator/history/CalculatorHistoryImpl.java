@@ -3,18 +3,18 @@ package org.solovyev.android.calculator.history;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.*;
+import org.solovyev.common.collections.CollectionsUtils;
 import org.solovyev.common.history.HistoryAction;
 import org.solovyev.common.history.HistoryHelper;
 import org.solovyev.common.history.SimpleHistoryHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static org.solovyev.android.calculator.CalculatorEventType.display_state_changed;
-import static org.solovyev.android.calculator.CalculatorEventType.editor_state_changed;
-import static org.solovyev.android.calculator.CalculatorEventType.manual_calculation_requested;
+import static org.solovyev.android.calculator.CalculatorEventType.*;
 
 /**
  * User: Solovyev_S
@@ -32,10 +32,7 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
     private final List<CalculatorHistoryState> savedHistory = new ArrayList<CalculatorHistoryState>();
 
     @NotNull
-    private volatile CalculatorEventData lastEventData = CalculatorUtils.createFirstEventDataId();
-
-    @NotNull
-    private final Object lastEventDataLock = new Object();
+    private final CalculatorEventHolder lastEventData = new CalculatorEventHolder(CalculatorUtils.createFirstEventDataId());
 
     @Nullable
     private volatile CalculatorEditorViewState lastEditorViewState;
@@ -114,6 +111,50 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
         }
     }
 
+    @NotNull
+    @Override
+    public List<CalculatorHistoryState> getStates(boolean includeIntermediateStates) {
+        if (includeIntermediateStates) {
+            return getStates();
+        } else {
+            final List<CalculatorHistoryState> states = getStates();
+
+            final List<CalculatorHistoryState> result = new LinkedList<CalculatorHistoryState>();
+
+            CalculatorHistoryState laterState = null;
+            for (CalculatorHistoryState state : CollectionsUtils.reversed(states)) {
+                 if ( laterState != null ) {
+                     final String laterEditorText = laterState.getEditorState().getText();
+                     final String editorText = state.getEditorState().getText();
+                     if ( laterEditorText != null && editorText != null && isIntermediate(laterEditorText, editorText)) {
+                         // intermediate result => skip from add
+                     } else {
+                         result.add(0, state);
+                     }
+                 } else {
+                     result.add(0, state);
+                 }
+
+                laterState = state;
+            }
+
+            return result;
+        }
+    }
+
+    private boolean isIntermediate(@NotNull String laterEditorText,
+                                   @NotNull String editorText) {
+        if ( Math.abs(laterEditorText.length() - editorText.length()) <= 1 ) {
+            if ( laterEditorText.length() > editorText.length() ) {
+                return laterEditorText.startsWith(editorText);
+            } else {
+                return editorText.startsWith(laterEditorText);
+            }
+        }
+
+        return false;
+    }
+
     @Override
     public void clear() {
         synchronized (history) {
@@ -186,27 +227,9 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
                                   @Nullable Object data) {
         if (calculatorEventType.isOfType(editor_state_changed, display_state_changed, manual_calculation_requested)) {
 
-            boolean sameSequence = false;
-            boolean afterSequence = false;
+            final CalculatorEventHolder.Result result = lastEventData.apply(calculatorEventData);
 
-            boolean processEvent = false;
-
-            synchronized (this.lastEventDataLock) {
-                if (calculatorEventData.isAfter(this.lastEventData)) {
-
-                    sameSequence = calculatorEventData.isSameSequence(this.lastEventData);
-                    if (!sameSequence) {
-                        afterSequence = calculatorEventData.isAfterSequence(this.lastEventData);
-                        processEvent = afterSequence;
-                    } else {
-                        processEvent = true;
-                    }
-                }
-            }
-
-            if (processEvent) {
-                    this.lastEventData = calculatorEventData;
-
+            if (result.isNewAfter() && result.isNewSameOrAfterSequence() ) {
                     switch (calculatorEventType) {
                         case manual_calculation_requested:
                             lastEditorViewState = (CalculatorEditorViewState) data;
@@ -216,7 +239,7 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
                             lastEditorViewState = editorChangeData.getNewValue();
                             break;
                         case display_state_changed:
-                            if (sameSequence) {
+                            if (result.isSameSequence()) {
                                 if (lastEditorViewState != null) {
                                     final CalculatorEditorViewState editorViewState = lastEditorViewState;
                                     final CalculatorDisplayChangeEventData displayChangeData = (CalculatorDisplayChangeEventData) data;

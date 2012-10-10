@@ -12,7 +12,10 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.Calculator;
+import org.solovyev.android.calculator.CalculatorEventData;
+import org.solovyev.android.calculator.CalculatorEventType;
+import org.solovyev.android.calculator.R;
 import org.solovyev.common.history.HistoryAction;
 
 import java.util.List;
@@ -115,6 +118,12 @@ public class AndroidCalculatorHistory implements CalculatorHistory {
     @Override
     public List<CalculatorHistoryState> getStates() {
         return calculatorHistory.getStates();
+    }
+
+    @NotNull
+    @Override
+    public List<CalculatorHistoryState> getStates(boolean includeIntermediateStates) {
+        return calculatorHistory.getStates(includeIntermediateStates);
     }
 
     @Override

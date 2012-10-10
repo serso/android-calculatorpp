@@ -114,8 +114,13 @@ public final class CalculatorPreferences {
         public static final Preference<GraphLineColor> lineColorImag = StringPreference.newInstance("graph_line_color_imag", GraphLineColor.blue, GraphLineColor.class);
     }
 
+    public static class History {
+        public static final Preference<Boolean> showIntermediateCalculations = new BooleanPreference("history_show_intermediate_calculations", false);
+    }
 
-    static void setDefaultValues(@NotNull SharedPreferences preferences) {
+
+
+        static void setDefaultValues(@NotNull SharedPreferences preferences) {
         if (!AndroidCalculatorEngine.Preferences.groupingSeparator.isSet(preferences)) {
             final Locale locale = Locale.getDefault();
             if (locale != null) {
@@ -163,6 +168,7 @@ public final class CalculatorPreferences {
         applyDefaultPreference(preferences, Graph.interpolate);
         applyDefaultPreference(preferences, Graph.lineColorImag);
         applyDefaultPreference(preferences, Graph.lineColorReal);
+        applyDefaultPreference(preferences, History.showIntermediateCalculations);
 
         if ( !VibratorContainer.Preferences.hapticFeedbackEnabled.isSet(preferences) ) {
             VibratorContainer.Preferences.hapticFeedbackEnabled.putPreference(preferences, true);

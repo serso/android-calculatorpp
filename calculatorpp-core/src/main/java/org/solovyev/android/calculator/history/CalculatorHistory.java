@@ -30,4 +30,11 @@ public interface CalculatorHistory extends HistoryHelper<CalculatorHistoryState>
 
     @NotNull
     CalculatorHistoryState addSavedState(@NotNull CalculatorHistoryState historyState);
+
+    @NotNull
+    List<CalculatorHistoryState> getStates();
+
+    @NotNull
+    List<CalculatorHistoryState> getStates(boolean includeIntermediateStates);
+
 }

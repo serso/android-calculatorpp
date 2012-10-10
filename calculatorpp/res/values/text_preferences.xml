@@ -7,4 +7,7 @@
 
     <string name="c_hide_numeral_base_digits_title">Hide numeral base digits</string>
     <string name="c_hide_numeral_base_digits_summary">If turned on numeral base digits of other numeral bases will be hidden</string>
+
+    <string name="prefs_history_show_intermediate_calculations_title">Show intermediate calculations in history</string>
+    <string name="prefs_history_show_intermediate_calculations_summary">If turned on all calculations will be shown on history screen</string>
 </resources>

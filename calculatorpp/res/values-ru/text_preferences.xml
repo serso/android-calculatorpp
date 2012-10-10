@@ -7,4 +7,7 @@
 
     <string name="c_hide_numeral_base_digits_title">Не показывать цифры из других систем счисления</string>
     <string name="c_hide_numeral_base_digits_summary">Если включено, то цифры из других систем счисления не будут показаны</string>
+
+    <string name="prefs_history_show_intermediate_calculations_title">Показывать промежуточные вычисления на экране истории</string>
+    <string name="prefs_history_show_intermediate_calculations_summary">Если включено, то все вычисления будут показаны на экране истории</string>
 </resources>

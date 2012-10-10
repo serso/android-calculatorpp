@@ -65,7 +65,7 @@ public class CalculatorEditorImpl implements CalculatorEditor {
         setViewState(newViewState, true);
     }
 
-    private void setViewState(CalculatorEditorViewState newViewState, boolean fireEvent) {
+    private void setViewState(@NotNull CalculatorEditorViewState newViewState, boolean fireEvent) {
         synchronized (viewLock) {
             final CalculatorEditorViewState oldViewState = this.lastViewState;
 
@@ -109,7 +109,7 @@ public class CalculatorEditorImpl implements CalculatorEditor {
     private CalculatorEditorViewState newSelectionViewState(int newSelection) {
         if (this.lastViewState.getSelection() != newSelection) {
             final CalculatorEditorViewState result = CalculatorEditorViewStateImpl.newSelection(this.lastViewState, newSelection);
-            setViewState(result);
+            setViewState(result, false);
             return result;
         } else {
             return this.lastViewState;
@@ -262,7 +262,7 @@ public class CalculatorEditorImpl implements CalculatorEditor {
             selection = correctSelection(selection, this.lastViewState.getText());
 
             final CalculatorEditorViewState result = CalculatorEditorViewStateImpl.newSelection(this.lastViewState, selection);
-            setViewState(result);
+            setViewState(result, false);
             return result;
         }
     }

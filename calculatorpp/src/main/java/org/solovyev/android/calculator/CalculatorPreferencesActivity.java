@@ -42,7 +42,10 @@ public class CalculatorPreferencesActivity extends SherlockPreferenceActivity im
         //noinspection deprecation
         addPreferencesFromResource(R.xml.preferences);
         //noinspection deprecation
+        addPreferencesFromResource(R.xml.calculations_preferences);
+        addPreferencesFromResource(R.xml.appearance_preferences);
         addPreferencesFromResource(R.xml.plot_preferences);
+        addPreferencesFromResource(R.xml.other_preferences);
 
 		final Preference adFreePreference = findPreference(CalculatorApplication.AD_FREE_P_KEY);
 		adFreePreference.setEnabled(false);

@@ -66,5 +66,13 @@ public class CalculatorEventHolder {
             }
             return sameSequence;
         }
+
+        public boolean isNewAfterSequence() {
+            return newEventData.isAfterSequence(lastEventData);
+        }
+
+        public boolean isNewSameOrAfterSequence() {
+            return isSameSequence() || isNewAfterSequence();
+        }
     }
 }

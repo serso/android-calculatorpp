@@ -6,8 +6,10 @@
 
 package org.solovyev.android.calculator.history;
 
+import android.preference.PreferenceManager;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.CalculatorLocatorImpl;
+import org.solovyev.android.calculator.CalculatorPreferences;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.about.CalculatorFragmentType;
 
@@ -33,7 +35,8 @@ public class CalculatorHistoryFragment extends AbstractCalculatorHistoryFragment
 	@NotNull
 	@Override
 	protected List<CalculatorHistoryState> getHistoryItems() {
-		return new ArrayList<CalculatorHistoryState>(CalculatorLocatorImpl.getInstance().getHistory().getStates());
+        final boolean showIntermediateCalculations = CalculatorPreferences.History.showIntermediateCalculations.getPreference(PreferenceManager.getDefaultSharedPreferences(getActivity()));
+		return new ArrayList<CalculatorHistoryState>(CalculatorLocatorImpl.getInstance().getHistory().getStates(showIntermediateCalculations));
 	}
 
 	@Override
