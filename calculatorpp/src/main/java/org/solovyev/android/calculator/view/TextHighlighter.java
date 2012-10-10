@@ -32,36 +32,47 @@ public class TextHighlighter implements TextProcessor<TextHighlighter.Result, St
 	public static class Result implements CharSequence {
 
 		@NotNull
-		private final String string;
+		private final CharSequence charSequence;
 
-		private final int offset;
+        @Nullable
+        private String string;
 
-		public Result(@NotNull String string, int offset) {
-			this.string = string;
+        private final int offset;
+
+		public Result(@NotNull CharSequence charSequence, int offset) {
+			this.charSequence = charSequence;
 			this.offset = offset;
 		}
 
 		@Override
 		public int length() {
-			return string.length();
+			return charSequence.length();
 		}
 
 		@Override
 		public char charAt(int i) {
-			return string.charAt(i);
+			return charSequence.charAt(i);
 		}
 
 		@Override
 		public CharSequence subSequence(int i, int i1) {
-			return string.subSequence(i, i1);
+			return charSequence.subSequence(i, i1);
 		}
 
 		@Override
 		public String toString() {
-			return string;
+            if (string == null) {
+                string = charSequence.toString();
+            }
+            return string;
 		}
 
-		public int getOffset() {
+        @NotNull
+        public CharSequence getCharSequence() {
+            return charSequence;
+        }
+
+        public int getOffset() {
 			return offset;
 		}
 	}
@@ -86,7 +97,7 @@ public class TextHighlighter implements TextProcessor<TextHighlighter.Result, St
 	@NotNull
 	@Override
 	public Result process(@NotNull String text) throws CalculatorParseException {
-		final String result;
+		final CharSequence result;
 
 		int maxNumberOfOpenGroupSymbols = 0;
 		int numberOfOpenGroupSymbols = 0;
@@ -158,7 +169,7 @@ public class TextHighlighter implements TextProcessor<TextHighlighter.Result, St
 
 			final StringBuilder text2 = new StringBuilder(text1.length());
 
-			String s = text1.toString();
+			final CharSequence s = text1;
 			int i = processBracketGroup(text2, s, 0, 0, maxNumberOfOpenGroupSymbols);
 			for (; i < s.length(); i++) {
 				text2.append(s.charAt(i));
@@ -177,7 +188,7 @@ public class TextHighlighter implements TextProcessor<TextHighlighter.Result, St
 	private int processHighlightedText(@NotNull StringBuilder result, int i, @NotNull String match, @NotNull String tag, @Nullable Map<String, String> tagAttributes) {
 		result.append("<").append(tag);
 
-		if (tagAttributes != null) {
+		if (tagAttributes != null && !tagAttributes.entrySet().isEmpty()) {
 			for (Map.Entry<String, String> entry : tagAttributes.entrySet()) {
 				// attr1="attr1_value" attr2="attr2_value"
 				result.append(" ").append(entry.getKey()).append("=\"").append(entry.getValue()).append("\"");
@@ -192,14 +203,15 @@ public class TextHighlighter implements TextProcessor<TextHighlighter.Result, St
 		}
 	}
 
-	private int processBracketGroup(@NotNull StringBuilder result, @NotNull String s, int i, int numberOfOpenings, int maxNumberOfGroups) {
+	private int processBracketGroup(@NotNull StringBuilder result, @NotNull CharSequence s, int i, int numberOfOpenings, int maxNumberOfGroups) {
 
 		result.append("<font color=\"").append(getColor(maxNumberOfGroups, numberOfOpenings)).append("\">");
 
 		for (; i < s.length(); i++) {
 			char ch = s.charAt(i);
+            String strCh = String.valueOf(ch);
 
-			if (MathType.open_group_symbol.getTokens().contains(String.valueOf(ch))) {
+            if (MathType.open_group_symbol.getTokens().contains(strCh)) {
 				result.append(ch);
 				result.append("</font>");
 				i = processBracketGroup(result, s, i + 1, numberOfOpenings + 1, maxNumberOfGroups);
@@ -207,7 +219,7 @@ public class TextHighlighter implements TextProcessor<TextHighlighter.Result, St
 				if (i < s.length() && MathType.close_group_symbol.getTokens().contains(String.valueOf(s.charAt(i)))) {
 					result.append(s.charAt(i));
 				}
-			} else if (MathType.close_group_symbol.getTokens().contains(String.valueOf(ch))) {
+			} else if (MathType.close_group_symbol.getTokens().contains(strCh)) {
 				break;
 			} else {
 				result.append(ch);

@@ -6,6 +6,7 @@
 
 package org.solovyev.android.calculator;
 
+import android.graphics.Color;
 import jscl.MathEngine;
 import jscl.NumeralBase;
 import junit.framework.Assert;
@@ -138,4 +139,23 @@ public class TextHighlighterTest {
 			me.setNumeralBase(NumeralBase.dec);
 		}
 	}
+
+    @Test
+    public void testTime() throws Exception {
+        final TextProcessor<?, String> textHighlighter = new TextHighlighter(Color.WHITE, false);
+
+        final int count = 1000;
+        final String subExpression = "cos(acos(t8ln(t5t85tln(8ln(5t55tln(5))))))+tln(88cos(tln(t)))+t√(ln(t))";
+        final StringBuilder expression = new StringBuilder(subExpression.length() * count);
+        for ( int i = 0; i < count; i++ ){
+            expression.append(subExpression);
+            expression.append("+");
+        }
+        expression.append(subExpression);
+
+        long startTime = System.currentTimeMillis();
+        textHighlighter.process(expression.toString());
+        long endTime = System.currentTimeMillis();
+        System.out.println("Total time, ms: " + (endTime - startTime));
+    }
 }

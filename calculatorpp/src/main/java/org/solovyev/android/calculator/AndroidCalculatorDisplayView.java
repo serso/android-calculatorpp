@@ -16,6 +16,9 @@ import org.solovyev.android.calculator.text.TextProcessor;
 import org.solovyev.android.calculator.view.TextHighlighter;
 import org.solovyev.android.view.AutoResizeTextView;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 /**
  * User: serso
  * Date: 9/17/11
@@ -52,6 +55,9 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
 
     @NotNull
     private final Handler uiHandler = new Handler();
+
+    @NotNull
+    private final ExecutorService bgExecutor = Executors.newSingleThreadExecutor();
 
     private volatile boolean initialized = false;
 
@@ -96,12 +102,7 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
                     try {
                         viewStateChange = true;
 
-                        long startTime = System.currentTimeMillis();
                         final CharSequence text = prepareText(state.getStringResult(), state.isValid());
-                        long endTime = System.currentTimeMillis();
-                        long totalTime = (endTime - startTime);
-                        CalculatorLocatorImpl.getInstance().getLogger().debug("CalculatorDisplayView", "Total time, ms: " + totalTime);
-
 
                         AndroidCalculatorDisplayView.this.state = state;
                         if (state.isValid()) {

@@ -22,7 +22,7 @@ public class CalculatorTestUtils {
     public static final int TIMEOUT = 1;
 
     public static void staticSetUp() throws Exception {
-        CalculatorLocatorImpl.getInstance().init(new CalculatorImpl(), newCalculatorEngine(), Mockito.mock(CalculatorClipboard.class), Mockito.mock(CalculatorNotifier.class), Mockito.mock(CalculatorHistory.class), null);
+        CalculatorLocatorImpl.getInstance().init(new CalculatorImpl(), newCalculatorEngine(), Mockito.mock(CalculatorClipboard.class), Mockito.mock(CalculatorNotifier.class), Mockito.mock(CalculatorHistory.class), new SystemOutCalculatorLogger());
         CalculatorLocatorImpl.getInstance().getEngine().init();
     }
 
