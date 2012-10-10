@@ -75,17 +75,8 @@ public final class CalculatorButtons {
                 if (equalsButton != null) {
                     if (CalculatorPreferences.Gui.showEqualsButton.getPreference(preferences)) {
                         equalsButton.setVisibility(View.VISIBLE);
-                        final AndroidCalculatorDisplayView calculatorDisplayView = getCalculatorDisplayView();
-                        if (calculatorDisplayView != null) {
-                            calculatorDisplayView.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
-                        }
                     } else {
                         equalsButton.setVisibility(View.GONE);
-                        // mobile phones
-                        final AndroidCalculatorDisplayView calculatorDisplayView = getCalculatorDisplayView();
-                        if (calculatorDisplayView != null) {
-                            calculatorDisplayView.setCompoundDrawablesWithIntrinsicBounds(activity.getResources().getDrawable(R.drawable.equals9), null, null, null);
-                        }
                     }
                 }
             }

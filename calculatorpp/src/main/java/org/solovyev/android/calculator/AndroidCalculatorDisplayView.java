@@ -51,7 +51,7 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
     private final Object lock = new Object();
 
     @NotNull
-    private final Handler handler = new Handler();
+    private final Handler uiHandler = new Handler();
 
     private volatile boolean initialized = false;
 
@@ -88,7 +88,7 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
     @Override
     public void setState(@NotNull final CalculatorDisplayViewState state) {
 
-        handler.post(new Runnable() {
+        uiHandler.post(new Runnable() {
             @Override
             public void run() {
 
@@ -96,7 +96,12 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
                     try {
                         viewStateChange = true;
 
+                        long startTime = System.currentTimeMillis();
                         final CharSequence text = prepareText(state.getStringResult(), state.isValid());
+                        long endTime = System.currentTimeMillis();
+                        long totalTime = (endTime - startTime);
+                        CalculatorLocatorImpl.getInstance().getLogger().debug("CalculatorDisplayView", "Total time, ms: " + totalTime);
+
 
                         AndroidCalculatorDisplayView.this.state = state;
                         if (state.isValid()) {

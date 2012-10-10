@@ -32,6 +32,9 @@ public class CalculatorLocatorImpl implements CalculatorLocator {
     private CalculatorNotifier calculatorNotifier = new DummyCalculatorNotifier();
 
     @NotNull
+    private CalculatorLogger calculatorLogger = new SystemOutCalculatorLogger();
+
+    @NotNull
     private CalculatorClipboard calculatorClipboard = new DummyCalculatorClipboard();
 
     @NotNull
@@ -45,13 +48,15 @@ public class CalculatorLocatorImpl implements CalculatorLocator {
                      @NotNull CalculatorEngine engine,
                      @NotNull CalculatorClipboard clipboard,
                      @NotNull CalculatorNotifier notifier,
-                     @NotNull CalculatorHistory history) {
+                     @NotNull CalculatorHistory history,
+                     @NotNull CalculatorLogger logger) {
 
         this.calculator = calculator;
         this.calculatorEngine = engine;
         this.calculatorClipboard = clipboard;
         this.calculatorNotifier = notifier;
         this.calculatorHistory = history;
+        this.calculatorLogger = logger;
 
         calculatorEditor = new CalculatorEditorImpl(this.calculator);
         calculatorDisplay = new CalculatorDisplayImpl(this.calculator);
@@ -109,5 +114,11 @@ public class CalculatorLocatorImpl implements CalculatorLocator {
     @NotNull
     public CalculatorHistory getHistory() {
         return calculatorHistory;
+    }
+
+    @Override
+    @NotNull
+    public CalculatorLogger getLogger() {
+        return calculatorLogger;
     }
 }

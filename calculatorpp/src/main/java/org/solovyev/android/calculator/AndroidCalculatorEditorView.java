@@ -22,6 +22,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.text.TextProcessor;
 import org.solovyev.android.calculator.view.TextHighlighter;
+import org.solovyev.android.prefs.BooleanPreference;
 import org.solovyev.common.collections.CollectionsUtils;
 
 /**
@@ -31,8 +32,8 @@ import org.solovyev.common.collections.CollectionsUtils;
  */
 public class AndroidCalculatorEditorView extends EditText implements SharedPreferences.OnSharedPreferenceChangeListener, CalculatorEditorView {
 
-    private static final String CALC_COLOR_DISPLAY_KEY = "org.solovyev.android.calculator.CalculatorModel_color_display";
-    private static final boolean CALC_COLOR_DISPLAY_DEFAULT = true;
+    @NotNull
+    private static final BooleanPreference colorDisplay = new BooleanPreference("org.solovyev.android.calculator.CalculatorModel_color_display", true);
 
     private volatile boolean initialized = false;
 
@@ -51,7 +52,7 @@ public class AndroidCalculatorEditorView extends EditText implements SharedPrefe
     private static final Object lock = new Object();
 
     @NotNull
-    private final Handler handler = new Handler();
+    private final Handler uiHandler = new Handler();
 
     public AndroidCalculatorEditorView(Context context) {
         super(context);
@@ -132,8 +133,8 @@ public class AndroidCalculatorEditorView extends EditText implements SharedPrefe
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
-        if (CALC_COLOR_DISPLAY_KEY.equals(key)) {
-            this.setHighlightText(preferences.getBoolean(CALC_COLOR_DISPLAY_KEY, CALC_COLOR_DISPLAY_DEFAULT));
+        if (colorDisplay.getKey().equals(key)) {
+            this.setHighlightText(colorDisplay.getPreference(preferences));
         }
     }
 
@@ -145,7 +146,7 @@ public class AndroidCalculatorEditorView extends EditText implements SharedPrefe
 
             this.addTextChangedListener(new TextWatcherImpl());
 
-            onSharedPreferenceChanged(preferences, CALC_COLOR_DISPLAY_KEY);
+            onSharedPreferenceChanged(preferences, colorDisplay.getKey());
 
             initialized = true;
         }
@@ -156,7 +157,7 @@ public class AndroidCalculatorEditorView extends EditText implements SharedPrefe
 
         final CharSequence text = prepareText(viewState.getText(), highlightText);
 
-        handler.post(new Runnable() {
+        uiHandler.post(new Runnable() {
             @Override
             public void run() {
                 final AndroidCalculatorEditorView editorView = AndroidCalculatorEditorView.this;

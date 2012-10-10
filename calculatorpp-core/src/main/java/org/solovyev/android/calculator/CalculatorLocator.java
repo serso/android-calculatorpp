@@ -14,7 +14,8 @@ public interface CalculatorLocator {
               @NotNull CalculatorEngine engine,
               @NotNull CalculatorClipboard clipboard,
               @NotNull CalculatorNotifier notifier,
-              @NotNull CalculatorHistory history);
+              @NotNull CalculatorHistory history,
+              @NotNull CalculatorLogger logger);
 
     @NotNull
     Calculator getCalculator();
@@ -39,4 +40,7 @@ public interface CalculatorLocator {
 
     @NotNull
     CalculatorHistory getHistory();
+
+    @NotNull
+    CalculatorLogger getLogger();
 }

@@ -31,4 +31,11 @@ public class CalculatorFailureImpl implements CalculatorFailure {
     public CalculatorEvalException getCalculationEvalException() {
         return exception instanceof CalculatorEvalException ? (CalculatorEvalException)exception : null;
     }
+
+    @Override
+    public String toString() {
+        return "CalculatorFailureImpl{" +
+                "exception=" + exception +
+                '}';
+    }
 }
