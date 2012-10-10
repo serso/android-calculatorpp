@@ -208,4 +208,14 @@
         3. Minor GUI fixes
     </string>
 
+    <string name="c_release_notes_for_93">
+        1. We are now on <a href="www.facebook.com/calculatorpp">Facebook</a>!
+        2. Tablet support (new awesome UI)\n
+        3. Improved graph plotter\n
+        4. Intermediate calculations are not shown in the history anymore\n
+        5. Faster UI response\n
+        6. Crash reports handler\n
+        7. Chinese translations\n
+    </string>
+
 </resources>

@@ -2,7 +2,7 @@
 
 <PreferenceScreen xmlns:a="http://schemas.android.com/apk/res/android">
 
-    <PreferenceScreen a:title="@string/prefs_graph_scren_title">
+    <PreferenceScreen a:title="@string/prefs_graph_screen_title">
 
         <org.solovyev.android.ads.AdViewPreference a:layout="@layout/admob_pref"/>
 
