@@ -209,7 +209,7 @@
     </string>
 
     <string name="c_release_notes_for_93">
-        1. We are now on <a href="www.facebook.com/calculatorpp">Facebook</a>!
+        1. We are now on Facebook: facebook.com/calculatorpp\n
         2. Tablet support (new awesome UI)\n
         3. Improved graph plotter\n
         4. Intermediate calculations are not shown in the history anymore\n
