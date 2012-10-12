@@ -19,9 +19,6 @@ import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 public class CalculatorKeyboardFragment extends SherlockFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     @NotNull
-    private NumeralBaseButtons numeralBaseButtons = new NumeralBaseButtons();
-
-    @NotNull
     private CalculatorPreferences.Gui.Theme theme;
 
     @NotNull
@@ -102,8 +99,9 @@ public class CalculatorKeyboardFragment extends SherlockFragment implements Shar
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
-        if (AndroidCalculatorEngine.Preferences.numeralBase.getKey().equals(key)) {
-            numeralBaseButtons.toggleNumericDigits(this.getActivity(), preferences);
+        if (AndroidCalculatorEngine.Preferences.numeralBase.getKey().equals(key) ||
+                CalculatorPreferences.Gui.hideNumeralBaseDigits.getKey().equals(key) ) {
+            NumeralBaseButtons.toggleNumericDigits(this.getActivity(), preferences);
         }
 
         if ( CalculatorPreferences.Gui.showEqualsButton.getKey().equals(key) ) {
