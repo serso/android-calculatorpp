@@ -2,7 +2,6 @@ package org.solovyev.android.calculator.matrix;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TableLayout;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.CalculatorFragment;
 import org.solovyev.android.calculator.R;
@@ -27,6 +26,9 @@ public class CalculatorMatrixEditFragment extends CalculatorFragment implements 
 
     private static final int MAX_COUNT = 10;
     private static final int MIN_COUNT = 2;
+    private static final int DEFAULT_ROWS = 2;
+    private static final int DEFAULT_COLS = 2;
+
 
     /*
     **********************************************************************
@@ -40,6 +42,15 @@ public class CalculatorMatrixEditFragment extends CalculatorFragment implements 
         super(CalculatorFragmentType.matrix_edit);
     }
 
+    /*
+    **********************************************************************
+    *
+    *                           METHODS
+    *
+    **********************************************************************
+    */
+
+
     @Override
     public void onViewCreated(View root, Bundle savedInstanceState) {
         super.onViewCreated(root, savedInstanceState);
@@ -49,16 +60,16 @@ public class CalculatorMatrixEditFragment extends CalculatorFragment implements 
         final Picker<Integer> matrixColsCountPicker = (Picker<Integer>) root.findViewById(R.id.matrix_cols_count_picker);
         initPicker(matrixColsCountPicker);
 
-        getMatrixTable(root);
+        getMatrixView(root).setMatrixDimensions(DEFAULT_ROWS, DEFAULT_COLS);
     }
 
     @NotNull
-    private TableLayout getMatrixTable(@NotNull View root) {
-        return (TableLayout) root.findViewById(R.id.matrix_layout);
+    private MatrixView getMatrixView(@NotNull View root) {
+        return (MatrixView) root.findViewById(R.id.matrix_layout);
     }
 
     private void initPicker(@NotNull Picker<Integer> picker) {
-        picker.setRange(new IntegerRange(MIN_COUNT, MAX_COUNT, 1, 2, null));
+        picker.setRange(new IntegerRange(MIN_COUNT, MAX_COUNT, 1, 0, null));
         picker.setOnChangeListener(this);
     }
 
@@ -74,10 +85,11 @@ public class CalculatorMatrixEditFragment extends CalculatorFragment implements 
         }
     }
 
-    private void onColsCountChange(@NotNull Integer cols) {
-        final TableLayout matrixTable = getMatrixTable(getView());
+    private void onColsCountChange(@NotNull Integer newCols) {
+        getMatrixView(getView()).setMatrixCols(newCols);
     }
 
-    private void onRowsCountChange(@NotNull Integer rows) {
+    private void onRowsCountChange(@NotNull Integer newRows) {
+        getMatrixView(getView()).setMatrixRows(newRows);
     }
 }
