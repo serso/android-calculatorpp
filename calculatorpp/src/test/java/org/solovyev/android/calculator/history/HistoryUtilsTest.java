@@ -6,9 +6,21 @@
 
 package org.solovyev.android.calculator.history;
 
-import org.jetbrains.annotations.Nullable;
+import junit.framework.Assert;
 import org.junit.Test;
-import org.solovyev.android.calculator.Editor;
+import org.solovyev.android.calculator.CalculatorDisplayViewState;
+import org.solovyev.android.calculator.CalculatorDisplayViewStateImpl;
+import org.solovyev.android.calculator.CalculatorEditorViewState;
+import org.solovyev.android.calculator.CalculatorEditorViewStateImpl;
+import org.solovyev.android.calculator.jscl.JsclOperation;
+import org.solovyev.common.equals.CollectionEqualizer;
+import org.solovyev.common.equals.EqualsTool;
+import org.solovyev.common.history.HistoryHelper;
+import org.solovyev.common.history.SimpleHistoryHelper;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * User: serso
@@ -36,7 +48,7 @@ public class HistoryUtilsTest {
 			"         </editorState>\n" +
 			"         <displayState>\n" +
 			"            <editorState>\n" +
-			"               <cursorPosition>1</cursorPosition>\n" +
+			"               <cursorPosition>0</cursorPosition>\n" +
 			"               <text>Error</text>\n" +
 			"            </editorState>\n" +
 			"            <jsclOperation>simplify</jsclOperation>\n" +
@@ -55,7 +67,7 @@ public class HistoryUtilsTest {
 			"         </editorState>\n" +
 			"         <displayState>\n" +
 			"            <editorState>\n" +
-			"               <cursorPosition>1</cursorPosition>\n" +
+			"               <cursorPosition>0</cursorPosition>\n" +
 			"               <text>Error</text>\n" +
 			"            </editorState>\n" +
 			"            <jsclOperation>simplify</jsclOperation>\n" +
@@ -79,11 +91,11 @@ public class HistoryUtilsTest {
 			"         <time>100000000</time>\n" +
 			"         <editorState>\n" +
 			"            <cursorPosition>1</cursorPosition>\n" +
-			"            <text>null</text>\n" +
+			"            <text></text>\n" +
 			"         </editorState>\n" +
 			"         <displayState>\n" +
 			"            <editorState>\n" +
-			"               <cursorPosition>1</cursorPosition>\n" +
+			"               <cursorPosition>0</cursorPosition>\n" +
 			"               <text>Error</text>\n" +
 			"            </editorState>\n" +
 			"            <jsclOperation>elementary</jsclOperation>\n" +
@@ -108,19 +120,13 @@ public class HistoryUtilsTest {
 
 	@Test
 	public void testToXml() throws Exception {
-		/*final Date date = new Date(100000000);
+		final Date date = new Date(100000000);
 
 		HistoryHelper<CalculatorHistoryState> history = new SimpleHistoryHelper<CalculatorHistoryState>();
 
-		CalculatorDisplay calculatorDisplay = new TestCalculatorDisplay();
-		calculatorDisplay.setErrorMessage("error_msg1");
-		calculatorDisplay.setText("Error");
-		calculatorDisplay.setSelection(1);
-		calculatorDisplay.setJsclOperation(JsclOperation.simplify);
+		CalculatorDisplayViewState calculatorDisplay = CalculatorDisplayViewStateImpl.newErrorState(JsclOperation.simplify, "Error");
 
-		Editor calculatorEditor = new TestEditor();
-		calculatorEditor.setSelection(3);
-		calculatorEditor.setText("1+1");
+		CalculatorEditorViewState calculatorEditor = CalculatorEditorViewStateImpl.newInstance("1+1", 3);
 
 		CalculatorHistoryState state = CalculatorHistoryState.newInstance(calculatorEditor, calculatorDisplay);
 		state.setTime(date.getTime());
@@ -133,45 +139,27 @@ public class HistoryUtilsTest {
 
 		Assert.assertEquals(toXml1, HistoryUtils.toXml(history.getStates()));
 
-		calculatorDisplay = new TestCalculatorDisplay();
-		calculatorDisplay.setErrorMessage(null);
-		calculatorDisplay.setText("5/6");
-		calculatorDisplay.setSelection(3);
-		calculatorDisplay.setJsclOperation(JsclOperation.numeric);
+        calculatorDisplay = CalculatorDisplayViewStateImpl.newValidState(JsclOperation.numeric, null, "5/6", 3);
 
-		calculatorEditor = new TestEditor();
-		calculatorEditor.setSelection(2);
-		calculatorEditor.setText("5/6");
+		calculatorEditor = CalculatorEditorViewStateImpl.newInstance("5/6", 2);
 
 		state = CalculatorHistoryState.newInstance(calculatorEditor, calculatorDisplay);
 		state.setSaved(true);
 		state.setTime(date.getTime());
 		history.addState(state);
 
-		calculatorDisplay = new TestCalculatorDisplay();
-		calculatorDisplay.setErrorMessage("error_msg2");
-		calculatorDisplay.setText("Error");
-		calculatorDisplay.setSelection(1);
-		calculatorDisplay.setJsclOperation(JsclOperation.elementary);
+        calculatorDisplay = CalculatorDisplayViewStateImpl.newErrorState(JsclOperation.elementary, "Error");
 
-		calculatorEditor = new TestEditor();
-		calculatorEditor.setSelection(1);
-		calculatorEditor.setText(null);
+        calculatorEditor = CalculatorEditorViewStateImpl.newInstance("", 1);
 
 		state = CalculatorHistoryState.newInstance(calculatorEditor, calculatorDisplay);
 		state.setSaved(true);
 		state.setTime(date.getTime());
 		history.addState(state);
 
-		calculatorDisplay = new TestCalculatorDisplay();
-		calculatorDisplay.setErrorMessage(null);
-		calculatorDisplay.setText("4+5/35sin(41)+dfdsfsdfs");
-		calculatorDisplay.setSelection(1);
-		calculatorDisplay.setJsclOperation(JsclOperation.numeric);
+        calculatorDisplay = CalculatorDisplayViewStateImpl.newValidState(JsclOperation.numeric, null, "4+5/35sin(41)+dfdsfsdfs", 1);
 
-		calculatorEditor = new TestEditor();
-		calculatorEditor.setSelection(0);
-		calculatorEditor.setText("4+5/35sin(41)+dfdsfsdfs");
+        calculatorEditor = CalculatorEditorViewStateImpl.newInstance("4+5/35sin(41)+dfdsfsdfs", 0);
 
 		state = CalculatorHistoryState.newInstance(calculatorEditor, calculatorDisplay);
 		state.setSaved(true);
@@ -198,144 +186,6 @@ public class HistoryUtilsTest {
 			historyState.setId(0);
 			historyState.setSaved(true);
 		}
-		Assert.assertTrue(EqualsTool.areEqual(history.getStates(), historyFromXml.getStates(), new CollectionEqualizer<CalculatorHistoryState>(null)));*/
-	}
-
-
-/*	private static class TestCalculatorDisplay implements CalculatorDisplay {
-
-		@NotNull
-		private final TestEditor testEditor = new TestEditor();
-
-		private boolean valid;
-
-		private String errorMessage;
-
-		private JsclOperation operation;
-
-		private Generic genericResult;
-
-		@Override
-		public boolean isValid() {
-			return this.valid;
-		}
-
-		@Override
-		public void setValid(boolean valid) {
-			this.valid = valid;
-		}
-
-		@Override
-		public String getErrorMessage() {
-			return this.errorMessage;
-		}
-
-		@Override
-		public void setErrorMessage(@Nullable String errorMessage) {
-			this.errorMessage = errorMessage;
-		}
-
-		@Override
-		public void setJsclOperation(@NotNull JsclOperation jsclOperation) {
-			this.operation = jsclOperation;
-		}
-
-		@NotNull
-		@Override
-		public JsclOperation getJsclOperation() {
-			return this.operation;
-		}
-
-		@Override
-		public void setGenericResult(@Nullable Generic genericResult) {
-			this.genericResult = genericResult;
-		}
-
-		@Override
-		public Generic getGenericResult() {
-			return this.genericResult;
-		}
-
-		@Override
-		public CharSequence getText() {
-			return this.testEditor.getText();
-		}
-
-		@Override
-		public void setText(@Nullable CharSequence text) {
-			this.testEditor.setText(text);
-		}
-
-		@Override
-		public int getSelection() {
-			return this.testEditor.getSelection();
-		}
-
-		@Override
-		public void setSelection(int selection) {
-			this.testEditor.setSelection(selection);
-		}
-
-        @Override
-        public void setView(@Nullable CalculatorDisplayView view) {
-            //To change body of implemented methods use File | Settings | File Templates.
-        }
-
-        @NotNull
-        @Override
-        public CalculatorDisplayView getView() {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
-        }
-
-        @NotNull
-        @Override
-        public CalculatorDisplayViewState getViewState() {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
-        }
-
-        @Override
-        public void setViewState(@NotNull CalculatorDisplayViewState viewState) {
-            //To change body of implemented methods use File | Settings | File Templates.
-        }
-
-        @NotNull
-        @Override
-        public CalculatorEventData getLastEventData() {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
-        }
-
-        @Override
-        public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
-            //To change body of implemented methods use File | Settings | File Templates.
-        }
-    }*/
-
-	private static class TestEditor implements Editor {
-
-		@Nullable
-		private CharSequence text;
-
-		private int selection;
-
-		@Nullable
-		@Override
-		public CharSequence getText() {
-			return this.text;
-		}
-
-		@Override
-		public void setText(@Nullable CharSequence text) {
-			this.text = text;
-		}
-
-		@Override
-		public int getSelection() {
-			return this.selection;
-		}
-
-		@Override
-		public void setSelection(int selection) {
-			this.selection = selection;
-		}
+		Assert.assertTrue(EqualsTool.areEqual(history.getStates(), historyFromXml.getStates(), new CollectionEqualizer<CalculatorHistoryState>(null)));
 	}
 }

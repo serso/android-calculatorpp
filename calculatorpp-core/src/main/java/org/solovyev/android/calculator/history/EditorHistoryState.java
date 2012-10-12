@@ -22,7 +22,7 @@ public class EditorHistoryState implements Cloneable{
 
 	@Element(required = false)
 	@Nullable
-	private String text;
+	private String text = "";
 
 	private EditorHistoryState() {
 		// for xml
