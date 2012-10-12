@@ -37,6 +37,9 @@
 
         <activity android:label="@string/c_plot_graph" android:name=".plot.CalculatorPlotActivity"/>
 
+        <!-- todo serso: strings-->
+        <activity android:label="@string/c_plot_graph" android:name=".matrix.CalculatorMatrixActivity"/>
+
         <!-- settings must use action bar icon-->
         <activity android:icon="@drawable/icon_action_bar" android:label="@string/c_settings" android:name=".plot.CalculatorPlotPreferenceActivity"/>
 

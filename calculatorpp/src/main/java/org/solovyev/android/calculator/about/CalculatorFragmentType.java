@@ -12,6 +12,7 @@ import org.solovyev.android.calculator.history.CalculatorSavedHistoryFragment;
 import org.solovyev.android.calculator.math.edit.CalculatorFunctionsFragment;
 import org.solovyev.android.calculator.math.edit.CalculatorOperatorsFragment;
 import org.solovyev.android.calculator.math.edit.CalculatorVarsFragment;
+import org.solovyev.android.calculator.matrix.CalculatorMatrixEditFragment;
 import org.solovyev.android.calculator.plot.CalculatorPlotFragment;
 
 /**
@@ -34,6 +35,9 @@ public enum CalculatorFragmentType {
     faq(CalculatorHelpFaqFragment.class, R.layout.help_faq_fragment, R.string.c_faq),
     hints(CalculatorHelpHintsFragment.class, R.layout.help_hints_fragment, R.string.c_hints),
     screens(CalculatorHelpScreensFragment.class, R.layout.help_screens_fragment, R.string.c_screens),
+
+    // todo serso: strings
+    matrix_edit(CalculatorMatrixEditFragment.class, R.layout.matrix_edit_fragment, R.string.c_screens),
     release_notes(CalculatorReleaseNotesFragment.class, R.layout.release_notes_fragment, R.string.c_release_notes);
 
     @NotNull
