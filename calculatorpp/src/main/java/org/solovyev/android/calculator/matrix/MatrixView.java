@@ -70,6 +70,14 @@ public class MatrixView extends TableLayout {
     **********************************************************************
     */
 
+    public int getRows() {
+        return rows;
+    }
+
+    public int getCols() {
+        return cols;
+    }
+
     public void setMatrixCols(int newCols) {
         setMatrixDimensions(rows, newCols);
     }
@@ -79,11 +87,11 @@ public class MatrixView extends TableLayout {
     }
 
     public void setMatrixDimensions(int newRows, int newCols) {
-        if ( newRows <= 1 ) {
+        if (newRows <= 1) {
             throw new IllegalArgumentException("Number of rows must be more than 1: " + newRows);
         }
 
-        if ( newCols <= 1 ) {
+        if (newCols <= 1) {
             throw new IllegalArgumentException("Number of columns must be more than 1: " + newCols);
         }
 
@@ -91,7 +99,7 @@ public class MatrixView extends TableLayout {
         boolean colsChanged = this.cols != newCols;
 
         if (rowsChanged || colsChanged) {
-            if ( !initialized ) {
+            if (!initialized) {
                 addRow(NUMBER_INDEX, 0);
                 initialized = true;
             }
@@ -119,16 +127,38 @@ public class MatrixView extends TableLayout {
         final int cols = matrix[0].length;
 
         setMatrixDimensions(rows, cols);
-        for ( int row = 0; row < rows; row++ ) {
-            for ( int col = 0; col < cols; col++ ) {
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
                 setCell(row, col, matrix[row][col]);
             }
         }
+    }
 
+    @NotNull
+    public String[][] toMatrix() {
+        final String[][] result = new String[rows][cols];
+
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+                final TextView cellTextView = (TextView) getCell(this, row, col);
+                if (cellTextView != null) {
+                    result[row][col] = cellTextView.getText().toString();
+                }
+            }
+        }
+
+        return result;
     }
 
     private void setCell(int row, int col, @Nullable Object o) {
-        getCell(this, row, col);
+        final TextView cellTextView = (TextView) getCell(this, row, col);
+        if (cellTextView != null) {
+            if (o == null) {
+                cellTextView.setText(null);
+            } else {
+                cellTextView.setText(String.valueOf(o));
+            }
+        }
     }
 
     /*

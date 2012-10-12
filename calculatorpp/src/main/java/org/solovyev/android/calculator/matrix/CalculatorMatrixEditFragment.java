@@ -3,11 +3,14 @@ package org.solovyev.android.calculator.matrix;
 import android.os.Bundle;
 import android.view.View;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.CalculatorFragment;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.about.CalculatorFragmentType;
 import org.solovyev.android.view.IntegerRange;
 import org.solovyev.android.view.Picker;
+
+import java.io.Serializable;
 
 /**
  * User: Solovyev_S
@@ -29,6 +32,8 @@ public class CalculatorMatrixEditFragment extends CalculatorFragment implements 
     private static final int DEFAULT_ROWS = 2;
     private static final int DEFAULT_COLS = 2;
 
+    private static final String MATRIX = "matrix";
+
 
     /*
     **********************************************************************
@@ -40,6 +45,8 @@ public class CalculatorMatrixEditFragment extends CalculatorFragment implements 
 
     public CalculatorMatrixEditFragment() {
         super(CalculatorFragmentType.matrix_edit);
+
+        setRetainInstance(true);
     }
 
     /*
@@ -52,15 +59,37 @@ public class CalculatorMatrixEditFragment extends CalculatorFragment implements 
 
 
     @Override
-    public void onViewCreated(View root, Bundle savedInstanceState) {
-        super.onViewCreated(root, savedInstanceState);
+    public void onViewCreated(View root, @Nullable Bundle in) {
+        super.onViewCreated(root, in);
 
         final Picker<Integer> matrixRowsCountPicker = (Picker<Integer>) root.findViewById(R.id.matrix_rows_count_picker);
         initPicker(matrixRowsCountPicker);
         final Picker<Integer> matrixColsCountPicker = (Picker<Integer>) root.findViewById(R.id.matrix_cols_count_picker);
         initPicker(matrixColsCountPicker);
 
-        getMatrixView(root).setMatrixDimensions(DEFAULT_ROWS, DEFAULT_COLS);
+        Matrix matrix = null;
+        if (in != null) {
+            final Object matrixObject = in.getSerializable(MATRIX);
+            if (matrixObject instanceof Matrix) {
+                matrix = (Matrix) matrixObject;
+            }
+        }
+
+        final MatrixView matrixView = getMatrixView(root);
+        if (matrix == null) {
+            matrixView.setMatrixDimensions(DEFAULT_ROWS, DEFAULT_COLS);
+        } else {
+            matrixView.setMatrix(matrix.bakingArray);
+        }
+        matrixRowsCountPicker.setCurrent(matrixView.getRows());
+        matrixColsCountPicker.setCurrent(matrixView.getCols());
+    }
+
+    @Override
+    public void onSaveInstanceState(@NotNull Bundle out) {
+        super.onSaveInstanceState(out);
+
+        out.putSerializable(MATRIX, new Matrix(getMatrixView(getView()).toMatrix()));
     }
 
     @NotNull
@@ -91,5 +120,18 @@ public class CalculatorMatrixEditFragment extends CalculatorFragment implements 
 
     private void onRowsCountChange(@NotNull Integer newRows) {
         getMatrixView(getView()).setMatrixRows(newRows);
+    }
+
+    public static class Matrix implements Serializable {
+
+        @NotNull
+        private String[][] bakingArray;
+
+        public Matrix() {
+        }
+
+        public Matrix(@NotNull String[][] bakingArray) {
+            this.bakingArray = bakingArray;
+        }
     }
 }
