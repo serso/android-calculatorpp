@@ -1,7 +1,9 @@
 package org.solovyev.android.calculator;
 
+import android.content.Context;
 import jscl.JsclMathEngine;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.mockito.Mockito;
 import org.solovyev.android.calculator.history.CalculatorHistory;
 
@@ -12,10 +14,29 @@ import org.solovyev.android.calculator.history.CalculatorHistory;
  */
 public class CalculatorTestUtils {
 
-    public static void staticSetUp() throws Exception {
+    public static void staticSetUp(@Nullable Context context) throws Exception {
         CalculatorLocatorImpl.getInstance().init(new CalculatorImpl(), newCalculatorEngine(), Mockito.mock(CalculatorClipboard.class), Mockito.mock(CalculatorNotifier.class), Mockito.mock(CalculatorHistory.class), new SystemOutCalculatorLogger());
         CalculatorLocatorImpl.getInstance().getEngine().init();
+
+        if ( context != null ) {
+            initViews(context);
+        }
     }
+
+    public static void initViews(@NotNull Context context) {
+        final AndroidCalculatorEditorView editor = new AndroidCalculatorEditorView(context);
+        editor.init(context);
+        CalculatorLocatorImpl.getInstance().getEditor().setView(editor);
+
+        final AndroidCalculatorDisplayView display = new AndroidCalculatorDisplayView(context);
+        display.init(context);
+        CalculatorLocatorImpl.getInstance().getDisplay().setView(display);
+    }
+
+    public static void staticSetUp() throws Exception {
+        staticSetUp(null);
+    }
+
 
     @NotNull
     static CalculatorEngineImpl newCalculatorEngine() {

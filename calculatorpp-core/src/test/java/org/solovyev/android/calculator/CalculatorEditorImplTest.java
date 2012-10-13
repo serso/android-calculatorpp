@@ -64,6 +64,13 @@ public class CalculatorEditorImplTest extends AbstractCalculatorTest {
         viewState = this.calculatorEditor.insert("9");
         Assert.assertEquals("9testtest12345678990", viewState.getText());
         Assert.assertEquals(1, viewState.getSelection());
+
+        viewState = this.calculatorEditor.insert("öäü");
+        Assert.assertEquals("9öäütesttest12345678990", viewState.getText());
+
+        this.calculatorEditor.setCursorOnEnd();
+        viewState = this.calculatorEditor.insert("öäü");
+        Assert.assertEquals("9öäütesttest12345678990öäü", viewState.getText());
     }
 
     @Test

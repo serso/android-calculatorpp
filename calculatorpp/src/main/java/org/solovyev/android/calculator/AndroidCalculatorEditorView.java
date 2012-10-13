@@ -49,7 +49,7 @@ public class AndroidCalculatorEditorView extends EditText implements SharedPrefe
 
     // NOTE: static because super constructor calls some overridden methods (like onSelectionChanged and current lock is not yet created)
     @NotNull
-    private static final Object lock = new Object();
+    private static final Object viewLock = new Object();
 
     @NotNull
     private final Handler uiHandler = new Handler();
@@ -154,30 +154,32 @@ public class AndroidCalculatorEditorView extends EditText implements SharedPrefe
 
     @Override
     public void setState(@NotNull final CalculatorEditorViewState viewState) {
+        synchronized (viewLock) {
 
-        final CharSequence text = prepareText(viewState.getText(), highlightText);
+            final CharSequence text = prepareText(viewState.getText(), highlightText);
 
-        uiHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                final AndroidCalculatorEditorView editorView = AndroidCalculatorEditorView.this;
-                synchronized (lock) {
-                    try {
-                        editorView.viewStateChange = true;
-                        editorView.viewState = viewState;
-                        editorView.setText(text, BufferType.EDITABLE);
-                        editorView.setSelection(viewState.getSelection());
-                    } finally {
-                        editorView.viewStateChange = false;
+            uiHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    final AndroidCalculatorEditorView editorView = AndroidCalculatorEditorView.this;
+                    synchronized (viewLock) {
+                        try {
+                            editorView.viewStateChange = true;
+                            editorView.viewState = viewState;
+                            editorView.setText(text, BufferType.EDITABLE);
+                            editorView.setSelection(viewState.getSelection());
+                        } finally {
+                            editorView.viewStateChange = false;
+                        }
                     }
                 }
-            }
-        });
+            });
+        }
     }
 
     @Override
     protected void onSelectionChanged(int selStart, int selEnd) {
-        synchronized (lock) {
+        synchronized (viewLock) {
             if (!viewStateChange) {
                 // external text change => need to notify editor
                 super.onSelectionChanged(selStart, selEnd);
@@ -187,7 +189,7 @@ public class AndroidCalculatorEditorView extends EditText implements SharedPrefe
     }
 
     public void handleTextChange(Editable s) {
-        synchronized (lock) {
+        synchronized (viewLock) {
             if (!viewStateChange) {
                 // external text change => need to notify editor
                 CalculatorLocatorImpl.getInstance().getEditor().setText(String.valueOf(s));
