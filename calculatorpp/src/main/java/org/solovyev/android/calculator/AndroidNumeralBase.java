@@ -88,6 +88,7 @@ public enum AndroidNumeralBase {
 
     protected void toggleButton(boolean show, @NotNull DirectionDragButton button) {
         button.setShowText(show);
+        button.invalidate();
     }
 
     @NotNull

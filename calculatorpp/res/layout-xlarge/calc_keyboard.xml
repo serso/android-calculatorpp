@@ -11,10 +11,11 @@
 
         <include layout="@layout/calc_left_button"/>
         <include layout="@layout/calc_erase_button"/>
-        <include layout="@layout/calc_seven_digit_button"/>
-        <include layout="@layout/calc_eight_digit_button"/>
-        <include layout="@layout/calc_nine_digit_button"/>
-        <include layout="@layout/calc_multiplication_button"/>
+        <include layout="@layout/calc_empty_button"/>
+        <include layout="@layout/calc_empty_button"/>
+        <include layout="@layout/calc_empty_button"/>
+        <include layout="@layout/calc_empty_button"/>
+        <include layout="@layout/calc_clear_button"/>
         <include layout="@layout/calc_right_button"/>
 
     </LinearLayout>
@@ -24,12 +25,13 @@
                   a:layout_height="0dp">
 
         <include layout="@layout/calc_vars_button"/>
-        <include layout="@layout/calc_clear_button"/>
-        <include layout="@layout/calc_four_digit_button"/>
-        <include layout="@layout/calc_five_digit_button"/>
-        <include layout="@layout/calc_six_digit_button"/>
-        <include layout="@layout/calc_division_button"/>
         <include layout="@layout/calc_copy_button"/>
+        <include layout="@layout/calc_seven_digit_button"/>
+        <include layout="@layout/calc_eight_digit_button"/>
+        <include layout="@layout/calc_nine_digit_button"/>
+        <include layout="@layout/calc_multiplication_button"/>
+        <include layout="@layout/calc_division_button"/>
+        <include layout="@layout/calc_equals_button"/>
 
     </LinearLayout>
 
@@ -38,12 +40,13 @@
                   a:layout_height="0dp">
 
         <include layout="@layout/calc_functions_button"/>
-        <include layout="@layout/calc_equals_button"/>
-        <include layout="@layout/calc_one_digit_button"/>
-        <include layout="@layout/calc_two_digit_button"/>
-        <include layout="@layout/calc_three_digit_button"/>
-        <include layout="@layout/calc_plus_button"/>
         <include layout="@layout/calc_paste_button"/>
+        <include layout="@layout/calc_four_digit_button"/>
+        <include layout="@layout/calc_five_digit_button"/>
+        <include layout="@layout/calc_six_digit_button"/>
+        <include layout="@layout/calc_plus_button"/>
+        <include layout="@layout/calc_subtraction_button"/>
+        <include layout="@layout/calc_round_brackets_button"/>
 
     </LinearLayout>
 
@@ -53,10 +56,11 @@
 
         <include layout="@layout/calc_operators_button"/>
         <include layout="@layout/calc_donate_button"/>
-        <include layout="@layout/calc_round_brackets_button"/>
+        <include layout="@layout/calc_one_digit_button"/>
+        <include layout="@layout/calc_two_digit_button"/>
+        <include layout="@layout/calc_three_digit_button"/>
         <include layout="@layout/calc_zero_digit_button"/>
         <include layout="@layout/calc_dot_button"/>
-        <include layout="@layout/calc_subtraction_button"/>
         <include layout="@layout/calc_history_button"/>
 
     </LinearLayout>
