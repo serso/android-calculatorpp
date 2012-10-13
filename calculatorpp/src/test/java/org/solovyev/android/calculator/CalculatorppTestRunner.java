@@ -14,6 +14,6 @@ import java.io.File;
 public class CalculatorppTestRunner extends RobolectricTestRunner {
 
     public CalculatorppTestRunner(@NotNull Class<?> testClass) throws InitializationError {
-        super(testClass, new File("calculatorpp"));
+        super(testClass, new File("."));
     }
 }
