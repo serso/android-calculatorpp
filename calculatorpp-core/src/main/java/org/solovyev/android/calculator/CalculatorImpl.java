@@ -444,7 +444,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
                 varBuilder.setValue(result);
                 varBuilder.setDescription(CalculatorMessages.getBundle().getString("ans_description"));
 
-                varsRegistry.add(varBuilder);
+                CalculatorVarsRegistry.saveVariable(varsRegistry, varBuilder, ansVar, this, false);
             }
         }
     }

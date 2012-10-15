@@ -14,7 +14,10 @@ import jscl.text.ParseException;
 import jscl.text.Parser;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.CalculatorLocatorImpl;
+import org.solovyev.android.calculator.CalculatorMathRegistry;
+import org.solovyev.android.calculator.CalculatorVarsRegistry;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.MathEntityBuilder;
 import org.solovyev.common.math.MathEntity;
@@ -116,18 +119,11 @@ class VarEditorSaver<T extends MathEntity> implements View.OnClickListener {
         if (error != null) {
             CalculatorLocatorImpl.getInstance().getNotifier().showMessage(error, MessageType.error);
         } else {
-            final T addedVar = mathRegistry.add(varBuilder);
-            mathRegistry.save();
-
-            if (editedInstance == null) {
-                CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.constant_added, addedVar, source);
-            } else {
-                CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.constant_changed, ChangeImpl.newInstance(editedInstance, addedVar), source);
-            }
+            CalculatorVarsRegistry.saveVariable(mathRegistry, varBuilder, editedInstance, source, true);
         }
     }
 
-	boolean isValidName(@Nullable String name) {
+    boolean isValidName(@Nullable String name) {
 		boolean result = false;
 
 		if (!StringUtils.isEmpty(name)) {

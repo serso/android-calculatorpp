@@ -8,9 +8,12 @@ package org.solovyev.android.calculator;
 
 import jscl.math.function.IConstant;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.calculator.model.MathEntityBuilder;
 import org.solovyev.android.calculator.model.Var;
 import org.solovyev.android.calculator.model.Vars;
 import org.solovyev.common.JBuilder;
+import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.math.MathRegistry;
 
 import java.util.HashMap;
@@ -41,7 +44,24 @@ public class CalculatorVarsRegistry extends AbstractCalculatorMathRegistry<ICons
 		super(mathRegistry, "c_var_description_", mathEntityDao);
 	}
 
-	@NotNull
+    public static <T extends MathEntity> void saveVariable(@NotNull CalculatorMathRegistry<T> registry,
+                                                           @NotNull MathEntityBuilder<? extends T> builder,
+                                                           @Nullable T editedInstance,
+                                                           @NotNull Object source, boolean save) {
+        final T addedVar = registry.add(builder);
+
+        if (save) {
+            registry.save();
+        }
+
+        if (editedInstance == null) {
+            CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.constant_added, addedVar, source);
+        } else {
+            CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.constant_changed, ChangeImpl.newInstance(editedInstance, addedVar), source);
+        }
+    }
+
+    @NotNull
 	@Override
 	protected Map<String, String> getSubstitutes() {
 		return substitutes;
