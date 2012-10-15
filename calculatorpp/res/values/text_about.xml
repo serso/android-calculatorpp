@@ -218,4 +218,9 @@
         7. Chinese translations
     </string>
 
+    <string name="c_release_notes_for_99">
+        1. UI improvements for 4-7 inches displays\n
+        2. Ans variable (last calculated value)
+    </string>
+
 </resources>
