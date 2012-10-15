@@ -13,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.history.CalculatorHistory;
 import org.solovyev.android.calculator.history.CalculatorHistoryState;
 import org.solovyev.android.calculator.jscl.JsclOperation;
+import org.solovyev.android.calculator.model.Var;
 import org.solovyev.android.calculator.text.TextProcessor;
 import org.solovyev.android.calculator.units.CalculatorNumeralBase;
 import org.solovyev.common.history.HistoryAction;
@@ -388,14 +389,18 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 
         switch (calculatorEventType) {
             case editor_state_changed:
-                final CalculatorEditorChangeEventData changeEventData = (CalculatorEditorChangeEventData) data;
+                final CalculatorEditorChangeEventData editorChangeEventData = (CalculatorEditorChangeEventData) data;
 
-                final String newText = changeEventData.getNewValue().getText();
-                final String oldText = changeEventData.getOldValue().getText();
+                final String newText = editorChangeEventData.getNewValue().getText();
+                final String oldText = editorChangeEventData.getOldValue().getText();
 
                 if (!newText.equals(oldText)) {
-                    evaluate(JsclOperation.numeric, changeEventData.getNewValue().getText(), calculatorEventData.getSequenceId());
+                    evaluate(JsclOperation.numeric, editorChangeEventData.getNewValue().getText(), calculatorEventData.getSequenceId());
                 }
+                break;
+
+            case display_state_changed:
+                onDisplayStateChanged((CalculatorDisplayChangeEventData) data);
                 break;
 
             case engine_preferences_changed:
@@ -417,6 +422,30 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
                 CalculatorLocatorImpl.getInstance().getKeyboard().digitButtonPressed(function.getName());
                 break;
 
+        }
+    }
+
+    private void onDisplayStateChanged(@NotNull CalculatorDisplayChangeEventData displayChangeEventData) {
+        final CalculatorDisplayViewState newState = displayChangeEventData.getNewValue();
+        if (newState.isValid()) {
+            final String result = newState.getStringResult();
+            if ( !StringUtils.isEmpty(result) ) {
+                final CalculatorMathRegistry<IConstant> varsRegistry = CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry();
+                final IConstant ansVar = varsRegistry.get(CalculatorVarsRegistry.ANS);
+
+                final Var.Builder varBuilder;
+                if (ansVar != null) {
+                    varBuilder = new Var.Builder(ansVar);
+                } else {
+                    varBuilder = new Var.Builder();
+                }
+
+                varBuilder.setName(CalculatorVarsRegistry.ANS);
+                varBuilder.setValue(result);
+                varBuilder.setDescription(CalculatorMessages.getBundle().getString("ans_description"));
+
+                varsRegistry.add(varBuilder);
+            }
         }
     }
 

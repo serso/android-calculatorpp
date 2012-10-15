@@ -23,6 +23,9 @@ import java.util.Map;
  */
 public class CalculatorVarsRegistry extends AbstractCalculatorMathRegistry<IConstant, Var> {
 
+    @NotNull
+    public static final String ANS = "ans";
+
 	@NotNull
 	private static final Map<String, String> substitutes = new HashMap<String, String>();
 	static {
