@@ -88,6 +88,8 @@ public enum CalculatorEventType {
 
    clear_history_requested,
 
+    show_history,
+
     /*
     **********************************************************************
     *
@@ -112,7 +114,19 @@ public enum CalculatorEventType {
     constant_changed,
 
     // @NotNull IConstant
-    constant_removed;
+    constant_removed,
+
+    /*
+    **********************************************************************
+    *
+    *                           OTHER
+    *
+    **********************************************************************
+    */
+
+    show_functions,
+    show_vars,
+    show_operators;
 
     public boolean isOfType(@NotNull CalculatorEventType... types) {
         for (CalculatorEventType type : types) {

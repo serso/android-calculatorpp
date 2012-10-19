@@ -9,7 +9,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public interface CalculatorKeyboard {
 
-    void digitButtonPressed(@Nullable String text);
+    void buttonPressed(@Nullable String text);
 
     void roundBracketsButtonPressed();
 

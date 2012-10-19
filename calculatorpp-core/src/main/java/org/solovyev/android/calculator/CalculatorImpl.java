@@ -409,17 +409,17 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 
             case use_constant:
                 final IConstant constant = (IConstant)data;
-                CalculatorLocatorImpl.getInstance().getKeyboard().digitButtonPressed(constant.getName());
+                CalculatorLocatorImpl.getInstance().getKeyboard().buttonPressed(constant.getName());
                 break;
 
             case use_operator:
                 final Operator operator = (Operator)data;
-                CalculatorLocatorImpl.getInstance().getKeyboard().digitButtonPressed(operator.getName());
+                CalculatorLocatorImpl.getInstance().getKeyboard().buttonPressed(operator.getName());
                 break;
 
             case use_function:
                 final Function function = (Function)data;
-                CalculatorLocatorImpl.getInstance().getKeyboard().digitButtonPressed(function.getName());
+                CalculatorLocatorImpl.getInstance().getKeyboard().buttonPressed(function.getName());
                 break;
 
         }

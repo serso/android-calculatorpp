@@ -37,8 +37,28 @@
 
         <activity android:label="@string/c_plot_graph" android:name=".plot.CalculatorPlotActivity"/>
 
+        <activity android:name=".widget.CalculatorWidgetConfigurationActivity"  android:theme="@style/metro_blue_theme">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+            </intent-filter>
+        </activity>
+
         <!-- settings must use action bar icon-->
         <activity android:icon="@drawable/icon_action_bar" android:label="@string/c_settings" android:name=".plot.CalculatorPlotPreferenceActivity"/>
+
+        <receiver
+                android:icon="@drawable/icon"
+                android:label="Example Widget"
+                android:name=".widget.CalculatorWidgetProvider">
+
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+
+            <meta-data
+                    android:name="android.appwidget.provider"
+                    android:resource="@xml/calculator_widget_info"/>
+        </receiver>
 
         <activity android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" android:name="com.google.ads.AdActivity"/>
 

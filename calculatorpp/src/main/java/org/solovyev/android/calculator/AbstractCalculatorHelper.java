@@ -90,7 +90,7 @@ public abstract class AbstractCalculatorHelper implements SharedPreferences.OnSh
                 @Override
                 public boolean processDragEvent(@NotNull DragDirection dragDirection, @NotNull DragButton dragButton, @NotNull Point2d startPoint2d, @NotNull MotionEvent motionEvent) {
                     if (dragDirection == DragDirection.down) {
-                        CalculatorActivity.operatorsButtonClickHandler(activity);
+                        CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_operators, null);
                         return true;
                     }
                     return false;

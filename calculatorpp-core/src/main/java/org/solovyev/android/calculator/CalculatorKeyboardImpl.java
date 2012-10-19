@@ -20,38 +20,73 @@ public class CalculatorKeyboardImpl implements CalculatorKeyboard {
     }
 
     @Override
-    public void digitButtonPressed(@Nullable final String text) {
+    public void buttonPressed(@Nullable final String text) {
 
         if (!StringUtils.isEmpty(text)) {
             assert text != null;
 
-            int cursorPositionOffset = 0;
-            final StringBuilder textToBeInserted = new StringBuilder(text);
+            // process special buttons
+            boolean processed = processSpecialButtons(text);
 
-            final MathType.Result mathType = MathType.getType(text, 0, false);
-            switch (mathType.getMathType()) {
-                case function:
-                    textToBeInserted.append("()");
-                    cursorPositionOffset = -1;
-                    break;
-                case operator:
-                    textToBeInserted.append("()");
-                    cursorPositionOffset = -1;
-                    break;
-                case comma:
-                    textToBeInserted.append(" ");
-                    break;
-            }
+            if (!processed) {
+                int cursorPositionOffset = 0;
+                final StringBuilder textToBeInserted = new StringBuilder(text);
 
-            if (cursorPositionOffset == 0) {
-                if (MathType.openGroupSymbols.contains(text)) {
-                    cursorPositionOffset = -1;
+                final MathType.Result mathType = MathType.getType(text, 0, false);
+                switch (mathType.getMathType()) {
+                    case function:
+                        textToBeInserted.append("()");
+                        cursorPositionOffset = -1;
+                        break;
+                    case operator:
+                        textToBeInserted.append("()");
+                        cursorPositionOffset = -1;
+                        break;
+                    case comma:
+                        textToBeInserted.append(" ");
+                        break;
                 }
-            }
 
-            final CalculatorEditor editor = CalculatorLocatorImpl.getInstance().getEditor();
-            editor.insert(textToBeInserted.toString(), cursorPositionOffset);
+                if (cursorPositionOffset == 0) {
+                    if (MathType.openGroupSymbols.contains(text)) {
+                        cursorPositionOffset = -1;
+                    }
+                }
+
+                final CalculatorEditor editor = CalculatorLocatorImpl.getInstance().getEditor();
+                editor.insert(textToBeInserted.toString(), cursorPositionOffset);
+            }
         }
+    }
+
+    private boolean processSpecialButtons(@NotNull String text) {
+        boolean result = false;
+
+        if (CalculatorButtonActions.MOVE_CURSOR_LEFT.equals(text)) {
+            this.moveCursorLeft();
+            result = true;
+        } else if (CalculatorButtonActions.MOVE_CURSOR_RIGHT.equals(text)) {
+            this.moveCursorRight();
+            result = true;
+        } else if (CalculatorButtonActions.SHOW_HISTORY.equals(text)) {
+            CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_history, null);
+        } else if (CalculatorButtonActions.ERASE.equals(text)) {
+            CalculatorLocatorImpl.getInstance().getEditor().erase();
+        } else if (CalculatorButtonActions.COPY.equals(text)) {
+            copyButtonPressed();
+        } else if (CalculatorButtonActions.PASTE.equals(text)) {
+            pasteButtonPressed();
+        } else if (CalculatorButtonActions.CLEAR.equals(text)) {
+            clearButtonPressed();
+        } else if (CalculatorButtonActions.SHOW_FUNCTIONS.equals(text)) {
+            CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_functions, null);
+        } else if (CalculatorButtonActions.SHOW_OPERATORS.equals(text)) {
+            CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_operators, null);
+        } else if (CalculatorButtonActions.SHOW_VARS.equals(text)) {
+            CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_vars, null);
+        }
+
+        return result;
     }
 
     @Override

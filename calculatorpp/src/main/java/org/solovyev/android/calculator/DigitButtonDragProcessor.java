@@ -7,10 +7,10 @@ package org.solovyev.android.calculator;
 
 import android.view.MotionEvent;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.view.drag.DragDirection;
-import org.solovyev.android.view.drag.SimpleOnDragListener;
 import org.solovyev.android.view.drag.DirectionDragButton;
 import org.solovyev.android.view.drag.DragButton;
+import org.solovyev.android.view.drag.DragDirection;
+import org.solovyev.android.view.drag.SimpleOnDragListener;
 import org.solovyev.common.math.Point2d;
 
 /**
@@ -30,7 +30,7 @@ public class DigitButtonDragProcessor implements SimpleOnDragListener.DragProces
 	@Override
 	public boolean processDragEvent(@NotNull DragDirection dragDirection, @NotNull DragButton dragButton, @NotNull Point2d startPoint2d, @NotNull MotionEvent motionEvent) {
 		assert dragButton instanceof DirectionDragButton;
-        calculatorKeyboard.digitButtonPressed(((DirectionDragButton) dragButton).getText(dragDirection));
+        calculatorKeyboard.buttonPressed(((DirectionDragButton) dragButton).getText(dragDirection));
 		return true;
 	}
 

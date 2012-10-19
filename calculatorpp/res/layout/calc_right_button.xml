@@ -13,4 +13,4 @@
 													   a:text="▶"
 													   c:directionTextScale="0.5"
 													   style="?controlButtonStyle"
-													   a:onClick="moveRightButtonClickHandler"/>
+													   a:onClick="digitButtonClickHandler"/>

@@ -71,7 +71,7 @@ public class NumeralBaseConverterDialog {
                     toUnitsValue = ((CalculatorNumeralBase) toUnits.getUnitType()).getNumeralBase().getJsclPrefix() + toUnitsValue;
                 }
 
-                CalculatorLocatorImpl.getInstance().getKeyboard().digitButtonPressed(toUnitsValue);
+                CalculatorLocatorImpl.getInstance().getKeyboard().buttonPressed(toUnitsValue);
                 final AlertDialog alertDialog = alertDialogHolder.getObject();
                 if (alertDialog != null) {
                     alertDialog.dismiss();
