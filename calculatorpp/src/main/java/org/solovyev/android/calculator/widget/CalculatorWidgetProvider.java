@@ -70,7 +70,7 @@ public class CalculatorWidgetProvider extends AppWidgetProvider {
 
     @NotNull
     private String getCursorColor(@NotNull Context context) {
-        if ( cursorColor == null ) {
+        if (cursorColor == null) {
             cursorColor = Integer.toHexString(context.getResources().getColor(R.color.widget_cursor_color)).substring(2);
         }
         return cursorColor;
@@ -82,6 +82,22 @@ public class CalculatorWidgetProvider extends AppWidgetProvider {
                          @NotNull int[] appWidgetIds) {
         super.onUpdate(context, appWidgetManager, appWidgetIds);
 
+        updateWidget(context, appWidgetManager, appWidgetIds, CalculatorLocatorImpl.getInstance().getEditor().getViewState(), CalculatorLocatorImpl.getInstance().getDisplay().getViewState());
+    }
+
+    private void updateWidget(@NotNull Context context,
+                              @NotNull CalculatorEditorViewState editorState,
+                              @NotNull CalculatorDisplayViewState displayState) {
+        final AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+        final int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, CalculatorWidgetProvider.class));
+        updateWidget(context, appWidgetManager, appWidgetIds, editorState, displayState);
+    }
+
+    private void updateWidget(@NotNull Context context,
+                              @NotNull AppWidgetManager appWidgetManager,
+                              @NotNull int[] appWidgetIds,
+                              @NotNull CalculatorEditorViewState editorState,
+                              @NotNull CalculatorDisplayViewState displayState) {
         for (int appWidgetId : appWidgetIds) {
             final RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
 
@@ -94,6 +110,9 @@ public class CalculatorWidgetProvider extends AppWidgetProvider {
                     views.setOnClickPendingIntent(button.getButtonId(), pendingIntent);
                 }
             }
+
+            updateEditorState(context, views, editorState);
+            updateDisplayState(context, views, displayState);
 
             appWidgetManager.updateAppWidget(appWidgetId, views);
         }
@@ -115,60 +134,48 @@ public class CalculatorWidgetProvider extends AppWidgetProvider {
 
             final Serializable object = intent.getSerializableExtra(EDITOR_STATE_EXTRA);
             if (object instanceof CalculatorEditorViewState) {
-                updateEditorState(context, (CalculatorEditorViewState) object);
+                updateWidget(context, (CalculatorEditorViewState) object, CalculatorLocatorImpl.getInstance().getDisplay().getViewState());
             }
         } else if (DISPLAY_STATE_CHANGED_ACTION.equals(intent.getAction())) {
             CalculatorLocatorImpl.getInstance().getNotifier().showDebugMessage(TAG, "Display state changed broadcast received!");
 
             final Serializable object = intent.getSerializableExtra(DISPLAY_STATE_EXTRA);
             if (object instanceof CalculatorDisplayViewState) {
-                updateDisplayState(context, (CalculatorDisplayViewState) object);
+                updateWidget(context, CalculatorLocatorImpl.getInstance().getEditor().getViewState(), (CalculatorDisplayViewState) object);
             }
+        } else if (Intent.ACTION_CONFIGURATION_CHANGED.equals(intent.getAction())) {
+            updateWidget(context, CalculatorLocatorImpl.getInstance().getEditor().getViewState(), CalculatorLocatorImpl.getInstance().getDisplay().getViewState());
         }
     }
 
-    private void updateDisplayState(@NotNull Context context, @NotNull CalculatorDisplayViewState displayState) {
+    private void updateDisplayState(@NotNull Context context, @NotNull RemoteViews views, @NotNull CalculatorDisplayViewState displayState) {
         if (displayState.isValid()) {
-            setText(context, R.id.calculatorDisplay, displayState.getText());
-            setTextColor(context, R.id.calculatorDisplay, context.getResources().getColor(R.color.default_text_color));
+            setText(views, R.id.calculatorDisplay, displayState.getText());
+            setTextColor(views, R.id.calculatorDisplay, context.getResources().getColor(R.color.default_text_color));
         } else {
-            setTextColor(context, R.id.calculatorDisplay, context.getResources().getColor(R.color.display_error_text_color));
+            setTextColor(views, R.id.calculatorDisplay, context.getResources().getColor(R.color.display_error_text_color));
         }
     }
 
-    private void setText(@NotNull Context context, int textViewId, @Nullable CharSequence text) {
-        final AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-
-        final int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, CalculatorWidgetProvider.class));
-        for (int appWidgetId : appWidgetIds) {
-            final RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
-            views.setTextViewText(textViewId, text);
-            appWidgetManager.updateAppWidget(appWidgetId, views);
-        }
+    private void setText(@NotNull RemoteViews views, int textViewId, @Nullable CharSequence text) {
+        views.setTextViewText(textViewId, text);
     }
 
-    private void setTextColor(@NotNull Context context, int textViewId, int textColor) {
-        final AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-
-        final int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, CalculatorWidgetProvider.class));
-        for (int appWidgetId : appWidgetIds) {
-            final RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
-            views.setTextColor(textViewId, textColor);
-            appWidgetManager.updateAppWidget(appWidgetId, views);
-        }
+    private void setTextColor(@NotNull RemoteViews views, int textViewId, int textColor) {
+        views.setTextColor(textViewId, textColor);
     }
 
-    private void updateEditorState(@NotNull Context context, @NotNull CalculatorEditorViewState editorState) {
+    private void updateEditorState(@NotNull Context context, @NotNull RemoteViews views, @NotNull CalculatorEditorViewState editorState) {
         String text = editorState.getText();
 
         CharSequence newText = text;
         int selection = editorState.getSelection();
-        if (selection >= 0 && selection <= text.length() ) {
+        if (selection >= 0 && selection <= text.length()) {
             // inject cursor
             newText = Html.fromHtml(text.substring(0, selection) + "<font color=\"#" + getCursorColor(context) + "\">|</font>" + text.substring(selection));
         }
         CalculatorLocatorImpl.getInstance().getNotifier().showDebugMessage(TAG, "New editor state: " + text);
-        setText(context, R.id.calculatorEditor, newText);
+        setText(views, R.id.calculatorEditor, newText);
     }
 
     /*

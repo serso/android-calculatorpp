@@ -82,6 +82,7 @@
 
     <style name="widget_main_layout_style" parent="default_main_layout_style">
         <item name="android:padding">1dp</item>
+        <item name="android:layout_margin">@dimen/widget_margin</item>
     </style>
 
     <style name="default_actionbar_style" parent="@style/Widget.Sherlock.ActionBar">
