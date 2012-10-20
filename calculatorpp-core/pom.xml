@@ -7,12 +7,12 @@
     <parent>
         <groupId>org.solovyev.android</groupId>
         <artifactId>calculatorpp-parent</artifactId>
-        <version>1.4.3-a</version>
+        <version>1.4.3-b</version>
     </parent>
 
     <groupId>org.solovyev.android</groupId>
     <artifactId>calculatorpp-core</artifactId>
-    <version>1.4.3-a</version>
+    <version>1.4.3-b</version>
     <name>Calculator++ Application Core</name>
 
     <packaging>jar</packaging>
