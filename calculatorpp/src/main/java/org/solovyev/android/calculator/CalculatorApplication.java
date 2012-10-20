@@ -1,9 +1,6 @@
 package org.solovyev.android.calculator;
 
-import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.preference.PreferenceManager;
 import net.robotmedia.billing.BillingController;
 import net.robotmedia.billing.helper.DefaultBillingObserver;
@@ -15,6 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.ads.AdsController;
 import org.solovyev.android.calculator.history.AndroidCalculatorHistory;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
+import org.solovyev.android.calculator.widget.CalculatorWidgetHelper;
 
 /**
  * User: serso
@@ -39,6 +37,7 @@ public class CalculatorApplication extends android.app.Application {
     **********************************************************************
     */
 
+    private static final String TAG = "Calculator++ Application";
     public static final String FACEBOOK_APP_URL = "http://www.facebook.com/calculatorpp";
 
     public static final String AD_FREE_PRODUCT_ID = "ad_free";
@@ -48,6 +47,9 @@ public class CalculatorApplication extends android.app.Application {
 
     @NotNull
     private static CalculatorApplication instance;
+
+    @NotNull
+    private CalculatorWidgetHelper widgetHelper;
 
     /*
     **********************************************************************
@@ -91,6 +93,10 @@ public class CalculatorApplication extends android.app.Application {
 
         CalculatorLocatorImpl.getInstance().getCalculator().init();
 
+        // in order to not to be garbage collected
+        widgetHelper = new CalculatorWidgetHelper();
+        CalculatorLocatorImpl.getInstance().getCalculator().addCalculatorEventListener(widgetHelper);
+
         AdsController.getInstance().init(ADMOB_USER_ID, AD_FREE_PRODUCT_ID, new BillingController.IConfiguration() {
 
             @Override
@@ -115,6 +121,9 @@ public class CalculatorApplication extends android.app.Application {
                 AdsController.getInstance().isAdFree(CalculatorApplication.this);
             }
         }).start();
+
+        CalculatorLocatorImpl.getInstance().getLogger().debug(TAG, "Application started!");
+        CalculatorLocatorImpl.getInstance().getNotifier().showDebugMessage(TAG, "Application started!");
     }
 
     private void setTheme(@NotNull SharedPreferences preferences) {
@@ -154,7 +163,4 @@ public class CalculatorApplication extends android.app.Application {
         return instance;
     }
 
-    public static void likeButtonPressed(@NotNull final Context context) {
-        context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(FACEBOOK_APP_URL)));
-    }
 }

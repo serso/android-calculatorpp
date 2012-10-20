@@ -20,38 +20,55 @@ public class CalculatorKeyboardImpl implements CalculatorKeyboard {
     }
 
     @Override
-    public void digitButtonPressed(@Nullable final String text) {
+    public void buttonPressed(@Nullable final String text) {
 
         if (!StringUtils.isEmpty(text)) {
             assert text != null;
 
-            int cursorPositionOffset = 0;
-            final StringBuilder textToBeInserted = new StringBuilder(text);
+            // process special buttons
+            boolean processed = processSpecialButtons(text);
 
-            final MathType.Result mathType = MathType.getType(text, 0, false);
-            switch (mathType.getMathType()) {
-                case function:
-                    textToBeInserted.append("()");
-                    cursorPositionOffset = -1;
-                    break;
-                case operator:
-                    textToBeInserted.append("()");
-                    cursorPositionOffset = -1;
-                    break;
-                case comma:
-                    textToBeInserted.append(" ");
-                    break;
-            }
+            if (!processed) {
+                int cursorPositionOffset = 0;
+                final StringBuilder textToBeInserted = new StringBuilder(text);
 
-            if (cursorPositionOffset == 0) {
-                if (MathType.openGroupSymbols.contains(text)) {
-                    cursorPositionOffset = -1;
+                final MathType.Result mathType = MathType.getType(text, 0, false);
+                switch (mathType.getMathType()) {
+                    case function:
+                        textToBeInserted.append("()");
+                        cursorPositionOffset = -1;
+                        break;
+                    case operator:
+                        textToBeInserted.append("()");
+                        cursorPositionOffset = -1;
+                        break;
+                    case comma:
+                        textToBeInserted.append(" ");
+                        break;
                 }
-            }
 
-            final CalculatorEditor editor = CalculatorLocatorImpl.getInstance().getEditor();
-            editor.insert(textToBeInserted.toString(), cursorPositionOffset);
+                if (cursorPositionOffset == 0) {
+                    if (MathType.openGroupSymbols.contains(text)) {
+                        cursorPositionOffset = -1;
+                    }
+                }
+
+                final CalculatorEditor editor = CalculatorLocatorImpl.getInstance().getEditor();
+                editor.insert(textToBeInserted.toString(), cursorPositionOffset);
+            }
         }
+    }
+
+    private boolean processSpecialButtons(@NotNull String text) {
+        boolean result = false;
+
+        final CalculatorSpecialButton button = CalculatorSpecialButton.getByActionCode(text);
+        if ( button != null ) {
+            button.onClick(this);
+            result = true;
+        }
+
+        return result;
     }
 
     @Override

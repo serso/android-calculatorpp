@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+  ~ For more information, please, contact se.solovyev@gmail.com
+  ~ or visit http://se.solovyev.org
+  -->
+
+<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+              a:id="@+id/main_fragment_layout"
+              style="@style/default_fragment_layout_style"
+              a:layout_width="match_parent"
+              a:layout_height="match_parent"
+              a:padding="@dimen/editor_padding">
+
+    <TextView
+            a:id="@+id/calculatorEditor"
+            style="@style/widget_editor_style"
+            a:textIsSelectable="true"
+            a:singleLine="false"
+            a:scrollbars="vertical"
+            a:hint="@string/c_calc_editor_hint"/>
+
+</LinearLayout>

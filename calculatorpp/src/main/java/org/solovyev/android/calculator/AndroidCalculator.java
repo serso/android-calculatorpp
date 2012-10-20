@@ -21,10 +21,14 @@ import java.util.List;
  * Date: 9/22/12
  * Time: 5:42 PM
  */
-public class AndroidCalculator implements Calculator {
+public class AndroidCalculator implements Calculator, CalculatorEventListener {
 
     @NotNull
     private final Calculator calculator = new CalculatorImpl();
+
+    public AndroidCalculator() {
+        this.calculator.addCalculatorEventListener(this);
+    }
 
     public static void showEvaluationError(@NotNull Context context, @NotNull final String errorMessage) {
         final LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
@@ -170,4 +174,45 @@ public class AndroidCalculator implements Calculator {
         calculator.simplify();
     }
 
+    @Override
+    public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
+        switch (calculatorEventType) {
+            case show_history:
+                CalculatorActivityLauncher.showHistory(CalculatorApplication.getInstance());
+                break;
+            case show_history_detached:
+                CalculatorActivityLauncher.showHistory(CalculatorApplication.getInstance(), true);
+                break;
+            case show_functions:
+                CalculatorActivityLauncher.showFunctions(CalculatorApplication.getInstance());
+                break;
+            case show_functions_detached:
+                CalculatorActivityLauncher.showFunctions(CalculatorApplication.getInstance(), true);
+                break;
+            case show_operators:
+                CalculatorActivityLauncher.showOperators(CalculatorApplication.getInstance());
+                break;
+            case show_operators_detached:
+                CalculatorActivityLauncher.showOperators(CalculatorApplication.getInstance(), true);
+                break;
+            case show_vars:
+                CalculatorActivityLauncher.showVars(CalculatorApplication.getInstance());
+                break;
+            case show_vars_detached:
+                CalculatorActivityLauncher.showVars(CalculatorApplication.getInstance(), true);
+                break;
+            case show_settings:
+                CalculatorActivityLauncher.showSettings(CalculatorApplication.getInstance());
+                break;
+            case show_settings_detached:
+                CalculatorActivityLauncher.showSettings(CalculatorApplication.getInstance(), true);
+                break;
+            case show_like_dialog:
+                CalculatorActivityLauncher.likeButtonPressed(CalculatorApplication.getInstance());
+                break;
+            case open_app:
+                CalculatorActivityLauncher.openApp(CalculatorApplication.getInstance());
+                break;
+        }
+    }
 }

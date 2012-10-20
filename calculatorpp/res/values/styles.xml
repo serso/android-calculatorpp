@@ -58,6 +58,14 @@
         <item name="android:textSize">@dimen/display_text_size</item>
     </style>
 
+    <style name="widget_editor_style" parent="editor_style">
+        <item name="android:textSize">@dimen/widget_editor_text_size</item>
+    </style>
+
+    <style name="widget_display_style" parent="display_style">
+        <item name="android:textSize">@dimen/widget_display_text_size</item>
+    </style>
+
     <style name="about_style" parent="default_text">
         <item name="android:gravity">center</item>
         <item name="android:layout_width">fill_parent</item>

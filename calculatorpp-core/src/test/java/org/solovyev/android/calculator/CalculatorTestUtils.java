@@ -8,6 +8,7 @@ import org.mockito.Mockito;
 import org.solovyev.android.calculator.history.CalculatorHistory;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 
+import java.io.*;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -41,7 +42,7 @@ public class CalculatorTestUtils {
     }
 
     public static void assertEval(@NotNull String expected, @NotNull String expression) {
-       assertEval(expected, expression, JsclOperation.numeric);
+        assertEval(expected, expression, JsclOperation.numeric);
     }
 
     public static void assertEval(@NotNull String expected, @NotNull String expression, @NotNull JsclOperation operation) {
@@ -57,8 +58,8 @@ public class CalculatorTestUtils {
             calculatorEventListener.setCalculatorEventData(calculator.evaluate(operation, expression));
 
             if (latch.await(TIMEOUT, TimeUnit.SECONDS)) {
-               Assert.assertNotNull(calculatorEventListener.getResult());
-               Assert.assertEquals(expected, calculatorEventListener.getResult().getText());
+                Assert.assertNotNull(calculatorEventListener.getResult());
+                Assert.assertEquals(expected, calculatorEventListener.getResult().getText());
             } else {
                 Assert.fail("Too long wait for: " + expression);
             }
@@ -74,7 +75,33 @@ public class CalculatorTestUtils {
         assertError(expression, JsclOperation.numeric);
     }
 
-    private static final class TestCalculatorEventListener implements  CalculatorEventListener {
+    public static <S extends Serializable> S testSerialization(@NotNull S serializable) throws IOException, ClassNotFoundException {
+        final ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+        ObjectOutputStream oos = null;
+        try {
+            oos = new ObjectOutputStream(out);
+            oos.writeObject(serializable);
+        } finally {
+            if (oos != null) {
+                oos.close();
+            }
+        }
+
+        byte[] serialized = out.toByteArray();
+
+        Assert.assertTrue(serialized.length > 0);
+
+
+        final ObjectInputStream resultStream = new ObjectInputStream(new ByteArrayInputStream(out.toByteArray()));
+        final S result = (S) resultStream.readObject();
+
+        Assert.assertNotNull(result);
+
+        return result;
+    }
+
+    private static final class TestCalculatorEventListener implements CalculatorEventListener {
 
         @Nullable
         private CalculatorEventData calculatorEventData;
@@ -95,7 +122,7 @@ public class CalculatorTestUtils {
 
         @Override
         public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
-            if ( this.calculatorEventData != null && calculatorEventData.isSameSequence(this.calculatorEventData) ) {
+            if (this.calculatorEventData != null && calculatorEventData.isSameSequence(this.calculatorEventData)) {
                 if (calculatorEventType == CalculatorEventType.display_state_changed) {
                     final CalculatorDisplayChangeEventData displayChange = (CalculatorDisplayChangeEventData) data;
 

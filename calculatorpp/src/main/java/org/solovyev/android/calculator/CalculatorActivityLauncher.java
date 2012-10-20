@@ -2,6 +2,7 @@ package org.solovyev.android.calculator;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import jscl.math.Generic;
 import jscl.math.function.Constant;
@@ -24,7 +25,13 @@ import org.solovyev.common.text.StringUtils;
 public class CalculatorActivityLauncher {
 
 	public static void showHistory(@NotNull final Context context) {
-		context.startActivity(new Intent(context, CalculatorHistoryActivity.class));
+        showHistory(context, false);
+    }
+
+	public static void showHistory(@NotNull final Context context, boolean detached) {
+        final Intent intent = new Intent(context, CalculatorHistoryActivity.class);
+        addFlags(intent, detached);
+        context.startActivity(intent);
 	}
 
 	public static void showHelp(@NotNull final Context context) {
@@ -32,23 +39,57 @@ public class CalculatorActivityLauncher {
 	}
 
 	public static void showSettings(@NotNull final Context context) {
-		context.startActivity(new Intent(context, CalculatorPreferencesActivity.class));
+        showSettings(context, false);
+    }
+	public static void showSettings(@NotNull final Context context, boolean detached) {
+        final Intent intent = new Intent(context, CalculatorPreferencesActivity.class);
+        addFlags(intent, detached);
+        context.startActivity(intent);
 	}
 
-	public static void showAbout(@NotNull final Context context) {
+    private static void addFlags(@NotNull Intent intent, boolean detached) {
+        int flags = Intent.FLAG_ACTIVITY_NEW_TASK;
+
+        if (detached) {
+            flags = flags | Intent.FLAG_ACTIVITY_NO_HISTORY;
+        }
+
+        intent.setFlags(flags);
+
+    }
+
+    public static void showAbout(@NotNull final Context context) {
 		context.startActivity(new Intent(context, CalculatorAboutActivity.class));
 	}
 
 	public static void showFunctions(@NotNull final Context context) {
-		context.startActivity(new Intent(context, CalculatorFunctionsActivity.class));
+        showHistory(context, false);
+    }
+
+	public static void showFunctions(@NotNull final Context context, boolean detached) {
+        final Intent intent = new Intent(context, CalculatorFunctionsActivity.class);
+        addFlags(intent, detached);
+        context.startActivity(intent);
 	}
 
 	public static void showOperators(@NotNull final Context context) {
-		context.startActivity(new Intent(context, CalculatorOperatorsActivity.class));
+        showOperators(context, false);
+    }
+
+	public static void showOperators(@NotNull final Context context, boolean detached) {
+        final Intent intent = new Intent(context, CalculatorOperatorsActivity.class);
+        addFlags(intent, detached);
+        context.startActivity(intent);
 	}
 
 	public static void showVars(@NotNull final Context context) {
-		context.startActivity(new Intent(context, CalculatorVarsActivity.class));
+        showVars(context, false);
+    }
+
+    public static void showVars(@NotNull final Context context, boolean detached) {
+        final Intent intent = new Intent(context, CalculatorVarsActivity.class);
+        addFlags(intent, detached);
+        context.startActivity(intent);
 	}
 
 	public static void plotGraph(@NotNull final Context context, @NotNull Generic generic, @NotNull Constant constant){
@@ -82,4 +123,16 @@ public class CalculatorActivityLauncher {
             CalculatorLocatorImpl.getInstance().getNotifier().showMessage(R.string.c_not_valid_result, MessageType.error);
 		}
 	}
+
+    public static void openApp(@NotNull Context context) {
+        final Intent intent = new Intent(context, CalculatorActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        context.startActivity(intent);
+    }
+
+    public static void likeButtonPressed(@NotNull final Context context) {
+        final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(CalculatorApplication.FACEBOOK_APP_URL));
+        addFlags(intent, false);
+        context.startActivity(intent);
+    }
 }

@@ -58,6 +58,7 @@ public enum CalculatorEventType {
 
     // @NotNull org.solovyev.android.calculator.CalculatorEditorChangeEventData
     editor_state_changed,
+    editor_state_changed_light,
 
     // @NotNull CalculatorDisplayChangeEventData
     display_state_changed,
@@ -112,7 +113,33 @@ public enum CalculatorEventType {
     constant_changed,
 
     // @NotNull IConstant
-    constant_removed;
+    constant_removed,
+
+    /*
+    **********************************************************************
+    *
+    *                           OTHER
+    *
+    **********************************************************************
+    */
+    show_history,
+    show_history_detached,
+
+    show_functions,
+    show_functions_detached,
+
+    show_vars,
+    show_vars_detached,
+
+    open_app,
+
+    show_operators,
+    show_operators_detached,
+
+    show_settings,
+    show_settings_detached,
+
+    show_like_dialog;
 
     public boolean isOfType(@NotNull CalculatorEventType... types) {
         for (CalculatorEventType type : types) {

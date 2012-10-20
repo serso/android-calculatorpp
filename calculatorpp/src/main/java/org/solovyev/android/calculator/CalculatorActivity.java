@@ -5,7 +5,6 @@
 
 package org.solovyev.android.calculator;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -18,6 +17,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import org.jetbrains.annotations.NotNull;
@@ -167,7 +167,7 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 
     @SuppressWarnings({"UnusedDeclaration"})
     public void equalsButtonClickHandler(@NotNull View v) {
-        getCalculator().evaluate();
+        buttonPressed(CalculatorSpecialButton.equals);
     }
 
     @Override
@@ -241,12 +241,12 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 
     @SuppressWarnings({"UnusedDeclaration"})
     public void historyButtonClickHandler(@NotNull View v) {
-        CalculatorActivityLauncher.showHistory(this);
+        buttonPressed(CalculatorSpecialButton.history);
     }
 
     @SuppressWarnings({"UnusedDeclaration"})
     public void eraseButtonClickHandler(@NotNull View v) {
-        CalculatorLocatorImpl.getInstance().getEditor().erase();
+        buttonPressed(CalculatorSpecialButton.erase);
     }
 
     @SuppressWarnings({"UnusedDeclaration"})
@@ -255,23 +255,13 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
     }
 
     @SuppressWarnings({"UnusedDeclaration"})
-    public void moveLeftButtonClickHandler(@NotNull View v) {
-        getKeyboard().moveCursorLeft();
-    }
-
-    @SuppressWarnings({"UnusedDeclaration"})
-    public void moveRightButtonClickHandler(@NotNull View v) {
-        getKeyboard().moveCursorRight();
-    }
-
-    @SuppressWarnings({"UnusedDeclaration"})
     public void pasteButtonClickHandler(@NotNull View v) {
-        getKeyboard().pasteButtonPressed();
+        buttonPressed(CalculatorSpecialButton.paste);
     }
 
     @SuppressWarnings({"UnusedDeclaration"})
     public void copyButtonClickHandler(@NotNull View v) {
-        getKeyboard().copyButtonPressed();
+        buttonPressed(CalculatorSpecialButton.copy);
     }
 
     @NotNull
@@ -281,39 +271,52 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 
     @SuppressWarnings({"UnusedDeclaration"})
     public void clearButtonClickHandler(@NotNull View v) {
-        getKeyboard().clearButtonPressed();
+        buttonPressed(CalculatorSpecialButton.clear);
     }
 
     @SuppressWarnings({"UnusedDeclaration"})
     public void digitButtonClickHandler(@NotNull View v) {
         Log.d(String.valueOf(v.getId()), "digitButtonClickHandler() for: " + v.getId() + ". Pressed: " + v.isPressed());
-        if (((ColorButton) v).isShowText()) {
-            getKeyboard().digitButtonPressed(((ColorButton) v).getText().toString());
+
+        if (v instanceof Button) {
+
+            boolean processText = true;
+            if ( v instanceof ColorButton) {
+                processText = ((ColorButton) v).isShowText();
+            }
+
+            if ( processText ) {
+                buttonPressed(((Button)v).getText().toString());
+            }
         }
+    }
+
+    private void buttonPressed(@NotNull CalculatorSpecialButton button) {
+        buttonPressed(button.getActionCode());
+    }
+
+    private void buttonPressed(@NotNull String text) {
+        getKeyboard().buttonPressed(text);
     }
 
     @SuppressWarnings({"UnusedDeclaration"})
     public void functionsButtonClickHandler(@NotNull View v) {
-        CalculatorActivityLauncher.showFunctions(this);
+        buttonPressed(CalculatorSpecialButton.functions);
     }
 
     @SuppressWarnings({"UnusedDeclaration"})
     public void operatorsButtonClickHandler(@NotNull View v) {
-        CalculatorActivityLauncher.showOperators(this);
-    }
-
-    public static void operatorsButtonClickHandler(@NotNull Activity activity) {
-        CalculatorActivityLauncher.showOperators(activity);
+        buttonPressed(CalculatorSpecialButton.operators);
     }
 
     @SuppressWarnings({"UnusedDeclaration"})
     public void varsButtonClickHandler(@NotNull View v) {
-        CalculatorActivityLauncher.showVars(this);
+        buttonPressed(CalculatorSpecialButton.vars);
     }
 
     @SuppressWarnings({"UnusedDeclaration"})
     public void likeButtonClickHandler(@NotNull View v) {
-        CalculatorApplication.likeButtonPressed(this);
+        buttonPressed(CalculatorSpecialButton.like);
     }
 
 }

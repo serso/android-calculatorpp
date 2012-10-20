@@ -5,12 +5,14 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 
+import java.io.Serializable;
+
 /**
  * User: serso
  * Date: 9/20/12
  * Time: 9:50 PM
  */
-public interface CalculatorDisplayViewState {
+public interface CalculatorDisplayViewState extends Serializable {
 
     @NotNull
     String getText();

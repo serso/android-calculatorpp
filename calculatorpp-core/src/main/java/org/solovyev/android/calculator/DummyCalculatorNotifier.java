@@ -25,4 +25,8 @@ public class DummyCalculatorNotifier implements CalculatorNotifier {
     @Override
     public void showMessage(@NotNull Integer messageCode, @NotNull MessageType messageType, @Nullable Object... parameters) {
     }
+
+    @Override
+    public void showDebugMessage(@Nullable String tag, @NotNull String message) {
+    }
 }
