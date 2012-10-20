@@ -10,4 +10,4 @@
         a:id="@+id/clearButton"
         a:text="@string/c_clear"
         a:textStyle="bold"
-        style="@style/metro_control_image_button_style"/>
+        style="@style/widget_metro_control_button_style"/>

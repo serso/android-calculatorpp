@@ -1,5 +1,6 @@
 package org.solovyev.android;
 
+import android.os.Looper;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -31,5 +32,9 @@ public final class AndroidUtils2 {
         // Create and show the dialog.
         dialogFragment.show(ft, fragmentTag);
 
+    }
+
+    public static boolean isUiThread() {
+        return Looper.myLooper() == Looper.getMainLooper();
     }
 }

@@ -47,9 +47,8 @@ public class AndroidCalculatorEditorView extends EditText implements SharedPrefe
 
     private volatile boolean viewStateChange = false;
 
-    // NOTE: static because super constructor calls some overridden methods (like onSelectionChanged and current lock is not yet created)
-    @NotNull
-    private static final Object viewLock = new Object();
+    @Nullable
+    private final Object viewLock = new Object();
 
     @NotNull
     private final Handler uiHandler = new Handler();
@@ -154,45 +153,51 @@ public class AndroidCalculatorEditorView extends EditText implements SharedPrefe
 
     @Override
     public void setState(@NotNull final CalculatorEditorViewState viewState) {
-        synchronized (viewLock) {
+        if (viewLock != null) {
+            synchronized (viewLock) {
 
-            final CharSequence text = prepareText(viewState.getText(), highlightText);
+                final CharSequence text = prepareText(viewState.getText(), highlightText);
 
-            uiHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    final AndroidCalculatorEditorView editorView = AndroidCalculatorEditorView.this;
-                    synchronized (viewLock) {
-                        try {
-                            editorView.viewStateChange = true;
-                            editorView.viewState = viewState;
-                            editorView.setText(text, BufferType.EDITABLE);
-                            editorView.setSelection(viewState.getSelection());
-                        } finally {
-                            editorView.viewStateChange = false;
+                uiHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        final AndroidCalculatorEditorView editorView = AndroidCalculatorEditorView.this;
+                        synchronized (viewLock) {
+                            try {
+                                editorView.viewStateChange = true;
+                                editorView.viewState = viewState;
+                                editorView.setText(text, BufferType.EDITABLE);
+                                editorView.setSelection(viewState.getSelection());
+                            } finally {
+                                editorView.viewStateChange = false;
+                            }
                         }
                     }
-                }
-            });
+                });
+            }
         }
     }
 
     @Override
     protected void onSelectionChanged(int selStart, int selEnd) {
-        synchronized (viewLock) {
-            if (!viewStateChange) {
-                // external text change => need to notify editor
-                super.onSelectionChanged(selStart, selEnd);
-                CalculatorLocatorImpl.getInstance().getEditor().setSelection(selStart);
+        if (viewLock != null) {
+            synchronized (viewLock) {
+                if (!viewStateChange) {
+                    // external text change => need to notify editor
+                    super.onSelectionChanged(selStart, selEnd);
+                    CalculatorLocatorImpl.getInstance().getEditor().setSelection(selStart);
+                }
             }
         }
     }
 
     public void handleTextChange(Editable s) {
-        synchronized (viewLock) {
-            if (!viewStateChange) {
-                // external text change => need to notify editor
-                CalculatorLocatorImpl.getInstance().getEditor().setText(String.valueOf(s));
+        if (viewLock != null) {
+            synchronized (viewLock) {
+                if (!viewStateChange) {
+                    // external text change => need to notify editor
+                    CalculatorLocatorImpl.getInstance().getEditor().setText(String.valueOf(s));
+                }
             }
         }
     }

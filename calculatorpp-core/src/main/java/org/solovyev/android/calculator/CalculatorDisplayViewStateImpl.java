@@ -13,11 +13,19 @@ import org.solovyev.common.text.StringUtils;
  */
 public class CalculatorDisplayViewStateImpl implements CalculatorDisplayViewState {
 
+    /*
+    **********************************************************************
+    *
+    *                           FIELDS
+    *
+    **********************************************************************
+    */
+
     @NotNull
     private JsclOperation operation = JsclOperation.numeric;
 
     @Nullable
-    private Generic result;
+    private transient Generic result;
 
     @Nullable
     private String stringResult = "";
@@ -28,6 +36,14 @@ public class CalculatorDisplayViewStateImpl implements CalculatorDisplayViewStat
     private String errorMessage;
 
     private int selection = 0;
+
+    /*
+    **********************************************************************
+    *
+    *                           CONSTRUCTORS
+    *
+    **********************************************************************
+    */
 
     private CalculatorDisplayViewStateImpl() {
     }
@@ -61,6 +77,14 @@ public class CalculatorDisplayViewStateImpl implements CalculatorDisplayViewStat
 
         return calculatorDisplayState;
     }
+
+    /*
+    **********************************************************************
+    *
+    *                           METHODS
+    *
+    **********************************************************************
+    */
 
     @NotNull
     @Override

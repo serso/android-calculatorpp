@@ -11,7 +11,7 @@
 
     <application android:debuggable="false" android:hardwareAccelerated="false" android:icon="@drawable/icon" android:label="@string/c_app_name" android:name=".CalculatorApplication" android:theme="@style/metro_blue_theme">
 
-        <activity android:label="@string/c_app_name" android:name=".CalculatorActivity" android:windowSoftInputMode="adjustPan">
+        <activity android:label="@string/c_app_name" android:name=".CalculatorActivity" android:windowSoftInputMode="adjustPan" android:clearTaskOnLaunch="true">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -48,11 +48,14 @@
 
         <receiver
                 android:icon="@drawable/icon"
-                android:label="Example Widget"
+                android:label="@string/c_app_name"
                 android:name=".widget.CalculatorWidgetProvider">
 
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="org.solovyev.calculator.widget.EDITOR_STATE_CHANGED"/>
+                <action android:name="org.solovyev.calculator.widget.DISPLAY_STATE_CHANGED"/>
+                <action android:name="org.solovyev.calculator.widget.BUTTON_PRESSED"/>
             </intent-filter>
 
             <meta-data

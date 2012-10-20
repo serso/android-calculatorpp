@@ -10,4 +10,4 @@
         a:id="@+id/functionsButton"
         a:text="ƒ(x)"
         a:textStyle="italic"
-        style="@style/metro_control_button_style"/>
+        style="@style/widget_metro_control_button_style"/>

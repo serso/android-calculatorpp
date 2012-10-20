@@ -167,7 +167,7 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 
     @SuppressWarnings({"UnusedDeclaration"})
     public void equalsButtonClickHandler(@NotNull View v) {
-        getCalculator().evaluate();
+        buttonPressed(CalculatorSpecialButton.equals);
     }
 
     @Override
@@ -241,12 +241,12 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 
     @SuppressWarnings({"UnusedDeclaration"})
     public void historyButtonClickHandler(@NotNull View v) {
-        buttonPressed(CalculatorButtonActions.SHOW_HISTORY);
+        buttonPressed(CalculatorSpecialButton.history);
     }
 
     @SuppressWarnings({"UnusedDeclaration"})
     public void eraseButtonClickHandler(@NotNull View v) {
-        buttonPressed(CalculatorButtonActions.ERASE);
+        buttonPressed(CalculatorSpecialButton.erase);
     }
 
     @SuppressWarnings({"UnusedDeclaration"})
@@ -256,12 +256,12 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 
     @SuppressWarnings({"UnusedDeclaration"})
     public void pasteButtonClickHandler(@NotNull View v) {
-        buttonPressed(CalculatorButtonActions.PASTE);
+        buttonPressed(CalculatorSpecialButton.paste);
     }
 
     @SuppressWarnings({"UnusedDeclaration"})
     public void copyButtonClickHandler(@NotNull View v) {
-        buttonPressed(CalculatorButtonActions.COPY);
+        buttonPressed(CalculatorSpecialButton.copy);
     }
 
     @NotNull
@@ -271,7 +271,7 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 
     @SuppressWarnings({"UnusedDeclaration"})
     public void clearButtonClickHandler(@NotNull View v) {
-        buttonPressed(CalculatorButtonActions.CLEAR);
+        buttonPressed(CalculatorSpecialButton.clear);
     }
 
     @SuppressWarnings({"UnusedDeclaration"})
@@ -291,28 +291,32 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
         }
     }
 
+    private void buttonPressed(@NotNull CalculatorSpecialButton button) {
+        buttonPressed(button.getActionCode());
+    }
+
     private void buttonPressed(@NotNull String text) {
         getKeyboard().buttonPressed(text);
     }
 
     @SuppressWarnings({"UnusedDeclaration"})
     public void functionsButtonClickHandler(@NotNull View v) {
-        buttonPressed(CalculatorButtonActions.SHOW_FUNCTIONS);
+        buttonPressed(CalculatorSpecialButton.functions);
     }
 
     @SuppressWarnings({"UnusedDeclaration"})
     public void operatorsButtonClickHandler(@NotNull View v) {
-        buttonPressed(CalculatorButtonActions.SHOW_OPERATORS);
+        buttonPressed(CalculatorSpecialButton.operators);
     }
 
     @SuppressWarnings({"UnusedDeclaration"})
     public void varsButtonClickHandler(@NotNull View v) {
-        buttonPressed(CalculatorButtonActions.SHOW_VARS);
+        buttonPressed(CalculatorSpecialButton.vars);
     }
 
     @SuppressWarnings({"UnusedDeclaration"})
     public void likeButtonClickHandler(@NotNull View v) {
-        CalculatorApplication.likeButtonPressed(this);
+        buttonPressed(CalculatorSpecialButton.like);
     }
 
 }

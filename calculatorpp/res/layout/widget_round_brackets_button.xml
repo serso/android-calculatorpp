@@ -9,4 +9,4 @@
 <Button xmlns:a="http://schemas.android.com/apk/res/android"
         a:id="@+id/roundBracketsButton"
         a:text="()"
-        style="@style/metro_digit_button_style"/>
+        style="@style/widget_metro_digit_button_style"/>

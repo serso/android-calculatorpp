@@ -80,6 +80,10 @@
         <item name="android:layout_width">match_parent</item>
     </style>
 
+    <style name="widget_main_layout_style" parent="default_main_layout_style">
+        <item name="android:padding">1dp</item>
+    </style>
+
     <style name="default_actionbar_style" parent="@style/Widget.Sherlock.ActionBar">
         <item name="background">@drawable/default_abs__ab_transparent_dark_holo</item>
         <item name="android:background">@drawable/default_abs__ab_transparent_dark_holo</item>

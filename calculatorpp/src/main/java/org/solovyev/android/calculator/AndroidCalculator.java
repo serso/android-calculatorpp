@@ -180,11 +180,38 @@ public class AndroidCalculator implements Calculator, CalculatorEventListener {
             case show_history:
                 CalculatorActivityLauncher.showHistory(CalculatorApplication.getInstance());
                 break;
+            case show_history_detached:
+                CalculatorActivityLauncher.showHistory(CalculatorApplication.getInstance(), true);
+                break;
             case show_functions:
                 CalculatorActivityLauncher.showFunctions(CalculatorApplication.getInstance());
                 break;
+            case show_functions_detached:
+                CalculatorActivityLauncher.showFunctions(CalculatorApplication.getInstance(), true);
+                break;
+            case show_operators:
+                CalculatorActivityLauncher.showOperators(CalculatorApplication.getInstance());
+                break;
+            case show_operators_detached:
+                CalculatorActivityLauncher.showOperators(CalculatorApplication.getInstance(), true);
+                break;
             case show_vars:
                 CalculatorActivityLauncher.showVars(CalculatorApplication.getInstance());
+                break;
+            case show_vars_detached:
+                CalculatorActivityLauncher.showVars(CalculatorApplication.getInstance(), true);
+                break;
+            case show_settings:
+                CalculatorActivityLauncher.showSettings(CalculatorApplication.getInstance());
+                break;
+            case show_settings_detached:
+                CalculatorActivityLauncher.showSettings(CalculatorApplication.getInstance(), true);
+                break;
+            case show_like_dialog:
+                CalculatorActivityLauncher.likeButtonPressed(CalculatorApplication.getInstance());
+                break;
+            case open_app:
+                CalculatorActivityLauncher.openApp(CalculatorApplication.getInstance());
                 break;
         }
     }

@@ -6,7 +6,8 @@
   ~ or visit http://se.solovyev.org
   -->
 
-<Button xmlns:a="http://schemas.android.com/apk/res/android"
+<ImageButton xmlns:a="http://schemas.android.com/apk/res/android"
         a:id="@+id/pasteButton"
-        a:drawableTop="@drawable/kb_paste"
-        style="@style/metro_control_image_button_style"/>
+        a:src="@drawable/kb_paste"
+        style="@style/widget_metro_control_image_button_style"
+        a:contentDescription="Paste"/>

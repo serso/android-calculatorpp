@@ -13,6 +13,7 @@
         <include layout="@layout/widget_eight_digit_button"/>
         <include layout="@layout/widget_nine_digit_button"/>
         <include layout="@layout/widget_multiplication_button"/>
+        <include layout="@layout/widget_percent_button"/>
         <include layout="@layout/widget_clear_button"/>
 
     </LinearLayout>
@@ -25,6 +26,7 @@
         <include layout="@layout/widget_five_digit_button"/>
         <include layout="@layout/widget_six_digit_button"/>
         <include layout="@layout/widget_division_button"/>
+        <include layout="@layout/widget_power_button"/>
         <include layout="@layout/widget_erase_button"/>
 
     </LinearLayout>
@@ -37,6 +39,7 @@
         <include layout="@layout/widget_two_digit_button"/>
         <include layout="@layout/widget_three_digit_button"/>
         <include layout="@layout/widget_plus_button"/>
+        <include layout="@layout/widget_like_button"/>
         <include layout="@layout/widget_copy_button"/>
 
     </LinearLayout>
@@ -49,6 +52,7 @@
         <include layout="@layout/widget_zero_digit_button"/>
         <include layout="@layout/widget_dot_button"/>
         <include layout="@layout/widget_subtraction_button"/>
+        <include layout="@layout/widget_settings_button"/>
         <include layout="@layout/widget_paste_button"/>
 
     </LinearLayout>
@@ -62,6 +66,7 @@
         <include layout="@layout/widget_right_button"/>
         <include layout="@layout/widget_vars_button"/>
         <include layout="@layout/widget_functions_button"/>
+        <include layout="@layout/widget_app_button"/>
         <include layout="@layout/widget_history_button"/>
 
     </LinearLayout>

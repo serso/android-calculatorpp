@@ -62,28 +62,10 @@ public class CalculatorKeyboardImpl implements CalculatorKeyboard {
     private boolean processSpecialButtons(@NotNull String text) {
         boolean result = false;
 
-        if (CalculatorButtonActions.MOVE_CURSOR_LEFT.equals(text)) {
-            this.moveCursorLeft();
+        final CalculatorSpecialButton button = CalculatorSpecialButton.getByActionCode(text);
+        if ( button != null ) {
+            button.onClick(this);
             result = true;
-        } else if (CalculatorButtonActions.MOVE_CURSOR_RIGHT.equals(text)) {
-            this.moveCursorRight();
-            result = true;
-        } else if (CalculatorButtonActions.SHOW_HISTORY.equals(text)) {
-            CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_history, null);
-        } else if (CalculatorButtonActions.ERASE.equals(text)) {
-            CalculatorLocatorImpl.getInstance().getEditor().erase();
-        } else if (CalculatorButtonActions.COPY.equals(text)) {
-            copyButtonPressed();
-        } else if (CalculatorButtonActions.PASTE.equals(text)) {
-            pasteButtonPressed();
-        } else if (CalculatorButtonActions.CLEAR.equals(text)) {
-            clearButtonPressed();
-        } else if (CalculatorButtonActions.SHOW_FUNCTIONS.equals(text)) {
-            CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_functions, null);
-        } else if (CalculatorButtonActions.SHOW_OPERATORS.equals(text)) {
-            CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_operators, null);
-        } else if (CalculatorButtonActions.SHOW_VARS.equals(text)) {
-            CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_vars, null);
         }
 
         return result;

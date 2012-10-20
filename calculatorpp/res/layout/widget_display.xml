@@ -9,9 +9,8 @@
 <TextView
         xmlns:a="http://schemas.android.com/apk/res/android"
         a:id="@+id/calculatorDisplay"
-        style="@style/display_style"
+        style="@style/widget_display_style"
+        a:textIsSelectable="true"
         a:padding="@dimen/display_padding"
-        a:inputType="textMultiLine"
-        a:maxLines="3"
-        a:scrollHorizontally="false"
-        a:scrollbars="none"/>
+        a:singleLine="false"
+        a:scrollbars="vertical"/>

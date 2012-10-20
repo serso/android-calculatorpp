@@ -15,7 +15,7 @@
 
     <TextView
             a:id="@+id/calculatorEditor"
-            style="@style/editor_style"
+            style="@style/widget_editor_style"
             a:textIsSelectable="true"
             a:singleLine="false"
             a:scrollbars="vertical"

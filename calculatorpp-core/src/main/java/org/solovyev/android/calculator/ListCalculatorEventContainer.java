@@ -42,6 +42,7 @@ public class ListCalculatorEventContainer implements CalculatorEventContainer {
         final CalculatorLogger logger = CalculatorLocatorImpl.getInstance().getLogger();
 
         for (CalculatorEvent e : calculatorEvents) {
+            CalculatorLocatorImpl.getInstance().getLogger().debug(TAG, "Event fired: " + e.getCalculatorEventType());
             for (CalculatorEventListener listener : listeners) {
                 /*long startTime = System.currentTimeMillis();*/
                 listener.onCalculatorEvent(e.getCalculatorEventData(), e.getCalculatorEventType(), e.getData());
