@@ -48,6 +48,7 @@ public class CalculatorApplication extends android.app.Application {
     @NotNull
     private static CalculatorApplication instance;
 
+    @SuppressWarnings("FieldCanBeLocal")// in order not to be garbage collected
     @NotNull
     private CalculatorWidgetHelper widgetHelper;
 

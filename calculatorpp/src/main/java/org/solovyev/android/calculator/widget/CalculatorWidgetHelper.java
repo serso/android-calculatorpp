@@ -1,8 +1,5 @@
 package org.solovyev.android.calculator.widget;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.*;
@@ -12,7 +9,7 @@ import org.solovyev.android.calculator.*;
  * Date: 10/19/12
  * Time: 11:11 PM
  */
-public class CalculatorWidgetHelper extends BroadcastReceiver implements CalculatorEventListener {
+public class CalculatorWidgetHelper implements CalculatorEventListener {
 
     private static final String TAG = "Calculator++ Widget Helper";
 
@@ -35,7 +32,7 @@ public class CalculatorWidgetHelper extends BroadcastReceiver implements Calcula
 
                     CalculatorLocatorImpl.getInstance().getNotifier().showDebugMessage(TAG, "Editor state changed: " + newEditorState.getText());
 
-                    CalculatorWidgetProvider.onEditorStateChanged(CalculatorApplication.getInstance(), newEditorState);
+                    CalculatorWidgetProvider.onEditorStateChanged(CalculatorApplication.getInstance(), calculatorEventData, newEditorState);
                     break;
 
                 case display_state_changed:
@@ -44,21 +41,8 @@ public class CalculatorWidgetHelper extends BroadcastReceiver implements Calcula
 
                     CalculatorLocatorImpl.getInstance().getNotifier().showDebugMessage(TAG, "Display state changed: " + newDisplayState.getText());
 
-                    CalculatorWidgetProvider.onDisplayStateChanged(CalculatorApplication.getInstance(), newDisplayState);
+                    CalculatorWidgetProvider.onDisplayStateChanged(CalculatorApplication.getInstance(), calculatorEventData, newDisplayState);
                     break;
-            }
-        }
-    }
-
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        if (CalculatorWidgetProvider.BUTTON_PRESSED_ACTION.equals(intent.getAction())) {
-            final int buttonId = intent.getIntExtra(CalculatorWidgetProvider.BUTTON_ID_EXTRA, 0);
-            //Toast.makeText(context, "Button id: " + buttonId, Toast.LENGTH_SHORT).show();
-
-            final WidgetButton button = WidgetButton.getById(buttonId);
-            if ( button != null ) {
-                button.onClick(context);
             }
         }
     }

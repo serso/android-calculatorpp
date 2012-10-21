@@ -10,10 +10,8 @@ import android.text.Html;
 import android.widget.RemoteViews;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.CalculatorDisplayViewState;
-import org.solovyev.android.calculator.CalculatorEditorViewState;
-import org.solovyev.android.calculator.CalculatorLocatorImpl;
-import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.*;
+import org.solovyev.common.MutableObject;
 
 import java.io.Serializable;
 
@@ -31,8 +29,10 @@ public class CalculatorWidgetProvider extends AppWidgetProvider {
     *
     **********************************************************************
     */
-    public static final String BUTTON_ID_EXTRA = "buttonId";
-    public static final String BUTTON_PRESSED_ACTION = "org.solovyev.calculator.widget.BUTTON_PRESSED";
+    private static final String EVENT_ID_EXTRA = "eventId";
+
+    private static final String BUTTON_ID_EXTRA = "buttonId";
+    private static final String BUTTON_PRESSED_ACTION = "org.solovyev.calculator.widget.BUTTON_PRESSED";
 
     private static final String EDITOR_STATE_CHANGED_ACTION = "org.solovyev.calculator.widget.EDITOR_STATE_CHANGED";
     private static final String EDITOR_STATE_EXTRA = "editorState";
@@ -52,6 +52,12 @@ public class CalculatorWidgetProvider extends AppWidgetProvider {
 
     @Nullable
     private String cursorColor;
+
+    @NotNull
+    private final MutableObject<Long> lastDisplayEventId = new MutableObject<Long>(0L);
+
+    @NotNull
+    private final MutableObject<Long> lastEditorEventId = new MutableObject<Long>(0L);
 
     /*
     **********************************************************************
@@ -132,16 +138,39 @@ public class CalculatorWidgetProvider extends AppWidgetProvider {
         } else if (EDITOR_STATE_CHANGED_ACTION.equals(intent.getAction())) {
             CalculatorLocatorImpl.getInstance().getNotifier().showDebugMessage(TAG, "Editor state changed broadcast received!");
 
-            final Serializable object = intent.getSerializableExtra(EDITOR_STATE_EXTRA);
-            if (object instanceof CalculatorEditorViewState) {
-                updateWidget(context, (CalculatorEditorViewState) object, CalculatorLocatorImpl.getInstance().getDisplay().getViewState());
+            final Long eventId = intent.getLongExtra(EVENT_ID_EXTRA, 0L);
+
+            boolean updateEditor = false;
+            synchronized (lastEditorEventId) {
+                if (eventId > lastEditorEventId.getObject()) {
+                    lastEditorEventId.setObject(eventId);
+                    updateEditor = true;
+                }
+            }
+
+            if (updateEditor) {
+                final Serializable object = intent.getSerializableExtra(EDITOR_STATE_EXTRA);
+                if (object instanceof CalculatorEditorViewState) {
+                    updateWidget(context, (CalculatorEditorViewState) object, CalculatorLocatorImpl.getInstance().getDisplay().getViewState());
+                }
             }
         } else if (DISPLAY_STATE_CHANGED_ACTION.equals(intent.getAction())) {
             CalculatorLocatorImpl.getInstance().getNotifier().showDebugMessage(TAG, "Display state changed broadcast received!");
 
-            final Serializable object = intent.getSerializableExtra(DISPLAY_STATE_EXTRA);
-            if (object instanceof CalculatorDisplayViewState) {
-                updateWidget(context, CalculatorLocatorImpl.getInstance().getEditor().getViewState(), (CalculatorDisplayViewState) object);
+            final Long eventId = intent.getLongExtra(EVENT_ID_EXTRA, 0L);
+            boolean updateDisplay = false;
+            synchronized (lastDisplayEventId) {
+                if (eventId > lastDisplayEventId.getObject()) {
+                    lastDisplayEventId.setObject(eventId);
+                    updateDisplay = true;
+                }
+            }
+
+            if (updateDisplay) {
+                final Serializable object = intent.getSerializableExtra(DISPLAY_STATE_EXTRA);
+                if (object instanceof CalculatorDisplayViewState) {
+                    updateWidget(context, CalculatorLocatorImpl.getInstance().getEditor().getViewState(), (CalculatorDisplayViewState) object);
+                }
             }
         } else if (Intent.ACTION_CONFIGURATION_CHANGED.equals(intent.getAction())) {
             updateWidget(context, CalculatorLocatorImpl.getInstance().getEditor().getViewState(), CalculatorLocatorImpl.getInstance().getDisplay().getViewState());
@@ -186,17 +215,25 @@ public class CalculatorWidgetProvider extends AppWidgetProvider {
     **********************************************************************
     */
 
-    public static void onEditorStateChanged(@NotNull Context context, @NotNull CalculatorEditorViewState editorViewState) {
+    public static void onEditorStateChanged(@NotNull Context context,
+                                            @NotNull CalculatorEventData calculatorEventData,
+                                            @NotNull CalculatorEditorViewState editorViewState) {
+
         final Intent intent = new Intent(EDITOR_STATE_CHANGED_ACTION);
         intent.setClass(context, CalculatorWidgetProvider.class);
+        intent.putExtra(EVENT_ID_EXTRA, calculatorEventData.getEventId());
         intent.putExtra(EDITOR_STATE_EXTRA, editorViewState);
         context.sendBroadcast(intent);
         CalculatorLocatorImpl.getInstance().getNotifier().showDebugMessage(TAG, "Editor state changed broadcast sent");
     }
 
-    public static void onDisplayStateChanged(@NotNull Context context, @NotNull CalculatorDisplayViewState displayViewState) {
+    public static void onDisplayStateChanged(@NotNull Context context,
+                                             @NotNull CalculatorEventData calculatorEventData,
+                                             @NotNull CalculatorDisplayViewState displayViewState) {
+
         final Intent intent = new Intent(DISPLAY_STATE_CHANGED_ACTION);
         intent.setClass(context, CalculatorWidgetProvider.class);
+        intent.putExtra(EVENT_ID_EXTRA, calculatorEventData.getEventId());
         intent.putExtra(DISPLAY_STATE_EXTRA, displayViewState);
         context.sendBroadcast(intent);
         CalculatorLocatorImpl.getInstance().getNotifier().showDebugMessage(TAG, "Display state changed broadcast sent");
