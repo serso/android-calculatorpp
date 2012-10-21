@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.solovyev.android</groupId>
         <artifactId>calculatorpp-parent</artifactId>
-        <version>1.4.3-b1</version>
+        <version>1.4.3-b1-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -23,7 +23,7 @@
         <dependency>
             <groupId>org.solovyev.android</groupId>
             <artifactId>calculatorpp-core</artifactId>
-            <version>1.4.3-b1</version>
+            <version>1.4.3-b1-SNAPSHOT</version>
         </dependency>
 
         <dependency>
@@ -38,46 +38,9 @@
 
         <dependency>
             <groupId>org.solovyev.android</groupId>
-            <artifactId>android-common-core</artifactId>
+            <artifactId>android-common-all</artifactId>
             <type>apklib</type>
         </dependency>
-
-        <dependency>
-            <groupId>org.solovyev.android</groupId>
-            <artifactId>android-common-ads</artifactId>
-            <type>apklib</type>
-        </dependency>
-
-        <dependency>
-            <groupId>org.solovyev.android</groupId>
-            <artifactId>android-common-view</artifactId>
-            <type>apklib</type>
-        </dependency>
-
-        <dependency>
-            <groupId>org.solovyev.android</groupId>
-            <artifactId>android-common-preferences</artifactId>
-            <type>apklib</type>
-        </dependency>
-
-        <dependency>
-            <groupId>org.solovyev.android</groupId>
-            <artifactId>android-common-other</artifactId>
-            <type>apklib</type>
-        </dependency>
-
-        <dependency>
-            <groupId>org.solovyev.android</groupId>
-            <artifactId>android-common-menu</artifactId>
-            <type>apklib</type>
-        </dependency>
-
-        <dependency>
-            <groupId>org.solovyev.android</groupId>
-            <artifactId>android-common-sherlock</artifactId>
-            <type>apklib</type>
-        </dependency>
-
 
         <dependency>
             <groupId>org.solovyev</groupId>
@@ -137,13 +100,6 @@
             <groupId>admob</groupId>
             <artifactId>admob</artifactId>
             <version>6.1.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.solovyev.android</groupId>
-            <artifactId>billing</artifactId>
-            <version>0.2</version>
-            <type>apklib</type>
         </dependency>
 
         <dependency>

@@ -14,13 +14,13 @@
     <groupId>org.solovyev.android</groupId>
     <artifactId>calculatorpp-parent</artifactId>
     <packaging>pom</packaging>
-    <version>1.4.3-b1</version>
+    <version>1.4.3-b1-SNAPSHOT</version>
     <name>Calculator++</name>
 
     <scm>
         <connection>scm:git:git@github.com:serso/android-calculatorpp.git</connection>
         <developerConnection>scm:git:git@github.com:serso/android-calculatorpp.git</developerConnection>
-        <url>git@github.com:serso/android-calculatorpp.git</url>
+        <url>http://github.com/serso/android-calculatorpp</url>
     </scm>
 
     <modules>
@@ -31,6 +31,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <android.common.version>1.0.4</android.common.version>
+        <common.version>1.0.1</common.version>
     </properties>
 
     <dependencyManagement>
@@ -39,61 +41,90 @@
             <dependency>
                 <groupId>org.solovyev</groupId>
                 <artifactId>common-core</artifactId>
-                <version>1.0.0</version>
+                <version>${common.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.solovyev</groupId>
                 <artifactId>common-text</artifactId>
-                <version>1.0.1</version>
+                <version>${common.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.solovyev.android</groupId>
                 <artifactId>android-common-core</artifactId>
                 <type>apklib</type>
-                <version>1.0.2</version>
+                <version>${android.common.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.solovyev.android</groupId>
                 <artifactId>android-common-ads</artifactId>
                 <type>apklib</type>
-                <version>1.0.2</version>
+                <version>${android.common.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.solovyev.android</groupId>
                 <artifactId>android-common-view</artifactId>
                 <type>apklib</type>
-                <version>1.0.2</version>
+                <version>${android.common.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.solovyev.android</groupId>
                 <artifactId>android-common-preferences</artifactId>
                 <type>apklib</type>
-                <version>1.0.2</version>
+                <version>${android.common.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.solovyev.android</groupId>
                 <artifactId>android-common-menu</artifactId>
                 <type>apklib</type>
-                <version>1.0.2</version>
+                <version>${android.common.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.solovyev.android</groupId>
+                <artifactId>android-common-db</artifactId>
+                <type>apklib</type>
+                <version>${android.common.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.solovyev.android</groupId>
                 <artifactId>android-common-sherlock</artifactId>
-                <version>1.0.2</version>
+                <version>${android.common.version}</version>
                 <type>apklib</type>
             </dependency>
 
             <dependency>
+                <groupId>org.solovyev.android</groupId>
+                <artifactId>android-common-other</artifactId>
+                <type>apklib</type>
+                <version>${android.common.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.solovyev.android</groupId>
+                <artifactId>android-common-billing</artifactId>
+                <type>apklib</type>
+                <version>${android.common.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.solovyev.android</groupId>
+                <artifactId>android-common-all</artifactId>
+                <type>apklib</type>
+                <version>${android.common.version}</version>
+            </dependency>
+
+
+            <dependency>
                 <groupId>com.actionbarsherlock</groupId>
                 <artifactId>library</artifactId>
-                <version>4.1.0</version>
+                <version>4.2.0</version>
                 <type>apklib</type>
             </dependency>
 
@@ -112,13 +143,6 @@
                         <artifactId>jgraphx</artifactId>
                     </exclusion>
                 </exclusions>
-            </dependency>
-
-            <dependency>
-                <groupId>org.solovyev.android</groupId>
-                <artifactId>android-common-other</artifactId>
-                <type>apklib</type>
-                <version>1.0.0</version>
             </dependency>
 
             <dependency>
@@ -205,6 +229,15 @@
                 <version>2.12.3</version>
                 <configuration>
                     <forkMode>perTest</forkMode>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <tagNameFormat>release-@{project.version}</tagNameFormat>
                 </configuration>
             </plugin>
 
