@@ -52,41 +52,41 @@
                 <groupId>org.solovyev.android</groupId>
                 <artifactId>android-common-core</artifactId>
                 <type>apklib</type>
-                <version>1.0.0</version>
+                <version>1.0.2</version>
             </dependency>
 
             <dependency>
                 <groupId>org.solovyev.android</groupId>
                 <artifactId>android-common-ads</artifactId>
                 <type>apklib</type>
-                <version>1.0.0</version>
+                <version>1.0.2</version>
             </dependency>
 
             <dependency>
                 <groupId>org.solovyev.android</groupId>
                 <artifactId>android-common-view</artifactId>
                 <type>apklib</type>
-                <version>1.0.0</version>
+                <version>1.0.2</version>
             </dependency>
 
             <dependency>
                 <groupId>org.solovyev.android</groupId>
                 <artifactId>android-common-preferences</artifactId>
                 <type>apklib</type>
-                <version>1.0.0</version>
+                <version>1.0.2</version>
             </dependency>
 
             <dependency>
                 <groupId>org.solovyev.android</groupId>
                 <artifactId>android-common-menu</artifactId>
                 <type>apklib</type>
-                <version>1.0.0</version>
+                <version>1.0.2</version>
             </dependency>
 
             <dependency>
                 <groupId>org.solovyev.android</groupId>
                 <artifactId>android-common-sherlock</artifactId>
-                <version>1.0.0</version>
+                <version>1.0.2</version>
                 <type>apklib</type>
             </dependency>
 
