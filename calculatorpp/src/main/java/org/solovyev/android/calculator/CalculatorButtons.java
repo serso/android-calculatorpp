@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RemoteViews;
 import android.widget.Toast;
 import jscl.AngleUnit;
 import jscl.NumeralBase;
@@ -59,7 +60,9 @@ public final class CalculatorButtons {
         }
     }
 
-
+    public static void initMultiplicationButton(@NotNull RemoteViews views) {
+        views.setTextViewText(R.id.multiplicationButton, CalculatorLocatorImpl.getInstance().getEngine().getMultiplicationSign());
+    }
 
     public static void toggleEqualsButton(@Nullable SharedPreferences preferences,
                                           @NotNull Activity activity) {
