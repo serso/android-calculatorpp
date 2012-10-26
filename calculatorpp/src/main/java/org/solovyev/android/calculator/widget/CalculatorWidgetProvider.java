@@ -181,19 +181,11 @@ public class CalculatorWidgetProvider extends AppWidgetProvider {
 
     private void updateDisplayState(@NotNull Context context, @NotNull RemoteViews views, @NotNull CalculatorDisplayViewState displayState) {
         if (displayState.isValid()) {
-            setText(views, R.id.calculatorDisplay, displayState.getText());
-            setTextColor(views, R.id.calculatorDisplay, context.getResources().getColor(R.color.default_text_color));
+            views.setTextViewText(R.id.calculatorDisplay, displayState.getText());
+            views.setTextColor(R.id.calculatorDisplay, context.getResources().getColor(R.color.default_text_color));
         } else {
-            setTextColor(views, R.id.calculatorDisplay, context.getResources().getColor(R.color.display_error_text_color));
+            views.setTextColor(R.id.calculatorDisplay, context.getResources().getColor(R.color.display_error_text_color));
         }
-    }
-
-    private void setText(@NotNull RemoteViews views, int textViewId, @Nullable CharSequence text) {
-        views.setTextViewText(textViewId, text);
-    }
-
-    private void setTextColor(@NotNull RemoteViews views, int textViewId, int textColor) {
-        views.setTextColor(textViewId, textColor);
     }
 
     private void updateEditorState(@NotNull Context context, @NotNull RemoteViews views, @NotNull CalculatorEditorViewState editorState) {
@@ -206,7 +198,7 @@ public class CalculatorWidgetProvider extends AppWidgetProvider {
             newText = Html.fromHtml(text.substring(0, selection) + "<font color=\"#" + getCursorColor(context) + "\">|</font>" + text.substring(selection));
         }
         CalculatorLocatorImpl.getInstance().getNotifier().showDebugMessage(TAG, "New editor state: " + text);
-        setText(views, R.id.calculatorEditor, newText);
+        views.setTextViewText(R.id.calculatorEditor, newText);
     }
 
     /*
