@@ -219,7 +219,7 @@
                                     <alias>${sign.alias}</alias>
                                     <storepass>${sign.storepass}</storepass>
                                     <keypass>${sign.keypass}</keypass>
-                                    <verbose>false</verbose>
+                                    <verbose>true</verbose>
                                 </configuration>
                             </execution>
                         </executions>
@@ -238,7 +238,7 @@
                             </sign>
 
                             <zipalign>
-                                <verbose>false</verbose>
+                                <verbose>true</verbose>
                                 <inputApk>${project.build.directory}/${project.artifactId}-${project.version}.apk</inputApk>
                                 <outputApk>${project.build.directory}/${project.artifactId}-${project.version}-signed-aligned.apk</outputApk>
                             </zipalign>
