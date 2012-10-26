@@ -51,6 +51,8 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
     @NotNull
     private final Executor eventExecutor = Executors.newFixedThreadPool(1);
 
+    private volatile boolean calculateOnFly = true;
+
     public CalculatorImpl() {
         this.addCalculatorEventListener(this);
     }
@@ -84,8 +86,8 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
     @Override
     public void evaluate() {
         final CalculatorEditorViewState viewState = getEditor().getViewState();
-        fireCalculatorEvent(CalculatorEventType.manual_calculation_requested, viewState);
-        this.evaluate(JsclOperation.numeric, viewState.getText());
+        final CalculatorEventData eventData = fireCalculatorEvent(CalculatorEventType.manual_calculation_requested, viewState);
+        this.evaluate(JsclOperation.numeric, viewState.getText(), eventData.getSequenceId());
     }
 
     @Override
@@ -98,8 +100,8 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
     @Override
     public void simplify() {
         final CalculatorEditorViewState viewState = getEditor().getViewState();
-        fireCalculatorEvent(CalculatorEventType.manual_calculation_requested, viewState);
-        this.evaluate(JsclOperation.simplify, viewState.getText());
+        final CalculatorEventData eventData = fireCalculatorEvent(CalculatorEventType.manual_calculation_requested, viewState);
+        this.evaluate(JsclOperation.simplify, viewState.getText(), eventData.getSequenceId());
     }
 
     @NotNull
@@ -138,6 +140,10 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
     public void init() {
         CalculatorLocatorImpl.getInstance().getEngine().init();
         CalculatorLocatorImpl.getInstance().getHistory().load();
+    }
+
+    public void setCalculateOnFly(boolean calculateOnFly) {
+        this.calculateOnFly = calculateOnFly;
     }
 
     @NotNull
@@ -389,13 +395,15 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 
         switch (calculatorEventType) {
             case editor_state_changed:
-                final CalculatorEditorChangeEventData editorChangeEventData = (CalculatorEditorChangeEventData) data;
+                if (calculateOnFly) {
+                    final CalculatorEditorChangeEventData editorChangeEventData = (CalculatorEditorChangeEventData) data;
 
-                final String newText = editorChangeEventData.getNewValue().getText();
-                final String oldText = editorChangeEventData.getOldValue().getText();
+                    final String newText = editorChangeEventData.getNewValue().getText();
+                    final String oldText = editorChangeEventData.getOldValue().getText();
 
-                if (!newText.equals(oldText)) {
-                    evaluate(JsclOperation.numeric, editorChangeEventData.getNewValue().getText(), calculatorEventData.getSequenceId());
+                    if (!newText.equals(oldText)) {
+                        evaluate(JsclOperation.numeric, editorChangeEventData.getNewValue().getText(), calculatorEventData.getSequenceId());
+                    }
                 }
                 break;
 

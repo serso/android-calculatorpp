@@ -83,7 +83,7 @@ public class CalculatorApplication extends android.app.Application {
 
         super.onCreate();
 
-        final AndroidCalculator calculator = new AndroidCalculator();
+        final AndroidCalculator calculator = new AndroidCalculator(this);
 
         CalculatorLocatorImpl.getInstance().init(calculator,
                 new AndroidCalculatorEngine(this),

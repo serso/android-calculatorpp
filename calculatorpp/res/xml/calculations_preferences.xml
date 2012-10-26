@@ -51,6 +51,11 @@
                 a:defaultValue="5"
                 range:boundaries="3;1000"/>
 
+        <android.preference.CheckBoxPreference
+                a:key="calculations_calculate_on_fly"
+                a:title="@string/p_calculations_calculate_on_fly_title"
+                a:summary="@string/p_calculations_calculate_on_fly_summary"/>
+
     </PreferenceScreen>
 
 </PreferenceScreen>

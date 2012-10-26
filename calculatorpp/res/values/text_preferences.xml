@@ -10,4 +10,7 @@
 
     <string name="prefs_history_show_intermediate_calculations_title">Show intermediate calculations in history</string>
     <string name="prefs_history_show_intermediate_calculations_summary">If turned on all calculations will be shown on history screen</string>
+
+    <string name="p_calculations_calculate_on_fly_title">Result is calculated while typing expression</string>
+    <string name="p_calculations_calculate_on_fly_summary">If turned on calculations are done automatically while typing expression</string>
 </resources>

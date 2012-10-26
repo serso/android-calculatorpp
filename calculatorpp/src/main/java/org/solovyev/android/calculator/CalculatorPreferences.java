@@ -29,6 +29,12 @@ public final class CalculatorPreferences {
     public static final Preference<Integer> appVersion = new IntegerPreference("application.version", -1);
     public static final Preference<Integer> appOpenedCounter = new IntegerPreference("app_opened_counter", 0);
 
+    public static class Calculations {
+
+        public static final Preference<Boolean> calculateOnFly = new BooleanPreference("calculations_calculate_on_fly", true);
+
+    }
+
     public static class Gui {
 
         public static final Preference<Theme> theme = StringPreference.newInstance("org.solovyev.android.calculator.CalculatorActivity_calc_theme", Theme.metro_blue_theme, Theme.class);
@@ -169,6 +175,7 @@ public final class CalculatorPreferences {
         applyDefaultPreference(preferences, Graph.lineColorImag);
         applyDefaultPreference(preferences, Graph.lineColorReal);
         applyDefaultPreference(preferences, History.showIntermediateCalculations);
+        applyDefaultPreference(preferences, Calculations.calculateOnFly);
 
         if ( !VibratorContainer.Preferences.hapticFeedbackEnabled.isSet(preferences) ) {
             VibratorContainer.Preferences.hapticFeedbackEnabled.putPreference(preferences, true);

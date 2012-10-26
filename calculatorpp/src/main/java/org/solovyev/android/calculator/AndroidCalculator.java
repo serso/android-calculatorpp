@@ -2,7 +2,10 @@ package org.solovyev.android.calculator;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -21,13 +24,19 @@ import java.util.List;
  * Date: 9/22/12
  * Time: 5:42 PM
  */
-public class AndroidCalculator implements Calculator, CalculatorEventListener {
+public class AndroidCalculator implements Calculator, CalculatorEventListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
     @NotNull
-    private final Calculator calculator = new CalculatorImpl();
+    private final CalculatorImpl calculator = new CalculatorImpl();
 
-    public AndroidCalculator() {
+    @NotNull
+    private final Application context;
+
+    public AndroidCalculator(@NotNull Application application) {
+        this.context = application;
         this.calculator.addCalculatorEventListener(this);
+
+        PreferenceManager.getDefaultSharedPreferences(application).registerOnSharedPreferenceChangeListener(this);
     }
 
     public static void showEvaluationError(@NotNull Context context, @NotNull final String errorMessage) {
@@ -121,6 +130,9 @@ public class AndroidCalculator implements Calculator, CalculatorEventListener {
     @Override
     public void init() {
         this.calculator.init();
+
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        this.calculator.setCalculateOnFly(CalculatorPreferences.Calculations.calculateOnFly.getPreference(prefs));
     }
 
     @Override
@@ -213,6 +225,13 @@ public class AndroidCalculator implements Calculator, CalculatorEventListener {
             case open_app:
                 CalculatorActivityLauncher.openApp(CalculatorApplication.getInstance());
                 break;
+        }
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(@NotNull SharedPreferences prefs, @NotNull String key) {
+        if ( CalculatorPreferences.Calculations.calculateOnFly.getKey().equals(key) ) {
+            this.calculator.setCalculateOnFly(CalculatorPreferences.Calculations.calculateOnFly.getPreference(prefs));
         }
     }
 }
