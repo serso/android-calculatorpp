@@ -115,6 +115,7 @@
 	<string name="c_calc_layout">Layout</string>
 	<string name="p_layout_cellphone">Scientific (cellphone)</string>
 	<string name="p_layout_calculator">Scientific</string>
+	<string name="p_layout_calculator_mobile">Scientific (Mobile)</string>
 	<string name="p_layout_simple">Simple</string>
 	<string name="c_calc_layout_summary">Sets layout of buttons</string>
 

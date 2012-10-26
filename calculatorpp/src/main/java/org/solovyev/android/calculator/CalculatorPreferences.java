@@ -95,6 +95,7 @@ public final class CalculatorPreferences {
 
         public static enum Layout {
             main_calculator(R.layout.main_calculator),
+            main_calculator_mobile(R.layout.main_calculator_mobile),
 
             // not used anymore
             @Deprecated

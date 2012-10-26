@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+  ~ For more information, please, contact se.solovyev@gmail.com
+  ~ or visit http://se.solovyev.org
+  -->
+
+<org.solovyev.android.calculator.AndroidCalculatorDisplayView
+		xmlns:a="http://schemas.android.com/apk/res/android"
+		a:id="@+id/calculatorDisplay"
+		style="@style/display_style"
+        a:padding="@dimen/display_padding"
+		a:inputType="textMultiLine"
+		a:maxLines="3"
+		a:scrollHorizontally="false"
+		a:scrollbars="none"/>

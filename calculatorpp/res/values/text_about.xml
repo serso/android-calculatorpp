@@ -223,4 +223,10 @@
         2. Ans variable (last calculated value)
     </string>
 
+    <string name="c_release_notes_for_103">
+        1. Calculator++ widget for home screen (works only if app installed in phone memory)\n
+        2. Mobile phone layout for tablets (Preferences->Appearance Preferences->Layout->Scientific (Mobile))\n
+        3. Manual calculations (Preferences->Calculations Preferences->Result is calculated…)
+    </string>
+
 </resources>

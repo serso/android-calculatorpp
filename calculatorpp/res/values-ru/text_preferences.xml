@@ -10,4 +10,7 @@
 
     <string name="prefs_history_show_intermediate_calculations_title">Показывать промежуточные вычисления на экране истории</string>
     <string name="prefs_history_show_intermediate_calculations_summary">Если включено, то все вычисления будут показаны на экране истории</string>
+
+    <string name="p_calculations_calculate_on_fly_title">Результат вычисляется по мере ввода выражения</string>
+    <string name="p_calculations_calculate_on_fly_summary">Если включено, то результат вычисляется по мере ввода выражения</string>
 </resources>

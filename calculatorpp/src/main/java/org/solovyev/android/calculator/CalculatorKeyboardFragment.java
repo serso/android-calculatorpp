@@ -30,7 +30,13 @@ public class CalculatorKeyboardFragment extends SherlockFragment implements Shar
 
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
 
-        fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(R.layout.calc_keyboard);
+        final CalculatorPreferences.Gui.Layout layout = CalculatorPreferences.Gui.getLayout(preferences);
+        if (layout == CalculatorPreferences.Gui.Layout.main_calculator_mobile) {
+            fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(R.layout.calc_keyboard_mobile);
+        } else {
+            fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(R.layout.calc_keyboard);
+        }
+
         fragmentHelper.onCreate(this);
 
         preferences.registerOnSharedPreferenceChangeListener(this);
