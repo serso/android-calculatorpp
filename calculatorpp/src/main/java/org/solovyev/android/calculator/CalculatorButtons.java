@@ -64,6 +64,7 @@ public final class CalculatorButtons {
         views.setTextViewText(R.id.multiplicationButton, CalculatorLocatorImpl.getInstance().getEngine().getMultiplicationSign());
     }
 
+
     public static void toggleEqualsButton(@Nullable SharedPreferences preferences,
                                           @NotNull Activity activity) {
         preferences = preferences == null ? PreferenceManager.getDefaultSharedPreferences(activity) : preferences;

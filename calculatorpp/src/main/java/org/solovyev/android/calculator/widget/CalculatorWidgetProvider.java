@@ -117,10 +117,10 @@ public class CalculatorWidgetProvider extends AppWidgetProvider {
                 }
             }
 
-            CalculatorButtons.initMultiplicationButton(views);
-
             updateEditorState(context, views, editorState);
             updateDisplayState(context, views, displayState);
+
+            CalculatorButtons.initMultiplicationButton(views);
 
             appWidgetManager.updateAppWidget(appWidgetId, views);
         }
