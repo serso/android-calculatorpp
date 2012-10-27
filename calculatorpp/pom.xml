@@ -196,10 +196,6 @@
                                     <includes>
                                         <include>${project.build.directory}/${project.artifactId}-${project.version}.apk</include>
                                     </includes>
-                                    <keystore>${sign.keystore}</keystore>
-                                    <alias>${sign.alias}</alias>
-                                    <storepass>${sign.storepass}</storepass>
-                                    <keypass>${sign.keypass}</keypass>
                                     <verbose>true</verbose>
                                 </configuration>
 
