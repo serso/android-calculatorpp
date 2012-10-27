@@ -237,7 +237,8 @@
                 <version>2.3.2</version>
                 <configuration>
                     <mavenExecutorId>forked-path</mavenExecutorId>
-                    <releaseProfiles>sonatype-oss-release, release</releaseProfiles>
+                    <useReleaseProfile>false</useReleaseProfile>
+                    <arguments>-Psonatype-oss-release, release</arguments>
                     <tagNameFormat>release-@{project.version}</tagNameFormat>
                 </configuration>
             </plugin>
