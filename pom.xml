@@ -22,11 +22,6 @@
         <tag>HEAD</tag>
     </scm>
 
-    <prerequisites>
-        <maven>3.0.4</maven>
-    </prerequisites>
-
-
     <modules>
         <module>calculatorpp</module>
         <module>calculatorpp-test</module>
