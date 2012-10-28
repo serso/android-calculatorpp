@@ -63,7 +63,7 @@ public class CalculatorActivityLauncher {
 	}
 
 	public static void showFunctions(@NotNull final Context context) {
-        showHistory(context, false);
+        showFunctions(context, false);
     }
 
 	public static void showFunctions(@NotNull final Context context, boolean detached) {
