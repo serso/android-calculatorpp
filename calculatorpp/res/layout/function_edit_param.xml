@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+    a:layout_height="wrap_content"
+    a:layout_width="match_parent"
+    a:orientation="horizontal">
+
+    <Button
+        a:id="@+id/function_add_param_button"
+        a:layout_height="wrap_content"
+        a:layout_width="wrap_content"
+        a:text="+" />
+
+    <Button
+        a:id="@+id/function_remove_param_button"
+        a:layout_height="wrap_content"
+        a:layout_width="wrap_content"
+        a:visibility="gone"
+        a:text="-" />
+
+    <EditText
+        a:layout_height="wrap_content"
+        a:layout_width="match_parent"
+        style="@style/default_text_size"
+        a:inputType="text" />
+
+</LinearLayout>

@@ -10,12 +10,19 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.ClipboardManager;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+import jscl.math.function.CustomFunction;
 import jscl.math.function.Function;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.CalculatorEventType;
 import org.solovyev.android.calculator.CalculatorLocatorImpl;
+import org.solovyev.android.calculator.CalculatorMathRegistry;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.about.CalculatorFragmentType;
+import org.solovyev.android.calculator.function.FunctionEditDialogFragment;
 import org.solovyev.android.menu.AMenuItem;
 import org.solovyev.android.menu.LabeledMenuItem;
 import org.solovyev.common.text.StringUtils;
@@ -31,7 +38,7 @@ import java.util.List;
  */
 public class CalculatorFunctionsFragment extends AbstractMathEntityListFragment<Function> {
 
-	public static final String CREATE_FUN_EXTRA_STRING = "org.solovyev.android.calculator.math.edit.CalculatorFunctionsTabActivity_create_fun";
+	public static final String CREATE_FUNCTION_EXTRA_STRING = "create_function";
 
     public CalculatorFunctionsFragment() {
         super(CalculatorFragmentType.functions);
@@ -67,6 +74,8 @@ public class CalculatorFunctionsFragment extends AbstractMathEntityListFragment<
 				intent.removeExtra(CREATE_FUN_EXTRA_STRING);
 			}
 		}*/
+        setHasOptionsMenu(true);
+
 	}
 
     @Override
@@ -78,10 +87,16 @@ public class CalculatorFunctionsFragment extends AbstractMathEntityListFragment<
 	@Override
 	protected List<LabeledMenuItem<Function>> getMenuItemsOnLongClick(@NotNull Function item) {
 		List<LabeledMenuItem<Function>> result = new ArrayList<LabeledMenuItem<Function>>(Arrays.asList(LongClickMenuItem.values()));
-		
-		if ( StringUtils.isEmpty(CalculatorLocatorImpl.getInstance().getEngine().getFunctionsRegistry().getDescription(item.getName())) ) {
+
+        final CalculatorMathRegistry<Function> functionsRegistry = CalculatorLocatorImpl.getInstance().getEngine().getFunctionsRegistry();
+        if ( StringUtils.isEmpty(functionsRegistry.getDescription(item.getName())) ) {
 			result.remove(LongClickMenuItem.copy_description);
 		}
+
+        final Function function = functionsRegistry.get(item.getName());
+        if (!(function instanceof CustomFunction)) {
+            result.remove(LongClickMenuItem.edit);
+        }
 		
 		return result;
 	}
@@ -189,6 +204,35 @@ public class CalculatorFunctionsFragment extends AbstractMathEntityListFragment<
 		return CalculatorLocatorImpl.getInstance().getEngine().getFunctionsRegistry().getCategory(function);
 	}
 
+        /*
+    **********************************************************************
+    *
+    *                           MENU
+    *
+    **********************************************************************
+    */
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.functions_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        boolean result;
+
+        switch (item.getItemId()) {
+            case R.id.functions_menu_add_function:
+                FunctionEditDialogFragment.showDialog(FunctionEditDialogFragment.Input.newInstance(), this.getActivity().getSupportFragmentManager());
+                result = true;
+                break;
+            default:
+                result = super.onOptionsItemSelected(item);
+        }
+
+        return result;
+    }
+
     /*
     **********************************************************************
     *
@@ -205,13 +249,14 @@ public class CalculatorFunctionsFragment extends AbstractMathEntityListFragment<
             }
         },
 
-        /*edit(R.string.c_edit) {
-              @Override
-              public void doAction(@NotNull Function data, @NotNull Context context) {
-                  if (context instanceof AbstractMathEntityListActivity) {
-                  }
-              }
-          },*/
+        edit(R.string.c_edit) {
+            @Override
+            public void onClick(@NotNull Function function, @NotNull Context context) {
+                if (function instanceof CustomFunction) {
+                    FunctionEditDialogFragment.showDialog(FunctionEditDialogFragment.Input.newFromFunction((CustomFunction) function), ((SherlockFragmentActivity) context).getSupportFragmentManager());
+                }
+            }
+        },
 
         copy_description(R.string.c_copy_description) {
             @Override

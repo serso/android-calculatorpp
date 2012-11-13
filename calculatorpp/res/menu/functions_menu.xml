@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+  ~ For more information, please, contact se.solovyev@gmail.com
+  ~ or visit http://se.solovyev.org
+  -->
+
+<menu xmlns:a="http://schemas.android.com/apk/res/android">
+
+	<item a:id="@+id/functions_menu_add_function"
+		  a:title="@string/c_add"
+          a:icon="@drawable/ab_add"
+          a:showAsAction="always"/>
+</menu>

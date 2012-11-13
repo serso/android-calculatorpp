@@ -132,7 +132,7 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.var_menu, menu);
+        inflater.inflate(R.menu.vars_menu, menu);
     }
 
     @Override

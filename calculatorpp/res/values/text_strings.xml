@@ -234,4 +234,9 @@
     <string name="p_blue_line_color">Blue</string>
     <string name="p_green_line_color">Green</string>
 
+    <string name="c_function_name">Name</string>
+    <string name="c_function_value">Value</string>
+    <string name="c_function_description">Description</string>
+    <string name="c_function_parameters">Parameters</string>
+
 </resources>
