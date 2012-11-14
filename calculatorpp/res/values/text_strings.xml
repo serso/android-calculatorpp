@@ -54,7 +54,7 @@
 	<string name="c_remove">Remove</string>
 	<string name="c_yes">Yes</string>
 	<string name="c_no">No</string>
-	<string name="c_var_removal_confirmation">Removal confirmation</string>
+	<string name="removal_confirmation">Removal confirmation</string>
 	<string name="c_var_removal_confirmation_question">Do you really want to delete \'%s\' variable?</string>
 	<string name="c_var_name">Name</string>
 	<string name="c_var_value">Value</string>
@@ -246,5 +246,6 @@
 	<string name="function_name_clashes">Function name clashes with function name!</string>
 	<string name="function_is_empty">Function body could not be empty!</string>
 	<string name="function_param_not_empty">Function parameter should not be empty!</string>
+    <string name="function_removal_confirmation_question">Do you really want to delete \'%s\' function?</string>
 
 </resources>

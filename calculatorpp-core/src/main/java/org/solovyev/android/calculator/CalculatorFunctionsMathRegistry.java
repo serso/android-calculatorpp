@@ -16,6 +16,7 @@ import org.solovyev.android.calculator.model.MathEntityBuilder;
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathRegistry;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -96,7 +97,7 @@ public class CalculatorFunctionsMathRegistry extends AbstractCalculatorMathRegis
 			final AFunction result = new AFunction();
 			result.setName(entity.getName());
 			result.setContent(((CustomFunction) entity).getContent());
-			result.setParameterNames(((CustomFunction) entity).getParameterNames());
+			result.setParameterNames(new ArrayList<String>(((CustomFunction) entity).getParameterNames()));
 			return result;
 		} else {
 			return null;

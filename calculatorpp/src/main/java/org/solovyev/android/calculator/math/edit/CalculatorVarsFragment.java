@@ -234,7 +234,7 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
         remove(R.string.c_remove) {
             @Override
             public void onClick(@NotNull IConstant constant, @NotNull Context context) {
-                new MathEntityRemover<IConstant>(constant, null, CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry(), context, context).showConfirmationDialog();
+                MathEntityRemover.newConstantRemover(constant, null, context, context).showConfirmationDialog();
             }
         },
 

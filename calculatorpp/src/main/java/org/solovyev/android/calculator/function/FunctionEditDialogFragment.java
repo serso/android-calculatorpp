@@ -6,19 +6,18 @@ import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import jscl.math.function.CustomFunction;
 import jscl.math.function.Function;
 import jscl.math.function.IFunction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.AndroidUtils2;
-import org.solovyev.android.calculator.CalculatorEventData;
-import org.solovyev.android.calculator.CalculatorEventListener;
-import org.solovyev.android.calculator.CalculatorEventType;
-import org.solovyev.android.calculator.CalculatorLocatorImpl;
-import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.math.edit.MathEntityRemover;
 import org.solovyev.android.calculator.model.AFunction;
+
+import java.util.List;
 
 /**
  * User: serso
@@ -30,10 +29,7 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
     @NotNull
     private final Input input;
 
-	@NotNull
-	private FunctionParamsView paramsView;
-
-	public FunctionEditDialogFragment() {
+    public FunctionEditDialogFragment() {
         this(Input.newInstance());
     }
 
@@ -50,17 +46,33 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
     public void onViewCreated(@NotNull View root, Bundle savedInstanceState) {
         super.onViewCreated(root, savedInstanceState);
 
-		paramsView = (FunctionParamsView) root.findViewById(R.id.function_params_layout);
+        final FunctionParamsView paramsView = (FunctionParamsView) root.findViewById(R.id.function_params_layout);
 
 		final AFunction.Builder builder;
 		final IFunction function = input.getFunction();
 		if (function != null) {
 			builder = new AFunction.Builder(function);
-			paramsView.init(function.getParameterNames());
 		} else {
 			builder = new AFunction.Builder();
-			paramsView.init();
-		}
+        }
+
+        final List<String> parameterNames = input.getParameterNames();
+        if (parameterNames != null) {
+            paramsView.init(parameterNames);
+        } else {
+            paramsView.init();
+        }
+
+        final EditText editName = (EditText) root.findViewById(R.id.function_edit_name);
+        // show soft keyboard automatically
+        editName.requestFocus();
+        editName.setText(input.getName());
+
+        final EditText editDescription = (EditText) root.findViewById(R.id.function_edit_description);
+        editDescription.setText(input.getDescription());
+
+        final EditText editContent = (EditText) root.findViewById(R.id.function_edit_value);
+        editContent.setText(input.getContent());
 
 		root.findViewById(R.id.cancel_button).setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -81,7 +93,7 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
 			getDialog().setTitle(R.string.function_edit_function);
 
 			Function customFunction = new CustomFunction.Builder(function).create();
-			root.findViewById(R.id.remove_button).setOnClickListener(new MathEntityRemover<Function>(customFunction, null, CalculatorLocatorImpl.getInstance().getEngine().getFunctionsRegistry(), getActivity(), this));
+			root.findViewById(R.id.remove_button).setOnClickListener(MathEntityRemover.newFunctionRemover(customFunction, null, this.getActivity(), FunctionEditDialogFragment.this));
 		}
 	}
 
@@ -105,7 +117,7 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
 			case function_removed:
 			case function_added:
 			case function_changed:
-				if ( calculatorEventData.getSource() == this ) {
+				if ( calculatorEventData.getSource() == FunctionEditDialogFragment.this ) {
 					dismiss();
 				}
 				break;
@@ -134,10 +146,13 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
         private String name;
 
         @Nullable
-        private String value;
+        private String content;
 
         @Nullable
         private String description;
+
+        @Nullable
+        private List<String> parameterNames;
 
         private Input() {
         }
@@ -157,16 +172,20 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
         @NotNull
         public static Input newFromValue(@Nullable String value) {
             final Input result = new Input();
-            result.value = value;
+            result.content = value;
             return result;
         }
 
         @NotNull
-        public static Input newInstance(@Nullable IFunction function, @Nullable String name, @Nullable String value, @Nullable String description) {
+        public static Input newInstance(@Nullable IFunction function,
+                                        @Nullable String name,
+                                        @Nullable String value,
+                                        @Nullable String description) {
+
             final Input result = new Input();
             result.function = function;
             result.name = name;
-            result.value = value;
+            result.content = value;
             result.description = description;
             return result;
         }
@@ -182,13 +201,18 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
         }
 
         @Nullable
-        public String getValue() {
-            return value == null ? (function == null ? null : function.getContent()) : value;
+        public String getContent() {
+            return content == null ? (function == null ? null : function.getContent()) : content;
         }
 
         @Nullable
         public String getDescription() {
-            return description == null ? (function == null ? null : function.getContent()) : description;
+            return description == null ? (function == null ? null : function.getDescription()) : description;
+        }
+
+        @Nullable
+        public List<String> getParameterNames() {
+            return parameterNames == null ? (function == null ? null : function.getParameterNames()) : parameterNames;
         }
     }
 }

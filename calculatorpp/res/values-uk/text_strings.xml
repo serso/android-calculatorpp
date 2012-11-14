@@ -54,7 +54,7 @@
 	<string name="c_remove">Вилучити</string>
 	<string name="c_yes">Так</string>
 	<string name="c_no">Ні</string>
-	<string name="c_var_removal_confirmation">Підтвердження вилучення</string>
+	<string name="removal_confirmation">Підтвердження вилучення</string>
 	<string name="c_var_removal_confirmation_question">Ви дійсно хочете вилучити змінну \'%s\'?</string>
 	<string name="c_var_name">Ім’я</string>
 	<string name="c_var_value">Значення</string>

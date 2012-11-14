@@ -121,7 +121,7 @@ public class VarEditDialogFragment extends DialogFragment implements CalculatorE
             // EDIT MODE
             getDialog().setTitle(R.string.c_var_edit_var);
 
-            root.findViewById(R.id.remove_button).setOnClickListener(new MathEntityRemover<IConstant>(constant, null, CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry(), getActivity(), this));
+            root.findViewById(R.id.remove_button).setOnClickListener(MathEntityRemover.newConstantRemover(constant, null, getActivity(), VarEditDialogFragment.this));
         }
     }
 

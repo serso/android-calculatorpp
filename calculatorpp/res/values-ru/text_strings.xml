@@ -54,7 +54,7 @@
 	<string name="c_remove">Удалить</string>
 	<string name="c_yes">Да</string>
 	<string name="c_no">Нет</string>
-	<string name="c_var_removal_confirmation">Подтверждение удаления</string>
+	<string name="removal_confirmation">Подтверждение удаления</string>
 	<string name="c_var_removal_confirmation_question">Вы действительно хотите удалить переменную \'%s\'?</string>
 	<string name="c_var_name">Имя</string>
 	<string name="c_var_value">Значение</string>

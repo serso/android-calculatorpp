@@ -11,7 +11,6 @@ import org.solovyev.android.calculator.CalculatorFunctionsMathRegistry;
 import org.solovyev.android.calculator.CalculatorLocatorImpl;
 import org.solovyev.android.calculator.CalculatorMathRegistry;
 import org.solovyev.android.calculator.R;
-import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.math.edit.VarEditorSaver;
 import org.solovyev.android.calculator.model.AFunction;
 import org.solovyev.android.calculator.model.MathEntityBuilder;
@@ -84,23 +83,17 @@ public class FunctionEditorSaver implements View.OnClickListener {
 
 			if (canBeSaved) {
 				if (validateParameters(parameterNames)) {
-					final MathType.Result mathType = MathType.getType(name, 0, false);
 
-					if (mathType.getMathType() == MathType.text || mathType.getMathType() == MathType.function ) {
-
-						if (!StringUtils.isEmpty(content)) {
-							builder.setParameterNames(parameterNames);
-							builder.setName(name);
-							builder.setDescription(description);
-							builder.setValue(content);
-							error = null;
-						} else {
-							error = R.string.function_is_empty;
-						}
-					} else {
-						error = R.string.function_name_clashes;
-					}
-				} else {
+                    if (!StringUtils.isEmpty(content)) {
+                        builder.setParameterNames(parameterNames);
+                        builder.setName(name);
+                        builder.setDescription(description);
+                        builder.setValue(content);
+                        error = null;
+                    } else {
+                        error = R.string.function_is_empty;
+                    }
+                } else {
 					error = R.string.function_param_not_empty;
 				}
 			} else {

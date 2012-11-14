@@ -49,7 +49,7 @@
 	<string name="c_remove">Rimuovi</string>
 	<string name="c_yes">Sì</string>
 	<string name="c_no">No</string>
-	<string name="c_var_removal_confirmation">Conferma rimozione</string>
+	<string name="removal_confirmation">Conferma rimozione</string>
 	<string name="c_var_removal_confirmation_question">Vuoi davvero cancellare la variabile \'%s\'?</string>
 	<string name="c_var_name">Nome</string>
 	<string name="c_var_value">Valore</string>

@@ -6,16 +6,18 @@
 
 package org.solovyev.android.calculator.model;
 
-import jscl.math.function.IConstant;
 import jscl.math.function.IFunction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.simpleframework.xml.Element;
+import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 import org.simpleframework.xml.Transient;
 import org.solovyev.android.calculator.MathPersistenceEntity;
 import org.solovyev.common.math.MathEntity;
+import org.solovyev.common.text.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -25,7 +27,7 @@ import java.util.List;
  * Time: 5:25 PM
  */
 
-@Root
+@Root(name = "function")
 public class AFunction implements IFunction, MathPersistenceEntity {
 
 	/*
@@ -42,20 +44,20 @@ public class AFunction implements IFunction, MathPersistenceEntity {
 	@NotNull
 	private String name;
 
-	@Element
+	@Element(name = "body")
 	@NotNull
 	private String content;
 
-	@Element(required = false)
+	@ElementList
 	@NotNull
-	private List<String> parameterNames = Collections.emptyList();
+	private List<String> parameterNames = new ArrayList<String>();
 
 	@Element
 	private boolean system;
 
 	@Element(required = false)
-	@Nullable
-	private String description;
+	@NotNull
+	private String description = "";
 
 	/*
 	**********************************************************************
@@ -86,7 +88,7 @@ public class AFunction implements IFunction, MathPersistenceEntity {
 			final IFunction that = ((IFunction) mathEntity);
 			this.name = that.getName();
 			this.content = that.getContent();
-			this.description = this.getContent();
+			this.description = StringUtils.getNotEmpty(this.getDescription(), "");
 			this.system = that.isSystem();
 			if (that.isIdDefined()) {
 				this.id = that.getId();
@@ -104,7 +106,7 @@ public class AFunction implements IFunction, MathPersistenceEntity {
 	/*
 	**********************************************************************
 	*
-	*                           GETTERS/SEETTERS
+	*                           GETTERS/SETTERS
 	*
 	**********************************************************************
 	*/
@@ -144,8 +146,8 @@ public class AFunction implements IFunction, MathPersistenceEntity {
 		return content;
 	}
 
-	@Nullable
-	@Override
+	@NotNull
+    @Override
 	public String getDescription() {
 		return this.description;
 	}
@@ -201,29 +203,15 @@ public class AFunction implements IFunction, MathPersistenceEntity {
 			this.id = function.getId();
 		}
 
-		public Builder(@NotNull IConstant function) {
-			this.name = function.getName();
+        public Builder(@NotNull String name,
+                       @NotNull String value,
+                       @NotNull List<String> parameterNames) {
+            this.name = name;
+            this.value = value;
+            this.parameterNames = parameterNames;
+        }
 
-			this.value = function.getValue();
-
-			this.system = function.isSystem();
-			this.description = function.getDescription();
-			if (function.isIdDefined()) {
-				this.id = function.getId();
-			}
-		}
-
-		public Builder(@NotNull String name, @NotNull Double value) {
-			this(name, String.valueOf(value));
-		}
-
-		public Builder(@NotNull String name, @Nullable String value) {
-			this.name = name;
-			this.value = value;
-		}
-
-
-		@NotNull
+        @NotNull
 		public Builder setName(@NotNull String name) {
 			this.name = name;
 			return this;
@@ -262,8 +250,8 @@ public class AFunction implements IFunction, MathPersistenceEntity {
 			result.name = name;
 			result.content = value;
 			result.system = system;
-			result.description = description;
-			result.parameterNames = parameterNames;
+			result.description = StringUtils.getNotEmpty(description, "");
+			result.parameterNames = new ArrayList<String>(parameterNames);
 
 			return result;
 		}

@@ -72,12 +72,6 @@ public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, St
 				}
 			}
 
-			if (mathTypeBefore != null &&
-					(mathTypeBefore.getMathType() == MathType.function || mathTypeBefore.getMathType() == MathType.operator) &&
-						CollectionsUtils.find(MathType.openGroupSymbols, startsWithFinder) != null) {
-                throw new CalculatorParseException(i, s, new CalculatorMessage(CalculatorMessages.msg_005, MessageType.error, mathTypeBefore.getMatch()));
-			}
-
 			i = mathTypeResult.processToJscl(result, i);
 		}
 		return result;
