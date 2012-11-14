@@ -9,11 +9,14 @@ package org.solovyev.android.calculator;
 import jscl.math.function.CustomFunction;
 import jscl.math.function.Function;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.model.AFunction;
 import org.solovyev.android.calculator.model.Functions;
+import org.solovyev.android.calculator.model.MathEntityBuilder;
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathRegistry;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,7 +45,24 @@ public class CalculatorFunctionsMathRegistry extends AbstractCalculatorMathRegis
 	public void load() {
 		super.load();
 
-		add(new CustomFunction.Builder(true, "log", new String[]{"base", "x"}, "ln(x)/ln(base)"));
+		add(new CustomFunction.Builder(true, "log", Arrays.asList("base", "x"), "ln(x)/ln(base)"));
+	}
+
+	public static void saveFunction(@NotNull CalculatorMathRegistry<Function> registry,
+									@NotNull MathEntityBuilder<? extends Function> builder,
+									@Nullable Function editedInstance,
+									@NotNull Object source, boolean save) {
+		final Function addedFunction = registry.add(builder);
+
+		if (save) {
+			registry.save();
+		}
+
+		if (editedInstance == null) {
+			CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.function_added, addedFunction, source);
+		} else {
+			CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.function_changed, ChangeImpl.newInstance(editedInstance, addedFunction), source);
+		}
 	}
 
 	@NotNull
@@ -65,7 +85,9 @@ public class CalculatorFunctionsMathRegistry extends AbstractCalculatorMathRegis
 	@NotNull
 	@Override
 	protected JBuilder<? extends Function> createBuilder(@NotNull AFunction entity) {
-		return new CustomFunction.Builder(entity.getName(), entity.getParameterNamesAsArray(), entity.getContent());
+		CustomFunction.Builder builder = new CustomFunction.Builder(entity.getName(), entity.getParameterNames(), entity.getContent());
+		builder.setDescription(entity.getDescription());
+		return builder;
 	}
 
     @Override

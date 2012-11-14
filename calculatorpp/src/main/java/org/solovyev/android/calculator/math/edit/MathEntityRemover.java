@@ -24,7 +24,7 @@ import org.solovyev.common.math.MathEntity;
  * Date: 12/22/11
  * Time: 9:36 PM
  */
-class MathEntityRemover<T extends MathEntity> implements View.OnClickListener, DialogInterface.OnClickListener {
+public class MathEntityRemover<T extends MathEntity> implements View.OnClickListener, DialogInterface.OnClickListener {
 
 	@NotNull
 	private final T mathEntity;

@@ -33,15 +33,10 @@
             style="@style/default_text_size"
             a:text="@string/c_function_parameters"/>
 
-        <LinearLayout
-            a:id="@+id/function_params_layout"
+        <org.solovyev.android.calculator.function.FunctionParamsView
+			a:id="@+id/function_params_layout"
             a:layout_height="wrap_content"
-            a:layout_width="match_parent"
-            a:orientation="vertical">
-
-            <include layout="@layout/function_edit_param" />
-
-        </LinearLayout>
+            a:layout_width="match_parent"/>
 
         <TextView a:layout_height="wrap_content"
             a:layout_width="match_parent"

@@ -115,6 +115,16 @@ public enum CalculatorEventType {
     // @NotNull IConstant
     constant_removed,
 
+
+	// @NotNull Function
+	function_removed,
+
+	// @NotNull Function
+	function_added,
+
+	// @NotNull Change<Function>
+	function_changed,
+
     /*
     **********************************************************************
     *

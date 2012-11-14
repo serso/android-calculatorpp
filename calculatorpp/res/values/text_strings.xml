@@ -239,4 +239,12 @@
     <string name="c_function_description">Description</string>
     <string name="c_function_parameters">Parameters</string>
 
+	<string name="function_create_function">Create function</string>
+	<string name="function_edit_function">Edit function</string>
+	<string name="function_name_is_not_valid">Name of function is not valid: name must start with letter, can contain letters, digits and underscore.</string>
+	<string name="function_already_exists">Function with same name already exists!</string>
+	<string name="function_name_clashes">Function name clashes with function name!</string>
+	<string name="function_is_empty">Function body could not be empty!</string>
+	<string name="function_param_not_empty">Function parameter should not be empty!</string>
+
 </resources>

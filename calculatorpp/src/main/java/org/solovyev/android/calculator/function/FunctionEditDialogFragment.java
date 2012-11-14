@@ -1,6 +1,5 @@
 package org.solovyev.android.calculator.function;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
@@ -8,10 +7,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import jscl.math.function.CustomFunction;
+import jscl.math.function.Function;
+import jscl.math.function.IFunction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.AndroidUtils2;
-import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.CalculatorEventData;
+import org.solovyev.android.calculator.CalculatorEventListener;
+import org.solovyev.android.calculator.CalculatorEventType;
+import org.solovyev.android.calculator.CalculatorLocatorImpl;
+import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.math.edit.MathEntityRemover;
+import org.solovyev.android.calculator.model.AFunction;
 
 /**
  * User: serso
@@ -23,7 +30,10 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
     @NotNull
     private final Input input;
 
-    public FunctionEditDialogFragment() {
+	@NotNull
+	private FunctionParamsView paramsView;
+
+	public FunctionEditDialogFragment() {
         this(Input.newInstance());
     }
 
@@ -40,26 +50,40 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
     public void onViewCreated(@NotNull View root, Bundle savedInstanceState) {
         super.onViewCreated(root, savedInstanceState);
 
-        final View addParamButton = root.findViewById(R.id.function_add_param_button);
+		paramsView = (FunctionParamsView) root.findViewById(R.id.function_params_layout);
 
-        final ViewGroup functionParamsLayout = (ViewGroup) root.findViewById(R.id.function_params_layout);
-        addParamButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                final View functionEditParamLayout = inflater.inflate(R.layout.function_edit_param, null);
+		final AFunction.Builder builder;
+		final IFunction function = input.getFunction();
+		if (function != null) {
+			builder = new AFunction.Builder(function);
+			paramsView.init(function.getParameterNames());
+		} else {
+			builder = new AFunction.Builder();
+			paramsView.init();
+		}
 
-                final View addParamButton = functionEditParamLayout.findViewById(R.id.function_add_param_button);
-                addParamButton.setVisibility(View.GONE);
+		root.findViewById(R.id.cancel_button).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dismiss();
+			}
+		});
 
-                final View removeParamButton = functionEditParamLayout.findViewById(R.id.function_remove_param_button);
-                removeParamButton.setVisibility(View.VISIBLE);
+		root.findViewById(R.id.save_button).setOnClickListener(new FunctionEditorSaver(builder, function, root, CalculatorLocatorImpl.getInstance().getEngine().getFunctionsRegistry(), this));
 
-                functionParamsLayout.addView(functionEditParamLayout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            }
-        });
+		if ( function == null ) {
+			// CREATE MODE
+			getDialog().setTitle(R.string.function_create_function);
 
-    }
+			root.findViewById(R.id.remove_button).setVisibility(View.GONE);
+		} else {
+			// EDIT MODE
+			getDialog().setTitle(R.string.function_edit_function);
+
+			Function customFunction = new CustomFunction.Builder(function).create();
+			root.findViewById(R.id.remove_button).setOnClickListener(new MathEntityRemover<Function>(customFunction, null, CalculatorLocatorImpl.getInstance().getEngine().getFunctionsRegistry(), getActivity(), this));
+		}
+	}
 
     @Override
     public void onResume() {
@@ -77,6 +101,16 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
 
     @Override
     public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
+		switch (calculatorEventType) {
+			case function_removed:
+			case function_added:
+			case function_changed:
+				if ( calculatorEventData.getSource() == this ) {
+					dismiss();
+				}
+				break;
+
+		}
     }
 
         /*
@@ -94,7 +128,7 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
     public static class Input {
 
         @Nullable
-        private CustomFunction function;
+        private IFunction function;
 
         @Nullable
         private String name;
@@ -114,7 +148,7 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
         }
 
         @NotNull
-        public static Input newFromFunction(@NotNull CustomFunction function) {
+        public static Input newFromFunction(@NotNull IFunction function) {
             final Input result = new Input();
             result.function = function;
             return result;
@@ -128,7 +162,7 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
         }
 
         @NotNull
-        public static Input newInstance(@Nullable CustomFunction function, @Nullable String name, @Nullable String value, @Nullable String description) {
+        public static Input newInstance(@Nullable IFunction function, @Nullable String name, @Nullable String value, @Nullable String description) {
             final Input result = new Input();
             result.function = function;
             result.name = name;
@@ -138,7 +172,7 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
         }
 
         @Nullable
-        public CustomFunction getFunction() {
+        public IFunction getFunction() {
             return function;
         }
 

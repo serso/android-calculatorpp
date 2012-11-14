@@ -16,6 +16,7 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import jscl.math.function.CustomFunction;
 import jscl.math.function.Function;
+import jscl.math.function.IFunction;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.CalculatorEventType;
 import org.solovyev.android.calculator.CalculatorLocatorImpl;
@@ -244,24 +245,24 @@ public class CalculatorFunctionsFragment extends AbstractMathEntityListFragment<
     private static enum LongClickMenuItem implements LabeledMenuItem<Function> {
         use(R.string.c_use) {
             @Override
-            public void onClick(@NotNull Function data, @NotNull Context context) {
-                CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.use_function, data);
+            public void onClick(@NotNull Function function, @NotNull Context context) {
+                CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.use_function, function);
             }
         },
 
         edit(R.string.c_edit) {
             @Override
             public void onClick(@NotNull Function function, @NotNull Context context) {
-                if (function instanceof CustomFunction) {
-                    FunctionEditDialogFragment.showDialog(FunctionEditDialogFragment.Input.newFromFunction((CustomFunction) function), ((SherlockFragmentActivity) context).getSupportFragmentManager());
-                }
-            }
+				if (function instanceof IFunction) {
+					FunctionEditDialogFragment.showDialog(FunctionEditDialogFragment.Input.newFromFunction((IFunction) function), ((SherlockFragmentActivity) context).getSupportFragmentManager());
+				}
+			}
         },
 
         copy_description(R.string.c_copy_description) {
             @Override
-            public void onClick(@NotNull Function data, @NotNull Context context) {
-                final String text = CalculatorLocatorImpl.getInstance().getEngine().getFunctionsRegistry().getDescription(data.getName());
+            public void onClick(@NotNull Function function, @NotNull Context context) {
+                final String text = CalculatorLocatorImpl.getInstance().getEngine().getFunctionsRegistry().getDescription(function.getName());
                 if (!StringUtils.isEmpty(text)) {
                     final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
                     clipboard.setText(text);

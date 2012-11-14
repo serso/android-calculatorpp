@@ -29,7 +29,7 @@ import org.solovyev.common.text.StringUtils;
  * Date: 12/22/11
  * Time: 9:52 PM
  */
-class VarEditorSaver<T extends MathEntity> implements View.OnClickListener {
+public class VarEditorSaver<T extends MathEntity> implements View.OnClickListener {
 
 	@NotNull
 	private final MathEntityBuilder<? extends T> varBuilder;
@@ -123,7 +123,7 @@ class VarEditorSaver<T extends MathEntity> implements View.OnClickListener {
         }
     }
 
-    boolean isValidName(@Nullable String name) {
+    public static boolean isValidName(@Nullable String name) {
 		boolean result = false;
 
 		if (!StringUtils.isEmpty(name)) {

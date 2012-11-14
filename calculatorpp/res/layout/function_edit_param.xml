@@ -6,20 +6,26 @@
     a:orientation="horizontal">
 
     <Button
-        a:id="@+id/function_add_param_button"
-        a:layout_height="wrap_content"
-        a:layout_width="wrap_content"
-        a:text="+" />
-
-    <Button
         a:id="@+id/function_remove_param_button"
         a:layout_height="wrap_content"
         a:layout_width="wrap_content"
-        a:visibility="gone"
         a:text="-" />
 
+	<Button
+			a:id="@+id/function_up_param_button"
+			a:layout_height="wrap_content"
+			a:layout_width="wrap_content"
+			a:text="^" />
+
+	<Button
+			a:id="@+id/function_down_param_button"
+			a:layout_height="wrap_content"
+			a:layout_width="wrap_content"
+			a:text="v" />
+
     <EditText
-        a:layout_height="wrap_content"
+		a:id="@+id/function_param_edit_text"
+		a:layout_height="wrap_content"
         a:layout_width="match_parent"
         style="@style/default_text_size"
         a:inputType="text" />
