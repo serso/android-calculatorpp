@@ -2,6 +2,7 @@ package org.solovyev.android.calculator.function;
 
 import android.view.View;
 import android.widget.EditText;
+import jscl.CustomFunctionCalculationException;
 import jscl.math.function.CustomFunction;
 import jscl.math.function.Function;
 import jscl.math.function.IFunction;
@@ -106,8 +107,12 @@ public class FunctionEditorSaver implements View.OnClickListener {
 		if (error != null) {
 			CalculatorLocatorImpl.getInstance().getNotifier().showMessage(error, MessageType.error);
 		} else {
-			CalculatorFunctionsMathRegistry.saveFunction(mathRegistry, new BuilderAdapter(builder), editedInstance, source, true);
-		}
+            try {
+                CalculatorFunctionsMathRegistry.saveFunction(mathRegistry, new BuilderAdapter(builder), editedInstance, source, true);
+            } catch (CustomFunctionCalculationException e) {
+                CalculatorLocatorImpl.getInstance().getNotifier().showMessage(e);
+            }
+        }
 	}
 
 	private boolean validateParameters(@NotNull List<String> parameterNames) {

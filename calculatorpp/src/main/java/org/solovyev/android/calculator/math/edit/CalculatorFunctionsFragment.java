@@ -14,14 +14,11 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import jscl.math.function.CustomFunction;
 import jscl.math.function.Function;
 import jscl.math.function.IFunction;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.calculator.CalculatorEventType;
-import org.solovyev.android.calculator.CalculatorLocatorImpl;
-import org.solovyev.android.calculator.CalculatorMathRegistry;
-import org.solovyev.android.calculator.R;
+import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.about.CalculatorFragmentType;
 import org.solovyev.android.calculator.function.FunctionEditDialogFragment;
 import org.solovyev.android.menu.AMenuItem;
@@ -95,99 +92,13 @@ public class CalculatorFunctionsFragment extends AbstractMathEntityListFragment<
 		}
 
         final Function function = functionsRegistry.get(item.getName());
-        if (!(function instanceof CustomFunction)) {
+        if (function == null || function.isSystem()) {
             result.remove(LongClickMenuItem.edit);
+            result.remove(LongClickMenuItem.remove);
         }
 		
 		return result;
 	}
-
-/*	private static void createEditVariableDialog(@NotNull final AbstractMathEntityListActivity<Function> activity,
-												 @Nullable final CustomFunction function,
-												 @Nullable final String name,
-												 @Nullable final String expression,
-												 @Nullable final String[] parameterNames,
-												 @Nullable final String description) {
-		if (function == null || !function.isSystem()) {
-
-			final LayoutInflater layoutInflater = (LayoutInflater) activity.getSystemService(LAYOUT_INFLATER_SERVICE);
-			final View editView = layoutInflater.inflate(R.layout.var_edit, null);
-
-			final String errorMsg = activity.getString(R.string.c_char_is_not_accepted);
-
-			final EditText editName = (EditText) editView.findViewById(R.id.var_edit_name);
-			editName.setText(name);
-			editName.addTextChangedListener(new TextWatcher() {
-
-				@Override
-				public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-				}
-
-				@Override
-				public void onTextChanged(CharSequence s, int start, int before, int count) {
-				}
-
-				@Override
-				public void afterTextChanged(Editable s) {
-					for (int i = 0; i < s.length(); i++) {
-						char c = s.charAt(i);
-						if (!acceptableChars.contains(c)) {
-							s.delete(i, i + 1);
-							Toast.makeText(activity, String.format(errorMsg, c), Toast.LENGTH_SHORT).show();
-						}
-					}
-				}
-			});
-
-			final EditText editValue = (EditText) editView.findViewById(R.id.var_edit_value);
-			if (!StringUtils.isEmpty(expression)) {
-				editValue.setText(expression);
-			}
-
-			final EditText editDescription = (EditText) editView.findViewById(R.id.var_edit_description);
-			editDescription.setText(description);
-
-			final CustomFunction.Builder functionBuilder;
-			if (function != null) {
-				functionBuilder = new CustomFunction.Builder(function);
-			} else {
-				functionBuilder = new CustomFunction.Builder();
-			}
-
-			final AlertDialog.Builder builder = new AlertDialog.Builder(activity)
-					.setCancelable(true)
-					.setNegativeButton(R.string.c_cancel, null)
-					.setPositiveButton(R.string.c_save, new FunctionEditorSaver(functionBuilder, function, editView, activity, CalculatorEngine.instance.getFunctionsRegistry(), new FunctionEditorSaver.EditorCreator<Function>() {
-
-						@Override
-						public void showEditor(@NotNull AbstractMathEntityListActivity<Function> activity, @Nullable CustomFunction editedInstance, @Nullable String name, @Nullable String value, @Nullable String[] parameterNames, @Nullable String description) {
-							createEditVariableDialog(activity, editedInstance, name, value, parameterNames, description);
-						}
-					}))
-					.setView(editView);
-
-			if (function != null) {
-				// EDIT mode
-
-				builder.setTitle(R.string.c_var_edit_var);
-				builder.setNeutralButton(R.string.c_remove, new MathEntityRemover<Function>(function, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						createEditVariableDialog(activity, function, name, expression, parameterNames, description);
-					}
-				}, CalculatorEngine.instance.getFunctionsRegistry(), activity));
-			} else {
-				// CREATE mode
-
-				builder.setTitle(R.string.c_var_create_var);
-			}
-
-			builder.create().show();
-		} else {
-			Toast.makeText(activity, activity.getString(R.string.c_sys_var_cannot_be_changed), Toast.LENGTH_LONG).show();
-		}
-	}*/
-
 	@NotNull
 	@Override
 	protected MathEntityDescriptionGetter getDescriptionGetter() {
@@ -205,7 +116,66 @@ public class CalculatorFunctionsFragment extends AbstractMathEntityListFragment<
 		return CalculatorLocatorImpl.getInstance().getEngine().getFunctionsRegistry().getCategory(function);
 	}
 
-        /*
+    @Override
+    public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
+        super.onCalculatorEvent(calculatorEventData, calculatorEventType, data);
+
+        switch (calculatorEventType) {
+            case function_added:
+                processFunctionAdded((Function) data);
+                break;
+
+            case function_changed:
+                processFunctionChanged((Change<Function>) data);
+                break;
+
+            case function_removed:
+                processFunctionRemoved((Function) data);
+                break;
+        }
+    }
+
+
+    private void processFunctionRemoved(@NotNull final Function function) {
+        if (this.isInCategory(function)) {
+            getUiHandler().post(new Runnable() {
+                @Override
+                public void run() {
+                    removeFromAdapter(function);
+                    notifyAdapter();
+                }
+            });
+        }
+    }
+
+    private void processFunctionChanged(@NotNull final Change<Function> change) {
+        final Function newFunction = change.getNewValue();
+        if (this.isInCategory(newFunction)) {
+            getUiHandler().post(new Runnable() {
+                @Override
+                public void run() {
+                    removeFromAdapter(change.getOldValue());
+                    addToAdapter(newFunction);
+                    sort();
+                }
+            });
+        }
+    }
+
+    private void processFunctionAdded(@NotNull final Function function) {
+        if (this.isInCategory(function)) {
+            getUiHandler().post(new Runnable() {
+                @Override
+                public void run() {
+                    addToAdapter(function);
+                    sort();
+                }
+            });
+        }
+    }
+
+
+    /*
     **********************************************************************
     *
     *                           MENU
@@ -257,6 +227,13 @@ public class CalculatorFunctionsFragment extends AbstractMathEntityListFragment<
 					FunctionEditDialogFragment.showDialog(FunctionEditDialogFragment.Input.newFromFunction((IFunction) function), ((SherlockFragmentActivity) context).getSupportFragmentManager());
 				}
 			}
+        },
+
+        remove(R.string.c_remove) {
+            @Override
+            public void onClick(@NotNull Function function, @NotNull Context context) {
+                MathEntityRemover.newFunctionRemover(function, null, context, context).showConfirmationDialog();
+            }
         },
 
         copy_description(R.string.c_copy_description) {

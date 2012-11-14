@@ -411,6 +411,21 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
                 onDisplayStateChanged((CalculatorDisplayChangeEventData) data);
                 break;
 
+            case constant_changed:
+                final IConstant newConstant = ((Change<IConstant>)data) .getNewValue();
+                if (!newConstant.getName().equals(CalculatorVarsRegistry.ANS)) {
+                    evaluate();
+                }
+                break;
+
+            case constant_added:
+            case constant_removed:
+            case function_added:
+            case function_changed:
+            case function_removed:
+                evaluate();
+                break;
+
             case engine_preferences_changed:
                 evaluate(calculatorEventData.getSequenceId());
                 break;

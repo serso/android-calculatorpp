@@ -76,7 +76,10 @@ public class FunctionParamsView extends LinearLayout {
 
 			editParamView.setTag(getParamTag(id));
 
-			final View removeParamButton = editParamView.findViewById(R.id.function_remove_param_button);
+            final EditText paramNameEditText = (EditText) editParamView.findViewById(R.id.function_param_edit_text);
+            paramNameEditText.setText(name);
+
+            final View removeParamButton = editParamView.findViewById(R.id.function_remove_param_button);
 			removeParamButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {

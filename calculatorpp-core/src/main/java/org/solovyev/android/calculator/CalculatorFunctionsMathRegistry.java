@@ -6,6 +6,7 @@
 
 package org.solovyev.android.calculator;
 
+import jscl.CustomFunctionCalculationException;
 import jscl.math.function.CustomFunction;
 import jscl.math.function.Function;
 import org.jetbrains.annotations.NotNull;
@@ -52,7 +53,7 @@ public class CalculatorFunctionsMathRegistry extends AbstractCalculatorMathRegis
 	public static void saveFunction(@NotNull CalculatorMathRegistry<Function> registry,
 									@NotNull MathEntityBuilder<? extends Function> builder,
 									@Nullable Function editedInstance,
-									@NotNull Object source, boolean save) {
+									@NotNull Object source, boolean save) throws CustomFunctionCalculationException {
 		final Function addedFunction = registry.add(builder);
 
 		if (save) {
