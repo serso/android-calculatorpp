@@ -28,4 +28,9 @@ public class AndroidCalculatorLogger implements CalculatorLogger {
     public void debug(@Nullable String tag, @NotNull String message, @NotNull Throwable e) {
         Log.d(getTag(tag), message, e);
     }
+
+    @Override
+    public void error(@Nullable String tag, @NotNull String message, @NotNull Throwable e) {
+        Log.e(getTag(tag), message, e);
+    }
 }

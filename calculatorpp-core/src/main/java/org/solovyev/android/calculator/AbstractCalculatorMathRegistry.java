@@ -6,6 +6,7 @@
 
 package org.solovyev.android.calculator;
 
+import jscl.CustomFunctionCalculationException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.common.JBuilder;
@@ -66,7 +67,11 @@ public abstract class AbstractCalculatorMathRegistry<T extends MathEntity, P ext
         if (persistenceContainer != null) {
             for (P entity : persistenceContainer.getEntities()) {
                 if (!contains(entity.getName())) {
-                    add(createBuilder(entity));
+                    try {
+                        add(createBuilder(entity));
+                    } catch (CustomFunctionCalculationException e) {
+                        CalculatorLocatorImpl.getInstance().getLogger().error(null, e.getMessage(), e);
+                    }
                 }
             }
         }

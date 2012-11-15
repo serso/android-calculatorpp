@@ -13,4 +13,7 @@ public interface CalculatorLogger {
     void debug(@Nullable String tag, @NotNull String message);
 
     void debug(@Nullable String tag, @NotNull String message, @NotNull Throwable e);
+
+    void error(@Nullable String tag, @NotNull String message, @NotNull Throwable e);
+
 }

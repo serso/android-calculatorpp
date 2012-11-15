@@ -234,4 +234,18 @@
     <string name="p_blue_line_color">Синий</string>
     <string name="p_green_line_color">Зелёный</string>
 
+    <string name="c_function_name">Имя</string>
+    <string name="c_function_value">Тело функции</string>
+    <string name="c_function_description">Описание</string>
+    <string name="c_function_parameters">Параметры</string>
+
+    <string name="function_create_function">Создать функцию</string>
+    <string name="function_edit_function">Редактировать функцию</string>
+    <string name="function_name_is_not_valid">Не правильное имя функции: имя должно начинаться с буквы, должно сожержать буквы, цифры и знаки подчёркивания.</string>
+    <string name="function_already_exists">Функция с таким именем уже существует!</string>
+    <string name="function_is_empty">Тело функции не должно быть пустым!</string>
+    <string name="function_param_not_empty">Имя параметра не должно быть пустым!</string>
+    <string name="function_removal_confirmation_question">Вы действительно хотите удалить функцию \'%s\'?</string>
+    <string name="empty_function_error">Невозможно создать пустую функцию!</string>
+
 </resources>
