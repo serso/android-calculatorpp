@@ -18,7 +18,12 @@ import jscl.math.function.Function;
 import jscl.math.function.IFunction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.CalculatorEventData;
+import org.solovyev.android.calculator.CalculatorEventType;
+import org.solovyev.android.calculator.CalculatorLocatorImpl;
+import org.solovyev.android.calculator.CalculatorMathRegistry;
+import org.solovyev.android.calculator.Change;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.about.CalculatorFragmentType;
 import org.solovyev.android.calculator.function.FunctionEditDialogFragment;
 import org.solovyev.android.menu.AMenuItem;
@@ -126,7 +131,7 @@ public class CalculatorFunctionsFragment extends AbstractMathEntityListFragment<
                 break;
 
             case function_changed:
-                processFunctionChanged((Change<Function>) data);
+                processFunctionChanged((Change<IFunction>) data);
                 break;
 
             case function_removed:
@@ -148,19 +153,40 @@ public class CalculatorFunctionsFragment extends AbstractMathEntityListFragment<
         }
     }
 
-    private void processFunctionChanged(@NotNull final Change<Function> change) {
-        final Function newFunction = change.getNewValue();
-        if (this.isInCategory(newFunction)) {
-            getUiHandler().post(new Runnable() {
-                @Override
-                public void run() {
-                    removeFromAdapter(change.getOldValue());
-                    addToAdapter(newFunction);
-                    sort();
-                }
-            });
-        }
-    }
+    private void processFunctionChanged(@NotNull final Change<IFunction> change) {
+        final IFunction newFunction = change.getNewValue();
+
+		if (newFunction instanceof Function) {
+
+			if (this.isInCategory((Function)newFunction)) {
+
+				getUiHandler().post(new Runnable() {
+					@Override
+					public void run() {
+						IFunction oldValue = change.getOldValue();
+
+						if (oldValue.isIdDefined()) {
+							final MathEntityArrayAdapter<Function> adapter = getAdapter();
+							if ( adapter != null ) {
+								for (int i = 0; i < adapter.getCount(); i++) {
+									final Function functionFromAdapter = adapter.getItem(i);
+									if ( functionFromAdapter.isIdDefined() && oldValue.getId().equals(functionFromAdapter.getId()) ) {
+										adapter.remove(functionFromAdapter);
+										break;
+									}
+								}
+							}
+						}
+
+						addToAdapter((Function)newFunction);
+						sort();
+					}
+				});
+			}
+		} else {
+			throw new IllegalArgumentException("Function must be instance of jscl.math.function.Function class!");
+		}
+	}
 
     private void processFunctionAdded(@NotNull final Function function) {
         if (this.isInCategory(function)) {

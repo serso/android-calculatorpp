@@ -9,6 +9,7 @@ package org.solovyev.android.calculator;
 import jscl.CustomFunctionCalculationException;
 import jscl.math.function.CustomFunction;
 import jscl.math.function.Function;
+import jscl.math.function.IFunction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.model.AFunction;
@@ -16,8 +17,8 @@ import org.solovyev.android.calculator.model.Functions;
 import org.solovyev.android.calculator.model.MathEntityBuilder;
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathRegistry;
+import org.solovyev.common.text.StringUtils;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -52,7 +53,7 @@ public class CalculatorFunctionsMathRegistry extends AbstractCalculatorMathRegis
 
 	public static void saveFunction(@NotNull CalculatorMathRegistry<Function> registry,
 									@NotNull MathEntityBuilder<? extends Function> builder,
-									@Nullable Function editedInstance,
+									@Nullable IFunction editedInstance,
 									@NotNull Object source, boolean save) throws CustomFunctionCalculationException {
 		final Function addedFunction = registry.add(builder);
 
@@ -84,22 +85,34 @@ public class CalculatorFunctionsMathRegistry extends AbstractCalculatorMathRegis
         return null;
     }
 
+	@Nullable
+	@Override
+	public String getDescription(@NotNull String functionName) {
+		final Function function = get(functionName);
+
+		String result = null;
+		if ( function instanceof CustomFunction ) {
+			result = ((CustomFunction) function).getDescription();
+		}
+
+		if (StringUtils.isEmpty(result) ) {
+			result = super.getDescription(functionName);
+		}
+
+		return result;
+
+	}
+
 	@NotNull
 	@Override
-	protected JBuilder<? extends Function> createBuilder(@NotNull AFunction entity) {
-		CustomFunction.Builder builder = new CustomFunction.Builder(entity.getName(), entity.getParameterNames(), entity.getContent());
-		builder.setDescription(entity.getDescription());
-		return builder;
+	protected JBuilder<? extends Function> createBuilder(@NotNull AFunction function) {
+		return new CustomFunction.Builder(function);
 	}
 
     @Override
-	protected AFunction transform(@NotNull Function entity) {
-		if (entity instanceof CustomFunction) {
-			final AFunction result = new AFunction();
-			result.setName(entity.getName());
-			result.setContent(((CustomFunction) entity).getContent());
-			result.setParameterNames(new ArrayList<String>(((CustomFunction) entity).getParameterNames()));
-			return result;
+	protected AFunction transform(@NotNull Function function) {
+		if (function instanceof CustomFunction) {
+			return AFunction.fromIFunction((CustomFunction) function);
 		} else {
 			return null;
 		}

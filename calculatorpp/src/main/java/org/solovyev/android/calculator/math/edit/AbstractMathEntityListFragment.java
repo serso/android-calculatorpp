@@ -294,7 +294,12 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
         }
     }
 
-    @NotNull
+	@Nullable
+	protected MathEntityArrayAdapter<T> getAdapter() {
+		return adapter;
+	}
+
+	@NotNull
     protected Handler getUiHandler() {
         return uiHandler;
     }

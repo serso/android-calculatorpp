@@ -13,13 +13,19 @@ import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 import org.simpleframework.xml.Transient;
+import org.solovyev.android.calculator.CalculatorLocatorImpl;
+import org.solovyev.android.calculator.CalculatorParseException;
 import org.solovyev.android.calculator.MathPersistenceEntity;
 import org.solovyev.common.math.MathEntity;
+import org.solovyev.common.msg.Message;
+import org.solovyev.common.msg.MessageType;
 import org.solovyev.common.text.StringUtils;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * User: serso
@@ -28,7 +34,7 @@ import java.util.List;
  */
 
 @Root(name = "function")
-public class AFunction implements IFunction, MathPersistenceEntity {
+public class AFunction implements IFunction, MathPersistenceEntity, Serializable {
 
 	/*
 	**********************************************************************
@@ -74,6 +80,14 @@ public class AFunction implements IFunction, MathPersistenceEntity {
 		this.id = id;
 	}
 
+	public static AFunction fromIFunction(@NotNull IFunction function) {
+		final AFunction result = new AFunction();
+
+		copy(result, function);
+
+		return result;
+	}
+
 	/*
 	**********************************************************************
 	*
@@ -85,17 +99,22 @@ public class AFunction implements IFunction, MathPersistenceEntity {
 	@Override
 	public void copy(@NotNull MathEntity mathEntity) {
 		if (mathEntity instanceof IFunction) {
-			final IFunction that = ((IFunction) mathEntity);
-			this.name = that.getName();
-			this.content = that.getContent();
-			this.description = StringUtils.getNotEmpty(this.getDescription(), "");
-			this.system = that.isSystem();
-			if (that.isIdDefined()) {
-				this.id = that.getId();
-			}
+			copy(this, (IFunction) mathEntity);
 		} else {
 			throw new IllegalArgumentException("Trying to make a copy of unsupported type: " + mathEntity.getClass());
 		}
+	}
+
+	private static void copy(@NotNull AFunction target,
+							 @NotNull IFunction source) {
+		target.name = source.getName();
+		target.content = source.getContent();
+		target.description = StringUtils.getNotEmpty(source.getDescription(), "");
+		target.system = source.isSystem();
+		if (source.isIdDefined()) {
+			target.id = source.getId();
+		}
+		target.parameterNames = new ArrayList<String>(source.getParameterNames());
 	}
 
 	@Override
@@ -248,12 +267,57 @@ public class AFunction implements IFunction, MathPersistenceEntity {
 			}
 
 			result.name = name;
-			result.content = value;
+			try {
+				result.content = CalculatorLocatorImpl.getInstance().getCalculator().prepareExpression(value).toString();
+			} catch (CalculatorParseException e) {
+				throw new CreationException(e);
+			}
 			result.system = system;
 			result.description = StringUtils.getNotEmpty(description, "");
 			result.parameterNames = new ArrayList<String>(parameterNames);
 
 			return result;
+		}
+
+		public static class CreationException extends RuntimeException implements Message {
+
+			@NotNull
+			private final CalculatorParseException message;
+
+			public CreationException(@NotNull CalculatorParseException cause) {
+				super(cause);
+				message = cause;
+			}
+
+			@NotNull
+			@Override
+			public String getMessageCode() {
+				return message.getMessageCode();
+			}
+
+			@NotNull
+			@Override
+			public List<Object> getParameters() {
+				return message.getParameters();
+			}
+
+			@NotNull
+			@Override
+			public MessageType getMessageType() {
+				return message.getMessageType();
+			}
+
+			@Override
+			@Nullable
+			public String getLocalizedMessage() {
+				return message.getLocalizedMessage();
+			}
+
+			@NotNull
+			@Override
+			public String getLocalizedMessage(@NotNull Locale locale) {
+				return message.getLocalizedMessage(locale);
+			}
 		}
 	}
 }

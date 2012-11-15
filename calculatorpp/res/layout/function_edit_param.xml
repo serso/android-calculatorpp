@@ -15,15 +15,15 @@
 			a:id="@+id/function_up_param_button"
 			a:layout_height="wrap_content"
 			a:layout_width="wrap_content"
-			a:text="^" />
+			a:text="↑" />
 
 	<Button
 			a:id="@+id/function_down_param_button"
 			a:layout_height="wrap_content"
 			a:layout_width="wrap_content"
-			a:text="v" />
+			a:text="↓" />
 
-    <EditText
+    <org.solovyev.android.calculator.function.FunctionParamEditText
 		a:id="@+id/function_param_edit_text"
 		a:layout_height="wrap_content"
         a:layout_width="match_parent"

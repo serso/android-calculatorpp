@@ -127,7 +127,13 @@ public class AndroidCalculator implements Calculator, CalculatorEventListener, S
         return calculator.fireCalculatorEvent(calculatorEventType, data, sequenceId);
     }
 
-    @Override
+	@NotNull
+	@Override
+	public PreparedExpression prepareExpression(@NotNull String expression) throws CalculatorParseException {
+		return calculator.prepareExpression(expression);
+	}
+
+	@Override
     public void init() {
         this.calculator.init();
 

@@ -169,9 +169,9 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
             if (StringUtils.isEmpty(expression)) {
                 fireCalculatorEvent(newCalculationEventData(operation, expression, sequenceId), CalculatorEventType.calculation_result, CalculatorOutputImpl.newEmptyOutput(operation));
             } else {
-                preparedExpression = preprocessor.process(expression);
+				preparedExpression = prepareExpression(expression);
 
-                final String jsclExpression = preparedExpression.toString();
+				final String jsclExpression = preparedExpression.toString();
 
                 try {
 
@@ -204,7 +204,13 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
         }
     }
 
-    @NotNull
+	@NotNull
+	@Override
+	public PreparedExpression prepareExpression(@NotNull String expression) throws CalculatorParseException {
+		return preprocessor.process(expression);
+	}
+
+	@NotNull
     private CalculatorEventData newCalculationEventData(@NotNull JsclOperation operation,
                                                         @NotNull String expression,
                                                         @NotNull Long calculationId) {

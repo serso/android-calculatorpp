@@ -18,6 +18,7 @@ import org.solovyev.android.calculator.model.MathEntityBuilder;
 import org.solovyev.common.msg.MessageType;
 import org.solovyev.common.text.StringUtils;
 
+import java.util.Collections;
 import java.util.List;
 
 public class FunctionEditorSaver implements View.OnClickListener {
@@ -29,7 +30,7 @@ public class FunctionEditorSaver implements View.OnClickListener {
 	private final AFunction.Builder builder;
 
 	@Nullable
-	private final Function editedInstance;
+	private final IFunction editedInstance;
 
 	@NotNull
 	private final View view;
@@ -45,11 +46,7 @@ public class FunctionEditorSaver implements View.OnClickListener {
 							   @NotNull Object source) {
 
 		this.builder = builder;
-		if (editedInstance instanceof Function || editedInstance == null) {
-			this.editedInstance = (Function)editedInstance;
-		} else {
-			throw new IllegalArgumentException();
-		}
+		this.editedInstance = editedInstance;
 		this.view = view;
 		this.mathRegistry = registry;
 		this.source = source;
@@ -59,17 +56,16 @@ public class FunctionEditorSaver implements View.OnClickListener {
 	public void onClick(View v) {
 		final Integer error;
 
-		final EditText editName = (EditText) view.findViewById(R.id.function_edit_name);
-		String name = editName.getText().toString();
+		final FunctionEditDialogFragment.Input input = readInput(null, view);
 
-		final EditText editValue = (EditText) view.findViewById(R.id.function_edit_value);
-		String content = editValue.getText().toString();
+		final String name = input.getName();
+		final String content = input.getContent();
+		final String description = input.getDescription();
 
-		final EditText editDescription = (EditText) view.findViewById(R.id.function_edit_description);
-		String description = editDescription.getText().toString();
-
-		final FunctionParamsView editParams = (FunctionParamsView) view.findViewById(R.id.function_params_layout);
-		List<String> parameterNames = editParams.getParameterNames();
+		List<String> parameterNames = input.getParameterNames();
+		if ( parameterNames == null ) {
+			parameterNames = Collections.emptyList();
+		}
 
 		if (VarEditorSaver.isValidName(name)) {
 
@@ -111,8 +107,27 @@ public class FunctionEditorSaver implements View.OnClickListener {
                 CalculatorFunctionsMathRegistry.saveFunction(mathRegistry, new BuilderAdapter(builder), editedInstance, source, true);
             } catch (CustomFunctionCalculationException e) {
                 CalculatorLocatorImpl.getInstance().getNotifier().showMessage(e);
-            }
+            } catch (AFunction.Builder.CreationException e) {
+				CalculatorLocatorImpl.getInstance().getNotifier().showMessage(e);
+			}
         }
+	}
+
+	@NotNull
+	public static FunctionEditDialogFragment.Input readInput(@Nullable IFunction function, @NotNull View root) {
+		final EditText editName = (EditText) root.findViewById(R.id.function_edit_name);
+		String name = editName.getText().toString();
+
+		final EditText editValue = (EditText) root.findViewById(R.id.function_edit_value);
+		String content = editValue.getText().toString();
+
+		final EditText editDescription = (EditText) root.findViewById(R.id.function_edit_description);
+		String description = editDescription.getText().toString();
+
+		final FunctionParamsView editParams = (FunctionParamsView) root.findViewById(R.id.function_params_layout);
+		List<String> parameterNames = editParams.getParameterNames();
+
+		return FunctionEditDialogFragment.Input.newInstance(function, name, content, description, parameterNames);
 	}
 
 	private boolean validateParameters(@NotNull List<String> parameterNames) {

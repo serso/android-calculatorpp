@@ -1,6 +1,8 @@
 package org.solovyev.android.calculator.function;
 
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
@@ -13,10 +15,15 @@ import jscl.math.function.IFunction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.AndroidUtils2;
-import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.CalculatorEventData;
+import org.solovyev.android.calculator.CalculatorEventListener;
+import org.solovyev.android.calculator.CalculatorEventType;
+import org.solovyev.android.calculator.CalculatorLocatorImpl;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.math.edit.MathEntityRemover;
 import org.solovyev.android.calculator.model.AFunction;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,8 +33,10 @@ import java.util.List;
  */
 public class FunctionEditDialogFragment extends DialogFragment implements CalculatorEventListener {
 
-    @NotNull
-    private final Input input;
+	private static final String INPUT = "input";
+
+	@NotNull
+    private Input input;
 
     public FunctionEditDialogFragment() {
         this(Input.newInstance());
@@ -39,7 +48,16 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.function_edit, container, false);
+		final View result = inflater.inflate(R.layout.function_edit, container, false);
+
+		if (savedInstanceState != null) {
+			final  Parcelable input = savedInstanceState.getParcelable(INPUT);
+			if ( input instanceof Input ) {
+				this.input = (Input)input;
+			}
+		}
+
+		return result;
     }
 
     @Override
@@ -49,7 +67,7 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
         final FunctionParamsView paramsView = (FunctionParamsView) root.findViewById(R.id.function_params_layout);
 
 		final AFunction.Builder builder;
-		final IFunction function = input.getFunction();
+		final AFunction function = input.getFunction();
 		if (function != null) {
 			builder = new AFunction.Builder(function);
 		} else {
@@ -92,12 +110,19 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
 			// EDIT MODE
 			getDialog().setTitle(R.string.function_edit_function);
 
-			Function customFunction = new CustomFunction.Builder(function).create();
+			final Function customFunction = new CustomFunction.Builder(function).create();
 			root.findViewById(R.id.remove_button).setOnClickListener(MathEntityRemover.newFunctionRemover(customFunction, null, this.getActivity(), FunctionEditDialogFragment.this));
 		}
 	}
 
-    @Override
+	@Override
+	public void onSaveInstanceState(@NotNull Bundle out) {
+		super.onSaveInstanceState(out);
+
+		out.putParcelable(INPUT, FunctionEditorSaver.readInput(input.getFunction(), getView()));
+	}
+
+	@Override
     public void onResume() {
         super.onResume();
 
@@ -137,10 +162,50 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
         AndroidUtils2.showDialog(new FunctionEditDialogFragment(input), "function-editor", fm);
     }
 
-    public static class Input {
+    public static class Input implements Parcelable {
 
-        @Nullable
-        private IFunction function;
+		public static final Parcelable.Creator<Input> CREATOR = new Creator<Input>() {
+			@Override
+			public Input createFromParcel(@NotNull Parcel in) {
+				return Input.fromParcel(in);
+			}
+
+			@Override
+			public Input[] newArray(int size) {
+				return new Input[size];
+			}
+		};
+
+		private static final Parcelable.Creator<String> STRING_CREATOR = new Creator<String>() {
+			@Override
+			public String createFromParcel(@NotNull Parcel in) {
+				return in.readString();
+			}
+
+			@Override
+			public String[] newArray(int size) {
+				return new String[size];
+			}
+		};
+
+		@NotNull
+		private static Input fromParcel(@NotNull Parcel in) {
+			final Input result = new Input();
+			result.name = in.readString();
+			result.content = in.readString();
+			result.description = in.readString();
+
+			final List<String> parameterNames = new ArrayList<String>();
+			in.readTypedList(parameterNames, STRING_CREATOR);
+			result.parameterNames = parameterNames;
+
+			result.function = (AFunction) in.readSerializable();
+
+			return result;
+		}
+
+		@Nullable
+        private AFunction function;
 
         @Nullable
         private String name;
@@ -165,14 +230,7 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
         @NotNull
         public static Input newFromFunction(@NotNull IFunction function) {
             final Input result = new Input();
-            result.function = function;
-            return result;
-        }
-
-        @NotNull
-        public static Input newFromValue(@Nullable String value) {
-            final Input result = new Input();
-            result.content = value;
+            result.function = AFunction.fromIFunction(function);
             return result;
         }
 
@@ -180,18 +238,23 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
         public static Input newInstance(@Nullable IFunction function,
                                         @Nullable String name,
                                         @Nullable String value,
-                                        @Nullable String description) {
+                                        @Nullable String description,
+										@NotNull List<String> parameterNames) {
 
             final Input result = new Input();
-            result.function = function;
-            result.name = name;
+			if (function != null) {
+				result.function = AFunction.fromIFunction(function);
+			}
+			result.name = name;
             result.content = value;
             result.description = description;
+            result.parameterNames = new ArrayList<String>(parameterNames);
+
             return result;
         }
 
         @Nullable
-        public IFunction getFunction() {
+        public AFunction getFunction() {
             return function;
         }
 
@@ -214,5 +277,19 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
         public List<String> getParameterNames() {
             return parameterNames == null ? (function == null ? null : function.getParameterNames()) : parameterNames;
         }
-    }
+
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+
+		@Override
+		public void writeToParcel(@NotNull Parcel out, int flags) {
+			out.writeString(name);
+			out.writeString(content);
+			out.writeString(description);
+			out.writeList(parameterNames);
+			out.writeSerializable(function);
+		}
+	}
 }

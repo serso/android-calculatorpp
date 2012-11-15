@@ -122,7 +122,7 @@ public enum CalculatorEventType {
 	// @NotNull Function
 	function_added,
 
-	// @NotNull Change<Function>
+	// @NotNull Change<IFunction>
 	function_changed,
 
     /*
