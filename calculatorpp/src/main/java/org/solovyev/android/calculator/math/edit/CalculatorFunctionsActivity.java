@@ -6,6 +6,7 @@
 
 package org.solovyev.android.calculator.math.edit;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -31,12 +32,31 @@ public class CalculatorFunctionsActivity extends SherlockFragmentActivity implem
 
         activityHelper.onCreate(this, savedInstanceState);
 
+        final Bundle bundle;
+
+        final Intent intent = getIntent();
+        if (intent != null) {
+            bundle = intent.getExtras();
+        } else {
+            bundle = null;
+        }
+
         final CalculatorFragmentType fragmentType = CalculatorFragmentType.functions;
 
         for (FunctionCategory category : FunctionCategory.getCategoriesByTabOrder()) {
             final AndroidFunctionCategory androidCategory = AndroidFunctionCategory.valueOf(category);
             if (androidCategory != null) {
-                activityHelper.addTab(this, fragmentType.createSubFragmentTag(category.name()), fragmentType.getFragmentClass(), AbstractMathEntityListFragment.createBundleFor(category.name()), androidCategory.getCaptionId(), R.id.main_layout);
+
+                final Bundle fragmentParameters;
+
+                if (category == FunctionCategory.my && bundle != null) {
+                    AbstractMathEntityListFragment.putCategory(bundle, category.name());
+                    fragmentParameters = bundle;
+                } else {
+                    fragmentParameters = AbstractMathEntityListFragment.createBundleFor(category.name());
+                }
+
+                activityHelper.addTab(this, fragmentType.createSubFragmentTag(category.name()), fragmentType.getFragmentClass(), fragmentParameters, androidCategory.getCaptionId(), R.id.main_layout);
             } else {
                 Log.e(CalculatorFunctionsActivity.class.getSimpleName(), "Unable to find android function category for " + category);
             }

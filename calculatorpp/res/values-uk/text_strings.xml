@@ -128,8 +128,8 @@
 	<string name="p_calc_haptic_feedback_duration_title">Тривалість вібрації</string>
 	<string name="p_calc_haptic_feedback_duration_summary">Тривалість вібрації на натискання</string>
 
-	<string name="c_empty_var_error">Не можна створити порожню константу!</string>
-	<string name="c_not_valid_result">Поточний результат не допустимий!</string>
+	<string name="empty_var_error">Не можна створити порожню константу!</string>
+	<string name="not_valid_result">Поточний результат не допустимий!</string>
 
 	<string name="c_plot_graph">Графік</string>
 	<string name="c_min_x_value">Від</string>

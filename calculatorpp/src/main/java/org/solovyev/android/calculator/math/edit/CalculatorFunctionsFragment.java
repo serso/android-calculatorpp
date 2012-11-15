@@ -9,6 +9,7 @@ package org.solovyev.android.calculator.math.edit;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.text.ClipboardManager;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
@@ -18,12 +19,7 @@ import jscl.math.function.Function;
 import jscl.math.function.IFunction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.CalculatorEventData;
-import org.solovyev.android.calculator.CalculatorEventType;
-import org.solovyev.android.calculator.CalculatorLocatorImpl;
-import org.solovyev.android.calculator.CalculatorMathRegistry;
-import org.solovyev.android.calculator.Change;
-import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.about.CalculatorFragmentType;
 import org.solovyev.android.calculator.function.FunctionEditDialogFragment;
 import org.solovyev.android.menu.AMenuItem;
@@ -41,7 +37,7 @@ import java.util.List;
  */
 public class CalculatorFunctionsFragment extends AbstractMathEntityListFragment<Function> {
 
-	public static final String CREATE_FUNCTION_EXTRA_STRING = "create_function";
+	public static final String CREATE_FUNCTION_EXTRA = "create_function";
 
     public CalculatorFunctionsFragment() {
         super(CalculatorFragmentType.functions);
@@ -51,32 +47,17 @@ public class CalculatorFunctionsFragment extends AbstractMathEntityListFragment<
     public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		/*getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-			@Override
-			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-				final Function function = (Function) parent.getItemAtPosition(position);
-				if (function instanceof CustomFunction) {
-					createEditVariableDialog(CalculatorFunctionsTabActivity.this,
-							((CustomFunction) function),
-							function.getName(),
-							((CustomFunction) function).getContent(),
-							((CustomFunction) function).getParameterNames(),
-							null);
-				}
-				return true;
-			}
-		});*/
+        final Bundle bundle = getArguments();
+        if (bundle != null) {
+            final Parcelable parcelable = bundle.getParcelable(CREATE_FUNCTION_EXTRA);
+            if (parcelable instanceof FunctionEditDialogFragment.Input) {
+                FunctionEditDialogFragment.showDialog((FunctionEditDialogFragment.Input) parcelable, this.getActivity().getSupportFragmentManager());
 
-		/*final Intent intent = getIntent();
-		if (intent != null) {
-			final String varValue = intent.getStringExtra(CREATE_FUN_EXTRA_STRING);
-			if (!StringUtils.isEmpty(varValue)) {
-				createEditVariableDialog(this, null, null, varValue, null, null);
+                // in order to stop intent for other tabs
+                bundle.remove(CREATE_FUNCTION_EXTRA);
+            }
+        }
 
-				// in order to stop intent for other tabs
-				intent.removeExtra(CREATE_FUN_EXTRA_STRING);
-			}
-		}*/
         setHasOptionsMenu(true);
 
 	}

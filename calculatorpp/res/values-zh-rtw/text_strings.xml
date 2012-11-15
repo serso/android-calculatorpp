@@ -128,8 +128,8 @@
 	<string name="p_calc_haptic_feedback_duration_title">觸控回饋長度</string>
 	<string name="p_calc_haptic_feedback_duration_summary">按下按鈕時振動的時間長度</string>
 
-	<string name="c_empty_var_error">無法建立空白的常數!</string>
-	<string name="c_not_valid_result">計算結果不正確!</string>
+	<string name="empty_var_error">無法建立空白的常數!</string>
+	<string name="not_valid_result">計算結果不正確!</string>
 
 	<string name="c_plot_graph">圖表</string>
 	<string name="c_min_x_value">從</string>

@@ -129,8 +129,8 @@
 	<string name="p_calc_haptic_feedback_duration_title">Haptic feedback duration</string>
 	<string name="p_calc_haptic_feedback_duration_summary">Duration vibration on button click</string>
 
-	<string name="c_empty_var_error">Unable to create empty constant!</string>
-	<string name="c_not_valid_result">Current result is not valid!</string>
+	<string name="empty_var_error">Unable to create empty constant!</string>
+	<string name="not_valid_result">Current result is not valid!</string>
 
 	<string name="c_plot_graph">Graph</string>
 	<string name="c_min_x_value">From</string>
@@ -247,5 +247,6 @@
 	<string name="function_is_empty">Function body could not be empty!</string>
 	<string name="function_param_not_empty">Function parameter should not be empty!</string>
     <string name="function_removal_confirmation_question">Do you really want to delete \'%s\' function?</string>
+    <string name="empty_function_error">Unable to create empty function!</string>
 
 </resources>

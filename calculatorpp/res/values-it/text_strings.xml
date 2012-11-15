@@ -119,8 +119,8 @@
 	<string name="p_calc_haptic_feedback_duration_title">Durata feedback tattile</string>
 	<string name="p_calc_haptic_feedback_duration_summary">Durata della vibrazione su click dei pulsanti</string>
 
-	<string name="c_empty_var_error">Impossibile creare una costante vuota!</string>
-	<string name="c_not_valid_result">Risultato attuale non valido!</string>
+	<string name="empty_var_error">Impossibile creare una costante vuota!</string>
+	<string name="not_valid_result">Risultato attuale non valido!</string>
 
 	<string name="c_plot_graph">Grafico</string>
 	<string name="c_min_x_value">Da</string>

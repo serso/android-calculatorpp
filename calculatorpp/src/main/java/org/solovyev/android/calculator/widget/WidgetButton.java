@@ -35,8 +35,8 @@ enum WidgetButton {
     /*last row*/
     left(R.id.leftButton, CalculatorSpecialButton.cursor_left),
     right(R.id.rightButton, CalculatorSpecialButton.cursor_right),
-    vars(R.id.varsButton, CalculatorSpecialButton.vars_detached),
-    functions(R.id.functionsButton, CalculatorSpecialButton.functions_detached),
+    vars(R.id.vars_button, CalculatorSpecialButton.vars_detached),
+    functions(R.id.functions_button, CalculatorSpecialButton.functions_detached),
     app(R.id.appButton, CalculatorSpecialButton.open_app),
     history(R.id.historyButton, CalculatorSpecialButton.history_detached),
 

@@ -88,11 +88,6 @@ public final class CalculatorButtons {
         }
     }
 
-    @Nullable
-    private static AndroidCalculatorDisplayView getCalculatorDisplayView() {
-        return (AndroidCalculatorDisplayView) CalculatorLocatorImpl.getInstance().getDisplay().getView();
-    }
-
     /*
     **********************************************************************
     *
@@ -127,7 +122,7 @@ public final class CalculatorButtons {
         @NotNull
         private Context context;
 
-        VarsDragProcessor(Context context) {
+        VarsDragProcessor(@NotNull Context context) {
             this.context = context;
         }
 
@@ -235,6 +230,31 @@ public final class CalculatorButtons {
                         Log.d(this.getClass().getName(), "Unsupported numeral base: " + directionText);
                     }
                 }
+            }
+
+            return result;
+        }
+    }
+
+    static class FunctionsDragProcessor implements SimpleOnDragListener.DragProcessor {
+
+        @NotNull
+        private Context context;
+
+        FunctionsDragProcessor(@NotNull Context context) {
+            this.context = context;
+        }
+
+        @Override
+        public boolean processDragEvent(@NotNull DragDirection dragDirection,
+                                        @NotNull DragButton dragButton,
+                                        @NotNull Point2d startPoint2d,
+                                        @NotNull MotionEvent motionEvent) {
+            boolean result = false;
+
+            if (dragDirection == DragDirection.up) {
+                CalculatorActivityLauncher.createFunction(context, CalculatorLocatorImpl.getInstance().getDisplay());
+                result = true;
             }
 
             return result;

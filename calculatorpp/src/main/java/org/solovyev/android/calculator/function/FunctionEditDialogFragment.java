@@ -1,5 +1,7 @@
 package org.solovyev.android.calculator.function;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -9,22 +11,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import jscl.math.Generic;
+import jscl.math.function.Constant;
 import jscl.math.function.CustomFunction;
 import jscl.math.function.Function;
 import jscl.math.function.IFunction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.AndroidUtils2;
-import org.solovyev.android.calculator.CalculatorEventData;
-import org.solovyev.android.calculator.CalculatorEventListener;
-import org.solovyev.android.calculator.CalculatorEventType;
-import org.solovyev.android.calculator.CalculatorLocatorImpl;
-import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.math.edit.CalculatorFunctionsActivity;
+import org.solovyev.android.calculator.math.edit.CalculatorFunctionsFragment;
 import org.solovyev.android.calculator.math.edit.MathEntityRemover;
 import org.solovyev.android.calculator.model.AFunction;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * User: serso
@@ -157,6 +161,16 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
     *
     **********************************************************************
     */
+
+    public static void showDialog(@NotNull Input input, @NotNull Context context) {
+        if (context instanceof SherlockFragmentActivity) {
+            FunctionEditDialogFragment.showDialog(input, ((SherlockFragmentActivity) context).getSupportFragmentManager());
+        } else {
+            final Intent intent = new Intent(context, CalculatorFunctionsActivity.class);
+            intent.putExtra(CalculatorFunctionsFragment.CREATE_FUNCTION_EXTRA, input);
+            context.startActivity(intent);
+        }
+    }
 
     public static void showDialog(@NotNull Input input, @NotNull FragmentManager fm) {
         AndroidUtils2.showDialog(new FunctionEditDialogFragment(input), "function-editor", fm);
@@ -291,5 +305,23 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
 			out.writeList(parameterNames);
 			out.writeSerializable(function);
 		}
-	}
+
+        @NotNull
+        public static Input newFromDisplay(@NotNull CalculatorDisplayViewState viewState) {
+            final Input result = new Input();
+
+            result.content = viewState.getText();
+            final Generic generic = viewState.getResult();
+            if ( generic != null ) {
+                final Set<Constant> constants = CalculatorUtils.getNotSystemConstants(generic);
+                final List<String> parameterNames = new ArrayList<String>(constants.size());
+                for (Constant constant : constants) {
+                    parameterNames.add(constant.getName());
+                }
+                result.parameterNames = parameterNames;
+            }
+
+            return result;
+        }
+    }
 }

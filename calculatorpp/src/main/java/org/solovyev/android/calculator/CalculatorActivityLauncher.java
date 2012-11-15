@@ -9,6 +9,7 @@ import jscl.math.function.Constant;
 import org.achartengine.ChartFactory;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.about.CalculatorAboutActivity;
+import org.solovyev.android.calculator.function.FunctionEditDialogFragment;
 import org.solovyev.android.calculator.help.CalculatorHelpActivity;
 import org.solovyev.android.calculator.history.CalculatorHistoryActivity;
 import org.solovyev.android.calculator.math.edit.*;
@@ -114,15 +115,32 @@ public class CalculatorActivityLauncher {
                         context.startActivity(intent);
                     }
                 } else {
-                    CalculatorLocatorImpl.getInstance().getNotifier().showMessage(R.string.c_not_valid_result, MessageType.error);
+                    CalculatorLocatorImpl.getInstance().getNotifier().showMessage(R.string.not_valid_result, MessageType.error);
 				}
 			} else {
-                CalculatorLocatorImpl.getInstance().getNotifier().showMessage(R.string.c_empty_var_error, MessageType.error);
+                CalculatorLocatorImpl.getInstance().getNotifier().showMessage(R.string.empty_var_error, MessageType.error);
 			}
 		} else {
-            CalculatorLocatorImpl.getInstance().getNotifier().showMessage(R.string.c_not_valid_result, MessageType.error);
+            CalculatorLocatorImpl.getInstance().getNotifier().showMessage(R.string.not_valid_result, MessageType.error);
 		}
 	}
+
+    public static void createFunction(@NotNull final Context context, @NotNull CalculatorDisplay calculatorDisplay) {
+        final CalculatorDisplayViewState viewState = calculatorDisplay.getViewState();
+
+        if (viewState.isValid() ) {
+            final String functionValue = viewState.getText();
+            if (!StringUtils.isEmpty(functionValue)) {
+
+                FunctionEditDialogFragment.showDialog(FunctionEditDialogFragment.Input.newFromDisplay(viewState), context);
+
+            } else {
+                CalculatorLocatorImpl.getInstance().getNotifier().showMessage(R.string.empty_function_error, MessageType.error);
+            }
+        } else {
+            CalculatorLocatorImpl.getInstance().getNotifier().showMessage(R.string.not_valid_result, MessageType.error);
+        }
+    }
 
     public static void openApp(@NotNull Context context) {
         final Intent intent = new Intent(context, CalculatorActivity.class);

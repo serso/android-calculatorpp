@@ -7,7 +7,7 @@
   -->
 
 <Button xmlns:a="http://schemas.android.com/apk/res/android"
-        a:id="@+id/varsButton"
+        a:id="@+id/vars_button"
         a:text="π,…"
         a:textStyle="italic"
         style="@style/widget_metro_control_button_style"/>

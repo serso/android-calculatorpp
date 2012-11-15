@@ -125,9 +125,14 @@ public abstract class AbstractCalculatorHelper implements SharedPreferences.OnSh
             clearButton.setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new CalculatorButtons.NumeralBasesChanger(activity), dragPreferences), vibrator, preferences));
         }
 
-        final DragButton varsButton = getButton(root, R.id.varsButton);
+        final DragButton varsButton = getButton(root, R.id.vars_button);
         if (varsButton != null) {
             varsButton.setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new CalculatorButtons.VarsDragProcessor(activity), dragPreferences), vibrator, preferences));
+        }
+
+        final DragButton functionsButton = getButton(root, R.id.functions_button);
+        if (functionsButton != null) {
+            functionsButton.setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new CalculatorButtons.FunctionsDragProcessor(activity), dragPreferences), vibrator, preferences));
         }
 
         final DragButton roundBracketsButton = getButton(root, R.id.roundBracketsButton);
