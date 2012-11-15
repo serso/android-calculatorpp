@@ -49,6 +49,9 @@ public class CalculatorFunctionsMathRegistry extends AbstractCalculatorMathRegis
 		super.load();
 
 		add(new CustomFunction.Builder(true, "log", Arrays.asList("base", "x"), "ln(x)/ln(base)"));
+		add(new CustomFunction.Builder(true, "√3", Arrays.asList("x"), "x^(1/3)"));
+		add(new CustomFunction.Builder(true, "√4", Arrays.asList("x"), "x^(1/4)"));
+		add(new CustomFunction.Builder(true, "√n", Arrays.asList("x", "n"), "x^(1/n)"));
 	}
 
 	public static void saveFunction(@NotNull CalculatorMathRegistry<Function> registry,
