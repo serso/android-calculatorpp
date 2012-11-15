@@ -160,7 +160,7 @@ public abstract class AbstractCalculatorHelper implements SharedPreferences.OnSh
             toggleButtonDirectionText(root, R.id.plusButton, false, DragDirection.down, DragDirection.up);
         }
 
-        CalculatorButtons.processButtons(true, theme, root);
+        CalculatorButtons.processButtons(true, theme, layout, root);
         CalculatorButtons.toggleEqualsButton(preferences, activity);
         CalculatorButtons.initMultiplicationButton(root);
         NumeralBaseButtons.toggleNumericDigits(activity, preferences);

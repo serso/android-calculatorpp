@@ -27,7 +27,6 @@ import org.solovyev.android.calculator.about.CalculatorFragmentType;
 import org.solovyev.android.calculator.about.CalculatorReleaseNotesFragment;
 import org.solovyev.android.fragments.FragmentUtils;
 import org.solovyev.android.prefs.Preference;
-import org.solovyev.android.view.ColorButton;
 import org.solovyev.common.equals.EqualsTool;
 import org.solovyev.common.history.HistoryAction;
 import org.solovyev.common.text.StringUtils;
@@ -279,15 +278,7 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
         Log.d(String.valueOf(v.getId()), "digitButtonClickHandler() for: " + v.getId() + ". Pressed: " + v.isPressed());
 
         if (v instanceof Button) {
-
-            boolean processText = true;
-            if ( v instanceof ColorButton) {
-                processText = ((ColorButton) v).isShowText();
-            }
-
-            if ( processText ) {
-                buttonPressed(((Button)v).getText().toString());
-            }
+            buttonPressed(((Button)v).getText().toString());
         }
     }
 

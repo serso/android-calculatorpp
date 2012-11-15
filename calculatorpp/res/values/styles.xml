@@ -38,7 +38,7 @@
         <item name="android:layout_height">fill_parent</item>
         <item name="android:layout_weight">1</item>
         <item name="android:focusable">true</item>
-        <item name="android:background">@drawable/default_button_dark</item>
+        <item name="android:background">@drawable/metro_button_dark</item>
         <item name="android:layout_margin">@dimen/button_margin</item>
         <item name="android:textSize">@dimen/keyboard_button_text_size</item>
         <item name="android:textColor">@color/button_text_color</item>

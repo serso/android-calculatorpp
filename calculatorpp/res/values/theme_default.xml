@@ -7,7 +7,7 @@
 
 <resources>
     <style name="default_digit_button_style" parent="keyboard_button_style">
-        <item name="android:background">@drawable/default_button</item>
+        <item name="android:background">@drawable/metro_button_dark</item>
     </style>
 
     <style name="default_control_button_style" parent="keyboard_button_style"/>

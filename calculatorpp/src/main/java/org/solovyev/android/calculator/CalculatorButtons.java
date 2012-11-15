@@ -19,7 +19,6 @@ import org.solovyev.android.AndroidUtils;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 import org.solovyev.android.calculator.view.AngleUnitsButton;
 import org.solovyev.android.calculator.view.NumeralBasesButton;
-import org.solovyev.android.view.ColorButton;
 import org.solovyev.android.view.drag.DragButton;
 import org.solovyev.android.view.drag.DragDirection;
 import org.solovyev.android.view.drag.SimpleOnDragListener;
@@ -38,18 +37,18 @@ public final class CalculatorButtons {
 
     public static void processButtons(boolean fixMagicFlames,
                                       @NotNull CalculatorPreferences.Gui.Theme theme,
+                                      @NotNull CalculatorPreferences.Gui.Layout layout,
                                       @NotNull View root) {
-        if (theme.getThemeType() == CalculatorPreferences.Gui.ThemeType.metro) {
+        if ( layout == CalculatorPreferences.Gui.Layout.main_calculator_mobile ) {
 
-            if (fixMagicFlames) {
-                // for metro themes we should turn off magic flames
-                AndroidUtils.processViewsOfType(root, ColorButton.class, new AndroidUtils.ViewProcessor<ColorButton>() {
-                    @Override
-                    public void process(@NotNull ColorButton colorButton) {
-                        colorButton.setDrawMagicFlame(false);
-                    }
-                });
-            }
+            final float textSize =root.getResources().getDimension(R.dimen.button_text_size_mobile);
+
+            AndroidUtils.processViewsOfType(root, DragButton.class, new AndroidUtils.ViewProcessor<DragButton>() {
+                @Override
+                public void process(@NotNull DragButton button) {
+                    button.setTextSize(textSize);
+                }
+            });
         }
     }
 

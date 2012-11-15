@@ -6,9 +6,8 @@
   ~ or visit http://se.solovyev.org
   -->
 
-<org.solovyev.android.view.ColorButton xmlns:a="http://schemas.android.com/apk/res/android"
-			 xmlns:c="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
+<ImageButton xmlns:a="http://schemas.android.com/apk/res/android"
 			 a:id="@+id/pasteButton"
-			 a:drawableTop="@drawable/kb_paste"
+			 a:src="@drawable/kb_paste"
 			 style="?controlImageButtonStyle"
 			 a:onClick="pasteButtonClickHandler"/>
