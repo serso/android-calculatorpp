@@ -17,6 +17,8 @@ import org.solovyev.android.calculator.model.Var;
 import org.solovyev.android.calculator.text.TextProcessor;
 import org.solovyev.android.calculator.units.CalculatorNumeralBase;
 import org.solovyev.common.history.HistoryAction;
+import org.solovyev.common.msg.ListMessageRegistry;
+import org.solovyev.common.msg.Message;
 import org.solovyev.common.msg.MessageRegistry;
 import org.solovyev.common.msg.MessageType;
 import org.solovyev.common.text.StringUtils;
@@ -175,12 +177,27 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 
                 try {
 
-                    final Generic result = operation.evaluateGeneric(jsclExpression, CalculatorLocatorImpl.getInstance().getEngine().getMathEngine());
+					final CalculatorMathEngine mathEngine = CalculatorLocatorImpl.getInstance().getEngine().getMathEngine();
+
+					final MessageRegistry messageRegistry = new ListMessageRegistry();
+					CalculatorLocatorImpl.getInstance().getEngine().getMathEngine0().setMessageRegistry(messageRegistry);
+
+					final Generic result = operation.evaluateGeneric(jsclExpression, mathEngine);
 
                     // NOTE: toString() method must be called here as ArithmeticOperationException may occur in it (just to avoid later check!)
                     result.toString();
 
-                    final CalculatorOutput data = CalculatorOutputImpl.newOutput(operation.getFromProcessor().process(result), operation, result);
+					final CalculatorLogger logger = CalculatorLocatorImpl.getInstance().getLogger();
+					try {
+						while (messageRegistry.hasMessage()) {
+							handleJsclMessage(messageRegistry.getMessage());
+						}
+					} catch (Throwable e) {
+						// todo serso: not good be we need proper synchronization
+						logger.error("Calculator", e.getMessage(), e);
+					}
+
+					final CalculatorOutput data = CalculatorOutputImpl.newOutput(operation.getFromProcessor().process(result), operation, result);
                     fireCalculatorEvent(newCalculationEventData(operation, expression, sequenceId), CalculatorEventType.calculation_result, data);
 
                 } catch (AbstractJsclArithmeticException e) {
@@ -203,6 +220,11 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
             handleException(sequenceId, operation, expression, mr, preparedExpression, e);
         }
     }
+
+	private void handleJsclMessage(@NotNull Message message) {
+		final CalculatorNotifier notifier = CalculatorLocatorImpl.getInstance().getNotifier();
+		notifier.showMessage(message);
+	}
 
 	@NotNull
 	@Override
