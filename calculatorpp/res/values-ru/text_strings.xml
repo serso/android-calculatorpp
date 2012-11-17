@@ -248,4 +248,21 @@
     <string name="function_removal_confirmation_question">Вы действительно хотите удалить функцию \'%s\'?</string>
     <string name="empty_function_error">Невозможно создать пустую функцию!</string>
 
+    <string name="do_not_show_messages_in_session">Не показывать это сообщение до следующего запуска программы</string>
+    <string name="calculation_messages_dialog_title">Калькулятор++</string>
+    <string name="arithmetic_error_while_plot">При построении графика возникла арифметическая ошибка: %s</string>
+    <string name="ok">Да</string>
+    <string name="p_show_calculation_messages_dialog_title">Показывать сообщения об ошибках в диалоге</string>
+    <string name="p_show_calculation_messages_dialog_summary">Если включено, то сообщения об ошибках возникающие при вычислениях будут показаны в отедльном диалоге
+    </string>
+    <string name="fix">Исправить</string>
+
+    <string name="p_preferred_numeral_base_title">Система счисления по умолчанию</string>
+    <string name="p_preferred_numeral_base_summary">Устанавливает систему счисления по умолчанию</string>
+    <string name="preferred_numeral_base_message">Система счисления по умолчанию \'%1$s\' отличается от текущей \'%2$s\'. Забыли её вернуть?</string>
+
+    <string name="p_preferred_angle_units_title">Единицы измерения углов по умолчанию</string>
+    <string name="p_preferred_angle_units_summary">Устанавливает единицы измерения углов по умолчанию</string>
+    <string name="preferred_angle_units_message">Единицы измерения углов по умолчанию \'%1$s\' отличаются от текущих \'%2$s\'. Забыли их вернуть?</string>
+
 </resources>
