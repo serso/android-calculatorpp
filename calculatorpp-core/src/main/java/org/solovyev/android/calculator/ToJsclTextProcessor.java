@@ -6,11 +6,12 @@
 
 package org.solovyev.android.calculator;
 
+import jscl.math.function.Function;
 import jscl.math.function.IConstant;
 import org.jetbrains.annotations.NotNull;
+import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.text.TextProcessor;
 import org.solovyev.common.StartsWithFinder;
-import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.common.collections.CollectionsUtils;
 import org.solovyev.common.msg.MessageType;
 
@@ -72,7 +73,17 @@ public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, St
 				}
 			}
 
-			i = mathTypeResult.processToJscl(result, i);
+            if (mathTypeBefore != null &&
+                    (mathTypeBefore.getMathType() == MathType.function || mathTypeBefore.getMathType() == MathType.operator) &&
+                    CollectionsUtils.find(MathType.openGroupSymbols, startsWithFinder) != null) {
+                final String functionName = mathTypeBefore.getMatch();
+                final Function function = CalculatorLocatorImpl.getInstance().getEngine().getFunctionsRegistry().get(functionName);
+                if ( function == null || function.getMinParameters() > 0 ) {
+                    throw new CalculatorParseException(i, s, new CalculatorMessage(CalculatorMessages.msg_005, MessageType.error, mathTypeBefore.getMatch()));
+                }
+            }
+
+            i = mathTypeResult.processToJscl(result, i);
 		}
 		return result;
 	}

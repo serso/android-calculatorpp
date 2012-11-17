@@ -207,10 +207,10 @@ public class AndroidCalculatorEngineTest extends AbstractCalculatorTest {
 
 		try {
 		 	cm.setNumeralBase(NumeralBase.hex);
-			CalculatorTestUtils.assertEval("E/F", "0x:E/0x:F");
-			CalculatorTestUtils.assertEval("E/F", cm.simplify( "0x:E/0x:F"));
-			CalculatorTestUtils.assertEval("E/F", "E/F");
-			CalculatorTestUtils.assertEval("E/F", cm.simplify( "E/F"));
+			CalculatorTestUtils.assertEval("0.EE E", "0x:E/0x:F");
+			CalculatorTestUtils.assertEval("0.EE E", cm.simplify( "0x:E/0x:F"));
+			CalculatorTestUtils.assertEval("0.EE E", "E/F");
+			CalculatorTestUtils.assertEval("0.EE E", cm.simplify( "E/F"));
 		} finally {
 			cm.setNumeralBase(NumeralBase.dec);
 		}
@@ -396,7 +396,7 @@ public class AndroidCalculatorEngineTest extends AbstractCalculatorTest {
 		try{
 			cm.setNumeralBase(NumeralBase.bin);
 			CalculatorTestUtils.assertEval("101", "10+11");
-            CalculatorTestUtils.assertEval("10/11", "10/11");
+            CalculatorTestUtils.assertEval("0.101", "10/11");
 
 			cm.setNumeralBase(NumeralBase.hex);
             CalculatorTestUtils.assertEval("63 7B", "56CE+CAD");

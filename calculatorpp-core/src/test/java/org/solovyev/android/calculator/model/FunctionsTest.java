@@ -6,9 +6,11 @@ import org.hamcrest.Description;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
+import org.solovyev.android.calculator.CalculatorTestUtils;
 import org.solovyev.common.equals.CollectionEqualizer;
 import org.solovyev.common.equals.EqualsUtils;
 import org.solovyev.common.text.StringUtils;
@@ -57,6 +59,11 @@ public class FunctionsTest {
             "      </function>\n" +
             "   </functions>\n" +
             "</functions>";
+
+    @Before
+    public void setUp() throws Exception {
+        CalculatorTestUtils.staticSetUp();
+    }
 
     @Test
     public void testXml() throws Exception {

@@ -39,10 +39,10 @@ public class ListCalculatorEventContainer implements CalculatorEventContainer {
     public void fireCalculatorEvents(@NotNull List<CalculatorEvent> calculatorEvents) {
         final List<CalculatorEventListener> listeners = this.listeners.getListeners();
 
-        final CalculatorLogger logger = CalculatorLocatorImpl.getInstance().getLogger();
+        //final CalculatorLogger logger = CalculatorLocatorImpl.getInstance().getLogger();
 
         for (CalculatorEvent e : calculatorEvents) {
-            CalculatorLocatorImpl.getInstance().getLogger().debug(TAG, "Event fired: " + e.getCalculatorEventType());
+            //CalculatorLocatorImpl.getInstance().getLogger().debug(TAG, "Event fired: " + e.getCalculatorEventType());
             for (CalculatorEventListener listener : listeners) {
                 /*long startTime = System.currentTimeMillis();*/
                 listener.onCalculatorEvent(e.getCalculatorEventData(), e.getCalculatorEventType(), e.getData());
