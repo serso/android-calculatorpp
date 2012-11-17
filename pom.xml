@@ -30,7 +30,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <android.common.version>1.0.5-SNAPSHOT</android.common.version>
+        <android.common.version>1.0.5</android.common.version>
         <common.version>1.0.3</common.version>
     </properties>
 
