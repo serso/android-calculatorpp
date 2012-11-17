@@ -257,4 +257,12 @@
     </string>
     <string name="fix">Fix</string>
 
+    <string name="p_preferred_numeral_base_title">Preferred numeral base</string>
+    <string name="p_preferred_numeral_base_summary">Defines the preferred numeral base</string>
+    <string name="preferred_numeral_base_message">Preferred numeral base \'%1$s\' differs from current numeral base \'%2$s\'. Forgot to change back?</string>
+
+    <string name="p_preferred_angle_units_title">Preferred angle units</string>
+    <string name="p_preferred_angle_units_summary">Defines the preferred angle units</string>
+    <string name="preferred_angle_units_message">Preferred angle units \'%1$s\' differs from current angle units \'%2$s\'. Forgot to change back?</string>
+
 </resources>

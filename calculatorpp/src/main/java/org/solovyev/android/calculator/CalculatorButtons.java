@@ -10,7 +10,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RemoteViews;
-import android.widget.Toast;
 import jscl.AngleUnit;
 import jscl.NumeralBase;
 import org.jetbrains.annotations.NotNull;
@@ -19,7 +18,6 @@ import org.solovyev.android.AndroidUtils;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 import org.solovyev.android.calculator.view.AngleUnitsButton;
 import org.solovyev.android.calculator.view.NumeralBasesButton;
-import org.solovyev.android.view.drag.DirectionDragButton;
 import org.solovyev.android.view.drag.DragButton;
 import org.solovyev.android.view.drag.DragDirection;
 import org.solovyev.android.view.drag.SimpleOnDragListener;
@@ -217,9 +215,7 @@ public final class CalculatorButtons {
 
                         final NumeralBase oldNumeralBase = AndroidCalculatorEngine.Preferences.numeralBase.getPreference(preferences);
                         if (oldNumeralBase != numeralBase) {
-                            AndroidCalculatorEngine.Preferences.numeralBase.putPreference(preferences, numeralBase);
-
-                            Toast.makeText(context, context.getString(R.string.c_numeral_base_changed_to, numeralBase.name()), Toast.LENGTH_LONG).show();
+                            CalculatorLocatorImpl.getInstance().getPreferenceService().setNumeralBase(numeralBase);
                         }
 
                         result = true;

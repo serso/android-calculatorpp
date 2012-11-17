@@ -1,6 +1,7 @@
 package org.solovyev.android.calculator;
 
 import jscl.AngleUnit;
+import jscl.NumeralBase;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -10,5 +11,11 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface CalculatorPreferenceService {
 
+    void setPreferredAngleUnits();
     void setAngleUnits(@NotNull AngleUnit angleUnit);
+
+    void setPreferredNumeralBase();
+    void setNumeralBase(@NotNull NumeralBase numeralBase);
+
+    void checkPreferredPreferences(boolean force);
 }

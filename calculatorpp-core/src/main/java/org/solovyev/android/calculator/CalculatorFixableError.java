@@ -20,6 +20,20 @@ public enum CalculatorFixableError {
         public void fix() {
             CalculatorLocatorImpl.getInstance().getPreferenceService().setAngleUnits(AngleUnit.rad);
         }
+    },
+
+    preferred_numeral_base() {
+        @Override
+        public void fix() {
+            CalculatorLocatorImpl.getInstance().getPreferenceService().setPreferredNumeralBase();
+        }
+    },
+
+    preferred_angle_units() {
+        @Override
+        public void fix() {
+            CalculatorLocatorImpl.getInstance().getPreferenceService().setPreferredAngleUnits();
+        }
     };
 
     @NotNull

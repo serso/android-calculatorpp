@@ -8,13 +8,15 @@
     <TextView a:id="@+id/calculation_messages_text_view"
         a:layout_width="0dp"
         a:layout_height="wrap_content"
-        a:layout_weight="5"/>
+        a:layout_weight="5"
+        a:layout_gravity="top|left"/>
 
     <Button
         a:id="@+id/fix_button"
         a:layout_width="0dp"
         a:layout_height="wrap_content"
         a:layout_weight="1"
+        a:layout_gravity="top|right"
         a:text="@string/fix" />
 
 </LinearLayout>

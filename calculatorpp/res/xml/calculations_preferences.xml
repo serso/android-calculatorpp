@@ -32,11 +32,25 @@
                         a:summary="@string/c_calc_grouping_separator_summary"
                         a:entryValues="@array/p_grouping_separator_values"/>
 
+        <ListPreference
+            a:key="preferred_angle_units"
+            a:title="@string/p_preferred_angle_units_title"
+            a:summary="@string/p_preferred_angle_units_summary"
+            a:entries="@array/p_angle_units_names"
+            a:entryValues="@array/p_angle_units" />
+
         <ListPreference a:key="@string/p_calc_angle_units_key"
                         a:title="@string/c_calc_angle_units"
                         a:entries="@array/p_angle_units_names"
                         a:summary="@string/c_angle_units_summary"
                         a:entryValues="@array/p_angle_units"/>
+
+        <ListPreference
+            a:key="preferred_numeral_base"
+            a:title="@string/p_preferred_numeral_base_title"
+            a:summary="@string/p_preferred_numeral_base_summary"
+            a:entries="@array/p_numeral_bases_names"
+            a:entryValues="@array/p_numeral_bases" />
 
         <ListPreference a:key="@string/p_calc_numeral_bases_key"
                         a:title="@string/c_calc_numeral_bases"

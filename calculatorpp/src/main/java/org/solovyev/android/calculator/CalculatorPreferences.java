@@ -8,10 +8,7 @@ import org.solovyev.android.AndroidUtils;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 import org.solovyev.android.calculator.plot.GraphLineColor;
-import org.solovyev.android.prefs.BooleanPreference;
-import org.solovyev.android.prefs.IntegerPreference;
-import org.solovyev.android.prefs.Preference;
-import org.solovyev.android.prefs.StringPreference;
+import org.solovyev.android.prefs.*;
 import org.solovyev.android.view.VibratorContainer;
 
 import java.text.DecimalFormatSymbols;
@@ -36,8 +33,9 @@ public final class CalculatorPreferences {
         public static final Preference<Boolean> calculateOnFly = new BooleanPreference("calculations_calculate_on_fly", true);
         public static final Preference<Boolean> showCalculationMessagesDialog = new BooleanPreference("show_calculation_messages_dialog", true);
 
-        public static final Preference<NumeralBase> preferredNumeralBase = StringPreference.newInstance("preferred_numeral_base", NumeralBase.dec, NumeralBase.class);
-        public static final Preference<AngleUnit> preferredAngleUnit = StringPreference.newInstance("preferred_angle_units", AngleUnit.deg, AngleUnit.class);
+        public static final Preference<NumeralBase> preferredNumeralBase = StringPreference.newInstance("preferred_numeral_base", AndroidCalculatorEngine.Preferences.numeralBase.getDefaultValue(), NumeralBase.class);
+        public static final Preference<AngleUnit> preferredAngleUnits = StringPreference.newInstance("preferred_angle_units", AndroidCalculatorEngine.Preferences.angleUnit.getDefaultValue(), AngleUnit.class);
+        public static final Preference<Long> lastPreferredPreferencesCheck = new LongPreference("preferred_preferences_check_time", 0L);
 
     }
 
@@ -183,8 +181,9 @@ public final class CalculatorPreferences {
         applyDefaultPreference(preferences, Graph.lineColorReal);
         applyDefaultPreference(preferences, History.showIntermediateCalculations);
         applyDefaultPreference(preferences, Calculations.calculateOnFly);
-        applyDefaultPreference(preferences, Calculations.preferredAngleUnit);
+        applyDefaultPreference(preferences, Calculations.preferredAngleUnits);
         applyDefaultPreference(preferences, Calculations.preferredNumeralBase);
+        applyDefaultPreference(preferences, Calculations.lastPreferredPreferencesCheck);
 
 
         // renew value after each application start

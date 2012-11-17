@@ -163,7 +163,7 @@ public class CalculatorActivityLauncher {
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
         if ( CalculatorPreferences.Calculations.showCalculationMessagesDialog.getPreference(prefs) ) {
-            CalculatorMessagesDialog.showDialog(messages, context);
+            CalculatorMessagesDialog.showDialogForMessages(messages, context);
         }
     }
 }

@@ -163,6 +163,8 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
                           @NotNull String expression,
                           @Nullable MessageRegistry mr) {
 
+        CalculatorLocatorImpl.getInstance().getPreferenceService().checkPreferredPreferences(false);
+
         PreparedExpression preparedExpression = null;
 
         try {

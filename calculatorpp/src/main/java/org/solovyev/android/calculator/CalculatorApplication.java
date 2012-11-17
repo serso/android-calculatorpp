@@ -126,6 +126,8 @@ public class CalculatorApplication extends android.app.Application {
 
         CalculatorLocatorImpl.getInstance().getLogger().debug(TAG, "Application started!");
         CalculatorLocatorImpl.getInstance().getNotifier().showDebugMessage(TAG, "Application started!");
+
+        CalculatorLocatorImpl.getInstance().getPreferenceService().checkPreferredPreferences(true);
     }
 
     private void setTheme(@NotNull SharedPreferences preferences) {
