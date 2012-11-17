@@ -19,6 +19,7 @@ import org.solovyev.android.AndroidUtils;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 import org.solovyev.android.calculator.view.AngleUnitsButton;
 import org.solovyev.android.calculator.view.NumeralBasesButton;
+import org.solovyev.android.view.drag.DirectionDragButton;
 import org.solovyev.android.view.drag.DragButton;
 import org.solovyev.android.view.drag.DragDirection;
 import org.solovyev.android.view.drag.SimpleOnDragListener;
@@ -35,13 +36,12 @@ public final class CalculatorButtons {
     }
 
 
-    public static void processButtons(boolean fixMagicFlames,
-                                      @NotNull CalculatorPreferences.Gui.Theme theme,
+    public static void processButtons(@NotNull CalculatorPreferences.Gui.Theme theme,
                                       @NotNull CalculatorPreferences.Gui.Layout layout,
                                       @NotNull View root) {
         if ( layout == CalculatorPreferences.Gui.Layout.main_calculator_mobile ) {
 
-            final float textSize =root.getResources().getDimension(R.dimen.button_text_size_mobile);
+            final float textSize = root.getResources().getDimension(R.dimen.button_text_size_mobile);
 
             AndroidUtils.processViewsOfType(root, DragButton.class, new AndroidUtils.ViewProcessor<DragButton>() {
                 @Override
@@ -173,9 +173,7 @@ public final class CalculatorButtons {
 
                             final AngleUnit oldAngleUnits = AndroidCalculatorEngine.Preferences.angleUnit.getPreference(preferences);
                             if (oldAngleUnits != angleUnits) {
-                                AndroidCalculatorEngine.Preferences.angleUnit.putPreference(preferences, angleUnits);
-
-                                Toast.makeText(context, context.getString(R.string.c_angle_units_changed_to, angleUnits.name()), Toast.LENGTH_LONG).show();
+                                CalculatorLocatorImpl.getInstance().getPreferenceService().setAngleUnits(angleUnits);
                             }
 
                             result = true;

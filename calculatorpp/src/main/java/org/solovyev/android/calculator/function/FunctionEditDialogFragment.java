@@ -19,12 +19,12 @@ import jscl.math.function.Function;
 import jscl.math.function.IFunction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.AndroidUtils2;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.math.edit.CalculatorFunctionsActivity;
 import org.solovyev.android.calculator.math.edit.CalculatorFunctionsFragment;
 import org.solovyev.android.calculator.math.edit.MathEntityRemover;
 import org.solovyev.android.calculator.model.AFunction;
+import org.solovyev.android.sherlock.AndroidSherlockUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -173,7 +173,7 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
     }
 
     public static void showDialog(@NotNull Input input, @NotNull FragmentManager fm) {
-        AndroidUtils2.showDialog(new FunctionEditDialogFragment(input), "function-editor", fm);
+        AndroidSherlockUtils.showDialog(new FunctionEditDialogFragment(input), "function-editor", fm);
     }
 
     public static class Input implements Parcelable {

@@ -15,7 +15,7 @@ import org.solovyev.android.calculator.history.CalculatorHistory;
 public class CalculatorTestUtils {
 
     public static void staticSetUp(@Nullable Context context) throws Exception {
-        CalculatorLocatorImpl.getInstance().init(new CalculatorImpl(), newCalculatorEngine(), Mockito.mock(CalculatorClipboard.class), Mockito.mock(CalculatorNotifier.class), Mockito.mock(CalculatorHistory.class), new SystemOutCalculatorLogger());
+        CalculatorLocatorImpl.getInstance().init(new CalculatorImpl(), newCalculatorEngine(), Mockito.mock(CalculatorClipboard.class), Mockito.mock(CalculatorNotifier.class), Mockito.mock(CalculatorHistory.class), new SystemOutCalculatorLogger(), Mockito.mock(CalculatorPreferenceService.class));
         CalculatorLocatorImpl.getInstance().getEngine().init();
 
         if ( context != null ) {

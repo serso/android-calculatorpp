@@ -2,7 +2,9 @@ package org.solovyev.android.calculator;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import jscl.math.Generic;
 import jscl.math.function.Constant;
@@ -15,8 +17,11 @@ import org.solovyev.android.calculator.history.CalculatorHistoryActivity;
 import org.solovyev.android.calculator.math.edit.*;
 import org.solovyev.android.calculator.plot.CalculatorPlotActivity;
 import org.solovyev.android.calculator.plot.CalculatorPlotFragment;
+import org.solovyev.common.msg.Message;
 import org.solovyev.common.msg.MessageType;
 import org.solovyev.common.text.StringUtils;
+
+import java.util.List;
 
 /**
  * User: serso
@@ -152,5 +157,13 @@ public class CalculatorActivityLauncher {
         final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(CalculatorApplication.FACEBOOK_APP_URL));
         addFlags(intent, false);
         context.startActivity(intent);
+    }
+
+    public static void showCalculationMessagesDialog(@NotNull Context context, @NotNull List<Message> messages) {
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+        if ( CalculatorPreferences.Calculations.showCalculationMessagesDialog.getPreference(prefs) ) {
+            CalculatorMessagesDialog.showDialog(messages, context);
+        }
     }
 }

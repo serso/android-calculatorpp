@@ -16,7 +16,6 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
@@ -170,9 +169,13 @@ public class CalculatorPlotFragment extends CalculatorFragment implements Calcul
             final GraphLineColor imagLineColor = CalculatorPreferences.Graph.lineColorImag.getPreference(preferences);
 
             //noinspection ConstantConditions
-            this.chart = PlotUtils.prepareChart(getMinValue(null), getMaxValue(null), preparedInput.getExpression(), preparedInput.getVariable(), bgColor, interpolate, realLineColor.getColor(), imagLineColor.getColor());
+            try {
+                this.chart = PlotUtils.prepareChart(getMinValue(null), getMaxValue(null), preparedInput.getExpression(), preparedInput.getVariable(), bgColor, interpolate, realLineColor.getColor(), imagLineColor.getColor());
+            } catch (ArithmeticException e) {
+                PlotUtils.handleArithmeticException(e, CalculatorPlotFragment.this);
+            }
         } else {
-            this.chart = null;
+            onError();
         }
     }
 
@@ -326,8 +329,7 @@ public class CalculatorPlotFragment extends CalculatorFragment implements Calcul
                                             }
                                         }
                                     } catch (ArithmeticException e) {
-                                        // todo serso: translate
-                                        Toast.makeText(CalculatorPlotFragment.this.getActivity(), "Arithmetic error: " + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                                        PlotUtils.handleArithmeticException(e, CalculatorPlotFragment.this);
                                     }
 
                                     uiHandler.post(new Runnable() {
@@ -416,6 +418,10 @@ public class CalculatorPlotFragment extends CalculatorFragment implements Calcul
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return super.onOptionsItemSelected(item) || fragmentMenu.onOptionsItemSelected(this.getActivity(), item);
+    }
+
+    public void onError() {
+        this.chart = null;
     }
 
     /*

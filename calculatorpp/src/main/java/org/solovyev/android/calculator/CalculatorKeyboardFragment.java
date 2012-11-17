@@ -110,6 +110,15 @@ public class CalculatorKeyboardFragment extends SherlockFragment implements Shar
             NumeralBaseButtons.toggleNumericDigits(this.getActivity(), preferences);
         }
 
+        if ( AndroidCalculatorEngine.Preferences.angleUnit.getKey().equals(key) ||
+                AndroidCalculatorEngine.Preferences.numeralBase.getKey().equals(key) ) {
+            View view = getView();
+            if ( view != null) {
+                // we should update state of angle units/numeral base button => we can achieve it by invalidating the whole view
+                view.invalidate();
+            }
+        }
+
         if ( CalculatorPreferences.Gui.showEqualsButton.getKey().equals(key) ) {
             CalculatorButtons.toggleEqualsButton(preferences, this.getActivity());
         }

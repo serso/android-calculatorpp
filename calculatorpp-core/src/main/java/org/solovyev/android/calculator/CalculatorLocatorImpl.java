@@ -40,6 +40,9 @@ public class CalculatorLocatorImpl implements CalculatorLocator {
     @NotNull
     private static final CalculatorLocator instance = new CalculatorLocatorImpl();
 
+    @NotNull
+    private CalculatorPreferenceService calculatorPreferenceService;
+
     public CalculatorLocatorImpl() {
     }
 
@@ -49,7 +52,8 @@ public class CalculatorLocatorImpl implements CalculatorLocator {
                      @NotNull CalculatorClipboard clipboard,
                      @NotNull CalculatorNotifier notifier,
                      @NotNull CalculatorHistory history,
-                     @NotNull CalculatorLogger logger) {
+                     @NotNull CalculatorLogger logger,
+                     @NotNull CalculatorPreferenceService preferenceService) {
 
         this.calculator = calculator;
         this.calculatorEngine = engine;
@@ -57,6 +61,7 @@ public class CalculatorLocatorImpl implements CalculatorLocator {
         this.calculatorNotifier = notifier;
         this.calculatorHistory = history;
         this.calculatorLogger = logger;
+        this.calculatorPreferenceService = preferenceService;
 
         calculatorEditor = new CalculatorEditorImpl(this.calculator);
         calculatorDisplay = new CalculatorDisplayImpl(this.calculator);
@@ -120,5 +125,11 @@ public class CalculatorLocatorImpl implements CalculatorLocator {
     @NotNull
     public CalculatorLogger getLogger() {
         return calculatorLogger;
+    }
+
+    @NotNull
+    @Override
+    public CalculatorPreferenceService getPreferenceService() {
+        return this.calculatorPreferenceService;
     }
 }

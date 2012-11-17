@@ -25,6 +25,12 @@ import org.achartengine.renderer.XYSeriesRenderer;
 import org.achartengine.util.MathHelper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.calculator.CalculatorLocatorImpl;
+import org.solovyev.android.calculator.R;
+import org.solovyev.common.msg.MessageType;
+import org.solovyev.common.text.StringUtils;
+
+import java.util.Arrays;
 
 /**
  * User: serso
@@ -139,7 +145,7 @@ public final class PlotUtils {
                                 int bgColor,
                                 boolean interpolate,
                                 int realLineColor,
-                                int imagLineColor) {
+                                int imagLineColor) throws ArithmeticException{
         final MyXYSeries realSeries = new MyXYSeries(getRealFunctionName(expression, variable), DEFAULT_NUMBER_OF_STEPS * 2);
         final MyXYSeries imagSeries = new MyXYSeries(getImagFunctionName(variable), DEFAULT_NUMBER_OF_STEPS * 2);
 
@@ -194,6 +200,15 @@ public final class PlotUtils {
         renderer.setColor(color);
         renderer.setStroke(BasicStroke.SOLID);
         return renderer;
+    }
+
+    static void handleArithmeticException(@NotNull ArithmeticException e, @NotNull CalculatorPlotFragment calculatorPlotFragment) {
+        String message = e.getLocalizedMessage();
+        if (StringUtils.isEmpty(message)) {
+            message = e.getMessage();
+        }
+        CalculatorLocatorImpl.getInstance().getNotifier().showMessage(R.string.arithmetic_error_while_plot, MessageType.error, Arrays.asList(message));
+        calculatorPlotFragment.onError();
     }
 
     private static class Point {

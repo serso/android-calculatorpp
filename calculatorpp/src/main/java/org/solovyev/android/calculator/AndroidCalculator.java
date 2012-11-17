@@ -16,6 +16,7 @@ import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.history.CalculatorHistoryState;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.common.history.HistoryAction;
+import org.solovyev.common.msg.Message;
 
 import java.util.List;
 
@@ -195,6 +196,9 @@ public class AndroidCalculator implements Calculator, CalculatorEventListener, S
     @Override
     public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
         switch (calculatorEventType) {
+            case calculation_messages:
+                CalculatorActivityLauncher.showCalculationMessagesDialog(CalculatorApplication.getInstance(), (List<Message>) data);
+                break;
             case show_history:
                 CalculatorActivityLauncher.showHistory(CalculatorApplication.getInstance());
                 break;

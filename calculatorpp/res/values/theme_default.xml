@@ -10,6 +10,10 @@
         <item name="android:background">@drawable/metro_button_dark</item>
     </style>
 
+    <style name="default_dialog_style">
+        <item name="android:padding">6dp</item>
+    </style>
+
     <style name="default_control_button_style" parent="keyboard_button_style"/>
 
     <style name="default_operation_button_style" parent="default_digit_button_style">
@@ -124,6 +128,8 @@
         <item name="mainMultiPaneLayoutStyle">@style/default_main_multi_pane_layout_style</item>
 
         <item name="fragmentLayoutStyle">@style/default_fragment_layout_style</item>
+
+        <item name="dialogStyle">@style/default_dialog_style</item>
 
         <item name="paneStyle">@style/default_pane_style</item>
         <item name="paneStyleTransparent">@style/default_pane_style_transparent</item>

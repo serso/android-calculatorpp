@@ -25,6 +25,7 @@ import org.solovyev.common.text.StringUtils;
 import org.solovyev.math.units.ConversionException;
 import org.solovyev.math.units.ConversionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -189,10 +190,14 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 
 					final CalculatorLogger logger = CalculatorLocatorImpl.getInstance().getLogger();
 					try {
+                        final List<Message> messages = new ArrayList<Message>();
 						while (messageRegistry.hasMessage()) {
-							handleJsclMessage(messageRegistry.getMessage());
+                            messages.add(messageRegistry.getMessage());
 						}
-					} catch (Throwable e) {
+                        if (!messages.isEmpty()) {
+                            fireCalculatorEvent(newCalculationEventData(operation, expression, sequenceId), CalculatorEventType.calculation_messages, messages);
+                        }
+                    } catch (Throwable e) {
 						// todo serso: not good be we need proper synchronization
 						logger.error("Calculator", e.getMessage(), e);
 					}
@@ -220,11 +225,6 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
             handleException(sequenceId, operation, expression, mr, preparedExpression, e);
         }
     }
-
-	private void handleJsclMessage(@NotNull Message message) {
-		final CalculatorNotifier notifier = CalculatorLocatorImpl.getInstance().getNotifier();
-		notifier.showMessage(message);
-	}
 
 	@NotNull
 	@Override

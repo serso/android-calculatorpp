@@ -90,7 +90,8 @@ public class CalculatorApplication extends android.app.Application {
                 new AndroidCalculatorClipboard(this),
                 new AndroidCalculatorNotifier(this),
                 new AndroidCalculatorHistory(this, calculator),
-                new AndroidCalculatorLogger());
+                new AndroidCalculatorLogger(),
+                new AndroidCalculatorPreferenceService(this));
 
         CalculatorLocatorImpl.getInstance().getCalculator().init();
 

@@ -56,6 +56,11 @@
                 a:title="@string/p_calculations_calculate_on_fly_title"
                 a:summary="@string/p_calculations_calculate_on_fly_summary"/>
 
+        <android.preference.CheckBoxPreference
+            a:key="show_calculation_messages_dialog"
+            a:title="@string/p_show_calculation_messages_dialog_title"
+            a:summary="@string/p_show_calculation_messages_dialog_summary"/>
+
     </PreferenceScreen>
 
 </PreferenceScreen>

@@ -132,6 +132,10 @@ public enum CalculatorEventType {
     *
     **********************************************************************
     */
+
+    // List<Message>
+    calculation_messages,
+
     show_history,
     show_history_detached,
 

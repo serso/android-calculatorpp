@@ -1,6 +1,8 @@
 package org.solovyev.android.calculator;
 
 import android.content.SharedPreferences;
+import jscl.AngleUnit;
+import jscl.NumeralBase;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.AndroidUtils;
 import org.solovyev.android.calculator.math.MathType;
@@ -32,6 +34,10 @@ public final class CalculatorPreferences {
     public static class Calculations {
 
         public static final Preference<Boolean> calculateOnFly = new BooleanPreference("calculations_calculate_on_fly", true);
+        public static final Preference<Boolean> showCalculationMessagesDialog = new BooleanPreference("show_calculation_messages_dialog", true);
+
+        public static final Preference<NumeralBase> preferredNumeralBase = StringPreference.newInstance("preferred_numeral_base", NumeralBase.dec, NumeralBase.class);
+        public static final Preference<AngleUnit> preferredAngleUnit = StringPreference.newInstance("preferred_angle_units", AngleUnit.deg, AngleUnit.class);
 
     }
 
@@ -126,8 +132,8 @@ public final class CalculatorPreferences {
     }
 
 
+    static void setDefaultValues(@NotNull SharedPreferences preferences) {
 
-        static void setDefaultValues(@NotNull SharedPreferences preferences) {
         if (!AndroidCalculatorEngine.Preferences.groupingSeparator.isSet(preferences)) {
             final Locale locale = Locale.getDefault();
             if (locale != null) {
@@ -153,7 +159,7 @@ public final class CalculatorPreferences {
         }
 
         if (!AndroidCalculatorEngine.Preferences.multiplicationSign.isSet(preferences)) {
-            if ( AndroidUtils.isPhoneModel(AndroidUtils.PhoneModel.samsung_galaxy_s) || AndroidUtils.isPhoneModel(AndroidUtils.PhoneModel.samsung_galaxy_s_2) ) {
+            if (AndroidUtils.isPhoneModel(AndroidUtils.PhoneModel.samsung_galaxy_s) || AndroidUtils.isPhoneModel(AndroidUtils.PhoneModel.samsung_galaxy_s_2)) {
                 // workaround ofr samsung galaxy s phones
                 AndroidCalculatorEngine.Preferences.multiplicationSign.putPreference(preferences, "*");
             }
@@ -161,7 +167,7 @@ public final class CalculatorPreferences {
 
         applyDefaultPreference(preferences, Gui.theme);
         applyDefaultPreference(preferences, Gui.layout);
-        if ( Gui.layout.getPreference(preferences) == Gui.Layout.main_cellphone ) {
+        if (Gui.layout.getPreference(preferences) == Gui.Layout.main_cellphone) {
             Gui.layout.putDefault(preferences);
         }
         applyDefaultPreference(preferences, Gui.feedbackWindowShown);
@@ -177,12 +183,18 @@ public final class CalculatorPreferences {
         applyDefaultPreference(preferences, Graph.lineColorReal);
         applyDefaultPreference(preferences, History.showIntermediateCalculations);
         applyDefaultPreference(preferences, Calculations.calculateOnFly);
+        applyDefaultPreference(preferences, Calculations.preferredAngleUnit);
+        applyDefaultPreference(preferences, Calculations.preferredNumeralBase);
 
-        if ( !VibratorContainer.Preferences.hapticFeedbackEnabled.isSet(preferences) ) {
+
+        // renew value after each application start
+        Calculations.showCalculationMessagesDialog.putDefault(preferences);
+
+        if (!VibratorContainer.Preferences.hapticFeedbackEnabled.isSet(preferences)) {
             VibratorContainer.Preferences.hapticFeedbackEnabled.putPreference(preferences, true);
         }
 
-        if ( !VibratorContainer.Preferences.hapticFeedbackDuration.isSet(preferences) ) {
+        if (!VibratorContainer.Preferences.hapticFeedbackDuration.isSet(preferences)) {
             VibratorContainer.Preferences.hapticFeedbackDuration.putPreference(preferences, 60L);
         }
 

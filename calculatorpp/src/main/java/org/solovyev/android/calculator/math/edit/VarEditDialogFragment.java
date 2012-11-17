@@ -14,9 +14,9 @@ import android.widget.Toast;
 import jscl.math.function.IConstant;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.AndroidUtils2;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.model.Var;
+import org.solovyev.android.sherlock.AndroidSherlockUtils;
 
 /**
  * User: Solovyev_S
@@ -148,7 +148,7 @@ public class VarEditDialogFragment extends DialogFragment implements CalculatorE
     */
 
     public static void showDialog(@NotNull Input input, @NotNull FragmentManager fm) {
-        AndroidUtils2.showDialog(new VarEditDialogFragment(input), "constant-editor", fm);
+        AndroidSherlockUtils.showDialog(new VarEditDialogFragment(input), "constant-editor", fm);
     }
 
     public static class Input {

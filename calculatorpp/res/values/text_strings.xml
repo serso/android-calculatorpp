@@ -247,5 +247,14 @@
 	<string name="function_param_not_empty">Function parameter should not be empty!</string>
     <string name="function_removal_confirmation_question">Do you really want to delete \'%s\' function?</string>
     <string name="empty_function_error">Unable to create empty function!</string>
+    <string name="do_not_show_messages_in_session">Do not show this message until next session</string>
+    <string name="calculation_messages_dialog_title">Calculation messages</string>
+    <string name="arithmetic_error_while_plot">Arithmetic error occurred while plotting: %s</string>
+    <string name="ok">OK</string>
+    <string name="p_show_calculation_messages_dialog_title">Show calculation messages in dialog</string>
+    <string name="p_show_calculation_messages_dialog_summary">If turned on if any message occurred while calculations
+        special dialog will be shown
+    </string>
+    <string name="fix">Fix</string>
 
 </resources>

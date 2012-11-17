@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+	<attr name="dialogStyle" format="reference" />
 	<attr name="digitButtonStyle" format="reference" />
 	<attr name="controlButtonStyle" format="reference" />
 	<attr name="controlImageButtonStyle" format="reference" />
