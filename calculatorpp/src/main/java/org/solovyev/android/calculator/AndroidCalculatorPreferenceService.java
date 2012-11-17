@@ -32,16 +32,16 @@ public class AndroidCalculatorPreferenceService implements CalculatorPreferenceS
 
     @Override
     public void checkPreferredPreferences(boolean force) {
-        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(application);
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(application);
 
         final Long currentTime = System.currentTimeMillis();
 
-        if ( force || isTimeForCheck(currentTime, preferences)) {
-            final NumeralBase preferredNumeralBase = CalculatorPreferences.Calculations.preferredNumeralBase.getPreference(preferences);
-            final NumeralBase numeralBase = AndroidCalculatorEngine.Preferences.numeralBase.getPreference(preferences);
+        if ( force || ( CalculatorPreferences.Calculations.showCalculationMessagesDialog.getPreference(prefs) && isTimeForCheck(currentTime, prefs))) {
+            final NumeralBase preferredNumeralBase = CalculatorPreferences.Calculations.preferredNumeralBase.getPreference(prefs);
+            final NumeralBase numeralBase = AndroidCalculatorEngine.Preferences.numeralBase.getPreference(prefs);
 
-            final AngleUnit preferredAngleUnits = CalculatorPreferences.Calculations.preferredAngleUnits.getPreference(preferences);
-            final AngleUnit angleUnits = AndroidCalculatorEngine.Preferences.angleUnit.getPreference(preferences);
+            final AngleUnit preferredAngleUnits = CalculatorPreferences.Calculations.preferredAngleUnits.getPreference(prefs);
+            final AngleUnit angleUnits = AndroidCalculatorEngine.Preferences.angleUnit.getPreference(prefs);
 
             final List<CalculatorFixableMessage> messages = new ArrayList<CalculatorFixableMessage>(2);
             if ( numeralBase != preferredNumeralBase ) {
@@ -54,7 +54,7 @@ public class AndroidCalculatorPreferenceService implements CalculatorPreferenceS
 
             CalculatorMessagesDialog.showDialog(messages, application);
 
-            CalculatorPreferences.Calculations.lastPreferredPreferencesCheck.putPreference(preferences, currentTime);
+            CalculatorPreferences.Calculations.lastPreferredPreferencesCheck.putPreference(prefs, currentTime);
         }
     }
 

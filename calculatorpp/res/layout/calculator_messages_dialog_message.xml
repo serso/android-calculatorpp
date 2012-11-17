@@ -3,20 +3,19 @@
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
     a:layout_width="match_parent"
     a:layout_height="wrap_content"
-    a:orientation="horizontal">
+    a:orientation="horizontal"
+    a:padding="6dp">
 
     <TextView a:id="@+id/calculation_messages_text_view"
         a:layout_width="0dp"
         a:layout_height="wrap_content"
-        a:layout_weight="5"
-        a:layout_gravity="top|left"/>
+        a:layout_weight="5"/>
 
     <Button
         a:id="@+id/fix_button"
         a:layout_width="0dp"
         a:layout_height="wrap_content"
         a:layout_weight="1"
-        a:layout_gravity="top|right"
-        a:text="@string/fix" />
+        a:text="@string/fix"/>
 
 </LinearLayout>

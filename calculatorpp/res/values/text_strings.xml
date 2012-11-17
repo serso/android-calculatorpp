@@ -248,7 +248,7 @@
     <string name="function_removal_confirmation_question">Do you really want to delete \'%s\' function?</string>
     <string name="empty_function_error">Unable to create empty function!</string>
     <string name="do_not_show_messages_in_session">Do not show this message until next session</string>
-    <string name="calculation_messages_dialog_title">Calculation messages</string>
+    <string name="calculation_messages_dialog_title">Calculator++ warning</string>
     <string name="arithmetic_error_while_plot">Arithmetic error occurred while plotting: %s</string>
     <string name="ok">OK</string>
     <string name="p_show_calculation_messages_dialog_title">Show calculation messages in dialog</string>
