@@ -183,11 +183,11 @@ public final class CalculatorPreferences {
         applyDefaultPreference(preferences, Calculations.calculateOnFly);
         applyDefaultPreference(preferences, Calculations.preferredAngleUnits);
         applyDefaultPreference(preferences, Calculations.preferredNumeralBase);
-        applyDefaultPreference(preferences, Calculations.lastPreferredPreferencesCheck);
 
 
         // renew value after each application start
         Calculations.showCalculationMessagesDialog.putDefault(preferences);
+        Calculations.lastPreferredPreferencesCheck.putDefault(preferences);
 
         if (!VibratorContainer.Preferences.hapticFeedbackEnabled.isSet(preferences)) {
             VibratorContainer.Preferences.hapticFeedbackEnabled.putPreference(preferences, true);

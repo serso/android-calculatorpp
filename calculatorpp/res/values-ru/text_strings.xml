@@ -253,8 +253,7 @@
     <string name="arithmetic_error_while_plot">При построении графика возникла арифметическая ошибка: %s</string>
     <string name="ok">Да</string>
     <string name="p_show_calculation_messages_dialog_title">Показывать сообщения об ошибках в диалоге</string>
-    <string name="p_show_calculation_messages_dialog_summary">Если включено, то сообщения об ошибках возникающие при вычислениях будут показаны в отедльном диалоге
-    </string>
+    <string name="p_show_calculation_messages_dialog_summary">Если включено, то сообщения об ошибках возникающих при вычислениях будут показаны в отдельном диалоге</string>
     <string name="fix">Исправить</string>
 
     <string name="p_preferred_numeral_base_title">Система счисления по умолчанию</string>
@@ -264,5 +263,7 @@
     <string name="p_preferred_angle_units_title">Единицы измерения углов по умолчанию</string>
     <string name="p_preferred_angle_units_summary">Устанавливает единицы измерения углов по умолчанию</string>
     <string name="preferred_angle_units_message">Единицы измерения углов по умолчанию \'%1$s\' отличаются от текущих \'%2$s\'. Забыли их вернуть?</string>
+
+    <string name="close">Закрыть</string>
 
 </resources>

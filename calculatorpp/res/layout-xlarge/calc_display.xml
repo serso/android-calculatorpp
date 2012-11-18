@@ -19,7 +19,7 @@
 
     <org.solovyev.android.calculator.AndroidCalculatorDisplayView
             a:id="@+id/calculatorDisplay"
-            style="@style/display_style"
+            style="@style/cpp_display_style"
             a:inputType="textMultiLine"
             a:maxLines="3"
             a:scrollHorizontally="false"

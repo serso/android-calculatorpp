@@ -10,12 +10,12 @@
 	<style name="math_entity_text">
 		<item name="android:textStyle">bold</item>
 		<item name="android:textColor">@android:color/white</item>
-        <item name="android:textSize">@dimen/math_entity_text_size</item>
+        <item name="android:textSize">@dimen/cpp_math_entity_text_size</item>
     </style>
 
 	<style name="math_entity_description">
 		<item name="android:textColor">#bebebe</item>
-        <item name="android:textSize">@dimen/math_entity_description_text_size</item>
+        <item name="android:textSize">@dimen/cpp_math_entity_description_text_size</item>
     </style>
 
 	<style name="add_var_button">

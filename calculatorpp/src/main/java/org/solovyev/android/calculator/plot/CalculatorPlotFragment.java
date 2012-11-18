@@ -108,7 +108,7 @@ public class CalculatorPlotFragment extends CalculatorFragment implements Calcul
         }
 
         if (input == null) {
-            this.bgColor = getResources().getColor(R.color.pane_background);
+            this.bgColor = getResources().getColor(R.color.cpp_pane_background);
         } else {
             this.bgColor = getResources().getColor(android.R.color.transparent);
         }

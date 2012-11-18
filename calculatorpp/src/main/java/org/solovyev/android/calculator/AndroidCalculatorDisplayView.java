@@ -106,7 +106,7 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
 
                         AndroidCalculatorDisplayView.this.state = state;
                         if (state.isValid()) {
-                            setTextColor(getResources().getColor(R.color.default_text_color));
+                            setTextColor(getResources().getColor(R.color.cpp_default_text_color));
                             setText(text);
 
                             adjustTextSize();
@@ -114,7 +114,7 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
                         } else {
                             // update text in order to get rid of HTML tags
                             setText(getText().toString());
-                            setTextColor(getResources().getColor(R.color.display_error_text_color));
+                            setTextColor(getResources().getColor(R.color.cpp_display_error_text_color));
 
                             // error messages are never shown -> just greyed out text (error message will be shown on click)
                             //setText(state.getErrorMessage());

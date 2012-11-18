@@ -1,11 +1,11 @@
 <resources>
 
-	<style name="metro_digit_button_style" parent="keyboard_button_style">
+	<style name="metro_digit_button_style" parent="cpp_keyboard_button_style">
 		<item name="android:background">@drawable/metro_button_dark</item>
 	</style>
 
     <style name="widget_metro_digit_button_style" parent="metro_digit_button_style">
-        <item name="android:textSize">@dimen/widget_keyboard_button_text_size</item>
+        <item name="android:textSize">@dimen/cpp_widget_keyboard_button_text_size</item>
     </style>
 
 	<style name="metro_control_button_style" parent="metro_digit_button_style">
@@ -13,7 +13,7 @@
 	</style>
 
     <style name="widget_metro_control_button_style" parent="metro_control_button_style">
-        <item name="android:textSize">@dimen/widget_keyboard_button_text_size</item>
+        <item name="android:textSize">@dimen/cpp_widget_keyboard_button_text_size</item>
     </style>
 
 	<style name="metro_blue_operation_button_style" parent="metro_digit_button_style">
@@ -21,7 +21,7 @@
 	</style>
 
     <style name="widget_metro_blue_operation_button_style" parent="metro_blue_operation_button_style">
-        <item name="android:textSize">@dimen/widget_keyboard_button_text_size</item>
+        <item name="android:textSize">@dimen/cpp_widget_keyboard_button_text_size</item>
     </style>
 
 	<style name="metro_control_image_button_style" parent="metro_control_button_style">

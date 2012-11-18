@@ -10,7 +10,7 @@
               a:layout_height="wrap_content"
               a:layout_width="match_parent"
               style="?fragmentListViewItemStyle"
-              a:paddingBottom="@dimen/pane_padding"
+              a:paddingBottom="@dimen/cpp_pane_padding"
               a:orientation="vertical">
 
     <TextView a:id="@+id/math_entity_text"

@@ -22,13 +22,13 @@
                   a:layout_height="0dp">
 
         <include layout="@layout/calc_left_button"
-                 a:layout_margin="@dimen/button_margin"
+                 a:layout_margin="@dimen/cpp_button_margin"
                  a:layout_width="0dp"
                  a:layout_height="match_parent"
                  a:layout_weight="1"/>
 
         <include layout="@layout/calc_erase_button"
-                 a:layout_margin="@dimen/button_margin"
+                 a:layout_margin="@dimen/cpp_button_margin"
                  a:layout_width="0dp"
                  a:layout_height="match_parent"
                  a:layout_weight="1"/>
@@ -37,16 +37,16 @@
                       a:layout_height="match_parent"
                       a:layout_width="0dp"
                       a:layout_weight="4"
-                      a:layout_margin="@dimen/display_margin_land"/>
+                      a:layout_margin="@dimen/cpp_display_margin_land"/>
 
         <include layout="@layout/calc_clear_button"
-                 a:layout_margin="@dimen/button_margin"
+                 a:layout_margin="@dimen/cpp_button_margin"
                  a:layout_width="0dp"
                  a:layout_height="match_parent"
                  a:layout_weight="1"/>
 
         <include layout="@layout/calc_right_button"
-                 a:layout_margin="@dimen/button_margin"
+                 a:layout_margin="@dimen/cpp_button_margin"
                  a:layout_width="0dp"
                  a:layout_height="match_parent"
                  a:layout_weight="1"/>

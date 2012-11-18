@@ -49,8 +49,8 @@ public class CalculatorMessagesDialog extends SherlockActivity {
 
         final CheckBox doNotShowCalculationMessagesCheckbox = (CheckBox) findViewById(R.id.do_not_show_calculation_messages_checkbox);
 
-        final Button okButton = (Button) findViewById(R.id.ok_button);
-        okButton.setOnClickListener(new View.OnClickListener() {
+        final Button closeButton = (Button) findViewById(R.id.close_button);
+        closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (doNotShowCalculationMessagesCheckbox.isChecked()) {

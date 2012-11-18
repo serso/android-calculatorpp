@@ -35,9 +35,9 @@ public class NumeralBasesButton extends DirectionDragButton {
 
 		final TextPaint directionTextPaint = directionTextData.getPaint();
 		if (CalculatorLocatorImpl.getInstance().getEngine().getNumeralBase().name().equals(directionTextData.getText())) {
-			directionTextPaint.setColor(resources.getColor(R.color.selected_angle_unit_text_color));
+			directionTextPaint.setColor(resources.getColor(R.color.cpp_selected_angle_unit_text_color));
 		} else {
-			directionTextPaint.setColor(resources.getColor(R.color.default_text_color));
+			directionTextPaint.setColor(resources.getColor(R.color.cpp_default_text_color));
 			directionTextPaint.setAlpha(getDirectionTextAlpha());
 		}
 	}

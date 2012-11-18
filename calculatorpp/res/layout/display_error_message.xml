@@ -23,7 +23,7 @@
 				a:layout_height="fill_parent"
 				a:layout_width="wrap_content"
 				a:padding="6dp"
-				style="@style/default_text_size"/>
+				style="@style/cpp_default_text_size"/>
 
 	</LinearLayout>
 

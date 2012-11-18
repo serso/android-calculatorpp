@@ -6,77 +6,77 @@
 
 <resources>
 
-	<style name="WindowTitle">
+	<style name="cpp_window_title">
         <item name="android:singleLine">true</item>
-        <item name="android:textAppearance">@style/TextAppearance_WindowTitle</item>
+        <item name="android:textAppearance">@style/cpp_text_appearance_window_title</item>
         <item name="android:shadowColor">#BB000000</item>
         <item name="android:shadowRadius">2.75</item>
     </style>
 
-	<style name="TextAppearance_WindowTitle">
+	<style name="cpp_text_appearance_window_title">
         <item name="android:textColor">#fff</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold</item>
     </style>
 
 
-	<style name="default_text_size">
-		<item name="android:textSize">@dimen/text_size</item>
+	<style name="cpp_default_text_size">
+		<item name="android:textSize">@dimen/cpp_text_size</item>
 	</style>
 
-    <style name="button_style">
+    <style name="cpp_button_style">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:focusable">true</item>
         <item name="android:background">@drawable/metro_blue_button</item>
-        <item name="android:textSize">@dimen/button_text_size</item>
-        <item name="android:textColor">@color/button_text_color</item>
+        <item name="android:textSize">@dimen/cpp_button_text_size</item>
+        <item name="android:textColor">@color/cpp_button_text_color</item>
     </style>
 
-    <style name="keyboard_button_style">
+    <style name="cpp_keyboard_button_style">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">fill_parent</item>
         <item name="android:layout_weight">1</item>
         <item name="android:focusable">true</item>
         <item name="android:background">@drawable/metro_button_dark</item>
-        <item name="android:layout_margin">@dimen/button_margin</item>
-        <item name="android:textSize">@dimen/keyboard_button_text_size</item>
-        <item name="android:textColor">@color/button_text_color</item>
+        <item name="android:layout_margin">@dimen/cpp_button_margin</item>
+        <item name="android:textSize">@dimen/cpp_keyboard_button_text_size</item>
+        <item name="android:textColor">@color/cpp_button_text_color</item>
     </style>
 
-    <style name="editor_style" parent="default_text">
+    <style name="cpp_editor_style" parent="cpp_default_text">
         <item name="android:gravity">left|top</item>
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">fill_parent</item>
-        <item name="android:textSize">@dimen/editor_text_size</item>
+        <item name="android:textSize">@dimen/cpp_editor_text_size</item>
     </style>
 
-    <style name="display_style" parent="default_text">
+    <style name="cpp_display_style" parent="cpp_default_text">
         <item name="android:gravity">top|right</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:textSize">@dimen/display_text_size</item>
+        <item name="android:textSize">@dimen/cpp_display_text_size</item>
     </style>
 
-    <style name="widget_editor_style" parent="editor_style">
-        <item name="android:textSize">@dimen/widget_editor_text_size</item>
+    <style name="cpp_widget_editor_style" parent="cpp_editor_style">
+        <item name="android:textSize">@dimen/cpp_widget_editor_text_size</item>
     </style>
 
-    <style name="widget_display_style" parent="display_style">
-        <item name="android:textSize">@dimen/widget_display_text_size</item>
+    <style name="cpp_widget_display_style" parent="cpp_display_style">
+        <item name="android:textSize">@dimen/cpp_widget_display_text_size</item>
     </style>
 
-    <style name="about_style" parent="default_text">
+    <style name="cpp_about_style" parent="cpp_default_text">
         <item name="android:gravity">center</item>
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">fill_parent</item>
-        <item name="android:textSize">@dimen/fragment_text_size</item>
+        <item name="android:textSize">@dimen/cpp_fragment_text_size</item>
         <item name="android:padding">5dp</item>
     </style>
 
-    <style name="default_text">
+    <style name="cpp_default_text">
         <item name="android:background">@android:color/transparent</item>
-        <item name="android:textColor">@color/default_text_color</item>
+        <item name="android:textColor">@color/cpp_default_text_color</item>
     </style>
 
 </resources>

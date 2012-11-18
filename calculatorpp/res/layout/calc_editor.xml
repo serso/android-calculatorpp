@@ -11,11 +11,11 @@
               style="?fragmentLayoutStyle"
               a:layout_width="match_parent"
               a:layout_height="match_parent"
-              a:padding="@dimen/editor_padding">
+              a:padding="@dimen/cpp_editor_padding">
 
     <org.solovyev.android.calculator.AndroidCalculatorEditorView
             a:id="@+id/calculatorEditor"
-            style="@style/editor_style"
+            style="@style/cpp_editor_style"
             a:textIsSelectable="true"
             a:singleLine="false"
             a:scrollbars="vertical"

@@ -94,7 +94,7 @@ abstract class AbstractCalculatorWidgetProvider extends AppWidgetProvider {
     @NotNull
     private String getCursorColor(@NotNull Context context) {
         if (cursorColor == null) {
-            cursorColor = Integer.toHexString(context.getResources().getColor(R.color.widget_cursor_color)).substring(2);
+            cursorColor = Integer.toHexString(context.getResources().getColor(R.color.cpp_widget_cursor_color)).substring(2);
         }
         return cursorColor;
     }
@@ -205,9 +205,9 @@ abstract class AbstractCalculatorWidgetProvider extends AppWidgetProvider {
     private void updateDisplayState(@NotNull Context context, @NotNull RemoteViews views, @NotNull CalculatorDisplayViewState displayState) {
         if (displayState.isValid()) {
             views.setTextViewText(R.id.calculatorDisplay, displayState.getText());
-            views.setTextColor(R.id.calculatorDisplay, context.getResources().getColor(R.color.default_text_color));
+            views.setTextColor(R.id.calculatorDisplay, context.getResources().getColor(R.color.cpp_default_text_color));
         } else {
-            views.setTextColor(R.id.calculatorDisplay, context.getResources().getColor(R.color.display_error_text_color));
+            views.setTextColor(R.id.calculatorDisplay, context.getResources().getColor(R.color.cpp_display_error_text_color));
         }
     }
 

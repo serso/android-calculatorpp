@@ -24,10 +24,10 @@
         a:orientation="horizontal"
         a:gravity="center">
 
-        <Button a:id="@+id/ok_button"
+        <Button a:id="@+id/close_button"
             a:layout_width="wrap_content"
             a:layout_height="wrap_content"
-            a:text="@string/ok"/>
+            a:text="@string/close"/>
 
     </LinearLayout>
 

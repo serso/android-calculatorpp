@@ -28,7 +28,7 @@
                 a:layout_height="wrap_content"
                 a:gravity="top|left"
                 a:scrollbars="vertical"
-                style="@style/about_style"/>
+                style="@style/cpp_about_style"/>
 
     </ScrollView>
 

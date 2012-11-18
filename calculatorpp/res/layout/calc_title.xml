@@ -16,14 +16,14 @@
 		a:layout_width="wrap_content"
 		a:layout_height="wrap_content"
 		a:layout_gravity="left"
-		style="@style/WindowTitle"
+		style="@style/cpp_window_title"
 		a:text="@string/c_app_name"/>
 
 	<org.solovyev.android.calculator.view.CalculatorAdditionalTitle
 		a:id="@+id/additional_title_text"
 		a:layout_width="fill_parent"
 		a:layout_height="wrap_content"
-		style="@style/WindowTitle"
+		style="@style/cpp_window_title"
 		a:gravity="center_vertical|right"
 		a:layout_gravity="right"/>
 

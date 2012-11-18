@@ -11,7 +11,7 @@
 			  a:layout_height="fill_parent">
 
 	<TextView a:id="@+id/notespp_announce"
-			  style="@style/about_style"
+			  style="@style/cpp_about_style"
 			  a:layout_width="fill_parent"
 			  a:text="@string/c_notespp_announce_text"
 			  a:layout_height="fill_parent"/>

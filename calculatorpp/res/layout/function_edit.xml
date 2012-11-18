@@ -18,19 +18,19 @@
         <TextView a:layout_height="wrap_content"
             a:layout_width="match_parent"
             a:padding="6dp"
-            style="@style/default_text_size"
+            style="@style/cpp_default_text_size"
             a:text="@string/c_function_name"/>
 
         <EditText a:id="@+id/function_edit_name"
             a:layout_height="wrap_content"
             a:layout_width="match_parent"
-            style="@style/default_text_size"
+            style="@style/cpp_default_text_size"
             a:inputType="text"/>
 
         <TextView a:layout_height="wrap_content"
             a:layout_width="match_parent"
             a:padding="6dp"
-            style="@style/default_text_size"
+            style="@style/cpp_default_text_size"
             a:text="@string/c_function_parameters"/>
 
         <org.solovyev.android.calculator.function.FunctionParamsView
@@ -40,26 +40,26 @@
 
         <TextView a:layout_height="wrap_content"
             a:layout_width="match_parent"
-            style="@style/default_text_size"
+            style="@style/cpp_default_text_size"
             a:padding="6dp"
             a:text="@string/c_function_value"/>
 
         <EditText a:id="@+id/function_edit_value"
             a:layout_height="wrap_content"
             a:layout_width="match_parent"
-            style="@style/default_text_size"
+            style="@style/cpp_default_text_size"
             a:inputType="text"/>
 
         <TextView a:layout_height="wrap_content"
             a:layout_width="match_parent"
             a:padding="6dp"
-            style="@style/default_text_size"
+            style="@style/cpp_default_text_size"
             a:text="@string/c_function_description"/>
 
         <EditText a:id="@+id/function_edit_description"
             a:layout_height="wrap_content"
             a:layout_width="match_parent"
-            style="@style/default_text_size"
+            style="@style/cpp_default_text_size"
             a:inputType="text"/>
 
         <LinearLayout

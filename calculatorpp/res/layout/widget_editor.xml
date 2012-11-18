@@ -11,11 +11,11 @@
               style="@style/default_fragment_layout_style"
               a:layout_width="match_parent"
               a:layout_height="match_parent"
-              a:padding="@dimen/editor_padding">
+              a:padding="@dimen/cpp_editor_padding">
 
     <TextView
             a:id="@+id/calculatorEditor"
-            style="@style/widget_editor_style"
+            style="@style/cpp_widget_editor_style"
             a:textIsSelectable="true"
             a:singleLine="false"
             a:scrollbars="vertical"

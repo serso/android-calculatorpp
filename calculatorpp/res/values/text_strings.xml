@@ -264,5 +264,6 @@
     <string name="p_preferred_angle_units_title">Default angle units</string>
     <string name="p_preferred_angle_units_summary">Defines the default angle units</string>
     <string name="preferred_angle_units_message">Default angle units \'%1$s\' differs from current \'%2$s\'. Forgot to change back?</string>
+    <string name="close">Close</string>
 
 </resources>
