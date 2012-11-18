@@ -7,6 +7,9 @@ import org.solovyev.android.calculator.CalculatorLocatorImpl;
 import org.solovyev.android.calculator.CalculatorSpecialButton;
 import org.solovyev.android.calculator.R;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
 * User: serso
 * Date: 10/20/12
@@ -63,6 +66,9 @@ enum WidgetButton {
     @NotNull
     private final String text;
 
+    @NotNull
+    private static Map<Integer, WidgetButton> buttonsByIds = new HashMap<Integer, WidgetButton>();
+
     WidgetButton(int buttonId, @NotNull CalculatorSpecialButton button) {
         this(buttonId, button.getActionCode());
     }
@@ -79,13 +85,24 @@ enum WidgetButton {
 
     @Nullable
     public static WidgetButton getById(int buttonId) {
-        for (WidgetButton widgetButton : values()) {
-            if (widgetButton.buttonId == buttonId) {
-                return widgetButton;
-            }
-        }
+        initButtonsByIdsMap();
 
-        return null;
+        return buttonsByIds.get(buttonId);
+    }
+
+    private static void initButtonsByIdsMap() {
+        if ( buttonsByIds.isEmpty() ) {
+            // if not initialized
+
+            final WidgetButton[] widgetButtons = values();
+
+            final Map<Integer, WidgetButton> localButtonsByIds = new HashMap<Integer, WidgetButton>(widgetButtons.length);
+            for (WidgetButton widgetButton : widgetButtons) {
+                localButtonsByIds.put(widgetButton.getButtonId(), widgetButton);
+            }
+
+            buttonsByIds = localButtonsByIds;
+        }
     }
 
     public int getButtonId() {

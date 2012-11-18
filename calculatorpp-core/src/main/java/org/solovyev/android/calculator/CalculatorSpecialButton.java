@@ -3,6 +3,9 @@ package org.solovyev.android.calculator;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * User: serso
  * Date: 10/20/12
@@ -129,6 +132,9 @@ public enum CalculatorSpecialButton {
     };
 
     @NotNull
+    private static Map<String, CalculatorSpecialButton> buttonsByActionCodes = new HashMap<String, CalculatorSpecialButton>();
+
+    @NotNull
     private final String actionCode;
 
     CalculatorSpecialButton(@NotNull String actionCode) {
@@ -142,14 +148,24 @@ public enum CalculatorSpecialButton {
 
     @Nullable
     public static CalculatorSpecialButton getByActionCode(@NotNull String actionCode) {
-        for (CalculatorSpecialButton button : values()) {
-            if (button.getActionCode().equals(actionCode)) {
-                return button;
-            }
-        }
-
-        return null;
+        initButtonsByActionCodesMap();
+        return buttonsByActionCodes.get(actionCode);
     }
 
     public abstract void onClick(@NotNull CalculatorKeyboard keyboard);
+
+    private static void initButtonsByActionCodesMap() {
+        if ( buttonsByActionCodes.isEmpty() ) {
+            // if not initialized
+
+            final CalculatorSpecialButton[] specialButtons = values();
+
+            final Map<String, CalculatorSpecialButton> localButtonsByActionCodes = new HashMap<String, CalculatorSpecialButton>(specialButtons.length);
+            for (CalculatorSpecialButton specialButton : specialButtons) {
+                localButtonsByActionCodes.put(specialButton.getActionCode(), specialButton);
+            }
+
+            buttonsByActionCodes = localButtonsByActionCodes;
+        }
+    }
 }
