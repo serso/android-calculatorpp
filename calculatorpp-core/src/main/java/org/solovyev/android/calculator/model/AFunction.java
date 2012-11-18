@@ -54,7 +54,7 @@ public class AFunction implements IFunction, MathPersistenceEntity, Serializable
 	@NotNull
 	private String content;
 
-	@ElementList
+	@ElementList(type = String.class)
 	@NotNull
 	private List<String> parameterNames = new ArrayList<String>();
 
