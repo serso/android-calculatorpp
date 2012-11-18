@@ -16,7 +16,8 @@ public interface CalculatorLocator {
               @NotNull CalculatorNotifier notifier,
               @NotNull CalculatorHistory history,
               @NotNull CalculatorLogger logger,
-              @NotNull CalculatorPreferenceService preferenceService);
+              @NotNull CalculatorPreferenceService preferenceService,
+              @NotNull CalculatorKeyboard keyboard);
 
     @NotNull
     Calculator getCalculator();

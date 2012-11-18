@@ -53,7 +53,8 @@ public class CalculatorLocatorImpl implements CalculatorLocator {
                      @NotNull CalculatorNotifier notifier,
                      @NotNull CalculatorHistory history,
                      @NotNull CalculatorLogger logger,
-                     @NotNull CalculatorPreferenceService preferenceService) {
+                     @NotNull CalculatorPreferenceService preferenceService,
+                     @NotNull CalculatorKeyboard keyboard) {
 
         this.calculator = calculator;
         this.calculatorEngine = engine;
@@ -65,7 +66,7 @@ public class CalculatorLocatorImpl implements CalculatorLocator {
 
         calculatorEditor = new CalculatorEditorImpl(this.calculator);
         calculatorDisplay = new CalculatorDisplayImpl(this.calculator);
-        calculatorKeyboard = new CalculatorKeyboardImpl(this.calculator);
+        calculatorKeyboard = keyboard;
     }
 
     @NotNull
