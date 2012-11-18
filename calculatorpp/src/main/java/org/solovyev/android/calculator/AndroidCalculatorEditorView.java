@@ -141,6 +141,11 @@ public class AndroidCalculatorEditorView extends EditText implements SharedPrefe
         if (!initialized) {
             final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
+            final CalculatorPreferences.Gui.Layout layout = CalculatorPreferences.Gui.getLayout(preferences);
+            if ( layout == CalculatorPreferences.Gui.Layout.main_calculator_mobile ) {
+                setTextSize(getResources().getDimension(R.dimen.cpp_editor_text_size_mobile));
+            }
+
             preferences.registerOnSharedPreferenceChangeListener(this);
 
             this.addTextChangedListener(new TextWatcherImpl());

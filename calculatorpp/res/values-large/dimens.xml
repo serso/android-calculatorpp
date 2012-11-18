@@ -4,7 +4,11 @@
 
     <dimen name="cpp_editor_text_size">25sp</dimen>
     <dimen name="cpp_display_text_size">25sp</dimen>
-    <dimen name="cpp_button_text_size_mobile">35dp</dimen>
+
+    <dimen name="cpp_keyboard_button_text_size_mobile">35dp</dimen>
+    <dimen name="cpp_display_text_size_mobile">35sp</dimen>
+    <dimen name="cpp_editor_text_size_mobile">35sp</dimen>
+
     <dimen name="cpp_keyboard_button_text_size">40dp</dimen>
     <dimen name="cpp_math_entity_text_size">25sp</dimen>
     <dimen name="cpp_math_entity_description_text_size">20sp</dimen>
