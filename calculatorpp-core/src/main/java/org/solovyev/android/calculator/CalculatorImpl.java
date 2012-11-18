@@ -38,6 +38,25 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class CalculatorImpl implements Calculator, CalculatorEventListener {
 
+    /*
+    **********************************************************************
+    *
+    *                           CONSTANTS
+    *
+    **********************************************************************
+    */
+
+    // one minute
+    private static final long PREFERENCE_CHECK_INTERVAL = 1000L * 60L;
+
+    /*
+    **********************************************************************
+    *
+    *                           FIELDS
+    *
+    **********************************************************************
+    */
+
     @NotNull
     private final CalculatorEventContainer calculatorEventContainer = new ListCalculatorEventContainer();
 
@@ -56,9 +75,28 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 
     private volatile boolean calculateOnFly = true;
 
+    private volatile long lastPreferenceCheck = 0L;
+
+
+    /*
+    **********************************************************************
+    *
+    *                           CONSTRUCTORS
+    *
+    **********************************************************************
+    */
+
     public CalculatorImpl() {
         this.addCalculatorEventListener(this);
     }
+
+    /*
+    **********************************************************************
+    *
+    *                           METHODS
+    *
+    **********************************************************************
+    */
 
     @NotNull
     private CalculatorEventData nextEventData() {
@@ -163,7 +201,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
                           @NotNull String expression,
                           @Nullable MessageRegistry mr) {
 
-        CalculatorLocatorImpl.getInstance().getPreferenceService().checkPreferredPreferences(false);
+        checkPreferredPreferences();
 
         PreparedExpression preparedExpression = null;
 
@@ -190,21 +228,23 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
                     // NOTE: toString() method must be called here as ArithmeticOperationException may occur in it (just to avoid later check!)
                     result.toString();
 
-					final CalculatorLogger logger = CalculatorLocatorImpl.getInstance().getLogger();
-					try {
-                        final List<Message> messages = new ArrayList<Message>();
-						while (messageRegistry.hasMessage()) {
-                            messages.add(messageRegistry.getMessage());
-						}
-                        if (!messages.isEmpty()) {
-                            fireCalculatorEvent(newCalculationEventData(operation, expression, sequenceId), CalculatorEventType.calculation_messages, messages);
+                    if (messageRegistry.hasMessage()) {
+                        final CalculatorLogger logger = CalculatorLocatorImpl.getInstance().getLogger();
+                        try {
+                            final List<Message> messages = new ArrayList<Message>();
+                            while (messageRegistry.hasMessage()) {
+                                messages.add(messageRegistry.getMessage());
+                            }
+                            if (!messages.isEmpty()) {
+                                fireCalculatorEvent(newCalculationEventData(operation, expression, sequenceId), CalculatorEventType.calculation_messages, messages);
+                            }
+                        } catch (Throwable e) {
+                            // todo serso: not good but we need proper synchronization
+                            logger.error("Calculator", e.getMessage(), e);
                         }
-                    } catch (Throwable e) {
-						// todo serso: not good be we need proper synchronization
-						logger.error("Calculator", e.getMessage(), e);
-					}
+                    }
 
-					final CalculatorOutput data = CalculatorOutputImpl.newOutput(operation.getFromProcessor().process(result), operation, result);
+                    final CalculatorOutput data = CalculatorOutputImpl.newOutput(operation.getFromProcessor().process(result), operation, result);
                     fireCalculatorEvent(newCalculationEventData(operation, expression, sequenceId), CalculatorEventType.calculation_result, data);
 
                 } catch (AbstractJsclArithmeticException e) {
@@ -228,7 +268,16 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
         }
     }
 
-	@NotNull
+    private void checkPreferredPreferences() {
+        final long currentTime = System.currentTimeMillis();
+
+        if ( currentTime - lastPreferenceCheck > PREFERENCE_CHECK_INTERVAL ) {
+            lastPreferenceCheck = currentTime;
+            CalculatorLocatorImpl.getInstance().getPreferenceService().checkPreferredPreferences(false);
+        }
+    }
+
+    @NotNull
 	@Override
 	public PreparedExpression prepareExpression(@NotNull String expression) throws CalculatorParseException {
 		return preprocessor.process(expression);

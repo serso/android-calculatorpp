@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class AndroidCalculatorPreferenceService implements CalculatorPreferenceService {
 
-    // ont hour
+    // one hour
     private static final Long PREFERRED_PREFS_INTERVAL_TIME = 1000L * 60L * 60L;
 
     @NotNull

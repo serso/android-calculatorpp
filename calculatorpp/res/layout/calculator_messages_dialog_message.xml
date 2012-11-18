@@ -9,7 +9,9 @@
     <TextView a:id="@+id/calculation_messages_text_view"
         a:layout_width="0dp"
         a:layout_height="wrap_content"
-        a:layout_weight="5"/>
+        a:layout_weight="5"
+        a:layout_gravity="fill"
+        a:text="@+id/calculation_messages_text_view"/>
 
     <Button
         a:id="@+id/fix_button"
