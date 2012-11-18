@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.solovyev.android</groupId>
         <artifactId>calculatorpp-parent</artifactId>
-        <version>1.5.1-b2-SNAPSHOT</version>
+        <version>1.5.1-b2</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -21,7 +21,7 @@
         <dependency>
             <groupId>org.solovyev.android</groupId>
             <artifactId>calculatorpp-core</artifactId>
-            <version>1.5.1-b2-SNAPSHOT</version>
+            <version>1.5.1-b2</version>
         </dependency>
 
         <dependency>
