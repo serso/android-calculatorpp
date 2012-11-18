@@ -77,15 +77,15 @@
 	<string name="c_app_history">History</string>
 	<string name="c_char_is_not_accepted">Character \'%s\' is not accepted in variable name!</string>
 
-	<string name="c_calc_angle_units">Angle Units</string>
+	<string name="c_calc_angle_units">Current angle units</string>
 	<string name="p_deg">Degrees</string>
 	<string name="p_rad">Radians</string>
 	<string name="p_grad">Gradians</string>
 	<string name="p_turns">Turns</string>
-	<string name="c_angle_units_summary">Defines the default units for angles.</string>
+	<string name="c_angle_units_summary">Defines the units for angles to be used in calculations</string>
 
-	<string name="c_calc_numeral_bases">Numeral systems</string>
-	<string name="c_numeral_bases_summary">Defines the default numeral system for all input numbers.</string>
+	<string name="c_calc_numeral_bases">Current numeral system</string>
+	<string name="c_numeral_bases_summary">Defines the numeral system  to be used in calculations</string>
 	<string name="p_dec">Decimal</string>
 	<string name="p_hex">Hexadecimal</string>
 	<string name="p_oct">Octal</string>
@@ -257,9 +257,9 @@
     </string>
     <string name="fix">Fix</string>
 
-    <string name="p_preferred_numeral_base_title">Default numeral base</string>
-    <string name="p_preferred_numeral_base_summary">Defines the default numeral base</string>
-    <string name="preferred_numeral_base_message">Default numeral base \'%1$s\' differs from current \'%2$s\'. Forgot to change back?</string>
+    <string name="p_preferred_numeral_base_title">Default numeral system</string>
+    <string name="p_preferred_numeral_base_summary">Defines the default numeral system</string>
+    <string name="preferred_numeral_base_message">Default numeral system \'%1$s\' differs from current \'%2$s\'. Forgot to change back?</string>
 
     <string name="p_preferred_angle_units_title">Default angle units</string>
     <string name="p_preferred_angle_units_summary">Defines the default angle units</string>

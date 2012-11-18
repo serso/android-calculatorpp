@@ -77,15 +77,15 @@
 	<string name="c_app_history">История</string>
 	<string name="c_char_is_not_accepted">Символ \'%s\' не допустим в названии переменной!</string>
 
-	<string name="c_calc_angle_units">Единицы измерения углов</string>
+	<string name="c_calc_angle_units">Текущие единицы измерения углов</string>
 	<string name="p_deg">Градусы</string>
 	<string name="p_rad">Радианы</string>
 	<string name="p_grad">Грады</string>
 	<string name="p_turns">Обороты</string>
-	<string name="c_angle_units_summary">Устанавливает единицы измерения углов.</string>
+	<string name="c_angle_units_summary">Устанавливает единицы измерения углов которые будут использованы при вычислениях</string>
 
-	<string name="c_calc_numeral_bases">Системы счисления</string>
-	<string name="c_numeral_bases_summary">Устанавливает систему счисления для всех вводимых чисел.</string>
+	<string name="c_calc_numeral_bases">Теущая система счисления</string>
+	<string name="c_numeral_bases_summary">Устанавливает систему счисления которая будет использована при вычислениях</string>
 	<string name="p_dec">Десятичная</string>
 	<string name="p_hex">Шестнадцатеричная</string>
 	<string name="p_oct">Восьмиричная</string>
