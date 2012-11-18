@@ -118,8 +118,15 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
     }
 
     public static boolean isValidValue(@NotNull String value) {
-        // now every string might be constant
-        return true;
+        try {
+            final PreparedExpression expression = ToJsclTextProcessor.getInstance().process(value);
+            final List<IConstant> constants = expression.getUndefinedVars();
+            return constants.isEmpty();
+        } catch (RuntimeException e) {
+            return true;
+        } catch (CalculatorParseException e) {
+            return true;
+        }
     }
 
     /*

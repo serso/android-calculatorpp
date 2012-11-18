@@ -120,7 +120,7 @@ public class CalculatorActivityLauncher {
                         context.startActivity(intent);
                     }
                 } else {
-                    CalculatorLocatorImpl.getInstance().getNotifier().showMessage(R.string.not_valid_result, MessageType.error);
+                    CalculatorLocatorImpl.getInstance().getNotifier().showMessage(R.string.c_value_is_not_a_number, MessageType.error);
 				}
 			} else {
                 CalculatorLocatorImpl.getInstance().getNotifier().showMessage(R.string.empty_var_error, MessageType.error);

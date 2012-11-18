@@ -62,11 +62,11 @@
 	<string name="c_var_create_var">Создать переменную</string>
 	<string name="c_var_edit_var">Редактировать переменную</string>
 
-	<string name="c_value.is.not.a.number">Значение должно либо оставаться пустым либо быть числом!</string>
-	<string name="c_var.name.clashes">Имя переменной не может быть зарезервированным системным именем!</string>
-	<string name="c_var.already.exists">Переменная с таким именем уже существует!</string>
-	<string name="c_name.is.not.valid">Имя переменной не валидно: им ядолжно начинаться с буквы, может содержать буквы, цифры и знак подчёркивания.</string>
-	<string name="c_sys.var.cannot.be.changed">Системная переменная не может быть изменена!</string>
+	<string name="c_value_is_not_a_number">Значение должно либо оставаться пустым либо быть числом: если у вас есть параметры, то создайте функцию!</string>
+	<string name="c_var_name_clashes">Имя переменной не может быть зарезервированным системным именем!</string>
+	<string name="c_var_already_exists">Переменная с таким именем уже существует!</string>
+	<string name="c_name_is_not_valid">Имя переменной не валидно: им ядолжно начинаться с буквы, может содержать буквы, цифры и знак подчёркивания.</string>
+	<string name="c_sys_var_cannot_be_changed">Системная переменная не может быть изменена!</string>
 
 	<string name="c_calc_editor_hint">Введите новое выражение</string>
 	<string name="c_press_to_copy">Нажмите для копирования</string>
