@@ -23,9 +23,9 @@
 	</style>
 
 	<style name="violet_theme" parent="default_theme">
-		<item name="digitButtonStyle">@style/violet_digit_button_style</item>
-		<item name="controlButtonStyle">@style/violet_control_button_style</item>
-		<item name="controlImageButtonStyle">@style/violet_control_image_button_style</item>
-		<item name="operationButtonStyle">@style/violet_operation_button_style</item>
+		<item name="cpp_digit_button_style">@style/violet_digit_button_style</item>
+		<item name="cpp_control_button_style">@style/violet_control_button_style</item>
+		<item name="cpp_control_image_button_style">@style/violet_control_image_button_style</item>
+		<item name="cpp_operation_button_style">@style/violet_operation_button_style</item>
 	</style>
 </resources>

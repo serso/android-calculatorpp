@@ -47,7 +47,7 @@ public class CalculatorFragmentHelperImpl extends AbstractCalculatorHelper imple
     }
 
     public void setPaneTitle(@NotNull Fragment fragment, int titleResId) {
-        final TextView fragmentTitle = (TextView) fragment.getView().findViewById(R.id.fragmentTitle);
+        final TextView fragmentTitle = (TextView) fragment.getView().findViewById(R.id.fragment_title);
         if (fragmentTitle != null) {
             if (!isPane(fragment)) {
                 fragmentTitle.setVisibility(View.GONE);

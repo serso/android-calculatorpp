@@ -13,5 +13,5 @@
 													   a:text="/"
 													   c:textDown="√"
 													   c:directionTextScale="0.5"
-													   style="?operationButtonStyle"
+													   style="?cpp_operation_button_style"
 													   a:onClick="digitButtonClickHandler"/>

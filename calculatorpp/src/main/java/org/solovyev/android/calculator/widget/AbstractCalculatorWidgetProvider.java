@@ -204,10 +204,10 @@ abstract class AbstractCalculatorWidgetProvider extends AppWidgetProvider {
 
     private void updateDisplayState(@NotNull Context context, @NotNull RemoteViews views, @NotNull CalculatorDisplayViewState displayState) {
         if (displayState.isValid()) {
-            views.setTextViewText(R.id.calculatorDisplay, displayState.getText());
-            views.setTextColor(R.id.calculatorDisplay, context.getResources().getColor(R.color.cpp_default_text_color));
+            views.setTextViewText(R.id.calculator_display, displayState.getText());
+            views.setTextColor(R.id.calculator_display, context.getResources().getColor(R.color.cpp_default_text_color));
         } else {
-            views.setTextColor(R.id.calculatorDisplay, context.getResources().getColor(R.color.cpp_display_error_text_color));
+            views.setTextColor(R.id.calculator_display, context.getResources().getColor(R.color.cpp_display_error_text_color));
         }
     }
 
@@ -221,7 +221,7 @@ abstract class AbstractCalculatorWidgetProvider extends AppWidgetProvider {
             newText = Html.fromHtml(text.substring(0, selection) + "<font color=\"#" + getCursorColor(context) + "\">|</font>" + text.substring(selection));
         }
         CalculatorLocatorImpl.getInstance().getNotifier().showDebugMessage(TAG, "New editor state: " + text);
-        views.setTextViewText(R.id.calculatorEditor, newText);
+        views.setTextViewText(R.id.calculator_editor, newText);
     }
 
     /*

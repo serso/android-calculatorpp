@@ -8,17 +8,17 @@
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
               a:id="@+id/main_fragment_layout"
-              style="?fragmentLayoutStyle"
+              style="?cpp_fragment_layout_style"
               a:layout_width="match_parent"
               a:layout_height="match_parent">
 
-    <TextView a:id="@+id/fragmentTitle"
+    <TextView a:id="@+id/fragment_title"
               a:layout_height="wrap_content"
               a:layout_width="match_parent"
-              style="?fragmentTitleStyle"/>
+              style="?cpp_fragment_title_style"/>
 
     <org.solovyev.android.calculator.AndroidCalculatorDisplayView
-            a:id="@+id/calculatorDisplay"
+            a:id="@+id/calculator_display"
             style="@style/cpp_display_style"
             a:inputType="textMultiLine"
             a:maxLines="3"

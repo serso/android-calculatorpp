@@ -8,7 +8,7 @@
 
 <org.solovyev.android.calculator.AndroidCalculatorDisplayView
 		xmlns:a="http://schemas.android.com/apk/res/android"
-		a:id="@+id/calculatorDisplay"
+		a:id="@+id/calculator_display"
 		style="@style/cpp_display_style"
         a:padding="@dimen/cpp_display_padding"
 		a:inputType="textMultiLine"

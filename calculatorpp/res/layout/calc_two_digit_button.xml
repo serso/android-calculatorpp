@@ -13,5 +13,5 @@
 													   c:textUp="cos"
 													   c:textLeft="B"
 													   c:textDown="acos"
-													   style="?digitButtonStyle"
+													   style="?cpp_digit_button_style"
 													   a:onClick="digitButtonClickHandler"/>

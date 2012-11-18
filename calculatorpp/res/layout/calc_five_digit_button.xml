@@ -12,5 +12,5 @@
 													   c:textUp="t"
 													   c:textLeft="E"
 													   c:textDown="j"
-													   style="?digitButtonStyle"
+													   style="?cpp_digit_button_style"
 													   a:onClick="digitButtonClickHandler"/>

@@ -8,7 +8,7 @@
 
 <TextView
         xmlns:a="http://schemas.android.com/apk/res/android"
-        a:id="@+id/calculatorDisplay"
+        a:id="@+id/calculator_display"
         style="@style/cpp_widget_display_style"
         a:textIsSelectable="true"
         a:padding="@dimen/cpp_display_padding"

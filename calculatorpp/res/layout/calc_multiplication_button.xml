@@ -13,6 +13,6 @@
 													   c:textUp="^"
 													   c:textDown="^2"
 													   c:textLeft="Π"
-													   style="?operationButtonStyle"
+													   style="?cpp_operation_button_style"
 													   c:directionTextScale="0.5"
 													   a:onClick="digitButtonClickHandler"/>

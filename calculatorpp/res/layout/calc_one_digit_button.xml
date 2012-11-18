@@ -13,5 +13,5 @@
 													   c:textUp="sin"
 													   c:textLeft="A"
 													   c:textDown="asin"
-													   style="?digitButtonStyle"
+													   style="?cpp_digit_button_style"
 													   a:onClick="digitButtonClickHandler"/>

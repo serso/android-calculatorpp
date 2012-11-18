@@ -9,5 +9,5 @@
 <ImageButton xmlns:a="http://schemas.android.com/apk/res/android"
 			 a:id="@+id/likeButton"
 			 a:src="@drawable/kb_facebook"
-			 style="?controlImageButtonStyle"
+			 style="?cpp_control_image_button_style"
 			 a:onClick="likeButtonClickHandler"/>

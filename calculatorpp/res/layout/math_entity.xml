@@ -9,7 +9,7 @@
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
               a:layout_height="wrap_content"
               a:layout_width="match_parent"
-              style="?fragmentListViewItemStyle"
+              style="?cpp_fragment_list_view_item_style"
               a:paddingBottom="@dimen/cpp_pane_padding"
               a:orientation="vertical">
 

@@ -14,4 +14,4 @@
     a:text="ƒ(x)"
     a:textStyle="italic"
     a:onClick="functionsButtonClickHandler"
-    style="?controlButtonStyle" />
+    style="?cpp_control_button_style" />

@@ -8,7 +8,7 @@
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
 	a:id="@+id/main_layout"
-    style="?mainMultiPaneLayoutStyle"
+    style="?cpp_main_multi_pane_layout_style"
     a:orientation="vertical">
 
 </LinearLayout>

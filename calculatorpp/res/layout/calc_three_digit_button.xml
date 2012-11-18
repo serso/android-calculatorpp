@@ -13,5 +13,5 @@
 													   c:textUp="tan"
 													   c:textLeft="C"
 													   c:textDown="atan"
-													   style="?digitButtonStyle"
+													   style="?cpp_digit_button_style"
 													   a:onClick="digitButtonClickHandler"/>

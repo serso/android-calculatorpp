@@ -12,5 +12,5 @@
 													   c:textUp="°"
 													   c:textDown="E"
 													   a:text="+"
-													   style="?operationButtonStyle"
+													   style="?cpp_operation_button_style"
 													   a:onClick="digitButtonClickHandler"/>

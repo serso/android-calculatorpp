@@ -3,7 +3,7 @@
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
     a:layout_width="wrap_content"
     a:layout_height="wrap_content"
-    style="?dialogStyle"
+    style="?cpp_dialog_style"
     a:orientation="vertical">
 
     <LinearLayout

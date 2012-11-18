@@ -12,5 +12,5 @@
 													   a:text="."
 													   c:textUp=","
 													   c:directionTextScale="0.5"
-													   style="?digitButtonStyle"
+													   style="?cpp_digit_button_style"
 													   a:onClick="digitButtonClickHandler"/>

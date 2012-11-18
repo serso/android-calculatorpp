@@ -9,7 +9,7 @@
         xmlns:a="http://schemas.android.com/apk/res/android"
         a:id="@+id/main_layout"
         a:orientation="vertical"
-        style="?mainMultiPaneLayoutStyle">
+        style="?cpp_main_multi_pane_layout_style">
 
     <LinearLayout
             a:layout_height="0dp"
@@ -28,13 +28,13 @@
             <LinearLayout a:id="@+id/editorContainer"
                           a:layout_height="0dp"
                           a:layout_width="match_parent"
-                          style="?paneStyle"
+                          style="?cpp_pane_style"
                           a:layout_weight="4"/>
 
             <LinearLayout a:id="@+id/displayContainer"
                           a:layout_height="0dp"
                           a:layout_width="match_parent"
-                          style="?paneStyle"
+                          style="?cpp_pane_style"
                           a:layout_weight="1"/>
 
         </LinearLayout>
@@ -44,7 +44,7 @@
                       a:layout_width="0dp"
                       a:layout_weight="1"
                       a:orientation="vertical"
-                      style="?paneStyle"/>
+                      style="?cpp_pane_style"/>
 
     </LinearLayout>
 
@@ -52,6 +52,6 @@
                   a:layout_height="0dp"
                   a:layout_width="match_parent"
                   a:layout_weight="2"
-                  style="?paneStyleTransparent"/>
+                  style="?cpp_pane_style_transparent"/>
 
 </LinearLayout>

@@ -27,7 +27,7 @@
 														   c:textDown="@string/c_down"
 														   a:layout_width="80dp"
 														   a:layout_height="80dp"
-														   style="?digitButtonStyle"/>
+														   style="?cpp_digit_button_style"/>
 
 			<org.solovyev.android.view.drag.DirectionDragButton a:id="@+id/calibrationButtonRight"
 														   a:text=""
@@ -35,7 +35,7 @@
 														   c:textDown="@string/c_down"
 														   a:layout_width="80dp"
 														   a:layout_height="80dp"
-														   style="?digitButtonStyle"/>
+														   style="?cpp_digit_button_style"/>
 
 			<ImageView a:id="@+id/calibrationArrowRight"
 					   a:layout_gravity="right"

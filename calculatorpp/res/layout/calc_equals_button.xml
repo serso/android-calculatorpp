@@ -14,5 +14,5 @@
 		c:directionTextScale="0.5"
 		a:layout_width="fill_parent"
 		a:layout_height="fill_parent"
-		style="?controlButtonStyle"
+		style="?cpp_control_button_style"
 		a:onClick="equalsButtonClickHandler"/>

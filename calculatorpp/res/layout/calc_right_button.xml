@@ -12,5 +12,5 @@
 													   c:textUp="▶▶"
 													   a:text="▶"
 													   c:directionTextScale="0.5"
-													   style="?controlButtonStyle"
+													   style="?cpp_control_button_style"
 													   a:onClick="digitButtonClickHandler"/>

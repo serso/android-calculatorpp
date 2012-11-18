@@ -14,5 +14,5 @@
 			 c:textDown="bin"
 			 c:textLeft="hex"
 			 a:textStyle="bold"
-			 style="?controlImageButtonStyle"
+			 style="?cpp_control_image_button_style"
 			 a:onClick="clearButtonClickHandler"/>

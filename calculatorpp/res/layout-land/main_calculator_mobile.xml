@@ -9,7 +9,7 @@
         xmlns:a="http://schemas.android.com/apk/res/android"
         a:id="@+id/main_layout"
         a:orientation="vertical"
-        style="?mainLayoutStyle">
+        style="?cpp_main_layout_style">
 
     <include layout="@layout/main_first_pane_mobile"/>
 

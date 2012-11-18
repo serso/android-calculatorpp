@@ -59,7 +59,7 @@ public class AndroidCalculator implements Calculator, CalculatorEventListener, S
     }
 
     public void setDisplay(@NotNull Activity activity) {
-        final AndroidCalculatorDisplayView displayView = (AndroidCalculatorDisplayView) activity.findViewById(R.id.calculatorDisplay);
+        final AndroidCalculatorDisplayView displayView = (AndroidCalculatorDisplayView) activity.findViewById(R.id.calculator_display);
         setDisplay(activity, displayView);
     }
 
@@ -69,7 +69,7 @@ public class AndroidCalculator implements Calculator, CalculatorEventListener, S
     }
 
     public void setEditor(@NotNull Activity activity) {
-        final AndroidCalculatorEditorView editorView = (AndroidCalculatorEditorView) activity.findViewById(R.id.calculatorEditor);
+        final AndroidCalculatorEditorView editorView = (AndroidCalculatorEditorView) activity.findViewById(R.id.calculator_editor);
         setEditor(activity, editorView);
     }
 
