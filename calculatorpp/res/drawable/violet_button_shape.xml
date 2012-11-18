@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+  ~ For more information, please, contact se.solovyev@gmail.com
+  ~ or visit http://se.solovyev.org
+  -->
+
+<shape xmlns:a="http://schemas.android.com/apk/res/android">
+	<gradient a:startColor="#520546"
+			  a:endColor="#8a307c"
+			  a:angle="90"/>
+	<corners a:radius="0dp"/>
+</shape>

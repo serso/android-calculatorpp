@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<shape xmlns:a="http://schemas.android.com/apk/res/android">
-	<gradient a:startColor="#001c45"
-			  a:endColor="#003481"
-			  a:angle="90"/>
-    <corners a:radius="0dp" />
-</shape>
+<selector xmlns:a="http://schemas.android.com/apk/res/android">
+
+    <item a:state_pressed="true"
+        a:drawable="@drawable/metro_button_pressed"/>
+
+    <item a:drawable="@drawable/blue_button_shape"/>
+
+</selector>

@@ -265,5 +265,9 @@
     <string name="p_preferred_angle_units_summary">Defines the default angle units</string>
     <string name="preferred_angle_units_message">Default angle units \'%1$s\' differs from current \'%2$s\'. Forgot to change back?</string>
     <string name="close">Close</string>
+    <string name="c_app_widget_3x3_name">Calculator++ Widget (3x3)</string>
+    <string name="c_app_widget_3x4_name">Calculator++ Widget (3x4)</string>
+    <string name="c_app_widget_4x4_name">Calculator++ Widget (4x4)</string>
+    <string name="c_app_widget_4x5_name">Calculator++ Widget (4x5)</string>
 
 </resources>

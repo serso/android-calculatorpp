@@ -231,7 +231,7 @@
 
     <string name="c_release_notes_for_107">
         1. Support for user-defined functions (see +f button or + button inside functions screen)\n
-        2. Widget in different sizes: 3x3, 3x4, 4x4\n
+        2. Widget in different sizes: 3x3, 3x4, 4x4, 4x5\n
         3. Several functions added: re(x), im(x), √3(x), √4(x), √n(x, n)\n
         4. Default number systems/angle units + special warning dialog in case of calculations errors\n
         5. Performance improvements\n

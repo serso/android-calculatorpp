@@ -265,5 +265,9 @@
     <string name="preferred_angle_units_message">Единицы измерения углов по умолчанию \'%1$s\' отличаются от текущих \'%2$s\'. Забыли их вернуть?</string>
 
     <string name="close">Закрыть</string>
+    <string name="c_app_widget_3x3_name">Калькулятор++ Виджет (3x3)</string>
+    <string name="c_app_widget_3x4_name">Калькулятор++ Виджет (3x4)</string>
+    <string name="c_app_widget_4x4_name">Калькулятор++ Виджет (4x4)</string>
+    <string name="c_app_widget_4x5_name">Калькулятор++ Виджет (4x5)</string>
 
 </resources>
