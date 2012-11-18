@@ -48,6 +48,8 @@
         <!-- settings must use action bar icon-->
         <activity android:icon="@drawable/icon_action_bar" android:label="@string/c_settings" android:name=".plot.CalculatorPlotPreferenceActivity"/>
 
+        <!-- WIDGET CONFIG -->
+
         <receiver android:icon="@drawable/icon" android:label="@string/c_app_name" android:name=".widget.CalculatorWidgetProvider">
 
             <intent-filter>
@@ -57,8 +59,34 @@
                 <action android:name="org.solovyev.calculator.widget.BUTTON_PRESSED"/>
             </intent-filter>
 
-            <meta-data android:name="android.appwidget.provider" android:resource="@xml/calculator_widget_info"/>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/calculator_widget_info_3x3"/>
         </receiver>
+
+        <receiver android:icon="@drawable/icon" android:label="@string/c_app_name" android:name=".widget.CalculatorWidgetProvider3x4">
+
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="org.solovyev.calculator.widget.EDITOR_STATE_CHANGED"/>
+                <action android:name="org.solovyev.calculator.widget.DISPLAY_STATE_CHANGED"/>
+                <action android:name="org.solovyev.calculator.widget.BUTTON_PRESSED"/>
+            </intent-filter>
+
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/calculator_widget_info_3x4"/>
+        </receiver>
+
+        <receiver android:icon="@drawable/icon" android:label="@string/c_app_name" android:name=".widget.CalculatorWidgetProvider4x4">
+
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="org.solovyev.calculator.widget.EDITOR_STATE_CHANGED"/>
+                <action android:name="org.solovyev.calculator.widget.DISPLAY_STATE_CHANGED"/>
+                <action android:name="org.solovyev.calculator.widget.BUTTON_PRESSED"/>
+            </intent-filter>
+
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/calculator_widget_info_4x4"/>
+        </receiver>
+
+        <!-- ADMOB + BILLING CONFIG -->
 
         <activity android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" android:name="com.google.ads.AdActivity"/>
 
@@ -70,6 +98,8 @@
                 <action android:name="com.android.vending.billing.PURCHASE_STATE_CHANGED"/>
             </intent-filter>
         </receiver>
+
+        <!-- ACRA CONFIG -->
 
         <activity android:excludeFromRecents="true" android:finishOnTaskLaunch="true" android:launchMode="singleInstance" android:name="org.acra.CrashReportDialog" android:theme="@style/Theme.Sherlock.Dialog"/>
 

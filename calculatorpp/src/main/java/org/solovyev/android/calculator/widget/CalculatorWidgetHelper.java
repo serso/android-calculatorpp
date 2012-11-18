@@ -32,7 +32,7 @@ public class CalculatorWidgetHelper implements CalculatorEventListener {
 
                     CalculatorLocatorImpl.getInstance().getNotifier().showDebugMessage(TAG, "Editor state changed: " + newEditorState.getText());
 
-                    CalculatorWidgetProvider.onEditorStateChanged(CalculatorApplication.getInstance(), calculatorEventData, newEditorState);
+                    AbstractCalculatorWidgetProvider.onEditorStateChanged(CalculatorApplication.getInstance(), calculatorEventData, newEditorState);
                     break;
 
                 case display_state_changed:
@@ -41,7 +41,7 @@ public class CalculatorWidgetHelper implements CalculatorEventListener {
 
                     CalculatorLocatorImpl.getInstance().getNotifier().showDebugMessage(TAG, "Display state changed: " + newDisplayState.getText());
 
-                    CalculatorWidgetProvider.onDisplayStateChanged(CalculatorApplication.getInstance(), calculatorEventData, newDisplayState);
+                    AbstractCalculatorWidgetProvider.onDisplayStateChanged(CalculatorApplication.getInstance(), calculatorEventData, newDisplayState);
                     break;
             }
         }
