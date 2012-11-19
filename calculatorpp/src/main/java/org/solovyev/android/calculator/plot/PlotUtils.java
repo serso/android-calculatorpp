@@ -39,7 +39,7 @@ import java.util.Arrays;
  */
 public final class PlotUtils {
 
-	private static final double MAX_Y_DIFF = 1;
+    private static final double MAX_Y_DIFF = 1;
 	private static final double MAX_X_DIFF = 1;
     static final int DEFAULT_NUMBER_OF_STEPS = 100;
 
@@ -55,7 +55,7 @@ public final class PlotUtils {
 								@NotNull MyXYSeries realSeries,
 								@Nullable MyXYSeries imagSeries,
 								boolean addExtra,
-								int numberOfSteps) throws ArithmeticException {
+								int numberOfSteps) {
 
 		boolean imagExists = false;
 
@@ -145,7 +145,7 @@ public final class PlotUtils {
                                 int bgColor,
                                 boolean interpolate,
                                 int realLineColor,
-                                int imagLineColor) throws ArithmeticException{
+                                int imagLineColor) {
         final MyXYSeries realSeries = new MyXYSeries(getRealFunctionName(expression, variable), DEFAULT_NUMBER_OF_STEPS * 2);
         final MyXYSeries imagSeries = new MyXYSeries(getImagFunctionName(variable), DEFAULT_NUMBER_OF_STEPS * 2);
 
@@ -372,8 +372,12 @@ public final class PlotUtils {
 
     @NotNull
 	public static Complex calculatorExpression(@NotNull Generic expression, @NotNull Constant variable, double x) {
-		return unwrap(expression.substitute(variable, Expression.valueOf(x)).numeric());
-	}
+        try {
+            return unwrap(expression.substitute(variable, Expression.valueOf(x)).numeric());
+        } catch (RuntimeException e) {
+            return NaN;
+        }
+    }
 
 	public static void addSingularityPoint(@NotNull MyXYSeries series,
                                            @NotNull Point point) {
@@ -410,14 +414,16 @@ public final class PlotUtils {
 		}
 	}
 
-	@NotNull
+    private static final Complex NaN = Complex.valueOf(Double.NaN, 0d);
+
+    @NotNull
 	public static Complex unwrap(@Nullable Generic numeric) {
 		if (numeric instanceof JsclInteger) {
 			return Complex.valueOf(((JsclInteger) numeric).intValue(), 0d);
 		} else if (numeric instanceof NumericWrapper) {
 			return unwrap(((NumericWrapper) numeric).content());
 		} else {
-			throw new ArithmeticException();
+			return NaN;
 		}
 	}
 
