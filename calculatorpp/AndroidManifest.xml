@@ -9,7 +9,7 @@
 
     <uses-sdk android:minSdkVersion="4" android:targetSdkVersion="8"/>
 
-    <application android:debuggable="false" android:hardwareAccelerated="false" android:icon="@drawable/icon" android:label="@string/c_app_name" android:name=".CalculatorApplication" android:theme="@style/metro_blue_theme">
+    <application android:debuggable="false" android:hardwareAccelerated="false" android:icon="@drawable/icon" android:label="@string/c_app_name" android:name=".CalculatorApplication" android:theme="@style/cpp_metro_blue_theme">
 
         <activity android:clearTaskOnLaunch="true" android:label="@string/c_app_name" android:name=".CalculatorActivity" android:windowSoftInputMode="adjustPan">
 
@@ -21,7 +21,7 @@
         </activity>
 
         <!-- settings must use action bar icon-->
-        <activity android:icon="@drawable/icon_action_bar" android:label="@string/c_app_settings" android:name=".CalculatorPreferencesActivity"/>
+        <activity android:icon="@drawable/ab_icon" android:label="@string/c_app_settings" android:name=".CalculatorPreferencesActivity"/>
 
         <activity android:label="@string/c_history" android:name=".history.CalculatorHistoryActivity"/>
 
@@ -39,14 +39,14 @@
 
         <activity android:label="@string/c_plot_graph" android:name=".plot.CalculatorPlotActivity"/>
 
-        <activity android:name=".widget.CalculatorWidgetConfigurationActivity" android:theme="@style/metro_blue_theme">
+        <activity android:name=".widget.CalculatorWidgetConfigurationActivity" android:theme="@style/cpp_metro_blue_theme">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
             </intent-filter>
         </activity>
 
         <!-- settings must use action bar icon-->
-        <activity android:icon="@drawable/icon_action_bar" android:label="@string/c_settings" android:name=".plot.CalculatorPlotPreferenceActivity"/>
+        <activity android:icon="@drawable/ab_icon" android:label="@string/c_settings" android:name=".plot.CalculatorPlotPreferenceActivity"/>
 
         <!-- WIDGET CONFIG -->
 

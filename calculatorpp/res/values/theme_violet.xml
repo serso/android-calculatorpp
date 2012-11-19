@@ -22,7 +22,7 @@
 		<item name="android:padding">6dp</item>
 	</style>
 
-	<style name="violet_theme" parent="default_theme">
+	<style name="cpp_violet_theme" parent="cpp_gray_theme">
 		<item name="cpp_digit_button_style">@style/violet_digit_button_style</item>
 		<item name="cpp_control_button_style">@style/violet_control_button_style</item>
 		<item name="cpp_control_image_button_style">@style/violet_control_image_button_style</item>

@@ -22,7 +22,7 @@ import org.solovyev.android.calculator.widget.CalculatorWidgetHelper;
 /*@ReportsCrashes(formKey = "dEhDaW1nZU1qcFdsVUpiSnhON0c0ZHc6MQ",
         mode = ReportingInteractionMode.TOAST)*/
 @ReportsCrashes(formKey = "",
-        mailTo = "se.solovyev+programming+calculatorpp+crashes+1.5.0b@gmail.com",
+        mailTo = "se.solovyev+programming+calculatorpp+crashes+1.5@gmail.com",
         mode = ReportingInteractionMode.DIALOG,
         resToastText = R.string.crashed,
         resDialogTitle = R.string.crash_dialog_title,

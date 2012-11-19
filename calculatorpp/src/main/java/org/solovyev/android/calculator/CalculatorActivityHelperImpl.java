@@ -100,7 +100,7 @@ public class CalculatorActivityHelperImpl extends AbstractCalculatorHelper imple
 
         toggleTitle(activity, true);
 
-        actionBar.setIcon(R.drawable.icon_action_bar);
+        actionBar.setIcon(R.drawable.ab_icon);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
     }
 

@@ -8,7 +8,7 @@
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
               a:id="@+id/main_fragment_layout"
-              style="@style/default_fragment_layout_style"
+              style="@style/cpp_default_fragment_layout_style"
               a:layout_width="match_parent"
               a:layout_height="match_parent"
               a:padding="@dimen/cpp_editor_padding">

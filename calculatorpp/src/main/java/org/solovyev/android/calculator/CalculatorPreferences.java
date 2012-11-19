@@ -63,12 +63,12 @@ public final class CalculatorPreferences {
 
         public static enum Theme {
 
-            default_theme(ThemeType.other, R.style.default_theme),
-            violet_theme(ThemeType.other, R.style.violet_theme),
-            light_blue_theme(ThemeType.other, R.style.light_blue_theme),
-            metro_blue_theme(ThemeType.metro, R.style.metro_blue_theme),
-            metro_purple_theme(ThemeType.metro, R.style.metro_purple_theme),
-            metro_green_theme(ThemeType.metro, R.style.metro_green_theme);
+            default_theme(ThemeType.other, R.style.cpp_gray_theme),
+            violet_theme(ThemeType.other, R.style.cpp_violet_theme),
+            light_blue_theme(ThemeType.other, R.style.cpp_light_blue_theme),
+            metro_blue_theme(ThemeType.metro, R.style.cpp_metro_blue_theme),
+            metro_purple_theme(ThemeType.metro, R.style.cpp_metro_purple_theme),
+            metro_green_theme(ThemeType.metro, R.style.cpp_metro_green_theme);
 
             @NotNull
             private final ThemeType themeType;
@@ -76,7 +76,7 @@ public final class CalculatorPreferences {
             @NotNull
             private final Integer themeId;
 
-            Theme(@NotNull ThemeType themeType, Integer themeId) {
+            Theme(@NotNull ThemeType themeType, @NotNull Integer themeId) {
                 this.themeType = themeType;
                 this.themeId = themeId;
             }

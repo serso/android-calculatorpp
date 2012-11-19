@@ -4,7 +4,7 @@
               a:layout_width="match_parent"
               a:layout_height="match_parent"
               a:orientation="vertical"
-              style="@style/widget_main_layout_style">
+              style="@style/cpp_widget_main_layout_style">
 
     <include layout="@layout/widget_editor"
              a:layout_weight="2"
