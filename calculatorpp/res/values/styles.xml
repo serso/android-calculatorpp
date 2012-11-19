@@ -51,6 +51,10 @@
         <item name="android:textSize">@dimen/cpp_editor_text_size</item>
     </style>
 
+    <style name="cpp_editor_mobile_style" parent="cpp_editor_style">
+        <item name="android:textSize">@dimen/cpp_editor_text_size_mobile</item>
+    </style>
+
     <style name="cpp_display_style" parent="cpp_default_text">
         <item name="android:gravity">top|right</item>
         <item name="android:layout_width">match_parent</item>

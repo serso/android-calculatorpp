@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.text.Html;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.text.TextProcessor;
@@ -172,7 +173,7 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
             final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
             final CalculatorPreferences.Gui.Layout layout = CalculatorPreferences.Gui.getLayout(preferences);
             if ( layout == CalculatorPreferences.Gui.Layout.main_calculator_mobile ) {
-                setTextSize(getResources().getDimension(R.dimen.cpp_display_text_size_mobile));
+                setTextSize(TypedValue.COMPLEX_UNIT_SP, getResources().getDimension(R.dimen.cpp_display_text_size_mobile));
             }
 
             this.setOnClickListener(new CalculatorDisplayOnClickListener(context));

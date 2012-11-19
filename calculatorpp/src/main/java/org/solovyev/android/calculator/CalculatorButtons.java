@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -44,7 +45,7 @@ public final class CalculatorButtons {
             AndroidUtils.processViewsOfType(root, DragButton.class, new AndroidUtils.ViewProcessor<DragButton>() {
                 @Override
                 public void process(@NotNull DragButton button) {
-                    button.setTextSize(textSize);
+                    button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
                 }
             });
         }
