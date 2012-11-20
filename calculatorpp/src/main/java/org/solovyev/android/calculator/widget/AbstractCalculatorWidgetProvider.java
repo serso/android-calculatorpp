@@ -6,41 +6,24 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Parcelable;
 import android.text.Html;
 import android.widget.RemoteViews;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.*;
-import org.solovyev.common.MutableObject;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.solovyev.android.calculator.external.ExternalCalculatorHelper;
+import org.solovyev.android.calculator.external.ExternalCalculatorIntentHandler;
+import org.solovyev.android.calculator.external.ExternalCalculatorStateUpdater;
 
 /**
  * User: Solovyev_S
  * Date: 19.10.12
  * Time: 16:18
  */
-abstract class AbstractCalculatorWidgetProvider extends AppWidgetProvider {
+abstract class AbstractCalculatorWidgetProvider extends AppWidgetProvider implements ExternalCalculatorStateUpdater {
 
-    /*
-    **********************************************************************
-    *
-    *                           CONSTANTS
-    *
-    **********************************************************************
-    */
-    private static final String EVENT_ID_EXTRA = "eventId";
-
-    private static final String BUTTON_ID_EXTRA = "buttonId";
-    private static final String BUTTON_PRESSED_ACTION = "org.solovyev.calculator.widget.BUTTON_PRESSED";
-
-    private static final String EDITOR_STATE_CHANGED_ACTION = "org.solovyev.calculator.widget.EDITOR_STATE_CHANGED";
-    private static final String EDITOR_STATE_EXTRA = "editorState";
-
-    private static final String DISPLAY_STATE_CHANGED_ACTION = "org.solovyev.calculator.widget.DISPLAY_STATE_CHANGED";
-    private static final String DISPLAY_STATE_EXTRA = "displayState";
+    static final String BUTTON_ID_EXTRA = "buttonId";
+    static final String BUTTON_PRESSED_ACTION = "org.solovyev.calculator.widget.BUTTON_PRESSED";
 
     private static final String TAG = "Calculator++ Widget";
 
@@ -56,10 +39,8 @@ abstract class AbstractCalculatorWidgetProvider extends AppWidgetProvider {
     private String cursorColor;
 
     @NotNull
-    private final MutableObject<Long> lastDisplayEventId = new MutableObject<Long>(0L);
+    private ExternalCalculatorIntentHandler intentHandler = new CalculatorWidgetIntentHandler(this);
 
-    @NotNull
-    private final MutableObject<Long> lastEditorEventId = new MutableObject<Long>(0L);
 
     /*
     **********************************************************************
@@ -71,9 +52,8 @@ abstract class AbstractCalculatorWidgetProvider extends AppWidgetProvider {
 
     protected AbstractCalculatorWidgetProvider() {
         final Class<? extends AppWidgetProvider> componentClass = this.getComponentClass();
-        if (!knownAppWidgetProviderClasses.contains(componentClass)) {
-            knownAppWidgetProviderClasses.add(componentClass);
-        }
+
+        ExternalCalculatorHelper.addExternalListener(componentClass);
     }
 
     /*
@@ -108,9 +88,10 @@ abstract class AbstractCalculatorWidgetProvider extends AppWidgetProvider {
         updateWidget(context, appWidgetManager, appWidgetIds, CalculatorLocatorImpl.getInstance().getEditor().getViewState(), CalculatorLocatorImpl.getInstance().getDisplay().getViewState());
     }
 
-    private void updateWidget(@NotNull Context context,
-                              @NotNull CalculatorEditorViewState editorState,
-                              @NotNull CalculatorDisplayViewState displayState) {
+    @Override
+    public void updateState(@NotNull Context context,
+                            @NotNull CalculatorEditorViewState editorState,
+                            @NotNull CalculatorDisplayViewState displayState) {
         final AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
         final int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, getComponentClass()));
         updateWidget(context, appWidgetManager, appWidgetIds, editorState, displayState);
@@ -153,53 +134,7 @@ abstract class AbstractCalculatorWidgetProvider extends AppWidgetProvider {
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
 
-        if (AbstractCalculatorWidgetProvider.BUTTON_PRESSED_ACTION.equals(intent.getAction())) {
-            final int buttonId = intent.getIntExtra(AbstractCalculatorWidgetProvider.BUTTON_ID_EXTRA, 0);
-
-            final WidgetButton button = WidgetButton.getById(buttonId);
-            if (button != null) {
-                button.onClick(context);
-            }
-        } else if (EDITOR_STATE_CHANGED_ACTION.equals(intent.getAction())) {
-            CalculatorLocatorImpl.getInstance().getNotifier().showDebugMessage(TAG, "Editor state changed broadcast received!");
-
-            final Long eventId = intent.getLongExtra(EVENT_ID_EXTRA, 0L);
-
-            boolean updateEditor = false;
-            synchronized (lastEditorEventId) {
-                if (eventId > lastEditorEventId.getObject()) {
-                    lastEditorEventId.setObject(eventId);
-                    updateEditor = true;
-                }
-            }
-
-            if (updateEditor) {
-                final Parcelable object = intent.getParcelableExtra(EDITOR_STATE_EXTRA);
-                if (object instanceof CalculatorEditorViewState) {
-                    updateWidget(context, (CalculatorEditorViewState) object, CalculatorLocatorImpl.getInstance().getDisplay().getViewState());
-                }
-            }
-        } else if (DISPLAY_STATE_CHANGED_ACTION.equals(intent.getAction())) {
-            CalculatorLocatorImpl.getInstance().getNotifier().showDebugMessage(TAG, "Display state changed broadcast received!");
-
-            final Long eventId = intent.getLongExtra(EVENT_ID_EXTRA, 0L);
-            boolean updateDisplay = false;
-            synchronized (lastDisplayEventId) {
-                if (eventId > lastDisplayEventId.getObject()) {
-                    lastDisplayEventId.setObject(eventId);
-                    updateDisplay = true;
-                }
-            }
-
-            if (updateDisplay) {
-                final Parcelable object = intent.getParcelableExtra(DISPLAY_STATE_EXTRA);
-                if (object instanceof CalculatorDisplayViewState) {
-                    updateWidget(context, CalculatorLocatorImpl.getInstance().getEditor().getViewState(), (CalculatorDisplayViewState) object);
-                }
-            }
-        } else if (Intent.ACTION_CONFIGURATION_CHANGED.equals(intent.getAction())) {
-            updateWidget(context, CalculatorLocatorImpl.getInstance().getEditor().getViewState(), CalculatorLocatorImpl.getInstance().getDisplay().getViewState());
-        }
+        this.intentHandler.onIntent(context, intent);
     }
 
     private void updateDisplayState(@NotNull Context context, @NotNull RemoteViews views, @NotNull CalculatorDisplayViewState displayState) {
@@ -223,42 +158,4 @@ abstract class AbstractCalculatorWidgetProvider extends AppWidgetProvider {
         CalculatorLocatorImpl.getInstance().getNotifier().showDebugMessage(TAG, "New editor state: " + text);
         views.setTextViewText(R.id.calculator_editor, newText);
     }
-
-    /*
-    **********************************************************************
-    *
-    *                           STATIC
-    *
-    **********************************************************************
-    */
-
-    private static final List<Class<? extends AppWidgetProvider>> knownAppWidgetProviderClasses = new ArrayList<Class<? extends AppWidgetProvider>>();
-
-    public static void onEditorStateChanged(@NotNull Context context,
-                                            @NotNull CalculatorEventData calculatorEventData,
-                                            @NotNull CalculatorEditorViewState editorViewState) {
-
-        for (Class<? extends AppWidgetProvider> appWidgetProviderClass : knownAppWidgetProviderClasses) {
-            final Intent intent = new Intent(EDITOR_STATE_CHANGED_ACTION);
-            intent.setClass(context, appWidgetProviderClass);
-            intent.putExtra(EVENT_ID_EXTRA, calculatorEventData.getEventId());
-            intent.putExtra(EDITOR_STATE_EXTRA, (Parcelable) new ParcelableCalculatorEditorViewState(editorViewState));
-            context.sendBroadcast(intent);
-            CalculatorLocatorImpl.getInstance().getNotifier().showDebugMessage(TAG, "Editor state changed broadcast sent");
-        }
-    }
-
-    public static void onDisplayStateChanged(@NotNull Context context,
-                                             @NotNull CalculatorEventData calculatorEventData,
-                                             @NotNull CalculatorDisplayViewState displayViewState) {
-        for (Class<? extends AppWidgetProvider> appWidgetProviderClass : knownAppWidgetProviderClasses) {
-            final Intent intent = new Intent(DISPLAY_STATE_CHANGED_ACTION);
-            intent.setClass(context, appWidgetProviderClass);
-            intent.putExtra(EVENT_ID_EXTRA, calculatorEventData.getEventId());
-            intent.putExtra(DISPLAY_STATE_EXTRA, (Parcelable)new ParcelableCalculatorDisplayViewState(displayViewState));
-            context.sendBroadcast(intent);
-            CalculatorLocatorImpl.getInstance().getNotifier().showDebugMessage(TAG, "Display state changed broadcast sent");
-        }
-    }
-
 }

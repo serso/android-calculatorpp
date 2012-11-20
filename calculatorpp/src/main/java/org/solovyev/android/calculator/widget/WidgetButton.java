@@ -15,7 +15,7 @@ import java.util.Map;
 * Date: 10/20/12
 * Time: 12:05 AM
 */
-enum WidgetButton {
+public enum WidgetButton {
 
     /*digits*/
     one(R.id.oneDigitButton, "1"),

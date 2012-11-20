@@ -3,6 +3,7 @@ package org.solovyev.android.calculator.widget;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.external.ExternalCalculatorHelper;
 
 /**
  * User: serso
@@ -32,7 +33,7 @@ public class CalculatorWidgetHelper implements CalculatorEventListener {
 
                     CalculatorLocatorImpl.getInstance().getNotifier().showDebugMessage(TAG, "Editor state changed: " + newEditorState.getText());
 
-                    AbstractCalculatorWidgetProvider.onEditorStateChanged(CalculatorApplication.getInstance(), calculatorEventData, newEditorState);
+                    ExternalCalculatorHelper.onEditorStateChanged(CalculatorApplication.getInstance(), calculatorEventData, newEditorState);
                     break;
 
                 case display_state_changed:
@@ -41,7 +42,7 @@ public class CalculatorWidgetHelper implements CalculatorEventListener {
 
                     CalculatorLocatorImpl.getInstance().getNotifier().showDebugMessage(TAG, "Display state changed: " + newDisplayState.getText());
 
-                    AbstractCalculatorWidgetProvider.onDisplayStateChanged(CalculatorApplication.getInstance(), calculatorEventData, newDisplayState);
+                    ExternalCalculatorHelper.onDisplayStateChanged(CalculatorApplication.getInstance(), calculatorEventData, newDisplayState);
                     break;
             }
         }
