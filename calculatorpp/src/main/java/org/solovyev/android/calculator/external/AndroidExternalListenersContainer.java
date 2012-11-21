@@ -15,7 +15,7 @@ import org.solovyev.android.calculator.CalculatorEventData;
 import org.solovyev.android.calculator.CalculatorEventHolder;
 import org.solovyev.android.calculator.CalculatorEventListener;
 import org.solovyev.android.calculator.CalculatorEventType;
-import org.solovyev.android.calculator.CalculatorLocatorImpl;
+import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.CalculatorUtils;
 import org.solovyev.android.calculator.ParcelableCalculatorDisplayViewState;
 import org.solovyev.android.calculator.ParcelableCalculatorEditorViewState;
@@ -64,7 +64,7 @@ public class AndroidExternalListenersContainer implements CalculatorExternalList
 			intent.putExtra(EVENT_ID_EXTRA, calculatorEventData.getEventId());
 			intent.putExtra(EDITOR_STATE_EXTRA, (Parcelable) new ParcelableCalculatorEditorViewState(editorViewState));
 			context.sendBroadcast(intent);
-			CalculatorLocatorImpl.getInstance().getNotifier().showDebugMessage(TAG, "Editor state changed broadcast sent");
+			Locator.getInstance().getNotifier().showDebugMessage(TAG, "Editor state changed broadcast sent");
 		}
 	}
 
@@ -77,7 +77,7 @@ public class AndroidExternalListenersContainer implements CalculatorExternalList
 			intent.putExtra(EVENT_ID_EXTRA, calculatorEventData.getEventId());
 			intent.putExtra(DISPLAY_STATE_EXTRA, (Parcelable) new ParcelableCalculatorDisplayViewState(displayViewState));
 			context.sendBroadcast(intent);
-			CalculatorLocatorImpl.getInstance().getNotifier().showDebugMessage(TAG, "Display state changed broadcast sent");
+			Locator.getInstance().getNotifier().showDebugMessage(TAG, "Display state changed broadcast sent");
 		}
 	}
 
@@ -101,7 +101,7 @@ public class AndroidExternalListenersContainer implements CalculatorExternalList
                     final CalculatorEditorChangeEventData editorChangeData = (CalculatorEditorChangeEventData) data;
                     final CalculatorEditorViewState newEditorState = editorChangeData.getNewValue();
 
-                    CalculatorLocatorImpl.getInstance().getNotifier().showDebugMessage(TAG, "Editor state changed: " + newEditorState.getText());
+                    Locator.getInstance().getNotifier().showDebugMessage(TAG, "Editor state changed: " + newEditorState.getText());
 
                     onEditorStateChanged(CalculatorApplication.getInstance(), calculatorEventData, newEditorState);
                     break;
@@ -110,7 +110,7 @@ public class AndroidExternalListenersContainer implements CalculatorExternalList
                     final CalculatorDisplayChangeEventData displayChangeData = (CalculatorDisplayChangeEventData) data;
                     final CalculatorDisplayViewState newDisplayState = displayChangeData.getNewValue();
 
-                    CalculatorLocatorImpl.getInstance().getNotifier().showDebugMessage(TAG, "Display state changed: " + newDisplayState.getText());
+                    Locator.getInstance().getNotifier().showDebugMessage(TAG, "Display state changed: " + newDisplayState.getText());
 
                     onDisplayStateChanged(CalculatorApplication.getInstance(), calculatorEventData, newDisplayState);
                     break;

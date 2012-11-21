@@ -35,7 +35,7 @@ public class DefaultExternalCalculatorIntentHandler implements ExternalCalculato
     public void onIntent(@NotNull Context context, @NotNull Intent intent) {
 
         if (AndroidExternalListenersContainer.EDITOR_STATE_CHANGED_ACTION.equals(intent.getAction())) {
-            CalculatorLocatorImpl.getInstance().getNotifier().showDebugMessage(TAG, "Editor state changed broadcast received!");
+            Locator.getInstance().getNotifier().showDebugMessage(TAG, "Editor state changed broadcast received!");
 
             final Long eventId = intent.getLongExtra(AndroidExternalListenersContainer.EVENT_ID_EXTRA, 0L);
 
@@ -54,7 +54,7 @@ public class DefaultExternalCalculatorIntentHandler implements ExternalCalculato
                 }
             }
         } else if (AndroidExternalListenersContainer.DISPLAY_STATE_CHANGED_ACTION.equals(intent.getAction())) {
-            CalculatorLocatorImpl.getInstance().getNotifier().showDebugMessage(TAG, "Display state changed broadcast received!");
+            Locator.getInstance().getNotifier().showDebugMessage(TAG, "Display state changed broadcast received!");
 
             final Long eventId = intent.getLongExtra(AndroidExternalListenersContainer.EVENT_ID_EXTRA, 0L);
             boolean updateDisplay = false;

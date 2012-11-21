@@ -24,8 +24,8 @@ public class CalculatorTestUtils {
     public static final int TIMEOUT = 3;
 
     public static void staticSetUp() throws Exception {
-        CalculatorLocatorImpl.getInstance().init(new CalculatorImpl(), newCalculatorEngine(), Mockito.mock(CalculatorClipboard.class), Mockito.mock(CalculatorNotifier.class), Mockito.mock(CalculatorHistory.class), new SystemOutCalculatorLogger(), Mockito.mock(CalculatorPreferenceService.class), Mockito.mock(CalculatorKeyboard.class), Mockito.mock(CalculatorExternalListenersContainer.class));
-        CalculatorLocatorImpl.getInstance().getEngine().init();
+        Locator.getInstance().init(new CalculatorImpl(), newCalculatorEngine(), Mockito.mock(CalculatorClipboard.class), Mockito.mock(CalculatorNotifier.class), Mockito.mock(CalculatorHistory.class), new SystemOutCalculatorLogger(), Mockito.mock(CalculatorPreferenceService.class), Mockito.mock(CalculatorKeyboard.class), Mockito.mock(CalculatorExternalListenersContainer.class));
+        Locator.getInstance().getEngine().init();
     }
 
     @NotNull
@@ -47,9 +47,9 @@ public class CalculatorTestUtils {
     }
 
     public static void assertEval(@NotNull String expected, @NotNull String expression, @NotNull JsclOperation operation) {
-        final Calculator calculator = CalculatorLocatorImpl.getInstance().getCalculator();
+        final Calculator calculator = Locator.getInstance().getCalculator();
 
-        CalculatorLocatorImpl.getInstance().getDisplay().setViewState(CalculatorDisplayViewStateImpl.newDefaultInstance());
+        Locator.getInstance().getDisplay().setViewState(CalculatorDisplayViewStateImpl.newDefaultInstance());
 
         final CountDownLatch latch = new CountDownLatch(1);
         final TestCalculatorEventListener calculatorEventListener = new TestCalculatorEventListener(latch);
@@ -146,9 +146,9 @@ public class CalculatorTestUtils {
     }
 
     public static void assertError(@NotNull String expression, @NotNull JsclOperation operation) {
-        final Calculator calculator = CalculatorLocatorImpl.getInstance().getCalculator();
+        final Calculator calculator = Locator.getInstance().getCalculator();
 
-        CalculatorLocatorImpl.getInstance().getDisplay().setViewState(CalculatorDisplayViewStateImpl.newDefaultInstance());
+        Locator.getInstance().getDisplay().setViewState(CalculatorDisplayViewStateImpl.newDefaultInstance());
 
         final CountDownLatch latch = new CountDownLatch(1);
         final TestCalculatorEventListener calculatorEventListener = new TestCalculatorEventListener(latch);

@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.CalculatorDisplayViewState;
 import org.solovyev.android.calculator.CalculatorEditorViewState;
-import org.solovyev.android.calculator.CalculatorLocatorImpl;
+import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.external.DefaultExternalCalculatorIntentHandler;
 import org.solovyev.android.calculator.external.ExternalCalculatorIntentHandler;
@@ -75,7 +75,7 @@ public class CalculatorOverlayService extends Service implements ExternalCalcula
     }
 
     private void startCalculatorListening() {
-        CalculatorLocatorImpl.getInstance().getExternalListenersContainer().addExternalListener(getIntentListenerClass());
+        Locator.getInstance().getExternalListenersContainer().addExternalListener(getIntentListenerClass());
     }
 
     @NotNull
@@ -84,7 +84,7 @@ public class CalculatorOverlayService extends Service implements ExternalCalcula
     }
 
     private void stopCalculatorListening() {
-		CalculatorLocatorImpl.getInstance().getExternalListenersContainer().removeExternalListener(getIntentListenerClass());
+		Locator.getInstance().getExternalListenersContainer().removeExternalListener(getIntentListenerClass());
     }
 
     @Override
