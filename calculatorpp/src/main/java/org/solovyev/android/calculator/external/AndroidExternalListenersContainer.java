@@ -1,10 +1,11 @@
-package org.solovyev.android.calculator.widget;
+package org.solovyev.android.calculator.external;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Parcelable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.calculator.Calculator;
 import org.solovyev.android.calculator.CalculatorApplication;
 import org.solovyev.android.calculator.CalculatorDisplayChangeEventData;
 import org.solovyev.android.calculator.CalculatorDisplayViewState;
@@ -27,7 +28,7 @@ import java.util.Set;
  * Date: 10/19/12
  * Time: 11:11 PM
  */
-public class CalculatorWidgetHelper implements CalculatorEventListener {
+public class AndroidExternalListenersContainer implements CalculatorExternalListenersContainer, CalculatorEventListener {
 
 	/*
 		**********************************************************************
@@ -44,16 +45,16 @@ public class CalculatorWidgetHelper implements CalculatorEventListener {
 
 	private static final String TAG = "Calculator++ External Listener Helper";
 
-	private static final Set<Class<?>> externalListeners = new HashSet<Class<?>>();
+	private final Set<Class<?>> externalListeners = new HashSet<Class<?>>();
 
 	@NotNull
     private final CalculatorEventHolder lastEvent = new CalculatorEventHolder(CalculatorUtils.createFirstEventDataId());
 
-    public CalculatorWidgetHelper() {
-        CalculatorLocatorImpl.getInstance().getCalculator().addCalculatorEventListener(this);
-    }
+    public AndroidExternalListenersContainer(@NotNull Calculator calculator) {
+		calculator.addCalculatorEventListener(this);
+	}
 
-	public static void onEditorStateChanged(@NotNull Context context,
+	public void onEditorStateChanged(@NotNull Context context,
 											@NotNull CalculatorEventData calculatorEventData,
 											@NotNull CalculatorEditorViewState editorViewState) {
 
@@ -67,7 +68,7 @@ public class CalculatorWidgetHelper implements CalculatorEventListener {
 		}
 	}
 
-	public static void onDisplayStateChanged(@NotNull Context context,
+	private void onDisplayStateChanged(@NotNull Context context,
 											 @NotNull CalculatorEventData calculatorEventData,
 											 @NotNull CalculatorDisplayViewState displayViewState) {
 		for (Class<?> externalListener : externalListeners) {
@@ -80,11 +81,13 @@ public class CalculatorWidgetHelper implements CalculatorEventListener {
 		}
 	}
 
-	public static void addExternalListener(@NotNull Class<?> externalCalculatorClass) {
+	@Override
+	public void addExternalListener(@NotNull Class<?> externalCalculatorClass) {
 		externalListeners.add(externalCalculatorClass);
 	}
 
-	public static boolean removeExternalListener(@NotNull Class<?> externalCalculatorClass) {
+	@Override
+	public boolean removeExternalListener(@NotNull Class<?> externalCalculatorClass) {
 		return externalListeners.remove(externalCalculatorClass);
 	}
 

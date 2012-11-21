@@ -1,6 +1,7 @@
 package org.solovyev.android.calculator;
 
 import org.mockito.Mockito;
+import org.solovyev.android.calculator.external.CalculatorExternalListenersContainer;
 import org.solovyev.android.calculator.history.CalculatorHistory;
 
 /**
@@ -11,7 +12,7 @@ import org.solovyev.android.calculator.history.CalculatorHistory;
 public class AbstractCalculatorTest {
 
     protected void setUp() throws Exception {
-        CalculatorLocatorImpl.getInstance().init(new CalculatorImpl(), CalculatorTestUtils.newCalculatorEngine(), Mockito.mock(CalculatorClipboard.class), Mockito.mock(CalculatorNotifier.class), Mockito.mock(CalculatorHistory.class), new SystemOutCalculatorLogger(), Mockito.mock(CalculatorPreferenceService.class), Mockito.mock(CalculatorKeyboard.class));
+        CalculatorLocatorImpl.getInstance().init(new CalculatorImpl(), CalculatorTestUtils.newCalculatorEngine(), Mockito.mock(CalculatorClipboard.class), Mockito.mock(CalculatorNotifier.class), Mockito.mock(CalculatorHistory.class), new SystemOutCalculatorLogger(), Mockito.mock(CalculatorPreferenceService.class), Mockito.mock(CalculatorKeyboard.class), Mockito.mock(CalculatorExternalListenersContainer.class));
         CalculatorLocatorImpl.getInstance().getEngine().init();
     }
 

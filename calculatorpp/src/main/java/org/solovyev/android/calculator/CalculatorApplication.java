@@ -11,10 +11,10 @@ import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.ads.AdsController;
+import org.solovyev.android.calculator.external.AndroidExternalListenersContainer;
 import org.solovyev.android.calculator.history.AndroidCalculatorHistory;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 import org.solovyev.android.calculator.overlay.CalculatorOverlayService;
-import org.solovyev.android.calculator.widget.CalculatorWidgetHelper;
 
 /**
  * User: serso
@@ -49,11 +49,6 @@ public class CalculatorApplication extends android.app.Application {
 
     @NotNull
     private static CalculatorApplication instance;
-
-    @SuppressWarnings("FieldCanBeLocal")// in order not to be garbage collected
-    @NotNull
-    private CalculatorWidgetHelper widgetHelper;
-
     /*
     **********************************************************************
     *
@@ -94,13 +89,10 @@ public class CalculatorApplication extends android.app.Application {
                 new AndroidCalculatorHistory(this, calculator),
                 new AndroidCalculatorLogger(),
                 new AndroidCalculatorPreferenceService(this),
-                new AndroidCalculatorKeyboard(this, new CalculatorKeyboardImpl(calculator)));
+                new AndroidCalculatorKeyboard(this, new CalculatorKeyboardImpl(calculator)),
+				new AndroidExternalListenersContainer(calculator));
 
         CalculatorLocatorImpl.getInstance().getCalculator().init();
-
-        // in order to not to be garbage collected
-        widgetHelper = new CalculatorWidgetHelper();
-        CalculatorLocatorImpl.getInstance().getCalculator().addCalculatorEventListener(widgetHelper);
 
         BillingDB.init(CalculatorApplication.this);
 

@@ -7,7 +7,6 @@ import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.CalculatorDisplayViewState;
 import org.solovyev.android.calculator.CalculatorEditorViewState;
 import org.solovyev.android.calculator.CalculatorLocatorImpl;
-import org.solovyev.android.calculator.widget.CalculatorWidgetHelper;
 import org.solovyev.common.MutableObject;
 
 /**
@@ -35,10 +34,10 @@ public class DefaultExternalCalculatorIntentHandler implements ExternalCalculato
     @Override
     public void onIntent(@NotNull Context context, @NotNull Intent intent) {
 
-        if (CalculatorWidgetHelper.EDITOR_STATE_CHANGED_ACTION.equals(intent.getAction())) {
+        if (AndroidExternalListenersContainer.EDITOR_STATE_CHANGED_ACTION.equals(intent.getAction())) {
             CalculatorLocatorImpl.getInstance().getNotifier().showDebugMessage(TAG, "Editor state changed broadcast received!");
 
-            final Long eventId = intent.getLongExtra(CalculatorWidgetHelper.EVENT_ID_EXTRA, 0L);
+            final Long eventId = intent.getLongExtra(AndroidExternalListenersContainer.EVENT_ID_EXTRA, 0L);
 
             boolean updateEditor = false;
             synchronized (lastEditorEventId) {
@@ -49,15 +48,15 @@ public class DefaultExternalCalculatorIntentHandler implements ExternalCalculato
             }
 
             if (updateEditor) {
-                final Parcelable object = intent.getParcelableExtra(CalculatorWidgetHelper.EDITOR_STATE_EXTRA);
+                final Parcelable object = intent.getParcelableExtra(AndroidExternalListenersContainer.EDITOR_STATE_EXTRA);
                 if (object instanceof CalculatorEditorViewState) {
                     onEditorStateChanged(context, (CalculatorEditorViewState) object);
                 }
             }
-        } else if (CalculatorWidgetHelper.DISPLAY_STATE_CHANGED_ACTION.equals(intent.getAction())) {
+        } else if (AndroidExternalListenersContainer.DISPLAY_STATE_CHANGED_ACTION.equals(intent.getAction())) {
             CalculatorLocatorImpl.getInstance().getNotifier().showDebugMessage(TAG, "Display state changed broadcast received!");
 
-            final Long eventId = intent.getLongExtra(CalculatorWidgetHelper.EVENT_ID_EXTRA, 0L);
+            final Long eventId = intent.getLongExtra(AndroidExternalListenersContainer.EVENT_ID_EXTRA, 0L);
             boolean updateDisplay = false;
             synchronized (lastDisplayEventId) {
                 if (eventId > lastDisplayEventId.getObject()) {
@@ -67,7 +66,7 @@ public class DefaultExternalCalculatorIntentHandler implements ExternalCalculato
             }
 
             if (updateDisplay) {
-                final Parcelable object = intent.getParcelableExtra(CalculatorWidgetHelper.DISPLAY_STATE_EXTRA);
+                final Parcelable object = intent.getParcelableExtra(AndroidExternalListenersContainer.DISPLAY_STATE_EXTRA);
                 if (object instanceof CalculatorDisplayViewState) {
                     onDisplayStateChanged(context, (CalculatorDisplayViewState) object);
                 }
