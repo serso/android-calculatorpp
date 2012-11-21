@@ -93,20 +93,35 @@ public class CalculatorOverlayService extends Service implements ExternalCalcula
 				switch (event.getAction()) {
 					case MotionEvent.ACTION_DOWN:
 					case MotionEvent.ACTION_MOVE:
+
 						if (move) {
+							float xOffset = event.getX() - x0;
+							float yOffset = event.getY() - y0;
+
 							final WindowManager.LayoutParams params = (WindowManager.LayoutParams) onscreenView.getLayoutParams();
-							params.x = (int) (params.x - x0 + event.getX());
-							params.y = (int) (params.y - y0 + event.getY());
+
+							int newX = (int) (params.x + xOffset);
+							int newY = (int) (params.y + yOffset);
+
+							params.x = newX;
+							params.y = newY;
 							wm.updateViewLayout(onscreenView, params);
+
+							if (newX != params.x) {
+								x0 = event.getX();
+							}
+
+							if (newY != params.y) {
+								y0 = event.getY();
+							}
 						} else {
 							move = true;
 						}
+
 						return true;
 				}
 
 				move = false;
-				x0 = event.getX();
-				y0 = event.getY();
 
 				return false;
 			}
