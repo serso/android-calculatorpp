@@ -68,6 +68,13 @@ public class CalculatorOverlayService extends Service implements ExternalCalcula
             }
         }
 
+		view.findViewById(R.id.overlay_close_button).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				stopService(new Intent(getApplicationContext(), CalculatorOverlayService.class));
+			}
+		});
+
         final WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
         wm.addView(view, params);
 

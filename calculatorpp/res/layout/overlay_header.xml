@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+			  a:orientation="horizontal"
+			  a:layout_width="match_parent"
+			  a:layout_height="wrap_content"
+			  a:gravity="right">
+
+	<Button a:id="@+id/overlay_hide_button"
+			a:layout_width="wrap_content"
+			a:layout_height="wrap_content"
+			style="?cpp_operation_button_style"
+			a:text="_"/>
+
+
+	<Button a:id="@+id/overlay_close_button"
+			a:layout_width="wrap_content"
+			a:layout_height="wrap_content"
+			style="?cpp_operation_button_style"
+			a:text="x"/>
+
+</LinearLayout>
