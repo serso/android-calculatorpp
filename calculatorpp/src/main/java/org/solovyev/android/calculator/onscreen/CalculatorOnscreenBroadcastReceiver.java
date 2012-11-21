@@ -1,4 +1,4 @@
-package org.solovyev.android.calculator.overlay;
+package org.solovyev.android.calculator.onscreen;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -10,16 +10,16 @@ import org.jetbrains.annotations.NotNull;
 * Date: 11/20/12
 * Time: 11:05 PM
 */
-public final class CalculatorOverlayBroadcastReceiver extends BroadcastReceiver {
+public final class CalculatorOnscreenBroadcastReceiver extends BroadcastReceiver {
 
-    public CalculatorOverlayBroadcastReceiver() {
+    public CalculatorOnscreenBroadcastReceiver() {
     }
 
     @Override
     public void onReceive(@NotNull Context context,
                           @NotNull Intent intent) {
         final Intent newIntent = new Intent(intent);
-        newIntent.setClass(context, CalculatorOverlayService.class);
+        newIntent.setClass(context, CalculatorOnscreenService.class);
         context.startService(newIntent);
     }
 }

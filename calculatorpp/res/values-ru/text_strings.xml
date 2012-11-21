@@ -269,5 +269,6 @@
     <string name="c_app_widget_3x4_name">Калькулятор++ Виджет (3x4)</string>
     <string name="c_app_widget_4x4_name">Калькулятор++ Виджет (4x4)</string>
     <string name="c_app_widget_4x5_name">Калькулятор++ Виджет (4x5)</string>
+    <string name="open_onscreen_calculator">Нажмите чтобы открыть калькулятор поверх всех приложений</string>
 
 </resources>

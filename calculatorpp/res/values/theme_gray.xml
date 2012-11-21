@@ -86,7 +86,7 @@
         <item name="android:layout_width">match_parent</item>
     </style>
 
-    <style name="cpp_overlay_main_layout_style" parent="cpp_default_main_layout_style">
+    <style name="cpp_onscreen_main_layout_style" parent="cpp_default_main_layout_style">
         <item name="android:layout_height">400dp</item>
         <item name="android:layout_width">250dp</item>
     </style>

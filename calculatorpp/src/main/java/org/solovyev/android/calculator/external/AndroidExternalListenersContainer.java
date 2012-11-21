@@ -30,68 +30,69 @@ import java.util.Set;
  */
 public class AndroidExternalListenersContainer implements CalculatorExternalListenersContainer, CalculatorEventListener {
 
-	/*
-		**********************************************************************
-		*
-		*                           CONSTANTS
-		*
-		**********************************************************************
-		*/
-	public static final String EVENT_ID_EXTRA = "eventId";
-	public static final String EDITOR_STATE_CHANGED_ACTION = "org.solovyev.calculator.widget.EDITOR_STATE_CHANGED";
-	public static final String EDITOR_STATE_EXTRA = "editorState";
-	public static final String DISPLAY_STATE_CHANGED_ACTION = "org.solovyev.calculator.widget.DISPLAY_STATE_CHANGED";
-	public static final String DISPLAY_STATE_EXTRA = "displayState";
+    /*
+    **********************************************************************
+    *
+    *                           CONSTANTS
+    *
+    **********************************************************************
+    */
 
-	private static final String TAG = "Calculator++ External Listener Helper";
+    public static final String EVENT_ID_EXTRA = "eventId";
+    public static final String EDITOR_STATE_CHANGED_ACTION = "org.solovyev.calculator.widget.EDITOR_STATE_CHANGED";
+    public static final String EDITOR_STATE_EXTRA = "editorState";
+    public static final String DISPLAY_STATE_CHANGED_ACTION = "org.solovyev.calculator.widget.DISPLAY_STATE_CHANGED";
+    public static final String DISPLAY_STATE_EXTRA = "displayState";
 
-	private final Set<Class<?>> externalListeners = new HashSet<Class<?>>();
+    private static final String TAG = "Calculator++ External Listener Helper";
 
-	@NotNull
+    private final Set<Class<?>> externalListeners = new HashSet<Class<?>>();
+
+    @NotNull
     private final CalculatorEventHolder lastEvent = new CalculatorEventHolder(CalculatorUtils.createFirstEventDataId());
 
     public AndroidExternalListenersContainer(@NotNull Calculator calculator) {
-		calculator.addCalculatorEventListener(this);
-	}
+        calculator.addCalculatorEventListener(this);
+    }
 
-	public void onEditorStateChanged(@NotNull Context context,
-											@NotNull CalculatorEventData calculatorEventData,
-											@NotNull CalculatorEditorViewState editorViewState) {
+    public void onEditorStateChanged(@NotNull Context context,
+                                     @NotNull CalculatorEventData calculatorEventData,
+                                     @NotNull CalculatorEditorViewState editorViewState) {
 
-		for (Class<?> externalListener : externalListeners) {
-			final Intent intent = new Intent(EDITOR_STATE_CHANGED_ACTION);
-			intent.setClass(context, externalListener);
-			intent.putExtra(EVENT_ID_EXTRA, calculatorEventData.getEventId());
-			intent.putExtra(EDITOR_STATE_EXTRA, (Parcelable) new ParcelableCalculatorEditorViewState(editorViewState));
-			context.sendBroadcast(intent);
-			Locator.getInstance().getNotifier().showDebugMessage(TAG, "Editor state changed broadcast sent");
-		}
-	}
+        for (Class<?> externalListener : externalListeners) {
+            final Intent intent = new Intent(EDITOR_STATE_CHANGED_ACTION);
+            intent.setClass(context, externalListener);
+            intent.putExtra(EVENT_ID_EXTRA, calculatorEventData.getEventId());
+            intent.putExtra(EDITOR_STATE_EXTRA, (Parcelable) new ParcelableCalculatorEditorViewState(editorViewState));
+            context.sendBroadcast(intent);
+            Locator.getInstance().getNotifier().showDebugMessage(TAG, "Editor state changed broadcast sent");
+        }
+    }
 
-	private void onDisplayStateChanged(@NotNull Context context,
-											 @NotNull CalculatorEventData calculatorEventData,
-											 @NotNull CalculatorDisplayViewState displayViewState) {
-		for (Class<?> externalListener : externalListeners) {
-			final Intent intent = new Intent(DISPLAY_STATE_CHANGED_ACTION);
-			intent.setClass(context, externalListener);
-			intent.putExtra(EVENT_ID_EXTRA, calculatorEventData.getEventId());
-			intent.putExtra(DISPLAY_STATE_EXTRA, (Parcelable) new ParcelableCalculatorDisplayViewState(displayViewState));
-			context.sendBroadcast(intent);
-			Locator.getInstance().getNotifier().showDebugMessage(TAG, "Display state changed broadcast sent");
-		}
-	}
+    private void onDisplayStateChanged(@NotNull Context context,
+                                       @NotNull CalculatorEventData calculatorEventData,
+                                       @NotNull CalculatorDisplayViewState displayViewState) {
+        for (Class<?> externalListener : externalListeners) {
+            final Intent intent = new Intent(DISPLAY_STATE_CHANGED_ACTION);
+            intent.setClass(context, externalListener);
+            intent.putExtra(EVENT_ID_EXTRA, calculatorEventData.getEventId());
+            intent.putExtra(DISPLAY_STATE_EXTRA, (Parcelable) new ParcelableCalculatorDisplayViewState(displayViewState));
+            context.sendBroadcast(intent);
+            Locator.getInstance().getNotifier().showDebugMessage(TAG, "Display state changed broadcast sent");
+        }
+    }
 
-	@Override
-	public void addExternalListener(@NotNull Class<?> externalCalculatorClass) {
-		externalListeners.add(externalCalculatorClass);
-	}
+    @Override
+    public void addExternalListener(@NotNull Class<?> externalCalculatorClass) {
+        externalListeners.add(externalCalculatorClass);
+    }
 
-	@Override
-	public boolean removeExternalListener(@NotNull Class<?> externalCalculatorClass) {
-		return externalListeners.remove(externalCalculatorClass);
-	}
+    @Override
+    public boolean removeExternalListener(@NotNull Class<?> externalCalculatorClass) {
+        return externalListeners.remove(externalCalculatorClass);
+    }
 
-	@Override
+    @Override
     public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
         final CalculatorEventHolder.Result result = lastEvent.apply(calculatorEventData);
         if (result.isNewAfter()) {

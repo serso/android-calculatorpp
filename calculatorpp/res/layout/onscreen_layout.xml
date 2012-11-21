@@ -4,9 +4,9 @@
 			  a:orientation="vertical"
 			  style="@style/cpp_widget_main_layout_style">
 
-	<include layout="@layout/overlay_header"/>
+	<include layout="@layout/onscreen_header"/>
 
-	<LinearLayout a:id="@+id/overlay_content"
+	<LinearLayout a:id="@+id/onscreen_content"
 				  a:orientation="vertical"
 				  a:layout_width="match_parent"
 				  a:layout_height="match_parent">
@@ -39,6 +39,6 @@
 				 a:layout_height="0dp"/>
 	</LinearLayout>
 
-	<include layout="@layout/overlay_footer"/>
+	<include layout="@layout/onscreen_footer"/>
 
 </LinearLayout>

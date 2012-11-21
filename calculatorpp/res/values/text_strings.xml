@@ -270,5 +270,6 @@
     <string name="c_app_widget_3x4_name">Calculator++ Widget (3x4)</string>
     <string name="c_app_widget_4x4_name">Calculator++ Widget (4x4)</string>
     <string name="c_app_widget_4x5_name">Calculator++ Widget (4x5)</string>
+    <string name="open_onscreen_calculator">Click to open on-screen calculator</string>
 
 </resources>

@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="com.android.vending.BILLING"/>
 
-    <!-- for overlay -->
+    <!-- for onscreen calculator -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 
 
@@ -51,7 +51,7 @@
         <!-- settings must use action bar icon-->
         <activity android:icon="@drawable/ab_icon" android:label="@string/c_settings" android:name=".plot.CalculatorPlotPreferenceActivity"/>
 
-        <!-- OVERLAY CONFIG -->
+        <!-- ONSCREEN CONFIG -->
 
 		<activity android:launchMode="singleInstance"
 				  android:label="@string/c_app_name_on_screen"
@@ -64,14 +64,14 @@
 
 		</activity>
 
-        <service android:name=".overlay.CalculatorOverlayService">
+        <service android:name=".onscreen.CalculatorOnscreenService">
             <intent-filter>
                 <action android:name="org.solovyev.calculator.widget.EDITOR_STATE_CHANGED"/>
                 <action android:name="org.solovyev.calculator.widget.DISPLAY_STATE_CHANGED"/>
             </intent-filter>
         </service>
 
-        <receiver android:name=".overlay.CalculatorOverlayBroadcastReceiver">
+        <receiver android:name=".onscreen.CalculatorOnscreenBroadcastReceiver">
             <intent-filter>
                 <action android:name="org.solovyev.calculator.widget.EDITOR_STATE_CHANGED"/>
                 <action android:name="org.solovyev.calculator.widget.DISPLAY_STATE_CHANGED"/>
