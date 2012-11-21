@@ -70,44 +70,6 @@ public class CalculatorOverlayService extends Service implements ExternalCalcula
 			}
 		});
 
-		final TextView overlayTitleTextView = (TextView) onscreenView.findViewById(R.id.overlay_title);
-		overlayTitleTextView.setOnTouchListener(new View.OnTouchListener() {
-
-			private volatile boolean move = false;
-
-			private volatile float startDragX;
-
-			private volatile float startDragY;
-
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				switch (event.getAction()) {
-					case MotionEvent.ACTION_DOWN:
-					case MotionEvent.ACTION_MOVE:
-						if (move) {
-							int x = (int) (onscreenView.getX() - startDragX + event.getX());
-							int y = (int) (onscreenView.getY() - startDragY + event.getY());
-							overlayTitleTextView.setText("Calculator++: (" + x + ", " + y + ")");
-							final WindowManager.LayoutParams params = (WindowManager.LayoutParams) onscreenView.getLayoutParams();
-							params.x = x;
-							params.y = y;
-							// todo serso: add small delay
-							wm.updateViewLayout(onscreenView, params);
-						} else {
-							startDragX = event.getX();
-							startDragY = event.getY();
-							move = true;
-						}
-						return true;
-				}
-
-				move = false;
-				startDragX = 0;
-				startDragY = 0;
-
-				return false;
-			}
-		});
 
 		final WindowManager.LayoutParams params = new WindowManager.LayoutParams(
 				300,
@@ -115,6 +77,39 @@ public class CalculatorOverlayService extends Service implements ExternalCalcula
 				WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
 				WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL|WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
 				PixelFormat.TRANSLUCENT);
+
+		final TextView overlayTitleTextView = (TextView) onscreenView.findViewById(R.id.overlay_title);
+		overlayTitleTextView.setOnTouchListener(new View.OnTouchListener() {
+
+			private boolean move = true;
+
+			private float x0;
+
+			private float y0;
+
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				switch (event.getAction()) {
+					case MotionEvent.ACTION_DOWN:
+					case MotionEvent.ACTION_MOVE:
+						if (move) {
+							final WindowManager.LayoutParams params = (WindowManager.LayoutParams) onscreenView.getLayoutParams();
+							params.x = (int) (params.x - x0 + event.getX());
+							params.y = (int) (params.y - y0 + event.getY());
+							wm.updateViewLayout(onscreenView, params);
+						} else {
+							move = true;
+						}
+						return true;
+				}
+
+				move = false;
+				x0 = event.getX();
+				y0 = event.getY();
+
+				return false;
+			}
+		});
 
         wm.addView(onscreenView, params);
 
