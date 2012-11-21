@@ -53,6 +53,17 @@
 
         <!-- OVERLAY CONFIG -->
 
+		<activity android:launchMode="singleInstance"
+				  android:label="@string/c_app_name_on_screen"
+				  android:name=".CalculatorOnScreenStartActivity">
+
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN"/>
+				<category android:name="android.intent.category.LAUNCHER"/>
+			</intent-filter>
+
+		</activity>
+
         <service android:name=".overlay.CalculatorOverlayService">
             <intent-filter>
                 <action android:name="org.solovyev.calculator.widget.EDITOR_STATE_CHANGED"/>

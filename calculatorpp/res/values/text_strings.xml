@@ -8,6 +8,7 @@
 
 <resources>
 	<string name="c_app_name">Calculator++</string>
+	<string name="c_app_name_on_screen">Calculator++ (On Screen)</string>
 	<string name="c_app_name_free">Calculator++ Free</string>
 	<string name="c_app_icon_name">Calc++</string>
     <string name="c_app_settings">Settings</string>
