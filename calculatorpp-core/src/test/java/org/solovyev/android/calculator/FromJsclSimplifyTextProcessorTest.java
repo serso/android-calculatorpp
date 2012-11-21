@@ -28,22 +28,22 @@ public class FromJsclSimplifyTextProcessorTest extends AbstractCalculatorTest {
 		//Assert.assertEquals("((e)(e))", tp.process("((2.718281828459045)*(2.718281828459045))"));
 		DecimalFormatSymbols decimalGroupSymbols = new DecimalFormatSymbols();
 		decimalGroupSymbols.setGroupingSeparator(' ');
-        CalculatorLocatorImpl.getInstance().getEngine().setDecimalGroupSymbols(decimalGroupSymbols);
+        Locator.getInstance().getEngine().setDecimalGroupSymbols(decimalGroupSymbols);
 		//Assert.assertEquals("123 456 789e", tp.process("123456789*2.718281828459045"));
 		//Assert.assertEquals("123 456 789e", tp.process("123 456 789 * 2.718281828459045"));
 		//Assert.assertEquals("t11e", tp.process("t11*2.718281828459045"));
 		//Assert.assertEquals("e", tp.process("2.718281828459045"));
 		//Assert.assertEquals("tee", tp.process("t2.718281828459045*2.718281828459045"));
 
-		CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry().add(new Var.Builder("t2.718281828459045", "2"));
-		CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry().add(new Var.Builder("t", (String)null));
+		Locator.getInstance().getEngine().getVarsRegistry().add(new Var.Builder("t2.718281828459045", "2"));
+		Locator.getInstance().getEngine().getVarsRegistry().add(new Var.Builder("t", (String)null));
 		//Assert.assertEquals("t2.718281828459045e", tp.process("t2.718281828459045*2.718281828459045"));
 		//Assert.assertEquals("ee", tp.process("2.718281828459045*2.718281828459045"));
 		Assert.assertEquals("t×", tp.process("t*"));
 		Assert.assertEquals("×t", tp.process("*t"));
 		Assert.assertEquals("t2", tp.process("t*2"));
 		Assert.assertEquals("2t", tp.process("2*t"));
-		CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry().add(new Var.Builder("t", (String) null));
+		Locator.getInstance().getEngine().getVarsRegistry().add(new Var.Builder("t", (String) null));
 		Assert.assertEquals("t×", tp.process("t*"));
 		Assert.assertEquals("×t", tp.process("*t"));
 
@@ -56,7 +56,7 @@ public class FromJsclSimplifyTextProcessorTest extends AbstractCalculatorTest {
 		Assert.assertEquals("t^[2×2t]", tp.process("t^[2*2*t]"));
 		Assert.assertEquals("2t^2[2t]", tp.process("2*t^2[2*t]"));
 
-		CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry().add(new Var.Builder("k", (String) null));
+		Locator.getInstance().getEngine().getVarsRegistry().add(new Var.Builder("k", (String) null));
 		Assert.assertEquals("(t+2k)[k+2t]", tp.process("(t+2*k)*[k+2*t]"));
 		Assert.assertEquals("(te+2k)e[k+2te]", tp.process("(t*e+2*k)*e*[k+2*t*e]"));
 

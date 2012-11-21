@@ -25,7 +25,7 @@ import org.achartengine.renderer.XYSeriesRenderer;
 import org.achartengine.util.MathHelper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.CalculatorLocatorImpl;
+import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.R;
 import org.solovyev.common.msg.MessageType;
 import org.solovyev.common.text.StringUtils;
@@ -207,7 +207,7 @@ public final class PlotUtils {
         if (StringUtils.isEmpty(message)) {
             message = e.getMessage();
         }
-        CalculatorLocatorImpl.getInstance().getNotifier().showMessage(R.string.arithmetic_error_while_plot, MessageType.error, Arrays.asList(message));
+        Locator.getInstance().getNotifier().showMessage(R.string.arithmetic_error_while_plot, MessageType.error, Arrays.asList(message));
         calculatorPlotFragment.onError();
     }
 

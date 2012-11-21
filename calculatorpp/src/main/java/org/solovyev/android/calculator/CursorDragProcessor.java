@@ -30,10 +30,10 @@ public class CursorDragProcessor implements SimpleOnDragListener.DragProcessor{
 		if (dragButton instanceof DirectionDragButton) {
 			String text = ((DirectionDragButton) dragButton).getText(dragDirection);
 			if ("◀◀".equals(text)) {
-				CalculatorLocatorImpl.getInstance().getEditor().setCursorOnStart();
+				Locator.getInstance().getEditor().setCursorOnStart();
 				result = true;
 			} else if ("▶▶".equals(text)) {
-                CalculatorLocatorImpl.getInstance().getEditor().setCursorOnEnd();
+                Locator.getInstance().getEditor().setCursorOnEnd();
 				result = true;
 			}
 		}

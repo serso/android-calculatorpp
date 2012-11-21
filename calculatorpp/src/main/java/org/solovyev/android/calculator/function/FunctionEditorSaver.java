@@ -8,8 +8,8 @@ import jscl.math.function.Function;
 import jscl.math.function.IFunction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.CalculatorFunctionsMathRegistry;
-import org.solovyev.android.calculator.CalculatorLocatorImpl;
 import org.solovyev.android.calculator.CalculatorMathRegistry;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.math.edit.VarEditorSaver;
@@ -101,14 +101,14 @@ public class FunctionEditorSaver implements View.OnClickListener {
 		}
 
 		if (error != null) {
-			CalculatorLocatorImpl.getInstance().getNotifier().showMessage(error, MessageType.error);
+			Locator.getInstance().getNotifier().showMessage(error, MessageType.error);
 		} else {
             try {
                 CalculatorFunctionsMathRegistry.saveFunction(mathRegistry, new BuilderAdapter(builder), editedInstance, source, true);
             } catch (CustomFunctionCalculationException e) {
-                CalculatorLocatorImpl.getInstance().getNotifier().showMessage(e);
+                Locator.getInstance().getNotifier().showMessage(e);
             } catch (AFunction.Builder.CreationException e) {
-				CalculatorLocatorImpl.getInstance().getNotifier().showMessage(e);
+				Locator.getInstance().getNotifier().showMessage(e);
 			}
         }
 	}

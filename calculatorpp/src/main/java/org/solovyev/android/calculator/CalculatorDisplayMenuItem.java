@@ -19,7 +19,7 @@ public enum CalculatorDisplayMenuItem implements LabeledMenuItem<CalculatorDispl
     copy(R.string.c_copy) {
         @Override
         public void onClick(@NotNull CalculatorDisplayViewState data, @NotNull Context context) {
-            CalculatorLocatorImpl.getInstance().getKeyboard().copyButtonPressed();
+            Locator.getInstance().getKeyboard().copyButtonPressed();
         }
     },
 

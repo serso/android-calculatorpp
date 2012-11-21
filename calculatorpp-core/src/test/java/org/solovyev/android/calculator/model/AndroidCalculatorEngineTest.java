@@ -18,8 +18,8 @@ import junit.framework.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.solovyev.android.calculator.AbstractCalculatorTest;
+import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.CalculatorEvalException;
-import org.solovyev.android.calculator.CalculatorLocatorImpl;
 import org.solovyev.android.calculator.CalculatorTestUtils;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 
@@ -40,13 +40,13 @@ public class AndroidCalculatorEngineTest extends AbstractCalculatorTest {
 	@BeforeClass
 	public static void staticSetUp() throws Exception {
         CalculatorTestUtils.staticSetUp();
-        CalculatorLocatorImpl.getInstance().getEngine().setPrecision(3);
+        Locator.getInstance().getEngine().setPrecision(3);
 	}
     
 
 	@Test
 	public void testDegrees() throws Exception {
-		final MathEngine cm = CalculatorLocatorImpl.getInstance().getEngine().getMathEngine0();
+		final MathEngine cm = Locator.getInstance().getEngine().getMathEngine0();
 
 		final AngleUnit defaultAngleUnit = cm.getAngleUnits();
 		try {
@@ -67,7 +67,7 @@ public class AndroidCalculatorEngineTest extends AbstractCalculatorTest {
 
 /*	@Test
 	public void testLongExecution() throws Exception {
-		final MathEngine cm = CalculatorLocatorImpl.getInstance().getEngine().getMathEngine0();
+		final MathEngine cm = Locator.getInstance().getEngine().getMathEngine0();
 
 		try {
 			cm.evaluate( "3^10^10^10");
@@ -110,7 +110,7 @@ public class AndroidCalculatorEngineTest extends AbstractCalculatorTest {
 
 	@Test
 	public void testEvaluate() throws Exception {
-		final MathEngine cm = CalculatorLocatorImpl.getInstance().getEngine().getMathEngine0();
+		final MathEngine cm = Locator.getInstance().getEngine().getMathEngine0();
 
 		CalculatorTestUtils.assertEval("cos(t)+10%", "cos(t)+10%", JsclOperation.simplify);
 
@@ -171,7 +171,7 @@ public class AndroidCalculatorEngineTest extends AbstractCalculatorTest {
         CalculatorTestUtils.assertError("(-1)i!");
         CalculatorTestUtils.assertEval("24i", "4!i");
 
-		CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry().add(new Var.Builder("si", 5d));
+		Locator.getInstance().getEngine().getVarsRegistry().add(new Var.Builder("si", 5d));
 
 		try {
 			cm.setAngleUnits(AngleUnit.rad);
@@ -185,14 +185,14 @@ public class AndroidCalculatorEngineTest extends AbstractCalculatorTest {
 			cm.setAngleUnits(defaultAngleUnit);
 		}
 
-		CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry().add(new Var.Builder("s", 1d));
+		Locator.getInstance().getEngine().getVarsRegistry().add(new Var.Builder("s", 1d));
 		CalculatorTestUtils.assertEval("5", cm.evaluate( "si"));
 
-		CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry().add(new Var.Builder("k", 3.5d));
-		CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry().add(new Var.Builder("k1", 4d));
+		Locator.getInstance().getEngine().getVarsRegistry().add(new Var.Builder("k", 3.5d));
+		Locator.getInstance().getEngine().getVarsRegistry().add(new Var.Builder("k1", 4d));
 		CalculatorTestUtils.assertEval("4", "k11");
 
-		CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry().add(new Var.Builder("t", (String) null));
+		Locator.getInstance().getEngine().getVarsRegistry().add(new Var.Builder("t", (String) null));
 		CalculatorTestUtils.assertEval("11t", "t11");
 		CalculatorTestUtils.assertEval("11et", "t11e");
 		CalculatorTestUtils.assertEval("∞", "∞");
@@ -238,10 +238,10 @@ public class AndroidCalculatorEngineTest extends AbstractCalculatorTest {
 			cm.setTimeout(3000);
 		}*/
 
-		CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry().add(new Var.Builder("t", (String) null));
+		Locator.getInstance().getEngine().getVarsRegistry().add(new Var.Builder("t", (String) null));
 		CalculatorTestUtils.assertEval("2t", "∂(t^2,t)", JsclOperation.simplify);
 		CalculatorTestUtils.assertEval("2t", "∂(t^2,t)");
-		CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry().add(new Var.Builder("t", "2"));
+		Locator.getInstance().getEngine().getVarsRegistry().add(new Var.Builder("t", "2"));
 		CalculatorTestUtils.assertEval("2t", "∂(t^2,t)", JsclOperation.simplify);
 		CalculatorTestUtils.assertEval("4", "∂(t^2,t)");
 
@@ -256,7 +256,7 @@ public class AndroidCalculatorEngineTest extends AbstractCalculatorTest {
 
 	@Test
 	public void testFormatting() throws Exception {
-		final MathEngine ce = CalculatorLocatorImpl.getInstance().getEngine().getMathEngine0();
+		final MathEngine ce = Locator.getInstance().getEngine().getMathEngine0();
 
 		CalculatorTestUtils.assertEval("12 345", ce.simplify( "12345"));
 
@@ -264,7 +264,7 @@ public class AndroidCalculatorEngineTest extends AbstractCalculatorTest {
 
 	@Test
 	public void testI() throws ParseException, CalculatorEvalException {
-		final MathEngine cm = CalculatorLocatorImpl.getInstance().getEngine().getMathEngine0();
+		final MathEngine cm = Locator.getInstance().getEngine().getMathEngine0();
 
 		CalculatorTestUtils.assertEval("-i", cm.evaluate( "i^3"));
 		for (int i = 0; i < 1000; i++) {
@@ -289,7 +289,7 @@ public class AndroidCalculatorEngineTest extends AbstractCalculatorTest {
 
 	@Test
 	public void testEmptyFunction() throws Exception {
-		final MathEngine cm = CalculatorLocatorImpl.getInstance().getEngine().getMathEngine0();
+		final MathEngine cm = Locator.getInstance().getEngine().getMathEngine0();
 		try {
 			cm.evaluate( "cos(cos(cos(cos(acos(acos(acos(acos(acos(acos(acos(acos(cos(cos(cos(cos(cosh(acos(cos(cos(cos(cos(cos(acos(acos(acos(acos(acos(acos(acos(acos(cos(cos(cos(cos(cosh(acos(cos())))))))))))))))))))))))))))))))))))))");
 			Assert.fail();
@@ -310,7 +310,7 @@ public class AndroidCalculatorEngineTest extends AbstractCalculatorTest {
 			cm.setAngleUnits(defaultAngleUnit);
 		}
 
-		CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry().add(new Var.Builder("si", 5d));
+		Locator.getInstance().getEngine().getVarsRegistry().add(new Var.Builder("si", 5d));
 		CalculatorTestUtils.assertEval("5", cm.evaluate( "si"));
 
         CalculatorTestUtils.assertError("sin");
@@ -318,7 +318,7 @@ public class AndroidCalculatorEngineTest extends AbstractCalculatorTest {
 
 	@Test
 	public void testRounding() throws Exception {
-		final MathEngine cm = CalculatorLocatorImpl.getInstance().getEngine().getMathEngine0();
+		final MathEngine cm = Locator.getInstance().getEngine().getMathEngine0();
 
 		try {
 			DecimalFormatSymbols decimalGroupSymbols = new DecimalFormatSymbols(Locale.getDefault());
@@ -342,7 +342,7 @@ public class AndroidCalculatorEngineTest extends AbstractCalculatorTest {
 
 	@Test
 	public void testComparisonFunction() throws Exception {
-		final MathEngine cm = CalculatorLocatorImpl.getInstance().getEngine().getMathEngine0();
+		final MathEngine cm = Locator.getInstance().getEngine().getMathEngine0();
 
 		CalculatorTestUtils.assertEval("0",  "eq(0, 1)");
 		CalculatorTestUtils.assertEval("1",  "eq(1, 1)");
@@ -379,7 +379,7 @@ public class AndroidCalculatorEngineTest extends AbstractCalculatorTest {
 
 	@Test
 	public void testNumeralSystems() throws Exception {
-		final MathEngine cm = CalculatorLocatorImpl.getInstance().getEngine().getMathEngine0();
+		final MathEngine cm = Locator.getInstance().getEngine().getMathEngine0();
 
 		CalculatorTestUtils.assertEval("11 259 375",  "0x:ABCDEF");
 		CalculatorTestUtils.assertEval("30 606 154.462",  "0x:ABCDEF*e");
@@ -408,7 +408,7 @@ public class AndroidCalculatorEngineTest extends AbstractCalculatorTest {
 
 	@Test
 	public void testLog() throws Exception {
-		final MathEngine cm = CalculatorLocatorImpl.getInstance().getEngine().getMathEngine0();
+		final MathEngine cm = Locator.getInstance().getEngine().getMathEngine0();
 
 		CalculatorTestUtils.assertEval("∞", Expression.valueOf("1/0").numeric().toString());
 		CalculatorTestUtils.assertEval("∞", Expression.valueOf("ln(10)/ln(1)").numeric().toString());

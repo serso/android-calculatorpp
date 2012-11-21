@@ -3,7 +3,7 @@ package org.solovyev.android.calculator.text;
 import jscl.math.Generic;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.CalculatorLocatorImpl;
+import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.CalculatorParseException;
 
@@ -57,7 +57,7 @@ public class FromJsclSimplifyTextProcessor implements TextProcessor<String, Gene
 				}
 
 				if (needMultiplicationSign(mathTypeBefore == null ? null : mathTypeBefore.getMathType(), mathTypeAfter == null ? null : mathTypeAfter.getMathType())) {
-					sb.append(CalculatorLocatorImpl.getInstance().getEngine().getMultiplicationSign());
+					sb.append(Locator.getInstance().getEngine().getMultiplicationSign());
 				}
 
 			} else {

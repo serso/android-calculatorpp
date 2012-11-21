@@ -88,7 +88,7 @@ abstract class AbstractCalculatorWidgetProvider extends AppWidgetProvider implem
                          @NotNull int[] appWidgetIds) {
         super.onUpdate(context, appWidgetManager, appWidgetIds);
 
-        updateWidget(context, appWidgetManager, appWidgetIds, CalculatorLocatorImpl.getInstance().getEditor().getViewState(), CalculatorLocatorImpl.getInstance().getDisplay().getViewState());
+        updateWidget(context, appWidgetManager, appWidgetIds, Locator.getInstance().getEditor().getViewState(), Locator.getInstance().getDisplay().getViewState());
     }
 
     @Override
@@ -158,7 +158,7 @@ abstract class AbstractCalculatorWidgetProvider extends AppWidgetProvider implem
             // inject cursor
             newText = Html.fromHtml(text.substring(0, selection) + "<font color=\"#" + getCursorColor(context) + "\">|</font>" + text.substring(selection));
         }
-        CalculatorLocatorImpl.getInstance().getNotifier().showDebugMessage(TAG, "New editor state: " + text);
+        Locator.getInstance().getNotifier().showDebugMessage(TAG, "New editor state: " + text);
         views.setTextViewText(R.id.calculator_editor, newText);
     }
 }

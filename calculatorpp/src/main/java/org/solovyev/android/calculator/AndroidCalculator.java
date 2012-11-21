@@ -65,7 +65,7 @@ public class AndroidCalculator implements Calculator, CalculatorEventListener, S
 
     public void setDisplay(@NotNull Context context, @NotNull AndroidCalculatorDisplayView displayView) {
         displayView.init(context);
-        CalculatorLocatorImpl.getInstance().getDisplay().setView(displayView);
+        Locator.getInstance().getDisplay().setView(displayView);
     }
 
     public void setEditor(@NotNull Activity activity) {
@@ -75,7 +75,7 @@ public class AndroidCalculator implements Calculator, CalculatorEventListener, S
 
     public void setEditor(@NotNull Context context, @NotNull AndroidCalculatorEditorView editorView) {
         editorView.init(context);
-        CalculatorLocatorImpl.getInstance().getEditor().setView(editorView);
+        Locator.getInstance().getEditor().setView(editorView);
     }
 
 

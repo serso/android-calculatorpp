@@ -75,7 +75,7 @@ public class AndroidCalculatorPreferenceService implements CalculatorPreferenceS
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(application);
         AndroidCalculatorEngine.Preferences.angleUnit.putPreference(preferences, angleUnit);
 
-        CalculatorLocatorImpl.getInstance().getNotifier().showMessage(new AndroidMessage(R.string.c_angle_units_changed_to, MessageType.info, application, angleUnit.name()));
+        Locator.getInstance().getNotifier().showMessage(new AndroidMessage(R.string.c_angle_units_changed_to, MessageType.info, application, angleUnit.name()));
     }
 
     @Override
@@ -89,6 +89,6 @@ public class AndroidCalculatorPreferenceService implements CalculatorPreferenceS
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(application);
         AndroidCalculatorEngine.Preferences.numeralBase.putPreference(preferences, numeralBase);
 
-        CalculatorLocatorImpl.getInstance().getNotifier().showMessage(new AndroidMessage(R.string.c_numeral_base_changed_to, MessageType.info, application, numeralBase.name()));
+        Locator.getInstance().getNotifier().showMessage(new AndroidMessage(R.string.c_numeral_base_changed_to, MessageType.info, application, numeralBase.name()));
     }
 }

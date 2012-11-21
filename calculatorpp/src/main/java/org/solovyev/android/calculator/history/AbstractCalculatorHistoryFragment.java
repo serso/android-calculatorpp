@@ -219,7 +219,7 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 		boolean result = false;
 		try {
 			historyState.setSaved(true);
-			if ( CollectionsUtils.contains(historyState, CalculatorLocatorImpl.getInstance().getHistory().getSavedHistory(), new Equalizer<CalculatorHistoryState>() {
+			if ( CollectionsUtils.contains(historyState, Locator.getInstance().getHistory().getSavedHistory(), new Equalizer<CalculatorHistoryState>() {
 				@Override
 				public boolean equals(@Nullable CalculatorHistoryState first, @Nullable CalculatorHistoryState second) {
 					return first != null && second != null &&
@@ -237,7 +237,7 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 	}
 
 	public static void useHistoryItem(@NotNull final CalculatorHistoryState historyState) {
-        CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.use_history_state, historyState);
+        Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.use_history_state, historyState);
 	}
 
 	@NotNull
@@ -339,7 +339,7 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
         clear_history(org.solovyev.android.calculator.R.id.history_menu_clear_history) {
             @Override
             public void onClick(@NotNull MenuItem data, @NotNull Context context) {
-                CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.clear_history_requested, null);
+                Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.clear_history_requested, null);
             }
         };
 

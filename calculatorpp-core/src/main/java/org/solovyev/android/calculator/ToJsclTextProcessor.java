@@ -53,7 +53,7 @@ public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, St
 		MathType.Result mathTypeResult = null;
 		MathType.Result mathTypeBefore;
 
-		final LiteNumberBuilder nb = new LiteNumberBuilder(CalculatorLocatorImpl.getInstance().getEngine());
+		final LiteNumberBuilder nb = new LiteNumberBuilder(Locator.getInstance().getEngine());
 		for (int i = 0; i < s.length(); i++) {
 			if (s.charAt(i) == ' ') continue;
 			startsWithFinder.setI(i);
@@ -77,7 +77,7 @@ public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, St
                     (mathTypeBefore.getMathType() == MathType.function || mathTypeBefore.getMathType() == MathType.operator) &&
                     CollectionsUtils.find(MathType.openGroupSymbols, startsWithFinder) != null) {
                 final String functionName = mathTypeBefore.getMatch();
-                final Function function = CalculatorLocatorImpl.getInstance().getEngine().getFunctionsRegistry().get(functionName);
+                final Function function = Locator.getInstance().getEngine().getFunctionsRegistry().get(functionName);
                 if ( function == null || function.getMinParameters() > 0 ) {
                     throw new CalculatorParseException(i, s, new CalculatorMessage(CalculatorMessages.msg_005, MessageType.error, mathTypeBefore.getMatch()));
                 }
@@ -107,9 +107,9 @@ public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, St
 			if (functionName == null) {
 				String operatorName = CollectionsUtils.find(MathType.operator.getTokens(), startsWithFinder);
 				if (operatorName == null) {
-					String varName = CollectionsUtils.find(CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry().getNames(), startsWithFinder);
+					String varName = CollectionsUtils.find(Locator.getInstance().getEngine().getVarsRegistry().getNames(), startsWithFinder);
 					if (varName != null) {
-						final IConstant var = CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry().get(varName);
+						final IConstant var = Locator.getInstance().getEngine().getVarsRegistry().get(varName);
 						if (var != null) {
 							if (!var.isDefined()) {
 								undefinedVars.add(var);

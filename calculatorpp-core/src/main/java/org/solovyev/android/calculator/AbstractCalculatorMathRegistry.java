@@ -70,7 +70,7 @@ public abstract class AbstractCalculatorMathRegistry<T extends MathEntity, P ext
                     try {
                         add(createBuilder(entity));
                     } catch (CustomFunctionCalculationException e) {
-                        CalculatorLocatorImpl.getInstance().getLogger().error(null, e.getMessage(), e);
+                        Locator.getInstance().getLogger().error(null, e.getMessage(), e);
                     }
                 }
             }

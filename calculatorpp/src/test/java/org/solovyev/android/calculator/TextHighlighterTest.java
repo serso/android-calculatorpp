@@ -98,7 +98,7 @@ public class TextHighlighterTest {
 		Assert.assertEquals("<b>0x:</b>FF33233FFE", textHighlighter.process("0x:FF33233FFE").toString());
 		Assert.assertEquals("<b>0x:</b>FF33 233 FFE", textHighlighter.process("0x:FF33 233 FFE").toString());
 
-		final MathEngine me = CalculatorLocatorImpl.getInstance().getEngine().getMathEngine0();
+		final MathEngine me = Locator.getInstance().getEngine().getMathEngine0();
 		try {
 			me.setNumeralBase(NumeralBase.hex);
 			Assert.assertEquals("E", textHighlighter.process("E").toString());

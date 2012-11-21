@@ -32,7 +32,7 @@ public final class CalculatorUtils {
         final Set<Constant> notSystemConstants = new HashSet<Constant>();
 
         for (Constant constant : expression.getConstants()) {
-            IConstant var = CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry().get(constant.getName());
+            IConstant var = Locator.getInstance().getEngine().getVarsRegistry().get(constant.getName());
             if (var != null && !var.isSystem() && !var.isDefined()) {
                 notSystemConstants.add(constant);
             }

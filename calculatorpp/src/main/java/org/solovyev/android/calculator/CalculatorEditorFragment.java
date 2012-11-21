@@ -38,7 +38,7 @@ public class CalculatorEditorFragment extends SherlockFragment {
 
         fragmentHelper.onViewCreated(this, view);
 
-        ((AndroidCalculator) CalculatorLocatorImpl.getInstance().getCalculator()).setEditor(getActivity());
+        ((AndroidCalculator) Locator.getInstance().getCalculator()).setEditor(getActivity());
     }
 
     @Override

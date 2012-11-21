@@ -11,14 +11,13 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.text.ClipboardManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.calculator.CalculatorLocatorImpl;
+import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.menu.LabeledMenuItem;
 import org.solovyev.common.text.StringUtils;
@@ -93,7 +92,7 @@ public enum HistoryItemMenuItem implements LabeledMenuItem<HistoryItemMenuData> 
 			final CalculatorHistoryState historyState = data.getHistoryState();
 			if (historyState.isSaved()) {
 				data.getAdapter().remove(historyState);
-				CalculatorLocatorImpl.getInstance().getHistory().removeSavedHistory(historyState);
+				Locator.getInstance().getHistory().removeSavedHistory(historyState);
 				Toast.makeText(context, context.getText(R.string.c_history_was_removed), Toast.LENGTH_LONG).show();
 				data.getAdapter().notifyDataSetChanged();
 			}
@@ -119,14 +118,14 @@ public enum HistoryItemMenuItem implements LabeledMenuItem<HistoryItemMenuData> 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						if (save) {
-							final CalculatorHistoryState savedHistoryItem = CalculatorLocatorImpl.getInstance().getHistory().addSavedState(historyState);
+							final CalculatorHistoryState savedHistoryItem = Locator.getInstance().getHistory().addSavedState(historyState);
 							savedHistoryItem.setComment(comment.getText().toString());
-                            CalculatorLocatorImpl.getInstance().getHistory().save();
+                            Locator.getInstance().getHistory().save();
 							// we don't need to add element to the adapter as adapter of another activity must be updated and not this
 							//data.getAdapter().add(savedHistoryItem);
 						} else {
 							historyState.setComment(comment.getText().toString());
-                            CalculatorLocatorImpl.getInstance().getHistory().save();
+                            Locator.getInstance().getHistory().save();
 						}
 						data.getAdapter().notifyDataSetChanged();
 						Toast.makeText(context, context.getText(R.string.c_history_saved), Toast.LENGTH_LONG).show();

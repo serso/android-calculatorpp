@@ -27,7 +27,7 @@ public class NumeralBaseTest extends AbstractCalculatorTest {
 	@BeforeClass
 	public static void staticSetUp() throws Exception {
 		CalculatorTestUtils.staticSetUp();
-        CalculatorLocatorImpl.getInstance().getEngine().setPrecision(3);
+        Locator.getInstance().getEngine().setPrecision(3);
 	}
 
 	@Test
@@ -97,11 +97,11 @@ public class NumeralBaseTest extends AbstractCalculatorTest {
 		final String bin = "0b:" + line[2].toUpperCase();
 
 		final String decExpression = converter.convert(dec);
-		final String decResult = CalculatorLocatorImpl.getInstance().getEngine().getMathEngine().evaluate(decExpression);
+		final String decResult = Locator.getInstance().getEngine().getMathEngine().evaluate(decExpression);
 		final String hexExpression = converter.convert(hex);
-		final String hexResult = CalculatorLocatorImpl.getInstance().getEngine().getMathEngine().evaluate(hexExpression);
+		final String hexResult = Locator.getInstance().getEngine().getMathEngine().evaluate(hexExpression);
 		final String binExpression = converter.convert(bin);
-		final String binResult = CalculatorLocatorImpl.getInstance().getEngine().getMathEngine().evaluate(binExpression);
+		final String binResult = Locator.getInstance().getEngine().getMathEngine().evaluate(binExpression);
 
 		Assert.assertEquals("dec-hex: " + decExpression + " : " + hexExpression, decResult, hexResult);
 		Assert.assertEquals("dec-bin: " + decExpression + " : " + binExpression, decResult, binResult);

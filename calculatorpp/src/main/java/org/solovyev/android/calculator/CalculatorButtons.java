@@ -54,12 +54,12 @@ public final class CalculatorButtons {
     static void initMultiplicationButton(@NotNull View root) {
         final View multiplicationButton = root.findViewById(R.id.multiplicationButton);
         if ( multiplicationButton instanceof Button) {
-            ((Button) multiplicationButton).setText(CalculatorLocatorImpl.getInstance().getEngine().getMultiplicationSign());
+            ((Button) multiplicationButton).setText(Locator.getInstance().getEngine().getMultiplicationSign());
         }
     }
 
     public static void initMultiplicationButton(@NotNull RemoteViews views) {
-        views.setTextViewText(R.id.multiplicationButton, CalculatorLocatorImpl.getInstance().getEngine().getMultiplicationSign());
+        views.setTextViewText(R.id.multiplicationButton, Locator.getInstance().getEngine().getMultiplicationSign());
     }
 
 
@@ -112,7 +112,7 @@ public final class CalculatorButtons {
 
     @NotNull
     private static CalculatorKeyboard getKeyboard() {
-        return CalculatorLocatorImpl.getInstance().getKeyboard();
+        return Locator.getInstance().getKeyboard();
     }
 
     static class VarsDragProcessor implements SimpleOnDragListener.DragProcessor {
@@ -132,7 +132,7 @@ public final class CalculatorButtons {
             boolean result = false;
 
             if (dragDirection == DragDirection.up) {
-                CalculatorActivityLauncher.createVar(context, CalculatorLocatorImpl.getInstance().getDisplay());
+                CalculatorActivityLauncher.createVar(context, Locator.getInstance().getDisplay());
                 result = true;
             }
 
@@ -150,7 +150,7 @@ public final class CalculatorButtons {
 
         AngleUnitsChanger(@NotNull Context context) {
             this.context = context;
-            this.processor = new DigitButtonDragProcessor(CalculatorLocatorImpl.getInstance().getKeyboard());
+            this.processor = new DigitButtonDragProcessor(Locator.getInstance().getKeyboard());
         }
 
         @Override
@@ -172,7 +172,7 @@ public final class CalculatorButtons {
 
                             final AngleUnit oldAngleUnits = AndroidCalculatorEngine.Preferences.angleUnit.getPreference(preferences);
                             if (oldAngleUnits != angleUnits) {
-                                CalculatorLocatorImpl.getInstance().getPreferenceService().setAngleUnits(angleUnits);
+                                Locator.getInstance().getPreferenceService().setAngleUnits(angleUnits);
                             }
 
                             result = true;
@@ -216,7 +216,7 @@ public final class CalculatorButtons {
 
                         final NumeralBase oldNumeralBase = AndroidCalculatorEngine.Preferences.numeralBase.getPreference(preferences);
                         if (oldNumeralBase != numeralBase) {
-                            CalculatorLocatorImpl.getInstance().getPreferenceService().setNumeralBase(numeralBase);
+                            Locator.getInstance().getPreferenceService().setNumeralBase(numeralBase);
                         }
 
                         result = true;
@@ -247,7 +247,7 @@ public final class CalculatorButtons {
             boolean result = false;
 
             if (dragDirection == DragDirection.up) {
-                CalculatorActivityLauncher.createFunction(context, CalculatorLocatorImpl.getInstance().getDisplay());
+                CalculatorActivityLauncher.createFunction(context, Locator.getInstance().getDisplay());
                 result = true;
             }
 

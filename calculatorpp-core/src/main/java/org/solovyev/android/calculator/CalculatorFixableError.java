@@ -18,21 +18,21 @@ public enum CalculatorFixableError {
     must_be_rad(Messages.msg_23, Messages.msg_24, Messages.msg_25) {
         @Override
         public void fix() {
-            CalculatorLocatorImpl.getInstance().getPreferenceService().setAngleUnits(AngleUnit.rad);
+            Locator.getInstance().getPreferenceService().setAngleUnits(AngleUnit.rad);
         }
     },
 
     preferred_numeral_base() {
         @Override
         public void fix() {
-            CalculatorLocatorImpl.getInstance().getPreferenceService().setPreferredNumeralBase();
+            Locator.getInstance().getPreferenceService().setPreferredNumeralBase();
         }
     },
 
     preferred_angle_units() {
         @Override
         public void fix() {
-            CalculatorLocatorImpl.getInstance().getPreferenceService().setPreferredAngleUnits();
+            Locator.getInstance().getPreferenceService().setPreferredAngleUnits();
         }
     };
 

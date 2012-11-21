@@ -16,13 +16,13 @@ public enum CalculatorSpecialButton {
     history("history") {
         @Override
         public void onClick(@NotNull CalculatorKeyboard keyboard) {
-            CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_history, null);
+            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_history, null);
         }
     },
     history_detached("history_detached") {
         @Override
         public void onClick(@NotNull CalculatorKeyboard keyboard) {
-            CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_history_detached, null);
+            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_history_detached, null);
         }
     },
     cursor_right("▶") {
@@ -40,27 +40,27 @@ public enum CalculatorSpecialButton {
     settings("settings") {
         @Override
         public void onClick(@NotNull CalculatorKeyboard keyboard) {
-            CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_settings, null);
+            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_settings, null);
         }
     },
 
     settings_detached("settings_detached") {
         @Override
         public void onClick(@NotNull CalculatorKeyboard keyboard) {
-            CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_settings_detached, null);
+            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_settings_detached, null);
         }
     },
 
     like("like") {
         @Override
         public void onClick(@NotNull CalculatorKeyboard keyboard) {
-            CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_like_dialog, null);
+            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_like_dialog, null);
         }
     },
     erase("erase") {
         @Override
         public void onClick(@NotNull CalculatorKeyboard keyboard) {
-            CalculatorLocatorImpl.getInstance().getEditor().erase();
+            Locator.getInstance().getEditor().erase();
         }
     },
     paste("paste") {
@@ -78,7 +78,7 @@ public enum CalculatorSpecialButton {
     equals("=") {
         @Override
         public void onClick(@NotNull CalculatorKeyboard keyboard) {
-            CalculatorLocatorImpl.getInstance().getCalculator().evaluate();
+            Locator.getInstance().getCalculator().evaluate();
         }
     },
     clear("clear") {
@@ -90,44 +90,44 @@ public enum CalculatorSpecialButton {
     functions("functions") {
         @Override
         public void onClick(@NotNull CalculatorKeyboard keyboard) {
-            CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_functions, null);
+            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_functions, null);
         }
     },
     functions_detached("functions_detached") {
         @Override
         public void onClick(@NotNull CalculatorKeyboard keyboard) {
-            CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_functions_detached, null);
+            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_functions_detached, null);
         }
     },
     open_app("open_app") {
         @Override
         public void onClick(@NotNull CalculatorKeyboard keyboard) {
-            CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.open_app, null);
+            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.open_app, null);
         }
     },
     vars("vars") {
         @Override
         public void onClick(@NotNull CalculatorKeyboard keyboard) {
-            CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_vars, null);
+            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_vars, null);
         }
     },
     vars_detached("vars_detached") {
         @Override
         public void onClick(@NotNull CalculatorKeyboard keyboard) {
-            CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_vars_detached, null);
+            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_vars_detached, null);
         }
     },
     operators("operators") {
         @Override
         public void onClick(@NotNull CalculatorKeyboard keyboard) {
-            CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_operators, null);
+            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_operators, null);
         }
     },
 
     operators_detached("operators_detached") {
         @Override
         public void onClick(@NotNull CalculatorKeyboard keyboard) {
-            CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_operators_detached, null);
+            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_operators_detached, null);
         }
     };
 

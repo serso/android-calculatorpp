@@ -72,7 +72,7 @@ public class CalculatorFunctionsFragment extends AbstractMathEntityListFragment<
 	protected List<LabeledMenuItem<Function>> getMenuItemsOnLongClick(@NotNull Function item) {
 		List<LabeledMenuItem<Function>> result = new ArrayList<LabeledMenuItem<Function>>(Arrays.asList(LongClickMenuItem.values()));
 
-        final CalculatorMathRegistry<Function> functionsRegistry = CalculatorLocatorImpl.getInstance().getEngine().getFunctionsRegistry();
+        final CalculatorMathRegistry<Function> functionsRegistry = Locator.getInstance().getEngine().getFunctionsRegistry();
         if ( StringUtils.isEmpty(functionsRegistry.getDescription(item.getName())) ) {
 			result.remove(LongClickMenuItem.copy_description);
 		}
@@ -88,18 +88,18 @@ public class CalculatorFunctionsFragment extends AbstractMathEntityListFragment<
 	@NotNull
 	@Override
 	protected MathEntityDescriptionGetter getDescriptionGetter() {
-		return new MathEntityDescriptionGetterImpl(CalculatorLocatorImpl.getInstance().getEngine().getFunctionsRegistry());
+		return new MathEntityDescriptionGetterImpl(Locator.getInstance().getEngine().getFunctionsRegistry());
 	}
 
 	@NotNull
 	@Override
 	protected List<Function> getMathEntities() {
-		return new ArrayList<Function>(CalculatorLocatorImpl.getInstance().getEngine().getFunctionsRegistry().getEntities());
+		return new ArrayList<Function>(Locator.getInstance().getEngine().getFunctionsRegistry().getEntities());
 	}
 
 	@Override
 	protected String getMathEntityCategory(@NotNull Function function) {
-		return CalculatorLocatorImpl.getInstance().getEngine().getFunctionsRegistry().getCategory(function);
+		return Locator.getInstance().getEngine().getFunctionsRegistry().getCategory(function);
 	}
 
     @Override
@@ -223,7 +223,7 @@ public class CalculatorFunctionsFragment extends AbstractMathEntityListFragment<
         use(R.string.c_use) {
             @Override
             public void onClick(@NotNull Function function, @NotNull Context context) {
-                CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.use_function, function);
+                Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.use_function, function);
             }
         },
 
@@ -246,7 +246,7 @@ public class CalculatorFunctionsFragment extends AbstractMathEntityListFragment<
         copy_description(R.string.c_copy_description) {
             @Override
             public void onClick(@NotNull Function function, @NotNull Context context) {
-                final String text = CalculatorLocatorImpl.getInstance().getEngine().getFunctionsRegistry().getDescription(function.getName());
+                final String text = Locator.getInstance().getEngine().getFunctionsRegistry().getDescription(function.getName());
                 if (!StringUtils.isEmpty(text)) {
                     final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
                     clipboard.setText(text);

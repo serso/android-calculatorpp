@@ -65,10 +65,10 @@ public class ToJsclTextProcessorTest extends AbstractCalculatorTest {
 		Assert.assertEquals( "EE", preprocessor.process("EE").toString());
 
 		try {
-			CalculatorLocatorImpl.getInstance().getEngine().setNumeralBase(NumeralBase.hex);
+			Locator.getInstance().getEngine().setNumeralBase(NumeralBase.hex);
 			Assert.assertEquals( "22F*exp(F)", preprocessor.process("22Fexp(F)").toString());
 		} finally {
-			CalculatorLocatorImpl.getInstance().getEngine().setNumeralBase(NumeralBase.dec);
+			Locator.getInstance().getEngine().setNumeralBase(NumeralBase.dec);
 		}
 		Assert.assertEquals( "0x:ABCDEF", preprocessor.process("0x:ABCDEF").toString());
 		Assert.assertEquals( "0x:ABCDEF", preprocessor.process("0x:A BC DEF").toString());

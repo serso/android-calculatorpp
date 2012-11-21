@@ -80,12 +80,12 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 
         preferences.registerOnSharedPreferenceChangeListener(this);
 
-        CalculatorLocatorImpl.getInstance().getPreferenceService().checkPreferredPreferences(false);
+        Locator.getInstance().getPreferenceService().checkPreferredPreferences(false);
     }
 
     @NotNull
     private AndroidCalculator getCalculator() {
-        return ((AndroidCalculator) CalculatorLocatorImpl.getInstance().getCalculator());
+        return ((AndroidCalculator) Locator.getInstance().getCalculator());
     }
 
     private static void firstTimeInit(@NotNull SharedPreferences preferences, @NotNull Context context) {
@@ -267,7 +267,7 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 
     @NotNull
     private static CalculatorKeyboard getKeyboard() {
-        return CalculatorLocatorImpl.getInstance().getKeyboard();
+        return Locator.getInstance().getKeyboard();
     }
 
     @SuppressWarnings({"UnusedDeclaration"})

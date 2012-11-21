@@ -153,11 +153,11 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
         final CalculatorEventData eventDataId = nextEventData();
 
         calculationsExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                CalculatorImpl.this.evaluate(eventDataId.getSequenceId(), operation, expression, null);
-            }
-        });
+			@Override
+			public void run() {
+				CalculatorImpl.this.evaluate(eventDataId.getSequenceId(), operation, expression, null);
+			}
+		});
 
         return eventDataId;
     }
@@ -179,8 +179,8 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 
     @Override
     public void init() {
-        CalculatorLocatorImpl.getInstance().getEngine().init();
-        CalculatorLocatorImpl.getInstance().getHistory().load();
+        Locator.getInstance().getEngine().init();
+        Locator.getInstance().getHistory().load();
     }
 
     public void setCalculateOnFly(boolean calculateOnFly) {
@@ -218,10 +218,10 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 
                 try {
 
-					final CalculatorMathEngine mathEngine = CalculatorLocatorImpl.getInstance().getEngine().getMathEngine();
+					final CalculatorMathEngine mathEngine = Locator.getInstance().getEngine().getMathEngine();
 
 					final MessageRegistry messageRegistry = new ListMessageRegistry();
-					CalculatorLocatorImpl.getInstance().getEngine().getMathEngine0().setMessageRegistry(messageRegistry);
+					Locator.getInstance().getEngine().getMathEngine0().setMessageRegistry(messageRegistry);
 
 					final Generic result = operation.evaluateGeneric(jsclExpression, mathEngine);
 
@@ -229,7 +229,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
                     result.toString();
 
                     if (messageRegistry.hasMessage()) {
-                        final CalculatorLogger logger = CalculatorLocatorImpl.getInstance().getLogger();
+                        final CalculatorLogger logger = Locator.getInstance().getLogger();
                         try {
                             final List<Message> messages = new ArrayList<Message>();
                             while (messageRegistry.hasMessage()) {
@@ -273,7 +273,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 
         if ( currentTime - lastPreferenceCheck > PREFERENCE_CHECK_INTERVAL ) {
             lastPreferenceCheck = currentTime;
-            CalculatorLocatorImpl.getInstance().getPreferenceService().checkPreferredPreferences(false);
+            Locator.getInstance().getPreferenceService().checkPreferredPreferences(false);
         }
     }
 
@@ -335,8 +335,8 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
                                          @NotNull final NumeralBase to) {
         final CalculatorEventData eventDataId = nextEventData();
 
-        final CalculatorDisplayViewState displayViewState = CalculatorLocatorImpl.getInstance().getDisplay().getViewState();
-        final NumeralBase from = CalculatorLocatorImpl.getInstance().getEngine().getNumeralBase();
+        final CalculatorDisplayViewState displayViewState = Locator.getInstance().getDisplay().getViewState();
+        final NumeralBase from = Locator.getInstance().getEngine().getNumeralBase();
 
         calculationsExecutor.execute(new Runnable() {
             @Override
@@ -511,17 +511,17 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 
             case use_constant:
                 final IConstant constant = (IConstant)data;
-                CalculatorLocatorImpl.getInstance().getKeyboard().buttonPressed(constant.getName());
+                Locator.getInstance().getKeyboard().buttonPressed(constant.getName());
                 break;
 
             case use_operator:
                 final Operator operator = (Operator)data;
-                CalculatorLocatorImpl.getInstance().getKeyboard().buttonPressed(operator.getName());
+                Locator.getInstance().getKeyboard().buttonPressed(operator.getName());
                 break;
 
             case use_function:
                 final Function function = (Function)data;
-                CalculatorLocatorImpl.getInstance().getKeyboard().buttonPressed(function.getName());
+                Locator.getInstance().getKeyboard().buttonPressed(function.getName());
                 break;
 
         }
@@ -532,7 +532,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
         if (newState.isValid()) {
             final String result = newState.getStringResult();
             if ( !StringUtils.isEmpty(result) ) {
-                final CalculatorMathRegistry<IConstant> varsRegistry = CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry();
+                final CalculatorMathRegistry<IConstant> varsRegistry = Locator.getInstance().getEngine().getVarsRegistry();
                 final IConstant ansVar = varsRegistry.get(CalculatorVarsRegistry.ANS);
 
                 final Var.Builder varBuilder;
@@ -561,7 +561,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 
     @Override
     public void doHistoryAction(@NotNull HistoryAction historyAction) {
-        final CalculatorHistory history = CalculatorLocatorImpl.getInstance().getHistory();
+        final CalculatorHistory history = Locator.getInstance().getHistory();
         if (history.isActionAvailable(historyAction)) {
             final CalculatorHistoryState newState = history.doAction(historyAction, getCurrentHistoryState());
             if (newState != null) {
@@ -591,11 +591,11 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 
     @NotNull
     private CalculatorEditor getEditor() {
-        return CalculatorLocatorImpl.getInstance().getEditor();
+        return Locator.getInstance().getEditor();
     }
 
     @NotNull
     private CalculatorDisplay getDisplay() {
-        return CalculatorLocatorImpl.getInstance().getDisplay();
+        return Locator.getInstance().getDisplay();
     }
 }

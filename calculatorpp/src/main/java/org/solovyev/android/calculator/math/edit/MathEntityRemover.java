@@ -16,7 +16,7 @@ import jscl.math.function.IConstant;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.CalculatorEventType;
-import org.solovyev.android.calculator.CalculatorLocatorImpl;
+import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.CalculatorMathRegistry;
 import org.solovyev.android.calculator.R;
 import org.solovyev.common.math.MathEntity;
@@ -76,14 +76,14 @@ public class MathEntityRemover<T extends MathEntity> implements View.OnClickList
                                                                   @Nullable DialogInterface.OnClickListener callbackOnCancel,
                                                                   @NotNull Context context,
                                                                   @NotNull Object source) {
-        return new MathEntityRemover<IConstant>(constant, callbackOnCancel, false, CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry(), context, source, Params.newConstantInstance());
+        return new MathEntityRemover<IConstant>(constant, callbackOnCancel, false, Locator.getInstance().getEngine().getVarsRegistry(), context, source, Params.newConstantInstance());
     }
 
     public static MathEntityRemover<Function> newFunctionRemover(@NotNull Function function,
                                                                   @Nullable DialogInterface.OnClickListener callbackOnCancel,
                                                                   @NotNull Context context,
                                                                   @NotNull Object source) {
-        return new MathEntityRemover<Function>(function, callbackOnCancel, false, CalculatorLocatorImpl.getInstance().getEngine().getFunctionsRegistry(), context, source, Params.newFunctionInstance());
+        return new MathEntityRemover<Function>(function, callbackOnCancel, false, Locator.getInstance().getEngine().getFunctionsRegistry(), context, source, Params.newFunctionInstance());
     }
 
     /*
@@ -117,7 +117,7 @@ public class MathEntityRemover<T extends MathEntity> implements View.OnClickList
             varsRegistry.remove(mathEntity);
             varsRegistry.save();
 
-            CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(params.getCalculatorEventType(), mathEntity, source);
+            Locator.getInstance().getCalculator().fireCalculatorEvent(params.getCalculatorEventType(), mathEntity, source);
         }
     }
 

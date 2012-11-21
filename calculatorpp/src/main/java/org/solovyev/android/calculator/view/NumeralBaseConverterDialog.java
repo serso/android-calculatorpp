@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.WindowManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.CalculatorLocatorImpl;
+import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.CalculatorParseException;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.ToJsclTextProcessor;
@@ -41,12 +41,12 @@ public class NumeralBaseConverterDialog {
             String value = initialFromValue;
             try {
                 value = ToJsclTextProcessor.getInstance().process(value).getExpression();
-                b.setFromValue(UnitImpl.newInstance(value, CalculatorNumeralBase.valueOf(CalculatorLocatorImpl.getInstance().getEngine().getNumeralBase())));
+                b.setFromValue(UnitImpl.newInstance(value, CalculatorNumeralBase.valueOf(Locator.getInstance().getEngine().getNumeralBase())));
             } catch (CalculatorParseException e) {
-                b.setFromValue(UnitImpl.newInstance(value, CalculatorNumeralBase.valueOf(CalculatorLocatorImpl.getInstance().getEngine().getNumeralBase())));
+                b.setFromValue(UnitImpl.newInstance(value, CalculatorNumeralBase.valueOf(Locator.getInstance().getEngine().getNumeralBase())));
             }
         } else {
-            b.setFromValue(UnitImpl.newInstance("", CalculatorNumeralBase.valueOf(CalculatorLocatorImpl.getInstance().getEngine().getNumeralBase())));
+            b.setFromValue(UnitImpl.newInstance("", CalculatorNumeralBase.valueOf(Locator.getInstance().getEngine().getNumeralBase())));
         }
 
         b.setConverter(CalculatorNumeralBase.getConverter());
@@ -67,11 +67,11 @@ public class NumeralBaseConverterDialog {
             public void onClick(@NotNull Unit<String> fromUnits, @NotNull Unit<String> toUnits) {
                 String toUnitsValue = toUnits.getValue();
 
-                if (!toUnits.getUnitType().equals(CalculatorNumeralBase.valueOf(CalculatorLocatorImpl.getInstance().getEngine().getNumeralBase()))) {
+                if (!toUnits.getUnitType().equals(CalculatorNumeralBase.valueOf(Locator.getInstance().getEngine().getNumeralBase()))) {
                     toUnitsValue = ((CalculatorNumeralBase) toUnits.getUnitType()).getNumeralBase().getJsclPrefix() + toUnitsValue;
                 }
 
-                CalculatorLocatorImpl.getInstance().getKeyboard().buttonPressed(toUnitsValue);
+                Locator.getInstance().getKeyboard().buttonPressed(toUnitsValue);
                 final AlertDialog alertDialog = alertDialogHolder.getObject();
                 if (alertDialog != null) {
                     alertDialog.dismiss();

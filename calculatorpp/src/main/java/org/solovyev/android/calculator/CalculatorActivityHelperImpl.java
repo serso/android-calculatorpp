@@ -68,7 +68,7 @@ public class CalculatorActivityHelperImpl extends AbstractCalculatorHelper imple
         super.onCreate(activity);
 
         if (activity instanceof CalculatorEventListener) {
-            CalculatorLocatorImpl.getInstance().getCalculator().addCalculatorEventListener((CalculatorEventListener) activity);
+            Locator.getInstance().getCalculator().addCalculatorEventListener((CalculatorEventListener) activity);
         }
 
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
@@ -172,7 +172,7 @@ public class CalculatorActivityHelperImpl extends AbstractCalculatorHelper imple
         super.onDestroy(activity);
 
         if (activity instanceof CalculatorEventListener) {
-            CalculatorLocatorImpl.getInstance().getCalculator().removeCalculatorEventListener((CalculatorEventListener) activity);
+            Locator.getInstance().getCalculator().removeCalculatorEventListener((CalculatorEventListener) activity);
         }
     }
 

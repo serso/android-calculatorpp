@@ -108,9 +108,9 @@ public class TextHighlighter implements TextProcessor<TextHighlighter.Result, St
 
 		final AbstractNumberBuilder numberBuilder;
 		if (!formatNumber) {
-			numberBuilder = new LiteNumberBuilder(CalculatorLocatorImpl.getInstance().getEngine());
+			numberBuilder = new LiteNumberBuilder(Locator.getInstance().getEngine());
 		} else {
-			numberBuilder = new NumberBuilder(CalculatorLocatorImpl.getInstance().getEngine());
+			numberBuilder = new NumberBuilder(Locator.getInstance().getEngine());
 		}
 		for (int i = 0; i < text.length(); i++) {
 			MathType.Result mathType = MathType.getType(text, i, numberBuilder.isHexMode());

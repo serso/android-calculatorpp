@@ -31,7 +31,7 @@ public class EvalDragProcessor implements SimpleOnDragListener.DragProcessor {
 		if (dragButton instanceof DirectionDragButton) {
 			String text = ((DirectionDragButton) dragButton).getText(dragDirection);
 			if ("≡".equals(text)) {
-				CalculatorLocatorImpl.getInstance().getCalculator().simplify();
+				Locator.getInstance().getCalculator().simplify();
 				result = true;
 			}
 		}

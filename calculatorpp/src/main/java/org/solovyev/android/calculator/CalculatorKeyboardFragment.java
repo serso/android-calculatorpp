@@ -131,17 +131,17 @@ public class CalculatorKeyboardFragment extends SherlockFragment implements Shar
 
     @Nullable
     private static AndroidCalculatorDisplayView getCalculatorDisplayView() {
-        return (AndroidCalculatorDisplayView) CalculatorLocatorImpl.getInstance().getDisplay().getView();
+        return (AndroidCalculatorDisplayView) Locator.getInstance().getDisplay().getView();
     }
 
     @NotNull
     private Calculator getCalculator() {
-        return CalculatorLocatorImpl.getInstance().getCalculator();
+        return Locator.getInstance().getCalculator();
     }
 
     @NotNull
     private static CalculatorKeyboard getKeyboard() {
-        return CalculatorLocatorImpl.getInstance().getKeyboard();
+        return Locator.getInstance().getKeyboard();
     }
 }
 

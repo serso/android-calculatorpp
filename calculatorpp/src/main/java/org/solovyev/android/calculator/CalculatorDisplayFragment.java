@@ -43,7 +43,7 @@ public class CalculatorDisplayFragment extends SherlockFragment {
     public void onViewCreated(View root, Bundle savedInstanceState) {
         super.onViewCreated(root, savedInstanceState);
 
-        ((AndroidCalculator) CalculatorLocatorImpl.getInstance().getCalculator()).setDisplay(getActivity());
+        ((AndroidCalculator) Locator.getInstance().getCalculator()).setDisplay(getActivity());
 
         fragmentHelper.onViewCreated(this, root);
     }
