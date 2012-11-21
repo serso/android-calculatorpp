@@ -16,9 +16,9 @@ import org.solovyev.android.calculator.CalculatorDisplayViewState;
 import org.solovyev.android.calculator.CalculatorEditorViewState;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.external.DefaultExternalCalculatorIntentHandler;
-import org.solovyev.android.calculator.external.ExternalCalculatorHelper;
 import org.solovyev.android.calculator.external.ExternalCalculatorIntentHandler;
 import org.solovyev.android.calculator.external.ExternalCalculatorStateUpdater;
+import org.solovyev.android.calculator.widget.CalculatorWidgetHelper;
 import org.solovyev.android.calculator.widget.WidgetButton;
 
 /**
@@ -75,7 +75,7 @@ public class CalculatorOverlayService extends Service implements ExternalCalcula
     }
 
     private void startCalculatorListening() {
-        ExternalCalculatorHelper.addExternalListener(getIntentListenerClass());
+        CalculatorWidgetHelper.addExternalListener(getIntentListenerClass());
     }
 
     @NotNull
@@ -84,7 +84,7 @@ public class CalculatorOverlayService extends Service implements ExternalCalcula
     }
 
     private void stopCalculatorListening() {
-        ExternalCalculatorHelper.removeExternalListener(getIntentListenerClass());
+        CalculatorWidgetHelper.removeExternalListener(getIntentListenerClass());
     }
 
     @Override

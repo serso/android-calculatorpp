@@ -11,7 +11,6 @@ import android.widget.RemoteViews;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.*;
-import org.solovyev.android.calculator.external.ExternalCalculatorHelper;
 import org.solovyev.android.calculator.external.ExternalCalculatorIntentHandler;
 import org.solovyev.android.calculator.external.ExternalCalculatorStateUpdater;
 
@@ -53,7 +52,7 @@ abstract class AbstractCalculatorWidgetProvider extends AppWidgetProvider implem
     protected AbstractCalculatorWidgetProvider() {
         final Class<? extends AppWidgetProvider> componentClass = this.getComponentClass();
 
-        ExternalCalculatorHelper.addExternalListener(componentClass);
+        CalculatorWidgetHelper.addExternalListener(componentClass);
     }
 
     /*
