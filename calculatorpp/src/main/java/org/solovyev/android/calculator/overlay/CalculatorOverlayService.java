@@ -146,6 +146,8 @@ public class CalculatorOverlayService extends Service implements ExternalCalcula
 							}
 						} else {
 							move = true;
+							x0 = event.getX();
+							y0 = event.getY();
 						}
 
 						return true;
