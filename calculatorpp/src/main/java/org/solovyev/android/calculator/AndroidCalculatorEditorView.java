@@ -16,7 +16,6 @@ import android.text.Html;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.widget.EditText;
 import org.jetbrains.annotations.NotNull;
@@ -128,7 +127,7 @@ public class AndroidCalculatorEditorView extends EditText implements SharedPrefe
 
     public void setHighlightText(boolean highlightText) {
         this.highlightText = highlightText;
-        CalculatorLocatorImpl.getInstance().getEditor().updateViewState();
+        Locator.getInstance().getEditor().updateViewState();
     }
 
     @Override
@@ -186,7 +185,7 @@ public class AndroidCalculatorEditorView extends EditText implements SharedPrefe
                 if (!viewStateChange) {
                     // external text change => need to notify editor
                     super.onSelectionChanged(selStart, selEnd);
-                    CalculatorLocatorImpl.getInstance().getEditor().setSelection(selStart);
+                    Locator.getInstance().getEditor().setSelection(selStart);
                 }
             }
         }
@@ -197,7 +196,7 @@ public class AndroidCalculatorEditorView extends EditText implements SharedPrefe
             synchronized (viewLock) {
                 if (!viewStateChange) {
                     // external text change => need to notify editor
-                    CalculatorLocatorImpl.getInstance().getEditor().setText(String.valueOf(s));
+                    Locator.getInstance().getEditor().setText(String.valueOf(s));
                 }
             }
         }

@@ -13,7 +13,7 @@ import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 import org.simpleframework.xml.Transient;
-import org.solovyev.android.calculator.CalculatorLocatorImpl;
+import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.CalculatorParseException;
 import org.solovyev.android.calculator.MathPersistenceEntity;
 import org.solovyev.common.math.MathEntity;
@@ -268,7 +268,7 @@ public class AFunction implements IFunction, MathPersistenceEntity, Serializable
 
 			result.name = name;
 			try {
-				result.content = CalculatorLocatorImpl.getInstance().getCalculator().prepareExpression(value).toString();
+				result.content = Locator.getInstance().getCalculator().prepareExpression(value).toString();
 			} catch (CalculatorParseException e) {
 				throw new CreationException(e);
 			}

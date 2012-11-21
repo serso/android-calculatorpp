@@ -8,7 +8,7 @@ import org.solovyev.android.calculator.history.CalculatorHistory;
  * Date: 20.09.12
  * Time: 12:45
  */
-public class CalculatorLocatorImpl implements CalculatorLocator {
+public class Locator implements CalculatorLocator {
 
     @NotNull
     private CalculatorEngine calculatorEngine;
@@ -38,12 +38,12 @@ public class CalculatorLocatorImpl implements CalculatorLocator {
     private CalculatorClipboard calculatorClipboard = new DummyCalculatorClipboard();
 
     @NotNull
-    private static final CalculatorLocator instance = new CalculatorLocatorImpl();
+    private static final CalculatorLocator instance = new Locator();
 
     @NotNull
     private CalculatorPreferenceService calculatorPreferenceService;
 
-    public CalculatorLocatorImpl() {
+    public Locator() {
     }
 
     @Override

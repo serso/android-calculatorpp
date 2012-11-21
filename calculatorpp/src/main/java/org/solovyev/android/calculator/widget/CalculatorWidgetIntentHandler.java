@@ -3,7 +3,7 @@ package org.solovyev.android.calculator.widget;
 import android.content.Context;
 import android.content.Intent;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.calculator.CalculatorLocatorImpl;
+import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.external.DefaultExternalCalculatorIntentHandler;
 import org.solovyev.android.calculator.external.ExternalCalculatorStateUpdater;
 
@@ -30,7 +30,7 @@ public class CalculatorWidgetIntentHandler extends DefaultExternalCalculatorInte
                 button.onClick(context);
             }
         } else if (Intent.ACTION_CONFIGURATION_CHANGED.equals(intent.getAction())) {
-            updateState(context, CalculatorLocatorImpl.getInstance().getEditor().getViewState(), CalculatorLocatorImpl.getInstance().getDisplay().getViewState());
+            updateState(context, Locator.getInstance().getEditor().getViewState(), Locator.getInstance().getDisplay().getViewState());
         }
     }
 

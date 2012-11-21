@@ -15,8 +15,8 @@ import org.solovyev.android.calculator.history.CalculatorHistory;
 public class CalculatorTestUtils {
 
     public static void staticSetUp(@Nullable Context context) throws Exception {
-        CalculatorLocatorImpl.getInstance().init(new CalculatorImpl(), newCalculatorEngine(), Mockito.mock(CalculatorClipboard.class), Mockito.mock(CalculatorNotifier.class), Mockito.mock(CalculatorHistory.class), new SystemOutCalculatorLogger(), Mockito.mock(CalculatorPreferenceService.class), Mockito.mock(CalculatorKeyboard.class));
-        CalculatorLocatorImpl.getInstance().getEngine().init();
+        Locator.getInstance().init(new CalculatorImpl(), newCalculatorEngine(), Mockito.mock(CalculatorClipboard.class), Mockito.mock(CalculatorNotifier.class), Mockito.mock(CalculatorHistory.class), new SystemOutCalculatorLogger(), Mockito.mock(CalculatorPreferenceService.class), Mockito.mock(CalculatorKeyboard.class));
+        Locator.getInstance().getEngine().init();
 
         if ( context != null ) {
             initViews(context);
@@ -26,11 +26,11 @@ public class CalculatorTestUtils {
     public static void initViews(@NotNull Context context) {
         final AndroidCalculatorEditorView editor = new AndroidCalculatorEditorView(context);
         editor.init(context);
-        CalculatorLocatorImpl.getInstance().getEditor().setView(editor);
+        Locator.getInstance().getEditor().setView(editor);
 
         final AndroidCalculatorDisplayView display = new AndroidCalculatorDisplayView(context);
         display.init(context);
-        CalculatorLocatorImpl.getInstance().getDisplay().setView(display);
+        Locator.getInstance().getDisplay().setView(display);
     }
 
     public static void staticSetUp() throws Exception {

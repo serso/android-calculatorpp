@@ -18,7 +18,7 @@ public class CalculatorEditorImplTest extends AbstractCalculatorTest {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        this.calculatorEditor = new CalculatorEditorImpl(CalculatorLocatorImpl.getInstance().getCalculator());
+        this.calculatorEditor = new CalculatorEditorImpl(Locator.getInstance().getCalculator());
     }
 
     @Test

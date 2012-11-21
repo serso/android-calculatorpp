@@ -75,7 +75,7 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
             result.remove(LongClickMenuItem.remove);
         }
 
-        if (StringUtils.isEmpty(CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry().getDescription(item.getName()))) {
+        if (StringUtils.isEmpty(Locator.getInstance().getEngine().getVarsRegistry().getDescription(item.getName()))) {
             result.remove(LongClickMenuItem.copy_description);
         }
 
@@ -89,7 +89,7 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
     @NotNull
     @Override
     protected MathEntityDescriptionGetter getDescriptionGetter() {
-        return new MathEntityDescriptionGetterImpl(CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry());
+        return new MathEntityDescriptionGetterImpl(Locator.getInstance().getEngine().getVarsRegistry());
     }
 
     @SuppressWarnings({"UnusedDeclaration"})
@@ -100,7 +100,7 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
     @NotNull
     @Override
     protected List<IConstant> getMathEntities() {
-        final List<IConstant> result = new ArrayList<IConstant>(CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry().getEntities());
+        final List<IConstant> result = new ArrayList<IConstant>(Locator.getInstance().getEngine().getVarsRegistry().getEntities());
 
         CollectionsUtils.removeAll(result, new JPredicate<IConstant>() {
             @Override
@@ -114,7 +114,7 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
 
     @Override
     protected String getMathEntityCategory(@NotNull IConstant var) {
-        return CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry().getCategory(var);
+        return Locator.getInstance().getEngine().getVarsRegistry().getCategory(var);
     }
 
     public static boolean isValidValue(@NotNull String value) {
@@ -227,7 +227,7 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
         use(R.string.c_use) {
             @Override
             public void onClick(@NotNull IConstant data, @NotNull Context context) {
-                CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.use_constant, data);
+                Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.use_constant, data);
             }
         },
 
@@ -251,7 +251,7 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
                 final String text = data.getValue();
                 if (!StringUtils.isEmpty(text)) {
                     assert text != null;
-                    CalculatorLocatorImpl.getInstance().getClipboard().setText(text);
+                    Locator.getInstance().getClipboard().setText(text);
                 }
             }
         },
@@ -259,10 +259,10 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
         copy_description(R.string.c_copy_description) {
             @Override
             public void onClick(@NotNull IConstant data, @NotNull Context context) {
-                final String text = CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry().getDescription(data.getName());
+                final String text = Locator.getInstance().getEngine().getVarsRegistry().getDescription(data.getName());
                 if (!StringUtils.isEmpty(text)) {
                     assert text != null;
-                    CalculatorLocatorImpl.getInstance().getClipboard().setText(text);
+                    Locator.getInstance().getClipboard().setText(text);
                 }
             }
         };

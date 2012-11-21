@@ -5,8 +5,8 @@ import android.content.Context;
 import android.text.ClipboardManager;
 import jscl.math.operator.Operator;
 import org.jetbrains.annotations.NotNull;
+import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.CalculatorEventType;
-import org.solovyev.android.calculator.CalculatorLocatorImpl;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.about.CalculatorFragmentType;
 import org.solovyev.android.menu.AMenuItem;
@@ -58,17 +58,17 @@ public class CalculatorOperatorsFragment extends AbstractMathEntityListFragment<
     protected List<Operator> getMathEntities() {
         final List<Operator> result = new ArrayList<Operator>();
 
-        result.addAll(CalculatorLocatorImpl.getInstance().getEngine().getOperatorsRegistry().getEntities());
-        result.addAll(CalculatorLocatorImpl.getInstance().getEngine().getPostfixFunctionsRegistry().getEntities());
+        result.addAll(Locator.getInstance().getEngine().getOperatorsRegistry().getEntities());
+        result.addAll(Locator.getInstance().getEngine().getPostfixFunctionsRegistry().getEntities());
 
         return result;
     }
 
     @Override
     protected String getMathEntityCategory(@NotNull Operator operator) {
-        String result = CalculatorLocatorImpl.getInstance().getEngine().getOperatorsRegistry().getCategory(operator);
+        String result = Locator.getInstance().getEngine().getOperatorsRegistry().getCategory(operator);
         if (result == null) {
-            result = CalculatorLocatorImpl.getInstance().getEngine().getPostfixFunctionsRegistry().getCategory(operator);
+            result = Locator.getInstance().getEngine().getPostfixFunctionsRegistry().getCategory(operator);
         }
 
         return result;
@@ -80,9 +80,9 @@ public class CalculatorOperatorsFragment extends AbstractMathEntityListFragment<
 
         @Override
         public String getDescription(@NotNull Context context, @NotNull String mathEntityName) {
-            String result = CalculatorLocatorImpl.getInstance().getEngine().getOperatorsRegistry().getDescription(mathEntityName);
+            String result = Locator.getInstance().getEngine().getOperatorsRegistry().getDescription(mathEntityName);
             if (StringUtils.isEmpty(result)) {
-                result = CalculatorLocatorImpl.getInstance().getEngine().getPostfixFunctionsRegistry().getDescription(mathEntityName);
+                result = Locator.getInstance().getEngine().getPostfixFunctionsRegistry().getDescription(mathEntityName);
             }
 
             return result;
@@ -102,7 +102,7 @@ public class CalculatorOperatorsFragment extends AbstractMathEntityListFragment<
         use(R.string.c_use) {
             @Override
             public void onClick(@NotNull Operator data, @NotNull Context context) {
-                CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.use_operator, data);
+                Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.use_operator, data);
             }
         },
 

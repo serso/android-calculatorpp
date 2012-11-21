@@ -31,9 +31,9 @@ enum ConversionMenuItem implements AMenuItem<CalculatorDisplayViewState> {
         if (operation == JsclOperation.numeric) {
             if (generic.getConstants().isEmpty()) {
                 // conversion possible => return true
-                final NumeralBase fromNumeralBase = CalculatorLocatorImpl.getInstance().getEngine().getNumeralBase();
+                final NumeralBase fromNumeralBase = Locator.getInstance().getEngine().getNumeralBase();
                 if (fromNumeralBase != toNumeralBase) {
-                    result = CalculatorLocatorImpl.getInstance().getCalculator().isConversionPossible(generic, fromNumeralBase, this.toNumeralBase);
+                    result = Locator.getInstance().getCalculator().isConversionPossible(generic, fromNumeralBase, this.toNumeralBase);
                 }
             }
         }
@@ -46,7 +46,7 @@ enum ConversionMenuItem implements AMenuItem<CalculatorDisplayViewState> {
         final Generic result = data.getResult();
 
         if (result != null) {
-            CalculatorLocatorImpl.getInstance().getCalculator().convert(result, this.toNumeralBase);
+            Locator.getInstance().getCalculator().convert(result, this.toNumeralBase);
         }
     }
 }

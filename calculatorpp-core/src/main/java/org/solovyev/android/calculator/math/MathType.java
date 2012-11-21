@@ -10,7 +10,7 @@ import jscl.NumeralBase;
 import jscl.math.function.Constants;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.CalculatorLocatorImpl;
+import org.solovyev.android.calculator.Locator;
 import org.solovyev.common.JPredicate;
 import org.solovyev.common.StartsWithFinder;
 import org.solovyev.android.calculator.CalculatorParseException;
@@ -57,7 +57,7 @@ public enum MathType {
 		@NotNull
 		@Override
 		public List<String> getTokens() {
-			return CalculatorLocatorImpl.getInstance().getEngine().getPostfixFunctionsRegistry().getNames();
+			return Locator.getInstance().getEngine().getPostfixFunctionsRegistry().getNames();
 		}
 	},
 
@@ -101,7 +101,7 @@ public enum MathType {
 		@NotNull
 		@Override
 		public List<String> getTokens() {
-			return CalculatorLocatorImpl.getInstance().getEngine().getFunctionsRegistry().getNames();
+			return Locator.getInstance().getEngine().getFunctionsRegistry().getNames();
 		}
 	},
 
@@ -109,7 +109,7 @@ public enum MathType {
 		@NotNull
 		@Override
 		public List<String> getTokens() {
-			return CalculatorLocatorImpl.getInstance().getEngine().getOperatorsRegistry().getNames();
+			return Locator.getInstance().getEngine().getOperatorsRegistry().getNames();
 		}
 	},
 
@@ -117,7 +117,7 @@ public enum MathType {
 		@NotNull
 		@Override
 		public List<String> getTokens() {
-			return CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry().getNames();
+			return Locator.getInstance().getEngine().getVarsRegistry().getNames();
 		}
 
 		@Override

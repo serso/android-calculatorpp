@@ -12,7 +12,7 @@ import android.util.AttributeSet;
 import android.widget.TextView;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.CalculatorLocatorImpl;
+import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 
 /**
@@ -40,8 +40,8 @@ public class CalculatorAdditionalTitle extends TextView implements SharedPrefere
 
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences preferences, @Nullable String key) {
-		setText(((AndroidCalculatorEngine) CalculatorLocatorImpl.getInstance().getEngine()).getNumeralBaseFromPrefs(preferences)
+		setText(((AndroidCalculatorEngine) Locator.getInstance().getEngine()).getNumeralBaseFromPrefs(preferences)
                 + " / " +
-                ((AndroidCalculatorEngine) CalculatorLocatorImpl.getInstance().getEngine()).getAngleUnitsFromPrefs(preferences));
+                ((AndroidCalculatorEngine) Locator.getInstance().getEngine()).getAngleUnitsFromPrefs(preferences));
 	}
 }

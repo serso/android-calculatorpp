@@ -11,8 +11,8 @@ import org.solovyev.android.calculator.history.CalculatorHistory;
 public class AbstractCalculatorTest {
 
     protected void setUp() throws Exception {
-        CalculatorLocatorImpl.getInstance().init(new CalculatorImpl(), CalculatorTestUtils.newCalculatorEngine(), Mockito.mock(CalculatorClipboard.class), Mockito.mock(CalculatorNotifier.class), Mockito.mock(CalculatorHistory.class), new SystemOutCalculatorLogger(), Mockito.mock(CalculatorPreferenceService.class), Mockito.mock(CalculatorKeyboard.class));
-        CalculatorLocatorImpl.getInstance().getEngine().init();
+        Locator.getInstance().init(new CalculatorImpl(), CalculatorTestUtils.newCalculatorEngine(), Mockito.mock(CalculatorClipboard.class), Mockito.mock(CalculatorNotifier.class), Mockito.mock(CalculatorHistory.class), new SystemOutCalculatorLogger(), Mockito.mock(CalculatorPreferenceService.class), Mockito.mock(CalculatorKeyboard.class));
+        Locator.getInstance().getEngine().init();
     }
 
 }

@@ -45,12 +45,12 @@ public class VarEditDialogFragment extends DialogFragment implements CalculatorE
     public void onResume() {
         super.onResume();
 
-        CalculatorLocatorImpl.getInstance().getCalculator().addCalculatorEventListener(this);
+        Locator.getInstance().getCalculator().addCalculatorEventListener(this);
     }
 
     @Override
     public void onPause() {
-        CalculatorLocatorImpl.getInstance().getCalculator().removeCalculatorEventListener(this);
+        Locator.getInstance().getCalculator().removeCalculatorEventListener(this);
 
         super.onPause();
     }
@@ -110,7 +110,7 @@ public class VarEditDialogFragment extends DialogFragment implements CalculatorE
             }
         });
 
-        root.findViewById(R.id.save_button).setOnClickListener(new VarEditorSaver<IConstant>(varBuilder, constant, root, CalculatorLocatorImpl.getInstance().getEngine().getVarsRegistry(), this));
+        root.findViewById(R.id.save_button).setOnClickListener(new VarEditorSaver<IConstant>(varBuilder, constant, root, Locator.getInstance().getEngine().getVarsRegistry(), this));
 
         if ( constant == null ) {
             // CREATE MODE

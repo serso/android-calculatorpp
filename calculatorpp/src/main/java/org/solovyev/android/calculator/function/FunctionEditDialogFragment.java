@@ -103,7 +103,7 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
 			}
 		});
 
-		root.findViewById(R.id.save_button).setOnClickListener(new FunctionEditorSaver(builder, function, root, CalculatorLocatorImpl.getInstance().getEngine().getFunctionsRegistry(), this));
+		root.findViewById(R.id.save_button).setOnClickListener(new FunctionEditorSaver(builder, function, root, Locator.getInstance().getEngine().getFunctionsRegistry(), this));
 
 		if ( function == null ) {
 			// CREATE MODE
@@ -130,12 +130,12 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
     public void onResume() {
         super.onResume();
 
-        CalculatorLocatorImpl.getInstance().getCalculator().addCalculatorEventListener(this);
+        Locator.getInstance().getCalculator().addCalculatorEventListener(this);
     }
 
     @Override
     public void onPause() {
-        CalculatorLocatorImpl.getInstance().getCalculator().removeCalculatorEventListener(this);
+        Locator.getInstance().getCalculator().removeCalculatorEventListener(this);
 
         super.onPause();
     }

@@ -90,7 +90,7 @@ public abstract class AbstractCalculatorHelper implements SharedPreferences.OnSh
                 @Override
                 public boolean processDragEvent(@NotNull DragDirection dragDirection, @NotNull DragButton dragButton, @NotNull Point2d startPoint2d, @NotNull MotionEvent motionEvent) {
                     if (dragDirection == DragDirection.down) {
-                        CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_operators, null);
+                        Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_operators, null);
                         return true;
                     }
                     return false;
@@ -178,7 +178,7 @@ public abstract class AbstractCalculatorHelper implements SharedPreferences.OnSh
 
     @NotNull
     private Calculator getCalculator() {
-        return CalculatorLocatorImpl.getInstance().getCalculator();
+        return Locator.getInstance().getCalculator();
     }
 
 
@@ -212,7 +212,7 @@ public abstract class AbstractCalculatorHelper implements SharedPreferences.OnSh
 
     @NotNull
     private CalculatorKeyboard getKeyboard() {
-        return CalculatorLocatorImpl.getInstance().getKeyboard();
+        return Locator.getInstance().getKeyboard();
     }
 
     @Nullable

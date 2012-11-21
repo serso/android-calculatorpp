@@ -6,7 +6,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.solovyev.android.calculator.CalculatorDisplayViewStateImpl;
 import org.solovyev.android.calculator.CalculatorEditorViewStateImpl;
-import org.solovyev.android.calculator.CalculatorLocatorImpl;
+import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.CalculatorTestUtils;
 
 import java.util.List;
@@ -25,7 +25,7 @@ public class CalculatorHistoryImplTest {
 
     @Test
     public void testGetStates() throws Exception {
-        CalculatorHistory calculatorHistory = new CalculatorHistoryImpl(CalculatorLocatorImpl.getInstance().getCalculator());
+        CalculatorHistory calculatorHistory = new CalculatorHistoryImpl(Locator.getInstance().getCalculator());
 
         addState(calculatorHistory, "1");
         addState(calculatorHistory, "12");

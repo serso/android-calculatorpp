@@ -67,9 +67,9 @@ public class CalculatorFunctionsMathRegistry extends AbstractCalculatorMathRegis
 		}
 
 		if (editedInstance == null) {
-			CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.function_added, addedFunction, source);
+			Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.function_added, addedFunction, source);
 		} else {
-			CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.function_changed, ChangeImpl.newInstance(editedInstance, addedFunction), source);
+			Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.function_changed, ChangeImpl.newInstance(editedInstance, addedFunction), source);
 		}
 	}
 

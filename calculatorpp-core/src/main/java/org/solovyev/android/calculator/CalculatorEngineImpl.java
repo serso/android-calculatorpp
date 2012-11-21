@@ -165,7 +165,7 @@ public class CalculatorEngineImpl implements CalculatorEngine {
 
     @Override
     public void softReset() {
-        CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.engine_preferences_changed, null);
+        Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.engine_preferences_changed, null);
     }
 
     /*

@@ -4,9 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Parcelable;
 import org.jetbrains.annotations.NotNull;
+import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.CalculatorDisplayViewState;
 import org.solovyev.android.calculator.CalculatorEditorViewState;
-import org.solovyev.android.calculator.CalculatorLocatorImpl;
 import org.solovyev.common.MutableObject;
 
 /**
@@ -35,7 +35,7 @@ public class DefaultExternalCalculatorIntentHandler implements ExternalCalculato
     public void onIntent(@NotNull Context context, @NotNull Intent intent) {
 
         if (ExternalCalculatorHelper.EDITOR_STATE_CHANGED_ACTION.equals(intent.getAction())) {
-            CalculatorLocatorImpl.getInstance().getNotifier().showDebugMessage(TAG, "Editor state changed broadcast received!");
+            Locator.getInstance().getNotifier().showDebugMessage(TAG, "Editor state changed broadcast received!");
 
             final Long eventId = intent.getLongExtra(ExternalCalculatorHelper.EVENT_ID_EXTRA, 0L);
 
@@ -54,7 +54,7 @@ public class DefaultExternalCalculatorIntentHandler implements ExternalCalculato
                 }
             }
         } else if (ExternalCalculatorHelper.DISPLAY_STATE_CHANGED_ACTION.equals(intent.getAction())) {
-            CalculatorLocatorImpl.getInstance().getNotifier().showDebugMessage(TAG, "Display state changed broadcast received!");
+            Locator.getInstance().getNotifier().showDebugMessage(TAG, "Display state changed broadcast received!");
 
             final Long eventId = intent.getLongExtra(ExternalCalculatorHelper.EVENT_ID_EXTRA, 0L);
             boolean updateDisplay = false;
@@ -81,10 +81,10 @@ public class DefaultExternalCalculatorIntentHandler implements ExternalCalculato
     }
 
     protected void onDisplayStateChanged(@NotNull Context context, @NotNull CalculatorDisplayViewState displayViewState) {
-        updateState(context, CalculatorLocatorImpl.getInstance().getEditor().getViewState(), displayViewState);
+        updateState(context, Locator.getInstance().getEditor().getViewState(), displayViewState);
     }
 
     protected void onEditorStateChanged(@NotNull Context context, @NotNull CalculatorEditorViewState editorViewState) {
-        updateState(context, editorViewState, CalculatorLocatorImpl.getInstance().getDisplay().getViewState());
+        updateState(context, editorViewState, Locator.getInstance().getDisplay().getViewState());
     }
 }

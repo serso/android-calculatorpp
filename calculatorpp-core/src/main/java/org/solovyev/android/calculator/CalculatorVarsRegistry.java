@@ -55,9 +55,9 @@ public class CalculatorVarsRegistry extends AbstractCalculatorMathRegistry<ICons
         }
 
         if (editedInstance == null) {
-            CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.constant_added, addedVar, source);
+            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.constant_added, addedVar, source);
         } else {
-            CalculatorLocatorImpl.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.constant_changed, ChangeImpl.newInstance(editedInstance, addedVar), source);
+            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.constant_changed, ChangeImpl.newInstance(editedInstance, addedVar), source);
         }
     }
 

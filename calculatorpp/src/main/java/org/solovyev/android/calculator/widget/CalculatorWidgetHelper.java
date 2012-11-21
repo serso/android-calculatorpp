@@ -18,7 +18,7 @@ public class CalculatorWidgetHelper implements CalculatorEventListener {
     private final CalculatorEventHolder lastEvent = new CalculatorEventHolder(CalculatorUtils.createFirstEventDataId());
 
     public CalculatorWidgetHelper() {
-        CalculatorLocatorImpl.getInstance().getCalculator().addCalculatorEventListener(this);
+        Locator.getInstance().getCalculator().addCalculatorEventListener(this);
     }
 
     @Override
@@ -31,7 +31,7 @@ public class CalculatorWidgetHelper implements CalculatorEventListener {
                     final CalculatorEditorChangeEventData editorChangeData = (CalculatorEditorChangeEventData) data;
                     final CalculatorEditorViewState newEditorState = editorChangeData.getNewValue();
 
-                    CalculatorLocatorImpl.getInstance().getNotifier().showDebugMessage(TAG, "Editor state changed: " + newEditorState.getText());
+                    Locator.getInstance().getNotifier().showDebugMessage(TAG, "Editor state changed: " + newEditorState.getText());
 
                     ExternalCalculatorHelper.onEditorStateChanged(CalculatorApplication.getInstance(), calculatorEventData, newEditorState);
                     break;
@@ -40,7 +40,7 @@ public class CalculatorWidgetHelper implements CalculatorEventListener {
                     final CalculatorDisplayChangeEventData displayChangeData = (CalculatorDisplayChangeEventData) data;
                     final CalculatorDisplayViewState newDisplayState = displayChangeData.getNewValue();
 
-                    CalculatorLocatorImpl.getInstance().getNotifier().showDebugMessage(TAG, "Display state changed: " + newDisplayState.getText());
+                    Locator.getInstance().getNotifier().showDebugMessage(TAG, "Display state changed: " + newDisplayState.getText());
 
                     ExternalCalculatorHelper.onDisplayStateChanged(CalculatorApplication.getInstance(), calculatorEventData, newDisplayState);
                     break;

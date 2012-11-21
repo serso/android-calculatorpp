@@ -63,7 +63,7 @@ public class CalculatorFragmentHelperImpl extends AbstractCalculatorHelper imple
 
         if (listenersOnCreate) {
             if ( fragment instanceof CalculatorEventListener ) {
-                CalculatorLocatorImpl.getInstance().getCalculator().addCalculatorEventListener((CalculatorEventListener) fragment);
+                Locator.getInstance().getCalculator().addCalculatorEventListener((CalculatorEventListener) fragment);
             }
         }
     }
@@ -72,7 +72,7 @@ public class CalculatorFragmentHelperImpl extends AbstractCalculatorHelper imple
     public void onResume(@NotNull Fragment fragment) {
         if (!listenersOnCreate) {
             if ( fragment instanceof CalculatorEventListener ) {
-                CalculatorLocatorImpl.getInstance().getCalculator().addCalculatorEventListener((CalculatorEventListener) fragment);
+                Locator.getInstance().getCalculator().addCalculatorEventListener((CalculatorEventListener) fragment);
             }
         }
     }
@@ -81,7 +81,7 @@ public class CalculatorFragmentHelperImpl extends AbstractCalculatorHelper imple
     public void onPause(@NotNull Fragment fragment) {
         if (!listenersOnCreate) {
             if ( fragment instanceof CalculatorEventListener ) {
-                CalculatorLocatorImpl.getInstance().getCalculator().removeCalculatorEventListener((CalculatorEventListener) fragment);
+                Locator.getInstance().getCalculator().removeCalculatorEventListener((CalculatorEventListener) fragment);
             }
         }
     }
@@ -114,7 +114,7 @@ public class CalculatorFragmentHelperImpl extends AbstractCalculatorHelper imple
 
         if (listenersOnCreate) {
             if ( fragment instanceof CalculatorEventListener ) {
-                CalculatorLocatorImpl.getInstance().getCalculator().removeCalculatorEventListener((CalculatorEventListener) fragment);
+                Locator.getInstance().getCalculator().removeCalculatorEventListener((CalculatorEventListener) fragment);
             }
         }
 

@@ -152,10 +152,10 @@ public class CalculatorPlotFragment extends CalculatorFragment implements Calcul
             result = PreparedInput.newInstance(input, expression, variable, fromInputArgs, plotBoundaries);
         } catch (ParseException e) {
             result = PreparedInput.newErrorInstance(fromInputArgs);
-            CalculatorLocatorImpl.getInstance().getNotifier().showMessage(e);
+            Locator.getInstance().getNotifier().showMessage(e);
         } catch (CalculatorParseException e) {
             result = PreparedInput.newErrorInstance(fromInputArgs);
-            CalculatorLocatorImpl.getInstance().getNotifier().showMessage(e);
+            Locator.getInstance().getNotifier().showMessage(e);
         }
 
         return result;
@@ -184,7 +184,7 @@ public class CalculatorPlotFragment extends CalculatorFragment implements Calcul
         super.onViewCreated(view, savedInstanceState);
 
         if (input == null) {
-            this.preparedInput = prepareInputFromDisplay(CalculatorLocatorImpl.getInstance().getDisplay().getViewState(), savedInstanceState);
+            this.preparedInput = prepareInputFromDisplay(Locator.getInstance().getDisplay().getViewState(), savedInstanceState);
         } else {
             this.preparedInput = prepareInput(input, true, savedInstanceState);
         }

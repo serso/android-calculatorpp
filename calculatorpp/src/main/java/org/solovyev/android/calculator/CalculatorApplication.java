@@ -87,7 +87,7 @@ public class CalculatorApplication extends android.app.Application {
 
         final AndroidCalculator calculator = new AndroidCalculator(this);
 
-        CalculatorLocatorImpl.getInstance().init(calculator,
+        Locator.getInstance().init(calculator,
                 new AndroidCalculatorEngine(this),
                 new AndroidCalculatorClipboard(this),
                 new AndroidCalculatorNotifier(this),
@@ -96,11 +96,11 @@ public class CalculatorApplication extends android.app.Application {
                 new AndroidCalculatorPreferenceService(this),
                 new AndroidCalculatorKeyboard(this, new CalculatorKeyboardImpl(calculator)));
 
-        CalculatorLocatorImpl.getInstance().getCalculator().init();
+        Locator.getInstance().getCalculator().init();
 
         // in order to not to be garbage collected
         widgetHelper = new CalculatorWidgetHelper();
-        CalculatorLocatorImpl.getInstance().getCalculator().addCalculatorEventListener(widgetHelper);
+        Locator.getInstance().getCalculator().addCalculatorEventListener(widgetHelper);
 
         BillingDB.init(CalculatorApplication.this);
 
@@ -130,8 +130,8 @@ public class CalculatorApplication extends android.app.Application {
             }
         }).start();
 
-        CalculatorLocatorImpl.getInstance().getLogger().debug(TAG, "Application started!");
-        CalculatorLocatorImpl.getInstance().getNotifier().showDebugMessage(TAG, "Application started!");
+        Locator.getInstance().getLogger().debug(TAG, "Application started!");
+        Locator.getInstance().getNotifier().showDebugMessage(TAG, "Application started!");
     }
 
     private void setTheme(@NotNull SharedPreferences preferences) {

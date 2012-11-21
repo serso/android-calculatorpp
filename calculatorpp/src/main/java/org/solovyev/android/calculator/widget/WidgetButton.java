@@ -3,7 +3,7 @@ package org.solovyev.android.calculator.widget;
 import android.content.Context;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.CalculatorLocatorImpl;
+import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.CalculatorSpecialButton;
 import org.solovyev.android.calculator.R;
 
@@ -79,8 +79,8 @@ public enum WidgetButton {
     }
 
     public void onClick(@NotNull Context context) {
-        CalculatorLocatorImpl.getInstance().getNotifier().showDebugMessage("Calculator++ Widget", "Button pressed: " + text);
-        CalculatorLocatorImpl.getInstance().getKeyboard().buttonPressed(text);
+        Locator.getInstance().getNotifier().showDebugMessage("Calculator++ Widget", "Button pressed: " + text);
+        Locator.getInstance().getKeyboard().buttonPressed(text);
     }
 
     @Nullable

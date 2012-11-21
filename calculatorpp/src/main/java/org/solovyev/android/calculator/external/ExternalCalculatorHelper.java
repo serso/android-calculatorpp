@@ -42,7 +42,7 @@ public class ExternalCalculatorHelper {
             intent.putExtra(EVENT_ID_EXTRA, calculatorEventData.getEventId());
             intent.putExtra(EDITOR_STATE_EXTRA, (Parcelable) new ParcelableCalculatorEditorViewState(editorViewState));
             context.sendBroadcast(intent);
-            CalculatorLocatorImpl.getInstance().getNotifier().showDebugMessage(TAG, "Editor state changed broadcast sent");
+            Locator.getInstance().getNotifier().showDebugMessage(TAG, "Editor state changed broadcast sent");
         }
     }
 
@@ -55,7 +55,7 @@ public class ExternalCalculatorHelper {
             intent.putExtra(EVENT_ID_EXTRA, calculatorEventData.getEventId());
             intent.putExtra(DISPLAY_STATE_EXTRA, (Parcelable) new ParcelableCalculatorDisplayViewState(displayViewState));
             context.sendBroadcast(intent);
-            CalculatorLocatorImpl.getInstance().getNotifier().showDebugMessage(TAG, "Display state changed broadcast sent");
+            Locator.getInstance().getNotifier().showDebugMessage(TAG, "Display state changed broadcast sent");
         }
     }
 
