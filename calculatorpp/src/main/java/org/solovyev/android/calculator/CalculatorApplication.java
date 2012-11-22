@@ -1,6 +1,5 @@
 package org.solovyev.android.calculator;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import net.robotmedia.billing.BillingController;
@@ -13,7 +12,6 @@ import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.ads.AdsController;
 import org.solovyev.android.calculator.history.AndroidCalculatorHistory;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
-import org.solovyev.android.calculator.overlay.CalculatorOverlayService;
 import org.solovyev.android.calculator.widget.CalculatorWidgetHelper;
 
 /**
@@ -125,8 +123,6 @@ public class CalculatorApplication extends android.app.Application {
             public void run() {
                 BillingController.checkBillingSupported(CalculatorApplication.this);
                 AdsController.getInstance().isAdFree(CalculatorApplication.this);
-
-                startService(new Intent(getApplicationContext(), CalculatorOverlayService.class));
             }
         }).start();
 

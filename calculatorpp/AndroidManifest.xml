@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="auto" android:versionCode="110" android:versionName="1.5.1" package="org.solovyev.android.calculator">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="auto" android:versionCode="110" android:versionName="1.5.2-SNAPSHOT" package="org.solovyev.android.calculator">
 
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="com.android.vending.BILLING"/>
+
+    <!--TODO: REMOVE IN PRODUCTION-->
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
 
     <!-- for overlay -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
@@ -12,7 +15,7 @@
 
     <uses-sdk android:minSdkVersion="4" android:targetSdkVersion="8"/>
 
-    <application android:debuggable="false" android:hardwareAccelerated="false" android:icon="@drawable/icon" android:label="@string/c_app_name" android:name=".CalculatorApplication" android:theme="@style/cpp_metro_blue_theme">
+    <application android:debuggable="true" android:hardwareAccelerated="false" android:icon="@drawable/icon" android:label="@string/c_app_name" android:name=".CalculatorApplication" android:theme="@style/cpp_metro_blue_theme">
 
         <activity android:clearTaskOnLaunch="true" android:label="@string/c_app_name" android:name=".CalculatorActivity" android:windowSoftInputMode="adjustPan">
 
