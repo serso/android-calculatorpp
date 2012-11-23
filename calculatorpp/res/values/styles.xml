@@ -45,8 +45,10 @@
     </style>
 
     <style name="cpp_onscreen_editor_style" parent="cpp_editor_style">
-		<item name="android:ellipsize">none</item>
+		<item name="android:ellipsize">end</item>
 		<item name="android:singleLine">true</item>
+		<item name="android:maxLines">1</item>
+		<item name="android:minLines">1</item>
 		<item name="android:scrollbars">horizontal</item>
 	</style>
 

@@ -162,7 +162,10 @@ public class CalculatorOnscreenView {
                     button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            widgetButton.onClick(context);
+							widgetButton.onClick(context);
+							if ( widgetButton == WidgetButton.app ) {
+								minimize();
+							}
                         }
                     });
                     button.setOnLongClickListener(new View.OnLongClickListener() {
