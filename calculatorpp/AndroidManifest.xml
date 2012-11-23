@@ -55,7 +55,7 @@
 
 		<activity android:launchMode="singleInstance"
 				  android:label="@string/c_app_name_on_screen"
-				  android:name=".CalculatorOnScreenStartActivity">
+				  android:name=".CalculatorOnscreenStartActivity">
 
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"/>
@@ -66,15 +66,17 @@
 
         <service android:name=".onscreen.CalculatorOnscreenService">
             <intent-filter>
-                <action android:name="org.solovyev.calculator.widget.EDITOR_STATE_CHANGED"/>
-                <action android:name="org.solovyev.calculator.widget.DISPLAY_STATE_CHANGED"/>
+                <action android:name="org.solovyev.android.calculator.INIT"/>
+                <action android:name="org.solovyev.android.calculator.EDITOR_STATE_CHANGED"/>
+                <action android:name="org.solovyev.android.calculator.DISPLAY_STATE_CHANGED"/>
             </intent-filter>
         </service>
 
         <receiver android:name=".onscreen.CalculatorOnscreenBroadcastReceiver">
             <intent-filter>
-                <action android:name="org.solovyev.calculator.widget.EDITOR_STATE_CHANGED"/>
-                <action android:name="org.solovyev.calculator.widget.DISPLAY_STATE_CHANGED"/>
+				<action android:name="org.solovyev.android.calculator.INIT"/>
+				<action android:name="org.solovyev.android.calculator.EDITOR_STATE_CHANGED"/>
+                <action android:name="org.solovyev.android.calculator.DISPLAY_STATE_CHANGED"/>
             </intent-filter>
         </receiver>
 
@@ -84,10 +86,11 @@
 
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
-                <action android:name="org.solovyev.calculator.widget.EDITOR_STATE_CHANGED"/>
-                <action android:name="org.solovyev.calculator.widget.DISPLAY_STATE_CHANGED"/>
-                <action android:name="org.solovyev.calculator.widget.BUTTON_PRESSED"/>
-            </intent-filter>
+				<action android:name="org.solovyev.android.calculator.INIT"/>
+				<action android:name="org.solovyev.android.calculator.EDITOR_STATE_CHANGED"/>
+                <action android:name="org.solovyev.android.calculator.DISPLAY_STATE_CHANGED"/>
+                <action android:name="org.solovyev.android.calculator.widget.BUTTON_PRESSED"/>
+		</intent-filter>
 
             <meta-data android:name="android.appwidget.provider" android:resource="@xml/calculator_widget_info_3x3"/>
         </receiver>
@@ -96,9 +99,10 @@
 
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
-                <action android:name="org.solovyev.calculator.widget.EDITOR_STATE_CHANGED"/>
-                <action android:name="org.solovyev.calculator.widget.DISPLAY_STATE_CHANGED"/>
-                <action android:name="org.solovyev.calculator.widget.BUTTON_PRESSED"/>
+				<action android:name="org.solovyev.android.calculator.INIT"/>
+				<action android:name="org.solovyev.android.calculator.EDITOR_STATE_CHANGED"/>
+                <action android:name="org.solovyev.android.calculator.DISPLAY_STATE_CHANGED"/>
+                <action android:name="org.solovyev.android.calculator.widget.BUTTON_PRESSED"/>
             </intent-filter>
 
             <meta-data android:name="android.appwidget.provider" android:resource="@xml/calculator_widget_info_3x4"/>
@@ -108,9 +112,10 @@
 
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
-                <action android:name="org.solovyev.calculator.widget.EDITOR_STATE_CHANGED"/>
-                <action android:name="org.solovyev.calculator.widget.DISPLAY_STATE_CHANGED"/>
-                <action android:name="org.solovyev.calculator.widget.BUTTON_PRESSED"/>
+				<action android:name="org.solovyev.android.calculator.INIT"/>
+				<action android:name="org.solovyev.android.calculator.EDITOR_STATE_CHANGED"/>
+                <action android:name="org.solovyev.android.calculator.DISPLAY_STATE_CHANGED"/>
+                <action android:name="org.solovyev.android.calculator.widget.BUTTON_PRESSED"/>
             </intent-filter>
 
             <meta-data android:name="android.appwidget.provider" android:resource="@xml/calculator_widget_info_4x4"/>
@@ -120,9 +125,10 @@
 
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
-                <action android:name="org.solovyev.calculator.widget.EDITOR_STATE_CHANGED"/>
-                <action android:name="org.solovyev.calculator.widget.DISPLAY_STATE_CHANGED"/>
-                <action android:name="org.solovyev.calculator.widget.BUTTON_PRESSED"/>
+				<action android:name="org.solovyev.android.calculator.INIT"/>
+				<action android:name="org.solovyev.android.calculator.EDITOR_STATE_CHANGED"/>
+                <action android:name="org.solovyev.android.calculator.DISPLAY_STATE_CHANGED"/>
+                <action android:name="org.solovyev.android.calculator.widget.BUTTON_PRESSED"/>
             </intent-filter>
 
             <meta-data android:name="android.appwidget.provider" android:resource="@xml/calculator_widget_info_4x5"/>

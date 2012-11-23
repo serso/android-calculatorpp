@@ -39,9 +39,13 @@ public class AndroidExternalListenersContainer implements CalculatorExternalList
     */
 
     public static final String EVENT_ID_EXTRA = "eventId";
-    public static final String EDITOR_STATE_CHANGED_ACTION = "org.solovyev.calculator.widget.EDITOR_STATE_CHANGED";
+
+	public static final String INIT_ACTION = "org.solovyev.android.calculator.INIT";
+
+	public static final String EDITOR_STATE_CHANGED_ACTION = "org.solovyev.android.calculator.EDITOR_STATE_CHANGED";
     public static final String EDITOR_STATE_EXTRA = "editorState";
-    public static final String DISPLAY_STATE_CHANGED_ACTION = "org.solovyev.calculator.widget.DISPLAY_STATE_CHANGED";
+
+	public static final String DISPLAY_STATE_CHANGED_ACTION = "org.solovyev.android.calculator.DISPLAY_STATE_CHANGED";
     public static final String DISPLAY_STATE_EXTRA = "displayState";
 
     private static final String TAG = "Calculator++ External Listener Helper";

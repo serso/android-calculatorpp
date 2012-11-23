@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+              a:layout_width="match_parent"
+              a:layout_height="match_parent"
+              a:orientation="vertical">
+
+    <LinearLayout a:layout_weight="1"
+                  a:layout_width="match_parent"
+                  a:layout_height="0dp">
+
+        <include layout="@layout/widget_seven_digit_button"/>
+        <include layout="@layout/widget_eight_digit_button"/>
+        <include layout="@layout/widget_nine_digit_button"/>
+        <include layout="@layout/widget_multiplication_button"/>
+		<include layout="@layout/widget_erase_button"/>
+
+    </LinearLayout>
+
+    <LinearLayout a:layout_weight="1"
+                  a:layout_width="match_parent"
+                  a:layout_height="0dp">
+
+        <include layout="@layout/widget_four_digit_button"/>
+        <include layout="@layout/widget_five_digit_button"/>
+        <include layout="@layout/widget_six_digit_button"/>
+        <include layout="@layout/widget_division_button"/>
+		<include layout="@layout/widget_percent_button"/>
+
+	</LinearLayout>
+
+    <LinearLayout a:layout_weight="1"
+                  a:layout_width="match_parent"
+                  a:layout_height="0dp">
+
+        <include layout="@layout/widget_one_digit_button"/>
+        <include layout="@layout/widget_two_digit_button"/>
+        <include layout="@layout/widget_three_digit_button"/>
+        <include layout="@layout/widget_plus_button"/>
+		<include layout="@layout/widget_power_button"/>
+    </LinearLayout>
+
+    <LinearLayout a:layout_weight="1"
+                  a:layout_width="match_parent"
+                  a:layout_height="0dp">
+
+        <include layout="@layout/widget_round_brackets_button"/>
+        <include layout="@layout/widget_zero_digit_button"/>
+        <include layout="@layout/widget_dot_button"/>
+        <include layout="@layout/widget_subtraction_button"/>
+		<include layout="@layout/widget_app_button"/>
+
+	</LinearLayout>
+
+
+<!--    <LinearLayout a:layout_weight="1"
+                  a:layout_width="match_parent"
+                  a:layout_height="0dp">
+
+        <include layout="@layout/widget_left_button"/>
+        <include layout="@layout/widget_right_button"/>
+        <include layout="@layout/widget_vars_button"/>
+        <include layout="@layout/widget_functions_button"/>
+        <include layout="@layout/widget_app_button"/>
+        <include layout="@layout/widget_history_button"/>
+
+    </LinearLayout>-->
+
+</LinearLayout>

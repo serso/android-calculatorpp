@@ -4,9 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Parcelable;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.CalculatorDisplayViewState;
 import org.solovyev.android.calculator.CalculatorEditorViewState;
+import org.solovyev.android.calculator.Locator;
 import org.solovyev.common.MutableObject;
 
 /**
@@ -71,7 +71,9 @@ public class DefaultExternalCalculatorIntentHandler implements ExternalCalculato
                     onDisplayStateChanged(context, (CalculatorDisplayViewState) object);
                 }
             }
-        }
+        } else if ( AndroidExternalListenersContainer.INIT_ACTION.equals(intent.getAction()) ) {
+			updateState(context, Locator.getInstance().getEditor().getViewState(), Locator.getInstance().getDisplay().getViewState());
+		}
     }
 
     protected void updateState(@NotNull Context context,

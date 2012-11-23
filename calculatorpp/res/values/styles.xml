@@ -44,6 +44,12 @@
         <item name="android:textColor">@color/cpp_button_text_color</item>
     </style>
 
+    <style name="cpp_onscreen_editor_style" parent="cpp_editor_style">
+		<item name="android:ellipsize">none</item>
+		<item name="android:singleLine">true</item>
+		<item name="android:scrollbars">horizontal</item>
+	</style>
+
     <style name="cpp_editor_style" parent="cpp_default_text">
         <item name="android:gravity">left|top</item>
         <item name="android:layout_width">fill_parent</item>
@@ -65,6 +71,10 @@
     <style name="cpp_widget_editor_style" parent="cpp_editor_style">
         <item name="android:textSize">@dimen/cpp_widget_editor_text_size</item>
     </style>
+
+    <style name="cpp_onscreen_display_style" parent="cpp_display_style">
+		<item name="android:textSize">@dimen/cpp_onscreen_display_text_size</item>
+	</style>
 
     <style name="cpp_widget_display_style" parent="cpp_display_style">
         <item name="android:textSize">@dimen/cpp_widget_display_text_size</item>

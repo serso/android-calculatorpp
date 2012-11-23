@@ -53,7 +53,7 @@ public enum WidgetButton {
 
     /*last column*/
     clear(R.id.clearButton, CalculatorSpecialButton.clear),
-    erase(R.id.eraseButton, CalculatorSpecialButton.erase),
+    erase(R.id.eraseButton, CalculatorSpecialButton.erase, CalculatorSpecialButton.clear),
     copy(R.id.copyButton, CalculatorSpecialButton.copy),
     paste(R.id.pasteButton, CalculatorSpecialButton.paste),
 
@@ -64,23 +64,43 @@ public enum WidgetButton {
     private final int buttonId;
 
     @NotNull
-    private final String text;
+    private final String onClickText;
+
+	@Nullable
+	private final String onLongClickText;
 
     @NotNull
     private static Map<Integer, WidgetButton> buttonsByIds = new HashMap<Integer, WidgetButton>();
 
-    WidgetButton(int buttonId, @NotNull CalculatorSpecialButton button) {
-        this(buttonId, button.getActionCode());
+    WidgetButton(int buttonId, @NotNull CalculatorSpecialButton onClickButton, @Nullable CalculatorSpecialButton onLongClickButton) {
+		this(buttonId, onClickButton.getActionCode(), onLongClickButton == null ? null : onLongClickButton.getActionCode());
+	}
+
+    WidgetButton(int buttonId, @NotNull CalculatorSpecialButton onClickButton) {
+        this(buttonId, onClickButton, null);
     }
 
-    WidgetButton(int buttonId, @NotNull String text) {
-        this.buttonId = buttonId;
-        this.text = text;
+    WidgetButton(int buttonId, @NotNull String onClickText, @Nullable String onLongClickText) {
+		this.buttonId = buttonId;
+		this.onClickText = onClickText;
+		this.onLongClickText = onLongClickText;
+
+	}
+
+    WidgetButton(int buttonId, @NotNull String onClickText) {
+        this(buttonId, onClickText, null);
     }
+
+    public void onLongClick(@NotNull Context context) {
+		Locator.getInstance().getNotifier().showDebugMessage("Calculator++ Widget", "Button pressed: " + onLongClickText);
+		if (onLongClickText != null) {
+			Locator.getInstance().getKeyboard().buttonPressed(onLongClickText);
+		}
+	}
 
     public void onClick(@NotNull Context context) {
-        Locator.getInstance().getNotifier().showDebugMessage("Calculator++ Widget", "Button pressed: " + text);
-        Locator.getInstance().getKeyboard().buttonPressed(text);
+        Locator.getInstance().getNotifier().showDebugMessage("Calculator++ Widget", "Button pressed: " + onClickText);
+        Locator.getInstance().getKeyboard().buttonPressed(onClickText);
     }
 
     @Nullable

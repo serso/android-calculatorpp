@@ -169,16 +169,23 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
     }
 
     public synchronized void init(@NotNull Context context) {
-        if (!initialized) {
-            final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-            final CalculatorPreferences.Gui.Layout layout = CalculatorPreferences.Gui.getLayout(preferences);
-            if ( layout == CalculatorPreferences.Gui.Layout.main_calculator_mobile ) {
-                setTextSize(TypedValue.COMPLEX_UNIT_SP, getResources().getDimension(R.dimen.cpp_display_text_size_mobile));
-            }
-
-            this.setOnClickListener(new CalculatorDisplayOnClickListener(context));
-
-            this.initialized = true;
-        }
+		this.init(context, true);
     }
+
+	public synchronized void init(@NotNull Context context, boolean fromApp) {
+		if (!initialized) {
+			if (fromApp) {
+				final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+				final CalculatorPreferences.Gui.Layout layout = CalculatorPreferences.Gui.getLayout(preferences);
+
+				if ( layout == CalculatorPreferences.Gui.Layout.main_calculator_mobile ) {
+					setTextSize(TypedValue.COMPLEX_UNIT_SP, getResources().getDimension(R.dimen.cpp_display_text_size_mobile));
+				}
+
+				this.setOnClickListener(new CalculatorDisplayOnClickListener(context));
+			}
+
+			this.initialized = true;
+		}
+	}
 }

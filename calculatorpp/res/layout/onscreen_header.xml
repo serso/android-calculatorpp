@@ -9,24 +9,28 @@
 				  a:layout_height="match_parent"
 				  a:layout_alignParentRight="true">
 
-        <Button a:id="@+id/onscreen_fold_button"
+        <ImageButton a:id="@+id/onscreen_fold_button"
             style="@style/onscreen_header_button_style"
-            a:text="_"/>
+            a:src="@drawable/cpp_onscreen_button_fold"/>
 
-		<Button a:id="@+id/onscreen_minimize_button"
+		<ImageButton a:id="@+id/onscreen_minimize_button"
 				style="@style/onscreen_header_button_style"
-				a:text="_"/>
+				a:src="@drawable/cpp_onscreen_button_minimize"/>
 
-		<Button a:id="@+id/onscreen_close_button"
+		<ImageButton a:id="@+id/onscreen_close_button"
 				style="@style/onscreen_header_button_style"
-				a:text="x"/>
+				a:src="@drawable/cpp_onscreen_button_close"/>
 
 	</LinearLayout>
 
-	<TextView a:id="@+id/onscreen_title"
-			  a:text="@string/c_app_name"
-			  a:layout_width="match_parent"
-			  a:layout_height="match_parent"
-			  a:layout_toLeftOf="@id/onscreen_header_buttons"/>
+	<ImageView a:id="@+id/onscreen_title"
+			   a:layout_width="match_parent"
+			   a:layout_height="match_parent"
+			   a:src="@drawable/cpp_onscreen_header_logo"
+			   a:scaleType="fitStart"
+			   a:paddingLeft="6dp"
+			   a:paddingTop="2dp"
+			   a:paddingBottom="2dp"
+			   a:layout_toLeftOf="@id/onscreen_header_buttons"/>
 
 </RelativeLayout>

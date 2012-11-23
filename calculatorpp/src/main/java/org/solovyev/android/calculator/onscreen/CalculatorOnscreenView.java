@@ -2,13 +2,14 @@ package org.solovyev.android.calculator.onscreen;
 
 import android.content.Context;
 import android.graphics.PixelFormat;
-import android.text.Html;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.TextView;
+import android.widget.ImageView;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.calculator.AndroidCalculatorDisplayView;
+import org.solovyev.android.calculator.AndroidCalculatorEditorView;
 import org.solovyev.android.calculator.CalculatorDisplayViewState;
 import org.solovyev.android.calculator.CalculatorEditorViewState;
 import org.solovyev.android.calculator.R;
@@ -44,7 +45,16 @@ public class CalculatorOnscreenView {
     @NotNull
     private View content;
 
-    @NotNull
+	@NotNull
+	private View header;
+
+	@NotNull
+	private AndroidCalculatorEditorView editorView;
+
+	@NotNull
+	private AndroidCalculatorDisplayView displayView;
+
+	@NotNull
     private Context context;
 
     private int width;
@@ -115,33 +125,12 @@ public class CalculatorOnscreenView {
 
     public void updateDisplayState(@NotNull CalculatorDisplayViewState displayState) {
         checkInit();
-
-        final TextView calculatorDisplayView = (TextView) root.findViewById(R.id.calculator_display);
-        if (calculatorDisplayView != null) {
-            if (displayState.isValid()) {
-                calculatorDisplayView.setText(displayState.getText());
-                calculatorDisplayView.setTextColor(context.getResources().getColor(R.color.cpp_default_text_color));
-            } else {
-                calculatorDisplayView.setTextColor(context.getResources().getColor(R.color.cpp_display_error_text_color));
-            }
-        }
+		displayView.setState(displayState);
     }
 
     public void updateEditorState(@NotNull CalculatorEditorViewState editorState) {
         checkInit();
-        final TextView calculatorEditorView = (TextView) root.findViewById(R.id.calculator_editor);
-
-        if (calculatorEditorView != null) {
-            String text = editorState.getText();
-
-            CharSequence newText = text;
-            int selection = editorState.getSelection();
-            if (selection >= 0 && selection <= text.length()) {
-                // inject cursor
-                newText = Html.fromHtml(text.substring(0, selection) + "<font color=\"#" + cursorColor + "\">|</font>" + text.substring(selection));
-            }
-            calculatorEditorView.setText(newText);
-        }
+		editorView.setState(editorState);
     }
 
     private void setHeight(int height) {
@@ -176,12 +165,26 @@ public class CalculatorOnscreenView {
                             widgetButton.onClick(context);
                         }
                     });
+                    button.setOnLongClickListener(new View.OnLongClickListener() {
+						@Override
+						public boolean onLongClick(View v) {
+							widgetButton.onLongClick(context);
+							return true;
+						}
+					});
                 }
             }
 
             final WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
 
+			header = root.findViewById(R.id.onscreen_header);
             content = root.findViewById(R.id.onscreen_content);
+
+			displayView = (AndroidCalculatorDisplayView) root.findViewById(R.id.calculator_display);
+			displayView.init(this.context, false);
+
+			editorView = (AndroidCalculatorEditorView) root.findViewById(R.id.calculator_editor);
+			editorView.init(this.context);
 
             final View onscreenFoldButton = root.findViewById(R.id.onscreen_fold_button);
             onscreenFoldButton.setOnClickListener(new View.OnClickListener() {
@@ -210,8 +213,8 @@ public class CalculatorOnscreenView {
                 }
             });
 
-            final TextView onscreenTitleTextView = (TextView) root.findViewById(R.id.onscreen_title);
-            onscreenTitleTextView.setOnTouchListener(new WindowDragTouchListener(wm, root));
+            final ImageView onscreenTitleImageView = (ImageView) root.findViewById(R.id.onscreen_title);
+            onscreenTitleImageView.setOnTouchListener(new WindowDragTouchListener(wm, root));
 
             initialized = true;
         }
@@ -254,7 +257,7 @@ public class CalculatorOnscreenView {
         if (!folded) {
             final WindowManager.LayoutParams params = (WindowManager.LayoutParams) root.getLayoutParams();
             unfoldedHeight = params.height;
-            int newHeight = root.findViewById(R.id.onscreen_close_button).getHeight();
+            int newHeight = header.getHeight();
             content.setVisibility(View.GONE);
             setHeight(newHeight);
             folded = true;

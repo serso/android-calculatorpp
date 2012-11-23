@@ -26,7 +26,7 @@ import org.solovyev.android.calculator.external.ExternalCalculatorStateUpdater;
 abstract class AbstractCalculatorWidgetProvider extends AppWidgetProvider implements ExternalCalculatorStateUpdater {
 
     static final String BUTTON_ID_EXTRA = "buttonId";
-    static final String BUTTON_PRESSED_ACTION = "org.solovyev.calculator.widget.BUTTON_PRESSED";
+    static final String BUTTON_PRESSED_ACTION = "org.solovyev.android.calculator.widget.BUTTON_PRESSED";
 
     private static final String TAG = "Calculator++ Widget";
 

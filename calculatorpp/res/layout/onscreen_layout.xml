@@ -4,17 +4,16 @@
 			  a:orientation="vertical"
 			  style="@style/cpp_widget_main_layout_style">
 
-	<include layout="@layout/onscreen_header"/>
+	<include a:id="@+id/onscreen_header" layout="@layout/onscreen_header"/>
 
 	<LinearLayout a:id="@+id/onscreen_content"
 				  a:orientation="vertical"
 				  a:layout_width="match_parent"
 				  a:layout_height="match_parent">
 
-		<include layout="@layout/widget_editor"
-				 a:layout_weight="2"
+		<include layout="@layout/onscreen_editor"
 				 a:layout_width="match_parent"
-				 a:layout_height="0dp"/>
+				 a:layout_height="wrap_content"/>
 
 		<LinearLayout a:layout_weight="1"
 					  a:layout_width="match_parent"
@@ -26,15 +25,15 @@
 					 a:layout_width="0dp"
 					 a:layout_height="match_parent"/>
 
-			<include layout="@layout/widget_display"
-					 a:layout_weight="5"
+			<include layout="@layout/onscreen_display"
+					 a:layout_weight="4"
 					 a:layout_width="0dp"
 					 a:layout_height="wrap_content"/>
 
 		</LinearLayout>
 
-		<include layout="@layout/widget_keyboard"
-				 a:layout_weight="5"
+		<include layout="@layout/onscreen_keyboard"
+				 a:layout_weight="4"
 				 a:layout_width="match_parent"
 				 a:layout_height="0dp"/>
 	</LinearLayout>
