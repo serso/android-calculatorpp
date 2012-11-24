@@ -16,6 +16,6 @@ public class CalculatorPlotPreferenceActivity extends SherlockPreferenceActivity
         super.onCreate(savedInstanceState);
 
         //noinspection deprecation
-        addPreferencesFromResource(R.xml.plot_preferences);
+        addPreferencesFromResource(R.xml.preferences_plot);
     }
 }

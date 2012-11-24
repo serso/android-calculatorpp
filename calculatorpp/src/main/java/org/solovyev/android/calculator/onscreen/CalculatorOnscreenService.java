@@ -16,10 +16,7 @@ import org.solovyev.android.calculator.CalculatorDisplayViewState;
 import org.solovyev.android.calculator.CalculatorEditorViewState;
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.R;
-import org.solovyev.android.calculator.external.AndroidExternalListenersContainer;
-import org.solovyev.android.calculator.external.DefaultExternalCalculatorIntentHandler;
-import org.solovyev.android.calculator.external.ExternalCalculatorIntentHandler;
-import org.solovyev.android.calculator.external.ExternalCalculatorStateUpdater;
+import org.solovyev.android.calculator.external.*;
 
 /**
  * User: serso
@@ -32,6 +29,7 @@ public class CalculatorOnscreenService extends Service implements ExternalCalcul
 
     @NotNull
     private final ExternalCalculatorIntentHandler intentHandler = new DefaultExternalCalculatorIntentHandler(this);
+    public static final Class<CalculatorOnscreenBroadcastReceiver> INTENT_LISTENER_CLASS = CalculatorOnscreenBroadcastReceiver.class;
 
     @Nullable
     private static String cursorColor;
@@ -41,6 +39,8 @@ public class CalculatorOnscreenService extends Service implements ExternalCalcul
 
 	private boolean compatibilityStart = true;
 
+    private boolean viewCreated = false;
+
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -49,31 +49,37 @@ public class CalculatorOnscreenService extends Service implements ExternalCalcul
     @Override
     public void onCreate() {
         super.onCreate();
-
-        final WindowManager wm = ((WindowManager) this.getSystemService(Context.WINDOW_SERVICE));
-
-        final DisplayMetrics dm = getResources().getDisplayMetrics();
-
-        int twoThirdWidth = 2 * wm.getDefaultDisplay().getWidth() / 3;
-        int twoThirdHeight = 2 * wm.getDefaultDisplay().getHeight() / 3;
-
-		twoThirdWidth = Math.min(twoThirdWidth, twoThirdHeight);
-		twoThirdHeight = Math.max(twoThirdWidth, getHeight(twoThirdWidth));
-
-		final int baseWidth = AndroidUtils.toPixels(dm, 300);
-		final int width0 = Math.min(twoThirdWidth, baseWidth);
-        final int height0 = Math.min(twoThirdHeight, getHeight(baseWidth));
-
-        final int width = Math.min(width0, height0);
-        final int height = Math.max(width0, height0);
-
-        view = CalculatorOnscreenView.newInstance(this, CalculatorOnscreenViewDef.newInstance(width, height, -1, -1), getCursorColor(this), this);
-        view.show();
-
-        startCalculatorListening();
     }
 
-	private int getHeight(int width) {
+    private void createView() {
+        if (!viewCreated) {
+            final WindowManager wm = ((WindowManager) this.getSystemService(Context.WINDOW_SERVICE));
+
+            final DisplayMetrics dm = getResources().getDisplayMetrics();
+
+            int twoThirdWidth = 2 * wm.getDefaultDisplay().getWidth() / 3;
+            int twoThirdHeight = 2 * wm.getDefaultDisplay().getHeight() / 3;
+
+            twoThirdWidth = Math.min(twoThirdWidth, twoThirdHeight);
+            twoThirdHeight = Math.max(twoThirdWidth, getHeight(twoThirdWidth));
+
+            final int baseWidth = AndroidUtils.toPixels(dm, 300);
+            final int width0 = Math.min(twoThirdWidth, baseWidth);
+            final int height0 = Math.min(twoThirdHeight, getHeight(baseWidth));
+
+            final int width = Math.min(width0, height0);
+            final int height = Math.max(width0, height0);
+
+            view = CalculatorOnscreenView.newInstance(this, CalculatorOnscreenViewDef.newInstance(width, height, -1, -1), getCursorColor(this), this);
+            view.show();
+
+            startCalculatorListening();
+
+            viewCreated = true;
+        }
+    }
+
+    private int getHeight(int width) {
 		return 4 * width / 3;
 	}
 
@@ -82,8 +88,8 @@ public class CalculatorOnscreenService extends Service implements ExternalCalcul
     }
 
     @NotNull
-    private Class<?> getIntentListenerClass() {
-        return CalculatorOnscreenBroadcastReceiver.class;
+    private static Class<?> getIntentListenerClass() {
+        return INTENT_LISTENER_CLASS;
     }
 
     private void stopCalculatorListening() {
@@ -137,12 +143,30 @@ public class CalculatorOnscreenService extends Service implements ExternalCalcul
 
 	private void handleStart(@Nullable Intent intent) {
 		if ( intent != null ) {
-			intentHandler.onIntent(this, intent);
-		}
-		hideNotification();
+
+            if (isInitIntent(intent)) {
+
+                boolean createView = intent.getBooleanExtra(AndroidExternalListenersContainer.INIT_ACTION_CREATE_VIEW_EXTRA, false);
+                if (createView) {
+                    hideNotification();
+                    createView();
+                } else {
+                    showNotification();
+                }
+            }
+
+            if (viewCreated) {
+                intentHandler.onIntent(this, intent);
+            }
+
+        }
 	}
 
-	private void hideNotification() {
+    private boolean isInitIntent(@NotNull Intent intent) {
+        return intent.getAction().equals(AndroidExternalListenersContainer.INIT_ACTION);
+    }
+
+    private void hideNotification() {
         final NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         nm.cancel(NOTIFICATION_ID);
     }
@@ -164,12 +188,30 @@ public class CalculatorOnscreenService extends Service implements ExternalCalcul
         builder.setContentTitle(getText(R.string.c_app_name));
         builder.setContentText(getString(R.string.open_onscreen_calculator));
 
-        final Intent intent = new Intent(AndroidExternalListenersContainer.INIT_ACTION);
-        intent.setClass(this, getIntentListenerClass());
+        final Intent intent = createShowOnscreenViewIntent(this);
         builder.setContentIntent(PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT));
 
         final NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         nm.notify(NOTIFICATION_ID, builder.getNotification());
+    }
+
+    public static void showNotification(@NotNull Context context) {
+        final Intent intent = new Intent(AndroidExternalListenersContainer.INIT_ACTION);
+        intent.setClass(context, getIntentListenerClass());
+        context.sendBroadcast(intent);
+    }
+
+    public static void showOnscreenView(@NotNull Context context) {
+        final Intent intent = createShowOnscreenViewIntent(context);
+        context.sendBroadcast(intent);
+    }
+
+    @NotNull
+    private static Intent createShowOnscreenViewIntent(@NotNull Context context) {
+        final Intent intent = new Intent(AndroidExternalListenersContainer.INIT_ACTION);
+        intent.setClass(context, getIntentListenerClass());
+        intent.putExtra(AndroidExternalListenersContainer.INIT_ACTION_CREATE_VIEW_EXTRA, true);
+        return intent;
     }
 }
 

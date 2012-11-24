@@ -272,4 +272,8 @@
     <string name="c_app_widget_4x5_name">Calculator++ Widget (4x5)</string>
     <string name="open_onscreen_calculator">Click to open on-screen calculator</string>
 
+    <string name="prefs_onscreen_title">On-screen calculator settings</string>
+    <string name="prefs_onscreen_start_on_boot_title">Start on boot</string>
+    <string name="prefs_onscreen_start_on_boot_summary">If checked on-screen calculator will appear in notification bar after device boot</string>
+
 </resources>

@@ -9,8 +9,9 @@
     <!--TODO: REMOVE IN PRODUCTION-->
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
 
-    <!-- for overlay -->
+    <!-- for onscreen -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
 
     <uses-sdk android:minSdkVersion="4" android:targetSdkVersion="8"/>
@@ -78,6 +79,7 @@
         <receiver android:name=".onscreen.CalculatorOnscreenBroadcastReceiver">
             <intent-filter>
 				<action android:name="org.solovyev.android.calculator.INIT"/>
+				<action android:name="android.intent.action.BOOT_COMPLETED"/>
 				<action android:name="org.solovyev.android.calculator.EDITOR_STATE_CHANGED"/>
                 <action android:name="org.solovyev.android.calculator.DISPLAY_STATE_CHANGED"/>
             </intent-filter>

@@ -1,12 +1,9 @@
 package org.solovyev.android.calculator;
 
-import android.*;
-import android.Manifest;
 import android.app.Activity;
 import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -67,9 +64,7 @@ public abstract class AbstractCalculatorHelper implements SharedPreferences.OnSh
         preferences.registerOnSharedPreferenceChangeListener(this);
 
         // let's disable locking of screen for monkeyrunner
-        // NOTE: this code is only for monkeyrunner
-        final String permission = Manifest.permission.DISABLE_KEYGUARD;
-        if (activity.checkCallingOrSelfPermission(permission) == PackageManager.PERMISSION_GRANTED) {
+        if (CalculatorApplication.isMonkeyRunner(activity)) {
             final KeyguardManager km = (KeyguardManager) activity.getSystemService(Context.KEYGUARD_SERVICE);
             km.newKeyguardLock(activity.getClass().getName()).disableKeyguard();
         }

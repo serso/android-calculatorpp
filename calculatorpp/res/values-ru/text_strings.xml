@@ -271,4 +271,8 @@
     <string name="c_app_widget_4x5_name">Калькулятор++ Виджет (4x5)</string>
     <string name="open_onscreen_calculator">Нажмите чтобы открыть калькулятор поверх всех приложений</string>
 
+    <string name="prefs_onscreen_title">Настройки плавающего калькулятора</string>
+    <string name="prefs_onscreen_start_on_boot_title">Запуск после загрузки устройства</string>
+    <string name="prefs_onscreen_start_on_boot_summary">Если включено кнопка плавающего калькулятора будет доступна в панели уведомлений полсе загрузки устройства</string>
+
 </resources>

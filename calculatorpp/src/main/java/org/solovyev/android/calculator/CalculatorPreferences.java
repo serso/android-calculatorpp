@@ -28,6 +28,10 @@ public final class CalculatorPreferences {
     public static final Preference<Integer> appVersion = new IntegerPreference("application.version", -1);
     public static final Preference<Integer> appOpenedCounter = new IntegerPreference("app_opened_counter", 0);
 
+    public static class OnscreenCalculator {
+        public static final Preference<Boolean> startOnBoot = new BooleanPreference("onscreen_start_on_boot", false);
+    }
+
     public static class Calculations {
 
         public static final Preference<Boolean> calculateOnFly = new BooleanPreference("calculations_calculate_on_fly", true);

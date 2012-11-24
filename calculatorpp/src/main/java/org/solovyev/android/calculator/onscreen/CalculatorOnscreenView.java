@@ -8,11 +8,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.AndroidCalculatorDisplayView;
-import org.solovyev.android.calculator.AndroidCalculatorEditorView;
-import org.solovyev.android.calculator.CalculatorDisplayViewState;
-import org.solovyev.android.calculator.CalculatorEditorViewState;
-import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.widget.WidgetButton;
 
 /**
@@ -333,14 +329,45 @@ public class CalculatorOnscreenView {
 
     private static class WindowDragTouchListener implements View.OnTouchListener {
 
+        /*
+        **********************************************************************
+        *
+        *                           CONSTANTS
+        *
+        **********************************************************************
+        */
+
+        private static final float DIST_EPS = 10f;
+        private static final float DIST_MAX = 100f;
+        private static final long TIME_EPS = 100L;
+
+        /*
+        **********************************************************************
+        *
+        *                           FIELDS
+        *
+        **********************************************************************
+        */
+
+        @NotNull
         private final WindowManager wm;
 
         private float x0;
 
         private float y0;
 
+        private long time = 0;
+
         @NotNull
         private final View view;
+
+        /*
+        **********************************************************************
+        *
+        *                           CONSTRUCTORS
+        *
+        **********************************************************************
+        */
 
         public WindowDragTouchListener(@NotNull WindowManager wm,
                                        @NotNull View view) {
@@ -364,23 +391,57 @@ public class CalculatorOnscreenView {
                     return true;
 
                 case MotionEvent.ACTION_MOVE:
-                    final float Δx = x1 - x0;
-                    final float Δy = y1 - y0;
+                    final long currentTime = System.currentTimeMillis();
 
-                    final WindowManager.LayoutParams params = (WindowManager.LayoutParams) view.getLayoutParams();
-
-                    //Log.d(TAG, "0:" + toString(x0, y0) + ", 1: " + toString(x1, y1) + ", Δ: " + toString(Δx, Δy) + ", params: " + toString(params.x, params.y));
-
-                    params.x = (int) (params.x + Δx);
-                    params.y = (int) (params.y + Δy);
-
-                    wm.updateViewLayout(view, params);
-                    x0 = x1;
-                    y0 = y1;
+                    if ( currentTime - time >= TIME_EPS ) {
+                        time = currentTime;
+                        for (int i = 0; i < event.getHistorySize(); i++) {
+                            final float xi = event.getHistoricalX(i);
+                            final float yi = event.getHistoricalY(i);
+                            processMove(xi, yi);
+                        }
+                        processMove(x1, y1);
+                    }
                     return true;
             }
 
             return false;
+        }
+
+        private void processMove(float x1, float y1) {
+            final float Δx = x1 - x0;
+            final float Δy = y1 - y0;
+
+            final WindowManager.LayoutParams params = (WindowManager.LayoutParams) view.getLayoutParams();
+            //Log.d(TAG, "0:" + toString(x0, y0) + ", 1: " + toString(x1, y1) + ", Δ: " + toString(Δx, Δy) + ", params: " + toString(params.x, params.y));
+
+            boolean xInBounds = isDistanceInBounds(Δx);
+            boolean yInBounds = isDistanceInBounds(Δy);
+            if (xInBounds || yInBounds) {
+
+                if (xInBounds) {
+                    params.x = (int) (params.x + Δx);
+                }
+
+                if (yInBounds) {
+                    params.y = (int) (params.y + Δy);
+                }
+
+                wm.updateViewLayout(view, params);
+
+                if (xInBounds) {
+                    x0 = x1;
+                }
+
+                if (yInBounds) {
+                    y0 = y1;
+                }
+            }
+        }
+
+        private boolean isDistanceInBounds(float δx) {
+            δx = Math.abs(δx);
+            return δx >= DIST_EPS && δx < DIST_MAX;
         }
 
         @NotNull

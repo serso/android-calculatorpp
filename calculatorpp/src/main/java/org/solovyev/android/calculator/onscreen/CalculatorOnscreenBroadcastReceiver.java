@@ -3,7 +3,10 @@ package org.solovyev.android.calculator.onscreen;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import org.jetbrains.annotations.NotNull;
+import org.solovyev.android.calculator.CalculatorPreferences;
 
 /**
 * User: serso
@@ -18,8 +21,15 @@ public final class CalculatorOnscreenBroadcastReceiver extends BroadcastReceiver
     @Override
     public void onReceive(@NotNull Context context,
                           @NotNull Intent intent) {
-        final Intent newIntent = new Intent(intent);
-        newIntent.setClass(context, CalculatorOnscreenService.class);
-        context.startService(newIntent);
+        if ( intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED) ) {
+            final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+            if ( CalculatorPreferences.OnscreenCalculator.startOnBoot.getPreferenceNoError(preferences) ) {
+                CalculatorOnscreenService.showNotification(context);
+            }
+        } else {
+            final Intent newIntent = new Intent(intent);
+            newIntent.setClass(context, CalculatorOnscreenService.class);
+            context.startService(newIntent);
+        }
     }
 }

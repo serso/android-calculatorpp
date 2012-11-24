@@ -1,6 +1,8 @@
 package org.solovyev.android.calculator;
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.preference.PreferenceManager;
 import net.robotmedia.billing.BillingController;
 import net.robotmedia.billing.helper.DefaultBillingObserver;
@@ -13,7 +15,6 @@ import org.solovyev.android.ads.AdsController;
 import org.solovyev.android.calculator.external.AndroidExternalListenersContainer;
 import org.solovyev.android.calculator.history.AndroidCalculatorHistory;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
-import org.solovyev.android.calculator.widget.CalculatorWidgetHelper;
 
 /**
  * User: serso
@@ -59,6 +60,7 @@ public class CalculatorApplication extends android.app.Application {
     public CalculatorApplication() {
         instance = this;
     }
+
 
     /*
     **********************************************************************
@@ -160,4 +162,8 @@ public class CalculatorApplication extends android.app.Application {
         return instance;
     }
 
+    public static boolean isMonkeyRunner(@NotNull Context context) {
+        // NOTE: this code is only for monkeyrunner
+        return context.checkCallingOrSelfPermission(android.Manifest.permission.DISABLE_KEYGUARD) == PackageManager.PERMISSION_GRANTED;
+    }
 }

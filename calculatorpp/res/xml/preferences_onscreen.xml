@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:a="http://schemas.android.com/apk/res/android">
+
+    <PreferenceScreen a:title="@string/prefs_onscreen_title">
+
+        <org.solovyev.android.ads.AdViewPreference a:layout="@layout/admob_pref"/>
+
+        <android.preference.CheckBoxPreference
+                a:key="onscreen_start_on_boot"
+                a:title="@string/prefs_onscreen_start_on_boot_title"
+                a:summary="@string/prefs_onscreen_start_on_boot_summary"/>
+
+    </PreferenceScreen>
+
+</PreferenceScreen>

@@ -81,6 +81,12 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
         preferences.registerOnSharedPreferenceChangeListener(this);
 
         Locator.getInstance().getPreferenceService().checkPreferredPreferences(false);
+
+        if ( CalculatorApplication.isMonkeyRunner(this) ) {
+            Locator.getInstance().getKeyboard().buttonPressed("123");
+            Locator.getInstance().getKeyboard().buttonPressed("+");
+            Locator.getInstance().getKeyboard().buttonPressed("321");
+        }
     }
 
     @NotNull
@@ -100,35 +106,38 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 
         CalculatorPreferences.appVersion.putPreference(preferences, appVersion);
 
-        boolean dialogShown = false;
-        if (EqualsTool.areEqual(savedVersion, CalculatorPreferences.appVersion.getDefaultValue())) {
-            // new start
-            final AlertDialog.Builder builder = new AlertDialog.Builder(context).setMessage(R.string.c_first_start_text);
-            builder.setPositiveButton(android.R.string.ok, null);
-            builder.setTitle(R.string.c_first_start_text_title);
-            builder.create().show();
-            dialogShown = true;
-        } else {
-            if (savedVersion < appVersion) {
-                final boolean showReleaseNotes = CalculatorPreferences.Gui.showReleaseNotes.getPreference(preferences);
-                if (showReleaseNotes) {
-                    final String releaseNotes = CalculatorReleaseNotesFragment.getReleaseNotes(context, savedVersion + 1);
-                    if (!StringUtils.isEmpty(releaseNotes)) {
-                        final AlertDialog.Builder builder = new AlertDialog.Builder(context).setMessage(Html.fromHtml(releaseNotes));
-                        builder.setPositiveButton(android.R.string.ok, null);
-                        builder.setTitle(R.string.c_release_notes);
-                        builder.create().show();
-                        dialogShown = true;
+        if (!CalculatorApplication.isMonkeyRunner(context)) {
+
+            boolean dialogShown = false;
+            if (EqualsTool.areEqual(savedVersion, CalculatorPreferences.appVersion.getDefaultValue())) {
+                // new start
+                final AlertDialog.Builder builder = new AlertDialog.Builder(context).setMessage(R.string.c_first_start_text);
+                builder.setPositiveButton(android.R.string.ok, null);
+                builder.setTitle(R.string.c_first_start_text_title);
+                builder.create().show();
+                dialogShown = true;
+            } else {
+                if (savedVersion < appVersion) {
+                    final boolean showReleaseNotes = CalculatorPreferences.Gui.showReleaseNotes.getPreference(preferences);
+                    if (showReleaseNotes) {
+                        final String releaseNotes = CalculatorReleaseNotesFragment.getReleaseNotes(context, savedVersion + 1);
+                        if (!StringUtils.isEmpty(releaseNotes)) {
+                            final AlertDialog.Builder builder = new AlertDialog.Builder(context).setMessage(Html.fromHtml(releaseNotes));
+                            builder.setPositiveButton(android.R.string.ok, null);
+                            builder.setTitle(R.string.c_release_notes);
+                            builder.create().show();
+                            dialogShown = true;
+                        }
                     }
                 }
             }
-        }
 
 
-        //Log.d(this.getClass().getName(), "Application was opened " + appOpenedCounter + " time!");
-        if (!dialogShown) {
-            if (appOpenedCounter != null && appOpenedCounter > 10) {
-                dialogShown = showSpecialWindow(preferences, CalculatorPreferences.Gui.feedbackWindowShown, R.layout.feedback, R.id.feedbackText, context);
+            //Log.d(this.getClass().getName(), "Application was opened " + appOpenedCounter + " time!");
+            if (!dialogShown) {
+                if (appOpenedCounter != null && appOpenedCounter > 10) {
+                    dialogShown = showSpecialWindow(preferences, CalculatorPreferences.Gui.feedbackWindowShown, R.layout.feedback, R.id.feedbackText, context);
+                }
             }
         }
     }

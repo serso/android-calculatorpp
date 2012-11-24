@@ -41,6 +41,7 @@ public class AndroidExternalListenersContainer implements CalculatorExternalList
     public static final String EVENT_ID_EXTRA = "eventId";
 
 	public static final String INIT_ACTION = "org.solovyev.android.calculator.INIT";
+	public static final String INIT_ACTION_CREATE_VIEW_EXTRA = "createView";
 
 	public static final String EDITOR_STATE_CHANGED_ACTION = "org.solovyev.android.calculator.EDITOR_STATE_CHANGED";
     public static final String EDITOR_STATE_EXTRA = "editorState";
