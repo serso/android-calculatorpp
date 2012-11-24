@@ -13,6 +13,7 @@ import org.solovyev.android.ads.AdsController;
 import org.solovyev.android.calculator.external.AndroidExternalListenersContainer;
 import org.solovyev.android.calculator.history.AndroidCalculatorHistory;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
+import org.solovyev.android.calculator.widget.CalculatorWidgetHelper;
 
 /**
  * User: serso

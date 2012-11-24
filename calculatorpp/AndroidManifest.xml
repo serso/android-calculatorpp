@@ -6,7 +6,10 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="com.android.vending.BILLING"/>
 
-    <!-- for onscreen calculator -->
+    <!--TODO: REMOVE IN PRODUCTION-->
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
+
+    <!-- for overlay -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 
 
@@ -125,8 +128,8 @@
 
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
-				<action android:name="org.solovyev.android.calculator.INIT"/>
-				<action android:name="org.solovyev.android.calculator.EDITOR_STATE_CHANGED"/>
+                <action android:name="org.solovyev.android.calculator.INIT"/>
+                <action android:name="org.solovyev.android.calculator.EDITOR_STATE_CHANGED"/>
                 <action android:name="org.solovyev.android.calculator.DISPLAY_STATE_CHANGED"/>
                 <action android:name="org.solovyev.android.calculator.widget.BUTTON_PRESSED"/>
             </intent-filter>
