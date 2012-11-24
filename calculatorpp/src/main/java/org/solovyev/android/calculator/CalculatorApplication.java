@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import net.robotmedia.billing.BillingController;
 import net.robotmedia.billing.helper.DefaultBillingObserver;
 import net.robotmedia.billing.model.BillingDB;
@@ -118,6 +119,15 @@ public class CalculatorApplication extends android.app.Application {
             public void run() {
                 BillingController.checkBillingSupported(CalculatorApplication.this);
                 AdsController.getInstance().isAdFree(CalculatorApplication.this);
+
+                try {
+                    // prepare engine
+                    Locator.getInstance().getEngine().getMathEngine0().evaluate("1+1");
+                    Locator.getInstance().getEngine().getMathEngine0().evaluate("1*1");
+                } catch (Throwable e) {
+                    Log.e(TAG, e.getMessage(), e);
+                }
+
             }
         }).start();
 
