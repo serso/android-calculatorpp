@@ -12,7 +12,7 @@ print 'Screenshot will be located in ' + outFolder + ' with name ' + outFilename
 apk = '/home/serso/projects/java/android/calculatorpp/calculatorpp/target/calculatorpp.apk'
 package = 'org.solovyev.android.calculator'
 activity = 'org.solovyev.android.calculator.CalculatorActivity'
-deviceName = 'emulator-5554'
+deviceName = 'emulator-5580'
 
 def takeScreenshot (folder, filename):
     screenshot = device.takeSnapshot()
@@ -20,12 +20,9 @@ def takeScreenshot (folder, filename):
     return
 
 print 'Waiting for device ' + deviceName + '...'
-device = MonkeyRunner.waitForConnection(50, deviceName)
+device = MonkeyRunner.waitForConnection(100, deviceName)
 
 if device:
-    # unlock device
-    device.wake()
-    device.drag((130, 620), (500, 620), 1.0, 120)
 
     print 'Device found, removing application if any ' + package + '...'
     device.removePackage(package)
@@ -39,10 +36,11 @@ if device:
     device.startActivity(component=runComponent)
 
     # sleep while application will be loaded
-    MonkeyRunner.sleep(10);
+    MonkeyRunner.sleep(3);
 
     print 'Taking screenshot...'
-    takeScreenshot(outFolder, outFilename + '_' + str(time.time()) );
+    #outFilename = outFilename + '_' + str(time.time())
+    takeScreenshot(outFolder, outFilename);
 
     print 'Changing orientation...'
 

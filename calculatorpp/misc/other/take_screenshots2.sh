@@ -9,5 +9,5 @@ for name in ${names[@]}
 do
     $ANDROID_HOME/tools/emulator -avd $name &
     $ANDROID_HOME/tools/monkeyrunner ./take_screenshots.py ~/projects/java/android/calculatorpp/calculatorpp/misc/aux/tmp $name
-    $ANDROID_HOME/platform-tools/adb -s emulator-5554 emu kill
+    $ANDROID_HOME/platform-tools/adb -s emulator-5580 emu kill
 done

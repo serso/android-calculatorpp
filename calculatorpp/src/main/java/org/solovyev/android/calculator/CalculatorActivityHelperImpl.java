@@ -3,13 +3,17 @@ package org.solovyev.android.calculator;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import org.jetbrains.annotations.NotNull;
@@ -83,6 +87,7 @@ public class CalculatorActivityHelperImpl extends AbstractCalculatorHelper imple
         final View root = activity.findViewById(R.id.main_layout);
         if (root != null) {
             processButtons(activity, root);
+            addHelpInfo(activity, root);
         } else {
             Log.e(CalculatorActivityHelperImpl.class.getSimpleName(), "Root is null for " + activity.getClass().getName());
         }
@@ -248,5 +253,62 @@ public class CalculatorActivityHelperImpl extends AbstractCalculatorHelper imple
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
         selectedNavigationIndex = preferences.getInt(getSavedTabPreferenceName(activity), -1);
         restoreSavedTab(activity);
+    }
+
+    private void addHelpInfo(@NotNull Activity activity, @NotNull View root) {
+        if ( CalculatorApplication.isMonkeyRunner(activity) ) {
+            if ( root instanceof ViewGroup) {
+                final TextView helperTextView = new TextView(activity);
+
+                final DisplayMetrics dm = new DisplayMetrics();
+                activity.getWindowManager().getDefaultDisplay().getMetrics(dm);
+
+                helperTextView.setTextSize(AndroidUtils.toPixels(dm, 10));
+                helperTextView.setTextColor(Color.WHITE);
+
+                final Configuration c = activity.getResources().getConfiguration();
+
+                final StringBuilder helpText = new StringBuilder();
+                helpText.append("Size: ");
+                if (AndroidUtils.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_XLARGE, c)) {
+                    helpText.append("xlarge");
+                } else if (AndroidUtils.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_LARGE, c)) {
+                    helpText.append("large");
+                } else if (AndroidUtils.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_NORMAL, c)) {
+                    helpText.append("normal");
+                } else if (AndroidUtils.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_SMALL, c)) {
+                    helpText.append("small");
+                } else {
+                    helpText.append("unknown");
+                }
+
+                helpText.append(" (").append(dm.widthPixels).append("x").append(dm.heightPixels).append(")");
+
+                helpText.append(" Density: ");
+                switch(dm.densityDpi){
+                    case DisplayMetrics.DENSITY_LOW:
+                        helpText.append("ldpi");
+                        break;
+                    case DisplayMetrics.DENSITY_MEDIUM:
+                        helpText.append("mdpi");
+                        break;
+                    case DisplayMetrics.DENSITY_HIGH:
+                        helpText.append("hdpi");
+                        break;
+                    case DisplayMetrics.DENSITY_XHIGH:
+                        helpText.append("xhdpi");
+                        break;
+                    case DisplayMetrics.DENSITY_TV:
+                        helpText.append("tv");
+                        break;
+                }
+
+                helpText.append(" (").append(dm.densityDpi).append(")");
+
+                helperTextView.setText(helpText);
+
+                ((ViewGroup) root).addView(helperTextView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            }
+        }
     }
 }
