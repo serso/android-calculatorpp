@@ -9,7 +9,7 @@ outFilename = sys.argv[2]
 print ''
 print 'Screenshot will be located in ' + outFolder + ' with name ' + outFilename;
 
-apk = '/home/serso/projects/java/android/calculatorpp/calculatorpp/target/calculatorpp.apk'
+apk = '/home/serso/projects/java/android/calculatorpp/calculatorpp/misc/other/tmp/2012.11.25/calculatorpp.apk'
 package = 'org.solovyev.android.calculator'
 activity = 'org.solovyev.android.calculator.CalculatorActivity'
 mobileActivity = 'org.solovyev.android.calculator.CalculatorActivityMobile'
