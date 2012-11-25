@@ -12,7 +12,7 @@
     <groupId>org.solovyev.android</groupId>
     <artifactId>calculatorpp-parent</artifactId>
     <packaging>pom</packaging>
-    <version>1.5.2-SNAPSHOT</version>
+    <version>1.5.2-b-SNAPSHOT</version>
     <name>Calculator++</name>
 
     <scm>
