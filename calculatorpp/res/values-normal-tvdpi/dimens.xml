@@ -1,4 +1,4 @@
 <resources>
-    <dimen name="cpp_keyboard_button_text_size">25dp</dimen>
+    <dimen name="cpp_keyboard_button_text_size">33dp</dimen>
     <dimen name="cpp_keyboard_button_text_size_mobile">25dp</dimen>
 </resources>
