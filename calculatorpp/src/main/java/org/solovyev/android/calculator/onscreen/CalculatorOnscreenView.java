@@ -337,9 +337,9 @@ public class CalculatorOnscreenView {
         **********************************************************************
         */
 
-        private static final float DIST_EPS = 10f;
-        private static final float DIST_MAX = 100f;
-        private static final long TIME_EPS = 100L;
+        private static final float DIST_EPS = 0f;
+        private static final float DIST_MAX = 100000f;
+        private static final long TIME_EPS = 0L;
 
         /*
         **********************************************************************
