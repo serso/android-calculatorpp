@@ -40,7 +40,7 @@ public final class CalculatorButtons {
                                       @NotNull View root) {
         if ( layout == CalculatorPreferences.Gui.Layout.main_calculator_mobile ) {
 
-            final float textSize = root.getResources().getDimension(R.dimen.cpp_keyboard_button_text_size_mobile);
+            final float textSize = root.getContext().getResources().getDimension(R.dimen.cpp_keyboard_button_text_size_mobile);
 
             AndroidUtils.processViewsOfType(root, DragButton.class, new AndroidUtils.ViewProcessor<DragButton>() {
                 @Override

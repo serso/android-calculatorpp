@@ -12,6 +12,8 @@ print 'Screenshot will be located in ' + outFolder + ' with name ' + outFilename
 apk = '/home/serso/projects/java/android/calculatorpp/calculatorpp/target/calculatorpp.apk'
 package = 'org.solovyev.android.calculator'
 activity = 'org.solovyev.android.calculator.CalculatorActivity'
+mobileActivity = 'org.solovyev.android.calculator.CalculatorActivityMobile'
+operatorsActivity = 'org.solovyev.android.calculator.math.edit.CalculatorOperatorsActivity'
 deviceName = 'emulator-5580'
 
 def takeScreenshot (folder, filename):
@@ -36,13 +38,35 @@ if device:
     device.startActivity(component=runComponent)
 
     # sleep while application will be loaded
-    MonkeyRunner.sleep(3);
+    MonkeyRunner.sleep(15);
 
     print 'Taking screenshot...'
     #outFilename = outFilename + '_' + str(time.time())
     takeScreenshot(outFolder, outFilename);
 
-    print 'Changing orientation...'
+    runComponent = package + '/' + operatorsActivity
+
+    print 'Starting activity ' + runComponent + '...'
+    device.startActivity(component=runComponent)
+
+    # sleep while application will be loaded
+    MonkeyRunner.sleep(4);
+
+    print 'Taking screenshot...'
+    #outFilename = outFilename + '_' + str(time.time())
+    takeScreenshot(outFolder, outFilename + '_operators');
+
+    runComponent = package + '/' + mobileActivity
+
+    print 'Starting activity ' + runComponent + '...'
+    device.startActivity(component=runComponent)
+
+    # sleep while application will be loaded
+    MonkeyRunner.sleep(4);
+
+    print 'Taking screenshot...'
+    #outFilename = outFilename + '_' + str(time.time())
+    takeScreenshot(outFolder, outFilename + '_mobile');
 
     print '#########'
     print 'Finished!'

@@ -1,16 +1,10 @@
 <resources>
-    <dimen name="cpp_fragment_text_size">14sp</dimen>
-    <dimen name="cpp_fragment_title_text_size">20sp</dimen>
+    <dimen name="cpp_editor_text_size">25sp</dimen>
+    <dimen name="cpp_editor_text_size_mobile">45sp</dimen>
 
-    <dimen name="cpp_editor_text_size">20sp</dimen>
-    <dimen name="cpp_editor_text_size_mobile">35sp</dimen>
-
-    <dimen name="cpp_display_text_size">25sp</dimen>
+    <dimen name="cpp_display_text_size">20sp</dimen>
     <dimen name="cpp_display_text_size_mobile">35sp</dimen>
 
-    <dimen name="cpp_keyboard_button_text_size">30dp</dimen>
-    <dimen name="cpp_keyboard_button_text_size_mobile">30dp</dimen>
-
-    <dimen name="cpp_math_entity_text_size">18sp</dimen>
-    <dimen name="cpp_math_entity_description_text_size">14sp</dimen>
+    <dimen name="cpp_keyboard_button_text_size">35dp</dimen>
+    <dimen name="cpp_keyboard_button_text_size_mobile">45dp</dimen>
 </resources>

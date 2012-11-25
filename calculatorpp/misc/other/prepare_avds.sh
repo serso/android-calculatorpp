@@ -2,7 +2,7 @@
 
 
 declare -a densities=("160" "213" "240" "320")
-declare -a resolutions=("320x480" "480x640" "480x800" "480x854" "640x960" "1024x600" "1024x768" "1280x768")
+declare -a resolutions=("480x640" "480x800" "480x854" "640x960" "1024x600" "1024x768" "1280x768")
 declare -a targets=("android-16")
 
 for target in ${targets[@]}

@@ -263,7 +263,7 @@ public class CalculatorActivityHelperImpl extends AbstractCalculatorHelper imple
                 final DisplayMetrics dm = new DisplayMetrics();
                 activity.getWindowManager().getDefaultDisplay().getMetrics(dm);
 
-                helperTextView.setTextSize(AndroidUtils.toPixels(dm, 10));
+                helperTextView.setTextSize(15);
                 helperTextView.setTextColor(Color.WHITE);
 
                 final Configuration c = activity.getResources().getConfiguration();

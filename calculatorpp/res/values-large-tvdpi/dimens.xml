@@ -1,0 +1,10 @@
+<resources>
+    <dimen name="cpp_editor_text_size">30sp</dimen>
+    <dimen name="cpp_editor_text_size_mobile">40sp</dimen>
+
+    <dimen name="cpp_display_text_size">30sp</dimen>
+    <dimen name="cpp_display_text_size_mobile">35sp</dimen>
+
+    <dimen name="cpp_keyboard_button_text_size">33dp</dimen>
+    <dimen name="cpp_keyboard_button_text_size_mobile">30dp</dimen>
+</resources>

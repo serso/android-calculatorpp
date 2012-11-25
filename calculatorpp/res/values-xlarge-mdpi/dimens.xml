@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="cpp_editor_text_size">40sp</dimen>
+    <dimen name="cpp_editor_text_size_mobile">75sp</dimen>
+
+    <dimen name="cpp_display_text_size_mobile">75sp</dimen>
+    <dimen name="cpp_display_text_size">30sp</dimen>
+
+    <dimen name="cpp_keyboard_button_text_size">35dp</dimen>
+    <dimen name="cpp_keyboard_button_text_size_mobile">65dp</dimen>
+</resources>

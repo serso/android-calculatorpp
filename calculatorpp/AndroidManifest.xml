@@ -7,12 +7,17 @@
     <uses-permission android:name="com.android.vending.BILLING"/>
 
     <!--TODO: REMOVE IN PRODUCTION-->
-    <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
+    <!--<uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>-->
 
     <!-- for onscreen -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
+    <supports-screens android:smallScreens="true" />
+    <supports-screens android:normalScreens="true" />
+    <supports-screens android:largeScreens="true" />
+    <supports-screens android:xlargeScreens="true" />
+    <supports-screens android:anyDensity="true" />
 
     <uses-sdk android:minSdkVersion="4" android:targetSdkVersion="8"/>
 
@@ -26,6 +31,8 @@
             </intent-filter>
 
         </activity>
+
+        <activity android:clearTaskOnLaunch="true" android:label="@string/c_app_name" android:name=".CalculatorActivityMobile" android:windowSoftInputMode="adjustPan"/>
 
         <!-- settings must use action bar icon-->
         <activity android:icon="@drawable/ab_icon" android:label="@string/c_app_settings" android:name=".CalculatorPreferencesActivity"/>
