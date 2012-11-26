@@ -2,6 +2,7 @@ package org.solovyev.android.calculator.onscreen;
 
 import android.content.Context;
 import android.graphics.PixelFormat;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -385,7 +386,7 @@ public class CalculatorOnscreenView {
 
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    //Log.d(TAG, "0:" + toString(x0, y0) + ", 1: " + toString(x1, y1));
+                    Log.d(TAG, "0:" + toString(x0, y0) + ", 1: " + toString(x1, y1));
                     x0 = x1;
                     y0 = y1;
                     return true;
@@ -413,7 +414,7 @@ public class CalculatorOnscreenView {
             final float Δy = y1 - y0;
 
             final WindowManager.LayoutParams params = (WindowManager.LayoutParams) view.getLayoutParams();
-            //Log.d(TAG, "0:" + toString(x0, y0) + ", 1: " + toString(x1, y1) + ", Δ: " + toString(Δx, Δy) + ", params: " + toString(params.x, params.y));
+            Log.d(TAG, "0:" + toString(x0, y0) + ", 1: " + toString(x1, y1) + ", Δ: " + toString(Δx, Δy) + ", params: " + toString(params.x, params.y));
 
             boolean xInBounds = isDistanceInBounds(Δx);
             boolean yInBounds = isDistanceInBounds(Δy);
