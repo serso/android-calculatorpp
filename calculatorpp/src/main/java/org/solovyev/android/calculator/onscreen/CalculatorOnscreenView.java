@@ -338,9 +338,8 @@ public class CalculatorOnscreenView {
         **********************************************************************
         */
 
-        private static final float DIST_EPS = 0f;
-        private static final float DIST_MAX = 100000f;
-        private static final long TIME_EPS = 0L;
+        private static final float DIST_MIN = 0.5f;
+        private static final float DIST_MAX = 100f;
 
         /*
         **********************************************************************
@@ -356,8 +355,6 @@ public class CalculatorOnscreenView {
         private float x0;
 
         private float y0;
-
-        private long time = 0;
 
         @NotNull
         private final View view;
@@ -392,57 +389,43 @@ public class CalculatorOnscreenView {
                     return true;
 
                 case MotionEvent.ACTION_MOVE:
-                    final long currentTime = System.currentTimeMillis();
+                    for (int i = 0; i < event.getHistorySize(); i++) {
+                        final float xi = event.getHistoricalX(i);
+                        final float yi = event.getHistoricalY(i);
 
-                    if ( currentTime - time >= TIME_EPS ) {
-                        time = currentTime;
-                        for (int i = 0; i < event.getHistorySize(); i++) {
-                            final float xi = event.getHistoricalX(i);
-                            final float yi = event.getHistoricalY(i);
-                            processMove(xi, yi);
-                        }
-                        processMove(x1, y1);
+                        processMove(xi, yi, event.getHistoricalEventTime(i));
                     }
+                    processMove(x1, y1, event.getEventTime());
+
                     return true;
             }
 
             return false;
         }
 
-        private void processMove(float x1, float y1) {
+        private void processMove(float x1, float y1, long eventTime) {
             final float Δx = x1 - x0;
             final float Δy = y1 - y0;
 
             final WindowManager.LayoutParams params = (WindowManager.LayoutParams) view.getLayoutParams();
-            Log.d(TAG, "0:" + toString(x0, y0) + ", 1: " + toString(x1, y1) + ", Δ: " + toString(Δx, Δy) + ", params: " + toString(params.x, params.y));
+            Log.d(TAG, "0:" + toString(x0, y0) + ", 1: " + toString(x1, y1) + ", Δ: " + toString(Δx, Δy) + ", params: " + toString(params.x, params.y) + ", time: " + eventTime);
 
-            boolean xInBounds = isDistanceInBounds(Δx);
-            boolean yInBounds = isDistanceInBounds(Δy);
-            if (xInBounds || yInBounds) {
-
-                if (xInBounds) {
-                    params.x = (int) (params.x + Δx);
-                }
-
-                if (yInBounds) {
-                    params.y = (int) (params.y + Δy);
-                }
+            boolean xInBounds = isΔInBounds(Δx);
+            boolean yInBounds = isΔInBounds(Δy);
+            if (xInBounds && yInBounds) {
+                params.x = (int) (params.x + Δx);
+                params.y = (int) (params.y + Δy);
 
                 wm.updateViewLayout(view, params);
 
-                if (xInBounds) {
-                    x0 = x1;
-                }
-
-                if (yInBounds) {
-                    y0 = y1;
-                }
+                x0 = x1;
+                y0 = y1;
             }
         }
 
-        private boolean isDistanceInBounds(float δx) {
+        private boolean isΔInBounds(float δx) {
             δx = Math.abs(δx);
-            return δx >= DIST_EPS && δx < DIST_MAX;
+            return δx >= DIST_MIN && δx < DIST_MAX;
         }
 
         @NotNull
