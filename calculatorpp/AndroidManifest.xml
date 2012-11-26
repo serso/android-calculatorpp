@@ -65,6 +65,7 @@
         <!-- ONSCREEN CONFIG -->
 
 		<activity android:launchMode="singleInstance"
+                  android:icon="@drawable/icon_onscreen"
 				  android:label="@string/c_app_name_on_screen"
 				  android:name=".CalculatorOnscreenStartActivity">
 

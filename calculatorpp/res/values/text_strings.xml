@@ -8,7 +8,7 @@
 
 <resources>
 	<string name="c_app_name">Calculator++</string>
-	<string name="c_app_name_on_screen">Calculator++ (On Screen)</string>
+	<string name="c_app_name_on_screen">Calculator++ (Window mode)</string>
 	<string name="c_app_name_free">Calculator++ Free</string>
 	<string name="c_app_icon_name">Calc++</string>
     <string name="c_app_settings">Settings</string>
@@ -270,10 +270,10 @@
     <string name="c_app_widget_3x4_name">Calculator++ Widget (3x4)</string>
     <string name="c_app_widget_4x4_name">Calculator++ Widget (4x4)</string>
     <string name="c_app_widget_4x5_name">Calculator++ Widget (4x5)</string>
-    <string name="open_onscreen_calculator">Click to open on-screen calculator</string>
+    <string name="open_onscreen_calculator">Click to open calculator in window mode</string>
 
-    <string name="prefs_onscreen_title">On-screen calculator settings</string>
+    <string name="prefs_onscreen_title">Calculator (window mode) settings</string>
     <string name="prefs_onscreen_start_on_boot_title">Start on boot</string>
-    <string name="prefs_onscreen_start_on_boot_summary">If checked on-screen calculator will appear in notification bar after device boot</string>
+    <string name="prefs_onscreen_start_on_boot_summary">If checked Calculator++ will appear in notification bar after device boot</string>
 
 </resources>

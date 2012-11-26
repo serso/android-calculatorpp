@@ -8,7 +8,8 @@
 
 <resources>
 	<string name="c_app_name">Калькулятор++</string>
-	<string name="c_app_name_free">Калькулятор++ Free</string>
+    <string name="c_app_name_on_screen">Калькулятор++ (В отдельном окне)</string>
+    <string name="c_app_name_free">Калькулятор++ Free</string>
 	<string name="c_app_icon_name">Кальк++</string>
 	<string name="c_app_settings">Настройки</string>
 	<string name="c_syntax_error">Ошибка</string>
@@ -269,10 +270,10 @@
     <string name="c_app_widget_3x4_name">Калькулятор++ Виджет (3x4)</string>
     <string name="c_app_widget_4x4_name">Калькулятор++ Виджет (4x4)</string>
     <string name="c_app_widget_4x5_name">Калькулятор++ Виджет (4x5)</string>
-    <string name="open_onscreen_calculator">Нажмите чтобы открыть калькулятор поверх всех приложений</string>
+    <string name="open_onscreen_calculator">Нажмите чтобы открыть калькулятор в отдельном окне</string>
 
-    <string name="prefs_onscreen_title">Настройки плавающего калькулятора</string>
+    <string name="prefs_onscreen_title">Настройки калькулятора в отдельном окне</string>
     <string name="prefs_onscreen_start_on_boot_title">Запуск после загрузки устройства</string>
-    <string name="prefs_onscreen_start_on_boot_summary">Если включено кнопка плавающего калькулятора будет доступна в панели уведомлений полсе загрузки устройства</string>
+    <string name="prefs_onscreen_start_on_boot_summary">Если включено кнопка Калькулятора++ будет доступна в панели уведомлений полсе загрузки устройства</string>
 
 </resources>
