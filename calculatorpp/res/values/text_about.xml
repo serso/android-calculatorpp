@@ -239,4 +239,9 @@
         7. Bug fixes
     </string>
 
+    <string name="c_release_notes_for_111">
+        1. Calculator in separate window\n
+        2. UI is fixed for some devices
+    </string>
+
 </resources>
