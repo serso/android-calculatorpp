@@ -274,6 +274,6 @@
 
     <string name="prefs_onscreen_title">Calculator (window mode) settings</string>
     <string name="prefs_onscreen_start_on_boot_title">Start on boot</string>
-    <string name="prefs_onscreen_start_on_boot_summary">If checked Calculator++ will appear in notification bar after device boot</string>
+    <string name="prefs_onscreen_start_on_boot_summary">If turned on Calculator++ will appear in notification bar after device boot</string>
 
 </resources>

@@ -274,6 +274,6 @@
 
     <string name="prefs_onscreen_title">Настройки калькулятора в отдельном окне</string>
     <string name="prefs_onscreen_start_on_boot_title">Запуск после загрузки устройства</string>
-    <string name="prefs_onscreen_start_on_boot_summary">Если включено кнопка Калькулятора++ будет доступна в панели уведомлений полсе загрузки устройства</string>
+    <string name="prefs_onscreen_start_on_boot_summary">Если включено, то кнопка Калькулятора++ будет доступна в панели уведомлений после загрузки устройства</string>
 
 </resources>
