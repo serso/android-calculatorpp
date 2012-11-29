@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="auto" android:versionCode="110" android:versionName="1.5.1" package="org.solovyev.android.calculator">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="auto" android:versionCode="111" android:versionName="1.5.2-b" package="org.solovyev.android.calculator">
 
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -11,13 +11,13 @@
 
     <!-- for onscreen -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
-    <supports-screens android:smallScreens="true" />
-    <supports-screens android:normalScreens="true" />
-    <supports-screens android:largeScreens="true" />
-    <supports-screens android:xlargeScreens="true" />
-    <supports-screens android:anyDensity="true" />
+    <supports-screens android:smallScreens="true"/>
+    <supports-screens android:normalScreens="true"/>
+    <supports-screens android:largeScreens="true"/>
+    <supports-screens android:xlargeScreens="true"/>
+    <supports-screens android:anyDensity="true"/>
 
     <uses-sdk android:minSdkVersion="4" android:targetSdkVersion="8"/>
 
@@ -64,10 +64,7 @@
 
         <!-- ONSCREEN CONFIG -->
 
-		<activity android:launchMode="singleInstance"
-                  android:icon="@drawable/icon_onscreen"
-				  android:label="@string/c_app_name_on_screen"
-				  android:name=".CalculatorOnscreenStartActivity">
+		<activity android:icon="@drawable/icon_onscreen" android:label="@string/c_app_name_on_screen" android:launchMode="singleInstance" android:name=".CalculatorOnscreenStartActivity">
 
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"/>
