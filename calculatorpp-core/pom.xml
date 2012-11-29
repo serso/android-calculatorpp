@@ -5,12 +5,12 @@
     <parent>
         <groupId>org.solovyev.android</groupId>
         <artifactId>calculatorpp-parent</artifactId>
-        <version>1.5.2-SNAPSHOT</version>
+        <version>1.5.2</version>
     </parent>
 
     <groupId>org.solovyev.android</groupId>
     <artifactId>calculatorpp-core</artifactId>
-    <version>1.5.2-SNAPSHOT</version>
+    <version>1.5.2</version>
     <name>Calculator++ Application Core</name>
 
     <packaging>jar</packaging>
