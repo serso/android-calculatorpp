@@ -23,10 +23,10 @@
     </scm>
 
     <modules>
-        <module>app-android</module>
-        <module>app-android-core</module>
-        <module>app-android-widget</module>
-        <module>app-android-test</module>
+        <module>android-app</module>
+        <module>android-app-core</module>
+        <module>android-app-widget</module>
+        <module>android-app-test</module>
         <module>core</module>
     </modules>
 
@@ -47,7 +47,7 @@
 
 			<dependency>
 				<groupId>org.solovyev.android.calculator</groupId>
-				<artifactId>app-android-core</artifactId>
+				<artifactId>calculatorpp-android-app-core</artifactId>
 				<version>1.5.3-SNAPSHOT</version>
 			</dependency>
 
