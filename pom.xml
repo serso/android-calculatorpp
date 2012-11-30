@@ -46,9 +46,17 @@
 			</dependency>
 
 			<dependency>
-				<groupId>org.solovyev.android.calculator</groupId>
+				<groupId>org.solovyev.android</groupId>
 				<artifactId>calculatorpp-android-app-core</artifactId>
 				<version>1.5.3-SNAPSHOT</version>
+				<type>apklib</type>
+			</dependency>
+
+			<dependency>
+				<groupId>org.solovyev.android</groupId>
+				<artifactId>calculatorpp-android-app-widget</artifactId>
+				<version>1.5.3-SNAPSHOT</version>
+				<type>apklib</type>
 			</dependency>
 
 			<dependency>

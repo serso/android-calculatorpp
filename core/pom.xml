@@ -11,7 +11,7 @@
     <groupId>org.solovyev.android</groupId>
     <artifactId>calculatorpp-core</artifactId>
     <version>1.5.3-SNAPSHOT</version>
-    <name>Calculator++ Application Core</name>
+    <name>Calculator++ Core</name>
 
     <packaging>jar</packaging>
 

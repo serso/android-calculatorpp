@@ -24,8 +24,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.solovyev.android.calculator</groupId>
+			<groupId>org.solovyev.android</groupId>
 			<artifactId>calculatorpp-android-app-core</artifactId>
+			<type>apklib</type>
 		</dependency>
 
 	</dependencies>
