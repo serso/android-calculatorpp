@@ -21,8 +21,12 @@
         <dependency>
             <groupId>org.solovyev.android</groupId>
             <artifactId>calculatorpp-core</artifactId>
-            <version>1.5.3-SNAPSHOT</version>
         </dependency>
+
+		<dependency>
+			<groupId>org.solovyev.android.calculator</groupId>
+			<artifactId>app-android-core</artifactId>
+		</dependency>
 
         <dependency>
             <groupId>org.solovyev</groupId>

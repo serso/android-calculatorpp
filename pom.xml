@@ -24,6 +24,8 @@
 
     <modules>
         <module>app-android</module>
+        <module>app-android-core</module>
+        <module>app-android-widget</module>
         <module>app-android-test</module>
         <module>core</module>
     </modules>
@@ -37,7 +39,19 @@
     <dependencyManagement>
         <dependencies>
 
-            <dependency>
+			<dependency>
+				<groupId>org.solovyev.android</groupId>
+				<artifactId>calculatorpp-core</artifactId>
+				<version>1.5.3-SNAPSHOT</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.solovyev.android.calculator</groupId>
+				<artifactId>app-android-core</artifactId>
+				<version>1.5.3-SNAPSHOT</version>
+			</dependency>
+
+			<dependency>
                 <groupId>org.solovyev</groupId>
                 <artifactId>common-core</artifactId>
                 <version>${common.version}</version>
