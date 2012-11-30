@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="auto" android:versionCode="112" android:versionName="1.5.3-SNAPSHOT" package="org.solovyev.android.calculator">
+
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="com.android.vending.BILLING"/>
+
+    <!--TODO: REMOVE IN PRODUCTION-->
+    <!--<uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>-->
+
+    <!-- for onscreen -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
+    <supports-screens android:smallScreens="true"/>
+    <supports-screens android:normalScreens="true"/>
+    <supports-screens android:largeScreens="true"/>
+    <supports-screens android:xlargeScreens="true"/>
+    <supports-screens android:anyDensity="true"/>
+
+    <uses-sdk android:minSdkVersion="4" android:targetSdkVersion="8"/>
+
+    <application android:debuggable="true" android:hardwareAccelerated="false" android:icon="@drawable/icon" android:label="@string/c_app_name" android:name=".CalculatorApplication" android:theme="@style/cpp_metro_blue_theme">
+
+        <activity android:clearTaskOnLaunch="true" android:label="@string/c_app_name" android:name=".CalculatorActivity" android:windowSoftInputMode="adjustPan">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+
+        </activity>
+
+        <activity android:clearTaskOnLaunch="true" android:label="@string/c_app_name" android:name=".CalculatorActivityMobile" android:windowSoftInputMode="adjustPan"/>
+
+        <!-- settings must use action bar icon-->
+        <activity android:icon="@drawable/ab_icon" android:label="@string/c_app_settings" android:name=".CalculatorPreferencesActivity"/>
+
+        <activity android:label="@string/c_history" android:name=".history.CalculatorHistoryActivity"/>
+
+        <activity android:excludeFromRecents="true" android:finishOnTaskLaunch="true" android:label="@string/calculation_messages_dialog_title" android:launchMode="singleTask" android:name=".CalculatorMessagesDialog" android:theme="@style/Theme.Sherlock.Dialog"/>
+
+        <activity android:label="@string/c_about" android:name=".about.CalculatorAboutActivity"/>
+
+        <activity android:label="@string/c_help" android:name=".help.CalculatorHelpActivity"/>
+
+        <activity android:label="@string/c_functions" android:name=".math.edit.CalculatorFunctionsActivity"/>
+
+        <activity android:label="@string/c_operators" android:name=".math.edit.CalculatorOperatorsActivity"/>
+
+        <activity android:label="@string/c_vars_and_constants" android:name=".math.edit.CalculatorVarsActivity"/>
+
+        <activity android:label="@string/c_plot_graph" android:name=".plot.CalculatorPlotActivity"/>
+
+        <activity android:name=".widget.CalculatorWidgetConfigurationActivity" android:theme="@style/cpp_metro_blue_theme">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+            </intent-filter>
+        </activity>
+
+        <!-- settings must use action bar icon-->
+        <activity android:icon="@drawable/ab_icon" android:label="@string/c_settings" android:name=".plot.CalculatorPlotPreferenceActivity"/>
+
+        <!-- ONSCREEN CONFIG -->
+
+		<activity android:icon="@drawable/icon_onscreen" android:label="@string/c_app_name_on_screen" android:launchMode="singleInstance" android:name=".CalculatorOnscreenStartActivity">
+
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN"/>
+				<category android:name="android.intent.category.LAUNCHER"/>
+			</intent-filter>
+
+		</activity>
+
+        <service android:name=".onscreen.CalculatorOnscreenService">
+            <intent-filter>
+                <action android:name="org.solovyev.android.calculator.INIT"/>
+                <action android:name="org.solovyev.android.calculator.EDITOR_STATE_CHANGED"/>
+                <action android:name="org.solovyev.android.calculator.DISPLAY_STATE_CHANGED"/>
+            </intent-filter>
+        </service>
+
+        <receiver android:name=".onscreen.CalculatorOnscreenBroadcastReceiver">
+            <intent-filter>
+				<action android:name="org.solovyev.android.calculator.INIT"/>
+				<action android:name="android.intent.action.BOOT_COMPLETED"/>
+				<action android:name="org.solovyev.android.calculator.EDITOR_STATE_CHANGED"/>
+                <action android:name="org.solovyev.android.calculator.DISPLAY_STATE_CHANGED"/>
+            </intent-filter>
+        </receiver>
+
+        <!-- WIDGET CONFIG -->
+
+        <receiver android:icon="@drawable/icon" android:label="@string/c_app_widget_3x3_name" android:name=".widget.CalculatorWidgetProvider">
+
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+				<action android:name="org.solovyev.android.calculator.INIT"/>
+				<action android:name="org.solovyev.android.calculator.EDITOR_STATE_CHANGED"/>
+                <action android:name="org.solovyev.android.calculator.DISPLAY_STATE_CHANGED"/>
+                <action android:name="org.solovyev.android.calculator.widget.BUTTON_PRESSED"/>
+		</intent-filter>
+
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/calculator_widget_info_3x3"/>
+        </receiver>
+
+        <receiver android:icon="@drawable/icon" android:label="@string/c_app_widget_3x4_name" android:name=".widget.CalculatorWidgetProvider3x4">
+
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+				<action android:name="org.solovyev.android.calculator.INIT"/>
+				<action android:name="org.solovyev.android.calculator.EDITOR_STATE_CHANGED"/>
+                <action android:name="org.solovyev.android.calculator.DISPLAY_STATE_CHANGED"/>
+                <action android:name="org.solovyev.android.calculator.widget.BUTTON_PRESSED"/>
+            </intent-filter>
+
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/calculator_widget_info_3x4"/>
+        </receiver>
+
+        <receiver android:icon="@drawable/icon" android:label="@string/c_app_widget_4x4_name" android:name=".widget.CalculatorWidgetProvider4x4">
+
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+				<action android:name="org.solovyev.android.calculator.INIT"/>
+				<action android:name="org.solovyev.android.calculator.EDITOR_STATE_CHANGED"/>
+                <action android:name="org.solovyev.android.calculator.DISPLAY_STATE_CHANGED"/>
+                <action android:name="org.solovyev.android.calculator.widget.BUTTON_PRESSED"/>
+            </intent-filter>
+
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/calculator_widget_info_4x4"/>
+        </receiver>
+
+        <receiver android:icon="@drawable/icon" android:label="@string/c_app_widget_4x5_name" android:name=".widget.CalculatorWidgetProvider4x5">
+
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="org.solovyev.android.calculator.INIT"/>
+                <action android:name="org.solovyev.android.calculator.EDITOR_STATE_CHANGED"/>
+                <action android:name="org.solovyev.android.calculator.DISPLAY_STATE_CHANGED"/>
+                <action android:name="org.solovyev.android.calculator.widget.BUTTON_PRESSED"/>
+            </intent-filter>
+
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/calculator_widget_info_4x5"/>
+        </receiver>
+
+        <!-- ADMOB + BILLING CONFIG -->
+
+        <activity android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" android:name="com.google.ads.AdActivity"/>
+
+        <service android:name="net.robotmedia.billing.BillingService"/>
+        <receiver android:name="net.robotmedia.billing.BillingReceiver">
+            <intent-filter>
+                <action android:name="com.android.vending.billing.IN_APP_NOTIFY"/>
+                <action android:name="com.android.vending.billing.RESPONSE_CODE"/>
+                <action android:name="com.android.vending.billing.PURCHASE_STATE_CHANGED"/>
+            </intent-filter>
+        </receiver>
+
+        <!-- ACRA CONFIG -->
+
+        <activity android:excludeFromRecents="true" android:finishOnTaskLaunch="true" android:launchMode="singleInstance" android:name="org.acra.CrashReportDialog" android:theme="@style/Theme.Sherlock.Dialog"/>
+
+    </application>
+</manifest>

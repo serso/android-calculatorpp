@@ -23,9 +23,9 @@
     </scm>
 
     <modules>
-        <module>calculatorpp</module>
-        <module>calculatorpp-test</module>
-        <module>calculatorpp-core</module>
+        <module>app-android</module>
+        <module>app-android-test</module>
+        <module>core</module>
     </modules>
 
     <properties>

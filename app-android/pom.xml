@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.solovyev.android</groupId>
-    <artifactId>calculatorpp</artifactId>
+    <artifactId>calculatorpp-app-android</artifactId>
     <packaging>apk</packaging>
     <name>Calculator++ Application</name>
 
