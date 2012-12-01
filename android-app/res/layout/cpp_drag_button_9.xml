@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+  ~ For more information, please, contact se.solovyev@gmail.com
+  ~ or visit http://se.solovyev.org
+  -->
+
+<org.solovyev.android.view.drag.DirectionDragButton xmlns:a="http://schemas.android.com/apk/res/android"
+													   xmlns:c="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
+													   a:id="@id/cpp_button_9" a:text="9"
+													   c:textDown="e"
+													   c:textLeft="0x:"
+													   c:textUp="π"
+													   c:directionTextScale="0.5;0.5;0.5;0.33"
+													   style="?cpp_digit_button_style"
+													   a:onClick="digitButtonClickHandler"/>

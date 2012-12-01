@@ -1,0 +1,108 @@
+<!--
+  ~ Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+  ~ For more information, please, contact se.solovyev@gmail.com
+  ~ or visit http://se.solovyev.org
+  -->
+
+<resources>
+
+	<style name="cpp_window_title">
+        <item name="android:singleLine">true</item>
+        <item name="android:textAppearance">@style/cpp_text_appearance_window_title</item>
+        <item name="android:shadowColor">#BB000000</item>
+        <item name="android:shadowRadius">2.75</item>
+    </style>
+
+	<style name="cpp_text_appearance_window_title">
+        <item name="android:textColor">#fff</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
+	<style name="cpp_default_text_size">
+		<item name="android:textSize">@dimen/cpp_text_size</item>
+	</style>
+
+    <style name="cpp_button_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:focusable">true</item>
+        <item name="android:background">@drawable/metro_blue_button</item>
+        <item name="android:textSize">@dimen/cpp_button_text_size</item>
+        <item name="android:textColor">@color/cpp_button_text_color</item>
+    </style>
+
+    <style name="cpp_keyboard_button_style">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:focusable">true</item>
+        <item name="android:background">@drawable/metro_button_dark</item>
+        <item name="android:layout_margin">@dimen/cpp_button_margin</item>
+        <item name="android:textSize">@dimen/cpp_keyboard_button_text_size</item>
+        <item name="android:textColor">@color/cpp_button_text_color</item>
+    </style>
+
+    <style name="cpp_onscreen_editor_style" parent="cpp_editor_style">
+		<item name="android:ellipsize">end</item>
+		<item name="android:singleLine">true</item>
+		<item name="android:maxLines">1</item>
+		<item name="android:minLines">1</item>
+		<item name="android:scrollbars">horizontal</item>
+	</style>
+
+    <style name="cpp_editor_style" parent="cpp_default_text">
+        <item name="android:gravity">left|top</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:textSize">@dimen/cpp_editor_text_size</item>
+    </style>
+
+    <style name="cpp_editor_mobile_style" parent="cpp_editor_style">
+        <item name="android:textSize">@dimen/cpp_editor_text_size_mobile</item>
+    </style>
+
+    <style name="cpp_display_style" parent="cpp_default_text">
+        <item name="android:gravity">top|right</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textSize">@dimen/cpp_display_text_size</item>
+    </style>
+
+    <style name="cpp_onscreen_display_style" parent="cpp_display_style">
+		<item name="android:textSize">@dimen/cpp_onscreen_display_text_size</item>
+	</style>
+
+    <style name="cpp_about_style" parent="cpp_default_text">
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:textSize">@dimen/cpp_fragment_text_size</item>
+        <item name="android:padding">5dp</item>
+    </style>
+
+    <style name="cpp_default_text">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textColor">@color/cpp_default_text_color</item>
+    </style>
+
+
+
+    <style name="cpp_simple_metro_digit_button_style" parent="metro_digit_button_style">
+        <item name="android:textSize">@dimen/cpp_widget_keyboard_button_text_size</item>
+    </style>
+
+    <style name="cpp_simple_metro_control_button_style" parent="metro_control_button_style">
+        <item name="android:textSize">@dimen/cpp_widget_keyboard_button_text_size</item>
+    </style>
+
+    <style name="cpp_simple_metro_blue_operation_button_style" parent="metro_blue_operation_button_style">
+        <item name="android:textSize">@dimen/cpp_widget_keyboard_button_text_size</item>
+    </style>
+
+    <style name="cpp_simple_metro_control_image_button_style" parent="metro_control_image_button_style">
+        <item name="android:scaleType">center</item>
+    </style>
+
+</resources>

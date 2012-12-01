@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+  ~ For more information, please, contact se.solovyev@gmail.com
+  ~ or visit http://se.solovyev.org
+  -->
+<org.solovyev.android.view.drag.DirectionDragButton
+		xmlns:a="http://schemas.android.com/apk/res/android"
+		xmlns:c="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
+		a:id="@id/cpp_button_equals"
+		c:textUp="≡"
+		a:text="="
+		c:directionTextScale="0.5"
+		a:layout_width="fill_parent"
+		a:layout_height="fill_parent"
+		style="?cpp_control_button_style"
+		a:onClick="equalsButtonClickHandler"/>

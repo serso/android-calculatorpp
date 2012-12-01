@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+  ~ For more information, please, contact se.solovyev@gmail.com
+  ~ or visit http://se.solovyev.org
+  -->
+
+<resources>
+	<string name="p_drag_distance_key">org.solovyev.android.calculator.DragButtonCalibrationActivity_distance</string>
+	<string name="p_drag_distance">35;350</string>
+
+	<string name="p_drag_angle_key">org.solovyev.android.calculator.DragButtonCalibrationActivity_angle</string>
+	<string name="p_drag_angle">0;45</string>
+
+	<string name="p_drag_duration_key">org.solovyev.android.calculator.DragButtonCalibrationActivity_duration</string>
+	<string name="p_drag_duration">40;2500</string>
+
+	<string name="p_calc_result_precision_key">org.solovyev.android.calculator.CalculatorModel_result_precision</string>
+	<string name="p_calc_result_precision">5</string>
+
+	<string name="p_calc_max_calculation_time_key">calculation.max_calculation_time</string>
+	<string name="p_calc_max_calculation_time">5</string>
+
+	<string name="p_calc_color_display_key">org.solovyev.android.calculator.CalculatorModel_color_display</string>
+	<string name="p_calc_color_display">true</string>
+
+	<string name="p_calc_haptic_feedback_key">org.solovyev.android.calculator.CalculatorModel_haptic_feedback</string>
+	<string name="p_calc_haptic_feedback">false</string>
+
+	<string name="p_calc_use_back_button_as_prev_key">org.solovyev.android.calculator.CalculatorActivity_use_back_button_as_prev</string>
+	<string name="p_calc_use_back_button_as_prev">false</string>
+
+	<string name="p_clear_billing_info_key">clear_billing_info</string>
+
+	<string name="p_calc_show_release_notes_key">org.solovyev.android.calculator.CalculatorActivity_show_release_notes</string>
+	<string name="p_calc_show_release_notes">true</string>
+
+	<string name="p_calc_round_result_key">org.solovyev.android.calculator.CalculatorModel_round_result</string>
+	<string name="p_calc_round_result">true</string>
+
+	<string name="p_calc_science_notation_key">calculation.output.science_notation</string>
+	<string name="p_calc_science_notation">false</string>
+
+	<string name="p_calc_history">org.solovyev.android.calculator.CalculatorModel_history</string>
+
+	<string name="p_calc_angle_units_key">org.solovyev.android.calculator.CalculatorActivity_angle_units</string>
+	<string name="p_calc_angle_units">deg</string>
+
+	<string name="p_calc_numeral_bases_key">org.solovyev.android.calculator.CalculatorActivity_numeral_bases</string>
+	<string name="p_calc_numeral_bases">dec</string>
+
+	<string name="p_calc_theme_key">org.solovyev.android.calculator.CalculatorActivity_calc_theme</string>
+	<string name="p_calc_theme">default_theme</string>
+
+	<string name="p_calc_layout_key">org.solovyev.android.calculator.CalculatorActivity_calc_layout</string>
+	<string name="p_calc_layout">main_calculator</string>
+
+	<string name="p_calc_grouping_separator_key">org.solovyev.android.calculator.CalculatorActivity_calc_grouping_separator</string>
+	<string name="p_calc_grouping_separator">" "</string>
+
+	<string name="p_calc_multiplication_sign_key">org.solovyev.android.calculator.CalculatorActivity_calc_multiplication_sign</string>
+	<string name="p_calc_multiplication_sign">"×"</string>
+
+	<string name="p_calc_haptic_feedback_duration_key">org.solovyev.android.calculator.CalculatorActivity_calc_haptic_feedback_duration_key</string>
+	<string name="p_calc_haptic_feedback_duration">" "</string>
+
+	<string name="p_calc_ad_free_key">org.solovyev.android.calculator_ad_free</string>
+	<string name="p_calc_ad_free">false</string>
+
+</resources>

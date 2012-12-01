@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+  ~ For more information, please, contact se.solovyev@gmail.com
+  ~ or visit http://se.solovyev.org
+  -->
+
+<Button xmlns:a="http://schemas.android.com/apk/res/android"
+        a:id="@id/cpp_button_clear"
+        a:text="@string/c_clear"
+        a:textStyle="bold"
+        style="@style/cpp_simple_metro_control_button_style"/>
