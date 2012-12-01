@@ -2,6 +2,7 @@ package org.solovyev.android.calculator;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.preference.PreferenceManager;
@@ -16,6 +17,7 @@ import jscl.NumeralBase;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.AndroidUtils;
+import org.solovyev.android.calculator.matrix.CalculatorMatrixActivity;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 import org.solovyev.android.calculator.view.AngleUnitsButton;
 import org.solovyev.android.calculator.view.NumeralBasesButton;
@@ -133,6 +135,9 @@ public final class CalculatorButtons {
 
             if (dragDirection == DragDirection.up) {
                 CalculatorActivityLauncher.createVar(context, Locator.getInstance().getDisplay());
+                result = true;
+            } else if ( dragDirection == DragDirection.down ) {
+                context.startActivity(new Intent(context, CalculatorMatrixActivity.class));
                 result = true;
             }
 
