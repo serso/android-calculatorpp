@@ -7,7 +7,7 @@
   -->
 
 <ImageButton xmlns:a="http://schemas.android.com/apk/res/android"
-        a:id="@+id/copyButton"
-        a:src="@drawable/kb_copy"
-        style="@style/widget_metro_control_image_button_style"
-        a:contentDescription="Copy"/>
+        a:id="@+id/appButton"
+        a:src="@drawable/kb_logo"
+        style="@style/cpp_simple_metro_control_image_button_style"
+        a:contentDescription="App"/>

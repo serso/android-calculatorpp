@@ -13,7 +13,8 @@
         <include layout="@layout/cpp_simple_eight_digit_button"/>
         <include layout="@layout/cpp_simple_nine_digit_button"/>
         <include layout="@layout/cpp_simple_multiplication_button"/>
-		<include layout="@layout/cpp_simple_erase_button"/>
+        <include layout="@layout/cpp_simple_percent_button"/>
+        <include layout="@layout/cpp_simple_clear_button"/>
 
     </LinearLayout>
 
@@ -25,9 +26,10 @@
         <include layout="@layout/cpp_simple_five_digit_button"/>
         <include layout="@layout/cpp_simple_six_digit_button"/>
         <include layout="@layout/cpp_simple_division_button"/>
-		<include layout="@layout/cpp_simple_percent_button"/>
+        <include layout="@layout/cpp_simple_power_button"/>
+        <include layout="@layout/cpp_simple_erase_button"/>
 
-	</LinearLayout>
+    </LinearLayout>
 
     <LinearLayout a:layout_weight="1"
                   a:layout_width="match_parent"
@@ -37,7 +39,9 @@
         <include layout="@layout/cpp_simple_two_digit_button"/>
         <include layout="@layout/cpp_simple_three_digit_button"/>
         <include layout="@layout/cpp_simple_plus_button"/>
-		<include layout="@layout/cpp_simple_power_button"/>
+        <include layout="@layout/cpp_simple_like_button"/>
+        <include layout="@layout/cpp_simple_copy_button"/>
+
     </LinearLayout>
 
     <LinearLayout a:layout_weight="1"
@@ -48,22 +52,23 @@
         <include layout="@layout/cpp_simple_zero_digit_button"/>
         <include layout="@layout/cpp_simple_dot_button"/>
         <include layout="@layout/cpp_simple_subtraction_button"/>
-		<include layout="@layout/cpp_simple_app_button"/>
+        <include layout="@layout/cpp_simple_settings_button"/>
+        <include layout="@layout/cpp_simple_paste_button"/>
 
-	</LinearLayout>
+    </LinearLayout>
 
 
-<!--    <LinearLayout a:layout_weight="1"
+    <LinearLayout a:layout_weight="1"
                   a:layout_width="match_parent"
                   a:layout_height="0dp">
 
-        <include layout="@layout/widget_left_button"/>
-        <include layout="@layout/widget_right_button"/>
-        <include layout="@layout/widget_vars_button"/>
-        <include layout="@layout/widget_functions_button"/>
-        <include layout="@layout/widget_app_button"/>
-        <include layout="@layout/widget_history_button"/>
+        <include layout="@layout/cpp_simple_left_button"/>
+        <include layout="@layout/cpp_simple_right_button"/>
+        <include layout="@layout/cpp_simple_vars_button"/>
+        <include layout="@layout/cpp_simple_functions_button"/>
+        <include layout="@layout/cpp_simple_app_button"/>
+        <include layout="@layout/cpp_simple_history_button"/>
 
-    </LinearLayout>-->
+    </LinearLayout>
 
 </LinearLayout>

@@ -15,7 +15,7 @@
                   a:layout_width="match_parent"
                   a:layout_height="0dp">
 
-        <include layout="@layout/widget_equals_button"
+        <include layout="@layout/cpp_simple_equals_button"
                  a:layout_margin="@dimen/cpp_button_margin"
                  a:layout_weight="1"
                  a:layout_width="0dp"
@@ -28,7 +28,7 @@
 
     </LinearLayout>
 
-    <include layout="@layout/widget_keyboard"
+    <include layout="@layout/cpp_simple_keyboard"
              a:layout_weight="5"
              a:layout_width="match_parent"
              a:layout_height="0dp"/>

@@ -7,7 +7,7 @@
   -->
 
 <ImageButton xmlns:a="http://schemas.android.com/apk/res/android"
-        a:id="@+id/likeButton"
-        a:src="@drawable/kb_facebook"
-        style="@style/widget_metro_control_image_button_style"
-        a:contentDescription="Like"/>
+        a:id="@+id/settingsButton"
+        a:src="@drawable/kb_settings"
+        style="@style/cpp_simple_metro_control_image_button_style"
+        a:contentDescription="Settings"/>

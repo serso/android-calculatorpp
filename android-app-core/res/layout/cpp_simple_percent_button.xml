@@ -7,6 +7,6 @@
   -->
 
 <Button xmlns:a="http://schemas.android.com/apk/res/android"
-        a:id="@+id/sixDigitButton"
-        a:text="6"
-        style="@style/widget_metro_digit_button_style"/>
+        a:id="@+id/percentButton"
+        a:text="%"
+        style="@style/cpp_simple_metro_blue_operation_button_style"/>
