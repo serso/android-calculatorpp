@@ -17,6 +17,9 @@ import org.solovyev.android.calculator.external.AndroidExternalListenersContaine
 import org.solovyev.android.calculator.history.AndroidCalculatorHistory;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * User: serso
  * Date: 12/1/11
@@ -50,6 +53,17 @@ public class CalculatorApplication extends android.app.Application {
 
     @NotNull
     private static CalculatorApplication instance;
+
+    /*
+    **********************************************************************
+    *
+    *                           FIELDS
+    *
+    **********************************************************************
+    */
+
+    private final List<CalculatorEventListener> listeners = new ArrayList<CalculatorEventListener>();
+
     /*
     **********************************************************************
     *
@@ -132,6 +146,12 @@ public class CalculatorApplication extends android.app.Application {
 
             }
         }).start();
+
+        listeners.add(new CalculatorActivityLauncher());
+
+        for (CalculatorEventListener listener : listeners) {
+            calculator.addCalculatorEventListener(listener);
+        }
 
         Locator.getInstance().getLogger().debug(TAG, "Application started!");
         Locator.getInstance().getNotifier().showDebugMessage(TAG, "Application started!");

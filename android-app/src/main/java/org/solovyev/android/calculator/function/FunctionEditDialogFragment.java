@@ -167,6 +167,7 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
             FunctionEditDialogFragment.showDialog(input, ((SherlockFragmentActivity) context).getSupportFragmentManager());
         } else {
             final Intent intent = new Intent(context, CalculatorFunctionsActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra(CalculatorFunctionsFragment.CREATE_FUNCTION_EXTRA, input);
             context.startActivity(intent);
         }

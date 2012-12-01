@@ -2,6 +2,7 @@ package org.solovyev.android.calculator;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,6 +22,7 @@ import org.solovyev.android.calculator.function.FunctionEditDialogFragment;
 import org.solovyev.android.calculator.help.CalculatorHelpActivity;
 import org.solovyev.android.calculator.history.CalculatorHistoryActivity;
 import org.solovyev.android.calculator.math.edit.*;
+import org.solovyev.android.calculator.matrix.CalculatorMatrixActivity;
 import org.solovyev.android.calculator.plot.CalculatorPlotActivity;
 import org.solovyev.android.calculator.plot.CalculatorPlotFragment;
 import org.solovyev.android.calculator.plot.PlotInput;
@@ -113,6 +115,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
 		intent.putExtra(ChartFactory.TITLE, context.getString(R.string.c_graph));
 		intent.putExtra(CalculatorPlotFragment.INPUT, new CalculatorPlotFragment.Input(generic.toString(), constant.getName()));
 		intent.setClass(context, CalculatorPlotActivity.class);
+        addFlags(intent, false);
 		context.startActivity(intent);
 	}
 
@@ -127,6 +130,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
                     } else {
                         final Intent intent = new Intent(context, CalculatorVarsActivity.class);
                         intent.putExtra(CalculatorVarsFragment.CREATE_VAR_EXTRA_STRING, varValue);
+                        addFlags(intent, false);
                         context.startActivity(intent);
                     }
                 } else {
@@ -179,12 +183,24 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
 
     @Override
     public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
+        final Application application = App.getInstance().getApplication();
+
         switch (calculatorEventType){
+            case show_create_matrix_dialog:
+                App.getInstance().getUiThreadExecutor().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        final Intent intent = new Intent(application, CalculatorMatrixActivity.class);
+                        addFlags(intent, false);
+                        application.startActivity(intent);
+                    }
+                });
+                break;
             case show_create_var_dialog:
                 App.getInstance().getUiThreadExecutor().execute(new Runnable() {
                     @Override
                     public void run() {
-                        CalculatorActivityLauncher.createVar(App.getInstance().getApplication(), Locator.getInstance().getDisplay());
+                        CalculatorActivityLauncher.createVar(application, Locator.getInstance().getDisplay());
                     }
                 });
                 break;
@@ -192,7 +208,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
                 App.getInstance().getUiThreadExecutor().execute(new Runnable() {
                     @Override
                     public void run() {
-                        CalculatorActivityLauncher.createFunction(App.getInstance().getApplication(), Locator.getInstance().getDisplay());
+                        CalculatorActivityLauncher.createFunction(application, Locator.getInstance().getDisplay());
                     }
                 });
                 break;
@@ -202,7 +218,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
                 App.getInstance().getUiThreadExecutor().execute(new Runnable() {
                     @Override
                     public void run() {
-                        plotGraph(App.getInstance().getApplication(), plotInput.getFunction(), plotInput.getConstant());
+                        plotGraph(application, plotInput.getFunction(), plotInput.getConstant());
                     }
                 });
                 break;
@@ -212,7 +228,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
                     App.getInstance().getUiThreadExecutor().execute(new Runnable() {
                         @Override
                         public void run() {
-                            showEvaluationError(App.getInstance().getApplication(), errorMessage);
+                            showEvaluationError(application, errorMessage);
                         }
                     });
                 }
