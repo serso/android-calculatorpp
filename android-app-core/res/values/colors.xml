@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="cpp_default_text_color">#ffffffff</color>
+    <color name="cpp_display_error_text_color">#ff393939</color>
+    <color name="cpp_button_text_color">#ffffffff</color>
+    <color name="cpp_button_operator_text_color">#ffffff99</color>
+    <color name="cpp_button_ce_text_color">#ffffffff</color>
+    <color name="cpp_selected_angle_unit_text_color">#ffffff99</color>
+    <color name="cpp_default_background">#ff000000</color>
+    <color name="cpp_pane_background">#ff1f1f1f</color>
+    <color name="cpp_metro_button_background">#ff1f1f1f</color>
+    <color name="cpp_metro_blue_color">#10648c</color>
+    <color name="cpp_metro_green_color">#088e3a</color>
+    <color name="cpp_metro_purple_color">#651456</color>
+    <color name="cpp_metro_light_button_background">#393939</color>
+</resources>

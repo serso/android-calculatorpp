@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item type="id" name="oneDigitButton"/>
+    <item type="id" name="twoDigitButton"/>
+    <item type="id" name="threeDigitButton"/>
+    <item type="id" name="fourDigitButton"/>
+    <item type="id" name="fiveDigitButton"/>
+    <item type="id" name="sixDigitButton"/>
+    <item type="id" name="sevenDigitButton"/>
+    <item type="id" name="eightDigitButton"/>
+    <item type="id" name="nineDigitButton"/>
+    <item type="id" name="zeroDigitButton"/>
+
+    <item type="id" name="periodButton"/>
+    <item type="id" name="roundBracketsButton"/>
+    <item type="id" name="settingsButton"/>
+    <item type="id" name="likeButton"/>
+    <item type="id" name="leftButton"/>
+    <item type="id" name="rightButton"/>
+    <item type="id" name="vars_button"/>
+    <item type="id" name="functions_button"/>
+    <item type="id" name="appButton"/>
+    <item type="id" name="historyButton"/>
+    <item type="id" name="multiplicationButton"/>
+    <item type="id" name="divisionButton"/>
+    <item type="id" name="plusButton"/>
+    <item type="id" name="subtractionButton"/>
+    <item type="id" name="percentButton"/>
+    <item type="id" name="powerButton"/>
+    <item type="id" name="clearButton"/>
+    <item type="id" name="eraseButton"/>
+    <item type="id" name="copyButton"/>
+    <item type="id" name="pasteButton"/>
+    <item type="id" name="equalsButton"/>
+
+</resources>

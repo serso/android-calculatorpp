@@ -10,6 +10,7 @@ import jscl.math.Generic;
 import jscl.math.function.Constant;
 import org.achartengine.ChartFactory;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.about.CalculatorAboutActivity;
 import org.solovyev.android.calculator.function.FunctionEditDialogFragment;
 import org.solovyev.android.calculator.help.CalculatorHelpActivity;
@@ -28,9 +29,12 @@ import java.util.List;
  * Date: 11/2/11
  * Time: 2:18 PM
  */
-public class CalculatorActivityLauncher {
+public final class CalculatorActivityLauncher implements CalculatorEventListener {
 
-	public static void showHistory(@NotNull final Context context) {
+    public CalculatorActivityLauncher() {
+    }
+
+    public static void showHistory(@NotNull final Context context) {
         showHistory(context, false);
     }
 
@@ -164,6 +168,28 @@ public class CalculatorActivityLauncher {
 
         if ( CalculatorPreferences.Calculations.showCalculationMessagesDialog.getPreference(prefs) ) {
             CalculatorMessagesDialog.showDialogForMessages(messages, context);
+        }
+    }
+
+    @Override
+    public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
+        switch (calculatorEventType){
+            case show_create_var_dialog:
+                App.getInstance().getUiThreadExecutor().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        CalculatorActivityLauncher.createVar(App.getInstance().getApplication(), Locator.getInstance().getDisplay());
+                    }
+                });
+                break;
+            case show_create_function_dialog:
+                App.getInstance().getUiThreadExecutor().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        CalculatorActivityLauncher.createFunction(App.getInstance().getApplication(), Locator.getInstance().getDisplay());
+                    }
+                });
+                break;
         }
     }
 }

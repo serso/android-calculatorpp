@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
-import org.solovyev.android.calculator.CalculatorApplication;
+import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.MathEntityDao;
 import org.solovyev.android.calculator.MathEntityPersistenceContainer;
 import org.solovyev.android.calculator.MathPersistenceEntity;
@@ -89,7 +89,7 @@ public class AndroidMathEntityDao<T extends MathPersistenceEntity> implements Ma
     public String getDescription(@NotNull String descriptionId) {
         final Resources resources = context.getResources();
 
-        final int stringId = resources.getIdentifier(descriptionId, "string", CalculatorApplication.class.getPackage().getName());
+        final int stringId = resources.getIdentifier(descriptionId, "string", App.getInstance().getApplication().getClass().getPackage().getName());
         try {
             return resources.getString(stringId);
         } catch (Resources.NotFoundException e) {

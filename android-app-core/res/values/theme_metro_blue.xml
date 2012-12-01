@@ -4,10 +4,6 @@
 		<item name="android:background">@drawable/metro_button_dark</item>
 	</style>
 
-    <style name="widget_metro_digit_button_style" parent="metro_digit_button_style">
-        <item name="android:textSize">@dimen/cpp_widget_keyboard_button_text_size</item>
-    </style>
-
 	<style name="metro_control_button_style" parent="metro_digit_button_style">
 		<item name="android:background">@drawable/metro_button_light</item>
 	</style>
@@ -20,25 +16,14 @@
         <item name="android:textSize">@dimen/cpp_onscreen_header_button_text_size</item>
     </style>
 
-    <style name="widget_metro_control_button_style" parent="metro_control_button_style">
-        <item name="android:textSize">@dimen/cpp_widget_keyboard_button_text_size</item>
-    </style>
 
 	<style name="metro_blue_operation_button_style" parent="metro_digit_button_style">
 		<item name="android:background">@drawable/metro_blue_button</item>
 	</style>
 
-    <style name="widget_metro_blue_operation_button_style" parent="metro_blue_operation_button_style">
-        <item name="android:textSize">@dimen/cpp_widget_keyboard_button_text_size</item>
-    </style>
-
 	<style name="metro_control_image_button_style" parent="metro_control_button_style">
 		<item name="android:padding">6dp</item>
 	</style>
-
-    <style name="widget_metro_control_image_button_style" parent="metro_control_image_button_style">
-        <item name="android:scaleType">center</item>
-    </style>
 
     <style name="metro_blue_fragment_list_view_item_style" parent="cpp_default_fragment_list_view_item_style">
         <item name="background">@drawable/metro_blue_list_item</item>

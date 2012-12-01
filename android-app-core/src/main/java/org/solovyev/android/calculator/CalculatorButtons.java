@@ -16,6 +16,7 @@ import jscl.NumeralBase;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.AndroidUtils;
+import org.solovyev.android.calculator.core.R;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 import org.solovyev.android.calculator.view.AngleUnitsButton;
 import org.solovyev.android.calculator.view.NumeralBasesButton;
@@ -132,7 +133,7 @@ public final class CalculatorButtons {
             boolean result = false;
 
             if (dragDirection == DragDirection.up) {
-                CalculatorActivityLauncher.createVar(context, Locator.getInstance().getDisplay());
+                Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_create_var_dialog, null);
                 result = true;
             }
 
@@ -247,7 +248,7 @@ public final class CalculatorButtons {
             boolean result = false;
 
             if (dragDirection == DragDirection.up) {
-                CalculatorActivityLauncher.createFunction(context, Locator.getInstance().getDisplay());
+                Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_create_function_dialog, null);
                 result = true;
             }
 

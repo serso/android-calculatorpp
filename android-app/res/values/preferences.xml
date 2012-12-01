@@ -41,8 +41,6 @@
 	<string name="p_calc_science_notation_key">calculation.output.science_notation</string>
 	<string name="p_calc_science_notation">false</string>
 
-	<string name="p_calc_functions">org.solovyev.android.calculator.CalculatorModel_functions</string>
-	<string name="p_calc_vars">org.solovyev.android.calculator.CalculatorModel_vars</string>
 	<string name="p_calc_history">org.solovyev.android.calculator.CalculatorModel_history</string>
 
 	<string name="p_calc_angle_units_key">org.solovyev.android.calculator.CalculatorActivity_angle_units</string>

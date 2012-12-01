@@ -17,10 +17,39 @@
 	<packaging>apklib</packaging>
 
 	<dependencies>
+
 		<dependency>
 			<groupId>org.solovyev.android</groupId>
 			<artifactId>calculatorpp-core</artifactId>
 		</dependency>
+
+        <dependency>
+            <groupId>org.solovyev</groupId>
+            <artifactId>common-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.solovyev</groupId>
+            <artifactId>common-text</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.solovyev.android</groupId>
+            <artifactId>android-common-all</artifactId>
+            <type>apklib</type>
+        </dependency>
+
+        <dependency>
+            <groupId>org.solovyev</groupId>
+            <artifactId>jscl</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.actionbarsherlock</groupId>
+            <artifactId>library</artifactId>
+            <type>apklib</type>
+        </dependency>
+
 	</dependencies>
 
 	<build>

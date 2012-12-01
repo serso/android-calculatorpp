@@ -5,20 +5,7 @@ import android.content.Intent;
 import android.os.Parcelable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.Calculator;
-import org.solovyev.android.calculator.CalculatorApplication;
-import org.solovyev.android.calculator.CalculatorDisplayChangeEventData;
-import org.solovyev.android.calculator.CalculatorDisplayViewState;
-import org.solovyev.android.calculator.CalculatorEditorChangeEventData;
-import org.solovyev.android.calculator.CalculatorEditorViewState;
-import org.solovyev.android.calculator.CalculatorEventData;
-import org.solovyev.android.calculator.CalculatorEventHolder;
-import org.solovyev.android.calculator.CalculatorEventListener;
-import org.solovyev.android.calculator.CalculatorEventType;
-import org.solovyev.android.calculator.Locator;
-import org.solovyev.android.calculator.CalculatorUtils;
-import org.solovyev.android.calculator.ParcelableCalculatorDisplayViewState;
-import org.solovyev.android.calculator.ParcelableCalculatorEditorViewState;
+import org.solovyev.android.calculator.*;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -109,7 +96,7 @@ public class AndroidExternalListenersContainer implements CalculatorExternalList
 
                     Locator.getInstance().getNotifier().showDebugMessage(TAG, "Editor state changed: " + newEditorState.getText());
 
-                    onEditorStateChanged(CalculatorApplication.getInstance(), calculatorEventData, newEditorState);
+                    onEditorStateChanged(App.getInstance().getApplication(), calculatorEventData, newEditorState);
                     break;
 
                 case display_state_changed:
@@ -118,7 +105,7 @@ public class AndroidExternalListenersContainer implements CalculatorExternalList
 
                     Locator.getInstance().getNotifier().showDebugMessage(TAG, "Display state changed: " + newDisplayState.getText());
 
-                    onDisplayStateChanged(CalculatorApplication.getInstance(), calculatorEventData, newDisplayState);
+                    onDisplayStateChanged(App.getInstance().getApplication(), calculatorEventData, newDisplayState);
                     break;
             }
         }

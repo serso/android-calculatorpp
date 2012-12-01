@@ -70,17 +70,9 @@
         <item name="android:textSize">@dimen/cpp_display_text_size</item>
     </style>
 
-    <style name="cpp_widget_editor_style" parent="cpp_editor_style">
-        <item name="android:textSize">@dimen/cpp_widget_editor_text_size</item>
-    </style>
-
     <style name="cpp_onscreen_display_style" parent="cpp_display_style">
 		<item name="android:textSize">@dimen/cpp_onscreen_display_text_size</item>
 	</style>
-
-    <style name="cpp_widget_display_style" parent="cpp_display_style">
-        <item name="android:textSize">@dimen/cpp_widget_display_text_size</item>
-    </style>
 
     <style name="cpp_about_style" parent="cpp_default_text">
         <item name="android:gravity">center</item>

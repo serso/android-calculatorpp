@@ -3,9 +3,8 @@ package org.solovyev.android.calculator.widget;
 import android.content.Context;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.CalculatorSpecialButton;
-import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.Locator;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -153,7 +153,10 @@ public enum CalculatorEventType {
     show_settings,
     show_settings_detached,
 
-    show_like_dialog;
+    show_like_dialog,
+
+    show_create_var_dialog,
+    show_create_function_dialog;
 
     public boolean isOfType(@NotNull CalculatorEventType... types) {
         for (CalculatorEventType type : types) {

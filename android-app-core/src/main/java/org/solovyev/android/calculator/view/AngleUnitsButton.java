@@ -13,7 +13,7 @@ import android.text.TextPaint;
 import android.util.AttributeSet;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.Locator;
-import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.core.R;
 import org.solovyev.android.view.drag.DirectionDragButton;
 
 /**
