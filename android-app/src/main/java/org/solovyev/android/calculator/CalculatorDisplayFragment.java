@@ -26,9 +26,9 @@ public class CalculatorDisplayFragment extends SherlockFragment {
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
         final CalculatorPreferences.Gui.Layout layout = CalculatorPreferences.Gui.getLayout(prefs);
         if (layout == CalculatorPreferences.Gui.Layout.main_calculator_mobile) {
-            fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(R.layout.calc_display_mobile, R.string.result);
+            fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(R.layout.cpp_app_display_mobile, R.string.result);
         } else {
-            fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(R.layout.calc_display, R.string.result);
+            fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(R.layout.cpp_app_display, R.string.result);
         }
 
         fragmentHelper.onCreate(this);

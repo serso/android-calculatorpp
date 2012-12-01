@@ -70,7 +70,7 @@ public class UnitConverterViewBuilder implements ViewBuilder<View> {
     @NotNull
     @Override
     public View build(@NotNull final Context context) {
-        final View main = ViewFromLayoutBuilder.newInstance(R.layout.unit_converter).build(context);
+        final View main = ViewFromLayoutBuilder.newInstance(R.layout.cpp_unit_converter).build(context);
 
         final Spinner fromSpinner = (Spinner) main.findViewById(R.id.unit_types_from);
         final EditText fromEditText = (EditText) main.findViewById(R.id.units_from);

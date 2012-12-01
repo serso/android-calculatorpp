@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+              a:layout_width="match_parent"
+              a:layout_height="match_parent"
+              a:orientation="vertical">
+
+    <LinearLayout a:layout_weight="1"
+                  a:layout_width="match_parent"
+                  a:layout_height="0dp">
+
+        <include layout="@layout/cpp_drag_button_left"/>
+        <include layout="@layout/cpp_app_button_erase"/>
+        <include layout="@layout/cpp_drag_button_empty"/>
+        <include layout="@layout/cpp_drag_button_empty"/>
+        <include layout="@layout/cpp_drag_button_empty"/>
+        <include layout="@layout/cpp_drag_button_empty"/>
+        <include layout="@layout/cpp_drag_button_clear"/>
+        <include layout="@layout/cpp_drag_button_right"/>
+
+    </LinearLayout>
+
+    <LinearLayout a:layout_weight="1"
+                  a:layout_width="match_parent"
+                  a:layout_height="0dp">
+
+        <include layout="@layout/cpp_drag_button_vars"/>
+        <include layout="@layout/cpp_app_button_copy"/>
+        <include layout="@layout/cpp_drag_button_7"/>
+        <include layout="@layout/cpp_drag_button_8"/>
+        <include layout="@layout/cpp_drag_button_9"/>
+        <include layout="@layout/cpp_drag_button_multiplication"/>
+        <include layout="@layout/cpp_drag_button_division"/>
+        <include layout="@layout/cpp_drag_button_equals"/>
+
+    </LinearLayout>
+
+    <LinearLayout a:layout_weight="1"
+                  a:layout_width="match_parent"
+                  a:layout_height="0dp">
+
+        <include layout="@layout/cpp_drag_button_functions"/>
+        <include layout="@layout/cpp_app_button_paste"/>
+        <include layout="@layout/cpp_drag_button_4"/>
+        <include layout="@layout/cpp_drag_button_5"/>
+        <include layout="@layout/cpp_drag_button_6"/>
+        <include layout="@layout/cpp_drag_button_plus"/>
+        <include layout="@layout/cpp_drag_button_subtraction"/>
+        <include layout="@layout/cpp_drag_button_round_brackets"/>
+
+    </LinearLayout>
+
+    <LinearLayout a:layout_weight="1"
+                  a:layout_width="match_parent"
+                  a:layout_height="0dp">
+
+        <include layout="@layout/cpp_drag_button_operators"/>
+        <include layout="@layout/cpp_app_button_donate"/>
+        <include layout="@layout/cpp_drag_button_1"/>
+        <include layout="@layout/cpp_drag_button_2"/>
+        <include layout="@layout/cpp_drag_button_3"/>
+        <include layout="@layout/cpp_drag_button_0"/>
+        <include layout="@layout/cpp_drag_button_dot"/>
+        <include layout="@layout/cpp_drag_button_history"/>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -21,7 +21,7 @@ import org.solovyev.android.calculator.plot.CalculatorPlotFragment;
  */
 public enum CalculatorFragmentType {
 
-    editor(CalculatorEditorFragment.class, R.layout.calc_editor, R.string.editor),
+    editor(CalculatorEditorFragment.class, R.layout.cpp_app_editor, R.string.editor),
     //display(CalculatorHistoryFragment.class, "history", R.layout.history_fragment, R.string.c_history),
     //keyboard(CalculatorHistoryFragment.class, "history", R.layout.history_fragment, R.string.c_history),
     history(CalculatorHistoryFragment.class, R.layout.history_fragment, R.string.c_history),

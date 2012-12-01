@@ -23,7 +23,7 @@
                   a:layout_width="match_parent"
                   a:layout_height="0dp">
 
-        <include layout="@layout/calc_equals_button"
+        <include layout="@layout/cpp_drag_button_equals"
                  a:layout_margin="@dimen/cpp_button_margin"
                  a:layout_weight="1"
                  a:layout_width="0dp"
