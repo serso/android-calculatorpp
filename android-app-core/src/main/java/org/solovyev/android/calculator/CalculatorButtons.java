@@ -133,10 +133,10 @@ public final class CalculatorButtons {
             boolean result = false;
 
             if (dragDirection == DragDirection.up) {
-                Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_create_var_dialog, null);
+                Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_create_var_dialog, null, context);
                 result = true;
             } else if ( dragDirection == DragDirection.down ) {
-                Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_create_matrix_dialog, null);
+                Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_create_matrix_dialog, null, context);
                 result = true;
             }
 
@@ -251,7 +251,7 @@ public final class CalculatorButtons {
             boolean result = false;
 
             if (dragDirection == DragDirection.up) {
-                Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_create_function_dialog, null);
+                Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_create_function_dialog, null, context);
                 result = true;
             }
 

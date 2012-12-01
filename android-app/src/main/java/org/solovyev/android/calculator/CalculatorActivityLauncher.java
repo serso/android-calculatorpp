@@ -2,7 +2,6 @@ package org.solovyev.android.calculator;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,6 +16,7 @@ import jscl.math.function.Constant;
 import org.achartengine.ChartFactory;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.AndroidUtils2;
 import org.solovyev.android.calculator.about.CalculatorAboutActivity;
 import org.solovyev.android.calculator.function.FunctionEditDialogFragment;
 import org.solovyev.android.calculator.help.CalculatorHelpActivity;
@@ -48,7 +48,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
 
 	public static void showHistory(@NotNull final Context context, boolean detached) {
         final Intent intent = new Intent(context, CalculatorHistoryActivity.class);
-        addFlags(intent, detached);
+        AndroidUtils2.addFlags(intent, detached, context);
         context.startActivity(intent);
 	}
 
@@ -61,20 +61,9 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
     }
 	public static void showSettings(@NotNull final Context context, boolean detached) {
         final Intent intent = new Intent(context, CalculatorPreferencesActivity.class);
-        addFlags(intent, detached);
+        AndroidUtils2.addFlags(intent, detached, context);
         context.startActivity(intent);
 	}
-
-    private static void addFlags(@NotNull Intent intent, boolean detached) {
-        int flags = Intent.FLAG_ACTIVITY_NEW_TASK;
-
-        if (detached) {
-            flags = flags | Intent.FLAG_ACTIVITY_NO_HISTORY;
-        }
-
-        intent.setFlags(flags);
-
-    }
 
     public static void showAbout(@NotNull final Context context) {
 		context.startActivity(new Intent(context, CalculatorAboutActivity.class));
@@ -86,7 +75,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
 
 	public static void showFunctions(@NotNull final Context context, boolean detached) {
         final Intent intent = new Intent(context, CalculatorFunctionsActivity.class);
-        addFlags(intent, detached);
+        AndroidUtils2.addFlags(intent, detached, context);
         context.startActivity(intent);
 	}
 
@@ -96,7 +85,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
 
 	public static void showOperators(@NotNull final Context context, boolean detached) {
         final Intent intent = new Intent(context, CalculatorOperatorsActivity.class);
-        addFlags(intent, detached);
+        AndroidUtils2.addFlags(intent, detached, context);
         context.startActivity(intent);
 	}
 
@@ -106,7 +95,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
 
     public static void showVars(@NotNull final Context context, boolean detached) {
         final Intent intent = new Intent(context, CalculatorVarsActivity.class);
-        addFlags(intent, detached);
+        AndroidUtils2.addFlags(intent, detached, context);
         context.startActivity(intent);
 	}
 
@@ -115,7 +104,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
 		intent.putExtra(ChartFactory.TITLE, context.getString(R.string.c_graph));
 		intent.putExtra(CalculatorPlotFragment.INPUT, new CalculatorPlotFragment.Input(generic.toString(), constant.getName()));
 		intent.setClass(context, CalculatorPlotActivity.class);
-        addFlags(intent, false);
+        AndroidUtils2.addFlags(intent, false, context);
 		context.startActivity(intent);
 	}
 
@@ -130,7 +119,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
                     } else {
                         final Intent intent = new Intent(context, CalculatorVarsActivity.class);
                         intent.putExtra(CalculatorVarsFragment.CREATE_VAR_EXTRA_STRING, varValue);
-                        addFlags(intent, false);
+                        AndroidUtils2.addFlags(intent, false, context);
                         context.startActivity(intent);
                     }
                 } else {
@@ -169,7 +158,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
 
     public static void likeButtonPressed(@NotNull final Context context) {
         final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(CalculatorApplication.FACEBOOK_APP_URL));
-        addFlags(intent, false);
+        AndroidUtils2.addFlags(intent, false, context);
         context.startActivity(intent);
     }
 
@@ -183,16 +172,23 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
 
     @Override
     public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
-        final Application application = App.getInstance().getApplication();
+        final Context context;
+
+        final Object source = calculatorEventData.getSource();
+        if ( source instanceof Context ) {
+            context = ((Context) source);
+        } else {
+            context = App.getInstance().getApplication();
+        }
 
         switch (calculatorEventType){
             case show_create_matrix_dialog:
                 App.getInstance().getUiThreadExecutor().execute(new Runnable() {
                     @Override
                     public void run() {
-                        final Intent intent = new Intent(application, CalculatorMatrixActivity.class);
-                        addFlags(intent, false);
-                        application.startActivity(intent);
+                        final Intent intent = new Intent(context, CalculatorMatrixActivity.class);
+                        AndroidUtils2.addFlags(intent, false, context);
+                        context.startActivity(intent);
                     }
                 });
                 break;
@@ -200,7 +196,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
                 App.getInstance().getUiThreadExecutor().execute(new Runnable() {
                     @Override
                     public void run() {
-                        CalculatorActivityLauncher.createVar(application, Locator.getInstance().getDisplay());
+                        CalculatorActivityLauncher.createVar(context, Locator.getInstance().getDisplay());
                     }
                 });
                 break;
@@ -208,7 +204,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
                 App.getInstance().getUiThreadExecutor().execute(new Runnable() {
                     @Override
                     public void run() {
-                        CalculatorActivityLauncher.createFunction(application, Locator.getInstance().getDisplay());
+                        CalculatorActivityLauncher.createFunction(context, Locator.getInstance().getDisplay());
                     }
                 });
                 break;
@@ -218,7 +214,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
                 App.getInstance().getUiThreadExecutor().execute(new Runnable() {
                     @Override
                     public void run() {
-                        plotGraph(application, plotInput.getFunction(), plotInput.getConstant());
+                        plotGraph(context, plotInput.getFunction(), plotInput.getConstant());
                     }
                 });
                 break;
@@ -228,7 +224,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
                     App.getInstance().getUiThreadExecutor().execute(new Runnable() {
                         @Override
                         public void run() {
-                            showEvaluationError(application, errorMessage);
+                            showEvaluationError(context, errorMessage);
                         }
                     });
                 }
