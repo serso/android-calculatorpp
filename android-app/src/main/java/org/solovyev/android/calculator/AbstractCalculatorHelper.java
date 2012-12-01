@@ -87,12 +87,12 @@ public abstract class AbstractCalculatorHelper implements SharedPreferences.OnSh
         setOnDragListeners(root, dragPreferences, preferences);
 
         final OnDragListener historyOnDragListener = new OnDragListenerVibrator(newOnDragListener(new HistoryDragProcessor<CalculatorHistoryState>(getCalculator()), dragPreferences), vibrator, preferences);
-        final DragButton historyButton = getButton(root, R.id.historyButton);
+        final DragButton historyButton = getButton(root, R.id.cpp_button_history);
         if (historyButton != null) {
             historyButton.setOnDragListener(historyOnDragListener);
         }
 
-        final DragButton subtractionButton = getButton(root, R.id.subtractionButton);
+        final DragButton subtractionButton = getButton(root, R.id.cpp_button_subtraction);
         if (subtractionButton != null) {
             subtractionButton.setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new SimpleOnDragListener.DragProcessor() {
                 @Override
@@ -108,64 +108,64 @@ public abstract class AbstractCalculatorHelper implements SharedPreferences.OnSh
 
         final OnDragListener toPositionOnDragListener = new OnDragListenerVibrator(new SimpleOnDragListener(new CursorDragProcessor(), dragPreferences), vibrator, preferences);
 
-        final DragButton rightButton = getButton(root, R.id.rightButton);
+        final DragButton rightButton = getButton(root, R.id.cpp_button_right);
         if (rightButton != null) {
             rightButton.setOnDragListener(toPositionOnDragListener);
         }
 
-        final DragButton leftButton = getButton(root, R.id.leftButton);
+        final DragButton leftButton = getButton(root, R.id.cpp_button_left);
         if (leftButton != null) {
             leftButton.setOnDragListener(toPositionOnDragListener);
         }
 
-        final DragButton equalsButton = getButton(root, R.id.equalsButton);
+        final DragButton equalsButton = getButton(root, R.id.cpp_button_equals);
         if (equalsButton != null) {
             equalsButton.setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new EvalDragProcessor(), dragPreferences), vibrator, preferences));
         }
 
-        final AngleUnitsButton angleUnitsButton = (AngleUnitsButton) getButton(root, R.id.sixDigitButton);
+        final AngleUnitsButton angleUnitsButton = (AngleUnitsButton) getButton(root, R.id.cpp_button_6);
         if (angleUnitsButton != null) {
             angleUnitsButton.setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new CalculatorButtons.AngleUnitsChanger(activity), dragPreferences), vibrator, preferences));
         }
 
-        final NumeralBasesButton clearButton = (NumeralBasesButton) getButton(root, R.id.clearButton);
+        final NumeralBasesButton clearButton = (NumeralBasesButton) getButton(root, R.id.cpp_button_clear);
         if (clearButton != null) {
             clearButton.setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new CalculatorButtons.NumeralBasesChanger(activity), dragPreferences), vibrator, preferences));
         }
 
-        final DragButton varsButton = getButton(root, R.id.vars_button);
+        final DragButton varsButton = getButton(root, R.id.cpp_button_vars);
         if (varsButton != null) {
             varsButton.setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new CalculatorButtons.VarsDragProcessor(activity), dragPreferences), vibrator, preferences));
         }
 
-        final DragButton functionsButton = getButton(root, R.id.functions_button);
+        final DragButton functionsButton = getButton(root, R.id.cpp_button_functions);
         if (functionsButton != null) {
             functionsButton.setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new CalculatorButtons.FunctionsDragProcessor(activity), dragPreferences), vibrator, preferences));
         }
 
-        final DragButton roundBracketsButton = getButton(root, R.id.roundBracketsButton);
+        final DragButton roundBracketsButton = getButton(root, R.id.cpp_button_round_brackets);
         if (roundBracketsButton != null) {
             roundBracketsButton.setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new CalculatorButtons.RoundBracketsDragProcessor(), dragPreferences), vibrator, preferences));
         }
 
         if (layout == CalculatorPreferences.Gui.Layout.simple) {
-            toggleButtonDirectionText(root, R.id.oneDigitButton, false, DragDirection.up, DragDirection.down);
-            toggleButtonDirectionText(root, R.id.twoDigitButton, false, DragDirection.up, DragDirection.down);
-            toggleButtonDirectionText(root, R.id.threeDigitButton, false, DragDirection.up, DragDirection.down);
+            toggleButtonDirectionText(root, R.id.cpp_button_1, false, DragDirection.up, DragDirection.down);
+            toggleButtonDirectionText(root, R.id.cpp_button_2, false, DragDirection.up, DragDirection.down);
+            toggleButtonDirectionText(root, R.id.cpp_button_3, false, DragDirection.up, DragDirection.down);
 
-            toggleButtonDirectionText(root, R.id.sixDigitButton, false, DragDirection.up, DragDirection.down);
-            toggleButtonDirectionText(root, R.id.sevenDigitButton, false, DragDirection.left, DragDirection.up, DragDirection.down);
-            toggleButtonDirectionText(root, R.id.eightDigitButton, false, DragDirection.left, DragDirection.up, DragDirection.down);
+            toggleButtonDirectionText(root, R.id.cpp_button_6, false, DragDirection.up, DragDirection.down);
+            toggleButtonDirectionText(root, R.id.cpp_button_7, false, DragDirection.left, DragDirection.up, DragDirection.down);
+            toggleButtonDirectionText(root, R.id.cpp_button_8, false, DragDirection.left, DragDirection.up, DragDirection.down);
 
-            toggleButtonDirectionText(root, R.id.clearButton, false, DragDirection.left, DragDirection.up, DragDirection.down);
+            toggleButtonDirectionText(root, R.id.cpp_button_clear, false, DragDirection.left, DragDirection.up, DragDirection.down);
 
-            toggleButtonDirectionText(root, R.id.fourDigitButton, false, DragDirection.down);
-            toggleButtonDirectionText(root, R.id.fiveDigitButton, false, DragDirection.down);
+            toggleButtonDirectionText(root, R.id.cpp_button_4, false, DragDirection.down);
+            toggleButtonDirectionText(root, R.id.cpp_button_5, false, DragDirection.down);
 
-            toggleButtonDirectionText(root, R.id.nineDigitButton, false, DragDirection.left);
+            toggleButtonDirectionText(root, R.id.cpp_button_9, false, DragDirection.left);
 
-            toggleButtonDirectionText(root, R.id.multiplicationButton, false, DragDirection.left);
-            toggleButtonDirectionText(root, R.id.plusButton, false, DragDirection.down, DragDirection.up);
+            toggleButtonDirectionText(root, R.id.cpp_button_multiplication, false, DragDirection.left);
+            toggleButtonDirectionText(root, R.id.cpp_button_plus, false, DragDirection.down, DragDirection.up);
         }
 
         CalculatorButtons.processButtons(theme, layout, root);

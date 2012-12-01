@@ -22,7 +22,7 @@ public enum AndroidNumeralBase {
         @NotNull
         @Override
         public List<Integer> getButtonIds() {
-            return Arrays.asList(R.id.zeroDigitButton, R.id.oneDigitButton);
+            return Arrays.asList(R.id.cpp_button_0, R.id.cpp_button_1);
         }
     },
 
@@ -31,7 +31,7 @@ public enum AndroidNumeralBase {
         @Override
         public List<Integer> getButtonIds() {
             final List<Integer> result = new ArrayList<Integer>(bin.getButtonIds());
-            result.addAll(Arrays.asList(R.id.twoDigitButton, R.id.threeDigitButton, R.id.fourDigitButton, R.id.fiveDigitButton, R.id.sixDigitButton, R.id.sevenDigitButton));
+            result.addAll(Arrays.asList(R.id.cpp_button_2, R.id.cpp_button_3, R.id.cpp_button_4, R.id.cpp_button_5, R.id.cpp_button_6, R.id.cpp_button_7));
             return result;
         }
     },
@@ -41,7 +41,7 @@ public enum AndroidNumeralBase {
         @Override
         public List<Integer> getButtonIds() {
             final List<Integer> result = new ArrayList<Integer>(oct.getButtonIds());
-            result.addAll(Arrays.asList(R.id.eightDigitButton, R.id.nineDigitButton));
+            result.addAll(Arrays.asList(R.id.cpp_button_8, R.id.cpp_button_9));
             return result;
         }
     },
@@ -49,7 +49,7 @@ public enum AndroidNumeralBase {
     hex(CalculatorNumeralBase.hex) {
 
         @NotNull
-        private List<Integer> specialHexButtonIds = Arrays.asList(R.id.oneDigitButton, R.id.twoDigitButton, R.id.threeDigitButton, R.id.fourDigitButton, R.id.fiveDigitButton, R.id.sixDigitButton);
+        private List<Integer> specialHexButtonIds = Arrays.asList(R.id.cpp_button_1, R.id.cpp_button_2, R.id.cpp_button_3, R.id.cpp_button_4, R.id.cpp_button_5, R.id.cpp_button_6);
 
         @NotNull
         @Override

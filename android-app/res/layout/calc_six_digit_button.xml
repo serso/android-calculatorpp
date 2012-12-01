@@ -9,7 +9,7 @@
 <org.solovyev.android.calculator.view.AngleUnitsButton xmlns:a="http://schemas.android.com/apk/res/android"
 													   xmlns:c="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
 													   c:textUp="deg"
-													   a:id="@+id/sixDigitButton"
+													   a:id="@id/cpp_button_6"
 													   a:text="6"
 													   c:textLeft="F"
 													   c:textDown="rad"

@@ -8,7 +8,7 @@
 
 <org.solovyev.android.view.drag.DirectionDragButton xmlns:a="http://schemas.android.com/apk/res/android"
 													   xmlns:c="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
-													   a:id="@+id/roundBracketsButton"
+													   a:id="@id/cpp_button_round_brackets"
 													   c:textUp="("
 													   a:text="()"
 													   c:textDown=")"

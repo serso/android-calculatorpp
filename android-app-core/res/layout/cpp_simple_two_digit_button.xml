@@ -7,6 +7,6 @@
   -->
 
 <Button xmlns:a="http://schemas.android.com/apk/res/android"
-        a:id="@+id/twoDigitButton"
+        a:id="@id/cpp_button_2"
         a:text="2"
         style="@style/cpp_simple_metro_digit_button_style"/>

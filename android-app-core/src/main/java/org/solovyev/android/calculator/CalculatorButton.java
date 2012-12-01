@@ -16,47 +16,47 @@ import java.util.Map;
 public enum CalculatorButton {
 
     /*digits*/
-    one(R.id.oneDigitButton, "1"),
-    two(R.id.twoDigitButton, "2"),
-    three(R.id.threeDigitButton, "3"),
-    four(R.id.fourDigitButton, "4"),
-    five(R.id.fiveDigitButton, "5"),
-    six(R.id.sixDigitButton, "6"),
-    seven(R.id.sevenDigitButton, "7"),
-    eight(R.id.eightDigitButton, "8"),
-    nine(R.id.nineDigitButton, "9"),
-    zero(R.id.zeroDigitButton, "0"),
+    one(R.id.cpp_button_1, "1"),
+    two(R.id.cpp_button_2, "2"),
+    three(R.id.cpp_button_3, "3"),
+    four(R.id.cpp_button_4, "4"),
+    five(R.id.cpp_button_5, "5"),
+    six(R.id.cpp_button_6, "6"),
+    seven(R.id.cpp_button_7, "7"),
+    eight(R.id.cpp_button_8, "8"),
+    nine(R.id.cpp_button_9, "9"),
+    zero(R.id.cpp_button_0, "0"),
 
-    period(R.id.periodButton, "."),
-    brackets(R.id.roundBracketsButton, "()"),
+    period(R.id.cpp_button_period, "."),
+    brackets(R.id.cpp_button_round_brackets, "()"),
 
-    settings(R.id.settingsButton, CalculatorSpecialButton.settings_detached),
-    like(R.id.likeButton, CalculatorSpecialButton.like),
+    settings(R.id.cpp_button_settings, CalculatorSpecialButton.settings_detached),
+    like(R.id.cpp_button_like, CalculatorSpecialButton.like),
 
     /*last row*/
-    left(R.id.leftButton, CalculatorSpecialButton.cursor_left),
-    right(R.id.rightButton, CalculatorSpecialButton.cursor_right),
-    vars(R.id.vars_button, CalculatorSpecialButton.vars_detached),
-    functions(R.id.functions_button, CalculatorSpecialButton.functions_detached),
-    app(R.id.appButton, CalculatorSpecialButton.open_app),
-    history(R.id.historyButton, CalculatorSpecialButton.history_detached),
+    left(R.id.cpp_button_left, CalculatorSpecialButton.cursor_left),
+    right(R.id.cpp_button_right, CalculatorSpecialButton.cursor_right),
+    vars(R.id.cpp_button_vars, CalculatorSpecialButton.vars_detached),
+    functions(R.id.cpp_button_functions, CalculatorSpecialButton.functions_detached),
+    app(R.id.cpp_button_app, CalculatorSpecialButton.open_app),
+    history(R.id.cpp_button_history, CalculatorSpecialButton.history_detached),
 
     /*operations*/
-    multiplication(R.id.multiplicationButton, "*"),
-    division(R.id.divisionButton, "/"),
-    plus(R.id.plusButton, "+"),
-    subtraction(R.id.subtractionButton, "-"),
-    percent(R.id.percentButton, "%"),
-    power(R.id.powerButton, "^"),
+    multiplication(R.id.cpp_button_multiplication, "*"),
+    division(R.id.cpp_button_division, "/"),
+    plus(R.id.cpp_button_plus, "+"),
+    subtraction(R.id.cpp_button_subtraction, "-"),
+    percent(R.id.cpp_button_percent, "%"),
+    power(R.id.cpp_button_power, "^"),
 
     /*last column*/
-    clear(R.id.clearButton, CalculatorSpecialButton.clear),
-    erase(R.id.eraseButton, CalculatorSpecialButton.erase, CalculatorSpecialButton.clear),
-    copy(R.id.copyButton, CalculatorSpecialButton.copy),
-    paste(R.id.pasteButton, CalculatorSpecialButton.paste),
+    clear(R.id.cpp_button_clear, CalculatorSpecialButton.clear),
+    erase(R.id.cpp_button_erase, CalculatorSpecialButton.erase, CalculatorSpecialButton.clear),
+    copy(R.id.cpp_button_copy, CalculatorSpecialButton.copy),
+    paste(R.id.cpp_button_paste, CalculatorSpecialButton.paste),
 
     /*equals*/
-    equals(R.id.equalsButton, CalculatorSpecialButton.equals);
+    equals(R.id.cpp_button_equals, CalculatorSpecialButton.equals);
 
 
     private final int buttonId;

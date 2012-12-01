@@ -7,7 +7,7 @@
   -->
 <org.solovyev.android.view.drag.DirectionDragButton xmlns:a="http://schemas.android.com/apk/res/android"
 													   xmlns:c="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
-													   a:id="@+id/plusButton"
+													   a:id="@id/cpp_button_plus"
 													   c:directionTextScale="0.5"
 													   c:textUp="°"
 													   c:textDown="E"

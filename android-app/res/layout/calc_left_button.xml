@@ -8,7 +8,7 @@
 
 <org.solovyev.android.view.drag.DirectionDragButton xmlns:a="http://schemas.android.com/apk/res/android"
 													   xmlns:c="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
-													   a:id="@+id/leftButton"
+													   a:id="@id/cpp_button_left"
 													   c:textUp="◀◀"
 													   a:text="◀"
 													   c:directionTextScale="0.5"

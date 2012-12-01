@@ -7,7 +7,7 @@
   -->
 <org.solovyev.android.view.drag.DirectionDragButton xmlns:a="http://schemas.android.com/apk/res/android"
 													   xmlns:c="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
-													   a:id="@+id/historyButton"
+													   a:id="@id/cpp_button_history"
 													   a:text="@string/c_history_button"
 													   c:textUp="@string/c_undo"
 													   c:textDown="@string/c_redo"

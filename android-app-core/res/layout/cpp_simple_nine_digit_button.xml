@@ -7,6 +7,6 @@
   -->
 
 <Button xmlns:a="http://schemas.android.com/apk/res/android"
-        a:id="@+id/nineDigitButton"
+        a:id="@id/cpp_button_9"
         a:text="9"
         style="@style/cpp_simple_metro_digit_button_style"/>

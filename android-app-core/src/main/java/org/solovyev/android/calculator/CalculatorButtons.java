@@ -53,14 +53,14 @@ public final class CalculatorButtons {
     }
 
     static void initMultiplicationButton(@NotNull View root) {
-        final View multiplicationButton = root.findViewById(R.id.multiplicationButton);
+        final View multiplicationButton = root.findViewById(R.id.cpp_button_multiplication);
         if ( multiplicationButton instanceof Button) {
             ((Button) multiplicationButton).setText(Locator.getInstance().getEngine().getMultiplicationSign());
         }
     }
 
     public static void initMultiplicationButton(@NotNull RemoteViews views) {
-        views.setTextViewText(R.id.multiplicationButton, Locator.getInstance().getEngine().getMultiplicationSign());
+        views.setTextViewText(R.id.cpp_button_multiplication, Locator.getInstance().getEngine().getMultiplicationSign());
     }
 
 
@@ -75,7 +75,7 @@ public final class CalculatorButtons {
             if (AndroidUtils.getScreenOrientation(activity) == Configuration.ORIENTATION_PORTRAIT
                     || !CalculatorPreferences.Gui.autoOrientation.getPreference(preferences)) {
 
-                final DragButton equalsButton = (DragButton)activity.findViewById(R.id.equalsButton);
+                final DragButton equalsButton = (DragButton)activity.findViewById(R.id.cpp_button_equals);
                 if (equalsButton != null) {
                     if (CalculatorPreferences.Gui.showEqualsButton.getPreference(preferences)) {
                         equalsButton.setVisibility(View.VISIBLE);

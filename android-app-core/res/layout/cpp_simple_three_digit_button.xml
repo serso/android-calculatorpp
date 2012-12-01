@@ -7,6 +7,6 @@
   -->
 
 <Button xmlns:a="http://schemas.android.com/apk/res/android"
-        a:id="@+id/threeDigitButton"
+        a:id="@id/cpp_button_3"
         a:text="3"
         style="@style/cpp_simple_metro_digit_button_style"/>

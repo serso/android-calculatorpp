@@ -8,7 +8,7 @@
 
 <org.solovyev.android.view.drag.DirectionDragButton xmlns:a="http://schemas.android.com/apk/res/android"
 													   xmlns:c="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
-													   a:id="@+id/zeroDigitButton"
+													   a:id="@id/cpp_button_0"
 													   c:textUp="00"
 													   a:text="0"
 													   c:textDown="000"
