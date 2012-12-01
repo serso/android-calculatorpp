@@ -36,6 +36,12 @@
 		</dependency>
 
         <dependency>
+            <groupId>org.solovyev.android</groupId>
+            <artifactId>calculatorpp-android-app-onscreen</artifactId>
+            <type>apklib</type>
+        </dependency>
+
+        <dependency>
             <groupId>org.solovyev</groupId>
             <artifactId>common-core</artifactId>
         </dependency>

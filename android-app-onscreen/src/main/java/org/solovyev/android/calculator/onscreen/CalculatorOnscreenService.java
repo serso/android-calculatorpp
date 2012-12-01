@@ -15,7 +15,6 @@ import org.solovyev.android.AndroidUtils;
 import org.solovyev.android.calculator.CalculatorDisplayViewState;
 import org.solovyev.android.calculator.CalculatorEditorViewState;
 import org.solovyev.android.calculator.Locator;
-import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.external.*;
 
 /**
@@ -112,7 +111,7 @@ public class CalculatorOnscreenService extends Service implements ExternalCalcul
     @NotNull
     private static String getCursorColor(@NotNull Context context) {
         if (cursorColor == null) {
-            cursorColor = Integer.toHexString(context.getResources().getColor(R.color.cpp_widget_cursor_color)).substring(2);
+            cursorColor = Integer.toHexString(context.getResources().getColor(R.color.cpp_onscreen_cursor_color)).substring(2);
         }
         return cursorColor;
     }

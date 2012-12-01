@@ -1,14 +1,10 @@
 package org.solovyev.android.calculator;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.TextView;
 import jscl.NumeralBase;
 import jscl.math.Generic;
 import org.jetbrains.annotations.NotNull;
@@ -38,19 +34,6 @@ public class AndroidCalculator implements Calculator, CalculatorEventListener, S
         this.calculator.addCalculatorEventListener(this);
 
         PreferenceManager.getDefaultSharedPreferences(application).registerOnSharedPreferenceChangeListener(this);
-    }
-
-    public static void showEvaluationError(@NotNull Context context, @NotNull final String errorMessage) {
-        final LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-
-        final View errorMessageView = layoutInflater.inflate(R.layout.display_error_message, null);
-        ((TextView) errorMessageView.findViewById(R.id.error_message_text_view)).setText(errorMessage);
-
-        final AlertDialog.Builder builder = new AlertDialog.Builder(context)
-                .setPositiveButton(R.string.c_cancel, null)
-                .setView(errorMessageView);
-
-        builder.create().show();
     }
 
     public void init(@NotNull final Activity activity) {

@@ -1,10 +1,15 @@
 package org.solovyev.android.calculator;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import jscl.math.Generic;
 import jscl.math.function.Constant;
@@ -18,6 +23,7 @@ import org.solovyev.android.calculator.history.CalculatorHistoryActivity;
 import org.solovyev.android.calculator.math.edit.*;
 import org.solovyev.android.calculator.plot.CalculatorPlotActivity;
 import org.solovyev.android.calculator.plot.CalculatorPlotFragment;
+import org.solovyev.android.calculator.plot.PlotInput;
 import org.solovyev.common.msg.Message;
 import org.solovyev.common.msg.MessageType;
 import org.solovyev.common.text.StringUtils;
@@ -190,6 +196,40 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
                     }
                 });
                 break;
+            case plot_graph:
+                final PlotInput plotInput = (PlotInput) data;
+                assert plotInput != null;
+                App.getInstance().getUiThreadExecutor().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        plotGraph(App.getInstance().getApplication(), plotInput.getFunction(), plotInput.getConstant());
+                    }
+                });
+                break;
+            case show_evaluation_error:
+                final String errorMessage = (String) data;
+                if (errorMessage != null) {
+                    App.getInstance().getUiThreadExecutor().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            showEvaluationError(App.getInstance().getApplication(), errorMessage);
+                        }
+                    });
+                }
+                break;
         }
+    }
+
+    public static void showEvaluationError(@NotNull Context context, @NotNull final String errorMessage) {
+        final LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+
+        final View errorMessageView = layoutInflater.inflate(R.layout.display_error_message, null);
+        ((TextView) errorMessageView.findViewById(R.id.error_message_text_view)).setText(errorMessage);
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context)
+                .setPositiveButton(R.string.c_cancel, null)
+                .setView(errorMessageView);
+
+        builder.create().show();
     }
 }

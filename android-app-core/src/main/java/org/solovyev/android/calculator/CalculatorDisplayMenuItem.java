@@ -4,7 +4,9 @@ import android.content.Context;
 import jscl.math.Generic;
 import jscl.math.function.Constant;
 import org.jetbrains.annotations.NotNull;
+import org.solovyev.android.calculator.core.R;
 import org.solovyev.android.calculator.jscl.JsclOperation;
+import org.solovyev.android.calculator.plot.PlotInput;
 import org.solovyev.android.calculator.view.NumeralBaseConverterDialog;
 import org.solovyev.android.menu.LabeledMenuItem;
 import org.solovyev.common.collections.CollectionsUtils;
@@ -82,7 +84,8 @@ public enum CalculatorDisplayMenuItem implements LabeledMenuItem<CalculatorDispl
 
             final Constant constant = CollectionsUtils.getFirstCollectionElement(CalculatorUtils.getNotSystemConstants(generic));
             assert constant != null;
-            CalculatorActivityLauncher.plotGraph(context, generic, constant);
+
+            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.plot_graph, PlotInput.newInstance(generic, constant));
         }
 
         @Override

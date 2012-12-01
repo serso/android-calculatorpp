@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.*;
-import org.solovyev.android.calculator.widget.WidgetButton;
+import org.solovyev.android.calculator.CalculatorButton;
 
 /**
  * User: serso
@@ -153,14 +153,14 @@ public class CalculatorOnscreenView {
     private void init() {
 
         if (!initialized) {
-            for (final WidgetButton widgetButton : WidgetButton.values()) {
+            for (final CalculatorButton widgetButton : CalculatorButton.values()) {
                 final View button = root.findViewById(widgetButton.getButtonId());
                 if (button != null) {
                     button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
 							widgetButton.onClick(context);
-							if ( widgetButton == WidgetButton.app ) {
+							if ( widgetButton == CalculatorButton.app ) {
 								minimize();
 							}
                         }

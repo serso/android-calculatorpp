@@ -26,6 +26,7 @@
         <module>android-app</module>
         <module>android-app-core</module>
         <module>android-app-widget</module>
+        <module>android-app-onscreen</module>
         <module>android-app-test</module>
         <module>core</module>
     </modules>
@@ -58,6 +59,13 @@
 				<version>1.5.3-SNAPSHOT</version>
 				<type>apklib</type>
 			</dependency>
+
+            <dependency>
+                <groupId>org.solovyev.android</groupId>
+                <artifactId>calculatorpp-android-app-onscreen</artifactId>
+                <version>1.5.3-SNAPSHOT</version>
+                <type>apklib</type>
+            </dependency>
 
 			<dependency>
                 <groupId>org.solovyev</groupId>

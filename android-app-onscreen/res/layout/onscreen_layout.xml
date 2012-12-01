@@ -2,7 +2,7 @@
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
 			  a:orientation="vertical"
-			  style="@style/cpp_widget_main_layout_style">
+			  style="@style/cpp_onscreen_main_layout_style">
 
 	<include a:id="@+id/onscreen_header" layout="@layout/onscreen_header"/>
 

@@ -10,11 +10,10 @@ import android.view.ViewGroup;
 import android.widget.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.CalculatorImpl;
-import org.solovyev.math.units.*;
-import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.core.R;
 import org.solovyev.android.view.ViewBuilder;
 import org.solovyev.android.view.ViewFromLayoutBuilder;
+import org.solovyev.math.units.*;
 
 import java.util.Collections;
 import java.util.List;

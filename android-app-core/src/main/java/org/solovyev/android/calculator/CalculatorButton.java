@@ -1,10 +1,9 @@
-package org.solovyev.android.calculator.widget;
+package org.solovyev.android.calculator;
 
 import android.content.Context;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.CalculatorSpecialButton;
-import org.solovyev.android.calculator.Locator;
+import org.solovyev.android.calculator.core.R;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +13,7 @@ import java.util.Map;
 * Date: 10/20/12
 * Time: 12:05 AM
 */
-public enum WidgetButton {
+public enum CalculatorButton {
 
     /*digits*/
     one(R.id.oneDigitButton, "1"),
@@ -69,24 +68,24 @@ public enum WidgetButton {
 	private final String onLongClickText;
 
     @NotNull
-    private static Map<Integer, WidgetButton> buttonsByIds = new HashMap<Integer, WidgetButton>();
+    private static Map<Integer, CalculatorButton> buttonsByIds = new HashMap<Integer, CalculatorButton>();
 
-    WidgetButton(int buttonId, @NotNull CalculatorSpecialButton onClickButton, @Nullable CalculatorSpecialButton onLongClickButton) {
+    CalculatorButton(int buttonId, @NotNull CalculatorSpecialButton onClickButton, @Nullable CalculatorSpecialButton onLongClickButton) {
 		this(buttonId, onClickButton.getActionCode(), onLongClickButton == null ? null : onLongClickButton.getActionCode());
 	}
 
-    WidgetButton(int buttonId, @NotNull CalculatorSpecialButton onClickButton) {
+    CalculatorButton(int buttonId, @NotNull CalculatorSpecialButton onClickButton) {
         this(buttonId, onClickButton, null);
     }
 
-    WidgetButton(int buttonId, @NotNull String onClickText, @Nullable String onLongClickText) {
+    CalculatorButton(int buttonId, @NotNull String onClickText, @Nullable String onLongClickText) {
 		this.buttonId = buttonId;
 		this.onClickText = onClickText;
 		this.onLongClickText = onLongClickText;
 
 	}
 
-    WidgetButton(int buttonId, @NotNull String onClickText) {
+    CalculatorButton(int buttonId, @NotNull String onClickText) {
         this(buttonId, onClickText, null);
     }
 
@@ -103,7 +102,7 @@ public enum WidgetButton {
     }
 
     @Nullable
-    public static WidgetButton getById(int buttonId) {
+    public static CalculatorButton getById(int buttonId) {
         initButtonsByIdsMap();
 
         return buttonsByIds.get(buttonId);
@@ -113,11 +112,11 @@ public enum WidgetButton {
         if ( buttonsByIds.isEmpty() ) {
             // if not initialized
 
-            final WidgetButton[] widgetButtons = values();
+            final CalculatorButton[] calculatorButtons = values();
 
-            final Map<Integer, WidgetButton> localButtonsByIds = new HashMap<Integer, WidgetButton>(widgetButtons.length);
-            for (WidgetButton widgetButton : widgetButtons) {
-                localButtonsByIds.put(widgetButton.getButtonId(), widgetButton);
+            final Map<Integer, CalculatorButton> localButtonsByIds = new HashMap<Integer, CalculatorButton>(calculatorButtons.length);
+            for (CalculatorButton calculatorButton : calculatorButtons) {
+                localButtonsByIds.put(calculatorButton.getButtonId(), calculatorButton);
             }
 
             buttonsByIds = localButtonsByIds;

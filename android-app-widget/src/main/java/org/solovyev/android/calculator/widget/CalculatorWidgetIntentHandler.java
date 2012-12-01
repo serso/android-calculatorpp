@@ -3,6 +3,7 @@ package org.solovyev.android.calculator.widget;
 import android.content.Context;
 import android.content.Intent;
 import org.jetbrains.annotations.NotNull;
+import org.solovyev.android.calculator.CalculatorButton;
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.external.DefaultExternalCalculatorIntentHandler;
 import org.solovyev.android.calculator.external.ExternalCalculatorStateUpdater;
@@ -25,7 +26,7 @@ public class CalculatorWidgetIntentHandler extends DefaultExternalCalculatorInte
         if (AbstractCalculatorWidgetProvider.BUTTON_PRESSED_ACTION.equals(intent.getAction())) {
             final int buttonId = intent.getIntExtra(AbstractCalculatorWidgetProvider.BUTTON_ID_EXTRA, 0);
 
-            final WidgetButton button = WidgetButton.getById(buttonId);
+            final CalculatorButton button = CalculatorButton.getById(buttonId);
             if (button != null) {
                 button.onClick(context);
             }

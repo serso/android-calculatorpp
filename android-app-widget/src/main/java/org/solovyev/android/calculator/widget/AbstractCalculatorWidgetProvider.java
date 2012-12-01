@@ -10,10 +10,7 @@ import android.text.Html;
 import android.widget.RemoteViews;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.CalculatorButtons;
-import org.solovyev.android.calculator.CalculatorDisplayViewState;
-import org.solovyev.android.calculator.CalculatorEditorViewState;
-import org.solovyev.android.calculator.Locator;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.external.ExternalCalculatorIntentHandler;
 import org.solovyev.android.calculator.external.ExternalCalculatorStateUpdater;
 
@@ -113,7 +110,7 @@ abstract class AbstractCalculatorWidgetProvider extends AppWidgetProvider implem
         for (int appWidgetId : appWidgetIds) {
             final RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
 
-            for (WidgetButton button : WidgetButton.values()) {
+            for (CalculatorButton button : CalculatorButton.values()) {
                 final Intent onButtonClickIntent = new Intent(context, getComponentClass());
                 onButtonClickIntent.setAction(BUTTON_PRESSED_ACTION);
                 onButtonClickIntent.putExtra(BUTTON_ID_EXTRA, button.getButtonId());

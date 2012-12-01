@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="cpp_onscreen_main_layout_style" parent="cpp_default_main_layout_style">
+        <item name="android:padding">1dp</item>
+    </style>
+
+</resources>

@@ -45,7 +45,7 @@ public class CalculatorDisplayOnClickListener implements View.OnClickListener {
             } else {
                 final String errorMessage = displayViewState.getErrorMessage();
                 if (errorMessage != null) {
-                    AndroidCalculator.showEvaluationError(context, errorMessage);
+                    Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_evaluation_error, errorMessage);
                 }
             }
         }

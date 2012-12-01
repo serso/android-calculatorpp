@@ -156,7 +156,13 @@ public enum CalculatorEventType {
     show_like_dialog,
 
     show_create_var_dialog,
-    show_create_function_dialog;
+    show_create_function_dialog,
+
+    //org.solovyev.android.calculator.plot.PlotInput
+    plot_graph,
+
+    //String
+    show_evaluation_error;
 
     public boolean isOfType(@NotNull CalculatorEventType... types) {
         for (CalculatorEventType type : types) {
