@@ -1,8 +1,7 @@
-package org.solovyev.android.calculator;
+package org.solovyev.android.calculator.onscreen;
 
 import android.app.Activity;
 import android.os.Bundle;
-import org.solovyev.android.calculator.onscreen.CalculatorOnscreenService;
 
 public class CalculatorOnscreenStartActivity extends Activity {
 

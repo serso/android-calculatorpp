@@ -64,7 +64,7 @@
 
         <!-- ONSCREEN CONFIG -->
 
-		<activity android:icon="@drawable/icon_onscreen" android:label="@string/c_app_name_on_screen" android:launchMode="singleInstance" android:name=".CalculatorOnscreenStartActivity">
+		<activity android:icon="@drawable/icon_onscreen" android:label="@string/c_app_name_on_screen" android:launchMode="singleInstance" android:name=".onscreen.CalculatorOnscreenStartActivity">
 
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"/>
