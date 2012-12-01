@@ -2,7 +2,9 @@ package org.solovyev.android.calculator.onscreen;
 
 import android.content.Context;
 import android.graphics.PixelFormat;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -10,7 +12,6 @@ import android.widget.ImageView;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.*;
-import org.solovyev.android.calculator.CalculatorButton;
 
 /**
  * User: serso
@@ -214,7 +215,7 @@ public class CalculatorOnscreenView {
             });
 
             final ImageView onscreenTitleImageView = (ImageView) root.findViewById(R.id.onscreen_title);
-            onscreenTitleImageView.setOnTouchListener(new WindowDragTouchListener(wm, root));
+            onscreenTitleImageView.setOnTouchListener(new WindowDragTouchListener(wm, root, context.getResources().getDisplayMetrics()));
 
             initialized = true;
         }
@@ -247,6 +248,8 @@ public class CalculatorOnscreenView {
                     WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
                     WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
                     PixelFormat.TRANSLUCENT);
+
+            params.gravity = Gravity.TOP | Gravity.LEFT;
 
             wm.addView(root, params);
             attached = true;
@@ -362,6 +365,10 @@ public class CalculatorOnscreenView {
         @NotNull
         private final View view;
 
+        private final int displayWidth;
+
+        private final int displayHeight;
+
         /*
         **********************************************************************
         *
@@ -371,9 +378,12 @@ public class CalculatorOnscreenView {
         */
 
         public WindowDragTouchListener(@NotNull WindowManager wm,
-                                       @NotNull View view) {
+                                       @NotNull View view,
+                                       @NotNull DisplayMetrics displayMetrics) {
             this.wm = wm;
             this.view = view;
+            this.displayWidth = displayMetrics.widthPixels;
+            this.displayHeight = (int) (displayMetrics.heightPixels - 25 * displayMetrics.density);
         }
 
         @Override
@@ -381,8 +391,8 @@ public class CalculatorOnscreenView {
 
             //Log.d(TAG, "Action: " + event.getAction());
 
-            final float x1 = event.getX();
-            final float y1 = event.getY();
+            final float x1 = event.getRawX();
+            final float y1 = event.getRawY();
 
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
@@ -396,12 +406,12 @@ public class CalculatorOnscreenView {
 
                     if ( currentTime - time >= TIME_EPS ) {
                         time = currentTime;
-                        for (int i = 0; i < event.getHistorySize(); i++) {
+                        /*for (int i = 0; i < event.getHistorySize(); i++) {
                             final float xi = event.getHistoricalX(i);
                             final float yi = event.getHistoricalY(i);
                             processMove(xi, yi);
-                        }
-                        processMove(x1, y1);
+                        }*/
+                        processMove(x1, y1, event.getPointerCount());
                     }
                     return true;
             }
@@ -409,7 +419,7 @@ public class CalculatorOnscreenView {
             return false;
         }
 
-        private void processMove(float x1, float y1) {
+        private void processMove(float x1, float y1, int pointerCount) {
             final float Δx = x1 - x0;
             final float Δy = y1 - y0;
 
@@ -420,23 +430,22 @@ public class CalculatorOnscreenView {
             boolean yInBounds = isDistanceInBounds(Δy);
             if (xInBounds || yInBounds) {
 
-                if (xInBounds) {
+                if (pointerCount == 1) {
                     params.x = (int) (params.x + Δx);
-                }
-
-                if (yInBounds) {
                     params.y = (int) (params.y + Δy);
                 }
 
+                params.x = (int) (params.x - params.width * 0.5f);
+                params.y = (int) (params.y - params.height * 0.5f);
+
+                // keep window inside edges
+                params.x = Math.min(Math.max(params.x, 0), displayWidth - params.width);
+                params.y = Math.min(Math.max(params.y, 0), displayHeight - params.height);
+
                 wm.updateViewLayout(view, params);
 
-                if (xInBounds) {
-                    x0 = x1;
-                }
-
-                if (yInBounds) {
-                    y0 = y1;
-                }
+                x0 = x1;
+                y0 = y1;
             }
         }
 
