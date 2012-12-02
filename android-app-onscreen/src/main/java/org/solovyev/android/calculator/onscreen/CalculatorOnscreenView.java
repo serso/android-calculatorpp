@@ -215,7 +215,7 @@ public class CalculatorOnscreenView {
             });
 
             final ImageView onscreenTitleImageView = (ImageView) root.findViewById(R.id.onscreen_title);
-            onscreenTitleImageView.setOnTouchListener(new WindowDragTouchListener(wm, root, context.getResources().getDisplayMetrics()));
+            onscreenTitleImageView.setOnTouchListener(new WindowDragTouchListener(wm, root));
 
             initialized = true;
         }
@@ -356,6 +356,8 @@ public class CalculatorOnscreenView {
         @NotNull
         private final WindowManager wm;
 
+        private int orientation;
+
         private float x0;
 
         private float y0;
@@ -365,9 +367,9 @@ public class CalculatorOnscreenView {
         @NotNull
         private final View view;
 
-        private final int displayWidth;
+        private int displayWidth;
 
-        private final int displayHeight;
+        private int displayHeight;
 
         /*
         **********************************************************************
@@ -378,16 +380,18 @@ public class CalculatorOnscreenView {
         */
 
         public WindowDragTouchListener(@NotNull WindowManager wm,
-                                       @NotNull View view,
-                                       @NotNull DisplayMetrics displayMetrics) {
+                                       @NotNull View view) {
             this.wm = wm;
             this.view = view;
-            this.displayWidth = displayMetrics.widthPixels;
-            this.displayHeight = (int) (displayMetrics.heightPixels - 25 * displayMetrics.density);
+            initDisplayParams();
         }
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {
+            if (orientation != this.wm.getDefaultDisplay().getOrientation()) {
+                // orientation has changed => we need to check display width/height each time window moved
+                initDisplayParams();
+            }
 
             //Log.d(TAG, "Action: " + event.getAction());
 
@@ -406,12 +410,12 @@ public class CalculatorOnscreenView {
 
                     if ( currentTime - time >= TIME_EPS ) {
                         time = currentTime;
-                        /*for (int i = 0; i < event.getHistorySize(); i++) {
+/*                        for (int i = 0; i < event.getHistorySize(); i++) {
                             final float xi = event.getHistoricalX(i);
                             final float yi = event.getHistoricalY(i);
                             processMove(xi, yi);
                         }*/
-                        processMove(x1, y1, event.getPointerCount());
+                        processMove(x1, y1);
                     }
                     return true;
             }
@@ -419,7 +423,17 @@ public class CalculatorOnscreenView {
             return false;
         }
 
-        private void processMove(float x1, float y1, int pointerCount) {
+        private void initDisplayParams() {
+            this.orientation = this.wm.getDefaultDisplay().getOrientation();
+
+            final DisplayMetrics displayMetrics = new DisplayMetrics();
+            wm.getDefaultDisplay().getMetrics(displayMetrics);
+
+            this.displayWidth = displayMetrics.widthPixels;
+            this.displayHeight = (int) (displayMetrics.heightPixels - 25 * displayMetrics.density);
+        }
+
+        private void processMove(float x1, float y1) {
             final float Δx = x1 - x0;
             final float Δy = y1 - y0;
 
@@ -430,22 +444,26 @@ public class CalculatorOnscreenView {
             boolean yInBounds = isDistanceInBounds(Δy);
             if (xInBounds || yInBounds) {
 
-                if (pointerCount == 1) {
+                if (xInBounds) {
                     params.x = (int) (params.x + Δx);
+                }
+
+                if (yInBounds) {
                     params.y = (int) (params.y + Δy);
                 }
 
-                params.x = (int) (params.x - params.width * 0.5f);
-                params.y = (int) (params.y - params.height * 0.5f);
-
-                // keep window inside edges
                 params.x = Math.min(Math.max(params.x, 0), displayWidth - params.width);
                 params.y = Math.min(Math.max(params.y, 0), displayHeight - params.height);
 
                 wm.updateViewLayout(view, params);
 
-                x0 = x1;
-                y0 = y1;
+                if (xInBounds) {
+                    x0 = x1;
+                }
+
+                if (yInBounds) {
+                    y0 = y1;
+                }
             }
         }
 
