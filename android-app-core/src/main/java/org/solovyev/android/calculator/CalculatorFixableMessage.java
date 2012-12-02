@@ -42,7 +42,7 @@ public class CalculatorFixableMessage implements Parcelable {
     private final MessageType messageType;
 
     @Nullable
-    private final CalculatorFixableError fixableError;
+    private final FixableError fixableError;
 
     public CalculatorFixableMessage(@NotNull Message message) {
         this.message = message.getLocalizedMessage();
@@ -81,7 +81,7 @@ public class CalculatorFixableMessage implements Parcelable {
     }
 
     @Nullable
-    public CalculatorFixableError getFixableError() {
+    public FixableError getFixableError() {
         return fixableError;
     }
 }

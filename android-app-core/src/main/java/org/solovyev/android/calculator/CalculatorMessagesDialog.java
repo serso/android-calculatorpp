@@ -15,6 +15,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockActivity;
 import org.jetbrains.annotations.NotNull;
+import org.solovyev.android.calculator.core.R;
 import org.solovyev.common.msg.Message;
 
 import java.util.ArrayList;
@@ -85,7 +86,7 @@ public class CalculatorMessagesDialog extends SherlockActivity {
             calculationMessagesTextView.setText(message.getMessage());
 
             final Button fixButton = (Button) view.findViewById(R.id.fix_button);
-            final CalculatorFixableError fixableError = message.getFixableError();
+            final FixableError fixableError = message.getFixableError();
             if (fixableError == null) {
                 fixButton.setVisibility(View.GONE);
                 fixButton.setOnClickListener(null);

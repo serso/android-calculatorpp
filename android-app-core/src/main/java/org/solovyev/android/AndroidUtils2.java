@@ -47,4 +47,12 @@ public final class AndroidUtils2 {
 
         pm.setComponentEnabledSetting(new ComponentName(context, componentClass), componentState, PackageManager.DONT_KILL_APP);
     }
+
+    public static boolean isComponentEnabled(@NotNull Context context,
+                                             @NotNull Class<? extends Context> componentClass) {
+        final PackageManager pm = context.getPackageManager();
+
+        int componentEnabledSetting = pm.getComponentEnabledSetting(new ComponentName(context, componentClass));
+        return componentEnabledSetting == PackageManager.COMPONENT_ENABLED_STATE_ENABLED || componentEnabledSetting == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT;
+    }
 }
