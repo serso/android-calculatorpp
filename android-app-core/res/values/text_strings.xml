@@ -272,8 +272,11 @@
     <string name="c_app_widget_4x5_name">Calculator++ Widget (4x5)</string>
     <string name="open_onscreen_calculator">Click to open calculator in window mode</string>
 
-    <string name="prefs_onscreen_title">Calculator (window mode) settings</string>
+    <string name="prefs_onscreen_title">Calculator (in separate window) settings</string>
     <string name="prefs_onscreen_start_on_boot_title">Start on boot</string>
     <string name="prefs_onscreen_start_on_boot_summary">If turned on Calculator++ will appear in notification bar after device boot</string>
+
+    <string name="prefs_onscreen_show_app_icon_title">Show separate icon (require reboot)</string>
+    <string name="prefs_onscreen_show_app_icon_summary">If turned on second icon will be shown in applications\' list</string>
 
 </resources>

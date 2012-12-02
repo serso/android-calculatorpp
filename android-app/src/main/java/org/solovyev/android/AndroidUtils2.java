@@ -1,8 +1,10 @@
 package org.solovyev.android;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -29,5 +31,20 @@ public final class AndroidUtils2 {
 
         intent.setFlags(flags);
 
+    }
+
+    public static void toggleComponent(@NotNull Context context,
+                                       @NotNull Class<? extends Context> componentClass,
+                                       boolean enable) {
+        final PackageManager pm = context.getPackageManager();
+
+        final int componentState;
+        if (enable) {
+            componentState = PackageManager.COMPONENT_ENABLED_STATE_ENABLED;
+        } else {
+            componentState = PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
+        }
+
+        pm.setComponentEnabledSetting(new ComponentName(context, componentClass), componentState, PackageManager.DONT_KILL_APP);
     }
 }

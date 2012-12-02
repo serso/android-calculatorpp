@@ -276,4 +276,7 @@
     <string name="prefs_onscreen_start_on_boot_title">Запуск после загрузки устройства</string>
     <string name="prefs_onscreen_start_on_boot_summary">Если включено, то кнопка Калькулятора++ будет доступна в панели уведомлений после загрузки устройства</string>
 
+    <string name="prefs_onscreen_show_app_icon_title">Показывать отдельную иконку (может потребовать перезагрузки)</string>
+    <string name="prefs_onscreen_show_app_icon_summary">Если включено, то вторая иконка будет добавлена в список приложений</string>
+
 </resources>

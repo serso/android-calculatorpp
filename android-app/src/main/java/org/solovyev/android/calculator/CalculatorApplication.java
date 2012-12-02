@@ -12,10 +12,12 @@ import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
 import org.jetbrains.annotations.NotNull;
+import org.solovyev.android.AndroidUtils2;
 import org.solovyev.android.ads.AdsController;
 import org.solovyev.android.calculator.external.AndroidExternalListenersContainer;
 import org.solovyev.android.calculator.history.AndroidCalculatorHistory;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
+import org.solovyev.android.calculator.onscreen.CalculatorOnscreenStartActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +35,7 @@ import java.util.List;
         resToastText = R.string.crashed,
         resDialogTitle = R.string.crash_dialog_title,
         resDialogText = R.string.crash_dialog_text)
-public class CalculatorApplication extends android.app.Application {
+public class CalculatorApplication extends android.app.Application implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     /*
     **********************************************************************
@@ -93,6 +95,8 @@ public class CalculatorApplication extends android.app.Application {
 
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         CalculatorPreferences.setDefaultValues(preferences);
+
+        preferences.registerOnSharedPreferenceChangeListener(this);
 
         setTheme(preferences);
 
@@ -197,5 +201,13 @@ public class CalculatorApplication extends android.app.Application {
     public static boolean isMonkeyRunner(@NotNull Context context) {
         // NOTE: this code is only for monkeyrunner
         return context.checkCallingOrSelfPermission(android.Manifest.permission.DISABLE_KEYGUARD) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+        if (CalculatorPreferences.OnscreenCalculator.showAppIcon.getKey().equals(key)) {
+            boolean showAppIcon = CalculatorPreferences.OnscreenCalculator.showAppIcon.getPreference(prefs);
+            AndroidUtils2.toggleComponent(this, CalculatorOnscreenStartActivity.class, showAppIcon);
+        }
     }
 }

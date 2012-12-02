@@ -1,7 +1,9 @@
 package org.solovyev.android.calculator.onscreen;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
+import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -12,6 +14,7 @@ import android.widget.ImageView;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.*;
+import org.solovyev.android.prefs.Preference;
 
 /**
  * User: serso
@@ -28,6 +31,16 @@ public class CalculatorOnscreenView {
     */
 
     private static final String TAG = CalculatorOnscreenView.class.getSimpleName();
+
+    /*
+    **********************************************************************
+    *
+    *                           STATIC
+    *
+    **********************************************************************
+    */
+
+    private static final Preference<CalculatorOnscreenViewState> viewStatePreference = new CalculatorOnscreenViewState.Preference("calculator_onscreen_view_state", CalculatorOnscreenViewState.newDefaultState());
 
     /*
     **********************************************************************
@@ -55,11 +68,8 @@ public class CalculatorOnscreenView {
 	@NotNull
     private Context context;
 
-    private int width;
-
-    private int height;
-
-    private int unfoldedHeight;
+    @NotNull
+    private CalculatorOnscreenViewState state = CalculatorOnscreenViewState.newDefaultState();
 
     @NotNull
     private String cursorColor;
@@ -98,17 +108,22 @@ public class CalculatorOnscreenView {
     }
 
     public static CalculatorOnscreenView newInstance(@NotNull Context context,
-                                                     @NotNull CalculatorOnscreenViewDef def,
+                                                     @NotNull CalculatorOnscreenViewState state,
                                                      @NotNull String cursorColor,
                                                      @Nullable OnscreenViewListener viewListener) {
         final CalculatorOnscreenView result = new CalculatorOnscreenView();
 
         result.root = View.inflate(context, R.layout.onscreen_layout, null);
         result.context = context;
-        result.width = def.getWidth();
-        result.height = def.getHeight();
         result.cursorColor = cursorColor;
         result.viewListener = viewListener;
+
+        final CalculatorOnscreenViewState persistedState = readState(context);
+        if (persistedState != null) {
+            result.state = persistedState;
+        } else {
+            result.state = state;
+        }
 
         return result;
     }
@@ -133,8 +148,6 @@ public class CalculatorOnscreenView {
 
     private void setHeight(int height) {
         checkInit();
-
-        this.height = height;
 
         final WindowManager.LayoutParams params = (WindowManager.LayoutParams) root.getLayoutParams();
 
@@ -243,8 +256,10 @@ public class CalculatorOnscreenView {
         final WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         if (!attached) {
             final WindowManager.LayoutParams params = new WindowManager.LayoutParams(
-                    width,
-                    height,
+                    state.getWidth(),
+                    state.getHeight(),
+                    state.getX(),
+                    state.getY(),
                     WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
                     WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
                     PixelFormat.TRANSLUCENT);
@@ -258,8 +273,6 @@ public class CalculatorOnscreenView {
 
     private void fold() {
         if (!folded) {
-            final WindowManager.LayoutParams params = (WindowManager.LayoutParams) root.getLayoutParams();
-            unfoldedHeight = params.height;
             int newHeight = header.getHeight();
             content.setVisibility(View.GONE);
             setHeight(newHeight);
@@ -270,7 +283,7 @@ public class CalculatorOnscreenView {
     private void unfold() {
         if (folded) {
             content.setVisibility(View.VISIBLE);
-            setHeight(unfoldedHeight);
+            setHeight(state.getHeight());
             folded = false;
         }
     }
@@ -287,6 +300,8 @@ public class CalculatorOnscreenView {
     public void minimize() {
         checkInit();
         if (!minimized) {
+            persistState(context, getCurrentState(!folded));
+
             detach();
 
             if (viewListener != null) {
@@ -297,10 +312,27 @@ public class CalculatorOnscreenView {
         }
     }
 
+    public static void persistState(@NotNull Context context, @NotNull CalculatorOnscreenViewState state) {
+        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        viewStatePreference.putPreference(preferences, state);
+    }
+
+    @Nullable
+    public static CalculatorOnscreenViewState readState(@NotNull Context context) {
+        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        if (viewStatePreference.isSet(preferences)) {
+            return viewStatePreference.getPreference(preferences);
+        } else {
+            return null;
+        }
+    }
+
     public void hide() {
         checkInit();
 
         if (!hidden) {
+
+            persistState(context, getCurrentState(!folded));
 
             detach();
 
@@ -318,9 +350,13 @@ public class CalculatorOnscreenView {
     }
 
     @NotNull
-    public CalculatorOnscreenViewDef getCalculatorOnscreenViewDef() {
+    public CalculatorOnscreenViewState getCurrentState(boolean useRealSize) {
         final WindowManager.LayoutParams params = (WindowManager.LayoutParams) root.getLayoutParams();
-        return CalculatorOnscreenViewDef.newInstance(width, height, params.x, params.y);
+        if (useRealSize) {
+            return CalculatorOnscreenViewState.newInstance(params.width, params.height, params.x, params.y);
+        } else {
+            return CalculatorOnscreenViewState.newInstance(state.getWidth(), state.getHeight(), params.x, params.y);
+        }
     }
 
     /*

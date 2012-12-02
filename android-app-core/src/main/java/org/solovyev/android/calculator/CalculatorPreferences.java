@@ -30,6 +30,7 @@ public final class CalculatorPreferences {
 
     public static class OnscreenCalculator {
         public static final Preference<Boolean> startOnBoot = new BooleanPreference("onscreen_start_on_boot", false);
+        public static final Preference<Boolean> showAppIcon = new BooleanPreference("onscreen_show_app_icon", true);
     }
 
     public static class Calculations {
@@ -187,6 +188,9 @@ public final class CalculatorPreferences {
         applyDefaultPreference(preferences, Calculations.calculateOnFly);
         applyDefaultPreference(preferences, Calculations.preferredAngleUnits);
         applyDefaultPreference(preferences, Calculations.preferredNumeralBase);
+
+        applyDefaultPreference(preferences, OnscreenCalculator.showAppIcon);
+        applyDefaultPreference(preferences, OnscreenCalculator.startOnBoot);
 
 
         // renew value after each application start

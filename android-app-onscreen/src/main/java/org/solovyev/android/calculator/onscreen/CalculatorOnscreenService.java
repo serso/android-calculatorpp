@@ -69,7 +69,7 @@ public class CalculatorOnscreenService extends Service implements ExternalCalcul
             final int width = Math.min(width0, height0);
             final int height = Math.max(width0, height0);
 
-            view = CalculatorOnscreenView.newInstance(this, CalculatorOnscreenViewDef.newInstance(width, height, -1, -1), getCursorColor(this), this);
+            view = CalculatorOnscreenView.newInstance(this, CalculatorOnscreenViewState.newInstance(width, height, -1, -1), getCursorColor(this), this);
             view.show();
 
             startCalculatorListening();
