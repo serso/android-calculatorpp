@@ -38,6 +38,7 @@ public class AndroidExternalListenersContainer implements CalculatorExternalList
 
     private static final String TAG = "Calculator++ External Listener Helper";
 
+	@NotNull
     private final Set<Class<?>> externalListeners = new HashSet<Class<?>>();
 
     @NotNull
@@ -51,7 +52,7 @@ public class AndroidExternalListenersContainer implements CalculatorExternalList
                                      @NotNull CalculatorEventData calculatorEventData,
                                      @NotNull CalculatorEditorViewState editorViewState) {
 
-        for (Class<?> externalListener : externalListeners) {
+        for (Class<?> externalListener : getExternalListenersSync()) {
             final Intent intent = new Intent(EDITOR_STATE_CHANGED_ACTION);
             intent.setClass(context, externalListener);
             intent.putExtra(EVENT_ID_EXTRA, calculatorEventData.getEventId());
@@ -64,7 +65,7 @@ public class AndroidExternalListenersContainer implements CalculatorExternalList
     private void onDisplayStateChanged(@NotNull Context context,
                                        @NotNull CalculatorEventData calculatorEventData,
                                        @NotNull CalculatorDisplayViewState displayViewState) {
-        for (Class<?> externalListener : externalListeners) {
+        for (Class<?> externalListener : getExternalListenersSync()) {
             final Intent intent = new Intent(DISPLAY_STATE_CHANGED_ACTION);
             intent.setClass(context, externalListener);
             intent.putExtra(EVENT_ID_EXTRA, calculatorEventData.getEventId());
@@ -74,15 +75,26 @@ public class AndroidExternalListenersContainer implements CalculatorExternalList
         }
     }
 
-    @Override
+	@NotNull
+	private Set<Class<?>> getExternalListenersSync() {
+		synchronized (externalListeners) {
+			return new HashSet<Class<?>>(externalListeners);
+		}
+	}
+
+	@Override
     public void addExternalListener(@NotNull Class<?> externalCalculatorClass) {
-        externalListeners.add(externalCalculatorClass);
-    }
+		synchronized (externalListeners) {
+			externalListeners.add(externalCalculatorClass);
+		}
+	}
 
     @Override
     public boolean removeExternalListener(@NotNull Class<?> externalCalculatorClass) {
-        return externalListeners.remove(externalCalculatorClass);
-    }
+		synchronized (externalListeners) {
+			return externalListeners.remove(externalCalculatorClass);
+		}
+	}
 
     @Override
     public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
