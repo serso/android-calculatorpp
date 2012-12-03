@@ -17,6 +17,7 @@ import com.actionbarsherlock.app.SherlockActivity;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.core.R;
 import org.solovyev.common.msg.Message;
+import org.solovyev.common.text.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -93,7 +94,14 @@ public class CalculatorMessagesDialog extends SherlockActivity {
             } else {
                 fixButton.setVisibility(View.VISIBLE);
                 fixButton.setOnClickListener(new FixErrorOnClickListener(messages, message));
+
+				final CharSequence fixCaption = fixableError.getFixCaption();
+				if (!StringUtils.isEmpty(fixCaption)) {
+					fixButton.setText(fixCaption);
+				}
             }
+
+
 
             viewGroup.addView(view, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         }

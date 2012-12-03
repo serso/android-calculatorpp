@@ -30,7 +30,7 @@ public class CalculatorFixableMessage implements Parcelable {
     private static CalculatorFixableMessage fromParcel(@NotNull Parcel in) {
         final String message = in.readString();
         final MessageType messageType = (MessageType) in.readSerializable();
-        final CalculatorFixableError fixableError = (CalculatorFixableError) in.readSerializable();
+        final FixableError fixableError = (FixableError) in.readSerializable();
 
         return new CalculatorFixableMessage(message, messageType, fixableError);
     }
@@ -52,7 +52,7 @@ public class CalculatorFixableMessage implements Parcelable {
 
     public CalculatorFixableMessage(@NotNull String message,
                                     @NotNull MessageType messageType,
-                                    @Nullable CalculatorFixableError fixableError) {
+                                    @Nullable FixableError fixableError) {
         this.message = message;
         this.messageType = messageType;
         this.fixableError = fixableError;

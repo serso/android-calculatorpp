@@ -53,4 +53,10 @@ public enum CalculatorFixableError implements FixableError {
         return null;
     }
 
+
+	@Nullable
+	@Override
+	public CharSequence getFixCaption() {
+		return null;
+	}
 }

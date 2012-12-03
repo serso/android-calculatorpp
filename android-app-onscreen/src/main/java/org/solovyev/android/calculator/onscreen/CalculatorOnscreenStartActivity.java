@@ -1,16 +1,22 @@
 package org.solovyev.android.calculator.onscreen;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.AndroidUtils2;
-import org.solovyev.android.prefs.BooleanPreference;
-import org.solovyev.android.prefs.Preference;
+import org.solovyev.android.calculator.AbstractFixableError;
+import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.CalculatorFixableMessage;
+import org.solovyev.android.calculator.CalculatorMessagesDialog;
+import org.solovyev.android.calculator.CalculatorPreferences;
+import org.solovyev.common.msg.MessageType;
+
+import java.util.Arrays;
 
 public class CalculatorOnscreenStartActivity extends Activity {
-
-    private static final Preference<Boolean> removeIconDialogShown = new BooleanPreference("onscreen_remove_icon_dialog_shown", false);
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -18,9 +24,10 @@ public class CalculatorOnscreenStartActivity extends Activity {
 
         if (AndroidUtils2.isComponentEnabled(this, CalculatorOnscreenStartActivity.class)) {
             final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-            if (!removeIconDialogShown.getPreference(prefs)) {
 
-                removeIconDialogShown.putPreference(prefs, true);
+			if (!CalculatorPreferences.OnscreenCalculator.removeIconDialogShown.getPreference(prefs)) {
+				CalculatorMessagesDialog.showDialog(Arrays.asList(new CalculatorFixableMessage(getString(R.string.cpp_onscreen_remove_icon_message), MessageType.warning, new RemoveIconFixableError(this))), this);
+				CalculatorPreferences.OnscreenCalculator.removeIconDialogShown.putPreference(prefs, true);
             }
         }
 
@@ -28,4 +35,18 @@ public class CalculatorOnscreenStartActivity extends Activity {
 
 		this.finish();
 	}
+
+	public static class RemoveIconFixableError extends AbstractFixableError {
+
+		public RemoveIconFixableError(@NotNull Context context) {
+			super(context.getString(R.string.cpp_onscreen_remove_icon_button_text));
+		}
+
+		@Override
+		public void fix() {
+			final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(App.getInstance().getApplication());
+			CalculatorPreferences.OnscreenCalculator.showAppIcon.putPreference(prefs, false);
+		}
+	}
+
 }

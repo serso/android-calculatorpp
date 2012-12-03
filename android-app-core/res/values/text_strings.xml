@@ -279,4 +279,7 @@
     <string name="prefs_onscreen_show_app_icon_title">Show separate icon (require reboot)</string>
     <string name="prefs_onscreen_show_app_icon_summary">If turned on second icon will be shown in applications\' list</string>
 
+    <string name="cpp_onscreen_remove_icon_message">You can remove second icon in applications\' list from application settings or by pressing next button</string>
+    <string name="cpp_onscreen_remove_icon_button_text">Remove icon</string>
+
 </resources>

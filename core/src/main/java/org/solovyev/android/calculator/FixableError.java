@@ -1,5 +1,7 @@
 package org.solovyev.android.calculator;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.io.Serializable;
 
 /**
@@ -8,6 +10,9 @@ import java.io.Serializable;
  * Time: 10:21 PM
  */
 public interface FixableError extends Serializable {
+
+	@Nullable
+	CharSequence getFixCaption();
 
     void fix();
 }
