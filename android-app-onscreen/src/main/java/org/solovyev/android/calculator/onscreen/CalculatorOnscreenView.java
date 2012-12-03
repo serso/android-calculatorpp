@@ -13,7 +13,11 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.AndroidCalculatorDisplayView;
+import org.solovyev.android.calculator.AndroidCalculatorEditorView;
+import org.solovyev.android.calculator.CalculatorButton;
+import org.solovyev.android.calculator.CalculatorDisplayViewState;
+import org.solovyev.android.calculator.CalculatorEditorViewState;
 import org.solovyev.android.prefs.Preference;
 
 /**
@@ -40,7 +44,7 @@ public class CalculatorOnscreenView {
     **********************************************************************
     */
 
-    private static final Preference<CalculatorOnscreenViewState> viewStatePreference = new CalculatorOnscreenViewState.Preference("calculator_onscreen_view_state", CalculatorOnscreenViewState.newDefaultState());
+    private static final Preference<CalculatorOnscreenViewState> viewStatePreference = new CalculatorOnscreenViewState.Preference("onscreen_view_state", CalculatorOnscreenViewState.newDefaultState());
 
     /*
     **********************************************************************
@@ -446,11 +450,6 @@ public class CalculatorOnscreenView {
 
                     if ( currentTime - time >= TIME_EPS ) {
                         time = currentTime;
-/*                        for (int i = 0; i < event.getHistorySize(); i++) {
-                            final float xi = event.getHistoricalX(i);
-                            final float yi = event.getHistoricalY(i);
-                            processMove(xi, yi);
-                        }*/
                         processMove(x1, y1);
                     }
                     return true;
@@ -466,7 +465,7 @@ public class CalculatorOnscreenView {
             wm.getDefaultDisplay().getMetrics(displayMetrics);
 
             this.displayWidth = displayMetrics.widthPixels;
-            this.displayHeight = (int) (displayMetrics.heightPixels - 25 * displayMetrics.density);
+            this.displayHeight = displayMetrics.heightPixels;
         }
 
         private void processMove(float x1, float y1) {
