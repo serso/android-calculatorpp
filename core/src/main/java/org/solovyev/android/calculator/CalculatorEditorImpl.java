@@ -269,11 +269,11 @@ public class CalculatorEditorImpl implements CalculatorEditor {
         }
     }
 
-    private int correctSelection(int selection, @NotNull String text) {
+	public static int correctSelection(int selection, @NotNull CharSequence text) {
         return correctSelection(selection, text.length());
     }
 
-    private int correctSelection(int selection, int textLength) {
+    public static int correctSelection(int selection, int textLength) {
         int result = Math.max(selection, 0);
         result = Math.min(result, textLength);
         return result;

@@ -114,33 +114,35 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
     @NotNull
     @Override
     public List<CalculatorHistoryState> getStates(boolean includeIntermediateStates) {
-        if (includeIntermediateStates) {
-            return getStates();
-        } else {
-            final List<CalculatorHistoryState> states = getStates();
+		synchronized (history) {
+			if (includeIntermediateStates) {
+				return getStates();
+			} else {
+				final List<CalculatorHistoryState> states = getStates();
 
-            final List<CalculatorHistoryState> result = new LinkedList<CalculatorHistoryState>();
+				final List<CalculatorHistoryState> result = new LinkedList<CalculatorHistoryState>();
 
-            CalculatorHistoryState laterState = null;
-            for (CalculatorHistoryState state : CollectionsUtils.reversed(states)) {
-                 if ( laterState != null ) {
-                     final String laterEditorText = laterState.getEditorState().getText();
-                     final String editorText = state.getEditorState().getText();
-                     if ( laterEditorText != null && editorText != null && isIntermediate(laterEditorText, editorText)) {
-                         // intermediate result => skip from add
-                     } else {
-                         result.add(0, state);
-                     }
-                 } else {
-                     result.add(0, state);
-                 }
+				CalculatorHistoryState laterState = null;
+				for (CalculatorHistoryState state : CollectionsUtils.reversed(states)) {
+					 if ( laterState != null ) {
+						 final String laterEditorText = laterState.getEditorState().getText();
+						 final String editorText = state.getEditorState().getText();
+						 if ( laterEditorText != null && editorText != null && isIntermediate(laterEditorText, editorText)) {
+							 // intermediate result => skip from add
+						 } else {
+							 result.add(0, state);
+						 }
+					 } else {
+						 result.add(0, state);
+					 }
 
-                laterState = state;
-            }
+					laterState = state;
+				}
 
-            return result;
-        }
-    }
+				return result;
+			}
+		}
+	}
 
     private boolean isIntermediate(@NotNull String laterEditorText,
                                    @NotNull String editorText) {

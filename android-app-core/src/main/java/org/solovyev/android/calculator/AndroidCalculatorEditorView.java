@@ -144,7 +144,8 @@ public class AndroidCalculatorEditorView extends EditText implements SharedPrefe
                                 editorView.viewStateChange = true;
                                 editorView.viewState = viewState;
                                 editorView.setText(text, BufferType.EDITABLE);
-                                editorView.setSelection(viewState.getSelection());
+								final int selection = CalculatorEditorImpl.correctSelection(viewState.getSelection(), editorView.getText());
+								editorView.setSelection(selection);
                             } finally {
                                 editorView.viewStateChange = false;
                             }
