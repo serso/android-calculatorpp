@@ -6,15 +6,15 @@
     a:orientation="horizontal"
     a:padding="6dp">
 
-    <TextView a:id="@+id/calculation_messages_text_view"
+    <TextView a:id="@+id/cpp_fixable_messages_text_view"
         a:layout_width="0dp"
         a:layout_height="wrap_content"
         a:layout_weight="5"
         a:layout_gravity="fill"
-        a:text="@+id/calculation_messages_text_view"/>
+        a:text="@+id/cpp_fixable_messages_text_view"/>
 
     <Button
-        a:id="@+id/fix_button"
+        a:id="@+id/cpp_fix_button"
         a:layout_width="0dp"
         a:layout_height="wrap_content"
         a:layout_weight="2"

@@ -28,39 +28,44 @@ import java.util.List;
  * Date: 11/17/12
  * Time: 3:37 PM
  */
-public class CalculatorMessagesDialog extends SherlockActivity {
+public class FixableMessagesDialog extends SherlockActivity {
 
     private static final String INPUT = "input";
 
     @NotNull
-    private Input input = new Input(Collections.<CalculatorFixableMessage>emptyList());
+    private Input input = new Input(Collections.<FixableMessage>emptyList(), false);
 
-    public CalculatorMessagesDialog() {
+    public FixableMessagesDialog() {
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.calculator_messages_dialog);
+        setContentView(R.layout.cpp_fixable_messages_dialog);
 
         final Intent intent = getIntent();
         if (intent != null) {
             parseIntent(intent);
         }
 
-        final CheckBox doNotShowCalculationMessagesCheckbox = (CheckBox) findViewById(R.id.do_not_show_calculation_messages_checkbox);
+        final CheckBox doNotShowCalculationMessagesCheckbox = (CheckBox) findViewById(R.id.cpp_do_not_show_fixable_messages_checkbox);
+		if ( input.isShowCheckbox() ) {
+			doNotShowCalculationMessagesCheckbox.setVisibility(View.VISIBLE);
+		} else {
+			doNotShowCalculationMessagesCheckbox.setVisibility(View.GONE);
+		}
 
         final Button closeButton = (Button) findViewById(R.id.close_button);
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (doNotShowCalculationMessagesCheckbox.isChecked()) {
-                    final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(CalculatorMessagesDialog.this);
+                    final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(FixableMessagesDialog.this);
                     CalculatorPreferences.Calculations.showCalculationMessagesDialog.putPreference(prefs, false);
                 }
 
-                CalculatorMessagesDialog.this.finish();
+                FixableMessagesDialog.this.finish();
             }
         });
     }
@@ -74,19 +79,19 @@ public class CalculatorMessagesDialog extends SherlockActivity {
     }
 
     private void onInputChanged() {
-        final ViewGroup viewGroup = (ViewGroup) findViewById(R.id.calculation_messages_container);
+        final ViewGroup viewGroup = (ViewGroup) findViewById(R.id.cpp_fixable_messages_container);
         viewGroup.removeAllViews();
 
         final LayoutInflater layoutInflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        final List<CalculatorFixableMessage> messages = input.getMessages();
-        for (final CalculatorFixableMessage message : messages) {
-            final View view = layoutInflater.inflate(R.layout.calculator_messages_dialog_message, null);
+        final List<FixableMessage> messages = input.getMessages();
+        for (final FixableMessage message : messages) {
+            final View view = layoutInflater.inflate(R.layout.cpp_fixable_messages_dialog_message, null);
 
-            final TextView calculationMessagesTextView = (TextView) view.findViewById(R.id.calculation_messages_text_view);
+            final TextView calculationMessagesTextView = (TextView) view.findViewById(R.id.cpp_fixable_messages_text_view);
             calculationMessagesTextView.setText(message.getMessage());
 
-            final Button fixButton = (Button) view.findViewById(R.id.fix_button);
+            final Button fixButton = (Button) view.findViewById(R.id.cpp_fix_button);
             final FixableError fixableError = message.getFixableError();
             if (fixableError == null) {
                 fixButton.setVisibility(View.GONE);
@@ -122,22 +127,26 @@ public class CalculatorMessagesDialog extends SherlockActivity {
     **********************************************************************
     */
 
-    public static void showDialogForMessages(@NotNull List<Message> messages, @NotNull Context context) {
+    public static void showDialogForMessages(@NotNull List<Message> messages,
+											 @NotNull Context context,
+											 boolean showCheckbox) {
         if (!messages.isEmpty()) {
-            final Intent intent = new Intent(context, CalculatorMessagesDialog.class);
+            final Intent intent = new Intent(context, FixableMessagesDialog.class);
 
-            intent.putExtra(INPUT, Input.fromMessages(messages));
+            intent.putExtra(INPUT, Input.fromMessages(messages, showCheckbox));
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
             context.startActivity(intent);
         }
     }
 
-    public static void showDialog(@NotNull List<CalculatorFixableMessage> messages, @NotNull Context context) {
+    public static void showDialog(@NotNull List<FixableMessage> messages,
+								  @NotNull Context context,
+								  boolean showCheckbox) {
         if (!messages.isEmpty()) {
-            final Intent intent = new Intent(context, CalculatorMessagesDialog.class);
+            final Intent intent = new Intent(context, FixableMessagesDialog.class);
 
-            intent.putExtra(INPUT, new Input(messages));
+            intent.putExtra(INPUT, new Input(messages, showCheckbox));
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
             context.startActivity(intent);
@@ -160,21 +169,25 @@ public class CalculatorMessagesDialog extends SherlockActivity {
 
         @NotNull
         private static Input fromParcel(@NotNull Parcel in) {
-            final List<CalculatorFixableMessage> messages = new ArrayList<CalculatorFixableMessage>();
-            in.readTypedList(messages, CalculatorFixableMessage.CREATOR);
-            return new Input(messages);
+            final List<FixableMessage> messages = new ArrayList<FixableMessage>();
+			boolean showCheckbox = in.readInt() == 1;
+            in.readTypedList(messages, FixableMessage.CREATOR);
+            return new Input(messages, showCheckbox);
         }
 
 
         @NotNull
-        private List<CalculatorFixableMessage> messages = new ArrayList<CalculatorFixableMessage>();
+        private List<FixableMessage> messages = new ArrayList<FixableMessage>();
 
-        private Input(@NotNull List<CalculatorFixableMessage> messages) {
+		private boolean showCheckbox;
+
+        private Input(@NotNull List<FixableMessage> messages, boolean showCheckbox) {
             this.messages = messages;
-        }
+			this.showCheckbox = showCheckbox;
+		}
 
         @NotNull
-        public List<CalculatorFixableMessage> getMessages() {
+        public List<FixableMessage> getMessages() {
             return messages;
         }
 
@@ -185,38 +198,43 @@ public class CalculatorMessagesDialog extends SherlockActivity {
 
         @Override
         public void writeToParcel(@NotNull Parcel out, int flags) {
+			out.writeInt(showCheckbox ? 1 : 0);
             out.writeTypedList(messages);
         }
 
         @NotNull
-        public static Input fromMessages(@NotNull List<Message> messages) {
-            final List<CalculatorFixableMessage> stringMessages = new ArrayList<CalculatorFixableMessage>(messages.size());
+        public static Input fromMessages(@NotNull List<Message> messages, boolean showCheckbox) {
+            final List<FixableMessage> stringMessages = new ArrayList<FixableMessage>(messages.size());
             for (Message message : messages) {
-                stringMessages.add(new CalculatorFixableMessage(message));
+                stringMessages.add(new FixableMessage(message));
             }
 
-            return new Input(stringMessages);
+            return new Input(stringMessages, showCheckbox);
         }
-    }
+
+		public boolean isShowCheckbox() {
+			return showCheckbox;
+		}
+	}
 
     private class FixErrorOnClickListener implements View.OnClickListener {
 
         @NotNull
-        private final List<CalculatorFixableMessage> messages;
+        private final List<FixableMessage> messages;
 
         @NotNull
-        private final CalculatorFixableMessage currentMessage;
+        private final FixableMessage currentMessage;
 
-        public FixErrorOnClickListener(@NotNull List<CalculatorFixableMessage> messages,
-                                       @NotNull CalculatorFixableMessage message) {
+        public FixErrorOnClickListener(@NotNull List<FixableMessage> messages,
+                                       @NotNull FixableMessage message) {
             this.messages = messages;
             this.currentMessage = message;
         }
 
         @Override
         public void onClick(View v) {
-            final List<CalculatorFixableMessage> filteredMessages = new ArrayList<CalculatorFixableMessage>(messages.size() - 1);
-            for (CalculatorFixableMessage message : messages) {
+            final List<FixableMessage> filteredMessages = new ArrayList<FixableMessage>(messages.size() - 1);
+            for (FixableMessage message : messages) {
                 if ( message.getFixableError() == null ) {
                     filteredMessages.add(message);
                 } else if ( message.getFixableError() != currentMessage.getFixableError() ) {
@@ -227,10 +245,10 @@ public class CalculatorMessagesDialog extends SherlockActivity {
             currentMessage.getFixableError().fix();
 
             if (!filteredMessages.isEmpty()) {
-                CalculatorMessagesDialog.this.input = new Input(filteredMessages);
+                FixableMessagesDialog.this.input = new Input(filteredMessages, FixableMessagesDialog.this.input.showCheckbox);
                 onInputChanged();
             } else {
-                CalculatorMessagesDialog.this.finish();
+                FixableMessagesDialog.this.finish();
             }
         }
     }

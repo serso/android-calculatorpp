@@ -12,27 +12,27 @@ import org.solovyev.common.msg.MessageType;
  * Date: 11/17/12
  * Time: 6:54 PM
  */
-public class CalculatorFixableMessage implements Parcelable {
+public class FixableMessage implements Parcelable {
 
-    public static final Creator<CalculatorFixableMessage> CREATOR = new Creator<CalculatorFixableMessage>() {
+    public static final Creator<FixableMessage> CREATOR = new Creator<FixableMessage>() {
         @Override
-        public CalculatorFixableMessage createFromParcel(@NotNull Parcel in) {
-            return CalculatorFixableMessage.fromParcel(in);
+        public FixableMessage createFromParcel(@NotNull Parcel in) {
+            return FixableMessage.fromParcel(in);
         }
 
         @Override
-        public CalculatorFixableMessage[] newArray(int size) {
-            return new CalculatorFixableMessage[size];
+        public FixableMessage[] newArray(int size) {
+            return new FixableMessage[size];
         }
     };
 
     @NotNull
-    private static CalculatorFixableMessage fromParcel(@NotNull Parcel in) {
+    private static FixableMessage fromParcel(@NotNull Parcel in) {
         final String message = in.readString();
         final MessageType messageType = (MessageType) in.readSerializable();
         final FixableError fixableError = (FixableError) in.readSerializable();
 
-        return new CalculatorFixableMessage(message, messageType, fixableError);
+        return new FixableMessage(message, messageType, fixableError);
     }
 
     @NotNull
@@ -44,15 +44,15 @@ public class CalculatorFixableMessage implements Parcelable {
     @Nullable
     private final FixableError fixableError;
 
-    public CalculatorFixableMessage(@NotNull Message message) {
+    public FixableMessage(@NotNull Message message) {
         this.message = message.getLocalizedMessage();
         this.messageType = message.getMessageType();
         this.fixableError = CalculatorFixableError.getErrorByMessageCode(message.getMessageCode());
     }
 
-    public CalculatorFixableMessage(@NotNull String message,
-                                    @NotNull MessageType messageType,
-                                    @Nullable FixableError fixableError) {
+    public FixableMessage(@NotNull String message,
+						  @NotNull MessageType messageType,
+						  @Nullable FixableError fixableError) {
         this.message = message;
         this.messageType = messageType;
         this.fixableError = fixableError;

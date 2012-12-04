@@ -43,16 +43,16 @@ public class AndroidCalculatorPreferenceService implements CalculatorPreferenceS
             final AngleUnit preferredAngleUnits = CalculatorPreferences.Calculations.preferredAngleUnits.getPreference(prefs);
             final AngleUnit angleUnits = AndroidCalculatorEngine.Preferences.angleUnit.getPreference(prefs);
 
-            final List<CalculatorFixableMessage> messages = new ArrayList<CalculatorFixableMessage>(2);
+            final List<FixableMessage> messages = new ArrayList<FixableMessage>(2);
             if ( numeralBase != preferredNumeralBase ) {
-                messages.add(new CalculatorFixableMessage(application.getString(R.string.preferred_numeral_base_message, preferredNumeralBase.name(), numeralBase.name()), MessageType.warning, CalculatorFixableError.preferred_numeral_base));
+                messages.add(new FixableMessage(application.getString(R.string.preferred_numeral_base_message, preferredNumeralBase.name(), numeralBase.name()), MessageType.warning, CalculatorFixableError.preferred_numeral_base));
             }
 
             if ( angleUnits != preferredAngleUnits ) {
-                messages.add(new CalculatorFixableMessage(application.getString(R.string.preferred_angle_units_message, preferredAngleUnits.name(), angleUnits.name()), MessageType.warning, CalculatorFixableError.preferred_angle_units));
+                messages.add(new FixableMessage(application.getString(R.string.preferred_angle_units_message, preferredAngleUnits.name(), angleUnits.name()), MessageType.warning, CalculatorFixableError.preferred_angle_units));
             }
 
-            CalculatorMessagesDialog.showDialog(messages, application);
+            FixableMessagesDialog.showDialog(messages, application, true);
 
             CalculatorPreferences.Calculations.lastPreferredPreferencesCheck.putPreference(prefs, currentTime);
         }

@@ -9,8 +9,8 @@ import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.AndroidUtils2;
 import org.solovyev.android.calculator.AbstractFixableError;
 import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.CalculatorFixableMessage;
-import org.solovyev.android.calculator.CalculatorMessagesDialog;
+import org.solovyev.android.calculator.FixableMessage;
+import org.solovyev.android.calculator.FixableMessagesDialog;
 import org.solovyev.android.calculator.CalculatorPreferences;
 import org.solovyev.common.msg.MessageType;
 
@@ -26,7 +26,7 @@ public class CalculatorOnscreenStartActivity extends Activity {
             final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
 			if (!CalculatorPreferences.OnscreenCalculator.removeIconDialogShown.getPreference(prefs)) {
-				CalculatorMessagesDialog.showDialog(Arrays.asList(new CalculatorFixableMessage(getString(R.string.cpp_onscreen_remove_icon_message), MessageType.warning, new RemoveIconFixableError(this))), this);
+				FixableMessagesDialog.showDialog(Arrays.asList(new FixableMessage(getString(R.string.cpp_onscreen_remove_icon_message), MessageType.warning, new RemoveIconFixableError(this))), this, false);
 				CalculatorPreferences.OnscreenCalculator.removeIconDialogShown.putPreference(prefs, true);
             }
         }

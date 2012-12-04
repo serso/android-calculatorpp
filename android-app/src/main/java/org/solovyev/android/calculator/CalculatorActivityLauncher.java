@@ -166,7 +166,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
         if ( CalculatorPreferences.Calculations.showCalculationMessagesDialog.getPreference(prefs) ) {
-            CalculatorMessagesDialog.showDialogForMessages(messages, context);
+            FixableMessagesDialog.showDialogForMessages(messages, context, true);
         }
     }
 
