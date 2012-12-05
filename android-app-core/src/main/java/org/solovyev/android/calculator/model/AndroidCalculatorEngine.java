@@ -65,12 +65,12 @@ public class AndroidCalculatorEngine implements CalculatorEngine, SharedPreferen
     public static class Preferences {
         public static final Preference<String> groupingSeparator = StringPreference.newInstance(GROUPING_SEPARATOR_P_KEY, JsclMathEngine.GROUPING_SEPARATOR_DEFAULT);
         public static final Preference<String> multiplicationSign = StringPreference.newInstance(MULTIPLICATION_SIGN_P_KEY, MULTIPLICATION_SIGN_DEFAULT);
-        public static final Preference<Integer> precision = StringPreference.newInstance(RESULT_PRECISION_P_KEY, RESULT_PRECISION_DEFAULT, new NumberMapper<Integer>(Integer.class));
+        public static final Preference<Integer> precision = StringPreference.newInstance(RESULT_PRECISION_P_KEY, RESULT_PRECISION_DEFAULT, NumberMapper.getMapper(Integer.class));
         public static final Preference<Boolean> roundResult = new BooleanPreference(ROUND_RESULT_P_KEY, ROUND_RESULT_DEFAULT);
         public static final Preference<NumeralBase> numeralBase = StringPreference.newInstance(NUMERAL_BASES_P_KEY, NUMERAL_BASES_DEFAULT, EnumMapper.newInstance(NumeralBase.class));
         public static final Preference<AngleUnit> angleUnit = StringPreference.newInstance(ANGLE_UNITS_P_KEY, ANGLE_UNITS_DEFAULT, EnumMapper.newInstance(AngleUnit.class));
         public static final Preference<Boolean> scienceNotation = new BooleanPreference(SCIENCE_NOTATION_P_KEY, SCIENCE_NOTATION_DEFAULT);
-        public static final Preference<Integer> maxCalculationTime = StringPreference.newInstance(MAX_CALCULATION_TIME_P_KEY, MAX_CALCULATION_TIME_DEFAULT, new NumberMapper<Integer>(Integer.class));
+        public static final Preference<Integer> maxCalculationTime = StringPreference.newInstance(MAX_CALCULATION_TIME_P_KEY, MAX_CALCULATION_TIME_DEFAULT, NumberMapper.getMapper(Integer.class));
 
         private static final List<String> preferenceKeys = new ArrayList<String>();
 
