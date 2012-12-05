@@ -7,7 +7,6 @@ package org.solovyev.android.calculator;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
@@ -64,6 +63,30 @@ public class AndroidCalculatorEditorView extends EditText implements SharedPrefe
 
     public AndroidCalculatorEditorView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+    }
+
+    @Override
+    public boolean onCheckIsTextEditor() {
+        // NOTE: code below can be used carefully and should not be copied without special intention
+        // The main purpose of code is to disable soft input (virtual keyboard) but leave all the TextEdit functionality, like cursor, scrolling, copy/paste menu etc
+
+        if (Build.VERSION.SDK_INT >= 11) {
+            // fix for missing cursor in android 3 and higher
+            try {
+                // IDEA: return false always except if method was called from TextView.isCursorVisible() method
+                for (StackTraceElement stackTraceElement : CollectionsUtils.asList(Thread.currentThread().getStackTrace())) {
+                    if ("isCursorVisible".equals(stackTraceElement.getMethodName())) {
+                        return true;
+                    }
+                }
+            } catch (RuntimeException e) {
+                // just in case...
+            }
+
+            return false;
+        } else {
+            return false;
+        }
     }
 
     @Override
