@@ -186,7 +186,11 @@ public class AndroidCalculatorEditorView extends EditText implements SharedPrefe
                 if (!viewStateChange) {
                     // external text change => need to notify editor
                     super.onSelectionChanged(selStart, selEnd);
-                    Locator.getInstance().getEditor().setSelection(selStart);
+
+					if ( selStart == selEnd ) {
+						// only if cursor moving, if selection do nothing
+                    	Locator.getInstance().getEditor().setSelection(selStart);
+					}
                 }
             }
         }
