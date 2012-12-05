@@ -98,8 +98,10 @@ public class CalculatorOnscreenService extends Service implements ExternalCalcul
     @Override
     public void onDestroy() {
         stopCalculatorListening();
-        this.view.hide();
-        super.onDestroy();
+		if (viewCreated) {
+			this.view.hide();
+		}
+		super.onDestroy();
     }
 
     @Override

@@ -23,7 +23,6 @@ import jscl.math.Expression;
 import jscl.math.Generic;
 import jscl.math.function.Constant;
 import jscl.text.ParseException;
-import org.achartengine.GraphicalView;
 import org.achartengine.chart.XYChart;
 import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
@@ -32,7 +31,21 @@ import org.achartengine.tools.ZoomEvent;
 import org.achartengine.tools.ZoomListener;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.CalculatorApplication;
+import org.solovyev.android.calculator.CalculatorDisplayChangeEventData;
+import org.solovyev.android.calculator.CalculatorDisplayViewState;
+import org.solovyev.android.calculator.CalculatorEventData;
+import org.solovyev.android.calculator.CalculatorEventHolder;
+import org.solovyev.android.calculator.CalculatorEventListener;
+import org.solovyev.android.calculator.CalculatorEventType;
+import org.solovyev.android.calculator.CalculatorFragment;
+import org.solovyev.android.calculator.CalculatorParseException;
+import org.solovyev.android.calculator.CalculatorPreferences;
+import org.solovyev.android.calculator.CalculatorUtils;
+import org.solovyev.android.calculator.Locator;
+import org.solovyev.android.calculator.PreparedExpression;
+import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.ToJsclTextProcessor;
 import org.solovyev.android.menu.ActivityMenu;
 import org.solovyev.android.menu.IdentifiableMenuItem;
 import org.solovyev.android.menu.ListActivityMenu;
@@ -69,7 +82,7 @@ public class CalculatorPlotFragment extends CalculatorFragment implements Calcul
      * The encapsulated graphical view.
      */
     @Nullable
-    private GraphicalView graphicalView;
+    private MyGraphicalView graphicalView;
 
     // thread which calculated data for graph view
     @NotNull
@@ -247,7 +260,7 @@ public class CalculatorPlotFragment extends CalculatorFragment implements Calcul
                 chart.getRenderer().setYAxisMax(plotBoundaries.yMax);
             }
 
-            graphicalView = new GraphicalView(this.getActivity(), chart);
+            graphicalView = new MyGraphicalView(this.getActivity(), chart);
             graphicalView.setBackgroundColor(this.bgColor);
 
             graphicalView.addZoomListener(new ZoomListener() {
