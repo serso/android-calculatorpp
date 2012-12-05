@@ -12,14 +12,14 @@
     <groupId>org.solovyev.android</groupId>
     <artifactId>calculatorpp-parent</artifactId>
     <packaging>pom</packaging>
-    <version>1.5.3-b</version>
+    <version>1.5.3-SHAPHOT</version>
     <name>Calculator++</name>
 
     <scm>
         <connection>scm:git:git@github.com:serso/android-calculatorpp.git</connection>
         <developerConnection>scm:git:git@github.com:serso/android-calculatorpp.git</developerConnection>
         <url>http://github.com/serso/android-calculatorpp</url>
-        <tag>release-1.5.3-b</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <modules>
@@ -43,27 +43,27 @@
 			<dependency>
 				<groupId>org.solovyev.android</groupId>
 				<artifactId>calculatorpp-core</artifactId>
-				<version>1.5.3-b</version>
+				<version>1.5.3-SHAPHOT</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.solovyev.android</groupId>
 				<artifactId>calculatorpp-android-app-core</artifactId>
-				<version>1.5.3-b</version>
+				<version>1.5.3-SHAPHOT</version>
 				<type>apklib</type>
 			</dependency>
 
 			<dependency>
 				<groupId>org.solovyev.android</groupId>
 				<artifactId>calculatorpp-android-app-widget</artifactId>
-				<version>1.5.3-b</version>
+				<version>1.5.3-SHAPHOT</version>
 				<type>apklib</type>
 			</dependency>
 
             <dependency>
                 <groupId>org.solovyev.android</groupId>
                 <artifactId>calculatorpp-android-app-onscreen</artifactId>
-                <version>1.5.3-b</version>
+                <version>1.5.3-SHAPHOT</version>
                 <type>apklib</type>
             </dependency>
 
