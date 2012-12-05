@@ -24,6 +24,7 @@ import jscl.math.Generic;
 import jscl.math.function.Constant;
 import jscl.text.ParseException;
 import org.achartengine.chart.XYChart;
+import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.tools.PanListener;
@@ -323,37 +324,40 @@ public class CalculatorPlotFragment extends CalculatorFragment implements Calcul
                             plotExecutor.execute(new Runnable() {
                                 @Override
                                 public void run() {
-                                    final XYMultipleSeriesRenderer dr = chart.getRenderer();
+									final XYMultipleSeriesRenderer dr = chart.getRenderer();
 
-                                    final MyXYSeries realSeries = (MyXYSeries) chart.getDataset().getSeriesAt(0);
+									final XYMultipleSeriesDataset dataset = chart.getDataset();
+									if (dataset != null && dr != null) {
+										final MyXYSeries realSeries = (MyXYSeries) dataset.getSeriesAt(0);
 
-                                    final MyXYSeries imagSeries;
-                                    if (chart.getDataset().getSeriesCount() > 1) {
-                                        imagSeries = (MyXYSeries) chart.getDataset().getSeriesAt(1);
-                                    } else {
-                                        imagSeries = new MyXYSeries(PlotUtils.getImagFunctionName(variable), PlotUtils.DEFAULT_NUMBER_OF_STEPS * 2);
-                                    }
-
-                                    try {
-										if (dr != null) {
-											if (PlotUtils.addXY(dr.getXAxisMin(), dr.getXAxisMax(), expression, variable, realSeries, imagSeries, true, PlotUtils.DEFAULT_NUMBER_OF_STEPS)) {
-												if (chart.getDataset().getSeriesCount() <= 1) {
-													chart.getDataset().addSeries(imagSeries);
-													chart.getRenderer().addSeriesRenderer(PlotUtils.createImagRenderer(imagLineColor.getColor()));
-												}
+										if (realSeries != null) {
+											final MyXYSeries imagSeries;
+											if (dataset.getSeriesCount() > 1) {
+												imagSeries = (MyXYSeries) dataset.getSeriesAt(1);
+											} else {
+												imagSeries = new MyXYSeries(PlotUtils.getImagFunctionName(variable), PlotUtils.DEFAULT_NUMBER_OF_STEPS * 2);
 											}
-										}
-									} catch (ArithmeticException e) {
-                                        PlotUtils.handleArithmeticException(e, CalculatorPlotFragment.this);
-                                    }
 
-                                    uiHandler.post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            graphicalView.repaint();
-                                        }
-                                    });
-                                }
+											try {
+												if (PlotUtils.addXY(dr.getXAxisMin(), dr.getXAxisMax(), expression, variable, realSeries, imagSeries, true, PlotUtils.DEFAULT_NUMBER_OF_STEPS)) {
+													if (dataset.getSeriesCount() <= 1) {
+														dataset.addSeries(imagSeries);
+														dr.addSeriesRenderer(PlotUtils.createImagRenderer(imagLineColor.getColor()));
+													}
+												}
+											} catch (ArithmeticException e) {
+												PlotUtils.handleArithmeticException(e, CalculatorPlotFragment.this);
+											}
+
+											uiHandler.post(new Runnable() {
+												@Override
+												public void run() {
+													graphicalView.repaint();
+												}
+											});
+										}
+									}
+								}
                             });
                         }
                     }
