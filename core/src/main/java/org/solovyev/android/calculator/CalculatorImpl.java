@@ -544,7 +544,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 
                 varBuilder.setName(CalculatorVarsRegistry.ANS);
                 varBuilder.setValue(result);
-                varBuilder.setDescription(CalculatorMessages.getBundle().getString("ans_description"));
+                varBuilder.setDescription(CalculatorMessages.getBundle().getString(CalculatorMessages.ans_description));
 
                 CalculatorVarsRegistry.saveVariable(varsRegistry, varBuilder, ansVar, this, false);
             }

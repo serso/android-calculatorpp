@@ -2,9 +2,7 @@ package org.solovyev.android.calculator;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 import java.util.ResourceBundle;
 
 /**
@@ -13,9 +11,6 @@ import java.util.ResourceBundle;
  * Time: 8:10 PM
  */
 public final class CalculatorMessages {
-
-    @NotNull
-    private static final Map<Locale, ResourceBundle> bundlesByLocale = new HashMap<Locale, ResourceBundle>();
 
 
     private CalculatorMessages() {
@@ -29,15 +24,7 @@ public final class CalculatorMessages {
 
     @NotNull
     public static ResourceBundle getBundle(@NotNull Locale locale) {
-        synchronized (bundlesByLocale) {
-            ResourceBundle result = bundlesByLocale.get(locale);
-            if (result == null) {
-                result = ResourceBundle.getBundle("org/solovyev/android/calculator/messages", locale);
-                bundlesByLocale.put(locale, result);
-            }
-
-            return result;
-        }
+        return ResourceBundle.getBundle("org/solovyev/android/calculator/messages", locale);
     }
 
     /* Arithmetic error occurred: {0} */
@@ -63,4 +50,7 @@ public final class CalculatorMessages {
 
     /* Result copied to clipboard! */
     public static final String result_copied = "result_copied";
+
+	/*	Last calculated value */
+    public static final String ans_description = "ans_description";
 }
