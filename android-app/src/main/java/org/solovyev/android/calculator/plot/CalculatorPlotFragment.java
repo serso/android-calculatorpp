@@ -335,13 +335,15 @@ public class CalculatorPlotFragment extends CalculatorFragment implements Calcul
                                     }
 
                                     try {
-                                        if (PlotUtils.addXY(dr.getXAxisMin(), dr.getXAxisMax(), expression, variable, realSeries, imagSeries, true, PlotUtils.DEFAULT_NUMBER_OF_STEPS)) {
-                                            if (chart.getDataset().getSeriesCount() <= 1) {
-                                                chart.getDataset().addSeries(imagSeries);
-                                                chart.getRenderer().addSeriesRenderer(PlotUtils.createImagRenderer(imagLineColor.getColor()));
-                                            }
-                                        }
-                                    } catch (ArithmeticException e) {
+										if (dr != null) {
+											if (PlotUtils.addXY(dr.getXAxisMin(), dr.getXAxisMax(), expression, variable, realSeries, imagSeries, true, PlotUtils.DEFAULT_NUMBER_OF_STEPS)) {
+												if (chart.getDataset().getSeriesCount() <= 1) {
+													chart.getDataset().addSeries(imagSeries);
+													chart.getRenderer().addSeriesRenderer(PlotUtils.createImagRenderer(imagLineColor.getColor()));
+												}
+											}
+										}
+									} catch (ArithmeticException e) {
                                         PlotUtils.handleArithmeticException(e, CalculatorPlotFragment.this);
                                     }
 
