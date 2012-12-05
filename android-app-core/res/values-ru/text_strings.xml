@@ -279,4 +279,7 @@
     <string name="prefs_onscreen_show_app_icon_title">Показывать отдельную иконку (может потребовать перезагрузки)</string>
     <string name="prefs_onscreen_show_app_icon_summary">Если включено, то вторая иконка будет добавлена в список приложений</string>
 
+	<string name="cpp_onscreen_remove_icon_message">Вы можете удалить вторую иконку Калькулятора++ из списка приложений из настроек или нажав следующую кнопку</string>
+	<string name="cpp_onscreen_remove_icon_button_text">Удалить иконку</string>
+
 </resources>
