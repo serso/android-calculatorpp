@@ -244,4 +244,11 @@
         2. UI is fixed for some devices
     </string>
 
+	<string name="c_release_notes_for_112">
+		1. Possibility to remove icon for Calculator++ in separate window\n
+		2. Fixed some crashes (editing, plotting)\n
+		3. Fixed flicker for Calculator++ in separate window
+	</string>
+
+
 </resources>
