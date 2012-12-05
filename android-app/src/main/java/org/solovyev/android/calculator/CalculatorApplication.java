@@ -18,6 +18,7 @@ import org.solovyev.android.calculator.external.AndroidExternalListenersContaine
 import org.solovyev.android.calculator.history.AndroidCalculatorHistory;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 import org.solovyev.android.calculator.onscreen.CalculatorOnscreenStartActivity;
+import org.solovyev.common.msg.MessageType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -208,6 +209,7 @@ public class CalculatorApplication extends android.app.Application implements Sh
         if (CalculatorPreferences.OnscreenCalculator.showAppIcon.getKey().equals(key)) {
             boolean showAppIcon = CalculatorPreferences.OnscreenCalculator.showAppIcon.getPreference(prefs);
             AndroidUtils2.toggleComponent(this, CalculatorOnscreenStartActivity.class, showAppIcon);
+			Locator.getInstance().getNotifier().showMessage(R.string.cpp_this_change_may_require_reboot, MessageType.info);
         }
     }
 }

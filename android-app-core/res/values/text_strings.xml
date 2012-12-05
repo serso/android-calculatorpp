@@ -281,5 +281,6 @@
 
     <string name="cpp_onscreen_remove_icon_message">You can remove second icon in applications\' list from application settings or by pressing next button</string>
     <string name="cpp_onscreen_remove_icon_button_text">Remove icon</string>
+    <string name="cpp_this_change_may_require_reboot">This change may require reboot</string>
 
 </resources>
