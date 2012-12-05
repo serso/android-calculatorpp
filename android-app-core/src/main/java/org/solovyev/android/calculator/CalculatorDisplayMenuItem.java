@@ -85,7 +85,7 @@ public enum CalculatorDisplayMenuItem implements LabeledMenuItem<CalculatorDispl
             final Constant constant = CollectionsUtils.getFirstCollectionElement(CalculatorUtils.getNotSystemConstants(generic));
             assert constant != null;
 
-            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.plot_graph, PlotInput.newInstance(generic, constant));
+            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.plot_graph, PlotInput.newInstance(generic, constant), context);
         }
 
         @Override
