@@ -10,10 +10,9 @@ import jscl.NumeralBase;
 import jscl.math.function.Constants;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.calculator.CalculatorParseException;
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.common.JPredicate;
-import org.solovyev.common.StartsWithFinder;
-import org.solovyev.android.calculator.CalculatorParseException;
 import org.solovyev.common.collections.CollectionsUtils;
 
 import java.util.*;
@@ -442,4 +441,26 @@ public enum MathType {
 			this.i = i;
 		}
 	}
+
+    private static class StartsWithFinder implements JPredicate<String> {
+
+        private int i;
+
+        @NotNull
+        private final String targetString;
+
+        public StartsWithFinder(@NotNull String targetString, int i) {
+            this.targetString = targetString;
+            this.i = i;
+        }
+
+        @Override
+        public boolean apply(@Nullable String s) {
+            return s != null && targetString.startsWith(s, i);
+        }
+
+        public void setI(int i) {
+            this.i = i;
+        }
+    }
 }
