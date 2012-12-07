@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.solovyev.android</groupId>
         <artifactId>calculatorpp-parent</artifactId>
-        <version>1.5.3-SHAPHOT</version>
+        <version>1.5.3-SHAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
