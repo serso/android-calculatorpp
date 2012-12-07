@@ -12,7 +12,7 @@
     <groupId>org.solovyev.android</groupId>
     <artifactId>calculatorpp-parent</artifactId>
     <packaging>pom</packaging>
-    <version>1.5.3-SHAPSHOT</version>
+    <version>1.5.3-SNAPSHOT</version>
     <name>Calculator++</name>
 
     <scm>
@@ -43,27 +43,27 @@
 			<dependency>
 				<groupId>org.solovyev.android</groupId>
 				<artifactId>calculatorpp-core</artifactId>
-				<version>1.5.3-SHAPSHOT</version>
+				<version>1.5.3-SNAPSHOT</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.solovyev.android</groupId>
 				<artifactId>calculatorpp-android-app-core</artifactId>
-				<version>1.5.3-SHAPSHOT</version>
+				<version>1.5.3-SNAPSHOT</version>
 				<type>apklib</type>
 			</dependency>
 
 			<dependency>
 				<groupId>org.solovyev.android</groupId>
 				<artifactId>calculatorpp-android-app-widget</artifactId>
-				<version>1.5.3-SHAPSHOT</version>
+				<version>1.5.3-SNAPSHOT</version>
 				<type>apklib</type>
 			</dependency>
 
             <dependency>
                 <groupId>org.solovyev.android</groupId>
                 <artifactId>calculatorpp-android-app-onscreen</artifactId>
-                <version>1.5.3-SHAPSHOT</version>
+                <version>1.5.3-SNAPSHOT</version>
                 <type>apklib</type>
             </dependency>
 
