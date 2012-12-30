@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 public class AndroidCalculatorLogger implements CalculatorLogger {
 
     @NotNull
-    private static final String TAG = AndroidCalculatorLogger.class.getSimpleName();
+    private static final String TAG = "Calculatorpp";
 
     @Override
     public void debug(@Nullable String tag, @NotNull String message) {
@@ -21,7 +21,7 @@ public class AndroidCalculatorLogger implements CalculatorLogger {
 
     @NotNull
     private String getTag(@Nullable String tag) {
-        return tag != null ? tag : TAG;
+        return tag != null ? TAG + "/" + tag : TAG;
     }
 
     @Override

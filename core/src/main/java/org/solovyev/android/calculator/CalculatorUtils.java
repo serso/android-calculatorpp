@@ -45,7 +45,8 @@ public final class CalculatorUtils {
         boolean result = false;
 
         if (operation == JsclOperation.simplify) {
-            if (getNotSystemConstants(expression).size() == 1) {
+            int size = getNotSystemConstants(expression).size();
+            if (size == 1 || size == 2) {
                 result = true;
             }
         }

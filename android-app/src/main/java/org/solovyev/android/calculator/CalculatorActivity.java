@@ -25,6 +25,7 @@ import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.AndroidUtils;
 import org.solovyev.android.calculator.about.CalculatorFragmentType;
 import org.solovyev.android.calculator.about.CalculatorReleaseNotesFragment;
+import org.solovyev.android.calculator.plot.CalculatorPlotActivity;
 import org.solovyev.android.fragments.FragmentUtils;
 import org.solovyev.android.prefs.Preference;
 import org.solovyev.common.equals.EqualsTool;
@@ -63,7 +64,7 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
             activityHelper.addTab(this, CalculatorFragmentType.variables, null, R.id.main_second_pane);
             activityHelper.addTab(this, CalculatorFragmentType.functions, null, R.id.main_second_pane);
             activityHelper.addTab(this, CalculatorFragmentType.operators, null, R.id.main_second_pane);
-            activityHelper.addTab(this, CalculatorFragmentType.plotter, null, R.id.main_second_pane);
+            activityHelper.addTab(this, CalculatorPlotActivity.getPlotterFragmentType(), null, R.id.main_second_pane);
             activityHelper.addTab(this, CalculatorFragmentType.faq, null, R.id.main_second_pane);
         } else {
             getSupportActionBar().hide();

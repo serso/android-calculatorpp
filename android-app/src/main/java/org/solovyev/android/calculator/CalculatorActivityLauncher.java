@@ -23,6 +23,7 @@ import org.solovyev.android.calculator.help.CalculatorHelpActivity;
 import org.solovyev.android.calculator.history.CalculatorHistoryActivity;
 import org.solovyev.android.calculator.math.edit.*;
 import org.solovyev.android.calculator.matrix.CalculatorMatrixActivity;
+import org.solovyev.android.calculator.plot.AbstractCalculatorPlotFragment;
 import org.solovyev.android.calculator.plot.CalculatorPlotActivity;
 import org.solovyev.android.calculator.plot.CalculatorPlotFragment;
 import org.solovyev.android.calculator.plot.PlotInput;
@@ -99,10 +100,14 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
         context.startActivity(intent);
 	}
 
-	public static void plotGraph(@NotNull final Context context, @NotNull Generic generic, @NotNull Constant constant){
+	public static void plotGraph(@NotNull final Context context,
+                                 @NotNull Generic generic,
+                                 @NotNull Constant xVariable,
+                                 @Nullable Constant yVariable){
 		final Intent intent = new Intent();
 		intent.putExtra(ChartFactory.TITLE, context.getString(R.string.c_graph));
-		intent.putExtra(CalculatorPlotFragment.INPUT, new CalculatorPlotFragment.Input(generic.toString(), constant.getName()));
+        final AbstractCalculatorPlotFragment.Input input = new CalculatorPlotFragment.Input(generic.toString(), xVariable.getName(), yVariable == null ? null : yVariable.getName());
+        intent.putExtra(CalculatorPlotFragment.INPUT, input);
 		intent.setClass(context, CalculatorPlotActivity.class);
         AndroidUtils2.addFlags(intent, false, context);
 		context.startActivity(intent);
@@ -214,7 +219,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
                 App.getInstance().getUiThreadExecutor().execute(new Runnable() {
                     @Override
                     public void run() {
-                        plotGraph(context, plotInput.getFunction(), plotInput.getConstant());
+                        plotGraph(context, plotInput.getFunction(), plotInput.getXVariable(), plotInput.getYVariable());
                     }
                 });
                 break;

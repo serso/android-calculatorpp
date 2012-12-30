@@ -9,7 +9,9 @@ import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.plot.PlotInput;
 import org.solovyev.android.calculator.view.NumeralBaseConverterDialog;
 import org.solovyev.android.menu.LabeledMenuItem;
-import org.solovyev.common.collections.CollectionsUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
 * User: Solovyev_S
@@ -82,10 +84,17 @@ public enum CalculatorDisplayMenuItem implements LabeledMenuItem<CalculatorDispl
             final Generic generic = data.getResult();
             assert generic != null;
 
-            final Constant constant = CollectionsUtils.getFirstCollectionElement(CalculatorUtils.getNotSystemConstants(generic));
-            assert constant != null;
+            final List<Constant> variables = new ArrayList<Constant>(CalculatorUtils.getNotSystemConstants(generic));
+            final Constant xVariable = variables.get(0);
 
-            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.plot_graph, PlotInput.newInstance(generic, constant), context);
+            final Constant yVariable;
+            if ( variables.size() > 1 ) {
+                yVariable = variables.get(1);
+            } else {
+                yVariable = null;
+            }
+
+            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.plot_graph, PlotInput.newInstance(generic, xVariable, yVariable), context);
         }
 
         @Override

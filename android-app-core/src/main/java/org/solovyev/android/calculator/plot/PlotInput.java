@@ -3,6 +3,7 @@ package org.solovyev.android.calculator.plot;
 import jscl.math.Generic;
 import jscl.math.function.Constant;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * User: serso
@@ -15,19 +16,25 @@ public class PlotInput {
     private Generic function;
 
     @NotNull
-    private Constant constant;
+    private Constant xVariable;
+
+    @Nullable
+    private Constant yVariable;
 
     public PlotInput() {
     }
 
-    private PlotInput(@NotNull Generic function, @NotNull Constant constant) {
-        this.function = function;
-        this.constant = constant;
-    }
-
     @NotNull
-    public static PlotInput newInstance(@NotNull Generic function, @NotNull Constant constant) {
-        return new PlotInput(function, constant);
+    public static PlotInput newInstance(@NotNull Generic function,
+                                        @NotNull Constant xVariable,
+                                        @Nullable Constant yVariable) {
+        PlotInput result = new PlotInput();
+
+        result.function = function;
+        result.xVariable = xVariable;
+        result.yVariable = yVariable;
+
+        return result;
     }
 
     @NotNull
@@ -36,7 +43,12 @@ public class PlotInput {
     }
 
     @NotNull
-    public Constant getConstant() {
-        return constant;
+    public Constant getXVariable() {
+        return xVariable;
+    }
+
+    @Nullable
+    public Constant getYVariable() {
+        return yVariable;
     }
 }

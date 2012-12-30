@@ -3,6 +3,7 @@ package org.solovyev.android.calculator;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import net.robotmedia.billing.BillingController;
@@ -65,7 +66,11 @@ public class CalculatorApplication extends android.app.Application implements Sh
     **********************************************************************
     */
 
+    @NotNull
     private final List<CalculatorEventListener> listeners = new ArrayList<CalculatorEventListener>();
+
+    @NotNull
+    protected final Handler uiHandler = new Handler();
 
     /*
     **********************************************************************
@@ -184,6 +189,11 @@ public class CalculatorApplication extends android.app.Application implements Sh
     @NotNull
     public CalculatorFragmentHelper createFragmentHelper(int layoutId, int titleResId, boolean listenersOnCreate) {
         return new CalculatorFragmentHelperImpl(layoutId, titleResId, listenersOnCreate);
+    }
+
+    @NotNull
+    public Handler getUiHandler() {
+        return uiHandler;
     }
 
     /*

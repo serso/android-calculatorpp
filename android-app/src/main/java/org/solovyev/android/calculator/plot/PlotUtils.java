@@ -202,7 +202,7 @@ public final class PlotUtils {
         return renderer;
     }
 
-    static void handleArithmeticException(@NotNull ArithmeticException e, @NotNull CalculatorPlotFragment calculatorPlotFragment) {
+    static void handleArithmeticException(@NotNull ArithmeticException e, @NotNull AbstractCalculatorPlotFragment calculatorPlotFragment) {
         String message = e.getLocalizedMessage();
         if (StringUtils.isEmpty(message)) {
             message = e.getMessage();
@@ -371,9 +371,20 @@ public final class PlotUtils {
     }
 
     @NotNull
-	public static Complex calculatorExpression(@NotNull Generic expression, @NotNull Constant variable, double x) {
+	public static Complex calculatorExpression(@NotNull Generic expression, @NotNull Constant xVar, double x) {
         try {
-            return unwrap(expression.substitute(variable, Expression.valueOf(x)).numeric());
+            return unwrap(expression.substitute(xVar, Expression.valueOf(x)).numeric());
+        } catch (RuntimeException e) {
+            return NaN;
+        }
+    }
+
+    @NotNull
+    public static Complex calculatorExpression(@NotNull Generic expression, @NotNull Constant xVar, double x, @NotNull Constant yVar, double y) {
+        try {
+            Generic tmp = expression.substitute(xVar, Expression.valueOf(x));
+            tmp = tmp.substitute(yVar, Expression.valueOf(y));
+            return unwrap(tmp.numeric());
         } catch (RuntimeException e) {
             return NaN;
         }
