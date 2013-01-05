@@ -15,7 +15,7 @@ public class PlotInput {
     @NotNull
     private Generic function;
 
-    @NotNull
+    @Nullable
     private Constant xVariable;
 
     @Nullable
@@ -26,7 +26,7 @@ public class PlotInput {
 
     @NotNull
     public static PlotInput newInstance(@NotNull Generic function,
-                                        @NotNull Constant xVariable,
+                                        @Nullable  Constant xVariable,
                                         @Nullable Constant yVariable) {
         PlotInput result = new PlotInput();
 
@@ -42,7 +42,7 @@ public class PlotInput {
         return function;
     }
 
-    @NotNull
+    @Nullable
     public Constant getXVariable() {
         return xVariable;
     }

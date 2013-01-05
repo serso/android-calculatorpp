@@ -7,8 +7,10 @@ import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.AndroidUtils2;
 
 import javax.microedition.khronos.egl.*;
@@ -23,14 +25,15 @@ abstract class GLView extends SurfaceView implements SurfaceHolder.Callback {
     private boolean paused;
     private EGL10 egl;
     private EGLDisplay display;
-    private EGLConfig config;    
+    private EGLConfig config;
     private EGLSurface surface;
     private EGLContext eglContext;
     private GL11 gl;
     protected int width, height;
-    private boolean mIsLooping;
+    private volatile boolean looping;
 
     abstract void onDrawFrame(GL10 gl);
+
     abstract void onSurfaceCreated(GL10 gl, int width, int height);
 
     public String captureScreenshot() {
@@ -48,15 +51,22 @@ abstract class GLView extends SurfaceView implements SurfaceHolder.Callback {
         buf.asIntBuffer().get(data);
         buf = null;
         Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
-        bitmap.setPixels(data, size-width, -width, 0, 0, width, height);
+        bitmap.setPixels(data, size - width, -width, 0, 0, width, height);
         return bitmap;
     }
 
-    private Handler handler = new Handler() {
-            public void handleMessage(Message msg) {
-                glDraw();
+    @NotNull
+    private final Handler uiHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    glDraw();
+                    break;
+                default:
+                    Log.e("GLView", "Incorrect message id: " + msg.what);
             }
-        };
+        }
+    };
 
     public GLView(Context context) {
         super(context);
@@ -69,11 +79,11 @@ abstract class GLView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     private void init() {
-        SurfaceHolder holder = getHolder();
+        final SurfaceHolder holder = getHolder();
         holder.setType(SurfaceHolder.SURFACE_TYPE_GPU);
         holder.addCallback(this);
     }
-    
+
     public void onResume() {
         paused = false;
         if (hasSurface) {
@@ -90,7 +100,7 @@ abstract class GLView extends SurfaceView implements SurfaceHolder.Callback {
         display = egl.eglGetDisplay(EGL10.EGL_DEFAULT_DISPLAY);
         int[] ver = new int[2];
         egl.eglInitialize(display, ver);
-        
+
         int[] configSpec = {EGL10.EGL_NONE};
         EGLConfig[] configOut = new EGLConfig[1];
         int[] nConfig = new int[1];
@@ -129,7 +139,7 @@ abstract class GLView extends SurfaceView implements SurfaceHolder.Callback {
             if (egl.eglGetError() == EGL11.EGL_CONTEXT_LOST) {
                 paused = true;
             }
-            if (mIsLooping) {
+            if (looping) {
                 requestDraw();
             }
         }
@@ -137,9 +147,9 @@ abstract class GLView extends SurfaceView implements SurfaceHolder.Callback {
 
     public void surfaceCreated(SurfaceHolder holder) {
     }
-    
+
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-        this.width  = width;
+        this.width = width;
         this.height = height;
         boolean doInit = !hasSurface && !paused;
         hasSurface = true;
@@ -154,24 +164,24 @@ abstract class GLView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void startLooping() {
-        if (!mIsLooping) {
-            mIsLooping = true;
+        if (!looping) {
+            looping = true;
             glDraw();
         }
     }
 
     public void stopLooping() {
-        if (mIsLooping) {
-            mIsLooping = false;
+        if (looping) {
+            looping = false;
         }
     }
 
     public boolean isLooping() {
-        return mIsLooping;
+        return looping;
     }
 
     public void requestDraw() {
-        handler.sendEmptyMessage(1);
+        uiHandler.sendEmptyMessage(1);
     }
 
     static void bitmapBGRtoRGB(Bitmap bitmap, int width, int height) {
@@ -182,7 +192,7 @@ abstract class GLView extends SurfaceView implements SurfaceHolder.Callback {
         for (int i = 0; i < size; ++i) {
             //BGR-565 to RGB-565
             short v = data[i];
-            data[i] = (short) (((v&0x1f) << 11) | (v&0x7e0) | ((v&0xf800) >> 11));
+            data[i] = (short) (((v & 0x1f) << 11) | (v & 0x7e0) | ((v & 0xf800) >> 11));
         }
         buf.rewind();
         bitmap.copyPixelsFromBuffer(buf);

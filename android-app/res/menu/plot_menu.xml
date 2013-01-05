@@ -8,8 +8,14 @@
 
 <menu xmlns:a="http://schemas.android.com/apk/res/android">
 
+    <item a:id="@+id/menu_plot_3d"
+        a:title="@string/cpp_plot_3d"
+        a:icon="@drawable/ab_icon"
+        a:showAsAction="always"/>
+
 	<item a:id="@+id/menu_plot_settings"
 		  a:title="@string/c_settings"
           a:icon="@drawable/ab_settings"
           a:showAsAction="always"/>
+
 </menu>

@@ -3,16 +3,18 @@
 package org.solovyev.android.calculator.plot;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.opengl.Matrix;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.ZoomButtonsController;
-import org.javia.arity.Function;
 import org.jetbrains.annotations.NotNull;
 
 import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Graph3dView extends GLView implements GraphView {
@@ -24,7 +26,12 @@ public class Graph3dView extends GLView implements GraphView {
     private ZoomButtonsController zoomController = new ZoomButtonsController(this);
     private float zoomLevel = 1, targetZoom, zoomStep = 0, currentZoom;
     private FPS fps = new FPS();
-    private Graph3d graph;
+
+    @NotNull
+    private List<Graph3d> graphs = new ArrayList<Graph3d>();
+
+    @NotNull
+    private GraphViewHelper graphViewHelper = GraphViewHelper.newDefaultInstance();
 
     public Graph3dView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -149,7 +156,6 @@ public class Graph3dView extends GLView implements GraphView {
     private float[] matrix1 = new float[16], matrix2 = new float[16], matrix3 = new float[16];
     private float angleX, angleY;
     private boolean isDirty;
-    private Function function;
     private static final float DISTANCE = 15f;
 
     void setRotation(float x, float y) {
@@ -164,14 +170,18 @@ public class Graph3dView extends GLView implements GraphView {
 
     @Override
     public void init(@NotNull FunctionViewDef functionViewDef) {
+        this.graphViewHelper = GraphViewHelper.newInstance(functionViewDef, Collections.<FunctionPlotDef>emptyList());
     }
 
     public void setFunctionPlotDefs(@NotNull List<FunctionPlotDef> functionPlotDefs) {
-        if (functionPlotDefs.size() > 0) {
-            function = functionPlotDefs.get(0).getFunction();
-        } else {
-            function = null;
+        for (FunctionPlotDef functionPlotDef: functionPlotDefs) {
+            final int arity = functionPlotDef.getFunction().arity();
+            if (arity != 0 && arity != 1 && arity != 2) {
+                throw new IllegalArgumentException("Function must have arity 0 or 1 or 2 for 3d plot!");
+            }
         }
+
+        this.graphViewHelper = this.graphViewHelper.copy(functionPlotDefs);
         zoomLevel = 1;
         isDirty = true;
     }
@@ -180,10 +190,13 @@ public class Graph3dView extends GLView implements GraphView {
     public void onSurfaceCreated(GL10 gl, int width, int height) {
         gl.glDisable(GL10.GL_DITHER);
         gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_FASTEST);
-        gl.glClearColor(0, 0, 0, 1);
+
+        final int backgroundColor = graphViewHelper.getFunctionViewDef().getBackgroundColor();
+        gl.glClearColor(Color.red(backgroundColor) / 255f, Color.green(backgroundColor) / 255f, Color.blue(backgroundColor) / 255f, Color.alpha(backgroundColor) / 255f);
+
         gl.glShadeModel(useHighQuality3d ? GL10.GL_SMOOTH : GL10.GL_FLAT);
         gl.glDisable(GL10.GL_LIGHTING);
-        graph = new Graph3d((GL11) gl, useHighQuality3d);
+        ensureGraphsSize((GL11) gl);
         isDirty = true;
         angleX = .5f;
         angleY = 0;
@@ -201,7 +214,11 @@ public class Graph3dView extends GLView implements GraphView {
             currentZoom = zoomLevel;
         }
         if (isDirty) {
-            graph.update(gl, function, zoomLevel);
+            ensureGraphsSize(gl);
+            for (int i = 0; i < graphViewHelper.getFunctionPlotDefs().size(); i++) {
+                 graphs.get(i).update(gl, graphViewHelper.getFunctionPlotDefs().get(i), zoomLevel);
+
+            }
             isDirty = false;
         }
 
@@ -233,7 +250,15 @@ public class Graph3dView extends GLView implements GraphView {
         Matrix.multiplyMM(matrix3, 0, matrix2, 0, matrix1, 0);
         gl.glMultMatrixf(matrix3, 0);
         System.arraycopy(matrix3, 0, matrix1, 0, 16);
-        graph.draw(gl);
+        for (Graph3d graph : graphs) {
+            graph.draw(gl);
+        }
+    }
+
+    private void ensureGraphsSize(@NotNull GL11 gl) {
+        while (graphViewHelper.getFunctionPlotDefs().size() > graphs.size()) {
+            graphs.add(new Graph3d(gl, useHighQuality3d));
+        }
     }
 
     private void initFrustum(GL10 gl, float distance) {

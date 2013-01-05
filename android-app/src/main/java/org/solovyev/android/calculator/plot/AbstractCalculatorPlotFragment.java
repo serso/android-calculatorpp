@@ -75,7 +75,7 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
     private PreparedInput preparedInput;
 
     @NotNull
-    private ActivityMenu<Menu, MenuItem> fragmentMenu = ListActivityMenu.fromResource(R.menu.plot_menu, PlotMenu.class, SherlockMenuHelper.getInstance());
+    private ActivityMenu<Menu, MenuItem> fragmentMenu;
 
     // thread which calculated data for graph view
     @NotNull
@@ -150,30 +150,32 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
                 final CalculatorEventHolder.Result result = this.lastEventHolder.apply(calculatorEventData);
                 if (result.isNewAfter()) {
                     preparedInput = prepareInputFromDisplay(((CalculatorDisplayChangeEventData) data).getNewValue(), null);
-                    this.preparedInput = preparedInput;
-
-
-                    final PreparedInput finalPreparedInput = preparedInput;
-                    getUiHandler().post(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            if (!finalPreparedInput.isError()) {
-                                createChart(finalPreparedInput);
-
-                                final View view = getView();
-                                if (view != null) {
-                                    createGraphicalView(view, finalPreparedInput);
-                                }
-                            } else {
-                                onError();
-                            }
-                        }
-                    });
+                    onNewPreparedInput(preparedInput);
                 }
-
             }
         }
+    }
+
+    private void onNewPreparedInput(@NotNull PreparedInput preparedInput) {
+        this.preparedInput = preparedInput;
+
+        final PreparedInput finalPreparedInput = preparedInput;
+        getUiHandler().post(new Runnable() {
+            @Override
+            public void run() {
+
+                if (!finalPreparedInput.isError()) {
+                    createChart(finalPreparedInput);
+
+                    final View view = getView();
+                    if (view != null) {
+                        createGraphicalView(view, finalPreparedInput);
+                    }
+                } else {
+                    onError();
+                }
+            }
+        });
     }
 
     protected abstract void onError();
@@ -230,11 +232,31 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
+        final List<IdentifiableMenuItem<MenuItem>> menuItems = new ArrayList<IdentifiableMenuItem<MenuItem>>();
+        menuItems.add(PlotMenu.preferences);
+        if ( is3dPlotSupported() ) {
+            menuItems.add(new IdentifiableMenuItem<MenuItem>() {
+                @NotNull
+                @Override
+                public Integer getItemId() {
+                    return R.id.menu_plot_3d;
+                }
+
+                @Override
+                public void onClick(@NotNull MenuItem data, @NotNull Context context) {
+                     onNewPreparedInput(PreparedInput.force3dInstance(preparedInput));
+                }
+            });
+        }
+        fragmentMenu = ListActivityMenu.fromResource(R.menu.plot_menu, menuItems, SherlockMenuHelper.getInstance());
+
         final FragmentActivity activity = this.getActivity();
         if (activity != null) {
             fragmentMenu.onCreateOptionsMenu(activity, menu);
         }
     }
+
+    protected abstract boolean is3dPlotSupported();
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
@@ -266,7 +288,13 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
                 final Generic expression = displayState.getResult();
                 if (CalculatorUtils.isPlotPossible(expression, displayState.getOperation())) {
                     final List<Constant> variables = new ArrayList<Constant>(CalculatorUtils.getNotSystemConstants(expression));
-                    final Constant xVariable = variables.get(0);
+
+                    final Constant xVariable;
+                    if ( variables.size() > 0 ) {
+                        xVariable = variables.get(0);
+                    } else {
+                        xVariable = null;
+                    }
 
                     final Constant yVariable;
                     if ( variables.size() > 1 ) {
@@ -275,7 +303,7 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
                         yVariable = null;
                     }
 
-                    final Input input = new Input(expression.toString(), xVariable.getName(), yVariable == null ? null : yVariable.getName());
+                    final Input input = new Input(expression.toString(), xVariable == null ? null : xVariable.getName(), yVariable == null ? null : yVariable.getName());
                     return prepareInput(input, false, savedInstanceState);
                 }
             }
@@ -293,7 +321,13 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
         try {
             final PreparedExpression preparedExpression = ToJsclTextProcessor.getInstance().process(input.getExpression());
             final Generic expression = Expression.valueOf(preparedExpression.getExpression());
-            final Constant xVar = new Constant(input.getXVariableName());
+
+            final Constant xVar;
+            if (input.getXVariableName() != null) {
+                xVar = new Constant(input.getXVariableName());
+            } else {
+                xVar = null;
+            }
 
             final Constant yVar;
             if (input.getYVariableName() != null) {
@@ -416,6 +450,8 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 
         private boolean fromInputArgs;
 
+        private boolean force3d = false;
+
         @NotNull
         private PlotBoundaries plotBoundaries = PlotBoundaries.newDefaultInstance();
 
@@ -425,7 +461,7 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
         @NotNull
         public static PreparedInput newInstance(@NotNull Input input,
                                                 @NotNull Generic expression,
-                                                @NotNull Constant xVariable,
+                                                @Nullable  Constant xVariable,
                                                 @Nullable Constant yVariable,
                                                 boolean fromInputArgs,
                                                 @NotNull  PlotBoundaries plotBoundaries) {
@@ -452,6 +488,17 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
             result.fromInputArgs = fromInputArgs;
 
             return result;
+        }
+
+        @NotNull
+        public static PreparedInput force3dInstance(final PreparedInput that) {
+            if (!that.isError()) {
+                final PreparedInput result = PreparedInput.newInstance(that.input, that.expression, that.xVariable, that.yVariable, that.fromInputArgs, that.plotBoundaries);
+                result.force3d = true;
+                return result;
+            } else {
+                return that;
+            }
         }
 
         public boolean isFromInputArgs() {
@@ -483,8 +530,12 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
             return yVariable;
         }
 
+        public boolean isForce3d() {
+            return force3d;
+        }
+
         public boolean isError() {
-            return input == null || expression == null || xVariable == null;
+            return input == null || expression == null;
         }
     }
 
@@ -493,14 +544,14 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
         @NotNull
         private String expression;
 
-        @NotNull
+        @Nullable
         private String xVariableName;
 
         @Nullable
         private String yVariableName;
 
         public Input(@NotNull String expression,
-                     @NotNull String xVariableName,
+                     @Nullable  String xVariableName,
                      @Nullable String yVariableName) {
             this.expression = expression;
             this.xVariableName = xVariableName;
@@ -512,7 +563,7 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
             return expression;
         }
 
-        @NotNull
+        @Nullable
         public String getXVariableName() {
             return xVariableName;
         }

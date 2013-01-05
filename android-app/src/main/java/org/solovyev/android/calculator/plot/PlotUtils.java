@@ -51,7 +51,7 @@ public final class PlotUtils {
 	public static boolean addXY(double minValue,
 								double maxValue,
 								@NotNull Generic expression,
-								@NotNull Constant variable,
+								@Nullable Constant variable,
 								@NotNull MyXYSeries realSeries,
 								@Nullable MyXYSeries imagSeries,
 								boolean addExtra,
@@ -82,7 +82,7 @@ public final class PlotUtils {
             boolean needToCalculateRealY = realSeries.needToAdd(step, x);
 
 			if (needToCalculateRealY) {
-				final Complex c = calculatorExpression(expression, variable, x);
+				final Complex c = variable == null ? calculatorExpression(expression) : calculatorExpression(expression, variable, x);
 				Double y = prepareY(c.realPart());
 
                 if (y != null) {
@@ -106,7 +106,7 @@ public final class PlotUtils {
 			} else {
 				boolean needToCalculateImagY = imagSeries != null && imagSeries.needToAdd(step, x);
 				if (needToCalculateImagY) {
-					final Complex c = calculatorExpression(expression, variable, x);
+					final Complex c = variable == null ? calculatorExpression(expression) : calculatorExpression(expression, variable, x);
 					Double y = prepareY(c.imaginaryPart());
 					if (y != null) {
                         imag.moveToNextPoint(x, y);
@@ -128,20 +128,28 @@ public final class PlotUtils {
 	}
 
     @NotNull
-    static String getImagFunctionName(@NotNull Constant variable) {
-        return "g(" + variable.getName() + ")" + " = " + "Im(ƒ(" + variable.getName() + "))";
+    static String getImagFunctionName(@Nullable  Constant variable) {
+        if (variable != null) {
+            return "g(" + variable.getName() + ")" + " = " + "Im(ƒ(" + variable.getName() + "))";
+        } else {
+            return "g = Im(ƒ)";
+        }
     }
 
     @NotNull
-    private static String getRealFunctionName(@NotNull Generic expression, @NotNull Constant variable) {
-        return "ƒ(" + variable.getName() + ")" + " = " + expression.toString();
+    private static String getRealFunctionName(@NotNull Generic expression, @Nullable  Constant variable) {
+        if (variable != null) {
+            return "ƒ(" + variable.getName() + ")" + " = " + expression.toString();
+        } else {
+            return "ƒ = " + expression.toString();
+        }
     }
 
     @NotNull
     static XYChart prepareChart(final double minValue,
                                 final double maxValue,
                                 @NotNull final Generic expression,
-                                @NotNull final Constant variable,
+                                @Nullable final Constant variable,
                                 int bgColor,
                                 boolean interpolate,
                                 int realLineColor,
@@ -159,8 +167,12 @@ public final class PlotUtils {
 
         final XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
         renderer.setShowGrid(true);
-        renderer.setXTitle(variable.getName());
-        renderer.setYTitle("f(" + variable.getName() + ")");
+        renderer.setXTitle(variable != null ? variable.getName() : null);
+        if (variable != null) {
+            renderer.setYTitle("f(" + variable.getName() + ")");
+        } else {
+            renderer.setYTitle("f");
+        }
         renderer.setChartTitleTextSize(25);
         renderer.setAxisTitleTextSize(25);
         renderer.setLabelsTextSize(25);
@@ -367,6 +379,15 @@ public final class PlotUtils {
             }
 
             return Math.max(step, eps);
+        }
+    }
+
+    @NotNull
+    public static Complex calculatorExpression(@NotNull Generic expression) {
+        try {
+            return unwrap(expression.numeric());
+        } catch (RuntimeException e) {
+            return NaN;
         }
     }
 

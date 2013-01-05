@@ -57,6 +57,11 @@ public class CalculatorPlotFragment extends AbstractCalculatorPlotFragment {
         }
     }
 
+    @Override
+    protected boolean is3dPlotSupported() {
+        return false;
+    }
+
     @Nullable
     @Override
     protected PlotBoundaries getPlotBoundaries() {

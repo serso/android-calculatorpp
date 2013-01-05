@@ -102,11 +102,11 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
 
 	public static void plotGraph(@NotNull final Context context,
                                  @NotNull Generic generic,
-                                 @NotNull Constant xVariable,
+                                 @Nullable  Constant xVariable,
                                  @Nullable Constant yVariable){
 		final Intent intent = new Intent();
 		intent.putExtra(ChartFactory.TITLE, context.getString(R.string.c_graph));
-        final AbstractCalculatorPlotFragment.Input input = new CalculatorPlotFragment.Input(generic.toString(), xVariable.getName(), yVariable == null ? null : yVariable.getName());
+        final AbstractCalculatorPlotFragment.Input input = new CalculatorPlotFragment.Input(generic.toString(), xVariable == null ? null : xVariable.getName(), yVariable == null ? null : yVariable.getName());
         intent.putExtra(CalculatorPlotFragment.INPUT, input);
 		intent.setClass(context, CalculatorPlotActivity.class);
         AndroidUtils2.addFlags(intent, false, context);

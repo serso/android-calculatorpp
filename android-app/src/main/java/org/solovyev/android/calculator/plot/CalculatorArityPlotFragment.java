@@ -57,19 +57,21 @@ public class CalculatorArityPlotFragment extends AbstractCalculatorPlotFragment 
             final Constant xVariable = preparedInput.getXVariable();
             final Constant yVariable = preparedInput.getYVariable();
 
-            final int arity = yVariable == null ? 1 : 2;
+            final int arity = xVariable == null ? 0 : (yVariable == null ? 1 : 2);
 
             final List<FunctionPlotDef> functions = new ArrayList<FunctionPlotDef>();
 
             functions.add(FunctionPlotDef.newInstance(new RealArityFunction(arity, expression, xVariable, yVariable), FunctionLineDef.newInstance(realLineColor.getColor(), FunctionLineStyle.solid, 3f)));
-
-            if (arity == 1) {
-                functions.add(FunctionPlotDef.newInstance(new ImaginaryArityFunction(arity, expression, xVariable, yVariable), FunctionLineDef.newInstance(imagLineColor.getColor(), FunctionLineStyle.solid, 3f)));
-            }
+            functions.add(FunctionPlotDef.newInstance(new ImaginaryArityFunction(arity, expression, xVariable, yVariable), FunctionLineDef.newInstance(imagLineColor.getColor(), FunctionLineStyle.solid, 3f)));
 
             switch (arity) {
+                case 0:
                 case 1:
-                    graphView = new Graph2dView(getActivity());
+                    if (preparedInput.isForce3d()) {
+                        graphView = new Graph3dView(getActivity());
+                    } else {
+                        graphView = new Graph2dView(getActivity());
+                    }
                     break;
                 case 2:
                     graphView = new Graph3dView(getActivity());
@@ -89,6 +91,11 @@ public class CalculatorArityPlotFragment extends AbstractCalculatorPlotFragment 
 
     @Override
     protected void createChart(@NotNull PreparedInput preparedInput) {
+    }
+
+    @Override
+    protected boolean is3dPlotSupported() {
+        return true;
     }
 
 
@@ -133,18 +140,34 @@ public class CalculatorArityPlotFragment extends AbstractCalculatorPlotFragment 
         @NotNull
         protected final Generic expression;
 
-        @NotNull
+        @Nullable
         protected final Constant xVariable;
 
         @Nullable
         protected final Constant yVariable;
 
-        public AbstractArityFunction(int arity, @NotNull Generic expression, @NotNull Constant xVariable, @Nullable Constant yVariable) {
+        @Nullable
+        private Double constant = null;
+
+        public AbstractArityFunction(int arity,
+                                     @NotNull Generic expression,
+                                     @Nullable  Constant xVariable,
+                                     @Nullable Constant yVariable) {
             this.arity = arity;
             this.expression = expression;
             this.xVariable = xVariable;
             this.yVariable = yVariable;
         }
+
+        @Override
+        public final double eval() {
+            if (constant == null) {
+                constant = eval0();
+            }
+            return constant;
+        }
+
+        protected abstract double eval0();
 
         @Override
         public final int arity() {
@@ -157,9 +180,14 @@ public class CalculatorArityPlotFragment extends AbstractCalculatorPlotFragment 
 
         private RealArityFunction(int arity,
                                   @NotNull Generic expression,
-                                  @NotNull Constant xVariable,
+                                  @Nullable  Constant xVariable,
                                   @Nullable Constant yVariable) {
             super(arity, expression, xVariable, yVariable);
+        }
+
+        @Override
+        public double eval0() {
+            return PlotUtils.calculatorExpression(expression).realPart();
         }
 
         @Override
@@ -177,9 +205,14 @@ public class CalculatorArityPlotFragment extends AbstractCalculatorPlotFragment 
 
         private ImaginaryArityFunction(int arity,
                              @NotNull Generic expression,
-                             @NotNull Constant xVariable,
+                             @Nullable  Constant xVariable,
                              @Nullable Constant yVariable) {
             super(arity, expression, xVariable, yVariable);
+        }
+
+        @Override
+        public double eval0() {
+            return PlotUtils.calculatorExpression(expression).imaginaryPart();
         }
 
         @Override

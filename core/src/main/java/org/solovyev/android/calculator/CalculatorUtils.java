@@ -44,9 +44,9 @@ public final class CalculatorUtils {
     public static boolean isPlotPossible(@NotNull Generic expression, @NotNull JsclOperation operation) {
         boolean result = false;
 
-        if (operation == JsclOperation.simplify) {
+        if (operation == JsclOperation.simplify || operation == JsclOperation.numeric) {
             int size = getNotSystemConstants(expression).size();
-            if (size == 1 || size == 2) {
+            if (size == 0 || size == 1 || size == 2) {
                 result = true;
             }
         }

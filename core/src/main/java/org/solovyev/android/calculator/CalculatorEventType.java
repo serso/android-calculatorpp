@@ -162,6 +162,9 @@ public enum CalculatorEventType {
     //org.solovyev.android.calculator.plot.PlotInput
     plot_graph,
 
+
+    plot_graph_3d,
+
     //String
     show_evaluation_error;
 

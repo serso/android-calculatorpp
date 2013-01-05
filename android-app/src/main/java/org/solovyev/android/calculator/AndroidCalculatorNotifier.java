@@ -48,9 +48,9 @@ public class AndroidCalculatorNotifier implements CalculatorNotifier {
 
     @Override
     public void showDebugMessage(@Nullable final String tag, @NotNull final String message) {
-        /*if (AndroidUtils.isDebuggable(application)) {
+        if (AndroidUtils.isDebuggable(application)) {
             showMessageInUiThread(tag == null ? message : tag + ": " + message);
-        }*/
+        }
     }
 
     private void showMessageInUiThread(@NotNull final String message) {

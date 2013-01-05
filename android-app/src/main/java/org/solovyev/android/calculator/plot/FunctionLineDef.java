@@ -30,6 +30,9 @@ public class FunctionLineDef {
     **********************************************************************
     */
 
+    @NotNull
+    private FunctionLineColorType lineColorType = FunctionLineColorType.solid;
+
     private int lineColor = Color.WHITE;
 
     @NotNull
@@ -58,6 +61,16 @@ public class FunctionLineDef {
     }
 
     @NotNull
+    public static FunctionLineDef newInstance(int lineColor, @NotNull FunctionLineStyle lineStyle, float lineWidth, @NotNull FunctionLineColorType lineColorType) {
+        final FunctionLineDef result = new FunctionLineDef();
+        result.lineColor = lineColor;
+        result.lineColorType = lineColorType;
+        result.lineStyle = lineStyle;
+        result.lineWidth = lineWidth;
+        return result;
+    }
+
+    @NotNull
     public static FunctionLineDef newDefaultInstance() {
         return new FunctionLineDef();
     }
@@ -74,6 +87,11 @@ public class FunctionLineDef {
 
     public float getLineWidth() {
         return lineWidth;
+    }
+
+    @NotNull
+    public FunctionLineColorType getLineColorType() {
+        return lineColorType;
     }
 
     public void applyToPaint(@NotNull Paint paint) {

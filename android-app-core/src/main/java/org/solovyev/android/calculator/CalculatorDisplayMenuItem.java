@@ -85,7 +85,13 @@ public enum CalculatorDisplayMenuItem implements LabeledMenuItem<CalculatorDispl
             assert generic != null;
 
             final List<Constant> variables = new ArrayList<Constant>(CalculatorUtils.getNotSystemConstants(generic));
-            final Constant xVariable = variables.get(0);
+
+            final Constant xVariable;
+            if ( variables.size() > 0 ) {
+                xVariable = variables.get(0);
+            } else {
+                xVariable = null;
+            }
 
             final Constant yVariable;
             if ( variables.size() > 1 ) {

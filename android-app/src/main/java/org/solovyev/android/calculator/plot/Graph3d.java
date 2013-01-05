@@ -2,7 +2,9 @@
 
 package org.solovyev.android.calculator.plot;
 
+import android.graphics.Color;
 import org.javia.arity.Function;
+import org.jetbrains.annotations.NotNull;
 
 import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
@@ -82,17 +84,20 @@ class Graph3d {
         return bb;
     }
 
-    public void update(GL11 gl, Function f, float zoom) {
+    public void update(@NotNull GL11 gl, @NotNull FunctionPlotDef fpd, float zoom) {
+        final Function function = fpd.getFunction();
+        final FunctionLineDef lineDef = fpd.getLineDef();
         final int NTICK = useHighQuality3d ? 5 : 0;
         final float size = 4 * zoom;
         final float minX = -size, maxX = size, minY = -size, maxY = size;
 
         //Calculator.log("update VBOs " + vertexVbo + ' ' + colorVbo + ' ' + vertexElementVbo);
         nVertex = N * N + 6 + 8 + NTICK * 6;
-        int nFloats = nVertex * 3;
-        float vertices[] = new float[nFloats];
-        byte colors[] = new byte[nVertex << 2];
-        if (f != null) {
+
+        final float vertices[] = new float[nVertex * 3];
+        final byte colors[] = new byte[nVertex * 4];
+
+        if (fpd != null) {
             //Calculator.log("Graph3d update");
             float sizeX = maxX - minX;
             float sizeY = maxY - minY;
@@ -103,43 +108,74 @@ class Graph3d {
             float y = minY;
             float x = minX - stepX;
             int nRealPoints = 0;
+
+            final int arity = function.arity();
+
             for (int i = 0; i < N; i++, y += stepY) {
                 float xinc = (i & 1) == 0 ? stepX : -stepX;
+
                 x += xinc;
                 for (int j = 0; j < N; ++j, x += xinc, pos += 3) {
-                    float z = (float) f.eval(x, y);
+
+                    final float z;
+                    switch (arity) {
+                        case 2:
+                            z = (float) function.eval(x, y);
+                            break;
+                        case 1:
+                            // todo serso: optimize (can be calculated once before loop)
+                            z = (float) function.eval(x);
+                            break;
+                        case 0:
+                            // todo serso: optimize (can be calculated once)
+                            z = (float) function.eval();
+                            break;
+                        default:
+                            throw new IllegalArgumentException();
+                    }
+
                     vertices[pos] = x;
                     vertices[pos + 1] = y;
                     vertices[pos + 2] = z;
-                    if (z == z) { // not NAN
+
+                    if (!Float.isNaN(z)) {
                         sum += z * z;
                         ++nRealPoints;
                     }
                 }
             }
+
             float maxAbs = (float) Math.sqrt(sum / nRealPoints);
             maxAbs *= .9f;
             maxAbs = Math.min(maxAbs, 15);
             maxAbs = Math.max(maxAbs, .001f);
 
+            final int lineColor = lineDef.getLineColor();
             final int limitColor = N * N * 4;
             for (int i = 0, j = 2; i < limitColor; i += 4, j += 3) {
-                float z = vertices[j];
-                if (z == z) {
-                    final float a = z / maxAbs;
-                    final float abs = a < 0 ? -a : a;
-                    colors[i] = floatToByte(a);
-                    colors[i + 1] = floatToByte(1 - abs * .3f);
-                    colors[i + 2] = floatToByte(-a);
-                    colors[i + 3] = (byte) 255;
-                } else {
-                    vertices[j] = 0;
-                    z = 0;
-                    colors[i] = 0;
-                    colors[i + 1] = 0;
-                    colors[i + 2] = 0;
-                    colors[i + 3] = 0;
-                }
+                final float z = vertices[j];
+
+                    if (!Float.isNaN(z)) {
+                        if (lineDef.getLineColorType() == FunctionLineColorType.color_map) {
+                            final float a = z / maxAbs;
+                            final float abs = a < 0 ? -a : a;
+                            colors[i] = floatToByte(a);
+                            colors[i + 1] = floatToByte(1 - abs * .3f);
+                            colors[i + 2] = floatToByte(-a);
+                        } else {
+                            colors[i] = (byte) Color.red(lineColor);
+                            colors[i + 1] = (byte) Color.green(lineColor);
+                            colors[i + 2] = (byte) Color.blue(lineColor);
+                        }
+                        colors[i + 3] = (byte) 255;
+                    } else {
+                        vertices[j] = 0;
+                        colors[i] = 0;
+                        colors[i + 1] = 0;
+                        colors[i + 2] = 0;
+                        colors[i + 3] = 0;
+                    }
+
             }
         }
         int base = N * N * 3;
@@ -248,7 +284,15 @@ class Graph3d {
     }
 
     private byte floatToByte(float v) {
-        return (byte) (v <= 0 ? 0 : v >= 1 ? 255 : (int) (v * 255));
+        if (v <= 0) {
+            return (byte) 0;
+        } else {
+            if (v >= 1) {
+                return (byte) 255;
+            } else {
+                return (byte) (v * 255);
+            }
+        }
     }
 
     public void draw(GL11 gl) {
