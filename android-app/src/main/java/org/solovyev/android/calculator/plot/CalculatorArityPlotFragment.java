@@ -1,16 +1,16 @@
 package org.solovyev.android.calculator.plot;
 
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.ViewGroup;
-import arity.calculator.Graph2dView;
-import arity.calculator.Graph3dView;
-import arity.calculator.GraphView;
 import jscl.math.Generic;
 import jscl.math.function.Constant;
-import org.javia.arity.Complex;
 import org.javia.arity.Function;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.calculator.CalculatorPreferences;
 import org.solovyev.android.calculator.R;
 
 import java.util.ArrayList;
@@ -39,6 +39,12 @@ public class CalculatorArityPlotFragment extends AbstractCalculatorPlotFragment 
 
     @Override
     protected void createGraphicalView(@NotNull View root, @NotNull PreparedInput preparedInput) {
+
+        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
+
+        final GraphLineColor realLineColor = CalculatorPreferences.Graph.lineColorReal.getPreference(preferences);
+        final GraphLineColor imagLineColor = CalculatorPreferences.Graph.lineColorImag.getPreference(preferences);
+
         // remove old
         final ViewGroup graphContainer = (ViewGroup) root.findViewById(R.id.main_fragment_layout);
 
@@ -53,44 +59,27 @@ public class CalculatorArityPlotFragment extends AbstractCalculatorPlotFragment 
 
             final int arity = yVariable == null ? 1 : 2;
 
-            final List<Function> functions = new ArrayList<Function>();
-            functions.add(new Function() {
-                @Override
-                public int arity() {
-                    return arity;
-                }
+            final List<FunctionPlotDef> functions = new ArrayList<FunctionPlotDef>();
 
-                @Override
-                public double eval(double x) {
-                    return PlotUtils.calculatorExpression(expression, xVariable, x).realPart();
-                }
+            functions.add(FunctionPlotDef.newInstance(new RealArityFunction(arity, expression, xVariable, yVariable), FunctionLineDef.newInstance(realLineColor.getColor(), FunctionLineStyle.solid, 3f)));
 
-                @Override
-                public double eval(double x, double y) {
-                    return PlotUtils.calculatorExpression(expression, xVariable, x, yVariable, y).realPart();
-                }
-
-                @Override
-                public Complex eval(Complex x) {
-                    jscl.math.numeric.Complex result = PlotUtils.calculatorExpression(expression, xVariable, x.re);
-                    return new Complex(result.realPart(), result.imaginaryPart());
-                }
-
-                @Override
-                public Complex eval(Complex x, Complex y) {
-                    jscl.math.numeric.Complex result = PlotUtils.calculatorExpression(expression, xVariable, x.re, yVariable, y.re);
-                    return new Complex(result.realPart(), result.imaginaryPart());
-                }
-            });
-
-            if (functions.size() == 1) {
-                final Function f = functions.get(0);
-                graphView = f.arity() == 1 ? new Graph2dView(getActivity()) : new Graph3dView(getActivity());
-                graphView.setFunction(f);
-            } else {
-                graphView = new Graph2dView(this.getActivity());
-                ((Graph2dView) graphView).setFunctions(functions);
+            if (arity == 1) {
+                functions.add(FunctionPlotDef.newInstance(new ImaginaryArityFunction(arity, expression, xVariable, yVariable), FunctionLineDef.newInstance(imagLineColor.getColor(), FunctionLineStyle.solid, 3f)));
             }
+
+            switch (arity) {
+                case 1:
+                    graphView = new Graph2dView(getActivity());
+                    break;
+                case 2:
+                    graphView = new Graph3dView(getActivity());
+                    break;
+                default:
+                    throw new IllegalArgumentException("Unsupported arity: " + arity);
+            }
+
+            graphView.init(FunctionViewDef.newInstance(Color.WHITE, Color.WHITE, Color.DKGRAY, getBgColor()));
+            graphView.setFunctionPlotDefs(functions);
 
             graphContainer.addView((View) graphView);
         } else {
@@ -126,6 +115,81 @@ public class CalculatorArityPlotFragment extends AbstractCalculatorPlotFragment 
         super.onPause();
         if (this.graphView != null) {
             this.graphView.onPause();
+        }
+    }
+
+    /*
+    **********************************************************************
+    *
+    *                           STATIC
+    *
+    **********************************************************************
+    */
+
+    private static abstract class AbstractArityFunction extends Function {
+
+        protected final int arity;
+
+        @NotNull
+        protected final Generic expression;
+
+        @NotNull
+        protected final Constant xVariable;
+
+        @Nullable
+        protected final Constant yVariable;
+
+        public AbstractArityFunction(int arity, @NotNull Generic expression, @NotNull Constant xVariable, @Nullable Constant yVariable) {
+            this.arity = arity;
+            this.expression = expression;
+            this.xVariable = xVariable;
+            this.yVariable = yVariable;
+        }
+
+        @Override
+        public final int arity() {
+            return arity;
+        }
+
+    }
+
+    private static class RealArityFunction extends AbstractArityFunction {
+
+        private RealArityFunction(int arity,
+                                  @NotNull Generic expression,
+                                  @NotNull Constant xVariable,
+                                  @Nullable Constant yVariable) {
+            super(arity, expression, xVariable, yVariable);
+        }
+
+        @Override
+        public double eval(double x) {
+            return PlotUtils.calculatorExpression(expression, xVariable, x).realPart();
+        }
+
+        @Override
+        public double eval(double x, double y) {
+            return PlotUtils.calculatorExpression(expression, xVariable, x, yVariable, y).realPart();
+        }
+    }
+
+    private static class ImaginaryArityFunction extends AbstractArityFunction {
+
+        private ImaginaryArityFunction(int arity,
+                             @NotNull Generic expression,
+                             @NotNull Constant xVariable,
+                             @Nullable Constant yVariable) {
+            super(arity, expression, xVariable, yVariable);
+        }
+
+        @Override
+        public double eval(double x) {
+            return PlotUtils.calculatorExpression(expression, xVariable, x).imaginaryPart();
+        }
+
+        @Override
+        public double eval(double x, double y) {
+            return PlotUtils.calculatorExpression(expression, xVariable, x, yVariable, y).imaginaryPart();
         }
     }
 }

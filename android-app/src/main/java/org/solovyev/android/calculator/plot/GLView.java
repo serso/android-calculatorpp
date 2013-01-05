@@ -1,6 +1,6 @@
 // Copyright (C) 2009 Mihai Preda
 
-package arity.calculator;
+package org.solovyev.android.calculator.plot;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -9,12 +9,14 @@ import android.os.Message;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import org.solovyev.android.AndroidUtils2;
 
 import javax.microedition.khronos.egl.*;
 import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.nio.ShortBuffer;
 
 abstract class GLView extends SurfaceView implements SurfaceHolder.Callback {
     private boolean hasSurface;
@@ -33,8 +35,8 @@ abstract class GLView extends SurfaceView implements SurfaceHolder.Callback {
 
     public String captureScreenshot() {
         Bitmap bitmap = getRawPixels(gl, width, height);
-        Util.bitmapBGRtoRGB(bitmap, width, height);
-        return Util.saveBitmap(bitmap, GraphView.SCREENSHOT_DIR, "calculator");
+        bitmapBGRtoRGB(bitmap, width, height);
+        return AndroidUtils2.saveBitmap(bitmap, GraphView.SCREENSHOT_DIR, "calculator");
     }
 
     private static Bitmap getRawPixels(GL10 gl, int width, int height) {
@@ -73,7 +75,6 @@ abstract class GLView extends SurfaceView implements SurfaceHolder.Callback {
     }
     
     public void onResume() {
-        Calculator.log("onResume " + this);
         paused = false;
         if (hasSurface) {
             initGL();
@@ -81,7 +82,6 @@ abstract class GLView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void onPause() {
-        Calculator.log("onPause " + this);
         deinitGL();
     }
 
@@ -125,10 +125,8 @@ abstract class GLView extends SurfaceView implements SurfaceHolder.Callback {
         if (hasSurface && !paused) {
             onDrawFrame(gl);
             if (!egl.eglSwapBuffers(display, surface)) {
-                Calculator.log("swapBuffers error " + egl.eglGetError());
             }
             if (egl.eglGetError() == EGL11.EGL_CONTEXT_LOST) {
-                Calculator.log("egl context lost " + this);
                 paused = true;
             }
             if (mIsLooping) {
@@ -138,11 +136,9 @@ abstract class GLView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void surfaceCreated(SurfaceHolder holder) {
-        Calculator.log("surfaceCreated " + this);
     }
     
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-        Calculator.log("surfaceChanged " + format + ' ' + this);
         this.width  = width;
         this.height = height;
         boolean doInit = !hasSurface && !paused;
@@ -153,14 +149,12 @@ abstract class GLView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void surfaceDestroyed(SurfaceHolder holder) {
-        Calculator.log("surfaceDestroyed " + this);
         hasSurface = false;
         deinitGL();
     }
 
     public void startLooping() {
         if (!mIsLooping) {
-            Calculator.log("start looping");
             mIsLooping = true;
             glDraw();
         }
@@ -168,7 +162,6 @@ abstract class GLView extends SurfaceView implements SurfaceHolder.Callback {
 
     public void stopLooping() {
         if (mIsLooping) {
-            Calculator.log("stop looping");
             mIsLooping = false;
         }
     }
@@ -179,5 +172,19 @@ abstract class GLView extends SurfaceView implements SurfaceHolder.Callback {
 
     public void requestDraw() {
         handler.sendEmptyMessage(1);
+    }
+
+    static void bitmapBGRtoRGB(Bitmap bitmap, int width, int height) {
+        int size = width * height;
+        short data[] = new short[size];
+        ShortBuffer buf = ShortBuffer.wrap(data);
+        bitmap.copyPixelsToBuffer(buf);
+        for (int i = 0; i < size; ++i) {
+            //BGR-565 to RGB-565
+            short v = data[i];
+            data[i] = (short) (((v&0x1f) << 11) | (v&0x7e0) | ((v&0xf800) >> 11));
+        }
+        buf.rewind();
+        bitmap.copyPixelsFromBuffer(buf);
     }
 }

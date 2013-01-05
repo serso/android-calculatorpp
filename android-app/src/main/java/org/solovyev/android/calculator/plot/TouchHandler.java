@@ -1,6 +1,6 @@
 // Copyright (C) 2009-2010 Mihai Preda
 
-package arity.calculator;
+package org.solovyev.android.calculator.plot;
 
 import android.view.MotionEvent;
 import android.view.VelocityTracker;

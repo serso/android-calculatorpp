@@ -1,11 +1,12 @@
 // Copyright (C) 2010 Mihai Preda
 
-package arity.calculator;
+package org.solovyev.android.calculator.plot;
 
+import android.os.Build;
 import android.view.MotionEvent;
 
 class MotionEventWrap {
-    private static final boolean IS_API_5 = Util.SDK_VERSION >= 5;
+    private static final boolean IS_API_5 = Build.VERSION.SDK_INT >= 5;
 
     static int getPointerCount(MotionEvent event) {
         return IS_API_5 ? MotionEventWrapNew.getPointerCount(event) : 1;

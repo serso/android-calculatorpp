@@ -1,6 +1,6 @@
 // Copyright (C) 2010 Mihai Preda
 
-package arity.calculator;
+package org.solovyev.android.calculator.plot;
 
 class ZoomTracker {
     private float sx1, sy1, sx2, sy2;

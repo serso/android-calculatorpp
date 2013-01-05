@@ -5,7 +5,15 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.os.Environment;
+import android.util.Log;
 import org.jetbrains.annotations.NotNull;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * User: Solovyev_S
@@ -54,5 +62,44 @@ public final class AndroidUtils2 {
 
         int componentEnabledSetting = pm.getComponentEnabledSetting(new ComponentName(context, componentClass));
         return componentEnabledSetting == PackageManager.COMPONENT_ENABLED_STATE_ENABLED || componentEnabledSetting == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT;
+    }
+
+    public static String saveBitmap(@NotNull Bitmap bitmap,
+                                    @NotNull String path,
+                                    @NotNull String fileName) {
+        final File sdcardPath = Environment.getExternalStorageDirectory();
+        final File filePath = new File(sdcardPath, path);
+
+        filePath.mkdirs();
+
+        final String fullFileName = fileName + "_" + System.currentTimeMillis() + ".png";
+
+        final File file = new File(path, fullFileName);
+        if (!file.exists()) {
+            final String name = file.getAbsolutePath();
+
+            FileOutputStream fos = null;
+            try {
+                fos = new FileOutputStream(name);
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                fos.flush();
+            } catch (FileNotFoundException e) {
+                Log.e("AndroidUtils", e.getMessage(), e);
+            } catch (IOException e) {
+                Log.e("AndroidUtils", e.getMessage(), e);
+            } finally {
+                if (fos != null) {
+                    try {
+                        fos.close();
+                    } catch (IOException e) {
+                        Log.e("AndroidUtils", e.getMessage(), e);
+                    }
+                }
+            }
+
+            return name;
+        }
+
+        return null;
     }
 }

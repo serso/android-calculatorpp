@@ -1,21 +1,23 @@
 // Copyright (C) 2009 Mihai Preda
 
-package arity.calculator;
+package org.solovyev.android.calculator.plot;
 
 import android.content.Context;
 import android.opengl.Matrix;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.ZoomButtonsController;
 import org.javia.arity.Function;
+import org.jetbrains.annotations.NotNull;
 
 import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
+import java.util.List;
 
-public class Graph3dView extends GLView implements
-        GraphView,
-        ZoomButtonsController.OnZoomListener,
-        TouchHandler.TouchHandlerInterface {
+public class Graph3dView extends GLView implements GraphView {
+
+    private boolean useHighQuality3d = Build.VERSION.SDK_INT >= 5;
 
     private float lastTouchX, lastTouchY;
     private TouchHandler touchHandler;
@@ -160,8 +162,16 @@ public class Graph3dView extends GLView implements
         return angleX < -limit || angleX > limit || angleY < -limit || angleY > limit;
     }
 
-    public void setFunction(Function f) {
-        function = f;
+    @Override
+    public void init(@NotNull FunctionViewDef functionViewDef) {
+    }
+
+    public void setFunctionPlotDefs(@NotNull List<FunctionPlotDef> functionPlotDefs) {
+        if (functionPlotDefs.size() > 0) {
+            function = functionPlotDefs.get(0).getFunction();
+        } else {
+            function = null;
+        }
         zoomLevel = 1;
         isDirty = true;
     }
@@ -171,9 +181,9 @@ public class Graph3dView extends GLView implements
         gl.glDisable(GL10.GL_DITHER);
         gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_FASTEST);
         gl.glClearColor(0, 0, 0, 1);
-        gl.glShadeModel(Calculator.useHighQuality3d ? GL10.GL_SMOOTH : GL10.GL_FLAT);
+        gl.glShadeModel(useHighQuality3d ? GL10.GL_SMOOTH : GL10.GL_FLAT);
         gl.glDisable(GL10.GL_LIGHTING);
-        graph = new Graph3d((GL11) gl);
+        graph = new Graph3d((GL11) gl, useHighQuality3d);
         isDirty = true;
         angleX = .5f;
         angleY = 0;
@@ -195,9 +205,9 @@ public class Graph3dView extends GLView implements
             isDirty = false;
         }
 
-        if (fps.incFrame()) {
+        /*if (fps.incFrame()) {
             Calculator.log("f/s " + fps.getValue());
-        }
+        }*/
 
         gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
         gl.glMatrixMode(GL10.GL_MODELVIEW);
@@ -244,6 +254,6 @@ public class Graph3dView extends GLView implements
         for (int i = 0; i < 16; ++i) {
             b.append(m[i]).append(' ');
         }
-        Calculator.log(name + ' ' + b.toString());
+        //Calculator.log(name + ' ' + b.toString());
     }
 }

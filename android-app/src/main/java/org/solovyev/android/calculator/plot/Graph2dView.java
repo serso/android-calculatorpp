@@ -1,6 +1,7 @@
 // Copyright (C) 2009-2010 Mihai Preda
 
-package arity.calculator;
+package org.solovyev.android.calculator.plot;
+
 
 import android.content.Context;
 import android.graphics.*;
@@ -10,22 +11,29 @@ import android.view.View;
 import android.widget.Scroller;
 import android.widget.ZoomButtonsController;
 import org.javia.arity.Function;
+import org.jetbrains.annotations.NotNull;
+import org.solovyev.android.AndroidUtils2;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class Graph2dView extends View implements
-        GraphView,
-        ZoomButtonsController.OnZoomListener,
-        TouchHandler.TouchHandlerInterface {
+public class Graph2dView extends View implements GraphView {
 
     private int width, height;
     private Matrix matrix = new Matrix();
     private Paint paint = new Paint(), textPaint = new Paint(), fillPaint = new Paint();
-    private ArrayList<Function> funcs = new ArrayList<Function>();
-    private Data next = new Data(), endGraph = new Data();
-    private Data graphs[] = {new Data(), new Data(), new Data(), new Data(), new Data()};
-    private static final int GRAPHS_SIZE = 5;
+
+    @NotNull
+    private GraphViewHelper graphViewHelper = GraphViewHelper.newDefaultInstance();
+
+    private final GraphData next = GraphData.newEmptyInstance();
+
+    private final GraphData endGraph = GraphData.newEmptyInstance();
+
+    @NotNull
+    private List<GraphData> graphs = new ArrayList<GraphData>(graphViewHelper.getFunctionPlotDefs().size());
+
     private float gwidth = 8;
     private float currentX, currentY;
     private float lastMinX;
@@ -35,13 +43,6 @@ public class Graph2dView extends View implements
     private ZoomTracker zoomTracker = new ZoomTracker();
     private TouchHandler touchHandler;
     private float lastTouchX, lastTouchY;
-
-    private static final int
-            COL_AXIS = 0xff00a000,
-            COL_GRID = 0xff004000,
-            COL_TEXT = 0xff00ff00;
-
-    private static final int COL_GRAPH[] = {0xffffffff, 0xff00ffff, 0xffffff00, 0xffff00ff, 0xff80ff80};
 
     private static final int
             COL_ZOOM = 0x40ffffff,
@@ -70,33 +71,35 @@ public class Graph2dView extends View implements
         Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
         Canvas canvas = new Canvas(bitmap);
         onDraw(canvas);
-        return Util.saveBitmap(bitmap, GraphView.SCREENSHOT_DIR, "calculator");
+        return AndroidUtils2.saveBitmap(bitmap, GraphView.SCREENSHOT_DIR, "calculator");
     }
 
-    private void clearAllGraph() {
-        for (int i = 0; i < GRAPHS_SIZE; ++i) {
-            graphs[i].clear();
+    private void clearAllGraphs() {
+        for (GraphData graph : graphs) {
+           graph.clear();
+        }
+
+        while ( graphViewHelper.getFunctionPlotDefs().size() > graphs.size() ) {
+            graphs.add(GraphData.newEmptyInstance());
         }
     }
 
-    public void setFunctions(List<Function> fs) {
-        funcs.clear();
-        for (Function f : fs) {
-            int arity = f.arity();
-            if (arity == 0 || arity == 1) {
-                funcs.add(f);
+    @Override
+    public void init(@NotNull FunctionViewDef functionViewDef) {
+        this.graphViewHelper = GraphViewHelper.newInstance(functionViewDef, Collections.<FunctionPlotDef>emptyList());
+    }
+
+    public void setFunctionPlotDefs(@NotNull List<FunctionPlotDef> functionPlotDefs) {
+
+        for (FunctionPlotDef functionPlotDef: functionPlotDefs) {
+            final int arity = functionPlotDef.getFunction().arity();
+            if (arity != 0 && arity != 1) {
+                throw new IllegalArgumentException("Function must have arity 0 or 1 for 2d plot!");
             }
         }
-        clearAllGraph();
-        invalidate();
-    }
 
-    public void setFunction(Function f) {
-        funcs.clear();
-        if (f != null) {
-            funcs.add(f);
-        }
-        clearAllGraph();
+        this.graphViewHelper = this.graphViewHelper.copy(functionPlotDefs);
+        clearAllGraphs();
         invalidate();
     }
 
@@ -133,12 +136,12 @@ public class Graph2dView extends View implements
     protected void onSizeChanged(int w, int h, int ow, int oh) {
         width = w;
         height = h;
-        clearAllGraph();
+        clearAllGraphs();
         // points = new float[w+w];
     }
 
     protected void onDraw(Canvas canvas) {
-        if (funcs.size() == 0) {
+        if (graphViewHelper.getFunctionPlotDefs().size() == 0) {
             return;
         }
         if (scroller.computeScrollOffset()) {
@@ -184,9 +187,14 @@ public class Graph2dView extends View implements
         return up * up / (dx * dx + dy * dy);
     }
 
-    private void computeGraph(Function f, float minX, float maxX, float minY, float maxY, Data graph) {
-        if (f.arity() == 0) {
-            float v = (float) f.eval();
+    private void computeGraph(@NotNull Function function,
+                              float minX,
+                              float maxX,
+                              float minY,
+                              float maxY,
+                              @NotNull GraphData graph) {
+        if (function.arity() == 0) {
+            float v = (float) function.eval();
             if (v < -10000f) {
                 v = -10000f;
             }
@@ -217,7 +225,7 @@ public class Graph2dView extends View implements
             }
         }
         if (graph.empty()) {
-            graph.push(minX, eval(f, minX));
+            graph.push(minX, eval(function, minX));
         }
         float leftX, leftY;
         float rightX = graph.topX(), rightY = graph.topY();
@@ -230,7 +238,7 @@ public class Graph2dView extends View implements
             }
             if (next.empty()) {
                 float x = leftX + maxStep;
-                next.push(x, eval(f, x));
+                next.push(x, eval(function, x));
                 ++nEval;
             }
             rightX = next.topX();
@@ -243,7 +251,7 @@ public class Graph2dView extends View implements
 
             float dx = rightX - leftX;
             float middleX = (leftX + rightX) / 2;
-            float middleY = eval(f, middleX);
+            float middleY = eval(function, middleX);
             ++nEval;
             boolean middleIsOutside = (middleY < leftY && middleY < rightY) || (leftY < middleY && rightY < middleY);
             if (dx < minStep) {
@@ -289,30 +297,32 @@ public class Graph2dView extends View implements
         endGraph.clear();
     }
 
-    private static Path path = new Path();
+    private static void graphToPath(@NotNull GraphData graph, @NotNull Path path) {
 
-    private Path graphToPath(Data graph) {
-        boolean first = true;
-        int size = graph.size;
-        float[] xs = graph.xs;
-        float[] ys = graph.ys;
+        final int size = graph.getSize();
+        final float[] xs = graph.getXs();
+        final float[] ys = graph.getYs();
+
         path.rewind();
-        for (int i = 0; i < size; ++i) {
-            float y = ys[i];
-            float x = xs[i];
-            // Calculator.log("path " + x + ' ' + y);
-            if (y == y) { // !NaN
-                if (first) {
+
+        boolean newCurve = true;
+
+        for (int i = 0; i < size; i++) {
+
+            final float y = ys[i];
+            final float x = xs[i];
+
+            if (y != y) {
+                newCurve = true;
+            } else { // !NaN
+                if (newCurve) {
                     path.moveTo(x, y);
-                    first = false;
+                    newCurve = false;
                 } else {
                     path.lineTo(x, y);
                 }
-            } else {
-                first = true;
             }
         }
-        return path;
     }
 
     private static final float NTICKS = 15;
@@ -382,10 +392,10 @@ public class Graph2dView extends View implements
             float halfw = ywidth / 2;
             boundMinY = minY - halfw;
             boundMaxY = maxY + halfw;
-            clearAllGraph();
+            clearAllGraphs();
         }
 
-        canvas.drawColor(0xff000000);
+        canvas.drawColor(graphViewHelper.getFunctionViewDef().getBackgroundColor());
 
         paint.setStrokeWidth(0);
         paint.setAntiAlias(false);
@@ -412,34 +422,46 @@ public class Graph2dView extends View implements
 
         final float tickSize = 3;
         final float y2 = y0 + tickSize;
-        paint.setColor(COL_GRID);
-        float step = stepFactor(gwidth);
-        // Calculator.log("width " + gwidth + " step " + step);
-        float v = ((int) (minX / step)) * step;
-        textPaint.setColor(COL_TEXT);
-        textPaint.setTextSize(12);
-        textPaint.setTextAlign(Paint.Align.CENTER);
-        float stepScale = step * scale;
-        for (float x = (v - minX) * scale; x <= width; x += stepScale, v += step) {
-            canvas.drawLine(x, 0, x, height, paint);
-            if (!(-.001f < v && v < .001f)) {
-                StringBuilder b = format(v);
-                canvas.drawText(b, 0, b.length(), x, y2 + 10, textPaint);
+
+
+        {
+            // GRID
+
+            paint.setPathEffect(new DashPathEffect(new float[]{5, 10}, 0));
+            paint.setColor(graphViewHelper.getFunctionViewDef().getGridColor());
+
+            float step = stepFactor(gwidth);
+            // Calculator.log("width " + gwidth + " step " + step);
+            float v = ((int) (minX / step)) * step;
+            textPaint.setColor(graphViewHelper.getFunctionViewDef().getAxisLabelsColor());
+            textPaint.setTextSize(12);
+            textPaint.setTextAlign(Paint.Align.CENTER);
+            float stepScale = step * scale;
+            for (float x = (v - minX) * scale; x <= width; x += stepScale, v += step) {
+                canvas.drawLine(x, 0, x, height, paint);
+                if (!(-.001f < v && v < .001f)) {
+                    StringBuilder b = format(v);
+                    canvas.drawText(b, 0, b.length(), x, y2 + 10, textPaint);
+                }
             }
+
+            final float x1 = x0 - tickSize;
+            v = ((int) (minY / step)) * step;
+            textPaint.setTextAlign(Paint.Align.RIGHT);
+            for (float y = height - (v - minY) * scale; y >= 0; y -= stepScale, v += step) {
+                canvas.drawLine(0, y, width, y, paint);
+                if (!(-.001f < v && v < .001f)) {
+                    StringBuilder b = format(v);
+                    canvas.drawText(b, 0, b.length(), x1, y + 4, textPaint);
+                }
+            }
+
+            paint.setPathEffect(null);
         }
 
-        final float x1 = x0 - tickSize;
-        v = ((int) (minY / step)) * step;
-        textPaint.setTextAlign(Paint.Align.RIGHT);
-        for (float y = height - (v - minY) * scale; y >= 0; y -= stepScale, v += step) {
-            canvas.drawLine(0, y, width, y, paint);
-            if (!(-.001f < v && v < .001f)) {
-                StringBuilder b = format(v);
-                canvas.drawText(b, 0, b.length(), x1, y + 4, textPaint);
-            }
-        }
+        // AXIS
 
-        paint.setColor(COL_AXIS);
+        paint.setColor(graphViewHelper.getFunctionViewDef().getAxisColor());
         if (drawYAxis) {
             canvas.drawLine(x0, 0, x0, height, paint);
         }
@@ -450,15 +472,23 @@ public class Graph2dView extends View implements
         matrix.postScale(scale, -scale);
         matrix.postTranslate(width / 2, height / 2);
 
-        paint.setStrokeWidth(0);
         paint.setAntiAlias(false);
 
-        int n = Math.min(funcs.size(), GRAPHS_SIZE);
-        for (int i = 0; i < n; ++i) {
-            computeGraph(funcs.get(i), minX, maxX, boundMinY, boundMaxY, graphs[i]);
-            Path path = graphToPath(graphs[i]);
+        final List<FunctionPlotDef> functionPlotDefs = graphViewHelper.getFunctionPlotDefs();
+
+        // create path once
+        final Path path = new Path();
+
+        for (int i = 0; i < functionPlotDefs.size(); i++) {
+            final FunctionPlotDef fpd = functionPlotDefs.get(i);
+            computeGraph(fpd.getFunction(), minX, maxX, boundMinY, boundMaxY, graphs.get(i));
+
+            graphToPath(graphs.get(i), path);
+
             path.transform(matrix);
-            paint.setColor(COL_GRAPH[i]);
+
+            fpd.getLineDef().applyToPaint(paint);
+
             canvas.drawPath(path, paint);
         }
         lastMinX = minX;
@@ -485,7 +515,7 @@ public class Graph2dView extends View implements
     }
 
     private void invalidateGraphs() {
-        clearAllGraph();
+        clearAllGraphs();
         boundMinY = boundMaxY = 0;
         invalidate();
     }

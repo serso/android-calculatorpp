@@ -1,21 +1,24 @@
 // Copyright (C) 2009-2010 Mihai Preda
 
-package arity.calculator;
+package org.solovyev.android.calculator.plot;
 
-import org.javia.arity.Function;
+import android.widget.ZoomButtonsController;
+import org.jetbrains.annotations.NotNull;
 
-public interface GraphView {
+import java.util.List;
+
+public interface GraphView extends ZoomButtonsController.OnZoomListener, TouchHandler.TouchHandlerInterface {
 
     static final String SCREENSHOT_DIR = "/screenshots";
 
-    public void setFunction(Function f);
+    public void init(@NotNull FunctionViewDef functionViewDef);
+
+    public void setFunctionPlotDefs(@NotNull List<FunctionPlotDef> functionPlotDefs);
 
     public void onPause();
     public void onResume();
 
     public String captureScreenshot();
-
-    void setId(int id);
 
     /*
     **********************************************************************

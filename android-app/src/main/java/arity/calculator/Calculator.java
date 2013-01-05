@@ -3,7 +3,6 @@
 package arity.calculator;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Build;
@@ -18,8 +17,9 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import org.javia.arity.*;
-import org.javia.arity.Util;
 import org.solovyev.android.calculator.Locator;
+import org.solovyev.android.calculator.plot.Graph2dView;
+import org.solovyev.android.calculator.plot.Graph3dView;
 
 import java.util.ArrayList;
 
@@ -183,9 +183,6 @@ public class Calculator extends Activity implements TextWatcher,
 
     //OnClickListener
     public void onClick(View target) {
-        if (target == graphView || target == graph3dView) {
-            startActivity(new Intent(this, ShowGraph.class));
-        }
     }
 
     // OnItemClickListener
@@ -323,7 +320,7 @@ public class Calculator extends Activity implements TextWatcher,
                 showGraph(null);
             }
         } else {
-            graphView.setFunctions(auxFuncs);
+            //graphView.setFunctionPlotDefs(auxFuncs);
             if (graphView.getVisibility() != View.VISIBLE) {
                 if (isAlphaVisible) {
                     isAlphaVisible = false;
@@ -376,7 +373,7 @@ public class Calculator extends Activity implements TextWatcher,
         } else {
             // graphedFunction = f;
             if (f.arity() == 1) {
-                graphView.setFunction(f);
+                //graphView.setFunctionPlotDefs(Arrays.asList(f));
                 if (graphView.getVisibility() != View.VISIBLE) {
                     if (isAlphaVisible) {
                         isAlphaVisible = false;
@@ -389,7 +386,7 @@ public class Calculator extends Activity implements TextWatcher,
                     graphView.setVisibility(View.VISIBLE);
                 }
             } else {
-                graph3dView.setFunction(f);
+                //graph3dView.setFunctionPlotDefs(Arrays.asList(f));
                 if (graph3dView.getVisibility() != View.VISIBLE) {
                     if (isAlphaVisible) {
                         isAlphaVisible = false;

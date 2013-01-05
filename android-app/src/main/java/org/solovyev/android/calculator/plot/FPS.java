@@ -1,4 +1,4 @@
-package arity.calculator;
+package org.solovyev.android.calculator.plot;
 
 class FPS {
     private int drawCnt;
