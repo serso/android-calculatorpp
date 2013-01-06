@@ -15,31 +15,39 @@ import java.nio.ShortBuffer;
 
 class Graph3d {
 
-    private final int N;
+    // vertices count per polygon (triangle = 3)
+    public static final int VERTICES_COUNT = 3;
+
+    // color components count per color
+    public static final int COLOR_COMPONENTS_COUNT = 4;
+
+    // linear polygons count
+    private final int n;
+
     private final boolean useHighQuality3d;
     private ShortBuffer verticeIdx;
     private FloatBuffer vertexBuf;
     private ByteBuffer colorBuf;
     private int vertexVbo, colorVbo, vertexElementVbo;
     private boolean useVBO;
-    private int nVertex;
+    private int polygonsⁿ;
 
     Graph3d(GL11 gl, boolean useHighQuality3d) {
         this.useHighQuality3d = useHighQuality3d;
-        this.N = useHighQuality3d ? 36 : 24;
+        this.n = useHighQuality3d ? 36 : 24;
 
-        short[] b = new short[N * N];
+        short[] b = new short[n * n];
         int p = 0;
-        for (int i = 0; i < N; i++) {
+        for (int i = 0; i < n; i++) {
             short v = 0;
-            for (int j = 0; j < N; v += N + N, j += 2) {
+            for (int j = 0; j < n; v += n + n, j += 2) {
                 b[p++] = (short) (v + i);
-                b[p++] = (short) (v + N + N - 1 - i);
+                b[p++] = (short) (v + n + n - 1 - i);
             }
-            v = (short) (N * (N - 2));
+            v = (short) (n * (n - 2));
             i++;
-            for (int j = N - 1; j >= 0; v -= N + N, j -= 2) {
-                b[p++] = (short) (v + N + N - 1 - i);
+            for (int j = n - 1; j >= 0; v -= n + n, j -= 2) {
+                b[p++] = (short) (v + n + n - 1 - i);
                 b[p++] = (short) (v + i);
             }
         }
@@ -88,147 +96,56 @@ class Graph3d {
         final Function function = fpd.getFunction();
         final FunctionLineDef lineDef = fpd.getLineDef();
         final int NTICK = useHighQuality3d ? 5 : 0;
+
         final float size = 4 * zoom;
-        final float minX = -size, maxX = size, minY = -size, maxY = size;
 
         //Calculator.log("update VBOs " + vertexVbo + ' ' + colorVbo + ' ' + vertexElementVbo);
-        nVertex = N * N + 6 + 8 + NTICK * 6;
+        polygonsⁿ = n * n + 6 + 8 + NTICK * 6;
 
-        final float vertices[] = new float[nVertex * 3];
-        final byte colors[] = new byte[nVertex * 4];
+        // triangle polygon => 3 vertices per polygon
+        final float vertices[] = new float[polygonsⁿ * VERTICES_COUNT];
 
-        if (fpd != null) {
-            //Calculator.log("Graph3d update");
-            float sizeX = maxX - minX;
-            float sizeY = maxY - minY;
-            float stepX = sizeX / (N - 1);
-            float stepY = sizeY / (N - 1);
-            int pos = 0;
-            double sum = 0;
-            float y = minY;
-            float x = minX - stepX;
-            int nRealPoints = 0;
+        float maxAbsZ = fillFunctionPolygonVertices(function, size, vertices);
+        final byte[] colors = prepareFunctionPolygonColors(lineDef, vertices, maxAbsZ);
 
-            final int arity = function.arity();
 
-            for (int i = 0; i < N; i++, y += stepY) {
-                float xinc = (i & 1) == 0 ? stepX : -stepX;
-
-                x += xinc;
-                for (int j = 0; j < N; ++j, x += xinc, pos += 3) {
-
-                    final float z;
-                    switch (arity) {
-                        case 2:
-                            z = (float) function.eval(x, y);
-                            break;
-                        case 1:
-                            // todo serso: optimize (can be calculated once before loop)
-                            z = (float) function.eval(x);
-                            break;
-                        case 0:
-                            // todo serso: optimize (can be calculated once)
-                            z = (float) function.eval();
-                            break;
-                        default:
-                            throw new IllegalArgumentException();
-                    }
-
-                    vertices[pos] = x;
-                    vertices[pos + 1] = y;
-                    vertices[pos + 2] = z;
-
-                    if (!Float.isNaN(z)) {
-                        sum += z * z;
-                        ++nRealPoints;
-                    }
-                }
-            }
-
-            float maxAbs = (float) Math.sqrt(sum / nRealPoints);
-            maxAbs *= .9f;
-            maxAbs = Math.min(maxAbs, 15);
-            maxAbs = Math.max(maxAbs, .001f);
-
-            final int lineColor = lineDef.getLineColor();
-            final int limitColor = N * N * 4;
-            for (int i = 0, j = 2; i < limitColor; i += 4, j += 3) {
-                final float z = vertices[j];
-
-                    if (!Float.isNaN(z)) {
-                        if (lineDef.getLineColorType() == FunctionLineColorType.color_map) {
-                            final float a = z / maxAbs;
-                            final float abs = a < 0 ? -a : a;
-                            colors[i] = floatToByte(a);
-                            colors[i + 1] = floatToByte(1 - abs * .3f);
-                            colors[i + 2] = floatToByte(-a);
-                        } else {
-                            colors[i] = (byte) Color.red(lineColor);
-                            colors[i + 1] = (byte) Color.green(lineColor);
-                            colors[i + 2] = (byte) Color.blue(lineColor);
-                        }
-                        colors[i + 3] = (byte) 255;
-                    } else {
-                        vertices[j] = 0;
-                        colors[i] = 0;
-                        colors[i + 1] = 0;
-                        colors[i + 2] = 0;
-                        colors[i + 3] = 0;
-                    }
-
-            }
-        }
-        int base = N * N * 3;
-        int colorBase = N * N * 4;
-        int p = base;
+        int base = n * n * 3;
+        int colorBase = n * n * 4;
         final int baseSize = 2;
-        for (int i = -baseSize; i <= baseSize; i += 2 * baseSize) {
-            vertices[p] = i;
-            vertices[p + 1] = -baseSize;
-            vertices[p + 2] = 0;
-            p += 3;
-            vertices[p] = i;
-            vertices[p + 1] = baseSize;
-            vertices[p + 2] = 0;
-            p += 3;
-            vertices[p] = -baseSize;
-            vertices[p + 1] = i;
-            vertices[p + 2] = 0;
-            p += 3;
-            vertices[p] = baseSize;
-            vertices[p + 1] = i;
-            vertices[p + 2] = 0;
-            p += 3;
-        }
-        for (int i = colorBase; i < colorBase + 8 * 4; i += 4) {
-            colors[i] = 0;
-            colors[i + 1] = 0;
-            colors[i + 2] = (byte) 255;
-            colors[i + 3] = (byte) 255;
-        }
+
+        fillBasePolygonVectors(vertices, colors, base, colorBase, baseSize);
+
         base += 8 * 3;
         colorBase += 8 * 4;
 
-        final float unit = 2;
-        final float axis[] = {
-                0, 0, 0,
-                unit, 0, 0,
-                0, 0, 0,
-                0, unit, 0,
-                0, 0, 0,
-                0, 0, unit,
-        };
-        System.arraycopy(axis, 0, vertices, base, 6 * 3);
-        for (int i = colorBase; i < colorBase + 6 * 4; i += 4) {
-            colors[i] = (byte) 255;
-            colors[i + 1] = (byte) 255;
-            colors[i + 2] = (byte) 255;
-            colors[i + 3] = (byte) 255;
-        }
+        fillAxisPolygonVectors(vertices, colors, base, colorBase);
+
         base += 6 * 3;
         colorBase += 6 * 4;
 
-        p = base;
+        fillAxisGridPolygonVectors(NTICK, vertices, colors, base, colorBase);
+
+        vertexBuf = buildBuffer(vertices);
+        colorBuf = buildBuffer(colors);
+
+        if (useVBO) {
+            gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, vertexVbo);
+            gl.glBufferData(GL11.GL_ARRAY_BUFFER, vertexBuf.capacity() * 4, vertexBuf, GL11.GL_STATIC_DRAW);
+            vertexBuf = null;
+
+            gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, colorVbo);
+            gl.glBufferData(GL11.GL_ARRAY_BUFFER, colorBuf.capacity(), colorBuf, GL11.GL_STATIC_DRAW);
+            gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, 0);
+            colorBuf = null;
+
+            gl.glBindBuffer(GL11.GL_ELEMENT_ARRAY_BUFFER, vertexElementVbo);
+            gl.glBufferData(GL11.GL_ELEMENT_ARRAY_BUFFER, verticeIdx.capacity() * 2, verticeIdx, GL11.GL_STATIC_DRAW);
+            gl.glBindBuffer(GL11.GL_ELEMENT_ARRAY_BUFFER, 0);
+        }
+    }
+
+    private void fillAxisGridPolygonVectors(int NTICK, float[] vertices, byte[] colors, int base, int colorBase) {
+        int p = base;
         final float tick = .03f;
         final float offset = .01f;
         for (int i = 1; i <= NTICK; ++i) {
@@ -263,24 +180,141 @@ class Graph3d {
         for (int i = colorBase + NTICK * 6 * 4 - 1; i >= colorBase; --i) {
             colors[i] = (byte) 255;
         }
+    }
 
-        vertexBuf = buildBuffer(vertices);
-        colorBuf = buildBuffer(colors);
-
-        if (useVBO) {
-            gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, vertexVbo);
-            gl.glBufferData(GL11.GL_ARRAY_BUFFER, vertexBuf.capacity() * 4, vertexBuf, GL11.GL_STATIC_DRAW);
-            vertexBuf = null;
-
-            gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, colorVbo);
-            gl.glBufferData(GL11.GL_ARRAY_BUFFER, colorBuf.capacity(), colorBuf, GL11.GL_STATIC_DRAW);
-            gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, 0);
-            colorBuf = null;
-
-            gl.glBindBuffer(GL11.GL_ELEMENT_ARRAY_BUFFER, vertexElementVbo);
-            gl.glBufferData(GL11.GL_ELEMENT_ARRAY_BUFFER, verticeIdx.capacity() * 2, verticeIdx, GL11.GL_STATIC_DRAW);
-            gl.glBindBuffer(GL11.GL_ELEMENT_ARRAY_BUFFER, 0);
+    private void fillAxisPolygonVectors(float[] vertices, byte[] colors, int base, int colorBase) {
+        final float unit = 2;
+        final float axis[] = {
+                0, 0, 0,
+                unit, 0, 0,
+                0, 0, 0,
+                0, unit, 0,
+                0, 0, 0,
+                0, 0, unit,
+        };
+        System.arraycopy(axis, 0, vertices, base, 6 * 3);
+        for (int i = colorBase; i < colorBase + 6 * 4; i += 4) {
+            colors[i] = (byte) 255;
+            colors[i + 1] = (byte) 255;
+            colors[i + 2] = (byte) 255;
+            colors[i + 3] = (byte) 255;
         }
+    }
+
+    private void fillBasePolygonVectors(float[] vertices, byte[] colors, int base, int colorBase, int baseSize) {
+        int p = base;
+        for (int i = -baseSize; i <= baseSize; i += 2 * baseSize) {
+            vertices[p] = i;
+            vertices[p + 1] = -baseSize;
+            vertices[p + 2] = 0;
+            p += 3;
+            vertices[p] = i;
+            vertices[p + 1] = baseSize;
+            vertices[p + 2] = 0;
+            p += 3;
+            vertices[p] = -baseSize;
+            vertices[p + 1] = i;
+            vertices[p + 2] = 0;
+            p += 3;
+            vertices[p] = baseSize;
+            vertices[p + 1] = i;
+            vertices[p + 2] = 0;
+            p += 3;
+        }
+
+        for (int i = colorBase; i < colorBase + 8 * 4; i += 4) {
+            colors[i] = (byte) 255;
+            colors[i + 1] = (byte) 255;
+            colors[i + 2] = (byte) 255;
+            colors[i + 3] = (byte) 255;
+        }
+    }
+
+    private float fillFunctionPolygonVertices(Function function, float size, float[] vertices) {
+        final int arity = function.arity();
+
+        final float minX = -size;
+        final float maxX = size;
+        final float minY = -size;
+        final float maxY = size;
+
+        float Δx = (maxX - minX) / (n - 1);
+        float Δy = (maxY - minY) / (n - 1);
+
+        float y = minY;
+        float x = minX - Δx;
+
+        float maxAbsZ = 0;
+
+        float z = 0;
+        if (arity == 0) {
+            z = (float) function.eval();
+        }
+
+        int k = 0;
+        for (int i = 0; i < n; i++, y += Δy) {
+            float xinc = (i & 1) == 0 ? Δx : -Δx;
+
+            x += xinc;
+
+            if (arity == 1) {
+                z = (float) function.eval(y);
+            }
+
+            for (int j = 0; j < n; j++, x += xinc, k += VERTICES_COUNT) {
+
+                if (arity == 2) {
+                    z = (float) function.eval(y, x);
+                }
+
+                vertices[k] = x;
+                vertices[k + 1] = y;
+                vertices[k + 2] = z;
+
+                if (!Float.isNaN(z)) {
+                    final float absZ = Math.abs(z);
+                    if (absZ > maxAbsZ) {
+                        maxAbsZ = absZ;
+                    }
+                } else {
+                    vertices[k + 2] = 0;
+                }
+            }
+        }
+
+        return maxAbsZ;
+    }
+
+    private byte[] prepareFunctionPolygonColors(FunctionLineDef lineDef, float[] vertices, float maxAbsZ) {
+        // 4 color components per polygon (color[i] = red, color[i+1] = green, color[i+2] = blue, color[i+3] = alpha )
+        final byte colors[] = new byte[polygonsⁿ * COLOR_COMPONENTS_COUNT];
+
+        final int lineColor = lineDef.getLineColor();
+        final int colorComponentsCount = n * n * COLOR_COMPONENTS_COUNT;
+        for (int i = 0, j = VERTICES_COUNT - 1; i < colorComponentsCount; i += COLOR_COMPONENTS_COUNT, j += VERTICES_COUNT) {
+            final float z = vertices[j];
+
+            if (!Float.isNaN(z)) {
+                if (lineDef.getLineColorType() == FunctionLineColorType.color_map) {
+                    final float color = z / maxAbsZ;
+                    final float abs = Math.abs(color);
+                    colors[i] = floatToByte(color);
+                    colors[i + 1] = floatToByte(1 - abs * .3f);
+                    colors[i + 2] = floatToByte(-color);
+                } else {
+                    colors[i] = (byte) Color.red(lineColor);
+                    colors[i + 1] = (byte) Color.green(lineColor);
+                    colors[i + 2] = (byte) Color.blue(lineColor);
+                }
+                colors[i + 3] = (byte) 255;
+            } else {
+                colors[i] = 0;
+                colors[i + 1] = 0;
+                colors[i + 2] = 0;
+                colors[i + 3] = 0;
+            }
+        }
+        return colors;
     }
 
     private byte floatToByte(float v) {
@@ -307,16 +341,16 @@ class Graph3d {
             // gl.glDrawArrays(GL10.GL_LINE_STRIP, 0, N*N);
 
             gl.glBindBuffer(GL11.GL_ELEMENT_ARRAY_BUFFER, vertexElementVbo);
-            gl.glDrawElements(GL10.GL_LINE_STRIP, N * N, GL10.GL_UNSIGNED_SHORT, 0);
+            gl.glDrawElements(GL10.GL_LINE_STRIP, n * n, GL10.GL_UNSIGNED_SHORT, 0);
             gl.glBindBuffer(GL11.GL_ELEMENT_ARRAY_BUFFER, 0);
         } else {
             gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexBuf);
             gl.glColorPointer(4, GL10.GL_UNSIGNED_BYTE, 0, colorBuf);
-            gl.glDrawElements(GL10.GL_LINE_STRIP, N * N, GL10.GL_UNSIGNED_SHORT, verticeIdx);
+            gl.glDrawElements(GL10.GL_LINE_STRIP, n * n, GL10.GL_UNSIGNED_SHORT, verticeIdx);
         }
-        final int N2 = N * N;
+        final int N2 = n * n;
         gl.glDrawArrays(GL10.GL_LINE_STRIP, 0, N2);
-        gl.glDrawArrays(GL10.GL_LINES, N2, nVertex - N2);
+        gl.glDrawArrays(GL10.GL_LINES, N2, polygonsⁿ - N2);
     }
 
     public boolean isUseHighQuality3d() {

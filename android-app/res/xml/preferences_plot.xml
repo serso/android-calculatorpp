@@ -6,10 +6,15 @@
 
         <org.solovyev.android.ads.AdViewPreference a:layout="@layout/admob_pref"/>
 
-        <android.preference.CheckBoxPreference
+        <!--<android.preference.CheckBoxPreference
                 a:key="graph_interpolate"
                 a:title="@string/prefs_graph_interpolate_function"
-                a:summary="@string/prefs_graph_interpolate_function_summary"/>
+                a:summary="@string/prefs_graph_interpolate_function_summary"/>-->
+
+        <android.preference.CheckBoxPreference
+            a:key="graph_plot_imag"
+            a:title="@string/cpp_prefs_graph_plot_imag_title"
+            a:summary="@string/cpp_prefs_graph_plot_imag_summary"/>
 
         <ListPreference a:key="graph_line_color_real"
                         a:title="@string/prefs_graph_real_color_title"

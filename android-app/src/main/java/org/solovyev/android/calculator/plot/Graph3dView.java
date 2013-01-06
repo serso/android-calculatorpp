@@ -10,6 +10,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.ZoomButtonsController;
 import org.jetbrains.annotations.NotNull;
+import org.solovyev.android.calculator.App;
 
 import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
@@ -26,6 +27,9 @@ public class Graph3dView extends GLView implements GraphView {
     private ZoomButtonsController zoomController = new ZoomButtonsController(this);
     private float zoomLevel = 1, targetZoom, zoomStep = 0, currentZoom;
     private FPS fps = new FPS();
+
+    @NotNull
+    private GLText glText;
 
     @NotNull
     private List<Graph3d> graphs = new ArrayList<Graph3d>();
@@ -204,6 +208,9 @@ public class Graph3dView extends GLView implements GraphView {
         gl.glViewport(0, 0, width, height);
         initFrustum(gl, DISTANCE * zoomLevel);
         currentZoom = zoomLevel;
+
+        glText = new GLText( gl, App.getInstance().getApplication().getAssets() );
+        glText.load("Roboto-Regular.ttf", 32, 2, 2);
     }
 
     @Override
@@ -229,6 +236,7 @@ public class Graph3dView extends GLView implements GraphView {
         gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
         gl.glMatrixMode(GL10.GL_MODELVIEW);
         gl.glLoadIdentity();
+
         gl.glTranslatef(0, 0, -DISTANCE * zoomLevel);
 
         Matrix.setIdentityM(matrix2, 0);
@@ -253,6 +261,24 @@ public class Graph3dView extends GLView implements GraphView {
         for (Graph3d graph : graphs) {
             graph.draw(gl);
         }
+
+        //updateText(gl, glText);
+
+    }
+
+    public void drawText(@NotNull GLText glText) {
+        glText.begin(1.0f, 1.0f, 1.0f, 1.0f);
+        glText.draw( "Test!", 0, 0 );
+        glText.end();
+    }
+
+    private void updateText(@NotNull GL11 gl, @NotNull GLText glText) {
+        gl.glEnable( GL10.GL_TEXTURE_2D );
+        gl.glEnable( GL10.GL_BLEND );
+        gl.glBlendFunc( GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA );
+        drawText(glText);
+        gl.glDisable( GL10.GL_BLEND );
+        gl.glDisable( GL10.GL_TEXTURE_2D );
     }
 
     private void ensureGraphsSize(@NotNull GL11 gl) {

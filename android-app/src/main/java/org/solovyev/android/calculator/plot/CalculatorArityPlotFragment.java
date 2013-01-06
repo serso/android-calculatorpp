@@ -44,6 +44,7 @@ public class CalculatorArityPlotFragment extends AbstractCalculatorPlotFragment 
 
         final GraphLineColor realLineColor = CalculatorPreferences.Graph.lineColorReal.getPreference(preferences);
         final GraphLineColor imagLineColor = CalculatorPreferences.Graph.lineColorImag.getPreference(preferences);
+        final boolean plotImag = CalculatorPreferences.Graph.plotImag.getPreference(preferences);
 
         // remove old
         final ViewGroup graphContainer = (ViewGroup) root.findViewById(R.id.main_fragment_layout);
@@ -61,8 +62,10 @@ public class CalculatorArityPlotFragment extends AbstractCalculatorPlotFragment 
 
             final List<FunctionPlotDef> functions = new ArrayList<FunctionPlotDef>();
 
-            functions.add(FunctionPlotDef.newInstance(new RealArityFunction(arity, expression, xVariable, yVariable), FunctionLineDef.newInstance(realLineColor.getColor(), FunctionLineStyle.solid, 3f)));
-            functions.add(FunctionPlotDef.newInstance(new ImaginaryArityFunction(arity, expression, xVariable, yVariable), FunctionLineDef.newInstance(imagLineColor.getColor(), FunctionLineStyle.solid, 3f)));
+            functions.add(FunctionPlotDef.newInstance(new RealArityFunction(arity, expression, xVariable, yVariable), FunctionLineDef.newInstance(realLineColor.getColor(), FunctionLineStyle.solid, 3f, FunctionLineColorType.color_map)));
+            if (plotImag) {
+                functions.add(FunctionPlotDef.newInstance(new ImaginaryArityFunction(arity, expression, xVariable, yVariable), FunctionLineDef.newInstance(imagLineColor.getColor(), FunctionLineStyle.solid, 3f, FunctionLineColorType.color_map)));
+            }
 
             switch (arity) {
                 case 0:

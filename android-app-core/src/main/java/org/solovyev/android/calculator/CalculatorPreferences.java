@@ -129,6 +129,7 @@ public final class CalculatorPreferences {
         public static final Preference<Boolean> interpolate = new BooleanPreference("graph_interpolate", true);
         public static final Preference<GraphLineColor> lineColorReal = StringPreference.newInstance("graph_line_color_real", GraphLineColor.white, GraphLineColor.class);
         public static final Preference<GraphLineColor> lineColorImag = StringPreference.newInstance("graph_line_color_imag", GraphLineColor.blue, GraphLineColor.class);
+        public static final Preference<Boolean> plotImag = new BooleanPreference("graph_plot_imag", false);
     }
 
     public static class History {
@@ -185,6 +186,7 @@ public final class CalculatorPreferences {
         applyDefaultPreference(preferences, Graph.interpolate);
         applyDefaultPreference(preferences, Graph.lineColorImag);
         applyDefaultPreference(preferences, Graph.lineColorReal);
+        applyDefaultPreference(preferences, Graph.plotImag);
         applyDefaultPreference(preferences, History.showIntermediateCalculations);
         applyDefaultPreference(preferences, Calculations.calculateOnFly);
         applyDefaultPreference(preferences, Calculations.preferredAngleUnits);
