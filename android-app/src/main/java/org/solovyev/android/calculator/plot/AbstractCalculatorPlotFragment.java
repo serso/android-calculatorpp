@@ -17,7 +17,20 @@ import jscl.text.ParseException;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.CalculatorApplication;
+import org.solovyev.android.calculator.CalculatorDisplayChangeEventData;
+import org.solovyev.android.calculator.CalculatorDisplayViewState;
+import org.solovyev.android.calculator.CalculatorEventData;
+import org.solovyev.android.calculator.CalculatorEventHolder;
+import org.solovyev.android.calculator.CalculatorEventListener;
+import org.solovyev.android.calculator.CalculatorEventType;
+import org.solovyev.android.calculator.CalculatorFragment;
+import org.solovyev.android.calculator.CalculatorParseException;
+import org.solovyev.android.calculator.CalculatorUtils;
+import org.solovyev.android.calculator.Locator;
+import org.solovyev.android.calculator.PreparedExpression;
+import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.ToJsclTextProcessor;
 import org.solovyev.android.menu.ActivityMenu;
 import org.solovyev.android.menu.IdentifiableMenuItem;
 import org.solovyev.android.menu.ListActivityMenu;
@@ -46,7 +59,7 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 
     protected static final String TAG = "CalculatorPlotFragment";
 
-    public static final String INPUT = "plotter_input";
+    public static final String INPUT = "plot_input";
 
     protected static final String PLOT_BOUNDARIES = "plot_boundaries";
 
@@ -63,7 +76,7 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
     */
 
     @Nullable
-    private Input input;
+    private ParcelablePlotInput input;
 
     private int bgColor;
 
@@ -97,7 +110,7 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
         final Bundle arguments = getArguments();
 
         if (arguments != null) {
-            input = (CalculatorPlotFragment.Input) arguments.getSerializable(INPUT);
+            input = (ParcelablePlotInput) arguments.getParcelable(INPUT);
         }
 
         if (input == null) {
@@ -303,7 +316,7 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
                         yVariable = null;
                     }
 
-                    final Input input = new Input(expression.toString(), xVariable == null ? null : xVariable.getName(), yVariable == null ? null : yVariable.getName());
+                    final ParcelablePlotInput input = new ParcelablePlotInput(expression.toString(), xVariable == null ? null : xVariable.getName(), yVariable == null ? null : yVariable.getName());
                     return prepareInput(input, false, savedInstanceState);
                 }
             }
@@ -315,7 +328,7 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
     }
 
     @NotNull
-    private static PreparedInput prepareInput(@NotNull Input input, boolean fromInputArgs, @Nullable Bundle savedInstanceState) {
+    private static PreparedInput prepareInput(@NotNull ParcelablePlotInput input, boolean fromInputArgs, @Nullable Bundle savedInstanceState) {
         PreparedInput result;
 
         try {
@@ -437,7 +450,7 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
     public static class PreparedInput {
 
         @Nullable
-        private Input input;
+        private ParcelablePlotInput input;
 
         @Nullable
         private Generic expression;
@@ -459,7 +472,7 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
         }
 
         @NotNull
-        public static PreparedInput newInstance(@NotNull Input input,
+        public static PreparedInput newInstance(@NotNull ParcelablePlotInput input,
                                                 @NotNull Generic expression,
                                                 @Nullable  Constant xVariable,
                                                 @Nullable Constant yVariable,
@@ -506,7 +519,7 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
         }
 
         @Nullable
-        public Input getInput() {
+        public ParcelablePlotInput getInput() {
             return input;
         }
 
@@ -539,38 +552,4 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
         }
     }
 
-    public static class Input implements Serializable {
-
-        @NotNull
-        private String expression;
-
-        @Nullable
-        private String xVariableName;
-
-        @Nullable
-        private String yVariableName;
-
-        public Input(@NotNull String expression,
-                     @Nullable  String xVariableName,
-                     @Nullable String yVariableName) {
-            this.expression = expression;
-            this.xVariableName = xVariableName;
-            this.yVariableName = yVariableName;
-        }
-
-        @NotNull
-        public String getExpression() {
-            return expression;
-        }
-
-        @Nullable
-        public String getXVariableName() {
-            return xVariableName;
-        }
-
-        @Nullable
-        public String getYVariableName() {
-            return yVariableName;
-        }
-    }
 }

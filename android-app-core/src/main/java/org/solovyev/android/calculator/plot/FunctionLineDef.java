@@ -2,6 +2,8 @@ package org.solovyev.android.calculator.plot;
 
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.Parcel;
+import android.os.Parcelable;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -9,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
  * Date: 1/5/13
  * Time: 7:41 PM
  */
-public class FunctionLineDef {
+public class FunctionLineDef implements Parcelable {
 
     /*
     **********************************************************************
@@ -21,6 +23,26 @@ public class FunctionLineDef {
 
     @NotNull
     private static final Float DEFAULT_LINE_WIDTH = -1f;
+
+	/*
+	**********************************************************************
+	*
+	*                           STATIC
+	*
+	**********************************************************************
+	*/
+
+	private static final Creator<FunctionLineDef> CREATOR = new Creator<FunctionLineDef>() {
+		@Override
+		public FunctionLineDef createFromParcel(@NotNull Parcel in) {
+			return fromParcel(in);
+		}
+
+		@Override
+		public FunctionLineDef[] newArray(int size) {
+			return new FunctionLineDef[size];
+		}
+	};
 
     /*
     **********************************************************************
@@ -70,6 +92,18 @@ public class FunctionLineDef {
         return result;
     }
 
+	public static FunctionLineDef fromParcel(@NotNull Parcel in) {
+		final FunctionLineDef result = new FunctionLineDef();
+
+		result.lineColorType = (FunctionLineColorType) in.readSerializable();
+		result.lineColor = in.readInt();
+		result.lineStyle = (FunctionLineStyle) in.readSerializable();
+		result.lineWidth = in.readFloat();
+
+		return result;
+	}
+
+
     @NotNull
     public static FunctionLineDef newDefaultInstance() {
         return new FunctionLineDef();
@@ -106,4 +140,17 @@ public class FunctionLineDef {
 
         lineStyle.applyToPaint(paint);
     }
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(@NotNull Parcel out, int flags) {
+		out.writeSerializable(lineColorType);
+		out.writeInt(lineColor);
+		out.writeSerializable(lineStyle);
+		out.writeFloat(lineWidth);
+	}
 }

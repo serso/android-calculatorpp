@@ -8,10 +8,18 @@ import org.solovyev.android.AndroidUtils;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 import org.solovyev.android.calculator.plot.GraphLineColor;
-import org.solovyev.android.prefs.*;
+import org.solovyev.android.calculator.plot.ParcelablePlotInput;
+import org.solovyev.android.prefs.BooleanPreference;
+import org.solovyev.android.prefs.IntegerPreference;
+import org.solovyev.android.prefs.LongPreference;
+import org.solovyev.android.prefs.Preference;
+import org.solovyev.android.prefs.R;
+import org.solovyev.android.prefs.StringPreference;
 import org.solovyev.android.view.VibratorContainer;
+import org.solovyev.common.ListMapper;
 
 import java.text.DecimalFormatSymbols;
+import java.util.List;
 import java.util.Locale;
 
 /**

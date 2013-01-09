@@ -64,6 +64,7 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
             activityHelper.addTab(this, CalculatorFragmentType.variables, null, R.id.main_second_pane);
             activityHelper.addTab(this, CalculatorFragmentType.functions, null, R.id.main_second_pane);
             activityHelper.addTab(this, CalculatorFragmentType.operators, null, R.id.main_second_pane);
+            activityHelper.addTab(this, CalculatorFragmentType.plotter_functions, null, R.id.main_second_pane);
             activityHelper.addTab(this, CalculatorPlotActivity.getPlotterFragmentType(), null, R.id.main_second_pane);
             activityHelper.addTab(this, CalculatorFragmentType.faq, null, R.id.main_second_pane);
         } else {

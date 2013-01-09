@@ -21,11 +21,15 @@ import org.solovyev.android.calculator.about.CalculatorAboutActivity;
 import org.solovyev.android.calculator.function.FunctionEditDialogFragment;
 import org.solovyev.android.calculator.help.CalculatorHelpActivity;
 import org.solovyev.android.calculator.history.CalculatorHistoryActivity;
-import org.solovyev.android.calculator.math.edit.*;
+import org.solovyev.android.calculator.math.edit.CalculatorFunctionsActivity;
+import org.solovyev.android.calculator.math.edit.CalculatorOperatorsActivity;
+import org.solovyev.android.calculator.math.edit.CalculatorVarsActivity;
+import org.solovyev.android.calculator.math.edit.CalculatorVarsFragment;
+import org.solovyev.android.calculator.math.edit.VarEditDialogFragment;
 import org.solovyev.android.calculator.matrix.CalculatorMatrixActivity;
-import org.solovyev.android.calculator.plot.AbstractCalculatorPlotFragment;
 import org.solovyev.android.calculator.plot.CalculatorPlotActivity;
 import org.solovyev.android.calculator.plot.CalculatorPlotFragment;
+import org.solovyev.android.calculator.plot.ParcelablePlotInput;
 import org.solovyev.android.calculator.plot.PlotInput;
 import org.solovyev.common.msg.Message;
 import org.solovyev.common.msg.MessageType;
@@ -106,7 +110,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
                                  @Nullable Constant yVariable){
 		final Intent intent = new Intent();
 		intent.putExtra(ChartFactory.TITLE, context.getString(R.string.c_graph));
-        final AbstractCalculatorPlotFragment.Input input = new CalculatorPlotFragment.Input(generic.toString(), xVariable == null ? null : xVariable.getName(), yVariable == null ? null : yVariable.getName());
+        final ParcelablePlotInput input = new ParcelablePlotInput(generic.toString(), xVariable == null ? null : xVariable.getName(), yVariable == null ? null : yVariable.getName());
         intent.putExtra(CalculatorPlotFragment.INPUT, input);
 		intent.setClass(context, CalculatorPlotActivity.class);
         AndroidUtils2.addFlags(intent, false, context);
