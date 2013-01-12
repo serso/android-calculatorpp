@@ -92,9 +92,9 @@ class Graph3d {
         return bb;
     }
 
-    public void update(@NotNull GL11 gl, @NotNull FunctionPlotDef fpd, float zoom) {
+    public void update(@NotNull GL11 gl, @NotNull ArityPlotFunction fpd, float zoom) {
         final Function function = fpd.getFunction();
-        final FunctionLineDef lineDef = fpd.getLineDef();
+        final PlotFunctionLineDef lineDef = fpd.getLineDef();
         final int NTICK = useHighQuality3d ? 5 : 0;
 
         final float size = 4 * zoom;
@@ -285,7 +285,7 @@ class Graph3d {
         return maxAbsZ;
     }
 
-    private byte[] prepareFunctionPolygonColors(FunctionLineDef lineDef, float[] vertices, float maxAbsZ) {
+    private byte[] prepareFunctionPolygonColors(PlotFunctionLineDef lineDef, float[] vertices, float maxAbsZ) {
         // 4 color components per polygon (color[i] = red, color[i+1] = green, color[i+2] = blue, color[i+3] = alpha )
         final byte colors[] = new byte[polygonsⁿ * COLOR_COMPONENTS_COUNT];
 
@@ -295,7 +295,7 @@ class Graph3d {
             final float z = vertices[j];
 
             if (!Float.isNaN(z)) {
-                if (lineDef.getLineColorType() == FunctionLineColorType.color_map) {
+                if (lineDef.getLineColorType() == PlotFunctionLineColorType.color_map) {
                     final float color = z / maxAbsZ;
                     final float abs = Math.abs(color);
                     colors[i] = floatToByte(color);

@@ -23,9 +23,9 @@ public class CalculatorPlotFunctionsFragment extends CalculatorListFragment {
 	public void onResume() {
 		super.onResume();
 
-		final List<ParcelablePlotInputListItem> items = Lists.transform(CalculatorPlotFunctionsController.getInstance().getFunctions(), new Function<ParcelablePlotInput, ParcelablePlotInputListItem>() {
+		final List<ParcelablePlotInputListItem> items = Lists.transform(CalculatorPlotFunctionsController.getInstance().getFunctions(), new Function<XyFunction, ParcelablePlotInputListItem>() {
 			@Override
-			public ParcelablePlotInputListItem apply(@Nullable ParcelablePlotInput input) {
+			public ParcelablePlotInputListItem apply(@Nullable XyFunction input) {
 				return new ParcelablePlotInputListItem(input);
 			}
 		});

@@ -4,7 +4,6 @@ import jscl.math.Generic;
 import jscl.math.function.Constant;
 import jscl.math.function.IConstant;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.calculator.jscl.JsclOperation;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -41,16 +40,4 @@ public final class CalculatorUtils {
         return notSystemConstants;
     }
 
-    public static boolean isPlotPossible(@NotNull Generic expression, @NotNull JsclOperation operation) {
-        boolean result = false;
-
-        if (operation == JsclOperation.simplify || operation == JsclOperation.numeric) {
-            int size = getNotSystemConstants(expression).size();
-            if (size == 0 || size == 1 || size == 2) {
-                result = true;
-            }
-        }
-
-        return result;
-    }
 }

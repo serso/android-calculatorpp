@@ -8,25 +8,25 @@ import org.jetbrains.annotations.NotNull;
  * Date: 1/5/13
  * Time: 7:35 PM
  */
-public class FunctionPlotDef {
+public class ArityPlotFunction {
 
     @NotNull
     private Function function;
 
     @NotNull
-    private FunctionLineDef lineDef;
+    private PlotFunctionLineDef lineDef;
 
-    private FunctionPlotDef() {
+    private ArityPlotFunction() {
     }
 
     @NotNull
-    public static FunctionPlotDef newInstance(@NotNull Function function) {
-        return newInstance(function, FunctionLineDef.newDefaultInstance());
+    public static ArityPlotFunction newInstance(@NotNull Function function) {
+        return newInstance(function, PlotFunctionLineDef.newDefaultInstance());
     }
 
     @NotNull
-    public static FunctionPlotDef newInstance(@NotNull Function function, @NotNull FunctionLineDef lineDef) {
-        final FunctionPlotDef result = new FunctionPlotDef();
+    public static ArityPlotFunction newInstance(@NotNull Function function, @NotNull PlotFunctionLineDef lineDef) {
+        final ArityPlotFunction result = new ArityPlotFunction();
 
         result.function = function;
         result.lineDef = lineDef;
@@ -40,7 +40,7 @@ public class FunctionPlotDef {
     }
 
     @NotNull
-    public FunctionLineDef getLineDef() {
+    public PlotFunctionLineDef getLineDef() {
         return lineDef;
     }
 }

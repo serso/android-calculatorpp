@@ -159,11 +159,8 @@ public enum CalculatorEventType {
     show_create_matrix_dialog,
     show_create_function_dialog,
 
-    //org.solovyev.android.calculator.plot.PlotInput
     plot_graph,
-
-
-    plot_graph_3d,
+    plot_data_changed,
 
     //String
     show_evaluation_error;

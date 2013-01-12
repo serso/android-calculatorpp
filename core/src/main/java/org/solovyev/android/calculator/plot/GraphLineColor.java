@@ -1,7 +1,5 @@
 package org.solovyev.android.calculator.plot;
 
-import android.graphics.Color;
-
 /**
  * User: serso
  * Date: 10/4/12
@@ -9,11 +7,19 @@ import android.graphics.Color;
  */
 public enum GraphLineColor {
 
-    white(Color.WHITE),
-    grey(Color.GRAY),
-    red(Color.RED),
-    blue(Color.rgb(16, 100, 140)),
-    green(Color.GREEN);
+    // Color.WHITE
+    white(0xFFFFFFFF),
+
+    // Color.GRAY
+    grey(0xFF888888),
+
+    // Color.RED
+    red(0xFFFF0000),
+
+    blue(0xFF10648C),
+
+    // Color.GREEN
+    green(0xFF00FF00);
 
     private final int color;
 

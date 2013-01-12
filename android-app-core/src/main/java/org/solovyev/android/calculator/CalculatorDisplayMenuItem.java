@@ -2,16 +2,11 @@ package org.solovyev.android.calculator;
 
 import android.content.Context;
 import jscl.math.Generic;
-import jscl.math.function.Constant;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.core.R;
 import org.solovyev.android.calculator.jscl.JsclOperation;
-import org.solovyev.android.calculator.plot.PlotInput;
 import org.solovyev.android.calculator.view.NumeralBaseConverterDialog;
 import org.solovyev.android.menu.LabeledMenuItem;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
 * User: Solovyev_S
@@ -81,31 +76,17 @@ public enum CalculatorDisplayMenuItem implements LabeledMenuItem<CalculatorDispl
     plot(R.string.c_plot) {
         @Override
         public void onClick(@NotNull CalculatorDisplayViewState data, @NotNull Context context) {
-            final Generic generic = data.getResult();
-            assert generic != null;
+            final Generic expression = data.getResult();
+            assert expression != null;
 
-            final List<Constant> variables = new ArrayList<Constant>(CalculatorUtils.getNotSystemConstants(generic));
-
-            final Constant xVariable;
-            if ( variables.size() > 0 ) {
-                xVariable = variables.get(0);
-            } else {
-                xVariable = null;
-            }
-
-            final Constant yVariable;
-            if ( variables.size() > 1 ) {
-                yVariable = variables.get(1);
-            } else {
-                yVariable = null;
-            }
-
-            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.plot_graph, PlotInput.newInstance(generic, xVariable, yVariable), context);
+            Locator.getInstance().getPlotter().removeAllUnpinned();
+            Locator.getInstance().getPlotter().addFunction(expression);
+            Locator.getInstance().getPlotter().plot();
         }
 
         @Override
         protected boolean isItemVisibleFor(@NotNull Generic generic, @NotNull JsclOperation operation) {
-            return CalculatorUtils.isPlotPossible(generic, operation);
+            return Locator.getInstance().getPlotter().isPlotPossible(generic);
         }
 
     };

@@ -13,12 +13,12 @@ import org.solovyev.android.view.UpdatableViewBuilder;
 public class ParcelablePlotInputListItem implements ListItem {
 
 	@NotNull
-	private ParcelablePlotInput plotInput;
+	private XyFunction plotInput;
 
 	@NotNull
 	private UpdatableViewBuilder<TextView> viewBuilder;
 
-	public ParcelablePlotInputListItem(@NotNull ParcelablePlotInput plotInput) {
+	public ParcelablePlotInputListItem(@NotNull XyFunction plotInput) {
 		this.plotInput = plotInput;
 		// todo serso: use correct tag
 		this.viewBuilder = TextViewBuilder.newInstance(R.layout.plot_functions_fragment_list_item, null);
@@ -52,6 +52,6 @@ public class ParcelablePlotInputListItem implements ListItem {
 	}
 
 	private void fill(@NotNull TextView textView) {
-		textView.setText(plotInput.getExpression());
+		textView.setText(plotInput.getExpressionString());
 	}
 }

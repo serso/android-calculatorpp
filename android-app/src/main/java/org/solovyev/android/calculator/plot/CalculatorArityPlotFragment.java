@@ -1,8 +1,6 @@
 package org.solovyev.android.calculator.plot;
 
-import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.ViewGroup;
 import jscl.math.Generic;
@@ -10,7 +8,6 @@ import jscl.math.function.Constant;
 import org.javia.arity.Function;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.CalculatorPreferences;
 import org.solovyev.android.calculator.R;
 
 import java.util.ArrayList;
@@ -38,13 +35,7 @@ public class CalculatorArityPlotFragment extends AbstractCalculatorPlotFragment 
     }
 
     @Override
-    protected void createGraphicalView(@NotNull View root, @NotNull PreparedInput preparedInput) {
-
-        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
-
-        final GraphLineColor realLineColor = CalculatorPreferences.Graph.lineColorReal.getPreference(preferences);
-        final GraphLineColor imagLineColor = CalculatorPreferences.Graph.lineColorImag.getPreference(preferences);
-        final boolean plotImag = CalculatorPreferences.Graph.plotImag.getPreference(preferences);
+    protected void createGraphicalView(@NotNull View root, @NotNull PlotData plotData) {
 
         // remove old
         final ViewGroup graphContainer = (ViewGroup) root.findViewById(R.id.main_fragment_layout);
@@ -53,47 +44,42 @@ public class CalculatorArityPlotFragment extends AbstractCalculatorPlotFragment 
             graphContainer.removeView((View) graphView);
         }
 
-        if (!preparedInput.isError()) {
-            final Generic expression = preparedInput.getExpression();
-            final Constant xVariable = preparedInput.getXVariable();
-            final Constant yVariable = preparedInput.getYVariable();
+        final List<ArityPlotFunction> arityFunctions = new ArrayList<ArityPlotFunction>();
+
+        for (PlotFunction plotFunction : plotData.getFunctions()) {
+
+            final XyFunction xyFunction = plotFunction.getXyFunction();
+
+            final Generic expression = xyFunction.getExpression();
+            final Constant xVariable = xyFunction.getXVariable();
+            final Constant yVariable = xyFunction.getYVariable();
 
             final int arity = xVariable == null ? 0 : (yVariable == null ? 1 : 2);
 
-            final List<FunctionPlotDef> functions = new ArrayList<FunctionPlotDef>();
-
-            functions.add(FunctionPlotDef.newInstance(new RealArityFunction(arity, expression, xVariable, yVariable), FunctionLineDef.newInstance(realLineColor.getColor(), FunctionLineStyle.solid, 3f, FunctionLineColorType.color_map)));
-            if (plotImag) {
-                functions.add(FunctionPlotDef.newInstance(new ImaginaryArityFunction(arity, expression, xVariable, yVariable), FunctionLineDef.newInstance(imagLineColor.getColor(), FunctionLineStyle.solid, 3f, FunctionLineColorType.color_map)));
+            final Function arityFunction;
+            if (xyFunction.isImag()) {
+                arityFunction = new ImaginaryArityFunction(arity, expression, xVariable, yVariable);
+            } else {
+                arityFunction = new RealArityFunction(arity, expression, xVariable, yVariable);
             }
 
-            switch (arity) {
-                case 0:
-                case 1:
-                    if (preparedInput.isForce3d()) {
-                        graphView = new Graph3dView(getActivity());
-                    } else {
-                        graphView = new Graph2dView(getActivity());
-                    }
-                    break;
-                case 2:
-                    graphView = new Graph3dView(getActivity());
-                    break;
-                default:
-                    throw new IllegalArgumentException("Unsupported arity: " + arity);
-            }
-
-            graphView.init(FunctionViewDef.newInstance(Color.WHITE, Color.WHITE, Color.DKGRAY, getBgColor()));
-            graphView.setFunctionPlotDefs(functions);
-
-            graphContainer.addView((View) graphView);
-        } else {
-            onError();
+            arityFunctions.add(ArityPlotFunction.newInstance(arityFunction, plotFunction.getPlotFunctionLineDef()));
         }
+
+        if ( plotData.isPlot3d() ) {
+            graphView = new Graph3dView(getActivity());
+        } else {
+            graphView = new Graph2dView(getActivity());
+        }
+
+        graphView.init(FunctionViewDef.newInstance(Color.WHITE, Color.WHITE, Color.DKGRAY, getBgColor()));
+        graphView.setFunctionPlotDefs(arityFunctions);
+
+        graphContainer.addView((View) graphView);
     }
 
     @Override
-    protected void createChart(@NotNull PreparedInput preparedInput) {
+    protected void createChart(@NotNull PlotData plotData) {
     }
 
     @Override

@@ -3,6 +3,7 @@ package org.solovyev.android.calculator;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.external.CalculatorExternalListenersContainer;
 import org.solovyev.android.calculator.history.CalculatorHistory;
+import org.solovyev.android.calculator.plot.CalculatorPlotter;
 
 /**
  * User: Solovyev_S
@@ -19,7 +20,8 @@ public interface CalculatorLocator {
               @NotNull CalculatorLogger logger,
               @NotNull CalculatorPreferenceService preferenceService,
               @NotNull CalculatorKeyboard keyboard,
-			  @NotNull CalculatorExternalListenersContainer externalListenersContainer);
+              @NotNull CalculatorExternalListenersContainer externalListenersContainer,
+              @NotNull CalculatorPlotter plotter);
 
     @NotNull
     Calculator getCalculator();
@@ -47,6 +49,9 @@ public interface CalculatorLocator {
 
     @NotNull
     CalculatorLogger getLogger();
+
+    @NotNull
+    CalculatorPlotter getPlotter();
 
     @NotNull
     CalculatorPreferenceService getPreferenceService();

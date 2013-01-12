@@ -12,7 +12,7 @@ final class CalculatorPlotFunctionsController {
 	private static final CalculatorPlotFunctionsController instance = new CalculatorPlotFunctionsController();
 
 	@NotNull
-	private final List<ParcelablePlotInput> functions = new ArrayList<ParcelablePlotInput>();
+	private final List<XyFunction> functions = new ArrayList<XyFunction>();
 
 	private CalculatorPlotFunctionsController() {
 	}
@@ -23,11 +23,11 @@ final class CalculatorPlotFunctionsController {
 	}
 
 	@NotNull
-	public List<ParcelablePlotInput> getFunctions() {
+	public List<XyFunction> getFunctions() {
 		return Collections.unmodifiableList(functions);
 	}
 
-	public boolean addFunction(@NotNull ParcelablePlotInput function) {
+	public boolean addFunction(@NotNull XyFunction function) {
 		if (!functions.contains(function)) {
 			return functions.add(function);
 		} else {

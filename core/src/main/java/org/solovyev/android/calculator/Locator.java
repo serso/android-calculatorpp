@@ -3,6 +3,7 @@ package org.solovyev.android.calculator;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.external.CalculatorExternalListenersContainer;
 import org.solovyev.android.calculator.history.CalculatorHistory;
+import org.solovyev.android.calculator.plot.CalculatorPlotter;
 
 /**
  * User: Solovyev_S
@@ -47,7 +48,10 @@ public class Locator implements CalculatorLocator {
 	@NotNull
 	private CalculatorExternalListenersContainer calculatorExternalListenersContainer;
 
-	public Locator() {
+    @NotNull
+    private CalculatorPlotter calculatorPlotter;
+
+    public Locator() {
     }
 
     @Override
@@ -59,7 +63,8 @@ public class Locator implements CalculatorLocator {
                      @NotNull CalculatorLogger logger,
                      @NotNull CalculatorPreferenceService preferenceService,
                      @NotNull CalculatorKeyboard keyboard,
-					 @NotNull CalculatorExternalListenersContainer externalListenersContainer) {
+                     @NotNull CalculatorExternalListenersContainer externalListenersContainer,
+                     @NotNull CalculatorPlotter plotter) {
 
         this.calculator = calculator;
         this.calculatorEngine = engine;
@@ -69,6 +74,7 @@ public class Locator implements CalculatorLocator {
         this.calculatorLogger = logger;
         this.calculatorPreferenceService = preferenceService;
 		this.calculatorExternalListenersContainer = externalListenersContainer;
+        this.calculatorPlotter = plotter;
 
         calculatorEditor = new CalculatorEditorImpl(this.calculator);
         calculatorDisplay = new CalculatorDisplayImpl(this.calculator);
@@ -132,6 +138,12 @@ public class Locator implements CalculatorLocator {
     @NotNull
     public CalculatorLogger getLogger() {
         return calculatorLogger;
+    }
+
+    @NotNull
+    @Override
+    public CalculatorPlotter getPlotter() {
+        return calculatorPlotter;
     }
 
     @NotNull

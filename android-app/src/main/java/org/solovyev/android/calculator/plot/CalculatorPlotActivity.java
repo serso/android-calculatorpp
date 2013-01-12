@@ -35,6 +35,6 @@ public class CalculatorPlotActivity extends CalculatorFragmentActivity {
 
     @NotNull
     public static CalculatorFragmentType getPlotterFragmentType() {
-        return CalculatorFragmentType.plotter_2;
+        return CalculatorFragmentType.plotter;
     }
 }

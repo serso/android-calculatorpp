@@ -19,6 +19,8 @@ import org.solovyev.android.calculator.external.AndroidExternalListenersContaine
 import org.solovyev.android.calculator.history.AndroidCalculatorHistory;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 import org.solovyev.android.calculator.onscreen.CalculatorOnscreenStartActivity;
+import org.solovyev.android.calculator.plot.AndroidCalculatorPlotter;
+import org.solovyev.android.calculator.plot.CalculatorPlotterImpl;
 import org.solovyev.common.msg.MessageType;
 
 import java.util.ArrayList;
@@ -118,7 +120,8 @@ public class CalculatorApplication extends android.app.Application implements Sh
                 new AndroidCalculatorLogger(),
                 new AndroidCalculatorPreferenceService(this),
                 new AndroidCalculatorKeyboard(this, new CalculatorKeyboardImpl(calculator)),
-				new AndroidExternalListenersContainer(calculator));
+				new AndroidExternalListenersContainer(calculator),
+                new AndroidCalculatorPlotter(this, new CalculatorPlotterImpl(calculator)));
 
         Locator.getInstance().getCalculator().init();
 

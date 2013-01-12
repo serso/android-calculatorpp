@@ -13,7 +13,7 @@ public interface GraphView extends ZoomButtonsController.OnZoomListener, TouchHa
 
     public void init(@NotNull FunctionViewDef functionViewDef);
 
-    public void setFunctionPlotDefs(@NotNull List<FunctionPlotDef> functionPlotDefs);
+    public void setFunctionPlotDefs(@NotNull List<ArityPlotFunction> functionPlotDefs);
 
     public void onPause();
     public void onResume();

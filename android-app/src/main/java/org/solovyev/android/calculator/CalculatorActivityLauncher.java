@@ -11,8 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import jscl.math.Generic;
-import jscl.math.function.Constant;
 import org.achartengine.ChartFactory;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -21,16 +19,9 @@ import org.solovyev.android.calculator.about.CalculatorAboutActivity;
 import org.solovyev.android.calculator.function.FunctionEditDialogFragment;
 import org.solovyev.android.calculator.help.CalculatorHelpActivity;
 import org.solovyev.android.calculator.history.CalculatorHistoryActivity;
-import org.solovyev.android.calculator.math.edit.CalculatorFunctionsActivity;
-import org.solovyev.android.calculator.math.edit.CalculatorOperatorsActivity;
-import org.solovyev.android.calculator.math.edit.CalculatorVarsActivity;
-import org.solovyev.android.calculator.math.edit.CalculatorVarsFragment;
-import org.solovyev.android.calculator.math.edit.VarEditDialogFragment;
+import org.solovyev.android.calculator.math.edit.*;
 import org.solovyev.android.calculator.matrix.CalculatorMatrixActivity;
 import org.solovyev.android.calculator.plot.CalculatorPlotActivity;
-import org.solovyev.android.calculator.plot.CalculatorPlotFragment;
-import org.solovyev.android.calculator.plot.ParcelablePlotInput;
-import org.solovyev.android.calculator.plot.PlotInput;
 import org.solovyev.common.msg.Message;
 import org.solovyev.common.msg.MessageType;
 import org.solovyev.common.text.StringUtils;
@@ -104,14 +95,9 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
         context.startActivity(intent);
 	}
 
-	public static void plotGraph(@NotNull final Context context,
-                                 @NotNull Generic generic,
-                                 @Nullable  Constant xVariable,
-                                 @Nullable Constant yVariable){
+	public static void plotGraph(@NotNull final Context context){
 		final Intent intent = new Intent();
 		intent.putExtra(ChartFactory.TITLE, context.getString(R.string.c_graph));
-        final ParcelablePlotInput input = new ParcelablePlotInput(generic.toString(), xVariable == null ? null : xVariable.getName(), yVariable == null ? null : yVariable.getName());
-        intent.putExtra(CalculatorPlotFragment.INPUT, input);
 		intent.setClass(context, CalculatorPlotActivity.class);
         AndroidUtils2.addFlags(intent, false, context);
 		context.startActivity(intent);
@@ -218,12 +204,10 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
                 });
                 break;
             case plot_graph:
-                final PlotInput plotInput = (PlotInput) data;
-                assert plotInput != null;
                 App.getInstance().getUiThreadExecutor().execute(new Runnable() {
                     @Override
                     public void run() {
-                        plotGraph(context, plotInput.getFunction(), plotInput.getXVariable(), plotInput.getYVariable());
+                        plotGraph(context);
                     }
                 });
                 break;

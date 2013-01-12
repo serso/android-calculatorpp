@@ -2,35 +2,18 @@ package org.solovyev.android.calculator.plot;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.View;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import jscl.math.Expression;
-import jscl.math.Generic;
-import jscl.math.function.Constant;
-import jscl.text.ParseException;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.CalculatorApplication;
-import org.solovyev.android.calculator.CalculatorDisplayChangeEventData;
-import org.solovyev.android.calculator.CalculatorDisplayViewState;
-import org.solovyev.android.calculator.CalculatorEventData;
-import org.solovyev.android.calculator.CalculatorEventHolder;
-import org.solovyev.android.calculator.CalculatorEventListener;
-import org.solovyev.android.calculator.CalculatorEventType;
-import org.solovyev.android.calculator.CalculatorFragment;
-import org.solovyev.android.calculator.CalculatorParseException;
-import org.solovyev.android.calculator.CalculatorUtils;
-import org.solovyev.android.calculator.Locator;
-import org.solovyev.android.calculator.PreparedExpression;
-import org.solovyev.android.calculator.R;
-import org.solovyev.android.calculator.ToJsclTextProcessor;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.menu.ActivityMenu;
 import org.solovyev.android.menu.IdentifiableMenuItem;
 import org.solovyev.android.menu.ListActivityMenu;
@@ -38,6 +21,7 @@ import org.solovyev.android.sherlock.menu.SherlockMenuHelper;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -59,8 +43,6 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 
     protected static final String TAG = "CalculatorPlotFragment";
 
-    public static final String INPUT = "plot_input";
-
     protected static final String PLOT_BOUNDARIES = "plot_boundaries";
 
     private static final int DEFAULT_MIN_NUMBER = -10;
@@ -75,9 +57,6 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
     **********************************************************************
     */
 
-    @Nullable
-    private ParcelablePlotInput input;
-
     private int bgColor;
 
     // thread for applying UI changes
@@ -85,7 +64,7 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
     private final Handler uiHandler = new Handler();
 
     @NotNull
-    private PreparedInput preparedInput;
+    private PlotData plotData = new PlotData(Collections.<PlotFunction>emptyList(), false);
 
     @NotNull
     private ActivityMenu<Menu, MenuItem> fragmentMenu;
@@ -107,13 +86,9 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        final Bundle arguments = getArguments();
-
-        if (arguments != null) {
-            input = (ParcelablePlotInput) arguments.getParcelable(INPUT);
-        }
-
-        if (input == null) {
+        // todo serso: init variable properly
+        boolean paneFragment = true;
+        if (paneFragment) {
             this.bgColor = getResources().getColor(R.color.cpp_pane_background);
         } else {
             this.bgColor = getResources().getColor(android.R.color.transparent);
@@ -126,11 +101,7 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if (input == null) {
-            this.preparedInput = prepareInputFromDisplay(Locator.getInstance().getDisplay().getViewState(), savedInstanceState);
-        } else {
-            this.preparedInput = prepareInput(input, true, savedInstanceState);
-        }
+        this.plotData = Locator.getInstance().getPlotter().getPlotData();
     }
 
     @Override
@@ -150,42 +121,31 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
     public void onResume() {
         super.onResume();
 
-        createChart(preparedInput);
-        createGraphicalView(getView(), preparedInput);
+        createChart(plotData);
+        createGraphicalView(getView(), plotData);
     }
 
     @Override
     public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable final Object data) {
-        if (calculatorEventType.isOfType(CalculatorEventType.display_state_changed)) {
-            PreparedInput preparedInput = getPreparedInput();
-            if (!preparedInput.isFromInputArgs()) {
-
-                final CalculatorEventHolder.Result result = this.lastEventHolder.apply(calculatorEventData);
-                if (result.isNewAfter()) {
-                    preparedInput = prepareInputFromDisplay(((CalculatorDisplayChangeEventData) data).getNewValue(), null);
-                    onNewPreparedInput(preparedInput);
-                }
+        if (calculatorEventType.isOfType(CalculatorEventType.plot_data_changed)) {
+            final CalculatorEventHolder.Result result = this.lastEventHolder.apply(calculatorEventData);
+            if (result.isNewAfter()) {
+                onNewPlotData((PlotData) data);
             }
         }
     }
 
-    private void onNewPreparedInput(@NotNull PreparedInput preparedInput) {
-        this.preparedInput = preparedInput;
+    private void onNewPlotData(@NotNull final PlotData plotData) {
+        this.plotData = plotData;
 
-        final PreparedInput finalPreparedInput = preparedInput;
         getUiHandler().post(new Runnable() {
             @Override
             public void run() {
+                createChart(plotData);
 
-                if (!finalPreparedInput.isError()) {
-                    createChart(finalPreparedInput);
-
-                    final View view = getView();
-                    if (view != null) {
-                        createGraphicalView(view, finalPreparedInput);
-                    }
-                } else {
-                    onError();
+                final View view = getView();
+                if (view != null) {
+                    createGraphicalView(view, plotData);
                 }
             }
         });
@@ -193,9 +153,9 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 
     protected abstract void onError();
 
-    protected abstract void createGraphicalView(@NotNull View view, @NotNull PreparedInput preparedInput);
+    protected abstract void createGraphicalView(@NotNull View view, @NotNull PlotData plotData);
 
-    protected abstract void createChart(@NotNull PreparedInput preparedInput);
+    protected abstract void createChart(@NotNull PlotData plotData);
 
 
     protected double getMaxValue(@Nullable PlotBoundaries plotBoundaries) {
@@ -217,11 +177,6 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
     @NotNull
     public Handler getUiHandler() {
         return uiHandler;
-    }
-
-    @NotNull
-    public PreparedInput getPreparedInput() {
-        return preparedInput;
     }
 
     public int getBgColor() {
@@ -257,7 +212,7 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 
                 @Override
                 public void onClick(@NotNull MenuItem data, @NotNull Context context) {
-                     onNewPreparedInput(PreparedInput.force3dInstance(preparedInput));
+                     Locator.getInstance().getPlotter().setPlot3d(true);
                 }
             });
         }
@@ -293,82 +248,6 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
     *
     **********************************************************************
     */
-
-    @NotNull
-    protected static PreparedInput prepareInputFromDisplay(@NotNull CalculatorDisplayViewState displayState, @Nullable Bundle savedInstanceState) {
-        try {
-            if (displayState.isValid() && displayState.getResult() != null) {
-                final Generic expression = displayState.getResult();
-                if (CalculatorUtils.isPlotPossible(expression, displayState.getOperation())) {
-                    final List<Constant> variables = new ArrayList<Constant>(CalculatorUtils.getNotSystemConstants(expression));
-
-                    final Constant xVariable;
-                    if ( variables.size() > 0 ) {
-                        xVariable = variables.get(0);
-                    } else {
-                        xVariable = null;
-                    }
-
-                    final Constant yVariable;
-                    if ( variables.size() > 1 ) {
-                        yVariable = variables.get(1);
-                    } else {
-                        yVariable = null;
-                    }
-
-                    final ParcelablePlotInput input = new ParcelablePlotInput(expression.toString(), xVariable == null ? null : xVariable.getName(), yVariable == null ? null : yVariable.getName());
-                    return prepareInput(input, false, savedInstanceState);
-                }
-            }
-        } catch (RuntimeException e) {
-            Log.e(TAG, e.getLocalizedMessage(), e);
-        }
-
-        return PreparedInput.newErrorInstance(false);
-    }
-
-    @NotNull
-    private static PreparedInput prepareInput(@NotNull ParcelablePlotInput input, boolean fromInputArgs, @Nullable Bundle savedInstanceState) {
-        PreparedInput result;
-
-        try {
-            final PreparedExpression preparedExpression = ToJsclTextProcessor.getInstance().process(input.getExpression());
-            final Generic expression = Expression.valueOf(preparedExpression.getExpression());
-
-            final Constant xVar;
-            if (input.getXVariableName() != null) {
-                xVar = new Constant(input.getXVariableName());
-            } else {
-                xVar = null;
-            }
-
-            final Constant yVar;
-            if (input.getYVariableName() != null) {
-                yVar = new Constant(input.getYVariableName());
-            } else {
-                yVar = null;
-            }
-
-            PlotBoundaries plotBoundaries = null;
-            if (savedInstanceState != null) {
-                plotBoundaries = (PlotBoundaries) savedInstanceState.getSerializable(PLOT_BOUNDARIES);
-            }
-
-            if ( plotBoundaries == null ) {
-                plotBoundaries = PlotBoundaries.newDefaultInstance();
-            }
-
-            result = PreparedInput.newInstance(input, expression, xVar, yVar, fromInputArgs, plotBoundaries);
-        } catch (ParseException e) {
-            result = PreparedInput.newErrorInstance(fromInputArgs);
-            Locator.getInstance().getNotifier().showMessage(e);
-        } catch (CalculatorParseException e) {
-            result = PreparedInput.newErrorInstance(fromInputArgs);
-            Locator.getInstance().getNotifier().showMessage(e);
-        }
-
-        return result;
-    }
 
     private static enum PlotMenu implements IdentifiableMenuItem<MenuItem> {
 
@@ -447,108 +326,19 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
         }
     }
 
-    public static class PreparedInput {
+    public static void applyToPaint(@NotNull PlotFunctionLineDef plotFunctionLineDef, @NotNull Paint paint) {
+        paint.setColor(plotFunctionLineDef.getLineColor());
+        paint.setStyle(Paint.Style.STROKE);
 
-        @Nullable
-        private ParcelablePlotInput input;
-
-        @Nullable
-        private Generic expression;
-
-        @Nullable
-        private Constant xVariable;
-
-        @Nullable
-        private Constant yVariable;
-
-        private boolean fromInputArgs;
-
-        private boolean force3d = false;
-
-        @NotNull
-        private PlotBoundaries plotBoundaries = PlotBoundaries.newDefaultInstance();
-
-        private PreparedInput() {
+        if ( plotFunctionLineDef.getLineWidth() == PlotFunctionLineDef.DEFAULT_LINE_WIDTH ) {
+            paint.setStrokeWidth(0);
+        } else {
+            paint.setStrokeWidth(plotFunctionLineDef.getLineWidth());
         }
 
-        @NotNull
-        public static PreparedInput newInstance(@NotNull ParcelablePlotInput input,
-                                                @NotNull Generic expression,
-                                                @Nullable  Constant xVariable,
-                                                @Nullable Constant yVariable,
-                                                boolean fromInputArgs,
-                                                @NotNull  PlotBoundaries plotBoundaries) {
-            final PreparedInput result = new PreparedInput();
-
-            result.input = input;
-            result.expression = expression;
-            result.xVariable = xVariable;
-            result.yVariable = yVariable;
-            result.fromInputArgs = fromInputArgs;
-            result.plotBoundaries = plotBoundaries;
-
-            return result;
-        }
-
-        @NotNull
-        public static PreparedInput newErrorInstance(boolean fromInputArgs) {
-            final PreparedInput result = new PreparedInput();
-
-            result.input = null;
-            result.expression = null;
-            result.xVariable = null;
-            result.yVariable = null;
-            result.fromInputArgs = fromInputArgs;
-
-            return result;
-        }
-
-        @NotNull
-        public static PreparedInput force3dInstance(final PreparedInput that) {
-            if (!that.isError()) {
-                final PreparedInput result = PreparedInput.newInstance(that.input, that.expression, that.xVariable, that.yVariable, that.fromInputArgs, that.plotBoundaries);
-                result.force3d = true;
-                return result;
-            } else {
-                return that;
-            }
-        }
-
-        public boolean isFromInputArgs() {
-            return fromInputArgs;
-        }
-
-        @Nullable
-        public ParcelablePlotInput getInput() {
-            return input;
-        }
-
-        @Nullable
-        public Generic getExpression() {
-            return expression;
-        }
-
-        @NotNull
-        public PlotBoundaries getPlotBoundaries() {
-            return plotBoundaries;
-        }
-
-        @Nullable
-        public Constant getXVariable() {
-            return xVariable;
-        }
-
-        @Nullable
-        public Constant getYVariable() {
-            return yVariable;
-        }
-
-        public boolean isForce3d() {
-            return force3d;
-        }
-
-        public boolean isError() {
-            return input == null || expression == null;
+        final AndroidPlotLineStyle androidPlotLineStyle = AndroidPlotLineStyle.valueOf(plotFunctionLineDef.getLineStyle());
+        if (androidPlotLineStyle != null) {
+            androidPlotLineStyle.applyToPaint(paint);
         }
     }
 
