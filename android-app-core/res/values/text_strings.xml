@@ -176,7 +176,7 @@
 	<string name="c_calc_use_back_button_as_prev_title">Use Back button as history prev</string>
 
 	<string name="c_clear_billing_info_summary">Billing information will be reloaded from the server</string>
-	<string name="c_clear_billing_info_title">Clear billing information</string>
+	<string name="c_clear_billing_info_title">Update billing information</string>
 
 	<string name="c_warning">Warning</string>
 	<string name="c_error">Error</string>
