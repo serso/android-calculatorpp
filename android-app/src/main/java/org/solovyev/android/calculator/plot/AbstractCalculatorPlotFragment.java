@@ -14,10 +14,12 @@ import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.*;
+import org.solovyev.android.menu.AMenuItem;
 import org.solovyev.android.menu.ActivityMenu;
 import org.solovyev.android.menu.IdentifiableMenuItem;
 import org.solovyev.android.menu.ListActivityMenu;
 import org.solovyev.android.sherlock.menu.SherlockMenuHelper;
+import org.solovyev.common.JPredicate;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -98,13 +100,6 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        this.plotData = Locator.getInstance().getPlotter().getPlotData();
-    }
-
-    @Override
     public void onSaveInstanceState(Bundle out) {
         super.onSaveInstanceState(out);
 
@@ -121,8 +116,10 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
     public void onResume() {
         super.onResume();
 
+        plotData = Locator.getInstance().getPlotter().getPlotData();
         createChart(plotData);
         createGraphicalView(getView(), plotData);
+        getActivity().invalidateOptionsMenu();
     }
 
     @Override
@@ -141,6 +138,8 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
         getUiHandler().post(new Runnable() {
             @Override
             public void run() {
+                getActivity().invalidateOptionsMenu();
+
                 createChart(plotData);
 
                 final View view = getView();
@@ -197,26 +196,55 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
     */
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(final Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
         final List<IdentifiableMenuItem<MenuItem>> menuItems = new ArrayList<IdentifiableMenuItem<MenuItem>>();
         menuItems.add(PlotMenu.preferences);
-        if ( is3dPlotSupported() ) {
-            menuItems.add(new IdentifiableMenuItem<MenuItem>() {
-                @NotNull
-                @Override
-                public Integer getItemId() {
-                    return R.id.menu_plot_3d;
-                }
+        menuItems.add(PlotMenu.functions);
 
-                @Override
-                public void onClick(@NotNull MenuItem data, @NotNull Context context) {
-                     Locator.getInstance().getPlotter().setPlot3d(true);
+        final IdentifiableMenuItem<MenuItem> plot3dMenuItem = new IdentifiableMenuItem<MenuItem>() {
+            @NotNull
+            @Override
+            public Integer getItemId() {
+                return R.id.menu_plot_3d;
+            }
+
+            @Override
+            public void onClick(@NotNull MenuItem data, @NotNull Context context) {
+                Locator.getInstance().getPlotter().setPlot3d(true);
+            }
+        };
+        menuItems.add(plot3dMenuItem);
+
+
+        final IdentifiableMenuItem<MenuItem> plot2dMenuItem = new IdentifiableMenuItem<MenuItem>() {
+            @NotNull
+            @Override
+            public Integer getItemId() {
+                return R.id.menu_plot_2d;
+            }
+
+            @Override
+            public void onClick(@NotNull MenuItem data, @NotNull Context context) {
+                Locator.getInstance().getPlotter().setPlot3d(false);
+            }
+        };
+        menuItems.add(plot2dMenuItem);
+
+        final boolean plot3dVisible = !plotData.isPlot3d() && is3dPlotSupported();
+        final boolean plot2dVisible = plotData.isPlot3d() && Locator.getInstance().getPlotter().is2dPlotPossible();
+        fragmentMenu = ListActivityMenu.fromResource(R.menu.plot_menu, menuItems, SherlockMenuHelper.getInstance(), new JPredicate<AMenuItem<MenuItem>>() {
+            @Override
+            public boolean apply(@Nullable AMenuItem<MenuItem> menuItem) {
+                if ( menuItem == plot3dMenuItem ) {
+                    return !plot3dVisible;
+                } else if ( menuItem == plot2dMenuItem ) {
+                    return !plot2dVisible;
                 }
-            });
-        }
-        fragmentMenu = ListActivityMenu.fromResource(R.menu.plot_menu, menuItems, SherlockMenuHelper.getInstance());
+                return false;
+            }
+        });
 
         final FragmentActivity activity = this.getActivity();
         if (activity != null) {
@@ -250,6 +278,13 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
     */
 
     private static enum PlotMenu implements IdentifiableMenuItem<MenuItem> {
+
+        functions(R.id.menu_plot_functions) {
+            @Override
+            public void onClick(@NotNull MenuItem data, @NotNull Context context) {
+                context.startActivity(new Intent(context, CalculatorPlotFunctionsActivity.class));
+            }
+        },
 
         preferences(R.id.menu_plot_settings) {
             @Override

@@ -26,11 +26,17 @@ public interface CalculatorPlotter {
     boolean removeFunction(@NotNull PlotFunction plotFunction);
     boolean removeFunction(@NotNull XyFunction xyFunction);
 
-    void pin(@NotNull PlotFunction plotFunction);
-    void unpin(@NotNull PlotFunction plotFunction);
+    @NotNull
+    PlotFunction pin(@NotNull PlotFunction plotFunction);
 
-    void show(@NotNull PlotFunction plotFunction);
-    void hide(@NotNull PlotFunction plotFunction);
+    @NotNull
+    PlotFunction unpin(@NotNull PlotFunction plotFunction);
+
+    @NotNull
+    PlotFunction show(@NotNull PlotFunction plotFunction);
+
+    @NotNull
+    PlotFunction hide(@NotNull PlotFunction plotFunction);
 
     void clearAllFunctions();
 
@@ -42,7 +48,9 @@ public interface CalculatorPlotter {
 
     void plot();
 
-    boolean isPlotPossible(@NotNull Generic expression);
+    boolean is2dPlotPossible();
+
+    boolean isPlotPossibleFor(@NotNull Generic expression);
 
     void setPlot3d(boolean plot3d);
 

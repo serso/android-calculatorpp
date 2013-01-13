@@ -52,6 +52,7 @@
         <activity android:label="@string/c_vars_and_constants" android:name=".math.edit.CalculatorVarsActivity"/>
 
         <activity android:label="@string/c_plot_graph" android:name=".plot.CalculatorPlotActivity"/>
+        <activity android:label="@string/c_plot_graph" android:name=".plot.CalculatorPlotFunctionsActivity" android:theme="@style/cpp_gray_dialog_theme"/>
 
         <!-- todo serso: strings-->
         <activity android:label="@string/c_plot_graph" android:name=".matrix.CalculatorMatrixActivity"/>

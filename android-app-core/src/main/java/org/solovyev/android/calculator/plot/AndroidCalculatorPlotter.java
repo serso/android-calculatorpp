@@ -77,24 +77,28 @@ public class AndroidCalculatorPlotter implements CalculatorPlotter, SharedPrefer
         return plotter.removeFunction(xyFunction);
     }
 
+    @NotNull
     @Override
-    public void pin(@NotNull PlotFunction plotFunction) {
-        plotter.pin(plotFunction);
+    public PlotFunction pin(@NotNull PlotFunction plotFunction) {
+        return plotter.pin(plotFunction);
     }
 
+    @NotNull
     @Override
-    public void unpin(@NotNull PlotFunction plotFunction) {
-        plotter.unpin(plotFunction);
+    public PlotFunction unpin(@NotNull PlotFunction plotFunction) {
+        return plotter.unpin(plotFunction);
     }
 
+    @NotNull
     @Override
-    public void show(@NotNull PlotFunction plotFunction) {
-        plotter.show(plotFunction);
+    public PlotFunction show(@NotNull PlotFunction plotFunction) {
+        return plotter.show(plotFunction);
     }
 
+    @NotNull
     @Override
-    public void hide(@NotNull PlotFunction plotFunction) {
-        plotter.hide(plotFunction);
+    public PlotFunction hide(@NotNull PlotFunction plotFunction) {
+        return plotter.hide(plotFunction);
     }
 
     @Override
@@ -120,8 +124,13 @@ public class AndroidCalculatorPlotter implements CalculatorPlotter, SharedPrefer
     }
 
     @Override
-    public boolean isPlotPossible(@NotNull Generic expression) {
-        return plotter.isPlotPossible(expression);
+    public boolean is2dPlotPossible() {
+        return plotter.is2dPlotPossible();
+    }
+
+    @Override
+    public boolean isPlotPossibleFor(@NotNull Generic expression) {
+        return plotter.isPlotPossibleFor(expression);
     }
 
     @Override

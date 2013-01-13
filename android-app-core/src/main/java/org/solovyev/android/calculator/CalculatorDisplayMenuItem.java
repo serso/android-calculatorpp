@@ -86,7 +86,7 @@ public enum CalculatorDisplayMenuItem implements LabeledMenuItem<CalculatorDispl
 
         @Override
         protected boolean isItemVisibleFor(@NotNull Generic generic, @NotNull JsclOperation operation) {
-            return Locator.getInstance().getPlotter().isPlotPossible(generic);
+            return Locator.getInstance().getPlotter().isPlotPossibleFor(generic);
         }
 
     };

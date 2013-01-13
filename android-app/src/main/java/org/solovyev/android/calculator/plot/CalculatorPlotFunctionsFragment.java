@@ -4,6 +4,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.CalculatorListFragment;
+import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.about.CalculatorFragmentType;
 import org.solovyev.android.list.ListItemArrayAdapter;
 
@@ -23,10 +24,11 @@ public class CalculatorPlotFunctionsFragment extends CalculatorListFragment {
 	public void onResume() {
 		super.onResume();
 
-		final List<ParcelablePlotInputListItem> items = Lists.transform(CalculatorPlotFunctionsController.getInstance().getFunctions(), new Function<XyFunction, ParcelablePlotInputListItem>() {
+		final List<PlotFunctionListItem> items = Lists.transform(Locator.getInstance().getPlotter().getFunctions(), new Function<PlotFunction, PlotFunctionListItem>() {
 			@Override
-			public ParcelablePlotInputListItem apply(@Nullable XyFunction input) {
-				return new ParcelablePlotInputListItem(input);
+			public PlotFunctionListItem apply(@Nullable PlotFunction input) {
+                assert input != null;
+                return new PlotFunctionListItem(input);
 			}
 		});
 

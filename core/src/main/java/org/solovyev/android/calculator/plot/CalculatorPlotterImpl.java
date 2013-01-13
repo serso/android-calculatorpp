@@ -31,6 +31,8 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
 
     private boolean plotImag = false;
 
+    private int arity = 0;
+
     @NotNull
     private GraphLineColor realLineColor;
 
@@ -134,6 +136,14 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
 
     @Override
     public boolean updateFunction(@NotNull PlotFunction newFunction) {
+        boolean changed = updateFunction0(newFunction);
+        if (changed) {
+            firePlotDataChangedEvent();
+        }
+        return changed;
+    }
+
+    public boolean updateFunction0(@NotNull PlotFunction newFunction) {
         boolean changed = false;
 
         synchronized (functions) {
@@ -156,26 +166,40 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
         return removeFunction(new PlotFunction(xyFunction));
     }
 
+    @NotNull
     @Override
-    public void pin(@NotNull PlotFunction plotFunction) {
-        updateFunction(PlotFunction.pin(plotFunction));
+    public PlotFunction pin(@NotNull PlotFunction plotFunction) {
+        final PlotFunction newFunction = PlotFunction.pin(plotFunction);
+        updateFunction0(newFunction);
+        return newFunction;
     }
 
+    @NotNull
     @Override
-    public void unpin(@NotNull PlotFunction plotFunction) {
-        updateFunction(PlotFunction.unpin(plotFunction));
+    public PlotFunction unpin(@NotNull PlotFunction plotFunction) {
+        final PlotFunction newFunction = PlotFunction.unpin(plotFunction);
+        updateFunction0(newFunction);
+        return newFunction;
     }
 
+    @NotNull
     @Override
-    public void show(@NotNull PlotFunction plotFunction) {
-        updateFunction(PlotFunction.visible(plotFunction));
-        firePlotDataChangedEvent();
+    public PlotFunction show(@NotNull PlotFunction plotFunction) {
+        final PlotFunction newFunction = PlotFunction.visible(plotFunction);
+
+        updateFunction(newFunction);
+
+        return newFunction;
     }
 
+    @NotNull
     @Override
-    public void hide(@NotNull PlotFunction plotFunction) {
-        updateFunction(PlotFunction.invisible(plotFunction));
-        firePlotDataChangedEvent();
+    public PlotFunction hide(@NotNull PlotFunction plotFunction) {
+        final PlotFunction newFunction = PlotFunction.invisible(plotFunction);
+
+        updateFunction(newFunction);
+
+        return newFunction;
     }
 
     @Override
@@ -202,6 +226,8 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
         } else {
             plot3d = false;
         }
+
+        arity = maxArity;
 
         firePlotDataChangedEvent();
     }
@@ -233,7 +259,12 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
     }
 
     @Override
-    public boolean isPlotPossible(@NotNull Generic expression) {
+    public boolean is2dPlotPossible() {
+        return arity < 2;
+    }
+
+    @Override
+    public boolean isPlotPossibleFor(@NotNull Generic expression) {
         boolean result = false;
 
         int size = CalculatorUtils.getNotSystemConstants(expression).size();

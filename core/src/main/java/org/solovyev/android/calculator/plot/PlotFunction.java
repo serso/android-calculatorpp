@@ -42,27 +42,36 @@ public class PlotFunction {
     }
 
     public static PlotFunction pin(@NotNull PlotFunction that) {
+        return togglePinned(that, true);
+    }
+
+    @NotNull
+    public static PlotFunction togglePinned(@NotNull PlotFunction that, boolean pinned) {
         final PlotFunction copy = that.copy();
-        copy.pinned = true;
+        copy.pinned = pinned;
         return copy;
     }
 
+    @NotNull
     public static PlotFunction unpin(@NotNull PlotFunction that) {
-        final PlotFunction copy = that.copy();
-        copy.pinned = false;
-        return copy;
+        return togglePinned(that, false);
     }
 
+    @NotNull
     public static PlotFunction visible(@NotNull PlotFunction that) {
+        return toggleVisible(that, true);
+    }
+
+    @NotNull
+    public static PlotFunction toggleVisible(@NotNull PlotFunction that, boolean visible) {
         final PlotFunction copy = that.copy();
-        copy.visible = true;
+        copy.visible = visible;
         return copy;
     }
 
+    @NotNull
     public static PlotFunction invisible(@NotNull PlotFunction that) {
-        final PlotFunction copy = that.copy();
-        copy.visible = false;
-        return copy;
+        return toggleVisible(that, false);
     }
 
     @NotNull

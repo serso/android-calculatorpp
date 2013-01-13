@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+    a:layout_width="match_parent"
+    a:layout_height="wrap_content"
+    a:orientation="horizontal">
+
+    <TextView
+        a:id="@+id/cpp_plot_function_expression_textview"
+        a:layout_width="0dp"
+        a:layout_height="wrap_content"
+        a:layout_weight="5"/>
+
+    <CheckBox
+        a:id="@+id/cpp_plot_function_pinned_checkbox"
+        a:layout_width="0dp"
+        a:layout_height="wrap_content"
+        a:layout_weight="1"/>
+
+    <CheckBox
+        a:id="@+id/cpp_plot_function_visible_checkbox"
+        a:layout_width="0dp"
+        a:layout_height="wrap_content"
+        a:layout_weight="1"/>
+
+</LinearLayout>
