@@ -71,9 +71,12 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
             yVariable = null;
         }
 
-        boolean realAdded = addFunction(new XyFunction(expression, xVariable, yVariable, false));
-
+        final PlotFunction realPlotFunction = newPlotFunction(new XyFunction(expression, xVariable, yVariable, false));
         final PlotFunction imagPlotFunction = newPlotFunction(new XyFunction(expression, xVariable, yVariable, true));
+
+        removeAllUnpinnedExcept(realPlotFunction, imagPlotFunction);
+
+        final boolean realAdded = addFunction(realPlotFunction);
         final boolean imagAdded = addFunction(plotImag ? imagPlotFunction : PlotFunction.invisible(imagPlotFunction));
 
         return imagAdded || realAdded;
@@ -96,6 +99,37 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
             }
         }
     }
+
+
+    private boolean removeAllUnpinnedExcept(@NotNull final PlotFunction... exceptFunctions) {
+        synchronized (functions) {
+
+            boolean changed = Iterables.removeIf(functions, new Predicate<PlotFunction>() {
+                @Override
+                public boolean apply(@Nullable PlotFunction function) {
+                    if ( function != null && !function.isPinned() ) {
+
+                        for (PlotFunction exceptFunction : exceptFunctions) {
+                            if ( exceptFunction.equals(function) ) {
+                                return false;
+                            }
+                        }
+
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            });
+
+            if (changed) {
+                onFunctionsChanged();
+            }
+
+            return changed;
+        }
+    }
+
 
     @Override
     public void removeAllUnpinned() {
@@ -267,7 +301,6 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
 
     @Override
     public void plot(@NotNull Generic expression) {
-        removeAllUnpinned();
         addFunction(expression);
         plot();
     }
