@@ -27,6 +27,8 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
     @NotNull
     private final Calculator calculator;
 
+    private final PlotResourceManager plotResourceManager = new PlotResourceManager();
+
     private boolean plot3d = false;
 
     private boolean plotImag = false;
@@ -71,10 +73,15 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
 
         boolean realAdded = addFunction(new XyFunction(expression, xVariable, yVariable, false));
 
-        final PlotFunction imagPlotFunction = new PlotFunction(new XyFunction(expression, xVariable, yVariable, true));
+        final PlotFunction imagPlotFunction = newPlotFunction(new XyFunction(expression, xVariable, yVariable, true));
         final boolean imagAdded = addFunction(plotImag ? imagPlotFunction : PlotFunction.invisible(imagPlotFunction));
 
         return imagAdded || realAdded;
+    }
+
+    @NotNull
+    private PlotFunction newPlotFunction(@NotNull XyFunction xyFunction) {
+        return new PlotFunction(xyFunction);
     }
 
     @Override
@@ -119,7 +126,7 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
 
     @Override
     public boolean addFunction(@NotNull XyFunction xyFunction) {
-        return addFunction(new PlotFunction(xyFunction));
+        return addFunction(newPlotFunction(xyFunction));
     }
 
     @Override
@@ -256,6 +263,13 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
     @Override
     public void plot() {
         calculator.fireCalculatorEvent(CalculatorEventType.plot_graph, null);
+    }
+
+    @Override
+    public void plot(@NotNull Generic expression) {
+        removeAllUnpinned();
+        addFunction(expression);
+        plot();
     }
 
     @Override

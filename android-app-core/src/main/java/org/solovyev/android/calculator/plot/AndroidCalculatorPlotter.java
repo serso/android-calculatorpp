@@ -124,6 +124,11 @@ public class AndroidCalculatorPlotter implements CalculatorPlotter, SharedPrefer
     }
 
     @Override
+    public void plot(@NotNull Generic expression) {
+        plotter.plot(expression);
+    }
+
+    @Override
     public boolean is2dPlotPossible() {
         return plotter.is2dPlotPossible();
     }

@@ -5,6 +5,7 @@ import jscl.math.Generic;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.core.R;
 import org.solovyev.android.calculator.jscl.JsclOperation;
+import org.solovyev.android.calculator.plot.CalculatorPlotter;
 import org.solovyev.android.calculator.view.NumeralBaseConverterDialog;
 import org.solovyev.android.menu.LabeledMenuItem;
 
@@ -79,9 +80,8 @@ public enum CalculatorDisplayMenuItem implements LabeledMenuItem<CalculatorDispl
             final Generic expression = data.getResult();
             assert expression != null;
 
-            Locator.getInstance().getPlotter().removeAllUnpinned();
-            Locator.getInstance().getPlotter().addFunction(expression);
-            Locator.getInstance().getPlotter().plot();
+            final CalculatorPlotter plotter = Locator.getInstance().getPlotter();
+            plotter.plot(expression);
         }
 
         @Override

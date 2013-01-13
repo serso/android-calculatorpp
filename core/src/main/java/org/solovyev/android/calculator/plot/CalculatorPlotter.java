@@ -47,6 +47,7 @@ public interface CalculatorPlotter {
     List<PlotFunction> getVisibleFunctions();
 
     void plot();
+    void plot(@NotNull Generic expression);
 
     boolean is2dPlotPossible();
 
