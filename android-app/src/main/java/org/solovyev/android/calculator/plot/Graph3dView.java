@@ -133,8 +133,8 @@ public class Graph3dView extends GLView implements GraphView {
     }
 
     public void onTouchUp(float x, float y) {
-        float vx = touchHandler.velocityTracker.getXVelocity();
-        float vy = touchHandler.velocityTracker.getYVelocity();
+        float vx = touchHandler.getXVelocity();
+        float vy = touchHandler.getYVelocity();
         // Calculator.log("velocity " + vx + ' ' + vy);
         setRotation(vx / 100, vy / 100);
         if (shouldRotate()) {
@@ -152,7 +152,7 @@ public class Graph3dView extends GLView implements GraphView {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        return touchHandler != null ? touchHandler.onTouchEvent(event) : super.onTouchEvent(event);
+        return touchHandler != null ? touchHandler.handleTouchEvent(event) : super.onTouchEvent(event);
     }
 
     // ----
@@ -195,7 +195,27 @@ public class Graph3dView extends GLView implements GraphView {
 		//To change body of implemented methods use File | Settings | File Templates.
 	}
 
-	@Override
+    @Override
+    public float getXMin() {
+        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public float getXMax() {
+        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public float getYMin() {
+        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public float getYMax() {
+        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
     public void onSurfaceCreated(GL10 gl, int width, int height) {
         gl.glDisable(GL10.GL_DITHER);
         gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_FASTEST);

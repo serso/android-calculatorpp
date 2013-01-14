@@ -6,7 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.util.Log;
+import android.view.MotionEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -20,6 +22,9 @@ import java.io.IOException;
  * Time: 10:48
  */
 public final class AndroidUtils2 {
+
+    @NotNull
+    private static final boolean AT_LEAST_API_5 = Build.VERSION.SDK_INT >= 5;
 
     private AndroidUtils2() {
         throw new AssertionError();
@@ -96,5 +101,17 @@ public final class AndroidUtils2 {
         }
 
         return null;
+    }
+
+    public static int getPointerCountFromMotionEvent(@NotNull MotionEvent event) {
+        return AT_LEAST_API_5 ? event.getPointerCount() : 1;
+    }
+
+    public static float getXFromMotionEvent(@NotNull MotionEvent event, int pointer) {
+        return AT_LEAST_API_5 ? event.getX(pointer) : 0;
+    }
+
+    public static float getYFromMotionEvent(@NotNull MotionEvent event, int pointer) {
+        return AT_LEAST_API_5 ? event.getY(pointer) : 0;
     }
 }

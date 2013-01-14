@@ -8,9 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public interface GraphView extends ZoomButtonsController.OnZoomListener, TouchHandler.TouchHandlerInterface {
-
-    static final String SCREENSHOT_DIR = "/screenshots";
+public interface GraphView extends ZoomButtonsController.OnZoomListener, TouchHandler.TouchHandlerListener {
 
     public void init(@NotNull FunctionViewDef functionViewDef);
 
@@ -23,6 +21,14 @@ public interface GraphView extends ZoomButtonsController.OnZoomListener, TouchHa
     public Bitmap captureScreenshot();
 
 	void setXRange(float xMin, float xMax);
+
+    float getXMin();
+
+    float getXMax();
+
+    float getYMin();
+
+    float getYMax();
 
 /*	void increaseDensity();
 	void decreaseDensity();*/

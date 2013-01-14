@@ -393,11 +393,23 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
         public PlotBoundaries() {
         }
 
+        private PlotBoundaries(double xMin, double xMax, double yMin, double yMax) {
+            this.xMin = xMin;
+            this.xMax = xMax;
+            this.yMin = yMin;
+            this.yMax = yMax;
+        }
+
         public PlotBoundaries(@NotNull XYMultipleSeriesRenderer renderer) {
             this.xMin = renderer.getXAxisMin();
             this.yMin = renderer.getYAxisMin();
             this.xMax = renderer.getXAxisMax();
             this.yMax = renderer.getYAxisMax();
+        }
+
+        @NotNull
+        public static PlotBoundaries newInstance(double xMin, double xMax, double yMin, double yMax) {
+            return new PlotBoundaries(xMin, xMax, yMin, yMax);
         }
 
         public double getXMin() {

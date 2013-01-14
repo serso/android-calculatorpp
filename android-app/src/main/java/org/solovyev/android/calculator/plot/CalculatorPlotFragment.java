@@ -19,7 +19,7 @@ import java.util.List;
  * Date: 12/30/12
  * Time: 4:43 PM
  */
-public class CalculatorArityPlotFragment extends AbstractCalculatorPlotFragment {
+public class CalculatorPlotFragment extends AbstractCalculatorPlotFragment {
 
     @Nullable
     private GraphView graphView;
@@ -28,8 +28,7 @@ public class CalculatorArityPlotFragment extends AbstractCalculatorPlotFragment 
     @Override
     protected PlotBoundaries getPlotBoundaries() {
         if ( graphView != null ) {
-            // todo serso: return plot boundaries
-            return null;
+            return PlotBoundaries.newInstance(graphView.getXMin(), graphView.getXMax(), graphView.getYMin(), graphView.getYMax());
         } else {
             return null;
         }
@@ -70,7 +69,7 @@ public class CalculatorArityPlotFragment extends AbstractCalculatorPlotFragment 
         if ( plotData.isPlot3d() ) {
             graphView = new Graph3dView(getActivity());
         } else {
-            graphView = new Graph2dView(getActivity());
+            graphView = new CalculatorGraph2dView(getActivity());
         }
 
         graphView.init(FunctionViewDef.newInstance(Color.WHITE, Color.WHITE, Color.DKGRAY, getBgColor()));
