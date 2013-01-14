@@ -2,6 +2,7 @@
 
 package org.solovyev.android.calculator.plot;
 
+import android.graphics.Bitmap;
 import android.widget.ZoomButtonsController;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,7 +19,13 @@ public interface GraphView extends ZoomButtonsController.OnZoomListener, TouchHa
     public void onPause();
     public void onResume();
 
-    public String captureScreenshot();
+	@NotNull
+    public Bitmap captureScreenshot();
+
+	void setXRange(float xMin, float xMax);
+
+/*	void increaseDensity();
+	void decreaseDensity();*/
 
     /*
     **********************************************************************

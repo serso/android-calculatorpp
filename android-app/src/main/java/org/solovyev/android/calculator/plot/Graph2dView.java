@@ -4,7 +4,12 @@ package org.solovyev.android.calculator.plot;
 
 
 import android.content.Context;
-import android.graphics.*;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.DashPathEffect;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.Path;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -12,7 +17,6 @@ import android.widget.Scroller;
 import android.widget.ZoomButtonsController;
 import org.javia.arity.Function;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.AndroidUtils2;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -67,14 +71,22 @@ public class Graph2dView extends View implements GraphView {
         textPaint.setAntiAlias(true);
     }
 
-    public String captureScreenshot() {
-        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
-        Canvas canvas = new Canvas(bitmap);
+	@NotNull
+    public Bitmap captureScreenshot() {
+        final Bitmap result = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+        Canvas canvas = new Canvas(result);
         onDraw(canvas);
-        return AndroidUtils2.saveBitmap(bitmap, GraphView.SCREENSHOT_DIR, "calculator");
+        return result;
     }
 
-    private void clearAllGraphs() {
+	@Override
+	public void setXRange(float xMin, float xMax) {
+		this.gwidth = xMax - xMin;
+		this.currentX = xMax - this.gwidth / 2;
+
+	}
+
+	private void clearAllGraphs() {
         for (GraphData graph : graphs) {
            graph.clear();
         }
@@ -517,11 +529,11 @@ public class Graph2dView extends View implements GraphView {
     }
 
     private boolean canZoomIn() {
-        return gwidth > 1f;
+        return true;
     }
 
     private boolean canZoomOut() {
-        return gwidth < 50;
+        return true;
     }
 
     private void invalidateGraphs() {

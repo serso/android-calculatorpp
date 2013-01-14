@@ -1,5 +1,6 @@
 package org.solovyev.android.calculator.plot;
 
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +36,7 @@ public class CalculatorArityPlotFragment extends AbstractCalculatorPlotFragment 
     }
 
     @Override
-    protected void createGraphicalView(@NotNull View root, @NotNull PlotData plotData) {
+    protected void createGraphicalView(@NotNull View root, @NotNull PlotData plotData, @NotNull PlotBoundaries plotBoundaries) {
 
         // remove old
         final ViewGroup graphContainer = (ViewGroup) root.findViewById(R.id.main_fragment_layout);
@@ -74,15 +75,28 @@ public class CalculatorArityPlotFragment extends AbstractCalculatorPlotFragment 
 
         graphView.init(FunctionViewDef.newInstance(Color.WHITE, Color.WHITE, Color.DKGRAY, getBgColor()));
         graphView.setFunctionPlotDefs(arityFunctions);
+		graphView.setXRange((float)plotBoundaries.getXMin(), (float)plotBoundaries.getXMax());
 
         graphContainer.addView((View) graphView);
     }
 
     @Override
-    protected void createChart(@NotNull PlotData plotData) {
+    protected void createChart(@NotNull PlotData plotData, @NotNull PlotBoundaries plotBoundaries) {
     }
 
-    @Override
+	@Override
+	protected boolean isScreenshotSupported() {
+		return true;
+	}
+
+	@NotNull
+	@Override
+	protected Bitmap getScreehshot() {
+		assert this.graphView != null;
+		return this.graphView.captureScreenshot();
+	}
+
+	@Override
     protected boolean is3dPlotSupported() {
         return true;
     }

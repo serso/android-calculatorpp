@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.os.Environment;
 import android.util.Log;
 import org.jetbrains.annotations.NotNull;
 
@@ -67,20 +66,16 @@ public final class AndroidUtils2 {
     public static String saveBitmap(@NotNull Bitmap bitmap,
                                     @NotNull String path,
                                     @NotNull String fileName) {
-        final File sdcardPath = Environment.getExternalStorageDirectory();
-        final File filePath = new File(sdcardPath, path);
-
+        final File filePath = new File(path);
         filePath.mkdirs();
 
-        final String fullFileName = fileName + "_" + System.currentTimeMillis() + ".png";
-
-        final File file = new File(path, fullFileName);
+        final File file = new File(path, fileName);
         if (!file.exists()) {
             final String name = file.getAbsolutePath();
 
             FileOutputStream fos = null;
             try {
-                fos = new FileOutputStream(name);
+				fos = new FileOutputStream(name);
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
                 fos.flush();
             } catch (FileNotFoundException e) {

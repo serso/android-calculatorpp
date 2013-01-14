@@ -23,6 +23,11 @@
         a:icon="@drawable/ab_list"
         a:showAsAction="always"/>
 
+	<item a:id="@+id/menu_plot_schreeshot"
+		  a:title="@string/cpp_plot_screenshot"
+		  a:icon="@drawable/ab_camera"
+		  a:showAsAction="always"/>
+
 	<item a:id="@+id/menu_plot_settings"
 		  a:title="@string/c_settings"
           a:icon="@drawable/ab_settings"

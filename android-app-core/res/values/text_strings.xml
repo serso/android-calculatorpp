@@ -298,6 +298,8 @@
     <string name="cpp_dash_dotted_line_style">Dash dotted (-.-.-)</string>
 
     <string name="cpp_plotter">Function plotter</string>
-
+	<string name="cpp_plot_screenshot">Capture screenshot</string>
+	<string name="cpp_plot_screenshot_saved">Screenshot successfully saved: %1$s!</string>
+	<string name="cpp_plot_unable_to_save_screenshot">Screenshot cannot be saved as sdcard is not mounted. Mount sdcard and try again!</string>
 
 </resources>

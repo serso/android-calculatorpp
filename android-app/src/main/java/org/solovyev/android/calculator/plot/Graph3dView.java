@@ -101,11 +101,11 @@ public class Graph3dView extends GLView implements GraphView {
     }
 
     private boolean canZoomIn(float zoom) {
-        return zoom > .2f;
+        return true;
     }
 
     private boolean canZoomOut(float zoom) {
-        return zoom < 5;
+        return true;
     }
 
     @Override
@@ -190,7 +190,12 @@ public class Graph3dView extends GLView implements GraphView {
         isDirty = true;
     }
 
-    @Override
+	@Override
+	public void setXRange(float xMin, float xMax) {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
     public void onSurfaceCreated(GL10 gl, int width, int height) {
         gl.glDisable(GL10.GL_DITHER);
         gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_FASTEST);

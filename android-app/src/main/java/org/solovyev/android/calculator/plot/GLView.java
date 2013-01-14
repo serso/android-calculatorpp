@@ -11,9 +11,13 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.AndroidUtils2;
 
-import javax.microedition.khronos.egl.*;
+import javax.microedition.khronos.egl.EGL10;
+import javax.microedition.khronos.egl.EGL11;
+import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.egl.EGLContext;
+import javax.microedition.khronos.egl.EGLDisplay;
+import javax.microedition.khronos.egl.EGLSurface;
 import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 import java.nio.ByteBuffer;
@@ -36,10 +40,11 @@ abstract class GLView extends SurfaceView implements SurfaceHolder.Callback {
 
     abstract void onSurfaceCreated(GL10 gl, int width, int height);
 
-    public String captureScreenshot() {
-        Bitmap bitmap = getRawPixels(gl, width, height);
-        bitmapBGRtoRGB(bitmap, width, height);
-        return AndroidUtils2.saveBitmap(bitmap, GraphView.SCREENSHOT_DIR, "calculator");
+	@NotNull
+    public Bitmap captureScreenshot() {
+        final Bitmap result = getRawPixels(gl, width, height);
+        bitmapBGRtoRGB(result, width, height);
+		return result;
     }
 
     private static Bitmap getRawPixels(GL10 gl, int width, int height) {
