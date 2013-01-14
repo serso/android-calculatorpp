@@ -50,6 +50,13 @@ enum CalculatorMenu implements LabeledMenuItem<MenuItem> {
         }
     },
 
+	plotter(R.string.cpp_plotter) {
+		@Override
+		public void onClick(@NotNull MenuItem data, @NotNull Context context) {
+			Locator.getInstance().getPlotter().plot();
+		}
+	},
+
     exit(R.string.c_exit) {
         @Override
         public void onClick(@NotNull MenuItem data, @NotNull Context context) {

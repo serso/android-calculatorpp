@@ -16,7 +16,7 @@
         <TextView
             a:layout_width="0dp"
             a:layout_height="wrap_content"
-            a:layout_weight="5"
+            a:layout_weight="3"
             a:text="Function"/>
 
         <TextView

@@ -297,5 +297,7 @@
     <string name="cpp_dotted_line_style">Dotted (. . .)</string>
     <string name="cpp_dash_dotted_line_style">Dash dotted (-.-.-)</string>
 
+    <string name="cpp_plotter">Function plotter</string>
+
 
 </resources>
