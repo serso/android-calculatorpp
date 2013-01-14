@@ -97,7 +97,8 @@ public class CalculatorPlotFunctionSettingsActivity extends SherlockFragmentActi
 						final PlotLineColor newPlotLineColor = PlotLineColor.values()[position];
 						int newLineColor = newPlotLineColor.getColor();
 						if ( newLineColor != plotFunction.getPlotLineDef().getLineColor() ) {
-							final PlotFunction newPlotFunction = new PlotFunction(plotFunction.getXyFunction(), PlotLineDef.changeLineColor(plotFunction.getPlotLineDef(), newLineColor));
+							final PlotLineDef newPlotLineDef = PlotLineDef.changeLineColor(plotFunction.getPlotLineDef(), newLineColor);
+							final PlotFunction newPlotFunction = PlotFunction.changePlotLineDef(plotFunction, newPlotLineDef);
 							if(plotter.updateFunction(newPlotFunction)) {
 								plotFunction = newPlotFunction;
 							}
@@ -115,7 +116,8 @@ public class CalculatorPlotFunctionSettingsActivity extends SherlockFragmentActi
 					public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 						final PlotLineColorType newPlotLineColorType = PlotLineColorType.values()[position];
 						if ( newPlotLineColorType != plotFunction.getPlotLineDef().getLineColorType() ) {
-							final PlotFunction newPlotFunction = new PlotFunction(plotFunction.getXyFunction(), PlotLineDef.changeLineColorType(plotFunction.getPlotLineDef(), newPlotLineColorType));
+							final PlotLineDef newPlotLineDef = PlotLineDef.changeLineColorType(plotFunction.getPlotLineDef(), newPlotLineColorType);
+							final PlotFunction newPlotFunction = PlotFunction.changePlotLineDef(plotFunction, newPlotLineDef);
 							if(plotter.updateFunction(newPlotFunction)) {
 								plotFunction = newPlotFunction;
 							}
@@ -133,7 +135,10 @@ public class CalculatorPlotFunctionSettingsActivity extends SherlockFragmentActi
 					public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 						final PlotLineStyle newPlotLineStyle = PlotLineStyle.values()[position];
 						if ( newPlotLineStyle != plotFunction.getPlotLineDef().getLineStyle() ) {
-							final PlotFunction newPlotFunction = new PlotFunction(plotFunction.getXyFunction(), PlotLineDef.changeLineStyle(plotFunction.getPlotLineDef(), newPlotLineStyle));
+
+							final PlotLineDef newPlotLineDef = PlotLineDef.changeLineStyle(plotFunction.getPlotLineDef(), newPlotLineStyle);
+							final PlotFunction newPlotFunction = PlotFunction.changePlotLineDef(plotFunction, newPlotLineDef);
+
 							if(plotter.updateFunction(newPlotFunction)) {
 								plotFunction = newPlotFunction;
 							}
