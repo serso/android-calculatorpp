@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -52,7 +53,7 @@ public class PlotFunctionListItem implements ListItem {
             if ( this.tag.equals(viewTag) ) {
                 return view;
             } else if (((String) viewTag).startsWith(PREFIX)) {
-                fillView(view);
+                fillView(view, context);
                 return view;
             } else {
                 return build(context);
@@ -66,7 +67,7 @@ public class PlotFunctionListItem implements ListItem {
 	@Override
 	public View build(@NotNull Context context) {
 		final View root = buildView(context);
-		fillView(root);
+		fillView(root, context);
 		return root;
 	}
 
@@ -74,7 +75,7 @@ public class PlotFunctionListItem implements ListItem {
         return viewBuilder.build(context);
     }
 
-    private void fillView(@NotNull View root) {
+    private void fillView(@NotNull View root, @NotNull final Context context) {
         root.setTag(tag);
 
         final CalculatorPlotter plotter = Locator.getInstance().getPlotter();
@@ -115,5 +116,13 @@ public class PlotFunctionListItem implements ListItem {
             }
         });
         visibleCheckBox.setChecked(plotFunction.isVisible());
+
+		final ImageButton settingsButton = (ImageButton) root.findViewById(R.id.cpp_plot_function_settings_button);
+		settingsButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				CalculatorPlotFunctionSettingsActivity.startActivity(context, plotFunction);
+			}
+		});
     }
 }

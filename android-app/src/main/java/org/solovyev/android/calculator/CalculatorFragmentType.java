@@ -1,9 +1,9 @@
-package org.solovyev.android.calculator.about;
+package org.solovyev.android.calculator;
 
 import android.support.v4.app.Fragment;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.calculator.CalculatorEditorFragment;
-import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.about.CalculatorAboutFragment;
+import org.solovyev.android.calculator.about.CalculatorReleaseNotesFragment;
 import org.solovyev.android.calculator.help.CalculatorHelpFaqFragment;
 import org.solovyev.android.calculator.help.CalculatorHelpHintsFragment;
 import org.solovyev.android.calculator.help.CalculatorHelpScreensFragment;
@@ -14,7 +14,8 @@ import org.solovyev.android.calculator.math.edit.CalculatorOperatorsFragment;
 import org.solovyev.android.calculator.math.edit.CalculatorVarsFragment;
 import org.solovyev.android.calculator.matrix.CalculatorMatrixEditFragment;
 import org.solovyev.android.calculator.plot.CalculatorArityPlotFragment;
-import org.solovyev.android.calculator.plot.CalculatorPlotFunctionsFragment;
+import org.solovyev.android.calculator.plot.CalculatorPlotFunctionSettingsActivity;
+import org.solovyev.android.calculator.plot.CalculatorPlotFunctionsActivity;
 
 /**
  * User: Solovyev_S
@@ -31,10 +32,12 @@ public enum CalculatorFragmentType {
     variables(CalculatorVarsFragment.class, R.layout.vars_fragment, R.string.c_vars),
     functions(CalculatorFunctionsFragment.class, R.layout.math_entities_fragment, R.string.c_functions),
     operators(CalculatorOperatorsFragment.class, R.layout.math_entities_fragment, R.string.c_operators),
-    plotter(CalculatorArityPlotFragment.class, R.layout.plot_fragment, R.string.c_graph),
+    plotter(CalculatorArityPlotFragment.class, R.layout.cpp_plot_fragment, R.string.c_graph),
 
 	// todo serso: strings
-	plotter_functions(CalculatorPlotFunctionsFragment.class, R.layout.plot_functions_fragment, R.string.c_graph),
+	plotter_functions(CalculatorPlotFunctionsActivity.CalculatorPlotFunctionsFragment.class, R.layout.cpp_plot_functions_fragment, R.string.c_graph),
+	plotter_function_settings(CalculatorPlotFunctionSettingsActivity.CalculatorPlotFunctionSettingsFragment.class, R.layout.cpp_plot_function_settings_fragment, R.string.c_graph),
+
     about(CalculatorAboutFragment.class, R.layout.about_fragment, R.string.c_about),
     faq(CalculatorHelpFaqFragment.class, R.layout.help_faq_fragment, R.string.c_faq),
     hints(CalculatorHelpHintsFragment.class, R.layout.help_hints_fragment, R.string.c_hints),

@@ -11,6 +11,7 @@ import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.TextView;
 import org.solovyev.android.calculator.CalculatorFragment;
+import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.R;
 
 /**

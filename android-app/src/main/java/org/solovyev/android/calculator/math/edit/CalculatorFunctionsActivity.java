@@ -13,7 +13,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.*;
-import org.solovyev.android.calculator.about.CalculatorFragmentType;
+import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.history.CalculatorHistoryActivity;
 
 /**

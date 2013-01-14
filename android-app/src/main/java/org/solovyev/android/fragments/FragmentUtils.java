@@ -1,14 +1,15 @@
 package org.solovyev.android.fragments;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.solovyev.common.collections.CollectionsUtils;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -18,10 +19,18 @@ import java.util.List;
  */
 public class FragmentUtils {
 
+	public static void createFragment(@NotNull FragmentActivity activity,
+									  @NotNull Class<? extends Fragment> fragmentClass,
+									  int parentViewId,
+									  @NotNull String tag) {
+		createFragment(activity, fragmentClass, parentViewId, tag, null);
+	}
+
     public static void createFragment(@NotNull FragmentActivity activity,
-                                @NotNull Class<? extends Fragment> fragmentClass,
-                                int parentViewId,
-                                @NotNull String tag) {
+									   @NotNull Class<? extends Fragment> fragmentClass,
+									   int parentViewId,
+									   @NotNull String tag,
+									   @Nullable Bundle args) {
         final FragmentManager fm = activity.getSupportFragmentManager();
 
         Fragment messagesFragment = fm.findFragmentByTag(tag);
@@ -29,7 +38,7 @@ public class FragmentUtils {
         final FragmentTransaction ft = fm.beginTransaction();
         try {
             if (messagesFragment == null) {
-                messagesFragment = Fragment.instantiate(activity, fragmentClass.getName(), null);
+                messagesFragment = Fragment.instantiate(activity, fragmentClass.getName(), args);
                 ft.add(parentViewId, messagesFragment, tag);
             } else {
                 if (messagesFragment.isDetached()) {

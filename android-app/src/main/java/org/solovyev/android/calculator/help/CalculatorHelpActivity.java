@@ -9,8 +9,8 @@ package org.solovyev.android.calculator.help;
 import android.os.Bundle;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.CalculatorFragmentActivity;
+import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.R;
-import org.solovyev.android.calculator.about.CalculatorFragmentType;
 
 /**
  * User: serso

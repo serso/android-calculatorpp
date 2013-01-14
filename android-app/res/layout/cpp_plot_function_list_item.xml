@@ -9,7 +9,7 @@
         a:id="@+id/cpp_plot_function_expression_textview"
         a:layout_width="0dp"
         a:layout_height="wrap_content"
-        a:layout_weight="5"/>
+        a:layout_weight="3"/>
 
     <CheckBox
         a:id="@+id/cpp_plot_function_pinned_checkbox"
@@ -22,5 +22,12 @@
         a:layout_width="0dp"
         a:layout_height="wrap_content"
         a:layout_weight="1"/>
+
+	<ImageButton
+			a:id="@+id/cpp_plot_function_settings_button"
+			a:layout_width="0dp"
+			a:layout_height="wrap_content"
+			a:layout_weight="1"
+			a:src="@drawable/ab_settings"/>
 
 </LinearLayout>

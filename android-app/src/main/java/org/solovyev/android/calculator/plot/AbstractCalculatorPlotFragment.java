@@ -80,7 +80,7 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 
 
     public AbstractCalculatorPlotFragment() {
-        super(CalculatorApplication.getInstance().createFragmentHelper(R.layout.plot_fragment, R.string.c_graph, false));
+        super(CalculatorApplication.getInstance().createFragmentHelper(R.layout.cpp_plot_fragment, R.string.c_graph, false));
     }
 
 
@@ -119,7 +119,7 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
         plotData = Locator.getInstance().getPlotter().getPlotData();
         createChart(plotData);
         createGraphicalView(getView(), plotData);
-        getActivity().invalidateOptionsMenu();
+        getSherlockActivity().invalidateOptionsMenu();
     }
 
     @Override
@@ -138,7 +138,7 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
         getUiHandler().post(new Runnable() {
             @Override
             public void run() {
-                getActivity().invalidateOptionsMenu();
+                getSherlockActivity().invalidateOptionsMenu();
 
                 createChart(plotData);
 
@@ -361,17 +361,17 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
         }
     }
 
-    public static void applyToPaint(@NotNull PlotFunctionLineDef plotFunctionLineDef, @NotNull Paint paint) {
-        paint.setColor(plotFunctionLineDef.getLineColor());
+    public static void applyToPaint(@NotNull PlotLineDef plotLineDef, @NotNull Paint paint) {
+        paint.setColor(plotLineDef.getLineColor());
         paint.setStyle(Paint.Style.STROKE);
 
-        if ( plotFunctionLineDef.getLineWidth() == PlotFunctionLineDef.DEFAULT_LINE_WIDTH ) {
+        if ( plotLineDef.getLineWidth() == PlotLineDef.DEFAULT_LINE_WIDTH ) {
             paint.setStrokeWidth(0);
         } else {
-            paint.setStrokeWidth(plotFunctionLineDef.getLineWidth());
+            paint.setStrokeWidth(plotLineDef.getLineWidth());
         }
 
-        final AndroidPlotLineStyle androidPlotLineStyle = AndroidPlotLineStyle.valueOf(plotFunctionLineDef.getLineStyle());
+        final AndroidPlotLineStyle androidPlotLineStyle = AndroidPlotLineStyle.valueOf(plotLineDef.getLineStyle());
         if (androidPlotLineStyle != null) {
             androidPlotLineStyle.applyToPaint(paint);
         }

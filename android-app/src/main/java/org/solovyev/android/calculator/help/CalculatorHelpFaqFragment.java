@@ -7,7 +7,7 @@
 package org.solovyev.android.calculator.help;
 
 import org.solovyev.android.calculator.CalculatorFragment;
-import org.solovyev.android.calculator.about.CalculatorFragmentType;
+import org.solovyev.android.calculator.CalculatorFragmentType;
 
 /**
  * User: serso

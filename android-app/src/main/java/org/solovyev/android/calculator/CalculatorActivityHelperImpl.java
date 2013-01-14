@@ -19,7 +19,6 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.AndroidUtils;
-import org.solovyev.android.calculator.about.CalculatorFragmentType;
 import org.solovyev.android.sherlock.tabs.ActionBarFragmentTabListener;
 
 /**

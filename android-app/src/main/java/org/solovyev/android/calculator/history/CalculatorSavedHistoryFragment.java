@@ -7,9 +7,9 @@
 package org.solovyev.android.calculator.history;
 
 import org.jetbrains.annotations.NotNull;
+import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.R;
-import org.solovyev.android.calculator.about.CalculatorFragmentType;
 
 import java.util.ArrayList;
 import java.util.List;

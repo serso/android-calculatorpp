@@ -2,6 +2,7 @@ package org.solovyev.android.calculator.plot;
 
 import jscl.math.Generic;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -18,10 +19,10 @@ public interface CalculatorPlotter {
     boolean addFunction(@NotNull Generic expression);
     boolean addFunction(@NotNull PlotFunction plotFunction);
     boolean addFunction(@NotNull XyFunction xyFunction);
-    boolean addFunction(@NotNull XyFunction xyFunction, @NotNull PlotFunctionLineDef functionLineDef);
+    boolean addFunction(@NotNull XyFunction xyFunction, @NotNull PlotLineDef functionLineDef);
 
     boolean updateFunction(@NotNull PlotFunction newFunction);
-    boolean updateFunction(@NotNull XyFunction xyFunction, @NotNull PlotFunctionLineDef functionLineDef);
+    boolean updateFunction(@NotNull XyFunction xyFunction, @NotNull PlotLineDef functionLineDef);
 
     boolean removeFunction(@NotNull PlotFunction plotFunction);
     boolean removeFunction(@NotNull XyFunction xyFunction);
@@ -39,6 +40,9 @@ public interface CalculatorPlotter {
     PlotFunction hide(@NotNull PlotFunction plotFunction);
 
     void clearAllFunctions();
+
+	@Nullable
+	PlotFunction getFunctionById(@NotNull String functionId);
 
     @NotNull
     List<PlotFunction> getFunctions();
@@ -59,7 +63,7 @@ public interface CalculatorPlotter {
 
     void setPlotImag(boolean plotImag);
 
-    void setRealLineColor(@NotNull GraphLineColor realLineColor);
+    void setRealLineColor(@NotNull PlotLineColor realLineColor);
 
-    void setImagLineColor(@NotNull GraphLineColor imagLineColor);
+    void setImagLineColor(@NotNull PlotLineColor imagLineColor);
 }

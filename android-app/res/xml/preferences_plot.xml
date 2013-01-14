@@ -19,14 +19,14 @@
         <ListPreference a:key="graph_line_color_real"
                         a:title="@string/prefs_graph_real_color_title"
                         a:summary="@string/prefs_graph_real_color_summary"
-                        a:entries="@array/graph_line_color_names"
-                        a:entryValues="@array/graph_line_color_values"/>
+                        a:entries="@array/cpp_plot_line_color_names"
+                        a:entryValues="@array/cpp_plot_line_color_values"/>
 
         <ListPreference a:key="graph_line_color_imag"
                         a:title="@string/prefs_graph_imag_color_title"
                         a:summary="@string/prefs_graph_imag_color_summary"
-                        a:entries="@array/graph_line_color_names"
-                        a:entryValues="@array/graph_line_color_values"/>
+                        a:entries="@array/cpp_plot_line_color_names"
+                        a:entryValues="@array/cpp_plot_line_color_values"/>
 
     </PreferenceScreen>
 

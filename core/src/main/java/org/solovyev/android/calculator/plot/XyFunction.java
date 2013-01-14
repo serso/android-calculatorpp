@@ -4,6 +4,7 @@ import jscl.math.Generic;
 import jscl.math.function.Constant;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.common.text.StringUtils;
 
 public class XyFunction {
 
@@ -15,22 +16,25 @@ public class XyFunction {
 	**********************************************************************
 	*/
 
+	@NotNull
+	private final String id;
+
     @NotNull
-    private final Generic expression;
+    private Generic expression;
 
     @NotNull
     private String expressionString;
 
     @Nullable
-    private final Constant xVariable;
+    private Constant xVariable;
 
     @Nullable
     private String xVariableName;
 
     @Nullable
-    private final Constant yVariable;
+    private Constant yVariable;
 
-    private final boolean imag;
+    private boolean imag;
 
     @Nullable
 	private String yVariableName;
@@ -62,6 +66,8 @@ public class XyFunction {
             this.arity--;
         }
 
+		this.id = this.expressionString + "_" + StringUtils.getNotEmpty(this.xVariableName, "") + "_" + StringUtils.getNotEmpty(this.yVariableName, "");
+
     }
 
     public boolean isImag() {
@@ -92,6 +98,11 @@ public class XyFunction {
 		return expressionString;
 	}
 
+	@NotNull
+	public String getId() {
+		return id;
+	}
+
 	@Nullable
 	public String getXVariableName() {
 		return xVariableName;
@@ -102,6 +113,7 @@ public class XyFunction {
 		return yVariableName;
 	}
 
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
@@ -109,20 +121,13 @@ public class XyFunction {
 
 		final XyFunction that = (XyFunction) o;
 
-		if (!expressionString.equals(that.expressionString)) return false;
-		if (xVariableName != null ? !xVariableName.equals(that.xVariableName) : that.xVariableName != null)
-			return false;
-		if (yVariableName != null ? !yVariableName.equals(that.yVariableName) : that.yVariableName != null)
-			return false;
+		if (!id.equals(that.id)) return false;
 
 		return true;
 	}
 
 	@Override
 	public int hashCode() {
-		int result = expressionString.hashCode();
-		result = 31 * result + (xVariableName != null ? xVariableName.hashCode() : 0);
-		result = 31 * result + (yVariableName != null ? yVariableName.hashCode() : 0);
-		return result;
+		return id.hashCode();
 	}
 }

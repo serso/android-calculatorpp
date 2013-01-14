@@ -36,10 +36,10 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
     private int arity = 0;
 
     @NotNull
-    private GraphLineColor realLineColor;
+    private PlotLineColor realLineColor;
 
     @NotNull
-    private GraphLineColor imagLineColor;
+    private PlotLineColor imagLineColor;
 
     public CalculatorPlotterImpl(@NotNull Calculator calculator) {
         this.calculator = calculator;
@@ -164,12 +164,12 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
     }
 
     @Override
-    public boolean addFunction(@NotNull XyFunction xyFunction, @NotNull PlotFunctionLineDef functionLineDef) {
+    public boolean addFunction(@NotNull XyFunction xyFunction, @NotNull PlotLineDef functionLineDef) {
         return addFunction(new PlotFunction(xyFunction, functionLineDef));
     }
 
     @Override
-    public boolean updateFunction(@NotNull XyFunction xyFunction, @NotNull PlotFunctionLineDef functionLineDef) {
+    public boolean updateFunction(@NotNull XyFunction xyFunction, @NotNull PlotLineDef functionLineDef) {
         final PlotFunction newFunction = new PlotFunction(xyFunction, functionLineDef);
 
         return updateFunction(newFunction);
@@ -251,7 +251,20 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
         }
     }
 
-    // NOTE: this method must be called from synchronized block
+	@org.jetbrains.annotations.Nullable
+	@Override
+	public PlotFunction getFunctionById(@NotNull final String functionId) {
+		synchronized (functions) {
+			return Iterables.find(functions, new Predicate<PlotFunction>() {
+				@Override
+				public boolean apply(@Nullable PlotFunction function) {
+					return function != null && function.getXyFunction().getId().equals(functionId);
+				}
+			}, null);
+		}
+	}
+
+	// NOTE: this method must be called from synchronized block
     private void onFunctionsChanged() {
         assert Thread.holdsLock(functions);
 
@@ -345,12 +358,12 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
     }
 
     @Override
-    public void setRealLineColor(@NotNull GraphLineColor realLineColor) {
+    public void setRealLineColor(@NotNull PlotLineColor realLineColor) {
         this.realLineColor = realLineColor;
     }
 
     @Override
-    public void setImagLineColor(@NotNull GraphLineColor imagLineColor) {
+    public void setImagLineColor(@NotNull PlotLineColor imagLineColor) {
         this.imagLineColor = imagLineColor;
     }
 

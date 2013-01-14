@@ -17,7 +17,7 @@ import jscl.math.function.IConstant;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.*;
-import org.solovyev.android.calculator.about.CalculatorFragmentType;
+import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.menu.AMenuItem;
 import org.solovyev.android.menu.LabeledMenuItem;

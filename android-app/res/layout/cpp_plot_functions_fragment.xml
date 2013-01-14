@@ -6,12 +6,6 @@
     a:layout_width="match_parent"
     a:layout_height="match_parent">
 
-    <TextView
-        a:id="@+id/fragment_title"
-        a:layout_height="wrap_content"
-        a:layout_width="match_parent"
-        style="?cpp_fragment_title_style" />
-
     <include layout="@layout/ad" />
 
     <LinearLayout
@@ -37,6 +31,10 @@
             a:layout_weight="1"
             a:text="Visible"/>
 
+		<TextView
+				a:layout_width="0dp"
+				a:layout_height="wrap_content"
+				a:layout_weight="1"/>
 
     </LinearLayout>
 

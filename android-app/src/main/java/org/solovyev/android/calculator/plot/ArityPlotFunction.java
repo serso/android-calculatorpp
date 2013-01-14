@@ -14,18 +14,18 @@ public class ArityPlotFunction {
     private Function function;
 
     @NotNull
-    private PlotFunctionLineDef lineDef;
+    private PlotLineDef lineDef;
 
     private ArityPlotFunction() {
     }
 
     @NotNull
     public static ArityPlotFunction newInstance(@NotNull Function function) {
-        return newInstance(function, PlotFunctionLineDef.newDefaultInstance());
+        return newInstance(function, PlotLineDef.newDefaultInstance());
     }
 
     @NotNull
-    public static ArityPlotFunction newInstance(@NotNull Function function, @NotNull PlotFunctionLineDef lineDef) {
+    public static ArityPlotFunction newInstance(@NotNull Function function, @NotNull PlotLineDef lineDef) {
         final ArityPlotFunction result = new ArityPlotFunction();
 
         result.function = function;
@@ -40,7 +40,7 @@ public class ArityPlotFunction {
     }
 
     @NotNull
-    public PlotFunctionLineDef getLineDef() {
+    public PlotLineDef getLineDef() {
         return lineDef;
     }
 }

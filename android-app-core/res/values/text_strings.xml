@@ -289,5 +289,13 @@
     <string name="cpp_prefs_graph_plot_imag_title">Plot imaginary part of function</string>
     <string name="cpp_prefs_graph_plot_imag_summary">If checked imaginary part of function will be plotted</string>
 
+    <string name="cpp_monochrome_line_color_type">Monochrome</string>
+    <string name="cpp_color_map_line_color_type">Color map</string>
+
+    <string name="cpp_solid_line_style">Solid (-----)</string>
+    <string name="cpp_dashed_line_style">Dashed (- - -)</string>
+    <string name="cpp_dotted_line_style">Dotted (. . .)</string>
+    <string name="cpp_dash_dotted_line_style">Dash dotted (-.-.-)</string>
+
 
 </resources>

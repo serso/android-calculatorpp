@@ -3,8 +3,8 @@ package org.solovyev.android.calculator.matrix;
 import android.app.ActionBar;
 import android.os.Bundle;
 import org.solovyev.android.calculator.CalculatorFragmentActivity;
+import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.R;
-import org.solovyev.android.calculator.about.CalculatorFragmentType;
 
 /**
  * User: Solovyev_S

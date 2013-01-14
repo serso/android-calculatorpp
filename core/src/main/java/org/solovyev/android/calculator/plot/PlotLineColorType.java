@@ -5,8 +5,8 @@ package org.solovyev.android.calculator.plot;
  * Date: 1/5/13
  * Time: 10:45 PM
  */
-public enum PlotFunctionLineColorType {
+public enum PlotLineColorType {
 
-    color_map,
-    solid;
+	monochrome,
+    color_map;
 }

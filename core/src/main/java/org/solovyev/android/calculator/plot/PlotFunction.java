@@ -13,7 +13,7 @@ public class PlotFunction {
     private XyFunction xyFunction;
 
     @NotNull
-    private PlotFunctionLineDef plotFunctionLineDef;
+    private PlotLineDef mPlotLineDef;
 
     private boolean pinned = false;
 
@@ -21,20 +21,20 @@ public class PlotFunction {
 
     public PlotFunction(@NotNull XyFunction xyFunction) {
         this.xyFunction = xyFunction;
-        this.plotFunctionLineDef = PlotFunctionLineDef.newDefaultInstance();
+        this.mPlotLineDef = PlotLineDef.newDefaultInstance();
     }
 
     public PlotFunction(@NotNull XyFunction xyFunction,
-                        @NotNull PlotFunctionLineDef plotFunctionLineDef) {
+                        @NotNull PlotLineDef plotLineDef) {
         this.xyFunction = xyFunction;
-        this.plotFunctionLineDef = plotFunctionLineDef;
+        this.mPlotLineDef = plotLineDef;
     }
 
     @NotNull
     private PlotFunction copy() {
         final PlotFunction copy = new PlotFunction(this.xyFunction);
 
-        copy.plotFunctionLineDef = this.plotFunctionLineDef;
+        copy.mPlotLineDef = this.mPlotLineDef;
         copy.pinned = this.pinned;
         copy.visible = this.visible;
 
@@ -80,8 +80,8 @@ public class PlotFunction {
     }
 
     @NotNull
-    public PlotFunctionLineDef getPlotFunctionLineDef() {
-        return plotFunctionLineDef;
+    public PlotLineDef getPlotLineDef() {
+        return mPlotLineDef;
     }
 
     public boolean isPinned() {

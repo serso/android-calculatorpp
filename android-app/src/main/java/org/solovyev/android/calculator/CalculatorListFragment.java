@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.actionbarsherlock.app.SherlockListFragment;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.calculator.about.CalculatorFragmentType;
 
 /**
  * User: Solovyev_S

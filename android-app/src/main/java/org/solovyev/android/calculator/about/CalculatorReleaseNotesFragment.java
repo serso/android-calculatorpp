@@ -16,6 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.AndroidUtils;
 import org.solovyev.android.calculator.CalculatorApplication;
 import org.solovyev.android.calculator.CalculatorFragment;
+import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.R;
 import org.solovyev.common.text.StringUtils;
 

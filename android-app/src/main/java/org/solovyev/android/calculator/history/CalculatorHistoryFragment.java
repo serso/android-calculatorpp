@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.CalculatorPreferences;
 import org.solovyev.android.calculator.R;
-import org.solovyev.android.calculator.about.CalculatorFragmentType;
+import org.solovyev.android.calculator.CalculatorFragmentType;
 
 import java.util.ArrayList;
 import java.util.List;

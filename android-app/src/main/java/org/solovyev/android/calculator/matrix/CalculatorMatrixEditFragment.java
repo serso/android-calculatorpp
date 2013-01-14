@@ -5,8 +5,8 @@ import android.view.View;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.CalculatorFragment;
+import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.R;
-import org.solovyev.android.calculator.about.CalculatorFragmentType;
 import org.solovyev.android.view.IntegerRange;
 import org.solovyev.android.view.Picker;
 

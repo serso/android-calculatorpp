@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import jscl.math.Generic;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.CalculatorPreferences;
 
 import java.util.List;
@@ -53,7 +54,7 @@ public class AndroidCalculatorPlotter implements CalculatorPlotter, SharedPrefer
     }
 
     @Override
-    public boolean addFunction(@NotNull XyFunction xyFunction, @NotNull PlotFunctionLineDef functionLineDef) {
+    public boolean addFunction(@NotNull XyFunction xyFunction, @NotNull PlotLineDef functionLineDef) {
         return plotter.addFunction(xyFunction, functionLineDef);
     }
 
@@ -63,7 +64,7 @@ public class AndroidCalculatorPlotter implements CalculatorPlotter, SharedPrefer
     }
 
     @Override
-    public boolean updateFunction(@NotNull XyFunction xyFunction, @NotNull PlotFunctionLineDef functionLineDef) {
+    public boolean updateFunction(@NotNull XyFunction xyFunction, @NotNull PlotLineDef functionLineDef) {
         return plotter.updateFunction(xyFunction, functionLineDef);
     }
 
@@ -106,7 +107,13 @@ public class AndroidCalculatorPlotter implements CalculatorPlotter, SharedPrefer
         plotter.clearAllFunctions();
     }
 
-    @Override
+	@Nullable
+	@Override
+	public PlotFunction getFunctionById(@NotNull String functionId) {
+		return plotter.getFunctionById(functionId);
+	}
+
+	@Override
     @NotNull
     public List<PlotFunction> getFunctions() {
         return plotter.getFunctions();
@@ -168,11 +175,11 @@ public class AndroidCalculatorPlotter implements CalculatorPlotter, SharedPrefer
         }
     }
 
-    public void setImagLineColor(@NotNull GraphLineColor imagLineColor) {
+    public void setImagLineColor(@NotNull PlotLineColor imagLineColor) {
         plotter.setImagLineColor(imagLineColor);
     }
 
-    public void setRealLineColor(@NotNull GraphLineColor realLineColor) {
+    public void setRealLineColor(@NotNull PlotLineColor realLineColor) {
         plotter.setRealLineColor(realLineColor);
     }
 }

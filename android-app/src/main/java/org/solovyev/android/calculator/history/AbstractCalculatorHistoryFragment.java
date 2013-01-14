@@ -22,7 +22,7 @@ import com.actionbarsherlock.view.MenuItem;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.*;
-import org.solovyev.android.calculator.about.CalculatorFragmentType;
+import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.menu.*;
 import org.solovyev.android.sherlock.menu.SherlockMenuHelper;

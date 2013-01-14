@@ -54,7 +54,7 @@ public class CalculatorArityPlotFragment extends AbstractCalculatorPlotFragment 
             final Constant xVariable = xyFunction.getXVariable();
             final Constant yVariable = xyFunction.getYVariable();
 
-            final int arity = xVariable == null ? 0 : (yVariable == null ? 1 : 2);
+            final int arity = xyFunction.getArity();
 
             final Function arityFunction;
             if (xyFunction.isImag()) {
@@ -63,7 +63,7 @@ public class CalculatorArityPlotFragment extends AbstractCalculatorPlotFragment 
                 arityFunction = new RealArityFunction(arity, expression, xVariable, yVariable);
             }
 
-            arityFunctions.add(ArityPlotFunction.newInstance(arityFunction, plotFunction.getPlotFunctionLineDef()));
+            arityFunctions.add(ArityPlotFunction.newInstance(arityFunction, plotFunction.getPlotLineDef()));
         }
 
         if ( plotData.isPlot3d() ) {

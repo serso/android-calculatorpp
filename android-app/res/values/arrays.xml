@@ -87,19 +87,4 @@
 		<item>bin</item>
 	</string-array>
 
-    <string-array name="graph_line_color_names">
-        <item>@string/p_white_line_color</item>
-        <item>@string/p_grey_line_color</item>
-        <item>@string/p_red_line_color</item>
-        <item>@string/p_blue_line_color</item>
-        <item>@string/p_green_line_color</item>
-    </string-array>
-    <string-array name="graph_line_color_values">
-        <item>white</item>
-        <item>grey</item>
-        <item>red</item>
-        <item>blue</item>
-        <item>green</item>
-    </string-array>
-
 </resources>
