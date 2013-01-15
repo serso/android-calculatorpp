@@ -190,9 +190,9 @@ public class CalculatorGraph2dView extends View implements GraphView {
             return;
         }
         if (scroller.computeScrollOffset()) {
-            final float ration = getRatio();
-            x0 = scroller.getCurrX() * ration;
-            y0 = scroller.getCurrY() * ration;
+            final float ratio = getRatio();
+            x0 = scroller.getCurrX() * ratio;
+            y0 = scroller.getCurrY() * ratio;
             if (!scroller.isFinished()) {
                 invalidate();
             }
@@ -201,15 +201,7 @@ public class CalculatorGraph2dView extends View implements GraphView {
     }
 
     private float eval(Function f, float x) {
-        float v = (float) f.eval(x);
-        // Calculator.log("eval " + x + "; " + v); 
-        if (v < -10000f) {
-            return -10000f;
-        }
-        if (v > 10000f) {
-            return 10000f;
-        }
-        return v;
+        return (float) f.eval(x);
     }
 
     // distance from (x,y) to the line (x1,y1) to (x2,y2), squared, multiplied by 4
