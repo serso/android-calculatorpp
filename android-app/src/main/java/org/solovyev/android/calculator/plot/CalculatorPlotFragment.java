@@ -73,8 +73,8 @@ public class CalculatorPlotFragment extends AbstractCalculatorPlotFragment {
         }
 
         graphView.init(FunctionViewDef.newInstance(Color.WHITE, Color.WHITE, Color.DKGRAY, getBgColor()));
+        graphView.setXRange((float)plotBoundaries.getXMin(), (float)plotBoundaries.getXMax());
         graphView.setFunctionPlotDefs(arityFunctions);
-		graphView.setXRange((float)plotBoundaries.getXMin(), (float)plotBoundaries.getXMax());
 
         graphContainer.addView((View) graphView);
     }

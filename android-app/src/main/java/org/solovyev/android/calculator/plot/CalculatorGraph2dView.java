@@ -4,12 +4,7 @@ package org.solovyev.android.calculator.plot;
 
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.DashPathEffect;
-import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.Path;
+import android.graphics.*;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,6 +13,7 @@ import android.widget.ZoomButtonsController;
 import org.javia.arity.Function;
 import org.jetbrains.annotations.NotNull;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -35,6 +31,14 @@ public class CalculatorGraph2dView extends View implements GraphView {
     private static final float TICKS_COUNT = 15;
     public static final int TICK_SIZE_PXS = 3;
 
+    private static final DecimalFormat tickFormat = new DecimalFormat("##0.#####E0");
+    private static final int MAX_TICK_DIGITS = 4;
+    private static final String[] TICK_FORMATS = new String[MAX_TICK_DIGITS];
+    static {
+        for(int i = 0; i < MAX_TICK_DIGITS; i++) {
+            TICK_FORMATS[i] = "%." + i + "f";
+        }
+    }
     /*
     **********************************************************************
     *
@@ -130,8 +134,9 @@ public class CalculatorGraph2dView extends View implements GraphView {
 
     @Override
     public void setXRange(float xMin, float xMax) {
-        this.x0 = xMin + graphWidth / 2;
         this.graphWidth = xMax - xMin;
+        this.x0 = xMin + graphWidth / 2;
+        this.y0 = 0;
     }
 
     private void clearAllGraphs() {
@@ -178,7 +183,6 @@ public class CalculatorGraph2dView extends View implements GraphView {
         widthPxs = w;
         heightPxs = h;
         clearAllGraphs();
-        // points = new float[w+w];
     }
 
     protected void onDraw(Canvas canvas) {
@@ -186,9 +190,9 @@ public class CalculatorGraph2dView extends View implements GraphView {
             return;
         }
         if (scroller.computeScrollOffset()) {
-            final float scale = graphWidth / widthPxs;
-            x0 = scroller.getCurrX() * scale;
-            y0 = scroller.getCurrY() * scale;
+            final float ration = getRatio();
+            x0 = scroller.getCurrX() * ration;
+            y0 = scroller.getCurrY() * ration;
             if (!scroller.isFinished()) {
                 invalidate();
             }
@@ -235,13 +239,7 @@ public class CalculatorGraph2dView extends View implements GraphView {
                               float yMax,
                               @NotNull GraphData graph) {
         if (function.arity() == 0) {
-            float v = (float) function.eval();
-            if (v < -10000f) {
-                v = -10000f;
-            }
-            if (v > 10000f) {
-                v = 10000f;
-            }
+            final float v = (float) function.eval();
             graph.clear();
             graph.push(xMin, v);
             graph.push(xMax, v);
@@ -262,10 +260,10 @@ public class CalculatorGraph2dView extends View implements GraphView {
             graph.push(xMin, eval(function, xMin));
         }
 
-        final float scale = getRatio();
-        final float maxStep = 15.8976f / scale;
-        final float minStep = .05f / scale;
-        float ythresh = 1 / scale;
+        final float ratio = getRatio();
+        final float maxStep = 15.8976f * ratio;
+        final float minStep = .05f * ratio;
+        float ythresh = ratio;
         ythresh = ythresh * ythresh;
 
 
@@ -354,9 +352,9 @@ public class CalculatorGraph2dView extends View implements GraphView {
             final float y = ys[i];
             final float x = xs[i];
 
-            if (y != y) {
+            if (Float.isNaN(y)) {
                 newCurve = true;
-            } else { // !NaN
+            } else {
                 if (newCurve) {
                     path.moveTo(x, y);
                     newCurve = false;
@@ -387,45 +385,6 @@ public class CalculatorGraph2dView extends View implements GraphView {
         }
     }
 
-    private static StringBuilder b = new StringBuilder();
-    private static char[] buf = new char[20];
-
-    @NotNull
-    private static CharSequence formatTick(final float tickValue) {
-        /*int pos = 0;
-        boolean addDot = false;
-
-        final boolean negative = tickValue < 0;
-
-        int absValue = Math.round(Math.abs(tickValue) * 100);
-        for (int i = 0; i < 2; ++i) {
-            int digit = absValue % 10;
-            absValue /= 10;
-            if (digit != 0 || addDot) {
-                buf[pos++] = (char) ('0' + digit);
-                addDot = true;
-            }
-        }
-        if (addDot) {
-            buf[pos++] = '.';
-        }
-        if (absValue == 0) {
-            buf[pos++] = '0';
-        }
-        while (absValue != 0) {
-            buf[pos++] = (char) ('0' + (absValue % 10));
-            absValue /= 10;
-        }
-        if (negative) {
-            buf[pos++] = '-';
-        }
-        b.setLength(0);
-        b.append(buf, 0, pos);
-        b.reverse();
-        return b;*/
-        return Float.toString(tickValue);
-    }
-
     private void drawGraph(@NotNull Canvas canvas) {
         final float graphHeight = getGraphHeight();
 
@@ -452,14 +411,14 @@ public class CalculatorGraph2dView extends View implements GraphView {
 
         final float ratio = getRatio();
 
-        float x0px = -xMin * ratio;
+        float x0px = -xMin / ratio;
         if (x0px < 25) {
             x0px = 25;
         } else if (x0px > widthPxs - 3) {
             x0px = widthPxs - 3;
         }
 
-        float y0px = yMax * ratio;
+        float y0px = yMax / ratio;
         if (y0px < 3) {
             y0px = 3;
         } else if (y0px > heightPxs - 15) {
@@ -478,37 +437,35 @@ public class CalculatorGraph2dView extends View implements GraphView {
             textPaint.setTextAlign(Paint.Align.CENTER);
 
             final float step = getStep(graphWidth);
+            final int tickDigits = countTickDigits(step);
 
             // round xMin and init first tick
             float tick = ((int) (xMin / step)) * step;
 
             final float y2 = y0px + TICK_SIZE_PXS;
 
-            float stepPxs = step * ratio;
-            for (float xPxs = (tick - xMin) * ratio; xPxs <= widthPxs; xPxs += stepPxs, tick += step) {
+            final float stepPxs = step / ratio;
+
+            for (float xPxs = (tick - xMin) / ratio; xPxs <= widthPxs; xPxs += stepPxs, tick += step) {
                 // draw grid line
                 canvas.drawLine(xPxs, 0, xPxs, heightPxs, paint);
 
-                if (Math.abs(tick) >= .001f) {
-                   final CharSequence tickLabel = formatTick(tick);
+                final CharSequence tickLabel = formatTick(tick, tickDigits);
 
-                    // draw tick label
-                    canvas.drawText(tickLabel, 0, tickLabel.length(), xPxs, y2 + 10, textPaint);
-                }
+                // draw tick label
+                canvas.drawText(tickLabel, 0, tickLabel.length(), xPxs, y2 + 10, textPaint);
             }
 
             final float x1 = x0px - TICK_SIZE_PXS;
             tick = ((int) (yMin / step)) * step;
             textPaint.setTextAlign(Paint.Align.RIGHT);
-            for (float y = heightPxs - (tick - yMin) * ratio; y >= 0; y -= stepPxs, tick += step) {
+            for (float y = heightPxs - (tick - yMin) / ratio; y >= 0; y -= stepPxs, tick += step) {
                 canvas.drawLine(0, y, widthPxs, y, paint);
 
-                if (Math.abs(tick) >= .001f) {
-                    final CharSequence tickLabel = formatTick(tick);
+                final CharSequence tickLabel = formatTick(tick, tickDigits);
 
-                    // draw tick label
-                    canvas.drawText(tickLabel, 0, tickLabel.length(), x1, y + 4, textPaint);
-                }
+                // draw tick label
+                canvas.drawText(tickLabel, 0, tickLabel.length(), x1, y + 4, textPaint);
             }
 
             paint.setPathEffect(null);
@@ -525,7 +482,7 @@ public class CalculatorGraph2dView extends View implements GraphView {
 
         matrix.reset();
         matrix.preTranslate(-this.x0, -this.y0);
-        matrix.postScale(ratio, -ratio);
+        matrix.postScale(1/ratio, -1/ratio);
         matrix.postTranslate(widthPxs / 2, heightPxs / 2);
 
         paint.setAntiAlias(false);
@@ -554,6 +511,43 @@ public class CalculatorGraph2dView extends View implements GraphView {
 
 
         lastXMin = xMin;
+    }
+
+    /*
+    **********************************************************************
+    *
+    *                           TICK FORMAT
+    *
+    **********************************************************************
+    */
+
+    @NotNull
+    public static CharSequence formatTick(final float tickValue, final int tickDigits) {
+        String result = "0";
+
+        if (tickValue != 0f) {
+            if (tickDigits < MAX_TICK_DIGITS) {
+                result = String.format(TICK_FORMATS[tickDigits], tickValue);
+            } else {
+                // x.xxE-10 notation
+                result = tickFormat.format(tickValue);
+            }
+        }
+
+        return result;
+    }
+
+    public static int countTickDigits(float step) {
+        if ( step >= 1 ) {
+            return 0;
+        } else {
+            int tickDigits = 0;
+            while ( step < 1 ) {
+                step *= 10;
+                tickDigits++;
+            }
+            return tickDigits;
+        }
     }
 
     /*
@@ -605,8 +599,8 @@ public class CalculatorGraph2dView extends View implements GraphView {
     }
 
     private float getRatio() {
-        if (graphWidth != 0) {
-            return widthPxs / graphWidth;
+        if (widthPxs != 0) {
+            return  graphWidth / widthPxs;
         } else {
             return 0;
         }
@@ -705,7 +699,7 @@ public class CalculatorGraph2dView extends View implements GraphView {
         } else if (asy < asx / 3) {
             sy = 0;
         }
-        scroller.fling(Math.round(x0 * ratio), Math.round(y0 * ratio), Math.round(sx), Math.round(sy), Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        scroller.fling(Math.round(x0 / ratio), Math.round(y0 / ratio), Math.round(sx), Math.round(sy), Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MAX_VALUE);
         invalidate();
     }
 
