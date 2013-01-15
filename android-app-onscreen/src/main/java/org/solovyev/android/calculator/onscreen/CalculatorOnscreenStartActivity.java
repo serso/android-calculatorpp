@@ -8,7 +8,7 @@ import android.preference.PreferenceManager;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.AndroidUtils2;
 import org.solovyev.android.calculator.AbstractFixableError;
-import org.solovyev.android.calculator.App;
+import org.solovyev.android.App;
 import org.solovyev.android.calculator.FixableMessage;
 import org.solovyev.android.calculator.FixableMessagesDialog;
 import org.solovyev.android.calculator.CalculatorPreferences;

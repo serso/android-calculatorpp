@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
-import org.solovyev.android.calculator.App;
+import org.solovyev.android.App;
 import org.solovyev.android.calculator.MathEntityDao;
 import org.solovyev.android.calculator.MathEntityPersistenceContainer;
 import org.solovyev.android.calculator.MathPersistenceEntity;

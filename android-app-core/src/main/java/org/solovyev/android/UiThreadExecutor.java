@@ -1,8 +1,7 @@
-package org.solovyev.android.calculator;
+package org.solovyev.android;
 
 import android.os.Handler;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.AndroidUtils;
 import org.solovyev.common.DelayedExecutor;
 
 import java.util.concurrent.TimeUnit;

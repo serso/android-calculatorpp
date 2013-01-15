@@ -14,6 +14,7 @@ import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.AndroidUtils2;
+import org.solovyev.android.App;
 import org.solovyev.android.ads.AdsController;
 import org.solovyev.android.calculator.external.AndroidExternalListenersContainer;
 import org.solovyev.android.calculator.history.AndroidCalculatorHistory;

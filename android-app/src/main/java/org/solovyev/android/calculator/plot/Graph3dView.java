@@ -10,7 +10,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.ZoomButtonsController;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.calculator.App;
+import org.solovyev.android.App;
 
 import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Parcelable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.App;
 import org.solovyev.android.calculator.*;
 
 import java.util.HashSet;
