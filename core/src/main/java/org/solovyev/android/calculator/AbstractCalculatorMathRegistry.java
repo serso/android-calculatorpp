@@ -6,12 +6,12 @@
 
 package org.solovyev.android.calculator;
 
-import jscl.CustomFunctionCalculationException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.math.MathRegistry;
+import org.solovyev.common.msg.Message;
 
 import java.util.List;
 import java.util.Map;
@@ -68,9 +68,13 @@ public abstract class AbstractCalculatorMathRegistry<T extends MathEntity, P ext
             for (P entity : persistenceContainer.getEntities()) {
                 if (!contains(entity.getName())) {
                     try {
-                        add(createBuilder(entity));
-                    } catch (CustomFunctionCalculationException e) {
-                        Locator.getInstance().getLogger().error(null, e.getMessage(), e);
+                        final JBuilder<? extends T> builder = createBuilder(entity);
+                        add(builder);
+                    } catch (ArithmeticException e) {
+                        Locator.getInstance().getLogger().error(null, e.getLocalizedMessage(), e);
+                        if (e instanceof Message) {
+                            Locator.getInstance().getNotifier().showMessage((Message)e);
+                        }
                     }
                 }
             }

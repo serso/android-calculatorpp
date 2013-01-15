@@ -14,7 +14,7 @@ public class SystemOutCalculatorLogger implements CalculatorLogger {
     private static final String TAG = SystemOutCalculatorLogger.class.getSimpleName();
 
     @Override
-    public void debug(@Nullable String tag, @NotNull String message) {
+    public void debug(@Nullable String tag, @Nullable String message) {
         System.out.println(getTag(tag) + ": " + message);
     }
 
@@ -24,13 +24,13 @@ public class SystemOutCalculatorLogger implements CalculatorLogger {
     }
 
     @Override
-    public void debug(@Nullable String tag, @NotNull String message, @NotNull Throwable e) {
+    public void debug(@Nullable String tag, @Nullable String message, @NotNull Throwable e) {
         debug(tag, message);
         e.printStackTrace(System.out);
     }
 
     @Override
-    public void error(@Nullable String tag, @NotNull String message, @NotNull Throwable e) {
+    public void error(@Nullable String tag, @Nullable String message, @NotNull Throwable e) {
         System.out.println(getTag(tag) + ": " + message);
         e.printStackTrace(System.out);
     }

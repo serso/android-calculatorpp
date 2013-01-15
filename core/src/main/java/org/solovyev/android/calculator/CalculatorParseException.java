@@ -79,7 +79,7 @@ public class CalculatorParseException extends SersoException implements Message 
 	}
 
 	@Override
-	@Nullable
+	@NotNull
 	public String getLocalizedMessage() {
 		return this.message.getLocalizedMessage(Locale.getDefault());
 	}

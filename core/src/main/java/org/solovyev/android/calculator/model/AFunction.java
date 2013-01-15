@@ -308,7 +308,7 @@ public class AFunction implements IFunction, MathPersistenceEntity, Serializable
 			}
 
 			@Override
-			@Nullable
+			@NotNull
 			public String getLocalizedMessage() {
 				return message.getLocalizedMessage();
 			}
