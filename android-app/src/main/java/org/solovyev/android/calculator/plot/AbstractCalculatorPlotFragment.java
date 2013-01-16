@@ -453,11 +453,7 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
         paint.setColor(plotLineDef.getLineColor());
         paint.setStyle(Paint.Style.STROKE);
 
-        if ( plotLineDef.getLineWidth() == PlotLineDef.DEFAULT_LINE_WIDTH ) {
-            paint.setStrokeWidth(0);
-        } else {
-            paint.setStrokeWidth(plotLineDef.getLineWidth());
-        }
+        paint.setStrokeWidth(plotLineDef.getLineWidth());
 
         final AndroidPlotLineStyle androidPlotLineStyle = AndroidPlotLineStyle.valueOf(plotLineDef.getLineStyle());
         if (androidPlotLineStyle != null) {

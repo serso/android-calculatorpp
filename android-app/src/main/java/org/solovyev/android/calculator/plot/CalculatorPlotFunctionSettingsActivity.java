@@ -4,11 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import org.jetbrains.annotations.NotNull;
@@ -27,7 +30,6 @@ public class CalculatorPlotFunctionSettingsActivity extends SherlockFragmentActi
 		final Intent intent = new Intent(context, CalculatorPlotFunctionSettingsActivity.class);
 		intent.putExtra(INPUT_FUNCTION_ID, plotFunction.getXyFunction().getId());
 		context.startActivity(intent);
-
 	}
 
 	@Override
@@ -55,8 +57,41 @@ public class CalculatorPlotFunctionSettingsActivity extends SherlockFragmentActi
 
 	public static class CalculatorPlotFunctionSettingsFragment extends CalculatorFragment {
 
+		/*
+		**********************************************************************
+		*
+		*                           STATIC
+		*
+		**********************************************************************
+		*/
+
+		public static final int LINE_WIDTH_DELAY = 1000;
+		public static final int MESSAGE_ID = 1;
+
 		@Nullable
 		private PlotFunction plotFunction;
+
+		@NotNull
+		private final CalculatorPlotter plotter = Locator.getInstance().getPlotter();
+
+		@NotNull
+		private final Handler handler = new Handler() {
+
+			@Override
+			public void handleMessage(Message msg) {
+				if (plotFunction != null) {
+					switch (msg.what) {
+						case MESSAGE_ID:
+							final PlotLineDef newPlotLineDef = PlotLineDef.changeLineWidth(plotFunction.getPlotLineDef(), msg.arg1);
+							final PlotFunction newPlotFunction = PlotFunction.changePlotLineDef(plotFunction, newPlotLineDef);
+							if(plotter.updateFunction(newPlotFunction)) {
+								plotFunction = newPlotFunction;
+							}
+							break;
+					}
+				}
+			}
+		};
 
 		public CalculatorPlotFunctionSettingsFragment() {
 			super(CalculatorFragmentType.plotter_function_settings);
@@ -69,6 +104,9 @@ public class CalculatorPlotFunctionSettingsActivity extends SherlockFragmentActi
 			final String functionId = getArguments().getString(INPUT_FUNCTION_ID);
 			if (functionId != null) {
 				plotFunction = Locator.getInstance().getPlotter().getFunctionById(functionId);
+				if ( plotFunction != null ) {
+					getActivity().setTitle(plotFunction.getXyFunction().getExpressionString());
+				}
 			}
 		}
 
@@ -81,14 +119,16 @@ public class CalculatorPlotFunctionSettingsActivity extends SherlockFragmentActi
 		public void onViewCreated(View root, Bundle savedInstanceState) {
 			super.onViewCreated(root, savedInstanceState);
 
-			final CalculatorPlotter plotter = Locator.getInstance().getPlotter();
-
 			final Spinner plotLineColorSpinner = (Spinner)root.findViewById(R.id.cpp_plot_function_line_color_spinner);
 			final Spinner plotLineColorTypeSpinner = (Spinner)root.findViewById(R.id.cpp_plot_function_line_color_type_spinner);
 			final Spinner plotLineStyleSpinner = (Spinner)root.findViewById(R.id.cpp_plot_function_line_style_spinner);
+			final SeekBar plotLineWidthSeekBar = (SeekBar)root.findViewById(R.id.cpp_plot_functions_line_width_seekbar);
 			final Button okButton = (Button)root.findViewById(R.id.cpp_ok_button);
 
+			plotLineWidthSeekBar.setMax(10);
+
 			if (plotFunction != null) {
+				plotLineWidthSeekBar.setProgress((int)plotFunction.getPlotLineDef().getLineWidth());
 
 				plotLineColorSpinner.setSelection(PlotLineColor.valueOf(plotFunction.getPlotLineDef().getLineColor()).ordinal());
 				plotLineColorSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -150,6 +190,25 @@ public class CalculatorPlotFunctionSettingsActivity extends SherlockFragmentActi
 					}
 				});
 
+				plotLineWidthSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+					@Override
+					public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+						// remove old messages
+						handler.removeMessages(MESSAGE_ID);
+
+						// send new message
+						handler.sendMessageDelayed(Message.obtain(handler, MESSAGE_ID, progress, 0), LINE_WIDTH_DELAY);
+					}
+
+					@Override
+					public void onStartTrackingTouch(SeekBar seekBar) {
+					}
+
+					@Override
+					public void onStopTrackingTouch(SeekBar seekBar) {
+					}
+				});
+
 				okButton.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
@@ -161,6 +220,7 @@ public class CalculatorPlotFunctionSettingsActivity extends SherlockFragmentActi
 				});
 
 			} else {
+				plotLineWidthSeekBar.setEnabled(false);
 				plotLineColorSpinner.setEnabled(false);
 				plotLineColorTypeSpinner.setEnabled(false);
 				plotLineStyleSpinner.setEnabled(false);

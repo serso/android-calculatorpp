@@ -12,6 +12,7 @@ import android.widget.Scroller;
 import android.widget.ZoomButtonsController;
 import org.javia.arity.Function;
 import org.jetbrains.annotations.NotNull;
+import org.solovyev.common.math.Point2d;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class CalculatorGraph2dView extends View implements GraphView {
     *
     **********************************************************************
     */
+	private static final int NO_TOUCH = -1;
 
     private static final float TICKS_COUNT = 15;
     public static final int TICK_SIZE_PXS = 3;
@@ -51,7 +53,7 @@ public class CalculatorGraph2dView extends View implements GraphView {
     private int widthPxs;
     private int heightPxs;
 
-    @NotNull
+	@NotNull
     private final Matrix matrix = new Matrix();
 
     // paints
@@ -80,15 +82,15 @@ public class CalculatorGraph2dView extends View implements GraphView {
     private float y0;
 
     // graph width in function units (NOT screen pixels)
-    private float graphWidth = 20;
+    private float gWidth = 20;
 
     private float lastXMin;
 
     private float lastYMin;
     private float lastYMax;
 
-    private float lastTouchX, lastTouchY;
-
+    private float lastTouchXPxs = NO_TOUCH;
+	private float lastTouchYPxs = NO_TOUCH;
 
     @NotNull
     private TouchHandler touchHandler;
@@ -134,8 +136,8 @@ public class CalculatorGraph2dView extends View implements GraphView {
 
     @Override
     public void setXRange(float xMin, float xMax) {
-        this.graphWidth = xMax - xMin;
-        this.x0 = xMin + graphWidth / 2;
+        this.gWidth = xMax - xMin;
+        this.x0 = xMin + gWidth / 2;
         this.y0 = 0;
     }
 
@@ -418,6 +420,9 @@ public class CalculatorGraph2dView extends View implements GraphView {
         }
 
 
+		final float tickStep = getStep(gWidth);
+		final int tickDigits = countTickDigits(tickStep);
+
         {
             // GRID
 
@@ -428,17 +433,14 @@ public class CalculatorGraph2dView extends View implements GraphView {
             textPaint.setTextSize(12);
             textPaint.setTextAlign(Paint.Align.CENTER);
 
-            final float step = getStep(graphWidth);
-            final int tickDigits = countTickDigits(step);
-
             // round xMin and init first tick
-            float tick = ((int) (xMin / step)) * step;
+            float tick = ((int) (xMin / tickStep)) * tickStep;
 
             final float y2 = y0px + TICK_SIZE_PXS;
 
-            final float stepPxs = step / ratio;
+            final float stepPxs = tickStep / ratio;
 
-            for (float xPxs = (tick - xMin) / ratio; xPxs <= widthPxs; xPxs += stepPxs, tick += step) {
+            for (float xPxs = (tick - xMin) / ratio; xPxs <= widthPxs; xPxs += stepPxs, tick += tickStep) {
                 // draw grid line
                 canvas.drawLine(xPxs, 0, xPxs, heightPxs, paint);
 
@@ -449,9 +451,9 @@ public class CalculatorGraph2dView extends View implements GraphView {
             }
 
             final float x1 = x0px - TICK_SIZE_PXS;
-            tick = ((int) (yMin / step)) * step;
+            tick = ((int) (yMin / tickStep)) * tickStep;
             textPaint.setTextAlign(Paint.Align.RIGHT);
-            for (float y = heightPxs - (tick - yMin) / ratio; y >= 0; y -= stepPxs, tick += step) {
+            for (float y = heightPxs - (tick - yMin) / ratio; y >= 0; y -= stepPxs, tick += tickStep) {
                 canvas.drawLine(0, y, widthPxs, y, paint);
 
                 final CharSequence tickLabel = formatTick(tick, tickDigits);
@@ -470,6 +472,26 @@ public class CalculatorGraph2dView extends View implements GraphView {
             canvas.drawLine(x0px, 0, x0px, heightPxs, paint);
             canvas.drawLine(0, y0px, widthPxs, y0px, paint);
         }
+
+		{
+			// TOUCH POSITION
+
+			if (lastTouchXPxs != NO_TOUCH && lastTouchYPxs != NO_TOUCH) {
+
+				paint.setColor(graphViewHelper.getFunctionViewDef().getGridColor());
+				paint.setAlpha(100);
+
+				canvas.drawLine(lastTouchXPxs, 0, lastTouchXPxs, heightPxs, paint);
+				canvas.drawLine(0, lastTouchYPxs, widthPxs, lastTouchYPxs, paint);
+
+				final Point2d lastTouch = toGraphCoordinates(lastTouchXPxs, lastTouchYPxs);
+				final String touchLabel = "[" + formatTick(lastTouch.getX(), tickDigits + 1) + ", " + formatTick(lastTouch.getY(), tickDigits + 1) + "]";
+				canvas.drawText(touchLabel, 0, touchLabel.length(), lastTouchXPxs - 40, lastTouchYPxs - 40, textPaint);
+
+				// restore alpha
+				paint.setAlpha(255);
+			}
+		}
 
 
         matrix.reset();
@@ -550,14 +572,18 @@ public class CalculatorGraph2dView extends View implements GraphView {
     **********************************************************************
     */
 
+	private Point2d toGraphCoordinates(float xPxs, float yPxs) {
+		return new Point2d(xPxs * getRatio() + getXMin(), - (yPxs * getRatio() + getYMin()));
+	}
+
     // X
 
     public float getXMin() {
-        return x0 - graphWidth / 2;
+        return x0 - gWidth / 2;
     }
 
     private float getXMax(float minX) {
-        return minX + graphWidth;
+        return minX + gWidth;
     }
 
     public float getXMax() {
@@ -587,20 +613,20 @@ public class CalculatorGraph2dView extends View implements GraphView {
     }
 
     private float getGraphHeight() {
-        return graphWidth * getAspectRatio();
+        return gWidth * getAspectRatio();
     }
 
     private float getRatio() {
         if (widthPxs != 0) {
-            return  graphWidth / widthPxs;
+            return gWidth / widthPxs;
         } else {
             return 0;
         }
     }
 
-    private int getAspectRatio() {
+    private float getAspectRatio() {
         if (widthPxs != 0) {
-            return heightPxs / widthPxs;
+            return ((float)heightPxs) / widthPxs;
         } else {
             return 0;
         }
@@ -628,12 +654,12 @@ public class CalculatorGraph2dView extends View implements GraphView {
     public void onZoom(boolean zoomIn) {
         if (zoomIn) {
             if (canZoomIn()) {
-                graphWidth /= 2;
+                gWidth /= 2;
                 invalidateGraphs();
             }
         } else {
             if (canZoomOut()) {
-                graphWidth *= 2;
+                gWidth *= 2;
                 invalidateGraphs();
             }
         }
@@ -663,23 +689,28 @@ public class CalculatorGraph2dView extends View implements GraphView {
         if (!scroller.isFinished()) {
             scroller.abortAnimation();
         }
-        lastTouchX = x;
-        lastTouchY = y;
+
+		lastTouchXPxs = x;
+        lastTouchYPxs = y;
     }
 
     public void onTouchMove(float x, float y) {
-        float deltaX = x - lastTouchX;
-        float deltaY = y - lastTouchY;
+        float deltaX = x - lastTouchXPxs;
+        float deltaY = y - lastTouchYPxs;
+
         if (deltaX < -1 || deltaX > 1 || deltaY < -1 || deltaY > 1) {
             scroll(-deltaX, deltaY);
-            lastTouchX = x;
-            lastTouchY = y;
+            lastTouchXPxs = x;
+            lastTouchYPxs = y;
             invalidate();
         }
     }
 
     public void onTouchUp(float x, float y) {
         final float ratio = getRatio();
+
+		lastTouchXPxs = NO_TOUCH;
+		lastTouchYPxs = NO_TOUCH;
 
         float sx = -touchHandler.getXVelocity();
         float sy = touchHandler.getYVelocity();
@@ -696,7 +727,7 @@ public class CalculatorGraph2dView extends View implements GraphView {
     }
 
     public void onTouchZoomDown(float x1, float y1, float x2, float y2) {
-        zoomTracker.start(graphWidth, x1, y1, x2, y2);
+        zoomTracker.start(gWidth, x1, y1, x2, y2);
     }
 
     public void onTouchZoomMove(float x1, float y1, float x2, float y2) {
@@ -705,7 +736,7 @@ public class CalculatorGraph2dView extends View implements GraphView {
         }
         float targetGwidth = zoomTracker.value;
         if (targetGwidth > .25f && targetGwidth < 200) {
-            graphWidth = targetGwidth;
+            gWidth = targetGwidth;
         }
         // scroll(-zoomTracker.moveX, zoomTracker.moveY);
         invalidateGraphs();
@@ -719,7 +750,7 @@ public class CalculatorGraph2dView extends View implements GraphView {
     }
 
     private void scroll(float deltaX, float deltaY) {
-        final float scale = graphWidth / widthPxs;
+        final float scale = gWidth / widthPxs;
         float dx = deltaX * scale;
         float dy = deltaY * scale;
         final float adx = Math.abs(dx);

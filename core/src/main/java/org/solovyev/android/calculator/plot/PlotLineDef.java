@@ -18,7 +18,7 @@ public class PlotLineDef {
     */
 
     @NotNull
-    public static final Float DEFAULT_LINE_WIDTH = -1f;
+    private static final Float DEFAULT_LINE_WIDTH = 0f;
 
     private static final int WHITE = 0xFFFFFFFF;
 
@@ -39,7 +39,7 @@ public class PlotLineDef {
     @NotNull
     private PlotLineStyle lineStyle = PlotLineStyle.solid;
 
-    private float lineWidth = -DEFAULT_LINE_WIDTH;
+    private float lineWidth = DEFAULT_LINE_WIDTH;
 
     private PlotLineDef() {
     }
@@ -85,6 +85,13 @@ public class PlotLineDef {
 	public static PlotLineDef changeLineColor(@NotNull PlotLineDef plotLineDef, int newLineColor) {
 		final PlotLineDef result = plotLineDef.copy();
 		result.lineColor = newLineColor;
+		return result;
+	}
+
+	@NotNull
+	public static PlotLineDef changeLineWidth(@NotNull PlotLineDef plotLineDef, int newLineWidth) {
+		final PlotLineDef result = plotLineDef.copy();
+		result.lineWidth = newLineWidth;
 		return result;
 	}
 
