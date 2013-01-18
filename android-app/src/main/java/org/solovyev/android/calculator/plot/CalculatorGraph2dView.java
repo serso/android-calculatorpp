@@ -1,5 +1,3 @@
-// Copyright (C) 2009-2010 Mihai Preda
-
 package org.solovyev.android.calculator.plot;
 
 
@@ -10,7 +8,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Scroller;
 import android.widget.ZoomButtonsController;
-import org.javia.arity.Function;
 import org.jetbrains.annotations.NotNull;
 
 import java.text.DecimalFormat;
@@ -151,19 +148,19 @@ public class CalculatorGraph2dView extends View implements GraphView {
 
     @Override
     public void init(@NotNull FunctionViewDef functionViewDef) {
-        this.graphViewHelper = GraphViewHelper.newInstance(functionViewDef, Collections.<ArityPlotFunction>emptyList());
+        this.graphViewHelper = GraphViewHelper.newInstance(functionViewDef, Collections.<PlotFunction>emptyList());
     }
 
-    public void setFunctionPlotDefs(@NotNull List<ArityPlotFunction> functionPlotDefs) {
+    public void setPlotFunctions(@NotNull List<PlotFunction> plotFunctions) {
 
-        for (ArityPlotFunction functionPlotDef : functionPlotDefs) {
-            final int arity = functionPlotDef.getFunction().arity();
+        for (PlotFunction plotFunction : plotFunctions) {
+            final int arity = plotFunction.getXyFunction().getArity();
             if (arity != 0 && arity != 1) {
                 throw new IllegalArgumentException("Function must have arity 0 or 1 for 2d plot!");
             }
         }
 
-        this.graphViewHelper = this.graphViewHelper.copy(functionPlotDefs);
+        this.graphViewHelper = this.graphViewHelper.copy(plotFunctions);
         clearAllGraphs();
         invalidate();
     }
@@ -200,10 +197,6 @@ public class CalculatorGraph2dView extends View implements GraphView {
         drawGraph(canvas);
     }
 
-    private float eval(Function f, float x) {
-        return (float) f.eval(x);
-    }
-
     // distance from (x,y) to the line (x1,y1) to (x2,y2), squared, multiplied by 4
     /*
     private float distance(float x1, float y1, float x2, float y2, float x, float y) {
@@ -224,14 +217,14 @@ public class CalculatorGraph2dView extends View implements GraphView {
         return up * up / (dx * dx + dy * dy);
     }
 
-    private void computeGraph(@NotNull Function function,
+    private void computeGraph(@NotNull XyFunction f,
                               float xMin,
                               float xMax,
                               float yMin,
                               float yMax,
                               @NotNull GraphData graph) {
-        if (function.arity() == 0) {
-            final float v = (float) function.eval();
+        if (f.getArity() == 0) {
+            final float v = (float) f.eval();
             graph.clear();
             graph.push(xMin, v);
             graph.push(xMax, v);
@@ -249,7 +242,7 @@ public class CalculatorGraph2dView extends View implements GraphView {
             }
         }
         if (graph.empty()) {
-            graph.push(xMin, eval(function, xMin));
+            graph.push(xMin, (float)f.eval(xMin));
         }
 
         final float ratio = getRatio();
@@ -270,7 +263,7 @@ public class CalculatorGraph2dView extends View implements GraphView {
             }
             if (next.empty()) {
                 float x = leftX + maxStep;
-                next.push(x, eval(function, x));
+                next.push(x, (float) f.eval(x));
                 ++nEval;
             }
             rightX = next.topX();
@@ -283,7 +276,7 @@ public class CalculatorGraph2dView extends View implements GraphView {
 
             float dx = rightX - leftX;
             float middleX = (leftX + rightX) / 2;
-            float middleY = eval(function, middleX);
+            float middleY = (float) f.eval(middleX);
             ++nEval;
             boolean middleIsOutside = (middleY < leftY && middleY < rightY) || (leftY < middleY && rightY < middleY);
             if (dx < minStep) {
@@ -482,20 +475,20 @@ public class CalculatorGraph2dView extends View implements GraphView {
         {
             //GRAPH
 
-            final List<ArityPlotFunction> functionPlotDefs = graphViewHelper.getFunctionPlotDefs();
+            final List<PlotFunction> functionPlotDefs = graphViewHelper.getFunctionPlotDefs();
 
             // create path once
             final Path path = new Path();
 
             for (int i = 0; i < functionPlotDefs.size(); i++) {
-                final ArityPlotFunction fpd = functionPlotDefs.get(i);
-                computeGraph(fpd.getFunction(), xMin, xMax, lastYMin, lastYMax, graphs.get(i));
+                final PlotFunction fpd = functionPlotDefs.get(i);
+                computeGraph(fpd.getXyFunction(), xMin, xMax, lastYMin, lastYMax, graphs.get(i));
 
                 graphToPath(graphs.get(i), path);
 
                 path.transform(matrix);
 
-                AbstractCalculatorPlotFragment.applyToPaint(fpd.getLineDef(), paint);
+                AbstractCalculatorPlotFragment.applyToPaint(fpd.getPlotLineDef(), paint);
 
                 canvas.drawPath(path, paint);
             }

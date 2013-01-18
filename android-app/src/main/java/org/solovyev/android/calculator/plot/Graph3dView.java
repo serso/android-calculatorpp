@@ -174,18 +174,19 @@ public class Graph3dView extends GLView implements GraphView {
 
     @Override
     public void init(@NotNull FunctionViewDef functionViewDef) {
-        this.graphViewHelper = GraphViewHelper.newInstance(functionViewDef, Collections.<ArityPlotFunction>emptyList());
+        this.graphViewHelper = GraphViewHelper.newInstance(functionViewDef, Collections.<PlotFunction>emptyList());
     }
 
-    public void setFunctionPlotDefs(@NotNull List<ArityPlotFunction> functionPlotDefs) {
-        for (ArityPlotFunction functionPlotDef: functionPlotDefs) {
-            final int arity = functionPlotDef.getFunction().arity();
+    @Override
+    public void setPlotFunctions(@NotNull List<PlotFunction> plotFunctions) {
+        for (PlotFunction plotFunction: plotFunctions) {
+            final int arity = plotFunction.getXyFunction().getArity();
             if (arity != 0 && arity != 1 && arity != 2) {
                 throw new IllegalArgumentException("Function must have arity 0 or 1 or 2 for 3d plot!");
             }
         }
 
-        this.graphViewHelper = this.graphViewHelper.copy(functionPlotDefs);
+        this.graphViewHelper = this.graphViewHelper.copy(plotFunctions);
         zoomLevel = 1;
         isDirty = true;
     }

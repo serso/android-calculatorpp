@@ -16,7 +16,7 @@ public class GraphViewHelper {
     private FunctionViewDef functionViewDef = FunctionViewDef.newDefaultInstance();
 
     @NotNull
-    private List<ArityPlotFunction> functionPlotDefs = Collections.emptyList();
+    private List<PlotFunction> functionPlotDefs = Collections.emptyList();
 
     private GraphViewHelper() {
     }
@@ -28,27 +28,27 @@ public class GraphViewHelper {
 
     @NotNull
     public static GraphViewHelper newInstance(@NotNull FunctionViewDef functionViewDef,
-                                              @NotNull List<ArityPlotFunction> functionPlotDefs) {
+                                              @NotNull List<PlotFunction> plotFunctions) {
         final GraphViewHelper result = new GraphViewHelper();
 
         result.functionViewDef = functionViewDef;
-        result.functionPlotDefs = Collections.unmodifiableList(functionPlotDefs);
+        result.functionPlotDefs = Collections.unmodifiableList(plotFunctions);
 
         return result;
     }
 
     @NotNull
-    public GraphViewHelper copy(@NotNull List<ArityPlotFunction> newFunctionPlotDefs) {
+    public GraphViewHelper copy(@NotNull List<PlotFunction> plotFunctions) {
         final GraphViewHelper result = new GraphViewHelper();
 
         result.functionViewDef = functionViewDef;
-        result.functionPlotDefs = Collections.unmodifiableList(newFunctionPlotDefs);
+        result.functionPlotDefs = Collections.unmodifiableList(plotFunctions);
 
         return result;
     }
 
     @NotNull
-    public List<ArityPlotFunction> getFunctionPlotDefs() {
+    public List<PlotFunction> getFunctionPlotDefs() {
         return functionPlotDefs;
     }
 

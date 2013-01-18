@@ -106,20 +106,6 @@
         </dependency>
 
         <dependency>
-            <groupId>achartengine</groupId>
-            <artifactId>achartengine</artifactId>
-            <version>0.7.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>arity</groupId>
-            <artifactId>arity</artifactId>
-            <version>2.1.6</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/misc/lib/arity-2.1.6.jar</systemPath>
-        </dependency>
-
-        <dependency>
             <groupId>admob</groupId>
             <artifactId>admob</artifactId>
             <version>6.1.0</version>

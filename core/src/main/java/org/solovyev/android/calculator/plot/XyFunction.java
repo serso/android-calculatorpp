@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.common.text.StringUtils;
 
-public class XyFunction {
+public class XyFunction implements FunctionEvaluator {
 
 	/*
 	**********************************************************************
@@ -41,6 +41,9 @@ public class XyFunction {
 
     private int arity;
 
+    @NotNull
+    private final FunctionEvaluator evaluator;
+
 	public XyFunction(@NotNull Generic expression,
                       @Nullable Constant xVariable,
                       @Nullable Constant yVariable,
@@ -52,8 +55,10 @@ public class XyFunction {
 
         if (imag) {
             this.expressionString = "Im(" + expression.toString() + ")";
+            this.evaluator = new ImaginaryEvaluator(this);
         } else {
             this.expressionString = expression.toString();
+            this.evaluator = new RealEvaluator(this);
         }
         this.xVariableName = xVariable == null ? null : xVariable.getName();
 		this.yVariableName = yVariable == null ? null : yVariable.getName();
@@ -74,8 +79,24 @@ public class XyFunction {
         return imag;
     }
 
+    @Override
     public int getArity() {
         return arity;
+    }
+
+    @Override
+    public double eval() {
+        return evaluator.eval();
+    }
+
+    @Override
+    public double eval(double x) {
+        return evaluator.eval(x);
+    }
+
+    @Override
+    public double eval(double x, double y) {
+        return evaluator.eval(x, y);
     }
 
     @NotNull
@@ -113,8 +134,7 @@ public class XyFunction {
 		return yVariableName;
 	}
 
-
-	@Override
+    @Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (!(o instanceof XyFunction)) return false;
@@ -130,4 +150,85 @@ public class XyFunction {
 	public int hashCode() {
 		return id.hashCode();
 	}
+
+    /*
+    **********************************************************************
+    *
+    *                           STATIC
+    *
+    **********************************************************************
+    */
+
+    private static abstract class AbstractEvaluator implements FunctionEvaluator {
+
+        @NotNull
+        protected final XyFunction xyFunction;
+
+        @Nullable
+        private Double constant = null;
+
+        public AbstractEvaluator(@NotNull XyFunction xyFunction) {
+            this.xyFunction = xyFunction;
+        }
+
+        @Override
+        public final double eval() {
+            if (constant == null) {
+                constant = eval0();
+            }
+            return constant;
+        }
+
+        protected abstract double eval0();
+
+        @Override
+        public final int getArity() {
+            return xyFunction.getArity();
+        }
+
+    }
+
+    private static class RealEvaluator extends AbstractEvaluator {
+
+        private RealEvaluator(@NotNull XyFunction xyFunction) {
+            super(xyFunction);
+        }
+
+        @Override
+        public double eval0() {
+            return PlotUtils.calculatorExpression(xyFunction.expression).realPart();
+        }
+
+        @Override
+        public double eval(double x) {
+            return PlotUtils.calculatorExpression(xyFunction.expression, xyFunction.xVariable, x).realPart();
+        }
+
+        @Override
+        public double eval(double x, double y) {
+            return PlotUtils.calculatorExpression(xyFunction.expression, xyFunction.xVariable, x, xyFunction.yVariable, y).realPart();
+        }
+    }
+
+    private static class ImaginaryEvaluator extends AbstractEvaluator {
+
+        private ImaginaryEvaluator(@NotNull XyFunction xyFunction) {
+            super(xyFunction);
+        }
+
+        @Override
+        public double eval0() {
+            return PlotUtils.calculatorExpression(xyFunction.expression).imaginaryPart();
+        }
+
+        @Override
+        public double eval(double x) {
+            return PlotUtils.calculatorExpression(xyFunction.expression, xyFunction.xVariable, x).imaginaryPart();
+        }
+
+        @Override
+        public double eval(double x, double y) {
+            return PlotUtils.calculatorExpression(xyFunction.expression, xyFunction.xVariable, x, xyFunction.yVariable, y).imaginaryPart();
+        }
+    }
 }

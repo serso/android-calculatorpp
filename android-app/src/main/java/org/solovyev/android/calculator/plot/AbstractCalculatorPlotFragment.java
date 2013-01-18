@@ -12,7 +12,6 @@ import android.view.View;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.AndroidUtils2;
@@ -398,13 +397,6 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
             this.xMax = xMax;
             this.yMin = yMin;
             this.yMax = yMax;
-        }
-
-        public PlotBoundaries(@NotNull XYMultipleSeriesRenderer renderer) {
-            this.xMin = renderer.getXAxisMin();
-            this.yMin = renderer.getYAxisMin();
-            this.xMax = renderer.getXAxisMax();
-            this.yMax = renderer.getYAxisMax();
         }
 
         @NotNull

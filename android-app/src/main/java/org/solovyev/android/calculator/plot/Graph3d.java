@@ -3,7 +3,6 @@
 package org.solovyev.android.calculator.plot;
 
 import android.graphics.Color;
-import org.javia.arity.Function;
 import org.jetbrains.annotations.NotNull;
 
 import javax.microedition.khronos.opengles.GL10;
@@ -92,9 +91,9 @@ class Graph3d {
         return bb;
     }
 
-    public void update(@NotNull GL11 gl, @NotNull ArityPlotFunction fpd, float zoom) {
-        final Function function = fpd.getFunction();
-        final PlotLineDef lineDef = fpd.getLineDef();
+    public void update(@NotNull GL11 gl, @NotNull PlotFunction fpd, float zoom) {
+        final XyFunction function = fpd.getXyFunction();
+        final PlotLineDef lineDef = fpd.getPlotLineDef();
         final int NTICK = useHighQuality3d ? 5 : 0;
 
         final float size = 4 * zoom;
@@ -230,8 +229,8 @@ class Graph3d {
         }
     }
 
-    private float fillFunctionPolygonVertices(Function function, float size, float[] vertices) {
-        final int arity = function.arity();
+    private float fillFunctionPolygonVertices(XyFunction function, float size, float[] vertices) {
+        final int arity = function.getArity();
 
         final float minX = -size;
         final float maxX = size;
