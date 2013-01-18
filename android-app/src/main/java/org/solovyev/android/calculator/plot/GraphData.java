@@ -91,42 +91,47 @@ class GraphData {
     }
 
     void eraseBefore(float x) {
-        int pos = 0;
-        while (pos < size && xs[pos] < x) {
-            ++pos;
+        int i = 0;
+        while (i < size && xs[i] < x) {
+            ++i;
         }
-        --pos;
-        if (pos > 0) {
-            size -= pos;
-            System.arraycopy(xs, pos, xs, 0, size);
-            System.arraycopy(ys, pos, ys, 0, size);
+        // step back as xs[i] >= x and xs[i-1] < x
+        --i;
+
+        if (i > 0) {
+            size -= i;
+            System.arraycopy(xs, i, xs, 0, size);
+            System.arraycopy(ys, i, ys, 0, size);
         }
     }
 
     void eraseAfter(float x) {
-        int pos = size - 1;
-        while (pos >= 0 && x < xs[pos]) {
-            --pos;
+        int i = size - 1;
+        while (i >= 0 && x < xs[i]) {
+            --i;
         }
-        ++pos;
-        if (pos < size - 1) {
-            size = pos + 1;
+
+        // step next as xs[i] > x and xs[i+1] <= x
+        ++i;
+
+        if (i < size - 1) {
+            size = i + 1;
         }
     }
 
     int findPositionAfter(float x, float y) {
-        int position = 0;
-        while (position < size && xs[position] <= x) {
-            ++position;
+        int i = 0;
+        while (i < size && xs[i] <= x) {
+            ++i;
         }
 
         if (Float.isNaN(y)) {
-            while (position < size && Float.isNaN(ys[position])) {
-                ++position;
+            while (i < size && Float.isNaN(ys[i])) {
+                ++i;
             }
         }
 
-        return position;
+        return i;
     }
 
     void append(GraphData that) {

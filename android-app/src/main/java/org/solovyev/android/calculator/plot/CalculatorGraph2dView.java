@@ -14,6 +14,8 @@ import org.solovyev.common.math.Point2d;
 import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class CalculatorGraph2dView extends View implements GraphView {
 
@@ -82,6 +84,7 @@ public class CalculatorGraph2dView extends View implements GraphView {
     @NotNull
     private final Graph2dDimensions dimensions = new Graph2dDimensions(this);
 
+    @NotNull
     private final GraphCalculator graphCalculator = new GraphCalculatorImpl();
 
     private boolean mDrawn = false;

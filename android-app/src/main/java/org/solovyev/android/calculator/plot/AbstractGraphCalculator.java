@@ -19,7 +19,12 @@ public abstract class AbstractGraphCalculator implements GraphCalculator {
     private final GraphData startGraph = GraphData.newEmptyInstance();
 
     @Override
-    public final void computeGraph(@NotNull XyFunction f, float xMin, float xMax, @NotNull GraphData graph, @NotNull GraphsData graphsData, @NotNull Graph2dDimensions dimensions) {
+    public final void computeGraph(@NotNull XyFunction f,
+                                   float xMin,
+                                   float xMax,
+                                   @NotNull GraphData graph,
+                                   @NotNull GraphsData graphsData,
+                                   @NotNull Graph2dDimensions dimensions) {
         if (f.getArity() == 0) {
             final float v = (float) f.eval();
             graph.clear();
