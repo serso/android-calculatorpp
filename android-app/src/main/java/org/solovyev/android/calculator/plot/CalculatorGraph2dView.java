@@ -14,8 +14,6 @@ import org.solovyev.common.math.Point2d;
 import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 public class CalculatorGraph2dView extends View implements GraphView {
 
@@ -357,10 +355,11 @@ public class CalculatorGraph2dView extends View implements GraphView {
 
             for (int i = 0; i < functionPlotDefs.size(); i++) {
                 final PlotFunction fpd = functionPlotDefs.get(i);
+                final GraphData graph = graphsData.get(i);
 
-                graphCalculator.computeGraph(fpd.getXyFunction(), xMin, xMax, graphsData.get(i), graphsData, dimensions);
+                graphCalculator.computeGraph(fpd.getXyFunction(), xMin, xMax, graph, graphsData, dimensions);
 
-                graphToPath(graphsData.get(i), path);
+                graphToPath(graph, path);
 
                 path.transform(matrix);
 
