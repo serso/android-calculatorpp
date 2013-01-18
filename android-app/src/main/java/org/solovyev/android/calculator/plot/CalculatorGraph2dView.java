@@ -57,9 +57,6 @@ public class CalculatorGraph2dView extends View implements GraphView {
     private final Paint textPaint = new Paint();
 
     @NotNull
-    private final Paint fillPaint = new Paint();
-
-    @NotNull
     private GraphViewHelper graphViewHelper = GraphViewHelper.newDefaultInstance();
     @NotNull
     private final GraphsData graphsData = new GraphsData(this);
@@ -239,6 +236,76 @@ public class CalculatorGraph2dView extends View implements GraphView {
 
         graphsData.checkBoundaries(graphHeight, yMin, yMax);
 
+        final int tickDigits = drawGridAndAxis(canvas);
+
+		{
+			// TOUCH POSITION
+
+			if (lastTouchXPxs != NO_TOUCH && lastTouchYPxs != NO_TOUCH) {
+
+				paint.setColor(graphViewHelper.getPlotViewDef().getGridColor());
+				paint.setAlpha(100);
+
+				canvas.drawLine(lastTouchXPxs, 0, lastTouchXPxs, heightPxs, paint);
+				canvas.drawLine(0, lastTouchYPxs, widthPxs, lastTouchYPxs, paint);
+
+				final Point2d lastTouch = dimensions.toGraphCoordinates(lastTouchXPxs, lastTouchYPxs);
+				final String touchLabel = "[" + formatTick(lastTouch.getX(), tickDigits + 1) + ", " + formatTick(lastTouch.getY(), tickDigits + 1) + "]";
+				canvas.drawText(touchLabel, 0, touchLabel.length(), lastTouchXPxs - 40, lastTouchYPxs - 40, textPaint);
+
+				// restore alpha
+				paint.setAlpha(255);
+			}
+		}
+
+        final float ratio = dimensions.getGraphToViewRatio();
+
+        matrix.reset();
+        matrix.preTranslate(-dimensions.getX0(), -dimensions.getY0());
+        matrix.postScale(1/ratio, -1/ratio);
+        matrix.postTranslate(widthPxs / 2, heightPxs / 2);
+
+        paint.setAntiAlias(false);
+
+        {
+            //GRAPH
+
+            final List<PlotFunction> plotFunctions = graphViewHelper.getPlotFunctions();
+
+            // create path once
+            final Path path = new Path();
+
+            for (int i = 0; i < plotFunctions.size(); i++) {
+                final PlotFunction plotFunction = plotFunctions.get(i);
+                final GraphData graph = graphsData.get(i);
+
+                graphCalculator.computeGraph(plotFunction.getXyFunction(), xMin, xMax, graph, graphsData, dimensions);
+
+                graphToPath(graph, path);
+
+                path.transform(matrix);
+
+                AbstractCalculatorPlotFragment.applyToPaint(plotFunction.getPlotLineDef(), paint);
+
+                canvas.drawPath(path, paint);
+            }
+        }
+
+
+        graphsData.setLastXMin(xMin);
+        graphsData.setLastXMax(xMax);
+    }
+
+    private int drawGridAndAxis(@NotNull Canvas canvas) {
+        final float graphHeight = dimensions.getGraphHeight();
+
+        final float xMin = dimensions.getXMin();
+
+        final float yMin = dimensions.getYMin(graphHeight);
+        final float yMax = dimensions.getYMax(graphHeight, yMin);
+        final float widthPxs = dimensions.getVWidthPxs();
+        final float heightPxs = dimensions.getVHeightPxs();
+
         // set background
         canvas.drawColor(graphViewHelper.getPlotViewDef().getBackgroundColor());
 
@@ -264,8 +331,8 @@ public class CalculatorGraph2dView extends View implements GraphView {
         }
 
 
-		final float tickStep = getTickStep(dimensions.getGWidth());
-		final int tickDigits = countTickDigits(tickStep);
+        final float tickStep = getTickStep(dimensions.getGWidth());
+        final int tickDigits = countTickDigits(tickStep);
 
         {
             // GRID
@@ -316,62 +383,7 @@ public class CalculatorGraph2dView extends View implements GraphView {
             canvas.drawLine(x0px, 0, x0px, heightPxs, paint);
             canvas.drawLine(0, y0px, widthPxs, y0px, paint);
         }
-
-		{
-			// TOUCH POSITION
-
-			if (lastTouchXPxs != NO_TOUCH && lastTouchYPxs != NO_TOUCH) {
-
-				paint.setColor(graphViewHelper.getPlotViewDef().getGridColor());
-				paint.setAlpha(100);
-
-				canvas.drawLine(lastTouchXPxs, 0, lastTouchXPxs, heightPxs, paint);
-				canvas.drawLine(0, lastTouchYPxs, widthPxs, lastTouchYPxs, paint);
-
-				final Point2d lastTouch = dimensions.toGraphCoordinates(lastTouchXPxs, lastTouchYPxs);
-				final String touchLabel = "[" + formatTick(lastTouch.getX(), tickDigits + 1) + ", " + formatTick(lastTouch.getY(), tickDigits + 1) + "]";
-				canvas.drawText(touchLabel, 0, touchLabel.length(), lastTouchXPxs - 40, lastTouchYPxs - 40, textPaint);
-
-				// restore alpha
-				paint.setAlpha(255);
-			}
-		}
-
-
-        matrix.reset();
-        matrix.preTranslate(-dimensions.getX0(), -dimensions.getY0());
-        matrix.postScale(1/ratio, -1/ratio);
-        matrix.postTranslate(widthPxs / 2, heightPxs / 2);
-
-        paint.setAntiAlias(false);
-
-        {
-            //GRAPH
-
-            final List<PlotFunction> functionPlotDefs = graphViewHelper.getPlotFunctions();
-
-            // create path once
-            final Path path = new Path();
-
-            for (int i = 0; i < functionPlotDefs.size(); i++) {
-                final PlotFunction fpd = functionPlotDefs.get(i);
-                final GraphData graph = graphsData.get(i);
-
-                graphCalculator.computeGraph(fpd.getXyFunction(), xMin, xMax, graph, graphsData, dimensions);
-
-                graphToPath(graph, path);
-
-                path.transform(matrix);
-
-                AbstractCalculatorPlotFragment.applyToPaint(fpd.getPlotLineDef(), paint);
-
-                canvas.drawPath(path, paint);
-            }
-        }
-
-
-        graphsData.setLastXMin(xMin);
-        graphsData.setLastXMax(xMax);
+        return tickDigits;
     }
 
     /*
