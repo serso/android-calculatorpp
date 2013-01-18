@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
  * Date: 1/5/13
  * Time: 9:11 PM
  */
-public class FunctionViewDef {
+public class PlotViewDef {
 
     /*
     **********************************************************************
@@ -38,10 +38,10 @@ public class FunctionViewDef {
 
     private int backgroundColor = DEFAULT_BACKGROUND_COLOR;
 
-    private FunctionViewDef() {
+    private PlotViewDef() {
     }
 
-    private FunctionViewDef(int axisColor, int axisLabelColor, int gridColor, int backgroundColor) {
+    private PlotViewDef(int axisColor, int axisLabelColor, int gridColor, int backgroundColor) {
         this.axisColor = axisColor;
         this.axisLabelsColor = axisLabelColor;
         this.gridColor = gridColor;
@@ -49,13 +49,13 @@ public class FunctionViewDef {
     }
 
     @NotNull
-    public static FunctionViewDef newDefaultInstance() {
-        return new FunctionViewDef();
+    public static PlotViewDef newDefaultInstance() {
+        return new PlotViewDef();
     }
 
     @NotNull
-    public static FunctionViewDef newInstance(int axisColor, int axisLabelColor, int gridColor, int backgroundColor) {
-        return new FunctionViewDef(axisColor, axisLabelColor, gridColor, backgroundColor);
+    public static PlotViewDef newInstance(int axisColor, int axisLabelColor, int gridColor, int backgroundColor) {
+        return new PlotViewDef(axisColor, axisLabelColor, gridColor, backgroundColor);
     }
 
     public int getAxisColor() {

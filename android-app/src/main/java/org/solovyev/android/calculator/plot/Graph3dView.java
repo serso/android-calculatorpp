@@ -173,8 +173,8 @@ public class Graph3dView extends GLView implements GraphView {
     }
 
     @Override
-    public void init(@NotNull FunctionViewDef functionViewDef) {
-        this.graphViewHelper = GraphViewHelper.newInstance(functionViewDef, Collections.<PlotFunction>emptyList());
+    public void init(@NotNull PlotViewDef plotViewDef) {
+        this.graphViewHelper = GraphViewHelper.newInstance(plotViewDef, Collections.<PlotFunction>emptyList());
     }
 
     @Override
@@ -191,7 +191,13 @@ public class Graph3dView extends GLView implements GraphView {
         isDirty = true;
     }
 
-	@Override
+    @NotNull
+    @Override
+    public List<PlotFunction> getPlotFunctions() {
+        return this.graphViewHelper.getPlotFunctions();
+    }
+
+    @Override
 	public void setXRange(float xMin, float xMax) {
 		//To change body of implemented methods use File | Settings | File Templates.
 	}
@@ -217,11 +223,16 @@ public class Graph3dView extends GLView implements GraphView {
     }
 
     @Override
+    public void invalidateGraphs() {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
     public void onSurfaceCreated(GL10 gl, int width, int height) {
         gl.glDisable(GL10.GL_DITHER);
         gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_FASTEST);
 
-        final int backgroundColor = graphViewHelper.getFunctionViewDef().getBackgroundColor();
+        final int backgroundColor = graphViewHelper.getPlotViewDef().getBackgroundColor();
         gl.glClearColor(Color.red(backgroundColor) / 255f, Color.green(backgroundColor) / 255f, Color.blue(backgroundColor) / 255f, Color.alpha(backgroundColor) / 255f);
 
         gl.glShadeModel(useHighQuality3d ? GL10.GL_SMOOTH : GL10.GL_FLAT);
@@ -248,8 +259,8 @@ public class Graph3dView extends GLView implements GraphView {
         }
         if (isDirty) {
             ensureGraphsSize(gl);
-            for (int i = 0; i < graphViewHelper.getFunctionPlotDefs().size(); i++) {
-                 graphs.get(i).update(gl, graphViewHelper.getFunctionPlotDefs().get(i), zoomLevel);
+            for (int i = 0; i < graphViewHelper.getPlotFunctions().size(); i++) {
+                 graphs.get(i).update(gl, graphViewHelper.getPlotFunctions().get(i), zoomLevel);
 
             }
             isDirty = false;
@@ -308,7 +319,7 @@ public class Graph3dView extends GLView implements GraphView {
     }
 
     private void ensureGraphsSize(@NotNull GL11 gl) {
-        while (graphViewHelper.getFunctionPlotDefs().size() > graphs.size()) {
+        while (graphViewHelper.getPlotFunctions().size() > graphs.size()) {
             graphs.add(new Graph3d(gl, useHighQuality3d));
         }
     }

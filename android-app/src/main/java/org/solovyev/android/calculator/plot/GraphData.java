@@ -1,5 +1,3 @@
-// Copyright (C) 2009 Mihai Preda
-
 package org.solovyev.android.calculator.plot;
 
 import org.jetbrains.annotations.NotNull;
@@ -39,7 +37,7 @@ class GraphData {
 
     void push(float x, float y) {
         if (size >= allocatedSize) {
-            makeSpace(size + 1);
+            makeSpaceAtTheEnd(size + 1);
         }
 
         xs[size] = x;
@@ -47,9 +45,9 @@ class GraphData {
         ++size;
     }
 
-    private void makeSpace(int spaceSize) {
+    private void makeSpaceAtTheEnd(int newSize) {
         int oldAllocatedSize = allocatedSize;
-        while (spaceSize > allocatedSize) {
+        while (newSize > allocatedSize) {
             allocatedSize += allocatedSize;
         }
 
@@ -63,19 +61,20 @@ class GraphData {
         }
     }
 
-    float topX() {
+
+    float getLastX() {
         return xs[size - 1];
     }
 
-    float topY() {
+    float getLastY() {
         return ys[size - 1];
     }
 
-    float firstX() {
+    float getFirstX() {
         return xs[0];
     }
 
-    float firstY() {
+    float getFirstY() {
         return ys[0];
     }
 
@@ -115,36 +114,27 @@ class GraphData {
         }
     }
 
-    int findPosAfter(float x, float y) {
-        int pos = 0;
-        while (pos < size && xs[pos] <= x) {
-            ++pos;
+    int findPositionAfter(float x, float y) {
+        int position = 0;
+        while (position < size && xs[position] <= x) {
+            ++position;
         }
+
         if (Float.isNaN(y)) {
-            while (pos < size && ys[pos] != ys[pos]) {
-                ++pos;
+            while (position < size && Float.isNaN(ys[position])) {
+                ++position;
             }
         }
-        // Calculator.log("pos " + pos);
-        return pos;
+
+        return position;
     }
 
-    void append(GraphData d) {
-        makeSpace(size + d.size);
-        int pos = d.findPosAfter(xs[size - 1], ys[size - 1]);
-        /*
-        while (pos < d.size && d.xs[pos] <= last) {
-            ++pos;
-        }
-        if (last != last) {
-            while (pos < d.size && d.ys[pos] != d.ys[pos]) {
-                ++pos;
-            }
-        }
-        */
-        System.arraycopy(d.xs, pos, xs, size, d.size - pos);
-        System.arraycopy(d.ys, pos, ys, size, d.size - pos);
-        size += d.size - pos;
+    void append(GraphData that) {
+        makeSpaceAtTheEnd(size + that.size);
+        int position = that.findPositionAfter(xs[size - 1], ys[size - 1]);
+        System.arraycopy(that.xs, position, xs, size, that.size - position);
+        System.arraycopy(that.ys, position, ys, size, that.size - position);
+        size += that.size - position;
     }
 
     public String toString() {

@@ -44,7 +44,7 @@ public class CalculatorPlotFragment extends AbstractCalculatorPlotFragment {
             graphView = new CalculatorGraph2dView(getActivity());
         }
 
-        graphView.init(FunctionViewDef.newInstance(Color.WHITE, Color.WHITE, Color.DKGRAY, getBgColor()));
+        graphView.init(PlotViewDef.newInstance(Color.WHITE, Color.WHITE, Color.DKGRAY, getBgColor()));
         //graphView.setXRange((float)plotBoundaries.getXMin(), (float)plotBoundaries.getXMax());
         graphView.setPlotFunctions(plotData.getFunctions());
 
@@ -98,13 +98,5 @@ public class CalculatorPlotFragment extends AbstractCalculatorPlotFragment {
             this.graphView.onPause();
         }
     }
-
-    /*
-    **********************************************************************
-    *
-    *                           STATIC
-    *
-    **********************************************************************
-    */
 
 }

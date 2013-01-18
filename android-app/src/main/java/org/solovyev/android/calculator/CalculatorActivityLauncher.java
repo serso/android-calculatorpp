@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import org.achartengine.ChartFactory;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.AndroidUtils2;
@@ -98,7 +97,6 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
 
 	public static void plotGraph(@NotNull final Context context){
 		final Intent intent = new Intent();
-		intent.putExtra(ChartFactory.TITLE, context.getString(R.string.c_graph));
 		intent.setClass(context, CalculatorPlotActivity.class);
         AndroidUtils2.addFlags(intent, false, context);
 		context.startActivity(intent);

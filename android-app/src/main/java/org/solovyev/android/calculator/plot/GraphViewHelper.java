@@ -13,10 +13,10 @@ import java.util.List;
 public class GraphViewHelper {
 
     @NotNull
-    private FunctionViewDef functionViewDef = FunctionViewDef.newDefaultInstance();
+    private PlotViewDef plotViewDef = PlotViewDef.newDefaultInstance();
 
     @NotNull
-    private List<PlotFunction> functionPlotDefs = Collections.emptyList();
+    private List<PlotFunction> plotFunctions = Collections.emptyList();
 
     private GraphViewHelper() {
     }
@@ -27,12 +27,12 @@ public class GraphViewHelper {
     }
 
     @NotNull
-    public static GraphViewHelper newInstance(@NotNull FunctionViewDef functionViewDef,
+    public static GraphViewHelper newInstance(@NotNull PlotViewDef plotViewDef,
                                               @NotNull List<PlotFunction> plotFunctions) {
         final GraphViewHelper result = new GraphViewHelper();
 
-        result.functionViewDef = functionViewDef;
-        result.functionPlotDefs = Collections.unmodifiableList(plotFunctions);
+        result.plotViewDef = plotViewDef;
+        result.plotFunctions = Collections.unmodifiableList(plotFunctions);
 
         return result;
     }
@@ -41,19 +41,19 @@ public class GraphViewHelper {
     public GraphViewHelper copy(@NotNull List<PlotFunction> plotFunctions) {
         final GraphViewHelper result = new GraphViewHelper();
 
-        result.functionViewDef = functionViewDef;
-        result.functionPlotDefs = Collections.unmodifiableList(plotFunctions);
+        result.plotViewDef = plotViewDef;
+        result.plotFunctions = Collections.unmodifiableList(plotFunctions);
 
         return result;
     }
 
     @NotNull
-    public List<PlotFunction> getFunctionPlotDefs() {
-        return functionPlotDefs;
+    public List<PlotFunction> getPlotFunctions() {
+        return plotFunctions;
     }
 
     @NotNull
-    public FunctionViewDef getFunctionViewDef() {
-        return functionViewDef;
+    public PlotViewDef getPlotViewDef() {
+        return plotViewDef;
     }
 }

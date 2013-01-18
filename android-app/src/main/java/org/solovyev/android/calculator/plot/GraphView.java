@@ -1,5 +1,3 @@
-// Copyright (C) 2009-2010 Mihai Preda
-
 package org.solovyev.android.calculator.plot;
 
 import android.graphics.Bitmap;
@@ -10,9 +8,12 @@ import java.util.List;
 
 public interface GraphView extends ZoomButtonsController.OnZoomListener, TouchHandler.TouchHandlerListener {
 
-    public void init(@NotNull FunctionViewDef functionViewDef);
+    public void init(@NotNull PlotViewDef plotViewDef);
 
     public void setPlotFunctions(@NotNull List<PlotFunction> plotFunctions);
+
+    @NotNull
+    public List<PlotFunction> getPlotFunctions();
 
     public void onPause();
     public void onResume();
@@ -29,6 +30,8 @@ public interface GraphView extends ZoomButtonsController.OnZoomListener, TouchHa
     float getYMin();
 
     float getYMax();
+
+    void invalidateGraphs();
 
 /*	void increaseDensity();
 	void decreaseDensity();*/
