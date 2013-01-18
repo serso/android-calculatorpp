@@ -3,13 +3,14 @@
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
     a:id="@+id/main_fragment_layout"
     style="?cpp_fragment_layout_style"
-    a:layout_width="match_parent"
+    a:layout_width="wrap_content"
+	a:layout_gravity="center_horizontal"
     a:layout_height="match_parent"
 	a:orientation="vertical">
 
     <include layout="@layout/ad" />
 
-	<TextView a:text="Line color type"
+	<TextView a:text="@string/cpp_plot_function_line_color_type"
 			  a:layout_width="match_parent"
 			  a:layout_height="wrap_content"/>
 
@@ -18,7 +19,7 @@
 			 a:layout_width="match_parent"
 			 a:layout_height="wrap_content"/>
 
-	<TextView a:text="Line color"
+	<TextView a:text="@string/cpp_plot_function_line_color"
 			  a:layout_width="match_parent"
 			  a:layout_height="wrap_content"/>
 
@@ -27,7 +28,7 @@
 			 a:layout_width="match_parent"
 			 a:layout_height="wrap_content"/>
 
-	<TextView a:text="Line style"
+	<TextView a:text="@string/cpp_plot_function_line_style"
 			  a:layout_width="match_parent"
 			  a:layout_height="wrap_content"/>
 
@@ -35,6 +36,14 @@
 			 a:entries="@array/cpp_plot_line_style_names"
 			 a:layout_width="match_parent"
 			 a:layout_height="wrap_content"/>
+
+	<TextView a:text="@string/cpp_plot_function_line_width"
+			  a:layout_width="match_parent"
+			  a:layout_height="wrap_content"/>
+
+	<SeekBar a:id="@+id/cpp_plot_functions_line_width_seekbar"
+				a:layout_width="match_parent"
+				a:layout_height="wrap_content"/>
 
 	<Button a:id="@+id/cpp_ok_button"
 			a:text="@string/ok"

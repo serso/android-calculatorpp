@@ -22,7 +22,7 @@
 
     <uses-sdk android:minSdkVersion="4" android:targetSdkVersion="8"/>
 
-    <application android:debuggable="false" android:hardwareAccelerated="false" android:icon="@drawable/icon" android:label="@string/c_app_name" android:name=".CalculatorApplication" android:theme="@style/cpp_metro_blue_theme">
+    <application android:debuggable="true" android:hardwareAccelerated="false" android:icon="@drawable/icon" android:label="@string/c_app_name" android:name=".CalculatorApplication" android:theme="@style/cpp_metro_blue_theme">
 
         <activity android:clearTaskOnLaunch="true" android:label="@string/c_app_name" android:name=".CalculatorActivity" android:windowSoftInputMode="adjustPan">
 
@@ -40,7 +40,7 @@
 
         <activity android:label="@string/c_history" android:name=".history.CalculatorHistoryActivity"/>
 
-        <activity android:excludeFromRecents="true" android:finishOnTaskLaunch="true" android:label="@string/calculation_messages_dialog_title" android:launchMode="singleTask" android:name=".FixableMessagesDialog" android:theme="@style/Theme.Sherlock.Dialog"/>
+        <activity android:excludeFromRecents="true" android:finishOnTaskLaunch="true" android:label="@string/calculation_messages_dialog_title" android:launchMode="singleTask" android:name=".FixableMessagesDialog" android:theme="@style/cpp_gray_dialog_theme"/>
 
         <activity android:label="@string/c_about" android:name=".about.CalculatorAboutActivity"/>
 
@@ -53,8 +53,8 @@
         <activity android:label="@string/c_vars_and_constants" android:name=".math.edit.CalculatorVarsActivity"/>
 
         <activity android:label="@string/c_plot_graph" android:name=".plot.CalculatorPlotActivity"/>
-        <activity android:label="@string/c_plot_graph" android:name=".plot.CalculatorPlotFunctionsActivity" android:theme="@style/cpp_gray_dialog_theme"/>
-        <activity android:label="@string/c_plot_graph" android:name=".plot.CalculatorPlotFunctionSettingsActivity" android:theme="@style/cpp_gray_dialog_theme"/>
+        <activity android:launchMode="singleTop" android:label="@string/cpp_plot_functions" android:name=".plot.CalculatorPlotFunctionsActivity" android:theme="@style/cpp_gray_dialog_theme"/>
+        <activity android:launchMode="singleTop" android:label="@string/cpp_plot_function_settings" android:name=".plot.CalculatorPlotFunctionSettingsActivity" android:theme="@style/cpp_gray_dialog_theme"/>
 
         <!-- todo serso: strings-->
         <activity android:label="@string/c_plot_graph" android:name=".matrix.CalculatorMatrixActivity"/>

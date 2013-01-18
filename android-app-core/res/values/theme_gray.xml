@@ -12,6 +12,11 @@
 
     <style name="cpp_default_dialog_style">
         <item name="android:padding">6dp</item>
+        <item name="android:minWidth">200dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_gravity">center_horizontal</item>
     </style>
 
     <style name="cpp_default_control_button_style" parent="cpp_keyboard_button_style">

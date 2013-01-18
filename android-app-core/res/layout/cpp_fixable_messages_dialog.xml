@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-    a:layout_width="wrap_content"
-    a:layout_height="wrap_content"
-    style="?cpp_dialog_style"
-    a:orientation="vertical">
+    style="?cpp_dialog_style">
 
     <LinearLayout
         a:id="@+id/cpp_fixable_messages_container"

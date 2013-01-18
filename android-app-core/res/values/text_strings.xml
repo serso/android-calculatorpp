@@ -302,4 +302,14 @@
 	<string name="cpp_plot_screenshot_saved">Screenshot successfully saved: %1$s!</string>
 	<string name="cpp_plot_unable_to_save_screenshot">Screenshot cannot be saved as sdcard is not mounted. Mount sdcard and try again!</string>
 
+	<string name="cpp_plot_function_line_color_type">Line color type</string>
+	<string name="cpp_plot_function_line_color">Line color</string>
+	<string name="cpp_plot_function_line_style">Line style</string>
+	<string name="cpp_plot_function_line_width">Line width</string>
+	<string name="cpp_plot_function_settings">Function settings</string>
+	<string name="cpp_function">Function</string>
+	<string name="cpp_pinned">Pinned</string>
+	<string name="cpp_visible">Visible</string>
+
+
 </resources>

@@ -17,19 +17,19 @@
             a:layout_width="0dp"
             a:layout_height="wrap_content"
             a:layout_weight="3"
-            a:text="Function"/>
+            a:text="@string/cpp_function"/>
 
         <TextView
             a:layout_width="0dp"
             a:layout_height="wrap_content"
             a:layout_weight="1"
-            a:text="Pinned"/>
+            a:text="@string/cpp_pinned"/>
 
         <TextView
             a:layout_width="0dp"
             a:layout_height="wrap_content"
             a:layout_weight="1"
-            a:text="Visible"/>
+            a:text="@string/cpp_visible"/>
 
 		<TextView
 				a:layout_width="0dp"
