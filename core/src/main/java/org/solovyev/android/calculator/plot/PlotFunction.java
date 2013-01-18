@@ -32,9 +32,8 @@ public class PlotFunction {
 
     @NotNull
     private PlotFunction copy() {
-        final PlotFunction copy = new PlotFunction(this.xyFunction);
+        final PlotFunction copy = new PlotFunction(this.xyFunction, this.plotLineDef);
 
-        copy.plotLineDef = this.plotLineDef;
         copy.pinned = this.pinned;
         copy.visible = this.visible;
 

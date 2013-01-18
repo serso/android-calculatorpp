@@ -154,11 +154,10 @@ public class CalculatorGraph2dView extends View implements GraphView {
 
     @Override
     public void invalidateGraphs() {
+        graphsData.clear();
+
         if (mDrawn) {
             mDrawn = false;
-
-            graphsData.clear();
-
             invalidate();
         }
     }

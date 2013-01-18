@@ -141,4 +141,28 @@ public class PlotLineDef {
     public PlotLineColorType getLineColorType() {
         return lineColorType;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PlotLineDef)) return false;
+
+        PlotLineDef that = (PlotLineDef) o;
+
+        if (lineColor != that.lineColor) return false;
+        if (Float.compare(that.lineWidth, lineWidth) != 0) return false;
+        if (lineColorType != that.lineColorType) return false;
+        if (lineStyle != that.lineStyle) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = lineColorType.hashCode();
+        result = 31 * result + lineColor;
+        result = 31 * result + lineStyle.hashCode();
+        result = 31 * result + (lineWidth != +0.0f ? Float.floatToIntBits(lineWidth) : 0);
+        return result;
+    }
 }

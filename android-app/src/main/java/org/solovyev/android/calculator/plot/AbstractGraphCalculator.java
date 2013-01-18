@@ -34,7 +34,7 @@ public abstract class AbstractGraphCalculator implements GraphCalculator {
         }
 
         float yMin = graphsData.getLastYMin();
-        float yMax = graphsData.getLastYMin();
+        float yMax = graphsData.getLastYMax();
 
         // prepare graph
         if (!graph.empty()) {

@@ -1,5 +1,3 @@
-// Copyright (C) 2009 Mihai Preda
-
 package org.solovyev.android.calculator.plot;
 
 import android.content.Context;
@@ -18,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Graph3dView extends GLView implements GraphView {
+public class CalculatorGraph3dView extends GLView implements GraphView {
 
     private boolean useHighQuality3d = Build.VERSION.SDK_INT >= 5;
 
@@ -37,12 +35,12 @@ public class Graph3dView extends GLView implements GraphView {
     @NotNull
     private GraphViewHelper graphViewHelper = GraphViewHelper.newDefaultInstance();
 
-    public Graph3dView(Context context, AttributeSet attrs) {
+    public CalculatorGraph3dView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public Graph3dView(Context context) {
+    public CalculatorGraph3dView(Context context) {
         super(context);
         touchHandler = new TouchHandler(this);
         init();

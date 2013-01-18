@@ -132,8 +132,6 @@ public final class CalculatorPreferences {
 
     public static class Graph {
         public static final Preference<Boolean> interpolate = new BooleanPreference("graph_interpolate", true);
-        public static final Preference<PlotLineColor> lineColorReal = StringPreference.newInstance("graph_line_color_real", PlotLineColor.white, PlotLineColor.class);
-        public static final Preference<PlotLineColor> lineColorImag = StringPreference.newInstance("graph_line_color_imag", PlotLineColor.blue, PlotLineColor.class);
         public static final Preference<Boolean> plotImag = new BooleanPreference("graph_plot_imag", false);
     }
 
@@ -189,8 +187,6 @@ public final class CalculatorPreferences {
         applyDefaultPreference(preferences, Gui.hideNumeralBaseDigits);
 
         applyDefaultPreference(preferences, Graph.interpolate);
-        applyDefaultPreference(preferences, Graph.lineColorImag);
-        applyDefaultPreference(preferences, Graph.lineColorReal);
         applyDefaultPreference(preferences, Graph.plotImag);
         applyDefaultPreference(preferences, History.showIntermediateCalculations);
         applyDefaultPreference(preferences, Calculations.calculateOnFly);

@@ -27,19 +27,13 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
     @NotNull
     private final Calculator calculator;
 
-    private final PlotResourceManager plotResourceManager = new PlotResourceManager();
+    private final PlotResourceManager resourceManager = new MapPlotResourceManager();
 
     private boolean plot3d = false;
 
     private boolean plotImag = false;
 
     private int arity = 0;
-
-    @NotNull
-    private PlotLineColor realLineColor;
-
-    @NotNull
-    private PlotLineColor imagLineColor;
 
     public CalculatorPlotterImpl(@NotNull Calculator calculator) {
         this.calculator = calculator;
@@ -84,13 +78,14 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
 
     @NotNull
     private PlotFunction newPlotFunction(@NotNull XyFunction xyFunction) {
-        return new PlotFunction(xyFunction);
+        return new PlotFunction(xyFunction, resourceManager.generateAndRegister());
     }
 
     @Override
     public boolean addFunction(@NotNull PlotFunction plotFunction) {
         synchronized (functions) {
             if (!functions.contains(plotFunction)) {
+                resourceManager.register(plotFunction.getPlotLineDef());
                 functions.add(plotFunction);
                 onFunctionsChanged();
                 return true;
@@ -115,6 +110,8 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
                             }
                         }
 
+                        resourceManager.unregister(function.getPlotLineDef());
+
                         return true;
                     } else {
                         return false;
@@ -137,7 +134,13 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
             boolean changed = Iterables.removeIf(functions, new Predicate<PlotFunction>() {
                 @Override
                 public boolean apply(@Nullable PlotFunction function) {
-                    return function != null && !function.isPinned();
+                    boolean removed = function != null && !function.isPinned();
+
+                    if ( removed ) {
+                        resourceManager.unregister(function.getPlotLineDef());
+                    }
+
+                    return removed;
                 }
             });
 
@@ -152,6 +155,7 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
         synchronized (functions) {
             boolean changed = functions.remove(plotFunction);
             if (changed) {
+                resourceManager.unregister(plotFunction.getPlotLineDef());
                 onFunctionsChanged();
             }
             return changed;
@@ -191,6 +195,10 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
             for (int i = 0; i < functions.size(); i++) {
                 final PlotFunction plotFunction = functions.get(i);
                 if (plotFunction.equals(newFunction)) {
+
+                    resourceManager.unregister(plotFunction.getPlotLineDef());
+                    resourceManager.register(newFunction.getPlotLineDef());
+
                     // update old function
                     functions.set(i, newFunction);
                     changed = true;
@@ -246,6 +254,7 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
     @Override
     public void clearAllFunctions() {
         synchronized (functions) {
+            resourceManager.unregisterAll();
             functions.clear();
             onFunctionsChanged();
         }
@@ -355,16 +364,6 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
                 firePlotDataChangedEvent();
             }
         }
-    }
-
-    @Override
-    public void setRealLineColor(@NotNull PlotLineColor realLineColor) {
-        this.realLineColor = realLineColor;
-    }
-
-    @Override
-    public void setImagLineColor(@NotNull PlotLineColor imagLineColor) {
-        this.imagLineColor = imagLineColor;
     }
 
     private boolean toggleImagFunctions(boolean show) {

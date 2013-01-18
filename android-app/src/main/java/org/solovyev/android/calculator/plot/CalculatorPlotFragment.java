@@ -39,16 +39,20 @@ public class CalculatorPlotFragment extends AbstractCalculatorPlotFragment {
         }
 
         if ( plotData.isPlot3d() ) {
-            graphView = new Graph3dView(getActivity());
+            graphView = new CalculatorGraph3dView(getActivity());
         } else {
             graphView = new CalculatorGraph2dView(getActivity());
         }
+
+        // todo serso: investigate (after switching from 3d to 2d - blank screen)
 
         graphView.init(PlotViewDef.newInstance(Color.WHITE, Color.WHITE, Color.DKGRAY, getBgColor()));
         //graphView.setXRange((float)plotBoundaries.getXMin(), (float)plotBoundaries.getXMax());
         graphView.setPlotFunctions(plotData.getFunctions());
 
-        graphContainer.addView((View) graphView);
+        if (graphView instanceof View) {
+            graphContainer.addView((View) graphView);
+        }
     }
 
     @Override

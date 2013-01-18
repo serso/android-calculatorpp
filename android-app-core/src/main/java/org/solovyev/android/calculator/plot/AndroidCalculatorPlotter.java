@@ -28,8 +28,6 @@ public class AndroidCalculatorPlotter implements CalculatorPlotter, SharedPrefer
         preferences.registerOnSharedPreferenceChangeListener(this);
 
         onSharedPreferenceChanged(preferences, CalculatorPreferences.Graph.plotImag.getKey());
-        onSharedPreferenceChanged(preferences, CalculatorPreferences.Graph.lineColorReal.getKey());
-        onSharedPreferenceChanged(preferences, CalculatorPreferences.Graph.lineColorImag.getKey());
     }
 
     @Override
@@ -165,21 +163,5 @@ public class AndroidCalculatorPlotter implements CalculatorPlotter, SharedPrefer
         if (CalculatorPreferences.Graph.plotImag.getKey().equals(key)) {
             setPlotImag(CalculatorPreferences.Graph.plotImag.getPreference(preferences));
         }
-
-        if (CalculatorPreferences.Graph.lineColorReal.getKey().equals(key)) {
-            setRealLineColor(CalculatorPreferences.Graph.lineColorReal.getPreference(preferences));
-        }
-
-        if (CalculatorPreferences.Graph.lineColorImag.getKey().equals(key)) {
-            setImagLineColor(CalculatorPreferences.Graph.lineColorImag.getPreference(preferences));
-        }
-    }
-
-    public void setImagLineColor(@NotNull PlotLineColor imagLineColor) {
-        plotter.setImagLineColor(imagLineColor);
-    }
-
-    public void setRealLineColor(@NotNull PlotLineColor realLineColor) {
-        plotter.setRealLineColor(realLineColor);
     }
 }

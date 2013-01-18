@@ -62,8 +62,4 @@ public interface CalculatorPlotter {
     void removeAllUnpinned();
 
     void setPlotImag(boolean plotImag);
-
-    void setRealLineColor(@NotNull PlotLineColor realLineColor);
-
-    void setImagLineColor(@NotNull PlotLineColor imagLineColor);
 }
