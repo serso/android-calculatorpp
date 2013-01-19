@@ -243,7 +243,6 @@ public class CalculatorGraph2dView extends View implements GraphView {
 			if (lastTouchXPxs != NO_TOUCH && lastTouchYPxs != NO_TOUCH) {
 
 				paint.setColor(graphViewHelper.getPlotViewDef().getGridColor());
-				paint.setAlpha(100);
 
 				canvas.drawLine(lastTouchXPxs, 0, lastTouchXPxs, heightPxs, paint);
 				canvas.drawLine(0, lastTouchYPxs, widthPxs, lastTouchYPxs, paint);
@@ -251,9 +250,6 @@ public class CalculatorGraph2dView extends View implements GraphView {
 				final Point2d lastTouch = dimensions.toGraphCoordinates(lastTouchXPxs, lastTouchYPxs);
 				final String touchLabel = "[" + formatTick(lastTouch.getX(), tickDigits + 1) + ", " + formatTick(lastTouch.getY(), tickDigits + 1) + "]";
 				canvas.drawText(touchLabel, 0, touchLabel.length(), lastTouchXPxs - 40, lastTouchYPxs - 40, textPaint);
-
-				// restore alpha
-				paint.setAlpha(255);
 			}
 		}
 

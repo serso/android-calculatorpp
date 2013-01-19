@@ -1,11 +1,11 @@
 package org.solovyev.android.calculator.plot;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.annotation.Nullable;
+import java.util.*;
 
 /**
  * User: serso
@@ -15,7 +15,7 @@ import java.util.Map;
 public class MapPlotResourceManager implements PlotResourceManager {
 
     @NotNull
-    private Map<PlotLineDef, Integer> counters = new HashMap<PlotLineDef, Integer>();
+    private Map<PlotLineDef, List<PlotLineDef>> registeredLineDefsMap = new HashMap<PlotLineDef, List<PlotLineDef>>();
 
     @NotNull
     private final List<PlotLineDef> preparedLineDefs = new ArrayList<PlotLineDef>(PlotLineStyle.values().length * PlotLineColor.values().length);
@@ -33,9 +33,9 @@ public class MapPlotResourceManager implements PlotResourceManager {
     public PlotLineDef generateAndRegister() {
         synchronized (this) {
             for (PlotLineDef lineDef : preparedLineDefs) {
-                final Integer counter = counters.get(lineDef);
-                if ( counter == null || counter.equals(0) ) {
-                    register0(lineDef);
+                final List<PlotLineDef> registeredLineDefs = registeredLineDefsMap.get(lineDef);
+                if ( registeredLineDefs == null || registeredLineDefs.isEmpty() ) {
+                    register(lineDef);
                     return lineDef;
                 }
             }
@@ -44,56 +44,71 @@ public class MapPlotResourceManager implements PlotResourceManager {
         }
     }
 
-    private void increaseCounter(@NotNull PlotLineDef lineDef) {
+    private void addLineDef(@NotNull final PlotLineDef toBeAdded) {
         assert Thread.holdsLock(this);
 
-        Integer counter = counters.get(lineDef);
-        if ( counter == null ) {
-            counter = 0;
+        List<PlotLineDef> registeredLineDefs = registeredLineDefsMap.get(toBeAdded);
+        if ( registeredLineDefs == null ) {
+            registeredLineDefs = new ArrayList<PlotLineDef>();
+            registeredLineDefsMap.put(toBeAdded, registeredLineDefs);
         }
-        counter++;
-        counters.put(lineDef, counter);
+
+        try {
+            Iterables.find(registeredLineDefs, new Predicate<PlotLineDef>() {
+                @Override
+                public boolean apply(@Nullable PlotLineDef lineDef) {
+                    return lineDef == toBeAdded;
+                }
+            });
+
+            // already added
+
+        } catch (NoSuchElementException e) {
+            registeredLineDefs.add(toBeAdded);
+        }
+
     }
 
-    private void decreaseCounter(@NotNull PlotLineDef lineDef) {
+    private void removeLineDef(@NotNull final PlotLineDef toBeRemoved) {
         assert Thread.holdsLock(this);
 
-        Integer counter = counters.get(lineDef);
-        if (counter != null) {
-            counter--;
-            counters.put(lineDef, Math.max(counter, 0));
+        List<PlotLineDef> registeredLineDefs = registeredLineDefsMap.get(toBeRemoved);
+
+        if (registeredLineDefs != null) {
+            Iterables.removeIf(registeredLineDefs, new Predicate<PlotLineDef>() {
+                @Override
+                public boolean apply(@Nullable PlotLineDef lineDef) {
+                    return lineDef == toBeRemoved;
+                }
+            });
+
+            if ( registeredLineDefs.isEmpty() ) {
+                registeredLineDefsMap.remove(toBeRemoved);
+            }
+
+        } else {
+            registeredLineDefsMap.remove(toBeRemoved);
         }
     }
 
     @Override
     public void register(@NotNull PlotLineDef lineDef) {
         synchronized (this) {
-            // we should check if specified line def is not ours, i.e. created by this class
-            for (PlotLineDef preparedLineDef : preparedLineDefs) {
-                if ( preparedLineDef == lineDef ) {
-                    return;
-                }
-            }
-
-            register0(lineDef);
+            addLineDef(lineDef);
         }
-    }
-
-    private void register0(@NotNull PlotLineDef lineDef) {
-        increaseCounter(lineDef);
     }
 
     @Override
     public void unregister(@NotNull PlotLineDef lineDef) {
         synchronized (this) {
-            decreaseCounter(lineDef);
+            removeLineDef(lineDef);
         }
     }
 
     @Override
     public void unregisterAll() {
         synchronized (this) {
-            counters.clear();
+            registeredLineDefsMap.clear();
         }
     }
 }

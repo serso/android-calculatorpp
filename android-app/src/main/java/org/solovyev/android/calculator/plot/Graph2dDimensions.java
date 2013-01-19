@@ -11,6 +11,34 @@ import org.solovyev.common.math.Point2d;
  */
 public class Graph2dDimensions {
 
+    //                    |<--------------gWidth-------------->|
+    //                   xMin                                xMax
+    // -------------------|------------------------------------|--------------------
+    //                    |<-------------vWidthPs------------->|
+    //
+    /*
+    *
+    *
+    *                     0------------------------------------|--> xPxs
+    *                     |
+    *                     |
+    *                     |                  y
+    *                     |                  ^
+    *                     |                  |
+    *                     |                  |
+    *                     |                  |
+    *                     |------------------0-----------------|--> x
+    *                     |                  |
+    *                     |                  |
+    *                     |                  |
+    *                     |                  |
+    *                     |                  |
+    *                     v
+    *                    yPxs
+    *
+    * */
+
+
     @NotNull
     private GraphView graphView;
 
@@ -39,7 +67,11 @@ public class Graph2dDimensions {
 
     @NotNull
     Point2d toGraphCoordinates(float xPxs, float yPxs) {
-        return new Point2d(xPxs * getGraphToViewRatio() + getXMin(), - (yPxs * getGraphToViewRatio() + getYMin()));
+        return new Point2d( scalePxs(xPxs) + getXMin(), (getGraphHeight() - scalePxs(yPxs)) + getYMin() );
+    }
+
+    private float scalePxs(float pxs) {
+        return pxs * getGraphToViewRatio();
     }
 
     // X
@@ -82,9 +114,9 @@ public class Graph2dDimensions {
 
     float getGraphToViewRatio() {
         if (vWidthPxs != 0) {
-            return gWidth / vWidthPxs;
+            return gWidth / ((float)vWidthPxs);
         } else {
-            return 0;
+            return 0f;
         }
     }
 
@@ -92,7 +124,7 @@ public class Graph2dDimensions {
         if (vWidthPxs != 0) {
             return ((float) vHeightPxs) / vWidthPxs;
         } else {
-            return 0;
+            return 0f;
         }
     }
 

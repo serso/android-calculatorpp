@@ -106,9 +106,7 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
     public void onCreate(Bundle in) {
         super.onCreate(in);
 
-        // todo serso: init variable properly
-        boolean paneFragment = true;
-        if (paneFragment) {
+        if (isPaneFragment()) {
             this.bgColor = getResources().getColor(R.color.cpp_pane_background);
         } else {
             this.bgColor = getResources().getColor(android.R.color.transparent);

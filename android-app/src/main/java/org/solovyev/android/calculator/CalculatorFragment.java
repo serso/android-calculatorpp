@@ -83,4 +83,8 @@ public abstract class CalculatorFragment extends SherlockFragment {
     public void onDetach() {
         super.onDetach();
     }
+
+    public boolean isPaneFragment() {
+        return fragmentHelper.isPane(this);
+    }
 }

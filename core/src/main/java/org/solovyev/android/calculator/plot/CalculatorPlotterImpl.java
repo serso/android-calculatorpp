@@ -193,10 +193,10 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
 
         synchronized (functions) {
             for (int i = 0; i < functions.size(); i++) {
-                final PlotFunction plotFunction = functions.get(i);
-                if (plotFunction.equals(newFunction)) {
+                final PlotFunction oldFunction = functions.get(i);
+                if (oldFunction.equals(newFunction)) {
 
-                    resourceManager.unregister(plotFunction.getPlotLineDef());
+                    resourceManager.unregister(oldFunction.getPlotLineDef());
                     resourceManager.register(newFunction.getPlotLineDef());
 
                     // update old function
