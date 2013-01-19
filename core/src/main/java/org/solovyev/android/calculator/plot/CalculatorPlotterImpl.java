@@ -12,6 +12,7 @@ import org.solovyev.android.calculator.CalculatorUtils;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -38,6 +39,9 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
     @NotNull
     private PlotBoundaries plotBoundaries = PlotBoundaries.newDefaultInstance();
 
+    @NotNull
+    private PlotData plotData = new PlotData(Collections.<PlotFunction>emptyList(), plot3d, plotBoundaries);
+
     public CalculatorPlotterImpl(@NotNull Calculator calculator) {
         this.calculator = calculator;
     }
@@ -45,7 +49,7 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
     @NotNull
     @Override
     public PlotData getPlotData() {
-        return new PlotData(getVisibleFunctions(), plot3d, plotBoundaries);
+        return plotData;
     }
 
     @Override
@@ -369,7 +373,8 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
     }
 
     private void firePlotDataChangedEvent() {
-        calculator.fireCalculatorEvent(CalculatorEventType.plot_data_changed, getPlotData());
+        plotData = new PlotData(getVisibleFunctions(), plot3d, plotBoundaries);
+        calculator.fireCalculatorEvent(CalculatorEventType.plot_data_changed, plotData);
     }
 
     @Override

@@ -4,7 +4,6 @@ import android.os.Bundle;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.CalculatorListFragment;
@@ -26,15 +25,12 @@ public class CalculatorPlotFunctionsActivity extends SherlockFragmentActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.cpp_plot_functions_dialog);
+        setContentView(R.layout.cpp_dialog);
 
         FragmentUtils.createFragment(this, CalculatorPlotFunctionsFragment.class, R.id.dialog_layout, "plot-functions");
     }
 
 	public static class CalculatorPlotFunctionsFragment extends CalculatorListFragment {
-
-		@NotNull
-		public static final String INPUT = "plot_input";
 
 		public CalculatorPlotFunctionsFragment() {
 			super(CalculatorFragmentType.plotter_functions);

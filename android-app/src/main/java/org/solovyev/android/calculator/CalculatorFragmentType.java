@@ -16,6 +16,7 @@ import org.solovyev.android.calculator.matrix.CalculatorMatrixEditFragment;
 import org.solovyev.android.calculator.plot.CalculatorPlotFragment;
 import org.solovyev.android.calculator.plot.CalculatorPlotFunctionSettingsActivity;
 import org.solovyev.android.calculator.plot.CalculatorPlotFunctionsActivity;
+import org.solovyev.android.calculator.plot.CalculatorPlotRangeActivity;
 
 /**
  * User: Solovyev_S
@@ -35,6 +36,7 @@ public enum CalculatorFragmentType {
     plotter(CalculatorPlotFragment.class, R.layout.cpp_plot_fragment, R.string.c_graph),
 	plotter_functions(CalculatorPlotFunctionsActivity.CalculatorPlotFunctionsFragment.class, R.layout.cpp_plot_functions_fragment, R.string.cpp_plot_functions),
 	plotter_function_settings(CalculatorPlotFunctionSettingsActivity.CalculatorPlotFunctionSettingsFragment.class, R.layout.cpp_plot_function_settings_fragment, R.string.cpp_plot_function_settings),
+	plotter_range(CalculatorPlotRangeActivity.CalculatorPlotRangeFragment.class, R.layout.cpp_plot_range_fragment, R.string.cpp_plot_range),
 
     about(CalculatorAboutFragment.class, R.layout.about_fragment, R.string.c_about),
     faq(CalculatorHelpFaqFragment.class, R.layout.help_faq_fragment, R.string.c_faq),
