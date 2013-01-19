@@ -160,6 +160,8 @@ public enum CalculatorEventType {
     show_create_function_dialog,
 
     plot_graph,
+
+    /** {@link org.solovyev.android.calculator.plot.PlotData} */
     plot_data_changed,
 
     //String

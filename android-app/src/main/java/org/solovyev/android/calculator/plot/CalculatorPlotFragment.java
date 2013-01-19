@@ -29,7 +29,7 @@ public class CalculatorPlotFragment extends AbstractCalculatorPlotFragment {
     }
 
     @Override
-    protected void createGraphicalView(@NotNull View root, @NotNull PlotData plotData, @NotNull PlotBoundaries plotBoundaries) {
+    protected void createGraphicalView(@NotNull View root, @NotNull PlotData plotData) {
 
         // remove old
         final ViewGroup graphContainer = (ViewGroup) root.findViewById(R.id.main_fragment_layout);
@@ -47,7 +47,7 @@ public class CalculatorPlotFragment extends AbstractCalculatorPlotFragment {
         // todo serso: investigate (after switching from 3d to 2d - blank screen)
 
         graphView.init(PlotViewDef.newInstance(Color.WHITE, Color.WHITE, Color.DKGRAY, getBgColor()));
-        //graphView.setXRange((float)plotBoundaries.getXMin(), (float)plotBoundaries.getXMax());
+        graphView.setXRange(plotData.getBoundaries().getXMin(), plotData.getBoundaries().getXMax());
         graphView.setPlotFunctions(plotData.getFunctions());
 
         if (graphView instanceof View) {
@@ -56,7 +56,7 @@ public class CalculatorPlotFragment extends AbstractCalculatorPlotFragment {
     }
 
     @Override
-    protected void createChart(@NotNull PlotData plotData, @NotNull PlotBoundaries plotBoundaries) {
+    protected void createChart(@NotNull PlotData plotData) {
     }
 
 	@Override
@@ -97,10 +97,11 @@ public class CalculatorPlotFragment extends AbstractCalculatorPlotFragment {
 
     @Override
     public void onPause() {
-        super.onPause();
         if (this.graphView != null) {
             this.graphView.onPause();
         }
+
+        super.onPause();
     }
 
 }

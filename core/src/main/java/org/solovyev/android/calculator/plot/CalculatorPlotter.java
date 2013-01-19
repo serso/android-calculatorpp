@@ -62,4 +62,6 @@ public interface CalculatorPlotter {
     void removeAllUnpinned();
 
     void setPlotImag(boolean plotImag);
+
+    void setPlotBoundaries(@NotNull PlotBoundaries plotBoundaries);
 }

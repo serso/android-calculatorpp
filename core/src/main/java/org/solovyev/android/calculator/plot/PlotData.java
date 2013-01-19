@@ -16,9 +16,15 @@ public class PlotData {
 
     private boolean plot3d;
 
-    public PlotData(@NotNull List<PlotFunction> functions, boolean plot3d) {
+    @NotNull
+    private PlotBoundaries boundaries;
+
+    public PlotData(@NotNull List<PlotFunction> functions,
+                    boolean plot3d,
+                    @NotNull PlotBoundaries boundaries) {
         this.functions = functions;
         this.plot3d = plot3d;
+        this.boundaries = boundaries;
     }
 
     @NotNull
@@ -28,5 +34,10 @@ public class PlotData {
 
     public boolean isPlot3d() {
         return plot3d;
+    }
+
+    @NotNull
+    public PlotBoundaries getBoundaries() {
+        return boundaries;
     }
 }

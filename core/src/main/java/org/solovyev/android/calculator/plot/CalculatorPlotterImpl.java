@@ -35,6 +35,9 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
 
     private int arity = 0;
 
+    @NotNull
+    private PlotBoundaries plotBoundaries = PlotBoundaries.newDefaultInstance();
+
     public CalculatorPlotterImpl(@NotNull Calculator calculator) {
         this.calculator = calculator;
     }
@@ -42,7 +45,7 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
     @NotNull
     @Override
     public PlotData getPlotData() {
-        return new PlotData(getVisibleFunctions(), plot3d);
+        return new PlotData(getVisibleFunctions(), plot3d, plotBoundaries);
     }
 
     @Override
@@ -298,6 +301,11 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
             plot3d = false;
         }
 
+        if ( functions.isEmpty() ) {
+            // no functions => new plot => default boundaries
+            this.plotBoundaries = PlotBoundaries.newDefaultInstance();
+        }
+
         arity = maxArity;
 
         firePlotDataChangedEvent();
@@ -371,6 +379,14 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
             if (toggleImagFunctions(this.plotImag)) {
                 firePlotDataChangedEvent();
             }
+        }
+    }
+
+    @Override
+    public void setPlotBoundaries(@NotNull PlotBoundaries plotBoundaries) {
+        if ( !this.plotBoundaries.equals(plotBoundaries) ) {
+            this.plotBoundaries = plotBoundaries;
+            firePlotDataChangedEvent();
         }
     }
 

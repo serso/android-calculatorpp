@@ -6,24 +6,16 @@ import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.AndroidUtils2;
-import org.solovyev.android.calculator.CalculatorApplication;
-import org.solovyev.android.calculator.CalculatorEventData;
-import org.solovyev.android.calculator.CalculatorEventHolder;
-import org.solovyev.android.calculator.CalculatorEventListener;
-import org.solovyev.android.calculator.CalculatorEventType;
-import org.solovyev.android.calculator.CalculatorFragment;
-import org.solovyev.android.calculator.CalculatorUtils;
-import org.solovyev.android.calculator.Locator;
-import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.menu.AMenuItem;
 import org.solovyev.android.menu.ActivityMenu;
 import org.solovyev.android.menu.IdentifiableMenuItem;
@@ -33,7 +25,6 @@ import org.solovyev.common.JPredicate;
 import org.solovyev.common.msg.MessageType;
 
 import java.io.File;
-import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -59,12 +50,6 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 
     protected static final String TAG = "CalculatorPlotFragment";
 
-    protected static final String PLOT_BOUNDARIES = "plot_boundaries";
-
-    private static final int DEFAULT_MIN_NUMBER = -10;
-
-    private static final int DEFAULT_MAX_NUMBER = 10;
-
     /*
     **********************************************************************
     *
@@ -75,16 +60,8 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 
     private int bgColor;
 
-    // thread for applying UI changes
     @NotNull
-    private final Handler uiHandler = new Handler();
-
-    @NotNull
-    private PlotData plotData = new PlotData(Collections.<PlotFunction>emptyList(), false);
-
-	@NotNull
-	private PlotBoundaries initialPlotBoundaries;
-
+    private PlotData plotData = new PlotData(Collections.<PlotFunction>emptyList(), false, PlotBoundaries.newDefaultInstance());
 
 	@NotNull
     private ActivityMenu<Menu, MenuItem> fragmentMenu;
@@ -103,7 +80,7 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 
 
     @Override
-    public void onCreate(Bundle in) {
+    public void onCreate(@Nullable Bundle in) {
         super.onCreate(in);
 
         if (isPaneFragment()) {
@@ -112,42 +89,33 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
             this.bgColor = getResources().getColor(android.R.color.transparent);
         }
 
-		final PlotBoundaries savedPlotBoundaries;
-		if (in != null) {
-			savedPlotBoundaries = (PlotBoundaries) in.getSerializable(PLOT_BOUNDARIES);
-		} else {
-			savedPlotBoundaries = null;
-		}
-
-		if (savedPlotBoundaries != null) {
-			initialPlotBoundaries = savedPlotBoundaries;
-		} else {
-			initialPlotBoundaries = PlotBoundaries.newDefaultInstance();
-		}
-
 		setHasOptionsMenu(true);
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle out) {
-        super.onSaveInstanceState(out);
-
-        final PlotBoundaries plotBoundaries = getPlotBoundaries();
-        if (plotBoundaries != null) {
-            out.putSerializable(PLOT_BOUNDARIES, plotBoundaries);
-        }
+    private void saveBoundaries(@NotNull PlotBoundaries boundaries) {
+        Locator.getInstance().getPlotter().setPlotBoundaries(boundaries);
     }
 
     @Nullable
     protected abstract PlotBoundaries getPlotBoundaries();
 
     @Override
+    public void onPause() {
+        final PlotBoundaries plotBoundaries = getPlotBoundaries();
+        if (plotBoundaries != null) {
+            saveBoundaries(plotBoundaries);
+        }
+
+        super.onPause();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
 
         plotData = Locator.getInstance().getPlotter().getPlotData();
-        createChart(plotData, initialPlotBoundaries);
-        createGraphicalView(getView(), plotData, initialPlotBoundaries);
+        createChart(plotData);
+        createGraphicalView(getView(), plotData);
         getSherlockActivity().invalidateOptionsMenu();
     }
 
@@ -164,16 +132,17 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
     private void onNewPlotData(@NotNull final PlotData plotData) {
         this.plotData = plotData;
 
-        getUiHandler().post(new Runnable() {
+        final SherlockFragmentActivity activity = getSherlockActivity();
+        Threads.tryRunOnUiThread(activity, new Runnable() {
             @Override
             public void run() {
-                getSherlockActivity().invalidateOptionsMenu();
+                activity.invalidateOptionsMenu();
 
-                createChart(plotData, initialPlotBoundaries);
+                createChart(plotData);
 
                 final View view = getView();
                 if (view != null) {
-                    createGraphicalView(view, plotData, initialPlotBoundaries);
+                    createGraphicalView(view, plotData);
                 }
             }
         });
@@ -181,18 +150,9 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 
     protected abstract void onError();
 
-    protected abstract void createGraphicalView(@NotNull View view, @NotNull PlotData plotData, @NotNull PlotBoundaries plotBoundaries);
+    protected abstract void createGraphicalView(@NotNull View view, @NotNull PlotData plotData);
 
-    protected abstract void createChart(@NotNull PlotData plotData, @NotNull PlotBoundaries plotBoundaries);
-
-
-    protected double getMaxXValue(@Nullable PlotBoundaries plotBoundaries) {
-        return plotBoundaries == null ? DEFAULT_MAX_NUMBER : plotBoundaries.getXMax();
-    }
-
-    protected double getMinXValue(@Nullable PlotBoundaries plotBoundaries) {
-        return plotBoundaries == null ? DEFAULT_MIN_NUMBER : plotBoundaries.getXMin();
-    }
+    protected abstract void createChart(@NotNull PlotData plotData);
 
     /*
     **********************************************************************
@@ -201,11 +161,6 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
     *
     **********************************************************************
     */
-
-    @NotNull
-    public Handler getUiHandler() {
-        return uiHandler;
-    }
 
     public int getBgColor() {
         return bgColor;
@@ -377,65 +332,6 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
         @Override
         public Integer getItemId() {
             return itemId;
-        }
-    }
-
-    public static final class PlotBoundaries implements Serializable {
-
-        private double xMin;
-        private double xMax;
-        private double yMin;
-        private double yMax;
-
-        public PlotBoundaries() {
-        }
-
-        private PlotBoundaries(double xMin, double xMax, double yMin, double yMax) {
-            this.xMin = xMin;
-            this.xMax = xMax;
-            this.yMin = yMin;
-            this.yMax = yMax;
-        }
-
-        @NotNull
-        public static PlotBoundaries newInstance(double xMin, double xMax, double yMin, double yMax) {
-            return new PlotBoundaries(xMin, xMax, yMin, yMax);
-        }
-
-        public double getXMin() {
-            return xMin;
-        }
-
-        public double getXMax() {
-            return xMax;
-        }
-
-        public double getYMin() {
-            return yMin;
-        }
-
-        public double getYMax() {
-            return yMax;
-        }
-
-        @Override
-        public String toString() {
-            return "PlotBoundaries{" +
-                    "yMax=" + yMax +
-                    ", yMin=" + yMin +
-                    ", xMax=" + xMax +
-                    ", xMin=" + xMin +
-                    '}';
-        }
-
-        @NotNull
-        public static PlotBoundaries newDefaultInstance() {
-            PlotBoundaries plotBoundaries = new PlotBoundaries();
-            plotBoundaries.xMin = DEFAULT_MIN_NUMBER;
-            plotBoundaries.yMin = DEFAULT_MIN_NUMBER;
-            plotBoundaries.xMax = DEFAULT_MAX_NUMBER;
-            plotBoundaries.yMax = DEFAULT_MAX_NUMBER;
-            return plotBoundaries;
         }
     }
 

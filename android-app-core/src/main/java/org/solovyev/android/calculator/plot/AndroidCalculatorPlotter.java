@@ -6,7 +6,7 @@ import android.preference.PreferenceManager;
 import jscl.math.Generic;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.CalculatorPreferences;
+import org.solovyev.android.calculator.*;
 
 import java.util.List;
 
@@ -156,6 +156,11 @@ public class AndroidCalculatorPlotter implements CalculatorPlotter, SharedPrefer
     @Override
     public void setPlotImag(boolean plotImag) {
         plotter.setPlotImag(plotImag);
+    }
+
+    @Override
+    public void setPlotBoundaries(@NotNull PlotBoundaries plotBoundaries) {
+        plotter.setPlotBoundaries(plotBoundaries);
     }
 
     @Override
