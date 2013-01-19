@@ -11,9 +11,9 @@ import java.io.Serializable;
 */
 public final class PlotBoundaries implements Serializable {
     
-    private static final float DEFAULT_MIN_NUMBER = -10f;
+    public static final float DEFAULT_MIN_NUMBER = -10f;
 
-    private static final float DEFAULT_MAX_NUMBER = 10f;
+    public static final float DEFAULT_MAX_NUMBER = 10f;
     
 
     private float xMin;

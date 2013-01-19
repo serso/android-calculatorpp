@@ -194,4 +194,17 @@ public class Graph2dDimensions {
         this.x0 += dx;
         this.y0 += dy;
     }
+
+    @NotNull
+    public Graph2dDimensions copy() {
+        final Graph2dDimensions copy = new Graph2dDimensions(this.graphView);
+
+        copy.vWidthPxs = this.vWidthPxs;
+        copy.vHeightPxs = this.vHeightPxs;
+        copy.x0 = this.x0;
+        copy.y0 = this.y0;
+        copy.gWidth = this.gWidth;
+
+        return copy;
+    }
 }

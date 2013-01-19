@@ -136,14 +136,14 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
         Threads.tryRunOnUiThread(activity, new Runnable() {
             @Override
             public void run() {
-                activity.invalidateOptionsMenu();
-
                 createChart(plotData);
 
                 final View view = getView();
                 if (view != null) {
                     createGraphicalView(view, plotData);
                 }
+
+                activity.invalidateOptionsMenu();
             }
         });
     }
@@ -231,6 +231,7 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 		};
 		menuItems.add(captureScreenshotMenuItem);
 
+        final boolean plotRangeVisible = !plotData.isPlot3d();
         final boolean plot3dVisible = !plotData.isPlot3d() && is3dPlotSupported();
         final boolean plot2dVisible = plotData.isPlot3d() && Locator.getInstance().getPlotter().is2dPlotPossible();
         final boolean captureScreenshotVisible = isScreenshotSupported();
@@ -243,7 +244,10 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
                     return !plot2dVisible;
                 } else if ( menuItem == captureScreenshotMenuItem ) {
 					return !captureScreenshotVisible;
-				}
+				} else if ( menuItem == PlotMenu.range ) {
+                    return !plotRangeVisible;
+                }
+
                 return false;
             }
         });

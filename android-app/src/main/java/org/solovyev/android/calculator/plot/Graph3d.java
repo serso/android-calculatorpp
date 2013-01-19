@@ -91,12 +91,10 @@ class Graph3d {
         return bb;
     }
 
-    public void update(@NotNull GL11 gl, @NotNull PlotFunction fpd, float zoom) {
+    public void update(@NotNull GL11 gl, @NotNull PlotFunction fpd, @NotNull Graph2dDimensions dimensions) {
         final XyFunction function = fpd.getXyFunction();
         final PlotLineDef lineDef = fpd.getPlotLineDef();
         final int NTICK = useHighQuality3d ? 5 : 0;
-
-        final float size = 4 * zoom;
 
         //Calculator.log("update VBOs " + vertexVbo + ' ' + colorVbo + ' ' + vertexElementVbo);
         polygonsⁿ = n * n + 6 + 8 + NTICK * 6;
@@ -104,7 +102,7 @@ class Graph3d {
         // triangle polygon => 3 vertices per polygon
         final float vertices[] = new float[polygonsⁿ * VERTICES_COUNT];
 
-        float maxAbsZ = fillFunctionPolygonVertices(function, size, vertices);
+        float maxAbsZ = fillFunctionPolygonVertices(function, dimensions, vertices);
         final byte[] colors = prepareFunctionPolygonColors(lineDef, vertices, maxAbsZ);
 
 
@@ -229,19 +227,20 @@ class Graph3d {
         }
     }
 
-    private float fillFunctionPolygonVertices(XyFunction function, float size, float[] vertices) {
+    private float fillFunctionPolygonVertices(XyFunction function, @NotNull Graph2dDimensions dimensions, float[] vertices) {
         final int arity = function.getArity();
 
-        final float minX = -size;
-        final float maxX = size;
-        final float minY = -size;
-        final float maxY = size;
+        final float xMin = dimensions.getXMin();
+        final float xMax = dimensions.getXMax();
 
-        float Δx = (maxX - minX) / (n - 1);
-        float Δy = (maxY - minY) / (n - 1);
+        final float yMin = dimensions.getXMin();
+        final float yMax = dimensions.getXMax();
 
-        float y = minY;
-        float x = minX - Δx;
+        float Δx = (xMax - xMin) / (n - 1);
+        float Δy = (yMax - yMin) / (n - 1);
+
+        float y = yMin;
+        float x = xMin - Δx;
 
         float maxAbsZ = 0;
 

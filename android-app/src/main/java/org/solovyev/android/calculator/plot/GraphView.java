@@ -15,6 +15,7 @@ public interface GraphView extends ZoomButtonsController.OnZoomListener, TouchHa
     @NotNull
     public List<PlotFunction> getPlotFunctions();
 
+    public void onDestroy();
     public void onPause();
     public void onResume();
 

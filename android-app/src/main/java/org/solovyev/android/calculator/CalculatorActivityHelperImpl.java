@@ -229,6 +229,18 @@ public class CalculatorActivityHelperImpl extends AbstractCalculatorHelper imple
     }
 
     @Override
+    public void selectTab(@NotNull SherlockFragmentActivity activity, @NotNull CalculatorFragmentType fragmentType) {
+        final ActionBar actionBar = activity.getSupportActionBar();
+        for (int i = 0; i < actionBar.getTabCount(); i++) {
+            final ActionBar.Tab tab = actionBar.getTabAt(i);
+            if ( tab != null && CalculatorFragmentType.plotter.getFragmentTag().equals(tab.getTag()) ) {
+                actionBar.setSelectedNavigationItem(i);
+                break;
+            }
+        }
+    }
+
+    @Override
     public int getLayoutId() {
         return layoutId;
     }

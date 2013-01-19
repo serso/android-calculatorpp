@@ -61,4 +61,6 @@ public interface CalculatorActivityHelper {
     void processButtons(@NotNull Activity activity, @NotNull View root);
 
     void logError(@NotNull String message);
+
+    void selectTab(@NotNull SherlockFragmentActivity activity, @NotNull CalculatorFragmentType fragmentType);
 }

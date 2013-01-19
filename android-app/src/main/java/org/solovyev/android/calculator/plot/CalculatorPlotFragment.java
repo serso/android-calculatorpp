@@ -21,7 +21,7 @@ public class CalculatorPlotFragment extends AbstractCalculatorPlotFragment {
     @Nullable
     @Override
     protected PlotBoundaries getPlotBoundaries() {
-        if ( graphView != null ) {
+        if ( graphView instanceof CalculatorGraph2dView ) {
             return PlotBoundaries.newInstance(graphView.getXMin(), graphView.getXMax(), graphView.getYMin(), graphView.getYMax());
         } else {
             return null;
@@ -35,6 +35,7 @@ public class CalculatorPlotFragment extends AbstractCalculatorPlotFragment {
         final ViewGroup graphContainer = (ViewGroup) root.findViewById(R.id.main_fragment_layout);
 
         if (graphView instanceof View) {
+            graphView.onDestroy();
             graphContainer.removeView((View) graphView);
         }
 
@@ -43,8 +44,6 @@ public class CalculatorPlotFragment extends AbstractCalculatorPlotFragment {
         } else {
             graphView = new CalculatorGraph2dView(getActivity());
         }
-
-        // todo serso: investigate (after switching from 3d to 2d - blank screen)
 
         graphView.init(PlotViewDef.newInstance(Color.WHITE, Color.WHITE, Color.DKGRAY, getBgColor()));
         graphView.setXRange(plotData.getBoundaries().getXMin(), plotData.getBoundaries().getXMax());
@@ -102,6 +101,16 @@ public class CalculatorPlotFragment extends AbstractCalculatorPlotFragment {
         }
 
         super.onPause();
+    }
+
+
+    @Override
+    public void onDestroyView() {
+        if (this.graphView != null) {
+            this.graphView.onDestroy();
+        }
+
+        super.onDestroyView();
     }
 
 }

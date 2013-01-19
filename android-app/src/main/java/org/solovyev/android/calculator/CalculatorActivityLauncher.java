@@ -233,14 +233,6 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
                     }
                 });
                 break;
-            case plot_graph:
-                App.getInstance().getUiThreadExecutor().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        plotGraph(context);
-                    }
-                });
-                break;
             case show_evaluation_error:
                 final String errorMessage = (String) data;
                 if (errorMessage != null) {

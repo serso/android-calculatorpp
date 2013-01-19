@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -31,7 +32,7 @@ import org.solovyev.common.equals.EqualsTool;
 import org.solovyev.common.history.HistoryAction;
 import org.solovyev.common.text.StringUtils;
 
-public class CalculatorActivity extends SherlockFragmentActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class CalculatorActivity extends SherlockFragmentActivity implements SharedPreferences.OnSharedPreferenceChangeListener, CalculatorEventListener {
 
     @NotNull
     public static final String TAG = CalculatorActivity.class.getSimpleName();
@@ -57,7 +58,7 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
         super.onCreate(savedInstanceState);
         activityHelper.logDebug("super.onCreate");
 
-        if (findViewById(R.id.main_second_pane) != null) {
+        if (isMultiPane()) {
             activityHelper.addTab(this, CalculatorFragmentType.history, null, R.id.main_second_pane);
             activityHelper.addTab(this, CalculatorFragmentType.saved_history, null, R.id.main_second_pane);
             activityHelper.addTab(this, CalculatorFragmentType.variables, null, R.id.main_second_pane);
@@ -87,6 +88,10 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
             Locator.getInstance().getKeyboard().buttonPressed("+");
             Locator.getInstance().getKeyboard().buttonPressed("321");
         }
+    }
+
+    private boolean isMultiPane() {
+        return findViewById(R.id.main_second_pane) != null;
     }
 
     @NotNull
@@ -321,4 +326,28 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
         buttonPressed(CalculatorSpecialButton.like);
     }
 
+    @Override
+    public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
+        switch (calculatorEventType) {
+            case plot_graph:
+                Threads.tryRunOnUiThread(this, new Runnable() {
+                    @Override
+                    public void run() {
+                        if ( isMultiPane() ) {
+                            final ActionBar.Tab selectedTab = getSupportActionBar().getSelectedTab();
+                            if ( selectedTab != null && CalculatorFragmentType.plotter.getFragmentTag().equals(selectedTab.getTag()) ) {
+                                // do nothing - fragment shown and already registered for plot updates
+                            } else {
+                                // otherwise - open fragment
+                                activityHelper.selectTab(CalculatorActivity.this, CalculatorFragmentType.plotter);
+                            }
+                        } else {
+                            // start new activity
+                            CalculatorActivityLauncher.plotGraph(CalculatorActivity.this);
+                        }
+                    }
+                });
+                break;
+        }
+    }
 }
