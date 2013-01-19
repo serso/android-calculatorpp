@@ -8,10 +8,10 @@ package org.solovyev.android.calculator;
 
 import android.view.MotionEvent;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.view.drag.DragDirection;
-import org.solovyev.android.view.drag.SimpleOnDragListener;
 import org.solovyev.android.view.drag.DirectionDragButton;
 import org.solovyev.android.view.drag.DragButton;
+import org.solovyev.android.view.drag.DragDirection;
+import org.solovyev.android.view.drag.SimpleOnDragListener;
 import org.solovyev.common.math.Point2d;
 
 /**
@@ -19,9 +19,9 @@ import org.solovyev.common.math.Point2d;
  * Date: 10/24/11
  * Time: 9:52 PM
  */
-public class EvalDragProcessor implements SimpleOnDragListener.DragProcessor {
+public class EqualsDragProcessor implements SimpleOnDragListener.DragProcessor {
 
-	public EvalDragProcessor() {
+	public EqualsDragProcessor() {
 	}
 
 	@Override
@@ -29,12 +29,17 @@ public class EvalDragProcessor implements SimpleOnDragListener.DragProcessor {
 		boolean result = false;
 
 		if (dragButton instanceof DirectionDragButton) {
-			String text = ((DirectionDragButton) dragButton).getText(dragDirection);
-			if ("≡".equals(text)) {
-				Locator.getInstance().getCalculator().simplify();
-				result = true;
-			}
-		}
+            if (dragDirection == DragDirection.down) {
+                CalculatorActivityLauncher.tryPlot();
+                result = true;
+            } else {
+                final String text = ((DirectionDragButton) dragButton).getText(dragDirection);
+                if ("≡".equals(text)) {
+                    Locator.getInstance().getCalculator().simplify();
+                    result = true;
+                }
+            }
+        }
 
 		return result;
 	}

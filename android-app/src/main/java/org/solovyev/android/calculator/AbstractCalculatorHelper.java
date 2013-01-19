@@ -120,7 +120,7 @@ public abstract class AbstractCalculatorHelper implements SharedPreferences.OnSh
 
         final DragButton equalsButton = getButton(root, R.id.cpp_button_equals);
         if (equalsButton != null) {
-            equalsButton.setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new EvalDragProcessor(), dragPreferences), vibrator, preferences));
+            equalsButton.setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new EqualsDragProcessor(), dragPreferences), vibrator, preferences));
         }
 
         final AngleUnitsButton angleUnitsButton = (AngleUnitsButton) getButton(root, R.id.cpp_button_6);

@@ -12,16 +12,16 @@ public enum PlotLineColor {
     // Color.WHITE
     white(0xFFFFFFFF),
 
-    // Color.GRAY
-    grey(0xFF888888),
+    blue(0xFF10648C),
 
     // Color.RED
     red(0xFFFF0000),
 
-    blue(0xFF10648C),
-
     // Color.GREEN
-    green(0xFF00FF00);
+    green(0xFF00FF00),
+
+    // Color.GRAY
+    grey(0xFF888888);
 
     private final int color;
 

@@ -310,6 +310,9 @@
 	<string name="cpp_function">Function</string>
 	<string name="cpp_pinned">Pinned</string>
 	<string name="cpp_visible">Visible</string>
+	<string name="cpp_plot_button_text">+plot</string>
+    <string name="cpp_plot_empty_function_error">Unable to plot empty function!</string>
+    <string name="cpp_plot_too_many_variables">Unable to plot: too many variables!</string>
 
 
 </resources>

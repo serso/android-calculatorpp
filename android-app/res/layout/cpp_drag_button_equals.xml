@@ -11,6 +11,7 @@
 		a:id="@id/cpp_button_equals"
 		c:textUp="≡"
 		a:text="="
+        c:textDown="@string/cpp_plot_button_text"
 		c:directionTextScale="0.5"
 		a:layout_width="fill_parent"
 		a:layout_height="fill_parent"

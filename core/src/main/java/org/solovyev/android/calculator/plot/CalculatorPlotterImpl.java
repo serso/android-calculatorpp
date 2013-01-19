@@ -65,10 +65,19 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
             yVariable = null;
         }
 
-        final PlotFunction realPlotFunction = newPlotFunction(new XyFunction(expression, xVariable, yVariable, false));
-        final PlotFunction imagPlotFunction = newPlotFunction(new XyFunction(expression, xVariable, yVariable, true));
+        final XyFunction realXyFunction = new XyFunction(expression, xVariable, yVariable, false);
+        final XyFunction imagXyFunction = new XyFunction(expression, xVariable, yVariable, true);
 
+        // first create plot functions with default line definitions
+        PlotFunction realPlotFunction = new PlotFunction(realXyFunction);
+        PlotFunction imagPlotFunction = new PlotFunction(imagXyFunction);
+
+        // then remove all unpinned graphs and free their line definitions
         removeAllUnpinnedExcept(realPlotFunction, imagPlotFunction);
+
+        // create plot functions with freed line definitions
+        realPlotFunction = newPlotFunction(realXyFunction);
+        imagPlotFunction = newPlotFunction(imagXyFunction);
 
         final boolean realAdded = addFunction(realPlotFunction);
         final boolean imagAdded = addFunction(plotImag ? imagPlotFunction : PlotFunction.invisible(imagPlotFunction));
@@ -94,7 +103,6 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
             }
         }
     }
-
 
     private boolean removeAllUnpinnedExcept(@NotNull final PlotFunction... exceptFunctions) {
         synchronized (functions) {

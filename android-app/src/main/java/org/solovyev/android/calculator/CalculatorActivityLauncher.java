@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import jscl.math.Generic;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.AndroidUtils2;
@@ -22,6 +23,7 @@ import org.solovyev.android.calculator.history.CalculatorHistoryActivity;
 import org.solovyev.android.calculator.math.edit.*;
 import org.solovyev.android.calculator.matrix.CalculatorMatrixActivity;
 import org.solovyev.android.calculator.plot.CalculatorPlotActivity;
+import org.solovyev.android.calculator.plot.CalculatorPlotter;
 import org.solovyev.common.msg.Message;
 import org.solovyev.common.msg.MessageType;
 import org.solovyev.common.text.StringUtils;
@@ -102,8 +104,9 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
 		context.startActivity(intent);
 	}
 
-	public static void createVar(@NotNull final Context context, @NotNull CalculatorDisplay calculatorDisplay) {
-        final CalculatorDisplayViewState viewState = calculatorDisplay.getViewState();
+	public static void tryCreateVar(@NotNull final Context context) {
+        final CalculatorDisplay display = Locator.getInstance().getDisplay();
+        final CalculatorDisplayViewState viewState = display.getViewState();
         if (viewState.isValid() ) {
 			final String varValue = viewState.getText();
 			if (!StringUtils.isEmpty(varValue)) {
@@ -117,18 +120,19 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
                         context.startActivity(intent);
                     }
                 } else {
-                    Locator.getInstance().getNotifier().showMessage(R.string.c_value_is_not_a_number, MessageType.error);
+                    getNotifier().showMessage(R.string.c_value_is_not_a_number, MessageType.error);
 				}
 			} else {
-                Locator.getInstance().getNotifier().showMessage(R.string.empty_var_error, MessageType.error);
+                getNotifier().showMessage(R.string.empty_var_error, MessageType.error);
 			}
 		} else {
-            Locator.getInstance().getNotifier().showMessage(R.string.not_valid_result, MessageType.error);
+            getNotifier().showMessage(R.string.not_valid_result, MessageType.error);
 		}
 	}
 
-    public static void createFunction(@NotNull final Context context, @NotNull CalculatorDisplay calculatorDisplay) {
-        final CalculatorDisplayViewState viewState = calculatorDisplay.getViewState();
+    public static void tryCreateFunction(@NotNull final Context context) {
+        final CalculatorDisplay display = Locator.getInstance().getDisplay();
+        final CalculatorDisplayViewState viewState = display.getViewState();
 
         if (viewState.isValid() ) {
             final String functionValue = viewState.getText();
@@ -137,10 +141,37 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
                 FunctionEditDialogFragment.showDialog(FunctionEditDialogFragment.Input.newFromDisplay(viewState), context);
 
             } else {
-                Locator.getInstance().getNotifier().showMessage(R.string.empty_function_error, MessageType.error);
+                getNotifier().showMessage(R.string.empty_function_error, MessageType.error);
             }
         } else {
-            Locator.getInstance().getNotifier().showMessage(R.string.not_valid_result, MessageType.error);
+            getNotifier().showMessage(R.string.not_valid_result, MessageType.error);
+        }
+    }
+
+    @NotNull
+    private static CalculatorNotifier getNotifier() {
+        return Locator.getInstance().getNotifier();
+    }
+
+    public static void tryPlot() {
+        final CalculatorPlotter plotter = Locator.getInstance().getPlotter();
+        final CalculatorDisplay display = Locator.getInstance().getDisplay();
+        final CalculatorDisplayViewState viewState = display.getViewState();
+
+        if (viewState.isValid() ) {
+            final String functionValue = viewState.getText();
+            final Generic expression = viewState.getResult();
+            if (!StringUtils.isEmpty(functionValue) && expression != null) {
+                if ( plotter.isPlotPossibleFor(expression) ) {
+                    plotter.plot(expression);
+                } else {
+                    getNotifier().showMessage(R.string.cpp_plot_too_many_variables, MessageType.error);
+                }
+            } else {
+                getNotifier().showMessage(R.string.cpp_plot_empty_function_error, MessageType.error);
+            }
+        } else {
+            getNotifier().showMessage(R.string.not_valid_result, MessageType.error);
         }
     }
 
@@ -190,7 +221,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
                 App.getInstance().getUiThreadExecutor().execute(new Runnable() {
                     @Override
                     public void run() {
-                        CalculatorActivityLauncher.createVar(context, Locator.getInstance().getDisplay());
+                        CalculatorActivityLauncher.tryCreateVar(context);
                     }
                 });
                 break;
@@ -198,7 +229,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
                 App.getInstance().getUiThreadExecutor().execute(new Runnable() {
                     @Override
                     public void run() {
-                        CalculatorActivityLauncher.createFunction(context, Locator.getInstance().getDisplay());
+                        CalculatorActivityLauncher.tryCreateFunction(context);
                     }
                 });
                 break;
