@@ -25,10 +25,17 @@ public class AndroidCalculatorNotifier implements CalculatorNotifier {
     @NotNull
     private final Handler uiHandler = new Handler();
 
+    private final boolean showDebugMessages;
+
     public AndroidCalculatorNotifier(@NotNull Application application) {
+        this(application, false);
+    }
+
+    public AndroidCalculatorNotifier(@NotNull Application application, boolean showDebugMessages) {
         assert AndroidUtils.isUiThread();
 
         this.application = application;
+        this.showDebugMessages = showDebugMessages;
     }
 
     @Override
@@ -48,7 +55,7 @@ public class AndroidCalculatorNotifier implements CalculatorNotifier {
 
     @Override
     public void showDebugMessage(@Nullable final String tag, @NotNull final String message) {
-        if (AndroidUtils.isDebuggable(application)) {
+        if (showDebugMessages) {
             showMessageInUiThread(tag == null ? message : tag + ": " + message);
         }
     }
