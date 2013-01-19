@@ -45,8 +45,8 @@
 				a:layout_width="match_parent"
 				a:layout_height="wrap_content"/>
 
-	<Button a:id="@+id/cpp_ok_button"
-			a:text="@string/ok"
+	<Button a:id="@+id/cpp_apply_button"
+			a:text="@string/cpp_apply"
 			a:layout_width="match_parent"
 			a:layout_height="wrap_content"/>
 

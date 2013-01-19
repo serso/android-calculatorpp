@@ -25,10 +25,10 @@ public final class PlotBoundaries implements Serializable {
     }
 
     PlotBoundaries(float xMin, float xMax, float yMin, float yMax) {
-        this.xMin = xMin;
-        this.xMax = xMax;
-        this.yMin = yMin;
-        this.yMax = yMax;
+        this.xMin = Math.min(xMin, xMax);
+        this.xMax = Math.max(xMin, xMax);
+        this.yMin = Math.min(yMin, yMax);
+        this.yMax = Math.max(yMin, yMax);
     }
 
     @NotNull

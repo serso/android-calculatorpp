@@ -3,35 +3,62 @@
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
     a:id="@+id/main_fragment_layout"
     style="?cpp_fragment_layout_style"
-    a:layout_width="wrap_content"
-	a:layout_gravity="center_horizontal"
+    a:layout_width="match_parent"
+    a:layout_gravity="center_horizontal"
     a:layout_height="match_parent"
-	a:orientation="vertical">
+    a:orientation="vertical">
 
     <include layout="@layout/ad" />
 
-	<TextView a:text="@string/cpp_plot_range_x_min"
-			  a:layout_width="match_parent"
-			  a:layout_height="wrap_content"/>
-
-	<EditText a:id="@+id/cpp_plot_range_x_min_editext"
-             a:inputType="numberDecimal"
-			 a:layout_width="match_parent"
-			 a:layout_height="wrap_content"/>
-
-    <TextView a:text="@string/cpp_plot_range_x_max"
+    <LinearLayout
         a:layout_width="match_parent"
-        a:layout_height="wrap_content"/>
+        a:layout_height="wrap_content"
+        a:orientation="horizontal"
+        a:baselineAligned="false">
 
-    <EditText a:id="@+id/cpp_plot_range_x_max_editext"
-        a:inputType="numberDecimal"
+        <LinearLayout
+            a:layout_width="0dp"
+            a:layout_height="wrap_content"
+            a:layout_weight="1"
+            a:orientation="vertical">
+
+            <TextView
+                a:text="@string/cpp_plot_range_x_min"
+                a:layout_width="match_parent"
+                a:layout_height="wrap_content" />
+
+            <EditText
+                a:id="@+id/cpp_plot_range_x_min_editext"
+                a:inputType="numberDecimal|numberSigned"
+                a:layout_width="match_parent"
+                a:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            a:layout_width="0dp"
+            a:layout_height="wrap_content"
+            a:layout_weight="1"
+            a:orientation="vertical">
+
+            <TextView
+                a:text="@string/cpp_plot_range_x_max"
+                a:layout_width="match_parent"
+                a:layout_height="wrap_content" />
+
+            <EditText
+                a:id="@+id/cpp_plot_range_x_max_editext"
+                a:inputType="numberDecimal|numberSigned"
+                a:layout_width="match_parent"
+                a:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <Button
+        a:id="@+id/cpp_apply_button"
+        a:text="@string/cpp_apply"
         a:layout_width="match_parent"
-        a:layout_height="wrap_content"/>
-
-
-    <Button a:id="@+id/cpp_ok_button"
-			a:text="@string/ok"
-			a:layout_width="match_parent"
-			a:layout_height="wrap_content"/>
+        a:layout_height="wrap_content" />
 
 </LinearLayout>

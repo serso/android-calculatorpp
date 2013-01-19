@@ -184,6 +184,7 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
         super.onCreateOptionsMenu(menu, inflater);
 
         final List<IdentifiableMenuItem<MenuItem>> menuItems = new ArrayList<IdentifiableMenuItem<MenuItem>>();
+        menuItems.add(PlotMenu.range);
         menuItems.add(PlotMenu.preferences);
         menuItems.add(PlotMenu.functions);
 
@@ -306,6 +307,13 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
     */
 
     private static enum PlotMenu implements IdentifiableMenuItem<MenuItem> {
+
+        range(R.id.menu_plot_range) {
+            @Override
+            public void onClick(@NotNull MenuItem data, @NotNull Context context) {
+                context.startActivity(new Intent(context, CalculatorPlotRangeActivity.class));
+            }
+        },
 
         functions(R.id.menu_plot_functions) {
             @Override
