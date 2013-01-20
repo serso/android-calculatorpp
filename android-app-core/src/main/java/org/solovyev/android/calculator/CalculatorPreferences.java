@@ -131,7 +131,6 @@ public final class CalculatorPreferences {
     }
 
     public static class Graph {
-        public static final Preference<Boolean> interpolate = new BooleanPreference("graph_interpolate", true);
         public static final Preference<Boolean> plotImag = new BooleanPreference("graph_plot_imag", false);
     }
 
@@ -186,7 +185,6 @@ public final class CalculatorPreferences {
         applyDefaultPreference(preferences, Gui.autoOrientation);
         applyDefaultPreference(preferences, Gui.hideNumeralBaseDigits);
 
-        applyDefaultPreference(preferences, Graph.interpolate);
         applyDefaultPreference(preferences, Graph.plotImag);
         applyDefaultPreference(preferences, History.showIntermediateCalculations);
         applyDefaultPreference(preferences, Calculations.calculateOnFly);
