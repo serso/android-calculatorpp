@@ -216,7 +216,13 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 
             @Override
             public void onClick(@NotNull MenuItem data, @NotNull Context context) {
-                Locator.getInstance().getPlotter().setPlot3d(true);
+                final PlotBoundaries plotBoundaries = getPlotBoundaries();
+
+                if (plotBoundaries != null) {
+                    Locator.getInstance().getPlotter().setPlotData(true, plotBoundaries);
+                } else {
+                    Locator.getInstance().getPlotter().setPlot3d(true);
+                }
             }
         };
         menuItems.add(plot3dMenuItem);
@@ -231,7 +237,13 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 
             @Override
             public void onClick(@NotNull MenuItem data, @NotNull Context context) {
-				Locator.getInstance().getPlotter().setPlot3d(false);
+                final PlotBoundaries plotBoundaries = getPlotBoundaries();
+
+                if (plotBoundaries != null) {
+                    Locator.getInstance().getPlotter().setPlotData(false, plotBoundaries);
+                } else {
+                    Locator.getInstance().getPlotter().setPlot3d(false);
+                }
             }
         };
         menuItems.add(plot2dMenuItem);

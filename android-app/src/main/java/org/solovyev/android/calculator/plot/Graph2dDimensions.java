@@ -165,15 +165,30 @@ public class Graph2dDimensions {
     */
 
     public void setXRange(float xMin, float xMax) {
-        this.gWidth = xMax - xMin;
-        this.x0 = xMin + gWidth / 2;
+        setXRange0(xMin, xMax);
 
         this.graphView.invalidateGraphs();
     }
 
+    private void setXRange0(float xMin, float xMax) {
+        this.gWidth = xMax - xMin;
+        this.x0 = xMin + gWidth / 2;
+    }
+
     public void setYRange(float yMin, float yMax) {
+        setYRange0(yMin, yMax);
+
+        this.graphView.invalidateGraphs();
+    }
+
+    private void setYRange0(float yMin, float yMax) {
         this.gHeight = yMax - yMin;
         this.y0 = yMin + gHeight / 2;
+    }
+
+    public void setRanges(float xMin, float xMax, float yMin, float yMax) {
+        setXRange0(xMin, xMax);
+        setYRange0(yMin, yMax);
 
         this.graphView.invalidateGraphs();
     }

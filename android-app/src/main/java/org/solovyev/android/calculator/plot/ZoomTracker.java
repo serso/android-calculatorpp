@@ -1,56 +1,58 @@
 package org.solovyev.android.calculator.plot;
 
 class ZoomTracker {
-    private float sx1, sy1, sx2, sy2;
-    private float initialDist;
+
+    private static final float EPS = 1.5f;
+    private static final float MIN_DISTANCE = distance(0f, 50f);
+    public static final String TAG = "ZoomTracker";
+
+    private float initialXDistance;
+    private float initialYDistance;
 
     private float initialXValue;
     private float initialYValue;
 
     float xValue;
     float yValue;
-    float moveX, moveY;
 
-    void start(float xValue, float yValue, float x1, float y1, float x2, float y2) {
-        sx1 = x1;
-        sy1 = y1;
-        sx2 = x2;
-        sy2 = y2;
-        initialDist = distance(x1, y1, x2, y2);
+    void start(float xValue, float yValue,
+               float x1, float y1,
+               float x2, float y2) {
+
+        initialXDistance = distance(x1, x2);
+        initialYDistance = distance(y1, y2);
+
         initialXValue = xValue;
         initialYValue = yValue;
+
+        this.xValue = xValue;
+        this.yValue = yValue;
     }
 
     boolean update(float x1, float y1, float x2, float y2) {
-        final float LIMIT = 1.5f;
-        if (Math.abs(x1 - sx1) < LIMIT && Math.abs(y1 - sy1) < LIMIT && 
-            Math.abs(x2 - sx2) < LIMIT && Math.abs(y2 - sy2) < LIMIT) {
-            return false;
+        boolean result = false;
+
+        if (initialXDistance > MIN_DISTANCE) {
+            final float xDistance = distance(x1, x2);
+            if (xDistance > EPS) {
+                xValue = initialXDistance / xDistance * initialXValue;
+                result = true;
+            }
         }
-        moveX = common(x1, sx1, x2, sx2);
-        moveY = common(y1, sy1, y2, sy2);
-        float dist = distance(x1, y1, x2, y2);
-        xValue = initialDist / dist * initialXValue;
-        yValue = initialDist / dist * initialYValue;
-        sx1 = x1;
-        sx2 = x2;
-        sy1 = y1;
-        sy2 = y2;
-        return true;
+
+        if (initialYDistance > MIN_DISTANCE) {
+            final float yDistance = distance(y1, y2);
+            if (yDistance > EPS) {
+                yValue = initialYDistance / yDistance * initialYValue;
+                result = true;
+            }
+        }
+
+        return result;
     }
 
-    private static float distance(float x1, float y1, float x2, float y2) {
-        final float dx = x1-x2;
-        final float dy = y1-y2;
-        // return (float) Math.sqrt(dx*dx+dy*dy);
-        return Math.max(dx*dx, dy*dy);
-    }
-
-    private float common(float x1, float sx1, float x2, float sx2) {
-        float dx1 = x1 - sx1;
-        float dx2 = x2 - sx2;
-        return (dx1 < 0 && dx2 < 0) ? Math.max(dx1, dx2) :
-            (dx1 > 0 && dx2 > 0) ? Math.min(dx1, dx2):
-            0;
+    private static float distance(float x1, float x2) {
+        final float dx = x1 - x2;
+        return dx * dx;
     }
 }

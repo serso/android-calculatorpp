@@ -598,6 +598,8 @@ public class CalculatorGraph2dView extends View implements GraphView {
 
     public void onTouchZoomDown(float x1, float y1, float x2, float y2) {
         zoomTracker.start(dimensions.getGWidth(), dimensions.getGHeight(), x1, y1, x2, y2);
+        lastTouchXPxs = NO_TOUCH;
+        lastTouchYPxs = NO_TOUCH;
     }
 
     public void onTouchZoomMove(float x1, float y1, float x2, float y2) {
@@ -612,16 +614,11 @@ public class CalculatorGraph2dView extends View implements GraphView {
     }
 
     private void scroll(float deltaX, float deltaY) {
-        final float scale = dimensions.getGWidth() / dimensions.getVWidthPxs();
-        float dx = deltaX * scale;
-        float dy = deltaY * scale;
-        final float adx = Math.abs(dx);
-        final float ady = Math.abs(dy);
-        if (adx < ady / 3) {
-            dx = 0;
-        } else if (ady < adx / 3) {
-            dy = 0;
-        }
+        final float xScale = dimensions.getXGraphToViewScale();
+        final float yScale = dimensions.getYGraphToViewScale();
+
+        float dx = deltaX * xScale;
+        float dy = deltaY * yScale;
 
         dimensions.increaseXY(dx, dy);
     }

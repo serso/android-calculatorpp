@@ -169,4 +169,9 @@ public class AndroidCalculatorPlotter implements CalculatorPlotter, SharedPrefer
             setPlotImag(CalculatorPreferences.Graph.plotImag.getPreference(preferences));
         }
     }
+
+    @Override
+    public void setPlotData(boolean plot3d, @NotNull PlotBoundaries plotBoundaries) {
+        plotter.setPlotData(plot3d, plotBoundaries);
+    }
 }

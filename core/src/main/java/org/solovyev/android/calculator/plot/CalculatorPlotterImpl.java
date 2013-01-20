@@ -372,6 +372,15 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
         }
     }
 
+    @Override
+    public void setPlotData(boolean plot3d, @NotNull PlotBoundaries plotBoundaries) {
+        if (this.plot3d != plot3d || this.plotBoundaries.equals(plotBoundaries)) {
+            this.plot3d = plot3d;
+            this.plotBoundaries = plotBoundaries;
+            firePlotDataChangedEvent();
+        }
+    }
+
     private void firePlotDataChangedEvent() {
         plotData = new PlotData(getVisibleFunctions(), plot3d, plotBoundaries);
         calculator.fireCalculatorEvent(CalculatorEventType.plot_data_changed, plotData);
