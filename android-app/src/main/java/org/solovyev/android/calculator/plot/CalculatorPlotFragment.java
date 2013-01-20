@@ -46,7 +46,11 @@ public class CalculatorPlotFragment extends AbstractCalculatorPlotFragment {
         }
 
         graphView.init(PlotViewDef.newInstance(Color.WHITE, Color.WHITE, Color.DKGRAY, getBgColor()));
-        graphView.setXRange(plotData.getBoundaries().getXMin(), plotData.getBoundaries().getXMax());
+
+        final PlotBoundaries boundaries = plotData.getBoundaries();
+        graphView.setXRange(boundaries.getXMin(), boundaries.getXMax());
+        graphView.setYRange(boundaries.getYMin(), boundaries.getYMax());
+
         graphView.setPlotFunctions(plotData.getFunctions());
 
         if (graphView instanceof View) {

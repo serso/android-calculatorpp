@@ -1,22 +1,24 @@
-// Copyright (C) 2010 Mihai Preda
-
 package org.solovyev.android.calculator.plot;
 
 class ZoomTracker {
     private float sx1, sy1, sx2, sy2;
     private float initialDist;
-    private float initialValue;
 
-    float value;
+    private float initialXValue;
+    private float initialYValue;
+
+    float xValue;
+    float yValue;
     float moveX, moveY;
 
-    void start(float value, float x1, float y1, float x2, float y2) {
+    void start(float xValue, float yValue, float x1, float y1, float x2, float y2) {
         sx1 = x1;
         sy1 = y1;
         sx2 = x2;
         sy2 = y2;
         initialDist = distance(x1, y1, x2, y2);
-        initialValue = value;
+        initialXValue = xValue;
+        initialYValue = yValue;
     }
 
     boolean update(float x1, float y1, float x2, float y2) {
@@ -28,7 +30,8 @@ class ZoomTracker {
         moveX = common(x1, sx1, x2, sx2);
         moveY = common(y1, sy1, y2, sy2);
         float dist = distance(x1, y1, x2, y2);
-        value = initialDist / dist * initialValue;
+        xValue = initialDist / dist * initialXValue;
+        yValue = initialDist / dist * initialYValue;
         sx1 = x1;
         sx2 = x2;
         sy1 = y1;

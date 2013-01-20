@@ -174,6 +174,10 @@ public class CalculatorGraph3dView extends GLView implements GraphView {
     }
 
     @Override
+    public void setYRange(float yMin, float yMax) {
+    }
+
+    @Override
     public float getXMin() {
         return dimensions.getXMin();
     }
@@ -229,7 +233,7 @@ public class CalculatorGraph3dView extends GLView implements GraphView {
             ensureGraphsSize(gl);
 
             final Graph2dDimensions dimensionsCopy = dimensions.copy();
-            dimensionsCopy.setGWidth(dimensions.getGWidth() * zoomLevel / 4);
+            dimensionsCopy.setGraphDimensions(dimensions.getGWidth() * zoomLevel / 4, dimensions.getGHeight() * zoomLevel / 4);
 
             for (int i = 0; i < graphViewHelper.getPlotFunctions().size(); i++) {
                 graphs.get(i).update(gl, graphViewHelper.getPlotFunctions().get(i), dimensionsCopy);

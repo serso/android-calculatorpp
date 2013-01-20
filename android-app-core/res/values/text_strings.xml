@@ -317,6 +317,8 @@
     <string name="cpp_plot_range">Graph range</string>
     <string name="cpp_plot_range_x_min">X Min</string>
     <string name="cpp_plot_range_x_max">X Max</string>
+    <string name="cpp_plot_range_y_min">Y Min</string>
+    <string name="cpp_plot_range_y_max">Y Max</string>
     <string name="cpp_invalid_number">Invalid number!</string>
     <string name="cpp_plot_boundaries_should_differ">Graph boundaries should not be the same!</string>
     <string name="cpp_apply">Apply</string>

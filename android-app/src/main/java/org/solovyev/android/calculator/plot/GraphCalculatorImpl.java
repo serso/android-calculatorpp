@@ -19,11 +19,12 @@ public class GraphCalculatorImpl extends AbstractGraphCalculator {
                              @NotNull Graph2dDimensions dimensions) {
         graph.push(xMin, (float)f.eval(xMin));
 
-        final float ratio = dimensions.getGraphToViewRatio();
-        final float maxStep = 15.8976f * ratio;
-        final float minStep = .05f * ratio;
+        final float xScale = dimensions.getXGraphToViewScale();
+        final float yScale = dimensions.getYGraphToViewScale();
+        final float maxStep = 15.8976f * xScale;
+        final float minStep = .05f * xScale;
 
-        float yTheta = ratio;
+        float yTheta = yScale;
         yTheta = yTheta * yTheta;
 
 

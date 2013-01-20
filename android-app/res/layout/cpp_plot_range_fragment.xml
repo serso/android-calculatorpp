@@ -55,6 +55,51 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        a:layout_width="match_parent"
+        a:layout_height="wrap_content"
+        a:orientation="horizontal"
+        a:baselineAligned="false">
+
+        <LinearLayout
+            a:layout_width="0dp"
+            a:layout_height="wrap_content"
+            a:layout_weight="1"
+            a:orientation="vertical">
+
+            <TextView
+                a:text="@string/cpp_plot_range_y_min"
+                a:layout_width="match_parent"
+                a:layout_height="wrap_content" />
+
+            <EditText
+                a:id="@+id/cpp_plot_range_y_min_editext"
+                a:inputType="numberDecimal|numberSigned"
+                a:layout_width="match_parent"
+                a:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            a:layout_width="0dp"
+            a:layout_height="wrap_content"
+            a:layout_weight="1"
+            a:orientation="vertical">
+
+            <TextView
+                a:text="@string/cpp_plot_range_y_max"
+                a:layout_width="match_parent"
+                a:layout_height="wrap_content" />
+
+            <EditText
+                a:id="@+id/cpp_plot_range_y_max_editext"
+                a:inputType="numberDecimal|numberSigned"
+                a:layout_width="match_parent"
+                a:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
     <Button
         a:id="@+id/cpp_apply_button"
         a:text="@string/cpp_apply"

@@ -43,12 +43,16 @@ public class CalculatorPlotRangeActivity extends SherlockFragmentActivity {
 
             final EditText xMinEditText = (EditText) root.findViewById(R.id.cpp_plot_range_x_min_editext);
             final EditText xMaxEditText = (EditText) root.findViewById(R.id.cpp_plot_range_x_max_editext);
+            final EditText yMinEditText = (EditText) root.findViewById(R.id.cpp_plot_range_y_min_editext);
+            final EditText yMaxEditText = (EditText) root.findViewById(R.id.cpp_plot_range_y_max_editext);
 
             final PlotData plotData = plotter.getPlotData();
             final PlotBoundaries boundaries = plotData.getBoundaries();
 
             xMinEditText.setText(String.valueOf(boundaries.getXMin()));
             xMaxEditText.setText(String.valueOf(boundaries.getXMax()));
+            yMinEditText.setText(String.valueOf(boundaries.getYMin()));
+            yMaxEditText.setText(String.valueOf(boundaries.getYMax()));
 
             root.findViewById(R.id.cpp_apply_button).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -57,12 +61,18 @@ public class CalculatorPlotRangeActivity extends SherlockFragmentActivity {
                     try {
                         final Float xMin = Float.valueOf(xMinEditText.getText().toString());
                         final Float xMax = Float.valueOf(xMaxEditText.getText().toString());
+                        final Float yMin = Float.valueOf(yMinEditText.getText().toString());
+                        final Float yMax = Float.valueOf(yMaxEditText.getText().toString());
 
                         if ( xMin.equals(xMax) ) {
                             throw new IllegalArgumentException();
                         }
 
-                        plotter.setPlotBoundaries(PlotBoundaries.newInstance(xMin, xMax));
+                        if ( yMin.equals(yMax) ) {
+                            throw new IllegalArgumentException();
+                        }
+
+                        plotter.setPlotBoundaries(PlotBoundaries.newInstance(xMin, xMax, yMin, yMax));
 
                         CalculatorPlotRangeFragment.this.getActivity().finish();
 

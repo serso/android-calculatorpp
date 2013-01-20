@@ -14,24 +14,25 @@ public class Graph2dDimensions {
     //                    |<--------------gWidth-------------->|
     //                   xMin                                xMax
     // -------------------|------------------------------------|--------------------
-    //                    |<-------------vWidthPs------------->|
+    //                    |<-------------vWidthPxs------------>|
     //
     /*
     *
     *
-    *                     0------------------------------------|--> xPxs
-    *                     |
-    *                     |
-    *                     |                  y
-    *                     |                  ^
-    *                     |                  |
-    *                     |                  |
-    *                     |                  |
-    *                     |------------------0-----------------|--> x
-    *                     |                  |
-    *                     |                  |
-    *                     |                  |
-    *                     |                  |
+    *        yMax   ------0------------------------------------|--> xPxs
+    *               ^     |
+    *               |     |
+    *               v     |                  y
+    *               H     |                  ^
+    *               e     |                  |
+    *               i     |                  |
+    *               g     |                  |
+    *               h     |------------------0-----------------|--> x
+    *               t     |                  |
+    *               |     |                  |
+    *               |     |                  |
+    *               v     |                  |
+    *        yMin   -------                  -
     *                     |                  |
     *                     v
     *                    yPxs
@@ -50,8 +51,9 @@ public class Graph2dDimensions {
     private float x0;
     private float y0;
 
-    // graph width in function units (NOT screen pixels)
+    // graph width and height in function units (NOT screen pixels)
     private float gWidth = 20;
+    private float gHeight = 20;
 
     public Graph2dDimensions(@NotNull GraphView graphView) {
         this.graphView = graphView;
@@ -67,11 +69,15 @@ public class Graph2dDimensions {
 
     @NotNull
     Point2d toGraphCoordinates(float xPxs, float yPxs) {
-        return new Point2d( scalePxs(xPxs) + getXMin(), (getGraphHeight() - scalePxs(yPxs)) + getYMin() );
+        return new Point2d( scaleXPxs(xPxs) + getXMin(), (getGHeight() - scaleYPxs(yPxs)) + getYMin() );
     }
 
-    private float scalePxs(float pxs) {
-        return pxs * getGraphToViewRatio();
+    private float scaleXPxs(float pxs) {
+        return pxs * getXGraphToViewScale();
+    }
+
+    private float scaleYPxs(float pxs) {
+        return pxs * getYGraphToViewScale();
     }
 
     // X
@@ -91,28 +97,18 @@ public class Graph2dDimensions {
     // Y
 
     public float getYMin() {
-        return getYMin(getGraphHeight());
-    }
-
-
-    public float getYMin(float graphHeight) {
-        return y0 - graphHeight / 2;
+        return y0 - gHeight / 2;
     }
 
     public float getYMax() {
-        final float graphHeight = getGraphHeight();
-        return getYMax(graphHeight, getYMin(graphHeight));
+        return getYMax(getYMin());
     }
 
-    public float getYMax(float graphHeight, float yMin) {
-        return yMin + graphHeight;
+    public float getYMax(float yMin) {
+        return yMin + gHeight;
     }
 
-    float getGraphHeight() {
-        return gWidth * getAspectRatio();
-    }
-
-    float getGraphToViewRatio() {
+    float getXGraphToViewScale() {
         if (vWidthPxs != 0) {
             return gWidth / ((float)vWidthPxs);
         } else {
@@ -120,7 +116,15 @@ public class Graph2dDimensions {
         }
     }
 
-    private float getAspectRatio() {
+    float getYGraphToViewScale() {
+        if (vHeightPxs != 0) {
+            return gHeight / ((float)vHeightPxs);
+        } else {
+            return 0f;
+        }
+    }
+
+    private float getViewAspectRatio() {
         if (vWidthPxs != 0) {
             return ((float) vHeightPxs) / vWidthPxs;
         } else {
@@ -148,6 +152,10 @@ public class Graph2dDimensions {
         return gWidth;
     }
 
+    float getGHeight() {
+        return gHeight;
+    }
+
     /*
     **********************************************************************
     *
@@ -159,7 +167,13 @@ public class Graph2dDimensions {
     public void setXRange(float xMin, float xMax) {
         this.gWidth = xMax - xMin;
         this.x0 = xMin + gWidth / 2;
-        this.y0 = 0;
+
+        this.graphView.invalidateGraphs();
+    }
+
+    public void setYRange(float yMin, float yMax) {
+        this.gHeight = yMax - yMin;
+        this.y0 = yMin + gHeight / 2;
 
         this.graphView.invalidateGraphs();
     }
@@ -172,8 +186,9 @@ public class Graph2dDimensions {
     }
 
 
-    public void setGWidth(float gWidth) {
+    public void setGraphDimensions(float gWidth, float gHeight) {
         this.gWidth = gWidth;
+        this.gHeight = gHeight;
 
         this.graphView.invalidateGraphs();
     }
@@ -204,6 +219,7 @@ public class Graph2dDimensions {
         copy.x0 = this.x0;
         copy.y0 = this.y0;
         copy.gWidth = this.gWidth;
+        copy.gHeight = this.gHeight;
 
         return copy;
     }

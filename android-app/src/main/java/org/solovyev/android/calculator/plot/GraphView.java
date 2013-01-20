@@ -23,6 +23,7 @@ public interface GraphView extends ZoomButtonsController.OnZoomListener, TouchHa
     public Bitmap captureScreenshot();
 
 	void setXRange(float xMin, float xMax);
+	void setYRange(float yMin, float yMax);
 
     float getXMin();
 
