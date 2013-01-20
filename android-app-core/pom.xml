@@ -5,12 +5,12 @@
     <parent>
         <groupId>org.solovyev.android</groupId>
         <artifactId>calculatorpp-parent</artifactId>
-        <version>1.6.2</version>
+        <version>1.6.3-SNAPSHOT</version>
     </parent>
 
     <groupId>org.solovyev.android</groupId>
     <artifactId>calculatorpp-android-app-core</artifactId>
-    <version>1.6.2</version>
+    <version>1.6.3-SNAPSHOT</version>
 	<name>Calculator++ Application Core</name>
 	<packaging>apklib</packaging>
 
