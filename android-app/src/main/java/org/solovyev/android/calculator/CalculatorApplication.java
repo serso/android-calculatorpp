@@ -124,6 +124,11 @@ public class CalculatorApplication extends android.app.Application implements Sh
 				new AndroidExternalListenersContainer(calculator),
                 new AndroidCalculatorPlotter(this, new CalculatorPlotterImpl(calculator)));
 
+        listeners.add(new CalculatorActivityLauncher());
+        for (CalculatorEventListener listener : listeners) {
+            calculator.addCalculatorEventListener(listener);
+        }
+
         Locator.getInstance().getCalculator().init();
 
         BillingDB.init(CalculatorApplication.this);
@@ -160,12 +165,6 @@ public class CalculatorApplication extends android.app.Application implements Sh
 
             }
         }).start();
-
-        listeners.add(new CalculatorActivityLauncher());
-
-        for (CalculatorEventListener listener : listeners) {
-            calculator.addCalculatorEventListener(listener);
-        }
 
         Locator.getInstance().getLogger().debug(TAG, "Application started!");
         Locator.getInstance().getNotifier().showDebugMessage(TAG, "Application started!");

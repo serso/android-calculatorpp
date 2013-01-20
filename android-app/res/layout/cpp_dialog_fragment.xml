@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+    a:id="@+id/main_fragment_layout"
+    style="?cpp_fragment_layout_style"
+    a:layout_width="match_parent"
+    a:layout_gravity="center_horizontal"
+    a:layout_height="match_parent"
+    a:orientation="vertical">
+
+    <TextView
+        a:id="@+id/cpp_dialog_message_textview"
+        a:layout_width="match_parent"
+        a:layout_height="wrap_content" />
+
+    <LinearLayout
+        a:layout_width="match_parent"
+        a:layout_height="wrap_content"
+        a:orientation="horizontal">
+
+        <Button
+            a:id="@+id/cpp_copy_button"
+            a:text="@string/c_copy"
+            a:layout_width="0dp"
+            a:layout_height="wrap_content"
+            a:layout_weight="1"
+            a:visibility="gone" />
+
+        <Button
+            a:id="@+id/cpp_ok_button"
+            a:text="@string/ok"
+            a:layout_width="0dp"
+            a:layout_height="wrap_content"
+            a:layout_weight="1" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -34,4 +34,9 @@ public class SystemOutCalculatorLogger implements CalculatorLogger {
         System.out.println(getTag(tag) + ": " + message);
         e.printStackTrace(System.out);
     }
+
+    @Override
+    public void error(@Nullable String tag, @Nullable String message) {
+        System.out.println(getTag(tag) + ": " + message);
+    }
 }

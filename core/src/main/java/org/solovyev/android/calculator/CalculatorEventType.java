@@ -159,6 +159,9 @@ public enum CalculatorEventType {
     show_create_matrix_dialog,
     show_create_function_dialog,
 
+    /** {@link DialogData} */
+    show_message_dialog,
+
     plot_graph,
 
     /** {@link org.solovyev.android.calculator.plot.PlotData} */

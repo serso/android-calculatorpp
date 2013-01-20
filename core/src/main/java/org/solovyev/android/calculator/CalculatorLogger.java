@@ -16,4 +16,6 @@ public interface CalculatorLogger {
 
     void error(@Nullable String tag, @Nullable String message, @NotNull Throwable e);
 
+    void error(@Nullable String tag, @Nullable String message);
+
 }

@@ -12,6 +12,7 @@ import jscl.math.function.Function;
 import jscl.math.function.IFunction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.calculator.function.FunctionBuilderAdapter;
 import org.solovyev.android.calculator.model.AFunction;
 import org.solovyev.android.calculator.model.Functions;
 import org.solovyev.android.calculator.model.MathEntityBuilder;
@@ -46,20 +47,20 @@ public class CalculatorFunctionsMathRegistry extends AbstractCalculatorMathRegis
 
 	@Override
 	public void load() {
-		super.load();
-
-		add(new CustomFunction.Builder(true, "log", Arrays.asList("base", "x"), "ln(x)/ln(base)"));
-		add(new CustomFunction.Builder(true, "√3", Arrays.asList("x"), "x^(1/3)"));
-		add(new CustomFunction.Builder(true, "√4", Arrays.asList("x"), "x^(1/4)"));
-		add(new CustomFunction.Builder(true, "√n", Arrays.asList("x", "n"), "x^(1/n)"));
+        add(new CustomFunction.Builder(true, "log", Arrays.asList("base", "x"), "ln(x)/ln(base)"));
+        add(new CustomFunction.Builder(true, "√3", Arrays.asList("x"), "x^(1/3)"));
+        add(new CustomFunction.Builder(true, "√4", Arrays.asList("x"), "x^(1/4)"));
+        add(new CustomFunction.Builder(true, "√n", Arrays.asList("x", "n"), "x^(1/n)"));
         add(new CustomFunction.Builder(true, "re", Arrays.asList("x"), "(x+conjugate(x))/2"));
         add(new CustomFunction.Builder(true, "im", Arrays.asList("x"), "(x-conjugate(x))/(2*i)"));
+
+		super.load();
     }
 
 	public static void saveFunction(@NotNull CalculatorMathRegistry<Function> registry,
 									@NotNull MathEntityBuilder<? extends Function> builder,
 									@Nullable IFunction editedInstance,
-									@NotNull Object source, boolean save) throws CustomFunctionCalculationException {
+									@NotNull Object source, boolean save) throws CustomFunctionCalculationException, AFunction.Builder.CreationException {
 		final Function addedFunction = registry.add(builder);
 
 		if (save) {
@@ -111,7 +112,7 @@ public class CalculatorFunctionsMathRegistry extends AbstractCalculatorMathRegis
 	@NotNull
 	@Override
 	protected JBuilder<? extends Function> createBuilder(@NotNull AFunction function) {
-		return new CustomFunction.Builder(function);
+		return new FunctionBuilderAdapter(new AFunction.Builder(function));
 	}
 
     @Override

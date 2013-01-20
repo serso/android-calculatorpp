@@ -1,6 +1,8 @@
 package org.solovyev.android.calculator;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.solovyev.common.msg.MessageType;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -45,12 +47,23 @@ public final class CalculatorMessages {
     /* Infinite loop is detected in expression*/
     public static final String msg_006 = "msg_6";
 
+    /** Some data could not be loaded. Contact authors of application with information below.\n\nUnable to load:\n{0} */
+    public static final String msg_007 = "msg_7";
+
     /* Error */
     public static final String syntax_error = "syntax_error";
 
     /* Result copied to clipboard! */
     public static final String result_copied = "result_copied";
 
+    /* Text copied to clipboard! */
+    public static final String text_copied = "text_copied";
+
 	/*	Last calculated value */
     public static final String ans_description = "ans_description";
+
+    @NotNull
+    public static CalculatorMessage newErrorMessage(@NotNull String messageCode, @Nullable Object... parameters ) {
+        return new CalculatorMessage(messageCode, MessageType.error, parameters);
+    }
 }

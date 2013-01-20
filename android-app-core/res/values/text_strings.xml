@@ -320,6 +320,7 @@
     <string name="cpp_invalid_number">Invalid number!</string>
     <string name="cpp_plot_boundaries_should_differ">Graph boundaries should not be the same!</string>
     <string name="cpp_apply">Apply</string>
+    <string name="cpp_message">Message</string>
 
 
 </resources>

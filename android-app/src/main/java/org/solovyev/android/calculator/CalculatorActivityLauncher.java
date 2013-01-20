@@ -244,6 +244,18 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
                     });
                 }
                 break;
+            case show_message_dialog:
+                final DialogData dialogData = (DialogData) data;
+                if (dialogData != null) {
+                    App.getInstance().getUiThreadExecutor().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            CalculatorDialogActivity.showDialog(context, dialogData);
+                        }
+                    });
+                }
+                break;
+
         }
     }
 

@@ -11,8 +11,8 @@ import org.jetbrains.annotations.Nullable;
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.math.MathRegistry;
-import org.solovyev.common.msg.Message;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -64,31 +64,39 @@ public abstract class AbstractCalculatorMathRegistry<T extends MathEntity, P ext
     public synchronized void load() {
         final MathEntityPersistenceContainer<P> persistenceContainer = mathEntityDao.load();
 
+        final List<P> notCreatedEntities = new ArrayList<P>();
+
         if (persistenceContainer != null) {
             for (P entity : persistenceContainer.getEntities()) {
                 if (!contains(entity.getName())) {
                     try {
                         final JBuilder<? extends T> builder = createBuilder(entity);
                         add(builder);
-                    } catch (ArithmeticException e) {
+                    } catch (RuntimeException e) {
                         Locator.getInstance().getLogger().error(null, e.getLocalizedMessage(), e);
-                        if (e instanceof Message) {
-                            Locator.getInstance().getNotifier().showMessage((Message)e);
-                        }
+                        notCreatedEntities.add(entity);
                     }
                 }
             }
         }
 
-        /*Log.d(AndroidVarsRegistry.class.getName(), vars.size() + " variables registered!");
-          for (Var var : vars) {
-              Log.d(AndroidVarsRegistry.class.getName(), var.toString());
-          }*/
-	}
+        try {
+            if (!notCreatedEntities.isEmpty()) {
+                final StringBuilder errorMessage = new StringBuilder(notCreatedEntities.size() * 100);
+                for (P notCreatedEntity : notCreatedEntities) {
+                    errorMessage.append(notCreatedEntity).append("\n\n");
+                }
 
-	@NotNull
+                Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_message_dialog, MessageDialogData.newInstance(CalculatorMessages.newErrorMessage(CalculatorMessages.msg_007, errorMessage.toString()), null));
+            }
+        } catch (RuntimeException e) {
+            // just in case
+            Locator.getInstance().getLogger().error(null, e.getLocalizedMessage(), e);
+        }
+    }
+
+    @NotNull
 	protected abstract JBuilder<? extends T> createBuilder(@NotNull P entity);
-
 
     @Override
 	public synchronized void save() {

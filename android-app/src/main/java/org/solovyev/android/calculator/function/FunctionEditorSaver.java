@@ -3,7 +3,6 @@ package org.solovyev.android.calculator.function;
 import android.view.View;
 import android.widget.EditText;
 import jscl.CustomFunctionCalculationException;
-import jscl.math.function.CustomFunction;
 import jscl.math.function.Function;
 import jscl.math.function.IFunction;
 import org.jetbrains.annotations.NotNull;
@@ -14,7 +13,6 @@ import org.solovyev.android.calculator.CalculatorMathRegistry;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.math.edit.VarEditorSaver;
 import org.solovyev.android.calculator.model.AFunction;
-import org.solovyev.android.calculator.model.MathEntityBuilder;
 import org.solovyev.common.msg.MessageType;
 import org.solovyev.common.text.StringUtils;
 
@@ -104,7 +102,7 @@ public class FunctionEditorSaver implements View.OnClickListener {
 			Locator.getInstance().getNotifier().showMessage(error, MessageType.error);
 		} else {
             try {
-                CalculatorFunctionsMathRegistry.saveFunction(mathRegistry, new BuilderAdapter(builder), editedInstance, source, true);
+                CalculatorFunctionsMathRegistry.saveFunction(mathRegistry, new FunctionBuilderAdapter(builder), editedInstance, source, true);
             } catch (CustomFunctionCalculationException e) {
                 Locator.getInstance().getNotifier().showMessage(e);
             } catch (AFunction.Builder.CreationException e) {
@@ -140,41 +138,4 @@ public class FunctionEditorSaver implements View.OnClickListener {
 		return true;
 	}
 
-	private static final class BuilderAdapter implements MathEntityBuilder<Function> {
-
-		@NotNull
-		private final AFunction.Builder nestedBuilder;
-
-		public BuilderAdapter(@NotNull AFunction.Builder nestedBuilder) {
-			this.nestedBuilder = nestedBuilder;
-		}
-
-		@NotNull
-		@Override
-		public MathEntityBuilder<Function> setName(@NotNull String name) {
-			nestedBuilder.setName(name);
-			return this;
-		}
-
-		@NotNull
-		@Override
-		public MathEntityBuilder<Function> setDescription(@Nullable String description) {
-			nestedBuilder.setDescription(description);
-			return this;
-		}
-
-		@NotNull
-		@Override
-		public MathEntityBuilder<Function> setValue(@Nullable String value) {
-			nestedBuilder.setValue(value);
-			return this;
-		}
-
-		@NotNull
-		@Override
-		public Function create() {
-			final AFunction function = nestedBuilder.create();
-			return new CustomFunction.Builder(function).create();
-		}
-	}
 }

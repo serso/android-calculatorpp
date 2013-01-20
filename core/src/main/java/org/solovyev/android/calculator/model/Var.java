@@ -229,10 +229,10 @@ public class Var implements IConstant, MathPersistenceEntity {
 		return !StringUtils.isEmpty(value);
 	}
 
-	@Override
-	public String toString() {
-		return ExtendedConstant.toString(this);
-	}
+    @Override
+    public String toString() {
+        return ExtendedConstant.toString(this);
+    }
 
 	@Override
 	public boolean equals(Object o) {
@@ -250,4 +250,5 @@ public class Var implements IConstant, MathPersistenceEntity {
 	public int hashCode() {
 		return name.hashCode();
 	}
+
 }

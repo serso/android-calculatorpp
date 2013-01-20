@@ -13,8 +13,8 @@ import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 import org.simpleframework.xml.Transient;
-import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.CalculatorParseException;
+import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.MathPersistenceEntity;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.msg.Message;
@@ -122,7 +122,16 @@ public class AFunction implements IFunction, MathPersistenceEntity, Serializable
 		return String.valueOf(this.content);
 	}
 
-	/*
+    @Override
+    public String toString() {
+        return "AFunction{" +
+                "name='" + name + '\'' +
+                ", parameterNames=" + parameterNames +
+                ", content='" + content + '\'' +
+                '}';
+    }
+
+    /*
 	**********************************************************************
 	*
 	*                           GETTERS/SETTERS
@@ -258,7 +267,7 @@ public class AFunction implements IFunction, MathPersistenceEntity, Serializable
 		}
 
 		@NotNull
-		public AFunction create() {
+		public AFunction create()  throws AFunction.Builder.CreationException{
 			final AFunction result;
 			if (id != null) {
 				result = new AFunction(id);
