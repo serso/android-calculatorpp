@@ -283,4 +283,42 @@
 	<string name="cpp_onscreen_remove_icon_button_text">Удалить иконку</string>
 	<string name="cpp_this_change_may_require_reboot">Это изменение может потребовать перезагрузки</string>
 
+    <string name="cpp_plot_2d">2D график</string>
+    <string name="cpp_plot_3d">3D график</string>
+    <string name="cpp_plot_functions">Функции на графике</string>
+
+    <string name="cpp_prefs_graph_plot_imag_title">Строить мнимую часть функции</string>
+    <string name="cpp_prefs_graph_plot_imag_summary">Если включено, то мнимая часть функции будет построена на графике</string>
+
+    <string name="cpp_monochrome_line_color_type">Одноцветный</string>
+    <string name="cpp_color_map_line_color_type">Многоцветный (только в 3D)</string>
+
+    <string name="cpp_solid_line_style">Сплошной (-----)</string>
+    <string name="cpp_dashed_line_style">Пунктирный (- - -)</string>
+    <string name="cpp_dotted_line_style">Точечный (. . .)</string>
+    <string name="cpp_dash_dotted_line_style">Точечно-пунктирный (-.-.-)</string>
+
+    <string name="cpp_plotter">Графопостроитель</string>
+    <string name="cpp_plot_screenshot">Сделать снимок графика</string>
+    <string name="cpp_plot_screenshot_saved">Снимок графика сохранён: %1$s!</string>
+    <string name="cpp_plot_unable_to_save_screenshot">Снимок не может быть сохранён, из-за отсутствия SD карты. Вставьте SD карту и повторите!</string>
+
+    <string name="cpp_plot_function_line_color_type">Тип цвета линии</string>
+    <string name="cpp_plot_function_line_color">Цвет линии</string>
+    <string name="cpp_plot_function_line_style">Тип линии</string>
+    <string name="cpp_plot_function_line_width">Толщина линии</string>
+    <string name="cpp_plot_function_settings">Настройки функции</string>
+    <string name="cpp_function">Функция</string>
+    <string name="cpp_pinned">Закреплена</string>
+    <string name="cpp_visible">Видна</string>
+    <string name="cpp_plot_button_text">+граф</string>
+    <string name="cpp_plot_empty_function_error">Невозможно построить пустую функцию!</string>
+    <string name="cpp_plot_too_many_variables">Невозможно построить функцию: слишком много переменных!</string>
+    <string name="cpp_plot_range">Интервал построения</string>
+    <string name="cpp_plot_range_x_min">X мин</string>
+    <string name="cpp_plot_range_x_max">X макс</string>
+    <string name="cpp_invalid_number">Неправильное число!</string>
+    <string name="cpp_plot_boundaries_should_differ">Границы графика не могут быть равны!</string>
+    <string name="cpp_apply">Применить</string>
+
 </resources>

@@ -282,6 +282,7 @@
     <string name="cpp_onscreen_remove_icon_message">You can remove second icon in applications\' list from application settings or by pressing next button</string>
     <string name="cpp_onscreen_remove_icon_button_text">Remove icon</string>
     <string name="cpp_this_change_may_require_reboot">This change may require reboot</string>
+
     <string name="cpp_plot_2d">2D plot</string>
     <string name="cpp_plot_3d">3D plot</string>
     <string name="cpp_plot_functions">Graph functions</string>
@@ -290,17 +291,17 @@
     <string name="cpp_prefs_graph_plot_imag_summary">If checked imaginary part of function will be plotted</string>
 
     <string name="cpp_monochrome_line_color_type">Monochrome</string>
-    <string name="cpp_color_map_line_color_type">Color map</string>
+    <string name="cpp_color_map_line_color_type">Color map (only 3D)</string>
 
     <string name="cpp_solid_line_style">Solid (-----)</string>
     <string name="cpp_dashed_line_style">Dashed (- - -)</string>
     <string name="cpp_dotted_line_style">Dotted (. . .)</string>
-    <string name="cpp_dash_dotted_line_style">Dash dotted (-.-.-)</string>
+    <string name="cpp_dash_dotted_line_style">Dot-dashed (-.-.-)</string>
 
     <string name="cpp_plotter">Function plotter</string>
 	<string name="cpp_plot_screenshot">Capture screenshot</string>
 	<string name="cpp_plot_screenshot_saved">Screenshot successfully saved: %1$s!</string>
-	<string name="cpp_plot_unable_to_save_screenshot">Screenshot cannot be saved as sdcard is not mounted. Mount sdcard and try again!</string>
+	<string name="cpp_plot_unable_to_save_screenshot">Screenshot cannot be saved as SD card is not mounted. Mount SD card and try again!</string>
 
 	<string name="cpp_plot_function_line_color_type">Line color type</string>
 	<string name="cpp_plot_function_line_color">Line color</string>
