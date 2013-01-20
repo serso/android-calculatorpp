@@ -15,7 +15,10 @@ import org.solovyev.android.AndroidUtils;
 import org.solovyev.android.calculator.CalculatorDisplayViewState;
 import org.solovyev.android.calculator.CalculatorEditorViewState;
 import org.solovyev.android.calculator.Locator;
-import org.solovyev.android.calculator.external.*;
+import org.solovyev.android.calculator.external.AndroidExternalListenersContainer;
+import org.solovyev.android.calculator.external.DefaultExternalCalculatorIntentHandler;
+import org.solovyev.android.calculator.external.ExternalCalculatorIntentHandler;
+import org.solovyev.android.calculator.external.ExternalCalculatorStateUpdater;
 
 /**
  * User: serso
@@ -188,6 +191,7 @@ public class CalculatorOnscreenService extends Service implements ExternalCalcul
         builder.setSmallIcon(R.drawable.kb_logo);
         builder.setContentTitle(getText(R.string.c_app_name));
         builder.setContentText(getString(R.string.open_onscreen_calculator));
+        builder.setOngoing(true);
 
         final Intent intent = createShowOnscreenViewIntent(this);
         builder.setContentIntent(PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT));
