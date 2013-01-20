@@ -3,6 +3,7 @@ package org.solovyev.android.calculator;
 import android.app.Activity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.AndroidUtils;
 
 /**
  * User: serso
@@ -17,15 +18,19 @@ public final class Threads {
 
     public static void tryRunOnUiThread(@Nullable final Activity activity, @NotNull final Runnable runnable) {
         if (activity != null && !activity.isFinishing()) {
-            activity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    // some time may pass and activity might be closing
-                    if (!activity.isFinishing()) {
-                        runnable.run();
+            if (AndroidUtils.isUiThread()) {
+                runnable.run();
+            } else {
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // some time may pass and activity might be closing
+                        if (!activity.isFinishing()) {
+                            runnable.run();
+                        }
                     }
-                }
-            });
+                });
+            }
         }
     }
 }

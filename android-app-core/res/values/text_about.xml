@@ -250,5 +250,13 @@
 		3. Fixed flicker for Calculator++ in separate window
 	</string>
 
+    <string name="c_release_notes_for_115">
+        1. Graph plotter completely reworked\n
+        2. Added support for graphing several functions\n
+        3. Added 3D graphing capability\n
+        4. Added support for graph screenshots\n
+        5. Fixed issues with user defined functions\n
+        6. Other fixes
+    </string>
 
 </resources>

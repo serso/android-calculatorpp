@@ -2,10 +2,12 @@ package org.solovyev.android.calculator.plot;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -16,6 +18,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.AndroidUtils2;
 import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 import org.solovyev.android.menu.AMenuItem;
 import org.solovyev.android.menu.ActivityMenu;
 import org.solovyev.android.menu.IdentifiableMenuItem;
@@ -38,7 +41,7 @@ import java.util.concurrent.Executors;
  * Date: 12/30/12
  * Time: 3:09 PM
  */
-public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment implements CalculatorEventListener {
+public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment implements CalculatorEventListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
     /*
     **********************************************************************
@@ -101,6 +104,8 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 
     @Override
     public void onPause() {
+        PreferenceManager.getDefaultSharedPreferences(this.getActivity()).unregisterOnSharedPreferenceChangeListener(this);
+
         final PlotBoundaries plotBoundaries = getPlotBoundaries();
         if (plotBoundaries != null) {
             saveBoundaries(plotBoundaries);
@@ -113,26 +118,40 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
     public void onResume() {
         super.onResume();
 
+        PreferenceManager.getDefaultSharedPreferences(this.getActivity()).registerOnSharedPreferenceChangeListener(this);
+
         plotData = Locator.getInstance().getPlotter().getPlotData();
-        createChart(plotData);
-        createGraphicalView(getView(), plotData);
-        getSherlockActivity().invalidateOptionsMenu();
+        updateChart(plotData, getSherlockActivity());
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (AndroidCalculatorEngine.Preferences.angleUnit.getKey().equals(key)) {
+             updateChart(this.plotData, getSherlockActivity());
+        }
     }
 
     @Override
     public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable final Object data) {
-        if (calculatorEventType.isOfType(CalculatorEventType.plot_data_changed)) {
-            final CalculatorEventHolder.Result result = this.lastEventHolder.apply(calculatorEventData);
-            if (result.isNewAfter()) {
-                onNewPlotData((PlotData) data);
-            }
+        switch (calculatorEventType) {
+            case plot_data_changed:
+                final CalculatorEventHolder.Result result = this.lastEventHolder.apply(calculatorEventData);
+                if (result.isNewAfter()) {
+                    onNewPlotData((PlotData) data);
+                }
+                break;
         }
+
     }
 
     private void onNewPlotData(@NotNull final PlotData plotData) {
         this.plotData = plotData;
 
         final SherlockFragmentActivity activity = getSherlockActivity();
+        updateChart(plotData, activity);
+    }
+
+    private void updateChart(@NotNull final PlotData plotData, @Nullable final SherlockFragmentActivity activity) {
         Threads.tryRunOnUiThread(activity, new Runnable() {
             @Override
             public void run() {
