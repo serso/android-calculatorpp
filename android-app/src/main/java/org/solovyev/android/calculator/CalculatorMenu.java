@@ -29,17 +29,10 @@ enum CalculatorMenu implements LabeledMenuItem<MenuItem> {
         }
     },
 
-    about(R.string.c_about) {
+    plotter(R.string.cpp_plotter) {
         @Override
         public void onClick(@NotNull MenuItem data, @NotNull Context context) {
-            CalculatorActivityLauncher.showAbout(context);
-        }
-    },
-
-    help(R.string.c_help) {
-        @Override
-        public void onClick(@NotNull MenuItem data, @NotNull Context context) {
-            CalculatorActivityLauncher.showHelp(context);
+            Locator.getInstance().getPlotter().plot();
         }
     },
 
@@ -50,12 +43,19 @@ enum CalculatorMenu implements LabeledMenuItem<MenuItem> {
         }
     },
 
-	plotter(R.string.cpp_plotter) {
-		@Override
-		public void onClick(@NotNull MenuItem data, @NotNull Context context) {
-			Locator.getInstance().getPlotter().plot();
-		}
-	},
+    help(R.string.c_help) {
+        @Override
+        public void onClick(@NotNull MenuItem data, @NotNull Context context) {
+            CalculatorActivityLauncher.showHelp(context);
+        }
+    },
+
+    about(R.string.c_about) {
+        @Override
+        public void onClick(@NotNull MenuItem data, @NotNull Context context) {
+            CalculatorActivityLauncher.showAbout(context);
+        }
+    },
 
     exit(R.string.c_exit) {
         @Override
