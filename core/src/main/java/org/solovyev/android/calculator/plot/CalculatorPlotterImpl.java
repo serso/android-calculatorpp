@@ -372,18 +372,13 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
         }
     }
 
-    @Override
-    public void setPlotData(boolean plot3d, @NotNull PlotBoundaries plotBoundaries) {
-        if (this.plot3d != plot3d || this.plotBoundaries.equals(plotBoundaries)) {
-            this.plot3d = plot3d;
-            this.plotBoundaries = plotBoundaries;
-            firePlotDataChangedEvent();
-        }
+    private void firePlotDataChangedEvent() {
+        updatePlotData();
+        calculator.fireCalculatorEvent(CalculatorEventType.plot_data_changed, plotData);
     }
 
-    private void firePlotDataChangedEvent() {
+    private void updatePlotData() {
         plotData = new PlotData(getVisibleFunctions(), plot3d, plotBoundaries);
-        calculator.fireCalculatorEvent(CalculatorEventType.plot_data_changed, plotData);
     }
 
     @Override
@@ -393,6 +388,14 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
             if (toggleImagFunctions(this.plotImag)) {
                 firePlotDataChangedEvent();
             }
+        }
+    }
+
+    @Override
+    public void savePlotBoundaries(@NotNull PlotBoundaries plotBoundaries) {
+        if ( !this.plotBoundaries.equals(plotBoundaries) ) {
+            this.plotBoundaries = plotBoundaries;
+            updatePlotData();
         }
     }
 

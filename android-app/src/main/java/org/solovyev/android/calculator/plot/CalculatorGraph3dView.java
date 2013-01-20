@@ -167,7 +167,8 @@ public class CalculatorGraph3dView extends GLView implements GraphView {
 
     @Override
     public void setXRange(float xMin, float xMax) {
-        dimensions.setRanges(1, 1, 1, 1);
+        dimensions.setXRange(PlotBoundaries.DEFAULT_MIN_NUMBER, PlotBoundaries.DEFAULT_MAX_NUMBER);
+        dimensions.setXY(dimensions.getX0(), 0);
 
         zoomLevel = 1;
         dirty = true;

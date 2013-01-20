@@ -317,6 +317,8 @@
     <string name="cpp_plot_range">Интервал построения</string>
     <string name="cpp_plot_range_x_min">X мин</string>
     <string name="cpp_plot_range_x_max">X макс</string>
+    <string name="cpp_plot_range_y_min">Y мин</string>
+    <string name="cpp_plot_range_y_max">Y макс</string>
     <string name="cpp_invalid_number">Неправильное число!</string>
     <string name="cpp_plot_boundaries_should_differ">Границы графика не могут быть равны!</string>
     <string name="cpp_apply">Применить</string>

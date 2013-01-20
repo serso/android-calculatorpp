@@ -95,8 +95,11 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 		setHasOptionsMenu(true);
     }
 
-    private void saveBoundaries(@NotNull PlotBoundaries boundaries) {
-        Locator.getInstance().getPlotter().setPlotBoundaries(boundaries);
+    private void savePlotBoundaries() {
+        final PlotBoundaries plotBoundaries = getPlotBoundaries();
+        if (plotBoundaries != null) {
+            Locator.getInstance().getPlotter().savePlotBoundaries(plotBoundaries);
+        }
     }
 
     @Nullable
@@ -106,10 +109,7 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
     public void onPause() {
         PreferenceManager.getDefaultSharedPreferences(this.getActivity()).unregisterOnSharedPreferenceChangeListener(this);
 
-        final PlotBoundaries plotBoundaries = getPlotBoundaries();
-        if (plotBoundaries != null) {
-            saveBoundaries(plotBoundaries);
-        }
+        savePlotBoundaries();
 
         super.onPause();
     }
@@ -203,9 +203,24 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
         super.onCreateOptionsMenu(menu, inflater);
 
         final List<IdentifiableMenuItem<MenuItem>> menuItems = new ArrayList<IdentifiableMenuItem<MenuItem>>();
-        menuItems.add(PlotMenu.range);
         menuItems.add(PlotMenu.preferences);
         menuItems.add(PlotMenu.functions);
+
+        final IdentifiableMenuItem<MenuItem> plotRangeMenuItem = new IdentifiableMenuItem<MenuItem>() {
+            @NotNull
+            @Override
+            public Integer getItemId() {
+                return R.id.menu_plot_range;
+            }
+
+            @Override
+            public void onClick(@NotNull MenuItem data, @NotNull Context context) {
+                savePlotBoundaries();
+
+                context.startActivity(new Intent(context, CalculatorPlotRangeActivity.class));
+            }
+        };
+        menuItems.add(plotRangeMenuItem);
 
         final IdentifiableMenuItem<MenuItem> plot3dMenuItem = new IdentifiableMenuItem<MenuItem>() {
             @NotNull
@@ -216,13 +231,9 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 
             @Override
             public void onClick(@NotNull MenuItem data, @NotNull Context context) {
-                final PlotBoundaries plotBoundaries = getPlotBoundaries();
+                savePlotBoundaries();
 
-                if (plotBoundaries != null) {
-                    Locator.getInstance().getPlotter().setPlotData(true, plotBoundaries);
-                } else {
-                    Locator.getInstance().getPlotter().setPlot3d(true);
-                }
+                Locator.getInstance().getPlotter().setPlot3d(true);
             }
         };
         menuItems.add(plot3dMenuItem);
@@ -237,13 +248,9 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 
             @Override
             public void onClick(@NotNull MenuItem data, @NotNull Context context) {
-                final PlotBoundaries plotBoundaries = getPlotBoundaries();
+                savePlotBoundaries();
 
-                if (plotBoundaries != null) {
-                    Locator.getInstance().getPlotter().setPlotData(false, plotBoundaries);
-                } else {
-                    Locator.getInstance().getPlotter().setPlot3d(false);
-                }
+                Locator.getInstance().getPlotter().setPlot3d(false);
             }
         };
         menuItems.add(plot2dMenuItem);
@@ -275,7 +282,7 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
                     return !plot2dVisible;
                 } else if ( menuItem == captureScreenshotMenuItem ) {
 					return !captureScreenshotVisible;
-				} else if ( menuItem == PlotMenu.range ) {
+				} else if ( menuItem == plotRangeMenuItem ) {
                     return !plotRangeVisible;
                 }
 
@@ -342,13 +349,6 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
     */
 
     private static enum PlotMenu implements IdentifiableMenuItem<MenuItem> {
-
-        range(R.id.menu_plot_range) {
-            @Override
-            public void onClick(@NotNull MenuItem data, @NotNull Context context) {
-                context.startActivity(new Intent(context, CalculatorPlotRangeActivity.class));
-            }
-        },
 
         functions(R.id.menu_plot_functions) {
             @Override

@@ -159,6 +159,11 @@ public class AndroidCalculatorPlotter implements CalculatorPlotter, SharedPrefer
     }
 
     @Override
+    public void savePlotBoundaries(@NotNull PlotBoundaries plotBoundaries) {
+        plotter.savePlotBoundaries(plotBoundaries);
+    }
+
+    @Override
     public void setPlotBoundaries(@NotNull PlotBoundaries plotBoundaries) {
         plotter.setPlotBoundaries(plotBoundaries);
     }
@@ -168,10 +173,5 @@ public class AndroidCalculatorPlotter implements CalculatorPlotter, SharedPrefer
         if (CalculatorPreferences.Graph.plotImag.getKey().equals(key)) {
             setPlotImag(CalculatorPreferences.Graph.plotImag.getPreference(preferences));
         }
-    }
-
-    @Override
-    public void setPlotData(boolean plot3d, @NotNull PlotBoundaries plotBoundaries) {
-        plotter.setPlotData(plot3d, plotBoundaries);
     }
 }

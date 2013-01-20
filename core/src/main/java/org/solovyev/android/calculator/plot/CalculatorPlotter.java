@@ -58,11 +58,11 @@ public interface CalculatorPlotter {
     boolean isPlotPossibleFor(@NotNull Generic expression);
 
     void setPlot3d(boolean plot3d);
-    void setPlotData(boolean plot3d, @NotNull PlotBoundaries plotBoundaries);
 
     void removeAllUnpinned();
 
     void setPlotImag(boolean plotImag);
 
+    void savePlotBoundaries(@NotNull PlotBoundaries plotBoundaries);
     void setPlotBoundaries(@NotNull PlotBoundaries plotBoundaries);
 }
