@@ -35,6 +35,8 @@ public enum CalculatorFragmentType {
 	plotter_function_settings(CalculatorPlotFunctionSettingsActivity.CalculatorPlotFunctionSettingsFragment.class, R.layout.cpp_plot_function_settings_fragment, R.string.cpp_plot_function_settings),
 	plotter_range(CalculatorPlotRangeActivity.CalculatorPlotRangeFragment.class, R.layout.cpp_plot_range_fragment, R.string.cpp_plot_range),
 
+    purchase_dialog(CalculatorPlotRangeActivity.CalculatorPlotRangeFragment.class, R.layout.cpp_purchase_dialog_fragment, R.string.cpp_purchase_title),
+
     dialog(CalculatorDialogActivity.CalculatorDialogFragment.class, R.layout.cpp_dialog_fragment, R.string.cpp_message),
 
     about(CalculatorAboutFragment.class, R.layout.about_fragment, R.string.c_about),

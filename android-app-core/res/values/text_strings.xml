@@ -175,8 +175,8 @@
 	<string name="c_calc_use_back_button_as_prev_summary">Defines the behaviour of the Back button</string>
 	<string name="c_calc_use_back_button_as_prev_title">Use Back button as history prev</string>
 
-	<string name="c_clear_billing_info_summary">Billing information will be reloaded from the server</string>
-	<string name="c_clear_billing_info_title">Update billing information</string>
+	<string name="c_clear_billing_info_summary">Purchase information will be reloaded from the server</string>
+	<string name="c_clear_billing_info_title">Update purchase information</string>
 
 	<string name="c_warning">Warning</string>
 	<string name="c_error">Error</string>
@@ -321,6 +321,16 @@
     <string name="cpp_plot_boundaries_should_differ">Graph boundaries should not be the same!</string>
     <string name="cpp_apply">Apply</string>
     <string name="cpp_message">Message</string>
+    <string name="cpp_continue">Continue</string>
+    <string name="cpp_purchase_text">Supporting the project is easy and secure: purchase process is provided by Google and all you need is a properly configured Google account.\n\n
+        Payment information is stored in Google servers with your Google account and you can easily use application on several devices.\n\n
+        By clicking \'Continue\' button you will be redirected to the Google Play app to make the payment.
+    </string>
+    <string name="cpp_purchase_title">Purchase</string>
+
+    <string name="cpp_purchase_thank_you_text">Thank you for supporting the application!\n\n It might take several minutes until app will be informed about the purchase. You always can check information about the purchase in your Google Account.\n
+        If you have any problems or questions feel free to contact me directly (contacts are available in Main->Menu->About)
+    </string>
 
 
 </resources>

@@ -3,11 +3,11 @@
  * For more information, please, contact se.solovyev@gmail.com
  */
 
-package org.solovyev.android.calculator;
+package org.solovyev.android.calculator.preferences;
 
-import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
@@ -22,9 +22,14 @@ import net.robotmedia.billing.helper.AbstractBillingObserver;
 import net.robotmedia.billing.model.Transaction;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.AndroidUtils;
+import org.solovyev.android.App;
 import org.solovyev.android.ads.AdsController;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
+import org.solovyev.android.msg.AndroidMessage;
 import org.solovyev.android.view.VibratorContainer;
+import org.solovyev.common.msg.Message;
+import org.solovyev.common.msg.MessageType;
 
 /**
  * User: serso
@@ -93,31 +98,9 @@ public class CalculatorPreferencesActivity extends SherlockPreferenceActivity im
 
 			adFreePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 				public boolean onPreferenceClick(Preference preference) {
-
-					// check billing availability
-					if (BillingController.checkBillingSupported(CalculatorPreferencesActivity.this) != BillingController.BillingStatus.SUPPORTED) {
-						Log.d(CalculatorPreferencesActivity.class.getName(), "Billing is not supported - warn user!");
-						// warn about not supported billing
-						new AlertDialog.Builder(CalculatorPreferencesActivity.this).setTitle(R.string.c_error).setMessage(R.string.c_billing_error).create().show();
-					} else {
-						Log.d(CalculatorPreferencesActivity.class.getName(), "Billing is supported - continue!");
-						if (!AdsController.getInstance().isAdFree(CalculatorPreferencesActivity.this)) {
-							Log.d(CalculatorPreferencesActivity.class.getName(), "Item not purchased - try to purchase!");
-
-							// not purchased => purchasing
-							Toast.makeText(CalculatorPreferencesActivity.this, R.string.c_calc_purchasing, Toast.LENGTH_SHORT).show();
-
-							// show purchase window for user
-							BillingController.requestPurchase(CalculatorPreferencesActivity.this, CalculatorApplication.AD_FREE_PRODUCT_ID, true);
-						} else {
-							// disable preference
-							adFreePreference.setEnabled(false);
-							// and show message to user
-							Toast.makeText(CalculatorPreferencesActivity.this, R.string.c_calc_already_purchased, Toast.LENGTH_SHORT).show();
-						}
-					}
-
-					return true;
+                    final Context context = CalculatorPreferencesActivity.this;
+                    context.startActivity(new Intent(context, CalculatorPurchaseDialogActivity.class));
+                    return true;
 				}
 			});
 			adFreePreference.setEnabled(true);
@@ -189,7 +172,15 @@ public class CalculatorPreferencesActivity extends SherlockPreferenceActivity im
 
 	@Override
 	public void onRequestPurchaseResponse(@NotNull String itemId, @NotNull ResponseCode response) {
-		// do nothing
+        final Preference adFreePreference = findPreference(CalculatorApplication.AD_FREE_P_KEY);
+        if (adFreePreference != null) {
+            if (response == ResponseCode.RESULT_OK) {
+                adFreePreference.setEnabled(false);
+
+                final Message message = new AndroidMessage(R.string.cpp_purchase_thank_you_text, MessageType.info, App.getInstance().getApplication());
+                Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_message_dialog, MessageDialogData.newInstance(message, null));
+            }
+        }
 	}
 
 	@Override

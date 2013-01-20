@@ -11,7 +11,9 @@
     <TextView
         a:id="@+id/cpp_dialog_message_textview"
         a:layout_width="match_parent"
-        a:layout_height="wrap_content" />
+        a:layout_height="wrap_content"
+        a:maxLines="10"
+        a:scrollbars="vertical"/>
 
     <LinearLayout
         a:layout_width="match_parent"

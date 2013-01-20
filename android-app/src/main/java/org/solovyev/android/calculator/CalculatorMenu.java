@@ -43,6 +43,17 @@ enum CalculatorMenu implements LabeledMenuItem<MenuItem> {
         }
     },
 
+    exit(R.string.c_exit) {
+        @Override
+        public void onClick(@NotNull MenuItem data, @NotNull Context context) {
+            if (context instanceof Activity) {
+                ((Activity) context).finish();
+            } else {
+                Log.e(CalculatorActivity.TAG, "Activity menu used with context");
+            }
+        }
+    },
+
     help(R.string.c_help) {
         @Override
         public void onClick(@NotNull MenuItem data, @NotNull Context context) {
@@ -54,17 +65,6 @@ enum CalculatorMenu implements LabeledMenuItem<MenuItem> {
         @Override
         public void onClick(@NotNull MenuItem data, @NotNull Context context) {
             CalculatorActivityLauncher.showAbout(context);
-        }
-    },
-
-    exit(R.string.c_exit) {
-        @Override
-        public void onClick(@NotNull MenuItem data, @NotNull Context context) {
-            if (context instanceof Activity) {
-                ((Activity) context).finish();
-            } else {
-                Log.e(CalculatorActivity.TAG, "Activity menu used with context");
-            }
         }
     };
 

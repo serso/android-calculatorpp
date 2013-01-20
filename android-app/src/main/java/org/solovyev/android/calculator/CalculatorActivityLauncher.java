@@ -24,6 +24,7 @@ import org.solovyev.android.calculator.math.edit.*;
 import org.solovyev.android.calculator.matrix.CalculatorMatrixActivity;
 import org.solovyev.android.calculator.plot.CalculatorPlotActivity;
 import org.solovyev.android.calculator.plot.CalculatorPlotter;
+import org.solovyev.android.calculator.preferences.CalculatorPreferencesActivity;
 import org.solovyev.common.msg.Message;
 import org.solovyev.common.msg.MessageType;
 import org.solovyev.common.text.StringUtils;

@@ -36,7 +36,7 @@
         <activity android:clearTaskOnLaunch="true" android:label="@string/c_app_name" android:name=".CalculatorActivityMobile" android:windowSoftInputMode="adjustPan"/>
 
         <!-- settings must use action bar icon-->
-        <activity android:icon="@drawable/ab_icon" android:label="@string/c_app_settings" android:name=".CalculatorPreferencesActivity"/>
+        <activity android:icon="@drawable/ab_icon" android:label="@string/c_app_settings" android:name=".preferences.CalculatorPreferencesActivity"/>
 
         <activity android:label="@string/c_history" android:name=".history.CalculatorHistoryActivity"/>
 
@@ -56,6 +56,8 @@
         <activity android:launchMode="singleTop" android:label="@string/cpp_plot_functions" android:name=".plot.CalculatorPlotFunctionsActivity" android:theme="@style/cpp_gray_dialog_theme"/>
         <activity android:launchMode="singleTop" android:label="@string/cpp_plot_function_settings" android:name=".plot.CalculatorPlotFunctionSettingsActivity" android:theme="@style/cpp_gray_dialog_theme"/>
         <activity android:launchMode="singleTop" android:label="@string/cpp_plot_range" android:name=".plot.CalculatorPlotRangeActivity" android:theme="@style/cpp_gray_dialog_theme"/>
+
+        <activity android:launchMode="singleTop" android:label="@string/cpp_purchase_title" android:name=".preferences.CalculatorPurchaseDialogActivity" android:theme="@style/cpp_gray_dialog_theme"/>
 
         <activity android:launchMode="singleTop" android:name=".CalculatorDialogActivity" android:theme="@style/cpp_gray_dialog_theme"/>
 
