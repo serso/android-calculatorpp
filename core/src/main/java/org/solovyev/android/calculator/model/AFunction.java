@@ -228,8 +228,11 @@ public class AFunction implements IFunction, MathPersistenceEntity, Serializable
 			this.value = function.getContent();
 			this.system = function.isSystem();
 			this.description = function.getDescription();
-			this.id = function.getId();
-		}
+            if (function.isIdDefined()) {
+                this.id = function.getId();
+            }
+            this.parameterNames = new ArrayList<String>(function.getParameterNames());
+        }
 
         public Builder(@NotNull String name,
                        @NotNull String value,
