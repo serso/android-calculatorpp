@@ -18,7 +18,7 @@ import org.solovyev.android.calculator.CalculatorApplication;
 import org.solovyev.android.calculator.CalculatorFragment;
 import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.R;
-import org.solovyev.common.text.StringUtils;
+import org.solovyev.common.text.Strings;
 
 /**
  * User: serso
@@ -58,7 +58,7 @@ public class CalculatorReleaseNotesFragment extends CalculatorFragment {
 		boolean first = true;
 		for ( int i = version; i >= minVersion; i-- ) {
 			String releaseNotesForVersion = textHelper.getText("c_release_notes_for_" + i);
-			if (!StringUtils.isEmpty(releaseNotesForVersion)){
+			if (!Strings.isEmpty(releaseNotesForVersion)){
 				assert releaseNotesForVersion != null;
 				if ( !first ) {
 					result.append("<br/><br/>");

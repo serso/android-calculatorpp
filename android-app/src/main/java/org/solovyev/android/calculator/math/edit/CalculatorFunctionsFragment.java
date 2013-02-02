@@ -24,7 +24,7 @@ import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.function.FunctionEditDialogFragment;
 import org.solovyev.android.menu.AMenuItem;
 import org.solovyev.android.menu.LabeledMenuItem;
-import org.solovyev.common.text.StringUtils;
+import org.solovyev.common.text.Strings;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -73,7 +73,7 @@ public class CalculatorFunctionsFragment extends AbstractMathEntityListFragment<
 		List<LabeledMenuItem<Function>> result = new ArrayList<LabeledMenuItem<Function>>(Arrays.asList(LongClickMenuItem.values()));
 
         final CalculatorMathRegistry<Function> functionsRegistry = Locator.getInstance().getEngine().getFunctionsRegistry();
-        if ( StringUtils.isEmpty(functionsRegistry.getDescription(item.getName())) ) {
+        if ( Strings.isEmpty(functionsRegistry.getDescription(item.getName())) ) {
 			result.remove(LongClickMenuItem.copy_description);
 		}
 
@@ -247,7 +247,7 @@ public class CalculatorFunctionsFragment extends AbstractMathEntityListFragment<
             @Override
             public void onClick(@NotNull Function function, @NotNull Context context) {
                 final String text = Locator.getInstance().getEngine().getFunctionsRegistry().getDescription(function.getName());
-                if (!StringUtils.isEmpty(text)) {
+                if (!Strings.isEmpty(text)) {
                     final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
                     clipboard.setText(text);
                 }

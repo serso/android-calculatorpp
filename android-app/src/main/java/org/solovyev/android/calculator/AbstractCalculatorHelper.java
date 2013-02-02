@@ -17,7 +17,8 @@ import org.solovyev.android.calculator.view.NumeralBasesButton;
 import org.solovyev.android.calculator.view.OnDragListenerVibrator;
 import org.solovyev.android.history.HistoryDragProcessor;
 import org.solovyev.android.view.drag.*;
-import org.solovyev.common.Announcer;
+import org.solovyev.common.listeners.JListeners;
+import org.solovyev.common.listeners.Listeners;
 import org.solovyev.common.math.Point2d;
 
 import java.lang.reflect.Field;
@@ -42,7 +43,7 @@ public abstract class AbstractCalculatorHelper implements SharedPreferences.OnSh
     private Vibrator vibrator;
 
     @NotNull
-    private final Announcer<DragPreferencesChangeListener> dpclRegister = new Announcer<DragPreferencesChangeListener>(DragPreferencesChangeListener.class);
+    private final JListeners<DragPreferencesChangeListener> dpclRegister = Listeners.newHardRefListeners();
 
     @NotNull
     private String logTag = "CalculatorActivity";
@@ -79,7 +80,7 @@ public abstract class AbstractCalculatorHelper implements SharedPreferences.OnSh
     }
 
     public void processButtons(@NotNull final Activity activity, @NotNull View root) {
-        dpclRegister.clear();
+        dpclRegister.removeAll();
 
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
         final SimpleOnDragListener.Preferences dragPreferences = SimpleOnDragListener.getPreferences(preferences, activity);
@@ -239,7 +240,10 @@ public abstract class AbstractCalculatorHelper implements SharedPreferences.OnSh
     @Override
     public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
         if (key != null && key.startsWith("org.solovyev.android.calculator.DragButtonCalibrationActivity")) {
-            dpclRegister.announce().onDragPreferencesChange(SimpleOnDragListener.getPreferences(preferences, CalculatorApplication.getInstance()));
+            final SimpleOnDragListener.Preferences dragPreferences = SimpleOnDragListener.getPreferences(preferences, CalculatorApplication.getInstance());
+            for (DragPreferencesChangeListener dragPreferencesChangeListener : dpclRegister.getListeners()) {
+                dragPreferencesChangeListener.onDragPreferencesChange(dragPreferences);
+            }
         }
     }
 

@@ -14,7 +14,7 @@ import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.math.edit.VarEditorSaver;
 import org.solovyev.android.calculator.model.AFunction;
 import org.solovyev.common.msg.MessageType;
-import org.solovyev.common.text.StringUtils;
+import org.solovyev.common.text.Strings;
 
 import java.util.Collections;
 import java.util.List;
@@ -79,7 +79,7 @@ public class FunctionEditorSaver implements View.OnClickListener {
 			if (canBeSaved) {
 				if (validateParameters(parameterNames)) {
 
-                    if (!StringUtils.isEmpty(content)) {
+                    if (!Strings.isEmpty(content)) {
                         builder.setParameterNames(parameterNames);
                         builder.setName(name);
                         builder.setDescription(description);

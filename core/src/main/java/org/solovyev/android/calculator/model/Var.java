@@ -17,7 +17,7 @@ import org.simpleframework.xml.Transient;
 import org.solovyev.android.calculator.MathPersistenceEntity;
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathEntity;
-import org.solovyev.common.text.StringUtils;
+import org.solovyev.common.text.Strings;
 
 /**
  * User: serso
@@ -226,7 +226,7 @@ public class Var implements IConstant, MathPersistenceEntity {
 
 	@Override
 	public boolean isDefined() {
-		return !StringUtils.isEmpty(value);
+		return !Strings.isEmpty(value);
 	}
 
     @Override

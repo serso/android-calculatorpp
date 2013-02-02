@@ -13,7 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.R;
-import org.solovyev.common.text.StringUtils;
+import org.solovyev.common.text.Strings;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -45,7 +45,7 @@ public class HistoryArrayAdapter extends ArrayAdapter<CalculatorHistoryState> {
 		final TextView commentView = (TextView) result.findViewById(R.id.history_item_comment);
 		if (commentView != null) {
 			final String comment = state.getComment();
-			if (!StringUtils.isEmpty(comment)) {
+			if (!Strings.isEmpty(comment)) {
 				commentView.setText(comment);
 			} else {
 				commentView.setText("");

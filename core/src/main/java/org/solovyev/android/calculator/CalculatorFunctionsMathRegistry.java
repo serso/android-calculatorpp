@@ -18,7 +18,7 @@ import org.solovyev.android.calculator.model.Functions;
 import org.solovyev.android.calculator.model.MathEntityBuilder;
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathRegistry;
-import org.solovyev.common.text.StringUtils;
+import org.solovyev.common.text.Strings;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -101,7 +101,7 @@ public class CalculatorFunctionsMathRegistry extends AbstractCalculatorMathRegis
 			result = ((CustomFunction) function).getDescription();
 		}
 
-		if (StringUtils.isEmpty(result) ) {
+		if (Strings.isEmpty(result) ) {
 			result = super.getDescription(functionName);
 		}
 

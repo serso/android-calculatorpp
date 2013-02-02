@@ -6,12 +6,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.AndroidUtils2;
-import org.solovyev.android.calculator.AbstractFixableError;
+import org.solovyev.android.AndroidUtils;
 import org.solovyev.android.App;
+import org.solovyev.android.calculator.AbstractFixableError;
+import org.solovyev.android.calculator.CalculatorPreferences;
 import org.solovyev.android.calculator.FixableMessage;
 import org.solovyev.android.calculator.FixableMessagesDialog;
-import org.solovyev.android.calculator.CalculatorPreferences;
 import org.solovyev.common.msg.MessageType;
 
 import java.util.Arrays;
@@ -22,7 +22,7 @@ public class CalculatorOnscreenStartActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-        if (AndroidUtils2.isComponentEnabled(this, CalculatorOnscreenStartActivity.class)) {
+        if (AndroidUtils.isComponentEnabled(this, CalculatorOnscreenStartActivity.class)) {
             final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
 			if (!CalculatorPreferences.OnscreenCalculator.removeIconDialogShown.getPreference(prefs)) {
@@ -44,7 +44,7 @@ public class CalculatorOnscreenStartActivity extends Activity {
 
 		@Override
 		public void fix() {
-			final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(App.getInstance().getApplication());
+			final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(App.getApplication());
 			CalculatorPreferences.OnscreenCalculator.showAppIcon.putPreference(prefs, false);
 		}
 	}

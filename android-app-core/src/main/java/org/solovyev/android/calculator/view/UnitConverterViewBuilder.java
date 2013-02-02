@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.core.R;
 import org.solovyev.android.view.ViewBuilder;
 import org.solovyev.android.view.ViewFromLayoutBuilder;
-import org.solovyev.math.units.*;
+import org.solovyev.common.units.*;
 
 import java.util.Collections;
 import java.util.List;
@@ -169,7 +169,7 @@ public class UnitConverterViewBuilder implements ViewBuilder<View> {
 
         final String from = fromEditText.getText().toString();
         try {
-            toEditText.setText(ConversionUtils.doConversion(converter, from, getFromUnitType(main), getToUnitType(main)));
+            toEditText.setText(Conversions.doConversion(converter, from, getFromUnitType(main), getToUnitType(main)));
         } catch (ConversionException e) {
             toEditText.setText(context.getString(R.string.c_error));
         }

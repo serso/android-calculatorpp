@@ -2,10 +2,10 @@ package org.solovyev.android.calculator.units;
 
 import jscl.NumeralBase;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.math.units.Unit;
-import org.solovyev.math.units.UnitConverter;
-import org.solovyev.math.units.UnitImpl;
-import org.solovyev.math.units.UnitType;
+import org.solovyev.common.units.Unit;
+import org.solovyev.common.units.UnitConverter;
+import org.solovyev.common.units.UnitImpl;
+import org.solovyev.common.units.UnitType;
 
 import java.math.BigInteger;
 

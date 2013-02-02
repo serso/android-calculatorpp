@@ -8,7 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.common.collections.CollectionsUtils;
+import org.solovyev.common.collections.Collections;
 
 import java.util.List;
 
@@ -51,7 +51,7 @@ public class FragmentUtils {
     }
 
     public static void removeFragments(@NotNull SherlockFragmentActivity activity, @NotNull String... fragmentTags) {
-        removeFragments(activity, CollectionsUtils.asList(fragmentTags));
+        removeFragments(activity, Collections.asList(fragmentTags));
     }
 
     public static void removeFragments(@NotNull SherlockFragmentActivity activity, @NotNull List<String> fragmentTags) {
@@ -61,7 +61,7 @@ public class FragmentUtils {
     }
 
     public static void detachFragments(@NotNull SherlockFragmentActivity activity, @NotNull String... fragmentTags) {
-        detachFragments(activity, CollectionsUtils.asList(fragmentTags));
+        detachFragments(activity, Collections.asList(fragmentTags));
     }
 
     public static void detachFragments(@NotNull SherlockFragmentActivity activity, @NotNull List<String> fragmentTags) {

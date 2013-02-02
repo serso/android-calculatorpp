@@ -20,15 +20,15 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.CalculatorFragmentType;
-import org.solovyev.android.menu.AMenuBuilder;
 import org.solovyev.android.menu.AMenuItem;
+import org.solovyev.android.menu.ContextMenuBuilder;
 import org.solovyev.android.menu.LabeledMenuItem;
-import org.solovyev.android.menu.MenuImpl;
-import org.solovyev.common.equals.EqualsTool;
+import org.solovyev.android.menu.ListContextMenu;
+import org.solovyev.common.JPredicate;
+import org.solovyev.common.Objects;
 import org.solovyev.common.filter.Filter;
-import org.solovyev.common.filter.FilterRule;
 import org.solovyev.common.math.MathEntity;
-import org.solovyev.common.text.StringUtils;
+import org.solovyev.common.text.Strings;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -51,7 +51,7 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
 
     public static final String MATH_ENTITY_CATEGORY_EXTRA_STRING = "org.solovyev.android.calculator.CalculatorVarsActivity_math_entity_category";
 
-    protected final static List<Character> acceptableChars = Arrays.asList(StringUtils.toObject("1234567890abcdefghijklmnopqrstuvwxyzйцукенгшщзхъфывапролджэячсмитьбюё_".toCharArray()));
+    protected final static List<Character> acceptableChars = Arrays.asList(Strings.toObject("1234567890abcdefghijklmnopqrstuvwxyzйцукенгшщзхъфывапролджэячсмитьбюё_".toCharArray()));
 
 
     /*
@@ -124,7 +124,7 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
                 final List<LabeledMenuItem<T>> menuItems = getMenuItemsOnLongClick(item);
 
                 if (!menuItems.isEmpty()) {
-                    final AMenuBuilder<LabeledMenuItem<T>, T> menuBuilder = AMenuBuilder.newInstance(AbstractMathEntityListFragment.this.getActivity(), MenuImpl.newInstance(menuItems));
+                    final ContextMenuBuilder<LabeledMenuItem<T>, T> menuBuilder = ContextMenuBuilder.newInstance(AbstractMathEntityListFragment.this.getActivity(), ListContextMenu.newInstance(menuItems));
                     menuBuilder.create(item).show();
                 }
 
@@ -169,9 +169,9 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
     private List<T> getMathEntitiesByCategory() {
         final List<T> result = getMathEntities();
 
-        new Filter<T>(new FilterRule<T>() {
+        new Filter<T>(new JPredicate<T>() {
             @Override
-            public boolean isFiltered(T t) {
+            public boolean apply(T t) {
                 return !isInCategory(t);
             }
         }).filter(result.iterator());
@@ -180,7 +180,7 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
     }
 
     protected boolean isInCategory(@Nullable T t) {
-        return t != null && (category == null || EqualsTool.areEqual(getMathEntityCategory(t), category));
+        return t != null && (category == null || Objects.areEqual(getMathEntityCategory(t), category));
     }
 
     @NotNull
@@ -246,7 +246,7 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
             final String mathEntityDescription = descriptionGetter.getDescription(getContext(), mathEntity.getName());
 
             final TextView description = (TextView) result.findViewById(R.id.math_entity_description);
-            if (!StringUtils.isEmpty(mathEntityDescription)) {
+            if (!Strings.isEmpty(mathEntityDescription)) {
                 description.setVisibility(View.VISIBLE);
                 description.setText(mathEntityDescription);
             } else {

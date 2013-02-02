@@ -11,9 +11,9 @@ import jscl.math.function.IConstant;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.text.TextProcessor;
-import org.solovyev.common.StartsWithFinder;
-import org.solovyev.common.collections.CollectionsUtils;
+import org.solovyev.common.collections.Collections;
 import org.solovyev.common.msg.MessageType;
+import org.solovyev.common.search.StartsWithFinder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +47,7 @@ public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, St
 
 	@NotNull
 	private static StringBuilder processExpression(@NotNull String s) throws CalculatorParseException {
-		final StartsWithFinder startsWithFinder = new StartsWithFinder(s, 0);
+		final StartsWithFinder startsWithFinder = StartsWithFinder.newInstance(s);
 		final StringBuilder result = new StringBuilder();
 
 		MathType.Result mathTypeResult = null;
@@ -75,7 +75,7 @@ public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, St
 
             if (mathTypeBefore != null &&
                     (mathTypeBefore.getMathType() == MathType.function || mathTypeBefore.getMathType() == MathType.operator) &&
-                    CollectionsUtils.find(MathType.openGroupSymbols, startsWithFinder) != null) {
+                    Collections.find(MathType.openGroupSymbols, startsWithFinder) != null) {
                 final String functionName = mathTypeBefore.getMatch();
                 final Function function = Locator.getInstance().getEngine().getFunctionsRegistry().get(functionName);
                 if ( function == null || function.getMinParameters() > 0 ) {
@@ -96,18 +96,18 @@ public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, St
 			depth++;
 		}
 
-		final StartsWithFinder startsWithFinder = new StartsWithFinder(s, 0);
+		final StartsWithFinder startsWithFinder = StartsWithFinder.newInstance(s);
 
 		final StringBuilder result = new StringBuilder();
 		for (int i = 0; i < s.length(); i++) {
 			startsWithFinder.setI(i);
 
 			int offset = 0;
-			String functionName = CollectionsUtils.find(MathType.function.getTokens(), startsWithFinder);
+			String functionName = Collections.find(MathType.function.getTokens(), startsWithFinder);
 			if (functionName == null) {
-				String operatorName = CollectionsUtils.find(MathType.operator.getTokens(), startsWithFinder);
+				String operatorName = Collections.find(MathType.operator.getTokens(), startsWithFinder);
 				if (operatorName == null) {
-					String varName = CollectionsUtils.find(Locator.getInstance().getEngine().getVarsRegistry().getNames(), startsWithFinder);
+					String varName = Collections.find(Locator.getInstance().getEngine().getVarsRegistry().getNames(), startsWithFinder);
 					if (varName != null) {
 						final IConstant var = Locator.getInstance().getEngine().getVarsRegistry().get(varName);
 						if (var != null) {

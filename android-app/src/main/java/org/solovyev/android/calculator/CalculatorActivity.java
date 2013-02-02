@@ -23,14 +23,16 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.AActivities;
+import org.solovyev.android.AThreads;
 import org.solovyev.android.AndroidUtils;
 import org.solovyev.android.calculator.about.CalculatorReleaseNotesFragment;
 import org.solovyev.android.calculator.plot.CalculatorPlotActivity;
 import org.solovyev.android.fragments.FragmentUtils;
 import org.solovyev.android.prefs.Preference;
-import org.solovyev.common.equals.EqualsTool;
+import org.solovyev.common.Objects;
 import org.solovyev.common.history.HistoryAction;
-import org.solovyev.common.text.StringUtils;
+import org.solovyev.common.text.Strings;
 
 public class CalculatorActivity extends SherlockFragmentActivity implements SharedPreferences.OnSharedPreferenceChangeListener, CalculatorEventListener {
 
@@ -114,7 +116,7 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
         if (!CalculatorApplication.isMonkeyRunner(context)) {
 
             boolean dialogShown = false;
-            if (EqualsTool.areEqual(savedVersion, CalculatorPreferences.appVersion.getDefaultValue())) {
+            if (Objects.areEqual(savedVersion, CalculatorPreferences.appVersion.getDefaultValue())) {
                 // new start
                 final AlertDialog.Builder builder = new AlertDialog.Builder(context).setMessage(R.string.c_first_start_text);
                 builder.setPositiveButton(android.R.string.ok, null);
@@ -126,7 +128,7 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
                     final boolean showReleaseNotes = CalculatorPreferences.Gui.showReleaseNotes.getPreference(preferences);
                     if (showReleaseNotes) {
                         final String releaseNotes = CalculatorReleaseNotesFragment.getReleaseNotes(context, savedVersion + 1);
-                        if (!StringUtils.isEmpty(releaseNotes)) {
+                        if (!Strings.isEmpty(releaseNotes)) {
                             final AlertDialog.Builder builder = new AlertDialog.Builder(context).setMessage(Html.fromHtml(releaseNotes));
                             builder.setPositiveButton(android.R.string.ok, null);
                             builder.setTitle(R.string.c_release_notes);
@@ -199,7 +201,7 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         final CalculatorPreferences.Gui.Layout newLayout = CalculatorPreferences.Gui.layout.getPreference(preferences);
         if ( newLayout != activityHelper.getLayout() ) {
-            AndroidUtils.restartActivity(this);
+            AActivities.restartActivity(this);
         }
 
         this.activityHelper.onResume(this);
@@ -330,12 +332,12 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
     public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
         switch (calculatorEventType) {
             case plot_graph:
-                Threads.tryRunOnUiThread(this, new Runnable() {
+                AThreads.tryRunOnUiThread(this, new Runnable() {
                     @Override
                     public void run() {
-                        if ( isMultiPane() ) {
+                        if (isMultiPane()) {
                             final ActionBar.Tab selectedTab = getSupportActionBar().getSelectedTab();
-                            if ( selectedTab != null && CalculatorFragmentType.plotter.getFragmentTag().equals(selectedTab.getTag()) ) {
+                            if (selectedTab != null && CalculatorFragmentType.plotter.getFragmentTag().equals(selectedTab.getTag())) {
                                 // do nothing - fragment shown and already registered for plot updates
                             } else {
                                 // otherwise - open fragment

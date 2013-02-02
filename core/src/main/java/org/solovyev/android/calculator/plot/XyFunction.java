@@ -4,7 +4,7 @@ import jscl.math.Generic;
 import jscl.math.function.Constant;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.common.text.StringUtils;
+import org.solovyev.common.text.Strings;
 
 public class XyFunction implements FunctionEvaluator {
 
@@ -71,7 +71,7 @@ public class XyFunction implements FunctionEvaluator {
             this.arity--;
         }
 
-		this.id = this.expressionString + "_" + StringUtils.getNotEmpty(this.xVariableName, "") + "_" + StringUtils.getNotEmpty(this.yVariableName, "");
+		this.id = this.expressionString + "_" + Strings.getNotEmpty(this.xVariableName, "") + "_" + Strings.getNotEmpty(this.yVariableName, "");
 
     }
 

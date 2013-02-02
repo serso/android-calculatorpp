@@ -13,7 +13,7 @@ import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.AndroidUtils2;
+import org.solovyev.android.AndroidUtils;
 import org.solovyev.android.App;
 import org.solovyev.android.ads.AdsController;
 import org.solovyev.android.calculator.external.AndroidExternalListenersContainer;
@@ -100,7 +100,7 @@ public class CalculatorApplication extends android.app.Application implements Sh
     public void onCreate() {
         ACRA.init(this);
 
-        App.getInstance().init(this);
+        App.init(this);
 
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         CalculatorPreferences.setDefaultValues(preferences);
@@ -221,7 +221,7 @@ public class CalculatorApplication extends android.app.Application implements Sh
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
         if (CalculatorPreferences.OnscreenCalculator.showAppIcon.getKey().equals(key)) {
             boolean showAppIcon = CalculatorPreferences.OnscreenCalculator.showAppIcon.getPreference(prefs);
-            AndroidUtils2.toggleComponent(this, CalculatorOnscreenStartActivity.class, showAppIcon);
+            AndroidUtils.toggleComponent(this, CalculatorOnscreenStartActivity.class, showAppIcon);
 			Locator.getInstance().getNotifier().showMessage(R.string.cpp_this_change_may_require_reboot, MessageType.info);
         }
     }

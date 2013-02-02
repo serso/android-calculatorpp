@@ -15,7 +15,7 @@ import org.solovyev.android.calculator.CalculatorDisplay;
 import org.solovyev.android.calculator.CalculatorDisplayViewState;
 import org.solovyev.android.calculator.CalculatorDisplayViewStateImpl;
 import org.solovyev.android.calculator.jscl.JsclOperation;
-import org.solovyev.common.text.StringUtils;
+import org.solovyev.common.text.Strings;
 
 /**
  * User: serso
@@ -65,9 +65,9 @@ public class CalculatorDisplayHistoryState implements Cloneable {
 
 	public void setValuesFromHistory(@NotNull CalculatorDisplay display) {
         if ( this.isValid() ) {
-            display.setViewState(CalculatorDisplayViewStateImpl.newValidState(this.getJsclOperation(), this.getGenericResult(), StringUtils.getNotEmpty(this.getEditorState().getText(), ""), this.getEditorState().getCursorPosition()));
+            display.setViewState(CalculatorDisplayViewStateImpl.newValidState(this.getJsclOperation(), this.getGenericResult(), Strings.getNotEmpty(this.getEditorState().getText(), ""), this.getEditorState().getCursorPosition()));
         } else {
-            display.setViewState(CalculatorDisplayViewStateImpl.newErrorState(this.getJsclOperation(), StringUtils.getNotEmpty(this.getErrorMessage(), "")));
+            display.setViewState(CalculatorDisplayViewStateImpl.newErrorState(this.getJsclOperation(), Strings.getNotEmpty(this.getErrorMessage(), "")));
         }
 	}
 

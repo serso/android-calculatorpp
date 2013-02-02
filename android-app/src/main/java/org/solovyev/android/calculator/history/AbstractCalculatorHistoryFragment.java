@@ -26,15 +26,14 @@ import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.menu.*;
 import org.solovyev.android.sherlock.menu.SherlockMenuHelper;
-import org.solovyev.common.collections.CollectionsUtils;
+import org.solovyev.common.JPredicate;
+import org.solovyev.common.collections.Collections;
 import org.solovyev.common.equals.Equalizer;
 import org.solovyev.common.filter.Filter;
-import org.solovyev.common.filter.FilterRule;
 import org.solovyev.common.filter.FilterRulesChain;
-import org.solovyev.common.text.StringUtils;
+import org.solovyev.common.text.Strings;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -145,7 +144,7 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 
                 final HistoryItemMenuData data = new HistoryItemMenuData(historyState, adapter);
 
-                final List<HistoryItemMenuItem> menuItems = CollectionsUtils.asList(HistoryItemMenuItem.values());
+                final List<HistoryItemMenuItem> menuItems = Collections.asList(HistoryItemMenuItem.values());
 
                 if (historyState.isSaved()) {
                     menuItems.remove(HistoryItemMenuItem.save);
@@ -157,11 +156,11 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
                     menuItems.remove(HistoryItemMenuItem.edit);
                 }
 
-                if (historyState.getDisplayState().isValid() && StringUtils.isEmpty(historyState.getDisplayState().getEditorState().getText())) {
+                if (historyState.getDisplayState().isValid() && Strings.isEmpty(historyState.getDisplayState().getEditorState().getText())) {
                     menuItems.remove(HistoryItemMenuItem.copy_result);
                 }
 
-                final AMenuBuilder<HistoryItemMenuItem, HistoryItemMenuData> menuBuilder = AMenuBuilder.newInstance(context, MenuImpl.newInstance(menuItems));
+                final ContextMenuBuilder<HistoryItemMenuItem, HistoryItemMenuData> menuBuilder = ContextMenuBuilder.newInstance(context, ListContextMenu.newInstance(menuItems));
                 menuBuilder.create(data).show();
 
                 return true;
@@ -219,7 +218,7 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 		boolean result = false;
 		try {
 			historyState.setSaved(true);
-			if ( CollectionsUtils.contains(historyState, Locator.getInstance().getHistory().getSavedHistory(), new Equalizer<CalculatorHistoryState>() {
+			if ( Collections.contains(historyState, Locator.getInstance().getHistory().getSavedHistory(), new Equalizer<CalculatorHistoryState>() {
 				@Override
 				public boolean equals(@Nullable CalculatorHistoryState first, @Nullable CalculatorHistoryState second) {
 					return first != null && second != null &&
@@ -244,13 +243,13 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 	private List<CalculatorHistoryState> getHistoryList() {
 		final List<CalculatorHistoryState> calculatorHistoryStates = getHistoryItems();
 
-		Collections.sort(calculatorHistoryStates, COMPARATOR);
+		java.util.Collections.sort(calculatorHistoryStates, COMPARATOR);
 
 		final FilterRulesChain<CalculatorHistoryState> filterRulesChain = new FilterRulesChain<CalculatorHistoryState>();
-		filterRulesChain.addFilterRule(new FilterRule<CalculatorHistoryState>() {
+		filterRulesChain.addFilterRule(new JPredicate<CalculatorHistoryState>() {
 			@Override
-			public boolean isFiltered(CalculatorHistoryState object) {
-				return object == null || StringUtils.isEmpty(object.getEditorState().getText());
+			public boolean apply(CalculatorHistoryState object) {
+				return object == null || Strings.isEmpty(object.getEditorState().getText());
 			}
 		});
 

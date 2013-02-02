@@ -5,7 +5,7 @@ import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.history.CalculatorHistoryState;
 import org.solovyev.android.calculator.history.EditorHistoryState;
 import org.solovyev.common.gui.CursorControl;
-import org.solovyev.common.text.StringUtils;
+import org.solovyev.common.text.Strings;
 
 /**
  * User: Solovyev_S
@@ -93,7 +93,7 @@ public class CalculatorEditorImpl implements CalculatorEditor {
                 case use_history_state:
                     final CalculatorHistoryState calculatorHistoryState = (CalculatorHistoryState)data;
                     final EditorHistoryState editorState = calculatorHistoryState.getEditorState();
-                    this.setText(StringUtils.getNotEmpty(editorState.getText(), ""), editorState.getCursorPosition());
+                    this.setText(Strings.getNotEmpty(editorState.getText(), ""), editorState.getCursorPosition());
                     break;
             }
         }

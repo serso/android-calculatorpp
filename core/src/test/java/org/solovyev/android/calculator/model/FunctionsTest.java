@@ -13,7 +13,7 @@ import org.simpleframework.xml.core.Persister;
 import org.solovyev.android.calculator.CalculatorTestUtils;
 import org.solovyev.common.equals.CollectionEqualizer;
 import org.solovyev.common.equals.EqualsUtils;
-import org.solovyev.common.text.StringUtils;
+import org.solovyev.common.text.Strings;
 
 import java.io.StringWriter;
 import java.util.*;
@@ -122,7 +122,7 @@ public class FunctionsTest {
         for (  int i = 0; i < 1000; i++ ) {
             final String content = generator.generate();
 
-            final String paramsString = StringUtils.generateRandomString(random.nextInt(10));
+            final String paramsString = Strings.generateRandomString(random.nextInt(10));
             final List<String> parameterNames = new ArrayList<String>();
             for (int j = 0; j < paramsString.length(); j++) {
                 parameterNames.add(String.valueOf(paramsString.charAt(j)));
@@ -131,7 +131,7 @@ public class FunctionsTest {
             final AFunction.Builder builder = new AFunction.Builder("test_" + i, content, parameterNames);
 
             if ( random.nextBoolean() ) {
-                builder.setDescription(StringUtils.generateRandomString(random.nextInt(100)));
+                builder.setDescription(Strings.generateRandomString(random.nextInt(100)));
             }
 
             builder.setSystem(random.nextBoolean());

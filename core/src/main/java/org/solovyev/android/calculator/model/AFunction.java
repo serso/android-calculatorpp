@@ -19,7 +19,7 @@ import org.solovyev.android.calculator.MathPersistenceEntity;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.msg.Message;
 import org.solovyev.common.msg.MessageType;
-import org.solovyev.common.text.StringUtils;
+import org.solovyev.common.text.Strings;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -109,7 +109,7 @@ public class AFunction implements IFunction, MathPersistenceEntity, Serializable
 							 @NotNull IFunction source) {
 		target.name = source.getName();
 		target.content = source.getContent();
-		target.description = StringUtils.getNotEmpty(source.getDescription(), "");
+		target.description = Strings.getNotEmpty(source.getDescription(), "");
 		target.system = source.isSystem();
 		if (source.isIdDefined()) {
 			target.id = source.getId();
@@ -285,7 +285,7 @@ public class AFunction implements IFunction, MathPersistenceEntity, Serializable
 				throw new CreationException(e);
 			}
 			result.system = system;
-			result.description = StringUtils.getNotEmpty(description, "");
+			result.description = Strings.getNotEmpty(description, "");
 			result.parameterNames = new ArrayList<String>(parameterNames);
 
 			return result;

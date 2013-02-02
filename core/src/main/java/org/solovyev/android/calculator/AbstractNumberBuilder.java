@@ -10,7 +10,7 @@ import jscl.NumeralBase;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.math.MathType;
-import org.solovyev.common.text.StringUtils;
+import org.solovyev.common.text.Strings;
 
 /**
  * User: serso
@@ -48,7 +48,7 @@ public abstract class AbstractNumberBuilder {
 	}
 
 	private boolean spaceBefore(@NotNull MathType.Result mathTypeResult) {
-		return numberBuilder == null && StringUtils.isEmpty(mathTypeResult.getMatch().trim());
+		return numberBuilder == null && Strings.isEmpty(mathTypeResult.getMatch().trim());
 	}
 
 	private boolean numeralBaseInTheStart(@NotNull MathType mathType) {

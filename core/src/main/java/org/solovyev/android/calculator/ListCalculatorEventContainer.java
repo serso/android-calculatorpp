@@ -2,9 +2,11 @@ package org.solovyev.android.calculator;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.common.utils.ListListenersContainer;
+import org.solovyev.common.listeners.JListeners;
+import org.solovyev.common.listeners.Listeners;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -18,7 +20,7 @@ public class ListCalculatorEventContainer implements CalculatorEventContainer {
     private static final String TAG = "CalculatorEventData";
 
     @NotNull
-    private final ListListenersContainer<CalculatorEventListener> listeners = new ListListenersContainer<CalculatorEventListener>();
+    private final JListeners<CalculatorEventListener> listeners = Listeners.newWeakRefListeners();
 
     @Override
     public void addCalculatorEventListener(@NotNull CalculatorEventListener calculatorEventListener) {
@@ -37,7 +39,7 @@ public class ListCalculatorEventContainer implements CalculatorEventContainer {
 
     @Override
     public void fireCalculatorEvents(@NotNull List<CalculatorEvent> calculatorEvents) {
-        final List<CalculatorEventListener> listeners = this.listeners.getListeners();
+        final Collection<CalculatorEventListener> listeners = this.listeners.getListeners();
 
         //final CalculatorLogger logger = Locator.getInstance().getLogger();
 

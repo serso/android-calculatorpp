@@ -21,7 +21,7 @@ import net.robotmedia.billing.ResponseCode;
 import net.robotmedia.billing.helper.AbstractBillingObserver;
 import net.robotmedia.billing.model.Transaction;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.AndroidUtils;
+import org.solovyev.android.AActivities;
 import org.solovyev.android.App;
 import org.solovyev.android.ads.AdsController;
 import org.solovyev.android.calculator.*;
@@ -156,7 +156,7 @@ public class CalculatorPreferencesActivity extends SherlockPreferenceActivity im
 					case PURCHASED:
 						adFreePreference.setEnabled(false);
 						// restart activity to disable ads
-						AndroidUtils.restartActivity(this);
+						AActivities.restartActivity(this);
 						break;
 					case CANCELLED:
 						adFreePreference.setEnabled(true);
@@ -177,7 +177,7 @@ public class CalculatorPreferencesActivity extends SherlockPreferenceActivity im
             if (response == ResponseCode.RESULT_OK) {
                 adFreePreference.setEnabled(false);
 
-                final Message message = new AndroidMessage(R.string.cpp_purchase_thank_you_text, MessageType.info, App.getInstance().getApplication());
+                final Message message = new AndroidMessage(R.string.cpp_purchase_thank_you_text, MessageType.info, App.getApplication());
                 Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_message_dialog, MessageDialogData.newInstance(message, null));
             }
         }

@@ -17,7 +17,7 @@ import com.actionbarsherlock.app.SherlockActivity;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.core.R;
 import org.solovyev.common.msg.Message;
-import org.solovyev.common.text.StringUtils;
+import org.solovyev.common.text.Strings;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -101,7 +101,7 @@ public class FixableMessagesDialog extends SherlockActivity {
                 fixButton.setOnClickListener(new FixErrorOnClickListener(messages, message));
 
 				final CharSequence fixCaption = fixableError.getFixCaption();
-				if (!StringUtils.isEmpty(fixCaption)) {
+				if (!Strings.isEmpty(fixCaption)) {
 					fixButton.setText(fixCaption);
 				}
             }

@@ -4,7 +4,7 @@ import jscl.AngleUnit;
 import jscl.text.msg.Messages;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.common.collections.CollectionsUtils;
+import org.solovyev.common.collections.Collections;
 
 import java.util.List;
 
@@ -40,7 +40,7 @@ public enum CalculatorFixableError implements FixableError {
     private final List<String> messageCodes;
 
      CalculatorFixableError(@Nullable String... messageCodes) {
-         this.messageCodes = CollectionsUtils.asList(messageCodes);
+         this.messageCodes = Collections.asList(messageCodes);
     }
 
     @Nullable

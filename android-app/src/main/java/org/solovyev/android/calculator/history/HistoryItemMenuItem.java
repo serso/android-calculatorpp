@@ -20,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.menu.LabeledMenuItem;
-import org.solovyev.common.text.StringUtils;
+import org.solovyev.common.text.Strings;
 
 /**
 * User: serso
@@ -41,7 +41,7 @@ public enum HistoryItemMenuItem implements LabeledMenuItem<HistoryItemMenuData> 
 		public void onClick(@NotNull HistoryItemMenuData data, @NotNull Context context) {
 			final CalculatorHistoryState calculatorHistoryState = data.getHistoryState();
 			final String text = calculatorHistoryState.getEditorState().getText();
-			if (!StringUtils.isEmpty(text)) {
+			if (!Strings.isEmpty(text)) {
 				final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
 				clipboard.setText(text);
 				Toast.makeText(context, context.getText(R.string.c_expression_copied), Toast.LENGTH_SHORT).show();
@@ -54,7 +54,7 @@ public enum HistoryItemMenuItem implements LabeledMenuItem<HistoryItemMenuData> 
 		public void onClick(@NotNull HistoryItemMenuData data, @NotNull Context context) {
 			final CalculatorHistoryState calculatorHistoryState = data.getHistoryState();
 			final String text = calculatorHistoryState.getDisplayState().getEditorState().getText();
-			if (!StringUtils.isEmpty(text)) {
+			if (!Strings.isEmpty(text)) {
 				final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
 				clipboard.setText(text);
 				Toast.makeText(context, context.getText(R.string.c_result_copied), Toast.LENGTH_SHORT).show();

@@ -5,7 +5,7 @@ package org.solovyev.android.calculator.plot;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.AndroidUtils2;
+import org.solovyev.android.AViews;
 
 class TouchHandler {
 
@@ -43,7 +43,7 @@ class TouchHandler {
         float x = event.getX();
         float y = event.getY();
 
-        int pointerCount = AndroidUtils2.getPointerCountFromMotionEvent(event);
+        int pointerCount = AViews.getPointerCountFromMotionEvent(event);
 
         switch (action) {
             case MotionEvent.ACTION_DOWN:
@@ -63,7 +63,7 @@ class TouchHandler {
                     velocityTracker.addMovement(event);
                     listener.onTouchMove(x, y);
                 } else if (pointerCount == 2) {
-                    listener.onTouchZoomMove(x, y, AndroidUtils2.getXFromMotionEvent(event, 1), AndroidUtils2.getYFromMotionEvent(event, 1));
+                    listener.onTouchZoomMove(x, y, AViews.getXFromMotionEvent(event, 1), AViews.getYFromMotionEvent(event, 1));
                 }
                 break;
 
@@ -75,7 +75,7 @@ class TouchHandler {
 
             case MotionEvent.ACTION_POINTER_DOWN:
                 if (pointerCount == 2) {
-                    listener.onTouchZoomDown(x, y, AndroidUtils2.getXFromMotionEvent(event, 1), AndroidUtils2.getYFromMotionEvent(event, 1));
+                    listener.onTouchZoomDown(x, y, AViews.getXFromMotionEvent(event, 1), AViews.getYFromMotionEvent(event, 1));
                 }
                 break;
 

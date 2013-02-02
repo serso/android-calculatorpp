@@ -14,7 +14,7 @@ import org.solovyev.android.calculator.CalculatorEditorViewState;
 import org.solovyev.android.calculator.CalculatorEditorViewStateImpl;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.common.equals.CollectionEqualizer;
-import org.solovyev.common.equals.EqualsTool;
+import org.solovyev.common.Objects;
 import org.solovyev.common.history.HistoryHelper;
 import org.solovyev.common.history.SimpleHistoryHelper;
 
@@ -122,7 +122,7 @@ public class HistoryUtilsTest {
 	public void testToXml() throws Exception {
 		final Date date = new Date(100000000);
 
-		HistoryHelper<CalculatorHistoryState> history = new SimpleHistoryHelper<CalculatorHistoryState>();
+		HistoryHelper<CalculatorHistoryState> history = SimpleHistoryHelper.newInstance();
 
 		CalculatorDisplayViewState calculatorDisplay = CalculatorDisplayViewStateImpl.newErrorState(JsclOperation.simplify, "Error");
 
@@ -170,7 +170,7 @@ public class HistoryUtilsTest {
 		Assert.assertEquals(toXml2, xml);
 
 		final List<CalculatorHistoryState> fromXml = new ArrayList<CalculatorHistoryState>();
-		final HistoryHelper<CalculatorHistoryState> historyFromXml = new SimpleHistoryHelper<CalculatorHistoryState>();
+		final HistoryHelper<CalculatorHistoryState> historyFromXml = SimpleHistoryHelper.newInstance();
 		HistoryUtils.fromXml(xml, fromXml);
 		for (CalculatorHistoryState historyState : fromXml) {
 			historyFromXml.addState(historyState);
@@ -186,6 +186,6 @@ public class HistoryUtilsTest {
 			historyState.setId(0);
 			historyState.setSaved(true);
 		}
-		Assert.assertTrue(EqualsTool.areEqual(history.getStates(), historyFromXml.getStates(), new CollectionEqualizer<CalculatorHistoryState>(null)));
+		Assert.assertTrue(Objects.areEqual(history.getStates(), historyFromXml.getStates(), new CollectionEqualizer<CalculatorHistoryState>(null)));
 	}
 }

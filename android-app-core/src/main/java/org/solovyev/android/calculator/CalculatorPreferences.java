@@ -30,37 +30,37 @@ public final class CalculatorPreferences {
         throw new AssertionError();
     }
 
-    public static final Preference<Integer> appVersion = new IntegerPreference("application.version", -1);
-    public static final Preference<Integer> appOpenedCounter = new IntegerPreference("app_opened_counter", 0);
+    public static final Preference<Integer> appVersion = IntegerPreference.of("application.version", -1);
+    public static final Preference<Integer> appOpenedCounter = IntegerPreference.of("app_opened_counter", 0);
 
     public static class OnscreenCalculator {
-        public static final Preference<Boolean> startOnBoot = new BooleanPreference("onscreen_start_on_boot", false);
-        public static final Preference<Boolean> showAppIcon = new BooleanPreference("onscreen_show_app_icon", true);
-		public static final Preference<Boolean> removeIconDialogShown = new BooleanPreference("onscreen_remove_icon_dialog_shown", false);
+        public static final Preference<Boolean> startOnBoot = BooleanPreference.of("onscreen_start_on_boot", false);
+        public static final Preference<Boolean> showAppIcon = BooleanPreference.of("onscreen_show_app_icon", true);
+		public static final Preference<Boolean> removeIconDialogShown = BooleanPreference.of("onscreen_remove_icon_dialog_shown", false);
 	}
 
     public static class Calculations {
 
-        public static final Preference<Boolean> calculateOnFly = new BooleanPreference("calculations_calculate_on_fly", true);
-        public static final Preference<Boolean> showCalculationMessagesDialog = new BooleanPreference("show_calculation_messages_dialog", true);
+        public static final Preference<Boolean> calculateOnFly = BooleanPreference.of("calculations_calculate_on_fly", true);
+        public static final Preference<Boolean> showCalculationMessagesDialog = BooleanPreference.of("show_calculation_messages_dialog", true);
 
-        public static final Preference<NumeralBase> preferredNumeralBase = StringPreference.newInstance("preferred_numeral_base", AndroidCalculatorEngine.Preferences.numeralBase.getDefaultValue(), NumeralBase.class);
-        public static final Preference<AngleUnit> preferredAngleUnits = StringPreference.newInstance("preferred_angle_units", AndroidCalculatorEngine.Preferences.angleUnit.getDefaultValue(), AngleUnit.class);
-        public static final Preference<Long> lastPreferredPreferencesCheck = new LongPreference("preferred_preferences_check_time", 0L);
+        public static final Preference<NumeralBase> preferredNumeralBase = StringPreference.ofEnum("preferred_numeral_base", AndroidCalculatorEngine.Preferences.numeralBase.getDefaultValue(), NumeralBase.class);
+        public static final Preference<AngleUnit> preferredAngleUnits = StringPreference.ofEnum("preferred_angle_units", AndroidCalculatorEngine.Preferences.angleUnit.getDefaultValue(), AngleUnit.class);
+        public static final Preference<Long> lastPreferredPreferencesCheck = LongPreference.of("preferred_preferences_check_time", 0L);
 
     }
 
     public static class Gui {
 
-        public static final Preference<Theme> theme = StringPreference.newInstance("org.solovyev.android.calculator.CalculatorActivity_calc_theme", Theme.metro_blue_theme, Theme.class);
-        public static final Preference<Layout> layout = StringPreference.newInstance("org.solovyev.android.calculator.CalculatorActivity_calc_layout", Layout.main_calculator, Layout.class);
-        public static final Preference<Boolean> feedbackWindowShown = new BooleanPreference("feedback_window_shown", false);
-        public static final Preference<Boolean> notesppAnnounceShown = new BooleanPreference("notespp_announce_shown", false);
-        public static final Preference<Boolean> showReleaseNotes = new BooleanPreference("org.solovyev.android.calculator.CalculatorActivity_show_release_notes", true);
-        public static final Preference<Boolean> usePrevAsBack = new BooleanPreference("org.solovyev.android.calculator.CalculatorActivity_use_back_button_as_prev", false);
-        public static final Preference<Boolean> showEqualsButton = new BooleanPreference("showEqualsButton", true);
-        public static final Preference<Boolean> autoOrientation = new BooleanPreference("autoOrientation", true);
-        public static final Preference<Boolean> hideNumeralBaseDigits = new BooleanPreference("hideNumeralBaseDigits", true);
+        public static final Preference<Theme> theme = StringPreference.ofEnum("org.solovyev.android.calculator.CalculatorActivity_calc_theme", Theme.metro_blue_theme, Theme.class);
+        public static final Preference<Layout> layout = StringPreference.ofEnum("org.solovyev.android.calculator.CalculatorActivity_calc_layout", Layout.main_calculator, Layout.class);
+        public static final Preference<Boolean> feedbackWindowShown = BooleanPreference.of("feedback_window_shown", false);
+        public static final Preference<Boolean> notesppAnnounceShown = BooleanPreference.of("notespp_announce_shown", false);
+        public static final Preference<Boolean> showReleaseNotes = BooleanPreference.of("org.solovyev.android.calculator.CalculatorActivity_show_release_notes", true);
+        public static final Preference<Boolean> usePrevAsBack = BooleanPreference.of("org.solovyev.android.calculator.CalculatorActivity_use_back_button_as_prev", false);
+        public static final Preference<Boolean> showEqualsButton = BooleanPreference.of("showEqualsButton", true);
+        public static final Preference<Boolean> autoOrientation = BooleanPreference.of("autoOrientation", true);
+        public static final Preference<Boolean> hideNumeralBaseDigits = BooleanPreference.of("hideNumeralBaseDigits", true);
 
         @NotNull
         public static Theme getTheme(@NotNull SharedPreferences preferences) {
@@ -131,11 +131,11 @@ public final class CalculatorPreferences {
     }
 
     public static class Graph {
-        public static final Preference<Boolean> plotImag = new BooleanPreference("graph_plot_imag", false);
+        public static final Preference<Boolean> plotImag = BooleanPreference.of("graph_plot_imag", false);
     }
 
     public static class History {
-        public static final Preference<Boolean> showIntermediateCalculations = new BooleanPreference("history_show_intermediate_calculations", false);
+        public static final Preference<Boolean> showIntermediateCalculations = BooleanPreference.of("history_show_intermediate_calculations", false);
     }
 
 
@@ -210,9 +210,7 @@ public final class CalculatorPreferences {
     }
 
     private static void applyDefaultPreference(@NotNull SharedPreferences preferences, @NotNull Preference<?> preference) {
-        if (!preference.isSet(preferences)) {
-            preference.putDefault(preferences);
-        }
+        preference.tryPutDefault(preferences);
     }
 
 }

@@ -12,7 +12,7 @@ import org.simpleframework.xml.Root;
 import org.solovyev.android.calculator.CalculatorDisplayViewState;
 import org.solovyev.android.calculator.CalculatorEditor;
 import org.solovyev.android.calculator.CalculatorEditorViewState;
-import org.solovyev.common.text.StringUtils;
+import org.solovyev.common.text.Strings;
 
 @Root
 public class EditorHistoryState implements Cloneable{
@@ -49,7 +49,7 @@ public class EditorHistoryState implements Cloneable{
     }
 
 	public void setValuesFromHistory(@NotNull CalculatorEditor editor) {
-		editor.setText(StringUtils.getNotEmpty(this.getText(), ""));
+		editor.setText(Strings.getNotEmpty(this.getText(), ""));
 		editor.setSelection(this.getCursorPosition());
 	}
 

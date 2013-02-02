@@ -3,8 +3,8 @@ package org.solovyev.android.calculator;
 import android.content.Context;
 import android.view.View;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.menu.AMenuBuilder;
-import org.solovyev.android.menu.MenuImpl;
+import org.solovyev.android.menu.ContextMenuBuilder;
+import org.solovyev.android.menu.ListContextMenu;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +39,7 @@ public class CalculatorDisplayOnClickListener implements View.OnClickListener {
                 }
 
                 if (!filteredMenuItems.isEmpty()) {
-                    AMenuBuilder.newInstance(context, MenuImpl.newInstance(filteredMenuItems)).create(displayViewState).show();
+                    ContextMenuBuilder.newInstance(context, ListContextMenu.newInstance(filteredMenuItems)).create(displayViewState).show();
                 }
 
             } else {

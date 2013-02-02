@@ -11,7 +11,7 @@ import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.menu.AMenuItem;
 import org.solovyev.android.menu.LabeledMenuItem;
-import org.solovyev.common.text.StringUtils;
+import org.solovyev.common.text.Strings;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,7 +39,7 @@ public class CalculatorOperatorsFragment extends AbstractMathEntityListFragment<
 	protected List<LabeledMenuItem<Operator>> getMenuItemsOnLongClick(@NotNull Operator item) {
 		final List<LabeledMenuItem<Operator>> result = new ArrayList<LabeledMenuItem<Operator>>(Arrays.asList(LongClickMenuItem.values()));
 
-		if ( StringUtils.isEmpty(OperatorDescriptionGetter.instance.getDescription(this.getActivity(), item.getName())) ) {
+		if ( Strings.isEmpty(OperatorDescriptionGetter.instance.getDescription(this.getActivity(), item.getName())) ) {
 			result.remove(LongClickMenuItem.copy_description);
 		}
 
@@ -81,7 +81,7 @@ public class CalculatorOperatorsFragment extends AbstractMathEntityListFragment<
         @Override
         public String getDescription(@NotNull Context context, @NotNull String mathEntityName) {
             String result = Locator.getInstance().getEngine().getOperatorsRegistry().getDescription(mathEntityName);
-            if (StringUtils.isEmpty(result)) {
+            if (Strings.isEmpty(result)) {
                 result = Locator.getInstance().getEngine().getPostfixFunctionsRegistry().getDescription(mathEntityName);
             }
 
@@ -110,7 +110,7 @@ public class CalculatorOperatorsFragment extends AbstractMathEntityListFragment<
             @Override
             public void onClick(@NotNull Operator data, @NotNull Context context) {
                 final String text = OperatorDescriptionGetter.instance.getDescription(context, data.getName());
-                if (!StringUtils.isEmpty(text)) {
+                if (!Strings.isEmpty(text)) {
                     final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
                     clipboard.setText(text);
                 }

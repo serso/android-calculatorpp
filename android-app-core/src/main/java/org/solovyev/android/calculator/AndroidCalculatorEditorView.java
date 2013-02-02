@@ -23,7 +23,7 @@ import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.text.TextProcessor;
 import org.solovyev.android.calculator.view.TextHighlighter;
 import org.solovyev.android.prefs.BooleanPreference;
-import org.solovyev.common.collections.CollectionsUtils;
+import org.solovyev.common.collections.Collections;
 
 /**
  * User: serso
@@ -33,7 +33,7 @@ import org.solovyev.common.collections.CollectionsUtils;
 public class AndroidCalculatorEditorView extends EditText implements SharedPreferences.OnSharedPreferenceChangeListener, CalculatorEditorView {
 
     @NotNull
-    private static final BooleanPreference colorDisplay = new BooleanPreference("org.solovyev.android.calculator.CalculatorModel_color_display", true);
+    private static final BooleanPreference colorDisplay = BooleanPreference.of("org.solovyev.android.calculator.CalculatorModel_color_display", true);
 
     private volatile boolean initialized = false;
 
@@ -74,7 +74,7 @@ public class AndroidCalculatorEditorView extends EditText implements SharedPrefe
             // fix for missing cursor in android 3 and higher
             try {
                 // IDEA: return false always except if method was called from TextView.isCursorVisible() method
-                for (StackTraceElement stackTraceElement : CollectionsUtils.asList(Thread.currentThread().getStackTrace())) {
+                for (StackTraceElement stackTraceElement : Collections.asList(Thread.currentThread().getStackTrace())) {
                     if ("isCursorVisible".equals(stackTraceElement.getMethodName())) {
                         return true;
                     }

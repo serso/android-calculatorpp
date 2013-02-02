@@ -4,7 +4,7 @@ import jscl.math.Generic;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.jscl.JsclOperation;
-import org.solovyev.common.text.StringUtils;
+import org.solovyev.common.text.Strings;
 
 /**
  * User: serso
@@ -89,7 +89,7 @@ public class CalculatorDisplayViewStateImpl implements CalculatorDisplayViewStat
     @NotNull
     @Override
     public String getText() {
-        return StringUtils.getNotEmpty(isValid() ? stringResult : errorMessage, "");
+        return Strings.getNotEmpty(isValid() ? stringResult : errorMessage, "");
     }
 
     @Override

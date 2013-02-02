@@ -2,9 +2,8 @@ package org.solovyev.android.calculator;
 
 import jscl.math.operator.*;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.common.collections.CollectionsUtils;
+import org.solovyev.common.collections.Collections;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -61,9 +60,9 @@ public enum OperatorCategory {
 
     @NotNull
     public static List<OperatorCategory> getCategoriesByTabOrder() {
-        final List<OperatorCategory> result = CollectionsUtils.asList(OperatorCategory.values());
+        final List<OperatorCategory> result = Collections.asList(OperatorCategory.values());
 
-        Collections.sort(result, new Comparator<OperatorCategory>() {
+        java.util.Collections.sort(result, new Comparator<OperatorCategory>() {
             @Override
             public int compare(OperatorCategory category, OperatorCategory category1) {
                 return category.tabOrder - category1.tabOrder;

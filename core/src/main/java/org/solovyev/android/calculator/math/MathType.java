@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.CalculatorParseException;
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.common.JPredicate;
-import org.solovyev.common.collections.CollectionsUtils;
+import org.solovyev.common.collections.Collections;
 
 import java.util.*;
 
@@ -190,7 +190,7 @@ public enum MathType {
 			 boolean needMultiplicationSignAfter,
 			 @NotNull MathGroupType groupType,
 			 @NotNull String... tokens) {
-		this(priority, needMultiplicationSignBefore, needMultiplicationSignAfter, groupType, CollectionsUtils.asList(tokens));
+		this(priority, needMultiplicationSignBefore, needMultiplicationSignAfter, groupType, Collections.asList(tokens));
 	}
 
 	MathType(@NotNull Integer priority,
@@ -202,7 +202,7 @@ public enum MathType {
 		this.needMultiplicationSignBefore = needMultiplicationSignBefore;
 		this.needMultiplicationSignAfter = needMultiplicationSignAfter;
 		this.groupType = groupType;
-		this.tokens = Collections.unmodifiableList(tokens);
+		this.tokens = java.util.Collections.unmodifiableList(tokens);
 	}
 
 	@NotNull
@@ -219,7 +219,7 @@ public enum MathType {
 
 			final MathType mathType = getType(s.toString(), result).getMathType();
 
-			if (CollectionsUtils.contains(mathType, digit, dot, grouping_separator, power_10)) {
+			if (Collections.contains(mathType, digit, dot, grouping_separator, power_10)) {
 				// continue
 			} else if (mathType == close_group_symbol) {
 				numberOfOpenGroups++;
@@ -246,7 +246,7 @@ public enum MathType {
 			if (i > 0) {
 				final EndsWithFinder endsWithFinder = new EndsWithFinder(s);
 				endsWithFinder.setI(i + 1);
-				if (!CollectionsUtils.contains(function.getTokens(), FilterType.included, endsWithFinder)) {
+				if (!Collections.contains(function.getTokens(), FilterType.included, endsWithFinder)) {
 					MathType type = getType(s.toString(), i).getMathType();
 					if (type != constant) {
 						return true;
@@ -350,7 +350,7 @@ public enum MathType {
 		final StartsWithFinder startsWithFinder = new StartsWithFinder(text, i);
 
 		for (MathType mathType : getMathTypesByPriority()) {
-			final String s = CollectionsUtils.find(mathType.getTokens(), startsWithFinder);
+			final String s = Collections.find(mathType.getTokens(), startsWithFinder);
 			if (s != null) {
 				if ( s.length() == 1 ) {
 					if (hexMode || JsclMathEngine.getInstance().getNumeralBase() == NumeralBase.hex) {
@@ -373,14 +373,14 @@ public enum MathType {
 	@NotNull
 	private static List<MathType> getMathTypesByPriority() {
 		if (mathTypesByPriority == null) {
-			final List<MathType> result = CollectionsUtils.asList(MathType.values());
+			final List<MathType> result = Collections.asList(MathType.values());
 
-			Collections.sort(result, new Comparator<MathType>() {
-				@Override
-				public int compare(MathType l, MathType r) {
-					return l.priority.compareTo(r.priority);
-				}
-			});
+			java.util.Collections.sort(result, new Comparator<MathType>() {
+                @Override
+                public int compare(MathType l, MathType r) {
+                    return l.priority.compareTo(r.priority);
+                }
+            });
 
 			mathTypesByPriority = result;
 		}

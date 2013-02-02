@@ -11,10 +11,10 @@ import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.AndroidUtils2;
+import org.solovyev.android.AndroidUtils;
 import org.solovyev.android.fragments.FragmentUtils;
 import org.solovyev.common.msg.MessageType;
-import org.solovyev.common.text.StringUtils;
+import org.solovyev.common.text.Strings;
 
 /**
  * User: serso
@@ -33,7 +33,7 @@ public class CalculatorDialogActivity extends SherlockFragmentActivity {
         final Intent intent = new Intent();
         intent.setClass(context, CalculatorDialogActivity.class);
         intent.putExtra(DIALOG_DATA_EXTRA, ParcelableDialogData.wrap(dialogData));
-        AndroidUtils2.addFlags(intent, false, context);
+        AndroidUtils.addIntentFlags(intent, false, context);
         context.startActivity(intent);
     }
 
@@ -49,7 +49,7 @@ public class CalculatorDialogActivity extends SherlockFragmentActivity {
             setContentView(R.layout.cpp_dialog);
 
             final String title = dialogData.getTitle();
-            if (!StringUtils.isEmpty(title)) {
+            if (!Strings.isEmpty(title)) {
                 setTitle(title);
             }
 

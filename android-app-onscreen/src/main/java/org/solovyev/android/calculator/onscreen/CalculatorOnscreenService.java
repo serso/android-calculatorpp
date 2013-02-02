@@ -11,7 +11,7 @@ import android.util.DisplayMetrics;
 import android.view.WindowManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.AndroidUtils;
+import org.solovyev.android.AViews;
 import org.solovyev.android.calculator.CalculatorDisplayViewState;
 import org.solovyev.android.calculator.CalculatorEditorViewState;
 import org.solovyev.android.calculator.Locator;
@@ -65,7 +65,7 @@ public class CalculatorOnscreenService extends Service implements ExternalCalcul
             twoThirdWidth = Math.min(twoThirdWidth, twoThirdHeight);
             twoThirdHeight = Math.max(twoThirdWidth, getHeight(twoThirdWidth));
 
-            final int baseWidth = AndroidUtils.toPixels(dm, 300);
+            final int baseWidth = AViews.toPixels(dm, 300);
             final int width0 = Math.min(twoThirdWidth, baseWidth);
             final int height0 = Math.min(twoThirdHeight, getHeight(baseWidth));
 

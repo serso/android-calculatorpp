@@ -22,8 +22,8 @@ import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.menu.AMenuItem;
 import org.solovyev.android.menu.LabeledMenuItem;
 import org.solovyev.common.JPredicate;
-import org.solovyev.common.collections.CollectionsUtils;
-import org.solovyev.common.text.StringUtils;
+import org.solovyev.common.collections.Collections;
+import org.solovyev.common.text.Strings;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,7 +49,7 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
         final Bundle bundle = getArguments();
         if (bundle != null) {
             final String varValue = bundle.getString(CREATE_VAR_EXTRA_STRING);
-            if (!StringUtils.isEmpty(varValue)) {
+            if (!Strings.isEmpty(varValue)) {
                 VarEditDialogFragment.showDialog(VarEditDialogFragment.Input.newFromValue(varValue), this.getActivity().getSupportFragmentManager());
 
                 // in order to stop intent for other tabs
@@ -75,11 +75,11 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
             result.remove(LongClickMenuItem.remove);
         }
 
-        if (StringUtils.isEmpty(Locator.getInstance().getEngine().getVarsRegistry().getDescription(item.getName()))) {
+        if (Strings.isEmpty(Locator.getInstance().getEngine().getVarsRegistry().getDescription(item.getName()))) {
             result.remove(LongClickMenuItem.copy_description);
         }
 
-        if (StringUtils.isEmpty(item.getValue())) {
+        if (Strings.isEmpty(item.getValue())) {
             result.remove(LongClickMenuItem.copy_value);
         }
 
@@ -102,10 +102,10 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
     protected List<IConstant> getMathEntities() {
         final List<IConstant> result = new ArrayList<IConstant>(Locator.getInstance().getEngine().getVarsRegistry().getEntities());
 
-        CollectionsUtils.removeAll(result, new JPredicate<IConstant>() {
+        Collections.removeAll(result, new JPredicate<IConstant>() {
             @Override
             public boolean apply(@Nullable IConstant var) {
-                return var != null && CollectionsUtils.contains(var.getName(), MathType.INFINITY_JSCL, MathType.NAN);
+                return var != null && Collections.contains(var.getName(), MathType.INFINITY_JSCL, MathType.NAN);
             }
         });
 
@@ -249,7 +249,7 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
             @Override
             public void onClick(@NotNull IConstant data, @NotNull Context context) {
                 final String text = data.getValue();
-                if (!StringUtils.isEmpty(text)) {
+                if (!Strings.isEmpty(text)) {
                     assert text != null;
                     Locator.getInstance().getClipboard().setText(text);
                 }
@@ -260,7 +260,7 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
             @Override
             public void onClick(@NotNull IConstant data, @NotNull Context context) {
                 final String text = Locator.getInstance().getEngine().getVarsRegistry().getDescription(data.getName());
-                if (!StringUtils.isEmpty(text)) {
+                if (!Strings.isEmpty(text)) {
                     assert text != null;
                     Locator.getInstance().getClipboard().setText(text);
                 }

@@ -21,9 +21,9 @@ import org.solovyev.common.msg.ListMessageRegistry;
 import org.solovyev.common.msg.Message;
 import org.solovyev.common.msg.MessageRegistry;
 import org.solovyev.common.msg.MessageType;
-import org.solovyev.common.text.StringUtils;
-import org.solovyev.math.units.ConversionException;
-import org.solovyev.math.units.ConversionUtils;
+import org.solovyev.common.text.Strings;
+import org.solovyev.common.units.ConversionException;
+import org.solovyev.common.units.Conversions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -209,7 +209,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 
             expression = expression.trim();
 
-            if (StringUtils.isEmpty(expression)) {
+            if (Strings.isEmpty(expression)) {
                 fireCalculatorEvent(newCalculationEventData(operation, expression, sequenceId), CalculatorEventType.calculation_result, CalculatorOutputImpl.newEmptyOutput(operation));
             } else {
 				preparedExpression = prepareExpression(expression);
@@ -367,7 +367,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 
         if (from != to) {
             String fromString = generic.toString();
-            if (!StringUtils.isEmpty(fromString)) {
+            if (!Strings.isEmpty(fromString)) {
                 try {
                     fromString = ToJsclTextProcessor.getInstance().process(fromString).getExpression();
                 } catch (CalculatorParseException e) {
@@ -375,7 +375,8 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
                 }
             }
 
-            result = ConversionUtils.doConversion(CalculatorNumeralBase.getConverter(), fromString, CalculatorNumeralBase.valueOf(from), CalculatorNumeralBase.valueOf(to));
+
+            result = Conversions.doConversion(CalculatorNumeralBase.getConverter(), fromString, CalculatorNumeralBase.valueOf(from), CalculatorNumeralBase.valueOf(to));
         } else {
             result = generic.toString();
         }
@@ -531,7 +532,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
         final CalculatorDisplayViewState newState = displayChangeEventData.getNewValue();
         if (newState.isValid()) {
             final String result = newState.getStringResult();
-            if ( !StringUtils.isEmpty(result) ) {
+            if ( !Strings.isEmpty(result) ) {
                 final CalculatorMathRegistry<IConstant> varsRegistry = Locator.getInstance().getEngine().getVarsRegistry();
                 final IConstant ansVar = varsRegistry.get(CalculatorVarsRegistry.ANS);
 

@@ -16,7 +16,8 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.AndroidUtils2;
+import org.solovyev.android.AThreads;
+import org.solovyev.android.AndroidUtils;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 import org.solovyev.android.menu.AMenuItem;
@@ -152,7 +153,7 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
     }
 
     private void updateChart(@NotNull final PlotData plotData, @Nullable final SherlockFragmentActivity activity) {
-        Threads.tryRunOnUiThread(activity, new Runnable() {
+        AThreads.tryRunOnUiThread(activity, new Runnable() {
             @Override
             public void run() {
                 createChart(plotData);
@@ -308,7 +309,7 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 			final File externalFilesDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
 			if (externalFilesDir != null) {
 				final String path = externalFilesDir.getPath();
-				AndroidUtils2.saveBitmap(screenshot, path, screenShotFileName);
+				AndroidUtils.saveBitmap(screenshot, path, screenShotFileName);
 				Locator.getInstance().getNotifier().showMessage(R.string.cpp_plot_screenshot_saved, MessageType.info, path + "/" + screenShotFileName);
 			} else {
 				Locator.getInstance().getNotifier().showMessage(R.string.cpp_plot_unable_to_save_screenshot, MessageType.error);

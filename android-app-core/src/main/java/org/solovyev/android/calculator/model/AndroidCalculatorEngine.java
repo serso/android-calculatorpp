@@ -24,7 +24,7 @@ import org.solovyev.android.prefs.Preference;
 import org.solovyev.android.prefs.StringPreference;
 import org.solovyev.common.text.EnumMapper;
 import org.solovyev.common.text.NumberMapper;
-import org.solovyev.common.text.StringUtils;
+import org.solovyev.common.text.Strings;
 
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
@@ -63,14 +63,14 @@ public class AndroidCalculatorEngine implements CalculatorEngine, SharedPreferen
     private static final String ANGLE_UNITS_DEFAULT = "deg";
 
     public static class Preferences {
-        public static final Preference<String> groupingSeparator = StringPreference.newInstance(GROUPING_SEPARATOR_P_KEY, JsclMathEngine.GROUPING_SEPARATOR_DEFAULT);
-        public static final Preference<String> multiplicationSign = StringPreference.newInstance(MULTIPLICATION_SIGN_P_KEY, MULTIPLICATION_SIGN_DEFAULT);
-        public static final Preference<Integer> precision = StringPreference.newInstance(RESULT_PRECISION_P_KEY, RESULT_PRECISION_DEFAULT, NumberMapper.getMapper(Integer.class));
-        public static final Preference<Boolean> roundResult = new BooleanPreference(ROUND_RESULT_P_KEY, ROUND_RESULT_DEFAULT);
-        public static final Preference<NumeralBase> numeralBase = StringPreference.newInstance(NUMERAL_BASES_P_KEY, NUMERAL_BASES_DEFAULT, EnumMapper.newInstance(NumeralBase.class));
-        public static final Preference<AngleUnit> angleUnit = StringPreference.newInstance(ANGLE_UNITS_P_KEY, ANGLE_UNITS_DEFAULT, EnumMapper.newInstance(AngleUnit.class));
-        public static final Preference<Boolean> scienceNotation = new BooleanPreference(SCIENCE_NOTATION_P_KEY, SCIENCE_NOTATION_DEFAULT);
-        public static final Preference<Integer> maxCalculationTime = StringPreference.newInstance(MAX_CALCULATION_TIME_P_KEY, MAX_CALCULATION_TIME_DEFAULT, NumberMapper.getMapper(Integer.class));
+        public static final Preference<String> groupingSeparator = StringPreference.of(GROUPING_SEPARATOR_P_KEY, JsclMathEngine.GROUPING_SEPARATOR_DEFAULT);
+        public static final Preference<String> multiplicationSign = StringPreference.of(MULTIPLICATION_SIGN_P_KEY, MULTIPLICATION_SIGN_DEFAULT);
+        public static final Preference<Integer> precision = StringPreference.ofTypedValue(RESULT_PRECISION_P_KEY, RESULT_PRECISION_DEFAULT, NumberMapper.of(Integer.class));
+        public static final Preference<Boolean> roundResult = BooleanPreference.of(ROUND_RESULT_P_KEY, ROUND_RESULT_DEFAULT);
+        public static final Preference<NumeralBase> numeralBase = StringPreference.ofTypedValue(NUMERAL_BASES_P_KEY, NUMERAL_BASES_DEFAULT, EnumMapper.of(NumeralBase.class));
+        public static final Preference<AngleUnit> angleUnit = StringPreference.ofTypedValue(ANGLE_UNITS_P_KEY, ANGLE_UNITS_DEFAULT, EnumMapper.of(AngleUnit.class));
+        public static final Preference<Boolean> scienceNotation = BooleanPreference.of(SCIENCE_NOTATION_P_KEY, SCIENCE_NOTATION_DEFAULT);
+        public static final Preference<Integer> maxCalculationTime = StringPreference.ofTypedValue(MAX_CALCULATION_TIME_P_KEY, MAX_CALCULATION_TIME_DEFAULT, NumberMapper.of(Integer.class));
 
         private static final List<String> preferenceKeys = new ArrayList<String>();
 
@@ -246,7 +246,7 @@ public class AndroidCalculatorEngine implements CalculatorEngine, SharedPreferen
         this.setTimeout(Preferences.maxCalculationTime.getPreference(preferences));
 
         final String groupingSeparator = Preferences.groupingSeparator.getPreference(preferences);
-        if (StringUtils.isEmpty(groupingSeparator)) {
+        if (Strings.isEmpty(groupingSeparator)) {
             this.setUseGroupingSeparator(false);
         } else {
             this.setUseGroupingSeparator(true);

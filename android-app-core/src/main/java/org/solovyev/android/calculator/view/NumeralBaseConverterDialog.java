@@ -12,9 +12,9 @@ import org.solovyev.android.calculator.ToJsclTextProcessor;
 import org.solovyev.android.calculator.core.R;
 import org.solovyev.android.calculator.units.CalculatorNumeralBase;
 import org.solovyev.common.MutableObject;
-import org.solovyev.common.text.StringUtils;
-import org.solovyev.math.units.Unit;
-import org.solovyev.math.units.UnitImpl;
+import org.solovyev.common.text.Strings;
+import org.solovyev.common.units.Unit;
+import org.solovyev.common.units.UnitImpl;
 
 import java.util.Arrays;
 
@@ -28,7 +28,7 @@ public class NumeralBaseConverterDialog {
     @Nullable
     private String initialFromValue;
 
-    public NumeralBaseConverterDialog(String initialFromValue) {
+    public NumeralBaseConverterDialog(@Nullable String initialFromValue) {
         this.initialFromValue = initialFromValue;
     }
 
@@ -37,7 +37,7 @@ public class NumeralBaseConverterDialog {
         b.setFromUnitTypes(Arrays.asList(CalculatorNumeralBase.values()));
         b.setToUnitTypes(Arrays.asList(CalculatorNumeralBase.values()));
 
-        if (!StringUtils.isEmpty(initialFromValue)) {
+        if (!Strings.isEmpty(initialFromValue)) {
             String value = initialFromValue;
             try {
                 value = ToJsclTextProcessor.getInstance().process(value).getExpression();

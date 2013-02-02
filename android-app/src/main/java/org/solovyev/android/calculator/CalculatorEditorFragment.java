@@ -27,7 +27,7 @@ public class CalculatorEditorFragment extends SherlockFragment {
     private CalculatorFragmentHelper fragmentHelper;
 
     @NotNull
-    private ActivityMenu<Menu, MenuItem> menu = ListActivityMenu.fromList(CalculatorMenu.class, SherlockMenuHelper.getInstance());
+    private ActivityMenu<Menu, MenuItem> menu = ListActivityMenu.fromEnum(CalculatorMenu.class, SherlockMenuHelper.getInstance());
 
     public CalculatorEditorFragment() {
     }

@@ -3,7 +3,7 @@ package org.solovyev.android.calculator;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.math.MathType;
-import org.solovyev.common.text.StringUtils;
+import org.solovyev.common.text.Strings;
 
 /**
  * User: serso
@@ -22,7 +22,7 @@ public class CalculatorKeyboardImpl implements CalculatorKeyboard {
     @Override
     public void buttonPressed(@Nullable final String text) {
 
-        if (!StringUtils.isEmpty(text)) {
+        if (!Strings.isEmpty(text)) {
             assert text != null;
 
             // process special buttons
@@ -105,7 +105,7 @@ public class CalculatorKeyboardImpl implements CalculatorKeyboard {
         final CalculatorDisplayViewState displayViewState = Locator.getInstance().getDisplay().getViewState();
         if (displayViewState.isValid()) {
             final CharSequence text = displayViewState.getText();
-            if (!StringUtils.isEmpty(text)) {
+            if (!Strings.isEmpty(text)) {
                 Locator.getInstance().getClipboard().setText(text);
                 Locator.getInstance().getNotifier().showMessage(CalculatorMessage.newInfoMessage(CalculatorMessages.result_copied));
             }

@@ -109,7 +109,7 @@ public class AndroidExternalListenersContainer implements CalculatorExternalList
 
                     Locator.getInstance().getNotifier().showDebugMessage(TAG, "Editor state changed: " + newEditorState.getText());
 
-                    onEditorStateChanged(App.getInstance().getApplication(), calculatorEventData, newEditorState);
+                    onEditorStateChanged(App.getApplication(), calculatorEventData, newEditorState);
                     break;
 
                 case display_state_changed:
@@ -118,7 +118,7 @@ public class AndroidExternalListenersContainer implements CalculatorExternalList
 
                     Locator.getInstance().getNotifier().showDebugMessage(TAG, "Display state changed: " + newDisplayState.getText());
 
-                    onDisplayStateChanged(App.getInstance().getApplication(), calculatorEventData, newDisplayState);
+                    onDisplayStateChanged(App.getApplication(), calculatorEventData, newDisplayState);
                     break;
             }
         }

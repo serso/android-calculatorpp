@@ -22,7 +22,7 @@ import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.MathEntityBuilder;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.msg.MessageType;
-import org.solovyev.common.text.StringUtils;
+import org.solovyev.common.text.Strings;
 
 /**
  * User: serso
@@ -87,7 +87,7 @@ public class VarEditorSaver<T extends MathEntity> implements View.OnClickListene
 
                 if (mathType.getMathType() == MathType.text || mathType.getMathType() == MathType.constant) {
 
-                    if (StringUtils.isEmpty(value)) {
+                    if (Strings.isEmpty(value)) {
                         // value is empty => undefined variable
                         varBuilder.setName(name);
                         varBuilder.setDescription(description);
@@ -126,7 +126,7 @@ public class VarEditorSaver<T extends MathEntity> implements View.OnClickListene
     public static boolean isValidName(@Nullable String name) {
 		boolean result = false;
 
-		if (!StringUtils.isEmpty(name)) {
+		if (!Strings.isEmpty(name)) {
 			try {
 				assert name != null;
 				Identifier.parser.parse(Parser.Parameters.newInstance(name, new MutableInt(0), Locator.getInstance().getEngine().getMathEngine0()), null);

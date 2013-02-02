@@ -3,7 +3,6 @@ package org.solovyev.android.calculator.history;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.*;
-import org.solovyev.common.collections.CollectionsUtils;
 import org.solovyev.common.history.HistoryAction;
 import org.solovyev.common.history.HistoryHelper;
 import org.solovyev.common.history.SimpleHistoryHelper;
@@ -26,7 +25,7 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
     private final AtomicInteger counter = new AtomicInteger(0);
 
     @NotNull
-    private final HistoryHelper<CalculatorHistoryState> history = new SimpleHistoryHelper<CalculatorHistoryState>();
+    private final HistoryHelper<CalculatorHistoryState> history = SimpleHistoryHelper.newInstance();
 
     @NotNull
     private final List<CalculatorHistoryState> savedHistory = new ArrayList<CalculatorHistoryState>();
@@ -123,7 +122,7 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
 				final List<CalculatorHistoryState> result = new LinkedList<CalculatorHistoryState>();
 
 				CalculatorHistoryState laterState = null;
-				for (CalculatorHistoryState state : CollectionsUtils.reversed(states)) {
+				for (CalculatorHistoryState state : org.solovyev.common.collections.Collections.reversed(states)) {
 					 if ( laterState != null ) {
 						 final String laterEditorText = laterState.getEditorState().getText();
 						 final String editorText = state.getEditorState().getText();

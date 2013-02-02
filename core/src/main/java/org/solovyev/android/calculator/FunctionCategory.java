@@ -5,10 +5,9 @@ import jscl.math.function.Comparison;
 import jscl.math.function.Function;
 import jscl.math.function.Trigonometric;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.common.collections.CollectionsUtils;
+import org.solovyev.common.collections.Collections;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -75,9 +74,9 @@ public enum FunctionCategory {
 
     @NotNull
     public static List<FunctionCategory> getCategoriesByTabOrder() {
-        final List<FunctionCategory> result = CollectionsUtils.asList(FunctionCategory.values());
+        final List<FunctionCategory> result = Collections.asList(FunctionCategory.values());
 
-        Collections.sort(result, new Comparator<FunctionCategory>() {
+        java.util.Collections.sort(result, new Comparator<FunctionCategory>() {
             @Override
             public int compare(FunctionCategory category, FunctionCategory category1) {
                 return category.tabOrder - category1.tabOrder;

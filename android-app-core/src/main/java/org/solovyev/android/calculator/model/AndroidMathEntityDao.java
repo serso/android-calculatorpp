@@ -89,7 +89,7 @@ public class AndroidMathEntityDao<T extends MathPersistenceEntity> implements Ma
     public String getDescription(@NotNull String descriptionId) {
         final Resources resources = context.getResources();
 
-        final int stringId = resources.getIdentifier(descriptionId, "string", App.getInstance().getApplication().getClass().getPackage().getName());
+        final int stringId = resources.getIdentifier(descriptionId, "string", App.getApplication().getClass().getPackage().getName());
         try {
             return resources.getString(stringId);
         } catch (Resources.NotFoundException e) {
