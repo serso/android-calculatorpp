@@ -11,8 +11,8 @@ import org.junit.Test;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 import org.solovyev.android.calculator.CalculatorTestUtils;
+import org.solovyev.common.Objects;
 import org.solovyev.common.equals.CollectionEqualizer;
-import org.solovyev.common.equals.EqualsUtils;
 import org.solovyev.common.text.Strings;
 
 import java.io.StringWriter;
@@ -151,7 +151,7 @@ public class FunctionsTest {
         Assert.assertThat(actual.getParameterNames(), new BaseMatcher<List<String>>() {
             @Override
             public boolean matches(Object item) {
-                return EqualsUtils.areEqual(expected.getParameterNames(), (List<String>)item, new CollectionEqualizer<String>(null));
+                return Objects.areEqual(expected.getParameterNames(), (List<String>) item, new CollectionEqualizer<String>(null));
             }
 
             @Override
