@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -183,7 +184,11 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
 					setTextSize(TypedValue.COMPLEX_UNIT_SP, getResources().getDimension(R.dimen.cpp_display_text_size_mobile));
 				}
 
-				this.setOnClickListener(new CalculatorDisplayOnClickListener(context));
+				if (context instanceof FragmentActivity) {
+					this.setOnClickListener(new CalculatorDisplayOnClickListener((FragmentActivity) context));
+				} else {
+					throw new IllegalArgumentException("Must be fragment activity, got " + context.getClass());
+				}
 			}
 
 			this.initialized = true;

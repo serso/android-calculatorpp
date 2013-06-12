@@ -18,8 +18,8 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.AActivities;
-import org.solovyev.android.AViews;
+import org.solovyev.android.Activities;
+import org.solovyev.android.Views;
 import org.solovyev.android.sherlock.tabs.ActionBarFragmentTabListener;
 
 /**
@@ -113,7 +113,7 @@ public class CalculatorActivityHelperImpl extends AbstractCalculatorHelper imple
         final ActionBar actionBar = activity.getSupportActionBar();
 
         if (activity instanceof CalculatorActivity) {
-            if (AViews.getScreenOrientation(activity) == Configuration.ORIENTATION_PORTRAIT) {
+            if (Views.getScreenOrientation(activity) == Configuration.ORIENTATION_PORTRAIT) {
                 actionBar.setDisplayShowTitleEnabled(true);
             } else {
                 actionBar.setDisplayShowTitleEnabled(false);
@@ -145,7 +145,7 @@ public class CalculatorActivityHelperImpl extends AbstractCalculatorHelper imple
 
         final CalculatorPreferences.Gui.Theme newTheme = CalculatorPreferences.Gui.theme.getPreference(preferences);
         if (!theme.equals(newTheme)) {
-            AActivities.restartActivity(activity);
+            Activities.restartActivity(activity);
         }
     }
 
@@ -282,13 +282,13 @@ public class CalculatorActivityHelperImpl extends AbstractCalculatorHelper imple
 
                 final StringBuilder helpText = new StringBuilder();
                 helpText.append("Size: ");
-                if (AViews.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_XLARGE, c)) {
+                if (Views.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_XLARGE, c)) {
                     helpText.append("xlarge");
-                } else if (AViews.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_LARGE, c)) {
+                } else if (Views.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_LARGE, c)) {
                     helpText.append("large");
-                } else if (AViews.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_NORMAL, c)) {
+                } else if (Views.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_NORMAL, c)) {
                     helpText.append("normal");
-                } else if (AViews.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_SMALL, c)) {
+                } else if (Views.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_SMALL, c)) {
                     helpText.append("small");
                 } else {
                     helpText.append("unknown");

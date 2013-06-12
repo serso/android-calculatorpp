@@ -8,6 +8,6 @@
             a:summary="@string/c_calc_ad_free_summary"
             a:defaultValue="false"/>
 
-    <org.solovyev.android.ads.AdViewPreference a:layout="@layout/admob_pref"/>
+    <org.solovyev.android.ads.AdViewPreference a:layout="@layout/acl_adview_pref"/>
 
 </PreferenceScreen>

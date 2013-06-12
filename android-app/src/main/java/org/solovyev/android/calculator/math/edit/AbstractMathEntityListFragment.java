@@ -51,7 +51,7 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
 
     public static final String MATH_ENTITY_CATEGORY_EXTRA_STRING = "org.solovyev.android.calculator.CalculatorVarsActivity_math_entity_category";
 
-    protected final static List<Character> acceptableChars = Arrays.asList(Strings.toObject("1234567890abcdefghijklmnopqrstuvwxyzйцукенгшщзхъфывапролджэячсмитьбюё_".toCharArray()));
+    protected final static List<Character> acceptableChars = Arrays.asList(Strings.toObjects("1234567890abcdefghijklmnopqrstuvwxyzйцукенгшщзхъфывапролджэячсмитьбюё_".toCharArray()));
 
 
     /*
@@ -124,8 +124,8 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
                 final List<LabeledMenuItem<T>> menuItems = getMenuItemsOnLongClick(item);
 
                 if (!menuItems.isEmpty()) {
-                    final ContextMenuBuilder<LabeledMenuItem<T>, T> menuBuilder = ContextMenuBuilder.newInstance(AbstractMathEntityListFragment.this.getActivity(), ListContextMenu.newInstance(menuItems));
-                    menuBuilder.create(item).show();
+                    final ContextMenuBuilder<LabeledMenuItem<T>, T> menuBuilder = ContextMenuBuilder.newInstance(AbstractMathEntityListFragment.this.getActivity(), "math-entity-menu", ListContextMenu.newInstance(menuItems));
+                    menuBuilder.build(item).show();
                 }
 
                 return true;

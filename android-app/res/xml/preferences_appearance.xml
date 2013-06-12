@@ -6,7 +6,7 @@
     <PreferenceScreen
             a:title="@string/c_prefs_appearance_category">
 
-        <org.solovyev.android.ads.AdViewPreference a:layout="@layout/admob_pref"/>
+        <org.solovyev.android.ads.AdViewPreference a:layout="@layout/acl_adview_pref"/>
 
         <android.preference.CheckBoxPreference
                 a:key="@string/p_calc_color_display_key"

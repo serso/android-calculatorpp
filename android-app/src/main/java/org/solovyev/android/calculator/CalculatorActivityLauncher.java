@@ -14,7 +14,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import jscl.math.Generic;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.AndroidUtils;
+import org.solovyev.android.Android;
 import org.solovyev.android.App;
 import org.solovyev.android.calculator.about.CalculatorAboutActivity;
 import org.solovyev.android.calculator.function.FunctionEditDialogFragment;
@@ -47,7 +47,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
 
 	public static void showHistory(@NotNull final Context context, boolean detached) {
         final Intent intent = new Intent(context, CalculatorHistoryActivity.class);
-        AndroidUtils.addIntentFlags(intent, detached, context);
+        Android.addIntentFlags(intent, detached, context);
         context.startActivity(intent);
 	}
 
@@ -60,7 +60,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
     }
 	public static void showSettings(@NotNull final Context context, boolean detached) {
         final Intent intent = new Intent(context, CalculatorPreferencesActivity.class);
-        AndroidUtils.addIntentFlags(intent, detached, context);
+        Android.addIntentFlags(intent, detached, context);
         context.startActivity(intent);
 	}
 
@@ -74,7 +74,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
 
 	public static void showFunctions(@NotNull final Context context, boolean detached) {
         final Intent intent = new Intent(context, CalculatorFunctionsActivity.class);
-        AndroidUtils.addIntentFlags(intent, detached, context);
+        Android.addIntentFlags(intent, detached, context);
         context.startActivity(intent);
 	}
 
@@ -84,7 +84,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
 
 	public static void showOperators(@NotNull final Context context, boolean detached) {
         final Intent intent = new Intent(context, CalculatorOperatorsActivity.class);
-        AndroidUtils.addIntentFlags(intent, detached, context);
+        Android.addIntentFlags(intent, detached, context);
         context.startActivity(intent);
 	}
 
@@ -94,14 +94,14 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
 
     public static void showVars(@NotNull final Context context, boolean detached) {
         final Intent intent = new Intent(context, CalculatorVarsActivity.class);
-        AndroidUtils.addIntentFlags(intent, detached, context);
+        Android.addIntentFlags(intent, detached, context);
         context.startActivity(intent);
 	}
 
 	public static void plotGraph(@NotNull final Context context){
 		final Intent intent = new Intent();
 		intent.setClass(context, CalculatorPlotActivity.class);
-        AndroidUtils.addIntentFlags(intent, false, context);
+        Android.addIntentFlags(intent, false, context);
 		context.startActivity(intent);
 	}
 
@@ -117,7 +117,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
                     } else {
                         final Intent intent = new Intent(context, CalculatorVarsActivity.class);
                         intent.putExtra(CalculatorVarsFragment.CREATE_VAR_EXTRA_STRING, varValue);
-                        AndroidUtils.addIntentFlags(intent, false, context);
+                        Android.addIntentFlags(intent, false, context);
                         context.startActivity(intent);
                     }
                 } else {
@@ -184,7 +184,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
 
     public static void likeButtonPressed(@NotNull final Context context) {
         final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(CalculatorApplication.FACEBOOK_APP_URL));
-        AndroidUtils.addIntentFlags(intent, false, context);
+        Android.addIntentFlags(intent, false, context);
         context.startActivity(intent);
     }
 
@@ -213,7 +213,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
                     @Override
                     public void run() {
                         final Intent intent = new Intent(context, CalculatorMatrixActivity.class);
-                        AndroidUtils.addIntentFlags(intent, false, context);
+                        Android.addIntentFlags(intent, false, context);
                         context.startActivity(intent);
                     }
                 });

@@ -8,6 +8,7 @@ package org.solovyev.android.calculator.history;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +23,6 @@ import com.actionbarsherlock.view.MenuItem;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.*;
-import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.menu.*;
 import org.solovyev.android.sherlock.menu.SherlockMenuHelper;
@@ -140,7 +140,7 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
                 final CalculatorHistoryState historyState = (CalculatorHistoryState) parent.getItemAtPosition(position);
 
-                final Context context = getActivity();
+                final FragmentActivity activity = getActivity();
 
                 final HistoryItemMenuData data = new HistoryItemMenuData(historyState, adapter);
 
@@ -160,8 +160,8 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
                     menuItems.remove(HistoryItemMenuItem.copy_result);
                 }
 
-                final ContextMenuBuilder<HistoryItemMenuItem, HistoryItemMenuData> menuBuilder = ContextMenuBuilder.newInstance(context, ListContextMenu.newInstance(menuItems));
-                menuBuilder.create(data).show();
+                final ContextMenuBuilder<HistoryItemMenuItem, HistoryItemMenuData> menuBuilder = ContextMenuBuilder.newInstance(activity, "history-menu", ListContextMenu.newInstance(menuItems));
+                menuBuilder.build(data).show();
 
                 return true;
             }
@@ -220,7 +220,7 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 			historyState.setSaved(true);
 			if ( Collections.contains(historyState, Locator.getInstance().getHistory().getSavedHistory(), new Equalizer<CalculatorHistoryState>() {
 				@Override
-				public boolean equals(@Nullable CalculatorHistoryState first, @Nullable CalculatorHistoryState second) {
+				public boolean areEqual(@Nullable CalculatorHistoryState first, @Nullable CalculatorHistoryState second) {
 					return first != null && second != null &&
 							first.getTime() == second.getTime() &&
 								first.getDisplayState().equals(second.getDisplayState()) &&

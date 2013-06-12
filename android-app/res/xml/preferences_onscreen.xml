@@ -4,7 +4,7 @@
 
     <PreferenceScreen a:title="@string/prefs_onscreen_title">
 
-        <org.solovyev.android.ads.AdViewPreference a:layout="@layout/admob_pref"/>
+        <org.solovyev.android.ads.AdViewPreference a:layout="@layout/acl_adview_pref"/>
 
         <android.preference.CheckBoxPreference
                 a:key="onscreen_start_on_boot"

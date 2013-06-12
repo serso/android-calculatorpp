@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.AndroidUtils;
+import org.solovyev.android.Android;
 import org.solovyev.android.App;
 import org.solovyev.android.calculator.AbstractFixableError;
 import org.solovyev.android.calculator.CalculatorPreferences;
@@ -22,7 +22,7 @@ public class CalculatorOnscreenStartActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-        if (AndroidUtils.isComponentEnabled(this, CalculatorOnscreenStartActivity.class)) {
+        if (Android.isComponentEnabled(this, CalculatorOnscreenStartActivity.class)) {
             final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
 			if (!CalculatorPreferences.OnscreenCalculator.removeIconDialogShown.getPreference(prefs)) {

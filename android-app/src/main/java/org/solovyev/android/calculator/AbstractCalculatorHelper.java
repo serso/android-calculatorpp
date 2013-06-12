@@ -80,7 +80,7 @@ public abstract class AbstractCalculatorHelper implements SharedPreferences.OnSh
     }
 
     public void processButtons(@NotNull final Activity activity, @NotNull View root) {
-        dpclRegister.removeAll();
+        dpclRegister.removeListeners();
 
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
         final SimpleOnDragListener.Preferences dragPreferences = SimpleOnDragListener.getPreferences(preferences, activity);

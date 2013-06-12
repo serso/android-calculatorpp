@@ -5,7 +5,7 @@ import android.os.Handler;
 import android.widget.Toast;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.AThreads;
+import org.solovyev.android.Threads;
 import org.solovyev.android.msg.AndroidMessage;
 import org.solovyev.common.msg.Message;
 import org.solovyev.common.msg.MessageType;
@@ -32,7 +32,7 @@ public class AndroidCalculatorNotifier implements CalculatorNotifier {
     }
 
     public AndroidCalculatorNotifier(@NotNull Application application, boolean showDebugMessages) {
-        assert AThreads.isUiThread();
+        assert Threads.isUiThread();
 
         this.application = application;
         this.showDebugMessages = showDebugMessages;
@@ -61,7 +61,7 @@ public class AndroidCalculatorNotifier implements CalculatorNotifier {
     }
 
     private void showMessageInUiThread(@NotNull final String message) {
-        if (AThreads.isUiThread()) {
+        if (Threads.isUiThread()) {
             Toast.makeText(application, message, Toast.LENGTH_SHORT).show();
         } else {
             uiHandler.post(new Runnable() {

@@ -15,7 +15,7 @@ import jscl.AngleUnit;
 import jscl.NumeralBase;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.AViews;
+import org.solovyev.android.Views;
 import org.solovyev.android.calculator.core.R;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 import org.solovyev.android.calculator.view.AngleUnitsButton;
@@ -43,7 +43,7 @@ public final class CalculatorButtons {
 
             final float textSize = root.getContext().getResources().getDimension(R.dimen.cpp_keyboard_button_text_size_mobile);
 
-            AViews.processViewsOfType(root, DragButton.class, new AViews.ViewProcessor<DragButton>() {
+            Views.processViewsOfType(root, DragButton.class, new Views.ViewProcessor<DragButton>() {
                 @Override
                 public void process(@NotNull DragButton button) {
                     button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
@@ -68,11 +68,11 @@ public final class CalculatorButtons {
                                           @NotNull Activity activity) {
         preferences = preferences == null ? PreferenceManager.getDefaultSharedPreferences(activity) : preferences;
 
-        final boolean large = AViews.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_LARGE, activity.getResources().getConfiguration()) &&
+        final boolean large = Views.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_LARGE, activity.getResources().getConfiguration()) &&
                                 CalculatorPreferences.Gui.getLayout(preferences) != CalculatorPreferences.Gui.Layout.main_calculator_mobile;
 
         if (!large) {
-            if (AViews.getScreenOrientation(activity) == Configuration.ORIENTATION_PORTRAIT
+            if (Views.getScreenOrientation(activity) == Configuration.ORIENTATION_PORTRAIT
                     || !CalculatorPreferences.Gui.autoOrientation.getPreference(preferences)) {
 
                 final DragButton equalsButton = (DragButton)activity.findViewById(R.id.cpp_button_equals);

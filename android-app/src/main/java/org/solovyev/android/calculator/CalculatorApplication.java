@@ -13,8 +13,9 @@ import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.AndroidUtils;
+import org.solovyev.android.Android;
 import org.solovyev.android.App;
+import org.solovyev.android.ServiceLocator;
 import org.solovyev.android.ads.AdsController;
 import org.solovyev.android.calculator.external.AndroidExternalListenersContainer;
 import org.solovyev.android.calculator.history.AndroidCalculatorHistory;
@@ -40,7 +41,7 @@ import java.util.List;
         resToastText = R.string.crashed,
         resDialogTitle = R.string.crash_dialog_title,
         resDialogText = R.string.crash_dialog_text)
-public class CalculatorApplication extends android.app.Application implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class CalculatorApplication extends android.app.Application implements SharedPreferences.OnSharedPreferenceChangeListener, ServiceLocator {
 
     /*
     **********************************************************************
@@ -221,7 +222,7 @@ public class CalculatorApplication extends android.app.Application implements Sh
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
         if (CalculatorPreferences.OnscreenCalculator.showAppIcon.getKey().equals(key)) {
             boolean showAppIcon = CalculatorPreferences.OnscreenCalculator.showAppIcon.getPreference(prefs);
-            AndroidUtils.toggleComponent(this, CalculatorOnscreenStartActivity.class, showAppIcon);
+            Android.toggleComponent(this, CalculatorOnscreenStartActivity.class, showAppIcon);
 			Locator.getInstance().getNotifier().showMessage(R.string.cpp_this_change_may_require_reboot, MessageType.info);
         }
     }

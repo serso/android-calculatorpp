@@ -4,7 +4,8 @@ import android.content.SharedPreferences;
 import jscl.AngleUnit;
 import jscl.NumeralBase;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.AndroidUtils;
+import org.solovyev.android.Android;
+import org.solovyev.android.DeviceModel;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 import org.solovyev.android.calculator.plot.PlotLineColor;
@@ -18,6 +19,10 @@ import org.solovyev.android.view.VibratorContainer;
 
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
+
+import static org.solovyev.android.Android.isPhoneModel;
+import static org.solovyev.android.DeviceModel.samsung_galaxy_s;
+import static org.solovyev.android.DeviceModel.samsung_galaxy_s_2;
 
 /**
  * User: serso
@@ -166,7 +171,7 @@ public final class CalculatorPreferences {
         }
 
         if (!AndroidCalculatorEngine.Preferences.multiplicationSign.isSet(preferences)) {
-            if (AndroidUtils.isPhoneModel(AndroidUtils.PhoneModel.samsung_galaxy_s) || AndroidUtils.isPhoneModel(AndroidUtils.PhoneModel.samsung_galaxy_s_2)) {
+            if (isPhoneModel(samsung_galaxy_s) || isPhoneModel(samsung_galaxy_s_2)) {
                 // workaround ofr samsung galaxy s phones
                 AndroidCalculatorEngine.Preferences.multiplicationSign.putPreference(preferences, "*");
             }

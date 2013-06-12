@@ -10,7 +10,7 @@ import org.solovyev.android.calculator.CalculatorListFragment;
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.fragments.FragmentUtils;
-import org.solovyev.android.list.ListItemArrayAdapter;
+import org.solovyev.android.list.ListItemAdapter;
 
 import java.util.List;
 
@@ -48,7 +48,7 @@ public class CalculatorPlotFunctionsActivity extends SherlockFragmentActivity {
 				}
 			});
 
-			ListItemArrayAdapter.createAndAttach(getListView(), this.getActivity(), items);
+			ListItemAdapter.createAndAttach(this, items);
 		}
 	}
 }
