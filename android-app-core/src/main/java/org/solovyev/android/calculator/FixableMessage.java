@@ -46,7 +46,14 @@ public class FixableMessage implements Parcelable {
 
     public FixableMessage(@NotNull Message message) {
         this.message = message.getLocalizedMessage();
-        this.messageType = message.getMessageType();
+		int messageLevel = message.getMessageLevel().getMessageLevel();
+		if(messageLevel < MessageType.info.getMessageLevel()) {
+			this.messageType = MessageType.info;
+		} else if (messageLevel < MessageType.warning.getMessageLevel()) {
+			this.messageType = MessageType.warning;
+		} else {
+			this.messageType = MessageType.error;
+		}
         this.fixableError = CalculatorFixableError.getErrorByMessageCode(message.getMessageCode());
     }
 

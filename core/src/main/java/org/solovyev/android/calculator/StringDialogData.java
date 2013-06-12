@@ -39,7 +39,7 @@ public class StringDialogData implements DialogData {
 
     @NotNull
     @Override
-    public MessageType getMessageType() {
+    public MessageType getMessageLevel() {
         return messageType;
     }
 

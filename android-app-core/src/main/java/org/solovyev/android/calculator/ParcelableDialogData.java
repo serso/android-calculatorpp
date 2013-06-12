@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.common.msg.MessageLevel;
 import org.solovyev.common.msg.MessageType;
 
 /**
@@ -81,8 +82,8 @@ public final class ParcelableDialogData implements DialogData, Parcelable {
 
     @NotNull
     @Override
-    public MessageType getMessageType() {
-        return nestedData.getMessageType();
+    public MessageLevel getMessageLevel() {
+        return nestedData.getMessageLevel();
     }
 
     @Nullable
@@ -99,7 +100,7 @@ public final class ParcelableDialogData implements DialogData, Parcelable {
     @Override
     public void writeToParcel(@NotNull Parcel out, int flags) {
         out.writeString(this.getMessage());
-        out.writeInt(this.getMessageType().ordinal());
+        out.writeInt(this.getMessageLevel().getMessageLevel());
         out.writeString(this.getTitle());
     }
 }

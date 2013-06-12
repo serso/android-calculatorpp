@@ -18,7 +18,7 @@ import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.MathPersistenceEntity;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.msg.Message;
-import org.solovyev.common.msg.MessageType;
+import org.solovyev.common.msg.MessageLevel;
 import org.solovyev.common.text.Strings;
 
 import java.io.Serializable;
@@ -315,8 +315,8 @@ public class AFunction implements IFunction, MathPersistenceEntity, Serializable
 
 			@NotNull
 			@Override
-			public MessageType getMessageType() {
-				return message.getMessageType();
+			public MessageLevel getMessageLevel() {
+				return message.getMessageLevel();
 			}
 
 			@Override

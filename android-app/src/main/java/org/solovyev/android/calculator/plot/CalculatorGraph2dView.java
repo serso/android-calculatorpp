@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Scroller;
 import android.widget.ZoomButtonsController;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.common.definitions.Pair;
 import org.solovyev.common.math.Point2d;
 
 import java.text.DecimalFormat;
@@ -243,7 +242,7 @@ public class CalculatorGraph2dView extends View implements GraphView {
 
         graphsData.checkBoundaries(graphHeight, yMin, yMax);
 
-        final Pair<Integer, Integer> tickDigits = drawGridAndAxis(canvas);
+        final TickDigits tickDigits = drawGridAndAxis(canvas);
 
 		{
 			// TOUCH POSITION
@@ -256,7 +255,7 @@ public class CalculatorGraph2dView extends View implements GraphView {
 				canvas.drawLine(0, lastTouchYPxs, widthPxs, lastTouchYPxs, paint);
 
 				final Point2d lastTouch = dimensions.toGraphCoordinates(lastTouchXPxs, lastTouchYPxs);
-				final String touchLabel = "[" + formatTick(lastTouch.getX(), tickDigits.getFirst() + 1) + ", " + formatTick(lastTouch.getY(), tickDigits.getSecond() + 1) + "]";
+				final String touchLabel = "[" + formatTick(lastTouch.getX(), tickDigits.xTicks + 1) + ", " + formatTick(lastTouch.getY(), tickDigits.yTicks + 1) + "]";
 				canvas.drawText(touchLabel, 0, touchLabel.length(), lastTouchXPxs - 40, lastTouchYPxs - 40, textPaint);
 			}
 		}
@@ -301,8 +300,8 @@ public class CalculatorGraph2dView extends View implements GraphView {
     }
 
     @NotNull
-    private Pair<Integer, Integer> drawGridAndAxis(@NotNull Canvas canvas) {
-        final Pair<Integer, Integer> result = new Pair<Integer, Integer>(1, 1);
+    private TickDigits drawGridAndAxis(@NotNull Canvas canvas) {
+        final TickDigits result = new TickDigits();
 
         final float xMin = dimensions.getXMin();
 
@@ -350,7 +349,7 @@ public class CalculatorGraph2dView extends View implements GraphView {
             {
                 final float tickStep = getTickStep(dimensions.getGWidth());
                 final int tickDigits = countTickDigits(tickStep);
-                result.setFirst(tickDigits);
+                result.xTicks = tickDigits;
                 // round xMin and init first tick
                 float tick = ((int) (xMin / tickStep)) * tickStep;
 
@@ -372,7 +371,7 @@ public class CalculatorGraph2dView extends View implements GraphView {
             {
                 final float tickStep = getTickStep(dimensions.getGHeight());
                 final int tickDigits = countTickDigits(tickStep);
-                result.setSecond(tickDigits);
+                result.yTicks = tickDigits;
                 // round yMin and init first tick
                 float tick = ((int) (yMin / tickStep)) * tickStep;
 
@@ -622,4 +621,10 @@ public class CalculatorGraph2dView extends View implements GraphView {
 
         dimensions.increaseXY(dx, dy);
     }
+
+	private static final class TickDigits {
+
+		public int xTicks = 1;
+		public int yTicks = 1;
+	}
 }

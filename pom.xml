@@ -166,16 +166,11 @@
             <dependency>
                 <groupId>org.solovyev</groupId>
                 <artifactId>jscl</artifactId>
-                <version>1.0.1</version>
+                <version>1.0.4-SNAPSHOT</version>
                 <exclusions>
                     <exclusion>
                         <artifactId>xercesImpl</artifactId>
                         <groupId>xerces</groupId>
-                    </exclusion>
-
-                    <exclusion>
-                        <groupId>jgraphx</groupId>
-                        <artifactId>jgraphx</artifactId>
                     </exclusion>
                 </exclusions>
             </dependency>

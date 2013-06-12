@@ -101,7 +101,7 @@ public class CalculatorDialogActivity extends SherlockFragmentActivity {
                 messageTextView.setMovementMethod(ScrollingMovementMethod.getInstance());
                 messageTextView.setText(dialogData.getMessage());
 
-                if ( dialogData.getMessageType() == MessageType.error || dialogData.getMessageType() == MessageType.warning ) {
+                if ( dialogData.getMessageLevel() == MessageType.error || dialogData.getMessageLevel() == MessageType.warning ) {
                     final Button copyButton = (Button) root.findViewById(R.id.cpp_copy_button);
                     copyButton.setVisibility(View.VISIBLE);
                     copyButton.setOnClickListener(new View.OnClickListener() {

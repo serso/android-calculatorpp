@@ -2,7 +2,7 @@ package org.solovyev.android.calculator;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.common.msg.MessageType;
+import org.solovyev.common.msg.MessageLevel;
 
 /**
  * User: serso
@@ -15,7 +15,7 @@ public interface DialogData {
     String getMessage();
 
     @NotNull
-    MessageType getMessageType();
+	MessageLevel getMessageLevel();
 
     @Nullable
     String getTitle();

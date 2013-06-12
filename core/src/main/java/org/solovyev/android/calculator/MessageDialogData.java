@@ -3,7 +3,7 @@ package org.solovyev.android.calculator;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.common.msg.Message;
-import org.solovyev.common.msg.MessageType;
+import org.solovyev.common.msg.MessageLevel;
 
 /**
  * User: serso
@@ -36,8 +36,8 @@ public class MessageDialogData implements DialogData {
 
     @NotNull
     @Override
-    public MessageType getMessageType() {
-        return message.getMessageType();
+    public MessageLevel getMessageLevel() {
+        return message.getMessageLevel();
     }
 
     @Override

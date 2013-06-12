@@ -8,9 +8,8 @@ package org.solovyev.android.calculator;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.common.exceptions.SersoException;
 import org.solovyev.common.msg.Message;
-import org.solovyev.common.msg.MessageType;
+import org.solovyev.common.msg.MessageLevel;
 
 import java.util.List;
 import java.util.Locale;
@@ -20,7 +19,7 @@ import java.util.Locale;
  * Date: 10/6/11
  * Time: 9:25 PM
  */
-public class CalculatorParseException extends SersoException implements Message {
+public class CalculatorParseException extends Exception implements Message {
 
 	@NotNull
 	private final Message message;
@@ -74,8 +73,8 @@ public class CalculatorParseException extends SersoException implements Message 
 
 	@NotNull
 	@Override
-	public MessageType getMessageType() {
-		return this.message.getMessageType();
+	public MessageLevel getMessageLevel() {
+		return this.message.getMessageLevel();
 	}
 
 	@Override
