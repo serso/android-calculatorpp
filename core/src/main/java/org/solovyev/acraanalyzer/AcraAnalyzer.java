@@ -1,7 +1,5 @@
 package org.solovyev.acraanalyzer;
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Multimap;
 import org.apache.commons.cli.*;
 import org.solovyev.common.text.Strings;
 
@@ -30,12 +28,14 @@ public final class AcraAnalyzer {
 		if (Strings.isEmpty(path)) {
 			throw new IllegalArgumentException("Path should be specified");
 		} else {
-			final Multimap<String, AcraReport> reports = ArrayListMultimap.create(100, 20);
+			final Map<String, List<AcraReport>> reports = new HashMap<String, List<AcraReport>>();
+
 			scanFiles(path, reports);
-			final List<Collection<AcraReport>> sortedReports = new ArrayList<Collection<AcraReport>>(reports.size());
-			for (String stackTrace : reports.keys()) {
-				sortedReports.add(reports.get(stackTrace));
+			final List<List<AcraReport>> sortedReports = new ArrayList<List<AcraReport>>(reports.size());
+			for (Map.Entry<String, List<AcraReport>> entry : reports.entrySet()) {
+				sortedReports.add(entry.getValue());
 			}
+
 			Collections.sort(sortedReports, new Comparator<Collection<AcraReport>>() {
 				@Override
 				public int compare(Collection<AcraReport> lhs, Collection<AcraReport> rhs) {
@@ -58,14 +58,14 @@ public final class AcraAnalyzer {
 		}
 	}
 
-	private static void scanFiles(String path, Multimap<String, AcraReport> reports) {
+	private static void scanFiles(String path, Map<String, List<AcraReport>> reports) {
 		final File directory = new File(path);
 		if (directory.isDirectory()) {
 			scanFiles(directory, reports);
 		}
 	}
 
-	private static void scanFiles(File directory, Multimap<String, AcraReport> reports) {
+	private static void scanFiles(File directory, Map<String, List<AcraReport>> reports) {
 		final File[] files = directory.listFiles();
 		if (files != null) {
 			for (File file : files) {
@@ -78,10 +78,15 @@ public final class AcraAnalyzer {
 		}
 	}
 
-	private static void analyzeFile(File file, Multimap<String, AcraReport> reports) {
+	private static void analyzeFile(File file, Map<String, List<AcraReport>> reports) {
 		final AcraReport report = readReport(file);
 		if (!Strings.isEmpty(report.stackTrace)) {
-			reports.put(report.stackTrace, report);
+			List<AcraReport> acraReports = reports.get(report.stackTrace);
+			if (acraReports == null) {
+				acraReports = new ArrayList<AcraReport>();
+				reports.put(report.stackTrace, acraReports);
+			}
+			acraReports.add(report);
 		}
 	}
 
