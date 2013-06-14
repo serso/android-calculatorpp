@@ -34,10 +34,10 @@ public class TextHighlighter implements TextProcessor<TextHighlighter.Result, St
 		@NotNull
 		private final CharSequence charSequence;
 
-        @Nullable
-        private String string;
+		@Nullable
+		private String string;
 
-        private final int offset;
+		private final int offset;
 
 		public Result(@NotNull CharSequence charSequence, int offset) {
 			this.charSequence = charSequence;
@@ -61,18 +61,18 @@ public class TextHighlighter implements TextProcessor<TextHighlighter.Result, St
 
 		@Override
 		public String toString() {
-            if (string == null) {
-                string = charSequence.toString();
-            }
-            return string;
+			if (string == null) {
+				string = charSequence.toString();
+			}
+			return string;
 		}
 
-        @NotNull
-        public CharSequence getCharSequence() {
-            return charSequence;
-        }
+		@NotNull
+		public CharSequence getCharSequence() {
+			return charSequence;
+		}
 
-        public int getOffset() {
+		public int getOffset() {
 			return offset;
 		}
 	}
@@ -209,9 +209,9 @@ public class TextHighlighter implements TextProcessor<TextHighlighter.Result, St
 
 		for (; i < s.length(); i++) {
 			char ch = s.charAt(i);
-            String strCh = String.valueOf(ch);
+			String strCh = String.valueOf(ch);
 
-            if (MathType.open_group_symbol.getTokens().contains(strCh)) {
+			if (MathType.open_group_symbol.getTokens().contains(strCh)) {
 				result.append(ch);
 				result.append("</font>");
 				i = processBracketGroup(result, s, i + 1, numberOfOpenings + 1, maxNumberOfGroups);

@@ -9,67 +9,67 @@ import org.jetbrains.annotations.NotNull;
  */
 public class PlotLineDef {
 
-    /*
-    **********************************************************************
-    *
-    *                           CONSTANTS
-    *
-    **********************************************************************
-    */
+	/*
+	**********************************************************************
+	*
+	*                           CONSTANTS
+	*
+	**********************************************************************
+	*/
 
-    @NotNull
-    private static final Float DEFAULT_LINE_WIDTH = 0f;
+	@NotNull
+	private static final Float DEFAULT_LINE_WIDTH = 0f;
 
-    private static final int WHITE = 0xFFFFFFFF;
+	private static final int WHITE = 0xFFFFFFFF;
 
 
-    /*
-    **********************************************************************
-    *
-    *                           FIELDS
-    *
-    **********************************************************************
-    */
+	/*
+	**********************************************************************
+	*
+	*                           FIELDS
+	*
+	**********************************************************************
+	*/
 
-    @NotNull
-    private PlotLineColorType lineColorType = PlotLineColorType.monochrome;
+	@NotNull
+	private PlotLineColorType lineColorType = PlotLineColorType.monochrome;
 
-    private int lineColor = WHITE;
+	private int lineColor = WHITE;
 
-    @NotNull
-    private PlotLineStyle lineStyle = PlotLineStyle.solid;
+	@NotNull
+	private PlotLineStyle lineStyle = PlotLineStyle.solid;
 
-    private float lineWidth = DEFAULT_LINE_WIDTH;
+	private float lineWidth = DEFAULT_LINE_WIDTH;
 
-    private PlotLineDef() {
-    }
+	private PlotLineDef() {
+	}
 
-    @NotNull
-    public static PlotLineDef newInstance(int lineColor, @NotNull PlotLineStyle lineStyle) {
-        final PlotLineDef result = new PlotLineDef();
-        result.lineColor = lineColor;
-        result.lineStyle = lineStyle;
-        return result;
-    }
+	@NotNull
+	public static PlotLineDef newInstance(int lineColor, @NotNull PlotLineStyle lineStyle) {
+		final PlotLineDef result = new PlotLineDef();
+		result.lineColor = lineColor;
+		result.lineStyle = lineStyle;
+		return result;
+	}
 
-    @NotNull
-    public static PlotLineDef newInstance(int lineColor, @NotNull PlotLineStyle lineStyle, float lineWidth) {
-        final PlotLineDef result = new PlotLineDef();
-        result.lineColor = lineColor;
-        result.lineStyle = lineStyle;
-        result.lineWidth = lineWidth;
-        return result;
-    }
+	@NotNull
+	public static PlotLineDef newInstance(int lineColor, @NotNull PlotLineStyle lineStyle, float lineWidth) {
+		final PlotLineDef result = new PlotLineDef();
+		result.lineColor = lineColor;
+		result.lineStyle = lineStyle;
+		result.lineWidth = lineWidth;
+		return result;
+	}
 
-    @NotNull
-    public static PlotLineDef newInstance(int lineColor, @NotNull PlotLineStyle lineStyle, float lineWidth, @NotNull PlotLineColorType lineColorType) {
-        final PlotLineDef result = new PlotLineDef();
-        result.lineColor = lineColor;
-        result.lineColorType = lineColorType;
-        result.lineStyle = lineStyle;
-        result.lineWidth = lineWidth;
-        return result;
-    }
+	@NotNull
+	public static PlotLineDef newInstance(int lineColor, @NotNull PlotLineStyle lineStyle, float lineWidth, @NotNull PlotLineColorType lineColorType) {
+		final PlotLineDef result = new PlotLineDef();
+		result.lineColor = lineColor;
+		result.lineColorType = lineColorType;
+		result.lineStyle = lineStyle;
+		result.lineWidth = lineWidth;
+		return result;
+	}
 
 	@NotNull
 	private PlotLineDef copy() {
@@ -117,52 +117,50 @@ public class PlotLineDef {
 	}
 
 
+	@NotNull
+	public static PlotLineDef newDefaultInstance() {
+		return new PlotLineDef();
+	}
 
+	public int getLineColor() {
+		return lineColor;
+	}
 
 	@NotNull
-    public static PlotLineDef newDefaultInstance() {
-        return new PlotLineDef();
-    }
+	public PlotLineStyle getLineStyle() {
+		return lineStyle;
+	}
 
-    public int getLineColor() {
-        return lineColor;
-    }
+	public float getLineWidth() {
+		return lineWidth;
+	}
 
-    @NotNull
-    public PlotLineStyle getLineStyle() {
-        return lineStyle;
-    }
+	@NotNull
+	public PlotLineColorType getLineColorType() {
+		return lineColorType;
+	}
 
-    public float getLineWidth() {
-        return lineWidth;
-    }
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof PlotLineDef)) return false;
 
-    @NotNull
-    public PlotLineColorType getLineColorType() {
-        return lineColorType;
-    }
+		PlotLineDef that = (PlotLineDef) o;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof PlotLineDef)) return false;
+		if (lineColor != that.lineColor) return false;
+		if (Float.compare(that.lineWidth, lineWidth) != 0) return false;
+		if (lineColorType != that.lineColorType) return false;
+		if (lineStyle != that.lineStyle) return false;
 
-        PlotLineDef that = (PlotLineDef) o;
+		return true;
+	}
 
-        if (lineColor != that.lineColor) return false;
-        if (Float.compare(that.lineWidth, lineWidth) != 0) return false;
-        if (lineColorType != that.lineColorType) return false;
-        if (lineStyle != that.lineStyle) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = lineColorType.hashCode();
-        result = 31 * result + lineColor;
-        result = 31 * result + lineStyle.hashCode();
-        result = 31 * result + (lineWidth != +0.0f ? Float.floatToIntBits(lineWidth) : 0);
-        return result;
-    }
+	@Override
+	public int hashCode() {
+		int result = lineColorType.hashCode();
+		result = 31 * result + lineColor;
+		result = 31 * result + lineStyle.hashCode();
+		result = 31 * result + (lineWidth != +0.0f ? Float.floatToIntBits(lineWidth) : 0);
+		return result;
+	}
 }

@@ -10,11 +10,11 @@ import org.jetbrains.annotations.Nullable;
  */
 public interface MathEntityDao<T extends MathPersistenceEntity> {
 
-    void save(@NotNull MathEntityPersistenceContainer<T> container);
+	void save(@NotNull MathEntityPersistenceContainer<T> container);
 
-    @Nullable
-    MathEntityPersistenceContainer<T> load();
+	@Nullable
+	MathEntityPersistenceContainer<T> load();
 
-    @Nullable
-    String getDescription(@NotNull String descriptionId);
+	@Nullable
+	String getDescription(@NotNull String descriptionId);
 }

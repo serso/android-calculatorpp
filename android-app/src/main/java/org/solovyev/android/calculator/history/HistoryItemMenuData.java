@@ -10,10 +10,10 @@ import android.widget.ArrayAdapter;
 import org.jetbrains.annotations.NotNull;
 
 /**
-* User: serso
-* Date: 12/18/11
-* Time: 3:10 PM
-*/
+ * User: serso
+ * Date: 12/18/11
+ * Time: 3:10 PM
+ */
 public class HistoryItemMenuData {
 
 	@NotNull

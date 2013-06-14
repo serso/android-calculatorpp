@@ -13,28 +13,28 @@ import java.util.List;
  */
 public interface CalculatorHistory extends HistoryHelper<CalculatorHistoryState>, CalculatorEventListener {
 
-    void load();
+	void load();
 
-    void save();
+	void save();
 
-    void fromXml(@NotNull String xml);
+	void fromXml(@NotNull String xml);
 
-    String toXml();
+	String toXml();
 
-    void clearSavedHistory();
+	void clearSavedHistory();
 
-    void removeSavedHistory(@NotNull CalculatorHistoryState historyState);
+	void removeSavedHistory(@NotNull CalculatorHistoryState historyState);
 
-    @NotNull
-    List<CalculatorHistoryState> getSavedHistory();
+	@NotNull
+	List<CalculatorHistoryState> getSavedHistory();
 
-    @NotNull
-    CalculatorHistoryState addSavedState(@NotNull CalculatorHistoryState historyState);
+	@NotNull
+	CalculatorHistoryState addSavedState(@NotNull CalculatorHistoryState historyState);
 
-    @NotNull
-    List<CalculatorHistoryState> getStates();
+	@NotNull
+	List<CalculatorHistoryState> getStates();
 
-    @NotNull
-    List<CalculatorHistoryState> getStates(boolean includeIntermediateStates);
+	@NotNull
+	List<CalculatorHistoryState> getStates(boolean includeIntermediateStates);
 
 }

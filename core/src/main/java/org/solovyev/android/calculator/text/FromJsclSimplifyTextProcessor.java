@@ -3,9 +3,9 @@ package org.solovyev.android.calculator.text;
 import jscl.math.Generic;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.solovyev.android.calculator.CalculatorParseException;
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.math.MathType;
-import org.solovyev.android.calculator.CalculatorParseException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -82,9 +82,9 @@ public class FromJsclSimplifyTextProcessor implements TextProcessor<String, Gene
 			return true;
 		} else if (mathTypes.contains(mathTypeBefore) || mathTypes.contains(mathTypeAfter)) {
 			return false;
-		} else if ( mathTypeBefore == MathType.close_group_symbol ) {
+		} else if (mathTypeBefore == MathType.close_group_symbol) {
 			return false;
-		} else if ( mathTypeAfter == MathType.open_group_symbol ) {
+		} else if (mathTypeAfter == MathType.open_group_symbol) {
 			return false;
 		}
 

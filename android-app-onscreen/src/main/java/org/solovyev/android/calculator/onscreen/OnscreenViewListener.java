@@ -7,9 +7,9 @@ package org.solovyev.android.calculator.onscreen;
  */
 public interface OnscreenViewListener {
 
-    // view minimized == view is in the action bar
-    void onViewMinimized();
+	// view minimized == view is in the action bar
+	void onViewMinimized();
 
-    // view hidden == view closed
-    void onViewHidden();
+	// view hidden == view closed
+	void onViewHidden();
 }

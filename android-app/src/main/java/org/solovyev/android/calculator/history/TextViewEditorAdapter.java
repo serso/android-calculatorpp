@@ -43,7 +43,7 @@ public class TextViewEditorAdapter implements Editor {
 
 	@Override
 	public void setSelection(int selection) {
-		if ( textView instanceof EditText ) {
+		if (textView instanceof EditText) {
 			((EditText) textView).setSelection(selection);
 		}
 	}

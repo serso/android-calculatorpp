@@ -8,8 +8,9 @@
 
 <menu xmlns:a="http://schemas.android.com/apk/res/android">
 
-	<item a:id="@+id/var_menu_add_var"
-		  a:title="@string/c_add"
-          a:icon="@drawable/ab_add"
-          a:showAsAction="always"/>
+	<item
+		a:id="@+id/var_menu_add_var"
+		a:title="@string/c_add"
+		a:icon="@drawable/ab_add"
+		a:showAsAction="always" />
 </menu>

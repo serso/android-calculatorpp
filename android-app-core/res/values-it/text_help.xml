@@ -11,15 +11,19 @@
 	<string name="c_screens">Schermate</string>
 
 	<string name="c_faq_content" formatted="false">
-		<b>Come posso utilizzare le funzioni scritte in alto a destra e nell\'angolo in basso a destra del pulsante?</b>\n
+		<b>Come posso utilizzare le funzioni scritte in alto a destra e nell\'angolo in basso a destra del pulsante?</b>
 		\n
-		Premi il pulsante e trascinalo leggermente verso l\'alto o verso il basso. A seconda del valore mostrato sul pulsante azione si verificherà.\n
+		\n
+		Premi il pulsante e trascinalo leggermente verso l\'alto o verso il basso. A seconda del valore mostrato sul
+		pulsante azione si verificherà.\n
 		\n
 		<b>Come posso passare da radianti a gradi?</b>\n
 		\n
-		Per passare da una unità diversa angolazione è possibile cambiare apposita opzione nelle impostazioni dell\'applicazione o utilizzare l\'interruttore situato sul tasto 6\n
+		Per passare da una unità diversa angolazione è possibile cambiare apposita opzione nelle impostazioni
+		dell\'applicazione o utilizzare l\'interruttore situato sul tasto 6\n
 		(valore corrente è illuminata con il colore giallo).\n
-		Anche attualente C++ non supporta questa funzione ma è possibile utilizzare le funzioni deg() e rad() e l\'operatore ° per convertire i gradi in radianti e vice versa.\n
+		Anche attualente C++ non supporta questa funzione ma è possibile utilizzare le funzioni deg() e rad() e
+		l\'operatore ° per convertire i gradi in radianti e vice versa.\n
 		\n
 		<b>Esempi:</b>\n
 		268° = 4.67748\n
@@ -40,12 +44,17 @@
 		\n
 		<b>Note:</b>\n
 		\n
-		100 + (20 + 20)% = 140, <b>ma</b> 100+  (20% + 20%) = 124.0\n
-		100 + 50% ^ 2 = 2600, <b>ma</b> 100 + 50 ^ 2% = 101.08\n
+		100 + (20 + 20)% = 140,
+		<b>ma</b>
+		100+ (20% + 20%) = 124.0\n
+		100 + 50% ^ 2 = 2600,
+		<b>ma</b>
+		100 + 50 ^ 2% = 101.08\n
 		\n
 		<b>C++ supporta il calcolo delle frazioni?</b>\n
 		\n
-		Sì, è possibile digitare l\'espressione frazionaria nell\'editor e usare = (nell\'angolo in alto a destra del pulsante = ). Inoltre è possibile utilizzare = per semplificare l\'espressione.\n
+		Sì, è possibile digitare l\'espressione frazionaria nell\'editor e usare = (nell\'angolo in alto a destra del
+		pulsante = ). Inoltre è possibile utilizzare = per semplificare l\'espressione.\n
 		\n
 		<b>Esempi:</b>\n
 		\n
@@ -64,7 +73,8 @@
 		\n
 		<b>C++ può disegnare i grafici delle funzioni?</b>\n
 		\n
-		Sì, espressione tipo che contiene 1 variabile non definita (ad esempio cos (t) e t non ha alcun valore) e cliccare sul risultato. Nel menu contestuale scegliere \'Grafico plot\'.\n
+		Sì, espressione tipo che contiene 1 variabile non definita (ad esempio cos (t) e t non ha alcun valore) e
+		cliccare sul risultato. Nel menu contestuale scegliere \'Grafico plot\'.\n
 		\n
 		<b>C++ supporta il calcolo delle matrici?</b>\n
 		\n
@@ -76,21 +86,41 @@
 	</string>
 
 	<string name="c_hints_content">
-		1. È possibile omettere i segni non necessari nella moltiplicazione (invece di 3*t o t*sin(p*t) digita 3t o tsin(pt))\n\n
+		1. È possibile omettere i segni non necessari nella moltiplicazione (invece di 3*t o t*sin(p*t) digita 3t o
+		tsin(pt))\n\n
 		2. Utilizza = (nell\'angolo in alto a destra del pulsante = ) per semplificare l\'espressione\n\n
 		3. Basta fare click sul risultato per copiarlo negli appunti\n\n
-		4. Usa raramente il pulsante =  - il risultato è calcolato in tempo reale\n\n
+		4. Usa raramente il pulsante = - il risultato è calcolato in tempo reale\n\n
 		5. Aggiungi costanti per i valori usati spesso (è possibile salvare anche le espressioni)\n\n
 		6. Utilizzare le variabili trova il 4 e 5 tasti\n\n
 	</string>
 
 	<string name="c_screens_content">
-		1. <b>Schermata principale:</b> viene visualizzata all\'avvio dell\'applicazione, può essere raggiunta da un altra schermata premendo il pulsante Indietro.\n\n
-		2. <b>Schermata variabili e costanti:</b> contiene l\'elenco delle costanti disponibili. L\'utente può aggiungere qui costanti e variabili cliccando il pulsante Aggiungi. Un breve click sulla variabile/costante la inserisce nell\'editor, un click prolungato apre la finestra di editor variabili. Può essere raggiunta dalla schermata principale premendo il pulsante π,….\n\n
-		3. <b>Schermata funzioni:</b> contiene l\'elenco di tutte le funzioni disponibili. Un breve click sulla funzione la inserisce nell\'editor. Può essere raggiunta dalla schermata principale premento il pulsante f(x).\n\n
-		4. <b>Schermata operatori:</b> contiene l\'elenco di tutti gli operatori disponibili. Un breve click sull\'operartore lo inserisce nell\'editor. Può essere raggiunta dalla schermata principale premento il pulsante ∂,….\n\n
-		5. <b>Schermata cronologia:</b> contiene l\'elenco di tutte le azioni fatte dall\'utente.  Un breve click su un elemento della lista lo inserisce nell\'editor. Può essere raggiunta dalla schermata principale premento il pulsante M.\n\n
-		6. <b>Schermata impostazioni:</b> contiene le impostazioni dell\'applicazione. Può essere raggiunta dalla schermata principale premento il pulsante Impostazioni nel menù.
+		1.
+		<b>Schermata principale:</b>
+		viene visualizzata all\'avvio dell\'applicazione, può essere raggiunta da un altra schermata premendo il
+		pulsante Indietro.\n\n
+		2.
+		<b>Schermata variabili e costanti:</b>
+		contiene l\'elenco delle costanti disponibili. L\'utente può aggiungere qui costanti e variabili cliccando il
+		pulsante Aggiungi. Un breve click sulla variabile/costante la inserisce nell\'editor, un click prolungato apre
+		la finestra di editor variabili. Può essere raggiunta dalla schermata principale premendo il pulsante π,….\n\n
+		3.
+		<b>Schermata funzioni:</b>
+		contiene l\'elenco di tutte le funzioni disponibili. Un breve click sulla funzione la inserisce nell\'editor.
+		Può essere raggiunta dalla schermata principale premento il pulsante f(x).\n\n
+		4.
+		<b>Schermata operatori:</b>
+		contiene l\'elenco di tutti gli operatori disponibili. Un breve click sull\'operartore lo inserisce
+		nell\'editor. Può essere raggiunta dalla schermata principale premento il pulsante ∂,….\n\n
+		5.
+		<b>Schermata cronologia:</b>
+		contiene l\'elenco di tutte le azioni fatte dall\'utente. Un breve click su un elemento della lista lo inserisce
+		nell\'editor. Può essere raggiunta dalla schermata principale premento il pulsante M.\n\n
+		6.
+		<b>Schermata impostazioni:</b>
+		contiene le impostazioni dell\'applicazione. Può essere raggiunta dalla schermata principale premento il
+		pulsante Impostazioni nel menù.
 	</string>
 
 </resources>

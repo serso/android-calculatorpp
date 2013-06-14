@@ -1,31 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-    style="?cpp_dialog_style">
+	style="?cpp_dialog_style">
 
-    <LinearLayout
-        a:id="@+id/cpp_fixable_messages_container"
-        a:layout_width="match_parent"
-        a:layout_height="wrap_content"
-        a:orientation="vertical"/>
+	<LinearLayout
+		a:id="@+id/cpp_fixable_messages_container"
+		a:layout_width="match_parent"
+		a:layout_height="wrap_content"
+		a:orientation="vertical" />
 
-    <CheckBox
-        a:id="@+id/cpp_do_not_show_fixable_messages_checkbox"
-        a:text="@string/do_not_show_messages_in_session"
-        a:layout_width="match_parent"
-        a:layout_height="wrap_content"/>
+	<CheckBox
+		a:id="@+id/cpp_do_not_show_fixable_messages_checkbox"
+		a:text="@string/do_not_show_messages_in_session"
+		a:layout_width="match_parent"
+		a:layout_height="wrap_content" />
 
-    <LinearLayout
-        a:layout_width="match_parent"
-        a:layout_height="wrap_content"
-        a:orientation="horizontal"
-        a:gravity="center">
+	<LinearLayout
+		a:layout_width="match_parent"
+		a:layout_height="wrap_content"
+		a:orientation="horizontal"
+		a:gravity="center">
 
-        <Button a:id="@+id/close_button"
-            a:layout_width="wrap_content"
-            a:layout_height="wrap_content"
-            a:text="@string/close"/>
+		<Button
+			a:id="@+id/close_button"
+			a:layout_width="wrap_content"
+			a:layout_height="wrap_content"
+			a:text="@string/close" />
 
-    </LinearLayout>
+	</LinearLayout>
 
 </LinearLayout>

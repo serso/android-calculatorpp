@@ -41,7 +41,7 @@ public class CalculatorAdditionalTitle extends TextView implements SharedPrefere
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences preferences, @Nullable String key) {
 		setText(((AndroidCalculatorEngine) Locator.getInstance().getEngine()).getNumeralBaseFromPrefs(preferences)
-                + " / " +
-                ((AndroidCalculatorEngine) Locator.getInstance().getEngine()).getAngleUnitsFromPrefs(preferences));
+				+ " / " +
+				((AndroidCalculatorEngine) Locator.getInstance().getEngine()).getAngleUnitsFromPrefs(preferences));
 	}
 }

@@ -9,27 +9,27 @@ import org.jetbrains.annotations.NotNull;
  */
 public class CalculatorEditorChangeEventDataImpl implements CalculatorEditorChangeEventData {
 
-    @NotNull
-    private CalculatorEditorViewState oldState;
+	@NotNull
+	private CalculatorEditorViewState oldState;
 
-    @NotNull
-    private CalculatorEditorViewState newState;
+	@NotNull
+	private CalculatorEditorViewState newState;
 
-    public CalculatorEditorChangeEventDataImpl(@NotNull CalculatorEditorViewState oldState,
-                                               @NotNull CalculatorEditorViewState newState) {
-        this.oldState = oldState;
-        this.newState = newState;
-    }
+	public CalculatorEditorChangeEventDataImpl(@NotNull CalculatorEditorViewState oldState,
+											   @NotNull CalculatorEditorViewState newState) {
+		this.oldState = oldState;
+		this.newState = newState;
+	}
 
-    @NotNull
-    @Override
-    public CalculatorEditorViewState getOldValue() {
-        return this.oldState;
-    }
+	@NotNull
+	@Override
+	public CalculatorEditorViewState getOldValue() {
+		return this.oldState;
+	}
 
-    @NotNull
-    @Override
-    public CalculatorEditorViewState getNewValue() {
-        return this.newState;
-    }
+	@NotNull
+	@Override
+	public CalculatorEditorViewState getNewValue() {
+		return this.newState;
+	}
 }

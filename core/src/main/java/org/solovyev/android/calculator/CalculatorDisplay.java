@@ -16,16 +16,16 @@ import org.jetbrains.annotations.Nullable;
  */
 public interface CalculatorDisplay extends CalculatorEventListener {
 
-    void setView(@Nullable CalculatorDisplayView view);
+	void setView(@Nullable CalculatorDisplayView view);
 
-    @Nullable
-    CalculatorDisplayView getView();
+	@Nullable
+	CalculatorDisplayView getView();
 
-    @NotNull
-    CalculatorDisplayViewState getViewState();
+	@NotNull
+	CalculatorDisplayViewState getViewState();
 
-    void setViewState(@NotNull CalculatorDisplayViewState viewState);
+	void setViewState(@NotNull CalculatorDisplayViewState viewState);
 
-    @NotNull
-    CalculatorEventData getLastEventData();
+	@NotNull
+	CalculatorEventData getLastEventData();
 }

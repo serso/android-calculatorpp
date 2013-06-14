@@ -21,15 +21,15 @@ import org.solovyev.android.calculator.R;
  */
 public class CalculatorAboutFragment extends CalculatorFragment {
 
-    public CalculatorAboutFragment() {
-        super(CalculatorFragmentType.about);
-    }
+	public CalculatorAboutFragment() {
+		super(CalculatorFragmentType.about);
+	}
 
-    @Override
-    public void onViewCreated(View root, Bundle savedInstanceState) {
-        super.onViewCreated(root, savedInstanceState);
+	@Override
+	public void onViewCreated(View root, Bundle savedInstanceState) {
+		super.onViewCreated(root, savedInstanceState);
 
-        final TextView about = (TextView) root.findViewById(R.id.aboutTextView);
-        about.setMovementMethod(LinkMovementMethod.getInstance());
-    }
+		final TextView about = (TextView) root.findViewById(R.id.aboutTextView);
+		about.setMovementMethod(LinkMovementMethod.getInstance());
+	}
 }

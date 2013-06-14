@@ -9,16 +9,16 @@ import org.jetbrains.annotations.NotNull;
  */
 public class ConversionFailureImpl implements ConversionFailure {
 
-    @NotNull
-    private Exception exception;
+	@NotNull
+	private Exception exception;
 
-    public ConversionFailureImpl(@NotNull Exception exception) {
-        this.exception = exception;
-    }
+	public ConversionFailureImpl(@NotNull Exception exception) {
+		this.exception = exception;
+	}
 
-    @NotNull
-    @Override
-    public Exception getException() {
-        return this.exception;
-    }
+	@NotNull
+	@Override
+	public Exception getException() {
+		return this.exception;
+	}
 }

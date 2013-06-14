@@ -9,17 +9,20 @@
 	<string name="c_about">關於</string>
 
 	<string name="c_about_content">Copyright (c) 2009-2011\n\n<b>Created by serso aka se.solovyev</b>\n\n
-		程式網站: <a href="http://facebook.com/calculatorpp">http://facebook.com/calculatorpp</a>\n\n
+		程式網站:<a href="http://facebook.com/calculatorpp">http://facebook.com/calculatorpp</a>\n\n
 		此程式為開放源碼軟體:\n原始碼位於\n<a href="https://github.com/serso/android-calculatorpp">http://github.com</a>\n\n
-		如果您需要更多資訊\n請寄信至作者信箱\n<a href="mailto:se.solovyev@gmail.com">se.solovyev@gmail.com</a>
+		如果您需要更多資訊\n請寄信至作者信箱\n
+		<a href="mailto:se.solovyev@gmail.com">se.solovyev@gmail.com</a>
 		\n或是造訪\n<a href="http://se.solovyev.org">http://se.solovyev.org</a>\n\n
 		如果您想要支持此專案\n\n您可以從程式設定頁面中購買一個特別的選項\n\n
-		如果您喜歡這個程式\n請在 <a href="https://market.android.com/details?id=org.solovyev.android.calculator">Google Play</a> 中將它評等為五顆星\n\n
+		如果您喜歡這個程式\n請在
+		<a href="https://market.android.com/details?id=org.solovyev.android.calculator">Google Play</a>
+		中將它評等為五顆星\n\n
 		感謝以下 Calculator++ 的翻譯者:\n
 		義大利文 - Gabriele Ravanetti\n
 		西班牙文 - Jordi Luna\n
-        烏克蘭文 - Андрій Бандура\n\n
-        此程式使用以下開放源碼的函式庫:\n
+		烏克蘭文 - Андрій Бандура\n\n
+		此程式使用以下開放源碼的函式庫:\n
 		<a href="http://simple.sourceforge.net">Simple (XML 序列化)</a>\n
 		<a href="http://meditorworld.appspot.com/meditor.txt">JSCL</a>\n
 		<a href="http://www.achartengine.org/">AChartEngine</a>
@@ -27,7 +30,7 @@
 
 	<string name="c_release_notes">發行公告</string>
 	<string name="c_release_notes_for_title">"發行公告版本 "</string>
-	
+
 	<string name="c_release_notes_for_4">
 		1. 觸控回饋\n
 		2. 兩種版面配置: 計算機與手機\n
@@ -99,7 +102,8 @@
 	</string>
 
 	<string name="c_release_notes_for_15">
-		1. 新增函數繪圖功能: 輸入包含 1 個未定義變數的計算式再點擊計算結果, 選擇「繪圖」. 支援縮放、平移及繪製虛數部份.	</string>
+		1. 新增函數繪圖功能: 輸入包含 1 個未定義變數的計算式再點擊計算結果, 選擇「繪圖」. 支援縮放、平移及繪製虛數部份.
+	</string>
 
 	<string name="c_release_notes_for_16">
 		1. 按鈕滑動選項\n
@@ -188,22 +192,22 @@
 		10. 修正付款錯誤
 	</string>
 
-    <string name="c_release_notes_for_34">
-        1. 烏克蘭文翻譯 (Андрій Бандура)\n
-        2. 在其他進位制下不顯示十六進位的數字\n
-        3. 新增避免自動轉換顯示方向的選項\n
-        4. 新增隱藏等號按鈕的選項\n
-        5. 修正繪圖錯誤\n
-        6. 修正 E+ 的錯誤 (十六進位模式)\n
-        7. 交換 π 和 Π\n
-        8. 新增轉換工具 (按下顯示區域或在選單中選擇)\n
-        9. 修正 lg() 微分積分的錯誤
-    </string>
+	<string name="c_release_notes_for_34">
+		1. 烏克蘭文翻譯 (Андрій Бандура)\n
+		2. 在其他進位制下不顯示十六進位的數字\n
+		3. 新增避免自動轉換顯示方向的選項\n
+		4. 新增隱藏等號按鈕的選項\n
+		5. 修正繪圖錯誤\n
+		6. 修正 E+ 的錯誤 (十六進位模式)\n
+		7. 交換 π 和 Π\n
+		8. 新增轉換工具 (按下顯示區域或在選單中選擇)\n
+		9. 修正 lg() 微分積分的錯誤
+	</string>
 
-    <string name="c_release_notes_for_39">
-        1. 在 Android 4 ICS 上不顯示虛擬鍵盤\n
-        2. 在長按選單中新增快速數值轉換\n
-        3. 圖形介面小修正
-    </string>
+	<string name="c_release_notes_for_39">
+		1. 在 Android 4 ICS 上不顯示虛擬鍵盤\n
+		2. 在長按選單中新增快速數值轉換\n
+		3. 圖形介面小修正
+	</string>
 
 </resources>

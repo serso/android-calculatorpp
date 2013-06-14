@@ -14,9 +14,9 @@ import jscl.text.ParseException;
 import jscl.text.Parser;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.CalculatorMathRegistry;
 import org.solovyev.android.calculator.CalculatorVarsRegistry;
+import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.MathEntityBuilder;
@@ -40,90 +40,90 @@ public class VarEditorSaver<T extends MathEntity> implements View.OnClickListene
 	@NotNull
 	private final CalculatorMathRegistry<T> mathRegistry;
 
-    @NotNull
-    private final Object source;
+	@NotNull
+	private final Object source;
 
-    @NotNull
+	@NotNull
 	private View editView;
 
 	public VarEditorSaver(@NotNull MathEntityBuilder<? extends T> varBuilder,
-                          @Nullable T editedInstance,
-                          @NotNull View editView,
-                          @NotNull CalculatorMathRegistry<T> mathRegistry,
-                          @NotNull Object source) {
+						  @Nullable T editedInstance,
+						  @NotNull View editView,
+						  @NotNull CalculatorMathRegistry<T> mathRegistry,
+						  @NotNull Object source) {
 		this.varBuilder = varBuilder;
 		this.editedInstance = editedInstance;
 		this.editView = editView;
 		this.mathRegistry = mathRegistry;
-        this.source = source;
-    }
+		this.source = source;
+	}
 
-    @Override
-    public void onClick(View v) {
-        final Integer error;
+	@Override
+	public void onClick(View v) {
+		final Integer error;
 
-        final EditText editName = (EditText) editView.findViewById(R.id.var_edit_name);
-        String name = editName.getText().toString();
+		final EditText editName = (EditText) editView.findViewById(R.id.var_edit_name);
+		String name = editName.getText().toString();
 
-        final EditText editValue = (EditText) editView.findViewById(R.id.var_edit_value);
-        String value = editValue.getText().toString();
+		final EditText editValue = (EditText) editView.findViewById(R.id.var_edit_value);
+		String value = editValue.getText().toString();
 
-        final EditText editDescription = (EditText) editView.findViewById(R.id.var_edit_description);
-        String description = editDescription.getText().toString();
+		final EditText editDescription = (EditText) editView.findViewById(R.id.var_edit_description);
+		String description = editDescription.getText().toString();
 
-        if (isValidName(name)) {
+		if (isValidName(name)) {
 
-            boolean canBeSaved = false;
+			boolean canBeSaved = false;
 
-            final T entityFromRegistry = mathRegistry.get(name);
-            if (entityFromRegistry == null) {
-                canBeSaved = true;
-            } else if (editedInstance != null && entityFromRegistry.getId().equals(editedInstance.getId())) {
-                canBeSaved = true;
-            }
+			final T entityFromRegistry = mathRegistry.get(name);
+			if (entityFromRegistry == null) {
+				canBeSaved = true;
+			} else if (editedInstance != null && entityFromRegistry.getId().equals(editedInstance.getId())) {
+				canBeSaved = true;
+			}
 
-            if (canBeSaved) {
-                final MathType.Result mathType = MathType.getType(name, 0, false);
+			if (canBeSaved) {
+				final MathType.Result mathType = MathType.getType(name, 0, false);
 
-                if (mathType.getMathType() == MathType.text || mathType.getMathType() == MathType.constant) {
+				if (mathType.getMathType() == MathType.text || mathType.getMathType() == MathType.constant) {
 
-                    if (Strings.isEmpty(value)) {
-                        // value is empty => undefined variable
-                        varBuilder.setName(name);
-                        varBuilder.setDescription(description);
-                        varBuilder.setValue(null);
-                        error = null;
-                    } else {
-                        // value is not empty => must be a number
-                        boolean valid = CalculatorVarsFragment.isValidValue(value);
+					if (Strings.isEmpty(value)) {
+						// value is empty => undefined variable
+						varBuilder.setName(name);
+						varBuilder.setDescription(description);
+						varBuilder.setValue(null);
+						error = null;
+					} else {
+						// value is not empty => must be a number
+						boolean valid = CalculatorVarsFragment.isValidValue(value);
 
-                        if (valid) {
-                            varBuilder.setName(name);
-                            varBuilder.setDescription(description);
-                            varBuilder.setValue(value);
-                            error = null;
-                        } else {
-                            error = R.string.c_value_is_not_a_number;
-                        }
-                    }
-                } else {
-                    error = R.string.c_var_name_clashes;
-                }
-            } else {
-                error = R.string.c_var_already_exists;
-            }
-        } else {
-            error = R.string.c_name_is_not_valid;
-        }
+						if (valid) {
+							varBuilder.setName(name);
+							varBuilder.setDescription(description);
+							varBuilder.setValue(value);
+							error = null;
+						} else {
+							error = R.string.c_value_is_not_a_number;
+						}
+					}
+				} else {
+					error = R.string.c_var_name_clashes;
+				}
+			} else {
+				error = R.string.c_var_already_exists;
+			}
+		} else {
+			error = R.string.c_name_is_not_valid;
+		}
 
-        if (error != null) {
-            Locator.getInstance().getNotifier().showMessage(error, MessageType.error);
-        } else {
-            CalculatorVarsRegistry.saveVariable(mathRegistry, varBuilder, editedInstance, source, true);
-        }
-    }
+		if (error != null) {
+			Locator.getInstance().getNotifier().showMessage(error, MessageType.error);
+		} else {
+			CalculatorVarsRegistry.saveVariable(mathRegistry, varBuilder, editedInstance, source, true);
+		}
+	}
 
-    public static boolean isValidName(@Nullable String name) {
+	public static boolean isValidName(@Nullable String name) {
 		boolean result = false;
 
 		if (!Strings.isEmpty(name)) {

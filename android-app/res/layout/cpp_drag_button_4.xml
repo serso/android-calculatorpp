@@ -6,11 +6,11 @@
   ~ or visit http://se.solovyev.org
   -->
 <org.solovyev.android.view.drag.DirectionDragButton xmlns:a="http://schemas.android.com/apk/res/android"
-													   xmlns:c="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
-													   a:id="@id/cpp_button_4"
-													   a:text="4"
-													   c:textUp="x"
-													   c:textLeft="D"
-													   c:textDown="y"
-													   style="?cpp_digit_button_style"
-													   a:onClick="digitButtonClickHandler"/>
+	xmlns:c="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
+	a:id="@id/cpp_button_4"
+	a:text="4"
+	c:textUp="x"
+	c:textLeft="D"
+	c:textDown="y"
+	style="?cpp_digit_button_style"
+	a:onClick="digitButtonClickHandler" />

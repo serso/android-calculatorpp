@@ -12,37 +12,37 @@ import org.solovyev.common.msg.MessageLevel;
  */
 public class MessageDialogData implements DialogData {
 
-    @NotNull
-    private Message message;
+	@NotNull
+	private Message message;
 
-    @Nullable
-    private String title;
+	@Nullable
+	private String title;
 
-    private MessageDialogData(@NotNull Message message, @Nullable String title) {
-        this.message = message;
-        this.title = title;
-    }
+	private MessageDialogData(@NotNull Message message, @Nullable String title) {
+		this.message = message;
+		this.title = title;
+	}
 
-    @NotNull
-    public static DialogData newInstance(@NotNull Message message, @Nullable String title) {
-        return new MessageDialogData(message, title);
-    }
+	@NotNull
+	public static DialogData newInstance(@NotNull Message message, @Nullable String title) {
+		return new MessageDialogData(message, title);
+	}
 
-    @Override
-    @NotNull
-    public String getMessage() {
-        return message.getLocalizedMessage();
-    }
+	@Override
+	@NotNull
+	public String getMessage() {
+		return message.getLocalizedMessage();
+	}
 
-    @NotNull
-    @Override
-    public MessageLevel getMessageLevel() {
-        return message.getMessageLevel();
-    }
+	@NotNull
+	@Override
+	public MessageLevel getMessageLevel() {
+		return message.getMessageLevel();
+	}
 
-    @Override
-    @Nullable
-    public String getTitle() {
-        return title;
-    }
+	@Override
+	@Nullable
+	public String getTitle() {
+		return title;
+	}
 }

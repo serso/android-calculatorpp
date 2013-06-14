@@ -23,19 +23,19 @@ public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, St
 	@NotNull
 	private static final Integer MAX_DEPTH = 20;
 
-    @NotNull
-    private static final TextProcessor<PreparedExpression, String> instance = new ToJsclTextProcessor();
+	@NotNull
+	private static final TextProcessor<PreparedExpression, String> instance = new ToJsclTextProcessor();
 
-    private ToJsclTextProcessor() {
-    }
+	private ToJsclTextProcessor() {
+	}
 
 
-    @NotNull
-    public static TextProcessor<PreparedExpression, String> getInstance() {
-        return instance;
-    }
+	@NotNull
+	public static TextProcessor<PreparedExpression, String> getInstance() {
+		return instance;
+	}
 
-    @Override
+	@Override
 	@NotNull
 	public PreparedExpression process(@NotNull String s) throws CalculatorParseException {
 		return processWithDepth(s, 0, new ArrayList<IConstant>());
@@ -73,17 +73,17 @@ public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, St
 				}
 			}
 
-            if (mathTypeBefore != null &&
-                    (mathTypeBefore.getMathType() == MathType.function || mathTypeBefore.getMathType() == MathType.operator) &&
-                    Collections.find(MathType.openGroupSymbols, startsWithFinder) != null) {
-                final String functionName = mathTypeBefore.getMatch();
-                final Function function = Locator.getInstance().getEngine().getFunctionsRegistry().get(functionName);
-                if ( function == null || function.getMinParameters() > 0 ) {
-                    throw new CalculatorParseException(i, s, new CalculatorMessage(CalculatorMessages.msg_005, MessageType.error, mathTypeBefore.getMatch()));
-                }
-            }
+			if (mathTypeBefore != null &&
+					(mathTypeBefore.getMathType() == MathType.function || mathTypeBefore.getMathType() == MathType.operator) &&
+					Collections.find(MathType.openGroupSymbols, startsWithFinder) != null) {
+				final String functionName = mathTypeBefore.getMatch();
+				final Function function = Locator.getInstance().getEngine().getFunctionsRegistry().get(functionName);
+				if (function == null || function.getMinParameters() > 0) {
+					throw new CalculatorParseException(i, s, new CalculatorMessage(CalculatorMessages.msg_005, MessageType.error, mathTypeBefore.getMatch()));
+				}
+			}
 
-            i = mathTypeResult.processToJscl(result, i);
+			i = mathTypeResult.processToJscl(result, i);
 		}
 		return result;
 	}
@@ -91,7 +91,7 @@ public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, St
 	@NotNull
 	private static PreparedExpression replaceVariables(@NotNull final String s, int depth, @NotNull List<IConstant> undefinedVars) throws CalculatorParseException {
 		if (depth >= MAX_DEPTH) {
-            throw new CalculatorParseException(s, new CalculatorMessage(CalculatorMessages.msg_006, MessageType.error));
+			throw new CalculatorParseException(s, new CalculatorMessage(CalculatorMessages.msg_006, MessageType.error));
 		} else {
 			depth++;
 		}
@@ -119,7 +119,7 @@ public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, St
 								final String value = var.getValue();
 								assert value != null;
 
-								if ( var.getDoubleValue() != null ) {
+								if (var.getDoubleValue() != null) {
 									//result.append(value);
 									// NOTE: append varName as JSCL engine will convert it to double if needed
 									result.append(varName);

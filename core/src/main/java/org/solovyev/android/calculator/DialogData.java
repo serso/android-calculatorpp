@@ -11,12 +11,12 @@ import org.solovyev.common.msg.MessageLevel;
  */
 public interface DialogData {
 
-    @NotNull
-    String getMessage();
+	@NotNull
+	String getMessage();
 
-    @NotNull
+	@NotNull
 	MessageLevel getMessageLevel();
 
-    @Nullable
-    String getTitle();
+	@Nullable
+	String getTitle();
 }

@@ -29,20 +29,19 @@ public abstract class AbstractCalculatorMathRegistry<T extends MathEntity, P ext
 	@NotNull
 	private final String prefix;
 
-    @NotNull
-    private final MathEntityDao<P> mathEntityDao;
+	@NotNull
+	private final MathEntityDao<P> mathEntityDao;
 
 	protected AbstractCalculatorMathRegistry(@NotNull MathRegistry<T> mathRegistry,
-                                             @NotNull String prefix,
-                                             @NotNull MathEntityDao<P> mathEntityDao) {
+											 @NotNull String prefix,
+											 @NotNull MathEntityDao<P> mathEntityDao) {
 		this.mathRegistry = mathRegistry;
 		this.prefix = prefix;
-        this.mathEntityDao = mathEntityDao;
-    }
+		this.mathEntityDao = mathEntityDao;
+	}
 
 
-
-    @NotNull
+	@NotNull
 	protected abstract Map<String, String> getSubstitutes();
 
 	@Nullable
@@ -58,60 +57,60 @@ public abstract class AbstractCalculatorMathRegistry<T extends MathEntity, P ext
 			stringName = prefix + substitute;
 		}
 
-        return mathEntityDao.getDescription(stringName);
+		return mathEntityDao.getDescription(stringName);
 	}
 
-    public synchronized void load() {
-        final MathEntityPersistenceContainer<P> persistenceContainer = mathEntityDao.load();
+	public synchronized void load() {
+		final MathEntityPersistenceContainer<P> persistenceContainer = mathEntityDao.load();
 
-        final List<P> notCreatedEntities = new ArrayList<P>();
+		final List<P> notCreatedEntities = new ArrayList<P>();
 
-        if (persistenceContainer != null) {
-            for (P entity : persistenceContainer.getEntities()) {
-                if (!contains(entity.getName())) {
-                    try {
-                        final JBuilder<? extends T> builder = createBuilder(entity);
-                        add(builder);
-                    } catch (RuntimeException e) {
-                        Locator.getInstance().getLogger().error(null, e.getLocalizedMessage(), e);
-                        notCreatedEntities.add(entity);
-                    }
-                }
-            }
-        }
+		if (persistenceContainer != null) {
+			for (P entity : persistenceContainer.getEntities()) {
+				if (!contains(entity.getName())) {
+					try {
+						final JBuilder<? extends T> builder = createBuilder(entity);
+						add(builder);
+					} catch (RuntimeException e) {
+						Locator.getInstance().getLogger().error(null, e.getLocalizedMessage(), e);
+						notCreatedEntities.add(entity);
+					}
+				}
+			}
+		}
 
-        try {
-            if (!notCreatedEntities.isEmpty()) {
-                final StringBuilder errorMessage = new StringBuilder(notCreatedEntities.size() * 100);
-                for (P notCreatedEntity : notCreatedEntities) {
-                    errorMessage.append(notCreatedEntity).append("\n\n");
-                }
+		try {
+			if (!notCreatedEntities.isEmpty()) {
+				final StringBuilder errorMessage = new StringBuilder(notCreatedEntities.size() * 100);
+				for (P notCreatedEntity : notCreatedEntities) {
+					errorMessage.append(notCreatedEntity).append("\n\n");
+				}
 
-                Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_message_dialog, MessageDialogData.newInstance(CalculatorMessages.newErrorMessage(CalculatorMessages.msg_007, errorMessage.toString()), null));
-            }
-        } catch (RuntimeException e) {
-            // just in case
-            Locator.getInstance().getLogger().error(null, e.getLocalizedMessage(), e);
-        }
-    }
+				Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_message_dialog, MessageDialogData.newInstance(CalculatorMessages.newErrorMessage(CalculatorMessages.msg_007, errorMessage.toString()), null));
+			}
+		} catch (RuntimeException e) {
+			// just in case
+			Locator.getInstance().getLogger().error(null, e.getLocalizedMessage(), e);
+		}
+	}
 
-    @NotNull
+	@NotNull
 	protected abstract JBuilder<? extends T> createBuilder(@NotNull P entity);
 
-    @Override
+	@Override
 	public synchronized void save() {
-        final MathEntityPersistenceContainer<P> container = createPersistenceContainer();
+		final MathEntityPersistenceContainer<P> container = createPersistenceContainer();
 
-        for (T entity : this.getEntities()) {
-            if (!entity.isSystem()) {
-                final P persistenceEntity = transform(entity);
-                if (persistenceEntity != null) {
-                    container.getEntities().add(persistenceEntity);
-                }
-            }
-        }
+		for (T entity : this.getEntities()) {
+			if (!entity.isSystem()) {
+				final P persistenceEntity = transform(entity);
+				if (persistenceEntity != null) {
+					container.getEntities().add(persistenceEntity);
+				}
+			}
+		}
 
-        this.mathEntityDao.save(container);
+		this.mathEntityDao.save(container);
 	}
 
 	@Nullable

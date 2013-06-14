@@ -12,7 +12,7 @@ import org.solovyev.android.calculator.CalculatorEditorViewState;
  */
 public interface ExternalCalculatorStateUpdater {
 
-    void updateState(@NotNull Context context,
-                     @NotNull CalculatorEditorViewState editorState,
-                     @NotNull CalculatorDisplayViewState displayState);
+	void updateState(@NotNull Context context,
+					 @NotNull CalculatorEditorViewState editorState,
+					 @NotNull CalculatorDisplayViewState displayState);
 }

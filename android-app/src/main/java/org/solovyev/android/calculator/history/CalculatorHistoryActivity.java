@@ -11,7 +11,6 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.*;
-import org.solovyev.android.calculator.CalculatorFragmentType;
 
 /**
  * User: serso
@@ -20,52 +19,52 @@ import org.solovyev.android.calculator.CalculatorFragmentType;
  */
 public class CalculatorHistoryActivity extends SherlockFragmentActivity implements CalculatorEventListener {
 
-    @NotNull
-    private final CalculatorActivityHelper activityHelper = CalculatorApplication.getInstance().createActivityHelper(R.layout.main_empty, CalculatorHistoryActivity.class.getSimpleName());
+	@NotNull
+	private final CalculatorActivityHelper activityHelper = CalculatorApplication.getInstance().createActivityHelper(R.layout.main_empty, CalculatorHistoryActivity.class.getSimpleName());
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+	@Override
+	public void onCreate(@Nullable Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-        activityHelper.onCreate(this, savedInstanceState);
+		activityHelper.onCreate(this, savedInstanceState);
 
-        activityHelper.addTab(this, CalculatorFragmentType.history, null, R.id.main_layout);
-        activityHelper.addTab(this, CalculatorFragmentType.saved_history, null, R.id.main_layout);
-    }
+		activityHelper.addTab(this, CalculatorFragmentType.history, null, R.id.main_layout);
+		activityHelper.addTab(this, CalculatorFragmentType.saved_history, null, R.id.main_layout);
+	}
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
 
-        activityHelper.onSaveInstanceState(this, outState);
-    }
+		activityHelper.onSaveInstanceState(this, outState);
+	}
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+	@Override
+	protected void onResume() {
+		super.onResume();
 
-        activityHelper.onResume(this);
-    }
+		activityHelper.onResume(this);
+	}
 
-    @Override
-    protected void onPause() {
-        this.activityHelper.onPause(this);
+	@Override
+	protected void onPause() {
+		this.activityHelper.onPause(this);
 
-        super.onPause();
-    }
+		super.onPause();
+	}
 
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
 
-        activityHelper.onDestroy(this);
-    }
+		activityHelper.onDestroy(this);
+	}
 
-    @Override
-    public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
-        if ( calculatorEventType == CalculatorEventType.use_history_state ) {
-            this.finish();
-        }
-    }
+	@Override
+	public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
+		if (calculatorEventType == CalculatorEventType.use_history_state) {
+			this.finish();
+		}
+	}
 }

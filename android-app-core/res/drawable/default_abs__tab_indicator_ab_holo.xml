@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2011 The Android Open Source Project
+<?xml version="1.0" encoding="utf-8"?><!-- Copyright (C) 2011 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -15,20 +14,20 @@
 -->
 
 <selector xmlns:a="http://schemas.android.com/apk/res/android">
-    <!-- Non focused states -->
-    <item a:state_focused="false" a:state_selected="false" a:state_pressed="false" a:drawable="@android:color/transparent" />
-    <item a:state_focused="false" a:state_selected="true"  a:state_pressed="false" a:drawable="@drawable/default_abs__tab_selected_holo" />
+	<!-- Non focused states -->
+	<item a:state_focused="false" a:state_selected="false" a:state_pressed="false" a:drawable="@android:color/transparent" />
+	<item a:state_focused="false" a:state_selected="true" a:state_pressed="false" a:drawable="@drawable/default_abs__tab_selected_holo" />
 
-    <!-- Focused states -->
-    <item a:state_focused="true" a:state_selected="false" a:state_pressed="false" a:drawable="@drawable/default_abs__list_focused_holo" />
-    <item a:state_focused="true" a:state_selected="true"  a:state_pressed="false" a:drawable="@drawable/default_abs__tab_selected_focused_holo" />
+	<!-- Focused states -->
+	<item a:state_focused="true" a:state_selected="false" a:state_pressed="false" a:drawable="@drawable/default_abs__list_focused_holo" />
+	<item a:state_focused="true" a:state_selected="true" a:state_pressed="false" a:drawable="@drawable/default_abs__tab_selected_focused_holo" />
 
-    <!-- Pressed -->
-    <!--    Non focused states -->
-    <item a:state_focused="false" a:state_selected="false" a:state_pressed="true" a:drawable="@drawable/default_abs__list_pressed_holo_dark" />
-    <item a:state_focused="false" a:state_selected="true"  a:state_pressed="true" a:drawable="@drawable/default_abs__tab_selected_pressed_holo" />
+	<!-- Pressed -->
+	<!--    Non focused states -->
+	<item a:state_focused="false" a:state_selected="false" a:state_pressed="true" a:drawable="@drawable/default_abs__list_pressed_holo_dark" />
+	<item a:state_focused="false" a:state_selected="true" a:state_pressed="true" a:drawable="@drawable/default_abs__tab_selected_pressed_holo" />
 
-    <!--    Focused states -->
-    <item a:state_focused="true" a:state_selected="false" a:state_pressed="true" a:drawable="@drawable/default_abs__tab_unselected_pressed_holo" />
-    <item a:state_focused="true" a:state_selected="true"  a:state_pressed="true" a:drawable="@drawable/default_abs__tab_selected_pressed_holo" />
+	<!--    Focused states -->
+	<item a:state_focused="true" a:state_selected="false" a:state_pressed="true" a:drawable="@drawable/default_abs__tab_unselected_pressed_holo" />
+	<item a:state_focused="true" a:state_selected="true" a:state_pressed="true" a:drawable="@drawable/default_abs__tab_selected_pressed_holo" />
 </selector>

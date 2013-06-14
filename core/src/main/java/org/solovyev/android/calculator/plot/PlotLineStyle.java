@@ -8,9 +8,9 @@ package org.solovyev.android.calculator.plot;
  */
 public enum PlotLineStyle {
 
-    solid,
-    dashed,
-    dotted,
-    dash_dotted;
+	solid,
+	dashed,
+	dotted,
+	dash_dotted;
 
 }

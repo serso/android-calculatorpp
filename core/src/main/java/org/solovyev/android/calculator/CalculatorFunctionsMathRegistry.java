@@ -31,8 +31,9 @@ import java.util.Map;
  */
 public class CalculatorFunctionsMathRegistry extends AbstractCalculatorMathRegistry<Function, AFunction> {
 
-    @NotNull
+	@NotNull
 	private static final Map<String, String> substitutes = new HashMap<String, String>();
+
 	static {
 		substitutes.put("√", "sqrt");
 	}
@@ -41,21 +42,21 @@ public class CalculatorFunctionsMathRegistry extends AbstractCalculatorMathRegis
 	private static final String FUNCTION_DESCRIPTION_PREFIX = "c_fun_description_";
 
 	public CalculatorFunctionsMathRegistry(@NotNull MathRegistry<Function> functionsRegistry,
-                                           @NotNull MathEntityDao<AFunction> mathEntityDao) {
+										   @NotNull MathEntityDao<AFunction> mathEntityDao) {
 		super(functionsRegistry, FUNCTION_DESCRIPTION_PREFIX, mathEntityDao);
 	}
 
 	@Override
 	public void load() {
-        add(new CustomFunction.Builder(true, "log", Arrays.asList("base", "x"), "ln(x)/ln(base)"));
-        add(new CustomFunction.Builder(true, "√3", Arrays.asList("x"), "x^(1/3)"));
-        add(new CustomFunction.Builder(true, "√4", Arrays.asList("x"), "x^(1/4)"));
-        add(new CustomFunction.Builder(true, "√n", Arrays.asList("x", "n"), "x^(1/n)"));
-        add(new CustomFunction.Builder(true, "re", Arrays.asList("x"), "(x+conjugate(x))/2"));
-        add(new CustomFunction.Builder(true, "im", Arrays.asList("x"), "(x-conjugate(x))/(2*i)"));
+		add(new CustomFunction.Builder(true, "log", Arrays.asList("base", "x"), "ln(x)/ln(base)"));
+		add(new CustomFunction.Builder(true, "√3", Arrays.asList("x"), "x^(1/3)"));
+		add(new CustomFunction.Builder(true, "√4", Arrays.asList("x"), "x^(1/4)"));
+		add(new CustomFunction.Builder(true, "√n", Arrays.asList("x", "n"), "x^(1/n)"));
+		add(new CustomFunction.Builder(true, "re", Arrays.asList("x"), "(x+conjugate(x))/2"));
+		add(new CustomFunction.Builder(true, "im", Arrays.asList("x"), "(x-conjugate(x))/(2*i)"));
 
 		super.load();
-    }
+	}
 
 	public static void saveFunction(@NotNull CalculatorMathRegistry<Function> registry,
 									@NotNull MathEntityBuilder<? extends Function> builder,
@@ -80,16 +81,16 @@ public class CalculatorFunctionsMathRegistry extends AbstractCalculatorMathRegis
 		return substitutes;
 	}
 
-    @Override
-    public String getCategory(@NotNull Function function) {
-        for (FunctionCategory category : FunctionCategory.values()) {
-            if ( category.isInCategory(function) ) {
-                return category.name();
-            }
-        }
-        
-        return null;
-    }
+	@Override
+	public String getCategory(@NotNull Function function) {
+		for (FunctionCategory category : FunctionCategory.values()) {
+			if (category.isInCategory(function)) {
+				return category.name();
+			}
+		}
+
+		return null;
+	}
 
 	@Nullable
 	@Override
@@ -97,11 +98,11 @@ public class CalculatorFunctionsMathRegistry extends AbstractCalculatorMathRegis
 		final Function function = get(functionName);
 
 		String result = null;
-		if ( function instanceof CustomFunction ) {
+		if (function instanceof CustomFunction) {
 			result = ((CustomFunction) function).getDescription();
 		}
 
-		if (Strings.isEmpty(result) ) {
+		if (Strings.isEmpty(result)) {
 			result = super.getDescription(functionName);
 		}
 
@@ -115,7 +116,7 @@ public class CalculatorFunctionsMathRegistry extends AbstractCalculatorMathRegis
 		return new FunctionBuilderAdapter(new AFunction.Builder(function));
 	}
 
-    @Override
+	@Override
 	protected AFunction transform(@NotNull Function function) {
 		if (function instanceof CustomFunction) {
 			return AFunction.fromIFunction((CustomFunction) function);

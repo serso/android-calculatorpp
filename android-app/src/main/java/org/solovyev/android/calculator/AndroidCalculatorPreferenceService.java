@@ -20,75 +20,75 @@ import java.util.List;
  */
 public class AndroidCalculatorPreferenceService implements CalculatorPreferenceService {
 
-    // one hour
-    private static final Long PREFERRED_PREFS_INTERVAL_TIME = 1000L * 60L * 60L;
+	// one hour
+	private static final Long PREFERRED_PREFS_INTERVAL_TIME = 1000L * 60L * 60L;
 
-    @NotNull
-    private final Application application;
+	@NotNull
+	private final Application application;
 
-    public AndroidCalculatorPreferenceService(@NotNull Application application) {
-        this.application = application;
-    }
+	public AndroidCalculatorPreferenceService(@NotNull Application application) {
+		this.application = application;
+	}
 
-    @Override
-    public void checkPreferredPreferences(boolean force) {
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(application);
+	@Override
+	public void checkPreferredPreferences(boolean force) {
+		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(application);
 
-        final Long currentTime = System.currentTimeMillis();
+		final Long currentTime = System.currentTimeMillis();
 
-        if ( force || ( CalculatorPreferences.Calculations.showCalculationMessagesDialog.getPreference(prefs) && isTimeForCheck(currentTime, prefs))) {
-            final NumeralBase preferredNumeralBase = CalculatorPreferences.Calculations.preferredNumeralBase.getPreference(prefs);
-            final NumeralBase numeralBase = AndroidCalculatorEngine.Preferences.numeralBase.getPreference(prefs);
+		if (force || (CalculatorPreferences.Calculations.showCalculationMessagesDialog.getPreference(prefs) && isTimeForCheck(currentTime, prefs))) {
+			final NumeralBase preferredNumeralBase = CalculatorPreferences.Calculations.preferredNumeralBase.getPreference(prefs);
+			final NumeralBase numeralBase = AndroidCalculatorEngine.Preferences.numeralBase.getPreference(prefs);
 
-            final AngleUnit preferredAngleUnits = CalculatorPreferences.Calculations.preferredAngleUnits.getPreference(prefs);
-            final AngleUnit angleUnits = AndroidCalculatorEngine.Preferences.angleUnit.getPreference(prefs);
+			final AngleUnit preferredAngleUnits = CalculatorPreferences.Calculations.preferredAngleUnits.getPreference(prefs);
+			final AngleUnit angleUnits = AndroidCalculatorEngine.Preferences.angleUnit.getPreference(prefs);
 
-            final List<FixableMessage> messages = new ArrayList<FixableMessage>(2);
-            if ( numeralBase != preferredNumeralBase ) {
-                messages.add(new FixableMessage(application.getString(R.string.preferred_numeral_base_message, preferredNumeralBase.name(), numeralBase.name()), MessageType.warning, CalculatorFixableError.preferred_numeral_base));
-            }
+			final List<FixableMessage> messages = new ArrayList<FixableMessage>(2);
+			if (numeralBase != preferredNumeralBase) {
+				messages.add(new FixableMessage(application.getString(R.string.preferred_numeral_base_message, preferredNumeralBase.name(), numeralBase.name()), MessageType.warning, CalculatorFixableError.preferred_numeral_base));
+			}
 
-            if ( angleUnits != preferredAngleUnits ) {
-                messages.add(new FixableMessage(application.getString(R.string.preferred_angle_units_message, preferredAngleUnits.name(), angleUnits.name()), MessageType.warning, CalculatorFixableError.preferred_angle_units));
-            }
+			if (angleUnits != preferredAngleUnits) {
+				messages.add(new FixableMessage(application.getString(R.string.preferred_angle_units_message, preferredAngleUnits.name(), angleUnits.name()), MessageType.warning, CalculatorFixableError.preferred_angle_units));
+			}
 
-            FixableMessagesDialog.showDialog(messages, application, true);
+			FixableMessagesDialog.showDialog(messages, application, true);
 
-            CalculatorPreferences.Calculations.lastPreferredPreferencesCheck.putPreference(prefs, currentTime);
-        }
-    }
+			CalculatorPreferences.Calculations.lastPreferredPreferencesCheck.putPreference(prefs, currentTime);
+		}
+	}
 
-    private boolean isTimeForCheck(@NotNull Long currentTime, @NotNull SharedPreferences preferences) {
-        final Long lastPreferredPreferencesCheckTime = CalculatorPreferences.Calculations.lastPreferredPreferencesCheck.getPreference(preferences);
+	private boolean isTimeForCheck(@NotNull Long currentTime, @NotNull SharedPreferences preferences) {
+		final Long lastPreferredPreferencesCheckTime = CalculatorPreferences.Calculations.lastPreferredPreferencesCheck.getPreference(preferences);
 
-        return currentTime - lastPreferredPreferencesCheckTime > PREFERRED_PREFS_INTERVAL_TIME;
-    }
+		return currentTime - lastPreferredPreferencesCheckTime > PREFERRED_PREFS_INTERVAL_TIME;
+	}
 
-    @Override
-    public void setPreferredAngleUnits() {
-        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(application);
-        setAngleUnits(CalculatorPreferences.Calculations.preferredAngleUnits.getPreference(preferences));
-    }
+	@Override
+	public void setPreferredAngleUnits() {
+		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(application);
+		setAngleUnits(CalculatorPreferences.Calculations.preferredAngleUnits.getPreference(preferences));
+	}
 
-    @Override
-    public void setAngleUnits(@NotNull AngleUnit angleUnit) {
-        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(application);
-        AndroidCalculatorEngine.Preferences.angleUnit.putPreference(preferences, angleUnit);
+	@Override
+	public void setAngleUnits(@NotNull AngleUnit angleUnit) {
+		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(application);
+		AndroidCalculatorEngine.Preferences.angleUnit.putPreference(preferences, angleUnit);
 
-        Locator.getInstance().getNotifier().showMessage(new AndroidMessage(R.string.c_angle_units_changed_to, MessageType.info, application, angleUnit.name()));
-    }
+		Locator.getInstance().getNotifier().showMessage(new AndroidMessage(R.string.c_angle_units_changed_to, MessageType.info, application, angleUnit.name()));
+	}
 
-    @Override
-    public void setPreferredNumeralBase() {
-        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(application);
-        setNumeralBase(CalculatorPreferences.Calculations.preferredNumeralBase.getPreference(preferences));
-    }
+	@Override
+	public void setPreferredNumeralBase() {
+		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(application);
+		setNumeralBase(CalculatorPreferences.Calculations.preferredNumeralBase.getPreference(preferences));
+	}
 
-    @Override
-    public void setNumeralBase(@NotNull NumeralBase numeralBase) {
-        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(application);
-        AndroidCalculatorEngine.Preferences.numeralBase.putPreference(preferences, numeralBase);
+	@Override
+	public void setNumeralBase(@NotNull NumeralBase numeralBase) {
+		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(application);
+		AndroidCalculatorEngine.Preferences.numeralBase.putPreference(preferences, numeralBase);
 
-        Locator.getInstance().getNotifier().showMessage(new AndroidMessage(R.string.c_numeral_base_changed_to, MessageType.info, application, numeralBase.name()));
-    }
+		Locator.getInstance().getNotifier().showMessage(new AndroidMessage(R.string.c_numeral_base_changed_to, MessageType.info, application, numeralBase.name()));
+	}
 }

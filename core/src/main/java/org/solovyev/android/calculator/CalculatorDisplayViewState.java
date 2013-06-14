@@ -14,22 +14,22 @@ import java.io.Serializable;
  */
 public interface CalculatorDisplayViewState extends Serializable {
 
-    @NotNull
-    String getText();
+	@NotNull
+	String getText();
 
-    int getSelection();
+	int getSelection();
 
-    @Nullable
-    Generic getResult();
+	@Nullable
+	Generic getResult();
 
-    boolean isValid();
+	boolean isValid();
 
-    @Nullable
-    String getErrorMessage();
+	@Nullable
+	String getErrorMessage();
 
-    @NotNull
-    JsclOperation getOperation();
+	@NotNull
+	JsclOperation getOperation();
 
-    @Nullable
-    String getStringResult();
+	@Nullable
+	String getStringResult();
 }

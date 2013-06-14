@@ -5,6 +5,4 @@
   ~ For more information, please, contact se.solovyev@gmail.com
   ~ or visit http://se.solovyev.org
   -->
-<org.solovyev.android.view.drag.DirectionDragButton xmlns:a="http://schemas.android.com/apk/res/android"
-													   xmlns:c="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
-													   style="?cpp_control_button_style"/>
+<org.solovyev.android.view.drag.DirectionDragButton style="?cpp_control_button_style" />

@@ -34,196 +34,197 @@ import java.util.List;
  * Time: 1:21 PM
  */
 /*@ReportsCrashes(formKey = "dEhDaW1nZU1qcFdsVUpiSnhON0c0ZHc6MQ",
-        mode = ReportingInteractionMode.TOAST)*/
+		mode = ReportingInteractionMode.TOAST)*/
 @ReportsCrashes(formKey = "",
-        mailTo = "se.solovyev+programming+calculatorpp+crashes+1.5@gmail.com",
-        mode = ReportingInteractionMode.DIALOG,
-        resToastText = R.string.crashed,
-        resDialogTitle = R.string.crash_dialog_title,
-        resDialogText = R.string.crash_dialog_text)
+		mailTo = "se.solovyev+programming+calculatorpp+crashes+1.5@gmail.com",
+		mode = ReportingInteractionMode.DIALOG,
+		resToastText = R.string.crashed,
+		resDialogTitle = R.string.crash_dialog_title,
+		resDialogText = R.string.crash_dialog_text)
 public class CalculatorApplication extends android.app.Application implements SharedPreferences.OnSharedPreferenceChangeListener, ServiceLocator {
 
-    /*
-    **********************************************************************
-    *
-    *                           CONSTANTS
-    *
-    **********************************************************************
-    */
+	/*
+	**********************************************************************
+	*
+	*                           CONSTANTS
+	*
+	**********************************************************************
+	*/
 
-    private static final String TAG = "Calculator++ Application";
-    public static final String FACEBOOK_APP_URL = "http://www.facebook.com/calculatorpp";
+	private static final String TAG = "Calculator++ Application";
+	public static final String FACEBOOK_APP_URL = "http://www.facebook.com/calculatorpp";
 
-    public static final String AD_FREE_PRODUCT_ID = "ad_free";
-    public static final String AD_FREE_P_KEY = "org.solovyev.android.calculator_ad_free";
+	public static final String AD_FREE_PRODUCT_ID = "ad_free";
+	public static final String AD_FREE_P_KEY = "org.solovyev.android.calculator_ad_free";
 
-    public static final String ADMOB_USER_ID = "a14f02cf9c80cbc";
+	public static final String ADMOB_USER_ID = "a14f02cf9c80cbc";
 
-    @NotNull
-    private static CalculatorApplication instance;
+	@NotNull
+	private static CalculatorApplication instance;
 
-    /*
-    **********************************************************************
-    *
-    *                           FIELDS
-    *
-    **********************************************************************
-    */
+	/*
+	**********************************************************************
+	*
+	*                           FIELDS
+	*
+	**********************************************************************
+	*/
 
-    @NotNull
-    private final List<CalculatorEventListener> listeners = new ArrayList<CalculatorEventListener>();
+	@NotNull
+	private final List<CalculatorEventListener> listeners = new ArrayList<CalculatorEventListener>();
 
-    @NotNull
-    protected final Handler uiHandler = new Handler();
+	@NotNull
+	protected final Handler uiHandler = new Handler();
 
-    /*
-    **********************************************************************
-    *
-    *                           CONSTRUCTORS
-    *
-    **********************************************************************
-    */
+	/*
+	**********************************************************************
+	*
+	*                           CONSTRUCTORS
+	*
+	**********************************************************************
+	*/
 
-    public CalculatorApplication() {
-        instance = this;
-    }
+	public CalculatorApplication() {
+		instance = this;
+	}
 
 
-    /*
-    **********************************************************************
-    *
-    *                           METHODS
-    *
-    **********************************************************************
-    */
+	/*
+	**********************************************************************
+	*
+	*                           METHODS
+	*
+	**********************************************************************
+	*/
 
-    @Override
-    public void onCreate() {
-        ACRA.init(this);
+	@Override
+	public void onCreate() {
+		ACRA.init(this);
 
-        App.init(this);
+		App.init(this);
 
-        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        CalculatorPreferences.setDefaultValues(preferences);
+		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		CalculatorPreferences.setDefaultValues(preferences);
 
-        preferences.registerOnSharedPreferenceChangeListener(this);
+		preferences.registerOnSharedPreferenceChangeListener(this);
 
-        setTheme(preferences);
+		setTheme(preferences);
 
-        super.onCreate();
+		super.onCreate();
 
-        final AndroidCalculator calculator = new AndroidCalculator(this);
+		final AndroidCalculator calculator = new AndroidCalculator(this);
 
-        Locator.getInstance().init(calculator,
-                new AndroidCalculatorEngine(this),
-                new AndroidCalculatorClipboard(this),
-                new AndroidCalculatorNotifier(this),
-                new AndroidCalculatorHistory(this, calculator),
-                new AndroidCalculatorLogger(),
-                new AndroidCalculatorPreferenceService(this),
-                new AndroidCalculatorKeyboard(this, new CalculatorKeyboardImpl(calculator)),
+		Locator.getInstance().init(calculator,
+				new AndroidCalculatorEngine(this),
+				new AndroidCalculatorClipboard(this),
+				new AndroidCalculatorNotifier(this),
+				new AndroidCalculatorHistory(this, calculator),
+				new AndroidCalculatorLogger(),
+				new AndroidCalculatorPreferenceService(this),
+				new AndroidCalculatorKeyboard(this, new CalculatorKeyboardImpl(calculator)),
 				new AndroidExternalListenersContainer(calculator),
-                new AndroidCalculatorPlotter(this, new CalculatorPlotterImpl(calculator)));
+				new AndroidCalculatorPlotter(this, new CalculatorPlotterImpl(calculator)));
 
-        listeners.add(new CalculatorActivityLauncher());
-        for (CalculatorEventListener listener : listeners) {
-            calculator.addCalculatorEventListener(listener);
-        }
+		listeners.add(new CalculatorActivityLauncher());
+		for (CalculatorEventListener listener : listeners) {
+			calculator.addCalculatorEventListener(listener);
+		}
 
-        Locator.getInstance().getCalculator().init();
+		Locator.getInstance().getCalculator().init();
 
-        BillingDB.init(CalculatorApplication.this);
+		BillingDB.init(CalculatorApplication.this);
 
-        AdsController.getInstance().init(ADMOB_USER_ID, AD_FREE_PRODUCT_ID, new BillingController.IConfiguration() {
+		AdsController.getInstance().init(ADMOB_USER_ID, AD_FREE_PRODUCT_ID, new BillingController.IConfiguration() {
 
-            @Override
-            public byte[] getObfuscationSalt() {
-                return new byte[]{81, -114, 32, -127, -32, -104, -40, -15, -47, 57, -13, -41, -33, 67, -114, 7, -11, 53, 126, 82};
-            }
+			@Override
+			public byte[] getObfuscationSalt() {
+				return new byte[]{81, -114, 32, -127, -32, -104, -40, -15, -47, 57, -13, -41, -33, 67, -114, 7, -11, 53, 126, 82};
+			}
 
-            @Override
-            public String getPublicKey() {
-                return CalculatorSecurity.getPK();
-            }
-        });
+			@Override
+			public String getPublicKey() {
+				return CalculatorSecurity.getPK();
+			}
+		});
 
-        BillingController.registerObserver(new DefaultBillingObserver(this, null));
+		BillingController.registerObserver(new DefaultBillingObserver(this, null));
 
-        // init billing controller
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                BillingController.checkBillingSupported(CalculatorApplication.this);
-                AdsController.getInstance().isAdFree(CalculatorApplication.this);
+		// init billing controller
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				BillingController.checkBillingSupported(CalculatorApplication.this);
+				AdsController.getInstance().isAdFree(CalculatorApplication.this);
 
-                try {
-                    // prepare engine
-                    Locator.getInstance().getEngine().getMathEngine0().evaluate("1+1");
-                    Locator.getInstance().getEngine().getMathEngine0().evaluate("1*1");
-                } catch (Throwable e) {
-                    Log.e(TAG, e.getMessage(), e);
-                }
+				try {
+					// prepare engine
+					Locator.getInstance().getEngine().getMathEngine0().evaluate("1+1");
+					Locator.getInstance().getEngine().getMathEngine0().evaluate("1*1");
+				} catch (Throwable e) {
+					Log.e(TAG, e.getMessage(), e);
+				}
 
-            }
-        }).start();
+			}
+		}).start();
 
-        Locator.getInstance().getLogger().debug(TAG, "Application started!");
-        Locator.getInstance().getNotifier().showDebugMessage(TAG, "Application started!");
-    }
+		Locator.getInstance().getLogger().debug(TAG, "Application started!");
+		Locator.getInstance().getNotifier().showDebugMessage(TAG, "Application started!");
+	}
 
-    private void setTheme(@NotNull SharedPreferences preferences) {
-        final CalculatorPreferences.Gui.Theme theme = CalculatorPreferences.Gui.getTheme(preferences);
-        setTheme(theme.getThemeId());
-    }
+	private void setTheme(@NotNull SharedPreferences preferences) {
+		final CalculatorPreferences.Gui.Theme theme = CalculatorPreferences.Gui.getTheme(preferences);
+		setTheme(theme.getThemeId());
+	}
 
-    @NotNull
-    public CalculatorActivityHelper createActivityHelper(int layoutResId, @NotNull String logTag) {
-       return new CalculatorActivityHelperImpl(layoutResId, logTag);
-    }
+	@NotNull
+	public CalculatorActivityHelper createActivityHelper(int layoutResId, @NotNull String logTag) {
+		return new CalculatorActivityHelperImpl(layoutResId, logTag);
+	}
 
-    @NotNull
-    public CalculatorFragmentHelper createFragmentHelper(int layoutId) {
-        return new CalculatorFragmentHelperImpl(layoutId);
-    }
+	@NotNull
+	public CalculatorFragmentHelper createFragmentHelper(int layoutId) {
+		return new CalculatorFragmentHelperImpl(layoutId);
+	}
 
-    @NotNull
-     public CalculatorFragmentHelper createFragmentHelper(int layoutId, int titleResId) {
-        return new CalculatorFragmentHelperImpl(layoutId, titleResId);
-    }
-    @NotNull
-    public CalculatorFragmentHelper createFragmentHelper(int layoutId, int titleResId, boolean listenersOnCreate) {
-        return new CalculatorFragmentHelperImpl(layoutId, titleResId, listenersOnCreate);
-    }
+	@NotNull
+	public CalculatorFragmentHelper createFragmentHelper(int layoutId, int titleResId) {
+		return new CalculatorFragmentHelperImpl(layoutId, titleResId);
+	}
 
-    @NotNull
-    public Handler getUiHandler() {
-        return uiHandler;
-    }
+	@NotNull
+	public CalculatorFragmentHelper createFragmentHelper(int layoutId, int titleResId, boolean listenersOnCreate) {
+		return new CalculatorFragmentHelperImpl(layoutId, titleResId, listenersOnCreate);
+	}
 
-    /*
-    **********************************************************************
-    *
-    *                           STATIC
-    *
-    **********************************************************************
-    */
+	@NotNull
+	public Handler getUiHandler() {
+		return uiHandler;
+	}
 
-    @NotNull
-    public static CalculatorApplication getInstance() {
-        return instance;
-    }
+	/*
+	**********************************************************************
+	*
+	*                           STATIC
+	*
+	**********************************************************************
+	*/
 
-    public static boolean isMonkeyRunner(@NotNull Context context) {
-        // NOTE: this code is only for monkeyrunner
-        return context.checkCallingOrSelfPermission(android.Manifest.permission.DISABLE_KEYGUARD) == PackageManager.PERMISSION_GRANTED;
-    }
+	@NotNull
+	public static CalculatorApplication getInstance() {
+		return instance;
+	}
 
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-        if (CalculatorPreferences.OnscreenCalculator.showAppIcon.getKey().equals(key)) {
-            boolean showAppIcon = CalculatorPreferences.OnscreenCalculator.showAppIcon.getPreference(prefs);
-            Android.toggleComponent(this, CalculatorOnscreenStartActivity.class, showAppIcon);
+	public static boolean isMonkeyRunner(@NotNull Context context) {
+		// NOTE: this code is only for monkeyrunner
+		return context.checkCallingOrSelfPermission(android.Manifest.permission.DISABLE_KEYGUARD) == PackageManager.PERMISSION_GRANTED;
+	}
+
+	@Override
+	public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+		if (CalculatorPreferences.OnscreenCalculator.showAppIcon.getKey().equals(key)) {
+			boolean showAppIcon = CalculatorPreferences.OnscreenCalculator.showAppIcon.getPreference(prefs);
+			Android.toggleComponent(this, CalculatorOnscreenStartActivity.class, showAppIcon);
 			Locator.getInstance().getNotifier().showMessage(R.string.cpp_this_change_may_require_reboot, MessageType.info);
-        }
-    }
+		}
+	}
 }

@@ -28,7 +28,7 @@ public class FromJsclSimplifyTextProcessorTest extends AbstractCalculatorTest {
 		//Assert.assertEquals("((e)(e))", tp.process("((2.718281828459045)*(2.718281828459045))"));
 		DecimalFormatSymbols decimalGroupSymbols = new DecimalFormatSymbols();
 		decimalGroupSymbols.setGroupingSeparator(' ');
-        Locator.getInstance().getEngine().setDecimalGroupSymbols(decimalGroupSymbols);
+		Locator.getInstance().getEngine().setDecimalGroupSymbols(decimalGroupSymbols);
 		//Assert.assertEquals("123 456 789e", tp.process("123456789*2.718281828459045"));
 		//Assert.assertEquals("123 456 789e", tp.process("123 456 789 * 2.718281828459045"));
 		//Assert.assertEquals("t11e", tp.process("t11*2.718281828459045"));
@@ -36,7 +36,7 @@ public class FromJsclSimplifyTextProcessorTest extends AbstractCalculatorTest {
 		//Assert.assertEquals("tee", tp.process("t2.718281828459045*2.718281828459045"));
 
 		Locator.getInstance().getEngine().getVarsRegistry().add(new Var.Builder("t2.718281828459045", "2"));
-		Locator.getInstance().getEngine().getVarsRegistry().add(new Var.Builder("t", (String)null));
+		Locator.getInstance().getEngine().getVarsRegistry().add(new Var.Builder("t", (String) null));
 		//Assert.assertEquals("t2.718281828459045e", tp.process("t2.718281828459045*2.718281828459045"));
 		//Assert.assertEquals("ee", tp.process("2.718281828459045*2.718281828459045"));
 		Assert.assertEquals("t×", tp.process("t*"));

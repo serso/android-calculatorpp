@@ -25,138 +25,138 @@ import java.util.*;
  */
 public class FunctionsTest {
 
-    private static final String xml = "<functions>\n" +
-            "   <functions class=\"java.util.ArrayList\">\n" +
-            "      <function>\n" +
-            "         <name>test</name>\n" +
-            "         <body>x+y</body>\n" +
-            "         <parameterNames class=\"java.util.ArrayList\">\n" +
-            "            <string>x</string>\n" +
-            "            <string>y</string>\n" +
-            "         </parameterNames>\n" +
-            "         <system>false</system>\n" +
-            "         <description>description</description>\n" +
-            "      </function>\n" +
-            "      <function>\n" +
-            "         <name>z_2</name>\n" +
-            "         <body>e^(z_1^2+z_2^2)</body>\n" +
-            "         <parameterNames class=\"java.util.ArrayList\">\n" +
-            "            <string>z_1</string>\n" +
-            "            <string>z_2</string>\n" +
-            "         </parameterNames>\n" +
-            "         <system>true</system>\n" +
-            "         <description></description>\n" +
-            "      </function>\n" +
-            "      <function>\n" +
-            "         <name>z_2</name>\n" +
-            "         <body>e^(z_1^2+z_2^2)</body>\n" +
-            "         <parameterNames class=\"java.util.ArrayList\">\n" +
-            "            <string>z_1</string>\n" +
-            "            <string>z_2</string>\n" +
-            "         </parameterNames>\n" +
-            "         <system>true</system>\n" +
-            "         <description></description>\n" +
-            "      </function>\n" +
-            "   </functions>\n" +
-            "</functions>";
+	private static final String xml = "<functions>\n" +
+			"   <functions class=\"java.util.ArrayList\">\n" +
+			"      <function>\n" +
+			"         <name>test</name>\n" +
+			"         <body>x+y</body>\n" +
+			"         <parameterNames class=\"java.util.ArrayList\">\n" +
+			"            <string>x</string>\n" +
+			"            <string>y</string>\n" +
+			"         </parameterNames>\n" +
+			"         <system>false</system>\n" +
+			"         <description>description</description>\n" +
+			"      </function>\n" +
+			"      <function>\n" +
+			"         <name>z_2</name>\n" +
+			"         <body>e^(z_1^2+z_2^2)</body>\n" +
+			"         <parameterNames class=\"java.util.ArrayList\">\n" +
+			"            <string>z_1</string>\n" +
+			"            <string>z_2</string>\n" +
+			"         </parameterNames>\n" +
+			"         <system>true</system>\n" +
+			"         <description></description>\n" +
+			"      </function>\n" +
+			"      <function>\n" +
+			"         <name>z_2</name>\n" +
+			"         <body>e^(z_1^2+z_2^2)</body>\n" +
+			"         <parameterNames class=\"java.util.ArrayList\">\n" +
+			"            <string>z_1</string>\n" +
+			"            <string>z_2</string>\n" +
+			"         </parameterNames>\n" +
+			"         <system>true</system>\n" +
+			"         <description></description>\n" +
+			"      </function>\n" +
+			"   </functions>\n" +
+			"</functions>";
 
-    @Before
-    public void setUp() throws Exception {
-        CalculatorTestUtils.staticSetUp();
-    }
+	@Before
+	public void setUp() throws Exception {
+		CalculatorTestUtils.staticSetUp();
+	}
 
-    @Test
-    public void testXml() throws Exception {
-        final Functions in = new Functions();
+	@Test
+	public void testXml() throws Exception {
+		final Functions in = new Functions();
 
-        AFunction first = new AFunction.Builder("test", "x+y", Arrays.asList("x", "y")).setDescription("description").setSystem(false).create();
-        in.getEntities().add(first);
+		AFunction first = new AFunction.Builder("test", "x+y", Arrays.asList("x", "y")).setDescription("description").setSystem(false).create();
+		in.getEntities().add(first);
 
-        AFunction second = new AFunction.Builder("z_2", "e^(z_1^2+z_2^2)", Arrays.asList("z_1", "z_2")).setSystem(true).create();
-        in.getEntities().add(second);
+		AFunction second = new AFunction.Builder("z_2", "e^(z_1^2+z_2^2)", Arrays.asList("z_1", "z_2")).setSystem(true).create();
+		in.getEntities().add(second);
 
-        AFunction third = new AFunction.Builder("z_2", "e^(z_1^2+z_2^2)", Arrays.asList("z_1", "z_2")).setSystem(true).setDescription("").create();
-        in.getEntities().add(third);
+		AFunction third = new AFunction.Builder("z_2", "e^(z_1^2+z_2^2)", Arrays.asList("z_1", "z_2")).setSystem(true).setDescription("").create();
+		in.getEntities().add(third);
 
-        final Functions out = testXml(in, xml);
+		final Functions out = testXml(in, xml);
 
-        Assert.assertTrue(!out.getEntities().isEmpty());
+		Assert.assertTrue(!out.getEntities().isEmpty());
 
-        final AFunction firstOut = out.getEntities().get(0);
-        final AFunction secondOut = out.getEntities().get(1);
+		final AFunction firstOut = out.getEntities().get(0);
+		final AFunction secondOut = out.getEntities().get(1);
 
-        assertEquals(first, firstOut);
-        assertEquals(second, secondOut);
+		assertEquals(first, firstOut);
+		assertEquals(second, secondOut);
 
-    }
+	}
 
-    @NotNull
-    private Functions testXml(@NotNull Functions in, @Nullable String expectedXml) throws Exception {
-        final String actualXml = toXml(in);
+	@NotNull
+	private Functions testXml(@NotNull Functions in, @Nullable String expectedXml) throws Exception {
+		final String actualXml = toXml(in);
 
-        if (expectedXml != null) {
-            Assert.assertEquals(expectedXml, actualXml);
-        }
+		if (expectedXml != null) {
+			Assert.assertEquals(expectedXml, actualXml);
+		}
 
-        final Serializer serializer = new Persister();
-        final Functions out = serializer.read(Functions.class, actualXml);
-        final String actualXml2 = toXml(out);
-        Assert.assertEquals(actualXml, actualXml2);
-        return out;
-    }
+		final Serializer serializer = new Persister();
+		final Functions out = serializer.read(Functions.class, actualXml);
+		final String actualXml2 = toXml(out);
+		Assert.assertEquals(actualXml, actualXml2);
+		return out;
+	}
 
-    private String toXml(Functions in) throws Exception {
-        final StringWriter sw = new StringWriter();
-        final Serializer serializer = new Persister();
-        serializer.write(in, sw);
-        return sw.toString();
-    }
+	private String toXml(Functions in) throws Exception {
+		final StringWriter sw = new StringWriter();
+		final Serializer serializer = new Persister();
+		serializer.write(in, sw);
+		return sw.toString();
+	}
 
-    @Test
-    public void testRandomXml() throws Exception {
-        final Functions in = new Functions();
+	@Test
+	public void testRandomXml() throws Exception {
+		final Functions in = new Functions();
 
-        final Random random = new Random(new Date().getTime());
+		final Random random = new Random(new Date().getTime());
 
-        ExpressionGenerator generator = new ExpressionGenerator(10);
-        for (  int i = 0; i < 1000; i++ ) {
-            final String content = generator.generate();
+		ExpressionGenerator generator = new ExpressionGenerator(10);
+		for (int i = 0; i < 1000; i++) {
+			final String content = generator.generate();
 
-            final String paramsString = Strings.generateRandomString(random.nextInt(10));
-            final List<String> parameterNames = new ArrayList<String>();
-            for (int j = 0; j < paramsString.length(); j++) {
-                parameterNames.add(String.valueOf(paramsString.charAt(j)));
-            }
+			final String paramsString = Strings.generateRandomString(random.nextInt(10));
+			final List<String> parameterNames = new ArrayList<String>();
+			for (int j = 0; j < paramsString.length(); j++) {
+				parameterNames.add(String.valueOf(paramsString.charAt(j)));
+			}
 
-            final AFunction.Builder builder = new AFunction.Builder("test_" + i, content, parameterNames);
+			final AFunction.Builder builder = new AFunction.Builder("test_" + i, content, parameterNames);
 
-            if ( random.nextBoolean() ) {
-                builder.setDescription(Strings.generateRandomString(random.nextInt(100)));
-            }
+			if (random.nextBoolean()) {
+				builder.setDescription(Strings.generateRandomString(random.nextInt(100)));
+			}
 
-            builder.setSystem(random.nextBoolean());
+			builder.setSystem(random.nextBoolean());
 
-            in.getEntities().add(builder.create());
-        }
+			in.getEntities().add(builder.create());
+		}
 
-        testXml(in, null);
-    }
+		testXml(in, null);
+	}
 
-    private void assertEquals(@NotNull final AFunction expected,
-                              @NotNull AFunction actual) {
-        //Assert.assertEquals(expected.getId(), actual.getId());
-        Assert.assertEquals(expected.getContent(), actual.getContent());
-        Assert.assertEquals(expected.getDescription(), actual.getDescription());
-        Assert.assertEquals(expected.getName(), actual.getName());
-        Assert.assertThat(actual.getParameterNames(), new BaseMatcher<List<String>>() {
-            @Override
-            public boolean matches(Object item) {
-                return Objects.areEqual(expected.getParameterNames(), (List<String>) item, new CollectionEqualizer<String>(null));
-            }
+	private void assertEquals(@NotNull final AFunction expected,
+							  @NotNull AFunction actual) {
+		//Assert.assertEquals(expected.getId(), actual.getId());
+		Assert.assertEquals(expected.getContent(), actual.getContent());
+		Assert.assertEquals(expected.getDescription(), actual.getDescription());
+		Assert.assertEquals(expected.getName(), actual.getName());
+		Assert.assertThat(actual.getParameterNames(), new BaseMatcher<List<String>>() {
+			@Override
+			public boolean matches(Object item) {
+				return Objects.areEqual(expected.getParameterNames(), (List<String>) item, new CollectionEqualizer<String>(null));
+			}
 
-            @Override
-            public void describeTo(Description description) {
-            }
-        });
-    }
+			@Override
+			public void describeTo(Description description) {
+			}
+		});
+	}
 }

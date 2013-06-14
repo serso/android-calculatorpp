@@ -18,11 +18,11 @@ import org.solovyev.android.calculator.R;
  */
 public class CalculatorAboutActivity extends CalculatorFragmentActivity {
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+	@Override
+	public void onCreate(@Nullable Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-        getActivityHelper().addTab(this, CalculatorFragmentType.about, null, R.id.main_layout);
-        getActivityHelper().addTab(this, CalculatorFragmentType.release_notes, null, R.id.main_layout);
-    }
+		getActivityHelper().addTab(this, CalculatorFragmentType.about, null, R.id.main_layout);
+		getActivityHelper().addTab(this, CalculatorFragmentType.release_notes, null, R.id.main_layout);
+	}
 }

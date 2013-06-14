@@ -2,12 +2,12 @@
 
 <PreferenceScreen xmlns:a="http://schemas.android.com/apk/res/android">
 
-    <Preference
-            a:key="@string/p_calc_ad_free_key"
-            a:title="@string/c_calc_ad_free_title"
-            a:summary="@string/c_calc_ad_free_summary"
-            a:defaultValue="false"/>
+	<Preference
+		a:key="@string/p_calc_ad_free_key"
+		a:title="@string/c_calc_ad_free_title"
+		a:summary="@string/c_calc_ad_free_summary"
+		a:defaultValue="false" />
 
-    <org.solovyev.android.ads.AdViewPreference a:layout="@layout/acl_adview_pref"/>
+	<org.solovyev.android.ads.AdViewPreference a:layout="@layout/acl_adview_pref" />
 
 </PreferenceScreen>

@@ -11,16 +11,16 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface CalculatorConversionEventData extends CalculatorEventData {
 
-    // display state on the moment of conversion
-    @NotNull
-    CalculatorDisplayViewState getDisplayState();
+	// display state on the moment of conversion
+	@NotNull
+	CalculatorDisplayViewState getDisplayState();
 
-    @NotNull
-    NumeralBase getFromNumeralBase();
+	@NotNull
+	NumeralBase getFromNumeralBase();
 
-    @NotNull
-    NumeralBase getToNumeralBase();
+	@NotNull
+	NumeralBase getToNumeralBase();
 
-    @NotNull
-    Generic getValue();
+	@NotNull
+	Generic getValue();
 }

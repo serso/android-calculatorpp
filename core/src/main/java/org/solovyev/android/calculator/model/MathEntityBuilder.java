@@ -12,10 +12,10 @@ import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathEntity;
 
 /**
-* User: serso
-* Date: 12/22/11
-* Time: 9:21 PM
-*/
+ * User: serso
+ * Date: 12/22/11
+ * Time: 9:21 PM
+ */
 public interface MathEntityBuilder<T extends MathEntity> extends JBuilder<T> {
 
 	@NotNull

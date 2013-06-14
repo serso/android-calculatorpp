@@ -10,19 +10,19 @@ import org.jetbrains.annotations.Nullable;
  */
 public interface CalculatorEventData {
 
-    // the higher id => the later event
-    long getEventId();
+	// the higher id => the later event
+	long getEventId();
 
-    // the higher id => the later event
-    @NotNull
-    Long getSequenceId();
+	// the higher id => the later event
+	@NotNull
+	Long getSequenceId();
 
-    @Nullable
-    Object getSource();
+	@Nullable
+	Object getSource();
 
-    boolean isAfter(@NotNull CalculatorEventData that);
+	boolean isAfter(@NotNull CalculatorEventData that);
 
-    boolean isSameSequence(@NotNull CalculatorEventData that);
+	boolean isSameSequence(@NotNull CalculatorEventData that);
 
-    boolean isAfterSequence(@NotNull CalculatorEventData that);
+	boolean isAfterSequence(@NotNull CalculatorEventData that);
 }

@@ -11,7 +11,9 @@
 	<string name="c_op_description_mod">取 \'x\' 除以 \'y\' 的餘數.</string>
 	<string name="c_op_description_sum">計算 f(i) 的和, i 從 \'from\' 到 \'to\'.</string>
 	<string name="c_op_description_product">計算 \'f(i)\' 的積, i 從 \'from\' 到 \'to\'.</string>
-	<string name="c_op_description_derivative">計算 \'f(x)\' 對 \'x\' 的第 \'order\' 階微分(預設為 1) 在 \'x_point\' 的值 (預設 = \'x\').</string>
+	<string name="c_op_description_derivative">計算 \'f(x)\' 對 \'x\' 的第 \'order\' 階微分(預設為 1) 在 \'x_point\' 的值 (預設 =
+		\'x\').
+	</string>
 	<string name="c_op_description_integral">計算 \'f(x)\' 對 \'x\' 的積分.</string>
 	<string name="c_op_description_integral_ab">計算 \'f(x)\' 對 \'x\' 從 \'a\' 到 \'b\' 的定積分.</string>
 

@@ -13,8 +13,8 @@ import org.solovyev.android.calculator.CalculatorDisplayViewStateImpl;
 import org.solovyev.android.calculator.CalculatorEditorViewState;
 import org.solovyev.android.calculator.CalculatorEditorViewStateImpl;
 import org.solovyev.android.calculator.jscl.JsclOperation;
-import org.solovyev.common.equals.CollectionEqualizer;
 import org.solovyev.common.Objects;
+import org.solovyev.common.equals.CollectionEqualizer;
 import org.solovyev.common.history.HistoryHelper;
 import org.solovyev.common.history.SimpleHistoryHelper;
 
@@ -139,7 +139,7 @@ public class HistoryUtilsTest {
 
 		Assert.assertEquals(toXml1, HistoryUtils.toXml(history.getStates()));
 
-        calculatorDisplay = CalculatorDisplayViewStateImpl.newValidState(JsclOperation.numeric, null, "5/6", 3);
+		calculatorDisplay = CalculatorDisplayViewStateImpl.newValidState(JsclOperation.numeric, null, "5/6", 3);
 
 		calculatorEditor = CalculatorEditorViewStateImpl.newInstance("5/6", 2);
 
@@ -148,18 +148,18 @@ public class HistoryUtilsTest {
 		state.setTime(date.getTime());
 		history.addState(state);
 
-        calculatorDisplay = CalculatorDisplayViewStateImpl.newErrorState(JsclOperation.elementary, "Error");
+		calculatorDisplay = CalculatorDisplayViewStateImpl.newErrorState(JsclOperation.elementary, "Error");
 
-        calculatorEditor = CalculatorEditorViewStateImpl.newInstance("", 1);
+		calculatorEditor = CalculatorEditorViewStateImpl.newInstance("", 1);
 
 		state = CalculatorHistoryState.newInstance(calculatorEditor, calculatorDisplay);
 		state.setSaved(true);
 		state.setTime(date.getTime());
 		history.addState(state);
 
-        calculatorDisplay = CalculatorDisplayViewStateImpl.newValidState(JsclOperation.numeric, null, "4+5/35sin(41)+dfdsfsdfs", 1);
+		calculatorDisplay = CalculatorDisplayViewStateImpl.newValidState(JsclOperation.numeric, null, "4+5/35sin(41)+dfdsfsdfs", 1);
 
-        calculatorEditor = CalculatorEditorViewStateImpl.newInstance("4+5/35sin(41)+dfdsfsdfs", 0);
+		calculatorEditor = CalculatorEditorViewStateImpl.newInstance("4+5/35sin(41)+dfdsfsdfs", 0);
 
 		state = CalculatorHistoryState.newInstance(calculatorEditor, calculatorDisplay);
 		state.setSaved(true);

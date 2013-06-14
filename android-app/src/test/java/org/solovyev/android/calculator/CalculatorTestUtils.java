@@ -16,41 +16,41 @@ import org.solovyev.android.calculator.plot.CalculatorPlotter;
  */
 public class CalculatorTestUtils {
 
-    public static void staticSetUp(@Nullable Context context) throws Exception {
-        Locator.getInstance().init(new CalculatorImpl(), newCalculatorEngine(), Mockito.mock(CalculatorClipboard.class), Mockito.mock(CalculatorNotifier.class), Mockito.mock(CalculatorHistory.class), new SystemOutCalculatorLogger(), Mockito.mock(CalculatorPreferenceService.class), Mockito.mock(CalculatorKeyboard.class), Mockito.mock(CalculatorExternalListenersContainer.class), Mockito.mock(CalculatorPlotter.class));
-        Locator.getInstance().getEngine().init();
+	public static void staticSetUp(@Nullable Context context) throws Exception {
+		Locator.getInstance().init(new CalculatorImpl(), newCalculatorEngine(), Mockito.mock(CalculatorClipboard.class), Mockito.mock(CalculatorNotifier.class), Mockito.mock(CalculatorHistory.class), new SystemOutCalculatorLogger(), Mockito.mock(CalculatorPreferenceService.class), Mockito.mock(CalculatorKeyboard.class), Mockito.mock(CalculatorExternalListenersContainer.class), Mockito.mock(CalculatorPlotter.class));
+		Locator.getInstance().getEngine().init();
 
-        if ( context != null ) {
-            initViews(context);
-        }
-    }
+		if (context != null) {
+			initViews(context);
+		}
+	}
 
-    public static void initViews(@NotNull Context context) {
-        final AndroidCalculatorEditorView editor = new AndroidCalculatorEditorView(context);
-        editor.init(context);
-        Locator.getInstance().getEditor().setView(editor);
+	public static void initViews(@NotNull Context context) {
+		final AndroidCalculatorEditorView editor = new AndroidCalculatorEditorView(context);
+		editor.init(context);
+		Locator.getInstance().getEditor().setView(editor);
 
-        final AndroidCalculatorDisplayView display = new AndroidCalculatorDisplayView(context);
-        display.init(context);
-        Locator.getInstance().getDisplay().setView(display);
-    }
+		final AndroidCalculatorDisplayView display = new AndroidCalculatorDisplayView(context);
+		display.init(context);
+		Locator.getInstance().getDisplay().setView(display);
+	}
 
-    public static void staticSetUp() throws Exception {
-        staticSetUp(null);
-    }
+	public static void staticSetUp() throws Exception {
+		staticSetUp(null);
+	}
 
 
-    @NotNull
-    static CalculatorEngineImpl newCalculatorEngine() {
-        final MathEntityDao mathEntityDao = Mockito.mock(MathEntityDao.class);
+	@NotNull
+	static CalculatorEngineImpl newCalculatorEngine() {
+		final MathEntityDao mathEntityDao = Mockito.mock(MathEntityDao.class);
 
-        final JsclMathEngine jsclEngine = JsclMathEngine.getInstance();
+		final JsclMathEngine jsclEngine = JsclMathEngine.getInstance();
 
-        final CalculatorVarsRegistry varsRegistry = new CalculatorVarsRegistry(jsclEngine.getConstantsRegistry(), mathEntityDao);
-        final CalculatorFunctionsMathRegistry functionsRegistry = new CalculatorFunctionsMathRegistry(jsclEngine.getFunctionsRegistry(), mathEntityDao);
-        final CalculatorOperatorsMathRegistry operatorsRegistry = new CalculatorOperatorsMathRegistry(jsclEngine.getOperatorsRegistry(), mathEntityDao);
-        final CalculatorPostfixFunctionsRegistry postfixFunctionsRegistry = new CalculatorPostfixFunctionsRegistry(jsclEngine.getPostfixFunctionsRegistry(), mathEntityDao);
+		final CalculatorVarsRegistry varsRegistry = new CalculatorVarsRegistry(jsclEngine.getConstantsRegistry(), mathEntityDao);
+		final CalculatorFunctionsMathRegistry functionsRegistry = new CalculatorFunctionsMathRegistry(jsclEngine.getFunctionsRegistry(), mathEntityDao);
+		final CalculatorOperatorsMathRegistry operatorsRegistry = new CalculatorOperatorsMathRegistry(jsclEngine.getOperatorsRegistry(), mathEntityDao);
+		final CalculatorPostfixFunctionsRegistry postfixFunctionsRegistry = new CalculatorPostfixFunctionsRegistry(jsclEngine.getPostfixFunctionsRegistry(), mathEntityDao);
 
-        return new CalculatorEngineImpl(jsclEngine, varsRegistry, functionsRegistry, operatorsRegistry, postfixFunctionsRegistry, null);
-    }
+		return new CalculatorEngineImpl(jsclEngine, varsRegistry, functionsRegistry, operatorsRegistry, postfixFunctionsRegistry, null);
+	}
 }

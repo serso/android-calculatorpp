@@ -9,8 +9,8 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface CalculatorDisplayView {
 
-    void setState(@NotNull CalculatorDisplayViewState state);
+	void setState(@NotNull CalculatorDisplayViewState state);
 
-    @NotNull
-    CalculatorDisplayViewState getState();
+	@NotNull
+	CalculatorDisplayViewState getState();
 }

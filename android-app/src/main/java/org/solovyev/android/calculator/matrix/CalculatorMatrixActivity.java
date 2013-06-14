@@ -13,11 +13,11 @@ import org.solovyev.android.calculator.R;
  */
 public class CalculatorMatrixActivity extends CalculatorFragmentActivity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-        getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        getActivityHelper().setFragment(this, CalculatorFragmentType.matrix_edit, null, R.id.main_layout);
-    }
+		getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+		getActivityHelper().setFragment(this, CalculatorFragmentType.matrix_edit, null, R.id.main_layout);
+	}
 }

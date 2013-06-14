@@ -37,16 +37,16 @@ public class CalculatorParseException extends Exception implements Message {
 	}
 
 	public CalculatorParseException(@Nullable Integer position,
-                                    @NotNull String expression,
-                                    @NotNull Message message) {
+									@NotNull String expression,
+									@NotNull Message message) {
 		this.message = message;
 		this.expression = expression;
 		this.position = position;
 	}
 
 	public CalculatorParseException(@NotNull String expression,
-                                    @NotNull Message message) {
-        this(null, expression, message);
+									@NotNull Message message) {
+		this(null, expression, message);
 	}
 
 	@NotNull

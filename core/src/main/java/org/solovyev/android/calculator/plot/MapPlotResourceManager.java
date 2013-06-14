@@ -14,101 +14,101 @@ import java.util.*;
  */
 public class MapPlotResourceManager implements PlotResourceManager {
 
-    @NotNull
-    private Map<PlotLineDef, List<PlotLineDef>> registeredLineDefsMap = new HashMap<PlotLineDef, List<PlotLineDef>>();
+	@NotNull
+	private Map<PlotLineDef, List<PlotLineDef>> registeredLineDefsMap = new HashMap<PlotLineDef, List<PlotLineDef>>();
 
-    @NotNull
-    private final List<PlotLineDef> preparedLineDefs = new ArrayList<PlotLineDef>(PlotLineStyle.values().length * PlotLineColor.values().length);
+	@NotNull
+	private final List<PlotLineDef> preparedLineDefs = new ArrayList<PlotLineDef>(PlotLineStyle.values().length * PlotLineColor.values().length);
 
-    public MapPlotResourceManager() {
-        for (PlotLineStyle plotLineStyle : PlotLineStyle.values()) {
-            for (PlotLineColor plotLineColor : PlotLineColor.values()) {
-                 preparedLineDefs.add(PlotLineDef.newInstance(plotLineColor.getColor(), plotLineStyle));
-            }
-        }
-    }
+	public MapPlotResourceManager() {
+		for (PlotLineStyle plotLineStyle : PlotLineStyle.values()) {
+			for (PlotLineColor plotLineColor : PlotLineColor.values()) {
+				preparedLineDefs.add(PlotLineDef.newInstance(plotLineColor.getColor(), plotLineStyle));
+			}
+		}
+	}
 
-    @NotNull
-    @Override
-    public PlotLineDef generateAndRegister() {
-        synchronized (this) {
-            for (PlotLineDef lineDef : preparedLineDefs) {
-                final List<PlotLineDef> registeredLineDefs = registeredLineDefsMap.get(lineDef);
-                if ( registeredLineDefs == null || registeredLineDefs.isEmpty() ) {
-                    register(lineDef);
-                    return lineDef;
-                }
-            }
+	@NotNull
+	@Override
+	public PlotLineDef generateAndRegister() {
+		synchronized (this) {
+			for (PlotLineDef lineDef : preparedLineDefs) {
+				final List<PlotLineDef> registeredLineDefs = registeredLineDefsMap.get(lineDef);
+				if (registeredLineDefs == null || registeredLineDefs.isEmpty()) {
+					register(lineDef);
+					return lineDef;
+				}
+			}
 
-            return preparedLineDefs.get(0);
-        }
-    }
+			return preparedLineDefs.get(0);
+		}
+	}
 
-    private void addLineDef(@NotNull final PlotLineDef toBeAdded) {
-        assert Thread.holdsLock(this);
+	private void addLineDef(@NotNull final PlotLineDef toBeAdded) {
+		assert Thread.holdsLock(this);
 
-        List<PlotLineDef> registeredLineDefs = registeredLineDefsMap.get(toBeAdded);
-        if ( registeredLineDefs == null ) {
-            registeredLineDefs = new ArrayList<PlotLineDef>();
-            registeredLineDefsMap.put(toBeAdded, registeredLineDefs);
-        }
+		List<PlotLineDef> registeredLineDefs = registeredLineDefsMap.get(toBeAdded);
+		if (registeredLineDefs == null) {
+			registeredLineDefs = new ArrayList<PlotLineDef>();
+			registeredLineDefsMap.put(toBeAdded, registeredLineDefs);
+		}
 
-        try {
-            Iterables.find(registeredLineDefs, new Predicate<PlotLineDef>() {
-                @Override
-                public boolean apply(@Nullable PlotLineDef lineDef) {
-                    return lineDef == toBeAdded;
-                }
-            });
+		try {
+			Iterables.find(registeredLineDefs, new Predicate<PlotLineDef>() {
+				@Override
+				public boolean apply(@Nullable PlotLineDef lineDef) {
+					return lineDef == toBeAdded;
+				}
+			});
 
-            // already added
+			// already added
 
-        } catch (NoSuchElementException e) {
-            registeredLineDefs.add(toBeAdded);
-        }
+		} catch (NoSuchElementException e) {
+			registeredLineDefs.add(toBeAdded);
+		}
 
-    }
+	}
 
-    private void removeLineDef(@NotNull final PlotLineDef toBeRemoved) {
-        assert Thread.holdsLock(this);
+	private void removeLineDef(@NotNull final PlotLineDef toBeRemoved) {
+		assert Thread.holdsLock(this);
 
-        List<PlotLineDef> registeredLineDefs = registeredLineDefsMap.get(toBeRemoved);
+		List<PlotLineDef> registeredLineDefs = registeredLineDefsMap.get(toBeRemoved);
 
-        if (registeredLineDefs != null) {
-            Iterables.removeIf(registeredLineDefs, new Predicate<PlotLineDef>() {
-                @Override
-                public boolean apply(@Nullable PlotLineDef lineDef) {
-                    return lineDef == toBeRemoved;
-                }
-            });
+		if (registeredLineDefs != null) {
+			Iterables.removeIf(registeredLineDefs, new Predicate<PlotLineDef>() {
+				@Override
+				public boolean apply(@Nullable PlotLineDef lineDef) {
+					return lineDef == toBeRemoved;
+				}
+			});
 
-            if ( registeredLineDefs.isEmpty() ) {
-                registeredLineDefsMap.remove(toBeRemoved);
-            }
+			if (registeredLineDefs.isEmpty()) {
+				registeredLineDefsMap.remove(toBeRemoved);
+			}
 
-        } else {
-            registeredLineDefsMap.remove(toBeRemoved);
-        }
-    }
+		} else {
+			registeredLineDefsMap.remove(toBeRemoved);
+		}
+	}
 
-    @Override
-    public void register(@NotNull PlotLineDef lineDef) {
-        synchronized (this) {
-            addLineDef(lineDef);
-        }
-    }
+	@Override
+	public void register(@NotNull PlotLineDef lineDef) {
+		synchronized (this) {
+			addLineDef(lineDef);
+		}
+	}
 
-    @Override
-    public void unregister(@NotNull PlotLineDef lineDef) {
-        synchronized (this) {
-            removeLineDef(lineDef);
-        }
-    }
+	@Override
+	public void unregister(@NotNull PlotLineDef lineDef) {
+		synchronized (this) {
+			removeLineDef(lineDef);
+		}
+	}
 
-    @Override
-    public void unregisterAll() {
-        synchronized (this) {
-            registeredLineDefsMap.clear();
-        }
-    }
+	@Override
+	public void unregisterAll() {
+		synchronized (this) {
+			registeredLineDefsMap.clear();
+		}
+	}
 }

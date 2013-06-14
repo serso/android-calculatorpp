@@ -10,27 +10,27 @@ import org.jetbrains.annotations.Nullable;
  */
 public enum AndroidVarCategory {
 
-    system(R.string.c_var_system),
-    my(R.string.c_var_my);
+	system(R.string.c_var_system),
+	my(R.string.c_var_my);
 
-    private final int captionId;
+	private final int captionId;
 
-    AndroidVarCategory(int captionId) {
-        this.captionId = captionId;
-    }
+	AndroidVarCategory(int captionId) {
+		this.captionId = captionId;
+	}
 
-    public int getCaptionId() {
-        return captionId;
-    }
+	public int getCaptionId() {
+		return captionId;
+	}
 
-    @Nullable
-    public static AndroidVarCategory valueOf(@NotNull VarCategory varCategory) {
-        for (AndroidVarCategory androidVarCategory : values()) {
-            if ( androidVarCategory.name().equals(varCategory.name()) ) {
-                return androidVarCategory;
-            }
-        }
+	@Nullable
+	public static AndroidVarCategory valueOf(@NotNull VarCategory varCategory) {
+		for (AndroidVarCategory androidVarCategory : values()) {
+			if (androidVarCategory.name().equals(varCategory.name())) {
+				return androidVarCategory;
+			}
+		}
 
-        return null;
-    }
+		return null;
+	}
 }

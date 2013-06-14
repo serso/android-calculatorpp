@@ -9,33 +9,33 @@ import org.jetbrains.annotations.NotNull;
  */
 public class CalculatorFailureImpl implements CalculatorFailure {
 
-    @NotNull
-    private Exception exception;
+	@NotNull
+	private Exception exception;
 
-    public CalculatorFailureImpl(@NotNull Exception exception) {
-        this.exception = exception;
-    }
+	public CalculatorFailureImpl(@NotNull Exception exception) {
+		this.exception = exception;
+	}
 
-    @NotNull
-    @Override
-    public Exception getException() {
-        return this.exception;
-    }
+	@NotNull
+	@Override
+	public Exception getException() {
+		return this.exception;
+	}
 
-    @Override
-    public CalculatorParseException getCalculationParseException() {
-        return exception instanceof CalculatorParseException ? (CalculatorParseException)exception : null;
-    }
+	@Override
+	public CalculatorParseException getCalculationParseException() {
+		return exception instanceof CalculatorParseException ? (CalculatorParseException) exception : null;
+	}
 
-    @Override
-    public CalculatorEvalException getCalculationEvalException() {
-        return exception instanceof CalculatorEvalException ? (CalculatorEvalException)exception : null;
-    }
+	@Override
+	public CalculatorEvalException getCalculationEvalException() {
+		return exception instanceof CalculatorEvalException ? (CalculatorEvalException) exception : null;
+	}
 
-    @Override
-    public String toString() {
-        return "CalculatorFailureImpl{" +
-                "exception=" + exception +
-                '}';
-    }
+	@Override
+	public String toString() {
+		return "CalculatorFailureImpl{" +
+				"exception=" + exception +
+				'}';
+	}
 }

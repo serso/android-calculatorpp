@@ -32,230 +32,230 @@ import org.solovyev.common.math.Point2d;
  */
 public final class CalculatorButtons {
 
-    private CalculatorButtons () {
-    }
+	private CalculatorButtons() {
+	}
 
 
-    public static void processButtons(@NotNull CalculatorPreferences.Gui.Theme theme,
-                                      @NotNull CalculatorPreferences.Gui.Layout layout,
-                                      @NotNull View root) {
-        if ( layout == CalculatorPreferences.Gui.Layout.main_calculator_mobile ) {
+	public static void processButtons(@NotNull CalculatorPreferences.Gui.Theme theme,
+									  @NotNull CalculatorPreferences.Gui.Layout layout,
+									  @NotNull View root) {
+		if (layout == CalculatorPreferences.Gui.Layout.main_calculator_mobile) {
 
-            final float textSize = root.getContext().getResources().getDimension(R.dimen.cpp_keyboard_button_text_size_mobile);
+			final float textSize = root.getContext().getResources().getDimension(R.dimen.cpp_keyboard_button_text_size_mobile);
 
-            Views.processViewsOfType(root, DragButton.class, new Views.ViewProcessor<DragButton>() {
-                @Override
-                public void process(@NotNull DragButton button) {
-                    button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
-                }
-            });
-        }
-    }
+			Views.processViewsOfType(root, DragButton.class, new Views.ViewProcessor<DragButton>() {
+				@Override
+				public void process(@NotNull DragButton button) {
+					button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+				}
+			});
+		}
+	}
 
-    static void initMultiplicationButton(@NotNull View root) {
-        final View multiplicationButton = root.findViewById(R.id.cpp_button_multiplication);
-        if ( multiplicationButton instanceof Button) {
-            ((Button) multiplicationButton).setText(Locator.getInstance().getEngine().getMultiplicationSign());
-        }
-    }
+	static void initMultiplicationButton(@NotNull View root) {
+		final View multiplicationButton = root.findViewById(R.id.cpp_button_multiplication);
+		if (multiplicationButton instanceof Button) {
+			((Button) multiplicationButton).setText(Locator.getInstance().getEngine().getMultiplicationSign());
+		}
+	}
 
-    public static void initMultiplicationButton(@NotNull RemoteViews views) {
-        views.setTextViewText(R.id.cpp_button_multiplication, Locator.getInstance().getEngine().getMultiplicationSign());
-    }
+	public static void initMultiplicationButton(@NotNull RemoteViews views) {
+		views.setTextViewText(R.id.cpp_button_multiplication, Locator.getInstance().getEngine().getMultiplicationSign());
+	}
 
 
-    public static void toggleEqualsButton(@Nullable SharedPreferences preferences,
-                                          @NotNull Activity activity) {
-        preferences = preferences == null ? PreferenceManager.getDefaultSharedPreferences(activity) : preferences;
+	public static void toggleEqualsButton(@Nullable SharedPreferences preferences,
+										  @NotNull Activity activity) {
+		preferences = preferences == null ? PreferenceManager.getDefaultSharedPreferences(activity) : preferences;
 
-        final boolean large = Views.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_LARGE, activity.getResources().getConfiguration()) &&
-                                CalculatorPreferences.Gui.getLayout(preferences) != CalculatorPreferences.Gui.Layout.main_calculator_mobile;
+		final boolean large = Views.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_LARGE, activity.getResources().getConfiguration()) &&
+				CalculatorPreferences.Gui.getLayout(preferences) != CalculatorPreferences.Gui.Layout.main_calculator_mobile;
 
-        if (!large) {
-            if (Views.getScreenOrientation(activity) == Configuration.ORIENTATION_PORTRAIT
-                    || !CalculatorPreferences.Gui.autoOrientation.getPreference(preferences)) {
+		if (!large) {
+			if (Views.getScreenOrientation(activity) == Configuration.ORIENTATION_PORTRAIT
+					|| !CalculatorPreferences.Gui.autoOrientation.getPreference(preferences)) {
 
-                final DragButton equalsButton = (DragButton)activity.findViewById(R.id.cpp_button_equals);
-                if (equalsButton != null) {
-                    if (CalculatorPreferences.Gui.showEqualsButton.getPreference(preferences)) {
-                        equalsButton.setVisibility(View.VISIBLE);
-                    } else {
-                        equalsButton.setVisibility(View.GONE);
-                    }
-                }
-            }
-        }
-    }
+				final DragButton equalsButton = (DragButton) activity.findViewById(R.id.cpp_button_equals);
+				if (equalsButton != null) {
+					if (CalculatorPreferences.Gui.showEqualsButton.getPreference(preferences)) {
+						equalsButton.setVisibility(View.VISIBLE);
+					} else {
+						equalsButton.setVisibility(View.GONE);
+					}
+				}
+			}
+		}
+	}
 
-    /*
-    **********************************************************************
-    *
-    *                           STATIC CLASSES
-    *
-    **********************************************************************
-    */
+	/*
+	**********************************************************************
+	*
+	*                           STATIC CLASSES
+	*
+	**********************************************************************
+	*/
 
-    static class RoundBracketsDragProcessor implements SimpleOnDragListener.DragProcessor {
-        @Override
-        public boolean processDragEvent(@NotNull DragDirection dragDirection, @NotNull DragButton dragButton, @NotNull Point2d startPoint2d, @NotNull MotionEvent motionEvent) {
-            final boolean result;
+	static class RoundBracketsDragProcessor implements SimpleOnDragListener.DragProcessor {
+		@Override
+		public boolean processDragEvent(@NotNull DragDirection dragDirection, @NotNull DragButton dragButton, @NotNull Point2d startPoint2d, @NotNull MotionEvent motionEvent) {
+			final boolean result;
 
-            if (dragDirection == DragDirection.left) {
-                getKeyboard().roundBracketsButtonPressed();
-                result = true;
-            } else {
-                result = new DigitButtonDragProcessor(getKeyboard()).processDragEvent(dragDirection, dragButton, startPoint2d, motionEvent);
-            }
+			if (dragDirection == DragDirection.left) {
+				getKeyboard().roundBracketsButtonPressed();
+				result = true;
+			} else {
+				result = new DigitButtonDragProcessor(getKeyboard()).processDragEvent(dragDirection, dragButton, startPoint2d, motionEvent);
+			}
 
-            return result;
-        }
-    }
+			return result;
+		}
+	}
 
-    @NotNull
-    private static CalculatorKeyboard getKeyboard() {
-        return Locator.getInstance().getKeyboard();
-    }
+	@NotNull
+	private static CalculatorKeyboard getKeyboard() {
+		return Locator.getInstance().getKeyboard();
+	}
 
-    static class VarsDragProcessor implements SimpleOnDragListener.DragProcessor {
+	static class VarsDragProcessor implements SimpleOnDragListener.DragProcessor {
 
-        @NotNull
-        private Context context;
+		@NotNull
+		private Context context;
 
-        VarsDragProcessor(@NotNull Context context) {
-            this.context = context;
-        }
+		VarsDragProcessor(@NotNull Context context) {
+			this.context = context;
+		}
 
-        @Override
-        public boolean processDragEvent(@NotNull DragDirection dragDirection,
-                                        @NotNull DragButton dragButton,
-                                        @NotNull Point2d startPoint2d,
-                                        @NotNull MotionEvent motionEvent) {
-            boolean result = false;
+		@Override
+		public boolean processDragEvent(@NotNull DragDirection dragDirection,
+										@NotNull DragButton dragButton,
+										@NotNull Point2d startPoint2d,
+										@NotNull MotionEvent motionEvent) {
+			boolean result = false;
 
-            if (dragDirection == DragDirection.up) {
-                Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_create_var_dialog, null, context);
-                result = true;
-            } else if ( dragDirection == DragDirection.down ) {
-                Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_create_matrix_dialog, null, context);
-                result = true;
-            }
+			if (dragDirection == DragDirection.up) {
+				Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_create_var_dialog, null, context);
+				result = true;
+			} else if (dragDirection == DragDirection.down) {
+				Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_create_matrix_dialog, null, context);
+				result = true;
+			}
 
-            return result;
-        }
-    }
+			return result;
+		}
+	}
 
-    static class AngleUnitsChanger implements SimpleOnDragListener.DragProcessor {
+	static class AngleUnitsChanger implements SimpleOnDragListener.DragProcessor {
 
-        @NotNull
-        private final DigitButtonDragProcessor processor;
+		@NotNull
+		private final DigitButtonDragProcessor processor;
 
-        @NotNull
-        private final Context context;
+		@NotNull
+		private final Context context;
 
-        AngleUnitsChanger(@NotNull Context context) {
-            this.context = context;
-            this.processor = new DigitButtonDragProcessor(Locator.getInstance().getKeyboard());
-        }
+		AngleUnitsChanger(@NotNull Context context) {
+			this.context = context;
+			this.processor = new DigitButtonDragProcessor(Locator.getInstance().getKeyboard());
+		}
 
-        @Override
-        public boolean processDragEvent(@NotNull DragDirection dragDirection,
-                                        @NotNull DragButton dragButton,
-                                        @NotNull Point2d startPoint2d,
-                                        @NotNull MotionEvent motionEvent) {
-            boolean result = false;
+		@Override
+		public boolean processDragEvent(@NotNull DragDirection dragDirection,
+										@NotNull DragButton dragButton,
+										@NotNull Point2d startPoint2d,
+										@NotNull MotionEvent motionEvent) {
+			boolean result = false;
 
-            if (dragButton instanceof AngleUnitsButton) {
-                if (dragDirection != DragDirection.left) {
-                    final String directionText = ((AngleUnitsButton) dragButton).getText(dragDirection);
-                    if (directionText != null) {
-                        try {
+			if (dragButton instanceof AngleUnitsButton) {
+				if (dragDirection != DragDirection.left) {
+					final String directionText = ((AngleUnitsButton) dragButton).getText(dragDirection);
+					if (directionText != null) {
+						try {
 
-                            final AngleUnit angleUnits = AngleUnit.valueOf(directionText);
+							final AngleUnit angleUnits = AngleUnit.valueOf(directionText);
 
-                            final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+							final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-                            final AngleUnit oldAngleUnits = AndroidCalculatorEngine.Preferences.angleUnit.getPreference(preferences);
-                            if (oldAngleUnits != angleUnits) {
-                                Locator.getInstance().getPreferenceService().setAngleUnits(angleUnits);
-                            }
+							final AngleUnit oldAngleUnits = AndroidCalculatorEngine.Preferences.angleUnit.getPreference(preferences);
+							if (oldAngleUnits != angleUnits) {
+								Locator.getInstance().getPreferenceService().setAngleUnits(angleUnits);
+							}
 
-                            result = true;
-                        } catch (IllegalArgumentException e) {
-                            Log.d(this.getClass().getName(), "Unsupported angle units: " + directionText);
-                        }
-                    }
-                } else if (dragDirection == DragDirection.left) {
-                    result = processor.processDragEvent(dragDirection, dragButton, startPoint2d, motionEvent);
-                }
-            }
+							result = true;
+						} catch (IllegalArgumentException e) {
+							Log.d(this.getClass().getName(), "Unsupported angle units: " + directionText);
+						}
+					}
+				} else if (dragDirection == DragDirection.left) {
+					result = processor.processDragEvent(dragDirection, dragButton, startPoint2d, motionEvent);
+				}
+			}
 
-            return result;
-        }
-    }
+			return result;
+		}
+	}
 
-    static class NumeralBasesChanger implements SimpleOnDragListener.DragProcessor {
+	static class NumeralBasesChanger implements SimpleOnDragListener.DragProcessor {
 
-        @NotNull
-        private final Context context;
+		@NotNull
+		private final Context context;
 
-         NumeralBasesChanger(@NotNull Context context) {
-            this.context = context;
-        }
+		NumeralBasesChanger(@NotNull Context context) {
+			this.context = context;
+		}
 
-        @Override
-        public boolean processDragEvent(@NotNull DragDirection dragDirection,
-                                        @NotNull DragButton dragButton,
-                                        @NotNull Point2d startPoint2d,
-                                        @NotNull MotionEvent motionEvent) {
-            boolean result = false;
+		@Override
+		public boolean processDragEvent(@NotNull DragDirection dragDirection,
+										@NotNull DragButton dragButton,
+										@NotNull Point2d startPoint2d,
+										@NotNull MotionEvent motionEvent) {
+			boolean result = false;
 
-            if (dragButton instanceof NumeralBasesButton) {
-                final String directionText = ((NumeralBasesButton) dragButton).getText(dragDirection);
-                if (directionText != null) {
-                    try {
+			if (dragButton instanceof NumeralBasesButton) {
+				final String directionText = ((NumeralBasesButton) dragButton).getText(dragDirection);
+				if (directionText != null) {
+					try {
 
-                        final NumeralBase numeralBase = NumeralBase.valueOf(directionText);
+						final NumeralBase numeralBase = NumeralBase.valueOf(directionText);
 
-                        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+						final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-                        final NumeralBase oldNumeralBase = AndroidCalculatorEngine.Preferences.numeralBase.getPreference(preferences);
-                        if (oldNumeralBase != numeralBase) {
-                            Locator.getInstance().getPreferenceService().setNumeralBase(numeralBase);
-                        }
+						final NumeralBase oldNumeralBase = AndroidCalculatorEngine.Preferences.numeralBase.getPreference(preferences);
+						if (oldNumeralBase != numeralBase) {
+							Locator.getInstance().getPreferenceService().setNumeralBase(numeralBase);
+						}
 
-                        result = true;
-                    } catch (IllegalArgumentException e) {
-                        Log.d(this.getClass().getName(), "Unsupported numeral base: " + directionText);
-                    }
-                }
-            }
+						result = true;
+					} catch (IllegalArgumentException e) {
+						Log.d(this.getClass().getName(), "Unsupported numeral base: " + directionText);
+					}
+				}
+			}
 
-            return result;
-        }
-    }
+			return result;
+		}
+	}
 
-    static class FunctionsDragProcessor implements SimpleOnDragListener.DragProcessor {
+	static class FunctionsDragProcessor implements SimpleOnDragListener.DragProcessor {
 
-        @NotNull
-        private Context context;
+		@NotNull
+		private Context context;
 
-        FunctionsDragProcessor(@NotNull Context context) {
-            this.context = context;
-        }
+		FunctionsDragProcessor(@NotNull Context context) {
+			this.context = context;
+		}
 
-        @Override
-        public boolean processDragEvent(@NotNull DragDirection dragDirection,
-                                        @NotNull DragButton dragButton,
-                                        @NotNull Point2d startPoint2d,
-                                        @NotNull MotionEvent motionEvent) {
-            boolean result = false;
+		@Override
+		public boolean processDragEvent(@NotNull DragDirection dragDirection,
+										@NotNull DragButton dragButton,
+										@NotNull Point2d startPoint2d,
+										@NotNull MotionEvent motionEvent) {
+			boolean result = false;
 
-            if (dragDirection == DragDirection.up) {
-                Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_create_function_dialog, null, context);
-                result = true;
-            }
+			if (dragDirection == DragDirection.up) {
+				Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_create_function_dialog, null, context);
+				result = true;
+			}
 
-            return result;
-        }
-    }
+			return result;
+		}
+	}
 }

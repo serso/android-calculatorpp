@@ -31,148 +31,148 @@ import java.util.concurrent.Executors;
  */
 public class AndroidCalculatorDisplayView extends AutoResizeTextView implements CalculatorDisplayView {
 
-    /*
-    **********************************************************************
-    *
-    *                           STATIC FIELDS
-    *
-    **********************************************************************
-    */
+	/*
+	**********************************************************************
+	*
+	*                           STATIC FIELDS
+	*
+	**********************************************************************
+	*/
 
-    @NotNull
-    private final static TextProcessor<TextHighlighter.Result, String> textHighlighter = new TextHighlighter(Color.WHITE, false);
+	@NotNull
+	private final static TextProcessor<TextHighlighter.Result, String> textHighlighter = new TextHighlighter(Color.WHITE, false);
 
-    /*
-    **********************************************************************
-    *
-    *                           FIELDS
-    *
-    **********************************************************************
-    */
+	/*
+	**********************************************************************
+	*
+	*                           FIELDS
+	*
+	**********************************************************************
+	*/
 
-    @NotNull
-    private volatile CalculatorDisplayViewState state = CalculatorDisplayViewStateImpl.newDefaultInstance();
+	@NotNull
+	private volatile CalculatorDisplayViewState state = CalculatorDisplayViewStateImpl.newDefaultInstance();
 
-    private volatile boolean viewStateChange = false;
+	private volatile boolean viewStateChange = false;
 
-    @NotNull
-    private final Object lock = new Object();
+	@NotNull
+	private final Object lock = new Object();
 
-    @NotNull
-    private final Handler uiHandler = new Handler();
+	@NotNull
+	private final Handler uiHandler = new Handler();
 
-    @NotNull
-    private final ExecutorService bgExecutor = Executors.newSingleThreadExecutor();
+	@NotNull
+	private final ExecutorService bgExecutor = Executors.newSingleThreadExecutor();
 
-    private volatile boolean initialized = false;
+	private volatile boolean initialized = false;
 
-    /*
-    **********************************************************************
-    *
-    *                           CONSTRUCTORS
-    *
-    **********************************************************************
-    */
+	/*
+	**********************************************************************
+	*
+	*                           CONSTRUCTORS
+	*
+	**********************************************************************
+	*/
 
-    public AndroidCalculatorDisplayView(Context context) {
-        super(context);
-    }
+	public AndroidCalculatorDisplayView(Context context) {
+		super(context);
+	}
 
-    public AndroidCalculatorDisplayView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+	public AndroidCalculatorDisplayView(Context context, AttributeSet attrs) {
+		super(context, attrs);
 
-    }
+	}
 
-    public AndroidCalculatorDisplayView(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-    }
+	public AndroidCalculatorDisplayView(Context context, AttributeSet attrs, int defStyle) {
+		super(context, attrs, defStyle);
+	}
 
-    /*
-    **********************************************************************
-    *
-    *                           METHODS
-    *
-    **********************************************************************
-    */
+	/*
+	**********************************************************************
+	*
+	*                           METHODS
+	*
+	**********************************************************************
+	*/
 
 
-    @Override
-    public void setState(@NotNull final CalculatorDisplayViewState state) {
+	@Override
+	public void setState(@NotNull final CalculatorDisplayViewState state) {
 
-        uiHandler.post(new Runnable() {
-            @Override
-            public void run() {
+		uiHandler.post(new Runnable() {
+			@Override
+			public void run() {
 
-                synchronized (lock) {
-                    try {
-                        viewStateChange = true;
+				synchronized (lock) {
+					try {
+						viewStateChange = true;
 
-                        final CharSequence text = prepareText(state.getStringResult(), state.isValid());
+						final CharSequence text = prepareText(state.getStringResult(), state.isValid());
 
-                        AndroidCalculatorDisplayView.this.state = state;
-                        if (state.isValid()) {
-                            setTextColor(getResources().getColor(R.color.cpp_default_text_color));
-                            setText(text);
+						AndroidCalculatorDisplayView.this.state = state;
+						if (state.isValid()) {
+							setTextColor(getResources().getColor(R.color.cpp_default_text_color));
+							setText(text);
 
-                            adjustTextSize();
+							adjustTextSize();
 
-                        } else {
-                            // update text in order to get rid of HTML tags
-                            setText(getText().toString());
-                            setTextColor(getResources().getColor(R.color.cpp_display_error_text_color));
+						} else {
+							// update text in order to get rid of HTML tags
+							setText(getText().toString());
+							setTextColor(getResources().getColor(R.color.cpp_display_error_text_color));
 
-                            // error messages are never shown -> just greyed out text (error message will be shown on click)
-                            //setText(state.getErrorMessage());
-                            //redraw();
-                        }
-                    } finally {
-                        viewStateChange = false;
-                    }
-                }
-            }
-        });
-    }
+							// error messages are never shown -> just greyed out text (error message will be shown on click)
+							//setText(state.getErrorMessage());
+							//redraw();
+						}
+					} finally {
+						viewStateChange = false;
+					}
+				}
+			}
+		});
+	}
 
-    @NotNull
-    @Override
-    public CalculatorDisplayViewState getState() {
-        synchronized (lock) {
-            return this.state;
-        }
-    }
+	@NotNull
+	@Override
+	public CalculatorDisplayViewState getState() {
+		synchronized (lock) {
+			return this.state;
+		}
+	}
 
-    @Nullable
-    private static CharSequence prepareText(@Nullable String text, boolean valid) {
-        CharSequence result;
+	@Nullable
+	private static CharSequence prepareText(@Nullable String text, boolean valid) {
+		CharSequence result;
 
-        if (valid && text != null) {
+		if (valid && text != null) {
 
-            //Log.d(this.getClass().getName(), text);
+			//Log.d(this.getClass().getName(), text);
 
-            try {
-                final TextHighlighter.Result processedText = textHighlighter.process(text);
-                text = processedText.toString();
-                result = Html.fromHtml(text);
-            } catch (CalculatorParseException e) {
-                result = text;
-            }
-        } else {
-            result = text;
-        }
+			try {
+				final TextHighlighter.Result processedText = textHighlighter.process(text);
+				text = processedText.toString();
+				result = Html.fromHtml(text);
+			} catch (CalculatorParseException e) {
+				result = text;
+			}
+		} else {
+			result = text;
+		}
 
-        return result;
-    }
+		return result;
+	}
 
-    private void adjustTextSize() {
-        // todo serso: think where to move it (keep in mind org.solovyev.android.view.AutoResizeTextView.resetTextSize())
-        setAddEllipsis(false);
-        setMinTextSize(10);
-        resizeText();
-    }
+	private void adjustTextSize() {
+		// todo serso: think where to move it (keep in mind org.solovyev.android.view.AutoResizeTextView.resetTextSize())
+		setAddEllipsis(false);
+		setMinTextSize(10);
+		resizeText();
+	}
 
-    public synchronized void init(@NotNull Context context) {
+	public synchronized void init(@NotNull Context context) {
 		this.init(context, true);
-    }
+	}
 
 	public synchronized void init(@NotNull Context context, boolean fromApp) {
 		if (!initialized) {
@@ -180,7 +180,7 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
 				final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 				final CalculatorPreferences.Gui.Layout layout = CalculatorPreferences.Gui.getLayout(preferences);
 
-				if ( layout == CalculatorPreferences.Gui.Layout.main_calculator_mobile ) {
+				if (layout == CalculatorPreferences.Gui.Layout.main_calculator_mobile) {
 					setTextSize(TypedValue.COMPLEX_UNIT_SP, getResources().getDimension(R.dimen.cpp_display_text_size_mobile));
 				}
 

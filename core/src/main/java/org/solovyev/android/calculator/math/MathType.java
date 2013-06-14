@@ -15,7 +15,10 @@ import org.solovyev.android.calculator.Locator;
 import org.solovyev.common.JPredicate;
 import org.solovyev.common.collections.Collections;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 
 
 public enum MathType {
@@ -25,8 +28,8 @@ public enum MathType {
 		private final List<String> tokens = new ArrayList<String>(10);
 		{
 			for (NumeralBase numeralBase : NumeralBase.values()) {
-                tokens.add(numeralBase.getJsclPrefix());
-            }
+				tokens.add(numeralBase.getJsclPrefix());
+			}
 		}
 
 		@NotNull
@@ -43,7 +46,7 @@ public enum MathType {
 		}
 	},
 
-	grouping_separator(250, false, false, MathGroupType.number, "'", " "){
+	grouping_separator(250, false, false, MathGroupType.number, "'", " ") {
 		@Override
 		public int processToJscl(@NotNull StringBuilder result, int i, @NotNull String match) throws CalculatorParseException {
 			return i;
@@ -133,6 +136,7 @@ public enum MathType {
 				tokens.add(character.toString());
 			}
 		}
+
 		@Override
 		public boolean isNeedMultiplicationSignBefore(@NotNull MathType mathTypeBefore) {
 			return super.isNeedMultiplicationSignBefore(mathTypeBefore) && mathTypeBefore != digit && mathTypeBefore != dot /*&& mathTypeBefore != numeral_base*/;
@@ -321,7 +325,7 @@ public enum MathType {
 	public static final String G = "G";
 	public static final Double G_VALUE = 6.6738480E-11;
 	public static final String H_REDUCED = "h";
-	public static final Double H_REDUCED_VALUE = 6.6260695729E-34 / ( 2 * Math.PI );
+	public static final Double H_REDUCED_VALUE = 6.6260695729E-34 / (2 * Math.PI);
 	public final static String NAN = "NaN";
 
 	public final static String INFINITY = "∞";
@@ -331,9 +335,8 @@ public enum MathType {
 	/**
 	 * Method determines mathematical entity type for text substring starting from ith index
 	 *
-	 *
-	 * @param text analyzed text
-	 * @param i	index which points to start of substring
+	 * @param text    analyzed text
+	 * @param i       index which points to start of substring
 	 * @param hexMode
 	 * @return math entity type of substring starting from ith index of specified text
 	 */
@@ -352,10 +355,10 @@ public enum MathType {
 		for (MathType mathType : getMathTypesByPriority()) {
 			final String s = Collections.find(mathType.getTokens(), startsWithFinder);
 			if (s != null) {
-				if ( s.length() == 1 ) {
+				if (s.length() == 1) {
 					if (hexMode || JsclMathEngine.getInstance().getNumeralBase() == NumeralBase.hex) {
 						final Character ch = s.charAt(0);
-						if ( NumeralBase.hex.getAcceptableCharacters().contains(ch) ) {
+						if (NumeralBase.hex.getAcceptableCharacters().contains(ch)) {
 							return new Result(MathType.digit, s);
 						}
 					}
@@ -376,11 +379,11 @@ public enum MathType {
 			final List<MathType> result = Collections.asList(MathType.values());
 
 			java.util.Collections.sort(result, new Comparator<MathType>() {
-                @Override
-                public int compare(MathType l, MathType r) {
-                    return l.priority.compareTo(r.priority);
-                }
-            });
+				@Override
+				public int compare(MathType l, MathType r) {
+					return l.priority.compareTo(r.priority);
+				}
+			});
 
 			mathTypesByPriority = result;
 		}
@@ -442,25 +445,25 @@ public enum MathType {
 		}
 	}
 
-    private static class StartsWithFinder implements JPredicate<String> {
+	private static class StartsWithFinder implements JPredicate<String> {
 
-        private int i;
+		private int i;
 
-        @NotNull
-        private final String targetString;
+		@NotNull
+		private final String targetString;
 
-        public StartsWithFinder(@NotNull String targetString, int i) {
-            this.targetString = targetString;
-            this.i = i;
-        }
+		public StartsWithFinder(@NotNull String targetString, int i) {
+			this.targetString = targetString;
+			this.i = i;
+		}
 
-        @Override
-        public boolean apply(@Nullable String s) {
-            return s != null && targetString.startsWith(s, i);
-        }
+		@Override
+		public boolean apply(@Nullable String s) {
+			return s != null && targetString.startsWith(s, i);
+		}
 
-        public void setI(int i) {
-            this.i = i;
-        }
-    }
+		public void setI(int i) {
+			this.i = i;
+		}
+	}
 }

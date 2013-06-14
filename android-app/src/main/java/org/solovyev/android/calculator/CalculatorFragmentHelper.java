@@ -14,20 +14,20 @@ import org.jetbrains.annotations.Nullable;
  */
 public interface CalculatorFragmentHelper {
 
-    boolean isPane(@NotNull Fragment fragment);
+	boolean isPane(@NotNull Fragment fragment);
 
-    void setPaneTitle(@NotNull Fragment fragment, int titleResId);
+	void setPaneTitle(@NotNull Fragment fragment, int titleResId);
 
-    void onCreate(@NotNull Fragment fragment);
+	void onCreate(@NotNull Fragment fragment);
 
-    @NotNull
-    View onCreateView(@NotNull Fragment fragment, @NotNull LayoutInflater inflater, @Nullable ViewGroup container);
+	@NotNull
+	View onCreateView(@NotNull Fragment fragment, @NotNull LayoutInflater inflater, @Nullable ViewGroup container);
 
-    void onViewCreated(@NotNull Fragment fragment, @NotNull View root);
+	void onViewCreated(@NotNull Fragment fragment, @NotNull View root);
 
-    void onResume(@NotNull Fragment fragment);
+	void onResume(@NotNull Fragment fragment);
 
-    void onPause(@NotNull Fragment fragment);
+	void onPause(@NotNull Fragment fragment);
 
-    void onDestroy(@NotNull Fragment fragment);
+	void onDestroy(@NotNull Fragment fragment);
 }

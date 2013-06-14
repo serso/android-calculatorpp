@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-    a:id="@+id/dialog_layout"
-    style="?cpp_dialog_style">
+	a:id="@+id/dialog_layout"
+	style="?cpp_dialog_style">
 
 </LinearLayout>

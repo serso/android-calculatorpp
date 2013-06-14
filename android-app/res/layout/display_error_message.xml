@@ -7,23 +7,22 @@
   -->
 
 <ScrollView xmlns:a="http://schemas.android.com/apk/res/android"
-			a:layout_width="fill_parent"
-			a:layout_height="fill_parent">
+	a:layout_width="fill_parent"
+	a:layout_height="fill_parent">
 
 	<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-				  a:orientation="vertical"
-				  a:layout_width="fill_parent"
-				  a:layout_height="fill_parent"
-				  a:scrollbars="vertical"
-				  a:scrollbarAlwaysDrawVerticalTrack="true">
+		a:orientation="vertical"
+		a:layout_width="fill_parent"
+		a:layout_height="fill_parent"
+		a:scrollbars="vertical"
+		a:scrollbarAlwaysDrawVerticalTrack="true">
 
-		<TextView
-				xmlns:a="http://schemas.android.com/apk/res/android"
-				a:id="@+id/error_message_text_view"
-				a:layout_height="fill_parent"
-				a:layout_width="wrap_content"
-				a:padding="6dp"
-				style="@style/cpp_default_text_size"/>
+		<TextView xmlns:a="http://schemas.android.com/apk/res/android"
+			a:id="@+id/error_message_text_view"
+			a:layout_height="fill_parent"
+			a:layout_width="wrap_content"
+			a:padding="6dp"
+			style="@style/cpp_default_text_size" />
 
 	</LinearLayout>
 

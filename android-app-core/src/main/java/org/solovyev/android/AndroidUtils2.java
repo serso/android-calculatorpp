@@ -7,8 +7,8 @@ package org.solovyev.android;
  */
 public final class AndroidUtils2 {
 
-    private AndroidUtils2() {
-        throw new AssertionError();
-    }
+	private AndroidUtils2() {
+		throw new AssertionError();
+	}
 
 }

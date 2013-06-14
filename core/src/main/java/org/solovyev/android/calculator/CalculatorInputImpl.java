@@ -10,26 +10,26 @@ import org.solovyev.android.calculator.jscl.JsclOperation;
  */
 public class CalculatorInputImpl implements CalculatorInput {
 
-    @NotNull
-    private String expression;
+	@NotNull
+	private String expression;
 
-    @NotNull
-    private JsclOperation operation;
+	@NotNull
+	private JsclOperation operation;
 
-    public CalculatorInputImpl(@NotNull String expression, @NotNull JsclOperation operation) {
-        this.expression = expression;
-        this.operation = operation;
-    }
+	public CalculatorInputImpl(@NotNull String expression, @NotNull JsclOperation operation) {
+		this.expression = expression;
+		this.operation = operation;
+	}
 
-    @Override
-    @NotNull
-    public String getExpression() {
-        return expression;
-    }
+	@Override
+	@NotNull
+	public String getExpression() {
+		return expression;
+	}
 
-    @Override
-    @NotNull
-    public JsclOperation getOperation() {
-        return operation;
-    }
+	@Override
+	@NotNull
+	public JsclOperation getOperation() {
+		return operation;
+	}
 }

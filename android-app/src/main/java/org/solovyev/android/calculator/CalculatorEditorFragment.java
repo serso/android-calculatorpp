@@ -23,100 +23,100 @@ import org.solovyev.android.sherlock.menu.SherlockMenuHelper;
  */
 public class CalculatorEditorFragment extends SherlockFragment {
 
-    @NotNull
-    private CalculatorFragmentHelper fragmentHelper;
+	@NotNull
+	private CalculatorFragmentHelper fragmentHelper;
 
-    @NotNull
-    private ActivityMenu<Menu, MenuItem> menu = ListActivityMenu.fromEnum(CalculatorMenu.class, SherlockMenuHelper.getInstance());
+	@NotNull
+	private ActivityMenu<Menu, MenuItem> menu = ListActivityMenu.fromEnum(CalculatorMenu.class, SherlockMenuHelper.getInstance());
 
-    public CalculatorEditorFragment() {
-    }
+	public CalculatorEditorFragment() {
+	}
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
 
-        fragmentHelper.onViewCreated(this, view);
+		fragmentHelper.onViewCreated(this, view);
 
-        ((AndroidCalculator) Locator.getInstance().getCalculator()).setEditor(getActivity());
-    }
+		((AndroidCalculator) Locator.getInstance().getCalculator()).setEditor(getActivity());
+	}
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-    }
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+	}
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
-        final CalculatorPreferences.Gui.Layout layout = CalculatorPreferences.Gui.getLayout(prefs);
-        if (layout == CalculatorPreferences.Gui.Layout.main_calculator_mobile) {
-            fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(R.layout.cpp_app_editor_mobile, R.string.editor);
-        } else {
-            fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(R.layout.cpp_app_editor, R.string.editor);
-        }
+		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
+		final CalculatorPreferences.Gui.Layout layout = CalculatorPreferences.Gui.getLayout(prefs);
+		if (layout == CalculatorPreferences.Gui.Layout.main_calculator_mobile) {
+			fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(R.layout.cpp_app_editor_mobile, R.string.editor);
+		} else {
+			fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(R.layout.cpp_app_editor, R.string.editor);
+		}
 
-        fragmentHelper.onCreate(this);
-        setHasOptionsMenu(true);
-    }
+		fragmentHelper.onCreate(this);
+		setHasOptionsMenu(true);
+	}
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return fragmentHelper.onCreateView(this, inflater, container);
-    }
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		return fragmentHelper.onCreateView(this, inflater, container);
+	}
 
-    @Override
-    public void onResume() {
-        super.onResume();
+	@Override
+	public void onResume() {
+		super.onResume();
 
-        this.fragmentHelper.onResume(this);
-    }
+		this.fragmentHelper.onResume(this);
+	}
 
-    @Override
-    public void onPause() {
-        this.fragmentHelper.onPause(this);
+	@Override
+	public void onPause() {
+		this.fragmentHelper.onPause(this);
 
-        super.onPause();
-    }
+		super.onPause();
+	}
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+	}
 
-    @Override
-    public void onDestroy() {
-        fragmentHelper.onDestroy(this);
-        super.onDestroy();
-    }
+	@Override
+	public void onDestroy() {
+		fragmentHelper.onDestroy(this);
+		super.onDestroy();
+	}
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
+	@Override
+	public void onDetach() {
+		super.onDetach();
+	}
 
-    /*
-    **********************************************************************
-    *
-    *                           MENU
-    *
-    **********************************************************************
-    */
+	/*
+	**********************************************************************
+	*
+	*                           MENU
+	*
+	**********************************************************************
+	*/
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        this.menu.onCreateOptionsMenu(this.getActivity(), menu);
-    }
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		this.menu.onCreateOptionsMenu(this.getActivity(), menu);
+	}
 
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        this.menu.onPrepareOptionsMenu(this.getActivity(), menu);
-    }
+	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+		this.menu.onPrepareOptionsMenu(this.getActivity(), menu);
+	}
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return this.menu.onOptionsItemSelected(this.getActivity(), item);
-    }
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		return this.menu.onOptionsItemSelected(this.getActivity(), item);
+	}
 }

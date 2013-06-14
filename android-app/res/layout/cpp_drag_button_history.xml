@@ -6,12 +6,12 @@
   ~ or visit http://se.solovyev.org
   -->
 <org.solovyev.android.view.drag.DirectionDragButton xmlns:a="http://schemas.android.com/apk/res/android"
-													   xmlns:c="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
-													   a:id="@id/cpp_button_history"
-													   a:text="@string/c_history_button"
-													   c:textUp="@string/c_undo"
-													   c:textDown="@string/c_redo"
-													   c:directionTextScale="0.27"
-													   style="?cpp_control_button_style"
-													   a:textStyle="bold"
-													   a:onClick="historyButtonClickHandler"/>
+	xmlns:c="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
+	a:id="@id/cpp_button_history"
+	a:text="@string/c_history_button"
+	c:textUp="@string/c_undo"
+	c:textDown="@string/c_redo"
+	c:directionTextScale="0.27"
+	style="?cpp_control_button_style"
+	a:textStyle="bold"
+	a:onClick="historyButtonClickHandler" />

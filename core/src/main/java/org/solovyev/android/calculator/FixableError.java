@@ -14,5 +14,5 @@ public interface FixableError extends Serializable {
 	@Nullable
 	CharSequence getFixCaption();
 
-    void fix();
+	void fix();
 }

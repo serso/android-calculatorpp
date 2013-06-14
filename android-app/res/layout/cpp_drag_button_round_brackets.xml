@@ -7,12 +7,12 @@
   -->
 
 <org.solovyev.android.view.drag.DirectionDragButton xmlns:a="http://schemas.android.com/apk/res/android"
-													   xmlns:c="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
-													   a:id="@id/cpp_button_round_brackets"
-													   c:textUp="("
-													   a:text="()"
-													   c:textDown=")"
-													   c:textLeft="(…)"
-													   c:directionTextScale="0.5;0.5;0.5;0.33"
-													   style="?cpp_digit_button_style"
-													   a:onClick="digitButtonClickHandler"/>
+	xmlns:c="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
+	a:id="@id/cpp_button_round_brackets"
+	c:textUp="("
+	a:text="()"
+	c:textDown=")"
+	c:textLeft="(…)"
+	c:directionTextScale="0.5;0.5;0.5;0.33"
+	style="?cpp_digit_button_style"
+	a:onClick="digitButtonClickHandler" />

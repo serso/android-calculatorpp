@@ -7,45 +7,47 @@
   -->
 
 <ScrollView xmlns:a="http://schemas.android.com/apk/res/android"
-			a:layout_width="fill_parent"
-			a:layout_height="fill_parent">
+	a:layout_width="fill_parent"
+	a:layout_height="fill_parent">
 
 	<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-				  a:id="@+id/history_edit"
-				  a:orientation="vertical"
-				  a:layout_width="fill_parent"
-				  a:layout_height="fill_parent"
-				  a:scrollbars="vertical"
-				  a:scrollbarAlwaysDrawVerticalTrack="true">
+		a:id="@+id/history_edit"
+		a:orientation="vertical"
+		a:layout_width="fill_parent"
+		a:layout_height="fill_parent"
+		a:scrollbars="vertical"
+		a:scrollbarAlwaysDrawVerticalTrack="true">
 
-		<TextView a:layout_height="fill_parent"
-				  a:layout_width="fill_parent"
-				  a:padding="6dp"
-				  style="@style/cpp_default_text_size"
-				  a:text="@string/c_history_expression"/>
+		<TextView
+			a:layout_height="fill_parent"
+			a:layout_width="fill_parent"
+			a:padding="6dp"
+			style="@style/cpp_default_text_size"
+			a:text="@string/c_history_expression" />
 
-		<TextView a:id="@+id/history_edit_expression"
-				  a:layout_width="fill_parent"
-				  a:padding="6dp"
-				  a:textStyle="bold"
-				  a:layout_height="wrap_content"
-				  style="@style/cpp_default_text_size">
-		</TextView>
+		<TextView
+			a:id="@+id/history_edit_expression"
+			a:layout_width="fill_parent"
+			a:padding="6dp"
+			a:textStyle="bold"
+			a:layout_height="wrap_content"
+			style="@style/cpp_default_text_size"></TextView>
 
-		<TextView a:layout_height="fill_parent"
-				  a:layout_width="fill_parent"
-				  style="@style/cpp_default_text_size"
-				  a:padding="6dp"
-				  a:text="@string/c_history_comment"/>
+		<TextView
+			a:layout_height="fill_parent"
+			a:layout_width="fill_parent"
+			style="@style/cpp_default_text_size"
+			a:padding="6dp"
+			a:text="@string/c_history_comment" />
 
-		<EditText a:id="@+id/history_edit_comment"
-				  a:layout_width="fill_parent"
-				  a:layout_height="wrap_content"
-				  a:minLines="4"
-				  a:maxLines="4"
-				  a:gravity="top|left"
-				  style="@style/cpp_default_text_size">
-		</EditText>
+		<EditText
+			a:id="@+id/history_edit_comment"
+			a:layout_width="fill_parent"
+			a:layout_height="wrap_content"
+			a:minLines="4"
+			a:maxLines="4"
+			a:gravity="top|left"
+			style="@style/cpp_default_text_size"></EditText>
 
 	</LinearLayout>
 

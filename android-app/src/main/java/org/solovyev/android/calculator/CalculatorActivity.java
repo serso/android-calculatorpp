@@ -36,140 +36,140 @@ import org.solovyev.common.text.Strings;
 
 public class CalculatorActivity extends SherlockFragmentActivity implements SharedPreferences.OnSharedPreferenceChangeListener, CalculatorEventListener {
 
-    @NotNull
-    public static final String TAG = CalculatorActivity.class.getSimpleName();
+	@NotNull
+	public static final String TAG = CalculatorActivity.class.getSimpleName();
 
 	private boolean useBackAsPrev;
 
-    @NotNull
-    private CalculatorActivityHelper activityHelper;
+	@NotNull
+	private CalculatorActivityHelper activityHelper;
 
-    /**
+	/**
 	 * Called when the activity is first created.
 	 */
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
-        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        final CalculatorPreferences.Gui.Layout layout = CalculatorPreferences.Gui.layout.getPreferenceNoError(preferences);
+		final CalculatorPreferences.Gui.Layout layout = CalculatorPreferences.Gui.layout.getPreferenceNoError(preferences);
 
-        activityHelper = CalculatorApplication.getInstance().createActivityHelper(layout.getLayoutId(), TAG);
-        activityHelper.logDebug("onCreate");
-        activityHelper.onCreate(this, savedInstanceState);
+		activityHelper = CalculatorApplication.getInstance().createActivityHelper(layout.getLayoutId(), TAG);
+		activityHelper.logDebug("onCreate");
+		activityHelper.onCreate(this, savedInstanceState);
 
-        super.onCreate(savedInstanceState);
-        activityHelper.logDebug("super.onCreate");
+		super.onCreate(savedInstanceState);
+		activityHelper.logDebug("super.onCreate");
 
-        if (isMultiPane()) {
-            activityHelper.addTab(this, CalculatorFragmentType.history, null, R.id.main_second_pane);
-            activityHelper.addTab(this, CalculatorFragmentType.saved_history, null, R.id.main_second_pane);
-            activityHelper.addTab(this, CalculatorFragmentType.variables, null, R.id.main_second_pane);
-            activityHelper.addTab(this, CalculatorFragmentType.functions, null, R.id.main_second_pane);
-            activityHelper.addTab(this, CalculatorFragmentType.operators, null, R.id.main_second_pane);
-            activityHelper.addTab(this, CalculatorPlotActivity.getPlotterFragmentType(), null, R.id.main_second_pane);
-            activityHelper.addTab(this, CalculatorFragmentType.faq, null, R.id.main_second_pane);
-        } else {
-            getSupportActionBar().hide();
-        }
+		if (isMultiPane()) {
+			activityHelper.addTab(this, CalculatorFragmentType.history, null, R.id.main_second_pane);
+			activityHelper.addTab(this, CalculatorFragmentType.saved_history, null, R.id.main_second_pane);
+			activityHelper.addTab(this, CalculatorFragmentType.variables, null, R.id.main_second_pane);
+			activityHelper.addTab(this, CalculatorFragmentType.functions, null, R.id.main_second_pane);
+			activityHelper.addTab(this, CalculatorFragmentType.operators, null, R.id.main_second_pane);
+			activityHelper.addTab(this, CalculatorPlotActivity.getPlotterFragmentType(), null, R.id.main_second_pane);
+			activityHelper.addTab(this, CalculatorFragmentType.faq, null, R.id.main_second_pane);
+		} else {
+			getSupportActionBar().hide();
+		}
 
-        FragmentUtils.createFragment(this, CalculatorEditorFragment.class, R.id.editorContainer, "editor");
-        FragmentUtils.createFragment(this, CalculatorDisplayFragment.class, R.id.displayContainer, "display");
-        FragmentUtils.createFragment(this, CalculatorKeyboardFragment.class, R.id.keyboardContainer, "keyboard");
+		FragmentUtils.createFragment(this, CalculatorEditorFragment.class, R.id.editorContainer, "editor");
+		FragmentUtils.createFragment(this, CalculatorDisplayFragment.class, R.id.displayContainer, "display");
+		FragmentUtils.createFragment(this, CalculatorKeyboardFragment.class, R.id.keyboardContainer, "keyboard");
 
-        this.useBackAsPrev = CalculatorPreferences.Gui.usePrevAsBack.getPreference(preferences);
-        firstTimeInit(preferences, this);
+		this.useBackAsPrev = CalculatorPreferences.Gui.usePrevAsBack.getPreference(preferences);
+		firstTimeInit(preferences, this);
 
-        toggleOrientationChange(preferences);
+		toggleOrientationChange(preferences);
 
-        preferences.registerOnSharedPreferenceChangeListener(this);
+		preferences.registerOnSharedPreferenceChangeListener(this);
 
-        Locator.getInstance().getPreferenceService().checkPreferredPreferences(false);
+		Locator.getInstance().getPreferenceService().checkPreferredPreferences(false);
 
-        if ( CalculatorApplication.isMonkeyRunner(this) ) {
-            Locator.getInstance().getKeyboard().buttonPressed("123");
-            Locator.getInstance().getKeyboard().buttonPressed("+");
-            Locator.getInstance().getKeyboard().buttonPressed("321");
-        }
-    }
+		if (CalculatorApplication.isMonkeyRunner(this)) {
+			Locator.getInstance().getKeyboard().buttonPressed("123");
+			Locator.getInstance().getKeyboard().buttonPressed("+");
+			Locator.getInstance().getKeyboard().buttonPressed("321");
+		}
+	}
 
-    private boolean isMultiPane() {
-        return findViewById(R.id.main_second_pane) != null;
-    }
+	private boolean isMultiPane() {
+		return findViewById(R.id.main_second_pane) != null;
+	}
 
-    @NotNull
-    private AndroidCalculator getCalculator() {
-        return ((AndroidCalculator) Locator.getInstance().getCalculator());
-    }
+	@NotNull
+	private AndroidCalculator getCalculator() {
+		return ((AndroidCalculator) Locator.getInstance().getCalculator());
+	}
 
-    private static void firstTimeInit(@NotNull SharedPreferences preferences, @NotNull Context context) {
-        final Integer appOpenedCounter = CalculatorPreferences.appOpenedCounter.getPreference(preferences);
-        if (appOpenedCounter != null) {
-            CalculatorPreferences.appOpenedCounter.putPreference(preferences, appOpenedCounter + 1);
-        }
+	private static void firstTimeInit(@NotNull SharedPreferences preferences, @NotNull Context context) {
+		final Integer appOpenedCounter = CalculatorPreferences.appOpenedCounter.getPreference(preferences);
+		if (appOpenedCounter != null) {
+			CalculatorPreferences.appOpenedCounter.putPreference(preferences, appOpenedCounter + 1);
+		}
 
-        final Integer savedVersion = CalculatorPreferences.appVersion.getPreference(preferences);
+		final Integer savedVersion = CalculatorPreferences.appVersion.getPreference(preferences);
 
-        final int appVersion = Android.getAppVersionCode(context);
+		final int appVersion = Android.getAppVersionCode(context);
 
-        CalculatorPreferences.appVersion.putPreference(preferences, appVersion);
+		CalculatorPreferences.appVersion.putPreference(preferences, appVersion);
 
-        if (!CalculatorApplication.isMonkeyRunner(context)) {
+		if (!CalculatorApplication.isMonkeyRunner(context)) {
 
-            boolean dialogShown = false;
-            if (Objects.areEqual(savedVersion, CalculatorPreferences.appVersion.getDefaultValue())) {
-                // new start
-                final AlertDialog.Builder builder = new AlertDialog.Builder(context).setMessage(R.string.c_first_start_text);
-                builder.setPositiveButton(android.R.string.ok, null);
-                builder.setTitle(R.string.c_first_start_text_title);
-                builder.create().show();
-                dialogShown = true;
-            } else {
-                if (savedVersion < appVersion) {
-                    final boolean showReleaseNotes = CalculatorPreferences.Gui.showReleaseNotes.getPreference(preferences);
-                    if (showReleaseNotes) {
-                        final String releaseNotes = CalculatorReleaseNotesFragment.getReleaseNotes(context, savedVersion + 1);
-                        if (!Strings.isEmpty(releaseNotes)) {
-                            final AlertDialog.Builder builder = new AlertDialog.Builder(context).setMessage(Html.fromHtml(releaseNotes));
-                            builder.setPositiveButton(android.R.string.ok, null);
-                            builder.setTitle(R.string.c_release_notes);
-                            builder.create().show();
-                            dialogShown = true;
-                        }
-                    }
-                }
-            }
+			boolean dialogShown = false;
+			if (Objects.areEqual(savedVersion, CalculatorPreferences.appVersion.getDefaultValue())) {
+				// new start
+				final AlertDialog.Builder builder = new AlertDialog.Builder(context).setMessage(R.string.c_first_start_text);
+				builder.setPositiveButton(android.R.string.ok, null);
+				builder.setTitle(R.string.c_first_start_text_title);
+				builder.create().show();
+				dialogShown = true;
+			} else {
+				if (savedVersion < appVersion) {
+					final boolean showReleaseNotes = CalculatorPreferences.Gui.showReleaseNotes.getPreference(preferences);
+					if (showReleaseNotes) {
+						final String releaseNotes = CalculatorReleaseNotesFragment.getReleaseNotes(context, savedVersion + 1);
+						if (!Strings.isEmpty(releaseNotes)) {
+							final AlertDialog.Builder builder = new AlertDialog.Builder(context).setMessage(Html.fromHtml(releaseNotes));
+							builder.setPositiveButton(android.R.string.ok, null);
+							builder.setTitle(R.string.c_release_notes);
+							builder.create().show();
+							dialogShown = true;
+						}
+					}
+				}
+			}
 
 
-            //Log.d(this.getClass().getName(), "Application was opened " + appOpenedCounter + " time!");
-            if (!dialogShown) {
-                if (appOpenedCounter != null && appOpenedCounter > 10) {
-                    dialogShown = showSpecialWindow(preferences, CalculatorPreferences.Gui.feedbackWindowShown, R.layout.feedback, R.id.feedbackText, context);
-                }
-            }
-        }
-    }
+			//Log.d(this.getClass().getName(), "Application was opened " + appOpenedCounter + " time!");
+			if (!dialogShown) {
+				if (appOpenedCounter != null && appOpenedCounter > 10) {
+					dialogShown = showSpecialWindow(preferences, CalculatorPreferences.Gui.feedbackWindowShown, R.layout.feedback, R.id.feedbackText, context);
+				}
+			}
+		}
+	}
 
-    private static boolean showSpecialWindow(@NotNull SharedPreferences preferences, @NotNull Preference<Boolean> specialWindowShownPref, int layoutId, int textViewId, @NotNull Context context) {
-        boolean result = false;
+	private static boolean showSpecialWindow(@NotNull SharedPreferences preferences, @NotNull Preference<Boolean> specialWindowShownPref, int layoutId, int textViewId, @NotNull Context context) {
+		boolean result = false;
 
-        final Boolean specialWindowShown = specialWindowShownPref.getPreference(preferences);
-        if ( specialWindowShown != null && !specialWindowShown ) {
-            final LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
-            final View view = layoutInflater.inflate(layoutId, null);
+		final Boolean specialWindowShown = specialWindowShownPref.getPreference(preferences);
+		if (specialWindowShown != null && !specialWindowShown) {
+			final LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
+			final View view = layoutInflater.inflate(layoutId, null);
 
-            final TextView feedbackTextView = (TextView) view.findViewById(textViewId);
-            feedbackTextView.setMovementMethod(LinkMovementMethod.getInstance());
+			final TextView feedbackTextView = (TextView) view.findViewById(textViewId);
+			feedbackTextView.setMovementMethod(LinkMovementMethod.getInstance());
 
-            final AlertDialog.Builder builder = new AlertDialog.Builder(context).setView(view);
-            builder.setPositiveButton(android.R.string.ok, null);
-            builder.create().show();
+			final AlertDialog.Builder builder = new AlertDialog.Builder(context).setView(view);
+			builder.setPositiveButton(android.R.string.ok, null);
+			builder.create().show();
 
-            result = true;
-            specialWindowShownPref.putPreference(preferences, true);
-        }
+			result = true;
+			specialWindowShownPref.putPreference(preferences, true);
+		}
 
-        return result;
-    }
+		return result;
+	}
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -182,157 +182,157 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 		return super.onKeyDown(keyCode, event);
 	}
 
-    @SuppressWarnings({"UnusedDeclaration"})
-    public void equalsButtonClickHandler(@NotNull View v) {
-        buttonPressed(CalculatorSpecialButton.equals);
-    }
+	@SuppressWarnings({"UnusedDeclaration"})
+	public void equalsButtonClickHandler(@NotNull View v) {
+		buttonPressed(CalculatorSpecialButton.equals);
+	}
 
-    @Override
-    protected void onPause() {
-        this.activityHelper.onPause(this);
+	@Override
+	protected void onPause() {
+		this.activityHelper.onPause(this);
 
-        super.onPause();
-    }
+		super.onPause();
+	}
 
-    @Override
+	@Override
 	protected void onResume() {
 		super.onResume();
 
-        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        final CalculatorPreferences.Gui.Layout newLayout = CalculatorPreferences.Gui.layout.getPreference(preferences);
-        if ( newLayout != activityHelper.getLayout() ) {
-            Activities.restartActivity(this);
-        }
+		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		final CalculatorPreferences.Gui.Layout newLayout = CalculatorPreferences.Gui.layout.getPreference(preferences);
+		if (newLayout != activityHelper.getLayout()) {
+			Activities.restartActivity(this);
+		}
 
-        this.activityHelper.onResume(this);
+		this.activityHelper.onResume(this);
 	}
 
 	@Override
 	protected void onDestroy() {
-        activityHelper.onDestroy(this);
+		activityHelper.onDestroy(this);
 
-        PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
+		PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
 
-        super.onDestroy();
+		super.onDestroy();
 	}
 
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences preferences, @Nullable String key) {
-		if ( CalculatorPreferences.Gui.usePrevAsBack.getKey().equals(key) ) {
+		if (CalculatorPreferences.Gui.usePrevAsBack.getKey().equals(key)) {
 			useBackAsPrev = CalculatorPreferences.Gui.usePrevAsBack.getPreference(preferences);
 		}
 
-        if ( CalculatorPreferences.Gui.autoOrientation.getKey().equals(key) ) {
-            toggleOrientationChange(preferences);
-        }
+		if (CalculatorPreferences.Gui.autoOrientation.getKey().equals(key)) {
+			toggleOrientationChange(preferences);
+		}
 	}
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
 
-        activityHelper.onSaveInstanceState(this, outState);
-    }
+		activityHelper.onSaveInstanceState(this, outState);
+	}
 
-    private void toggleOrientationChange(@Nullable SharedPreferences preferences) {
-        preferences = preferences == null ? PreferenceManager.getDefaultSharedPreferences(this) : preferences;
-        if (CalculatorPreferences.Gui.autoOrientation.getPreference(preferences)) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
-        } else {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        }
-    }
+	private void toggleOrientationChange(@Nullable SharedPreferences preferences) {
+		preferences = preferences == null ? PreferenceManager.getDefaultSharedPreferences(this) : preferences;
+		if (CalculatorPreferences.Gui.autoOrientation.getPreference(preferences)) {
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+		} else {
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		}
+	}
 
-    /*
-    **********************************************************************
-    *
-    *                           BUTTON HANDLERS
-    *
-    **********************************************************************
-    */
+	/*
+	**********************************************************************
+	*
+	*                           BUTTON HANDLERS
+	*
+	**********************************************************************
+	*/
 
-    @SuppressWarnings({"UnusedDeclaration"})
-    public void elementaryButtonClickHandler(@NotNull View v) {
-        throw new UnsupportedOperationException("Not implemented yet!");
-    }
+	@SuppressWarnings({"UnusedDeclaration"})
+	public void elementaryButtonClickHandler(@NotNull View v) {
+		throw new UnsupportedOperationException("Not implemented yet!");
+	}
 
-    @SuppressWarnings({"UnusedDeclaration"})
-    public void historyButtonClickHandler(@NotNull View v) {
-        buttonPressed(CalculatorSpecialButton.history);
-    }
+	@SuppressWarnings({"UnusedDeclaration"})
+	public void historyButtonClickHandler(@NotNull View v) {
+		buttonPressed(CalculatorSpecialButton.history);
+	}
 
-    @SuppressWarnings({"UnusedDeclaration"})
-    public void eraseButtonClickHandler(@NotNull View v) {
-        buttonPressed(CalculatorSpecialButton.erase);
-    }
+	@SuppressWarnings({"UnusedDeclaration"})
+	public void eraseButtonClickHandler(@NotNull View v) {
+		buttonPressed(CalculatorSpecialButton.erase);
+	}
 
-    @SuppressWarnings({"UnusedDeclaration"})
-    public void simplifyButtonClickHandler(@NotNull View v) {
-        throw new UnsupportedOperationException("Not implemented yet!");
-    }
+	@SuppressWarnings({"UnusedDeclaration"})
+	public void simplifyButtonClickHandler(@NotNull View v) {
+		throw new UnsupportedOperationException("Not implemented yet!");
+	}
 
-    @SuppressWarnings({"UnusedDeclaration"})
-    public void pasteButtonClickHandler(@NotNull View v) {
-        buttonPressed(CalculatorSpecialButton.paste);
-    }
+	@SuppressWarnings({"UnusedDeclaration"})
+	public void pasteButtonClickHandler(@NotNull View v) {
+		buttonPressed(CalculatorSpecialButton.paste);
+	}
 
-    @SuppressWarnings({"UnusedDeclaration"})
-    public void copyButtonClickHandler(@NotNull View v) {
-        buttonPressed(CalculatorSpecialButton.copy);
-    }
+	@SuppressWarnings({"UnusedDeclaration"})
+	public void copyButtonClickHandler(@NotNull View v) {
+		buttonPressed(CalculatorSpecialButton.copy);
+	}
 
-    @NotNull
-    private static CalculatorKeyboard getKeyboard() {
-        return Locator.getInstance().getKeyboard();
-    }
+	@NotNull
+	private static CalculatorKeyboard getKeyboard() {
+		return Locator.getInstance().getKeyboard();
+	}
 
-    @SuppressWarnings({"UnusedDeclaration"})
-    public void clearButtonClickHandler(@NotNull View v) {
-        buttonPressed(CalculatorSpecialButton.clear);
-    }
+	@SuppressWarnings({"UnusedDeclaration"})
+	public void clearButtonClickHandler(@NotNull View v) {
+		buttonPressed(CalculatorSpecialButton.clear);
+	}
 
-    @SuppressWarnings({"UnusedDeclaration"})
-    public void digitButtonClickHandler(@NotNull View v) {
-        Log.d(String.valueOf(v.getId()), "digitButtonClickHandler() for: " + v.getId() + ". Pressed: " + v.isPressed());
+	@SuppressWarnings({"UnusedDeclaration"})
+	public void digitButtonClickHandler(@NotNull View v) {
+		Log.d(String.valueOf(v.getId()), "digitButtonClickHandler() for: " + v.getId() + ". Pressed: " + v.isPressed());
 
-        if (v instanceof Button) {
-            buttonPressed(((Button)v).getText().toString());
-        }
-    }
+		if (v instanceof Button) {
+			buttonPressed(((Button) v).getText().toString());
+		}
+	}
 
-    private void buttonPressed(@NotNull CalculatorSpecialButton button) {
-        buttonPressed(button.getActionCode());
-    }
+	private void buttonPressed(@NotNull CalculatorSpecialButton button) {
+		buttonPressed(button.getActionCode());
+	}
 
-    private void buttonPressed(@NotNull String text) {
-        getKeyboard().buttonPressed(text);
-    }
+	private void buttonPressed(@NotNull String text) {
+		getKeyboard().buttonPressed(text);
+	}
 
-    @SuppressWarnings({"UnusedDeclaration"})
-    public void functionsButtonClickHandler(@NotNull View v) {
-        buttonPressed(CalculatorSpecialButton.functions);
-    }
+	@SuppressWarnings({"UnusedDeclaration"})
+	public void functionsButtonClickHandler(@NotNull View v) {
+		buttonPressed(CalculatorSpecialButton.functions);
+	}
 
-    @SuppressWarnings({"UnusedDeclaration"})
-    public void operatorsButtonClickHandler(@NotNull View v) {
-        buttonPressed(CalculatorSpecialButton.operators);
-    }
+	@SuppressWarnings({"UnusedDeclaration"})
+	public void operatorsButtonClickHandler(@NotNull View v) {
+		buttonPressed(CalculatorSpecialButton.operators);
+	}
 
-    @SuppressWarnings({"UnusedDeclaration"})
-    public void varsButtonClickHandler(@NotNull View v) {
-        buttonPressed(CalculatorSpecialButton.vars);
-    }
+	@SuppressWarnings({"UnusedDeclaration"})
+	public void varsButtonClickHandler(@NotNull View v) {
+		buttonPressed(CalculatorSpecialButton.vars);
+	}
 
-    @SuppressWarnings({"UnusedDeclaration"})
-    public void likeButtonClickHandler(@NotNull View v) {
-        buttonPressed(CalculatorSpecialButton.like);
-    }
+	@SuppressWarnings({"UnusedDeclaration"})
+	public void likeButtonClickHandler(@NotNull View v) {
+		buttonPressed(CalculatorSpecialButton.like);
+	}
 
-    @Override
-    public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
-        switch (calculatorEventType) {
-            case plot_graph:
-                Threads.tryRunOnUiThread(this, new Runnable() {
+	@Override
+	public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
+		switch (calculatorEventType) {
+			case plot_graph:
+				Threads.tryRunOnUiThread(this, new Runnable() {
 					@Override
 					public void run() {
 						if (isMultiPane()) {
@@ -349,7 +349,7 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 						}
 					}
 				});
-                break;
-        }
-    }
+				break;
+		}
+	}
 }

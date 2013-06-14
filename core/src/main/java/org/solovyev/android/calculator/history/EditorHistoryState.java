@@ -15,7 +15,7 @@ import org.solovyev.android.calculator.CalculatorEditorViewState;
 import org.solovyev.common.text.Strings;
 
 @Root
-public class EditorHistoryState implements Cloneable{
+public class EditorHistoryState implements Cloneable {
 
 	@Element
 	private int cursorPosition;
@@ -38,15 +38,15 @@ public class EditorHistoryState implements Cloneable{
 		return result;
 	}
 
-    @NotNull
-    public static EditorHistoryState newInstance(@NotNull CalculatorDisplayViewState viewState) {
-        final EditorHistoryState result = new EditorHistoryState();
+	@NotNull
+	public static EditorHistoryState newInstance(@NotNull CalculatorDisplayViewState viewState) {
+		final EditorHistoryState result = new EditorHistoryState();
 
-        result.text = viewState.getText();
-        result.cursorPosition = viewState.getSelection();
+		result.text = viewState.getText();
+		result.cursorPosition = viewState.getSelection();
 
-        return result;
-    }
+		return result;
+	}
 
 	public void setValuesFromHistory(@NotNull CalculatorEditor editor) {
 		editor.setText(Strings.getNotEmpty(this.getText(), ""));
@@ -93,7 +93,7 @@ public class EditorHistoryState implements Cloneable{
 	@Override
 	protected EditorHistoryState clone() {
 		try {
-			return (EditorHistoryState)super.clone();
+			return (EditorHistoryState) super.clone();
 		} catch (CloneNotSupportedException e) {
 			throw new UnsupportedOperationException(e);
 		}

@@ -7,24 +7,24 @@
   -->
 
 <TabHost xmlns:a="http://schemas.android.com/apk/res/android"
-         a:id="@android:id/tabhost"
-         a:layout_width="fill_parent"
-         a:layout_height="fill_parent">
+	a:id="@android:id/tabhost"
+	a:layout_width="fill_parent"
+	a:layout_height="fill_parent">
 
-    <LinearLayout
-            a:orientation="vertical"
-            a:layout_width="fill_parent"
-            a:layout_height="fill_parent">
+	<LinearLayout
+		a:orientation="vertical"
+		a:layout_width="fill_parent"
+		a:layout_height="fill_parent">
 
-        <TabWidget
-                a:id="@android:id/tabs"
-                a:layout_width="fill_parent"
-                a:layout_height="wrap_content"/>
+		<TabWidget
+			a:id="@android:id/tabs"
+			a:layout_width="fill_parent"
+			a:layout_height="wrap_content" />
 
-        <FrameLayout
-                a:id="@android:id/tabcontent"
-                a:layout_width="fill_parent"
-                a:layout_height="fill_parent"/>
+		<FrameLayout
+			a:id="@android:id/tabcontent"
+			a:layout_width="fill_parent"
+			a:layout_height="fill_parent" />
 
-    </LinearLayout>
+	</LinearLayout>
 </TabHost>

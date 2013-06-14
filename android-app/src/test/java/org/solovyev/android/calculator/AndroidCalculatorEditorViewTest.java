@@ -13,19 +13,19 @@ import org.junit.runner.RunWith;
 @RunWith(value = CalculatorppTestRunner.class)
 public class AndroidCalculatorEditorViewTest {
 
-    @BeforeClass
-    public static void staticSetUp() throws Exception {
-        /*CalculatorTestUtils.staticSetUp(null);*/
-    }
+	@BeforeClass
+	public static void staticSetUp() throws Exception {
+		/*CalculatorTestUtils.staticSetUp(null);*/
+	}
 
-    @Before
-    public void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 /*        CalculatorActivity context = new CalculatorActivity();
         CalculatorTestUtils.initViews(context);*/
-    }
+	}
 
-    @Test
-    public void testAsyncWork() throws Exception {
+	@Test
+	public void testAsyncWork() throws Exception {
 /*        final int threadNum = 10;
         final int count = 10;
         final int maxTextLength = 100;
@@ -71,5 +71,5 @@ public class AndroidCalculatorEditorViewTest {
         } else {
             Assert.fail("Too long execution!");
         }*/
-    }
+	}
 }

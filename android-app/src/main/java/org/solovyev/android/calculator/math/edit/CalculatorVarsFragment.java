@@ -17,7 +17,6 @@ import jscl.math.function.IConstant;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.*;
-import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.menu.AMenuItem;
 import org.solovyev.android.menu.LabeledMenuItem;
@@ -36,246 +35,246 @@ import java.util.List;
  */
 public class CalculatorVarsFragment extends AbstractMathEntityListFragment<IConstant> {
 
-    public static final String CREATE_VAR_EXTRA_STRING = "create_var";
+	public static final String CREATE_VAR_EXTRA_STRING = "create_var";
 
-    public CalculatorVarsFragment() {
-        super(CalculatorFragmentType.variables);
-    }
+	public CalculatorVarsFragment() {
+		super(CalculatorFragmentType.variables);
+	}
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-        final Bundle bundle = getArguments();
-        if (bundle != null) {
-            final String varValue = bundle.getString(CREATE_VAR_EXTRA_STRING);
-            if (!Strings.isEmpty(varValue)) {
-                VarEditDialogFragment.showDialog(VarEditDialogFragment.Input.newFromValue(varValue), this.getActivity().getSupportFragmentManager());
+		final Bundle bundle = getArguments();
+		if (bundle != null) {
+			final String varValue = bundle.getString(CREATE_VAR_EXTRA_STRING);
+			if (!Strings.isEmpty(varValue)) {
+				VarEditDialogFragment.showDialog(VarEditDialogFragment.Input.newFromValue(varValue), this.getActivity().getSupportFragmentManager());
 
-                // in order to stop intent for other tabs
-                bundle.remove(CREATE_VAR_EXTRA_STRING);
-            }
-        }
+				// in order to stop intent for other tabs
+				bundle.remove(CREATE_VAR_EXTRA_STRING);
+			}
+		}
 
-        setHasOptionsMenu(true);
-    }
+		setHasOptionsMenu(true);
+	}
 
-    @Override
-    protected AMenuItem<IConstant> getOnClickAction() {
-        return LongClickMenuItem.use;
-    }
+	@Override
+	protected AMenuItem<IConstant> getOnClickAction() {
+		return LongClickMenuItem.use;
+	}
 
-    @NotNull
-    @Override
-    protected List<LabeledMenuItem<IConstant>> getMenuItemsOnLongClick(@NotNull IConstant item) {
-        final List<LabeledMenuItem<IConstant>> result = new ArrayList<LabeledMenuItem<IConstant>>(Arrays.asList(LongClickMenuItem.values()));
+	@NotNull
+	@Override
+	protected List<LabeledMenuItem<IConstant>> getMenuItemsOnLongClick(@NotNull IConstant item) {
+		final List<LabeledMenuItem<IConstant>> result = new ArrayList<LabeledMenuItem<IConstant>>(Arrays.asList(LongClickMenuItem.values()));
 
-        if (item.isSystem()) {
-            result.remove(LongClickMenuItem.edit);
-            result.remove(LongClickMenuItem.remove);
-        }
+		if (item.isSystem()) {
+			result.remove(LongClickMenuItem.edit);
+			result.remove(LongClickMenuItem.remove);
+		}
 
-        if (Strings.isEmpty(Locator.getInstance().getEngine().getVarsRegistry().getDescription(item.getName()))) {
-            result.remove(LongClickMenuItem.copy_description);
-        }
+		if (Strings.isEmpty(Locator.getInstance().getEngine().getVarsRegistry().getDescription(item.getName()))) {
+			result.remove(LongClickMenuItem.copy_description);
+		}
 
-        if (Strings.isEmpty(item.getValue())) {
-            result.remove(LongClickMenuItem.copy_value);
-        }
+		if (Strings.isEmpty(item.getValue())) {
+			result.remove(LongClickMenuItem.copy_value);
+		}
 
-        return result;
-    }
+		return result;
+	}
 
-    @NotNull
-    @Override
-    protected MathEntityDescriptionGetter getDescriptionGetter() {
-        return new MathEntityDescriptionGetterImpl(Locator.getInstance().getEngine().getVarsRegistry());
-    }
+	@NotNull
+	@Override
+	protected MathEntityDescriptionGetter getDescriptionGetter() {
+		return new MathEntityDescriptionGetterImpl(Locator.getInstance().getEngine().getVarsRegistry());
+	}
 
-    @SuppressWarnings({"UnusedDeclaration"})
-    public void addVarButtonClickHandler(@NotNull View v) {
-        VarEditDialogFragment.showDialog(VarEditDialogFragment.Input.newInstance(), this.getActivity().getSupportFragmentManager());
-    }
+	@SuppressWarnings({"UnusedDeclaration"})
+	public void addVarButtonClickHandler(@NotNull View v) {
+		VarEditDialogFragment.showDialog(VarEditDialogFragment.Input.newInstance(), this.getActivity().getSupportFragmentManager());
+	}
 
-    @NotNull
-    @Override
-    protected List<IConstant> getMathEntities() {
-        final List<IConstant> result = new ArrayList<IConstant>(Locator.getInstance().getEngine().getVarsRegistry().getEntities());
+	@NotNull
+	@Override
+	protected List<IConstant> getMathEntities() {
+		final List<IConstant> result = new ArrayList<IConstant>(Locator.getInstance().getEngine().getVarsRegistry().getEntities());
 
-        Collections.removeAll(result, new JPredicate<IConstant>() {
-            @Override
-            public boolean apply(@Nullable IConstant var) {
-                return var != null && Collections.contains(var.getName(), MathType.INFINITY_JSCL, MathType.NAN);
-            }
-        });
+		Collections.removeAll(result, new JPredicate<IConstant>() {
+			@Override
+			public boolean apply(@Nullable IConstant var) {
+				return var != null && Collections.contains(var.getName(), MathType.INFINITY_JSCL, MathType.NAN);
+			}
+		});
 
-        return result;
-    }
+		return result;
+	}
 
-    @Override
-    protected String getMathEntityCategory(@NotNull IConstant var) {
-        return Locator.getInstance().getEngine().getVarsRegistry().getCategory(var);
-    }
+	@Override
+	protected String getMathEntityCategory(@NotNull IConstant var) {
+		return Locator.getInstance().getEngine().getVarsRegistry().getCategory(var);
+	}
 
-    public static boolean isValidValue(@NotNull String value) {
-        try {
-            final PreparedExpression expression = ToJsclTextProcessor.getInstance().process(value);
-            final List<IConstant> constants = expression.getUndefinedVars();
-            return constants.isEmpty();
-        } catch (RuntimeException e) {
-            return true;
-        } catch (CalculatorParseException e) {
-            return true;
-        }
-    }
+	public static boolean isValidValue(@NotNull String value) {
+		try {
+			final PreparedExpression expression = ToJsclTextProcessor.getInstance().process(value);
+			final List<IConstant> constants = expression.getUndefinedVars();
+			return constants.isEmpty();
+		} catch (RuntimeException e) {
+			return true;
+		} catch (CalculatorParseException e) {
+			return true;
+		}
+	}
 
-    /*
-    **********************************************************************
-    *
-    *                           MENU
-    *
-    **********************************************************************
-    */
+	/*
+	**********************************************************************
+	*
+	*                           MENU
+	*
+	**********************************************************************
+	*/
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.vars_menu, menu);
-    }
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		inflater.inflate(R.menu.vars_menu, menu);
+	}
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        boolean result;
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		boolean result;
 
-        switch (item.getItemId()) {
-            case R.id.var_menu_add_var:
-                VarEditDialogFragment.showDialog(VarEditDialogFragment.Input.newInstance(), this.getActivity().getSupportFragmentManager());
-                result = true;
-                break;
-            default:
-                result = super.onOptionsItemSelected(item);
-        }
+		switch (item.getItemId()) {
+			case R.id.var_menu_add_var:
+				VarEditDialogFragment.showDialog(VarEditDialogFragment.Input.newInstance(), this.getActivity().getSupportFragmentManager());
+				result = true;
+				break;
+			default:
+				result = super.onOptionsItemSelected(item);
+		}
 
-        return result;
-    }
+		return result;
+	}
 
-    @Override
-    public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
-        super.onCalculatorEvent(calculatorEventData, calculatorEventType, data);
+	@Override
+	public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
+		super.onCalculatorEvent(calculatorEventData, calculatorEventType, data);
 
-        switch (calculatorEventType) {
-            case constant_added:
-                processConstantAdded((IConstant) data);
-                break;
+		switch (calculatorEventType) {
+			case constant_added:
+				processConstantAdded((IConstant) data);
+				break;
 
-            case constant_changed:
-                processConstantChanged((Change<IConstant>) data);
-                break;
+			case constant_changed:
+				processConstantChanged((Change<IConstant>) data);
+				break;
 
-            case constant_removed:
-                processConstantRemoved((IConstant) data);
-                break;
-        }
-    }
+			case constant_removed:
+				processConstantRemoved((IConstant) data);
+				break;
+		}
+	}
 
-    private void processConstantRemoved(@NotNull final IConstant constant) {
-        if (this.isInCategory(constant)) {
-            getUiHandler().post(new Runnable() {
-                @Override
-                public void run() {
-                    removeFromAdapter(constant);
-                    notifyAdapter();
-                }
-            });
-        }
-    }
+	private void processConstantRemoved(@NotNull final IConstant constant) {
+		if (this.isInCategory(constant)) {
+			getUiHandler().post(new Runnable() {
+				@Override
+				public void run() {
+					removeFromAdapter(constant);
+					notifyAdapter();
+				}
+			});
+		}
+	}
 
-    private void processConstantChanged(@NotNull final Change<IConstant> change) {
-        final IConstant newConstant = change.getNewValue();
-        if (this.isInCategory(newConstant)) {
-            getUiHandler().post(new Runnable() {
-                @Override
-                public void run() {
-                    removeFromAdapter(change.getOldValue());
-                    addToAdapter(newConstant);
-                    sort();
-                }
-            });
-        }
-    }
+	private void processConstantChanged(@NotNull final Change<IConstant> change) {
+		final IConstant newConstant = change.getNewValue();
+		if (this.isInCategory(newConstant)) {
+			getUiHandler().post(new Runnable() {
+				@Override
+				public void run() {
+					removeFromAdapter(change.getOldValue());
+					addToAdapter(newConstant);
+					sort();
+				}
+			});
+		}
+	}
 
-    private void processConstantAdded(@NotNull final IConstant constant) {
-        if (this.isInCategory(constant)) {
-            getUiHandler().post(new Runnable() {
-                @Override
-                public void run() {
-                    addToAdapter(constant);
-                    sort();
-                }
-            });
-        }
-    }
+	private void processConstantAdded(@NotNull final IConstant constant) {
+		if (this.isInCategory(constant)) {
+			getUiHandler().post(new Runnable() {
+				@Override
+				public void run() {
+					addToAdapter(constant);
+					sort();
+				}
+			});
+		}
+	}
 
-    /*
-    **********************************************************************
-    *
-    *                           STATIC
-    *
-    **********************************************************************
-    */
+	/*
+	**********************************************************************
+	*
+	*                           STATIC
+	*
+	**********************************************************************
+	*/
 
-    private static enum LongClickMenuItem implements LabeledMenuItem<IConstant> {
-        use(R.string.c_use) {
-            @Override
-            public void onClick(@NotNull IConstant data, @NotNull Context context) {
-                Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.use_constant, data);
-            }
-        },
+	private static enum LongClickMenuItem implements LabeledMenuItem<IConstant> {
+		use(R.string.c_use) {
+			@Override
+			public void onClick(@NotNull IConstant data, @NotNull Context context) {
+				Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.use_constant, data);
+			}
+		},
 
-        edit(R.string.c_edit) {
-            @Override
-            public void onClick(@NotNull IConstant constant, @NotNull Context context) {
-                VarEditDialogFragment.showDialog(VarEditDialogFragment.Input.newFromConstant(constant), ((SherlockFragmentActivity) context).getSupportFragmentManager());
-            }
-        },
+		edit(R.string.c_edit) {
+			@Override
+			public void onClick(@NotNull IConstant constant, @NotNull Context context) {
+				VarEditDialogFragment.showDialog(VarEditDialogFragment.Input.newFromConstant(constant), ((SherlockFragmentActivity) context).getSupportFragmentManager());
+			}
+		},
 
-        remove(R.string.c_remove) {
-            @Override
-            public void onClick(@NotNull IConstant constant, @NotNull Context context) {
-                MathEntityRemover.newConstantRemover(constant, null, context, context).showConfirmationDialog();
-            }
-        },
+		remove(R.string.c_remove) {
+			@Override
+			public void onClick(@NotNull IConstant constant, @NotNull Context context) {
+				MathEntityRemover.newConstantRemover(constant, null, context, context).showConfirmationDialog();
+			}
+		},
 
-        copy_value(R.string.c_copy_value) {
-            @Override
-            public void onClick(@NotNull IConstant data, @NotNull Context context) {
-                final String text = data.getValue();
-                if (!Strings.isEmpty(text)) {
-                    assert text != null;
-                    Locator.getInstance().getClipboard().setText(text);
-                }
-            }
-        },
+		copy_value(R.string.c_copy_value) {
+			@Override
+			public void onClick(@NotNull IConstant data, @NotNull Context context) {
+				final String text = data.getValue();
+				if (!Strings.isEmpty(text)) {
+					assert text != null;
+					Locator.getInstance().getClipboard().setText(text);
+				}
+			}
+		},
 
-        copy_description(R.string.c_copy_description) {
-            @Override
-            public void onClick(@NotNull IConstant data, @NotNull Context context) {
-                final String text = Locator.getInstance().getEngine().getVarsRegistry().getDescription(data.getName());
-                if (!Strings.isEmpty(text)) {
-                    assert text != null;
-                    Locator.getInstance().getClipboard().setText(text);
-                }
-            }
-        };
-        private final int captionId;
+		copy_description(R.string.c_copy_description) {
+			@Override
+			public void onClick(@NotNull IConstant data, @NotNull Context context) {
+				final String text = Locator.getInstance().getEngine().getVarsRegistry().getDescription(data.getName());
+				if (!Strings.isEmpty(text)) {
+					assert text != null;
+					Locator.getInstance().getClipboard().setText(text);
+				}
+			}
+		};
+		private final int captionId;
 
-        LongClickMenuItem(int captionId) {
-            this.captionId = captionId;
-        }
+		LongClickMenuItem(int captionId) {
+			this.captionId = captionId;
+		}
 
-        @NotNull
-        @Override
-        public String getCaption(@NotNull Context context) {
-            return context.getString(captionId);
-        }
-    }
+		@NotNull
+		@Override
+		public String getCaption(@NotNull Context context) {
+			return context.getString(captionId);
+		}
+	}
 }

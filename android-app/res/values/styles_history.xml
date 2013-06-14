@@ -6,9 +6,10 @@
 
 <resources>
 
-	<style name="history_time" parent="math_entity_text"/>
+	<style name="history_time" parent="math_entity_text" />
 
-	<style name="history_item" parent="math_entity_description"/>
+	<style name="history_item" parent="math_entity_description" />
+
 	<style name="history_item_label" parent="math_entity_description">
 		<item name="android:textStyle">bold</item>
 		<item name="android:textColor">@android:color/white</item>

@@ -13,56 +13,63 @@ import java.util.List;
  */
 public interface CalculatorPlotter {
 
-    @NotNull
-    PlotData getPlotData();
+	@NotNull
+	PlotData getPlotData();
 
-    boolean addFunction(@NotNull Generic expression);
-    boolean addFunction(@NotNull PlotFunction plotFunction);
-    boolean addFunction(@NotNull XyFunction xyFunction);
-    boolean addFunction(@NotNull XyFunction xyFunction, @NotNull PlotLineDef functionLineDef);
+	boolean addFunction(@NotNull Generic expression);
 
-    boolean updateFunction(@NotNull PlotFunction newFunction);
-    boolean updateFunction(@NotNull XyFunction xyFunction, @NotNull PlotLineDef functionLineDef);
+	boolean addFunction(@NotNull PlotFunction plotFunction);
 
-    boolean removeFunction(@NotNull PlotFunction plotFunction);
-    boolean removeFunction(@NotNull XyFunction xyFunction);
+	boolean addFunction(@NotNull XyFunction xyFunction);
 
-    @NotNull
-    PlotFunction pin(@NotNull PlotFunction plotFunction);
+	boolean addFunction(@NotNull XyFunction xyFunction, @NotNull PlotLineDef functionLineDef);
 
-    @NotNull
-    PlotFunction unpin(@NotNull PlotFunction plotFunction);
+	boolean updateFunction(@NotNull PlotFunction newFunction);
 
-    @NotNull
-    PlotFunction show(@NotNull PlotFunction plotFunction);
+	boolean updateFunction(@NotNull XyFunction xyFunction, @NotNull PlotLineDef functionLineDef);
 
-    @NotNull
-    PlotFunction hide(@NotNull PlotFunction plotFunction);
+	boolean removeFunction(@NotNull PlotFunction plotFunction);
 
-    void clearAllFunctions();
+	boolean removeFunction(@NotNull XyFunction xyFunction);
+
+	@NotNull
+	PlotFunction pin(@NotNull PlotFunction plotFunction);
+
+	@NotNull
+	PlotFunction unpin(@NotNull PlotFunction plotFunction);
+
+	@NotNull
+	PlotFunction show(@NotNull PlotFunction plotFunction);
+
+	@NotNull
+	PlotFunction hide(@NotNull PlotFunction plotFunction);
+
+	void clearAllFunctions();
 
 	@Nullable
 	PlotFunction getFunctionById(@NotNull String functionId);
 
-    @NotNull
-    List<PlotFunction> getFunctions();
+	@NotNull
+	List<PlotFunction> getFunctions();
 
-    @NotNull
-    List<PlotFunction> getVisibleFunctions();
+	@NotNull
+	List<PlotFunction> getVisibleFunctions();
 
-    void plot();
-    void plot(@NotNull Generic expression);
+	void plot();
 
-    boolean is2dPlotPossible();
+	void plot(@NotNull Generic expression);
 
-    boolean isPlotPossibleFor(@NotNull Generic expression);
+	boolean is2dPlotPossible();
 
-    void setPlot3d(boolean plot3d);
+	boolean isPlotPossibleFor(@NotNull Generic expression);
 
-    void removeAllUnpinned();
+	void setPlot3d(boolean plot3d);
 
-    void setPlotImag(boolean plotImag);
+	void removeAllUnpinned();
 
-    void savePlotBoundaries(@NotNull PlotBoundaries plotBoundaries);
-    void setPlotBoundaries(@NotNull PlotBoundaries plotBoundaries);
+	void setPlotImag(boolean plotImag);
+
+	void savePlotBoundaries(@NotNull PlotBoundaries plotBoundaries);
+
+	void setPlotBoundaries(@NotNull PlotBoundaries plotBoundaries);
 }

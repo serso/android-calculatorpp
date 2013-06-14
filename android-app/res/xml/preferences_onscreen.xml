@@ -2,20 +2,20 @@
 
 <PreferenceScreen xmlns:a="http://schemas.android.com/apk/res/android">
 
-    <PreferenceScreen a:title="@string/prefs_onscreen_title">
+	<PreferenceScreen a:title="@string/prefs_onscreen_title">
 
-        <org.solovyev.android.ads.AdViewPreference a:layout="@layout/acl_adview_pref"/>
+		<org.solovyev.android.ads.AdViewPreference a:layout="@layout/acl_adview_pref" />
 
-        <android.preference.CheckBoxPreference
-                a:key="onscreen_start_on_boot"
-                a:title="@string/prefs_onscreen_start_on_boot_title"
-                a:summary="@string/prefs_onscreen_start_on_boot_summary"/>
+		<android.preference.CheckBoxPreference
+			a:key="onscreen_start_on_boot"
+			a:title="@string/prefs_onscreen_start_on_boot_title"
+			a:summary="@string/prefs_onscreen_start_on_boot_summary" />
 
-        <android.preference.CheckBoxPreference
-            a:key="onscreen_show_app_icon"
-            a:title="@string/prefs_onscreen_show_app_icon_title"
-            a:summary="@string/prefs_onscreen_show_app_icon_summary"/>
+		<android.preference.CheckBoxPreference
+			a:key="onscreen_show_app_icon"
+			a:title="@string/prefs_onscreen_show_app_icon_title"
+			a:summary="@string/prefs_onscreen_show_app_icon_summary" />
 
-    </PreferenceScreen>
+	</PreferenceScreen>
 
 </PreferenceScreen>

@@ -9,6 +9,6 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface ConversionFailure {
 
-    @NotNull
-    Exception getException();
+	@NotNull
+	Exception getException();
 }

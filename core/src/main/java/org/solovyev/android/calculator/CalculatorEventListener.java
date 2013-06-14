@@ -12,6 +12,6 @@ import java.util.EventListener;
  */
 public interface CalculatorEventListener extends EventListener {
 
-    void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data);
+	void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data);
 
 }

@@ -9,17 +9,17 @@ import org.jetbrains.annotations.Nullable;
  */
 public interface CalculatorKeyboard {
 
-    void buttonPressed(@Nullable String text);
+	void buttonPressed(@Nullable String text);
 
-    void roundBracketsButtonPressed();
+	void roundBracketsButtonPressed();
 
-    void pasteButtonPressed();
+	void pasteButtonPressed();
 
-    void clearButtonPressed();
+	void clearButtonPressed();
 
-    void copyButtonPressed();
+	void copyButtonPressed();
 
-    void moveCursorLeft();
+	void moveCursorLeft();
 
-    void moveCursorRight();
+	void moveCursorRight();
 }

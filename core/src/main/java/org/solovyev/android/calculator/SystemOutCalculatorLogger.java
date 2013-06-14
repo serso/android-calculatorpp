@@ -10,33 +10,33 @@ import org.jetbrains.annotations.Nullable;
  */
 public class SystemOutCalculatorLogger implements CalculatorLogger {
 
-    @NotNull
-    private static final String TAG = SystemOutCalculatorLogger.class.getSimpleName();
+	@NotNull
+	private static final String TAG = SystemOutCalculatorLogger.class.getSimpleName();
 
-    @Override
-    public void debug(@Nullable String tag, @Nullable String message) {
-        System.out.println(getTag(tag) + ": " + message);
-    }
+	@Override
+	public void debug(@Nullable String tag, @Nullable String message) {
+		System.out.println(getTag(tag) + ": " + message);
+	}
 
-    @NotNull
-    private String getTag(@Nullable String tag) {
-        return tag != null ? tag : TAG;
-    }
+	@NotNull
+	private String getTag(@Nullable String tag) {
+		return tag != null ? tag : TAG;
+	}
 
-    @Override
-    public void debug(@Nullable String tag, @Nullable String message, @NotNull Throwable e) {
-        debug(tag, message);
-        e.printStackTrace(System.out);
-    }
+	@Override
+	public void debug(@Nullable String tag, @Nullable String message, @NotNull Throwable e) {
+		debug(tag, message);
+		e.printStackTrace(System.out);
+	}
 
-    @Override
-    public void error(@Nullable String tag, @Nullable String message, @NotNull Throwable e) {
-        System.out.println(getTag(tag) + ": " + message);
-        e.printStackTrace(System.out);
-    }
+	@Override
+	public void error(@Nullable String tag, @Nullable String message, @NotNull Throwable e) {
+		System.out.println(getTag(tag) + ": " + message);
+		e.printStackTrace(System.out);
+	}
 
-    @Override
-    public void error(@Nullable String tag, @Nullable String message) {
-        System.out.println(getTag(tag) + ": " + message);
-    }
+	@Override
+	public void error(@Nullable String tag, @Nullable String message) {
+		System.out.println(getTag(tag) + ": " + message);
+	}
 }

@@ -11,11 +11,13 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface CalculatorPreferenceService {
 
-    void setPreferredAngleUnits();
-    void setAngleUnits(@NotNull AngleUnit angleUnit);
+	void setPreferredAngleUnits();
 
-    void setPreferredNumeralBase();
-    void setNumeralBase(@NotNull NumeralBase numeralBase);
+	void setAngleUnits(@NotNull AngleUnit angleUnit);
 
-    void checkPreferredPreferences(boolean force);
+	void setPreferredNumeralBase();
+
+	void setNumeralBase(@NotNull NumeralBase numeralBase);
+
+	void checkPreferredPreferences(boolean force);
 }

@@ -7,22 +7,22 @@
   -->
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-              a:layout_height="wrap_content"
-              a:layout_width="match_parent"
-              style="?cpp_fragment_list_view_item_style"
-              a:paddingBottom="@dimen/cpp_pane_padding"
-              a:orientation="vertical">
+	a:layout_height="wrap_content"
+	a:layout_width="match_parent"
+	style="?cpp_fragment_list_view_item_style"
+	a:paddingBottom="@dimen/cpp_pane_padding"
+	a:orientation="vertical">
 
-    <TextView a:id="@+id/math_entity_text"
-              a:layout_height="wrap_content"
-              a:layout_width="match_parent"
-              style="@style/math_entity_text">
-    </TextView>
+	<TextView
+		a:id="@+id/math_entity_text"
+		a:layout_height="wrap_content"
+		a:layout_width="match_parent"
+		style="@style/math_entity_text"></TextView>
 
-    <TextView a:id="@+id/math_entity_description"
-              a:layout_height="wrap_content"
-              a:layout_width="match_parent"
-              style="@style/math_entity_description">
-    </TextView>
+	<TextView
+		a:id="@+id/math_entity_description"
+		a:layout_height="wrap_content"
+		a:layout_width="match_parent"
+		style="@style/math_entity_description"></TextView>
 
 </LinearLayout>

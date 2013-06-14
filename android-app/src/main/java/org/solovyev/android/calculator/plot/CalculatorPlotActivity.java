@@ -16,25 +16,25 @@ import org.solovyev.android.calculator.R;
  */
 public class CalculatorPlotActivity extends CalculatorFragmentActivity {
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+	@Override
+	public void onCreate(@Nullable Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-        final Intent intent = getIntent();
+		final Intent intent = getIntent();
 
-        final Bundle arguments;
-        if (intent != null) {
-            arguments = intent.getExtras();
-        } else {
-            arguments = null;
-        }
+		final Bundle arguments;
+		if (intent != null) {
+			arguments = intent.getExtras();
+		} else {
+			arguments = null;
+		}
 
-        getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        getActivityHelper().setFragment(this, getPlotterFragmentType(), arguments, R.id.main_layout);
-    }
+		getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+		getActivityHelper().setFragment(this, getPlotterFragmentType(), arguments, R.id.main_layout);
+	}
 
-    @NotNull
-    public static CalculatorFragmentType getPlotterFragmentType() {
-        return CalculatorFragmentType.plotter;
-    }
+	@NotNull
+	public static CalculatorFragmentType getPlotterFragmentType() {
+		return CalculatorFragmentType.plotter;
+	}
 }

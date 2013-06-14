@@ -9,12 +9,12 @@ import org.jetbrains.annotations.NotNull;
  */
 interface PlotResourceManager {
 
-    @NotNull
-    PlotLineDef generateAndRegister();
+	@NotNull
+	PlotLineDef generateAndRegister();
 
-    void register(@NotNull PlotLineDef lineDef);
+	void register(@NotNull PlotLineDef lineDef);
 
-    void unregister(@NotNull PlotLineDef lineDef);
+	void unregister(@NotNull PlotLineDef lineDef);
 
-    void unregisterAll();
+	void unregisterAll();
 }

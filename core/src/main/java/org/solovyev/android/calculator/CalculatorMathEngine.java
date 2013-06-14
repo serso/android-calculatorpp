@@ -11,21 +11,21 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface CalculatorMathEngine {
 
-    @NotNull
-    String evaluate(@NotNull String expression) throws ParseException;
+	@NotNull
+	String evaluate(@NotNull String expression) throws ParseException;
 
-    @NotNull
-    String simplify(@NotNull String expression) throws ParseException;
+	@NotNull
+	String simplify(@NotNull String expression) throws ParseException;
 
-    @NotNull
-    String elementary(@NotNull String expression) throws ParseException;
+	@NotNull
+	String elementary(@NotNull String expression) throws ParseException;
 
-    @NotNull
-    Generic evaluateGeneric(@NotNull String expression) throws ParseException;
+	@NotNull
+	Generic evaluateGeneric(@NotNull String expression) throws ParseException;
 
-    @NotNull
-    Generic simplifyGeneric(@NotNull String expression) throws ParseException;
+	@NotNull
+	Generic simplifyGeneric(@NotNull String expression) throws ParseException;
 
-    @NotNull
-    Generic elementaryGeneric(@NotNull String expression) throws ParseException;
+	@NotNull
+	Generic elementaryGeneric(@NotNull String expression) throws ParseException;
 }

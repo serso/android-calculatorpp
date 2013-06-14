@@ -17,81 +17,81 @@ import java.text.DecimalFormatSymbols;
  */
 public interface CalculatorEngine {
 
-    /*
-    **********************************************************************
-    *
-    *                           INIT
-    *
-    **********************************************************************
-    */
+	/*
+	**********************************************************************
+	*
+	*                           INIT
+	*
+	**********************************************************************
+	*/
 
-    void init();
+	void init();
 
-    void reset();
+	void reset();
 
-    void softReset();
+	void softReset();
 
-    /*
-    **********************************************************************
-    *
-    *                           REGISTRIES
-    *
-    **********************************************************************
-    */
+	/*
+	**********************************************************************
+	*
+	*                           REGISTRIES
+	*
+	**********************************************************************
+	*/
 
-    @NotNull
-    CalculatorMathRegistry<IConstant> getVarsRegistry();
+	@NotNull
+	CalculatorMathRegistry<IConstant> getVarsRegistry();
 
-    @NotNull
-    CalculatorMathRegistry<Function> getFunctionsRegistry();
+	@NotNull
+	CalculatorMathRegistry<Function> getFunctionsRegistry();
 
-    @NotNull
-    CalculatorMathRegistry<Operator> getOperatorsRegistry();
+	@NotNull
+	CalculatorMathRegistry<Operator> getOperatorsRegistry();
 
-    @NotNull
-    CalculatorMathRegistry<Operator> getPostfixFunctionsRegistry();
+	@NotNull
+	CalculatorMathRegistry<Operator> getPostfixFunctionsRegistry();
 
-    @NotNull
-    CalculatorMathEngine getMathEngine();
+	@NotNull
+	CalculatorMathEngine getMathEngine();
 
-    @Deprecated
-    @NotNull
-    MathEngine getMathEngine0();
+	@Deprecated
+	@NotNull
+	MathEngine getMathEngine0();
 
-    /*
-    **********************************************************************
-    *
-    *                           PREFERENCES
-    *
-    **********************************************************************
-    */
+	/*
+	**********************************************************************
+	*
+	*                           PREFERENCES
+	*
+	**********************************************************************
+	*/
 
-    @NotNull
-    String getMultiplicationSign();
+	@NotNull
+	String getMultiplicationSign();
 
-    void setUseGroupingSeparator(boolean useGroupingSeparator);
+	void setUseGroupingSeparator(boolean useGroupingSeparator);
 
-    void setGroupingSeparator(char groupingSeparator);
+	void setGroupingSeparator(char groupingSeparator);
 
-    void setPrecision(@NotNull Integer precision);
+	void setPrecision(@NotNull Integer precision);
 
-    void setRoundResult(@NotNull Boolean round);
+	void setRoundResult(@NotNull Boolean round);
 
-    @NotNull
-    AngleUnit getAngleUnits();
+	@NotNull
+	AngleUnit getAngleUnits();
 
-    void setAngleUnits(@NotNull AngleUnit angleUnits);
+	void setAngleUnits(@NotNull AngleUnit angleUnits);
 
-    @NotNull
-    NumeralBase getNumeralBase();
+	@NotNull
+	NumeralBase getNumeralBase();
 
-    void setNumeralBase(@NotNull NumeralBase numeralBase);
+	void setNumeralBase(@NotNull NumeralBase numeralBase);
 
-    void setMultiplicationSign(@NotNull String multiplicationSign);
+	void setMultiplicationSign(@NotNull String multiplicationSign);
 
-    void setScienceNotation(@NotNull Boolean scienceNotation);
+	void setScienceNotation(@NotNull Boolean scienceNotation);
 
-    void setTimeout(@NotNull Integer timeout);
+	void setTimeout(@NotNull Integer timeout);
 
-    void setDecimalGroupSymbols(@NotNull DecimalFormatSymbols decimalGroupSymbols);
+	void setDecimalGroupSymbols(@NotNull DecimalFormatSymbols decimalGroupSymbols);
 }

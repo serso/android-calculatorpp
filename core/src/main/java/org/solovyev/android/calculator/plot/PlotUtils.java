@@ -24,43 +24,43 @@ import org.jetbrains.annotations.Nullable;
  */
 public final class PlotUtils {
 
-    // not intended for instantiation
+	// not intended for instantiation
 	private PlotUtils() {
 		throw new AssertionError();
 	}
 
-    @NotNull
-    public static Complex calculatorExpression(@NotNull Generic expression) {
-        try {
-            return unwrap(expression.numeric());
-        } catch (RuntimeException e) {
-            return NaN;
-        }
-    }
+	@NotNull
+	public static Complex calculatorExpression(@NotNull Generic expression) {
+		try {
+			return unwrap(expression.numeric());
+		} catch (RuntimeException e) {
+			return NaN;
+		}
+	}
 
-    @NotNull
+	@NotNull
 	public static Complex calculatorExpression(@NotNull Generic expression, @NotNull Constant xVar, double x) {
-        try {
-            return unwrap(expression.substitute(xVar, Expression.valueOf(x)).numeric());
-        } catch (RuntimeException e) {
-            return NaN;
-        }
-    }
+		try {
+			return unwrap(expression.substitute(xVar, Expression.valueOf(x)).numeric());
+		} catch (RuntimeException e) {
+			return NaN;
+		}
+	}
 
-    @NotNull
-    public static Complex calculatorExpression(@NotNull Generic expression, @NotNull Constant xVar, double x, @NotNull Constant yVar, double y) {
-        try {
-            Generic tmp = expression.substitute(xVar, Expression.valueOf(x));
-            tmp = tmp.substitute(yVar, Expression.valueOf(y));
-            return unwrap(tmp.numeric());
-        } catch (RuntimeException e) {
-            return NaN;
-        }
-    }
+	@NotNull
+	public static Complex calculatorExpression(@NotNull Generic expression, @NotNull Constant xVar, double x, @NotNull Constant yVar, double y) {
+		try {
+			Generic tmp = expression.substitute(xVar, Expression.valueOf(x));
+			tmp = tmp.substitute(yVar, Expression.valueOf(y));
+			return unwrap(tmp.numeric());
+		} catch (RuntimeException e) {
+			return NaN;
+		}
+	}
 
-    private static final Complex NaN = Complex.valueOf(Double.NaN, 0d);
+	private static final Complex NaN = Complex.valueOf(Double.NaN, 0d);
 
-    @NotNull
+	@NotNull
 	public static Complex unwrap(@Nullable Generic numeric) {
 		if (numeric instanceof JsclInteger) {
 			return Complex.valueOf(((JsclInteger) numeric).intValue(), 0d);

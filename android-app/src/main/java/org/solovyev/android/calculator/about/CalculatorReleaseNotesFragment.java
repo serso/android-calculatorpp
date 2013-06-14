@@ -27,21 +27,21 @@ import org.solovyev.common.text.Strings;
  */
 public class CalculatorReleaseNotesFragment extends CalculatorFragment {
 
-    public CalculatorReleaseNotesFragment() {
-        super(CalculatorFragmentType.release_notes);
-    }
+	public CalculatorReleaseNotesFragment() {
+		super(CalculatorFragmentType.release_notes);
+	}
 
-    @Override
-    public void onViewCreated(View root, Bundle savedInstanceState) {
-        super.onViewCreated(root, savedInstanceState);
+	@Override
+	public void onViewCreated(View root, Bundle savedInstanceState) {
+		super.onViewCreated(root, savedInstanceState);
 
-        final TextView releaseNotes = (TextView) root.findViewById(R.id.releaseNotesTextView);
-        releaseNotes.setMovementMethod(LinkMovementMethod.getInstance());
+		final TextView releaseNotes = (TextView) root.findViewById(R.id.releaseNotesTextView);
+		releaseNotes.setMovementMethod(LinkMovementMethod.getInstance());
 
-        releaseNotes.setText(Html.fromHtml(getReleaseNotes(this.getActivity())));
-    }
+		releaseNotes.setText(Html.fromHtml(getReleaseNotes(this.getActivity())));
+	}
 
-    @NotNull
+	@NotNull
 	public static String getReleaseNotes(@NotNull Context context) {
 		return getReleaseNotes(context, 0);
 	}
@@ -53,14 +53,14 @@ public class CalculatorReleaseNotesFragment extends CalculatorFragment {
 		final String releaseNotesForTitle = context.getString(R.string.c_release_notes_for_title);
 		final int version = Android.getAppVersionCode(context);
 
-        final TextHelper textHelper = new TextHelper(context.getResources(), CalculatorApplication.class.getPackage().getName());
+		final TextHelper textHelper = new TextHelper(context.getResources(), CalculatorApplication.class.getPackage().getName());
 
 		boolean first = true;
-		for ( int i = version; i >= minVersion; i-- ) {
+		for (int i = version; i >= minVersion; i--) {
 			String releaseNotesForVersion = textHelper.getText("c_release_notes_for_" + i);
-			if (!Strings.isEmpty(releaseNotesForVersion)){
+			if (!Strings.isEmpty(releaseNotesForVersion)) {
 				assert releaseNotesForVersion != null;
-				if ( !first ) {
+				if (!first) {
 					result.append("<br/><br/>");
 				} else {
 					first = false;

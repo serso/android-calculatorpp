@@ -122,16 +122,16 @@ public class AFunction implements IFunction, MathPersistenceEntity, Serializable
 		return String.valueOf(this.content);
 	}
 
-    @Override
-    public String toString() {
-        return "AFunction{" +
-                "name='" + name + '\'' +
-                ", parameterNames=" + parameterNames +
-                ", content='" + content + '\'' +
-                '}';
-    }
+	@Override
+	public String toString() {
+		return "AFunction{" +
+				"name='" + name + '\'' +
+				", parameterNames=" + parameterNames +
+				", content='" + content + '\'' +
+				'}';
+	}
 
-    /*
+	/*
 	**********************************************************************
 	*
 	*                           GETTERS/SETTERS
@@ -175,7 +175,7 @@ public class AFunction implements IFunction, MathPersistenceEntity, Serializable
 	}
 
 	@NotNull
-    @Override
+	@Override
 	public String getDescription() {
 		return this.description;
 	}
@@ -228,21 +228,21 @@ public class AFunction implements IFunction, MathPersistenceEntity, Serializable
 			this.value = function.getContent();
 			this.system = function.isSystem();
 			this.description = function.getDescription();
-            if (function.isIdDefined()) {
-                this.id = function.getId();
-            }
-            this.parameterNames = new ArrayList<String>(function.getParameterNames());
-        }
+			if (function.isIdDefined()) {
+				this.id = function.getId();
+			}
+			this.parameterNames = new ArrayList<String>(function.getParameterNames());
+		}
 
-        public Builder(@NotNull String name,
-                       @NotNull String value,
-                       @NotNull List<String> parameterNames) {
-            this.name = name;
-            this.value = value;
-            this.parameterNames = parameterNames;
-        }
+		public Builder(@NotNull String name,
+					   @NotNull String value,
+					   @NotNull List<String> parameterNames) {
+			this.name = name;
+			this.value = value;
+			this.parameterNames = parameterNames;
+		}
 
-        @NotNull
+		@NotNull
 		public Builder setName(@NotNull String name) {
 			this.name = name;
 			return this;
@@ -270,7 +270,7 @@ public class AFunction implements IFunction, MathPersistenceEntity, Serializable
 		}
 
 		@NotNull
-		public AFunction create()  throws AFunction.Builder.CreationException{
+		public AFunction create() throws AFunction.Builder.CreationException {
 			final AFunction result;
 			if (id != null) {
 				result = new AFunction(id);

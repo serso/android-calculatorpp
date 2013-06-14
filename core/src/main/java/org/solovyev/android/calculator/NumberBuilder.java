@@ -33,11 +33,9 @@ public class NumberBuilder extends AbstractNumberBuilder {
 	/**
 	 * Method replaces number in text according to some rules (e.g. formatting)
 	 *
-	 * @param text text where number can be replaced
+	 * @param text           text where number can be replaced
 	 * @param mathTypeResult math type result of current token
-	 * @param offset offset between new number length and old number length (newNumberLength - oldNumberLength)
-	 *
-	 *
+	 * @param offset         offset between new number length and old number length (newNumberLength - oldNumberLength)
 	 * @return new math type result (as one can be changed due to substituting of number with constant)
 	 */
 	@NotNull
@@ -70,9 +68,8 @@ public class NumberBuilder extends AbstractNumberBuilder {
 	/**
 	 * Method replaces number in text according to some rules (e.g. formatting)
 	 *
-	 * @param text text where number can be replaced
+	 * @param text   text where number can be replaced
 	 * @param offset offset between new number length and old number length (newNumberLength - oldNumberLength)
-	 *
 	 * @return new math type result (as one can be changed due to substituting of number with constant)
 	 */
 	@Nullable

@@ -1,43 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-    a:id="@+id/main_fragment_layout"
-    style="?cpp_fragment_layout_style"
-    a:layout_width="match_parent"
-    a:layout_height="match_parent">
+	a:id="@+id/main_fragment_layout"
+	style="?cpp_fragment_layout_style"
+	a:layout_width="match_parent"
+	a:layout_height="match_parent">
 
-    <include layout="@layout/ad" />
+	<include layout="@layout/ad" />
 
-    <LinearLayout
-        a:layout_width="match_parent"
-        a:layout_height="wrap_content"
-        a:orientation="horizontal">
-
-        <TextView
-            a:layout_width="0dp"
-            a:layout_height="wrap_content"
-            a:layout_weight="3"
-            a:text="@string/cpp_function"/>
-
-        <TextView
-            a:layout_width="0dp"
-            a:layout_height="wrap_content"
-            a:layout_weight="1"
-            a:text="@string/cpp_pinned"/>
-
-        <TextView
-            a:layout_width="0dp"
-            a:layout_height="wrap_content"
-            a:layout_weight="1"
-            a:text="@string/cpp_visible"/>
+	<LinearLayout
+		a:layout_width="match_parent"
+		a:layout_height="wrap_content"
+		a:orientation="horizontal">
 
 		<TextView
-				a:layout_width="0dp"
-				a:layout_height="wrap_content"
-				a:layout_weight="1"/>
+			a:layout_width="0dp"
+			a:layout_height="wrap_content"
+			a:layout_weight="3"
+			a:text="@string/cpp_function" />
 
-    </LinearLayout>
+		<TextView
+			a:layout_width="0dp"
+			a:layout_height="wrap_content"
+			a:layout_weight="1"
+			a:text="@string/cpp_pinned" />
 
-    <ListView style="?cpp_fragment_list_view_style" />
+		<TextView
+			a:layout_width="0dp"
+			a:layout_height="wrap_content"
+			a:layout_weight="1"
+			a:text="@string/cpp_visible" />
+
+		<TextView
+			a:layout_width="0dp"
+			a:layout_height="wrap_content"
+			a:layout_weight="1" />
+
+	</LinearLayout>
+
+	<ListView style="?cpp_fragment_list_view_style" />
 
 </LinearLayout>

@@ -15,29 +15,29 @@ import java.util.Set;
  */
 public final class CalculatorUtils {
 
-    static final long FIRST_ID = 0;
+	static final long FIRST_ID = 0;
 
-    private CalculatorUtils() {
-        throw new AssertionError();
-    }
+	private CalculatorUtils() {
+		throw new AssertionError();
+	}
 
-    @NotNull
-    public static CalculatorEventData createFirstEventDataId() {
-        return CalculatorEventDataImpl.newInstance(FIRST_ID, FIRST_ID);
-    }
+	@NotNull
+	public static CalculatorEventData createFirstEventDataId() {
+		return CalculatorEventDataImpl.newInstance(FIRST_ID, FIRST_ID);
+	}
 
-    @NotNull
-    public static Set<Constant> getNotSystemConstants(@NotNull Generic expression) {
-        final Set<Constant> notSystemConstants = new HashSet<Constant>();
+	@NotNull
+	public static Set<Constant> getNotSystemConstants(@NotNull Generic expression) {
+		final Set<Constant> notSystemConstants = new HashSet<Constant>();
 
-        for (Constant constant : expression.getConstants()) {
-            IConstant var = Locator.getInstance().getEngine().getVarsRegistry().get(constant.getName());
-            if (var != null && !var.isSystem() && !var.isDefined()) {
-                notSystemConstants.add(constant);
-            }
-        }
+		for (Constant constant : expression.getConstants()) {
+			IConstant var = Locator.getInstance().getEngine().getVarsRegistry().get(constant.getName());
+			if (var != null && !var.isSystem() && !var.isDefined()) {
+				notSystemConstants.add(constant);
+			}
+		}
 
-        return notSystemConstants;
-    }
+		return notSystemConstants;
+	}
 
 }

@@ -22,258 +22,258 @@ import java.util.List;
  */
 public class CalculatorPlotterImpl implements CalculatorPlotter {
 
-    @NotNull
-    private final List<PlotFunction> functions = new ArrayList<PlotFunction>();
+	@NotNull
+	private final List<PlotFunction> functions = new ArrayList<PlotFunction>();
 
-    @NotNull
-    private final Calculator calculator;
+	@NotNull
+	private final Calculator calculator;
 
-    private final PlotResourceManager resourceManager = new MapPlotResourceManager();
+	private final PlotResourceManager resourceManager = new MapPlotResourceManager();
 
-    private boolean plot3d = false;
+	private boolean plot3d = false;
 
-    private boolean plotImag = false;
+	private boolean plotImag = false;
 
-    private int arity = 0;
+	private int arity = 0;
 
-    @NotNull
-    private PlotBoundaries plotBoundaries = PlotBoundaries.newDefaultInstance();
+	@NotNull
+	private PlotBoundaries plotBoundaries = PlotBoundaries.newDefaultInstance();
 
-    @NotNull
-    private PlotData plotData = new PlotData(Collections.<PlotFunction>emptyList(), plot3d, plotBoundaries);
+	@NotNull
+	private PlotData plotData = new PlotData(Collections.<PlotFunction>emptyList(), plot3d, plotBoundaries);
 
-    public CalculatorPlotterImpl(@NotNull Calculator calculator) {
-        this.calculator = calculator;
-    }
+	public CalculatorPlotterImpl(@NotNull Calculator calculator) {
+		this.calculator = calculator;
+	}
 
-    @NotNull
-    @Override
-    public PlotData getPlotData() {
-        return plotData;
-    }
+	@NotNull
+	@Override
+	public PlotData getPlotData() {
+		return plotData;
+	}
 
-    @Override
-    public boolean addFunction(@NotNull Generic expression) {
-        final List<Constant> variables = new ArrayList<Constant>(CalculatorUtils.getNotSystemConstants(expression));
+	@Override
+	public boolean addFunction(@NotNull Generic expression) {
+		final List<Constant> variables = new ArrayList<Constant>(CalculatorUtils.getNotSystemConstants(expression));
 
-        assert variables.size() <= 2;
+		assert variables.size() <= 2;
 
-        final Constant xVariable;
-        if (variables.size() > 0) {
-            xVariable = variables.get(0);
-        } else {
-            xVariable = null;
-        }
+		final Constant xVariable;
+		if (variables.size() > 0) {
+			xVariable = variables.get(0);
+		} else {
+			xVariable = null;
+		}
 
-        final Constant yVariable;
-        if (variables.size() > 1) {
-            yVariable = variables.get(1);
-        } else {
-            yVariable = null;
-        }
+		final Constant yVariable;
+		if (variables.size() > 1) {
+			yVariable = variables.get(1);
+		} else {
+			yVariable = null;
+		}
 
-        final XyFunction realXyFunction = new XyFunction(expression, xVariable, yVariable, false);
-        final XyFunction imagXyFunction = new XyFunction(expression, xVariable, yVariable, true);
+		final XyFunction realXyFunction = new XyFunction(expression, xVariable, yVariable, false);
+		final XyFunction imagXyFunction = new XyFunction(expression, xVariable, yVariable, true);
 
-        // first create plot functions with default line definitions
-        PlotFunction realPlotFunction = new PlotFunction(realXyFunction);
-        PlotFunction imagPlotFunction = new PlotFunction(imagXyFunction);
+		// first create plot functions with default line definitions
+		PlotFunction realPlotFunction = new PlotFunction(realXyFunction);
+		PlotFunction imagPlotFunction = new PlotFunction(imagXyFunction);
 
-        // then remove all unpinned graphs and free their line definitions
-        removeAllUnpinnedExcept(realPlotFunction, imagPlotFunction);
+		// then remove all unpinned graphs and free their line definitions
+		removeAllUnpinnedExcept(realPlotFunction, imagPlotFunction);
 
-        // create plot functions with freed line definitions
-        realPlotFunction = newPlotFunction(realXyFunction);
-        imagPlotFunction = newPlotFunction(imagXyFunction);
+		// create plot functions with freed line definitions
+		realPlotFunction = newPlotFunction(realXyFunction);
+		imagPlotFunction = newPlotFunction(imagXyFunction);
 
-        final boolean realAdded = addFunction(realPlotFunction);
-        final boolean imagAdded = addFunction(plotImag ? imagPlotFunction : PlotFunction.invisible(imagPlotFunction));
+		final boolean realAdded = addFunction(realPlotFunction);
+		final boolean imagAdded = addFunction(plotImag ? imagPlotFunction : PlotFunction.invisible(imagPlotFunction));
 
-        return imagAdded || realAdded;
-    }
+		return imagAdded || realAdded;
+	}
 
-    @NotNull
-    private PlotFunction newPlotFunction(@NotNull XyFunction xyFunction) {
-        return new PlotFunction(xyFunction, resourceManager.generateAndRegister());
-    }
+	@NotNull
+	private PlotFunction newPlotFunction(@NotNull XyFunction xyFunction) {
+		return new PlotFunction(xyFunction, resourceManager.generateAndRegister());
+	}
 
-    @Override
-    public boolean addFunction(@NotNull PlotFunction plotFunction) {
-        synchronized (functions) {
-            if (!functions.contains(plotFunction)) {
-                resourceManager.register(plotFunction.getPlotLineDef());
-                functions.add(plotFunction);
-                onFunctionsChanged();
-                return true;
-            } else {
-                return false;
-            }
-        }
-    }
+	@Override
+	public boolean addFunction(@NotNull PlotFunction plotFunction) {
+		synchronized (functions) {
+			if (!functions.contains(plotFunction)) {
+				resourceManager.register(plotFunction.getPlotLineDef());
+				functions.add(plotFunction);
+				onFunctionsChanged();
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
 
-    private boolean removeAllUnpinnedExcept(@NotNull final PlotFunction... exceptFunctions) {
-        synchronized (functions) {
+	private boolean removeAllUnpinnedExcept(@NotNull final PlotFunction... exceptFunctions) {
+		synchronized (functions) {
 
-            boolean changed = Iterables.removeIf(functions, new Predicate<PlotFunction>() {
-                @Override
-                public boolean apply(@Nullable PlotFunction function) {
-                    if ( function != null && !function.isPinned() ) {
+			boolean changed = Iterables.removeIf(functions, new Predicate<PlotFunction>() {
+				@Override
+				public boolean apply(@Nullable PlotFunction function) {
+					if (function != null && !function.isPinned()) {
 
-                        for (PlotFunction exceptFunction : exceptFunctions) {
-                            if ( exceptFunction.equals(function) ) {
-                                return false;
-                            }
-                        }
+						for (PlotFunction exceptFunction : exceptFunctions) {
+							if (exceptFunction.equals(function)) {
+								return false;
+							}
+						}
 
-                        resourceManager.unregister(function.getPlotLineDef());
+						resourceManager.unregister(function.getPlotLineDef());
 
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
-            });
+						return true;
+					} else {
+						return false;
+					}
+				}
+			});
 
-            if (changed) {
-                onFunctionsChanged();
-            }
+			if (changed) {
+				onFunctionsChanged();
+			}
 
-            return changed;
-        }
-    }
+			return changed;
+		}
+	}
 
 
-    @Override
-    public void removeAllUnpinned() {
-        synchronized (functions) {
-            boolean changed = Iterables.removeIf(functions, new Predicate<PlotFunction>() {
-                @Override
-                public boolean apply(@Nullable PlotFunction function) {
-                    boolean removed = function != null && !function.isPinned();
+	@Override
+	public void removeAllUnpinned() {
+		synchronized (functions) {
+			boolean changed = Iterables.removeIf(functions, new Predicate<PlotFunction>() {
+				@Override
+				public boolean apply(@Nullable PlotFunction function) {
+					boolean removed = function != null && !function.isPinned();
 
-                    if ( removed ) {
-                        resourceManager.unregister(function.getPlotLineDef());
-                    }
+					if (removed) {
+						resourceManager.unregister(function.getPlotLineDef());
+					}
 
-                    return removed;
-                }
-            });
+					return removed;
+				}
+			});
 
-            if (changed) {
-                onFunctionsChanged();
-            }
-        }
-    }
+			if (changed) {
+				onFunctionsChanged();
+			}
+		}
+	}
 
-    @Override
-    public boolean removeFunction(@NotNull PlotFunction plotFunction) {
-        synchronized (functions) {
-            boolean changed = functions.remove(plotFunction);
-            if (changed) {
-                resourceManager.unregister(plotFunction.getPlotLineDef());
-                onFunctionsChanged();
-            }
-            return changed;
-        }
-    }
+	@Override
+	public boolean removeFunction(@NotNull PlotFunction plotFunction) {
+		synchronized (functions) {
+			boolean changed = functions.remove(plotFunction);
+			if (changed) {
+				resourceManager.unregister(plotFunction.getPlotLineDef());
+				onFunctionsChanged();
+			}
+			return changed;
+		}
+	}
 
-    @Override
-    public boolean addFunction(@NotNull XyFunction xyFunction) {
-        return addFunction(newPlotFunction(xyFunction));
-    }
+	@Override
+	public boolean addFunction(@NotNull XyFunction xyFunction) {
+		return addFunction(newPlotFunction(xyFunction));
+	}
 
-    @Override
-    public boolean addFunction(@NotNull XyFunction xyFunction, @NotNull PlotLineDef functionLineDef) {
-        return addFunction(new PlotFunction(xyFunction, functionLineDef));
-    }
+	@Override
+	public boolean addFunction(@NotNull XyFunction xyFunction, @NotNull PlotLineDef functionLineDef) {
+		return addFunction(new PlotFunction(xyFunction, functionLineDef));
+	}
 
-    @Override
-    public boolean updateFunction(@NotNull XyFunction xyFunction, @NotNull PlotLineDef functionLineDef) {
-        final PlotFunction newFunction = new PlotFunction(xyFunction, functionLineDef);
+	@Override
+	public boolean updateFunction(@NotNull XyFunction xyFunction, @NotNull PlotLineDef functionLineDef) {
+		final PlotFunction newFunction = new PlotFunction(xyFunction, functionLineDef);
 
-        return updateFunction(newFunction);
-    }
+		return updateFunction(newFunction);
+	}
 
-    @Override
-    public boolean updateFunction(@NotNull PlotFunction newFunction) {
-        boolean changed = updateFunction0(newFunction);
-        if (changed) {
-            firePlotDataChangedEvent();
-        }
-        return changed;
-    }
+	@Override
+	public boolean updateFunction(@NotNull PlotFunction newFunction) {
+		boolean changed = updateFunction0(newFunction);
+		if (changed) {
+			firePlotDataChangedEvent();
+		}
+		return changed;
+	}
 
-    public boolean updateFunction0(@NotNull PlotFunction newFunction) {
-        boolean changed = false;
+	public boolean updateFunction0(@NotNull PlotFunction newFunction) {
+		boolean changed = false;
 
-        synchronized (functions) {
-            for (int i = 0; i < functions.size(); i++) {
-                final PlotFunction oldFunction = functions.get(i);
-                if (oldFunction.equals(newFunction)) {
+		synchronized (functions) {
+			for (int i = 0; i < functions.size(); i++) {
+				final PlotFunction oldFunction = functions.get(i);
+				if (oldFunction.equals(newFunction)) {
 
-                    resourceManager.unregister(oldFunction.getPlotLineDef());
-                    resourceManager.register(newFunction.getPlotLineDef());
+					resourceManager.unregister(oldFunction.getPlotLineDef());
+					resourceManager.register(newFunction.getPlotLineDef());
 
-                    // update old function
-                    functions.set(i, newFunction);
-                    changed = true;
-                    break;
-                }
-            }
-        }
+					// update old function
+					functions.set(i, newFunction);
+					changed = true;
+					break;
+				}
+			}
+		}
 
-        return changed;
-    }
+		return changed;
+	}
 
-    @Override
-    public boolean removeFunction(@NotNull XyFunction xyFunction) {
-        return removeFunction(new PlotFunction(xyFunction));
-    }
+	@Override
+	public boolean removeFunction(@NotNull XyFunction xyFunction) {
+		return removeFunction(new PlotFunction(xyFunction));
+	}
 
-    @NotNull
-    @Override
-    public PlotFunction pin(@NotNull PlotFunction plotFunction) {
-        final PlotFunction newFunction = PlotFunction.pin(plotFunction);
-        updateFunction0(newFunction);
-        return newFunction;
-    }
+	@NotNull
+	@Override
+	public PlotFunction pin(@NotNull PlotFunction plotFunction) {
+		final PlotFunction newFunction = PlotFunction.pin(plotFunction);
+		updateFunction0(newFunction);
+		return newFunction;
+	}
 
-    @NotNull
-    @Override
-    public PlotFunction unpin(@NotNull PlotFunction plotFunction) {
-        final PlotFunction newFunction = PlotFunction.unpin(plotFunction);
-        updateFunction0(newFunction);
-        return newFunction;
-    }
+	@NotNull
+	@Override
+	public PlotFunction unpin(@NotNull PlotFunction plotFunction) {
+		final PlotFunction newFunction = PlotFunction.unpin(plotFunction);
+		updateFunction0(newFunction);
+		return newFunction;
+	}
 
-    @NotNull
-    @Override
-    public PlotFunction show(@NotNull PlotFunction plotFunction) {
-        final PlotFunction newFunction = PlotFunction.visible(plotFunction);
+	@NotNull
+	@Override
+	public PlotFunction show(@NotNull PlotFunction plotFunction) {
+		final PlotFunction newFunction = PlotFunction.visible(plotFunction);
 
-        updateFunction(newFunction);
+		updateFunction(newFunction);
 
-        return newFunction;
-    }
+		return newFunction;
+	}
 
-    @NotNull
-    @Override
-    public PlotFunction hide(@NotNull PlotFunction plotFunction) {
-        final PlotFunction newFunction = PlotFunction.invisible(plotFunction);
+	@NotNull
+	@Override
+	public PlotFunction hide(@NotNull PlotFunction plotFunction) {
+		final PlotFunction newFunction = PlotFunction.invisible(plotFunction);
 
-        updateFunction(newFunction);
+		updateFunction(newFunction);
 
-        return newFunction;
-    }
+		return newFunction;
+	}
 
-    @Override
-    public void clearAllFunctions() {
-        synchronized (functions) {
-            resourceManager.unregisterAll();
-            functions.clear();
-            onFunctionsChanged();
-        }
-    }
+	@Override
+	public void clearAllFunctions() {
+		synchronized (functions) {
+			resourceManager.unregisterAll();
+			functions.clear();
+			onFunctionsChanged();
+		}
+	}
 
 	@org.jetbrains.annotations.Nullable
 	@Override
@@ -289,137 +289,137 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
 	}
 
 	// NOTE: this method must be called from synchronized block
-    private void onFunctionsChanged() {
-        assert Thread.holdsLock(functions);
+	private void onFunctionsChanged() {
+		assert Thread.holdsLock(functions);
 
-        int maxArity = 0;
-        for (PlotFunction function : functions) {
-            final XyFunction xyFunction = function.getXyFunction();
+		int maxArity = 0;
+		for (PlotFunction function : functions) {
+			final XyFunction xyFunction = function.getXyFunction();
 
-            maxArity = Math.max(maxArity, xyFunction.getArity());
-        }
+			maxArity = Math.max(maxArity, xyFunction.getArity());
+		}
 
-        if (maxArity > 1) {
-            plot3d = true;
-        } else {
-            plot3d = false;
-        }
+		if (maxArity > 1) {
+			plot3d = true;
+		} else {
+			plot3d = false;
+		}
 
-        if ( functions.isEmpty() ) {
-            // no functions => new plot => default boundaries
-            this.plotBoundaries = PlotBoundaries.newDefaultInstance();
-        }
+		if (functions.isEmpty()) {
+			// no functions => new plot => default boundaries
+			this.plotBoundaries = PlotBoundaries.newDefaultInstance();
+		}
 
-        arity = maxArity;
+		arity = maxArity;
 
-        firePlotDataChangedEvent();
-    }
+		firePlotDataChangedEvent();
+	}
 
-    @NotNull
-    @Override
-    public List<PlotFunction> getFunctions() {
-        synchronized (functions) {
-            return new ArrayList<PlotFunction>(functions);
-        }
-    }
+	@NotNull
+	@Override
+	public List<PlotFunction> getFunctions() {
+		synchronized (functions) {
+			return new ArrayList<PlotFunction>(functions);
+		}
+	}
 
-    @NotNull
-    @Override
-    public List<PlotFunction> getVisibleFunctions() {
-        synchronized (functions) {
-            return Lists.newArrayList(Iterables.filter(functions, new Predicate<PlotFunction>() {
-                @Override
-                public boolean apply(@Nullable PlotFunction function) {
-                    return function != null && function.isVisible();
-                }
-            }));
-        }
-    }
+	@NotNull
+	@Override
+	public List<PlotFunction> getVisibleFunctions() {
+		synchronized (functions) {
+			return Lists.newArrayList(Iterables.filter(functions, new Predicate<PlotFunction>() {
+				@Override
+				public boolean apply(@Nullable PlotFunction function) {
+					return function != null && function.isVisible();
+				}
+			}));
+		}
+	}
 
-    @Override
-    public void plot() {
-        calculator.fireCalculatorEvent(CalculatorEventType.plot_graph, null);
-    }
+	@Override
+	public void plot() {
+		calculator.fireCalculatorEvent(CalculatorEventType.plot_graph, null);
+	}
 
-    @Override
-    public void plot(@NotNull Generic expression) {
-        addFunction(expression);
-        plot();
-    }
+	@Override
+	public void plot(@NotNull Generic expression) {
+		addFunction(expression);
+		plot();
+	}
 
-    @Override
-    public boolean is2dPlotPossible() {
-        return arity < 2;
-    }
+	@Override
+	public boolean is2dPlotPossible() {
+		return arity < 2;
+	}
 
-    @Override
-    public boolean isPlotPossibleFor(@NotNull Generic expression) {
-        boolean result = false;
+	@Override
+	public boolean isPlotPossibleFor(@NotNull Generic expression) {
+		boolean result = false;
 
-        int size = CalculatorUtils.getNotSystemConstants(expression).size();
-        if (size == 0 || size == 1 || size == 2) {
-            result = true;
-        }
+		int size = CalculatorUtils.getNotSystemConstants(expression).size();
+		if (size == 0 || size == 1 || size == 2) {
+			result = true;
+		}
 
-        return result;
-    }
+		return result;
+	}
 
-    @Override
-    public void setPlot3d(boolean plot3d) {
-        if (this.plot3d != plot3d) {
-            this.plot3d = plot3d;
-            firePlotDataChangedEvent();
-        }
-    }
+	@Override
+	public void setPlot3d(boolean plot3d) {
+		if (this.plot3d != plot3d) {
+			this.plot3d = plot3d;
+			firePlotDataChangedEvent();
+		}
+	}
 
-    private void firePlotDataChangedEvent() {
-        updatePlotData();
-        calculator.fireCalculatorEvent(CalculatorEventType.plot_data_changed, plotData);
-    }
+	private void firePlotDataChangedEvent() {
+		updatePlotData();
+		calculator.fireCalculatorEvent(CalculatorEventType.plot_data_changed, plotData);
+	}
 
-    private void updatePlotData() {
-        plotData = new PlotData(getVisibleFunctions(), plot3d, plotBoundaries);
-    }
+	private void updatePlotData() {
+		plotData = new PlotData(getVisibleFunctions(), plot3d, plotBoundaries);
+	}
 
-    @Override
-    public void setPlotImag(boolean plotImag) {
-        if (this.plotImag != plotImag) {
-            this.plotImag = plotImag;
-            if (toggleImagFunctions(this.plotImag)) {
-                firePlotDataChangedEvent();
-            }
-        }
-    }
+	@Override
+	public void setPlotImag(boolean plotImag) {
+		if (this.plotImag != plotImag) {
+			this.plotImag = plotImag;
+			if (toggleImagFunctions(this.plotImag)) {
+				firePlotDataChangedEvent();
+			}
+		}
+	}
 
-    @Override
-    public void savePlotBoundaries(@NotNull PlotBoundaries plotBoundaries) {
-        if ( !this.plotBoundaries.equals(plotBoundaries) ) {
-            this.plotBoundaries = plotBoundaries;
-            updatePlotData();
-        }
-    }
+	@Override
+	public void savePlotBoundaries(@NotNull PlotBoundaries plotBoundaries) {
+		if (!this.plotBoundaries.equals(plotBoundaries)) {
+			this.plotBoundaries = plotBoundaries;
+			updatePlotData();
+		}
+	}
 
-    @Override
-    public void setPlotBoundaries(@NotNull PlotBoundaries plotBoundaries) {
-        if ( !this.plotBoundaries.equals(plotBoundaries) ) {
-            this.plotBoundaries = plotBoundaries;
-            firePlotDataChangedEvent();
-        }
-    }
+	@Override
+	public void setPlotBoundaries(@NotNull PlotBoundaries plotBoundaries) {
+		if (!this.plotBoundaries.equals(plotBoundaries)) {
+			this.plotBoundaries = plotBoundaries;
+			firePlotDataChangedEvent();
+		}
+	}
 
-    private boolean toggleImagFunctions(boolean show) {
-        boolean changed = false;
+	private boolean toggleImagFunctions(boolean show) {
+		boolean changed = false;
 
-        synchronized (functions) {
-            for (int i = 0; i < functions.size(); i++) {
-                final PlotFunction plotFunction = functions.get(i);
-                if (plotFunction.getXyFunction().isImag()) {
-                    functions.set(i, show ? PlotFunction.visible(plotFunction) : PlotFunction.invisible(plotFunction));
-                    changed = true;
-                }
-            }
-        }
+		synchronized (functions) {
+			for (int i = 0; i < functions.size(); i++) {
+				final PlotFunction plotFunction = functions.get(i);
+				if (plotFunction.getXyFunction().isImag()) {
+					functions.set(i, show ? PlotFunction.visible(plotFunction) : PlotFunction.invisible(plotFunction));
+					changed = true;
+				}
+			}
+		}
 
-        return changed;
-    }
+		return changed;
+	}
 }

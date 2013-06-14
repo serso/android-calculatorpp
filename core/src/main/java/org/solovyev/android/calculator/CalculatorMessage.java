@@ -17,32 +17,32 @@ import java.util.ResourceBundle;
  */
 public class CalculatorMessage extends AbstractMessage {
 
-    public CalculatorMessage(@NotNull String messageCode, @NotNull MessageType messageType, @Nullable Object... parameters) {
-        super(messageCode, messageType, parameters);
-    }
+	public CalculatorMessage(@NotNull String messageCode, @NotNull MessageType messageType, @Nullable Object... parameters) {
+		super(messageCode, messageType, parameters);
+	}
 
-    public CalculatorMessage(@NotNull String messageCode, @NotNull MessageType messageType, @NotNull List<?> parameters) {
-        super(messageCode, messageType, parameters);
-    }
+	public CalculatorMessage(@NotNull String messageCode, @NotNull MessageType messageType, @NotNull List<?> parameters) {
+		super(messageCode, messageType, parameters);
+	}
 
-    @NotNull
-    public static Message newInfoMessage(@NotNull String messageCode, @Nullable Object... parameters) {
-        return new CalculatorMessage(messageCode, MessageType.info, parameters);
-    }
+	@NotNull
+	public static Message newInfoMessage(@NotNull String messageCode, @Nullable Object... parameters) {
+		return new CalculatorMessage(messageCode, MessageType.info, parameters);
+	}
 
-    @NotNull
-    public static Message newWarningMessage(@NotNull String messageCode, @Nullable Object... parameters) {
-        return new CalculatorMessage(messageCode, MessageType.warning, parameters);
-    }
+	@NotNull
+	public static Message newWarningMessage(@NotNull String messageCode, @Nullable Object... parameters) {
+		return new CalculatorMessage(messageCode, MessageType.warning, parameters);
+	}
 
-    @NotNull
-    public static Message newErrorMessage(@NotNull String messageCode, @Nullable Object... parameters) {
-        return new CalculatorMessage(messageCode, MessageType.error, parameters);
-    }
+	@NotNull
+	public static Message newErrorMessage(@NotNull String messageCode, @Nullable Object... parameters) {
+		return new CalculatorMessage(messageCode, MessageType.error, parameters);
+	}
 
-    @Override
-    protected String getMessagePattern(@NotNull Locale locale) {
-        final ResourceBundle rb = CalculatorMessages.getBundle(locale);
-        return rb.getString(getMessageCode());
-    }
+	@Override
+	protected String getMessagePattern(@NotNull Locale locale) {
+		final ResourceBundle rb = CalculatorMessages.getBundle(locale);
+		return rb.getString(getMessageCode());
+	}
 }

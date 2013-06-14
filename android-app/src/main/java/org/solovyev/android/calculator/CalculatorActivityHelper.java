@@ -15,52 +15,57 @@ import org.jetbrains.annotations.Nullable;
  */
 public interface CalculatorActivityHelper {
 
-    void onCreate(@NotNull SherlockFragmentActivity activity, @Nullable Bundle savedInstanceState);
-    void onCreate(@NotNull Activity activity, @Nullable Bundle savedInstanceState);
+	void onCreate(@NotNull SherlockFragmentActivity activity, @Nullable Bundle savedInstanceState);
 
-    void onSaveInstanceState(@NotNull SherlockFragmentActivity activity, @NotNull Bundle outState);
-    void onSaveInstanceState(@NotNull Activity activity, @NotNull Bundle outState);
+	void onCreate(@NotNull Activity activity, @Nullable Bundle savedInstanceState);
 
-    int getLayoutId();
+	void onSaveInstanceState(@NotNull SherlockFragmentActivity activity, @NotNull Bundle outState);
 
-    @NotNull
-    CalculatorPreferences.Gui.Theme getTheme();
+	void onSaveInstanceState(@NotNull Activity activity, @NotNull Bundle outState);
 
-    @NotNull
-    CalculatorPreferences.Gui.Layout getLayout();
+	int getLayoutId();
 
-    void onResume(@NotNull SherlockFragmentActivity activity);
-    void onResume(@NotNull Activity activity);
+	@NotNull
+	CalculatorPreferences.Gui.Theme getTheme();
 
-    void onPause(@NotNull Activity activity);
-    void onPause(@NotNull SherlockFragmentActivity activity);
+	@NotNull
+	CalculatorPreferences.Gui.Layout getLayout();
 
-    void onDestroy(@NotNull SherlockFragmentActivity activity);
-    void onDestroy(@NotNull Activity activity);
+	void onResume(@NotNull SherlockFragmentActivity activity);
 
-    void addTab(@NotNull SherlockFragmentActivity activity,
-                @NotNull String tag,
-                @NotNull Class<? extends Fragment> fragmentClass,
-                @Nullable Bundle fragmentArgs,
-                int captionResId,
-                int parentViewId);
+	void onResume(@NotNull Activity activity);
 
-    void addTab(@NotNull SherlockFragmentActivity activity,
-                @NotNull CalculatorFragmentType fragmentType,
-                @Nullable Bundle fragmentArgs,
-                int parentViewId);
+	void onPause(@NotNull Activity activity);
 
-    void setFragment(@NotNull SherlockFragmentActivity activity,
-                    @NotNull CalculatorFragmentType fragmentType,
-                    @Nullable Bundle fragmentArgs,
-                    int parentViewId);
+	void onPause(@NotNull SherlockFragmentActivity activity);
+
+	void onDestroy(@NotNull SherlockFragmentActivity activity);
+
+	void onDestroy(@NotNull Activity activity);
+
+	void addTab(@NotNull SherlockFragmentActivity activity,
+				@NotNull String tag,
+				@NotNull Class<? extends Fragment> fragmentClass,
+				@Nullable Bundle fragmentArgs,
+				int captionResId,
+				int parentViewId);
+
+	void addTab(@NotNull SherlockFragmentActivity activity,
+				@NotNull CalculatorFragmentType fragmentType,
+				@Nullable Bundle fragmentArgs,
+				int parentViewId);
+
+	void setFragment(@NotNull SherlockFragmentActivity activity,
+					 @NotNull CalculatorFragmentType fragmentType,
+					 @Nullable Bundle fragmentArgs,
+					 int parentViewId);
 
 
-    void logDebug(@NotNull String message);
+	void logDebug(@NotNull String message);
 
-    void processButtons(@NotNull Activity activity, @NotNull View root);
+	void processButtons(@NotNull Activity activity, @NotNull View root);
 
-    void logError(@NotNull String message);
+	void logError(@NotNull String message);
 
-    void selectTab(@NotNull SherlockFragmentActivity activity, @NotNull CalculatorFragmentType fragmentType);
+	void selectTab(@NotNull SherlockFragmentActivity activity, @NotNull CalculatorFragmentType fragmentType);
 }

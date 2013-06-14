@@ -29,17 +29,17 @@ public class EqualsDragProcessor implements SimpleOnDragListener.DragProcessor {
 		boolean result = false;
 
 		if (dragButton instanceof DirectionDragButton) {
-            if (dragDirection == DragDirection.down) {
-                CalculatorActivityLauncher.tryPlot();
-                result = true;
-            } else {
-                final String text = ((DirectionDragButton) dragButton).getText(dragDirection);
-                if ("≡".equals(text)) {
-                    Locator.getInstance().getCalculator().simplify();
-                    result = true;
-                }
-            }
-        }
+			if (dragDirection == DragDirection.down) {
+				CalculatorActivityLauncher.tryPlot();
+				result = true;
+			} else {
+				final String text = ((DirectionDragButton) dragButton).getText(dragDirection);
+				if ("≡".equals(text)) {
+					Locator.getInstance().getCalculator().simplify();
+					result = true;
+				}
+			}
+		}
 
 		return result;
 	}

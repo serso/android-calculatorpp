@@ -19,119 +19,119 @@ import java.io.Serializable;
  */
 public class CalculatorMatrixEditFragment extends CalculatorFragment implements Picker.OnChangedListener<Integer> {
 
-    /*
-    **********************************************************************
-    *
-    *                           CONSTANTS
-    *
-    **********************************************************************
-    */
+	/*
+	**********************************************************************
+	*
+	*                           CONSTANTS
+	*
+	**********************************************************************
+	*/
 
-    private static final int MAX_COUNT = 10;
-    private static final int MIN_COUNT = 2;
-    private static final int DEFAULT_ROWS = 2;
-    private static final int DEFAULT_COLS = 2;
+	private static final int MAX_COUNT = 10;
+	private static final int MIN_COUNT = 2;
+	private static final int DEFAULT_ROWS = 2;
+	private static final int DEFAULT_COLS = 2;
 
-    private static final String MATRIX = "matrix";
-
-
-    /*
-    **********************************************************************
-    *
-    *                           CONSTRUCTORS
-    *
-    **********************************************************************
-    */
-
-    public CalculatorMatrixEditFragment() {
-        super(CalculatorFragmentType.matrix_edit);
-
-        setRetainInstance(true);
-    }
-
-    /*
-    **********************************************************************
-    *
-    *                           METHODS
-    *
-    **********************************************************************
-    */
+	private static final String MATRIX = "matrix";
 
 
-    @Override
-    public void onViewCreated(View root, @Nullable Bundle in) {
-        super.onViewCreated(root, in);
+	/*
+	**********************************************************************
+	*
+	*                           CONSTRUCTORS
+	*
+	**********************************************************************
+	*/
 
-        final Picker<Integer> matrixRowsCountPicker = (Picker<Integer>) root.findViewById(R.id.matrix_rows_count_picker);
-        initPicker(matrixRowsCountPicker);
-        final Picker<Integer> matrixColsCountPicker = (Picker<Integer>) root.findViewById(R.id.matrix_cols_count_picker);
-        initPicker(matrixColsCountPicker);
+	public CalculatorMatrixEditFragment() {
+		super(CalculatorFragmentType.matrix_edit);
 
-        Matrix matrix = null;
-        if (in != null) {
-            final Object matrixObject = in.getSerializable(MATRIX);
-            if (matrixObject instanceof Matrix) {
-                matrix = (Matrix) matrixObject;
-            }
-        }
+		setRetainInstance(true);
+	}
 
-        final MatrixView matrixView = getMatrixView(root);
-        if (matrix == null) {
-            matrixView.setMatrixDimensions(DEFAULT_ROWS, DEFAULT_COLS);
-        } else {
-            matrixView.setMatrix(matrix.bakingArray);
-        }
-        matrixRowsCountPicker.setCurrent(matrixView.getRows());
-        matrixColsCountPicker.setCurrent(matrixView.getCols());
-    }
+	/*
+	**********************************************************************
+	*
+	*                           METHODS
+	*
+	**********************************************************************
+	*/
 
-    @Override
-    public void onSaveInstanceState(@NotNull Bundle out) {
-        super.onSaveInstanceState(out);
 
-        out.putSerializable(MATRIX, new Matrix(getMatrixView(getView()).toMatrix()));
-    }
+	@Override
+	public void onViewCreated(View root, @Nullable Bundle in) {
+		super.onViewCreated(root, in);
 
-    @NotNull
-    private MatrixView getMatrixView(@NotNull View root) {
-        return (MatrixView) root.findViewById(R.id.matrix_layout);
-    }
+		final Picker<Integer> matrixRowsCountPicker = (Picker<Integer>) root.findViewById(R.id.matrix_rows_count_picker);
+		initPicker(matrixRowsCountPicker);
+		final Picker<Integer> matrixColsCountPicker = (Picker<Integer>) root.findViewById(R.id.matrix_cols_count_picker);
+		initPicker(matrixColsCountPicker);
 
-    private void initPicker(@NotNull Picker<Integer> picker) {
-        picker.setRange(new IntegerRange(MIN_COUNT, MAX_COUNT, 1, 0, null));
-        picker.setOnChangeListener(this);
-    }
+		Matrix matrix = null;
+		if (in != null) {
+			final Object matrixObject = in.getSerializable(MATRIX);
+			if (matrixObject instanceof Matrix) {
+				matrix = (Matrix) matrixObject;
+			}
+		}
 
-    @Override
-    public void onChanged(@NotNull Picker picker, @NotNull Integer value) {
-        switch (picker.getId()) {
-            case R.id.matrix_rows_count_picker:
-                onRowsCountChange(value);
-                break;
-            case R.id.matrix_cols_count_picker:
-                onColsCountChange(value);
-                break;
-        }
-    }
+		final MatrixView matrixView = getMatrixView(root);
+		if (matrix == null) {
+			matrixView.setMatrixDimensions(DEFAULT_ROWS, DEFAULT_COLS);
+		} else {
+			matrixView.setMatrix(matrix.bakingArray);
+		}
+		matrixRowsCountPicker.setCurrent(matrixView.getRows());
+		matrixColsCountPicker.setCurrent(matrixView.getCols());
+	}
 
-    private void onColsCountChange(@NotNull Integer newCols) {
-        getMatrixView(getView()).setMatrixCols(newCols);
-    }
+	@Override
+	public void onSaveInstanceState(@NotNull Bundle out) {
+		super.onSaveInstanceState(out);
 
-    private void onRowsCountChange(@NotNull Integer newRows) {
-        getMatrixView(getView()).setMatrixRows(newRows);
-    }
+		out.putSerializable(MATRIX, new Matrix(getMatrixView(getView()).toMatrix()));
+	}
 
-    public static class Matrix implements Serializable {
+	@NotNull
+	private MatrixView getMatrixView(@NotNull View root) {
+		return (MatrixView) root.findViewById(R.id.matrix_layout);
+	}
 
-        @NotNull
-        private String[][] bakingArray;
+	private void initPicker(@NotNull Picker<Integer> picker) {
+		picker.setRange(new IntegerRange(MIN_COUNT, MAX_COUNT, 1, 0, null));
+		picker.setOnChangeListener(this);
+	}
 
-        public Matrix() {
-        }
+	@Override
+	public void onChanged(@NotNull Picker picker, @NotNull Integer value) {
+		switch (picker.getId()) {
+			case R.id.matrix_rows_count_picker:
+				onRowsCountChange(value);
+				break;
+			case R.id.matrix_cols_count_picker:
+				onColsCountChange(value);
+				break;
+		}
+	}
 
-        public Matrix(@NotNull String[][] bakingArray) {
-            this.bakingArray = bakingArray;
-        }
-    }
+	private void onColsCountChange(@NotNull Integer newCols) {
+		getMatrixView(getView()).setMatrixCols(newCols);
+	}
+
+	private void onRowsCountChange(@NotNull Integer newRows) {
+		getMatrixView(getView()).setMatrixRows(newRows);
+	}
+
+	public static class Matrix implements Serializable {
+
+		@NotNull
+		private String[][] bakingArray;
+
+		public Matrix() {
+		}
+
+		public Matrix(@NotNull String[][] bakingArray) {
+			this.bakingArray = bakingArray;
+		}
+	}
 }

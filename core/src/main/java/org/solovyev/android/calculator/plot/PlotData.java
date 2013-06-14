@@ -11,33 +11,33 @@ import java.util.List;
  */
 public class PlotData {
 
-    @NotNull
-    private List<PlotFunction> functions;
+	@NotNull
+	private List<PlotFunction> functions;
 
-    private boolean plot3d;
+	private boolean plot3d;
 
-    @NotNull
-    private PlotBoundaries boundaries;
+	@NotNull
+	private PlotBoundaries boundaries;
 
-    public PlotData(@NotNull List<PlotFunction> functions,
-                    boolean plot3d,
-                    @NotNull PlotBoundaries boundaries) {
-        this.functions = functions;
-        this.plot3d = plot3d;
-        this.boundaries = boundaries;
-    }
+	public PlotData(@NotNull List<PlotFunction> functions,
+					boolean plot3d,
+					@NotNull PlotBoundaries boundaries) {
+		this.functions = functions;
+		this.plot3d = plot3d;
+		this.boundaries = boundaries;
+	}
 
-    @NotNull
-    public List<PlotFunction> getFunctions() {
-        return functions;
-    }
+	@NotNull
+	public List<PlotFunction> getFunctions() {
+		return functions;
+	}
 
-    public boolean isPlot3d() {
-        return plot3d;
-    }
+	public boolean isPlot3d() {
+		return plot3d;
+	}
 
-    @NotNull
-    public PlotBoundaries getBoundaries() {
-        return boundaries;
-    }
+	@NotNull
+	public PlotBoundaries getBoundaries() {
+		return boundaries;
+	}
 }

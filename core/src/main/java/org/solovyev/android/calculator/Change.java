@@ -9,10 +9,10 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface Change<T> {
 
-    @NotNull
-    T getOldValue();
+	@NotNull
+	T getOldValue();
 
-    @NotNull
-    T getNewValue();
+	@NotNull
+	T getNewValue();
 
 }

@@ -15,24 +15,24 @@ import org.solovyev.android.calculator.external.ExternalCalculatorStateUpdater;
  */
 public class CalculatorWidgetIntentHandler extends DefaultExternalCalculatorIntentHandler {
 
-    public CalculatorWidgetIntentHandler(@NotNull ExternalCalculatorStateUpdater stateUpdater) {
-        super(stateUpdater);
-    }
+	public CalculatorWidgetIntentHandler(@NotNull ExternalCalculatorStateUpdater stateUpdater) {
+		super(stateUpdater);
+	}
 
-    @Override
-    public void onIntent(@NotNull Context context, @NotNull Intent intent) {
-        super.onIntent(context, intent);
+	@Override
+	public void onIntent(@NotNull Context context, @NotNull Intent intent) {
+		super.onIntent(context, intent);
 
-        if (AbstractCalculatorWidgetProvider.BUTTON_PRESSED_ACTION.equals(intent.getAction())) {
-            final int buttonId = intent.getIntExtra(AbstractCalculatorWidgetProvider.BUTTON_ID_EXTRA, 0);
+		if (AbstractCalculatorWidgetProvider.BUTTON_PRESSED_ACTION.equals(intent.getAction())) {
+			final int buttonId = intent.getIntExtra(AbstractCalculatorWidgetProvider.BUTTON_ID_EXTRA, 0);
 
-            final CalculatorButton button = CalculatorButton.getById(buttonId);
-            if (button != null) {
-                button.onClick(context);
-            }
-        } else if (Intent.ACTION_CONFIGURATION_CHANGED.equals(intent.getAction())) {
-            updateState(context, Locator.getInstance().getEditor().getViewState(), Locator.getInstance().getDisplay().getViewState());
-        }
-    }
+			final CalculatorButton button = CalculatorButton.getById(buttonId);
+			if (button != null) {
+				button.onClick(context);
+			}
+		} else if (Intent.ACTION_CONFIGURATION_CHANGED.equals(intent.getAction())) {
+			updateState(context, Locator.getInstance().getEditor().getViewState(), Locator.getInstance().getDisplay().getViewState());
+		}
+	}
 
 }

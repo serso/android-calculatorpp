@@ -1,13 +1,13 @@
 <resources>
-    <dimen name="cpp_fragment_text_size">15sp</dimen>
-    <dimen name="cpp_fragment_title_text_size">20sp</dimen>
+	<dimen name="cpp_fragment_text_size">15sp</dimen>
+	<dimen name="cpp_fragment_title_text_size">20sp</dimen>
 
-    <dimen name="cpp_math_entity_text_size">20sp</dimen>
-    <dimen name="cpp_math_entity_description_text_size">15sp</dimen>
+	<dimen name="cpp_math_entity_text_size">20sp</dimen>
+	<dimen name="cpp_math_entity_description_text_size">15sp</dimen>
 
-    <dimen name="cpp_editor_text_size">30sp</dimen>
-    <dimen name="cpp_editor_text_size_mobile">30sp</dimen>
+	<dimen name="cpp_editor_text_size">30sp</dimen>
+	<dimen name="cpp_editor_text_size_mobile">30sp</dimen>
 
-    <dimen name="cpp_display_text_size">30sp</dimen>
-    <dimen name="cpp_display_text_size_mobile">30sp</dimen>
+	<dimen name="cpp_display_text_size">30sp</dimen>
+	<dimen name="cpp_display_text_size_mobile">30sp</dimen>
 </resources>

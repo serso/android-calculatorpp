@@ -7,9 +7,9 @@ import jscl.math.function.Function;
 import jscl.math.function.IFunction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.CalculatorFunctionsMathRegistry;
 import org.solovyev.android.calculator.CalculatorMathRegistry;
+import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.math.edit.VarEditorSaver;
 import org.solovyev.android.calculator.model.AFunction;
@@ -61,7 +61,7 @@ public class FunctionEditorSaver implements View.OnClickListener {
 		final String description = input.getDescription();
 
 		List<String> parameterNames = input.getParameterNames();
-		if ( parameterNames == null ) {
+		if (parameterNames == null) {
 			parameterNames = Collections.emptyList();
 		}
 
@@ -79,16 +79,16 @@ public class FunctionEditorSaver implements View.OnClickListener {
 			if (canBeSaved) {
 				if (validateParameters(parameterNames)) {
 
-                    if (!Strings.isEmpty(content)) {
-                        builder.setParameterNames(parameterNames);
-                        builder.setName(name);
-                        builder.setDescription(description);
-                        builder.setValue(content);
-                        error = null;
-                    } else {
-                        error = R.string.function_is_empty;
-                    }
-                } else {
+					if (!Strings.isEmpty(content)) {
+						builder.setParameterNames(parameterNames);
+						builder.setName(name);
+						builder.setDescription(description);
+						builder.setValue(content);
+						error = null;
+					} else {
+						error = R.string.function_is_empty;
+					}
+				} else {
 					error = R.string.function_param_not_empty;
 				}
 			} else {
@@ -101,14 +101,14 @@ public class FunctionEditorSaver implements View.OnClickListener {
 		if (error != null) {
 			Locator.getInstance().getNotifier().showMessage(error, MessageType.error);
 		} else {
-            try {
-                CalculatorFunctionsMathRegistry.saveFunction(mathRegistry, new FunctionBuilderAdapter(builder), editedInstance, source, true);
-            } catch (CustomFunctionCalculationException e) {
-                Locator.getInstance().getNotifier().showMessage(e);
-            } catch (AFunction.Builder.CreationException e) {
+			try {
+				CalculatorFunctionsMathRegistry.saveFunction(mathRegistry, new FunctionBuilderAdapter(builder), editedInstance, source, true);
+			} catch (CustomFunctionCalculationException e) {
+				Locator.getInstance().getNotifier().showMessage(e);
+			} catch (AFunction.Builder.CreationException e) {
 				Locator.getInstance().getNotifier().showMessage(e);
 			}
-        }
+		}
 	}
 
 	@NotNull
@@ -130,7 +130,7 @@ public class FunctionEditorSaver implements View.OnClickListener {
 
 	private boolean validateParameters(@NotNull List<String> parameterNames) {
 		for (String parameterName : parameterNames) {
-			if ( !VarEditorSaver.isValidName(parameterName) ) {
+			if (!VarEditorSaver.isValidName(parameterName)) {
 				return false;
 			}
 		}

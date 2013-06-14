@@ -76,10 +76,10 @@ public class FunctionParamsView extends LinearLayout {
 
 			editParamView.setTag(getParamTag(id));
 
-            final EditText paramNameEditText = (EditText) editParamView.findViewById(R.id.function_param_edit_text);
-            paramNameEditText.setText(name);
+			final EditText paramNameEditText = (EditText) editParamView.findViewById(R.id.function_param_edit_text);
+			paramNameEditText.setText(name);
 
-            final View removeParamButton = editParamView.findViewById(R.id.function_remove_param_button);
+			final View removeParamButton = editParamView.findViewById(R.id.function_remove_param_button);
 			removeParamButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -153,7 +153,7 @@ public class FunctionParamsView extends LinearLayout {
 	}
 
 	@NotNull
-	 private String getParamTag(@NotNull Integer index) {
+	private String getParamTag(@NotNull Integer index) {
 		return PARAM_TAG_PREFIX + index;
 	}
 
@@ -176,7 +176,7 @@ public class FunctionParamsView extends LinearLayout {
 
 			for (Integer id : paramIds) {
 				final View paramView = getParamView(id);
-				if ( paramView != null ) {
+				if (paramView != null) {
 					final EditText paramNameEditText = (EditText) paramView.findViewById(R.id.function_param_edit_text);
 					result.add(paramNameEditText.getText().toString());
 				}

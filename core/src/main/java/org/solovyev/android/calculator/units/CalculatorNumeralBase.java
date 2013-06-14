@@ -17,80 +17,80 @@ import java.math.BigInteger;
 public enum CalculatorNumeralBase implements UnitType<String> {
 
 
-    bin(NumeralBase.bin),
+	bin(NumeralBase.bin),
 
-    oct(NumeralBase.oct),
+	oct(NumeralBase.oct),
 
-    dec(NumeralBase.dec),
+	dec(NumeralBase.dec),
 
-    hex(NumeralBase.hex);
+	hex(NumeralBase.hex);
 
-    @NotNull
-    private final NumeralBase numeralBase;
+	@NotNull
+	private final NumeralBase numeralBase;
 
-    private CalculatorNumeralBase(@NotNull NumeralBase numeralBase) {
-        this.numeralBase = numeralBase;
-    }
+	private CalculatorNumeralBase(@NotNull NumeralBase numeralBase) {
+		this.numeralBase = numeralBase;
+	}
 
-    @NotNull
-    public NumeralBase getNumeralBase() {
-        return numeralBase;
-    }
+	@NotNull
+	public NumeralBase getNumeralBase() {
+		return numeralBase;
+	}
 
-    @NotNull
-    private static final CalculatorNumeralBase.Converter converter = new CalculatorNumeralBase.Converter();
+	@NotNull
+	private static final CalculatorNumeralBase.Converter converter = new CalculatorNumeralBase.Converter();
 
-    @NotNull
-    public static CalculatorNumeralBase.Converter getConverter() {
-        return converter;
-    }
+	@NotNull
+	public static CalculatorNumeralBase.Converter getConverter() {
+		return converter;
+	}
 
-    @NotNull
-    @Override
-    public Class<String> getUnitValueClass() {
-        return String.class;
-    }
+	@NotNull
+	@Override
+	public Class<String> getUnitValueClass() {
+		return String.class;
+	}
 
-    @NotNull
-    public Unit<String> createUnit(@NotNull String value) {
-        return UnitImpl.newInstance(value, this);
-    }
+	@NotNull
+	public Unit<String> createUnit(@NotNull String value) {
+		return UnitImpl.newInstance(value, this);
+	}
 
-    public static class Converter implements UnitConverter<String> {
+	public static class Converter implements UnitConverter<String> {
 
-        private Converter() {
-        }
+		private Converter() {
+		}
 
-        @Override
-        public boolean isSupported(@NotNull UnitType<?> from, @NotNull UnitType<String> to) {
-            return CalculatorNumeralBase.class.isAssignableFrom(from.getClass()) && CalculatorNumeralBase.class.isAssignableFrom(to.getClass());
-        }
+		@Override
+		public boolean isSupported(@NotNull UnitType<?> from, @NotNull UnitType<String> to) {
+			return CalculatorNumeralBase.class.isAssignableFrom(from.getClass()) && CalculatorNumeralBase.class.isAssignableFrom(to.getClass());
+		}
 
-        @NotNull
-        @Override
-        public Unit<String> convert(@NotNull Unit<?> from, @NotNull UnitType<String> toType) {
-            if (!isSupported(from.getUnitType(), toType)) {
-                throw new IllegalArgumentException("Types are not supported!");
-            }
+		@NotNull
+		@Override
+		public Unit<String> convert(@NotNull Unit<?> from, @NotNull UnitType<String> toType) {
+			if (!isSupported(from.getUnitType(), toType)) {
+				throw new IllegalArgumentException("Types are not supported!");
+			}
 
-            final CalculatorNumeralBase fromTypeAndroid = (CalculatorNumeralBase) from.getUnitType();
-            final NumeralBase fromNumeralBase = fromTypeAndroid.numeralBase;
-            final NumeralBase toNumeralBase = ((CalculatorNumeralBase) toType).numeralBase;
-            final String fromValue = (String) from.getValue();
+			final CalculatorNumeralBase fromTypeAndroid = (CalculatorNumeralBase) from.getUnitType();
+			final NumeralBase fromNumeralBase = fromTypeAndroid.numeralBase;
+			final NumeralBase toNumeralBase = ((CalculatorNumeralBase) toType).numeralBase;
+			final String fromValue = (String) from.getValue();
 
-            final BigInteger decBigInteger = fromNumeralBase.toBigInteger(fromValue);
-            return UnitImpl.newInstance(toNumeralBase.toString(decBigInteger), toType);
-        }
-    }
+			final BigInteger decBigInteger = fromNumeralBase.toBigInteger(fromValue);
+			return UnitImpl.newInstance(toNumeralBase.toString(decBigInteger), toType);
+		}
+	}
 
-    @NotNull
-    public static CalculatorNumeralBase valueOf(@NotNull NumeralBase nb) {
-        for (CalculatorNumeralBase calculatorNumeralBase : values()) {
-            if (calculatorNumeralBase.numeralBase == nb) {
-                return calculatorNumeralBase;
-            }
-        }
+	@NotNull
+	public static CalculatorNumeralBase valueOf(@NotNull NumeralBase nb) {
+		for (CalculatorNumeralBase calculatorNumeralBase : values()) {
+			if (calculatorNumeralBase.numeralBase == nb) {
+				return calculatorNumeralBase;
+			}
+		}
 
-        throw new IllegalArgumentException(nb + " is not supported numeral base!");
-    }
+		throw new IllegalArgumentException(nb + " is not supported numeral base!");
+	}
 }

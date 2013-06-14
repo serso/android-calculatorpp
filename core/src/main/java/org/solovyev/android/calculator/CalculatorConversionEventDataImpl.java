@@ -11,93 +11,93 @@ import org.jetbrains.annotations.NotNull;
  */
 public class CalculatorConversionEventDataImpl implements CalculatorConversionEventData {
 
-    @NotNull
-    private CalculatorEventData calculatorEventData;
+	@NotNull
+	private CalculatorEventData calculatorEventData;
 
-    @NotNull
-    private NumeralBase fromNumeralBase;
+	@NotNull
+	private NumeralBase fromNumeralBase;
 
-    @NotNull
-    private NumeralBase toNumeralBase;
+	@NotNull
+	private NumeralBase toNumeralBase;
 
-    @NotNull
-    private Generic value;
+	@NotNull
+	private Generic value;
 
-    @NotNull
-    private CalculatorDisplayViewState displayState;
+	@NotNull
+	private CalculatorDisplayViewState displayState;
 
-    private CalculatorConversionEventDataImpl() {
-    }
+	private CalculatorConversionEventDataImpl() {
+	}
 
-    @NotNull
-    public static CalculatorConversionEventData newInstance(@NotNull CalculatorEventData calculatorEventData,
-                                                            @NotNull Generic value,
-                                                            @NotNull NumeralBase from,
-                                                            @NotNull NumeralBase to,
-                                                            @NotNull CalculatorDisplayViewState displayViewState) {
-        final CalculatorConversionEventDataImpl result = new CalculatorConversionEventDataImpl();
+	@NotNull
+	public static CalculatorConversionEventData newInstance(@NotNull CalculatorEventData calculatorEventData,
+															@NotNull Generic value,
+															@NotNull NumeralBase from,
+															@NotNull NumeralBase to,
+															@NotNull CalculatorDisplayViewState displayViewState) {
+		final CalculatorConversionEventDataImpl result = new CalculatorConversionEventDataImpl();
 
-        result.calculatorEventData = calculatorEventData;
-        result.value = value;
-        result.displayState = displayViewState;
-        result.fromNumeralBase = from;
-        result.toNumeralBase = to;
+		result.calculatorEventData = calculatorEventData;
+		result.value = value;
+		result.displayState = displayViewState;
+		result.fromNumeralBase = from;
+		result.toNumeralBase = to;
 
-        return result;
-    }
+		return result;
+	}
 
-    @Override
-    public long getEventId() {
-        return calculatorEventData.getEventId();
-    }
+	@Override
+	public long getEventId() {
+		return calculatorEventData.getEventId();
+	}
 
-    @Override
-    @NotNull
-    public Long getSequenceId() {
-        return calculatorEventData.getSequenceId();
-    }
+	@Override
+	@NotNull
+	public Long getSequenceId() {
+		return calculatorEventData.getSequenceId();
+	}
 
-    @Override
-    public Object getSource() {
-        return calculatorEventData.getSource();
-    }
+	@Override
+	public Object getSource() {
+		return calculatorEventData.getSource();
+	}
 
-    @Override
-    public boolean isAfter(@NotNull CalculatorEventData that) {
-        return calculatorEventData.isAfter(that);
-    }
+	@Override
+	public boolean isAfter(@NotNull CalculatorEventData that) {
+		return calculatorEventData.isAfter(that);
+	}
 
-    @Override
-    public boolean isSameSequence(@NotNull CalculatorEventData that) {
-        return calculatorEventData.isSameSequence(that);
-    }
+	@Override
+	public boolean isSameSequence(@NotNull CalculatorEventData that) {
+		return calculatorEventData.isSameSequence(that);
+	}
 
-    @Override
-    public boolean isAfterSequence(@NotNull CalculatorEventData that) {
-        return calculatorEventData.isAfterSequence(that);
-    }
+	@Override
+	public boolean isAfterSequence(@NotNull CalculatorEventData that) {
+		return calculatorEventData.isAfterSequence(that);
+	}
 
-    @NotNull
-    @Override
-    public CalculatorDisplayViewState getDisplayState() {
-        return this.displayState;
-    }
+	@NotNull
+	@Override
+	public CalculatorDisplayViewState getDisplayState() {
+		return this.displayState;
+	}
 
-    @Override
-    @NotNull
-    public NumeralBase getFromNumeralBase() {
-        return fromNumeralBase;
-    }
+	@Override
+	@NotNull
+	public NumeralBase getFromNumeralBase() {
+		return fromNumeralBase;
+	}
 
-    @Override
-    @NotNull
-    public NumeralBase getToNumeralBase() {
-        return toNumeralBase;
-    }
+	@Override
+	@NotNull
+	public NumeralBase getToNumeralBase() {
+		return toNumeralBase;
+	}
 
-    @Override
-    @NotNull
-    public Generic getValue() {
-        return value;
-    }
+	@Override
+	@NotNull
+	public Generic getValue() {
+		return value;
+	}
 }

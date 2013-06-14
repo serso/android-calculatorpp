@@ -7,30 +7,32 @@
   -->
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-              a:id="@+id/main_fragment_layout"
-              style="?cpp_fragment_layout_style"
-              a:layout_width="match_parent"
-              a:layout_height="match_parent">
+	a:id="@+id/main_fragment_layout"
+	style="?cpp_fragment_layout_style"
+	a:layout_width="match_parent"
+	a:layout_height="match_parent">
 
-    <TextView a:id="@+id/fragment_title"
-              a:layout_height="wrap_content"
-              a:layout_width="match_parent"
-              style="?cpp_fragment_title_style"/>
+	<TextView
+		a:id="@+id/fragment_title"
+		a:layout_height="wrap_content"
+		a:layout_width="match_parent"
+		style="?cpp_fragment_title_style" />
 
-    <include layout="@layout/ad"/>
+	<include layout="@layout/ad" />
 
-    <ScrollView a:layout_width="match_parent"
-                a:layout_height="wrap_content">
+	<ScrollView
+		a:layout_width="match_parent"
+		a:layout_height="wrap_content">
 
-        <TextView
-                a:text="@string/c_faq_content"
-                a:layout_width="match_parent"
-                a:layout_height="wrap_content"
-                a:gravity="top|left"
-                a:scrollbars="vertical"
-                style="@style/cpp_about_style"/>
+		<TextView
+			a:text="@string/c_faq_content"
+			a:layout_width="match_parent"
+			a:layout_height="wrap_content"
+			a:gravity="top|left"
+			a:scrollbars="vertical"
+			style="@style/cpp_about_style" />
 
-    </ScrollView>
+	</ScrollView>
 
 </LinearLayout>
 

@@ -22,16 +22,16 @@ public class CalculatorOnscreenStartActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-        if (Android.isComponentEnabled(this, CalculatorOnscreenStartActivity.class)) {
-            final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		if (Android.isComponentEnabled(this, CalculatorOnscreenStartActivity.class)) {
+			final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
 			if (!CalculatorPreferences.OnscreenCalculator.removeIconDialogShown.getPreference(prefs)) {
 				FixableMessagesDialog.showDialog(Arrays.asList(new FixableMessage(getString(R.string.cpp_onscreen_remove_icon_message), MessageType.warning, new RemoveIconFixableError(this))), this, false);
 				CalculatorPreferences.OnscreenCalculator.removeIconDialogShown.putPreference(prefs, true);
-            }
-        }
+			}
+		}
 
-        CalculatorOnscreenService.showOnscreenView(this);
+		CalculatorOnscreenService.showOnscreenView(this);
 
 		this.finish();
 	}

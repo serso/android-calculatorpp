@@ -9,5 +9,5 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface CalculatorEditorView {
 
-    void setState(@NotNull CalculatorEditorViewState viewState);
+	void setState(@NotNull CalculatorEditorViewState viewState);
 }

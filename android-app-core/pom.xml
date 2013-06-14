@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+	<modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>org.solovyev.android</groupId>
-        <artifactId>calculatorpp-parent</artifactId>
-        <version>1.6.3-SNAPSHOT</version>
-    </parent>
+	<parent>
+		<groupId>org.solovyev.android</groupId>
+		<artifactId>calculatorpp-parent</artifactId>
+		<version>1.6.3-SNAPSHOT</version>
+	</parent>
 
-    <groupId>org.solovyev.android</groupId>
-    <artifactId>calculatorpp-android-app-core</artifactId>
-    <version>1.6.3-SNAPSHOT</version>
+	<groupId>org.solovyev.android</groupId>
+	<artifactId>calculatorpp-android-app-core</artifactId>
+	<version>1.6.3-SNAPSHOT</version>
 	<name>Calculator++ Application Core</name>
 	<packaging>apklib</packaging>
 
@@ -21,43 +21,43 @@
 			<artifactId>calculatorpp-core</artifactId>
 		</dependency>
 
-        <dependency>
-            <groupId>org.solovyev</groupId>
-            <artifactId>common-core</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>org.solovyev</groupId>
+			<artifactId>common-core</artifactId>
+		</dependency>
 
-        <dependency>
-            <groupId>org.solovyev</groupId>
-            <artifactId>common-text</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>org.solovyev</groupId>
+			<artifactId>common-text</artifactId>
+		</dependency>
 
-        <dependency>
-            <groupId>org.solovyev.android</groupId>
-            <artifactId>android-common-all</artifactId>
-            <type>apklib</type>
-        </dependency>
+		<dependency>
+			<groupId>org.solovyev.android</groupId>
+			<artifactId>android-common-all</artifactId>
+			<type>apklib</type>
+		</dependency>
 
-        <dependency>
-            <groupId>org.solovyev</groupId>
-            <artifactId>jscl</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>org.solovyev</groupId>
+			<artifactId>jscl</artifactId>
+		</dependency>
 
-        <dependency>
-            <groupId>com.actionbarsherlock</groupId>
-            <artifactId>library</artifactId>
-            <type>apklib</type>
-        </dependency>
+		<dependency>
+			<groupId>com.actionbarsherlock</groupId>
+			<artifactId>library</artifactId>
+			<type>apklib</type>
+		</dependency>
 
-        <dependency>
-            <groupId>com.google.android</groupId>
-            <artifactId>android</artifactId>
-            <scope>provided</scope>
-        </dependency>
+		<dependency>
+			<groupId>com.google.android</groupId>
+			<artifactId>android</artifactId>
+			<scope>provided</scope>
+		</dependency>
 
-        <dependency>
-            <groupId>com.google.android</groupId>
-            <artifactId>support-v4</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>com.google.android</groupId>
+			<artifactId>support-v4</artifactId>
+		</dependency>
 
 	</dependencies>
 
@@ -71,5 +71,5 @@
 		</extensions>
 
 	</build>
-    
+
 </project>

@@ -11,11 +11,11 @@ import org.solovyev.android.calculator.R;
  */
 public class CalculatorPlotPreferenceActivity extends SherlockPreferenceActivity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-        //noinspection deprecation
-        addPreferencesFromResource(R.xml.preferences_plot);
-    }
+		//noinspection deprecation
+		addPreferencesFromResource(R.xml.preferences_plot);
+	}
 }

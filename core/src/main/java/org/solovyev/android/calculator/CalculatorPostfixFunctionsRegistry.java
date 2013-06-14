@@ -23,6 +23,7 @@ public class CalculatorPostfixFunctionsRegistry extends AbstractCalculatorMathRe
 
 	@NotNull
 	private static final Map<String, String> substitutes = new HashMap<String, String>();
+
 	static {
 		substitutes.put("%", "percent");
 		substitutes.put("!", "factorial");
@@ -34,7 +35,7 @@ public class CalculatorPostfixFunctionsRegistry extends AbstractCalculatorMathRe
 	private static final String POSTFIX_FUNCTION_DESCRIPTION_PREFIX = "c_pf_description_";
 
 	public CalculatorPostfixFunctionsRegistry(@NotNull MathRegistry<Operator> functionsRegistry,
-                                                 @NotNull MathEntityDao<MathPersistenceEntity> mathEntityDao) {
+											  @NotNull MathEntityDao<MathPersistenceEntity> mathEntityDao) {
 		super(functionsRegistry, POSTFIX_FUNCTION_DESCRIPTION_PREFIX, mathEntityDao);
 	}
 
@@ -45,15 +46,15 @@ public class CalculatorPostfixFunctionsRegistry extends AbstractCalculatorMathRe
 		return substitutes;
 	}
 
-    @Override
-    public String getCategory(@NotNull Operator operator) {
-        for (OperatorCategory category : OperatorCategory.values()) {
-            if ( category.isInCategory(operator) ) {
-                return category.name();
-            }
-        }
-        return null;
-    }
+	@Override
+	public String getCategory(@NotNull Operator operator) {
+		for (OperatorCategory category : OperatorCategory.values()) {
+			if (category.isInCategory(operator)) {
+				return category.name();
+			}
+		}
+		return null;
+	}
 
 	@Override
 	public void load() {
@@ -66,7 +67,7 @@ public class CalculatorPostfixFunctionsRegistry extends AbstractCalculatorMathRe
 		return null;  //To change body of implemented methods use File | Settings | File Templates.
 	}
 
-    @Override
+	@Override
 	public void save() {
 		// not supported yet
 	}

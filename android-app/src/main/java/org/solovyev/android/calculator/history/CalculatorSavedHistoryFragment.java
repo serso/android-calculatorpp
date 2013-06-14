@@ -21,11 +21,11 @@ import java.util.List;
  */
 public class CalculatorSavedHistoryFragment extends AbstractCalculatorHistoryFragment {
 
-    public CalculatorSavedHistoryFragment() {
-        super(CalculatorFragmentType.saved_history);
-    }
+	public CalculatorSavedHistoryFragment() {
+		super(CalculatorFragmentType.saved_history);
+	}
 
-    @Override
+	@Override
 	protected int getItemLayoutId() {
 		return R.layout.saved_history_item;
 	}
@@ -38,7 +38,7 @@ public class CalculatorSavedHistoryFragment extends AbstractCalculatorHistoryFra
 
 	@Override
 	protected void clearHistory() {
-        Locator.getInstance().getHistory().clearSavedHistory();
+		Locator.getInstance().getHistory().clearSavedHistory();
 		getAdapter().clear();
 	}
 }

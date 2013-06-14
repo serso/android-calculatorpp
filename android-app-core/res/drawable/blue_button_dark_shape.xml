@@ -7,8 +7,9 @@
   -->
 
 <shape xmlns:a="http://schemas.android.com/apk/res/android">
-	<gradient a:startColor="#000d1f"
-			  a:endColor="#002255"
-			  a:angle="90"/>
-    <corners a:radius="0dp" />
+	<gradient
+		a:startColor="#000d1f"
+		a:endColor="#002255"
+		a:angle="90" />
+	<corners a:radius="0dp" />
 </shape>

@@ -6,12 +6,13 @@
 
 package org.solovyev.android.calculator;
 
-import jscl.math.operator.*;
+import jscl.math.operator.Operator;
 import org.jetbrains.annotations.NotNull;
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathRegistry;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * User: serso
@@ -22,6 +23,7 @@ public class CalculatorOperatorsMathRegistry extends AbstractCalculatorMathRegis
 
 	@NotNull
 	private static final Map<String, String> substitutes = new HashMap<String, String>();
+
 	static {
 		substitutes.put("Σ", "sum");
 		substitutes.put("∏", "product");
@@ -35,7 +37,7 @@ public class CalculatorOperatorsMathRegistry extends AbstractCalculatorMathRegis
 	private static final String OPERATOR_DESCRIPTION_PREFIX = "c_op_description_";
 
 	public CalculatorOperatorsMathRegistry(@NotNull MathRegistry<Operator> functionsRegistry,
-                                           @NotNull MathEntityDao<MathPersistenceEntity> mathEntityDao) {
+										   @NotNull MathEntityDao<MathPersistenceEntity> mathEntityDao) {
 		super(functionsRegistry, OPERATOR_DESCRIPTION_PREFIX, mathEntityDao);
 	}
 
@@ -45,15 +47,15 @@ public class CalculatorOperatorsMathRegistry extends AbstractCalculatorMathRegis
 		return substitutes;
 	}
 
-    @Override
-    public String getCategory(@NotNull Operator operator) {
-        for (OperatorCategory category : OperatorCategory.values()) {
-            if ( category.isInCategory(operator) ) {
-                return category.name();
-            }
-        }
-        return null;
-    }
+	@Override
+	public String getCategory(@NotNull Operator operator) {
+		for (OperatorCategory category : OperatorCategory.values()) {
+			if (category.isInCategory(operator)) {
+				return category.name();
+			}
+		}
+		return null;
+	}
 
 	@Override
 	public void load() {
@@ -66,7 +68,7 @@ public class CalculatorOperatorsMathRegistry extends AbstractCalculatorMathRegis
 		return null;  //To change body of implemented methods use File | Settings | File Templates.
 	}
 
-    @Override
+	@Override
 	public void save() {
 		// not supported yet
 	}
@@ -82,12 +84,12 @@ public class CalculatorOperatorsMathRegistry extends AbstractCalculatorMathRegis
 		return null;  //To change body of implemented methods use File | Settings | File Templates.
 	}
 
-    /*
-    **********************************************************************
-    *
-    *                           STATIC
-    *
-    **********************************************************************
-    */
+	/*
+	**********************************************************************
+	*
+	*                           STATIC
+	*
+	**********************************************************************
+	*/
 
 }

@@ -11,15 +11,19 @@
 	<string name="c_screens">Pantallas</string>
 
 	<string name="c_faq_content" formatted="false">
-		<b>¿Como puedo utilizar las funciones indicadas en las esquinas superior e inferior derechas de los botones?</b>\n
+		<b>¿Como puedo utilizar las funciones indicadas en las esquinas superior e inferior derechas de los botones?</b>
 		\n
-		Mantenga pulsado el botón y deslícelo ligeramente hacia arriba o abajo. En función del valor mostrado en el\nbotón se realizará la acción deseada.\n
+		\n
+		Mantenga pulsado el botón y deslícelo ligeramente hacia arriba o abajo. En función del valor mostrado en
+		el\nbotón se realizará la acción deseada.\n
 		\n
 		<b>¿Como puedo conmutar entre Radianes y Grados?</b>\n
 		\n
-		Para conmutar entre las diferentes unidades de ángulo, puede ajustar la opción preferida en la configuración de\nla aplicación\no bién utilizar el conmutador ubicado en el botón 6\n
+		Para conmutar entre las diferentes unidades de ángulo, puede ajustar la opción preferida en la configuración
+		de\nla aplicación\no bién utilizar el conmutador ubicado en el botón 6\n
 		(el valor actual está resaltado en color amarillo).\n
-		También puede utilizar las funciones deg() y rad() y el operador ° para convertir grados a radianes y viceversa.\n\n
+		También puede utilizar las funciones deg() y rad() y el operador ° para convertir grados a radianes y
+		viceversa.\n\n
 
 		<b>Ejemplos:</b>\n
 		268° = 4.67748\n
@@ -40,12 +44,13 @@
 
 		<b>Nota:</b>\n\n
 
-		100 + (20 + 20)% = 140,\n <b>pero</b>\n100+ (20% + 20%) = 124.0\n
+		100 + (20 + 20)% = 140,\n<b>pero</b>\n100+ (20% + 20%) = 124.0\n
 		100 + 50% ^ 2 = 2600,\n<b>pero</b>\n100 + 50 ^ 2% = 101.08\n\n
 
 		<b>¿Soporta C++ cálculos fraccionarios?</b>\n\n
 
-		Si, puede teclear la expresión fraccionaria en el editor y utilizar ≡ (en la esquina superior derecha del botón\n = ). También puede utilizar ≡ para simplificar la expresión.\n\n
+		Si, puede teclear la expresión fraccionaria en el editor y utilizar ≡ (en la esquina superior derecha del
+		botón\n = ). También puede utilizar ≡ para simplificar la expresión.\n\n
 
 		<b>Ejemplos:</b>\n\n
 
@@ -64,7 +69,8 @@
 
 		<b>¿Puede C++ dibujar gráficas de las funciones?</b>\n\n
 
-		Sí, expresión de tipo que contiene una variable no definida (por ejemplo, cos (t) y la t no tiene valor) y haga clic en el resultado. En el menú contextual, seleccione \'Gráfico Plot\'.\n\n
+		Sí, expresión de tipo que contiene una variable no definida (por ejemplo, cos (t) y la t no tiene valor) y haga
+		clic en el resultado. En el menú contextual, seleccione \'Gráfico Plot\'.\n\n
 
 		<b>¿Soporta C++ cálculos matriciales?</b>\n\n
 
@@ -76,21 +82,41 @@
 	</string>
 
 	<string name="c_hints_content">
-		1. Puede omitir signos de multiplicación innecesarios (en lugar de 3*t o t*sin(π*t)simplemente escriba 3t o tsin(πt))\n\n
+		1. Puede omitir signos de multiplicación innecesarios (en lugar de 3*t o t*sin(π*t)simplemente escriba 3t o
+		tsin(πt))\n\n
 		2. Utilice ≡ (en la esquina superior derecha del botón = ) para simplificar la expresión\n\n
 		3. Haga clic en el resultado para copiarlo al portapapeles\n\n
-		4. Raravez deberá utilizar el botón = ya que el resultado se va calculando automáticamente conforme introduce las funciones\n\n
+		4. Raravez deberá utilizar el botón = ya que el resultado se va calculando automáticamente conforme introduce
+		las funciones\n\n
 		5. Añada constantes para los valores usados habitualmente (incluso puede grabar expresiones)\n\n
 		6. Utilice las variables ubicadas en los botones 4 y 5\n\n
 	</string>
 
 	<string name="c_screens_content">
-		1. <b>Pantalla principal:</b> Se muestra al inicio de la aplicación. Puede llegar a ella desde otra pantalla pulsando el botón Atrás.\n\n
-		2. <b>Pantalla de Variables y Constantes:</b> contiene una lista de las constantes disponibles. Puede añadir más constantes y variables haciendo clic en el botón Añadir. Un Clic corto en variable/constante la inserta en el editor, Clic largo - abre la ventana del editor de variables. Puede llegar a ella desde la pantalla principal pulsando el botón π,… .\n\n
-		3. <b>Pantalla de Funciones:</b> contiene una lista de todas las funciones disponibles. Un Clic corto en la función la inserta en el editor. Puede llegar a ella desde la pantalla principal pulsando el botón f(x).\n\n
-		4. <b>Pantalla de Operadores:</b> contiene una lista de todos los operadores disponibles. Un Clic corto en el operador lo inserta en el editor. Puede llegar a él desde la pantalla principal pulsando el botón ∂,… .\n\n
-		5. <b>Pantalla de Historial:</b> contiene una lista de todas las acciones realizadas por el usuario. Un Clic corto en el elemento Historial lo inserta en el editor. Puede llegar a él desde la pantalla principal pulsando el botón M .\n\n
-		6. <b>Pantalla de Configuración:</b> contiene los ajustes de la aplicación. Puede llegar a él desde la pantalla principal seleccionando la opción Configuración del menú.\n\n
+		1.
+		<b>Pantalla principal:</b>
+		Se muestra al inicio de la aplicación. Puede llegar a ella desde otra pantalla pulsando el botón Atrás.\n\n
+		2.
+		<b>Pantalla de Variables y Constantes:</b>
+		contiene una lista de las constantes disponibles. Puede añadir más constantes y variables haciendo clic en el
+		botón Añadir. Un Clic corto en variable/constante la inserta en el editor, Clic largo - abre la ventana del
+		editor de variables. Puede llegar a ella desde la pantalla principal pulsando el botón π,… .\n\n
+		3.
+		<b>Pantalla de Funciones:</b>
+		contiene una lista de todas las funciones disponibles. Un Clic corto en la función la inserta en el editor.
+		Puede llegar a ella desde la pantalla principal pulsando el botón f(x).\n\n
+		4.
+		<b>Pantalla de Operadores:</b>
+		contiene una lista de todos los operadores disponibles. Un Clic corto en el operador lo inserta en el editor.
+		Puede llegar a él desde la pantalla principal pulsando el botón ∂,… .\n\n
+		5.
+		<b>Pantalla de Historial:</b>
+		contiene una lista de todas las acciones realizadas por el usuario. Un Clic corto en el elemento Historial lo
+		inserta en el editor. Puede llegar a él desde la pantalla principal pulsando el botón M .\n\n
+		6.
+		<b>Pantalla de Configuración:</b>
+		contiene los ajustes de la aplicación. Puede llegar a él desde la pantalla principal seleccionando la opción
+		Configuración del menú.\n\n
 	</string>
 
 </resources>

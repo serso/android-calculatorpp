@@ -23,15 +23,25 @@
 	<string name="c_fun_description_sqrt">Функция квадратного корня.</string>
 	<string name="c_fun_description_cubic">Функция кубического корня.</string>
 	<string name="c_fun_description_abs">Модуль.</string>
-	<string name="c_fun_description_sgn">Знак - возвращает знак аргумента: -1, если аргумент меньше0, 0, если равен 0, 1, если больше 0.</string>
+	<string name="c_fun_description_sgn">Знак - возвращает знак аргумента: -1, если аргумент меньше0, 0, если равен 0,
+		1, если больше 0.
+	</string>
 	<string name="c_fun_description_eq">Равно - возвращает 1, если два аргумента равны, иначе 0.</string>
-	<string name="c_fun_description_le">Меньше-либо-равно - возвращает 1, если два аргумента равны или первое меньше второго, иначе 0.</string>
-	<string name="c_fun_description_ge">Больше-либо-равно - возвращает 1 если два аргумента равны или первое больше второго, иначе 0.</string>
+	<string name="c_fun_description_le">Меньше-либо-равно - возвращает 1, если два аргумента равны или первое меньше
+		второго, иначе 0.
+	</string>
+	<string name="c_fun_description_ge">Больше-либо-равно - возвращает 1 если два аргумента равны или первое больше
+		второго, иначе 0.
+	</string>
 	<string name="c_fun_description_ne">Не-равно - возвращает 1, если два аргумента не равны, иначе 0.</string>
 	<string name="c_fun_description_lt">Меньше - возвращает 1, если первый аргумент меньше второго, иначе 0.</string>
 	<string name="c_fun_description_gt">Больше - возвращает 1, если первый аргумент больше второго, иначе 0.</string>
-	<string name="c_fun_description_rad">Преобразует градусы в радианы: d - градусы, m - минуты (по умолчанию = 0), s - секунды (по умолчанию = 0) </string>
-	<string name="c_fun_description_dms">Преобразует градусы из шестидесятеричной системы в десятичную: d - градусы, m - минуты (по умолчанию = 0), s - секунды (по умолчанию = 0) </string>
+	<string name="c_fun_description_rad">Преобразует градусы в радианы: d - градусы, m - минуты (по умолчанию = 0), s -
+		секунды (по умолчанию = 0)
+	</string>
+	<string name="c_fun_description_dms">Преобразует градусы из шестидесятеричной системы в десятичную: d - градусы, m -
+		минуты (по умолчанию = 0), s - секунды (по умолчанию = 0)
+	</string>
 	<string name="c_fun_description_deg">Преобразует радианы в градусы.</string>
 
 	<string name="c_fun_category_trig">Тригонометрические</string>

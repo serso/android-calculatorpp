@@ -9,9 +9,14 @@
 	<string name="c_operators">Оператори</string>
 
 	<string name="c_op_description_mod">Обчислює остачу від ділення \'x\' на \'y\'.</string>
-	<string name="c_op_description_sum">Сумує функції \'f(i)\', де змінна \'i\' міняється від \'from\' до \'to\'.</string>
-	<string name="c_op_description_product">Обчислює добуток функцій \'f(i)\', де змінна \'i\' міняється від \'from\' до \'to\'.</string>
-	<string name="c_op_description_derivative">Повертає похідну порядку \'order\' (по замовчуванню = 1) функції \'f(x)\' по змінній \'x\' та обчислює її значення у точці \'x_point\' (за замовчуванням = така ж як \'x\').</string>
+	<string name="c_op_description_sum">Сумує функції \'f(i)\', де змінна \'i\' міняється від \'from\' до \'to\'.
+	</string>
+	<string name="c_op_description_product">Обчислює добуток функцій \'f(i)\', де змінна \'i\' міняється від \'from\' до
+		\'to\'.
+	</string>
+	<string name="c_op_description_derivative">Повертає похідну порядку \'order\' (по замовчуванню = 1) функції \'f(x)\'
+		по змінній \'x\' та обчислює її значення у точці \'x_point\' (за замовчуванням = така ж як \'x\').
+	</string>
 	<string name="c_op_description_integral">Повертає інтеграл функції \'f(x)\' по змінній \'x\'.</string>
 	<string name="c_op_description_integral_ab">Інтегрує функцію \'f(x)\' по змінній \'x\' від \'a\' до \'b\'.</string>
 

@@ -2,15 +2,15 @@
 
 <PreferenceScreen xmlns:a="http://schemas.android.com/apk/res/android">
 
-    <PreferenceScreen a:title="@string/prefs_graph_screen_title">
+	<PreferenceScreen a:title="@string/prefs_graph_screen_title">
 
-        <org.solovyev.android.ads.AdViewPreference a:layout="@layout/acl_adview_pref"/>
+		<org.solovyev.android.ads.AdViewPreference a:layout="@layout/acl_adview_pref" />
 
-        <android.preference.CheckBoxPreference
-            a:key="graph_plot_imag"
-            a:title="@string/cpp_prefs_graph_plot_imag_title"
-            a:summary="@string/cpp_prefs_graph_plot_imag_summary"/>
+		<android.preference.CheckBoxPreference
+			a:key="graph_plot_imag"
+			a:title="@string/cpp_prefs_graph_plot_imag_title"
+			a:summary="@string/cpp_prefs_graph_plot_imag_summary" />
 
-    </PreferenceScreen>
+	</PreferenceScreen>
 
 </PreferenceScreen>

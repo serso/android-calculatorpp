@@ -9,111 +9,111 @@ import org.jetbrains.annotations.NotNull;
  */
 public enum CalculatorEventType {
 
-    /*
-    **********************************************************************
-    *
-    *                           CALCULATION
-    *                           org.solovyev.android.calculator.CalculatorEvaluationEventData
-    *
-    **********************************************************************
-    */
+	/*
+	**********************************************************************
+	*
+	*                           CALCULATION
+	*                           org.solovyev.android.calculator.CalculatorEvaluationEventData
+	*
+	**********************************************************************
+	*/
 
 
-    // @NotNull CalculatorEditorViewState
-    manual_calculation_requested,
+	// @NotNull CalculatorEditorViewState
+	manual_calculation_requested,
 
-    // @NotNull org.solovyev.android.calculator.CalculatorOutput
-    calculation_result,
+	// @NotNull org.solovyev.android.calculator.CalculatorOutput
+	calculation_result,
 
-    calculation_cancelled,
+	calculation_cancelled,
 
-    // @NotNull org.solovyev.android.calculator.CalculatorFailure
-    calculation_failed,
+	// @NotNull org.solovyev.android.calculator.CalculatorFailure
+	calculation_failed,
 
-    /*
-    **********************************************************************
-    *
-    *                           CONVERSION
-    *                           CalculatorConversionEventData
-    *
-    **********************************************************************
-    */
-    conversion_started,
+	/*
+	**********************************************************************
+	*
+	*                           CONVERSION
+	*                           CalculatorConversionEventData
+	*
+	**********************************************************************
+	*/
+	conversion_started,
 
-    // @NotNull String conversion result
-    conversion_result,
+	// @NotNull String conversion result
+	conversion_result,
 
-    // @NotNull ConversionFailure
-    conversion_failed,
+	// @NotNull ConversionFailure
+	conversion_failed,
 
-    conversion_finished,
+	conversion_finished,
 
-    /*
-    **********************************************************************
-    *
-    *                           EDITOR
-    *
-    **********************************************************************
-    */
+	/*
+	**********************************************************************
+	*
+	*                           EDITOR
+	*
+	**********************************************************************
+	*/
 
-    // @NotNull org.solovyev.android.calculator.CalculatorEditorChangeEventData
-    editor_state_changed,
-    editor_state_changed_light,
+	// @NotNull org.solovyev.android.calculator.CalculatorEditorChangeEventData
+	editor_state_changed,
+	editor_state_changed_light,
 
-    // @NotNull CalculatorDisplayChangeEventData
-    display_state_changed,
+	// @NotNull CalculatorDisplayChangeEventData
+	display_state_changed,
 
-    /*
-    **********************************************************************
-    *
-    *                           ENGINE
-    *
-    **********************************************************************
-    */
+	/*
+	**********************************************************************
+	*
+	*                           ENGINE
+	*
+	**********************************************************************
+	*/
 
-    engine_preferences_changed,
+	engine_preferences_changed,
 
-    /*
-    **********************************************************************
-    *
-    *                           HISTORY
-    *
-    **********************************************************************
-    */
+	/*
+	**********************************************************************
+	*
+	*                           HISTORY
+	*
+	**********************************************************************
+	*/
 
-    // @NotNull CalculatorHistoryState
-   history_state_added,
+	// @NotNull CalculatorHistoryState
+	history_state_added,
 
-    // @NotNull CalculatorHistoryState
-   use_history_state,
+	// @NotNull CalculatorHistoryState
+	use_history_state,
 
-   clear_history_requested,
+	clear_history_requested,
 
-    /*
-    **********************************************************************
-    *
-    *                           MATH ENTITIES
-    *
-    **********************************************************************
-    */
+	/*
+	**********************************************************************
+	*
+	*                           MATH ENTITIES
+	*
+	**********************************************************************
+	*/
 
-    // @NotNull IConstant
-    use_constant,
+	// @NotNull IConstant
+	use_constant,
 
-    // @NotNull Function
-    use_function,
+	// @NotNull Function
+	use_function,
 
-    // @NotNull Operator
-    use_operator,
+	// @NotNull Operator
+	use_operator,
 
-    // @NotNull IConstant
-    constant_added,
+	// @NotNull IConstant
+	constant_added,
 
-    // @NotNull Change<IConstant>
-    constant_changed,
+	// @NotNull Change<IConstant>
+	constant_changed,
 
-    // @NotNull IConstant
-    constant_removed,
+	// @NotNull IConstant
+	constant_removed,
 
 
 	// @NotNull Function
@@ -125,59 +125,63 @@ public enum CalculatorEventType {
 	// @NotNull Change<IFunction>
 	function_changed,
 
-    /*
-    **********************************************************************
-    *
-    *                           OTHER
-    *
-    **********************************************************************
-    */
+	/*
+	**********************************************************************
+	*
+	*                           OTHER
+	*
+	**********************************************************************
+	*/
 
-    // List<Message>
-    calculation_messages,
+	// List<Message>
+	calculation_messages,
 
-    show_history,
-    show_history_detached,
+	show_history,
+	show_history_detached,
 
-    show_functions,
-    show_functions_detached,
+	show_functions,
+	show_functions_detached,
 
-    show_vars,
-    show_vars_detached,
+	show_vars,
+	show_vars_detached,
 
-    open_app,
+	open_app,
 
-    show_operators,
-    show_operators_detached,
+	show_operators,
+	show_operators_detached,
 
-    show_settings,
-    show_settings_detached,
+	show_settings,
+	show_settings_detached,
 
-    show_like_dialog,
+	show_like_dialog,
 
-    show_create_var_dialog,
-    show_create_matrix_dialog,
-    show_create_function_dialog,
+	show_create_var_dialog,
+	show_create_matrix_dialog,
+	show_create_function_dialog,
 
-    /** {@link DialogData} */
-    show_message_dialog,
+	/**
+	 * {@link DialogData}
+	 */
+	show_message_dialog,
 
-    plot_graph,
+	plot_graph,
 
-    /** {@link org.solovyev.android.calculator.plot.PlotData} */
-    plot_data_changed,
+	/**
+	 * {@link org.solovyev.android.calculator.plot.PlotData}
+	 */
+	plot_data_changed,
 
-    //String
-    show_evaluation_error;
+	//String
+	show_evaluation_error;
 
-    public boolean isOfType(@NotNull CalculatorEventType... types) {
-        for (CalculatorEventType type : types) {
-            if ( this == type ) {
-                return true;
-            }
-        }
+	public boolean isOfType(@NotNull CalculatorEventType... types) {
+		for (CalculatorEventType type : types) {
+			if (this == type) {
+				return true;
+			}
+		}
 
-        return false;
-    }
+		return false;
+	}
 
 }

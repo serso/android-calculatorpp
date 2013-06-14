@@ -9,11 +9,14 @@
 	<string name="c_about">About</string>
 
 	<string name="c_about_content">Copyright (c) 2009-2011\n\n<b>Creato da serso aka se.solovyev</b>\n\n
-		Questo programma è open source:\ntutto il codice può essere trovato su\n<a href="https://github.com/serso/android-calculatorpp">http://github.com</a>\n\n
-		Per ulteriori informazioni contatta\nl\'autore via email\n<a href="mailto:se.solovyev@gmail.com">se.solovyev@gmail.com</a>
+		Questo programma è open source:\ntutto il codice può essere trovato su\n
+		<a href="https://github.com/serso/android-calculatorpp">http://github.com</a>\n\n
+		Per ulteriori informazioni contatta\nl\'autore via email\n
+		<a href="mailto:se.solovyev@gmail.com">se.solovyev@gmail.com</a>
 		\no visita\n<a href="http://se.solovyev.org">http://se.solovyev.org</a>\n\n
 		Se vuoi aiutare il progetto\n\n
-		Se ti piace l\'applicazione\nvota 5 stelle nel\n<a href="https://market.android.com/details?id=org.solovyev.android.calculator">Google Play</a>\n\n
+		Se ti piace l\'applicazione\nvota 5 stelle nel\n
+		<a href="https://market.android.com/details?id=org.solovyev.android.calculator">Google Play</a>\n\n
 		Grazie a persone che traducono Calculator++ in diverse lingue:\n
 		Italiano - Gabriele Ravanetti\n
 		Spagnolo - Jordi Luna\n\n

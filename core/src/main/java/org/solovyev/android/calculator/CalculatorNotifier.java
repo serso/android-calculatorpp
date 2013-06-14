@@ -14,11 +14,11 @@ import java.util.List;
  */
 public interface CalculatorNotifier {
 
-    void showMessage(@NotNull Message message);
+	void showMessage(@NotNull Message message);
 
-    void showMessage(@NotNull Integer messageCode, @NotNull MessageType messageType, @NotNull List<Object> parameters);
+	void showMessage(@NotNull Integer messageCode, @NotNull MessageType messageType, @NotNull List<Object> parameters);
 
-    void showMessage(@NotNull Integer messageCode, @NotNull MessageType messageType, @Nullable Object... parameters);
+	void showMessage(@NotNull Integer messageCode, @NotNull MessageType messageType, @Nullable Object... parameters);
 
-    void showDebugMessage(@Nullable  String tag, @NotNull String message);
+	void showDebugMessage(@Nullable String tag, @NotNull String message);
 }

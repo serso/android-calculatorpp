@@ -20,7 +20,7 @@ public interface Editor {
 
 	void setText(@Nullable CharSequence text);
 
-	int  getSelection();
+	int getSelection();
 
 	void setSelection(int selection);
 

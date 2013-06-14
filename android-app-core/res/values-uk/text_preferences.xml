@@ -1,10 +1,13 @@
 <resources>
-    <string name="c_auto_orientation_title">Перемикач автоматичного повороту екрану</string>
-    <string name="c_auto_orientation_summary">Якщо включено, то калькулятор будет автоматично міняти орієнтацію екрану</string>
+	<string name="c_auto_orientation_title">Перемикач автоматичного повороту екрану</string>
+	<string name="c_auto_orientation_summary">Якщо включено, то калькулятор будет автоматично міняти орієнтацію екрану
+	</string>
 
-    <string name="c_show_equals_button_title">Показувати кнопку дорівнює</string>
-    <string name="c_show_equals_button_summary">Якщо включено, то кнопка дорівнює буде показана</string>
+	<string name="c_show_equals_button_title">Показувати кнопку дорівнює</string>
+	<string name="c_show_equals_button_summary">Якщо включено, то кнопка дорівнює буде показана</string>
 
-    <string name="c_hide_numeral_base_digits_title">Не показувати цифри із інших систем числения</string>
-    <string name="c_hide_numeral_base_digits_summary">Якщо включено, то цифри із іншиих систем числення будуть приховані</string>
+	<string name="c_hide_numeral_base_digits_title">Не показувати цифри із інших систем числения</string>
+	<string name="c_hide_numeral_base_digits_summary">Якщо включено, то цифри із іншиих систем числення будуть
+		приховані
+	</string>
 </resources>

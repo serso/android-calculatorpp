@@ -19,58 +19,58 @@ import java.util.List;
  */
 public class AndroidCalculatorNotifier implements CalculatorNotifier {
 
-    @NotNull
-    private final Application application;
+	@NotNull
+	private final Application application;
 
-    @NotNull
-    private final Handler uiHandler = new Handler();
+	@NotNull
+	private final Handler uiHandler = new Handler();
 
-    private final boolean showDebugMessages;
+	private final boolean showDebugMessages;
 
-    public AndroidCalculatorNotifier(@NotNull Application application) {
-        this(application, false);
-    }
+	public AndroidCalculatorNotifier(@NotNull Application application) {
+		this(application, false);
+	}
 
-    public AndroidCalculatorNotifier(@NotNull Application application, boolean showDebugMessages) {
-        assert Threads.isUiThread();
+	public AndroidCalculatorNotifier(@NotNull Application application, boolean showDebugMessages) {
+		assert Threads.isUiThread();
 
-        this.application = application;
-        this.showDebugMessages = showDebugMessages;
-    }
+		this.application = application;
+		this.showDebugMessages = showDebugMessages;
+	}
 
-    @Override
-    public void showMessage(@NotNull Message message) {
-        showMessageInUiThread(message.getLocalizedMessage());
-    }
+	@Override
+	public void showMessage(@NotNull Message message) {
+		showMessageInUiThread(message.getLocalizedMessage());
+	}
 
-    @Override
-    public void showMessage(@NotNull Integer messageCode, @NotNull MessageType messageType, @NotNull List<Object> parameters) {
-        showMessage(new AndroidMessage(messageCode, messageType, application, parameters));
-    }
+	@Override
+	public void showMessage(@NotNull Integer messageCode, @NotNull MessageType messageType, @NotNull List<Object> parameters) {
+		showMessage(new AndroidMessage(messageCode, messageType, application, parameters));
+	}
 
-    @Override
-    public void showMessage(@NotNull Integer messageCode, @NotNull MessageType messageType, @Nullable Object... parameters) {
-        showMessage(new AndroidMessage(messageCode, messageType, application, parameters));
-    }
+	@Override
+	public void showMessage(@NotNull Integer messageCode, @NotNull MessageType messageType, @Nullable Object... parameters) {
+		showMessage(new AndroidMessage(messageCode, messageType, application, parameters));
+	}
 
-    @Override
-    public void showDebugMessage(@Nullable final String tag, @NotNull final String message) {
-        if (showDebugMessages) {
-            showMessageInUiThread(tag == null ? message : tag + ": " + message);
-        }
-    }
+	@Override
+	public void showDebugMessage(@Nullable final String tag, @NotNull final String message) {
+		if (showDebugMessages) {
+			showMessageInUiThread(tag == null ? message : tag + ": " + message);
+		}
+	}
 
-    private void showMessageInUiThread(@NotNull final String message) {
-        if (Threads.isUiThread()) {
-            Toast.makeText(application, message, Toast.LENGTH_SHORT).show();
-        } else {
-            uiHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(application,message, Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-    }
+	private void showMessageInUiThread(@NotNull final String message) {
+		if (Threads.isUiThread()) {
+			Toast.makeText(application, message, Toast.LENGTH_SHORT).show();
+		} else {
+			uiHandler.post(new Runnable() {
+				@Override
+				public void run() {
+					Toast.makeText(application, message, Toast.LENGTH_SHORT).show();
+				}
+			});
+		}
+	}
 
 }

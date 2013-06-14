@@ -10,9 +10,9 @@
 	<string name="c_app_name">Калькулятор++</string>
 	<string name="c_app_name_free">Калькулятор++ Free</string>
 	<string name="c_app_icon_name">Кальк++</string>
-    <string name="c_app_settings">Налаштування</string>
-    <string name="c_syntax_error">Помилка</string>
-    <string name="c_result_copied">Результат скопійовано у буфер!</string>
+	<string name="c_app_settings">Налаштування</string>
+	<string name="c_syntax_error">Помилка</string>
+	<string name="c_result_copied">Результат скопійовано у буфер!</string>
 	<string name="c_settings">Налаштування</string>
 	<string name="c_help">Допомога</string>
 	<string name="c_vars_and_constants">Змінні та константи</string>
@@ -43,10 +43,14 @@
 	<string name="c_calc_round_result_title">Заокруглювати результат</string>
 	<string name="c_calc_round_result_summary">Включити/вимкнути заокруглення результату</string>
 	<string name="c_calc_science_notation_title">Завжди експоненціальна форма</string>
-	<string name="c_calc_science_notation_summary">Якщо включено, то результат буде записано лише у експоненціальній формі (12.34E-12)</string>
+	<string name="c_calc_science_notation_summary">Якщо включено, то результат буде записано лише у експоненціальній
+		формі (12.34E-12)
+	</string>
 	<string name="p_calc_result_precision_title">Точність результату</string>
 	<string name="p_calc_max_calculation_time_title">Максимальний час обчислень</string>
-	<string name="p_calc_max_calculation_time_summary">Якщо тривалість обчислень перевищить встановлену межу, то калькулятор зупиниться з помилкою</string>
+	<string name="p_calc_max_calculation_time_summary">Якщо тривалість обчислень перевищить встановлену межу, то
+		калькулятор зупиниться з помилкою
+	</string>
 	<string name="c_exit">Вийти</string>
 	<string name="c_add">Додати</string>
 	<string name="c_cancel">Скасувати</string>
@@ -65,7 +69,9 @@
 	<string name="c_value_is_not_a_number">Значення може бути порожнім або числом!</string>
 	<string name="c_var_name_clashes">Ім’я змінної не може бути зарезервованим системним ім’ям!</string>
 	<string name="c_var_already_exists">Змінна з таким іменем вже існує!</string>
-	<string name="c_name_is_not_valid">Невірне ім’я змінної: воно мусить починатися з букви, може містити букви, цифри та знак підкреслення (_).</string>
+	<string name="c_name_is_not_valid">Невірне ім’я змінної: воно мусить починатися з букви, може містити букви, цифри
+		та знак підкреслення (_).
+	</string>
 	<string name="c_sys_var_cannot_be_changed">Системну змінну не можна змінювати!</string>
 
 	<string name="c_calc_editor_hint">Введіть новий вираз</string>
@@ -98,7 +104,8 @@
 	<string name="p_metro_blue_theme">Метро Синя (типова)</string>
 	<string name="p_metro_green_theme">Метро Зелена</string>
 	<string name="p_metro_purple_theme">Метро Пурпурова</string>
-	<string name="c_calc_result_precision_summary">Точність результату (усі обчислення проводяться максимально точно)</string>
+	<string name="c_calc_result_precision_summary">Точність результату (усі обчислення проводяться максимально точно)
+	</string>
 	<string name="c_calc_color_display_summary">Включити/вимкнути підсвітку у редакторі калькулятора</string>
 	<string name="c_calc_theme_summary">Встановити тему калькулятора</string>
 	<string name="c_clear_history">Очистити історію</string>
@@ -136,16 +143,18 @@
 	<string name="c_max_x_value">До</string>
 
 	<string name="c_swipe_distance">Відстань розмаху (свайпу) для кнопок</string>
-	<string name="c_swipe_distance_summary">Задає відстань розмаху для кнопок, які підтримують додаткові дії для свайпу</string>
+	<string name="c_swipe_distance_summary">Задає відстань розмаху для кнопок, які підтримують додаткові дії для
+		свайпу
+	</string>
 
 	<string name="c_comment">Коментар</string>
 	<string name="c_history_item_saved">Збережено</string>
 	<string name="c_history_item_not_saved">Не збережено</string>
 	<string name="c_expression_copied">Вираз скопійовано до буфера!</string>
-	<string name="c_history_item_status">Статус: </string>
-	<string name="c_history_item_comment">Коментар: </string>
+	<string name="c_history_item_status">Статус:</string>
+	<string name="c_history_item_comment">Коментар:</string>
 	<string name="c_use">Використовувати</string>
-    <string name="c_use_short">Вик.</string>
+	<string name="c_use_short">Вик.</string>
 	<string name="c_copy_expression">Копіювати вираз</string>
 	<string name="c_copy_result">Копіювати результат</string>
 	<string name="c_history_expression">Значення</string>
@@ -164,11 +173,17 @@
 	<string name="c_copy_description">Копіювати опис</string>
 	<string name="c_copy_value">Копіювати значення</string>
 
-	<string name="c_first_start_text">Дякуємо вам за вибір Калькулятор++!\n\nКалькулятор++ - це потужний інструмент для проведення щоденних розрахунків.\n\nЩоб вилучити рекламу та підтримати проект ви можете вибрати спеціальну опцію у налаштуваннях програми.\n\nПеред початком робота рекомендується прочитати ЧаП та підказки для використання усіх можливостей програми (натисніть кнопку Меню і тоді Допомога)</string>
+	<string name="c_first_start_text">Дякуємо вам за вибір Калькулятор++!\n\nКалькулятор++ - це потужний інструмент для
+		проведення щоденних розрахунків.\n\nЩоб вилучити рекламу та підтримати проект ви можете вибрати спеціальну опцію
+		у налаштуваннях програми.\n\nПеред початком робота рекомендується прочитати ЧаП та підказки для використання
+		усіх можливостей програми (натисніть кнопку Меню і тоді Допомога)
+	</string>
 	<string name="c_first_start_text_title">Вітаємо</string>
 
 	<string name="c_calc_show_release_notes_title">Показувати замітки до випуску</string>
-	<string name="c_calc_show_release_notes_summary">Визначає, чи показувати спливаюче вікно з примітками до випуску після оновлення до нової версії</string>
+	<string name="c_calc_show_release_notes_summary">Визначає, чи показувати спливаюче вікно з примітками до випуску
+		після оновлення до нової версії
+	</string>
 
 	<string name="c_calc_use_back_button_as_prev_summary">Визначити поведінку кнопку Назад</string>
 	<string name="c_calc_use_back_button_as_prev_title">Використовувати кнопку Назад як назад по історії</string>
@@ -178,7 +193,9 @@
 
 	<string name="c_warning">Увага</string>
 	<string name="c_error">Помилка</string>
-	<string name="c_billing_error">Біллінг не підтримується: ви повинні мати обліковий запис Google Checkout, пов’язаний з вашим обліковим записом Google і мати підключення до Інтернету.</string>
+	<string name="c_billing_error">Біллінг не підтримується: ви повинні мати обліковий запис Google Checkout, пов’язаний
+		з вашим обліковим записом Google і мати підключення до Інтернету.
+	</string>
 
 	<string name="c_calc_ad_free_title">Підтримайте проект</string>
 	<string name="c_calc_ad_free_summary">і позбудьтеся реклами!</string>
@@ -190,17 +207,20 @@
 	<string name="c_feedback_title">Зворотній зв’язок</string>
 	<string name="c_feedback_text">Ви вже використовуєте Калькулятор++ деякий час \n
 		і для нас важливо знати вашу думку про програму.\n\n
-		Будь ласка, оцініть Калькулятор++ \nна <a href="https://market.android.com/details?id=org.solovyev.android.calculator">Google Play</a>,\n залиште коментар або \nобговоріть програму \nна <a href="http://facebook.com/calculatorpp">Facebook</a>
+		Будь ласка, оцініть Калькулятор++ \nна
+		<a href="https://market.android.com/details?id=org.solovyev.android.calculator">Google Play</a>,\n залиште
+		коментар або \nобговоріть програму \nна
+		<a href="http://facebook.com/calculatorpp">Facebook</a>
 	</string>
 
 	<string name="c_angle_units_changed_to">Одиниці виміру кутів змінено на \'%s\'!</string>
 	<string name="c_numeral_base_changed_to">Система числення змінена на \'%s\'!</string>
-    <string name="c_conversion_tool">Перетворення чисел</string>
+	<string name="c_conversion_tool">Перетворення чисел</string>
 
-    <string name="c_convert">Перетворити в…</string>
+	<string name="c_convert">Перетворити в…</string>
 
-    <string name="convert_to_hex">Перетворити в hex</string>
-    <string name="convert_to_bin">Перетворити в bin</string>
-    <string name="convert_to_dec">Перетворити в dec</string>
+	<string name="convert_to_hex">Перетворити в hex</string>
+	<string name="convert_to_bin">Перетворити в bin</string>
+	<string name="convert_to_dec">Перетворити в dec</string>
 
 </resources>

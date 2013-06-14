@@ -12,49 +12,49 @@ import org.solovyev.android.calculator.plot.CalculatorPlotter;
  */
 public interface CalculatorLocator {
 
-    void init(@NotNull Calculator calculator,
-              @NotNull CalculatorEngine engine,
-              @NotNull CalculatorClipboard clipboard,
-              @NotNull CalculatorNotifier notifier,
-              @NotNull CalculatorHistory history,
-              @NotNull CalculatorLogger logger,
-              @NotNull CalculatorPreferenceService preferenceService,
-              @NotNull CalculatorKeyboard keyboard,
-              @NotNull CalculatorExternalListenersContainer externalListenersContainer,
-              @NotNull CalculatorPlotter plotter);
+	void init(@NotNull Calculator calculator,
+			  @NotNull CalculatorEngine engine,
+			  @NotNull CalculatorClipboard clipboard,
+			  @NotNull CalculatorNotifier notifier,
+			  @NotNull CalculatorHistory history,
+			  @NotNull CalculatorLogger logger,
+			  @NotNull CalculatorPreferenceService preferenceService,
+			  @NotNull CalculatorKeyboard keyboard,
+			  @NotNull CalculatorExternalListenersContainer externalListenersContainer,
+			  @NotNull CalculatorPlotter plotter);
 
-    @NotNull
-    Calculator getCalculator();
+	@NotNull
+	Calculator getCalculator();
 
-    @NotNull
-    CalculatorEngine getEngine();
+	@NotNull
+	CalculatorEngine getEngine();
 
-    @NotNull
-    CalculatorDisplay getDisplay();
+	@NotNull
+	CalculatorDisplay getDisplay();
 
-    @NotNull
-    CalculatorEditor getEditor();
+	@NotNull
+	CalculatorEditor getEditor();
 
-    @NotNull
-    CalculatorKeyboard getKeyboard();
+	@NotNull
+	CalculatorKeyboard getKeyboard();
 
-    @NotNull
-    CalculatorClipboard getClipboard();
+	@NotNull
+	CalculatorClipboard getClipboard();
 
-    @NotNull
-    CalculatorNotifier getNotifier();
+	@NotNull
+	CalculatorNotifier getNotifier();
 
-    @NotNull
-    CalculatorHistory getHistory();
+	@NotNull
+	CalculatorHistory getHistory();
 
-    @NotNull
-    CalculatorLogger getLogger();
+	@NotNull
+	CalculatorLogger getLogger();
 
-    @NotNull
-    CalculatorPlotter getPlotter();
+	@NotNull
+	CalculatorPlotter getPlotter();
 
-    @NotNull
-    CalculatorPreferenceService getPreferenceService();
+	@NotNull
+	CalculatorPreferenceService getPreferenceService();
 
 	@NotNull
 	CalculatorExternalListenersContainer getExternalListenersContainer();

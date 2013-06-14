@@ -8,10 +8,10 @@ package org.solovyev.android.calculator.history;
 
 import android.preference.PreferenceManager;
 import org.jetbrains.annotations.NotNull;
-import org.solovyev.android.calculator.Locator;
-import org.solovyev.android.calculator.CalculatorPreferences;
-import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.CalculatorFragmentType;
+import org.solovyev.android.calculator.CalculatorPreferences;
+import org.solovyev.android.calculator.Locator;
+import org.solovyev.android.calculator.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,11 +23,11 @@ import java.util.List;
  */
 public class CalculatorHistoryFragment extends AbstractCalculatorHistoryFragment {
 
-    public CalculatorHistoryFragment() {
-        super(CalculatorFragmentType.history);
-    }
+	public CalculatorHistoryFragment() {
+		super(CalculatorFragmentType.history);
+	}
 
-    @Override
+	@Override
 	protected int getItemLayoutId() {
 		return R.layout.history_item;
 	}
@@ -35,13 +35,13 @@ public class CalculatorHistoryFragment extends AbstractCalculatorHistoryFragment
 	@NotNull
 	@Override
 	protected List<CalculatorHistoryState> getHistoryItems() {
-        final boolean showIntermediateCalculations = CalculatorPreferences.History.showIntermediateCalculations.getPreference(PreferenceManager.getDefaultSharedPreferences(getActivity()));
+		final boolean showIntermediateCalculations = CalculatorPreferences.History.showIntermediateCalculations.getPreference(PreferenceManager.getDefaultSharedPreferences(getActivity()));
 		return new ArrayList<CalculatorHistoryState>(Locator.getInstance().getHistory().getStates(showIntermediateCalculations));
 	}
 
 	@Override
 	protected void clearHistory() {
-        Locator.getInstance().getHistory().clear();
+		Locator.getInstance().getHistory().clear();
 		getAdapter().clear();
 	}
 }

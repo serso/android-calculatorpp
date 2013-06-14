@@ -9,6 +9,6 @@ import java.util.List;
  */
 public interface MathEntityPersistenceContainer<T extends MathPersistenceEntity> {
 
-    public List<T> getEntities();
+	public List<T> getEntities();
 
 }

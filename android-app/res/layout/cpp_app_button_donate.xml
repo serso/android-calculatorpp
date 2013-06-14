@@ -7,7 +7,7 @@
   -->
 
 <ImageButton xmlns:a="http://schemas.android.com/apk/res/android"
-			 a:id="@id/cpp_button_like"
-			 a:src="@drawable/kb_facebook"
-			 style="?cpp_control_image_button_style"
-			 a:onClick="likeButtonClickHandler"/>
+	a:id="@id/cpp_button_like"
+	a:src="@drawable/kb_facebook"
+	style="?cpp_control_image_button_style"
+	a:onClick="likeButtonClickHandler" />

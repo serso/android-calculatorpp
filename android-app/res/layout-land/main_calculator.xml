@@ -5,12 +5,11 @@
   ~ For more information, please, contact se.solovyev@gmail.com
   ~ or visit http://se.solovyev.org
   -->
-<LinearLayout
-        xmlns:a="http://schemas.android.com/apk/res/android"
-        a:id="@+id/main_layout"
-        a:orientation="vertical"
-        style="?cpp_main_layout_style">
+<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+	a:id="@+id/main_layout"
+	a:orientation="vertical"
+	style="?cpp_main_layout_style">
 
-    <include layout="@layout/main_first_pane"/>
+	<include layout="@layout/main_first_pane" />
 
 </LinearLayout>

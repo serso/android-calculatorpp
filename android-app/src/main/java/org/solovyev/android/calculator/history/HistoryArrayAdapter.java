@@ -20,10 +20,10 @@ import java.util.Date;
 import java.util.List;
 
 /**
-* User: serso
-* Date: 12/18/11
-* Time: 7:39 PM
-*/
+ * User: serso
+ * Date: 12/18/11
+ * Time: 7:39 PM
+ */
 public class HistoryArrayAdapter extends ArrayAdapter<CalculatorHistoryState> {
 
 	HistoryArrayAdapter(Context context, int resource, int textViewResourceId, @NotNull List<CalculatorHistoryState> historyList) {
@@ -57,7 +57,7 @@ public class HistoryArrayAdapter extends ArrayAdapter<CalculatorHistoryState> {
 			if (state.isSaved()) {
 				status.setText(getContext().getString(R.string.c_history_item_saved));
 			} else {
-				if ( AbstractCalculatorHistoryFragment.isAlreadySaved(state) ) {
+				if (AbstractCalculatorHistoryFragment.isAlreadySaved(state)) {
 					status.setText(getContext().getString(R.string.c_history_item_already_saved));
 				} else {
 					status.setText(getContext().getString(R.string.c_history_item_not_saved));

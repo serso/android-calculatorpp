@@ -17,70 +17,70 @@ import org.solovyev.android.view.VibratorContainer;
  */
 public class AndroidCalculatorKeyboard implements CalculatorKeyboard {
 
-    @NotNull
-    private final CalculatorKeyboard calculatorKeyboard;
+	@NotNull
+	private final CalculatorKeyboard calculatorKeyboard;
 
-    @NotNull
-    private final Context context;
+	@NotNull
+	private final Context context;
 
-    private VibratorContainer vibrator;
+	private VibratorContainer vibrator;
 
-    public AndroidCalculatorKeyboard(@NotNull Application application,
-                                     @NotNull CalculatorKeyboard calculatorKeyboard) {
-        this.context = application;
-        this.calculatorKeyboard = calculatorKeyboard;
-    }
+	public AndroidCalculatorKeyboard(@NotNull Application application,
+									 @NotNull CalculatorKeyboard calculatorKeyboard) {
+		this.context = application;
+		this.calculatorKeyboard = calculatorKeyboard;
+	}
 
-    @Override
-    public void buttonPressed(@Nullable String text) {
-        vibrate();
-        calculatorKeyboard.buttonPressed(text);
-    }
+	@Override
+	public void buttonPressed(@Nullable String text) {
+		vibrate();
+		calculatorKeyboard.buttonPressed(text);
+	}
 
-    private void vibrate() {
-        if (this.vibrator == null) {
-            final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-            final Vibrator vibrator = (Vibrator) context.getSystemService(Activity.VIBRATOR_SERVICE);
+	private void vibrate() {
+		if (this.vibrator == null) {
+			final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+			final Vibrator vibrator = (Vibrator) context.getSystemService(Activity.VIBRATOR_SERVICE);
 
-            this.vibrator = new VibratorContainer(vibrator, preferences, 0.5f);
-        }
+			this.vibrator = new VibratorContainer(vibrator, preferences, 0.5f);
+		}
 
-        this.vibrator.vibrate();
-    }
+		this.vibrator.vibrate();
+	}
 
-    @Override
-    public void roundBracketsButtonPressed() {
-        vibrate();
-        calculatorKeyboard.roundBracketsButtonPressed();
-    }
+	@Override
+	public void roundBracketsButtonPressed() {
+		vibrate();
+		calculatorKeyboard.roundBracketsButtonPressed();
+	}
 
-    @Override
-    public void pasteButtonPressed() {
-        vibrate();
-        calculatorKeyboard.pasteButtonPressed();
-    }
+	@Override
+	public void pasteButtonPressed() {
+		vibrate();
+		calculatorKeyboard.pasteButtonPressed();
+	}
 
-    @Override
-    public void clearButtonPressed() {
-        vibrate();
-        calculatorKeyboard.clearButtonPressed();
-    }
+	@Override
+	public void clearButtonPressed() {
+		vibrate();
+		calculatorKeyboard.clearButtonPressed();
+	}
 
-    @Override
-    public void copyButtonPressed() {
-        vibrate();
-        calculatorKeyboard.copyButtonPressed();
-    }
+	@Override
+	public void copyButtonPressed() {
+		vibrate();
+		calculatorKeyboard.copyButtonPressed();
+	}
 
-    @Override
-    public void moveCursorLeft() {
-        vibrate();
-        calculatorKeyboard.moveCursorLeft();
-    }
+	@Override
+	public void moveCursorLeft() {
+		vibrate();
+		calculatorKeyboard.moveCursorLeft();
+	}
 
-    @Override
-    public void moveCursorRight() {
-        vibrate();
-        calculatorKeyboard.moveCursorRight();
-    }
+	@Override
+	public void moveCursorRight() {
+		vibrate();
+		calculatorKeyboard.moveCursorRight();
+	}
 }

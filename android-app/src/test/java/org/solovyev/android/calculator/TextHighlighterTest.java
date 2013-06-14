@@ -25,12 +25,12 @@ import java.util.Random;
  */
 public class TextHighlighterTest {
 
-    @Before
-    public void setUp() throws Exception {
-        CalculatorTestUtils.staticSetUp();
-    }
+	@Before
+	public void setUp() throws Exception {
+		CalculatorTestUtils.staticSetUp();
+	}
 
-    @Test
+	@Test
 	public void testProcess() throws Exception {
 		TextProcessor<?, String> textHighlighter = new TextHighlighter(0, false);
 
@@ -127,35 +127,35 @@ public class TextHighlighterTest {
 
 		try {
 			me.setNumeralBase(NumeralBase.bin);
-		Assert.assertEquals("110101", textHighlighter.process("110101").toString());
-		Assert.assertEquals("110101.", textHighlighter.process("110101.").toString());
-		Assert.assertEquals("110101.101", textHighlighter.process("110101.101").toString());
-		Assert.assertEquals("11010100.1", textHighlighter.process("11010100.1").toString());
-		Assert.assertEquals("110101.0", textHighlighter.process("110101.0").toString());
-		Assert.assertEquals("0", textHighlighter.process("0").toString());
-		Assert.assertEquals("1010100101111010101001", textHighlighter.process("1010100101111010101001").toString());
-		Assert.assertEquals("101 010   01 0 111   1 0 10101001", textHighlighter.process("101 010   01 0 111   1 0 10101001").toString());
+			Assert.assertEquals("110101", textHighlighter.process("110101").toString());
+			Assert.assertEquals("110101.", textHighlighter.process("110101.").toString());
+			Assert.assertEquals("110101.101", textHighlighter.process("110101.101").toString());
+			Assert.assertEquals("11010100.1", textHighlighter.process("11010100.1").toString());
+			Assert.assertEquals("110101.0", textHighlighter.process("110101.0").toString());
+			Assert.assertEquals("0", textHighlighter.process("0").toString());
+			Assert.assertEquals("1010100101111010101001", textHighlighter.process("1010100101111010101001").toString());
+			Assert.assertEquals("101 010   01 0 111   1 0 10101001", textHighlighter.process("101 010   01 0 111   1 0 10101001").toString());
 		} finally {
 			me.setNumeralBase(NumeralBase.dec);
 		}
 	}
 
-    @Test
-    public void testTime() throws Exception {
-        final TextProcessor<?, String> textHighlighter = new TextHighlighter(Color.WHITE, false);
+	@Test
+	public void testTime() throws Exception {
+		final TextProcessor<?, String> textHighlighter = new TextHighlighter(Color.WHITE, false);
 
-        final int count = 1000;
-        final String subExpression = "cos(acos(t8ln(t5t85tln(8ln(5t55tln(5))))))+tln(88cos(tln(t)))+t√(ln(t))";
-        final StringBuilder expression = new StringBuilder(subExpression.length() * count);
-        for ( int i = 0; i < count; i++ ){
-            expression.append(subExpression);
-            expression.append("+");
-        }
-        expression.append(subExpression);
+		final int count = 1000;
+		final String subExpression = "cos(acos(t8ln(t5t85tln(8ln(5t55tln(5))))))+tln(88cos(tln(t)))+t√(ln(t))";
+		final StringBuilder expression = new StringBuilder(subExpression.length() * count);
+		for (int i = 0; i < count; i++) {
+			expression.append(subExpression);
+			expression.append("+");
+		}
+		expression.append(subExpression);
 
-        long startTime = System.currentTimeMillis();
-        textHighlighter.process(expression.toString());
-        long endTime = System.currentTimeMillis();
-        System.out.println("Total time, ms: " + (endTime - startTime));
-    }
+		long startTime = System.currentTimeMillis();
+		textHighlighter.process(expression.toString());
+		long endTime = System.currentTimeMillis();
+		System.out.println("Total time, ms: " + (endTime - startTime));
+	}
 }

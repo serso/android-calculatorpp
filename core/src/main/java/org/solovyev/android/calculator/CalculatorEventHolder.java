@@ -10,69 +10,69 @@ import org.jetbrains.annotations.Nullable;
  */
 public class CalculatorEventHolder {
 
-    @NotNull
-    private volatile CalculatorEventData lastEventData;
+	@NotNull
+	private volatile CalculatorEventData lastEventData;
 
-    public CalculatorEventHolder(@NotNull CalculatorEventData lastEventData) {
-        this.lastEventData = lastEventData;
-    }
+	public CalculatorEventHolder(@NotNull CalculatorEventData lastEventData) {
+		this.lastEventData = lastEventData;
+	}
 
-    @NotNull
-    public synchronized CalculatorEventData getLastEventData() {
-        return lastEventData;
-    }
+	@NotNull
+	public synchronized CalculatorEventData getLastEventData() {
+		return lastEventData;
+	}
 
-    @NotNull
-    public synchronized Result apply(@NotNull CalculatorEventData newEventData) {
-        final Result result = new Result(lastEventData, newEventData);
+	@NotNull
+	public synchronized Result apply(@NotNull CalculatorEventData newEventData) {
+		final Result result = new Result(lastEventData, newEventData);
 
-        if (result.isNewAfter()) {
-            this.lastEventData = newEventData;
-        }
+		if (result.isNewAfter()) {
+			this.lastEventData = newEventData;
+		}
 
-        return result;
-    }
+		return result;
+	}
 
-    public static class Result {
+	public static class Result {
 
-        @NotNull
-        private final CalculatorEventData lastEventData;
+		@NotNull
+		private final CalculatorEventData lastEventData;
 
-        @NotNull
-        private final CalculatorEventData newEventData;
+		@NotNull
+		private final CalculatorEventData newEventData;
 
-        @Nullable
-        private Boolean after = null;
+		@Nullable
+		private Boolean after = null;
 
-        @Nullable
-        private Boolean sameSequence = null;
+		@Nullable
+		private Boolean sameSequence = null;
 
-        public Result(@NotNull CalculatorEventData lastEventData,
-                      @NotNull CalculatorEventData newEventData) {
-            this.lastEventData = lastEventData;
-            this.newEventData = newEventData;
-        }
+		public Result(@NotNull CalculatorEventData lastEventData,
+					  @NotNull CalculatorEventData newEventData) {
+			this.lastEventData = lastEventData;
+			this.newEventData = newEventData;
+		}
 
-        public boolean isNewAfter() {
-            if (after == null) {
-                after = newEventData.isAfter(lastEventData);
-            }
-            return after;
-        }
+		public boolean isNewAfter() {
+			if (after == null) {
+				after = newEventData.isAfter(lastEventData);
+			}
+			return after;
+		}
 
-        public boolean isSameSequence() {
-            if (sameSequence == null) {
-                sameSequence = newEventData.isSameSequence(lastEventData);
-            }
-            return sameSequence;
-        }
+		public boolean isSameSequence() {
+			if (sameSequence == null) {
+				sameSequence = newEventData.isSameSequence(lastEventData);
+			}
+			return sameSequence;
+		}
 
-        public boolean isNewAfterSequence() {
-            return newEventData.isAfterSequence(lastEventData);
-        }
+		public boolean isNewAfterSequence() {
+			return newEventData.isAfterSequence(lastEventData);
+		}
 
-        public boolean isNewSameOrAfterSequence() {
-            return isSameSequence() || isNewAfterSequence();
-        }
-    }
+		public boolean isNewSameOrAfterSequence() {
+			return isSameSequence() || isNewAfterSequence();
+		}
+	}
 }

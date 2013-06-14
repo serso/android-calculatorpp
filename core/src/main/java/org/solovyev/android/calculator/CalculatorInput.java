@@ -10,9 +10,9 @@ import org.solovyev.android.calculator.jscl.JsclOperation;
  */
 public interface CalculatorInput {
 
-    @NotNull
-    String getExpression();
+	@NotNull
+	String getExpression();
 
-    @NotNull
-    JsclOperation getOperation();
+	@NotNull
+	JsclOperation getOperation();
 }

@@ -2,58 +2,66 @@
 
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-              xmlns:picker="http://schemas.android.com/apk/res-auto"
-              a:id="@+id/main_fragment_layout"
-              style="?cpp_fragment_layout_style"
-              a:layout_width="match_parent"
-              a:layout_height="match_parent">
+	xmlns:picker="http://schemas.android.com/apk/res-auto"
+	a:id="@+id/main_fragment_layout"
+	style="?cpp_fragment_layout_style"
+	a:layout_width="match_parent"
+	a:layout_height="match_parent">
 
-    <TextView a:id="@+id/fragmentTitle"
-              a:layout_height="wrap_content"
-              a:layout_width="match_parent"
-              style="?cpp_fragment_title_style"/>
+	<TextView
+		a:id="@+id/fragmentTitle"
+		a:layout_height="wrap_content"
+		a:layout_width="match_parent"
+		style="?cpp_fragment_title_style" />
 
-    <include layout="@layout/ad"/>
+	<include layout="@layout/ad" />
 
-    <LinearLayout a:layout_height="match_parent"
-                  a:layout_width="match_parent"
-                  a:orientation="vertical">
+	<LinearLayout
+		a:layout_height="match_parent"
+		a:layout_width="match_parent"
+		a:orientation="vertical">
 
-        <org.solovyev.android.view.Picker a:id="@+id/matrix_cols_count_picker"
-                                          a:layout_height="wrap_content"
-                                          a:layout_width="wrap_content"
-                                          a:layout_gravity="center"
-                                          picker:orientation="horizontal"/>
+		<org.solovyev.android.view.Picker
+			a:id="@+id/matrix_cols_count_picker"
+			a:layout_height="wrap_content"
+			a:layout_width="wrap_content"
+			a:layout_gravity="center"
+			picker:orientation="horizontal" />
 
-        <LinearLayout a:layout_height="match_parent"
-                      a:layout_width="match_parent"
-                      a:orientation="horizontal"
-                      a:gravity="center">
+		<LinearLayout
+			a:layout_height="match_parent"
+			a:layout_width="match_parent"
+			a:orientation="horizontal"
+			a:gravity="center">
 
-            <org.solovyev.android.view.Picker a:id="@+id/matrix_rows_count_picker"
-                                              a:layout_height="wrap_content"
-                                              a:layout_width="wrap_content"/>
+			<org.solovyev.android.view.Picker
+				a:id="@+id/matrix_rows_count_picker"
+				a:layout_height="wrap_content"
+				a:layout_width="wrap_content" />
 
-            <ScrollView a:layout_height="match_parent"
-                        a:layout_width="match_parent"
-                        a:scrollbars="vertical">
+			<ScrollView
+				a:layout_height="match_parent"
+				a:layout_width="match_parent"
+				a:scrollbars="vertical">
 
-                <HorizontalScrollView a:layout_height="wrap_content"
-                                      a:layout_width="match_parent"
-                                      a:minHeight="300dp">
+				<HorizontalScrollView
+					a:layout_height="wrap_content"
+					a:layout_width="match_parent"
+					a:minHeight="300dp">
 
-                    <org.solovyev.android.calculator.matrix.MatrixView a:id="@+id/matrix_layout"
-                                                                       a:layout_height="match_parent"
-                                                                       a:layout_width="match_parent"
-                                                                       a:minWidth="300dp"/>
+					<org.solovyev.android.calculator.matrix.MatrixView
+						a:id="@+id/matrix_layout"
+						a:layout_height="match_parent"
+						a:layout_width="match_parent"
+						a:minWidth="300dp" />
 
-                </HorizontalScrollView>
+				</HorizontalScrollView>
 
-            </ScrollView>
+			</ScrollView>
 
-        </LinearLayout>
+		</LinearLayout>
 
-    </LinearLayout>
+	</LinearLayout>
 
 
 </LinearLayout>

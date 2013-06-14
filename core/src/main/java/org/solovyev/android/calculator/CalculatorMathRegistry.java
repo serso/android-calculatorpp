@@ -21,8 +21,8 @@ public interface CalculatorMathRegistry<T extends MathEntity> extends MathRegist
 	@Nullable
 	String getDescription(@NotNull String mathEntityName);
 
-    @Nullable
-    String getCategory(@NotNull T mathEntity);
+	@Nullable
+	String getCategory(@NotNull T mathEntity);
 
 	void load();
 

@@ -15,43 +15,43 @@ import java.util.List;
  */
 public enum CalculatorFixableError implements FixableError {
 
-    must_be_rad(Messages.msg_23, Messages.msg_24, Messages.msg_25) {
-        @Override
-        public void fix() {
-            Locator.getInstance().getPreferenceService().setAngleUnits(AngleUnit.rad);
-        }
-    },
+	must_be_rad(Messages.msg_23, Messages.msg_24, Messages.msg_25) {
+		@Override
+		public void fix() {
+			Locator.getInstance().getPreferenceService().setAngleUnits(AngleUnit.rad);
+		}
+	},
 
-    preferred_numeral_base() {
-        @Override
-        public void fix() {
-            Locator.getInstance().getPreferenceService().setPreferredNumeralBase();
-        }
-    },
+	preferred_numeral_base() {
+		@Override
+		public void fix() {
+			Locator.getInstance().getPreferenceService().setPreferredNumeralBase();
+		}
+	},
 
-    preferred_angle_units() {
-        @Override
-        public void fix() {
-            Locator.getInstance().getPreferenceService().setPreferredAngleUnits();
-        }
-    };
+	preferred_angle_units() {
+		@Override
+		public void fix() {
+			Locator.getInstance().getPreferenceService().setPreferredAngleUnits();
+		}
+	};
 
-    @NotNull
-    private final List<String> messageCodes;
+	@NotNull
+	private final List<String> messageCodes;
 
-     CalculatorFixableError(@Nullable String... messageCodes) {
-         this.messageCodes = Collections.asList(messageCodes);
-    }
+	CalculatorFixableError(@Nullable String... messageCodes) {
+		this.messageCodes = Collections.asList(messageCodes);
+	}
 
-    @Nullable
-    public static CalculatorFixableError getErrorByMessageCode(@NotNull String messageCode) {
-        for (CalculatorFixableError fixableError : values()) {
-            if (fixableError.messageCodes.contains(messageCode)) {
-                return fixableError;
-            }
-        }
-        return null;
-    }
+	@Nullable
+	public static CalculatorFixableError getErrorByMessageCode(@NotNull String messageCode) {
+		for (CalculatorFixableError fixableError : values()) {
+			if (fixableError.messageCodes.contains(messageCode)) {
+				return fixableError;
+			}
+		}
+		return null;
+	}
 
 
 	@Nullable

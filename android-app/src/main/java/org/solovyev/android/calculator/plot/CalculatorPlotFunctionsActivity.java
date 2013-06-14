@@ -21,14 +21,14 @@ import java.util.List;
  */
 public class CalculatorPlotFunctionsActivity extends SherlockFragmentActivity {
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+	@Override
+	protected void onCreate(@Nullable Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.cpp_dialog);
+		setContentView(R.layout.cpp_dialog);
 
-        FragmentUtils.createFragment(this, CalculatorPlotFunctionsFragment.class, R.id.dialog_layout, "plot-functions");
-    }
+		FragmentUtils.createFragment(this, CalculatorPlotFunctionsFragment.class, R.id.dialog_layout, "plot-functions");
+	}
 
 	public static class CalculatorPlotFunctionsFragment extends CalculatorListFragment {
 

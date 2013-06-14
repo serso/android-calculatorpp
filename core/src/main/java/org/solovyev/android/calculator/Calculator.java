@@ -15,59 +15,59 @@ import org.solovyev.common.history.HistoryControl;
  */
 public interface Calculator extends CalculatorEventContainer, HistoryControl<CalculatorHistoryState> {
 
-    void init();
+	void init();
 
-    /*
-    **********************************************************************
-    *
-    *                           CALCULATIONS
-    *
-    **********************************************************************
-    */
+	/*
+	**********************************************************************
+	*
+	*                           CALCULATIONS
+	*
+	**********************************************************************
+	*/
 
-    void evaluate();
+	void evaluate();
 
-    void evaluate(@NotNull Long sequenceId);
+	void evaluate(@NotNull Long sequenceId);
 
-    void simplify();
+	void simplify();
 
-    @NotNull
-    CalculatorEventData evaluate(@NotNull JsclOperation operation,
-                                   @NotNull String expression);
+	@NotNull
+	CalculatorEventData evaluate(@NotNull JsclOperation operation,
+								 @NotNull String expression);
 
-    @NotNull
-    CalculatorEventData evaluate(@NotNull JsclOperation operation,
-                                   @NotNull String expression,
-                                   @NotNull Long sequenceId);
+	@NotNull
+	CalculatorEventData evaluate(@NotNull JsclOperation operation,
+								 @NotNull String expression,
+								 @NotNull Long sequenceId);
 
-    /*
-    **********************************************************************
-    *
-    *                           CONVERSION
-    *
-    **********************************************************************
-    */
+	/*
+	**********************************************************************
+	*
+	*                           CONVERSION
+	*
+	**********************************************************************
+	*/
 
-    boolean isConversionPossible(@NotNull Generic generic, @NotNull NumeralBase from, @NotNull NumeralBase to);
+	boolean isConversionPossible(@NotNull Generic generic, @NotNull NumeralBase from, @NotNull NumeralBase to);
 
-    @NotNull
-    CalculatorEventData convert(@NotNull Generic generic, @NotNull NumeralBase to);
+	@NotNull
+	CalculatorEventData convert(@NotNull Generic generic, @NotNull NumeralBase to);
 
-    /*
-    **********************************************************************
-    *
-    *                           EVENTS
-    *
-    **********************************************************************
-    */
-    @NotNull
-    CalculatorEventData fireCalculatorEvent(@NotNull CalculatorEventType calculatorEventType, @Nullable Object data);
+	/*
+	**********************************************************************
+	*
+	*                           EVENTS
+	*
+	**********************************************************************
+	*/
+	@NotNull
+	CalculatorEventData fireCalculatorEvent(@NotNull CalculatorEventType calculatorEventType, @Nullable Object data);
 
-    @NotNull
-    CalculatorEventData fireCalculatorEvent(@NotNull CalculatorEventType calculatorEventType, @Nullable Object data, @NotNull Object source);
+	@NotNull
+	CalculatorEventData fireCalculatorEvent(@NotNull CalculatorEventType calculatorEventType, @Nullable Object data, @NotNull Object source);
 
-    @NotNull
-    CalculatorEventData fireCalculatorEvent(@NotNull CalculatorEventType calculatorEventType, @Nullable Object data, @NotNull Long sequenceId);
+	@NotNull
+	CalculatorEventData fireCalculatorEvent(@NotNull CalculatorEventType calculatorEventType, @Nullable Object data, @NotNull Long sequenceId);
 
 	@NotNull
 	PreparedExpression prepareExpression(@NotNull String expression) throws CalculatorParseException;

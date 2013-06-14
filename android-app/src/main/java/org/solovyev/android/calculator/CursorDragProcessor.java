@@ -18,7 +18,7 @@ import org.solovyev.common.math.Point2d;
  * Date: 9/16/11
  * Time: 11:45 PM
  */
-public class CursorDragProcessor implements SimpleOnDragListener.DragProcessor{
+public class CursorDragProcessor implements SimpleOnDragListener.DragProcessor {
 
 	public CursorDragProcessor() {
 	}
@@ -33,7 +33,7 @@ public class CursorDragProcessor implements SimpleOnDragListener.DragProcessor{
 				Locator.getInstance().getEditor().setCursorOnStart();
 				result = true;
 			} else if ("▶▶".equals(text)) {
-                Locator.getInstance().getEditor().setCursorOnEnd();
+				Locator.getInstance().getEditor().setCursorOnEnd();
 				result = true;
 			}
 		}

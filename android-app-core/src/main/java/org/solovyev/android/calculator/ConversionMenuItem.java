@@ -14,39 +14,39 @@ import org.solovyev.android.menu.AMenuItem;
  */
 enum ConversionMenuItem implements AMenuItem<CalculatorDisplayViewState> {
 
-    convert_to_bin(NumeralBase.bin),
-    convert_to_dec(NumeralBase.dec),
-    convert_to_hex(NumeralBase.hex);
+	convert_to_bin(NumeralBase.bin),
+	convert_to_dec(NumeralBase.dec),
+	convert_to_hex(NumeralBase.hex);
 
-    @NotNull
-    private final NumeralBase toNumeralBase;
+	@NotNull
+	private final NumeralBase toNumeralBase;
 
-    ConversionMenuItem(@NotNull NumeralBase toNumeralBase) {
-        this.toNumeralBase = toNumeralBase;
-    }
+	ConversionMenuItem(@NotNull NumeralBase toNumeralBase) {
+		this.toNumeralBase = toNumeralBase;
+	}
 
-    protected boolean isItemVisibleFor(@NotNull Generic generic, @NotNull JsclOperation operation) {
-        boolean result = false;
+	protected boolean isItemVisibleFor(@NotNull Generic generic, @NotNull JsclOperation operation) {
+		boolean result = false;
 
-        if (operation == JsclOperation.numeric) {
-            if (generic.getConstants().isEmpty()) {
-                // conversion possible => return true
-                final NumeralBase fromNumeralBase = Locator.getInstance().getEngine().getNumeralBase();
-                if (fromNumeralBase != toNumeralBase) {
-                    result = Locator.getInstance().getCalculator().isConversionPossible(generic, fromNumeralBase, this.toNumeralBase);
-                }
-            }
-        }
+		if (operation == JsclOperation.numeric) {
+			if (generic.getConstants().isEmpty()) {
+				// conversion possible => return true
+				final NumeralBase fromNumeralBase = Locator.getInstance().getEngine().getNumeralBase();
+				if (fromNumeralBase != toNumeralBase) {
+					result = Locator.getInstance().getCalculator().isConversionPossible(generic, fromNumeralBase, this.toNumeralBase);
+				}
+			}
+		}
 
-        return result;
-    }
+		return result;
+	}
 
-    @Override
-    public void onClick(@NotNull CalculatorDisplayViewState data, @NotNull Context context) {
-        final Generic result = data.getResult();
+	@Override
+	public void onClick(@NotNull CalculatorDisplayViewState data, @NotNull Context context) {
+		final Generic result = data.getResult();
 
-        if (result != null) {
-            Locator.getInstance().getCalculator().convert(result, this.toNumeralBase);
-        }
-    }
+		if (result != null) {
+			Locator.getInstance().getCalculator().convert(result, this.toNumeralBase);
+		}
+	}
 }

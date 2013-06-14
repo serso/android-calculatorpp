@@ -2,20 +2,20 @@
 
 
 <selector xmlns:a="http://schemas.android.com/apk/res/android">
-    <!-- Non focused states -->
-    <item a:state_focused="false" a:state_selected="false" a:state_pressed="false" a:drawable="@android:color/transparent" />
-    <item a:state_focused="false" a:state_selected="true"  a:state_pressed="false" a:drawable="@color/cpp_metro_blue_color" />
+	<!-- Non focused states -->
+	<item a:state_focused="false" a:state_selected="false" a:state_pressed="false" a:drawable="@android:color/transparent" />
+	<item a:state_focused="false" a:state_selected="true" a:state_pressed="false" a:drawable="@color/cpp_metro_blue_color" />
 
-    <!-- Focused states -->
-    <item a:state_focused="true" a:state_selected="false" a:state_pressed="false" a:drawable="@color/cpp_metro_blue_color" />
-    <item a:state_focused="true" a:state_selected="true"  a:state_pressed="false" a:drawable="@color/cpp_metro_blue_color" />
+	<!-- Focused states -->
+	<item a:state_focused="true" a:state_selected="false" a:state_pressed="false" a:drawable="@color/cpp_metro_blue_color" />
+	<item a:state_focused="true" a:state_selected="true" a:state_pressed="false" a:drawable="@color/cpp_metro_blue_color" />
 
-    <!-- Pressed -->
-    <!--    Non focused states -->
-    <item a:state_focused="false" a:state_selected="false" a:state_pressed="true" a:drawable="@color/cpp_metro_blue_color" />
-    <item a:state_focused="false" a:state_selected="true"  a:state_pressed="true" a:drawable="@color/cpp_metro_blue_color" />
+	<!-- Pressed -->
+	<!--    Non focused states -->
+	<item a:state_focused="false" a:state_selected="false" a:state_pressed="true" a:drawable="@color/cpp_metro_blue_color" />
+	<item a:state_focused="false" a:state_selected="true" a:state_pressed="true" a:drawable="@color/cpp_metro_blue_color" />
 
-    <!--    Focused states -->
-    <item a:state_focused="true" a:state_selected="false" a:state_pressed="true" a:drawable="@color/cpp_metro_blue_color" />
-    <item a:state_focused="true" a:state_selected="true"  a:state_pressed="true" a:drawable="@color/cpp_metro_blue_color" />
+	<!--    Focused states -->
+	<item a:state_focused="true" a:state_selected="false" a:state_pressed="true" a:drawable="@color/cpp_metro_blue_color" />
+	<item a:state_focused="true" a:state_selected="true" a:state_pressed="true" a:drawable="@color/cpp_metro_blue_color" />
 </selector>

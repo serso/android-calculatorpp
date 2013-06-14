@@ -8,7 +8,10 @@ package org.solovyev.android.calculator.history;
 import org.jetbrains.annotations.NotNull;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
-import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.CalculatorDisplay;
+import org.solovyev.android.calculator.CalculatorDisplayViewState;
+import org.solovyev.android.calculator.CalculatorEditor;
+import org.solovyev.android.calculator.CalculatorEditorViewState;
 
 /**
  * User: serso
@@ -32,31 +35,31 @@ public class CalculatorHistoryState extends AbstractHistoryState {
 	}
 
 	private CalculatorHistoryState(@NotNull EditorHistoryState editorState,
-								  @NotNull CalculatorDisplayHistoryState displayState) {
+								   @NotNull CalculatorDisplayHistoryState displayState) {
 		this.editorState = editorState;
 		this.displayState = displayState;
 	}
 
-    @NotNull
+	@NotNull
 	public static CalculatorHistoryState newInstance(@NotNull CalculatorEditor editor,
-                                                     @NotNull CalculatorDisplay display) {
-        final CalculatorEditorViewState editorViewState = editor.getViewState();
-        final CalculatorDisplayViewState displayViewState = display.getViewState();
+													 @NotNull CalculatorDisplay display) {
+		final CalculatorEditorViewState editorViewState = editor.getViewState();
+		final CalculatorDisplayViewState displayViewState = display.getViewState();
 
-        return newInstance(editorViewState, displayViewState);
+		return newInstance(editorViewState, displayViewState);
 	}
 
-    @NotNull
-    public static CalculatorHistoryState newInstance(@NotNull CalculatorEditorViewState editorViewState,
-                                                      @NotNull CalculatorDisplayViewState displayViewState) {
-        final EditorHistoryState editorHistoryState = EditorHistoryState.newInstance(editorViewState);
+	@NotNull
+	public static CalculatorHistoryState newInstance(@NotNull CalculatorEditorViewState editorViewState,
+													 @NotNull CalculatorDisplayViewState displayViewState) {
+		final EditorHistoryState editorHistoryState = EditorHistoryState.newInstance(editorViewState);
 
-        final CalculatorDisplayHistoryState displayHistoryState = CalculatorDisplayHistoryState.newInstance(displayViewState);
+		final CalculatorDisplayHistoryState displayHistoryState = CalculatorDisplayHistoryState.newInstance(displayViewState);
 
-        return new CalculatorHistoryState(editorHistoryState, displayHistoryState);
-    }
+		return new CalculatorHistoryState(editorHistoryState, displayHistoryState);
+	}
 
-    @NotNull
+	@NotNull
 	public EditorHistoryState getEditorState() {
 		return editorState;
 	}
@@ -113,7 +116,7 @@ public class CalculatorHistoryState extends AbstractHistoryState {
 
 	@Override
 	protected CalculatorHistoryState clone() {
-		final CalculatorHistoryState clone = (CalculatorHistoryState)super.clone();
+		final CalculatorHistoryState clone = (CalculatorHistoryState) super.clone();
 
 		clone.editorState = this.editorState.clone();
 		clone.displayState = this.displayState.clone();

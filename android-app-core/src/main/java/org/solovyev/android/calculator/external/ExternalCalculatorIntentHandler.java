@@ -11,5 +11,5 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface ExternalCalculatorIntentHandler {
 
-    void onIntent(@NotNull Context context, @NotNull Intent intent);
+	void onIntent(@NotNull Context context, @NotNull Intent intent);
 }

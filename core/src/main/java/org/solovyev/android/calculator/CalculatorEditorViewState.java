@@ -11,8 +11,8 @@ import java.io.Serializable;
  */
 public interface CalculatorEditorViewState extends Serializable {
 
-    @NotNull
-    String getText();
+	@NotNull
+	String getText();
 
-    int getSelection();
+	int getSelection();
 }

@@ -32,19 +32,19 @@ public class FromJsclNumericTextProcessorTest extends AbstractCalculatorTest {
 	public void testCreateResultForComplexNumber() throws Exception {
 		final FromJsclNumericTextProcessor cm = new FromJsclNumericTextProcessor();
 
-        final JsclMathEngine me = JsclMathEngine.getInstance();
-        final AngleUnit defaultAngleUnits = me.getAngleUnits();
+		final JsclMathEngine me = JsclMathEngine.getInstance();
+		final AngleUnit defaultAngleUnits = me.getAngleUnits();
 
 		Assert.assertEquals("1.22133+23 123i", cm.process(Expression.valueOf("1.22133232+23123*i").numeric()));
 		Assert.assertEquals("1.22133+1.2i", cm.process(Expression.valueOf("1.22133232+1.2*i").numeric()));
 		Assert.assertEquals("1.22133+0i", cm.process(Expression.valueOf("1.22133232+0.000000001*i").numeric()));
-        try {
-            me.setAngleUnits(AngleUnit.rad);
-            Assert.assertEquals("1-0i", cm.process(Expression.valueOf("-(e^(i*π))").numeric()));
-        } finally {
-            me.setAngleUnits(defaultAngleUnits);
-        }
-        Assert.assertEquals("1.22i", cm.process(Expression.valueOf("1.22*i").numeric()));
+		try {
+			me.setAngleUnits(AngleUnit.rad);
+			Assert.assertEquals("1-0i", cm.process(Expression.valueOf("-(e^(i*π))").numeric()));
+		} finally {
+			me.setAngleUnits(defaultAngleUnits);
+		}
+		Assert.assertEquals("1.22i", cm.process(Expression.valueOf("1.22*i").numeric()));
 		Assert.assertEquals("i", cm.process(Expression.valueOf("i").numeric()));
 		Generic numeric = Expression.valueOf("e^(Π*i)+1").numeric();
 		junit.framework.Assert.assertEquals("0i", cm.process(numeric));

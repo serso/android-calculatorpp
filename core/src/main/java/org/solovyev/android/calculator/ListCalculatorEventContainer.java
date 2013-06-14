@@ -16,45 +16,45 @@ import java.util.List;
  */
 public class ListCalculatorEventContainer implements CalculatorEventContainer {
 
-    @NotNull
-    private static final String TAG = "CalculatorEventData";
+	@NotNull
+	private static final String TAG = "CalculatorEventData";
 
-    @NotNull
-    private final JListeners<CalculatorEventListener> listeners = Listeners.newWeakRefListeners();
+	@NotNull
+	private final JListeners<CalculatorEventListener> listeners = Listeners.newWeakRefListeners();
 
-    @Override
-    public void addCalculatorEventListener(@NotNull CalculatorEventListener calculatorEventListener) {
-        listeners.addListener(calculatorEventListener);
-    }
+	@Override
+	public void addCalculatorEventListener(@NotNull CalculatorEventListener calculatorEventListener) {
+		listeners.addListener(calculatorEventListener);
+	}
 
-    @Override
-    public void removeCalculatorEventListener(@NotNull CalculatorEventListener calculatorEventListener) {
-        listeners.removeListener(calculatorEventListener);
-    }
+	@Override
+	public void removeCalculatorEventListener(@NotNull CalculatorEventListener calculatorEventListener) {
+		listeners.removeListener(calculatorEventListener);
+	}
 
-    @Override
-    public void fireCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
-        fireCalculatorEvents(Arrays.asList(new CalculatorEvent(calculatorEventData, calculatorEventType, data)));
-    }
+	@Override
+	public void fireCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
+		fireCalculatorEvents(Arrays.asList(new CalculatorEvent(calculatorEventData, calculatorEventType, data)));
+	}
 
-    @Override
-    public void fireCalculatorEvents(@NotNull List<CalculatorEvent> calculatorEvents) {
-        final Collection<CalculatorEventListener> listeners = this.listeners.getListeners();
+	@Override
+	public void fireCalculatorEvents(@NotNull List<CalculatorEvent> calculatorEvents) {
+		final Collection<CalculatorEventListener> listeners = this.listeners.getListeners();
 
-        //final CalculatorLogger logger = Locator.getInstance().getLogger();
+		//final CalculatorLogger logger = Locator.getInstance().getLogger();
 
-        for (CalculatorEvent e : calculatorEvents) {
-            //Locator.getInstance().getLogger().debug(TAG, "Event fired: " + e.getCalculatorEventType());
-            for (CalculatorEventListener listener : listeners) {
-                /*long startTime = System.currentTimeMillis();*/
-                listener.onCalculatorEvent(e.getCalculatorEventData(), e.getCalculatorEventType(), e.getData());
+		for (CalculatorEvent e : calculatorEvents) {
+			//Locator.getInstance().getLogger().debug(TAG, "Event fired: " + e.getCalculatorEventType());
+			for (CalculatorEventListener listener : listeners) {
+				/*long startTime = System.currentTimeMillis();*/
+				listener.onCalculatorEvent(e.getCalculatorEventData(), e.getCalculatorEventType(), e.getData());
 /*                long endTime = System.currentTimeMillis();
                 long totalTime = (endTime - startTime);
                 if ( totalTime > 300 ) {
                     logger.debug(TAG + "_" + e.getCalculatorEventData().getEventId(), "Started event: " + e.getCalculatorEventType() + " with data: " + e.getData() + " for: " + listener.getClass().getSimpleName());
                     logger.debug(TAG + "_" + e.getCalculatorEventData().getEventId(), "Total time, ms: " + totalTime);
                 }*/
-            }
-        }
-    }
+			}
+		}
+	}
 }

@@ -11,55 +11,55 @@ import org.jetbrains.annotations.NotNull;
  */
 public abstract class CalculatorFragmentActivity extends SherlockFragmentActivity {
 
-    @NotNull
-    private final CalculatorActivityHelper activityHelper;
+	@NotNull
+	private final CalculatorActivityHelper activityHelper;
 
-    protected CalculatorFragmentActivity() {
-        this(R.layout.main_empty);
-    }
+	protected CalculatorFragmentActivity() {
+		this(R.layout.main_empty);
+	}
 
-    protected CalculatorFragmentActivity(int layoutResId) {
-        this.activityHelper = CalculatorApplication.getInstance().createActivityHelper(layoutResId, getClass().getSimpleName());
-    }
+	protected CalculatorFragmentActivity(int layoutResId) {
+		this.activityHelper = CalculatorApplication.getInstance().createActivityHelper(layoutResId, getClass().getSimpleName());
+	}
 
-    @NotNull
-    protected CalculatorActivityHelper getActivityHelper() {
-        return activityHelper;
-    }
+	@NotNull
+	protected CalculatorActivityHelper getActivityHelper() {
+		return activityHelper;
+	}
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-        activityHelper.onCreate(this, savedInstanceState);
-    }
+		activityHelper.onCreate(this, savedInstanceState);
+	}
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
 
-        activityHelper.onSaveInstanceState(this, outState);
-    }
+		activityHelper.onSaveInstanceState(this, outState);
+	}
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+	@Override
+	protected void onResume() {
+		super.onResume();
 
-        activityHelper.onResume(this);
-    }
+		activityHelper.onResume(this);
+	}
 
-    @Override
-    protected void onPause() {
-        this.activityHelper.onPause(this);
+	@Override
+	protected void onPause() {
+		this.activityHelper.onPause(this);
 
-        super.onPause();
-    }
+		super.onPause();
+	}
 
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
 
-        activityHelper.onDestroy(this);
-    }
+		activityHelper.onDestroy(this);
+	}
 }

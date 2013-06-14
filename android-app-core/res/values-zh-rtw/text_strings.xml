@@ -10,9 +10,9 @@
 	<string name="c_app_name">Calculator++</string>
 	<string name="c_app_name_free">Calculator++ Free</string>
 	<string name="c_app_icon_name">Calc++</string>
-    <string name="c_app_settings">設定</string>
-    <string name="c_syntax_error">錯誤</string>
-    <string name="c_result_copied">答案已複製到剪貼簿!</string>
+	<string name="c_app_settings">設定</string>
+	<string name="c_syntax_error">錯誤</string>
+	<string name="c_result_copied">答案已複製到剪貼簿!</string>
 	<string name="c_settings">設定</string>
 	<string name="c_help">說明</string>
 	<string name="c_vars_and_constants">變數與常數</string>
@@ -142,8 +142,8 @@
 	<string name="c_history_item_saved">已儲存</string>
 	<string name="c_history_item_not_saved">未儲存</string>
 	<string name="c_expression_copied">計算式已複製到剪接簿!</string>
-	<string name="c_history_item_status">狀態: </string>
-	<string name="c_history_item_comment">備註: </string>
+	<string name="c_history_item_status">狀態:</string>
+	<string name="c_history_item_comment">備註:</string>
 	<string name="c_use">使用</string>
 	<string name="c_use_short">使用</string>
 	<string name="c_copy_expression">複製計算式</string>
@@ -164,7 +164,9 @@
 	<string name="c_copy_description">複製描述</string>
 	<string name="c_copy_value">複製值</string>
 
-	<string name="c_first_start_text">感謝您選擇 Calculator++!\n\nCalculator++ 是一個強大的計算工具.\n\n您可以從設定選單內的一個特殊選項移除廣告並支持此專案.\n\n強烈建議您在使用本程式之前先閱讀常見問題以及提示 (按下選單鍵, 然後選擇「說明」)</string>
+	<string name="c_first_start_text">感謝您選擇 Calculator++!\n\nCalculator++
+		是一個強大的計算工具.\n\n您可以從設定選單內的一個特殊選項移除廣告並支持此專案.\n\n強烈建議您在使用本程式之前先閱讀常見問題以及提示 (按下選單鍵, 然後選擇「說明」)
+	</string>
 	<string name="c_first_start_text_title">歡迎</string>
 
 	<string name="c_calc_show_release_notes_title">顯示發行公告</string>
@@ -190,21 +192,28 @@
 	<string name="c_feedback_title">回饋</string>
 	<string name="c_feedback_text">您已使用 Calculator++ 一段時間了 \n
 		我們很希望可以瞭解您對這個軟體的意見.\n\n
-		請在 <a href="https://market.android.com/details?id=org.solovyev.android.calculator">Google Play</a> 上評等 Calculator++,\n 留下評論訊息 \n或是在 <a href="http://facebook.com/calculatorpp">Facebook</a> 上討論.
+		請在
+		<a href="https://market.android.com/details?id=org.solovyev.android.calculator">Google Play</a>
+		上評等 Calculator++,\n 留下評論訊息 \n或是在
+		<a href="http://facebook.com/calculatorpp">Facebook</a>
+		上討論.
 	</string>
 
-    <string name="c_notespp_announce_text">好消息 - 我剛發行了一個新的 Android 應用程式, 叫做 <a href="https://play.google.com/store/apps/details?id=org.solovyev.android.notes">Notes++</a>.\n
-        如果您正在尋找能快速簡單作筆記的程式, 請點選 <a href="https://play.google.com/store/apps/details?id=org.solovyev.android.notes">此連結</a> 試試看 Notes++!
-    </string>
+	<string name="c_notespp_announce_text">好消息 - 我剛發行了一個新的 Android 應用程式, 叫做
+		<a href="https://play.google.com/store/apps/details?id=org.solovyev.android.notes">Notes++</a>.\n
+		如果您正在尋找能快速簡單作筆記的程式, 請點選
+		<a href="https://play.google.com/store/apps/details?id=org.solovyev.android.notes">此連結</a>
+		試試看 Notes++!
+	</string>
 
 	<string name="c_angle_units_changed_to">角度單位已設定為 \'%s\'!</string>
 	<string name="c_numeral_base_changed_to">進位制已設定為 \'%s\'!</string>
 	<string name="c_conversion_tool">轉換工具</string>
 
-    <string name="c_convert">轉換為…</string>
+	<string name="c_convert">轉換為…</string>
 
-    <string name="convert_to_hex">轉換為十六進位</string>
-    <string name="convert_to_bin">轉換為二進位</string>
-    <string name="convert_to_dec">轉換為十進位</string>
+	<string name="convert_to_hex">轉換為十六進位</string>
+	<string name="convert_to_bin">轉換為二進位</string>
+	<string name="convert_to_dec">轉換為十進位</string>
 
 </resources>

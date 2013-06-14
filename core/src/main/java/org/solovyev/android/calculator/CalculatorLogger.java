@@ -10,12 +10,12 @@ import org.jetbrains.annotations.Nullable;
  */
 public interface CalculatorLogger {
 
-    void debug(@Nullable String tag, @NotNull String message);
+	void debug(@Nullable String tag, @NotNull String message);
 
-    void debug(@Nullable String tag, @Nullable String message, @NotNull Throwable e);
+	void debug(@Nullable String tag, @Nullable String message, @NotNull Throwable e);
 
-    void error(@Nullable String tag, @Nullable String message, @NotNull Throwable e);
+	void error(@Nullable String tag, @Nullable String message, @NotNull Throwable e);
 
-    void error(@Nullable String tag, @Nullable String message);
+	void error(@Nullable String tag, @Nullable String message);
 
 }

@@ -13,7 +13,7 @@ import java.io.File;
  */
 public class CalculatorppTestRunner extends RobolectricTestRunner {
 
-    public CalculatorppTestRunner(@NotNull Class<?> testClass) throws InitializationError {
-        super(testClass, new File("."));
-    }
+	public CalculatorppTestRunner(@NotNull Class<?> testClass) throws InitializationError {
+		super(testClass, new File("."));
+	}
 }

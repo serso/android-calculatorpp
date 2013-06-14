@@ -16,61 +16,61 @@ import org.jetbrains.annotations.NotNull;
  */
 public class CalculatorDisplayFragment extends SherlockFragment {
 
-    @NotNull
-    private CalculatorFragmentHelper fragmentHelper;
+	@NotNull
+	private CalculatorFragmentHelper fragmentHelper;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
-        final CalculatorPreferences.Gui.Layout layout = CalculatorPreferences.Gui.getLayout(prefs);
-        if (layout == CalculatorPreferences.Gui.Layout.main_calculator_mobile) {
-            fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(R.layout.cpp_app_display_mobile, R.string.result);
-        } else {
-            fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(R.layout.cpp_app_display, R.string.result);
-        }
+		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
+		final CalculatorPreferences.Gui.Layout layout = CalculatorPreferences.Gui.getLayout(prefs);
+		if (layout == CalculatorPreferences.Gui.Layout.main_calculator_mobile) {
+			fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(R.layout.cpp_app_display_mobile, R.string.result);
+		} else {
+			fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(R.layout.cpp_app_display, R.string.result);
+		}
 
-        fragmentHelper.onCreate(this);
-    }
+		fragmentHelper.onCreate(this);
+	}
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return fragmentHelper.onCreateView(this, inflater, container);
-    }
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		return fragmentHelper.onCreateView(this, inflater, container);
+	}
 
-    @Override
-    public void onViewCreated(View root, Bundle savedInstanceState) {
-        super.onViewCreated(root, savedInstanceState);
+	@Override
+	public void onViewCreated(View root, Bundle savedInstanceState) {
+		super.onViewCreated(root, savedInstanceState);
 
-        ((AndroidCalculator) Locator.getInstance().getCalculator()).setDisplay(getActivity());
+		((AndroidCalculator) Locator.getInstance().getCalculator()).setDisplay(getActivity());
 
-        fragmentHelper.onViewCreated(this, root);
-    }
+		fragmentHelper.onViewCreated(this, root);
+	}
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-    }
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+	}
 
-    @Override
-    public void onResume() {
-        super.onResume();
+	@Override
+	public void onResume() {
+		super.onResume();
 
-        fragmentHelper.onResume(this);
-    }
+		fragmentHelper.onResume(this);
+	}
 
-    @Override
-    public void onPause() {
-        fragmentHelper.onPause(this);
+	@Override
+	public void onPause() {
+		fragmentHelper.onPause(this);
 
-        super.onPause();
-    }
+		super.onPause();
+	}
 
-    @Override
-    public void onDestroy() {
-        fragmentHelper.onDestroy(this);
+	@Override
+	public void onDestroy() {
+		fragmentHelper.onDestroy(this);
 
-        super.onDestroy();
-    }
+		super.onDestroy();
+	}
 }

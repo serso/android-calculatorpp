@@ -9,10 +9,10 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface GraphCalculator {
 
-    void computeGraph(@NotNull XyFunction f,
-                      float xMin,
-                      float xMax,
-                      @NotNull GraphData graph,
-                      @NotNull GraphsData graphsData,
-                      @NotNull Graph2dDimensions dimensions);
+	void computeGraph(@NotNull XyFunction f,
+					  float xMin,
+					  float xMax,
+					  @NotNull GraphData graph,
+					  @NotNull GraphsData graphsData,
+					  @NotNull Graph2dDimensions dimensions);
 }

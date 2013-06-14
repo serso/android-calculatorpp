@@ -10,9 +10,9 @@ import org.solovyev.android.calculator.jscl.JsclOperation;
  */
 public interface CalculatorEvaluationEventData extends CalculatorEventData {
 
-    @NotNull
-    JsclOperation getOperation();
+	@NotNull
+	JsclOperation getOperation();
 
-    @NotNull
-    String getExpression();
+	@NotNull
+	String getExpression();
 }

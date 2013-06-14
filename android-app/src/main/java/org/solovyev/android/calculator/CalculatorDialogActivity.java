@@ -23,106 +23,106 @@ import org.solovyev.common.text.Strings;
  */
 public class CalculatorDialogActivity extends SherlockFragmentActivity {
 
-    @NotNull
-    private static final String TAG = CalculatorDialogActivity.class.getSimpleName();
+	@NotNull
+	private static final String TAG = CalculatorDialogActivity.class.getSimpleName();
 
-    @NotNull
-    private static final String DIALOG_DATA_EXTRA = "dialog_data";
+	@NotNull
+	private static final String DIALOG_DATA_EXTRA = "dialog_data";
 
-    public static void showDialog(@NotNull Context context, @NotNull DialogData dialogData) {
-        final Intent intent = new Intent();
-        intent.setClass(context, CalculatorDialogActivity.class);
-        intent.putExtra(DIALOG_DATA_EXTRA, ParcelableDialogData.wrap(dialogData));
-        Android.addIntentFlags(intent, false, context);
-        context.startActivity(intent);
-    }
+	public static void showDialog(@NotNull Context context, @NotNull DialogData dialogData) {
+		final Intent intent = new Intent();
+		intent.setClass(context, CalculatorDialogActivity.class);
+		intent.putExtra(DIALOG_DATA_EXTRA, ParcelableDialogData.wrap(dialogData));
+		Android.addIntentFlags(intent, false, context);
+		context.startActivity(intent);
+	}
 
-    @Override
-    protected void onCreate(@Nullable Bundle in) {
-        super.onCreate(in);
+	@Override
+	protected void onCreate(@Nullable Bundle in) {
+		super.onCreate(in);
 
-        final DialogData dialogData = readDialogData(getIntent());
-        if ( dialogData == null ) {
-            Locator.getInstance().getLogger().error(TAG, "Dialog data is null!");
-            this.finish();
-        } else {
-            setContentView(R.layout.cpp_dialog);
+		final DialogData dialogData = readDialogData(getIntent());
+		if (dialogData == null) {
+			Locator.getInstance().getLogger().error(TAG, "Dialog data is null!");
+			this.finish();
+		} else {
+			setContentView(R.layout.cpp_dialog);
 
-            final String title = dialogData.getTitle();
-            if (!Strings.isEmpty(title)) {
-                setTitle(title);
-            }
+			final String title = dialogData.getTitle();
+			if (!Strings.isEmpty(title)) {
+				setTitle(title);
+			}
 
 
-            final Bundle args = new Bundle();
-            args.putParcelable(DIALOG_DATA_EXTRA, ParcelableDialogData.wrap(dialogData));
-            FragmentUtils.createFragment(this, CalculatorDialogFragment.class, R.id.dialog_layout, "dialog", args);
-        }
-    }
+			final Bundle args = new Bundle();
+			args.putParcelable(DIALOG_DATA_EXTRA, ParcelableDialogData.wrap(dialogData));
+			FragmentUtils.createFragment(this, CalculatorDialogFragment.class, R.id.dialog_layout, "dialog", args);
+		}
+	}
 
-    @Nullable
-    private static DialogData readDialogData(@Nullable Intent in) {
-        if ( in != null ) {
-            final Parcelable parcelable = in.getParcelableExtra(DIALOG_DATA_EXTRA);
-            if ( parcelable instanceof DialogData ) {
-                return  (DialogData) parcelable;
-            }
-        }
+	@Nullable
+	private static DialogData readDialogData(@Nullable Intent in) {
+		if (in != null) {
+			final Parcelable parcelable = in.getParcelableExtra(DIALOG_DATA_EXTRA);
+			if (parcelable instanceof DialogData) {
+				return (DialogData) parcelable;
+			}
+		}
 
-        return null;
-    }
+		return null;
+	}
 
-    @Nullable
-    private static DialogData readDialogData(@Nullable Bundle in) {
-        if ( in != null ) {
-            final Parcelable parcelable = in.getParcelable(DIALOG_DATA_EXTRA);
-            if ( parcelable instanceof DialogData ) {
-                return  (DialogData) parcelable;
-            }
-        }
+	@Nullable
+	private static DialogData readDialogData(@Nullable Bundle in) {
+		if (in != null) {
+			final Parcelable parcelable = in.getParcelable(DIALOG_DATA_EXTRA);
+			if (parcelable instanceof DialogData) {
+				return (DialogData) parcelable;
+			}
+		}
 
-        return null;
-    }
+		return null;
+	}
 
-    public static class CalculatorDialogFragment extends CalculatorFragment {
+	public static class CalculatorDialogFragment extends CalculatorFragment {
 
-        public CalculatorDialogFragment() {
-            super(CalculatorFragmentType.dialog);
-        }
+		public CalculatorDialogFragment() {
+			super(CalculatorFragmentType.dialog);
+		}
 
-        @Override
-        public void onViewCreated(@NotNull View root, Bundle savedInstanceState) {
-            super.onViewCreated(root, savedInstanceState);
+		@Override
+		public void onViewCreated(@NotNull View root, Bundle savedInstanceState) {
+			super.onViewCreated(root, savedInstanceState);
 
-            final DialogData dialogData = readDialogData(getArguments());
+			final DialogData dialogData = readDialogData(getArguments());
 
-            if (dialogData != null) {
-                final TextView messageTextView = (TextView) root.findViewById(R.id.cpp_dialog_message_textview);
-                messageTextView.setMovementMethod(ScrollingMovementMethod.getInstance());
-                messageTextView.setText(dialogData.getMessage());
+			if (dialogData != null) {
+				final TextView messageTextView = (TextView) root.findViewById(R.id.cpp_dialog_message_textview);
+				messageTextView.setMovementMethod(ScrollingMovementMethod.getInstance());
+				messageTextView.setText(dialogData.getMessage());
 
-                if ( dialogData.getMessageLevel() == MessageType.error || dialogData.getMessageLevel() == MessageType.warning ) {
-                    final Button copyButton = (Button) root.findViewById(R.id.cpp_copy_button);
-                    copyButton.setVisibility(View.VISIBLE);
-                    copyButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Locator.getInstance().getClipboard().setText(dialogData.getMessage());
-                            Locator.getInstance().getNotifier().showMessage(CalculatorMessage.newInfoMessage(CalculatorMessages.text_copied));
-                        }
-                    });
+				if (dialogData.getMessageLevel() == MessageType.error || dialogData.getMessageLevel() == MessageType.warning) {
+					final Button copyButton = (Button) root.findViewById(R.id.cpp_copy_button);
+					copyButton.setVisibility(View.VISIBLE);
+					copyButton.setOnClickListener(new View.OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							Locator.getInstance().getClipboard().setText(dialogData.getMessage());
+							Locator.getInstance().getNotifier().showMessage(CalculatorMessage.newInfoMessage(CalculatorMessages.text_copied));
+						}
+					});
 
-                }
-            }
+				}
+			}
 
-            root.findViewById(R.id.cpp_ok_button).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    getActivity().finish();
-                }
-            });
-        }
-    }
+			root.findViewById(R.id.cpp_ok_button).setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					getActivity().finish();
+				}
+			});
+		}
+	}
 
 }
 

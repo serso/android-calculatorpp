@@ -16,7 +16,7 @@ import java.util.List;
  * Date: 10/18/11
  * Time: 10:07 PM
  */
-public class PreparedExpression implements CharSequence{
+public class PreparedExpression implements CharSequence {
 
 	@NotNull
 	private String expression;

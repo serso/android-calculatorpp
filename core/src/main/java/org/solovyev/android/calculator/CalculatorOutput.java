@@ -12,14 +12,14 @@ import org.solovyev.android.calculator.jscl.JsclOperation;
  */
 public interface CalculatorOutput {
 
-    @NotNull
-    String getStringResult();
+	@NotNull
+	String getStringResult();
 
-    @NotNull
-    JsclOperation getOperation();
+	@NotNull
+	JsclOperation getOperation();
 
 
-    // null in case of empty expression
-    @Nullable
-    Generic getResult();
+	// null in case of empty expression
+	@Nullable
+	Generic getResult();
 }

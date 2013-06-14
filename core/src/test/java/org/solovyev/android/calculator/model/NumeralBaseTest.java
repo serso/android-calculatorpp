@@ -27,7 +27,7 @@ public class NumeralBaseTest extends AbstractCalculatorTest {
 	@BeforeClass
 	public static void staticSetUp() throws Exception {
 		CalculatorTestUtils.staticSetUp();
-        Locator.getInstance().getEngine().setPrecision(3);
+		Locator.getInstance().getEngine().setPrecision(3);
 	}
 
 	@Test

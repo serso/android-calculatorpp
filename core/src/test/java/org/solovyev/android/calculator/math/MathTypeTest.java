@@ -21,7 +21,7 @@ public class MathTypeTest extends AbstractCalculatorTest {
 
 	@BeforeClass
 	public static void staticSetUp() throws Exception {
-        CalculatorTestUtils.staticSetUp();
+		CalculatorTestUtils.staticSetUp();
 	}
 
 	@Test

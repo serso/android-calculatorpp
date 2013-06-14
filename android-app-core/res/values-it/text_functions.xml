@@ -23,15 +23,33 @@
 	<string name="c_fun_description_sqrt">Funzione radice quadrata.</string>
 	<string name="c_fun_description_cubic">Funzione radice cubica.</string>
 	<string name="c_fun_description_abs">Funzione che restituisce il valore assoluto di un argomento.</string>
-	<string name="c_fun_description_sgn">Funzione che restituisce il segno di un argomento: -1 se l\'argomnto è minore di 0, 0 se è uguale a 0, 1 se è maggiore di 0.</string>
-	<string name="c_fun_description_eq">Funzione uguaglianza - restituisce 1 se i due argomenti sono uguali, 0 altrimenti.</string>
-	<string name="c_fun_description_le">Funzione minore-o-uguale - restituisce 1 se i due argomenti sono uguali o il primo è minore del secondo, 0 altrimenti.</string>
-	<string name="c_fun_description_ge">Funzione maggiore-o-uguale - restituisce 1 se i due argomenti sono uguali o il primo è maggiore del secondo, 0 altrimenti.</string>
-	<string name="c_fun_description_ne">Funzione disuguaglianza - restituisce 1 se i due argomenti non sono uguali, 0 altrimenti.</string>
-	<string name="c_fun_description_lt">Funzione minore - restituisce 1 se il primo argomento è minore del secondo, 0 altrimenti.</string>
-	<string name="c_fun_description_gt">Funzione maggiore - restituisce 1 se il primo argomento è maggiore del secondo, 0 altrimenti.</string>
-	<string name="c_fun_description_rad">Converte gradi in radianti: d - gradi, m - minuti (predefinito = 0), s - secondi (predefinito = 0).</string>
-	<string name="c_fun_description_dms">Converte gradi dalla notazione DMS in notazione decimale: d - gradi, m - minuti (predefinito = 0), s - secondi (predefinito = 0).</string>
+	<string name="c_fun_description_sgn">Funzione che restituisce il segno di un argomento: -1 se l\'argomnto è minore
+		di 0, 0 se è uguale a 0, 1 se è maggiore di 0.
+	</string>
+	<string name="c_fun_description_eq">Funzione uguaglianza - restituisce 1 se i due argomenti sono uguali, 0
+		altrimenti.
+	</string>
+	<string name="c_fun_description_le">Funzione minore-o-uguale - restituisce 1 se i due argomenti sono uguali o il
+		primo è minore del secondo, 0 altrimenti.
+	</string>
+	<string name="c_fun_description_ge">Funzione maggiore-o-uguale - restituisce 1 se i due argomenti sono uguali o il
+		primo è maggiore del secondo, 0 altrimenti.
+	</string>
+	<string name="c_fun_description_ne">Funzione disuguaglianza - restituisce 1 se i due argomenti non sono uguali, 0
+		altrimenti.
+	</string>
+	<string name="c_fun_description_lt">Funzione minore - restituisce 1 se il primo argomento è minore del secondo, 0
+		altrimenti.
+	</string>
+	<string name="c_fun_description_gt">Funzione maggiore - restituisce 1 se il primo argomento è maggiore del secondo,
+		0 altrimenti.
+	</string>
+	<string name="c_fun_description_rad">Converte gradi in radianti: d - gradi, m - minuti (predefinito = 0), s -
+		secondi (predefinito = 0).
+	</string>
+	<string name="c_fun_description_dms">Converte gradi dalla notazione DMS in notazione decimale: d - gradi, m - minuti
+		(predefinito = 0), s - secondi (predefinito = 0).
+	</string>
 	<string name="c_fun_description_deg">Converte radianti in gradi.</string>
 
 	<string name="c_fun_category_trig">Trigonometriche</string>

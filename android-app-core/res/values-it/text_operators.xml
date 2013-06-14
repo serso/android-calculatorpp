@@ -10,14 +10,20 @@
 
 	<string name="c_op_description_mod">L\'operazione modulo trova il resto della divisione di \'x\' by \'y\'.</string>
 	<string name="c_op_description_sum">Funzione somma \'f(i)\', iterazione tra \'i\' da \'from\' a \'to\'.</string>
-	<string name="c_op_description_product">Restituisce il prodotto della funzione \'f(i)\', iterazione tra \'i\' da \'from\' a \'to\'.</string>
-	<string name="c_op_description_derivative">Restituisce la derivata di ordine \'order\' della funzione \'f(x)\' in \'x\' e calcolata nel punto \'x_point\'.</string>
+	<string name="c_op_description_product">Restituisce il prodotto della funzione \'f(i)\', iterazione tra \'i\' da
+		\'from\' a \'to\'.
+	</string>
+	<string name="c_op_description_derivative">Restituisce la derivata di ordine \'order\' della funzione \'f(x)\' in
+		\'x\' e calcolata nel punto \'x_point\'.
+	</string>
 	<string name="c_op_description_integral">Restituisce l\'integrale della funzione \'f(x)\' in \'x\'.</string>
 	<string name="c_op_description_integral_ab">Funzione integrale \'f(x)\' in \'x\' da \'a\' a \'b\'.</string>
 
 	<string name="c_pf_description_factorial">Restituisce il fattoriale dell\'espressione precedente.</string>
-	<string name="c_pf_description_double_factorial">Restituisce il fattoriale doppio dell\'espressione precedente.</string>
-	<string name="c_pf_description_percent" formatted="false">Restituisce la percentuale dell\'espressione precedente.\nEsempi:\n
+	<string name="c_pf_description_double_factorial">Restituisce il fattoriale doppio dell\'espressione precedente.
+	</string>
+	<string name="c_pf_description_percent" formatted="false">Restituisce la percentuale dell\'espressione
+		precedente.\nEsempi:\n
 		100 + 50% = 150\n
 		100 * 50% = 50\n
 		100 + 100 * 50% * 50% = 125

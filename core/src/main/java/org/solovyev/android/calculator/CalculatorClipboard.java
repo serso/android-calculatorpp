@@ -10,10 +10,10 @@ import org.jetbrains.annotations.Nullable;
  */
 public interface CalculatorClipboard {
 
-    @Nullable
-    String getText();
+	@Nullable
+	String getText();
 
-    void setText(@NotNull String text);
+	void setText(@NotNull String text);
 
-    void setText(@NotNull CharSequence text);
+	void setText(@NotNull CharSequence text);
 }

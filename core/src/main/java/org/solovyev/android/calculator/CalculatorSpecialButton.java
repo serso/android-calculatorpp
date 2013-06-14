@@ -13,159 +13,159 @@ import java.util.Map;
  */
 public enum CalculatorSpecialButton {
 
-    history("history") {
-        @Override
-        public void onClick(@NotNull CalculatorKeyboard keyboard) {
-            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_history, null);
-        }
-    },
-    history_detached("history_detached") {
-        @Override
-        public void onClick(@NotNull CalculatorKeyboard keyboard) {
-            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_history_detached, null);
-        }
-    },
-    cursor_right("▶") {
-        @Override
-        public void onClick(@NotNull CalculatorKeyboard keyboard) {
-            keyboard.moveCursorRight();
-        }
-    },
-    cursor_left("◀") {
-        @Override
-        public void onClick(@NotNull CalculatorKeyboard keyboard) {
-            keyboard.moveCursorLeft();
-        }
-    },
-    settings("settings") {
-        @Override
-        public void onClick(@NotNull CalculatorKeyboard keyboard) {
-            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_settings, null);
-        }
-    },
+	history("history") {
+		@Override
+		public void onClick(@NotNull CalculatorKeyboard keyboard) {
+			Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_history, null);
+		}
+	},
+	history_detached("history_detached") {
+		@Override
+		public void onClick(@NotNull CalculatorKeyboard keyboard) {
+			Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_history_detached, null);
+		}
+	},
+	cursor_right("▶") {
+		@Override
+		public void onClick(@NotNull CalculatorKeyboard keyboard) {
+			keyboard.moveCursorRight();
+		}
+	},
+	cursor_left("◀") {
+		@Override
+		public void onClick(@NotNull CalculatorKeyboard keyboard) {
+			keyboard.moveCursorLeft();
+		}
+	},
+	settings("settings") {
+		@Override
+		public void onClick(@NotNull CalculatorKeyboard keyboard) {
+			Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_settings, null);
+		}
+	},
 
-    settings_detached("settings_detached") {
-        @Override
-        public void onClick(@NotNull CalculatorKeyboard keyboard) {
-            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_settings_detached, null);
-        }
-    },
+	settings_detached("settings_detached") {
+		@Override
+		public void onClick(@NotNull CalculatorKeyboard keyboard) {
+			Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_settings_detached, null);
+		}
+	},
 
-    like("like") {
-        @Override
-        public void onClick(@NotNull CalculatorKeyboard keyboard) {
-            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_like_dialog, null);
-        }
-    },
-    erase("erase") {
-        @Override
-        public void onClick(@NotNull CalculatorKeyboard keyboard) {
-            Locator.getInstance().getEditor().erase();
-        }
-    },
-    paste("paste") {
-        @Override
-        public void onClick(@NotNull CalculatorKeyboard keyboard) {
-            keyboard.pasteButtonPressed();
-        }
-    },
-    copy("copy") {
-        @Override
-        public void onClick(@NotNull CalculatorKeyboard keyboard) {
-            keyboard.copyButtonPressed();
-        }
-    },
-    equals("=") {
-        @Override
-        public void onClick(@NotNull CalculatorKeyboard keyboard) {
-            Locator.getInstance().getCalculator().evaluate();
-        }
-    },
-    clear("clear") {
-        @Override
-        public void onClick(@NotNull CalculatorKeyboard keyboard) {
-            keyboard.clearButtonPressed();
-        }
-    },
-    functions("functions") {
-        @Override
-        public void onClick(@NotNull CalculatorKeyboard keyboard) {
-            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_functions, null);
-        }
-    },
-    functions_detached("functions_detached") {
-        @Override
-        public void onClick(@NotNull CalculatorKeyboard keyboard) {
-            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_functions_detached, null);
-        }
-    },
-    open_app("open_app") {
-        @Override
-        public void onClick(@NotNull CalculatorKeyboard keyboard) {
-            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.open_app, null);
-        }
-    },
-    vars("vars") {
-        @Override
-        public void onClick(@NotNull CalculatorKeyboard keyboard) {
-            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_vars, null);
-        }
-    },
-    vars_detached("vars_detached") {
-        @Override
-        public void onClick(@NotNull CalculatorKeyboard keyboard) {
-            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_vars_detached, null);
-        }
-    },
-    operators("operators") {
-        @Override
-        public void onClick(@NotNull CalculatorKeyboard keyboard) {
-            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_operators, null);
-        }
-    },
+	like("like") {
+		@Override
+		public void onClick(@NotNull CalculatorKeyboard keyboard) {
+			Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_like_dialog, null);
+		}
+	},
+	erase("erase") {
+		@Override
+		public void onClick(@NotNull CalculatorKeyboard keyboard) {
+			Locator.getInstance().getEditor().erase();
+		}
+	},
+	paste("paste") {
+		@Override
+		public void onClick(@NotNull CalculatorKeyboard keyboard) {
+			keyboard.pasteButtonPressed();
+		}
+	},
+	copy("copy") {
+		@Override
+		public void onClick(@NotNull CalculatorKeyboard keyboard) {
+			keyboard.copyButtonPressed();
+		}
+	},
+	equals("=") {
+		@Override
+		public void onClick(@NotNull CalculatorKeyboard keyboard) {
+			Locator.getInstance().getCalculator().evaluate();
+		}
+	},
+	clear("clear") {
+		@Override
+		public void onClick(@NotNull CalculatorKeyboard keyboard) {
+			keyboard.clearButtonPressed();
+		}
+	},
+	functions("functions") {
+		@Override
+		public void onClick(@NotNull CalculatorKeyboard keyboard) {
+			Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_functions, null);
+		}
+	},
+	functions_detached("functions_detached") {
+		@Override
+		public void onClick(@NotNull CalculatorKeyboard keyboard) {
+			Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_functions_detached, null);
+		}
+	},
+	open_app("open_app") {
+		@Override
+		public void onClick(@NotNull CalculatorKeyboard keyboard) {
+			Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.open_app, null);
+		}
+	},
+	vars("vars") {
+		@Override
+		public void onClick(@NotNull CalculatorKeyboard keyboard) {
+			Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_vars, null);
+		}
+	},
+	vars_detached("vars_detached") {
+		@Override
+		public void onClick(@NotNull CalculatorKeyboard keyboard) {
+			Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_vars_detached, null);
+		}
+	},
+	operators("operators") {
+		@Override
+		public void onClick(@NotNull CalculatorKeyboard keyboard) {
+			Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_operators, null);
+		}
+	},
 
-    operators_detached("operators_detached") {
-        @Override
-        public void onClick(@NotNull CalculatorKeyboard keyboard) {
-            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_operators_detached, null);
-        }
-    };
+	operators_detached("operators_detached") {
+		@Override
+		public void onClick(@NotNull CalculatorKeyboard keyboard) {
+			Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_operators_detached, null);
+		}
+	};
 
-    @NotNull
-    private static Map<String, CalculatorSpecialButton> buttonsByActionCodes = new HashMap<String, CalculatorSpecialButton>();
+	@NotNull
+	private static Map<String, CalculatorSpecialButton> buttonsByActionCodes = new HashMap<String, CalculatorSpecialButton>();
 
-    @NotNull
-    private final String actionCode;
+	@NotNull
+	private final String actionCode;
 
-    CalculatorSpecialButton(@NotNull String actionCode) {
-        this.actionCode = actionCode;
-    }
+	CalculatorSpecialButton(@NotNull String actionCode) {
+		this.actionCode = actionCode;
+	}
 
-    @NotNull
-    public String getActionCode() {
-        return actionCode;
-    }
+	@NotNull
+	public String getActionCode() {
+		return actionCode;
+	}
 
-    @Nullable
-    public static CalculatorSpecialButton getByActionCode(@NotNull String actionCode) {
-        initButtonsByActionCodesMap();
-        return buttonsByActionCodes.get(actionCode);
-    }
+	@Nullable
+	public static CalculatorSpecialButton getByActionCode(@NotNull String actionCode) {
+		initButtonsByActionCodesMap();
+		return buttonsByActionCodes.get(actionCode);
+	}
 
-    public abstract void onClick(@NotNull CalculatorKeyboard keyboard);
+	public abstract void onClick(@NotNull CalculatorKeyboard keyboard);
 
-    private static void initButtonsByActionCodesMap() {
-        if ( buttonsByActionCodes.isEmpty() ) {
-            // if not initialized
+	private static void initButtonsByActionCodesMap() {
+		if (buttonsByActionCodes.isEmpty()) {
+			// if not initialized
 
-            final CalculatorSpecialButton[] specialButtons = values();
+			final CalculatorSpecialButton[] specialButtons = values();
 
-            final Map<String, CalculatorSpecialButton> localButtonsByActionCodes = new HashMap<String, CalculatorSpecialButton>(specialButtons.length);
-            for (CalculatorSpecialButton specialButton : specialButtons) {
-                localButtonsByActionCodes.put(specialButton.getActionCode(), specialButton);
-            }
+			final Map<String, CalculatorSpecialButton> localButtonsByActionCodes = new HashMap<String, CalculatorSpecialButton>(specialButtons.length);
+			for (CalculatorSpecialButton specialButton : specialButtons) {
+				localButtonsByActionCodes.put(specialButton.getActionCode(), specialButton);
+			}
 
-            buttonsByActionCodes = localButtonsByActionCodes;
-        }
-    }
+			buttonsByActionCodes = localButtonsByActionCodes;
+		}
+	}
 }

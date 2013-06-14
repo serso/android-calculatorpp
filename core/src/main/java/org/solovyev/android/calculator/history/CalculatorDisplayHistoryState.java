@@ -53,7 +53,7 @@ public class CalculatorDisplayHistoryState implements Cloneable {
 	public static CalculatorDisplayHistoryState newInstance(@NotNull CalculatorDisplayViewState viewState) {
 		final CalculatorDisplayHistoryState result = new CalculatorDisplayHistoryState();
 
-        result.editorState = EditorHistoryState.newInstance(viewState);
+		result.editorState = EditorHistoryState.newInstance(viewState);
 
 		result.valid = viewState.isValid();
 		result.jsclOperation = viewState.getOperation();
@@ -64,11 +64,11 @@ public class CalculatorDisplayHistoryState implements Cloneable {
 	}
 
 	public void setValuesFromHistory(@NotNull CalculatorDisplay display) {
-        if ( this.isValid() ) {
-            display.setViewState(CalculatorDisplayViewStateImpl.newValidState(this.getJsclOperation(), this.getGenericResult(), Strings.getNotEmpty(this.getEditorState().getText(), ""), this.getEditorState().getCursorPosition()));
-        } else {
-            display.setViewState(CalculatorDisplayViewStateImpl.newErrorState(this.getJsclOperation(), Strings.getNotEmpty(this.getErrorMessage(), "")));
-        }
+		if (this.isValid()) {
+			display.setViewState(CalculatorDisplayViewStateImpl.newValidState(this.getJsclOperation(), this.getGenericResult(), Strings.getNotEmpty(this.getEditorState().getText(), ""), this.getEditorState().getCursorPosition()));
+		} else {
+			display.setViewState(CalculatorDisplayViewStateImpl.newErrorState(this.getJsclOperation(), Strings.getNotEmpty(this.getErrorMessage(), "")));
+		}
 	}
 
 

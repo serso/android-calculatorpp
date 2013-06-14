@@ -10,12 +10,12 @@ import org.jetbrains.annotations.Nullable;
  */
 public interface CalculatorFailure {
 
-    @NotNull
-    Exception getException();
+	@NotNull
+	Exception getException();
 
-    @Nullable
-    CalculatorParseException getCalculationParseException();
+	@Nullable
+	CalculatorParseException getCalculationParseException();
 
-    @Nullable
-    CalculatorEvalException getCalculationEvalException();
+	@Nullable
+	CalculatorEvalException getCalculationEvalException();
 }

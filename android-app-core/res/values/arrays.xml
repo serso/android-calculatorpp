@@ -20,16 +20,16 @@
 
 	<string-array name="cpp_plot_line_color_names">
 		<item>@string/p_white_line_color</item>
-        <item>@string/p_blue_line_color</item>
-        <item>@string/p_red_line_color</item>
-        <item>@string/p_green_line_color</item>
+		<item>@string/p_blue_line_color</item>
+		<item>@string/p_red_line_color</item>
+		<item>@string/p_green_line_color</item>
 		<item>@string/p_grey_line_color</item>
 	</string-array>
 	<string-array name="cpp_plot_line_color_values">
 		<item>white</item>
-        <item>blue</item>
-        <item>red</item>
-        <item>green</item>
+		<item>blue</item>
+		<item>red</item>
+		<item>green</item>
 		<item>grey</item>
 	</string-array>
 

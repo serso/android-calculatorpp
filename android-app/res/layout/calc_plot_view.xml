@@ -7,10 +7,10 @@
   -->
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-			  a:id="@+id/plot_view_container"
-			  a:orientation="vertical"
-			  a:layout_width="fill_parent"
-			  a:layout_height="fill_parent">
+	a:id="@+id/plot_view_container"
+	a:orientation="vertical"
+	a:layout_width="fill_parent"
+	a:layout_height="fill_parent">
 
 
 </LinearLayout>

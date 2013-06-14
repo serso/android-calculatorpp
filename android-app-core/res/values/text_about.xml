@@ -9,17 +9,20 @@
 	<string name="c_about">About</string>
 
 	<string name="c_about_content">Copyright (c) 2009-2011\n\n<b>Created by serso aka se.solovyev</b>\n\n
-		Application web site: <a href="http://facebook.com/calculatorpp">http://facebook.com/calculatorpp</a>\n\n
-		This program is open source:\nall source code can be found on\n<a href="https://github.com/serso/android-calculatorpp">http://github.com</a>\n\n
-		For more information please\ncontact the author by email\n<a href="mailto:se.solovyev@gmail.com">se.solovyev@gmail.com</a>
+		Application web site:<a href="http://facebook.com/calculatorpp">http://facebook.com/calculatorpp</a>\n\n
+		This program is open source:\nall source code can be found on\n
+		<a href="https://github.com/serso/android-calculatorpp">http://github.com</a>\n\n
+		For more information please\ncontact the author by email\n
+		<a href="mailto:se.solovyev@gmail.com">se.solovyev@gmail.com</a>
 		\nor visit\n<a href="http://se.solovyev.org">http://se.solovyev.org</a>\n\n
 		If you want to support the project\n\nyou can buy a special option from application preferences\n\n
-		If you like the application\nrank it with 5 stars in\n<a href="https://market.android.com/details?id=org.solovyev.android.calculator">Google Play</a>\n\n
+		If you like the application\nrank it with 5 stars in\n
+		<a href="https://market.android.com/details?id=org.solovyev.android.calculator">Google Play</a>\n\n
 		Thanks to people who translate Calculator++ in different languages:\n
 		Italian - Gabriele Ravanetti\n
 		Spanish - Jordi Luna\n
-        Ukrainian - Андрій Бандура\n\n
-        This application uses next open source libraries:\n
+		Ukrainian - Андрій Бандура\n\n
+		This application uses next open source libraries:\n
 		<a href="http://simple.sourceforge.net">Simple (XML serialization)</a>\n
 		<a href="http://meditorworld.appspot.com/meditor.txt">JSCL</a>\n
 		<a href="http://www.achartengine.org/">AChartEngine</a>
@@ -27,7 +30,7 @@
 
 	<string name="c_release_notes">Release notes</string>
 	<string name="c_release_notes_for_title">"Release notes for version "</string>
-	
+
 	<string name="c_release_notes_for_4">
 		1. Haptic feedback\n
 		2. Two layouts: calculator and cellphone\n
@@ -53,7 +56,8 @@
 		1. Support for entering numbers in scientific notation (2.3E2)\n
 		2. Added functions: deg(), rad() to convert from radians to degrees and vice versa\n
 		3. Added support for installing application on sd card\n
-		4. Added possibility to save entire expression as constant (e.g. type ln(6t), press +π button, enter name and save)\n
+		4. Added possibility to save entire expression as constant (e.g. type ln(6t), press +π button, enter name and
+		save)\n
 		5. Fixed bug with abs() function and complex argument\n
 		6. Fixed bug with displaying result
 	</string>
@@ -99,12 +103,15 @@
 	</string>
 
 	<string name="c_release_notes_for_15">
-		1. Added functions\' plotting: type expression which contains 1 undefined variable (e.g. cos(t)) and click on the result. In the context menu choose \'Plot graph\'. Supported features: zoom in/out, moving graph, plotting imaginary part
+		1. Added functions\' plotting: type expression which contains 1 undefined variable (e.g. cos(t)) and click on
+		the result. In the context menu choose \'Plot graph\'. Supported features: zoom in/out, moving graph, plotting
+		imaginary part
 	</string>
 
 	<string name="c_release_notes_for_16">
 		1. Buttons swipe preference\n
-		2. Added support for different numeral bases (currently supported: dec, bin, oct). Dec and bin can be chosen from main screen (CE button) and from app preferences\n
+		2. Added support for different numeral bases (currently supported: dec, bin, oct). Dec and bin can be chosen
+		from main screen (CE button) and from app preferences\n
 		3. Fixed √ simplification problem\n
 		4. Performance improvements in functions\' plotting
 	</string>
@@ -114,14 +121,16 @@
 		2. Extended history: save, remove, copy, use from history screen (use long click for additional actions)\n
 		3. Added Spanish language\n
 		4. Full numeral base support (dec, hex, oct, bin)\n
-		5. !!!: Fix for multiplication sign on some devices - if you have strange symbols instead of × - go to the settings and change multiplication sign to *\n
+		5. !!!: Fix for multiplication sign on some devices - if you have strange symbols instead of × - go to the
+		settings and change multiplication sign to *\n
 		6. Bug fixes: correct double factorial calculation, 20x fix, e^(pi*i)+1 fix and others
 	</string>
 
 	<string name="c_release_notes_for_21">
 		1. Release notes screen added\n
 		2. Added categories in functions and constants screens\n
-		3. Additional actions are available for constants, functions and operators (long click on the item and choose from context menu)\n
+		3. Additional actions are available for constants, functions and operators (long click on the item and choose
+		from context menu)\n
 		4. Logarithm function added - calculate logarithm of any base \n
 		5. Back button preference\n
 		6. Variant of π constant independent from angle units
@@ -141,11 +150,15 @@
 	<string name="c_release_notes_for_24">
 		Note from developer\n\n
 		Sorry to inform you but this version of application brings built-in ads.\n
-		I haven\'t seen in Google Play calculator with similar capabilities and I don\'t think I will see it in the close future.\n
-		But still I want to extend it\'s functionality and support already implemented. The thing is that I cannot do it anymore for free - it takes too much time and great efforts from me as
+		I haven\'t seen in Google Play calculator with similar capabilities and I don\'t think I will see it in the
+		close future.\n
+		But still I want to extend it\'s functionality and support already implemented. The thing is that I cannot do it
+		anymore for free - it takes too much time and great efforts from me as
 		application has become rather big and complex.\n
-		If you want to support the project and remove the ads please purchase special option from application preferences,\n
-		if you don\'t want to pay or can\'t do it - you still can thank the author of this program by email: se.solovyev@gmail.com, rate application with high mark in Google Play\n
+		If you want to support the project and remove the ads please purchase special option from application
+		preferences,\n
+		if you don\'t want to pay or can\'t do it - you still can thank the author of this program by email:
+		se.solovyev@gmail.com, rate application with high mark in Google Play\n
 		or help to translate the application to your native language.
 	</string>
 
@@ -168,7 +181,8 @@
 	<string name="c_release_notes_for_27">
 		Note from developer:\n\n
 		I\'m glad to inform you that I\'ve started a forum for Calculator++: http://facebook.com/calculatorpp.\n
-		Here you can find latest information about application, check for known issues, submit bugs or suggest new features.\n
+		Here you can find latest information about application, check for known issues, submit bugs or suggest new
+		features.\n
 		You can use your social account to login (Facebook, Twitter or Google are supported).\n\n
 		1. Zoom buttons on graph plotter\n
 		2. Billing bug fixes\n
@@ -190,59 +204,59 @@
 		10. Billing problems fixes
 	</string>
 
-    <string name="c_release_notes_for_34">
-        1. Ukrainian localization (Андрій Бандура)\n
-        2. HEX digits are not shown in not HEX mode\n
-        3. Preference for disabling display auto rotation\n
-        4. Preference for hiding equals button\n
-        5. Fixed plot problem\n
-        6. Fixed E+ problem (HEX mode)\n
-        7. π and Π are switched\n
-        8. Conversion tool added (tap on display or choose from application menu)\n
-        9. Wrong lg() integration and differentiation fixed
-    </string>
+	<string name="c_release_notes_for_34">
+		1. Ukrainian localization (Андрій Бандура)\n
+		2. HEX digits are not shown in not HEX mode\n
+		3. Preference for disabling display auto rotation\n
+		4. Preference for hiding equals button\n
+		5. Fixed plot problem\n
+		6. Fixed E+ problem (HEX mode)\n
+		7. π and Π are switched\n
+		8. Conversion tool added (tap on display or choose from application menu)\n
+		9. Wrong lg() integration and differentiation fixed
+	</string>
 
-    <string name="c_release_notes_for_39">
-        1. Virtual keyboard are now not shown on Android 4 ICS\n
-        2. Fast number conversion from display context menu\n
-        3. Minor GUI fixes
-    </string>
+	<string name="c_release_notes_for_39">
+		1. Virtual keyboard are now not shown on Android 4 ICS\n
+		2. Fast number conversion from display context menu\n
+		3. Minor GUI fixes
+	</string>
 
-    <string name="c_release_notes_for_93">
-        1. We are now on Facebook: facebook.com/calculatorpp\n
-        2. Tablet support (new awesome UI)\n
-        3. Improved graph plotter\n
-        4. Intermediate calculations are not shown in the history anymore\n
-        5. Faster UI response\n
-        6. Crash reports handler\n
-        7. Chinese translations
-    </string>
+	<string name="c_release_notes_for_93">
+		1. We are now on Facebook: facebook.com/calculatorpp\n
+		2. Tablet support (new awesome UI)\n
+		3. Improved graph plotter\n
+		4. Intermediate calculations are not shown in the history anymore\n
+		5. Faster UI response\n
+		6. Crash reports handler\n
+		7. Chinese translations
+	</string>
 
-    <string name="c_release_notes_for_99">
-        1. UI improvements for 4-7 inches displays\n
-        2. Ans variable (last calculated value)
-    </string>
+	<string name="c_release_notes_for_99">
+		1. UI improvements for 4-7 inches displays\n
+		2. Ans variable (last calculated value)
+	</string>
 
-    <string name="c_release_notes_for_103">
-        1. Calculator++ widget for home screen (works only if app installed in phone memory)\n
-        2. Mobile phone layout for tablets (Preferences->Appearance Preferences->Layout->Scientific (Mobile))\n
-        3. Manual calculations (Preferences->Calculations Preferences->Result is calculated…)
-    </string>
+	<string name="c_release_notes_for_103">
+		1. Calculator++ widget for home screen (works only if app installed in phone memory)\n
+		2. Mobile phone layout for tablets (Preferences->Appearance Preferences->Layout->Scientific (Mobile))\n
+		3. Manual calculations (Preferences->Calculations Preferences->Result is calculated…)
+	</string>
 
-    <string name="c_release_notes_for_107">
-        1. Support for user-defined functions (see +f button or + button inside functions screen)\n
-        2. Widget in different sizes: 3x3, 3x4, 4x4, 4x5\n
-        3. Several functions added: re(x), im(x), √3(x), √4(x), √n(x, n)\n
-        4. Default number systems/angle units + special warning dialog in case of calculations errors\n
-        5. Performance improvements\n
-        6. Text size in mobile layout for tablets fixed\n
-        7. Bug fixes
-    </string>
+	<string name="c_release_notes_for_107">
+		1. Support for user-defined functions (see +f button or + button inside functions screen)\n
+		2. Widget in different sizes: 3x3, 3x4, 4x4, 4x5\n
+		3. Several functions added: re(x), im(x), √3(x), √4(x), √n(x, n)\n
+		4. Default number systems/angle units + special warning dialog in case of calculations errors\n
+		5. Performance improvements\n
+		6. Text size in mobile layout for tablets fixed\n
+		7. Bug fixes
+	</string>
 
-    <string name="c_release_notes_for_111">
-        1. Calculator in separate window\n
-        2. UI is fixed for some devices
-    </string>
+	<string name="c_release_notes_for_111">
+		1. Calculator in separate window\n
+		2. UI is fixed for some devices
+	</string>
 
 	<string name="c_release_notes_for_112">
 		1. Possibility to remove icon for Calculator++ in separate window\n
@@ -250,13 +264,13 @@
 		3. Fixed flicker for Calculator++ in separate window
 	</string>
 
-    <string name="c_release_notes_for_115">
-        1. Graph plotter completely reworked\n
-        2. Added support for graphing several functions\n
-        3. Added 3D graphing capability\n
-        4. Added support for graph screenshots\n
-        5. Fixed issues with user defined functions\n
-        6. Other fixes
-    </string>
+	<string name="c_release_notes_for_115">
+		1. Graph plotter completely reworked\n
+		2. Added support for graphing several functions\n
+		3. Added 3D graphing capability\n
+		4. Added support for graph screenshots\n
+		5. Fixed issues with user defined functions\n
+		6. Other fixes
+	</string>
 
 </resources>

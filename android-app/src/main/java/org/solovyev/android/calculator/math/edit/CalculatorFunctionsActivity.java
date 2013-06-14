@@ -13,7 +13,6 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.*;
-import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.history.CalculatorHistoryActivity;
 
 /**
@@ -23,82 +22,82 @@ import org.solovyev.android.calculator.history.CalculatorHistoryActivity;
  */
 public class CalculatorFunctionsActivity extends SherlockFragmentActivity implements CalculatorEventListener {
 
-    @NotNull
-    private final CalculatorActivityHelper activityHelper = CalculatorApplication.getInstance().createActivityHelper(R.layout.main_empty, CalculatorHistoryActivity.class.getSimpleName());
+	@NotNull
+	private final CalculatorActivityHelper activityHelper = CalculatorApplication.getInstance().createActivityHelper(R.layout.main_empty, CalculatorHistoryActivity.class.getSimpleName());
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+	@Override
+	public void onCreate(@Nullable Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-        activityHelper.onCreate(this, savedInstanceState);
+		activityHelper.onCreate(this, savedInstanceState);
 
-        final Bundle bundle;
+		final Bundle bundle;
 
-        final Intent intent = getIntent();
-        if (intent != null) {
-            bundle = intent.getExtras();
-        } else {
-            bundle = null;
-        }
+		final Intent intent = getIntent();
+		if (intent != null) {
+			bundle = intent.getExtras();
+		} else {
+			bundle = null;
+		}
 
-        final CalculatorFragmentType fragmentType = CalculatorFragmentType.functions;
+		final CalculatorFragmentType fragmentType = CalculatorFragmentType.functions;
 
-        for (FunctionCategory category : FunctionCategory.getCategoriesByTabOrder()) {
-            final AndroidFunctionCategory androidCategory = AndroidFunctionCategory.valueOf(category);
-            if (androidCategory != null) {
+		for (FunctionCategory category : FunctionCategory.getCategoriesByTabOrder()) {
+			final AndroidFunctionCategory androidCategory = AndroidFunctionCategory.valueOf(category);
+			if (androidCategory != null) {
 
-                final Bundle fragmentParameters;
+				final Bundle fragmentParameters;
 
-                if (category == FunctionCategory.my && bundle != null) {
-                    AbstractMathEntityListFragment.putCategory(bundle, category.name());
-                    fragmentParameters = bundle;
-                } else {
-                    fragmentParameters = AbstractMathEntityListFragment.createBundleFor(category.name());
-                }
+				if (category == FunctionCategory.my && bundle != null) {
+					AbstractMathEntityListFragment.putCategory(bundle, category.name());
+					fragmentParameters = bundle;
+				} else {
+					fragmentParameters = AbstractMathEntityListFragment.createBundleFor(category.name());
+				}
 
-                activityHelper.addTab(this, fragmentType.createSubFragmentTag(category.name()), fragmentType.getFragmentClass(), fragmentParameters, androidCategory.getCaptionId(), R.id.main_layout);
-            } else {
-                Log.e(CalculatorFunctionsActivity.class.getSimpleName(), "Unable to find android function category for " + category);
-            }
-        }
+				activityHelper.addTab(this, fragmentType.createSubFragmentTag(category.name()), fragmentType.getFragmentClass(), fragmentParameters, androidCategory.getCaptionId(), R.id.main_layout);
+			} else {
+				Log.e(CalculatorFunctionsActivity.class.getSimpleName(), "Unable to find android function category for " + category);
+			}
+		}
 
-    }
+	}
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
 
-        activityHelper.onSaveInstanceState(this, outState);
-    }
+		activityHelper.onSaveInstanceState(this, outState);
+	}
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+	@Override
+	protected void onResume() {
+		super.onResume();
 
-        activityHelper.onResume(this);
-    }
+		activityHelper.onResume(this);
+	}
 
-    @Override
-    protected void onPause() {
-        this.activityHelper.onPause(this);
+	@Override
+	protected void onPause() {
+		this.activityHelper.onPause(this);
 
-        super.onPause();
-    }
+		super.onPause();
+	}
 
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
 
-        this.activityHelper.onDestroy(this);
-    }
+		this.activityHelper.onDestroy(this);
+	}
 
-    @Override
-    public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
-        switch (calculatorEventType) {
-            case use_function:
-                this.finish();
-                break;
-        }
-    }
+	@Override
+	public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
+		switch (calculatorEventType) {
+			case use_function:
+				this.finish();
+				break;
+		}
+	}
 }

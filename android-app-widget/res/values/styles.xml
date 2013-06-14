@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="cpp_widget_main_layout_style" parent="cpp_default_main_layout_style">
-        <item name="android:padding">1dp</item>
-        <item name="android:layout_margin">@dimen/cpp_widget_margin</item>
-    </style>
+	<style name="cpp_widget_main_layout_style" parent="cpp_default_main_layout_style">
+		<item name="android:padding">1dp</item>
+		<item name="android:layout_margin">@dimen/cpp_widget_margin</item>
+	</style>
 
-    <style name="cpp_widget_editor_style" parent="cpp_editor_style">
-        <item name="android:textSize">@dimen/cpp_widget_editor_text_size</item>
-    </style>
+	<style name="cpp_widget_editor_style" parent="cpp_editor_style">
+		<item name="android:textSize">@dimen/cpp_widget_editor_text_size</item>
+	</style>
 
-    <style name="cpp_widget_display_style" parent="cpp_display_style">
-        <item name="android:textSize">@dimen/cpp_widget_display_text_size</item>
-    </style>
+	<style name="cpp_widget_display_style" parent="cpp_display_style">
+		<item name="android:textSize">@dimen/cpp_widget_display_text_size</item>
+	</style>
 
 </resources>

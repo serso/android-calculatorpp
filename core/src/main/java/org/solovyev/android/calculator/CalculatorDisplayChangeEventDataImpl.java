@@ -9,26 +9,26 @@ import org.jetbrains.annotations.NotNull;
  */
 public class CalculatorDisplayChangeEventDataImpl implements CalculatorDisplayChangeEventData {
 
-    @NotNull
-    private final CalculatorDisplayViewState oldState;
+	@NotNull
+	private final CalculatorDisplayViewState oldState;
 
-    @NotNull
-    private final CalculatorDisplayViewState newState;
+	@NotNull
+	private final CalculatorDisplayViewState newState;
 
-    public CalculatorDisplayChangeEventDataImpl(@NotNull CalculatorDisplayViewState oldState, @NotNull CalculatorDisplayViewState newState) {
-        this.oldState = oldState;
-        this.newState = newState;
-    }
+	public CalculatorDisplayChangeEventDataImpl(@NotNull CalculatorDisplayViewState oldState, @NotNull CalculatorDisplayViewState newState) {
+		this.oldState = oldState;
+		this.newState = newState;
+	}
 
-    @NotNull
-    @Override
-    public CalculatorDisplayViewState getOldValue() {
-        return this.oldState;
-    }
+	@NotNull
+	@Override
+	public CalculatorDisplayViewState getOldValue() {
+		return this.oldState;
+	}
 
-    @NotNull
-    @Override
-    public CalculatorDisplayViewState getNewValue() {
-        return this.newState;
-    }
+	@NotNull
+	@Override
+	public CalculatorDisplayViewState getNewValue() {
+		return this.newState;
+	}
 }

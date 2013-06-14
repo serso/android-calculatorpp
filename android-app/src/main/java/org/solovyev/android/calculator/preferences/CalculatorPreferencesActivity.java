@@ -44,14 +44,14 @@ public class CalculatorPreferencesActivity extends SherlockPreferenceActivity im
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-        //noinspection deprecation
-        addPreferencesFromResource(R.xml.preferences);
-        //noinspection deprecation
-        addPreferencesFromResource(R.xml.preferences_calculations);
-        addPreferencesFromResource(R.xml.preferences_appearance);
-        addPreferencesFromResource(R.xml.preferences_plot);
-        addPreferencesFromResource(R.xml.preferences_other);
-        addPreferencesFromResource(R.xml.preferences_onscreen);
+		//noinspection deprecation
+		addPreferencesFromResource(R.xml.preferences);
+		//noinspection deprecation
+		addPreferencesFromResource(R.xml.preferences_calculations);
+		addPreferencesFromResource(R.xml.preferences_appearance);
+		addPreferencesFromResource(R.xml.preferences_plot);
+		addPreferencesFromResource(R.xml.preferences_other);
+		addPreferencesFromResource(R.xml.preferences_onscreen);
 
 		final Preference adFreePreference = findPreference(CalculatorApplication.AD_FREE_P_KEY);
 		adFreePreference.setEnabled(false);
@@ -98,9 +98,9 @@ public class CalculatorPreferencesActivity extends SherlockPreferenceActivity im
 
 			adFreePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 				public boolean onPreferenceClick(Preference preference) {
-                    final Context context = CalculatorPreferencesActivity.this;
-                    context.startActivity(new Intent(context, CalculatorPurchaseDialogActivity.class));
-                    return true;
+					final Context context = CalculatorPreferencesActivity.this;
+					context.startActivity(new Intent(context, CalculatorPurchaseDialogActivity.class));
+					return true;
 				}
 			});
 			adFreePreference.setEnabled(true);
@@ -113,7 +113,7 @@ public class CalculatorPreferencesActivity extends SherlockPreferenceActivity im
 	@Override
 	protected void onDestroy() {
 		BillingController.unregisterObserver(this);
-        PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
+		PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
 		super.onDestroy();
 	}
 
@@ -172,15 +172,15 @@ public class CalculatorPreferencesActivity extends SherlockPreferenceActivity im
 
 	@Override
 	public void onRequestPurchaseResponse(@NotNull String itemId, @NotNull ResponseCode response) {
-        final Preference adFreePreference = findPreference(CalculatorApplication.AD_FREE_P_KEY);
-        if (adFreePreference != null) {
-            if (response == ResponseCode.RESULT_OK) {
-                adFreePreference.setEnabled(false);
+		final Preference adFreePreference = findPreference(CalculatorApplication.AD_FREE_P_KEY);
+		if (adFreePreference != null) {
+			if (response == ResponseCode.RESULT_OK) {
+				adFreePreference.setEnabled(false);
 
-                final Message message = new AndroidMessage(R.string.cpp_purchase_thank_you_text, MessageType.info, App.getApplication());
-                Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_message_dialog, MessageDialogData.newInstance(message, null));
-            }
-        }
+				final Message message = new AndroidMessage(R.string.cpp_purchase_thank_you_text, MessageType.info, App.getApplication());
+				Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_message_dialog, MessageDialogData.newInstance(message, null));
+			}
+		}
 	}
 
 	@Override

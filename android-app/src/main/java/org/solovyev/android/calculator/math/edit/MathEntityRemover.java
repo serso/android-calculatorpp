@@ -16,8 +16,8 @@ import jscl.math.function.IConstant;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.CalculatorEventType;
-import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.CalculatorMathRegistry;
+import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.R;
 import org.solovyev.common.math.MathEntity;
 
@@ -39,138 +39,138 @@ public class MathEntityRemover<T extends MathEntity> implements View.OnClickList
 	@NotNull
 	private final CalculatorMathRegistry<? super T> varsRegistry;
 
-    @NotNull
-    private Context context;
+	@NotNull
+	private Context context;
 
-    @NotNull
-    private final Object source;
+	@NotNull
+	private final Object source;
 
-    @NotNull
-    private final Params params;
+	@NotNull
+	private final Params params;
 
-    /*
-    **********************************************************************
-    *
-    *                           CONSTRUCTORS
-    *
-    **********************************************************************
-    */
+	/*
+	**********************************************************************
+	*
+	*                           CONSTRUCTORS
+	*
+	**********************************************************************
+	*/
 
 	private MathEntityRemover(@NotNull T mathEntity,
-                             @Nullable DialogInterface.OnClickListener callbackOnCancel,
-                             boolean confirmed,
-                             @NotNull CalculatorMathRegistry<? super T> varsRegistry,
-                             @NotNull Context context,
-                             @NotNull Object source,
-                             @NotNull Params params) {
+							  @Nullable DialogInterface.OnClickListener callbackOnCancel,
+							  boolean confirmed,
+							  @NotNull CalculatorMathRegistry<? super T> varsRegistry,
+							  @NotNull Context context,
+							  @NotNull Object source,
+							  @NotNull Params params) {
 		this.mathEntity = mathEntity;
 		this.callbackOnCancel = callbackOnCancel;
 		this.confirmed = confirmed;
 		this.varsRegistry = varsRegistry;
-        this.context = context;
-        this.source = source;
-        this.params = params;
-    }
+		this.context = context;
+		this.source = source;
+		this.params = params;
+	}
 
-    public static MathEntityRemover<IConstant> newConstantRemover(@NotNull IConstant constant,
-                                                                  @Nullable DialogInterface.OnClickListener callbackOnCancel,
-                                                                  @NotNull Context context,
-                                                                  @NotNull Object source) {
-        return new MathEntityRemover<IConstant>(constant, callbackOnCancel, false, Locator.getInstance().getEngine().getVarsRegistry(), context, source, Params.newConstantInstance());
-    }
+	public static MathEntityRemover<IConstant> newConstantRemover(@NotNull IConstant constant,
+																  @Nullable DialogInterface.OnClickListener callbackOnCancel,
+																  @NotNull Context context,
+																  @NotNull Object source) {
+		return new MathEntityRemover<IConstant>(constant, callbackOnCancel, false, Locator.getInstance().getEngine().getVarsRegistry(), context, source, Params.newConstantInstance());
+	}
 
-    public static MathEntityRemover<Function> newFunctionRemover(@NotNull Function function,
-                                                                  @Nullable DialogInterface.OnClickListener callbackOnCancel,
-                                                                  @NotNull Context context,
-                                                                  @NotNull Object source) {
-        return new MathEntityRemover<Function>(function, callbackOnCancel, false, Locator.getInstance().getEngine().getFunctionsRegistry(), context, source, Params.newFunctionInstance());
-    }
+	public static MathEntityRemover<Function> newFunctionRemover(@NotNull Function function,
+																 @Nullable DialogInterface.OnClickListener callbackOnCancel,
+																 @NotNull Context context,
+																 @NotNull Object source) {
+		return new MathEntityRemover<Function>(function, callbackOnCancel, false, Locator.getInstance().getEngine().getFunctionsRegistry(), context, source, Params.newFunctionInstance());
+	}
 
-    /*
-    **********************************************************************
-    *
-    *                           METHODS
-    *
-    **********************************************************************
-    */
+	/*
+	**********************************************************************
+	*
+	*                           METHODS
+	*
+	**********************************************************************
+	*/
 
 
-    public void showConfirmationDialog() {
-        final TextView question = new TextView(context);
-        question.setText(String.format(context.getString(params.getRemovalConfirmationQuestionResId()), mathEntity.getName()));
-        question.setPadding(6, 6, 6, 6);
-        final AlertDialog.Builder builder = new AlertDialog.Builder(context)
-                .setCancelable(true)
-                .setView(question)
-                .setTitle(params.getRemovalConfirmationTitleResId())
-                .setNegativeButton(R.string.c_no, callbackOnCancel)
-                .setPositiveButton(R.string.c_yes, new MathEntityRemover<T>(mathEntity, callbackOnCancel, true, varsRegistry, context, source, params));
+	public void showConfirmationDialog() {
+		final TextView question = new TextView(context);
+		question.setText(String.format(context.getString(params.getRemovalConfirmationQuestionResId()), mathEntity.getName()));
+		question.setPadding(6, 6, 6, 6);
+		final AlertDialog.Builder builder = new AlertDialog.Builder(context)
+				.setCancelable(true)
+				.setView(question)
+				.setTitle(params.getRemovalConfirmationTitleResId())
+				.setNegativeButton(R.string.c_no, callbackOnCancel)
+				.setPositiveButton(R.string.c_yes, new MathEntityRemover<T>(mathEntity, callbackOnCancel, true, varsRegistry, context, source, params));
 
-        builder.create().show();
-    }
+		builder.create().show();
+	}
 
-    @Override
-    public void onClick(@Nullable View v) {
-        if (!confirmed) {
-            showConfirmationDialog();
-        } else {
-            varsRegistry.remove(mathEntity);
-            varsRegistry.save();
+	@Override
+	public void onClick(@Nullable View v) {
+		if (!confirmed) {
+			showConfirmationDialog();
+		} else {
+			varsRegistry.remove(mathEntity);
+			varsRegistry.save();
 
-            Locator.getInstance().getCalculator().fireCalculatorEvent(params.getCalculatorEventType(), mathEntity, source);
-        }
-    }
+			Locator.getInstance().getCalculator().fireCalculatorEvent(params.getCalculatorEventType(), mathEntity, source);
+		}
+	}
 
-    @Override
-    public void onClick(DialogInterface dialog, int which) {
-        onClick(null);
-    }
+	@Override
+	public void onClick(DialogInterface dialog, int which) {
+		onClick(null);
+	}
 
-    /*
-    **********************************************************************
-    *
-    *                           STATIC
-    *
-    **********************************************************************
-    */
+	/*
+	**********************************************************************
+	*
+	*                           STATIC
+	*
+	**********************************************************************
+	*/
 
-    private static final class Params {
+	private static final class Params {
 
-        private int removalConfirmationTitleResId;
+		private int removalConfirmationTitleResId;
 
-        private int removalConfirmationQuestionResId;
+		private int removalConfirmationQuestionResId;
 
-        private CalculatorEventType calculatorEventType;
+		private CalculatorEventType calculatorEventType;
 
-        private Params() {
-        }
+		private Params() {
+		}
 
-        public int getRemovalConfirmationTitleResId() {
-            return removalConfirmationTitleResId;
-        }
+		public int getRemovalConfirmationTitleResId() {
+			return removalConfirmationTitleResId;
+		}
 
-        public int getRemovalConfirmationQuestionResId() {
-            return removalConfirmationQuestionResId;
-        }
+		public int getRemovalConfirmationQuestionResId() {
+			return removalConfirmationQuestionResId;
+		}
 
-        public CalculatorEventType getCalculatorEventType() {
-            return calculatorEventType;
-        }
+		public CalculatorEventType getCalculatorEventType() {
+			return calculatorEventType;
+		}
 
-        private static <T extends MathEntity> Params newConstantInstance() {
-            final Params result = new Params();
-            result.removalConfirmationTitleResId = R.string.removal_confirmation;
-            result.removalConfirmationQuestionResId = R.string.c_var_removal_confirmation_question;
-            result.calculatorEventType = CalculatorEventType.constant_removed;
-            return result;
-        }
+		private static <T extends MathEntity> Params newConstantInstance() {
+			final Params result = new Params();
+			result.removalConfirmationTitleResId = R.string.removal_confirmation;
+			result.removalConfirmationQuestionResId = R.string.c_var_removal_confirmation_question;
+			result.calculatorEventType = CalculatorEventType.constant_removed;
+			return result;
+		}
 
-        private static <T extends MathEntity> Params newFunctionInstance() {
-            final Params result = new Params();
-            result.removalConfirmationTitleResId = R.string.removal_confirmation;
-            result.removalConfirmationQuestionResId = R.string.function_removal_confirmation_question;
-            result.calculatorEventType = CalculatorEventType.function_removed;
-            return result;
-        }
-    }
+		private static <T extends MathEntity> Params newFunctionInstance() {
+			final Params result = new Params();
+			result.removalConfirmationTitleResId = R.string.removal_confirmation;
+			result.removalConfirmationQuestionResId = R.string.function_removal_confirmation_question;
+			result.calculatorEventType = CalculatorEventType.function_removed;
+			return result;
+		}
+	}
 }

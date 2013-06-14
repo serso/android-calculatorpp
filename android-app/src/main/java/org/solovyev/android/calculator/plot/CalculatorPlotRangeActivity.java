@@ -20,72 +20,72 @@ import org.solovyev.common.msg.MessageType;
  */
 public class CalculatorPlotRangeActivity extends SherlockFragmentActivity {
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+	@Override
+	protected void onCreate(@Nullable Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.cpp_dialog);
+		setContentView(R.layout.cpp_dialog);
 
-        FragmentUtils.createFragment(this, CalculatorPlotRangeFragment.class, R.id.dialog_layout, "plot-range");
-    }
+		FragmentUtils.createFragment(this, CalculatorPlotRangeFragment.class, R.id.dialog_layout, "plot-range");
+	}
 
-    public static class CalculatorPlotRangeFragment extends CalculatorFragment {
+	public static class CalculatorPlotRangeFragment extends CalculatorFragment {
 
-        public CalculatorPlotRangeFragment() {
-            super(CalculatorFragmentType.plotter_range);
-        }
+		public CalculatorPlotRangeFragment() {
+			super(CalculatorFragmentType.plotter_range);
+		}
 
-        @Override
-        public void onViewCreated(@NotNull View root, Bundle savedInstanceState) {
-            super.onViewCreated(root, savedInstanceState);
+		@Override
+		public void onViewCreated(@NotNull View root, Bundle savedInstanceState) {
+			super.onViewCreated(root, savedInstanceState);
 
-            final CalculatorPlotter plotter = Locator.getInstance().getPlotter();
+			final CalculatorPlotter plotter = Locator.getInstance().getPlotter();
 
-            final EditText xMinEditText = (EditText) root.findViewById(R.id.cpp_plot_range_x_min_editext);
-            final EditText xMaxEditText = (EditText) root.findViewById(R.id.cpp_plot_range_x_max_editext);
-            final EditText yMinEditText = (EditText) root.findViewById(R.id.cpp_plot_range_y_min_editext);
-            final EditText yMaxEditText = (EditText) root.findViewById(R.id.cpp_plot_range_y_max_editext);
+			final EditText xMinEditText = (EditText) root.findViewById(R.id.cpp_plot_range_x_min_editext);
+			final EditText xMaxEditText = (EditText) root.findViewById(R.id.cpp_plot_range_x_max_editext);
+			final EditText yMinEditText = (EditText) root.findViewById(R.id.cpp_plot_range_y_min_editext);
+			final EditText yMaxEditText = (EditText) root.findViewById(R.id.cpp_plot_range_y_max_editext);
 
-            final PlotData plotData = plotter.getPlotData();
-            final PlotBoundaries boundaries = plotData.getBoundaries();
+			final PlotData plotData = plotter.getPlotData();
+			final PlotBoundaries boundaries = plotData.getBoundaries();
 
-            xMinEditText.setText(String.valueOf(boundaries.getXMin()));
-            xMaxEditText.setText(String.valueOf(boundaries.getXMax()));
-            yMinEditText.setText(String.valueOf(boundaries.getYMin()));
-            yMaxEditText.setText(String.valueOf(boundaries.getYMax()));
+			xMinEditText.setText(String.valueOf(boundaries.getXMin()));
+			xMaxEditText.setText(String.valueOf(boundaries.getXMax()));
+			yMinEditText.setText(String.valueOf(boundaries.getYMin()));
+			yMaxEditText.setText(String.valueOf(boundaries.getYMax()));
 
-            root.findViewById(R.id.cpp_apply_button).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+			root.findViewById(R.id.cpp_apply_button).setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
 
-                    try {
-                        final Float xMin = Float.valueOf(xMinEditText.getText().toString());
-                        final Float xMax = Float.valueOf(xMaxEditText.getText().toString());
-                        final Float yMin = Float.valueOf(yMinEditText.getText().toString());
-                        final Float yMax = Float.valueOf(yMaxEditText.getText().toString());
+					try {
+						final Float xMin = Float.valueOf(xMinEditText.getText().toString());
+						final Float xMax = Float.valueOf(xMaxEditText.getText().toString());
+						final Float yMin = Float.valueOf(yMinEditText.getText().toString());
+						final Float yMax = Float.valueOf(yMaxEditText.getText().toString());
 
-                        if ( xMin.equals(xMax) ) {
-                            throw new IllegalArgumentException();
-                        }
+						if (xMin.equals(xMax)) {
+							throw new IllegalArgumentException();
+						}
 
-                        if ( yMin.equals(yMax) ) {
-                            throw new IllegalArgumentException();
-                        }
+						if (yMin.equals(yMax)) {
+							throw new IllegalArgumentException();
+						}
 
-                        plotter.setPlotBoundaries(PlotBoundaries.newInstance(xMin, xMax, yMin, yMax));
+						plotter.setPlotBoundaries(PlotBoundaries.newInstance(xMin, xMax, yMin, yMax));
 
-                        CalculatorPlotRangeFragment.this.getActivity().finish();
+						CalculatorPlotRangeFragment.this.getActivity().finish();
 
-                    } catch (IllegalArgumentException e) {
-                        if (e instanceof NumberFormatException) {
-                            Locator.getInstance().getNotifier().showMessage(R.string.cpp_invalid_number, MessageType.error);
-                        } else {
-                            Locator.getInstance().getNotifier().showMessage(R.string.cpp_plot_boundaries_should_differ, MessageType.error);
-                        }
-                    }
-                }
-            });
-        }
-    }
+					} catch (IllegalArgumentException e) {
+						if (e instanceof NumberFormatException) {
+							Locator.getInstance().getNotifier().showMessage(R.string.cpp_invalid_number, MessageType.error);
+						} else {
+							Locator.getInstance().getNotifier().showMessage(R.string.cpp_plot_boundaries_should_differ, MessageType.error);
+						}
+					}
+				}
+			});
+		}
+	}
 }
 

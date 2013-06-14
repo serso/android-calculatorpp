@@ -10,32 +10,32 @@ import org.solovyev.android.view.drag.OnDragListener;
 import org.solovyev.android.view.drag.OnDragListenerWrapper;
 
 /**
-* User: serso
-* Date: 4/20/12
-* Time: 3:27 PM
-*/
+ * User: serso
+ * Date: 4/20/12
+ * Time: 3:27 PM
+ */
 public class OnDragListenerVibrator extends OnDragListenerWrapper {
 
-    private static final float VIBRATION_TIME_SCALE = 0.5f;
+	private static final float VIBRATION_TIME_SCALE = 0.5f;
 
-    @NotNull
-    private final VibratorContainer vibrator;
+	@NotNull
+	private final VibratorContainer vibrator;
 
-    public OnDragListenerVibrator(@NotNull OnDragListener onDragListener,
-                                  @Nullable Vibrator vibrator,
-                                  @NotNull SharedPreferences preferences) {
-        super(onDragListener);
-        this.vibrator = new VibratorContainer(vibrator, preferences, VIBRATION_TIME_SCALE);
-    }
+	public OnDragListenerVibrator(@NotNull OnDragListener onDragListener,
+								  @Nullable Vibrator vibrator,
+								  @NotNull SharedPreferences preferences) {
+		super(onDragListener);
+		this.vibrator = new VibratorContainer(vibrator, preferences, VIBRATION_TIME_SCALE);
+	}
 
-    @Override
-    public boolean onDrag(@NotNull DragButton dragButton, @NotNull org.solovyev.android.view.drag.DragEvent event) {
-        boolean result = super.onDrag(dragButton, event);
+	@Override
+	public boolean onDrag(@NotNull DragButton dragButton, @NotNull org.solovyev.android.view.drag.DragEvent event) {
+		boolean result = super.onDrag(dragButton, event);
 
-        if (result) {
-            vibrator.vibrate();
-        }
+		if (result) {
+			vibrator.vibrate();
+		}
 
-        return result;
-    }
+		return result;
+	}
 }

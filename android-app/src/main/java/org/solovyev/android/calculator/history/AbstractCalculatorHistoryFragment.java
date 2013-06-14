@@ -44,16 +44,16 @@ import java.util.List;
  */
 public abstract class AbstractCalculatorHistoryFragment extends SherlockListFragment implements CalculatorEventListener {
 
-    /*
-    **********************************************************************
-    *
-    *                           CONSTANTS
-    *
-    **********************************************************************
-    */
+	/*
+	**********************************************************************
+	*
+	*                           CONSTANTS
+	*
+	**********************************************************************
+	*/
 
-    @NotNull
-    private static final String TAG = "CalculatorHistoryFragment";
+	@NotNull
+	private static final String TAG = "CalculatorHistoryFragment";
 
 	public static final Comparator<CalculatorHistoryState> COMPARATOR = new Comparator<CalculatorHistoryState>() {
 		@Override
@@ -70,163 +70,163 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 		}
 	};
 
-    /*
-    **********************************************************************
-    *
-    *                           FIELDS
-    *
-    **********************************************************************
-    */
+	/*
+	**********************************************************************
+	*
+	*                           FIELDS
+	*
+	**********************************************************************
+	*/
 
 
 	@NotNull
 	private ArrayAdapter<CalculatorHistoryState> adapter;
 
-    @NotNull
-    private CalculatorFragmentHelper fragmentHelper;
+	@NotNull
+	private CalculatorFragmentHelper fragmentHelper;
 
-    private ActivityMenu<Menu, MenuItem> menu = ListActivityMenu.fromResource(org.solovyev.android.calculator.R.menu.history_menu, HistoryMenu.class, SherlockMenuHelper.getInstance());
+	private ActivityMenu<Menu, MenuItem> menu = ListActivityMenu.fromResource(org.solovyev.android.calculator.R.menu.history_menu, HistoryMenu.class, SherlockMenuHelper.getInstance());
 
-    protected AbstractCalculatorHistoryFragment(@NotNull CalculatorFragmentType fragmentType) {
-        fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(fragmentType.getDefaultLayoutId(), fragmentType.getDefaultTitleResId(), false);
-    }
+	protected AbstractCalculatorHistoryFragment(@NotNull CalculatorFragmentType fragmentType) {
+		fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(fragmentType.getDefaultLayoutId(), fragmentType.getDefaultTitleResId(), false);
+	}
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-        fragmentHelper.onCreate(this);
+		fragmentHelper.onCreate(this);
 
-        setHasOptionsMenu(true);
+		setHasOptionsMenu(true);
 
-        logDebug("onCreate");
-    }
+		logDebug("onCreate");
+	}
 
-    private int logDebug(@NotNull String msg) {
-        return Log.d(TAG + ": " + getTag(), msg);
-    }
+	private int logDebug(@NotNull String msg) {
+		return Log.d(TAG + ": " + getTag(), msg);
+	}
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return fragmentHelper.onCreateView(this, inflater, container);
-    }
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		return fragmentHelper.onCreateView(this, inflater, container);
+	}
 
-    @Override
-    public void onViewCreated(View root, Bundle savedInstanceState) {
-        super.onViewCreated(root, savedInstanceState);
+	@Override
+	public void onViewCreated(View root, Bundle savedInstanceState) {
+		super.onViewCreated(root, savedInstanceState);
 
-        logDebug("onViewCreated");
+		logDebug("onViewCreated");
 
-        fragmentHelper.onViewCreated(this, root);
+		fragmentHelper.onViewCreated(this, root);
 
-        adapter = new HistoryArrayAdapter(this.getActivity(), getItemLayoutId(), org.solovyev.android.calculator.R.id.history_item, new ArrayList<CalculatorHistoryState>());
-        setListAdapter(adapter);
+		adapter = new HistoryArrayAdapter(this.getActivity(), getItemLayoutId(), org.solovyev.android.calculator.R.id.history_item, new ArrayList<CalculatorHistoryState>());
+		setListAdapter(adapter);
 
-        final ListView lv = getListView();
-        lv.setTextFilterEnabled(true);
+		final ListView lv = getListView();
+		lv.setTextFilterEnabled(true);
 
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(final AdapterView<?> parent,
-                                    final View view,
-                                    final int position,
-                                    final long id) {
+		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			public void onItemClick(final AdapterView<?> parent,
+									final View view,
+									final int position,
+									final long id) {
 
-                useHistoryItem((CalculatorHistoryState) parent.getItemAtPosition(position));
-            }
-        });
+				useHistoryItem((CalculatorHistoryState) parent.getItemAtPosition(position));
+			}
+		});
 
-        lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-                final CalculatorHistoryState historyState = (CalculatorHistoryState) parent.getItemAtPosition(position);
+		lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+			@Override
+			public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+				final CalculatorHistoryState historyState = (CalculatorHistoryState) parent.getItemAtPosition(position);
 
-                final FragmentActivity activity = getActivity();
+				final FragmentActivity activity = getActivity();
 
-                final HistoryItemMenuData data = new HistoryItemMenuData(historyState, adapter);
+				final HistoryItemMenuData data = new HistoryItemMenuData(historyState, adapter);
 
-                final List<HistoryItemMenuItem> menuItems = Collections.asList(HistoryItemMenuItem.values());
+				final List<HistoryItemMenuItem> menuItems = Collections.asList(HistoryItemMenuItem.values());
 
-                if (historyState.isSaved()) {
-                    menuItems.remove(HistoryItemMenuItem.save);
-                } else {
-                    if (isAlreadySaved(historyState)) {
-                        menuItems.remove(HistoryItemMenuItem.save);
-                    }
-                    menuItems.remove(HistoryItemMenuItem.remove);
-                    menuItems.remove(HistoryItemMenuItem.edit);
-                }
+				if (historyState.isSaved()) {
+					menuItems.remove(HistoryItemMenuItem.save);
+				} else {
+					if (isAlreadySaved(historyState)) {
+						menuItems.remove(HistoryItemMenuItem.save);
+					}
+					menuItems.remove(HistoryItemMenuItem.remove);
+					menuItems.remove(HistoryItemMenuItem.edit);
+				}
 
-                if (historyState.getDisplayState().isValid() && Strings.isEmpty(historyState.getDisplayState().getEditorState().getText())) {
-                    menuItems.remove(HistoryItemMenuItem.copy_result);
-                }
+				if (historyState.getDisplayState().isValid() && Strings.isEmpty(historyState.getDisplayState().getEditorState().getText())) {
+					menuItems.remove(HistoryItemMenuItem.copy_result);
+				}
 
-                final ContextMenuBuilder<HistoryItemMenuItem, HistoryItemMenuData> menuBuilder = ContextMenuBuilder.newInstance(activity, "history-menu", ListContextMenu.newInstance(menuItems));
-                menuBuilder.build(data).show();
+				final ContextMenuBuilder<HistoryItemMenuItem, HistoryItemMenuData> menuBuilder = ContextMenuBuilder.newInstance(activity, "history-menu", ListContextMenu.newInstance(menuItems));
+				menuBuilder.build(data).show();
 
-                return true;
-            }
-        });
-    }
+				return true;
+			}
+		});
+	}
 
-    @Override
-    public void onResume() {
-        super.onResume();
+	@Override
+	public void onResume() {
+		super.onResume();
 
-        this.fragmentHelper.onResume(this);
+		this.fragmentHelper.onResume(this);
 
-        updateAdapter();
-    }
+		updateAdapter();
+	}
 
-    @Override
-    public void onPause() {
-        this.fragmentHelper.onPause(this);
+	@Override
+	public void onPause() {
+		this.fragmentHelper.onPause(this);
 
-        super.onPause();
-    }
+		super.onPause();
+	}
 
-    @Override
+	@Override
 	public void onDestroy() {
-        logDebug("onDestroy");
+		logDebug("onDestroy");
 
-        fragmentHelper.onDestroy(this);
+		fragmentHelper.onDestroy(this);
 
-        super.onDestroy();
+		super.onDestroy();
 	}
 
 	protected abstract int getItemLayoutId();
 
-    private void updateAdapter() {
-        final List<CalculatorHistoryState> historyList = getHistoryList();
+	private void updateAdapter() {
+		final List<CalculatorHistoryState> historyList = getHistoryList();
 
-        final ArrayAdapter<CalculatorHistoryState> adapter = getAdapter();
-        try {
-            adapter.setNotifyOnChange(false);
-            adapter.clear();
-            for (CalculatorHistoryState historyState : historyList) {
-                adapter.add(historyState);
-            }
-        } finally {
-            adapter.setNotifyOnChange(true);
-        }
+		final ArrayAdapter<CalculatorHistoryState> adapter = getAdapter();
+		try {
+			adapter.setNotifyOnChange(false);
+			adapter.clear();
+			for (CalculatorHistoryState historyState : historyList) {
+				adapter.add(historyState);
+			}
+		} finally {
+			adapter.setNotifyOnChange(true);
+		}
 
-        adapter.notifyDataSetChanged();
-    }
+		adapter.notifyDataSetChanged();
+	}
 
-    public static boolean isAlreadySaved(@NotNull CalculatorHistoryState historyState) {
+	public static boolean isAlreadySaved(@NotNull CalculatorHistoryState historyState) {
 		assert !historyState.isSaved();
 
 		boolean result = false;
 		try {
 			historyState.setSaved(true);
-			if ( Collections.contains(historyState, Locator.getInstance().getHistory().getSavedHistory(), new Equalizer<CalculatorHistoryState>() {
+			if (Collections.contains(historyState, Locator.getInstance().getHistory().getSavedHistory(), new Equalizer<CalculatorHistoryState>() {
 				@Override
 				public boolean areEqual(@Nullable CalculatorHistoryState first, @Nullable CalculatorHistoryState second) {
 					return first != null && second != null &&
 							first.getTime() == second.getTime() &&
-								first.getDisplayState().equals(second.getDisplayState()) &&
-									first.getEditorState().equals(second.getEditorState());
+							first.getDisplayState().equals(second.getDisplayState()) &&
+							first.getEditorState().equals(second.getEditorState());
 				}
-			}) ) {
+			})) {
 				result = true;
 			}
 		} finally {
@@ -236,7 +236,7 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 	}
 
 	public static void useHistoryItem(@NotNull final CalculatorHistoryState historyState) {
-        Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.use_history_state, historyState);
+		Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.use_history_state, historyState);
 	}
 
 	@NotNull
@@ -285,73 +285,73 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 		return adapter;
 	}
 
-    @Override
-    public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
-        switch (calculatorEventType) {
-            case history_state_added:
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        logDebug("onCalculatorEvent");
-                        updateAdapter();
-                    }
-                });
-                break;
+	@Override
+	public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
+		switch (calculatorEventType) {
+			case history_state_added:
+				getActivity().runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						logDebug("onCalculatorEvent");
+						updateAdapter();
+					}
+				});
+				break;
 
-            case clear_history_requested:
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        clearHistory();
-                    }
-                });
-                break;
-        }
+			case clear_history_requested:
+				getActivity().runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						clearHistory();
+					}
+				});
+				break;
+		}
 
-    }
+	}
 
-    /*
-    **********************************************************************
-    *
-    *                           MENU
-    *
-    **********************************************************************
-    */
+	/*
+	**********************************************************************
+	*
+	*                           MENU
+	*
+	**********************************************************************
+	*/
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        this.menu.onCreateOptionsMenu(this.getActivity(), menu);
-    }
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		this.menu.onCreateOptionsMenu(this.getActivity(), menu);
+	}
 
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        this.menu.onPrepareOptionsMenu(this.getActivity(), menu);
-    }
+	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+		this.menu.onPrepareOptionsMenu(this.getActivity(), menu);
+	}
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return this.menu.onOptionsItemSelected(this.getActivity(), item);
-    }
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		return this.menu.onOptionsItemSelected(this.getActivity(), item);
+	}
 
-    private static enum HistoryMenu implements IdentifiableMenuItem<MenuItem> {
+	private static enum HistoryMenu implements IdentifiableMenuItem<MenuItem> {
 
-        clear_history(org.solovyev.android.calculator.R.id.history_menu_clear_history) {
-            @Override
-            public void onClick(@NotNull MenuItem data, @NotNull Context context) {
-                Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.clear_history_requested, null);
-            }
-        };
+		clear_history(org.solovyev.android.calculator.R.id.history_menu_clear_history) {
+			@Override
+			public void onClick(@NotNull MenuItem data, @NotNull Context context) {
+				Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.clear_history_requested, null);
+			}
+		};
 
-        private final int itemId;
+		private final int itemId;
 
-        HistoryMenu(int itemId) {
-            this.itemId = itemId;
-        }
+		HistoryMenu(int itemId) {
+			this.itemId = itemId;
+		}
 
-        @NotNull
-        @Override
-        public Integer getItemId() {
-            return this.itemId;
-        }
-    }
+		@NotNull
+		@Override
+		public Integer getItemId() {
+			return this.itemId;
+		}
+	}
 }

@@ -26,11 +26,12 @@ import java.util.Map;
  */
 public class CalculatorVarsRegistry extends AbstractCalculatorMathRegistry<IConstant, Var> {
 
-    @NotNull
-    public static final String ANS = "ans";
+	@NotNull
+	public static final String ANS = "ans";
 
 	@NotNull
 	private static final Map<String, String> substitutes = new HashMap<String, String>();
+
 	static {
 		substitutes.put("π", "pi");
 		substitutes.put("Π", "PI");
@@ -39,29 +40,29 @@ public class CalculatorVarsRegistry extends AbstractCalculatorMathRegistry<ICons
 		substitutes.put("NaN", "nan");
 	}
 
-    public CalculatorVarsRegistry(@NotNull MathRegistry<IConstant> mathRegistry,
-                                     @NotNull MathEntityDao<Var> mathEntityDao) {
+	public CalculatorVarsRegistry(@NotNull MathRegistry<IConstant> mathRegistry,
+								  @NotNull MathEntityDao<Var> mathEntityDao) {
 		super(mathRegistry, "c_var_description_", mathEntityDao);
 	}
 
-    public static <T extends MathEntity> void saveVariable(@NotNull CalculatorMathRegistry<T> registry,
-                                                           @NotNull MathEntityBuilder<? extends T> builder,
-                                                           @Nullable T editedInstance,
-                                                           @NotNull Object source, boolean save) {
-        final T addedVar = registry.add(builder);
+	public static <T extends MathEntity> void saveVariable(@NotNull CalculatorMathRegistry<T> registry,
+														   @NotNull MathEntityBuilder<? extends T> builder,
+														   @Nullable T editedInstance,
+														   @NotNull Object source, boolean save) {
+		final T addedVar = registry.add(builder);
 
-        if (save) {
-            registry.save();
-        }
+		if (save) {
+			registry.save();
+		}
 
-        if (editedInstance == null) {
-            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.constant_added, addedVar, source);
-        } else {
-            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.constant_changed, ChangeImpl.newInstance(editedInstance, addedVar), source);
-        }
-    }
+		if (editedInstance == null) {
+			Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.constant_added, addedVar, source);
+		} else {
+			Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.constant_changed, ChangeImpl.newInstance(editedInstance, addedVar), source);
+		}
+	}
 
-    @NotNull
+	@NotNull
 	@Override
 	protected Map<String, String> getSubstitutes() {
 		return substitutes;
@@ -89,15 +90,15 @@ public class CalculatorVarsRegistry extends AbstractCalculatorMathRegistry<ICons
 		return new Var.Builder(entity);
 	}
 
-    @NotNull
+	@NotNull
 	@Override
 	protected MathEntityPersistenceContainer<Var> createPersistenceContainer() {
 		return new Vars();
 	}
 
-    private void tryToAddAuxVar(@NotNull String name) {
-		if ( !contains(name) ) {
-			add(new Var.Builder(name, (String)null));
+	private void tryToAddAuxVar(@NotNull String name) {
+		if (!contains(name)) {
+			add(new Var.Builder(name, (String) null));
 		}
 	}
 
@@ -112,23 +113,23 @@ public class CalculatorVarsRegistry extends AbstractCalculatorMathRegistry<ICons
 	}
 
 	@Override
-    public String getDescription(@NotNull String mathEntityName) {
-        final IConstant var = get(mathEntityName);
-        if (var != null && !var.isSystem()) {
-            return var.getDescription();
-        } else {
-            return super.getDescription(mathEntityName);
-        }
-    }
+	public String getDescription(@NotNull String mathEntityName) {
+		final IConstant var = get(mathEntityName);
+		if (var != null && !var.isSystem()) {
+			return var.getDescription();
+		} else {
+			return super.getDescription(mathEntityName);
+		}
+	}
 
-    @Override
-    public String getCategory(@NotNull IConstant var) {
-        for (VarCategory category : VarCategory.values()) {
-            if ( category.isInCategory(var) ) {
-                return category.name();
-            }
-        }
+	@Override
+	public String getCategory(@NotNull IConstant var) {
+		for (VarCategory category : VarCategory.values()) {
+			if (category.isInCategory(var)) {
+				return category.name();
+			}
+		}
 
-        return null;
-    }
+		return null;
+	}
 }

@@ -14,19 +14,19 @@ import java.util.List;
  */
 public class DummyCalculatorNotifier implements CalculatorNotifier {
 
-    @Override
-    public void showMessage(@NotNull Message message) {
-    }
+	@Override
+	public void showMessage(@NotNull Message message) {
+	}
 
-    @Override
-    public void showMessage(@NotNull Integer messageCode, @NotNull MessageType messageType, @NotNull List<Object> parameters) {
-    }
+	@Override
+	public void showMessage(@NotNull Integer messageCode, @NotNull MessageType messageType, @NotNull List<Object> parameters) {
+	}
 
-    @Override
-    public void showMessage(@NotNull Integer messageCode, @NotNull MessageType messageType, @Nullable Object... parameters) {
-    }
+	@Override
+	public void showMessage(@NotNull Integer messageCode, @NotNull MessageType messageType, @Nullable Object... parameters) {
+	}
 
-    @Override
-    public void showDebugMessage(@Nullable String tag, @NotNull String message) {
-    }
+	@Override
+	public void showDebugMessage(@Nullable String tag, @NotNull String message) {
+	}
 }

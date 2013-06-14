@@ -19,12 +19,12 @@ import org.solovyev.android.calculator.R;
  */
 public class CalculatorHelpActivity extends CalculatorFragmentActivity {
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+	@Override
+	public void onCreate(@Nullable Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-        getActivityHelper().addTab(this, CalculatorFragmentType.faq, null, R.id.main_layout);
-        getActivityHelper().addTab(this, CalculatorFragmentType.hints, null, R.id.main_layout);
-        getActivityHelper().addTab(this, CalculatorFragmentType.screens, null, R.id.main_layout);
-    }
+		getActivityHelper().addTab(this, CalculatorFragmentType.faq, null, R.id.main_layout);
+		getActivityHelper().addTab(this, CalculatorFragmentType.hints, null, R.id.main_layout);
+		getActivityHelper().addTab(this, CalculatorFragmentType.screens, null, R.id.main_layout);
+	}
 }

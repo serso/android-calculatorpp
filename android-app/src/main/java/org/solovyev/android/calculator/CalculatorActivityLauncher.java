@@ -38,17 +38,17 @@ import java.util.List;
  */
 public final class CalculatorActivityLauncher implements CalculatorEventListener {
 
-    public CalculatorActivityLauncher() {
-    }
+	public CalculatorActivityLauncher() {
+	}
 
-    public static void showHistory(@NotNull final Context context) {
-        showHistory(context, false);
-    }
+	public static void showHistory(@NotNull final Context context) {
+		showHistory(context, false);
+	}
 
 	public static void showHistory(@NotNull final Context context, boolean detached) {
-        final Intent intent = new Intent(context, CalculatorHistoryActivity.class);
-        Android.addIntentFlags(intent, detached, context);
-        context.startActivity(intent);
+		final Intent intent = new Intent(context, CalculatorHistoryActivity.class);
+		Android.addIntentFlags(intent, detached, context);
+		context.startActivity(intent);
 	}
 
 	public static void showHelp(@NotNull final Context context) {
@@ -56,220 +56,221 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
 	}
 
 	public static void showSettings(@NotNull final Context context) {
-        showSettings(context, false);
-    }
-	public static void showSettings(@NotNull final Context context, boolean detached) {
-        final Intent intent = new Intent(context, CalculatorPreferencesActivity.class);
-        Android.addIntentFlags(intent, detached, context);
-        context.startActivity(intent);
+		showSettings(context, false);
 	}
 
-    public static void showAbout(@NotNull final Context context) {
+	public static void showSettings(@NotNull final Context context, boolean detached) {
+		final Intent intent = new Intent(context, CalculatorPreferencesActivity.class);
+		Android.addIntentFlags(intent, detached, context);
+		context.startActivity(intent);
+	}
+
+	public static void showAbout(@NotNull final Context context) {
 		context.startActivity(new Intent(context, CalculatorAboutActivity.class));
 	}
 
 	public static void showFunctions(@NotNull final Context context) {
-        showFunctions(context, false);
-    }
+		showFunctions(context, false);
+	}
 
 	public static void showFunctions(@NotNull final Context context, boolean detached) {
-        final Intent intent = new Intent(context, CalculatorFunctionsActivity.class);
-        Android.addIntentFlags(intent, detached, context);
-        context.startActivity(intent);
+		final Intent intent = new Intent(context, CalculatorFunctionsActivity.class);
+		Android.addIntentFlags(intent, detached, context);
+		context.startActivity(intent);
 	}
 
 	public static void showOperators(@NotNull final Context context) {
-        showOperators(context, false);
-    }
+		showOperators(context, false);
+	}
 
 	public static void showOperators(@NotNull final Context context, boolean detached) {
-        final Intent intent = new Intent(context, CalculatorOperatorsActivity.class);
-        Android.addIntentFlags(intent, detached, context);
-        context.startActivity(intent);
+		final Intent intent = new Intent(context, CalculatorOperatorsActivity.class);
+		Android.addIntentFlags(intent, detached, context);
+		context.startActivity(intent);
 	}
 
 	public static void showVars(@NotNull final Context context) {
-        showVars(context, false);
-    }
-
-    public static void showVars(@NotNull final Context context, boolean detached) {
-        final Intent intent = new Intent(context, CalculatorVarsActivity.class);
-        Android.addIntentFlags(intent, detached, context);
-        context.startActivity(intent);
+		showVars(context, false);
 	}
 
-	public static void plotGraph(@NotNull final Context context){
+	public static void showVars(@NotNull final Context context, boolean detached) {
+		final Intent intent = new Intent(context, CalculatorVarsActivity.class);
+		Android.addIntentFlags(intent, detached, context);
+		context.startActivity(intent);
+	}
+
+	public static void plotGraph(@NotNull final Context context) {
 		final Intent intent = new Intent();
 		intent.setClass(context, CalculatorPlotActivity.class);
-        Android.addIntentFlags(intent, false, context);
+		Android.addIntentFlags(intent, false, context);
 		context.startActivity(intent);
 	}
 
 	public static void tryCreateVar(@NotNull final Context context) {
-        final CalculatorDisplay display = Locator.getInstance().getDisplay();
-        final CalculatorDisplayViewState viewState = display.getViewState();
-        if (viewState.isValid() ) {
+		final CalculatorDisplay display = Locator.getInstance().getDisplay();
+		final CalculatorDisplayViewState viewState = display.getViewState();
+		if (viewState.isValid()) {
 			final String varValue = viewState.getText();
 			if (!Strings.isEmpty(varValue)) {
 				if (CalculatorVarsFragment.isValidValue(varValue)) {
-                    if (context instanceof SherlockFragmentActivity) {
-                        VarEditDialogFragment.showDialog(VarEditDialogFragment.Input.newFromValue(varValue), ((SherlockFragmentActivity) context).getSupportFragmentManager());
-                    } else {
-                        final Intent intent = new Intent(context, CalculatorVarsActivity.class);
-                        intent.putExtra(CalculatorVarsFragment.CREATE_VAR_EXTRA_STRING, varValue);
-                        Android.addIntentFlags(intent, false, context);
-                        context.startActivity(intent);
-                    }
-                } else {
-                    getNotifier().showMessage(R.string.c_value_is_not_a_number, MessageType.error);
+					if (context instanceof SherlockFragmentActivity) {
+						VarEditDialogFragment.showDialog(VarEditDialogFragment.Input.newFromValue(varValue), ((SherlockFragmentActivity) context).getSupportFragmentManager());
+					} else {
+						final Intent intent = new Intent(context, CalculatorVarsActivity.class);
+						intent.putExtra(CalculatorVarsFragment.CREATE_VAR_EXTRA_STRING, varValue);
+						Android.addIntentFlags(intent, false, context);
+						context.startActivity(intent);
+					}
+				} else {
+					getNotifier().showMessage(R.string.c_value_is_not_a_number, MessageType.error);
 				}
 			} else {
-                getNotifier().showMessage(R.string.empty_var_error, MessageType.error);
+				getNotifier().showMessage(R.string.empty_var_error, MessageType.error);
 			}
 		} else {
-            getNotifier().showMessage(R.string.not_valid_result, MessageType.error);
+			getNotifier().showMessage(R.string.not_valid_result, MessageType.error);
 		}
 	}
 
-    public static void tryCreateFunction(@NotNull final Context context) {
-        final CalculatorDisplay display = Locator.getInstance().getDisplay();
-        final CalculatorDisplayViewState viewState = display.getViewState();
+	public static void tryCreateFunction(@NotNull final Context context) {
+		final CalculatorDisplay display = Locator.getInstance().getDisplay();
+		final CalculatorDisplayViewState viewState = display.getViewState();
 
-        if (viewState.isValid() ) {
-            final String functionValue = viewState.getText();
-            if (!Strings.isEmpty(functionValue)) {
+		if (viewState.isValid()) {
+			final String functionValue = viewState.getText();
+			if (!Strings.isEmpty(functionValue)) {
 
-                FunctionEditDialogFragment.showDialog(FunctionEditDialogFragment.Input.newFromDisplay(viewState), context);
+				FunctionEditDialogFragment.showDialog(FunctionEditDialogFragment.Input.newFromDisplay(viewState), context);
 
-            } else {
-                getNotifier().showMessage(R.string.empty_function_error, MessageType.error);
-            }
-        } else {
-            getNotifier().showMessage(R.string.not_valid_result, MessageType.error);
-        }
-    }
+			} else {
+				getNotifier().showMessage(R.string.empty_function_error, MessageType.error);
+			}
+		} else {
+			getNotifier().showMessage(R.string.not_valid_result, MessageType.error);
+		}
+	}
 
-    @NotNull
-    private static CalculatorNotifier getNotifier() {
-        return Locator.getInstance().getNotifier();
-    }
+	@NotNull
+	private static CalculatorNotifier getNotifier() {
+		return Locator.getInstance().getNotifier();
+	}
 
-    public static void tryPlot() {
-        final CalculatorPlotter plotter = Locator.getInstance().getPlotter();
-        final CalculatorDisplay display = Locator.getInstance().getDisplay();
-        final CalculatorDisplayViewState viewState = display.getViewState();
+	public static void tryPlot() {
+		final CalculatorPlotter plotter = Locator.getInstance().getPlotter();
+		final CalculatorDisplay display = Locator.getInstance().getDisplay();
+		final CalculatorDisplayViewState viewState = display.getViewState();
 
-        if (viewState.isValid() ) {
-            final String functionValue = viewState.getText();
-            final Generic expression = viewState.getResult();
-            if (!Strings.isEmpty(functionValue) && expression != null) {
-                if ( plotter.isPlotPossibleFor(expression) ) {
-                    plotter.plot(expression);
-                } else {
-                    getNotifier().showMessage(R.string.cpp_plot_too_many_variables, MessageType.error);
-                }
-            } else {
-                getNotifier().showMessage(R.string.cpp_plot_empty_function_error, MessageType.error);
-            }
-        } else {
-            getNotifier().showMessage(R.string.not_valid_result, MessageType.error);
-        }
-    }
+		if (viewState.isValid()) {
+			final String functionValue = viewState.getText();
+			final Generic expression = viewState.getResult();
+			if (!Strings.isEmpty(functionValue) && expression != null) {
+				if (plotter.isPlotPossibleFor(expression)) {
+					plotter.plot(expression);
+				} else {
+					getNotifier().showMessage(R.string.cpp_plot_too_many_variables, MessageType.error);
+				}
+			} else {
+				getNotifier().showMessage(R.string.cpp_plot_empty_function_error, MessageType.error);
+			}
+		} else {
+			getNotifier().showMessage(R.string.not_valid_result, MessageType.error);
+		}
+	}
 
-    public static void openApp(@NotNull Context context) {
-        final Intent intent = new Intent(context, CalculatorActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        context.startActivity(intent);
-    }
+	public static void openApp(@NotNull Context context) {
+		final Intent intent = new Intent(context, CalculatorActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		context.startActivity(intent);
+	}
 
-    public static void likeButtonPressed(@NotNull final Context context) {
-        final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(CalculatorApplication.FACEBOOK_APP_URL));
-        Android.addIntentFlags(intent, false, context);
-        context.startActivity(intent);
-    }
+	public static void likeButtonPressed(@NotNull final Context context) {
+		final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(CalculatorApplication.FACEBOOK_APP_URL));
+		Android.addIntentFlags(intent, false, context);
+		context.startActivity(intent);
+	}
 
-    public static void showCalculationMessagesDialog(@NotNull Context context, @NotNull List<Message> messages) {
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+	public static void showCalculationMessagesDialog(@NotNull Context context, @NotNull List<Message> messages) {
+		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
-        if ( CalculatorPreferences.Calculations.showCalculationMessagesDialog.getPreference(prefs) ) {
-            FixableMessagesDialog.showDialogForMessages(messages, context, true);
-        }
-    }
+		if (CalculatorPreferences.Calculations.showCalculationMessagesDialog.getPreference(prefs)) {
+			FixableMessagesDialog.showDialogForMessages(messages, context, true);
+		}
+	}
 
-    @Override
-    public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
-        final Context context;
+	@Override
+	public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
+		final Context context;
 
-        final Object source = calculatorEventData.getSource();
-        if ( source instanceof Context ) {
-            context = ((Context) source);
-        } else {
-            context = App.getApplication();
-        }
+		final Object source = calculatorEventData.getSource();
+		if (source instanceof Context) {
+			context = ((Context) source);
+		} else {
+			context = App.getApplication();
+		}
 
-        switch (calculatorEventType){
-            case show_create_matrix_dialog:
-                App.getUiThreadExecutor().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        final Intent intent = new Intent(context, CalculatorMatrixActivity.class);
-                        Android.addIntentFlags(intent, false, context);
-                        context.startActivity(intent);
-                    }
-                });
-                break;
-            case show_create_var_dialog:
-                App.getUiThreadExecutor().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        CalculatorActivityLauncher.tryCreateVar(context);
-                    }
-                });
-                break;
-            case show_create_function_dialog:
-                App.getUiThreadExecutor().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        CalculatorActivityLauncher.tryCreateFunction(context);
-                    }
-                });
-                break;
-            case show_evaluation_error:
-                final String errorMessage = (String) data;
-                if (errorMessage != null) {
-                    App.getUiThreadExecutor().execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            showEvaluationError(context, errorMessage);
-                        }
-                    });
-                }
-                break;
-            case show_message_dialog:
-                final DialogData dialogData = (DialogData) data;
-                if (dialogData != null) {
-                    App.getUiThreadExecutor().execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            CalculatorDialogActivity.showDialog(context, dialogData);
-                        }
-                    });
-                }
-                break;
+		switch (calculatorEventType) {
+			case show_create_matrix_dialog:
+				App.getUiThreadExecutor().execute(new Runnable() {
+					@Override
+					public void run() {
+						final Intent intent = new Intent(context, CalculatorMatrixActivity.class);
+						Android.addIntentFlags(intent, false, context);
+						context.startActivity(intent);
+					}
+				});
+				break;
+			case show_create_var_dialog:
+				App.getUiThreadExecutor().execute(new Runnable() {
+					@Override
+					public void run() {
+						CalculatorActivityLauncher.tryCreateVar(context);
+					}
+				});
+				break;
+			case show_create_function_dialog:
+				App.getUiThreadExecutor().execute(new Runnable() {
+					@Override
+					public void run() {
+						CalculatorActivityLauncher.tryCreateFunction(context);
+					}
+				});
+				break;
+			case show_evaluation_error:
+				final String errorMessage = (String) data;
+				if (errorMessage != null) {
+					App.getUiThreadExecutor().execute(new Runnable() {
+						@Override
+						public void run() {
+							showEvaluationError(context, errorMessage);
+						}
+					});
+				}
+				break;
+			case show_message_dialog:
+				final DialogData dialogData = (DialogData) data;
+				if (dialogData != null) {
+					App.getUiThreadExecutor().execute(new Runnable() {
+						@Override
+						public void run() {
+							CalculatorDialogActivity.showDialog(context, dialogData);
+						}
+					});
+				}
+				break;
 
-        }
-    }
+		}
+	}
 
-    public static void showEvaluationError(@NotNull Context context, @NotNull final String errorMessage) {
-        final LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+	public static void showEvaluationError(@NotNull Context context, @NotNull final String errorMessage) {
+		final LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 
-        final View errorMessageView = layoutInflater.inflate(R.layout.display_error_message, null);
-        ((TextView) errorMessageView.findViewById(R.id.error_message_text_view)).setText(errorMessage);
+		final View errorMessageView = layoutInflater.inflate(R.layout.display_error_message, null);
+		((TextView) errorMessageView.findViewById(R.id.error_message_text_view)).setText(errorMessage);
 
-        final AlertDialog.Builder builder = new AlertDialog.Builder(context)
-                .setPositiveButton(R.string.c_cancel, null)
-                .setView(errorMessageView);
+		final AlertDialog.Builder builder = new AlertDialog.Builder(context)
+				.setPositiveButton(R.string.c_cancel, null)
+				.setView(errorMessageView);
 
-        builder.create().show();
-    }
+		builder.create().show();
+	}
 }

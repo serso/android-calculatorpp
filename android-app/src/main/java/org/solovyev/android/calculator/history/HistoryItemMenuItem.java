@@ -23,10 +23,10 @@ import org.solovyev.android.menu.LabeledMenuItem;
 import org.solovyev.common.text.Strings;
 
 /**
-* User: serso
-* Date: 12/18/11
-* Time: 3:09 PM
-*/
+ * User: serso
+ * Date: 12/18/11
+ * Time: 3:09 PM
+ */
 public enum HistoryItemMenuItem implements LabeledMenuItem<HistoryItemMenuData> {
 
 	use(R.string.c_use) {
@@ -104,10 +104,10 @@ public enum HistoryItemMenuItem implements LabeledMenuItem<HistoryItemMenuData> 
 
 		final LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		final View editView = layoutInflater.inflate(R.layout.history_edit, null);
-		final TextView historyExpression = (TextView)editView.findViewById(R.id.history_edit_expression);
+		final TextView historyExpression = (TextView) editView.findViewById(R.id.history_edit_expression);
 		historyExpression.setText(AbstractCalculatorHistoryFragment.getHistoryText(historyState));
 
-		final EditText comment = (EditText)editView.findViewById(R.id.history_edit_comment);
+		final EditText comment = (EditText) editView.findViewById(R.id.history_edit_comment);
 		comment.setText(historyState.getComment());
 
 		final AlertDialog.Builder builder = new AlertDialog.Builder(context)
@@ -120,12 +120,12 @@ public enum HistoryItemMenuItem implements LabeledMenuItem<HistoryItemMenuData> 
 						if (save) {
 							final CalculatorHistoryState savedHistoryItem = Locator.getInstance().getHistory().addSavedState(historyState);
 							savedHistoryItem.setComment(comment.getText().toString());
-                            Locator.getInstance().getHistory().save();
+							Locator.getInstance().getHistory().save();
 							// we don't need to add element to the adapter as adapter of another activity must be updated and not this
 							//data.getAdapter().add(savedHistoryItem);
 						} else {
 							historyState.setComment(comment.getText().toString());
-                            Locator.getInstance().getHistory().save();
+							Locator.getInstance().getHistory().save();
 						}
 						data.getAdapter().notifyDataSetChanged();
 						Toast.makeText(context, context.getText(R.string.c_history_saved), Toast.LENGTH_LONG).show();

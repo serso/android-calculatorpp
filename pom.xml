@@ -1,44 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-    <parent>
-        <groupId>org.sonatype.oss</groupId>
-        <artifactId>oss-parent</artifactId>
-        <version>7</version>
-    </parent>
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
 
-    <modelVersion>4.0.0</modelVersion>
+	<modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.solovyev.android</groupId>
-    <artifactId>calculatorpp-parent</artifactId>
-    <packaging>pom</packaging>
-    <version>1.6.3-SNAPSHOT</version>
-    <name>Calculator++</name>
+	<groupId>org.solovyev.android</groupId>
+	<artifactId>calculatorpp-parent</artifactId>
+	<packaging>pom</packaging>
+	<version>1.6.3-SNAPSHOT</version>
+	<name>Calculator++</name>
 
-    <scm>
-        <connection>scm:git:git@github.com:serso/android-calculatorpp.git</connection>
-        <developerConnection>scm:git:git@github.com:serso/android-calculatorpp.git</developerConnection>
-        <url>http://github.com/serso/android-calculatorpp</url>
-        <tag>HEAD</tag>
-    </scm>
+	<scm>
+		<connection>scm:git:git@github.com:serso/android-calculatorpp.git</connection>
+		<developerConnection>scm:git:git@github.com:serso/android-calculatorpp.git</developerConnection>
+		<url>http://github.com/serso/android-calculatorpp</url>
+		<tag>HEAD</tag>
+	</scm>
 
-    <modules>
-        <module>android-app</module>
-        <module>android-app-core</module>
-        <module>android-app-widget</module>
-        <module>android-app-onscreen</module>
-        <module>android-app-test</module>
-        <module>core</module>
-    </modules>
+	<modules>
+		<module>android-app</module>
+		<module>android-app-core</module>
+		<module>android-app-widget</module>
+		<module>android-app-onscreen</module>
+		<module>android-app-test</module>
+		<module>core</module>
+	</modules>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <android.common.version>1.1.1-SNAPSHOT</android.common.version>
-        <common.version>1.0.4</common.version>
-    </properties>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<android.common.version>1.1.1-SNAPSHOT</android.common.version>
+		<common.version>1.0.4</common.version>
+	</properties>
 
-    <dependencyManagement>
-        <dependencies>
+	<dependencyManagement>
+		<dependencies>
 
 			<dependency>
 				<groupId>org.solovyev.android</groupId>
@@ -60,24 +60,24 @@
 				<type>apklib</type>
 			</dependency>
 
-            <dependency>
-                <groupId>org.solovyev.android</groupId>
-                <artifactId>calculatorpp-android-app-onscreen</artifactId>
-                <version>1.6.3-SNAPSHOT</version>
-                <type>apklib</type>
-            </dependency>
+			<dependency>
+				<groupId>org.solovyev.android</groupId>
+				<artifactId>calculatorpp-android-app-onscreen</artifactId>
+				<version>1.6.3-SNAPSHOT</version>
+				<type>apklib</type>
+			</dependency>
 
 			<dependency>
-                <groupId>org.solovyev</groupId>
-                <artifactId>common-core</artifactId>
-                <version>${common.version}</version>
-            </dependency>
+				<groupId>org.solovyev</groupId>
+				<artifactId>common-core</artifactId>
+				<version>${common.version}</version>
+			</dependency>
 
-            <dependency>
-                <groupId>org.solovyev</groupId>
-                <artifactId>common-text</artifactId>
-                <version>${common.version}</version>
-            </dependency>
+			<dependency>
+				<groupId>org.solovyev</groupId>
+				<artifactId>common-text</artifactId>
+				<version>${common.version}</version>
+			</dependency>
 
 			<dependency>
 				<groupId>org.solovyev</groupId>
@@ -85,280 +85,280 @@
 				<version>${common.version}</version>
 			</dependency>
 
-            <dependency>
-                <groupId>org.solovyev.android</groupId>
-                <artifactId>android-common-core</artifactId>
-                <type>apklib</type>
-                <version>${android.common.version}</version>
-            </dependency>
+			<dependency>
+				<groupId>org.solovyev.android</groupId>
+				<artifactId>android-common-core</artifactId>
+				<type>apklib</type>
+				<version>${android.common.version}</version>
+			</dependency>
 
-            <dependency>
-                <groupId>org.solovyev.android</groupId>
-                <artifactId>android-common-ads</artifactId>
-                <type>apklib</type>
-                <version>${android.common.version}</version>
-            </dependency>
+			<dependency>
+				<groupId>org.solovyev.android</groupId>
+				<artifactId>android-common-ads</artifactId>
+				<type>apklib</type>
+				<version>${android.common.version}</version>
+			</dependency>
 
-            <dependency>
-                <groupId>org.solovyev.android</groupId>
-                <artifactId>android-common-view</artifactId>
-                <type>apklib</type>
-                <version>${android.common.version}</version>
-            </dependency>
+			<dependency>
+				<groupId>org.solovyev.android</groupId>
+				<artifactId>android-common-view</artifactId>
+				<type>apklib</type>
+				<version>${android.common.version}</version>
+			</dependency>
 
-            <dependency>
-                <groupId>org.solovyev.android</groupId>
-                <artifactId>android-common-preferences</artifactId>
-                <type>apklib</type>
-                <version>${android.common.version}</version>
-            </dependency>
+			<dependency>
+				<groupId>org.solovyev.android</groupId>
+				<artifactId>android-common-preferences</artifactId>
+				<type>apklib</type>
+				<version>${android.common.version}</version>
+			</dependency>
 
-            <dependency>
-                <groupId>org.solovyev.android</groupId>
-                <artifactId>android-common-menu</artifactId>
-                <type>apklib</type>
-                <version>${android.common.version}</version>
-            </dependency>
+			<dependency>
+				<groupId>org.solovyev.android</groupId>
+				<artifactId>android-common-menu</artifactId>
+				<type>apklib</type>
+				<version>${android.common.version}</version>
+			</dependency>
 
-            <dependency>
-                <groupId>org.solovyev.android</groupId>
-                <artifactId>android-common-db</artifactId>
-                <type>apklib</type>
-                <version>${android.common.version}</version>
-            </dependency>
+			<dependency>
+				<groupId>org.solovyev.android</groupId>
+				<artifactId>android-common-db</artifactId>
+				<type>apklib</type>
+				<version>${android.common.version}</version>
+			</dependency>
 
-            <dependency>
-                <groupId>org.solovyev.android</groupId>
-                <artifactId>android-common-sherlock</artifactId>
-                <version>${android.common.version}</version>
-                <type>apklib</type>
-            </dependency>
+			<dependency>
+				<groupId>org.solovyev.android</groupId>
+				<artifactId>android-common-sherlock</artifactId>
+				<version>${android.common.version}</version>
+				<type>apklib</type>
+			</dependency>
 
-            <dependency>
-                <groupId>org.solovyev.android</groupId>
-                <artifactId>android-common-other</artifactId>
-                <type>apklib</type>
-                <version>${android.common.version}</version>
-            </dependency>
+			<dependency>
+				<groupId>org.solovyev.android</groupId>
+				<artifactId>android-common-other</artifactId>
+				<type>apklib</type>
+				<version>${android.common.version}</version>
+			</dependency>
 
-            <dependency>
-                <groupId>org.solovyev.android</groupId>
-                <artifactId>android-common-billing</artifactId>
-                <type>apklib</type>
-                <version>${android.common.version}</version>
-            </dependency>
+			<dependency>
+				<groupId>org.solovyev.android</groupId>
+				<artifactId>android-common-billing</artifactId>
+				<type>apklib</type>
+				<version>${android.common.version}</version>
+			</dependency>
 
-            <dependency>
-                <groupId>org.solovyev.android</groupId>
-                <artifactId>android-common-all</artifactId>
-                <type>apklib</type>
-                <version>${android.common.version}</version>
-            </dependency>
+			<dependency>
+				<groupId>org.solovyev.android</groupId>
+				<artifactId>android-common-all</artifactId>
+				<type>apklib</type>
+				<version>${android.common.version}</version>
+			</dependency>
 
 
-            <dependency>
-                <groupId>com.actionbarsherlock</groupId>
-                <artifactId>library</artifactId>
-                <version>4.2.0</version>
-                <type>apklib</type>
-            </dependency>
+			<dependency>
+				<groupId>com.actionbarsherlock</groupId>
+				<artifactId>library</artifactId>
+				<version>4.2.0</version>
+				<type>apklib</type>
+			</dependency>
 
-            <dependency>
-                <groupId>org.solovyev</groupId>
-                <artifactId>jscl</artifactId>
-                <version>1.0.4-SNAPSHOT</version>
-                <exclusions>
-                    <exclusion>
-                        <artifactId>xercesImpl</artifactId>
-                        <groupId>xerces</groupId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
+			<dependency>
+				<groupId>org.solovyev</groupId>
+				<artifactId>jscl</artifactId>
+				<version>1.0.4-SNAPSHOT</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>xercesImpl</artifactId>
+						<groupId>xerces</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>
 
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>4.8.2</version>
-            </dependency>
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.8.2</version>
+			</dependency>
 
-            <dependency>
-                <groupId>com.intellij</groupId>
-                <artifactId>annotations</artifactId>
-                <version>7.0.3</version>
-            </dependency>
+			<dependency>
+				<groupId>com.intellij</groupId>
+				<artifactId>annotations</artifactId>
+				<version>7.0.3</version>
+			</dependency>
 
-            <dependency>
-                <groupId>com.google.android</groupId>
-                <artifactId>android</artifactId>
-                <version>4.0.1.2</version>
-                <scope>provided</scope>
-            </dependency>
+			<dependency>
+				<groupId>com.google.android</groupId>
+				<artifactId>android</artifactId>
+				<version>4.0.1.2</version>
+				<scope>provided</scope>
+			</dependency>
 
-            <dependency>
-                <groupId>com.google.android</groupId>
-                <artifactId>support-v4</artifactId>
-                <version>r7</version>
-            </dependency>
+			<dependency>
+				<groupId>com.google.android</groupId>
+				<artifactId>support-v4</artifactId>
+				<version>r7</version>
+			</dependency>
 
-            <dependency>
-                <groupId>com.google.android</groupId>
-                <artifactId>android-test</artifactId>
-                <version>2.3.1</version>
-            </dependency>
+			<dependency>
+				<groupId>com.google.android</groupId>
+				<artifactId>android-test</artifactId>
+				<version>2.3.1</version>
+			</dependency>
 
-            <dependency>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-                <version>11.0.2</version>
+			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>11.0.2</version>
 				<exclusions>
 					<exclusion>
 						<groupId>com.google.code.findbugs</groupId>
 						<artifactId>jsr305</artifactId>
 					</exclusion>
 				</exclusions>
-            </dependency>
+			</dependency>
 
-            <dependency>
-                <groupId>org.simpleframework</groupId>
-                <artifactId>simple-xml</artifactId>
-                <version>2.6.1</version>
-                <exclusions>
-                    <exclusion>
-                        <artifactId>stax-api</artifactId>
-                        <groupId>stax</groupId>
-                    </exclusion>
-                    <exclusion>
-                        <artifactId>xpp3</artifactId>
-                        <groupId>xpp3</groupId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
+			<dependency>
+				<groupId>org.simpleframework</groupId>
+				<artifactId>simple-xml</artifactId>
+				<version>2.6.1</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>stax-api</artifactId>
+						<groupId>stax</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>xpp3</artifactId>
+						<groupId>xpp3</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>
 
-        </dependencies>
-    </dependencyManagement>
+		</dependencies>
+	</dependencyManagement>
 
-    <build>
+	<build>
 
-        <plugins>
+		<plugins>
 
-            <plugin>
-                <groupId>com.electriccloud</groupId>
-                <artifactId>javac2-maven-plugin</artifactId>
-                <version>1.0.2</version>
-                <executions>
-                    <execution>
-                        <id>@NotNull Instrumentation</id>
-                        <goals>
-                            <goal>instrument</goal>
-                        </goals>
-                        <!--compile phase instead of process-classes because of proguard.
-                        @NotNull instrumentation will be done now after compilation and before proguard-->
-                        <phase>compile</phase>
-                    </execution>
-                </executions>
-            </plugin>
+			<plugin>
+				<groupId>com.electriccloud</groupId>
+				<artifactId>javac2-maven-plugin</artifactId>
+				<version>1.0.2</version>
+				<executions>
+					<execution>
+						<id>@NotNull Instrumentation</id>
+						<goals>
+							<goal>instrument</goal>
+						</goals>
+						<!--compile phase instead of process-classes because of proguard.
+						@NotNull instrumentation will be done now after compilation and before proguard-->
+						<phase>compile</phase>
+					</execution>
+				</executions>
+			</plugin>
 
-            <!-- as some classes are singletons we must run  each test in separate JVM-->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.12.4</version>
-                <configuration>
-                    <forkMode>always</forkMode>
-                </configuration>
-            </plugin>
+			<!-- as some classes are singletons we must run  each test in separate JVM-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.12.4</version>
+				<configuration>
+					<forkMode>always</forkMode>
+				</configuration>
+			</plugin>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>2.3.2</version>
-                <configuration>
-                    <mavenExecutorId>forked-path</mavenExecutorId>
-                    <useReleaseProfile>false</useReleaseProfile>
-                    <arguments>-Psonatype-oss-release -Prelease ${arguments}</arguments>
-                    <tagNameFormat>release-@{project.version}</tagNameFormat>
-                </configuration>
-            </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<mavenExecutorId>forked-path</mavenExecutorId>
+					<useReleaseProfile>false</useReleaseProfile>
+					<arguments>-Psonatype-oss-release -Prelease ${arguments}</arguments>
+					<tagNameFormat>release-@{project.version}</tagNameFormat>
+				</configuration>
+			</plugin>
 
-        </plugins>
+		</plugins>
 
-        <pluginManagement>
-            <plugins>
+		<pluginManagement>
+			<plugins>
 
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-jarsigner-plugin</artifactId>
-                    <version>1.2</version>
-                </plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jarsigner-plugin</artifactId>
+					<version>1.2</version>
+				</plugin>
 
-                <plugin>
-                    <groupId>com.jayway.maven.plugins.android.generation2</groupId>
-                    <artifactId>android-maven-plugin</artifactId>
-                    <version>3.4.0</version>
-                    <configuration>
+				<plugin>
+					<groupId>com.jayway.maven.plugins.android.generation2</groupId>
+					<artifactId>android-maven-plugin</artifactId>
+					<version>3.4.0</version>
+					<configuration>
 
-                        <sourceDirectories>
-                            <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
-                        </sourceDirectories>
+						<sourceDirectories>
+							<sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
+						</sourceDirectories>
 
-                        <sdk>
-                            <platform>17</platform>
-                        </sdk>
+						<sdk>
+							<platform>17</platform>
+						</sdk>
 
-                        <emulator>
-                            <avd>23</avd>
-                            <wait>10000</wait>
-                            <!--<options>-no-skin</options>-->
-                        </emulator>
+						<emulator>
+							<avd>23</avd>
+							<wait>10000</wait>
+							<!--<options>-no-skin</options>-->
+						</emulator>
 
-                        <zipalign>
-                            <verbose>true</verbose>
-                        </zipalign>
+						<zipalign>
+							<verbose>true</verbose>
+						</zipalign>
 
-                        <undeployBeforeDeploy>true</undeployBeforeDeploy>
+						<undeployBeforeDeploy>true</undeployBeforeDeploy>
 
-                    </configuration>
+					</configuration>
 
-                </plugin>
+				</plugin>
 
-                <plugin>
-                    <groupId>com.pyx4me</groupId>
-                    <artifactId>proguard-maven-plugin</artifactId>
-                    <version>2.0.4</version>
-                </plugin>
+				<plugin>
+					<groupId>com.pyx4me</groupId>
+					<artifactId>proguard-maven-plugin</artifactId>
+					<version>2.0.4</version>
+				</plugin>
 
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>build-helper-maven-plugin</artifactId>
-                    <version>1.7</version>
-                </plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>build-helper-maven-plugin</artifactId>
+					<version>1.7</version>
+				</plugin>
 
-            </plugins>
-        </pluginManagement>
+			</plugins>
+		</pluginManagement>
 
-    </build>
+	</build>
 
-    <profiles>
+	<profiles>
 
-        <profile>
-            <!-- the standard profile runs instrumentation tests  -->
-            <id>standard</id>
-        </profile>
+		<profile>
+			<!-- the standard profile runs instrumentation tests  -->
+			<id>standard</id>
+		</profile>
 
-        <profile>
-            <!-- the release profile does sign, proguard, zipalign  -->
-            <id>release</id>
-            <!-- via this activation the profile is automatically used when the release is done with the maven release
-            plugin -->
-            <activation>
-                <property>
-                    <name>performRelease</name>
-                    <value>true</value>
-                </property>
-            </activation>
+		<profile>
+			<!-- the release profile does sign, proguard, zipalign  -->
+			<id>release</id>
+			<!-- via this activation the profile is automatically used when the release is done with the maven release
+			plugin -->
+			<activation>
+				<property>
+					<name>performRelease</name>
+					<value>true</value>
+				</property>
+			</activation>
 
-        </profile>
-    </profiles>
+		</profile>
+	</profiles>
 
 
 </project>
