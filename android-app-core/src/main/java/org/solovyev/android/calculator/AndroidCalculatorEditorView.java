@@ -50,9 +50,6 @@ public class AndroidCalculatorEditorView extends EditText implements SharedPrefe
 	private volatile boolean viewStateChange = false;
 
 	@Nonnull
-	private final Object viewLock = new Object();
-
-	@Nonnull
 	private final Handler uiHandler = new Handler();
 
 	public AndroidCalculatorEditorView(Context context) {
@@ -155,7 +152,7 @@ public class AndroidCalculatorEditorView extends EditText implements SharedPrefe
 
 	@Override
 	public void setState(@Nonnull final CalculatorEditorViewState viewState) {
-		synchronized (viewLock) {
+		synchronized (this) {
 
 			final CharSequence text = prepareText(viewState.getText(), highlightText);
 
@@ -163,7 +160,7 @@ public class AndroidCalculatorEditorView extends EditText implements SharedPrefe
 				@Override
 				public void run() {
 					final AndroidCalculatorEditorView editorView = AndroidCalculatorEditorView.this;
-					synchronized (viewLock) {
+					synchronized (AndroidCalculatorEditorView.this) {
 						try {
 							editorView.viewStateChange = true;
 							editorView.viewState = viewState;
@@ -181,7 +178,7 @@ public class AndroidCalculatorEditorView extends EditText implements SharedPrefe
 
 	@Override
 	protected void onSelectionChanged(int selStart, int selEnd) {
-		synchronized (viewLock) {
+		synchronized (this) {
 			if (!viewStateChange) {
 				// external text change => need to notify editor
 				super.onSelectionChanged(selStart, selEnd);
@@ -195,7 +192,7 @@ public class AndroidCalculatorEditorView extends EditText implements SharedPrefe
 	}
 
 	public void handleTextChange(Editable s) {
-		synchronized (viewLock) {
+		synchronized (this) {
 			if (!viewStateChange) {
 				// external text change => need to notify editor
 				Locator.getInstance().getEditor().setText(String.valueOf(s));

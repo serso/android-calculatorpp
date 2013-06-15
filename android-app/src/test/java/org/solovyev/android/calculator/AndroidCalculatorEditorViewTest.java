@@ -25,6 +25,11 @@ public class AndroidCalculatorEditorViewTest {
 	}
 
 	@Test
+	public void testCreation() throws Exception {
+		new AndroidCalculatorEditorView(CalculatorApplication.getInstance());
+	}
+
+	@Test
 	public void testAsyncWork() throws Exception {
 /*        final int threadNum = 10;
         final int count = 10;
