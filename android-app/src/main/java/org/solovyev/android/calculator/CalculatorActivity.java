@@ -21,8 +21,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.Activities;
 import org.solovyev.android.Android;
 import org.solovyev.android.Threads;
@@ -36,12 +36,12 @@ import org.solovyev.common.text.Strings;
 
 public class CalculatorActivity extends SherlockFragmentActivity implements SharedPreferences.OnSharedPreferenceChangeListener, CalculatorEventListener {
 
-	@NotNull
+	@Nonnull
 	public static final String TAG = CalculatorActivity.class.getSimpleName();
 
 	private boolean useBackAsPrev;
 
-	@NotNull
+	@Nonnull
 	private CalculatorActivityHelper activityHelper;
 
 	/**
@@ -96,12 +96,12 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 		return findViewById(R.id.main_second_pane) != null;
 	}
 
-	@NotNull
+	@Nonnull
 	private AndroidCalculator getCalculator() {
 		return ((AndroidCalculator) Locator.getInstance().getCalculator());
 	}
 
-	private static void firstTimeInit(@NotNull SharedPreferences preferences, @NotNull Context context) {
+	private static void firstTimeInit(@Nonnull SharedPreferences preferences, @Nonnull Context context) {
 		final Integer appOpenedCounter = CalculatorPreferences.appOpenedCounter.getPreference(preferences);
 		if (appOpenedCounter != null) {
 			CalculatorPreferences.appOpenedCounter.putPreference(preferences, appOpenedCounter + 1);
@@ -149,7 +149,7 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 		}
 	}
 
-	private static boolean showSpecialWindow(@NotNull SharedPreferences preferences, @NotNull Preference<Boolean> specialWindowShownPref, int layoutId, int textViewId, @NotNull Context context) {
+	private static boolean showSpecialWindow(@Nonnull SharedPreferences preferences, @Nonnull Preference<Boolean> specialWindowShownPref, int layoutId, int textViewId, @Nonnull Context context) {
 		boolean result = false;
 
 		final Boolean specialWindowShown = specialWindowShownPref.getPreference(preferences);
@@ -183,7 +183,7 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 	}
 
 	@SuppressWarnings({"UnusedDeclaration"})
-	public void equalsButtonClickHandler(@NotNull View v) {
+	public void equalsButtonClickHandler(@Nonnull View v) {
 		buttonPressed(CalculatorSpecialButton.equals);
 	}
 
@@ -252,47 +252,47 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 	*/
 
 	@SuppressWarnings({"UnusedDeclaration"})
-	public void elementaryButtonClickHandler(@NotNull View v) {
+	public void elementaryButtonClickHandler(@Nonnull View v) {
 		throw new UnsupportedOperationException("Not implemented yet!");
 	}
 
 	@SuppressWarnings({"UnusedDeclaration"})
-	public void historyButtonClickHandler(@NotNull View v) {
+	public void historyButtonClickHandler(@Nonnull View v) {
 		buttonPressed(CalculatorSpecialButton.history);
 	}
 
 	@SuppressWarnings({"UnusedDeclaration"})
-	public void eraseButtonClickHandler(@NotNull View v) {
+	public void eraseButtonClickHandler(@Nonnull View v) {
 		buttonPressed(CalculatorSpecialButton.erase);
 	}
 
 	@SuppressWarnings({"UnusedDeclaration"})
-	public void simplifyButtonClickHandler(@NotNull View v) {
+	public void simplifyButtonClickHandler(@Nonnull View v) {
 		throw new UnsupportedOperationException("Not implemented yet!");
 	}
 
 	@SuppressWarnings({"UnusedDeclaration"})
-	public void pasteButtonClickHandler(@NotNull View v) {
+	public void pasteButtonClickHandler(@Nonnull View v) {
 		buttonPressed(CalculatorSpecialButton.paste);
 	}
 
 	@SuppressWarnings({"UnusedDeclaration"})
-	public void copyButtonClickHandler(@NotNull View v) {
+	public void copyButtonClickHandler(@Nonnull View v) {
 		buttonPressed(CalculatorSpecialButton.copy);
 	}
 
-	@NotNull
+	@Nonnull
 	private static CalculatorKeyboard getKeyboard() {
 		return Locator.getInstance().getKeyboard();
 	}
 
 	@SuppressWarnings({"UnusedDeclaration"})
-	public void clearButtonClickHandler(@NotNull View v) {
+	public void clearButtonClickHandler(@Nonnull View v) {
 		buttonPressed(CalculatorSpecialButton.clear);
 	}
 
 	@SuppressWarnings({"UnusedDeclaration"})
-	public void digitButtonClickHandler(@NotNull View v) {
+	public void digitButtonClickHandler(@Nonnull View v) {
 		Log.d(String.valueOf(v.getId()), "digitButtonClickHandler() for: " + v.getId() + ". Pressed: " + v.isPressed());
 
 		if (v instanceof Button) {
@@ -300,36 +300,36 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 		}
 	}
 
-	private void buttonPressed(@NotNull CalculatorSpecialButton button) {
+	private void buttonPressed(@Nonnull CalculatorSpecialButton button) {
 		buttonPressed(button.getActionCode());
 	}
 
-	private void buttonPressed(@NotNull String text) {
+	private void buttonPressed(@Nonnull String text) {
 		getKeyboard().buttonPressed(text);
 	}
 
 	@SuppressWarnings({"UnusedDeclaration"})
-	public void functionsButtonClickHandler(@NotNull View v) {
+	public void functionsButtonClickHandler(@Nonnull View v) {
 		buttonPressed(CalculatorSpecialButton.functions);
 	}
 
 	@SuppressWarnings({"UnusedDeclaration"})
-	public void operatorsButtonClickHandler(@NotNull View v) {
+	public void operatorsButtonClickHandler(@Nonnull View v) {
 		buttonPressed(CalculatorSpecialButton.operators);
 	}
 
 	@SuppressWarnings({"UnusedDeclaration"})
-	public void varsButtonClickHandler(@NotNull View v) {
+	public void varsButtonClickHandler(@Nonnull View v) {
 		buttonPressed(CalculatorSpecialButton.vars);
 	}
 
 	@SuppressWarnings({"UnusedDeclaration"})
-	public void likeButtonClickHandler(@NotNull View v) {
+	public void likeButtonClickHandler(@Nonnull View v) {
 		buttonPressed(CalculatorSpecialButton.like);
 	}
 
 	@Override
-	public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
+	public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
 		switch (calculatorEventType) {
 			case plot_graph:
 				Threads.tryRunOnUiThread(this, new Runnable() {

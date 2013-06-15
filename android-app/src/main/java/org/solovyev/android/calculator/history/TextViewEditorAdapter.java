@@ -8,8 +8,8 @@ package org.solovyev.android.calculator.history;
 
 import android.widget.EditText;
 import android.widget.TextView;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.calculator.Editor;
 
 /**
@@ -19,10 +19,10 @@ import org.solovyev.android.calculator.Editor;
  */
 public class TextViewEditorAdapter implements Editor {
 
-	@NotNull
+	@Nonnull
 	private final TextView textView;
 
-	public TextViewEditorAdapter(@NotNull TextView textView) {
+	public TextViewEditorAdapter(@Nonnull TextView textView) {
 		this.textView = textView;
 	}
 

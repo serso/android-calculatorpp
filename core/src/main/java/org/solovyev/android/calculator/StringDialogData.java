@@ -1,7 +1,7 @@
 package org.solovyev.android.calculator;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.common.msg.MessageType;
 
 /**
@@ -11,33 +11,33 @@ import org.solovyev.common.msg.MessageType;
  */
 public class StringDialogData implements DialogData {
 
-	@NotNull
+	@Nonnull
 	private final String message;
 
-	@NotNull
+	@Nonnull
 	private final MessageType messageType;
 
 	@Nullable
 	private final String title;
 
-	private StringDialogData(@NotNull String message, @NotNull MessageType messageType, @Nullable String title) {
+	private StringDialogData(@Nonnull String message, @Nonnull MessageType messageType, @Nullable String title) {
 		this.message = message;
 		this.messageType = messageType;
 		this.title = title;
 	}
 
-	@NotNull
-	public static DialogData newInstance(@NotNull String message, @NotNull MessageType messageType, @Nullable String title) {
+	@Nonnull
+	public static DialogData newInstance(@Nonnull String message, @Nonnull MessageType messageType, @Nullable String title) {
 		return new StringDialogData(message, messageType, title);
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public String getMessage() {
 		return message;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public MessageType getMessageLevel() {
 		return messageType;

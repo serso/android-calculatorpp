@@ -1,9 +1,10 @@
 package org.solovyev.android.calculator;
 
-import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.external.CalculatorExternalListenersContainer;
 import org.solovyev.android.calculator.history.CalculatorHistory;
 import org.solovyev.android.calculator.plot.CalculatorPlotter;
+
+import javax.annotation.Nonnull;
 
 /**
  * User: Solovyev_S
@@ -12,59 +13,59 @@ import org.solovyev.android.calculator.plot.CalculatorPlotter;
  */
 public class Locator implements CalculatorLocator {
 
-	@NotNull
+	@Nonnull
 	private CalculatorEngine calculatorEngine;
 
-	@NotNull
+	@Nonnull
 	private Calculator calculator;
 
-	@NotNull
+	@Nonnull
 	private CalculatorEditor calculatorEditor;
 
-	@NotNull
+	@Nonnull
 	private CalculatorDisplay calculatorDisplay;
 
-	@NotNull
+	@Nonnull
 	private CalculatorKeyboard calculatorKeyboard;
 
-	@NotNull
+	@Nonnull
 	private CalculatorHistory calculatorHistory;
 
-	@NotNull
+	@Nonnull
 	private CalculatorNotifier calculatorNotifier = new DummyCalculatorNotifier();
 
-	@NotNull
+	@Nonnull
 	private CalculatorLogger calculatorLogger = new SystemOutCalculatorLogger();
 
-	@NotNull
+	@Nonnull
 	private CalculatorClipboard calculatorClipboard = new DummyCalculatorClipboard();
 
-	@NotNull
+	@Nonnull
 	private static final CalculatorLocator instance = new Locator();
 
-	@NotNull
+	@Nonnull
 	private CalculatorPreferenceService calculatorPreferenceService;
 
-	@NotNull
+	@Nonnull
 	private CalculatorExternalListenersContainer calculatorExternalListenersContainer;
 
-	@NotNull
+	@Nonnull
 	private CalculatorPlotter calculatorPlotter;
 
 	public Locator() {
 	}
 
 	@Override
-	public void init(@NotNull Calculator calculator,
-					 @NotNull CalculatorEngine engine,
-					 @NotNull CalculatorClipboard clipboard,
-					 @NotNull CalculatorNotifier notifier,
-					 @NotNull CalculatorHistory history,
-					 @NotNull CalculatorLogger logger,
-					 @NotNull CalculatorPreferenceService preferenceService,
-					 @NotNull CalculatorKeyboard keyboard,
-					 @NotNull CalculatorExternalListenersContainer externalListenersContainer,
-					 @NotNull CalculatorPlotter plotter) {
+	public void init(@Nonnull Calculator calculator,
+					 @Nonnull CalculatorEngine engine,
+					 @Nonnull CalculatorClipboard clipboard,
+					 @Nonnull CalculatorNotifier notifier,
+					 @Nonnull CalculatorHistory history,
+					 @Nonnull CalculatorLogger logger,
+					 @Nonnull CalculatorPreferenceService preferenceService,
+					 @Nonnull CalculatorKeyboard keyboard,
+					 @Nonnull CalculatorExternalListenersContainer externalListenersContainer,
+					 @Nonnull CalculatorPlotter plotter) {
 
 		this.calculator = calculator;
 		this.calculatorEngine = engine;
@@ -81,79 +82,79 @@ public class Locator implements CalculatorLocator {
 		calculatorKeyboard = keyboard;
 	}
 
-	@NotNull
+	@Nonnull
 	public static CalculatorLocator getInstance() {
 		return instance;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public CalculatorEngine getEngine() {
 		return calculatorEngine;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public Calculator getCalculator() {
 		return this.calculator;
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public CalculatorDisplay getDisplay() {
 		return calculatorDisplay;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public CalculatorEditor getEditor() {
 		return calculatorEditor;
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public CalculatorKeyboard getKeyboard() {
 		return calculatorKeyboard;
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public CalculatorClipboard getClipboard() {
 		return calculatorClipboard;
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public CalculatorNotifier getNotifier() {
 		return calculatorNotifier;
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public CalculatorHistory getHistory() {
 		return calculatorHistory;
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public CalculatorLogger getLogger() {
 		return calculatorLogger;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public CalculatorPlotter getPlotter() {
 		return calculatorPlotter;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public CalculatorPreferenceService getPreferenceService() {
 		return this.calculatorPreferenceService;
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public CalculatorExternalListenersContainer getExternalListenersContainer() {
 		return calculatorExternalListenersContainer;
 	}

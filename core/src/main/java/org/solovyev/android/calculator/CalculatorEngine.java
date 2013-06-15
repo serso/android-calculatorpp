@@ -6,7 +6,7 @@ import jscl.NumeralBase;
 import jscl.math.function.Function;
 import jscl.math.function.IConstant;
 import jscl.math.operator.Operator;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.text.DecimalFormatSymbols;
 
@@ -39,23 +39,23 @@ public interface CalculatorEngine {
 	**********************************************************************
 	*/
 
-	@NotNull
+	@Nonnull
 	CalculatorMathRegistry<IConstant> getVarsRegistry();
 
-	@NotNull
+	@Nonnull
 	CalculatorMathRegistry<Function> getFunctionsRegistry();
 
-	@NotNull
+	@Nonnull
 	CalculatorMathRegistry<Operator> getOperatorsRegistry();
 
-	@NotNull
+	@Nonnull
 	CalculatorMathRegistry<Operator> getPostfixFunctionsRegistry();
 
-	@NotNull
+	@Nonnull
 	CalculatorMathEngine getMathEngine();
 
 	@Deprecated
-	@NotNull
+	@Nonnull
 	MathEngine getMathEngine0();
 
 	/*
@@ -66,32 +66,32 @@ public interface CalculatorEngine {
 	**********************************************************************
 	*/
 
-	@NotNull
+	@Nonnull
 	String getMultiplicationSign();
 
 	void setUseGroupingSeparator(boolean useGroupingSeparator);
 
 	void setGroupingSeparator(char groupingSeparator);
 
-	void setPrecision(@NotNull Integer precision);
+	void setPrecision(@Nonnull Integer precision);
 
-	void setRoundResult(@NotNull Boolean round);
+	void setRoundResult(@Nonnull Boolean round);
 
-	@NotNull
+	@Nonnull
 	AngleUnit getAngleUnits();
 
-	void setAngleUnits(@NotNull AngleUnit angleUnits);
+	void setAngleUnits(@Nonnull AngleUnit angleUnits);
 
-	@NotNull
+	@Nonnull
 	NumeralBase getNumeralBase();
 
-	void setNumeralBase(@NotNull NumeralBase numeralBase);
+	void setNumeralBase(@Nonnull NumeralBase numeralBase);
 
-	void setMultiplicationSign(@NotNull String multiplicationSign);
+	void setMultiplicationSign(@Nonnull String multiplicationSign);
 
-	void setScienceNotation(@NotNull Boolean scienceNotation);
+	void setScienceNotation(@Nonnull Boolean scienceNotation);
 
-	void setTimeout(@NotNull Integer timeout);
+	void setTimeout(@Nonnull Integer timeout);
 
-	void setDecimalGroupSymbols(@NotNull DecimalFormatSymbols decimalGroupSymbols);
+	void setDecimalGroupSymbols(@Nonnull DecimalFormatSymbols decimalGroupSymbols);
 }

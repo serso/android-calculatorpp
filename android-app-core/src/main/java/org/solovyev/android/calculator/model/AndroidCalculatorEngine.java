@@ -16,7 +16,7 @@ import jscl.NumeralBase;
 import jscl.math.function.Function;
 import jscl.math.function.IConstant;
 import jscl.math.operator.Operator;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.core.R;
 import org.solovyev.android.prefs.BooleanPreference;
@@ -85,22 +85,22 @@ public class AndroidCalculatorEngine implements CalculatorEngine, SharedPreferen
 			preferenceKeys.add(maxCalculationTime.getKey());
 		}
 
-		@NotNull
+		@Nonnull
 		public static List<String> getPreferenceKeys() {
 			return Collections.unmodifiableList(preferenceKeys);
 		}
 	}
 
-	@NotNull
+	@Nonnull
 	private final Context context;
 
-	@NotNull
+	@Nonnull
 	private final CalculatorEngine calculatorEngine;
 
-	@NotNull
+	@Nonnull
 	private final Object lock;
 
-	public AndroidCalculatorEngine(@NotNull Application application) {
+	public AndroidCalculatorEngine(@Nonnull Application application) {
 		this.context = application;
 
 		PreferenceManager.getDefaultSharedPreferences(application).registerOnSharedPreferenceChangeListener(this);
@@ -117,42 +117,42 @@ public class AndroidCalculatorEngine implements CalculatorEngine, SharedPreferen
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public CalculatorMathRegistry<IConstant> getVarsRegistry() {
 		return calculatorEngine.getVarsRegistry();
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public CalculatorMathRegistry<Function> getFunctionsRegistry() {
 		return calculatorEngine.getFunctionsRegistry();
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public CalculatorMathRegistry<Operator> getOperatorsRegistry() {
 		return calculatorEngine.getOperatorsRegistry();
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public CalculatorMathRegistry<Operator> getPostfixFunctionsRegistry() {
 		return calculatorEngine.getPostfixFunctionsRegistry();
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public CalculatorMathEngine getMathEngine() {
 		return calculatorEngine.getMathEngine();
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public MathEngine getMathEngine0() {
 		return calculatorEngine.getMathEngine0();
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public NumeralBase getNumeralBase() {
 		return calculatorEngine.getNumeralBase();
@@ -196,47 +196,47 @@ public class AndroidCalculatorEngine implements CalculatorEngine, SharedPreferen
 	}
 
 	@Override
-	public void setPrecision(@NotNull Integer precision) {
+	public void setPrecision(@Nonnull Integer precision) {
 		calculatorEngine.setPrecision(precision);
 	}
 
 	@Override
-	public void setRoundResult(@NotNull Boolean round) {
+	public void setRoundResult(@Nonnull Boolean round) {
 		calculatorEngine.setRoundResult(round);
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public AngleUnit getAngleUnits() {
 		return calculatorEngine.getAngleUnits();
 	}
 
 	@Override
-	public void setAngleUnits(@NotNull AngleUnit angleUnits) {
+	public void setAngleUnits(@Nonnull AngleUnit angleUnits) {
 		calculatorEngine.setAngleUnits(angleUnits);
 	}
 
 	@Override
-	public void setNumeralBase(@NotNull NumeralBase numeralBase) {
+	public void setNumeralBase(@Nonnull NumeralBase numeralBase) {
 		calculatorEngine.setNumeralBase(numeralBase);
 	}
 
 	@Override
-	public void setMultiplicationSign(@NotNull String multiplicationSign) {
+	public void setMultiplicationSign(@Nonnull String multiplicationSign) {
 		calculatorEngine.setMultiplicationSign(multiplicationSign);
 	}
 
 	@Override
-	public void setScienceNotation(@NotNull Boolean scienceNotation) {
+	public void setScienceNotation(@Nonnull Boolean scienceNotation) {
 		calculatorEngine.setScienceNotation(scienceNotation);
 	}
 
 	@Override
-	public void setTimeout(@NotNull Integer timeout) {
+	public void setTimeout(@Nonnull Integer timeout) {
 		calculatorEngine.setTimeout(timeout);
 	}
 
-	private void softReset(@NotNull SharedPreferences preferences) {
+	private void softReset(@Nonnull SharedPreferences preferences) {
 		this.setPrecision(Preferences.precision.getPreference(preferences));
 		this.setRoundResult(Preferences.roundResult.getPreference(preferences));
 		this.setAngleUnits(getAngleUnitsFromPrefs(preferences));
@@ -254,23 +254,23 @@ public class AndroidCalculatorEngine implements CalculatorEngine, SharedPreferen
 		}
 	}
 
-	@NotNull
-	public NumeralBase getNumeralBaseFromPrefs(@NotNull SharedPreferences preferences) {
+	@Nonnull
+	public NumeralBase getNumeralBaseFromPrefs(@Nonnull SharedPreferences preferences) {
 		return Preferences.numeralBase.getPreference(preferences);
 	}
 
-	@NotNull
-	public AngleUnit getAngleUnitsFromPrefs(@NotNull SharedPreferences preferences) {
+	@Nonnull
+	public AngleUnit getAngleUnitsFromPrefs(@Nonnull SharedPreferences preferences) {
 		return Preferences.angleUnit.getPreference(preferences);
 	}
 
 	//for tests only
-	public void setDecimalGroupSymbols(@NotNull DecimalFormatSymbols decimalGroupSymbols) {
+	public void setDecimalGroupSymbols(@Nonnull DecimalFormatSymbols decimalGroupSymbols) {
 		this.calculatorEngine.setDecimalGroupSymbols(decimalGroupSymbols);
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public String getMultiplicationSign() {
 		return calculatorEngine.getMultiplicationSign();
 	}

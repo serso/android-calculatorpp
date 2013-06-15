@@ -4,7 +4,7 @@ import jscl.math.function.ArcTrigonometric;
 import jscl.math.function.Comparison;
 import jscl.math.function.Function;
 import jscl.math.function.Trigonometric;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.common.collections.Collections;
 
 import java.util.Arrays;
@@ -20,7 +20,7 @@ public enum FunctionCategory {
 
 	trigonometric(100) {
 		@Override
-		public boolean isInCategory(@NotNull Function function) {
+		public boolean isInCategory(@Nonnull Function function) {
 			return (function instanceof Trigonometric || function instanceof ArcTrigonometric) && !hyperbolic_trigonometric.isInCategory(function);
 		}
 	},
@@ -30,28 +30,28 @@ public enum FunctionCategory {
 		private final List<String> names = Arrays.asList("sinh", "cosh", "tanh", "coth", "asinh", "acosh", "atanh", "acoth");
 
 		@Override
-		public boolean isInCategory(@NotNull Function function) {
+		public boolean isInCategory(@Nonnull Function function) {
 			return names.contains(function.getName());
 		}
 	},
 
 	comparison(200) {
 		@Override
-		public boolean isInCategory(@NotNull Function function) {
+		public boolean isInCategory(@Nonnull Function function) {
 			return function instanceof Comparison;
 		}
 	},
 
 	my(0) {
 		@Override
-		public boolean isInCategory(@NotNull Function function) {
+		public boolean isInCategory(@Nonnull Function function) {
 			return !function.isSystem();
 		}
 	},
 
 	common(50) {
 		@Override
-		public boolean isInCategory(@NotNull Function function) {
+		public boolean isInCategory(@Nonnull Function function) {
 			for (FunctionCategory category : values()) {
 				if (category != this) {
 					if (category.isInCategory(function)) {
@@ -70,9 +70,9 @@ public enum FunctionCategory {
 		this.tabOrder = tabOrder;
 	}
 
-	public abstract boolean isInCategory(@NotNull Function function);
+	public abstract boolean isInCategory(@Nonnull Function function);
 
-	@NotNull
+	@Nonnull
 	public static List<FunctionCategory> getCategoriesByTabOrder() {
 		final List<FunctionCategory> result = Collections.asList(FunctionCategory.values());
 

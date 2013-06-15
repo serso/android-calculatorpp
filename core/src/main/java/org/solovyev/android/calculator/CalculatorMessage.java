@@ -1,7 +1,7 @@
 package org.solovyev.android.calculator;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.common.msg.AbstractMessage;
 import org.solovyev.common.msg.Message;
 import org.solovyev.common.msg.MessageType;
@@ -17,31 +17,31 @@ import java.util.ResourceBundle;
  */
 public class CalculatorMessage extends AbstractMessage {
 
-	public CalculatorMessage(@NotNull String messageCode, @NotNull MessageType messageType, @Nullable Object... parameters) {
+	public CalculatorMessage(@Nonnull String messageCode, @Nonnull MessageType messageType, @Nullable Object... parameters) {
 		super(messageCode, messageType, parameters);
 	}
 
-	public CalculatorMessage(@NotNull String messageCode, @NotNull MessageType messageType, @NotNull List<?> parameters) {
+	public CalculatorMessage(@Nonnull String messageCode, @Nonnull MessageType messageType, @Nonnull List<?> parameters) {
 		super(messageCode, messageType, parameters);
 	}
 
-	@NotNull
-	public static Message newInfoMessage(@NotNull String messageCode, @Nullable Object... parameters) {
+	@Nonnull
+	public static Message newInfoMessage(@Nonnull String messageCode, @Nullable Object... parameters) {
 		return new CalculatorMessage(messageCode, MessageType.info, parameters);
 	}
 
-	@NotNull
-	public static Message newWarningMessage(@NotNull String messageCode, @Nullable Object... parameters) {
+	@Nonnull
+	public static Message newWarningMessage(@Nonnull String messageCode, @Nullable Object... parameters) {
 		return new CalculatorMessage(messageCode, MessageType.warning, parameters);
 	}
 
-	@NotNull
-	public static Message newErrorMessage(@NotNull String messageCode, @Nullable Object... parameters) {
+	@Nonnull
+	public static Message newErrorMessage(@Nonnull String messageCode, @Nullable Object... parameters) {
 		return new CalculatorMessage(messageCode, MessageType.error, parameters);
 	}
 
 	@Override
-	protected String getMessagePattern(@NotNull Locale locale) {
+	protected String getMessagePattern(@Nonnull Locale locale) {
 		final ResourceBundle rb = CalculatorMessages.getBundle(locale);
 		return rb.getString(getMessageCode());
 	}

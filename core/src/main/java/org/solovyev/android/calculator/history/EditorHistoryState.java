@@ -5,8 +5,8 @@
 
 package org.solovyev.android.calculator.history;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 import org.solovyev.android.calculator.CalculatorDisplayViewState;
@@ -28,8 +28,8 @@ public class EditorHistoryState implements Cloneable {
 		// for xml
 	}
 
-	@NotNull
-	public static EditorHistoryState newInstance(@NotNull CalculatorEditorViewState viewState) {
+	@Nonnull
+	public static EditorHistoryState newInstance(@Nonnull CalculatorEditorViewState viewState) {
 		final EditorHistoryState result = new EditorHistoryState();
 
 		result.text = String.valueOf(viewState.getText());
@@ -38,8 +38,8 @@ public class EditorHistoryState implements Cloneable {
 		return result;
 	}
 
-	@NotNull
-	public static EditorHistoryState newInstance(@NotNull CalculatorDisplayViewState viewState) {
+	@Nonnull
+	public static EditorHistoryState newInstance(@Nonnull CalculatorDisplayViewState viewState) {
 		final EditorHistoryState result = new EditorHistoryState();
 
 		result.text = viewState.getText();
@@ -48,7 +48,7 @@ public class EditorHistoryState implements Cloneable {
 		return result;
 	}
 
-	public void setValuesFromHistory(@NotNull CalculatorEditor editor) {
+	public void setValuesFromHistory(@Nonnull CalculatorEditor editor) {
 		editor.setText(Strings.getNotEmpty(this.getText(), ""));
 		editor.setSelection(this.getCursorPosition());
 	}

@@ -1,6 +1,6 @@
 package org.solovyev.android.calculator.plot;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.io.Serializable;
 
@@ -31,12 +31,12 @@ public final class PlotBoundaries implements Serializable {
 		this.yMax = Math.max(yMin, yMax);
 	}
 
-	@NotNull
+	@Nonnull
 	public static PlotBoundaries newInstance(float xMin, float xMax, float yMin, float yMax) {
 		return new PlotBoundaries(xMin, xMax, yMin, yMax);
 	}
 
-	@NotNull
+	@Nonnull
 	public static PlotBoundaries newInstance(float xMin, float xMax) {
 		return newInstance(xMin, xMax, DEFAULT_MIN_NUMBER, DEFAULT_MAX_NUMBER);
 	}
@@ -67,7 +67,7 @@ public final class PlotBoundaries implements Serializable {
 				'}';
 	}
 
-	@NotNull
+	@Nonnull
 	public static PlotBoundaries newDefaultInstance() {
 		PlotBoundaries plotBoundaries = new PlotBoundaries();
 		plotBoundaries.xMin = DEFAULT_MIN_NUMBER;

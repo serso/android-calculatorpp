@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockActivity;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.android.calculator.core.R;
 import org.solovyev.common.msg.Message;
 import org.solovyev.common.text.Strings;
@@ -32,7 +32,7 @@ public class FixableMessagesDialog extends SherlockActivity {
 
 	private static final String INPUT = "input";
 
-	@NotNull
+	@Nonnull
 	private Input input = new Input(Collections.<FixableMessage>emptyList(), false);
 
 	public FixableMessagesDialog() {
@@ -70,7 +70,7 @@ public class FixableMessagesDialog extends SherlockActivity {
 		});
 	}
 
-	private void parseIntent(@NotNull Intent intent) {
+	private void parseIntent(@Nonnull Intent intent) {
 		final Input input = intent.getParcelableExtra(INPUT);
 		if (input != null) {
 			this.input = input;
@@ -113,7 +113,7 @@ public class FixableMessagesDialog extends SherlockActivity {
 	}
 
 	@Override
-	protected void onNewIntent(@NotNull Intent intent) {
+	protected void onNewIntent(@Nonnull Intent intent) {
 		super.onNewIntent(intent);
 		parseIntent(intent);
 	}
@@ -126,8 +126,8 @@ public class FixableMessagesDialog extends SherlockActivity {
 	**********************************************************************
 	*/
 
-	public static void showDialogForMessages(@NotNull List<Message> messages,
-											 @NotNull Context context,
+	public static void showDialogForMessages(@Nonnull List<Message> messages,
+											 @Nonnull Context context,
 											 boolean showCheckbox) {
 		if (!messages.isEmpty()) {
 			final Intent intent = new Intent(context, FixableMessagesDialog.class);
@@ -139,8 +139,8 @@ public class FixableMessagesDialog extends SherlockActivity {
 		}
 	}
 
-	public static void showDialog(@NotNull List<FixableMessage> messages,
-								  @NotNull Context context,
+	public static void showDialog(@Nonnull List<FixableMessage> messages,
+								  @Nonnull Context context,
 								  boolean showCheckbox) {
 		if (!messages.isEmpty()) {
 			final Intent intent = new Intent(context, FixableMessagesDialog.class);
@@ -156,7 +156,7 @@ public class FixableMessagesDialog extends SherlockActivity {
 
 		public static final Creator<Input> CREATOR = new Creator<Input>() {
 			@Override
-			public Input createFromParcel(@NotNull Parcel in) {
+			public Input createFromParcel(@Nonnull Parcel in) {
 				return Input.fromParcel(in);
 			}
 
@@ -166,8 +166,8 @@ public class FixableMessagesDialog extends SherlockActivity {
 			}
 		};
 
-		@NotNull
-		private static Input fromParcel(@NotNull Parcel in) {
+		@Nonnull
+		private static Input fromParcel(@Nonnull Parcel in) {
 			final List<FixableMessage> messages = new ArrayList<FixableMessage>();
 			boolean showCheckbox = in.readInt() == 1;
 			in.readTypedList(messages, FixableMessage.CREATOR);
@@ -175,17 +175,17 @@ public class FixableMessagesDialog extends SherlockActivity {
 		}
 
 
-		@NotNull
+		@Nonnull
 		private List<FixableMessage> messages = new ArrayList<FixableMessage>();
 
 		private boolean showCheckbox;
 
-		private Input(@NotNull List<FixableMessage> messages, boolean showCheckbox) {
+		private Input(@Nonnull List<FixableMessage> messages, boolean showCheckbox) {
 			this.messages = messages;
 			this.showCheckbox = showCheckbox;
 		}
 
-		@NotNull
+		@Nonnull
 		public List<FixableMessage> getMessages() {
 			return messages;
 		}
@@ -196,13 +196,13 @@ public class FixableMessagesDialog extends SherlockActivity {
 		}
 
 		@Override
-		public void writeToParcel(@NotNull Parcel out, int flags) {
+		public void writeToParcel(@Nonnull Parcel out, int flags) {
 			out.writeInt(showCheckbox ? 1 : 0);
 			out.writeTypedList(messages);
 		}
 
-		@NotNull
-		public static Input fromMessages(@NotNull List<Message> messages, boolean showCheckbox) {
+		@Nonnull
+		public static Input fromMessages(@Nonnull List<Message> messages, boolean showCheckbox) {
 			final List<FixableMessage> stringMessages = new ArrayList<FixableMessage>(messages.size());
 			for (Message message : messages) {
 				stringMessages.add(new FixableMessage(message));
@@ -218,14 +218,14 @@ public class FixableMessagesDialog extends SherlockActivity {
 
 	private class FixErrorOnClickListener implements View.OnClickListener {
 
-		@NotNull
+		@Nonnull
 		private final List<FixableMessage> messages;
 
-		@NotNull
+		@Nonnull
 		private final FixableMessage currentMessage;
 
-		public FixErrorOnClickListener(@NotNull List<FixableMessage> messages,
-									   @NotNull FixableMessage message) {
+		public FixErrorOnClickListener(@Nonnull List<FixableMessage> messages,
+									   @Nonnull FixableMessage message) {
 			this.messages = messages;
 			this.currentMessage = message;
 		}

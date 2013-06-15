@@ -1,6 +1,6 @@
 package org.solovyev.android.calculator;
 
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nullable;
 
 import java.io.Serializable;
 

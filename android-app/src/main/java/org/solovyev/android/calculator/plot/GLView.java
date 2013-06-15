@@ -10,7 +10,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import javax.microedition.khronos.egl.*;
 import javax.microedition.khronos.opengles.GL10;
@@ -35,11 +35,15 @@ abstract class GLView extends SurfaceView implements SurfaceHolder.Callback {
 
 	abstract void onSurfaceCreated(GL10 gl, int width, int height);
 
-	@NotNull
+	@Nonnull
 	public Bitmap captureScreenshot() {
-		final Bitmap result = getRawPixels(gl, width, height);
-		bitmapBGRtoRGB(result, width, height);
-		return result;
+		if (gl != null) {
+			final Bitmap result = getRawPixels(gl, width, height);
+			bitmapBGRtoRGB(result, width, height);
+			return result;
+		} else {
+			return Bitmap.createBitmap(width == 0 ? 1 : width, height == 0 ? 1 : height, Bitmap.Config.RGB_565);
+		}
 	}
 
 	private static Bitmap getRawPixels(GL10 gl, int width, int height) {
@@ -55,7 +59,7 @@ abstract class GLView extends SurfaceView implements SurfaceHolder.Callback {
 		return bitmap;
 	}
 
-	@NotNull
+	@Nonnull
 	private final Handler uiHandler = new Handler() {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {

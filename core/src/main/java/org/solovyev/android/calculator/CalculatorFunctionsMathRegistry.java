@@ -10,8 +10,8 @@ import jscl.CustomFunctionCalculationException;
 import jscl.math.function.CustomFunction;
 import jscl.math.function.Function;
 import jscl.math.function.IFunction;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.calculator.function.FunctionBuilderAdapter;
 import org.solovyev.android.calculator.model.AFunction;
 import org.solovyev.android.calculator.model.Functions;
@@ -31,18 +31,18 @@ import java.util.Map;
  */
 public class CalculatorFunctionsMathRegistry extends AbstractCalculatorMathRegistry<Function, AFunction> {
 
-	@NotNull
+	@Nonnull
 	private static final Map<String, String> substitutes = new HashMap<String, String>();
 
 	static {
 		substitutes.put("√", "sqrt");
 	}
 
-	@NotNull
+	@Nonnull
 	private static final String FUNCTION_DESCRIPTION_PREFIX = "c_fun_description_";
 
-	public CalculatorFunctionsMathRegistry(@NotNull MathRegistry<Function> functionsRegistry,
-										   @NotNull MathEntityDao<AFunction> mathEntityDao) {
+	public CalculatorFunctionsMathRegistry(@Nonnull MathRegistry<Function> functionsRegistry,
+										   @Nonnull MathEntityDao<AFunction> mathEntityDao) {
 		super(functionsRegistry, FUNCTION_DESCRIPTION_PREFIX, mathEntityDao);
 	}
 
@@ -58,10 +58,10 @@ public class CalculatorFunctionsMathRegistry extends AbstractCalculatorMathRegis
 		super.load();
 	}
 
-	public static void saveFunction(@NotNull CalculatorMathRegistry<Function> registry,
-									@NotNull MathEntityBuilder<? extends Function> builder,
+	public static void saveFunction(@Nonnull CalculatorMathRegistry<Function> registry,
+									@Nonnull MathEntityBuilder<? extends Function> builder,
 									@Nullable IFunction editedInstance,
-									@NotNull Object source, boolean save) throws CustomFunctionCalculationException, AFunction.Builder.CreationException {
+									@Nonnull Object source, boolean save) throws CustomFunctionCalculationException, AFunction.Builder.CreationException {
 		final Function addedFunction = registry.add(builder);
 
 		if (save) {
@@ -75,14 +75,14 @@ public class CalculatorFunctionsMathRegistry extends AbstractCalculatorMathRegis
 		}
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	protected Map<String, String> getSubstitutes() {
 		return substitutes;
 	}
 
 	@Override
-	public String getCategory(@NotNull Function function) {
+	public String getCategory(@Nonnull Function function) {
 		for (FunctionCategory category : FunctionCategory.values()) {
 			if (category.isInCategory(function)) {
 				return category.name();
@@ -94,7 +94,7 @@ public class CalculatorFunctionsMathRegistry extends AbstractCalculatorMathRegis
 
 	@Nullable
 	@Override
-	public String getDescription(@NotNull String functionName) {
+	public String getDescription(@Nonnull String functionName) {
 		final Function function = get(functionName);
 
 		String result = null;
@@ -110,14 +110,14 @@ public class CalculatorFunctionsMathRegistry extends AbstractCalculatorMathRegis
 
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
-	protected JBuilder<? extends Function> createBuilder(@NotNull AFunction function) {
+	protected JBuilder<? extends Function> createBuilder(@Nonnull AFunction function) {
 		return new FunctionBuilderAdapter(new AFunction.Builder(function));
 	}
 
 	@Override
-	protected AFunction transform(@NotNull Function function) {
+	protected AFunction transform(@Nonnull Function function) {
 		if (function instanceof CustomFunction) {
 			return AFunction.fromIFunction((CustomFunction) function);
 		} else {
@@ -125,7 +125,7 @@ public class CalculatorFunctionsMathRegistry extends AbstractCalculatorMathRegis
 		}
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	protected MathEntityPersistenceContainer<AFunction> createPersistenceContainer() {
 		return new Functions();

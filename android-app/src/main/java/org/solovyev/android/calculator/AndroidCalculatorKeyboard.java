@@ -6,8 +6,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.view.VibratorContainer;
 
 /**
@@ -17,16 +17,16 @@ import org.solovyev.android.view.VibratorContainer;
  */
 public class AndroidCalculatorKeyboard implements CalculatorKeyboard {
 
-	@NotNull
+	@Nonnull
 	private final CalculatorKeyboard calculatorKeyboard;
 
-	@NotNull
+	@Nonnull
 	private final Context context;
 
 	private VibratorContainer vibrator;
 
-	public AndroidCalculatorKeyboard(@NotNull Application application,
-									 @NotNull CalculatorKeyboard calculatorKeyboard) {
+	public AndroidCalculatorKeyboard(@Nonnull Application application,
+									 @Nonnull CalculatorKeyboard calculatorKeyboard) {
 		this.context = application;
 		this.calculatorKeyboard = calculatorKeyboard;
 	}

@@ -1,7 +1,7 @@
 package org.solovyev.android.calculator;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * User: serso
@@ -10,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public class SystemOutCalculatorLogger implements CalculatorLogger {
 
-	@NotNull
+	@Nonnull
 	private static final String TAG = SystemOutCalculatorLogger.class.getSimpleName();
 
 	@Override
@@ -18,19 +18,19 @@ public class SystemOutCalculatorLogger implements CalculatorLogger {
 		System.out.println(getTag(tag) + ": " + message);
 	}
 
-	@NotNull
+	@Nonnull
 	private String getTag(@Nullable String tag) {
 		return tag != null ? tag : TAG;
 	}
 
 	@Override
-	public void debug(@Nullable String tag, @Nullable String message, @NotNull Throwable e) {
+	public void debug(@Nullable String tag, @Nullable String message, @Nonnull Throwable e) {
 		debug(tag, message);
 		e.printStackTrace(System.out);
 	}
 
 	@Override
-	public void error(@Nullable String tag, @Nullable String message, @NotNull Throwable e) {
+	public void error(@Nullable String tag, @Nullable String message, @Nonnull Throwable e) {
 		System.out.println(getTag(tag) + ": " + message);
 		e.printStackTrace(System.out);
 	}

@@ -3,8 +3,8 @@ package org.solovyev.android.calculator.function;
 import jscl.CustomFunctionCalculationException;
 import jscl.math.function.CustomFunction;
 import jscl.math.function.Function;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.calculator.model.AFunction;
 import org.solovyev.android.calculator.model.MathEntityBuilder;
 
@@ -15,35 +15,35 @@ import org.solovyev.android.calculator.model.MathEntityBuilder;
  */
 public final class FunctionBuilderAdapter implements MathEntityBuilder<Function> {
 
-	@NotNull
+	@Nonnull
 	private final AFunction.Builder nestedBuilder;
 
-	public FunctionBuilderAdapter(@NotNull AFunction.Builder nestedBuilder) {
+	public FunctionBuilderAdapter(@Nonnull AFunction.Builder nestedBuilder) {
 		this.nestedBuilder = nestedBuilder;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
-	public MathEntityBuilder<Function> setName(@NotNull String name) {
+	public MathEntityBuilder<Function> setName(@Nonnull String name) {
 		nestedBuilder.setName(name);
 		return this;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public MathEntityBuilder<Function> setDescription(@Nullable String description) {
 		nestedBuilder.setDescription(description);
 		return this;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public MathEntityBuilder<Function> setValue(@Nullable String value) {
 		nestedBuilder.setValue(value);
 		return this;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public Function create() throws CustomFunctionCalculationException, AFunction.Builder.CreationException {
 		final AFunction function = nestedBuilder.create();

@@ -6,7 +6,7 @@ import jscl.MathEngine;
 import jscl.math.Expression;
 import jscl.text.ParseException;
 import jscl.util.ExpressionGeneratorWithInput;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -91,7 +91,7 @@ public class NumeralBaseTest extends AbstractCalculatorTest {
 		}
 	}
 
-	public static void testExpression(@NotNull String[] line, @NotNull Converter<String, String> converter) throws ParseException, CalculatorEvalException, CalculatorParseException {
+	public static void testExpression(@Nonnull String[] line, @Nonnull Converter<String, String> converter) throws ParseException, CalculatorEvalException, CalculatorParseException {
 		final String dec = line[0].toUpperCase();
 		final String hex = "0x:" + line[1].toUpperCase();
 		final String bin = "0b:" + line[2].toUpperCase();
@@ -109,36 +109,36 @@ public class NumeralBaseTest extends AbstractCalculatorTest {
 
 	private static class DummyExpression implements Converter<String, String> {
 
-		@NotNull
+		@Nonnull
 		@Override
-		public String convert(@NotNull String s) {
+		public String convert(@Nonnull String s) {
 			return s;
 		}
 	}
 
 	private static class Expression1 implements Converter<String, String> {
 
-		@NotNull
+		@Nonnull
 		@Override
-		public String convert(@NotNull String s) {
+		public String convert(@Nonnull String s) {
 			return s + "*" + s;
 		}
 	}
 
 	private static class Expression2 implements Converter<String, String> {
 
-		@NotNull
+		@Nonnull
 		@Override
-		public String convert(@NotNull String s) {
+		public String convert(@Nonnull String s) {
 			return s + "*" + s + " * sin(" + s + ") - 0b:1101";
 		}
 	}
 
 	private static class Expression3 implements Converter<String, String> {
 
-		@NotNull
+		@Nonnull
 		@Override
-		public String convert(@NotNull String s) {
+		public String convert(@Nonnull String s) {
 			return s + "*" + s + " * sin(" + s + ") - 0b:1101 + √(" + s + ") + exp ( " + s + ")";
 		}
 	}

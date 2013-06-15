@@ -1,7 +1,7 @@
 package org.solovyev.android.calculator.history;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.calculator.*;
 import org.solovyev.common.history.HistoryAction;
 import org.solovyev.common.history.HistoryHelper;
@@ -24,19 +24,19 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
 
 	private final AtomicInteger counter = new AtomicInteger(0);
 
-	@NotNull
+	@Nonnull
 	private final HistoryHelper<CalculatorHistoryState> history = SimpleHistoryHelper.newInstance();
 
-	@NotNull
+	@Nonnull
 	private final List<CalculatorHistoryState> savedHistory = new ArrayList<CalculatorHistoryState>();
 
-	@NotNull
+	@Nonnull
 	private final CalculatorEventHolder lastEventData = new CalculatorEventHolder(CalculatorUtils.createFirstEventDataId());
 
 	@Nullable
 	private volatile CalculatorEditorViewState lastEditorViewState;
 
-	public CalculatorHistoryImpl(@NotNull Calculator calculator) {
+	public CalculatorHistoryImpl(@Nonnull Calculator calculator) {
 		calculator.addCalculatorEventListener(this);
 	}
 
@@ -81,14 +81,14 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
 	}
 
 	@Override
-	public boolean isActionAvailable(@NotNull HistoryAction historyAction) {
+	public boolean isActionAvailable(@Nonnull HistoryAction historyAction) {
 		synchronized (history) {
 			return history.isActionAvailable(historyAction);
 		}
 	}
 
 	@Override
-	public CalculatorHistoryState doAction(@NotNull HistoryAction historyAction, @Nullable CalculatorHistoryState currentState) {
+	public CalculatorHistoryState doAction(@Nonnull HistoryAction historyAction, @Nullable CalculatorHistoryState currentState) {
 		synchronized (history) {
 			return history.doAction(historyAction, currentState);
 		}
@@ -102,7 +102,7 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
 		}
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public List<CalculatorHistoryState> getStates() {
 		synchronized (history) {
@@ -110,7 +110,7 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
 		}
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public List<CalculatorHistoryState> getStates(boolean includeIntermediateStates) {
 		synchronized (history) {
@@ -143,8 +143,8 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
 		}
 	}
 
-	private boolean isIntermediate(@NotNull String laterEditorText,
-								   @NotNull String editorText) {
+	private boolean isIntermediate(@Nonnull String laterEditorText,
+								   @Nonnull String editorText) {
 		if (Math.abs(laterEditorText.length() - editorText.length()) <= 1) {
 			if (laterEditorText.length() > editorText.length()) {
 				return laterEditorText.startsWith(editorText);
@@ -164,14 +164,14 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public List<CalculatorHistoryState> getSavedHistory() {
 		return Collections.unmodifiableList(savedHistory);
 	}
 
 	@Override
-	@NotNull
-	public CalculatorHistoryState addSavedState(@NotNull CalculatorHistoryState historyState) {
+	@Nonnull
+	public CalculatorHistoryState addSavedState(@Nonnull CalculatorHistoryState historyState) {
 		if (historyState.isSaved()) {
 			return historyState;
 		} else {
@@ -197,7 +197,7 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
 	}
 
 	@Override
-	public void fromXml(@NotNull String xml) {
+	public void fromXml(@Nonnull String xml) {
 		clearSavedHistory();
 
 		HistoryUtils.fromXml(xml, this.savedHistory);
@@ -218,13 +218,13 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
 	}
 
 	@Override
-	public void removeSavedHistory(@NotNull CalculatorHistoryState historyState) {
+	public void removeSavedHistory(@Nonnull CalculatorHistoryState historyState) {
 		this.savedHistory.remove(historyState);
 	}
 
 	@Override
-	public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData,
-								  @NotNull CalculatorEventType calculatorEventType,
+	public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData,
+								  @Nonnull CalculatorEventType calculatorEventType,
 								  @Nullable Object data) {
 		if (calculatorEventType.isOfType(editor_state_changed, display_state_changed, manual_calculation_requested)) {
 

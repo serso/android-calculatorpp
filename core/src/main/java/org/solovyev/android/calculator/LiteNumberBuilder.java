@@ -7,7 +7,7 @@
 package org.solovyev.android.calculator;
 
 import jscl.NumeralBase;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.android.calculator.math.MathType;
 
 /**
@@ -18,12 +18,12 @@ import org.solovyev.android.calculator.math.MathType;
 
 public class LiteNumberBuilder extends AbstractNumberBuilder {
 
-	public LiteNumberBuilder(@NotNull CalculatorEngine engine) {
+	public LiteNumberBuilder(@Nonnull CalculatorEngine engine) {
 		super(engine);
 		this.nb = engine.getNumeralBase();
 	}
 
-	public void process(@NotNull MathType.Result mathTypeResult) {
+	public void process(@Nonnull MathType.Result mathTypeResult) {
 		if (canContinue(mathTypeResult)) {
 			// let's continue building number
 			if (numberBuilder == null) {

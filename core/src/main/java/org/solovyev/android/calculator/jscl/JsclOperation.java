@@ -8,7 +8,7 @@ package org.solovyev.android.calculator.jscl;
 
 import jscl.math.Generic;
 import jscl.text.ParseException;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.android.calculator.CalculatorMathEngine;
 import org.solovyev.android.calculator.text.DummyTextProcessor;
 import org.solovyev.android.calculator.text.FromJsclSimplifyTextProcessor;
@@ -24,7 +24,7 @@ public enum JsclOperation {
 	}
 
 
-	@NotNull
+	@Nonnull
 	public TextProcessor<String, Generic> getFromProcessor() {
 		switch (this) {
 			case simplify:
@@ -38,8 +38,8 @@ public enum JsclOperation {
 		}
 	}
 
-	@NotNull
-	public final String evaluate(@NotNull String expression, @NotNull CalculatorMathEngine engine) throws ParseException {
+	@Nonnull
+	public final String evaluate(@Nonnull String expression, @Nonnull CalculatorMathEngine engine) throws ParseException {
 		switch (this) {
 			case simplify:
 				return engine.simplify(expression);
@@ -52,8 +52,8 @@ public enum JsclOperation {
 		}
 	}
 
-	@NotNull
-	public final Generic evaluateGeneric(@NotNull String expression, @NotNull CalculatorMathEngine engine) throws ParseException {
+	@Nonnull
+	public final Generic evaluateGeneric(@Nonnull String expression, @Nonnull CalculatorMathEngine engine) throws ParseException {
 		switch (this) {
 			case simplify:
 				return engine.simplifyGeneric(expression);

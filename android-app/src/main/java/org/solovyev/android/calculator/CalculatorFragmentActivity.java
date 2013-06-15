@@ -2,7 +2,7 @@ package org.solovyev.android.calculator;
 
 import android.os.Bundle;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * User: Solovyev_S
@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public abstract class CalculatorFragmentActivity extends SherlockFragmentActivity {
 
-	@NotNull
+	@Nonnull
 	private final CalculatorActivityHelper activityHelper;
 
 	protected CalculatorFragmentActivity() {
@@ -22,7 +22,7 @@ public abstract class CalculatorFragmentActivity extends SherlockFragmentActivit
 		this.activityHelper = CalculatorApplication.getInstance().createActivityHelper(layoutResId, getClass().getSimpleName());
 	}
 
-	@NotNull
+	@Nonnull
 	protected CalculatorActivityHelper getActivityHelper() {
 		return activityHelper;
 	}

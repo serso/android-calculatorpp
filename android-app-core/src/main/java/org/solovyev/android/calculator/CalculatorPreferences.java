@@ -3,7 +3,7 @@ package org.solovyev.android.calculator;
 import android.content.SharedPreferences;
 import jscl.AngleUnit;
 import jscl.NumeralBase;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 import org.solovyev.android.prefs.*;
@@ -59,13 +59,13 @@ public final class CalculatorPreferences {
 		public static final Preference<Boolean> autoOrientation = BooleanPreference.of("autoOrientation", true);
 		public static final Preference<Boolean> hideNumeralBaseDigits = BooleanPreference.of("hideNumeralBaseDigits", true);
 
-		@NotNull
-		public static Theme getTheme(@NotNull SharedPreferences preferences) {
+		@Nonnull
+		public static Theme getTheme(@Nonnull SharedPreferences preferences) {
 			return theme.getPreferenceNoError(preferences);
 		}
 
-		@NotNull
-		public static Layout getLayout(@NotNull SharedPreferences preferences) {
+		@Nonnull
+		public static Layout getLayout(@Nonnull SharedPreferences preferences) {
 			return layout.getPreferenceNoError(preferences);
 		}
 
@@ -78,23 +78,23 @@ public final class CalculatorPreferences {
 			metro_purple_theme(ThemeType.metro, R.style.cpp_metro_purple_theme),
 			metro_green_theme(ThemeType.metro, R.style.cpp_metro_green_theme);
 
-			@NotNull
+			@Nonnull
 			private final ThemeType themeType;
 
-			@NotNull
+			@Nonnull
 			private final Integer themeId;
 
-			Theme(@NotNull ThemeType themeType, @NotNull Integer themeId) {
+			Theme(@Nonnull ThemeType themeType, @Nonnull Integer themeId) {
 				this.themeType = themeType;
 				this.themeId = themeId;
 			}
 
-			@NotNull
+			@Nonnull
 			public ThemeType getThemeType() {
 				return themeType;
 			}
 
-			@NotNull
+			@Nonnull
 			public Integer getThemeId() {
 				return themeId;
 			}
@@ -136,7 +136,7 @@ public final class CalculatorPreferences {
 	}
 
 
-	static void setDefaultValues(@NotNull SharedPreferences preferences) {
+	static void setDefaultValues(@Nonnull SharedPreferences preferences) {
 
 		if (!AndroidCalculatorEngine.Preferences.groupingSeparator.isSet(preferences)) {
 			final Locale locale = Locale.getDefault();
@@ -206,7 +206,7 @@ public final class CalculatorPreferences {
 
 	}
 
-	private static void applyDefaultPreference(@NotNull SharedPreferences preferences, @NotNull Preference<?> preference) {
+	private static void applyDefaultPreference(@Nonnull SharedPreferences preferences, @Nonnull Preference<?> preference) {
 		preference.tryPutDefault(preferences);
 	}
 

@@ -7,7 +7,7 @@
 package org.solovyev.android.calculator.help;
 
 import android.os.Bundle;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nullable;
 import org.solovyev.android.calculator.CalculatorFragmentActivity;
 import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.R;

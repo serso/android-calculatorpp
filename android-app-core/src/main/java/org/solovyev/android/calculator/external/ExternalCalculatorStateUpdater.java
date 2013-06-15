@@ -1,7 +1,7 @@
 package org.solovyev.android.calculator.external;
 
 import android.content.Context;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.android.calculator.CalculatorDisplayViewState;
 import org.solovyev.android.calculator.CalculatorEditorViewState;
 
@@ -12,7 +12,7 @@ import org.solovyev.android.calculator.CalculatorEditorViewState;
  */
 public interface ExternalCalculatorStateUpdater {
 
-	void updateState(@NotNull Context context,
-					 @NotNull CalculatorEditorViewState editorState,
-					 @NotNull CalculatorDisplayViewState displayState);
+	void updateState(@Nonnull Context context,
+					 @Nonnull CalculatorEditorViewState editorState,
+					 @Nonnull CalculatorDisplayViewState displayState);
 }

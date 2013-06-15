@@ -1,6 +1,6 @@
 package org.solovyev.android.calculator;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -15,10 +15,10 @@ public class DummyCalculatorClipboard implements CalculatorClipboard {
 	}
 
 	@Override
-	public void setText(@NotNull String text) {
+	public void setText(@Nonnull String text) {
 	}
 
 	@Override
-	public void setText(@NotNull CharSequence text) {
+	public void setText(@Nonnull CharSequence text) {
 	}
 }

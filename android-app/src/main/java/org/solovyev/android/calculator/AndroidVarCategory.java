@@ -1,7 +1,7 @@
 package org.solovyev.android.calculator;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * User: serso
@@ -24,7 +24,7 @@ public enum AndroidVarCategory {
 	}
 
 	@Nullable
-	public static AndroidVarCategory valueOf(@NotNull VarCategory varCategory) {
+	public static AndroidVarCategory valueOf(@Nonnull VarCategory varCategory) {
 		for (AndroidVarCategory androidVarCategory : values()) {
 			if (androidVarCategory.name().equals(varCategory.name())) {
 				return androidVarCategory;

@@ -1,8 +1,8 @@
 package org.solovyev.android.calculator.about;
 
 import android.content.res.Resources;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * User: serso
@@ -11,19 +11,19 @@ import org.jetbrains.annotations.Nullable;
  */
 public class TextHelper {
 
-	@NotNull
+	@Nonnull
 	public String packageName;
 
-	@NotNull
+	@Nonnull
 	public Resources resources;
 
-	public TextHelper(@NotNull Resources resources, @NotNull String packageName) {
+	public TextHelper(@Nonnull Resources resources, @Nonnull String packageName) {
 		this.packageName = packageName;
 		this.resources = resources;
 	}
 
 	@Nullable
-	public String getText(@NotNull String stringName) {
+	public String getText(@Nonnull String stringName) {
 		final int stringId = this.resources.getIdentifier(stringName, "string", this.packageName);
 		try {
 			return resources.getString(stringId);

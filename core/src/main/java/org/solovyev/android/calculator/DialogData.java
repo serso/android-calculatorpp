@@ -1,7 +1,7 @@
 package org.solovyev.android.calculator;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.common.msg.MessageLevel;
 
 /**
@@ -11,10 +11,10 @@ import org.solovyev.common.msg.MessageLevel;
  */
 public interface DialogData {
 
-	@NotNull
+	@Nonnull
 	String getMessage();
 
-	@NotNull
+	@Nonnull
 	MessageLevel getMessageLevel();
 
 	@Nullable

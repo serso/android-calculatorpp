@@ -2,12 +2,13 @@ package org.solovyev.android.calculator;
 
 import android.content.Context;
 import jscl.JsclMathEngine;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.mockito.Mockito;
 import org.solovyev.android.calculator.external.CalculatorExternalListenersContainer;
 import org.solovyev.android.calculator.history.CalculatorHistory;
 import org.solovyev.android.calculator.plot.CalculatorPlotter;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * User: serso
@@ -25,7 +26,7 @@ public class CalculatorTestUtils {
 		}
 	}
 
-	public static void initViews(@NotNull Context context) {
+	public static void initViews(@Nonnull Context context) {
 		final AndroidCalculatorEditorView editor = new AndroidCalculatorEditorView(context);
 		editor.init(context);
 		Locator.getInstance().getEditor().setView(editor);
@@ -40,7 +41,7 @@ public class CalculatorTestUtils {
 	}
 
 
-	@NotNull
+	@Nonnull
 	static CalculatorEngineImpl newCalculatorEngine() {
 		final MathEntityDao mathEntityDao = Mockito.mock(MathEntityDao.class);
 

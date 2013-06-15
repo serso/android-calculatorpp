@@ -6,7 +6,7 @@
 
 package org.solovyev.android.calculator.history;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.R;
@@ -30,7 +30,7 @@ public class CalculatorSavedHistoryFragment extends AbstractCalculatorHistoryFra
 		return R.layout.saved_history_item;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	protected List<CalculatorHistoryState> getHistoryItems() {
 		return new ArrayList<CalculatorHistoryState>(Locator.getInstance().getHistory().getSavedHistory());

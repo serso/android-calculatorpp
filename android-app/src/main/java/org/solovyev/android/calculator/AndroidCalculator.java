@@ -7,8 +7,8 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import jscl.NumeralBase;
 import jscl.math.Generic;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.calculator.history.CalculatorHistoryState;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.common.history.HistoryAction;
@@ -23,40 +23,40 @@ import java.util.List;
  */
 public class AndroidCalculator implements Calculator, CalculatorEventListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
-	@NotNull
+	@Nonnull
 	private final CalculatorImpl calculator = new CalculatorImpl();
 
-	@NotNull
+	@Nonnull
 	private final Application context;
 
-	public AndroidCalculator(@NotNull Application application) {
+	public AndroidCalculator(@Nonnull Application application) {
 		this.context = application;
 		this.calculator.addCalculatorEventListener(this);
 
 		PreferenceManager.getDefaultSharedPreferences(application).registerOnSharedPreferenceChangeListener(this);
 	}
 
-	public void init(@NotNull final Activity activity) {
+	public void init(@Nonnull final Activity activity) {
 		setEditor(activity);
 		setDisplay(activity);
 	}
 
-	public void setDisplay(@NotNull Activity activity) {
+	public void setDisplay(@Nonnull Activity activity) {
 		final AndroidCalculatorDisplayView displayView = (AndroidCalculatorDisplayView) activity.findViewById(R.id.calculator_display);
 		setDisplay(activity, displayView);
 	}
 
-	public void setDisplay(@NotNull Context context, @NotNull AndroidCalculatorDisplayView displayView) {
+	public void setDisplay(@Nonnull Context context, @Nonnull AndroidCalculatorDisplayView displayView) {
 		displayView.init(context);
 		Locator.getInstance().getDisplay().setView(displayView);
 	}
 
-	public void setEditor(@NotNull Activity activity) {
+	public void setEditor(@Nonnull Activity activity) {
 		final AndroidCalculatorEditorView editorView = (AndroidCalculatorEditorView) activity.findViewById(R.id.calculator_editor);
 		setEditor(activity, editorView);
 	}
 
-	public void setEditor(@NotNull Context context, @NotNull AndroidCalculatorEditorView editorView) {
+	public void setEditor(@Nonnull Context context, @Nonnull AndroidCalculatorEditorView editorView) {
 		editorView.init(context);
 		Locator.getInstance().getEditor().setView(editorView);
 	}
@@ -71,49 +71,49 @@ public class AndroidCalculator implements Calculator, CalculatorEventListener, S
 	*/
 
 	@Override
-	@NotNull
-	public CalculatorEventData evaluate(@NotNull JsclOperation operation, @NotNull String expression) {
+	@Nonnull
+	public CalculatorEventData evaluate(@Nonnull JsclOperation operation, @Nonnull String expression) {
 		return calculator.evaluate(operation, expression);
 	}
 
 	@Override
-	@NotNull
-	public CalculatorEventData evaluate(@NotNull JsclOperation operation, @NotNull String expression, @NotNull Long sequenceId) {
+	@Nonnull
+	public CalculatorEventData evaluate(@Nonnull JsclOperation operation, @Nonnull String expression, @Nonnull Long sequenceId) {
 		return calculator.evaluate(operation, expression, sequenceId);
 	}
 
 	@Override
-	public boolean isConversionPossible(@NotNull Generic generic, @NotNull NumeralBase from, @NotNull NumeralBase to) {
+	public boolean isConversionPossible(@Nonnull Generic generic, @Nonnull NumeralBase from, @Nonnull NumeralBase to) {
 		return calculator.isConversionPossible(generic, from, to);
 	}
 
 	@Override
-	@NotNull
-	public CalculatorEventData convert(@NotNull Generic generic, @NotNull NumeralBase to) {
+	@Nonnull
+	public CalculatorEventData convert(@Nonnull Generic generic, @Nonnull NumeralBase to) {
 		return calculator.convert(generic, to);
 	}
 
 	@Override
-	@NotNull
-	public CalculatorEventData fireCalculatorEvent(@NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
+	@Nonnull
+	public CalculatorEventData fireCalculatorEvent(@Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
 		return calculator.fireCalculatorEvent(calculatorEventType, data);
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
-	public CalculatorEventData fireCalculatorEvent(@NotNull CalculatorEventType calculatorEventType, @Nullable Object data, @NotNull Object source) {
+	public CalculatorEventData fireCalculatorEvent(@Nonnull CalculatorEventType calculatorEventType, @Nullable Object data, @Nonnull Object source) {
 		return calculator.fireCalculatorEvent(calculatorEventType, data, source);
 	}
 
 	@Override
-	@NotNull
-	public CalculatorEventData fireCalculatorEvent(@NotNull CalculatorEventType calculatorEventType, @Nullable Object data, @NotNull Long sequenceId) {
+	@Nonnull
+	public CalculatorEventData fireCalculatorEvent(@Nonnull CalculatorEventType calculatorEventType, @Nullable Object data, @Nonnull Long sequenceId) {
 		return calculator.fireCalculatorEvent(calculatorEventType, data, sequenceId);
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
-	public PreparedExpression prepareExpression(@NotNull String expression) throws CalculatorParseException {
+	public PreparedExpression prepareExpression(@Nonnull String expression) throws CalculatorParseException {
 		return calculator.prepareExpression(expression);
 	}
 
@@ -126,37 +126,37 @@ public class AndroidCalculator implements Calculator, CalculatorEventListener, S
 	}
 
 	@Override
-	public void addCalculatorEventListener(@NotNull CalculatorEventListener calculatorEventListener) {
+	public void addCalculatorEventListener(@Nonnull CalculatorEventListener calculatorEventListener) {
 		calculator.addCalculatorEventListener(calculatorEventListener);
 	}
 
 	@Override
-	public void removeCalculatorEventListener(@NotNull CalculatorEventListener calculatorEventListener) {
+	public void removeCalculatorEventListener(@Nonnull CalculatorEventListener calculatorEventListener) {
 		calculator.removeCalculatorEventListener(calculatorEventListener);
 	}
 
 	@Override
-	public void fireCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
+	public void fireCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
 		calculator.fireCalculatorEvent(calculatorEventData, calculatorEventType, data);
 	}
 
 	@Override
-	public void fireCalculatorEvents(@NotNull List<CalculatorEvent> calculatorEvents) {
+	public void fireCalculatorEvents(@Nonnull List<CalculatorEvent> calculatorEvents) {
 		calculator.fireCalculatorEvents(calculatorEvents);
 	}
 
 	@Override
-	public void doHistoryAction(@NotNull HistoryAction historyAction) {
+	public void doHistoryAction(@Nonnull HistoryAction historyAction) {
 		calculator.doHistoryAction(historyAction);
 	}
 
 	@Override
-	public void setCurrentHistoryState(@NotNull CalculatorHistoryState editorHistoryState) {
+	public void setCurrentHistoryState(@Nonnull CalculatorHistoryState editorHistoryState) {
 		calculator.setCurrentHistoryState(editorHistoryState);
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public CalculatorHistoryState getCurrentHistoryState() {
 		return calculator.getCurrentHistoryState();
 	}
@@ -167,7 +167,7 @@ public class AndroidCalculator implements Calculator, CalculatorEventListener, S
 	}
 
 	@Override
-	public void evaluate(@NotNull Long sequenceId) {
+	public void evaluate(@Nonnull Long sequenceId) {
 		calculator.evaluate(sequenceId);
 	}
 
@@ -177,7 +177,7 @@ public class AndroidCalculator implements Calculator, CalculatorEventListener, S
 	}
 
 	@Override
-	public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
+	public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
 		switch (calculatorEventType) {
 			case calculation_messages:
 				CalculatorActivityLauncher.showCalculationMessagesDialog(CalculatorApplication.getInstance(), (List<Message>) data);
@@ -222,7 +222,7 @@ public class AndroidCalculator implements Calculator, CalculatorEventListener, S
 	}
 
 	@Override
-	public void onSharedPreferenceChanged(@NotNull SharedPreferences prefs, @NotNull String key) {
+	public void onSharedPreferenceChanged(@Nonnull SharedPreferences prefs, @Nonnull String key) {
 		if (CalculatorPreferences.Calculations.calculateOnFly.getKey().equals(key)) {
 			this.calculator.setCalculateOnFly(CalculatorPreferences.Calculations.calculateOnFly.getPreference(prefs));
 		}

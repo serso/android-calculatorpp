@@ -8,7 +8,7 @@ package org.solovyev.android.calculator;
 
 import jscl.math.function.Function;
 import jscl.math.function.IConstant;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.text.TextProcessor;
 import org.solovyev.common.collections.Collections;
@@ -20,33 +20,33 @@ import java.util.List;
 
 public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, String> {
 
-	@NotNull
+	@Nonnull
 	private static final Integer MAX_DEPTH = 20;
 
-	@NotNull
+	@Nonnull
 	private static final TextProcessor<PreparedExpression, String> instance = new ToJsclTextProcessor();
 
 	private ToJsclTextProcessor() {
 	}
 
 
-	@NotNull
+	@Nonnull
 	public static TextProcessor<PreparedExpression, String> getInstance() {
 		return instance;
 	}
 
 	@Override
-	@NotNull
-	public PreparedExpression process(@NotNull String s) throws CalculatorParseException {
+	@Nonnull
+	public PreparedExpression process(@Nonnull String s) throws CalculatorParseException {
 		return processWithDepth(s, 0, new ArrayList<IConstant>());
 	}
 
-	private static PreparedExpression processWithDepth(@NotNull String s, int depth, @NotNull List<IConstant> undefinedVars) throws CalculatorParseException {
+	private static PreparedExpression processWithDepth(@Nonnull String s, int depth, @Nonnull List<IConstant> undefinedVars) throws CalculatorParseException {
 		return replaceVariables(processExpression(s).toString(), depth, undefinedVars);
 	}
 
-	@NotNull
-	private static StringBuilder processExpression(@NotNull String s) throws CalculatorParseException {
+	@Nonnull
+	private static StringBuilder processExpression(@Nonnull String s) throws CalculatorParseException {
 		final StartsWithFinder startsWithFinder = StartsWithFinder.newInstance(s);
 		final StringBuilder result = new StringBuilder();
 
@@ -88,8 +88,8 @@ public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, St
 		return result;
 	}
 
-	@NotNull
-	private static PreparedExpression replaceVariables(@NotNull final String s, int depth, @NotNull List<IConstant> undefinedVars) throws CalculatorParseException {
+	@Nonnull
+	private static PreparedExpression replaceVariables(@Nonnull final String s, int depth, @Nonnull List<IConstant> undefinedVars) throws CalculatorParseException {
 		if (depth >= MAX_DEPTH) {
 			throw new CalculatorParseException(s, new CalculatorMessage(CalculatorMessages.msg_006, MessageType.error));
 		} else {

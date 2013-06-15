@@ -12,8 +12,8 @@ import jscl.text.Identifier;
 import jscl.text.MutableInt;
 import jscl.text.ParseException;
 import jscl.text.Parser;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.calculator.CalculatorMathRegistry;
 import org.solovyev.android.calculator.CalculatorVarsRegistry;
 import org.solovyev.android.calculator.Locator;
@@ -31,26 +31,26 @@ import org.solovyev.common.text.Strings;
  */
 public class VarEditorSaver<T extends MathEntity> implements View.OnClickListener {
 
-	@NotNull
+	@Nonnull
 	private final MathEntityBuilder<? extends T> varBuilder;
 
 	@Nullable
 	private final T editedInstance;
 
-	@NotNull
+	@Nonnull
 	private final CalculatorMathRegistry<T> mathRegistry;
 
-	@NotNull
+	@Nonnull
 	private final Object source;
 
-	@NotNull
+	@Nonnull
 	private View editView;
 
-	public VarEditorSaver(@NotNull MathEntityBuilder<? extends T> varBuilder,
+	public VarEditorSaver(@Nonnull MathEntityBuilder<? extends T> varBuilder,
 						  @Nullable T editedInstance,
-						  @NotNull View editView,
-						  @NotNull CalculatorMathRegistry<T> mathRegistry,
-						  @NotNull Object source) {
+						  @Nonnull View editView,
+						  @Nonnull CalculatorMathRegistry<T> mathRegistry,
+						  @Nonnull Object source) {
 		this.varBuilder = varBuilder;
 		this.editedInstance = editedInstance;
 		this.editView = editView;

@@ -1,6 +1,6 @@
 package org.solovyev.android.calculator.plot;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -9,12 +9,12 @@ import org.jetbrains.annotations.NotNull;
  */
 interface PlotResourceManager {
 
-	@NotNull
+	@Nonnull
 	PlotLineDef generateAndRegister();
 
-	void register(@NotNull PlotLineDef lineDef);
+	void register(@Nonnull PlotLineDef lineDef);
 
-	void unregister(@NotNull PlotLineDef lineDef);
+	void unregister(@Nonnull PlotLineDef lineDef);
 
 	void unregisterAll();
 }

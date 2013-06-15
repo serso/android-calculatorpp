@@ -8,8 +8,8 @@ import jscl.math.function.Function;
 import jscl.math.function.IConstant;
 import jscl.math.operator.Operator;
 import jscl.text.ParseInterruptedException;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.calculator.history.CalculatorHistory;
 import org.solovyev.android.calculator.history.CalculatorHistoryState;
 import org.solovyev.android.calculator.jscl.JsclOperation;
@@ -57,20 +57,20 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 	**********************************************************************
 	*/
 
-	@NotNull
+	@Nonnull
 	private final CalculatorEventContainer calculatorEventContainer = new ListCalculatorEventContainer();
 
-	@NotNull
+	@Nonnull
 	private final AtomicLong counter = new AtomicLong(CalculatorUtils.FIRST_ID);
 
-	@NotNull
+	@Nonnull
 	private final TextProcessor<PreparedExpression, String> preprocessor = ToJsclTextProcessor.getInstance();
 
-	@NotNull
+	@Nonnull
 	private final Executor calculationsExecutor = Executors.newFixedThreadPool(10);
 
 	// NOTE: only one thread is responsible for events as all events must be done in order of their creating
-	@NotNull
+	@Nonnull
 	private final Executor eventExecutor = Executors.newFixedThreadPool(1);
 
 	private volatile boolean calculateOnFly = true;
@@ -98,20 +98,20 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 	**********************************************************************
 	*/
 
-	@NotNull
+	@Nonnull
 	private CalculatorEventData nextEventData() {
 		long eventId = counter.incrementAndGet();
 		return CalculatorEventDataImpl.newInstance(eventId, eventId);
 	}
 
-	@NotNull
-	private CalculatorEventData nextEventData(@NotNull Object source) {
+	@Nonnull
+	private CalculatorEventData nextEventData(@Nonnull Object source) {
 		long eventId = counter.incrementAndGet();
 		return CalculatorEventDataImpl.newInstance(eventId, eventId, source);
 	}
 
-	@NotNull
-	private CalculatorEventData nextEventData(@NotNull Long sequenceId) {
+	@Nonnull
+	private CalculatorEventData nextEventData(@Nonnull Long sequenceId) {
 		long eventId = counter.incrementAndGet();
 		return CalculatorEventDataImpl.newInstance(eventId, sequenceId);
 	}
@@ -132,7 +132,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 	}
 
 	@Override
-	public void evaluate(@NotNull Long sequenceId) {
+	public void evaluate(@Nonnull Long sequenceId) {
 		final CalculatorEditorViewState viewState = getEditor().getViewState();
 		fireCalculatorEvent(CalculatorEventType.manual_calculation_requested, viewState, sequenceId);
 		this.evaluate(JsclOperation.numeric, viewState.getText(), sequenceId);
@@ -145,10 +145,10 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 		this.evaluate(JsclOperation.simplify, viewState.getText(), eventData.getSequenceId());
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
-	public CalculatorEventData evaluate(@NotNull final JsclOperation operation,
-										@NotNull final String expression) {
+	public CalculatorEventData evaluate(@Nonnull final JsclOperation operation,
+										@Nonnull final String expression) {
 
 		final CalculatorEventData eventDataId = nextEventData();
 
@@ -162,9 +162,9 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 		return eventDataId;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
-	public CalculatorEventData evaluate(@NotNull final JsclOperation operation, @NotNull final String expression, @NotNull Long sequenceId) {
+	public CalculatorEventData evaluate(@Nonnull final JsclOperation operation, @Nonnull final String expression, @Nonnull Long sequenceId) {
 		final CalculatorEventData eventDataId = nextEventData(sequenceId);
 
 		calculationsExecutor.execute(new Runnable() {
@@ -187,18 +187,18 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 		this.calculateOnFly = calculateOnFly;
 	}
 
-	@NotNull
-	private CalculatorConversionEventData newConversionEventData(@NotNull Long sequenceId,
-																 @NotNull Generic value,
-																 @NotNull NumeralBase from,
-																 @NotNull NumeralBase to,
-																 @NotNull CalculatorDisplayViewState displayViewState) {
+	@Nonnull
+	private CalculatorConversionEventData newConversionEventData(@Nonnull Long sequenceId,
+																 @Nonnull Generic value,
+																 @Nonnull NumeralBase from,
+																 @Nonnull NumeralBase to,
+																 @Nonnull CalculatorDisplayViewState displayViewState) {
 		return CalculatorConversionEventDataImpl.newInstance(nextEventData(sequenceId), value, from, to, displayViewState);
 	}
 
-	private void evaluate(@NotNull Long sequenceId,
-						  @NotNull JsclOperation operation,
-						  @NotNull String expression,
+	private void evaluate(@Nonnull Long sequenceId,
+						  @Nonnull JsclOperation operation,
+						  @Nonnull String expression,
 						  @Nullable MessageRegistry mr) {
 
 		checkPreferredPreferences();
@@ -277,25 +277,25 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 		}
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
-	public PreparedExpression prepareExpression(@NotNull String expression) throws CalculatorParseException {
+	public PreparedExpression prepareExpression(@Nonnull String expression) throws CalculatorParseException {
 		return preprocessor.process(expression);
 	}
 
-	@NotNull
-	private CalculatorEventData newCalculationEventData(@NotNull JsclOperation operation,
-														@NotNull String expression,
-														@NotNull Long calculationId) {
+	@Nonnull
+	private CalculatorEventData newCalculationEventData(@Nonnull JsclOperation operation,
+														@Nonnull String expression,
+														@Nonnull Long calculationId) {
 		return new CalculatorEvaluationEventDataImpl(nextEventData(calculationId), operation, expression);
 	}
 
-	private void handleException(@NotNull Long sequenceId,
-								 @NotNull JsclOperation operation,
-								 @NotNull String expression,
+	private void handleException(@Nonnull Long sequenceId,
+								 @Nonnull JsclOperation operation,
+								 @Nonnull String expression,
 								 @Nullable MessageRegistry mr,
 								 @Nullable PreparedExpression preparedExpression,
-								 @NotNull CalculatorParseException parseException) {
+								 @Nonnull CalculatorParseException parseException) {
 
 		if (operation == JsclOperation.numeric
 				&& preparedExpression != null
@@ -308,11 +308,11 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 		}
 	}
 
-	private void handleException(@NotNull Long calculationId,
-								 @NotNull JsclOperation operation,
-								 @NotNull String expression,
+	private void handleException(@Nonnull Long calculationId,
+								 @Nonnull JsclOperation operation,
+								 @Nonnull String expression,
 								 @Nullable MessageRegistry mr,
-								 @NotNull CalculatorEvalException evalException) {
+								 @Nonnull CalculatorEvalException evalException) {
 
 		if (operation == JsclOperation.numeric && evalException.getCause() instanceof NumeralBaseException) {
 			evaluate(calculationId, JsclOperation.simplify, expression, mr);
@@ -329,10 +329,10 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 	**********************************************************************
 	*/
 
-	@NotNull
+	@Nonnull
 	@Override
-	public CalculatorEventData convert(@NotNull final Generic value,
-									   @NotNull final NumeralBase to) {
+	public CalculatorEventData convert(@Nonnull final Generic value,
+									   @Nonnull final NumeralBase to) {
 		final CalculatorEventData eventDataId = nextEventData();
 
 		final CalculatorDisplayViewState displayViewState = Locator.getInstance().getDisplay().getViewState();
@@ -359,10 +359,10 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 		return eventDataId;
 	}
 
-	@NotNull
-	private static String doConversion(@NotNull Generic generic,
-									   @NotNull NumeralBase from,
-									   @NotNull NumeralBase to) throws ConversionException {
+	@Nonnull
+	private static String doConversion(@Nonnull Generic generic,
+									   @Nonnull NumeralBase from,
+									   @Nonnull NumeralBase to) throws ConversionException {
 		final String result;
 
 		if (from != to) {
@@ -385,7 +385,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 	}
 
 	@Override
-	public boolean isConversionPossible(@NotNull Generic generic, NumeralBase from, @NotNull NumeralBase to) {
+	public boolean isConversionPossible(@Nonnull Generic generic, NumeralBase from, @Nonnull NumeralBase to) {
 		try {
 			doConversion(generic, from, to);
 			return true;
@@ -403,17 +403,17 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 	*/
 
 	@Override
-	public void addCalculatorEventListener(@NotNull CalculatorEventListener calculatorEventListener) {
+	public void addCalculatorEventListener(@Nonnull CalculatorEventListener calculatorEventListener) {
 		calculatorEventContainer.addCalculatorEventListener(calculatorEventListener);
 	}
 
 	@Override
-	public void removeCalculatorEventListener(@NotNull CalculatorEventListener calculatorEventListener) {
+	public void removeCalculatorEventListener(@Nonnull CalculatorEventListener calculatorEventListener) {
 		calculatorEventContainer.removeCalculatorEventListener(calculatorEventListener);
 	}
 
 	@Override
-	public void fireCalculatorEvent(@NotNull final CalculatorEventData calculatorEventData, @NotNull final CalculatorEventType calculatorEventType, @Nullable final Object data) {
+	public void fireCalculatorEvent(@Nonnull final CalculatorEventData calculatorEventData, @Nonnull final CalculatorEventType calculatorEventType, @Nullable final Object data) {
 		eventExecutor.execute(new Runnable() {
 			@Override
 			public void run() {
@@ -423,7 +423,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 	}
 
 	@Override
-	public void fireCalculatorEvents(@NotNull final List<CalculatorEvent> calculatorEvents) {
+	public void fireCalculatorEvents(@Nonnull final List<CalculatorEvent> calculatorEvents) {
 		eventExecutor.execute(new Runnable() {
 			@Override
 			public void run() {
@@ -432,9 +432,9 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 		});
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
-	public CalculatorEventData fireCalculatorEvent(@NotNull final CalculatorEventType calculatorEventType, @Nullable final Object data) {
+	public CalculatorEventData fireCalculatorEvent(@Nonnull final CalculatorEventType calculatorEventType, @Nullable final Object data) {
 		final CalculatorEventData eventData = nextEventData();
 
 		fireCalculatorEvent(eventData, calculatorEventType, data);
@@ -442,9 +442,9 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 		return eventData;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
-	public CalculatorEventData fireCalculatorEvent(@NotNull final CalculatorEventType calculatorEventType, @Nullable final Object data, @NotNull Object source) {
+	public CalculatorEventData fireCalculatorEvent(@Nonnull final CalculatorEventType calculatorEventType, @Nullable final Object data, @Nonnull Object source) {
 		final CalculatorEventData eventData = nextEventData(source);
 
 		fireCalculatorEvent(eventData, calculatorEventType, data);
@@ -452,9 +452,9 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 		return eventData;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
-	public CalculatorEventData fireCalculatorEvent(@NotNull final CalculatorEventType calculatorEventType, @Nullable final Object data, @NotNull Long sequenceId) {
+	public CalculatorEventData fireCalculatorEvent(@Nonnull final CalculatorEventType calculatorEventType, @Nullable final Object data, @Nonnull Long sequenceId) {
 		final CalculatorEventData eventData = nextEventData(sequenceId);
 
 		fireCalculatorEvent(eventData, calculatorEventType, data);
@@ -471,7 +471,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 	*/
 
 	@Override
-	public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
+	public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
 
 		switch (calculatorEventType) {
 			case editor_state_changed:
@@ -528,7 +528,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 		}
 	}
 
-	private void onDisplayStateChanged(@NotNull CalculatorDisplayChangeEventData displayChangeEventData) {
+	private void onDisplayStateChanged(@Nonnull CalculatorDisplayChangeEventData displayChangeEventData) {
 		final CalculatorDisplayViewState newState = displayChangeEventData.getNewValue();
 		if (newState.isValid()) {
 			final String result = newState.getStringResult();
@@ -561,7 +561,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 	*/
 
 	@Override
-	public void doHistoryAction(@NotNull HistoryAction historyAction) {
+	public void doHistoryAction(@Nonnull HistoryAction historyAction) {
 		final CalculatorHistory history = Locator.getInstance().getHistory();
 		if (history.isActionAvailable(historyAction)) {
 			final CalculatorHistoryState newState = history.doAction(historyAction, getCurrentHistoryState());
@@ -572,11 +572,11 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 	}
 
 	@Override
-	public void setCurrentHistoryState(@NotNull CalculatorHistoryState editorHistoryState) {
+	public void setCurrentHistoryState(@Nonnull CalculatorHistoryState editorHistoryState) {
 		editorHistoryState.setValuesFromHistory(getEditor(), getDisplay());
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public CalculatorHistoryState getCurrentHistoryState() {
 		return CalculatorHistoryState.newInstance(getEditor(), getDisplay());
@@ -590,12 +590,12 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 	**********************************************************************
 	*/
 
-	@NotNull
+	@Nonnull
 	private CalculatorEditor getEditor() {
 		return Locator.getInstance().getEditor();
 	}
 
-	@NotNull
+	@Nonnull
 	private CalculatorDisplay getDisplay() {
 		return Locator.getInstance().getDisplay();
 	}

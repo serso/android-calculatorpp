@@ -1,7 +1,7 @@
 package org.solovyev.android.calculator.plot;
 
 import android.view.View;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.common.math.Point2d;
 
 /**
@@ -40,7 +40,7 @@ public class Graph2dDimensions {
 	* */
 
 
-	@NotNull
+	@Nonnull
 	private GraphView graphView;
 
 	// view width and height in pixels
@@ -55,7 +55,7 @@ public class Graph2dDimensions {
 	private float gWidth = 20;
 	private float gHeight = 20;
 
-	public Graph2dDimensions(@NotNull GraphView graphView) {
+	public Graph2dDimensions(@Nonnull GraphView graphView) {
 		this.graphView = graphView;
 	}
 
@@ -67,7 +67,7 @@ public class Graph2dDimensions {
 	**********************************************************************
 	*/
 
-	@NotNull
+	@Nonnull
 	Point2d toGraphCoordinates(float xPxs, float yPxs) {
 		return new Point2d(scaleXPxs(xPxs) + getXMin(), (getGHeight() - scaleYPxs(yPxs)) + getYMin());
 	}
@@ -193,7 +193,7 @@ public class Graph2dDimensions {
 		this.graphView.invalidateGraphs();
 	}
 
-	public void setViewDimensions(@NotNull View view) {
+	public void setViewDimensions(@Nonnull View view) {
 		this.vWidthPxs = view.getWidth();
 		this.vHeightPxs = view.getHeight();
 
@@ -225,7 +225,7 @@ public class Graph2dDimensions {
 		this.y0 += dy;
 	}
 
-	@NotNull
+	@Nonnull
 	public Graph2dDimensions copy() {
 		final Graph2dDimensions copy = new Graph2dDimensions(this.graphView);
 

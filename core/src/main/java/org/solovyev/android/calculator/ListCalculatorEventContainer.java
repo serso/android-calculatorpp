@@ -1,7 +1,7 @@
 package org.solovyev.android.calculator;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.common.listeners.JListeners;
 import org.solovyev.common.listeners.Listeners;
 
@@ -16,29 +16,29 @@ import java.util.List;
  */
 public class ListCalculatorEventContainer implements CalculatorEventContainer {
 
-	@NotNull
+	@Nonnull
 	private static final String TAG = "CalculatorEventData";
 
-	@NotNull
+	@Nonnull
 	private final JListeners<CalculatorEventListener> listeners = Listeners.newWeakRefListeners();
 
 	@Override
-	public void addCalculatorEventListener(@NotNull CalculatorEventListener calculatorEventListener) {
+	public void addCalculatorEventListener(@Nonnull CalculatorEventListener calculatorEventListener) {
 		listeners.addListener(calculatorEventListener);
 	}
 
 	@Override
-	public void removeCalculatorEventListener(@NotNull CalculatorEventListener calculatorEventListener) {
+	public void removeCalculatorEventListener(@Nonnull CalculatorEventListener calculatorEventListener) {
 		listeners.removeListener(calculatorEventListener);
 	}
 
 	@Override
-	public void fireCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
+	public void fireCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
 		fireCalculatorEvents(Arrays.asList(new CalculatorEvent(calculatorEventData, calculatorEventType, data)));
 	}
 
 	@Override
-	public void fireCalculatorEvents(@NotNull List<CalculatorEvent> calculatorEvents) {
+	public void fireCalculatorEvents(@Nonnull List<CalculatorEvent> calculatorEvents) {
 		final Collection<CalculatorEventListener> listeners = this.listeners.getListeners();
 
 		//final CalculatorLogger logger = Locator.getInstance().getLogger();

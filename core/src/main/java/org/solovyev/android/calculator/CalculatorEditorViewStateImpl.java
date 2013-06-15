@@ -1,6 +1,6 @@
 package org.solovyev.android.calculator;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * User: Solovyev_S
@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class CalculatorEditorViewStateImpl implements CalculatorEditorViewState {
 
-	@NotNull
+	@Nonnull
 	private String text = "";
 
 	private int selection = 0;
@@ -17,12 +17,12 @@ public class CalculatorEditorViewStateImpl implements CalculatorEditorViewState 
 	private CalculatorEditorViewStateImpl() {
 	}
 
-	public CalculatorEditorViewStateImpl(@NotNull CalculatorEditorViewState viewState) {
+	public CalculatorEditorViewStateImpl(@Nonnull CalculatorEditorViewState viewState) {
 		this.text = viewState.getText();
 		this.selection = viewState.getSelection();
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public String getText() {
 		return this.text;
@@ -33,13 +33,13 @@ public class CalculatorEditorViewStateImpl implements CalculatorEditorViewState 
 		return this.selection;
 	}
 
-	@NotNull
+	@Nonnull
 	public static CalculatorEditorViewState newDefaultInstance() {
 		return new CalculatorEditorViewStateImpl();
 	}
 
-	@NotNull
-	public static CalculatorEditorViewState newSelection(@NotNull CalculatorEditorViewState viewState, int newSelection) {
+	@Nonnull
+	public static CalculatorEditorViewState newSelection(@Nonnull CalculatorEditorViewState viewState, int newSelection) {
 		final CalculatorEditorViewStateImpl result = new CalculatorEditorViewStateImpl(viewState);
 
 		result.selection = newSelection;
@@ -47,8 +47,8 @@ public class CalculatorEditorViewStateImpl implements CalculatorEditorViewState 
 		return result;
 	}
 
-	@NotNull
-	public static CalculatorEditorViewState newInstance(@NotNull String text, int selection) {
+	@Nonnull
+	public static CalculatorEditorViewState newInstance(@Nonnull String text, int selection) {
 		final CalculatorEditorViewStateImpl result = new CalculatorEditorViewStateImpl();
 		result.text = text;
 		result.selection = selection;

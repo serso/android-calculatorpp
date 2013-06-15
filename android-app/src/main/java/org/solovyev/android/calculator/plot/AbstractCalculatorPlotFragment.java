@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Paint;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
@@ -14,8 +15,8 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.Android;
 import org.solovyev.android.Threads;
 import org.solovyev.android.calculator.*;
@@ -64,17 +65,17 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 
 	private int bgColor;
 
-	@NotNull
+	@Nonnull
 	private PlotData plotData = new PlotData(Collections.<PlotFunction>emptyList(), false, PlotBoundaries.newDefaultInstance());
 
-	@NotNull
+	@Nonnull
 	private ActivityMenu<Menu, MenuItem> fragmentMenu;
 
 	// thread which calculated data for graph view
-	@NotNull
+	@Nonnull
 	private final Executor plotExecutor = Executors.newSingleThreadExecutor();
 
-	@NotNull
+	@Nonnull
 	private final CalculatorEventHolder lastEventHolder = new CalculatorEventHolder(CalculatorUtils.createFirstEventDataId());
 
 
@@ -133,7 +134,7 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 	}
 
 	@Override
-	public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable final Object data) {
+	public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable final Object data) {
 		switch (calculatorEventType) {
 			case plot_data_changed:
 				final CalculatorEventHolder.Result result = this.lastEventHolder.apply(calculatorEventData);
@@ -145,14 +146,14 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 
 	}
 
-	private void onNewPlotData(@NotNull final PlotData plotData) {
+	private void onNewPlotData(@Nonnull final PlotData plotData) {
 		this.plotData = plotData;
 
 		final SherlockFragmentActivity activity = getSherlockActivity();
 		updateChart(plotData, activity);
 	}
 
-	private void updateChart(@NotNull final PlotData plotData, @Nullable final SherlockFragmentActivity activity) {
+	private void updateChart(@Nonnull final PlotData plotData, @Nullable final SherlockFragmentActivity activity) {
 		Threads.tryRunOnUiThread(activity, new Runnable() {
 			@Override
 			public void run() {
@@ -170,9 +171,9 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 
 	protected abstract void onError();
 
-	protected abstract void createGraphicalView(@NotNull View view, @NotNull PlotData plotData);
+	protected abstract void createGraphicalView(@Nonnull View view, @Nonnull PlotData plotData);
 
-	protected abstract void createChart(@NotNull PlotData plotData);
+	protected abstract void createChart(@Nonnull PlotData plotData);
 
 	/*
 	**********************************************************************
@@ -186,7 +187,7 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 		return bgColor;
 	}
 
-	@NotNull
+	@Nonnull
 	public Executor getPlotExecutor() {
 		return plotExecutor;
 	}
@@ -208,14 +209,14 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 		menuItems.add(PlotMenu.functions);
 
 		final IdentifiableMenuItem<MenuItem> plotRangeMenuItem = new IdentifiableMenuItem<MenuItem>() {
-			@NotNull
+			@Nonnull
 			@Override
 			public Integer getItemId() {
 				return R.id.menu_plot_range;
 			}
 
 			@Override
-			public void onClick(@NotNull MenuItem data, @NotNull Context context) {
+			public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
 				savePlotBoundaries();
 
 				context.startActivity(new Intent(context, CalculatorPlotRangeActivity.class));
@@ -224,14 +225,14 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 		menuItems.add(plotRangeMenuItem);
 
 		final IdentifiableMenuItem<MenuItem> plot3dMenuItem = new IdentifiableMenuItem<MenuItem>() {
-			@NotNull
+			@Nonnull
 			@Override
 			public Integer getItemId() {
 				return R.id.menu_plot_3d;
 			}
 
 			@Override
-			public void onClick(@NotNull MenuItem data, @NotNull Context context) {
+			public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
 				savePlotBoundaries();
 
 				Locator.getInstance().getPlotter().setPlot3d(true);
@@ -241,14 +242,14 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 
 
 		final IdentifiableMenuItem<MenuItem> plot2dMenuItem = new IdentifiableMenuItem<MenuItem>() {
-			@NotNull
+			@Nonnull
 			@Override
 			public Integer getItemId() {
 				return R.id.menu_plot_2d;
 			}
 
 			@Override
-			public void onClick(@NotNull MenuItem data, @NotNull Context context) {
+			public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
 				savePlotBoundaries();
 
 				Locator.getInstance().getPlotter().setPlot3d(false);
@@ -257,14 +258,14 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 		menuItems.add(plot2dMenuItem);
 
 		final IdentifiableMenuItem<MenuItem> captureScreenshotMenuItem = new IdentifiableMenuItem<MenuItem>() {
-			@NotNull
+			@Nonnull
 			@Override
 			public Integer getItemId() {
 				return R.id.menu_plot_schreeshot;
 			}
 
 			@Override
-			public void onClick(@NotNull MenuItem data, @NotNull Context context) {
+			public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
 				captureScreehshot();
 			}
 		};
@@ -299,14 +300,14 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 
 	protected abstract boolean isScreenshotSupported();
 
-	@NotNull
+	@Nonnull
 	protected abstract Bitmap getScreehshot();
 
 	private void captureScreehshot() {
 		if (isScreenshotSupported()) {
 			final Bitmap screenshot = getScreehshot();
 			final String screenShotFileName = generateScreenshotFileName();
-			final File externalFilesDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+			final File externalFilesDir = getActivity().getExternalFilesDir(getPicturesDirectory());
 			if (externalFilesDir != null) {
 				final String path = externalFilesDir.getPath();
 				Android.saveBitmap(screenshot, path, screenShotFileName);
@@ -314,6 +315,14 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 			} else {
 				Locator.getInstance().getNotifier().showMessage(R.string.cpp_plot_unable_to_save_screenshot, MessageType.error);
 			}
+		}
+	}
+
+	private String getPicturesDirectory() {
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
+			return Environment.DIRECTORY_PICTURES;
+		} else {
+			return "Pictures";
 		}
 	}
 
@@ -353,14 +362,14 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 
 		functions(R.id.menu_plot_functions) {
 			@Override
-			public void onClick(@NotNull MenuItem data, @NotNull Context context) {
+			public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
 				context.startActivity(new Intent(context, CalculatorPlotFunctionsActivity.class));
 			}
 		},
 
 		preferences(R.id.menu_plot_settings) {
 			@Override
-			public void onClick(@NotNull MenuItem data, @NotNull Context context) {
+			public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
 				context.startActivity(new Intent(context, CalculatorPlotPreferenceActivity.class));
 			}
 		};
@@ -372,14 +381,14 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 		}
 
 
-		@NotNull
+		@Nonnull
 		@Override
 		public Integer getItemId() {
 			return itemId;
 		}
 	}
 
-	public static void applyToPaint(@NotNull PlotLineDef plotLineDef, @NotNull Paint paint) {
+	public static void applyToPaint(@Nonnull PlotLineDef plotLineDef, @Nonnull Paint paint) {
 		paint.setColor(plotLineDef.getLineColor());
 		paint.setStyle(Paint.Style.STROKE);
 

@@ -6,7 +6,7 @@
 
 package org.solovyev.android.calculator;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.common.msg.Message;
 import org.solovyev.common.msg.MessageLevel;
 
@@ -20,51 +20,51 @@ import java.util.Locale;
  */
 public class CalculatorEvalException extends Exception implements Message {
 
-	@NotNull
+	@Nonnull
 	private final Message message;
 
-	@NotNull
+	@Nonnull
 	private final String expression;
 
-	public CalculatorEvalException(@NotNull Message message, @NotNull Throwable cause, String expression) {
+	public CalculatorEvalException(@Nonnull Message message, @Nonnull Throwable cause, String expression) {
 		super(cause);
 		this.message = message;
 		this.expression = expression;
 	}
 
 
-	@NotNull
+	@Nonnull
 	public String getExpression() {
 		return expression;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public String getMessageCode() {
 		return this.message.getMessageCode();
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public List<Object> getParameters() {
 		return this.message.getParameters();
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public MessageLevel getMessageLevel() {
 		return this.message.getMessageLevel();
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public String getLocalizedMessage() {
 		return this.message.getLocalizedMessage(Locale.getDefault());
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
-	public String getLocalizedMessage(@NotNull Locale locale) {
+	public String getLocalizedMessage(@Nonnull Locale locale) {
 		return this.message.getLocalizedMessage(locale);
 	}
 }

@@ -3,8 +3,8 @@ package org.solovyev.android.calculator;
 import android.os.Parcel;
 import android.os.Parcelable;
 import jscl.math.Generic;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 
 /**
@@ -16,7 +16,7 @@ public final class ParcelableCalculatorDisplayViewState implements CalculatorDis
 
 	public static final Creator<ParcelableCalculatorDisplayViewState> CREATOR = new Creator<ParcelableCalculatorDisplayViewState>() {
 		@Override
-		public ParcelableCalculatorDisplayViewState createFromParcel(@NotNull Parcel in) {
+		public ParcelableCalculatorDisplayViewState createFromParcel(@Nonnull Parcel in) {
 			return ParcelableCalculatorDisplayViewState.fromParcel(in);
 		}
 
@@ -26,8 +26,8 @@ public final class ParcelableCalculatorDisplayViewState implements CalculatorDis
 		}
 	};
 
-	@NotNull
-	private static ParcelableCalculatorDisplayViewState fromParcel(@NotNull Parcel in) {
+	@Nonnull
+	private static ParcelableCalculatorDisplayViewState fromParcel(@Nonnull Parcel in) {
 		final int selection = in.readInt();
 		final boolean valid = in.readInt() == 1;
 		final String stringResult = in.readString();
@@ -44,15 +44,15 @@ public final class ParcelableCalculatorDisplayViewState implements CalculatorDis
 		return new ParcelableCalculatorDisplayViewState(calculatorDisplayViewState);
 	}
 
-	@NotNull
+	@Nonnull
 	private CalculatorDisplayViewState viewState;
 
-	public ParcelableCalculatorDisplayViewState(@NotNull CalculatorDisplayViewState viewState) {
+	public ParcelableCalculatorDisplayViewState(@Nonnull CalculatorDisplayViewState viewState) {
 		this.viewState = viewState;
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public String getText() {
 		return viewState.getText();
 	}
@@ -80,7 +80,7 @@ public final class ParcelableCalculatorDisplayViewState implements CalculatorDis
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public JsclOperation getOperation() {
 		return viewState.getOperation();
 	}
@@ -97,7 +97,7 @@ public final class ParcelableCalculatorDisplayViewState implements CalculatorDis
 	}
 
 	@Override
-	public void writeToParcel(@NotNull Parcel out, int flags) {
+	public void writeToParcel(@Nonnull Parcel out, int flags) {
 		out.writeInt(viewState.getSelection());
 		out.writeInt(viewState.isValid() ? 1 : 0);
 		out.writeString(viewState.getStringResult());

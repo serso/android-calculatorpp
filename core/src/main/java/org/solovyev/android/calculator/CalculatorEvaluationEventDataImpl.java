@@ -1,6 +1,6 @@
 package org.solovyev.android.calculator;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 
 /**
@@ -10,30 +10,30 @@ import org.solovyev.android.calculator.jscl.JsclOperation;
  */
 public class CalculatorEvaluationEventDataImpl implements CalculatorEvaluationEventData {
 
-	@NotNull
+	@Nonnull
 	private final CalculatorEventData calculatorEventData;
 
-	@NotNull
+	@Nonnull
 	private final JsclOperation operation;
 
-	@NotNull
+	@Nonnull
 	private final String expression;
 
-	public CalculatorEvaluationEventDataImpl(@NotNull CalculatorEventData calculatorEventData,
-											 @NotNull JsclOperation operation,
-											 @NotNull String expression) {
+	public CalculatorEvaluationEventDataImpl(@Nonnull CalculatorEventData calculatorEventData,
+											 @Nonnull JsclOperation operation,
+											 @Nonnull String expression) {
 		this.calculatorEventData = calculatorEventData;
 		this.operation = operation;
 		this.expression = expression;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public JsclOperation getOperation() {
 		return this.operation;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public String getExpression() {
 		return this.expression;
@@ -44,7 +44,7 @@ public class CalculatorEvaluationEventDataImpl implements CalculatorEvaluationEv
 		return calculatorEventData.getEventId();
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public Long getSequenceId() {
 		return calculatorEventData.getSequenceId();
@@ -56,17 +56,17 @@ public class CalculatorEvaluationEventDataImpl implements CalculatorEvaluationEv
 	}
 
 	@Override
-	public boolean isAfter(@NotNull CalculatorEventData that) {
+	public boolean isAfter(@Nonnull CalculatorEventData that) {
 		return calculatorEventData.isAfter(that);
 	}
 
 	@Override
-	public boolean isSameSequence(@NotNull CalculatorEventData that) {
+	public boolean isSameSequence(@Nonnull CalculatorEventData that) {
 		return this.calculatorEventData.isSameSequence(that);
 	}
 
 	@Override
-	public boolean isAfterSequence(@NotNull CalculatorEventData that) {
+	public boolean isAfterSequence(@Nonnull CalculatorEventData that) {
 		return this.calculatorEventData.isAfterSequence(that);
 	}
 }

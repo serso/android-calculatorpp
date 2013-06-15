@@ -1,6 +1,6 @@
 package org.solovyev.android.calculator.plot;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -9,28 +9,28 @@ import org.jetbrains.annotations.NotNull;
  */
 public class PlotFunction {
 
-	@NotNull
+	@Nonnull
 	private XyFunction xyFunction;
 
-	@NotNull
+	@Nonnull
 	private PlotLineDef plotLineDef;
 
 	private boolean pinned = false;
 
 	private boolean visible = true;
 
-	public PlotFunction(@NotNull XyFunction xyFunction) {
+	public PlotFunction(@Nonnull XyFunction xyFunction) {
 		this.xyFunction = xyFunction;
 		this.plotLineDef = PlotLineDef.newDefaultInstance();
 	}
 
-	public PlotFunction(@NotNull XyFunction xyFunction,
-						@NotNull PlotLineDef plotLineDef) {
+	public PlotFunction(@Nonnull XyFunction xyFunction,
+						@Nonnull PlotLineDef plotLineDef) {
 		this.xyFunction = xyFunction;
 		this.plotLineDef = plotLineDef;
 	}
 
-	@NotNull
+	@Nonnull
 	private PlotFunction copy() {
 		final PlotFunction copy = new PlotFunction(this.xyFunction, this.plotLineDef);
 
@@ -40,53 +40,53 @@ public class PlotFunction {
 		return copy;
 	}
 
-	@NotNull
-	public static PlotFunction changePlotLineDef(@NotNull PlotFunction that, @NotNull PlotLineDef newPlotLineDef) {
+	@Nonnull
+	public static PlotFunction changePlotLineDef(@Nonnull PlotFunction that, @Nonnull PlotLineDef newPlotLineDef) {
 		final PlotFunction copy = that.copy();
 		copy.plotLineDef = newPlotLineDef;
 		return copy;
 	}
 
-	@NotNull
-	public static PlotFunction pin(@NotNull PlotFunction that) {
+	@Nonnull
+	public static PlotFunction pin(@Nonnull PlotFunction that) {
 		return togglePinned(that, true);
 	}
 
-	@NotNull
-	public static PlotFunction togglePinned(@NotNull PlotFunction that, boolean pinned) {
+	@Nonnull
+	public static PlotFunction togglePinned(@Nonnull PlotFunction that, boolean pinned) {
 		final PlotFunction copy = that.copy();
 		copy.pinned = pinned;
 		return copy;
 	}
 
-	@NotNull
-	public static PlotFunction unpin(@NotNull PlotFunction that) {
+	@Nonnull
+	public static PlotFunction unpin(@Nonnull PlotFunction that) {
 		return togglePinned(that, false);
 	}
 
-	@NotNull
-	public static PlotFunction visible(@NotNull PlotFunction that) {
+	@Nonnull
+	public static PlotFunction visible(@Nonnull PlotFunction that) {
 		return toggleVisible(that, true);
 	}
 
-	@NotNull
-	public static PlotFunction toggleVisible(@NotNull PlotFunction that, boolean visible) {
+	@Nonnull
+	public static PlotFunction toggleVisible(@Nonnull PlotFunction that, boolean visible) {
 		final PlotFunction copy = that.copy();
 		copy.visible = visible;
 		return copy;
 	}
 
-	@NotNull
-	public static PlotFunction invisible(@NotNull PlotFunction that) {
+	@Nonnull
+	public static PlotFunction invisible(@Nonnull PlotFunction that) {
 		return toggleVisible(that, false);
 	}
 
-	@NotNull
+	@Nonnull
 	public XyFunction getXyFunction() {
 		return xyFunction;
 	}
 
-	@NotNull
+	@Nonnull
 	public PlotLineDef getPlotLineDef() {
 		return plotLineDef;
 	}

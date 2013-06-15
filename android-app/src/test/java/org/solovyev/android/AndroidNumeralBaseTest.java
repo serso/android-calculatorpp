@@ -1,12 +1,12 @@
 package org.solovyev.android;
 
 import junit.framework.Assert;
-import org.jetbrains.annotations.NotNull;
 import org.junit.Test;
 import org.solovyev.android.calculator.units.CalculatorNumeralBase;
 import org.solovyev.common.units.Unit;
 import org.solovyev.common.units.UnitConverter;
 
+import javax.annotation.Nonnull;
 import java.util.Date;
 import java.util.Random;
 
@@ -17,7 +17,7 @@ import java.util.Random;
  */
 public class AndroidNumeralBaseTest {
 
-	@NotNull
+	@Nonnull
 	private final UnitConverter c = CalculatorNumeralBase.getConverter();
 
 	@Test
@@ -59,8 +59,8 @@ public class AndroidNumeralBaseTest {
 		}
 	}
 
-	@NotNull
-	private String convertChain(@NotNull String value, @NotNull CalculatorNumeralBase baseAndroid, @NotNull CalculatorNumeralBase... typeAndroids) {
+	@Nonnull
+	private String convertChain(@Nonnull String value, @Nonnull CalculatorNumeralBase baseAndroid, @Nonnull CalculatorNumeralBase... typeAndroids) {
 		Unit<String> unit = baseAndroid.createUnit(value);
 
 		for (CalculatorNumeralBase typeAndroid : typeAndroids) {

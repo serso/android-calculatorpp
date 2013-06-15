@@ -7,7 +7,7 @@
 package org.solovyev.android.calculator.jscl;
 
 import jscl.math.Generic;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.android.calculator.CalculatorParseException;
 import org.solovyev.android.calculator.text.TextProcessor;
 
@@ -20,9 +20,9 @@ class FromJsclNumericTextProcessor implements TextProcessor<String, Generic> {
 
 	public static final FromJsclNumericTextProcessor instance = new FromJsclNumericTextProcessor();
 
-	@NotNull
+	@Nonnull
 	@Override
-	public String process(@NotNull Generic numeric) throws CalculatorParseException {
+	public String process(@Nonnull Generic numeric) throws CalculatorParseException {
 		return numeric.toString().replace("*", "");
 	}
 }

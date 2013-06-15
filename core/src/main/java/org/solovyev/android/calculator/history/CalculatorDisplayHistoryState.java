@@ -6,8 +6,8 @@
 package org.solovyev.android.calculator.history;
 
 import jscl.math.Generic;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 import org.simpleframework.xml.Transient;
@@ -34,11 +34,11 @@ public class CalculatorDisplayHistoryState implements Cloneable {
 	private String errorMessage = null;
 
 	@Element
-	@NotNull
+	@Nonnull
 	private EditorHistoryState editorState;
 
 	@Element
-	@NotNull
+	@Nonnull
 	private JsclOperation jsclOperation;
 
 	@Transient
@@ -49,8 +49,8 @@ public class CalculatorDisplayHistoryState implements Cloneable {
 		// for xml
 	}
 
-	@NotNull
-	public static CalculatorDisplayHistoryState newInstance(@NotNull CalculatorDisplayViewState viewState) {
+	@Nonnull
+	public static CalculatorDisplayHistoryState newInstance(@Nonnull CalculatorDisplayViewState viewState) {
 		final CalculatorDisplayHistoryState result = new CalculatorDisplayHistoryState();
 
 		result.editorState = EditorHistoryState.newInstance(viewState);
@@ -63,7 +63,7 @@ public class CalculatorDisplayHistoryState implements Cloneable {
 		return result;
 	}
 
-	public void setValuesFromHistory(@NotNull CalculatorDisplay display) {
+	public void setValuesFromHistory(@Nonnull CalculatorDisplay display) {
 		if (this.isValid()) {
 			display.setViewState(CalculatorDisplayViewStateImpl.newValidState(this.getJsclOperation(), this.getGenericResult(), Strings.getNotEmpty(this.getEditorState().getText(), ""), this.getEditorState().getCursorPosition()));
 		} else {
@@ -76,12 +76,12 @@ public class CalculatorDisplayHistoryState implements Cloneable {
 		return valid;
 	}
 
-	@NotNull
+	@Nonnull
 	public EditorHistoryState getEditorState() {
 		return editorState;
 	}
 
-	@NotNull
+	@Nonnull
 	public JsclOperation getJsclOperation() {
 		return jsclOperation;
 	}

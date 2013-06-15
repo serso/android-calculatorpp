@@ -1,6 +1,6 @@
 package org.solovyev.android.calculator.plot;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 class GraphData {
 
@@ -13,12 +13,12 @@ class GraphData {
 	private GraphData() {
 	}
 
-	@NotNull
+	@Nonnull
 	static GraphData newEmptyInstance() {
 		return new GraphData();
 	}
 
-	void swap(@NotNull GraphData that) {
+	void swap(@Nonnull GraphData that) {
 		float savedXs[] = that.xs;
 		float savedYs[] = that.ys;
 		int savedSize = that.size;

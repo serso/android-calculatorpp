@@ -1,8 +1,8 @@
 package org.solovyev.android.calculator;
 
 import android.content.Context;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.calculator.core.R;
 
 import java.util.HashMap;
@@ -61,42 +61,42 @@ public enum CalculatorButton {
 
 	private final int buttonId;
 
-	@NotNull
+	@Nonnull
 	private final String onClickText;
 
 	@Nullable
 	private final String onLongClickText;
 
-	@NotNull
+	@Nonnull
 	private static Map<Integer, CalculatorButton> buttonsByIds = new HashMap<Integer, CalculatorButton>();
 
-	CalculatorButton(int buttonId, @NotNull CalculatorSpecialButton onClickButton, @Nullable CalculatorSpecialButton onLongClickButton) {
+	CalculatorButton(int buttonId, @Nonnull CalculatorSpecialButton onClickButton, @Nullable CalculatorSpecialButton onLongClickButton) {
 		this(buttonId, onClickButton.getActionCode(), onLongClickButton == null ? null : onLongClickButton.getActionCode());
 	}
 
-	CalculatorButton(int buttonId, @NotNull CalculatorSpecialButton onClickButton) {
+	CalculatorButton(int buttonId, @Nonnull CalculatorSpecialButton onClickButton) {
 		this(buttonId, onClickButton, null);
 	}
 
-	CalculatorButton(int buttonId, @NotNull String onClickText, @Nullable String onLongClickText) {
+	CalculatorButton(int buttonId, @Nonnull String onClickText, @Nullable String onLongClickText) {
 		this.buttonId = buttonId;
 		this.onClickText = onClickText;
 		this.onLongClickText = onLongClickText;
 
 	}
 
-	CalculatorButton(int buttonId, @NotNull String onClickText) {
+	CalculatorButton(int buttonId, @Nonnull String onClickText) {
 		this(buttonId, onClickText, null);
 	}
 
-	public void onLongClick(@NotNull Context context) {
+	public void onLongClick(@Nonnull Context context) {
 		Locator.getInstance().getNotifier().showDebugMessage("Calculator++ Widget", "Button pressed: " + onLongClickText);
 		if (onLongClickText != null) {
 			Locator.getInstance().getKeyboard().buttonPressed(onLongClickText);
 		}
 	}
 
-	public void onClick(@NotNull Context context) {
+	public void onClick(@Nonnull Context context) {
 		Locator.getInstance().getNotifier().showDebugMessage("Calculator++ Widget", "Button pressed: " + onClickText);
 		Locator.getInstance().getKeyboard().buttonPressed(onClickText);
 	}

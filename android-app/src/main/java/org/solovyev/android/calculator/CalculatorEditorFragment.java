@@ -11,7 +11,7 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.android.menu.ActivityMenu;
 import org.solovyev.android.menu.ListActivityMenu;
 import org.solovyev.android.sherlock.menu.SherlockMenuHelper;
@@ -23,10 +23,10 @@ import org.solovyev.android.sherlock.menu.SherlockMenuHelper;
  */
 public class CalculatorEditorFragment extends SherlockFragment {
 
-	@NotNull
+	@Nonnull
 	private CalculatorFragmentHelper fragmentHelper;
 
-	@NotNull
+	@Nonnull
 	private ActivityMenu<Menu, MenuItem> menu = ListActivityMenu.fromEnum(CalculatorMenu.class, SherlockMenuHelper.getInstance());
 
 	public CalculatorEditorFragment() {

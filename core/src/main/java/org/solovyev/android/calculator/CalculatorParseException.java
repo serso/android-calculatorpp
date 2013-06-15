@@ -6,8 +6,8 @@
 
 package org.solovyev.android.calculator;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.common.msg.Message;
 import org.solovyev.common.msg.MessageLevel;
 
@@ -21,35 +21,35 @@ import java.util.Locale;
  */
 public class CalculatorParseException extends Exception implements Message {
 
-	@NotNull
+	@Nonnull
 	private final Message message;
 
-	@NotNull
+	@Nonnull
 	private final String expression;
 
 	@Nullable
 	private final Integer position;
 
-	public CalculatorParseException(@NotNull jscl.text.ParseException jsclParseException) {
+	public CalculatorParseException(@Nonnull jscl.text.ParseException jsclParseException) {
 		this.message = jsclParseException;
 		this.expression = jsclParseException.getExpression();
 		this.position = jsclParseException.getPosition();
 	}
 
 	public CalculatorParseException(@Nullable Integer position,
-									@NotNull String expression,
-									@NotNull Message message) {
+									@Nonnull String expression,
+									@Nonnull Message message) {
 		this.message = message;
 		this.expression = expression;
 		this.position = position;
 	}
 
-	public CalculatorParseException(@NotNull String expression,
-									@NotNull Message message) {
+	public CalculatorParseException(@Nonnull String expression,
+									@Nonnull Message message) {
 		this(null, expression, message);
 	}
 
-	@NotNull
+	@Nonnull
 	public String getExpression() {
 		return expression;
 	}
@@ -59,33 +59,33 @@ public class CalculatorParseException extends Exception implements Message {
 		return position;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public String getMessageCode() {
 		return this.message.getMessageCode();
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public List<Object> getParameters() {
 		return this.message.getParameters();
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public MessageLevel getMessageLevel() {
 		return this.message.getMessageLevel();
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public String getLocalizedMessage() {
 		return this.message.getLocalizedMessage(Locale.getDefault());
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
-	public String getLocalizedMessage(@NotNull Locale locale) {
+	public String getLocalizedMessage(@Nonnull Locale locale) {
 		return this.message.getLocalizedMessage(locale);
 	}
 }

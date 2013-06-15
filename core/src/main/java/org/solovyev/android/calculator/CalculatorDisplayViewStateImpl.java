@@ -1,8 +1,8 @@
 package org.solovyev.android.calculator;
 
 import jscl.math.Generic;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.common.text.Strings;
 
@@ -21,7 +21,7 @@ public class CalculatorDisplayViewStateImpl implements CalculatorDisplayViewStat
 	**********************************************************************
 	*/
 
-	@NotNull
+	@Nonnull
 	private JsclOperation operation = JsclOperation.numeric;
 
 	@Nullable
@@ -48,14 +48,14 @@ public class CalculatorDisplayViewStateImpl implements CalculatorDisplayViewStat
 	private CalculatorDisplayViewStateImpl() {
 	}
 
-	@NotNull
+	@Nonnull
 	public static CalculatorDisplayViewState newDefaultInstance() {
 		return new CalculatorDisplayViewStateImpl();
 	}
 
-	@NotNull
-	public static CalculatorDisplayViewState newErrorState(@NotNull JsclOperation operation,
-														   @NotNull String errorMessage) {
+	@Nonnull
+	public static CalculatorDisplayViewState newErrorState(@Nonnull JsclOperation operation,
+														   @Nonnull String errorMessage) {
 		final CalculatorDisplayViewStateImpl calculatorDisplayState = new CalculatorDisplayViewStateImpl();
 		calculatorDisplayState.valid = false;
 		calculatorDisplayState.errorMessage = errorMessage;
@@ -63,10 +63,10 @@ public class CalculatorDisplayViewStateImpl implements CalculatorDisplayViewStat
 		return calculatorDisplayState;
 	}
 
-	@NotNull
-	public static CalculatorDisplayViewState newValidState(@NotNull JsclOperation operation,
+	@Nonnull
+	public static CalculatorDisplayViewState newValidState(@Nonnull JsclOperation operation,
 														   @Nullable Generic result,
-														   @NotNull String stringResult,
+														   @Nonnull String stringResult,
 														   int selection) {
 		final CalculatorDisplayViewStateImpl calculatorDisplayState = new CalculatorDisplayViewStateImpl();
 		calculatorDisplayState.valid = true;
@@ -86,7 +86,7 @@ public class CalculatorDisplayViewStateImpl implements CalculatorDisplayViewStat
 	**********************************************************************
 	*/
 
-	@NotNull
+	@Nonnull
 	@Override
 	public String getText() {
 		return Strings.getNotEmpty(isValid() ? stringResult : errorMessage, "");
@@ -120,7 +120,7 @@ public class CalculatorDisplayViewStateImpl implements CalculatorDisplayViewStat
 		return stringResult;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public JsclOperation getOperation() {
 		return this.operation;

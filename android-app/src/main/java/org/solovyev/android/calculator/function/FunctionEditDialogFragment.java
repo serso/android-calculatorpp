@@ -17,8 +17,8 @@ import jscl.math.function.Constant;
 import jscl.math.function.CustomFunction;
 import jscl.math.function.Function;
 import jscl.math.function.IFunction;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.math.edit.CalculatorFunctionsActivity;
 import org.solovyev.android.calculator.math.edit.CalculatorFunctionsFragment;
@@ -39,14 +39,14 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
 
 	private static final String INPUT = "input";
 
-	@NotNull
+	@Nonnull
 	private Input input;
 
 	public FunctionEditDialogFragment() {
 		this(Input.newInstance());
 	}
 
-	public FunctionEditDialogFragment(@NotNull Input input) {
+	public FunctionEditDialogFragment(@Nonnull Input input) {
 		this.input = input;
 	}
 
@@ -65,7 +65,7 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
 	}
 
 	@Override
-	public void onViewCreated(@NotNull View root, Bundle savedInstanceState) {
+	public void onViewCreated(@Nonnull View root, Bundle savedInstanceState) {
 		super.onViewCreated(root, savedInstanceState);
 
 		final FunctionParamsView paramsView = (FunctionParamsView) root.findViewById(R.id.function_params_layout);
@@ -120,7 +120,7 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
 	}
 
 	@Override
-	public void onSaveInstanceState(@NotNull Bundle out) {
+	public void onSaveInstanceState(@Nonnull Bundle out) {
 		super.onSaveInstanceState(out);
 
 		out.putParcelable(INPUT, FunctionEditorSaver.readInput(input.getFunction(), getView()));
@@ -141,7 +141,7 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
 	}
 
 	@Override
-	public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
+	public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
 		switch (calculatorEventType) {
 			case function_removed:
 			case function_added:
@@ -162,7 +162,7 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
 	**********************************************************************
 	*/
 
-	public static void showDialog(@NotNull Input input, @NotNull Context context) {
+	public static void showDialog(@Nonnull Input input, @Nonnull Context context) {
 		if (context instanceof SherlockFragmentActivity) {
 			FunctionEditDialogFragment.showDialog(input, ((SherlockFragmentActivity) context).getSupportFragmentManager());
 		} else {
@@ -173,7 +173,7 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
 		}
 	}
 
-	public static void showDialog(@NotNull Input input, @NotNull FragmentManager fm) {
+	public static void showDialog(@Nonnull Input input, @Nonnull FragmentManager fm) {
 		AndroidSherlockUtils.showDialog(new FunctionEditDialogFragment(input), "function-editor", fm);
 	}
 
@@ -181,7 +181,7 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
 
 		public static final Parcelable.Creator<Input> CREATOR = new Creator<Input>() {
 			@Override
-			public Input createFromParcel(@NotNull Parcel in) {
+			public Input createFromParcel(@Nonnull Parcel in) {
 				return Input.fromParcel(in);
 			}
 
@@ -193,7 +193,7 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
 
 		private static final Parcelable.Creator<String> STRING_CREATOR = new Creator<String>() {
 			@Override
-			public String createFromParcel(@NotNull Parcel in) {
+			public String createFromParcel(@Nonnull Parcel in) {
 				return in.readString();
 			}
 
@@ -203,8 +203,8 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
 			}
 		};
 
-		@NotNull
-		private static Input fromParcel(@NotNull Parcel in) {
+		@Nonnull
+		private static Input fromParcel(@Nonnull Parcel in) {
 			final Input result = new Input();
 			result.name = in.readString();
 			result.content = in.readString();
@@ -237,24 +237,24 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
 		private Input() {
 		}
 
-		@NotNull
+		@Nonnull
 		public static Input newInstance() {
 			return new Input();
 		}
 
-		@NotNull
-		public static Input newFromFunction(@NotNull IFunction function) {
+		@Nonnull
+		public static Input newFromFunction(@Nonnull IFunction function) {
 			final Input result = new Input();
 			result.function = AFunction.fromIFunction(function);
 			return result;
 		}
 
-		@NotNull
+		@Nonnull
 		public static Input newInstance(@Nullable IFunction function,
 										@Nullable String name,
 										@Nullable String value,
 										@Nullable String description,
-										@NotNull List<String> parameterNames) {
+										@Nonnull List<String> parameterNames) {
 
 			final Input result = new Input();
 			if (function != null) {
@@ -299,7 +299,7 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
 		}
 
 		@Override
-		public void writeToParcel(@NotNull Parcel out, int flags) {
+		public void writeToParcel(@Nonnull Parcel out, int flags) {
 			out.writeString(name);
 			out.writeString(content);
 			out.writeString(description);
@@ -307,8 +307,8 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
 			out.writeSerializable(function);
 		}
 
-		@NotNull
-		public static Input newFromDisplay(@NotNull CalculatorDisplayViewState viewState) {
+		@Nonnull
+		public static Input newFromDisplay(@Nonnull CalculatorDisplayViewState viewState) {
 			final Input result = new Input();
 
 			result.content = viewState.getText();

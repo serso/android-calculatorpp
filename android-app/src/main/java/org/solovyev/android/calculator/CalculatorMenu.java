@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import com.actionbarsherlock.view.MenuItem;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.android.calculator.view.NumeralBaseConverterDialog;
 import org.solovyev.android.menu.LabeledMenuItem;
 
@@ -17,35 +17,35 @@ enum CalculatorMenu implements LabeledMenuItem<MenuItem> {
 
 	settings(R.string.c_settings) {
 		@Override
-		public void onClick(@NotNull MenuItem data, @NotNull Context context) {
+		public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
 			CalculatorActivityLauncher.showSettings(context);
 		}
 	},
 
 	history(R.string.c_history) {
 		@Override
-		public void onClick(@NotNull MenuItem data, @NotNull Context context) {
+		public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
 			CalculatorActivityLauncher.showHistory(context);
 		}
 	},
 
 	plotter(R.string.cpp_plotter) {
 		@Override
-		public void onClick(@NotNull MenuItem data, @NotNull Context context) {
+		public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
 			Locator.getInstance().getPlotter().plot();
 		}
 	},
 
 	conversion_tool(R.string.c_conversion_tool) {
 		@Override
-		public void onClick(@NotNull MenuItem data, @NotNull Context context) {
+		public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
 			new NumeralBaseConverterDialog(null).show(context);
 		}
 	},
 
 	exit(R.string.c_exit) {
 		@Override
-		public void onClick(@NotNull MenuItem data, @NotNull Context context) {
+		public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
 			if (context instanceof Activity) {
 				((Activity) context).finish();
 			} else {
@@ -56,14 +56,14 @@ enum CalculatorMenu implements LabeledMenuItem<MenuItem> {
 
 	help(R.string.c_help) {
 		@Override
-		public void onClick(@NotNull MenuItem data, @NotNull Context context) {
+		public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
 			CalculatorActivityLauncher.showHelp(context);
 		}
 	},
 
 	about(R.string.c_about) {
 		@Override
-		public void onClick(@NotNull MenuItem data, @NotNull Context context) {
+		public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
 			CalculatorActivityLauncher.showAbout(context);
 		}
 	};
@@ -74,9 +74,9 @@ enum CalculatorMenu implements LabeledMenuItem<MenuItem> {
 		this.captionResId = captionResId;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
-	public String getCaption(@NotNull Context context) {
+	public String getCaption(@Nonnull Context context) {
 		return context.getString(captionResId);
 	}
 }

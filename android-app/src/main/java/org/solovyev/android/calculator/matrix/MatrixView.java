@@ -8,8 +8,8 @@ import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * User: Solovyev_S
@@ -122,7 +122,7 @@ public class MatrixView extends TableLayout {
 		}
 	}
 
-	public void setMatrix(@NotNull Object[][] matrix) {
+	public void setMatrix(@Nonnull Object[][] matrix) {
 		final int rows = matrix.length;
 		final int cols = matrix[0].length;
 
@@ -134,7 +134,7 @@ public class MatrixView extends TableLayout {
 		}
 	}
 
-	@NotNull
+	@Nonnull
 	public String[][] toMatrix() {
 		final String[][] result = new String[rows][cols];
 
@@ -223,11 +223,11 @@ public class MatrixView extends TableLayout {
 	}
 
 	@Nullable
-	private View getCell(@NotNull View view, int row, int col) {
+	private View getCell(@Nonnull View view, int row, int col) {
 		return view.findViewWithTag(getCellTag(row, col));
 	}
 
-	@NotNull
+	@Nonnull
 	private String getRowTag(int row) {
 		if (row != NUMBER_INDEX) {
 			return "row_" + row;
@@ -236,7 +236,7 @@ public class MatrixView extends TableLayout {
 		}
 	}
 
-	@NotNull
+	@Nonnull
 	private View createRowView(int row, int cols) {
 		final ViewGroup rowView = new TableRow(this.getContext());
 
@@ -255,7 +255,7 @@ public class MatrixView extends TableLayout {
 		return rowView;
 	}
 
-	@NotNull
+	@Nonnull
 	private View createCellView(int row, int col) {
 		final TextView result;
 
@@ -277,7 +277,7 @@ public class MatrixView extends TableLayout {
 
 	}
 
-	@NotNull
+	@Nonnull
 	private String getCellTag(int row, int col) {
 		if (row != NUMBER_INDEX) {
 			return "cell_" + row + "_" + col;

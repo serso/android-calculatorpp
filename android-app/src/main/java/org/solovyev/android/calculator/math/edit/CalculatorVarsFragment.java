@@ -14,8 +14,8 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import jscl.math.function.IConstant;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.menu.AMenuItem;
@@ -64,9 +64,9 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
 		return LongClickMenuItem.use;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
-	protected List<LabeledMenuItem<IConstant>> getMenuItemsOnLongClick(@NotNull IConstant item) {
+	protected List<LabeledMenuItem<IConstant>> getMenuItemsOnLongClick(@Nonnull IConstant item) {
 		final List<LabeledMenuItem<IConstant>> result = new ArrayList<LabeledMenuItem<IConstant>>(Arrays.asList(LongClickMenuItem.values()));
 
 		if (item.isSystem()) {
@@ -85,18 +85,18 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
 		return result;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	protected MathEntityDescriptionGetter getDescriptionGetter() {
 		return new MathEntityDescriptionGetterImpl(Locator.getInstance().getEngine().getVarsRegistry());
 	}
 
 	@SuppressWarnings({"UnusedDeclaration"})
-	public void addVarButtonClickHandler(@NotNull View v) {
+	public void addVarButtonClickHandler(@Nonnull View v) {
 		VarEditDialogFragment.showDialog(VarEditDialogFragment.Input.newInstance(), this.getActivity().getSupportFragmentManager());
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	protected List<IConstant> getMathEntities() {
 		final List<IConstant> result = new ArrayList<IConstant>(Locator.getInstance().getEngine().getVarsRegistry().getEntities());
@@ -112,11 +112,11 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
 	}
 
 	@Override
-	protected String getMathEntityCategory(@NotNull IConstant var) {
+	protected String getMathEntityCategory(@Nonnull IConstant var) {
 		return Locator.getInstance().getEngine().getVarsRegistry().getCategory(var);
 	}
 
-	public static boolean isValidValue(@NotNull String value) {
+	public static boolean isValidValue(@Nonnull String value) {
 		try {
 			final PreparedExpression expression = ToJsclTextProcessor.getInstance().process(value);
 			final List<IConstant> constants = expression.getUndefinedVars();
@@ -158,7 +158,7 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
 	}
 
 	@Override
-	public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
+	public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
 		super.onCalculatorEvent(calculatorEventData, calculatorEventType, data);
 
 		switch (calculatorEventType) {
@@ -176,7 +176,7 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
 		}
 	}
 
-	private void processConstantRemoved(@NotNull final IConstant constant) {
+	private void processConstantRemoved(@Nonnull final IConstant constant) {
 		if (this.isInCategory(constant)) {
 			getUiHandler().post(new Runnable() {
 				@Override
@@ -188,7 +188,7 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
 		}
 	}
 
-	private void processConstantChanged(@NotNull final Change<IConstant> change) {
+	private void processConstantChanged(@Nonnull final Change<IConstant> change) {
 		final IConstant newConstant = change.getNewValue();
 		if (this.isInCategory(newConstant)) {
 			getUiHandler().post(new Runnable() {
@@ -202,7 +202,7 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
 		}
 	}
 
-	private void processConstantAdded(@NotNull final IConstant constant) {
+	private void processConstantAdded(@Nonnull final IConstant constant) {
 		if (this.isInCategory(constant)) {
 			getUiHandler().post(new Runnable() {
 				@Override
@@ -225,28 +225,28 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
 	private static enum LongClickMenuItem implements LabeledMenuItem<IConstant> {
 		use(R.string.c_use) {
 			@Override
-			public void onClick(@NotNull IConstant data, @NotNull Context context) {
+			public void onClick(@Nonnull IConstant data, @Nonnull Context context) {
 				Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.use_constant, data);
 			}
 		},
 
 		edit(R.string.c_edit) {
 			@Override
-			public void onClick(@NotNull IConstant constant, @NotNull Context context) {
+			public void onClick(@Nonnull IConstant constant, @Nonnull Context context) {
 				VarEditDialogFragment.showDialog(VarEditDialogFragment.Input.newFromConstant(constant), ((SherlockFragmentActivity) context).getSupportFragmentManager());
 			}
 		},
 
 		remove(R.string.c_remove) {
 			@Override
-			public void onClick(@NotNull IConstant constant, @NotNull Context context) {
+			public void onClick(@Nonnull IConstant constant, @Nonnull Context context) {
 				MathEntityRemover.newConstantRemover(constant, null, context, context).showConfirmationDialog();
 			}
 		},
 
 		copy_value(R.string.c_copy_value) {
 			@Override
-			public void onClick(@NotNull IConstant data, @NotNull Context context) {
+			public void onClick(@Nonnull IConstant data, @Nonnull Context context) {
 				final String text = data.getValue();
 				if (!Strings.isEmpty(text)) {
 					assert text != null;
@@ -257,7 +257,7 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
 
 		copy_description(R.string.c_copy_description) {
 			@Override
-			public void onClick(@NotNull IConstant data, @NotNull Context context) {
+			public void onClick(@Nonnull IConstant data, @Nonnull Context context) {
 				final String text = Locator.getInstance().getEngine().getVarsRegistry().getDescription(data.getName());
 				if (!Strings.isEmpty(text)) {
 					assert text != null;
@@ -271,9 +271,9 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
 			this.captionId = captionId;
 		}
 
-		@NotNull
+		@Nonnull
 		@Override
-		public String getCaption(@NotNull Context context) {
+		public String getCaption(@Nonnull Context context) {
 			return context.getString(captionId);
 		}
 	}

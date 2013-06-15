@@ -9,8 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.Android;
 import org.solovyev.android.fragments.FragmentUtils;
 import org.solovyev.common.msg.MessageType;
@@ -23,13 +23,13 @@ import org.solovyev.common.text.Strings;
  */
 public class CalculatorDialogActivity extends SherlockFragmentActivity {
 
-	@NotNull
+	@Nonnull
 	private static final String TAG = CalculatorDialogActivity.class.getSimpleName();
 
-	@NotNull
+	@Nonnull
 	private static final String DIALOG_DATA_EXTRA = "dialog_data";
 
-	public static void showDialog(@NotNull Context context, @NotNull DialogData dialogData) {
+	public static void showDialog(@Nonnull Context context, @Nonnull DialogData dialogData) {
 		final Intent intent = new Intent();
 		intent.setClass(context, CalculatorDialogActivity.class);
 		intent.putExtra(DIALOG_DATA_EXTRA, ParcelableDialogData.wrap(dialogData));
@@ -91,7 +91,7 @@ public class CalculatorDialogActivity extends SherlockFragmentActivity {
 		}
 
 		@Override
-		public void onViewCreated(@NotNull View root, Bundle savedInstanceState) {
+		public void onViewCreated(@Nonnull View root, Bundle savedInstanceState) {
 			super.onViewCreated(root, savedInstanceState);
 
 			final DialogData dialogData = readDialogData(getArguments());

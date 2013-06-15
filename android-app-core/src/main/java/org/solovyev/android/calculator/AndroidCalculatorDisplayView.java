@@ -14,13 +14,13 @@ import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.util.AttributeSet;
 import android.util.TypedValue;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.core.R;
 import org.solovyev.android.calculator.text.TextProcessor;
 import org.solovyev.android.calculator.view.TextHighlighter;
 import org.solovyev.android.view.AutoResizeTextView;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -39,7 +39,7 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
 	**********************************************************************
 	*/
 
-	@NotNull
+	@Nonnull
 	private final static TextProcessor<TextHighlighter.Result, String> textHighlighter = new TextHighlighter(Color.WHITE, false);
 
 	/*
@@ -50,18 +50,18 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
 	**********************************************************************
 	*/
 
-	@NotNull
+	@Nonnull
 	private volatile CalculatorDisplayViewState state = CalculatorDisplayViewStateImpl.newDefaultInstance();
 
 	private volatile boolean viewStateChange = false;
 
-	@NotNull
+	@Nonnull
 	private final Object lock = new Object();
 
-	@NotNull
+	@Nonnull
 	private final Handler uiHandler = new Handler();
 
-	@NotNull
+	@Nonnull
 	private final ExecutorService bgExecutor = Executors.newSingleThreadExecutor();
 
 	private volatile boolean initialized = false;
@@ -97,7 +97,7 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
 
 
 	@Override
-	public void setState(@NotNull final CalculatorDisplayViewState state) {
+	public void setState(@Nonnull final CalculatorDisplayViewState state) {
 
 		uiHandler.post(new Runnable() {
 			@Override
@@ -133,7 +133,7 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
 		});
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public CalculatorDisplayViewState getState() {
 		synchronized (lock) {
@@ -170,11 +170,11 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
 		resizeText();
 	}
 
-	public synchronized void init(@NotNull Context context) {
+	public synchronized void init(@Nonnull Context context) {
 		this.init(context, true);
 	}
 
-	public synchronized void init(@NotNull Context context, boolean fromApp) {
+	public synchronized void init(@Nonnull Context context, boolean fromApp) {
 		if (!initialized) {
 			if (fromApp) {
 				final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);

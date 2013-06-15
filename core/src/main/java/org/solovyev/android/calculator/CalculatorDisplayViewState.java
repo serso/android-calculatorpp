@@ -1,8 +1,8 @@
 package org.solovyev.android.calculator;
 
 import jscl.math.Generic;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 
 import java.io.Serializable;
@@ -14,7 +14,7 @@ import java.io.Serializable;
  */
 public interface CalculatorDisplayViewState extends Serializable {
 
-	@NotNull
+	@Nonnull
 	String getText();
 
 	int getSelection();
@@ -27,7 +27,7 @@ public interface CalculatorDisplayViewState extends Serializable {
 	@Nullable
 	String getErrorMessage();
 
-	@NotNull
+	@Nonnull
 	JsclOperation getOperation();
 
 	@Nullable

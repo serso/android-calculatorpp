@@ -2,17 +2,17 @@ package org.solovyev.android.calculator.plot;
 
 import android.graphics.Bitmap;
 import android.widget.ZoomButtonsController;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.List;
 
 public interface GraphView extends ZoomButtonsController.OnZoomListener, TouchHandler.TouchHandlerListener {
 
-	public void init(@NotNull PlotViewDef plotViewDef);
+	public void init(@Nonnull PlotViewDef plotViewDef);
 
-	public void setPlotFunctions(@NotNull List<PlotFunction> plotFunctions);
+	public void setPlotFunctions(@Nonnull List<PlotFunction> plotFunctions);
 
-	@NotNull
+	@Nonnull
 	public List<PlotFunction> getPlotFunctions();
 
 	public void onDestroy();
@@ -21,7 +21,7 @@ public interface GraphView extends ZoomButtonsController.OnZoomListener, TouchHa
 
 	public void onResume();
 
-	@NotNull
+	@Nonnull
 	public Bitmap captureScreenshot();
 
 	void setXRange(float xMin, float xMax);

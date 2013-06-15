@@ -1,10 +1,10 @@
 package org.solovyev.android.calculator.external;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public interface CalculatorExternalListenersContainer {
 
-	void addExternalListener(@NotNull Class<?> externalCalculatorClass);
+	void addExternalListener(@Nonnull Class<?> externalCalculatorClass);
 
-	boolean removeExternalListener(@NotNull Class<?> externalCalculatorClass);
+	boolean removeExternalListener(@Nonnull Class<?> externalCalculatorClass);
 }

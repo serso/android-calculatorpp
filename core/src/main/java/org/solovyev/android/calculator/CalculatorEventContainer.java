@@ -1,7 +1,7 @@
 package org.solovyev.android.calculator;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.List;
 
@@ -12,39 +12,39 @@ import java.util.List;
  */
 public interface CalculatorEventContainer {
 
-	void addCalculatorEventListener(@NotNull CalculatorEventListener calculatorEventListener);
+	void addCalculatorEventListener(@Nonnull CalculatorEventListener calculatorEventListener);
 
-	void removeCalculatorEventListener(@NotNull CalculatorEventListener calculatorEventListener);
+	void removeCalculatorEventListener(@Nonnull CalculatorEventListener calculatorEventListener);
 
-	void fireCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data);
+	void fireCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data);
 
-	void fireCalculatorEvents(@NotNull List<CalculatorEvent> calculatorEvents);
+	void fireCalculatorEvents(@Nonnull List<CalculatorEvent> calculatorEvents);
 
 	public static class CalculatorEvent {
 
-		@NotNull
+		@Nonnull
 		private CalculatorEventData calculatorEventData;
 
-		@NotNull
+		@Nonnull
 		private CalculatorEventType calculatorEventType;
 
 		@Nullable
 		private Object data;
 
-		public CalculatorEvent(@NotNull CalculatorEventData calculatorEventData,
-							   @NotNull CalculatorEventType calculatorEventType,
+		public CalculatorEvent(@Nonnull CalculatorEventData calculatorEventData,
+							   @Nonnull CalculatorEventType calculatorEventType,
 							   @Nullable Object data) {
 			this.calculatorEventData = calculatorEventData;
 			this.calculatorEventType = calculatorEventType;
 			this.data = data;
 		}
 
-		@NotNull
+		@Nonnull
 		public CalculatorEventData getCalculatorEventData() {
 			return calculatorEventData;
 		}
 
-		@NotNull
+		@Nonnull
 		public CalculatorEventType getCalculatorEventType() {
 			return calculatorEventType;
 		}

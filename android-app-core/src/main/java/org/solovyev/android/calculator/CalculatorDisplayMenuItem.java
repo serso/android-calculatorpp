@@ -2,7 +2,7 @@ package org.solovyev.android.calculator;
 
 import android.content.Context;
 import jscl.math.Generic;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.android.calculator.core.R;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.plot.CalculatorPlotter;
@@ -18,50 +18,50 @@ public enum CalculatorDisplayMenuItem implements LabeledMenuItem<CalculatorDispl
 
 	copy(R.string.c_copy) {
 		@Override
-		public void onClick(@NotNull CalculatorDisplayViewState data, @NotNull Context context) {
+		public void onClick(@Nonnull CalculatorDisplayViewState data, @Nonnull Context context) {
 			Locator.getInstance().getKeyboard().copyButtonPressed();
 		}
 	},
 
 	convert_to_bin(R.string.convert_to_bin) {
 		@Override
-		public void onClick(@NotNull CalculatorDisplayViewState data, @NotNull Context context) {
+		public void onClick(@Nonnull CalculatorDisplayViewState data, @Nonnull Context context) {
 			ConversionMenuItem.convert_to_bin.onClick(data, context);
 		}
 
 		@Override
-		protected boolean isItemVisibleFor(@NotNull Generic generic, @NotNull JsclOperation operation) {
+		protected boolean isItemVisibleFor(@Nonnull Generic generic, @Nonnull JsclOperation operation) {
 			return ConversionMenuItem.convert_to_bin.isItemVisibleFor(generic, operation);
 		}
 	},
 
 	convert_to_dec(R.string.convert_to_dec) {
 		@Override
-		public void onClick(@NotNull CalculatorDisplayViewState data, @NotNull Context context) {
+		public void onClick(@Nonnull CalculatorDisplayViewState data, @Nonnull Context context) {
 			ConversionMenuItem.convert_to_dec.onClick(data, context);
 		}
 
 		@Override
-		protected boolean isItemVisibleFor(@NotNull Generic generic, @NotNull JsclOperation operation) {
+		protected boolean isItemVisibleFor(@Nonnull Generic generic, @Nonnull JsclOperation operation) {
 			return ConversionMenuItem.convert_to_dec.isItemVisibleFor(generic, operation);
 		}
 	},
 
 	convert_to_hex(R.string.convert_to_hex) {
 		@Override
-		public void onClick(@NotNull CalculatorDisplayViewState data, @NotNull Context context) {
+		public void onClick(@Nonnull CalculatorDisplayViewState data, @Nonnull Context context) {
 			ConversionMenuItem.convert_to_hex.onClick(data, context);
 		}
 
 		@Override
-		protected boolean isItemVisibleFor(@NotNull Generic generic, @NotNull JsclOperation operation) {
+		protected boolean isItemVisibleFor(@Nonnull Generic generic, @Nonnull JsclOperation operation) {
 			return ConversionMenuItem.convert_to_hex.isItemVisibleFor(generic, operation);
 		}
 	},
 
 	convert(R.string.c_convert) {
 		@Override
-		public void onClick(@NotNull CalculatorDisplayViewState data, @NotNull Context context) {
+		public void onClick(@Nonnull CalculatorDisplayViewState data, @Nonnull Context context) {
 			final Generic result = data.getResult();
 			if (result != null) {
 				new NumeralBaseConverterDialog(result.toString()).show(context);
@@ -69,14 +69,14 @@ public enum CalculatorDisplayMenuItem implements LabeledMenuItem<CalculatorDispl
 		}
 
 		@Override
-		protected boolean isItemVisibleFor(@NotNull Generic generic, @NotNull JsclOperation operation) {
+		protected boolean isItemVisibleFor(@Nonnull Generic generic, @Nonnull JsclOperation operation) {
 			return operation == JsclOperation.numeric && generic.getConstants().isEmpty();
 		}
 	},
 
 	plot(R.string.c_plot) {
 		@Override
-		public void onClick(@NotNull CalculatorDisplayViewState data, @NotNull Context context) {
+		public void onClick(@Nonnull CalculatorDisplayViewState data, @Nonnull Context context) {
 			final Generic expression = data.getResult();
 			assert expression != null;
 
@@ -85,7 +85,7 @@ public enum CalculatorDisplayMenuItem implements LabeledMenuItem<CalculatorDispl
 		}
 
 		@Override
-		protected boolean isItemVisibleFor(@NotNull Generic generic, @NotNull JsclOperation operation) {
+		protected boolean isItemVisibleFor(@Nonnull Generic generic, @Nonnull JsclOperation operation) {
 			return Locator.getInstance().getPlotter().isPlotPossibleFor(generic);
 		}
 
@@ -97,18 +97,18 @@ public enum CalculatorDisplayMenuItem implements LabeledMenuItem<CalculatorDispl
 		this.captionId = captionId;
 	}
 
-	public final boolean isItemVisible(@NotNull CalculatorDisplayViewState displayViewState) {
+	public final boolean isItemVisible(@Nonnull CalculatorDisplayViewState displayViewState) {
 		//noinspection ConstantConditions
 		return displayViewState.isValid() && displayViewState.getResult() != null && isItemVisibleFor(displayViewState.getResult(), displayViewState.getOperation());
 	}
 
-	protected boolean isItemVisibleFor(@NotNull Generic generic, @NotNull JsclOperation operation) {
+	protected boolean isItemVisibleFor(@Nonnull Generic generic, @Nonnull JsclOperation operation) {
 		return true;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
-	public String getCaption(@NotNull Context context) {
+	public String getCaption(@Nonnull Context context) {
 		return context.getString(captionId);
 	}
 }

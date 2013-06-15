@@ -3,6 +3,8 @@ package org.solovyev.acraanalyzer;
 import org.apache.commons.cli.*;
 import org.solovyev.common.text.Strings;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
@@ -21,16 +23,20 @@ public final class AcraAnalyzer {
 	public static void main(String[] args) throws ParseException {
 		final Options options = new Options();
 		options.addOption("path", true, "Path to the ACRA reports");
+		options.addOption("version", true, "Version of the app");
 
 		final CommandLineParser parser = new GnuParser();
 		final CommandLine cmd = parser.parse(options, args);
 		final String path = cmd.getOptionValue("path");
+		final String version = cmd.getOptionValue("version");
+
 		if (Strings.isEmpty(path)) {
 			throw new IllegalArgumentException("Path should be specified");
 		} else {
 			final Map<String, List<AcraReport>> reports = new HashMap<String, List<AcraReport>>();
 
-			scanFiles(path, reports);
+			scanFiles(path, reports, version);
+
 			final List<List<AcraReport>> sortedReports = new ArrayList<List<AcraReport>>(reports.size());
 			for (Map.Entry<String, List<AcraReport>> entry : reports.entrySet()) {
 				sortedReports.add(entry.getValue());
@@ -58,29 +64,29 @@ public final class AcraAnalyzer {
 		}
 	}
 
-	private static void scanFiles(String path, Map<String, List<AcraReport>> reports) {
+	private static void scanFiles(@Nonnull String path, @Nonnull Map<String, List<AcraReport>> reports, @Nullable String version) {
 		final File directory = new File(path);
 		if (directory.isDirectory()) {
-			scanFiles(directory, reports);
+			scanFiles(directory, reports, version);
 		}
 	}
 
-	private static void scanFiles(File directory, Map<String, List<AcraReport>> reports) {
+	private static void scanFiles(@Nonnull File directory, @Nonnull Map<String, List<AcraReport>> reports, @Nullable String version) {
 		final File[] files = directory.listFiles();
 		if (files != null) {
 			for (File file : files) {
 				if (file.isDirectory()) {
-					scanFiles(file, reports);
+					scanFiles(file, reports, version);
 				} else {
-					analyzeFile(file, reports);
+					analyzeFile(file, reports, version);
 				}
 			}
 		}
 	}
 
-	private static void analyzeFile(File file, Map<String, List<AcraReport>> reports) {
+	private static void analyzeFile(File file, Map<String, List<AcraReport>> reports, @Nullable String version) {
 		final AcraReport report = readReport(file);
-		if (!Strings.isEmpty(report.stackTrace)) {
+		if (!Strings.isEmpty(report.stackTrace) && (version == null || version.equals(report.appVersion))) {
 			List<AcraReport> acraReports = reports.get(report.stackTrace);
 			if (acraReports == null) {
 				acraReports = new ArrayList<AcraReport>();

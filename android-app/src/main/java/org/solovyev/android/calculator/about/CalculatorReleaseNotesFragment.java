@@ -12,7 +12,7 @@ import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.TextView;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.android.Android;
 import org.solovyev.android.calculator.CalculatorApplication;
 import org.solovyev.android.calculator.CalculatorFragment;
@@ -41,13 +41,13 @@ public class CalculatorReleaseNotesFragment extends CalculatorFragment {
 		releaseNotes.setText(Html.fromHtml(getReleaseNotes(this.getActivity())));
 	}
 
-	@NotNull
-	public static String getReleaseNotes(@NotNull Context context) {
+	@Nonnull
+	public static String getReleaseNotes(@Nonnull Context context) {
 		return getReleaseNotes(context, 0);
 	}
 
-	@NotNull
-	public static String getReleaseNotes(@NotNull Context context, int minVersion) {
+	@Nonnull
+	public static String getReleaseNotes(@Nonnull Context context, int minVersion) {
 		final StringBuilder result = new StringBuilder();
 
 		final String releaseNotesForTitle = context.getString(R.string.c_release_notes_for_title);

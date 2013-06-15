@@ -1,6 +1,6 @@
 package org.solovyev.android.calculator;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * User: Solovyev_S
@@ -9,25 +9,25 @@ import org.jetbrains.annotations.NotNull;
  */
 public class CalculatorEditorChangeEventDataImpl implements CalculatorEditorChangeEventData {
 
-	@NotNull
+	@Nonnull
 	private CalculatorEditorViewState oldState;
 
-	@NotNull
+	@Nonnull
 	private CalculatorEditorViewState newState;
 
-	public CalculatorEditorChangeEventDataImpl(@NotNull CalculatorEditorViewState oldState,
-											   @NotNull CalculatorEditorViewState newState) {
+	public CalculatorEditorChangeEventDataImpl(@Nonnull CalculatorEditorViewState oldState,
+											   @Nonnull CalculatorEditorViewState newState) {
 		this.oldState = oldState;
 		this.newState = newState;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public CalculatorEditorViewState getOldValue() {
 		return this.oldState;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public CalculatorEditorViewState getNewValue() {
 		return this.newState;

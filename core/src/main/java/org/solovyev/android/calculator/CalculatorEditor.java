@@ -1,7 +1,7 @@
 package org.solovyev.android.calculator;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.common.gui.CursorControl;
 
 /**
@@ -13,13 +13,13 @@ public interface CalculatorEditor extends CalculatorEventListener {
 
 	void setView(@Nullable CalculatorEditorView view);
 
-	@NotNull
+	@Nonnull
 	CalculatorEditorViewState getViewState();
 
 	// updates state of view (view.setState())
 	void updateViewState();
 
-	void setViewState(@NotNull CalculatorEditorViewState viewState);
+	void setViewState(@Nonnull CalculatorEditorViewState viewState);
 
 	/*
 	**********************************************************************
@@ -32,28 +32,28 @@ public interface CalculatorEditor extends CalculatorEventListener {
 	/**
 	 * Method sets the cursor to the beginning
 	 */
-	@NotNull
+	@Nonnull
 	public CalculatorEditorViewState setCursorOnStart();
 
 	/**
 	 * Method sets the cursor to the end
 	 */
-	@NotNull
+	@Nonnull
 	public CalculatorEditorViewState setCursorOnEnd();
 
 	/**
 	 * Method moves cursor to the left of current position
 	 */
-	@NotNull
+	@Nonnull
 	public CalculatorEditorViewState moveCursorLeft();
 
 	/**
 	 * Method moves cursor to the right of current position
 	 */
-	@NotNull
+	@Nonnull
 	public CalculatorEditorViewState moveCursorRight();
 
-	@NotNull
+	@Nonnull
 	CursorControl asCursorControl();
 
 
@@ -64,27 +64,27 @@ public interface CalculatorEditor extends CalculatorEventListener {
 	*
 	**********************************************************************
 	*/
-	@NotNull
+	@Nonnull
 	CalculatorEditorViewState erase();
 
-	@NotNull
+	@Nonnull
 	CalculatorEditorViewState clear();
 
-	@NotNull
-	CalculatorEditorViewState setText(@NotNull String text);
+	@Nonnull
+	CalculatorEditorViewState setText(@Nonnull String text);
 
-	@NotNull
-	CalculatorEditorViewState setText(@NotNull String text, int selection);
+	@Nonnull
+	CalculatorEditorViewState setText(@Nonnull String text, int selection);
 
-	@NotNull
-	CalculatorEditorViewState insert(@NotNull String text);
+	@Nonnull
+	CalculatorEditorViewState insert(@Nonnull String text);
 
-	@NotNull
-	CalculatorEditorViewState insert(@NotNull String text, int selectionOffset);
+	@Nonnull
+	CalculatorEditorViewState insert(@Nonnull String text, int selectionOffset);
 
-	@NotNull
+	@Nonnull
 	CalculatorEditorViewState moveSelection(int offset);
 
-	@NotNull
+	@Nonnull
 	CalculatorEditorViewState setSelection(int selection);
 }

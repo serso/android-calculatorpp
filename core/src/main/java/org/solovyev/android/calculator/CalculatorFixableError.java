@@ -2,8 +2,8 @@ package org.solovyev.android.calculator;
 
 import jscl.AngleUnit;
 import jscl.text.msg.Messages;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.common.collections.Collections;
 
 import java.util.List;
@@ -36,7 +36,7 @@ public enum CalculatorFixableError implements FixableError {
 		}
 	};
 
-	@NotNull
+	@Nonnull
 	private final List<String> messageCodes;
 
 	CalculatorFixableError(@Nullable String... messageCodes) {
@@ -44,7 +44,7 @@ public enum CalculatorFixableError implements FixableError {
 	}
 
 	@Nullable
-	public static CalculatorFixableError getErrorByMessageCode(@NotNull String messageCode) {
+	public static CalculatorFixableError getErrorByMessageCode(@Nonnull String messageCode) {
 		for (CalculatorFixableError fixableError : values()) {
 			if (fixableError.messageCodes.contains(messageCode)) {
 				return fixableError;

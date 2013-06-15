@@ -20,8 +20,8 @@ import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.menu.*;
@@ -52,7 +52,7 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 	**********************************************************************
 	*/
 
-	@NotNull
+	@Nonnull
 	private static final String TAG = "CalculatorHistoryFragment";
 
 	public static final Comparator<CalculatorHistoryState> COMPARATOR = new Comparator<CalculatorHistoryState>() {
@@ -79,15 +79,15 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 	*/
 
 
-	@NotNull
+	@Nonnull
 	private ArrayAdapter<CalculatorHistoryState> adapter;
 
-	@NotNull
+	@Nonnull
 	private CalculatorFragmentHelper fragmentHelper;
 
 	private ActivityMenu<Menu, MenuItem> menu = ListActivityMenu.fromResource(org.solovyev.android.calculator.R.menu.history_menu, HistoryMenu.class, SherlockMenuHelper.getInstance());
 
-	protected AbstractCalculatorHistoryFragment(@NotNull CalculatorFragmentType fragmentType) {
+	protected AbstractCalculatorHistoryFragment(@Nonnull CalculatorFragmentType fragmentType) {
 		fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(fragmentType.getDefaultLayoutId(), fragmentType.getDefaultTitleResId(), false);
 	}
 
@@ -102,7 +102,7 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 		logDebug("onCreate");
 	}
 
-	private int logDebug(@NotNull String msg) {
+	private int logDebug(@Nonnull String msg) {
 		return Log.d(TAG + ": " + getTag(), msg);
 	}
 
@@ -212,7 +212,7 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 		adapter.notifyDataSetChanged();
 	}
 
-	public static boolean isAlreadySaved(@NotNull CalculatorHistoryState historyState) {
+	public static boolean isAlreadySaved(@Nonnull CalculatorHistoryState historyState) {
 		assert !historyState.isSaved();
 
 		boolean result = false;
@@ -235,11 +235,11 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 		return result;
 	}
 
-	public static void useHistoryItem(@NotNull final CalculatorHistoryState historyState) {
+	public static void useHistoryItem(@Nonnull final CalculatorHistoryState historyState) {
 		Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.use_history_state, historyState);
 	}
 
-	@NotNull
+	@Nonnull
 	private List<CalculatorHistoryState> getHistoryList() {
 		final List<CalculatorHistoryState> calculatorHistoryStates = getHistoryItems();
 
@@ -258,11 +258,11 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 		return calculatorHistoryStates;
 	}
 
-	@NotNull
+	@Nonnull
 	protected abstract List<CalculatorHistoryState> getHistoryItems();
 
-	@NotNull
-	public static String getHistoryText(@NotNull CalculatorHistoryState state) {
+	@Nonnull
+	public static String getHistoryText(@Nonnull CalculatorHistoryState state) {
 		final StringBuilder result = new StringBuilder();
 		result.append(state.getEditorState().getText());
 		result.append(getIdentitySign(state.getDisplayState().getJsclOperation()));
@@ -273,20 +273,20 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 		return result.toString();
 	}
 
-	@NotNull
-	private static String getIdentitySign(@NotNull JsclOperation jsclOperation) {
+	@Nonnull
+	private static String getIdentitySign(@Nonnull JsclOperation jsclOperation) {
 		return jsclOperation == JsclOperation.simplify ? "≡" : "=";
 	}
 
 	protected abstract void clearHistory();
 
-	@NotNull
+	@Nonnull
 	protected ArrayAdapter<CalculatorHistoryState> getAdapter() {
 		return adapter;
 	}
 
 	@Override
-	public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
+	public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
 		switch (calculatorEventType) {
 			case history_state_added:
 				getActivity().runOnUiThread(new Runnable() {
@@ -337,7 +337,7 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 
 		clear_history(org.solovyev.android.calculator.R.id.history_menu_clear_history) {
 			@Override
-			public void onClick(@NotNull MenuItem data, @NotNull Context context) {
+			public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
 				Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.clear_history_requested, null);
 			}
 		};
@@ -348,7 +348,7 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 			this.itemId = itemId;
 		}
 
-		@NotNull
+		@Nonnull
 		@Override
 		public Integer getItemId() {
 			return this.itemId;

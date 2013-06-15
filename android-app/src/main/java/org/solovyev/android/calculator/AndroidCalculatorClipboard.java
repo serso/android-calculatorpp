@@ -3,7 +3,7 @@ package org.solovyev.android.calculator;
 import android.app.Application;
 import android.content.Context;
 import android.text.ClipboardManager;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -12,10 +12,10 @@ import org.jetbrains.annotations.NotNull;
  */
 public class AndroidCalculatorClipboard implements CalculatorClipboard {
 
-	@NotNull
+	@Nonnull
 	private final Context context;
 
-	public AndroidCalculatorClipboard(@NotNull Application application) {
+	public AndroidCalculatorClipboard(@Nonnull Application application) {
 		this.context = application;
 	}
 
@@ -30,13 +30,13 @@ public class AndroidCalculatorClipboard implements CalculatorClipboard {
 	}
 
 	@Override
-	public void setText(@NotNull String text) {
+	public void setText(@Nonnull String text) {
 		final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
 		clipboard.setText(text);
 	}
 
 	@Override
-	public void setText(@NotNull CharSequence text) {
+	public void setText(@Nonnull CharSequence text) {
 		final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
 		clipboard.setText(text);
 	}

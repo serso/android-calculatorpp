@@ -6,8 +6,8 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.core.R;
 import org.solovyev.android.list.ListItem;
@@ -18,16 +18,16 @@ public class PlotFunctionListItem implements ListItem {
 
 	private static final String PREFIX = "plot_function_";
 
-	@NotNull
+	@Nonnull
 	private PlotFunction plotFunction;
 
-	@NotNull
+	@Nonnull
 	private ViewBuilder<View> viewBuilder;
 
-	@NotNull
+	@Nonnull
 	private String tag;
 
-	public PlotFunctionListItem(@NotNull PlotFunction plotFunction) {
+	public PlotFunctionListItem(@Nonnull PlotFunction plotFunction) {
 		this.plotFunction = plotFunction;
 		this.viewBuilder = ViewFromLayoutBuilder.newInstance(R.layout.cpp_plot_function_list_item);
 		this.tag = PREFIX + plotFunction.getXyFunction().getExpressionString();
@@ -45,9 +45,9 @@ public class PlotFunctionListItem implements ListItem {
 		return null;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
-	public View updateView(@NotNull Context context, @NotNull View view) {
+	public View updateView(@Nonnull Context context, @Nonnull View view) {
 		final Object viewTag = view.getTag();
 		if (viewTag instanceof String) {
 			if (this.tag.equals(viewTag)) {
@@ -63,19 +63,19 @@ public class PlotFunctionListItem implements ListItem {
 		return build(context);
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
-	public View build(@NotNull Context context) {
+	public View build(@Nonnull Context context) {
 		final View root = buildView(context);
 		fillView(root, context);
 		return root;
 	}
 
-	private View buildView(@NotNull Context context) {
+	private View buildView(@Nonnull Context context) {
 		return viewBuilder.build(context);
 	}
 
-	private void fillView(@NotNull View root, @NotNull final Context context) {
+	private void fillView(@Nonnull View root, @Nonnull final Context context) {
 		root.setTag(tag);
 
 		final CalculatorPlotter plotter = Locator.getInstance().getPlotter();

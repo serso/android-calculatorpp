@@ -3,8 +3,8 @@ package org.solovyev.android.calculator.model;
 import jscl.util.ExpressionGenerator;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -90,8 +90,8 @@ public class FunctionsTest {
 
 	}
 
-	@NotNull
-	private Functions testXml(@NotNull Functions in, @Nullable String expectedXml) throws Exception {
+	@Nonnull
+	private Functions testXml(@Nonnull Functions in, @Nullable String expectedXml) throws Exception {
 		final String actualXml = toXml(in);
 
 		if (expectedXml != null) {
@@ -142,8 +142,8 @@ public class FunctionsTest {
 		testXml(in, null);
 	}
 
-	private void assertEquals(@NotNull final AFunction expected,
-							  @NotNull AFunction actual) {
+	private void assertEquals(@Nonnull final AFunction expected,
+							  @Nonnull AFunction actual) {
 		//Assert.assertEquals(expected.getId(), actual.getId());
 		Assert.assertEquals(expected.getContent(), actual.getContent());
 		Assert.assertEquals(expected.getDescription(), actual.getDescription());

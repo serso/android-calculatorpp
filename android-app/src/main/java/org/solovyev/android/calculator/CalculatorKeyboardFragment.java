@@ -7,8 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.actionbarsherlock.app.SherlockFragment;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 
 /**
@@ -18,10 +18,10 @@ import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
  */
 public class CalculatorKeyboardFragment extends SherlockFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-	@NotNull
+	@Nonnull
 	private CalculatorPreferences.Gui.Theme theme;
 
-	@NotNull
+	@Nonnull
 	private CalculatorFragmentHelper fragmentHelper;
 
 	@Override
@@ -83,7 +83,7 @@ public class CalculatorKeyboardFragment extends SherlockFragment implements Shar
 
 	}
 
-	/*    private static void setMarginsForView(@Nullable View view, int marginLeft, int marginBottom, @NotNull Context context) {
+	/*    private static void setMarginsForView(@Nullable View view, int marginLeft, int marginBottom, @Nonnull Context context) {
 		// IMPORTANT: this is workaround for probably android bug
     	// currently margin values set in styles are not applied for some reasons to the views (using include tag) => set them manually
 
@@ -134,12 +134,12 @@ public class CalculatorKeyboardFragment extends SherlockFragment implements Shar
 		return (AndroidCalculatorDisplayView) Locator.getInstance().getDisplay().getView();
 	}
 
-	@NotNull
+	@Nonnull
 	private Calculator getCalculator() {
 		return Locator.getInstance().getCalculator();
 	}
 
-	@NotNull
+	@Nonnull
 	private static CalculatorKeyboard getKeyboard() {
 		return Locator.getInstance().getKeyboard();
 	}

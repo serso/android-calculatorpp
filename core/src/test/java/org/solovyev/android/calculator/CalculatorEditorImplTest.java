@@ -1,7 +1,7 @@
 package org.solovyev.android.calculator;
 
 import junit.framework.Assert;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,7 +12,7 @@ import org.junit.Test;
  */
 public class CalculatorEditorImplTest extends AbstractCalculatorTest {
 
-	@NotNull
+	@Nonnull
 	private CalculatorEditor calculatorEditor;
 
 	@Before

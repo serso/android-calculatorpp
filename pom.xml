@@ -34,7 +34,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<android.common.version>1.1.1-SNAPSHOT</android.common.version>
-		<common.version>1.0.4</common.version>
+		<common.version>1.0.5-SNAPSHOT</common.version>
 	</properties>
 
 	<dependencyManagement>
@@ -182,12 +182,6 @@
 			</dependency>
 
 			<dependency>
-				<groupId>com.intellij</groupId>
-				<artifactId>annotations</artifactId>
-				<version>7.0.3</version>
-			</dependency>
-
-			<dependency>
 				<groupId>com.google.android</groupId>
 				<artifactId>android</artifactId>
 				<version>4.0.1.2</version>
@@ -247,12 +241,12 @@
 				<version>1.0.2</version>
 				<executions>
 					<execution>
-						<id>@NotNull Instrumentation</id>
+						<id>@Nonnull Instrumentation</id>
 						<goals>
 							<goal>instrument</goal>
 						</goals>
 						<!--compile phase instead of process-classes because of proguard.
-						@NotNull instrumentation will be done now after compilation and before proguard-->
+						@Nonnull instrumentation will be done now after compilation and before proguard-->
 						<phase>compile</phase>
 					</execution>
 				</executions>

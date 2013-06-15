@@ -2,7 +2,7 @@ package org.solovyev.android.calculator;
 
 import android.app.Activity;
 import jscl.NumeralBase;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.android.calculator.units.CalculatorNumeralBase;
 import org.solovyev.android.view.drag.DirectionDragButton;
 import org.solovyev.android.view.drag.DragDirection;
@@ -19,7 +19,7 @@ import java.util.List;
 public enum AndroidNumeralBase {
 
 	bin(CalculatorNumeralBase.bin) {
-		@NotNull
+		@Nonnull
 		@Override
 		public List<Integer> getButtonIds() {
 			return Arrays.asList(R.id.cpp_button_0, R.id.cpp_button_1);
@@ -27,7 +27,7 @@ public enum AndroidNumeralBase {
 	},
 
 	oct(CalculatorNumeralBase.oct) {
-		@NotNull
+		@Nonnull
 		@Override
 		public List<Integer> getButtonIds() {
 			final List<Integer> result = new ArrayList<Integer>(bin.getButtonIds());
@@ -37,7 +37,7 @@ public enum AndroidNumeralBase {
 	},
 
 	dec(CalculatorNumeralBase.dec) {
-		@NotNull
+		@Nonnull
 		@Override
 		public List<Integer> getButtonIds() {
 			final List<Integer> result = new ArrayList<Integer>(oct.getButtonIds());
@@ -48,17 +48,17 @@ public enum AndroidNumeralBase {
 
 	hex(CalculatorNumeralBase.hex) {
 
-		@NotNull
+		@Nonnull
 		private List<Integer> specialHexButtonIds = Arrays.asList(R.id.cpp_button_1, R.id.cpp_button_2, R.id.cpp_button_3, R.id.cpp_button_4, R.id.cpp_button_5, R.id.cpp_button_6);
 
-		@NotNull
+		@Nonnull
 		@Override
 		public List<Integer> getButtonIds() {
 			return dec.getButtonIds();
 		}
 
 		@Override
-		protected void toggleButton(boolean show, @NotNull DirectionDragButton button) {
+		protected void toggleButton(boolean show, @Nonnull DirectionDragButton button) {
 			super.toggleButton(show, button);
 			if (specialHexButtonIds.contains(button.getId())) {
 				button.showDirectionText(show, DragDirection.left);
@@ -67,17 +67,17 @@ public enum AndroidNumeralBase {
 		}
 	};
 
-	@NotNull
+	@Nonnull
 	private final CalculatorNumeralBase calculatorNumeralBase;
 
-	private AndroidNumeralBase(@NotNull CalculatorNumeralBase calculatorNumeralBase) {
+	private AndroidNumeralBase(@Nonnull CalculatorNumeralBase calculatorNumeralBase) {
 		this.calculatorNumeralBase = calculatorNumeralBase;
 	}
 
-	@NotNull
+	@Nonnull
 	public abstract List<Integer> getButtonIds();
 
-	public void toggleButtons(boolean show, @NotNull Activity activity) {
+	public void toggleButtons(boolean show, @Nonnull Activity activity) {
 		for (Integer buttonId : getButtonIds()) {
 			final DirectionDragButton button = (DirectionDragButton) activity.findViewById(buttonId);
 			if (button != null) {
@@ -86,18 +86,18 @@ public enum AndroidNumeralBase {
 		}
 	}
 
-	protected void toggleButton(boolean show, @NotNull DirectionDragButton button) {
+	protected void toggleButton(boolean show, @Nonnull DirectionDragButton button) {
 		button.setShowText(show);
 		button.invalidate();
 	}
 
-	@NotNull
+	@Nonnull
 	public NumeralBase getNumeralBase() {
 		return calculatorNumeralBase.getNumeralBase();
 	}
 
-	@NotNull
-	public static AndroidNumeralBase valueOf(@NotNull NumeralBase nb) {
+	@Nonnull
+	public static AndroidNumeralBase valueOf(@Nonnull NumeralBase nb) {
 		for (AndroidNumeralBase androidNumeralBase : values()) {
 			if (androidNumeralBase.calculatorNumeralBase.getNumeralBase() == nb) {
 				return androidNumeralBase;

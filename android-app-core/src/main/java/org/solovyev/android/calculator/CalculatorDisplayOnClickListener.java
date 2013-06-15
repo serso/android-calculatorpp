@@ -2,7 +2,7 @@ package org.solovyev.android.calculator;
 
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.android.menu.ContextMenuBuilder;
 import org.solovyev.android.menu.ListContextMenu;
 
@@ -16,10 +16,10 @@ import java.util.List;
  */
 public class CalculatorDisplayOnClickListener implements View.OnClickListener {
 
-	@NotNull
+	@Nonnull
 	private final FragmentActivity activity;
 
-	public CalculatorDisplayOnClickListener(@NotNull FragmentActivity activity) {
+	public CalculatorDisplayOnClickListener(@Nonnull FragmentActivity activity) {
 		this.activity = activity;
 	}
 

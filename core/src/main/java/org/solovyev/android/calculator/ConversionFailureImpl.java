@@ -1,6 +1,6 @@
 package org.solovyev.android.calculator;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * User: Solovyev_S
@@ -9,14 +9,14 @@ import org.jetbrains.annotations.NotNull;
  */
 public class ConversionFailureImpl implements ConversionFailure {
 
-	@NotNull
+	@Nonnull
 	private Exception exception;
 
-	public ConversionFailureImpl(@NotNull Exception exception) {
+	public ConversionFailureImpl(@Nonnull Exception exception) {
 		this.exception = exception;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public Exception getException() {
 		return this.exception;

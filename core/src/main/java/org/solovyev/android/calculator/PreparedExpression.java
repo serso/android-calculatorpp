@@ -7,7 +7,7 @@
 package org.solovyev.android.calculator;
 
 import jscl.math.function.IConstant;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.List;
 
@@ -18,18 +18,18 @@ import java.util.List;
  */
 public class PreparedExpression implements CharSequence {
 
-	@NotNull
+	@Nonnull
 	private String expression;
 
-	@NotNull
+	@Nonnull
 	private List<IConstant> undefinedVars;
 
-	public PreparedExpression(@NotNull String expression, @NotNull List<IConstant> undefinedVars) {
+	public PreparedExpression(@Nonnull String expression, @Nonnull List<IConstant> undefinedVars) {
 		this.expression = expression;
 		this.undefinedVars = undefinedVars;
 	}
 
-	@NotNull
+	@Nonnull
 	public String getExpression() {
 		return expression;
 	}
@@ -38,7 +38,7 @@ public class PreparedExpression implements CharSequence {
 		return !this.undefinedVars.isEmpty();
 	}
 
-	@NotNull
+	@Nonnull
 	public List<IConstant> getUndefinedVars() {
 		return undefinedVars;
 	}

@@ -4,7 +4,7 @@ import android.os.Bundle;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nullable;
 import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.CalculatorListFragment;
 import org.solovyev.android.calculator.Locator;

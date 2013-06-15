@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import jscl.AngleUnit;
 import jscl.NumeralBase;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 import org.solovyev.android.msg.AndroidMessage;
 import org.solovyev.common.msg.MessageType;
@@ -23,10 +23,10 @@ public class AndroidCalculatorPreferenceService implements CalculatorPreferenceS
 	// one hour
 	private static final Long PREFERRED_PREFS_INTERVAL_TIME = 1000L * 60L * 60L;
 
-	@NotNull
+	@Nonnull
 	private final Application application;
 
-	public AndroidCalculatorPreferenceService(@NotNull Application application) {
+	public AndroidCalculatorPreferenceService(@Nonnull Application application) {
 		this.application = application;
 	}
 
@@ -58,7 +58,7 @@ public class AndroidCalculatorPreferenceService implements CalculatorPreferenceS
 		}
 	}
 
-	private boolean isTimeForCheck(@NotNull Long currentTime, @NotNull SharedPreferences preferences) {
+	private boolean isTimeForCheck(@Nonnull Long currentTime, @Nonnull SharedPreferences preferences) {
 		final Long lastPreferredPreferencesCheckTime = CalculatorPreferences.Calculations.lastPreferredPreferencesCheck.getPreference(preferences);
 
 		return currentTime - lastPreferredPreferencesCheckTime > PREFERRED_PREFS_INTERVAL_TIME;
@@ -71,7 +71,7 @@ public class AndroidCalculatorPreferenceService implements CalculatorPreferenceS
 	}
 
 	@Override
-	public void setAngleUnits(@NotNull AngleUnit angleUnit) {
+	public void setAngleUnits(@Nonnull AngleUnit angleUnit) {
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(application);
 		AndroidCalculatorEngine.Preferences.angleUnit.putPreference(preferences, angleUnit);
 
@@ -85,7 +85,7 @@ public class AndroidCalculatorPreferenceService implements CalculatorPreferenceS
 	}
 
 	@Override
-	public void setNumeralBase(@NotNull NumeralBase numeralBase) {
+	public void setNumeralBase(@Nonnull NumeralBase numeralBase) {
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(application);
 		AndroidCalculatorEngine.Preferences.numeralBase.putPreference(preferences, numeralBase);
 

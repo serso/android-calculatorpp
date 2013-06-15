@@ -1,6 +1,6 @@
 package org.solovyev.android.calculator;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -9,17 +9,17 @@ import org.jetbrains.annotations.NotNull;
  */
 public class ChangeImpl<T> implements Change<T> {
 
-	@NotNull
+	@Nonnull
 	private T oldValue;
 
-	@NotNull
+	@Nonnull
 	private T newValue;
 
 	private ChangeImpl() {
 	}
 
-	@NotNull
-	public static <T> Change<T> newInstance(@NotNull T oldValue, @NotNull T newValue) {
+	@Nonnull
+	public static <T> Change<T> newInstance(@Nonnull T oldValue, @Nonnull T newValue) {
 		final ChangeImpl<T> result = new ChangeImpl<T>();
 
 		result.oldValue = oldValue;
@@ -28,13 +28,13 @@ public class ChangeImpl<T> implements Change<T> {
 		return result;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public T getOldValue() {
 		return this.oldValue;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public T getNewValue() {
 		return this.newValue;

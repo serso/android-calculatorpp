@@ -7,8 +7,8 @@
 package org.solovyev.android.calculator.model;
 
 import jscl.math.function.IFunction;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
@@ -47,22 +47,22 @@ public class AFunction implements IFunction, MathPersistenceEntity, Serializable
 	private Integer id;
 
 	@Element
-	@NotNull
+	@Nonnull
 	private String name;
 
 	@Element(name = "body")
-	@NotNull
+	@Nonnull
 	private String content;
 
 	@ElementList(type = String.class)
-	@NotNull
+	@Nonnull
 	private List<String> parameterNames = new ArrayList<String>();
 
 	@Element
 	private boolean system;
 
 	@Element(required = false)
-	@NotNull
+	@Nonnull
 	private String description = "";
 
 	/*
@@ -80,7 +80,7 @@ public class AFunction implements IFunction, MathPersistenceEntity, Serializable
 		this.id = id;
 	}
 
-	public static AFunction fromIFunction(@NotNull IFunction function) {
+	public static AFunction fromIFunction(@Nonnull IFunction function) {
 		final AFunction result = new AFunction();
 
 		copy(result, function);
@@ -97,7 +97,7 @@ public class AFunction implements IFunction, MathPersistenceEntity, Serializable
 	*/
 
 	@Override
-	public void copy(@NotNull MathEntity mathEntity) {
+	public void copy(@Nonnull MathEntity mathEntity) {
 		if (mathEntity instanceof IFunction) {
 			copy(this, (IFunction) mathEntity);
 		} else {
@@ -105,8 +105,8 @@ public class AFunction implements IFunction, MathPersistenceEntity, Serializable
 		}
 	}
 
-	private static void copy(@NotNull AFunction target,
-							 @NotNull IFunction source) {
+	private static void copy(@Nonnull AFunction target,
+							 @Nonnull IFunction source) {
 		target.name = source.getName();
 		target.content = source.getContent();
 		target.description = Strings.getNotEmpty(source.getDescription(), "");
@@ -139,7 +139,7 @@ public class AFunction implements IFunction, MathPersistenceEntity, Serializable
 	**********************************************************************
 	*/
 
-	@NotNull
+	@Nonnull
 	public String getName() {
 		return name;
 	}
@@ -149,7 +149,7 @@ public class AFunction implements IFunction, MathPersistenceEntity, Serializable
 		return system;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public Integer getId() {
 		return this.id;
@@ -161,35 +161,35 @@ public class AFunction implements IFunction, MathPersistenceEntity, Serializable
 	}
 
 	@Override
-	public void setId(@NotNull Integer id) {
+	public void setId(@Nonnull Integer id) {
 		this.id = id;
 	}
 
-	public void setName(@NotNull String name) {
+	public void setName(@Nonnull String name) {
 		this.name = name;
 	}
 
-	@NotNull
+	@Nonnull
 	public String getContent() {
 		return content;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public String getDescription() {
 		return this.description;
 	}
 
-	public void setContent(@NotNull String content) {
+	public void setContent(@Nonnull String content) {
 		this.content = content;
 	}
 
-	@NotNull
+	@Nonnull
 	public List<String> getParameterNames() {
 		return parameterNames;
 	}
 
-	public void setParameterNames(@NotNull List<String> parameterNames) {
+	public void setParameterNames(@Nonnull List<String> parameterNames) {
 		this.parameterNames = parameterNames;
 	}
 
@@ -203,7 +203,7 @@ public class AFunction implements IFunction, MathPersistenceEntity, Serializable
 
 	public static class Builder implements MathEntityBuilder<AFunction> {
 
-		@NotNull
+		@Nonnull
 		private String name;
 
 		@Nullable
@@ -217,13 +217,13 @@ public class AFunction implements IFunction, MathPersistenceEntity, Serializable
 		@Nullable
 		private Integer id;
 
-		@NotNull
+		@Nonnull
 		private List<String> parameterNames = Collections.emptyList();
 
 		public Builder() {
 		}
 
-		public Builder(@NotNull IFunction function) {
+		public Builder(@Nonnull IFunction function) {
 			this.name = function.getName();
 			this.value = function.getContent();
 			this.system = function.isSystem();
@@ -234,21 +234,21 @@ public class AFunction implements IFunction, MathPersistenceEntity, Serializable
 			this.parameterNames = new ArrayList<String>(function.getParameterNames());
 		}
 
-		public Builder(@NotNull String name,
-					   @NotNull String value,
-					   @NotNull List<String> parameterNames) {
+		public Builder(@Nonnull String name,
+					   @Nonnull String value,
+					   @Nonnull List<String> parameterNames) {
 			this.name = name;
 			this.value = value;
 			this.parameterNames = parameterNames;
 		}
 
-		@NotNull
-		public Builder setName(@NotNull String name) {
+		@Nonnull
+		public Builder setName(@Nonnull String name) {
 			this.name = name;
 			return this;
 		}
 
-		@NotNull
+		@Nonnull
 		public Builder setValue(@Nullable String value) {
 			this.value = value;
 			return this;
@@ -259,17 +259,17 @@ public class AFunction implements IFunction, MathPersistenceEntity, Serializable
 			return this;
 		}
 
-		public void setParameterNames(@NotNull List<String> parameterNames) {
+		public void setParameterNames(@Nonnull List<String> parameterNames) {
 			this.parameterNames = parameterNames;
 		}
 
-		@NotNull
+		@Nonnull
 		public Builder setDescription(@Nullable String description) {
 			this.description = description;
 			return this;
 		}
 
-		@NotNull
+		@Nonnull
 		public AFunction create() throws AFunction.Builder.CreationException {
 			final AFunction result;
 			if (id != null) {
@@ -293,41 +293,41 @@ public class AFunction implements IFunction, MathPersistenceEntity, Serializable
 
 		public static class CreationException extends RuntimeException implements Message {
 
-			@NotNull
+			@Nonnull
 			private final CalculatorParseException message;
 
-			public CreationException(@NotNull CalculatorParseException cause) {
+			public CreationException(@Nonnull CalculatorParseException cause) {
 				super(cause);
 				message = cause;
 			}
 
-			@NotNull
+			@Nonnull
 			@Override
 			public String getMessageCode() {
 				return message.getMessageCode();
 			}
 
-			@NotNull
+			@Nonnull
 			@Override
 			public List<Object> getParameters() {
 				return message.getParameters();
 			}
 
-			@NotNull
+			@Nonnull
 			@Override
 			public MessageLevel getMessageLevel() {
 				return message.getMessageLevel();
 			}
 
 			@Override
-			@NotNull
+			@Nonnull
 			public String getLocalizedMessage() {
 				return message.getLocalizedMessage();
 			}
 
-			@NotNull
+			@Nonnull
 			@Override
-			public String getLocalizedMessage(@NotNull Locale locale) {
+			public String getLocalizedMessage(@Nonnull Locale locale) {
 				return message.getLocalizedMessage(locale);
 			}
 		}

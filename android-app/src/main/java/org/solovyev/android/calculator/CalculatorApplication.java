@@ -12,7 +12,7 @@ import net.robotmedia.billing.model.BillingDB;
 import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.android.Android;
 import org.solovyev.android.App;
 import org.solovyev.android.ServiceLocator;
@@ -59,7 +59,7 @@ public class CalculatorApplication extends android.app.Application implements Sh
 
 	public static final String ADMOB_USER_ID = "a14f02cf9c80cbc";
 
-	@NotNull
+	@Nonnull
 	private static CalculatorApplication instance;
 
 	/*
@@ -70,10 +70,10 @@ public class CalculatorApplication extends android.app.Application implements Sh
 	**********************************************************************
 	*/
 
-	@NotNull
+	@Nonnull
 	private final List<CalculatorEventListener> listeners = new ArrayList<CalculatorEventListener>();
 
-	@NotNull
+	@Nonnull
 	protected final Handler uiHandler = new Handler();
 
 	/*
@@ -171,32 +171,32 @@ public class CalculatorApplication extends android.app.Application implements Sh
 		Locator.getInstance().getNotifier().showDebugMessage(TAG, "Application started!");
 	}
 
-	private void setTheme(@NotNull SharedPreferences preferences) {
+	private void setTheme(@Nonnull SharedPreferences preferences) {
 		final CalculatorPreferences.Gui.Theme theme = CalculatorPreferences.Gui.getTheme(preferences);
 		setTheme(theme.getThemeId());
 	}
 
-	@NotNull
-	public CalculatorActivityHelper createActivityHelper(int layoutResId, @NotNull String logTag) {
+	@Nonnull
+	public CalculatorActivityHelper createActivityHelper(int layoutResId, @Nonnull String logTag) {
 		return new CalculatorActivityHelperImpl(layoutResId, logTag);
 	}
 
-	@NotNull
+	@Nonnull
 	public CalculatorFragmentHelper createFragmentHelper(int layoutId) {
 		return new CalculatorFragmentHelperImpl(layoutId);
 	}
 
-	@NotNull
+	@Nonnull
 	public CalculatorFragmentHelper createFragmentHelper(int layoutId, int titleResId) {
 		return new CalculatorFragmentHelperImpl(layoutId, titleResId);
 	}
 
-	@NotNull
+	@Nonnull
 	public CalculatorFragmentHelper createFragmentHelper(int layoutId, int titleResId, boolean listenersOnCreate) {
 		return new CalculatorFragmentHelperImpl(layoutId, titleResId, listenersOnCreate);
 	}
 
-	@NotNull
+	@Nonnull
 	public Handler getUiHandler() {
 		return uiHandler;
 	}
@@ -209,12 +209,12 @@ public class CalculatorApplication extends android.app.Application implements Sh
 	**********************************************************************
 	*/
 
-	@NotNull
+	@Nonnull
 	public static CalculatorApplication getInstance() {
 		return instance;
 	}
 
-	public static boolean isMonkeyRunner(@NotNull Context context) {
+	public static boolean isMonkeyRunner(@Nonnull Context context) {
 		// NOTE: this code is only for monkeyrunner
 		return context.checkCallingOrSelfPermission(android.Manifest.permission.DISABLE_KEYGUARD) == PackageManager.PERMISSION_GRANTED;
 	}

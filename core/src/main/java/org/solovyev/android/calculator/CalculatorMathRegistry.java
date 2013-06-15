@@ -6,8 +6,8 @@
 
 package org.solovyev.android.calculator;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.math.MathRegistry;
 
@@ -19,10 +19,10 @@ import org.solovyev.common.math.MathRegistry;
 public interface CalculatorMathRegistry<T extends MathEntity> extends MathRegistry<T> {
 
 	@Nullable
-	String getDescription(@NotNull String mathEntityName);
+	String getDescription(@Nonnull String mathEntityName);
 
 	@Nullable
-	String getCategory(@NotNull T mathEntity);
+	String getCategory(@Nonnull T mathEntity);
 
 	void load();
 

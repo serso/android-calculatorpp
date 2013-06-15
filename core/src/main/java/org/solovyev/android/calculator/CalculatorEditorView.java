@@ -1,6 +1,6 @@
 package org.solovyev.android.calculator;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * User: Solovyev_S
@@ -9,5 +9,5 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface CalculatorEditorView {
 
-	void setState(@NotNull CalculatorEditorViewState viewState);
+	void setState(@Nonnull CalculatorEditorViewState viewState);
 }

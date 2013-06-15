@@ -7,7 +7,7 @@
 package org.solovyev.android.calculator.text;
 
 import jscl.math.Generic;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.android.calculator.CalculatorParseException;
 
 /**
@@ -19,9 +19,9 @@ public enum DummyTextProcessor implements TextProcessor<String, Generic> {
 
 	instance;
 
-	@NotNull
+	@Nonnull
 	@Override
-	public String process(@NotNull Generic s) throws CalculatorParseException {
+	public String process(@Nonnull Generic s) throws CalculatorParseException {
 		return s.toString();
 	}
 }

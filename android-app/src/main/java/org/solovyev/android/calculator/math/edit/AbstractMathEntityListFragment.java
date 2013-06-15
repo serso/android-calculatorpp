@@ -16,8 +16,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.actionbarsherlock.app.SherlockListFragment;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.menu.AMenuItem;
 import org.solovyev.android.menu.ContextMenuBuilder;
@@ -67,13 +67,13 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
 	@Nullable
 	private String category;
 
-	@NotNull
+	@Nonnull
 	private final CalculatorFragmentHelper fragmentHelper;
 
-	@NotNull
+	@Nonnull
 	private final Handler uiHandler = new Handler();
 
-	protected AbstractMathEntityListFragment(@NotNull CalculatorFragmentType fragmentType) {
+	protected AbstractMathEntityListFragment(@Nonnull CalculatorFragmentType fragmentType) {
 		fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(fragmentType.getDefaultLayoutId(), fragmentType.getDefaultTitleResId());
 	}
 
@@ -142,8 +142,8 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
 		super.onDestroy();
 	}
 
-	@NotNull
-	protected abstract List<LabeledMenuItem<T>> getMenuItemsOnLongClick(@NotNull T item);
+	@Nonnull
+	protected abstract List<LabeledMenuItem<T>> getMenuItemsOnLongClick(@Nonnull T item);
 
 	@Override
 	public void onPause() {
@@ -164,7 +164,7 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
 		sort();
 	}
 
-	@NotNull
+	@Nonnull
 	private List<T> getMathEntitiesByCategory() {
 		final List<T> result = getMathEntities();
 
@@ -182,14 +182,14 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
 		return t != null && (category == null || Objects.areEqual(getMathEntityCategory(t), category));
 	}
 
-	@NotNull
+	@Nonnull
 	protected abstract MathEntityDescriptionGetter getDescriptionGetter();
 
-	@NotNull
+	@Nonnull
 	protected abstract List<T> getMathEntities();
 
 	@Nullable
-	abstract String getMathEntityCategory(@NotNull T t);
+	abstract String getMathEntityCategory(@Nonnull T t);
 
 	protected void sort() {
 		final MathEntityArrayAdapter<T> localAdapter = adapter;
@@ -207,14 +207,14 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
 
 	protected static class MathEntityArrayAdapter<T extends MathEntity> extends ArrayAdapter<T> {
 
-		@NotNull
+		@Nonnull
 		private final MathEntityDescriptionGetter descriptionGetter;
 
-		private MathEntityArrayAdapter(@NotNull MathEntityDescriptionGetter descriptionGetter,
-									   @NotNull Context context,
+		private MathEntityArrayAdapter(@Nonnull MathEntityDescriptionGetter descriptionGetter,
+									   @Nonnull Context context,
 									   int resource,
 									   int textViewResourceId,
-									   @NotNull List<T> objects) {
+									   @Nonnull List<T> objects) {
 
 			super(context, resource, textViewResourceId, objects);
 			this.descriptionGetter = descriptionGetter;
@@ -236,7 +236,7 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
 			return result;
 		}
 
-		private void fillView(int position, @NotNull ViewGroup result) {
+		private void fillView(int position, @Nonnull ViewGroup result) {
 			final T mathEntity = getItem(position);
 
 			final TextView text = (TextView) result.findViewById(R.id.math_entity_text);
@@ -256,15 +256,15 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
 
 	protected static class MathEntityDescriptionGetterImpl implements MathEntityDescriptionGetter {
 
-		@NotNull
+		@Nonnull
 		private final CalculatorMathRegistry<?> mathRegistry;
 
-		public MathEntityDescriptionGetterImpl(@NotNull CalculatorMathRegistry<?> mathRegistry) {
+		public MathEntityDescriptionGetterImpl(@Nonnull CalculatorMathRegistry<?> mathRegistry) {
 			this.mathRegistry = mathRegistry;
 		}
 
 		@Override
-		public String getDescription(@NotNull Context context, @NotNull String mathEntityName) {
+		public String getDescription(@Nonnull Context context, @Nonnull String mathEntityName) {
 			return this.mathRegistry.getDescription(mathEntityName);
 		}
 	}
@@ -272,16 +272,16 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
 	protected static interface MathEntityDescriptionGetter {
 
 		@Nullable
-		String getDescription(@NotNull Context context, @NotNull String mathEntityName);
+		String getDescription(@Nonnull Context context, @Nonnull String mathEntityName);
 	}
 
-	public void addToAdapter(@NotNull T mathEntity) {
+	public void addToAdapter(@Nonnull T mathEntity) {
 		if (this.adapter != null) {
 			this.adapter.add(mathEntity);
 		}
 	}
 
-	public void removeFromAdapter(@NotNull T mathEntity) {
+	public void removeFromAdapter(@Nonnull T mathEntity) {
 		if (this.adapter != null) {
 			this.adapter.remove(mathEntity);
 		}
@@ -298,7 +298,7 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
 		return adapter;
 	}
 
-	@NotNull
+	@Nonnull
 	protected Handler getUiHandler() {
 		return uiHandler;
 	}
@@ -311,12 +311,12 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
 	**********************************************************************
 	*/
 
-	static void createTab(@NotNull Context context,
-						  @NotNull TabHost tabHost,
-						  @NotNull String tabId,
-						  @NotNull String categoryId,
+	static void createTab(@Nonnull Context context,
+						  @Nonnull TabHost tabHost,
+						  @Nonnull String tabId,
+						  @Nonnull String categoryId,
 						  int tabCaptionId,
-						  @NotNull Class<? extends Activity> activityClass,
+						  @Nonnull Class<? extends Activity> activityClass,
 						  @Nullable Intent parentIntent) {
 
 		TabHost.TabSpec spec;
@@ -336,18 +336,18 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
 		tabHost.addTab(spec);
 	}
 
-	@NotNull
-	public static Bundle createBundleFor(@NotNull String categoryId) {
+	@Nonnull
+	public static Bundle createBundleFor(@Nonnull String categoryId) {
 		final Bundle result = new Bundle(1);
 		putCategory(result, categoryId);
 		return result;
 	}
 
-	static void putCategory(@NotNull Bundle bundle, @NotNull String categoryId) {
+	static void putCategory(@Nonnull Bundle bundle, @Nonnull String categoryId) {
 		bundle.putString(MATH_ENTITY_CATEGORY_EXTRA_STRING, categoryId);
 	}
 
 	@Override
-	public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
+	public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
 	}
 }

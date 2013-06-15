@@ -1,7 +1,7 @@
 package org.solovyev.android.calculator.history;
 
 import junit.framework.Assert;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.solovyev.android.calculator.CalculatorDisplayViewStateImpl;
@@ -47,7 +47,7 @@ public class CalculatorHistoryImplTest {
 		Assert.assertEquals("123+3", states.get(0).getEditorState().getText());
 	}
 
-	private void addState(@NotNull CalculatorHistory calculatorHistory, @NotNull String text) {
+	private void addState(@Nonnull CalculatorHistory calculatorHistory, @Nonnull String text) {
 		calculatorHistory.addState(CalculatorHistoryState.newInstance(CalculatorEditorViewStateImpl.newInstance(text, 3), CalculatorDisplayViewStateImpl.newDefaultInstance()));
 	}
 }

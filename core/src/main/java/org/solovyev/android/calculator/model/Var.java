@@ -9,8 +9,8 @@ package org.solovyev.android.calculator.model;
 import jscl.math.function.Constant;
 import jscl.math.function.ExtendedConstant;
 import jscl.math.function.IConstant;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 import org.simpleframework.xml.Transient;
@@ -32,7 +32,7 @@ public class Var implements IConstant, MathPersistenceEntity {
 	private Integer id;
 
 	@Element
-	@NotNull
+	@Nonnull
 	private String name;
 
 	@Element(required = false)
@@ -51,7 +51,7 @@ public class Var implements IConstant, MathPersistenceEntity {
 
 	public static class Builder implements JBuilder<Var>, MathEntityBuilder<Var> {
 
-		@NotNull
+		@Nonnull
 		private String name;
 
 		@Nullable
@@ -68,7 +68,7 @@ public class Var implements IConstant, MathPersistenceEntity {
 		public Builder() {
 		}
 
-		public Builder(@NotNull Var var) {
+		public Builder(@Nonnull Var var) {
 			this.name = var.name;
 			this.value = var.value;
 			this.system = var.system;
@@ -76,7 +76,7 @@ public class Var implements IConstant, MathPersistenceEntity {
 			this.id = var.id;
 		}
 
-		public Builder(@NotNull IConstant iConstant) {
+		public Builder(@Nonnull IConstant iConstant) {
 			this.name = iConstant.getName();
 
 			this.value = iConstant.getValue();
@@ -88,23 +88,23 @@ public class Var implements IConstant, MathPersistenceEntity {
 			}
 		}
 
-		public Builder(@NotNull String name, @NotNull Double value) {
+		public Builder(@Nonnull String name, @Nonnull Double value) {
 			this(name, String.valueOf(value));
 		}
 
-		public Builder(@NotNull String name, @Nullable String value) {
+		public Builder(@Nonnull String name, @Nullable String value) {
 			this.name = name;
 			this.value = value;
 		}
 
 
-		@NotNull
-		public Builder setName(@NotNull String name) {
+		@Nonnull
+		public Builder setName(@Nonnull String name) {
 			this.name = name;
 			return this;
 		}
 
-		@NotNull
+		@Nonnull
 		public Builder setValue(@Nullable String value) {
 			this.value = value;
 			return this;
@@ -115,13 +115,13 @@ public class Var implements IConstant, MathPersistenceEntity {
 			return this;
 		}
 
-		@NotNull
+		@Nonnull
 		public Builder setDescription(@Nullable String description) {
 			this.description = description;
 			return this;
 		}
 
-		@NotNull
+		@Nonnull
 		public Var create() {
 			final Var result;
 			if (id != null) {
@@ -142,11 +142,11 @@ public class Var implements IConstant, MathPersistenceEntity {
 	private Var() {
 	}
 
-	private Var(@NotNull Integer id) {
+	private Var(@Nonnull Integer id) {
 		this.id = id;
 	}
 
-	public void copy(@NotNull MathEntity o) {
+	public void copy(@Nonnull MathEntity o) {
 		if (o instanceof IConstant) {
 			final IConstant that = ((IConstant) o);
 			this.name = that.getName();
@@ -179,7 +179,7 @@ public class Var implements IConstant, MathPersistenceEntity {
 		return value;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public String toJava() {
 		return String.valueOf(value);
@@ -189,7 +189,7 @@ public class Var implements IConstant, MathPersistenceEntity {
 		return system;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public Integer getId() {
 		return this.id;
@@ -201,16 +201,16 @@ public class Var implements IConstant, MathPersistenceEntity {
 	}
 
 	@Override
-	public void setId(@NotNull Integer id) {
+	public void setId(@Nonnull Integer id) {
 		this.id = id;
 	}
 
-	@NotNull
+	@Nonnull
 	public String getName() {
 		return name;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public Constant getConstant() {
 		if (constant == null) {

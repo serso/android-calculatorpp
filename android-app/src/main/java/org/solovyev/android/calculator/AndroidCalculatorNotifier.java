@@ -3,8 +3,8 @@ package org.solovyev.android.calculator;
 import android.app.Application;
 import android.os.Handler;
 import android.widget.Toast;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.Threads;
 import org.solovyev.android.msg.AndroidMessage;
 import org.solovyev.common.msg.Message;
@@ -19,19 +19,19 @@ import java.util.List;
  */
 public class AndroidCalculatorNotifier implements CalculatorNotifier {
 
-	@NotNull
+	@Nonnull
 	private final Application application;
 
-	@NotNull
+	@Nonnull
 	private final Handler uiHandler = new Handler();
 
 	private final boolean showDebugMessages;
 
-	public AndroidCalculatorNotifier(@NotNull Application application) {
+	public AndroidCalculatorNotifier(@Nonnull Application application) {
 		this(application, false);
 	}
 
-	public AndroidCalculatorNotifier(@NotNull Application application, boolean showDebugMessages) {
+	public AndroidCalculatorNotifier(@Nonnull Application application, boolean showDebugMessages) {
 		assert Threads.isUiThread();
 
 		this.application = application;
@@ -39,28 +39,28 @@ public class AndroidCalculatorNotifier implements CalculatorNotifier {
 	}
 
 	@Override
-	public void showMessage(@NotNull Message message) {
+	public void showMessage(@Nonnull Message message) {
 		showMessageInUiThread(message.getLocalizedMessage());
 	}
 
 	@Override
-	public void showMessage(@NotNull Integer messageCode, @NotNull MessageType messageType, @NotNull List<Object> parameters) {
+	public void showMessage(@Nonnull Integer messageCode, @Nonnull MessageType messageType, @Nonnull List<Object> parameters) {
 		showMessage(new AndroidMessage(messageCode, messageType, application, parameters));
 	}
 
 	@Override
-	public void showMessage(@NotNull Integer messageCode, @NotNull MessageType messageType, @Nullable Object... parameters) {
+	public void showMessage(@Nonnull Integer messageCode, @Nonnull MessageType messageType, @Nullable Object... parameters) {
 		showMessage(new AndroidMessage(messageCode, messageType, application, parameters));
 	}
 
 	@Override
-	public void showDebugMessage(@Nullable final String tag, @NotNull final String message) {
+	public void showDebugMessage(@Nullable final String tag, @Nonnull final String message) {
 		if (showDebugMessages) {
 			showMessageInUiThread(tag == null ? message : tag + ": " + message);
 		}
 	}
 
-	private void showMessageInUiThread(@NotNull final String message) {
+	private void showMessageInUiThread(@Nonnull final String message) {
 		if (Threads.isUiThread()) {
 			Toast.makeText(application, message, Toast.LENGTH_SHORT).show();
 		} else {

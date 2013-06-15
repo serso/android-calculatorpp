@@ -1,6 +1,6 @@
 package org.solovyev.android.calculator.plot;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,10 +12,10 @@ import java.util.List;
  */
 public class GraphsData {
 
-	@NotNull
+	@Nonnull
 	private final GraphView graphView;
 
-	@NotNull
+	@Nonnull
 	private List<GraphData> graphs;
 
 	private float lastXMin;
@@ -25,7 +25,7 @@ public class GraphsData {
 
 	private float lastYMax;
 
-	public GraphsData(@NotNull GraphView graphView) {
+	public GraphsData(@Nonnull GraphView graphView) {
 		this.graphView = graphView;
 		graphs = new ArrayList<GraphData>(graphView.getPlotFunctions().size());
 	}
@@ -43,7 +43,7 @@ public class GraphsData {
 		lastYMax = 0;
 	}
 
-	@NotNull
+	@Nonnull
 	public List<GraphData> getGraphs() {
 		return graphs;
 	}
@@ -81,7 +81,7 @@ public class GraphsData {
 		this.lastXMax = lastXMax;
 	}
 
-	@NotNull
+	@Nonnull
 	public GraphData get(int i) {
 		return this.graphs.get(i);
 	}

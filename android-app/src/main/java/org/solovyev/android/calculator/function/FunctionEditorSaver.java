@@ -5,8 +5,8 @@ import android.widget.EditText;
 import jscl.CustomFunctionCalculationException;
 import jscl.math.function.Function;
 import jscl.math.function.IFunction;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.calculator.CalculatorFunctionsMathRegistry;
 import org.solovyev.android.calculator.CalculatorMathRegistry;
 import org.solovyev.android.calculator.Locator;
@@ -21,27 +21,27 @@ import java.util.List;
 
 public class FunctionEditorSaver implements View.OnClickListener {
 
-	@NotNull
+	@Nonnull
 	private final Object source;
 
-	@NotNull
+	@Nonnull
 	private final AFunction.Builder builder;
 
 	@Nullable
 	private final IFunction editedInstance;
 
-	@NotNull
+	@Nonnull
 	private final View view;
 
-	@NotNull
+	@Nonnull
 	private final CalculatorMathRegistry<Function> mathRegistry;
 
 
-	public FunctionEditorSaver(@NotNull AFunction.Builder builder,
+	public FunctionEditorSaver(@Nonnull AFunction.Builder builder,
 							   @Nullable IFunction editedInstance,
-							   @NotNull View view,
-							   @NotNull CalculatorMathRegistry<Function> registry,
-							   @NotNull Object source) {
+							   @Nonnull View view,
+							   @Nonnull CalculatorMathRegistry<Function> registry,
+							   @Nonnull Object source) {
 
 		this.builder = builder;
 		this.editedInstance = editedInstance;
@@ -111,8 +111,8 @@ public class FunctionEditorSaver implements View.OnClickListener {
 		}
 	}
 
-	@NotNull
-	public static FunctionEditDialogFragment.Input readInput(@Nullable IFunction function, @NotNull View root) {
+	@Nonnull
+	public static FunctionEditDialogFragment.Input readInput(@Nullable IFunction function, @Nonnull View root) {
 		final EditText editName = (EditText) root.findViewById(R.id.function_edit_name);
 		String name = editName.getText().toString();
 
@@ -128,7 +128,7 @@ public class FunctionEditorSaver implements View.OnClickListener {
 		return FunctionEditDialogFragment.Input.newInstance(function, name, content, description, parameterNames);
 	}
 
-	private boolean validateParameters(@NotNull List<String> parameterNames) {
+	private boolean validateParameters(@Nonnull List<String> parameterNames) {
 		for (String parameterName : parameterNames) {
 			if (!VarEditorSaver.isValidName(parameterName)) {
 				return false;

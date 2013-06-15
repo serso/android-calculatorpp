@@ -1,10 +1,11 @@
 package org.solovyev.android.calculator;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.solovyev.common.msg.MessageType;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Locale;
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 /**
@@ -19,14 +20,18 @@ public final class CalculatorMessages {
 		throw new AssertionError();
 	}
 
-	@NotNull
+	@Nonnull
 	public static ResourceBundle getBundle() {
 		return getBundle(Locale.getDefault());
 	}
 
-	@NotNull
-	public static ResourceBundle getBundle(@NotNull Locale locale) {
-		return ResourceBundle.getBundle("org/solovyev/android/calculator/messages", locale);
+	@Nonnull
+	public static ResourceBundle getBundle(@Nonnull Locale locale) {
+		try {
+			return ResourceBundle.getBundle("org/solovyev/android/calculator/messages", locale);
+		} catch (MissingResourceException e) {
+			return ResourceBundle.getBundle("org/solovyev/android/calculator/messages", Locale.ENGLISH);
+		}
 	}
 
 	/* Arithmetic error occurred: {0} */
@@ -64,8 +69,8 @@ public final class CalculatorMessages {
 	/*	Last calculated value */
 	public static final String ans_description = "ans_description";
 
-	@NotNull
-	public static CalculatorMessage newErrorMessage(@NotNull String messageCode, @Nullable Object... parameters) {
+	@Nonnull
+	public static CalculatorMessage newErrorMessage(@Nonnull String messageCode, @Nullable Object... parameters) {
 		return new CalculatorMessage(messageCode, MessageType.error, parameters);
 	}
 }

@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.actionbarsherlock.app.SherlockFragment;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * User: Solovyev_S
@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class CalculatorDisplayFragment extends SherlockFragment {
 
-	@NotNull
+	@Nonnull
 	private CalculatorFragmentHelper fragmentHelper;
 
 	@Override

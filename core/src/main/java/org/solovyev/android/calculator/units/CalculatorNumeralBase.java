@@ -1,7 +1,7 @@
 package org.solovyev.android.calculator.units;
 
 import jscl.NumeralBase;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.common.units.Unit;
 import org.solovyev.common.units.UnitConverter;
 import org.solovyev.common.units.UnitImpl;
@@ -25,34 +25,34 @@ public enum CalculatorNumeralBase implements UnitType<String> {
 
 	hex(NumeralBase.hex);
 
-	@NotNull
+	@Nonnull
 	private final NumeralBase numeralBase;
 
-	private CalculatorNumeralBase(@NotNull NumeralBase numeralBase) {
+	private CalculatorNumeralBase(@Nonnull NumeralBase numeralBase) {
 		this.numeralBase = numeralBase;
 	}
 
-	@NotNull
+	@Nonnull
 	public NumeralBase getNumeralBase() {
 		return numeralBase;
 	}
 
-	@NotNull
+	@Nonnull
 	private static final CalculatorNumeralBase.Converter converter = new CalculatorNumeralBase.Converter();
 
-	@NotNull
+	@Nonnull
 	public static CalculatorNumeralBase.Converter getConverter() {
 		return converter;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public Class<String> getUnitValueClass() {
 		return String.class;
 	}
 
-	@NotNull
-	public Unit<String> createUnit(@NotNull String value) {
+	@Nonnull
+	public Unit<String> createUnit(@Nonnull String value) {
 		return UnitImpl.newInstance(value, this);
 	}
 
@@ -62,13 +62,13 @@ public enum CalculatorNumeralBase implements UnitType<String> {
 		}
 
 		@Override
-		public boolean isSupported(@NotNull UnitType<?> from, @NotNull UnitType<String> to) {
+		public boolean isSupported(@Nonnull UnitType<?> from, @Nonnull UnitType<String> to) {
 			return CalculatorNumeralBase.class.isAssignableFrom(from.getClass()) && CalculatorNumeralBase.class.isAssignableFrom(to.getClass());
 		}
 
-		@NotNull
+		@Nonnull
 		@Override
-		public Unit<String> convert(@NotNull Unit<?> from, @NotNull UnitType<String> toType) {
+		public Unit<String> convert(@Nonnull Unit<?> from, @Nonnull UnitType<String> toType) {
 			if (!isSupported(from.getUnitType(), toType)) {
 				throw new IllegalArgumentException("Types are not supported!");
 			}
@@ -83,8 +83,8 @@ public enum CalculatorNumeralBase implements UnitType<String> {
 		}
 	}
 
-	@NotNull
-	public static CalculatorNumeralBase valueOf(@NotNull NumeralBase nb) {
+	@Nonnull
+	public static CalculatorNumeralBase valueOf(@Nonnull NumeralBase nb) {
 		for (CalculatorNumeralBase calculatorNumeralBase : values()) {
 			if (calculatorNumeralBase.numeralBase == nb) {
 				return calculatorNumeralBase;

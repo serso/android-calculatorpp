@@ -8,7 +8,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Scroller;
 import android.widget.ZoomButtonsController;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.common.math.Point2d;
 
 import java.text.DecimalFormat;
@@ -46,41 +46,41 @@ public class CalculatorGraph2dView extends View implements GraphView {
 	**********************************************************************
 	*/
 
-	@NotNull
+	@Nonnull
 	private final Matrix matrix = new Matrix();
 
 	// paints
 
-	@NotNull
+	@Nonnull
 	private final Paint paint = new Paint();
 
-	@NotNull
+	@Nonnull
 	private final Paint textPaint = new Paint();
 
-	@NotNull
+	@Nonnull
 	private GraphViewHelper graphViewHelper = GraphViewHelper.newDefaultInstance();
-	@NotNull
+	@Nonnull
 	private final GraphsData graphsData = new GraphsData(this);
 
 	private float lastTouchXPxs = NO_TOUCH;
 	private float lastTouchYPxs = NO_TOUCH;
 
-	@NotNull
+	@Nonnull
 	private TouchHandler touchHandler;
 
-	@NotNull
+	@Nonnull
 	protected ZoomButtonsController zoomController = new ZoomButtonsController(this);
 
-	@NotNull
+	@Nonnull
 	private ZoomTracker zoomTracker = new ZoomTracker();
 
-	@NotNull
+	@Nonnull
 	private Scroller scroller;
 
-	@NotNull
+	@Nonnull
 	private final Graph2dDimensions dimensions = new Graph2dDimensions(this);
 
-	@NotNull
+	@Nonnull
 	private final GraphCalculator graphCalculator = new GraphCalculatorImpl();
 
 	private boolean mDrawn = false;
@@ -115,7 +115,7 @@ public class CalculatorGraph2dView extends View implements GraphView {
 	}
 
 	@Override
-	public void init(@NotNull PlotViewDef plotViewDef) {
+	public void init(@Nonnull PlotViewDef plotViewDef) {
 		this.graphViewHelper = GraphViewHelper.newInstance(plotViewDef, Collections.<PlotFunction>emptyList());
 	}
 
@@ -127,7 +127,7 @@ public class CalculatorGraph2dView extends View implements GraphView {
 	**********************************************************************
 	*/
 
-	public void setPlotFunctions(@NotNull List<PlotFunction> plotFunctions) {
+	public void setPlotFunctions(@Nonnull List<PlotFunction> plotFunctions) {
 
 		for (PlotFunction plotFunction : plotFunctions) {
 			final int arity = plotFunction.getXyFunction().getArity();
@@ -140,7 +140,7 @@ public class CalculatorGraph2dView extends View implements GraphView {
 		invalidateGraphs();
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public List<PlotFunction> getPlotFunctions() {
 		return this.graphViewHelper.getPlotFunctions();
@@ -151,7 +151,7 @@ public class CalculatorGraph2dView extends View implements GraphView {
 		onPause();
 	}
 
-	@NotNull
+	@Nonnull
 	public Bitmap captureScreenshot() {
 		final Bitmap result = Bitmap.createBitmap(dimensions.getVWidthPxs(), dimensions.getVHeightPxs(), Bitmap.Config.RGB_565);
 		onDraw(new Canvas(result));
@@ -183,7 +183,7 @@ public class CalculatorGraph2dView extends View implements GraphView {
 		dimensions.setViewDimensions(w, h);
 	}
 
-	protected void onDraw(@NotNull Canvas canvas) {
+	protected void onDraw(@Nonnull Canvas canvas) {
 		if (!graphViewHelper.getPlotFunctions().isEmpty()) {
 
 			if (scroller.computeScrollOffset()) {
@@ -199,7 +199,7 @@ public class CalculatorGraph2dView extends View implements GraphView {
 		}
 	}
 
-	private static void graphToPath(@NotNull GraphData graph, @NotNull Path path) {
+	private static void graphToPath(@Nonnull GraphData graph, @Nonnull Path path) {
 
 		final int size = graph.getSize();
 		final float[] xs = graph.getXs();
@@ -227,7 +227,7 @@ public class CalculatorGraph2dView extends View implements GraphView {
 		}
 	}
 
-	private void drawGraph(@NotNull Canvas canvas) {
+	private void drawGraph(@Nonnull Canvas canvas) {
 		mDrawn = true;
 
 		final float graphWidth = dimensions.getGWidth();
@@ -300,8 +300,8 @@ public class CalculatorGraph2dView extends View implements GraphView {
 		graphsData.setLastXMax(xMax);
 	}
 
-	@NotNull
-	private TickDigits drawGridAndAxis(@NotNull Canvas canvas) {
+	@Nonnull
+	private TickDigits drawGridAndAxis(@Nonnull Canvas canvas) {
 		final TickDigits result = new TickDigits();
 
 		final float xMin = dimensions.getXMin();
@@ -412,7 +412,7 @@ public class CalculatorGraph2dView extends View implements GraphView {
 	**********************************************************************
 	*/
 
-	@NotNull
+	@Nonnull
 	public static CharSequence formatTick(final float tickValue, final int tickDigits) {
 		String result = "0";
 
@@ -545,7 +545,7 @@ public class CalculatorGraph2dView extends View implements GraphView {
 	*/
 
 	@Override
-	public boolean onTouchEvent(@NotNull MotionEvent event) {
+	public boolean onTouchEvent(@Nonnull MotionEvent event) {
 		boolean handled = touchHandler.handleTouchEvent(event);
 		if (!handled) {
 			handled = super.onTouchEvent(event);

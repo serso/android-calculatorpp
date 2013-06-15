@@ -3,7 +3,7 @@ package org.solovyev.android.calculator;
 import android.content.Context;
 import jscl.NumeralBase;
 import jscl.math.Generic;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.menu.AMenuItem;
 
@@ -18,14 +18,14 @@ enum ConversionMenuItem implements AMenuItem<CalculatorDisplayViewState> {
 	convert_to_dec(NumeralBase.dec),
 	convert_to_hex(NumeralBase.hex);
 
-	@NotNull
+	@Nonnull
 	private final NumeralBase toNumeralBase;
 
-	ConversionMenuItem(@NotNull NumeralBase toNumeralBase) {
+	ConversionMenuItem(@Nonnull NumeralBase toNumeralBase) {
 		this.toNumeralBase = toNumeralBase;
 	}
 
-	protected boolean isItemVisibleFor(@NotNull Generic generic, @NotNull JsclOperation operation) {
+	protected boolean isItemVisibleFor(@Nonnull Generic generic, @Nonnull JsclOperation operation) {
 		boolean result = false;
 
 		if (operation == JsclOperation.numeric) {
@@ -42,7 +42,7 @@ enum ConversionMenuItem implements AMenuItem<CalculatorDisplayViewState> {
 	}
 
 	@Override
-	public void onClick(@NotNull CalculatorDisplayViewState data, @NotNull Context context) {
+	public void onClick(@Nonnull CalculatorDisplayViewState data, @Nonnull Context context) {
 		final Generic result = data.getResult();
 
 		if (result != null) {

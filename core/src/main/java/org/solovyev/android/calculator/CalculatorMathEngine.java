@@ -2,7 +2,7 @@ package org.solovyev.android.calculator;
 
 import jscl.math.Generic;
 import jscl.text.ParseException;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -11,21 +11,21 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface CalculatorMathEngine {
 
-	@NotNull
-	String evaluate(@NotNull String expression) throws ParseException;
+	@Nonnull
+	String evaluate(@Nonnull String expression) throws ParseException;
 
-	@NotNull
-	String simplify(@NotNull String expression) throws ParseException;
+	@Nonnull
+	String simplify(@Nonnull String expression) throws ParseException;
 
-	@NotNull
-	String elementary(@NotNull String expression) throws ParseException;
+	@Nonnull
+	String elementary(@Nonnull String expression) throws ParseException;
 
-	@NotNull
-	Generic evaluateGeneric(@NotNull String expression) throws ParseException;
+	@Nonnull
+	Generic evaluateGeneric(@Nonnull String expression) throws ParseException;
 
-	@NotNull
-	Generic simplifyGeneric(@NotNull String expression) throws ParseException;
+	@Nonnull
+	Generic simplifyGeneric(@Nonnull String expression) throws ParseException;
 
-	@NotNull
-	Generic elementaryGeneric(@NotNull String expression) throws ParseException;
+	@Nonnull
+	Generic elementaryGeneric(@Nonnull String expression) throws ParseException;
 }

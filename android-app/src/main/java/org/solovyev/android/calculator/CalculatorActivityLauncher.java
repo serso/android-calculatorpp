@@ -12,8 +12,8 @@ import android.view.View;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import jscl.math.Generic;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.Android;
 import org.solovyev.android.App;
 import org.solovyev.android.calculator.about.CalculatorAboutActivity;
@@ -41,72 +41,72 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
 	public CalculatorActivityLauncher() {
 	}
 
-	public static void showHistory(@NotNull final Context context) {
+	public static void showHistory(@Nonnull final Context context) {
 		showHistory(context, false);
 	}
 
-	public static void showHistory(@NotNull final Context context, boolean detached) {
+	public static void showHistory(@Nonnull final Context context, boolean detached) {
 		final Intent intent = new Intent(context, CalculatorHistoryActivity.class);
 		Android.addIntentFlags(intent, detached, context);
 		context.startActivity(intent);
 	}
 
-	public static void showHelp(@NotNull final Context context) {
+	public static void showHelp(@Nonnull final Context context) {
 		context.startActivity(new Intent(context, CalculatorHelpActivity.class));
 	}
 
-	public static void showSettings(@NotNull final Context context) {
+	public static void showSettings(@Nonnull final Context context) {
 		showSettings(context, false);
 	}
 
-	public static void showSettings(@NotNull final Context context, boolean detached) {
+	public static void showSettings(@Nonnull final Context context, boolean detached) {
 		final Intent intent = new Intent(context, CalculatorPreferencesActivity.class);
 		Android.addIntentFlags(intent, detached, context);
 		context.startActivity(intent);
 	}
 
-	public static void showAbout(@NotNull final Context context) {
+	public static void showAbout(@Nonnull final Context context) {
 		context.startActivity(new Intent(context, CalculatorAboutActivity.class));
 	}
 
-	public static void showFunctions(@NotNull final Context context) {
+	public static void showFunctions(@Nonnull final Context context) {
 		showFunctions(context, false);
 	}
 
-	public static void showFunctions(@NotNull final Context context, boolean detached) {
+	public static void showFunctions(@Nonnull final Context context, boolean detached) {
 		final Intent intent = new Intent(context, CalculatorFunctionsActivity.class);
 		Android.addIntentFlags(intent, detached, context);
 		context.startActivity(intent);
 	}
 
-	public static void showOperators(@NotNull final Context context) {
+	public static void showOperators(@Nonnull final Context context) {
 		showOperators(context, false);
 	}
 
-	public static void showOperators(@NotNull final Context context, boolean detached) {
+	public static void showOperators(@Nonnull final Context context, boolean detached) {
 		final Intent intent = new Intent(context, CalculatorOperatorsActivity.class);
 		Android.addIntentFlags(intent, detached, context);
 		context.startActivity(intent);
 	}
 
-	public static void showVars(@NotNull final Context context) {
+	public static void showVars(@Nonnull final Context context) {
 		showVars(context, false);
 	}
 
-	public static void showVars(@NotNull final Context context, boolean detached) {
+	public static void showVars(@Nonnull final Context context, boolean detached) {
 		final Intent intent = new Intent(context, CalculatorVarsActivity.class);
 		Android.addIntentFlags(intent, detached, context);
 		context.startActivity(intent);
 	}
 
-	public static void plotGraph(@NotNull final Context context) {
+	public static void plotGraph(@Nonnull final Context context) {
 		final Intent intent = new Intent();
 		intent.setClass(context, CalculatorPlotActivity.class);
 		Android.addIntentFlags(intent, false, context);
 		context.startActivity(intent);
 	}
 
-	public static void tryCreateVar(@NotNull final Context context) {
+	public static void tryCreateVar(@Nonnull final Context context) {
 		final CalculatorDisplay display = Locator.getInstance().getDisplay();
 		final CalculatorDisplayViewState viewState = display.getViewState();
 		if (viewState.isValid()) {
@@ -132,7 +132,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
 		}
 	}
 
-	public static void tryCreateFunction(@NotNull final Context context) {
+	public static void tryCreateFunction(@Nonnull final Context context) {
 		final CalculatorDisplay display = Locator.getInstance().getDisplay();
 		final CalculatorDisplayViewState viewState = display.getViewState();
 
@@ -150,7 +150,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
 		}
 	}
 
-	@NotNull
+	@Nonnull
 	private static CalculatorNotifier getNotifier() {
 		return Locator.getInstance().getNotifier();
 	}
@@ -177,19 +177,19 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
 		}
 	}
 
-	public static void openApp(@NotNull Context context) {
+	public static void openApp(@Nonnull Context context) {
 		final Intent intent = new Intent(context, CalculatorActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		context.startActivity(intent);
 	}
 
-	public static void likeButtonPressed(@NotNull final Context context) {
+	public static void likeButtonPressed(@Nonnull final Context context) {
 		final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(CalculatorApplication.FACEBOOK_APP_URL));
 		Android.addIntentFlags(intent, false, context);
 		context.startActivity(intent);
 	}
 
-	public static void showCalculationMessagesDialog(@NotNull Context context, @NotNull List<Message> messages) {
+	public static void showCalculationMessagesDialog(@Nonnull Context context, @Nonnull List<Message> messages) {
 		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
 		if (CalculatorPreferences.Calculations.showCalculationMessagesDialog.getPreference(prefs)) {
@@ -198,7 +198,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
 	}
 
 	@Override
-	public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
+	public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
 		final Context context;
 
 		final Object source = calculatorEventData.getSource();
@@ -261,7 +261,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
 		}
 	}
 
-	public static void showEvaluationError(@NotNull Context context, @NotNull final String errorMessage) {
+	public static void showEvaluationError(@Nonnull Context context, @Nonnull final String errorMessage) {
 		final LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 
 		final View errorMessageView = layoutInflater.inflate(R.layout.display_error_message, null);

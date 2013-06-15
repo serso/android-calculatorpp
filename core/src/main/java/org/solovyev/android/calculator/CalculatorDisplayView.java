@@ -1,6 +1,6 @@
 package org.solovyev.android.calculator;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -9,8 +9,8 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface CalculatorDisplayView {
 
-	void setState(@NotNull CalculatorDisplayViewState state);
+	void setState(@Nonnull CalculatorDisplayViewState state);
 
-	@NotNull
+	@Nonnull
 	CalculatorDisplayViewState getState();
 }

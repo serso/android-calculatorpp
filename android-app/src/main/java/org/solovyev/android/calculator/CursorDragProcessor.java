@@ -6,7 +6,7 @@
 package org.solovyev.android.calculator;
 
 import android.view.MotionEvent;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.android.view.drag.DirectionDragButton;
 import org.solovyev.android.view.drag.DragButton;
 import org.solovyev.android.view.drag.DragDirection;
@@ -24,7 +24,7 @@ public class CursorDragProcessor implements SimpleOnDragListener.DragProcessor {
 	}
 
 	@Override
-	public boolean processDragEvent(@NotNull DragDirection dragDirection, @NotNull DragButton dragButton, @NotNull Point2d startPoint2d, @NotNull MotionEvent motionEvent) {
+	public boolean processDragEvent(@Nonnull DragDirection dragDirection, @Nonnull DragButton dragButton, @Nonnull Point2d startPoint2d, @Nonnull MotionEvent motionEvent) {
 		boolean result = false;
 
 		if (dragButton instanceof DirectionDragButton) {

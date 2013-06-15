@@ -14,8 +14,8 @@ import jscl.math.function.Constant;
 import jscl.math.numeric.Complex;
 import jscl.math.numeric.Numeric;
 import jscl.math.numeric.Real;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * User: serso
@@ -29,8 +29,8 @@ public final class PlotUtils {
 		throw new AssertionError();
 	}
 
-	@NotNull
-	public static Complex calculatorExpression(@NotNull Generic expression) {
+	@Nonnull
+	public static Complex calculatorExpression(@Nonnull Generic expression) {
 		try {
 			return unwrap(expression.numeric());
 		} catch (RuntimeException e) {
@@ -38,8 +38,8 @@ public final class PlotUtils {
 		}
 	}
 
-	@NotNull
-	public static Complex calculatorExpression(@NotNull Generic expression, @NotNull Constant xVar, double x) {
+	@Nonnull
+	public static Complex calculatorExpression(@Nonnull Generic expression, @Nonnull Constant xVar, double x) {
 		try {
 			return unwrap(expression.substitute(xVar, Expression.valueOf(x)).numeric());
 		} catch (RuntimeException e) {
@@ -47,8 +47,8 @@ public final class PlotUtils {
 		}
 	}
 
-	@NotNull
-	public static Complex calculatorExpression(@NotNull Generic expression, @NotNull Constant xVar, double x, @NotNull Constant yVar, double y) {
+	@Nonnull
+	public static Complex calculatorExpression(@Nonnull Generic expression, @Nonnull Constant xVar, double x, @Nonnull Constant yVar, double y) {
 		try {
 			Generic tmp = expression.substitute(xVar, Expression.valueOf(x));
 			tmp = tmp.substitute(yVar, Expression.valueOf(y));
@@ -60,7 +60,7 @@ public final class PlotUtils {
 
 	private static final Complex NaN = Complex.valueOf(Double.NaN, 0d);
 
-	@NotNull
+	@Nonnull
 	public static Complex unwrap(@Nullable Generic numeric) {
 		if (numeric instanceof JsclInteger) {
 			return Complex.valueOf(((JsclInteger) numeric).intValue(), 0d);
@@ -71,7 +71,7 @@ public final class PlotUtils {
 		}
 	}
 
-	@NotNull
+	@Nonnull
 	public static Complex unwrap(@Nullable Numeric content) {
 		if (content instanceof Real) {
 			return Complex.valueOf(((Real) content).doubleValue(), 0d);

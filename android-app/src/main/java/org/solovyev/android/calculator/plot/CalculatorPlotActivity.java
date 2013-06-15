@@ -3,8 +3,8 @@ package org.solovyev.android.calculator.plot;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.calculator.CalculatorFragmentActivity;
 import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.R;
@@ -33,7 +33,7 @@ public class CalculatorPlotActivity extends CalculatorFragmentActivity {
 		getActivityHelper().setFragment(this, getPlotterFragmentType(), arguments, R.id.main_layout);
 	}
 
-	@NotNull
+	@Nonnull
 	public static CalculatorFragmentType getPlotterFragmentType() {
 		return CalculatorFragmentType.plotter;
 	}

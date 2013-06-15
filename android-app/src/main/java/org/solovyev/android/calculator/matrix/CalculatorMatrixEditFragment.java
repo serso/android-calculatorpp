@@ -2,8 +2,8 @@ package org.solovyev.android.calculator.matrix;
 
 import android.os.Bundle;
 import android.view.View;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.calculator.CalculatorFragment;
 import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.R;
@@ -86,24 +86,24 @@ public class CalculatorMatrixEditFragment extends CalculatorFragment implements 
 	}
 
 	@Override
-	public void onSaveInstanceState(@NotNull Bundle out) {
+	public void onSaveInstanceState(@Nonnull Bundle out) {
 		super.onSaveInstanceState(out);
 
 		out.putSerializable(MATRIX, new Matrix(getMatrixView(getView()).toMatrix()));
 	}
 
-	@NotNull
-	private MatrixView getMatrixView(@NotNull View root) {
+	@Nonnull
+	private MatrixView getMatrixView(@Nonnull View root) {
 		return (MatrixView) root.findViewById(R.id.matrix_layout);
 	}
 
-	private void initPicker(@NotNull Picker<Integer> picker) {
+	private void initPicker(@Nonnull Picker<Integer> picker) {
 		picker.setRange(new IntegerRange(MIN_COUNT, MAX_COUNT, 1, 0, null));
 		picker.setOnChangeListener(this);
 	}
 
 	@Override
-	public void onChanged(@NotNull Picker picker, @NotNull Integer value) {
+	public void onChanged(@Nonnull Picker picker, @Nonnull Integer value) {
 		switch (picker.getId()) {
 			case R.id.matrix_rows_count_picker:
 				onRowsCountChange(value);
@@ -114,23 +114,23 @@ public class CalculatorMatrixEditFragment extends CalculatorFragment implements 
 		}
 	}
 
-	private void onColsCountChange(@NotNull Integer newCols) {
+	private void onColsCountChange(@Nonnull Integer newCols) {
 		getMatrixView(getView()).setMatrixCols(newCols);
 	}
 
-	private void onRowsCountChange(@NotNull Integer newRows) {
+	private void onRowsCountChange(@Nonnull Integer newRows) {
 		getMatrixView(getView()).setMatrixRows(newRows);
 	}
 
 	public static class Matrix implements Serializable {
 
-		@NotNull
+		@Nonnull
 		private String[][] bakingArray;
 
 		public Matrix() {
 		}
 
-		public Matrix(@NotNull String[][] bakingArray) {
+		public Matrix(@Nonnull String[][] bakingArray) {
 			this.bakingArray = bakingArray;
 		}
 	}

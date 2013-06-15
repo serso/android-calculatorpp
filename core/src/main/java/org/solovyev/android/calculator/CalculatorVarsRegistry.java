@@ -7,8 +7,8 @@
 package org.solovyev.android.calculator;
 
 import jscl.math.function.IConstant;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.calculator.model.MathEntityBuilder;
 import org.solovyev.android.calculator.model.Var;
 import org.solovyev.android.calculator.model.Vars;
@@ -26,10 +26,10 @@ import java.util.Map;
  */
 public class CalculatorVarsRegistry extends AbstractCalculatorMathRegistry<IConstant, Var> {
 
-	@NotNull
+	@Nonnull
 	public static final String ANS = "ans";
 
-	@NotNull
+	@Nonnull
 	private static final Map<String, String> substitutes = new HashMap<String, String>();
 
 	static {
@@ -40,15 +40,15 @@ public class CalculatorVarsRegistry extends AbstractCalculatorMathRegistry<ICons
 		substitutes.put("NaN", "nan");
 	}
 
-	public CalculatorVarsRegistry(@NotNull MathRegistry<IConstant> mathRegistry,
-								  @NotNull MathEntityDao<Var> mathEntityDao) {
+	public CalculatorVarsRegistry(@Nonnull MathRegistry<IConstant> mathRegistry,
+								  @Nonnull MathEntityDao<Var> mathEntityDao) {
 		super(mathRegistry, "c_var_description_", mathEntityDao);
 	}
 
-	public static <T extends MathEntity> void saveVariable(@NotNull CalculatorMathRegistry<T> registry,
-														   @NotNull MathEntityBuilder<? extends T> builder,
+	public static <T extends MathEntity> void saveVariable(@Nonnull CalculatorMathRegistry<T> registry,
+														   @Nonnull MathEntityBuilder<? extends T> builder,
 														   @Nullable T editedInstance,
-														   @NotNull Object source, boolean save) {
+														   @Nonnull Object source, boolean save) {
 		final T addedVar = registry.add(builder);
 
 		if (save) {
@@ -62,7 +62,7 @@ public class CalculatorVarsRegistry extends AbstractCalculatorMathRegistry<ICons
 		}
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	protected Map<String, String> getSubstitutes() {
 		return substitutes;
@@ -84,27 +84,27 @@ public class CalculatorVarsRegistry extends AbstractCalculatorMathRegistry<ICons
 	}
 
 
-	@NotNull
+	@Nonnull
 	@Override
-	protected JBuilder<? extends IConstant> createBuilder(@NotNull Var entity) {
+	protected JBuilder<? extends IConstant> createBuilder(@Nonnull Var entity) {
 		return new Var.Builder(entity);
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	protected MathEntityPersistenceContainer<Var> createPersistenceContainer() {
 		return new Vars();
 	}
 
-	private void tryToAddAuxVar(@NotNull String name) {
+	private void tryToAddAuxVar(@Nonnull String name) {
 		if (!contains(name)) {
 			add(new Var.Builder(name, (String) null));
 		}
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
-	protected Var transform(@NotNull IConstant entity) {
+	protected Var transform(@Nonnull IConstant entity) {
 		if (entity instanceof Var) {
 			return (Var) entity;
 		} else {
@@ -113,7 +113,7 @@ public class CalculatorVarsRegistry extends AbstractCalculatorMathRegistry<ICons
 	}
 
 	@Override
-	public String getDescription(@NotNull String mathEntityName) {
+	public String getDescription(@Nonnull String mathEntityName) {
 		final IConstant var = get(mathEntityName);
 		if (var != null && !var.isSystem()) {
 			return var.getDescription();
@@ -123,7 +123,7 @@ public class CalculatorVarsRegistry extends AbstractCalculatorMathRegistry<ICons
 	}
 
 	@Override
-	public String getCategory(@NotNull IConstant var) {
+	public String getCategory(@Nonnull IConstant var) {
 		for (VarCategory category : VarCategory.values()) {
 			if (category.isInCategory(var)) {
 				return category.name();

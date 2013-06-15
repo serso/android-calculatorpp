@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.actionbarsherlock.app.SherlockListFragment;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * User: Solovyev_S
@@ -15,18 +15,18 @@ import org.jetbrains.annotations.NotNull;
  */
 public abstract class CalculatorListFragment extends SherlockListFragment {
 
-	@NotNull
+	@Nonnull
 	private final CalculatorFragmentHelper fragmentHelper;
 
 	protected CalculatorListFragment(int layoutResId, int titleResId) {
 		fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(layoutResId, titleResId);
 	}
 
-	protected CalculatorListFragment(@NotNull CalculatorFragmentType fragmentType) {
+	protected CalculatorListFragment(@Nonnull CalculatorFragmentType fragmentType) {
 		fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(fragmentType.getDefaultLayoutId(), fragmentType.getDefaultTitleResId());
 	}
 
-	protected CalculatorListFragment(@NotNull CalculatorFragmentHelper fragmentHelper) {
+	protected CalculatorListFragment(@Nonnull CalculatorFragmentHelper fragmentHelper) {
 		this.fragmentHelper = fragmentHelper;
 	}
 

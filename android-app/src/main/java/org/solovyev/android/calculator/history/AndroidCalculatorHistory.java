@@ -10,8 +10,8 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.calculator.Calculator;
 import org.solovyev.android.calculator.CalculatorEventData;
 import org.solovyev.android.calculator.CalculatorEventType;
@@ -27,13 +27,13 @@ import java.util.List;
  */
 public class AndroidCalculatorHistory implements CalculatorHistory {
 
-	@NotNull
+	@Nonnull
 	private final CalculatorHistoryImpl calculatorHistory;
 
-	@NotNull
+	@Nonnull
 	private final Context context;
 
-	public AndroidCalculatorHistory(@NotNull Application application, @NotNull Calculator calculator) {
+	public AndroidCalculatorHistory(@Nonnull Application application, @Nonnull Calculator calculator) {
 		this.context = application;
 		calculatorHistory = new CalculatorHistoryImpl(calculator);
 	}
@@ -63,7 +63,7 @@ public class AndroidCalculatorHistory implements CalculatorHistory {
 		save();
 	}
 
-	public void removeSavedHistory(@NotNull CalculatorHistoryState historyState) {
+	public void removeSavedHistory(@Nonnull CalculatorHistoryState historyState) {
 		historyState.setSaved(false);
 		calculatorHistory.removeSavedHistory(historyState);
 		save();
@@ -100,12 +100,12 @@ public class AndroidCalculatorHistory implements CalculatorHistory {
 	}
 
 	@Override
-	public boolean isActionAvailable(@NotNull HistoryAction historyAction) {
+	public boolean isActionAvailable(@Nonnull HistoryAction historyAction) {
 		return calculatorHistory.isActionAvailable(historyAction);
 	}
 
 	@Override
-	public CalculatorHistoryState doAction(@NotNull HistoryAction historyAction, @Nullable CalculatorHistoryState currentState) {
+	public CalculatorHistoryState doAction(@Nonnull HistoryAction historyAction, @Nullable CalculatorHistoryState currentState) {
 		return calculatorHistory.doAction(historyAction, currentState);
 	}
 
@@ -114,13 +114,13 @@ public class AndroidCalculatorHistory implements CalculatorHistory {
 		calculatorHistory.addState(currentState);
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public List<CalculatorHistoryState> getStates() {
 		return calculatorHistory.getStates();
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public List<CalculatorHistoryState> getStates(boolean includeIntermediateStates) {
 		return calculatorHistory.getStates(includeIntermediateStates);
@@ -131,18 +131,18 @@ public class AndroidCalculatorHistory implements CalculatorHistory {
 		calculatorHistory.clear();
 	}
 
-	@NotNull
+	@Nonnull
 	public List<CalculatorHistoryState> getSavedHistory() {
 		return calculatorHistory.getSavedHistory();
 	}
 
-	@NotNull
-	public CalculatorHistoryState addSavedState(@NotNull CalculatorHistoryState historyState) {
+	@Nonnull
+	public CalculatorHistoryState addSavedState(@Nonnull CalculatorHistoryState historyState) {
 		return calculatorHistory.addSavedState(historyState);
 	}
 
 	@Override
-	public void fromXml(@NotNull String xml) {
+	public void fromXml(@Nonnull String xml) {
 		calculatorHistory.fromXml(xml);
 	}
 
@@ -152,7 +152,7 @@ public class AndroidCalculatorHistory implements CalculatorHistory {
 	}
 
 	@Override
-	public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
+	public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
 		calculatorHistory.onCalculatorEvent(calculatorEventData, calculatorEventType, data);
 	}
 }

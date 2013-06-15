@@ -10,8 +10,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import net.robotmedia.billing.BillingController;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.ads.AdsController;
 import org.solovyev.android.calculator.CalculatorApplication;
 import org.solovyev.android.calculator.CalculatorFragment;
@@ -42,7 +42,7 @@ public class CalculatorPurchaseDialogActivity extends SherlockFragmentActivity {
 		}
 
 		@Override
-		public void onViewCreated(@NotNull View root, Bundle savedInstanceState) {
+		public void onViewCreated(@Nonnull View root, Bundle savedInstanceState) {
 			super.onViewCreated(root, savedInstanceState);
 
 			((TextView) root.findViewById(R.id.cpp_purchase_text)).setMovementMethod(ScrollingMovementMethod.getInstance());

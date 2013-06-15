@@ -2,7 +2,7 @@ package org.solovyev.android.calculator.external;
 
 import android.content.Context;
 import android.content.Intent;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -11,5 +11,5 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface ExternalCalculatorIntentHandler {
 
-	void onIntent(@NotNull Context context, @NotNull Intent intent);
+	void onIntent(@Nonnull Context context, @Nonnull Intent intent);
 }

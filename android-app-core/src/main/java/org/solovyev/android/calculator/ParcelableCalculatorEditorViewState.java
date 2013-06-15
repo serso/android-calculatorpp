@@ -2,7 +2,7 @@ package org.solovyev.android.calculator;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -13,7 +13,7 @@ public final class ParcelableCalculatorEditorViewState implements CalculatorEdit
 
 	public static final Creator<ParcelableCalculatorEditorViewState> CREATOR = new Creator<ParcelableCalculatorEditorViewState>() {
 		@Override
-		public ParcelableCalculatorEditorViewState createFromParcel(@NotNull Parcel in) {
+		public ParcelableCalculatorEditorViewState createFromParcel(@Nonnull Parcel in) {
 			return ParcelableCalculatorEditorViewState.fromParcel(in);
 		}
 
@@ -23,22 +23,22 @@ public final class ParcelableCalculatorEditorViewState implements CalculatorEdit
 		}
 	};
 
-	@NotNull
+	@Nonnull
 	private CalculatorEditorViewState viewState;
 
-	public ParcelableCalculatorEditorViewState(@NotNull CalculatorEditorViewState viewState) {
+	public ParcelableCalculatorEditorViewState(@Nonnull CalculatorEditorViewState viewState) {
 		this.viewState = viewState;
 	}
 
-	@NotNull
-	private static ParcelableCalculatorEditorViewState fromParcel(@NotNull Parcel in) {
+	@Nonnull
+	private static ParcelableCalculatorEditorViewState fromParcel(@Nonnull Parcel in) {
 		final String text = in.readString();
 		final int selection = in.readInt();
 		return new ParcelableCalculatorEditorViewState(CalculatorEditorViewStateImpl.newInstance(text, selection));
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public String getText() {
 		return viewState.getText();
 	}
@@ -54,7 +54,7 @@ public final class ParcelableCalculatorEditorViewState implements CalculatorEdit
 	}
 
 	@Override
-	public void writeToParcel(@NotNull Parcel out, int flags) {
+	public void writeToParcel(@Nonnull Parcel out, int flags) {
 		out.writeString(viewState.getText());
 		out.writeInt(viewState.getSelection());
 	}

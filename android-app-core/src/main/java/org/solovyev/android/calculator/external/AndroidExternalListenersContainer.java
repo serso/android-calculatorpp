@@ -3,11 +3,11 @@ package org.solovyev.android.calculator.external;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Parcelable;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.App;
 import org.solovyev.android.calculator.*;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -39,19 +39,19 @@ public class AndroidExternalListenersContainer implements CalculatorExternalList
 
 	private static final String TAG = "Calculator++ External Listener Helper";
 
-	@NotNull
+	@Nonnull
 	private final Set<Class<?>> externalListeners = new HashSet<Class<?>>();
 
-	@NotNull
+	@Nonnull
 	private final CalculatorEventHolder lastEvent = new CalculatorEventHolder(CalculatorUtils.createFirstEventDataId());
 
-	public AndroidExternalListenersContainer(@NotNull Calculator calculator) {
+	public AndroidExternalListenersContainer(@Nonnull Calculator calculator) {
 		calculator.addCalculatorEventListener(this);
 	}
 
-	public void onEditorStateChanged(@NotNull Context context,
-									 @NotNull CalculatorEventData calculatorEventData,
-									 @NotNull CalculatorEditorViewState editorViewState) {
+	public void onEditorStateChanged(@Nonnull Context context,
+									 @Nonnull CalculatorEventData calculatorEventData,
+									 @Nonnull CalculatorEditorViewState editorViewState) {
 
 		for (Class<?> externalListener : getExternalListenersSync()) {
 			final Intent intent = new Intent(EDITOR_STATE_CHANGED_ACTION);
@@ -63,9 +63,9 @@ public class AndroidExternalListenersContainer implements CalculatorExternalList
 		}
 	}
 
-	private void onDisplayStateChanged(@NotNull Context context,
-									   @NotNull CalculatorEventData calculatorEventData,
-									   @NotNull CalculatorDisplayViewState displayViewState) {
+	private void onDisplayStateChanged(@Nonnull Context context,
+									   @Nonnull CalculatorEventData calculatorEventData,
+									   @Nonnull CalculatorDisplayViewState displayViewState) {
 		for (Class<?> externalListener : getExternalListenersSync()) {
 			final Intent intent = new Intent(DISPLAY_STATE_CHANGED_ACTION);
 			intent.setClass(context, externalListener);
@@ -76,7 +76,7 @@ public class AndroidExternalListenersContainer implements CalculatorExternalList
 		}
 	}
 
-	@NotNull
+	@Nonnull
 	private Set<Class<?>> getExternalListenersSync() {
 		synchronized (externalListeners) {
 			return new HashSet<Class<?>>(externalListeners);
@@ -84,21 +84,21 @@ public class AndroidExternalListenersContainer implements CalculatorExternalList
 	}
 
 	@Override
-	public void addExternalListener(@NotNull Class<?> externalCalculatorClass) {
+	public void addExternalListener(@Nonnull Class<?> externalCalculatorClass) {
 		synchronized (externalListeners) {
 			externalListeners.add(externalCalculatorClass);
 		}
 	}
 
 	@Override
-	public boolean removeExternalListener(@NotNull Class<?> externalCalculatorClass) {
+	public boolean removeExternalListener(@Nonnull Class<?> externalCalculatorClass) {
 		synchronized (externalListeners) {
 			return externalListeners.remove(externalCalculatorClass);
 		}
 	}
 
 	@Override
-	public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
+	public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
 		final CalculatorEventHolder.Result result = lastEvent.apply(calculatorEventData);
 		if (result.isNewAfter()) {
 			switch (calculatorEventType) {

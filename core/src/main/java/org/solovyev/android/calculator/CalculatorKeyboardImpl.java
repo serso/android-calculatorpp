@@ -1,7 +1,7 @@
 package org.solovyev.android.calculator;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.common.text.Strings;
 
@@ -12,10 +12,10 @@ import org.solovyev.common.text.Strings;
  */
 public class CalculatorKeyboardImpl implements CalculatorKeyboard {
 
-	@NotNull
+	@Nonnull
 	private final Calculator calculator;
 
-	public CalculatorKeyboardImpl(@NotNull Calculator calculator) {
+	public CalculatorKeyboardImpl(@Nonnull Calculator calculator) {
 		this.calculator = calculator;
 	}
 
@@ -59,7 +59,7 @@ public class CalculatorKeyboardImpl implements CalculatorKeyboard {
 		}
 	}
 
-	private boolean processSpecialButtons(@NotNull String text) {
+	private boolean processSpecialButtons(@Nonnull String text) {
 		boolean result = false;
 
 		final CalculatorSpecialButton button = CalculatorSpecialButton.getByActionCode(text);

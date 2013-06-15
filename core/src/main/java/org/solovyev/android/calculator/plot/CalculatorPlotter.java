@@ -1,8 +1,8 @@
 package org.solovyev.android.calculator.plot;
 
 import jscl.math.Generic;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.List;
 
@@ -13,55 +13,55 @@ import java.util.List;
  */
 public interface CalculatorPlotter {
 
-	@NotNull
+	@Nonnull
 	PlotData getPlotData();
 
-	boolean addFunction(@NotNull Generic expression);
+	boolean addFunction(@Nonnull Generic expression);
 
-	boolean addFunction(@NotNull PlotFunction plotFunction);
+	boolean addFunction(@Nonnull PlotFunction plotFunction);
 
-	boolean addFunction(@NotNull XyFunction xyFunction);
+	boolean addFunction(@Nonnull XyFunction xyFunction);
 
-	boolean addFunction(@NotNull XyFunction xyFunction, @NotNull PlotLineDef functionLineDef);
+	boolean addFunction(@Nonnull XyFunction xyFunction, @Nonnull PlotLineDef functionLineDef);
 
-	boolean updateFunction(@NotNull PlotFunction newFunction);
+	boolean updateFunction(@Nonnull PlotFunction newFunction);
 
-	boolean updateFunction(@NotNull XyFunction xyFunction, @NotNull PlotLineDef functionLineDef);
+	boolean updateFunction(@Nonnull XyFunction xyFunction, @Nonnull PlotLineDef functionLineDef);
 
-	boolean removeFunction(@NotNull PlotFunction plotFunction);
+	boolean removeFunction(@Nonnull PlotFunction plotFunction);
 
-	boolean removeFunction(@NotNull XyFunction xyFunction);
+	boolean removeFunction(@Nonnull XyFunction xyFunction);
 
-	@NotNull
-	PlotFunction pin(@NotNull PlotFunction plotFunction);
+	@Nonnull
+	PlotFunction pin(@Nonnull PlotFunction plotFunction);
 
-	@NotNull
-	PlotFunction unpin(@NotNull PlotFunction plotFunction);
+	@Nonnull
+	PlotFunction unpin(@Nonnull PlotFunction plotFunction);
 
-	@NotNull
-	PlotFunction show(@NotNull PlotFunction plotFunction);
+	@Nonnull
+	PlotFunction show(@Nonnull PlotFunction plotFunction);
 
-	@NotNull
-	PlotFunction hide(@NotNull PlotFunction plotFunction);
+	@Nonnull
+	PlotFunction hide(@Nonnull PlotFunction plotFunction);
 
 	void clearAllFunctions();
 
 	@Nullable
-	PlotFunction getFunctionById(@NotNull String functionId);
+	PlotFunction getFunctionById(@Nonnull String functionId);
 
-	@NotNull
+	@Nonnull
 	List<PlotFunction> getFunctions();
 
-	@NotNull
+	@Nonnull
 	List<PlotFunction> getVisibleFunctions();
 
 	void plot();
 
-	void plot(@NotNull Generic expression);
+	void plot(@Nonnull Generic expression);
 
 	boolean is2dPlotPossible();
 
-	boolean isPlotPossibleFor(@NotNull Generic expression);
+	boolean isPlotPossibleFor(@Nonnull Generic expression);
 
 	void setPlot3d(boolean plot3d);
 
@@ -69,7 +69,7 @@ public interface CalculatorPlotter {
 
 	void setPlotImag(boolean plotImag);
 
-	void savePlotBoundaries(@NotNull PlotBoundaries plotBoundaries);
+	void savePlotBoundaries(@Nonnull PlotBoundaries plotBoundaries);
 
-	void setPlotBoundaries(@NotNull PlotBoundaries plotBoundaries);
+	void setPlotBoundaries(@Nonnull PlotBoundaries plotBoundaries);
 }

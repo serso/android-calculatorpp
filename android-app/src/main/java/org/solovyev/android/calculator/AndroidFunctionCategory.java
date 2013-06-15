@@ -1,7 +1,7 @@
 package org.solovyev.android.calculator;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * User: serso
@@ -27,7 +27,7 @@ public enum AndroidFunctionCategory {
 	}
 
 	@Nullable
-	public static AndroidFunctionCategory valueOf(@NotNull FunctionCategory functionCategory) {
+	public static AndroidFunctionCategory valueOf(@Nonnull FunctionCategory functionCategory) {
 		for (AndroidFunctionCategory androidFunctionCategory : values()) {
 			if (androidFunctionCategory.name().equals(functionCategory.name())) {
 				return androidFunctionCategory;

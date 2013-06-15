@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.text.ClipboardManager;
 import jscl.math.operator.Operator;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.android.calculator.CalculatorEventType;
 import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.Locator;
@@ -34,9 +34,9 @@ public class CalculatorOperatorsFragment extends AbstractMathEntityListFragment<
 		return LongClickMenuItem.use;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
-	protected List<LabeledMenuItem<Operator>> getMenuItemsOnLongClick(@NotNull Operator item) {
+	protected List<LabeledMenuItem<Operator>> getMenuItemsOnLongClick(@Nonnull Operator item) {
 		final List<LabeledMenuItem<Operator>> result = new ArrayList<LabeledMenuItem<Operator>>(Arrays.asList(LongClickMenuItem.values()));
 
 		if (Strings.isEmpty(OperatorDescriptionGetter.instance.getDescription(this.getActivity(), item.getName()))) {
@@ -46,14 +46,14 @@ public class CalculatorOperatorsFragment extends AbstractMathEntityListFragment<
 		return result;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	protected MathEntityDescriptionGetter getDescriptionGetter() {
 		return OperatorDescriptionGetter.instance;
 	}
 
 
-	@NotNull
+	@Nonnull
 	@Override
 	protected List<Operator> getMathEntities() {
 		final List<Operator> result = new ArrayList<Operator>();
@@ -65,7 +65,7 @@ public class CalculatorOperatorsFragment extends AbstractMathEntityListFragment<
 	}
 
 	@Override
-	protected String getMathEntityCategory(@NotNull Operator operator) {
+	protected String getMathEntityCategory(@Nonnull Operator operator) {
 		String result = Locator.getInstance().getEngine().getOperatorsRegistry().getCategory(operator);
 		if (result == null) {
 			result = Locator.getInstance().getEngine().getPostfixFunctionsRegistry().getCategory(operator);
@@ -79,7 +79,7 @@ public class CalculatorOperatorsFragment extends AbstractMathEntityListFragment<
 		instance;
 
 		@Override
-		public String getDescription(@NotNull Context context, @NotNull String mathEntityName) {
+		public String getDescription(@Nonnull Context context, @Nonnull String mathEntityName) {
 			String result = Locator.getInstance().getEngine().getOperatorsRegistry().getDescription(mathEntityName);
 			if (Strings.isEmpty(result)) {
 				result = Locator.getInstance().getEngine().getPostfixFunctionsRegistry().getDescription(mathEntityName);
@@ -101,14 +101,14 @@ public class CalculatorOperatorsFragment extends AbstractMathEntityListFragment<
 
 		use(R.string.c_use) {
 			@Override
-			public void onClick(@NotNull Operator data, @NotNull Context context) {
+			public void onClick(@Nonnull Operator data, @Nonnull Context context) {
 				Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.use_operator, data);
 			}
 		},
 
 		copy_description(R.string.c_copy_description) {
 			@Override
-			public void onClick(@NotNull Operator data, @NotNull Context context) {
+			public void onClick(@Nonnull Operator data, @Nonnull Context context) {
 				final String text = OperatorDescriptionGetter.instance.getDescription(context, data.getName());
 				if (!Strings.isEmpty(text)) {
 					final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
@@ -122,9 +122,9 @@ public class CalculatorOperatorsFragment extends AbstractMathEntityListFragment<
 			this.captionId = captionId;
 		}
 
-		@NotNull
+		@Nonnull
 		@Override
-		public String getCaption(@NotNull Context context) {
+		public String getCaption(@Nonnull Context context) {
 			return context.getString(captionId);
 		}
 	}

@@ -6,7 +6,7 @@
 
 package org.solovyev.android.calculator;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -18,7 +18,7 @@ public final class CalculatorSecurity {
 	private CalculatorSecurity() {
 	}
 
-	@NotNull
+	@Nonnull
 	public static String getPK() {
 		final StringBuilder result = new StringBuilder();
 

@@ -11,7 +11,7 @@ import android.content.res.Resources;
 import android.graphics.Paint;
 import android.text.TextPaint;
 import android.util.AttributeSet;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.core.R;
 import org.solovyev.android.view.drag.DirectionDragButton;
@@ -23,14 +23,14 @@ import org.solovyev.android.view.drag.DirectionDragButton;
  */
 public class AngleUnitsButton extends DirectionDragButton {
 
-	public AngleUnitsButton(Context context, @NotNull AttributeSet attrs) {
+	public AngleUnitsButton(Context context, @Nonnull AttributeSet attrs) {
 		super(context, attrs);
 	}
 
 	@Override
-	protected void initDirectionTextPaint(@NotNull Paint basePaint,
-										  @NotNull DirectionTextData directionTextData,
-										  @NotNull Resources resources) {
+	protected void initDirectionTextPaint(@Nonnull Paint basePaint,
+										  @Nonnull DirectionTextData directionTextData,
+										  @Nonnull Resources resources) {
 		super.initDirectionTextPaint(basePaint, directionTextData, resources);
 
 		final TextPaint directionTextPaint = directionTextData.getPaint();

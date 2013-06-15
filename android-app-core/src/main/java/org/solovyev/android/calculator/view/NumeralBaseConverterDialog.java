@@ -4,8 +4,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.view.View;
 import android.view.WindowManager;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.calculator.CalculatorParseException;
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.ToJsclTextProcessor;
@@ -32,7 +32,7 @@ public class NumeralBaseConverterDialog {
 		this.initialFromValue = initialFromValue;
 	}
 
-	public void show(@NotNull Context context) {
+	public void show(@Nonnull Context context) {
 		final UnitConverterViewBuilder b = new UnitConverterViewBuilder();
 		b.setFromUnitTypes(Arrays.asList(CalculatorNumeralBase.values()));
 		b.setToUnitTypes(Arrays.asList(CalculatorNumeralBase.values()));
@@ -64,7 +64,7 @@ public class NumeralBaseConverterDialog {
 
 		b.setCustomButtonData(new UnitConverterViewBuilder.CustomButtonData(context.getString(R.string.c_use_short), new UnitConverterViewBuilder.CustomButtonOnClickListener() {
 			@Override
-			public void onClick(@NotNull Unit<String> fromUnits, @NotNull Unit<String> toUnits) {
+			public void onClick(@Nonnull Unit<String> fromUnits, @Nonnull Unit<String> toUnits) {
 				String toUnitsValue = toUnits.getValue();
 
 				if (!toUnits.getUnitType().equals(CalculatorNumeralBase.valueOf(Locator.getInstance().getEngine().getNumeralBase()))) {

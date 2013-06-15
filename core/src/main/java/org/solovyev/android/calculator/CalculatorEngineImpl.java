@@ -9,8 +9,8 @@ import jscl.math.function.Function;
 import jscl.math.function.IConstant;
 import jscl.math.operator.Operator;
 import jscl.text.ParseException;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.text.DecimalFormatSymbols;
 
@@ -40,25 +40,25 @@ public class CalculatorEngineImpl implements CalculatorEngine {
 	*
 	**********************************************************************
 	*/
-	@NotNull
+	@Nonnull
 	private final MathEngine engine;
 
-	@NotNull
+	@Nonnull
 	private final CalculatorMathEngine mathEngine;
 
-	@NotNull
+	@Nonnull
 	private final CalculatorMathRegistry<IConstant> varsRegistry;
 
-	@NotNull
+	@Nonnull
 	private final CalculatorMathRegistry<Function> functionsRegistry;
 
-	@NotNull
+	@Nonnull
 	private final CalculatorMathRegistry<Operator> operatorsRegistry;
 
-	@NotNull
+	@Nonnull
 	private final CalculatorMathRegistry<Operator> postfixFunctionsRegistry;
 
-	@NotNull
+	@Nonnull
 	private final Object lock;
 
 	/*
@@ -72,14 +72,14 @@ public class CalculatorEngineImpl implements CalculatorEngine {
 
 	private int timeout = Integer.valueOf(MAX_CALCULATION_TIME_DEFAULT);
 
-	@NotNull
+	@Nonnull
 	private String multiplicationSign = MULTIPLICATION_SIGN_DEFAULT;
 
-	public CalculatorEngineImpl(@NotNull JsclMathEngine engine,
-								@NotNull CalculatorMathRegistry<IConstant> varsRegistry,
-								@NotNull CalculatorMathRegistry<Function> functionsRegistry,
-								@NotNull CalculatorMathRegistry<Operator> operatorsRegistry,
-								@NotNull CalculatorMathRegistry<Operator> postfixFunctionsRegistry,
+	public CalculatorEngineImpl(@Nonnull JsclMathEngine engine,
+								@Nonnull CalculatorMathRegistry<IConstant> varsRegistry,
+								@Nonnull CalculatorMathRegistry<Function> functionsRegistry,
+								@Nonnull CalculatorMathRegistry<Operator> operatorsRegistry,
+								@Nonnull CalculatorMathRegistry<Operator> postfixFunctionsRegistry,
 								@Nullable Object lock) {
 
 		this.engine = engine;
@@ -102,37 +102,37 @@ public class CalculatorEngineImpl implements CalculatorEngine {
 	*
 	**********************************************************************
 	*/
-	@NotNull
+	@Nonnull
 	@Override
 	public CalculatorMathRegistry<IConstant> getVarsRegistry() {
 		return this.varsRegistry;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public CalculatorMathRegistry<Function> getFunctionsRegistry() {
 		return this.functionsRegistry;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public CalculatorMathRegistry<Operator> getOperatorsRegistry() {
 		return this.operatorsRegistry;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public CalculatorMathRegistry<Operator> getPostfixFunctionsRegistry() {
 		return this.postfixFunctionsRegistry;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public CalculatorMathEngine getMathEngine() {
 		return this.mathEngine;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public MathEngine getMathEngine0() {
 		return this.engine;
@@ -176,7 +176,7 @@ public class CalculatorEngineImpl implements CalculatorEngine {
 	**********************************************************************
 	*/
 
-	@NotNull
+	@Nonnull
 	@Override
 	public String getMultiplicationSign() {
 		return this.multiplicationSign;
@@ -197,20 +197,20 @@ public class CalculatorEngineImpl implements CalculatorEngine {
 	}
 
 	@Override
-	public void setPrecision(@NotNull Integer precision) {
+	public void setPrecision(@Nonnull Integer precision) {
 		synchronized (lock) {
 			this.engine.setPrecision(precision);
 		}
 	}
 
 	@Override
-	public void setRoundResult(@NotNull Boolean round) {
+	public void setRoundResult(@Nonnull Boolean round) {
 		synchronized (lock) {
 			this.engine.setRoundResult(round);
 		}
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public AngleUnit getAngleUnits() {
 		synchronized (lock) {
@@ -219,13 +219,13 @@ public class CalculatorEngineImpl implements CalculatorEngine {
 	}
 
 	@Override
-	public void setAngleUnits(@NotNull AngleUnit angleUnits) {
+	public void setAngleUnits(@Nonnull AngleUnit angleUnits) {
 		synchronized (lock) {
 			this.engine.setAngleUnits(angleUnits);
 		}
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public NumeralBase getNumeralBase() {
 		synchronized (lock) {
@@ -234,31 +234,31 @@ public class CalculatorEngineImpl implements CalculatorEngine {
 	}
 
 	@Override
-	public void setNumeralBase(@NotNull NumeralBase numeralBase) {
+	public void setNumeralBase(@Nonnull NumeralBase numeralBase) {
 		synchronized (lock) {
 			this.engine.setNumeralBase(numeralBase);
 		}
 	}
 
 	@Override
-	public void setMultiplicationSign(@NotNull String multiplicationSign) {
+	public void setMultiplicationSign(@Nonnull String multiplicationSign) {
 		this.multiplicationSign = multiplicationSign;
 	}
 
 	@Override
-	public void setScienceNotation(@NotNull Boolean scienceNotation) {
+	public void setScienceNotation(@Nonnull Boolean scienceNotation) {
 		synchronized (lock) {
 			this.engine.setScienceNotation(scienceNotation);
 		}
 	}
 
 	@Override
-	public void setTimeout(@NotNull Integer timeout) {
+	public void setTimeout(@Nonnull Integer timeout) {
 		this.timeout = timeout;
 	}
 
 	@Override
-	public void setDecimalGroupSymbols(@NotNull DecimalFormatSymbols decimalGroupSymbols) {
+	public void setDecimalGroupSymbols(@Nonnull DecimalFormatSymbols decimalGroupSymbols) {
 		synchronized (lock) {
 			this.engine.setDecimalGroupSymbols(decimalGroupSymbols);
 		}
@@ -274,46 +274,46 @@ public class CalculatorEngineImpl implements CalculatorEngine {
 
 	private static final class JsclCalculatorMathEngine implements CalculatorMathEngine {
 
-		@NotNull
+		@Nonnull
 		private final MathEngine mathEngine;
 
-		private JsclCalculatorMathEngine(@NotNull MathEngine mathEngine) {
+		private JsclCalculatorMathEngine(@Nonnull MathEngine mathEngine) {
 			this.mathEngine = mathEngine;
 		}
 
-		@NotNull
+		@Nonnull
 		@Override
-		public String evaluate(@NotNull String expression) throws ParseException {
+		public String evaluate(@Nonnull String expression) throws ParseException {
 			return this.mathEngine.evaluate(expression);
 		}
 
-		@NotNull
+		@Nonnull
 		@Override
-		public String simplify(@NotNull String expression) throws ParseException {
+		public String simplify(@Nonnull String expression) throws ParseException {
 			return this.mathEngine.simplify(expression);
 		}
 
-		@NotNull
+		@Nonnull
 		@Override
-		public String elementary(@NotNull String expression) throws ParseException {
+		public String elementary(@Nonnull String expression) throws ParseException {
 			return this.mathEngine.elementary(expression);
 		}
 
-		@NotNull
+		@Nonnull
 		@Override
-		public Generic evaluateGeneric(@NotNull String expression) throws ParseException {
+		public Generic evaluateGeneric(@Nonnull String expression) throws ParseException {
 			return this.mathEngine.evaluateGeneric(expression);
 		}
 
-		@NotNull
+		@Nonnull
 		@Override
-		public Generic simplifyGeneric(@NotNull String expression) throws ParseException {
+		public Generic simplifyGeneric(@Nonnull String expression) throws ParseException {
 			return this.mathEngine.simplifyGeneric(expression);
 		}
 
-		@NotNull
+		@Nonnull
 		@Override
-		public Generic elementaryGeneric(@NotNull String expression) throws ParseException {
+		public Generic elementaryGeneric(@Nonnull String expression) throws ParseException {
 			return this.mathEngine.elementaryGeneric(expression);
 		}
 	}

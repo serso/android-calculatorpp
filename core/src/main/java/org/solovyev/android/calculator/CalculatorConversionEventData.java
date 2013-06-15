@@ -2,7 +2,7 @@ package org.solovyev.android.calculator;
 
 import jscl.NumeralBase;
 import jscl.math.Generic;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * User: Solovyev_S
@@ -12,15 +12,15 @@ import org.jetbrains.annotations.NotNull;
 public interface CalculatorConversionEventData extends CalculatorEventData {
 
 	// display state on the moment of conversion
-	@NotNull
+	@Nonnull
 	CalculatorDisplayViewState getDisplayState();
 
-	@NotNull
+	@Nonnull
 	NumeralBase getFromNumeralBase();
 
-	@NotNull
+	@Nonnull
 	NumeralBase getToNumeralBase();
 
-	@NotNull
+	@Nonnull
 	Generic getValue();
 }

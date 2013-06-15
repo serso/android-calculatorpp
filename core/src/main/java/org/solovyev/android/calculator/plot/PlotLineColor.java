@@ -1,6 +1,6 @@
 package org.solovyev.android.calculator.plot;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -34,7 +34,7 @@ public enum PlotLineColor {
 		return this.color;
 	}
 
-	@NotNull
+	@Nonnull
 	public static PlotLineColor valueOf(int color) {
 		for (PlotLineColor plotLineColor : PlotLineColor.values()) {
 			if (plotLineColor.color == color) {

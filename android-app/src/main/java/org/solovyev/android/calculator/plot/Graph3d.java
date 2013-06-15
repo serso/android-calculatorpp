@@ -3,7 +3,7 @@
 package org.solovyev.android.calculator.plot;
 
 import android.graphics.Color;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
@@ -91,7 +91,7 @@ class Graph3d {
 		return bb;
 	}
 
-	public void update(@NotNull GL11 gl, @NotNull PlotFunction fpd, @NotNull Graph2dDimensions dimensions) {
+	public void update(@Nonnull GL11 gl, @Nonnull PlotFunction fpd, @Nonnull Graph2dDimensions dimensions) {
 		final XyFunction function = fpd.getXyFunction();
 		final PlotLineDef lineDef = fpd.getPlotLineDef();
 		final int NTICK = useHighQuality3d ? 5 : 0;
@@ -227,7 +227,7 @@ class Graph3d {
 		}
 	}
 
-	private float fillFunctionPolygonVertices(XyFunction function, @NotNull Graph2dDimensions dimensions, float[] vertices) {
+	private float fillFunctionPolygonVertices(XyFunction function, @Nonnull Graph2dDimensions dimensions, float[] vertices) {
 		final int arity = function.getArity();
 
 		final float xMin = dimensions.getXMin();

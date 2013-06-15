@@ -1,6 +1,6 @@
 package org.solovyev.android.calculator.text;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.android.calculator.CalculatorParseException;
 
 /**
@@ -10,6 +10,6 @@ import org.solovyev.android.calculator.CalculatorParseException;
  */
 public interface TextProcessor<TO extends CharSequence, FROM> {
 
-	@NotNull
-	TO process(@NotNull FROM from) throws CalculatorParseException;
+	@Nonnull
+	TO process(@Nonnull FROM from) throws CalculatorParseException;
 }

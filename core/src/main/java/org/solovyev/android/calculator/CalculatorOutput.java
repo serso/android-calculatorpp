@@ -1,8 +1,8 @@
 package org.solovyev.android.calculator;
 
 import jscl.math.Generic;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 
 /**
@@ -12,10 +12,10 @@ import org.solovyev.android.calculator.jscl.JsclOperation;
  */
 public interface CalculatorOutput {
 
-	@NotNull
+	@Nonnull
 	String getStringResult();
 
-	@NotNull
+	@Nonnull
 	JsclOperation getOperation();
 
 

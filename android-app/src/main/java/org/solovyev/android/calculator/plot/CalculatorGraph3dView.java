@@ -7,7 +7,7 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.ZoomButtonsController;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
@@ -44,13 +44,13 @@ public class CalculatorGraph3dView extends GLView implements GraphView {
 	private float zoomStep = 0;
 	private float currentZoom;
 
-	@NotNull
+	@Nonnull
 	private List<Graph3d> graphs = new ArrayList<Graph3d>();
 
-	@NotNull
+	@Nonnull
 	private GraphViewHelper graphViewHelper = GraphViewHelper.newDefaultInstance();
 
-	@NotNull
+	@Nonnull
 	private Graph2dDimensions dimensions = new Graph2dDimensions(this);
 
 	/*
@@ -136,12 +136,12 @@ public class CalculatorGraph3dView extends GLView implements GraphView {
 	}
 
 	@Override
-	public void init(@NotNull PlotViewDef plotViewDef) {
+	public void init(@Nonnull PlotViewDef plotViewDef) {
 		this.graphViewHelper = GraphViewHelper.newInstance(plotViewDef, Collections.<PlotFunction>emptyList());
 	}
 
 	@Override
-	public void setPlotFunctions(@NotNull List<PlotFunction> plotFunctions) {
+	public void setPlotFunctions(@Nonnull List<PlotFunction> plotFunctions) {
 		for (PlotFunction plotFunction : plotFunctions) {
 			final int arity = plotFunction.getXyFunction().getArity();
 			if (arity != 0 && arity != 1 && arity != 2) {
@@ -154,7 +154,7 @@ public class CalculatorGraph3dView extends GLView implements GraphView {
 		dirty = true;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public List<PlotFunction> getPlotFunctions() {
 		return this.graphViewHelper.getPlotFunctions();
@@ -278,7 +278,7 @@ public class CalculatorGraph3dView extends GLView implements GraphView {
 
 	}
 
-	private void ensureGraphsSize(@NotNull GL11 gl) {
+	private void ensureGraphsSize(@Nonnull GL11 gl) {
 		while (graphViewHelper.getPlotFunctions().size() > graphs.size()) {
 			graphs.add(new Graph3d(gl, useHighQuality3d));
 		}

@@ -1,7 +1,7 @@
 package org.solovyev.android.calculator.plot;
 
 import android.graphics.Color;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -48,12 +48,12 @@ public class PlotViewDef {
 		this.backgroundColor = backgroundColor;
 	}
 
-	@NotNull
+	@Nonnull
 	public static PlotViewDef newDefaultInstance() {
 		return new PlotViewDef();
 	}
 
-	@NotNull
+	@Nonnull
 	public static PlotViewDef newInstance(int axisColor, int axisLabelColor, int gridColor, int backgroundColor) {
 		return new PlotViewDef(axisColor, axisLabelColor, gridColor, backgroundColor);
 	}

@@ -6,8 +6,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.common.collections.Collections;
 
 import java.util.List;
@@ -19,17 +19,17 @@ import java.util.List;
  */
 public class FragmentUtils {
 
-	public static void createFragment(@NotNull FragmentActivity activity,
-									  @NotNull Class<? extends Fragment> fragmentClass,
+	public static void createFragment(@Nonnull FragmentActivity activity,
+									  @Nonnull Class<? extends Fragment> fragmentClass,
 									  int parentViewId,
-									  @NotNull String tag) {
+									  @Nonnull String tag) {
 		createFragment(activity, fragmentClass, parentViewId, tag, null);
 	}
 
-	public static void createFragment(@NotNull FragmentActivity activity,
-									  @NotNull Class<? extends Fragment> fragmentClass,
+	public static void createFragment(@Nonnull FragmentActivity activity,
+									  @Nonnull Class<? extends Fragment> fragmentClass,
 									  int parentViewId,
-									  @NotNull String tag,
+									  @Nonnull String tag,
 									  @Nullable Bundle args) {
 		final FragmentManager fm = activity.getSupportFragmentManager();
 
@@ -50,27 +50,27 @@ public class FragmentUtils {
 		}
 	}
 
-	public static void removeFragments(@NotNull SherlockFragmentActivity activity, @NotNull String... fragmentTags) {
+	public static void removeFragments(@Nonnull SherlockFragmentActivity activity, @Nonnull String... fragmentTags) {
 		removeFragments(activity, Collections.asList(fragmentTags));
 	}
 
-	public static void removeFragments(@NotNull SherlockFragmentActivity activity, @NotNull List<String> fragmentTags) {
+	public static void removeFragments(@Nonnull SherlockFragmentActivity activity, @Nonnull List<String> fragmentTags) {
 		for (String fragmentTag : fragmentTags) {
 			removeFragment(activity, fragmentTag);
 		}
 	}
 
-	public static void detachFragments(@NotNull SherlockFragmentActivity activity, @NotNull String... fragmentTags) {
+	public static void detachFragments(@Nonnull SherlockFragmentActivity activity, @Nonnull String... fragmentTags) {
 		detachFragments(activity, Collections.asList(fragmentTags));
 	}
 
-	public static void detachFragments(@NotNull SherlockFragmentActivity activity, @NotNull List<String> fragmentTags) {
+	public static void detachFragments(@Nonnull SherlockFragmentActivity activity, @Nonnull List<String> fragmentTags) {
 		for (String fragmentTag : fragmentTags) {
 			detachFragment(activity, fragmentTag);
 		}
 	}
 
-	public static void detachFragment(@NotNull SherlockFragmentActivity activity, @NotNull String fragmentTag) {
+	public static void detachFragment(@Nonnull SherlockFragmentActivity activity, @Nonnull String fragmentTag) {
 		final Fragment fragment = activity.getSupportFragmentManager().findFragmentByTag(fragmentTag);
 		if (fragment != null) {
 			if (!fragment.isDetached()) {
@@ -81,7 +81,7 @@ public class FragmentUtils {
 		}
 	}
 
-	public static void removeFragment(@NotNull SherlockFragmentActivity activity, @NotNull String fragmentTag) {
+	public static void removeFragment(@Nonnull SherlockFragmentActivity activity, @Nonnull String fragmentTag) {
 		final Fragment fragment = activity.getSupportFragmentManager().findFragmentByTag(fragmentTag);
 		if (fragment != null) {
 			if (fragment.isAdded()) {

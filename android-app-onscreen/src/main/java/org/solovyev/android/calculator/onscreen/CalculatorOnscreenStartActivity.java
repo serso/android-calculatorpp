@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.android.Android;
 import org.solovyev.android.App;
 import org.solovyev.android.calculator.AbstractFixableError;
@@ -38,7 +38,7 @@ public class CalculatorOnscreenStartActivity extends Activity {
 
 	public static class RemoveIconFixableError extends AbstractFixableError {
 
-		public RemoveIconFixableError(@NotNull Context context) {
+		public RemoveIconFixableError(@Nonnull Context context) {
 			super(context.getString(R.string.cpp_onscreen_remove_icon_button_text));
 		}
 

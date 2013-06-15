@@ -1,6 +1,6 @@
 package org.solovyev.android.calculator;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 
 /**
@@ -10,25 +10,25 @@ import org.solovyev.android.calculator.jscl.JsclOperation;
  */
 public class CalculatorInputImpl implements CalculatorInput {
 
-	@NotNull
+	@Nonnull
 	private String expression;
 
-	@NotNull
+	@Nonnull
 	private JsclOperation operation;
 
-	public CalculatorInputImpl(@NotNull String expression, @NotNull JsclOperation operation) {
+	public CalculatorInputImpl(@Nonnull String expression, @Nonnull JsclOperation operation) {
 		this.expression = expression;
 		this.operation = operation;
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public String getExpression() {
 		return expression;
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public JsclOperation getOperation() {
 		return operation;
 	}

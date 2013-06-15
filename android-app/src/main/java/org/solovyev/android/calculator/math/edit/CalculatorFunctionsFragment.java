@@ -17,8 +17,8 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import jscl.math.function.Function;
 import jscl.math.function.IFunction;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.function.FunctionEditDialogFragment;
 import org.solovyev.android.menu.AMenuItem;
@@ -66,9 +66,9 @@ public class CalculatorFunctionsFragment extends AbstractMathEntityListFragment<
 		return LongClickMenuItem.use;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
-	protected List<LabeledMenuItem<Function>> getMenuItemsOnLongClick(@NotNull Function item) {
+	protected List<LabeledMenuItem<Function>> getMenuItemsOnLongClick(@Nonnull Function item) {
 		List<LabeledMenuItem<Function>> result = new ArrayList<LabeledMenuItem<Function>>(Arrays.asList(LongClickMenuItem.values()));
 
 		final CalculatorMathRegistry<Function> functionsRegistry = Locator.getInstance().getEngine().getFunctionsRegistry();
@@ -85,25 +85,25 @@ public class CalculatorFunctionsFragment extends AbstractMathEntityListFragment<
 		return result;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	protected MathEntityDescriptionGetter getDescriptionGetter() {
 		return new MathEntityDescriptionGetterImpl(Locator.getInstance().getEngine().getFunctionsRegistry());
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	protected List<Function> getMathEntities() {
 		return new ArrayList<Function>(Locator.getInstance().getEngine().getFunctionsRegistry().getEntities());
 	}
 
 	@Override
-	protected String getMathEntityCategory(@NotNull Function function) {
+	protected String getMathEntityCategory(@Nonnull Function function) {
 		return Locator.getInstance().getEngine().getFunctionsRegistry().getCategory(function);
 	}
 
 	@Override
-	public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
+	public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
 		super.onCalculatorEvent(calculatorEventData, calculatorEventType, data);
 
 		switch (calculatorEventType) {
@@ -122,7 +122,7 @@ public class CalculatorFunctionsFragment extends AbstractMathEntityListFragment<
 	}
 
 
-	private void processFunctionRemoved(@NotNull final Function function) {
+	private void processFunctionRemoved(@Nonnull final Function function) {
 		if (this.isInCategory(function)) {
 			getUiHandler().post(new Runnable() {
 				@Override
@@ -134,7 +134,7 @@ public class CalculatorFunctionsFragment extends AbstractMathEntityListFragment<
 		}
 	}
 
-	private void processFunctionChanged(@NotNull final Change<IFunction> change) {
+	private void processFunctionChanged(@Nonnull final Change<IFunction> change) {
 		final IFunction newFunction = change.getNewValue();
 
 		if (newFunction instanceof Function) {
@@ -169,7 +169,7 @@ public class CalculatorFunctionsFragment extends AbstractMathEntityListFragment<
 		}
 	}
 
-	private void processFunctionAdded(@NotNull final Function function) {
+	private void processFunctionAdded(@Nonnull final Function function) {
 		if (this.isInCategory(function)) {
 			getUiHandler().post(new Runnable() {
 				@Override
@@ -222,14 +222,14 @@ public class CalculatorFunctionsFragment extends AbstractMathEntityListFragment<
 	private static enum LongClickMenuItem implements LabeledMenuItem<Function> {
 		use(R.string.c_use) {
 			@Override
-			public void onClick(@NotNull Function function, @NotNull Context context) {
+			public void onClick(@Nonnull Function function, @Nonnull Context context) {
 				Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.use_function, function);
 			}
 		},
 
 		edit(R.string.c_edit) {
 			@Override
-			public void onClick(@NotNull Function function, @NotNull Context context) {
+			public void onClick(@Nonnull Function function, @Nonnull Context context) {
 				if (function instanceof IFunction) {
 					FunctionEditDialogFragment.showDialog(FunctionEditDialogFragment.Input.newFromFunction((IFunction) function), ((SherlockFragmentActivity) context).getSupportFragmentManager());
 				}
@@ -238,14 +238,14 @@ public class CalculatorFunctionsFragment extends AbstractMathEntityListFragment<
 
 		remove(R.string.c_remove) {
 			@Override
-			public void onClick(@NotNull Function function, @NotNull Context context) {
+			public void onClick(@Nonnull Function function, @Nonnull Context context) {
 				MathEntityRemover.newFunctionRemover(function, null, context, context).showConfirmationDialog();
 			}
 		},
 
 		copy_description(R.string.c_copy_description) {
 			@Override
-			public void onClick(@NotNull Function function, @NotNull Context context) {
+			public void onClick(@Nonnull Function function, @Nonnull Context context) {
 				final String text = Locator.getInstance().getEngine().getFunctionsRegistry().getDescription(function.getName());
 				if (!Strings.isEmpty(text)) {
 					final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
@@ -259,9 +259,9 @@ public class CalculatorFunctionsFragment extends AbstractMathEntityListFragment<
 			this.captionId = captionId;
 		}
 
-		@NotNull
+		@Nonnull
 		@Override
-		public String getCaption(@NotNull Context context) {
+		public String getCaption(@Nonnull Context context) {
 			return context.getString(captionId);
 		}
 	}

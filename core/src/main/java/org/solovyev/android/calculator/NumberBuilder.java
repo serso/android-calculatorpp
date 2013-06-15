@@ -11,8 +11,8 @@ import jscl.MathEngine;
 import jscl.NumeralBase;
 import jscl.math.numeric.Real;
 import jscl.text.*;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.common.MutableObject;
 
@@ -26,7 +26,7 @@ import java.util.List;
  */
 public class NumberBuilder extends AbstractNumberBuilder {
 
-	public NumberBuilder(@NotNull CalculatorEngine engine) {
+	public NumberBuilder(@Nonnull CalculatorEngine engine) {
 		super(engine);
 	}
 
@@ -38,8 +38,8 @@ public class NumberBuilder extends AbstractNumberBuilder {
 	 * @param offset         offset between new number length and old number length (newNumberLength - oldNumberLength)
 	 * @return new math type result (as one can be changed due to substituting of number with constant)
 	 */
-	@NotNull
-	public MathType.Result process(@NotNull StringBuilder text, @NotNull MathType.Result mathTypeResult, @Nullable MutableObject<Integer> offset) {
+	@Nonnull
+	public MathType.Result process(@Nonnull StringBuilder text, @Nonnull MathType.Result mathTypeResult, @Nullable MutableObject<Integer> offset) {
 		final MathType.Result possibleResult;
 		if (canContinue(mathTypeResult)) {
 			// let's continue building number
@@ -73,7 +73,7 @@ public class NumberBuilder extends AbstractNumberBuilder {
 	 * @return new math type result (as one can be changed due to substituting of number with constant)
 	 */
 	@Nullable
-	public MathType.Result processNumber(@NotNull StringBuilder text, @Nullable MutableObject<Integer> offset) {
+	public MathType.Result processNumber(@Nonnull StringBuilder text, @Nullable MutableObject<Integer> offset) {
 		// total number of trimmed chars
 		int trimmedChars = 0;
 
@@ -115,12 +115,12 @@ public class NumberBuilder extends AbstractNumberBuilder {
 	}
 
 	@Nullable
-	private static MathType.Result replaceNumberInText(@NotNull StringBuilder text,
+	private static MathType.Result replaceNumberInText(@Nonnull StringBuilder text,
 													   @Nullable String number,
 													   int trimmedChars,
 													   @Nullable MutableObject<Integer> offset,
-													   @NotNull NumeralBase nb,
-													   @NotNull final MathEngine engine) {
+													   @Nonnull NumeralBase nb,
+													   @Nonnull final MathEngine engine) {
 		MathType.Result result = null;
 
 		if (number != null) {
@@ -139,8 +139,8 @@ public class NumberBuilder extends AbstractNumberBuilder {
 		return result;
 	}
 
-	@NotNull
-	private static String formatNumber(@NotNull String number, @NotNull NumeralBase nb, @NotNull MathEngine engine) {
+	@Nonnull
+	private static String formatNumber(@Nonnull String number, @Nonnull NumeralBase nb, @Nonnull MathEngine engine) {
 		String result;
 
 		int indexOfDot = number.indexOf('.');
@@ -176,8 +176,8 @@ public class NumberBuilder extends AbstractNumberBuilder {
 		return result;
 	}
 
-	@NotNull
-	private static Double toDouble(@NotNull String s, @NotNull NumeralBase nb, @NotNull final MathContext mc) throws NumberFormatException {
+	@Nonnull
+	private static Double toDouble(@Nonnull String s, @Nonnull NumeralBase nb, @Nonnull final MathContext mc) throws NumberFormatException {
 		final NumeralBase defaultNb = mc.getNumeralBase();
 		try {
 			mc.setNumeralBase(nb);

@@ -1,7 +1,7 @@
 package org.solovyev.android.calculator;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * User: serso
@@ -26,7 +26,7 @@ public enum AndroidOperatorCategory {
 	}
 
 	@Nullable
-	public static AndroidOperatorCategory valueOf(@NotNull OperatorCategory operatorCategory) {
+	public static AndroidOperatorCategory valueOf(@Nonnull OperatorCategory operatorCategory) {
 		for (AndroidOperatorCategory androidOperatorCategory : values()) {
 			if (androidOperatorCategory.name().equals(operatorCategory.name())) {
 				return androidOperatorCategory;

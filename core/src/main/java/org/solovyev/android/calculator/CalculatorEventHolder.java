@@ -1,7 +1,7 @@
 package org.solovyev.android.calculator;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * User: serso
@@ -10,20 +10,20 @@ import org.jetbrains.annotations.Nullable;
  */
 public class CalculatorEventHolder {
 
-	@NotNull
+	@Nonnull
 	private volatile CalculatorEventData lastEventData;
 
-	public CalculatorEventHolder(@NotNull CalculatorEventData lastEventData) {
+	public CalculatorEventHolder(@Nonnull CalculatorEventData lastEventData) {
 		this.lastEventData = lastEventData;
 	}
 
-	@NotNull
+	@Nonnull
 	public synchronized CalculatorEventData getLastEventData() {
 		return lastEventData;
 	}
 
-	@NotNull
-	public synchronized Result apply(@NotNull CalculatorEventData newEventData) {
+	@Nonnull
+	public synchronized Result apply(@Nonnull CalculatorEventData newEventData) {
 		final Result result = new Result(lastEventData, newEventData);
 
 		if (result.isNewAfter()) {
@@ -35,10 +35,10 @@ public class CalculatorEventHolder {
 
 	public static class Result {
 
-		@NotNull
+		@Nonnull
 		private final CalculatorEventData lastEventData;
 
-		@NotNull
+		@Nonnull
 		private final CalculatorEventData newEventData;
 
 		@Nullable
@@ -47,8 +47,8 @@ public class CalculatorEventHolder {
 		@Nullable
 		private Boolean sameSequence = null;
 
-		public Result(@NotNull CalculatorEventData lastEventData,
-					  @NotNull CalculatorEventData newEventData) {
+		public Result(@Nonnull CalculatorEventData lastEventData,
+					  @Nonnull CalculatorEventData newEventData) {
 			this.lastEventData = lastEventData;
 			this.newEventData = newEventData;
 		}

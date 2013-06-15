@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * User: serso
@@ -15,57 +15,57 @@ import org.jetbrains.annotations.Nullable;
  */
 public interface CalculatorActivityHelper {
 
-	void onCreate(@NotNull SherlockFragmentActivity activity, @Nullable Bundle savedInstanceState);
+	void onCreate(@Nonnull SherlockFragmentActivity activity, @Nullable Bundle savedInstanceState);
 
-	void onCreate(@NotNull Activity activity, @Nullable Bundle savedInstanceState);
+	void onCreate(@Nonnull Activity activity, @Nullable Bundle savedInstanceState);
 
-	void onSaveInstanceState(@NotNull SherlockFragmentActivity activity, @NotNull Bundle outState);
+	void onSaveInstanceState(@Nonnull SherlockFragmentActivity activity, @Nonnull Bundle outState);
 
-	void onSaveInstanceState(@NotNull Activity activity, @NotNull Bundle outState);
+	void onSaveInstanceState(@Nonnull Activity activity, @Nonnull Bundle outState);
 
 	int getLayoutId();
 
-	@NotNull
+	@Nonnull
 	CalculatorPreferences.Gui.Theme getTheme();
 
-	@NotNull
+	@Nonnull
 	CalculatorPreferences.Gui.Layout getLayout();
 
-	void onResume(@NotNull SherlockFragmentActivity activity);
+	void onResume(@Nonnull SherlockFragmentActivity activity);
 
-	void onResume(@NotNull Activity activity);
+	void onResume(@Nonnull Activity activity);
 
-	void onPause(@NotNull Activity activity);
+	void onPause(@Nonnull Activity activity);
 
-	void onPause(@NotNull SherlockFragmentActivity activity);
+	void onPause(@Nonnull SherlockFragmentActivity activity);
 
-	void onDestroy(@NotNull SherlockFragmentActivity activity);
+	void onDestroy(@Nonnull SherlockFragmentActivity activity);
 
-	void onDestroy(@NotNull Activity activity);
+	void onDestroy(@Nonnull Activity activity);
 
-	void addTab(@NotNull SherlockFragmentActivity activity,
-				@NotNull String tag,
-				@NotNull Class<? extends Fragment> fragmentClass,
+	void addTab(@Nonnull SherlockFragmentActivity activity,
+				@Nonnull String tag,
+				@Nonnull Class<? extends Fragment> fragmentClass,
 				@Nullable Bundle fragmentArgs,
 				int captionResId,
 				int parentViewId);
 
-	void addTab(@NotNull SherlockFragmentActivity activity,
-				@NotNull CalculatorFragmentType fragmentType,
+	void addTab(@Nonnull SherlockFragmentActivity activity,
+				@Nonnull CalculatorFragmentType fragmentType,
 				@Nullable Bundle fragmentArgs,
 				int parentViewId);
 
-	void setFragment(@NotNull SherlockFragmentActivity activity,
-					 @NotNull CalculatorFragmentType fragmentType,
+	void setFragment(@Nonnull SherlockFragmentActivity activity,
+					 @Nonnull CalculatorFragmentType fragmentType,
 					 @Nullable Bundle fragmentArgs,
 					 int parentViewId);
 
 
-	void logDebug(@NotNull String message);
+	void logDebug(@Nonnull String message);
 
-	void processButtons(@NotNull Activity activity, @NotNull View root);
+	void processButtons(@Nonnull Activity activity, @Nonnull View root);
 
-	void logError(@NotNull String message);
+	void logError(@Nonnull String message);
 
-	void selectTab(@NotNull SherlockFragmentActivity activity, @NotNull CalculatorFragmentType fragmentType);
+	void selectTab(@Nonnull SherlockFragmentActivity activity, @Nonnull CalculatorFragmentType fragmentType);
 }

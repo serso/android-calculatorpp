@@ -1,8 +1,8 @@
 package org.solovyev.android.calculator;
 
 import jscl.math.Generic;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 
 /**
@@ -15,40 +15,40 @@ public class CalculatorOutputImpl implements CalculatorOutput {
 	@Nullable
 	private Generic result;
 
-	@NotNull
+	@Nonnull
 	private String stringResult;
 
-	@NotNull
+	@Nonnull
 	private JsclOperation operation;
 
-	private CalculatorOutputImpl(@NotNull String stringResult,
-								 @NotNull JsclOperation operation,
+	private CalculatorOutputImpl(@Nonnull String stringResult,
+								 @Nonnull JsclOperation operation,
 								 @Nullable Generic result) {
 		this.stringResult = stringResult;
 		this.operation = operation;
 		this.result = result;
 	}
 
-	@NotNull
-	public static CalculatorOutput newOutput(@NotNull String stringResult,
-											 @NotNull JsclOperation operation,
-											 @NotNull Generic result) {
+	@Nonnull
+	public static CalculatorOutput newOutput(@Nonnull String stringResult,
+											 @Nonnull JsclOperation operation,
+											 @Nonnull Generic result) {
 		return new CalculatorOutputImpl(stringResult, operation, result);
 	}
 
-	@NotNull
-	public static CalculatorOutput newEmptyOutput(@NotNull JsclOperation operation) {
+	@Nonnull
+	public static CalculatorOutput newEmptyOutput(@Nonnull JsclOperation operation) {
 		return new CalculatorOutputImpl("", operation, null);
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public String getStringResult() {
 		return stringResult;
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public JsclOperation getOperation() {
 		return operation;
 	}

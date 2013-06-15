@@ -1,7 +1,7 @@
 package org.solovyev.android.calculator;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * User: Solovyev_S
@@ -14,15 +14,15 @@ public interface CalculatorEventData {
 	long getEventId();
 
 	// the higher id => the later event
-	@NotNull
+	@Nonnull
 	Long getSequenceId();
 
 	@Nullable
 	Object getSource();
 
-	boolean isAfter(@NotNull CalculatorEventData that);
+	boolean isAfter(@Nonnull CalculatorEventData that);
 
-	boolean isSameSequence(@NotNull CalculatorEventData that);
+	boolean isSameSequence(@Nonnull CalculatorEventData that);
 
-	boolean isAfterSequence(@NotNull CalculatorEventData that);
+	boolean isAfterSequence(@Nonnull CalculatorEventData that);
 }

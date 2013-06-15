@@ -13,8 +13,8 @@ import android.widget.Button;
 import android.widget.RemoteViews;
 import jscl.AngleUnit;
 import jscl.NumeralBase;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.Views;
 import org.solovyev.android.calculator.core.R;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
@@ -36,36 +36,36 @@ public final class CalculatorButtons {
 	}
 
 
-	public static void processButtons(@NotNull CalculatorPreferences.Gui.Theme theme,
-									  @NotNull CalculatorPreferences.Gui.Layout layout,
-									  @NotNull View root) {
+	public static void processButtons(@Nonnull CalculatorPreferences.Gui.Theme theme,
+									  @Nonnull CalculatorPreferences.Gui.Layout layout,
+									  @Nonnull View root) {
 		if (layout == CalculatorPreferences.Gui.Layout.main_calculator_mobile) {
 
 			final float textSize = root.getContext().getResources().getDimension(R.dimen.cpp_keyboard_button_text_size_mobile);
 
 			Views.processViewsOfType(root, DragButton.class, new Views.ViewProcessor<DragButton>() {
 				@Override
-				public void process(@NotNull DragButton button) {
+				public void process(@Nonnull DragButton button) {
 					button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
 				}
 			});
 		}
 	}
 
-	static void initMultiplicationButton(@NotNull View root) {
+	static void initMultiplicationButton(@Nonnull View root) {
 		final View multiplicationButton = root.findViewById(R.id.cpp_button_multiplication);
 		if (multiplicationButton instanceof Button) {
 			((Button) multiplicationButton).setText(Locator.getInstance().getEngine().getMultiplicationSign());
 		}
 	}
 
-	public static void initMultiplicationButton(@NotNull RemoteViews views) {
+	public static void initMultiplicationButton(@Nonnull RemoteViews views) {
 		views.setTextViewText(R.id.cpp_button_multiplication, Locator.getInstance().getEngine().getMultiplicationSign());
 	}
 
 
 	public static void toggleEqualsButton(@Nullable SharedPreferences preferences,
-										  @NotNull Activity activity) {
+										  @Nonnull Activity activity) {
 		preferences = preferences == null ? PreferenceManager.getDefaultSharedPreferences(activity) : preferences;
 
 		final boolean large = Views.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_LARGE, activity.getResources().getConfiguration()) &&
@@ -97,7 +97,7 @@ public final class CalculatorButtons {
 
 	static class RoundBracketsDragProcessor implements SimpleOnDragListener.DragProcessor {
 		@Override
-		public boolean processDragEvent(@NotNull DragDirection dragDirection, @NotNull DragButton dragButton, @NotNull Point2d startPoint2d, @NotNull MotionEvent motionEvent) {
+		public boolean processDragEvent(@Nonnull DragDirection dragDirection, @Nonnull DragButton dragButton, @Nonnull Point2d startPoint2d, @Nonnull MotionEvent motionEvent) {
 			final boolean result;
 
 			if (dragDirection == DragDirection.left) {
@@ -111,25 +111,25 @@ public final class CalculatorButtons {
 		}
 	}
 
-	@NotNull
+	@Nonnull
 	private static CalculatorKeyboard getKeyboard() {
 		return Locator.getInstance().getKeyboard();
 	}
 
 	static class VarsDragProcessor implements SimpleOnDragListener.DragProcessor {
 
-		@NotNull
+		@Nonnull
 		private Context context;
 
-		VarsDragProcessor(@NotNull Context context) {
+		VarsDragProcessor(@Nonnull Context context) {
 			this.context = context;
 		}
 
 		@Override
-		public boolean processDragEvent(@NotNull DragDirection dragDirection,
-										@NotNull DragButton dragButton,
-										@NotNull Point2d startPoint2d,
-										@NotNull MotionEvent motionEvent) {
+		public boolean processDragEvent(@Nonnull DragDirection dragDirection,
+										@Nonnull DragButton dragButton,
+										@Nonnull Point2d startPoint2d,
+										@Nonnull MotionEvent motionEvent) {
 			boolean result = false;
 
 			if (dragDirection == DragDirection.up) {
@@ -146,22 +146,22 @@ public final class CalculatorButtons {
 
 	static class AngleUnitsChanger implements SimpleOnDragListener.DragProcessor {
 
-		@NotNull
+		@Nonnull
 		private final DigitButtonDragProcessor processor;
 
-		@NotNull
+		@Nonnull
 		private final Context context;
 
-		AngleUnitsChanger(@NotNull Context context) {
+		AngleUnitsChanger(@Nonnull Context context) {
 			this.context = context;
 			this.processor = new DigitButtonDragProcessor(Locator.getInstance().getKeyboard());
 		}
 
 		@Override
-		public boolean processDragEvent(@NotNull DragDirection dragDirection,
-										@NotNull DragButton dragButton,
-										@NotNull Point2d startPoint2d,
-										@NotNull MotionEvent motionEvent) {
+		public boolean processDragEvent(@Nonnull DragDirection dragDirection,
+										@Nonnull DragButton dragButton,
+										@Nonnull Point2d startPoint2d,
+										@Nonnull MotionEvent motionEvent) {
 			boolean result = false;
 
 			if (dragButton instanceof AngleUnitsButton) {
@@ -195,18 +195,18 @@ public final class CalculatorButtons {
 
 	static class NumeralBasesChanger implements SimpleOnDragListener.DragProcessor {
 
-		@NotNull
+		@Nonnull
 		private final Context context;
 
-		NumeralBasesChanger(@NotNull Context context) {
+		NumeralBasesChanger(@Nonnull Context context) {
 			this.context = context;
 		}
 
 		@Override
-		public boolean processDragEvent(@NotNull DragDirection dragDirection,
-										@NotNull DragButton dragButton,
-										@NotNull Point2d startPoint2d,
-										@NotNull MotionEvent motionEvent) {
+		public boolean processDragEvent(@Nonnull DragDirection dragDirection,
+										@Nonnull DragButton dragButton,
+										@Nonnull Point2d startPoint2d,
+										@Nonnull MotionEvent motionEvent) {
 			boolean result = false;
 
 			if (dragButton instanceof NumeralBasesButton) {
@@ -236,18 +236,18 @@ public final class CalculatorButtons {
 
 	static class FunctionsDragProcessor implements SimpleOnDragListener.DragProcessor {
 
-		@NotNull
+		@Nonnull
 		private Context context;
 
-		FunctionsDragProcessor(@NotNull Context context) {
+		FunctionsDragProcessor(@Nonnull Context context) {
 			this.context = context;
 		}
 
 		@Override
-		public boolean processDragEvent(@NotNull DragDirection dragDirection,
-										@NotNull DragButton dragButton,
-										@NotNull Point2d startPoint2d,
-										@NotNull MotionEvent motionEvent) {
+		public boolean processDragEvent(@Nonnull DragDirection dragDirection,
+										@Nonnull DragButton dragButton,
+										@Nonnull Point2d startPoint2d,
+										@Nonnull MotionEvent motionEvent) {
 			boolean result = false;
 
 			if (dragDirection == DragDirection.up) {

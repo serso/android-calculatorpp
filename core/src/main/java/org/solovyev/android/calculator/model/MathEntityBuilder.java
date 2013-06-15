@@ -6,8 +6,8 @@
 
 package org.solovyev.android.calculator.model;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathEntity;
 
@@ -18,12 +18,12 @@ import org.solovyev.common.math.MathEntity;
  */
 public interface MathEntityBuilder<T extends MathEntity> extends JBuilder<T> {
 
-	@NotNull
-	public MathEntityBuilder<T> setName(@NotNull String name);
+	@Nonnull
+	public MathEntityBuilder<T> setName(@Nonnull String name);
 
-	@NotNull
+	@Nonnull
 	public MathEntityBuilder<T> setDescription(@Nullable String description);
 
-	@NotNull
+	@Nonnull
 	public MathEntityBuilder<T> setValue(@Nullable String value);
 }

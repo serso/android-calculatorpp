@@ -1,7 +1,7 @@
 package org.solovyev.android.calculator;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * User: serso
@@ -10,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public interface CalculatorFailure {
 
-	@NotNull
+	@Nonnull
 	Exception getException();
 
 	@Nullable

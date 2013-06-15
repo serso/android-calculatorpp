@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import jscl.math.Generic;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.calculator.CalculatorPreferences;
 
 import java.util.List;
@@ -17,11 +17,11 @@ import java.util.List;
  */
 public class AndroidCalculatorPlotter implements CalculatorPlotter, SharedPreferences.OnSharedPreferenceChangeListener {
 
-	@NotNull
+	@Nonnull
 	private final CalculatorPlotter plotter;
 
-	public AndroidCalculatorPlotter(@NotNull Context context,
-									@NotNull CalculatorPlotter plotter) {
+	public AndroidCalculatorPlotter(@Nonnull Context context,
+									@Nonnull CalculatorPlotter plotter) {
 		this.plotter = plotter;
 
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
@@ -31,72 +31,72 @@ public class AndroidCalculatorPlotter implements CalculatorPlotter, SharedPrefer
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public PlotData getPlotData() {
 		return plotter.getPlotData();
 	}
 
 	@Override
-	public boolean addFunction(@NotNull Generic expression) {
+	public boolean addFunction(@Nonnull Generic expression) {
 		return plotter.addFunction(expression);
 	}
 
 	@Override
-	public boolean addFunction(@NotNull PlotFunction plotFunction) {
+	public boolean addFunction(@Nonnull PlotFunction plotFunction) {
 		return plotter.addFunction(plotFunction);
 	}
 
 	@Override
-	public boolean addFunction(@NotNull XyFunction xyFunction) {
+	public boolean addFunction(@Nonnull XyFunction xyFunction) {
 		return plotter.addFunction(xyFunction);
 	}
 
 	@Override
-	public boolean addFunction(@NotNull XyFunction xyFunction, @NotNull PlotLineDef functionLineDef) {
+	public boolean addFunction(@Nonnull XyFunction xyFunction, @Nonnull PlotLineDef functionLineDef) {
 		return plotter.addFunction(xyFunction, functionLineDef);
 	}
 
 	@Override
-	public boolean updateFunction(@NotNull PlotFunction newFunction) {
+	public boolean updateFunction(@Nonnull PlotFunction newFunction) {
 		return plotter.updateFunction(newFunction);
 	}
 
 	@Override
-	public boolean updateFunction(@NotNull XyFunction xyFunction, @NotNull PlotLineDef functionLineDef) {
+	public boolean updateFunction(@Nonnull XyFunction xyFunction, @Nonnull PlotLineDef functionLineDef) {
 		return plotter.updateFunction(xyFunction, functionLineDef);
 	}
 
 	@Override
-	public boolean removeFunction(@NotNull PlotFunction plotFunction) {
+	public boolean removeFunction(@Nonnull PlotFunction plotFunction) {
 		return plotter.removeFunction(plotFunction);
 	}
 
 	@Override
-	public boolean removeFunction(@NotNull XyFunction xyFunction) {
+	public boolean removeFunction(@Nonnull XyFunction xyFunction) {
 		return plotter.removeFunction(xyFunction);
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
-	public PlotFunction pin(@NotNull PlotFunction plotFunction) {
+	public PlotFunction pin(@Nonnull PlotFunction plotFunction) {
 		return plotter.pin(plotFunction);
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
-	public PlotFunction unpin(@NotNull PlotFunction plotFunction) {
+	public PlotFunction unpin(@Nonnull PlotFunction plotFunction) {
 		return plotter.unpin(plotFunction);
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
-	public PlotFunction show(@NotNull PlotFunction plotFunction) {
+	public PlotFunction show(@Nonnull PlotFunction plotFunction) {
 		return plotter.show(plotFunction);
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
-	public PlotFunction hide(@NotNull PlotFunction plotFunction) {
+	public PlotFunction hide(@Nonnull PlotFunction plotFunction) {
 		return plotter.hide(plotFunction);
 	}
 
@@ -107,18 +107,18 @@ public class AndroidCalculatorPlotter implements CalculatorPlotter, SharedPrefer
 
 	@Nullable
 	@Override
-	public PlotFunction getFunctionById(@NotNull String functionId) {
+	public PlotFunction getFunctionById(@Nonnull String functionId) {
 		return plotter.getFunctionById(functionId);
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public List<PlotFunction> getFunctions() {
 		return plotter.getFunctions();
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public List<PlotFunction> getVisibleFunctions() {
 		return plotter.getVisibleFunctions();
 	}
@@ -129,7 +129,7 @@ public class AndroidCalculatorPlotter implements CalculatorPlotter, SharedPrefer
 	}
 
 	@Override
-	public void plot(@NotNull Generic expression) {
+	public void plot(@Nonnull Generic expression) {
 		plotter.plot(expression);
 	}
 
@@ -139,7 +139,7 @@ public class AndroidCalculatorPlotter implements CalculatorPlotter, SharedPrefer
 	}
 
 	@Override
-	public boolean isPlotPossibleFor(@NotNull Generic expression) {
+	public boolean isPlotPossibleFor(@Nonnull Generic expression) {
 		return plotter.isPlotPossibleFor(expression);
 	}
 
@@ -159,12 +159,12 @@ public class AndroidCalculatorPlotter implements CalculatorPlotter, SharedPrefer
 	}
 
 	@Override
-	public void savePlotBoundaries(@NotNull PlotBoundaries plotBoundaries) {
+	public void savePlotBoundaries(@Nonnull PlotBoundaries plotBoundaries) {
 		plotter.savePlotBoundaries(plotBoundaries);
 	}
 
 	@Override
-	public void setPlotBoundaries(@NotNull PlotBoundaries plotBoundaries) {
+	public void setPlotBoundaries(@Nonnull PlotBoundaries plotBoundaries) {
 		plotter.setPlotBoundaries(plotBoundaries);
 	}
 

@@ -5,8 +5,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 import org.solovyev.android.App;
@@ -23,20 +23,20 @@ import java.io.StringWriter;
  */
 public class AndroidMathEntityDao<T extends MathPersistenceEntity> implements MathEntityDao<T> {
 
-	@NotNull
+	@Nonnull
 	private static final String TAG = AndroidMathEntityDao.class.getSimpleName();
 
 	@Nullable
 	private final Integer preferenceStringId;
 
-	@NotNull
+	@Nonnull
 	private final Context context;
 
 	@Nullable
 	private final Class<? extends MathEntityPersistenceContainer<T>> persistenceContainerClass;
 
 	public AndroidMathEntityDao(@Nullable Integer preferenceStringId,
-								@NotNull Application application,
+								@Nonnull Application application,
 								@Nullable Class<? extends MathEntityPersistenceContainer<T>> persistenceContainerClass) {
 		this.preferenceStringId = preferenceStringId;
 		this.context = application;
@@ -44,7 +44,7 @@ public class AndroidMathEntityDao<T extends MathPersistenceEntity> implements Ma
 	}
 
 	@Override
-	public void save(@NotNull MathEntityPersistenceContainer<T> container) {
+	public void save(@Nonnull MathEntityPersistenceContainer<T> container) {
 		if (preferenceStringId != null) {
 			final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
 			final SharedPreferences.Editor editor = settings.edit();
@@ -86,7 +86,7 @@ public class AndroidMathEntityDao<T extends MathPersistenceEntity> implements Ma
 	}
 
 	@Nullable
-	public String getDescription(@NotNull String descriptionId) {
+	public String getDescription(@Nonnull String descriptionId) {
 		final Resources resources = context.getResources();
 
 		final int stringId = resources.getIdentifier(descriptionId, "string", App.getApplication().getClass().getPackage().getName());

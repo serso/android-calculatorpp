@@ -2,7 +2,7 @@ package org.solovyev.android.calculator.plot;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -14,10 +14,10 @@ import java.util.*;
  */
 public class MapPlotResourceManager implements PlotResourceManager {
 
-	@NotNull
+	@Nonnull
 	private Map<PlotLineDef, List<PlotLineDef>> registeredLineDefsMap = new HashMap<PlotLineDef, List<PlotLineDef>>();
 
-	@NotNull
+	@Nonnull
 	private final List<PlotLineDef> preparedLineDefs = new ArrayList<PlotLineDef>(PlotLineStyle.values().length * PlotLineColor.values().length);
 
 	public MapPlotResourceManager() {
@@ -28,7 +28,7 @@ public class MapPlotResourceManager implements PlotResourceManager {
 		}
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public PlotLineDef generateAndRegister() {
 		synchronized (this) {
@@ -44,7 +44,7 @@ public class MapPlotResourceManager implements PlotResourceManager {
 		}
 	}
 
-	private void addLineDef(@NotNull final PlotLineDef toBeAdded) {
+	private void addLineDef(@Nonnull final PlotLineDef toBeAdded) {
 		assert Thread.holdsLock(this);
 
 		List<PlotLineDef> registeredLineDefs = registeredLineDefsMap.get(toBeAdded);
@@ -69,7 +69,7 @@ public class MapPlotResourceManager implements PlotResourceManager {
 
 	}
 
-	private void removeLineDef(@NotNull final PlotLineDef toBeRemoved) {
+	private void removeLineDef(@Nonnull final PlotLineDef toBeRemoved) {
 		assert Thread.holdsLock(this);
 
 		List<PlotLineDef> registeredLineDefs = registeredLineDefsMap.get(toBeRemoved);
@@ -92,14 +92,14 @@ public class MapPlotResourceManager implements PlotResourceManager {
 	}
 
 	@Override
-	public void register(@NotNull PlotLineDef lineDef) {
+	public void register(@Nonnull PlotLineDef lineDef) {
 		synchronized (this) {
 			addLineDef(lineDef);
 		}
 	}
 
 	@Override
-	public void unregister(@NotNull PlotLineDef lineDef) {
+	public void unregister(@Nonnull PlotLineDef lineDef) {
 		synchronized (this) {
 			removeLineDef(lineDef);
 		}

@@ -8,8 +8,8 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.calculator.core.R;
 import org.solovyev.android.view.ViewBuilder;
 import org.solovyev.android.view.ViewFromLayoutBuilder;
@@ -25,16 +25,16 @@ import java.util.List;
  */
 public class UnitConverterViewBuilder implements ViewBuilder<View> {
 
-	@NotNull
+	@Nonnull
 	private List<? extends UnitType<String>> fromUnitTypes = Collections.emptyList();
 
-	@NotNull
+	@Nonnull
 	private List<? extends UnitType<String>> toUnitTypes = Collections.emptyList();
 
 	@Nullable
 	private Unit<String> fromValue;
 
-	@NotNull
+	@Nonnull
 	private UnitConverter<String> converter = UnitConverter.Dummy.getInstance();
 
 	@Nullable
@@ -43,11 +43,11 @@ public class UnitConverterViewBuilder implements ViewBuilder<View> {
 	@Nullable
 	private CustomButtonData customButtonData;
 
-	public void setFromUnitTypes(@NotNull List<? extends UnitType<String>> fromUnitTypes) {
+	public void setFromUnitTypes(@Nonnull List<? extends UnitType<String>> fromUnitTypes) {
 		this.fromUnitTypes = fromUnitTypes;
 	}
 
-	public void setToUnitTypes(@NotNull List<? extends UnitType<String>> toUnitTypes) {
+	public void setToUnitTypes(@Nonnull List<? extends UnitType<String>> toUnitTypes) {
 		this.toUnitTypes = toUnitTypes;
 	}
 
@@ -55,7 +55,7 @@ public class UnitConverterViewBuilder implements ViewBuilder<View> {
 		this.fromValue = fromValue;
 	}
 
-	public void setConverter(@NotNull UnitConverter<String> converter) {
+	public void setConverter(@Nonnull UnitConverter<String> converter) {
 		this.converter = converter;
 	}
 
@@ -67,9 +67,9 @@ public class UnitConverterViewBuilder implements ViewBuilder<View> {
 		this.customButtonData = customButtonData;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
-	public View build(@NotNull final Context context) {
+	public View build(@Nonnull final Context context) {
 		final View main = ViewFromLayoutBuilder.newInstance(R.layout.cpp_unit_converter).build(context);
 
 		final Spinner fromSpinner = (Spinner) main.findViewById(R.id.unit_types_from);
@@ -137,10 +137,10 @@ public class UnitConverterViewBuilder implements ViewBuilder<View> {
 		return main;
 	}
 
-	private void fillSpinner(@NotNull final View main,
-							 @NotNull final Context context,
+	private void fillSpinner(@Nonnull final View main,
+							 @Nonnull final Context context,
 							 final int spinnerId,
-							 @NotNull List<? extends UnitType<String>> unitTypes) {
+							 @Nonnull List<? extends UnitType<String>> unitTypes) {
 		final Spinner spinner = (Spinner) main.findViewById(spinnerId);
 
 		final ArrayAdapter<UnitType<String>> adapter = new ArrayAdapter<UnitType<String>>(context, android.R.layout.simple_spinner_item);
@@ -161,7 +161,7 @@ public class UnitConverterViewBuilder implements ViewBuilder<View> {
 		spinner.setAdapter(adapter);
 	}
 
-	private static void doConversion(@NotNull View main, @NotNull Context context, @NotNull UnitConverter<String> converter) {
+	private static void doConversion(@Nonnull View main, @Nonnull Context context, @Nonnull UnitConverter<String> converter) {
 		final EditText fromEditText = (EditText) main.findViewById(R.id.units_from);
 
 		final EditText toEditText = (EditText) main.findViewById(R.id.units_to);
@@ -174,46 +174,46 @@ public class UnitConverterViewBuilder implements ViewBuilder<View> {
 		}
 	}
 
-	@NotNull
-	private static Unit<String> getToUnit(@NotNull View main) {
+	@Nonnull
+	private static Unit<String> getToUnit(@Nonnull View main) {
 		final EditText toUnits = (EditText) main.findViewById(R.id.units_to);
 		return UnitImpl.newInstance(toUnits.getText().toString(), getToUnitType(main));
 	}
 
-	@NotNull
-	private static UnitType<String> getToUnitType(@NotNull View main) {
+	@Nonnull
+	private static UnitType<String> getToUnitType(@Nonnull View main) {
 		final Spinner toSpinner = (Spinner) main.findViewById(R.id.unit_types_to);
 		return (UnitType<String>) toSpinner.getSelectedItem();
 	}
 
-	@NotNull
-	private static Unit<String> getFromUnit(@NotNull View main) {
+	@Nonnull
+	private static Unit<String> getFromUnit(@Nonnull View main) {
 		final EditText fromUnits = (EditText) main.findViewById(R.id.units_from);
 		return UnitImpl.newInstance(fromUnits.getText().toString(), getFromUnitType(main));
 	}
 
-	@NotNull
-	private static UnitType<String> getFromUnitType(@NotNull View main) {
+	@Nonnull
+	private static UnitType<String> getFromUnitType(@Nonnull View main) {
 		final Spinner fromSpinner = (Spinner) main.findViewById(R.id.unit_types_from);
 		return (UnitType<String>) fromSpinner.getSelectedItem();
 	}
 
 	public static class CustomButtonData {
 
-		@NotNull
+		@Nonnull
 		private String text;
 
-		@NotNull
+		@Nonnull
 		private CustomButtonOnClickListener clickListener;
 
 
-		public CustomButtonData(@NotNull String text, @NotNull CustomButtonOnClickListener clickListener) {
+		public CustomButtonData(@Nonnull String text, @Nonnull CustomButtonOnClickListener clickListener) {
 			this.text = text;
 			this.clickListener = clickListener;
 		}
 	}
 
 	public static interface CustomButtonOnClickListener {
-		void onClick(@NotNull Unit<String> fromUnits, @NotNull Unit<String> toUnits);
+		void onClick(@Nonnull Unit<String> fromUnits, @Nonnull Unit<String> toUnits);
 	}
 }

@@ -1,6 +1,6 @@
 package org.solovyev.android.calculator;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * User: Solovyev_S
@@ -19,15 +19,15 @@ public enum CalculatorEventType {
 	*/
 
 
-	// @NotNull CalculatorEditorViewState
+	// @Nonnull CalculatorEditorViewState
 	manual_calculation_requested,
 
-	// @NotNull org.solovyev.android.calculator.CalculatorOutput
+	// @Nonnull org.solovyev.android.calculator.CalculatorOutput
 	calculation_result,
 
 	calculation_cancelled,
 
-	// @NotNull org.solovyev.android.calculator.CalculatorFailure
+	// @Nonnull org.solovyev.android.calculator.CalculatorFailure
 	calculation_failed,
 
 	/*
@@ -40,10 +40,10 @@ public enum CalculatorEventType {
 	*/
 	conversion_started,
 
-	// @NotNull String conversion result
+	// @Nonnull String conversion result
 	conversion_result,
 
-	// @NotNull ConversionFailure
+	// @Nonnull ConversionFailure
 	conversion_failed,
 
 	conversion_finished,
@@ -56,11 +56,11 @@ public enum CalculatorEventType {
 	**********************************************************************
 	*/
 
-	// @NotNull org.solovyev.android.calculator.CalculatorEditorChangeEventData
+	// @Nonnull org.solovyev.android.calculator.CalculatorEditorChangeEventData
 	editor_state_changed,
 	editor_state_changed_light,
 
-	// @NotNull CalculatorDisplayChangeEventData
+	// @Nonnull CalculatorDisplayChangeEventData
 	display_state_changed,
 
 	/*
@@ -81,10 +81,10 @@ public enum CalculatorEventType {
 	**********************************************************************
 	*/
 
-	// @NotNull CalculatorHistoryState
+	// @Nonnull CalculatorHistoryState
 	history_state_added,
 
-	// @NotNull CalculatorHistoryState
+	// @Nonnull CalculatorHistoryState
 	use_history_state,
 
 	clear_history_requested,
@@ -97,32 +97,32 @@ public enum CalculatorEventType {
 	**********************************************************************
 	*/
 
-	// @NotNull IConstant
+	// @Nonnull IConstant
 	use_constant,
 
-	// @NotNull Function
+	// @Nonnull Function
 	use_function,
 
-	// @NotNull Operator
+	// @Nonnull Operator
 	use_operator,
 
-	// @NotNull IConstant
+	// @Nonnull IConstant
 	constant_added,
 
-	// @NotNull Change<IConstant>
+	// @Nonnull Change<IConstant>
 	constant_changed,
 
-	// @NotNull IConstant
+	// @Nonnull IConstant
 	constant_removed,
 
 
-	// @NotNull Function
+	// @Nonnull Function
 	function_removed,
 
-	// @NotNull Function
+	// @Nonnull Function
 	function_added,
 
-	// @NotNull Change<IFunction>
+	// @Nonnull Change<IFunction>
 	function_changed,
 
 	/*
@@ -174,7 +174,7 @@ public enum CalculatorEventType {
 	//String
 	show_evaluation_error;
 
-	public boolean isOfType(@NotNull CalculatorEventType... types) {
+	public boolean isOfType(@Nonnull CalculatorEventType... types) {
 		for (CalculatorEventType type : types) {
 			if (this == type) {
 				return true;

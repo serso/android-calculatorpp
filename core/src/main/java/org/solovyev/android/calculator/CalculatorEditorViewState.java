@@ -1,6 +1,6 @@
 package org.solovyev.android.calculator;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.io.Serializable;
 
@@ -11,7 +11,7 @@ import java.io.Serializable;
  */
 public interface CalculatorEditorViewState extends Serializable {
 
-	@NotNull
+	@Nonnull
 	String getText();
 
 	int getSelection();

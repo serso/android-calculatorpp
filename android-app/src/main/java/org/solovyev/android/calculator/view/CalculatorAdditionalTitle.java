@@ -10,8 +10,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.AttributeSet;
 import android.widget.TextView;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 
@@ -34,7 +34,7 @@ public class CalculatorAdditionalTitle extends TextView implements SharedPrefere
 		super(context, attrs, defStyle);
 	}
 
-	public void init(@NotNull SharedPreferences preferences) {
+	public void init(@Nonnull SharedPreferences preferences) {
 		onSharedPreferenceChanged(preferences, null);
 	}
 

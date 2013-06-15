@@ -1,7 +1,7 @@
 package org.solovyev.android.calculator;
 
 import jscl.math.operator.*;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.common.collections.Collections;
 
 import java.util.Comparator;
@@ -16,28 +16,28 @@ public enum OperatorCategory {
 
 	derivatives(100) {
 		@Override
-		public boolean isInCategory(@NotNull Operator operator) {
+		public boolean isInCategory(@Nonnull Operator operator) {
 			return operator instanceof Derivative || operator instanceof Integral || operator instanceof IndefiniteIntegral;
 		}
 	},
 
 	other(200) {
 		@Override
-		public boolean isInCategory(@NotNull Operator operator) {
+		public boolean isInCategory(@Nonnull Operator operator) {
 			return operator instanceof Sum || operator instanceof Product;
 		}
 	},
 
 	my(0) {
 		@Override
-		public boolean isInCategory(@NotNull Operator operator) {
+		public boolean isInCategory(@Nonnull Operator operator) {
 			return !operator.isSystem();
 		}
 	},
 
 	common(50) {
 		@Override
-		public boolean isInCategory(@NotNull Operator operator) {
+		public boolean isInCategory(@Nonnull Operator operator) {
 			for (OperatorCategory category : values()) {
 				if (category != this) {
 					if (category.isInCategory(operator)) {
@@ -56,9 +56,9 @@ public enum OperatorCategory {
 		this.tabOrder = tabOrder;
 	}
 
-	public abstract boolean isInCategory(@NotNull Operator operator);
+	public abstract boolean isInCategory(@Nonnull Operator operator);
 
-	@NotNull
+	@Nonnull
 	public static List<OperatorCategory> getCategoriesByTabOrder() {
 		final List<OperatorCategory> result = Collections.asList(OperatorCategory.values());
 

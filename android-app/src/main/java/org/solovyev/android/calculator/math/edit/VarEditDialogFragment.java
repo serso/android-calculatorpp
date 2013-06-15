@@ -12,8 +12,8 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
 import jscl.math.function.IConstant;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.model.Var;
 import org.solovyev.android.sherlock.AndroidSherlockUtils;
@@ -25,14 +25,14 @@ import org.solovyev.android.sherlock.AndroidSherlockUtils;
  */
 public class VarEditDialogFragment extends DialogFragment implements CalculatorEventListener {
 
-	@NotNull
+	@Nonnull
 	private final Input input;
 
 	public VarEditDialogFragment() {
 		this(Input.newInstance());
 	}
 
-	public VarEditDialogFragment(@NotNull Input input) {
+	public VarEditDialogFragment(@Nonnull Input input) {
 		this.input = input;
 	}
 
@@ -56,7 +56,7 @@ public class VarEditDialogFragment extends DialogFragment implements CalculatorE
 	}
 
 	@Override
-	public void onViewCreated(@NotNull View root, Bundle savedInstanceState) {
+	public void onViewCreated(@Nonnull View root, Bundle savedInstanceState) {
 		super.onViewCreated(root, savedInstanceState);
 
 		final String errorMsg = this.getString(R.string.c_char_is_not_accepted);
@@ -126,7 +126,7 @@ public class VarEditDialogFragment extends DialogFragment implements CalculatorE
 	}
 
 	@Override
-	public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
+	public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
 		switch (calculatorEventType) {
 			case constant_removed:
 			case constant_added:
@@ -147,7 +147,7 @@ public class VarEditDialogFragment extends DialogFragment implements CalculatorE
 	**********************************************************************
 	*/
 
-	public static void showDialog(@NotNull Input input, @NotNull FragmentManager fm) {
+	public static void showDialog(@Nonnull Input input, @Nonnull FragmentManager fm) {
 		AndroidSherlockUtils.showDialog(new VarEditDialogFragment(input), "constant-editor", fm);
 	}
 
@@ -168,26 +168,26 @@ public class VarEditDialogFragment extends DialogFragment implements CalculatorE
 		private Input() {
 		}
 
-		@NotNull
+		@Nonnull
 		public static Input newInstance() {
 			return new Input();
 		}
 
-		@NotNull
-		public static Input newFromConstant(@NotNull IConstant constant) {
+		@Nonnull
+		public static Input newFromConstant(@Nonnull IConstant constant) {
 			final Input result = new Input();
 			result.constant = constant;
 			return result;
 		}
 
-		@NotNull
+		@Nonnull
 		public static Input newFromValue(@Nullable String value) {
 			final Input result = new Input();
 			result.value = value;
 			return result;
 		}
 
-		@NotNull
+		@Nonnull
 		public static Input newInstance(@Nullable IConstant constant, @Nullable String name, @Nullable String value, @Nullable String description) {
 			final Input result = new Input();
 			result.constant = constant;

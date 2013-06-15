@@ -6,8 +6,8 @@
 
 package org.solovyev.android.calculator;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * User: serso
@@ -21,11 +21,11 @@ public interface CalculatorDisplay extends CalculatorEventListener {
 	@Nullable
 	CalculatorDisplayView getView();
 
-	@NotNull
+	@Nonnull
 	CalculatorDisplayViewState getViewState();
 
-	void setViewState(@NotNull CalculatorDisplayViewState viewState);
+	void setViewState(@Nonnull CalculatorDisplayViewState viewState);
 
-	@NotNull
+	@Nonnull
 	CalculatorEventData getLastEventData();
 }

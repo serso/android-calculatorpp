@@ -6,8 +6,8 @@
 
 package org.solovyev.android.calculator.view;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.text.TextProcessor;
@@ -31,7 +31,7 @@ public class TextHighlighter implements TextProcessor<TextHighlighter.Result, St
 
 	public static class Result implements CharSequence {
 
-		@NotNull
+		@Nonnull
 		private final CharSequence charSequence;
 
 		@Nullable
@@ -39,7 +39,7 @@ public class TextHighlighter implements TextProcessor<TextHighlighter.Result, St
 
 		private final int offset;
 
-		public Result(@NotNull CharSequence charSequence, int offset) {
+		public Result(@Nonnull CharSequence charSequence, int offset) {
 			this.charSequence = charSequence;
 			this.offset = offset;
 		}
@@ -67,7 +67,7 @@ public class TextHighlighter implements TextProcessor<TextHighlighter.Result, St
 			return string;
 		}
 
-		@NotNull
+		@Nonnull
 		public CharSequence getCharSequence() {
 			return charSequence;
 		}
@@ -94,9 +94,9 @@ public class TextHighlighter implements TextProcessor<TextHighlighter.Result, St
 		this.colorBlue = color & 0xFF;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
-	public Result process(@NotNull String text) throws CalculatorParseException {
+	public Result process(@Nonnull String text) throws CalculatorParseException {
 		final CharSequence result;
 
 		int maxNumberOfOpenGroupSymbols = 0;
@@ -185,7 +185,7 @@ public class TextHighlighter implements TextProcessor<TextHighlighter.Result, St
 		return new Result(result, resultOffset);
 	}
 
-	private int processHighlightedText(@NotNull StringBuilder result, int i, @NotNull String match, @NotNull String tag, @Nullable Map<String, String> tagAttributes) {
+	private int processHighlightedText(@Nonnull StringBuilder result, int i, @Nonnull String match, @Nonnull String tag, @Nullable Map<String, String> tagAttributes) {
 		result.append("<").append(tag);
 
 		if (tagAttributes != null && !tagAttributes.entrySet().isEmpty()) {
@@ -203,7 +203,7 @@ public class TextHighlighter implements TextProcessor<TextHighlighter.Result, St
 		}
 	}
 
-	private int processBracketGroup(@NotNull StringBuilder result, @NotNull CharSequence s, int i, int numberOfOpenings, int maxNumberOfGroups) {
+	private int processBracketGroup(@Nonnull StringBuilder result, @Nonnull CharSequence s, int i, int numberOfOpenings, int maxNumberOfGroups) {
 
 		result.append("<font color=\"").append(getColor(maxNumberOfGroups, numberOfOpenings)).append("\">");
 

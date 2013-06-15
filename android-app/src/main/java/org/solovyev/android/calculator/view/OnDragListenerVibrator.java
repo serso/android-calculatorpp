@@ -2,8 +2,8 @@ package org.solovyev.android.calculator.view;
 
 import android.content.SharedPreferences;
 import android.os.Vibrator;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.view.VibratorContainer;
 import org.solovyev.android.view.drag.DragButton;
 import org.solovyev.android.view.drag.OnDragListener;
@@ -18,18 +18,18 @@ public class OnDragListenerVibrator extends OnDragListenerWrapper {
 
 	private static final float VIBRATION_TIME_SCALE = 0.5f;
 
-	@NotNull
+	@Nonnull
 	private final VibratorContainer vibrator;
 
-	public OnDragListenerVibrator(@NotNull OnDragListener onDragListener,
+	public OnDragListenerVibrator(@Nonnull OnDragListener onDragListener,
 								  @Nullable Vibrator vibrator,
-								  @NotNull SharedPreferences preferences) {
+								  @Nonnull SharedPreferences preferences) {
 		super(onDragListener);
 		this.vibrator = new VibratorContainer(vibrator, preferences, VIBRATION_TIME_SCALE);
 	}
 
 	@Override
-	public boolean onDrag(@NotNull DragButton dragButton, @NotNull org.solovyev.android.view.drag.DragEvent event) {
+	public boolean onDrag(@Nonnull DragButton dragButton, @Nonnull org.solovyev.android.view.drag.DragEvent event) {
 		boolean result = super.onDrag(dragButton, event);
 
 		if (result) {

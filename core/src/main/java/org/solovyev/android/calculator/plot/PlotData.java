@@ -1,6 +1,6 @@
 package org.solovyev.android.calculator.plot;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.List;
 
@@ -11,23 +11,23 @@ import java.util.List;
  */
 public class PlotData {
 
-	@NotNull
+	@Nonnull
 	private List<PlotFunction> functions;
 
 	private boolean plot3d;
 
-	@NotNull
+	@Nonnull
 	private PlotBoundaries boundaries;
 
-	public PlotData(@NotNull List<PlotFunction> functions,
+	public PlotData(@Nonnull List<PlotFunction> functions,
 					boolean plot3d,
-					@NotNull PlotBoundaries boundaries) {
+					@Nonnull PlotBoundaries boundaries) {
 		this.functions = functions;
 		this.plot3d = plot3d;
 		this.boundaries = boundaries;
 	}
 
-	@NotNull
+	@Nonnull
 	public List<PlotFunction> getFunctions() {
 		return functions;
 	}
@@ -36,7 +36,7 @@ public class PlotData {
 		return plot3d;
 	}
 
-	@NotNull
+	@Nonnull
 	public PlotBoundaries getBoundaries() {
 		return boundaries;
 	}

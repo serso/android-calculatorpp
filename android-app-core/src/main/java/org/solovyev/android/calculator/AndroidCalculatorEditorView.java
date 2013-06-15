@@ -18,12 +18,13 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.widget.EditText;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.solovyev.android.calculator.text.TextProcessor;
 import org.solovyev.android.calculator.view.TextHighlighter;
 import org.solovyev.android.prefs.BooleanPreference;
 import org.solovyev.common.collections.Collections;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * User: serso
@@ -32,25 +33,26 @@ import org.solovyev.common.collections.Collections;
  */
 public class AndroidCalculatorEditorView extends EditText implements SharedPreferences.OnSharedPreferenceChangeListener, CalculatorEditorView {
 
-	@NotNull
+	@Nonnull
 	private static final BooleanPreference colorDisplay = BooleanPreference.of("org.solovyev.android.calculator.CalculatorModel_color_display", true);
 
 	private volatile boolean initialized = false;
 
 	private boolean highlightText = true;
 
-	@NotNull
+	@Nonnull
 	private final static TextProcessor<TextHighlighter.Result, String> textHighlighter = new TextHighlighter(Color.WHITE, false);
 
-	@NotNull
+	@SuppressWarnings("UnusedDeclaration")
+	@Nonnull
 	private volatile CalculatorEditorViewState viewState = CalculatorEditorViewStateImpl.newDefaultInstance();
 
 	private volatile boolean viewStateChange = false;
 
-	@Nullable
+	@Nonnull
 	private final Object viewLock = new Object();
 
-	@NotNull
+	@Nonnull
 	private final Handler uiHandler = new Handler();
 
 	public AndroidCalculatorEditorView(Context context) {
@@ -97,7 +99,7 @@ public class AndroidCalculatorEditorView extends EditText implements SharedPrefe
 	}
 
 	@Nullable
-	private CharSequence prepareText(@NotNull String text, boolean highlightText) {
+	private CharSequence prepareText(@Nonnull String text, boolean highlightText) {
 		CharSequence result;
 
 		if (highlightText) {
@@ -137,7 +139,7 @@ public class AndroidCalculatorEditorView extends EditText implements SharedPrefe
 		}
 	}
 
-	public synchronized void init(@NotNull Context context) {
+	public synchronized void init(@Nonnull Context context) {
 		if (!initialized) {
 			final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
@@ -152,57 +154,51 @@ public class AndroidCalculatorEditorView extends EditText implements SharedPrefe
 	}
 
 	@Override
-	public void setState(@NotNull final CalculatorEditorViewState viewState) {
-		if (viewLock != null) {
-			synchronized (viewLock) {
+	public void setState(@Nonnull final CalculatorEditorViewState viewState) {
+		synchronized (viewLock) {
 
-				final CharSequence text = prepareText(viewState.getText(), highlightText);
+			final CharSequence text = prepareText(viewState.getText(), highlightText);
 
-				uiHandler.post(new Runnable() {
-					@Override
-					public void run() {
-						final AndroidCalculatorEditorView editorView = AndroidCalculatorEditorView.this;
-						synchronized (viewLock) {
-							try {
-								editorView.viewStateChange = true;
-								editorView.viewState = viewState;
-								editorView.setText(text, BufferType.EDITABLE);
-								final int selection = CalculatorEditorImpl.correctSelection(viewState.getSelection(), editorView.getText());
-								editorView.setSelection(selection);
-							} finally {
-								editorView.viewStateChange = false;
-							}
+			uiHandler.post(new Runnable() {
+				@Override
+				public void run() {
+					final AndroidCalculatorEditorView editorView = AndroidCalculatorEditorView.this;
+					synchronized (viewLock) {
+						try {
+							editorView.viewStateChange = true;
+							editorView.viewState = viewState;
+							editorView.setText(text, BufferType.EDITABLE);
+							final int selection = CalculatorEditorImpl.correctSelection(viewState.getSelection(), editorView.getText());
+							editorView.setSelection(selection);
+						} finally {
+							editorView.viewStateChange = false;
 						}
 					}
-				});
-			}
+				}
+			});
 		}
 	}
 
 	@Override
 	protected void onSelectionChanged(int selStart, int selEnd) {
-		if (viewLock != null) {
-			synchronized (viewLock) {
-				if (!viewStateChange) {
-					// external text change => need to notify editor
-					super.onSelectionChanged(selStart, selEnd);
+		synchronized (viewLock) {
+			if (!viewStateChange) {
+				// external text change => need to notify editor
+				super.onSelectionChanged(selStart, selEnd);
 
-					if (selStart == selEnd) {
-						// only if cursor moving, if selection do nothing
-						Locator.getInstance().getEditor().setSelection(selStart);
-					}
+				if (selStart == selEnd) {
+					// only if cursor moving, if selection do nothing
+					Locator.getInstance().getEditor().setSelection(selStart);
 				}
 			}
 		}
 	}
 
 	public void handleTextChange(Editable s) {
-		if (viewLock != null) {
-			synchronized (viewLock) {
-				if (!viewStateChange) {
-					// external text change => need to notify editor
-					Locator.getInstance().getEditor().setText(String.valueOf(s));
-				}
+		synchronized (viewLock) {
+			if (!viewStateChange) {
+				// external text change => need to notify editor
+				Locator.getInstance().getEditor().setText(String.valueOf(s));
 			}
 		}
 	}

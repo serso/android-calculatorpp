@@ -1,6 +1,6 @@
 package org.solovyev.android.calculator.plot;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -17,7 +17,7 @@ public class PlotLineDef {
 	**********************************************************************
 	*/
 
-	@NotNull
+	@Nonnull
 	private static final Float DEFAULT_LINE_WIDTH = 0f;
 
 	private static final int WHITE = 0xFFFFFFFF;
@@ -31,12 +31,12 @@ public class PlotLineDef {
 	**********************************************************************
 	*/
 
-	@NotNull
+	@Nonnull
 	private PlotLineColorType lineColorType = PlotLineColorType.monochrome;
 
 	private int lineColor = WHITE;
 
-	@NotNull
+	@Nonnull
 	private PlotLineStyle lineStyle = PlotLineStyle.solid;
 
 	private float lineWidth = DEFAULT_LINE_WIDTH;
@@ -44,16 +44,16 @@ public class PlotLineDef {
 	private PlotLineDef() {
 	}
 
-	@NotNull
-	public static PlotLineDef newInstance(int lineColor, @NotNull PlotLineStyle lineStyle) {
+	@Nonnull
+	public static PlotLineDef newInstance(int lineColor, @Nonnull PlotLineStyle lineStyle) {
 		final PlotLineDef result = new PlotLineDef();
 		result.lineColor = lineColor;
 		result.lineStyle = lineStyle;
 		return result;
 	}
 
-	@NotNull
-	public static PlotLineDef newInstance(int lineColor, @NotNull PlotLineStyle lineStyle, float lineWidth) {
+	@Nonnull
+	public static PlotLineDef newInstance(int lineColor, @Nonnull PlotLineStyle lineStyle, float lineWidth) {
 		final PlotLineDef result = new PlotLineDef();
 		result.lineColor = lineColor;
 		result.lineStyle = lineStyle;
@@ -61,8 +61,8 @@ public class PlotLineDef {
 		return result;
 	}
 
-	@NotNull
-	public static PlotLineDef newInstance(int lineColor, @NotNull PlotLineStyle lineStyle, float lineWidth, @NotNull PlotLineColorType lineColorType) {
+	@Nonnull
+	public static PlotLineDef newInstance(int lineColor, @Nonnull PlotLineStyle lineStyle, float lineWidth, @Nonnull PlotLineColorType lineColorType) {
 		final PlotLineDef result = new PlotLineDef();
 		result.lineColor = lineColor;
 		result.lineColorType = lineColorType;
@@ -71,7 +71,7 @@ public class PlotLineDef {
 		return result;
 	}
 
-	@NotNull
+	@Nonnull
 	private PlotLineDef copy() {
 		final PlotLineDef copy = new PlotLineDef();
 		copy.lineColor = lineColor;
@@ -81,43 +81,43 @@ public class PlotLineDef {
 		return copy;
 	}
 
-	@NotNull
-	public static PlotLineDef changeLineColor(@NotNull PlotLineDef plotLineDef, int newLineColor) {
+	@Nonnull
+	public static PlotLineDef changeLineColor(@Nonnull PlotLineDef plotLineDef, int newLineColor) {
 		final PlotLineDef result = plotLineDef.copy();
 		result.lineColor = newLineColor;
 		return result;
 	}
 
-	@NotNull
-	public static PlotLineDef changeLineWidth(@NotNull PlotLineDef plotLineDef, int newLineWidth) {
+	@Nonnull
+	public static PlotLineDef changeLineWidth(@Nonnull PlotLineDef plotLineDef, int newLineWidth) {
 		final PlotLineDef result = plotLineDef.copy();
 		result.lineWidth = newLineWidth;
 		return result;
 	}
 
-	@NotNull
-	public static PlotLineDef changeLineColorType(@NotNull PlotLineDef plotLineDef, @NotNull PlotLineColorType newPlotLineColorType) {
+	@Nonnull
+	public static PlotLineDef changeLineColorType(@Nonnull PlotLineDef plotLineDef, @Nonnull PlotLineColorType newPlotLineColorType) {
 		final PlotLineDef result = plotLineDef.copy();
 		result.lineColorType = newPlotLineColorType;
 		return result;
 	}
 
-	@NotNull
-	public static PlotLineDef changeLineStyle(@NotNull PlotLineDef plotLineDef, @NotNull PlotLineStyle newPlotLineStyle) {
+	@Nonnull
+	public static PlotLineDef changeLineStyle(@Nonnull PlotLineDef plotLineDef, @Nonnull PlotLineStyle newPlotLineStyle) {
 		final PlotLineDef result = plotLineDef.copy();
 		result.lineStyle = newPlotLineStyle;
 		return result;
 	}
 
-	@NotNull
-	public static PlotLineDef changeColor(@NotNull PlotLineDef plotLineDef, int newLineColor) {
+	@Nonnull
+	public static PlotLineDef changeColor(@Nonnull PlotLineDef plotLineDef, int newLineColor) {
 		final PlotLineDef result = plotLineDef.copy();
 		result.lineColor = newLineColor;
 		return result;
 	}
 
 
-	@NotNull
+	@Nonnull
 	public static PlotLineDef newDefaultInstance() {
 		return new PlotLineDef();
 	}
@@ -126,7 +126,7 @@ public class PlotLineDef {
 		return lineColor;
 	}
 
-	@NotNull
+	@Nonnull
 	public PlotLineStyle getLineStyle() {
 		return lineStyle;
 	}
@@ -135,7 +135,7 @@ public class PlotLineDef {
 		return lineWidth;
 	}
 
-	@NotNull
+	@Nonnull
 	public PlotLineColorType getLineColorType() {
 		return lineColorType;
 	}

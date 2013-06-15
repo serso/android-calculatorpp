@@ -2,7 +2,7 @@ package org.solovyev.android.calculator;
 
 import jscl.AngleUnit;
 import jscl.NumeralBase;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -13,11 +13,11 @@ public interface CalculatorPreferenceService {
 
 	void setPreferredAngleUnits();
 
-	void setAngleUnits(@NotNull AngleUnit angleUnit);
+	void setAngleUnits(@Nonnull AngleUnit angleUnit);
 
 	void setPreferredNumeralBase();
 
-	void setNumeralBase(@NotNull NumeralBase numeralBase);
+	void setNumeralBase(@Nonnull NumeralBase numeralBase);
 
 	void checkPreferredPreferences(boolean force);
 }

@@ -9,8 +9,8 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.calculator.history.CalculatorHistoryState;
 import org.solovyev.android.calculator.view.AngleUnitsButton;
 import org.solovyev.android.calculator.view.NumeralBasesButton;
@@ -33,29 +33,29 @@ import java.util.List;
  */
 public abstract class AbstractCalculatorHelper implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-	@NotNull
+	@Nonnull
 	private CalculatorPreferences.Gui.Layout layout;
 
-	@NotNull
+	@Nonnull
 	private CalculatorPreferences.Gui.Theme theme;
 
 	@Nullable
 	private Vibrator vibrator;
 
-	@NotNull
+	@Nonnull
 	private final JListeners<DragPreferencesChangeListener> dpclRegister = Listeners.newHardRefListeners();
 
-	@NotNull
+	@Nonnull
 	private String logTag = "CalculatorActivity";
 
 	protected AbstractCalculatorHelper() {
 	}
 
-	protected AbstractCalculatorHelper(@NotNull String logTag) {
+	protected AbstractCalculatorHelper(@Nonnull String logTag) {
 		this.logTag = logTag;
 	}
 
-	protected void onCreate(@NotNull Activity activity) {
+	protected void onCreate(@Nonnull Activity activity) {
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
 
 		vibrator = (Vibrator) activity.getSystemService(Activity.VIBRATOR_SERVICE);
@@ -71,15 +71,15 @@ public abstract class AbstractCalculatorHelper implements SharedPreferences.OnSh
 		}
 	}
 
-	public void logDebug(@NotNull String message) {
+	public void logDebug(@Nonnull String message) {
 		Log.d(logTag, message);
 	}
 
-	public void logError(@NotNull String message) {
+	public void logError(@Nonnull String message) {
 		Log.e(logTag, message);
 	}
 
-	public void processButtons(@NotNull final Activity activity, @NotNull View root) {
+	public void processButtons(@Nonnull final Activity activity, @Nonnull View root) {
 		dpclRegister.removeListeners();
 
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
@@ -97,7 +97,7 @@ public abstract class AbstractCalculatorHelper implements SharedPreferences.OnSh
 		if (subtractionButton != null) {
 			subtractionButton.setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new SimpleOnDragListener.DragProcessor() {
 				@Override
-				public boolean processDragEvent(@NotNull DragDirection dragDirection, @NotNull DragButton dragButton, @NotNull Point2d startPoint2d, @NotNull MotionEvent motionEvent) {
+				public boolean processDragEvent(@Nonnull DragDirection dragDirection, @Nonnull DragButton dragButton, @Nonnull Point2d startPoint2d, @Nonnull MotionEvent motionEvent) {
 					if (dragDirection == DragDirection.down) {
 						Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_operators, null);
 						return true;
@@ -175,7 +175,7 @@ public abstract class AbstractCalculatorHelper implements SharedPreferences.OnSh
 		NumeralBaseButtons.toggleNumericDigits(activity, preferences);
 	}
 
-	private void toggleButtonDirectionText(@NotNull View root, int id, boolean showDirectionText, @NotNull DragDirection... dragDirections) {
+	private void toggleButtonDirectionText(@Nonnull View root, int id, boolean showDirectionText, @Nonnull DragDirection... dragDirections) {
 		final View v = getButton(root, id);
 		if (v instanceof DirectionDragButton) {
 			final DirectionDragButton button = (DirectionDragButton) v;
@@ -185,13 +185,13 @@ public abstract class AbstractCalculatorHelper implements SharedPreferences.OnSh
 		}
 	}
 
-	@NotNull
+	@Nonnull
 	private Calculator getCalculator() {
 		return Locator.getInstance().getCalculator();
 	}
 
 
-	private void setOnDragListeners(@NotNull View root, @NotNull SimpleOnDragListener.Preferences dragPreferences, @NotNull SharedPreferences preferences) {
+	private void setOnDragListeners(@Nonnull View root, @Nonnull SimpleOnDragListener.Preferences dragPreferences, @Nonnull SharedPreferences preferences) {
 		final OnDragListener onDragListener = new OnDragListenerVibrator(newOnDragListener(new DigitButtonDragProcessor(getKeyboard()), dragPreferences), vibrator, preferences);
 
 		final List<Integer> dragButtonIds = new ArrayList<Integer>();
@@ -219,19 +219,19 @@ public abstract class AbstractCalculatorHelper implements SharedPreferences.OnSh
 		}
 	}
 
-	@NotNull
+	@Nonnull
 	private CalculatorKeyboard getKeyboard() {
 		return Locator.getInstance().getKeyboard();
 	}
 
 	@Nullable
-	private <T extends DragButton> T getButton(@NotNull View root, int buttonId) {
+	private <T extends DragButton> T getButton(@Nonnull View root, int buttonId) {
 		return (T) root.findViewById(buttonId);
 	}
 
-	@NotNull
-	private SimpleOnDragListener newOnDragListener(@NotNull SimpleOnDragListener.DragProcessor dragProcessor,
-												   @NotNull SimpleOnDragListener.Preferences dragPreferences) {
+	@Nonnull
+	private SimpleOnDragListener newOnDragListener(@Nonnull SimpleOnDragListener.DragProcessor dragProcessor,
+												   @Nonnull SimpleOnDragListener.Preferences dragPreferences) {
 		final SimpleOnDragListener onDragListener = new SimpleOnDragListener(dragProcessor, dragPreferences);
 		dpclRegister.addListener(onDragListener);
 		return onDragListener;
@@ -247,7 +247,7 @@ public abstract class AbstractCalculatorHelper implements SharedPreferences.OnSh
 		}
 	}
 
-	public void onDestroy(@NotNull Activity activity) {
+	public void onDestroy(@Nonnull Activity activity) {
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
 
 		preferences.unregisterOnSharedPreferenceChangeListener(this);

@@ -1,6 +1,6 @@
 package org.solovyev.android.calculator.plot;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -10,13 +10,13 @@ import org.jetbrains.annotations.NotNull;
 public class GraphCalculatorImpl extends AbstractGraphCalculator {
 
 	@Override
-	protected void compute(@NotNull XyFunction f,
+	protected void compute(@Nonnull XyFunction f,
 						   float xMin,
 						   float xMax,
 						   float yMin,
 						   float yMax,
-						   @NotNull GraphData graph,
-						   @NotNull Graph2dDimensions dimensions) {
+						   @Nonnull GraphData graph,
+						   @Nonnull Graph2dDimensions dimensions) {
 		graph.push(xMin, (float) f.eval(xMin));
 
 		final float xScale = dimensions.getXGraphToViewScale();

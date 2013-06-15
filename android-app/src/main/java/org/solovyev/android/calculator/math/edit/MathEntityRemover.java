@@ -13,8 +13,8 @@ import android.view.View;
 import android.widget.TextView;
 import jscl.math.function.Function;
 import jscl.math.function.IConstant;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.calculator.CalculatorEventType;
 import org.solovyev.android.calculator.CalculatorMathRegistry;
 import org.solovyev.android.calculator.Locator;
@@ -28,7 +28,7 @@ import org.solovyev.common.math.MathEntity;
  */
 public class MathEntityRemover<T extends MathEntity> implements View.OnClickListener, DialogInterface.OnClickListener {
 
-	@NotNull
+	@Nonnull
 	private final T mathEntity;
 
 	@Nullable
@@ -36,16 +36,16 @@ public class MathEntityRemover<T extends MathEntity> implements View.OnClickList
 
 	private final boolean confirmed;
 
-	@NotNull
+	@Nonnull
 	private final CalculatorMathRegistry<? super T> varsRegistry;
 
-	@NotNull
+	@Nonnull
 	private Context context;
 
-	@NotNull
+	@Nonnull
 	private final Object source;
 
-	@NotNull
+	@Nonnull
 	private final Params params;
 
 	/*
@@ -56,13 +56,13 @@ public class MathEntityRemover<T extends MathEntity> implements View.OnClickList
 	**********************************************************************
 	*/
 
-	private MathEntityRemover(@NotNull T mathEntity,
+	private MathEntityRemover(@Nonnull T mathEntity,
 							  @Nullable DialogInterface.OnClickListener callbackOnCancel,
 							  boolean confirmed,
-							  @NotNull CalculatorMathRegistry<? super T> varsRegistry,
-							  @NotNull Context context,
-							  @NotNull Object source,
-							  @NotNull Params params) {
+							  @Nonnull CalculatorMathRegistry<? super T> varsRegistry,
+							  @Nonnull Context context,
+							  @Nonnull Object source,
+							  @Nonnull Params params) {
 		this.mathEntity = mathEntity;
 		this.callbackOnCancel = callbackOnCancel;
 		this.confirmed = confirmed;
@@ -72,17 +72,17 @@ public class MathEntityRemover<T extends MathEntity> implements View.OnClickList
 		this.params = params;
 	}
 
-	public static MathEntityRemover<IConstant> newConstantRemover(@NotNull IConstant constant,
+	public static MathEntityRemover<IConstant> newConstantRemover(@Nonnull IConstant constant,
 																  @Nullable DialogInterface.OnClickListener callbackOnCancel,
-																  @NotNull Context context,
-																  @NotNull Object source) {
+																  @Nonnull Context context,
+																  @Nonnull Object source) {
 		return new MathEntityRemover<IConstant>(constant, callbackOnCancel, false, Locator.getInstance().getEngine().getVarsRegistry(), context, source, Params.newConstantInstance());
 	}
 
-	public static MathEntityRemover<Function> newFunctionRemover(@NotNull Function function,
+	public static MathEntityRemover<Function> newFunctionRemover(@Nonnull Function function,
 																 @Nullable DialogInterface.OnClickListener callbackOnCancel,
-																 @NotNull Context context,
-																 @NotNull Object source) {
+																 @Nonnull Context context,
+																 @Nonnull Object source) {
 		return new MathEntityRemover<Function>(function, callbackOnCancel, false, Locator.getInstance().getEngine().getFunctionsRegistry(), context, source, Params.newFunctionInstance());
 	}
 

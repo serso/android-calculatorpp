@@ -11,8 +11,8 @@ import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.calculator.CalculatorFragment;
 import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.Locator;
@@ -23,7 +23,7 @@ public class CalculatorPlotFunctionSettingsActivity extends SherlockFragmentActi
 
 	private static final String INPUT_FUNCTION_ID = "plot-function-id";
 
-	public static void startActivity(@NotNull Context context, @NotNull PlotFunction plotFunction) {
+	public static void startActivity(@Nonnull Context context, @Nonnull PlotFunction plotFunction) {
 		final Intent intent = new Intent(context, CalculatorPlotFunctionSettingsActivity.class);
 		intent.putExtra(INPUT_FUNCTION_ID, plotFunction.getXyFunction().getId());
 		context.startActivity(intent);
@@ -65,7 +65,7 @@ public class CalculatorPlotFunctionSettingsActivity extends SherlockFragmentActi
 		@Nullable
 		private PlotFunction plotFunction;
 
-		@NotNull
+		@Nonnull
 		private final CalculatorPlotter plotter = Locator.getInstance().getPlotter();
 
 		public CalculatorPlotFunctionSettingsFragment() {

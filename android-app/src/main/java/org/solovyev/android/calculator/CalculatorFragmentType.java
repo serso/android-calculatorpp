@@ -1,7 +1,7 @@
 package org.solovyev.android.calculator;
 
 import android.support.v4.app.Fragment;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.android.calculator.about.CalculatorAboutFragment;
 import org.solovyev.android.calculator.about.CalculatorReleaseNotesFragment;
 import org.solovyev.android.calculator.help.CalculatorHelpFaqFragment;
@@ -51,14 +51,14 @@ public enum CalculatorFragmentType {
 	matrix_edit(CalculatorMatrixEditFragment.class, R.layout.matrix_edit_fragment, R.string.c_screens),
 	release_notes(CalculatorReleaseNotesFragment.class, R.layout.release_notes_fragment, R.string.c_release_notes);
 
-	@NotNull
+	@Nonnull
 	private Class<? extends Fragment> fragmentClass;
 
 	private final int defaultLayoutId;
 
 	private int defaultTitleResId;
 
-	private CalculatorFragmentType(@NotNull Class<? extends Fragment> fragmentClass,
+	private CalculatorFragmentType(@Nonnull Class<? extends Fragment> fragmentClass,
 								   int defaultLayoutId,
 								   int defaultTitleResId) {
 		this.fragmentClass = fragmentClass;
@@ -66,7 +66,7 @@ public enum CalculatorFragmentType {
 		this.defaultTitleResId = defaultTitleResId;
 	}
 
-	@NotNull
+	@Nonnull
 	public String getFragmentTag() {
 		return this.name();
 	}
@@ -75,7 +75,7 @@ public enum CalculatorFragmentType {
 		return defaultTitleResId;
 	}
 
-	@NotNull
+	@Nonnull
 	public Class<? extends Fragment> getFragmentClass() {
 		return fragmentClass;
 	}
@@ -84,8 +84,8 @@ public enum CalculatorFragmentType {
 		return defaultLayoutId;
 	}
 
-	@NotNull
-	public String createSubFragmentTag(@NotNull String subFragmentTag) {
+	@Nonnull
+	public String createSubFragmentTag(@Nonnull String subFragmentTag) {
 		return this.getFragmentTag() + "_" + subFragmentTag;
 	}
 }

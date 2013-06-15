@@ -1,7 +1,7 @@
 package org.solovyev.android.calculator;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * User: serso
@@ -13,7 +13,7 @@ public interface CalculatorClipboard {
 	@Nullable
 	String getText();
 
-	void setText(@NotNull String text);
+	void setText(@Nonnull String text);
 
-	void setText(@NotNull CharSequence text);
+	void setText(@Nonnull CharSequence text);
 }

@@ -1,7 +1,7 @@
 package org.solovyev.android.calculator;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * User: Solovyev_S
@@ -14,24 +14,24 @@ class CalculatorEventDataImpl implements CalculatorEventData {
 
 	private final long eventId;
 
-	@NotNull
+	@Nonnull
 	private Long sequenceId = NO_SEQUENCE;
 
 	private final Object source;
 
-	private CalculatorEventDataImpl(long id, @NotNull Long sequenceId, @Nullable Object source) {
+	private CalculatorEventDataImpl(long id, @Nonnull Long sequenceId, @Nullable Object source) {
 		this.eventId = id;
 		this.sequenceId = sequenceId;
 		this.source = source;
 	}
 
-	@NotNull
-	static CalculatorEventData newInstance(long id, @NotNull Long sequenceId) {
+	@Nonnull
+	static CalculatorEventData newInstance(long id, @Nonnull Long sequenceId) {
 		return new CalculatorEventDataImpl(id, sequenceId, null);
 	}
 
-	@NotNull
-	static CalculatorEventData newInstance(long id, @NotNull Long sequenceId, @NotNull Object source) {
+	@Nonnull
+	static CalculatorEventData newInstance(long id, @Nonnull Long sequenceId, @Nonnull Object source) {
 		return new CalculatorEventDataImpl(id, sequenceId, source);
 	}
 
@@ -40,7 +40,7 @@ class CalculatorEventDataImpl implements CalculatorEventData {
 		return this.eventId;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public Long getSequenceId() {
 		return this.sequenceId;
@@ -52,17 +52,17 @@ class CalculatorEventDataImpl implements CalculatorEventData {
 	}
 
 	@Override
-	public boolean isAfter(@NotNull CalculatorEventData that) {
+	public boolean isAfter(@Nonnull CalculatorEventData that) {
 		return this.eventId > that.getEventId();
 	}
 
 	@Override
-	public boolean isSameSequence(@NotNull CalculatorEventData that) {
+	public boolean isSameSequence(@Nonnull CalculatorEventData that) {
 		return !this.sequenceId.equals(NO_SEQUENCE) && this.sequenceId.equals(that.getSequenceId());
 	}
 
 	@Override
-	public boolean isAfterSequence(@NotNull CalculatorEventData that) {
+	public boolean isAfterSequence(@Nonnull CalculatorEventData that) {
 		return !this.sequenceId.equals(NO_SEQUENCE) && this.sequenceId > that.getSequenceId();
 	}
 

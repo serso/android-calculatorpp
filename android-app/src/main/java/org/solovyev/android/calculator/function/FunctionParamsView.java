@@ -9,8 +9,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import jscl.text.MutableInt;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.calculator.R;
 
 import java.util.ArrayList;
@@ -19,10 +19,10 @@ import java.util.List;
 
 public class FunctionParamsView extends LinearLayout {
 
-	@NotNull
+	@Nonnull
 	private final MutableInt paramsCount = new MutableInt(0);
 
-	@NotNull
+	@Nonnull
 	private final List<Integer> paramIds = new ArrayList<Integer>(10);
 
 	private static final String PARAM_TAG_PREFIX = "function_param_";
@@ -43,7 +43,7 @@ public class FunctionParamsView extends LinearLayout {
 		init(Collections.<String>emptyList());
 	}
 
-	public void init(@NotNull List<String> parameters) {
+	public void init(@Nonnull List<String> parameters) {
 		this.setOrientation(VERTICAL);
 
 		final LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -110,7 +110,7 @@ public class FunctionParamsView extends LinearLayout {
 		}
 	}
 
-	private void downParam(@NotNull Integer id) {
+	private void downParam(@Nonnull Integer id) {
 		synchronized (paramsCount) {
 			int index = paramIds.indexOf(id);
 			if (index < paramIds.size() - 1) {
@@ -119,7 +119,7 @@ public class FunctionParamsView extends LinearLayout {
 		}
 	}
 
-	private void upParam(@NotNull Integer id) {
+	private void upParam(@Nonnull Integer id) {
 		synchronized (paramsCount) {
 			int index = paramIds.indexOf(id);
 			if (index > 0) {
@@ -139,25 +139,25 @@ public class FunctionParamsView extends LinearLayout {
 		}
 	}
 
-	private void swap(@NotNull TextView first,
-					  @NotNull TextView second) {
+	private void swap(@Nonnull TextView first,
+					  @Nonnull TextView second) {
 		final CharSequence tmp = first.getText();
 		first.setText(second.getText());
 		second.setText(tmp);
 	}
 
 	@Nullable
-	private View getParamView(@NotNull Integer id) {
+	private View getParamView(@Nonnull Integer id) {
 		final String tag = getParamTag(id);
 		return this.findViewWithTag(tag);
 	}
 
-	@NotNull
-	private String getParamTag(@NotNull Integer index) {
+	@Nonnull
+	private String getParamTag(@Nonnull Integer index) {
 		return PARAM_TAG_PREFIX + index;
 	}
 
-	public void removeParam(@NotNull Integer id) {
+	public void removeParam(@Nonnull Integer id) {
 		synchronized (paramsCount) {
 			if (paramIds.contains(id)) {
 				final View editParamView = getParamView(id);
@@ -169,7 +169,7 @@ public class FunctionParamsView extends LinearLayout {
 		}
 	}
 
-	@NotNull
+	@Nonnull
 	public List<String> getParameterNames() {
 		synchronized (paramsCount) {
 			final List<String> result = new ArrayList<String>(paramsCount.intValue());

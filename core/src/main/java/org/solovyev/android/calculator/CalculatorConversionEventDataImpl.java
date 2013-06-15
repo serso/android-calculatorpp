@@ -2,7 +2,7 @@ package org.solovyev.android.calculator;
 
 import jscl.NumeralBase;
 import jscl.math.Generic;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * User: Solovyev_S
@@ -11,30 +11,30 @@ import org.jetbrains.annotations.NotNull;
  */
 public class CalculatorConversionEventDataImpl implements CalculatorConversionEventData {
 
-	@NotNull
+	@Nonnull
 	private CalculatorEventData calculatorEventData;
 
-	@NotNull
+	@Nonnull
 	private NumeralBase fromNumeralBase;
 
-	@NotNull
+	@Nonnull
 	private NumeralBase toNumeralBase;
 
-	@NotNull
+	@Nonnull
 	private Generic value;
 
-	@NotNull
+	@Nonnull
 	private CalculatorDisplayViewState displayState;
 
 	private CalculatorConversionEventDataImpl() {
 	}
 
-	@NotNull
-	public static CalculatorConversionEventData newInstance(@NotNull CalculatorEventData calculatorEventData,
-															@NotNull Generic value,
-															@NotNull NumeralBase from,
-															@NotNull NumeralBase to,
-															@NotNull CalculatorDisplayViewState displayViewState) {
+	@Nonnull
+	public static CalculatorConversionEventData newInstance(@Nonnull CalculatorEventData calculatorEventData,
+															@Nonnull Generic value,
+															@Nonnull NumeralBase from,
+															@Nonnull NumeralBase to,
+															@Nonnull CalculatorDisplayViewState displayViewState) {
 		final CalculatorConversionEventDataImpl result = new CalculatorConversionEventDataImpl();
 
 		result.calculatorEventData = calculatorEventData;
@@ -52,7 +52,7 @@ public class CalculatorConversionEventDataImpl implements CalculatorConversionEv
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public Long getSequenceId() {
 		return calculatorEventData.getSequenceId();
 	}
@@ -63,40 +63,40 @@ public class CalculatorConversionEventDataImpl implements CalculatorConversionEv
 	}
 
 	@Override
-	public boolean isAfter(@NotNull CalculatorEventData that) {
+	public boolean isAfter(@Nonnull CalculatorEventData that) {
 		return calculatorEventData.isAfter(that);
 	}
 
 	@Override
-	public boolean isSameSequence(@NotNull CalculatorEventData that) {
+	public boolean isSameSequence(@Nonnull CalculatorEventData that) {
 		return calculatorEventData.isSameSequence(that);
 	}
 
 	@Override
-	public boolean isAfterSequence(@NotNull CalculatorEventData that) {
+	public boolean isAfterSequence(@Nonnull CalculatorEventData that) {
 		return calculatorEventData.isAfterSequence(that);
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public CalculatorDisplayViewState getDisplayState() {
 		return this.displayState;
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public NumeralBase getFromNumeralBase() {
 		return fromNumeralBase;
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public NumeralBase getToNumeralBase() {
 		return toNumeralBase;
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public Generic getValue() {
 		return value;
 	}

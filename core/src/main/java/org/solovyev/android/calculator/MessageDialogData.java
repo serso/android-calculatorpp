@@ -1,7 +1,7 @@
 package org.solovyev.android.calculator;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.common.msg.Message;
 import org.solovyev.common.msg.MessageLevel;
 
@@ -12,29 +12,29 @@ import org.solovyev.common.msg.MessageLevel;
  */
 public class MessageDialogData implements DialogData {
 
-	@NotNull
+	@Nonnull
 	private Message message;
 
 	@Nullable
 	private String title;
 
-	private MessageDialogData(@NotNull Message message, @Nullable String title) {
+	private MessageDialogData(@Nonnull Message message, @Nullable String title) {
 		this.message = message;
 		this.title = title;
 	}
 
-	@NotNull
-	public static DialogData newInstance(@NotNull Message message, @Nullable String title) {
+	@Nonnull
+	public static DialogData newInstance(@Nonnull Message message, @Nullable String title) {
 		return new MessageDialogData(message, title);
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public String getMessage() {
 		return message.getLocalizedMessage();
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public MessageLevel getMessageLevel() {
 		return message.getMessageLevel();

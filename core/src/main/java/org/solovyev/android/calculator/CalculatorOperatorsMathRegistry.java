@@ -7,7 +7,7 @@
 package org.solovyev.android.calculator;
 
 import jscl.math.operator.Operator;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathRegistry;
 
@@ -21,7 +21,7 @@ import java.util.Map;
  */
 public class CalculatorOperatorsMathRegistry extends AbstractCalculatorMathRegistry<Operator, MathPersistenceEntity> {
 
-	@NotNull
+	@Nonnull
 	private static final Map<String, String> substitutes = new HashMap<String, String>();
 
 	static {
@@ -33,22 +33,22 @@ public class CalculatorOperatorsMathRegistry extends AbstractCalculatorMathRegis
 		substitutes.put("Σ", "sum");
 	}
 
-	@NotNull
+	@Nonnull
 	private static final String OPERATOR_DESCRIPTION_PREFIX = "c_op_description_";
 
-	public CalculatorOperatorsMathRegistry(@NotNull MathRegistry<Operator> functionsRegistry,
-										   @NotNull MathEntityDao<MathPersistenceEntity> mathEntityDao) {
+	public CalculatorOperatorsMathRegistry(@Nonnull MathRegistry<Operator> functionsRegistry,
+										   @Nonnull MathEntityDao<MathPersistenceEntity> mathEntityDao) {
 		super(functionsRegistry, OPERATOR_DESCRIPTION_PREFIX, mathEntityDao);
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	protected Map<String, String> getSubstitutes() {
 		return substitutes;
 	}
 
 	@Override
-	public String getCategory(@NotNull Operator operator) {
+	public String getCategory(@Nonnull Operator operator) {
 		for (OperatorCategory category : OperatorCategory.values()) {
 			if (category.isInCategory(operator)) {
 				return category.name();
@@ -62,9 +62,9 @@ public class CalculatorOperatorsMathRegistry extends AbstractCalculatorMathRegis
 		// not supported yet
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
-	protected JBuilder<? extends Operator> createBuilder(@NotNull MathPersistenceEntity entity) {
+	protected JBuilder<? extends Operator> createBuilder(@Nonnull MathPersistenceEntity entity) {
 		return null;  //To change body of implemented methods use File | Settings | File Templates.
 	}
 
@@ -74,11 +74,11 @@ public class CalculatorOperatorsMathRegistry extends AbstractCalculatorMathRegis
 	}
 
 	@Override
-	protected MathPersistenceEntity transform(@NotNull Operator entity) {
+	protected MathPersistenceEntity transform(@Nonnull Operator entity) {
 		return null;  //To change body of implemented methods use File | Settings | File Templates.
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	protected MathEntityPersistenceContainer<MathPersistenceEntity> createPersistenceContainer() {
 		return null;  //To change body of implemented methods use File | Settings | File Templates.

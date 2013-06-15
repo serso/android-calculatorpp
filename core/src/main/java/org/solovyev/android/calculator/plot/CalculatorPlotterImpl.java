@@ -5,11 +5,11 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import jscl.math.Generic;
 import jscl.math.function.Constant;
-import org.jetbrains.annotations.NotNull;
 import org.solovyev.android.calculator.Calculator;
 import org.solovyev.android.calculator.CalculatorEventType;
 import org.solovyev.android.calculator.CalculatorUtils;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,10 +22,10 @@ import java.util.List;
  */
 public class CalculatorPlotterImpl implements CalculatorPlotter {
 
-	@NotNull
+	@Nonnull
 	private final List<PlotFunction> functions = new ArrayList<PlotFunction>();
 
-	@NotNull
+	@Nonnull
 	private final Calculator calculator;
 
 	private final PlotResourceManager resourceManager = new MapPlotResourceManager();
@@ -36,24 +36,24 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
 
 	private int arity = 0;
 
-	@NotNull
+	@Nonnull
 	private PlotBoundaries plotBoundaries = PlotBoundaries.newDefaultInstance();
 
-	@NotNull
+	@Nonnull
 	private PlotData plotData = new PlotData(Collections.<PlotFunction>emptyList(), plot3d, plotBoundaries);
 
-	public CalculatorPlotterImpl(@NotNull Calculator calculator) {
+	public CalculatorPlotterImpl(@Nonnull Calculator calculator) {
 		this.calculator = calculator;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public PlotData getPlotData() {
 		return plotData;
 	}
 
 	@Override
-	public boolean addFunction(@NotNull Generic expression) {
+	public boolean addFunction(@Nonnull Generic expression) {
 		final List<Constant> variables = new ArrayList<Constant>(CalculatorUtils.getNotSystemConstants(expression));
 
 		assert variables.size() <= 2;
@@ -92,13 +92,13 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
 		return imagAdded || realAdded;
 	}
 
-	@NotNull
-	private PlotFunction newPlotFunction(@NotNull XyFunction xyFunction) {
+	@Nonnull
+	private PlotFunction newPlotFunction(@Nonnull XyFunction xyFunction) {
 		return new PlotFunction(xyFunction, resourceManager.generateAndRegister());
 	}
 
 	@Override
-	public boolean addFunction(@NotNull PlotFunction plotFunction) {
+	public boolean addFunction(@Nonnull PlotFunction plotFunction) {
 		synchronized (functions) {
 			if (!functions.contains(plotFunction)) {
 				resourceManager.register(plotFunction.getPlotLineDef());
@@ -111,7 +111,7 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
 		}
 	}
 
-	private boolean removeAllUnpinnedExcept(@NotNull final PlotFunction... exceptFunctions) {
+	private boolean removeAllUnpinnedExcept(@Nonnull final PlotFunction... exceptFunctions) {
 		synchronized (functions) {
 
 			boolean changed = Iterables.removeIf(functions, new Predicate<PlotFunction>() {
@@ -166,7 +166,7 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
 	}
 
 	@Override
-	public boolean removeFunction(@NotNull PlotFunction plotFunction) {
+	public boolean removeFunction(@Nonnull PlotFunction plotFunction) {
 		synchronized (functions) {
 			boolean changed = functions.remove(plotFunction);
 			if (changed) {
@@ -178,24 +178,24 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
 	}
 
 	@Override
-	public boolean addFunction(@NotNull XyFunction xyFunction) {
+	public boolean addFunction(@Nonnull XyFunction xyFunction) {
 		return addFunction(newPlotFunction(xyFunction));
 	}
 
 	@Override
-	public boolean addFunction(@NotNull XyFunction xyFunction, @NotNull PlotLineDef functionLineDef) {
+	public boolean addFunction(@Nonnull XyFunction xyFunction, @Nonnull PlotLineDef functionLineDef) {
 		return addFunction(new PlotFunction(xyFunction, functionLineDef));
 	}
 
 	@Override
-	public boolean updateFunction(@NotNull XyFunction xyFunction, @NotNull PlotLineDef functionLineDef) {
+	public boolean updateFunction(@Nonnull XyFunction xyFunction, @Nonnull PlotLineDef functionLineDef) {
 		final PlotFunction newFunction = new PlotFunction(xyFunction, functionLineDef);
 
 		return updateFunction(newFunction);
 	}
 
 	@Override
-	public boolean updateFunction(@NotNull PlotFunction newFunction) {
+	public boolean updateFunction(@Nonnull PlotFunction newFunction) {
 		boolean changed = updateFunction0(newFunction);
 		if (changed) {
 			firePlotDataChangedEvent();
@@ -203,7 +203,7 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
 		return changed;
 	}
 
-	public boolean updateFunction0(@NotNull PlotFunction newFunction) {
+	public boolean updateFunction0(@Nonnull PlotFunction newFunction) {
 		boolean changed = false;
 
 		synchronized (functions) {
@@ -226,29 +226,29 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
 	}
 
 	@Override
-	public boolean removeFunction(@NotNull XyFunction xyFunction) {
+	public boolean removeFunction(@Nonnull XyFunction xyFunction) {
 		return removeFunction(new PlotFunction(xyFunction));
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
-	public PlotFunction pin(@NotNull PlotFunction plotFunction) {
+	public PlotFunction pin(@Nonnull PlotFunction plotFunction) {
 		final PlotFunction newFunction = PlotFunction.pin(plotFunction);
 		updateFunction0(newFunction);
 		return newFunction;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
-	public PlotFunction unpin(@NotNull PlotFunction plotFunction) {
+	public PlotFunction unpin(@Nonnull PlotFunction plotFunction) {
 		final PlotFunction newFunction = PlotFunction.unpin(plotFunction);
 		updateFunction0(newFunction);
 		return newFunction;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
-	public PlotFunction show(@NotNull PlotFunction plotFunction) {
+	public PlotFunction show(@Nonnull PlotFunction plotFunction) {
 		final PlotFunction newFunction = PlotFunction.visible(plotFunction);
 
 		updateFunction(newFunction);
@@ -256,9 +256,9 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
 		return newFunction;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
-	public PlotFunction hide(@NotNull PlotFunction plotFunction) {
+	public PlotFunction hide(@Nonnull PlotFunction plotFunction) {
 		final PlotFunction newFunction = PlotFunction.invisible(plotFunction);
 
 		updateFunction(newFunction);
@@ -275,9 +275,9 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
 		}
 	}
 
-	@org.jetbrains.annotations.Nullable
+	@Nullable
 	@Override
-	public PlotFunction getFunctionById(@NotNull final String functionId) {
+	public PlotFunction getFunctionById(@Nonnull final String functionId) {
 		synchronized (functions) {
 			return Iterables.find(functions, new Predicate<PlotFunction>() {
 				@Override
@@ -315,7 +315,7 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
 		firePlotDataChangedEvent();
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public List<PlotFunction> getFunctions() {
 		synchronized (functions) {
@@ -323,7 +323,7 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
 		}
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public List<PlotFunction> getVisibleFunctions() {
 		synchronized (functions) {
@@ -342,7 +342,7 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
 	}
 
 	@Override
-	public void plot(@NotNull Generic expression) {
+	public void plot(@Nonnull Generic expression) {
 		addFunction(expression);
 		plot();
 	}
@@ -353,7 +353,7 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
 	}
 
 	@Override
-	public boolean isPlotPossibleFor(@NotNull Generic expression) {
+	public boolean isPlotPossibleFor(@Nonnull Generic expression) {
 		boolean result = false;
 
 		int size = CalculatorUtils.getNotSystemConstants(expression).size();
@@ -392,7 +392,7 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
 	}
 
 	@Override
-	public void savePlotBoundaries(@NotNull PlotBoundaries plotBoundaries) {
+	public void savePlotBoundaries(@Nonnull PlotBoundaries plotBoundaries) {
 		if (!this.plotBoundaries.equals(plotBoundaries)) {
 			this.plotBoundaries = plotBoundaries;
 			updatePlotData();
@@ -400,7 +400,7 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
 	}
 
 	@Override
-	public void setPlotBoundaries(@NotNull PlotBoundaries plotBoundaries) {
+	public void setPlotBoundaries(@Nonnull PlotBoundaries plotBoundaries) {
 		if (!this.plotBoundaries.equals(plotBoundaries)) {
 			this.plotBoundaries = plotBoundaries;
 			firePlotDataChangedEvent();

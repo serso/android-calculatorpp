@@ -1,7 +1,7 @@
 package org.solovyev.android.calculator;
 
 import jscl.math.function.IConstant;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.common.collections.Collections;
 
 import java.util.Comparator;
@@ -16,14 +16,14 @@ public enum VarCategory {
 
 	system(100) {
 		@Override
-		public boolean isInCategory(@NotNull IConstant var) {
+		public boolean isInCategory(@Nonnull IConstant var) {
 			return var.isSystem();
 		}
 	},
 
 	my(0) {
 		@Override
-		public boolean isInCategory(@NotNull IConstant var) {
+		public boolean isInCategory(@Nonnull IConstant var) {
 			return !var.isSystem();
 		}
 	};
@@ -34,9 +34,9 @@ public enum VarCategory {
 		this.tabOrder = tabOrder;
 	}
 
-	public abstract boolean isInCategory(@NotNull IConstant var);
+	public abstract boolean isInCategory(@Nonnull IConstant var);
 
-	@NotNull
+	@Nonnull
 	public static List<VarCategory> getCategoriesByTabOrder() {
 		final List<VarCategory> result = Collections.asList(VarCategory.values());
 

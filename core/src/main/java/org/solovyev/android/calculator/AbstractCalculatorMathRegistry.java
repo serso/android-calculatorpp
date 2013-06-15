@@ -6,8 +6,8 @@
 
 package org.solovyev.android.calculator;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.math.MathRegistry;
@@ -23,30 +23,30 @@ import java.util.Map;
  */
 public abstract class AbstractCalculatorMathRegistry<T extends MathEntity, P extends MathPersistenceEntity> implements CalculatorMathRegistry<T> {
 
-	@NotNull
+	@Nonnull
 	private final MathRegistry<T> mathRegistry;
 
-	@NotNull
+	@Nonnull
 	private final String prefix;
 
-	@NotNull
+	@Nonnull
 	private final MathEntityDao<P> mathEntityDao;
 
-	protected AbstractCalculatorMathRegistry(@NotNull MathRegistry<T> mathRegistry,
-											 @NotNull String prefix,
-											 @NotNull MathEntityDao<P> mathEntityDao) {
+	protected AbstractCalculatorMathRegistry(@Nonnull MathRegistry<T> mathRegistry,
+											 @Nonnull String prefix,
+											 @Nonnull MathEntityDao<P> mathEntityDao) {
 		this.mathRegistry = mathRegistry;
 		this.prefix = prefix;
 		this.mathEntityDao = mathEntityDao;
 	}
 
 
-	@NotNull
+	@Nonnull
 	protected abstract Map<String, String> getSubstitutes();
 
 	@Nullable
 	@Override
-	public String getDescription(@NotNull String mathEntityName) {
+	public String getDescription(@Nonnull String mathEntityName) {
 		final String stringName;
 
 		final Map<String, String> substitutes = getSubstitutes();
@@ -94,8 +94,8 @@ public abstract class AbstractCalculatorMathRegistry<T extends MathEntity, P ext
 		}
 	}
 
-	@NotNull
-	protected abstract JBuilder<? extends T> createBuilder(@NotNull P entity);
+	@Nonnull
+	protected abstract JBuilder<? extends T> createBuilder(@Nonnull P entity);
 
 	@Override
 	public synchronized void save() {
@@ -114,51 +114,51 @@ public abstract class AbstractCalculatorMathRegistry<T extends MathEntity, P ext
 	}
 
 	@Nullable
-	protected abstract P transform(@NotNull T entity);
+	protected abstract P transform(@Nonnull T entity);
 
-	@NotNull
+	@Nonnull
 	protected abstract MathEntityPersistenceContainer<P> createPersistenceContainer();
 
-	@NotNull
+	@Nonnull
 	@Override
 	public List<T> getEntities() {
 		return mathRegistry.getEntities();
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public List<T> getSystemEntities() {
 		return mathRegistry.getSystemEntities();
 	}
 
 	@Override
-	public T add(@NotNull JBuilder<? extends T> JBuilder) {
+	public T add(@Nonnull JBuilder<? extends T> JBuilder) {
 		return mathRegistry.add(JBuilder);
 	}
 
 	@Override
-	public void remove(@NotNull T var) {
+	public void remove(@Nonnull T var) {
 		mathRegistry.remove(var);
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public List<String> getNames() {
 		return mathRegistry.getNames();
 	}
 
 	@Override
-	public boolean contains(@NotNull String name) {
+	public boolean contains(@Nonnull String name) {
 		return mathRegistry.contains(name);
 	}
 
 	@Override
-	public T get(@NotNull String name) {
+	public T get(@Nonnull String name) {
 		return mathRegistry.get(name);
 	}
 
 	@Override
-	public T getById(@NotNull Integer id) {
+	public T getById(@Nonnull Integer id) {
 		return mathRegistry.getById(id);
 	}
 }

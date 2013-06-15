@@ -2,8 +2,8 @@ package org.solovyev.android.calculator;
 
 import jscl.NumeralBase;
 import jscl.math.Generic;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.calculator.history.CalculatorHistoryState;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.common.history.HistoryControl;
@@ -27,18 +27,18 @@ public interface Calculator extends CalculatorEventContainer, HistoryControl<Cal
 
 	void evaluate();
 
-	void evaluate(@NotNull Long sequenceId);
+	void evaluate(@Nonnull Long sequenceId);
 
 	void simplify();
 
-	@NotNull
-	CalculatorEventData evaluate(@NotNull JsclOperation operation,
-								 @NotNull String expression);
+	@Nonnull
+	CalculatorEventData evaluate(@Nonnull JsclOperation operation,
+								 @Nonnull String expression);
 
-	@NotNull
-	CalculatorEventData evaluate(@NotNull JsclOperation operation,
-								 @NotNull String expression,
-								 @NotNull Long sequenceId);
+	@Nonnull
+	CalculatorEventData evaluate(@Nonnull JsclOperation operation,
+								 @Nonnull String expression,
+								 @Nonnull Long sequenceId);
 
 	/*
 	**********************************************************************
@@ -48,10 +48,10 @@ public interface Calculator extends CalculatorEventContainer, HistoryControl<Cal
 	**********************************************************************
 	*/
 
-	boolean isConversionPossible(@NotNull Generic generic, @NotNull NumeralBase from, @NotNull NumeralBase to);
+	boolean isConversionPossible(@Nonnull Generic generic, @Nonnull NumeralBase from, @Nonnull NumeralBase to);
 
-	@NotNull
-	CalculatorEventData convert(@NotNull Generic generic, @NotNull NumeralBase to);
+	@Nonnull
+	CalculatorEventData convert(@Nonnull Generic generic, @Nonnull NumeralBase to);
 
 	/*
 	**********************************************************************
@@ -60,15 +60,15 @@ public interface Calculator extends CalculatorEventContainer, HistoryControl<Cal
 	*
 	**********************************************************************
 	*/
-	@NotNull
-	CalculatorEventData fireCalculatorEvent(@NotNull CalculatorEventType calculatorEventType, @Nullable Object data);
+	@Nonnull
+	CalculatorEventData fireCalculatorEvent(@Nonnull CalculatorEventType calculatorEventType, @Nullable Object data);
 
-	@NotNull
-	CalculatorEventData fireCalculatorEvent(@NotNull CalculatorEventType calculatorEventType, @Nullable Object data, @NotNull Object source);
+	@Nonnull
+	CalculatorEventData fireCalculatorEvent(@Nonnull CalculatorEventType calculatorEventType, @Nullable Object data, @Nonnull Object source);
 
-	@NotNull
-	CalculatorEventData fireCalculatorEvent(@NotNull CalculatorEventType calculatorEventType, @Nullable Object data, @NotNull Long sequenceId);
+	@Nonnull
+	CalculatorEventData fireCalculatorEvent(@Nonnull CalculatorEventType calculatorEventType, @Nullable Object data, @Nonnull Long sequenceId);
 
-	@NotNull
-	PreparedExpression prepareExpression(@NotNull String expression) throws CalculatorParseException;
+	@Nonnull
+	PreparedExpression prepareExpression(@Nonnull String expression) throws CalculatorParseException;
 }

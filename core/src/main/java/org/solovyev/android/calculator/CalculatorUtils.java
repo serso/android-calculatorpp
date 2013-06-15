@@ -3,7 +3,7 @@ package org.solovyev.android.calculator;
 import jscl.math.Generic;
 import jscl.math.function.Constant;
 import jscl.math.function.IConstant;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -21,13 +21,13 @@ public final class CalculatorUtils {
 		throw new AssertionError();
 	}
 
-	@NotNull
+	@Nonnull
 	public static CalculatorEventData createFirstEventDataId() {
 		return CalculatorEventDataImpl.newInstance(FIRST_ID, FIRST_ID);
 	}
 
-	@NotNull
-	public static Set<Constant> getNotSystemConstants(@NotNull Generic expression) {
+	@Nonnull
+	public static Set<Constant> getNotSystemConstants(@Nonnull Generic expression) {
 		final Set<Constant> notSystemConstants = new HashSet<Constant>();
 
 		for (Constant constant : expression.getConstants()) {

@@ -1,6 +1,6 @@
 package org.solovyev.android.calculator;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.android.calculator.external.CalculatorExternalListenersContainer;
 import org.solovyev.android.calculator.history.CalculatorHistory;
 import org.solovyev.android.calculator.plot.CalculatorPlotter;
@@ -12,50 +12,50 @@ import org.solovyev.android.calculator.plot.CalculatorPlotter;
  */
 public interface CalculatorLocator {
 
-	void init(@NotNull Calculator calculator,
-			  @NotNull CalculatorEngine engine,
-			  @NotNull CalculatorClipboard clipboard,
-			  @NotNull CalculatorNotifier notifier,
-			  @NotNull CalculatorHistory history,
-			  @NotNull CalculatorLogger logger,
-			  @NotNull CalculatorPreferenceService preferenceService,
-			  @NotNull CalculatorKeyboard keyboard,
-			  @NotNull CalculatorExternalListenersContainer externalListenersContainer,
-			  @NotNull CalculatorPlotter plotter);
+	void init(@Nonnull Calculator calculator,
+			  @Nonnull CalculatorEngine engine,
+			  @Nonnull CalculatorClipboard clipboard,
+			  @Nonnull CalculatorNotifier notifier,
+			  @Nonnull CalculatorHistory history,
+			  @Nonnull CalculatorLogger logger,
+			  @Nonnull CalculatorPreferenceService preferenceService,
+			  @Nonnull CalculatorKeyboard keyboard,
+			  @Nonnull CalculatorExternalListenersContainer externalListenersContainer,
+			  @Nonnull CalculatorPlotter plotter);
 
-	@NotNull
+	@Nonnull
 	Calculator getCalculator();
 
-	@NotNull
+	@Nonnull
 	CalculatorEngine getEngine();
 
-	@NotNull
+	@Nonnull
 	CalculatorDisplay getDisplay();
 
-	@NotNull
+	@Nonnull
 	CalculatorEditor getEditor();
 
-	@NotNull
+	@Nonnull
 	CalculatorKeyboard getKeyboard();
 
-	@NotNull
+	@Nonnull
 	CalculatorClipboard getClipboard();
 
-	@NotNull
+	@Nonnull
 	CalculatorNotifier getNotifier();
 
-	@NotNull
+	@Nonnull
 	CalculatorHistory getHistory();
 
-	@NotNull
+	@Nonnull
 	CalculatorLogger getLogger();
 
-	@NotNull
+	@Nonnull
 	CalculatorPlotter getPlotter();
 
-	@NotNull
+	@Nonnull
 	CalculatorPreferenceService getPreferenceService();
 
-	@NotNull
+	@Nonnull
 	CalculatorExternalListenersContainer getExternalListenersContainer();
 }

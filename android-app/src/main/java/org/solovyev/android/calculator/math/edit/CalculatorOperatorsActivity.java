@@ -8,8 +8,8 @@ package org.solovyev.android.calculator.math.edit;
 
 import android.os.Bundle;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.history.CalculatorHistoryActivity;
 
@@ -20,7 +20,7 @@ import org.solovyev.android.calculator.history.CalculatorHistoryActivity;
  */
 public class CalculatorOperatorsActivity extends SherlockFragmentActivity implements CalculatorEventListener {
 
-	@NotNull
+	@Nonnull
 	private final CalculatorActivityHelper activityHelper = CalculatorApplication.getInstance().createActivityHelper(R.layout.main_empty, CalculatorHistoryActivity.class.getSimpleName());
 
 	@Override
@@ -71,7 +71,7 @@ public class CalculatorOperatorsActivity extends SherlockFragmentActivity implem
 	}
 
 	@Override
-	public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
+	public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
 		switch (calculatorEventType) {
 			case use_operator:
 				this.finish();

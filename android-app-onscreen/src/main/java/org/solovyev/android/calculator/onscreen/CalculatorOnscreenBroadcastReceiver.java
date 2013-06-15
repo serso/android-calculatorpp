@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.android.calculator.CalculatorPreferences;
 
 /**
@@ -19,8 +19,8 @@ public final class CalculatorOnscreenBroadcastReceiver extends BroadcastReceiver
 	}
 
 	@Override
-	public void onReceive(@NotNull Context context,
-						  @NotNull Intent intent) {
+	public void onReceive(@Nonnull Context context,
+						  @Nonnull Intent intent) {
 		if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
 			final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			if (CalculatorPreferences.OnscreenCalculator.startOnBoot.getPreferenceNoError(preferences)) {

@@ -1,7 +1,7 @@
 package org.solovyev.android.calculator;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * User: serso
@@ -10,11 +10,11 @@ import org.jetbrains.annotations.Nullable;
  */
 public interface CalculatorLogger {
 
-	void debug(@Nullable String tag, @NotNull String message);
+	void debug(@Nullable String tag, @Nonnull String message);
 
-	void debug(@Nullable String tag, @Nullable String message, @NotNull Throwable e);
+	void debug(@Nullable String tag, @Nullable String message, @Nonnull Throwable e);
 
-	void error(@Nullable String tag, @Nullable String message, @NotNull Throwable e);
+	void error(@Nullable String tag, @Nullable String message, @Nonnull Throwable e);
 
 	void error(@Nullable String tag, @Nullable String message);
 

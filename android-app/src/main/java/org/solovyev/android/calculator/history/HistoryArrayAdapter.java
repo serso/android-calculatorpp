@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.android.calculator.R;
 import org.solovyev.common.text.Strings;
 
@@ -26,7 +26,7 @@ import java.util.List;
  */
 public class HistoryArrayAdapter extends ArrayAdapter<CalculatorHistoryState> {
 
-	HistoryArrayAdapter(Context context, int resource, int textViewResourceId, @NotNull List<CalculatorHistoryState> historyList) {
+	HistoryArrayAdapter(Context context, int resource, int textViewResourceId, @Nonnull List<CalculatorHistoryState> historyList) {
 		super(context, resource, textViewResourceId, historyList);
 	}
 

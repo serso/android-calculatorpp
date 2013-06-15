@@ -6,7 +6,7 @@
 
 package org.solovyev.android.calculator.history;
 
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nullable;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Transient;
 

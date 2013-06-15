@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.calculator.CalculatorFragment;
 import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.Locator;
@@ -36,7 +36,7 @@ public class CalculatorPlotRangeActivity extends SherlockFragmentActivity {
 		}
 
 		@Override
-		public void onViewCreated(@NotNull View root, Bundle savedInstanceState) {
+		public void onViewCreated(@Nonnull View root, Bundle savedInstanceState) {
 			super.onViewCreated(root, savedInstanceState);
 
 			final CalculatorPlotter plotter = Locator.getInstance().getPlotter();

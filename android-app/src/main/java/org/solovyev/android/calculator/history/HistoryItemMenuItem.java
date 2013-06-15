@@ -16,7 +16,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.menu.LabeledMenuItem;
@@ -31,14 +31,14 @@ public enum HistoryItemMenuItem implements LabeledMenuItem<HistoryItemMenuData> 
 
 	use(R.string.c_use) {
 		@Override
-		public void onClick(@NotNull HistoryItemMenuData data, @NotNull Context context) {
+		public void onClick(@Nonnull HistoryItemMenuData data, @Nonnull Context context) {
 			AbstractCalculatorHistoryFragment.useHistoryItem(data.getHistoryState());
 		}
 	},
 
 	copy_expression(R.string.c_copy_expression) {
 		@Override
-		public void onClick(@NotNull HistoryItemMenuData data, @NotNull Context context) {
+		public void onClick(@Nonnull HistoryItemMenuData data, @Nonnull Context context) {
 			final CalculatorHistoryState calculatorHistoryState = data.getHistoryState();
 			final String text = calculatorHistoryState.getEditorState().getText();
 			if (!Strings.isEmpty(text)) {
@@ -51,7 +51,7 @@ public enum HistoryItemMenuItem implements LabeledMenuItem<HistoryItemMenuData> 
 
 	copy_result(R.string.c_copy_result) {
 		@Override
-		public void onClick(@NotNull HistoryItemMenuData data, @NotNull Context context) {
+		public void onClick(@Nonnull HistoryItemMenuData data, @Nonnull Context context) {
 			final CalculatorHistoryState calculatorHistoryState = data.getHistoryState();
 			final String text = calculatorHistoryState.getDisplayState().getEditorState().getText();
 			if (!Strings.isEmpty(text)) {
@@ -64,7 +64,7 @@ public enum HistoryItemMenuItem implements LabeledMenuItem<HistoryItemMenuData> 
 
 	save(R.string.c_save) {
 		@Override
-		public void onClick(@NotNull final HistoryItemMenuData data, @NotNull final Context context) {
+		public void onClick(@Nonnull final HistoryItemMenuData data, @Nonnull final Context context) {
 			final CalculatorHistoryState historyState = data.getHistoryState();
 			if (!historyState.isSaved()) {
 				createEditHistoryDialog(data, context, true);
@@ -76,7 +76,7 @@ public enum HistoryItemMenuItem implements LabeledMenuItem<HistoryItemMenuData> 
 
 	edit(R.string.c_edit) {
 		@Override
-		public void onClick(@NotNull final HistoryItemMenuData data, @NotNull final Context context) {
+		public void onClick(@Nonnull final HistoryItemMenuData data, @Nonnull final Context context) {
 			final CalculatorHistoryState historyState = data.getHistoryState();
 			if (historyState.isSaved()) {
 				createEditHistoryDialog(data, context, false);
@@ -88,7 +88,7 @@ public enum HistoryItemMenuItem implements LabeledMenuItem<HistoryItemMenuData> 
 
 	remove(R.string.c_remove) {
 		@Override
-		public void onClick(@NotNull HistoryItemMenuData data, @NotNull Context context) {
+		public void onClick(@Nonnull HistoryItemMenuData data, @Nonnull Context context) {
 			final CalculatorHistoryState historyState = data.getHistoryState();
 			if (historyState.isSaved()) {
 				data.getAdapter().remove(historyState);
@@ -99,7 +99,7 @@ public enum HistoryItemMenuItem implements LabeledMenuItem<HistoryItemMenuData> 
 		}
 	};
 
-	private static void createEditHistoryDialog(@NotNull final HistoryItemMenuData data, @NotNull final Context context, final boolean save) {
+	private static void createEditHistoryDialog(@Nonnull final HistoryItemMenuData data, @Nonnull final Context context, final boolean save) {
 		final CalculatorHistoryState historyState = data.getHistoryState();
 
 		final LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -142,9 +142,9 @@ public enum HistoryItemMenuItem implements LabeledMenuItem<HistoryItemMenuData> 
 		this.captionId = captionId;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
-	public String getCaption(@NotNull Context context) {
+	public String getCaption(@Nonnull Context context) {
 		return context.getString(captionId);
 	}
 }

@@ -1,6 +1,6 @@
 package org.solovyev.android.calculator;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -9,24 +9,24 @@ import org.jetbrains.annotations.NotNull;
  */
 public class CalculatorDisplayChangeEventDataImpl implements CalculatorDisplayChangeEventData {
 
-	@NotNull
+	@Nonnull
 	private final CalculatorDisplayViewState oldState;
 
-	@NotNull
+	@Nonnull
 	private final CalculatorDisplayViewState newState;
 
-	public CalculatorDisplayChangeEventDataImpl(@NotNull CalculatorDisplayViewState oldState, @NotNull CalculatorDisplayViewState newState) {
+	public CalculatorDisplayChangeEventDataImpl(@Nonnull CalculatorDisplayViewState oldState, @Nonnull CalculatorDisplayViewState newState) {
 		this.oldState = oldState;
 		this.newState = newState;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public CalculatorDisplayViewState getOldValue() {
 		return this.oldState;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public CalculatorDisplayViewState getNewValue() {
 		return this.newState;

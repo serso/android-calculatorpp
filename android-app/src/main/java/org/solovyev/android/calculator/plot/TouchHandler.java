@@ -4,7 +4,7 @@ package org.solovyev.android.calculator.plot;
 
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.android.Views;
 
 class TouchHandler {
@@ -21,19 +21,19 @@ class TouchHandler {
 		void onTouchZoomMove(float x1, float y1, float x2, float y2);
 	}
 
-	@NotNull
+	@Nonnull
 	private final VelocityTracker velocityTracker = VelocityTracker.obtain();
 
 	private boolean afterZoom;
 
-	@NotNull
+	@Nonnull
 	private TouchHandlerListener listener;
 
-	TouchHandler(@NotNull TouchHandlerListener listener) {
+	TouchHandler(@Nonnull TouchHandlerListener listener) {
 		this.listener = listener;
 	}
 
-	public boolean handleTouchEvent(@NotNull MotionEvent event) {
+	public boolean handleTouchEvent(@Nonnull MotionEvent event) {
 		// Calculator.log("touch " + event + ' ' + event.getPointerCount() + event.getPointerId(0));
 
 		final int fullAction = event.getAction();

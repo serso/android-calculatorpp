@@ -4,8 +4,8 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.calculator.R;
 
 /**
@@ -29,7 +29,7 @@ public class CalculatorPlotFragment extends AbstractCalculatorPlotFragment {
 	}
 
 	@Override
-	protected void createGraphicalView(@NotNull View root, @NotNull PlotData plotData) {
+	protected void createGraphicalView(@Nonnull View root, @Nonnull PlotData plotData) {
 
 		// remove old
 		final ViewGroup graphContainer = (ViewGroup) root.findViewById(R.id.main_fragment_layout);
@@ -59,7 +59,7 @@ public class CalculatorPlotFragment extends AbstractCalculatorPlotFragment {
 	}
 
 	@Override
-	protected void createChart(@NotNull PlotData plotData) {
+	protected void createChart(@Nonnull PlotData plotData) {
 	}
 
 	@Override
@@ -67,7 +67,7 @@ public class CalculatorPlotFragment extends AbstractCalculatorPlotFragment {
 		return true;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	protected Bitmap getScreehshot() {
 		assert this.graphView != null;

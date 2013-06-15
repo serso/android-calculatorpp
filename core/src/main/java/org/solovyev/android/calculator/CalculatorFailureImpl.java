@@ -1,6 +1,6 @@
 package org.solovyev.android.calculator;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -9,14 +9,14 @@ import org.jetbrains.annotations.NotNull;
  */
 public class CalculatorFailureImpl implements CalculatorFailure {
 
-	@NotNull
+	@Nonnull
 	private Exception exception;
 
-	public CalculatorFailureImpl(@NotNull Exception exception) {
+	public CalculatorFailureImpl(@Nonnull Exception exception) {
 		this.exception = exception;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public Exception getException() {
 		return this.exception;

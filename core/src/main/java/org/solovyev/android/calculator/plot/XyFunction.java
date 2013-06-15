@@ -2,8 +2,8 @@ package org.solovyev.android.calculator.plot;
 
 import jscl.math.Generic;
 import jscl.math.function.Constant;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.common.text.Strings;
 
 public class XyFunction implements FunctionEvaluator {
@@ -16,13 +16,13 @@ public class XyFunction implements FunctionEvaluator {
 	**********************************************************************
 	*/
 
-	@NotNull
+	@Nonnull
 	private final String id;
 
-	@NotNull
+	@Nonnull
 	private Generic expression;
 
-	@NotNull
+	@Nonnull
 	private String expressionString;
 
 	@Nullable
@@ -41,10 +41,10 @@ public class XyFunction implements FunctionEvaluator {
 
 	private int arity;
 
-	@NotNull
+	@Nonnull
 	private final FunctionEvaluator evaluator;
 
-	public XyFunction(@NotNull Generic expression,
+	public XyFunction(@Nonnull Generic expression,
 					  @Nullable Constant xVariable,
 					  @Nullable Constant yVariable,
 					  boolean imag) {
@@ -99,7 +99,7 @@ public class XyFunction implements FunctionEvaluator {
 		return evaluator.eval(x, y);
 	}
 
-	@NotNull
+	@Nonnull
 	public Generic getExpression() {
 		return expression;
 	}
@@ -114,12 +114,12 @@ public class XyFunction implements FunctionEvaluator {
 		return yVariable;
 	}
 
-	@NotNull
+	@Nonnull
 	public String getExpressionString() {
 		return expressionString;
 	}
 
-	@NotNull
+	@Nonnull
 	public String getId() {
 		return id;
 	}
@@ -161,13 +161,13 @@ public class XyFunction implements FunctionEvaluator {
 
 	private static abstract class AbstractEvaluator implements FunctionEvaluator {
 
-		@NotNull
+		@Nonnull
 		protected final XyFunction xyFunction;
 
 		@Nullable
 		private Double constant = null;
 
-		public AbstractEvaluator(@NotNull XyFunction xyFunction) {
+		public AbstractEvaluator(@Nonnull XyFunction xyFunction) {
 			this.xyFunction = xyFunction;
 		}
 
@@ -190,7 +190,7 @@ public class XyFunction implements FunctionEvaluator {
 
 	private static class RealEvaluator extends AbstractEvaluator {
 
-		private RealEvaluator(@NotNull XyFunction xyFunction) {
+		private RealEvaluator(@Nonnull XyFunction xyFunction) {
 			super(xyFunction);
 		}
 
@@ -212,7 +212,7 @@ public class XyFunction implements FunctionEvaluator {
 
 	private static class ImaginaryEvaluator extends AbstractEvaluator {
 
-		private ImaginaryEvaluator(@NotNull XyFunction xyFunction) {
+		private ImaginaryEvaluator(@Nonnull XyFunction xyFunction) {
 			super(xyFunction);
 		}
 

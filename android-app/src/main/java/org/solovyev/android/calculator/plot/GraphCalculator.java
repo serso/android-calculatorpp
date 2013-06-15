@@ -1,6 +1,6 @@
 package org.solovyev.android.calculator.plot;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -9,10 +9,10 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface GraphCalculator {
 
-	void computeGraph(@NotNull XyFunction f,
+	void computeGraph(@Nonnull XyFunction f,
 					  float xMin,
 					  float xMax,
-					  @NotNull GraphData graph,
-					  @NotNull GraphsData graphsData,
-					  @NotNull Graph2dDimensions dimensions);
+					  @Nonnull GraphData graph,
+					  @Nonnull GraphsData graphsData,
+					  @Nonnull Graph2dDimensions dimensions);
 }

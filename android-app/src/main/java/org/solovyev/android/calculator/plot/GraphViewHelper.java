@@ -1,6 +1,6 @@
 package org.solovyev.android.calculator.plot;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.Collections;
 import java.util.List;
@@ -12,23 +12,23 @@ import java.util.List;
  */
 public class GraphViewHelper {
 
-	@NotNull
+	@Nonnull
 	private PlotViewDef plotViewDef = PlotViewDef.newDefaultInstance();
 
-	@NotNull
+	@Nonnull
 	private List<PlotFunction> plotFunctions = Collections.emptyList();
 
 	private GraphViewHelper() {
 	}
 
-	@NotNull
+	@Nonnull
 	public static GraphViewHelper newDefaultInstance() {
 		return new GraphViewHelper();
 	}
 
-	@NotNull
-	public static GraphViewHelper newInstance(@NotNull PlotViewDef plotViewDef,
-											  @NotNull List<PlotFunction> plotFunctions) {
+	@Nonnull
+	public static GraphViewHelper newInstance(@Nonnull PlotViewDef plotViewDef,
+											  @Nonnull List<PlotFunction> plotFunctions) {
 		final GraphViewHelper result = new GraphViewHelper();
 
 		result.plotViewDef = plotViewDef;
@@ -37,8 +37,8 @@ public class GraphViewHelper {
 		return result;
 	}
 
-	@NotNull
-	public GraphViewHelper copy(@NotNull List<PlotFunction> plotFunctions) {
+	@Nonnull
+	public GraphViewHelper copy(@Nonnull List<PlotFunction> plotFunctions) {
 		final GraphViewHelper result = new GraphViewHelper();
 
 		result.plotViewDef = plotViewDef;
@@ -47,12 +47,12 @@ public class GraphViewHelper {
 		return result;
 	}
 
-	@NotNull
+	@Nonnull
 	public List<PlotFunction> getPlotFunctions() {
 		return plotFunctions;
 	}
 
-	@NotNull
+	@Nonnull
 	public PlotViewDef getPlotViewDef() {
 		return plotViewDef;
 	}

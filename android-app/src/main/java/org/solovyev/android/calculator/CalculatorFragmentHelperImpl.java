@@ -6,8 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.google.ads.AdView;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.ads.AdsController;
 
 /**
@@ -42,11 +42,11 @@ public class CalculatorFragmentHelperImpl extends AbstractCalculatorHelper imple
 	}
 
 	@Override
-	public boolean isPane(@NotNull Fragment fragment) {
+	public boolean isPane(@Nonnull Fragment fragment) {
 		return fragment.getActivity() instanceof CalculatorActivity;
 	}
 
-	public void setPaneTitle(@NotNull Fragment fragment, int titleResId) {
+	public void setPaneTitle(@Nonnull Fragment fragment, int titleResId) {
 		final TextView fragmentTitle = (TextView) fragment.getView().findViewById(R.id.fragment_title);
 		if (fragmentTitle != null) {
 			if (!isPane(fragment)) {
@@ -58,7 +58,7 @@ public class CalculatorFragmentHelperImpl extends AbstractCalculatorHelper imple
 	}
 
 	@Override
-	public void onCreate(@NotNull Fragment fragment) {
+	public void onCreate(@Nonnull Fragment fragment) {
 		super.onCreate(fragment.getActivity());
 
 		if (listenersOnCreate) {
@@ -69,7 +69,7 @@ public class CalculatorFragmentHelperImpl extends AbstractCalculatorHelper imple
 	}
 
 	@Override
-	public void onResume(@NotNull Fragment fragment) {
+	public void onResume(@Nonnull Fragment fragment) {
 		if (!listenersOnCreate) {
 			if (fragment instanceof CalculatorEventListener) {
 				Locator.getInstance().getCalculator().addCalculatorEventListener((CalculatorEventListener) fragment);
@@ -78,7 +78,7 @@ public class CalculatorFragmentHelperImpl extends AbstractCalculatorHelper imple
 	}
 
 	@Override
-	public void onPause(@NotNull Fragment fragment) {
+	public void onPause(@Nonnull Fragment fragment) {
 		if (!listenersOnCreate) {
 			if (fragment instanceof CalculatorEventListener) {
 				Locator.getInstance().getCalculator().removeCalculatorEventListener((CalculatorEventListener) fragment);
@@ -87,7 +87,7 @@ public class CalculatorFragmentHelperImpl extends AbstractCalculatorHelper imple
 	}
 
 	@Override
-	public void onViewCreated(@NotNull Fragment fragment, @NotNull View root) {
+	public void onViewCreated(@Nonnull Fragment fragment, @Nonnull View root) {
 		final ViewGroup adParentView = (ViewGroup) root.findViewById(R.id.ad_parent_view);
 		final ViewGroup mainFragmentLayout = (ViewGroup) root.findViewById(R.id.main_fragment_layout);
 
@@ -109,7 +109,7 @@ public class CalculatorFragmentHelperImpl extends AbstractCalculatorHelper imple
 	}
 
 	@Override
-	public void onDestroy(@NotNull Fragment fragment) {
+	public void onDestroy(@Nonnull Fragment fragment) {
 		super.onDestroy(fragment.getActivity());
 
 		if (listenersOnCreate) {
@@ -123,9 +123,9 @@ public class CalculatorFragmentHelperImpl extends AbstractCalculatorHelper imple
 		}
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
-	public View onCreateView(@NotNull Fragment fragment, @NotNull LayoutInflater inflater, @Nullable ViewGroup container) {
+	public View onCreateView(@Nonnull Fragment fragment, @Nonnull LayoutInflater inflater, @Nullable ViewGroup container) {
 		return inflater.inflate(layoutId, container, false);
 	}
 }

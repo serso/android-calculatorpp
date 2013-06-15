@@ -1,7 +1,7 @@
 package org.solovyev.android.calculator;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * User: serso
@@ -10,11 +10,11 @@ import org.jetbrains.annotations.Nullable;
  */
 public interface MathEntityDao<T extends MathPersistenceEntity> {
 
-	void save(@NotNull MathEntityPersistenceContainer<T> container);
+	void save(@Nonnull MathEntityPersistenceContainer<T> container);
 
 	@Nullable
 	MathEntityPersistenceContainer<T> load();
 
 	@Nullable
-	String getDescription(@NotNull String descriptionId);
+	String getDescription(@Nonnull String descriptionId);
 }

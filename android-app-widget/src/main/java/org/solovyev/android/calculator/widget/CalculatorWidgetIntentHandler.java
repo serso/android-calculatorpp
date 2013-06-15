@@ -2,7 +2,7 @@ package org.solovyev.android.calculator.widget;
 
 import android.content.Context;
 import android.content.Intent;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.android.calculator.CalculatorButton;
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.external.DefaultExternalCalculatorIntentHandler;
@@ -15,12 +15,12 @@ import org.solovyev.android.calculator.external.ExternalCalculatorStateUpdater;
  */
 public class CalculatorWidgetIntentHandler extends DefaultExternalCalculatorIntentHandler {
 
-	public CalculatorWidgetIntentHandler(@NotNull ExternalCalculatorStateUpdater stateUpdater) {
+	public CalculatorWidgetIntentHandler(@Nonnull ExternalCalculatorStateUpdater stateUpdater) {
 		super(stateUpdater);
 	}
 
 	@Override
-	public void onIntent(@NotNull Context context, @NotNull Intent intent) {
+	public void onIntent(@Nonnull Context context, @Nonnull Intent intent) {
 		super.onIntent(context, intent);
 
 		if (AbstractCalculatorWidgetProvider.BUTTON_PRESSED_ACTION.equals(intent.getAction())) {

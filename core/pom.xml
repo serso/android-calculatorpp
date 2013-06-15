@@ -48,8 +48,8 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.intellij</groupId>
-			<artifactId>annotations</artifactId>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
 		</dependency>
 
 		<dependency>

@@ -4,8 +4,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * User: serso
@@ -14,20 +14,20 @@ import org.jetbrains.annotations.Nullable;
  */
 public interface CalculatorFragmentHelper {
 
-	boolean isPane(@NotNull Fragment fragment);
+	boolean isPane(@Nonnull Fragment fragment);
 
-	void setPaneTitle(@NotNull Fragment fragment, int titleResId);
+	void setPaneTitle(@Nonnull Fragment fragment, int titleResId);
 
-	void onCreate(@NotNull Fragment fragment);
+	void onCreate(@Nonnull Fragment fragment);
 
-	@NotNull
-	View onCreateView(@NotNull Fragment fragment, @NotNull LayoutInflater inflater, @Nullable ViewGroup container);
+	@Nonnull
+	View onCreateView(@Nonnull Fragment fragment, @Nonnull LayoutInflater inflater, @Nullable ViewGroup container);
 
-	void onViewCreated(@NotNull Fragment fragment, @NotNull View root);
+	void onViewCreated(@Nonnull Fragment fragment, @Nonnull View root);
 
-	void onResume(@NotNull Fragment fragment);
+	void onResume(@Nonnull Fragment fragment);
 
-	void onPause(@NotNull Fragment fragment);
+	void onPause(@Nonnull Fragment fragment);
 
-	void onDestroy(@NotNull Fragment fragment);
+	void onDestroy(@Nonnull Fragment fragment);
 }

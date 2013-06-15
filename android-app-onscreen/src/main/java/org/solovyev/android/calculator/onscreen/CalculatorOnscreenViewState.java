@@ -4,8 +4,8 @@ import android.content.SharedPreferences;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.solovyev.android.prefs.AbstractPreference;
@@ -23,7 +23,7 @@ public class CalculatorOnscreenViewState implements Parcelable {
 	private static final String TAG = CalculatorOnscreenViewState.class.getSimpleName();
 
 	public static final Parcelable.Creator<CalculatorOnscreenViewState> CREATOR = new Parcelable.Creator<CalculatorOnscreenViewState>() {
-		public CalculatorOnscreenViewState createFromParcel(@NotNull Parcel in) {
+		public CalculatorOnscreenViewState createFromParcel(@Nonnull Parcel in) {
 			return CalculatorOnscreenViewState.fromParcel(in);
 		}
 
@@ -43,8 +43,8 @@ public class CalculatorOnscreenViewState implements Parcelable {
 	private CalculatorOnscreenViewState() {
 	}
 
-	@NotNull
-	private static CalculatorOnscreenViewState fromParcel(@NotNull Parcel in) {
+	@Nonnull
+	private static CalculatorOnscreenViewState fromParcel(@Nonnull Parcel in) {
 		final CalculatorOnscreenViewState result = new CalculatorOnscreenViewState();
 		result.width = in.readInt();
 		result.height = in.readInt();
@@ -53,12 +53,12 @@ public class CalculatorOnscreenViewState implements Parcelable {
 		return result;
 	}
 
-	@NotNull
+	@Nonnull
 	public static CalculatorOnscreenViewState newDefaultState() {
 		return newInstance(200, 400, 0, 0);
 	}
 
-	@NotNull
+	@Nonnull
 	public static CalculatorOnscreenViewState newInstance(int width, int height, int x, int y) {
 		final CalculatorOnscreenViewState result = new CalculatorOnscreenViewState();
 		result.width = width;
@@ -106,7 +106,7 @@ public class CalculatorOnscreenViewState implements Parcelable {
 	}
 
 	@Override
-	public void writeToParcel(@NotNull Parcel out, int flags) {
+	public void writeToParcel(@Nonnull Parcel out, int flags) {
 		out.writeInt(width);
 		out.writeInt(height);
 		out.writeInt(x);
@@ -125,13 +125,13 @@ public class CalculatorOnscreenViewState implements Parcelable {
 
 	public static class Preference extends AbstractPreference<CalculatorOnscreenViewState> {
 
-		public Preference(@NotNull String key, @Nullable CalculatorOnscreenViewState defaultValue) {
+		public Preference(@Nonnull String key, @Nullable CalculatorOnscreenViewState defaultValue) {
 			super(key, defaultValue);
 		}
 
 		@Nullable
 		@Override
-		protected CalculatorOnscreenViewState getPersistedValue(@NotNull SharedPreferences preferences) {
+		protected CalculatorOnscreenViewState getPersistedValue(@Nonnull SharedPreferences preferences) {
 			try {
 				final CalculatorOnscreenViewState result = new CalculatorOnscreenViewState();
 				final JSONObject jsonObject = new JSONObject(preferences.getString(getKey(), "{}"));
@@ -149,7 +149,7 @@ public class CalculatorOnscreenViewState implements Parcelable {
 		}
 
 		@Override
-		protected void putPersistedValue(@NotNull SharedPreferences.Editor editor, @NotNull CalculatorOnscreenViewState value) {
+		protected void putPersistedValue(@Nonnull SharedPreferences.Editor editor, @Nonnull CalculatorOnscreenViewState value) {
 			final Map<String, Object> properties = new HashMap<String, Object>();
 			properties.put("width", value.getWidth());
 			properties.put("height", value.getHeight());

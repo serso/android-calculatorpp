@@ -11,8 +11,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.prefs.Preference;
 
@@ -50,28 +50,28 @@ public class CalculatorOnscreenView {
 	**********************************************************************
 	*/
 
-	@NotNull
+	@Nonnull
 	private View root;
 
-	@NotNull
+	@Nonnull
 	private View content;
 
-	@NotNull
+	@Nonnull
 	private View header;
 
-	@NotNull
+	@Nonnull
 	private AndroidCalculatorEditorView editorView;
 
-	@NotNull
+	@Nonnull
 	private AndroidCalculatorDisplayView displayView;
 
-	@NotNull
+	@Nonnull
 	private Context context;
 
-	@NotNull
+	@Nonnull
 	private CalculatorOnscreenViewState state = CalculatorOnscreenViewState.newDefaultState();
 
-	@NotNull
+	@Nonnull
 	private String cursorColor;
 
 	@Nullable
@@ -107,9 +107,9 @@ public class CalculatorOnscreenView {
 	private CalculatorOnscreenView() {
 	}
 
-	public static CalculatorOnscreenView newInstance(@NotNull Context context,
-													 @NotNull CalculatorOnscreenViewState state,
-													 @NotNull String cursorColor,
+	public static CalculatorOnscreenView newInstance(@Nonnull Context context,
+													 @Nonnull CalculatorOnscreenViewState state,
+													 @Nonnull String cursorColor,
 													 @Nullable OnscreenViewListener viewListener) {
 		final CalculatorOnscreenView result = new CalculatorOnscreenView();
 
@@ -136,12 +136,12 @@ public class CalculatorOnscreenView {
 	**********************************************************************
 	*/
 
-	public void updateDisplayState(@NotNull CalculatorDisplayViewState displayState) {
+	public void updateDisplayState(@Nonnull CalculatorDisplayViewState displayState) {
 		checkInit();
 		displayView.setState(displayState);
 	}
 
-	public void updateEditorState(@NotNull CalculatorEditorViewState editorState) {
+	public void updateEditorState(@Nonnull CalculatorEditorViewState editorState) {
 		checkInit();
 		editorView.setState(editorState);
 	}
@@ -312,13 +312,13 @@ public class CalculatorOnscreenView {
 		}
 	}
 
-	public static void persistState(@NotNull Context context, @NotNull CalculatorOnscreenViewState state) {
+	public static void persistState(@Nonnull Context context, @Nonnull CalculatorOnscreenViewState state) {
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		viewStatePreference.putPreference(preferences, state);
 	}
 
 	@Nullable
-	public static CalculatorOnscreenViewState readState(@NotNull Context context) {
+	public static CalculatorOnscreenViewState readState(@Nonnull Context context) {
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		if (viewStatePreference.isSet(preferences)) {
 			return viewStatePreference.getPreference(preferences);
@@ -344,12 +344,12 @@ public class CalculatorOnscreenView {
 		}
 	}
 
-	@NotNull
+	@Nonnull
 	private WindowManager getWindowManager() {
 		return ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE));
 	}
 
-	@NotNull
+	@Nonnull
 	public CalculatorOnscreenViewState getCurrentState(boolean useRealSize) {
 		final WindowManager.LayoutParams params = (WindowManager.LayoutParams) root.getLayoutParams();
 		if (useRealSize) {
@@ -389,7 +389,7 @@ public class CalculatorOnscreenView {
     	**********************************************************************
     	*/
 
-		@NotNull
+		@Nonnull
 		private final WindowManager wm;
 
 		private int orientation;
@@ -400,7 +400,7 @@ public class CalculatorOnscreenView {
 
 		private long time = 0;
 
-		@NotNull
+		@Nonnull
 		private final View view;
 
 		private int displayWidth;
@@ -415,8 +415,8 @@ public class CalculatorOnscreenView {
     	**********************************************************************
     	*/
 
-		public WindowDragTouchListener(@NotNull WindowManager wm,
-									   @NotNull View view) {
+		public WindowDragTouchListener(@Nonnull WindowManager wm,
+									   @Nonnull View view) {
 			this.wm = wm;
 			this.view = view;
 			initDisplayParams();
@@ -503,7 +503,7 @@ public class CalculatorOnscreenView {
 			return δx >= DIST_EPS && δx < DIST_MAX;
 		}
 
-		@NotNull
+		@Nonnull
 		private static String toString(float x, float y) {
 			return "(" + formatFloat(x) + ", " + formatFloat(y) + ")";
 		}

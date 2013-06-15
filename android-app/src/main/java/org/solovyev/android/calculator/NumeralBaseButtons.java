@@ -3,7 +3,7 @@ package org.solovyev.android.calculator;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import jscl.NumeralBase;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 
 /**
@@ -13,7 +13,7 @@ import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
  */
 public class NumeralBaseButtons {
 
-	public static void toggleNumericDigits(@NotNull Activity activity, @NotNull NumeralBase currentNumeralBase) {
+	public static void toggleNumericDigits(@Nonnull Activity activity, @Nonnull NumeralBase currentNumeralBase) {
 		for (NumeralBase numeralBase : NumeralBase.values()) {
 			if (currentNumeralBase != numeralBase) {
 				AndroidNumeralBase.valueOf(numeralBase).toggleButtons(false, activity);
@@ -23,7 +23,7 @@ public class NumeralBaseButtons {
 		AndroidNumeralBase.valueOf(currentNumeralBase).toggleButtons(true, activity);
 	}
 
-	public static void toggleNumericDigits(@NotNull Activity activity, @NotNull SharedPreferences preferences) {
+	public static void toggleNumericDigits(@Nonnull Activity activity, @Nonnull SharedPreferences preferences) {
 		if (CalculatorPreferences.Gui.hideNumeralBaseDigits.getPreference(preferences)) {
 			final NumeralBase nb = AndroidCalculatorEngine.Preferences.numeralBase.getPreference(preferences);
 			toggleNumericDigits(activity, nb);

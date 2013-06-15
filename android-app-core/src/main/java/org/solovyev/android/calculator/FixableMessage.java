@@ -2,8 +2,8 @@ package org.solovyev.android.calculator;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.common.msg.Message;
 import org.solovyev.common.msg.MessageType;
 
@@ -16,7 +16,7 @@ public class FixableMessage implements Parcelable {
 
 	public static final Creator<FixableMessage> CREATOR = new Creator<FixableMessage>() {
 		@Override
-		public FixableMessage createFromParcel(@NotNull Parcel in) {
+		public FixableMessage createFromParcel(@Nonnull Parcel in) {
 			return FixableMessage.fromParcel(in);
 		}
 
@@ -26,8 +26,8 @@ public class FixableMessage implements Parcelable {
 		}
 	};
 
-	@NotNull
-	private static FixableMessage fromParcel(@NotNull Parcel in) {
+	@Nonnull
+	private static FixableMessage fromParcel(@Nonnull Parcel in) {
 		final String message = in.readString();
 		final MessageType messageType = (MessageType) in.readSerializable();
 		final FixableError fixableError = (FixableError) in.readSerializable();
@@ -35,16 +35,16 @@ public class FixableMessage implements Parcelable {
 		return new FixableMessage(message, messageType, fixableError);
 	}
 
-	@NotNull
+	@Nonnull
 	private final String message;
 
-	@NotNull
+	@Nonnull
 	private final MessageType messageType;
 
 	@Nullable
 	private final FixableError fixableError;
 
-	public FixableMessage(@NotNull Message message) {
+	public FixableMessage(@Nonnull Message message) {
 		this.message = message.getLocalizedMessage();
 		int messageLevel = message.getMessageLevel().getMessageLevel();
 		if (messageLevel < MessageType.info.getMessageLevel()) {
@@ -57,8 +57,8 @@ public class FixableMessage implements Parcelable {
 		this.fixableError = CalculatorFixableError.getErrorByMessageCode(message.getMessageCode());
 	}
 
-	public FixableMessage(@NotNull String message,
-						  @NotNull MessageType messageType,
+	public FixableMessage(@Nonnull String message,
+						  @Nonnull MessageType messageType,
 						  @Nullable FixableError fixableError) {
 		this.message = message;
 		this.messageType = messageType;
@@ -71,18 +71,18 @@ public class FixableMessage implements Parcelable {
 	}
 
 	@Override
-	public void writeToParcel(@NotNull Parcel out, int flags) {
+	public void writeToParcel(@Nonnull Parcel out, int flags) {
 		out.writeString(message);
 		out.writeSerializable(messageType);
 		out.writeSerializable(fixableError);
 	}
 
-	@NotNull
+	@Nonnull
 	public String getMessage() {
 		return message;
 	}
 
-	@NotNull
+	@Nonnull
 	public MessageType getMessageType() {
 		return messageType;
 	}

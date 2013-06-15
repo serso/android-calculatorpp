@@ -2,8 +2,8 @@ package org.solovyev.android.calculator;
 
 import jscl.JsclMathEngine;
 import junit.framework.Assert;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.mockito.Mockito;
 import org.solovyev.android.calculator.external.CalculatorExternalListenersContainer;
 import org.solovyev.android.calculator.history.CalculatorHistory;
@@ -29,7 +29,7 @@ public class CalculatorTestUtils {
 		Locator.getInstance().getEngine().init();
 	}
 
-	@NotNull
+	@Nonnull
 	static CalculatorEngineImpl newCalculatorEngine() {
 		final MathEntityDao mathEntityDao = Mockito.mock(MathEntityDao.class);
 
@@ -43,11 +43,11 @@ public class CalculatorTestUtils {
 		return new CalculatorEngineImpl(jsclEngine, varsRegistry, functionsRegistry, operatorsRegistry, postfixFunctionsRegistry, null);
 	}
 
-	public static void assertEval(@NotNull String expected, @NotNull String expression) {
+	public static void assertEval(@Nonnull String expected, @Nonnull String expression) {
 		assertEval(expected, expression, JsclOperation.numeric);
 	}
 
-	public static void assertEval(@NotNull String expected, @NotNull String expression, @NotNull JsclOperation operation) {
+	public static void assertEval(@Nonnull String expected, @Nonnull String expression, @Nonnull JsclOperation operation) {
 		final Calculator calculator = Locator.getInstance().getCalculator();
 
 		Locator.getInstance().getDisplay().setViewState(CalculatorDisplayViewStateImpl.newDefaultInstance());
@@ -73,11 +73,11 @@ public class CalculatorTestUtils {
 		}
 	}
 
-	public static void assertError(@NotNull String expression) {
+	public static void assertError(@Nonnull String expression) {
 		assertError(expression, JsclOperation.numeric);
 	}
 
-	public static <S extends Serializable> S testSerialization(@NotNull S serializable) throws IOException, ClassNotFoundException {
+	public static <S extends Serializable> S testSerialization(@Nonnull S serializable) throws IOException, ClassNotFoundException {
 		final ByteArrayOutputStream out = new ByteArrayOutputStream();
 
 		ObjectOutputStream oos = null;
@@ -108,13 +108,13 @@ public class CalculatorTestUtils {
 		@Nullable
 		private CalculatorEventData calculatorEventData;
 
-		@NotNull
+		@Nonnull
 		private final CountDownLatch latch;
 
 		@Nullable
 		private volatile CalculatorDisplayViewState result = null;
 
-		public TestCalculatorEventListener(@NotNull CountDownLatch latch) {
+		public TestCalculatorEventListener(@Nonnull CountDownLatch latch) {
 			this.latch = latch;
 		}
 
@@ -123,7 +123,7 @@ public class CalculatorTestUtils {
 		}
 
 		@Override
-		public void onCalculatorEvent(@NotNull CalculatorEventData calculatorEventData, @NotNull CalculatorEventType calculatorEventType, @Nullable Object data) {
+		public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
 			if (this.calculatorEventData != null && calculatorEventData.isSameSequence(this.calculatorEventData)) {
 				if (calculatorEventType == CalculatorEventType.display_state_changed) {
 					final CalculatorDisplayChangeEventData displayChange = (CalculatorDisplayChangeEventData) data;
@@ -146,7 +146,7 @@ public class CalculatorTestUtils {
 		}
 	}
 
-	public static void assertError(@NotNull String expression, @NotNull JsclOperation operation) {
+	public static void assertError(@Nonnull String expression, @Nonnull JsclOperation operation) {
 		final Calculator calculator = Locator.getInstance().getCalculator();
 
 		Locator.getInstance().getDisplay().setViewState(CalculatorDisplayViewStateImpl.newDefaultInstance());

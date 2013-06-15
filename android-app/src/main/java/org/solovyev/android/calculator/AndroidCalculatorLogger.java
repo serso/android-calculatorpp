@@ -1,8 +1,8 @@
 package org.solovyev.android.calculator;
 
 import android.util.Log;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * User: serso
@@ -11,26 +11,26 @@ import org.jetbrains.annotations.Nullable;
  */
 public class AndroidCalculatorLogger implements CalculatorLogger {
 
-	@NotNull
+	@Nonnull
 	private static final String TAG = "Calculatorpp";
 
 	@Override
-	public void debug(@Nullable String tag, @NotNull String message) {
+	public void debug(@Nullable String tag, @Nonnull String message) {
 		Log.d(getTag(tag), message);
 	}
 
-	@NotNull
+	@Nonnull
 	private String getTag(@Nullable String tag) {
 		return tag != null ? TAG + "/" + tag : TAG;
 	}
 
 	@Override
-	public void debug(@Nullable String tag, @Nullable String message, @NotNull Throwable e) {
+	public void debug(@Nullable String tag, @Nullable String message, @Nonnull Throwable e) {
 		Log.d(getTag(tag), message, e);
 	}
 
 	@Override
-	public void error(@Nullable String tag, @Nullable String message, @NotNull Throwable e) {
+	public void error(@Nullable String tag, @Nullable String message, @Nonnull Throwable e) {
 		Log.e(getTag(tag), message, e);
 	}
 

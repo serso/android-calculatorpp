@@ -20,7 +20,7 @@ import net.robotmedia.billing.IBillingObserver;
 import net.robotmedia.billing.ResponseCode;
 import net.robotmedia.billing.helper.AbstractBillingObserver;
 import net.robotmedia.billing.model.Transaction;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.android.Activities;
 import org.solovyev.android.App;
 import org.solovyev.android.ads.AdsController;
@@ -82,7 +82,7 @@ public class CalculatorPreferencesActivity extends SherlockPreferenceActivity im
 		}
 	}
 
-	public static void removeBillingInformation(@NotNull Context context, @NotNull SharedPreferences preferences) {
+	public static void removeBillingInformation(@Nonnull Context context, @Nonnull SharedPreferences preferences) {
 		final SharedPreferences.Editor editor = preferences.edit();
 		editor.putBoolean(AbstractBillingObserver.KEY_TRANSACTIONS_RESTORED, false);
 		editor.commit();
@@ -138,17 +138,17 @@ public class CalculatorPreferencesActivity extends SherlockPreferenceActivity im
 	}
 
 	@Override
-	public void onPurchaseIntentOK(@NotNull String productId, @NotNull PendingIntent purchaseIntent) {
+	public void onPurchaseIntentOK(@Nonnull String productId, @Nonnull PendingIntent purchaseIntent) {
 		// do nothing
 	}
 
 	@Override
-	public void onPurchaseIntentFailure(@NotNull String productId, @NotNull ResponseCode responseCode) {
+	public void onPurchaseIntentFailure(@Nonnull String productId, @Nonnull ResponseCode responseCode) {
 		// do nothing
 	}
 
 	@Override
-	public void onPurchaseStateChanged(@NotNull String itemId, @NotNull Transaction.PurchaseState state) {
+	public void onPurchaseStateChanged(@Nonnull String itemId, @Nonnull Transaction.PurchaseState state) {
 		if (CalculatorApplication.AD_FREE_PRODUCT_ID.equals(itemId)) {
 			final Preference adFreePreference = findPreference(CalculatorApplication.AD_FREE_P_KEY);
 			if (adFreePreference != null) {
@@ -171,7 +171,7 @@ public class CalculatorPreferencesActivity extends SherlockPreferenceActivity im
 	}
 
 	@Override
-	public void onRequestPurchaseResponse(@NotNull String itemId, @NotNull ResponseCode response) {
+	public void onRequestPurchaseResponse(@Nonnull String itemId, @Nonnull ResponseCode response) {
 		final Preference adFreePreference = findPreference(CalculatorApplication.AD_FREE_P_KEY);
 		if (adFreePreference != null) {
 			if (response == ResponseCode.RESULT_OK) {
@@ -189,7 +189,7 @@ public class CalculatorPreferencesActivity extends SherlockPreferenceActivity im
 	}
 
 	@Override
-	public void onErrorRestoreTransactions(@NotNull ResponseCode responseCode) {
+	public void onErrorRestoreTransactions(@Nonnull ResponseCode responseCode) {
 		// do nothing
 	}
 }

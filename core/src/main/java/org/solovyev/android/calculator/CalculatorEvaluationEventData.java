@@ -1,6 +1,6 @@
 package org.solovyev.android.calculator;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 
 /**
@@ -10,9 +10,9 @@ import org.solovyev.android.calculator.jscl.JsclOperation;
  */
 public interface CalculatorEvaluationEventData extends CalculatorEventData {
 
-	@NotNull
+	@Nonnull
 	JsclOperation getOperation();
 
-	@NotNull
+	@Nonnull
 	String getExpression();
 }

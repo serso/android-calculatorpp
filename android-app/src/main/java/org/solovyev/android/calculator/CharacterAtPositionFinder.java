@@ -6,8 +6,8 @@
 
 package org.solovyev.android.calculator;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.solovyev.common.JPredicate;
 
 /**
@@ -19,10 +19,10 @@ public class CharacterAtPositionFinder implements JPredicate<Character> {
 
 	private int i;
 
-	@NotNull
+	@Nonnull
 	private final String targetString;
 
-	public CharacterAtPositionFinder(@NotNull String targetString, int i) {
+	public CharacterAtPositionFinder(@Nonnull String targetString, int i) {
 		this.targetString = targetString;
 		this.i = i;
 	}
