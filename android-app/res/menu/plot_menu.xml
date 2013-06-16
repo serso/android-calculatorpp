@@ -11,37 +11,37 @@
 	<item
 		a:id="@+id/menu_plot_2d"
 		a:title="@string/cpp_plot_2d"
-		a:icon="@drawable/ab_plot_2d"
+		a:icon="@drawable/stats"
 		a:showAsAction="always" />
 
 	<item
 		a:id="@+id/menu_plot_3d"
 		a:title="@string/cpp_plot_3d"
-		a:icon="@drawable/ab_plot_3d"
+		a:icon="@drawable/stats"
 		a:showAsAction="always" />
 
 	<item
 		a:id="@+id/menu_plot_range"
 		a:title="@string/cpp_plot_range"
-		a:icon="@drawable/ab_plot_range"
+		a:icon="@drawable/expand"
 		a:showAsAction="always" />
 
 	<item
 		a:id="@+id/menu_plot_functions"
 		a:title="@string/cpp_plot_functions"
-		a:icon="@drawable/ab_list"
+		a:icon="@drawable/menu2"
 		a:showAsAction="always" />
 
 	<item
 		a:id="@+id/menu_plot_schreeshot"
 		a:title="@string/cpp_plot_screenshot"
-		a:icon="@drawable/ab_camera"
+		a:icon="@drawable/disk"
 		a:showAsAction="always" />
 
 	<item
 		a:id="@+id/menu_plot_settings"
 		a:title="@string/c_settings"
-		a:icon="@drawable/ab_settings"
+		a:icon="@drawable/settings"
 		a:showAsAction="always" />
 
 </menu>

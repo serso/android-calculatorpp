@@ -28,6 +28,9 @@
 		a:layout_width="0dp"
 		a:layout_height="wrap_content"
 		a:layout_weight="1"
-		a:src="@drawable/ab_settings" />
+		a:paddingTop="0dp"
+		a:paddingBottom="0dp"
+		a:scaleType="centerInside"
+		a:src="@drawable/settings" />
 
 </LinearLayout>

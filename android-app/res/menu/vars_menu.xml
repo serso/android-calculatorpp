@@ -11,6 +11,6 @@
 	<item
 		a:id="@+id/var_menu_add_var"
 		a:title="@string/c_add"
-		a:icon="@drawable/ab_add"
+		a:icon="@drawable/plus"
 		a:showAsAction="always" />
 </menu>
