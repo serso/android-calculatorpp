@@ -42,6 +42,7 @@
 		<item name="android:layout_margin">@dimen/cpp_button_margin</item>
 		<item name="android:textSize">@dimen/cpp_keyboard_button_text_size</item>
 		<item name="android:textColor">@color/cpp_button_text_color</item>
+		<item name="android:scaleType">centerInside</item>
 	</style>
 
 	<style name="cpp_onscreen_editor_style" parent="cpp_editor_style">
@@ -101,7 +102,6 @@
 	</style>
 
 	<style name="cpp_simple_metro_control_image_button_style" parent="metro_control_image_button_style">
-		<item name="android:scaleType">centerInside</item>
 	</style>
 
 </resources>
