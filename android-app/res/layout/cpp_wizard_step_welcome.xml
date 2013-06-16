@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TextView
+	xmlns:a="http://schemas.android.com/apk/res/android"
+	a:layout_width="match_parent"
+	a:layout_height="match_parent"
+	a:text="@string/c_first_start_text"
+	/>

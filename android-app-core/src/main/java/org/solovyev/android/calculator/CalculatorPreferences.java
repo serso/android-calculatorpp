@@ -106,23 +106,29 @@ public final class CalculatorPreferences {
 		}
 
 		public static enum Layout {
-			main_calculator(R.layout.main_calculator),
-			main_calculator_mobile(R.layout.main_calculator_mobile),
+			main_calculator(R.layout.main_calculator, R.string.p_layout_calculator),
+			main_calculator_mobile(R.layout.main_calculator_mobile, R.string.p_layout_calculator_mobile),
 
 			// not used anymore
 			@Deprecated
-			main_cellphone(R.layout.main_calculator),
+			main_cellphone(R.layout.main_calculator, 0),
 
-			simple(R.layout.main_calculator);
+			simple(R.layout.main_calculator, R.string.p_layout_simple);
 
 			private final int layoutId;
+			private final int nameResId;
 
-			Layout(int layoutId) {
+			Layout(int layoutId, int nameResId) {
 				this.layoutId = layoutId;
+				this.nameResId = nameResId;
 			}
 
 			public int getLayoutId() {
 				return layoutId;
+			}
+
+			public int getNameResId() {
+				return nameResId;
 			}
 		}
 	}

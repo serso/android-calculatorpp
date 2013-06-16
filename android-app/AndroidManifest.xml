@@ -52,6 +52,11 @@
 
 		<activity android:label="@string/c_vars_and_constants" android:name=".math.edit.CalculatorVarsActivity"/>
 		<activity android:name=".CalculatorWikiActivity"/>
+		<activity android:name=".wizard.CalculatorWizardActivity" android:theme="@style/cpp_gray_dialog_theme">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN"/>
+			</intent-filter>
+		</activity>
 
 		<activity android:label="@string/c_plot_graph" android:name=".plot.CalculatorPlotActivity"/>
 		<activity android:label="@string/cpp_plot_functions" android:name=".plot.CalculatorPlotFunctionsActivity" android:theme="@style/cpp_gray_dialog_theme"/>

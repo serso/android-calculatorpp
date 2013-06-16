@@ -7,6 +7,7 @@ package org.solovyev.android.calculator;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
@@ -28,6 +29,7 @@ import org.solovyev.android.Android;
 import org.solovyev.android.Threads;
 import org.solovyev.android.calculator.about.CalculatorReleaseNotesFragment;
 import org.solovyev.android.calculator.plot.CalculatorPlotActivity;
+import org.solovyev.android.calculator.wizard.CalculatorWizardActivity;
 import org.solovyev.android.fragments.FragmentUtils;
 import org.solovyev.android.prefs.Preference;
 import org.solovyev.common.Objects;
@@ -130,6 +132,7 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 			boolean dialogShown = false;
 			if (Objects.areEqual(savedVersion, CalculatorPreferences.appVersion.getDefaultValue())) {
 				// new start
+				context.startActivity(new Intent(context, CalculatorWizardActivity.class));
 				final AlertDialog.Builder builder = new AlertDialog.Builder(context).setMessage(R.string.c_first_start_text);
 				builder.setPositiveButton(android.R.string.ok, null);
 				builder.setTitle(R.string.c_first_start_text_title);
