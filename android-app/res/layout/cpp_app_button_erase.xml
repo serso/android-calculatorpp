@@ -8,6 +8,6 @@
 
 <ImageButton xmlns:a="http://schemas.android.com/apk/res/android"
 	a:id="@id/cpp_button_erase"
-	a:src="@drawable/kb_delete"
+	a:src="@drawable/ic_input_delete"
 	style="?cpp_control_image_button_style"
 	a:onClick="eraseButtonClickHandler" />
