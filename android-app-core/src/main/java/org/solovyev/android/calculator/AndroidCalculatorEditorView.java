@@ -179,7 +179,7 @@ public class AndroidCalculatorEditorView extends EditText implements SharedPrefe
 	@Override
 	protected void onSelectionChanged(int selStart, int selEnd) {
 		synchronized (this) {
-			if (!viewStateChange) {
+			if (initialized && !viewStateChange) {
 				// external text change => need to notify editor
 				super.onSelectionChanged(selStart, selEnd);
 
@@ -193,7 +193,7 @@ public class AndroidCalculatorEditorView extends EditText implements SharedPrefe
 
 	public void handleTextChange(Editable s) {
 		synchronized (this) {
-			if (!viewStateChange) {
+			if (initialized && !viewStateChange) {
 				// external text change => need to notify editor
 				Locator.getInstance().getEditor().setText(String.valueOf(s));
 			}
