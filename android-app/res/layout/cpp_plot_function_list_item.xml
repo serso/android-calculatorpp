@@ -31,6 +31,6 @@
 		a:paddingTop="0dp"
 		a:paddingBottom="0dp"
 		a:scaleType="centerInside"
-		a:src="@drawable/settings" />
+		a:src="@drawable/ab_settings" />
 
 </LinearLayout>

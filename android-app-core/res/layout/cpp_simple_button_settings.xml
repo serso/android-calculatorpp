@@ -8,6 +8,6 @@
 
 <ImageButton xmlns:a="http://schemas.android.com/apk/res/android"
 	a:id="@id/cpp_button_settings"
-	a:src="@drawable/settings"
+	a:src="@drawable/ab_settings"
 	style="@style/cpp_simple_metro_control_image_button_style"
 	a:contentDescription="Settings" />

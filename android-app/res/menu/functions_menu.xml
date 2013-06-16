@@ -11,6 +11,6 @@
 	<item
 		a:id="@+id/functions_menu_add_function"
 		a:title="@string/c_add"
-		a:icon="@drawable/plus"
+		a:icon="@drawable/ab_add"
 		a:showAsAction="always" />
 </menu>
