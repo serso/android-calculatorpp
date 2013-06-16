@@ -12,8 +12,6 @@ import android.view.View;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import jscl.math.Generic;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import org.solovyev.android.Android;
 import org.solovyev.android.App;
 import org.solovyev.android.calculator.about.CalculatorAboutActivity;
@@ -29,6 +27,8 @@ import org.solovyev.common.msg.Message;
 import org.solovyev.common.msg.MessageType;
 import org.solovyev.common.text.Strings;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -245,6 +245,16 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
 						}
 					});
 				}
+				break;
+			case show_wiki_description:
+				App.getUiThreadExecutor().execute(new Runnable() {
+					@Override
+					public void run() {
+						final Intent intent = new Intent(context, CalculatorWikiActivity.class);
+						Android.addIntentFlags(intent, false, context);
+						context.startActivity(intent);
+					}
+				});
 				break;
 			case show_message_dialog:
 				final DialogData dialogData = (DialogData) data;

@@ -164,6 +164,8 @@ public enum CalculatorEventType {
 	 */
 	show_message_dialog,
 
+	show_wiki_description,
+
 	plot_graph,
 
 	/**

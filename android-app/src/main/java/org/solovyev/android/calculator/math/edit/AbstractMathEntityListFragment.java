@@ -16,8 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.actionbarsherlock.app.SherlockListFragment;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.menu.AMenuItem;
 import org.solovyev.android.menu.ContextMenuBuilder;
@@ -29,9 +27,13 @@ import org.solovyev.common.filter.Filter;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.text.Strings;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+
+import static org.solovyev.android.calculator.CalculatorEventType.show_wiki_description;
 
 /**
  * User: serso
@@ -158,7 +160,7 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
 
 		this.fragmentHelper.onResume(this);
 
-		adapter = new MathEntityArrayAdapter<T>(getDescriptionGetter(), this.getActivity(), R.layout.math_entity, R.id.math_entity_text, getMathEntitiesByCategory());
+		adapter = new MathEntityArrayAdapter<T>(getDescriptionGetter(), this.getActivity(), getMathEntitiesByCategory());
 		setListAdapter(adapter);
 
 		sort();
@@ -212,11 +214,8 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
 
 		private MathEntityArrayAdapter(@Nonnull MathEntityDescriptionGetter descriptionGetter,
 									   @Nonnull Context context,
-									   int resource,
-									   int textViewResourceId,
 									   @Nonnull List<T> objects) {
-
-			super(context, resource, textViewResourceId, objects);
+			super(context, R.layout.math_entity, R.id.math_entity_text, objects);
 			this.descriptionGetter = descriptionGetter;
 		}
 
@@ -244,13 +243,21 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
 
 			final String mathEntityDescription = descriptionGetter.getDescription(getContext(), mathEntity.getName());
 
-			final TextView description = (TextView) result.findViewById(R.id.math_entity_description);
+			final TextView description = (TextView) result.findViewById(R.id.math_entity_short_description);
 			if (!Strings.isEmpty(mathEntityDescription)) {
 				description.setVisibility(View.VISIBLE);
 				description.setText(mathEntityDescription);
 			} else {
 				description.setVisibility(View.GONE);
 			}
+
+			final View descriptionButton = result.findViewById(R.id.math_entity_description_imageview);
+			descriptionButton.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Locator.getInstance().getCalculator().fireCalculatorEvent(show_wiki_description, null);
+				}
+			});
 		}
 	}
 

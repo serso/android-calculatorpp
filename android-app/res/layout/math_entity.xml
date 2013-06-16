@@ -11,18 +11,33 @@
 	a:layout_width="match_parent"
 	style="?cpp_fragment_list_view_item_style"
 	a:paddingBottom="@dimen/cpp_pane_padding"
-	a:orientation="vertical">
+	a:orientation="horizontal">
 
-	<TextView
-		a:id="@+id/math_entity_text"
+	<LinearLayout
 		a:layout_height="wrap_content"
-		a:layout_width="match_parent"
-		style="@style/math_entity_text"></TextView>
+		a:layout_width="0dp"
+		a:layout_weight="1"
+		a:orientation="vertical">
 
-	<TextView
-		a:id="@+id/math_entity_description"
-		a:layout_height="wrap_content"
-		a:layout_width="match_parent"
-		style="@style/math_entity_description"></TextView>
+		<TextView
+			a:id="@+id/math_entity_text"
+			a:layout_height="wrap_content"
+			a:layout_width="match_parent"
+			style="@style/math_entity_text" />
+
+		<TextView
+			a:id="@+id/math_entity_short_description"
+			a:layout_height="wrap_content"
+			a:layout_width="match_parent"
+			style="@style/math_entity_description" />
+	</LinearLayout>
+
+	<ImageView
+		a:id="@+id/math_entity_description_imageview"
+		a:src="@drawable/wikipedia_icon"
+		a:scaleType="centerInside"
+		a:visibility="gone"
+		a:layout_height="match_parent"
+		a:layout_width="wrap_content" />
 
 </LinearLayout>
