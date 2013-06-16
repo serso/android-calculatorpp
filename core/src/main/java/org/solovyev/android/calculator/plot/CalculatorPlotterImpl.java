@@ -31,6 +31,7 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
 	private final PlotResourceManager resourceManager = new MapPlotResourceManager();
 
 	private boolean plot3d = false;
+	private boolean adjustYAxis = true;
 
 	private boolean plotImag = false;
 
@@ -40,7 +41,7 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
 	private PlotBoundaries plotBoundaries = PlotBoundaries.newDefaultInstance();
 
 	@Nonnull
-	private PlotData plotData = new PlotData(Collections.<PlotFunction>emptyList(), plot3d, plotBoundaries);
+	private PlotData plotData = new PlotData(Collections.<PlotFunction>emptyList(), plot3d, true, plotBoundaries);
 
 	public CalculatorPlotterImpl(@Nonnull Calculator calculator) {
 		this.calculator = calculator;
@@ -308,6 +309,7 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
 		if (functions.isEmpty()) {
 			// no functions => new plot => default boundaries
 			this.plotBoundaries = PlotBoundaries.newDefaultInstance();
+			this.adjustYAxis = true;
 		}
 
 		arity = maxArity;
@@ -378,7 +380,7 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
 	}
 
 	private void updatePlotData() {
-		plotData = new PlotData(getVisibleFunctions(), plot3d, plotBoundaries);
+		plotData = new PlotData(getVisibleFunctions(), plot3d, adjustYAxis, plotBoundaries);
 	}
 
 	@Override
@@ -395,6 +397,7 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
 	public void savePlotBoundaries(@Nonnull PlotBoundaries plotBoundaries) {
 		if (!this.plotBoundaries.equals(plotBoundaries)) {
 			this.plotBoundaries = plotBoundaries;
+			this.adjustYAxis = false;
 			updatePlotData();
 		}
 	}
@@ -403,6 +406,7 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
 	public void setPlotBoundaries(@Nonnull PlotBoundaries plotBoundaries) {
 		if (!this.plotBoundaries.equals(plotBoundaries)) {
 			this.plotBoundaries = plotBoundaries;
+			this.adjustYAxis = false;
 			firePlotDataChangedEvent();
 		}
 	}

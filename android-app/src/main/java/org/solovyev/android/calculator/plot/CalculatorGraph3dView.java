@@ -204,6 +204,11 @@ public class CalculatorGraph3dView extends GLView implements GraphView {
 	}
 
 	@Override
+	public void setAdjustYAxis(boolean adjustYAxis) {
+		// not supported
+	}
+
+	@Override
 	public void onSurfaceCreated(GL10 gl, int width, int height) {
 		gl.glDisable(GL10.GL_DITHER);
 		gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_FASTEST);

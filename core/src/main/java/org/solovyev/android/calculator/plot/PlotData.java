@@ -12,18 +12,22 @@ import java.util.List;
 public class PlotData {
 
 	@Nonnull
-	private List<PlotFunction> functions;
+	private final List<PlotFunction> functions;
 
-	private boolean plot3d;
+	private final boolean plot3d;
+
+	private final boolean adjustYAxis;
 
 	@Nonnull
-	private PlotBoundaries boundaries;
+	private final PlotBoundaries boundaries;
 
 	public PlotData(@Nonnull List<PlotFunction> functions,
 					boolean plot3d,
+					boolean adjustYAxis,
 					@Nonnull PlotBoundaries boundaries) {
 		this.functions = functions;
 		this.plot3d = plot3d;
+		this.adjustYAxis = adjustYAxis;
 		this.boundaries = boundaries;
 	}
 
@@ -39,5 +43,9 @@ public class PlotData {
 	@Nonnull
 	public PlotBoundaries getBoundaries() {
 		return boundaries;
+	}
+
+	public boolean isAdjustYAxis() {
+		return adjustYAxis;
 	}
 }

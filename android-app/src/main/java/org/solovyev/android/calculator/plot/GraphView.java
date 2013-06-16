@@ -38,17 +38,5 @@ public interface GraphView extends ZoomButtonsController.OnZoomListener, TouchHa
 
 	void invalidateGraphs();
 
-/*	void increaseDensity();
-	void decreaseDensity();*/
-
-	/*
-	**********************************************************************
-	*
-	*                           CUSTOMIZATION
-	*
-	**********************************************************************
-	*/
-
-/*    void setBgColor(int color);
-    void setAxisColor(int color);*/
+	void setAdjustYAxis(boolean adjustYAxis);
 }

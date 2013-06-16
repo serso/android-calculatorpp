@@ -15,12 +15,9 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import org.solovyev.android.Android;
 import org.solovyev.android.Threads;
 import org.solovyev.android.calculator.*;
-import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 import org.solovyev.android.menu.AMenuItem;
 import org.solovyev.android.menu.ActivityMenu;
 import org.solovyev.android.menu.IdentifiableMenuItem;
@@ -29,6 +26,8 @@ import org.solovyev.android.sherlock.menu.SherlockMenuHelper;
 import org.solovyev.common.JPredicate;
 import org.solovyev.common.msg.MessageType;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,6 +36,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+
+import static org.solovyev.android.calculator.model.AndroidCalculatorEngine.Preferences;
 
 /**
  * User: serso
@@ -66,7 +67,7 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 	private int bgColor;
 
 	@Nonnull
-	private PlotData plotData = new PlotData(Collections.<PlotFunction>emptyList(), false, PlotBoundaries.newDefaultInstance());
+	private PlotData plotData = new PlotData(Collections.<PlotFunction>emptyList(), false, true, PlotBoundaries.newDefaultInstance());
 
 	@Nonnull
 	private ActivityMenu<Menu, MenuItem> fragmentMenu;
@@ -108,15 +109,6 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 	protected abstract PlotBoundaries getPlotBoundaries();
 
 	@Override
-	public void onPause() {
-		PreferenceManager.getDefaultSharedPreferences(this.getActivity()).unregisterOnSharedPreferenceChangeListener(this);
-
-		savePlotBoundaries();
-
-		super.onPause();
-	}
-
-	@Override
 	public void onResume() {
 		super.onResume();
 
@@ -127,8 +119,17 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 	}
 
 	@Override
+	public void onPause() {
+		PreferenceManager.getDefaultSharedPreferences(this.getActivity()).unregisterOnSharedPreferenceChangeListener(this);
+
+		savePlotBoundaries();
+
+		super.onPause();
+	}
+
+	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-		if (AndroidCalculatorEngine.Preferences.angleUnit.getKey().equals(key)) {
+		if (Preferences.angleUnit.getKey().equals(key)) {
 			updateChart(this.plotData, getSherlockActivity());
 		}
 	}
@@ -139,6 +140,7 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 			case plot_data_changed:
 				final CalculatorEventHolder.Result result = this.lastEventHolder.apply(calculatorEventData);
 				if (result.isNewAfter()) {
+					assert data != null;
 					onNewPlotData((PlotData) data);
 				}
 				break;
@@ -164,6 +166,7 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 					createGraphicalView(view, plotData);
 				}
 
+				assert activity != null;
 				activity.invalidateOptionsMenu();
 			}
 		});

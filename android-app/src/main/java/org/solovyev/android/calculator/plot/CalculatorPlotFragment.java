@@ -4,9 +4,10 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
+import org.solovyev.android.calculator.R;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import org.solovyev.android.calculator.R;
 
 /**
  * User: serso
@@ -50,6 +51,7 @@ public class CalculatorPlotFragment extends AbstractCalculatorPlotFragment {
 		final PlotBoundaries boundaries = plotData.getBoundaries();
 		graphView.setXRange(boundaries.getXMin(), boundaries.getXMax());
 		graphView.setYRange(boundaries.getYMin(), boundaries.getYMax());
+		graphView.setAdjustYAxis(plotData.isAdjustYAxis());
 
 		graphView.setPlotFunctions(plotData.getFunctions());
 

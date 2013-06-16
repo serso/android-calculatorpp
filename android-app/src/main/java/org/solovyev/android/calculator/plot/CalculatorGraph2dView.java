@@ -8,9 +8,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Scroller;
 import android.widget.ZoomButtonsController;
-import javax.annotation.Nonnull;
 import org.solovyev.common.math.Point2d;
 
+import javax.annotation.Nonnull;
 import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.List;
@@ -18,16 +18,18 @@ import java.util.List;
 public class CalculatorGraph2dView extends View implements GraphView {
 
 	/*
-	**********************************************************************
-	*
-	*                           CONSTANTS
-	*
-	**********************************************************************
-	*/
+		**********************************************************************
+		*
+		*                           CONSTANTS
+		*
+		**********************************************************************
+		*/
 	private static final int NO_TOUCH = -1;
 
 	private static final float TICKS_COUNT = 15;
 	public static final int TICK_SIZE_PXS = 3;
+
+	private static final float Y_TO_X_ADJUST_SCALE = 2f;
 
 	private static final DecimalFormat tickFormat = new DecimalFormat("##0.#####E0");
 	private static final int MAX_TICK_DIGITS = 4;
@@ -38,6 +40,7 @@ public class CalculatorGraph2dView extends View implements GraphView {
 			TICK_FORMATS[i] = "%." + i + "f";
 		}
 	}
+
 	/*
 	**********************************************************************
 	*
@@ -83,7 +86,9 @@ public class CalculatorGraph2dView extends View implements GraphView {
 	@Nonnull
 	private final GraphCalculator graphCalculator = new GraphCalculatorImpl();
 
-	private boolean mDrawn = false;
+	private boolean drawn = false;
+
+	private boolean adjustYAxis = false;
 
 	/*
 	**********************************************************************
@@ -162,10 +167,15 @@ public class CalculatorGraph2dView extends View implements GraphView {
 	public void invalidateGraphs() {
 		graphsData.clear();
 
-		if (mDrawn) {
-			mDrawn = false;
+		if (drawn) {
+			drawn = false;
 			invalidate();
 		}
+	}
+
+	@Override
+	public void setAdjustYAxis(boolean adjustYAxis) {
+		this.adjustYAxis = adjustYAxis;
 	}
 
 	public void onResume() {
@@ -228,7 +238,12 @@ public class CalculatorGraph2dView extends View implements GraphView {
 	}
 
 	private void drawGraph(@Nonnull Canvas canvas) {
-		mDrawn = true;
+		drawn = true;
+
+		if(adjustYAxis) {
+			adjustYAxis();
+			adjustYAxis = false;
+		}
 
 		final float graphWidth = dimensions.getGWidth();
 		final float graphHeight = dimensions.getGHeight();
@@ -298,6 +313,51 @@ public class CalculatorGraph2dView extends View implements GraphView {
 
 		graphsData.setLastXMin(xMin);
 		graphsData.setLastXMax(xMax);
+	}
+
+	private void adjustYAxis() {
+		final float xMin = dimensions.getXMin();
+		final float xMax = dimensions.getXMax(xMin);
+
+		float yMax = -Float.MAX_VALUE;
+		float yMin = Float.MAX_VALUE;
+
+		graphsData.checkBoundaries(Float.MAX_VALUE, -Float.MAX_VALUE, Float.MAX_VALUE);
+
+		final List<PlotFunction> plotFunctions = graphViewHelper.getPlotFunctions();
+
+		for (int i = 0; i < plotFunctions.size(); i++) {
+			final PlotFunction plotFunction = plotFunctions.get(i);
+			final GraphData graph = graphsData.get(i);
+
+			graphCalculator.computeGraph(plotFunction.getXyFunction(), xMin, xMax, graph, graphsData, dimensions);
+
+			final float[] ys = graph.getYs();
+			for (int j = 0; j < graph.getSize(); j++) {
+				final float y = ys[j];
+				if (!Float.isNaN(y)) {
+					yMax = Math.max(yMax, y);
+					yMin = Math.min(yMin, y);
+				}
+			}
+		}
+
+		final float xDist = xMax - xMin;
+
+		yMax = Math.min(yMax, xDist);
+		yMin = Math.max(yMin, -xDist);
+
+		if (yMax - yMin > 0.00000001) {
+			final float yDist = yMax - yMin;
+			float maxYDist = Y_TO_X_ADJUST_SCALE * xDist;
+			if (yDist > maxYDist) {
+				// usually functions are symmetrical => just make a symmetry
+				yMax = yMax - yDist / 2 + maxYDist / 2;
+				yMin = yMin + yDist / 2 - maxYDist / 2;
+			}
+
+			dimensions.setYRange(yMin, yMax);
+		}
 	}
 
 	@Nonnull
