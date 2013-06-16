@@ -13,8 +13,6 @@ import android.widget.Button;
 import android.widget.RemoteViews;
 import jscl.AngleUnit;
 import jscl.NumeralBase;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import org.solovyev.android.Views;
 import org.solovyev.android.calculator.core.R;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
@@ -24,6 +22,9 @@ import org.solovyev.android.view.drag.DragButton;
 import org.solovyev.android.view.drag.DragDirection;
 import org.solovyev.android.view.drag.SimpleOnDragListener;
 import org.solovyev.common.math.Point2d;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * User: serso
@@ -135,10 +136,10 @@ public final class CalculatorButtons {
 			if (dragDirection == DragDirection.up) {
 				Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_create_var_dialog, null, context);
 				result = true;
-			} else if (dragDirection == DragDirection.down) {
+			}/* else if (dragDirection == DragDirection.down) {
 				Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_create_matrix_dialog, null, context);
 				result = true;
-			}
+			}*/
 
 			return result;
 		}
