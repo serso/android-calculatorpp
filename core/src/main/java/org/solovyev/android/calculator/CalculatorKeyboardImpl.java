@@ -1,9 +1,10 @@
 package org.solovyev.android.calculator;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.common.text.Strings;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * User: serso
@@ -29,33 +30,46 @@ public class CalculatorKeyboardImpl implements CalculatorKeyboard {
 			boolean processed = processSpecialButtons(text);
 
 			if (!processed) {
-				int cursorPositionOffset = 0;
-				final StringBuilder textToBeInserted = new StringBuilder(text);
-
-				final MathType.Result mathType = MathType.getType(text, 0, false);
-				switch (mathType.getMathType()) {
-					case function:
-						textToBeInserted.append("()");
-						cursorPositionOffset = -1;
-						break;
-					case operator:
-						textToBeInserted.append("()");
-						cursorPositionOffset = -1;
-						break;
-					case comma:
-						textToBeInserted.append(" ");
-						break;
-				}
-
-				if (cursorPositionOffset == 0) {
-					if (MathType.openGroupSymbols.contains(text)) {
-						cursorPositionOffset = -1;
-					}
-				}
-
-				final CalculatorEditor editor = Locator.getInstance().getEditor();
-				editor.insert(textToBeInserted.toString(), cursorPositionOffset);
+				processText(prepareText(text));
 			}
+		}
+	}
+
+	private void processText(@Nonnull String text) {
+		int cursorPositionOffset = 0;
+		final StringBuilder textToBeInserted = new StringBuilder(text);
+
+		final MathType.Result mathType = MathType.getType(text, 0, false);
+		switch (mathType.getMathType()) {
+			case function:
+				textToBeInserted.append("()");
+				cursorPositionOffset = -1;
+				break;
+			case operator:
+				textToBeInserted.append("()");
+				cursorPositionOffset = -1;
+				break;
+			case comma:
+				textToBeInserted.append(" ");
+				break;
+		}
+
+		if (cursorPositionOffset == 0) {
+			if (MathType.openGroupSymbols.contains(text)) {
+				cursorPositionOffset = -1;
+			}
+		}
+
+		final CalculatorEditor editor = Locator.getInstance().getEditor();
+		editor.insert(textToBeInserted.toString(), cursorPositionOffset);
+	}
+
+	@Nonnull
+	private String prepareText(@Nonnull String text) {
+		if ("(  )".equals(text)) {
+			return "()";
+		} else {
+			return text;
 		}
 	}
 
