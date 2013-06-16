@@ -9,6 +9,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Html;
@@ -17,12 +18,11 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.widget.Button;
 import android.widget.TextView;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import org.solovyev.android.Activities;
 import org.solovyev.android.Android;
 import org.solovyev.android.Threads;
@@ -33,6 +33,12 @@ import org.solovyev.android.prefs.Preference;
 import org.solovyev.common.Objects;
 import org.solovyev.common.history.HistoryAction;
 import org.solovyev.common.text.Strings;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import static android.os.Build.VERSION_CODES.GINGERBREAD_MR1;
+import static android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH;
 
 public class CalculatorActivity extends SherlockFragmentActivity implements SharedPreferences.OnSharedPreferenceChangeListener, CalculatorEventListener {
 
@@ -69,7 +75,13 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 			activityHelper.addTab(this, CalculatorPlotActivity.getPlotterFragmentType(), null, R.id.main_second_pane);
 			activityHelper.addTab(this, CalculatorFragmentType.faq, null, R.id.main_second_pane);
 		} else {
-			getSupportActionBar().hide();
+			final ActionBar actionBar = getSupportActionBar();
+			if (Build.VERSION.SDK_INT <= GINGERBREAD_MR1 || (Build.VERSION.SDK_INT >= ICE_CREAM_SANDWICH && ViewConfiguration.get(this).hasPermanentMenuKey())) {
+				actionBar.hide();
+			} else {
+				actionBar.setDisplayShowTitleEnabled(false);
+				actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+			}
 		}
 
 		FragmentUtils.createFragment(this, CalculatorEditorFragment.class, R.id.editorContainer, "editor");
