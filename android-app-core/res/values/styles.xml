@@ -101,7 +101,7 @@
 	</style>
 
 	<style name="cpp_simple_metro_control_image_button_style" parent="metro_control_image_button_style">
-		<item name="android:scaleType">center</item>
+		<item name="android:scaleType">centerInside</item>
 	</style>
 
 </resources>
