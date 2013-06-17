@@ -34,7 +34,6 @@
 
 	<ImageView
 		a:id="@+id/math_entity_description_imageview"
-		a:src="@drawable/wikipedia_icon"
 		a:scaleType="centerInside"
 		a:visibility="gone"
 		a:layout_height="match_parent"
