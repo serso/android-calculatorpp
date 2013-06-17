@@ -5,6 +5,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.solovyev.android.calculator.wizard.WizardStep.choose_mode;
 import static org.solovyev.android.calculator.wizard.WizardStep.welcome;
 
 /**
@@ -22,7 +23,7 @@ final class FirstTimeWizardFlow implements WizardFlow {
 	FirstTimeWizardFlow() {
 		final List<WizardStep> wizardSteps = new ArrayList<WizardStep>();
 		wizardSteps.add(welcome);
-		//wizardSteps.add(choose_mode);
+		wizardSteps.add(choose_mode);
 		this.listWizardFlow = new ListWizardFlow(NAME, wizardSteps);
 	}
 

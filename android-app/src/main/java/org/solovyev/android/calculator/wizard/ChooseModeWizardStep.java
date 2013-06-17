@@ -7,22 +7,25 @@ import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import com.actionbarsherlock.app.SherlockFragment;
-import org.solovyev.android.calculator.CalculatorPreferences;
-import org.solovyev.android.calculator.R;
-import org.solovyev.android.list.ListItem;
-import org.solovyev.android.list.ListItemAdapter;
+import jscl.AngleUnit;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.solovyev.android.calculator.CalculatorPreferences;
+import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
+import org.solovyev.android.list.ListItem;
+import org.solovyev.android.list.ListItemAdapter;
+
+import com.actionbarsherlock.app.SherlockFragment;
+
 import static org.solovyev.android.calculator.CalculatorPreferences.Gui.Layout.main_calculator;
-import static org.solovyev.android.calculator.CalculatorPreferences.Gui.Layout.main_calculator_mobile;
 import static org.solovyev.android.calculator.CalculatorPreferences.Gui.Layout.simple;
 
 /**
@@ -30,7 +33,10 @@ import static org.solovyev.android.calculator.CalculatorPreferences.Gui.Layout.s
  * Date: 6/16/13
  * Time: 9:59 PM
  */
-public final class ChooseModeWizardStep extends SherlockFragment {
+public final class ChooseModeWizardStep extends SherlockFragment implements WizardStepFragment {
+
+	@Nullable
+	private Spinner layoutSpinner;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,27 +47,35 @@ public final class ChooseModeWizardStep extends SherlockFragment {
 	public void onViewCreated(View root, Bundle savedInstanceState) {
 		super.onViewCreated(root, savedInstanceState);
 
-		final Spinner layoutSpinner = (Spinner) root.findViewById(R.id.wizard_mode_spinner);
+		layoutSpinner = (Spinner) root.findViewById(R.id.wizard_mode_spinner);
 		final List<ModeListItem> listItems = new ArrayList<ModeListItem>();
-		listItems.add(new ModeListItem(main_calculator));
-		listItems.add(new ModeListItem(main_calculator_mobile));
-		listItems.add(new ModeListItem(simple));
-		final ListItemAdapter<ModeListItem> adapter = ListItemAdapter.newInstance(getActivity(), listItems);
-		layoutSpinner.setAdapter(adapter);
-		layoutSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-			@Override
-			public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-				final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		for (Mode mode : Mode.values()) {
+			listItems.add(new ModeListItem(mode));
+		}
+		layoutSpinner.setAdapter(ListItemAdapter.newInstance(getActivity(), listItems));
+	}
 
-				final ModeListItem item = adapter.getItem(position);
-				CalculatorPreferences.Gui.layout.putPreference(preferences, item.layout);
+	@Override
+	public boolean onNext() {
+		if (layoutSpinner != null) {
+			final int position = layoutSpinner.getSelectedItemPosition();
+
+			final Mode mode;
+			if (position >= 0 && position < Mode.values().length) {
+				mode = Mode.values()[position];
+			} else {
+				mode = Mode.Simple;
 			}
 
-			@Override
-			public void onNothingSelected(AdapterView<?> parent) {
+			mode.apply(PreferenceManager.getDefaultSharedPreferences(getActivity()));
+		}
 
-			}
-		});
+		return true;
+	}
+
+	@Override
+	public boolean onPrev() {
+		return true;
 	}
 
 	/*
@@ -75,10 +89,10 @@ public final class ChooseModeWizardStep extends SherlockFragment {
 	private static final class ModeListItem implements ListItem {
 
 		@Nonnull
-		private final CalculatorPreferences.Gui.Layout layout;
+		private final Mode mode;
 
-		private ModeListItem(@Nonnull CalculatorPreferences.Gui.Layout layout) {
-			this.layout = layout;
+		private ModeListItem(@Nonnull Mode mode) {
+			this.mode = mode;
 		}
 
 		@Nullable
@@ -103,8 +117,42 @@ public final class ChooseModeWizardStep extends SherlockFragment {
 		@Override
 		public View build(@Nonnull Context context) {
 			final TextView textView = new TextView(context);
-			textView.setText(layout.getNameResId());
+			textView.setText(mode.getNameResId());
 			return textView;
 		}
+	}
+
+	private static enum Mode {
+		Simple(R.string.cpp_wizard_mode_simple) {
+			@Override
+			protected void apply(@Nonnull SharedPreferences preferences) {
+				CalculatorPreferences.Gui.layout.putPreference(preferences, simple);
+				CalculatorPreferences.Calculations.preferredAngleUnits.putPreference(preferences, AngleUnit.deg);
+				AndroidCalculatorEngine.Preferences.scienceNotation.putPreference(preferences, false);
+				AndroidCalculatorEngine.Preferences.roundResult.putPreference(preferences, true);
+			}
+		},
+
+		Engineer(R.string.cpp_wizard_mode_engineer) {
+			@Override
+			protected void apply(@Nonnull SharedPreferences preferences) {
+				CalculatorPreferences.Gui.layout.putPreference(preferences, main_calculator);
+				CalculatorPreferences.Calculations.preferredAngleUnits.putPreference(preferences, AngleUnit.rad);
+				AndroidCalculatorEngine.Preferences.scienceNotation.putPreference(preferences, true);
+				AndroidCalculatorEngine.Preferences.roundResult.putPreference(preferences, false);
+			}
+		};
+
+		private final int nameResId;
+
+		Mode(int nameResId) {
+			this.nameResId = nameResId;
+		}
+
+		private int getNameResId() {
+			return nameResId;
+		}
+
+		protected abstract void apply(@Nonnull SharedPreferences preferences);
 	}
 }

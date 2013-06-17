@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+  ~ For more information, please, contact se.solovyev@gmail.com
+  ~ or visit http://se.solovyev.org
+  -->
+
+<resources>
+	<string name="cpp_wizard_mode_simple">Simple</string>
+	<string name="cpp_wizard_mode_simple_description">In simple mode only basic functionality will be available from the main screen.
+		Result is rounded up to 5 digits.</string>
+	<string name="cpp_wizard_mode_engineer">Engineer</string>
+	<string name="cpp_wizard_mode_engineer_description">In engineer mode special functions will be used on the main screen.
+		Result is is not rounded and is presented in engineer notation.</string>
+</resources>

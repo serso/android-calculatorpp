@@ -133,10 +133,6 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 			if (Objects.areEqual(savedVersion, CalculatorPreferences.appVersion.getDefaultValue())) {
 				// new start
 				context.startActivity(new Intent(context, CalculatorWizardActivity.class));
-				final AlertDialog.Builder builder = new AlertDialog.Builder(context).setMessage(R.string.c_first_start_text);
-				builder.setPositiveButton(android.R.string.ok, null);
-				builder.setTitle(R.string.c_first_start_text_title);
-				builder.create().show();
 				dialogShown = true;
 			} else {
 				if (savedVersion < appVersion) {
