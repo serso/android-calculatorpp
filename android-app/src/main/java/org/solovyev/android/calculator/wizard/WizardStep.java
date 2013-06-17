@@ -1,5 +1,6 @@
 package org.solovyev.android.calculator.wizard;
 
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 
 import javax.annotation.Nonnull;
@@ -11,8 +12,34 @@ import javax.annotation.Nonnull;
  */
 enum WizardStep {
 
-	welcome(WelcomeWizardStep.class),
-	choose_mode(ChooseModeWizardStep.class);
+	welcome(WelcomeWizardStep.class) {
+		@Override
+		boolean onNext(@Nonnull Fragment fragment) {
+			return true;
+		}
+
+		@Override
+		boolean onPrev(@Nonnull Fragment fragment) {
+			return true;
+		}
+	},
+
+	choose_mode(ChooseModeWizardStep.class) {
+		@Override
+		boolean onNext(@Nonnull Fragment f) {
+			final ChooseModeWizardStep fragment = (ChooseModeWizardStep) f;
+
+			final CalculatorMode mode = fragment.getSelectedMode();
+			mode.apply(PreferenceManager.getDefaultSharedPreferences(f.getActivity()));
+
+			return true;
+		}
+
+		@Override
+		boolean onPrev(@Nonnull Fragment fragment) {
+			return true;
+		}
+	};
 
 	@Nonnull
 	private final Class<? extends Fragment> fragmentClass;
@@ -29,4 +56,7 @@ enum WizardStep {
 	Class<? extends Fragment> getFragmentClass() {
 		return fragmentClass;
 	}
+
+	abstract boolean onNext(@Nonnull Fragment fragment);
+	abstract boolean onPrev(@Nonnull Fragment fragment);
 }

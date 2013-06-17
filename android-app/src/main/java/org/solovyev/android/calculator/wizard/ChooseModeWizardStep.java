@@ -1,39 +1,30 @@
 package org.solovyev.android.calculator.wizard;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
-import jscl.AngleUnit;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import org.solovyev.android.calculator.CalculatorPreferences;
+import com.actionbarsherlock.app.SherlockFragment;
 import org.solovyev.android.calculator.R;
-import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 import org.solovyev.android.list.ListItem;
 import org.solovyev.android.list.ListItemAdapter;
 
-import com.actionbarsherlock.app.SherlockFragment;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
-import static org.solovyev.android.calculator.CalculatorPreferences.Gui.Layout.main_calculator;
-import static org.solovyev.android.calculator.CalculatorPreferences.Gui.Layout.simple;
+import static org.solovyev.android.calculator.wizard.CalculatorMode.simple;
 
 /**
  * User: serso
  * Date: 6/16/13
  * Time: 9:59 PM
  */
-public final class ChooseModeWizardStep extends SherlockFragment implements WizardStepFragment {
+public final class ChooseModeWizardStep extends SherlockFragment {
 
 	@Nullable
 	private Spinner layoutSpinner;
@@ -49,33 +40,25 @@ public final class ChooseModeWizardStep extends SherlockFragment implements Wiza
 
 		layoutSpinner = (Spinner) root.findViewById(R.id.wizard_mode_spinner);
 		final List<ModeListItem> listItems = new ArrayList<ModeListItem>();
-		for (Mode mode : Mode.values()) {
+		for (CalculatorMode mode : CalculatorMode.values()) {
 			listItems.add(new ModeListItem(mode));
 		}
 		layoutSpinner.setAdapter(ListItemAdapter.newInstance(getActivity(), listItems));
 	}
 
-	@Override
-	public boolean onNext() {
+	@Nonnull
+	CalculatorMode getSelectedMode() {
+		CalculatorMode mode = simple;
+
 		if (layoutSpinner != null) {
 			final int position = layoutSpinner.getSelectedItemPosition();
 
-			final Mode mode;
-			if (position >= 0 && position < Mode.values().length) {
-				mode = Mode.values()[position];
-			} else {
-				mode = Mode.Simple;
+			if (position >= 0 && position < CalculatorMode.values().length) {
+				mode = CalculatorMode.values()[position];
 			}
-
-			mode.apply(PreferenceManager.getDefaultSharedPreferences(getActivity()));
 		}
 
-		return true;
-	}
-
-	@Override
-	public boolean onPrev() {
-		return true;
+		return mode;
 	}
 
 	/*
@@ -89,9 +72,9 @@ public final class ChooseModeWizardStep extends SherlockFragment implements Wiza
 	private static final class ModeListItem implements ListItem {
 
 		@Nonnull
-		private final Mode mode;
+		private final CalculatorMode mode;
 
-		private ModeListItem(@Nonnull Mode mode) {
+		private ModeListItem(@Nonnull CalculatorMode mode) {
 			this.mode = mode;
 		}
 
@@ -122,37 +105,4 @@ public final class ChooseModeWizardStep extends SherlockFragment implements Wiza
 		}
 	}
 
-	private static enum Mode {
-		Simple(R.string.cpp_wizard_mode_simple) {
-			@Override
-			protected void apply(@Nonnull SharedPreferences preferences) {
-				CalculatorPreferences.Gui.layout.putPreference(preferences, simple);
-				CalculatorPreferences.Calculations.preferredAngleUnits.putPreference(preferences, AngleUnit.deg);
-				AndroidCalculatorEngine.Preferences.scienceNotation.putPreference(preferences, false);
-				AndroidCalculatorEngine.Preferences.roundResult.putPreference(preferences, true);
-			}
-		},
-
-		Engineer(R.string.cpp_wizard_mode_engineer) {
-			@Override
-			protected void apply(@Nonnull SharedPreferences preferences) {
-				CalculatorPreferences.Gui.layout.putPreference(preferences, main_calculator);
-				CalculatorPreferences.Calculations.preferredAngleUnits.putPreference(preferences, AngleUnit.rad);
-				AndroidCalculatorEngine.Preferences.scienceNotation.putPreference(preferences, true);
-				AndroidCalculatorEngine.Preferences.roundResult.putPreference(preferences, false);
-			}
-		};
-
-		private final int nameResId;
-
-		Mode(int nameResId) {
-			this.nameResId = nameResId;
-		}
-
-		private int getNameResId() {
-			return nameResId;
-		}
-
-		protected abstract void apply(@Nonnull SharedPreferences preferences);
-	}
 }

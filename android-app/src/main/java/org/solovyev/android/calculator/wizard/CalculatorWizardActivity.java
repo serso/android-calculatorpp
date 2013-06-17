@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
-import android.view.ViewGroup;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import org.solovyev.android.calculator.R;
 
@@ -46,7 +45,6 @@ public final class CalculatorWizardActivity extends SherlockFragmentActivity {
 	private View prevButton;
 	private View nextButton;
 	private View finishButton;
-	private ViewGroup wizardContent;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +54,6 @@ public final class CalculatorWizardActivity extends SherlockFragmentActivity {
 		prevButton = findViewById(R.id.wizard_prev_button);
 		nextButton = findViewById(R.id.wizard_next_button);
 		finishButton = findViewById(R.id.wizard_finish_button);
-		wizardContent = (ViewGroup) findViewById(R.id.wizard_content);
 
 		String wizardName = null;
 		WizardStep step = null;
@@ -79,62 +76,113 @@ public final class CalculatorWizardActivity extends SherlockFragmentActivity {
 			final FragmentManager fm = getSupportFragmentManager();
 			final FragmentTransaction ft = fm.beginTransaction();
 
-			if (this.step != null) {
-				final Fragment oldFragment = fm.findFragmentByTag(this.step.getFragmentTag());
-				if (oldFragment != null) {
-					ft.hide(oldFragment);
-				}
-			}
+			hideFragment(fm, ft);
 
 			this.step = step;
 
-			Fragment newFragment = fm.findFragmentByTag(step.getFragmentTag());
-			if(newFragment == null) {
-				newFragment = Fragment.instantiate(this, step.getFragmentClass().getName());
-				ft.add(R.id.wizard_content, newFragment, step.getFragmentTag());
-			} else {
-				ft.show(newFragment);
-			}
+			showFragment(fm, ft);
 
 			ft.commit();
 
-			final WizardStep nextStep = flow.getNextStep(step);
-			if (nextStep == null) {
-				finishButton.setVisibility(VISIBLE);
-				finishButton.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						finish();
-					}
-				});
+			initNextButton();
+			initPrevButton();
+		}
+	}
 
-				nextButton.setVisibility(GONE);
-				nextButton.setOnClickListener(null);
-			} else {
-				finishButton.setVisibility(GONE);
-				finishButton.setOnClickListener(null);
-
-				nextButton.setVisibility(VISIBLE);
-				nextButton.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						setStep(nextStep);
-					}
-				});
-			}
-
-			final WizardStep prevStep = flow.getPrevStep(step);
-			if (prevStep == null) {
-				prevButton.setVisibility(GONE);
-				prevButton.setOnClickListener(null);
-			} else {
-				prevButton.setVisibility(VISIBLE);
-				prevButton.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
+	private void initPrevButton() {
+		final WizardStep prevStep = flow.getPrevStep(step);
+		if (prevStep == null) {
+			prevButton.setVisibility(GONE);
+			prevButton.setOnClickListener(null);
+		} else {
+			prevButton.setVisibility(VISIBLE);
+			prevButton.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (tryGoPrev()) {
 						setStep(prevStep);
 					}
-				});
+				}
+			});
+		}
+	}
+
+	private void initNextButton() {
+		final WizardStep nextStep = flow.getNextStep(step);
+		if (nextStep == null) {
+			finishButton.setVisibility(VISIBLE);
+			finishButton.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (tryGoNext()) {
+						finish();
+					}
+				}
+			});
+
+			nextButton.setVisibility(GONE);
+			nextButton.setOnClickListener(null);
+		} else {
+			finishButton.setVisibility(GONE);
+			finishButton.setOnClickListener(null);
+
+			nextButton.setVisibility(VISIBLE);
+			nextButton.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (tryGoNext()) {
+						setStep(nextStep);
+					}
+				}
+			});
+		}
+	}
+
+	private boolean tryGoPrev() {
+		if (this.step == null) {
+			return true;
+		} else {
+			final Fragment fragment = getSupportFragmentManager().findFragmentByTag(this.step.getFragmentTag());
+			if (fragment != null) {
+				return this.step.onPrev(fragment);
+			} else {
+				return true;
+			}
+		}
+	}
+
+	private boolean tryGoNext() {
+		if (this.step == null) {
+			return true;
+		} else {
+			final Fragment fragment = getSupportFragmentManager().findFragmentByTag(this.step.getFragmentTag());
+			if (fragment != null) {
+				return this.step.onNext(fragment);
+			} else {
+				return true;
+			}
+		}
+	}
+
+	@Nonnull
+	private Fragment showFragment(@Nonnull FragmentManager fm, @Nonnull FragmentTransaction ft) {
+		Fragment newFragment = fm.findFragmentByTag(this.step.getFragmentTag());
+
+		if (newFragment == null) {
+			newFragment = Fragment.instantiate(this, this.step.getFragmentClass().getName());
+			ft.add(R.id.wizard_content, newFragment, this.step.getFragmentTag());
+		} else {
+			ft.show(newFragment);
+		}
+
+		return newFragment;
+	}
+
+	private void hideFragment(@Nonnull FragmentManager fm, @Nonnull FragmentTransaction ft) {
+		if (this.step != null) {
+			final Fragment oldFragment = fm.findFragmentByTag(this.step.getFragmentTag());
+			if (oldFragment != null) {
+				ft.hide(oldFragment);
 			}
 		}
 	}
@@ -146,4 +194,11 @@ public final class CalculatorWizardActivity extends SherlockFragmentActivity {
 		out.putSerializable(STEP, step);
 	}
 
+	WizardStep getStep() {
+		return step;
+	}
+
+	WizardFlow getFlow() {
+		return flow;
+	}
 }

@@ -7,12 +7,13 @@
 package org.solovyev.android.calculator.model;
 
 import jscl.math.function.IConstant;
-import junit.framework.Assert;
 import org.junit.Test;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 
 import java.io.StringWriter;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * User: serso
@@ -49,7 +50,7 @@ public class VarTest {
 		final Serializer serializer = new Persister();
 		serializer.write(vars, sw);
 
-		Assert.assertEquals(xml, sw.toString());
+		assertEquals(xml, sw.toString());
 
 		final Vars result = serializer.read(Vars.class, xml);
 		final IConstant actualFirst = result.getEntities().get(0);
@@ -61,8 +62,8 @@ public class VarTest {
 	}
 
 	private void areEqual(IConstant expected, IConstant actual) {
-		Assert.assertEquals(expected.getName(), actual.getName());
-		Assert.assertEquals(expected.getDescription(), actual.getDescription());
-		Assert.assertEquals(expected.getValue(), actual.getValue());
+		assertEquals(expected.getName(), actual.getName());
+		assertEquals(expected.getDescription(), actual.getDescription());
+		assertEquals(expected.getValue(), actual.getValue());
 	}
 }

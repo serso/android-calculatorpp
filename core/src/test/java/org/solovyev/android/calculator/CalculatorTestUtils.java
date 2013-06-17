@@ -1,15 +1,15 @@
 package org.solovyev.android.calculator;
 
 import jscl.JsclMathEngine;
-import junit.framework.Assert;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.junit.Assert;
 import org.mockito.Mockito;
 import org.solovyev.android.calculator.external.CalculatorExternalListenersContainer;
 import org.solovyev.android.calculator.history.CalculatorHistory;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.plot.CalculatorPlotter;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.*;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 public class CalculatorTestUtils {
 
 	// in seconds
-	public static final int TIMEOUT = 3;
+	public static final int TIMEOUT = 10;
 
 	public static void staticSetUp() throws Exception {
 		Locator.getInstance().init(new CalculatorImpl(), newCalculatorEngine(), Mockito.mock(CalculatorClipboard.class), Mockito.mock(CalculatorNotifier.class), Mockito.mock(CalculatorHistory.class), new SystemOutCalculatorLogger(), Mockito.mock(CalculatorPreferenceService.class), Mockito.mock(CalculatorKeyboard.class), Mockito.mock(CalculatorExternalListenersContainer.class), Mockito.mock(CalculatorPlotter.class));
