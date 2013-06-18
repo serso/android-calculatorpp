@@ -64,7 +64,7 @@ public final class CalculatorWizardActivity extends SherlockFragmentActivity {
 			step = (WizardStep) savedInstanceState.getSerializable(STEP);
 		}
 
-		flow = Wizard.getWizardFlow(wizardName != null ? wizardName : FirstTimeWizardFlow.NAME);
+		flow = Wizard.getWizardFlow(wizardName != null ? wizardName : Wizard.FIRST_TIME_WIZARD);
 
 		if (step == null) {
 			step = flow.getFirstStep();

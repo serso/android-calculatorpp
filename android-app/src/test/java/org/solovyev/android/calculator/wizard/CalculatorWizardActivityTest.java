@@ -40,7 +40,7 @@ public class CalculatorWizardActivityTest {
 		controller.create();
 
 		assertNotNull(activity.getFlow());
-		assertEquals(FirstTimeWizardFlow.NAME, activity.getFlow().getName());
+		assertEquals(Wizard.FIRST_TIME_WIZARD, activity.getFlow().getName());
 		assertNotNull(activity.getStep());
 		assertEquals(activity.getFlow().getFirstStep(), activity.getStep());
 
@@ -54,17 +54,17 @@ public class CalculatorWizardActivityTest {
 
 		activity = controller.get();
 		assertNotNull(activity.getFlow());
-		assertEquals(FirstTimeWizardFlow.NAME, activity.getFlow().getName());
+		assertEquals(Wizard.FIRST_TIME_WIZARD, activity.getFlow().getName());
 		assertNotNull(activity.getStep());
 		assertEquals(WizardStep.choose_mode, activity.getStep());
 
 		final Intent intent = new Intent();
 		intent.setClass(activity, CalculatorWizardActivity.class);
-		intent.putExtra(CalculatorWizardActivity.FLOW, AppWizardFlow.NAME);
+		intent.putExtra(CalculatorWizardActivity.FLOW, Wizard.DEFAULT_WIZARD_FLOW);
 		controller = Robolectric.buildActivity(CalculatorWizardActivity.class).withIntent(intent);
 		activity = controller.get();
 		controller.create(null);
-		assertEquals(AppWizardFlow.NAME, activity.getFlow().getName());
+		assertEquals(Wizard.DEFAULT_WIZARD_FLOW, activity.getFlow().getName());
 		assertEquals(activity.getFlow().getFirstStep(), activity.getStep());
 
 		final Bundle outState1 = new Bundle();
@@ -73,7 +73,7 @@ public class CalculatorWizardActivityTest {
 		controller = Robolectric.buildActivity(CalculatorWizardActivity.class);
 		activity = controller.get();
 		controller.create(outState1);
-		assertEquals(AppWizardFlow.NAME, activity.getFlow().getName());
+		assertEquals(Wizard.DEFAULT_WIZARD_FLOW, activity.getFlow().getName());
 		assertEquals(activity.getFlow().getFirstStep(), activity.getStep());
 	}
 
@@ -102,7 +102,7 @@ public class CalculatorWizardActivityTest {
 	@Test
 	public void testStartWizard() throws Exception {
 		final ShadowActivity shadowActivity = Robolectric.shadowOf(controller.get());
-		CalculatorWizardActivity.startWizard(AppWizardFlow.NAME, shadowActivity.getApplicationContext());
+		CalculatorWizardActivity.startWizard(Wizard.DEFAULT_WIZARD_FLOW, shadowActivity.getApplicationContext());
 		Assert.assertNotNull(shadowActivity.getNextStartedActivity());
 	}
 }

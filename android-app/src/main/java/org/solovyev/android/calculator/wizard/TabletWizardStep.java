@@ -18,14 +18,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.solovyev.android.calculator.wizard.CalculatorMode.getDefaultMode;
+import static org.solovyev.android.calculator.wizard.CalculatorLayout.getDefaultMode;
 
 /**
  * User: serso
- * Date: 6/16/13
- * Time: 9:59 PM
+ * Date: 6/19/13
+ * Time: 12:33 AM
  */
-public final class ChooseModeWizardStep extends SherlockFragment {
+final class TabletWizardStep extends SherlockFragment {
 
 	/*
 	**********************************************************************
@@ -35,7 +35,7 @@ public final class ChooseModeWizardStep extends SherlockFragment {
 	**********************************************************************
 	*/
 
-	static final String MODE = "mode";
+	static final String LAYOUT = "layout";
 
 	/*
 	**********************************************************************
@@ -46,66 +46,66 @@ public final class ChooseModeWizardStep extends SherlockFragment {
 	*/
 
 	@Nullable
-	private Spinner modeSpinner;
+	private Spinner layoutSpinner;
 
-	private CalculatorMode mode;
+	private CalculatorLayout layout;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		if(savedInstanceState != null) {
-			mode = (CalculatorMode) savedInstanceState.getSerializable(MODE);
+			layout = (CalculatorLayout) savedInstanceState.getSerializable(LAYOUT);
 		}
 
-		if (mode == null) {
-			mode = (CalculatorMode) getArguments().getSerializable(MODE);
+		if (layout == null) {
+			layout = (CalculatorLayout) getArguments().getSerializable(LAYOUT);
 		}
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.cpp_wizard_step_choose_mode, null);
+		return inflater.inflate(R.layout.cpp_wizard_step_tablet, null);
 	}
 
 	@Override
 	public void onViewCreated(View root, Bundle savedInstanceState) {
 		super.onViewCreated(root, savedInstanceState);
 
-		modeSpinner = (Spinner) root.findViewById(R.id.wizard_mode_spinner);
+		layoutSpinner = (Spinner) root.findViewById(R.id.wizard_layout_spinner);
 
-		final List<ModeListItem> listItems = new ArrayList<ModeListItem>();
-		for (CalculatorMode mode : CalculatorMode.values()) {
-			listItems.add(new ModeListItem(mode));
+		final List<LayoutListItem> listItems = new ArrayList<LayoutListItem>();
+		for (CalculatorLayout layout : CalculatorLayout.values()) {
+			listItems.add(new LayoutListItem(layout));
 		}
-		modeSpinner.setAdapter(ListItemAdapter.newInstance(getActivity(), listItems));
+		layoutSpinner.setAdapter(ListItemAdapter.newInstance(getActivity(), listItems));
 
-		final int position = Arrays.binarySearch(CalculatorMode.values(), mode);
+		final int position = Arrays.binarySearch(CalculatorMode.values(), layout);
 		if (position >= 0) {
-			modeSpinner.setSelection(position);
+			layoutSpinner.setSelection(position);
 		}
 	}
 
 	@Nonnull
-	CalculatorMode getSelectedMode() {
-		CalculatorMode mode = getDefaultMode();
+	CalculatorLayout getSelectedLayout() {
+		CalculatorLayout layout = getDefaultMode();
 
-		if (modeSpinner != null) {
-			final int position = modeSpinner.getSelectedItemPosition();
+		if (layoutSpinner != null) {
+			final int position = layoutSpinner.getSelectedItemPosition();
 
-			if (position >= 0 && position < CalculatorMode.values().length) {
-				mode = CalculatorMode.values()[position];
+			if (position >= 0 && position < CalculatorLayout.values().length) {
+				layout = CalculatorLayout.values()[position];
 			}
 		}
 
-		return mode;
+		return layout;
 	}
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 
-		outState.putSerializable(MODE, mode);
+		outState.putSerializable(LAYOUT, layout);
 	}
 
 	/*
@@ -116,13 +116,13 @@ public final class ChooseModeWizardStep extends SherlockFragment {
 	**********************************************************************
 	*/
 
-	private static final class ModeListItem implements ListItem {
+	private static final class LayoutListItem implements ListItem {
 
 		@Nonnull
-		private final CalculatorMode mode;
+		private final CalculatorLayout layout;
 
-		private ModeListItem(@Nonnull CalculatorMode mode) {
-			this.mode = mode;
+		private LayoutListItem(@Nonnull CalculatorLayout layout) {
+			this.layout = layout;
 		}
 
 		@Nullable
@@ -147,9 +147,10 @@ public final class ChooseModeWizardStep extends SherlockFragment {
 		@Override
 		public View build(@Nonnull Context context) {
 			final TextView textView = new TextView(context);
-			textView.setText(mode.getNameResId());
+			textView.setText(layout.getNameResId());
 			return textView;
 		}
 	}
+
 
 }

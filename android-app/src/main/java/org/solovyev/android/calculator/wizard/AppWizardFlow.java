@@ -5,6 +5,8 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.solovyev.android.calculator.wizard.Wizard.DEFAULT_WIZARD_FLOW;
+import static org.solovyev.android.calculator.wizard.Wizard.FIRST_TIME_WIZARD;
 import static org.solovyev.android.calculator.wizard.WizardStep.welcome;
 
 /**
@@ -14,20 +16,35 @@ import static org.solovyev.android.calculator.wizard.WizardStep.welcome;
  */
 final class AppWizardFlow implements WizardFlow {
 
-	public static final String NAME = "app-wizard";
-
 	@Nonnull
 	private final ListWizardFlow listWizardFlow;
 
-	AppWizardFlow() {
+	private AppWizardFlow(@Nonnull String name, @Nonnull List<WizardStep> wizardSteps) {
+		this.listWizardFlow = new ListWizardFlow(name, wizardSteps);
+	}
+
+	@Nonnull
+	static AppWizardFlow newDefaultWizardFlow() {
 		final List<WizardStep> wizardSteps = new ArrayList<WizardStep>();
 		for (WizardStep wizardStep : WizardStep.values()) {
-			if (wizardStep != welcome) {
+			if (wizardStep != welcome && wizardStep.isVisible()) {
 				wizardSteps.add(wizardStep);
 			}
 		}
-		this.listWizardFlow = new ListWizardFlow(NAME, wizardSteps);
+		return new AppWizardFlow(DEFAULT_WIZARD_FLOW, wizardSteps);
 	}
+
+	@Nonnull
+	static AppWizardFlow newFirstTimeWizardFlow() {
+		final List<WizardStep> wizardSteps = new ArrayList<WizardStep>();
+		for (WizardStep wizardStep : WizardStep.values()) {
+			if (wizardStep.isVisible()) {
+				wizardSteps.add(wizardStep);
+			}
+		}
+		return new AppWizardFlow(FIRST_TIME_WIZARD, wizardSteps);
+	}
+
 
 	@Nonnull
 	@Override

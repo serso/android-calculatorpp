@@ -7,6 +7,8 @@
   -->
 
 <resources>
+	<string name="cpp_wizard_layout_optimized">Optimized</string>
+	<string name="cpp_wizard_layout_big_buttons">Big buttons</string>
 	<string name="cpp_wizard_mode_simple">Simple</string>
 	<string name="cpp_wizard_mode_simple_description">In simple mode only basic functionality will be available from the main screen.
 		Result is rounded up to 5 digits.</string>

@@ -16,11 +16,13 @@ import static org.solovyev.android.calculator.CalculatorPreferences.Gui.Layout.m
 * Time: 9:30 PM
 */
 enum CalculatorMode {
+
 	simple(R.string.cpp_wizard_mode_simple) {
 		@Override
 		protected void apply(@Nonnull SharedPreferences preferences) {
 			CalculatorPreferences.Gui.layout.putPreference(preferences, CalculatorPreferences.Gui.Layout.simple);
 			CalculatorPreferences.Calculations.preferredAngleUnits.putPreference(preferences, AngleUnit.deg);
+			AndroidCalculatorEngine.Preferences.angleUnit.putPreference(preferences, AngleUnit.deg);
 			AndroidCalculatorEngine.Preferences.scienceNotation.putPreference(preferences, false);
 			AndroidCalculatorEngine.Preferences.roundResult.putPreference(preferences, true);
 		}
@@ -31,6 +33,7 @@ enum CalculatorMode {
 		protected void apply(@Nonnull SharedPreferences preferences) {
 			CalculatorPreferences.Gui.layout.putPreference(preferences, main_calculator);
 			CalculatorPreferences.Calculations.preferredAngleUnits.putPreference(preferences, AngleUnit.rad);
+			AndroidCalculatorEngine.Preferences.angleUnit.putPreference(preferences, AngleUnit.rad);
 			AndroidCalculatorEngine.Preferences.scienceNotation.putPreference(preferences, true);
 			AndroidCalculatorEngine.Preferences.roundResult.putPreference(preferences, false);
 		}
