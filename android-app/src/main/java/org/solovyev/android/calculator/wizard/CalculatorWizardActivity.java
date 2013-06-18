@@ -171,7 +171,7 @@ public final class CalculatorWizardActivity extends SherlockFragmentActivity {
 		Fragment newFragment = fm.findFragmentByTag(this.step.getFragmentTag());
 
 		if (newFragment == null) {
-			newFragment = Fragment.instantiate(this, this.step.getFragmentClass().getName());
+			newFragment = Fragment.instantiate(this, this.step.getFragmentClass().getName(), this.step.getFragmentArgs());
 			ft.add(R.id.wizard_content, newFragment, this.step.getFragmentTag());
 		} else {
 			ft.show(newFragment);

@@ -1,6 +1,11 @@
 package org.solovyev.android.calculator.wizard;
 
+import org.solovyev.android.prefs.Preference;
+
 import javax.annotation.Nonnull;
+
+import static org.solovyev.android.calculator.wizard.CalculatorMode.getDefaultMode;
+import static org.solovyev.android.prefs.StringPreference.ofEnum;
 
 /**
  * User: serso
@@ -22,5 +27,17 @@ public final class Wizard {
 		} else {
 			throw new IllegalArgumentException("Wizard flow " + name + " is not supported");
 		}
+	}
+
+	/*
+	**********************************************************************
+	*
+	*                           STATIC/INNER
+	*
+	**********************************************************************
+	*/
+
+	static final class Preferences {
+		static final Preference<CalculatorMode> mode = ofEnum("mode", getDefaultMode(), CalculatorMode.class);
 	}
 }

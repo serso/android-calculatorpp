@@ -47,4 +47,9 @@ enum CalculatorMode {
 	}
 
 	protected abstract void apply(@Nonnull SharedPreferences preferences);
+
+	@Nonnull
+	static CalculatorMode getDefaultMode(){
+		return engineer;
+	}
 }
