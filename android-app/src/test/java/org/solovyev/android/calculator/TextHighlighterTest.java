@@ -9,7 +9,8 @@ package org.solovyev.android.calculator;
 import android.graphics.Color;
 import jscl.MathEngine;
 import jscl.NumeralBase;
-import junit.framework.Assert;
+
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.solovyev.android.calculator.text.TextProcessor;

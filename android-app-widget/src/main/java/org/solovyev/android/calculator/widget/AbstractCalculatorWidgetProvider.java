@@ -41,6 +41,8 @@ abstract class AbstractCalculatorWidgetProvider extends AppWidgetProvider implem
 	@Nonnull
 	private ExternalCalculatorIntentHandler intentHandler = new CalculatorWidgetIntentHandler(this);
 
+	private boolean initialized = false;
+
 
 	/*
 	**********************************************************************
@@ -51,9 +53,6 @@ abstract class AbstractCalculatorWidgetProvider extends AppWidgetProvider implem
 	*/
 
 	protected AbstractCalculatorWidgetProvider() {
-		final Class<? extends AppWidgetProvider> componentClass = this.getComponentClass();
-
-		Locator.getInstance().getExternalListenersContainer().addExternalListener(componentClass);
 	}
 
 	/*
@@ -67,6 +66,12 @@ abstract class AbstractCalculatorWidgetProvider extends AppWidgetProvider implem
 	@Override
 	public void onEnabled(Context context) {
 		super.onEnabled(context);
+
+		if (!initialized) {
+			final Class<? extends AppWidgetProvider> componentClass = this.getComponentClass();
+			Locator.getInstance().getExternalListenersContainer().addExternalListener(componentClass);
+			initialized = true;
+		}
 
 		getCursorColor(context);
 	}

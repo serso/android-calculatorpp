@@ -1,5 +1,8 @@
 package org.solovyev.android.calculator.plot;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -14,7 +17,14 @@ public class CalculatorGraph2dViewTest {
 	@Test
 	public void testFormatTick() throws Exception {
 		assertEquals("23324", CalculatorGraph2dView.formatTick(23324.0f, 0));
-		assertEquals("23324.1", CalculatorGraph2dView.formatTick(23324.1f, 1));
+
+		final DecimalFormat format = (DecimalFormat) DecimalFormat.getInstance();
+		final DecimalFormatSymbols decimalFormatSymbols = format.getDecimalFormatSymbols();
+		if (',' == decimalFormatSymbols.getDecimalSeparator()) {
+			assertEquals("23324,1", CalculatorGraph2dView.formatTick(23324.1f, 1));
+		} else if ('.' == decimalFormatSymbols.getDecimalSeparator()) {
+			assertEquals("23324.1", CalculatorGraph2dView.formatTick(23324.1f, 1));
+		}
 	}
 
 	@Test

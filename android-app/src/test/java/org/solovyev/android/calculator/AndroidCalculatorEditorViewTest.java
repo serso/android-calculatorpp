@@ -1,18 +1,24 @@
 package org.solovyev.android.calculator;
 
+import java.util.Date;
+import java.util.Random;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
+import org.solovyev.common.text.Strings;
 
 /**
  * User: serso
  * Date: 10/13/12
  * Time: 1:11 PM
  */
-@Config(manifest = Config.DEFAULT)
 @RunWith(value = RobolectricTestRunner.class)
 public class AndroidCalculatorEditorViewTest {
 
@@ -34,7 +40,7 @@ public class AndroidCalculatorEditorViewTest {
 
 	@Test
 	public void testAsyncWork() throws Exception {
-/*        final int threadNum = 10;
+        final int threadNum = 10;
         final int count = 10;
         final int maxTextLength = 100;
 
@@ -78,6 +84,6 @@ public class AndroidCalculatorEditorViewTest {
             Assert.assertFalse(error.get());
         } else {
             Assert.fail("Too long execution!");
-        }*/
+        }
 	}
 }
