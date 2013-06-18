@@ -1,5 +1,7 @@
 package org.solovyev.android.calculator.wizard;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -20,8 +22,8 @@ import static android.view.View.VISIBLE;
  */
 public final class CalculatorWizardActivity extends SherlockFragmentActivity {
 
-	private static final String FLOW = "flow";
-	private static final String STEP = "step";
+	static final String FLOW = "flow";
+	static final String STEP = "step";
 
 	/*
 	**********************************************************************
@@ -55,8 +57,8 @@ public final class CalculatorWizardActivity extends SherlockFragmentActivity {
 		nextButton = findViewById(R.id.wizard_next_button);
 		finishButton = findViewById(R.id.wizard_finish_button);
 
-		String wizardName = null;
-		WizardStep step = null;
+		String wizardName = getIntent().getStringExtra(FLOW);
+		WizardStep step = (WizardStep) getIntent().getSerializableExtra(STEP);
 		if (savedInstanceState != null) {
 			wizardName = savedInstanceState.getString(FLOW);
 			step = (WizardStep) savedInstanceState.getSerializable(STEP);
@@ -71,7 +73,7 @@ public final class CalculatorWizardActivity extends SherlockFragmentActivity {
 		setStep(step);
 	}
 
-	private void setStep(@Nonnull WizardStep step) {
+	void setStep(@Nonnull WizardStep step) {
 		if (this.step == null || !this.step.equals(step)) {
 			final FragmentManager fm = getSupportFragmentManager();
 			final FragmentTransaction ft = fm.beginTransaction();
@@ -191,6 +193,7 @@ public final class CalculatorWizardActivity extends SherlockFragmentActivity {
 	protected void onSaveInstanceState(Bundle out) {
 		super.onSaveInstanceState(out);
 
+		out.putString(FLOW, flow.getName());
 		out.putSerializable(STEP, step);
 	}
 
@@ -200,5 +203,19 @@ public final class CalculatorWizardActivity extends SherlockFragmentActivity {
 
 	WizardFlow getFlow() {
 		return flow;
+	}
+
+	/*
+	**********************************************************************
+	*
+	*                           STATIC/INNER
+	*
+	**********************************************************************
+	*/
+
+	public static void startWizard(@Nonnull String name, @Nonnull Context context) {
+		final Intent intent = new Intent(context, CalculatorWizardActivity.class);
+		intent.putExtra(FLOW, name);
+		context.startActivity(intent);
 	}
 }

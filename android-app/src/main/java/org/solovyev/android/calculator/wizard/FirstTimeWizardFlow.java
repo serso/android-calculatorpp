@@ -22,8 +22,9 @@ final class FirstTimeWizardFlow implements WizardFlow {
 
 	FirstTimeWizardFlow() {
 		final List<WizardStep> wizardSteps = new ArrayList<WizardStep>();
-		wizardSteps.add(welcome);
-		wizardSteps.add(choose_mode);
+		for (WizardStep wizardStep : WizardStep.values()) {
+			wizardSteps.add(wizardStep);
+		}
 		this.listWizardFlow = new ListWizardFlow(NAME, wizardSteps);
 	}
 

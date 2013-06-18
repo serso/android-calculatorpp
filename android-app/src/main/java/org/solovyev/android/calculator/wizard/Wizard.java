@@ -17,6 +17,8 @@ public final class Wizard {
 	public static WizardFlow getWizardFlow(@Nonnull String name) {
 		if(FirstTimeWizardFlow.NAME.equals(name)) {
 			return new FirstTimeWizardFlow();
+		} else if(AppWizardFlow.NAME.equals(name)) {
+			return new AppWizardFlow();
 		} else {
 			throw new IllegalArgumentException("Wizard flow " + name + " is not supported");
 		}
