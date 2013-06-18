@@ -25,6 +25,7 @@ public class CalculatorWizardActivityTest {
 
 		final CalculatorWizardActivity activity = controller.get();
 		assertNotNull(activity.getFlow());
+		assertEquals(FirstTimeWizardFlow.NAME, activity.getFlow().getName());
 		assertNotNull(activity.getStep());
 		assertEquals(activity.getFlow().getFirstStep(), activity.getStep());
 	}
