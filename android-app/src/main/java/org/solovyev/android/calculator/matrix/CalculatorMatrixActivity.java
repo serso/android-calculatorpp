@@ -1,10 +1,11 @@
 package org.solovyev.android.calculator.matrix;
 
-import android.app.ActionBar;
 import android.os.Bundle;
 import org.solovyev.android.calculator.CalculatorFragmentActivity;
 import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.R;
+
+import static com.actionbarsherlock.app.ActionBar.NAVIGATION_MODE_STANDARD;
 
 /**
  * User: Solovyev_S
@@ -17,7 +18,7 @@ public class CalculatorMatrixActivity extends CalculatorFragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+		getSupportActionBar().setNavigationMode(NAVIGATION_MODE_STANDARD);
 		getActivityHelper().setFragment(this, CalculatorFragmentType.matrix_edit, null, R.id.main_layout);
 	}
 }

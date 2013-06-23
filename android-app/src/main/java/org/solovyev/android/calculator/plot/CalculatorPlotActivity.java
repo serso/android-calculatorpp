@@ -1,13 +1,15 @@
 package org.solovyev.android.calculator.plot;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import org.solovyev.android.calculator.CalculatorFragmentActivity;
 import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.R;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import static com.actionbarsherlock.app.ActionBar.NAVIGATION_MODE_STANDARD;
 
 /**
  * User: serso
@@ -29,7 +31,7 @@ public class CalculatorPlotActivity extends CalculatorFragmentActivity {
 			arguments = null;
 		}
 
-		getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+		getSupportActionBar().setNavigationMode(NAVIGATION_MODE_STANDARD);
 		getActivityHelper().setFragment(this, getPlotterFragmentType(), arguments, R.id.main_layout);
 	}
 

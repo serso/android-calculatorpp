@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,8 +12,9 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.shadows.ShadowActivity;
 import org.robolectric.util.ActivityController;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
+import static org.solovyev.android.calculator.wizard.CalculatorWizardActivity.startWizard;
+import static org.solovyev.android.calculator.wizard.WizardStep.choose_mode;
 
 /**
  * User: serso
@@ -31,20 +30,25 @@ public class CalculatorWizardActivityTest {
 	@Before
 	public void setUp() throws Exception {
 		controller = Robolectric.buildActivity(CalculatorWizardActivity.class);
+		controller.attach();
+		controller.create();
 		activity = controller.get();
 	}
 
 	@Test
-	public void testCreate() throws Exception {
-		controller.attach();
-		controller.create();
-
-		assertNotNull(activity.getFlow());
+	public void testShouldBeFirstTimeWizardByDefault() throws Exception {
 		assertEquals(Wizard.FIRST_TIME_WIZARD, activity.getFlow().getName());
+	}
+
+	@Test
+	public void testShouldBeFirstStep() throws Exception {
 		assertNotNull(activity.getStep());
 		assertEquals(activity.getFlow().getFirstStep(), activity.getStep());
+	}
 
-		activity.setStep(WizardStep.choose_mode);
+	@Test
+	public void testShouldSaveState() throws Exception {
+		activity.setStep(choose_mode);
 
 		final Bundle outState = new Bundle();
 		controller.saveInstanceState(outState);
@@ -56,8 +60,11 @@ public class CalculatorWizardActivityTest {
 		assertNotNull(activity.getFlow());
 		assertEquals(Wizard.FIRST_TIME_WIZARD, activity.getFlow().getName());
 		assertNotNull(activity.getStep());
-		assertEquals(WizardStep.choose_mode, activity.getStep());
+		assertEquals(choose_mode, activity.getStep());
+	}
 
+	@Test
+	public void testCreate() throws Exception {
 		final Intent intent = new Intent();
 		intent.setClass(activity, CalculatorWizardActivity.class);
 		intent.putExtra(CalculatorWizardActivity.FLOW, Wizard.DEFAULT_WIZARD_FLOW);
@@ -78,31 +85,38 @@ public class CalculatorWizardActivityTest {
 	}
 
 	@Test
-	public void testFragment() throws Exception {
+	public void testShouldAddFirstFragment() throws Exception {
 		controller.create().start().resume();
 
 		final FragmentManager fm = activity.getSupportFragmentManager();
-		Fragment f = fm.findFragmentByTag(WizardStep.welcome.getFragmentTag());
-		Assert.assertNotNull(f);
-		Assert.assertTrue(f.isAdded());
+		final Fragment f = fm.findFragmentByTag(WizardStep.welcome.getFragmentTag());
+		assertNotNull(f);
+		assertTrue(f.isAdded());
+	}
 
-		activity.setStep(WizardStep.choose_mode);
+	@Test
+	public void testShouldAddStepFragment() throws Exception {
+		controller.create().start().resume();
 
-		f = fm.findFragmentByTag(WizardStep.choose_mode.getFragmentTag());
-		Assert.assertNotNull(f);
-		Assert.assertTrue(f.isAdded());
+		final FragmentManager fm = activity.getSupportFragmentManager();
+
+		activity.setStep(choose_mode);
+
+		final Fragment f = fm.findFragmentByTag(choose_mode.getFragmentTag());
+		assertNotNull(f);
+		assertTrue(f.isAdded());
 	}
 
 	@Test
 	public void testSetStep() throws Exception {
-		controller.create();
-		activity.setStep(WizardStep.choose_mode);
+		activity.setStep(choose_mode);
+		assertEquals(choose_mode, activity.getStep());
 	}
 
 	@Test
-	public void testStartWizard() throws Exception {
+	public void testShouldStartWizardActivityAfterStart() throws Exception {
 		final ShadowActivity shadowActivity = Robolectric.shadowOf(controller.get());
-		CalculatorWizardActivity.startWizard(Wizard.DEFAULT_WIZARD_FLOW, shadowActivity.getApplicationContext());
-		Assert.assertNotNull(shadowActivity.getNextStartedActivity());
+		startWizard(Wizard.DEFAULT_WIZARD_FLOW, shadowActivity.getApplicationContext());
+		assertNotNull(shadowActivity.getNextStartedActivity());
 	}
 }
