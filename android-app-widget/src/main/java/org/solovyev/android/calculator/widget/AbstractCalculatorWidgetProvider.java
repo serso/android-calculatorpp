@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.text.Html;
 import android.widget.RemoteViews;
 import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.external.CalculatorExternalListenersContainer;
 import org.solovyev.android.calculator.external.ExternalCalculatorIntentHandler;
 import org.solovyev.android.calculator.external.ExternalCalculatorStateUpdater;
 
@@ -41,9 +42,6 @@ abstract class AbstractCalculatorWidgetProvider extends AppWidgetProvider implem
 	@Nonnull
 	private ExternalCalculatorIntentHandler intentHandler = new CalculatorWidgetIntentHandler(this);
 
-	private boolean initialized = false;
-
-
 	/*
 	**********************************************************************
 	*
@@ -53,6 +51,13 @@ abstract class AbstractCalculatorWidgetProvider extends AppWidgetProvider implem
 	*/
 
 	protected AbstractCalculatorWidgetProvider() {
+		final Class<? extends AppWidgetProvider> componentClass = this.getComponentClass();
+
+		final CalculatorExternalListenersContainer externalListenersContainer = Locator.getInstance().getExternalListenersContainer();
+		// NOTE: null might be in tests, now robolectric creates widget provider before application
+		if (externalListenersContainer != null) {
+			externalListenersContainer.addExternalListener(componentClass);
+		}
 	}
 
 	/*
@@ -66,13 +71,6 @@ abstract class AbstractCalculatorWidgetProvider extends AppWidgetProvider implem
 	@Override
 	public void onEnabled(Context context) {
 		super.onEnabled(context);
-
-		if (!initialized) {
-			final Class<? extends AppWidgetProvider> componentClass = this.getComponentClass();
-			Locator.getInstance().getExternalListenersContainer().addExternalListener(componentClass);
-			initialized = true;
-		}
-
 		getCursorColor(context);
 	}
 
