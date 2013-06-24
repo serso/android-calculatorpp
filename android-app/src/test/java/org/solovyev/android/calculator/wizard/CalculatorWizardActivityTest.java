@@ -86,7 +86,7 @@ public class CalculatorWizardActivityTest {
 
 	@Test
 	public void testShouldAddFirstFragment() throws Exception {
-		controller.create().start().resume();
+		controller.start().resume();
 
 		final FragmentManager fm = activity.getSupportFragmentManager();
 		final Fragment f = fm.findFragmentByTag(WizardStep.welcome.getFragmentTag());
@@ -96,7 +96,7 @@ public class CalculatorWizardActivityTest {
 
 	@Test
 	public void testShouldAddStepFragment() throws Exception {
-		controller.create().start().resume();
+		controller.start().resume();
 
 		final FragmentManager fm = activity.getSupportFragmentManager();
 
