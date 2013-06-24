@@ -23,6 +23,10 @@
 			a:summary="@string/c_clear_billing_info_summary"
 			a:title="@string/c_clear_billing_info_title" />
 
+		<Preference
+				a:key="restart_wizard"
+				a:title="@string/cpp_restart_wizard" />
+
 	</PreferenceScreen>
 
 </PreferenceScreen>

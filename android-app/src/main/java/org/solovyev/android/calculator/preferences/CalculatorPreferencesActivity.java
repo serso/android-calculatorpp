@@ -26,6 +26,8 @@ import org.solovyev.android.App;
 import org.solovyev.android.ads.AdsController;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
+import org.solovyev.android.calculator.wizard.CalculatorWizardActivity;
+import org.solovyev.android.calculator.wizard.Wizard;
 import org.solovyev.android.msg.AndroidMessage;
 import org.solovyev.android.view.VibratorContainer;
 import org.solovyev.common.msg.Message;
@@ -38,7 +40,8 @@ import org.solovyev.common.msg.MessageType;
  */
 public class CalculatorPreferencesActivity extends SherlockPreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener, IBillingObserver {
 
-	public static final String CLEAR_BILLING_INFO = "clear_billing_info";
+	public static final String PREFERENCE_CLEAR_BILLING_INFO = "clear_billing_info";
+	public static final String PREFERENCE_RESTART_WIZARD = "restart_wizard";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +56,15 @@ public class CalculatorPreferencesActivity extends SherlockPreferenceActivity im
 		addPreferencesFromResource(R.xml.preferences_other);
 		addPreferencesFromResource(R.xml.preferences_onscreen);
 
+		final Preference restartWizardPreference = findPreference(PREFERENCE_RESTART_WIZARD);
+		restartWizardPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+			@Override
+			public boolean onPreferenceClick(Preference preference) {
+				CalculatorWizardActivity.startWizard(Wizard.DEFAULT_WIZARD_FLOW, CalculatorPreferencesActivity.this);
+				return true;
+			}
+		});
+
 		final Preference adFreePreference = findPreference(CalculatorApplication.AD_FREE_P_KEY);
 		adFreePreference.setEnabled(false);
 
@@ -66,7 +78,7 @@ public class CalculatorPreferencesActivity extends SherlockPreferenceActivity im
 		onSharedPreferenceChanged(preferences, AndroidCalculatorEngine.Preferences.roundResult.getKey());
 		onSharedPreferenceChanged(preferences, VibratorContainer.Preferences.hapticFeedbackEnabled.getKey());
 
-		final Preference clearBillingInfoPreference = findPreference(CLEAR_BILLING_INFO);
+		final Preference clearBillingInfoPreference = findPreference(PREFERENCE_CLEAR_BILLING_INFO);
 		if (clearBillingInfoPreference != null) {
 			clearBillingInfoPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 				@Override

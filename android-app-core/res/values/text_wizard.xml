@@ -15,4 +15,5 @@
 	<string name="cpp_wizard_mode_engineer">Engineer</string>
 	<string name="cpp_wizard_mode_engineer_description">In engineer mode special functions will be used on the main screen.
 		Result is is not rounded and is presented in engineer notation.</string>
+	<string name="cpp_restart_wizard">Start wizard</string>
 </resources>

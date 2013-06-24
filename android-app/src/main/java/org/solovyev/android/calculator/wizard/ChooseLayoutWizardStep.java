@@ -1,12 +1,10 @@
 package org.solovyev.android.calculator.wizard;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
-import android.widget.TextView;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -67,7 +65,7 @@ public class ChooseLayoutWizardStep extends SherlockFragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.cpp_wizard_step_tablet, null);
+		return inflater.inflate(R.layout.cpp_wizard_step_choose_layout, null);
 	}
 
 	@Override

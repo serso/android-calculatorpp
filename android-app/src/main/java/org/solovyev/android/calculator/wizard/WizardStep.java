@@ -17,6 +17,7 @@ import javax.annotation.Nullable;
 
 import static org.solovyev.android.calculator.wizard.ChooseModeWizardStep.MODE;
 import static org.solovyev.android.calculator.wizard.ChooseLayoutWizardStep.LAYOUT;
+import static org.solovyev.android.calculator.wizard.OnScreenCalculatorWizardStep.ONSCREEN_CALCULATOR_ENABLED;
 
 /**
  * User: serso
@@ -102,6 +103,34 @@ enum WizardStep {
 
 			final Bundle bundle = new Bundle();
 			bundle.putSerializable(MODE, CalculatorMode.fromGuiLayout(CalculatorPreferences.Gui.layout.getPreference(preferences)));
+			return bundle;
+		}
+	},
+
+	on_screen_calculator(OnScreenCalculatorWizardStep.class) {
+		@Override
+		boolean onNext(@Nonnull Fragment f) {
+			final OnScreenCalculatorWizardStep fragment = (OnScreenCalculatorWizardStep) f;
+
+			final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(f.getActivity());
+
+			CalculatorPreferences.OnscreenCalculator.showAppIcon.putPreference(preferences, fragment.isOnscreenCalculatorEnabled());
+
+			return true;
+		}
+
+		@Override
+		boolean onPrev(@Nonnull Fragment fragment) {
+			return true;
+		}
+
+		@Nullable
+		@Override
+		Bundle getFragmentArgs() {
+			final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(CalculatorApplication.getInstance());
+
+			final Bundle bundle = new Bundle();
+			bundle.putSerializable(ONSCREEN_CALCULATOR_ENABLED, CalculatorPreferences.OnscreenCalculator.showAppIcon.getPreference(preferences));
 			return bundle;
 		}
 	};
