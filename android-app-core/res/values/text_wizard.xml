@@ -16,4 +16,10 @@
 	<string name="cpp_wizard_mode_engineer_description">In engineer mode special functions will be used on the main screen.
 		Result is is not rounded and is presented in engineer notation.</string>
 	<string name="cpp_restart_wizard">Start wizard</string>
+
+	<string name="cpp_wizard_dragbutton_action_center">Tap button once to use value located in the center</string>
+	<string name="cpp_wizard_dragbutton_action_up">Drag from the center of the button up to use function in the upper right corner</string>
+	<string name="cpp_wizard_dragbutton_action_left">Drag from the center of the button to the left to use function to the left</string>
+	<string name="cpp_wizard_dragbutton_action_down">Drag from the center of the button down to use function in the bottom right corner</string>
+
 </resources>

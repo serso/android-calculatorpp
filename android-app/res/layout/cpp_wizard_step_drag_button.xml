@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+	xmlns:c="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
+	a:layout_width="match_parent"
+	a:layout_height="match_parent"
+	a:orientation="vertical">
+
+	<TextView
+			a:text="Drag button is an exclusive feature of Calculator++ which provides fast access to the secondary functions"
+			a:layout_height="wrap_content"
+			a:layout_width="match_parent" />
+
+	<TextView
+			a:id="@+id/wizard_dragbutton_action_textview"
+			a:text="@string/cpp_wizard_dragbutton_action_center"
+			a:layout_height="wrap_content"
+			a:layout_width="match_parent" />
+
+	<org.solovyev.android.view.drag.DirectionDragButton
+		a:layout_margin="30dp"
+		a:layout_height="100dp"
+		a:layout_width="100dp"
+		a:layout_gravity="center"
+		a:id="@+id/wizard_dragbutton"
+		a:text="9"
+		c:textDown="^2"
+		c:textLeft="sin"
+		c:textUp="%"
+		c:directionTextScale="0.5;0.5;0.5;0.33"
+		style="?cpp_operation_button_style"/>
+
+</LinearLayout>

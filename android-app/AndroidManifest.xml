@@ -40,7 +40,7 @@
 
 		<activity android:label="@string/c_history" android:name=".history.CalculatorHistoryActivity"/>
 
-		<activity android:excludeFromRecents="true" android:finishOnTaskLaunch="true" android:label="@string/calculation_messages_dialog_title" android:launchMode="singleTask" android:name=".FixableMessagesDialog" android:theme="@style/cpp_gray_dialog_theme"/>
+		<activity android:excludeFromRecents="true" android:finishOnTaskLaunch="true" android:label="@string/calculation_messages_dialog_title" android:launchMode="singleTask" android:name=".FixableMessagesDialog" android:theme="@style/cpp_metro_blue_dialog_theme"/>
 
 		<activity android:label="@string/c_about" android:name=".about.CalculatorAboutActivity"/>
 
@@ -52,20 +52,20 @@
 
 		<activity android:label="@string/c_vars_and_constants" android:name=".math.edit.CalculatorVarsActivity"/>
 		<activity android:name=".CalculatorWikiActivity"/>
-		<activity android:name=".wizard.CalculatorWizardActivity" android:theme="@style/cpp_gray_dialog_theme">
+		<activity android:name=".wizard.CalculatorWizardActivity" android:theme="@style/cpp_metro_blue_dialog_theme">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"/>
 			</intent-filter>
 		</activity>
 
 		<activity android:label="@string/c_plot_graph" android:name=".plot.CalculatorPlotActivity"/>
-		<activity android:label="@string/cpp_plot_functions" android:name=".plot.CalculatorPlotFunctionsActivity" android:theme="@style/cpp_gray_dialog_theme"/>
-		<activity android:label="@string/cpp_plot_function_settings" android:name=".plot.CalculatorPlotFunctionSettingsActivity" android:theme="@style/cpp_gray_dialog_theme"/>
-		<activity android:label="@string/cpp_plot_range" android:name=".plot.CalculatorPlotRangeActivity" android:theme="@style/cpp_gray_dialog_theme"/>
+		<activity android:label="@string/cpp_plot_functions" android:name=".plot.CalculatorPlotFunctionsActivity" android:theme="@style/cpp_metro_blue_dialog_theme"/>
+		<activity android:label="@string/cpp_plot_function_settings" android:name=".plot.CalculatorPlotFunctionSettingsActivity" android:theme="@style/cpp_metro_blue_dialog_theme"/>
+		<activity android:label="@string/cpp_plot_range" android:name=".plot.CalculatorPlotRangeActivity" android:theme="@style/cpp_metro_blue_dialog_theme"/>
 
-		<activity android:label="@string/cpp_purchase_title" android:name=".preferences.CalculatorPurchaseDialogActivity" android:theme="@style/cpp_gray_dialog_theme"/>
+		<activity android:label="@string/cpp_purchase_title" android:name=".preferences.CalculatorPurchaseDialogActivity" android:theme="@style/cpp_metro_blue_dialog_theme"/>
 
-		<activity android:name=".CalculatorDialogActivity" android:theme="@style/cpp_gray_dialog_theme"/>
+		<activity android:name=".CalculatorDialogActivity" android:theme="@style/cpp_metro_blue_dialog_theme"/>
 
 		<!-- todo serso: strings-->
 		<activity android:label="@string/c_plot_graph" android:name=".matrix.CalculatorMatrixActivity"/>
@@ -81,7 +81,7 @@
 
 		<!-- ONSCREEN CONFIG -->
 
-		<activity android:icon="@drawable/icon_onscreen" android:label="@string/c_app_name_on_screen" android:launchMode="singleInstance" android:name=".onscreen.CalculatorOnscreenStartActivity" android:theme="@style/cpp_gray_dialog_theme">
+		<activity android:icon="@drawable/icon_onscreen" android:label="@string/c_app_name_on_screen" android:launchMode="singleInstance" android:name=".onscreen.CalculatorOnscreenStartActivity" android:theme="@style/cpp_metro_blue_dialog_theme">
 
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"/>

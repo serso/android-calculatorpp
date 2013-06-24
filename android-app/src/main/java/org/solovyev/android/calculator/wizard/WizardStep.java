@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import org.solovyev.android.App;
 import org.solovyev.android.Views;
 import org.solovyev.android.calculator.CalculatorApplication;
-import org.solovyev.android.calculator.CalculatorLocator;
 import org.solovyev.android.calculator.CalculatorPreferences;
 
 import javax.annotation.Nonnull;
@@ -132,6 +131,24 @@ enum WizardStep {
 			final Bundle bundle = new Bundle();
 			bundle.putSerializable(ONSCREEN_CALCULATOR_ENABLED, CalculatorPreferences.OnscreenCalculator.showAppIcon.getPreference(preferences));
 			return bundle;
+		}
+	},
+
+	drag_button_step(DragButtonWizardStep.class) {
+		@Override
+		boolean onNext(@Nonnull Fragment fragment) {
+			return true;
+		}
+
+		@Override
+		boolean onPrev(@Nonnull Fragment fragment) {
+			return true;
+		}
+
+		@Nullable
+		@Override
+		Bundle getFragmentArgs() {
+			return null;
 		}
 	};
 
