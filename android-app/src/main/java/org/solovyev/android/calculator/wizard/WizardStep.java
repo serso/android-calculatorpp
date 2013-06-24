@@ -185,4 +185,9 @@ enum WizardStep {
 	public boolean isVisible() {
 		return true;
 	}
+
+	@Nonnull
+	public String getName() {
+		return name();
+	}
 }

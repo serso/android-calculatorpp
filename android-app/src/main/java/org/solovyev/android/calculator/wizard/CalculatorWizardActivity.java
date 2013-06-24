@@ -14,6 +14,8 @@ import javax.annotation.Nonnull;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
+import static org.solovyev.android.calculator.wizard.Wizard.FLOW;
+import static org.solovyev.android.calculator.wizard.Wizard.STEP;
 
 /**
  * User: serso
@@ -21,9 +23,6 @@ import static android.view.View.VISIBLE;
  * Time: 9:07 PM
  */
 public final class CalculatorWizardActivity extends SherlockFragmentActivity {
-
-	static final String FLOW = "flow";
-	static final String STEP = "step";
 
 	/*
 	**********************************************************************
@@ -58,13 +57,18 @@ public final class CalculatorWizardActivity extends SherlockFragmentActivity {
 		finishButton = findViewById(R.id.wizard_finish_button);
 
 		String wizardName = getIntent().getStringExtra(FLOW);
-		WizardStep step = (WizardStep) getIntent().getSerializableExtra(STEP);
+		String stepName = getIntent().getStringExtra(STEP);
 		if (savedInstanceState != null) {
 			wizardName = savedInstanceState.getString(FLOW);
-			step = (WizardStep) savedInstanceState.getSerializable(STEP);
+			stepName = savedInstanceState.getString(STEP);
 		}
 
 		flow = Wizard.getWizardFlow(wizardName != null ? wizardName : Wizard.FIRST_TIME_WIZARD);
+
+		WizardStep step = null;
+		if(stepName != null) {
+			step = flow.getStep(stepName);
+		}
 
 		if (step == null) {
 			step = flow.getFirstStep();
@@ -115,7 +119,7 @@ public final class CalculatorWizardActivity extends SherlockFragmentActivity {
 				@Override
 				public void onClick(View v) {
 					if (tryGoNext()) {
-						finish();
+						finishFlow();
 					}
 				}
 			});
@@ -136,6 +140,13 @@ public final class CalculatorWizardActivity extends SherlockFragmentActivity {
 				}
 			});
 		}
+	}
+
+	private void finishFlow() {
+		if (flow != null && step != null) {
+			Wizard.saveWizardFinished(flow, step);
+		}
+		finish();
 	}
 
 	private boolean tryGoPrev() {
@@ -206,7 +217,16 @@ public final class CalculatorWizardActivity extends SherlockFragmentActivity {
 		super.onSaveInstanceState(out);
 
 		out.putString(FLOW, flow.getName());
-		out.putSerializable(STEP, step);
+		out.putString(STEP, step.getName());
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+
+		if (flow != null && step != null) {
+			Wizard.saveLastWizardStep(flow, step);
+		}
 	}
 
 	WizardStep getStep() {
@@ -230,4 +250,16 @@ public final class CalculatorWizardActivity extends SherlockFragmentActivity {
 		intent.putExtra(FLOW, name);
 		context.startActivity(intent);
 	}
+
+	public static void continueWizard(@Nonnull String name, @Nonnull Context context) {
+		final String step = Wizard.getLastSavedWizardStepName(name);
+
+		final Intent intent = new Intent(context, CalculatorWizardActivity.class);
+		intent.putExtra(FLOW, name);
+		if (step != null) {
+			intent.putExtra(STEP, step);
+		}
+		context.startActivity(intent);
+	}
+
 }

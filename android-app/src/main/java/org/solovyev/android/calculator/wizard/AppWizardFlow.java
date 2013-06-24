@@ -54,6 +54,12 @@ final class AppWizardFlow implements WizardFlow {
 
 	@Nullable
 	@Override
+	public WizardStep getStep(@Nonnull String name) {
+		return listWizardFlow.getStep(name);
+	}
+
+	@Nullable
+	@Override
 	public WizardStep getNextStep(@Nonnull WizardStep step) {
 		return listWizardFlow.getNextStep(step);
 	}

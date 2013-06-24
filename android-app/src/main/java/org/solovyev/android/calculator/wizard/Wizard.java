@@ -1,12 +1,15 @@
 package org.solovyev.android.calculator.wizard;
 
-import org.solovyev.android.prefs.Preference;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import org.solovyev.android.calculator.CalculatorApplication;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import static org.solovyev.android.calculator.wizard.AppWizardFlow.newDefaultWizardFlow;
 import static org.solovyev.android.calculator.wizard.AppWizardFlow.newFirstTimeWizardFlow;
-import static org.solovyev.android.prefs.StringPreference.ofEnum;
 
 /**
  * User: serso
@@ -17,6 +20,9 @@ public final class Wizard {
 
 	public static final String FIRST_TIME_WIZARD = "first-wizard";
 	public static final String DEFAULT_WIZARD_FLOW = "app-wizard";
+	static final String FLOW = "flow";
+	static final String FLOW_FINISHED = "flow_finished";
+	static final String STEP = "step";
 
 	private Wizard() {
 		throw new AssertionError();
@@ -31,5 +37,55 @@ public final class Wizard {
 		} else {
 			throw new IllegalArgumentException("Wizard flow " + name + " is not supported");
 		}
+	}
+
+	public static boolean isWizardFinished(@Nonnull String name, @Nonnull Context context) {
+		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		return preferences.getBoolean(makeFlowFinishedPreferenceKey(name), false);
+	}
+
+	static void saveLastWizardStep(@Nonnull WizardFlow flow, @Nonnull WizardStep step) {
+		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(CalculatorApplication.getInstance());
+		final SharedPreferences.Editor editor = preferences.edit();
+
+		editor.putString(makeFlowStepPreferenceKey(flow), step.name());
+
+		editor.commit();
+	}
+
+	@Nullable
+	static String getLastSavedWizardStepName(@Nonnull String name) {
+		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(CalculatorApplication.getInstance());
+
+		return preferences.getString(makeFlowStepPreferenceKey(name), null);
+	}
+
+	static void saveWizardFinished(@Nonnull WizardFlow flow, @Nonnull WizardStep step) {
+		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(CalculatorApplication.getInstance());
+		final SharedPreferences.Editor editor = preferences.edit();
+
+		editor.putBoolean(makeFlowFinishedPreferenceKey(flow), flow.getNextStep(step) == null);
+
+		editor.commit();
+	}
+
+	@Nonnull
+	private static String makeFlowFinishedPreferenceKey(@Nonnull String flowName) {
+		return FLOW_FINISHED + ":" + flowName;
+	}
+
+	@Nonnull
+	private static String makeFlowStepPreferenceKey(@Nonnull WizardFlow flow) {
+		return makeFlowStepPreferenceKey(flow.getName());
+	}
+
+	@Nonnull
+	private static String makeFlowStepPreferenceKey(@Nonnull String flowName) {
+		return FLOW + ":" + flowName;
+	}
+
+	@Nonnull
+	private static String makeFlowFinishedPreferenceKey(@Nonnull WizardFlow flow) {
+		return makeFlowFinishedPreferenceKey(flow.getName());
 	}
 }

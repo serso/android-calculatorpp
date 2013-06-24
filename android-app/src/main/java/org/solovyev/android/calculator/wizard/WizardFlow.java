@@ -14,6 +14,9 @@ public interface WizardFlow {
 	String getName();
 
 	@Nullable
+	WizardStep getStep(@Nonnull String name);
+
+	@Nullable
 	WizardStep getNextStep(@Nonnull WizardStep step);
 
 	@Nullable

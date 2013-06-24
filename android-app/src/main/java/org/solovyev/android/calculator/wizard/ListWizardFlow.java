@@ -1,5 +1,8 @@
 package org.solovyev.android.calculator.wizard;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
@@ -26,6 +29,18 @@ public final class ListWizardFlow implements WizardFlow {
 	@Override
 	public String getName() {
 		return name;
+	}
+
+	@Nullable
+	@Override
+	public WizardStep getStep(@Nonnull final String name) {
+		return Iterables.find(wizardSteps, new Predicate<WizardStep>() {
+			@Override
+			public boolean apply(@Nullable WizardStep step) {
+				assert step != null;
+				return step.getName().equals(name);
+			}
+		}, null);
 	}
 
 	@Nullable

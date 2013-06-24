@@ -67,7 +67,7 @@ public class CalculatorWizardActivityTest {
 	public void testCreate() throws Exception {
 		final Intent intent = new Intent();
 		intent.setClass(activity, CalculatorWizardActivity.class);
-		intent.putExtra(CalculatorWizardActivity.FLOW, Wizard.DEFAULT_WIZARD_FLOW);
+		intent.putExtra(Wizard.FLOW, Wizard.DEFAULT_WIZARD_FLOW);
 		controller = Robolectric.buildActivity(CalculatorWizardActivity.class).withIntent(intent);
 		activity = controller.get();
 		controller.create(null);
