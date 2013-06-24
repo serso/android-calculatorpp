@@ -6,13 +6,14 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import org.solovyev.android.calculator.Locator;
-import org.solovyev.android.calculator.core.R;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.list.ListItem;
 import org.solovyev.android.view.ViewBuilder;
 import org.solovyev.android.view.ViewFromLayoutBuilder;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class PlotFunctionListItem implements ListItem {
 
