@@ -1,17 +1,22 @@
 package org.solovyev.android.calculator.wizard;
 
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+
+import org.solovyev.android.App;
+import org.solovyev.android.Views;
 import org.solovyev.android.calculator.CalculatorApplication;
+import org.solovyev.android.calculator.CalculatorLocator;
+import org.solovyev.android.calculator.CalculatorPreferences;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import static org.solovyev.android.calculator.wizard.ChooseModeWizardStep.MODE;
-import static org.solovyev.android.calculator.wizard.TabletWizardStep.LAYOUT;
-import static org.solovyev.android.calculator.wizard.Wizard.Preferences;
+import static org.solovyev.android.calculator.wizard.ChooseLayoutWizardStep.LAYOUT;
 
 /**
  * User: serso
@@ -38,6 +43,40 @@ enum WizardStep {
 		}
 	},
 
+	choose_layout(ChooseLayoutWizardStep.class) {
+		@Override
+		boolean onNext(@Nonnull Fragment f) {
+			final ChooseLayoutWizardStep fragment = (ChooseLayoutWizardStep) f;
+
+			final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(f.getActivity());
+
+			final CalculatorLayout layout = fragment.getSelectedLayout();
+			layout.apply(preferences);
+
+			return true;
+		}
+
+		@Override
+		boolean onPrev(@Nonnull Fragment fragment) {
+			return true;
+		}
+
+		@Nullable
+		@Override
+		Bundle getFragmentArgs() {
+			final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(CalculatorApplication.getInstance());
+
+			final Bundle bundle = new Bundle();
+			bundle.putSerializable(LAYOUT, CalculatorLayout.fromGuiLayout(CalculatorPreferences.Gui.layout.getPreference(preferences)));
+			return bundle;
+		}
+
+		@Override
+		public boolean isVisible() {
+			return Views.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_LARGE, App.getApplication().getResources().getConfiguration());
+		}
+	},
+
 	choose_mode(ChooseModeWizardStep.class) {
 		@Override
 		boolean onNext(@Nonnull Fragment f) {
@@ -47,7 +86,6 @@ enum WizardStep {
 
 			final CalculatorMode mode = fragment.getSelectedMode();
 			mode.apply(preferences);
-			Preferences.mode.putPreference(preferences, mode);
 
 			return true;
 		}
@@ -63,37 +101,7 @@ enum WizardStep {
 			final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(CalculatorApplication.getInstance());
 
 			final Bundle bundle = new Bundle();
-			bundle.putSerializable(MODE, Preferences.mode.getPreference(preferences));
-			return bundle;
-		}
-	},
-
-	tablet(TabletWizardStep.class) {
-		@Override
-		boolean onNext(@Nonnull Fragment f) {
-			final TabletWizardStep fragment = (TabletWizardStep) f;
-
-			final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(f.getActivity());
-
-			final CalculatorLayout layout = fragment.getSelectedLayout();
-			layout.apply(preferences);
-			Preferences.layout.putPreference(preferences, layout);
-
-			return true;
-		}
-
-		@Override
-		boolean onPrev(@Nonnull Fragment fragment) {
-			return true;
-		}
-
-		@Nullable
-		@Override
-		Bundle getFragmentArgs() {
-			final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(CalculatorApplication.getInstance());
-
-			final Bundle bundle = new Bundle();
-			bundle.putSerializable(LAYOUT, Preferences.layout.getPreference(preferences));
+			bundle.putSerializable(MODE, CalculatorMode.fromGuiLayout(CalculatorPreferences.Gui.layout.getPreference(preferences)));
 			return bundle;
 		}
 	};

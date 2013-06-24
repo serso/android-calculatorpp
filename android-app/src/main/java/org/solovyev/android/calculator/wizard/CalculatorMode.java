@@ -9,6 +9,7 @@ import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 import javax.annotation.Nonnull;
 
 import static org.solovyev.android.calculator.CalculatorPreferences.Gui.Layout.main_calculator;
+import static org.solovyev.android.calculator.CalculatorPreferences.Gui.Layout.main_calculator_mobile;
 
 /**
 * User: serso
@@ -20,7 +21,12 @@ enum CalculatorMode {
 	simple(R.string.cpp_wizard_mode_simple) {
 		@Override
 		protected void apply(@Nonnull SharedPreferences preferences) {
-			CalculatorPreferences.Gui.layout.putPreference(preferences, CalculatorPreferences.Gui.Layout.simple);
+			final CalculatorPreferences.Gui.Layout layout = CalculatorPreferences.Gui.layout.getPreference(preferences);
+			if (layout.isOptimized()) {
+				CalculatorPreferences.Gui.layout.putPreference(preferences, CalculatorPreferences.Gui.Layout.simple);
+			} else {
+				CalculatorPreferences.Gui.layout.putPreference(preferences, CalculatorPreferences.Gui.Layout.simple_mobile);
+			}
 			CalculatorPreferences.Calculations.preferredAngleUnits.putPreference(preferences, AngleUnit.deg);
 			AndroidCalculatorEngine.Preferences.angleUnit.putPreference(preferences, AngleUnit.deg);
 			AndroidCalculatorEngine.Preferences.scienceNotation.putPreference(preferences, false);
@@ -31,7 +37,12 @@ enum CalculatorMode {
 	engineer(R.string.cpp_wizard_mode_engineer) {
 		@Override
 		protected void apply(@Nonnull SharedPreferences preferences) {
-			CalculatorPreferences.Gui.layout.putPreference(preferences, main_calculator);
+			final CalculatorPreferences.Gui.Layout layout = CalculatorPreferences.Gui.layout.getPreference(preferences);
+			if (layout.isOptimized()) {
+				CalculatorPreferences.Gui.layout.putPreference(preferences, main_calculator);
+			} else {
+				CalculatorPreferences.Gui.layout.putPreference(preferences, main_calculator_mobile);
+			}
 			CalculatorPreferences.Calculations.preferredAngleUnits.putPreference(preferences, AngleUnit.rad);
 			AndroidCalculatorEngine.Preferences.angleUnit.putPreference(preferences, AngleUnit.rad);
 			AndroidCalculatorEngine.Preferences.scienceNotation.putPreference(preferences, true);
@@ -54,5 +65,20 @@ enum CalculatorMode {
 	@Nonnull
 	static CalculatorMode getDefaultMode(){
 		return engineer;
+	}
+
+	@Nonnull
+	static CalculatorMode fromGuiLayout(@Nonnull CalculatorPreferences.Gui.Layout layout) {
+		switch (layout) {
+			case main_calculator:
+			case main_cellphone:
+			case main_calculator_mobile:
+				return engineer;
+			case simple:
+			case simple_mobile:
+				return simple;
+			default:
+				return getDefaultMode();
+		}
 	}
 }

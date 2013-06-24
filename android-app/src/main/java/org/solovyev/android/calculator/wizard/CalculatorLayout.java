@@ -43,7 +43,22 @@ enum CalculatorLayout {
 	protected abstract void apply(@Nonnull SharedPreferences preferences);
 
 	@Nonnull
-	static CalculatorLayout getDefaultMode(){
+	static CalculatorLayout getDefaultLayout(){
 		return big_buttons;
+	}
+
+	@Nonnull
+	static CalculatorLayout fromGuiLayout(@Nonnull CalculatorPreferences.Gui.Layout layout) {
+		switch (layout) {
+			case main_calculator:
+			case main_cellphone:
+			case simple:
+				return optimized;
+			case main_calculator_mobile:
+			case simple_mobile:
+				return big_buttons;
+			default:
+				return getDefaultLayout();
+		}
 	}
 }

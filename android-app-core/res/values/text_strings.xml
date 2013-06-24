@@ -128,6 +128,7 @@
 	<string name="p_layout_calculator">Scientific</string>
 	<string name="p_layout_calculator_mobile">Scientific (Big buttons)</string>
 	<string name="p_layout_simple">Simple</string>
+	<string name="p_layout_simple_mobile">Simple (Big buttons)</string>
 	<string name="c_calc_layout_summary">Sets layout of buttons</string>
 
 	<string name="c_calc_haptic_feedback_title">Haptic feedback</string>

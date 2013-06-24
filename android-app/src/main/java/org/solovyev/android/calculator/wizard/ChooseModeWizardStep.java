@@ -25,7 +25,7 @@ import static org.solovyev.android.calculator.wizard.CalculatorMode.getDefaultMo
  * Date: 6/16/13
  * Time: 9:59 PM
  */
-public final class ChooseModeWizardStep extends SherlockFragment {
+public class ChooseModeWizardStep extends SherlockFragment {
 
 	/*
 	**********************************************************************

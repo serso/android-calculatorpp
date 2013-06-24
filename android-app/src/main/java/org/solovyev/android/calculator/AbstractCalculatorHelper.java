@@ -26,6 +26,9 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.solovyev.android.calculator.CalculatorPreferences.Gui.Layout.simple;
+import static org.solovyev.android.calculator.CalculatorPreferences.Gui.Layout.simple_mobile;
+
 /**
  * User: serso
  * Date: 9/28/12
@@ -149,7 +152,7 @@ public abstract class AbstractCalculatorHelper implements SharedPreferences.OnSh
 			roundBracketsButton.setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new CalculatorButtons.RoundBracketsDragProcessor(), dragPreferences), vibrator, preferences));
 		}
 
-		if (layout == CalculatorPreferences.Gui.Layout.simple) {
+		if (layout == simple || layout == simple_mobile) {
 			toggleButtonDirectionText(root, R.id.cpp_button_1, false, DragDirection.up, DragDirection.down);
 			toggleButtonDirectionText(root, R.id.cpp_button_2, false, DragDirection.up, DragDirection.down);
 			toggleButtonDirectionText(root, R.id.cpp_button_3, false, DragDirection.up, DragDirection.down);

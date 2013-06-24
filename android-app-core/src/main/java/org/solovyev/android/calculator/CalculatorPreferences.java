@@ -106,21 +106,25 @@ public final class CalculatorPreferences {
 		}
 
 		public static enum Layout {
-			main_calculator(R.layout.main_calculator, R.string.p_layout_calculator),
-			main_calculator_mobile(R.layout.main_calculator_mobile, R.string.p_layout_calculator_mobile),
+			main_calculator(R.layout.main_calculator, R.string.p_layout_calculator, true),
+			main_calculator_mobile(R.layout.main_calculator_mobile, R.string.p_layout_calculator_mobile, false),
 
 			// not used anymore
 			@Deprecated
-			main_cellphone(R.layout.main_calculator, 0),
+			main_cellphone(R.layout.main_calculator, 0, true),
 
-			simple(R.layout.main_calculator, R.string.p_layout_simple);
+			simple(R.layout.main_calculator, R.string.p_layout_simple, true),
+			simple_mobile(R.layout.main_calculator_mobile, R.string.p_layout_simple_mobile, false)
+			;
 
 			private final int layoutId;
 			private final int nameResId;
+			private final boolean optimized;
 
-			Layout(int layoutId, int nameResId) {
+			Layout(int layoutId, int nameResId, boolean optimized) {
 				this.layoutId = layoutId;
 				this.nameResId = nameResId;
+				this.optimized = optimized;
 			}
 
 			public int getLayoutId() {
@@ -129,6 +133,10 @@ public final class CalculatorPreferences {
 
 			public int getNameResId() {
 				return nameResId;
+			}
+
+			public boolean isOptimized() {
+				return optimized;
 			}
 		}
 	}

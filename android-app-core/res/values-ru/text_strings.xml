@@ -130,8 +130,9 @@
 	<string name="c_calc_layout">Раскладка</string>
 	<string name="p_layout_cellphone">Научная (телефон)</string>
 	<string name="p_layout_calculator">Научная</string>
-	<string name="p_layout_calculator_mobile">Научная (большие кнопкм)</string>
+	<string name="p_layout_calculator_mobile">Научная (большие кнопки)</string>
 	<string name="p_layout_simple">Простая</string>
+	<string name="p_layout_simple_mobile">Простая (большие кнопки)</string>
 	<string name="c_calc_layout_summary">Устанавливает раскладку кнопок</string>
 
 	<string name="c_calc_haptic_feedback_title">Отклик на нажатие</string>

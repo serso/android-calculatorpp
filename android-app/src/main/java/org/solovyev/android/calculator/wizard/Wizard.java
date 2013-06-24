@@ -32,17 +32,4 @@ public final class Wizard {
 			throw new IllegalArgumentException("Wizard flow " + name + " is not supported");
 		}
 	}
-
-	/*
-	**********************************************************************
-	*
-	*                           STATIC/INNER
-	*
-	**********************************************************************
-	*/
-
-	static final class Preferences {
-		static final Preference<CalculatorMode> mode = ofEnum("mode", CalculatorMode.getDefaultMode(), CalculatorMode.class);
-		static final Preference<CalculatorLayout> layout = ofEnum("layout", CalculatorLayout.getDefaultMode(), CalculatorLayout.class);
-	}
 }
