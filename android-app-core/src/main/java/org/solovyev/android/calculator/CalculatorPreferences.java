@@ -3,12 +3,13 @@ package org.solovyev.android.calculator;
 import android.content.SharedPreferences;
 import jscl.AngleUnit;
 import jscl.NumeralBase;
-import javax.annotation.Nonnull;
+import org.solovyev.android.calculator.core.R;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 import org.solovyev.android.prefs.*;
 import org.solovyev.android.view.VibratorContainer;
 
+import javax.annotation.Nonnull;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
