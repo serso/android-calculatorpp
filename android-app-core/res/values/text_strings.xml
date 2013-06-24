@@ -355,6 +355,7 @@
 	<string name="cpp_plot_empty_function_error">Unable to plot empty function!</string>
 	<string name="cpp_plot_too_many_variables">Unable to plot: too many variables!</string>
 	<string name="cpp_plot_range">Graph range</string>
+	<string name="cpp_plot_fullscreen">Fullscreen plot</string>
 	<string name="cpp_plot_range_x_min">X Min</string>
 	<string name="cpp_plot_range_x_max">X Max</string>
 	<string name="cpp_plot_range_y_min">Y Min</string>

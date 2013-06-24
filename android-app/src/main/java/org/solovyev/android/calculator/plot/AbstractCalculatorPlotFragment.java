@@ -260,6 +260,22 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 		};
 		menuItems.add(plot2dMenuItem);
 
+		final IdentifiableMenuItem<MenuItem> fullscreenPlotMenuItem = new IdentifiableMenuItem<MenuItem>() {
+			@Nonnull
+			@Override
+			public Integer getItemId() {
+				return R.id.menu_plot_fullscreen;
+			}
+
+			@Override
+			public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
+				savePlotBoundaries();
+
+				context.startActivity(new Intent(context, CalculatorPlotActivity.class));
+			}
+		};
+		menuItems.add(fullscreenPlotMenuItem);
+
 		final IdentifiableMenuItem<MenuItem> captureScreenshotMenuItem = new IdentifiableMenuItem<MenuItem>() {
 			@Nonnull
 			@Override
@@ -278,6 +294,7 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 		final boolean plot3dVisible = !plotData.isPlot3d() && is3dPlotSupported();
 		final boolean plot2dVisible = plotData.isPlot3d() && Locator.getInstance().getPlotter().is2dPlotPossible();
 		final boolean captureScreenshotVisible = isScreenshotSupported();
+		final boolean fullscreenVisible = isPaneFragment();
 		fragmentMenu = ListActivityMenu.fromResource(R.menu.plot_menu, menuItems, SherlockMenuHelper.getInstance(), new JPredicate<AMenuItem<MenuItem>>() {
 			@Override
 			public boolean apply(@Nullable AMenuItem<MenuItem> menuItem) {
@@ -289,6 +306,8 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 					return !captureScreenshotVisible;
 				} else if (menuItem == plotRangeMenuItem) {
 					return !plotRangeVisible;
+				} else if (menuItem == fullscreenPlotMenuItem) {
+					return !fullscreenVisible;
 				}
 
 				return false;

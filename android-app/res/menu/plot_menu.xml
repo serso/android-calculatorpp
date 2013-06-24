@@ -21,6 +21,12 @@
 		a:showAsAction="always" />
 
 	<item
+		a:id="@+id/menu_plot_fullscreen"
+		a:title="@string/cpp_plot_fullscreen"
+		a:icon="@drawable/kb_expand"
+		a:showAsAction="always" />
+
+	<item
 		a:id="@+id/menu_plot_range"
 		a:title="@string/cpp_plot_range"
 		a:icon="@drawable/kb_contract"
