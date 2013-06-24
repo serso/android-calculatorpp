@@ -6,12 +6,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import java.util.Arrays;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
+import com.actionbarsherlock.app.SherlockFragment;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.view.drag.DirectionDragButton;
 import org.solovyev.android.view.drag.DragButton;
@@ -19,7 +14,9 @@ import org.solovyev.android.view.drag.DragDirection;
 import org.solovyev.android.view.drag.SimpleOnDragListener;
 import org.solovyev.common.math.Point2d;
 
-import com.actionbarsherlock.app.SherlockFragment;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Arrays;
 
 public class DragButtonWizardStep extends SherlockFragment {
 
@@ -94,7 +91,8 @@ public class DragButtonWizardStep extends SherlockFragment {
 		center(R.string.cpp_wizard_dragbutton_action_center, null),
 		up(R.string.cpp_wizard_dragbutton_action_up, DragDirection.up),
 		left(R.string.cpp_wizard_dragbutton_action_left, DragDirection.left),
-		down(R.string.cpp_wizard_dragbutton_action_down, DragDirection.down);
+		down(R.string.cpp_wizard_dragbutton_action_down, DragDirection.down),
+		end(R.string.cpp_wizard_dragbutton_action_end, null);
 
 		private final int actionTextResId;
 
@@ -121,7 +119,7 @@ public class DragButtonWizardStep extends SherlockFragment {
 	private class DragButtonOnClickListener implements View.OnClickListener {
 		@Override
 		public void onClick(View v) {
-			if(action == DragButtonAction.center) {
+			if(action == DragButtonAction.center || action == DragButtonAction.end) {
 				setNextAction();
 			}
 		}

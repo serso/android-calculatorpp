@@ -17,9 +17,15 @@
 		Result is is not rounded and is presented in engineer notation.</string>
 	<string name="cpp_restart_wizard">Start wizard</string>
 
-	<string name="cpp_wizard_dragbutton_action_center">Tap button once to use value located in the center</string>
-	<string name="cpp_wizard_dragbutton_action_up">Drag from the center of the button up to use function in the upper right corner</string>
-	<string name="cpp_wizard_dragbutton_action_left">Drag from the center of the button to the left to use function to the left</string>
-	<string name="cpp_wizard_dragbutton_action_down">Drag from the center of the button down to use function in the bottom right corner</string>
+	<string name="cpp_wizard_dragbutton_action_end">Excellent! Tap button one more time to try again</string>
+	<string name="cpp_wizard_dragbutton_action_center">Tap button once to use 9</string>
+	<string name="cpp_wizard_dragbutton_action_up">Drag from the center of the button up to use %</string>
+	<string name="cpp_wizard_dragbutton_action_left">Drag from the center of the button to the left to use sin</string>
+	<string name="cpp_wizard_dragbutton_action_down">Drag from the center of the button down to use ^2</string>
+	<string name="cpp_wizard_welcome_title">Welcome</string>
+	<string name="cpp_wizard_layout_title">Choose layout</string>
+	<string name="cpp_wizard_mode_title">Choose mode</string>
+	<string name="cpp_wizard_onscreen_calculator_title">Calculator in separate window</string>
+	<string name="cpp_wizard_dragbutton_title">Drag button basics</string>
 
 </resources>

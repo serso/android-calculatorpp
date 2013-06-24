@@ -75,20 +75,18 @@ public final class CalculatorWizardActivity extends SherlockFragmentActivity {
 
 	void setStep(@Nonnull WizardStep step) {
 		if (this.step == null || !this.step.equals(step)) {
-			final FragmentManager fm = getSupportFragmentManager();
-			final FragmentTransaction ft = fm.beginTransaction();
-
-			hideFragment(fm, ft);
-
+			hideFragment();
 			this.step = step;
+			showFragment();
 
-			showFragment(fm, ft);
-
-			ft.commit();
-
+			initTitle();
 			initNextButton();
 			initPrevButton();
 		}
+	}
+
+	private void initTitle() {
+		setTitle(step.getTitleResId());
 	}
 
 	private void initPrevButton() {
@@ -167,25 +165,39 @@ public final class CalculatorWizardActivity extends SherlockFragmentActivity {
 	}
 
 	@Nonnull
-	private Fragment showFragment(@Nonnull FragmentManager fm, @Nonnull FragmentTransaction ft) {
+	private Fragment showFragment() {
+		final FragmentManager fm = getSupportFragmentManager();
+		final FragmentTransaction ft = fm.beginTransaction();
+
 		Fragment newFragment = fm.findFragmentByTag(this.step.getFragmentTag());
 
 		if (newFragment == null) {
 			newFragment = Fragment.instantiate(this, this.step.getFragmentClass().getName(), this.step.getFragmentArgs());
 			ft.add(R.id.wizard_content, newFragment, this.step.getFragmentTag());
-		} else {
-			ft.show(newFragment);
 		}
+
+		ft.commit();
+		fm.executePendingTransactions();
 
 		return newFragment;
 	}
 
-	private void hideFragment(@Nonnull FragmentManager fm, @Nonnull FragmentTransaction ft) {
+	private void hideFragment() {
+		final FragmentManager fm = getSupportFragmentManager();
+		final FragmentTransaction ft = fm.beginTransaction();
+
 		if (this.step != null) {
-			final Fragment oldFragment = fm.findFragmentByTag(this.step.getFragmentTag());
-			if (oldFragment != null) {
-				ft.hide(oldFragment);
-			}
+			hideFragmentByTag(fm, ft, this.step.getFragmentTag());
+		}
+
+		ft.commit();
+		fm.executePendingTransactions();
+	}
+
+	private void hideFragmentByTag(@Nonnull FragmentManager fm, @Nonnull FragmentTransaction ft, @Nonnull String fragmentTag) {
+		final Fragment oldFragment = fm.findFragmentByTag(fragmentTag);
+		if (oldFragment != null) {
+			ft.remove(oldFragment);
 		}
 	}
 

@@ -119,4 +119,10 @@ public class CalculatorWizardActivityTest {
 		startWizard(Wizard.DEFAULT_WIZARD_FLOW, shadowActivity.getApplicationContext());
 		assertNotNull(shadowActivity.getNextStartedActivity());
 	}
+
+	@Test
+	public void testTitleShouldBeSet() throws Exception {
+		activity.setStep(choose_mode);
+		assertEquals(activity.getString(choose_mode.getTitleResId()), activity.getTitle().toString());
+	}
 }

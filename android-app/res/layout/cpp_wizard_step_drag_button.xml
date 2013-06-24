@@ -13,6 +13,8 @@
 
 	<TextView
 			a:id="@+id/wizard_dragbutton_action_textview"
+		    a:layout_marginTop="10dp"
+		    a:textStyle="bold"
 			a:text="@string/cpp_wizard_dragbutton_action_center"
 			a:layout_height="wrap_content"
 			a:layout_width="match_parent" />
@@ -21,6 +23,8 @@
 		a:layout_margin="30dp"
 		a:layout_height="100dp"
 		a:layout_width="100dp"
+		a:minWidth="100dp"
+		a:minHeight="100dp"
 		a:layout_gravity="center"
 		a:id="@+id/wizard_dragbutton"
 		a:text="9"

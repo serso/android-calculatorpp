@@ -153,7 +153,7 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 
 			//Log.d(this.getClass().getName(), "Application was opened " + appOpenedCounter + " time!");
 			if (!dialogShown) {
-				if (appOpenedCounter != null && appOpenedCounter > 10) {
+				if (appOpenedCounter != null && appOpenedCounter > 100) {
 					dialogShown = showSpecialWindow(preferences, CalculatorPreferences.Gui.feedbackWindowShown, R.layout.feedback, R.id.feedbackText, context);
 				}
 			}

@@ -5,17 +5,17 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-
 import org.solovyev.android.App;
 import org.solovyev.android.Views;
 import org.solovyev.android.calculator.CalculatorApplication;
 import org.solovyev.android.calculator.CalculatorPreferences;
+import org.solovyev.android.calculator.R;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import static org.solovyev.android.calculator.wizard.ChooseModeWizardStep.MODE;
 import static org.solovyev.android.calculator.wizard.ChooseLayoutWizardStep.LAYOUT;
+import static org.solovyev.android.calculator.wizard.ChooseModeWizardStep.MODE;
 import static org.solovyev.android.calculator.wizard.OnScreenCalculatorWizardStep.ONSCREEN_CALCULATOR_ENABLED;
 
 /**
@@ -25,7 +25,7 @@ import static org.solovyev.android.calculator.wizard.OnScreenCalculatorWizardSte
  */
 enum WizardStep {
 
-	welcome(WelcomeWizardStep.class) {
+	welcome(WelcomeWizardStep.class, R.string.cpp_wizard_welcome_title) {
 		@Override
 		boolean onNext(@Nonnull Fragment fragment) {
 			return true;
@@ -43,7 +43,7 @@ enum WizardStep {
 		}
 	},
 
-	choose_layout(ChooseLayoutWizardStep.class) {
+	choose_layout(ChooseLayoutWizardStep.class, R.string.cpp_wizard_layout_title) {
 		@Override
 		boolean onNext(@Nonnull Fragment f) {
 			final ChooseLayoutWizardStep fragment = (ChooseLayoutWizardStep) f;
@@ -77,7 +77,7 @@ enum WizardStep {
 		}
 	},
 
-	choose_mode(ChooseModeWizardStep.class) {
+	choose_mode(ChooseModeWizardStep.class, R.string.cpp_wizard_mode_title) {
 		@Override
 		boolean onNext(@Nonnull Fragment f) {
 			final ChooseModeWizardStep fragment = (ChooseModeWizardStep) f;
@@ -106,7 +106,7 @@ enum WizardStep {
 		}
 	},
 
-	on_screen_calculator(OnScreenCalculatorWizardStep.class) {
+	on_screen_calculator(OnScreenCalculatorWizardStep.class, R.string.cpp_wizard_onscreen_calculator_title) {
 		@Override
 		boolean onNext(@Nonnull Fragment f) {
 			final OnScreenCalculatorWizardStep fragment = (OnScreenCalculatorWizardStep) f;
@@ -134,7 +134,7 @@ enum WizardStep {
 		}
 	},
 
-	drag_button_step(DragButtonWizardStep.class) {
+	drag_button_step(DragButtonWizardStep.class, R.string.cpp_wizard_dragbutton_title) {
 		@Override
 		boolean onNext(@Nonnull Fragment fragment) {
 			return true;
@@ -155,8 +155,11 @@ enum WizardStep {
 	@Nonnull
 	private final Class<? extends Fragment> fragmentClass;
 
-	WizardStep(@Nonnull Class<? extends Fragment> fragmentClass) {
+	private final int titleResId;
+
+	WizardStep(@Nonnull Class<? extends Fragment> fragmentClass, int titleResId) {
 		this.fragmentClass = fragmentClass;
+		this.titleResId = titleResId;
 	}
 
 	public String getFragmentTag() {
@@ -166,6 +169,10 @@ enum WizardStep {
 	@Nonnull
 	Class<? extends Fragment> getFragmentClass() {
 		return fragmentClass;
+	}
+
+	int getTitleResId() {
+		return titleResId;
 	}
 
 	abstract boolean onNext(@Nonnull Fragment fragment);
