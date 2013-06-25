@@ -53,11 +53,7 @@ abstract class AbstractCalculatorWidgetProvider extends AppWidgetProvider implem
 	protected AbstractCalculatorWidgetProvider() {
 		final Class<? extends AppWidgetProvider> componentClass = this.getComponentClass();
 
-		final CalculatorExternalListenersContainer externalListenersContainer = Locator.getInstance().getExternalListenersContainer();
-		// NOTE: null might be in tests, now robolectric creates widget provider before application
-		if (externalListenersContainer != null) {
-			externalListenersContainer.addExternalListener(componentClass);
-		}
+		Locator.getInstance().getExternalListenersContainer().addExternalListener(componentClass);
 	}
 
 	/*
