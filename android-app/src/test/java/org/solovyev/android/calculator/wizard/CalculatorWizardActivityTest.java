@@ -44,7 +44,7 @@ public class CalculatorWizardActivityTest {
 
 	@Test
 	public void testShouldBeFirstTimeWizardByDefault() throws Exception {
-		assertEquals(Wizard.FIRST_TIME_WIZARD, activity.getFlow().getName());
+		assertEquals(Wizards.FIRST_TIME_WIZARD, activity.getFlow().getName());
 	}
 
 	@Test
@@ -65,7 +65,7 @@ public class CalculatorWizardActivityTest {
 
 		activity = controller.get();
 		assertNotNull(activity.getFlow());
-		assertEquals(Wizard.FIRST_TIME_WIZARD, activity.getFlow().getName());
+		assertEquals(Wizards.FIRST_TIME_WIZARD, activity.getFlow().getName());
 		assertNotNull(activity.getStep());
 		assertEquals(choose_mode, activity.getStep());
 	}
@@ -74,11 +74,11 @@ public class CalculatorWizardActivityTest {
 	public void testCreate() throws Exception {
 		final Intent intent = new Intent();
 		intent.setClass(activity, CalculatorWizardActivity.class);
-		intent.putExtra(Wizard.FLOW, Wizard.DEFAULT_WIZARD_FLOW);
+		intent.putExtra(Wizards.FLOW, Wizards.DEFAULT_WIZARD_FLOW);
 		controller = Robolectric.buildActivity(CalculatorWizardActivity.class).withIntent(intent);
 		controller.create();
 		activity = controller.get();
-		assertEquals(Wizard.DEFAULT_WIZARD_FLOW, activity.getFlow().getName());
+		assertEquals(Wizards.DEFAULT_WIZARD_FLOW, activity.getFlow().getName());
 		assertEquals(activity.getFlow().getFirstStep(), activity.getStep());
 
 		final Bundle outState1 = new Bundle();
@@ -87,7 +87,7 @@ public class CalculatorWizardActivityTest {
 		controller = Robolectric.buildActivity(CalculatorWizardActivity.class);
 		activity = controller.get();
 		controller.create(outState1);
-		assertEquals(Wizard.DEFAULT_WIZARD_FLOW, activity.getFlow().getName());
+		assertEquals(Wizards.DEFAULT_WIZARD_FLOW, activity.getFlow().getName());
 		assertEquals(activity.getFlow().getFirstStep(), activity.getStep());
 	}
 
@@ -123,7 +123,7 @@ public class CalculatorWizardActivityTest {
 	@Test
 	public void testShouldStartWizardActivityAfterStart() throws Exception {
 		final ShadowActivity shadowActivity = Robolectric.shadowOf(controller.get());
-		startWizard(Wizard.DEFAULT_WIZARD_FLOW, shadowActivity.getApplicationContext());
+		startWizard(Wizards.DEFAULT_WIZARD_FLOW, shadowActivity.getApplicationContext());
 		assertNotNull(shadowActivity.getNextStartedActivity());
 	}
 
@@ -159,25 +159,25 @@ public class CalculatorWizardActivityTest {
 
 	@Test
 	public void testShouldSaveLastWizardStateOnPause() throws Exception {
-		assertNull(Wizard.getLastSavedWizardStepName(activity.getFlow().getName()));
+		assertNull(Wizards.getLastSavedWizardStepName(activity.getFlow().getName()));
 		activity.setStep(WizardStep.drag_button_step);
 		activity.onPause();
-		assertEquals(WizardStep.drag_button_step.getName(), Wizard.getLastSavedWizardStepName(activity.getFlow().getName()));
+		assertEquals(WizardStep.drag_button_step.getName(), Wizards.getLastSavedWizardStepName(activity.getFlow().getName()));
 	}
 
 	@Test
 	public void testShouldSaveFinishedIfLastStep() throws Exception {
-		assertFalse(Wizard.isWizardFinished(activity.getFlow().getName()));
+		assertFalse(Wizards.isWizardFinished(activity.getFlow().getName()));
 		setLastStep();
 		activity.finishFlow();
-		assertTrue(Wizard.isWizardFinished(activity.getFlow().getName()));
+		assertTrue(Wizards.isWizardFinished(activity.getFlow().getName()));
 	}
 
 	@Test
 	public void testShouldNotSaveFinishedIfNotLastStep() throws Exception {
-		assertFalse(Wizard.isWizardFinished(activity.getFlow().getName()));
+		assertFalse(Wizards.isWizardFinished(activity.getFlow().getName()));
 		setFirstStep();
 		activity.finishFlow();
-		assertFalse(Wizard.isWizardFinished(activity.getFlow().getName()));
+		assertFalse(Wizards.isWizardFinished(activity.getFlow().getName()));
 	}
 }

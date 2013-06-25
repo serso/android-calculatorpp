@@ -21,7 +21,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import com.actionbarsherlock.app.ActionBar;
@@ -45,9 +44,9 @@ import static android.os.Build.VERSION_CODES.GINGERBREAD_MR1;
 import static android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH;
 import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
 import static org.solovyev.android.calculator.CalculatorPreferences.Gui.preventScreenFromFading;
-import static org.solovyev.android.calculator.wizard.Wizard.FIRST_TIME_WIZARD;
-import static org.solovyev.android.calculator.wizard.Wizard.isWizardFinished;
-import static org.solovyev.android.calculator.wizard.Wizard.isWizardStarted;
+import static org.solovyev.android.calculator.wizard.Wizards.FIRST_TIME_WIZARD;
+import static org.solovyev.android.calculator.wizard.Wizards.isWizardFinished;
+import static org.solovyev.android.calculator.wizard.Wizards.isWizardStarted;
 
 public class CalculatorActivity extends SherlockFragmentActivity implements SharedPreferences.OnSharedPreferenceChangeListener, CalculatorEventListener {
 

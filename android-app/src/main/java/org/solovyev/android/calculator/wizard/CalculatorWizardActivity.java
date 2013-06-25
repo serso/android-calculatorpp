@@ -14,8 +14,8 @@ import javax.annotation.Nonnull;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-import static org.solovyev.android.calculator.wizard.Wizard.FLOW;
-import static org.solovyev.android.calculator.wizard.Wizard.STEP;
+import static org.solovyev.android.calculator.wizard.Wizards.FLOW;
+import static org.solovyev.android.calculator.wizard.Wizards.STEP;
 
 /**
  * User: serso
@@ -64,7 +64,7 @@ public final class CalculatorWizardActivity extends SherlockFragmentActivity {
 			stepName = savedInstanceState.getString(STEP);
 		}
 
-		flow = Wizard.getWizardFlow(wizardName != null ? wizardName : Wizard.FIRST_TIME_WIZARD);
+		flow = Wizards.getWizardFlow(wizardName != null ? wizardName : Wizards.FIRST_TIME_WIZARD);
 
 		WizardStep step = null;
 		if(stepName != null) {
@@ -155,7 +155,7 @@ public final class CalculatorWizardActivity extends SherlockFragmentActivity {
 
 	void finishFlow(boolean forceFinish) {
 		if (flow != null && step != null) {
-			Wizard.saveWizardFinished(flow, step, forceFinish);
+			Wizards.saveWizardFinished(flow, step, forceFinish);
 		}
 		finish();
 	}
@@ -236,7 +236,7 @@ public final class CalculatorWizardActivity extends SherlockFragmentActivity {
 		super.onPause();
 
 		if (flow != null && step != null) {
-			Wizard.saveLastWizardStep(flow, step);
+			Wizards.saveLastWizardStep(flow, step);
 		}
 	}
 
@@ -280,7 +280,7 @@ public final class CalculatorWizardActivity extends SherlockFragmentActivity {
 	public static void continueWizard(@Nonnull String name, @Nonnull Context context) {
 		final Intent intent = createLaunchIntent(name, context);
 
-		final String step = Wizard.getLastSavedWizardStepName(name);
+		final String step = Wizards.getLastSavedWizardStepName(name);
 		if (step != null) {
 			intent.putExtra(STEP, step);
 		}

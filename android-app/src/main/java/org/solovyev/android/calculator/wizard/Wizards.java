@@ -15,7 +15,7 @@ import static org.solovyev.android.calculator.wizard.AppWizardFlow.newFirstTimeW
  * Date: 6/16/13
  * Time: 9:23 PM
  */
-public final class Wizard {
+public final class Wizards {
 
 	public static final String FIRST_TIME_WIZARD = "first-wizard";
 	public static final String DEFAULT_WIZARD_FLOW = "app-wizard";
@@ -23,7 +23,7 @@ public final class Wizard {
 	static final String FLOW_FINISHED = "flow_finished";
 	static final String STEP = "step";
 
-	private Wizard() {
+	private Wizards() {
 		throw new AssertionError();
 	}
 

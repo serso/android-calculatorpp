@@ -27,7 +27,7 @@ import org.solovyev.android.ads.AdsController;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 import org.solovyev.android.calculator.wizard.CalculatorWizardActivity;
-import org.solovyev.android.calculator.wizard.Wizard;
+import org.solovyev.android.calculator.wizard.Wizards;
 import org.solovyev.android.msg.AndroidMessage;
 import org.solovyev.android.view.VibratorContainer;
 import org.solovyev.common.msg.Message;
@@ -60,7 +60,7 @@ public class CalculatorPreferencesActivity extends SherlockPreferenceActivity im
 		restartWizardPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 			@Override
 			public boolean onPreferenceClick(Preference preference) {
-				CalculatorWizardActivity.startWizard(Wizard.DEFAULT_WIZARD_FLOW, CalculatorPreferencesActivity.this);
+				CalculatorWizardActivity.startWizard(Wizards.DEFAULT_WIZARD_FLOW, CalculatorPreferencesActivity.this);
 				return true;
 			}
 		});

@@ -5,8 +5,8 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.solovyev.android.calculator.wizard.Wizard.DEFAULT_WIZARD_FLOW;
-import static org.solovyev.android.calculator.wizard.Wizard.FIRST_TIME_WIZARD;
+import static org.solovyev.android.calculator.wizard.Wizards.DEFAULT_WIZARD_FLOW;
+import static org.solovyev.android.calculator.wizard.Wizards.FIRST_TIME_WIZARD;
 import static org.solovyev.android.calculator.wizard.WizardStep.welcome;
 
 /**
