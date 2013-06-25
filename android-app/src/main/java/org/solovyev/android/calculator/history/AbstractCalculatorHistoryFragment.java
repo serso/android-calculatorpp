@@ -7,7 +7,9 @@
 package org.solovyev.android.calculator.history;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,9 +22,8 @@ import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.menu.*;
 import org.solovyev.android.sherlock.menu.SherlockMenuHelper;
@@ -33,9 +34,13 @@ import org.solovyev.common.filter.Filter;
 import org.solovyev.common.filter.FilterRulesChain;
 import org.solovyev.common.text.Strings;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+
+import static org.solovyev.android.calculator.CalculatorEventType.clear_history_requested;
 
 /**
  * User: serso
@@ -80,12 +85,15 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 
 
 	@Nonnull
-	private ArrayAdapter<CalculatorHistoryState> adapter;
+	private HistoryArrayAdapter adapter;
 
 	@Nonnull
 	private CalculatorFragmentHelper fragmentHelper;
 
-	private ActivityMenu<Menu, MenuItem> menu = ListActivityMenu.fromResource(org.solovyev.android.calculator.R.menu.history_menu, HistoryMenu.class, SherlockMenuHelper.getInstance());
+	private ActivityMenu<Menu, MenuItem> menu = ListActivityMenu.fromResource(R.menu.history_menu, HistoryMenu.class, SherlockMenuHelper.getInstance());
+
+	@Nonnull
+	private final SharedPreferences.OnSharedPreferenceChangeListener preferencesListener = new HistoryOnPreferenceChangeListener();
 
 	protected AbstractCalculatorHistoryFragment(@Nonnull CalculatorFragmentType fragmentType) {
 		fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(fragmentType.getDefaultLayoutId(), fragmentType.getDefaultTitleResId(), false);
@@ -115,11 +123,12 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 	public void onViewCreated(View root, Bundle savedInstanceState) {
 		super.onViewCreated(root, savedInstanceState);
 
-		logDebug("onViewCreated");
+		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		final Boolean showDatetime = CalculatorPreferences.History.showDatetime.getPreference(preferences);
 
 		fragmentHelper.onViewCreated(this, root);
 
-		adapter = new HistoryArrayAdapter(this.getActivity(), getItemLayoutId(), org.solovyev.android.calculator.R.id.history_item, new ArrayList<CalculatorHistoryState>());
+		adapter = new HistoryArrayAdapter(this.getActivity(), getItemLayoutId(), org.solovyev.android.calculator.R.id.history_item, new ArrayList<CalculatorHistoryState>(), showDatetime);
 		setListAdapter(adapter);
 
 		final ListView lv = getListView();
@@ -175,10 +184,13 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 		this.fragmentHelper.onResume(this);
 
 		updateAdapter();
+		PreferenceManager.getDefaultSharedPreferences(getActivity()).registerOnSharedPreferenceChangeListener(preferencesListener);
 	}
 
 	@Override
 	public void onPause() {
+		PreferenceManager.getDefaultSharedPreferences(getActivity()).unregisterOnSharedPreferenceChangeListener(preferencesListener);
+
 		this.fragmentHelper.onPause(this);
 
 		super.onPause();
@@ -281,7 +293,7 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 	protected abstract void clearHistory();
 
 	@Nonnull
-	protected ArrayAdapter<CalculatorHistoryState> getAdapter() {
+	protected HistoryArrayAdapter getAdapter() {
 		return adapter;
 	}
 
@@ -297,7 +309,6 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 					}
 				});
 				break;
-
 			case clear_history_requested:
 				getActivity().runOnUiThread(new Runnable() {
 					@Override
@@ -335,10 +346,19 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 
 	private static enum HistoryMenu implements IdentifiableMenuItem<MenuItem> {
 
-		clear_history(org.solovyev.android.calculator.R.id.history_menu_clear_history) {
+		clear_history(R.id.history_menu_clear_history) {
 			@Override
 			public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
-				Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.clear_history_requested, null);
+				Locator.getInstance().getCalculator().fireCalculatorEvent(clear_history_requested, null);
+			}
+		},
+
+		toggle_datetime(R.id.history_menu_toggle_datetime) {
+			@Override
+			public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
+				final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(CalculatorApplication.getInstance());
+				final Boolean showDatetime = CalculatorPreferences.History.showDatetime.getPreference(preferences);
+				CalculatorPreferences.History.showDatetime.putPreference(preferences, !showDatetime);
 			}
 		};
 
@@ -352,6 +372,24 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 		@Override
 		public Integer getItemId() {
 			return this.itemId;
+		}
+	}
+
+	/*
+	**********************************************************************
+	*
+	*                           STATIC/INNER
+	*
+	**********************************************************************
+	*/
+
+	private final class HistoryOnPreferenceChangeListener implements SharedPreferences.OnSharedPreferenceChangeListener {
+
+		@Override
+		public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
+			if (CalculatorPreferences.History.showDatetime.isSameKey(key)) {
+				getAdapter().setShowDatetime(CalculatorPreferences.History.showDatetime.getPreference(preferences));
+			}
 		}
 	}
 }

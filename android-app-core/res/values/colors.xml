@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<color name="cpp_list_divider">#ffffffffff2e2e2e</color>
 	<color name="cpp_default_text_color">#ffffffff</color>
 	<color name="cpp_display_error_text_color">#ff393939</color>
 	<color name="cpp_button_text_color">#ffffffff</color>

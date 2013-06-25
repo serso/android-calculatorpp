@@ -113,6 +113,7 @@
 	<string name="c_calc_color_display_summary">Toggles colouring and styling in calculator editor</string>
 	<string name="c_calc_theme_summary">Sets the theme for calculator</string>
 	<string name="c_clear_history">Clear history</string>
+	<string name="c_toggle_datetime">Show/hide date</string>
 	<string name="c_simplify_instead_of_numeric">Next constants are undefined: {0}!</string>
 
 	<string name="p_grouping_separator_no">No grouping separator</string>

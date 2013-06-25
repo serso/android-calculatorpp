@@ -9,7 +9,14 @@
 <menu xmlns:a="http://schemas.android.com/apk/res/android">
 
 	<item
+		a:id="@+id/history_menu_toggle_datetime"
+		a:icon="@drawable/kb_clock"
+		a:title="@string/c_toggle_datetime"
+		a:showAsAction="always" />
+
+	<item
 		a:id="@+id/history_menu_clear_history"
+		a:icon="@drawable/kb_remove"
 		a:title="@string/c_clear_history"
 		a:showAsAction="always" />
 

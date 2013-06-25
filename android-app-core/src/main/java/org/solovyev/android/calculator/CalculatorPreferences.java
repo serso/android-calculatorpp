@@ -149,6 +149,7 @@ public final class CalculatorPreferences {
 
 	public static class History {
 		public static final Preference<Boolean> showIntermediateCalculations = BooleanPreference.of("history_show_intermediate_calculations", false);
+		public static final Preference<Boolean> showDatetime = BooleanPreference.of("history_show_datetime", true);
 	}
 
 
@@ -201,6 +202,7 @@ public final class CalculatorPreferences {
 
 		applyDefaultPreference(preferences, Graph.plotImag);
 		applyDefaultPreference(preferences, History.showIntermediateCalculations);
+		applyDefaultPreference(preferences, History.showDatetime);
 		applyDefaultPreference(preferences, Calculations.calculateOnFly);
 		applyDefaultPreference(preferences, Calculations.preferredAngleUnits);
 		applyDefaultPreference(preferences, Calculations.preferredNumeralBase);

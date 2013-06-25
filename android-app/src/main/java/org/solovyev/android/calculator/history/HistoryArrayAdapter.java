@@ -12,17 +12,15 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import javax.annotation.Nonnull;
-
-import org.solovyev.android.calculator.CalculatorActivityLauncher;
-import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.R;
 import org.solovyev.common.text.Strings;
 
+import javax.annotation.Nonnull;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import static android.view.View.GONE;
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
 import static org.solovyev.android.calculator.CalculatorFragmentType.saved_history;
@@ -35,8 +33,11 @@ import static org.solovyev.android.calculator.history.AbstractCalculatorHistoryF
  */
 public class HistoryArrayAdapter extends ArrayAdapter<CalculatorHistoryState> {
 
-	HistoryArrayAdapter(Context context, int resource, int textViewResourceId, @Nonnull List<CalculatorHistoryState> historyList) {
+	private boolean showDatetime;
+
+	HistoryArrayAdapter(Context context, int resource, int textViewResourceId, @Nonnull List<CalculatorHistoryState> historyList, boolean showDatetime) {
 		super(context, resource, textViewResourceId, historyList);
+		this.showDatetime = showDatetime;
 	}
 
 	@Override
@@ -46,7 +47,13 @@ public class HistoryArrayAdapter extends ArrayAdapter<CalculatorHistoryState> {
 		final CalculatorHistoryState state = getItem(position);
 
 		final TextView time = (TextView) result.findViewById(R.id.history_time);
-		time.setText(new SimpleDateFormat().format(new Date(state.getTime())));
+		if (showDatetime) {
+			time.setVisibility(VISIBLE);
+			time.setText(new SimpleDateFormat().format(new Date(state.getTime())));
+		} else {
+			time.setVisibility(GONE);
+			time.setText(null);
+		}
 
 		final TextView editor = (TextView) result.findViewById(R.id.history_item);
 		editor.setText(AbstractCalculatorHistoryFragment.getHistoryText(state));
@@ -60,7 +67,7 @@ public class HistoryArrayAdapter extends ArrayAdapter<CalculatorHistoryState> {
 				commentLayout.setVisibility(VISIBLE);
 			} else {
 				commentView.setText(null);
-				commentLayout.setVisibility(INVISIBLE);
+				commentLayout.setVisibility(GONE);
 			}
 		}
 
@@ -93,5 +100,12 @@ public class HistoryArrayAdapter extends ArrayAdapter<CalculatorHistoryState> {
 		this.sort(AbstractCalculatorHistoryFragment.COMPARATOR);
 		this.setNotifyOnChange(true);
 		super.notifyDataSetChanged();
+	}
+
+	public void setShowDatetime(boolean showDatetime) {
+		if (this.showDatetime != showDatetime) {
+			this.showDatetime = showDatetime;
+			notifyDataSetChanged();
+		}
 	}
 }
