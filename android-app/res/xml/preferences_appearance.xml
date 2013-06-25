@@ -97,6 +97,11 @@
 			a:title="@string/prefs_history_show_intermediate_calculations_title"
 			a:summary="@string/prefs_history_show_intermediate_calculations_summary" />
 
+		<android.preference.CheckBoxPreference
+				a:key="preventScreenFromFading"
+				a:title="@string/prefs_prevent_screen_from_fading_title"
+				a:summary="@string/prefs_prevent_screen_from_fading_summary" />
+
 	</PreferenceScreen>
 
 </PreferenceScreen>

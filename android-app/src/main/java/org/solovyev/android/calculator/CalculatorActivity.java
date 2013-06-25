@@ -20,6 +20,8 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import com.actionbarsherlock.app.ActionBar;
@@ -41,6 +43,8 @@ import javax.annotation.Nullable;
 
 import static android.os.Build.VERSION_CODES.GINGERBREAD_MR1;
 import static android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH;
+import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
+import static org.solovyev.android.calculator.CalculatorPreferences.Gui.preventScreenFromFading;
 import static org.solovyev.android.calculator.wizard.Wizard.FIRST_TIME_WIZARD;
 import static org.solovyev.android.calculator.wizard.Wizard.isWizardFinished;
 import static org.solovyev.android.calculator.wizard.Wizard.isWizardStarted;
@@ -220,6 +224,13 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 		final CalculatorPreferences.Gui.Layout newLayout = CalculatorPreferences.Gui.layout.getPreference(preferences);
 		if (newLayout != activityHelper.getLayout()) {
 			Activities.restartActivity(this);
+		}
+
+		final Window window = getWindow();
+		if (preventScreenFromFading.getPreference(preferences)) {
+			window.addFlags(FLAG_KEEP_SCREEN_ON);
+		} else {
+			window.clearFlags(FLAG_KEEP_SCREEN_ON);
 		}
 
 		this.activityHelper.onResume(this);

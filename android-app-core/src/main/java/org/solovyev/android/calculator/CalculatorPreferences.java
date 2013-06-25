@@ -59,6 +59,7 @@ public final class CalculatorPreferences {
 		public static final Preference<Boolean> showEqualsButton = BooleanPreference.of("showEqualsButton", true);
 		public static final Preference<Boolean> autoOrientation = BooleanPreference.of("autoOrientation", true);
 		public static final Preference<Boolean> hideNumeralBaseDigits = BooleanPreference.of("hideNumeralBaseDigits", true);
+		public static final Preference<Boolean> preventScreenFromFading = BooleanPreference.of("preventScreenFromFading", true);
 
 		@Nonnull
 		public static Theme getTheme(@Nonnull SharedPreferences preferences) {
@@ -196,6 +197,7 @@ public final class CalculatorPreferences {
 		applyDefaultPreference(preferences, Gui.showEqualsButton);
 		applyDefaultPreference(preferences, Gui.autoOrientation);
 		applyDefaultPreference(preferences, Gui.hideNumeralBaseDigits);
+		applyDefaultPreference(preferences, Gui.preventScreenFromFading);
 
 		applyDefaultPreference(preferences, Graph.plotImag);
 		applyDefaultPreference(preferences, History.showIntermediateCalculations);

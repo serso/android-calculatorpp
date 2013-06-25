@@ -20,4 +20,7 @@
 	<string name="p_calculations_calculate_on_fly_summary">If turned on calculations are done automatically while typing
 		expression
 	</string>
+
+	<string name="prefs_prevent_screen_from_fading_title">Prevent screen from fading</string>
+	<string name="prefs_prevent_screen_from_fading_summary">If turned on screen will not fade while using the app</string>
 </resources>
