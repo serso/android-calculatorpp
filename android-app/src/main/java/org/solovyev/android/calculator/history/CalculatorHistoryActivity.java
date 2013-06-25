@@ -12,6 +12,9 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import org.solovyev.android.calculator.*;
 
+import static org.solovyev.android.calculator.CalculatorFragmentType.history;
+import static org.solovyev.android.calculator.CalculatorFragmentType.saved_history;
+
 /**
  * User: serso
  * Date: 12/18/11
@@ -28,8 +31,8 @@ public class CalculatorHistoryActivity extends SherlockFragmentActivity implemen
 
 		activityHelper.onCreate(this, savedInstanceState);
 
-		activityHelper.addTab(this, CalculatorFragmentType.history, null, R.id.main_layout);
-		activityHelper.addTab(this, CalculatorFragmentType.saved_history, null, R.id.main_layout);
+		activityHelper.addTab(this, history, null, R.id.main_layout);
+		activityHelper.addTab(this, saved_history, null, R.id.main_layout);
 	}
 
 	@Override
@@ -66,5 +69,10 @@ public class CalculatorHistoryActivity extends SherlockFragmentActivity implemen
 		if (calculatorEventType == CalculatorEventType.use_history_state) {
 			this.finish();
 		}
+	}
+
+	@Nonnull
+	CalculatorActivityHelper getActivityHelper() {
+		return activityHelper;
 	}
 }

@@ -234,7 +234,7 @@ public class CalculatorActivityHelperImpl extends AbstractCalculatorHelper imple
 		final ActionBar actionBar = activity.getSupportActionBar();
 		for (int i = 0; i < actionBar.getTabCount(); i++) {
 			final ActionBar.Tab tab = actionBar.getTabAt(i);
-			if (tab != null && CalculatorFragmentType.plotter.getFragmentTag().equals(tab.getTag())) {
+			if (tab != null && fragmentType.getFragmentTag().equals(tab.getTag())) {
 				actionBar.setSelectedNavigationItem(i);
 				break;
 			}

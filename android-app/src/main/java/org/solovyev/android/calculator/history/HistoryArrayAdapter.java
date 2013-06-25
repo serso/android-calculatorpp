@@ -10,14 +10,23 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import javax.annotation.Nonnull;
+
+import org.solovyev.android.calculator.CalculatorActivityLauncher;
+import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.R;
 import org.solovyev.common.text.Strings;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
+import static android.view.View.INVISIBLE;
+import static android.view.View.VISIBLE;
+import static org.solovyev.android.calculator.CalculatorFragmentType.saved_history;
+import static org.solovyev.android.calculator.history.AbstractCalculatorHistoryFragment.isAlreadySaved;
 
 /**
  * User: serso
@@ -42,26 +51,37 @@ public class HistoryArrayAdapter extends ArrayAdapter<CalculatorHistoryState> {
 		final TextView editor = (TextView) result.findViewById(R.id.history_item);
 		editor.setText(AbstractCalculatorHistoryFragment.getHistoryText(state));
 
+		final View commentLayout = result.findViewById(R.id.history_item_comment_layout);
 		final TextView commentView = (TextView) result.findViewById(R.id.history_item_comment);
-		if (commentView != null) {
+		if (commentLayout != null && commentView != null) {
 			final String comment = state.getComment();
 			if (!Strings.isEmpty(comment)) {
 				commentView.setText(comment);
+				commentLayout.setVisibility(VISIBLE);
 			} else {
-				commentView.setText("");
+				commentView.setText(null);
+				commentLayout.setVisibility(INVISIBLE);
 			}
 		}
 
-		final TextView status = (TextView) result.findViewById(R.id.history_item_status);
+		final ImageView status = (ImageView) result.findViewById(R.id.history_item_status_icon);
 		if (status != null) {
-			if (state.isSaved()) {
-				status.setText(getContext().getString(R.string.c_history_item_saved));
+			if (state.isSaved() || isAlreadySaved(state)) {
+				status.getDrawable().setAlpha(180);
+				status.setVisibility(VISIBLE);
+				status.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						final Context context = getContext();
+						if(context instanceof CalculatorHistoryActivity) {
+							final CalculatorHistoryActivity activity = (CalculatorHistoryActivity) context;
+							activity.getActivityHelper().selectTab(activity, saved_history);
+						}
+					}
+				});
 			} else {
-				if (AbstractCalculatorHistoryFragment.isAlreadySaved(state)) {
-					status.setText(getContext().getString(R.string.c_history_item_already_saved));
-				} else {
-					status.setText(getContext().getString(R.string.c_history_item_not_saved));
-				}
+				status.setVisibility(INVISIBLE);
+				status.setOnClickListener(null);
 			}
 		}
 
