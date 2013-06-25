@@ -142,7 +142,7 @@ public final class CalculatorWizardActivity extends SherlockFragmentActivity {
 		}
 	}
 
-	private void finishFlow() {
+	void finishFlow() {
 		if (flow != null && step != null) {
 			Wizard.saveWizardFinished(flow, step);
 		}
@@ -235,6 +235,18 @@ public final class CalculatorWizardActivity extends SherlockFragmentActivity {
 
 	WizardFlow getFlow() {
 		return flow;
+	}
+
+	View getPrevButton() {
+		return prevButton;
+	}
+
+	View getNextButton() {
+		return nextButton;
+	}
+
+	View getFinishButton() {
+		return finishButton;
 	}
 
 	/*

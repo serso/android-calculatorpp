@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,7 +13,13 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.shadows.ShadowActivity;
 import org.robolectric.util.ActivityController;
 
-import static org.junit.Assert.*;
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.solovyev.android.calculator.wizard.CalculatorWizardActivity.startWizard;
 import static org.solovyev.android.calculator.wizard.WizardStep.choose_mode;
 
@@ -69,8 +76,8 @@ public class CalculatorWizardActivityTest {
 		intent.setClass(activity, CalculatorWizardActivity.class);
 		intent.putExtra(Wizard.FLOW, Wizard.DEFAULT_WIZARD_FLOW);
 		controller = Robolectric.buildActivity(CalculatorWizardActivity.class).withIntent(intent);
+		controller.create();
 		activity = controller.get();
-		controller.create(null);
 		assertEquals(Wizard.DEFAULT_WIZARD_FLOW, activity.getFlow().getName());
 		assertEquals(activity.getFlow().getFirstStep(), activity.getStep());
 
@@ -124,5 +131,53 @@ public class CalculatorWizardActivityTest {
 	public void testTitleShouldBeSet() throws Exception {
 		activity.setStep(choose_mode);
 		assertEquals(activity.getString(choose_mode.getTitleResId()), activity.getTitle().toString());
+	}
+
+	@Test
+	public void testNextButtonShouldNotBeShownAtTheEnd() throws Exception {
+		setLastStep();
+		assertEquals(VISIBLE, activity.getPrevButton().getVisibility());
+		assertEquals(GONE, activity.getNextButton().getVisibility());
+		assertEquals(VISIBLE, activity.getFinishButton().getVisibility());
+	}
+
+	private void setLastStep() {
+		activity.setStep(WizardStep.values()[WizardStep.values().length - 1]);
+	}
+
+	@Test
+	public void testPrevButtonShouldNotBeShownAtTheStart() throws Exception {
+		setFirstStep();
+		assertEquals(VISIBLE, activity.getNextButton().getVisibility());
+		assertEquals(GONE, activity.getFinishButton().getVisibility());
+		assertEquals(GONE, activity.getPrevButton().getVisibility());
+	}
+
+	private void setFirstStep() {
+		activity.setStep(WizardStep.values()[0]);
+	}
+
+	@Test
+	public void testShouldSaveLastWizardStateOnPause() throws Exception {
+		assertNull(Wizard.getLastSavedWizardStepName(activity.getFlow().getName()));
+		activity.setStep(WizardStep.drag_button_step);
+		activity.onPause();
+		assertEquals(WizardStep.drag_button_step.getName(), Wizard.getLastSavedWizardStepName(activity.getFlow().getName()));
+	}
+
+	@Test
+	public void testShouldSaveFinishedIfLastStep() throws Exception {
+		assertFalse(Wizard.isWizardFinished(activity.getFlow().getName()));
+		setLastStep();
+		activity.finishFlow();
+		assertTrue(Wizard.isWizardFinished(activity.getFlow().getName()));
+	}
+
+	@Test
+	public void testShouldNotSaveFinishedIfNotLastStep() throws Exception {
+		assertFalse(Wizard.isWizardFinished(activity.getFlow().getName()));
+		setFirstStep();
+		activity.finishFlow();
+		assertFalse(Wizard.isWizardFinished(activity.getFlow().getName()));
 	}
 }

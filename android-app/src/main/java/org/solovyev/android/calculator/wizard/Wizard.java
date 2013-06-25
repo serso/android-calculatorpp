@@ -39,8 +39,8 @@ public final class Wizard {
 		}
 	}
 
-	public static boolean isWizardFinished(@Nonnull String name, @Nonnull Context context) {
-		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+	public static boolean isWizardFinished(@Nonnull String name) {
+		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(CalculatorApplication.getInstance());
 		return preferences.getBoolean(makeFlowFinishedPreferenceKey(name), false);
 	}
 
