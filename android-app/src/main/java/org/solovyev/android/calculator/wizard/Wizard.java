@@ -1,6 +1,5 @@
 package org.solovyev.android.calculator.wizard;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import org.solovyev.android.calculator.CalculatorApplication;
@@ -41,14 +40,18 @@ public final class Wizard {
 
 	public static boolean isWizardFinished(@Nonnull String name) {
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(CalculatorApplication.getInstance());
-		return preferences.getBoolean(makeFlowFinishedPreferenceKey(name), false);
+		return preferences.getBoolean(makeFinishedPreferenceKey(name), false);
+	}
+
+	public static boolean isWizardStarted(@Nonnull String name) {
+		return getLastSavedWizardStepName(name) != null;
 	}
 
 	static void saveLastWizardStep(@Nonnull WizardFlow flow, @Nonnull WizardStep step) {
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(CalculatorApplication.getInstance());
 		final SharedPreferences.Editor editor = preferences.edit();
 
-		editor.putString(makeFlowStepPreferenceKey(flow), step.name());
+		editor.putString(makeLastStepPreferenceKey(flow), step.name());
 
 		editor.commit();
 	}
@@ -57,35 +60,35 @@ public final class Wizard {
 	static String getLastSavedWizardStepName(@Nonnull String name) {
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(CalculatorApplication.getInstance());
 
-		return preferences.getString(makeFlowStepPreferenceKey(name), null);
+		return preferences.getString(makeLastStepPreferenceKey(name), null);
 	}
 
 	static void saveWizardFinished(@Nonnull WizardFlow flow, @Nonnull WizardStep step, boolean forceFinish) {
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(CalculatorApplication.getInstance());
 		final SharedPreferences.Editor editor = preferences.edit();
 
-		editor.putBoolean(makeFlowFinishedPreferenceKey(flow), forceFinish || flow.getNextStep(step) == null);
+		editor.putBoolean(makeFinishedPreferenceKey(flow), forceFinish || flow.getNextStep(step) == null);
 
 		editor.commit();
 	}
 
 	@Nonnull
-	private static String makeFlowFinishedPreferenceKey(@Nonnull String flowName) {
+	private static String makeFinishedPreferenceKey(@Nonnull WizardFlow flow) {
+		return makeFinishedPreferenceKey(flow.getName());
+	}
+
+	@Nonnull
+	private static String makeFinishedPreferenceKey(@Nonnull String flowName) {
 		return FLOW_FINISHED + ":" + flowName;
 	}
 
 	@Nonnull
-	private static String makeFlowStepPreferenceKey(@Nonnull WizardFlow flow) {
-		return makeFlowStepPreferenceKey(flow.getName());
+	private static String makeLastStepPreferenceKey(@Nonnull WizardFlow flow) {
+		return makeLastStepPreferenceKey(flow.getName());
 	}
 
 	@Nonnull
-	private static String makeFlowStepPreferenceKey(@Nonnull String flowName) {
+	private static String makeLastStepPreferenceKey(@Nonnull String flowName) {
 		return FLOW + ":" + flowName;
-	}
-
-	@Nonnull
-	private static String makeFlowFinishedPreferenceKey(@Nonnull WizardFlow flow) {
-		return makeFlowFinishedPreferenceKey(flow.getName());
 	}
 }

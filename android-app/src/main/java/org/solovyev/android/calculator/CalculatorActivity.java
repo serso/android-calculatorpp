@@ -41,6 +41,9 @@ import javax.annotation.Nullable;
 
 import static android.os.Build.VERSION_CODES.GINGERBREAD_MR1;
 import static android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH;
+import static org.solovyev.android.calculator.wizard.Wizard.FIRST_TIME_WIZARD;
+import static org.solovyev.android.calculator.wizard.Wizard.isWizardFinished;
+import static org.solovyev.android.calculator.wizard.Wizard.isWizardStarted;
 
 public class CalculatorActivity extends SherlockFragmentActivity implements SharedPreferences.OnSharedPreferenceChangeListener, CalculatorEventListener {
 
@@ -130,26 +133,30 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 		if (!CalculatorApplication.isMonkeyRunner(context)) {
 
 			boolean dialogShown = false;
-			if (Objects.areEqual(savedVersion, CalculatorPreferences.appVersion.getDefaultValue())) {
-				// new start
-				context.startActivity(new Intent(context, CalculatorWizardActivity.class));
+			if(isWizardStarted(FIRST_TIME_WIZARD) && !isWizardFinished(FIRST_TIME_WIZARD)) {
+				CalculatorWizardActivity.continueWizard(FIRST_TIME_WIZARD, context);
 				dialogShown = true;
 			} else {
-				if (savedVersion < appVersion) {
-					final boolean showReleaseNotes = CalculatorPreferences.Gui.showReleaseNotes.getPreference(preferences);
-					if (showReleaseNotes) {
-						final String releaseNotes = CalculatorReleaseNotesFragment.getReleaseNotes(context, savedVersion + 1);
-						if (!Strings.isEmpty(releaseNotes)) {
-							final AlertDialog.Builder builder = new AlertDialog.Builder(context).setMessage(Html.fromHtml(releaseNotes));
-							builder.setPositiveButton(android.R.string.ok, null);
-							builder.setTitle(R.string.c_release_notes);
-							builder.create().show();
-							dialogShown = true;
+				if (Objects.areEqual(savedVersion, CalculatorPreferences.appVersion.getDefaultValue())) {
+					// new start
+					context.startActivity(new Intent(context, CalculatorWizardActivity.class));
+					dialogShown = true;
+				} else {
+					if (savedVersion < appVersion) {
+						final boolean showReleaseNotes = CalculatorPreferences.Gui.showReleaseNotes.getPreference(preferences);
+						if (showReleaseNotes) {
+							final String releaseNotes = CalculatorReleaseNotesFragment.getReleaseNotes(context, savedVersion + 1);
+							if (!Strings.isEmpty(releaseNotes)) {
+								final AlertDialog.Builder builder = new AlertDialog.Builder(context).setMessage(Html.fromHtml(releaseNotes));
+								builder.setPositiveButton(android.R.string.ok, null);
+								builder.setTitle(R.string.c_release_notes);
+								builder.create().show();
+								dialogShown = true;
+							}
 						}
 					}
 				}
 			}
-
 
 			//Log.d(this.getClass().getName(), "Application was opened " + appOpenedCounter + " time!");
 			if (!dialogShown) {

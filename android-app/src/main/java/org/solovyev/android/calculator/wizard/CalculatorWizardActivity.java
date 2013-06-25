@@ -268,16 +268,22 @@ public final class CalculatorWizardActivity extends SherlockFragmentActivity {
 	*/
 
 	public static void startWizard(@Nonnull String name, @Nonnull Context context) {
+		final Intent intent = createLaunchIntent(name, context);
+		context.startActivity(intent);
+	}
+
+	@Nonnull
+	private static Intent createLaunchIntent(@Nonnull String name, @Nonnull Context context) {
 		final Intent intent = new Intent(context, CalculatorWizardActivity.class);
 		intent.putExtra(FLOW, name);
-		context.startActivity(intent);
+		intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+		return intent;
 	}
 
 	public static void continueWizard(@Nonnull String name, @Nonnull Context context) {
 		final String step = Wizard.getLastSavedWizardStepName(name);
 
-		final Intent intent = new Intent(context, CalculatorWizardActivity.class);
-		intent.putExtra(FLOW, name);
+		final Intent intent = createLaunchIntent(name, context);
 		if (step != null) {
 			intent.putExtra(STEP, step);
 		}

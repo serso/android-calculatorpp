@@ -51,7 +51,7 @@ public final class CalculatorPreferences {
 	public static class Gui {
 
 		public static final Preference<Theme> theme = StringPreference.ofEnum("org.solovyev.android.calculator.CalculatorActivity_calc_theme", Theme.metro_blue_theme, Theme.class);
-		public static final Preference<Layout> layout = StringPreference.ofEnum("org.solovyev.android.calculator.CalculatorActivity_calc_layout", Layout.main_calculator, Layout.class);
+		public static final Preference<Layout> layout = StringPreference.ofEnum("org.solovyev.android.calculator.CalculatorActivity_calc_layout", Layout.simple, Layout.class);
 		public static final Preference<Boolean> feedbackWindowShown = BooleanPreference.of("feedback_window_shown", false);
 		public static final Preference<Boolean> notesppAnnounceShown = BooleanPreference.of("notespp_announce_shown", false);
 		public static final Preference<Boolean> showReleaseNotes = BooleanPreference.of("org.solovyev.android.calculator.CalculatorActivity_show_release_notes", true);
