@@ -1,12 +1,12 @@
 package org.solovyev.android.calculator.wizard;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import com.actionbarsherlock.app.SherlockFragment;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.view.drag.DirectionDragButton;
 import org.solovyev.android.view.drag.DragButton;
@@ -18,7 +18,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Arrays;
 
-public class DragButtonWizardStep extends SherlockFragment {
+public class DragButtonWizardStep extends Fragment {
 
 	/*
 	**********************************************************************

@@ -1,19 +1,17 @@
 package org.solovyev.android.calculator.wizard;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-
-import javax.annotation.Nullable;
-
 import org.solovyev.android.calculator.CalculatorPreferences;
 import org.solovyev.android.calculator.R;
 
-import com.actionbarsherlock.app.SherlockFragment;
+import javax.annotation.Nullable;
 
-public class OnScreenCalculatorWizardStep extends SherlockFragment {
+public class OnScreenCalculatorWizardStep extends Fragment {
 
 	/*
 	**********************************************************************

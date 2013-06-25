@@ -4,10 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import org.solovyev.android.calculator.R;
 
 import javax.annotation.Nonnull;
@@ -22,7 +22,7 @@ import static org.solovyev.android.calculator.wizard.Wizards.STEP;
  * Date: 6/16/13
  * Time: 9:07 PM
  */
-public final class CalculatorWizardActivity extends SherlockFragmentActivity {
+public final class CalculatorWizardActivity extends FragmentActivity {
 
 	/*
 	**********************************************************************

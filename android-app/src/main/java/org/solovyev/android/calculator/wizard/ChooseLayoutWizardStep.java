@@ -1,28 +1,24 @@
 package org.solovyev.android.calculator.wizard;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
+import org.solovyev.android.calculator.R;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.solovyev.android.calculator.R;
-
-import com.actionbarsherlock.app.SherlockFragment;
-
-import static org.solovyev.android.calculator.wizard.CalculatorLayout.big_buttons;
-import static org.solovyev.android.calculator.wizard.CalculatorLayout.getDefaultLayout;
-import static org.solovyev.android.calculator.wizard.CalculatorLayout.optimized;
+import static org.solovyev.android.calculator.wizard.CalculatorLayout.*;
 
 /**
  * User: serso
  * Date: 6/19/13
  * Time: 12:33 AM
  */
-public class ChooseLayoutWizardStep extends SherlockFragment {
+public class ChooseLayoutWizardStep extends Fragment {
 
 	/*
 	**********************************************************************

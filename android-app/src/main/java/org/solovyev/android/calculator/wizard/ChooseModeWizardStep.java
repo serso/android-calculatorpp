@@ -1,11 +1,11 @@
 package org.solovyev.android.calculator.wizard;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
-import com.actionbarsherlock.app.SherlockFragment;
 import org.solovyev.android.calculator.R;
 
 import javax.annotation.Nonnull;
@@ -18,7 +18,7 @@ import static org.solovyev.android.calculator.wizard.CalculatorMode.*;
  * Date: 6/16/13
  * Time: 9:59 PM
  */
-public class ChooseModeWizardStep extends SherlockFragment {
+public class ChooseModeWizardStep extends Fragment {
 
 	/*
 	**********************************************************************
