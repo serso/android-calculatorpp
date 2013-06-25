@@ -67,7 +67,6 @@ public class HistoryArrayAdapter extends ArrayAdapter<CalculatorHistoryState> {
 		final ImageView status = (ImageView) result.findViewById(R.id.history_item_status_icon);
 		if (status != null) {
 			if (state.isSaved() || isAlreadySaved(state)) {
-				status.getDrawable().setAlpha(180);
 				status.setVisibility(VISIBLE);
 				status.setOnClickListener(new View.OnClickListener() {
 					@Override
