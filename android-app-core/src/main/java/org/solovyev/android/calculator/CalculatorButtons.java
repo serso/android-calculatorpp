@@ -40,7 +40,7 @@ public final class CalculatorButtons {
 	public static void processButtons(@Nonnull CalculatorPreferences.Gui.Theme theme,
 									  @Nonnull CalculatorPreferences.Gui.Layout layout,
 									  @Nonnull View root) {
-		if (layout == CalculatorPreferences.Gui.Layout.main_calculator_mobile) {
+		if (!layout.isOptimized()) {
 
 			final float textSize = root.getContext().getResources().getDimension(R.dimen.cpp_keyboard_button_text_size_mobile);
 
@@ -70,7 +70,7 @@ public final class CalculatorButtons {
 		preferences = preferences == null ? PreferenceManager.getDefaultSharedPreferences(activity) : preferences;
 
 		final boolean large = Views.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_LARGE, activity.getResources().getConfiguration()) &&
-				CalculatorPreferences.Gui.getLayout(preferences) != CalculatorPreferences.Gui.Layout.main_calculator_mobile;
+				CalculatorPreferences.Gui.getLayout(preferences).isOptimized();
 
 		if (!large) {
 			if (Views.getScreenOrientation(activity) == Configuration.ORIENTATION_PORTRAIT

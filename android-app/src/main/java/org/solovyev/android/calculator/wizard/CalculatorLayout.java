@@ -49,16 +49,10 @@ enum CalculatorLayout {
 
 	@Nonnull
 	static CalculatorLayout fromGuiLayout(@Nonnull CalculatorPreferences.Gui.Layout layout) {
-		switch (layout) {
-			case main_calculator:
-			case main_cellphone:
-			case simple:
-				return optimized;
-			case main_calculator_mobile:
-			case simple_mobile:
-				return big_buttons;
-			default:
-				return getDefaultLayout();
+		if(layout.isOptimized()) {
+			return optimized;
+		} else {
+			return big_buttons;
 		}
 	}
 }
