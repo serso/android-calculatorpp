@@ -7,34 +7,40 @@
 
 	<RadioGroup
 			a:orientation="horizontal"
-			a:layout_width="wrap_content"
+			a:layout_width="match_parent"
 			a:layout_height="wrap_content"
 			a:gravity="center_vertical|top">
 
-		<RadioButton a:layout_width="200dp"
+		<RadioButton a:layout_width="0dp"
+					 a:layout_weight="1"
+					 a:layout_margin="6dp"
 					 a:id="@+id/wizard_simple_mode_radiobutton"
 					 a:text="@string/cpp_wizard_mode_simple"
 					 a:layout_height="wrap_content"/>
 
-		<RadioButton a:layout_width="200dp"
+		<RadioButton a:layout_width="0dp"
+					 a:layout_weight="1"
+					 a:layout_margin="6dp"
 					 a:id="@+id/wizard_engineer_mode_radiobutton"
 					 a:text="@string/cpp_wizard_mode_engineer"
 					 a:layout_height="wrap_content"/>
 
 	</RadioGroup>
 
-	<LinearLayout a:layout_width="wrap_content"
+	<LinearLayout a:layout_width="match_parent"
 				  a:layout_height="wrap_content"
 				  a:orientation="horizontal">
 
 		<TextView
-				a:layout_width="200dp"
+				a:layout_width="0dp"
+				a:layout_weight="1"
 				a:layout_height="wrap_content"
 				a:padding="6dp"
 				a:text="@string/cpp_wizard_mode_simple_description"/>
 
 		<TextView
-				a:layout_width="200dp"
+				a:layout_width="0dp"
+				a:layout_weight="1"
 				a:layout_height="wrap_content"
 				a:padding="6dp"
 				a:text="@string/cpp_wizard_mode_engineer_description"/>

@@ -5,12 +5,14 @@
 	style="?cpp_dialog_style"
 	a:orientation="vertical">
 
-	<FrameLayout
+	<LinearLayout
 		a:orientation="vertical"
 		a:id="@+id/wizard_content"
 		a:layout_width="match_parent"
 		a:layout_height="0dp"
-		a:layout_weight="1" />
+		a:layout_weight="1"
+		a:gravity="center"
+		a:minHeight="150dp"/>
 
 	<LinearLayout
 		a:orientation="horizontal"
