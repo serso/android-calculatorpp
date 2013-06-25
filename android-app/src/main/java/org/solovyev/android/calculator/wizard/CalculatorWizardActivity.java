@@ -274,7 +274,17 @@ public final class CalculatorWizardActivity extends SherlockFragmentActivity {
 	*/
 
 	public static void startWizard(@Nonnull String name, @Nonnull Context context) {
+		context.startActivity(createLaunchIntent(name, context));
+	}
+
+	public static void continueWizard(@Nonnull String name, @Nonnull Context context) {
 		final Intent intent = createLaunchIntent(name, context);
+
+		final String step = Wizard.getLastSavedWizardStepName(name);
+		if (step != null) {
+			intent.putExtra(STEP, step);
+		}
+
 		context.startActivity(intent);
 	}
 
@@ -286,14 +296,5 @@ public final class CalculatorWizardActivity extends SherlockFragmentActivity {
 		return intent;
 	}
 
-	public static void continueWizard(@Nonnull String name, @Nonnull Context context) {
-		final String step = Wizard.getLastSavedWizardStepName(name);
-
-		final Intent intent = createLaunchIntent(name, context);
-		if (step != null) {
-			intent.putExtra(STEP, step);
-		}
-		context.startActivity(intent);
-	}
 
 }
