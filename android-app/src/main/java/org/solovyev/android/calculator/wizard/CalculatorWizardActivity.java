@@ -52,6 +52,7 @@ public final class CalculatorWizardActivity extends SherlockFragmentActivity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.cpp_wizard);
+
 		prevButton = findViewById(R.id.wizard_prev_button);
 		nextButton = findViewById(R.id.wizard_next_button);
 		finishButton = findViewById(R.id.wizard_finish_button);
@@ -143,8 +144,12 @@ public final class CalculatorWizardActivity extends SherlockFragmentActivity {
 	}
 
 	void finishFlow() {
+		finishFlow(false);
+	}
+
+	void finishFlow(boolean forceFinish) {
 		if (flow != null && step != null) {
-			Wizard.saveWizardFinished(flow, step);
+			Wizard.saveWizardFinished(flow, step, forceFinish);
 		}
 		finish();
 	}
@@ -227,6 +232,11 @@ public final class CalculatorWizardActivity extends SherlockFragmentActivity {
 		if (flow != null && step != null) {
 			Wizard.saveLastWizardStep(flow, step);
 		}
+	}
+
+	@Override
+	public void onBackPressed() {
+		FinishWizardConfirmationDialog.show(this);
 	}
 
 	WizardStep getStep() {

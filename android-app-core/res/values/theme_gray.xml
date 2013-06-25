@@ -158,6 +158,7 @@
 	</style>
 
 	<style name="cpp_gray_dialog_theme" parent="Theme.Sherlock.Dialog">
+		<item name="android:windowCloseOnTouchOutside">false</item>
 		<!-- buttons -->
 		<item name="cpp_digit_button_style">@style/cpp_default_digit_button_style</item>
 		<item name="cpp_control_button_style">@style/cpp_default_control_button_style</item>

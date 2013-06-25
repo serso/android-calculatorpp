@@ -56,6 +56,7 @@ public interface CalculatorLocator {
 	@Nonnull
 	CalculatorPreferenceService getPreferenceService();
 
-	@Nonnull
+	// for robolectric
+	/*@Nonnull*/
 	CalculatorExternalListenersContainer getExternalListenersContainer();
 }

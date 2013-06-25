@@ -46,7 +46,7 @@ public class Locator implements CalculatorLocator {
 	@Nonnull
 	private CalculatorPreferenceService calculatorPreferenceService;
 
-	@Nonnull
+	/*@Nonnull*/
 	private CalculatorExternalListenersContainer calculatorExternalListenersContainer;
 
 	@Nonnull
@@ -154,7 +154,7 @@ public class Locator implements CalculatorLocator {
 	}
 
 	@Override
-	@Nonnull
+	/*@Nonnull*/
 	public CalculatorExternalListenersContainer getExternalListenersContainer() {
 		return calculatorExternalListenersContainer;
 	}

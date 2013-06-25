@@ -60,11 +60,11 @@ public final class Wizard {
 		return preferences.getString(makeFlowStepPreferenceKey(name), null);
 	}
 
-	static void saveWizardFinished(@Nonnull WizardFlow flow, @Nonnull WizardStep step) {
+	static void saveWizardFinished(@Nonnull WizardFlow flow, @Nonnull WizardStep step, boolean forceFinish) {
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(CalculatorApplication.getInstance());
 		final SharedPreferences.Editor editor = preferences.edit();
 
-		editor.putBoolean(makeFlowFinishedPreferenceKey(flow), flow.getNextStep(step) == null);
+		editor.putBoolean(makeFlowFinishedPreferenceKey(flow), forceFinish || flow.getNextStep(step) == null);
 
 		editor.commit();
 	}
