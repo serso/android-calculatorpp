@@ -86,7 +86,26 @@ public final class CalculatorWizardActivity extends SherlockFragmentActivity {
 
 			initTitle();
 			initNextButton();
+			initFinishButton();
 			initPrevButton();
+		}
+	}
+
+	private void initFinishButton() {
+		final WizardStep nextStep = flow.getNextStep(step);
+		if (nextStep == null) {
+			finishButton.setVisibility(VISIBLE);
+			finishButton.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (tryGoNext()) {
+						finishFlow();
+					}
+				}
+			});
+		} else {
+			finishButton.setVisibility(GONE);
+			finishButton.setOnClickListener(null);
 		}
 	}
 
@@ -115,22 +134,9 @@ public final class CalculatorWizardActivity extends SherlockFragmentActivity {
 	private void initNextButton() {
 		final WizardStep nextStep = flow.getNextStep(step);
 		if (nextStep == null) {
-			finishButton.setVisibility(VISIBLE);
-			finishButton.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					if (tryGoNext()) {
-						finishFlow();
-					}
-				}
-			});
-
 			nextButton.setVisibility(GONE);
 			nextButton.setOnClickListener(null);
 		} else {
-			finishButton.setVisibility(GONE);
-			finishButton.setOnClickListener(null);
-
 			nextButton.setVisibility(VISIBLE);
 			nextButton.setOnClickListener(new View.OnClickListener() {
 				@Override
