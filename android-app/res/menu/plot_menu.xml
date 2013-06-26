@@ -48,6 +48,6 @@
 		a:id="@+id/menu_plot_settings"
 		a:title="@string/c_settings"
 		a:icon="@drawable/kb_settings"
-		a:showAsAction="always" />
+		a:showAsAction="ifRoom" />
 
 </menu>
