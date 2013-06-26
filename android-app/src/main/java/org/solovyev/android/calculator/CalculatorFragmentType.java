@@ -28,9 +28,6 @@ import javax.annotation.Nonnull;
 
 import org.solovyev.android.calculator.about.CalculatorAboutFragment;
 import org.solovyev.android.calculator.about.CalculatorReleaseNotesFragment;
-import org.solovyev.android.calculator.help.CalculatorHelpFaqFragment;
-import org.solovyev.android.calculator.help.CalculatorHelpHintsFragment;
-import org.solovyev.android.calculator.help.CalculatorHelpScreensFragment;
 import org.solovyev.android.calculator.history.CalculatorHistoryFragment;
 import org.solovyev.android.calculator.history.CalculatorSavedHistoryFragment;
 import org.solovyev.android.calculator.math.edit.CalculatorFunctionsFragment;
@@ -67,12 +64,9 @@ public enum CalculatorFragmentType {
 	dialog(CalculatorDialogActivity.CalculatorDialogFragment.class, R.layout.cpp_dialog_fragment, R.string.cpp_message),
 
 	about(CalculatorAboutFragment.class, R.layout.about_fragment, R.string.c_about),
-	faq(CalculatorHelpFaqFragment.class, R.layout.help_faq_fragment, R.string.c_faq),
-	hints(CalculatorHelpHintsFragment.class, R.layout.help_hints_fragment, R.string.c_hints),
-	screens(CalculatorHelpScreensFragment.class, R.layout.help_screens_fragment, R.string.c_screens),
 
 	// todo serso: strings
-	matrix_edit(CalculatorMatrixEditFragment.class, R.layout.matrix_edit_fragment, R.string.c_screens),
+	matrix_edit(CalculatorMatrixEditFragment.class, R.layout.matrix_edit_fragment, R.string.c_release_notes),
 	release_notes(CalculatorReleaseNotesFragment.class, R.layout.release_notes_fragment, R.string.c_release_notes);
 
 	@Nonnull

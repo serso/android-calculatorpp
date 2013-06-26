@@ -79,13 +79,6 @@ enum CalculatorMenu implements LabeledMenuItem<MenuItem> {
 		}
 	},
 
-	help(R.string.c_help) {
-		@Override
-		public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
-			CalculatorActivityLauncher.showHelp(context);
-		}
-	},
-
 	about(R.string.c_about) {
 		@Override
 		public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {

@@ -41,7 +41,6 @@ import org.solovyev.android.Android;
 import org.solovyev.android.App;
 import org.solovyev.android.calculator.about.CalculatorAboutActivity;
 import org.solovyev.android.calculator.function.FunctionEditDialogFragment;
-import org.solovyev.android.calculator.help.CalculatorHelpActivity;
 import org.solovyev.android.calculator.history.CalculatorHistoryActivity;
 import org.solovyev.android.calculator.math.edit.*;
 import org.solovyev.android.calculator.matrix.CalculatorMatrixActivity;
@@ -75,10 +74,6 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
 		final Intent intent = new Intent(context, CalculatorHistoryActivity.class);
 		Android.addIntentFlags(intent, detached, context);
 		context.startActivity(intent);
-	}
-
-	public static void showHelp(@Nonnull final Context context) {
-		context.startActivity(new Intent(context, CalculatorHelpActivity.class));
 	}
 
 	public static void showSettings(@Nonnull final Context context) {

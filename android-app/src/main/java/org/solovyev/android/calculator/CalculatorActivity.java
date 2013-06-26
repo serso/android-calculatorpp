@@ -100,7 +100,6 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 			activityHelper.addTab(this, CalculatorFragmentType.functions, null, R.id.main_second_pane);
 			activityHelper.addTab(this, CalculatorFragmentType.operators, null, R.id.main_second_pane);
 			activityHelper.addTab(this, CalculatorPlotActivity.getPlotterFragmentType(), null, R.id.main_second_pane);
-			activityHelper.addTab(this, CalculatorFragmentType.faq, null, R.id.main_second_pane);
 		} else {
 			final ActionBar actionBar = getSupportActionBar();
 			if (Build.VERSION.SDK_INT <= GINGERBREAD_MR1 || (Build.VERSION.SDK_INT >= ICE_CREAM_SANDWICH && ViewConfiguration.get(this).hasPermanentMenuKey())) {

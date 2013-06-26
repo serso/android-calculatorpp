@@ -52,8 +52,6 @@
 
 		<activity android:label="@string/c_about" android:name=".about.CalculatorAboutActivity"/>
 
-		<activity android:label="@string/c_help" android:name=".help.CalculatorHelpActivity"/>
-
 		<activity android:label="@string/c_functions" android:name=".math.edit.CalculatorFunctionsActivity"/>
 
 		<activity android:label="@string/c_operators" android:name=".math.edit.CalculatorOperatorsActivity"/>
@@ -109,7 +107,7 @@
 
 		</activity>
 
-		<service android:name=".onscreen.CalculatorOnscreenService">
+		<service android:name=".onscreen.CalculatorOnscreenService" android:exported="false">
 			<intent-filter>
 				<action android:name="org.solovyev.android.calculator.INIT"/>
 				<action android:name="org.solovyev.android.calculator.EDITOR_STATE_CHANGED"/>
