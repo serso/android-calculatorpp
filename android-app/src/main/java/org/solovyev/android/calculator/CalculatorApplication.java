@@ -58,10 +58,8 @@ import java.util.List;
  * Date: 12/1/11
  * Time: 1:21 PM
  */
-/*@ReportsCrashes(formKey = "dEhDaW1nZU1qcFdsVUpiSnhON0c0ZHc6MQ",
-		mode = ReportingInteractionMode.TOAST)*/
 @ReportsCrashes(formKey = "",
-		mailTo = "se.solovyev+programming+calculatorpp+crashes+1.5@gmail.com",
+		mailTo = "calculatorplusplus@gmail.com",
 		mode = ReportingInteractionMode.DIALOG,
 		resToastText = R.string.crashed,
 		resDialogTitle = R.string.crash_dialog_title,
