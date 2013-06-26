@@ -44,7 +44,8 @@ import org.solovyev.android.calculator.jscl.JsclOperation;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
-import static junit.framework.Assert.fail;
+import static org.junit.Assert.fail;
+
 
 /**
  * User: serso

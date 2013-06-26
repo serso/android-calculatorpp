@@ -22,8 +22,7 @@
 
 package org.solovyev.android;
 
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.junit.Test;
 import org.solovyev.android.calculator.units.CalculatorNumeralBase;
 import org.solovyev.common.units.Unit;
@@ -34,6 +33,8 @@ import javax.annotation.Nonnull;
 import java.util.Date;
 import java.util.Random;
 
+import static org.junit.Assert.assertTrue;
+
 /**
  * User: serso
  * Date: 4/21/12
@@ -42,11 +43,11 @@ import java.util.Random;
 public class AndroidNumeralBaseTest {
 
 	@Nonnull
-	private final UnitConverter c = CalculatorNumeralBase.getConverter();
+	private final UnitConverter<String> c = CalculatorNumeralBase.getConverter();
 
 	@Test
 	public void testIsSupported() throws Exception {
-		Assert.assertTrue(c.isSupported(CalculatorNumeralBase.bin, CalculatorNumeralBase.dec));
+		assertTrue(c.isSupported(CalculatorNumeralBase.bin, CalculatorNumeralBase.dec));
 	}
 
 	@Test

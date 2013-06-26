@@ -22,10 +22,9 @@
 
 package org.solovyev.android.calculator.history;
 
-import junit.framework.Assert;
-
 import javax.annotation.Nonnull;
 
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.solovyev.android.calculator.CalculatorDisplayViewStateImpl;

@@ -22,8 +22,7 @@
 
 package org.solovyev.android.calculator.history;
 
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.junit.Test;
 import org.solovyev.android.calculator.CalculatorDisplayViewState;
 import org.solovyev.android.calculator.CalculatorDisplayViewStateImpl;
@@ -38,6 +37,8 @@ import org.solovyev.common.history.SimpleHistoryHelper;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * User: serso
@@ -149,12 +150,12 @@ public class HistoryUtilsTest {
 		state.setTime(date.getTime());
 		history.addState(state);
 
-		Assert.assertEquals(emptyHistory, HistoryUtils.toXml(history.getStates()));
+		assertEquals(emptyHistory, HistoryUtils.toXml(history.getStates()));
 
 
 		state.setSaved(true);
 
-		Assert.assertEquals(toXml1, HistoryUtils.toXml(history.getStates()));
+		assertEquals(toXml1, HistoryUtils.toXml(history.getStates()));
 
 		calculatorDisplay = CalculatorDisplayViewStateImpl.newValidState(JsclOperation.numeric, null, "5/6", 3);
 
@@ -184,7 +185,7 @@ public class HistoryUtilsTest {
 		history.addState(state);
 
 		String xml = HistoryUtils.toXml(history.getStates());
-		Assert.assertEquals(toXml2, xml);
+		assertEquals(toXml2, xml);
 
 		final List<CalculatorHistoryState> fromXml = new ArrayList<CalculatorHistoryState>();
 		final HistoryHelper<CalculatorHistoryState> historyFromXml = SimpleHistoryHelper.newInstance();
@@ -193,7 +194,7 @@ public class HistoryUtilsTest {
 			historyFromXml.addState(historyState);
 		}
 
-		Assert.assertEquals(history.getStates().size(), historyFromXml.getStates().size());
+		assertEquals(history.getStates().size(), historyFromXml.getStates().size());
 
 		for (CalculatorHistoryState historyState : history.getStates()) {
 			historyState.setId(0);

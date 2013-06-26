@@ -22,10 +22,9 @@
 
 package org.solovyev.android.calculator;
 
-import junit.framework.Assert;
-
 import javax.annotation.Nonnull;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
