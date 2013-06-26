@@ -1,36 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!--
+  ~ Copyright 2013 serso aka se.solovyev
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~    http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Contact details
+  ~
+  ~ Email: se.solovyev@gmail.com
+  ~ Site:  http://se.solovyev.org
+  -->
+
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-	a:layout_width="match_parent"
-	a:layout_height="wrap_content"
-	a:orientation="horizontal">
+			  a:layout_width="match_parent"
+			  a:layout_height="wrap_content"
+			  a:orientation="horizontal">
 
 	<TextView
-		a:id="@+id/cpp_plot_function_expression_textview"
-		a:layout_width="0dp"
-		a:layout_height="wrap_content"
-		a:layout_weight="3" />
+			a:id="@+id/cpp_plot_function_expression_textview"
+			a:layout_width="0dp"
+			a:layout_height="wrap_content"
+			a:layout_weight="3"/>
 
 	<CheckBox
-		a:id="@+id/cpp_plot_function_pinned_checkbox"
-		a:layout_width="0dp"
-		a:layout_height="wrap_content"
-		a:layout_weight="1" />
+			a:id="@+id/cpp_plot_function_pinned_checkbox"
+			a:layout_width="0dp"
+			a:layout_height="wrap_content"
+			a:layout_weight="1"/>
 
 	<CheckBox
-		a:id="@+id/cpp_plot_function_visible_checkbox"
-		a:layout_width="0dp"
-		a:layout_height="wrap_content"
-		a:layout_weight="1" />
+			a:id="@+id/cpp_plot_function_visible_checkbox"
+			a:layout_width="0dp"
+			a:layout_height="wrap_content"
+			a:layout_weight="1"/>
 
 	<ImageButton
-		a:id="@+id/cpp_plot_function_settings_button"
-		a:layout_width="0dp"
-		a:layout_height="wrap_content"
-		a:layout_weight="1"
-		a:paddingTop="0dp"
-		a:paddingBottom="0dp"
-		a:scaleType="centerInside"
-		a:src="@drawable/kb_settings" />
+			a:id="@+id/cpp_plot_function_settings_button"
+			a:layout_width="0dp"
+			a:layout_height="wrap_content"
+			a:layout_weight="1"
+			a:paddingTop="0dp"
+			a:paddingBottom="0dp"
+			a:scaleType="centerInside"
+			a:src="@drawable/kb_settings"/>
 
 </LinearLayout>

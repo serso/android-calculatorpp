@@ -1,82 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!--
+  ~ Copyright 2013 serso aka se.solovyev
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~    http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Contact details
+  ~
+  ~ Email: se.solovyev@gmail.com
+  ~ Site:  http://se.solovyev.org
+  -->
+
 <PreferenceScreen xmlns:a="http://schemas.android.com/apk/res/android"
-	xmlns:range="http://schemas.android.com/apk/res-auto">
+				  xmlns:range="http://schemas.android.com/apk/res-auto">
 
 	<PreferenceScreen a:title="@string/c_prefs_calculations_category">
 
-		<org.solovyev.android.ads.AdViewPreference a:layout="@layout/acl_adview_pref" />
+		<org.solovyev.android.ads.AdViewPreference a:layout="@layout/acl_adview_pref"/>
 
 		<android.preference.CheckBoxPreference
-			a:key="@string/p_calc_round_result_key"
-			a:summary="@string/c_calc_round_result_summary"
-			a:title="@string/c_calc_round_result_title"
-			a:defaultValue="true" />
+				a:key="@string/p_calc_round_result_key"
+				a:summary="@string/c_calc_round_result_summary"
+				a:title="@string/c_calc_round_result_title"
+				a:defaultValue="true"/>
 
 		<org.solovyev.android.prefs.IntegerPickerDialogPreference
-			a:key="@string/p_calc_result_precision_key"
-			a:title="@string/p_calc_result_precision_title"
-			a:summary="@string/c_calc_result_precision_summary"
-			a:defaultValue="5"
-			range:boundaries="0;16" />
+				a:key="@string/p_calc_result_precision_key"
+				a:title="@string/p_calc_result_precision_title"
+				a:summary="@string/c_calc_result_precision_summary"
+				a:defaultValue="5"
+				range:boundaries="0;16"/>
 
 		<android.preference.CheckBoxPreference
-			a:key="@string/p_calc_science_notation_key"
-			a:summary="@string/c_calc_science_notation_summary"
-			a:title="@string/c_calc_science_notation_title"
-			a:defaultValue="false" />
+				a:key="@string/p_calc_science_notation_key"
+				a:summary="@string/c_calc_science_notation_summary"
+				a:title="@string/c_calc_science_notation_title"
+				a:defaultValue="false"/>
 
 		<ListPreference
-			a:key="@string/p_calc_grouping_separator_key"
-			a:title="@string/c_calc_grouping_separator"
-			a:entries="@array/p_grouping_separator_names"
-			a:summary="@string/c_calc_grouping_separator_summary"
-			a:entryValues="@array/p_grouping_separator_values" />
+				a:key="@string/p_calc_grouping_separator_key"
+				a:title="@string/c_calc_grouping_separator"
+				a:entries="@array/p_grouping_separator_names"
+				a:summary="@string/c_calc_grouping_separator_summary"
+				a:entryValues="@array/p_grouping_separator_values"/>
 
 		<ListPreference
-			a:key="preferred_angle_units"
-			a:title="@string/p_preferred_angle_units_title"
-			a:summary="@string/p_preferred_angle_units_summary"
-			a:entries="@array/p_angle_units_names"
-			a:entryValues="@array/p_angle_units" />
+				a:key="preferred_angle_units"
+				a:title="@string/p_preferred_angle_units_title"
+				a:summary="@string/p_preferred_angle_units_summary"
+				a:entries="@array/p_angle_units_names"
+				a:entryValues="@array/p_angle_units"/>
 
 		<ListPreference
-			a:key="@string/p_calc_angle_units_key"
-			a:title="@string/c_calc_angle_units"
-			a:entries="@array/p_angle_units_names"
-			a:summary="@string/c_angle_units_summary"
-			a:entryValues="@array/p_angle_units" />
+				a:key="@string/p_calc_angle_units_key"
+				a:title="@string/c_calc_angle_units"
+				a:entries="@array/p_angle_units_names"
+				a:summary="@string/c_angle_units_summary"
+				a:entryValues="@array/p_angle_units"/>
 
 		<ListPreference
-			a:key="preferred_numeral_base"
-			a:title="@string/p_preferred_numeral_base_title"
-			a:summary="@string/p_preferred_numeral_base_summary"
-			a:entries="@array/p_numeral_bases_names"
-			a:entryValues="@array/p_numeral_bases" />
+				a:key="preferred_numeral_base"
+				a:title="@string/p_preferred_numeral_base_title"
+				a:summary="@string/p_preferred_numeral_base_summary"
+				a:entries="@array/p_numeral_bases_names"
+				a:entryValues="@array/p_numeral_bases"/>
 
 		<ListPreference
-			a:key="@string/p_calc_numeral_bases_key"
-			a:title="@string/c_calc_numeral_bases"
-			a:entries="@array/p_numeral_bases_names"
-			a:summary="@string/c_numeral_bases_summary"
-			a:entryValues="@array/p_numeral_bases" />
+				a:key="@string/p_calc_numeral_bases_key"
+				a:title="@string/c_calc_numeral_bases"
+				a:entries="@array/p_numeral_bases_names"
+				a:summary="@string/c_numeral_bases_summary"
+				a:entryValues="@array/p_numeral_bases"/>
 
 		<org.solovyev.android.prefs.IntegerPickerDialogPreference
-			a:key="@string/p_calc_max_calculation_time_key"
-			a:title="@string/p_calc_max_calculation_time_title"
-			a:summary="@string/p_calc_max_calculation_time_summary"
-			a:defaultValue="5"
-			range:boundaries="3;1000" />
+				a:key="@string/p_calc_max_calculation_time_key"
+				a:title="@string/p_calc_max_calculation_time_title"
+				a:summary="@string/p_calc_max_calculation_time_summary"
+				a:defaultValue="5"
+				range:boundaries="3;1000"/>
 
 		<android.preference.CheckBoxPreference
-			a:key="calculations_calculate_on_fly"
-			a:title="@string/p_calculations_calculate_on_fly_title"
-			a:summary="@string/p_calculations_calculate_on_fly_summary" />
+				a:key="calculations_calculate_on_fly"
+				a:title="@string/p_calculations_calculate_on_fly_title"
+				a:summary="@string/p_calculations_calculate_on_fly_summary"/>
 
 		<android.preference.CheckBoxPreference
-			a:key="show_calculation_messages_dialog"
-			a:title="@string/p_show_calculation_messages_dialog_title"
-			a:summary="@string/p_show_calculation_messages_dialog_summary" />
+				a:key="show_calculation_messages_dialog"
+				a:title="@string/p_show_calculation_messages_dialog_title"
+				a:summary="@string/p_show_calculation_messages_dialog_summary"/>
 
 	</PreferenceScreen>
 

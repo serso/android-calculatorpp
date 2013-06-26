@@ -1,8 +1,31 @@
+/*
+ * Copyright 2013 serso aka se.solovyev
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Contact details
+ *
+ * Email: se.solovyev@gmail.com
+ * Site:  http://se.solovyev.org
+ */
+
 package org.solovyev.android.calculator;
 
 import android.content.SharedPreferences;
 import jscl.AngleUnit;
 import jscl.NumeralBase;
+
 import org.solovyev.android.calculator.core.R;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
@@ -10,6 +33,7 @@ import org.solovyev.android.prefs.*;
 import org.solovyev.android.view.VibratorContainer;
 
 import javax.annotation.Nonnull;
+
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
@@ -116,8 +140,7 @@ public final class CalculatorPreferences {
 			main_cellphone(R.layout.main_calculator, 0, true),
 
 			simple(R.layout.main_calculator, R.string.p_layout_simple, true),
-			simple_mobile(R.layout.main_calculator_mobile, R.string.p_layout_simple_mobile, false)
-			;
+			simple_mobile(R.layout.main_calculator_mobile, R.string.p_layout_simple_mobile, false);
 
 			private final int layoutId;
 			private final int nameResId;

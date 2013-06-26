@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="auto" android:versionCode="117" android:versionName="1.6.3-SNAPSHOT" package="org.solovyev.android.calculator">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="auto"
+		  android:versionCode="117" android:versionName="1.6.3-SNAPSHOT" package="org.solovyev.android.calculator">
 
 	<uses-permission android:name="android.permission.VIBRATE"/>
 	<uses-permission android:name="android.permission.INTERNET"/>
@@ -22,9 +23,12 @@
 
 	<uses-sdk android:minSdkVersion="4" android:targetSdkVersion="17"/>
 
-	<application android:allowBackup="true" android:debuggable="true" android:hardwareAccelerated="false" android:icon="@drawable/icon" android:label="@string/c_app_name" android:name=".CalculatorApplication" android:theme="@style/cpp_metro_blue_theme">
+	<application android:allowBackup="true" android:debuggable="true" android:hardwareAccelerated="false"
+				 android:icon="@drawable/icon" android:label="@string/c_app_name" android:name=".CalculatorApplication"
+				 android:theme="@style/cpp_metro_blue_theme">
 
-		<activity android:clearTaskOnLaunch="true" android:launchMode="singleTop" android:label="@string/c_app_name" android:name=".CalculatorActivity" android:windowSoftInputMode="adjustPan">
+		<activity android:clearTaskOnLaunch="true" android:launchMode="singleTop" android:label="@string/c_app_name"
+				  android:name=".CalculatorActivity" android:windowSoftInputMode="adjustPan">
 
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"/>
@@ -33,14 +37,18 @@
 
 		</activity>
 
-		<activity android:clearTaskOnLaunch="true" android:launchMode="singleTop" android:label="@string/c_app_name" android:name=".CalculatorActivityMobile" android:windowSoftInputMode="adjustPan"/>
+		<activity android:clearTaskOnLaunch="true" android:launchMode="singleTop" android:label="@string/c_app_name"
+				  android:name=".CalculatorActivityMobile" android:windowSoftInputMode="adjustPan"/>
 
 		<!-- settings must use action bar icon-->
-		<activity android:icon="@drawable/ab_icon" android:label="@string/c_app_settings" android:name=".preferences.CalculatorPreferencesActivity"/>
+		<activity android:icon="@drawable/ab_icon" android:label="@string/c_app_settings"
+				  android:name=".preferences.CalculatorPreferencesActivity"/>
 
 		<activity android:label="@string/c_history" android:name=".history.CalculatorHistoryActivity"/>
 
-		<activity android:excludeFromRecents="true" android:finishOnTaskLaunch="true" android:label="@string/calculation_messages_dialog_title" android:launchMode="singleTask" android:name=".FixableMessagesDialog" android:theme="@style/cpp_metro_blue_dialog_theme"/>
+		<activity android:excludeFromRecents="true" android:finishOnTaskLaunch="true"
+				  android:label="@string/calculation_messages_dialog_title" android:launchMode="singleTask"
+				  android:name=".FixableMessagesDialog" android:theme="@style/cpp_metro_blue_dialog_theme"/>
 
 		<activity android:label="@string/c_about" android:name=".about.CalculatorAboutActivity"/>
 
@@ -52,36 +60,47 @@
 
 		<activity android:label="@string/c_vars_and_constants" android:name=".math.edit.CalculatorVarsActivity"/>
 		<activity android:name=".CalculatorWikiActivity"/>
-		<activity android:name=".wizard.CalculatorWizardActivity" android:theme="@style/cpp_metro_blue_dialog_theme" android:launchMode="singleTop">
+		<activity android:name=".wizard.CalculatorWizardActivity" android:theme="@style/cpp_metro_blue_dialog_theme"
+				  android:launchMode="singleTop">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"/>
 			</intent-filter>
 		</activity>
 
 		<activity android:label="@string/c_plot_graph" android:name=".plot.CalculatorPlotActivity"/>
-		<activity android:label="@string/cpp_plot_functions" android:name=".plot.CalculatorPlotFunctionsActivity" android:theme="@style/cpp_metro_blue_dialog_theme"/>
-		<activity android:label="@string/cpp_plot_function_settings" android:name=".plot.CalculatorPlotFunctionSettingsActivity" android:theme="@style/cpp_metro_blue_dialog_theme"/>
-		<activity android:label="@string/cpp_plot_range" android:name=".plot.CalculatorPlotRangeActivity" android:theme="@style/cpp_metro_blue_dialog_theme"/>
+		<activity android:label="@string/cpp_plot_functions" android:name=".plot.CalculatorPlotFunctionsActivity"
+				  android:theme="@style/cpp_metro_blue_dialog_theme"/>
+		<activity android:label="@string/cpp_plot_function_settings"
+				  android:name=".plot.CalculatorPlotFunctionSettingsActivity"
+				  android:theme="@style/cpp_metro_blue_dialog_theme"/>
+		<activity android:label="@string/cpp_plot_range" android:name=".plot.CalculatorPlotRangeActivity"
+				  android:theme="@style/cpp_metro_blue_dialog_theme"/>
 
-		<activity android:label="@string/cpp_purchase_title" android:name=".preferences.CalculatorPurchaseDialogActivity" android:theme="@style/cpp_metro_blue_dialog_theme"/>
+		<activity android:label="@string/cpp_purchase_title"
+				  android:name=".preferences.CalculatorPurchaseDialogActivity"
+				  android:theme="@style/cpp_metro_blue_dialog_theme"/>
 
 		<activity android:name=".CalculatorDialogActivity" android:theme="@style/cpp_metro_blue_dialog_theme"/>
 
 		<!-- todo serso: strings-->
 		<activity android:label="@string/c_plot_graph" android:name=".matrix.CalculatorMatrixActivity"/>
 
-		<activity android:name=".widget.CalculatorWidgetConfigurationActivity" android:theme="@style/cpp_metro_blue_theme">
+		<activity android:name=".widget.CalculatorWidgetConfigurationActivity"
+				  android:theme="@style/cpp_metro_blue_theme">
 			<intent-filter>
 				<action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
 			</intent-filter>
 		</activity>
 
 		<!-- settings must use action bar icon-->
-		<activity android:icon="@drawable/ab_icon" android:label="@string/c_settings" android:name=".plot.CalculatorPlotPreferenceActivity"/>
+		<activity android:icon="@drawable/ab_icon" android:label="@string/c_settings"
+				  android:name=".plot.CalculatorPlotPreferenceActivity"/>
 
 		<!-- ONSCREEN CONFIG -->
 
-		<activity android:icon="@drawable/icon_onscreen" android:label="@string/c_app_name_on_screen" android:launchMode="singleInstance" android:name=".onscreen.CalculatorOnscreenStartActivity" android:theme="@style/cpp_metro_blue_dialog_theme">
+		<activity android:icon="@drawable/icon_onscreen" android:label="@string/c_app_name_on_screen"
+				  android:launchMode="singleInstance" android:name=".onscreen.CalculatorOnscreenStartActivity"
+				  android:theme="@style/cpp_metro_blue_dialog_theme">
 
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"/>
@@ -109,7 +128,8 @@
 
 		<!-- WIDGET CONFIG -->
 
-		<receiver android:icon="@drawable/icon" android:label="@string/c_app_widget_3x3_name" android:name=".widget.CalculatorWidgetProvider">
+		<receiver android:icon="@drawable/icon" android:label="@string/c_app_widget_3x3_name"
+				  android:name=".widget.CalculatorWidgetProvider">
 
 			<intent-filter>
 				<action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
@@ -122,7 +142,8 @@
 			<meta-data android:name="android.appwidget.provider" android:resource="@xml/calculator_widget_info_3x3"/>
 		</receiver>
 
-		<receiver android:icon="@drawable/icon" android:label="@string/c_app_widget_3x4_name" android:name=".widget.CalculatorWidgetProvider3x4">
+		<receiver android:icon="@drawable/icon" android:label="@string/c_app_widget_3x4_name"
+				  android:name=".widget.CalculatorWidgetProvider3x4">
 
 			<intent-filter>
 				<action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
@@ -135,7 +156,8 @@
 			<meta-data android:name="android.appwidget.provider" android:resource="@xml/calculator_widget_info_3x4"/>
 		</receiver>
 
-		<receiver android:icon="@drawable/icon" android:label="@string/c_app_widget_4x4_name" android:name=".widget.CalculatorWidgetProvider4x4">
+		<receiver android:icon="@drawable/icon" android:label="@string/c_app_widget_4x4_name"
+				  android:name=".widget.CalculatorWidgetProvider4x4">
 
 			<intent-filter>
 				<action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
@@ -148,7 +170,8 @@
 			<meta-data android:name="android.appwidget.provider" android:resource="@xml/calculator_widget_info_4x4"/>
 		</receiver>
 
-		<receiver android:icon="@drawable/icon" android:label="@string/c_app_widget_4x5_name" android:name=".widget.CalculatorWidgetProvider4x5">
+		<receiver android:icon="@drawable/icon" android:label="@string/c_app_widget_4x5_name"
+				  android:name=".widget.CalculatorWidgetProvider4x5">
 
 			<intent-filter>
 				<action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
@@ -163,7 +186,9 @@
 
 		<!-- ADMOB + BILLING CONFIG -->
 
-		<activity android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" android:name="com.google.ads.AdActivity"/>
+		<activity
+				android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+				android:name="com.google.ads.AdActivity"/>
 
 		<service android:name="net.robotmedia.billing.BillingService"/>
 		<receiver android:name="net.robotmedia.billing.BillingReceiver">
@@ -176,7 +201,9 @@
 
 		<!-- ACRA CONFIG -->
 
-		<activity android:excludeFromRecents="true" android:finishOnTaskLaunch="true" android:launchMode="singleInstance" android:name="org.acra.CrashReportDialog" android:theme="@style/Theme.Sherlock.Dialog"/>
+		<activity android:excludeFromRecents="true" android:finishOnTaskLaunch="true"
+				  android:launchMode="singleInstance" android:name="org.acra.CrashReportDialog"
+				  android:theme="@style/Theme.Sherlock.Dialog"/>
 
 	</application>
 </manifest>
