@@ -38,8 +38,7 @@
 		Spagnolo - Jordi Luna\n\n
 		Questa applicazione utilizza prossimo librerie open source:\n
 		<a href="http://simple.sourceforge.net">Simple (XML serialization)</a>\n
-		<a href="http://meditorworld.appspot.com/meditor.txt">JSCL</a>\n
-		<a href="http://www.achartengine.org/">AChartEngine</a>
+		<a href="http://meditorworld.appspot.com/meditor.txt">JSCL</a>
 	</string>
 
 </resources>

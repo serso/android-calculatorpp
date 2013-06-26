@@ -40,8 +40,7 @@
 		Italiano - Gabriele Ravanetti\n\n
 		Esta aplicación utiliza las siguiente librerías Open Source:\n
 		<a href="http://simple.sourceforge.net">Simple (XML serialization)</a>\n
-		<a href="http://meditorworld.appspot.com/meditor.txt">JSCL</a>\n
-		<a href="http://www.achartengine.org/">AChartEngine</a>
+		<a href="http://meditorworld.appspot.com/meditor.txt">JSCL</a>
 	</string>
 
 </resources>
