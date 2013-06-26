@@ -7,6 +7,7 @@
 package org.solovyev.android.calculator.history;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -90,7 +91,7 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 	@Nonnull
 	private CalculatorFragmentHelper fragmentHelper;
 
-	private ActivityMenu<Menu, MenuItem> menu = ListActivityMenu.fromResource(R.menu.history_menu, HistoryMenu.class, SherlockMenuHelper.getInstance());
+	private final ActivityMenu<Menu, MenuItem> menu = ListActivityMenu.fromResource(R.menu.history_menu, HistoryMenu.class, SherlockMenuHelper.getInstance(), new HistoryMenuFilter());
 
 	@Nonnull
 	private final SharedPreferences.OnSharedPreferenceChangeListener preferencesListener = new HistoryOnPreferenceChangeListener();
@@ -346,19 +347,26 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 
 	private static enum HistoryMenu implements IdentifiableMenuItem<MenuItem> {
 
-		clear_history(R.id.history_menu_clear_history) {
+		clear_history(R.id.menu_history_clear_history) {
 			@Override
 			public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
 				Locator.getInstance().getCalculator().fireCalculatorEvent(clear_history_requested, null);
 			}
 		},
 
-		toggle_datetime(R.id.history_menu_toggle_datetime) {
+		toggle_datetime(R.id.menu_history_toggle_datetime) {
 			@Override
 			public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
 				final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(CalculatorApplication.getInstance());
 				final Boolean showDatetime = CalculatorPreferences.History.showDatetime.getPreference(preferences);
 				CalculatorPreferences.History.showDatetime.putPreference(preferences, !showDatetime);
+			}
+		},
+
+		fullscreen(R.id.menu_history_fullscreen) {
+			@Override
+			public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
+				context.startActivity(new Intent(context, CalculatorHistoryActivity.class));
 			}
 		};
 
@@ -372,6 +380,24 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 		@Override
 		public Integer getItemId() {
 			return this.itemId;
+		}
+	}
+
+	private class HistoryMenuFilter implements JPredicate<AMenuItem<MenuItem>> {
+
+		@Override
+		public boolean apply(@Nullable AMenuItem<MenuItem> menuItem) {
+			boolean result = false;
+
+			if (menuItem instanceof IdentifiableMenuItem<?>) {
+				switch (((IdentifiableMenuItem) menuItem).getItemId()) {
+					case R.id.menu_history_fullscreen:
+						result = !fragmentHelper.isPane(AbstractCalculatorHistoryFragment.this);
+						break;
+				}
+			}
+
+			return result;
 		}
 	}
 

@@ -9,15 +9,21 @@
 <menu xmlns:a="http://schemas.android.com/apk/res/android">
 
 	<item
-		a:id="@+id/history_menu_toggle_datetime"
-		a:icon="@drawable/kb_clock"
-		a:title="@string/c_toggle_datetime"
-		a:showAsAction="always" />
+			a:id="@+id/menu_history_fullscreen"
+			a:title="@string/cpp_fullscreen"
+			a:icon="@drawable/kb_expand"
+			a:showAsAction="always"/>
 
 	<item
-		a:id="@+id/history_menu_clear_history"
-		a:icon="@drawable/kb_remove"
-		a:title="@string/c_clear_history"
-		a:showAsAction="always" />
+			a:id="@+id/menu_history_toggle_datetime"
+			a:icon="@drawable/kb_clock"
+			a:title="@string/c_toggle_datetime"
+			a:showAsAction="always"/>
+
+	<item
+			a:id="@+id/menu_history_clear_history"
+			a:icon="@drawable/kb_remove"
+			a:title="@string/c_clear_history"
+			a:showAsAction="always"/>
 
 </menu>

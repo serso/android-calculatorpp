@@ -200,7 +200,7 @@ public class CalculatorFunctionsFragment extends AbstractMathEntityListFragment<
 		boolean result;
 
 		switch (item.getItemId()) {
-			case R.id.functions_menu_add_function:
+			case R.id.menu_functions_add_function:
 				FunctionEditDialogFragment.showDialog(FunctionEditDialogFragment.Input.newInstance(), this.getActivity().getSupportFragmentManager());
 				result = true;
 				break;

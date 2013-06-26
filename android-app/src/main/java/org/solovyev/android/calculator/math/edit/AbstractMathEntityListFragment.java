@@ -6,17 +6,33 @@
 
 package org.solovyev.android.calculator.math.edit;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
-import com.actionbarsherlock.app.SherlockListFragment;
-import org.solovyev.android.calculator.*;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.solovyev.android.calculator.CalculatorApplication;
+import org.solovyev.android.calculator.CalculatorEventData;
+import org.solovyev.android.calculator.CalculatorEventListener;
+import org.solovyev.android.calculator.CalculatorEventType;
+import org.solovyev.android.calculator.CalculatorFragmentHelper;
+import org.solovyev.android.calculator.CalculatorFragmentType;
+import org.solovyev.android.calculator.CalculatorMathRegistry;
+import org.solovyev.android.calculator.Locator;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.menu.AMenuItem;
 import org.solovyev.android.menu.ContextMenuBuilder;
 import org.solovyev.android.menu.LabeledMenuItem;
@@ -27,11 +43,7 @@ import org.solovyev.common.filter.Filter;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.text.Strings;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import com.actionbarsherlock.app.SherlockListFragment;
 
 import static org.solovyev.android.calculator.CalculatorEventType.show_wiki_description;
 
@@ -317,31 +329,6 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
 	*
 	**********************************************************************
 	*/
-
-	static void createTab(@Nonnull Context context,
-						  @Nonnull TabHost tabHost,
-						  @Nonnull String tabId,
-						  @Nonnull String categoryId,
-						  int tabCaptionId,
-						  @Nonnull Class<? extends Activity> activityClass,
-						  @Nullable Intent parentIntent) {
-
-		TabHost.TabSpec spec;
-
-		final Intent intent;
-		if (parentIntent != null) {
-			intent = new Intent(parentIntent);
-		} else {
-			intent = new Intent();
-		}
-		intent.setClass(context, activityClass);
-		intent.putExtra(MATH_ENTITY_CATEGORY_EXTRA_STRING, categoryId);
-
-		// Initialize a TabSpec for each tab and add it to the TabHost
-		spec = tabHost.newTabSpec(tabId).setIndicator(context.getString(tabCaptionId)).setContent(intent);
-
-		tabHost.addTab(spec);
-	}
 
 	@Nonnull
 	public static Bundle createBundleFor(@Nonnull String categoryId) {

@@ -22,7 +22,7 @@
 
 	<item
 		a:id="@+id/menu_plot_fullscreen"
-		a:title="@string/cpp_plot_fullscreen"
+		a:title="@string/cpp_fullscreen"
 		a:icon="@drawable/kb_expand"
 		a:showAsAction="always" />
 

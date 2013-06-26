@@ -146,7 +146,7 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
 		boolean result;
 
 		switch (item.getItemId()) {
-			case R.id.var_menu_add_var:
+			case R.id.menu_vars_add_var:
 				VarEditDialogFragment.showDialog(VarEditDialogFragment.Input.newInstance(), this.getActivity().getSupportFragmentManager());
 				result = true;
 				break;
