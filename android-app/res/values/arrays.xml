@@ -29,7 +29,7 @@
 		<item>@string/p_metro_green_theme</item>
 		<item>@string/p_metro_purple_theme</item>
 	</string-array>
-	<string-array name="p_theme_values">
+	<string-array name="p_theme_values" translatable="false">
 		<item>default_theme</item>
 		<item>violet_theme</item>
 		<item>light_blue_theme</item>
@@ -43,13 +43,13 @@
 		<item>@string/p_grouping_separator_apostrophe</item>
 		<item>@string/p_grouping_separator_space</item>
 	</string-array>
-	<string-array name="p_grouping_separator_values">
+	<string-array name="p_grouping_separator_values" translatable="false">
 		<item>""</item>
 		<item>\'</item>
 		<item>" "</item>
 	</string-array>
 
-	<string-array name="p_multiplication_sign_values">
+	<string-array name="p_multiplication_sign_values" translatable="false">
 		<item>"*"</item>
 		<item>"×"</item>
 		<item>"∙"</item>
@@ -59,7 +59,7 @@
 		<item>@string/p_layout_calculator</item>
 		<item>@string/p_layout_simple</item>
 	</string-array>
-	<string-array name="p_layout_values">
+	<string-array name="p_layout_values" translatable="false">
 		<item>main_calculator</item>
 		<item>simple</item>
 	</string-array>
@@ -69,7 +69,7 @@
 		<item>@string/p_calc_haptic_feedback_strength_middle</item>
 		<item>@string/p_calc_haptic_feedback_strength_long</item>
 	</string-array>
-	<string-array name="p_calc_haptic_feedback_duration_values">
+	<string-array name="p_calc_haptic_feedback_duration_values" translatable="false">
 		<item>30</item>
 		<item>60</item>
 		<item>100</item>
@@ -81,7 +81,7 @@
 		<item>@string/p_grad</item>
 		<item>@string/p_turns</item>
 	</string-array>
-	<string-array name="p_angle_units">
+	<string-array name="p_angle_units" translatable="false">
 		<item>deg</item>
 		<item>rad</item>
 		<item>grad</item>
@@ -94,7 +94,7 @@
 		<item>@string/p_oct</item>
 		<item>@string/p_bin</item>
 	</string-array>
-	<string-array name="p_numeral_bases">
+	<string-array name="p_numeral_bases" translatable="false">
 		<item>dec</item>
 		<item>hex</item>
 		<item>oct</item>

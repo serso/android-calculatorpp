@@ -51,7 +51,7 @@ public class AndroidMathEntityDao<T extends MathPersistenceEntity> implements Ma
 	private static final String TAG = AndroidMathEntityDao.class.getSimpleName();
 
 	@Nullable
-	private final Integer preferenceStringId;
+	private final String preferenceString;
 
 	@Nonnull
 	private final Context context;
@@ -59,17 +59,17 @@ public class AndroidMathEntityDao<T extends MathPersistenceEntity> implements Ma
 	@Nullable
 	private final Class<? extends MathEntityPersistenceContainer<T>> persistenceContainerClass;
 
-	public AndroidMathEntityDao(@Nullable Integer preferenceStringId,
+	public AndroidMathEntityDao(@Nullable String preferenceString,
 								@Nonnull Application application,
 								@Nullable Class<? extends MathEntityPersistenceContainer<T>> persistenceContainerClass) {
-		this.preferenceStringId = preferenceStringId;
+		this.preferenceString = preferenceString;
 		this.context = application;
 		this.persistenceContainerClass = persistenceContainerClass;
 	}
 
 	@Override
 	public void save(@Nonnull MathEntityPersistenceContainer<T> container) {
-		if (preferenceStringId != null) {
+		if (preferenceString != null) {
 			final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
 			final SharedPreferences.Editor editor = settings.edit();
 
@@ -81,7 +81,7 @@ public class AndroidMathEntityDao<T extends MathPersistenceEntity> implements Ma
 				throw new RuntimeException(e);
 			}
 
-			editor.putString(context.getString(preferenceStringId), sw.toString());
+			editor.putString(preferenceString, sw.toString());
 
 			editor.commit();
 		}
@@ -90,11 +90,11 @@ public class AndroidMathEntityDao<T extends MathPersistenceEntity> implements Ma
 	@Nullable
 	@Override
 	public MathEntityPersistenceContainer<T> load() {
-		if (persistenceContainerClass != null && preferenceStringId != null) {
+		if (persistenceContainerClass != null && preferenceString != null) {
 			final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
 			if (preferences != null) {
-				final String value = preferences.getString(context.getString(preferenceStringId), null);
+				final String value = preferences.getString(preferenceString, null);
 				if (value != null) {
 					final Serializer serializer = new Persister();
 					try {

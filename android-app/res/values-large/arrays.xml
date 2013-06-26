@@ -28,7 +28,7 @@
 		<item>@string/p_layout_simple</item>
 		<item>@string/p_layout_simple_mobile</item>
 	</string-array>
-	<string-array name="p_layout_values">
+	<string-array name="p_layout_values" translatable="false">
 		<item>main_calculator</item>
 		<item>main_calculator_mobile</item>
 		<item>simple</item>
