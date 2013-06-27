@@ -22,7 +22,6 @@
 
 package org.solovyev.android.calculator;
 
-import org.solovyev.android.calculator.external.CalculatorExternalListenersContainer;
 import org.solovyev.android.calculator.history.CalculatorHistory;
 import org.solovyev.android.calculator.plot.CalculatorPlotter;
 import org.solovyev.android.calculator.text.TextProcessor;
@@ -71,9 +70,6 @@ public class Locator implements CalculatorLocator {
 	@Nonnull
 	private CalculatorPreferenceService calculatorPreferenceService;
 
-	/*@Nonnull*/
-	private CalculatorExternalListenersContainer calculatorExternalListenersContainer;
-
 	@Nonnull
 	private CalculatorPlotter calculatorPlotter;
 
@@ -89,7 +85,6 @@ public class Locator implements CalculatorLocator {
 					 @Nonnull CalculatorLogger logger,
 					 @Nonnull CalculatorPreferenceService preferenceService,
 					 @Nonnull CalculatorKeyboard keyboard,
-					 @Nonnull CalculatorExternalListenersContainer externalListenersContainer,
 					 @Nonnull CalculatorPlotter plotter,
 					 @Nullable TextProcessor<TextProcessorEditorResult, String> editorTextProcessor) {
 
@@ -100,7 +95,6 @@ public class Locator implements CalculatorLocator {
 		this.calculatorHistory = history;
 		this.calculatorLogger = logger;
 		this.calculatorPreferenceService = preferenceService;
-		this.calculatorExternalListenersContainer = externalListenersContainer;
 		this.calculatorPlotter = plotter;
 
 		calculatorEditor = new CalculatorEditorImpl(this.calculator, editorTextProcessor);
@@ -177,11 +171,5 @@ public class Locator implements CalculatorLocator {
 	@Override
 	public CalculatorPreferenceService getPreferenceService() {
 		return this.calculatorPreferenceService;
-	}
-
-	@Override
-	/*@Nonnull*/
-	public CalculatorExternalListenersContainer getExternalListenersContainer() {
-		return calculatorExternalListenersContainer;
 	}
 }

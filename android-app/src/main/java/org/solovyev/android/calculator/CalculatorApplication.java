@@ -38,7 +38,6 @@ import org.solovyev.android.Android;
 import org.solovyev.android.App;
 import org.solovyev.android.ServiceLocator;
 import org.solovyev.android.ads.AdsController;
-import org.solovyev.android.calculator.external.AndroidExternalListenersContainer;
 import org.solovyev.android.calculator.history.AndroidCalculatorHistory;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 import org.solovyev.android.calculator.onscreen.CalculatorOnscreenStartActivity;
@@ -145,7 +144,6 @@ public class CalculatorApplication extends android.app.Application implements Sh
 				new AndroidCalculatorLogger(),
 				new AndroidCalculatorPreferenceService(this),
 				new AndroidCalculatorKeyboard(this, new CalculatorKeyboardImpl(calculator)),
-				new AndroidExternalListenersContainer(calculator),
 				new AndroidCalculatorPlotter(this, new CalculatorPlotterImpl(calculator)),
 				editorTextProcessor);
 

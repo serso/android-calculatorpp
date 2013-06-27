@@ -22,7 +22,6 @@
 
 package org.solovyev.android.calculator;
 
-import org.solovyev.android.calculator.external.CalculatorExternalListenersContainer;
 import org.solovyev.android.calculator.history.CalculatorHistory;
 import org.solovyev.android.calculator.plot.CalculatorPlotter;
 import org.solovyev.android.calculator.text.TextProcessor;
@@ -46,7 +45,6 @@ public interface CalculatorLocator {
 			  @Nonnull CalculatorLogger logger,
 			  @Nonnull CalculatorPreferenceService preferenceService,
 			  @Nonnull CalculatorKeyboard keyboard,
-			  @Nonnull CalculatorExternalListenersContainer externalListenersContainer,
 			  @Nonnull CalculatorPlotter plotter,
 			  @Nullable TextProcessor<TextProcessorEditorResult, String> editorTextProcessor);
 
@@ -82,8 +80,4 @@ public interface CalculatorLocator {
 
 	@Nonnull
 	CalculatorPreferenceService getPreferenceService();
-
-	// for robolectric
-	/*@Nonnull*/
-	CalculatorExternalListenersContainer getExternalListenersContainer();
 }

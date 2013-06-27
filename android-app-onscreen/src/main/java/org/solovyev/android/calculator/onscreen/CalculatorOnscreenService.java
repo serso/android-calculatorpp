@@ -33,12 +33,9 @@ import android.util.DisplayMetrics;
 import android.view.WindowManager;
 import org.solovyev.android.Views;
 import org.solovyev.android.calculator.*;
-import org.solovyev.android.calculator.external.AndroidExternalListenersContainer;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import static org.solovyev.android.calculator.external.AndroidExternalListenersContainer.INIT_ACTION;
 
 /**
  * User: serso
@@ -46,6 +43,9 @@ import static org.solovyev.android.calculator.external.AndroidExternalListenersC
  * Time: 9:42 PM
  */
 public class CalculatorOnscreenService extends Service implements OnscreenViewListener, CalculatorEventListener {
+
+	private static final String INIT_ACTION = "org.solovyev.android.calculator.INIT";
+	private static final String INIT_ACTION_CREATE_VIEW_EXTRA = "createView";
 
 	private static final int NOTIFICATION_ID = 9031988; // my birthday =)
 
@@ -91,6 +91,8 @@ public class CalculatorOnscreenService extends Service implements OnscreenViewLi
 			view.show();
 
 			startCalculatorListening();
+			view.updateEditorState(Locator.getInstance().getEditor().getViewState());
+			view.updateDisplayState(Locator.getInstance().getDisplay().getViewState());
 
 			viewCreated = true;
 		}
@@ -151,7 +153,7 @@ public class CalculatorOnscreenService extends Service implements OnscreenViewLi
 
 			if (isInitIntent(intent)) {
 
-				boolean createView = intent.getBooleanExtra(AndroidExternalListenersContainer.INIT_ACTION_CREATE_VIEW_EXTRA, false);
+				boolean createView = intent.getBooleanExtra(INIT_ACTION_CREATE_VIEW_EXTRA, false);
 				if (createView) {
 					hideNotification();
 					createView();
@@ -211,7 +213,7 @@ public class CalculatorOnscreenService extends Service implements OnscreenViewLi
 	private static Intent createShowOnscreenViewIntent(@Nonnull Context context) {
 		final Intent intent = new Intent(INIT_ACTION);
 		intent.setClass(context, getIntentListenerClass());
-		intent.putExtra(AndroidExternalListenersContainer.INIT_ACTION_CREATE_VIEW_EXTRA, true);
+		intent.putExtra(INIT_ACTION_CREATE_VIEW_EXTRA, true);
 		return intent;
 	}
 

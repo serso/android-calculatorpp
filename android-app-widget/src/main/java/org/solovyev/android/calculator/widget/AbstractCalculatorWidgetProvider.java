@@ -30,21 +30,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.Html;
 import android.widget.RemoteViews;
-
 import org.solovyev.android.calculator.*;
-import org.solovyev.android.calculator.external.CalculatorExternalListenersContainer;
-import org.solovyev.android.calculator.external.ExternalCalculatorIntentHandler;
-import org.solovyev.android.calculator.external.ExternalCalculatorStateUpdater;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
+import static android.content.Intent.ACTION_CONFIGURATION_CHANGED;
 
 /**
  * User: Solovyev_S
  * Date: 19.10.12
  * Time: 16:18
  */
-abstract class AbstractCalculatorWidgetProvider extends AppWidgetProvider implements ExternalCalculatorStateUpdater {
+abstract class AbstractCalculatorWidgetProvider extends AppWidgetProvider{
 
 	static final String BUTTON_ID_EXTRA = "buttonId";
 	static final String BUTTON_PRESSED_ACTION = "org.solovyev.android.calculator.widget.BUTTON_PRESSED";
@@ -62,9 +60,6 @@ abstract class AbstractCalculatorWidgetProvider extends AppWidgetProvider implem
 	@Nullable
 	private String cursorColor;
 
-	@Nonnull
-	private ExternalCalculatorIntentHandler intentHandler = new CalculatorWidgetIntentHandler(this);
-
 	/*
 	**********************************************************************
 	*
@@ -74,13 +69,6 @@ abstract class AbstractCalculatorWidgetProvider extends AppWidgetProvider implem
 	*/
 
 	protected AbstractCalculatorWidgetProvider() {
-		final Class<? extends AppWidgetProvider> componentClass = this.getComponentClass();
-
-		final CalculatorExternalListenersContainer externalListenersContainer = Locator.getInstance().getExternalListenersContainer();
-		// NOTE: null might be in tests, now robolectric creates widget provider before application
-		if (externalListenersContainer != null) {
-			externalListenersContainer.addExternalListener(componentClass);
-		}
 	}
 
 	/*
@@ -114,7 +102,6 @@ abstract class AbstractCalculatorWidgetProvider extends AppWidgetProvider implem
 		updateWidget(context, appWidgetManager, appWidgetIds, Locator.getInstance().getEditor().getViewState(), Locator.getInstance().getDisplay().getViewState());
 	}
 
-	@Override
 	public void updateState(@Nonnull Context context,
 							@Nonnull CalculatorEditorViewState editorState,
 							@Nonnull CalculatorDisplayViewState displayState) {
@@ -160,7 +147,16 @@ abstract class AbstractCalculatorWidgetProvider extends AppWidgetProvider implem
 	public void onReceive(Context context, Intent intent) {
 		super.onReceive(context, intent);
 
-		this.intentHandler.onIntent(context, intent);
+		if (BUTTON_PRESSED_ACTION.equals(intent.getAction())) {
+			final int buttonId = intent.getIntExtra(AbstractCalculatorWidgetProvider.BUTTON_ID_EXTRA, 0);
+
+			final CalculatorButton button = CalculatorButton.getById(buttonId);
+			if (button != null) {
+				button.onClick(context);
+			}
+		} else if (ACTION_CONFIGURATION_CHANGED.equals(intent.getAction())) {
+			updateState(context, Locator.getInstance().getEditor().getViewState(), Locator.getInstance().getDisplay().getViewState());
+		}
 	}
 
 	private void updateDisplayState(@Nonnull Context context, @Nonnull RemoteViews views, @Nonnull CalculatorDisplayViewState displayState) {
