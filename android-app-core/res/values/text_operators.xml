@@ -24,21 +24,21 @@
 
 	<string name="c_operators">Operators</string>
 
-	<string name="c_op_description_mod">Modulo operation finds the remainder of division of \'x\' by \'y\'.</string>
-	<string name="c_op_description_sum">Sums functions \'f(i)\', iterating through \'i\' from \'from\' to \'to\'.
+	<string name="c_op_description_mod">Modulo operation finds the remainder of division of \'x\' by \'y\'</string>
+	<string name="c_op_description_sum">Sums functions \'f(i)\', iterating through \'i\' from \'from\' to \'to\'
 	</string>
 	<string name="c_op_description_product">Gives product of functions \'f(i)\', iterating through \'i\' from \'from\'
-		to \'to\'.
+		to \'to\'
 	</string>
 	<string name="c_op_description_derivative">Gives derivative of order \'order\' (default = 1) of functions \'f(x)\'
-		by \'x\' variable and calculates at point \'x_point\' (default = same as \'x\').
+		by \'x\' variable and calculates at point \'x_point\' (default = same as \'x\')
 	</string>
-	<string name="c_op_description_integral">Gives integral of function \'f(x)\' by \'x\' variable.</string>
-	<string name="c_op_description_integral_ab">Integrates function \'f(x)\' by \'x\' variable from \'a\' to \'b\'.
+	<string name="c_op_description_integral">Gives integral of function \'f(x)\' by \'x\' variable</string>
+	<string name="c_op_description_integral_ab">Integrates function \'f(x)\' by \'x\' variable from \'a\' to \'b\'
 	</string>
 
-	<string name="c_pf_description_factorial">Gives the factorial of the expression before.</string>
-	<string name="c_pf_description_double_factorial">Gives the double factorial of the expression before.</string>
+	<string name="c_pf_description_factorial">Gives the factorial of the expression before</string>
+	<string name="c_pf_description_double_factorial">Gives the double factorial of the expression before</string>
 	<string name="c_pf_description_percent" formatted="false">Gives the percent value of the expression
 		before.\nExamples:\n
 		100 + 50% = 150\n

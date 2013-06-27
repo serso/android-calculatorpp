@@ -28,24 +28,24 @@
 	<string name="cpp_wizard_mode_simple">Simple</string>
 	<string name="cpp_wizard_mode_simple_description">In simple mode only basic functionality will be available from the
 		main screen.
-		Result is rounded up to 5 digits.
+		Result is rounded up to 5 digits, degrees are used as the default angle units.
 	</string>
 	<string name="cpp_wizard_mode_engineer">Engineer</string>
 	<string name="cpp_wizard_mode_engineer_description">In engineer mode special functions will be used on the main
 		screen.
-		Result is is not rounded and is presented in engineer notation.
+		Result is is not rounded and is presented in engineer notation, radians are used as the default angle units.
 	</string>
 	<string name="cpp_restart_wizard">Start wizard</string>
 
-	<string name="cpp_wizard_dragbutton_action_end">Excellent! Tap button one more time to try again</string>
-	<string name="cpp_wizard_dragbutton_action_center">Tap button once to use 9</string>
+	<string name="cpp_wizard_dragbutton_action_end">Excellent! Tap the button one more time to try again</string>
+	<string name="cpp_wizard_dragbutton_action_center">Tap the button below once to use 9</string>
 	<string name="cpp_wizard_dragbutton_action_up">Drag from the center of the button up to use %</string>
 	<string name="cpp_wizard_dragbutton_action_left">Drag from the center of the button to the left to use sin</string>
 	<string name="cpp_wizard_dragbutton_action_down">Drag from the center of the button down to use ^2</string>
 	<string name="cpp_wizard_welcome_title">Welcome</string>
 	<string name="cpp_wizard_layout_title">Choose layout</string>
 	<string name="cpp_wizard_mode_title">Choose mode</string>
-	<string name="cpp_wizard_onscreen_calculator_title">Calculator in separate window</string>
+	<string name="cpp_wizard_onscreen_calculator_title">Calculator in a separate window</string>
 	<string name="cpp_wizard_dragbutton_title">Drag button basics</string>
 
 </resources>
