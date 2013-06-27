@@ -36,5 +36,8 @@ public interface CalculatorEditorViewState extends Serializable {
 	@Nonnull
 	String getText();
 
+	@Nonnull
+	CharSequence getTextAsCharSequence();
+
 	int getSelection();
 }

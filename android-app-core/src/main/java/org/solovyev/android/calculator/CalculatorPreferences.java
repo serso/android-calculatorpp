@@ -84,6 +84,7 @@ public final class CalculatorPreferences {
 		public static final Preference<Boolean> autoOrientation = BooleanPreference.of("autoOrientation", true);
 		public static final Preference<Boolean> hideNumeralBaseDigits = BooleanPreference.of("hideNumeralBaseDigits", true);
 		public static final Preference<Boolean> preventScreenFromFading = BooleanPreference.of("preventScreenFromFading", true);
+		public static final Preference<Boolean> colorDisplay = BooleanPreference.of("org.solovyev.android.calculator.CalculatorModel_color_display", true);
 
 		@Nonnull
 		public static Theme getTheme(@Nonnull SharedPreferences preferences) {

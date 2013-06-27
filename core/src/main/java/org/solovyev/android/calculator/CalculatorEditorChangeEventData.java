@@ -22,10 +22,41 @@
 
 package org.solovyev.android.calculator;
 
+import javax.annotation.Nonnull;
+
 /**
  * User: Solovyev_S
  * Date: 21.09.12
  * Time: 13:46
  */
-public interface CalculatorEditorChangeEventData extends Change<CalculatorEditorViewState> {
+public final class CalculatorEditorChangeEventData implements Change<CalculatorEditorViewState> {
+
+	@Nonnull
+	private CalculatorEditorViewState oldState;
+
+	@Nonnull
+	private CalculatorEditorViewState newState;
+
+	private CalculatorEditorChangeEventData(@Nonnull CalculatorEditorViewState oldState,
+											@Nonnull CalculatorEditorViewState newState) {
+		this.oldState = oldState;
+		this.newState = newState;
+	}
+
+	public static CalculatorEditorChangeEventData newChangeEventData(@Nonnull CalculatorEditorViewState oldState,
+																	 @Nonnull CalculatorEditorViewState newState) {
+		return new CalculatorEditorChangeEventData(oldState, newState);
+	}
+
+	@Nonnull
+	@Override
+	public CalculatorEditorViewState getOldValue() {
+		return this.oldState;
+	}
+
+	@Nonnull
+	@Override
+	public CalculatorEditorViewState getNewValue() {
+		return this.newState;
+	}
 }

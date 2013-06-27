@@ -29,15 +29,13 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import jscl.NumeralBase;
 import jscl.math.Generic;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import org.solovyev.android.calculator.history.CalculatorHistoryState;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.common.history.HistoryAction;
 import org.solovyev.common.msg.Message;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -81,7 +79,7 @@ public class AndroidCalculator implements Calculator, CalculatorEventListener, S
 	}
 
 	public void setEditor(@Nonnull Context context, @Nonnull AndroidCalculatorEditorView editorView) {
-		editorView.init(context);
+		editorView.init();
 		Locator.getInstance().getEditor().setView(editorView);
 	}
 

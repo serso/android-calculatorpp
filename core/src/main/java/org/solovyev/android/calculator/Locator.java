@@ -25,8 +25,11 @@ package org.solovyev.android.calculator;
 import org.solovyev.android.calculator.external.CalculatorExternalListenersContainer;
 import org.solovyev.android.calculator.history.CalculatorHistory;
 import org.solovyev.android.calculator.plot.CalculatorPlotter;
+import org.solovyev.android.calculator.text.TextProcessor;
+import org.solovyev.android.calculator.text.TextProcessorEditorResult;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * User: Solovyev_S
@@ -87,7 +90,8 @@ public class Locator implements CalculatorLocator {
 					 @Nonnull CalculatorPreferenceService preferenceService,
 					 @Nonnull CalculatorKeyboard keyboard,
 					 @Nonnull CalculatorExternalListenersContainer externalListenersContainer,
-					 @Nonnull CalculatorPlotter plotter) {
+					 @Nonnull CalculatorPlotter plotter,
+					 @Nullable TextProcessor<TextProcessorEditorResult, String> editorTextProcessor) {
 
 		this.calculator = calculator;
 		this.calculatorEngine = engine;
@@ -99,7 +103,7 @@ public class Locator implements CalculatorLocator {
 		this.calculatorExternalListenersContainer = externalListenersContainer;
 		this.calculatorPlotter = plotter;
 
-		calculatorEditor = new CalculatorEditorImpl(this.calculator);
+		calculatorEditor = new CalculatorEditorImpl(this.calculator, editorTextProcessor);
 		calculatorDisplay = new CalculatorDisplayImpl(this.calculator);
 		calculatorKeyboard = keyboard;
 	}

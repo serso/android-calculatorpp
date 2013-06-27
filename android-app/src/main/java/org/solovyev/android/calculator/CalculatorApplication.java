@@ -31,13 +31,9 @@ import android.util.Log;
 import net.robotmedia.billing.BillingController;
 import net.robotmedia.billing.helper.DefaultBillingObserver;
 import net.robotmedia.billing.model.BillingDB;
-
 import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
-
-import javax.annotation.Nonnull;
-
 import org.solovyev.android.Android;
 import org.solovyev.android.App;
 import org.solovyev.android.ServiceLocator;
@@ -48,8 +44,10 @@ import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 import org.solovyev.android.calculator.onscreen.CalculatorOnscreenStartActivity;
 import org.solovyev.android.calculator.plot.AndroidCalculatorPlotter;
 import org.solovyev.android.calculator.plot.CalculatorPlotterImpl;
+import org.solovyev.android.calculator.view.EditorTextProcessor;
 import org.solovyev.common.msg.MessageType;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -137,6 +135,8 @@ public class CalculatorApplication extends android.app.Application implements Sh
 
 		final AndroidCalculator calculator = new AndroidCalculator(this);
 
+		final EditorTextProcessor editorTextProcessor = new EditorTextProcessor();
+
 		Locator.getInstance().init(calculator,
 				new AndroidCalculatorEngine(this),
 				new AndroidCalculatorClipboard(this),
@@ -146,7 +146,10 @@ public class CalculatorApplication extends android.app.Application implements Sh
 				new AndroidCalculatorPreferenceService(this),
 				new AndroidCalculatorKeyboard(this, new CalculatorKeyboardImpl(calculator)),
 				new AndroidExternalListenersContainer(calculator),
-				new AndroidCalculatorPlotter(this, new CalculatorPlotterImpl(calculator)));
+				new AndroidCalculatorPlotter(this, new CalculatorPlotterImpl(calculator)),
+				editorTextProcessor);
+
+		editorTextProcessor.init(this);
 
 		listeners.add(new CalculatorActivityLauncher());
 		for (CalculatorEventListener listener : listeners) {

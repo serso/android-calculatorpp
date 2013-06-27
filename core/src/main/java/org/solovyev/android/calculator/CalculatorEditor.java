@@ -22,10 +22,10 @@
 
 package org.solovyev.android.calculator;
 
+import org.solovyev.common.gui.CursorControl;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import org.solovyev.common.gui.CursorControl;
 
 /**
  * User: Solovyev_S
@@ -33,6 +33,9 @@ import org.solovyev.common.gui.CursorControl;
  * Time: 11:47
  */
 public interface CalculatorEditor extends CalculatorEventListener {
+
+	@Nonnull
+	String TAG = CalculatorEditor.class.getSimpleName();
 
 	void setView(@Nullable CalculatorEditorView view);
 

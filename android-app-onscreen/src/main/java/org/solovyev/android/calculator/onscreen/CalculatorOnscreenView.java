@@ -33,12 +33,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import org.solovyev.android.calculator.*;
+import org.solovyev.android.prefs.Preference;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import org.solovyev.android.calculator.*;
-import org.solovyev.android.prefs.Preference;
 
 /**
  * User: serso
@@ -95,9 +94,6 @@ public class CalculatorOnscreenView {
 	@Nonnull
 	private CalculatorOnscreenViewState state = CalculatorOnscreenViewState.newDefaultState();
 
-	@Nonnull
-	private String cursorColor;
-
 	@Nullable
 	private OnscreenViewListener viewListener;
 
@@ -133,13 +129,11 @@ public class CalculatorOnscreenView {
 
 	public static CalculatorOnscreenView newInstance(@Nonnull Context context,
 													 @Nonnull CalculatorOnscreenViewState state,
-													 @Nonnull String cursorColor,
 													 @Nullable OnscreenViewListener viewListener) {
 		final CalculatorOnscreenView result = new CalculatorOnscreenView();
 
 		result.root = View.inflate(context, R.layout.onscreen_layout, null);
 		result.context = context;
-		result.cursorColor = cursorColor;
 		result.viewListener = viewListener;
 
 		final CalculatorOnscreenViewState persistedState = readState(context);
@@ -222,7 +216,7 @@ public class CalculatorOnscreenView {
 			displayView.init(this.context, false);
 
 			editorView = (AndroidCalculatorEditorView) root.findViewById(R.id.calculator_editor);
-			editorView.init(this.context);
+			editorView.init();
 
 			final View onscreenFoldButton = root.findViewById(R.id.onscreen_fold_button);
 			onscreenFoldButton.setOnClickListener(new View.OnClickListener() {

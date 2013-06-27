@@ -22,14 +22,14 @@
 
 package org.solovyev.android.calculator.view;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.text.TextProcessor;
+import org.solovyev.android.calculator.text.TextProcessorEditorResult;
 import org.solovyev.common.MutableObject;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,60 +38,14 @@ import java.util.Map;
  * Date: 10/12/11
  * Time: 9:47 PM
  */
-public class TextHighlighter implements TextProcessor<TextHighlighter.Result, String> {
+public class TextHighlighter implements TextProcessor<TextProcessorEditorResult, String> {
+
+	public static final int WHITE = -1;
 
 	private static final Map<String, String> nbFontAttributes = new HashMap<String, String>();
 
 	static {
 		nbFontAttributes.put("color", "#008000");
-	}
-
-	public static class Result implements CharSequence {
-
-		@Nonnull
-		private final CharSequence charSequence;
-
-		@Nullable
-		private String string;
-
-		private final int offset;
-
-		public Result(@Nonnull CharSequence charSequence, int offset) {
-			this.charSequence = charSequence;
-			this.offset = offset;
-		}
-
-		@Override
-		public int length() {
-			return charSequence.length();
-		}
-
-		@Override
-		public char charAt(int i) {
-			return charSequence.charAt(i);
-		}
-
-		@Override
-		public CharSequence subSequence(int i, int i1) {
-			return charSequence.subSequence(i, i1);
-		}
-
-		@Override
-		public String toString() {
-			if (string == null) {
-				string = charSequence.toString();
-			}
-			return string;
-		}
-
-		@Nonnull
-		public CharSequence getCharSequence() {
-			return charSequence;
-		}
-
-		public int getOffset() {
-			return offset;
-		}
 	}
 
 	private final int color;
@@ -113,7 +67,7 @@ public class TextHighlighter implements TextProcessor<TextHighlighter.Result, St
 
 	@Nonnull
 	@Override
-	public Result process(@Nonnull String text) throws CalculatorParseException {
+	public TextProcessorEditorResult process(@Nonnull String text) throws CalculatorParseException {
 		final CharSequence result;
 
 		int maxNumberOfOpenGroupSymbols = 0;
@@ -186,20 +140,17 @@ public class TextHighlighter implements TextProcessor<TextHighlighter.Result, St
 
 			final StringBuilder text2 = new StringBuilder(text1.length());
 
-			final CharSequence s = text1;
-			int i = processBracketGroup(text2, s, 0, 0, maxNumberOfOpenGroupSymbols);
-			for (; i < s.length(); i++) {
-				text2.append(s.charAt(i));
+			int i = processBracketGroup(text2, text1, 0, 0, maxNumberOfOpenGroupSymbols);
+			for (; i < text1.length(); i++) {
+				text2.append(text1.charAt(i));
 			}
-
-			//Log.d(AndroidCalculatorEditorView.class.getName(), text2.toString());
 
 			result = text2.toString();
 		} else {
 			result = text1.toString();
 		}
 
-		return new Result(result, resultOffset);
+		return new TextProcessorEditorResult(result, resultOffset);
 	}
 
 	private int processHighlightedText(@Nonnull StringBuilder result, int i, @Nonnull String match, @Nonnull String tag, @Nullable Map<String, String> tagAttributes) {

@@ -22,11 +22,11 @@
 
 package org.solovyev.android.calculator;
 
-import javax.annotation.Nonnull;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import javax.annotation.Nonnull;
 
 /**
  * User: Solovyev_S
@@ -41,7 +41,7 @@ public class CalculatorEditorImplTest extends AbstractCalculatorTest {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		this.calculatorEditor = new CalculatorEditorImpl(Locator.getInstance().getCalculator());
+		this.calculatorEditor = new CalculatorEditorImpl(Locator.getInstance().getCalculator(), null);
 	}
 
 	@Test

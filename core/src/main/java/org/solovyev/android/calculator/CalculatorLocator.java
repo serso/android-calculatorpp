@@ -22,11 +22,14 @@
 
 package org.solovyev.android.calculator;
 
-import javax.annotation.Nonnull;
-
 import org.solovyev.android.calculator.external.CalculatorExternalListenersContainer;
 import org.solovyev.android.calculator.history.CalculatorHistory;
 import org.solovyev.android.calculator.plot.CalculatorPlotter;
+import org.solovyev.android.calculator.text.TextProcessor;
+import org.solovyev.android.calculator.text.TextProcessorEditorResult;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * User: Solovyev_S
@@ -44,7 +47,8 @@ public interface CalculatorLocator {
 			  @Nonnull CalculatorPreferenceService preferenceService,
 			  @Nonnull CalculatorKeyboard keyboard,
 			  @Nonnull CalculatorExternalListenersContainer externalListenersContainer,
-			  @Nonnull CalculatorPlotter plotter);
+			  @Nonnull CalculatorPlotter plotter,
+			  @Nullable TextProcessor<TextProcessorEditorResult, String> editorTextProcessor);
 
 	@Nonnull
 	Calculator getCalculator();

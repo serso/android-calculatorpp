@@ -66,6 +66,12 @@ public final class ParcelableCalculatorEditorViewState implements CalculatorEdit
 		return viewState.getText();
 	}
 
+	@Nonnull
+	@Override
+	public CharSequence getTextAsCharSequence() {
+		return getText();
+	}
+
 	@Override
 	public int getSelection() {
 		return viewState.getSelection();

@@ -41,7 +41,7 @@ import javax.annotation.Nullable;
 public class CalculatorTestUtils {
 
 	public static void staticSetUp(@Nullable Context context) throws Exception {
-		Locator.getInstance().init(new CalculatorImpl(), newCalculatorEngine(), Mockito.mock(CalculatorClipboard.class), Mockito.mock(CalculatorNotifier.class), Mockito.mock(CalculatorHistory.class), new SystemOutCalculatorLogger(), Mockito.mock(CalculatorPreferenceService.class), Mockito.mock(CalculatorKeyboard.class), Mockito.mock(CalculatorExternalListenersContainer.class), Mockito.mock(CalculatorPlotter.class));
+		Locator.getInstance().init(new CalculatorImpl(), newCalculatorEngine(), Mockito.mock(CalculatorClipboard.class), Mockito.mock(CalculatorNotifier.class), Mockito.mock(CalculatorHistory.class), new SystemOutCalculatorLogger(), Mockito.mock(CalculatorPreferenceService.class), Mockito.mock(CalculatorKeyboard.class), Mockito.mock(CalculatorExternalListenersContainer.class), Mockito.mock(CalculatorPlotter.class), null);
 		Locator.getInstance().getEngine().init();
 
 		if (context != null) {
@@ -51,7 +51,7 @@ public class CalculatorTestUtils {
 
 	public static void initViews(@Nonnull Context context) {
 		final AndroidCalculatorEditorView editor = new AndroidCalculatorEditorView(context);
-		editor.init(context);
+		editor.init();
 		Locator.getInstance().getEditor().setView(editor);
 
 		final AndroidCalculatorDisplayView display = new AndroidCalculatorDisplayView(context);

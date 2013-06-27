@@ -22,13 +22,19 @@
 
 package org.solovyev.android.calculator;
 
+import org.solovyev.android.calculator.history.CalculatorHistoryState;
+import org.solovyev.android.calculator.history.EditorHistoryState;
+import org.solovyev.android.calculator.text.TextProcessor;
+import org.solovyev.android.calculator.text.TextProcessorEditorResult;
+import org.solovyev.common.gui.CursorControl;
+import org.solovyev.common.text.Strings;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.solovyev.android.calculator.history.CalculatorHistoryState;
-import org.solovyev.android.calculator.history.EditorHistoryState;
-import org.solovyev.common.gui.CursorControl;
-import org.solovyev.common.text.Strings;
+import static org.solovyev.android.calculator.CalculatorEditorChangeEventData.newChangeEventData;
+import static org.solovyev.android.calculator.CalculatorEventType.editor_state_changed;
+import static org.solovyev.android.calculator.CalculatorEventType.editor_state_changed_light;
 
 /**
  * User: Solovyev_S
@@ -55,8 +61,12 @@ public class CalculatorEditorImpl implements CalculatorEditor {
 	@Nonnull
 	private final CursorControlAdapter cursorControlAdapter = new CursorControlAdapter(this);
 
-	public CalculatorEditorImpl(@Nonnull Calculator calculator) {
+	@Nullable
+	private final TextProcessor<TextProcessorEditorResult, String> textProcessor;
+
+	public CalculatorEditorImpl(@Nonnull Calculator calculator, @Nullable TextProcessor<TextProcessorEditorResult, String> textProcessor) {
 		this.calculator = calculator;
+		this.textProcessor = textProcessor;
 		this.calculator.addCalculatorEventListener(this);
 		this.lastEventHolder = new CalculatorEventHolder(CalculatorUtils.createFirstEventDataId());
 	}
@@ -89,6 +99,14 @@ public class CalculatorEditorImpl implements CalculatorEditor {
 	}
 
 	private void setViewState(@Nonnull CalculatorEditorViewState newViewState, boolean majorChanges) {
+		if (textProcessor != null) {
+			try {
+				final TextProcessorEditorResult result = textProcessor.process(newViewState.getText());
+				newViewState = CalculatorEditorViewStateImpl.newInstance(result.getCharSequence(), newViewState.getSelection() + result.getOffset());
+			} catch (CalculatorParseException e) {
+				Locator.getInstance().getLogger().error(TAG, e.getMessage(), e);
+			}
+		}
 		synchronized (viewLock) {
 			final CalculatorEditorViewState oldViewState = this.lastViewState;
 
@@ -97,11 +115,17 @@ public class CalculatorEditorImpl implements CalculatorEditor {
 				this.view.setState(newViewState);
 			}
 
-			if (majorChanges) {
-				calculator.fireCalculatorEvent(CalculatorEventType.editor_state_changed, new CalculatorEditorChangeEventDataImpl(oldViewState, newViewState));
-			} else {
-				calculator.fireCalculatorEvent(CalculatorEventType.editor_state_changed_light, new CalculatorEditorChangeEventDataImpl(oldViewState, newViewState));
-			}
+			fireStateChangedEvent(majorChanges, oldViewState, newViewState);
+		}
+	}
+
+	private void fireStateChangedEvent(boolean majorChanges, @Nonnull CalculatorEditorViewState oldViewState, @Nonnull CalculatorEditorViewState newViewState) {
+		assert Thread.holdsLock(viewLock);
+
+		if (majorChanges) {
+			calculator.fireCalculatorEvent(editor_state_changed, newChangeEventData(oldViewState, newViewState));
+		} else {
+			calculator.fireCalculatorEvent(editor_state_changed_light, newChangeEventData(oldViewState, newViewState));
 		}
 	}
 

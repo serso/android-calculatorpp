@@ -23,43 +23,25 @@
 package org.solovyev.android.calculator;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.text.Editable;
-import android.text.Html;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.widget.EditText;
-
-import org.solovyev.android.calculator.text.TextProcessor;
-import org.solovyev.android.calculator.view.TextHighlighter;
-import org.solovyev.android.prefs.BooleanPreference;
 import org.solovyev.common.collections.Collections;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 /**
  * User: serso
  * Date: 9/17/11
  * Time: 12:25 AM
  */
-public class AndroidCalculatorEditorView extends EditText implements SharedPreferences.OnSharedPreferenceChangeListener, CalculatorEditorView {
-
-	@Nonnull
-	private static final BooleanPreference colorDisplay = BooleanPreference.of("org.solovyev.android.calculator.CalculatorModel_color_display", true);
+public class AndroidCalculatorEditorView extends EditText implements CalculatorEditorView {
 
 	private volatile boolean initialized = false;
-
-	private boolean highlightText = true;
-
-	@Nonnull
-	private final static TextProcessor<TextHighlighter.Result, String> textHighlighter = new TextHighlighter(Color.WHITE, false);
 
 	@SuppressWarnings("UnusedDeclaration")
 	@Nonnull
@@ -113,56 +95,14 @@ public class AndroidCalculatorEditorView extends EditText implements SharedPrefe
 		menu.removeItem(android.R.id.selectAll);
 	}
 
-	@Nullable
-	private CharSequence prepareText(@Nonnull String text, boolean highlightText) {
-		CharSequence result;
-
-		if (highlightText) {
-
-			try {
-				final TextHighlighter.Result processesText = textHighlighter.process(text);
-
-				assert processesText.getOffset() == 0;
-
-				result = Html.fromHtml(processesText.toString());
-			} catch (CalculatorParseException e) {
-				// set raw text
-				result = text;
-
-				Log.e(this.getClass().getName(), e.getMessage(), e);
-			}
-		} else {
-			result = text;
-		}
-
-		return result;
-	}
-
-	public boolean isHighlightText() {
-		return highlightText;
-	}
-
 	public void setHighlightText(boolean highlightText) {
-		this.highlightText = highlightText;
+		//this.highlightText = highlightText;
 		Locator.getInstance().getEditor().updateViewState();
 	}
 
-	@Override
-	public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
-		if (colorDisplay.getKey().equals(key)) {
-			this.setHighlightText(colorDisplay.getPreference(preferences));
-		}
-	}
-
-	public synchronized void init(@Nonnull Context context) {
+	public synchronized void init() {
 		if (!initialized) {
-			final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-
-			preferences.registerOnSharedPreferenceChangeListener(this);
-
 			this.addTextChangedListener(new TextWatcherImpl());
-
-			onSharedPreferenceChanged(preferences, colorDisplay.getKey());
 
 			initialized = true;
 		}
@@ -172,8 +112,6 @@ public class AndroidCalculatorEditorView extends EditText implements SharedPrefe
 	public void setState(@Nonnull final CalculatorEditorViewState viewState) {
 		synchronized (this) {
 
-			final CharSequence text = prepareText(viewState.getText(), highlightText);
-
 			uiHandler.post(new Runnable() {
 				@Override
 				public void run() {
@@ -182,7 +120,7 @@ public class AndroidCalculatorEditorView extends EditText implements SharedPrefe
 						try {
 							editorView.viewStateChange = true;
 							editorView.viewState = viewState;
-							editorView.setText(text, BufferType.EDITABLE);
+							editorView.setText(viewState.getTextAsCharSequence(), BufferType.EDITABLE);
 							final int selection = CalculatorEditorImpl.correctSelection(viewState.getSelection(), editorView.getText());
 							editorView.setSelection(selection);
 						} finally {

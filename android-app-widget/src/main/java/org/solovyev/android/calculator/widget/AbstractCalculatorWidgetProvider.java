@@ -173,13 +173,13 @@ abstract class AbstractCalculatorWidgetProvider extends AppWidgetProvider implem
 	}
 
 	private void updateEditorState(@Nonnull Context context, @Nonnull RemoteViews views, @Nonnull CalculatorEditorViewState editorState) {
-		String text = editorState.getText();
+		final CharSequence text = editorState.getTextAsCharSequence();
 
 		CharSequence newText = text;
 		int selection = editorState.getSelection();
 		if (selection >= 0 && selection <= text.length()) {
 			// inject cursor
-			newText = Html.fromHtml(text.substring(0, selection) + "<font color=\"#" + getCursorColor(context) + "\">|</font>" + text.substring(selection));
+			newText = Html.fromHtml(text.subSequence(0, selection) + "<font color=\"#" + getCursorColor(context) + "\">|</font>" + text.subSequence(selection, text.length()));
 		}
 		Locator.getInstance().getNotifier().showDebugMessage(TAG, "New editor state: " + text);
 		views.setTextViewText(R.id.calculator_editor, newText);

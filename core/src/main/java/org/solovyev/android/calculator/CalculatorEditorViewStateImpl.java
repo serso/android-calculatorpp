@@ -32,7 +32,7 @@ import javax.annotation.Nonnull;
 public class CalculatorEditorViewStateImpl implements CalculatorEditorViewState {
 
 	@Nonnull
-	private String text = "";
+	private CharSequence text = "";
 
 	private int selection = 0;
 
@@ -47,6 +47,12 @@ public class CalculatorEditorViewStateImpl implements CalculatorEditorViewState 
 	@Nonnull
 	@Override
 	public String getText() {
+		return this.text.toString();
+	}
+
+	@Nonnull
+	@Override
+	public CharSequence getTextAsCharSequence() {
 		return this.text;
 	}
 
@@ -70,7 +76,7 @@ public class CalculatorEditorViewStateImpl implements CalculatorEditorViewState 
 	}
 
 	@Nonnull
-	public static CalculatorEditorViewState newInstance(@Nonnull String text, int selection) {
+	public static CalculatorEditorViewState newInstance(@Nonnull CharSequence text, int selection) {
 		final CalculatorEditorViewStateImpl result = new CalculatorEditorViewStateImpl();
 		result.text = text;
 		result.selection = selection;

@@ -35,6 +35,7 @@ import android.util.TypedValue;
 import org.solovyev.android.calculator.core.R;
 import org.solovyev.android.calculator.text.TextProcessor;
 import org.solovyev.android.calculator.view.TextHighlighter;
+import org.solovyev.android.calculator.text.TextProcessorEditorResult;
 import org.solovyev.android.view.AutoResizeTextView;
 
 import javax.annotation.Nonnull;
@@ -59,7 +60,7 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
 	*/
 
 	@Nonnull
-	private final static TextProcessor<TextHighlighter.Result, String> textHighlighter = new TextHighlighter(Color.WHITE, false);
+	private final static TextProcessor<TextProcessorEditorResult, String> textHighlighter = new TextHighlighter(Color.WHITE, false);
 
 	/*
 	**********************************************************************
@@ -169,7 +170,7 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
 			//Log.d(this.getClass().getName(), text);
 
 			try {
-				final TextHighlighter.Result processedText = textHighlighter.process(text);
+				final TextProcessorEditorResult processedText = textHighlighter.process(text);
 				text = processedText.toString();
 				result = Html.fromHtml(text);
 			} catch (CalculatorParseException e) {

@@ -31,34 +31,25 @@ import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
+import org.solovyev.android.Views;
+import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.external.AndroidExternalListenersContainer;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.solovyev.android.Views;
-import org.solovyev.android.calculator.CalculatorDisplayViewState;
-import org.solovyev.android.calculator.CalculatorEditorViewState;
-import org.solovyev.android.calculator.Locator;
-import org.solovyev.android.calculator.external.AndroidExternalListenersContainer;
-import org.solovyev.android.calculator.external.DefaultExternalCalculatorIntentHandler;
-import org.solovyev.android.calculator.external.ExternalCalculatorIntentHandler;
-import org.solovyev.android.calculator.external.ExternalCalculatorStateUpdater;
+import static org.solovyev.android.calculator.external.AndroidExternalListenersContainer.INIT_ACTION;
 
 /**
  * User: serso
  * Date: 11/20/12
  * Time: 9:42 PM
  */
-public class CalculatorOnscreenService extends Service implements ExternalCalculatorStateUpdater, OnscreenViewListener {
+public class CalculatorOnscreenService extends Service implements OnscreenViewListener, CalculatorEventListener {
 
 	private static final int NOTIFICATION_ID = 9031988; // my birthday =)
 
-	@Nonnull
-	private final ExternalCalculatorIntentHandler intentHandler = new DefaultExternalCalculatorIntentHandler(this);
 	public static final Class<CalculatorOnscreenBroadcastReceiver> INTENT_LISTENER_CLASS = CalculatorOnscreenBroadcastReceiver.class;
-
-	@Nullable
-	private static String cursorColor;
 
 	@Nonnull
 	private CalculatorOnscreenView view;
@@ -96,7 +87,7 @@ public class CalculatorOnscreenService extends Service implements ExternalCalcul
 			final int width = Math.min(width0, height0);
 			final int height = Math.max(width0, height0);
 
-			view = CalculatorOnscreenView.newInstance(this, CalculatorOnscreenViewState.newInstance(width, height, -1, -1), getCursorColor(this), this);
+			view = CalculatorOnscreenView.newInstance(this, CalculatorOnscreenViewState.newInstance(width, height, -1, -1), this);
 			view.show();
 
 			startCalculatorListening();
@@ -110,7 +101,7 @@ public class CalculatorOnscreenService extends Service implements ExternalCalcul
 	}
 
 	private void startCalculatorListening() {
-		Locator.getInstance().getExternalListenersContainer().addExternalListener(getIntentListenerClass());
+		Locator.getInstance().getCalculator().addCalculatorEventListener(this);
 	}
 
 	@Nonnull
@@ -119,7 +110,7 @@ public class CalculatorOnscreenService extends Service implements ExternalCalcul
 	}
 
 	private void stopCalculatorListening() {
-		Locator.getInstance().getExternalListenersContainer().removeExternalListener(getIntentListenerClass());
+		Locator.getInstance().getCalculator().removeCalculatorEventListener(this);
 	}
 
 	@Override
@@ -129,20 +120,6 @@ public class CalculatorOnscreenService extends Service implements ExternalCalcul
 			this.view.hide();
 		}
 		super.onDestroy();
-	}
-
-	@Override
-	public void updateState(@Nonnull Context context, @Nonnull CalculatorEditorViewState editorState, @Nonnull CalculatorDisplayViewState displayState) {
-		view.updateDisplayState(displayState);
-		view.updateEditorState(editorState);
-	}
-
-	@Nonnull
-	private static String getCursorColor(@Nonnull Context context) {
-		if (cursorColor == null) {
-			cursorColor = Integer.toHexString(context.getResources().getColor(R.color.cpp_onscreen_cursor_color)).substring(2);
-		}
-		return cursorColor;
 	}
 
 	@Override
@@ -182,16 +159,11 @@ public class CalculatorOnscreenService extends Service implements ExternalCalcul
 					showNotification();
 				}
 			}
-
-			if (viewCreated) {
-				intentHandler.onIntent(this, intent);
-			}
-
 		}
 	}
 
 	private boolean isInitIntent(@Nonnull Intent intent) {
-		return intent.getAction().equals(AndroidExternalListenersContainer.INIT_ACTION);
+		return intent.getAction().equals(INIT_ACTION);
 	}
 
 	private void hideNotification() {
@@ -225,7 +197,7 @@ public class CalculatorOnscreenService extends Service implements ExternalCalcul
 	}
 
 	public static void showNotification(@Nonnull Context context) {
-		final Intent intent = new Intent(AndroidExternalListenersContainer.INIT_ACTION);
+		final Intent intent = new Intent(INIT_ACTION);
 		intent.setClass(context, getIntentListenerClass());
 		context.sendBroadcast(intent);
 	}
@@ -237,10 +209,23 @@ public class CalculatorOnscreenService extends Service implements ExternalCalcul
 
 	@Nonnull
 	private static Intent createShowOnscreenViewIntent(@Nonnull Context context) {
-		final Intent intent = new Intent(AndroidExternalListenersContainer.INIT_ACTION);
+		final Intent intent = new Intent(INIT_ACTION);
 		intent.setClass(context, getIntentListenerClass());
 		intent.putExtra(AndroidExternalListenersContainer.INIT_ACTION_CREATE_VIEW_EXTRA, true);
 		return intent;
+	}
+
+	@Override
+	public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
+		switch (calculatorEventType) {
+			case editor_state_changed:
+			case editor_state_changed_light:
+				view.updateEditorState(((CalculatorEditorChangeEventData) data).getNewValue());
+				break;
+			case display_state_changed:
+				view.updateDisplayState(((CalculatorDisplayChangeEventData) data).getNewValue());
+				break;
+		}
 	}
 }
 
