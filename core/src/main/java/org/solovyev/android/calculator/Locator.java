@@ -65,7 +65,7 @@ public class Locator implements CalculatorLocator {
 	private CalculatorClipboard calculatorClipboard = new DummyCalculatorClipboard();
 
 	@Nonnull
-	private static final CalculatorLocator instance = new Locator();
+	private static final Locator instance = new Locator();
 
 	@Nonnull
 	private CalculatorPreferenceService calculatorPreferenceService;
@@ -171,5 +171,9 @@ public class Locator implements CalculatorLocator {
 	@Override
 	public CalculatorPreferenceService getPreferenceService() {
 		return this.calculatorPreferenceService;
+	}
+
+	public static void setKeyboard(@Nonnull CalculatorKeyboard keyboard) {
+		instance.calculatorKeyboard = keyboard;
 	}
 }

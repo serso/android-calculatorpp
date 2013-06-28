@@ -15,8 +15,8 @@ public final class CalculatorReceiver extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		final String action = intent.getAction();
 
-		if (CalculatorReceiver.ACTION_BUTTON_PRESSED.equals(action)) {
-			final int buttonId = intent.getIntExtra(CalculatorReceiver.ACTION_BUTTON_ID_EXTRA, 0);
+		if (ACTION_BUTTON_PRESSED.equals(action)) {
+			final int buttonId = intent.getIntExtra(ACTION_BUTTON_ID_EXTRA, 0);
 
 			final CalculatorButton button = CalculatorButton.getById(buttonId);
 			if (button != null) {
@@ -27,9 +27,9 @@ public final class CalculatorReceiver extends BroadcastReceiver {
 
 	@Nonnull
 	public static Intent newButtonClickedIntent(@Nonnull Context context, @Nonnull CalculatorButton button) {
-		final Intent onButtonClickIntent = new Intent(context, CalculatorReceiver.class);
-		onButtonClickIntent.setAction(ACTION_BUTTON_PRESSED);
-		onButtonClickIntent.putExtra(ACTION_BUTTON_ID_EXTRA, button.getButtonId());
-		return onButtonClickIntent;
+		final Intent intent = new Intent(context, CalculatorReceiver.class);
+		intent.setAction(ACTION_BUTTON_PRESSED);
+		intent.putExtra(ACTION_BUTTON_ID_EXTRA, button.getButtonId());
+		return intent;
 	}
 }
