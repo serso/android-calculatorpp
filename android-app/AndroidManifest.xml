@@ -37,6 +37,12 @@
 
 		</activity>
 
+		<receiver android:name=".CalculatorReceiver" android:exported="false">
+			<intent-filter>
+				<action android:name="org.solovyev.android.calculator.BUTTON_PRESSED"/>
+			</intent-filter>
+		</receiver>
+
 		<activity android:clearTaskOnLaunch="true" android:launchMode="singleTop" android:label="@string/c_app_name"
 				  android:name=".CalculatorActivityMobile" android:windowSoftInputMode="adjustPan"/>
 

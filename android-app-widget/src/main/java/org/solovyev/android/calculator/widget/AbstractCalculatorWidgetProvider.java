@@ -38,6 +38,7 @@ import javax.annotation.Nullable;
 import static android.content.Intent.ACTION_CONFIGURATION_CHANGED;
 import static org.solovyev.android.calculator.CalculatorBroadcaster.ACTION_DISPLAY_STATE_CHANGED;
 import static org.solovyev.android.calculator.CalculatorBroadcaster.ACTION_EDITOR_STATE_CHANGED;
+import static org.solovyev.android.calculator.CalculatorReceiver.newButtonClickedIntent;
 
 /**
  * User: Solovyev_S
@@ -45,9 +46,6 @@ import static org.solovyev.android.calculator.CalculatorBroadcaster.ACTION_EDITO
  * Time: 16:18
  */
 abstract class AbstractCalculatorWidgetProvider extends AppWidgetProvider {
-
-	static final String ACTION_BUTTON_ID_EXTRA = "buttonId";
-	static final String ACTION_BUTTON_PRESSED = "org.solovyev.android.calculator.BUTTON_PRESSED";
 
 	private static final String TAG = "Calculator++ Widget";
 
@@ -125,10 +123,7 @@ abstract class AbstractCalculatorWidgetProvider extends AppWidgetProvider {
 			final RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
 
 			for (CalculatorButton button : CalculatorButton.values()) {
-				final Intent onButtonClickIntent = new Intent(context, getComponentClass());
-				onButtonClickIntent.setAction(ACTION_BUTTON_PRESSED);
-				onButtonClickIntent.putExtra(ACTION_BUTTON_ID_EXTRA, button.getButtonId());
-				final PendingIntent pendingIntent = PendingIntent.getBroadcast(context, button.getButtonId(), onButtonClickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+				final PendingIntent pendingIntent = PendingIntent.getBroadcast(context, button.getButtonId(), newButtonClickedIntent(context, button), PendingIntent.FLAG_UPDATE_CURRENT);
 				if (pendingIntent != null) {
 					views.setOnClickPendingIntent(button.getButtonId(), pendingIntent);
 				}
@@ -148,14 +143,7 @@ abstract class AbstractCalculatorWidgetProvider extends AppWidgetProvider {
 		super.onReceive(context, intent);
 
 		final String action = intent.getAction();
-		if (ACTION_BUTTON_PRESSED.equals(action)) {
-			final int buttonId = intent.getIntExtra(ACTION_BUTTON_ID_EXTRA, 0);
-
-			final CalculatorButton button = CalculatorButton.getById(buttonId);
-			if (button != null) {
-				button.onClick(context);
-			}
-		} else if (ACTION_CONFIGURATION_CHANGED.equals(action)) {
+		if (ACTION_CONFIGURATION_CHANGED.equals(action)) {
 			updateState(context);
 		} else if (ACTION_EDITOR_STATE_CHANGED.equals(action)) {
 			updateState(context);
