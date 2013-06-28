@@ -44,8 +44,8 @@ import javax.annotation.Nullable;
  */
 public class CalculatorOnscreenService extends Service implements OnscreenViewListener, CalculatorEventListener {
 
-	private static final String INIT_ACTION = "org.solovyev.android.calculator.INIT";
-	private static final String INIT_ACTION_CREATE_VIEW_EXTRA = "createView";
+	private static final String SHOW_WINDOW_ACTION = "org.solovyev.android.calculator.onscreen.SHOW_WINDOW";
+	private static final String SHOW_NOTIFICATION_ACTION = "org.solovyev.android.calculator.onscreen.SHOW_NOTIFICATION";
 
 	private static final int NOTIFICATION_ID = 9031988; // my birthday =)
 
@@ -151,21 +151,21 @@ public class CalculatorOnscreenService extends Service implements OnscreenViewLi
 	private void handleStart(@Nullable Intent intent) {
 		if (intent != null) {
 
-			if (isInitIntent(intent)) {
-
-				boolean createView = intent.getBooleanExtra(INIT_ACTION_CREATE_VIEW_EXTRA, false);
-				if (createView) {
-					hideNotification();
-					createView();
-				} else {
-					showNotification();
-				}
+			if (isShowWindowIntent(intent)) {
+				hideNotification();
+				createView();
+			} else if (isShowNotificationIntent(intent)) {
+				showNotification();
 			}
 		}
 	}
 
-	private boolean isInitIntent(@Nonnull Intent intent) {
-		return intent.getAction().equals(INIT_ACTION);
+	private boolean isShowNotificationIntent(@Nonnull Intent intent) {
+		return intent.getAction().equals(SHOW_NOTIFICATION_ACTION);
+	}
+
+	private boolean isShowWindowIntent(@Nonnull Intent intent) {
+		return intent.getAction().equals(SHOW_WINDOW_ACTION);
 	}
 
 	private void hideNotification() {
@@ -191,7 +191,7 @@ public class CalculatorOnscreenService extends Service implements OnscreenViewLi
 		builder.setContentText(getString(R.string.open_onscreen_calculator));
 		builder.setOngoing(true);
 
-		final Intent intent = createShowOnscreenViewIntent(this);
+		final Intent intent = createShowWindowIntent(this);
 		builder.setContentIntent(PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT));
 
 		final NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -199,21 +199,20 @@ public class CalculatorOnscreenService extends Service implements OnscreenViewLi
 	}
 
 	public static void showNotification(@Nonnull Context context) {
-		final Intent intent = new Intent(INIT_ACTION);
+		final Intent intent = new Intent(SHOW_NOTIFICATION_ACTION);
 		intent.setClass(context, getIntentListenerClass());
 		context.sendBroadcast(intent);
 	}
 
 	public static void showOnscreenView(@Nonnull Context context) {
-		final Intent intent = createShowOnscreenViewIntent(context);
+		final Intent intent = createShowWindowIntent(context);
 		context.sendBroadcast(intent);
 	}
 
 	@Nonnull
-	private static Intent createShowOnscreenViewIntent(@Nonnull Context context) {
-		final Intent intent = new Intent(INIT_ACTION);
+	private static Intent createShowWindowIntent(@Nonnull Context context) {
+		final Intent intent = new Intent(SHOW_WINDOW_ACTION);
 		intent.setClass(context, getIntentListenerClass());
-		intent.putExtra(INIT_ACTION_CREATE_VIEW_EXTRA, true);
 		return intent;
 	}
 

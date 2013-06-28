@@ -96,6 +96,9 @@ public class CalculatorApplication extends android.app.Application implements Sh
 	@Nonnull
 	protected final Handler uiHandler = new Handler();
 
+	@Nonnull
+	private final CalculatorBroadcaster broadcaster = new CalculatorBroadcaster(this);
+
 	/*
 	**********************************************************************
 	*
@@ -153,6 +156,8 @@ public class CalculatorApplication extends android.app.Application implements Sh
 		for (CalculatorEventListener listener : listeners) {
 			calculator.addCalculatorEventListener(listener);
 		}
+
+		calculator.addCalculatorEventListener(broadcaster);
 
 		Locator.getInstance().getCalculator().init();
 

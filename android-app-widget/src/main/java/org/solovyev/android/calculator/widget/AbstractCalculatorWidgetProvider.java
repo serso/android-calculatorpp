@@ -36,16 +36,18 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import static android.content.Intent.ACTION_CONFIGURATION_CHANGED;
+import static org.solovyev.android.calculator.CalculatorBroadcaster.ACTION_DISPLAY_STATE_CHANGED;
+import static org.solovyev.android.calculator.CalculatorBroadcaster.ACTION_EDITOR_STATE_CHANGED;
 
 /**
  * User: Solovyev_S
  * Date: 19.10.12
  * Time: 16:18
  */
-abstract class AbstractCalculatorWidgetProvider extends AppWidgetProvider{
+abstract class AbstractCalculatorWidgetProvider extends AppWidgetProvider {
 
-	static final String BUTTON_ID_EXTRA = "buttonId";
-	static final String BUTTON_PRESSED_ACTION = "org.solovyev.android.calculator.widget.BUTTON_PRESSED";
+	static final String ACTION_BUTTON_ID_EXTRA = "buttonId";
+	static final String ACTION_BUTTON_PRESSED = "org.solovyev.android.calculator.BUTTON_PRESSED";
 
 	private static final String TAG = "Calculator++ Widget";
 
@@ -99,17 +101,14 @@ abstract class AbstractCalculatorWidgetProvider extends AppWidgetProvider{
 						 @Nonnull int[] appWidgetIds) {
 		super.onUpdate(context, appWidgetManager, appWidgetIds);
 
-		updateWidget(context, appWidgetManager, appWidgetIds, Locator.getInstance().getEditor().getViewState(), Locator.getInstance().getDisplay().getViewState());
+		updateWidget(context, appWidgetManager, appWidgetIds);
 	}
 
-	public void updateState(@Nonnull Context context,
-							@Nonnull CalculatorEditorViewState editorState,
-							@Nonnull CalculatorDisplayViewState displayState) {
+	public void updateState(@Nonnull Context context) {
 		final AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
 		final int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, getComponentClass()));
-		updateWidget(context, appWidgetManager, appWidgetIds, editorState, displayState);
+		updateWidget(context, appWidgetManager, appWidgetIds);
 	}
-
 
 	@Nonnull
 	protected Class<? extends AbstractCalculatorWidgetProvider> getComponentClass() {
@@ -118,16 +117,17 @@ abstract class AbstractCalculatorWidgetProvider extends AppWidgetProvider{
 
 	private void updateWidget(@Nonnull Context context,
 							  @Nonnull AppWidgetManager appWidgetManager,
-							  @Nonnull int[] appWidgetIds,
-							  @Nonnull CalculatorEditorViewState editorState,
-							  @Nonnull CalculatorDisplayViewState displayState) {
+							  @Nonnull int[] appWidgetIds) {
+		final CalculatorEditorViewState editorState = Locator.getInstance().getEditor().getViewState();
+		final CalculatorDisplayViewState displayState = Locator.getInstance().getDisplay().getViewState();
+
 		for (int appWidgetId : appWidgetIds) {
 			final RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
 
 			for (CalculatorButton button : CalculatorButton.values()) {
 				final Intent onButtonClickIntent = new Intent(context, getComponentClass());
-				onButtonClickIntent.setAction(BUTTON_PRESSED_ACTION);
-				onButtonClickIntent.putExtra(BUTTON_ID_EXTRA, button.getButtonId());
+				onButtonClickIntent.setAction(ACTION_BUTTON_PRESSED);
+				onButtonClickIntent.putExtra(ACTION_BUTTON_ID_EXTRA, button.getButtonId());
 				final PendingIntent pendingIntent = PendingIntent.getBroadcast(context, button.getButtonId(), onButtonClickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 				if (pendingIntent != null) {
 					views.setOnClickPendingIntent(button.getButtonId(), pendingIntent);
@@ -147,15 +147,20 @@ abstract class AbstractCalculatorWidgetProvider extends AppWidgetProvider{
 	public void onReceive(Context context, Intent intent) {
 		super.onReceive(context, intent);
 
-		if (BUTTON_PRESSED_ACTION.equals(intent.getAction())) {
-			final int buttonId = intent.getIntExtra(AbstractCalculatorWidgetProvider.BUTTON_ID_EXTRA, 0);
+		final String action = intent.getAction();
+		if (ACTION_BUTTON_PRESSED.equals(action)) {
+			final int buttonId = intent.getIntExtra(ACTION_BUTTON_ID_EXTRA, 0);
 
 			final CalculatorButton button = CalculatorButton.getById(buttonId);
 			if (button != null) {
 				button.onClick(context);
 			}
-		} else if (ACTION_CONFIGURATION_CHANGED.equals(intent.getAction())) {
-			updateState(context, Locator.getInstance().getEditor().getViewState(), Locator.getInstance().getDisplay().getViewState());
+		} else if (ACTION_CONFIGURATION_CHANGED.equals(action)) {
+			updateState(context);
+		} else if (ACTION_EDITOR_STATE_CHANGED.equals(action)) {
+			updateState(context);
+		} else if (ACTION_DISPLAY_STATE_CHANGED.equals(action)) {
+			updateState(context);
 		}
 	}
 
