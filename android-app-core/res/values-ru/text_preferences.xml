@@ -21,28 +21,21 @@
   -->
 
 <resources>
-	<string name="c_auto_orientation_title">Переключатель автоматического поворота экрана</string>
-	<string name="c_auto_orientation_summary">Если включено, то калькулятор будет автоматически менять ориентацию
-		экрана
+  <string name="c_auto_orientation_title">Автоповорот экрана</string>
+  <string name="c_auto_orientation_summary">Если включено, приложение будет поворачивать экран вместе с устройством</string>
+  <string name="c_show_equals_button_title">Показывать клавишу равно</string>
+  <string name="c_show_equals_button_summary">Если включено, то клавиша равно будет показана</string>
+  <string name="c_hide_numeral_base_digits_title">Не показывать цифры из других систем счисления</string>
+  <string name="c_hide_numeral_base_digits_summary">Если включено, то цифры из других систем счисления не будут показаны
 	</string>
-
-	<string name="c_show_equals_button_title">Показывать клавишу равно</string>
-	<string name="c_show_equals_button_summary">Если включено, то клавиша равно будет показана</string>
-
-	<string name="c_hide_numeral_base_digits_title">Не показывать цифры из других систем счисления</string>
-	<string name="c_hide_numeral_base_digits_summary">Если включено, то цифры из других систем счисления не будут
-		показаны
+  <string name="prefs_history_show_intermediate_calculations_title">Показывать промежуточные вычисления на экране истории
 	</string>
-
-	<string name="prefs_history_show_intermediate_calculations_title">Показывать промежуточные вычисления на экране
-		истории
-	</string>
-	<string name="prefs_history_show_intermediate_calculations_summary">Если включено, то все вычисления будут показаны
+  <string name="prefs_history_show_intermediate_calculations_summary">Если включено, то все вычисления будут показаны
 		на экране истории
 	</string>
-
-	<string name="p_calculations_calculate_on_fly_title">Результат вычисляется по мере ввода выражения</string>
-	<string name="p_calculations_calculate_on_fly_summary">Если включено, то результат вычисляется по мере ввода
-		выражения
-	</string>
+  <string name="p_calculations_calculate_on_fly_title">Результат вычисляется по мере ввода выражения</string>
+  <string name="p_calculations_calculate_on_fly_summary">Если включено, то результат вычисляется по мере ввода
+		выражения</string>
+  <string name="prefs_prevent_screen_from_fading_title">Не выключать экран</string>
+  <string name="prefs_prevent_screen_from_fading_summary">Если включено, то экран в приложении не будет гаснуть</string>
 </resources>

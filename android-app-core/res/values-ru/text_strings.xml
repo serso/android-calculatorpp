@@ -23,387 +23,330 @@
   -->
 
 <resources>
-	<string name="c_app_name">Калькулятор++</string>
-	<string name="c_app_name_on_screen">Калькулятор++ (В отдельном окне)</string>
-	<string name="c_app_name_free">Калькулятор++ Free</string>
-	<string name="c_app_icon_name">Кальк++</string>
-	<string name="c_app_settings">Настройки</string>
-	<string name="c_syntax_error">Ошибка</string>
-	<string name="c_result_copied">Результат скопирован в буфер!</string>
-	<string name="c_settings">Настройки</string>
-	<string name="c_help">Помощь</string>
-	<string name="c_vars_and_constants">Переменные и константы</string>
-	<!--PREFERENCE ACTIVITY-->
-	<string name="c_prefs_main_category">Основные настройки</string>
-	<string name="c_prefs_calculations_category">Настройки вычислений</string>
-	<string name="c_prefs_appearance_category">Настройки внешнего вида</string>
-	<string name="c_prefs_other_category">Другие настройки</string>
-	<string name="c_prefs_drag_button_category">Настройки кнопок</string>
-
-
-	<string name="c_down">Вниз</string>
-	<string name="c_up">Вверх</string>
-	<string name="c_restart">Перезапуск</string>
-
-	<string name="c_undo">назад</string>
-	<string name="c_redo">вперёд</string>
-
-
-	<string name="c_paste">вставить</string>
-	<string name="c_vars">переменные</string>
-
-	<string name="c_copy">Копировать</string>
-	<string name="c_plot">Построить график</string>
-	<string name="c_graph">График</string>
-
-	<string name="c_calc_color_display_title">Подсветка выражений</string>
-	<string name="c_calc_round_result_title">Округление результата</string>
-	<string name="c_calc_round_result_summary">Включает/выключает округление результата</string>
-	<string name="c_calc_science_notation_title">Результат в научной форме</string>
-	<string name="c_calc_science_notation_summary">Если включено - результат будет всегда записан в научной форме
+  <string name="c_app_name">Калькулятор++</string>
+  <string name="c_app_name_on_screen">Калькулятор++ (В отдельном окне)</string>
+  <string name="c_app_name_free">Калькулятор++ Free</string>
+  <string name="c_app_icon_name">Кальк++</string>
+  <string name="c_app_settings">Настройки</string>
+  <string name="c_syntax_error">Ошибка</string>
+  <string name="c_result_copied">Результат был скопирован в буфер обмена!</string>
+  <string name="c_settings">Настройки</string>
+  <string name="c_help">Помощь</string>
+  <string name="c_vars_and_constants">Переменные и константы</string>
+  <string name="c_prefs_main_category">Основные настройки</string>
+  <string name="c_prefs_calculations_category">Настройки вычислений</string>
+  <string name="c_prefs_appearance_category">Настройки внешнего вида</string>
+  <string name="c_prefs_other_category">Другие настройки</string>
+  <string name="c_prefs_drag_button_category">Настройки кнопок</string>
+  <string name="c_down">Вниз</string>
+  <string name="c_up">Вверх</string>
+  <string name="c_restart">Перезапуск</string>
+  <string name="c_undo">назад</string>
+  <string name="c_redo">вперёд</string>
+  <string name="c_clear">C</string>
+  <string name="c_erase">clear</string>
+  <string name="c_paste">вставить</string>
+  <string name="c_vars">переменные</string>
+  <string name="c_copy">Копировать</string>
+  <string name="c_plot">Построить график</string>
+  <string name="c_graph">График</string>
+  <string name="c_calc_color_display_title">Подсветка выражений</string>
+  <string name="c_calc_round_result_title">Округление результата</string>
+  <string name="c_calc_round_result_summary">Включает/выключает округление результата</string>
+  <string name="c_calc_science_notation_title">Результат в научной форме</string>
+  <string name="c_calc_science_notation_summary">Если включено - результат будет всегда записан в научной форме
 		(12.34E-12)
 	</string>
-	<string name="p_calc_result_precision_title">Точность результата</string>
-	<string name="p_calc_max_calculation_time_title">Максимальное время вычисления</string>
-	<string name="p_calc_max_calculation_time_summary">Если вычисления превысят установленный предел - калькулятор
+  <string name="p_calc_result_precision_title">Точность результата</string>
+  <string name="p_calc_max_calculation_time_title">Максимальное время вычисления</string>
+  <string name="p_calc_max_calculation_time_summary">Если вычисления превысят установленный предел - калькулятор
 		остановится с ошибкой
 	</string>
-	<string name="c_exit">Выход</string>
-	<string name="c_add">Добавить</string>
-	<string name="c_cancel">Отмена</string>
-	<string name="c_save">Сохранить</string>
-	<string name="c_remove">Удалить</string>
-	<string name="c_yes">Да</string>
-	<string name="c_no">Нет</string>
-	<string name="removal_confirmation">Подтверждение удаления</string>
-	<string name="c_var_removal_confirmation_question">Вы действительно хотите удалить переменную \'%s\'?</string>
-	<string name="c_var_name">Имя</string>
-	<string name="c_var_value">Значение</string>
-	<string name="c_var_description">Описание</string>
-	<string name="c_var_create_var">Создать переменную</string>
-	<string name="c_var_edit_var">Редактировать переменную</string>
-
-	<string name="c_value_is_not_a_number">Значение должно либо оставаться пустым либо быть числом: если у вас есть
+  <string name="c_exit">Выход</string>
+  <string name="c_add">Добавить</string>
+  <string name="c_cancel">Отмена</string>
+  <string name="c_save">Сохранить</string>
+  <string name="c_remove">Удалить</string>
+  <string name="c_yes">Да</string>
+  <string name="c_no">Нет</string>
+  <string name="removal_confirmation">Подтверждение удаления</string>
+  <string name="c_var_removal_confirmation_question">Вы действительно хотите удалить переменную \'%s\'?</string>
+  <string name="c_var_name">Имя</string>
+  <string name="c_var_value">Значение</string>
+  <string name="c_var_description">Описание</string>
+  <string name="c_var_create_var">Создать переменную</string>
+  <string name="c_var_edit_var">Редактировать переменную</string>
+  <string name="c_value_is_not_a_number">Значение должно либо оставаться пустым, либо быть числом: если у вас есть
 		параметры, то создайте функцию!
 	</string>
-	<string name="c_var_name_clashes">Имя переменной не может быть зарезервированным системным именем!</string>
-	<string name="c_var_already_exists">Переменная с таким именем уже существует!</string>
-	<string name="c_name_is_not_valid">Имя переменной не валидно: имя должно начинаться с буквы, может содержать буквы,
+  <string name="c_var_name_clashes">Имя переменной не может быть зарезервированным системным именем!</string>
+  <string name="c_var_already_exists">Переменная с таким именем уже существует!</string>
+  <string name="c_name_is_not_valid">Имя переменной не валидно: имя должно начинаться с буквы, может содержать буквы,
 		цифры и знак подчёркивания.
 	</string>
-	<string name="c_sys_var_cannot_be_changed">Системная переменная не может быть изменена!</string>
-
-	<string name="c_calc_editor_hint">Введите новое выражение</string>
-	<string name="c_press_to_copy">Нажмите для копирования</string>
-	<string name="c_continue">Продолжить</string>
-	<string name="c_history">История</string>
-	<string name="c_history_button">M</string>
-	<string name="c_history_is_empty">История пуста!</string>
-	<string name="c_app_history">История</string>
-	<string name="c_char_is_not_accepted">Символ \'%s\' не допустим в названии переменной!</string>
-
-	<string name="c_calc_angle_units">Текущие единицы измерения углов</string>
-	<string name="p_deg">Градусы</string>
-	<string name="p_rad">Радианы</string>
-	<string name="p_grad">Грады</string>
-	<string name="p_turns">Обороты</string>
-	<string name="c_angle_units_summary">Устанавливает единицы измерения углов которые будут использованы при
+  <string name="c_sys_var_cannot_be_changed">Системная переменная не может быть изменена!</string>
+  <string name="c_calc_editor_hint">Введите новое выражение</string>
+  <string name="c_press_to_copy">Нажмите для копирования</string>
+  <string name="c_continue">Продолжить</string>
+  <string name="c_history">История</string>
+  <string name="c_history_button">M</string>
+  <string name="c_history_is_empty">История пуста!</string>
+  <string name="c_app_history">История</string>
+  <string name="c_char_is_not_accepted">Символ \'%s\' не допустим в названии переменной!</string>
+  <string name="c_calc_angle_units">Текущие единицы измерения углов</string>
+  <string name="p_deg">Градусы</string>
+  <string name="p_rad">Радианы</string>
+  <string name="p_grad">Грады</string>
+  <string name="p_turns">Обороты</string>
+  <string name="c_angle_units_summary">Устанавливает единицы измерения углов которые будут использованы при
 		вычислениях
 	</string>
-
-	<string name="c_calc_numeral_bases">Текущая система счисления</string>
-	<string name="c_numeral_bases_summary">Устанавливает систему счисления которая будет использована при вычислениях
+  <string name="c_calc_numeral_bases">Текущая система счисления</string>
+  <string name="c_numeral_bases_summary">Устанавливает систему счисления которая будет использована при вычислениях
 	</string>
-	<string name="p_dec">Десятичная</string>
-	<string name="p_hex">Шестнадцатеричная</string>
-	<string name="p_oct">Восьмеричная</string>
-	<string name="p_bin">Бинарная</string>
-
-	<string name="c_calc_theme">Тема оформления</string>
-	<string name="p_default_theme">Серая</string>
-	<string name="p_violet_theme">Фиолетовая</string>
-	<string name="p_light_blue_theme">Голубая</string>
-	<string name="p_metro_blue_theme">Метро Синяя (По умолчанию)</string>
-	<string name="p_metro_green_theme">Метро Зелёная</string>
-	<string name="p_metro_purple_theme">Метро Фиолетовая</string>
-	<string name="c_calc_result_precision_summary">Точность результата(все вычисления производятся максимально точно)
+  <string name="p_dec">Десятичная</string>
+  <string name="p_hex">Шестнадцатеричная</string>
+  <string name="p_oct">Восьмеричная</string>
+  <string name="p_bin">Бинарная</string>
+  <string name="c_calc_theme">Тема оформления</string>
+  <string name="p_default_theme">Серая</string>
+  <string name="p_violet_theme">Фиолетовая</string>
+  <string name="p_light_blue_theme">Голубая</string>
+  <string name="p_metro_blue_theme">Метро Синяя (По умолчанию)</string>
+  <string name="p_metro_green_theme">Метро Зелёная</string>
+  <string name="p_metro_purple_theme">Метро Фиолетовая</string>
+  <string name="c_calc_result_precision_summary">Точность результата(все вычисления производятся максимально точно)
 	</string>
-	<string name="c_calc_color_display_summary">Включает/выключает подсветку синтаксиса в поле редактирования
+  <string name="c_calc_color_display_summary">Включает/выключает подсветку синтаксиса в поле редактирования
 		калькулятора
 	</string>
-	<string name="c_calc_theme_summary">Устанавливает тему оформления приложения</string>
-	<string name="c_clear_history">Очистить историю</string>
-	<string name="c_simplify_instead_of_numeric">Следующие константы не определены: {0}!</string>
-
-	<string name="p_grouping_separator_no">Не использовать разделитель разрядов</string>
-	<string name="p_grouping_separator_apostrophe">Апостроф (\')</string>
-	<string name="p_grouping_separator_space">Пробел ( )</string>
-	<string name="c_calc_grouping_separator">Разделитель разрядов</string>
-	<string name="c_calc_grouping_separator_summary">Устанавливает разделитель разрядов числа</string>
-	<string name="c_calc_multiplication_sign">Знак произведения</string>
-	<string name="c_calc_multiplication_sign_summary">Устанавливает знак произведения</string>
-
-	<string name="c_calc_layout">Раскладка</string>
-	<string name="p_layout_cellphone">Научная (телефон)</string>
-	<string name="p_layout_calculator">Научная</string>
-	<string name="p_layout_calculator_mobile">Научная (большие кнопки)</string>
-	<string name="p_layout_simple">Простая</string>
-	<string name="p_layout_simple_mobile">Простая (большие кнопки)</string>
-	<string name="c_calc_layout_summary">Устанавливает раскладку кнопок</string>
-
-	<string name="c_calc_haptic_feedback_title">Отклик на нажатие</string>
-	<string name="c_calc_haptic_feedback_summary">Включает/выключает вибрацию по нажатию клавиши</string>
-
-	<string name="p_calc_haptic_feedback_strength_short">Маленькая</string>
-	<string name="p_calc_haptic_feedback_strength_middle">Средняя</string>
-	<string name="p_calc_haptic_feedback_strength_long">Большая</string>
-
-	<string name="p_calc_haptic_feedback_duration_title">Длительность отклика</string>
-	<string name="p_calc_haptic_feedback_duration_summary">Длительность вибрации по нажатию клавиши</string>
-
-	<string name="empty_var_error">Невозможно создать пустую константу!</string>
-	<string name="not_valid_result">Результат не допустим!</string>
-
-	<string name="c_plot_graph">График</string>
-	<string name="c_min_x_value">От</string>
-	<string name="c_max_x_value">До</string>
-
-	<string name="c_swipe_distance">Длина свайпа для клавиш</string>
-	<string name="c_swipe_distance_summary">Устанавливает длину свайпа для клавиш которые поддерживают дополнительные
+  <string name="c_calc_theme_summary">Устанавливает тему оформления приложения</string>
+  <string name="c_clear_history">Очистить историю</string>
+  <string name="c_toggle_datetime">Показать/скрыть даты</string>
+  <string name="c_simplify_instead_of_numeric">Следующие константы не определены: {0}!</string>
+  <string name="p_grouping_separator_no">Не использовать разделитель разрядов</string>
+  <string name="p_grouping_separator_apostrophe">Апостроф (\')</string>
+  <string name="p_grouping_separator_space">Пробел ( )</string>
+  <string name="c_calc_grouping_separator">Разделитель разрядов</string>
+  <string name="c_calc_grouping_separator_summary">Устанавливает разделитель разрядов числа</string>
+  <string name="c_calc_multiplication_sign">Знак произведения</string>
+  <string name="c_calc_multiplication_sign_summary">Устанавливает знак произведения</string>
+  <string name="c_calc_layout">Раскладка</string>
+  <string name="p_layout_cellphone">Научная (телефон)</string>
+  <string name="p_layout_calculator">Научная</string>
+  <string name="p_layout_calculator_mobile">Научная (большие кнопки)</string>
+  <string name="p_layout_simple">Простая</string>
+  <string name="p_layout_simple_mobile">Простая (большие кнопки)</string>
+  <string name="c_calc_layout_summary">Устанавливает раскладку кнопок</string>
+  <string name="c_calc_haptic_feedback_title">Отклик на нажатие</string>
+  <string name="c_calc_haptic_feedback_summary">Включает/выключает вибрацию по нажатию клавиши</string>
+  <string name="p_calc_haptic_feedback_strength_short">Маленькая</string>
+  <string name="p_calc_haptic_feedback_strength_middle">Средняя</string>
+  <string name="p_calc_haptic_feedback_strength_long">Большая</string>
+  <string name="p_calc_haptic_feedback_duration_title">Длительность отклика</string>
+  <string name="p_calc_haptic_feedback_duration_summary">Длительность вибрации по нажатию клавиши</string>
+  <string name="empty_var_error">Невозможно создать пустую константу!</string>
+  <string name="not_valid_result">Результат не допустим!</string>
+  <string name="c_plot_graph">График</string>
+  <string name="c_min_x_value">От</string>
+  <string name="c_max_x_value">До</string>
+  <string name="c_swipe_distance">Длина свайпа для клавиш</string>
+  <string name="c_swipe_distance_summary">Устанавливает длину свайпа для клавиш которые поддерживают дополнительные
 		действия по свайпу
 	</string>
-
-	<string name="c_comment">Комментарий</string>
-	<string name="c_history_item_saved">Сохранено</string>
-	<string name="c_history_item_not_saved">Не сохранено</string>
-	<string name="c_expression_copied">Выражение скопировано в буфер!</string>
-	<string name="c_history_item_status">Статус:</string>
-	<string name="c_history_item_comment">Комментарий:</string>
-	<string name="c_use">Использовать</string>
-	<string name="c_use_short">Исп.</string>
-	<string name="c_copy_expression">Копировать выражение</string>
-	<string name="c_copy_result">Копировать результат</string>
-	<string name="c_history_expression">Значение</string>
-	<string name="c_history_item_already_saved">Сохранено (см. вкладку \'Сохранённая история\')</string>
-	<string name="c_history_comment">Комментарий</string>
-	<string name="c_save_history">Сохранить</string>
-	<string name="c_edit_history">Изменить</string>
-	<string name="c_edit">Изменить</string>
-	<string name="c_saved_history">Сохранённая история</string>
-
-	<string name="c_history_already_saved">История уже была сохранена!</string>
-	<string name="c_history_must_be_saved">История должна быть сохранена перед редактированием!</string>
-	<string name="c_history_was_removed">История успешно удалена!</string>
-	<string name="c_history_saved">История успешно сохранена!</string>
-
-	<string name="c_copy_description">Копировать описание</string>
-	<string name="c_copy_value">Копировать значение</string>
-
-	<string name="c_first_start_text_title">Приветствие</string>
-	<string name="c_first_start_text">Спасибо за выбор Калькулятора++!\n\nКалькулятор++ - это мощный инструмент для
-		проведения ежедневных расчётов.\n\nДля избавление от рекламы и поддержки проекта вы можете воспользоваться
-		специальной опцией доступной из настроек приложения.\n\nПеред началом работы рекомендуется прочитать FAQ и
-		подсказки для использования всех возможностей программы (нажмите Меню, затем Помощь)
-	</string>
-
-	<string name="c_calc_show_release_notes_title">Показывать примечания к выпуску</string>
-	<string name="c_calc_show_release_notes_summary">Определяет показывать или нет всплывающее окно с примечаниями к
+  <string name="c_comment">Комментарий</string>
+  <string name="c_history_item_saved">Сохранено</string>
+  <string name="c_history_item_not_saved">Не сохранено</string>
+  <string name="c_expression_copied">Выражение скопировано в буфер!</string>
+  <string name="c_history_item_status">Статус:</string>
+  <string name="c_history_item_comment">Комментарий:</string>
+  <string name="c_use">Использовать</string>
+  <string name="c_use_short">Исп.</string>
+  <string name="c_copy_expression">Копировать выражение</string>
+  <string name="c_copy_result">Копировать результат</string>
+  <string name="c_history_expression">Значение</string>
+  <string name="c_history_item_already_saved">Сохранено (см. вкладку \'Сохранённая история\')</string>
+  <string name="c_history_comment">Комментарий</string>
+  <string name="c_save_history">Сохранить</string>
+  <string name="c_edit_history">Изменить</string>
+  <string name="c_edit">Изменить</string>
+  <string name="c_saved_history">Сохранённая история</string>
+  <string name="c_history_already_saved">История уже была сохранена!</string>
+  <string name="c_history_must_be_saved">История должна быть сохранена перед редактированием!</string>
+  <string name="c_history_was_removed">История успешно удалена!</string>
+  <string name="c_history_saved">История успешно сохранена!</string>
+  <string name="c_copy_description">Копировать описание</string>
+  <string name="c_copy_value">Копировать значение</string>
+  <string name="c_first_start_text">Спасибо за выбор Калькулятора++!\n\nКалькулятор++ - это мощный инструмент для проведения ежедневных расчётов.</string>
+  <string name="c_first_start_text_title">Приветствие</string>
+  <string name="c_calc_show_release_notes_title">Показывать примечания к выпуску</string>
+  <string name="c_calc_show_release_notes_summary">Определяет показывать или нет всплывающее окно с примечаниями к
 		выпуску после обновления новой версии
 	</string>
-
-	<string name="c_calc_use_back_button_as_prev_summary">Устанавливает поведение по нажатию на кнопку Назад</string>
-	<string name="c_calc_use_back_button_as_prev_title">Использовать кнопку назад как назад по истории</string>
-
-	<string name="c_clear_billing_info_summary">Информация о покупках будет обновлена с сервера</string>
-	<string name="c_clear_billing_info_title">Обновить информацию о покупках</string>
-
-	<string name="c_warning">Внимание</string>
-	<string name="c_error">Ошибка</string>
-	<string name="c_billing_error">Биллинг не поддерживается: вы должны иметь Google Checkout аккаунт привязанный в
+  <string name="c_calc_use_back_button_as_prev_summary">Устанавливает поведение по нажатию на кнопку Назад</string>
+  <string name="c_calc_use_back_button_as_prev_title">Использовать кнопку назад как назад по истории</string>
+  <string name="c_clear_billing_info_summary">Информация о покупках будет обновлена с сервера</string>
+  <string name="c_clear_billing_info_title">Обновить информацию о покупках</string>
+  <string name="c_warning">Внимание</string>
+  <string name="c_error">Ошибка</string>
+  <string name="c_billing_error">Биллинг не поддерживается: вы должны иметь Google Checkout аккаунт привязанный в
 		вашему Google аккаунту и должны быть подключены к интернету.
 	</string>
-
-	<string name="c_calc_ad_free_title">Поддержать проект</string>
-	<string name="c_calc_ad_free_summary">И убрать рекламу</string>
-
-	<string name="c_calc_already_purchased">Опция уже была куплена!</string>
-	<string name="c_calc_purchasing">Покупаем…</string>
-	<string name="c_calc_clearing">Очищаем…</string>
-
-	<string name="c_feedback_title">Отзыв</string>
-	<string name="c_feedback_text">Вы используете Калькулятор++ некоторое время\n
+  <string name="c_calc_ad_free_title">Поддержать проект</string>
+  <string name="c_calc_ad_free_summary">И убрать рекламу</string>
+  <string name="c_calc_already_purchased">Опция уже была куплена!</string>
+  <string name="c_calc_purchasing">Покупаем…</string>
+  <string name="c_calc_clearing">Очищаем…</string>
+  <string name="c_feedback_title">Отзыв</string>
+  <string name="c_feedback_text">Вы используете Калькулятор++ некоторое время\n
 		и для нас важно узнать ваше мнение о приложении.\n\n
 		Пожалуйста, оцените Калькулятор++ \nна
 		<a href="https://market.android.com/details?id=org.solovyev.android.calculator">Google Play</a>,\n оставьте
 		комментарий или \nобсудите приложение \nв
 		<a href="http://facebook.com/calculatorpp">Facebook</a>
 	</string>
-
-	<string name="c_notespp_announce_text">Хорошие новости - я только что выпустил новое приложение под Андроид под
+  <string name="c_notespp_announce_text">Хорошие новости - я только что выпустил новое приложение под Андроид под
 		названием<a href="https://play.google.com/store/apps/details?id=org.solovyev.android.notes">Заметки++</a>.\n
 		Если вы заинтересованы в быстром и удобном способе оставлять заметки пройдите по
 		<a href="https://play.google.com/store/apps/details?id=org.solovyev.android.notes">ссылке</a>
 		и попробуйте Заметки++!
 	</string>
-
-	<string name="c_angle_units_changed_to">Единицы измерения углов изменены на \'%s\'!</string>
-	<string name="c_numeral_base_changed_to">Система счисления изменена на \'%s\'!</string>
-	<string name="c_conversion_tool">Перевод величин</string>
-
-	<string name="c_convert">Перевести в…</string>
-
-	<string name="convert_to_hex">Перевести в hex</string>
-	<string name="convert_to_bin">Перевести в bin</string>
-	<string name="convert_to_dec">Перевести в dec</string>
-
-	<string name="editor">Редактор</string>
-	<string name="result">Результат</string>
-	<string name="other">Другие</string>
-	<string name="derivatives">Производные/Интегралы</string>
-	<string name="crashed">Калькулятор++ обнаружил ошибку…</string>
-	<string name="crash_dialog_title">Отчёт об ошибке в Калькуляторе++</string>
-	<string name="crash_dialog_text">
+  <string name="c_angle_units_changed_to">Единицы измерения углов изменены на \'%s\'!</string>
+  <string name="c_numeral_base_changed_to">Система счисления изменена на \'%s\'!</string>
+  <string name="c_conversion_tool">Перевод величин</string>
+  <string name="c_convert">Перевести в…</string>
+  <string name="convert_to_hex">Перевести в hex</string>
+  <string name="convert_to_bin">Перевести в bin</string>
+  <string name="convert_to_dec">Перевести в dec</string>
+  <string name="editor">Редактор</string>
+  <string name="result">Результат</string>
+  <string name="other">Другие</string>
+  <string name="derivatives">Производные/Интегралы</string>
+  <string name="crashed">Калькулятор++ обнаружил ошибку…</string>
+  <string name="crash_dialog_title">Отчёт об ошибке в Калькуляторе++</string>
+  <string name="crash_dialog_text">
 		К сожалению, Калькулятор++ завершился с ошибкой.\n\n
 		Для того чтобы исправить её, нам необходима некоторая дополнительная информация. Мы рекомендуем вам выслать этот
 		отчёт об ошибке (после нажатия кнопки \'Да\' вы увидите всю передаваемую информацию в новом окне).\n\n
 		Хотите ли вы выслать отчёт об ошибке?
 	</string>
-	<string name="prefs_graph_screen_title">Настройки графиков</string>
-
-	<string name="prefs_graph_interpolate_function">Интерполировать график</string>
-	<string name="prefs_graph_interpolate_function_summary">Если включено - при построении графика будет использована
+  <string name="prefs_graph_screen_title">Настройки графиков</string>
+  <string name="prefs_graph_interpolate_function">Интерполировать график</string>
+  <string name="prefs_graph_interpolate_function_summary">Если включено - при построении графика будет использована
 		интерполяция
 	</string>
-	<string name="prefs_graph_real_color_title">Цвет вещественной части графика</string>
-	<string name="prefs_graph_real_color_summary">Устанавливает цвет вещественной части графика</string>
-	<string name="prefs_graph_imag_color_title">Цвет мнимой части графика</string>
-	<string name="prefs_graph_imag_color_summary">Устанавливает цвет мнимой части графика</string>
-
-	<string name="p_white_line_color">Белый</string>
-	<string name="p_grey_line_color">Серый</string>
-	<string name="p_red_line_color">Красный</string>
-	<string name="p_blue_line_color">Синий</string>
-	<string name="p_green_line_color">Зелёный</string>
-
-	<string name="c_function_name">Имя</string>
-	<string name="c_function_value">Тело функции</string>
-	<string name="c_function_description">Описание</string>
-	<string name="c_function_parameters">Параметры</string>
-
-	<string name="function_create_function">Создать функцию</string>
-	<string name="function_edit_function">Редактировать функцию</string>
-	<string name="function_name_is_not_valid">Не правильное имя функции: имя должно начинаться с буквы, должно содержать
+  <string name="prefs_graph_real_color_title">Цвет вещественной части графика</string>
+  <string name="prefs_graph_real_color_summary">Устанавливает цвет вещественной части графика</string>
+  <string name="prefs_graph_imag_color_title">Цвет мнимой части графика</string>
+  <string name="prefs_graph_imag_color_summary">Устанавливает цвет мнимой части графика</string>
+  <string name="p_white_line_color">Белый</string>
+  <string name="p_grey_line_color">Серый</string>
+  <string name="p_red_line_color">Красный</string>
+  <string name="p_blue_line_color">Синий</string>
+  <string name="p_green_line_color">Зелёный</string>
+  <string name="c_function_name">Имя</string>
+  <string name="c_function_value">Тело функции</string>
+  <string name="c_function_description">Описание</string>
+  <string name="c_function_parameters">Параметры</string>
+  <string name="function_create_function">Создать функцию</string>
+  <string name="function_edit_function">Редактировать функцию</string>
+  <string name="function_name_is_not_valid">Не правильное имя функции: имя должно начинаться с буквы, должно содержать
 		буквы, цифры и знаки подчёркивания.
 	</string>
-	<string name="function_already_exists">Функция с таким именем уже существует!</string>
-	<string name="function_is_empty">Тело функции не должно быть пустым!</string>
-	<string name="function_param_not_empty">Имя параметра не должно быть пустым!</string>
-	<string name="function_removal_confirmation_question">Вы действительно хотите удалить функцию \'%s\'?</string>
-	<string name="empty_function_error">Невозможно создать пустую функцию!</string>
-
-	<string name="do_not_show_messages_in_session">Не показывать это сообщение до следующего запуска программы</string>
-	<string name="calculation_messages_dialog_title">Калькулятор++</string>
-	<string name="arithmetic_error_while_plot">При построении графика возникла арифметическая ошибка: %s</string>
-	<string name="ok">Да</string>
-	<string name="p_show_calculation_messages_dialog_title">Показывать сообщения об ошибках в диалоге</string>
-	<string name="p_show_calculation_messages_dialog_summary">Если включено, то сообщения об ошибках возникающих при
+  <string name="function_already_exists">Функция с таким именем уже существует!</string>
+  <string name="function_is_empty">Тело функции не должно быть пустым!</string>
+  <string name="function_param_not_empty">Имя параметра не должно быть пустым!</string>
+  <string name="function_removal_confirmation_question">Вы действительно хотите удалить функцию \'%s\'?</string>
+  <string name="empty_function_error">Невозможно создать пустую функцию!</string>
+  <string name="do_not_show_messages_in_session">Не показывать это сообщение до следующего запуска программы</string>
+  <string name="calculation_messages_dialog_title">Калькулятор++</string>
+  <string name="arithmetic_error_while_plot">При построении графика возникла арифметическая ошибка: %s</string>
+  <string name="ok">Да</string>
+  <string name="p_show_calculation_messages_dialog_title">Показывать сообщения об ошибках в диалоге</string>
+  <string name="p_show_calculation_messages_dialog_summary">Если включено, то сообщения об ошибках возникающих при
 		вычислениях будут показаны в отдельном диалоге
 	</string>
-	<string name="fix">Исправить</string>
-
-	<string name="p_preferred_numeral_base_title">Система счисления по умолчанию</string>
-	<string name="p_preferred_numeral_base_summary">Устанавливает систему счисления по умолчанию</string>
-	<string name="preferred_numeral_base_message">Система счисления по умолчанию \'%1$s\' отличается от текущей
+  <string name="fix">Исправить</string>
+  <string name="p_preferred_numeral_base_title">Система счисления по умолчанию</string>
+  <string name="p_preferred_numeral_base_summary">Устанавливает систему счисления по умолчанию</string>
+  <string name="preferred_numeral_base_message">Система счисления по умолчанию \'%1$s\' отличается от текущей
 		\'%2$s\'. Забыли её вернуть?
 	</string>
-
-	<string name="p_preferred_angle_units_title">Единицы измерения углов по умолчанию</string>
-	<string name="p_preferred_angle_units_summary">Устанавливает единицы измерения углов по умолчанию</string>
-	<string name="preferred_angle_units_message">Единицы измерения углов по умолчанию \'%1$s\' отличаются от текущих
+  <string name="p_preferred_angle_units_title">Единицы измерения углов по умолчанию</string>
+  <string name="p_preferred_angle_units_summary">Устанавливает единицы измерения углов по умолчанию</string>
+  <string name="preferred_angle_units_message">Единицы измерения углов по умолчанию \'%1$s\' отличаются от текущих
 		\'%2$s\'. Забыли их вернуть?
 	</string>
-
-	<string name="close">Закрыть</string>
-	<string name="c_app_widget_3x3_name">Калькулятор++ Виджет (3x3)</string>
-	<string name="c_app_widget_3x4_name">Калькулятор++ Виджет (3x4)</string>
-	<string name="c_app_widget_4x4_name">Калькулятор++ Виджет (4x4)</string>
-	<string name="c_app_widget_4x5_name">Калькулятор++ Виджет (4x5)</string>
-	<string name="open_onscreen_calculator">Нажмите чтобы открыть калькулятор в отдельном окне</string>
-
-	<string name="prefs_onscreen_title">Настройки калькулятора в отдельном окне</string>
-	<string name="prefs_onscreen_start_on_boot_title">Запуск после загрузки устройства</string>
-	<string name="prefs_onscreen_start_on_boot_summary">Если включено, то кнопка Калькулятора++ будет доступна в панели
+  <string name="close">Закрыть</string>
+  <string name="c_app_widget_3x3_name">Калькулятор++ Виджет (3x3)</string>
+  <string name="c_app_widget_3x4_name">Калькулятор++ Виджет (3x4)</string>
+  <string name="c_app_widget_4x4_name">Калькулятор++ Виджет (4x4)</string>
+  <string name="c_app_widget_4x5_name">Калькулятор++ Виджет (4x5)</string>
+  <string name="open_onscreen_calculator">Нажмите чтобы открыть калькулятор в отдельном окне</string>
+  <string name="prefs_onscreen_title">Настройки калькулятора в отдельном окне</string>
+  <string name="prefs_onscreen_start_on_boot_title">Запуск после загрузки устройства</string>
+  <string name="prefs_onscreen_start_on_boot_summary">Если включено, то кнопка Калькулятора++ будет доступна в панели
 		уведомлений после загрузки устройства
 	</string>
-
-	<string name="prefs_onscreen_show_app_icon_title">Показывать отдельную иконку (может потребовать перезагрузки)
+  <string name="prefs_onscreen_show_app_icon_title">Показывать отдельную иконку (может потребовать перезагрузки)
 	</string>
-	<string name="prefs_onscreen_show_app_icon_summary">Если включено, то вторая иконка будет добавлена в список
+  <string name="prefs_onscreen_show_app_icon_summary">Если включено, то вторая иконка будет добавлена в список
 		приложений
 	</string>
-
-	<string name="cpp_onscreen_remove_icon_message">Вы можете удалить вторую иконку Калькулятора++ из списка приложений
+  <string name="cpp_onscreen_remove_icon_message">Вы можете удалить вторую иконку Калькулятора++ из списка приложений
 		из настроек или нажав следующую кнопку
 	</string>
-	<string name="cpp_onscreen_remove_icon_button_text">Удалить иконку</string>
-	<string name="cpp_this_change_may_require_reboot">Это изменение может потребовать перезагрузки</string>
-
-	<string name="cpp_plot_2d">2D график</string>
-	<string name="cpp_plot_3d">3D график</string>
-	<string name="cpp_plot_functions">Функции на графике</string>
-
-	<string name="cpp_prefs_graph_plot_imag_title">Строить мнимую часть функции</string>
-	<string name="cpp_prefs_graph_plot_imag_summary">Если включено, то мнимая часть функции будет построена на графике
+  <string name="cpp_this_change_may_require_reboot">Это изменение может потребовать перезагрузки</string>
+  <string name="cpp_plot_2d">2D график</string>
+  <string name="cpp_plot_3d">3D график</string>
+  <string name="cpp_plot_functions">Функции на графике</string>
+  <string name="cpp_prefs_graph_plot_imag_title">Строить мнимую часть функции</string>
+  <string name="cpp_prefs_graph_plot_imag_summary">Если включено, то мнимая часть функции будет построена на графике
 	</string>
-
-	<string name="cpp_monochrome_line_color_type">Одноцветный</string>
-	<string name="cpp_color_map_line_color_type">Многоцветный (только в 3D)</string>
-
-	<string name="cpp_solid_line_style">Сплошной (-----)</string>
-	<string name="cpp_dashed_line_style">Пунктирный (- - -)</string>
-	<string name="cpp_dotted_line_style">Точечный (. . .)</string>
-	<string name="cpp_dash_dotted_line_style">Точечно-пунктирный (-.-.-)</string>
-
-	<string name="cpp_plotter">Графопостроитель</string>
-	<string name="cpp_plot_screenshot">Сделать снимок графика</string>
-	<string name="cpp_plot_screenshot_saved">Снимок графика сохранён: %1$s!</string>
-	<string name="cpp_plot_unable_to_save_screenshot">Снимок не может быть сохранён, из-за отсутствия SD карты. Вставьте
+  <string name="cpp_monochrome_line_color_type">Одноцветный</string>
+  <string name="cpp_color_map_line_color_type">Многоцветный (только в 3D)</string>
+  <string name="cpp_solid_line_style">Сплошной (-----)</string>
+  <string name="cpp_dashed_line_style">Пунктирный (- - -)</string>
+  <string name="cpp_dotted_line_style">Точечный (. . .)</string>
+  <string name="cpp_dash_dotted_line_style">Точечно-пунктирный (-.-.-)</string>
+  <string name="cpp_plotter">Графопостроитель</string>
+  <string name="cpp_plot_screenshot">Сделать снимок графика</string>
+  <string name="cpp_plot_screenshot_saved">Снимок графика сохранён: %1$s!</string>
+  <string name="cpp_plot_unable_to_save_screenshot">Снимок не может быть сохранён, из-за отсутствия SD карты. Вставьте
 		SD карту и повторите!
 	</string>
-
-	<string name="cpp_plot_function_line_color_type">Тип цвета линии</string>
-	<string name="cpp_plot_function_line_color">Цвет линии</string>
-	<string name="cpp_plot_function_line_style">Тип линии</string>
-	<string name="cpp_plot_function_line_width">Толщина линии</string>
-	<string name="cpp_plot_function_settings">Настройки функции</string>
-	<string name="cpp_function">Функция</string>
-	<string name="cpp_pinned">Закреплена</string>
-	<string name="cpp_visible">Видна</string>
-	<string name="cpp_plot_button_text">+граф</string>
-	<string name="cpp_plot_empty_function_error">Невозможно построить пустую функцию!</string>
-	<string name="cpp_plot_too_many_variables">Невозможно построить функцию: слишком много переменных!</string>
-	<string name="cpp_plot_range">Интервал построения</string>
-	<string name="cpp_plot_range_x_min">X мин</string>
-	<string name="cpp_plot_range_x_max">X макс</string>
-	<string name="cpp_plot_range_y_min">Y мин</string>
-	<string name="cpp_plot_range_y_max">Y макс</string>
-	<string name="cpp_invalid_number">Неправильное число!</string>
-	<string name="cpp_plot_boundaries_should_differ">Границы графика не могут быть равны!</string>
-	<string name="cpp_apply">Применить</string>
-	<string name="cpp_message">Сообщение</string>
-	<string name="cpp_continue">Продолжить</string>
-	<string name="cpp_purchase_text">Поддержать проект очень легко и безопасно: процесс покупки проводится Google и всё
+  <string name="cpp_plot_function_line_color_type">Тип цвета линии</string>
+  <string name="cpp_plot_function_line_color">Цвет линии</string>
+  <string name="cpp_plot_function_line_style">Тип линии</string>
+  <string name="cpp_plot_function_line_width">Толщина линии</string>
+  <string name="cpp_plot_function_settings">Настройки функции</string>
+  <string name="cpp_function">Функция</string>
+  <string name="cpp_pinned">Закреплена</string>
+  <string name="cpp_visible">Видна</string>
+  <string name="cpp_plot_button_text">+граф</string>
+  <string name="cpp_plot_empty_function_error">Невозможно построить пустую функцию!</string>
+  <string name="cpp_plot_too_many_variables">Невозможно построить функцию: слишком много переменных!</string>
+  <string name="cpp_plot_range">Интервал построения</string>
+  <string name="cpp_fullscreen">Полноэкранный режим</string>
+  <string name="cpp_plot_range_x_min">X мин</string>
+  <string name="cpp_plot_range_x_max">X макс</string>
+  <string name="cpp_plot_range_y_min">Y мин</string>
+  <string name="cpp_plot_range_y_max">Y макс</string>
+  <string name="cpp_invalid_number">Неправильное число!</string>
+  <string name="cpp_plot_boundaries_should_differ">Границы графика не могут быть равны!</string>
+  <string name="cpp_apply">Применить</string>
+  <string name="cpp_message">Сообщение</string>
+  <string name="cpp_continue">Продолжить</string>
+  <string name="cpp_purchase_text">Поддержать проект очень легко и безопасно: процесс покупки проводится Google и всё
 		что вам нужно - это настроенный Google аккаунт.\n\n
 		Информация о покупке хранится на серверах Google с вашим Google аккаунтом и вы можете легко использовать
 		приложение на нескольких устройствах.\n\n
 		По нажатию кнопки \'Продолжить\' вы будете перенаправлены в приложение Google Play для совершения покупки.
 	</string>
-	<string name="cpp_purchase_title">Покупка</string>
-
-	<string name="cpp_purchase_thank_you_text">Спасибо за помощь в развитии проекта!\n\n Приложение получит уведомление
+  <string name="cpp_purchase_title">Покупка</string>
+  <string name="cpp_purchase_thank_you_text">Спасибо за помощь в развитии проекта!\n\n Приложение получит уведомление
 		о покупке в течение нескольких минут. Вы всегда можете посмотреть состояние покупки в вашем Google аккаунте.\n
-		Если у вас есть вопросы или проблемы вы всегда можете обратиться ко мне напрямую (конакты доступны в Меню->О
+		Если у вас есть вопросы или проблемы вы всегда можете обратиться ко мне напрямую (конакты доступны в Меню-&gt;О
 		приложении)
 	</string>
-
 </resources>
