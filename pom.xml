@@ -21,8 +21,7 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<parent>
 		<groupId>org.sonatype.oss</groupId>
@@ -35,14 +34,14 @@
 	<groupId>org.solovyev.android</groupId>
 	<artifactId>calculatorpp-parent</artifactId>
 	<packaging>pom</packaging>
-	<version>1.6.3-SNAPSHOT</version>
+	<version>1.6.3-a</version>
 	<name>Calculator++</name>
 
 	<scm>
 		<connection>scm:git:git@github.com:serso/android-calculatorpp.git</connection>
 		<developerConnection>scm:git:git@github.com:serso/android-calculatorpp.git</developerConnection>
 		<url>http://github.com/serso/android-calculatorpp</url>
-		<tag>HEAD</tag>
+		<tag>release-1.6.3-a</tag>
 	</scm>
 
 	<modules>
@@ -67,27 +66,27 @@
 			<dependency>
 				<groupId>org.solovyev.android</groupId>
 				<artifactId>calculatorpp-core</artifactId>
-				<version>1.6.3-SNAPSHOT</version>
+				<version>1.6.3-a</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.solovyev.android</groupId>
 				<artifactId>calculatorpp-android-app-core</artifactId>
-				<version>1.6.3-SNAPSHOT</version>
+				<version>1.6.3-a</version>
 				<type>apklib</type>
 			</dependency>
 
 			<dependency>
 				<groupId>org.solovyev.android</groupId>
 				<artifactId>calculatorpp-android-app-widget</artifactId>
-				<version>1.6.3-SNAPSHOT</version>
+				<version>1.6.3-a</version>
 				<type>apklib</type>
 			</dependency>
 
 			<dependency>
 				<groupId>org.solovyev.android</groupId>
 				<artifactId>calculatorpp-android-app-onscreen</artifactId>
-				<version>1.6.3-SNAPSHOT</version>
+				<version>1.6.3-a</version>
 				<type>apklib</type>
 			</dependency>
 
