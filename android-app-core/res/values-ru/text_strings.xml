@@ -345,7 +345,6 @@
 	<string name="cpp_onscreen_remove_icon_message">Вы можете удалить вторую иконку Калькулятора++ из списка приложений
 		из настроек или нажав следующую кнопку
 	</string>
-	<string name="cpp_onscreen_remove_icon_button_text">Удалить иконку</string>
 	<string name="cpp_this_change_may_require_reboot">Это изменение может потребовать перезагрузки</string>
 
 	<string name="cpp_plot_2d">2D график</string>

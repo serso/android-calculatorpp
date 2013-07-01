@@ -58,7 +58,6 @@ public final class CalculatorPreferences {
 	public static class OnscreenCalculator {
 		public static final Preference<Boolean> startOnBoot = BooleanPreference.of("onscreen_start_on_boot", false);
 		public static final Preference<Boolean> showAppIcon = BooleanPreference.of("onscreen_show_app_icon", true);
-		public static final Preference<Boolean> removeIconDialogShown = BooleanPreference.of("onscreen_remove_icon_dialog_shown", false);
 	}
 
 	public static class Calculations {
