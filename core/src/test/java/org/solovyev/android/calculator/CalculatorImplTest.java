@@ -22,8 +22,11 @@
 
 package org.solovyev.android.calculator;
 
+import jscl.math.function.IConstant;
+
 import org.junit.Before;
 import org.junit.Test;
+import org.solovyev.android.calculator.model.Var;
 
 /**
  * User: Solovyev_S
@@ -39,8 +42,6 @@ public class CalculatorImplTest extends AbstractCalculatorTest {
 
 	@Test
 	public void testAnsVariable() throws Exception {
-		CalculatorTestUtils.assertError("ans");
-		CalculatorTestUtils.assertError("ans");
 		CalculatorTestUtils.assertEval("2", "2");
 		CalculatorTestUtils.assertEval("2", "ans");
 		CalculatorTestUtils.assertEval("4", "ans^2");

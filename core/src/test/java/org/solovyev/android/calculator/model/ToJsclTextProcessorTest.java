@@ -24,6 +24,7 @@ package org.solovyev.android.calculator.model;
 
 import jscl.JsclMathEngine;
 import jscl.NumeralBase;
+import jscl.text.ParseException;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -128,34 +129,6 @@ public class ToJsclTextProcessorTest extends AbstractCalculatorTest {
 			Assert.fail();
 		} catch (CalculatorParseException e) {
 		}
-	}
-
-	@Test
-	public void testDegrees() throws Exception {
-		final TextProcessor<PreparedExpression, String> preprocessor = ToJsclTextProcessor.getInstance();
-
-		Assert.assertEquals("", preprocessor.process("").toString());
-	/*	try {
-			Assert.assertEquals( "π/180", preprocessor.process("°").toString());
-		} catch (ParseException e) {
-			if ( !e.getMessage().startsWith("Could not find start of prefix") ){
-				junit.framework.Assert.fail();
-			}
-		}
-		Assert.assertEquals( "1*π/180", preprocessor.process("1°").toString());
-		Assert.assertEquals( "20.0*π/180", preprocessor.process("20.0°").toString());
-		Assert.assertEquals( "sin(30*π/180)", preprocessor.process("sin(30°)").toString());
-		Assert.assertEquals( "asin(sin(π/6))*π/180", preprocessor.process("asin(sin(π/6))°").toString());
-		Assert.assertEquals( "1*π/180*sin(1)", preprocessor.process("1°sin(1)").toString());
-		try {
-			Assert.assertEquals( "1*π/180^sin(1)", preprocessor.process("1°^sin(1)").toString());
-			junit.framework.Assert.fail();
-		} catch (ParseException e) {
-			if ( !e.getMessage().equals("Power operation after postfix function is currently unsupported!") ) {
-				junit.framework.Assert.fail();
-			}
-		}*/
-
 	}
 
 	@Test

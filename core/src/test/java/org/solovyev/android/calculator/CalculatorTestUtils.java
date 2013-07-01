@@ -34,6 +34,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import java.io.*;
+import java.text.DecimalFormatSymbols;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -50,6 +51,11 @@ public class CalculatorTestUtils {
 	public static void staticSetUp() throws Exception {
 		Locator.getInstance().init(new CalculatorImpl(), newCalculatorEngine(), Mockito.mock(CalculatorClipboard.class), Mockito.mock(CalculatorNotifier.class), Mockito.mock(CalculatorHistory.class), new SystemOutCalculatorLogger(), Mockito.mock(CalculatorPreferenceService.class), Mockito.mock(CalculatorKeyboard.class), Mockito.mock(CalculatorPlotter.class), null);
 		Locator.getInstance().getEngine().init();
+
+		final DecimalFormatSymbols decimalGroupSymbols = new DecimalFormatSymbols();
+		decimalGroupSymbols.setDecimalSeparator('.');
+		decimalGroupSymbols.setGroupingSeparator(' ');
+		Locator.getInstance().getEngine().setDecimalGroupSymbols(decimalGroupSymbols);
 	}
 
 	@Nonnull
