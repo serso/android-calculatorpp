@@ -56,8 +56,8 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<android.common.version>1.1.1-SNAPSHOT</android.common.version>
-		<common.version>1.0.5-SNAPSHOT</common.version>
+		<acl.version>1.1.1-SNAPSHOT</acl.version>
+		<jcl.version>1.0.5-SNAPSHOT</jcl.version>
 	</properties>
 
 	<dependencyManagement>
@@ -93,67 +93,67 @@
 			<dependency>
 				<groupId>org.solovyev</groupId>
 				<artifactId>common-core</artifactId>
-				<version>${common.version}</version>
+				<version>${jcl.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.solovyev</groupId>
 				<artifactId>common-text</artifactId>
-				<version>${common.version}</version>
+				<version>${jcl.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.solovyev</groupId>
 				<artifactId>common-listeners</artifactId>
-				<version>${common.version}</version>
+				<version>${jcl.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.solovyev.android</groupId>
 				<artifactId>android-common-core</artifactId>
 				<type>apklib</type>
-				<version>${android.common.version}</version>
+				<version>${acl.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.solovyev.android</groupId>
 				<artifactId>android-common-ads</artifactId>
 				<type>apklib</type>
-				<version>${android.common.version}</version>
+				<version>${acl.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.solovyev.android</groupId>
 				<artifactId>android-common-view</artifactId>
 				<type>apklib</type>
-				<version>${android.common.version}</version>
+				<version>${acl.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.solovyev.android</groupId>
 				<artifactId>android-common-preferences</artifactId>
 				<type>apklib</type>
-				<version>${android.common.version}</version>
+				<version>${acl.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.solovyev.android</groupId>
 				<artifactId>android-common-menu</artifactId>
 				<type>apklib</type>
-				<version>${android.common.version}</version>
+				<version>${acl.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.solovyev.android</groupId>
 				<artifactId>android-common-db</artifactId>
 				<type>apklib</type>
-				<version>${android.common.version}</version>
+				<version>${acl.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.solovyev.android</groupId>
 				<artifactId>android-common-sherlock</artifactId>
-				<version>${android.common.version}</version>
+				<version>${acl.version}</version>
 				<type>apklib</type>
 			</dependency>
 
@@ -161,21 +161,21 @@
 				<groupId>org.solovyev.android</groupId>
 				<artifactId>android-common-other</artifactId>
 				<type>apklib</type>
-				<version>${android.common.version}</version>
+				<version>${acl.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.solovyev.android</groupId>
 				<artifactId>android-common-billing</artifactId>
 				<type>apklib</type>
-				<version>${android.common.version}</version>
+				<version>${acl.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.solovyev.android</groupId>
 				<artifactId>android-common-all</artifactId>
 				<type>apklib</type>
-				<version>${android.common.version}</version>
+				<version>${acl.version}</version>
 			</dependency>
 
 
