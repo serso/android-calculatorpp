@@ -115,11 +115,11 @@ public class WizardStepTest {
 		WizardStep.choose_layout.onNext(layoutFragment);
 	}
 
-	@Config(qualifiers = "large")
+/*	@Config(qualifiers = "large")
 	@Test
 	public void testChooseLayoutShouldBeVisibleForTablet() throws Exception {
 		assertTrue(WizardStep.choose_layout.isVisible());
-	}
+	}*/
 
 	@Config(qualifiers = "normal")
 	@Test

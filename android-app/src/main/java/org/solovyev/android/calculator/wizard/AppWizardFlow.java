@@ -28,6 +28,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.solovyev.android.calculator.wizard.WizardStep.last;
 import static org.solovyev.android.calculator.wizard.Wizards.DEFAULT_WIZARD_FLOW;
 import static org.solovyev.android.calculator.wizard.Wizards.FIRST_TIME_WIZARD;
 import static org.solovyev.android.calculator.wizard.WizardStep.welcome;
@@ -50,7 +51,7 @@ final class AppWizardFlow implements WizardFlow {
 	static AppWizardFlow newDefaultWizardFlow() {
 		final List<WizardStep> wizardSteps = new ArrayList<WizardStep>();
 		for (WizardStep wizardStep : WizardStep.values()) {
-			if (wizardStep != welcome && wizardStep.isVisible()) {
+			if (wizardStep != welcome && wizardStep != last && wizardStep.isVisible()) {
 				wizardSteps.add(wizardStep);
 			}
 		}

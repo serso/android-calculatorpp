@@ -46,22 +46,14 @@
 				a:layout_height="wrap_content"
 				a:layout_width="0dp"
 				a:layout_weight="1"
-				a:text="Prev"/>
+				a:text="@string/cpp_wizard_back"/>
 
 		<Button
 				a:id="@+id/wizard_next_button"
 				a:layout_height="wrap_content"
 				a:layout_width="0dp"
 				a:layout_weight="1"
-				a:text="Next"/>
-
-		<Button
-				a:id="@+id/wizard_finish_button"
-				a:layout_height="wrap_content"
-				a:layout_width="0dp"
-				a:layout_weight="1"
-				a:visibility="gone"
-				a:text="Finish"/>
+				a:text="@string/cpp_wizard_next"/>
 
 	</LinearLayout>
 

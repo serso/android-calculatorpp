@@ -30,6 +30,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.widget.Button;
 
 import org.solovyev.android.calculator.R;
 
@@ -67,8 +68,7 @@ public final class CalculatorWizardActivity extends FragmentActivity {
 	*/
 
 	private View prevButton;
-	private View nextButton;
-	private View finishButton;
+	private Button nextButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,8 +77,7 @@ public final class CalculatorWizardActivity extends FragmentActivity {
 		setContentView(R.layout.cpp_wizard);
 
 		prevButton = findViewById(R.id.wizard_prev_button);
-		nextButton = findViewById(R.id.wizard_next_button);
-		finishButton = findViewById(R.id.wizard_finish_button);
+		nextButton = (Button) findViewById(R.id.wizard_next_button);
 
 		String wizardName = getIntent().getStringExtra(FLOW);
 		String stepName = getIntent().getStringExtra(STEP);
@@ -109,26 +108,7 @@ public final class CalculatorWizardActivity extends FragmentActivity {
 
 			initTitle();
 			initNextButton();
-			initFinishButton();
 			initPrevButton();
-		}
-	}
-
-	private void initFinishButton() {
-		final WizardStep nextStep = flow.getNextStep(step);
-		if (nextStep == null) {
-			finishButton.setVisibility(VISIBLE);
-			finishButton.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					if (tryGoNext()) {
-						finishFlow();
-					}
-				}
-			});
-		} else {
-			finishButton.setVisibility(GONE);
-			finishButton.setOnClickListener(null);
 		}
 	}
 
@@ -157,10 +137,17 @@ public final class CalculatorWizardActivity extends FragmentActivity {
 	private void initNextButton() {
 		final WizardStep nextStep = flow.getNextStep(step);
 		if (nextStep == null) {
-			nextButton.setVisibility(GONE);
-			nextButton.setOnClickListener(null);
+			nextButton.setText(R.string.cpp_wizard_finish);
+			nextButton.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (tryGoNext()) {
+						finishFlow();
+					}
+				}
+			});
 		} else {
-			nextButton.setVisibility(VISIBLE);
+			nextButton.setText(step.getNextButtonTitleResId());
 			nextButton.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -282,10 +269,6 @@ public final class CalculatorWizardActivity extends FragmentActivity {
 
 	View getNextButton() {
 		return nextButton;
-	}
-
-	View getFinishButton() {
-		return finishButton;
 	}
 
 	/*

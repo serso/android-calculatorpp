@@ -48,23 +48,7 @@ import static org.solovyev.android.calculator.wizard.OnScreenCalculatorWizardSte
  */
 enum WizardStep {
 
-	welcome(WelcomeWizardStep.class, R.string.cpp_wizard_welcome_title) {
-		@Override
-		boolean onNext(@Nonnull Fragment fragment) {
-			return true;
-		}
-
-		@Override
-		boolean onPrev(@Nonnull Fragment fragment) {
-			return true;
-		}
-
-		@Nullable
-		@Override
-		Bundle getFragmentArgs() {
-			return null;
-		}
-	},
+	welcome(WelcomeWizardStep.class, R.string.cpp_wizard_welcome_title, R.string.cpp_wizard_start),
 
 	choose_layout(ChooseLayoutWizardStep.class, R.string.cpp_wizard_layout_title) {
 		@Override
@@ -76,11 +60,6 @@ enum WizardStep {
 			final CalculatorLayout layout = fragment.getSelectedLayout();
 			layout.apply(preferences);
 
-			return true;
-		}
-
-		@Override
-		boolean onPrev(@Nonnull Fragment fragment) {
 			return true;
 		}
 
@@ -113,11 +92,6 @@ enum WizardStep {
 			return true;
 		}
 
-		@Override
-		boolean onPrev(@Nonnull Fragment fragment) {
-			return true;
-		}
-
 		@Nullable
 		@Override
 		Bundle getFragmentArgs() {
@@ -141,11 +115,6 @@ enum WizardStep {
 			return true;
 		}
 
-		@Override
-		boolean onPrev(@Nonnull Fragment fragment) {
-			return true;
-		}
-
 		@Nullable
 		@Override
 		Bundle getFragmentArgs() {
@@ -157,32 +126,25 @@ enum WizardStep {
 		}
 	},
 
-	drag_button_step(DragButtonWizardStep.class, R.string.cpp_wizard_dragbutton_title) {
-		@Override
-		boolean onNext(@Nonnull Fragment fragment) {
-			return true;
-		}
+	drag_button(DragButtonWizardStep.class, R.string.cpp_wizard_dragbutton_title),
 
-		@Override
-		boolean onPrev(@Nonnull Fragment fragment) {
-			return true;
-		}
-
-		@Nullable
-		@Override
-		Bundle getFragmentArgs() {
-			return null;
-		}
-	};
+	last(FinalWizardStep.class, R.string.cpp_wizard_final_title);
 
 	@Nonnull
 	private final Class<? extends Fragment> fragmentClass;
 
 	private final int titleResId;
+	private final int nextButtonTitleResId;
+
+
 
 	WizardStep(@Nonnull Class<? extends Fragment> fragmentClass, int titleResId) {
+		this(fragmentClass, titleResId, R.string.cpp_wizard_next);
+	}
+	WizardStep(@Nonnull Class<? extends Fragment> fragmentClass, int titleResId, int nextButtonTitleResId) {
 		this.fragmentClass = fragmentClass;
 		this.titleResId = titleResId;
+		this.nextButtonTitleResId = nextButtonTitleResId;
 	}
 
 	public String getFragmentTag() {
@@ -198,12 +160,22 @@ enum WizardStep {
 		return titleResId;
 	}
 
-	abstract boolean onNext(@Nonnull Fragment fragment);
+	int getNextButtonTitleResId() {
+		return nextButtonTitleResId;
+	}
 
-	abstract boolean onPrev(@Nonnull Fragment fragment);
+	boolean onNext(@Nonnull Fragment fragment) {
+		return true;
+	}
+
+	boolean onPrev(@Nonnull Fragment fragment) {
+		return true;
+	}
 
 	@Nullable
-	abstract Bundle getFragmentArgs();
+	Bundle getFragmentArgs() {
+		return null;
+	}
 
 	public boolean isVisible() {
 		return true;

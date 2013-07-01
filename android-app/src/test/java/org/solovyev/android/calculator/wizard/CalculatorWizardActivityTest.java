@@ -156,11 +156,10 @@ public class CalculatorWizardActivityTest {
 	}
 
 	@Test
-	public void testNextButtonShouldNotBeShownAtTheEnd() throws Exception {
+	public void testNextButtonShouldBeShownAtTheEnd() throws Exception {
 		setLastStep();
 		assertEquals(VISIBLE, activity.getPrevButton().getVisibility());
-		assertEquals(GONE, activity.getNextButton().getVisibility());
-		assertEquals(VISIBLE, activity.getFinishButton().getVisibility());
+		assertEquals(VISIBLE, activity.getNextButton().getVisibility());
 	}
 
 	private void setLastStep() {
@@ -171,7 +170,6 @@ public class CalculatorWizardActivityTest {
 	public void testPrevButtonShouldNotBeShownAtTheStart() throws Exception {
 		setFirstStep();
 		assertEquals(VISIBLE, activity.getNextButton().getVisibility());
-		assertEquals(GONE, activity.getFinishButton().getVisibility());
 		assertEquals(GONE, activity.getPrevButton().getVisibility());
 	}
 
@@ -182,9 +180,9 @@ public class CalculatorWizardActivityTest {
 	@Test
 	public void testShouldSaveLastWizardStateOnPause() throws Exception {
 		assertNull(Wizards.getLastSavedWizardStepName(activity.getFlow().getName()));
-		activity.setStep(WizardStep.drag_button_step);
+		activity.setStep(WizardStep.drag_button);
 		activity.onPause();
-		assertEquals(WizardStep.drag_button_step.getName(), Wizards.getLastSavedWizardStepName(activity.getFlow().getName()));
+		assertEquals(WizardStep.drag_button.getName(), Wizards.getLastSavedWizardStepName(activity.getFlow().getName()));
 	}
 
 	@Test

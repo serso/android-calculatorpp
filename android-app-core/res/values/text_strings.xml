@@ -196,9 +196,7 @@
 	<string name="c_copy_value">Copy value</string>
 
 	<string name="c_first_start_text">Thank you for choosing Calculator++!\n\nCalculator++ is a powerful tool for making
-		everyday calculations.\n\nTo remove the ads and support the project you can use special option from application
-		settings.\n\nIt\'s highly recommended to read the FAQ and hints before the work to use all the features of
-		application (press Menu button and then Help)
+		everyday calculations.
 	</string>
 	<string name="c_first_start_text_title">Welcome</string>
 
