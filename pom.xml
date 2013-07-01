@@ -288,7 +288,7 @@
 				<version>2.15</version>
 				<configuration>
 					<forkCount>10</forkCount>
-					<reuseForks>true</reuseForks>
+					<reuseForks>false</reuseForks>
 				</configuration>
 			</plugin>
 
