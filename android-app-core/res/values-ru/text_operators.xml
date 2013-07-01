@@ -21,35 +21,26 @@
   -->
 
 <resources>
-
-	<string name="c_operators">Операторы</string>
-
-	<string name="c_op_description_mod">Возвращает остаток от деления \'x\' на \'y\'.</string>
-	<string name="c_op_description_sum">Суммирует функции \'f(i)\', пробегая по переменной \'i\' от \'from\' до
-		\'to\'.
+  <string name="c_operators">Операторы</string>
+  <string name="c_op_description_mod">Возвращает остаток от деления \'x\' на \'y\'</string>
+  <string name="c_op_description_sum">Суммирует функции \'f(i)\', пробегая по переменной \'i\' от \'from\' до \'to\'
 	</string>
-	<string name="c_op_description_product">Возвращает произведение функций \'f(i)\', пробегая по переменной \'i\' от
-		\'from\' до \'to\'.
+  <string name="c_op_description_product">Возвращает произведение функций \'f(i)\', пробегая по переменной \'i\' от \'from\' до \'to\'
 	</string>
-	<string name="c_op_description_derivative">Возвращает производную порядка \'order\' (по умолчанию = 1) функции
-		\'f(x)\' по переменной \'x\' и вычисляет её в точке \'x_point\' (по умолчанию = такая же как и \'x\').
+  <string name="c_op_description_derivative">Возвращает производную порядка \'order\' (по умолчанию = 1) функции \'f(x)\' по переменной \'x\' и вычисляет её в точке \'x_point\' (по умолчанию = такая же как и \'x\')</string>
+  <string name="c_op_description_integral">Возвращает интеграл функции \'f(x)\' по переменной \'x\'</string>
+  <string name="c_op_description_integral_ab">Интегрирует функцию \'f(x)\' по переменной \'x\' от \'a\' до \'b\'
 	</string>
-	<string name="c_op_description_integral">Возвращает интеграл функции \'f(x)\' по переменной \'x\'.</string>
-	<string name="c_op_description_integral_ab">Интегрирует функцию \'f(x)\' по переменной \'x\' от \'a\' до \'b\'.
-	</string>
-
-	<string name="c_pf_description_factorial">Возвращает факториал от предыдущего выражения.</string>
-	<string name="c_pf_description_double_factorial">Возвращает двойной факториал от предыдущего выражения.</string>
-	<string name="c_pf_description_percent" formatted="false">Возвращает процентное значение от предыдущего
-		выражения.\nПримеры:\n
+  <string name="c_pf_description_factorial">Возвращает факториал от предыдущего выражения</string>
+  <string name="c_pf_description_double_factorial">Возвращает двойной факториал от предыдущего выражения</string>
+  <string name="c_pf_description_percent" formatted="false">Возвращает процентное значение от предыдущего выражения.\nПримеры:\n
 		100 + 50% = 150\n
 		100 * 50% = 50\n
 		100 + 100 * 50% * 50% = 125
 	</string>
-	<string name="c_pf_description_degree">Преобразует градусы в радианы.\n
+  <string name="c_pf_description_degree">Преобразует градусы в радианы.\n
 		Примеры:\n
 		268° = 4.67748\n
 		30.21° = 0.52726
 	</string>
-
 </resources>
