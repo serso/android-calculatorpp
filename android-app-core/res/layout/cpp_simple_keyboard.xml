@@ -78,7 +78,7 @@
 
 		<include layout="@layout/cpp_simple_button_plus"/>
 
-		<include layout="@layout/cpp_simple_button_operators"/>
+		<include layout="@layout/cpp_simple_button_settings"/>
 
 		<include layout="@layout/cpp_simple_button_copy"/>
 
@@ -97,7 +97,7 @@
 
 		<include layout="@layout/cpp_simple_button_subtraction"/>
 
-		<include layout="@layout/cpp_simple_button_settings"/>
+		<include layout="@layout/cpp_simple_button_app"/>
 
 		<include layout="@layout/cpp_simple_button_paste"/>
 
@@ -117,7 +117,7 @@
 
 		<include layout="@layout/cpp_simple_button_functions"/>
 
-		<include layout="@layout/cpp_simple_button_app"/>
+		<include layout="@layout/cpp_simple_button_operators"/>
 
 		<include layout="@layout/cpp_simple_button_history"/>
 
