@@ -22,6 +22,7 @@
 
 package org.solovyev.android.calculator.math.edit;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
@@ -30,17 +31,24 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import jscl.math.function.IConstant;
 
+import java.util.Arrays;
+import java.util.List;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import org.solovyev.android.Views;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.model.Var;
 import org.solovyev.android.sherlock.AndroidSherlockUtils;
+import org.solovyev.common.text.Strings;
+
+import static android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE;
 
 /**
  * User: Solovyev_S
@@ -48,6 +56,8 @@ import org.solovyev.android.sherlock.AndroidSherlockUtils;
  * Time: 17:41
  */
 public class VarEditDialogFragment extends DialogFragment implements CalculatorEventListener {
+
+	private final static List<Character> acceptableChars = Arrays.asList(Strings.toObjects("1234567890abcdefghijklmnopqrstuvwxyzйцукенгшщзхъфывапролджэячсмитьбюёαβγδεζηθικλμνξοπρστυφχψω_".toCharArray()));
 
 	@Nonnull
 	private final Input input;
@@ -101,7 +111,7 @@ public class VarEditDialogFragment extends DialogFragment implements CalculatorE
 			public void afterTextChanged(Editable s) {
 				for (int i = 0; i < s.length(); i++) {
 					char c = s.charAt(i);
-					if (!AbstractMathEntityListFragment.acceptableChars.contains(c)) {
+					if (!acceptableChars.contains(c)) {
 						s.delete(i, i + 1);
 						Toast.makeText(getActivity(), String.format(errorMsg, c), Toast.LENGTH_SHORT).show();
 					}
@@ -109,9 +119,12 @@ public class VarEditDialogFragment extends DialogFragment implements CalculatorE
 			}
 		});
 
+		processGreekButtons(root, editName, R.id.var_edit_greek_buttons_1);
+		processGreekButtons(root, editName, R.id.var_edit_greek_buttons_2);
+
 		// show soft keyboard automatically
 		editName.requestFocus();
-		getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+		getDialog().getWindow().setSoftInputMode(SOFT_INPUT_STATE_VISIBLE);
 
 		final EditText editValue = (EditText) root.findViewById(R.id.var_edit_value);
 		editValue.setText(input.getValue());
@@ -147,6 +160,21 @@ public class VarEditDialogFragment extends DialogFragment implements CalculatorE
 
 			root.findViewById(R.id.remove_button).setOnClickListener(MathEntityRemover.newConstantRemover(constant, null, getActivity(), VarEditDialogFragment.this));
 		}
+	}
+
+	private void processGreekButtons(@Nonnull View root, @Nonnull final EditText editName, int greekButtonsViewId) {
+		final ViewGroup greekButtons = (ViewGroup) root.findViewById(greekButtonsViewId);
+		Views.processViewsOfType(greekButtons, Button.class, new Views.ViewProcessor<Button>() {
+			@Override
+			public void process(@Nonnull final Button greekButton) {
+				greekButton.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						editName.append(greekButton.getText());
+					}
+				});
+			}
+		});
 	}
 
 	@Override
