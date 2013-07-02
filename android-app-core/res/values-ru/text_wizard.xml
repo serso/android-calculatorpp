@@ -39,4 +39,8 @@
 	<string name="cpp_wizard_mode_title">Выберите режим</string>
 	<string name="cpp_wizard_onscreen_calculator_title">Калькулятор в отдельном окне</string>
 	<string name="cpp_wizard_dragbutton_title">Основы использования кнопок</string>
+	<string name="cpp_wizard_onscreen_description">Калькулятор в отдельном окне позволяет вам произодить вычисления не закрывая при этом другие приложения</string>
+	<string name="cpp_wizard_onscreen_checkbox">Включить калькулятор в отдельном окне (вторая иконка появится в списке приложений)</string>
+	<string name="cpp_wizard_dragbutton_description">Специально разработанные кнопки позволяют быстро и просто использовать дополнительные возможности калькулятора
+	</string>
 </resources>

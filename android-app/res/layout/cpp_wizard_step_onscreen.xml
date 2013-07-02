@@ -28,7 +28,7 @@
 			  a:orientation="vertical">
 
 	<TextView
-			a:text="Calculator in separate window allows you to do calculations while using other apps on your device"
+			a:text="@string/cpp_wizard_onscreen_description"
 			a:layout_height="wrap_content"
 			a:layout_width="match_parent"/>
 
@@ -36,6 +36,6 @@
 			a:id="@+id/wizard_onscreen_app_enabled_checkbox"
 			a:layout_height="wrap_content"
 			a:layout_width="match_parent"
-			a:text="Enable calculator in separate window (second icon will appear in the apps list)"/>
+			a:text="@string/cpp_wizard_onscreen_checkbox"/>
 
 </LinearLayout>
