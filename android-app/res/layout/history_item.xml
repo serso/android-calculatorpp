@@ -43,7 +43,6 @@
 				a:id="@+id/history_item"
 				a:layout_width="fill_parent"
 				a:layout_height="fill_parent"
-				a:textColor="@color/cpp_button_operator_text_color"
 				style="@style/history_item"/>
 
 	</LinearLayout>
