@@ -179,11 +179,24 @@ public class CalculatorEngineImpl implements CalculatorEngine {
 	@Override
 	public void reset() {
 		synchronized (lock) {
-			varsRegistry.load();
-			functionsRegistry.load();
-			operatorsRegistry.load();
-			postfixFunctionsRegistry.load();
+			safeLoadRegistry(varsRegistry);
+			safeLoadRegistry(functionsRegistry);
+			safeLoadRegistry(operatorsRegistry);
+			safeLoadRegistry(postfixFunctionsRegistry);
 		}
+	}
+
+	private void safeLoadRegistry(@Nonnull CalculatorMathRegistry<?> registry) {
+		try {
+			registry.load();
+		} catch (Exception e) {
+			logException(e);
+		}
+	}
+
+	private void logException(@Nonnull Exception e) {
+		final CalculatorLogger logger = Locator.getInstance().getLogger();
+		logger.error("Engine", e.getMessage(), e);
 	}
 
 	@Override

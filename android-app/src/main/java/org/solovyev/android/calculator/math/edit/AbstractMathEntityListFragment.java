@@ -80,8 +80,6 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
 
 	public static final String MATH_ENTITY_CATEGORY_EXTRA_STRING = "org.solovyev.android.calculator.CalculatorVarsActivity_math_entity_category";
 
-	protected final static List<Character> acceptableChars = Arrays.asList(Strings.toObjects("1234567890abcdefghijklmnopqrstuvwxyzйцукенгшщзхъфывапролджэячсмитьбюё_".toCharArray()));
-
 
 	/*
 	**********************************************************************

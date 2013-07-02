@@ -27,6 +27,7 @@ import android.content.res.Resources;
 import android.graphics.Paint;
 import android.text.TextPaint;
 import android.util.AttributeSet;
+import jscl.AngleUnit;
 
 import javax.annotation.Nonnull;
 
@@ -41,8 +42,12 @@ import org.solovyev.android.view.drag.DirectionDragButton;
  */
 public class AngleUnitsButton extends DirectionDragButton {
 
+	@Nonnull
+	private AngleUnit angleUnit;
+
 	public AngleUnitsButton(Context context, @Nonnull AttributeSet attrs) {
 		super(context, attrs);
+		this.angleUnit = Locator.getInstance().getEngine().getAngleUnits();
 	}
 
 	@Override
@@ -52,11 +57,32 @@ public class AngleUnitsButton extends DirectionDragButton {
 		super.initDirectionTextPaint(basePaint, directionTextData, resources);
 
 		final TextPaint directionTextPaint = directionTextData.getPaint();
-		if (Locator.getInstance().getEngine().getAngleUnits().name().equals(directionTextData.getText())) {
-			directionTextPaint.setColor(resources.getColor(R.color.cpp_selected_angle_unit_text_color));
-		} else {
-			directionTextPaint.setColor(resources.getColor(R.color.cpp_default_text_color));
+		final int color = getDirectionTextColor(directionTextData.getText());
+		directionTextPaint.setColor(color);
+		if (!isCurrentAngleUnits(directionTextData.getText())) {
 			directionTextPaint.setAlpha(getDirectionTextAlpha());
+		}
+	}
+
+	int getDirectionTextColor(@Nonnull String directionText) {
+		final int color;
+		final Resources resources = getResources();
+		if (isCurrentAngleUnits(directionText)) {
+			color = resources.getColor(R.color.cpp_selected_angle_unit_text_color);
+		} else {
+			color = resources.getColor(R.color.cpp_default_text_color);
+		}
+		return color;
+	}
+
+	boolean isCurrentAngleUnits(@Nonnull String directionText) {
+		return this.angleUnit.name().equals(directionText);
+	}
+
+	public void setAngleUnit(@Nonnull AngleUnit angleUnit) {
+		if (this.angleUnit != angleUnit) {
+			this.angleUnit = angleUnit;
+			invalidate();
 		}
 	}
 }

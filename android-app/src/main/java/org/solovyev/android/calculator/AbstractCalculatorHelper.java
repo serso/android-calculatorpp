@@ -52,6 +52,8 @@ import java.util.List;
 
 import static org.solovyev.android.calculator.CalculatorPreferences.Gui.Layout.simple;
 import static org.solovyev.android.calculator.CalculatorPreferences.Gui.Layout.simple_mobile;
+import static org.solovyev.android.calculator.model.AndroidCalculatorEngine.Preferences.angleUnit;
+import static org.solovyev.android.calculator.model.AndroidCalculatorEngine.Preferences.numeralBase;
 
 /**
  * User: serso
@@ -74,6 +76,12 @@ public abstract class AbstractCalculatorHelper implements SharedPreferences.OnSh
 
 	@Nonnull
 	private String logTag = "CalculatorActivity";
+
+	@Nullable
+	private AngleUnitsButton angleUnitsButton;
+
+	@Nullable
+	private NumeralBasesButton clearButton;
 
 	protected AbstractCalculatorHelper() {
 	}
@@ -151,12 +159,12 @@ public abstract class AbstractCalculatorHelper implements SharedPreferences.OnSh
 			equalsButton.setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new EqualsDragProcessor(), dragPreferences), vibrator, preferences));
 		}
 
-		final AngleUnitsButton angleUnitsButton = (AngleUnitsButton) getButton(root, R.id.cpp_button_6);
+		angleUnitsButton = getButton(root, R.id.cpp_button_6);
 		if (angleUnitsButton != null) {
 			angleUnitsButton.setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new CalculatorButtons.AngleUnitsChanger(activity), dragPreferences), vibrator, preferences));
 		}
 
-		final NumeralBasesButton clearButton = (NumeralBasesButton) getButton(root, R.id.cpp_button_clear);
+		clearButton = getButton(root, R.id.cpp_button_clear);
 		if (clearButton != null) {
 			clearButton.setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new CalculatorButtons.NumeralBasesChanger(activity), dragPreferences), vibrator, preferences));
 		}
@@ -266,10 +274,20 @@ public abstract class AbstractCalculatorHelper implements SharedPreferences.OnSh
 
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
-		if (key != null && key.startsWith("org.solovyev.android.calculator.DragButtonCalibrationActivity")) {
+		if (key.startsWith("org.solovyev.android.calculator.DragButtonCalibrationActivity")) {
 			final SimpleOnDragListener.Preferences dragPreferences = SimpleOnDragListener.getPreferences(preferences, CalculatorApplication.getInstance());
 			for (DragPreferencesChangeListener dragPreferencesChangeListener : dpclRegister.getListeners()) {
 				dragPreferencesChangeListener.onDragPreferencesChange(dragPreferences);
+			}
+		}
+
+		if (angleUnit.isSameKey(key) || numeralBase.isSameKey(key)) {
+			if (angleUnitsButton != null) {
+				angleUnitsButton.setAngleUnit(angleUnit.getPreference(preferences));
+			}
+
+			if (clearButton != null) {
+				clearButton.setNumeralBase(numeralBase.getPreference(preferences));
 			}
 		}
 	}

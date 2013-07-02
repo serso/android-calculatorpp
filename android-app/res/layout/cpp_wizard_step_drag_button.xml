@@ -29,7 +29,7 @@
 			  a:orientation="vertical">
 
 	<TextView
-			a:text="Drag button is an exclusive feature of Calculator++ which provides fast access to the secondary functions"
+			a:text="@string/cpp_wizard_dragbutton_description"
 			a:layout_height="wrap_content"
 			a:layout_width="match_parent"/>
 

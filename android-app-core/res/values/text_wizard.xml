@@ -34,7 +34,17 @@
 	</string>
   <string name="cpp_wizard_final_ways_to_help">There are several ways how you can help to make this app better:
 	</string>
-  <string name="cpp_wizard_final_donate">Donating money</string>
-  <string name="cpp_wizard_final_translate">Translating</string>
-  <string name="cpp_wizard_final_contribute">Contributing source code</string>
+	<string name="cpp_wizard_final_donate">Donating money</string>
+	<string name="cpp_wizard_final_translate">Translating</string>
+	<string name="cpp_wizard_final_contribute">Contributing source code</string>
+	<string name="cpp_wizard_onscreen_description">Calculator in separate window allows you to do calculations while
+		using other apps on your device
+	</string>
+	<string name="cpp_wizard_onscreen_checkbox">Enable calculator in separate window (second icon will appear in the
+		apps list)
+	</string>
+	<string name="cpp_wizard_dragbutton_description">Drag button is an exclusive feature of Calculator++ which provides
+		fast access to the secondary functions
+	</string>
+
 </resources>
