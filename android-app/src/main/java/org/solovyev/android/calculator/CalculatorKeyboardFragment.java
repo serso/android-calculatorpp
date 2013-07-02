@@ -36,6 +36,14 @@ import javax.annotation.Nullable;
 
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 
+import static org.solovyev.android.calculator.CalculatorPreferences.Gui.hideNumeralBaseDigits;
+import static org.solovyev.android.calculator.CalculatorPreferences.Gui.showEqualsButton;
+import static org.solovyev.android.calculator.NumeralBaseButtons.toggleNumericDigits;
+import static org.solovyev.android.calculator.model.AndroidCalculatorEngine.Preferences;
+import static org.solovyev.android.calculator.model.AndroidCalculatorEngine.Preferences.angleUnit;
+import static org.solovyev.android.calculator.model.AndroidCalculatorEngine.Preferences.multiplicationSign;
+import static org.solovyev.android.calculator.model.AndroidCalculatorEngine.Preferences.numeralBase;
+
 /**
  * User: Solovyev_S
  * Date: 25.09.12
@@ -108,21 +116,6 @@ public class CalculatorKeyboardFragment extends SherlockFragment implements Shar
 
 	}
 
-	/*    private static void setMarginsForView(@Nullable View view, int marginLeft, int marginBottom, @Nonnull Context context) {
-		// IMPORTANT: this is workaround for probably android bug
-    	// currently margin values set in styles are not applied for some reasons to the views (using include tag) => set them manually
-
-        if (view != null) {
-            final DisplayMetrics dm = context.getResources().getDisplayMetrics();
-            if (view.getLayoutParams() instanceof LinearLayout.LayoutParams) {
-                final LinearLayout.LayoutParams oldParams = (LinearLayout.LayoutParams) view.getLayoutParams();
-                final LinearLayout.LayoutParams newParams = new LinearLayout.LayoutParams(oldParams.width, oldParams.height, oldParams.weight);
-                newParams.setMargins(AndroidUtils.toPixels(dm, marginLeft), 0, 0, AndroidUtils.toPixels(dm, marginBottom));
-                view.setLayoutParams(newParams);
-            }
-        }
-    }*/
-
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -130,25 +123,15 @@ public class CalculatorKeyboardFragment extends SherlockFragment implements Shar
 
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
-		if (AndroidCalculatorEngine.Preferences.numeralBase.getKey().equals(key) ||
-				CalculatorPreferences.Gui.hideNumeralBaseDigits.getKey().equals(key)) {
-			NumeralBaseButtons.toggleNumericDigits(this.getActivity(), preferences);
+		if (numeralBase.isSameKey(key) || hideNumeralBaseDigits.isSameKey(key)) {
+			toggleNumericDigits(this.getActivity(), preferences);
 		}
 
-		if (AndroidCalculatorEngine.Preferences.angleUnit.getKey().equals(key) ||
-				AndroidCalculatorEngine.Preferences.numeralBase.getKey().equals(key)) {
-			View view = getView();
-			if (view != null) {
-				// we should update state of angle units/numeral base button => we can achieve it by invalidating the whole view
-				view.invalidate();
-			}
-		}
-
-		if (CalculatorPreferences.Gui.showEqualsButton.getKey().equals(key)) {
+		if (showEqualsButton.isSameKey(key)) {
 			CalculatorButtons.toggleEqualsButton(preferences, this.getActivity());
 		}
 
-		if (AndroidCalculatorEngine.Preferences.multiplicationSign.getKey().equals(key)) {
+		if (multiplicationSign.isSameKey(key)) {
 			CalculatorButtons.initMultiplicationButton(getView());
 		}
 	}

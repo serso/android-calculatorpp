@@ -274,12 +274,12 @@ public class AndroidCalculatorEngine implements CalculatorEngine, SharedPreferen
 	}
 
 	@Nonnull
-	public NumeralBase getNumeralBaseFromPrefs(@Nonnull SharedPreferences preferences) {
+	public static NumeralBase getNumeralBaseFromPrefs(@Nonnull SharedPreferences preferences) {
 		return Preferences.numeralBase.getPreference(preferences);
 	}
 
 	@Nonnull
-	public AngleUnit getAngleUnitsFromPrefs(@Nonnull SharedPreferences preferences) {
+	public static AngleUnit getAngleUnitsFromPrefs(@Nonnull SharedPreferences preferences) {
 		return Preferences.angleUnit.getPreference(preferences);
 	}
 
