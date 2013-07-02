@@ -78,7 +78,7 @@
 
 		<include layout="@layout/cpp_simple_button_plus"/>
 
-		<include layout="@layout/cpp_simple_button_like"/>
+		<include layout="@layout/cpp_simple_button_operators"/>
 
 		<include layout="@layout/cpp_simple_button_copy"/>
 

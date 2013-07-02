@@ -32,6 +32,16 @@ import org.solovyev.android.calculator.core.R;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.solovyev.android.calculator.CalculatorSpecialButton.cursor_left;
+import static org.solovyev.android.calculator.CalculatorSpecialButton.cursor_right;
+import static org.solovyev.android.calculator.CalculatorSpecialButton.functions_detached;
+import static org.solovyev.android.calculator.CalculatorSpecialButton.history_detached;
+import static org.solovyev.android.calculator.CalculatorSpecialButton.like;
+import static org.solovyev.android.calculator.CalculatorSpecialButton.open_app;
+import static org.solovyev.android.calculator.CalculatorSpecialButton.operators_detached;
+import static org.solovyev.android.calculator.CalculatorSpecialButton.settings_detached;
+import static org.solovyev.android.calculator.CalculatorSpecialButton.vars_detached;
+
 /**
  * User: serso
  * Date: 10/20/12
@@ -54,16 +64,17 @@ public enum CalculatorButton {
 	period(R.id.cpp_button_period, "."),
 	brackets(R.id.cpp_button_round_brackets, "()"),
 
-	settings(R.id.cpp_button_settings, CalculatorSpecialButton.settings_detached),
+	settings(R.id.cpp_button_settings, settings_detached),
 	like(R.id.cpp_button_like, CalculatorSpecialButton.like),
 
 	/*last row*/
-	left(R.id.cpp_button_left, CalculatorSpecialButton.cursor_left),
-	right(R.id.cpp_button_right, CalculatorSpecialButton.cursor_right),
-	vars(R.id.cpp_button_vars, CalculatorSpecialButton.vars_detached),
-	functions(R.id.cpp_button_functions, CalculatorSpecialButton.functions_detached),
-	app(R.id.cpp_button_app, CalculatorSpecialButton.open_app),
-	history(R.id.cpp_button_history, CalculatorSpecialButton.history_detached),
+	left(R.id.cpp_button_left, cursor_left),
+	right(R.id.cpp_button_right, cursor_right),
+	vars(R.id.cpp_button_vars, vars_detached),
+	functions(R.id.cpp_button_functions, functions_detached),
+	operators(R.id.cpp_button_operators, operators_detached),
+	app(R.id.cpp_button_app, open_app),
+	history(R.id.cpp_button_history, history_detached),
 
 	/*operations*/
 	multiplication(R.id.cpp_button_multiplication, "*"),

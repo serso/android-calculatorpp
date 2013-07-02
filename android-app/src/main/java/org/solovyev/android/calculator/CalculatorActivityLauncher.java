@@ -205,7 +205,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
 	}
 
 	public static void likeButtonPressed(@Nonnull final Context context) {
-		final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(CalculatorApplication.FACEBOOK_APP_URL));
+		final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(context.getString(R.string.cpp_share_link)));
 		Android.addIntentFlags(intent, false, context);
 		context.startActivity(intent);
 	}

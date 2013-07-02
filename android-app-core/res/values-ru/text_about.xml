@@ -24,8 +24,8 @@
 
 	<string name="c_about">О программе</string>
 
-	<string name="c_about_content">Copyright (c) 2009-2011\n\n<b>Программа создана\nserso aka se.solovyev</b>\n\n
-		Сайт приложения:<a href="http://facebook.com/calculatorpp">http://facebook.com/calculatorpp</a>\n\n
+	<string name="c_about_content">Copyright (c) 2009-2013\n\n<b>Программа создана\nserso aka se.solovyev</b>\n\n
+		Сайт приложения: <a href="https://vk.com/calculatorpp">https://vk.com/calculatorpp</a>\n\n
 		Эта программа с открытыми исходным кодом:\nон может быть найден на \n
 		<a href="https://github.com/serso/android-calculatorpp">http://github.com</a>\n\n
 		За подробной информацией, пожалуйста,\nобращайтесь на почту\n<a href="mailto:se.solovyev@gmail.com">
@@ -34,13 +34,10 @@
 		Если вы хотите поддержать проект материально\nвы можете купить специальную опцию из настроек приложения\n\n
 		Если вам понравилось приложение -\nпоставьте 5 звёздочек в\n
 		<a href="https://market.android.com/details?id=org.solovyev.android.calculator">Google Play</a>\n\n
-		Спасибо тем, кто переводил Калькулятор++:\n
-		на итальянский - Gabriele Ravanetti\n
-		на испанский - Jordi Luna\n
-		на украинский - Андрій Бандура\n\n
 		Это приложение использует следующие открытые библиотеки:\n
 		<a href="http://simple.sourceforge.net">Simple (XML serialization)</a>\n
 		<a href="http://meditorworld.appspot.com/meditor.txt">JSCL</a>
 	</string>
+	<string name="cpp_share_link">https://vk.com/calculatorpp</string>
 
 </resources>
