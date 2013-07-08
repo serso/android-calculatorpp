@@ -19,6 +19,9 @@
 		<a href="http://meditorworld.appspot.com/meditor.txt">JSCL</a>
 	</string>
 
+	<string name="cpp_translators_text">This app is translated to English by: </string>
+	<string name="cpp_translators_list"></string>
+
 	<string name="c_release_notes">Release notes</string>
 	<string name="c_release_notes_for_title">"Release notes for version "</string>
 	<string name="cpp_share_link">http://www.facebook.com/calculatorpp</string>
