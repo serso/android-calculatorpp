@@ -24,7 +24,7 @@
 
 	<string name="c_about">О программе</string>
 
-	<string name="c_about_content">Copyright (c) 2009-2013\n\n<b>Программа создана\nserso aka se.solovyev</b>\n\n
+	<string name="c_about_content">Copyright © 2009–2013\n\n<b>Программа создана\nserso aka se.solovyev</b>\n\n
 		Сайт приложения: <a href="https://vk.com/calculatorpp">https://vk.com/calculatorpp</a>\n\n
 		Эта программа с открытыми исходным кодом:\nон может быть найден на \n
 		<a href="https://github.com/serso/android-calculatorpp">http://github.com</a>\n\n
@@ -32,7 +32,7 @@
 			se.solovyev@gmail.com</a>\n
 		или посетите сайт \n<a href="http://se.solovyev.org">http://se.solovyev.org</a>\n\n
 		Если вы хотите поддержать проект материально\nвы можете купить специальную опцию из настроек приложения\n\n
-		Если вам понравилось приложение -\nпоставьте 5 звёздочек в\n
+		Если вам понравилось приложение –\nпоставьте 5 звёздочек в\n
 		<a href="https://market.android.com/details?id=org.solovyev.android.calculator">Google Play</a>\n\n
 		Это приложение использует следующие открытые библиотеки:\n
 		<a href="http://simple.sourceforge.net">Simple (XML serialization)</a>\n
