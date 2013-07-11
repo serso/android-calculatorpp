@@ -242,6 +242,11 @@ public class CalculatorApplication extends android.app.Application implements Sh
 		return instance;
 	}
 
+	@Nonnull
+	public static SharedPreferences getPreferences() {
+		return PreferenceManager.getDefaultSharedPreferences(getInstance());
+	}
+
 	public static boolean isMonkeyRunner(@Nonnull Context context) {
 		// NOTE: this code is only for monkeyrunner
 		return context.checkCallingOrSelfPermission(android.Manifest.permission.DISABLE_KEYGUARD) == PackageManager.PERMISSION_GRANTED;

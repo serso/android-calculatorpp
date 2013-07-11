@@ -22,12 +22,9 @@
 
 package org.solovyev.android.calculator.wizard;
 
-import android.app.Activity;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.view.Display;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,16 +34,23 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import org.solovyev.android.calculator.CalculatorPreferences;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.solovyev.android.calculator.CalculatorApplication.getPreferences;
 import static org.solovyev.android.calculator.CalculatorPreferences.Gui.Layout.main_calculator;
 import static org.solovyev.android.calculator.CalculatorPreferences.Gui.Layout.main_calculator_mobile;
+import static org.solovyev.android.calculator.CalculatorPreferences.OnscreenCalculator.showAppIcon;
 import static org.solovyev.android.calculator.wizard.CalculatorLayout.big_buttons;
 import static org.solovyev.android.calculator.wizard.CalculatorLayout.optimized;
 import static org.solovyev.android.calculator.wizard.CalculatorMode.engineer;
 import static org.solovyev.android.calculator.wizard.CalculatorMode.simple;
+import static org.solovyev.android.calculator.wizard.ChooseLayoutWizardStep.LAYOUT;
+import static org.solovyev.android.calculator.wizard.ChooseModeWizardStep.MODE;
+import static org.solovyev.android.calculator.wizard.OnScreenCalculatorWizardStep.ONSCREEN_CALCULATOR_ENABLED;
+import static org.solovyev.android.calculator.wizard.WizardStep.choose_layout;
+import static org.solovyev.android.calculator.wizard.WizardStep.choose_mode;
+import static org.solovyev.android.calculator.wizard.WizardStep.on_screen_calculator;
 
 @RunWith(RobolectricTestRunner.class)
 public class WizardStepTest {
@@ -112,7 +116,7 @@ public class WizardStepTest {
 		final ChooseLayoutWizardStep layoutFragment = mock(ChooseLayoutWizardStep.class);
 		when(layoutFragment.getSelectedLayout()).thenReturn(layout);
 		when(layoutFragment.getActivity()).thenReturn(activity);
-		WizardStep.choose_layout.onNext(layoutFragment);
+		choose_layout.onNext(layoutFragment);
 	}
 
 /*	@Config(qualifiers = "large")
@@ -124,6 +128,56 @@ public class WizardStepTest {
 	@Config(qualifiers = "normal")
 	@Test
 	public void testChooseLayoutShouldNotBeVisibleForMobile() throws Exception {
-		assertFalse(WizardStep.choose_layout.isVisible());
+		assertFalse(choose_layout.isVisible());
+	}
+
+	@Test
+	public void testOnscreenCalculatorShouldNotBeShown() throws Exception {
+		doOnscreenStep(false);
+		assertFalse(showAppIcon.getPreference(getPreferences()));
+	}
+
+	@Test
+	public void testOnscreenCalculatorShouldBeShown() throws Exception {
+		doOnscreenStep(true);
+		assertTrue(showAppIcon.getPreference(getPreferences()));
+	}
+
+
+	private void doOnscreenStep(boolean onscreenCalculatorEnabled) {
+		final OnScreenCalculatorWizardStep f = mock(OnScreenCalculatorWizardStep.class);
+		when(f.isOnscreenCalculatorEnabled()).thenReturn(onscreenCalculatorEnabled);
+		when(f.getActivity()).thenReturn(activity);
+		WizardStep.on_screen_calculator.onNext(f);
+	}
+
+	@SuppressWarnings("ConstantConditions")
+	@Test
+	public void testChooseLayoutFragmentArgs() throws Exception {
+		CalculatorPreferences.Gui.layout.putPreference(getPreferences(), CalculatorPreferences.Gui.Layout.simple);
+		assertEquals(CalculatorLayout.optimized, choose_layout.getFragmentArgs().getSerializable(LAYOUT));
+
+		CalculatorPreferences.Gui.layout.putPreference(getPreferences(), CalculatorPreferences.Gui.Layout.simple_mobile);
+		assertEquals(CalculatorLayout.big_buttons, choose_layout.getFragmentArgs().getSerializable(LAYOUT));
+	}
+
+	@SuppressWarnings("ConstantConditions")
+	@Test
+	public void testChooseModeFragmentArgs() throws Exception {
+		CalculatorPreferences.Gui.layout.putPreference(getPreferences(), CalculatorPreferences.Gui.Layout.main_calculator);
+		assertEquals(CalculatorMode.engineer, choose_mode.getFragmentArgs().getSerializable(MODE));
+
+		CalculatorPreferences.Gui.layout.putPreference(getPreferences(), CalculatorPreferences.Gui.Layout.simple_mobile);
+		assertEquals(CalculatorMode.simple, choose_mode.getFragmentArgs().getSerializable(MODE));
+	}
+
+	@SuppressWarnings("ConstantConditions")
+	@Test
+	public void testOnscreenFragmentArgs() throws Exception {
+		CalculatorPreferences.OnscreenCalculator.showAppIcon.putPreference(getPreferences(), true);
+		assertTrue(on_screen_calculator.getFragmentArgs().getBoolean(ONSCREEN_CALCULATOR_ENABLED));
+
+		CalculatorPreferences.OnscreenCalculator.showAppIcon.putPreference(getPreferences(), false);
+		assertFalse(on_screen_calculator.getFragmentArgs().getBoolean(ONSCREEN_CALCULATOR_ENABLED));
 	}
 }

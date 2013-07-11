@@ -30,8 +30,11 @@ import org.solovyev.android.calculator.CalculatorApplication;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import static org.solovyev.android.calculator.wizard.AppWizardFlow.newDefaultWizardFlow;
-import static org.solovyev.android.calculator.wizard.AppWizardFlow.newFirstTimeWizardFlow;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.solovyev.android.calculator.wizard.WizardStep.last;
+import static org.solovyev.android.calculator.wizard.WizardStep.welcome;
 
 /**
  * User: serso
@@ -113,5 +116,27 @@ public final class Wizards {
 	@Nonnull
 	private static String makeLastStepPreferenceKey(@Nonnull String flowName) {
 		return FLOW + ":" + flowName;
+	}
+
+	@Nonnull
+	static WizardFlow newDefaultWizardFlow() {
+		final List<WizardStep> wizardSteps = new ArrayList<WizardStep>();
+		for (WizardStep wizardStep : WizardStep.values()) {
+			if (wizardStep != welcome && wizardStep != last && wizardStep.isVisible()) {
+				wizardSteps.add(wizardStep);
+			}
+		}
+		return new ListWizardFlow(DEFAULT_WIZARD_FLOW, wizardSteps);
+	}
+
+	@Nonnull
+	static WizardFlow newFirstTimeWizardFlow() {
+		final List<WizardStep> wizardSteps = new ArrayList<WizardStep>();
+		for (WizardStep wizardStep : WizardStep.values()) {
+			if (wizardStep.isVisible()) {
+				wizardSteps.add(wizardStep);
+			}
+		}
+		return new ListWizardFlow(FIRST_TIME_WIZARD, wizardSteps);
 	}
 }
