@@ -24,17 +24,14 @@ package org.solovyev.android.calculator.matrix;
 
 import android.os.Bundle;
 import android.view.View;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import org.solovyev.android.calculator.CalculatorFragment;
 import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.view.IntegerRange;
 import org.solovyev.android.view.Picker;
 
-import java.io.Serializable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * User: Solovyev_S
@@ -91,11 +88,11 @@ public class CalculatorMatrixEditFragment extends CalculatorFragment implements 
 		final Picker<Integer> matrixColsCountPicker = (Picker<Integer>) root.findViewById(R.id.matrix_cols_count_picker);
 		initPicker(matrixColsCountPicker);
 
-		Matrix matrix = null;
+		MatrixUi matrix = null;
 		if (in != null) {
 			final Object matrixObject = in.getSerializable(MATRIX);
-			if (matrixObject instanceof Matrix) {
-				matrix = (Matrix) matrixObject;
+			if (matrixObject instanceof MatrixUi) {
+				matrix = (MatrixUi) matrixObject;
 			}
 		}
 
@@ -103,7 +100,7 @@ public class CalculatorMatrixEditFragment extends CalculatorFragment implements 
 		if (matrix == null) {
 			matrixView.setMatrixDimensions(DEFAULT_ROWS, DEFAULT_COLS);
 		} else {
-			matrixView.setMatrix(matrix.bakingArray);
+			matrixView.setMatrix(matrix.getBakingArray());
 		}
 		matrixRowsCountPicker.setCurrent(matrixView.getRows());
 		matrixColsCountPicker.setCurrent(matrixView.getCols());
@@ -113,7 +110,7 @@ public class CalculatorMatrixEditFragment extends CalculatorFragment implements 
 	public void onSaveInstanceState(@Nonnull Bundle out) {
 		super.onSaveInstanceState(out);
 
-		out.putSerializable(MATRIX, new Matrix(getMatrixView(getView()).toMatrix()));
+		out.putSerializable(MATRIX, new MatrixUi(getMatrixView(getView()).toMatrix()));
 	}
 
 	@Nonnull
@@ -146,16 +143,4 @@ public class CalculatorMatrixEditFragment extends CalculatorFragment implements 
 		getMatrixView(getView()).setMatrixRows(newRows);
 	}
 
-	public static class Matrix implements Serializable {
-
-		@Nonnull
-		private String[][] bakingArray;
-
-		public Matrix() {
-		}
-
-		public Matrix(@Nonnull String[][] bakingArray) {
-			this.bakingArray = bakingArray;
-		}
-	}
 }
