@@ -19,7 +19,7 @@
   <string name="c_down">Nach unten</string>
   <string name="c_up">Nach oben</string>
   <string name="c_restart">Neustart</string>
-  <string name="c_undo">rückgängigmachen</string>
+  <string name="c_undo">aufheben</string>
   <string name="c_redo">wiederholen</string>
   <string name="c_clear">C</string>
   <string name="c_erase"></string>

@@ -15,8 +15,8 @@ Wenn die Anwendung Ihnen gefäll\nbewerten Sie es bitte mit 5 Sterne auf\n
 Diese Anwendung nutzt folgende Open-Source-Bibliotheken:\n
 <a href="http://simple.sourceforge.net">Simple (XML Serialization)</a>\n
 <a href="http://meditorworld.appspot.com/meditor.txt">JSCL</a></string>
-  <string name="cpp_translators_text">Dieser App wird ins Deutsche von E.Bazhenova übersetzt</string>
-  <string name="cpp_translators_list"></string>
+  <string name="cpp_translators_text">Dieser App wird ins Deutsche von folgenden Personen übersetzt: </string>
+  <string name="cpp_translators_list">E.Bazhenova</string>
   <string name="c_release_notes">Release Notizen</string>
   <string name="c_release_notes_for_title">"Release Notes für Version "</string>
   <string name="cpp_share_link">http://www.facebook.com/calculatorpp</string>
