@@ -32,4 +32,8 @@
 
 	<org.solovyev.android.ads.AdViewPreference a:layout="@layout/acl_adview_pref"/>
 
+	<Preference
+		a:key="restart_wizard"
+		a:title="@string/cpp_restart_wizard"/>
+
 </PreferenceScreen>

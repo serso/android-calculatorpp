@@ -23,37 +23,43 @@
   -->
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-			  a:id="@+id/wizard_layout"
-			  style="?cpp_dialog_style"
-			  a:orientation="vertical">
+	a:id="@+id/wizard_layout"
+	style="?cpp_dialog_style"
+	a:orientation="vertical">
 
 	<FrameLayout
-			a:orientation="vertical"
-			a:id="@+id/wizard_content"
-			a:layout_width="match_parent"
-			a:layout_height="0dp"
-			a:layout_weight="1"
-			a:padding="6dp"
-			a:gravity="center"/>
+		a:orientation="vertical"
+		a:id="@+id/wizard_content"
+		a:layout_width="match_parent"
+		a:layout_height="0dp"
+		a:layout_weight="1"
+		a:padding="6dp"
+		a:gravity="center" />
 
 	<LinearLayout
-			a:orientation="horizontal"
-			a:layout_width="match_parent"
-			a:layout_height="wrap_content">
+		a:orientation="horizontal"
+		a:layout_width="match_parent"
+		a:layout_height="wrap_content">
 
 		<Button
-				a:id="@+id/wizard_prev_button"
-				a:layout_height="wrap_content"
-				a:layout_width="0dp"
-				a:layout_weight="1"
-				a:text="@string/cpp_wizard_back"/>
+			a:id="@+id/wizard_prev_button"
+			a:layout_height="wrap_content"
+			a:layout_width="0dp"
+			a:layout_weight="1"
+			a:singleLine="true"
+			a:lines="1"
+			a:maxLines="1"
+			a:text="@string/cpp_wizard_back" />
 
 		<Button
-				a:id="@+id/wizard_next_button"
-				a:layout_height="wrap_content"
-				a:layout_width="0dp"
-				a:layout_weight="1"
-				a:text="@string/cpp_wizard_next"/>
+			a:id="@+id/wizard_next_button"
+			a:layout_height="wrap_content"
+			a:layout_width="0dp"
+			a:layout_weight="1"
+			a:singleLine="true"
+			a:lines="1"
+			a:maxLines="1"
+			a:text="@string/cpp_wizard_next" />
 
 	</LinearLayout>
 

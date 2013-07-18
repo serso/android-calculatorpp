@@ -29,6 +29,7 @@
 			  a:orientation="vertical">
 
 	<TextView
+			a:id="@+id/wizard_dragbutton_description_textview"
 			a:text="@string/cpp_wizard_dragbutton_description"
 			a:layout_height="wrap_content"
 			a:layout_width="match_parent"/>
@@ -42,7 +43,7 @@
 			a:layout_width="match_parent"/>
 
 	<org.solovyev.android.view.drag.DirectionDragButton
-			a:layout_margin="30dp"
+			a:layout_margin="10dp"
 			a:layout_height="100dp"
 			a:layout_width="100dp"
 			a:minWidth="100dp"

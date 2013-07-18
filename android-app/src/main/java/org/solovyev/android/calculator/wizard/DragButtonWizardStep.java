@@ -29,7 +29,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.view.drag.DirectionDragButton;
 import org.solovyev.android.view.drag.DragButton;
@@ -39,8 +38,9 @@ import org.solovyev.common.math.Point2d;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.Arrays;
+
+import static android.view.View.GONE;
 
 public class DragButtonWizardStep extends Fragment {
 
@@ -68,15 +68,14 @@ public class DragButtonWizardStep extends Fragment {
 	@Nullable
 	private TextView actionTextView;
 
+	@Nonnull
+	private TextView descriptionTextView;
+
 	private DragButtonAction action = DragButtonAction.center;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		if (savedInstanceState != null) {
-			action = (DragButtonAction) savedInstanceState.getSerializable(ACTION);
-		}
 	}
 
 	@Override
@@ -92,8 +91,11 @@ public class DragButtonWizardStep extends Fragment {
 		dragButton.setOnClickListener(new DragButtonOnClickListener());
 		dragButton.setOnDragListener(new SimpleOnDragListener(new DragButtonProcessor(), SimpleOnDragListener.getDefaultPreferences(getActivity())));
 		actionTextView = (TextView) root.findViewById(R.id.wizard_dragbutton_action_textview);
+		descriptionTextView = (TextView) root.findViewById(R.id.wizard_dragbutton_description_textview);
 
-		actionTextView.setText(action.actionTextResId);
+		if (savedInstanceState != null) {
+			setAction((DragButtonAction) savedInstanceState.getSerializable(ACTION));
+		}
 	}
 
 	@Override
@@ -172,6 +174,14 @@ public class DragButtonWizardStep extends Fragment {
 			this.action = action;
 			if (actionTextView != null) {
 				actionTextView.setText(this.action.actionTextResId);
+			}
+
+			boolean firstChange = false;
+			if (action != DragButtonAction.center) {
+				firstChange = true;
+			}
+			if (firstChange) {
+				descriptionTextView.setVisibility(GONE);
 			}
 		}
 	}
