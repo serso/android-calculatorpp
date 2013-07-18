@@ -26,10 +26,12 @@ import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.TextView;
-
 import org.solovyev.android.calculator.CalculatorFragment;
 import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.R;
+
+import static android.view.View.GONE;
+import static org.solovyev.common.text.Strings.isEmpty;
 
 /**
  * User: serso
@@ -46,7 +48,14 @@ public class CalculatorAboutFragment extends CalculatorFragment {
 	public void onViewCreated(View root, Bundle savedInstanceState) {
 		super.onViewCreated(root, savedInstanceState);
 
-		final TextView about = (TextView) root.findViewById(R.id.aboutTextView);
-		about.setMovementMethod(LinkMovementMethod.getInstance());
+		final TextView aboutTextView = (TextView) root.findViewById(R.id.cpp_about_textview);
+		aboutTextView.setMovementMethod(LinkMovementMethod.getInstance());
+
+		final TextView translatorsTextTextView = (TextView) root.findViewById(R.id.cpp_about_translators_text);
+		final TextView translatorsTextView = (TextView) root.findViewById(R.id.cpp_about_translators);
+		if(isEmpty(translatorsTextView.getText())) {
+			translatorsTextTextView.setVisibility(GONE);
+			translatorsTextView.setVisibility(GONE);
+		}
 	}
 }

@@ -23,42 +23,53 @@
   -->
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-			  a:orientation="vertical"
-			  a:layout_width="fill_parent"
-			  a:layout_height="fill_parent"
-			  a:background="#ff000000">
+	a:orientation="vertical"
+	a:layout_width="fill_parent"
+	a:layout_height="fill_parent"
+	a:background="#ff000000">
 
 	<ImageView
-			a:layout_width="wrap_content"
+		a:layout_width="wrap_content"
+		a:layout_height="wrap_content"
+		a:layout_gravity="center"
+		a:layout_weight="1"
+		a:padding="6dp"
+		a:src="@drawable/logo" />
+
+	<ScrollView
+		a:layout_width="fill_parent"
+		a:layout_height="fill_parent"
+		a:layout_weight="1">
+
+		<LinearLayout
+			a:layout_width="fill_parent"
 			a:layout_height="wrap_content"
-			a:layout_gravity="center"
-			a:layout_weight="1"
-			a:padding="6dp"
-			a:src="@drawable/logo"/>
+			a:orientation="vertical">
 
-	<TextView
-			a:id="@+id/aboutTextView"
-			a:text="@string/c_about_content"
-			a:layout_height="fill_parent"
-			a:layout_width="fill_parent"
-			a:layout_gravity="top|center_horizontal"
-			a:layout_weight="1"
-			a:scrollbars="vertical"
-			style="@style/cpp_about_style"/>
+			<TextView
+				a:id="@+id/cpp_about_textview"
+				a:text="@string/c_about_content"
+				a:layout_height="match_parent"
+				a:layout_width="match_parent"
+				style="@style/cpp_about_style" />
 
-	<!--
-			a:scrollbarFadeDuration="0" is not support in  android_1.6_compatibility
 
-		<TextView
-			a:id="@+id/aboutTextView"
-			a:text="@string/c_copyright"
-			a:layout_height="fill_parent"
-			a:layout_width="fill_parent"
-			a:layout_gravity="top|center_horizontal"
-			a:layout_weight="1"
-			a:scrollbars="vertical"
-			a:scrollbarFadeDuration="0"
-			style="@style/about_style"/>
-			-->
+			<TextView
+				a:id="@+id/cpp_about_translators_text"
+				a:text="@string/cpp_translators_text"
+				a:layout_height="wrap_content"
+				a:layout_width="match_parent"
+				a:paddingBottom="0dp"
+				style="@style/cpp_about_style" />
 
+			<TextView
+				a:id="@+id/cpp_about_translators"
+				a:text="@string/cpp_translators_list"
+				a:layout_height="wrap_content"
+				a:layout_width="match_parent"
+				a:paddingTop="0dp"
+				style="@style/cpp_about_style" />
+
+		</LinearLayout>
+	</ScrollView>
 </LinearLayout>
