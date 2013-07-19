@@ -33,7 +33,7 @@
 	<item
 			a:id="@+id/menu_plot_3d"
 			a:title="@string/cpp_plot_3d"
-			a:icon="@drawable/kb_stats"
+			a:icon="@drawable/kb_stats_3d"
 			a:showAsAction="always"/>
 
 	<item
@@ -45,7 +45,7 @@
 	<item
 			a:id="@+id/menu_plot_range"
 			a:title="@string/cpp_plot_range"
-			a:icon="@drawable/kb_contract"
+			a:icon="@drawable/kb_range"
 			a:showAsAction="always"/>
 
 	<item
