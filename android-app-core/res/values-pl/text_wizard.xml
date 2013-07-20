@@ -31,13 +31,7 @@ Wynik nie jest zaokrąglony i jest przedstawiony w postaci inżynierskiej, a dom
   <string name="cpp_wizard_final_donate">Wsparcie finansowe</string>
   <string name="cpp_wizard_final_translate">Tłumaczenie</string>
   <string name="cpp_wizard_final_contribute">Rozwijanie kodu źródłowego</string>
-  <string name="cpp_wizard_onscreen_description">Calculator in separate window allows you to do calculations while
-		using other apps on your device
-	</string>
-  <string name="cpp_wizard_onscreen_checkbox">Enable calculator in separate window (second icon will appear in the
-		apps list)
-	</string>
-  <string name="cpp_wizard_dragbutton_description">Drag button is an exclusive feature of Calculator++ which provides
-		fast access to the secondary functions
-	</string>
+  <string name="cpp_wizard_onscreen_description">Kalkulator w osobnym oknie pozwoli Ci wykonywać obliczenia w trakcie korzystania z innych aplikacji na Twoim urządzeniu</string>
+  <string name="cpp_wizard_onscreen_checkbox">Włącz kalkulator w osobnym oknie (pojawi się druga ikona na liście aplikacji)</string>
+  <string name="cpp_wizard_dragbutton_description">Przeciąganie po przycisku jest wyjątkowym rozwiązaniem w programie Calculator++, które zapewnia szybki dostęp do alternatywnych funkcji</string>
 </resources>

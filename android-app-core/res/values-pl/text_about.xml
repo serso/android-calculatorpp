@@ -15,8 +15,8 @@ Jeżeli podoba Ci się aplikacja\noceń ją na 5 gwiazdek na\n
 Ten program używa następujących bibliotek otwartego oprogramowania:\n
 <a href="http://simple.sourceforge.net">Simple (XML serialization)</a>\n
 <a href="http://meditorworld.appspot.com/meditor.txt">JSCL</a></string>
-  <string name="cpp_translators_text">This app is translated to Polish by: </string>
-  <string name="cpp_translators_list"></string>
+  <string name="cpp_translators_text">Aplikacja została przetłumaczona na język angielski przez: </string>
+  <string name="cpp_translators_list">Sergey Solovyev</string>
   <string name="c_release_notes">Informacje o wydaniu</string>
   <string name="c_release_notes_for_title">"Informacje o wydaniu dla wersji "</string>
   <string name="cpp_share_link">http://www.facebook.com/calculatorpp</string>

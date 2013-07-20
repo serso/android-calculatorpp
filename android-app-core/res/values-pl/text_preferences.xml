@@ -6,7 +6,7 @@
   <string name="c_show_equals_button_title">Pokaż przycisk \'=\'</string>
   <string name="c_show_equals_button_summary">Przycisk \'=\' pojawi się na ekranie</string>
   <string name="c_hide_numeral_base_digits_title">Ukryj podstawę systemu liczbowego</string>
-  <string name="c_hide_numeral_base_digits_summary">Znaki podstawy innych systemów liczbowych nie będą wyświetlane</string>
+  <string name="c_hide_numeral_base_digits_summary">Znaki systemów liczbowych o innej podstawie nie będą wyświetlane</string>
   <string name="prefs_history_show_intermediate_calculations_title">Pokaż obliczenia pośrednie w historii</string>
   <string name="prefs_history_show_intermediate_calculations_summary">Wszystkie obliczenia będą widoczne w historii</string>
   <string name="p_calculations_calculate_on_fly_title">Obliczenia podczas wpisywania</string>
