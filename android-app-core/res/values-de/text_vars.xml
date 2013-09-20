@@ -5,7 +5,7 @@
   <string name="c_var_description_pi">Das Verhältnis von Kreisumfang zu Durchmesser. Hinweis: diese Konstante ist gradunabhängig = &gt; rad: 3,14, deg: 3.14</string>
   <string name="c_var_description_e">Besondere reelle Zahl, so dass der Wert der Ableitung (die Steigung der Tangente) der Funktion f(x) = e ^ X an der Stelle X = 0 gleich 1 ist</string>
   <string name="c_var_description_i">Imaginäre Einheit, die definiert ist, so dass i ^ 2 =-1</string>
-  <string name="c_var_description_c">Lichtgeschwindigkeit im Vakuum, M·s</string>
+  <string name="c_var_description_c">Lichtgeschwindigkeit im Vakuum, M·s ^-1</string>
   <string name="c_var_description_G">Die Gravitationskonstante ist eine empirische physikalische Konstante, die bei der Berechnung der Massenanziehung zwischen Objekten mit Masse, m ^ 3·kg ^ −1·s ^ −2  gilt</string>
   <string name="c_var_description_h">Physikalische Konstante gibt die Größe der Energie Quanten in der Quantenmechanik an, J·s</string>
   <string name="c_var_description_h_reduced">Verringerte Planck Konstante, J·s</string>

@@ -72,7 +72,6 @@ public class CalculatorApplication extends android.app.Application implements Sh
 	*/
 
 	private static final String TAG = "Calculator++ Application";
-	public static final String FACEBOOK_APP_URL = "http://www.facebook.com/calculatorpp";
 
 	public static final String AD_FREE_PRODUCT_ID = "ad_free";
 	public static final String AD_FREE_P_KEY = "org.solovyev.android.calculator_ad_free";
@@ -241,6 +240,11 @@ public class CalculatorApplication extends android.app.Application implements Sh
 	@Nonnull
 	public static CalculatorApplication getInstance() {
 		return instance;
+	}
+
+	@Nonnull
+	public static SharedPreferences getPreferences() {
+		return PreferenceManager.getDefaultSharedPreferences(getInstance());
 	}
 
 	public static boolean isMonkeyRunner(@Nonnull Context context) {

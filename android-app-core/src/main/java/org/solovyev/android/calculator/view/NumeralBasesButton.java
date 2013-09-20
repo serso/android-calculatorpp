@@ -27,6 +27,7 @@ import android.content.res.Resources;
 import android.graphics.Paint;
 import android.text.TextPaint;
 import android.util.AttributeSet;
+import jscl.NumeralBase;
 
 import javax.annotation.Nonnull;
 
@@ -41,8 +42,12 @@ import org.solovyev.android.view.drag.DirectionDragButton;
  */
 public class NumeralBasesButton extends DirectionDragButton {
 
+	@Nonnull
+	private NumeralBase numeralBase;
+
 	public NumeralBasesButton(Context context, @Nonnull AttributeSet attrs) {
 		super(context, attrs);
+		this.numeralBase = Locator.getInstance().getEngine().getNumeralBase();
 	}
 
 	@Override
@@ -52,11 +57,33 @@ public class NumeralBasesButton extends DirectionDragButton {
 		super.initDirectionTextPaint(basePaint, directionTextData, resources);
 
 		final TextPaint directionTextPaint = directionTextData.getPaint();
-		if (Locator.getInstance().getEngine().getNumeralBase().name().equals(directionTextData.getText())) {
-			directionTextPaint.setColor(resources.getColor(R.color.cpp_selected_angle_unit_text_color));
-		} else {
-			directionTextPaint.setColor(resources.getColor(R.color.cpp_default_text_color));
+
+		final int color = getDirectionTextColor(directionTextData.getText());
+		directionTextPaint.setColor(color);
+
+		if (!isCurrentNumberBase(directionTextData.getText())) {
 			directionTextPaint.setAlpha(getDirectionTextAlpha());
+		}
+	}
+
+	int getDirectionTextColor(@Nonnull String directionText) {
+		final int color;
+		if (isCurrentNumberBase(directionText)) {
+			color = getResources().getColor(R.color.cpp_selected_angle_unit_text_color);
+		} else {
+			color = getResources().getColor(R.color.cpp_default_text_color);
+		}
+		return color;
+	}
+
+	boolean isCurrentNumberBase(@Nonnull String directionText) {
+		return this.numeralBase.name().equals(directionText);
+	}
+
+	public void setNumeralBase(@Nonnull NumeralBase numeralBase) {
+		if (this.numeralBase != numeralBase) {
+			this.numeralBase = numeralBase;
+			invalidate();
 		}
 	}
 }

@@ -28,7 +28,7 @@
   <string name="c_copy">Kopiuj</string>
   <string name="c_plot">Stwórz wykres</string>
   <string name="c_graph">Wykres</string>
-  <string name="c_calc_color_display_title">Wyróżnianie wyrażeń</string>
+  <string name="c_calc_color_display_title">Podświetl wyrażenia</string>
   <string name="c_calc_round_result_title">Zaokrąglanie wyniku</string>
   <string name="c_calc_round_result_summary">Włącza zaokrąglanie wyniku</string>
   <string name="c_calc_science_notation_title">Zawsze notacja naukowa</string>
@@ -48,7 +48,7 @@
   <string name="c_var_name">Nazwa</string>
   <string name="c_var_value">Wartość</string>
   <string name="c_var_description">Opis</string>
-  <string name="c_var_create_var">Stwórz zmienną</string>
+  <string name="c_var_create_var">Utwórz zmienną</string>
   <string name="c_var_edit_var">Edytuj zmienną</string>
   <string name="c_value_is_not_a_number">Wartość musi być liczbą lub być pusta: jeśli masz parametry - stwórz funkcję zamiast tego!</string>
   <string name="c_var_name_clashes">Nazwa zmiennej pokrywa się z nazwą funkcji!</string>
@@ -83,7 +83,7 @@
   <string name="p_metro_green_theme">Zielony Metro</string>
   <string name="p_metro_purple_theme">Fioletowy Metro</string>
   <string name="c_calc_result_precision_summary">Dokładność wyświetlanego wyniku (wszystkie obliczenia są wykonywane przy maksymalnej dokładności, niezależnie od tej opcji)</string>
-  <string name="c_calc_color_display_summary">Włącza cieniowanie i wyróżnianie w polu edytora (np. nazw funkcji, argumentów)</string>
+  <string name="c_calc_color_display_summary">Toggles colouring and styling in calculator editor</string>
   <string name="c_calc_theme_summary">Ustawia wygląd kalkulatora</string>
   <string name="c_clear_history">Wyczyść historię</string>
   <string name="c_toggle_datetime">Pokaż/ukryj datę</string>

@@ -30,6 +30,10 @@ import javax.annotation.Nonnull;
 
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 
+import static jscl.NumeralBase.hex;
+import static org.solovyev.android.calculator.CalculatorPreferences.Gui.hideNumeralBaseDigits;
+import static org.solovyev.android.calculator.model.AndroidCalculatorEngine.Preferences.numeralBase;
+
 /**
  * User: serso
  * Date: 4/20/12
@@ -48,12 +52,12 @@ public class NumeralBaseButtons {
 	}
 
 	public static void toggleNumericDigits(@Nonnull Activity activity, @Nonnull SharedPreferences preferences) {
-		if (CalculatorPreferences.Gui.hideNumeralBaseDigits.getPreference(preferences)) {
-			final NumeralBase nb = AndroidCalculatorEngine.Preferences.numeralBase.getPreference(preferences);
+		if (hideNumeralBaseDigits.getPreference(preferences)) {
+			final NumeralBase nb = numeralBase.getPreference(preferences);
 			toggleNumericDigits(activity, nb);
 		} else {
 			// set HEX to show all digits
-			AndroidNumeralBase.valueOf(NumeralBase.hex).toggleButtons(true, activity);
+			AndroidNumeralBase.valueOf(hex).toggleButtons(true, activity);
 		}
 	}
 }

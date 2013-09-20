@@ -118,8 +118,8 @@ public class MatrixView extends TableLayout {
 			throw new IllegalArgumentException("Number of columns must be more than 1: " + newCols);
 		}
 
-		boolean rowsChanged = this.rows != newRows;
-		boolean colsChanged = this.cols != newCols;
+		final boolean rowsChanged = this.rows != newRows;
+		final boolean colsChanged = this.cols != newCols;
 
 		if (rowsChanged || colsChanged) {
 			if (!initialized) {

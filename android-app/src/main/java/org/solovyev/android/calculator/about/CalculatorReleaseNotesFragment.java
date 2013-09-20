@@ -28,15 +28,15 @@ import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.TextView;
-
-import javax.annotation.Nonnull;
-
-import org.solovyev.android.Android;
 import org.solovyev.android.calculator.CalculatorApplication;
 import org.solovyev.android.calculator.CalculatorFragment;
 import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.R;
 import org.solovyev.common.text.Strings;
+
+import javax.annotation.Nonnull;
+
+import static org.solovyev.android.Android.getAppVersionCode;
 
 /**
  * User: serso
@@ -69,13 +69,14 @@ public class CalculatorReleaseNotesFragment extends CalculatorFragment {
 		final StringBuilder result = new StringBuilder();
 
 		final String releaseNotesForTitle = context.getString(R.string.c_release_notes_for_title);
-		final int version = Android.getAppVersionCode(context);
+		final int currentVersionCode = getAppVersionCode(context);
 
 		final TextHelper textHelper = new TextHelper(context.getResources(), CalculatorApplication.class.getPackage().getName());
 
 		boolean first = true;
-		for (int i = version; i >= minVersion; i--) {
-			String releaseNotesForVersion = textHelper.getText("c_release_notes_for_" + i);
+		for (int versionCode = currentVersionCode; versionCode >= minVersion; versionCode--) {
+			final String versionName = getVersionName(textHelper, versionCode);
+			String releaseNotesForVersion = textHelper.getText(makeReleaseNotesResourceId(versionCode));
 			if (!Strings.isEmpty(releaseNotesForVersion)) {
 				assert releaseNotesForVersion != null;
 				if (!first) {
@@ -84,11 +85,29 @@ public class CalculatorReleaseNotesFragment extends CalculatorFragment {
 					first = false;
 				}
 				releaseNotesForVersion = releaseNotesForVersion.replace("\n", "<br/>");
-				result.append("<b>").append(releaseNotesForTitle).append(i).append("</b><br/><br/>");
+				result.append("<b>").append(releaseNotesForTitle).append(versionName).append("</b><br/><br/>");
 				result.append(releaseNotesForVersion);
 			}
 		}
 
 		return result.toString();
+	}
+
+	@Nonnull
+	private static String getVersionName(@Nonnull TextHelper textHelper, int versionCode) {
+		final String versionName = textHelper.getText(makeVersionResourceId(versionCode));
+		if (versionName != null) {
+			return versionName;
+		} else {
+			return String.valueOf(versionCode);
+		}
+	}
+
+	private static String makeReleaseNotesResourceId(int versionCode) {
+		return "c_release_notes_for_" + versionCode;
+	}
+
+	private static String makeVersionResourceId(int versionCode) {
+		return "c_release_notes_for_" + versionCode + "_version";
 	}
 }

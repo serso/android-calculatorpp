@@ -46,7 +46,7 @@ import java.util.concurrent.TimeUnit;
 public class CalculatorTestUtils {
 
 	// in seconds
-	public static final int TIMEOUT = 15;
+	public static final int TIMEOUT = 3;
 
 	public static void staticSetUp() throws Exception {
 		Locator.getInstance().init(new CalculatorImpl(), newCalculatorEngine(), Mockito.mock(CalculatorClipboard.class), Mockito.mock(CalculatorNotifier.class), Mockito.mock(CalculatorHistory.class), new SystemOutCalculatorLogger(), Mockito.mock(CalculatorPreferenceService.class), Mockito.mock(CalculatorKeyboard.class), Mockito.mock(CalculatorPlotter.class), null);
@@ -153,7 +153,9 @@ public class CalculatorTestUtils {
 
 		@Override
 		public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
-			if (this.calculatorEventData != null && calculatorEventData.isSameSequence(this.calculatorEventData)) {
+			waitForEventData();
+
+			if (calculatorEventData.isSameSequence(this.calculatorEventData)) {
 				if (calculatorEventType == CalculatorEventType.display_state_changed) {
 					final CalculatorDisplayChangeEventData displayChange = (CalculatorDisplayChangeEventData) data;
 
@@ -165,6 +167,15 @@ public class CalculatorTestUtils {
 					} catch (InterruptedException e) {
 					}
 					latch.countDown();
+				}
+			}
+		}
+
+		private void waitForEventData() {
+			while (this.calculatorEventData == null) {
+				try {
+					Thread.sleep(200);
+				} catch (InterruptedException e) {
 				}
 			}
 		}

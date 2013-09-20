@@ -88,7 +88,7 @@ public class CalculatorKeyboardImpl implements CalculatorKeyboard {
 
 	@Nonnull
 	private String prepareText(@Nonnull String text) {
-		if ("(  )".equals(text)) {
+		if ("(  )".equals(text) || "( )".equals(text)) {
 			return "()";
 		} else {
 			return text;
