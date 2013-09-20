@@ -14,7 +14,7 @@
   <string name="cpp_restart_wizard">Начать визард</string>
   <string name="cpp_wizard_dragbutton_action_end">Замечательно! Нажмите на кнопку ещё раз, чтобы повторить сначала</string>
   <string name="cpp_wizard_dragbutton_action_center">Нажмите на кнопку ниже для того, чтобы воспользоваться 9</string>
-  <string name="cpp_wizard_dragbutton_action_up">Потяните из центра кнопки вниз для того, чтобы воспользоваться %</string>
+  <string name="cpp_wizard_dragbutton_action_up">Потяните из центра кнопки вверх для того, чтобы воспользоваться %</string>
   <string name="cpp_wizard_dragbutton_action_left">Потяните из центра кнопки влево для того, чтобы воспользоваться sin</string>
   <string name="cpp_wizard_dragbutton_action_down">Потяните из центра кнопки вниз для того, чтобы воспользоваться ^2</string>
   <string name="cpp_wizard_welcome_title">Приветствие</string>
@@ -23,9 +23,13 @@
   <string name="cpp_wizard_onscreen_calculator_title">Калькулятор в отдельном окне</string>
   <string name="cpp_wizard_dragbutton_title">Основы использования кнопок</string>
   <string name="cpp_wizard_final_title">Ещё чуть-чуть!</string>
-  <string name="cpp_wizard_final_free_and_opensource">Калькулятор++ - это бесплатное приложение с открытым исходным кодом: все функции являются бесплатными, исходный код можно найти на github.</string>
+  <string name="cpp_wizard_final_free_and_opensource">Калькулятор ++ это бесплатное приложение с открытым исходным кодом: все функции являются бесплатными, исходный код можно найти на github.</string>
   <string name="cpp_wizard_final_ways_to_help">Есть несколько способов сделать приложение лучше:</string>
   <string name="cpp_wizard_final_donate">Пожертвовать деньги</string>
   <string name="cpp_wizard_final_translate">Перевести язык</string>
   <string name="cpp_wizard_final_contribute">Поучавствовать в разработке</string>
+  <string name="cpp_wizard_onscreen_description">Калькулятор в отдельном окне позволяет вам произодить вычисления не закрывая при этом другие приложения</string>
+  <string name="cpp_wizard_onscreen_checkbox">Включить калькулятор в отдельном окне (вторая иконка появится в списке приложений)</string>
+  <string name="cpp_wizard_dragbutton_description">Специально разработанные кнопки позволяют быстро и просто использовать дополнительные возможности калькулятора
+	</string>
 </resources>

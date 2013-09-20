@@ -22,7 +22,7 @@
   <string name="c_undo">undo</string>
   <string name="c_redo">redo</string>
   <string name="c_clear">C</string>
-  <string name="c_erase">clear</string>
+  <string name="c_erase"></string>
   <string name="c_paste">paste</string>
   <string name="c_vars">vars</string>
   <string name="c_copy">Copy</string>
@@ -90,7 +90,7 @@
   <string name="p_metro_blue_theme">Metro Blue (Default)</string>
   <string name="p_metro_green_theme">Metro Green</string>
   <string name="p_metro_purple_theme">Metro Purple</string>
-  <string name="c_calc_result_precision_summary">Precision of result value (all calculations are done with maximum
+  <string name="c_calc_result_precision_summary">Precision of the result value (all calculations are done with maximum
 		precision regardless of the value of this option)
 	</string>
   <string name="c_calc_color_display_summary">Toggles colouring and styling in the calculator editor</string>
@@ -159,7 +159,7 @@
 		the new version
 	</string>
   <string name="c_calc_use_back_button_as_prev_summary">Defines the behaviour of the Back button</string>
-  <string name="c_calc_use_back_button_as_prev_title">Use Back button as history prev</string>
+  <string name="c_calc_use_back_button_as_prev_title">Use Back button for previous history</string>
   <string name="c_clear_billing_info_summary">Purchase information will be reloaded from the server</string>
   <string name="c_clear_billing_info_title">Update purchase information</string>
   <string name="c_warning">Warning</string>
@@ -176,17 +176,17 @@
   <string name="c_feedback_text">You have been using Calculator++ for some time \n
 		and it\'s important for us to know your opinion about application.\n\n
 		Please rate Calculator++ \non<a href="https://market.android.com/details?id=org.solovyev.android.calculator">
-			Google Play</a>,\n leave a comment or \ndiscuss application \non
+			Google Play</a>,\n leave a comment or \ndiscuss the application \non
 		<a href="http://facebook.com/calculatorpp">Facebook</a>
 	</string>
-  <string name="c_notespp_announce_text">Good news - I just released new application for Android called
+  <string name="c_notespp_announce_text">Good news - I have just released a new application for Android called
 		<a href="https://play.google.com/store/apps/details?id=org.solovyev.android.notes">Notes++</a>.\n
-		If you\'re interesting in fast and easy way of making notes please follow the
+		If you\'re interested in a fast and easy way of making notes please follow the
 		<a href="https://play.google.com/store/apps/details?id=org.solovyev.android.notes">link</a>
 		and try Notes++!
 	</string>
-  <string name="c_angle_units_changed_to">Angle units changed to \'%s\'!</string>
-  <string name="c_numeral_base_changed_to">Numeral base changed to \'%s\'!</string>
+  <string name="c_angle_units_changed_to">Angle units have been changed to \'%s\'!</string>
+  <string name="c_numeral_base_changed_to">Numeral base has been changed to \'%s\'!</string>
   <string name="c_conversion_tool">Conversion tool</string>
   <string name="c_convert">Convert to…</string>
   <string name="convert_to_hex">Convert to hex</string>
@@ -198,11 +198,10 @@
   <string name="derivatives">Derivatives/Integrals</string>
   <string name="crashed">Calculator++ has crashed…</string>
   <string name="crash_dialog_title">Calculator++ crash report</string>
-  <string name="crash_dialog_text">
-		Unfortunately, Calculator++ has crashed.\n\n
-		In order to fix the problem we need some information about it. It\'s highly recommended to send crash report via
+  <string name="crash_dialog_text">		Unfortunately, Calculator++ has crashed.\n\n
+		In order to fix the problem we need some information about it. It\'s highly recommended to send a crash report via
 		email (after pressing \'Ok\' button you will see all sent data in the new window).\n\n
-		Do you want to send crash report?
+		Do you want to send a crash report?
 	</string>
   <string name="prefs_graph_screen_title">Graph settings</string>
   <string name="prefs_graph_interpolate_function">Interpolate function\'s graph</string>
@@ -310,13 +309,13 @@
   <string name="cpp_continue">Continue</string>
   <string name="cpp_purchase_text">Supporting the project is easy and secure: purchase process is provided by Google
 		and all you need is a properly configured Google account.\n\n
-		Payment information is stored in Google servers with your Google account and you can easily use application on
+		Payment information is stored in Google servers with your Google account and you can easily use this application on
 		several devices.\n\n
 		By clicking \'Continue\' button you will be redirected to the Google Play app to make the payment.
 	</string>
   <string name="cpp_purchase_title">Purchase</string>
-  <string name="cpp_purchase_thank_you_text">Thank you for supporting the application!\n\n It might take several
-		minutes until app will be informed about the purchase. You always can check information about the purchase in
+  <string name="cpp_purchase_thank_you_text">Thank you for supporting this application!\n\n It might take several
+		minutes until the app will be informed about the purchase. You can always check the information about the purchase in
 		your Google Account.\n
 		If you have any problems or questions feel free to contact me directly (contacts are available in
 		Main-&gt;Menu-&gt;About)
