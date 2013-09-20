@@ -163,7 +163,7 @@ public class CalculatorApplication extends android.app.Application implements Sh
 
 		BillingDB.init(CalculatorApplication.this);
 
-		AdsController.getInstance().init(ADMOB_USER_ID, AD_FREE_PRODUCT_ID, new BillingController.IConfiguration() {
+		AdsController.getInstance().init(this, ADMOB_USER_ID, AD_FREE_PRODUCT_ID, new BillingController.IConfiguration() {
 
 			@Override
 			public byte[] getObfuscationSalt() {
