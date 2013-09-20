@@ -5,7 +5,7 @@
   <string name="c_auto_orientation_summary">Ekran aplikacji będzie obracał się zgodnie z położeniem urządzenia</string>
   <string name="c_show_equals_button_title">Pokaż przycisk \'=\'</string>
   <string name="c_show_equals_button_summary">Przycisk \'=\' pojawi się na ekranie</string>
-  <string name="c_hide_numeral_base_digits_title">Ukryj podstawę systemu liczbowego</string>
+  <string name="c_hide_numeral_base_digits_title">Ukryj znaki innych systemów liczbowych</string>
   <string name="c_hide_numeral_base_digits_summary">Znaki systemów liczbowych o innej podstawie nie będą wyświetlane</string>
   <string name="prefs_history_show_intermediate_calculations_title">Pokaż obliczenia pośrednie w historii</string>
   <string name="prefs_history_show_intermediate_calculations_summary">Wszystkie obliczenia będą widoczne w historii</string>

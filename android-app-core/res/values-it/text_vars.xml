@@ -11,7 +11,7 @@
 		tangente) della funzione f(x) = e^x nel punto x = 0 che è uguale a 1
 	</string>
   <string name="c_var_description_i">Unità immaginaria, definita come i^2 = -1</string>
-  <string name="c_var_description_c">Velocità della luce nel vuoto, m·s^-1</string>
+  <string name="c_var_description_c">Velocità della luce nel vuoto, m·s</string>
   <string name="c_var_description_G">La costante gravitazionale è una costante fisica empirica coinvolta nel calcolo
 		dell\' attrazione gravitazionale tra gli oggetti con massa, m^3·kg^−1·s^−2
 	</string>
@@ -21,6 +21,6 @@
   <string name="c_var_description_h_reduced">Costante di riduzione di Planck, J·s</string>
   <string name="c_var_description_nan">Non è un numero</string>
   <string name="c_var_description_inf">Infinito</string>
-  <string name="c_var_system">Built-in</string>
+  <string name="c_var_system">Integrato</string>
   <string name="c_var_my">Mie</string>
 </resources>

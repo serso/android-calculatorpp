@@ -6,44 +6,29 @@
   <string name="c_fun_description_cos">Función trigonométrica coseno</string>
   <string name="c_fun_description_tan">Función trigonométrica tangente</string>
   <string name="c_fun_description_cot">Función trigonométrica cotangente</string>
-  <string name="c_fun_description_asin">Arcsine - inverse sine function</string>
-  <string name="c_fun_description_acos">Arccosine - inverse cosine function</string>
-  <string name="c_fun_description_atan">Arctangent - inverse tangent function</string>
-  <string name="c_fun_description_acot">Arccotangent - inverse cotangent function</string>
-  <string name="c_fun_description_ln">Logaritmo neperiano - logaritmo de base e</string>
-  <string name="c_fun_description_lg">Decadic logaritmo - logaritmo de base 10</string>
-  <string name="c_fun_description_log">Logaritmo - logaritmo de la base especificada</string>
+  <string name="c_fun_description_asin">Arcoseno - función inversa del seno</string>
+  <string name="c_fun_description_acos">Arcocoseno - función inversa del coseno</string>
+  <string name="c_fun_description_atan">Arcotangente - función inversa de la tangente</string>
+  <string name="c_fun_description_acot">Arcocotangente - función inversa de la cotangente</string>
+  <string name="c_fun_description_ln">Logaritmo neperiano - logaritmo en base \"e\"</string>
+  <string name="c_fun_description_lg">Logaritmo decimal - logaritmo en base 10</string>
+  <string name="c_fun_description_log">Logaritmo - logaritmo con la base especificada</string>
   <string name="c_fun_description_exp">Función exponencial</string>
-  <string name="c_fun_description_sqrt">Función Raíz cuadrado</string>
-  <string name="c_fun_description_cubic">Cubic root function</string>
-  <string name="c_fun_description_abs">Gives absolute value of an argument</string>
-  <string name="c_fun_description_sgn">Gives the sign of an argument: -1 if argument is less than 0, 0
-		if equals to 0, 1 if more than 0
+  <string name="c_fun_description_sqrt">Función Raíz cuadrada</string>
+  <string name="c_fun_description_cubic">Función raíz cúbica</string>
+  <string name="c_fun_description_abs">Devuelve el valor absoluto de un argumento</string>
+  <string name="c_fun_description_sgn">Devuelve el signo de un argumento: -1 si el argumento es menor que 0, 0 si es igual a 0, y 1 si es mayor que 0</string>
+  <string name="c_fun_description_eq">Función Igual - Devuelve 1 si dos argumentos son iguales, y 0 si no lo son</string>
+  <string name="c_fun_description_le">Función Menor o Igual que - Devuelve 1 si dos argumentos son iguales o si el primero es menor que el segundo. Devuelve 0 si el primer argumento es mayor</string>
+  <string name="c_fun_description_ge">Función Mayor o Igual que - Devuelve 1 si dos argumentos son iguales o si el primero es mayor que el segundo. Devuelve 0 si el primer argumento es menor</string>
+  <string name="c_fun_description_ne">Función Distinto - Devuelve 1 si dos argumentos no son idénticos, y 0 en caso contrario</string>
+  <string name="c_fun_description_lt">Función Menor que - Devuelve 1 si el primer argumento es menor que el segundo. Devuelve 0 en caso contrario</string>
+  <string name="c_fun_description_gt">Función Mayor que - Devuelve 1 si el primer argumento es mayor que el segundo. Devuelve 0 en caso contrario</string>
+  <string name="c_fun_description_rad">Convierte grados a radianes: º - grados, min - minutos (por defecto = 0), s - segundos (por defecto = 0)
 	</string>
-  <string name="c_fun_description_eq">Función Igual - Devuelve 1 si dos argumentos son iguales, 0 si no lo son
+  <string name="c_fun_description_dms">Convierte grados de notación DMS a notación decimal: º - grados, min - minutos (por defecto = 0), s - segundos (por defecto = 0)
 	</string>
-  <string name="c_fun_description_le">Función Menor o igual - Devuelve 1 si dos argumentos son iguales o el primero es
-		menor que el segundo, 0 si el primero es mayor
-	</string>
-  <string name="c_fun_description_ge">Función Mayor o igual - Devuelve 1 si dos argumentos son iguales o si el primero
-		es mayor que el segundo, 0 si el primero es menor
-	</string>
-  <string name="c_fun_description_ne">Función Distinto - Devuelve 1 si dos argumentos no son iguales, 0 si son
-		idénticos
-	</string>
-  <string name="c_fun_description_lt">Función Menor - Devuelve 1 si el primer argumento es menor que el segundo, 0 si
-		no lo es
-	</string>
-  <string name="c_fun_description_gt">Función Mayor - Devuelve 1 si el primer argumento es mayor que el segundo, 0 si
-		no lo es
-	</string>
-  <string name="c_fun_description_rad">Convierte grados a radianes: d - grados, m - minutos (por defecto = 0), s -
-		segundos (por defecto = 0)
-	</string>
-  <string name="c_fun_description_dms">Convierte grados de notación DMS a notación decimal: d - grados, m - minutos
-		(por defecto = 0), s - segundos (por defecto = 0)
-	</string>
-  <string name="c_fun_description_deg">Convierte radianes a grados</string>
+  <string name="c_fun_description_deg">Convierte de radianes a grados</string>
   <string name="c_fun_category_trig">Trigonométrico</string>
   <string name="c_fun_category_hyper_trig">Hiperbólicas trigonométricas</string>
   <string name="c_fun_category_comparison">Comparación</string>
