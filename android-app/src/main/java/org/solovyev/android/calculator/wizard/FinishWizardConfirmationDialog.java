@@ -27,24 +27,24 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import org.solovyev.android.calculator.R;
+import org.solovyev.android.sherlock.AndroidSherlockUtils;
 
 import javax.annotation.Nonnull;
-
-import org.solovyev.android.sherlock.AndroidSherlockUtils;
 
 public class FinishWizardConfirmationDialog extends DialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		final AlertDialog.Builder b = new AlertDialog.Builder(getActivity());
-		b.setMessage("Do you really want to finish wizard?");
-		b.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+		b.setMessage(R.string.cpp_wizard_finish_confirmation);
+		b.setPositiveButton(R.string.c_yes, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialogInterface, int i) {
 				((CalculatorWizardActivity) getActivity()).finishFlow(true);
 			}
 		});
-		b.setNegativeButton("No", new DialogInterface.OnClickListener() {
+		b.setNegativeButton(R.string.c_no, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialogInterface, int i) {
 				dismiss();
