@@ -12,11 +12,11 @@
   <string name="c_fun_description_acot">Arcus cotangens - funkcja odwrotna do funkcji cotangens</string>
   <string name="c_fun_description_ln">Logarytm naturalny - logarytm o podstawie e</string>
   <string name="c_fun_description_lg">Logarytm dziesiętny - logarytm o podstawie 10</string>
-  <string name="c_fun_description_log">Logarytm - logarytm o określonej podstawie</string>
+  <string name="c_fun_description_log">Logarytm o podstawie \'base\'</string>
   <string name="c_fun_description_exp">Funkcja wykładnicza</string>
   <string name="c_fun_description_sqrt">Pierwiastek kwadratowy</string>
   <string name="c_fun_description_cubic">Pierwiastek sześcienny</string>
-  <string name="c_fun_description_abs">Wartość bezwzględna argumentu</string>
+  <string name="c_fun_description_abs">Wartość bezwzględna (moduł dla liczb zespolonych)</string>
   <string name="c_fun_description_sgn">Znak argumentu (signum): -1, jeżeli argument jest mniejszy niż 0, 0, jeżeli równa się 0, 1, jeżeli jest większy od 0</string>
   <string name="c_fun_description_eq">Równa się - wynik to 1, jeżeli oba argumenty są równe, w przeciwnym wypadku 0</string>
   <string name="c_fun_description_le">Mniejszy lub równy - wynik to 1, jeżeli oba argumenty są równe lub pierwszy jest mniejszy od drugiego, w przeciwnym wypadku 0</string>

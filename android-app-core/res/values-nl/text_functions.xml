@@ -28,7 +28,7 @@
   <string name="c_fun_description_dms">Converteert graden van DMS notatie naar decimale notatie: d - graden, m - minuten (standaard = 0), s - seconden (standaard = 0)</string>
   <string name="c_fun_description_deg">Converteert radialen naar graden</string>
   <string name="c_fun_category_trig">Goniometrie</string>
-  <string name="c_fun_category_hyper_trig">Hyperbolic trigonometric</string>
+  <string name="c_fun_category_hyper_trig">Hyperbolisch trigonometrisch</string>
   <string name="c_fun_category_comparison">Vergelijking</string>
   <string name="c_fun_category_common">Algemene</string>
   <string name="c_fun_category_my">Mijn</string>

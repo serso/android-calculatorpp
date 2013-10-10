@@ -5,16 +5,16 @@
   <string name="cpp_wizard_back">Zurück</string>
   <string name="cpp_wizard_finish">Beenden</string>
   <string name="cpp_wizard_start">Wizard starten</string>
-  <string name="cpp_wizard_layout_optimized">Optimieren</string>
+  <string name="cpp_wizard_layout_optimized">Optimiert</string>
   <string name="cpp_wizard_layout_big_buttons">Große Tasten</string>
   <string name="cpp_wizard_mode_simple">Einfach</string>
-  <string name="cpp_wizard_mode_simple_description">Im einfachen Modus werden nur grundlegende Funktionen vom Startbildschirm verfügbar.
-Das Ergebnis wird auf die 5 Nachkommastelle gerundet. Grad wird als Winkeleinheit verwendet.</string>
+  <string name="cpp_wizard_mode_simple_description">Im einfachen Modus werden nur grundlegende Funktionen vom Hauptbildschirm verfügbar sein.
+Das Ergebnis wird auf 5 Nachkommastellen gerundet. Grad wird als Winkeleinheit verwendet.</string>
   <string name="cpp_wizard_mode_engineer">Ingenieur</string>
-  <string name="cpp_wizard_mode_engineer_description">In Ingenieur Modus  werden spezielle Funktionen auf dem Hauptbildschirm verwendet.
-Ergebnisse werden nicht gerundet und es wird die Ingenieur-Notation verwendet. Bogenmaße wird als Standardwinkeleinheiten verwendet.</string>
+  <string name="cpp_wizard_mode_engineer_description">In Ingenieur-Modus werden spezielle Funktionen auf dem Hauptbildschirm verwendet.
+Ergebnisse werden nicht gerundet und es wird die wissenschaftliche Notation verwendet. Bogenmaß wird als Standardwinkeleinheit verwendet.</string>
   <string name="cpp_restart_wizard">Wizard starten</string>
-  <string name="cpp_wizard_dragbutton_action_end">Ausgezeichnet! Tippen Sie auf die Schaltfläche noch einmal um es nochmal zu versuchen</string>
+  <string name="cpp_wizard_dragbutton_action_end">Ausgezeichnet! Tippen Sie auf die Schaltfläche um es noch einmal zu versuchen</string>
   <string name="cpp_wizard_dragbutton_action_center">Tippen Sie einmal auf die Schaltfläche unten um 9 zu verwenden</string>
   <string name="cpp_wizard_dragbutton_action_up">Ziehen Sie aus der Mitte der Taste nach oben durch, um % zu verwenden</string>
   <string name="cpp_wizard_dragbutton_action_left">Ziehen Sie aus der Mitte der Taste nach links durch, um sin zu verwenden</string>
@@ -22,17 +22,17 @@ Ergebnisse werden nicht gerundet und es wird die Ingenieur-Notation verwendet. B
   <string name="cpp_wizard_welcome_title">Willkommen</string>
   <string name="cpp_wizard_layout_title">Layout wählen</string>
   <string name="cpp_wizard_mode_title">Modus wählen</string>
-  <string name="cpp_wizard_onscreen_calculator_title">Rechner in einem abgtrennten Fenster</string>
-  <string name="cpp_wizard_dragbutton_title">Schiebeknopfgrundlagen</string>
+  <string name="cpp_wizard_onscreen_calculator_title">Rechner in einem abgetrennten Fenster</string>
+  <string name="cpp_wizard_dragbutton_title">Wischknopfgrundlagen</string>
   <string name="cpp_wizard_final_title">Fast fertig!</string>
-  <string name="cpp_wizard_final_free_and_opensource">Calculator++ ist freie und offene Software: alle Funktionen sind kostenlos
+  <string name="cpp_wizard_final_free_and_opensource">Calculator++ ist eine freie und offene Software: alle Funktionen sind kostenlos
 und der Quelltext kann auf GitHub gefunden werden.</string>
-  <string name="cpp_wizard_final_ways_to_help">Es gibt einige Möglichkeiten, wie Sie helfen können, diese Anwedung besser zu machen:</string>
+  <string name="cpp_wizard_final_ways_to_help">Es gibt einige Möglichkeiten, wie Sie helfen können, diese Anwendung zu verbessern:</string>
   <string name="cpp_wizard_final_donate">Geld spenden</string>
   <string name="cpp_wizard_final_translate">Übersetzen</string>
   <string name="cpp_wizard_final_contribute">Quellcode beitragen</string>
-  <string name="cpp_wizard_onscreen_description">Wenn Rechner im separaten Fenster ist, können Sie rechnen, 
-während andere apps auf Ihrem Gerät genutzt werden</string>
+  <string name="cpp_wizard_onscreen_description">Der Rechner im separaten Fenster ermöglicht es Ihnen zu rechnen, während dem benutzen anderer Apps.</string>
   <string name="cpp_wizard_onscreen_checkbox">Rechner im separaten Fenster aktivieren (zweites Symbol erscheint in der Liste der Anwendungen)</string>
   <string name="cpp_wizard_dragbutton_description">\"Durchziehen\" Schaltfläche ist eine exklusive Funktion der Calculator++, die schnelle Zugriff auf die sekundären Funktionen  bietet</string>
+  <string name="cpp_wizard_finish_confirmation">Wollen Sie den Assistenten wirklich beenden?</string>
 </resources>

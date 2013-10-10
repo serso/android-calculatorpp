@@ -33,4 +33,5 @@ Le résultat n\'est pas arrondi et est affiché en notation scientifique, le rad
   <string name="cpp_wizard_onscreen_description">Avoir la calculatrice ouverte dans une fenêtre séparée vous permet de calculer tout en utilisant les autres applications de votre appareil</string>
   <string name="cpp_wizard_onscreen_checkbox">Activer la calculatrice dans une fenêtre séparée (une deuxième icône apparaîtra dans la liste des applications)</string>
   <string name="cpp_wizard_dragbutton_description">Le glissement sur une touche est une fonctionnalité exclusive à Calculator++ ce qui permet un accès rapide aux fonctions secondaires</string>
+  <string name="cpp_wizard_finish_confirmation">Quitter l\'assistant ?</string>
 </resources>

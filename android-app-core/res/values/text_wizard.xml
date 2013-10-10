@@ -46,5 +46,5 @@
   <string name="cpp_wizard_dragbutton_description">Drag button is an exclusive feature of Calculator++ which provides
 		fast access to the secondary functions
 	</string>
-	<string name="cpp_wizard_finish_confirmation">Do you really want to finish wizard?</string>
+  <string name="cpp_wizard_finish_confirmation">Do you really want to finish wizard?</string>
 </resources>

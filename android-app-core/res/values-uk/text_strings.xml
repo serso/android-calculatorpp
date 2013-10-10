@@ -67,12 +67,12 @@
   <string name="c_history_is_empty">Історія порожня!</string>
   <string name="c_app_history">Історія</string>
   <string name="c_char_is_not_accepted">Символ \'%s\' не допустимий у імені змінної!</string>
-  <string name="c_calc_angle_units">Одиниці виміру кутів</string>
+  <string name="c_calc_angle_units">Поточні одиниці виміру кутів</string>
   <string name="p_deg">Градуси</string>
   <string name="p_rad">Радіани</string>
   <string name="p_grad">Гради</string>
   <string name="p_turns">Обороти</string>
-  <string name="c_angle_units_summary">Визначає типову одиницю виміру кутів.</string>
+  <string name="c_angle_units_summary">Визначає поточну одиницю виміру кутів, яка буде використана у обчисленнях</string>
   <string name="c_calc_numeral_bases">Системи числення</string>
   <string name="c_numeral_bases_summary">Визначає типову систему числення для усіх введених чисел.</string>
   <string name="p_dec">Десяткова</string>
@@ -88,7 +88,7 @@
   <string name="p_metro_purple_theme">Метро Пурпурова</string>
   <string name="c_calc_result_precision_summary">Точність відображення результату (усі обчислення проводяться максимально точно, незалежно від цього параметру)
 	</string>
-  <string name="c_calc_color_display_summary">Вмикнути/вимкнути підсвітку у редакторі калькулятора</string>
+  <string name="c_calc_color_display_summary">Увімкнути/вимкнути підсвітку у редакторі калькулятора</string>
   <string name="c_calc_theme_summary">Встановити тему калькулятора</string>
   <string name="c_clear_history">Очистити історію</string>
   <string name="c_toggle_datetime">Відображення дати</string>
@@ -152,7 +152,7 @@
 		після оновлення до нової версії
 	</string>
   <string name="c_calc_use_back_button_as_prev_summary">Визначити поведінку кнопку Назад</string>
-  <string name="c_calc_use_back_button_as_prev_title">Використовувати кнопку Назад як крок назад по історії</string>
+  <string name="c_calc_use_back_button_as_prev_title">Кнопка Назад як крок назад по історії</string>
   <string name="c_clear_billing_info_summary">Інформація про купівлю буде оновлена із сервера</string>
   <string name="c_clear_billing_info_title">Очистити інформацію про купівлю</string>
   <string name="c_warning">Увага</string>
@@ -216,15 +216,15 @@
   <string name="calculation_messages_dialog_title">Попередження Калькулятор++</string>
   <string name="arithmetic_error_while_plot">Арифметична помилка під час відображення: %s</string>
   <string name="ok">OK</string>
-  <string name="p_show_calculation_messages_dialog_title">Відображати повідомлення розрахунків у діалоговому вікні</string>
+  <string name="p_show_calculation_messages_dialog_title">Повідомлення розрахунків у діалозі</string>
   <string name="p_show_calculation_messages_dialog_summary">Якщо ввімкнуто, то будь-які повідомлення, які виникнуть під час обчислень, будуть показані у відповідному діалоговому вікні</string>
   <string name="fix">Виправити</string>
-  <string name="p_preferred_numeral_base_title">Система числення за умовчанням</string>
-  <string name="p_preferred_numeral_base_summary">Визначає систему числення за умовчанням</string>
-  <string name="preferred_numeral_base_message">Система числення за умовчанням (\'%1$s\') відрізняється від поточної - \'%2$s\'. Забули змінити?</string>
-  <string name="p_preferred_angle_units_title">Типові одиниці виміру кута</string>
+  <string name="p_preferred_numeral_base_title">Типова система числення</string>
+  <string name="p_preferred_numeral_base_summary">Визначає типову систему числення</string>
+  <string name="preferred_numeral_base_message">Типова система числення (\'%1$s\') відрізняється від поточної - \'%2$s\'. Забули змінити?</string>
+  <string name="p_preferred_angle_units_title">Типові одиниці виміру кутів</string>
   <string name="p_preferred_angle_units_summary">Визначає типові одиниці вимірювання кутів</string>
-  <string name="preferred_angle_units_message">Типова одиниця виміру кутів - \'%1$s\', що відрізняється від поточного - \'%2$s\'. Забули змінити?</string>
+  <string name="preferred_angle_units_message">Типові одиниці виміру кутів - \'%1$s\' відрізняються від поточних - \'%2$s\'. Забули змінити?</string>
   <string name="close">Закрити</string>
   <string name="c_app_widget_3x3_name">Калькулятор++ віджет (3х3)</string>
   <string name="c_app_widget_3x4_name">Калькулятор++ віджет (3х4)</string>
@@ -241,7 +241,7 @@
   <string name="cpp_plot_2d">2D графік</string>
   <string name="cpp_plot_3d">3D графік</string>
   <string name="cpp_plot_functions">Функції на графіку</string>
-  <string name="cpp_prefs_graph_plot_imag_title">Відображати уявну частину функції на графіку</string>
+  <string name="cpp_prefs_graph_plot_imag_title">Будувати уявну частину функції</string>
   <string name="cpp_prefs_graph_plot_imag_summary">Якщо позначено, то буде відображатися уявна частина функції на графіку</string>
   <string name="cpp_monochrome_line_color_type">Монотонний</string>
   <string name="cpp_color_map_line_color_type">Карта кольорів (тільки 3D)</string>
@@ -261,7 +261,7 @@
   <string name="cpp_function">Функція</string>
   <string name="cpp_pinned">Закріплені</string>
   <string name="cpp_visible">Видима</string>
-  <string name="cpp_plot_button_text">+граф</string>
+  <string name="cpp_plot_button_text">+графік</string>
   <string name="cpp_plot_empty_function_error">Не вдалося відобразити пусту функцію!</string>
   <string name="cpp_plot_too_many_variables">Не вдалося відобразити: занадто багато змінних!</string>
   <string name="cpp_plot_range">Діапазон графіка</string>

@@ -3,11 +3,11 @@
 <resources>
   <string name="c_operators">Operatory</string>
   <string name="c_op_description_mod">Operacja modulo. Wyznacza resztę z dzielenia \'x\' przez \'y\'</string>
-  <string name="c_op_description_sum">Sumuje funkcje \'f(i)\' po \'i\', zaczynając interację od \'from\', a kończąc na \'to\'</string>
-  <string name="c_op_description_product">Mnoży funkcje \'f(i)\' po \'i\', zaczynając interację od \'from\', a kończąc na \'to\'</string>
-  <string name="c_op_description_derivative">Oblicza pochodną stopnia \'order\' (domyślnie = 1) funkcji \'f(x)\' po zmiennej \'x\' i oblicza jej wartość w punkcie \'x_point\' (domyślnie = taki sam jak \'x\')</string>
-  <string name="c_op_description_integral">Oblicza całkę nieoznaczoną z funkcji \'f(x)\' po zmiennej \'x\'</string>
-  <string name="c_op_description_integral_ab">Całkuje funkcję \'f(x)\' po zmiennej \'x\' od punktu \'a\' do punktu \'b\'</string>
+  <string name="c_op_description_sum">Sumuje funkcje \'f(i)\' po \'i\', zaczynając iterację od \'from\', a kończąc na \'to\'</string>
+  <string name="c_op_description_product">Mnoży funkcje \'f(i)\' po \'i\', zaczynając iterację od \'from\', a kończąc na \'to\'</string>
+  <string name="c_op_description_derivative">Oblicza pochodną stopnia \'order\' (domyślnie = 1) funkcji \'f(x)\' po zmiennej \'x\' i wyznacza jej wartość w punkcie \'x_point\' (domyślnie = zmienna \'x\')</string>
+  <string name="c_op_description_integral">Wyznacza całkę nieoznaczoną z funkcji \'f(x)\' po zmiennej \'x\'</string>
+  <string name="c_op_description_integral_ab">Całkuje funkcję \'f(x)\' po zmiennej \'x\' w przedziale od punktu \'a\' do punktu \'b\'</string>
   <string name="c_pf_description_factorial">Oblicza silnię podanego wyrażenia</string>
   <string name="c_pf_description_double_factorial">Oblicza silnię podwójną podanego wyrażenia</string>
   <string name="c_pf_description_percent" formatted="false">Oblicza wartość procentową podanego wyrażenia.\n

@@ -186,10 +186,10 @@ Czy chcesz wysłać raport o błędzie?</string>
   <string name="prefs_graph_screen_title">Ustawienia wykresu</string>
   <string name="prefs_graph_interpolate_function">Interpolacja wykresu funkcji</string>
   <string name="prefs_graph_interpolate_function_summary">Do wykreślenia funkcji zostanie użyta interpolacja sześcienna</string>
-  <string name="prefs_graph_real_color_title">Kolor wykresu cześci rzeczywistej funkcji</string>
-  <string name="prefs_graph_real_color_summary">Ustawia kolor wykresu cześci rzeczywistej funkcji</string>
-  <string name="prefs_graph_imag_color_title">Kolor wykresu cześci urojonej funkcji</string>
-  <string name="prefs_graph_imag_color_summary">Ustawia kolor wykresu cześci urojonej funkcji</string>
+  <string name="prefs_graph_real_color_title">Kolor wykresu części rzeczywistej funkcji</string>
+  <string name="prefs_graph_real_color_summary">Ustawia kolor wykresu części rzeczywistej funkcji</string>
+  <string name="prefs_graph_imag_color_title">Kolor wykresu części urojonej funkcji</string>
+  <string name="prefs_graph_imag_color_summary">Ustawia kolor wykresu części urojonej funkcji</string>
   <string name="p_white_line_color">Biały</string>
   <string name="p_grey_line_color">Szary</string>
   <string name="p_red_line_color">Czerwony</string>
@@ -239,7 +239,7 @@ Czy chcesz wysłać raport o błędzie?</string>
   <string name="cpp_prefs_graph_plot_imag_title">Wykreśl część urojoną funkcji</string>
   <string name="cpp_prefs_graph_plot_imag_summary">Część urojona funkcji będzie wykreślona</string>
   <string name="cpp_monochrome_line_color_type">Monochromatyczny</string>
-  <string name="cpp_color_map_line_color_type">Kolorowy (tylko tryb 3D)</string>
+  <string name="cpp_color_map_line_color_type">Kolorowy (tylko w trybie 3D)</string>
   <string name="cpp_solid_line_style">Stały (-----)</string>
   <string name="cpp_dashed_line_style">Przerywany (- - -)</string>
   <string name="cpp_dotted_line_style">Kropkowany (. . .)</string>
@@ -255,7 +255,7 @@ Czy chcesz wysłać raport o błędzie?</string>
   <string name="cpp_plot_function_settings">Ustawienia funkcji</string>
   <string name="cpp_function">Funkcja</string>
   <string name="cpp_pinned">Przypięta</string>
-  <string name="cpp_visible">Widoczny</string>
+  <string name="cpp_visible">Widoczna</string>
   <string name="cpp_plot_button_text">+wykres</string>
   <string name="cpp_plot_empty_function_error">Nie można wykreślić pustej funkcji!</string>
   <string name="cpp_plot_too_many_variables">Nie można wyrysować: zbyt wiele zmiennych!</string>

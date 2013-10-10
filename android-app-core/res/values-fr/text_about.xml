@@ -16,8 +16,8 @@ Cette application utilise les librairies open source suivantes :\n
 <a href="http://simple.sourceforge.net">Simple (XML serialization)</a>\n
 <a href="http://meditorworld.appspot.com/meditor.txt">JSCL</a></string>
   <string name="cpp_translators_text">Cette application est traduite en français par : </string>
-  <string name="cpp_translators_list">qbyron, Gringo49, Tahiti Pope</string>
+  <string name="cpp_translators_list">qbyron, Gringo49, Tahiti Pope, Quetzal</string>
   <string name="c_release_notes">Informations sur les mises à jours</string>
-  <string name="c_release_notes_for_title">"Informations sur la version actuelle "</string>
+  <string name="c_release_notes_for_title">"Informations sur la version "</string>
   <string name="cpp_share_link">http://www.facebook.com/calculatorpp</string>
 </resources>

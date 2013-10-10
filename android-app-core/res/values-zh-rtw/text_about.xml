@@ -16,7 +16,10 @@
 		<a href="http://simple.sourceforge.net">Simple (XML serialization)</a>\n
 		<a href="http://meditorworld.appspot.com/meditor.txt">JSCL</a>
 	</string>
-  <string name="cpp_translators_text">本应用由serso以及各位翻译爱好者翻译为中文</string>
+  <string name="cpp_translators_text">本应用由以下支持者翻译为简体中文:
+Serso
+Ppnoble
+Peter0z</string>
   <string name="cpp_translators_list"> Sergey Solovyev</string>
   <string name="c_release_notes">发行公告</string>
   <string name="c_release_notes_for_title">"版本发行说明"</string>
