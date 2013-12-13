@@ -32,5 +32,5 @@ Il risultato non è arrotondato, ed è presentato in notazione scientifica, i ra
   <string name="cpp_wizard_onscreen_description">La calcolatrice in una finestra separata consente di fare calcoli durante l\'utilizzo di altre applicazioni sul dispositivo</string>
   <string name="cpp_wizard_onscreen_checkbox">Abilitare la calcolatrice in una finestra separata (una seconda icona comparirà nell\'elenco applicazioni)</string>
   <string name="cpp_wizard_dragbutton_description">Il trascinamento pulsanti è una funzione esclusiva di Calculator++ che permette un accesso rapido alle funzioni secondarie</string>
-  <string name="cpp_wizard_finish_confirmation">Vuoi veramente terminare la procedura guidata?</string>
+  <string name="acl_wizard_finish_confirmation">Vuoi veramente terminare la procedura guidata?</string>
 </resources>

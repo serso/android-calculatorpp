@@ -31,6 +31,10 @@ public class TestCalculatorApplication extends CalculatorApplication {
 
 	private static volatile boolean initialized = false;
 
+	public TestCalculatorApplication() {
+		super(false);
+	}
+
 	@Override
 	public void onCreate() {
 		synchronized (TestCalculatorApplication.class) {

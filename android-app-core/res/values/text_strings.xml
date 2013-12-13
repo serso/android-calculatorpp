@@ -320,4 +320,6 @@
 		If you have any problems or questions feel free to contact me directly (contacts are available in
 		Main-&gt;Menu-&gt;About)
 	</string>
+	<string name="acl_yes">Yes</string>
+	<string name="acl_no">No</string>
 </resources>

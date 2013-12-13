@@ -32,5 +32,5 @@
   <string name="cpp_wizard_onscreen_checkbox">Включить калькулятор в отдельном окне (вторая иконка появится в списке приложений)</string>
   <string name="cpp_wizard_dragbutton_description">Специально разработанные кнопки позволяют быстро и просто использовать дополнительные возможности калькулятора
 	</string>
-  <string name="cpp_wizard_finish_confirmation">Вы действительно хотите завершить визард?</string>
+  <string name="acl_wizard_finish_confirmation">Вы действительно хотите завершить визард?</string>
 </resources>

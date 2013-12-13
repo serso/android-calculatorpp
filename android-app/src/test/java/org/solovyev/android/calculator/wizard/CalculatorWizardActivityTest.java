@@ -34,6 +34,14 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.shadows.ShadowActivity;
 import org.robolectric.util.ActivityController;
+import org.solovyev.android.wizard.BaseWizardActivity;
+import org.solovyev.android.wizard.Wizard;
+import org.solovyev.android.wizard.WizardUi;
+import org.solovyev.android.wizard.Wizards;
+
+import javax.annotation.Nonnull;
+
+import java.lang.reflect.Field;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -42,42 +50,48 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.solovyev.android.calculator.wizard.CalculatorWizardActivity.startWizard;
-import static org.solovyev.android.calculator.wizard.WizardStep.choose_mode;
+import static org.solovyev.android.calculator.wizard.CalculatorWizardStep.choose_mode;
 
-/**
- * User: serso
- * Date: 6/17/13
- * Time: 9:57 PM
- */
 @RunWith(value = RobolectricTestRunner.class)
 public class CalculatorWizardActivityTest {
 
 	private ActivityController<CalculatorWizardActivity> controller;
 	private CalculatorWizardActivity activity;
+	private Wizards wizards;
+	private Field uiField;
 
 	@Before
 	public void setUp() throws Exception {
 		controller = Robolectric.buildActivity(CalculatorWizardActivity.class);
+		activity = controller.get();
+		wizards = new CalculatorWizards(Robolectric.application);
+		activity.setWizards(wizards);
 		controller.attach();
 		controller.create();
-		activity = controller.get();
+
+		uiField = BaseWizardActivity.class.getDeclaredField("ui");
+		uiField.setAccessible(true);
 	}
 
 	@Test
 	public void testShouldBeFirstTimeWizardByDefault() throws Exception {
-		assertEquals(Wizards.FIRST_TIME_WIZARD, activity.getFlow().getName());
+		assertEquals(CalculatorWizards.FIRST_TIME_WIZARD, getWizardUi().getWizard().getName());
+	}
+
+	@Nonnull
+	private WizardUi getWizardUi() throws IllegalAccessException {
+		return (WizardUi) uiField.get(activity);
 	}
 
 	@Test
 	public void testShouldBeFirstStep() throws Exception {
-		assertNotNull(activity.getStep());
-		assertEquals(activity.getFlow().getFirstStep(), activity.getStep());
+		assertNotNull(getWizardUi().getStep());
+		assertEquals(getWizardUi().getFlow().getFirstStep(), getWizardUi().getStep());
 	}
 
 	@Test
 	public void testShouldSaveState() throws Exception {
-		activity.setStep(choose_mode);
+		getWizardUi().setStep(choose_mode);
 
 		final Bundle outState = new Bundle();
 		controller.saveInstanceState(outState);
@@ -86,22 +100,22 @@ public class CalculatorWizardActivityTest {
 		controller.create(outState);
 
 		activity = controller.get();
-		assertNotNull(activity.getFlow());
-		assertEquals(Wizards.FIRST_TIME_WIZARD, activity.getFlow().getName());
-		assertNotNull(activity.getStep());
-		assertEquals(choose_mode, activity.getStep());
+		assertNotNull(getWizardUi().getFlow());
+		assertEquals(CalculatorWizards.FIRST_TIME_WIZARD, getWizardUi().getWizard().getName());
+		assertNotNull(getWizardUi().getStep());
+		assertEquals(choose_mode, getWizardUi().getStep());
 	}
 
 	@Test
 	public void testCreate() throws Exception {
 		final Intent intent = new Intent();
 		intent.setClass(activity, CalculatorWizardActivity.class);
-		intent.putExtra(Wizards.FLOW, Wizards.DEFAULT_WIZARD_FLOW);
+		intent.putExtra("flow", CalculatorWizards.DEFAULT_WIZARD_FLOW);
 		controller = Robolectric.buildActivity(CalculatorWizardActivity.class).withIntent(intent);
 		controller.create();
 		activity = controller.get();
-		assertEquals(Wizards.DEFAULT_WIZARD_FLOW, activity.getFlow().getName());
-		assertEquals(activity.getFlow().getFirstStep(), activity.getStep());
+		assertEquals(CalculatorWizards.DEFAULT_WIZARD_FLOW, getWizardUi().getWizard().getName());
+		assertEquals(getWizardUi().getFlow().getFirstStep(), getWizardUi().getStep());
 
 		final Bundle outState1 = new Bundle();
 		controller.saveInstanceState(outState1);
@@ -109,8 +123,8 @@ public class CalculatorWizardActivityTest {
 		controller = Robolectric.buildActivity(CalculatorWizardActivity.class);
 		activity = controller.get();
 		controller.create(outState1);
-		assertEquals(Wizards.DEFAULT_WIZARD_FLOW, activity.getFlow().getName());
-		assertEquals(activity.getFlow().getFirstStep(), activity.getStep());
+		assertEquals(CalculatorWizards.DEFAULT_WIZARD_FLOW, getWizardUi().getWizard().getName());
+		assertEquals(getWizardUi().getFlow().getFirstStep(), getWizardUi().getStep());
 	}
 
 	@Test
@@ -118,7 +132,7 @@ public class CalculatorWizardActivityTest {
 		controller.start().resume();
 
 		final FragmentManager fm = activity.getSupportFragmentManager();
-		final Fragment f = fm.findFragmentByTag(WizardStep.welcome.getFragmentTag());
+		final Fragment f = fm.findFragmentByTag(CalculatorWizardStep.welcome.getFragmentTag());
 		assertNotNull(f);
 		assertTrue(f.isAdded());
 	}
@@ -129,7 +143,7 @@ public class CalculatorWizardActivityTest {
 
 		final FragmentManager fm = activity.getSupportFragmentManager();
 
-		activity.setStep(choose_mode);
+		getWizardUi().setStep(choose_mode);
 
 		final Fragment f = fm.findFragmentByTag(choose_mode.getFragmentTag());
 		assertNotNull(f);
@@ -138,66 +152,69 @@ public class CalculatorWizardActivityTest {
 
 	@Test
 	public void testSetStep() throws Exception {
-		activity.setStep(choose_mode);
-		assertEquals(choose_mode, activity.getStep());
+		getWizardUi().setStep(choose_mode);
+		assertEquals(choose_mode, getWizardUi().getStep());
 	}
 
 	@Test
 	public void testShouldStartWizardActivityAfterStart() throws Exception {
 		final ShadowActivity shadowActivity = Robolectric.shadowOf(controller.get());
-		startWizard(Wizards.DEFAULT_WIZARD_FLOW, shadowActivity.getApplicationContext());
+		WizardUi.startWizard(activity.getWizards(), CalculatorWizards.DEFAULT_WIZARD_FLOW, shadowActivity.getApplicationContext());
 		assertNotNull(shadowActivity.getNextStartedActivity());
 	}
 
 	@Test
 	public void testTitleShouldBeSet() throws Exception {
-		activity.setStep(choose_mode);
+		getWizardUi().setStep(choose_mode);
 		assertEquals(activity.getString(choose_mode.getTitleResId()), activity.getTitle().toString());
 	}
 
 	@Test
 	public void testNextButtonShouldBeShownAtTheEnd() throws Exception {
 		setLastStep();
-		assertEquals(VISIBLE, activity.getPrevButton().getVisibility());
-		assertEquals(VISIBLE, activity.getNextButton().getVisibility());
+		assertEquals(VISIBLE, getWizardUi().getPrevButton().getVisibility());
+		assertEquals(VISIBLE, getWizardUi().getNextButton().getVisibility());
 	}
 
-	private void setLastStep() {
-		activity.setStep(WizardStep.values()[WizardStep.values().length - 1]);
+	private void setLastStep() throws IllegalAccessException {
+		getWizardUi().setStep(CalculatorWizardStep.values()[CalculatorWizardStep.values().length - 1]);
 	}
 
 	@Test
 	public void testPrevButtonShouldNotBeShownAtTheStart() throws Exception {
 		setFirstStep();
-		assertEquals(VISIBLE, activity.getNextButton().getVisibility());
-		assertEquals(GONE, activity.getPrevButton().getVisibility());
+		assertEquals(VISIBLE, getWizardUi().getNextButton().getVisibility());
+		assertEquals(GONE, getWizardUi().getPrevButton().getVisibility());
 	}
 
-	private void setFirstStep() {
-		activity.setStep(WizardStep.values()[0]);
+	private void setFirstStep() throws IllegalAccessException {
+		getWizardUi().setStep(CalculatorWizardStep.values()[0]);
 	}
 
 	@Test
 	public void testShouldSaveLastWizardStateOnPause() throws Exception {
-		assertNull(Wizards.getLastSavedWizardStepName(activity.getFlow().getName()));
-		activity.setStep(WizardStep.drag_button);
+		final Wizard wizard = wizards.getWizard(getWizardUi().getWizard().getName());
+		assertNull(wizard.getLastSavedStepName());
+		getWizardUi().setStep(CalculatorWizardStep.drag_button);
 		activity.onPause();
-		assertEquals(WizardStep.drag_button.getName(), Wizards.getLastSavedWizardStepName(activity.getFlow().getName()));
+		assertEquals(CalculatorWizardStep.drag_button.getName(), wizard.getLastSavedStepName());
 	}
 
 	@Test
 	public void testShouldSaveFinishedIfLastStep() throws Exception {
-		assertFalse(Wizards.isWizardFinished(activity.getFlow().getName()));
+		final Wizard wizard = wizards.getWizard(getWizardUi().getWizard().getName());
+		assertFalse(wizard.isFinished());
 		setLastStep();
-		activity.finishFlow();
-		assertTrue(Wizards.isWizardFinished(activity.getFlow().getName()));
+		getWizardUi().finishWizard();
+		assertTrue(wizard.isFinished());
 	}
 
 	@Test
 	public void testShouldNotSaveFinishedIfNotLastStep() throws Exception {
-		assertFalse(Wizards.isWizardFinished(activity.getFlow().getName()));
+		final Wizard wizard = wizards.getWizard(getWizardUi().getWizard().getName());
+		assertFalse(wizard.isFinished());
 		setFirstStep();
-		activity.finishFlow();
-		assertFalse(Wizards.isWizardFinished(activity.getFlow().getName()));
+		getWizardUi().finishWizard();
+		assertFalse(wizard.isFinished());
 	}
 }

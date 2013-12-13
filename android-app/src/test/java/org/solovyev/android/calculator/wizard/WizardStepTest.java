@@ -48,9 +48,9 @@ import static org.solovyev.android.calculator.wizard.CalculatorMode.simple;
 import static org.solovyev.android.calculator.wizard.ChooseLayoutWizardStep.LAYOUT;
 import static org.solovyev.android.calculator.wizard.ChooseModeWizardStep.MODE;
 import static org.solovyev.android.calculator.wizard.OnScreenCalculatorWizardStep.ONSCREEN_CALCULATOR_ENABLED;
-import static org.solovyev.android.calculator.wizard.WizardStep.choose_layout;
-import static org.solovyev.android.calculator.wizard.WizardStep.choose_mode;
-import static org.solovyev.android.calculator.wizard.WizardStep.on_screen_calculator;
+import static org.solovyev.android.calculator.wizard.CalculatorWizardStep.choose_layout;
+import static org.solovyev.android.calculator.wizard.CalculatorWizardStep.choose_mode;
+import static org.solovyev.android.calculator.wizard.CalculatorWizardStep.on_screen_calculator;
 
 @RunWith(RobolectricTestRunner.class)
 public class WizardStepTest {
@@ -64,7 +64,7 @@ public class WizardStepTest {
 
 	@Test
 	public void testFragmentsShouldBeInstantiated() throws Exception {
-		for (WizardStep wizardStep : WizardStep.values()) {
+		for (CalculatorWizardStep wizardStep : CalculatorWizardStep.values()) {
 			Fragment.instantiate(Robolectric.application, wizardStep.getFragmentClass().getName());
 		}
 	}
@@ -109,7 +109,7 @@ public class WizardStepTest {
 		final ChooseModeWizardStep modeFragment = mock(ChooseModeWizardStep.class);
 		when(modeFragment.getSelectedMode()).thenReturn(mode);
 		when(modeFragment.getActivity()).thenReturn(activity);
-		WizardStep.choose_mode.onNext(modeFragment);
+		CalculatorWizardStep.choose_mode.onNext(modeFragment);
 	}
 
 	private void chooseLayout(CalculatorLayout layout) {
@@ -122,7 +122,7 @@ public class WizardStepTest {
 /*	@Config(qualifiers = "large")
 	@Test
 	public void testChooseLayoutShouldBeVisibleForTablet() throws Exception {
-		assertTrue(WizardStep.choose_layout.isVisible());
+		assertTrue(CalculatorWizardStep.choose_layout.isVisible());
 	}*/
 
 	@Config(qualifiers = "normal")
@@ -148,7 +148,7 @@ public class WizardStepTest {
 		final OnScreenCalculatorWizardStep f = mock(OnScreenCalculatorWizardStep.class);
 		when(f.isOnscreenCalculatorEnabled()).thenReturn(onscreenCalculatorEnabled);
 		when(f.getActivity()).thenReturn(activity);
-		WizardStep.on_screen_calculator.onNext(f);
+		CalculatorWizardStep.on_screen_calculator.onNext(f);
 	}
 
 	@SuppressWarnings("ConstantConditions")

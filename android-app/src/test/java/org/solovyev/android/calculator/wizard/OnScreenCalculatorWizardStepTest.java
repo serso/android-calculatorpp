@@ -34,6 +34,10 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.util.ActivityController;
 import org.solovyev.android.calculator.CalculatorPreferences;
+import org.solovyev.android.wizard.BaseWizardActivity;
+import org.solovyev.android.wizard.WizardUi;
+
+import java.lang.reflect.Field;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -50,11 +54,20 @@ public class OnScreenCalculatorWizardStepTest {
 
 	@Nonnull
 	private ActivityController<CalculatorWizardActivity> controller;
+	private Field uiField;
 
 	@Before
 	public void setUp() throws Exception {
+		uiField = BaseWizardActivity.class.getDeclaredField("ui");
+		uiField.setAccessible(true);
+
 		createActivity();
 		setFragment();
+	}
+
+	@Nonnull
+	private WizardUi getWizardUi() throws IllegalAccessException {
+		return (WizardUi) uiField.get(activity);
 	}
 
 	private void createActivity() {
@@ -62,10 +75,10 @@ public class OnScreenCalculatorWizardStepTest {
 		activity = controller.get();
 	}
 
-	private void setFragment() {
-		activity.setStep(WizardStep.on_screen_calculator);
+	private void setFragment() throws IllegalAccessException {
+		getWizardUi().setStep(CalculatorWizardStep.on_screen_calculator);
 		activity.getSupportFragmentManager().executePendingTransactions();
-		fragment = (OnScreenCalculatorWizardStep) activity.getSupportFragmentManager().findFragmentByTag(WizardStep.on_screen_calculator.getFragmentTag());
+		fragment = (OnScreenCalculatorWizardStep) activity.getSupportFragmentManager().findFragmentByTag(CalculatorWizardStep.on_screen_calculator.getFragmentTag());
 	}
 
 	@Test
@@ -89,7 +102,7 @@ public class OnScreenCalculatorWizardStepTest {
 		testShouldBeEqualsToIconState(false);
 	}
 
-	private void testShouldBeEqualsToIconState(boolean iconEnabled) {
+	private void testShouldBeEqualsToIconState(boolean iconEnabled) throws IllegalAccessException {
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(Robolectric.application);
 		CalculatorPreferences.OnscreenCalculator.showAppIcon.putPreference(preferences, iconEnabled);
 		createActivity();

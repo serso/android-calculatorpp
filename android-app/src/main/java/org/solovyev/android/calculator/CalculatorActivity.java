@@ -24,7 +24,6 @@ package org.solovyev.android.calculator;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
@@ -33,25 +32,22 @@ import android.preference.PreferenceManager;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewConfiguration;
-import android.view.Window;
+import android.view.*;
 import android.widget.Button;
 import android.widget.TextView;
-
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-
 import org.solovyev.android.Activities;
 import org.solovyev.android.Android;
 import org.solovyev.android.Threads;
 import org.solovyev.android.calculator.about.CalculatorReleaseNotesFragment;
 import org.solovyev.android.calculator.plot.CalculatorPlotActivity;
-import org.solovyev.android.calculator.wizard.CalculatorWizardActivity;
+import org.solovyev.android.calculator.wizard.CalculatorWizards;
 import org.solovyev.android.fragments.FragmentUtils;
 import org.solovyev.android.prefs.Preference;
+import org.solovyev.android.wizard.Wizard;
+import org.solovyev.android.wizard.WizardUi;
+import org.solovyev.android.wizard.Wizards;
 import org.solovyev.common.Objects;
 import org.solovyev.common.history.HistoryAction;
 import org.solovyev.common.text.Strings;
@@ -63,9 +59,8 @@ import static android.os.Build.VERSION_CODES.GINGERBREAD_MR1;
 import static android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH;
 import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
 import static org.solovyev.android.calculator.CalculatorPreferences.Gui.preventScreenFromFading;
-import static org.solovyev.android.calculator.wizard.Wizards.FIRST_TIME_WIZARD;
-import static org.solovyev.android.calculator.wizard.Wizards.isWizardFinished;
-import static org.solovyev.android.calculator.wizard.Wizards.isWizardStarted;
+import static org.solovyev.android.wizard.WizardUi.continueWizard;
+import static org.solovyev.android.wizard.WizardUi.startWizard;
 
 public class CalculatorActivity extends SherlockFragmentActivity implements SharedPreferences.OnSharedPreferenceChangeListener, CalculatorEventListener {
 
@@ -154,13 +149,15 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 		if (!CalculatorApplication.isMonkeyRunner(context)) {
 
 			boolean dialogShown = false;
-			if (isWizardStarted(FIRST_TIME_WIZARD) && !isWizardFinished(FIRST_TIME_WIZARD)) {
-				CalculatorWizardActivity.continueWizard(FIRST_TIME_WIZARD, context);
+			final Wizards wizards = CalculatorApplication.getInstance().getWizards();
+			final Wizard wizard = wizards.getWizard(CalculatorWizards.FIRST_TIME_WIZARD);
+			if (wizard.isStarted() && !wizard.isFinished()) {
+				continueWizard(wizards, wizard.getName(), context);
 				dialogShown = true;
 			} else {
 				if (Objects.areEqual(savedVersion, CalculatorPreferences.appVersion.getDefaultValue())) {
 					// new start
-					context.startActivity(new Intent(context, CalculatorWizardActivity.class));
+					startWizard(wizards, context);
 					dialogShown = true;
 				} else {
 					if (savedVersion < appVersion) {

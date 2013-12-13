@@ -32,5 +32,5 @@ Resultaat is niet afgerond en wordt gepresenteerd in de ingenieursnotatie, worde
   <string name="cpp_wizard_onscreen_description">Calculator in afzonderlijk venster kunt u berekeningen uitvoeren tijdens het gebruik van andere apps op uw apparaat </string>
   <string name="cpp_wizard_onscreen_checkbox">Calculator in afzonderlijk venster inschakelen (het tweede pictogram wordt weergegeven in de appslijst) </string>
   <string name="cpp_wizard_dragbutton_description">De sleepknop is een exclusieve functie van Calculator ++ die snel toegang tot de secundaire functies biedt </string>
-  <string name="cpp_wizard_finish_confirmation">Do you really want to finish wizard?</string>
+  <string name="acl_wizard_finish_confirmation">Do you really want to finish wizard?</string>
 </resources>

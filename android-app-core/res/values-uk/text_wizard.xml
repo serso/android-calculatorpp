@@ -31,5 +31,5 @@
   <string name="cpp_wizard_onscreen_description">Калькулятор в окремому вікні - дає змогу виконувати розрахунки під час використання інших програм на вашому пристрої</string>
   <string name="cpp_wizard_onscreen_checkbox">Увімкнути калькулятор в окремому вікні (додаткова іконка з\'явиться у списку програм)</string>
   <string name="cpp_wizard_dragbutton_description">Кнопки з розширеними функціями є винятковою рисою Калькулятор++, які забезпечують швидкий доступ до додаткових функцій</string>
-  <string name="cpp_wizard_finish_confirmation">Ви дійсно бажаєте вийти з майстра?</string>
+  <string name="acl_wizard_finish_confirmation">Ви дійсно бажаєте вийти з майстра?</string>
 </resources>

@@ -34,5 +34,5 @@ Wynik nie jest zaokrąglony i jest przedstawiony w postaci inżynierskiej, a dom
   <string name="cpp_wizard_onscreen_description">Kalkulator w osobnym oknie pozwoli Ci wykonywać obliczenia w trakcie korzystania z innych aplikacji na Twoim urządzeniu</string>
   <string name="cpp_wizard_onscreen_checkbox">Włącz kalkulator w osobnym oknie (pojawi się druga ikona na liście aplikacji)</string>
   <string name="cpp_wizard_dragbutton_description">Przeciąganie po przycisku jest wyjątkowym rozwiązaniem w programie Calculator++, które zapewnia szybki dostęp do alternatywnych funkcji</string>
-  <string name="cpp_wizard_finish_confirmation">Czy na pewno chcesz zakończyć konfigurację programu?</string>
+  <string name="acl_wizard_finish_confirmation">Czy na pewno chcesz zakończyć konfigurację programu?</string>
 </resources>

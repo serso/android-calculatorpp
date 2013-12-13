@@ -31,5 +31,5 @@
   <string name="cpp_wizard_onscreen_description">独立窗口模式的计算器可以让你在使用其他应用程序的同时进行计算。</string>
   <string name="cpp_wizard_onscreen_checkbox">启用独立窗口模式的计算器（在应用程序列表中将出现第二个图标）</string>
   <string name="cpp_wizard_dragbutton_description">拖动按钮是Calculator++的独创亮点，可以让你快速使用辅助功能。</string>
-  <string name="cpp_wizard_finish_confirmation">Do you really want to finish wizard?</string>
+  <string name="acl_wizard_finish_confirmation">Do you really want to finish wizard?</string>
 </resources>

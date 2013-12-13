@@ -44,6 +44,8 @@ import org.solovyev.android.calculator.onscreen.CalculatorOnscreenStartActivity;
 import org.solovyev.android.calculator.plot.AndroidCalculatorPlotter;
 import org.solovyev.android.calculator.plot.CalculatorPlotterImpl;
 import org.solovyev.android.calculator.view.EditorTextProcessor;
+import org.solovyev.android.calculator.wizard.CalculatorWizards;
+import org.solovyev.android.wizard.Wizards;
 import org.solovyev.common.msg.MessageType;
 
 import javax.annotation.Nonnull;
@@ -98,6 +100,11 @@ public class CalculatorApplication extends android.app.Application implements Sh
 	@Nonnull
 	private final CalculatorBroadcaster broadcaster = new CalculatorBroadcaster(this);
 
+	@Nonnull
+	private final Wizards wizards = new CalculatorWizards(this);
+
+	private final boolean withAds;
+
 	/*
 	**********************************************************************
 	*
@@ -106,8 +113,13 @@ public class CalculatorApplication extends android.app.Application implements Sh
 	**********************************************************************
 	*/
 
-	public CalculatorApplication() {
+	protected CalculatorApplication(boolean withAds) {
+		this.withAds = withAds;
 		instance = this;
+	}
+
+	public CalculatorApplication() {
+		this(true);
 	}
 
 
@@ -162,18 +174,20 @@ public class CalculatorApplication extends android.app.Application implements Sh
 
 		BillingDB.init(CalculatorApplication.this);
 
-		AdsController.getInstance().init(this, ADMOB_USER_ID, AD_FREE_PRODUCT_ID, new BillingController.IConfiguration() {
+		if (withAds) {
+			AdsController.getInstance().init(this, ADMOB_USER_ID, AD_FREE_PRODUCT_ID, new BillingController.IConfiguration() {
 
-			@Override
-			public byte[] getObfuscationSalt() {
-				return new byte[]{81, -114, 32, -127, -32, -104, -40, -15, -47, 57, -13, -41, -33, 67, -114, 7, -11, 53, 126, 82};
-			}
+				@Override
+				public byte[] getObfuscationSalt() {
+					return new byte[]{81, -114, 32, -127, -32, -104, -40, -15, -47, 57, -13, -41, -33, 67, -114, 7, -11, 53, 126, 82};
+				}
 
-			@Override
-			public String getPublicKey() {
-				return CalculatorSecurity.getPK();
-			}
-		});
+				@Override
+				public String getPublicKey() {
+					return CalculatorSecurity.getPK();
+				}
+			});
+		}
 
 		BillingController.registerObserver(new DefaultBillingObserver(this, null));
 
@@ -227,6 +241,11 @@ public class CalculatorApplication extends android.app.Application implements Sh
 	@Nonnull
 	public Handler getUiHandler() {
 		return uiHandler;
+	}
+
+	@Nonnull
+	public Wizards getWizards() {
+		return wizards;
 	}
 
 	/*

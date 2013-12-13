@@ -55,7 +55,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<acl.version>1.1.3</acl.version>
+		<acl.version>1.1.11</acl.version>
 		<jcl.version>1.0.6</jcl.version>
 		<jscl.version>1.0.7</jscl.version>
 	</properties>
@@ -203,9 +203,9 @@
 		<plugins>
 
 			<plugin>
-				<groupId>com.electriccloud</groupId>
-				<artifactId>javac2-maven-plugin</artifactId>
-				<version>1.0.2</version>
+				<groupId>org.solovyev.external.com.electriccloud</groupId>
+				<artifactId>org.solovyev.external.javac2-maven-plugin</artifactId>
+				<version>1.0.4</version>
 				<executions>
 					<execution>
 						<id>@Nonnull Instrumentation</id>

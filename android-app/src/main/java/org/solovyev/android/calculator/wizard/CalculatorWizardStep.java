@@ -43,13 +43,13 @@ import static org.solovyev.android.calculator.wizard.OnScreenCalculatorWizardSte
  * Date: 6/16/13
  * Time: 9:17 PM
  */
-enum WizardStep {
+enum CalculatorWizardStep implements org.solovyev.android.wizard.WizardStep {
 
 	welcome(WelcomeWizardStep.class, R.string.cpp_wizard_welcome_title, R.string.cpp_wizard_start),
 
 	choose_layout(ChooseLayoutWizardStep.class, R.string.cpp_wizard_layout_title) {
 		@Override
-		boolean onNext(@Nonnull Fragment f) {
+		public boolean onNext(@Nonnull Fragment f) {
 			final ChooseLayoutWizardStep fragment = (ChooseLayoutWizardStep) f;
 
 			final CalculatorLayout layout = fragment.getSelectedLayout();
@@ -60,7 +60,7 @@ enum WizardStep {
 
 		@Nullable
 		@Override
-		Bundle getFragmentArgs() {
+		public Bundle getFragmentArgs() {
 			final Bundle bundle = new Bundle();
 			bundle.putSerializable(LAYOUT, CalculatorLayout.fromGuiLayout(CalculatorPreferences.Gui.layout.getPreference(getPreferences())));
 			return bundle;
@@ -74,7 +74,7 @@ enum WizardStep {
 
 	choose_mode(ChooseModeWizardStep.class, R.string.cpp_wizard_mode_title) {
 		@Override
-		boolean onNext(@Nonnull Fragment f) {
+		public boolean onNext(@Nonnull Fragment f) {
 			final ChooseModeWizardStep fragment = (ChooseModeWizardStep) f;
 
 			final CalculatorMode mode = fragment.getSelectedMode();
@@ -85,7 +85,7 @@ enum WizardStep {
 
 		@Nullable
 		@Override
-		Bundle getFragmentArgs() {
+		public Bundle getFragmentArgs() {
 			final Bundle bundle = new Bundle();
 			bundle.putSerializable(MODE, CalculatorMode.fromGuiLayout(CalculatorPreferences.Gui.layout.getPreference(getPreferences())));
 			return bundle;
@@ -94,7 +94,7 @@ enum WizardStep {
 
 	on_screen_calculator(OnScreenCalculatorWizardStep.class, R.string.cpp_wizard_onscreen_calculator_title) {
 		@Override
-		boolean onNext(@Nonnull Fragment f) {
+		public boolean onNext(@Nonnull Fragment f) {
 			final OnScreenCalculatorWizardStep fragment = (OnScreenCalculatorWizardStep) f;
 
 			CalculatorPreferences.OnscreenCalculator.showAppIcon.putPreference(getPreferences(), fragment.isOnscreenCalculatorEnabled());
@@ -104,7 +104,7 @@ enum WizardStep {
 
 		@Nullable
 		@Override
-		Bundle getFragmentArgs() {
+		public Bundle getFragmentArgs() {
 			final Bundle bundle = new Bundle();
 			bundle.putSerializable(ONSCREEN_CALCULATOR_ENABLED, CalculatorPreferences.OnscreenCalculator.showAppIcon.getPreference(getPreferences()));
 			return bundle;
@@ -121,49 +121,59 @@ enum WizardStep {
 	private final int titleResId;
 	private final int nextButtonTitleResId;
 
-	WizardStep(@Nonnull Class<? extends Fragment> fragmentClass, int titleResId) {
+	CalculatorWizardStep(@Nonnull Class<? extends Fragment> fragmentClass, int titleResId) {
 		this(fragmentClass, titleResId, R.string.cpp_wizard_next);
 	}
-	WizardStep(@Nonnull Class<? extends Fragment> fragmentClass, int titleResId, int nextButtonTitleResId) {
+	CalculatorWizardStep(@Nonnull Class<? extends Fragment> fragmentClass, int titleResId, int nextButtonTitleResId) {
 		this.fragmentClass = fragmentClass;
 		this.titleResId = titleResId;
 		this.nextButtonTitleResId = nextButtonTitleResId;
 	}
 
+	@Nonnull
+	@Override
 	public String getFragmentTag() {
 		return name();
 	}
 
+	@Override
 	@Nonnull
-	Class<? extends Fragment> getFragmentClass() {
+	public Class<? extends Fragment> getFragmentClass() {
 		return fragmentClass;
 	}
 
-	int getTitleResId() {
+	@Override
+	public int getTitleResId() {
 		return titleResId;
 	}
 
-	int getNextButtonTitleResId() {
+	@Override
+	public int getNextButtonTitleResId() {
 		return nextButtonTitleResId;
 	}
 
-	boolean onNext(@Nonnull Fragment fragment) {
+	@Override
+	public boolean onNext(@Nonnull Fragment fragment) {
 		return true;
 	}
 
-	boolean onPrev(@Nonnull Fragment fragment) {
+	@Override
+	public boolean onPrev(@Nonnull Fragment fragment) {
 		return true;
 	}
 
+	@Override
 	@Nullable
-	Bundle getFragmentArgs() {
+	public Bundle getFragmentArgs() {
 		return null;
 	}
 
+	@Override
 	public boolean isVisible() {
 		return true;
 	}
 
+	@Override
 	@Nonnull
 	public String getName() {
 		return name();

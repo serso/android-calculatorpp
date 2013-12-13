@@ -42,15 +42,17 @@ import org.solovyev.android.App;
 import org.solovyev.android.ads.AdsController;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
+import org.solovyev.android.calculator.wizard.CalculatorWizards;
 import org.solovyev.android.msg.AndroidMessage;
 import org.solovyev.android.view.VibratorContainer;
+import org.solovyev.android.wizard.WizardUi;
 import org.solovyev.common.msg.Message;
 import org.solovyev.common.msg.MessageType;
 
 import javax.annotation.Nonnull;
 
-import static org.solovyev.android.calculator.wizard.CalculatorWizardActivity.startWizard;
-import static org.solovyev.android.calculator.wizard.Wizards.DEFAULT_WIZARD_FLOW;
+import static org.solovyev.android.calculator.wizard.CalculatorWizards.DEFAULT_WIZARD_FLOW;
+import static org.solovyev.android.wizard.WizardUi.startWizard;
 
 /**
  * User: serso
@@ -79,7 +81,7 @@ public class CalculatorPreferencesActivity extends SherlockPreferenceActivity im
 		restartWizardPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 			@Override
 			public boolean onPreferenceClick(Preference preference) {
-				startWizard(DEFAULT_WIZARD_FLOW, CalculatorPreferencesActivity.this);
+				startWizard(CalculatorApplication.getInstance().getWizards(), DEFAULT_WIZARD_FLOW, CalculatorPreferencesActivity.this);
 				return true;
 			}
 		});
