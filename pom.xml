@@ -44,6 +44,22 @@
 		<tag>release-2.0.1</tag>
 	</scm>
 
+	<pluginRepositories>
+		<pluginRepository>
+			<id>in-project-repository</id>
+			<name>In Project Repo</name>
+			<url>file://${project.basedir}/maven-repository</url>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<repositories>
+		<repository>
+			<id>in-project-repository</id>
+			<name>In Project Repo</name>
+			<url>file://${project.basedir}/maven-repository</url>
+		</repository>
+	</repositories>
+
 	<modules>
 		<module>android-app</module>
 		<module>android-app-core</module>
@@ -255,7 +271,7 @@
 				<plugin>
 					<groupId>com.jayway.maven.plugins.android.generation2</groupId>
 					<artifactId>android-maven-plugin</artifactId>
-					<version>3.6.0</version>
+					<version>3.8.0</version>
 					<configuration>
 
 						<sourceDirectories>
