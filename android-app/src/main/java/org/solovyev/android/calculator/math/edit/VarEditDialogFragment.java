@@ -22,7 +22,6 @@
 
 package org.solovyev.android.calculator.math.edit;
 
-import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
@@ -31,33 +30,33 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
+import android.view.ViewPropertyAnimator;
+import android.widget.*;
 import jscl.math.function.IConstant;
-
-import java.util.Arrays;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import org.solovyev.android.Views;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.model.Var;
 import org.solovyev.android.sherlock.AndroidSherlockUtils;
 import org.solovyev.common.text.Strings;
 
-import static android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 
-/**
- * User: Solovyev_S
- * Date: 01.10.12
- * Time: 17:41
- */
+import static android.graphics.Paint.UNDERLINE_TEXT_FLAG;
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+import static android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE;
+import static android.widget.LinearLayout.HORIZONTAL;
+
 public class VarEditDialogFragment extends DialogFragment implements CalculatorEventListener {
 
-	private final static List<Character> acceptableChars = Arrays.asList(Strings.toObjects("1234567890abcdefghijklmnopqrstuvwxyzйцукенгшщзхъфывапролджэячсмитьбюёαβγδεζηθικλμνξοπρστυφχψω_".toCharArray()));
+	private final static String greekAlphabet = "αβγδεζηθικλμνξοπρστυφχψω";
+	private final static List<Character> acceptableChars = Arrays.asList(Strings.toObjects(("1234567890abcdefghijklmnopqrstuvwxyzйцукенгшщзхъфывапролджэячсмитьбюё_" + greekAlphabet).toCharArray()));
 
 	@Nonnull
 	private final Input input;
@@ -111,7 +110,7 @@ public class VarEditDialogFragment extends DialogFragment implements CalculatorE
 			public void afterTextChanged(Editable s) {
 				for (int i = 0; i < s.length(); i++) {
 					char c = s.charAt(i);
-					if (!acceptableChars.contains(c)) {
+					if (!acceptableChars.contains(Character.toLowerCase(c))) {
 						s.delete(i, i + 1);
 						Toast.makeText(getActivity(), String.format(errorMsg, c), Toast.LENGTH_SHORT).show();
 					}
@@ -119,8 +118,7 @@ public class VarEditDialogFragment extends DialogFragment implements CalculatorE
 			}
 		});
 
-		processGreekButtons(root, editName, R.id.var_edit_greek_buttons_1);
-		processGreekButtons(root, editName, R.id.var_edit_greek_buttons_2);
+		fillGreekKeyboard(root, editName);
 
 		// show soft keyboard automatically
 		editName.requestFocus();
@@ -162,19 +160,66 @@ public class VarEditDialogFragment extends DialogFragment implements CalculatorE
 		}
 	}
 
-	private void processGreekButtons(@Nonnull View root, @Nonnull final EditText editName, int greekButtonsViewId) {
-		final ViewGroup greekButtons = (ViewGroup) root.findViewById(greekButtonsViewId);
-		Views.processViewsOfType(greekButtons, Button.class, new Views.ViewProcessor<Button>() {
+	private void fillGreekKeyboard(View root, final EditText editName) {
+		final TextView greekKeyboardToggle = (TextView) root.findViewById(R.id.var_toggle_greek_keyboard);
+		final ViewGroup greekKeyboard = (ViewGroup) root.findViewById(R.id.var_greek_keyboard);
+		greekKeyboardToggle.setPaintFlags(greekKeyboardToggle.getPaintFlags() | UNDERLINE_TEXT_FLAG);
+		greekKeyboardToggle.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void process(@Nonnull final Button greekButton) {
-				greekButton.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						editName.append(greekButton.getText());
-					}
-				});
+			public void onClick(View v) {
+				if (greekKeyboard.getVisibility() == VISIBLE) {
+					greekKeyboard.setVisibility(GONE);
+					greekKeyboardToggle.setText(R.string.cpp_var_show_greek_keyboard);
+				} else {
+					greekKeyboard.setVisibility(VISIBLE);
+					greekKeyboardToggle.setText(R.string.cpp_var_hide_greek_keyboard);
+				}
 			}
 		});
+		LinearLayout keyboardRow = null;
+		final View.OnClickListener buttonOnClickListener = new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				assert view instanceof Button;
+				editName.append(((Button) view).getText());
+			}
+		};
+		for (int i = 0; i < greekAlphabet.length(); i++) {
+			if (i % 5 == 0) {
+				keyboardRow = new LinearLayout(getActivity());
+				keyboardRow.setOrientation(HORIZONTAL);
+				greekKeyboard.addView(keyboardRow, new ViewGroup.LayoutParams(MATCH_PARENT, WRAP_CONTENT));
+			}
+			final Button button = new Button(getActivity());
+			button.setText(String.valueOf(greekAlphabet.charAt(i)));
+			button.setOnClickListener(buttonOnClickListener);
+			keyboardRow.addView(button, new LinearLayout.LayoutParams(0, WRAP_CONTENT, 1F));
+		}
+		final Button button = new Button(getActivity());
+		button.setText("↑");
+		button.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				final boolean upperCase = button.getText().equals("↑");
+				Views.processViewsOfType(greekKeyboard, Button.class, new Views.ViewProcessor<Button>() {
+					@Override
+					public void process(@Nonnull Button key) {
+						final String letter = key.getText().toString();
+						if (upperCase) {
+							key.setText(letter.toUpperCase(Locale.US));
+						} else {
+							key.setText(letter.toLowerCase(Locale.US));
+						}
+					}
+				});
+				if (upperCase) {
+					button.setText("↓");
+				} else {
+					button.setText("↑");
+				}
+			}
+		});
+		keyboardRow.addView(button, new LinearLayout.LayoutParams(0, WRAP_CONTENT, 1F));
 	}
 
 	@Override

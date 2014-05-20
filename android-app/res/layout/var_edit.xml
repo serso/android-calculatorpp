@@ -46,68 +46,20 @@
 				style="@style/cpp_default_text_size"
 				a:inputType="text"/>
 
+		<TextView
+			a:id="@+id/var_toggle_greek_keyboard"
+			a:text="@string/cpp_var_show_greek_keyboard"
+			a:layout_height="wrap_content"
+			a:layout_width="match_parent"
+			a:padding="6dp"
+			style="@style/cpp_default_text_size" />
+
 		<LinearLayout
-				a:id="@+id/var_edit_greek_buttons_1"
-				a:layout_height="wrap_content"
-				a:layout_width="match_parent"
-				a:orientation="horizontal">
-
-			<Button a:text="α"
-					a:layout_height="wrap_content"
-					a:layout_width="0dp"
-					a:layout_weight="1"/>
-
-			<Button a:text="β"
-					a:layout_height="wrap_content"
-					a:layout_width="0dp"
-					a:layout_weight="1"/>
-
-			<Button a:text="γ"
-					a:layout_height="wrap_content"
-					a:layout_width="0dp"
-					a:layout_weight="1"/>
-
-			<Button a:text="δ"
-					a:layout_height="wrap_content"
-					a:layout_width="0dp"
-					a:layout_weight="1"/>
-
-			<Button a:text="ε"
-					a:layout_height="wrap_content"
-					a:layout_width="0dp"
-					a:layout_weight="1"/>
-
-		</LinearLayout>
-
-		<LinearLayout a:id="@+id/var_edit_greek_buttons_2"
-					  a:layout_height="wrap_content"
-					  a:layout_width="match_parent"
-					  a:orientation="horizontal">
-			<Button a:text="θ"
-					a:layout_height="wrap_content"
-					a:layout_width="0dp"
-					a:layout_weight="1"/>
-
-			<Button a:text="λ"
-					a:layout_height="wrap_content"
-					a:layout_width="0dp"
-					a:layout_weight="1"/>
-
-			<Button a:text="μ"
-					a:layout_height="wrap_content"
-					a:layout_width="0dp"
-					a:layout_weight="1"/>
-
-			<Button a:text="τ"
-					a:layout_height="wrap_content"
-					a:layout_width="0dp"
-					a:layout_weight="1"/>
-
-			<Button a:text="φ"
-					a:layout_height="wrap_content"
-					a:layout_width="0dp"
-					a:layout_weight="1"/>
-		</LinearLayout>
+			a:id="@+id/var_greek_keyboard"
+			a:visibility="gone"
+			a:layout_width="match_parent"
+			a:layout_height="wrap_content"
+			a:orientation="vertical"/>
 
 		<TextView
 				a:layout_height="wrap_content"
