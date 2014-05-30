@@ -27,6 +27,6 @@
 	<item
 			a:id="@+id/menu_functions_add_function"
 			a:title="@string/c_add"
-			a:icon="@drawable/kb_plus"
+			a:icon="@drawable/ab_plus"
 			a:showAsAction="always"/>
 </menu>
