@@ -27,7 +27,7 @@
 	<item
 			a:id="@+id/menu_history_fullscreen"
 			a:title="@string/cpp_fullscreen"
-			a:icon="@drawable/kb_expand"
+			a:icon="@drawable/ab_expand"
 			a:showAsAction="always"/>
 
 	<item

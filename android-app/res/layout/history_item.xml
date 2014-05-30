@@ -51,7 +51,7 @@
 			   a:layout_gravity="center_vertical"
 			   a:scaleType="centerInside"
 			   a:padding="6dp"
-			   a:src="@drawable/kb_disk"
+			   a:src="@drawable/ab_disk"
 			   a:visibility="invisible"
 			   a:layout_width="wrap_content"
 			   a:layout_height="match_parent"/>
