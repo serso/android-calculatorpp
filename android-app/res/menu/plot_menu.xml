@@ -27,19 +27,19 @@
 	<item
 			a:id="@+id/menu_plot_2d"
 			a:title="@string/cpp_plot_2d"
-			a:icon="@drawable/kb_stats"
+			a:icon="@drawable/ab_stats"
 			a:showAsAction="always"/>
 
 	<item
 			a:id="@+id/menu_plot_3d"
 			a:title="@string/cpp_plot_3d"
-			a:icon="@drawable/kb_stats_3d"
+			a:icon="@drawable/ab_stats_3d"
 			a:showAsAction="always"/>
 
 	<item
 			a:id="@+id/menu_plot_fullscreen"
 			a:title="@string/cpp_fullscreen"
-			a:icon="@drawable/kb_expand"
+			a:icon="@drawable/ab_expand"
 			a:showAsAction="always"/>
 
 	<item
@@ -51,19 +51,19 @@
 	<item
 			a:id="@+id/menu_plot_functions"
 			a:title="@string/cpp_plot_functions"
-			a:icon="@drawable/kb_menu"
+			a:icon="@drawable/ab_menu"
 			a:showAsAction="always"/>
 
 	<item
 			a:id="@+id/menu_plot_schreeshot"
 			a:title="@string/cpp_plot_screenshot"
-			a:icon="@drawable/kb_disk"
+			a:icon="@drawable/ab_disk"
 			a:showAsAction="always"/>
 
 	<item
 			a:id="@+id/menu_plot_settings"
 			a:title="@string/c_settings"
-			a:icon="@drawable/kb_settings"
+			a:icon="@drawable/ab_settings"
 			a:showAsAction="ifRoom"/>
 
 </menu>
