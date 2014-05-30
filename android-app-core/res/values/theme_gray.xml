@@ -63,6 +63,8 @@
 		<item name="android:layout_width">match_parent</item>
 		<item name="android:layout_weight">1</item>
 		<item name="android:fadingEdge">none</item>
+		<item name="android:paddingLeft">@dimen/cpp_pane_padding</item>
+		<item name="android:paddingRight">@dimen/cpp_pane_padding</item>
 		<item name="android:layout_marginBottom">@dimen/cpp_pane_padding</item>
 	</style>
 
