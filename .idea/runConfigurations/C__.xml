@@ -17,6 +17,8 @@
     <option name="CLEAR_LOGCAT" value="false" />
     <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
     <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
+    <RunnerSettings RunnerId="AndroidDebugRunner" />
+    <ConfigurationWrapper RunnerId="AndroidDebugRunner" />
     <method />
   </configuration>
 </component>
