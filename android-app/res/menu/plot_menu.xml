@@ -45,7 +45,7 @@
 	<item
 			a:id="@+id/menu_plot_range"
 			a:title="@string/cpp_plot_range"
-			a:icon="@drawable/kb_range"
+			a:icon="@drawable/ab_range"
 			a:showAsAction="always"/>
 
 	<item
