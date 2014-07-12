@@ -75,7 +75,7 @@
   <string name="c_numeral_bases_summary">Define el sistema de numeración por defecto para todos los números de
 		entrada.
 	</string>
-  <string name="p_dec">Secimal</string>
+  <string name="p_dec">Decimal</string>
   <string name="p_hex">Hexadecimal</string>
   <string name="p_oct">Octal</string>
   <string name="p_bin">Binario</string>
