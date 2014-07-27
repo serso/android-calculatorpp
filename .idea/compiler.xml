@@ -22,12 +22,18 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
+        <module name="android-app" />
+        <module name="android-app-core" />
+        <module name="android-app-onscreen" />
+        <module name="android-app-test" />
+        <module name="android-app-widget" />
         <module name="calculatorpp-android-app" />
         <module name="calculatorpp-android-app-core" />
         <module name="calculatorpp-android-app-onscreen" />
         <module name="calculatorpp-android-app-test" />
         <module name="calculatorpp-android-app-widget" />
         <module name="calculatorpp-core" />
+        <module name="core" />
       </profile>
     </annotationProcessing>
   </component>

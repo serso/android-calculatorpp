@@ -46,7 +46,6 @@ import org.solovyev.android.calculator.wizard.CalculatorWizards;
 import org.solovyev.android.fragments.FragmentUtils;
 import org.solovyev.android.prefs.Preference;
 import org.solovyev.android.wizard.Wizard;
-import org.solovyev.android.wizard.WizardUi;
 import org.solovyev.android.wizard.Wizards;
 import org.solovyev.common.Objects;
 import org.solovyev.common.history.HistoryAction;
@@ -110,7 +109,9 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 		FragmentUtils.createFragment(this, CalculatorKeyboardFragment.class, R.id.keyboardContainer, "keyboard");
 
 		this.useBackAsPrev = CalculatorPreferences.Gui.usePrevAsBack.getPreference(preferences);
-		firstTimeInit(preferences, this);
+		if (savedInstanceState == null) {
+			firstTimeInit(preferences, this);
+		}
 
 		toggleOrientationChange(preferences);
 
