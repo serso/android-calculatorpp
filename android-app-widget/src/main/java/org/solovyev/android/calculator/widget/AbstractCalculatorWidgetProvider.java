@@ -28,6 +28,9 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.os.Build;
+import android.os.Bundle;
 import android.text.Html;
 import android.widget.RemoteViews;
 import org.solovyev.android.calculator.*;
@@ -48,6 +51,9 @@ import static org.solovyev.android.calculator.CalculatorReceiver.newButtonClicke
 abstract class AbstractCalculatorWidgetProvider extends AppWidgetProvider {
 
 	private static final String TAG = "Calculator++ Widget";
+	private static final int WIDGET_CATEGORY_KEYGUARD = 2;
+	private static final String OPTION_APPWIDGET_HOST_CATEGORY = "appWidgetCategory";
+	private static final String ACTION_APPWIDGET_OPTIONS_CHANGED = "android.appwidget.action.APPWIDGET_UPDATE_OPTIONS";
 
 	/*
 	**********************************************************************
@@ -119,8 +125,9 @@ abstract class AbstractCalculatorWidgetProvider extends AppWidgetProvider {
 		final CalculatorEditorViewState editorState = Locator.getInstance().getEditor().getViewState();
 		final CalculatorDisplayViewState displayState = Locator.getInstance().getDisplay().getViewState();
 
+		final Resources resources = context.getResources();
 		for (int appWidgetId : appWidgetIds) {
-			final RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
+			final RemoteViews views = new RemoteViews(context.getPackageName(), getLayout(appWidgetManager, appWidgetId, resources));
 
 			for (CalculatorButton button : CalculatorButton.values()) {
 				final PendingIntent pendingIntent = PendingIntent.getBroadcast(context, button.getButtonId(), newButtonClickedIntent(context, button), PendingIntent.FLAG_UPDATE_CURRENT);
@@ -138,6 +145,33 @@ abstract class AbstractCalculatorWidgetProvider extends AppWidgetProvider {
 		}
 	}
 
+	private int getLayout(@Nonnull AppWidgetManager appWidgetManager, int appWidgetId, @Nonnull Resources resources) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+			final Bundle options = appWidgetManager.getAppWidgetOptions(appWidgetId);
+
+			if (options != null) {
+				// Get the value of OPTION_APPWIDGET_HOST_CATEGORY
+				final int category = options.getInt(OPTION_APPWIDGET_HOST_CATEGORY, -1);
+
+				if (category != -1) {
+					// If the value is WIDGET_CATEGORY_KEYGUARD, it's a lockscreen widget
+					final boolean keyguard = category == WIDGET_CATEGORY_KEYGUARD;
+					if(keyguard) {
+						final int minHeightDp = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT, -1);
+						final int minHeight = resources.getDimensionPixelSize(R.dimen.min_expanded_height_lock_screen);
+						final boolean expanded = (minHeightDp >= minHeight / resources.getDisplayMetrics().density);
+						if (expanded) {
+							return R.layout.widget_layout_lockscreen;
+						} else {
+							return R.layout.widget_layout_lockscreen_collapsed;
+						}
+					}
+				}
+			}
+		}
+		return R.layout.widget_layout;
+	}
+
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		super.onReceive(context, intent);
@@ -148,6 +182,8 @@ abstract class AbstractCalculatorWidgetProvider extends AppWidgetProvider {
 		} else if (ACTION_EDITOR_STATE_CHANGED.equals(action)) {
 			updateState(context);
 		} else if (ACTION_DISPLAY_STATE_CHANGED.equals(action)) {
+			updateState(context);
+		} else if (ACTION_APPWIDGET_OPTIONS_CHANGED.equals(action)) {
 			updateState(context);
 		}
 	}

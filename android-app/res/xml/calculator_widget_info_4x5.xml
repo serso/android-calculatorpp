@@ -26,6 +26,8 @@
 					a:minWidth="250dp"
 					a:minHeight="320dp"
 					a:initialLayout="@layout/widget_layout"
+					a:initialKeyguardLayout="@layout/widget_layout_lockscreen"
+					a:widgetCategory="home_screen|keyguard"
 					a:previewImage="@drawable/widget_preview"
 					a:resizeMode="horizontal|vertical">
 
