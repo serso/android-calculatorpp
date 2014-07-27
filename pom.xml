@@ -71,8 +71,8 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<acl.version>1.1.11</acl.version>
-		<jcl.version>1.0.6</jcl.version>
+		<acl.version>1.1.15</acl.version>
+		<jcl.version>1.0.7</jcl.version>
 		<jscl.version>1.0.7</jscl.version>
 	</properties>
 

@@ -28,12 +28,11 @@ import android.graphics.Paint;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import jscl.AngleUnit;
-
-import javax.annotation.Nonnull;
-
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.core.R;
 import org.solovyev.android.view.drag.DirectionDragButton;
+
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -51,16 +50,16 @@ public class AngleUnitsButton extends DirectionDragButton {
 	}
 
 	@Override
-	protected void initDirectionTextPaint(@Nonnull Paint basePaint,
-										  @Nonnull DirectionTextData directionTextData,
-										  @Nonnull Resources resources) {
-		super.initDirectionTextPaint(basePaint, directionTextData, resources);
+	protected void initDirectionTextPaint(@Nonnull Paint basePaint, @Nonnull DirectionTextData textData) {
+		super.initDirectionTextPaint(basePaint, textData);
 
-		final TextPaint directionTextPaint = directionTextData.getPaint();
-		final int color = getDirectionTextColor(directionTextData.getText());
-		directionTextPaint.setColor(color);
-		if (!isCurrentAngleUnits(directionTextData.getText())) {
-			directionTextPaint.setAlpha(getDirectionTextAlpha());
+		final String text = textData.getText();
+		final TextPaint paint = textData.getPaint();
+
+		final int color = getDirectionTextColor(text);
+		paint.setColor(color);
+		if (!isCurrentAngleUnits(text)) {
+			paint.setAlpha(directionTextAlpha);
 		}
 	}
 

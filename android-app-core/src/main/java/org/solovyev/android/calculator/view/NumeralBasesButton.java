@@ -23,17 +23,15 @@
 package org.solovyev.android.calculator.view;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Paint;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import jscl.NumeralBase;
-
-import javax.annotation.Nonnull;
-
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.core.R;
 import org.solovyev.android.view.drag.DirectionDragButton;
+
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -51,18 +49,16 @@ public class NumeralBasesButton extends DirectionDragButton {
 	}
 
 	@Override
-	protected void initDirectionTextPaint(@Nonnull Paint basePaint,
-										  @Nonnull DirectionTextData directionTextData,
-										  @Nonnull Resources resources) {
-		super.initDirectionTextPaint(basePaint, directionTextData, resources);
+	protected void initDirectionTextPaint(@Nonnull Paint basePaint, @Nonnull DirectionTextData textData) {
+		super.initDirectionTextPaint(basePaint, textData);
 
-		final TextPaint directionTextPaint = directionTextData.getPaint();
+		final String text = textData.getText();
+		final TextPaint paint = textData.getPaint();
 
-		final int color = getDirectionTextColor(directionTextData.getText());
-		directionTextPaint.setColor(color);
-
-		if (!isCurrentNumberBase(directionTextData.getText())) {
-			directionTextPaint.setAlpha(getDirectionTextAlpha());
+		final int color = getDirectionTextColor(text);
+		paint.setColor(color);
+		if (!isCurrentNumberBase(text)) {
+			paint.setAlpha(directionTextAlpha);
 		}
 	}
 
