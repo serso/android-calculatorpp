@@ -28,7 +28,7 @@
 			layout="@layout/widget_display"
 			a:layout_weight="5"
 			a:layout_width="0dp"
-			a:layout_height="wrap_content" />
+			a:layout_height="match_parent" />
 
 	</LinearLayout>
 
