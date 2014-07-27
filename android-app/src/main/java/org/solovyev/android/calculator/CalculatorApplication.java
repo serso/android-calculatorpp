@@ -25,6 +25,7 @@ package org.solovyev.android.calculator;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Typeface;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -104,6 +105,9 @@ public class CalculatorApplication extends android.app.Application implements Sh
 	private final Wizards wizards = new CalculatorWizards(this);
 
 	private final boolean withAds;
+
+	@Nonnull
+	private Typeface typeFace;
 
 	/*
 	**********************************************************************
@@ -211,6 +215,8 @@ public class CalculatorApplication extends android.app.Application implements Sh
 
 		Locator.getInstance().getLogger().debug(TAG, "Application started!");
 		Locator.getInstance().getNotifier().showDebugMessage(TAG, "Application started!");
+
+		typeFace = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Regular.ttf");
 	}
 
 	private void setTheme(@Nonnull SharedPreferences preferences) {
@@ -246,6 +252,11 @@ public class CalculatorApplication extends android.app.Application implements Sh
 	@Nonnull
 	public Wizards getWizards() {
 		return wizards;
+	}
+
+	@Nonnull
+	public Typeface getTypeFace() {
+		return typeFace;
 	}
 
 	/*

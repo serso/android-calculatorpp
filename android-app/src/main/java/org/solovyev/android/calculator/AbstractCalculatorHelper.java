@@ -26,15 +26,14 @@ import android.app.Activity;
 import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
+import android.widget.TextView;
+import org.solovyev.android.Views;
 import org.solovyev.android.calculator.history.CalculatorHistoryState;
 import org.solovyev.android.calculator.view.AngleUnitsButton;
 import org.solovyev.android.calculator.view.NumeralBasesButton;
@@ -45,6 +44,8 @@ import org.solovyev.common.listeners.JListeners;
 import org.solovyev.common.listeners.Listeners;
 import org.solovyev.common.math.Point2d;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -208,6 +209,15 @@ public abstract class AbstractCalculatorHelper implements SharedPreferences.OnSh
 		CalculatorButtons.toggleEqualsButton(preferences, activity);
 		CalculatorButtons.initMultiplicationButton(root);
 		NumeralBaseButtons.toggleNumericDigits(activity, preferences);
+
+		// some devices ship own fonts which causes issues with rendering. Let's use our own font for all text views
+		final Typeface typeFace = CalculatorApplication.getInstance().getTypeFace();
+		Views.processViewsOfType(root, TextView.class, new Views.ViewProcessor<TextView>() {
+			@Override
+			public void process(@Nonnull TextView view) {
+				view.setTypeface(typeFace);
+			}
+		});
 	}
 
 	private void toggleButtonDirectionText(@Nonnull View root, int id, boolean showDirectionText, @Nonnull DragDirection... dragDirections) {
