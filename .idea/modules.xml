@@ -30,8 +30,6 @@
       <module fileurl="file://$PROJECT_DIR$/android-app/gen-external-apklibs/~apklib-org.solovyev.android_android-common-tasks_1.1.15.iml" filepath="$PROJECT_DIR$/android-app/gen-external-apklibs/~apklib-org.solovyev.android_android-common-tasks_1.1.15.iml" />
       <module fileurl="file://$PROJECT_DIR$/android-app/gen-external-apklibs/~apklib-org.solovyev.android_android-common-views_1.1.15.iml" filepath="$PROJECT_DIR$/android-app/gen-external-apklibs/~apklib-org.solovyev.android_android-common-views_1.1.15.iml" />
       <module fileurl="file://$PROJECT_DIR$/android-app/gen-external-apklibs/~apklib-org.solovyev.android_android-common-wizard_1.1.15.iml" filepath="$PROJECT_DIR$/android-app/gen-external-apklibs/~apklib-org.solovyev.android_android-common-wizard_1.1.15.iml" />
-      <module fileurl="file://$PROJECT_DIR$/android-app/gen-external-apklibs/~apklib-org.solovyev.android_calculatorpp-android-app-core_2.0.3-SNAPSHOT.iml" filepath="$PROJECT_DIR$/android-app/gen-external-apklibs/~apklib-org.solovyev.android_calculatorpp-android-app-core_2.0.3-SNAPSHOT.iml" />
-      <module fileurl="file://$PROJECT_DIR$/android-app/gen-external-apklibs/~apklib-org.solovyev.android_calculatorpp-android-app-widget_2.0.3-SNAPSHOT.iml" filepath="$PROJECT_DIR$/android-app/gen-external-apklibs/~apklib-org.solovyev.android_calculatorpp-android-app-widget_2.0.3-SNAPSHOT.iml" />
     </modules>
   </component>
 </project>
