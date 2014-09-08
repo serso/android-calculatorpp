@@ -124,7 +124,7 @@
         <entry key="InfiniteRecursiveLoop" value="true" />
         <entry key="InheritanceUnsafeGetResource" value="true" />
         <entry key="InitializationChain" value="true" />
-        <entry key="InitializeNonnullFieldsInConstructor" value="true" />
+        <entry key="InitializeNonnullFieldsInConstructor" value="false" />
         <entry key="InstantiateStaticClass" value="true" />
         <entry key="IntCast2LongAsInstant" value="true" />
         <entry key="InvalidJUnitTest" value="true" />

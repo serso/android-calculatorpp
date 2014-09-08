@@ -23,12 +23,10 @@
 package org.solovyev.android.calculator;
 
 import jscl.math.operator.Operator;
-
-import javax.annotation.Nonnull;
-
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathRegistry;
 
+import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -82,7 +80,7 @@ public class CalculatorPostfixFunctionsRegistry extends AbstractCalculatorMathRe
 	@Nonnull
 	@Override
 	protected JBuilder<? extends Operator> createBuilder(@Nonnull MathPersistenceEntity entity) {
-		return null;  //To change body of implemented methods use File | Settings | File Templates.
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -92,12 +90,12 @@ public class CalculatorPostfixFunctionsRegistry extends AbstractCalculatorMathRe
 
 	@Override
 	protected MathPersistenceEntity transform(@Nonnull Operator entity) {
-		return null;  //To change body of implemented methods use File | Settings | File Templates.
+		return null;
 	}
 
 	@Nonnull
 	@Override
 	protected MathEntityPersistenceContainer<MathPersistenceEntity> createPersistenceContainer() {
-		return null;  //To change body of implemented methods use File | Settings | File Templates.
+        throw new UnsupportedOperationException();
 	}
 }
