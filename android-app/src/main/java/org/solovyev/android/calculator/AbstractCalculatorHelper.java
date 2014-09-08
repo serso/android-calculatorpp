@@ -38,6 +38,7 @@ import org.solovyev.android.calculator.history.CalculatorHistoryState;
 import org.solovyev.android.calculator.view.AngleUnitsButton;
 import org.solovyev.android.calculator.view.NumeralBasesButton;
 import org.solovyev.android.calculator.view.OnDragListenerVibrator;
+import org.solovyev.android.calculator.view.ViewsCache;
 import org.solovyev.android.history.HistoryDragProcessor;
 import org.solovyev.android.view.drag.*;
 import org.solovyev.common.listeners.JListeners;
@@ -62,6 +63,9 @@ import static org.solovyev.android.calculator.model.AndroidCalculatorEngine.Pref
  * Time: 12:12 AM
  */
 public abstract class AbstractCalculatorHelper implements SharedPreferences.OnSharedPreferenceChangeListener {
+
+	@Nonnull
+	private static final List<Integer> viewIds = new ArrayList<Integer>(200);
 
 	@Nonnull
 	private CalculatorPreferences.Gui.Layout layout;
@@ -121,15 +125,16 @@ public abstract class AbstractCalculatorHelper implements SharedPreferences.OnSh
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
 		final SimpleOnDragListener.Preferences dragPreferences = SimpleOnDragListener.getPreferences(preferences, activity);
 
-		setOnDragListeners(root, dragPreferences, preferences);
+		final ViewsCache views = ViewsCache.forView(root);
+		setOnDragListeners(views, dragPreferences, preferences);
 
 		final OnDragListener historyOnDragListener = new OnDragListenerVibrator(newOnDragListener(new HistoryDragProcessor<CalculatorHistoryState>(getCalculator()), dragPreferences), vibrator, preferences);
-		final DragButton historyButton = getButton(root, R.id.cpp_button_history);
+		final DragButton historyButton = getButton(views, R.id.cpp_button_history);
 		if (historyButton != null) {
 			historyButton.setOnDragListener(historyOnDragListener);
 		}
 
-		final DragButton subtractionButton = getButton(root, R.id.cpp_button_subtraction);
+		final DragButton subtractionButton = getButton(views, R.id.cpp_button_subtraction);
 		if (subtractionButton != null) {
 			subtractionButton.setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new SimpleOnDragListener.DragProcessor() {
 				@Override
@@ -145,64 +150,64 @@ public abstract class AbstractCalculatorHelper implements SharedPreferences.OnSh
 
 		final OnDragListener toPositionOnDragListener = new OnDragListenerVibrator(new SimpleOnDragListener(new CursorDragProcessor(), dragPreferences), vibrator, preferences);
 
-		final DragButton rightButton = getButton(root, R.id.cpp_button_right);
+		final DragButton rightButton = getButton(views, R.id.cpp_button_right);
 		if (rightButton != null) {
 			rightButton.setOnDragListener(toPositionOnDragListener);
 		}
 
-		final DragButton leftButton = getButton(root, R.id.cpp_button_left);
+		final DragButton leftButton = getButton(views, R.id.cpp_button_left);
 		if (leftButton != null) {
 			leftButton.setOnDragListener(toPositionOnDragListener);
 		}
 
-		final DragButton equalsButton = getButton(root, R.id.cpp_button_equals);
+		final DragButton equalsButton = getButton(views, R.id.cpp_button_equals);
 		if (equalsButton != null) {
 			equalsButton.setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new EqualsDragProcessor(), dragPreferences), vibrator, preferences));
 		}
 
-		angleUnitsButton = getButton(root, R.id.cpp_button_6);
+		angleUnitsButton = getButton(views, R.id.cpp_button_6);
 		if (angleUnitsButton != null) {
 			angleUnitsButton.setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new CalculatorButtons.AngleUnitsChanger(activity), dragPreferences), vibrator, preferences));
 		}
 
-		clearButton = getButton(root, R.id.cpp_button_clear);
+		clearButton = getButton(views, R.id.cpp_button_clear);
 		if (clearButton != null) {
 			clearButton.setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new CalculatorButtons.NumeralBasesChanger(activity), dragPreferences), vibrator, preferences));
 		}
 
-		final DragButton varsButton = getButton(root, R.id.cpp_button_vars);
+		final DragButton varsButton = getButton(views, R.id.cpp_button_vars);
 		if (varsButton != null) {
 			varsButton.setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new CalculatorButtons.VarsDragProcessor(activity), dragPreferences), vibrator, preferences));
 		}
 
-		final DragButton functionsButton = getButton(root, R.id.cpp_button_functions);
+		final DragButton functionsButton = getButton(views, R.id.cpp_button_functions);
 		if (functionsButton != null) {
 			functionsButton.setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new CalculatorButtons.FunctionsDragProcessor(activity), dragPreferences), vibrator, preferences));
 		}
 
-		final DragButton roundBracketsButton = getButton(root, R.id.cpp_button_round_brackets);
+		final DragButton roundBracketsButton = getButton(views, R.id.cpp_button_round_brackets);
 		if (roundBracketsButton != null) {
 			roundBracketsButton.setOnDragListener(new OnDragListenerVibrator(newOnDragListener(new CalculatorButtons.RoundBracketsDragProcessor(), dragPreferences), vibrator, preferences));
 		}
 
 		if (layout == simple || layout == simple_mobile) {
-			toggleButtonDirectionText(root, R.id.cpp_button_1, false, DragDirection.up, DragDirection.down);
-			toggleButtonDirectionText(root, R.id.cpp_button_2, false, DragDirection.up, DragDirection.down);
-			toggleButtonDirectionText(root, R.id.cpp_button_3, false, DragDirection.up, DragDirection.down);
+			toggleButtonDirectionText(views, R.id.cpp_button_1, false, DragDirection.up, DragDirection.down);
+			toggleButtonDirectionText(views, R.id.cpp_button_2, false, DragDirection.up, DragDirection.down);
+			toggleButtonDirectionText(views, R.id.cpp_button_3, false, DragDirection.up, DragDirection.down);
 
-			toggleButtonDirectionText(root, R.id.cpp_button_6, false, DragDirection.up, DragDirection.down);
-			toggleButtonDirectionText(root, R.id.cpp_button_7, false, DragDirection.left, DragDirection.up, DragDirection.down);
-			toggleButtonDirectionText(root, R.id.cpp_button_8, false, DragDirection.left, DragDirection.up, DragDirection.down);
+			toggleButtonDirectionText(views, R.id.cpp_button_6, false, DragDirection.up, DragDirection.down);
+			toggleButtonDirectionText(views, R.id.cpp_button_7, false, DragDirection.left, DragDirection.up, DragDirection.down);
+			toggleButtonDirectionText(views, R.id.cpp_button_8, false, DragDirection.left, DragDirection.up, DragDirection.down);
 
-			toggleButtonDirectionText(root, R.id.cpp_button_clear, false, DragDirection.left, DragDirection.up, DragDirection.down);
+			toggleButtonDirectionText(views, R.id.cpp_button_clear, false, DragDirection.left, DragDirection.up, DragDirection.down);
 
-			toggleButtonDirectionText(root, R.id.cpp_button_4, false, DragDirection.down);
-			toggleButtonDirectionText(root, R.id.cpp_button_5, false, DragDirection.down);
+			toggleButtonDirectionText(views, R.id.cpp_button_4, false, DragDirection.down);
+			toggleButtonDirectionText(views, R.id.cpp_button_5, false, DragDirection.down);
 
-			toggleButtonDirectionText(root, R.id.cpp_button_9, false, DragDirection.left);
+			toggleButtonDirectionText(views, R.id.cpp_button_9, false, DragDirection.left);
 
-			toggleButtonDirectionText(root, R.id.cpp_button_multiplication, false, DragDirection.left);
-			toggleButtonDirectionText(root, R.id.cpp_button_plus, false, DragDirection.down, DragDirection.up);
+			toggleButtonDirectionText(views, R.id.cpp_button_multiplication, false, DragDirection.left);
+			toggleButtonDirectionText(views, R.id.cpp_button_plus, false, DragDirection.down, DragDirection.up);
 		}
 
 		CalculatorButtons.processButtons(theme, layout, root);
@@ -220,8 +225,8 @@ public abstract class AbstractCalculatorHelper implements SharedPreferences.OnSh
 		});
 	}
 
-	private void toggleButtonDirectionText(@Nonnull View root, int id, boolean showDirectionText, @Nonnull DragDirection... dragDirections) {
-		final View v = getButton(root, id);
+	private void toggleButtonDirectionText(@Nonnull ViewsCache views, int id, boolean showDirectionText, @Nonnull DragDirection... dragDirections) {
+		final View v = getButton(views, id);
 		if (v instanceof DirectionDragButton) {
 			final DirectionDragButton button = (DirectionDragButton) v;
 			for (DragDirection dragDirection : dragDirections) {
@@ -236,32 +241,33 @@ public abstract class AbstractCalculatorHelper implements SharedPreferences.OnSh
 	}
 
 
-	private void setOnDragListeners(@Nonnull View root, @Nonnull SimpleOnDragListener.Preferences dragPreferences, @Nonnull SharedPreferences preferences) {
+	private void setOnDragListeners(@Nonnull ViewsCache views, @Nonnull SimpleOnDragListener.Preferences dragPreferences, @Nonnull SharedPreferences preferences) {
 		final OnDragListener onDragListener = new OnDragListenerVibrator(newOnDragListener(new DigitButtonDragProcessor(getKeyboard()), dragPreferences), vibrator, preferences);
 
-		final List<Integer> dragButtonIds = new ArrayList<Integer>();
+		final List<Integer> viewIds = getViewIds();
+		for (Integer viewId : viewIds) {
+			final View view = views.findViewById(viewId);
+			if (view instanceof DragButton) {
+				((DragButton) view).setOnDragListener(onDragListener);
+			}
+		}
+	}
 
-		for (Field field : R.id.class.getDeclaredFields()) {
-			int modifiers = field.getModifiers();
-			if (Modifier.isFinal(modifiers) && Modifier.isStatic(modifiers)) {
-				try {
-					int viewId = field.getInt(R.id.class);
-					final View view = root.findViewById(viewId);
-					if (view instanceof DragButton) {
-						dragButtonIds.add(viewId);
+	@Nonnull
+	private static List<Integer> getViewIds() {
+		if (viewIds.isEmpty()) {
+			for (Field field : R.id.class.getDeclaredFields()) {
+				int modifiers = field.getModifiers();
+				if (Modifier.isFinal(modifiers) && Modifier.isStatic(modifiers)) {
+					try {
+						viewIds.add(field.getInt(R.id.class));
+					} catch (IllegalAccessException e) {
+						Log.e(R.id.class.getName(), e.getMessage());
 					}
-				} catch (IllegalAccessException e) {
-					Log.e(R.id.class.getName(), e.getMessage());
 				}
 			}
 		}
-
-		for (Integer dragButtonId : dragButtonIds) {
-			final DragButton button = getButton(root, dragButtonId);
-			if (button != null) {
-				button.setOnDragListener(onDragListener);
-			}
-		}
+		return viewIds;
 	}
 
 	@Nonnull
@@ -270,8 +276,8 @@ public abstract class AbstractCalculatorHelper implements SharedPreferences.OnSh
 	}
 
 	@Nullable
-	private <T extends DragButton> T getButton(@Nonnull View root, int buttonId) {
-		return (T) root.findViewById(buttonId);
+	private <T extends DragButton> T getButton(@Nonnull ViewsCache views, int buttonId) {
+		return (T) views.findViewById(buttonId);
 	}
 
 	@Nonnull
