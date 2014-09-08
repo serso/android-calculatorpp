@@ -106,7 +106,6 @@
 	</style>
 
 	<style name="cpp_default_main_layout_style">
-		<item name="android:background">@color/cpp_default_background</item>
 		<item name="android:baselineAligned">false</item>
 		<item name="android:layout_height">match_parent</item>
 		<item name="android:layout_width">match_parent</item>
@@ -138,6 +137,8 @@
 	</style>
 
 	<style name="cpp_gray_theme" parent="Theme.Sherlock">
+		<item name="android:windowBackground">@color/cpp_default_background</item>
+
 		<!-- buttons -->
 		<item name="cpp_digit_button_style">@style/cpp_default_digit_button_style</item>
 		<item name="cpp_control_button_style">@style/cpp_default_control_button_style</item>
