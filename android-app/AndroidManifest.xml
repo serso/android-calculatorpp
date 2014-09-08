@@ -22,7 +22,7 @@
 
 	<uses-sdk android:minSdkVersion="4" android:targetSdkVersion="17"/>
 
-	<application android:allowBackup="true" android:debuggable="false" android:hardwareAccelerated="false" android:icon="@drawable/icon" android:label="@string/c_app_name" android:name=".CalculatorApplication" android:theme="@style/cpp_metro_blue_theme">
+	<application android:allowBackup="true" android:debuggable="false" android:hardwareAccelerated="true" android:icon="@drawable/icon" android:label="@string/c_app_name" android:name=".CalculatorApplication" android:theme="@style/cpp_metro_blue_theme">
 
 		<activity android:clearTaskOnLaunch="true" android:label="@string/c_app_name" android:launchMode="singleTop" android:name=".CalculatorActivity" android:windowSoftInputMode="adjustPan">
 
@@ -62,7 +62,7 @@
 			</intent-filter>
 		</activity>
 
-		<activity android:label="@string/c_plot_graph" android:name=".plot.CalculatorPlotActivity"/>
+		<activity android:label="@string/c_plot_graph" android:name=".plot.CalculatorPlotActivity" android:hardwareAccelerated="false"/>
 		<activity android:label="@string/cpp_plot_functions" android:name=".plot.CalculatorPlotFunctionsActivity" android:theme="@style/cpp_metro_blue_dialog_theme"/>
 		<activity android:label="@string/cpp_plot_function_settings" android:name=".plot.CalculatorPlotFunctionSettingsActivity" android:theme="@style/cpp_metro_blue_dialog_theme"/>
 		<activity android:label="@string/cpp_plot_range" android:name=".plot.CalculatorPlotRangeActivity" android:theme="@style/cpp_metro_blue_dialog_theme"/>
