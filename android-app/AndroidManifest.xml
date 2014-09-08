@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="auto" android:versionCode="127" android:versionName="2.0.2" package="org.solovyev.android.calculator">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="auto" android:versionCode="128" android:versionName="2.0.4-SNAPSHOT" package="org.solovyev.android.calculator">
 
 	<uses-permission android:name="android.permission.VIBRATE"/>
 	<uses-permission android:name="android.permission.INTERNET"/>
@@ -62,7 +62,7 @@
 			</intent-filter>
 		</activity>
 
-		<activity android:label="@string/c_plot_graph" android:name=".plot.CalculatorPlotActivity" android:hardwareAccelerated="false"/>
+		<activity android:hardwareAccelerated="false" android:label="@string/c_plot_graph" android:name=".plot.CalculatorPlotActivity"/>
 		<activity android:label="@string/cpp_plot_functions" android:name=".plot.CalculatorPlotFunctionsActivity" android:theme="@style/cpp_metro_blue_dialog_theme"/>
 		<activity android:label="@string/cpp_plot_function_settings" android:name=".plot.CalculatorPlotFunctionSettingsActivity" android:theme="@style/cpp_metro_blue_dialog_theme"/>
 		<activity android:label="@string/cpp_plot_range" android:name=".plot.CalculatorPlotRangeActivity" android:theme="@style/cpp_metro_blue_dialog_theme"/>
