@@ -41,7 +41,7 @@
 		<connection>scm:git:git@github.com:serso/android-calculatorpp.git</connection>
 		<developerConnection>scm:git:git@github.com:serso/android-calculatorpp.git</developerConnection>
 		<url>http://github.com/serso/android-calculatorpp</url>
-		<tag>release-2.0.1</tag>
+		<tag>release-2.0.5</tag>
 	</scm>
 
 	<pluginRepositories>
@@ -82,27 +82,27 @@
 			<dependency>
 				<groupId>org.solovyev.android</groupId>
 				<artifactId>calculatorpp-core</artifactId>
-				<version>2.0.2</version>
+				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.solovyev.android</groupId>
 				<artifactId>calculatorpp-android-app-core</artifactId>
-				<version>2.0.2</version>
+				<version>${project.version}</version>
 				<type>apklib</type>
 			</dependency>
 
 			<dependency>
 				<groupId>org.solovyev.android</groupId>
 				<artifactId>calculatorpp-android-app-widget</artifactId>
-				<version>2.0.2</version>
+				<version>${project.version}</version>
 				<type>apklib</type>
 			</dependency>
 
 			<dependency>
 				<groupId>org.solovyev.android</groupId>
 				<artifactId>calculatorpp-android-app-onscreen</artifactId>
-				<version>2.0.2</version>
+				<version>${project.version}</version>
 				<type>apklib</type>
 			</dependency>
 
