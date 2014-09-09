@@ -220,7 +220,12 @@ public abstract class AbstractCalculatorHelper implements SharedPreferences.OnSh
 		Views.processViewsOfType(root, TextView.class, new Views.ViewProcessor<TextView>() {
 			@Override
 			public void process(@Nonnull TextView view) {
-				view.setTypeface(typeFace);
+				int style = Typeface.NORMAL;
+				final Typeface oldTypeface = view.getTypeface();
+				if (oldTypeface != null) {
+					style = oldTypeface.getStyle();
+				}
+				view.setTypeface(typeFace, style);
 			}
 		});
 	}
