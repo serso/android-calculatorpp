@@ -33,6 +33,7 @@
       <excludeFolder url="file://$MODULE_DIR$/android-app-widget/target/generated-sources/combined-assets" />
       <excludeFolder url="file://$MODULE_DIR$/android-app-widget/target/generated-sources/combined-resources" />
       <excludeFolder url="file://$MODULE_DIR$/android-app-widget/target/generated-sources/extracted-dependencies" />
+      <excludeFolder url="file://$MODULE_DIR$/android-app-widget/target/idea-classes" />
       <excludeFolder url="file://$MODULE_DIR$/android-app-widget/target/maven-archiver" />
       <excludeFolder url="file://$MODULE_DIR$/android-app-widget/target/maven-status" />
       <excludeFolder url="file://$MODULE_DIR$/android-app-widget/target/unpack" />

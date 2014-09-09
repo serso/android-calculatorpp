@@ -33,6 +33,8 @@
       <excludeFolder url="file://$MODULE_DIR$/android-app/target/generated-sources/combined-assets" />
       <excludeFolder url="file://$MODULE_DIR$/android-app/target/generated-sources/combined-resources" />
       <excludeFolder url="file://$MODULE_DIR$/android-app/target/generated-sources/extracted-dependencies" />
+      <excludeFolder url="file://$MODULE_DIR$/android-app/target/idea-classes" />
+      <excludeFolder url="file://$MODULE_DIR$/android-app/target/idea-test-classes" />
       <excludeFolder url="file://$MODULE_DIR$/android-app/target/maven-archiver" />
       <excludeFolder url="file://$MODULE_DIR$/android-app/target/maven-status" />
       <excludeFolder url="file://$MODULE_DIR$/android-app/target/surefire-reports" />
