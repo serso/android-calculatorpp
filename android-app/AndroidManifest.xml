@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="auto" android:versionCode="131" android:versionName="2.0.5-SNAPSHOT" package="org.solovyev.android.calculator">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="auto" android:versionCode="132" android:versionName="2.0.5" package="org.solovyev.android.calculator">
 
 	<uses-permission android:name="android.permission.VIBRATE"/>
 	<uses-permission android:name="android.permission.INTERNET"/>
