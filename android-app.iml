@@ -37,7 +37,7 @@
       <excludeFolder url="file://$MODULE_DIR$/android-app/target/idea-test-classes" />
       <excludeFolder url="file://$MODULE_DIR$/android-app/target/maven-archiver" />
       <excludeFolder url="file://$MODULE_DIR$/android-app/target/maven-status" />
-      <excludeFolder url="file://$MODULE_DIR$/android-app/target/surefire-reports" />
+      <excludeFolder url="file://$MODULE_DIR$/android-app/target/proguard" />
       <excludeFolder url="file://$MODULE_DIR$/android-app/target/test-classes" />
       <excludeFolder url="file://$MODULE_DIR$/android-app/target/unpack" />
     </content>
@@ -110,26 +110,26 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.apache.maven.wagon:wagon-http-shared:1.0-beta-6" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: nekohtml:xercesMinimal:1.9.6.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: nekohtml:nekohtml:1.9.6.2" level="project" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-all_1.1.15" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-ads_1.1.15" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-core_1.1.15" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-billing_1.1.15" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-db_1.1.15" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-security_1.1.15" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-http_1.1.15" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-lists_1.1.15" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-views_1.1.15" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-preferences_1.1.15" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-menus_1.1.15" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-other_1.1.15" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-sherlock_1.1.15" />
+    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-all_1.1.16" />
+    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-ads_1.1.16" />
+    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-core_1.1.16" />
+    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-billing_1.1.16" />
+    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-db_1.1.16" />
+    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-security_1.1.16" />
+    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-http_1.1.16" />
+    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-lists_1.1.16" />
+    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-views_1.1.16" />
+    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-preferences_1.1.16" />
+    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-menus_1.1.16" />
+    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-other_1.1.16" />
+    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-sherlock_1.1.16" />
     <orderEntry type="module" module-name="~apklib-com.actionbarsherlock_actionbarsherlock_4.2.0" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-keyboards_1.1.15" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-app_1.1.15" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-networks_1.1.15" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-fragments_1.1.15" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-tasks_1.1.15" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-wizard_1.1.15" />
+    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-keyboards_1.1.16" />
+    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-app_1.1.16" />
+    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-networks_1.1.16" />
+    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-fragments_1.1.16" />
+    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-tasks_1.1.16" />
+    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-wizard_1.1.16" />
   </component>
   <component name="org.twodividedbyzero.idea.findbugs">
     <option name="_basePreferences">
