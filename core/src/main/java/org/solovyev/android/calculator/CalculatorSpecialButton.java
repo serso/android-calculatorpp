@@ -47,13 +47,13 @@ public enum CalculatorSpecialButton {
 			Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_history_detached, null);
 		}
 	},
-	cursor_right("▶") {
+	cursor_right("▷") {
 		@Override
 		public void onClick(@Nonnull CalculatorKeyboard keyboard) {
 			keyboard.moveCursorRight();
 		}
 	},
-	cursor_left("◀") {
+	cursor_left("◁") {
 		@Override
 		public void onClick(@Nonnull CalculatorKeyboard keyboard) {
 			keyboard.moveCursorLeft();

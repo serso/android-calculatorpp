@@ -23,14 +23,13 @@
 package org.solovyev.android.calculator;
 
 import android.view.MotionEvent;
-
-import javax.annotation.Nonnull;
-
 import org.solovyev.android.view.drag.DirectionDragButton;
 import org.solovyev.android.view.drag.DragButton;
 import org.solovyev.android.view.drag.DragDirection;
 import org.solovyev.android.view.drag.SimpleOnDragListener;
 import org.solovyev.common.math.Point2d;
+
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -48,10 +47,10 @@ public class CursorDragProcessor implements SimpleOnDragListener.DragProcessor {
 
 		if (dragButton instanceof DirectionDragButton) {
 			String text = ((DirectionDragButton) dragButton).getText(dragDirection);
-			if ("◀◀".equals(text)) {
+			if ("◁◁".equals(text)) {
 				Locator.getInstance().getEditor().setCursorOnStart();
 				result = true;
-			} else if ("▶▶".equals(text)) {
+			} else if ("▷▷".equals(text)) {
 				Locator.getInstance().getEditor().setCursorOnEnd();
 				result = true;
 			}
