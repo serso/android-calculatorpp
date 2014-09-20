@@ -161,9 +161,13 @@ abstract class GLView extends SurfaceView implements SurfaceHolder.Callback {
 		if (hasSurface && !paused) {
 			onDrawFrame(gl);
 			if (!egl.eglSwapBuffers(display, surface)) {
+				paused = true;
 			}
 			if (egl.eglGetError() == EGL11.EGL_CONTEXT_LOST) {
 				paused = true;
+			}
+			if(paused) {
+				reinitGL();
 			}
 			if (looping) {
 				requestDraw();
@@ -177,11 +181,20 @@ abstract class GLView extends SurfaceView implements SurfaceHolder.Callback {
 	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
 		this.width = width;
 		this.height = height;
-		boolean doInit = !hasSurface && !paused;
+		final boolean hadSurface = hasSurface;
+		boolean doInit = !hadSurface && !paused;
 		hasSurface = true;
 		if (doInit) {
 			initGL();
+		} else if (hadSurface) {
+			reinitGL();
 		}
+	}
+
+	private void reinitGL() {
+		deinitGL();
+		paused = false;
+		initGL();
 	}
 
 	public void surfaceDestroyed(SurfaceHolder holder) {
