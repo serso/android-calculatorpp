@@ -24,12 +24,11 @@ package org.solovyev.android.calculator;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import org.solovyev.common.msg.MessageLevel;
+import org.solovyev.common.msg.MessageType;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import org.solovyev.common.msg.MessageLevel;
-import org.solovyev.common.msg.MessageType;
 
 /**
  * User: serso
@@ -93,7 +92,7 @@ public final class ParcelableDialogData implements DialogData, Parcelable {
 	@Nonnull
 	public static ParcelableDialogData fromParcel(@Nonnull Parcel in) {
 		final String message = in.readString();
-		final MessageType messageType = MessageType.values()[in.readInt()];
+		final MessageType messageType = CalculatorMessages.toMessageType(in.readInt());
 		final String title = in.readString();
 		return wrap(StringDialogData.newInstance(message, messageType, title));
 	}

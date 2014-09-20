@@ -24,12 +24,11 @@ package org.solovyev.android.calculator;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import org.solovyev.common.msg.Message;
+import org.solovyev.common.msg.MessageType;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import org.solovyev.common.msg.Message;
-import org.solovyev.common.msg.MessageType;
 
 /**
  * User: serso
@@ -70,14 +69,8 @@ public class FixableMessage implements Parcelable {
 
 	public FixableMessage(@Nonnull Message message) {
 		this.message = message.getLocalizedMessage();
-		int messageLevel = message.getMessageLevel().getMessageLevel();
-		if (messageLevel < MessageType.info.getMessageLevel()) {
-			this.messageType = MessageType.info;
-		} else if (messageLevel < MessageType.warning.getMessageLevel()) {
-			this.messageType = MessageType.warning;
-		} else {
-			this.messageType = MessageType.error;
-		}
+		final int messageLevel = message.getMessageLevel().getMessageLevel();
+		this.messageType = CalculatorMessages.toMessageType(messageLevel);
 		this.fixableError = CalculatorFixableError.getErrorByMessageCode(message.getMessageCode());
 	}
 
