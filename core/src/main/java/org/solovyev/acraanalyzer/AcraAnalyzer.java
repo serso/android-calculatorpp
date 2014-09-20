@@ -23,16 +23,16 @@
 package org.solovyev.acraanalyzer;
 
 import org.apache.commons.cli.*;
-import org.solovyev.common.text.Strings;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintStream;
 import java.util.*;
 
 import static org.solovyev.common.collections.Collections.getFirstCollectionElement;
+import static org.solovyev.common.text.Strings.isEmpty;
 
 /**
  * User: serso
@@ -43,22 +43,41 @@ public final class AcraAnalyzer {
 
 	private static final String NEW_LINE = System.getProperty("line.separator");
 
-	public static void main(String[] args) throws ParseException {
+	public static void main(String[] args) throws ParseException, FileNotFoundException {
 		final Options options = new Options();
 		options.addOption("path", true, "Path to the ACRA reports");
+		options.addOption("file", true, "File name of MBOX file");
 		options.addOption("version", true, "Version of the app");
+		options.addOption("out", true, "Output file");
 
 		final CommandLineParser parser = new GnuParser();
 		final CommandLine cmd = parser.parse(options, args);
 		final String path = cmd.getOptionValue("path");
+		final String file = cmd.getOptionValue("file");
 		final String version = cmd.getOptionValue("version");
+		final String out = cmd.getOptionValue("out");
 
-		if (Strings.isEmpty(path)) {
-			throw new IllegalArgumentException("Path should be specified");
+		if (isEmpty(path) && isEmpty(file)) {
+			throw new IllegalArgumentException("Either path or filename should be specified");
+		} else if (!isEmpty(path) && !isEmpty(file)) {
+			throw new IllegalArgumentException("Specify either path or filename");
 		} else {
 			final Map<String, List<AcraReport>> reports = new HashMap<String, List<AcraReport>>();
 
-			scanFiles(path, reports, version);
+			if (!isEmpty(path)) {
+				scanFiles(path, reports, version);
+			} else {
+				scanMbox(file, reports, version);
+			}
+
+			PrintStream outIs;
+			if(!isEmpty(out)) {
+				final File outFile = new File(out);
+				outIs = new PrintStream(outFile);
+				System.out.println("Output will be written to " + outFile.getPath());
+			} else {
+				outIs = System.out;
+			}
 
 			final List<List<AcraReport>> sortedReports = new ArrayList<List<AcraReport>>(reports.size());
 			for (Map.Entry<String, List<AcraReport>> entry : reports.entrySet()) {
@@ -78,11 +97,36 @@ public final class AcraAnalyzer {
 				}
 			});
 
-			for (Collection<AcraReport> sortedReport : sortedReports) {
-				final AcraReport report = getFirstCollectionElement(sortedReport);
-				System.out.println("Count: " + sortedReport.size());
-				System.out.println("App version: " + report.appVersion);
-				System.out.println("Stack trace: " + report.stackTrace);
+			if (!sortedReports.isEmpty()) {
+				for (Collection<AcraReport> sortedReport : sortedReports) {
+					final AcraReport report = getFirstCollectionElement(sortedReport);
+					outIs.println("Count: " + sortedReport.size());
+					outIs.println("App version: " + report.appVersion);
+					outIs.println("Stack trace: " + report.stackTrace);
+				}
+			} else {
+				outIs.println("No ACRA reports found");
+			}
+		}
+	}
+
+	private static void scanMbox(@Nonnull String filename, @Nonnull Map<String, List<AcraReport>> reports, @Nullable String version) {
+		final File file = new File(filename);
+		if (!file.isDirectory()) {
+			Scanner scanner = null;
+
+			try {
+				scanner = new Scanner(file);
+				while (scanner.hasNextLine()) {
+					final AcraReport report = readReport(scanner);
+					putReport(reports, report, version);
+				}
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} finally {
+				if (scanner != null) {
+					scanner.close();
+				}
 			}
 		}
 	}
@@ -109,7 +153,11 @@ public final class AcraAnalyzer {
 
 	private static void analyzeFile(File file, Map<String, List<AcraReport>> reports, @Nullable String version) {
 		final AcraReport report = readReport(file);
-		if (!Strings.isEmpty(report.stackTrace) && (version == null || version.equals(report.appVersion))) {
+		putReport(reports, report, version);
+	}
+
+	private static void putReport(@Nonnull Map<String, List<AcraReport>> reports, @Nonnull AcraReport report, @Nullable String version) {
+		if (!isEmpty(report.stackTrace) && (version == null || version.equals(report.appVersion))) {
 			List<AcraReport> acraReports = reports.get(report.stackTrace);
 			if (acraReports == null) {
 				acraReports = new ArrayList<AcraReport>();
@@ -119,35 +167,42 @@ public final class AcraAnalyzer {
 		}
 	}
 
-	private static AcraReport readReport(File file) {
-		final AcraReport result = new AcraReport();
-
+	private static AcraReport readReport(@Nonnull File file) {
 		Scanner scanner = null;
 
 		try {
 			scanner = new Scanner(file);
-			while (scanner.hasNextLine()) {
-				final String line = scanner.nextLine();
-				if (line.startsWith("STACK_TRACE")) {
-					result.stackTrace = readStackTrace(line.substring("STACK_TRACE=".length()), scanner);
-					break;
-				} else if (line.startsWith("ANDROID_VERSION")) {
-					result.androidVersion = line.substring("ANDROID_VERSION=".length());
-				} else if (line.startsWith("APP_VERSION_NAME")) {
-					result.appVersion = line.substring("APP_VERSION_NAME=".length());
-				} else if (line.startsWith("BRAND")) {
-					result.brand = line.substring("BRAND=".length());
-				} else if (line.startsWith("USER_COMMENT")) {
-					result.userComment = line.substring("USER_COMMENT=".length());
-				} else if (line.startsWith("PHONE_MODEL")) {
-					result.phoneModel = line.substring("PHONE_MODEL=".length());
-				}
-			}
+			return readReport(scanner);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} finally {
 			if (scanner != null) {
 				scanner.close();
+			}
+		}
+
+		return new AcraReport();
+	}
+
+	@Nonnull
+	private static AcraReport readReport(@Nonnull Scanner scanner) {
+		final AcraReport result = new AcraReport();
+
+		while (scanner.hasNextLine()) {
+			final String line = scanner.nextLine();
+			if (line.startsWith("STACK_TRACE")) {
+				result.stackTrace = readStackTrace(line.substring("STACK_TRACE=".length()), scanner);
+				break;
+			} else if (line.startsWith("ANDROID_VERSION")) {
+				result.androidVersion = line.substring("ANDROID_VERSION=".length());
+			} else if (line.startsWith("APP_VERSION_NAME")) {
+				result.appVersion = line.substring("APP_VERSION_NAME=".length());
+			} else if (line.startsWith("BRAND")) {
+				result.brand = line.substring("BRAND=".length());
+			} else if (line.startsWith("USER_COMMENT")) {
+				result.userComment = line.substring("USER_COMMENT=".length());
+			} else if (line.startsWith("PHONE_MODEL")) {
+				result.phoneModel = line.substring("PHONE_MODEL=".length());
 			}
 		}
 
@@ -160,10 +215,10 @@ public final class AcraAnalyzer {
 
 		while (scanner.hasNextLine()) {
 			final String line = scanner.nextLine().trim();
-			if (line.startsWith("at")) {
-				sb.append(line).append(newLine());
-			} else {
+			if (isEmpty(line)) {
 				break;
+			} else {
+				sb.append(line).append(newLine());
 			}
 		}
 
