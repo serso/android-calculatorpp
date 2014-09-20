@@ -102,12 +102,22 @@ public final class AcraAnalyzer {
 					final AcraReport report = getFirstCollectionElement(sortedReport);
 					outIs.println("Count: " + sortedReport.size());
 					outIs.println("App version: " + report.appVersion);
+					outIs.println("Android: " + getAndroidVersions(sortedReport));
 					outIs.println("Stack trace: " + report.stackTrace);
 				}
 			} else {
 				outIs.println("No ACRA reports found");
 			}
 		}
+	}
+
+	@Nonnull
+	private static String getAndroidVersions(@Nonnull Collection<AcraReport> reports) {
+		final Set<String> versions = new HashSet<String>();
+		for (AcraReport report : reports) {
+			versions.add(report.androidVersion);
+		}
+		return versions.toString();
 	}
 
 	private static void scanMbox(@Nonnull String filename, @Nonnull Map<String, List<AcraReport>> reports, @Nullable String version) {
