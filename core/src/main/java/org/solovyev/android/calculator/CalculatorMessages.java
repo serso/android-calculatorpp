@@ -31,6 +31,10 @@ import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import static org.solovyev.common.msg.MessageType.error;
+import static org.solovyev.common.msg.MessageType.info;
+import static org.solovyev.common.msg.MessageType.warning;
+
 /**
  * User: serso
  * Date: 9/20/12
@@ -94,6 +98,17 @@ public final class CalculatorMessages {
 
 	@Nonnull
 	public static CalculatorMessage newErrorMessage(@Nonnull String messageCode, @Nullable Object... parameters) {
-		return new CalculatorMessage(messageCode, MessageType.error, parameters);
+		return new CalculatorMessage(messageCode, error, parameters);
+	}
+
+	@Nonnull
+	static MessageType toMessageType(int messageLevel) {
+		if (messageLevel < info.getMessageLevel()) {
+			return info;
+		} else if (messageLevel < warning.getMessageLevel()) {
+			return warning;
+		}
+
+		return error;
 	}
 }
