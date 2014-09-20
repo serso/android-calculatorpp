@@ -71,6 +71,7 @@
 	</style>
 
 	<style name="cpp_editor_style" parent="cpp_default_text">
+		<item name="android:text">""</item>
 		<item name="android:gravity">left|top</item>
 		<item name="android:layout_width">fill_parent</item>
 		<item name="android:layout_height">fill_parent</item>
