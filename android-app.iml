@@ -48,26 +48,6 @@
     </content>
     <orderEntry type="jdk" jdkName="Maven Android API 17 Platform (2)" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-all_1.1.16" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-ads_1.1.16" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-billing_1.1.16" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-core_1.1.16" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-db_1.1.16" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-http_1.1.16" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-lists_1.1.16" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-menus_1.1.16" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-other_1.1.16" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-preferences_1.1.16" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-sherlock_1.1.16" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-security_1.1.16" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-views_1.1.16" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-keyboards_1.1.16" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-app_1.1.16" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-networks_1.1.16" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-fragments_1.1.16" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-tasks_1.1.16" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-wizard_1.1.16" />
-    <orderEntry type="module" module-name="~apklib-com.actionbarsherlock_actionbarsherlock_4.2.0" />
     <orderEntry type="module" module-name="core" />
     <orderEntry type="library" name="Maven: org.solovyev:common-listeners:1.0.7" level="project" />
     <orderEntry type="library" name="Maven: commons-cli:commons-cli:1.2" level="project" />
