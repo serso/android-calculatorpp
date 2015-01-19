@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright 2013 serso aka se.solovyev
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~    http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Contact details
+  ~
+  ~ Email: se.solovyev@gmail.com
+  ~ Site:  http://se.solovyev.org
+  -->
+
+<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+	a:orientation="vertical"
+	a:layout_width="fill_parent"
+	a:layout_height="fill_parent"
+	a:background="#ff000000">
+
+	<ImageView
+		a:layout_width="wrap_content"
+		a:layout_height="wrap_content"
+		a:layout_gravity="center"
+		a:layout_weight="1"
+		a:padding="6dp"
+		a:src="@drawable/logo" />
+
+	<ScrollView
+		a:layout_width="fill_parent"
+		a:layout_height="fill_parent"
+		a:layout_weight="1">
+
+		<LinearLayout
+			a:layout_width="fill_parent"
+			a:layout_height="wrap_content"
+			a:orientation="vertical">
+
+			<TextView
+				a:id="@+id/cpp_about_textview"
+				a:text="@string/c_about_content"
+				a:layout_height="match_parent"
+				a:layout_width="match_parent"
+				style="@style/cpp_about_style" />
+
+
+			<TextView
+				a:id="@+id/cpp_about_translators_text"
+				a:text="@string/cpp_translators_text"
+				a:layout_height="wrap_content"
+				a:layout_width="match_parent"
+				a:paddingBottom="0dp"
+				style="@style/cpp_about_style" />
+
+			<TextView
+				a:id="@+id/cpp_about_translators"
+				a:text="@string/cpp_translators_list"
+				a:layout_height="wrap_content"
+				a:layout_width="match_parent"
+				a:paddingTop="0dp"
+				style="@style/cpp_about_style" />
+
+		</LinearLayout>
+	</ScrollView>
+</LinearLayout>

@@ -71,7 +71,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<acl.version>1.1.16</acl.version>
+		<acl.version>1.1.17</acl.version>
 		<jcl.version>1.0.7</jcl.version>
 		<jscl.version>1.0.8</jscl.version>
 	</properties>
@@ -269,15 +269,16 @@
 				</plugin>
 
 				<plugin>
-					<groupId>com.jayway.maven.plugins.android.generation2</groupId>
+					<groupId>com.simpligility.maven.plugins</groupId>
 					<artifactId>android-maven-plugin</artifactId>
-					<version>3.8.0</version>
+					<version>4.1.0</version>
 					<configuration>
 
 						<sourceDirectories>
 							<sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
 						</sourceDirectories>
 
+						<failOnConflictingLayouts>false</failOnConflictingLayouts>
 						<sdk>
 							<platform>17</platform>
 						</sdk>
