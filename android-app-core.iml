@@ -5,10 +5,10 @@
       <configuration>
         <option name="GEN_FOLDER_RELATIVE_PATH_APT" value="/android-app-core/target/generated-sources/r" />
         <option name="GEN_FOLDER_RELATIVE_PATH_AIDL" value="/android-app-core/target/generated-sources/aidl" />
-        <option name="MANIFEST_FILE_RELATIVE_PATH" value="/android-app-core/AndroidManifest.xml" />
-        <option name="RES_FOLDER_RELATIVE_PATH" value="/android-app-core/res" />
+        <option name="MANIFEST_FILE_RELATIVE_PATH" value="/android-app-core/src/main/AndroidManifest.xml" />
+        <option name="RES_FOLDER_RELATIVE_PATH" value="/android-app-core/src/main/res" />
         <option name="ASSETS_FOLDER_RELATIVE_PATH" value="/android-app-core/assets" />
-        <option name="LIBS_FOLDER_RELATIVE_PATH" value="/android-app-core/libs" />
+        <option name="LIBS_FOLDER_RELATIVE_PATH" value="/android-app-core/src/main/libs" />
         <option name="CUSTOM_APK_RESOURCE_FOLDER" value="/android-app-core/target/generated-sources/combined-resources/res" />
         <option name="APK_PATH" value="/android-app-core/target/android-app-core.apk" />
         <option name="LIBRARY_PROJECT" value="true" />
@@ -22,12 +22,13 @@
     </facet>
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="false">
-    <output url="file://$MODULE_DIR$/android-app-core/target/idea-classes" />
-    <output-test url="file://$MODULE_DIR$/android-app-core/target/idea-test-classes" />
+    <output url="file://$MODULE_DIR$/android-app-core/target/classes" />
+    <output-test url="file://$MODULE_DIR$/android-app-core/target/test-classes" />
     <content url="file://$MODULE_DIR$/android-app-core">
       <sourceFolder url="file://$MODULE_DIR$/android-app-core/target/generated-sources/r" isTestSource="false" generated="true" />
       <sourceFolder url="file://$MODULE_DIR$/android-app-core/target/generated-sources/aidl" isTestSource="false" generated="true" />
       <sourceFolder url="file://$MODULE_DIR$/android-app-core/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/android-app-core/target/generated-sources/combined-assets" isTestSource="false" generated="true" />
       <excludeFolder url="file://$MODULE_DIR$/android-app-core/target/apidocs" />
       <excludeFolder url="file://$MODULE_DIR$/android-app-core/target/classes" />
       <excludeFolder url="file://$MODULE_DIR$/android-app-core/target/classes-instrumented" />
@@ -39,9 +40,30 @@
       <excludeFolder url="file://$MODULE_DIR$/android-app-core/target/maven-archiver" />
       <excludeFolder url="file://$MODULE_DIR$/android-app-core/target/maven-status" />
       <excludeFolder url="file://$MODULE_DIR$/android-app-core/target/unpack" />
+      <excludeFolder url="file://$MODULE_DIR$/android-app-core/target/unpacked-libs" />
     </content>
     <orderEntry type="jdk" jdkName="Maven Android API 17 Platform (2)" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-all_1.1.16" />
+    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-ads_1.1.16" />
+    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-billing_1.1.16" />
+    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-core_1.1.16" />
+    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-db_1.1.16" />
+    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-http_1.1.16" />
+    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-lists_1.1.16" />
+    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-menus_1.1.16" />
+    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-other_1.1.16" />
+    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-preferences_1.1.16" />
+    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-sherlock_1.1.16" />
+    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-security_1.1.16" />
+    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-views_1.1.16" />
+    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-keyboards_1.1.16" />
+    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-app_1.1.16" />
+    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-networks_1.1.16" />
+    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-fragments_1.1.16" />
+    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-tasks_1.1.16" />
+    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-wizard_1.1.16" />
+    <orderEntry type="module" module-name="~apklib-com.actionbarsherlock_actionbarsherlock_4.2.0" />
     <orderEntry type="module" module-name="core" />
     <orderEntry type="library" name="Maven: org.solovyev:common-listeners:1.0.7" level="project" />
     <orderEntry type="library" name="Maven: com.google.guava:guava:11.0.2" level="project" />
@@ -104,26 +126,6 @@
     <orderEntry type="library" scope="TEST" name="Maven: nekohtml:xercesMinimal:1.9.6.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: nekohtml:nekohtml:1.9.6.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.apache.maven.wagon:wagon-provider-api:1.0-beta-6" level="project" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-all_1.1.16" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-ads_1.1.16" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-billing_1.1.16" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-core_1.1.16" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-db_1.1.16" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-http_1.1.16" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-lists_1.1.16" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-menus_1.1.16" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-other_1.1.16" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-preferences_1.1.16" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-sherlock_1.1.16" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-security_1.1.16" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-views_1.1.16" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-keyboards_1.1.16" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-app_1.1.16" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-networks_1.1.16" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-fragments_1.1.16" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-tasks_1.1.16" />
-    <orderEntry type="module" module-name="~apklib-org.solovyev.android_android-common-wizard_1.1.16" />
-    <orderEntry type="module" module-name="~apklib-com.actionbarsherlock_actionbarsherlock_4.2.0" />
   </component>
   <component name="org.twodividedbyzero.idea.findbugs">
     <option name="_basePreferences">
