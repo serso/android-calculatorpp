@@ -1,0 +1,147 @@
+/*
+ * Copyright 2014 serso aka se.solovyev
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Contact details
+ *
+ * Email: se.solovyev@gmail.com
+ * Site:  http://se.solovyev.org
+ */
+
+apply plugin: 'com.android.library'
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+android {
+    compileSdkVersion android_sdk_version()
+    buildToolsVersion android_build_tools_version()
+
+    defaultConfig {
+        minSdkVersion android_min_sdk_version()
+        targetSdkVersion android_sdk_version()
+        versionCode version_code()
+        versionName version_name()
+    }
+}
+
+dependencies {
+    compile project(':core')
+    compile project(':android-app-core')
+    compile 'org.solovyev:common-core:1.0.7'
+    compile 'org.solovyev:common-text:1.0.7'
+    compile 'org.solovyev.android:android-common-views:1.1.18@aar'
+    compile 'org.solovyev.android:android-common-menus:1.1.18@aar'
+    compile 'org.solovyev.android:android-common-core:1.1.18@aar'
+    compile 'org.solovyev.android:android-common-preferences:1.1.18@aar'
+    compile 'org.solovyev.android:android-common-app:1.1.18@aar'
+    compile('org.solovyev:jscl:1.0.8') {
+        exclude(module: 'xercesImpl')
+    }
+    compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
+    compile 'com.google.android.admob:admob:6.4.1-r11.0.0'
+    compile 'com.android.support:support-v4:21.0.3'
+    //testCompile group: 'org.robolectric', name: 'robolectric', version: '2.1.1'
+}
+
+
+task androidJavadocs(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.plugin.getBootClasspath().join(File.pathSeparator))
+    configurations.compile.each { File file -> classpath += project.files(file.path) }
+}
+
+task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs) {
+    classifier = 'javadoc'
+    from androidJavadocs.destinationDir
+}
+
+task androidSourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.srcDirs
+}
+
+task apklib(type: Zip) {
+    appendix = extension = 'apklib'
+
+    from 'src/main/AndroidManifest.xml'
+    into('res') {
+        from android.sourceSets.main.res.srcDirs
+    }
+    into('src') {
+        from android.sourceSets.main.java.srcDirs
+    }
+    into('src') {
+        from android.sourceSets.main.aidl.srcDirs
+    }
+}
+
+
+artifacts {
+    archives androidSourcesJar
+    archives androidJavadocsJar
+    archives apklib
+}
+
+signing {
+    sign configurations.archives
+}
+
+group = "org.solovyev.android"
+archivesBaseName = "calculatorpp-android-app-onscreen"
+version = version_name()
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            pom.project {
+                name 'Calculator++ Application Onscreen'
+                packaging 'aar'
+                url 'https://github.com/serso/android-calculatorpp'
+
+                scm {
+                    url 'https://github.com/serso/android-calculatorpp'
+                    connection 'scm:https://serso@github.com/serso/android-calculatorpp.git'
+                    developerConnection 'scm:git://github.com/serso/android-calculatorpp.git'
+                }
+
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        distribution 'repo'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'se.solovyev'
+                        name 'Sergey Solovyev'
+                        email 'se.solovyev@gmail.com'
+                    }
+                }
+            }
+        }
+    }
+}

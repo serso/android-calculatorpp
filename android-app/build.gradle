@@ -1,0 +1,137 @@
+/*
+ * Copyright 2014 serso aka se.solovyev
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Contact details
+ *
+ * Email: se.solovyev@gmail.com
+ * Site:  http://se.solovyev.org
+ */
+
+apply plugin: 'com.android.application'
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+android {
+    compileSdkVersion android_sdk_version()
+    buildToolsVersion android_build_tools_version()
+    defaultConfig {
+        minSdkVersion android_min_sdk_version()
+        targetSdkVersion android_sdk_version()
+        versionCode version_code()
+        versionName version_name()
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard.cfg'
+            zipAlignEnabled true
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:support-v4:21.0.3'
+    compile ('ch.acra:acra:4.3.0') {
+        exclude group: 'org.json'
+    }
+    compile 'org.solovyev.android:android-common-ads:1.1.18@aar'
+    compile 'org.solovyev.android:android-common-billing:1.1.18@aar'
+    compile 'org.solovyev.android:android-common-sherlock:1.1.18@aar'
+    compile 'org.solovyev.android:android-common-lists:1.1.18@aar'
+    compile 'org.solovyev.android:android-common-wizard:1.1.18@aar'
+    compile 'org.solovyev.android:android-common-core:1.1.18@aar'
+    compile 'org.solovyev.android:android-common-other:1.1.18@aar'
+    compile 'org.solovyev.android:android-common-db:1.1.18@aar'
+    compile project(':android-app-core')
+    compile project(':android-app-widget')
+    compile project(':android-app-onscreen')
+    compile project(':core')
+}
+
+task androidJavadocs(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.plugin.getBootClasspath().join(File.pathSeparator))
+    configurations.compile.each { File file -> classpath += project.files(file.path) }
+}
+
+task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs) {
+    classifier = 'javadoc'
+    from androidJavadocs.destinationDir
+}
+
+task androidSourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.srcDirs
+}
+
+artifacts {
+    archives androidSourcesJar
+    archives file: file('build/outputs/apk/calculatorpp-release.apk'), name: 'calculatorpp-android-app', type: 'apk'
+    archives file: file('build/outputs/proguard/release/mapping.txt'), name: 'calculatorpp-android-app', classifier: 'proguard', type: 'txt'
+}
+
+signing {
+    sign configurations.archives
+}
+
+group = "org.solovyev.android"
+archivesBaseName = "calculatorpp-android-app"
+version = version_name()
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            pom.project {
+                name 'Calculator++ Application'
+                packaging 'apk'
+                url 'https://github.com/serso/android-calculatorpp'
+
+                scm {
+                    url 'https://github.com/serso/android-calculatorpp'
+                    connection 'scm:https://serso@github.com/serso/android-calculatorpp.git'
+                    developerConnection 'scm:git://github.com/serso/android-calculatorpp.git'
+                }
+
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        distribution 'repo'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'se.solovyev'
+                        name 'Sergey Solovyev'
+                        email 'se.solovyev@gmail.com'
+                    }
+                }
+            }
+        }
+    }
+}

@@ -181,7 +181,7 @@
 		<item name="android:dropDownListViewStyle">@style/cpp_default_actionbar_dropdown_listview_style</item>
 	</style>
 
-	<style name="cpp_gray_dialog_theme" parent="Theme.Sherlock.Dialog">
+	<style name="cpp_gray_dialog_theme" parent="@android:style/Theme.Dialog">
 		<item name="android:windowCloseOnTouchOutside">false</item>
 		<!-- buttons -->
 		<item name="cpp_digit_button_style">@style/cpp_default_digit_button_style</item>
