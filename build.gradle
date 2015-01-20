@@ -35,5 +35,10 @@ allprojects {
     maven {
       url "$androidHome/extras/android/m2repository/"
     }
+
+    def userHome = System.getenv("HOME")
+    maven {
+      url "$userHome/.m2/repository/"
+    }
   }
 }
