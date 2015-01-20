@@ -1,0 +1,39 @@
+public int version_code() {
+  return 133
+}
+
+public String version_name() {
+  return '2.0.6'
+}
+
+public int android_sdk_version() {
+  return 17
+}
+
+public String android_build_tools_version() {
+  return '21.1.2'
+}
+
+public String android_min_sdk_version() {
+  return 7
+}
+
+buildscript {
+
+  repositories {
+    mavenCentral()
+  }
+  dependencies {
+    classpath 'com.android.tools.build:gradle:0.14.2'
+  }
+}
+
+allprojects {
+  repositories {
+    mavenCentral()
+    def androidHome = System.getenv("ANDROID_HOME")
+    maven {
+      url "$androidHome/extras/android/m2repository/"
+    }
+  }
+}

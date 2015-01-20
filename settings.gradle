@@ -1,0 +1,1 @@
+include ':core', ':android-app-core', ':android-app-widget', ':android-app-onscreen', ':android-app'
