@@ -1,1 +1,2 @@
 include ':core', ':android-app-core', ':android-app-widget', ':android-app-onscreen', ':android-app'
+include ':android-app-core-tests', ':android-app-tests'

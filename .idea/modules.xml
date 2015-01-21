@@ -4,7 +4,9 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/android-app/android-app.iml" filepath="$PROJECT_DIR$/android-app/android-app.iml" />
       <module fileurl="file://$PROJECT_DIR$/android-app-core/android-app-core.iml" filepath="$PROJECT_DIR$/android-app-core/android-app-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android-app-core-tests/android-app-core-tests.iml" filepath="$PROJECT_DIR$/android-app-core-tests/android-app-core-tests.iml" />
       <module fileurl="file://$PROJECT_DIR$/android-app-onscreen/android-app-onscreen.iml" filepath="$PROJECT_DIR$/android-app-onscreen/android-app-onscreen.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android-app-tests/android-app-tests.iml" filepath="$PROJECT_DIR$/android-app-tests/android-app-tests.iml" />
       <module fileurl="file://$PROJECT_DIR$/android-app-widget/android-app-widget.iml" filepath="$PROJECT_DIR$/android-app-widget/android-app-widget.iml" />
       <module fileurl="file://$PROJECT_DIR$/calculatorpp.iml" filepath="$PROJECT_DIR$/calculatorpp.iml" />
       <module fileurl="file://$PROJECT_DIR$/core/core.iml" filepath="$PROJECT_DIR$/core/core.iml" />

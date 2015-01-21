@@ -139,7 +139,9 @@ public class CalculatorApplication extends android.app.Application implements Sh
 	public void onCreate() {
 		ACRA.init(this);
 
-		App.init(this);
+		if (!App.isInitialized()) {
+			App.init(this);
+		}
 
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		CalculatorPreferences.setDefaultValues(preferences);

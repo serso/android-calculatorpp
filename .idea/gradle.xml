@@ -12,7 +12,9 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/android-app" />
             <option value="$PROJECT_DIR$/android-app-core" />
+            <option value="$PROJECT_DIR$/android-app-core-tests" />
             <option value="$PROJECT_DIR$/android-app-onscreen" />
+            <option value="$PROJECT_DIR$/android-app-tests" />
             <option value="$PROJECT_DIR$/android-app-widget" />
             <option value="$PROJECT_DIR$/core" />
           </set>
