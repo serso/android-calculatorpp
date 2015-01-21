@@ -34,12 +34,16 @@ android {
         versionCode version_code()
         versionName version_name()
     }
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
     compile project(':core')
     compile 'org.solovyev:common-core:1.0.7'
     compile 'org.solovyev:common-text:1.0.7'
+    compile 'org.solovyev:common-security:1.0.7'
     compile 'org.solovyev.android:android-common-views:1.1.18@aar'
     compile 'org.solovyev.android:android-common-menus:1.1.18@aar'
     compile 'org.solovyev.android:android-common-core:1.1.18@aar'

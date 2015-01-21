@@ -5,3 +5,4 @@ atlassian-ide-plugin.xml
 .idea/tasks.xml
 .idea/uiDesigner.xml
 .idea/libraries/
+**/build

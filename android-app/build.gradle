@@ -40,12 +40,15 @@ android {
             zipAlignEnabled true
         }
     }
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:support-v4:21.0.3'
-    compile ('ch.acra:acra:4.3.0') {
+    compile ('ch.acra:acra:4.5.0') {
         exclude group: 'org.json'
     }
     compile 'org.solovyev.android:android-common-ads:1.1.18@aar'
@@ -56,6 +59,7 @@ dependencies {
     compile 'org.solovyev.android:android-common-core:1.1.18@aar'
     compile 'org.solovyev.android:android-common-other:1.1.18@aar'
     compile 'org.solovyev.android:android-common-db:1.1.18@aar'
+    compile 'org.solovyev.android:android-common-security:1.1.18@aar'
     compile project(':android-app-core')
     compile project(':android-app-widget')
     compile project(':android-app-onscreen')

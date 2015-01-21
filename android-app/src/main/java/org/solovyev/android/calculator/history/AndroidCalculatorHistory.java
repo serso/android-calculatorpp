@@ -26,16 +26,13 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import org.solovyev.android.calculator.Calculator;
 import org.solovyev.android.calculator.CalculatorEventData;
 import org.solovyev.android.calculator.CalculatorEventType;
-import org.solovyev.android.calculator.R;
 import org.solovyev.common.history.HistoryAction;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -60,7 +57,7 @@ public class AndroidCalculatorHistory implements CalculatorHistory {
 	public void load() {
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		if (preferences != null) {
-			final String value = preferences.getString(context.getString(R.string.p_calc_history), null);
+			final String value = preferences.getString("org.solovyev.android.calculator.CalculatorModel_history", null);
 			if (value != null) {
 				calculatorHistory.fromXml(value);
 			}
@@ -71,7 +68,7 @@ public class AndroidCalculatorHistory implements CalculatorHistory {
 		final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
 		final SharedPreferences.Editor editor = settings.edit();
 
-		editor.putString(context.getString(R.string.p_calc_history), calculatorHistory.toXml());
+		editor.putString("org.solovyev.android.calculator.CalculatorModel_history", calculatorHistory.toXml());
 
 		editor.commit();
 	}

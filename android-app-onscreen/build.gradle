@@ -34,6 +34,9 @@ android {
         versionCode version_code()
         versionName version_name()
     }
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
