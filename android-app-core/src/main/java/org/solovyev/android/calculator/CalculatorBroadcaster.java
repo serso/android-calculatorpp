@@ -32,15 +32,15 @@ public final class CalculatorBroadcaster implements CalculatorEventListener {
 		}
 	}
 
-	private void sendDisplayStateChanged() {
+	public void sendDisplayStateChanged() {
 		sendBroadcastIntent(ACTION_DISPLAY_STATE_CHANGED);
 	}
 
-	private void sendEditorStateChangedIntent() {
+	public void sendEditorStateChangedIntent() {
 		sendBroadcastIntent(ACTION_EDITOR_STATE_CHANGED);
 	}
 
-	private void sendBroadcastIntent(@Nonnull String action) {
+	public void sendBroadcastIntent(@Nonnull String action) {
 		context.sendBroadcast(new Intent(action));
 	}
 }

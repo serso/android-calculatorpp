@@ -69,6 +69,9 @@ public final class App {
 
 	private static volatile boolean initialized;
 
+	@Nonnull
+	private static CalculatorBroadcaster broadcaster;
+
 	private App() {
 		throw new AssertionError();
 	}
@@ -104,6 +107,7 @@ public final class App {
 				App.locator = new ServiceLocator() {
 				};
 			}
+			App.broadcaster = new CalculatorBroadcaster(application);
 
 			App.initialized = true;
 		} else {
@@ -162,5 +166,10 @@ public final class App {
 	public static JEventListeners<JEventListener<? extends JEvent>, JEvent> getEventBus() {
 		checkInit();
 		return eventBus;
+	}
+
+	@Nonnull
+	public static CalculatorBroadcaster getBroadcaster() {
+		return broadcaster;
 	}
 }
