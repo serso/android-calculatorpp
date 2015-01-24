@@ -23,7 +23,7 @@
   -->
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-			  xmlns:c="http://schemas.android.com/apk/res/org.solovyev.android.calculator"
+			  xmlns:c="http://schemas.android.com/apk/res-auto"
 			  a:layout_width="match_parent"
 			  a:layout_height="match_parent"
 			  a:orientation="vertical">
