@@ -51,8 +51,6 @@ dependencies {
     compile ('ch.acra:acra:4.5.0') {
         exclude group: 'org.json'
     }
-    compile 'org.solovyev.android:android-common-ads:1.1.18@aar'
-    compile 'org.solovyev.android:android-common-billing:1.1.18@aar'
     compile 'org.solovyev.android:android-common-sherlock:1.1.18@aar'
     compile 'org.solovyev.android:android-common-lists:1.1.18@aar'
     compile 'org.solovyev.android:android-common-wizard:1.1.18@aar'
@@ -60,6 +58,7 @@ dependencies {
     compile 'org.solovyev.android:android-common-other:1.1.18@aar'
     compile 'org.solovyev.android:android-common-db:1.1.18@aar'
     compile 'org.solovyev.android:android-common-security:1.1.18@aar'
+    compile 'org.solovyev.android:checkout:0.6.0@aar'
     compile project(':android-app-core')
     compile project(':android-app-widget')
     compile project(':android-app-onscreen')

@@ -84,10 +84,8 @@
     </content>
     <orderEntry type="jdk" jdkName="Maven Android API 17 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="android-common-app-1.1.18" level="project" />
     <orderEntry type="library" exported="" name="support-v4-21.0.3" level="project" />
     <orderEntry type="library" exported="" name="common-security-1.0.7" level="project" />
-    <orderEntry type="library" exported="" name="admob-6.4.1-r11.0.0" level="project" />
     <orderEntry type="library" exported="" name="actionbarsherlock-4.4.0" level="project" />
     <orderEntry type="library" exported="" name="android-common-core-1.1.18" level="project" />
     <orderEntry type="library" exported="" name="annotations-2.0.1" level="project" />
@@ -98,8 +96,8 @@
     <orderEntry type="library" exported="" name="android-common-preferences-1.1.18" level="project" />
     <orderEntry type="library" exported="" name="android-common-views-1.1.18" level="project" />
     <orderEntry type="library" exported="" name="jscl-1.0.8" level="project" />
-    <orderEntry type="library" exported="" name="support-annotations-21.0.3" level="project" />
     <orderEntry type="library" exported="" name="stax-1.2.0" level="project" />
+    <orderEntry type="library" exported="" name="support-annotations-21.0.3" level="project" />
     <orderEntry type="library" exported="" name="guava-11.0.2" level="project" />
     <orderEntry type="library" exported="" name="commons-cli-1.2" level="project" />
     <orderEntry type="library" exported="" name="simple-xml-2.6.1" level="project" />

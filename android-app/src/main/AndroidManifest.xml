@@ -20,7 +20,11 @@
 	<supports-screens android:xlargeScreens="true"/>
 	<supports-screens android:anyDensity="true"/>
 
-	<uses-sdk android:minSdkVersion="4" android:targetSdkVersion="17"/>
+	<meta-data
+		android:name="com.google.android.gms.version"
+		android:value="@integer/google_play_services_version" />
+
+	<uses-sdk android:minSdkVersion="9" android:targetSdkVersion="17"/>
 
 	<application android:allowBackup="true" android:hardwareAccelerated="true" android:icon="@drawable/icon" android:label="@string/c_app_name" android:name=".CalculatorApplication" android:theme="@style/cpp_metro_blue_theme">
 
@@ -42,7 +46,7 @@
 		<activity android:clearTaskOnLaunch="true" android:label="@string/c_app_name" android:launchMode="singleTop" android:name=".CalculatorActivityMobile" android:windowSoftInputMode="adjustPan"/>
 
 		<!-- settings must use action bar icon-->
-		<activity android:icon="@drawable/ab_icon" android:label="@string/c_app_settings" android:name=".preferences.CalculatorPreferencesActivity"/>
+		<activity android:icon="@drawable/ab_icon" android:label="@string/c_app_settings" android:name=".preferences.PreferencesActivity"/>
 
 		<activity android:label="@string/c_history" android:name=".history.CalculatorHistoryActivity"/>
 
@@ -85,7 +89,7 @@
 		</activity>
 
 		<!-- settings must use action bar icon-->
-		<activity android:icon="@drawable/ab_icon" android:label="@string/c_settings" android:name=".plot.CalculatorPlotPreferenceActivity"/>
+		<activity android:icon="@drawable/ab_icon" android:label="@string/c_settings" android:name=".plot.PlotPreferenceActivity"/>
 
 		<!-- ONSCREEN CONFIG -->
 
@@ -167,18 +171,12 @@
 			<meta-data android:name="android.appwidget.provider" android:resource="@xml/calculator_widget_info_4x5"/>
 		</receiver>
 
-		<!-- ADMOB + BILLING CONFIG -->
+		<!-- ADMOB -->
 
-		<activity android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" android:name="com.google.ads.AdActivity"/>
-
-		<service android:name="net.robotmedia.billing.BillingService"/>
-		<receiver android:name="net.robotmedia.billing.BillingReceiver">
-			<intent-filter>
-				<action android:name="com.android.vending.billing.IN_APP_NOTIFY"/>
-				<action android:name="com.android.vending.billing.RESPONSE_CODE"/>
-				<action android:name="com.android.vending.billing.PURCHASE_STATE_CHANGED"/>
-			</intent-filter>
-		</receiver>
+		<activity
+			android:name="com.google.android.gms.ads.AdActivity"
+			android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+			android:theme="@android:style/Theme.Translucent" />
 
 		<!-- ACRA CONFIG -->
 

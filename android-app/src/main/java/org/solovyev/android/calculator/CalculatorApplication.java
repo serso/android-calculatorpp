@@ -29,16 +29,10 @@ import android.graphics.Typeface;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import net.robotmedia.billing.BillingController;
-import net.robotmedia.billing.helper.DefaultBillingObserver;
-import net.robotmedia.billing.model.BillingDB;
 import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
 import org.solovyev.android.Android;
-import org.solovyev.android.App;
-import org.solovyev.android.ServiceLocator;
-import org.solovyev.android.ads.AdsController;
 import org.solovyev.android.calculator.history.AndroidCalculatorHistory;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 import org.solovyev.android.calculator.onscreen.CalculatorOnscreenStartActivity;
@@ -46,12 +40,15 @@ import org.solovyev.android.calculator.plot.AndroidCalculatorPlotter;
 import org.solovyev.android.calculator.plot.CalculatorPlotterImpl;
 import org.solovyev.android.calculator.view.EditorTextProcessor;
 import org.solovyev.android.calculator.wizard.CalculatorWizards;
+import org.solovyev.android.checkout.*;
 import org.solovyev.android.wizard.Wizards;
 import org.solovyev.common.msg.MessageType;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
 
 /**
  * User: serso
@@ -74,12 +71,14 @@ public class CalculatorApplication extends android.app.Application implements Sh
 	**********************************************************************
 	*/
 
+	@Nonnull
+	static final String MAIL = "se.solovyev@gmail.com";
+
 	private static final String TAG = "Calculator++ Application";
 
 	public static final String AD_FREE_PRODUCT_ID = "ad_free";
 	public static final String AD_FREE_P_KEY = "org.solovyev.android.calculator_ad_free";
-
-	public static final String ADMOB_USER_ID = "a14f02cf9c80cbc";
+	public static final String ADMOB = "ca-app-pub-2228934497384784/2916398892";
 
 	@Nonnull
 	private static CalculatorApplication instance;
@@ -109,6 +108,25 @@ public class CalculatorApplication extends android.app.Application implements Sh
 	@Nonnull
 	private Typeface typeFace;
 
+	@Nonnull
+	private final Billing billing = new Billing(this, new Billing.DefaultConfiguration() {
+		@Nonnull
+		@Override
+		public String getPublicKey() {
+			return CalculatorSecurity.getPK();
+		}
+
+		@Nullable
+		@Override
+		public Inventory getFallbackInventory(@Nonnull Checkout checkout, @Nonnull Executor onLoadExecutor) {
+			if (RobotmediaDatabase.exists(billing.getContext())) {
+				return new RobotmediaInventory(checkout, onLoadExecutor);
+			} else {
+				return null;
+			}
+		}
+	});
+
 	/*
 	**********************************************************************
 	*
@@ -137,7 +155,9 @@ public class CalculatorApplication extends android.app.Application implements Sh
 
 	@Override
 	public void onCreate() {
-		ACRA.init(this);
+		if (!BuildConfig.DEBUG) {
+			ACRA.init(this);
+		}
 
 		if (!App.isInitialized()) {
 			App.init(this);
@@ -178,32 +198,11 @@ public class CalculatorApplication extends android.app.Application implements Sh
 
 		Locator.getInstance().getCalculator().init();
 
-		BillingDB.init(CalculatorApplication.this);
+		billing.connect();
 
-		if (withAds) {
-			AdsController.getInstance().init(this, ADMOB_USER_ID, AD_FREE_PRODUCT_ID, new BillingController.IConfiguration() {
-
-				@Override
-				public byte[] getObfuscationSalt() {
-					return new byte[]{81, -114, 32, -127, -32, -104, -40, -15, -47, 57, -13, -41, -33, 67, -114, 7, -11, 53, 126, 82};
-				}
-
-				@Override
-				public String getPublicKey() {
-					return CalculatorSecurity.getPK();
-				}
-			});
-		}
-
-		BillingController.registerObserver(new DefaultBillingObserver(this, null));
-
-		// init billing controller
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				BillingController.checkBillingSupported(CalculatorApplication.this);
-				AdsController.getInstance().isAdFree(CalculatorApplication.this);
-
 				try {
 					// prepare engine
 					Locator.getInstance().getEngine().getMathEngine0().evaluate("1+1");
@@ -259,6 +258,11 @@ public class CalculatorApplication extends android.app.Application implements Sh
 	@Nonnull
 	public Typeface getTypeFace() {
 		return typeFace;
+	}
+
+	@Nonnull
+	public Billing getBilling() {
+		return billing;
 	}
 
 	/*

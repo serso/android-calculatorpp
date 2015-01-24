@@ -32,13 +32,9 @@ import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-
 import jscl.math.Generic;
-
 import org.solovyev.android.Android;
-import org.solovyev.android.App;
 import org.solovyev.android.calculator.about.CalculatorAboutActivity;
 import org.solovyev.android.calculator.function.FunctionEditDialogFragment;
 import org.solovyev.android.calculator.history.CalculatorHistoryActivity;
@@ -46,14 +42,13 @@ import org.solovyev.android.calculator.math.edit.*;
 import org.solovyev.android.calculator.matrix.CalculatorMatrixActivity;
 import org.solovyev.android.calculator.plot.CalculatorPlotActivity;
 import org.solovyev.android.calculator.plot.CalculatorPlotter;
-import org.solovyev.android.calculator.preferences.CalculatorPreferencesActivity;
+import org.solovyev.android.calculator.preferences.PreferencesActivity;
 import org.solovyev.common.msg.Message;
 import org.solovyev.common.msg.MessageType;
 import org.solovyev.common.text.Strings;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.List;
 
 /**
@@ -81,7 +76,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
 	}
 
 	public static void showSettings(@Nonnull final Context context, boolean detached) {
-		final Intent intent = new Intent(context, CalculatorPreferencesActivity.class);
+		final Intent intent = new Intent(context, PreferencesActivity.class);
 		Android.addIntentFlags(intent, detached, context);
 		context.startActivity(intent);
 	}

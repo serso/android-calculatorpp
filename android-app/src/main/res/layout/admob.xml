@@ -22,11 +22,12 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<PreferenceScreen xmlns:a="http://schemas.android.com/apk/res/android">
-
-		<android.preference.CheckBoxPreference
-				a:key="graph_plot_imag"
-				a:title="@string/cpp_prefs_graph_plot_imag_title"
-				a:summary="@string/cpp_prefs_graph_plot_imag_summary"/>
-
-</PreferenceScreen>
+<com.google.android.gms.ads.AdView xmlns:a="http://schemas.android.com/apk/res/android"
+	xmlns:ads="http://schemas.android.com/apk/res-auto"
+	a:id="@+id/admob"
+	a:layout_width="match_parent"
+	a:layout_height="wrap_content"
+    a:layout_gravity="center"
+    ads:adSize="BANNER"
+    a:visibility="gone"
+    ads:adUnitId="@string/admob" />

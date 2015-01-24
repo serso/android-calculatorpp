@@ -15,7 +15,7 @@ public String android_build_tools_version() {
 }
 
 public String android_min_sdk_version() {
-  return 7
+  return 9
 }
 
 buildscript {
@@ -34,6 +34,9 @@ allprojects {
     def androidHome = System.getenv("ANDROID_HOME")
     maven {
       url "$androidHome/extras/android/m2repository/"
+    }
+    maven {
+      url "$androidHome/extras/google/m2repository/"
     }
 
     def userHome = System.getenv("HOME")
