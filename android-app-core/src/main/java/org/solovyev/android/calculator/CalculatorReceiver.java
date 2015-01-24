@@ -22,6 +22,8 @@ public final class CalculatorReceiver extends BroadcastReceiver {
 			if (button != null) {
 				button.onClick(context);
 			}
+
+			App.getBroadcaster().sendEditorStateChangedIntent();
 		}
 	}
 
