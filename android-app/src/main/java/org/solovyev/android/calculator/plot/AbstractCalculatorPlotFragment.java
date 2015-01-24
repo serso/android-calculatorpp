@@ -417,7 +417,7 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 		preferences(R.id.menu_plot_settings) {
 			@Override
 			public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
-				context.startActivity(new Intent(context, CalculatorPlotPreferenceActivity.class));
+				context.startActivity(new Intent(context, PlotPreferenceActivity.class));
 			}
 		};
 

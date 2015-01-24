@@ -22,7 +22,9 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-			  a:id="@+id/ad_parent_view"
-			  a:layout_width="match_parent"
-			  a:layout_height="wrap_content"/>
+<org.solovyev.android.calculator.AdView xmlns:a="http://schemas.android.com/apk/res/android"
+	a:id="@+id/ad"
+	a:layout_width="match_parent"
+	a:layout_height="wrap_content"
+	a:layout_gravity="center"
+	a:visibility="gone" />

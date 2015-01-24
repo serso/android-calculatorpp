@@ -23,17 +23,17 @@
 package org.solovyev.android.calculator;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import com.google.ads.AdView;
+import org.solovyev.android.checkout.*;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.solovyev.android.ads.AdsController;
+import static java.util.Arrays.asList;
 
 /**
  * User: serso
@@ -41,6 +41,8 @@ import org.solovyev.android.ads.AdsController;
  * Time: 10:14 PM
  */
 public class CalculatorFragmentHelperImpl extends AbstractCalculatorHelper implements CalculatorFragmentHelper {
+
+	private ActivityCheckout checkout;
 
 	@Nullable
 	private AdView adView;
@@ -50,6 +52,9 @@ public class CalculatorFragmentHelperImpl extends AbstractCalculatorHelper imple
 	private int titleResId = -1;
 
 	private boolean listenersOnCreate = true;
+
+	@Nullable
+	private Boolean adFree = null;
 
 	public CalculatorFragmentHelperImpl(int layoutId) {
 		this.layoutId = layoutId;
@@ -84,26 +89,57 @@ public class CalculatorFragmentHelperImpl extends AbstractCalculatorHelper imple
 
 	@Override
 	public void onCreate(@Nonnull Fragment fragment) {
-		super.onCreate(fragment.getActivity());
+		final FragmentActivity activity = fragment.getActivity();
+		super.onCreate(activity);
+		checkout = Checkout.forActivity(activity, CalculatorApplication.getInstance().getBilling(), Products.create().add(ProductTypes.IN_APP, asList("ad_free")));
 
 		if (listenersOnCreate) {
 			if (fragment instanceof CalculatorEventListener) {
 				Locator.getInstance().getCalculator().addCalculatorEventListener((CalculatorEventListener) fragment);
 			}
 		}
+
+		checkout.start();
 	}
 
 	@Override
 	public void onResume(@Nonnull Fragment fragment) {
+		if (adView != null) {
+			adView.resume();
+		}
 		if (!listenersOnCreate) {
 			if (fragment instanceof CalculatorEventListener) {
 				Locator.getInstance().getCalculator().addCalculatorEventListener((CalculatorEventListener) fragment);
 			}
 		}
+
+		checkout.loadInventory().whenLoaded(new Inventory.Listener() {
+			@Override
+			public void onLoaded(@Nonnull Inventory.Products products) {
+				adFree = products.get(ProductTypes.IN_APP).isPurchased("ad_free");
+				updateAdViewState();
+			}
+		});
+	}
+
+	private void updateAdViewState() {
+		if(adFree == null || adView == null) {
+			return;
+		}
+
+		if (adFree) {
+			adView.hide();
+		} else {
+			adView.show();
+		}
 	}
 
 	@Override
 	public void onPause(@Nonnull Fragment fragment) {
+		adFree = null;
+		if (adView != null) {
+			adView.pause();
+		}
 		if (!listenersOnCreate) {
 			if (fragment instanceof CalculatorEventListener) {
 				Locator.getInstance().getCalculator().removeCalculatorEventListener((CalculatorEventListener) fragment);
@@ -113,16 +149,15 @@ public class CalculatorFragmentHelperImpl extends AbstractCalculatorHelper imple
 
 	@Override
 	public void onViewCreated(@Nonnull Fragment fragment, @Nonnull View root) {
-		final ViewGroup adParentView = (ViewGroup) root.findViewById(R.id.ad_parent_view);
+		adView = (AdView) root.findViewById(R.id.ad);
 		final ViewGroup mainFragmentLayout = (ViewGroup) root.findViewById(R.id.main_fragment_layout);
 
 		if (fragment instanceof CalculatorDisplayFragment || fragment instanceof CalculatorEditorFragment || fragment instanceof CalculatorKeyboardFragment) {
 			// no ads in those fragments
 		} else {
-			if (adParentView != null) {
-				adView = AdsController.getInstance().inflateAd(fragment.getActivity(), adParentView, R.id.ad_parent_view);
+			if (adView != null) {
+				updateAdViewState();
 			} else if (mainFragmentLayout != null) {
-				adView = AdsController.getInstance().inflateAd(fragment.getActivity(), mainFragmentLayout, R.id.main_fragment_layout);
 			}
 		}
 
@@ -135,7 +170,10 @@ public class CalculatorFragmentHelperImpl extends AbstractCalculatorHelper imple
 
 	@Override
 	public void onDestroy(@Nonnull Fragment fragment) {
-		super.onDestroy(fragment.getActivity());
+		if (adView != null) {
+			adView.destroy();
+			adView = null;
+		}
 
 		if (listenersOnCreate) {
 			if (fragment instanceof CalculatorEventListener) {
@@ -143,9 +181,9 @@ public class CalculatorFragmentHelperImpl extends AbstractCalculatorHelper imple
 			}
 		}
 
-		if (this.adView != null) {
-			this.adView.destroy();
-		}
+		checkout.stop();
+
+		super.onDestroy(fragment.getActivity());
 	}
 
 	@Nonnull

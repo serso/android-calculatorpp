@@ -23,22 +23,7 @@
 package org.solovyev.android.calculator.onscreen;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-
-import javax.annotation.Nonnull;
-
-import org.solovyev.android.Android;
-import org.solovyev.android.App;
-import org.solovyev.android.calculator.AbstractFixableError;
-import org.solovyev.android.calculator.CalculatorPreferences;
-import org.solovyev.android.calculator.FixableMessage;
-import org.solovyev.android.calculator.FixableMessagesDialog;
-import org.solovyev.common.msg.MessageType;
-
-import java.util.Arrays;
 
 public class CalculatorOnscreenStartActivity extends Activity {
 

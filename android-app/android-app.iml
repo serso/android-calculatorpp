@@ -86,10 +86,9 @@
     <orderEntry type="library" exported="" name="android-common-db-1.1.18" level="project" />
     <orderEntry type="library" exported="" name="support-v4-21.0.3" level="project" />
     <orderEntry type="library" exported="" name="common-security-1.0.7" level="project" />
-    <orderEntry type="library" exported="" name="admob-6.4.1-r11.0.0" level="project" />
     <orderEntry type="library" exported="" name="acra-4.5.0" level="project" />
+    <orderEntry type="library" exported="" name="checkout-0.6.0" level="project" />
     <orderEntry type="library" exported="" name="android-common-core-1.1.18" level="project" />
-    <orderEntry type="library" exported="" name="android-common-billing-1.1.18" level="project" />
     <orderEntry type="library" exported="" name="android-common-security-1.1.18" level="project" />
     <orderEntry type="library" exported="" name="annotations-2.0.1" level="project" />
     <orderEntry type="library" exported="" name="android-common-other-1.1.18" level="project" />
@@ -97,7 +96,6 @@
     <orderEntry type="library" exported="" name="common-core-1.0.7" level="project" />
     <orderEntry type="library" exported="" name="common-msg-1.0.5" level="project" />
     <orderEntry type="library" exported="" name="common-listeners-1.0.7" level="project" />
-    <orderEntry type="library" exported="" name="android-common-ads-1.1.18" level="project" />
     <orderEntry type="library" exported="" name="common-text-1.0.7" level="project" />
     <orderEntry type="library" exported="" name="jscl-1.0.8" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-21.0.3" level="project" />

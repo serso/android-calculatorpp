@@ -24,10 +24,6 @@
 
 <PreferenceScreen xmlns:a="http://schemas.android.com/apk/res/android">
 
-	<PreferenceScreen a:title="@string/c_prefs_other_category">
-
-		<org.solovyev.android.ads.AdViewPreference a:layout="@layout/acl_adview_pref"/>
-
 		<android.preference.CheckBoxPreference
 				a:key="@string/p_calc_show_release_notes_key"
 				a:summary="@string/c_calc_show_release_notes_summary"
@@ -44,7 +40,5 @@
 				a:key="@string/p_clear_billing_info_key"
 				a:summary="@string/c_clear_billing_info_summary"
 				a:title="@string/c_clear_billing_info_title"/>
-
-	</PreferenceScreen>
 
 </PreferenceScreen>

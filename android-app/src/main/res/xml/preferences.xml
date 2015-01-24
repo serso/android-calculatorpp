@@ -22,18 +22,33 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<PreferenceScreen xmlns:a="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:a="http://schemas.android.com/apk/res/android"
+	a:key="screen-main">
 
 	<Preference
-			a:key="@string/p_calc_ad_free_key"
-			a:title="@string/c_calc_ad_free_title"
-			a:summary="@string/c_calc_ad_free_summary"
-			a:defaultValue="false"/>
-
-	<org.solovyev.android.ads.AdViewPreference a:layout="@layout/acl_adview_pref"/>
+		a:key="@string/p_calc_ad_free_key"
+		a:title="@string/c_calc_ad_free_title"
+		a:summary="@string/c_calc_ad_free_summary"
+		a:defaultValue="false" />
 
 	<Preference
 		a:key="restart_wizard"
-		a:title="@string/cpp_restart_wizard"/>
+		a:title="@string/cpp_restart_wizard" />
+
+	<Preference
+		a:title="@string/c_prefs_calculations_category"
+		a:key="screen-calculations" />
+	<Preference
+		a:title="@string/c_prefs_appearance_category"
+		a:key="screen-appearance" />
+	<Preference
+		a:title="@string/prefs_graph_screen_title"
+		a:key="screen-plot" />
+	<Preference
+		a:title="@string/c_prefs_other_category"
+		a:key="screen-other" />
+	<Preference
+		a:title="@string/prefs_onscreen_title"
+		a:key="screen-onscreen" />
 
 </PreferenceScreen>

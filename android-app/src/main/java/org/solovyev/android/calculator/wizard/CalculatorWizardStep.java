@@ -25,7 +25,7 @@ package org.solovyev.android.calculator.wizard;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import org.solovyev.android.App;
+import org.solovyev.android.calculator.App;
 import org.solovyev.android.Views;
 import org.solovyev.android.calculator.CalculatorPreferences;
 import org.solovyev.android.calculator.R;

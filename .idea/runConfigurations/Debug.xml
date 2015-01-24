@@ -1,9 +1,9 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="C++" type="AndroidRunConfigurationType" factoryName="Android Application">
+  <configuration default="false" name="Debug" type="AndroidRunConfigurationType" factoryName="Android Application">
     <module name="android-app" />
     <option name="ACTIVITY_CLASS" value="" />
-    <option name="MODE" value="default_activity" />
-    <option name="DEPLOY" value="true" />
+    <option name="MODE" value="do_nothing" />
+    <option name="DEPLOY" value="false" />
     <option name="ARTIFACT_NAME" value="" />
     <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
     <option name="USE_LAST_SELECTED_DEVICE" value="true" />
@@ -19,6 +19,8 @@
     <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
     <RunnerSettings RunnerId="AndroidDebugRunner" />
     <ConfigurationWrapper RunnerId="AndroidDebugRunner" />
-    <method />
+    <method>
+      <option name="Make" enabled="false" />
+    </method>
   </configuration>
 </component>
