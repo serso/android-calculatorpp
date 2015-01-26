@@ -70,7 +70,7 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 	private boolean useBackAsPrev;
 
 	@Nonnull
-	private CalculatorActivityHelper activityHelper;
+	private ActivityUi activityUi;
 
 	/**
 	 * Called when the activity is first created.
@@ -81,20 +81,20 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 
 		final CalculatorPreferences.Gui.Layout layout = CalculatorPreferences.Gui.layout.getPreferenceNoError(preferences);
 
-		activityHelper = CalculatorApplication.getInstance().createActivityHelper(layout.getLayoutId(), TAG);
-		activityHelper.logDebug("onCreate");
-		activityHelper.onCreate(this, savedInstanceState);
+		activityUi = CalculatorApplication.getInstance().createActivityHelper(layout.getLayoutId(), TAG);
+		activityUi.logDebug("onCreate");
+		activityUi.onCreate(this);
 
 		super.onCreate(savedInstanceState);
-		activityHelper.logDebug("super.onCreate");
+		activityUi.logDebug("super.onCreate");
 
 		if (isMultiPane()) {
-			activityHelper.addTab(this, CalculatorFragmentType.history, null, R.id.main_second_pane);
-			activityHelper.addTab(this, CalculatorFragmentType.saved_history, null, R.id.main_second_pane);
-			activityHelper.addTab(this, CalculatorFragmentType.variables, null, R.id.main_second_pane);
-			activityHelper.addTab(this, CalculatorFragmentType.functions, null, R.id.main_second_pane);
-			activityHelper.addTab(this, CalculatorFragmentType.operators, null, R.id.main_second_pane);
-			activityHelper.addTab(this, CalculatorPlotActivity.getPlotterFragmentType(), null, R.id.main_second_pane);
+			activityUi.addTab(this, CalculatorFragmentType.history, null, R.id.main_second_pane);
+			activityUi.addTab(this, CalculatorFragmentType.saved_history, null, R.id.main_second_pane);
+			activityUi.addTab(this, CalculatorFragmentType.variables, null, R.id.main_second_pane);
+			activityUi.addTab(this, CalculatorFragmentType.functions, null, R.id.main_second_pane);
+			activityUi.addTab(this, CalculatorFragmentType.operators, null, R.id.main_second_pane);
+			activityUi.addTab(this, CalculatorPlotActivity.getPlotterFragmentType(), null, R.id.main_second_pane);
 		} else {
 			final ActionBar actionBar = getSupportActionBar();
 			if (Build.VERSION.SDK_INT <= GINGERBREAD_MR1 || (Build.VERSION.SDK_INT >= ICE_CREAM_SANDWICH && hasPermanentMenuKey())) {
@@ -125,6 +125,18 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 			Locator.getInstance().getKeyboard().buttonPressed("+");
 			Locator.getInstance().getKeyboard().buttonPressed("321");
 		}
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		activityUi.onStart(this);
+	}
+
+	@Override
+	protected void onStop() {
+		activityUi.onStop(this);
+		super.onStop();
 	}
 
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
@@ -232,7 +244,7 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 
 	@Override
 	protected void onPause() {
-		this.activityHelper.onPause(this);
+		this.activityUi.onPause(this);
 
 		super.onPause();
 	}
@@ -243,7 +255,7 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		final CalculatorPreferences.Gui.Layout newLayout = CalculatorPreferences.Gui.layout.getPreference(preferences);
-		if (newLayout != activityHelper.getLayout()) {
+		if (newLayout != activityUi.getLayout()) {
 			Activities.restartActivity(this);
 		}
 
@@ -254,12 +266,12 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 			window.clearFlags(FLAG_KEEP_SCREEN_ON);
 		}
 
-		this.activityHelper.onResume(this);
+		this.activityUi.onResume(this);
 	}
 
 	@Override
 	protected void onDestroy() {
-		activityHelper.onDestroy(this);
+		activityUi.onDestroy(this);
 
 		PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
 
@@ -281,7 +293,7 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 
-		activityHelper.onSaveInstanceState(this, outState);
+		activityUi.onSaveInstanceState(this, outState);
 	}
 
 	private void toggleOrientationChange(@Nullable SharedPreferences preferences) {
@@ -391,7 +403,7 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 								// do nothing - fragment shown and already registered for plot updates
 							} else {
 								// otherwise - open fragment
-								activityHelper.selectTab(CalculatorActivity.this, CalculatorFragmentType.plotter);
+								activityUi.selectTab(CalculatorActivity.this, CalculatorFragmentType.plotter);
 							}
 						} else {
 							// start new activity

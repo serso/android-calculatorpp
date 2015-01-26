@@ -23,70 +23,31 @@
 package org.solovyev.android.calculator.math.edit;
 
 import android.os.Bundle;
-
-import com.actionbarsherlock.app.SherlockFragmentActivity;
+import org.solovyev.android.calculator.*;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.solovyev.android.calculator.*;
-import org.solovyev.android.calculator.history.CalculatorHistoryActivity;
+public class CalculatorOperatorsActivity extends BaseActivity implements CalculatorEventListener {
 
-/**
- * User: serso
- * Date: 12/21/11
- * Time: 10:33 PM
- */
-public class CalculatorOperatorsActivity extends SherlockFragmentActivity implements CalculatorEventListener {
-
-	@Nonnull
-	private final CalculatorActivityHelper activityHelper = CalculatorApplication.getInstance().createActivityHelper(R.layout.main_empty, CalculatorHistoryActivity.class.getSimpleName());
+	public CalculatorOperatorsActivity() {
+		super(R.layout.main_empty, CalculatorOperatorsActivity.class.getSimpleName());
+	}
 
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		activityHelper.onCreate(this, savedInstanceState);
 
 		final CalculatorFragmentType fragmentType = CalculatorFragmentType.operators;
 
 		for (OperatorCategory category : OperatorCategory.getCategoriesByTabOrder()) {
 			final AndroidOperatorCategory androidCategory = AndroidOperatorCategory.valueOf(category);
 			if (androidCategory != null) {
-				activityHelper.addTab(this, fragmentType.createSubFragmentTag(category.name()), fragmentType.getFragmentClass(), AbstractMathEntityListFragment.createBundleFor(category.name()), androidCategory.getCaptionId(), R.id.main_layout);
+				ui.addTab(this, fragmentType.createSubFragmentTag(category.name()), fragmentType.getFragmentClass(), AbstractMathEntityListFragment.createBundleFor(category.name()), androidCategory.getCaptionId(), R.id.main_layout);
 			} else {
-				activityHelper.logError("Unable to find android operator category for " + category);
+				ui.logError("Unable to find android operator category for " + category);
 			}
 		}
-	}
-
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-
-		activityHelper.onSaveInstanceState(this, outState);
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-
-		activityHelper.onResume(this);
-	}
-
-	@Override
-	protected void onPause() {
-		this.activityHelper.onPause(this);
-
-		super.onPause();
-	}
-
-
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-
-		this.activityHelper.onDestroy(this);
 	}
 
 	@Override

@@ -41,7 +41,7 @@ import javax.annotation.Nonnull;
 public class CalculatorDisplayFragment extends SherlockFragment {
 
 	@Nonnull
-	private CalculatorFragmentHelper fragmentHelper;
+	private FragmentUi fragmentHelper;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

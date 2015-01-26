@@ -25,7 +25,7 @@ package org.solovyev.android.calculator.plot;
 import android.content.Intent;
 import android.os.Bundle;
 
-import org.solovyev.android.calculator.CalculatorFragmentActivity;
+import org.solovyev.android.calculator.EmptyActivity;
 import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.R;
 
@@ -39,7 +39,7 @@ import static com.actionbarsherlock.app.ActionBar.NAVIGATION_MODE_STANDARD;
  * Date: 9/30/12
  * Time: 4:56 PM
  */
-public class CalculatorPlotActivity extends CalculatorFragmentActivity {
+public class CalculatorPlotActivity extends EmptyActivity {
 
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,7 +55,7 @@ public class CalculatorPlotActivity extends CalculatorFragmentActivity {
 		}
 
 		getSupportActionBar().setNavigationMode(NAVIGATION_MODE_STANDARD);
-		getActivityHelper().setFragment(this, getPlotterFragmentType(), arguments, R.id.main_layout);
+		getUi().setFragment(this, getPlotterFragmentType(), arguments, R.id.main_layout);
 	}
 
 	@Nonnull

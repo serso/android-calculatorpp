@@ -30,7 +30,7 @@ import android.webkit.WebView;
  * Date: 6/16/13
  * Time: 6:26 PM
  */
-public final class CalculatorWikiActivity extends CalculatorFragmentActivity {
+public final class CalculatorWikiActivity extends EmptyActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

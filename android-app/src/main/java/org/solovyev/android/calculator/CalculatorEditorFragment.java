@@ -49,7 +49,7 @@ import org.solovyev.android.sherlock.menu.SherlockMenuHelper;
 public class CalculatorEditorFragment extends SherlockFragment {
 
 	@Nonnull
-	private CalculatorFragmentHelper fragmentHelper;
+	private FragmentUi fragmentHelper;
 
 	@Nonnull
 	private ActivityMenu<Menu, MenuItem> menu = ListActivityMenu.fromEnum(CalculatorMenu.class, SherlockMenuHelper.getInstance());

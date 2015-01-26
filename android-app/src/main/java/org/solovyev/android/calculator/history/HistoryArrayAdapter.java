@@ -99,7 +99,7 @@ public class HistoryArrayAdapter extends ArrayAdapter<CalculatorHistoryState> {
 						final Context context = getContext();
 						if (context instanceof CalculatorHistoryActivity) {
 							final CalculatorHistoryActivity activity = (CalculatorHistoryActivity) context;
-							activity.getActivityHelper().selectTab(activity, saved_history);
+							activity.getUi().selectTab(activity, saved_history);
 						}
 					}
 				});

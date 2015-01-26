@@ -25,30 +25,20 @@ package org.solovyev.android.calculator.math.edit;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-
-import com.actionbarsherlock.app.SherlockFragmentActivity;
+import org.solovyev.android.calculator.*;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.solovyev.android.calculator.*;
-import org.solovyev.android.calculator.history.CalculatorHistoryActivity;
+public class CalculatorFunctionsActivity extends BaseActivity implements CalculatorEventListener {
 
-/**
- * User: serso
- * Date: 12/21/11
- * Time: 10:33 PM
- */
-public class CalculatorFunctionsActivity extends SherlockFragmentActivity implements CalculatorEventListener {
-
-	@Nonnull
-	private final CalculatorActivityHelper activityHelper = CalculatorApplication.getInstance().createActivityHelper(R.layout.main_empty, CalculatorHistoryActivity.class.getSimpleName());
+	public CalculatorFunctionsActivity() {
+		super(R.layout.main_empty, CalculatorFunctionsActivity.class.getSimpleName());
+	}
 
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		activityHelper.onCreate(this, savedInstanceState);
 
 		final Bundle bundle;
 
@@ -74,41 +64,11 @@ public class CalculatorFunctionsActivity extends SherlockFragmentActivity implem
 					fragmentParameters = AbstractMathEntityListFragment.createBundleFor(category.name());
 				}
 
-				activityHelper.addTab(this, fragmentType.createSubFragmentTag(category.name()), fragmentType.getFragmentClass(), fragmentParameters, androidCategory.getCaptionId(), R.id.main_layout);
+				ui.addTab(this, fragmentType.createSubFragmentTag(category.name()), fragmentType.getFragmentClass(), fragmentParameters, androidCategory.getCaptionId(), R.id.main_layout);
 			} else {
 				Log.e(CalculatorFunctionsActivity.class.getSimpleName(), "Unable to find android function category for " + category);
 			}
 		}
-
-	}
-
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-
-		activityHelper.onSaveInstanceState(this, outState);
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-
-		activityHelper.onResume(this);
-	}
-
-	@Override
-	protected void onPause() {
-		this.activityHelper.onPause(this);
-
-		super.onPause();
-	}
-
-
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-
-		this.activityHelper.onDestroy(this);
 	}
 
 	@Override
