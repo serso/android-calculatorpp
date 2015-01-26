@@ -30,7 +30,7 @@ import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.util.ActivityController;
 import org.solovyev.android.CalculatorTestRunner;
-import org.solovyev.android.calculator.CalculatorPreferences;
+import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.wizard.BaseWizardActivity;
 import org.solovyev.android.wizard.WizardUi;
 
@@ -100,7 +100,7 @@ public class OnScreenCalculatorWizardStepTest {
 
 	private void testShouldBeEqualsToIconState(boolean iconEnabled) throws IllegalAccessException {
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(Robolectric.application);
-		CalculatorPreferences.OnscreenCalculator.showAppIcon.putPreference(preferences, iconEnabled);
+		Preferences.OnscreenCalculator.showAppIcon.putPreference(preferences, iconEnabled);
 		createActivity();
 		setFragment();
 		assertEquals(iconEnabled, fragment.isOnscreenCalculatorEnabled());

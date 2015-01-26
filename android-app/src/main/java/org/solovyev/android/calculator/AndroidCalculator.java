@@ -144,7 +144,7 @@ public class AndroidCalculator implements Calculator, CalculatorEventListener, S
 		this.calculator.init();
 
 		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-		this.calculator.setCalculateOnFly(CalculatorPreferences.Calculations.calculateOnFly.getPreference(prefs));
+		this.calculator.setCalculateOnFly(Preferences.Calculations.calculateOnFly.getPreference(prefs));
 	}
 
 	@Override
@@ -245,8 +245,8 @@ public class AndroidCalculator implements Calculator, CalculatorEventListener, S
 
 	@Override
 	public void onSharedPreferenceChanged(@Nonnull SharedPreferences prefs, @Nonnull String key) {
-		if (CalculatorPreferences.Calculations.calculateOnFly.getKey().equals(key)) {
-			this.calculator.setCalculateOnFly(CalculatorPreferences.Calculations.calculateOnFly.getPreference(prefs));
+		if (Preferences.Calculations.calculateOnFly.getKey().equals(key)) {
+			this.calculator.setCalculateOnFly(Preferences.Calculations.calculateOnFly.getPreference(prefs));
 		}
 	}
 }

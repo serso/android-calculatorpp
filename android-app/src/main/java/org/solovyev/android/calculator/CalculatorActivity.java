@@ -58,7 +58,7 @@ import javax.annotation.Nullable;
 import static android.os.Build.VERSION_CODES.GINGERBREAD_MR1;
 import static android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH;
 import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
-import static org.solovyev.android.calculator.CalculatorPreferences.Gui.preventScreenFromFading;
+import static org.solovyev.android.calculator.Preferences.Gui.preventScreenFromFading;
 import static org.solovyev.android.wizard.WizardUi.continueWizard;
 import static org.solovyev.android.wizard.WizardUi.startWizard;
 
@@ -79,7 +79,7 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-		final CalculatorPreferences.Gui.Layout layout = CalculatorPreferences.Gui.layout.getPreferenceNoError(preferences);
+		final Preferences.Gui.Layout layout = Preferences.Gui.layout.getPreferenceNoError(preferences);
 
 		activityUi = CalculatorApplication.getInstance().createActivityHelper(layout.getLayoutId(), TAG);
 		activityUi.logDebug("onCreate");
@@ -109,7 +109,7 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 		FragmentUtils.createFragment(this, CalculatorDisplayFragment.class, R.id.displayContainer, "display");
 		FragmentUtils.createFragment(this, CalculatorKeyboardFragment.class, R.id.keyboardContainer, "keyboard");
 
-		this.useBackAsPrev = CalculatorPreferences.Gui.usePrevAsBack.getPreference(preferences);
+		this.useBackAsPrev = Preferences.Gui.usePrevAsBack.getPreference(preferences);
 		if (savedInstanceState == null) {
 			firstTimeInit(preferences, this);
 		}
@@ -154,16 +154,16 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 	}
 
 	private static void firstTimeInit(@Nonnull SharedPreferences preferences, @Nonnull Context context) {
-		final Integer appOpenedCounter = CalculatorPreferences.appOpenedCounter.getPreference(preferences);
+		final Integer appOpenedCounter = Preferences.appOpenedCounter.getPreference(preferences);
 		if (appOpenedCounter != null) {
-			CalculatorPreferences.appOpenedCounter.putPreference(preferences, appOpenedCounter + 1);
+			Preferences.appOpenedCounter.putPreference(preferences, appOpenedCounter + 1);
 		}
 
-		final Integer savedVersion = CalculatorPreferences.appVersion.getPreference(preferences);
+		final Integer savedVersion = Preferences.appVersion.getPreference(preferences);
 
 		final int appVersion = Android.getAppVersionCode(context);
 
-		CalculatorPreferences.appVersion.putPreference(preferences, appVersion);
+		Preferences.appVersion.putPreference(preferences, appVersion);
 
 		if (!CalculatorApplication.isMonkeyRunner(context)) {
 
@@ -174,13 +174,13 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 				continueWizard(wizards, wizard.getName(), context);
 				dialogShown = true;
 			} else {
-				if (Objects.areEqual(savedVersion, CalculatorPreferences.appVersion.getDefaultValue())) {
+				if (Objects.areEqual(savedVersion, Preferences.appVersion.getDefaultValue())) {
 					// new start
 					startWizard(wizards, context);
 					dialogShown = true;
 				} else {
 					if (savedVersion < appVersion) {
-						final boolean showReleaseNotes = CalculatorPreferences.Gui.showReleaseNotes.getPreference(preferences);
+						final boolean showReleaseNotes = Preferences.Gui.showReleaseNotes.getPreference(preferences);
 						if (showReleaseNotes) {
 							final String releaseNotes = CalculatorReleaseNotesFragment.getReleaseNotes(context, savedVersion + 1);
 							if (!Strings.isEmpty(releaseNotes)) {
@@ -198,7 +198,7 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 			//Log.d(this.getClass().getName(), "Application was opened " + appOpenedCounter + " time!");
 			if (!dialogShown) {
 				if (appOpenedCounter != null && appOpenedCounter > 100) {
-					dialogShown = showSpecialWindow(preferences, CalculatorPreferences.Gui.feedbackWindowShown, R.layout.feedback, R.id.feedbackText, context);
+					dialogShown = showSpecialWindow(preferences, Preferences.Gui.feedbackWindowShown, R.layout.feedback, R.id.feedbackText, context);
 				}
 			}
 		}
@@ -254,7 +254,7 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 		super.onResume();
 
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		final CalculatorPreferences.Gui.Layout newLayout = CalculatorPreferences.Gui.layout.getPreference(preferences);
+		final Preferences.Gui.Layout newLayout = Preferences.Gui.layout.getPreference(preferences);
 		if (newLayout != activityUi.getLayout()) {
 			Activities.restartActivity(this);
 		}
@@ -280,11 +280,11 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences preferences, @Nullable String key) {
-		if (CalculatorPreferences.Gui.usePrevAsBack.getKey().equals(key)) {
-			useBackAsPrev = CalculatorPreferences.Gui.usePrevAsBack.getPreference(preferences);
+		if (Preferences.Gui.usePrevAsBack.getKey().equals(key)) {
+			useBackAsPrev = Preferences.Gui.usePrevAsBack.getPreference(preferences);
 		}
 
-		if (CalculatorPreferences.Gui.autoOrientation.getKey().equals(key)) {
+		if (Preferences.Gui.autoOrientation.getKey().equals(key)) {
 			toggleOrientationChange(preferences);
 		}
 	}
@@ -298,7 +298,7 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 
 	private void toggleOrientationChange(@Nullable SharedPreferences preferences) {
 		preferences = preferences == null ? PreferenceManager.getDefaultSharedPreferences(this) : preferences;
-		if (CalculatorPreferences.Gui.autoOrientation.getPreference(preferences)) {
+		if (Preferences.Gui.autoOrientation.getPreference(preferences)) {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 		} else {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);

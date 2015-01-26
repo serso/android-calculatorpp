@@ -29,7 +29,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 
-import org.solovyev.android.calculator.CalculatorPreferences;
+import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.R;
 
 import javax.annotation.Nullable;
@@ -68,7 +68,7 @@ public class OnScreenCalculatorWizardStep extends Fragment {
 		}
 
 		if (onscreenCalculatorEnabled == null) {
-			onscreenCalculatorEnabled = getArguments().getBoolean(ONSCREEN_CALCULATOR_ENABLED, CalculatorPreferences.OnscreenCalculator.showAppIcon.getDefaultValue());
+			onscreenCalculatorEnabled = getArguments().getBoolean(ONSCREEN_CALCULATOR_ENABLED, Preferences.OnscreenCalculator.showAppIcon.getDefaultValue());
 		}
 	}
 
@@ -86,7 +86,7 @@ public class OnScreenCalculatorWizardStep extends Fragment {
 	}
 
 	public Boolean isOnscreenCalculatorEnabled() {
-		boolean enabled = CalculatorPreferences.OnscreenCalculator.showAppIcon.getDefaultValue();
+		boolean enabled = Preferences.OnscreenCalculator.showAppIcon.getDefaultValue();
 
 		if (onscreenCalculatorCheckbox != null) {
 			enabled = onscreenCalculatorCheckbox.isChecked();

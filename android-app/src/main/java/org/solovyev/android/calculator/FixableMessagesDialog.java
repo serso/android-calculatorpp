@@ -87,7 +87,7 @@ public class FixableMessagesDialog extends SherlockActivity {
 			public void onClick(View v) {
 				if (doNotShowCalculationMessagesCheckbox.isChecked()) {
 					final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(FixableMessagesDialog.this);
-					CalculatorPreferences.Calculations.showCalculationMessagesDialog.putPreference(prefs, false);
+					Preferences.Calculations.showCalculationMessagesDialog.putPreference(prefs, false);
 				}
 
 				FixableMessagesDialog.this.finish();

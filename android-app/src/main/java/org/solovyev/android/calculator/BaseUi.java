@@ -52,8 +52,8 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.solovyev.android.calculator.CalculatorPreferences.Gui.Layout.simple;
-import static org.solovyev.android.calculator.CalculatorPreferences.Gui.Layout.simple_mobile;
+import static org.solovyev.android.calculator.Preferences.Gui.Layout.simple;
+import static org.solovyev.android.calculator.Preferences.Gui.Layout.simple_mobile;
 import static org.solovyev.android.calculator.model.AndroidCalculatorEngine.Preferences.angleUnit;
 import static org.solovyev.android.calculator.model.AndroidCalculatorEngine.Preferences.numeralBase;
 
@@ -68,10 +68,10 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
 	private static final List<Integer> viewIds = new ArrayList<Integer>(200);
 
 	@Nonnull
-	private CalculatorPreferences.Gui.Layout layout;
+	private Preferences.Gui.Layout layout;
 
 	@Nonnull
-	private CalculatorPreferences.Gui.Theme theme;
+	private Preferences.Gui.Theme theme;
 
 	@Nullable
 	private Vibrator vibrator;
@@ -99,8 +99,8 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
 
 		vibrator = (Vibrator) activity.getSystemService(Activity.VIBRATOR_SERVICE);
-		layout = CalculatorPreferences.Gui.layout.getPreferenceNoError(preferences);
-		theme = CalculatorPreferences.Gui.theme.getPreferenceNoError(preferences);
+		layout = Preferences.Gui.layout.getPreferenceNoError(preferences);
+		theme = Preferences.Gui.theme.getPreferenceNoError(preferences);
 
 		preferences.registerOnSharedPreferenceChangeListener(this);
 

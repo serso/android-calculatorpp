@@ -25,15 +25,12 @@ package org.solovyev.android.calculator;
 import android.content.SharedPreferences;
 import jscl.AngleUnit;
 import jscl.NumeralBase;
-
-import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 import org.solovyev.android.prefs.*;
 import org.solovyev.android.view.VibratorContainer;
 
 import javax.annotation.Nonnull;
-
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
@@ -46,9 +43,9 @@ import static org.solovyev.android.DeviceModel.samsung_galaxy_s_2;
  * Date: 4/20/12
  * Time: 12:42 PM
  */
-public final class CalculatorPreferences {
+public final class Preferences {
 
-	private CalculatorPreferences() {
+	private Preferences() {
 		throw new AssertionError();
 	}
 
@@ -69,6 +66,10 @@ public final class CalculatorPreferences {
 		public static final Preference<AngleUnit> preferredAngleUnits = StringPreference.ofEnum("preferred_angle_units", AndroidCalculatorEngine.Preferences.angleUnit.getDefaultValue(), AngleUnit.class);
 		public static final Preference<Long> lastPreferredPreferencesCheck = LongPreference.of("preferred_preferences_check_time", 0L);
 
+	}
+
+	public static class Ga {
+		public static final Preference<Boolean> initialReportDone = BooleanPreference.of("ga.initial_report_done", false);
 	}
 
 	public static class Gui {
@@ -232,6 +233,8 @@ public final class CalculatorPreferences {
 
 		applyDefaultPreference(preferences, OnscreenCalculator.showAppIcon);
 		applyDefaultPreference(preferences, OnscreenCalculator.startOnBoot);
+
+		applyDefaultPreference(preferences, Ga.initialReportDone);
 
 
 		// renew value after each application start

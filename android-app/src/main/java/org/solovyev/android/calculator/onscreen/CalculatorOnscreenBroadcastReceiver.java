@@ -30,7 +30,7 @@ import android.preference.PreferenceManager;
 
 import javax.annotation.Nonnull;
 
-import org.solovyev.android.calculator.CalculatorPreferences;
+import org.solovyev.android.calculator.Preferences;
 
 /**
  * User: serso
@@ -47,7 +47,7 @@ public final class CalculatorOnscreenBroadcastReceiver extends BroadcastReceiver
 						  @Nonnull Intent intent) {
 		if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
 			final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-			if (CalculatorPreferences.OnscreenCalculator.startOnBoot.getPreferenceNoError(preferences)) {
+			if (Preferences.OnscreenCalculator.startOnBoot.getPreferenceNoError(preferences)) {
 				CalculatorOnscreenService.showNotification(context);
 			}
 		} else {

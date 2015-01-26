@@ -25,14 +25,14 @@ package org.solovyev.android.calculator.wizard;
 import android.content.SharedPreferences;
 import jscl.AngleUnit;
 
-import org.solovyev.android.calculator.CalculatorPreferences;
+import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 
 import javax.annotation.Nonnull;
 
-import static org.solovyev.android.calculator.CalculatorPreferences.Gui.Layout.main_calculator;
-import static org.solovyev.android.calculator.CalculatorPreferences.Gui.Layout.main_calculator_mobile;
+import static org.solovyev.android.calculator.Preferences.Gui.Layout.main_calculator;
+import static org.solovyev.android.calculator.Preferences.Gui.Layout.main_calculator_mobile;
 
 /**
  * User: serso
@@ -44,13 +44,13 @@ enum CalculatorMode {
 	simple(R.string.cpp_wizard_mode_simple) {
 		@Override
 		protected void apply(@Nonnull SharedPreferences preferences) {
-			final CalculatorPreferences.Gui.Layout layout = CalculatorPreferences.Gui.layout.getPreference(preferences);
+			final Preferences.Gui.Layout layout = Preferences.Gui.layout.getPreference(preferences);
 			if (layout.isOptimized()) {
-				CalculatorPreferences.Gui.layout.putPreference(preferences, CalculatorPreferences.Gui.Layout.simple);
+				Preferences.Gui.layout.putPreference(preferences, Preferences.Gui.Layout.simple);
 			} else {
-				CalculatorPreferences.Gui.layout.putPreference(preferences, CalculatorPreferences.Gui.Layout.simple_mobile);
+				Preferences.Gui.layout.putPreference(preferences, Preferences.Gui.Layout.simple_mobile);
 			}
-			CalculatorPreferences.Calculations.preferredAngleUnits.putPreference(preferences, AngleUnit.deg);
+			Preferences.Calculations.preferredAngleUnits.putPreference(preferences, AngleUnit.deg);
 			AndroidCalculatorEngine.Preferences.angleUnit.putPreference(preferences, AngleUnit.deg);
 			AndroidCalculatorEngine.Preferences.scienceNotation.putPreference(preferences, false);
 			AndroidCalculatorEngine.Preferences.roundResult.putPreference(preferences, true);
@@ -60,13 +60,13 @@ enum CalculatorMode {
 	engineer(R.string.cpp_wizard_mode_engineer) {
 		@Override
 		protected void apply(@Nonnull SharedPreferences preferences) {
-			final CalculatorPreferences.Gui.Layout layout = CalculatorPreferences.Gui.layout.getPreference(preferences);
+			final Preferences.Gui.Layout layout = Preferences.Gui.layout.getPreference(preferences);
 			if (layout.isOptimized()) {
-				CalculatorPreferences.Gui.layout.putPreference(preferences, main_calculator);
+				Preferences.Gui.layout.putPreference(preferences, main_calculator);
 			} else {
-				CalculatorPreferences.Gui.layout.putPreference(preferences, main_calculator_mobile);
+				Preferences.Gui.layout.putPreference(preferences, main_calculator_mobile);
 			}
-			CalculatorPreferences.Calculations.preferredAngleUnits.putPreference(preferences, AngleUnit.rad);
+			Preferences.Calculations.preferredAngleUnits.putPreference(preferences, AngleUnit.rad);
 			AndroidCalculatorEngine.Preferences.angleUnit.putPreference(preferences, AngleUnit.rad);
 			AndroidCalculatorEngine.Preferences.scienceNotation.putPreference(preferences, true);
 			AndroidCalculatorEngine.Preferences.roundResult.putPreference(preferences, false);
@@ -91,7 +91,7 @@ enum CalculatorMode {
 	}
 
 	@Nonnull
-	static CalculatorMode fromGuiLayout(@Nonnull CalculatorPreferences.Gui.Layout layout) {
+	static CalculatorMode fromGuiLayout(@Nonnull Preferences.Gui.Layout layout) {
 		switch (layout) {
 			case main_calculator:
 			case main_cellphone:

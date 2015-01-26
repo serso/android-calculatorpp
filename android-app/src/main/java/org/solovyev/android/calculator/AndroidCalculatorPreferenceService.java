@@ -60,11 +60,11 @@ public class AndroidCalculatorPreferenceService implements CalculatorPreferenceS
 
 		final Long currentTime = System.currentTimeMillis();
 
-		if (force || (CalculatorPreferences.Calculations.showCalculationMessagesDialog.getPreference(prefs) && isTimeForCheck(currentTime, prefs))) {
-			final NumeralBase preferredNumeralBase = CalculatorPreferences.Calculations.preferredNumeralBase.getPreference(prefs);
+		if (force || (Preferences.Calculations.showCalculationMessagesDialog.getPreference(prefs) && isTimeForCheck(currentTime, prefs))) {
+			final NumeralBase preferredNumeralBase = Preferences.Calculations.preferredNumeralBase.getPreference(prefs);
 			final NumeralBase numeralBase = AndroidCalculatorEngine.Preferences.numeralBase.getPreference(prefs);
 
-			final AngleUnit preferredAngleUnits = CalculatorPreferences.Calculations.preferredAngleUnits.getPreference(prefs);
+			final AngleUnit preferredAngleUnits = Preferences.Calculations.preferredAngleUnits.getPreference(prefs);
 			final AngleUnit angleUnits = AndroidCalculatorEngine.Preferences.angleUnit.getPreference(prefs);
 
 			final List<FixableMessage> messages = new ArrayList<FixableMessage>(2);
@@ -78,12 +78,12 @@ public class AndroidCalculatorPreferenceService implements CalculatorPreferenceS
 
 			FixableMessagesDialog.showDialog(messages, application, true);
 
-			CalculatorPreferences.Calculations.lastPreferredPreferencesCheck.putPreference(prefs, currentTime);
+			Preferences.Calculations.lastPreferredPreferencesCheck.putPreference(prefs, currentTime);
 		}
 	}
 
 	private boolean isTimeForCheck(@Nonnull Long currentTime, @Nonnull SharedPreferences preferences) {
-		final Long lastPreferredPreferencesCheckTime = CalculatorPreferences.Calculations.lastPreferredPreferencesCheck.getPreference(preferences);
+		final Long lastPreferredPreferencesCheckTime = Preferences.Calculations.lastPreferredPreferencesCheck.getPreference(preferences);
 
 		return currentTime - lastPreferredPreferencesCheckTime > PREFERRED_PREFS_INTERVAL_TIME;
 	}
@@ -91,7 +91,7 @@ public class AndroidCalculatorPreferenceService implements CalculatorPreferenceS
 	@Override
 	public void setPreferredAngleUnits() {
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(application);
-		setAngleUnits(CalculatorPreferences.Calculations.preferredAngleUnits.getPreference(preferences));
+		setAngleUnits(Preferences.Calculations.preferredAngleUnits.getPreference(preferences));
 	}
 
 	@Override
@@ -105,7 +105,7 @@ public class AndroidCalculatorPreferenceService implements CalculatorPreferenceS
 	@Override
 	public void setPreferredNumeralBase() {
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(application);
-		setNumeralBase(CalculatorPreferences.Calculations.preferredNumeralBase.getPreference(preferences));
+		setNumeralBase(Preferences.Calculations.preferredNumeralBase.getPreference(preferences));
 	}
 
 	@Override

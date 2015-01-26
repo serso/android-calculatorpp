@@ -68,10 +68,10 @@ public class ActivityUi extends BaseUi {
 	private boolean homeIcon = false;
 
 	@Nonnull
-	private CalculatorPreferences.Gui.Theme theme;
+	private Preferences.Gui.Theme theme;
 
 	@Nonnull
-	private CalculatorPreferences.Gui.Layout layout;
+	private Preferences.Gui.Layout layout;
 
 	private int selectedNavigationIndex = 0;
 
@@ -95,10 +95,10 @@ public class ActivityUi extends BaseUi {
 
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
 
-		this.theme = CalculatorPreferences.Gui.getTheme(preferences);
+		this.theme = Preferences.Gui.getTheme(preferences);
 		activity.setTheme(this.theme.getThemeId());
 
-		this.layout = CalculatorPreferences.Gui.getLayout(preferences);
+		this.layout = Preferences.Gui.getLayout(preferences);
 
 		activity.setContentView(layoutId);
 
@@ -157,7 +157,7 @@ public class ActivityUi extends BaseUi {
 	public void onResume(@Nonnull Activity activity) {
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
 
-		final CalculatorPreferences.Gui.Theme newTheme = CalculatorPreferences.Gui.theme.getPreference(preferences);
+		final Preferences.Gui.Theme newTheme = Preferences.Gui.theme.getPreference(preferences);
 		if (!theme.equals(newTheme)) {
 			Activities.restartActivity(activity);
 		}
@@ -253,12 +253,12 @@ public class ActivityUi extends BaseUi {
 	}
 
 	@Nonnull
-	public CalculatorPreferences.Gui.Theme getTheme() {
+	public Preferences.Gui.Theme getTheme() {
 		return theme;
 	}
 
 	@Nonnull
-	public CalculatorPreferences.Gui.Layout getLayout() {
+	public Preferences.Gui.Layout getLayout() {
 		return layout;
 	}
 

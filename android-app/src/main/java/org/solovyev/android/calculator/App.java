@@ -23,6 +23,8 @@
 package org.solovyev.android.calculator;
 
 import android.app.Application;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import org.solovyev.android.UiThreadExecutor;
 import org.solovyev.android.calculator.ga.Ga;
 import org.solovyev.common.listeners.JEvent;
@@ -74,6 +76,9 @@ public final class App {
 	private static CalculatorBroadcaster broadcaster;
 
 	@Nonnull
+	private static SharedPreferences preferences;
+
+	@Nonnull
 	private static volatile Ga ga;
 
 	private App() {
@@ -102,9 +107,10 @@ public final class App {
 							@Nullable ServiceLocator serviceLocator) {
 		if (!initialized) {
 			App.application = application;
+			App.preferences = PreferenceManager.getDefaultSharedPreferences(application);
 			App.uiThreadExecutor = uiThreadExecutor;
 			App.eventBus = eventBus;
-			App.ga = new Ga(application, eventBus);
+			App.ga = new Ga(application, preferences, eventBus);
 			if (serviceLocator != null) {
 				App.locator = serviceLocator;
 			} else {

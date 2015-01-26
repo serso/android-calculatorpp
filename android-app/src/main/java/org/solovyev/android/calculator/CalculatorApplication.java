@@ -161,13 +161,18 @@ public class CalculatorApplication extends android.app.Application implements Sh
 		}
 
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		CalculatorPreferences.setDefaultValues(preferences);
+		Preferences.setDefaultValues(preferences);
 
 		preferences.registerOnSharedPreferenceChangeListener(this);
 
 		setTheme(preferences);
 
 		super.onCreate();
+
+		if (!Preferences.Ga.initialReportDone.getPreference(preferences)) {
+			App.getGa().reportInitially(preferences);
+			Preferences.Ga.initialReportDone.putPreference(preferences, true);
+		}
 
 		final AndroidCalculator calculator = new AndroidCalculator(this);
 
@@ -221,7 +226,7 @@ public class CalculatorApplication extends android.app.Application implements Sh
 	}
 
 	private void setTheme(@Nonnull SharedPreferences preferences) {
-		final CalculatorPreferences.Gui.Theme theme = CalculatorPreferences.Gui.getTheme(preferences);
+		final Preferences.Gui.Theme theme = Preferences.Gui.getTheme(preferences);
 		setTheme(theme.getThemeId());
 	}
 
@@ -290,8 +295,8 @@ public class CalculatorApplication extends android.app.Application implements Sh
 
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-		if (CalculatorPreferences.OnscreenCalculator.showAppIcon.getKey().equals(key)) {
-			boolean showAppIcon = CalculatorPreferences.OnscreenCalculator.showAppIcon.getPreference(prefs);
+		if (Preferences.OnscreenCalculator.showAppIcon.getKey().equals(key)) {
+			boolean showAppIcon = Preferences.OnscreenCalculator.showAppIcon.getPreference(prefs);
 			Android.toggleComponent(this, CalculatorOnscreenStartActivity.class, showAppIcon);
 			Locator.getInstance().getNotifier().showMessage(R.string.cpp_this_change_may_require_reboot, MessageType.info);
 		}

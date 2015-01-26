@@ -27,7 +27,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.Views;
-import org.solovyev.android.calculator.CalculatorPreferences;
+import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.R;
 
 import javax.annotation.Nonnull;
@@ -62,7 +62,7 @@ enum CalculatorWizardStep implements org.solovyev.android.wizard.WizardStep {
 		@Override
 		public Bundle getFragmentArgs() {
 			final Bundle bundle = new Bundle();
-			bundle.putSerializable(LAYOUT, CalculatorLayout.fromGuiLayout(CalculatorPreferences.Gui.layout.getPreference(getPreferences())));
+			bundle.putSerializable(LAYOUT, CalculatorLayout.fromGuiLayout(Preferences.Gui.layout.getPreference(getPreferences())));
 			return bundle;
 		}
 
@@ -87,7 +87,7 @@ enum CalculatorWizardStep implements org.solovyev.android.wizard.WizardStep {
 		@Override
 		public Bundle getFragmentArgs() {
 			final Bundle bundle = new Bundle();
-			bundle.putSerializable(MODE, CalculatorMode.fromGuiLayout(CalculatorPreferences.Gui.layout.getPreference(getPreferences())));
+			bundle.putSerializable(MODE, CalculatorMode.fromGuiLayout(Preferences.Gui.layout.getPreference(getPreferences())));
 			return bundle;
 		}
 	},
@@ -97,7 +97,7 @@ enum CalculatorWizardStep implements org.solovyev.android.wizard.WizardStep {
 		public boolean onNext(@Nonnull Fragment f) {
 			final OnScreenCalculatorWizardStep fragment = (OnScreenCalculatorWizardStep) f;
 
-			CalculatorPreferences.OnscreenCalculator.showAppIcon.putPreference(getPreferences(), fragment.isOnscreenCalculatorEnabled());
+			Preferences.OnscreenCalculator.showAppIcon.putPreference(getPreferences(), fragment.isOnscreenCalculatorEnabled());
 
 			return true;
 		}
@@ -106,7 +106,7 @@ enum CalculatorWizardStep implements org.solovyev.android.wizard.WizardStep {
 		@Override
 		public Bundle getFragmentArgs() {
 			final Bundle bundle = new Bundle();
-			bundle.putSerializable(ONSCREEN_CALCULATOR_ENABLED, CalculatorPreferences.OnscreenCalculator.showAppIcon.getPreference(getPreferences()));
+			bundle.putSerializable(ONSCREEN_CALCULATOR_ENABLED, Preferences.OnscreenCalculator.showAppIcon.getPreference(getPreferences()));
 			return bundle;
 		}
 	},
