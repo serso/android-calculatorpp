@@ -26,7 +26,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import org.solovyev.android.calculator.CalculatorFragmentType;
-import org.solovyev.android.calculator.CalculatorPreferences;
+import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.R;
 
@@ -55,7 +55,7 @@ public class CalculatorHistoryFragment extends AbstractCalculatorHistoryFragment
 	@Override
 	protected List<CalculatorHistoryState> getHistoryItems() {
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		final boolean showIntermediateCalculations = CalculatorPreferences.History.showIntermediateCalculations.getPreference(preferences);
+		final boolean showIntermediateCalculations = Preferences.History.showIntermediateCalculations.getPreference(preferences);
 		final List<CalculatorHistoryState> historyStates = Locator.getInstance().getHistory().getStates(showIntermediateCalculations);
 		return new ArrayList<CalculatorHistoryState>(historyStates);
 	}

@@ -24,13 +24,13 @@ package org.solovyev.android.calculator.wizard;
 
 import android.content.SharedPreferences;
 
-import org.solovyev.android.calculator.CalculatorPreferences;
+import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.R;
 
 import javax.annotation.Nonnull;
 
-import static org.solovyev.android.calculator.CalculatorPreferences.Gui.Layout.main_calculator;
-import static org.solovyev.android.calculator.CalculatorPreferences.Gui.Layout.main_calculator_mobile;
+import static org.solovyev.android.calculator.Preferences.Gui.Layout.main_calculator;
+import static org.solovyev.android.calculator.Preferences.Gui.Layout.main_calculator_mobile;
 
 /**
  * User: serso
@@ -42,14 +42,14 @@ enum CalculatorLayout {
 	big_buttons(R.string.cpp_wizard_layout_big_buttons) {
 		@Override
 		protected void apply(@Nonnull SharedPreferences preferences) {
-			CalculatorPreferences.Gui.layout.putPreference(preferences, main_calculator_mobile);
+			Preferences.Gui.layout.putPreference(preferences, main_calculator_mobile);
 		}
 	},
 
 	optimized(R.string.cpp_wizard_layout_optimized) {
 		@Override
 		protected void apply(@Nonnull SharedPreferences preferences) {
-			CalculatorPreferences.Gui.layout.putPreference(preferences, main_calculator);
+			Preferences.Gui.layout.putPreference(preferences, main_calculator);
 		}
 	};
 
@@ -71,7 +71,7 @@ enum CalculatorLayout {
 	}
 
 	@Nonnull
-	static CalculatorLayout fromGuiLayout(@Nonnull CalculatorPreferences.Gui.Layout layout) {
+	static CalculatorLayout fromGuiLayout(@Nonnull Preferences.Gui.Layout layout) {
 		if (layout.isOptimized()) {
 			return optimized;
 		} else {

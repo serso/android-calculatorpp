@@ -28,19 +28,14 @@ import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.actionbarsherlock.app.SherlockFragment;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
-
-import static org.solovyev.android.calculator.CalculatorPreferences.Gui.hideNumeralBaseDigits;
-import static org.solovyev.android.calculator.CalculatorPreferences.Gui.showEqualsButton;
 import static org.solovyev.android.calculator.NumeralBaseButtons.toggleNumericDigits;
-import static org.solovyev.android.calculator.model.AndroidCalculatorEngine.Preferences;
-import static org.solovyev.android.calculator.model.AndroidCalculatorEngine.Preferences.angleUnit;
+import static org.solovyev.android.calculator.Preferences.Gui.hideNumeralBaseDigits;
+import static org.solovyev.android.calculator.Preferences.Gui.showEqualsButton;
 import static org.solovyev.android.calculator.model.AndroidCalculatorEngine.Preferences.multiplicationSign;
 import static org.solovyev.android.calculator.model.AndroidCalculatorEngine.Preferences.numeralBase;
 
@@ -52,7 +47,7 @@ import static org.solovyev.android.calculator.model.AndroidCalculatorEngine.Pref
 public class CalculatorKeyboardFragment extends SherlockFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
 	@Nonnull
-	private CalculatorPreferences.Gui.Theme theme;
+	private Preferences.Gui.Theme theme;
 
 	@Nonnull
 	private FragmentUi fragmentHelper;
@@ -63,7 +58,7 @@ public class CalculatorKeyboardFragment extends SherlockFragment implements Shar
 
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
 
-		final CalculatorPreferences.Gui.Layout layout = CalculatorPreferences.Gui.getLayout(preferences);
+		final Preferences.Gui.Layout layout = Preferences.Gui.getLayout(preferences);
 		if (!layout.isOptimized()) {
 			fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(R.layout.cpp_app_keyboard_mobile);
 		} else {
@@ -74,7 +69,7 @@ public class CalculatorKeyboardFragment extends SherlockFragment implements Shar
 
 		preferences.registerOnSharedPreferenceChangeListener(this);
 
-		theme = CalculatorPreferences.Gui.theme.getPreferenceNoError(preferences);
+		theme = Preferences.Gui.theme.getPreferenceNoError(preferences);
 
 	}
 

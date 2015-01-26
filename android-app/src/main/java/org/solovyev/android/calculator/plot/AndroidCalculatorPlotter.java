@@ -30,7 +30,7 @@ import jscl.math.Generic;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.solovyev.android.calculator.CalculatorPreferences;
+import org.solovyev.android.calculator.Preferences;
 
 import java.util.List;
 
@@ -51,7 +51,7 @@ public class AndroidCalculatorPlotter implements CalculatorPlotter, SharedPrefer
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
 		preferences.registerOnSharedPreferenceChangeListener(this);
 
-		onSharedPreferenceChanged(preferences, CalculatorPreferences.Graph.plotImag.getKey());
+		onSharedPreferenceChanged(preferences, Preferences.Graph.plotImag.getKey());
 	}
 
 	@Override
@@ -194,8 +194,8 @@ public class AndroidCalculatorPlotter implements CalculatorPlotter, SharedPrefer
 
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
-		if (CalculatorPreferences.Graph.plotImag.getKey().equals(key)) {
-			setPlotImag(CalculatorPreferences.Graph.plotImag.getPreference(preferences));
+		if (Preferences.Graph.plotImag.getKey().equals(key)) {
+			setPlotImag(Preferences.Graph.plotImag.getPreference(preferences));
 		}
 	}
 }

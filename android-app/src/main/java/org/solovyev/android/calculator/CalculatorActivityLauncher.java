@@ -208,7 +208,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
 	public static void showCalculationMessagesDialog(@Nonnull Context context, @Nonnull List<Message> messages) {
 		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
-		if (CalculatorPreferences.Calculations.showCalculationMessagesDialog.getPreference(prefs)) {
+		if (Preferences.Calculations.showCalculationMessagesDialog.getPreference(prefs)) {
 			FixableMessagesDialog.showDialogForMessages(messages, context, true);
 		}
 	}

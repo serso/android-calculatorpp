@@ -144,7 +144,7 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 		super.onViewCreated(root, savedInstanceState);
 
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		final Boolean showDatetime = CalculatorPreferences.History.showDatetime.getPreference(preferences);
+		final Boolean showDatetime = Preferences.History.showDatetime.getPreference(preferences);
 
 		fragmentHelper.onViewCreated(this, root);
 
@@ -377,8 +377,8 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 			@Override
 			public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
 				final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(CalculatorApplication.getInstance());
-				final Boolean showDatetime = CalculatorPreferences.History.showDatetime.getPreference(preferences);
-				CalculatorPreferences.History.showDatetime.putPreference(preferences, !showDatetime);
+				final Boolean showDatetime = Preferences.History.showDatetime.getPreference(preferences);
+				Preferences.History.showDatetime.putPreference(preferences, !showDatetime);
 			}
 		},
 
@@ -432,8 +432,8 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 
 		@Override
 		public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
-			if (CalculatorPreferences.History.showDatetime.isSameKey(key)) {
-				getAdapter().setShowDatetime(CalculatorPreferences.History.showDatetime.getPreference(preferences));
+			if (Preferences.History.showDatetime.isSameKey(key)) {
+				getAdapter().setShowDatetime(Preferences.History.showDatetime.getPreference(preferences));
 			}
 		}
 	}

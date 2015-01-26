@@ -38,7 +38,7 @@ public class CalculatorActivityMobile extends CalculatorActivity {
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		CalculatorPreferences.Gui.layout.putPreference(prefs, CalculatorPreferences.Gui.Layout.main_calculator_mobile);
+		Preferences.Gui.layout.putPreference(prefs, Preferences.Gui.Layout.main_calculator_mobile);
 
 		super.onCreate(savedInstanceState);
 

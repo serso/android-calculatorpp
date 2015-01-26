@@ -60,8 +60,8 @@ public final class CalculatorButtons {
 	}
 
 
-	public static void processButtons(@Nonnull CalculatorPreferences.Gui.Theme theme,
-									  @Nonnull CalculatorPreferences.Gui.Layout layout,
+	public static void processButtons(@Nonnull Preferences.Gui.Theme theme,
+									  @Nonnull Preferences.Gui.Layout layout,
 									  @Nonnull View root) {
 		if (!layout.isOptimized()) {
 
@@ -93,15 +93,15 @@ public final class CalculatorButtons {
 		preferences = preferences == null ? PreferenceManager.getDefaultSharedPreferences(activity) : preferences;
 
 		final boolean large = Views.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_LARGE, activity.getResources().getConfiguration()) &&
-				CalculatorPreferences.Gui.getLayout(preferences).isOptimized();
+				Preferences.Gui.getLayout(preferences).isOptimized();
 
 		if (!large) {
 			if (Views.getScreenOrientation(activity) == Configuration.ORIENTATION_PORTRAIT
-					|| !CalculatorPreferences.Gui.autoOrientation.getPreference(preferences)) {
+					|| !Preferences.Gui.autoOrientation.getPreference(preferences)) {
 
 				final DragButton equalsButton = (DragButton) activity.findViewById(R.id.cpp_button_equals);
 				if (equalsButton != null) {
-					if (CalculatorPreferences.Gui.showEqualsButton.getPreference(preferences)) {
+					if (Preferences.Gui.showEqualsButton.getPreference(preferences)) {
 						equalsButton.setVisibility(View.VISIBLE);
 					} else {
 						equalsButton.setVisibility(View.GONE);

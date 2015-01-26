@@ -28,11 +28,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import org.solovyev.android.view.VibratorContainer;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import org.solovyev.android.view.VibratorContainer;
 
 /**
  * User: serso
@@ -58,6 +57,7 @@ public class AndroidCalculatorKeyboard implements CalculatorKeyboard {
 	@Override
 	public void buttonPressed(@Nullable String text) {
 		vibrate();
+		App.getGa().onButtonPressed(text);
 		calculatorKeyboard.buttonPressed(text);
 	}
 

@@ -31,7 +31,7 @@ import javax.annotation.Nonnull;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 
 import static jscl.NumeralBase.hex;
-import static org.solovyev.android.calculator.CalculatorPreferences.Gui.hideNumeralBaseDigits;
+import static org.solovyev.android.calculator.Preferences.Gui.hideNumeralBaseDigits;
 import static org.solovyev.android.calculator.model.AndroidCalculatorEngine.Preferences.numeralBase;
 
 /**

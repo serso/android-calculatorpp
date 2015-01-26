@@ -195,7 +195,7 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
 		if (!initialized) {
 			if (fromApp) {
 				final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-				final CalculatorPreferences.Gui.Layout layout = CalculatorPreferences.Gui.getLayout(preferences);
+				final Preferences.Gui.Layout layout = Preferences.Gui.getLayout(preferences);
 
 				if (!layout.isOptimized()) {
 					setTextSize(TypedValue.COMPLEX_UNIT_SP, getResources().getDimension(R.dimen.cpp_display_text_size_mobile));

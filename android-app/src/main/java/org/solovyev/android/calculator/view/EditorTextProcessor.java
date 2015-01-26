@@ -11,7 +11,7 @@ import org.solovyev.android.calculator.text.TextProcessorEditorResult;
 
 import javax.annotation.Nonnull;
 
-import static org.solovyev.android.calculator.CalculatorPreferences.Gui.colorDisplay;
+import static org.solovyev.android.calculator.Preferences.Gui.colorDisplay;
 import static org.solovyev.android.calculator.view.TextHighlighter.WHITE;
 
 /**
