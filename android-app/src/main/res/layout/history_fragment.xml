@@ -23,19 +23,34 @@
   -->
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-			  a:id="@+id/main_fragment_layout"
-			  style="?cpp_fragment_layout_style"
-			  a:layout_width="match_parent"
-			  a:layout_height="match_parent">
+	xmlns:fab="http://schemas.android.com/apk/res-auto"
+	a:id="@+id/main_fragment_layout"
+	style="?cpp_fragment_layout_style"
+	a:layout_width="match_parent"
+	a:layout_height="match_parent">
 
 	<TextView
-			a:id="@+id/fragment_title"
+		a:id="@+id/fragment_title"
+		a:layout_height="wrap_content"
+		a:layout_width="match_parent"
+		style="?cpp_fragment_title_style" />
+
+	<include layout="@layout/ad" />
+
+	<FrameLayout
+		a:layout_width="match_parent"
+		a:layout_height="match_parent">
+
+		<ListView style="?cpp_fragment_list_view_style" />
+
+		<com.melnykov.fab.FloatingActionButton
+			a:id="@+id/fab"
+			a:layout_width="wrap_content"
 			a:layout_height="wrap_content"
-			a:layout_width="match_parent"
-			style="?cpp_fragment_title_style"/>
-
-	<include layout="@layout/ad"/>
-
-	<ListView style="?cpp_fragment_list_view_style"/>
-
+			a:layout_gravity="bottom|right"
+			a:layout_margin="16dp"
+			a:src="@drawable/ic_delete_white_36dp"
+			fab:fab_colorNormal="#393939"
+			fab:fab_colorRipple="#40000000" />
+	</FrameLayout>
 </LinearLayout>

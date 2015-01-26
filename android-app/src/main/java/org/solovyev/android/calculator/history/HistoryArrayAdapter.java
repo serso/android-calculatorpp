@@ -99,7 +99,7 @@ public class HistoryArrayAdapter extends ArrayAdapter<CalculatorHistoryState> {
 					}
 				});
 			} else {
-				status.setVisibility(INVISIBLE);
+				status.setVisibility(GONE);
 				status.setOnClickListener(null);
 			}
 		}

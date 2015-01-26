@@ -60,7 +60,7 @@
 
 	<style name="cpp_default_fragment_list_view_style">
 		<item name="android:id">@android:id/list</item>
-		<item name="android:dividerHeight">1dp</item>
+		<item name="android:dividerHeight">1px</item>
 		<item name="android:divider">@color/cpp_list_divider</item>
 		<item name="android:cacheColorHint">@android:color/transparent</item>
 		<item name="android:layout_height">match_parent</item>
