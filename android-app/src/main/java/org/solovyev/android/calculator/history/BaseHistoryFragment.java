@@ -62,12 +62,7 @@ import java.util.List;
 
 import static org.solovyev.android.calculator.CalculatorEventType.clear_history_requested;
 
-/**
- * User: serso
- * Date: 10/15/11
- * Time: 1:13 PM
- */
-public abstract class AbstractCalculatorHistoryFragment extends SherlockListFragment implements CalculatorEventListener {
+public abstract class BaseHistoryFragment extends SherlockListFragment implements CalculatorEventListener {
 
 	/*
 	**********************************************************************
@@ -115,7 +110,7 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 	@Nonnull
 	private final SharedPreferences.OnSharedPreferenceChangeListener preferencesListener = new HistoryOnPreferenceChangeListener();
 
-	protected AbstractCalculatorHistoryFragment(@Nonnull CalculatorFragmentType fragmentType) {
+	protected BaseHistoryFragment(@Nonnull CalculatorFragmentType fragmentType) {
 		fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(fragmentType.getDefaultLayoutId(), fragmentType.getDefaultTitleResId(), false);
 	}
 
@@ -411,7 +406,7 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 			if (menuItem instanceof IdentifiableMenuItem<?>) {
 				switch (((IdentifiableMenuItem) menuItem).getItemId()) {
 					case R.id.menu_history_fullscreen:
-						result = !fragmentHelper.isPane(AbstractCalculatorHistoryFragment.this);
+						result = !fragmentHelper.isPane(BaseHistoryFragment.this);
 						break;
 				}
 			}

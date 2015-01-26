@@ -23,7 +23,4 @@
 <resources>
 	<dimen name="cpp_fragment_text_size">17sp</dimen>
 	<dimen name="cpp_fragment_title_text_size">25sp</dimen>
-
-	<dimen name="cpp_math_entity_text_size">20sp</dimen>
-	<dimen name="cpp_math_entity_description_text_size">17sp</dimen>
 </resources>
