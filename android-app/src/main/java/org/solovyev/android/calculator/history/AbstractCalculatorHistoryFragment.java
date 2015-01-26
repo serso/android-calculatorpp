@@ -108,7 +108,7 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 	private HistoryArrayAdapter adapter;
 
 	@Nonnull
-	private CalculatorFragmentHelper fragmentHelper;
+	private FragmentUi fragmentHelper;
 
 	private final ActivityMenu<Menu, MenuItem> menu = ListActivityMenu.fromResource(R.menu.history_menu, HistoryMenu.class, SherlockMenuHelper.getInstance(), new HistoryMenuFilter());
 

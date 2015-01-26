@@ -40,7 +40,7 @@ import javax.annotation.Nonnull;
 public abstract class CalculatorFragment extends SherlockFragment {
 
 	@Nonnull
-	private final CalculatorFragmentHelper fragmentHelper;
+	private final FragmentUi fragmentHelper;
 
 	protected CalculatorFragment(int layoutResId, int titleResId) {
 		fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(layoutResId, titleResId);
@@ -50,7 +50,7 @@ public abstract class CalculatorFragment extends SherlockFragment {
 		fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(fragmentType.getDefaultLayoutId(), fragmentType.getDefaultTitleResId());
 	}
 
-	protected CalculatorFragment(@Nonnull CalculatorFragmentHelper fragmentHelper) {
+	protected CalculatorFragment(@Nonnull FragmentUi fragmentHelper) {
 		this.fragmentHelper = fragmentHelper;
 	}
 

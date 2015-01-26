@@ -55,7 +55,7 @@ public class CalculatorKeyboardFragment extends SherlockFragment implements Shar
 	private CalculatorPreferences.Gui.Theme theme;
 
 	@Nonnull
-	private CalculatorFragmentHelper fragmentHelper;
+	private FragmentUi fragmentHelper;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

@@ -42,7 +42,7 @@ import static java.util.Arrays.asList;
  * Date: 9/26/12
  * Time: 10:14 PM
  */
-public class CalculatorFragmentHelperImpl extends AbstractCalculatorHelper implements CalculatorFragmentHelper {
+public class FragmentUi extends BaseUi {
 
 	private ActivityCheckout checkout;
 
@@ -58,22 +58,21 @@ public class CalculatorFragmentHelperImpl extends AbstractCalculatorHelper imple
 	@Nullable
 	private Boolean adFree = null;
 
-	public CalculatorFragmentHelperImpl(int layoutId) {
+	public FragmentUi(int layoutId) {
 		this.layoutId = layoutId;
 	}
 
-	public CalculatorFragmentHelperImpl(int layoutId, int titleResId) {
+	public FragmentUi(int layoutId, int titleResId) {
 		this.layoutId = layoutId;
 		this.titleResId = titleResId;
 	}
 
-	public CalculatorFragmentHelperImpl(int layoutId, int titleResId, boolean listenersOnCreate) {
+	public FragmentUi(int layoutId, int titleResId, boolean listenersOnCreate) {
 		this.layoutId = layoutId;
 		this.titleResId = titleResId;
 		this.listenersOnCreate = listenersOnCreate;
 	}
 
-	@Override
 	public boolean isPane(@Nonnull Fragment fragment) {
 		return fragment.getActivity() instanceof CalculatorActivity;
 	}
@@ -89,7 +88,6 @@ public class CalculatorFragmentHelperImpl extends AbstractCalculatorHelper imple
 		}
 	}
 
-	@Override
 	public void onCreate(@Nonnull Fragment fragment) {
 		final FragmentActivity activity = fragment.getActivity();
 		super.onCreate(activity);
@@ -104,7 +102,6 @@ public class CalculatorFragmentHelperImpl extends AbstractCalculatorHelper imple
 		checkout.start();
 	}
 
-	@Override
 	public void onResume(@Nonnull Fragment fragment) {
 		if (adView != null) {
 			adView.resume();
@@ -136,7 +133,6 @@ public class CalculatorFragmentHelperImpl extends AbstractCalculatorHelper imple
 		}
 	}
 
-	@Override
 	public void onPause(@Nonnull Fragment fragment) {
 		adFree = null;
 		if (adView != null) {
@@ -149,7 +145,6 @@ public class CalculatorFragmentHelperImpl extends AbstractCalculatorHelper imple
 		}
 	}
 
-	@Override
 	public void onViewCreated(@Nonnull Fragment fragment, @Nonnull View root) {
 		adView = (AdView) root.findViewById(R.id.ad);
 		final ViewGroup mainFragmentLayout = (ViewGroup) root.findViewById(R.id.main_fragment_layout);
@@ -170,7 +165,6 @@ public class CalculatorFragmentHelperImpl extends AbstractCalculatorHelper imple
 		}
 	}
 
-	@Override
 	public void onDestroy(@Nonnull Fragment fragment) {
 		if (adView != null) {
 			adView.destroy();
@@ -189,7 +183,6 @@ public class CalculatorFragmentHelperImpl extends AbstractCalculatorHelper imple
 	}
 
 	@Nonnull
-	@Override
 	public View onCreateView(@Nonnull Fragment fragment, @Nonnull LayoutInflater inflater, @Nullable ViewGroup container) {
 		return inflater.inflate(layoutId, container, false);
 	}

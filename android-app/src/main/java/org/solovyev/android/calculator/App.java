@@ -24,6 +24,7 @@ package org.solovyev.android.calculator;
 
 import android.app.Application;
 import org.solovyev.android.UiThreadExecutor;
+import org.solovyev.android.calculator.ga.Ga;
 import org.solovyev.common.listeners.JEvent;
 import org.solovyev.common.listeners.JEventListener;
 import org.solovyev.common.listeners.JEventListeners;
@@ -72,6 +73,9 @@ public final class App {
 	@Nonnull
 	private static CalculatorBroadcaster broadcaster;
 
+	@Nonnull
+	private static volatile Ga ga;
+
 	private App() {
 		throw new AssertionError();
 	}
@@ -100,6 +104,7 @@ public final class App {
 			App.application = application;
 			App.uiThreadExecutor = uiThreadExecutor;
 			App.eventBus = eventBus;
+			App.ga = new Ga(application, eventBus);
 			if (serviceLocator != null) {
 				App.locator = serviceLocator;
 			} else {
@@ -139,16 +144,6 @@ public final class App {
 	}
 
 	/**
-	 * @param <L> real type of service locator
-	 * @return instance of service locator user in application
-	 */
-	@Nonnull
-	public static <L extends ServiceLocator> L getLocator() {
-		checkInit();
-		return (L) locator;
-	}
-
-	/**
 	 * Method returns executor which runs on Main Application's thread. It's safe to do all UI work on this executor
 	 *
 	 * @return UI thread executor
@@ -171,5 +166,10 @@ public final class App {
 	@Nonnull
 	public static CalculatorBroadcaster getBroadcaster() {
 		return broadcaster;
+	}
+
+	@Nonnull
+	public static Ga getGa() {
+		return ga;
 	}
 }

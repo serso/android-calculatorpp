@@ -33,7 +33,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
@@ -44,7 +43,7 @@ import org.solovyev.android.calculator.CalculatorApplication;
 import org.solovyev.android.calculator.CalculatorEventData;
 import org.solovyev.android.calculator.CalculatorEventListener;
 import org.solovyev.android.calculator.CalculatorEventType;
-import org.solovyev.android.calculator.CalculatorFragmentHelper;
+import org.solovyev.android.calculator.FragmentUi;
 import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.CalculatorMathRegistry;
 import org.solovyev.android.calculator.Locator;
@@ -96,7 +95,7 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
 	private String category;
 
 	@Nonnull
-	private final CalculatorFragmentHelper fragmentHelper;
+	private final FragmentUi fragmentHelper;
 
 	@Nonnull
 	private final Handler uiHandler = new Handler();

@@ -226,23 +226,23 @@ public class CalculatorApplication extends android.app.Application implements Sh
 	}
 
 	@Nonnull
-	public CalculatorActivityHelper createActivityHelper(int layoutResId, @Nonnull String logTag) {
-		return new CalculatorActivityHelperImpl(layoutResId, logTag);
+	public ActivityUi createActivityHelper(int layoutResId, @Nonnull String logTag) {
+		return new ActivityUi(layoutResId, logTag);
 	}
 
 	@Nonnull
-	public CalculatorFragmentHelper createFragmentHelper(int layoutId) {
-		return new CalculatorFragmentHelperImpl(layoutId);
+	public FragmentUi createFragmentHelper(int layoutId) {
+		return new FragmentUi(layoutId);
 	}
 
 	@Nonnull
-	public CalculatorFragmentHelper createFragmentHelper(int layoutId, int titleResId) {
-		return new CalculatorFragmentHelperImpl(layoutId, titleResId);
+	public FragmentUi createFragmentHelper(int layoutId, int titleResId) {
+		return new FragmentUi(layoutId, titleResId);
 	}
 
 	@Nonnull
-	public CalculatorFragmentHelper createFragmentHelper(int layoutId, int titleResId, boolean listenersOnCreate) {
-		return new CalculatorFragmentHelperImpl(layoutId, titleResId, listenersOnCreate);
+	public FragmentUi createFragmentHelper(int layoutId, int titleResId, boolean listenersOnCreate) {
+		return new FragmentUi(layoutId, titleResId, listenersOnCreate);
 	}
 
 	@Nonnull

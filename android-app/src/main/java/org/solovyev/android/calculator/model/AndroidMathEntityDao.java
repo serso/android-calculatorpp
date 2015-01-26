@@ -29,10 +29,10 @@ import android.content.res.Resources;
 import android.preference.PreferenceManager;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
-import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.MathEntityDao;
 import org.solovyev.android.calculator.MathEntityPersistenceContainer;
 import org.solovyev.android.calculator.MathPersistenceEntity;
+import org.solovyev.android.calculator.R;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -111,7 +111,7 @@ public class AndroidMathEntityDao<T extends MathPersistenceEntity> implements Ma
 	public String getDescription(@Nonnull String descriptionId) {
 		final Resources resources = context.getResources();
 
-		final int stringId = resources.getIdentifier(descriptionId, "string", App.getApplication().getClass().getPackage().getName());
+		final int stringId = resources.getIdentifier(descriptionId, "string", R.class.getPackage().getName());
 		try {
 			return resources.getString(stringId);
 		} catch (Resources.NotFoundException e) {
