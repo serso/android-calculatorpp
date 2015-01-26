@@ -36,16 +36,14 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import org.solovyev.android.Activities;
 import org.solovyev.android.Views;
 import org.solovyev.android.sherlock.tabs.ActionBarFragmentTabListener;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * User: serso
@@ -187,7 +185,7 @@ public class CalculatorActivityHelperImpl extends AbstractCalculatorHelper imple
 			final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
 			final SharedPreferences.Editor editor = preferences.edit();
 			editor.putInt(getSavedTabPreferenceName(activity), selectedNavigationIndex);
-			editor.commit();
+			editor.apply();
 		}
 
 	}

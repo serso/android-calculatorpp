@@ -33,6 +33,8 @@ import org.solovyev.android.checkout.*;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import java.util.Locale;
+
 import static java.util.Arrays.asList;
 
 /**
@@ -82,7 +84,7 @@ public class CalculatorFragmentHelperImpl extends AbstractCalculatorHelper imple
 			if (!isPane(fragment)) {
 				fragmentTitle.setVisibility(View.GONE);
 			} else {
-				fragmentTitle.setText(fragment.getString(titleResId).toUpperCase());
+				fragmentTitle.setText(fragment.getString(titleResId).toUpperCase(Locale.getDefault()));
 			}
 		}
 	}

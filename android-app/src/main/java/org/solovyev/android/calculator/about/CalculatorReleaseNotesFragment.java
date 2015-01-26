@@ -78,7 +78,7 @@ public class CalculatorReleaseNotesFragment extends CalculatorFragment {
 			final String versionName = getVersionName(textHelper, versionCode);
 			String releaseNotesForVersion = textHelper.getText(makeReleaseNotesResourceId(versionCode));
 			if (!Strings.isEmpty(releaseNotesForVersion)) {
-				assert releaseNotesForVersion != null;
+				if (releaseNotesForVersion == null) throw new AssertionError();
 				if (!first) {
 					result.append("<br/><br/>");
 				} else {

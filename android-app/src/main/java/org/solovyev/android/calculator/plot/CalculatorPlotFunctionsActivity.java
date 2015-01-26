@@ -23,13 +23,9 @@
 package org.solovyev.android.calculator.plot;
 
 import android.os.Bundle;
-
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
-
-import javax.annotation.Nullable;
-
 import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.CalculatorListFragment;
 import org.solovyev.android.calculator.Locator;
@@ -37,6 +33,7 @@ import org.solovyev.android.calculator.R;
 import org.solovyev.android.fragments.FragmentUtils;
 import org.solovyev.android.list.ListItemAdapter;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -68,7 +65,7 @@ public class CalculatorPlotFunctionsActivity extends SherlockFragmentActivity {
 			final List<PlotFunctionListItem> items = Lists.transform(Locator.getInstance().getPlotter().getFunctions(), new Function<PlotFunction, PlotFunctionListItem>() {
 				@Override
 				public PlotFunctionListItem apply(@javax.annotation.Nullable PlotFunction input) {
-					assert input != null;
+					if (input == null) throw new AssertionError();
 					return new PlotFunctionListItem(input);
 				}
 			});

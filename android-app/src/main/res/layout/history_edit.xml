@@ -29,8 +29,8 @@
 	<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
 				  a:id="@+id/history_edit"
 				  a:orientation="vertical"
-				  a:layout_width="fill_parent"
-				  a:layout_height="fill_parent"
+				  a:layout_width="match_parent"
+				  a:layout_height="wrap_content"
 				  a:scrollbars="vertical"
 				  a:scrollbarAlwaysDrawVerticalTrack="true">
 

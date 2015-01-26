@@ -25,15 +25,13 @@ package org.solovyev.android.calculator;
 import android.app.Application;
 import android.os.Handler;
 import android.widget.Toast;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import org.solovyev.android.Threads;
 import org.solovyev.android.msg.AndroidMessage;
 import org.solovyev.common.msg.Message;
 import org.solovyev.common.msg.MessageType;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -56,7 +54,7 @@ public class AndroidCalculatorNotifier implements CalculatorNotifier {
 	}
 
 	public AndroidCalculatorNotifier(@Nonnull Application application, boolean showDebugMessages) {
-		assert Threads.isUiThread();
+		if (!Threads.isUiThread()) throw new AssertionError();
 
 		this.application = application;
 		this.showDebugMessages = showDebugMessages;

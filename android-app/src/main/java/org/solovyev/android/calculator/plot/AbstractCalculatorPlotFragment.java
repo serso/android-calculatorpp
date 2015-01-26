@@ -165,7 +165,7 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 			case plot_data_changed:
 				final CalculatorEventHolder.Result result = this.lastEventHolder.apply(calculatorEventData);
 				if (result.isNewAfter()) {
-					assert data != null;
+					if (data == null) throw new AssertionError();
 					onNewPlotData((PlotData) data);
 				}
 				break;
@@ -191,7 +191,7 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 					createGraphicalView(view, plotData);
 				}
 
-				assert activity != null;
+				if (activity == null) throw new AssertionError();
 				activity.invalidateOptionsMenu();
 			}
 		});

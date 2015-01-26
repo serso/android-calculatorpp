@@ -120,7 +120,7 @@ public class CalculatorEditorImpl implements CalculatorEditor {
 	}
 
 	private void fireStateChangedEvent(boolean majorChanges, @Nonnull CalculatorEditorViewState oldViewState, @Nonnull CalculatorEditorViewState newViewState) {
-		assert Thread.holdsLock(viewLock);
+		if (!Thread.holdsLock(viewLock)) throw new AssertionError();
 
 		if (majorChanges) {
 			calculator.fireCalculatorEvent(editor_state_changed, newChangeEventData(oldViewState, newViewState));

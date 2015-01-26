@@ -81,7 +81,7 @@ public class AndroidMathEntityDao<T extends MathPersistenceEntity> implements Ma
 
 			editor.putString(preferenceString, sw.toString());
 
-			editor.commit();
+			editor.apply();
 		}
 	}
 
