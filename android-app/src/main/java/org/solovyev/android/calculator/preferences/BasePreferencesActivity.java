@@ -4,18 +4,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
+import org.solovyev.android.calculator.ActivityUi;
 import org.solovyev.android.calculator.AdView;
-import org.solovyev.android.calculator.CalculatorApplication;
+import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.R;
-import org.solovyev.android.checkout.*;
+import org.solovyev.android.checkout.ActivityCheckout;
+import org.solovyev.android.checkout.Checkout;
+import org.solovyev.android.checkout.Inventory;
+import org.solovyev.android.checkout.ProductTypes;
 
 import javax.annotation.Nonnull;
 
-import static java.util.Arrays.asList;
-
 public abstract class BasePreferencesActivity extends SherlockPreferenceActivity {
 
-	private final ActivityCheckout checkout = Checkout.forActivity(this, CalculatorApplication.getInstance().getBilling(), Products.create().add(ProductTypes.IN_APP, asList("ad_free")));
+	private final ActivityCheckout checkout = Checkout.forActivity(this, App.getBilling(), App.getProducts());
 	private Inventory inventory;
 	private AdView adView;
 
@@ -71,6 +73,18 @@ public abstract class BasePreferencesActivity extends SherlockPreferenceActivity
 			adView.resume();
 		}
 		inventory.whenLoaded(new InventoryListener());
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		ActivityUi.reportActivityStart(this);
+	}
+
+	@Override
+	protected void onStop() {
+		ActivityUi.reportActivityStop(this);
+		super.onStop();
 	}
 
 	@Override

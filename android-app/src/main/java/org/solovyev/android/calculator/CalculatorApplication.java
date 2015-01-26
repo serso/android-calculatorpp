@@ -105,25 +105,6 @@ public class CalculatorApplication extends android.app.Application implements Sh
 	@Nonnull
 	private Typeface typeFace;
 
-	@Nonnull
-	private final Billing billing = new Billing(this, new Billing.DefaultConfiguration() {
-		@Nonnull
-		@Override
-		public String getPublicKey() {
-			return CalculatorSecurity.getPK();
-		}
-
-		@Nullable
-		@Override
-		public Inventory getFallbackInventory(@Nonnull Checkout checkout, @Nonnull Executor onLoadExecutor) {
-			if (RobotmediaDatabase.exists(billing.getContext())) {
-				return new RobotmediaInventory(checkout, onLoadExecutor);
-			} else {
-				return null;
-			}
-		}
-	});
-
 	/*
 	**********************************************************************
 	*
@@ -200,7 +181,7 @@ public class CalculatorApplication extends android.app.Application implements Sh
 
 		Locator.getInstance().getCalculator().init();
 
-		billing.connect();
+		App.getBilling().connect();
 
 		new Thread(new Runnable() {
 			@Override
@@ -263,11 +244,6 @@ public class CalculatorApplication extends android.app.Application implements Sh
 	@Nonnull
 	public Typeface getTypeFace() {
 		return typeFace;
-	}
-
-	@Nonnull
-	public Billing getBilling() {
-		return billing;
 	}
 
 	/*

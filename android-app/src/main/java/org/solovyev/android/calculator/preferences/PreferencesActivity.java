@@ -91,7 +91,7 @@ public class PreferencesActivity extends BasePreferencesActivity implements Shar
 			adFreePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 				@Override
 				public boolean onPreferenceClick(Preference preference) {
-					startActivity(new Intent(getApplicationContext(), CalculatorPurchaseDialogActivity.class));
+					startActivity(new Intent(getApplicationContext(), PurchaseDialogActivity.class));
 					return true;
 				}
 			});

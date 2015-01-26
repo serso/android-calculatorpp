@@ -328,10 +328,18 @@ public class ActivityUi extends BaseUi {
 	}
 
 	public void onStop(@Nonnull Activity activity) {
+		reportActivityStop(activity);
+	}
+
+	public static void reportActivityStop(@Nonnull Activity activity) {
 		App.getGa().getAnalytics().reportActivityStop(activity);
 	}
 
 	public void onStart(@Nonnull Activity activity) {
+		reportActivityStart(activity);
+	}
+
+	public static void reportActivityStart(@Nonnull Activity activity) {
 		App.getGa().getAnalytics().reportActivityStart(activity);
 	}
 }
