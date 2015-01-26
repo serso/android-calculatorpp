@@ -28,14 +28,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import org.solovyev.android.checkout.*;
+import org.solovyev.android.checkout.ActivityCheckout;
+import org.solovyev.android.checkout.Checkout;
+import org.solovyev.android.checkout.Inventory;
+import org.solovyev.android.checkout.ProductTypes;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.Locale;
-
-import static java.util.Arrays.asList;
 
 /**
  * User: serso
@@ -91,7 +91,7 @@ public class FragmentUi extends BaseUi {
 	public void onCreate(@Nonnull Fragment fragment) {
 		final FragmentActivity activity = fragment.getActivity();
 		super.onCreate(activity);
-		checkout = Checkout.forActivity(activity, CalculatorApplication.getInstance().getBilling(), Products.create().add(ProductTypes.IN_APP, asList("ad_free")));
+		checkout = Checkout.forActivity(activity, App.getBilling(), App.getProducts());
 
 		if (listenersOnCreate) {
 			if (fragment instanceof CalculatorEventListener) {

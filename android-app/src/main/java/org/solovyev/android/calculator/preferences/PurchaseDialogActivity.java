@@ -29,10 +29,7 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import org.solovyev.android.calculator.CalculatorApplication;
-import org.solovyev.android.calculator.CalculatorFragment;
-import org.solovyev.android.calculator.CalculatorFragmentType;
-import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.checkout.*;
 import org.solovyev.android.fragments.FragmentUtils;
 
@@ -44,10 +41,10 @@ import javax.annotation.Nullable;
  * Date: 1/20/13
  * Time: 2:36 PM
  */
-public class CalculatorPurchaseDialogActivity extends SherlockFragmentActivity {
+public class PurchaseDialogActivity extends SherlockFragmentActivity {
 
 	@Nonnull
-	private final ActivityCheckout checkout = Checkout.forActivity(this, CalculatorApplication.getInstance().getBilling(), Products.create().add("ad_free"));
+	private final ActivityCheckout checkout = Checkout.forActivity(this, App.getBilling(), App.getProducts());
 
 	@Nonnull
 	private final RequestListener<Purchase> purchaseListener = new RequestListener<Purchase>() {
@@ -90,11 +87,23 @@ public class CalculatorPurchaseDialogActivity extends SherlockFragmentActivity {
 				public void onClick(View v) {
 					final Activity activity = getActivity();
 					if (activity != null) {
-						((CalculatorPurchaseDialogActivity) activity).purchase();
+						((PurchaseDialogActivity) activity).purchase();
 					}
 				}
 			});
 		}
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		ActivityUi.reportActivityStart(this);
+	}
+
+	@Override
+	protected void onStop() {
+		ActivityUi.reportActivityStop(this);
+		super.onStop();
 	}
 
 	private void purchase() {

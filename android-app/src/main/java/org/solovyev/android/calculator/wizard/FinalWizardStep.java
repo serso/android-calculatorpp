@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import org.solovyev.android.calculator.R;
-import org.solovyev.android.calculator.preferences.CalculatorPurchaseDialogActivity;
+import org.solovyev.android.calculator.preferences.PurchaseDialogActivity;
 
 import static android.content.Intent.ACTION_VIEW;
 
@@ -35,7 +35,7 @@ public class FinalWizardStep extends Fragment {
 		donateButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				startActivity(new Intent(getActivity(), CalculatorPurchaseDialogActivity.class));
+				startActivity(new Intent(getActivity(), PurchaseDialogActivity.class));
 			}
 		});
 

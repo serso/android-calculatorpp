@@ -27,6 +27,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import org.solovyev.android.UiThreadExecutor;
 import org.solovyev.android.calculator.ga.Ga;
+import org.solovyev.android.checkout.*;
 import org.solovyev.common.listeners.JEvent;
 import org.solovyev.common.listeners.JEventListener;
 import org.solovyev.common.listeners.JEventListeners;
@@ -35,6 +36,8 @@ import org.solovyev.common.threads.DelayedExecutor;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Arrays;
+import java.util.concurrent.Executor;
 
 /**
  * User: serso
@@ -81,6 +84,12 @@ public final class App {
 	@Nonnull
 	private static volatile Ga ga;
 
+	@Nonnull
+	private static volatile Billing billing;
+
+	@Nonnull
+	private static final Products products = Products.create().add(ProductTypes.IN_APP, Arrays.asList("ad_free"));
+
 	private App() {
 		throw new AssertionError();
 	}
@@ -111,6 +120,23 @@ public final class App {
 			App.uiThreadExecutor = uiThreadExecutor;
 			App.eventBus = eventBus;
 			App.ga = new Ga(application, preferences, eventBus);
+			App.billing = new Billing(application, new Billing.DefaultConfiguration() {
+				@Nonnull
+				@Override
+				public String getPublicKey() {
+					return CalculatorSecurity.getPK();
+				}
+
+				@Nullable
+				@Override
+				public Inventory getFallbackInventory(@Nonnull Checkout checkout, @Nonnull Executor onLoadExecutor) {
+					if (RobotmediaDatabase.exists(billing.getContext())) {
+						return new RobotmediaInventory(checkout, onLoadExecutor);
+					} else {
+						return null;
+					}
+				}
+			});
 			if (serviceLocator != null) {
 				App.locator = serviceLocator;
 			} else {
@@ -177,5 +203,15 @@ public final class App {
 	@Nonnull
 	public static Ga getGa() {
 		return ga;
+	}
+
+	@Nonnull
+	public static Billing getBilling() {
+		return billing;
+	}
+
+	@Nonnull
+	public static Products getProducts() {
+		return products;
 	}
 }
