@@ -74,7 +74,7 @@
 					<org.solovyev.android.calculator.matrix.MatrixView
 							a:id="@+id/matrix_layout"
 							a:layout_height="match_parent"
-							a:layout_width="match_parent"
+							a:layout_width="wrap_content"
 							a:minWidth="300dp"/>
 
 				</HorizontalScrollView>

@@ -28,10 +28,6 @@ import jscl.text.Identifier;
 import jscl.text.MutableInt;
 import jscl.text.ParseException;
 import jscl.text.Parser;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import org.solovyev.android.calculator.CalculatorMathRegistry;
 import org.solovyev.android.calculator.CalculatorVarsRegistry;
 import org.solovyev.android.calculator.Locator;
@@ -41,6 +37,9 @@ import org.solovyev.android.calculator.model.MathEntityBuilder;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.msg.MessageType;
 import org.solovyev.common.text.Strings;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * User: serso
@@ -146,7 +145,7 @@ public class VarEditorSaver<T extends MathEntity> implements View.OnClickListene
 
 		if (!Strings.isEmpty(name)) {
 			try {
-				assert name != null;
+				if (name == null) throw new AssertionError();
 				Identifier.parser.parse(Parser.Parameters.newInstance(name, new MutableInt(0), Locator.getInstance().getEngine().getMathEngine0()), null);
 				result = true;
 			} catch (ParseException e) {

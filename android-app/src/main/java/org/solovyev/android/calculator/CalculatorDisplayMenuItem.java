@@ -24,14 +24,12 @@ package org.solovyev.android.calculator;
 
 import android.content.Context;
 import jscl.math.Generic;
-
-import javax.annotation.Nonnull;
-
-import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.plot.CalculatorPlotter;
 import org.solovyev.android.calculator.view.NumeralBaseConverterDialog;
 import org.solovyev.android.menu.LabeledMenuItem;
+
+import javax.annotation.Nonnull;
 
 /**
  * User: Solovyev_S
@@ -102,7 +100,7 @@ public enum CalculatorDisplayMenuItem implements LabeledMenuItem<CalculatorDispl
 		@Override
 		public void onClick(@Nonnull CalculatorDisplayViewState data, @Nonnull Context context) {
 			final Generic expression = data.getResult();
-			assert expression != null;
+			if (expression == null) throw new AssertionError();
 
 			final CalculatorPlotter plotter = Locator.getInstance().getPlotter();
 			plotter.plot(expression);

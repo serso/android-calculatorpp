@@ -24,15 +24,13 @@ package org.solovyev.android.calculator;
 
 import jscl.math.function.Function;
 import jscl.math.function.IConstant;
-
-import javax.annotation.Nonnull;
-
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.text.TextProcessor;
 import org.solovyev.common.collections.Collections;
 import org.solovyev.common.msg.MessageType;
 import org.solovyev.common.search.StartsWithFinder;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -135,7 +133,7 @@ public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, St
 								offset = varName.length();
 							} else {
 								final String value = var.getValue();
-								assert value != null;
+								if (value == null) throw new AssertionError();
 
 								if (var.getDoubleValue() != null) {
 									//result.append(value);

@@ -70,7 +70,7 @@ public class AndroidCalculatorHistory implements CalculatorHistory {
 
 		editor.putString("org.solovyev.android.calculator.CalculatorModel_history", calculatorHistory.toXml());
 
-		editor.commit();
+		editor.apply();
 	}
 
 	public void clearSavedHistory() {

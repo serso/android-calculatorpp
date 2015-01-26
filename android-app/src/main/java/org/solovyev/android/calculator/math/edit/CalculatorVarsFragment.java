@@ -25,17 +25,11 @@ package org.solovyev.android.calculator.math.edit;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
-
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-
 import jscl.math.function.IConstant;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.menu.AMenuItem;
@@ -44,6 +38,8 @@ import org.solovyev.common.JPredicate;
 import org.solovyev.common.collections.Collections;
 import org.solovyev.common.text.Strings;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -269,7 +265,7 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
 			public void onClick(@Nonnull IConstant data, @Nonnull Context context) {
 				final String text = data.getValue();
 				if (!Strings.isEmpty(text)) {
-					assert text != null;
+					if (text == null) throw new AssertionError();
 					Locator.getInstance().getClipboard().setText(text);
 				}
 			}
@@ -280,7 +276,7 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
 			public void onClick(@Nonnull IConstant data, @Nonnull Context context) {
 				final String text = Locator.getInstance().getEngine().getVarsRegistry().getDescription(data.getName());
 				if (!Strings.isEmpty(text)) {
-					assert text != null;
+					if (text == null) throw new AssertionError();
 					Locator.getInstance().getClipboard().setText(text);
 				}
 			}

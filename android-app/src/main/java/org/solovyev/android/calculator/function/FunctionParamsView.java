@@ -22,7 +22,9 @@
 
 package org.solovyev.android.calculator.function;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,12 +33,10 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import jscl.text.MutableInt;
+import org.solovyev.android.calculator.R;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import org.solovyev.android.calculator.R;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -59,6 +59,7 @@ public class FunctionParamsView extends LinearLayout {
 		super(context, attrs);
 	}
 
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public FunctionParamsView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 	}

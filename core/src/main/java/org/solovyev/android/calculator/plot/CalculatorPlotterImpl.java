@@ -82,7 +82,7 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
 	public boolean addFunction(@Nonnull Generic expression) {
 		final List<Constant> variables = new ArrayList<Constant>(CalculatorUtils.getNotSystemConstants(expression));
 
-		assert variables.size() <= 2;
+		if (variables.size() > 2) throw new AssertionError();
 
 		final Constant xVariable;
 		if (variables.size() > 0) {
@@ -316,7 +316,7 @@ public class CalculatorPlotterImpl implements CalculatorPlotter {
 
 	// NOTE: this method must be called from synchronized block
 	private void onFunctionsChanged() {
-		assert Thread.holdsLock(functions);
+		if (!Thread.holdsLock(functions)) throw new AssertionError();
 
 		int maxArity = 0;
 		for (PlotFunction function : functions) {

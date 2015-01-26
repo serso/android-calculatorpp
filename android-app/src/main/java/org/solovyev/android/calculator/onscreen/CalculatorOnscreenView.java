@@ -38,6 +38,7 @@ import org.solovyev.android.prefs.Preference;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Locale;
 
 /**
  * User: serso
@@ -530,7 +531,7 @@ public class CalculatorOnscreenView {
 			if (value >= 0) {
 				return "+" + String.format("%.2f", value);
 			} else {
-				return String.format("%.2f", value);
+				return String.format(Locale.ENGLISH, "%.2f", value);
 			}
 		}
 	}

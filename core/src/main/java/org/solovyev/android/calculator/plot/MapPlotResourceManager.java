@@ -69,7 +69,7 @@ public class MapPlotResourceManager implements PlotResourceManager {
 	}
 
 	private void addLineDef(@Nonnull final PlotLineDef toBeAdded) {
-		assert Thread.holdsLock(this);
+		if (!Thread.holdsLock(this)) throw new AssertionError();
 
 		List<PlotLineDef> registeredLineDefs = registeredLineDefsMap.get(toBeAdded);
 		if (registeredLineDefs == null) {
@@ -94,7 +94,7 @@ public class MapPlotResourceManager implements PlotResourceManager {
 	}
 
 	private void removeLineDef(@Nonnull final PlotLineDef toBeRemoved) {
-		assert Thread.holdsLock(this);
+		if (!Thread.holdsLock(this)) throw new AssertionError();
 
 		List<PlotLineDef> registeredLineDefs = registeredLineDefsMap.get(toBeRemoved);
 

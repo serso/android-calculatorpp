@@ -22,6 +22,7 @@
 
 package org.solovyev.android.calculator.widget;
 
+import android.annotation.TargetApi;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -147,24 +148,30 @@ abstract class AbstractCalculatorWidgetProvider extends AppWidgetProvider {
 
 	private int getLayout(@Nonnull AppWidgetManager appWidgetManager, int appWidgetId, @Nonnull Resources resources) {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-			final Bundle options = appWidgetManager.getAppWidgetOptions(appWidgetId);
+			return getLayoutJellyBean(appWidgetManager, appWidgetId, resources);
+		}
+		return R.layout.widget_layout;
+	}
 
-			if (options != null) {
-				// Get the value of OPTION_APPWIDGET_HOST_CATEGORY
-				final int category = options.getInt(OPTION_APPWIDGET_HOST_CATEGORY, -1);
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+	private int getLayoutJellyBean(AppWidgetManager appWidgetManager, int appWidgetId, Resources resources) {
+		final Bundle options = appWidgetManager.getAppWidgetOptions(appWidgetId);
 
-				if (category != -1) {
-					// If the value is WIDGET_CATEGORY_KEYGUARD, it's a lockscreen widget
-					final boolean keyguard = category == WIDGET_CATEGORY_KEYGUARD;
-					if(keyguard) {
-						final int minHeightDp = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT, -1);
-						final int minHeight = resources.getDimensionPixelSize(R.dimen.min_expanded_height_lock_screen);
-						final boolean expanded = (minHeightDp >= minHeight / resources.getDisplayMetrics().density);
-						if (expanded) {
-							return R.layout.widget_layout_lockscreen;
-						} else {
-							return R.layout.widget_layout_lockscreen_collapsed;
-						}
+		if (options != null) {
+			// Get the value of OPTION_APPWIDGET_HOST_CATEGORY
+			final int category = options.getInt(OPTION_APPWIDGET_HOST_CATEGORY, -1);
+
+			if (category != -1) {
+				// If the value is WIDGET_CATEGORY_KEYGUARD, it's a lockscreen widget
+				final boolean keyguard = category == WIDGET_CATEGORY_KEYGUARD;
+				if(keyguard) {
+					final int minHeightDp = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT, -1);
+					final int minHeight = resources.getDimensionPixelSize(R.dimen.min_expanded_height_lock_screen);
+					final boolean expanded = (minHeightDp >= minHeight / resources.getDisplayMetrics().density);
+					if (expanded) {
+						return R.layout.widget_layout_lockscreen;
+					} else {
+						return R.layout.widget_layout_lockscreen_collapsed;
 					}
 				}
 			}

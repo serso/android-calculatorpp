@@ -245,7 +245,7 @@ public abstract class AbstractCalculatorHistoryFragment extends SherlockListFrag
 	}
 
 	public static boolean isAlreadySaved(@Nonnull CalculatorHistoryState historyState) {
-		assert !historyState.isSaved();
+		if (historyState.isSaved()) throw new AssertionError();
 
 		boolean result = false;
 		try {

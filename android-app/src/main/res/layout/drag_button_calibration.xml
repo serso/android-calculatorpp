@@ -78,6 +78,5 @@
 			a:text="@string/c_restart"
 			a:layout_width="wrap_content"
 			a:layout_height="wrap_content"
-			a:onClick="restartClickHandler"
 			a:layout_gravity="bottom"/>
 </LinearLayout>

@@ -180,7 +180,7 @@ public class VarEditDialogFragment extends DialogFragment implements CalculatorE
 		final View.OnClickListener buttonOnClickListener = new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				assert view instanceof Button;
+				if (!(view instanceof Button)) throw new AssertionError();
 				editName.append(((Button) view).getText());
 			}
 		};

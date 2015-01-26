@@ -20,7 +20,7 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 	<string-array name="p_theme_names">
 		<item>@string/p_default_theme</item>
 		<item>@string/p_violet_theme</item>
@@ -55,11 +55,11 @@
 		<item>"∙"</item>
 	</string-array>
 
-	<string-array name="p_layout_names">
+	<string-array name="p_layout_names" tools:ignore="InconsistentArrays">
 		<item>@string/p_layout_calculator</item>
 		<item>@string/p_layout_simple</item>
 	</string-array>
-	<string-array name="p_layout_values" translatable="false">
+	<string-array name="p_layout_values" translatable="false" tools:ignore="InconsistentArrays">
 		<item>main_calculator</item>
 		<item>simple</item>
 	</string-array>

@@ -26,15 +26,13 @@
 			a:layout_width="fill_parent"
 			a:layout_height="fill_parent">
 
-	<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-				  a:orientation="vertical"
-				  a:layout_width="fill_parent"
-				  a:layout_height="fill_parent"
+	<LinearLayout a:orientation="vertical"
+				  a:layout_width="match_parent"
+				  a:layout_height="wrap_content"
 				  a:scrollbars="vertical"
 				  a:scrollbarAlwaysDrawVerticalTrack="true">
 
-		<TextView xmlns:a="http://schemas.android.com/apk/res/android"
-				  a:id="@+id/error_message_text_view"
+		<TextView a:id="@+id/error_message_text_view"
 				  a:layout_height="fill_parent"
 				  a:layout_width="wrap_content"
 				  a:padding="6dp"

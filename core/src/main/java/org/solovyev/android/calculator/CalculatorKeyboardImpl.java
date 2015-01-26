@@ -46,7 +46,7 @@ public class CalculatorKeyboardImpl implements CalculatorKeyboard {
 	public void buttonPressed(@Nullable final String text) {
 
 		if (!Strings.isEmpty(text)) {
-			assert text != null;
+			if (text == null) throw new AssertionError();
 
 			// process special buttons
 			boolean processed = processSpecialButtons(text);

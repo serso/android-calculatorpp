@@ -22,6 +22,7 @@
 
 package org.solovyev.android.calculator;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -96,7 +97,7 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 			activityHelper.addTab(this, CalculatorPlotActivity.getPlotterFragmentType(), null, R.id.main_second_pane);
 		} else {
 			final ActionBar actionBar = getSupportActionBar();
-			if (Build.VERSION.SDK_INT <= GINGERBREAD_MR1 || (Build.VERSION.SDK_INT >= ICE_CREAM_SANDWICH && ViewConfiguration.get(this).hasPermanentMenuKey())) {
+			if (Build.VERSION.SDK_INT <= GINGERBREAD_MR1 || (Build.VERSION.SDK_INT >= ICE_CREAM_SANDWICH && hasPermanentMenuKey())) {
 				actionBar.hide();
 			} else {
 				actionBar.setDisplayShowTitleEnabled(false);
@@ -124,6 +125,11 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 			Locator.getInstance().getKeyboard().buttonPressed("+");
 			Locator.getInstance().getKeyboard().buttonPressed("321");
 		}
+	}
+
+	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+	private boolean hasPermanentMenuKey() {
+		return ViewConfiguration.get(this).hasPermanentMenuKey();
 	}
 
 	private boolean isMultiPane() {

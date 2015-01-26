@@ -95,7 +95,7 @@ public class CalculatorPlotFragment extends AbstractCalculatorPlotFragment {
 	@Nonnull
 	@Override
 	protected Bitmap getScreehshot() {
-		assert this.graphView != null;
+		if (this.graphView == null) throw new AssertionError();
 		return this.graphView.captureScreenshot();
 	}
 
