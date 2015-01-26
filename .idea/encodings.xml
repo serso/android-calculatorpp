@@ -6,7 +6,5 @@
     <file url="file://$PROJECT_DIR$/android-app-core/src/main/java/org/solovyev/android/calculator/ServiceLocator.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/android-app-tests/build.gradle" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/android-app-tests/src/test/java/org/solovyev/android/CalculatorTestRunner.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/android-app/src/main/java/android/preference/AdPreference.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/android-app/src/main/res/layout/ad_pref.xml" charset="UTF-8" />
   </component>
 </project>

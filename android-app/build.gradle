@@ -47,6 +47,10 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile project(':core')
+    compile 'org.solovyev:common-core:1.0.7'
+    compile 'org.solovyev:common-text:1.0.7'
+    compile 'org.solovyev:common-security:1.0.7'
     compile 'com.android.support:support-v4:21.0.3'
     compile ('ch.acra:acra:4.5.0') {
         exclude group: 'org.json'
@@ -58,11 +62,16 @@ dependencies {
     compile 'org.solovyev.android:android-common-other:1.1.18@aar'
     compile 'org.solovyev.android:android-common-db:1.1.18@aar'
     compile 'org.solovyev.android:android-common-security:1.1.18@aar'
+    compile 'org.solovyev.android:android-common-views:1.1.18@aar'
+    compile 'org.solovyev.android:android-common-menus:1.1.18@aar'
+    compile 'org.solovyev.android:android-common-preferences:1.1.18@aar'
+    compile('org.solovyev:jscl:1.0.8') {
+        exclude(module: 'xercesImpl')
+    }
     compile 'org.solovyev.android:checkout:0.6.0@aar'
-    compile project(':android-app-core')
-    compile project(':android-app-widget')
-    compile project(':android-app-onscreen')
-    compile project(':core')
+    compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
+    compile 'com.google.android.gms:play-services:6.5.87@aar'
+
 }
 
 task androidJavadocs(type: Javadoc) {

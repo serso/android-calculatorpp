@@ -44,6 +44,8 @@ tasks.withType(Test) {
     exclude "**/*OnScreenCalculatorWizardStepTest*"
     exclude "**/*CalculatorWizardTest*"
     exclude "**/*WizardStepTest*"
+    exclude "**/*AngleUnitsButtonTest*"
+    exclude "**/*NumeralBasesButtonTest*"
 }
 
 test {
