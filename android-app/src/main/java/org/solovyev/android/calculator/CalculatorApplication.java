@@ -215,6 +215,9 @@ public class CalculatorApplication extends android.app.Application implements Sh
 		Locator.getInstance().getNotifier().showDebugMessage(TAG, "Application started!");
 
 		typeFace = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Regular.ttf");
+
+		// we must update the widget when app starts
+		App.getBroadcaster().sendEditorStateChangedIntent();
 	}
 
 	private void setTheme(@Nonnull SharedPreferences preferences) {

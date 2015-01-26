@@ -71,40 +71,36 @@
     <orderEntry type="library" exported="" scope="TEST" name="wagon-http-shared-1.0-beta-6" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="xercesMinimal-1.9.6.2" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="nekohtml-1.9.6.2" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="_home_serso_projects_java_serso_android_calculatorpp_android_app_build_intermediates_exploded_aar_org_solovyev_android_android_common_preferences_1_1_18_classes_jar" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="simple-xml-2.6.1" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="classes" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="classes" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="_home_serso_projects_java_serso_android_calculatorpp_core_build_libs_core_jar" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="commons-cli-1.2" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="classes" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="annotations-2.0.1" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="core" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="internal_impl-21.0.3" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="classes" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="classes" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="classes" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="classes" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="_home_serso_projects_java_serso_android_calculatorpp_android_app_build_intermediates_exploded_aar_org_solovyev_android_android_common_views_1_1_18_classes_jar" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="_home_serso_projects_java_serso_android_calculatorpp_android_app_build_intermediates_exploded_aar_org_solovyev_android_android_common_lists_1_1_18_classes_jar" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="stax-1.2.0" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="classes" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="classes" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="support-annotations-21.0.3" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="_home_serso_projects_java_serso_android_calculatorpp_android_app_build_intermediates_exploded_aar_org_solovyev_android_android_common_other_1_1_18_classes_jar" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="_home_serso_projects_java_serso_android_calculatorpp_android_app_build_intermediates_exploded_aar_org_solovyev_android_android_common_menus_1_1_18_classes_jar" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="_home_serso_projects_java_serso_android_calculatorpp_android_app_build_intermediates_exploded_aar_com_android_support_support_v4_21_0_3_classes_jar" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="common-msg-1.0.5" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="support-annotations-21.0.3" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="_home_serso_projects_java_serso_android_calculatorpp_android_app_build_intermediates_exploded_aar_org_solovyev_android_android_common_db_1_1_18_classes_jar" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="common-listeners-1.0.7" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="guava-11.0.2" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="classes" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="common-text-1.0.7" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="classes" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="acra-4.5.0" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="classes" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="_home_serso_projects_java_serso_android_calculatorpp_android_app_build_intermediates_exploded_aar_org_solovyev_android_android_common_wizard_1_1_18_classes_jar" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="_home_serso_projects_java_serso_android_calculatorpp_android_app_build_intermediates_exploded_aar_org_solovyev_android_checkout_0_6_0_classes_jar" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="_home_serso_projects_java_serso_android_calculatorpp_android_app_build_intermediates_exploded_aar_org_solovyev_android_android_common_core_1_1_18_classes_jar" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="_home_serso_projects_java_serso_android_calculatorpp_android_app_build_intermediates_exploded_aar_com_google_android_gms_play_services_6_5_87_classes_jar" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="common-core-1.0.7" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="jscl-1.0.8" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="classes" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="_home_serso_projects_java_serso_android_calculatorpp_android_app_build_intermediates_exploded_aar_org_solovyev_android_android_common_security_1_1_18_classes_jar" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="common-security-1.0.7" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="classes" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="classes" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="classes" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="classes" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="_home_serso_projects_java_android_calculatorpp_android_app_build_intermediates_classes_debug" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="_home_serso_projects_java_android_calculatorpp_android_app_build_intermediates_dependency_cache_debug" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="_home_serso_projects_java_serso_android_calculatorpp_android_app_build_intermediates_exploded_aar_com_actionbarsherlock_actionbarsherlock_4_4_0_classes_jar" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="_home_serso_projects_java_serso_android_calculatorpp_android_app_build_intermediates_exploded_aar_org_solovyev_android_android_common_sherlock_1_1_18_classes_jar" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="_home_serso_projects_java_serso_android_calculatorpp_android_app_build_intermediates_classes_debug" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="_home_serso_projects_java_serso_android_calculatorpp_android_app_build_intermediates_dependency_cache_debug" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="android" level="project" />
   </component>
 </module>
