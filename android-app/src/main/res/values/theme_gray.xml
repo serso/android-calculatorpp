@@ -48,9 +48,13 @@
 	</style>
 
 	<style name="cpp_default_fragment_list_view_item_style">
+		<item name="android:paddingLeft">16dp</item>
+		<item name="android:paddingRight">16dp</item>
+		<item name="android:paddingBottom">20dp</item>
+		<item name="android:paddingTop">20dp</item>
 		<item name="android:layout_height">wrap_content</item>
 		<item name="android:layout_width">match_parent</item>
-		<item name="android:minHeight">50dp</item>
+		<item name="android:minHeight">72dp</item>
 		<item name="android:gravity">center_vertical|left</item>
 	</style>
 

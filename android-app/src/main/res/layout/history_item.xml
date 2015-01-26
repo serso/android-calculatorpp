@@ -34,16 +34,16 @@
 			a:layout_height="wrap_content">
 
 		<TextView
-				a:id="@+id/history_time"
-				a:layout_width="fill_parent"
-				a:layout_height="fill_parent"
-				style="@style/history_time"/>
-
-		<TextView
 				a:id="@+id/history_item"
 				a:layout_width="fill_parent"
 				a:layout_height="fill_parent"
 				style="@style/history_item"/>
+
+		<TextView
+			a:id="@+id/history_time"
+			a:layout_width="fill_parent"
+			a:layout_height="fill_parent"
+			style="@style/history_time"/>
 
 	</LinearLayout>
 
@@ -51,7 +51,7 @@
 			   a:layout_gravity="center_vertical"
 			   a:scaleType="centerInside"
 			   a:padding="6dp"
-			   a:src="@drawable/ab_disk"
+			   a:src="@drawable/ic_save_grey600_48dp"
 			   a:visibility="invisible"
 			   a:layout_width="wrap_content"
 			   a:layout_height="match_parent"/>

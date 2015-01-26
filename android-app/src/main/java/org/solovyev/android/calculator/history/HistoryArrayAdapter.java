@@ -23,26 +23,21 @@
 package org.solovyev.android.calculator.history;
 
 import android.content.Context;
+import android.text.format.DateUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import org.solovyev.android.calculator.R;
 import org.solovyev.common.text.Strings;
 
 import javax.annotation.Nonnull;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
-import static android.view.View.GONE;
-import static android.view.View.INVISIBLE;
-import static android.view.View.VISIBLE;
+import static android.view.View.*;
 import static org.solovyev.android.calculator.CalculatorFragmentType.saved_history;
-import static org.solovyev.android.calculator.history.AbstractCalculatorHistoryFragment.isAlreadySaved;
+import static org.solovyev.android.calculator.history.BaseHistoryFragment.isAlreadySaved;
 
 /**
  * User: serso
@@ -51,6 +46,7 @@ import static org.solovyev.android.calculator.history.AbstractCalculatorHistoryF
  */
 public class HistoryArrayAdapter extends ArrayAdapter<CalculatorHistoryState> {
 
+	private static final int DATETIME_FORMAT = DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_MONTH | DateUtils.FORMAT_ABBREV_TIME;
 	private boolean showDatetime;
 
 	HistoryArrayAdapter(Context context, int resource, int textViewResourceId, @Nonnull List<CalculatorHistoryState> historyList, boolean showDatetime) {
@@ -67,25 +63,24 @@ public class HistoryArrayAdapter extends ArrayAdapter<CalculatorHistoryState> {
 		final TextView time = (TextView) result.findViewById(R.id.history_time);
 		if (showDatetime) {
 			time.setVisibility(VISIBLE);
-			time.setText(new SimpleDateFormat().format(new Date(state.getTime())));
+			time.setText(DateUtils.formatDateTime(getContext(), state.getTime(), DATETIME_FORMAT));
 		} else {
 			time.setVisibility(GONE);
 			time.setText(null);
 		}
 
 		final TextView editor = (TextView) result.findViewById(R.id.history_item);
-		editor.setText(AbstractCalculatorHistoryFragment.getHistoryText(state));
+		editor.setText(BaseHistoryFragment.getHistoryText(state));
 
-		final View commentLayout = result.findViewById(R.id.history_item_comment_layout);
 		final TextView commentView = (TextView) result.findViewById(R.id.history_item_comment);
-		if (commentLayout != null && commentView != null) {
+		if (commentView != null) {
 			final String comment = state.getComment();
 			if (!Strings.isEmpty(comment)) {
 				commentView.setText(comment);
-				commentLayout.setVisibility(VISIBLE);
+				commentView.setVisibility(VISIBLE);
 			} else {
 				commentView.setText(null);
-				commentLayout.setVisibility(GONE);
+				commentView.setVisibility(GONE);
 			}
 		}
 
@@ -115,7 +110,7 @@ public class HistoryArrayAdapter extends ArrayAdapter<CalculatorHistoryState> {
 	@Override
 	public void notifyDataSetChanged() {
 		this.setNotifyOnChange(false);
-		this.sort(AbstractCalculatorHistoryFragment.COMPARATOR);
+		this.sort(BaseHistoryFragment.COMPARATOR);
 		this.setNotifyOnChange(true);
 		super.notifyDataSetChanged();
 	}

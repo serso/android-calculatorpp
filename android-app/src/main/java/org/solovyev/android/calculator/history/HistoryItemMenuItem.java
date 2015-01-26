@@ -50,7 +50,7 @@ public enum HistoryItemMenuItem implements LabeledMenuItem<HistoryItemMenuData> 
 	use(R.string.c_use) {
 		@Override
 		public void onClick(@Nonnull HistoryItemMenuData data, @Nonnull Context context) {
-			AbstractCalculatorHistoryFragment.useHistoryItem(data.getHistoryState());
+			BaseHistoryFragment.useHistoryItem(data.getHistoryState());
 		}
 	},
 
@@ -123,7 +123,7 @@ public enum HistoryItemMenuItem implements LabeledMenuItem<HistoryItemMenuData> 
 		final LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		final View editView = layoutInflater.inflate(R.layout.history_edit, null);
 		final TextView historyExpression = (TextView) editView.findViewById(R.id.history_edit_expression);
-		historyExpression.setText(AbstractCalculatorHistoryFragment.getHistoryText(historyState));
+		historyExpression.setText(BaseHistoryFragment.getHistoryText(historyState));
 
 		final EditText comment = (EditText) editView.findViewById(R.id.history_edit_comment);
 		comment.setText(historyState.getComment());
