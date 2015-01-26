@@ -35,12 +35,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-
+import com.melnykov.fab.FloatingActionButton;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.jscl.JsclOperation;
@@ -55,7 +54,6 @@ import org.solovyev.common.text.Strings;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -148,6 +146,15 @@ public abstract class BaseHistoryFragment extends SherlockListFragment implement
 
 		final ListView lv = getListView();
 		lv.setTextFilterEnabled(true);
+
+		final FloatingActionButton fab = (FloatingActionButton) root.findViewById(R.id.fab);
+		fab.attachToListView(lv);
+		fab.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Locator.getInstance().getCalculator().fireCalculatorEvent(clear_history_requested, null);
+			}
+		});
 
 		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			public void onItemClick(final AdapterView<?> parent,
@@ -360,13 +367,6 @@ public abstract class BaseHistoryFragment extends SherlockListFragment implement
 	}
 
 	private static enum HistoryMenu implements IdentifiableMenuItem<MenuItem> {
-
-		clear_history(R.id.menu_history_clear_history) {
-			@Override
-			public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
-				Locator.getInstance().getCalculator().fireCalculatorEvent(clear_history_requested, null);
-			}
-		},
 
 		toggle_datetime(R.id.menu_history_toggle_datetime) {
 			@Override

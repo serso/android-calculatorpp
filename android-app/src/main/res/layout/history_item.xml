@@ -48,12 +48,11 @@
 	</LinearLayout>
 
 	<ImageView a:id="@+id/history_item_status_icon"
-			   a:layout_gravity="center_vertical"
+			   a:layout_gravity="center_vertical|right"
 			   a:scaleType="centerInside"
-			   a:padding="6dp"
 			   a:src="@drawable/ic_save_grey600_48dp"
-			   a:visibility="invisible"
-			   a:layout_width="wrap_content"
-			   a:layout_height="match_parent"/>
+			   a:visibility="gone"
+			   a:layout_width="30dp"
+			   a:layout_height="30dp"/>
 
 </LinearLayout>
