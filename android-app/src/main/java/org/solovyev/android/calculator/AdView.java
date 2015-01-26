@@ -50,11 +50,10 @@ public class AdView extends FrameLayout {
 			return;
 		}
 
-		setVisibility(VISIBLE);
-
 		LayoutInflater.from(getContext()).inflate(R.layout.admob, this);
 		admobView = (com.google.android.gms.ads.AdView) findViewById(R.id.admob);
-		admobView.setVisibility(View.VISIBLE);
+		if (admobView == null) throw new AssertionError();
+
 		admobView.setAdListener(new AdListener() {
 			@Override
 			public void onAdFailedToLoad(int errorCode) {
@@ -63,6 +62,10 @@ public class AdView extends FrameLayout {
 
 			@Override
 			public void onAdLoaded() {
+				if (admobView != null) {
+					admobView.setVisibility(View.VISIBLE);
+				}
+				setVisibility(VISIBLE);
 			}
 		});
 
