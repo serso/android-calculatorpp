@@ -123,7 +123,7 @@
 	</style>
 
 	<style name="cpp_widget_main_layout_style" parent="cpp_default_main_layout_style">
-		<item name="android:background">@color/cpp_default_background</item>
+		<item name="android:background">@color/cpp_main_bg</item>
 		<item name="android:padding">1dp</item>
 		<item name="android:layout_margin">@dimen/cpp_widget_margin</item>
 	</style>
@@ -137,7 +137,7 @@
 	</style>
 
 	<style name="cpp_onscreen_main_layout_style" parent="cpp_default_main_layout_style">
-		<item name="android:background">@color/cpp_default_background</item>
+		<item name="android:background">@color/cpp_main_bg</item>
 		<item name="android:padding">1dp</item>
 	</style>
 
