@@ -70,7 +70,8 @@ dependencies {
         exclude(module: 'xercesImpl')
     }
     compile 'org.solovyev.android:checkout:0.6.0@aar'
-    compile 'com.google.android.gms:play-services:6.5.87@aar'
+    compile 'com.google.android.gms:play-services-ads:6.5.87@aar'
+    compile 'com.google.android.gms:play-services-base:6.5.87@aar'
     compile 'com.melnykov:floatingactionbutton:1.1.0'
 }
 
@@ -98,6 +99,28 @@ artifacts {
 
 signing {
     sign configurations.archives
+}
+
+gradle.taskGraph.afterTask { Task task ->
+    if (task.project.name == 'android-app') {
+        if (task.name == 'mergeReleaseResources') {
+            cleanGoogleServicesResources('release')
+        } else if (task.name == 'mergeDebugResources') {
+            cleanGoogleServicesResources('debug')
+        }
+    }
+}
+
+private void cleanGoogleServicesResources(buildType) {
+    ant.delete(includeEmptyDirs: 'true') {
+        fileset(dir: file('./build/intermediates/res/' + buildType), includes: '**/common_signin*')
+    }
+    ant.delete(includeEmptyDirs: 'true') {
+        fileset(dir: file('./build/intermediates/res/' + buildType), includes: '**/ic_plusone*')
+    }
+    ant.delete(includeEmptyDirs: 'true') {
+        fileset(dir: file('./build/intermediates/res/' + buildType), includes: '**/powered_by_google*')
+    }
 }
 
 group = "org.solovyev.android"
