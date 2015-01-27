@@ -28,7 +28,7 @@ import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.actionbarsherlock.app.SherlockFragment;
+import android.support.v4.app.Fragment;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -44,7 +44,7 @@ import static org.solovyev.android.calculator.model.AndroidCalculatorEngine.Pref
  * Date: 25.09.12
  * Time: 12:25
  */
-public class CalculatorKeyboardFragment extends SherlockFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class CalculatorKeyboardFragment extends Fragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
 	@Nonnull
 	private Preferences.Gui.Theme theme;

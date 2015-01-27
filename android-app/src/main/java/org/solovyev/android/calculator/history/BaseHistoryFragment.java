@@ -35,16 +35,16 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import com.actionbarsherlock.app.SherlockListFragment;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
+import android.support.v4.app.ListFragment;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import com.melnykov.fab.FloatingActionButton;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.menu.*;
-import org.solovyev.android.sherlock.menu.SherlockMenuHelper;
+import org.solovyev.android.menu.AndroidMenuHelper;
 import org.solovyev.common.JPredicate;
 import org.solovyev.common.collections.Collections;
 import org.solovyev.common.equals.Equalizer;
@@ -60,7 +60,7 @@ import java.util.List;
 
 import static org.solovyev.android.calculator.CalculatorEventType.clear_history_requested;
 
-public abstract class BaseHistoryFragment extends SherlockListFragment implements CalculatorEventListener {
+public abstract class BaseHistoryFragment extends ListFragment implements CalculatorEventListener {
 
 	/*
 	**********************************************************************
@@ -103,7 +103,7 @@ public abstract class BaseHistoryFragment extends SherlockListFragment implement
 	@Nonnull
 	private FragmentUi fragmentHelper;
 
-	private final ActivityMenu<Menu, MenuItem> menu = ListActivityMenu.fromResource(R.menu.history_menu, HistoryMenu.class, SherlockMenuHelper.getInstance(), new HistoryMenuFilter());
+	private final ActivityMenu<Menu, MenuItem> menu = ListActivityMenu.fromResource(R.menu.history_menu, HistoryMenu.class, AndroidMenuHelper.getInstance(), new HistoryMenuFilter());
 
 	@Nonnull
 	private final SharedPreferences.OnSharedPreferenceChangeListener preferencesListener = new HistoryOnPreferenceChangeListener();

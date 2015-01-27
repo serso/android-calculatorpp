@@ -32,7 +32,7 @@ import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 import jscl.math.Generic;
 import org.solovyev.android.Android;
 import org.solovyev.android.calculator.about.CalculatorAboutActivity;
@@ -129,8 +129,8 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
 			final String varValue = viewState.getText();
 			if (!Strings.isEmpty(varValue)) {
 				if (CalculatorVarsFragment.isValidValue(varValue)) {
-					if (context instanceof SherlockFragmentActivity) {
-						VarEditDialogFragment.showDialog(VarEditDialogFragment.Input.newFromValue(varValue), ((SherlockFragmentActivity) context).getSupportFragmentManager());
+					if (context instanceof ActionBarActivity) {
+						VarEditDialogFragment.showDialog(VarEditDialogFragment.Input.newFromValue(varValue), ((ActionBarActivity) context).getSupportFragmentManager());
 					} else {
 						final Intent intent = new Intent(context, CalculatorVarsActivity.class);
 						intent.putExtra(CalculatorVarsFragment.CREATE_VAR_EXTRA_STRING, varValue);

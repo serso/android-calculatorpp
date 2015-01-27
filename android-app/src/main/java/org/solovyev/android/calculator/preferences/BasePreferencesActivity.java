@@ -2,8 +2,8 @@ package org.solovyev.android.calculator.preferences;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceActivity;
 import android.view.LayoutInflater;
-import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import org.solovyev.android.calculator.ActivityUi;
 import org.solovyev.android.calculator.AdView;
 import org.solovyev.android.calculator.App;
@@ -15,7 +15,7 @@ import org.solovyev.android.checkout.ProductTypes;
 
 import javax.annotation.Nonnull;
 
-public abstract class BasePreferencesActivity extends SherlockPreferenceActivity {
+public abstract class BasePreferencesActivity extends PreferenceActivity {
 
 	private final ActivityCheckout checkout = Checkout.forActivity(this, App.getBilling(), App.getProducts());
 	private Inventory inventory;

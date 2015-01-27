@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="acl_wizard_finish_confirmation">Vuoi veramente terminare la procedura guidata?</string>
+	<string name="acl_wizard_next">Successivo</string>
+	<string name="acl_wizard_back">Indietro</string>
+	<string name="acl_wizard_finish">Termina</string>
+	<string name="acl_wizard_start">Avvia la procedura guidata</string>
+</resources>

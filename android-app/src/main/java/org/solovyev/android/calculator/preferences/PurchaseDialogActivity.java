@@ -28,7 +28,7 @@ import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.TextView;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.checkout.*;
 import org.solovyev.android.fragments.FragmentUtils;
@@ -41,7 +41,7 @@ import javax.annotation.Nullable;
  * Date: 1/20/13
  * Time: 2:36 PM
  */
-public class PurchaseDialogActivity extends SherlockFragmentActivity {
+public class PurchaseDialogActivity extends ActionBarActivity {
 
 	@Nonnull
 	private final ActivityCheckout checkout = Checkout.forActivity(this, App.getBilling(), App.getProducts());

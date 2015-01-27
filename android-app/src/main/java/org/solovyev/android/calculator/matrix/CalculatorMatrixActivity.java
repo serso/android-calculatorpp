@@ -28,7 +28,7 @@ import org.solovyev.android.calculator.EmptyActivity;
 import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.R;
 
-import static com.actionbarsherlock.app.ActionBar.NAVIGATION_MODE_STANDARD;
+import static android.support.v7.app.ActionBar.NAVIGATION_MODE_STANDARD;
 
 /**
  * User: Solovyev_S

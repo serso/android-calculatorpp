@@ -33,7 +33,7 @@ import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -44,7 +44,7 @@ import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.fragments.FragmentUtils;
 
-public class CalculatorPlotFunctionSettingsActivity extends SherlockFragmentActivity {
+public class CalculatorPlotFunctionSettingsActivity extends ActionBarActivity {
 
 	private static final String INPUT_FUNCTION_ID = "plot-function-id";
 

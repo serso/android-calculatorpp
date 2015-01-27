@@ -56,16 +56,13 @@ dependencies {
     compile 'org.solovyev:common-text:1.0.7'
     compile 'org.solovyev:common-security:1.0.7'
     compile 'com.android.support:support-v4:21.0.3'
-    compile ('ch.acra:acra:4.5.0') {
+    compile 'com.android.support:appcompat-v7:21.0.3'
+    compile('ch.acra:acra:4.5.0') {
         exclude group: 'org.json'
     }
-    compile 'org.solovyev.android:android-common-sherlock:1.1.18@aar'
     compile 'org.solovyev.android:android-common-lists:1.1.18@aar'
-    compile 'org.solovyev.android:android-common-wizard:1.1.18@aar'
     compile 'org.solovyev.android:android-common-core:1.1.18@aar'
     compile 'org.solovyev.android:android-common-other:1.1.18@aar'
-    compile 'org.solovyev.android:android-common-db:1.1.18@aar'
-    compile 'org.solovyev.android:android-common-security:1.1.18@aar'
     compile 'org.solovyev.android:android-common-views:1.1.18@aar'
     compile 'org.solovyev.android:android-common-menus:1.1.18@aar'
     compile 'org.solovyev.android:android-common-preferences:1.1.18@aar'
@@ -73,7 +70,6 @@ dependencies {
         exclude(module: 'xercesImpl')
     }
     compile 'org.solovyev.android:checkout:0.6.0@aar'
-    compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
     compile 'com.google.android.gms:play-services:6.5.87@aar'
     compile 'com.melnykov:floatingactionbutton:1.1.0'
 }

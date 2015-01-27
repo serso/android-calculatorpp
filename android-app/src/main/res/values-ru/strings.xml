@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="acl_wizard_finish_confirmation">Вы действительно хотите завершить визард?</string>
+	<string name="acl_wizard_next">Далее</string>
+	<string name="acl_wizard_back">Назад</string>
+	<string name="acl_wizard_finish">Завершить</string>
+	<string name="acl_wizard_start">Начать визард</string>
+</resources>

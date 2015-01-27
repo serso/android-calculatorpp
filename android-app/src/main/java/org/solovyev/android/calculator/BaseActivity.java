@@ -2,11 +2,11 @@ package org.solovyev.android.calculator;
 
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 
 import javax.annotation.Nonnull;
 
-public class BaseActivity extends SherlockFragmentActivity {
+public class BaseActivity extends ActionBarActivity {
 
 	@Nonnull
 	protected final ActivityUi ui;

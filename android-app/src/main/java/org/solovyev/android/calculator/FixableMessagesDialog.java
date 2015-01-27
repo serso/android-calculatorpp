@@ -29,21 +29,17 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
-
-import com.actionbarsherlock.app.SherlockActivity;
-
-import javax.annotation.Nonnull;
-
-import org.solovyev.android.calculator.R;
 import org.solovyev.common.msg.Message;
 import org.solovyev.common.text.Strings;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -53,7 +49,7 @@ import java.util.List;
  * Date: 11/17/12
  * Time: 3:37 PM
  */
-public class FixableMessagesDialog extends SherlockActivity {
+public class FixableMessagesDialog extends ActionBarActivity {
 
 	private static final String INPUT = "input";
 

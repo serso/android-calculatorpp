@@ -22,6 +22,7 @@
 
 package org.solovyev.android.calculator.plot;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -32,27 +33,21 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
-
 import org.solovyev.android.Android;
 import org.solovyev.android.Threads;
 import org.solovyev.android.calculator.*;
-import org.solovyev.android.menu.AMenuItem;
-import org.solovyev.android.menu.ActivityMenu;
-import org.solovyev.android.menu.IdentifiableMenuItem;
-import org.solovyev.android.menu.ListActivityMenu;
-import org.solovyev.android.sherlock.menu.SherlockMenuHelper;
+import org.solovyev.android.calculator.R;
+import org.solovyev.android.menu.*;
 import org.solovyev.common.JPredicate;
 import org.solovyev.common.msg.MessageType;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -140,7 +135,7 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 		PreferenceManager.getDefaultSharedPreferences(this.getActivity()).registerOnSharedPreferenceChangeListener(this);
 
 		plotData = Locator.getInstance().getPlotter().getPlotData();
-		updateChart(plotData, getSherlockActivity());
+		updateChart(plotData, getActivity());
 	}
 
 	@Override
@@ -155,7 +150,7 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 		if (Preferences.angleUnit.getKey().equals(key)) {
-			updateChart(this.plotData, getSherlockActivity());
+			updateChart(this.plotData, getActivity());
 		}
 	}
 
@@ -176,11 +171,11 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 	private void onNewPlotData(@Nonnull final PlotData plotData) {
 		this.plotData = plotData;
 
-		final SherlockFragmentActivity activity = getSherlockActivity();
-		updateChart(plotData, activity);
+		updateChart(plotData, getActivity());
 	}
 
-	private void updateChart(@Nonnull final PlotData plotData, @Nullable final SherlockFragmentActivity activity) {
+	private void updateChart(@Nonnull final PlotData plotData, @Nullable final Activity activity) {
+		if (!(activity instanceof ActionBarActivity)) throw new AssertionError();
 		Threads.tryRunOnUiThread(activity, new Runnable() {
 			@Override
 			public void run() {
@@ -191,8 +186,7 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 					createGraphicalView(view, plotData);
 				}
 
-				if (activity == null) throw new AssertionError();
-				activity.invalidateOptionsMenu();
+				((ActionBarActivity) activity).supportInvalidateOptionsMenu();
 			}
 		});
 	}
@@ -320,7 +314,7 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 		final boolean plot2dVisible = plotData.isPlot3d() && Locator.getInstance().getPlotter().is2dPlotPossible();
 		final boolean captureScreenshotVisible = isScreenshotSupported();
 		final boolean fullscreenVisible = isPaneFragment();
-		fragmentMenu = ListActivityMenu.fromResource(R.menu.plot_menu, menuItems, SherlockMenuHelper.getInstance(), new JPredicate<AMenuItem<MenuItem>>() {
+		fragmentMenu = ListActivityMenu.fromResource(R.menu.plot_menu, menuItems, AndroidMenuHelper.getInstance(), new JPredicate<AMenuItem<MenuItem>>() {
 			@Override
 			public boolean apply(@Nullable AMenuItem<MenuItem> menuItem) {
 				if (menuItem == plot3dMenuItem) {

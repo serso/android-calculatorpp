@@ -29,7 +29,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.actionbarsherlock.app.SherlockFragment;
+import android.support.v4.app.Fragment;
 
 import javax.annotation.Nonnull;
 
@@ -38,7 +38,7 @@ import javax.annotation.Nonnull;
  * Date: 25.09.12
  * Time: 12:03
  */
-public class CalculatorDisplayFragment extends SherlockFragment {
+public class CalculatorDisplayFragment extends Fragment {
 
 	@Nonnull
 	private FragmentUi fragmentHelper;

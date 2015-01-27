@@ -28,10 +28,10 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.text.ClipboardManager;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
+import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import jscl.math.function.Function;
 import jscl.math.function.IFunction;
@@ -251,7 +251,7 @@ public class CalculatorFunctionsFragment extends AbstractMathEntityListFragment<
 			@Override
 			public void onClick(@Nonnull Function function, @Nonnull Context context) {
 				if (function instanceof IFunction) {
-					FunctionEditDialogFragment.showDialog(FunctionEditDialogFragment.Input.newFromFunction((IFunction) function), ((SherlockFragmentActivity) context).getSupportFragmentManager());
+					FunctionEditDialogFragment.showDialog(FunctionEditDialogFragment.Input.newFromFunction((IFunction) function), ((ActionBarActivity) context).getSupportFragmentManager());
 				}
 			}
 		},

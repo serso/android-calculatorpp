@@ -34,7 +34,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 
 import jscl.math.Generic;
 import jscl.math.function.Constant;
@@ -189,8 +189,8 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
 	*/
 
 	public static void showDialog(@Nonnull Input input, @Nonnull Context context) {
-		if (context instanceof SherlockFragmentActivity) {
-			FunctionEditDialogFragment.showDialog(input, ((SherlockFragmentActivity) context).getSupportFragmentManager());
+		if (context instanceof ActionBarActivity) {
+			FunctionEditDialogFragment.showDialog(input, ((ActionBarActivity) context).getSupportFragmentManager());
 		} else {
 			final Intent intent = new Intent(context, CalculatorFunctionsActivity.class);
 			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

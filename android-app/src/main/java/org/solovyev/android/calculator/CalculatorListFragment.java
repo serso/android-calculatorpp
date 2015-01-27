@@ -28,7 +28,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.actionbarsherlock.app.SherlockListFragment;
+import android.support.v4.app.ListFragment;
 
 import javax.annotation.Nonnull;
 
@@ -37,7 +37,7 @@ import javax.annotation.Nonnull;
  * Date: 03.10.12
  * Time: 14:18
  */
-public abstract class CalculatorListFragment extends SherlockListFragment {
+public abstract class CalculatorListFragment extends ListFragment {
 
 	@Nonnull
 	private final FragmentUi fragmentHelper;

@@ -32,7 +32,7 @@ import org.solovyev.android.calculator.R;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import static com.actionbarsherlock.app.ActionBar.NAVIGATION_MODE_STANDARD;
+import static android.support.v7.app.ActionBar.NAVIGATION_MODE_STANDARD;
 
 /**
  * User: serso
