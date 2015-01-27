@@ -22,7 +22,9 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<Button xmlns:a="http://schemas.android.com/apk/res/android"
-		a:id="@id/cpp_button_period"
-		a:text="."
-		style="@style/cpp_simple_metro_digit_button_style"/>
+<selector xmlns:a="http://schemas.android.com/apk/res/android">
+
+	<item a:state_pressed="true" a:drawable="@drawable/metro_button_pressed"/>
+
+	<item a:drawable="@drawable/metro_button_light_shape"/>
+</selector>
