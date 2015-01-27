@@ -50,7 +50,8 @@
 			a:layout_gravity="bottom|right"
 			a:layout_margin="16dp"
 			a:src="@drawable/ic_delete_white_36dp"
-			fab:fab_colorNormal="#393939"
-			fab:fab_colorRipple="#40000000" />
+			fab:fab_colorNormal="@color/cpp_metro_button_background"
+			fab:fab_colorPressed="@color/cpp_metro_button_background"
+			fab:fab_colorRipple="?attr/colorControlHighlight" />
 	</FrameLayout>
 </LinearLayout>

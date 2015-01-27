@@ -49,8 +49,6 @@
 	</style>
 
 	<style name="cpp_metro_blue_theme" parent="cpp_gray_theme">
-		<item name="android:colorAccent">@color/cpp_metro_blue</item>
-
 		<item name="cpp_digit_button_style">@style/metro_digit_button_style</item>
 		<item name="cpp_control_button_style">@style/metro_control_button_style</item>
 		<item name="cpp_control_image_button_style">@style/metro_control_image_button_style</item>
@@ -58,8 +56,6 @@
 	</style>
 
 	<style name="cpp_metro_blue_dialog_theme" parent="cpp_gray_dialog_theme">
-		<item name="android:colorAccent">@color/cpp_metro_blue</item>
-
 		<item name="cpp_digit_button_style">@style/metro_digit_button_style</item>
 		<item name="cpp_control_button_style">@style/metro_control_button_style</item>
 		<item name="cpp_control_image_button_style">@style/metro_control_image_button_style</item>
