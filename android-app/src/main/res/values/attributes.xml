@@ -23,7 +23,6 @@
 
 <resources>
 
-	<attr name="cpp_dialog_style" format="reference"/>
 	<attr name="cpp_digit_button_style" format="reference"/>
 	<attr name="cpp_control_button_style" format="reference"/>
 	<attr name="cpp_control_image_button_style" format="reference"/>

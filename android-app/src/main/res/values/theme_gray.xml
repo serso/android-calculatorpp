@@ -26,7 +26,7 @@
 		<item name="android:background">@drawable/gray_button</item>
 	</style>
 
-	<style name="cpp_default_dialog_style">
+	<style name="cpp_dialog">
 		<item name="android:padding">6dp</item>
 		<item name="android:minWidth">200dp</item>
 		<item name="android:layout_width">match_parent</item>
@@ -135,8 +135,6 @@
 
 		<item name="cpp_fragment_layout_style">@style/cpp_default_fragment_layout_style</item>
 
-		<item name="cpp_dialog_style">@style/cpp_default_dialog_style</item>
-
 		<item name="cpp_pane_style">@style/cpp_default_pane_style</item>
 		<item name="cpp_pane_style_transparent">@style/cpp_default_pane_style_transparent</item>
 	</style>
@@ -159,8 +157,6 @@
 		<item name="cpp_main_multi_pane_layout_style">@style/cpp_default_main_multi_pane_layout_style</item>
 
 		<item name="cpp_fragment_layout_style">@style/cpp_default_fragment_layout_style</item>
-
-		<item name="cpp_dialog_style">@style/cpp_default_dialog_style</item>
 
 		<item name="cpp_pane_style">@style/cpp_default_pane_style</item>
 		<item name="cpp_pane_style_transparent">@style/cpp_default_pane_style_transparent</item>
