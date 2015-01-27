@@ -39,6 +39,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard.cfg'
             zipAlignEnabled true
         }
+        debug {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-debug.cfg'
+        }
     }
     lintOptions {
         abortOnError false
