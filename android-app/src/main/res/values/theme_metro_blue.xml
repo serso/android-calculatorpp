@@ -47,43 +47,22 @@
 		<item name="android:padding">6dp</item>
 	</style>
 
-	<style name="metro_blue_fragment_list_view_item_style" parent="cpp_default_fragment_list_view_item_style">
-		<item name="background">@drawable/metro_blue_list_item</item>
-		<item name="android:background">@drawable/metro_blue_list_item</item>
-	</style>
-
-	<style name="metro_blue_actionbar_style" parent="@style/Widget.AppCompat.ActionBar">
-		<item name="background">@drawable/metro_blue_abs__ab_transparent_dark_holo</item>
-		<item name="android:background">@drawable/metro_blue_abs__ab_transparent_dark_holo</item>
-	</style>
-
-	<style name="metro_blue_actionbar_tab_style" parent="cpp_default_actionbar_tab_style">
-		<item name="background">@drawable/metro_blue_abs__tab_indicator_ab_holo</item>
-		<item name="android:background">@drawable/metro_blue_abs__tab_indicator_ab_holo</item>
-	</style>
-
 	<style name="cpp_metro_blue_theme" parent="cpp_gray_theme">
+		<item name="android:colorAccent">@color/cpp_metro_blue_color</item>
+
 		<item name="cpp_digit_button_style">@style/metro_digit_button_style</item>
 		<item name="cpp_control_button_style">@style/metro_control_button_style</item>
 		<item name="cpp_control_image_button_style">@style/metro_control_image_button_style</item>
 		<item name="cpp_operation_button_style">@style/metro_blue_operation_button_style</item>
-
-		<item name="cpp_fragment_list_view_item_style">@style/metro_blue_fragment_list_view_item_style</item>
-
-		<!--action bar-->
-		<!--        <item name="actionBarTabStyle">@style/metro_blue_actionbar_tab_style</item>
-				<item name="android:actionBarTabStyle">@style/metro_blue_actionbar_tab_style</item>
-				<item name="actionBarStyle">@style/metro_blue_actionbar_style</item>
-				<item name="android:actionBarStyle">@style/metro_blue_actionbar_style</item>-->
 	</style>
 
 	<style name="cpp_metro_blue_dialog_theme" parent="cpp_gray_dialog_theme">
+		<item name="android:colorAccent">@color/cpp_metro_blue_color</item>
+
 		<item name="cpp_digit_button_style">@style/metro_digit_button_style</item>
 		<item name="cpp_control_button_style">@style/metro_control_button_style</item>
 		<item name="cpp_control_image_button_style">@style/metro_control_image_button_style</item>
 		<item name="cpp_operation_button_style">@style/metro_blue_operation_button_style</item>
-
-		<item name="cpp_fragment_list_view_item_style">@style/metro_blue_fragment_list_view_item_style</item>
 	</style>
 
 </resources>
