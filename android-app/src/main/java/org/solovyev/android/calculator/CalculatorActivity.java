@@ -30,14 +30,13 @@ import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBar;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.*;
 import android.widget.Button;
 import android.widget.TextView;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import org.solovyev.android.Activities;
 import org.solovyev.android.Android;
 import org.solovyev.android.Threads;
@@ -62,38 +61,35 @@ import static org.solovyev.android.calculator.Preferences.Gui.preventScreenFromF
 import static org.solovyev.android.wizard.WizardUi.continueWizard;
 import static org.solovyev.android.wizard.WizardUi.startWizard;
 
-public class CalculatorActivity extends ActionBarActivity implements SharedPreferences.OnSharedPreferenceChangeListener, CalculatorEventListener {
+public class CalculatorActivity extends BaseActivity implements SharedPreferences.OnSharedPreferenceChangeListener, CalculatorEventListener {
 
 	@Nonnull
 	public static final String TAG = CalculatorActivity.class.getSimpleName();
 
 	private boolean useBackAsPrev;
 
-	@Nonnull
-	private ActivityUi activityUi;
+	public CalculatorActivity() {
+		super(0, TAG);
+	}
 
 	/**
 	 * Called when the activity is first created.
 	 */
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
+		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		final Preferences.Gui.Layout layout = Preferences.Gui.layout.getPreferenceNoError(preferences);
+		ui.setLayoutId(layout.getLayoutId());
+
 		super.onCreate(savedInstanceState);
 
-		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-
-		final Preferences.Gui.Layout layout = Preferences.Gui.layout.getPreferenceNoError(preferences);
-
-		activityUi = CalculatorApplication.getInstance().createActivityHelper(layout.getLayoutId(), TAG);
-		activityUi.logDebug("onCreate");
-		activityUi.onCreate(this);
-
 		if (isMultiPane()) {
-			activityUi.addTab(this, CalculatorFragmentType.history, null, R.id.main_second_pane);
-			activityUi.addTab(this, CalculatorFragmentType.saved_history, null, R.id.main_second_pane);
-			activityUi.addTab(this, CalculatorFragmentType.variables, null, R.id.main_second_pane);
-			activityUi.addTab(this, CalculatorFragmentType.functions, null, R.id.main_second_pane);
-			activityUi.addTab(this, CalculatorFragmentType.operators, null, R.id.main_second_pane);
-			activityUi.addTab(this, CalculatorPlotActivity.getPlotterFragmentType(), null, R.id.main_second_pane);
+			ui.addTab(this, CalculatorFragmentType.history, null, R.id.main_second_pane);
+			ui.addTab(this, CalculatorFragmentType.saved_history, null, R.id.main_second_pane);
+			ui.addTab(this, CalculatorFragmentType.variables, null, R.id.main_second_pane);
+			ui.addTab(this, CalculatorFragmentType.functions, null, R.id.main_second_pane);
+			ui.addTab(this, CalculatorFragmentType.operators, null, R.id.main_second_pane);
+			ui.addTab(this, CalculatorPlotActivity.getPlotterFragmentType(), null, R.id.main_second_pane);
 		} else {
 			final ActionBar actionBar = getSupportActionBar();
 			if (Build.VERSION.SDK_INT <= GINGERBREAD_MR1 || (Build.VERSION.SDK_INT >= ICE_CREAM_SANDWICH && hasPermanentMenuKey())) {
@@ -124,18 +120,6 @@ public class CalculatorActivity extends ActionBarActivity implements SharedPrefe
 			Locator.getInstance().getKeyboard().buttonPressed("+");
 			Locator.getInstance().getKeyboard().buttonPressed("321");
 		}
-	}
-
-	@Override
-	protected void onStart() {
-		super.onStart();
-		activityUi.onStart(this);
-	}
-
-	@Override
-	protected void onStop() {
-		activityUi.onStop(this);
-		super.onStop();
 	}
 
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
@@ -242,19 +226,12 @@ public class CalculatorActivity extends ActionBarActivity implements SharedPrefe
 	}
 
 	@Override
-	protected void onPause() {
-		this.activityUi.onPause(this);
-
-		super.onPause();
-	}
-
-	@Override
 	protected void onResume() {
 		super.onResume();
 
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		final Preferences.Gui.Layout newLayout = Preferences.Gui.layout.getPreference(preferences);
-		if (newLayout != activityUi.getLayout()) {
+		if (newLayout != ui.getLayout()) {
 			Activities.restartActivity(this);
 		}
 
@@ -264,14 +241,10 @@ public class CalculatorActivity extends ActionBarActivity implements SharedPrefe
 		} else {
 			window.clearFlags(FLAG_KEEP_SCREEN_ON);
 		}
-
-		this.activityUi.onResume(this);
 	}
 
 	@Override
 	protected void onDestroy() {
-		activityUi.onDestroy(this);
-
 		PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
 
 		super.onDestroy();
@@ -286,13 +259,6 @@ public class CalculatorActivity extends ActionBarActivity implements SharedPrefe
 		if (Preferences.Gui.autoOrientation.getKey().equals(key)) {
 			toggleOrientationChange(preferences);
 		}
-	}
-
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-
-		activityUi.onSaveInstanceState(this, outState);
 	}
 
 	private void toggleOrientationChange(@Nullable SharedPreferences preferences) {
@@ -317,27 +283,22 @@ public class CalculatorActivity extends ActionBarActivity implements SharedPrefe
 		throw new UnsupportedOperationException("Not implemented yet!");
 	}
 
-	@SuppressWarnings({"UnusedDeclaration"})
 	public void historyButtonClickHandler(@Nonnull View v) {
 		buttonPressed(CalculatorSpecialButton.history);
 	}
 
-	@SuppressWarnings({"UnusedDeclaration"})
 	public void eraseButtonClickHandler(@Nonnull View v) {
 		buttonPressed(CalculatorSpecialButton.erase);
 	}
 
-	@SuppressWarnings({"UnusedDeclaration"})
 	public void simplifyButtonClickHandler(@Nonnull View v) {
 		throw new UnsupportedOperationException("Not implemented yet!");
 	}
 
-	@SuppressWarnings({"UnusedDeclaration"})
 	public void pasteButtonClickHandler(@Nonnull View v) {
 		buttonPressed(CalculatorSpecialButton.paste);
 	}
 
-	@SuppressWarnings({"UnusedDeclaration"})
 	public void copyButtonClickHandler(@Nonnull View v) {
 		buttonPressed(CalculatorSpecialButton.copy);
 	}
@@ -347,12 +308,10 @@ public class CalculatorActivity extends ActionBarActivity implements SharedPrefe
 		return Locator.getInstance().getKeyboard();
 	}
 
-	@SuppressWarnings({"UnusedDeclaration"})
 	public void clearButtonClickHandler(@Nonnull View v) {
 		buttonPressed(CalculatorSpecialButton.clear);
 	}
 
-	@SuppressWarnings({"UnusedDeclaration"})
 	public void digitButtonClickHandler(@Nonnull View v) {
 		Log.d(String.valueOf(v.getId()), "digitButtonClickHandler() for: " + v.getId() + ". Pressed: " + v.isPressed());
 
@@ -369,22 +328,18 @@ public class CalculatorActivity extends ActionBarActivity implements SharedPrefe
 		getKeyboard().buttonPressed(text);
 	}
 
-	@SuppressWarnings({"UnusedDeclaration"})
 	public void functionsButtonClickHandler(@Nonnull View v) {
 		buttonPressed(CalculatorSpecialButton.functions);
 	}
 
-	@SuppressWarnings({"UnusedDeclaration"})
 	public void operatorsButtonClickHandler(@Nonnull View v) {
 		buttonPressed(CalculatorSpecialButton.operators);
 	}
 
-	@SuppressWarnings({"UnusedDeclaration"})
 	public void varsButtonClickHandler(@Nonnull View v) {
 		buttonPressed(CalculatorSpecialButton.vars);
 	}
 
-	@SuppressWarnings({"UnusedDeclaration"})
 	public void likeButtonClickHandler(@Nonnull View v) {
 		buttonPressed(CalculatorSpecialButton.like);
 	}
@@ -402,7 +357,7 @@ public class CalculatorActivity extends ActionBarActivity implements SharedPrefe
 								// do nothing - fragment shown and already registered for plot updates
 							} else {
 								// otherwise - open fragment
-								activityUi.selectTab(CalculatorActivity.this, CalculatorFragmentType.plotter);
+								ui.selectTab(CalculatorActivity.this, CalculatorFragmentType.plotter);
 							}
 						} else {
 							// start new activity
