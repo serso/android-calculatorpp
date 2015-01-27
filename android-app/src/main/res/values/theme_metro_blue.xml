@@ -52,7 +52,7 @@
 		<item name="android:background">@drawable/metro_blue_list_item</item>
 	</style>
 
-	<style name="metro_blue_actionbar_style" parent="@style/Widget.Sherlock.ActionBar">
+	<style name="metro_blue_actionbar_style" parent="@style/Widget.AppCompat.ActionBar">
 		<item name="background">@drawable/metro_blue_abs__ab_transparent_dark_holo</item>
 		<item name="android:background">@drawable/metro_blue_abs__ab_transparent_dark_holo</item>
 	</style>

@@ -58,7 +58,7 @@ import org.solovyev.common.filter.Filter;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.text.Strings;
 
-import com.actionbarsherlock.app.SherlockListFragment;
+import android.support.v4.app.ListFragment;
 
 import static org.solovyev.android.calculator.CalculatorEventType.show_wiki_description;
 
@@ -67,7 +67,7 @@ import static org.solovyev.android.calculator.CalculatorEventType.show_wiki_desc
  * Date: 12/21/11
  * Time: 9:24 PM
  */
-public abstract class AbstractMathEntityListFragment<T extends MathEntity> extends SherlockListFragment implements CalculatorEventListener {
+public abstract class AbstractMathEntityListFragment<T extends MathEntity> extends ListFragment implements CalculatorEventListener {
 
 	/*
 	**********************************************************************

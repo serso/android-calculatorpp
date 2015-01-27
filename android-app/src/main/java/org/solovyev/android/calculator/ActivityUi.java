@@ -36,8 +36,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import org.solovyev.android.Activities;
 import org.solovyev.android.Views;
 import org.solovyev.android.sherlock.tabs.ActionBarFragmentTabListener;
@@ -111,9 +111,8 @@ public class ActivityUi extends BaseUi {
 		}
 	}
 
-	public void onCreate(@Nonnull final SherlockFragmentActivity activity) {
-		onCreate((Activity)activity);
-
+	public void onCreate(@Nonnull final ActionBarActivity activity) {
+		onCreate((Activity) activity);
 		final ActionBar actionBar = activity.getSupportActionBar();
 		actionBar.setDisplayUseLogoEnabled(false);
 		actionBar.setDisplayHomeAsUpEnabled(homeIcon);
@@ -126,7 +125,7 @@ public class ActivityUi extends BaseUi {
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 	}
 
-	private void toggleTitle(@Nonnull SherlockFragmentActivity activity, boolean showTitle) {
+	private void toggleTitle(@Nonnull ActionBarActivity activity, boolean showTitle) {
 		final ActionBar actionBar = activity.getSupportActionBar();
 
 		if (activity instanceof CalculatorActivity) {
@@ -140,14 +139,14 @@ public class ActivityUi extends BaseUi {
 		}
 	}
 
-	public void restoreSavedTab(@Nonnull SherlockFragmentActivity activity) {
+	public void restoreSavedTab(@Nonnull ActionBarActivity activity) {
 		final ActionBar actionBar = activity.getSupportActionBar();
 		if (selectedNavigationIndex >= 0 && selectedNavigationIndex < actionBar.getTabCount()) {
 			actionBar.setSelectedNavigationItem(selectedNavigationIndex);
 		}
 	}
 
-	public void onSaveInstanceState(@Nonnull SherlockFragmentActivity activity, @Nonnull Bundle outState) {
+	public void onSaveInstanceState(@Nonnull ActionBarActivity activity, @Nonnull Bundle outState) {
 		onSaveInstanceState((Activity) activity, outState);
 	}
 
@@ -166,7 +165,7 @@ public class ActivityUi extends BaseUi {
 	public void onPause(@Nonnull Activity activity) {
 	}
 
-	public void onPause(@Nonnull SherlockFragmentActivity activity) {
+	public void onPause(@Nonnull ActionBarActivity activity) {
 		onPause((Activity) activity);
 
 		final int selectedNavigationIndex = activity.getSupportActionBar().getSelectedNavigationIndex();
@@ -193,11 +192,11 @@ public class ActivityUi extends BaseUi {
 		}
 	}
 
-	public void onDestroy(@Nonnull SherlockFragmentActivity activity) {
+	public void onDestroy(@Nonnull ActionBarActivity activity) {
 		this.onDestroy((Activity) activity);
 	}
 
-	public void addTab(@Nonnull SherlockFragmentActivity activity,
+	public void addTab(@Nonnull ActionBarActivity activity,
 					   @Nonnull String tag,
 					   @Nonnull Class<? extends Fragment> fragmentClass,
 					   @Nullable Bundle fragmentArgs,
@@ -214,11 +213,11 @@ public class ActivityUi extends BaseUi {
 		actionBar.addTab(tab);
 	}
 
-	public void addTab(@Nonnull SherlockFragmentActivity activity, @Nonnull CalculatorFragmentType fragmentType, @Nullable Bundle fragmentArgs, int parentViewId) {
+	public void addTab(@Nonnull ActionBarActivity activity, @Nonnull CalculatorFragmentType fragmentType, @Nullable Bundle fragmentArgs, int parentViewId) {
 		addTab(activity, fragmentType.getFragmentTag(), fragmentType.getFragmentClass(), fragmentArgs, fragmentType.getDefaultTitleResId(), parentViewId);
 	}
 
-	public void setFragment(@Nonnull SherlockFragmentActivity activity, @Nonnull CalculatorFragmentType fragmentType, @Nullable Bundle fragmentArgs, int parentViewId) {
+	public void setFragment(@Nonnull ActionBarActivity activity, @Nonnull CalculatorFragmentType fragmentType, @Nullable Bundle fragmentArgs, int parentViewId) {
 		final FragmentManager fm = activity.getSupportFragmentManager();
 
 		Fragment fragment = fm.findFragmentByTag(fragmentType.getFragmentTag());
@@ -237,7 +236,7 @@ public class ActivityUi extends BaseUi {
 		}
 	}
 
-	public void selectTab(@Nonnull SherlockFragmentActivity activity, @Nonnull CalculatorFragmentType fragmentType) {
+	public void selectTab(@Nonnull ActionBarActivity activity, @Nonnull CalculatorFragmentType fragmentType) {
 		final ActionBar actionBar = activity.getSupportActionBar();
 		for (int i = 0; i < actionBar.getTabCount(); i++) {
 			final ActionBar.Tab tab = actionBar.getTabAt(i);
@@ -262,7 +261,7 @@ public class ActivityUi extends BaseUi {
 		return layout;
 	}
 
-	public void onResume(@Nonnull SherlockFragmentActivity activity) {
+	public void onResume(@Nonnull ActionBarActivity activity) {
 		onResume((Activity) activity);
 
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);

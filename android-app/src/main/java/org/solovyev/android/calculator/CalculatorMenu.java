@@ -26,7 +26,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
-import com.actionbarsherlock.view.MenuItem;
+import android.view.MenuItem;
 
 import javax.annotation.Nonnull;
 

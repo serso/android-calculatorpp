@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="acl_wizard_finish_confirmation">Quitter l\'assistant ?</string>
+	<string name="acl_wizard_next">Suivant</string>
+	<string name="acl_wizard_back">Retour</string>
+	<string name="acl_wizard_finish">Terminer</string>
+	<string name="acl_wizard_start">Commencer l\'assistant</string>
+</resources>

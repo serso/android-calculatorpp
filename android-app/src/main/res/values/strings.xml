@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="acl_wizard_finish_confirmation">Do you really want to finish wizard?</string>
+	<string name="acl_wizard_next">Next</string>
+	<string name="acl_wizard_back">Back</string>
+	<string name="acl_wizard_finish">Finish</string>
+	<string name="acl_wizard_start">Start wizard</string>
+</resources>

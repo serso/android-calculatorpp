@@ -27,14 +27,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-
-import com.actionbarsherlock.app.SherlockFragmentActivity;
+import android.support.v7.app.ActionBarActivity;
+import org.solovyev.common.collections.Collections;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import org.solovyev.common.collections.Collections;
-
 import java.util.List;
 
 /**
@@ -75,27 +72,27 @@ public class FragmentUtils {
 		}
 	}
 
-	public static void removeFragments(@Nonnull SherlockFragmentActivity activity, @Nonnull String... fragmentTags) {
+	public static void removeFragments(@Nonnull ActionBarActivity activity, @Nonnull String... fragmentTags) {
 		removeFragments(activity, Collections.asList(fragmentTags));
 	}
 
-	public static void removeFragments(@Nonnull SherlockFragmentActivity activity, @Nonnull List<String> fragmentTags) {
+	public static void removeFragments(@Nonnull ActionBarActivity activity, @Nonnull List<String> fragmentTags) {
 		for (String fragmentTag : fragmentTags) {
 			removeFragment(activity, fragmentTag);
 		}
 	}
 
-	public static void detachFragments(@Nonnull SherlockFragmentActivity activity, @Nonnull String... fragmentTags) {
+	public static void detachFragments(@Nonnull ActionBarActivity activity, @Nonnull String... fragmentTags) {
 		detachFragments(activity, Collections.asList(fragmentTags));
 	}
 
-	public static void detachFragments(@Nonnull SherlockFragmentActivity activity, @Nonnull List<String> fragmentTags) {
+	public static void detachFragments(@Nonnull ActionBarActivity activity, @Nonnull List<String> fragmentTags) {
 		for (String fragmentTag : fragmentTags) {
 			detachFragment(activity, fragmentTag);
 		}
 	}
 
-	public static void detachFragment(@Nonnull SherlockFragmentActivity activity, @Nonnull String fragmentTag) {
+	public static void detachFragment(@Nonnull ActionBarActivity activity, @Nonnull String fragmentTag) {
 		final Fragment fragment = activity.getSupportFragmentManager().findFragmentByTag(fragmentTag);
 		if (fragment != null) {
 			if (!fragment.isDetached()) {
@@ -106,7 +103,7 @@ public class FragmentUtils {
 		}
 	}
 
-	public static void removeFragment(@Nonnull SherlockFragmentActivity activity, @Nonnull String fragmentTag) {
+	public static void removeFragment(@Nonnull ActionBarActivity activity, @Nonnull String fragmentTag) {
 		final Fragment fragment = activity.getSupportFragmentManager().findFragmentByTag(fragmentTag);
 		if (fragment != null) {
 			if (fragment.isAdded()) {

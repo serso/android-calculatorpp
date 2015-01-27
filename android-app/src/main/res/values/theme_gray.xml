@@ -115,32 +115,32 @@
 		<item name="android:layout_width">match_parent</item>
 	</style>
 
-	<style name="cpp_default_actionbar_style" parent="@style/Widget.Sherlock.ActionBar">
+	<style name="cpp_default_actionbar_style" parent="@style/Widget.AppCompat.ActionBar">
 		<item name="background">@drawable/default_abs__ab_transparent_dark_holo</item>
 		<item name="android:background">@drawable/default_abs__ab_transparent_dark_holo</item>
 	</style>
 
-	<style name="cpp_default_actionbar_tab_style" parent="@style/Widget.Sherlock.ActionBar.TabView">
+	<style name="cpp_default_actionbar_tab_style" parent="@style/Widget.AppCompat.ActionBar.TabView">
 		<item name="background">@drawable/default_abs__tab_indicator_ab_holo</item>
 		<item name="android:background">@drawable/default_abs__tab_indicator_ab_holo</item>
 	</style>
 
-	<style name="cpp_default_actionbar_close_button_style" parent="@style/Widget.Sherlock.ActionButton.CloseMode">
+	<style name="cpp_default_actionbar_close_button_style" parent="@style/Widget.AppCompat.ActionButton.CloseMode">
 		<item name="android:background">@drawable/default_abs__btn_cab_done_holo_dark</item>
 		<item name="background">@drawable/default_abs__btn_cab_done_holo_dark</item>
 	</style>
 
-	<style name="cpp_default_actionbar_dropdown_style" parent="@style/Widget.Sherlock.Spinner.DropDown.ActionBar">
-		<item name="android:background">@drawable/default_abs__spinner_ab_holo_dark</item>
-		<item name="background">@drawable/default_abs__spinner_ab_holo_dark</item>
+	<style name="cpp_default_actionbar_dropdown_style" parent="@style/Widget.AppCompat.Spinner.DropDown.ActionBar">
+		<!--<item name="android:background">@drawable/default_abs__spinner_ab_holo_dark</item>
+		<item name="background">@drawable/default_abs__spinner_ab_holo_dark</item>-->
 	</style>
 
-	<style name="cpp_default_actionbar_dropdown_listview_style" parent="@style/Widget.Sherlock.ListView.DropDown">
+	<style name="cpp_default_actionbar_dropdown_listview_style" parent="@style/Widget.AppCompat.ListView.DropDown">
 		<item name="android:listSelector">@drawable/default_abs__list_selector_holo_dark</item>
 		<!--<item name="listSelector">@drawable/default_abs__list_selector_holo_dark</item>-->
 	</style>
 
-	<style name="cpp_gray_theme" parent="Theme.Sherlock">
+	<style name="cpp_gray_theme" parent="@style/Theme.AppCompat">
 		<item name="android:windowBackground">@color/cpp_default_background</item>
 
 		<!-- buttons -->
@@ -166,7 +166,7 @@
 		<item name="cpp_pane_style_transparent">@style/cpp_default_pane_style_transparent</item>
 
 		<!-- action bar-->
-		<item name="actionBarTabStyle">@style/cpp_default_actionbar_tab_style</item>
+		<!--<item name="actionBarTabStyle">@style/cpp_default_actionbar_tab_style</item>
 		<item name="android:actionBarTabStyle">@style/cpp_default_actionbar_tab_style</item>
 
 		<item name="actionBarStyle">@style/cpp_default_actionbar_style</item>
@@ -182,10 +182,10 @@
 		<item name="android:actionDropDownStyle">@style/cpp_default_actionbar_dropdown_style</item>
 
 		<item name="dropDownListViewStyle">@style/cpp_default_actionbar_dropdown_listview_style</item>
-		<item name="android:dropDownListViewStyle">@style/cpp_default_actionbar_dropdown_listview_style</item>
+		<item name="android:dropDownListViewStyle">@style/cpp_default_actionbar_dropdown_listview_style</item>-->
 	</style>
 
-	<style name="cpp_gray_dialog_theme" parent="@android:style/Theme.Dialog">
+	<style name="cpp_gray_dialog_theme" parent="@style/Theme.AppCompat.Dialog">
 		<item name="android:windowCloseOnTouchOutside">false</item>
 		<!-- buttons -->
 		<item name="cpp_digit_button_style">@style/cpp_default_digit_button_style</item>

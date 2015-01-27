@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="acl_wizard_finish_confirmation">Czy na pewno chcesz zakończyć konfigurację programu?</string>
+	<string name="acl_wizard_next">Następny</string>
+	<string name="acl_wizard_back">Wstecz</string>
+	<string name="acl_wizard_finish">Koniec</string>
+	<string name="acl_wizard_start">Zacznij konfigurację</string>
+</resources>

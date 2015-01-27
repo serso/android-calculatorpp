@@ -26,7 +26,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -43,7 +43,7 @@ import org.solovyev.common.msg.MessageType;
  * Date: 1/19/13
  * Time: 5:14 PM
  */
-public class CalculatorPlotRangeActivity extends SherlockFragmentActivity {
+public class CalculatorPlotRangeActivity extends ActionBarActivity {
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {

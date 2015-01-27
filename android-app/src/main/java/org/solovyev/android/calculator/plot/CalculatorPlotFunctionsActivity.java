@@ -23,7 +23,7 @@
 package org.solovyev.android.calculator.plot;
 
 import android.os.Bundle;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import org.solovyev.android.calculator.CalculatorFragmentType;
@@ -41,7 +41,7 @@ import java.util.List;
  * Date: 1/13/13
  * Time: 5:05 PM
  */
-public class CalculatorPlotFunctionsActivity extends SherlockFragmentActivity {
+public class CalculatorPlotFunctionsActivity extends ActionBarActivity {
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {

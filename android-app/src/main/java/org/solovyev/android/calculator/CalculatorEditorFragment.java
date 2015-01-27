@@ -30,29 +30,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.actionbarsherlock.app.SherlockFragment;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
+import android.support.v4.app.Fragment;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import javax.annotation.Nonnull;
 
 import org.solovyev.android.menu.ActivityMenu;
 import org.solovyev.android.menu.ListActivityMenu;
-import org.solovyev.android.sherlock.menu.SherlockMenuHelper;
+import org.solovyev.android.menu.AndroidMenuHelper;
 
 /**
  * User: Solovyev_S
  * Date: 25.09.12
  * Time: 10:49
  */
-public class CalculatorEditorFragment extends SherlockFragment {
+public class CalculatorEditorFragment extends Fragment {
 
 	@Nonnull
 	private FragmentUi fragmentHelper;
 
 	@Nonnull
-	private ActivityMenu<Menu, MenuItem> menu = ListActivityMenu.fromEnum(CalculatorMenu.class, SherlockMenuHelper.getInstance());
+	private ActivityMenu<Menu, MenuItem> menu = ListActivityMenu.fromEnum(CalculatorMenu.class, AndroidMenuHelper.getInstance());
 
 	public CalculatorEditorFragment() {
 	}

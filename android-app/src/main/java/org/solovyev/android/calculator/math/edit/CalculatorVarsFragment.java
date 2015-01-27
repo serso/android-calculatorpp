@@ -25,10 +25,10 @@ package org.solovyev.android.calculator.math.edit;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
+import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import jscl.math.function.IConstant;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.math.MathType;
@@ -249,7 +249,7 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
 		edit(R.string.c_edit) {
 			@Override
 			public void onClick(@Nonnull IConstant constant, @Nonnull Context context) {
-				VarEditDialogFragment.showDialog(VarEditDialogFragment.Input.newFromConstant(constant), ((SherlockFragmentActivity) context).getSupportFragmentManager());
+				VarEditDialogFragment.showDialog(VarEditDialogFragment.Input.newFromConstant(constant), ((ActionBarActivity) context).getSupportFragmentManager());
 			}
 		},
 

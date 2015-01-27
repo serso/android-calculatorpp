@@ -31,7 +31,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -46,7 +46,7 @@ import org.solovyev.common.text.Strings;
  * Date: 1/20/13
  * Time: 12:50 PM
  */
-public class CalculatorDialogActivity extends SherlockFragmentActivity {
+public class CalculatorDialogActivity extends ActionBarActivity {
 
 	@Nonnull
 	private static final String TAG = CalculatorDialogActivity.class.getSimpleName();

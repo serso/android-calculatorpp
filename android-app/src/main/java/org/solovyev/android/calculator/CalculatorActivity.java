@@ -36,8 +36,8 @@ import android.util.Log;
 import android.view.*;
 import android.widget.Button;
 import android.widget.TextView;
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import org.solovyev.android.Activities;
 import org.solovyev.android.Android;
 import org.solovyev.android.Threads;
@@ -62,7 +62,7 @@ import static org.solovyev.android.calculator.Preferences.Gui.preventScreenFromF
 import static org.solovyev.android.wizard.WizardUi.continueWizard;
 import static org.solovyev.android.wizard.WizardUi.startWizard;
 
-public class CalculatorActivity extends SherlockFragmentActivity implements SharedPreferences.OnSharedPreferenceChangeListener, CalculatorEventListener {
+public class CalculatorActivity extends ActionBarActivity implements SharedPreferences.OnSharedPreferenceChangeListener, CalculatorEventListener {
 
 	@Nonnull
 	public static final String TAG = CalculatorActivity.class.getSimpleName();
@@ -77,6 +77,8 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 	 */
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
 		final Preferences.Gui.Layout layout = Preferences.Gui.layout.getPreferenceNoError(preferences);
@@ -84,9 +86,6 @@ public class CalculatorActivity extends SherlockFragmentActivity implements Shar
 		activityUi = CalculatorApplication.getInstance().createActivityHelper(layout.getLayoutId(), TAG);
 		activityUi.logDebug("onCreate");
 		activityUi.onCreate(this);
-
-		super.onCreate(savedInstanceState);
-		activityUi.logDebug("super.onCreate");
 
 		if (isMultiPane()) {
 			activityUi.addTab(this, CalculatorFragmentType.history, null, R.id.main_second_pane);
