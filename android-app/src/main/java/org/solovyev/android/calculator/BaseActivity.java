@@ -20,7 +20,7 @@ public class BaseActivity extends ActionBarActivity {
 	}
 
 	public BaseActivity(@LayoutRes int layout, @Nonnull String logTag) {
-		this.ui = CalculatorApplication.getInstance().createActivityHelper(layout, logTag);
+		this.ui = new ActivityUi(layout, logTag);
 	}
 
 	@Nonnull

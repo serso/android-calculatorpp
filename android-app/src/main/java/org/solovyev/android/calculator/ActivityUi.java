@@ -28,6 +28,7 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.LayoutRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -47,25 +48,7 @@ import javax.annotation.Nullable;
 
 public class ActivityUi extends BaseUi {
 
-	/*
-	**********************************************************************
-	*
-	*                           CONSTANTS
-	*
-	**********************************************************************
-	*/
-
-	/*
-	**********************************************************************
-	*
-	*                           FIELDS
-	*
-	**********************************************************************
-	*/
-
 	private int layoutId;
-
-	private boolean homeIcon = false;
 
 	@Nonnull
 	private Preferences.Gui.Theme theme;
@@ -75,14 +58,13 @@ public class ActivityUi extends BaseUi {
 
 	private int selectedNavigationIndex = 0;
 
-	public ActivityUi(int layoutId, @Nonnull String logTag) {
+	public ActivityUi(@LayoutRes int layoutId, @Nonnull String logTag) {
 		super(logTag);
 		this.layoutId = layoutId;
 	}
 
-	public ActivityUi(int layoutId, boolean homeIcon) {
+	public void setLayoutId(int layoutId) {
 		this.layoutId = layoutId;
-		this.homeIcon = homeIcon;
 	}
 
 	@Override
@@ -95,8 +77,8 @@ public class ActivityUi extends BaseUi {
 
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
 
-		this.theme = Preferences.Gui.getTheme(preferences);
-		activity.setTheme(this.theme.getThemeId());
+		theme = Preferences.Gui.getTheme(preferences);
+		activity.setTheme(theme.getThemeId());
 
 		this.layout = Preferences.Gui.getLayout(preferences);
 
@@ -115,7 +97,7 @@ public class ActivityUi extends BaseUi {
 		onCreate((Activity) activity);
 		final ActionBar actionBar = activity.getSupportActionBar();
 		actionBar.setDisplayUseLogoEnabled(false);
-		actionBar.setDisplayHomeAsUpEnabled(homeIcon);
+		actionBar.setDisplayHomeAsUpEnabled(false);
 		actionBar.setHomeButtonEnabled(false);
 		actionBar.setDisplayShowHomeEnabled(true);
 
