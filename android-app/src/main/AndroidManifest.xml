@@ -46,7 +46,7 @@
 		<activity android:clearTaskOnLaunch="true" android:label="@string/c_app_name" android:launchMode="singleTop" android:name=".CalculatorActivityMobile" android:windowSoftInputMode="adjustPan"/>
 
 		<!-- settings must use action bar icon-->
-		<activity android:icon="@drawable/ab_icon" android:label="@string/c_app_settings" android:name=".preferences.PreferencesActivity"/>
+		<activity android:icon="@drawable/ab_icon" android:label="@string/c_app_settings" android:name=".preferences.PreferencesActivity" android:theme="@style/Theme.Settings"/>
 
 		<activity android:label="@string/c_history" android:name=".history.CalculatorHistoryActivity"/>
 
