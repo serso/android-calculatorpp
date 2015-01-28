@@ -48,6 +48,11 @@
 		<item name="android:padding">6dp</item>
 	</style>
 
+	<style name="Theme.Wizard" parent="cpp_metro_blue_theme">
+		<item name="android:windowNoTitle">true</item>
+		<item name="android:background">@color/cpp_metro_button_light</item>
+	</style>
+
 	<style name="cpp_metro_blue_theme" parent="cpp_gray_theme">
 		<item name="cpp_digit_button_style">@style/metro_digit_button_style</item>
 		<item name="cpp_control_button_style">@style/metro_control_button_style</item>

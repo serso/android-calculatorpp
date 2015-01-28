@@ -35,4 +35,8 @@
 	<dimen name="cpp_display_padding">3dp</dimen>
 
 	<dimen name="cpp_widget_keyboard_button_text_size">20dp</dimen>
+
+	<dimen name="activity_horizontal_margin">5dp</dimen>
+	<dimen name="activity_vertical_margin">5dp</dimen>
+	<dimen name="control_margin">5dp</dimen>
 </resources>

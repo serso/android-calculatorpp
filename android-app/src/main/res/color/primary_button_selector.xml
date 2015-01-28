@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+	<item android:color="@color/cpp_metro_button_dark" android:state_enabled="true" android:state_pressed="true" />
+	<item android:color="@color/cpp_metro_button_dark" android:state_enabled="false" />
+	<item android:color="@color/cpp_metro_blue" />
+</selector>
