@@ -21,6 +21,6 @@
   -->
 
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-	<solid android:color="@color/cpp_metro_light_button_background"/>
+	<solid android:color="@color/cpp_metro_button_light"/>
 	<corners android:radius="1dp"/>
 </shape>

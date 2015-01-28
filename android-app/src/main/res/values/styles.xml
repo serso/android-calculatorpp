@@ -46,7 +46,7 @@
 		<item name="android:focusable">true</item>
 		<item name="android:background">@drawable/metro_blue_button</item>
 		<item name="android:textSize">@dimen/cpp_button_text_size</item>
-		<item name="android:textColor">@color/cpp_button_text_color</item>
+		<item name="android:textColor">@color/cpp_button_text</item>
 	</style>
 
 	<style name="cpp_keyboard_button_style">
@@ -57,7 +57,7 @@
 		<item name="android:background">@drawable/metro_button_dark</item>
 		<item name="android:layout_margin">@dimen/cpp_button_margin</item>
 		<item name="android:textSize">@dimen/cpp_keyboard_button_text_size</item>
-		<item name="android:textColor">@color/cpp_button_text_color</item>
+		<item name="android:textColor">@color/cpp_button_text</item>
 		<item name="android:scaleType">centerInside</item>
 	</style>
 
@@ -103,7 +103,7 @@
 
 	<style name="cpp_default_text">
 		<item name="android:background">@android:color/transparent</item>
-		<item name="android:textColor">@color/cpp_default_text_color</item>
+		<item name="android:textColor">@color/cpp_text</item>
 	</style>
 
 

@@ -31,7 +31,7 @@
 	</style>
 
 	<style name="light_blue_operation_button_style" parent="light_blue_digit_button_style">
-		<item name="android:textColor">@color/cpp_button_operator_text_color</item>
+		<item name="android:textColor">@color/cpp_button_text_operator</item>
 	</style>
 
 	<style name="light_blue_control_image_button_style" parent="light_blue_control_button_style">
