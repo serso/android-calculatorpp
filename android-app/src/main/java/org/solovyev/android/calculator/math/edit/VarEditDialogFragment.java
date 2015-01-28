@@ -22,6 +22,8 @@
 
 package org.solovyev.android.calculator.math.edit;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
@@ -30,7 +32,6 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewPropertyAnimator;
 import android.widget.*;
 import jscl.math.function.IConstant;
 import org.solovyev.android.Views;
@@ -192,7 +193,11 @@ public class VarEditDialogFragment extends DialogFragment implements CalculatorE
 			}
 			final Button button = new Button(getActivity());
 			button.setText(String.valueOf(greekAlphabet.charAt(i)));
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+				fixCapitalization(button);
+			}
 			button.setOnClickListener(buttonOnClickListener);
+			assert keyboardRow != null;
 			keyboardRow.addView(button, new LinearLayout.LayoutParams(0, WRAP_CONTENT, 1F));
 		}
 		final Button button = new Button(getActivity());
@@ -220,6 +225,11 @@ public class VarEditDialogFragment extends DialogFragment implements CalculatorE
 			}
 		});
 		keyboardRow.addView(button, new LinearLayout.LayoutParams(0, WRAP_CONTENT, 1F));
+	}
+
+	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+	private void fixCapitalization(Button button) {
+		button.setAllCaps(false);
 	}
 
 	@Override
