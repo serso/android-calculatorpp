@@ -5,4 +5,7 @@
 	<string name="acl_wizard_back">Back</string>
 	<string name="acl_wizard_finish">Finish</string>
 	<string name="acl_wizard_start">Start wizard</string>
+	<string name="cpp_clear_history_title">Clear history?</string>
+	<string name="cpp_clear_history_message">All history will be cleared.</string>
+	<string name="cpp_clear_history">Clear</string>
 </resources>

@@ -22,29 +22,25 @@
 
 package org.solovyev.android.calculator.history;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.ListFragment;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.support.v4.app.ListFragment;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import com.melnykov.fab.FloatingActionButton;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.menu.*;
-import org.solovyev.android.menu.AndroidMenuHelper;
 import org.solovyev.common.JPredicate;
 import org.solovyev.common.collections.Collections;
 import org.solovyev.common.equals.Equalizer;
@@ -107,6 +103,20 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
 
 	@Nonnull
 	private final SharedPreferences.OnSharedPreferenceChangeListener preferencesListener = new HistoryOnPreferenceChangeListener();
+
+	@Nonnull
+	private final DialogInterface.OnClickListener clearDialogListener = new DialogInterface.OnClickListener() {
+		@Override
+		public void onClick(DialogInterface dialog, int which) {
+			switch (which) {
+				case DialogInterface.BUTTON_POSITIVE:
+					clearHistory();
+					break;
+			}
+		}
+	};
+	@Nullable
+	private AlertDialog clearDialog;
 
 	protected BaseHistoryFragment(@Nonnull CalculatorFragmentType fragmentType) {
 		fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(fragmentType.getDefaultLayoutId(), fragmentType.getDefaultTitleResId(), false);
@@ -221,7 +231,10 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
 	@Override
 	public void onDestroy() {
 		logDebug("onDestroy");
-
+		if (clearDialog != null) {
+			clearDialog.dismiss();
+			clearDialog = null;
+		}
 		fragmentHelper.onDestroy(this);
 
 		super.onDestroy();
@@ -335,7 +348,12 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
 				getActivity().runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
-						clearHistory();
+						clearDialog = new AlertDialog.Builder(getActivity()).setTitle(R.string.cpp_clear_history_title)
+								.setMessage(R.string.cpp_clear_history_message)
+								.setPositiveButton(R.string.cpp_clear_history, clearDialogListener)
+								.setNegativeButton(R.string.c_cancel, clearDialogListener)
+								.create();
+						clearDialog.show();
 					}
 				});
 				break;
