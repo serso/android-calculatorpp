@@ -58,6 +58,16 @@
 		<item name="android:gravity">center_vertical|left</item>
 	</style>
 
+	<style name="Fab">
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:layout_gravity">bottom|end</item>
+		<item name="android:layout_margin">16dp</item>
+		<item name="fab_colorNormal">@color/cpp_metro_button</item>
+		<item name="fab_colorPressed">@color/cpp_metro_button</item>
+		<item name="fab_colorRipple">?attr/colorControlHighlight</item>
+	</style>
+
 	<style name="ListView">
 		<item name="android:id">@android:id/list</item>
 		<item name="android:dividerHeight">1px</item>

@@ -26,25 +26,21 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.text.ClipboardManager;
-
 import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-
+import android.text.ClipboardManager;
+import android.view.View;
+import android.widget.ListView;
+import com.melnykov.fab.FloatingActionButton;
 import jscl.math.function.Function;
 import jscl.math.function.IFunction;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.function.FunctionEditDialogFragment;
 import org.solovyev.android.menu.AMenuItem;
 import org.solovyev.android.menu.LabeledMenuItem;
 import org.solovyev.common.text.Strings;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -70,7 +66,7 @@ public class CalculatorFunctionsFragment extends AbstractMathEntityListFragment<
 		if (bundle != null) {
 			final Parcelable parcelable = bundle.getParcelable(CREATE_FUNCTION_EXTRA);
 			if (parcelable instanceof FunctionEditDialogFragment.Input) {
-				FunctionEditDialogFragment.showDialog((FunctionEditDialogFragment.Input) parcelable, this.getActivity().getSupportFragmentManager());
+				FunctionEditDialogFragment.showDialog((FunctionEditDialogFragment.Input) parcelable, getFragmentManager());
 
 				// in order to stop intent for other tabs
 				bundle.remove(CREATE_FUNCTION_EXTRA);
@@ -79,6 +75,22 @@ public class CalculatorFunctionsFragment extends AbstractMathEntityListFragment<
 
 		setHasOptionsMenu(true);
 
+	}
+
+	@Override
+	public void onViewCreated(View root, Bundle savedInstanceState) {
+		super.onViewCreated(root, savedInstanceState);
+
+		final ListView lv = getListView();
+		final FloatingActionButton fab = (FloatingActionButton) root.findViewById(R.id.fab);
+		fab.setVisibility(View.VISIBLE);
+		fab.attachToListView(lv);
+		fab.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				FunctionEditDialogFragment.showDialog(FunctionEditDialogFragment.Input.newInstance(), getFragmentManager());
+			}
+		});
 	}
 
 	@Override
@@ -199,36 +211,6 @@ public class CalculatorFunctionsFragment extends AbstractMathEntityListFragment<
 				}
 			});
 		}
-	}
-
-
-	/*
-	**********************************************************************
-	*
-	*                           MENU
-	*
-	**********************************************************************
-	*/
-
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		inflater.inflate(R.menu.functions_menu, menu);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		boolean result;
-
-		switch (item.getItemId()) {
-			case R.id.menu_functions_add_function:
-				FunctionEditDialogFragment.showDialog(FunctionEditDialogFragment.Input.newInstance(), this.getActivity().getSupportFragmentManager());
-				result = true;
-				break;
-			default:
-				result = super.onOptionsItemSelected(item);
-		}
-
-		return result;
 	}
 
 	/*
