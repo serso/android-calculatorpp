@@ -3,7 +3,11 @@ package org.solovyev.android.calculator.preferences;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import org.solovyev.android.calculator.ActivityUi;
 import org.solovyev.android.calculator.AdView;
 import org.solovyev.android.calculator.App;
@@ -20,13 +24,34 @@ public abstract class BasePreferencesActivity extends PreferenceActivity {
 	private final ActivityCheckout checkout = Checkout.forActivity(this, App.getBilling(), App.getProducts());
 	private Inventory inventory;
 	private AdView adView;
+	private Toolbar actionBar;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		actionBar.setTitle(getTitle());
+
 		checkout.start();
 		inventory = checkout.loadInventory();
+	}
+
+	@Override
+	public void setContentView(int layout) {
+		final ViewGroup contentView = (ViewGroup) LayoutInflater.from(this).inflate(R.layout.cpp_activity_settings, new LinearLayout(this), true);
+
+		actionBar = (Toolbar) contentView.findViewById(R.id.action_bar);
+		actionBar.setNavigationOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
+
+		final ViewGroup contentWrapper = (ViewGroup) contentView.findViewById(R.id.content_wrapper);
+		LayoutInflater.from(this).inflate(layout, contentWrapper, true);
+
+		getWindow().setContentView(contentView);
 	}
 
 
