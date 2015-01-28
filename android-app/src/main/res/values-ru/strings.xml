@@ -5,4 +5,7 @@
 	<string name="acl_wizard_back">Назад</string>
 	<string name="acl_wizard_finish">Завершить</string>
 	<string name="acl_wizard_start">Начать визард</string>
+	<string name="cpp_clear_history">Отчистить</string>
+	<string name="cpp_clear_history_message">Вся история будет отчищена</string>
+	<string name="cpp_clear_history_title">Отчистить историю?</string>
 </resources>
