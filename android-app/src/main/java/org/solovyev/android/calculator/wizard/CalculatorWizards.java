@@ -27,7 +27,7 @@ public class CalculatorWizards implements Wizards {
 	@Nonnull
 	@Override
 	public Class<? extends Activity> getActivityClassName() {
-		return CalculatorWizardActivity.class;
+		return WizardActivity.class;
 	}
 
 	@Nonnull

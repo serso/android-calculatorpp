@@ -85,12 +85,12 @@
     <orderEntry type="library" exported="" scope="TEST" name="common-msg-1.0.5" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="common-listeners-1.0.7" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="guava-11.0.2" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="classes" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="common-text-1.0.7" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="library-2.4.0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="acra-4.5.0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="classes" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="common-core-1.0.7" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="_home_serso_projects_java_android_calculatorpp_android_app_build_intermediates_exploded_aar_org_solovyev_android_material_0_1_2_classes_jar" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="jscl-1.0.8" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="classes" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="classes" level="project" />
@@ -98,6 +98,7 @@
     <orderEntry type="library" exported="" scope="TEST" name="classes" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="classes" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="classes" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="_home_serso_projects_java_android_calculatorpp_android_app_build_intermediates_exploded_aar_org_solovyev_android_checkout_0_6_1_classes_jar" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="classes" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="classes" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="_home_serso_projects_java_android_calculatorpp_android_app_build_intermediates_classes_debug" level="project" />

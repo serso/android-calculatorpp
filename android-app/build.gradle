@@ -69,7 +69,8 @@ dependencies {
     compile('org.solovyev:jscl:1.0.8') {
         exclude(module: 'xercesImpl')
     }
-    compile 'org.solovyev.android:checkout:0.6.0@aar'
+    compile 'org.solovyev.android:checkout:0.6.1@aar'
+    compile 'org.solovyev.android:material:0.1.2@aar'
     compile 'com.google.android.gms:play-services-ads:6.5.87@aar'
     compile 'com.google.android.gms:play-services-base:6.5.87@aar'
     compile 'com.melnykov:floatingactionbutton:1.1.0'

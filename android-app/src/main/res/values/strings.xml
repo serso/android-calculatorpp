@@ -8,4 +8,9 @@
 	<string name="cpp_clear_history_title">Clear history?</string>
 	<string name="cpp_clear_history_message">All history will be cleared.</string>
 	<string name="cpp_clear_history">Clear</string>
+	<string name="wizard_start">Start wizard</string>
+	<string name="wizard_next">Next</string>
+	<string name="wizard_prev">Back</string>
+	<string name="wizard_final">The app is set up and ready to use.</string>
+	<string name="wizard_skip">Skip</string>
 </resources>

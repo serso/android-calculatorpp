@@ -22,33 +22,28 @@
 
 package org.solovyev.android.wizard;
 
-import org.solovyev.common.JPredicate;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-import static org.solovyev.common.collections.Collections.find;
-
 public final class ListWizardFlow implements WizardFlow {
 
 	@Nonnull
-	private final List<WizardStep> steps;
+	private final List<? extends WizardStep> steps;
 
-	public ListWizardFlow(@Nonnull List<WizardStep> steps) {
+	public ListWizardFlow(@Nonnull List<? extends WizardStep> steps) {
 		this.steps = steps;
 	}
 
 	@Nullable
 	@Override
 	public WizardStep getStepByName(@Nonnull final String name) {
-		return find(steps, new JPredicate<WizardStep>() {
-			@Override
-			public boolean apply(@Nullable WizardStep step) {
-				assert step != null;
-				return step.getName().equals(name);
+		for (WizardStep step : steps) {
+			if (step.getName().equals(name)) {
+				return step;
 			}
-		});
+		}
+		return null;
 	}
 
 	@Nullable
@@ -77,5 +72,25 @@ public final class ListWizardFlow implements WizardFlow {
 	@Override
 	public WizardStep getFirstStep() {
 		return steps.get(0);
+	}
+
+	@Nonnull
+	public WizardStep getStepAt(int position) {
+		return steps.get(position);
+	}
+
+	public int getPositionFor(@Nonnull WizardStep step) {
+		for (int i = 0; i < steps.size(); i++) {
+			if (steps.get(i).equals(step)) {
+				return i;
+			}
+
+		}
+
+		return -1;
+	}
+
+	public int getCount() {
+		return steps.size();
 	}
 }

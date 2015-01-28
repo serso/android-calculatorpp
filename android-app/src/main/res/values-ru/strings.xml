@@ -8,4 +8,10 @@
 	<string name="cpp_clear_history">Отчистить</string>
 	<string name="cpp_clear_history_message">Вся история будет отчищена</string>
 	<string name="cpp_clear_history_title">Отчистить историю?</string>
+	<string name="wizard_start">Начать визард</string>
+	<string name="wizard_skip">Пропустить</string>
+	<string name="wizard_finish">Закончить</string>
+	<string name="wizard_next">Далее</string>
+	<string name="wizard_prev">Назад</string>
+	<string name="wizard_final">Приложение настроено и готово к использованию.</string>
 </resources>

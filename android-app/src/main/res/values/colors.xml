@@ -41,4 +41,6 @@
 	<color name="cpp_text_primary">#ddffffff</color>
 	<color name="cpp_text_secondary">#89ffffff</color>
 	<color name="cpp_widget_ripple">#40ffffff</color>
+
+	<color name="cpp_wizard_text">#707070</color>
 </resources>
