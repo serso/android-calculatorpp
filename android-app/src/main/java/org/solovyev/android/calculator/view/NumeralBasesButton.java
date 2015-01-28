@@ -65,9 +65,9 @@ public class NumeralBasesButton extends DirectionDragButton {
 	int getDirectionTextColor(@Nonnull String directionText) {
 		final int color;
 		if (isCurrentNumberBase(directionText)) {
-			color = getResources().getColor(R.color.cpp_selected_angle_unit_text_color);
+			color = getResources().getColor(R.color.cpp_selected_angle_unit_text);
 		} else {
-			color = getResources().getColor(R.color.cpp_default_text_color);
+			color = getResources().getColor(R.color.cpp_text);
 		}
 		return color;
 	}

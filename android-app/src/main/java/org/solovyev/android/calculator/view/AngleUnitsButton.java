@@ -67,9 +67,9 @@ public class AngleUnitsButton extends DirectionDragButton {
 		final int color;
 		final Resources resources = getResources();
 		if (isCurrentAngleUnits(directionText)) {
-			color = resources.getColor(R.color.cpp_selected_angle_unit_text_color);
+			color = resources.getColor(R.color.cpp_selected_angle_unit_text);
 		} else {
-			color = resources.getColor(R.color.cpp_default_text_color);
+			color = resources.getColor(R.color.cpp_text);
 		}
 		return color;
 	}

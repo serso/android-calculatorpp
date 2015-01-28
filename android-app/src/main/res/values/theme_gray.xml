@@ -40,7 +40,7 @@
 	</style>
 
 	<style name="cpp_default_operation_button_style" parent="cpp_default_digit_button_style">
-		<item name="android:textColor">@color/cpp_button_operator_text_color</item>
+		<item name="android:textColor">@color/cpp_button_text_operator</item>
 	</style>
 
 	<style name="cpp_default_control_image_button_style" parent="cpp_default_control_button_style">
@@ -115,7 +115,7 @@
 		<item name="android:layout_width">match_parent</item>
 	</style>
 
-	<style name="cpp_gray_theme" parent="@style/Theme.AppCompat">
+	<style name="cpp_gray_theme" parent="Theme">
 		<item name="android:windowBackground">@color/cpp_main_bg</item>
 
 		<!-- buttons -->
@@ -139,7 +139,7 @@
 		<item name="cpp_pane_style_transparent">@style/cpp_default_pane_style_transparent</item>
 	</style>
 
-	<style name="cpp_gray_dialog_theme" parent="@style/Theme.AppCompat.Dialog">
+	<style name="cpp_gray_dialog_theme" parent="Theme.Dialog">
 		<item name="android:windowCloseOnTouchOutside">false</item>
 		<!-- buttons -->
 		<item name="cpp_digit_button_style">@style/cpp_default_digit_button_style</item>

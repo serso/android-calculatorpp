@@ -27,7 +27,7 @@
 	</style>
 
 	<style name="violet_operation_button_style" parent="violet_digit_button_style">
-		<item name="android:textColor">@color/cpp_button_operator_text_color</item>
+		<item name="android:textColor">@color/cpp_button_text_operator</item>
 	</style>
 
 	<style name="violet_control_button_style" parent="cpp_keyboard_button_style">

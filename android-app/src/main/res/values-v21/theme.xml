@@ -20,7 +20,16 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-	<solid android:color="@color/cpp_metro_purple"/>
-	<corners android:radius="1dp"/>
-</shape>
+<resources>
+
+	<style name="Theme" parent="Theme.Base">
+		<item name="android:colorPrimary">@color/cpp_metro_button</item>
+		<item name="android:colorPrimaryDark">@color/cpp_metro_button_dark</item>
+	</style>
+
+	<style name="Theme.Dialog" parent="Theme.Base.Dialog">
+		<item name="android:colorPrimary">@color/cpp_metro_button</item>
+		<item name="android:colorPrimaryDark">@color/cpp_metro_button_dark</item>
+	</style>
+
+</resources>

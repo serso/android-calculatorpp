@@ -21,6 +21,6 @@
   -->
 
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-	<solid android:color="@color/cpp_metro_green_color"/>
+	<solid android:color="@color/cpp_metro_green"/>
 	<corners android:radius="1dp"/>
 </shape>
