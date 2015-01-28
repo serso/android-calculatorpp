@@ -26,15 +26,8 @@
 		<item name="android:background">@drawable/metro_button_purple</item>
 	</style>
 
-
-	<style name="metro_purple_fragment_list_view_item_style" parent="cpp_default_fragment_list_view_item_style">
-		<item name="background">@drawable/metro_purple_list_item</item>
-		<item name="android:background">@drawable/metro_purple_list_item</item>
-	</style>
-
 	<style name="cpp_metro_purple_theme" parent="cpp_metro_blue_theme">
 		<item name="cpp_operation_button_style">@style/metro_purple_operation_button_style</item>
-		<item name="cpp_fragment_list_view_item_style">@style/metro_purple_fragment_list_view_item_style</item>
 	</style>
 
 </resources>

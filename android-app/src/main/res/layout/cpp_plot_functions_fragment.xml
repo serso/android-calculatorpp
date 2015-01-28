@@ -60,6 +60,6 @@
 
 	</LinearLayout>
 
-	<ListView style="?cpp_fragment_list_view_style"/>
+	<ListView style="@style/ListView"/>
 
 </LinearLayout>

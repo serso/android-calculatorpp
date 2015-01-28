@@ -29,8 +29,6 @@
 	<attr name="cpp_operation_button_style" format="reference"/>
 	<attr name="cpp_fragment_layout_style" format="reference"/>
 	<attr name="cpp_fragment_title_style" format="reference"/>
-	<attr name="cpp_fragment_list_view_style" format="reference"/>
-	<attr name="cpp_fragment_list_view_item_style" format="reference"/>
 	<attr name="cpp_button_style" format="reference"/>
 	<attr name="cpp_pane_style" format="reference"/>
 	<attr name="cpp_pane_style_transparent" format="reference"/>

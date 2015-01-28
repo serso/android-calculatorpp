@@ -47,7 +47,7 @@
 		<item name="android:padding">6dp</item>
 	</style>
 
-	<style name="cpp_default_fragment_list_view_item_style">
+	<style name="ListViewItem">
 		<item name="android:paddingLeft">16dp</item>
 		<item name="android:paddingRight">16dp</item>
 		<item name="android:paddingBottom">20dp</item>
@@ -58,7 +58,7 @@
 		<item name="android:gravity">center_vertical|left</item>
 	</style>
 
-	<style name="cpp_default_fragment_list_view_style">
+	<style name="ListView">
 		<item name="android:id">@android:id/list</item>
 		<item name="android:dividerHeight">1px</item>
 		<item name="android:divider">@color/cpp_list_divider</item>
@@ -126,8 +126,6 @@
 
 		<!-- other -->
 		<item name="cpp_fragment_title_style">@style/cpp_default_fragment_title_style</item>
-		<item name="cpp_fragment_list_view_style">@style/cpp_default_fragment_list_view_style</item>
-		<item name="cpp_fragment_list_view_item_style">@style/cpp_default_fragment_list_view_item_style</item>
 		<item name="cpp_button_style">@style/cpp_default_button_style</item>
 
 		<item name="cpp_main_layout_style">@style/cpp_default_main_layout_style</item>
@@ -149,8 +147,6 @@
 
 		<!-- other -->
 		<item name="cpp_fragment_title_style">@style/cpp_default_fragment_title_style</item>
-		<item name="cpp_fragment_list_view_style">@style/cpp_default_fragment_list_view_style</item>
-		<item name="cpp_fragment_list_view_item_style">@style/cpp_default_fragment_list_view_item_style</item>
 		<item name="cpp_button_style">@style/cpp_default_button_style</item>
 
 		<item name="cpp_main_layout_style">@style/cpp_default_main_layout_style</item>

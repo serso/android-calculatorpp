@@ -25,8 +25,7 @@
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
 			  a:layout_height="wrap_content"
 			  a:layout_width="match_parent"
-			  style="?cpp_fragment_list_view_item_style"
-			  a:padding="@dimen/cpp_pane_padding"
+			  style="@style/ListViewItem"
 			  a:orientation="horizontal">
 
 	<LinearLayout
