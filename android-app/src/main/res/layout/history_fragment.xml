@@ -22,18 +22,18 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-	xmlns:fab="http://schemas.android.com/apk/res-auto"
+<LinearLayout
 	a:id="@+id/main_fragment_layout"
 	style="?cpp_fragment_layout_style"
+	xmlns:a="http://schemas.android.com/apk/res/android"
 	a:layout_width="match_parent"
 	a:layout_height="match_parent">
 
 	<TextView
 		a:id="@+id/fragment_title"
-		a:layout_height="wrap_content"
+		style="?cpp_fragment_title_style"
 		a:layout_width="match_parent"
-		style="?cpp_fragment_title_style" />
+		a:layout_height="wrap_content" />
 
 	<include layout="@layout/ad" />
 
@@ -45,13 +45,7 @@
 
 		<com.melnykov.fab.FloatingActionButton
 			a:id="@+id/fab"
-			a:layout_width="wrap_content"
-			a:layout_height="wrap_content"
-			a:layout_gravity="bottom|right"
-			a:layout_margin="16dp"
-			a:src="@drawable/ic_delete_white_36dp"
-			fab:fab_colorNormal="@color/cpp_metro_button"
-			fab:fab_colorPressed="@color/cpp_metro_button"
-			fab:fab_colorRipple="?attr/colorControlHighlight" />
+			style="@style/Fab"
+			a:src="@drawable/ic_delete_white_36dp" />
 	</FrameLayout>
 </LinearLayout>

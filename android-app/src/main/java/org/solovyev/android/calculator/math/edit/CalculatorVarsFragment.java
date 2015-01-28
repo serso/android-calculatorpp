@@ -24,11 +24,10 @@ package org.solovyev.android.calculator.math.edit;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.view.View;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.view.View;
+import android.widget.ListView;
+import com.melnykov.fab.FloatingActionButton;
 import jscl.math.function.IConstant;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.math.MathType;
@@ -65,7 +64,7 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
 		if (bundle != null) {
 			final String varValue = bundle.getString(CREATE_VAR_EXTRA_STRING);
 			if (!Strings.isEmpty(varValue)) {
-				VarEditDialogFragment.showDialog(VarEditDialogFragment.Input.newFromValue(varValue), this.getActivity().getSupportFragmentManager());
+				VarEditDialogFragment.showDialog(VarEditDialogFragment.Input.newFromValue(varValue), getFragmentManager());
 
 				// in order to stop intent for other tabs
 				bundle.remove(CREATE_VAR_EXTRA_STRING);
@@ -73,6 +72,22 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
 		}
 
 		setHasOptionsMenu(true);
+	}
+
+	@Override
+	public void onViewCreated(View root, Bundle savedInstanceState) {
+		super.onViewCreated(root, savedInstanceState);
+
+		final ListView lv = getListView();
+		final FloatingActionButton fab = (FloatingActionButton) root.findViewById(R.id.fab);
+		fab.setVisibility(View.VISIBLE);
+		fab.attachToListView(lv);
+		fab.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				VarEditDialogFragment.showDialog(VarEditDialogFragment.Input.newInstance(), getFragmentManager());
+			}
+		});
 	}
 
 	@Override
@@ -142,35 +157,6 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
 		} catch (CalculatorParseException e) {
 			return true;
 		}
-	}
-
-	/*
-	**********************************************************************
-	*
-	*                           MENU
-	*
-	**********************************************************************
-	*/
-
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		inflater.inflate(R.menu.vars_menu, menu);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		boolean result;
-
-		switch (item.getItemId()) {
-			case R.id.menu_vars_add_var:
-				VarEditDialogFragment.showDialog(VarEditDialogFragment.Input.newInstance(), this.getActivity().getSupportFragmentManager());
-				result = true;
-				break;
-			default:
-				result = super.onOptionsItemSelected(item);
-		}
-
-		return result;
 	}
 
 	@Override
