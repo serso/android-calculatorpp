@@ -4,7 +4,7 @@
 <resources>
   <string name="cpp_wizard_next">Weiter</string>
   <string name="cpp_wizard_back">Zurück</string>
-  <string name="cpp_wizard_finish">Beenden</string>
+  <string name="cpp_wizard_finish">Fertig</string>
   <string name="cpp_wizard_start">Wizard starten</string>
   <string name="cpp_wizard_layout_optimized">Optimiert</string>
   <string name="cpp_wizard_layout_big_buttons">Große Tasten</string>
@@ -14,12 +14,12 @@ Das Ergebnis wird auf 5 Nachkommastellen gerundet. Grad wird als Winkeleinheit v
   <string name="cpp_wizard_mode_engineer">Ingenieur</string>
   <string name="cpp_wizard_mode_engineer_description">In Ingenieur-Modus werden spezielle Funktionen auf dem Hauptbildschirm verwendet.
 Ergebnisse werden nicht gerundet und es wird die wissenschaftliche Notation verwendet. Bogenmaß wird als Standardwinkeleinheit verwendet.</string>
-  <string name="cpp_restart_wizard">Wizard starten</string>
+  <string name="cpp_restart_wizard">Assistenten starten</string>
   <string name="cpp_wizard_dragbutton_action_end">Ausgezeichnet! Tippen Sie auf die Schaltfläche um es noch einmal zu versuchen</string>
-  <string name="cpp_wizard_dragbutton_action_center">Tippen Sie einmal auf die Schaltfläche unten um 9 zu verwenden</string>
-  <string name="cpp_wizard_dragbutton_action_up">Ziehen Sie aus der Mitte der Taste nach oben durch, um % zu verwenden</string>
-  <string name="cpp_wizard_dragbutton_action_left">Ziehen Sie aus der Mitte der Taste nach links durch, um sin zu verwenden</string>
-  <string name="cpp_wizard_dragbutton_action_down">Ziehen Sie aus der Mitte der Taste nach unten durch, um ^2 zu verwenden </string>
+  <string name="cpp_wizard_dragbutton_action_center">Tippen Sie einmal auf die Schaltfläche unten, um die 9 zu verwenden</string>
+  <string name="cpp_wizard_dragbutton_action_up">Ziehen Sie von der Mitte der Taste nach oben, um % zu verwenden</string>
+  <string name="cpp_wizard_dragbutton_action_left">Ziehen Sie von der Mitte der Taste nach links, um sin zu verwenden</string>
+  <string name="cpp_wizard_dragbutton_action_down">Ziehen Sie von der Mitte der Taste nach unten, um ^2 zu verwenden </string>
   <string name="cpp_wizard_welcome_title">Willkommen</string>
   <string name="cpp_wizard_layout_title">Layout wählen</string>
   <string name="cpp_wizard_mode_title">Modus wählen</string>
@@ -34,6 +34,6 @@ und der Quelltext kann auf GitHub gefunden werden.</string>
   <string name="cpp_wizard_final_contribute">Quellcode beitragen</string>
   <string name="cpp_wizard_onscreen_description">Der Rechner im separaten Fenster ermöglicht es Ihnen zu rechnen, während dem benutzen anderer Apps.</string>
   <string name="cpp_wizard_onscreen_checkbox">Rechner im separaten Fenster aktivieren (zweites Symbol erscheint in der Liste der Anwendungen)</string>
-  <string name="cpp_wizard_dragbutton_description">\"Durchziehen\" Schaltfläche ist eine exklusive Funktion der Calculator++, die schnelle Zugriff auf die sekundären Funktionen  bietet</string>
+  <string name="cpp_wizard_dragbutton_description">Wischschaltflächen sind eine exklusive Funktion des Calculator++, die schnellen Zugriff auf die sekundären Funktionen bietet</string>
   <string name="cpp_wizard_finish_confirmation">Wollen Sie den Assistenten wirklich beenden?</string>
 </resources>

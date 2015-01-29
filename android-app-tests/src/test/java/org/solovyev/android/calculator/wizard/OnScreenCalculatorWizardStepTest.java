@@ -31,7 +31,6 @@ import org.robolectric.Robolectric;
 import org.robolectric.util.ActivityController;
 import org.solovyev.android.CalculatorTestRunner;
 import org.solovyev.android.calculator.Preferences;
-import org.solovyev.android.wizard.BaseWizardActivity;
 import org.solovyev.android.wizard.WizardUi;
 
 import javax.annotation.Nonnull;
@@ -46,15 +45,15 @@ public class OnScreenCalculatorWizardStepTest {
 	private OnScreenCalculatorWizardStep fragment;
 
 	@Nonnull
-	private CalculatorWizardActivity activity;
+	private WizardActivity activity;
 
 	@Nonnull
-	private ActivityController<CalculatorWizardActivity> controller;
+	private ActivityController<WizardActivity> controller;
 	private Field uiField;
 
 	@Before
 	public void setUp() throws Exception {
-		uiField = BaseWizardActivity.class.getDeclaredField("ui");
+		uiField = WizardActivity.class.getDeclaredField("wizardUi");
 		uiField.setAccessible(true);
 
 		createActivity();
@@ -67,7 +66,7 @@ public class OnScreenCalculatorWizardStepTest {
 	}
 
 	private void createActivity() {
-		controller = Robolectric.buildActivity(CalculatorWizardActivity.class).create().start().resume();
+		controller = Robolectric.buildActivity(WizardActivity.class).create().start().resume();
 		activity = controller.get();
 	}
 

@@ -126,7 +126,7 @@
 		<item>@string/p_green_line_color</item>
 		<item>@string/p_grey_line_color</item>
 	</string-array>
-	<string-array name="cpp_plot_line_color_values">
+	<string-array name="cpp_plot_line_color_values" translatable="false">
 		<item>white</item>
 		<item>blue</item>
 		<item>red</item>

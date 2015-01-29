@@ -16,7 +16,7 @@
   <string name="c_fun_description_log">Logarithmus - Logarithmus in einer angegebenen Basis</string>
   <string name="c_fun_description_exp">Exponentialfunktion</string>
   <string name="c_fun_description_sqrt">Quadratwurzelfunktion</string>
-  <string name="c_fun_description_cubic">Kubische Stammfunktion</string>
+  <string name="c_fun_description_cubic">Kubische Wurzelfunktion</string>
   <string name="c_fun_description_abs">Liefert absoluten Wert eines Arguments</string>
   <string name="c_fun_description_sgn">Signumfunktion: 
 Liefert das Vorzeichen des Arguments zurück: -1, wenn das Argument kleiner als 0 ist; 

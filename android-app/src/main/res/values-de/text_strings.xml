@@ -19,7 +19,7 @@
   <string name="c_down">Nach unten</string>
   <string name="c_up">Nach oben</string>
   <string name="c_restart">Neustart</string>
-  <string name="c_undo">rückgängig machen</string>
+  <string name="c_undo">Rückgängig</string>
   <string name="c_redo">wiederholen</string>
   <string name="c_clear">C</string>
   <string name="c_paste">einfügen</string>
@@ -65,8 +65,8 @@
   <string name="c_calc_angle_units">Aktuelle Winkeleinheit</string>
   <string name="p_deg">Grad</string>
   <string name="p_rad">Bogenmaß</string>
-  <string name="p_grad">Neugrad</string>
-  <string name="p_turns">Runden</string>
+  <string name="p_grad">Gon (Neugrad)</string>
+  <string name="p_turns">Vollwinkel</string>
   <string name="c_angle_units_summary">Definiert die für Berechnungen genutze Winkeleinheit</string>
   <string name="c_calc_numeral_bases">Aktuelles Zahlensystem</string>
   <string name="c_numeral_bases_summary">Definiert das Zahlensystem, welches in den Berechnungen verwendet wird</string>
@@ -78,7 +78,7 @@
   <string name="p_default_theme">Grau</string>
   <string name="p_violet_theme">Violett</string>
   <string name="p_light_blue_theme">Hellblau</string>
-  <string name="p_metro_blue_theme">Metro blau (Standard)</string>
+  <string name="p_metro_blue_theme">Metro Blau (Standard)</string>
   <string name="p_metro_green_theme">Metro Grün</string>
   <string name="p_metro_purple_theme">Metro Lila</string>
   <string name="c_calc_result_precision_summary">Genauigkeit des Resultats (alle Berechnungen sind mit höchster Genauigkeit unabhängig von dieser Option)</string>
@@ -109,7 +109,7 @@
   <string name="p_calc_haptic_feedback_duration_title">Dauer der haptischen Rückmeldung</string>
   <string name="p_calc_haptic_feedback_duration_summary">Dauer der Vibration bei Tastendruck</string>
   <string name="empty_var_error">Erstellung einer leeren Konstante nicht möglich!</string>
-  <string name="not_valid_result">Aktuelles Ergebnis ist nicht gültig!</string>
+  <string name="not_valid_result">Aktuelles Ergebnis ist ungültig!</string>
   <string name="c_plot_graph">Graph</string>
   <string name="c_min_x_value">Von</string>
   <string name="c_max_x_value">Bis</string>
@@ -126,7 +126,7 @@
   <string name="c_copy_expression">Ausdruck kopieren</string>
   <string name="c_copy_result">Ergebnis kopieren</string>
   <string name="c_history_expression">Wert</string>
-  <string name="c_history_item_already_saved">Gespeichert (siehe \"Gespeicherter Verlauf\")</string>
+  <string name="c_history_item_already_saved">Gespeichert (siehe Tab \"Gespeicherter Verlauf\")</string>
   <string name="c_history_comment">Bemerkung</string>
   <string name="c_save_history">Verlauf speichern</string>
   <string name="c_edit_history">Verlauf ändern</string>
@@ -141,20 +141,20 @@
   <string name="c_first_start_text">Vielen Dank, dass sie Calculator++ benutzen! \n\nCalculator++ ist ein mächtiges Tool für viele Berechnungen.</string>
   <string name="c_first_start_text_title">Willkommen</string>
   <string name="c_calc_show_release_notes_title">Releasebemerkungen zeigen</string>
-  <string name="c_calc_show_release_notes_summary">Definiert, ob ein Popup-Fenster mit den Versionsbemerkungen nach einer Programmaktualisierung angezeigt werden soll.</string>
+  <string name="c_calc_show_release_notes_summary">Definiert, ob ein Popup-Fenster mit den Versionshinweisen nach einer Programmaktualisierung angezeigt werden soll.</string>
   <string name="c_calc_use_back_button_as_prev_summary">Definiert das Verhalten des Zurückknopfs</string>
   <string name="c_calc_use_back_button_as_prev_title">Verwende den Zurückknopf um im Verlauf zurückzuspringen</string>
   <string name="c_clear_billing_info_summary">Kaufinformation wird vom Server nachgeladen werden</string>
   <string name="c_clear_billing_info_title">Kaufinformation aktualisieren</string>
-  <string name="c_warning">Achtung</string>
+  <string name="c_warning">Warnung</string>
   <string name="c_error">Fehler</string>
   <string name="c_billing_error">Abrechnung ist nicht unterstützt: Sie müssen ein Google Checkout Konto haben,
 der mit Ihrem Google Konto verknüpft ist, und Sie müssen ein Internetanschluss haben. </string>
   <string name="c_calc_ad_free_title">Unterstützen Sie das Projekt</string>
   <string name="c_calc_ad_free_summary">Und die Werbung entfernen</string>
   <string name="c_calc_already_purchased">Werbefreie Version bereits gekauft!</string>
-  <string name="c_calc_purchasing">Einkauf...</string>
-  <string name="c_calc_clearing">Löschen...</string>
+  <string name="c_calc_purchasing">Kaufvorgang...</string>
+  <string name="c_calc_clearing">Löschvorgang...</string>
   <string name="c_feedback_title">Feedback</string>
   <string name="c_feedback_text">Sie benutzen Calculator++ schon einige Zeit\nund Ihre Meinung über die Anwendung ist uns wichtig.\n\nBitte bewerten Sie Calculator++\n auf<a href="https://market.android.com/details?id=org.solovyev.android.calculator"> 
 Google Play</a>,\nschreiben Sie einen Kommentar oder\ndiskutieren Sie die Anwendung auf\n
@@ -164,7 +164,7 @@ Wenn Sie sich für einen schnellen und einfachen Weg zur Erstellung von Notizen 
   <string name="c_angle_units_changed_to">Winkeleinheiten zu \'%s\' geändert!</string>
   <string name="c_numeral_base_changed_to">Numerische Basis zu \'%s\' geändert!</string>
   <string name="c_conversion_tool">Umrechnungstool</string>
-  <string name="c_convert">Konvertieren zu...</string>
+  <string name="c_convert">Umrechnen in...</string>
   <string name="convert_to_hex">Umrechnen in Hex</string>
   <string name="convert_to_bin">Umrechnen in Bin</string>
   <string name="convert_to_dec">Umrechnen in Dez</string>
@@ -182,7 +182,7 @@ Möchten Sie den Absturzbericht senden?</string>
   <string name="prefs_graph_interpolate_function_summary">Falls aktiviert wird kubische Interpolation beim Graphzeichnen angewendet</string>
   <string name="prefs_graph_real_color_title">Farbe des Realteils des Graphen</string>
   <string name="prefs_graph_real_color_summary">Setze die Farbe des Realteils des Funktionsgraphen</string>
-  <string name="prefs_graph_imag_color_title">Farbe des Imaginärteil des Funktionengraph</string>
+  <string name="prefs_graph_imag_color_title">Farbe des Imaginärteil des Graphen</string>
   <string name="prefs_graph_imag_color_summary">Setzt die Farbe des Imaginärteils des Funktionsgraphen</string>
   <string name="p_white_line_color">Weiß</string>
   <string name="p_grey_line_color">Grau</string>
@@ -212,7 +212,7 @@ Möchten Sie den Absturzbericht senden?</string>
   <string name="p_preferred_numeral_base_summary">Definiert das Standard-Zahlensystem</string>
   <string name="preferred_numeral_base_message">Standard-Zahlensystem \'%1$s\' unterscheidet sich vom aktuellen \'%2$s\'. Haben Sie vergessen es zurückzusetzen?</string>
   <string name="p_preferred_angle_units_title">Standardwinkeleinheiten</string>
-  <string name="p_preferred_angle_units_summary">Definiert die Standardwinkeleinheiten</string>
+  <string name="p_preferred_angle_units_summary">Definiert die Standardwinkeleinheit</string>
   <string name="preferred_angle_units_message">Die Standard Winkeleinheiten \'%1$s unterscheidet sich von der aktuellen \'%2$s\'. Haben Sie vergessen es zurückzusetzen?</string>
   <string name="close">Schließen</string>
   <string name="c_app_widget_3x3_name">Calculator++ Widget (3x3)</string>
@@ -220,7 +220,7 @@ Möchten Sie den Absturzbericht senden?</string>
   <string name="c_app_widget_4x4_name">Calculator++ Widget (4x4)</string>
   <string name="c_app_widget_4x5_name">Calculator++ Widget (4x5)</string>
   <string name="open_onscreen_calculator">Klicken Sie hier, um den Rechner im Fenstermodus zu öffnen</string>
-  <string name="prefs_onscreen_title">Calculator (im abgetrennten Fenster) Einstellungen</string>
+  <string name="prefs_onscreen_title">Fenstermodus-Einstellungen</string>
   <string name="prefs_onscreen_start_on_boot_title">Beim Einschalten des Geräts starten</string>
   <string name="prefs_onscreen_start_on_boot_summary">Wenn aktiviert wird Calculator++ in der Benachrichtigungsleiste nach dem Gerätestart erscheinen</string>
   <string name="prefs_onscreen_show_app_icon_title">Seperates Symbol anzeigen (Neustart erforderlich)</string>
@@ -228,8 +228,8 @@ Möchten Sie den Absturzbericht senden?</string>
   <string name="cpp_onscreen_remove_icon_message">Sie können das zweite Symbol in der Anwendungsliste mit Hilfe 
 der Anwendungseinstellungen oder mit drücken der Weiter-Schaltfläche entfernen</string>
   <string name="cpp_this_change_may_require_reboot">Diese Änderung kann einen Neustart erfordern</string>
-  <string name="cpp_plot_2d">2D Plot</string>
-  <string name="cpp_plot_3d">3D Plot</string>
+  <string name="cpp_plot_2d">2D Graph</string>
+  <string name="cpp_plot_3d">3D Graph</string>
   <string name="cpp_plot_functions">Graphfunktionen</string>
   <string name="cpp_prefs_graph_plot_imag_title">Imaginärteil der Funktion zeichnen</string>
   <string name="cpp_prefs_graph_plot_imag_summary">Wenn aktiviert, wird der Imaginärteil der Funktion ebenfalls gezeichnet</string>
@@ -241,10 +241,9 @@ der Anwendungseinstellungen oder mit drücken der Weiter-Schaltfläche entfernen
   <string name="cpp_dash_dotted_line_style">Strichpunktiert (-.-.-)</string>
   <string name="cpp_plotter">Funktionszeichner</string>
   <string name="cpp_plot_screenshot">Mache Screenshot</string>
-  <string name="cpp_plot_screenshot_saved">Screenshot ist erfolgreich gespeichert: %1$s!</string>
-  <string name="cpp_plot_unable_to_save_screenshot">Screenshot kann nicht gespeichert werden, weil SD-Karte nicht eingehangen ist. 
-Stellen Sie SD-Card ein und versuchen Sie es noch einmal!</string>
-  <string name="cpp_plot_function_line_color_type">Farbe der Linie</string>
+  <string name="cpp_plot_screenshot_saved">Screenshot erfolgreich gespeichert: %1$s!</string>
+  <string name="cpp_plot_unable_to_save_screenshot">Screenshot kann nicht gespeichert werden, weil SD-Karte nicht eingebunden ist. Binden sie die SD-Karte ein und versuchen Sie es noch einmal!</string>
+  <string name="cpp_plot_function_line_color_type">Farbtyp der Linie</string>
   <string name="cpp_plot_function_line_color">Linienfarbe</string>
   <string name="cpp_plot_function_line_style">Linienart</string>
   <string name="cpp_plot_function_line_width">Linienbreite</string>
@@ -254,24 +253,24 @@ Stellen Sie SD-Card ein und versuchen Sie es noch einmal!</string>
   <string name="cpp_visible">Sichtbar</string>
   <string name="cpp_plot_button_text">+plot</string>
   <string name="cpp_plot_empty_function_error">Eine leere Funktion kann nicht gezeichnet werden!</string>
-  <string name="cpp_plot_too_many_variables">Es kann nicht gezeichnet werden: zu viele Variablen!</string>
+  <string name="cpp_plot_too_many_variables">Die Funktion kann nicht gezeichnet werden: zu viele Variablen!</string>
   <string name="cpp_plot_range">Graphwertebereich</string>
   <string name="cpp_fullscreen">Vollbildschirm</string>
   <string name="cpp_plot_range_x_min">X Min</string>
   <string name="cpp_plot_range_x_max">X Max</string>
   <string name="cpp_plot_range_y_min">Y Min</string>
-  <string name="cpp_plot_range_y_max">Y-Max</string>
-  <string name="cpp_invalid_number">Ungültige Nummer!</string>
+  <string name="cpp_plot_range_y_max">Y Max</string>
+  <string name="cpp_invalid_number">Ungültige Zahl!</string>
   <string name="cpp_plot_boundaries_should_differ">Graph-Grenzen sollten nicht identisch sein!</string>
   <string name="cpp_apply">Anwenden</string>
   <string name="cpp_message">Nachricht</string>
   <string name="cpp_continue">Weiter</string>
-  <string name="cpp_purchase_text">Unterstützen Sie das Projekts einfach und sicher: Der Kaufvorgang wird von Google zur Verfügung gestellt und alles was Sie dazu brauchen, ist ein Google account.\n\n
+  <string name="cpp_purchase_text">Unterstützen Sie das Projekts einfach und sicher: Der Kaufvorgang wird von Google zur Verfügung gestellt und alles was Sie dazu brauchen, ist ein Google Account.\n\n
 Die Zahlungsinformation wird mit Ihrem Google-Konto verknüpft und Sie können die Anwendung auf allen ihren Geräten installieren.\n\n 
-Klicken Sie auf \"Weiter\" und Sie werden auf Google Play weitergeleitet, wo Sie bezahlen.</string>
+Klicken Sie auf \"Weiter\" und Sie werden zu Google Play weitergeleitet, wo Sie bezahlen.</string>
   <string name="cpp_purchase_title">Kaufen</string>
   <string name="cpp_purchase_thank_you_text">Vielen Dank für die Unterstützung der Anwendung!\n\n Es kann einige Minuten dauern, bis die Anwendung über einen Kauf informiert wird. Sie können die Kaufinformationen immer in Ihrem Google-Konto überprüfen.\n
-Wenn Sie irgendwelche Probleme oder Fragen haben, kontaktieren Sie mich direkt (Kontaktdaten sind im Hauptbildschirm-&gt;Menü-&gt;über)</string>
-  <string name="cpp_var_show_greek_keyboard">Show Greek letters</string>
-  <string name="cpp_var_hide_greek_keyboard">Hide Greek letters</string>
+Wenn Sie irgendwelche Probleme oder Fragen haben, kontaktieren Sie mich direkt (Kontaktdaten sind im Hauptbildschirm-&gt;Menü-&gt;Über)</string>
+  <string name="cpp_var_show_greek_keyboard">Zeige griechische Buchstaben</string>
+  <string name="cpp_var_hide_greek_keyboard">Verstecke griechische Buchstaben</string>
 </resources>

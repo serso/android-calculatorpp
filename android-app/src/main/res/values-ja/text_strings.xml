@@ -283,6 +283,6 @@
 		もし問題やご質問等ございましたら、お気軽に直接私にご連絡ください。(連絡先は
 		メイン-&gt;メニュー-&gt;アプリについて にあります。)
 	</string>
-  <string name="cpp_var_show_greek_keyboard">Show Greek letters</string>
-  <string name="cpp_var_hide_greek_keyboard">Hide Greek letters</string>
+  <string name="cpp_var_show_greek_keyboard">ギリシャ語の文字を表示します。</string>
+  <string name="cpp_var_hide_greek_keyboard">ギリシャ文字を非表示します。</string>
 </resources>

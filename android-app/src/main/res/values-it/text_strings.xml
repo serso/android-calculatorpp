@@ -277,6 +277,6 @@ premendo \'continua\' sarai indirizzato all\'applicazione Google play per effett
   <string name="cpp_purchase_thank_you_text">Grazie per il supporto a questa applicazione!
 Potrebbero servire alcuno minuti prima che l\'applicazione venga informata dell\'acquisto. Puoi sempre verificare le informazioni sul pagamento nel tuo account Google. 
 In caso di problemi o domande puoi contattare direttamente me(i contatto sono disponibili in main->menu->about)</string>
-  <string name="cpp_var_show_greek_keyboard">Show Greek letters</string>
-  <string name="cpp_var_hide_greek_keyboard">Hide Greek letters</string>
+  <string name="cpp_var_show_greek_keyboard">Mostra caratteri greci</string>
+  <string name="cpp_var_hide_greek_keyboard">Nascondi caratteri greci</string>
 </resources>

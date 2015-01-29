@@ -13,4 +13,5 @@
 	<string name="wizard_prev">Back</string>
 	<string name="wizard_final">The app is set up and ready to use.</string>
 	<string name="wizard_skip">Skip</string>
+	<string name="wizard_finish">Finish</string>
 </resources>

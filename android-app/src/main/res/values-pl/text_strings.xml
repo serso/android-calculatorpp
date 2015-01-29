@@ -273,6 +273,6 @@ Czy chcesz wysłać raport o błędzie?</string>
   <string name="cpp_purchase_title">Zakup</string>
   <string name="cpp_purchase_thank_you_text">Dziękujemy za wsparcie tej aplikacji!\n\n Kilka minut może minąć zanim aplikacja otrzyma informację o zakupie. Możesz zawsze sprawdzić tę informację na Twoim koncie Google.\n
 Jeżeli masz problemy lub pytania, skontaktuj się bezpośrednio ze mną (kontakty są dostępne w Menu-&gt;O aplikacji)</string>
-  <string name="cpp_var_show_greek_keyboard">Show Greek letters</string>
-  <string name="cpp_var_hide_greek_keyboard">Hide Greek letters</string>
+  <string name="cpp_var_show_greek_keyboard">Pokaż greckie litery</string>
+  <string name="cpp_var_hide_greek_keyboard">Schowaj greckie litery</string>
 </resources>
