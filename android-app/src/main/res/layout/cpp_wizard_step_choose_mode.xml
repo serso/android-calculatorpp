@@ -33,21 +33,18 @@
 		a:layout_height="wrap_content"
 		a:textAppearance="@android:style/TextAppearance.Large"
 		style="@style/WizardLabel"
-		a:text="Choose mode"
-		a:layout_marginBottom="40dp" />
+		a:text="Choose mode"/>
 
 	<Spinner
 		a:id="@+id/wizard_mode_spinner"
 		a:layout_width="wrap_content"
 		a:layout_height="wrap_content"
-		style="@style/WizardLabel"
-		a:layout_marginBottom="40dp" />
+		style="@style/WizardLabel"/>
 
 	<TextView
 		a:id="@+id/wizard_mode_description"
 		a:layout_width="wrap_content"
 		a:layout_height="wrap_content"
-		style="@style/WizardLabel"
-		a:text="Choose mode" />
+		style="@style/WizardLabel"/>
 
 </LinearLayout>

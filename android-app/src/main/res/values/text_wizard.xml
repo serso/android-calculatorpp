@@ -41,9 +41,7 @@
   <string name="cpp_wizard_onscreen_description">Calculator in separate window allows you to do calculations while
 		using other apps on your device
 	</string>
-  <string name="cpp_wizard_onscreen_checkbox">Enable calculator in separate window (second icon will appear in the
-		apps list)
-	</string>
+  <string name="cpp_wizard_onscreen_checkbox">Enable</string>
   <string name="cpp_wizard_dragbutton_description">Drag button is an exclusive feature of Calculator++ which provides
 		fast access to the secondary functions
 	</string>
