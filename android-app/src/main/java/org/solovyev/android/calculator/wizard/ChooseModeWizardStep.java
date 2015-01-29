@@ -22,15 +22,18 @@
 
 package org.solovyev.android.calculator.wizard;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RadioButton;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.TextView;
 import org.solovyev.android.calculator.R;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import static org.solovyev.android.calculator.wizard.CalculatorMode.*;
 
@@ -39,7 +42,7 @@ import static org.solovyev.android.calculator.wizard.CalculatorMode.*;
  * Date: 6/16/13
  * Time: 9:59 PM
  */
-public class ChooseModeWizardStep extends WizardFragment {
+public class ChooseModeWizardStep extends WizardFragment implements AdapterView.OnItemSelectedListener {
 
 	/*
 	**********************************************************************
@@ -59,11 +62,8 @@ public class ChooseModeWizardStep extends WizardFragment {
 	**********************************************************************
 	*/
 
-	@Nullable
-	private RadioButton simpleModeRadioButton;
-
-	@Nullable
-	private RadioButton engineerModeRadioButton;
+	private Spinner spinner;
+	private TextView description;
 
 	private CalculatorMode mode;
 
@@ -97,34 +97,25 @@ public class ChooseModeWizardStep extends WizardFragment {
 	public void onViewCreated(View root, Bundle savedInstanceState) {
 		super.onViewCreated(root, savedInstanceState);
 
-		simpleModeRadioButton = (RadioButton) root.findViewById(R.id.wizard_simple_mode_radiobutton);
-		engineerModeRadioButton = (RadioButton) root.findViewById(R.id.wizard_engineer_mode_radiobutton);
+		spinner = (Spinner) root.findViewById(R.id.wizard_mode_spinner);
+		spinner.setAdapter(new MyArrayAdapter(getActivity()));
+		spinner.setOnItemSelectedListener(this);
 
-		switch (mode) {
-			case simple:
-				simpleModeRadioButton.setChecked(true);
-				engineerModeRadioButton.setChecked(false);
-				break;
-			case engineer:
-				simpleModeRadioButton.setChecked(false);
-				engineerModeRadioButton.setChecked(true);
-				break;
-		}
+		description = (TextView) root.findViewById(R.id.wizard_mode_description);
+		updateDescription();
+	}
+
+	private void updateDescription() {
+		description.setText(mode == simple ? R.string.cpp_wizard_mode_simple_description : R.string.cpp_wizard_mode_engineer_description);
 	}
 
 	@Nonnull
 	CalculatorMode getSelectedMode() {
-		CalculatorMode mode = getDefaultMode();
-
-		if (simpleModeRadioButton != null && simpleModeRadioButton.isChecked()) {
-			mode = simple;
+		if (spinner != null) {
+			return mode;
 		}
 
-		if (engineerModeRadioButton != null && engineerModeRadioButton.isChecked()) {
-			mode = engineer;
-		}
-
-		return mode;
+		return getDefaultMode();
 	}
 
 	@Override
@@ -132,5 +123,33 @@ public class ChooseModeWizardStep extends WizardFragment {
 		super.onSaveInstanceState(outState);
 
 		outState.putSerializable(MODE, mode);
+	}
+
+	@Override
+	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+		mode = position == 0 ? simple : engineer;
+		updateDescription();
+	}
+
+	@Override
+	public void onNothingSelected(AdapterView<?> parent) {
+
+	}
+
+	private static final class MyArrayAdapter extends ArrayAdapter<String> {
+
+		public MyArrayAdapter(Context context) {
+			super(context, android.R.layout.simple_spinner_item, context.getResources().getStringArray(R.array.cpp_modes));
+			setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			final View view = super.getView(position, convertView, parent);
+			if (view instanceof TextView) {
+				((TextView) view).setTextAppearance(getContext(), android.R.style.TextAppearance_Large);
+			}
+			return view;
+		}
 	}
 }
