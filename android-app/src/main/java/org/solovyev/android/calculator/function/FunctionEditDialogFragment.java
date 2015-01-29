@@ -29,22 +29,16 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-
-import android.support.v7.app.ActionBarActivity;
-
 import jscl.math.Generic;
 import jscl.math.function.Constant;
 import jscl.math.function.CustomFunction;
 import jscl.math.function.Function;
 import jscl.math.function.IFunction;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.math.edit.CalculatorFunctionsActivity;
 import org.solovyev.android.calculator.math.edit.CalculatorFunctionsFragment;
@@ -52,6 +46,8 @@ import org.solovyev.android.calculator.math.edit.MathEntityRemover;
 import org.solovyev.android.calculator.model.AFunction;
 import org.solovyev.android.sherlock.AndroidSherlockUtils;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -65,15 +61,29 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
 
 	private static final String INPUT = "input";
 
-	@Nonnull
 	private Input input;
 
 	public FunctionEditDialogFragment() {
-		this(Input.newInstance());
 	}
 
-	public FunctionEditDialogFragment(@Nonnull Input input) {
-		this.input = input;
+	@Nonnull
+	public static FunctionEditDialogFragment create(@Nonnull Input input) {
+		final FunctionEditDialogFragment fragment = new FunctionEditDialogFragment();
+		fragment.input = input;
+		final Bundle args = new Bundle();
+		args.putParcelable("input", input);
+		fragment.setArguments(args);
+		return fragment;
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		if (input == null) {
+			input = getArguments().getParcelable("input");
+			if (input == null) throw new AssertionError();
+		}
 	}
 
 	@Override
@@ -200,7 +210,7 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
 	}
 
 	public static void showDialog(@Nonnull Input input, @Nonnull FragmentManager fm) {
-		AndroidSherlockUtils.showDialog(new FunctionEditDialogFragment(input), "function-editor", fm);
+		AndroidSherlockUtils.showDialog(create(input), "function-editor", fm);
 	}
 
 	public static class Input implements Parcelable {
