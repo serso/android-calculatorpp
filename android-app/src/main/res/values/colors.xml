@@ -29,6 +29,7 @@
 	<color name="cpp_button_text_ce">#ffffffff</color>
 	<color name="cpp_selected_angle_unit_text">#ffffff99</color>
 	<color name="cpp_main_bg">#ff000000</color>
+	<color name="cpp_wizard_bg">#ff374248</color>
 	<color name="cpp_pane_background">#ff1f1f1f</color>
 	<color name="cpp_metro_button_dark">#ff000000</color>
 	<color name="cpp_metro_button">#212121</color>

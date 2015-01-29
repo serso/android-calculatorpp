@@ -28,6 +28,15 @@
 	<style name="Theme.Base" parent="@style/Theme.AppCompat"></style>
 	<style name="Theme.Base.Dialog" parent="@style/Theme.AppCompat.Dialog"></style>
 
+	<style name="Theme.Wizard.Purchase" parent="cpp_metro_blue_theme">
+		<item name="android:windowNoTitle">true</item>
+		<item name="android:background">@color/cpp_metro_button_light</item>
+	</style>
+
+	<style name="Theme.Wizard" parent="@style/cpp_metro_blue_theme">
+		<item name="android:windowBackground">@color/cpp_wizard_bg</item>
+	</style>
+
 	<style name="Theme.Settings" parent="@style/cpp_metro_blue_theme">
 		<item name="android:windowNoTitle">true</item>
 		<item name="android:windowActionBar">false</item>
