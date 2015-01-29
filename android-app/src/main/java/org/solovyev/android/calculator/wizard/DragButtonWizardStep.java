@@ -23,7 +23,6 @@
 package org.solovyev.android.calculator.wizard;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -40,9 +39,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Arrays;
 
-import static android.view.View.GONE;
-
-public class DragButtonWizardStep extends Fragment {
+public class DragButtonWizardStep extends WizardFragment {
 
 	/*
 	**********************************************************************
@@ -80,7 +77,15 @@ public class DragButtonWizardStep extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.cpp_wizard_step_drag_button, null);
+		final View view = super.onCreateView(inflater, container, savedInstanceState);
+		setupNextButton(R.string.acl_wizard_next);
+		setupPrevButton(R.string.acl_wizard_back);
+		return view;
+	}
+
+	@Override
+	protected int getViewResId() {
+		return R.layout.cpp_wizard_step_drag_button;
 	}
 
 	@Override
@@ -116,7 +121,6 @@ public class DragButtonWizardStep extends Fragment {
 	private static enum DragButtonAction {
 		center(R.string.cpp_wizard_dragbutton_action_center, null),
 		up(R.string.cpp_wizard_dragbutton_action_up, DragDirection.up),
-		left(R.string.cpp_wizard_dragbutton_action_left, DragDirection.left),
 		down(R.string.cpp_wizard_dragbutton_action_down, DragDirection.down),
 		end(R.string.cpp_wizard_dragbutton_action_end, null);
 
@@ -181,7 +185,7 @@ public class DragButtonWizardStep extends Fragment {
 				firstChange = true;
 			}
 			if (firstChange) {
-				descriptionTextView.setVisibility(GONE);
+				//descriptionTextView.setVisibility(GONE);
 			}
 		}
 	}

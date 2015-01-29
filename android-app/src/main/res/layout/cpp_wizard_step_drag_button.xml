@@ -23,38 +23,39 @@
   -->
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-			  xmlns:c="http://schemas.android.com/apk/res-auto"
-			  a:layout_width="match_parent"
-			  a:layout_height="match_parent"
-			  a:orientation="vertical">
+	xmlns:c="http://schemas.android.com/apk/res-auto"
+	a:layout_width="match_parent"
+	a:layout_height="match_parent"
+	a:gravity="center"
+	a:orientation="vertical">
 
 	<TextView
-			a:id="@+id/wizard_dragbutton_description_textview"
-			a:text="@string/cpp_wizard_dragbutton_description"
-			a:layout_height="wrap_content"
-			a:layout_width="match_parent"/>
+		a:id="@+id/wizard_dragbutton_description_textview"
+		a:text="@string/cpp_wizard_dragbutton_description"
+		style="@style/WizardLabel" />
 
 	<TextView
-			a:id="@+id/wizard_dragbutton_action_textview"
-			a:layout_marginTop="10dp"
-			a:textStyle="bold"
-			a:text="@string/cpp_wizard_dragbutton_action_center"
-			a:layout_height="wrap_content"
-			a:layout_width="match_parent"/>
+		a:id="@+id/wizard_dragbutton_action_textview"
+		a:textStyle="bold"
+		a:text="@string/cpp_wizard_dragbutton_action_center"
+		style="@style/WizardLabel"
+		a:minLines="2"
+		a:maxLines="2"/>
 
 	<org.solovyev.android.view.drag.DirectionDragButton
-			a:layout_margin="10dp"
-			a:layout_height="100dp"
-			a:layout_width="100dp"
-			a:minWidth="100dp"
-			a:minHeight="100dp"
-			a:layout_gravity="center"
-			a:id="@+id/wizard_dragbutton"
-			a:text="9"
-			c:textDown="^2"
-			c:textLeft="sin"
-			c:textUp="%"
-			c:directionTextScale="0.5;0.5;0.5;0.33"
-			style="?cpp_operation_button_style"/>
+		a:layout_margin="0dp"
+		a:layout_height="wrap_content"
+		a:layout_width="wrap_content"
+		a:minWidth="100dp"
+		a:minHeight="100dp"
+		a:layout_weight="0"
+		a:layout_gravity="center"
+		a:id="@+id/wizard_dragbutton"
+		a:background="@drawable/metro_material_button"
+		a:text="9"
+		c:textDown="^2"
+		c:textUp="%"
+		c:directionTextScale="0.5;0.5;0.5;0.33"
+		style="?cpp_control_button_style" />
 
 </LinearLayout>
