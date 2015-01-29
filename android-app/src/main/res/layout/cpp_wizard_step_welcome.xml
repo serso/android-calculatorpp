@@ -22,13 +22,17 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<TextView xmlns:a="http://schemas.android.com/apk/res/android"
-	a:drawableTop="@drawable/icon"
-	a:drawablePadding="5dp"
+<FrameLayout xmlns:a="http://schemas.android.com/apk/res/android"
 	a:layout_width="match_parent"
-	a:layout_height="wrap_content"
-	a:gravity="center"
-	a:layout_gravity="center"
-	a:textColor="@color/material_text"
-	a:textAppearance="@android:style/TextAppearance.Medium"
-	a:text="@string/c_first_start_text" />
+	a:layout_height="match_parent">
+
+	<TextView
+		a:layout_width="match_parent"
+		a:layout_height="wrap_content"
+		a:layout_gravity="center"
+		a:drawablePadding="40dp"
+		a:drawableTop="@drawable/logo_wizard"
+		a:gravity="center"
+		a:text="@string/c_first_start_text"
+		a:textAppearance="@android:style/TextAppearance.Medium" />
+</FrameLayout>

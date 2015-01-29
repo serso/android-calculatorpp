@@ -32,13 +32,12 @@ import android.support.annotation.LayoutRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import org.solovyev.android.Activities;
 import org.solovyev.android.Views;
 import org.solovyev.android.sherlock.tabs.ActionBarFragmentTabListener;
@@ -88,8 +87,6 @@ public class ActivityUi extends BaseUi {
 		if (root != null) {
 			processButtons(activity, root);
 			addHelpInfo(activity, root);
-		} else {
-			Log.e(ActivityUi.class.getSimpleName(), "Root is null for " + activity.getClass().getName());
 		}
 	}
 

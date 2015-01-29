@@ -16,7 +16,6 @@
 		android:id="@+id/pager_indicator"
 		android:layout_height="wrap_content"
 		android:layout_width="match_parent"
-		my:fillColor="@color/cpp_metro_blue"
 		my:radius="5dp" />
 
 </LinearLayout>

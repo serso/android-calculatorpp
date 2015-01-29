@@ -21,7 +21,7 @@
     <integer name="default_circle_indicator_orientation">0</integer>
     <dimen name="default_circle_indicator_radius">3dp</dimen>
     <bool name="default_circle_indicator_snap">false</bool>
-    <color name="default_circle_indicator_stroke_color">@color/cpp_metro_button_light</color>
+    <color name="default_circle_indicator_stroke_color">#ffc2c2c2</color>
     <dimen name="default_circle_indicator_stroke_width">1px</dimen>
 
     <dimen name="default_line_indicator_line_width">12dp</dimen>
