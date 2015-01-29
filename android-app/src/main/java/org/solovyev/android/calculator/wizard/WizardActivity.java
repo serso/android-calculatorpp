@@ -1,5 +1,7 @@
 package org.solovyev.android.calculator.wizard;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,10 +15,11 @@ import org.solovyev.android.calculator.R;
 import org.solovyev.android.wizard.*;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class WizardActivity extends BaseActivity implements WizardsAware {
 	@Nonnull
-	private final WizardUi<WizardActivity> wizardUi = new WizardUi<WizardActivity>(this, this, 0);
+	private final WizardUi<WizardActivity> wizardUi = new WizardUi<>(this, this, 0);
 
 	@Nonnull
 	private ViewPager pager;
@@ -30,6 +33,12 @@ public class WizardActivity extends BaseActivity implements WizardsAware {
 	public WizardActivity() {
 		super(R.layout.cpp_activity_wizard);
 	}
+
+	@Nullable
+	private AlertDialog dialog;
+
+	@Nonnull
+	private final DialogListener dialogListener = new DialogListener();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +55,9 @@ public class WizardActivity extends BaseActivity implements WizardsAware {
 		titleIndicator.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
 			@Override
 			public void onPageSelected(int position) {
-				wizardUi.setStep(flow.getStepAt(position));
+				final WizardStep step = flow.getStepAt(position);
+				wizardUi.setStep(step);
+				wizardUi.getWizard().saveLastStep(step);
 			}
 		});
 
@@ -54,12 +65,16 @@ public class WizardActivity extends BaseActivity implements WizardsAware {
 			final int position = flow.getPositionFor(wizardUi.getStep());
 			pager.setCurrentItem(position);
 		}
+
+		if (wizardUi.getWizard().getLastSavedStepName() == null) {
+			wizardUi.getWizard().saveLastStep(wizardUi.getStep());
+		}
 	}
 
 	@Override
 	public void onBackPressed() {
 		if (pager.getCurrentItem() == 0) {
-			super.onBackPressed();
+			finishWizardAbruptly();
 		} else {
 			pager.setCurrentItem(pager.getCurrentItem() - 1);
 		}
@@ -88,6 +103,28 @@ public class WizardActivity extends BaseActivity implements WizardsAware {
 	}
 
 	public void finishWizardAbruptly() {
+		finishWizardAbruptly(false);
+	}
+
+	public void finishWizardAbruptly(boolean confirmed) {
+		if (!confirmed) {
+			if (dialog != null) {
+				return;
+			}
+
+			final AlertDialog.Builder b = new AlertDialog.Builder(this);
+			b.setTitle(getString(R.string.wizard_finish_confirmation_title)).
+					setMessage(R.string.acl_wizard_finish_confirmation).
+					setNegativeButton(R.string.c_no, dialogListener).
+					setPositiveButton(R.string.c_yes, dialogListener).
+					setOnCancelListener(dialogListener);
+			dialog = b.create();
+			dialog.setOnDismissListener(dialogListener);
+			dialog.show();
+			return;
+		}
+
+		dismissDialog();
 		wizardUi.finishWizardAbruptly();
 		finish();
 	}
@@ -121,6 +158,19 @@ public class WizardActivity extends BaseActivity implements WizardsAware {
 		}
 	}
 
+	@Override
+	protected void onDestroy() {
+		dismissDialog();
+		super.onDestroy();
+	}
+
+	private void dismissDialog() {
+		if (dialog != null) {
+			dialog.dismiss();
+			dialog = null;
+		}
+	}
+
 	private class WizardPagerAdapter extends FragmentStatePagerAdapter {
 		@Nonnull
 		private final ListWizardFlow flow;
@@ -141,6 +191,24 @@ public class WizardActivity extends BaseActivity implements WizardsAware {
 		@Override
 		public int getCount() {
 			return flow.getCount();
+		}
+	}
+
+	private class DialogListener implements DialogInterface.OnClickListener, DialogInterface.OnDismissListener, DialogInterface.OnCancelListener {
+		@Override
+		public void onClick(DialogInterface dialog, int which) {
+			if (which == DialogInterface.BUTTON_POSITIVE) {
+				finishWizardAbruptly(true);
+			}
+		}
+
+		public void onDismiss(DialogInterface d) {
+			dialog = null;
+		}
+
+		@Override
+		public void onCancel(DialogInterface d) {
+			dialog = null;
 		}
 	}
 }

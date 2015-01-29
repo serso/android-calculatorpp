@@ -23,12 +23,10 @@
 package org.solovyev.android.calculator.wizard;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
-
 import org.solovyev.android.calculator.R;
 
 import javax.annotation.Nonnull;
@@ -41,7 +39,7 @@ import static org.solovyev.android.calculator.wizard.CalculatorMode.*;
  * Date: 6/16/13
  * Time: 9:59 PM
  */
-public class ChooseModeWizardStep extends Fragment {
+public class ChooseModeWizardStep extends WizardFragment {
 
 	/*
 	**********************************************************************
@@ -84,7 +82,15 @@ public class ChooseModeWizardStep extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.cpp_wizard_step_choose_mode, null);
+		final View view = super.onCreateView(inflater, container, savedInstanceState);
+		setupNextButton(R.string.acl_wizard_next);
+		setupPrevButton(R.string.acl_wizard_back);
+		return view;
+	}
+
+	@Override
+	protected int getViewResId() {
+		return R.layout.cpp_wizard_step_choose_mode;
 	}
 
 	@Override
