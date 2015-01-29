@@ -14,4 +14,5 @@
 	<string name="wizard_next">Далее</string>
 	<string name="wizard_prev">Назад</string>
 	<string name="wizard_final">Приложение настроено и готово к использованию.</string>
+	<string name="wizard_finish_confirmation_title">Закончить?</string>
 </resources>

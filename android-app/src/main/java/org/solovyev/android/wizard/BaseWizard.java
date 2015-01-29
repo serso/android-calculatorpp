@@ -37,7 +37,7 @@ public class BaseWizard implements Wizard {
 
 		editor.putString(makeLastStepPreferenceKey(name), step.getName());
 
-		editor.commit();
+		editor.apply();
 	}
 
 	@Override
@@ -47,7 +47,7 @@ public class BaseWizard implements Wizard {
 
 		editor.putBoolean(makeFinishedPreferenceKey(name), forceFinish || flow.getNextStep(step) == null);
 
-		editor.commit();
+		editor.apply();
 	}
 
 	@Nonnull
