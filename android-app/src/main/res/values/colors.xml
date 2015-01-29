@@ -43,5 +43,5 @@
 	<color name="cpp_text_secondary">#89ffffff</color>
 	<color name="cpp_widget_ripple">#40ffffff</color>
 
-	<color name="cpp_wizard_text">#707070</color>
+	<color name="cpp_wizard_disabled_text">#88ffffff</color>
 </resources>

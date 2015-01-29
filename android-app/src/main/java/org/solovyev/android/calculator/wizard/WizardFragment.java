@@ -14,10 +14,10 @@ import javax.annotation.Nullable;
 public abstract class WizardFragment extends Fragment implements View.OnClickListener {
 
 	@Nullable
-	private TextView nextButton;
+	protected TextView nextButton;
 
 	@Nullable
-	private TextView prevButton;
+	protected TextView prevButton;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -54,7 +54,7 @@ public abstract class WizardFragment extends Fragment implements View.OnClickLis
 	@Override
 	public void onClick(View v) {
 		final int id = v.getId();
-		final WizardActivity activity = (WizardActivity) getActivity();
+		final WizardActivity activity = getWizardActivity();
 		if (id == R.id.wizard_next) {
 			if (activity.canGoNext()) {
 				activity.goNext();
@@ -68,5 +68,9 @@ public abstract class WizardFragment extends Fragment implements View.OnClickLis
 				activity.finishWizardAbruptly();
 			}
 		}
+	}
+
+	private WizardActivity getWizardActivity() {
+		return (WizardActivity) getActivity();
 	}
 }
