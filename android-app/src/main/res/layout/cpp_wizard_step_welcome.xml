@@ -27,12 +27,7 @@
 	a:layout_height="match_parent">
 
 	<TextView
-		a:layout_width="match_parent"
-		a:layout_height="wrap_content"
-		a:layout_gravity="center"
-		a:drawablePadding="40dp"
+		style="@style/WizardLabel"
 		a:drawableTop="@drawable/logo_wizard"
-		a:gravity="center"
-		a:text="@string/c_first_start_text"
-		a:textAppearance="@android:style/TextAppearance.Medium" />
+		a:text="@string/c_first_start_text" />
 </FrameLayout>
