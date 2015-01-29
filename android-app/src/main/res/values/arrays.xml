@@ -133,4 +133,9 @@
 		<item>green</item>
 		<item>grey</item>
 	</string-array>
+
+	<string-array name="cpp_modes">
+		<item>@string/cpp_wizard_mode_simple</item>
+		<item>@string/cpp_wizard_mode_engineer</item>
+	</string-array>
 </resources>

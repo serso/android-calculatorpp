@@ -23,50 +23,31 @@
   -->
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-			  a:layout_width="wrap_content"
-			  a:layout_height="match_parent"
-			  a:orientation="vertical">
+	a:layout_width="match_parent"
+	a:layout_height="match_parent"
+	a:orientation="vertical"
+	a:gravity="center">
 
-	<RadioGroup
-			a:orientation="horizontal"
-			a:layout_width="match_parent"
-			a:layout_height="wrap_content"
-			a:gravity="center_vertical|top">
+	<TextView
+		a:layout_width="wrap_content"
+		a:layout_height="wrap_content"
+		a:textAppearance="@android:style/TextAppearance.Large"
+		style="@style/WizardLabel"
+		a:text="Choose mode"
+		a:layout_marginBottom="40dp" />
 
-		<RadioButton a:layout_width="0dp"
-					 a:layout_weight="1"
-					 a:layout_margin="6dp"
-					 a:id="@+id/wizard_simple_mode_radiobutton"
-					 a:text="@string/cpp_wizard_mode_simple"
-					 a:layout_height="wrap_content"/>
+	<Spinner
+		a:id="@+id/wizard_mode_spinner"
+		a:layout_width="wrap_content"
+		a:layout_height="wrap_content"
+		style="@style/WizardLabel"
+		a:layout_marginBottom="40dp" />
 
-		<RadioButton a:layout_width="0dp"
-					 a:layout_weight="1"
-					 a:layout_margin="6dp"
-					 a:id="@+id/wizard_engineer_mode_radiobutton"
-					 a:text="@string/cpp_wizard_mode_engineer"
-					 a:layout_height="wrap_content"/>
-
-	</RadioGroup>
-
-	<LinearLayout a:layout_width="match_parent"
-				  a:layout_height="wrap_content"
-				  a:orientation="horizontal">
-
-		<TextView
-				a:layout_width="0dp"
-				a:layout_weight="1"
-				a:layout_height="wrap_content"
-				a:padding="6dp"
-				a:text="@string/cpp_wizard_mode_simple_description"/>
-
-		<TextView
-				a:layout_width="0dp"
-				a:layout_weight="1"
-				a:layout_height="wrap_content"
-				a:padding="6dp"
-				a:text="@string/cpp_wizard_mode_engineer_description"/>
-
-	</LinearLayout>
+	<TextView
+		a:id="@+id/wizard_mode_description"
+		a:layout_width="wrap_content"
+		a:layout_height="wrap_content"
+		style="@style/WizardLabel"
+		a:text="Choose mode" />
 
 </LinearLayout>
