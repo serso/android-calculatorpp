@@ -24,6 +24,9 @@ public class WizardActivity extends BaseActivity implements WizardsAware {
 	@Nonnull
 	private PagerAdapter pagerAdapter;
 
+	@Nonnull
+	private Wizards wizards = CalculatorApplication.getInstance().getWizards();
+
 	public WizardActivity() {
 		super(R.layout.cpp_activity_wizard);
 	}
@@ -77,7 +80,11 @@ public class WizardActivity extends BaseActivity implements WizardsAware {
 	@Nonnull
 	@Override
 	public Wizards getWizards() {
-		return CalculatorApplication.getInstance().getWizards();
+		return wizards;
+	}
+
+	public void setWizards(@Nonnull Wizards wizards) {
+		this.wizards = wizards;
 	}
 
 	public void finishWizardAbruptly() {

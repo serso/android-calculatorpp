@@ -6,8 +6,8 @@
   <string name="c_var_description_pi">Das Verhältnis von Kreisumfang zu Durchmesser. Hinweis: Diese Konstante ist einheitsunabhängig =&gt; rad: 3.14, deg: 3.14</string>
   <string name="c_var_description_e">Euler\'sche Zahl; Einzigartige reelle Zahl, bei welcher der Wert der Ableitung (die Steigung der Tangente) der Funktion f(x) = e ^ X an der Stelle x = 0 gleich 1 ist</string>
   <string name="c_var_description_i">Imaginäre Zahl, definiert durch i ^ 2 = -1</string>
-  <string name="c_var_description_c">Lichtgeschwindigkeit im Vakuum, M·s</string>
-  <string name="c_var_description_G">Die Gravitationskonstante ist eine empirische physikalische Konstante, welche bei der Berechnung der Massenanziehung zwischen Objekten mit Masse benötigt wird, m ^ 3·kg ^ −1·s ^ −2</string>
+  <string name="c_var_description_c">Lichtgeschwindigkeit im Vakuum, m·s^-1</string>
+  <string name="c_var_description_G">Die Gravitationskonstante ist eine empirische physikalische Konstante, welche bei der Berechnung der Massenanziehung zwischen Objekten mit Masse benötigt wird, m^3·kg^−1·s^−2</string>
   <string name="c_var_description_h">Das Plancksche Wirkungsquantum verknüpft die Frequenz einer elektromagnetischen Welle mit ihrer Energie, J·s</string>
   <string name="c_var_description_h_reduced">reduziertes Plancksches Wirkungsquantum, auch Dirac\'sche Konstante, J·s</string>
   <string name="c_var_description_nan">Keine Zahl</string>

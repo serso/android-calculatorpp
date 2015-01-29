@@ -12,9 +12,9 @@ function copyTranslation() {
 
 function copyTranslations() {
     from="translations/$1/app-android/*"
-    to="android-app-core/res/values-$2"
+    to="android-app/src/main/res/values-$2"
     if [ -z "${2}" ]; then
-        to="android-app-core/res/values"
+        to="android-app/src/main/res/values"
 	fi
 
 	if [ ! -d ${to} ]; then

@@ -11,26 +11,34 @@
   <string name="c_fun_description_acos">反餘弦函數</string>
   <string name="c_fun_description_atan">反正切函數</string>
   <string name="c_fun_description_acot">反餘切函數</string>
-  <string name="c_fun_description_ln">自然對數- 底數為 e 之對數</string>
-  <string name="c_fun_description_lg">常用對數-底數為 10 之對數</string>
-  <string name="c_fun_description_log">對數-指定底數對數</string>
+  <string name="c_fun_description_ln">自然對數 - 底數為 e 之對數</string>
+  <string name="c_fun_description_lg">常用對數 - 底數為 10 之對數</string>
+  <string name="c_fun_description_log">對數 - 指定底數對數</string>
   <string name="c_fun_description_exp">e 的指數函數</string>
   <string name="c_fun_description_sqrt">平方根函數</string>
   <string name="c_fun_description_cubic">立方根函數</string>
   <string name="c_fun_description_abs">計算參數的絕對值</string>
-  <string name="c_fun_description_sgn">給出的參數符號： 如果參數小於 0 ，值為-1；如果參數等於 0，值為0；如果參數大於 0，則值為1。</string>
-  <string name="c_fun_description_eq">等於 - 如果第一個參數等於第二個，值為1，否則為 0</string>
-  <string name="c_fun_description_le">小於或等於 - 如果第一個參數小於或等於第二個，值為1，否則為 0</string>
-  <string name="c_fun_description_ge">大於或等於 - 如果第一個參數大於或等於第二個，值為1，否則為 0</string>
-  <string name="c_fun_description_ne">不等於 - 如果第一個參數不等於第二個，值為1，否則為 0</string>
-  <string name="c_fun_description_lt">小於 - 如果第一個參數小於第二個，值為1，否則為 0</string>
-  <string name="c_fun_description_gt">大於 - 如果第一個參數大於第二個，值為1，否則為 0</string>
-  <string name="c_fun_description_rad">將弧度轉換為度： d-度，m-分 (預設 = 0)，s-秒 (預設 = 0)</string>
-  <string name="c_fun_description_dms">將度從 DMS (度分秒) 符號轉換為十進位: d-度，m-分鐘 (預設 = 0)，s-秒 (預設 = 0)</string>
-  <string name="c_fun_description_deg">將弧度轉換為度</string>
+  <string name="c_fun_description_sgn">計算參數的正負：如果參數小於 0，值為 -1；如果參數等於 0，值為 0；如果參數大於 0，則值為 1。
+	</string>
+  <string name="c_fun_description_eq">等於函數 - 如果第一個參數等於第二個，值為 1，否則為 0</string>
+  <string name="c_fun_description_le">小於或等於函數 - 如果第一個參數小於或等於第二個，值為 1，否則為 0
+	</string>
+  <string name="c_fun_description_ge">大於或等於函數 - 如果第一個參數大於或等於第二個，值為 1，否則為 0
+	</string>
+  <string name="c_fun_description_ne">不等於函數 - 如果第一個參數不等於第二個，值為 1，否則為 0
+	</string>
+  <string name="c_fun_description_lt">小於函數 - 如果第一個參數小於第二個，值為 1，否則為 0
+	</string>
+  <string name="c_fun_description_gt">大於函數 - 如果第一個參數大於第二個，值為 1，否則為 0
+	</string>
+  <string name="c_fun_description_rad">將 Degrees 轉換為 Radians：d - 度，m - 分（預設 = 0），s - 秒（預設 = 0）
+	</string>
+  <string name="c_fun_description_dms">將 Degrees 從 DMS（度分秒）表示法轉換為十進位：d - 度，m - 分（預設 = 0），s - 秒（預設 = 0）
+	</string>
+  <string name="c_fun_description_deg">將 Radians 轉換為 Degrees</string>
   <string name="c_fun_category_trig">三角函數</string>
   <string name="c_fun_category_hyper_trig">雙曲三角函數</string>
-  <string name="c_fun_category_comparison">比較</string>
-  <string name="c_fun_category_common">常見</string>
-  <string name="c_fun_category_my">我的</string>
+  <string name="c_fun_category_comparison">比較函數</string>
+  <string name="c_fun_category_common">常用函數</string>
+  <string name="c_fun_category_my">我的函數</string>
 </resources>

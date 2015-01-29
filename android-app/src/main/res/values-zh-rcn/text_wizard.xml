@@ -26,9 +26,9 @@
   <string name="cpp_wizard_final_title">快要完成了！</string>
   <string name="cpp_wizard_final_free_and_opensource">Calculator++ 是免费开源的：所有的功能都免费，并可以在github上找到源代码。</string>
   <string name="cpp_wizard_final_ways_to_help">有下面几种方法你可以帮助这款软件做的更好：</string>
-  <string name="cpp_wizard_final_donate">捐款</string>
-  <string name="cpp_wizard_final_translate">翻译</string>
-  <string name="cpp_wizard_final_contribute">提供源代码</string>
+  <string name="cpp_wizard_final_donate">捐赠</string>
+  <string name="cpp_wizard_final_translate">正在翻译</string>
+  <string name="cpp_wizard_final_contribute">贡献源代码</string>
   <string name="cpp_wizard_onscreen_description">独立窗口模式的计算器可以让你在使用其他应用程序的同时进行计算。</string>
   <string name="cpp_wizard_onscreen_checkbox">启用独立窗口模式的计算器（在应用程序列表中将出现第二个图标）</string>
   <string name="cpp_wizard_dragbutton_description">拖动按钮是Calculator++的独创亮点，可以让你快速使用辅助功能。</string>

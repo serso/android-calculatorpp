@@ -267,6 +267,6 @@ Para poder arreglar el problema necesitamos información acerca de el error. Es 
   <string name="cpp_purchase_text">Apoyar el proyecto es fácil y seguro: Google proporciona el proceso de compra y todo lo que necesitas es una cuenta de Google correctamente configurada.\n\n La información de pago se almacena en los servidores de Google con tu cuenta de Google, y puedes utilizar esta aplicación en varios dispositivos de manera sencilla.\n\n Al pulsar el botón \'Continuar\', se le redireccionará a Google Play para hacer el pago.</string>
   <string name="cpp_purchase_title">Comprar</string>
   <string name="cpp_purchase_thank_you_text">¡Gracias por apoyar esta aplicación! \n\n Pueden pasar varios minutos hasta que la aplicación actualice la información de compra. Puedes revisar la información de compra en tu cuenta de Google siempre que lo desees. \n Ante cualquier problema o pregunta sobre la aplicación, no dudes en contactarme directamente (los datos de contacto están disponibles en Principal-&gt;Menú-&gt;Acerca de)</string>
-  <string name="cpp_var_show_greek_keyboard">Show Greek letters</string>
-  <string name="cpp_var_hide_greek_keyboard">Hide Greek letters</string>
+  <string name="cpp_var_show_greek_keyboard">letras griegas</string>
+  <string name="cpp_var_hide_greek_keyboard">ocultar letras griegas</string>
 </resources>

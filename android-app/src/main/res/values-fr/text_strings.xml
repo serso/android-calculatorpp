@@ -7,7 +7,7 @@
   <string name="c_app_icon_name">Calc++</string>
   <string name="c_app_settings">Paramètres</string>
   <string name="c_syntax_error">Erreur</string>
-  <string name="c_result_copied">Le résultat a été mis en mémoire !</string>
+  <string name="c_result_copied">Le résultat a été copié dans le presse-papiers !</string>
   <string name="c_settings">Paramètres</string>
   <string name="c_help">Aide</string>
   <string name="c_vars_and_constants">Variables et constantes</string>
@@ -268,6 +268,6 @@ En cliquant sur le bouton \'Continuer\' vous serez redirigés vers l\'applicatio
   <string name="cpp_purchase_thank_you_text">Merci de soutenir cette application! \n \n Cela peut prendre plusieurs
 minutes pour la validation de l\'achat. Vous pouvez toujours vérifier les informations sur l\'achat sur votre compte Google. \n
 Si vous avez des problèmes ou des questions, n\'hésitez pas à me contacter directement (Les informations sont disponibles dans Menu Principal-&gt; À propos)</string>
-  <string name="cpp_var_show_greek_keyboard">Show Greek letters</string>
-  <string name="cpp_var_hide_greek_keyboard">Hide Greek letters</string>
+  <string name="cpp_var_show_greek_keyboard">Afficher les lettres Grecques</string>
+  <string name="cpp_var_hide_greek_keyboard">Cacher les lettres Grecques</string>
 </resources>

@@ -5,17 +5,17 @@
   <string name="cpp_wizard_next">Seuraava</string>
   <string name="cpp_wizard_back">Takaisin</string>
   <string name="cpp_wizard_finish">Lopeta</string>
-  <string name="cpp_wizard_start">Aloita avustaja</string>
-  <string name="cpp_wizard_layout_optimized">Optimisoitu</string>
+  <string name="cpp_wizard_start">Aloita ohjattu asennus</string>
+  <string name="cpp_wizard_layout_optimized">Optimoitu</string>
   <string name="cpp_wizard_layout_big_buttons">Suuret painikkeet</string>
   <string name="cpp_wizard_mode_simple">Yksinkertaistettu</string>
   <string name="cpp_wizard_mode_simple_description">Yksinkertaistetussa tilassa vain olennainen toiminnallisuus on saatavilla aloitusnäkymässä.
 Tulokset pyöristetään ylöspäin viiteen desimaaliin ja kulmienn oletusyksikkönä käytetään asteita.</string>
   <string name="cpp_wizard_mode_engineer">Insinööri</string>
-  <string name="cpp_wizard_mode_engineer_description">Insinööritilassa erikoisfunktiot ovat käytettävissä aloitusnäkymästä.
-Vastauksia ei pyöristetä ja ne näytetään 10-potenssimuodossa, kulmien oletusyksikköinä käytetään radiaaneja.</string>
-  <string name="cpp_restart_wizard">Aloita avustaja</string>
-  <string name="cpp_wizard_dragbutton_action_end">Erinomaista! Paina painiketta vielä kerran yrittääksesi uudelleen</string>
+  <string name="cpp_wizard_mode_engineer_description">Insinööritilassa erikoisfunktiot ovat käytettävissä päänäkymästä.
+Vastauksia ei pyöristetä ja ne näytetään 10-potenssimuodossa, kulman oletusyksikkö on radiaani.</string>
+  <string name="cpp_restart_wizard">Aloita ohjattu asennus</string>
+  <string name="cpp_wizard_dragbutton_action_end">Loistavaa! Paina painiketta vielä kerran kokeillaksesi uudelleen</string>
   <string name="cpp_wizard_dragbutton_action_center">Paina alla olevaa painiketta kerran käyttääksesi 9:ä</string>
   <string name="cpp_wizard_dragbutton_action_up">Vedä painikkeen keskeltä ylöspäin käyttääksesi %:a</string>
   <string name="cpp_wizard_dragbutton_action_left">Vedä painikkeen keskeltä vasemmalle käyttääksesi siniä</string>

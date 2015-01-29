@@ -276,6 +276,6 @@ Door op volgende te drukken, wordt u doorverwezen naar de Google Play store om d
   <string name="cpp_purchase_thank_you_text">Hartelijk bedankt voor het steunen van de app!\n\n Het kan enige minuten duren voor de app uw betaling herkend. U kan steeds uw Google account raadplegen om de informatie van uw betaling na te kijken.\n
 Indien u problemen ondervindt of vragen hebt, aarzel dan niet om mij te contactereny (contactgegevens vindt u in
 Main-&gt;Menu-&gt;Over)</string>
-  <string name="cpp_var_show_greek_keyboard">Show Greek letters</string>
-  <string name="cpp_var_hide_greek_keyboard">Hide Greek letters</string>
+  <string name="cpp_var_show_greek_keyboard">Toon Griekse letters</string>
+  <string name="cpp_var_hide_greek_keyboard">Verberg Griekse letters</string>
 </resources>

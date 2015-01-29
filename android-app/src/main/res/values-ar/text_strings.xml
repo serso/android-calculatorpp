@@ -272,6 +272,6 @@
   <string name="cpp_purchase_title">الشراء</string>
   <string name="cpp_purchase_thank_you_text">شكرا لك على دعم هذا التطبيق!\n\n قد يستغرق الأمر عدة دقائق حتى يصبح التطبيق مزود بمعلومات الشراء. يمكنك دائماً مراجعة المعلومات حول الشراء في حساب غوغل الخاص بك.\n
 إذا كان لديك أي مشاكل أو أسئلة لا تتردد في الإتصال بي مباشرة (تتوفر جهات الإتصال في القائمة-&gt;الرئيسية-&gt;حول)</string>
-  <string name="cpp_var_show_greek_keyboard">Show Greek letters</string>
-  <string name="cpp_var_hide_greek_keyboard">Hide Greek letters</string>
+  <string name="cpp_var_show_greek_keyboard">إظهار الأحرف اليونانية</string>
+  <string name="cpp_var_hide_greek_keyboard">إخفاء الأحرف اليونانية</string>
 </resources>

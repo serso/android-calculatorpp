@@ -3,7 +3,6 @@
 <resources>
   <string name="c_app_name">Calculator++</string>
   <string name="c_app_name_on_screen">Calculator++ (Window mode)</string>
-  <string name="c_app_name_free">Calculator++ Δωρεάν</string>
   <string name="c_app_icon_name">Calc++</string>
   <string name="c_app_settings">Ρυθμίσεις</string>
   <string name="c_syntax_error">Σφάλμα</string>
@@ -22,7 +21,6 @@
   <string name="c_undo">αναίρεση</string>
   <string name="c_redo">επανάληψη</string>
   <string name="c_clear">Καθαρισμός</string>
-  <string name="c_erase">Σβήσιμο</string>
   <string name="c_paste">επικόλληση</string>
   <string name="c_vars">μεταβλητές</string>
   <string name="c_copy">Αντιγραφή</string>

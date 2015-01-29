@@ -33,7 +33,6 @@ import org.robolectric.Robolectric;
 import org.robolectric.shadows.ShadowActivity;
 import org.robolectric.util.ActivityController;
 import org.solovyev.android.CalculatorTestRunner;
-import org.solovyev.android.wizard.BaseWizardActivity;
 import org.solovyev.android.wizard.Wizard;
 import org.solovyev.android.wizard.WizardUi;
 import org.solovyev.android.wizard.Wizards;
@@ -41,29 +40,27 @@ import org.solovyev.android.wizard.Wizards;
 import javax.annotation.Nonnull;
 import java.lang.reflect.Field;
 
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
 import static org.junit.Assert.*;
 import static org.solovyev.android.calculator.wizard.CalculatorWizardStep.choose_mode;
 
 @RunWith(value = CalculatorTestRunner.class)
 public class CalculatorWizardActivityTest {
 
-	private ActivityController<CalculatorWizardActivity> controller;
-	private CalculatorWizardActivity activity;
+	private ActivityController<WizardActivity> controller;
+	private WizardActivity activity;
 	private Wizards wizards;
 	private Field uiField;
 
 	@Before
 	public void setUp() throws Exception {
-		controller = Robolectric.buildActivity(CalculatorWizardActivity.class);
+		controller = Robolectric.buildActivity(WizardActivity.class);
 		activity = controller.get();
 		wizards = new CalculatorWizards(Robolectric.application);
 		activity.setWizards(wizards);
 		controller.attach();
 		controller.create();
 
-		uiField = BaseWizardActivity.class.getDeclaredField("ui");
+		uiField = WizardActivity.class.getDeclaredField("wizardUi");
 		uiField.setAccessible(true);
 	}
 
@@ -90,7 +87,7 @@ public class CalculatorWizardActivityTest {
 		final Bundle outState = new Bundle();
 		controller.saveInstanceState(outState);
 
-		controller = Robolectric.buildActivity(CalculatorWizardActivity.class);
+		controller = Robolectric.buildActivity(WizardActivity.class);
 		controller.create(outState);
 
 		activity = controller.get();
@@ -103,9 +100,9 @@ public class CalculatorWizardActivityTest {
 	@Test
 	public void testCreate() throws Exception {
 		final Intent intent = new Intent();
-		intent.setClass(activity, CalculatorWizardActivity.class);
+		intent.setClass(activity, WizardActivity.class);
 		intent.putExtra("flow", CalculatorWizards.DEFAULT_WIZARD_FLOW);
-		controller = Robolectric.buildActivity(CalculatorWizardActivity.class).withIntent(intent);
+		controller = Robolectric.buildActivity(WizardActivity.class).withIntent(intent);
 		controller.create();
 		activity = controller.get();
 		assertEquals(CalculatorWizards.DEFAULT_WIZARD_FLOW, getWizardUi().getWizard().getName());
@@ -114,7 +111,7 @@ public class CalculatorWizardActivityTest {
 		final Bundle outState1 = new Bundle();
 		controller.saveInstanceState(outState1);
 
-		controller = Robolectric.buildActivity(CalculatorWizardActivity.class);
+		controller = Robolectric.buildActivity(WizardActivity.class);
 		activity = controller.get();
 		controller.create(outState1);
 		assertEquals(CalculatorWizards.DEFAULT_WIZARD_FLOW, getWizardUi().getWizard().getName());
@@ -163,22 +160,8 @@ public class CalculatorWizardActivityTest {
 		assertEquals(activity.getString(choose_mode.getTitleResId()), activity.getTitle().toString());
 	}
 
-	@Test
-	public void testNextButtonShouldBeShownAtTheEnd() throws Exception {
-		setLastStep();
-		assertEquals(VISIBLE, getWizardUi().getPrevButton().getVisibility());
-		assertEquals(VISIBLE, getWizardUi().getNextButton().getVisibility());
-	}
-
 	private void setLastStep() throws IllegalAccessException {
 		getWizardUi().setStep(CalculatorWizardStep.values()[CalculatorWizardStep.values().length - 1]);
-	}
-
-	@Test
-	public void testPrevButtonShouldNotBeShownAtTheStart() throws Exception {
-		setFirstStep();
-		assertEquals(VISIBLE, getWizardUi().getNextButton().getVisibility());
-		assertEquals(GONE, getWizardUi().getPrevButton().getVisibility());
 	}
 
 	private void setFirstStep() throws IllegalAccessException {

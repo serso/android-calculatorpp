@@ -15,8 +15,8 @@ public class CalculatorTestRunner extends RobolectricTestRunner {
 
 	@Override
 	protected AndroidManifest getAppManifest(Config config) {
-		final String manifestFilePath = "../android-app/src/main/AndroidManifest.xml";
-		final String resourcesFilePath = "../android-app-core/src/main/res";
+		final String manifestFilePath = "android-app/src/main/AndroidManifest.xml";
+		final String resourcesFilePath = "android-app/src/main/res";
 		return new AndroidManifest(Fs.fileFromPath(manifestFilePath), Fs.fileFromPath(resourcesFilePath)) {
 			@Override
 			public int getTargetSdkVersion() {

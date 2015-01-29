@@ -1,6 +1,7 @@
 package org.solovyev.android.calculator.preferences;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.support.v7.widget.Toolbar;
@@ -65,6 +66,9 @@ public abstract class BasePreferencesActivity extends PreferenceActivity {
 	}
 
 	protected void onShowAd(boolean show) {
+		if(!supportsAds()) {
+			return;
+		}
 		if (show) {
 			if (adView != null) {
 				return;
@@ -80,6 +84,11 @@ public abstract class BasePreferencesActivity extends PreferenceActivity {
 			adView.hide();
 			adView = null;
 		}
+	}
+
+	private boolean supportsAds() {
+		// on Android 2.3 the headers in the list view are not supported
+		return Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
 	}
 
 	@Override

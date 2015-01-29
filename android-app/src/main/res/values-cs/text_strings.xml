@@ -215,10 +215,10 @@ Chcete zaslat zprávu o pádu aplikace?
   <string name="fix">Opravit</string>
   <string name="p_preferred_numeral_base_title">Výchozí číselná soustava</string>
   <string name="p_preferred_numeral_base_summary">Definujte výchozí číselnou soustavu</string>
-  <string name="preferred_numeral_base_message">Výchozí číselná soustava \'%1$ s\' se liší od aktuálního\"%2$ s\". Zapomněl jste vrátit změny?</string>
+  <string name="preferred_numeral_base_message">Výchozí číselná soustava \'%1$s\' se liší od aktuálního \'%2$s\'. Zapomněl jste vrátit změny?</string>
   <string name="p_preferred_angle_units_title">Výchozí jednotka úhlu</string>
   <string name="p_preferred_angle_units_summary">Definuje výchozí jednotku úhlu</string>
-  <string name="preferred_angle_units_message">Výchozí úhel jednotky \'%1$ s\' se liší od aktuální \'%2$ s\". Zapomněl jste vrátit zpět?</string>
+  <string name="preferred_angle_units_message">Výchozí úhel jednotky \'%1$s\' se liší od aktuální \'%2$s\'. Zapomněl jste vrátit zpět?</string>
   <string name="close">Zavřít</string>
   <string name="c_app_widget_3x3_name">Kalkulačka ++ Widget (3 x 3)</string>
   <string name="c_app_widget_3x4_name">Kalkulačka ++ Widget (3 x 4)</string>
@@ -245,7 +245,7 @@ Chcete zaslat zprávu o pádu aplikace?
   <string name="cpp_dash_dotted_line_style">Čerchovaná (-.-.-)</string>
   <string name="cpp_plotter">Funkce vykreslování</string>
   <string name="cpp_plot_screenshot">Zachytit snímek obrazovky</string>
-  <string name="cpp_plot_screenshot_saved">Snímek obrazovky byl úspěšně uložen: %1$ s!</string>
+  <string name="cpp_plot_screenshot_saved">Snímek obrazovky byl úspěšně uložen: %1$s!</string>
   <string name="cpp_plot_unable_to_save_screenshot">Snímek obrazovky nelze uložit na SD kartu, protože není připojena. Prosím vložte SD kartu a opakujte akci!</string>
   <string name="cpp_plot_function_line_color_type">Typ barvy čáry</string>
   <string name="cpp_plot_function_line_color">Barva čáry</string>
@@ -274,6 +274,6 @@ Platební informace jsou uloženy na serveru společně s vaším účtem.\n\n K
   <string name="cpp_purchase_title">Zakoupit</string>
   <string name="cpp_purchase_thank_you_text">Děkujeme za vaší podporu!\n\n Může trvat několik minut, něž aplikace bude informována o zakoupení. Občas můžete stav o zakoupení sledovat na Vašem účtu\n
 Pokud se naskytnou problémy a nebo budete mít otázky, tak neváhejte a kontaktuje nás (contactsMain-&gt;Menu-&gt;About)</string>
-  <string name="cpp_var_show_greek_keyboard">Show Greek letters</string>
-  <string name="cpp_var_hide_greek_keyboard">Hide Greek letters</string>
+  <string name="cpp_var_show_greek_keyboard">Zobrazit řecká písmena</string>
+  <string name="cpp_var_hide_greek_keyboard">Skrýt řecká písmena</string>
 </resources>

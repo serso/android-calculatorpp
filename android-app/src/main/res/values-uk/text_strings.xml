@@ -277,6 +277,6 @@
   <string name="cpp_purchase_text">Підтримка проекту - це легко та безпечно: процес покупки контролюється Google і все, що вам необхідно це належним чином налаштувати профіль Google.\n\n Інформація про оплату зберігається на серверах Google з вашим обліковим записом Google і ви легко можете використовувати цю програму на кількох пристроях.\n\n Натисніть кнопку \"Продовжити\" і ви будете перенаправлені на Google Play для здійснення платежу.</string>
   <string name="cpp_purchase_title">Придбати</string>
   <string name="cpp_purchase_thank_you_text">Дякуємо вам за підтримку цієї програми! \n\n Затримка в декілька хвилин може виникнути, поки програма буде проінформована про покупку. Ви завжди можете перевірити інформацію про покупку в обліковому запису Google. \n Якщо у вас є будь які проблеми або питання, не соромтеся зв\'язатися зі мною безпосередньо (контакти доступні в Головна -&gt; Меню -&gt; Про програму)</string>
-  <string name="cpp_var_show_greek_keyboard">Show Greek letters</string>
-  <string name="cpp_var_hide_greek_keyboard">Hide Greek letters</string>
+  <string name="cpp_var_show_greek_keyboard">Показати грецьких літер</string>
+  <string name="cpp_var_hide_greek_keyboard">Приховати грецьких літер</string>
 </resources>

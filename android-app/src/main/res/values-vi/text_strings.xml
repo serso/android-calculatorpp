@@ -275,6 +275,6 @@ Qua việc click nút \'Tiếp tục\' bạn được chuyển qua úng dụng G
   <string name="cpp_purchase_title">Mua</string>
   <string name="cpp_purchase_thank_you_text">Cảm ơn đã hỗ trợ ứng dụng này!\n\n Sẽ mất vài phút để ứng dụng xác nhận mua hàng. Bạn có thể kiểm tra thông tin mua trong tài khoản Google của bạn.\n
 Nếu có sự cố hay câu hỏi vui lòng liên hệ trực tiếp với tôi (thông tin liên hệ có sẵn trong Main-&gt;Menu-&gt;About)</string>
-  <string name="cpp_var_show_greek_keyboard">Show Greek letters</string>
-  <string name="cpp_var_hide_greek_keyboard">Hide Greek letters</string>
+  <string name="cpp_var_show_greek_keyboard">Hiện các kí tự La Mã</string>
+  <string name="cpp_var_hide_greek_keyboard">Ẩn các ký tự La Mã</string>
 </resources>
