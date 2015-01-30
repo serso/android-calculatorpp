@@ -40,27 +40,21 @@ import org.solovyev.android.calculator.plot.AndroidCalculatorPlotter;
 import org.solovyev.android.calculator.plot.CalculatorPlotterImpl;
 import org.solovyev.android.calculator.view.EditorTextProcessor;
 import org.solovyev.android.calculator.wizard.CalculatorWizards;
-import org.solovyev.android.checkout.*;
 import org.solovyev.android.wizard.Wizards;
 import org.solovyev.common.msg.MessageType;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executor;
 
-/**
- * User: serso
- * Date: 12/1/11
- * Time: 1:21 PM
- */
 @ReportsCrashes(formKey = "",
-		mailTo = "calculatorplusplus@gmail.com",
-		mode = ReportingInteractionMode.DIALOG,
-		resToastText = R.string.crashed,
-		resDialogTitle = R.string.crash_dialog_title,
-		resDialogText = R.string.crash_dialog_text)
+		formUri = "https://serso.cloudant.com/acra-cpp/_design/acra-storage/_update/report",
+		reportType = org.acra.sender.HttpSender.Type.JSON,
+		httpMethod = org.acra.sender.HttpSender.Method.PUT,
+		formUriBasicAuthLogin="timbeenterumisideffecird",
+		formUriBasicAuthPassword="ECL65PO2TH5quIFNAK4hQ5Ng",
+		mode = ReportingInteractionMode.TOAST,
+		resToastText = R.string.crashed)
 public class CalculatorApplication extends android.app.Application implements SharedPreferences.OnSharedPreferenceChangeListener, ServiceLocator {
 
 	/*
@@ -133,9 +127,7 @@ public class CalculatorApplication extends android.app.Application implements Sh
 
 	@Override
 	public void onCreate() {
-		if (!BuildConfig.DEBUG) {
-			ACRA.init(this);
-		}
+		ACRA.init(this);
 
 		if (!App.isInitialized()) {
 			App.init(this);
