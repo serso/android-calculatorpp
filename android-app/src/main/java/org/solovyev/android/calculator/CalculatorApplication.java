@@ -127,7 +127,9 @@ public class CalculatorApplication extends android.app.Application implements Sh
 
 	@Override
 	public void onCreate() {
-		ACRA.init(this);
+		if (!BuildConfig.DEBUG) {
+			ACRA.init(this);
+		}
 
 		if (!App.isInitialized()) {
 			App.init(this);
