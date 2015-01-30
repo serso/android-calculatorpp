@@ -23,6 +23,7 @@
   <string name="cpp_wizard_mode_title">Выберите режим</string>
   <string name="cpp_wizard_onscreen_calculator_title">Калькулятор в отдельном окне</string>
   <string name="cpp_wizard_dragbutton_title">Основы использования кнопок</string>
+  <string name="cpp_wizard_final_done">Приложение настроено и готово к использованию.</string>
   <string name="cpp_wizard_final_title">Ещё чуть-чуть!</string>
   <string name="cpp_wizard_final_free_and_opensource">Калькулятор++ - это бесплатное приложение с открытым исходным кодом: все функции являются бесплатными, исходный код можно найти на github.</string>
   <string name="cpp_wizard_final_ways_to_help">Есть несколько способов сделать приложение лучше:</string>

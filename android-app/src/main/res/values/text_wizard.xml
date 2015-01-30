@@ -29,6 +29,7 @@
   <string name="cpp_wizard_mode_title">Choose mode</string>
   <string name="cpp_wizard_onscreen_calculator_title">Calculator in a separate window</string>
   <string name="cpp_wizard_dragbutton_title">Drag button basics</string>
+  <string name="cpp_wizard_final_done">The app is set up and ready to use.</string>
   <string name="cpp_wizard_final_title">Almost done!</string>
   <string name="cpp_wizard_final_free_and_opensource">Calculator++ is free and open-source: all the features are free
 		of charge and source code can be found on github.

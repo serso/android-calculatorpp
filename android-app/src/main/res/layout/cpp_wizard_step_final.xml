@@ -22,34 +22,18 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<LinearLayout
-		xmlns:a="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+	a:layout_width="match_parent"
+	a:layout_height="match_parent"
+	a:orientation="vertical"
+	a:gravity="center">
+
+	<TextView
+		style="@style/WizardLabel.Last"
+		a:drawableTop="@drawable/ic_action_done"
+		a:layout_height="wrap_content"
 		a:layout_width="match_parent"
-		a:layout_height="match_parent"
-		a:orientation="vertical">
-
-	<TextView a:layout_height="wrap_content"
-			  a:layout_width="match_parent"
-			  a:text="@string/cpp_wizard_final_free_and_opensource"/>
-
-	<TextView a:layout_height="wrap_content"
-			  a:layout_width="match_parent"
-			  a:layout_marginTop="10dp"
-			  a:text="@string/cpp_wizard_final_ways_to_help"/>
-
-	<Button a:id="@+id/cpp_wizard_final_donate_button"
-			a:layout_height="wrap_content"
-			a:layout_width="match_parent"
-			a:text="@string/cpp_wizard_final_donate"/>
-
-	<Button a:id="@+id/cpp_wizard_final_translate_button"
-			a:layout_height="wrap_content"
-			a:layout_width="match_parent"
-			a:text="@string/cpp_wizard_final_translate"/>
-
-	<Button a:id="@+id/cpp_wizard_final_contribute_button"
-			a:layout_height="wrap_content"
-			a:layout_width="match_parent"
-			a:text="@string/cpp_wizard_final_contribute"/>
+		a:textAppearance="@android:style/TextAppearance.Large"
+		a:text="@string/cpp_wizard_final_done" />
 
 </LinearLayout>
