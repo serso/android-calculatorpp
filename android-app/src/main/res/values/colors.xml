@@ -29,7 +29,10 @@
 	<color name="cpp_button_text_ce">#ffffffff</color>
 	<color name="cpp_selected_angle_unit_text">#ffffff99</color>
 	<color name="cpp_main_bg">#ff000000</color>
-	<color name="cpp_wizard_bg">#ff374248</color>
+	<color name="cpp_wizard_bg">#212121</color>
+	<color name="cpp_wizard_button_normal">#424242</color>
+	<color name="cpp_wizard_button_disabled">#616161</color>
+	<color name="cpp_wizard_button_pressed">#757575</color>
 	<color name="cpp_pane_background">#ff1f1f1f</color>
 	<color name="cpp_metro_button_dark">#ff000000</color>
 	<color name="cpp_metro_button">#212121</color>
@@ -43,5 +46,5 @@
 	<color name="cpp_text_secondary">#89ffffff</color>
 	<color name="cpp_widget_ripple">#40ffffff</color>
 
-	<color name="cpp_wizard_disabled_text">#88ffffff</color>
+	<color name="cpp_wizard_disabled_text">#66ffffff</color>
 </resources>
