@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2013 serso aka se.solovyev
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,7 +20,7 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<selector xmlns:a="http://schemas.android.com/apk/res/android">
-	<item a:state_pressed="true" a:drawable="@drawable/metro_button_pressed"/>
-	<item a:drawable="@drawable/metro_material_button_shape"/>
-</selector>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+	<solid android:color="@color/cpp_wizard_button_normal"/>
+	<corners android:radius="1dp"/>
+</shape>

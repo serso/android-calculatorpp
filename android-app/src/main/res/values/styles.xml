@@ -191,4 +191,10 @@
 		<item name="android:paddingRight">10dp</item>
 		<item name="android:gravity">center</item>
 	</style>
+
+	<style name="MaterialButton.Wizard" parent="MaterialButton">
+		<item name="android:textColor">@color/cpp_text</item>
+		<item name="materialColor">@color/cpp_wizard_button_selector</item>
+		<item name="android:textAppearance">@android:style/TextAppearance.Medium</item>
+	</style>
 </resources>

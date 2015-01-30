@@ -39,8 +39,8 @@
 		a:textStyle="bold"
 		a:text="@string/cpp_wizard_dragbutton_action_center"
 		style="@style/WizardLabel"
-		a:minLines="2"
-		a:maxLines="2"/>
+		a:minLines="3"
+		a:maxLines="3"/>
 
 	<org.solovyev.android.view.drag.DirectionDragButton
 		a:layout_margin="0dp"
@@ -51,7 +51,7 @@
 		a:layout_weight="0"
 		a:layout_gravity="center"
 		a:id="@+id/wizard_dragbutton"
-		a:background="@drawable/metro_material_button"
+		a:background="@drawable/cpp_wizard_button_selector"
 		a:text="9"
 		c:textDown="^2"
 		c:textUp="%"

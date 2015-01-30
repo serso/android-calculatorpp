@@ -21,6 +21,6 @@
   -->
 
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-	<solid android:color="#5a595b"/>
+	<solid android:color="@color/cpp_wizard_button_pressed"/>
 	<corners android:radius="1dp"/>
 </shape>
