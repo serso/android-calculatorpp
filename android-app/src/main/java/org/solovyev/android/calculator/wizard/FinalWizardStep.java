@@ -3,17 +3,14 @@ package org.solovyev.android.calculator.wizard;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.preferences.PurchaseDialogActivity;
 
 import static android.content.Intent.ACTION_VIEW;
 
-public class FinalWizardStep extends Fragment {
+public class FinalWizardStep extends WizardFragment {
 
 	private static final String GITHUB_URL = "https://github.com/serso/android-calculatorpp";
 	private static final String CROWDIN_URL = "http://crowdin.net/project/calculatorpp";
@@ -23,8 +20,8 @@ public class FinalWizardStep extends Fragment {
 	private Button contributeButton;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.cpp_wizard_step_final, null);
+	protected int getViewResId() {
+		return R.layout.cpp_wizard_step_final;
 	}
 
 	@Override

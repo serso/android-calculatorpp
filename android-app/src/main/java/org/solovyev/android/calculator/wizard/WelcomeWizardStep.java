@@ -38,8 +38,6 @@ public final class WelcomeWizardStep extends WizardFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		final View view = super.onCreateView(inflater, container, savedInstanceState);
-		setupNextButton(R.string.wizard_start);
-		setupPrevButton(R.string.wizard_skip);
 		prevButton.setTextColor(getResources().getColor(R.color.cpp_wizard_disabled_text));
 		return view;
 	}

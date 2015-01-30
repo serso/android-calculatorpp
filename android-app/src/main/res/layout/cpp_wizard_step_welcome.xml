@@ -27,7 +27,7 @@
 	a:layout_height="match_parent">
 
 	<TextView
-		style="@style/WizardLabel"
+		style="@style/WizardLabel.Last"
 		a:drawableTop="@drawable/logo_wizard"
 		a:text="@string/c_first_start_text" />
 </FrameLayout>

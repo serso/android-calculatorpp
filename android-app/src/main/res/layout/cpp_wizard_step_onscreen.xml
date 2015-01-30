@@ -40,6 +40,6 @@
 		a:layout_height="wrap_content"
 		a:layout_width="wrap_content"
 		a:text="@string/cpp_wizard_onscreen_checkbox"
-		style="@style/WizardLabel" />
+		style="@style/WizardLabel.Last" />
 
 </LinearLayout>

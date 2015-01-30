@@ -76,14 +76,6 @@ public class DragButtonWizardStep extends WizardFragment {
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		final View view = super.onCreateView(inflater, container, savedInstanceState);
-		setupNextButton(R.string.acl_wizard_next);
-		setupPrevButton(R.string.acl_wizard_back);
-		return view;
-	}
-
-	@Override
 	protected int getViewResId() {
 		return R.layout.cpp_wizard_step_drag_button;
 	}

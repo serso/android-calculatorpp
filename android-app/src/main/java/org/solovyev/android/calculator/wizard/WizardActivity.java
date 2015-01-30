@@ -158,6 +158,14 @@ public class WizardActivity extends BaseActivity implements WizardsAware {
 		}
 	}
 
+	public WizardFlow getFlow() {
+		return wizardUi.getFlow();
+	}
+
+	public Wizard getWizard() {
+		return wizardUi.getWizard();
+	}
+
 	@Override
 	protected void onDestroy() {
 		dismissDialog();
