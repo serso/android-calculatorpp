@@ -45,6 +45,6 @@
 		a:id="@+id/wizard_mode_description"
 		a:layout_width="wrap_content"
 		a:layout_height="wrap_content"
-		style="@style/WizardLabel"/>
+		style="@style/WizardLabel.Last"/>
 
 </LinearLayout>
