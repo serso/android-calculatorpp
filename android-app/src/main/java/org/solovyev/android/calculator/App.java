@@ -24,8 +24,10 @@ package org.solovyev.android.calculator;
 
 import android.app.Application;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.preference.PreferenceManager;
 import org.solovyev.android.UiThreadExecutor;
+import org.solovyev.android.Views;
 import org.solovyev.android.calculator.ga.Ga;
 import org.solovyev.android.checkout.*;
 import org.solovyev.common.listeners.JEvent;
@@ -213,5 +215,9 @@ public final class App {
 	@Nonnull
 	public static Products getProducts() {
 		return products;
+	}
+
+	public static boolean isLargeScreen() {
+		return Views.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_LARGE, App.getApplication().getResources().getConfiguration());
 	}
 }

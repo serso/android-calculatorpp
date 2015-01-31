@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import com.viewpagerindicator.PageIndicator;
 import org.solovyev.android.calculator.BaseActivity;
@@ -25,7 +24,7 @@ public class WizardActivity extends BaseActivity implements WizardsAware {
 	private ViewPager pager;
 
 	@Nonnull
-	private PagerAdapter pagerAdapter;
+	private WizardPagerAdapter pagerAdapter;
 
 	@Nonnull
 	private Wizards wizards = CalculatorApplication.getInstance().getWizards();
@@ -147,6 +146,8 @@ public class WizardActivity extends BaseActivity implements WizardsAware {
 	public void goNext() {
 		final int position = pager.getCurrentItem();
 		if (position < pagerAdapter.getCount() - 1) {
+			final WizardFragment fragment = (WizardFragment) pagerAdapter.getItem(position);
+			fragment.onNext();
 			pager.setCurrentItem(position + 1, true);
 		}
 	}
@@ -154,6 +155,8 @@ public class WizardActivity extends BaseActivity implements WizardsAware {
 	public void goPrev() {
 		final int position = pager.getCurrentItem();
 		if (position > 0) {
+			final WizardFragment fragment = (WizardFragment) pagerAdapter.getItem(position);
+			fragment.onPrev();
 			pager.setCurrentItem(position - 1, true);
 		}
 	}

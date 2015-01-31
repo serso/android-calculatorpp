@@ -23,53 +23,29 @@
   -->
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-			  a:layout_width="match_parent"
-			  a:layout_height="match_parent"
-			  a:orientation="vertical">
+	a:layout_width="match_parent"
+	a:layout_height="match_parent"
+	a:orientation="vertical"
+	a:gravity="center">
 
-	<RadioGroup
-			a:orientation="horizontal"
-			a:layout_width="match_parent"
-			a:layout_height="wrap_content"
-			a:gravity="center_vertical|top">
+	<TextView
+		a:layout_width="wrap_content"
+		a:layout_height="wrap_content"
+		a:textAppearance="@android:style/TextAppearance.Large"
+		style="@style/WizardLabel"
+		a:text="Choose layout" />
 
-		<RadioButton
-				a:layout_width="0dp"
-				a:id="@+id/wizard_optimized_radiobutton"
-				a:layout_weight="1"
-				a:text="@string/cpp_wizard_layout_optimized"
-				a:layout_height="wrap_content"/>
+	<Spinner
+		a:id="@+id/wizard_layout_spinner"
+		a:layout_width="wrap_content"
+		a:layout_height="wrap_content"
+		style="@style/WizardLabel" />
 
-		<RadioButton
-				a:layout_width="0dp"
-				a:id="@+id/wizard_big_buttons_radiobutton"
-				a:layout_weight="1"
-				a:text="@string/cpp_wizard_layout_big_buttons"
-				a:layout_height="wrap_content"/>
-
-	</RadioGroup>
-
-	<LinearLayout
-			a:layout_width="match_parent"
-			a:layout_height="wrap_content"
-			a:orientation="horizontal">
-
-		<ImageView
-				a:layout_width="0dp"
-				a:layout_weight="1"
-				a:scaleType="centerInside"
-				a:layout_height="match_parent"
-				a:padding="10dp"
-				a:src="@drawable/tablet_optimized"/>
-
-		<ImageView
-				a:layout_width="0dp"
-				a:layout_weight="1"
-				a:scaleType="centerInside"
-				a:layout_height="match_parent"
-				a:padding="10dp"
-				a:src="@drawable/tablet_big_buttons"/>
-
-	</LinearLayout>
+	<ImageView
+		a:id="@+id/wizard_layout_image"
+		a:layout_width="wrap_content"
+		a:layout_height="wrap_content"
+		style="@style/WizardLabel.Last"
+		/>
 
 </LinearLayout>

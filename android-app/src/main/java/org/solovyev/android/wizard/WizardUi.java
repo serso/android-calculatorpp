@@ -3,7 +3,6 @@ package org.solovyev.android.wizard;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 
@@ -75,27 +74,9 @@ public class WizardUi<A extends FragmentActivity> {
 		activity.finish();
 	}
 
-	protected final boolean tryGoPrev() {
-		if (step == null) {
-			return true;
-		} else {
-			final Fragment fragment = getFragmentManager().findFragmentByTag(step.getFragmentTag());
-			return fragment == null || step.onPrev(fragment);
-		}
-	}
-
 	@Nonnull
 	protected final FragmentManager getFragmentManager() {
 		return activity.getSupportFragmentManager();
-	}
-
-	protected final boolean tryGoNext() {
-		if (step == null) {
-			return true;
-		} else {
-			final Fragment fragment = getFragmentManager().findFragmentByTag(step.getFragmentTag());
-			return fragment == null || step.onNext(fragment);
-		}
 	}
 
 	public void onSaveInstanceState(@Nonnull Bundle out) {

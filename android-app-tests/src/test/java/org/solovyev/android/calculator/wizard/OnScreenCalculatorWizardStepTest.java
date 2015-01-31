@@ -78,13 +78,13 @@ public class OnScreenCalculatorWizardStepTest {
 
 	@Test
 	public void testShouldRestoreStateOnRestart() throws Exception {
-		fragment.getOnscreenCalculatorCheckbox().setChecked(true);
+		fragment.getCheckbox().setChecked(true);
 		controller.restart();
-		assertTrue(fragment.getOnscreenCalculatorCheckbox().isChecked());
+		assertTrue(fragment.getCheckbox().isChecked());
 
-		fragment.getOnscreenCalculatorCheckbox().setChecked(false);
+		fragment.getCheckbox().setChecked(false);
 		controller.restart();
-		assertFalse(fragment.getOnscreenCalculatorCheckbox().isChecked());
+		assertFalse(fragment.getCheckbox().isChecked());
 	}
 
 	@Test

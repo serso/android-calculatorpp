@@ -22,21 +22,13 @@
 
 package org.solovyev.android.calculator.wizard;
 
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import org.solovyev.android.calculator.App;
-import org.solovyev.android.Views;
-import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.R;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import static org.solovyev.android.calculator.CalculatorApplication.getPreferences;
-import static org.solovyev.android.calculator.wizard.ChooseLayoutWizardStep.LAYOUT;
-import static org.solovyev.android.calculator.wizard.ChooseModeWizardStep.MODE;
-import static org.solovyev.android.calculator.wizard.OnScreenCalculatorWizardStep.ONSCREEN_CALCULATOR_ENABLED;
 
 /**
  * User: serso
@@ -49,70 +41,13 @@ enum CalculatorWizardStep implements org.solovyev.android.wizard.WizardStep {
 
 	choose_layout(ChooseLayoutWizardStep.class, R.string.cpp_wizard_layout_title) {
 		@Override
-		public boolean onNext(@Nonnull Fragment f) {
-			final ChooseLayoutWizardStep fragment = (ChooseLayoutWizardStep) f;
-
-			final CalculatorLayout layout = fragment.getSelectedLayout();
-			layout.apply(getPreferences());
-
-			return true;
-		}
-
-		@Nullable
-		@Override
-		public Bundle getFragmentArgs() {
-			final Bundle bundle = new Bundle();
-			bundle.putSerializable(LAYOUT, CalculatorLayout.fromGuiLayout(Preferences.Gui.layout.getPreference(getPreferences())));
-			return bundle;
-		}
-
-		@Override
 		public boolean isVisible() {
-			return Views.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_LARGE, App.getApplication().getResources().getConfiguration());
+			return App.isLargeScreen();
 		}
 	},
-
-	choose_mode(ChooseModeWizardStep.class, R.string.cpp_wizard_mode_title) {
-		@Override
-		public boolean onNext(@Nonnull Fragment f) {
-			final ChooseModeWizardStep fragment = (ChooseModeWizardStep) f;
-
-			final CalculatorMode mode = fragment.getSelectedMode();
-			mode.apply(getPreferences());
-
-			return true;
-		}
-
-		@Nullable
-		@Override
-		public Bundle getFragmentArgs() {
-			final Bundle bundle = new Bundle();
-			bundle.putSerializable(MODE, CalculatorMode.fromGuiLayout(Preferences.Gui.layout.getPreference(getPreferences())));
-			return bundle;
-		}
-	},
-
-	on_screen_calculator(OnScreenCalculatorWizardStep.class, R.string.cpp_wizard_onscreen_calculator_title) {
-		@Override
-		public boolean onNext(@Nonnull Fragment f) {
-			final OnScreenCalculatorWizardStep fragment = (OnScreenCalculatorWizardStep) f;
-
-			Preferences.OnscreenCalculator.showAppIcon.putPreference(getPreferences(), fragment.isOnscreenCalculatorEnabled());
-
-			return true;
-		}
-
-		@Nullable
-		@Override
-		public Bundle getFragmentArgs() {
-			final Bundle bundle = new Bundle();
-			bundle.putSerializable(ONSCREEN_CALCULATOR_ENABLED, Preferences.OnscreenCalculator.showAppIcon.getPreference(getPreferences()));
-			return bundle;
-		}
-	},
-
+	choose_mode(ChooseModeWizardStep.class, R.string.cpp_wizard_mode_title),
+	on_screen_calculator(OnScreenCalculatorWizardStep.class, R.string.cpp_wizard_onscreen_calculator_title),
 	drag_button(DragButtonWizardStep.class, R.string.cpp_wizard_dragbutton_title),
-
 	last(FinalWizardStep.class, R.string.cpp_wizard_final_title);
 
 	@Nonnull
