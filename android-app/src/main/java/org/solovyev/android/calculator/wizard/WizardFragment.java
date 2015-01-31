@@ -34,7 +34,7 @@ public abstract class WizardFragment extends Fragment implements View.OnClickLis
 	@Nonnull
 	private CalculatorWizardStep findStepByClassName() {
 		for (CalculatorWizardStep step : CalculatorWizardStep.values()) {
-			if(step.getFragmentClass().equals(getClass())) {
+			if (step.getFragmentClass().equals(getClass())) {
 				return step;
 			}
 		}
@@ -114,5 +114,20 @@ public abstract class WizardFragment extends Fragment implements View.OnClickLis
 
 	private WizardActivity getWizardActivity() {
 		return (WizardActivity) getActivity();
+	}
+
+	public WizardStep getStep() {
+		if (step == null) {
+			step = findStepByClassName();
+		}
+		return step;
+	}
+
+	public void onNext() {
+		getStep().onNext(this);
+	}
+
+	public void onPrev() {
+		getStep().onPrev(this);
 	}
 }

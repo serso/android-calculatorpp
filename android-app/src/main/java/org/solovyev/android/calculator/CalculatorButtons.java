@@ -92,8 +92,7 @@ public final class CalculatorButtons {
 										  @Nonnull Activity activity) {
 		preferences = preferences == null ? PreferenceManager.getDefaultSharedPreferences(activity) : preferences;
 
-		final boolean large = Views.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_LARGE, activity.getResources().getConfiguration()) &&
-				Preferences.Gui.getLayout(preferences).isOptimized();
+		final boolean large = App.isLargeScreen() && Preferences.Gui.getLayout(preferences).isOptimized();
 
 		if (!large) {
 			if (Views.getScreenOrientation(activity) == Configuration.ORIENTATION_PORTRAIT

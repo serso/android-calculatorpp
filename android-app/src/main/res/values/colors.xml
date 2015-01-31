@@ -33,7 +33,7 @@
 	<color name="cpp_wizard_button_normal">#424242</color>
 	<color name="cpp_wizard_button_disabled">#616161</color>
 	<color name="cpp_wizard_button_pressed">#757575</color>
-	<color name="cpp_pane_background">#ff1f1f1f</color>
+	<color name="cpp_pane_background">#212121</color>
 	<color name="cpp_metro_button_dark">#ff000000</color>
 	<color name="cpp_metro_button">#212121</color>
 	<color name="cpp_metro_button_light">#393939</color>

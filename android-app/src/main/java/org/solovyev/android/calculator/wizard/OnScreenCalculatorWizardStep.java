@@ -25,48 +25,18 @@ package org.solovyev.android.calculator.wizard;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.R;
 
 import javax.annotation.Nullable;
 
-public class OnScreenCalculatorWizardStep extends WizardFragment {
+import static org.solovyev.android.calculator.CalculatorApplication.getPreferences;
 
-	/*
-	**********************************************************************
-	*
-	*                           CONSTANTS
-	*
-	**********************************************************************
-	*/
-
-	static final String ONSCREEN_CALCULATOR_ENABLED = "onscreen_calculator_enabled";
-
-	/*
-	**********************************************************************
-	*
-	*                           FIELDS
-	*
-	**********************************************************************
-	*/
+public class OnScreenCalculatorWizardStep extends WizardFragment implements CompoundButton.OnCheckedChangeListener {
 
 	@Nullable
-	private CheckBox onscreenCalculatorCheckbox;
-
-	private Boolean onscreenCalculatorEnabled;
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		if (savedInstanceState != null && savedInstanceState.containsKey(ONSCREEN_CALCULATOR_ENABLED)) {
-			onscreenCalculatorEnabled = savedInstanceState.getBoolean(ONSCREEN_CALCULATOR_ENABLED);
-		}
-
-		if (onscreenCalculatorEnabled == null) {
-			onscreenCalculatorEnabled = getArguments().getBoolean(ONSCREEN_CALCULATOR_ENABLED, Preferences.OnscreenCalculator.showAppIcon.getDefaultValue());
-		}
-	}
+	private CheckBox checkbox;
 
 	@Override
 	protected int getViewResId() {
@@ -77,31 +47,20 @@ public class OnScreenCalculatorWizardStep extends WizardFragment {
 	public void onViewCreated(View root, Bundle savedInstanceState) {
 		super.onViewCreated(root, savedInstanceState);
 
-		onscreenCalculatorCheckbox = (CheckBox) root.findViewById(R.id.wizard_onscreen_app_enabled_checkbox);
-		onscreenCalculatorCheckbox.setChecked(onscreenCalculatorEnabled);
-	}
-
-	public Boolean isOnscreenCalculatorEnabled() {
-		boolean enabled = Preferences.OnscreenCalculator.showAppIcon.getDefaultValue();
-
-		if (onscreenCalculatorCheckbox != null) {
-			enabled = onscreenCalculatorCheckbox.isChecked();
-		}
-
-		return enabled;
-	}
-
-
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-
-		outState.putBoolean(ONSCREEN_CALCULATOR_ENABLED, onscreenCalculatorEnabled);
+		final Boolean enabled = Preferences.OnscreenCalculator.showAppIcon.getPreference(getPreferences());
+		checkbox = (CheckBox) root.findViewById(R.id.wizard_onscreen_app_enabled_checkbox);
+		checkbox.setChecked(enabled);
+		checkbox.setOnCheckedChangeListener(this);
 	}
 
 	@Nullable
-	CheckBox getOnscreenCalculatorCheckbox() {
-		return onscreenCalculatorCheckbox;
+	CheckBox getCheckbox() {
+		return checkbox;
+	}
+
+	@Override
+	public void onCheckedChanged(CompoundButton buttonView, boolean checked) {
+		Preferences.OnscreenCalculator.showAppIcon.putPreference(getPreferences(), checked);
 	}
 }
 

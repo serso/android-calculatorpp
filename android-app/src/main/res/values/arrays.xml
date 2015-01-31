@@ -138,4 +138,9 @@
 		<item>@string/cpp_wizard_mode_simple</item>
 		<item>@string/cpp_wizard_mode_engineer</item>
 	</string-array>
+
+	<string-array name="cpp_layouts">
+		<item>@string/cpp_wizard_layout_big_buttons</item>
+		<item>@string/cpp_wizard_layout_optimized</item>
+	</string-array>
 </resources>

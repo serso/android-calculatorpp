@@ -59,15 +59,17 @@ public class VarEditDialogFragment extends DialogFragment implements CalculatorE
 	private final static String greekAlphabet = "αβγδεζηθικλμνξοπρστυφχψω";
 	private final static List<Character> acceptableChars = Arrays.asList(Strings.toObjects(("1234567890abcdefghijklmnopqrstuvwxyzйцукенгшщзхъфывапролджэячсмитьбюё_" + greekAlphabet).toCharArray()));
 
-	@Nonnull
-	private final Input input;
+	private Input input;
 
 	public VarEditDialogFragment() {
-		this(Input.newInstance());
+		input = Input.newInstance();
 	}
 
-	public VarEditDialogFragment(@Nonnull Input input) {
-		this.input = input;
+	@Nonnull
+	public static VarEditDialogFragment create(@Nonnull Input input) {
+		final VarEditDialogFragment fragment = new VarEditDialogFragment();
+		fragment.input = input;
+		return fragment;
 	}
 
 	@Override
@@ -255,7 +257,7 @@ public class VarEditDialogFragment extends DialogFragment implements CalculatorE
 	*/
 
 	public static void showDialog(@Nonnull Input input, @Nonnull FragmentManager fm) {
-		AndroidSherlockUtils.showDialog(new VarEditDialogFragment(input), "constant-editor", fm);
+		AndroidSherlockUtils.showDialog(create(input), "constant-editor", fm);
 	}
 
 	public static class Input {

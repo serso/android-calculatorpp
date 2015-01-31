@@ -23,106 +23,66 @@
 package org.solovyev.android.calculator.wizard;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.RadioButton;
-
+import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.Spinner;
+import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.R;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
-import static org.solovyev.android.calculator.wizard.CalculatorLayout.*;
+import static org.solovyev.android.calculator.CalculatorApplication.getPreferences;
+import static org.solovyev.android.calculator.wizard.CalculatorLayout.big_buttons;
+import static org.solovyev.android.calculator.wizard.CalculatorLayout.optimized;
 
 /**
  * User: serso
  * Date: 6/19/13
  * Time: 12:33 AM
  */
-public class ChooseLayoutWizardStep extends Fragment {
-
-	/*
-	**********************************************************************
-	*
-	*                           CONSTANTS
-	*
-	**********************************************************************
-	*/
-
-	static final String LAYOUT = "layout";
-
-	/*
-	**********************************************************************
-	*
-	*                           FIELDS
-	*
-	**********************************************************************
-	*/
-
-	@Nullable
-	private RadioButton optimizedRadioButton;
-
-	@Nullable
-	private RadioButton bigButtonsRadioButton;
-
-	private CalculatorLayout layout;
+public class ChooseLayoutWizardStep extends WizardFragment implements AdapterView.OnItemSelectedListener {
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		if (savedInstanceState != null) {
-			layout = (CalculatorLayout) savedInstanceState.getSerializable(LAYOUT);
-		}
-
-		if (layout == null) {
-			layout = (CalculatorLayout) getArguments().getSerializable(LAYOUT);
-		}
+	protected int getViewResId() {
+		return R.layout.cpp_wizard_step_choose_layout;
 	}
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.cpp_wizard_step_choose_layout, null);
-	}
+	private ImageView image;
 
 	@Override
 	public void onViewCreated(View root, Bundle savedInstanceState) {
 		super.onViewCreated(root, savedInstanceState);
 
-		optimizedRadioButton = (RadioButton) root.findViewById(R.id.wizard_optimized_radiobutton);
-		bigButtonsRadioButton = (RadioButton) root.findViewById(R.id.wizard_big_buttons_radiobutton);
+		final CalculatorLayout layout = CalculatorLayout.fromGuiLayout(Preferences.Gui.layout.getPreference(getPreferences()));
 
-		switch (layout) {
-			case big_buttons:
-				bigButtonsRadioButton.setChecked(true);
-				optimizedRadioButton.setChecked(false);
-				break;
-			case optimized:
-				bigButtonsRadioButton.setChecked(false);
-				optimizedRadioButton.setChecked(true);
-				break;
-		}
+		image = (ImageView) root.findViewById(R.id.wizard_layout_image);
+		final Spinner spinner = (Spinner) root.findViewById(R.id.wizard_layout_spinner);
+		spinner.setAdapter(new WizardArrayAdapter(getActivity(), R.array.cpp_layouts));
+		spinner.setSelection(layout == big_buttons ? 0 : 1);
+		spinner.setOnItemSelectedListener(this);
+
+		updateImage(layout);
 	}
 
-	@Nonnull
-	CalculatorLayout getSelectedLayout() {
-		CalculatorLayout layout = getDefaultLayout();
-
-		if (bigButtonsRadioButton != null && bigButtonsRadioButton.isChecked()) {
-			layout = big_buttons;
-		} else if (optimizedRadioButton != null && optimizedRadioButton.isChecked()) {
-			layout = optimized;
-		}
-
-		return layout;
+	private void updateImage(@Nonnull CalculatorLayout layout) {
+		image.setImageResource(layout == big_buttons ? R.drawable.layout_big_buttons : R.drawable.layout_optimized);
 	}
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
+	}
 
-		outState.putSerializable(LAYOUT, layout);
+	@Override
+	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+		final CalculatorLayout layout = position == 0 ? big_buttons : optimized;
+		layout.apply(getPreferences());
+		updateImage(layout);
+	}
+
+	@Override
+	public void onNothingSelected(AdapterView<?> parent) {
+
 	}
 }
