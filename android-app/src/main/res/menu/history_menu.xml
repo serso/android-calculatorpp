@@ -22,18 +22,19 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<menu xmlns:a="http://schemas.android.com/apk/res/android">
+<menu xmlns:a="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto">
 
 	<item
-			a:id="@+id/menu_history_fullscreen"
-			a:title="@string/cpp_fullscreen"
-			a:icon="@drawable/ab_expand"
-			a:showAsAction="always"/>
+		a:id="@+id/menu_history_fullscreen"
+		a:title="@string/cpp_fullscreen"
+		a:icon="@drawable/ab_expand"
+		app:showAsAction="ifRoom" />
 
 	<item
-			a:id="@+id/menu_history_toggle_datetime"
-			a:icon="@drawable/ic_access_time_grey600_48dp"
-			a:title="@string/c_toggle_datetime"
-			a:showAsAction="always"/>
+		a:id="@+id/menu_history_toggle_datetime"
+		a:icon="@drawable/ic_access_time_grey600_48dp"
+		a:title="@string/c_toggle_datetime"
+		app:showAsAction="ifRoom" />
 
 </menu>
