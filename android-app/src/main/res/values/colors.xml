@@ -28,8 +28,9 @@
 	<color name="cpp_button_text_operator">#ffffff99</color>
 	<color name="cpp_button_text_ce">#ffffffff</color>
 	<color name="cpp_selected_angle_unit_text">#ffffff99</color>
-	<color name="cpp_main_bg">#ff000000</color>
+	<color name="cpp_main_bg">#101010</color>
 	<color name="cpp_wizard_primary">#FAFAFA</color>
+	<color name="cpp_wizard_secondary">#9E9E9E</color>
 	<color name="cpp_wizard_bg">#212121</color>
 	<color name="cpp_wizard_overscroll">#FAFAFA</color>
 	<color name="cpp_wizard_button_normal">#424242</color>

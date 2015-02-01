@@ -37,8 +37,14 @@
 		<item name="android:colorEdgeEffect">@color/cpp_wizard_overscroll</item>
 		<item name="colorAccent">@color/cpp_wizard_primary</item>
 		<item name="android:colorAccent">@color/cpp_wizard_primary</item>
-		<item name="android:textColorSecondary">@color/cpp_wizard_primary</item>
+		<item name="android:textColorSecondary">@color/cpp_wizard_secondary</item>
 		<item name="android:textColorPrimary">@color/cpp_wizard_primary</item>
+	</style>
+
+	<style name="Theme.Settings" parent="Theme.Settings.Base">
+		<item name="android:colorEdgeEffect">@color/cpp_wizard_overscroll</item>
+		<item name="colorAccent">@color/cpp_wizard_primary</item>
+		<item name="android:colorAccent">@color/cpp_wizard_primary</item>
 	</style>
 
 </resources>
