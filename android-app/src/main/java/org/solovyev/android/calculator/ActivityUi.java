@@ -94,13 +94,16 @@ public class ActivityUi extends BaseUi {
 		onCreate((Activity) activity);
 		final ActionBar actionBar = activity.getSupportActionBar();
 		actionBar.setDisplayUseLogoEnabled(false);
-		actionBar.setDisplayHomeAsUpEnabled(false);
+		final boolean homeAsUp = !(activity instanceof CalculatorActivity);
+		actionBar.setDisplayHomeAsUpEnabled(homeAsUp);
 		actionBar.setHomeButtonEnabled(false);
 		actionBar.setDisplayShowHomeEnabled(true);
 
 		toggleTitle(activity, true);
 
-		actionBar.setIcon(R.drawable.ab_icon);
+		if (!homeAsUp) {
+			actionBar.setIcon(R.drawable.ab_icon);
+		}
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 	}
 
