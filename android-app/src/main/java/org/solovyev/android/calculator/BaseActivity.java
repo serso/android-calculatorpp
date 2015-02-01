@@ -3,6 +3,7 @@ package org.solovyev.android.calculator;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.v7.app.ActionBarActivity;
+import android.view.MenuItem;
 
 import javax.annotation.Nonnull;
 
@@ -69,5 +70,15 @@ public class BaseActivity extends ActionBarActivity {
 	protected void onDestroy() {
 		super.onDestroy();
 		ui.onDestroy(this);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				finish();
+				return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 }
