@@ -10,6 +10,7 @@
 	<org.solovyev.android.material.MaterialButton
 		style="@style/MaterialButton.Wizard"
 		a:id="@+id/wizard_prev"
+		a:visibility="gone"
 		a:layout_width="0dp"
 		a:layout_height="wrap_content"
 		a:layout_weight="1" />
@@ -17,6 +18,7 @@
 	<org.solovyev.android.material.MaterialButton
 		style="@style/MaterialButton.Wizard"
 		a:id="@+id/wizard_next"
+		a:visibility="gone"
 		a:layout_width="0dp"
 		a:layout_height="wrap_content"
 		a:layout_weight="1" />

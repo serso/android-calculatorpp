@@ -32,4 +32,13 @@
 		<item name="android:colorPrimaryDark">@color/cpp_metro_button_dark</item>
 	</style>
 
+	<style name="Theme.Wizard" parent="@style/cpp_metro_blue_theme">
+		<item name="android:windowBackground">@color/cpp_wizard_bg</item>
+		<item name="android:colorEdgeEffect">@color/cpp_wizard_overscroll</item>
+		<item name="colorAccent">@color/cpp_wizard_primary</item>
+		<item name="android:colorAccent">@color/cpp_wizard_primary</item>
+		<item name="android:textColorSecondary">@color/cpp_wizard_primary</item>
+		<item name="android:textColorPrimary">@color/cpp_wizard_primary</item>
+	</style>
+
 </resources>

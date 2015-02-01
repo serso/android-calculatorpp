@@ -22,15 +22,18 @@
 
 package org.solovyev.android.calculator;
 
+import android.app.Activity;
 import android.content.SharedPreferences;
 import jscl.AngleUnit;
 import jscl.NumeralBase;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
+import org.solovyev.android.calculator.wizard.WizardActivity;
 import org.solovyev.android.prefs.*;
 import org.solovyev.android.view.VibratorContainer;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
@@ -123,6 +126,14 @@ public final class Preferences {
 
 			@Nonnull
 			public Integer getThemeId() {
+				return getThemeId(null);
+			}
+
+			@Nonnull
+			public Integer getThemeId(@Nullable Activity activity) {
+				if (activity instanceof WizardActivity) {
+					return R.style.Theme_Wizard;
+				}
 				return themeId;
 			}
 		}

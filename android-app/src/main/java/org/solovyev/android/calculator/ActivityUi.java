@@ -77,7 +77,7 @@ public class ActivityUi extends BaseUi {
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
 
 		theme = Preferences.Gui.getTheme(preferences);
-		activity.setTheme(theme.getThemeId());
+		activity.setTheme(theme.getThemeId(activity));
 
 		this.layout = Preferences.Gui.getLayout(preferences);
 

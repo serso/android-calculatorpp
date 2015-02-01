@@ -3,11 +3,13 @@ package org.solovyev.android.calculator.wizard;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import org.solovyev.android.calculator.R;
+import org.solovyev.android.wizard.Wizard;
 import org.solovyev.android.wizard.WizardFlow;
 import org.solovyev.android.wizard.WizardStep;
 
@@ -58,11 +60,13 @@ public abstract class WizardFragment extends Fragment implements View.OnClickLis
 			prevButton.setOnClickListener(this);
 		}
 
-		final WizardFlow flow = getWizardActivity().getFlow();
+		final Wizard wizard = getWizardActivity().getWizard();
+		final WizardFlow flow = wizard.getFlow();
 		final boolean canGoNext = flow.getNextStep(step) != null;
 		final boolean canGoPrev = flow.getPrevStep(step) != null;
+		final boolean firstTimeWizard = TextUtils.equals(wizard.getName(), CalculatorWizards.FIRST_TIME_WIZARD);
 		if (canGoNext) {
-			if (canGoPrev) {
+			if (canGoPrev || !firstTimeWizard) {
 				setupNextButton(R.string.acl_wizard_next);
 			} else {
 				setupNextButton(R.string.acl_wizard_start);
@@ -74,7 +78,9 @@ public abstract class WizardFragment extends Fragment implements View.OnClickLis
 		if (canGoPrev) {
 			setupPrevButton(R.string.acl_wizard_back);
 		} else {
-			setupPrevButton(R.string.wizard_skip);
+			if (firstTimeWizard) {
+				setupPrevButton(R.string.wizard_skip);
+			}
 		}
 
 		return view;
@@ -83,11 +89,13 @@ public abstract class WizardFragment extends Fragment implements View.OnClickLis
 	protected final void setupNextButton(int textResId) {
 		assert nextButton != null;
 		nextButton.setText(textResId);
+		nextButton.setVisibility(View.VISIBLE);
 	}
 
 	protected final void setupPrevButton(int textResId) {
 		assert prevButton != null;
 		prevButton.setText(textResId);
+		prevButton.setVisibility(View.VISIBLE);
 	}
 
 	@LayoutRes
