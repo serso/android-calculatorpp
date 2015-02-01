@@ -30,11 +30,6 @@ import org.solovyev.android.calculator.R;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-/**
- * User: serso
- * Date: 6/16/13
- * Time: 9:17 PM
- */
 enum CalculatorWizardStep implements org.solovyev.android.wizard.WizardStep {
 
 	welcome(WelcomeWizardStep.class, R.string.cpp_wizard_welcome_title, R.string.cpp_wizard_start),

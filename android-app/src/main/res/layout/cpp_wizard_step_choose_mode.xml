@@ -33,7 +33,7 @@
 		a:layout_height="wrap_content"
 		a:textAppearance="@android:style/TextAppearance.Large"
 		style="@style/WizardLabel"
-		a:text="Choose mode"/>
+		a:text="@string/cpp_wizard_mode_title"/>
 
 	<Spinner
 		a:id="@+id/wizard_mode_spinner"
