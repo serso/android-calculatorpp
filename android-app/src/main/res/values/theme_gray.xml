@@ -85,6 +85,7 @@
 	<style name="cpp_default_fragment_title_style">
 		<item name="android:textColor">@android:color/white</item>
 		<item name="android:textSize">@dimen/cpp_fragment_title_text_size</item>
+		<item name="android:paddingLeft">@dimen/cpp_pane_margin</item>
 	</style>
 
 	<style name="cpp_default_button_style" parent="cpp_button_style">
