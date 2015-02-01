@@ -89,7 +89,7 @@
 		</activity>
 
 		<!-- settings must use action bar icon-->
-		<activity android:icon="@drawable/ab_icon" android:label="@string/c_settings" android:name=".plot.PlotPreferenceActivity"/>
+		<activity android:icon="@drawable/ab_icon" android:label="@string/c_settings" android:name=".plot.PlotPreferenceActivity" android:theme="@style/Theme.Settings"/>
 
 		<!-- ONSCREEN CONFIG -->
 
