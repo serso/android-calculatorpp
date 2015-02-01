@@ -26,7 +26,11 @@
 	<style name="Theme.Dialog" parent="Theme.Base.Dialog"></style>
 
 	<style name="Theme.Base" parent="@style/Theme.AppCompat"></style>
-	<style name="Theme.Base.Dialog" parent="@style/Theme.AppCompat.Dialog"></style>
+	<style name="Theme.Base.Dialog" parent="@style/Theme.AppCompat.Dialog">
+		<item name="android:windowNoTitle">false</item>
+		<item name="android:windowTitleBackgroundStyle">@android:color/transparent</item>
+		<item name="windowActionBar">false</item>
+	</style>
 
 	<style name="Theme.Wizard.Purchase" parent="cpp_metro_blue_theme">
 		<item name="android:windowNoTitle">true</item>
@@ -37,11 +41,15 @@
 		<item name="android:windowBackground">@color/cpp_wizard_bg</item>
 	</style>
 
-	<style name="Theme.Settings" parent="@style/cpp_metro_blue_theme">
+	<style name="Theme.Settings.Base" parent="@style/cpp_metro_blue_theme">
 		<item name="android:windowNoTitle">true</item>
 		<item name="android:windowActionBar">false</item>
-
 		<item name="toolbarStyle">@style/Widget.Toolbar</item>
+		<item name="android:windowBackground">@color/cpp_main_bg</item>
+		<item name="android:textColorSecondary">@color/cpp_wizard_secondary</item>
+		<item name="android:textColorPrimary">@color/cpp_wizard_primary</item>
+	</style>
+	<style name="Theme.Settings" parent="Theme.Settings.Base">
 	</style>
 
 	<style name="Widget.Toolbar" parent="@style/Widget.AppCompat.Toolbar">

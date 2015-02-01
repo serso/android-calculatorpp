@@ -30,15 +30,13 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.view.ViewBuilder;
 import org.solovyev.android.view.ViewFromLayoutBuilder;
 import org.solovyev.common.units.*;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.List;
 
@@ -167,7 +165,7 @@ public class UnitConverterViewBuilder implements ViewBuilder<View> {
 							 @Nonnull List<? extends UnitType<String>> unitTypes) {
 		final Spinner spinner = (Spinner) main.findViewById(spinnerId);
 
-		final ArrayAdapter<UnitType<String>> adapter = new ArrayAdapter<UnitType<String>>(context, android.R.layout.simple_spinner_item);
+		final ArrayAdapter<UnitType<String>> adapter = new ArrayAdapter<UnitType<String>>(context, R.layout.support_simple_spinner_dropdown_item);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		for (UnitType<String> fromUnitType : unitTypes) {
 			adapter.add(fromUnitType);

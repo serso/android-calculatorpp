@@ -5,11 +5,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import org.solovyev.android.calculator.R;
 
 final class WizardArrayAdapter extends ArrayAdapter<String> {
 
 	public WizardArrayAdapter(Context context, int array) {
-		super(context, android.R.layout.simple_spinner_item, context.getResources().getStringArray(array));
+		super(context, R.layout.support_simple_spinner_dropdown_item, context.getResources().getStringArray(array));
 		setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 	}
 
