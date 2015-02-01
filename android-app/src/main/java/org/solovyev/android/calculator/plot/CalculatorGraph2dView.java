@@ -183,7 +183,7 @@ public class CalculatorGraph2dView extends View implements GraphView {
 	@Nonnull
 	public Bitmap captureScreenshot() {
 		final Bitmap result = Bitmap.createBitmap(dimensions.getVWidthPxs(), dimensions.getVHeightPxs(), Bitmap.Config.RGB_565);
-		onDraw(new Canvas(result));
+		draw(new Canvas(result));
 		return result;
 	}
 
