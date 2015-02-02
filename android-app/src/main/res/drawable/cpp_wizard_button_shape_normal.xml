@@ -20,7 +20,7 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-	<solid android:color="@color/cpp_wizard_button_normal"/>
-	<corners android:radius="1dp"/>
+<shape xmlns:a="http://schemas.android.com/apk/res/android">
+	<solid a:color="@color/cpp_wizard_button_normal"/>
+	<corners a:radius="1dp"/>
 </shape>

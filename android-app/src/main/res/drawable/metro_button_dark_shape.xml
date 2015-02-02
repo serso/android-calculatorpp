@@ -20,7 +20,7 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-	<solid android:color="@color/cpp_metro_button"/>
-	<corners android:radius="1dp"/>
+<shape xmlns:a="http://schemas.android.com/apk/res/android">
+	<solid a:color="@color/cpp_metro_button"/>
+	<corners a:radius="1dp"/>
 </shape>
