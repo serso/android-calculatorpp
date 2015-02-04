@@ -20,13 +20,15 @@
  * Site:  http://se.solovyev.org
  */
 
-package org.solovyev.android.calculator;
+package org.solovyev.android.calculator.history;
 
+import android.util.Log;
 import android.view.MotionEvent;
-import org.solovyev.android.calculator.drag.DirectionDragButton;
 import org.solovyev.android.calculator.drag.DragButton;
 import org.solovyev.android.calculator.drag.DragDirection;
 import org.solovyev.android.calculator.drag.SimpleDragListener;
+import org.solovyev.common.history.HistoryAction;
+import org.solovyev.common.history.HistoryControl;
 import org.solovyev.common.math.Point2d;
 
 import javax.annotation.Nonnull;
@@ -34,26 +36,35 @@ import javax.annotation.Nonnull;
 /**
  * User: serso
  * Date: 9/16/11
- * Time: 11:45 PM
+ * Time: 11:36 PM
  */
-public class CursorDragProcessor implements SimpleDragListener.DragProcessor {
+public class HistoryDragProcessor<T> implements SimpleDragListener.DragProcessor {
 
-	public CursorDragProcessor() {
+	@Nonnull
+	private final HistoryControl<T> historyControl;
+
+	public HistoryDragProcessor(@Nonnull HistoryControl<T> historyControl) {
+		this.historyControl = historyControl;
 	}
 
 	@Override
 	public boolean processDragEvent(@Nonnull DragDirection dragDirection, @Nonnull DragButton dragButton, @Nonnull Point2d startPoint2d, @Nonnull MotionEvent motionEvent) {
 		boolean result = false;
 
-		if (dragButton instanceof DirectionDragButton) {
-			String text = ((DirectionDragButton) dragButton).getText(dragDirection);
-			if ("◁◁".equals(text)) {
-				Locator.getInstance().getEditor().setCursorOnStart();
-				result = true;
-			} else if ("▷▷".equals(text)) {
-				Locator.getInstance().getEditor().setCursorOnEnd();
-				result = true;
-			}
+		Log.d(String.valueOf(dragButton.getId()), "History on drag event start: " + dragDirection);
+
+		final HistoryAction historyAction;
+		if (dragDirection == DragDirection.up) {
+			historyAction = HistoryAction.undo;
+		} else if (dragDirection == DragDirection.down) {
+			historyAction = HistoryAction.redo;
+		} else {
+			historyAction = null;
+		}
+
+		if (historyAction != null) {
+			result = true;
+			historyControl.doHistoryAction(historyAction);
 		}
 
 		return result;

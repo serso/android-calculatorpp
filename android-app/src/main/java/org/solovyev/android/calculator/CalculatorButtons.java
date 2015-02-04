@@ -37,13 +37,12 @@ import jscl.AngleUnit;
 import jscl.NumeralBase;
 
 import org.solovyev.android.Views;
-import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 import org.solovyev.android.calculator.view.AngleUnitsButton;
 import org.solovyev.android.calculator.view.NumeralBasesButton;
-import org.solovyev.android.view.drag.DragButton;
-import org.solovyev.android.view.drag.DragDirection;
-import org.solovyev.android.view.drag.SimpleOnDragListener;
+import org.solovyev.android.calculator.drag.DragButton;
+import org.solovyev.android.calculator.drag.DragDirection;
+import org.solovyev.android.calculator.drag.SimpleDragListener;
 import org.solovyev.common.math.Point2d;
 
 import javax.annotation.Nonnull;
@@ -118,7 +117,7 @@ public final class CalculatorButtons {
 	**********************************************************************
 	*/
 
-	static class RoundBracketsDragProcessor implements SimpleOnDragListener.DragProcessor {
+	static class RoundBracketsDragProcessor implements SimpleDragListener.DragProcessor {
 		@Override
 		public boolean processDragEvent(@Nonnull DragDirection dragDirection, @Nonnull DragButton dragButton, @Nonnull Point2d startPoint2d, @Nonnull MotionEvent motionEvent) {
 			final boolean result;
@@ -139,7 +138,7 @@ public final class CalculatorButtons {
 		return Locator.getInstance().getKeyboard();
 	}
 
-	static class VarsDragProcessor implements SimpleOnDragListener.DragProcessor {
+	static class VarsDragProcessor implements SimpleDragListener.DragProcessor {
 
 		@Nonnull
 		private Context context;
@@ -167,7 +166,7 @@ public final class CalculatorButtons {
 		}
 	}
 
-	static class AngleUnitsChanger implements SimpleOnDragListener.DragProcessor {
+	static class AngleUnitsChanger implements SimpleDragListener.DragProcessor {
 
 		@Nonnull
 		private final DigitButtonDragProcessor processor;
@@ -216,7 +215,7 @@ public final class CalculatorButtons {
 		}
 	}
 
-	static class NumeralBasesChanger implements SimpleOnDragListener.DragProcessor {
+	static class NumeralBasesChanger implements SimpleDragListener.DragProcessor {
 
 		@Nonnull
 		private final Context context;
@@ -257,7 +256,7 @@ public final class CalculatorButtons {
 		}
 	}
 
-	static class FunctionsDragProcessor implements SimpleOnDragListener.DragProcessor {
+	static class FunctionsDragProcessor implements SimpleDragListener.DragProcessor {
 
 		@Nonnull
 		private Context context;
