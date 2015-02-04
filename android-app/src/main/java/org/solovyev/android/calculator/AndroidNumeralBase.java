@@ -28,8 +28,8 @@ import jscl.NumeralBase;
 import javax.annotation.Nonnull;
 
 import org.solovyev.android.calculator.units.CalculatorNumeralBase;
-import org.solovyev.android.view.drag.DirectionDragButton;
-import org.solovyev.android.view.drag.DragDirection;
+import org.solovyev.android.calculator.drag.DirectionDragButton;
+import org.solovyev.android.calculator.drag.DragDirection;
 
 import java.util.ArrayList;
 import java.util.Arrays;
