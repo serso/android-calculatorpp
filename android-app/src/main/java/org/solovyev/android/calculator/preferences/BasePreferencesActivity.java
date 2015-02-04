@@ -1,6 +1,7 @@
 package org.solovyev.android.calculator.preferences;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.support.v7.widget.Toolbar;
@@ -22,7 +23,7 @@ import javax.annotation.Nonnull;
 
 public abstract class BasePreferencesActivity extends PreferenceActivity {
 
-	private static boolean SUPPORT_HEADERS = true;
+	private static boolean SUPPORT_HEADERS = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
 	private final ActivityCheckout checkout = Checkout.forActivity(this, App.getBilling(), App.getProducts());
 	private Inventory inventory;
 	private AdView adView;
