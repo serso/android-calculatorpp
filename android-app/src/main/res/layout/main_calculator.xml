@@ -46,7 +46,7 @@
 				a:layout_width="0dp"
 				a:layout_height="match_parent"/>
 
-		<LinearLayout
+		<FrameLayout
 				a:id="@+id/displayContainer"
 				a:layout_weight="4"
 				a:layout_width="0dp"
