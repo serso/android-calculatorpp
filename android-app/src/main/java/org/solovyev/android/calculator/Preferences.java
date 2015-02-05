@@ -101,27 +101,20 @@ public final class Preferences {
 
 		public static enum Theme {
 
-			default_theme(ThemeType.other, R.style.cpp_gray_theme),
-			violet_theme(ThemeType.other, R.style.cpp_violet_theme),
-			light_blue_theme(ThemeType.other, R.style.cpp_light_blue_theme),
-			metro_blue_theme(ThemeType.metro, R.style.cpp_metro_blue_theme),
-			metro_purple_theme(ThemeType.metro, R.style.cpp_metro_purple_theme),
-			metro_green_theme(ThemeType.metro, R.style.cpp_metro_green_theme);
-
-			@Nonnull
-			private final ThemeType themeType;
+			default_theme(R.style.cpp_gray_theme),
+			violet_theme(R.style.cpp_violet_theme),
+			light_blue_theme(R.style.cpp_light_blue_theme),
+			metro_blue_theme(R.style.cpp_metro_blue_theme),
+			metro_purple_theme(R.style.cpp_metro_purple_theme),
+			metro_green_theme(R.style.cpp_metro_green_theme),
+			material_theme(R.style.cpp_material_theme),
+			;
 
 			@Nonnull
 			private final Integer themeId;
 
-			Theme(@Nonnull ThemeType themeType, @Nonnull Integer themeId) {
-				this.themeType = themeType;
+			Theme(@Nonnull Integer themeId) {
 				this.themeId = themeId;
-			}
-
-			@Nonnull
-			public ThemeType getThemeType() {
-				return themeType;
 			}
 
 			@Nonnull
@@ -137,12 +130,6 @@ public final class Preferences {
 				return themeId;
 			}
 		}
-
-		public static enum ThemeType {
-			metro,
-			other
-		}
-
 		public static enum Layout {
 			main_calculator(R.layout.main_calculator, R.string.p_layout_calculator, true),
 			main_calculator_mobile(R.layout.main_calculator_mobile, R.string.p_layout_calculator_mobile, false),
