@@ -42,7 +42,7 @@
 		a:minLines="3"
 		a:maxLines="3"/>
 
-	<org.solovyev.android.view.drag.DirectionDragButton
+	<org.solovyev.android.calculator.drag.DirectionDragButton
 		a:layout_margin="0dp"
 		a:layout_height="wrap_content"
 		a:layout_width="wrap_content"

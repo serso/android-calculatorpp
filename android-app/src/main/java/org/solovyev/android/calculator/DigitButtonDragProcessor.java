@@ -23,10 +23,10 @@
 package org.solovyev.android.calculator;
 
 import android.view.MotionEvent;
-import org.solovyev.android.view.drag.DirectionDragButton;
-import org.solovyev.android.view.drag.DragButton;
-import org.solovyev.android.view.drag.DragDirection;
-import org.solovyev.android.view.drag.SimpleOnDragListener;
+import org.solovyev.android.calculator.drag.DirectionDragButton;
+import org.solovyev.android.calculator.drag.DragButton;
+import org.solovyev.android.calculator.drag.DragDirection;
+import org.solovyev.android.calculator.drag.SimpleDragListener;
 import org.solovyev.common.math.Point2d;
 
 import javax.annotation.Nonnull;
@@ -36,7 +36,7 @@ import javax.annotation.Nonnull;
  * Date: 9/16/11
  * Time: 11:48 PM
  */
-public class DigitButtonDragProcessor implements SimpleOnDragListener.DragProcessor {
+public class DigitButtonDragProcessor implements SimpleDragListener.DragProcessor {
 
 	@Nonnull
 	private CalculatorKeyboard calculatorKeyboard;
