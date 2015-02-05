@@ -47,7 +47,7 @@
 					style="?cpp_pane_style"
 					a:layout_weight="3"/>
 
-			<LinearLayout
+			<FrameLayout
 					a:id="@+id/displayContainer"
 					a:layout_height="0dp"
 					a:layout_width="match_parent"
