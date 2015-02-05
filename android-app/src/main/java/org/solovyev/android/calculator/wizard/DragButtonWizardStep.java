@@ -23,16 +23,14 @@
 package org.solovyev.android.calculator.wizard;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 import org.solovyev.android.calculator.R;
-import org.solovyev.android.view.drag.DirectionDragButton;
-import org.solovyev.android.view.drag.DragButton;
-import org.solovyev.android.view.drag.DragDirection;
-import org.solovyev.android.view.drag.SimpleOnDragListener;
+import org.solovyev.android.calculator.drag.DirectionDragButton;
+import org.solovyev.android.calculator.drag.DragButton;
+import org.solovyev.android.calculator.drag.DragDirection;
+import org.solovyev.android.calculator.drag.SimpleDragListener;
 import org.solovyev.common.math.Point2d;
 
 import javax.annotation.Nonnull;
@@ -86,7 +84,7 @@ public class DragButtonWizardStep extends WizardFragment {
 
 		dragButton = (DirectionDragButton) root.findViewById(R.id.wizard_dragbutton);
 		dragButton.setOnClickListener(new DragButtonOnClickListener());
-		dragButton.setOnDragListener(new SimpleOnDragListener(new DragButtonProcessor(), SimpleOnDragListener.getDefaultPreferences(getActivity())));
+		dragButton.setOnDragListener(new SimpleDragListener(new DragButtonProcessor(), SimpleDragListener.getDefaultPreferences(getActivity())));
 		actionTextView = (TextView) root.findViewById(R.id.wizard_dragbutton_action_textview);
 		descriptionTextView = (TextView) root.findViewById(R.id.wizard_dragbutton_description_textview);
 
@@ -151,7 +149,7 @@ public class DragButtonWizardStep extends WizardFragment {
 		setAction(action.getNextAction());
 	}
 
-	private class DragButtonProcessor implements SimpleOnDragListener.DragProcessor {
+	private class DragButtonProcessor implements SimpleDragListener.DragProcessor {
 		@Override
 		public boolean processDragEvent(@Nonnull DragDirection dragDirection,
 										@Nonnull DragButton dragButton,

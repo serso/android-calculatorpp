@@ -26,10 +26,10 @@ import android.view.MotionEvent;
 
 import javax.annotation.Nonnull;
 
-import org.solovyev.android.view.drag.DirectionDragButton;
-import org.solovyev.android.view.drag.DragButton;
-import org.solovyev.android.view.drag.DragDirection;
-import org.solovyev.android.view.drag.SimpleOnDragListener;
+import org.solovyev.android.calculator.drag.DirectionDragButton;
+import org.solovyev.android.calculator.drag.DragButton;
+import org.solovyev.android.calculator.drag.DragDirection;
+import org.solovyev.android.calculator.drag.SimpleDragListener;
 import org.solovyev.common.math.Point2d;
 
 /**
@@ -37,7 +37,7 @@ import org.solovyev.common.math.Point2d;
  * Date: 10/24/11
  * Time: 9:52 PM
  */
-public class EqualsDragProcessor implements SimpleOnDragListener.DragProcessor {
+public class EqualsDragProcessor implements SimpleDragListener.DragProcessor {
 
 	public EqualsDragProcessor() {
 	}

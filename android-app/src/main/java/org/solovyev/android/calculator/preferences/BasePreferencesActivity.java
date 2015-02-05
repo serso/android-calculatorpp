@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import org.solovyev.android.calculator.ActivityUi;
 import org.solovyev.android.calculator.AdView;
 import org.solovyev.android.calculator.App;
@@ -22,6 +23,7 @@ import javax.annotation.Nonnull;
 
 public abstract class BasePreferencesActivity extends PreferenceActivity {
 
+	private static boolean SUPPORT_HEADERS = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
 	private final ActivityCheckout checkout = Checkout.forActivity(this, App.getBilling(), App.getProducts());
 	private Inventory inventory;
 	private AdView adView;
@@ -66,29 +68,37 @@ public abstract class BasePreferencesActivity extends PreferenceActivity {
 	}
 
 	protected void onShowAd(boolean show) {
-		if(!supportsAds()) {
+		if (!supportsHeaders()) {
 			return;
 		}
+
+		final ListView listView = getListView();
 		if (show) {
 			if (adView != null) {
 				return;
 			}
 			adView = (AdView) LayoutInflater.from(this).inflate(R.layout.ad, null);
 			adView.show();
-			getListView().addHeaderView(adView);
+			try {
+				listView.addHeaderView(adView);
+			} catch (IllegalStateException e) {
+				// doesn't support header views
+				SUPPORT_HEADERS = false;
+				adView.hide();
+				adView = null;
+			}
 		} else {
 			if (adView == null) {
 				return;
 			}
-			getListView().removeHeaderView(adView);
+			listView.removeHeaderView(adView);
 			adView.hide();
 			adView = null;
 		}
 	}
 
-	private boolean supportsAds() {
-		// on Android 2.3 the headers in the list view are not supported
-		return Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
+	private boolean supportsHeaders() {
+		return SUPPORT_HEADERS;
 	}
 
 	@Override
