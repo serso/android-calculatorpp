@@ -7,8 +7,8 @@
 	<dimen name="cpp_widget_margin">6dp</dimen>
 	<dimen name="min_expanded_height_lock_screen">300dp</dimen>
 	<dimen name="cpp_text_size">20sp</dimen>
-	<dimen name="cpp_button_margin">0.5dp</dimen>
-	<dimen name="cpp_display_margin_land">2.5dp</dimen>
+	<dimen name="cpp_button_padding">1px</dimen>
+	<dimen name="cpp_button_corner">1dp</dimen>
 
 	<dimen name="cpp_fragment_text_size">15sp</dimen>
 	<dimen name="cpp_fragment_title_text_size">20sp</dimen>

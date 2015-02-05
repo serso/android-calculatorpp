@@ -22,10 +22,16 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<shape xmlns:a="http://schemas.android.com/apk/res/android">
-	<gradient
-			a:startColor="#000000"
+<inset xmlns:a="http://schemas.android.com/apk/res/android"
+	a:insetBottom="@dimen/cpp_button_padding"
+	a:insetLeft="@dimen/cpp_button_padding"
+	a:insetRight="@dimen/cpp_button_padding"
+	a:insetTop="@dimen/cpp_button_padding">
+	<shape>
+		<gradient
+			a:angle="90"
 			a:endColor="#333333"
-			a:angle="90"/>
-	<corners a:radius="0dp"/>
-</shape>
+			a:startColor="#000000" />
+		<corners a:radius="0dp" />
+	</shape>
+</inset>

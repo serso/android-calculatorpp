@@ -31,44 +31,43 @@
 			a:id="@+id/editorContainer"
 			a:layout_weight="2"
 			a:layout_width="match_parent"
-			a:layout_height="0dp"/>
+			a:layout_height="0dp"
+			a:orientation="horizontal"/>
 
 	<LinearLayout
 			a:layout_weight="1"
 			a:layout_width="match_parent"
-			a:layout_height="0dp">
+			a:layout_height="0dp"
+			a:baselineAligned="false"
+			a:orientation="horizontal">
 
 		<include
 				layout="@layout/cpp_drag_button_left"
-				a:layout_margin="@dimen/cpp_button_margin"
 				a:layout_width="0dp"
 				a:layout_height="match_parent"
 				a:layout_weight="1"/>
 
 		<include
 				layout="@layout/cpp_app_button_erase"
-				a:layout_margin="@dimen/cpp_button_margin"
 				a:layout_width="0dp"
 				a:layout_height="match_parent"
 				a:layout_weight="1"/>
 
 		<LinearLayout
-				a:id="@+id/displayContainer"
-				a:layout_height="match_parent"
-				a:layout_width="0dp"
-				a:layout_weight="4"
-				a:layout_margin="@dimen/cpp_display_margin_land"/>
+			a:id="@+id/displayContainer"
+			a:layout_width="0dp"
+			a:layout_height="match_parent"
+			a:layout_weight="4"
+			a:orientation="horizontal" />
 
 		<include
 				layout="@layout/cpp_drag_button_clear"
-				a:layout_margin="@dimen/cpp_button_margin"
 				a:layout_width="0dp"
 				a:layout_height="match_parent"
 				a:layout_weight="1"/>
 
 		<include
 				layout="@layout/cpp_drag_button_right"
-				a:layout_margin="@dimen/cpp_button_margin"
 				a:layout_width="0dp"
 				a:layout_height="match_parent"
 				a:layout_weight="1"/>
@@ -79,7 +78,8 @@
 			a:id="@+id/keyboardContainer"
 			a:layout_weight="3"
 			a:layout_width="match_parent"
-			a:layout_height="0dp"/>
+			a:layout_height="0dp"
+			a:orientation="horizontal"/>
 
 
 </LinearLayout>
