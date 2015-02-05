@@ -35,6 +35,8 @@ import org.solovyev.android.calculator.R;
 import org.solovyev.common.text.Strings;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.solovyev.android.Android.getAppVersionCode;
 
@@ -61,11 +63,11 @@ public class CalculatorReleaseNotesFragment extends CalculatorFragment {
 
 	@Nonnull
 	public static String getReleaseNotes(@Nonnull Context context) {
-		return getReleaseNotes(context, 0);
+		return getReleaseNotesString(context, 0);
 	}
 
 	@Nonnull
-	public static String getReleaseNotes(@Nonnull Context context, int minVersion) {
+	public static String getReleaseNotesString(@Nonnull Context context, int minVersion) {
 		final StringBuilder result = new StringBuilder();
 
 		final String releaseNotesForTitle = context.getString(R.string.c_release_notes_for_title);
@@ -78,7 +80,6 @@ public class CalculatorReleaseNotesFragment extends CalculatorFragment {
 			final String versionName = getVersionName(textHelper, versionCode);
 			String releaseNotesForVersion = textHelper.getText(makeReleaseNotesResourceId(versionCode));
 			if (!Strings.isEmpty(releaseNotesForVersion)) {
-				if (releaseNotesForVersion == null) throw new AssertionError();
 				if (!first) {
 					result.append("<br/><br/>");
 				} else {
@@ -94,7 +95,38 @@ public class CalculatorReleaseNotesFragment extends CalculatorFragment {
 	}
 
 	@Nonnull
-	private static String getVersionName(@Nonnull TextHelper textHelper, int versionCode) {
+	public static List<Integer> getReleaseNotesVersions(@Nonnull Context context, int minVersion) {
+		final List<Integer> releaseNotes = new ArrayList<>();
+
+		final int currentVersionCode = getAppVersionCode(context);
+		final TextHelper textHelper = new TextHelper(context.getResources(), CalculatorApplication.class.getPackage().getName());
+
+		for (int versionCode = currentVersionCode; versionCode >= minVersion; versionCode--) {
+			final String releaseNotesForVersion = textHelper.getText(makeReleaseNotesResourceId(versionCode));
+			if (!Strings.isEmpty(releaseNotesForVersion)) {
+				releaseNotes.add(versionCode);
+			}
+		}
+
+		return releaseNotes;
+	}
+
+	public static boolean hasReleaseNotes(@Nonnull Context context, int minVersion) {
+		final int currentVersionCode = getAppVersionCode(context);
+		final TextHelper textHelper = new TextHelper(context.getResources(), CalculatorApplication.class.getPackage().getName());
+
+		for (int versionCode = currentVersionCode; versionCode >= minVersion; versionCode--) {
+			String releaseNotesForVersion = textHelper.getText(makeReleaseNotesResourceId(versionCode));
+			if (!Strings.isEmpty(releaseNotesForVersion)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	@Nonnull
+	public static String getVersionName(@Nonnull TextHelper textHelper, int versionCode) {
 		final String versionName = textHelper.getText(makeVersionResourceId(versionCode));
 		if (versionName != null) {
 			return versionName;
@@ -103,7 +135,7 @@ public class CalculatorReleaseNotesFragment extends CalculatorFragment {
 		}
 	}
 
-	private static String makeReleaseNotesResourceId(int versionCode) {
+	public static String makeReleaseNotesResourceId(int versionCode) {
 		return "c_release_notes_for_" + versionCode;
 	}
 

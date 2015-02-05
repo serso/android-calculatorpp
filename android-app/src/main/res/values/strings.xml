@@ -15,4 +15,5 @@
 	<string name="wizard_final">The app is set up and ready to use.</string>
 	<string name="wizard_skip">Skip</string>
 	<string name="wizard_finish">Finish</string>
+	<string name="cpp_new_in_version">New in %1$s version</string>
 </resources>

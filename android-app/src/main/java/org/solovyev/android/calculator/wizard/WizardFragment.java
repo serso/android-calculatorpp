@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.release.ReleaseNoteFragment;
+import org.solovyev.android.calculator.release.ReleaseNoteStep;
 import org.solovyev.android.wizard.Wizard;
 import org.solovyev.android.wizard.WizardFlow;
 import org.solovyev.android.wizard.WizardStep;
@@ -34,7 +36,11 @@ public abstract class WizardFragment extends Fragment implements View.OnClickLis
 	}
 
 	@Nonnull
-	private CalculatorWizardStep findStepByClassName() {
+	private WizardStep findStepByClassName() {
+		if (this instanceof ReleaseNoteFragment) {
+			return new ReleaseNoteStep(getArguments());
+		}
+
 		for (CalculatorWizardStep step : CalculatorWizardStep.values()) {
 			if (step.getFragmentClass().equals(getClass())) {
 				return step;

@@ -49,6 +49,9 @@ public class TextHelper {
 	public String getText(@Nonnull String stringName) {
 		final int stringId = this.resources.getIdentifier(stringName, "string", this.packageName);
 		try {
+			if (stringId == 0) {
+				return null;
+			}
 			return resources.getString(stringId);
 		} catch (Resources.NotFoundException e) {
 			return null;

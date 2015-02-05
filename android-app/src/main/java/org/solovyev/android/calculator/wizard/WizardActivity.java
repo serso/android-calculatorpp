@@ -102,7 +102,8 @@ public class WizardActivity extends BaseActivity implements WizardsAware {
 	}
 
 	public void finishWizardAbruptly() {
-		finishWizardAbruptly(false);
+		final boolean confirmed = wizardUi.getWizard().getName().equals(CalculatorWizards.RELEASE_NOTES);
+		finishWizardAbruptly(confirmed);
 	}
 
 	public void finishWizardAbruptly(boolean confirmed) {

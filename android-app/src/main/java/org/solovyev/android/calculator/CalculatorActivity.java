@@ -31,7 +31,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
-import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.*;
@@ -40,7 +39,6 @@ import android.widget.TextView;
 import org.solovyev.android.Activities;
 import org.solovyev.android.Android;
 import org.solovyev.android.Threads;
-import org.solovyev.android.calculator.about.CalculatorReleaseNotesFragment;
 import org.solovyev.android.calculator.plot.CalculatorPlotActivity;
 import org.solovyev.android.calculator.wizard.CalculatorWizards;
 import org.solovyev.android.fragments.FragmentUtils;
@@ -49,7 +47,6 @@ import org.solovyev.android.wizard.Wizard;
 import org.solovyev.android.wizard.Wizards;
 import org.solovyev.common.Objects;
 import org.solovyev.common.history.HistoryAction;
-import org.solovyev.common.text.Strings;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -58,7 +55,9 @@ import static android.os.Build.VERSION_CODES.GINGERBREAD_MR1;
 import static android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH;
 import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
 import static org.solovyev.android.calculator.Preferences.Gui.preventScreenFromFading;
+import static org.solovyev.android.calculator.about.CalculatorReleaseNotesFragment.hasReleaseNotes;
 import static org.solovyev.android.wizard.WizardUi.continueWizard;
+import static org.solovyev.android.wizard.WizardUi.createLaunchIntent;
 import static org.solovyev.android.wizard.WizardUi.startWizard;
 
 public class CalculatorActivity extends BaseActivity implements SharedPreferences.OnSharedPreferenceChangeListener, CalculatorEventListener {
@@ -164,15 +163,11 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
 				} else {
 					if (savedVersion < appVersion) {
 						final boolean showReleaseNotes = Preferences.Gui.showReleaseNotes.getPreference(preferences);
-						if (showReleaseNotes) {
-							final String releaseNotes = CalculatorReleaseNotesFragment.getReleaseNotes(context, savedVersion + 1);
-							if (!Strings.isEmpty(releaseNotes)) {
-								final AlertDialog.Builder builder = new AlertDialog.Builder(context).setMessage(Html.fromHtml(releaseNotes));
-								builder.setPositiveButton(android.R.string.ok, null);
-								builder.setTitle(R.string.c_release_notes);
-								builder.create().show();
-								dialogShown = true;
-							}
+						if (showReleaseNotes && hasReleaseNotes(context, savedVersion + 1)) {
+							final Bundle bundle = new Bundle();
+							bundle.putInt(CalculatorWizards.RELEASE_NOTES_VERSION, savedVersion);
+							context.startActivity(createLaunchIntent(wizards, CalculatorWizards.RELEASE_NOTES, context, bundle));
+							dialogShown = true;
 						}
 					}
 				}
@@ -180,7 +175,7 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
 
 			//Log.d(this.getClass().getName(), "Application was opened " + appOpenedCounter + " time!");
 			if (!dialogShown) {
-				if (appOpenedCounter != null && appOpenedCounter > 100) {
+				if (appOpenedCounter != null && appOpenedCounter > 30) {
 					dialogShown = showSpecialWindow(preferences, Preferences.Gui.feedbackWindowShown, R.layout.feedback, R.id.feedbackText, context);
 				}
 			}
