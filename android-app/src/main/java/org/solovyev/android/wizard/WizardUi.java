@@ -12,6 +12,7 @@ import javax.annotation.Nullable;
 public class WizardUi<A extends FragmentActivity> {
 
 	private static final String FLOW = "flow";
+	private static final String ARGUMENTS = "arguments";
 	private static final String STEP = "step";
 
 	protected WizardStep step;
@@ -44,7 +45,8 @@ public class WizardUi<A extends FragmentActivity> {
 			stepName = savedInstanceState.getString(STEP);
 		}
 
-		wizard = wizardsAware.getWizards().getWizard(wizardName);
+		final Bundle arguments = intent.getBundleExtra(ARGUMENTS);
+		wizard = wizardsAware.getWizards().getWizard(wizardName, arguments);
 
 		if (stepName != null) {
 			step = wizard.getFlow().getStepByName(stepName);
@@ -131,10 +133,16 @@ public class WizardUi<A extends FragmentActivity> {
 	}
 
 	@Nonnull
-	private static Intent createLaunchIntent(@Nonnull Wizards wizards, @Nullable String name, @Nonnull Context context) {
+	public static Intent createLaunchIntent(@Nonnull Wizards wizards, @Nullable String name, @Nonnull Context context) {
+		return createLaunchIntent(wizards, name, context, null);
+	}
+
+	@Nonnull
+	public static Intent createLaunchIntent(@Nonnull Wizards wizards, @Nullable String name, @Nonnull Context context, @Nullable Bundle arguments) {
 		final Intent intent = new Intent(context, wizards.getActivityClassName());
 		intent.putExtra(FLOW, name);
 		intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+		intent.putExtra(ARGUMENTS, arguments);
 		return intent;
 	}
 }
