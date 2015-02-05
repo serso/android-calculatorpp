@@ -22,5 +22,5 @@
 
 <shape xmlns:a="http://schemas.android.com/apk/res/android">
 	<solid a:color="@color/cpp_pane_background"/>
-	<corners a:radius="1dp"/>
+	<corners a:radius="@dimen/cpp_button_corner"/>
 </shape>

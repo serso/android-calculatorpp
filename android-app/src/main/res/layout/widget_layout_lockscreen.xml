@@ -19,7 +19,6 @@
 
 		<include
 			layout="@layout/cpp_simple_button_equals"
-			a:layout_margin="@dimen/cpp_button_margin"
 			a:layout_weight="1"
 			a:layout_width="0dp"
 			a:layout_height="match_parent" />

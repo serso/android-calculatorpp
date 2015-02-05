@@ -40,14 +40,12 @@
 
 		<include
 				layout="@layout/cpp_drag_button_left"
-				a:layout_margin="@dimen/cpp_button_margin"
 				a:layout_width="0dp"
 				a:layout_height="match_parent"
 				a:layout_weight="1"/>
 
 		<include
 				layout="@layout/cpp_app_button_erase"
-				a:layout_margin="@dimen/cpp_button_margin"
 				a:layout_width="0dp"
 				a:layout_height="match_parent"
 				a:layout_weight="1"/>
@@ -56,19 +54,16 @@
 				a:id="@+id/displayContainer"
 				a:layout_height="match_parent"
 				a:layout_width="0dp"
-				a:layout_weight="4"
-				a:layout_margin="@dimen/cpp_display_margin_land"/>
+				a:layout_weight="4"/>
 
 		<include
 				layout="@layout/cpp_drag_button_clear"
-				a:layout_margin="@dimen/cpp_button_margin"
 				a:layout_width="0dp"
 				a:layout_height="match_parent"
 				a:layout_weight="1"/>
 
 		<include
 				layout="@layout/cpp_drag_button_right"
-				a:layout_margin="@dimen/cpp_button_margin"
 				a:layout_width="0dp"
 				a:layout_height="match_parent"
 				a:layout_weight="1"/>
