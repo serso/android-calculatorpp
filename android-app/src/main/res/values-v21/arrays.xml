@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+	<string-array name="p_theme_names" tools:ignore="InconsistentArrays">
+		<item>@string/p_default_theme</item>
+		<item>@string/p_violet_theme</item>
+		<item>@string/p_light_blue_theme</item>
+		<item>@string/p_metro_blue_theme</item>
+		<item>@string/p_metro_green_theme</item>
+		<item>@string/p_metro_purple_theme</item>
+		<item>@string/p_material_theme</item>
+	</string-array>
+	<string-array name="p_theme_values" translatable="false" tools:ignore="InconsistentArrays">
+		<item>default_theme</item>
+		<item>violet_theme</item>
+		<item>light_blue_theme</item>
+		<item>metro_blue_theme</item>
+		<item>metro_green_theme</item>
+		<item>metro_purple_theme</item>
+		<item>material_theme</item>
+	</string-array>
+</resources>
