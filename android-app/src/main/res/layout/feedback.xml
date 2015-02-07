@@ -28,7 +28,7 @@
 
 	<TextView
 			a:id="@+id/feedbackText"
-			style="@style/cpp_about_style"
+			style="@style/CppText.About"
 			a:layout_width="fill_parent"
 			a:text="@string/c_feedback_text"
 			a:layout_height="fill_parent"/>

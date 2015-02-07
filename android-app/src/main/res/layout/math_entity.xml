@@ -25,7 +25,7 @@
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
 			  a:layout_height="wrap_content"
 			  a:layout_width="match_parent"
-			  style="@style/ListViewItem"
+			  style="@style/CppListViewItem"
 			  a:orientation="horizontal">
 
 	<LinearLayout

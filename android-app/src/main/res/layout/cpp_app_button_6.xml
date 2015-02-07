@@ -30,4 +30,4 @@
 													   c:textLeft="F"
 													   c:textDown="rad"
 													   c:directionTextScale="0.33;0.30;0.33;0.33"
-													   style="?cpp_digit_button_style"/>
+													   style="?attr/cpp_button_style_digit"/>

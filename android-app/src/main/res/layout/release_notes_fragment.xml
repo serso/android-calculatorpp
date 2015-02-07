@@ -35,7 +35,7 @@
 			a:layout_weight="1"
 			a:gravity="top|left"
 			a:scrollbars="vertical"
-			style="@style/cpp_about_style"/>
+			style="@style/CppText.About"/>
 
 	<!--
 			a:scrollbarFadeDuration="0" is not support in  android_1.6_compatibility

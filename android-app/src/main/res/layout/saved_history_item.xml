@@ -24,7 +24,7 @@
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
 	a:orientation="vertical"
-	style="@style/ListViewItem">
+	style="@style/CppListViewItem">
 
 	<TextView
 		a:id="@+id/history_item"

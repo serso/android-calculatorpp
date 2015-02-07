@@ -29,4 +29,4 @@
 													c:textUp="sin"
 													c:textLeft="A"
 													c:textDown="asin"
-													style="?cpp_digit_button_style"/>
+													style="?attr/cpp_button_style_digit"/>

@@ -24,6 +24,6 @@
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
 			  a:id="@+id/dialog_layout"
-			  style="@style/cpp_dialog">
+			  style="@style/CppDialog">
 
 </LinearLayout>

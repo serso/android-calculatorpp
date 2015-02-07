@@ -29,4 +29,4 @@
 													c:textUp="+ƒ"
 													a:text="ƒ(x)"
 													a:textStyle="italic"
-													style="?cpp_control_button_style"/>
+													style="?attr/cpp_button_style_control"/>

@@ -29,4 +29,4 @@
 													a:text="/"
 													c:textDown="√"
 													c:directionTextScale="0.5"
-													style="?cpp_operation_button_style"/>
+													style="?attr/cpp_button_style_operation"/>

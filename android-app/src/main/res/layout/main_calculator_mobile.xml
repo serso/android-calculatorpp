@@ -27,7 +27,7 @@
 			  a:layout_height="match_parent"
 			  a:id="@+id/main_layout"
 			  a:orientation="vertical"
-			  style="?cpp_main_layout_style">
+			  style="@style/CppMain">
 
 	<LinearLayout
 			a:id="@+id/editorContainer"

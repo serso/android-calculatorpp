@@ -25,4 +25,4 @@
 <ImageButton xmlns:a="http://schemas.android.com/apk/res/android"
 			 a:id="@id/cpp_button_erase"
 			 a:src="@drawable/kb_erase"
-			 style="?cpp_control_image_button_style"/>
+			 style="?attr/cpp_button_style_control_image"/>

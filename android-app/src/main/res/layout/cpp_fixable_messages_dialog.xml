@@ -23,7 +23,7 @@
   -->
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-			  style="@style/cpp_dialog">
+			  style="@style/CppDialog">
 
 	<LinearLayout
 			a:id="@+id/cpp_fixable_messages_container"

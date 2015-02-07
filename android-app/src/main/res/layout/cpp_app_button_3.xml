@@ -29,4 +29,4 @@
 													c:textUp="tan"
 													c:textLeft="C"
 													c:textDown="atan"
-													style="?cpp_digit_button_style"/>
+													style="?attr/cpp_button_style_digit"/>

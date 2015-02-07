@@ -28,4 +28,4 @@
 													c:textUp="x"
 													c:textLeft="D"
 													c:textDown="y"
-													style="?cpp_digit_button_style"/>
+													style="?attr/cpp_button_style_digit"/>

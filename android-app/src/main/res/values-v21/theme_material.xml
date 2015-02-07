@@ -22,38 +22,31 @@
 
 <resources>
 
-	<style name="material_digit_button_style" parent="cpp_keyboard_button_style">
+	<style name="CppKeyboardButton.Material.Digit" parent="CppKeyboardButton">
 		<item name="android:background">@drawable/material_button_dark</item>
 		<item name="android:stateListAnimator">@null</item>
 	</style>
 
-	<style name="material_control_button_style" parent="metro_digit_button_style">
-		<item name="android:background">@drawable/material_button_dark</item>
-		<item name="android:stateListAnimator">@null</item>
-	</style>
-
-	<style name="material_operation_button_style" parent="material_digit_button_style">
+	<style name="CppKeyboardButton.Material.Operation" parent="CppKeyboardButton.Material.Digit">
 		<item name="android:background">@drawable/material_blue_button</item>
-		<item name="android:stateListAnimator">@null</item>
 	</style>
 
-	<style name="material_control_image_button_style" parent="material_control_button_style">
+	<style name="CppKeyboardButton.Material.Control.Image" parent="CppKeyboardButton.Material.Digit">
 		<item name="android:padding">6dp</item>
-		<item name="android:stateListAnimator">@null</item>
 	</style>
 
-	<style name="cpp_material_theme" parent="cpp_metro_blue_theme">
-		<item name="cpp_digit_button_style">@style/material_digit_button_style</item>
-		<item name="cpp_control_button_style">@style/material_control_button_style</item>
-		<item name="cpp_control_image_button_style">@style/material_control_image_button_style</item>
-		<item name="cpp_operation_button_style">@style/material_operation_button_style</item>
+	<style name="Cpp.Theme.Material" parent="Cpp.Theme">
+		<item name="cpp_button_style_digit">@style/CppKeyboardButton.Material.Digit</item>
+		<item name="cpp_button_style_control">@style/CppKeyboardButton.Material.Digit</item>
+		<item name="cpp_button_style_control_image">@style/CppKeyboardButton.Material.Control.Image</item>
+		<item name="cpp_button_style_operation">@style/CppKeyboardButton.Material.Operation</item>
 	</style>
 
-	<style name="cpp_metro_blue_dialog_theme" parent="cpp_gray_dialog_theme">
-		<item name="cpp_digit_button_style">@style/material_digit_button_style</item>
-		<item name="cpp_control_button_style">@style/material_control_button_style</item>
-		<item name="cpp_control_image_button_style">@style/material_control_image_button_style</item>
-		<item name="cpp_operation_button_style">@style/material_operation_button_style</item>
+	<style name="Cpp.Theme.Dialog.Material" parent="Cpp.Theme.Dialog">
+		<item name="cpp_button_style_digit">@style/CppKeyboardButton.Material.Digit</item>
+		<item name="cpp_button_style_control">@style/CppKeyboardButton.Material.Digit</item>
+		<item name="cpp_button_style_control_image">@style/CppKeyboardButton.Material.Control.Image</item>
+		<item name="cpp_button_style_operation">@style/CppKeyboardButton.Material.Operation</item>
 	</style>
 
 </resources>

@@ -24,7 +24,7 @@
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
 			  a:id="@+id/main_fragment_layout"
-			  style="?cpp_fragment_layout_style"
+			  style="@style/CppFragment"
 			  a:layout_width="match_parent"
 			  a:layout_height="match_parent">
 
@@ -32,11 +32,11 @@
 			a:id="@+id/fragment_title"
 			a:layout_height="wrap_content"
 			a:layout_width="match_parent"
-			style="?cpp_fragment_title_style"/>
+			style="@style/CppFragmentTitle"/>
 
 	<org.solovyev.android.calculator.AndroidCalculatorEditorView
 			a:id="@+id/calculator_editor"
-			style="@style/cpp_editor_style"
+			style="@style/CppText.Editor"
 			a:textIsSelectable="true"
 			a:singleLine="false"
 			a:scrollbars="vertical"
