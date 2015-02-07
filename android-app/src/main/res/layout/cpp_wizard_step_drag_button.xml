@@ -56,6 +56,6 @@
 		c:textDown="^2"
 		c:textUp="%"
 		c:directionTextScale="0.5;0.5;0.5;0.33"
-		style="?cpp_control_button_style" />
+		style="?attr/cpp_button_style_control" />
 
 </LinearLayout>

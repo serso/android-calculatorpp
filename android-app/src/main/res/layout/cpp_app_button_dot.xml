@@ -28,4 +28,4 @@
 													a:text="."
 													c:textUp=","
 													c:directionTextScale="0.5"
-													style="?cpp_digit_button_style"/>
+													style="?attr/cpp_button_style_digit"/>

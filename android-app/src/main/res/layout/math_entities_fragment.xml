@@ -24,14 +24,14 @@
 
 <LinearLayout
 	a:id="@+id/main_fragment_layout"
-	style="?cpp_fragment_layout_style"
+	style="@style/CppFragment"
 	xmlns:a="http://schemas.android.com/apk/res/android"
 	a:layout_width="match_parent"
 	a:layout_height="match_parent">
 
 	<TextView
 		a:id="@+id/fragment_title"
-		style="?cpp_fragment_title_style"
+		style="@style/CppFragmentTitle"
 		a:layout_width="match_parent"
 		a:layout_height="wrap_content" />
 
@@ -41,11 +41,11 @@
 		a:layout_width="match_parent"
 		a:layout_height="match_parent">
 
-		<ListView style="@style/ListView" />
+		<ListView style="@style/CppListView" />
 
 		<com.melnykov.fab.FloatingActionButton
 			a:id="@+id/fab"
-			style="@style/Fab"
+			style="@style/CppFab"
 			a:src="@drawable/ic_add_white_36dp"
 			a:visibility="gone" />
 	</FrameLayout>

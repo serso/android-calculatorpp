@@ -8,7 +8,7 @@
 
 	<LinearLayout
 		a:id="@+id/main_fragment_layout"
-		style="@style/cpp_default_fragment_layout_style"
+		style="@style/CppFragment"
 		a:orientation="horizontal"
 		a:layout_width="match_parent"
 		a:layout_height="0dp"

@@ -22,7 +22,7 @@
 
 <resources>
 
-	<style name="metro_digit_button_style" parent="cpp_keyboard_button_style">
+	<style name="metro_digit_button_style" parent="CppKeyboardButton">
 		<item name="android:background">@drawable/metro_button_dark</item>
 	</style>
 
@@ -48,18 +48,18 @@
 		<item name="android:padding">6dp</item>
 	</style>
 
-	<style name="cpp_metro_blue_theme" parent="cpp_gray_theme">
-		<item name="cpp_digit_button_style">@style/metro_digit_button_style</item>
-		<item name="cpp_control_button_style">@style/metro_control_button_style</item>
-		<item name="cpp_control_image_button_style">@style/metro_control_image_button_style</item>
-		<item name="cpp_operation_button_style">@style/metro_blue_operation_button_style</item>
+	<style name="cpp_metro_blue_theme" parent="Cpp.Theme">
+		<item name="cpp_button_style_digit">@style/metro_digit_button_style</item>
+		<item name="cpp_button_style_control">@style/metro_control_button_style</item>
+		<item name="cpp_button_style_control_image">@style/metro_control_image_button_style</item>
+		<item name="cpp_button_style_operation">@style/metro_blue_operation_button_style</item>
 	</style>
 
-	<style name="cpp_metro_blue_dialog_theme" parent="cpp_gray_dialog_theme">
-		<item name="cpp_digit_button_style">@style/metro_digit_button_style</item>
-		<item name="cpp_control_button_style">@style/metro_control_button_style</item>
-		<item name="cpp_control_image_button_style">@style/metro_control_image_button_style</item>
-		<item name="cpp_operation_button_style">@style/metro_blue_operation_button_style</item>
+	<style name="Cpp.Theme.Dialog.Material" parent="Cpp.Theme.Dialog">
+		<item name="cpp_button_style_digit">@style/metro_digit_button_style</item>
+		<item name="cpp_button_style_control">@style/metro_control_button_style</item>
+		<item name="cpp_button_style_control_image">@style/metro_control_image_button_style</item>
+		<item name="cpp_button_style_operation">@style/metro_blue_operation_button_style</item>
 	</style>
 
 </resources>

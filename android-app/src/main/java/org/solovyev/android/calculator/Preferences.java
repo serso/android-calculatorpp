@@ -101,13 +101,13 @@ public final class Preferences {
 
 		public static enum Theme {
 
-			default_theme(R.style.cpp_gray_theme, R.style.Theme_Wizard),
-			violet_theme(R.style.cpp_violet_theme, R.style.Theme_Wizard),
-			light_blue_theme(R.style.cpp_light_blue_theme, R.style.Theme_Wizard),
-			metro_blue_theme(R.style.cpp_metro_blue_theme, R.style.Theme_Wizard),
-			metro_purple_theme(R.style.cpp_metro_purple_theme, R.style.Theme_Wizard),
-			metro_green_theme(R.style.cpp_metro_green_theme, R.style.Theme_Wizard),
-			material_theme(R.style.cpp_material_theme, R.style.Theme_Wizard),
+			default_theme(R.style.Cpp_Theme_Gray, R.style.Cpp_Theme_Wizard),
+			violet_theme(R.style.Cpp_Theme_Violet, R.style.Cpp_Theme_Wizard),
+			light_blue_theme(R.style.Cpp_Theme_Blue, R.style.Cpp_Theme_Wizard),
+			metro_blue_theme(R.style.cpp_metro_blue_theme, R.style.Cpp_Theme_Wizard),
+			metro_purple_theme(R.style.cpp_metro_purple_theme, R.style.Cpp_Theme_Wizard),
+			metro_green_theme(R.style.cpp_metro_green_theme, R.style.Cpp_Theme_Wizard),
+			material_theme(R.style.Cpp_Theme_Material, R.style.Cpp_Theme_Wizard),
 			;
 
 			private final int themeId;

@@ -51,7 +51,7 @@
 				a:text="@string/c_about_content"
 				a:layout_height="match_parent"
 				a:layout_width="match_parent"
-				style="@style/cpp_about_style" />
+				style="@style/CppText.About" />
 
 
 			<TextView
@@ -60,7 +60,7 @@
 				a:layout_height="wrap_content"
 				a:layout_width="match_parent"
 				a:paddingBottom="0dp"
-				style="@style/cpp_about_style" />
+				style="@style/CppText.About" />
 
 			<TextView
 				a:id="@+id/cpp_about_translators"
@@ -68,7 +68,7 @@
 				a:layout_height="wrap_content"
 				a:layout_width="match_parent"
 				a:paddingTop="0dp"
-				style="@style/cpp_about_style" />
+				style="@style/CppText.About" />
 
 		</LinearLayout>
 	</ScrollView>

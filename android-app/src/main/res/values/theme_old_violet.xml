@@ -22,26 +22,26 @@
 
 <resources>
 
-	<style name="violet_digit_button_style" parent="cpp_keyboard_button_style">
+	<style name="CppKeyboardButton.Violet.Digit" parent="CppKeyboardButton">
 		<item name="android:background">@drawable/violet_button</item>
 	</style>
 
-	<style name="violet_operation_button_style" parent="violet_digit_button_style">
+	<style name="CppKeyboardButton.Violet.Operation" parent="CppKeyboardButton.Violet.Digit">
 		<item name="android:textColor">@color/cpp_button_text_operator</item>
 	</style>
 
-	<style name="violet_control_button_style" parent="cpp_keyboard_button_style">
+	<style name="CppKeyboardButton.Violet.Control" parent="CppKeyboardButton">
 		<item name="android:background">@drawable/violet_button_dark</item>
 	</style>
 
-	<style name="violet_control_image_button_style" parent="violet_control_button_style">
+	<style name="CppKeyboardButton.Violet.Control.Image" parent="CppKeyboardButton.Violet.Control">
 		<item name="android:padding">6dp</item>
 	</style>
 
-	<style name="cpp_violet_theme" parent="cpp_gray_theme">
-		<item name="cpp_digit_button_style">@style/violet_digit_button_style</item>
-		<item name="cpp_control_button_style">@style/violet_control_button_style</item>
-		<item name="cpp_control_image_button_style">@style/violet_control_image_button_style</item>
-		<item name="cpp_operation_button_style">@style/violet_operation_button_style</item>
+	<style name="Cpp.Theme.Violet" parent="Cpp.Theme">
+		<item name="cpp_button_style_digit">@style/CppKeyboardButton.Violet.Digit</item>
+		<item name="cpp_button_style_control">@style/CppKeyboardButton.Violet.Control</item>
+		<item name="cpp_button_style_control_image">@style/CppKeyboardButton.Violet.Control.Image</item>
+		<item name="cpp_button_style_operation">@style/CppKeyboardButton.Violet.Operation</item>
 	</style>
 </resources>

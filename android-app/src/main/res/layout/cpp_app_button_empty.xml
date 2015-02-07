@@ -21,4 +21,4 @@
   ~ Email: se.solovyev@gmail.com
   ~ Site:  http://se.solovyev.org
   -->
-<org.solovyev.android.calculator.drag.DirectionDragButton style="?cpp_control_button_style"/>
+<org.solovyev.android.calculator.drag.DirectionDragButton style="?attr/cpp_button_style_control"/>

@@ -24,7 +24,7 @@
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
 			  a:id="@+id/main_fragment_layout"
-			  style="?cpp_fragment_layout_style"
+			  style="@style/CppFragment"
 			  a:layout_width="wrap_content"
 			  a:layout_gravity="center_horizontal"
 			  a:layout_height="match_parent"

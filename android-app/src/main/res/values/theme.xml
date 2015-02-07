@@ -22,26 +22,35 @@
 
 <resources>
 
-	<style name="Theme" parent="Theme.Base"></style>
-	<style name="Theme.Dialog" parent="Theme.Base.Dialog"></style>
+	<style name="Cpp.Theme" parent="Cpp.Theme.Base"/>
 
-	<style name="Theme.Base" parent="@style/Theme.AppCompat"></style>
-	<style name="Theme.Base.Dialog" parent="@style/Theme.AppCompat.Dialog">
+	<style name="Cpp.Theme.Dialog" parent="Cpp.Theme.Base.Dialog"/>
+
+	<style name="Cpp.Theme.Base" parent="@style/Theme.AppCompat">
+		<item name="android:windowBackground">@color/cpp_main_bg</item>
+
+		<item name="cpp_main_bg">@color/cpp_main_bg</item>
+	</style>
+
+	<style name="Cpp.Theme.Base.Dialog" parent="@style/Theme.AppCompat.Dialog">
 		<item name="android:windowNoTitle">false</item>
 		<item name="android:windowTitleBackgroundStyle">@android:color/transparent</item>
 		<item name="windowActionBar">false</item>
+		<item name="android:windowCloseOnTouchOutside">false</item>
+
+		<item name="cpp_main_bg">@color/cpp_main_bg</item>
 	</style>
 
-	<style name="Theme.Wizard.Purchase" parent="cpp_metro_blue_theme">
+	<style name="Cpp.Theme.Wizard.Purchase" parent="cpp_metro_blue_theme">
 		<item name="android:windowNoTitle">true</item>
 		<item name="android:background">@color/cpp_metro_button_light</item>
 	</style>
 
-	<style name="Theme.Wizard" parent="@style/cpp_metro_blue_theme">
+	<style name="Cpp.Theme.Wizard" parent="@style/cpp_metro_blue_theme">
 		<item name="android:windowBackground">@color/cpp_wizard_bg</item>
 	</style>
 
-	<style name="Theme.Settings.Base" parent="@style/cpp_metro_blue_theme">
+	<style name="Cpp.Theme.Settings.Base" parent="@style/cpp_metro_blue_theme">
 		<item name="android:windowNoTitle">true</item>
 		<item name="android:windowActionBar">false</item>
 		<item name="toolbarStyle">@style/Widget.Toolbar</item>
@@ -49,8 +58,8 @@
 		<item name="android:textColorSecondary">@color/cpp_wizard_secondary</item>
 		<item name="android:textColorPrimary">@color/cpp_wizard_primary</item>
 	</style>
-	<style name="Theme.Settings" parent="Theme.Settings.Base">
-	</style>
+
+	<style name="Cpp.Theme.Settings" parent="Cpp.Theme.Settings.Base"/>
 
 	<style name="Widget.Toolbar" parent="@style/Widget.AppCompat.Toolbar">
 		<item name="android:background">?attr/colorPrimary</item>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright 2013 serso aka se.solovyev
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~    http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Contact details
+  ~
+  ~ Email: se.solovyev@gmail.com
+  ~ Site:  http://se.solovyev.org
+  -->
+
+<resources>
+
+	<style name="CppKeyboardButton.Gray.Digit" parent="CppKeyboardButton">
+		<item name="android:background">@drawable/gray_button</item>
+	</style>
+
+	<style name="CppKeyboardButton.Gray.Control" parent="CppKeyboardButton">
+		<item name="android:background">@drawable/gray_button_dark</item>
+	</style>
+
+	<style name="CppKeyboardButton.Gray.Operation" parent="CppKeyboardButton.Gray.Digit">
+		<item name="android:textColor">@color/cpp_button_text_operator</item>
+	</style>
+
+	<style name="CppKeyboardButton.Gray.Control.Image" parent="CppKeyboardButton.Gray.Control">
+		<item name="android:padding">6dp</item>
+	</style>
+
+	<style name="Cpp.Theme.Gray" parent="Cpp.Theme">
+		<item name="cpp_button_style_digit">@style/CppKeyboardButton.Gray.Digit</item>
+		<item name="cpp_button_style_control">@style/CppKeyboardButton.Gray.Control</item>
+		<item name="cpp_button_style_control_image">@style/CppKeyboardButton.Gray.Control.Image</item>
+		<item name="cpp_button_style_operation">@style/CppKeyboardButton.Gray.Operation</item>
+	</style>
+
+	<style name="Cpp.Theme.Dialog.Gray" parent="Cpp.Theme.Dialog">
+		<item name="cpp_button_style_digit">@style/CppKeyboardButton.Gray.Digit</item>
+		<item name="cpp_button_style_control">@style/CppKeyboardButton.Gray.Control</item>
+		<item name="cpp_button_style_control_image">@style/CppKeyboardButton.Gray.Control.Image</item>
+		<item name="cpp_button_style_operation">@style/CppKeyboardButton.Gray.Operation</item>
+	</style>
+
+</resources>

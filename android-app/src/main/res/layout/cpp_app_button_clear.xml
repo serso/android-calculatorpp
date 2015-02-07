@@ -30,4 +30,4 @@
 														 c:textDown="bin"
 														 c:textLeft="hex"
 														 a:textStyle="bold"
-														 style="?cpp_control_image_button_style"/>
+														 style="?attr/cpp_button_style_control_image"/>

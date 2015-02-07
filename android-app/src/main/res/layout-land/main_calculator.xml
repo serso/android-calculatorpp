@@ -24,7 +24,7 @@
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
 			  a:id="@+id/main_layout"
 			  a:orientation="vertical"
-			  style="?cpp_main_layout_style">
+			  style="@style/CppMain">
 
 	<include layout="@layout/main_first_pane"/>
 

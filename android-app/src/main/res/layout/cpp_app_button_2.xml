@@ -29,4 +29,4 @@
 													c:textUp="cos"
 													c:textLeft="B"
 													c:textDown="acos"
-													style="?cpp_digit_button_style"/>
+													style="?attr/cpp_button_style_digit"/>

@@ -23,7 +23,7 @@
   -->
 
 <LinearLayout a:id="@+id/main_layout"
-	style="?cpp_main_layout_style"
+	style="@style/CppMain"
 	xmlns:a="http://schemas.android.com/apk/res/android"
 	a:layout_width="match_parent"
 	a:layout_height="match_parent"

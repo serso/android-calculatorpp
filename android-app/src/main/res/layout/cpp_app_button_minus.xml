@@ -27,4 +27,4 @@
 													c:textDown="∂,…"
 													a:text="-"
 													c:directionTextScale="0.4"
-													style="?cpp_operation_button_style"/>
+													style="?attr/cpp_button_style_operation"/>

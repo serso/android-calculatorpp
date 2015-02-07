@@ -27,7 +27,7 @@
 	</style>
 
 	<style name="cpp_metro_purple_theme" parent="cpp_metro_blue_theme">
-		<item name="cpp_operation_button_style">@style/metro_purple_operation_button_style</item>
+		<item name="cpp_button_style_operation">@style/metro_purple_operation_button_style</item>
 	</style>
 
 </resources>

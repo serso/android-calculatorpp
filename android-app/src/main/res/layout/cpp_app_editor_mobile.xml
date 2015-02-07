@@ -24,14 +24,14 @@
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
 			  a:id="@+id/main_fragment_layout"
-			  style="?cpp_fragment_layout_style"
+			  style="@style/CppFragment"
 			  a:layout_width="match_parent"
 			  a:layout_height="match_parent"
 			  a:padding="@dimen/cpp_editor_padding">
 
 	<org.solovyev.android.calculator.AndroidCalculatorEditorView
 			a:id="@+id/calculator_editor"
-			style="@style/cpp_editor_mobile_style"
+			style="@style/CppText.Editor.Mobile"
 			a:textIsSelectable="true"
 			a:singleLine="false"
 			a:scrollbars="vertical"

@@ -28,5 +28,5 @@
 													c:textUp="@string/c_undo"
 													c:textDown="@string/c_redo"
 													c:directionTextScale="0.27"
-													style="?cpp_control_button_style"
+													style="?attr/cpp_button_style_control"
 													a:textStyle="bold"/>
