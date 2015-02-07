@@ -41,6 +41,7 @@ enum CalculatorWizardStep implements org.solovyev.android.wizard.WizardStep {
 		}
 	},
 	choose_mode(ChooseModeWizardStep.class, R.string.cpp_wizard_mode_title),
+	choose_theme(ChooseThemeWizardStep.class, R.string.cpp_wizard_theme_title),
 	on_screen_calculator(OnScreenCalculatorWizardStep.class, R.string.cpp_wizard_onscreen_calculator_title),
 	drag_button(DragButtonWizardStep.class, R.string.cpp_wizard_dragbutton_title),
 	last(FinalWizardStep.class, R.string.cpp_wizard_final_title);

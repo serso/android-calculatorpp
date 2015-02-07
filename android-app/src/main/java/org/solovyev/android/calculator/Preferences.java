@@ -101,31 +101,30 @@ public final class Preferences {
 
 		public static enum Theme {
 
-			default_theme(R.style.cpp_gray_theme),
-			violet_theme(R.style.cpp_violet_theme),
-			light_blue_theme(R.style.cpp_light_blue_theme),
-			metro_blue_theme(R.style.cpp_metro_blue_theme),
-			metro_purple_theme(R.style.cpp_metro_purple_theme),
-			metro_green_theme(R.style.cpp_metro_green_theme),
-			material_theme(R.style.cpp_material_theme),
+			default_theme(R.style.cpp_gray_theme, R.style.Theme_Wizard),
+			violet_theme(R.style.cpp_violet_theme, R.style.Theme_Wizard),
+			light_blue_theme(R.style.cpp_light_blue_theme, R.style.Theme_Wizard),
+			metro_blue_theme(R.style.cpp_metro_blue_theme, R.style.Theme_Wizard),
+			metro_purple_theme(R.style.cpp_metro_purple_theme, R.style.Theme_Wizard),
+			metro_green_theme(R.style.cpp_metro_green_theme, R.style.Theme_Wizard),
+			material_theme(R.style.cpp_material_theme, R.style.Theme_Wizard),
 			;
 
-			@Nonnull
-			private final Integer themeId;
+			private final int themeId;
+			private final int wizardThemeId;
 
-			Theme(@Nonnull Integer themeId) {
+			Theme(int themeId, int wizardThemeId) {
 				this.themeId = themeId;
+				this.wizardThemeId = wizardThemeId;
 			}
 
-			@Nonnull
-			public Integer getThemeId() {
+			public int getThemeId() {
 				return getThemeId(null);
 			}
 
-			@Nonnull
-			public Integer getThemeId(@Nullable Activity activity) {
+			public int getThemeId(@Nullable Activity activity) {
 				if (activity instanceof WizardActivity) {
-					return R.style.Theme_Wizard;
+					return wizardThemeId;
 				}
 				return themeId;
 			}

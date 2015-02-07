@@ -32,9 +32,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.*;
-import android.widget.Button;
 import android.widget.TextView;
 import org.solovyev.android.Activities;
 import org.solovyev.android.Android;
@@ -55,10 +53,8 @@ import static android.os.Build.VERSION_CODES.GINGERBREAD_MR1;
 import static android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH;
 import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
 import static org.solovyev.android.calculator.Preferences.Gui.preventScreenFromFading;
-import static org.solovyev.android.calculator.about.CalculatorReleaseNotesFragment.hasReleaseNotes;
-import static org.solovyev.android.wizard.WizardUi.continueWizard;
-import static org.solovyev.android.wizard.WizardUi.createLaunchIntent;
-import static org.solovyev.android.wizard.WizardUi.startWizard;
+import static org.solovyev.android.calculator.release.ReleaseNotes.hasReleaseNotes;
+import static org.solovyev.android.wizard.WizardUi.*;
 
 public class CalculatorActivity extends BaseActivity implements SharedPreferences.OnSharedPreferenceChangeListener, CalculatorEventListener {
 
@@ -215,11 +211,6 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
 		return super.onKeyDown(keyCode, event);
 	}
 
-	@SuppressWarnings({"UnusedDeclaration"})
-	public void equalsButtonClickHandler(@Nonnull View v) {
-		buttonPressed(CalculatorSpecialButton.equals);
-	}
-
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -263,80 +254,6 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
 		} else {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		}
-	}
-
-	/*
-	**********************************************************************
-	*
-	*                           BUTTON HANDLERS
-	*
-	**********************************************************************
-	*/
-
-	@SuppressWarnings({"UnusedDeclaration"})
-	public void elementaryButtonClickHandler(@Nonnull View v) {
-		throw new UnsupportedOperationException("Not implemented yet!");
-	}
-
-	public void historyButtonClickHandler(@Nonnull View v) {
-		buttonPressed(CalculatorSpecialButton.history);
-	}
-
-	public void eraseButtonClickHandler(@Nonnull View v) {
-		buttonPressed(CalculatorSpecialButton.erase);
-	}
-
-	public void simplifyButtonClickHandler(@Nonnull View v) {
-		throw new UnsupportedOperationException("Not implemented yet!");
-	}
-
-	public void pasteButtonClickHandler(@Nonnull View v) {
-		buttonPressed(CalculatorSpecialButton.paste);
-	}
-
-	public void copyButtonClickHandler(@Nonnull View v) {
-		buttonPressed(CalculatorSpecialButton.copy);
-	}
-
-	@Nonnull
-	private static CalculatorKeyboard getKeyboard() {
-		return Locator.getInstance().getKeyboard();
-	}
-
-	public void clearButtonClickHandler(@Nonnull View v) {
-		buttonPressed(CalculatorSpecialButton.clear);
-	}
-
-	public void digitButtonClickHandler(@Nonnull View v) {
-		Log.d(String.valueOf(v.getId()), "digitButtonClickHandler() for: " + v.getId() + ". Pressed: " + v.isPressed());
-
-		if (v instanceof Button) {
-			buttonPressed(((Button) v).getText().toString());
-		}
-	}
-
-	private void buttonPressed(@Nonnull CalculatorSpecialButton button) {
-		buttonPressed(button.getActionCode());
-	}
-
-	private void buttonPressed(@Nonnull String text) {
-		getKeyboard().buttonPressed(text);
-	}
-
-	public void functionsButtonClickHandler(@Nonnull View v) {
-		buttonPressed(CalculatorSpecialButton.functions);
-	}
-
-	public void operatorsButtonClickHandler(@Nonnull View v) {
-		buttonPressed(CalculatorSpecialButton.operators);
-	}
-
-	public void varsButtonClickHandler(@Nonnull View v) {
-		buttonPressed(CalculatorSpecialButton.vars);
-	}
-
-	public void likeButtonClickHandler(@Nonnull View v) {
-		buttonPressed(CalculatorSpecialButton.like);
 	}
 
 	@Override

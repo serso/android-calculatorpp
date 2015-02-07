@@ -23,11 +23,9 @@
   -->
 <org.solovyev.android.calculator.drag.DirectionDragButton xmlns:a="http://schemas.android.com/apk/res/android"
 													xmlns:c="http://schemas.android.com/apk/res-auto"
-													a:id="@id/cpp_button_history"
-													a:text="@string/c_history_button"
-													c:textUp="@string/c_undo"
-													c:textDown="@string/c_redo"
-													c:directionTextScale="0.27"
-													style="?cpp_control_button_style"
-													a:textStyle="bold"
-													a:onClick="historyButtonClickHandler"/>
+													a:id="@id/cpp_button_5"
+													a:text="5"
+													c:textUp="t"
+													c:textLeft="E"
+													c:textDown="j"
+													style="?cpp_digit_button_style"/>

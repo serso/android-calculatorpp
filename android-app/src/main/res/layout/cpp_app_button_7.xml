@@ -22,7 +22,12 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<ImageButton xmlns:a="http://schemas.android.com/apk/res/android"
-			 a:id="@id/cpp_button_like"
-			 a:src="@drawable/kb_share"
-			 style="?cpp_control_image_button_style"/>
+<org.solovyev.android.calculator.drag.DirectionDragButton xmlns:a="http://schemas.android.com/apk/res/android"
+													xmlns:c="http://schemas.android.com/apk/res-auto"
+													a:id="@id/cpp_button_7"
+													a:text="7"
+													c:textUp="i"
+													c:textLeft="0b:"
+													c:textDown="!"
+													c:directionTextScale="0.5;0.5;0.5;0.33"
+													style="?cpp_digit_button_style"/>

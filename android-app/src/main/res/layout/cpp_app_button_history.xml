@@ -21,13 +21,12 @@
   ~ Email: se.solovyev@gmail.com
   ~ Site:  http://se.solovyev.org
   -->
-
 <org.solovyev.android.calculator.drag.DirectionDragButton xmlns:a="http://schemas.android.com/apk/res/android"
 													xmlns:c="http://schemas.android.com/apk/res-auto"
-													a:id="@id/cpp_button_2"
-													a:text="2"
-													c:textUp="cos"
-													c:textLeft="B"
-													c:textDown="acos"
-													style="?cpp_digit_button_style"
-													a:onClick="digitButtonClickHandler"/>
+													a:id="@id/cpp_button_history"
+													a:text="@string/c_history_button"
+													c:textUp="@string/c_undo"
+													c:textDown="@string/c_redo"
+													c:directionTextScale="0.27"
+													style="?cpp_control_button_style"
+													a:textStyle="bold"/>

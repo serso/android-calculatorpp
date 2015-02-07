@@ -145,6 +145,7 @@
 
 		<item name="cpp_pane_style">@style/cpp_default_pane_style</item>
 		<item name="cpp_pane_style_transparent">@style/cpp_default_pane_style_transparent</item>
+		<item name="cpp_main_bg">@color/cpp_main_bg</item>
 	</style>
 
 	<style name="cpp_gray_dialog_theme" parent="Theme.Dialog">
@@ -166,6 +167,7 @@
 
 		<item name="cpp_pane_style">@style/cpp_default_pane_style</item>
 		<item name="cpp_pane_style_transparent">@style/cpp_default_pane_style_transparent</item>
+		<item name="cpp_main_bg">@color/cpp_main_bg</item>
 	</style>
 
 </resources>

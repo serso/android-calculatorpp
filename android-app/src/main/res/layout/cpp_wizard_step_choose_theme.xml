@@ -22,13 +22,31 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<org.solovyev.android.calculator.drag.DirectionDragButton xmlns:a="http://schemas.android.com/apk/res/android"
-													xmlns:c="http://schemas.android.com/apk/res-auto"
-													a:id="@id/cpp_button_9"
-													a:text="9"
-													c:textDown="e"
-													c:textLeft="0x:"
-													c:textUp="π"
-													c:directionTextScale="0.5;0.5;0.5;0.33"
-													style="?cpp_digit_button_style"
-													a:onClick="digitButtonClickHandler"/>
+<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+	a:layout_width="match_parent"
+	a:layout_height="match_parent"
+	a:orientation="vertical"
+	a:gravity="center">
+
+	<TextView
+		a:layout_width="wrap_content"
+		a:layout_height="wrap_content"
+		a:textAppearance="@android:style/TextAppearance.Large"
+		style="@style/WizardLabel"
+		a:text="@string/cpp_wizard_theme_title" />
+
+	<Spinner
+		a:id="@+id/wizard_theme_spinner"
+		a:layout_width="wrap_content"
+		a:layout_height="wrap_content"
+		style="@style/WizardLabel" />
+
+	<FrameLayout
+		a:id="@+id/wizard_theme_preview"
+		a:layout_width="wrap_content"
+		a:layout_height="wrap_content"
+		style="@style/WizardLabel.Last"
+		a:orientation="vertical"
+		/>
+
+</LinearLayout>

@@ -24,10 +24,8 @@
 
 <org.solovyev.android.calculator.drag.DirectionDragButton xmlns:a="http://schemas.android.com/apk/res/android"
 													xmlns:c="http://schemas.android.com/apk/res-auto"
-													a:id="@id/cpp_button_3"
-													a:text="3"
-													c:textUp="tan"
-													c:textLeft="C"
-													c:textDown="atan"
-													style="?cpp_digit_button_style"
-													a:onClick="digitButtonClickHandler"/>
+													a:id="@id/cpp_button_period"
+													a:text="."
+													c:textUp=","
+													c:directionTextScale="0.5"
+													style="?cpp_digit_button_style"/>

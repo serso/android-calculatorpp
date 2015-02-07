@@ -59,9 +59,9 @@ public final class CalculatorButtons {
 	}
 
 
-	public static void processButtons(@Nonnull Preferences.Gui.Theme theme,
-									  @Nonnull Preferences.Gui.Layout layout,
-									  @Nonnull View root) {
+	public static void fixButtonsTextSize(@Nonnull Preferences.Gui.Theme theme,
+										  @Nonnull Preferences.Gui.Layout layout,
+										  @Nonnull View root) {
 		if (!layout.isOptimized()) {
 
 			final float textSize = root.getContext().getResources().getDimension(R.dimen.cpp_keyboard_button_text_size_mobile);

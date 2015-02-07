@@ -58,7 +58,7 @@ public class ChooseLayoutWizardStep extends WizardFragment implements AdapterVie
 
 		image = (ImageView) root.findViewById(R.id.wizard_layout_image);
 		final Spinner spinner = (Spinner) root.findViewById(R.id.wizard_layout_spinner);
-		spinner.setAdapter(new WizardArrayAdapter(getActivity(), R.array.cpp_layouts));
+		spinner.setAdapter(WizardArrayAdapter.create(getActivity(), R.array.cpp_layouts));
 		spinner.setSelection(layout == big_buttons ? 0 : 1);
 		spinner.setOnItemSelectedListener(this);
 

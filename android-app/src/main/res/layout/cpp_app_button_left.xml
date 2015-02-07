@@ -24,11 +24,8 @@
 
 <org.solovyev.android.calculator.drag.DirectionDragButton xmlns:a="http://schemas.android.com/apk/res/android"
 													xmlns:c="http://schemas.android.com/apk/res-auto"
-													a:id="@id/cpp_button_round_brackets"
-													c:textUp="("
-													a:text="( )"
-													c:textDown=")"
-													c:textLeft="(…)"
-													c:directionTextScale="0.5;0.5;0.5;0.33"
-													style="?cpp_digit_button_style"
-													a:onClick="digitButtonClickHandler"/>
+													a:id="@id/cpp_button_left"
+													c:textUp="◁◁"
+													a:text="◁"
+													c:directionTextScale="0.5"
+													style="?cpp_control_button_style"/>

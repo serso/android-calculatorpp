@@ -21,11 +21,37 @@
   ~ Email: se.solovyev@gmail.com
   ~ Site:  http://se.solovyev.org
   -->
-<org.solovyev.android.calculator.drag.DirectionDragButton xmlns:a="http://schemas.android.com/apk/res/android"
-													xmlns:c="http://schemas.android.com/apk/res-auto"
-													a:id="@id/cpp_button_subtraction"
-													c:textDown="∂,…"
-													a:text="-"
-													c:directionTextScale="0.5"
-													style="?cpp_operation_button_style"
-													a:onClick="digitButtonClickHandler"/>
+
+<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+	a:layout_width="wrap_content"
+	a:layout_height="wrap_content"
+	a:orientation="vertical"
+	a:padding="3dp"
+	a:background="?attr/cpp_main_bg">
+
+	<LinearLayout
+		a:layout_width="match_parent"
+		a:layout_height="wrap_content"
+		a:orientation="horizontal">
+
+		<include layout="@layout/cpp_app_button_0" />
+
+		<include layout="@layout/cpp_app_button_copy" />
+
+		<include layout="@layout/cpp_app_button_plus" />
+
+	</LinearLayout>
+
+	<LinearLayout
+		a:layout_width="match_parent"
+		a:layout_height="wrap_content"
+		a:orientation="horizontal">
+
+		<include layout="@layout/cpp_app_button_1" />
+
+		<include layout="@layout/cpp_app_button_paste" />
+
+		<include layout="@layout/cpp_app_button_minus" />
+
+	</LinearLayout>
+</LinearLayout>

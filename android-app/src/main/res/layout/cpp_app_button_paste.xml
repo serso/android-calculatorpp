@@ -25,5 +25,4 @@
 <ImageButton xmlns:a="http://schemas.android.com/apk/res/android"
 			 a:id="@id/cpp_button_paste"
 			 a:src="@drawable/kb_paste"
-			 style="?cpp_control_image_button_style"
-			 a:onClick="pasteButtonClickHandler"/>
+			 style="?cpp_control_image_button_style"/>
