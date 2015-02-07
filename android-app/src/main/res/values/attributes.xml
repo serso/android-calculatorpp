@@ -34,5 +34,6 @@
 	<attr name="cpp_pane_style_transparent" format="reference"/>
 	<attr name="cpp_main_layout_style" format="reference"/>
 	<attr name="cpp_main_multi_pane_layout_style" format="reference"/>
+	<attr name="cpp_main_bg" format="reference"/>
 
 </resources>

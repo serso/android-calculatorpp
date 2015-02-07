@@ -158,7 +158,10 @@ public class FragmentUi extends BaseUi {
 			}
 		}
 
-		processButtons(fragment.getActivity(), root);
+		if (fragment instanceof CalculatorKeyboardFragment) {
+			processButtons(fragment.getActivity(), root);
+		}
+		fixFonts(root);
 
 		if (titleResId >= 0) {
 			this.setPaneTitle(fragment, titleResId);

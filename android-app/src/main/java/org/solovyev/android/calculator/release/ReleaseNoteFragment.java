@@ -9,7 +9,6 @@ import android.widget.TextView;
 import com.google.common.base.Strings;
 import org.solovyev.android.calculator.CalculatorApplication;
 import org.solovyev.android.calculator.R;
-import org.solovyev.android.calculator.about.CalculatorReleaseNotesFragment;
 import org.solovyev.android.calculator.about.TextHelper;
 import org.solovyev.android.calculator.wizard.WizardFragment;
 
@@ -45,12 +44,12 @@ public class ReleaseNoteFragment extends WizardFragment {
 
 	@Nonnull
 	private String getReleaseNoteVersion(@Nonnull TextHelper textHelper) {
-		return CalculatorReleaseNotesFragment.getVersionName(textHelper, version);
+		return ReleaseNotes.getVersionName(textHelper, version);
 	}
 
 	@Nonnull
 	private String getReleaseNote(@Nonnull TextHelper textHelper) {
-		final String resourceId = CalculatorReleaseNotesFragment.makeReleaseNotesResourceId(version);
+		final String resourceId = ReleaseNotes.makeReleaseNotesResourceId(version);
 		return Strings.nullToEmpty(textHelper.getText(resourceId)).replace("\n", "<br/>");
 	}
 }

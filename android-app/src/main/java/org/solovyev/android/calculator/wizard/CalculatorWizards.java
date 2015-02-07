@@ -3,8 +3,8 @@ package org.solovyev.android.calculator.wizard;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import org.solovyev.android.calculator.about.CalculatorReleaseNotesFragment;
 import org.solovyev.android.calculator.release.ReleaseNoteStep;
+import org.solovyev.android.calculator.release.ReleaseNotes;
 import org.solovyev.android.wizard.*;
 
 import javax.annotation.Nonnull;
@@ -79,13 +79,21 @@ public class CalculatorWizards implements Wizards {
 	static WizardFlow newReleaseNotesWizardFlow(@Nonnull Context context, @Nullable Bundle arguments) {
 		final List<WizardStep> wizardSteps = new ArrayList<WizardStep>();
 		final int startVersion = arguments != null ? arguments.getInt(RELEASE_NOTES_VERSION, 0) : 0;
-		List<Integer> versions = CalculatorReleaseNotesFragment.getReleaseNotesVersions(context, startVersion);
+		List<Integer> versions = ReleaseNotes.getReleaseNotesVersions(context, startVersion);
 		final int size = versions.size();
 		if (size > 7) {
 			versions = versions.subList(0, 7);
 		}
+
 		for (Integer version : versions) {
-			wizardSteps.add(new ReleaseNoteStep(version));
+			switch (version) {
+				case 136:
+					wizardSteps.add(CalculatorWizardStep.choose_theme);
+					break;
+				default:
+					wizardSteps.add(new ReleaseNoteStep(version));
+					break;
+			}
 		}
 		return new ListWizardFlow(wizardSteps);
 	}

@@ -22,6 +22,8 @@
 
 package org.solovyev.android.calculator;
 
+import org.solovyev.common.text.Strings;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -100,7 +102,13 @@ public enum CalculatorSpecialButton {
 	equals("=") {
 		@Override
 		public void onClick(@Nonnull CalculatorKeyboard keyboard) {
-			Locator.getInstance().getCalculator().evaluate();
+			final CalculatorDisplayViewState displayViewState = Locator.getInstance().getDisplay().getViewState();
+			if (displayViewState.isValid()) {
+				final CharSequence text = displayViewState.getText();
+				if (!Strings.isEmpty(text)) {
+					Locator.getInstance().getEditor().setText(text.toString());
+				}
+			}
 		}
 	},
 	clear("clear") {

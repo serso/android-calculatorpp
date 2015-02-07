@@ -27,6 +27,7 @@
   <string name="cpp_wizard_welcome_title">Welcome</string>
   <string name="cpp_wizard_layout_title">Choose layout</string>
   <string name="cpp_wizard_mode_title">Choose mode</string>
+  <string name="cpp_wizard_theme_title">Choose theme</string>
   <string name="cpp_wizard_onscreen_calculator_title">Calculator in a separate window</string>
   <string name="cpp_wizard_dragbutton_title">Drag button basics</string>
   <string name="cpp_wizard_final_done">The app is set up and ready to use.</string>

@@ -43,7 +43,7 @@
 		a:baselineAligned="false">
 
 		<include
-			layout="@layout/cpp_drag_button_equals"
+			layout="@layout/cpp_app_button_equals"
 			a:layout_width="0dp"
 			a:layout_height="match_parent"
 			a:layout_weight="1" />

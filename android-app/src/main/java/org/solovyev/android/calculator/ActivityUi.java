@@ -86,6 +86,7 @@ public class ActivityUi extends BaseUi {
 		final View root = activity.findViewById(R.id.main_layout);
 		if (root != null) {
 			processButtons(activity, root);
+			fixFonts(root);
 			addHelpInfo(activity, root);
 		}
 	}

@@ -47,8 +47,6 @@ import org.solovyev.common.math.Point2d;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,25 +66,25 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
 	private static final List<Integer> viewIds = new ArrayList<Integer>(200);
 
 	@Nonnull
-	private Preferences.Gui.Layout layout;
+	protected Preferences.Gui.Layout layout;
 
 	@Nonnull
-	private Preferences.Gui.Theme theme;
-
-	@Nullable
-	private Vibrator vibrator;
-
-	@Nonnull
-	private final JListeners<DragPreferencesChangeListener> dpclRegister = Listeners.newHardRefListeners();
+	protected Preferences.Gui.Theme theme;
 
 	@Nonnull
 	private String logTag = "CalculatorActivity";
+
+	@Nullable
+	private Vibrator vibrator;
 
 	@Nullable
 	private AngleUnitsButton angleUnitsButton;
 
 	@Nullable
 	private NumeralBasesButton clearButton;
+
+	@Nonnull
+	private final JListeners<DragPreferencesChangeListener> dpclRegister = Listeners.newHardRefListeners();
 
 	protected BaseUi() {
 	}
@@ -117,6 +115,28 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
 
 	public void logError(@Nonnull String message) {
 		Log.e(logTag, message);
+	}
+
+	public void onDestroy(@Nonnull Activity activity) {
+		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
+
+		preferences.unregisterOnSharedPreferenceChangeListener(this);
+	}
+
+	protected void fixFonts(@Nonnull View root) {
+		// some devices ship own fonts which causes issues with rendering. Let's use our own font for all text views
+		final Typeface typeFace = CalculatorApplication.getInstance().getTypeFace();
+		Views.processViewsOfType(root, TextView.class, new Views.ViewProcessor<TextView>() {
+			@Override
+			public void process(@Nonnull TextView view) {
+				int style = Typeface.NORMAL;
+				final Typeface oldTypeface = view.getTypeface();
+				if (oldTypeface != null) {
+					style = oldTypeface.getStyle();
+				}
+				view.setTypeface(typeFace, style);
+			}
+		});
 	}
 
 	public void processButtons(@Nonnull final Activity activity, @Nonnull View root) {
@@ -211,24 +231,32 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
 			toggleButtonDirectionText(views, R.id.cpp_button_plus, false, DragDirection.down, DragDirection.up);
 		}
 
-		CalculatorButtons.processButtons(theme, layout, root);
+		CalculatorButtons.fixButtonsTextSize(theme, layout, root);
 		CalculatorButtons.toggleEqualsButton(preferences, activity);
 		CalculatorButtons.initMultiplicationButton(root);
 		NumeralBaseButtons.toggleNumericDigits(activity, preferences);
 
-		// some devices ship own fonts which causes issues with rendering. Let's use our own font for all text views
-		final Typeface typeFace = CalculatorApplication.getInstance().getTypeFace();
-		Views.processViewsOfType(root, TextView.class, new Views.ViewProcessor<TextView>() {
-			@Override
-			public void process(@Nonnull TextView view) {
-				int style = Typeface.NORMAL;
-				final Typeface oldTypeface = view.getTypeface();
-				if (oldTypeface != null) {
-					style = oldTypeface.getStyle();
-				}
-				view.setTypeface(typeFace, style);
+		new ButtonOnClickListener().attachToViews(views);
+	}
+
+	private void setOnDragListeners(@Nonnull ViewsCache views, @Nonnull SimpleDragListener.Preferences dragPreferences, @Nonnull SharedPreferences preferences) {
+		final DragListener dragListener = new DragListenerVibrator(newOnDragListener(new DigitButtonDragProcessor(getKeyboard()), dragPreferences), vibrator, preferences);
+
+		final List<Integer> viewIds = getViewIds();
+		for (Integer viewId : viewIds) {
+			final View view = views.findViewById(viewId);
+			if (view instanceof DragButton) {
+				((DragButton) view).setOnDragListener(dragListener);
 			}
-		});
+		}
+	}
+
+	@Nonnull
+	private SimpleDragListener newOnDragListener(@Nonnull SimpleDragListener.DragProcessor dragProcessor,
+												 @Nonnull SimpleDragListener.Preferences dragPreferences) {
+		final SimpleDragListener onDragListener = new SimpleDragListener(dragProcessor, dragPreferences);
+		dpclRegister.addListener(onDragListener);
+		return onDragListener;
 	}
 
 	private void toggleButtonDirectionText(@Nonnull ViewsCache views, int id, boolean showDirectionText, @Nonnull DragDirection... dragDirections) {
@@ -246,32 +274,34 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
 		return Locator.getInstance().getCalculator();
 	}
 
-
-	private void setOnDragListeners(@Nonnull ViewsCache views, @Nonnull SimpleDragListener.Preferences dragPreferences, @Nonnull SharedPreferences preferences) {
-		final DragListener dragListener = new DragListenerVibrator(newOnDragListener(new DigitButtonDragProcessor(getKeyboard()), dragPreferences), vibrator, preferences);
-
-		final List<Integer> viewIds = getViewIds();
-		for (Integer viewId : viewIds) {
-			final View view = views.findViewById(viewId);
-			if (view instanceof DragButton) {
-				((DragButton) view).setOnDragListener(dragListener);
-			}
-		}
-	}
-
 	@Nonnull
 	private static List<Integer> getViewIds() {
 		if (viewIds.isEmpty()) {
-			for (Field field : R.id.class.getDeclaredFields()) {
-				int modifiers = field.getModifiers();
-				if (Modifier.isFinal(modifiers) && Modifier.isStatic(modifiers)) {
-					try {
-						viewIds.add(field.getInt(R.id.class));
-					} catch (IllegalAccessException e) {
-						Log.e(R.id.class.getName(), e.getMessage());
-					}
-				}
-			}
+			viewIds.add(R.id.wizard_dragbutton);
+			viewIds.add(R.id.cpp_button_vars);
+			viewIds.add(R.id.cpp_button_round_brackets);
+			viewIds.add(R.id.cpp_button_right);
+			viewIds.add(R.id.cpp_button_plus);
+			viewIds.add(R.id.cpp_button_operators);
+			viewIds.add(R.id.cpp_button_multiplication);
+			viewIds.add(R.id.cpp_button_subtraction);
+			viewIds.add(R.id.cpp_button_left);
+			viewIds.add(R.id.cpp_button_history);
+			viewIds.add(R.id.cpp_button_functions);
+			viewIds.add(R.id.cpp_button_equals);
+			viewIds.add(R.id.cpp_button_period);
+			viewIds.add(R.id.cpp_button_division);
+			viewIds.add(R.id.cpp_button_9);
+			viewIds.add(R.id.cpp_button_8);
+			viewIds.add(R.id.cpp_button_7);
+			viewIds.add(R.id.cpp_button_6);
+			viewIds.add(R.id.cpp_button_5);
+			viewIds.add(R.id.cpp_button_4);
+			viewIds.add(R.id.cpp_button_3);
+			viewIds.add(R.id.cpp_button_2);
+			viewIds.add(R.id.cpp_button_1);
+			viewIds.add(R.id.cpp_button_0);
+			viewIds.add(R.id.cpp_button_clear);
 		}
 		return viewIds;
 	}
@@ -286,23 +316,8 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
 		return (T) views.findViewById(buttonId);
 	}
 
-	@Nonnull
-	private SimpleDragListener newOnDragListener(@Nonnull SimpleDragListener.DragProcessor dragProcessor,
-												   @Nonnull SimpleDragListener.Preferences dragPreferences) {
-		final SimpleDragListener onDragListener = new SimpleDragListener(dragProcessor, dragPreferences);
-		dpclRegister.addListener(onDragListener);
-		return onDragListener;
-	}
-
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
-		if (key.startsWith("org.solovyev.android.calculator.DragButtonCalibrationActivity")) {
-			final SimpleDragListener.Preferences dragPreferences = SimpleDragListener.getPreferences(preferences, CalculatorApplication.getInstance());
-			for (DragPreferencesChangeListener dragPreferencesChangeListener : dpclRegister.getListeners()) {
-				dragPreferencesChangeListener.onDragPreferencesChange(dragPreferences);
-			}
-		}
-
 		if (angleUnit.isSameKey(key) || numeralBase.isSameKey(key)) {
 			if (angleUnitsButton != null) {
 				angleUnitsButton.setAngleUnit(angleUnit.getPreference(preferences));
@@ -312,11 +327,5 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
 				clearButton.setNumeralBase(numeralBase.getPreference(preferences));
 			}
 		}
-	}
-
-	public void onDestroy(@Nonnull Activity activity) {
-		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
-
-		preferences.unregisterOnSharedPreferenceChangeListener(this);
 	}
 }

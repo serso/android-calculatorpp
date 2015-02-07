@@ -42,7 +42,7 @@
 			a:orientation="horizontal">
 
 		<include
-				layout="@layout/cpp_drag_button_left"
+				layout="@layout/cpp_app_button_left"
 				a:layout_width="0dp"
 				a:layout_height="match_parent"
 				a:layout_weight="1"/>
@@ -61,13 +61,13 @@
 			a:orientation="horizontal" />
 
 		<include
-				layout="@layout/cpp_drag_button_clear"
+				layout="@layout/cpp_app_button_clear"
 				a:layout_width="0dp"
 				a:layout_height="match_parent"
 				a:layout_weight="1"/>
 
 		<include
-				layout="@layout/cpp_drag_button_right"
+				layout="@layout/cpp_app_button_right"
 				a:layout_width="0dp"
 				a:layout_height="match_parent"
 				a:layout_weight="1"/>
