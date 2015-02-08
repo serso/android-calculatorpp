@@ -66,7 +66,7 @@
 			</intent-filter>
 		</activity>
 
-		<activity android:hardwareAccelerated="false" android:label="@string/c_plot_graph" android:name=".plot.CalculatorPlotActivity"/>
+		<activity android:hardwareAccelerated="false" android:label="@string/c_plot_graph" android:name=".plot.CalculatorPlotActivity"  android:theme="@style/Cpp.Theme.Material"/>
 		<activity android:label="@string/cpp_plot_functions" android:name=".plot.CalculatorPlotFunctionsActivity" android:theme="@style/Cpp.Theme.Dialog.Material"/>
 		<activity android:label="@string/cpp_plot_function_settings" android:name=".plot.CalculatorPlotFunctionSettingsActivity" android:theme="@style/Cpp.Theme.Dialog.Material"/>
 		<activity android:label="@string/cpp_plot_range" android:name=".plot.CalculatorPlotRangeActivity" android:theme="@style/Cpp.Theme.Dialog.Material"/>

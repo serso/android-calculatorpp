@@ -26,8 +26,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
-import android.preference.PreferenceManager;
 import android.util.SparseArray;
+import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.CalculatorApplication;
 import org.solovyev.android.calculator.R;
 
@@ -42,7 +42,7 @@ import static org.solovyev.android.view.VibratorContainer.Preferences.hapticFeed
 import static org.solovyev.android.wizard.WizardUi.startWizard;
 
 @SuppressWarnings("deprecation")
-public class PreferencesActivity extends BasePreferencesActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class PreferencesActivity extends BasePreferencesActivity {
 
 	@Nonnull
 	private static final SparseArray<String> preferences = new SparseArray<String>();
@@ -100,8 +100,7 @@ public class PreferencesActivity extends BasePreferencesActivity implements Shar
 			setTitle(title);
 		}
 
-		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		preferences.registerOnSharedPreferenceChangeListener(this);
+		final SharedPreferences preferences = App.getPreferences();
 		onSharedPreferenceChanged(preferences, roundResult.getKey());
 		onSharedPreferenceChanged(preferences, hapticFeedbackEnabled.getKey());
 	}
@@ -121,13 +120,8 @@ public class PreferencesActivity extends BasePreferencesActivity implements Shar
 	}
 
 	@Override
-	protected void onDestroy() {
-		PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
-		super.onDestroy();
-	}
-
-	@Override
 	public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
+		super.onSharedPreferenceChanged(preferences, key);
 		if (roundResult.getKey().equals(key)) {
 			final Preference preference = findPreference(precision.getKey());
 			if (preference != null) {

@@ -29,19 +29,21 @@
 	<color name="cpp_button_text_ce">#ffffffff</color>
 	<color name="cpp_selected_angle_unit_text">#ffffff99</color>
 	<color name="cpp_main_bg">#101010</color>
+	<color name="cpp_main_light_bg">#fff6f1ef</color>
 	<color name="cpp_wizard_primary">#FAFAFA</color>
 	<color name="cpp_wizard_secondary">#9E9E9E</color>
-	<color name="cpp_wizard_bg">#212121</color>
+	<color name="cpp_wizard_bg">@color/cpp_material_grey</color>
 	<color name="cpp_wizard_overscroll">#FAFAFA</color>
 	<color name="cpp_wizard_button_normal">#424242</color>
 	<color name="cpp_wizard_button_disabled">#616161</color>
 	<color name="cpp_wizard_button_pressed">#757575</color>
-	<color name="cpp_pane_background">#212121</color>
+	<color name="cpp_pane_background">@color/cpp_material_grey</color>
 	<color name="cpp_metro_button_dark">#ff000000</color>
-	<color name="cpp_metro_button">#212121</color>
-	<color name="cpp_metro_button_light">#393939</color>
+	<color name="cpp_metro_button">@color/cpp_material_grey</color>
+	<color name="cpp_metro_button_light">@color/cpp_material_grey_light</color>
 	<color name="cpp_metro_blue">#10648c</color>
 	<color name="cpp_material_blue">#ff0d4663</color>
+	<color name="cpp_material_light">#2196F3</color>
 	<color name="cpp_metro_blue_dark">#ff092c39</color>
 	<color name="cpp_metro_green">#088e3a</color>
 	<color name="cpp_metro_purple">#651456</color>
@@ -51,4 +53,9 @@
 	<color name="cpp_widget_ripple">#40ffffff</color>
 
 	<color name="cpp_wizard_disabled_text">#66ffffff</color>
+
+	<color name="cpp_material_grey">#212121</color>
+	<color name="cpp_material_grey_light">#393939</color>
+	<color name="cpp_material_actionbar">@color/cpp_material_grey</color>
+	<color name="cpp_material_actionbar_light">@color/cpp_material_grey_light</color>
 </resources>

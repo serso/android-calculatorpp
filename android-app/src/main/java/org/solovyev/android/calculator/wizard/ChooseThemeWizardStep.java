@@ -59,6 +59,7 @@ public class ChooseThemeWizardStep extends WizardFragment implements AdapterView
 		final Spinner spinner = (Spinner) root.findViewById(R.id.wizard_theme_spinner);
 		themes.clear();
 		themes.add(new ThemeUi(Preferences.Gui.Theme.material_theme, R.string.p_material_theme));
+		themes.add(new ThemeUi(Preferences.Gui.Theme.material_light_theme, R.string.p_material_light_theme));
 		themes.add(new ThemeUi(Preferences.Gui.Theme.metro_blue_theme, R.string.p_metro_blue_theme));
 		themes.add(new ThemeUi(Preferences.Gui.Theme.metro_green_theme, R.string.p_metro_green_theme));
 		themes.add(new ThemeUi(Preferences.Gui.Theme.metro_purple_theme, R.string.p_metro_purple_theme));

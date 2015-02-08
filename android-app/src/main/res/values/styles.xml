@@ -62,7 +62,7 @@
 		<item name="android:scrollbars">horizontal</item>
 	</style>
 
-	<style name="CppText.Editor" parent="CppText">
+	<style name="CppText.Editor">
 		<item name="android:text">""</item>
 		<item name="android:gravity">left|top</item>
 		<item name="android:layout_width">fill_parent</item>
@@ -74,7 +74,7 @@
 		<item name="android:textSize">@dimen/cpp_editor_text_size_mobile</item>
 	</style>
 
-	<style name="CppText.Display" parent="CppText">
+	<style name="CppText.Display">
 		<item name="android:gravity">top|right</item>
 		<item name="android:layout_width">match_parent</item>
 		<item name="android:layout_height">match_parent</item>
@@ -85,7 +85,7 @@
 		<item name="android:textSize">@dimen/cpp_onscreen_display_text_size</item>
 	</style>
 
-	<style name="CppText.About" parent="CppText">
+	<style name="CppText.About">
 		<item name="android:gravity">center</item>
 		<item name="android:layout_width">fill_parent</item>
 		<item name="android:layout_height">fill_parent</item>
@@ -117,7 +117,7 @@
 		<item name="android:background">@drawable/metro_widget_button_light</item>
 	</style>
 
-	<style name="cpp_widget_main_layout_style" parent="CppMain">
+	<style name="CppMain.Widget" parent="CppMain">
 		<item name="android:background">@color/cpp_main_bg</item>
 		<item name="android:padding">1dp</item>
 		<item name="android:layout_margin">@dimen/cpp_widget_margin</item>
@@ -131,7 +131,7 @@
 		<item name="android:textSize">@dimen/cpp_widget_display_text_size</item>
 	</style>
 
-	<style name="cpp_onscreen_main_layout_style" parent="CppMain">
+	<style name="CppMain.Onscreen" parent="CppMain">
 		<item name="android:background">@color/cpp_main_bg</item>
 		<item name="android:padding">1dp</item>
 	</style>
@@ -251,8 +251,8 @@
 		<item name="android:layout_height">wrap_content</item>
 		<item name="android:layout_gravity">bottom|end</item>
 		<item name="android:layout_margin">16dp</item>
-		<item name="fab_colorNormal">@color/cpp_metro_button</item>
-		<item name="fab_colorPressed">@color/cpp_metro_button</item>
+		<item name="fab_colorNormal">@color/cpp_material_grey</item>
+		<item name="fab_colorPressed">@color/cpp_material_grey</item>
 		<item name="fab_colorRipple">?attr/colorControlHighlight</item>
 	</style>
 
@@ -268,6 +268,45 @@
 		<item name="android:paddingLeft">@dimen/cpp_pane_padding</item>
 		<item name="android:paddingRight">@dimen/cpp_pane_padding</item>
 		<item name="android:layout_marginBottom">@dimen/cpp_pane_padding</item>
+	</style>
+
+	<style name="CppActionBar" parent="@style/Widget.AppCompat.ActionBar">
+		<item name="background">@color/cpp_material_actionbar</item>
+		<item name="android:background">@color/cpp_material_actionbar</item>
+		<item name="backgroundStacked">@color/cpp_material_actionbar</item>
+		<item name="android:backgroundStacked">@color/cpp_material_actionbar</item>
+		<item name="backgroundSplit">@color/cpp_material_actionbar</item>
+		<item name="android:backgroundSplit">@color/cpp_material_actionbar</item>
+	</style>
+
+	<style name="CppActionBar.Light" parent="CppActionBar">
+		<item name="background">@color/cpp_material_actionbar_light</item>
+		<item name="android:background">@color/cpp_material_actionbar_light</item>
+		<item name="backgroundStacked">@color/cpp_material_actionbar_light</item>
+		<item name="android:backgroundStacked">@color/cpp_material_actionbar_light</item>
+		<item name="backgroundSplit">@color/cpp_material_actionbar_light</item>
+		<item name="android:backgroundSplit">@color/cpp_material_actionbar_light</item>
+	</style>
+
+	<style name="CppToolbar" parent="@style/Widget.AppCompat.Toolbar">
+		<item name="background">@color/cpp_material_actionbar</item>
+		<item name="android:background">@color/cpp_material_actionbar</item>
+		<item name="backgroundStacked">@color/cpp_material_actionbar</item>
+		<item name="android:backgroundStacked">@color/cpp_material_actionbar</item>
+		<item name="backgroundSplit">@color/cpp_material_actionbar</item>
+		<item name="android:backgroundSplit">@color/cpp_material_actionbar</item>
+
+		<item name="navigationIcon">?attr/homeAsUpIndicator</item>
+		<item name="android:navigationIcon">?attr/homeAsUpIndicator</item>
+	</style>
+
+	<style name="CppToolbar.Light" parent="CppToolbar">
+		<item name="background">@color/cpp_material_actionbar_light</item>
+		<item name="android:background">@color/cpp_material_actionbar_light</item>
+		<item name="backgroundStacked">@color/cpp_material_actionbar_light</item>
+		<item name="android:backgroundStacked">@color/cpp_material_actionbar_light</item>
+		<item name="backgroundSplit">@color/cpp_material_actionbar_light</item>
+		<item name="android:backgroundSplit">@color/cpp_material_actionbar_light</item>
 	</style>
 
 </resources>

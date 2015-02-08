@@ -26,20 +26,13 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import android.support.v4.app.Fragment;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.view.*;
+import org.solovyev.android.menu.ActivityMenu;
+import org.solovyev.android.menu.AndroidMenuHelper;
+import org.solovyev.android.menu.ListActivityMenu;
 
 import javax.annotation.Nonnull;
-
-import org.solovyev.android.menu.ActivityMenu;
-import org.solovyev.android.menu.ListActivityMenu;
-import org.solovyev.android.menu.AndroidMenuHelper;
 
 /**
  * User: Solovyev_S
@@ -49,7 +42,7 @@ import org.solovyev.android.menu.AndroidMenuHelper;
 public class CalculatorEditorFragment extends Fragment {
 
 	@Nonnull
-	private FragmentUi fragmentHelper;
+	private FragmentUi fragmentUi;
 
 	@Nonnull
 	private ActivityMenu<Menu, MenuItem> menu = ListActivityMenu.fromEnum(CalculatorMenu.class, AndroidMenuHelper.getInstance());
@@ -61,7 +54,7 @@ public class CalculatorEditorFragment extends Fragment {
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 
-		fragmentHelper.onViewCreated(this, view);
+		fragmentUi.onViewCreated(this, view);
 
 		((AndroidCalculator) Locator.getInstance().getCalculator()).setEditor(getActivity());
 	}
@@ -78,31 +71,29 @@ public class CalculatorEditorFragment extends Fragment {
 		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
 		final Preferences.Gui.Layout layout = Preferences.Gui.getLayout(prefs);
 		if (!layout.isOptimized()) {
-			fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(R.layout.cpp_app_editor_mobile, R.string.editor);
+			fragmentUi = CalculatorApplication.getInstance().createFragmentHelper(R.layout.cpp_app_editor_mobile, R.string.editor);
 		} else {
-			fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(R.layout.cpp_app_editor, R.string.editor);
+			fragmentUi = CalculatorApplication.getInstance().createFragmentHelper(R.layout.cpp_app_editor, R.string.editor);
 		}
 
-		fragmentHelper.onCreate(this);
+		fragmentUi.onCreate(this);
 		setHasOptionsMenu(true);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return fragmentHelper.onCreateView(this, inflater, container);
+		return fragmentUi.onCreateView(this, inflater, container);
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-
-		this.fragmentHelper.onResume(this);
+		this.fragmentUi.onResume(this);
 	}
 
 	@Override
 	public void onPause() {
-		this.fragmentHelper.onPause(this);
-
+		this.fragmentUi.onPause(this);
 		super.onPause();
 	}
 
@@ -113,7 +104,7 @@ public class CalculatorEditorFragment extends Fragment {
 
 	@Override
 	public void onDestroy() {
-		fragmentHelper.onDestroy(this);
+		fragmentUi.onDestroy(this);
 		super.onDestroy();
 	}
 
