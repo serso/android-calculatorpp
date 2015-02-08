@@ -225,4 +225,9 @@ public final class App {
 	public static SharedPreferences getPreferences() {
 		return preferences;
 	}
+
+	@Nonnull
+	public static Preferences.Gui.Theme getTheme() {
+		return Preferences.Gui.getTheme(getPreferences());
+	}
 }

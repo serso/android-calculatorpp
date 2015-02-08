@@ -78,7 +78,7 @@
   <string name="p_default_theme">Szary</string>
   <string name="p_violet_theme">Fioletowy</string>
   <string name="p_light_blue_theme">Jasnoniebieski</string>
-  <string name="p_metro_blue_theme">Niebieski Metro (domyślny)</string>
+  <string name="p_metro_blue_theme">Niebieski Metro</string>
   <string name="p_metro_green_theme">Zielony Metro</string>
   <string name="p_metro_purple_theme">Fioletowy Metro</string>
   <string name="c_calc_result_precision_summary">Dokładność wyświetlanego wyniku (wszystkie obliczenia są wykonywane przy maksymalnej dokładności, niezależnie od tej opcji)</string>

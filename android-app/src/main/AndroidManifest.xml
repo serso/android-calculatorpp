@@ -26,7 +26,7 @@
 
 	<uses-sdk android:minSdkVersion="9" android:targetSdkVersion="17"/>
 
-	<application android:allowBackup="true" android:hardwareAccelerated="true" android:icon="@drawable/icon" android:label="@string/c_app_name" android:name=".CalculatorApplication" android:theme="@style/cpp_metro_blue_theme">
+	<application android:allowBackup="true" android:hardwareAccelerated="true" android:icon="@drawable/icon" android:label="@string/c_app_name" android:name=".CalculatorApplication" android:theme="@style/Cpp.Theme.Material">
 
 		<activity android:clearTaskOnLaunch="true" android:label="@string/c_app_name" android:launchMode="singleTop" android:name=".CalculatorActivity" android:windowSoftInputMode="adjustPan">
 

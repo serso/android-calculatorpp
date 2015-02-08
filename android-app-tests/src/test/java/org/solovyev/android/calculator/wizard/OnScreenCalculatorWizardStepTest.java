@@ -22,21 +22,19 @@
 
 package org.solovyev.android.calculator.wizard;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.util.ActivityController;
 import org.solovyev.android.CalculatorTestRunner;
-import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.wizard.WizardUi;
 
 import javax.annotation.Nonnull;
 import java.lang.reflect.Field;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(CalculatorTestRunner.class)
 public class OnScreenCalculatorWizardStepTest {
@@ -85,23 +83,5 @@ public class OnScreenCalculatorWizardStepTest {
 		fragment.getCheckbox().setChecked(false);
 		controller.restart();
 		assertFalse(fragment.getCheckbox().isChecked());
-	}
-
-	@Test
-	public void testShouldBeEnabledIfIconIsShown() throws Exception {
-		testShouldBeEqualsToIconState(true);
-	}
-
-	@Test
-	public void testShouldBeDisabledIfIconIsNotShown() throws Exception {
-		testShouldBeEqualsToIconState(false);
-	}
-
-	private void testShouldBeEqualsToIconState(boolean iconEnabled) throws IllegalAccessException {
-		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(Robolectric.application);
-		Preferences.OnscreenCalculator.showAppIcon.putPreference(preferences, iconEnabled);
-		createActivity();
-		setFragment();
-		assertEquals(iconEnabled, fragment.isOnscreenCalculatorEnabled());
 	}
 }

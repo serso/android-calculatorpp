@@ -26,7 +26,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
-
+import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.R;
 
 import javax.annotation.Nonnull;
@@ -69,7 +69,8 @@ public class CalculatorPlotFragment extends AbstractCalculatorPlotFragment {
 			graphView = new CalculatorGraph2dView(getActivity());
 		}
 
-		graphView.init(PlotViewDef.newInstance(Color.WHITE, Color.WHITE, Color.DKGRAY, getBgColor()));
+		final int color = App.getTheme().getTextColor(getActivity()).normal;
+		graphView.init(PlotViewDef.newInstance(color, color, Color.DKGRAY, getBgColor()));
 
 		final PlotBoundaries boundaries = plotData.getBoundaries();
 		graphView.setXRange(boundaries.getXMin(), boundaries.getXMax());

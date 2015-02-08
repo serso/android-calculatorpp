@@ -35,6 +35,8 @@ import java.util.Date;
 import java.util.Random;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * User: serso
@@ -50,7 +52,7 @@ public class TextHighlighterTest {
 
 	@Test
 	public void testProcess() throws Exception {
-		TextProcessor<?, String> textHighlighter = new TextHighlighter(0, false);
+		TextProcessor<?, String> textHighlighter = new TextHighlighter(Color.TRANSPARENT, false);
 
 		final Random random = new Random(new Date().getTime());
 		for (int i = 0; i < 1000; i++) {
@@ -175,5 +177,20 @@ public class TextHighlighterTest {
 		textHighlighter.process(expression.toString());
 		long endTime = System.currentTimeMillis();
 		System.out.println("Total time, ms: " + (endTime - startTime));
+	}
+
+	@Test
+	public void testDarkColor() throws Exception {
+		final TextProcessor<?, String> textHighlighter = new TextHighlighter(Color.BLACK, false);
+		assertEquals("", textHighlighter.process("sin(2cos(3))"));
+	}
+
+	@Test
+	public void testIsDark() throws Exception {
+		assertFalse(TextHighlighter.isDark(Color.WHITE));
+		assertFalse(TextHighlighter.isDark(Color.LTGRAY));
+		assertTrue(TextHighlighter.isDark(Color.DKGRAY));
+		assertTrue(TextHighlighter.isDark(Color.BLACK));
+
 	}
 }

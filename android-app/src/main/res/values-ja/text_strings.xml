@@ -80,7 +80,7 @@
   <string name="p_default_theme">グレー</string>
   <string name="p_violet_theme">バイオレット</string>
   <string name="p_light_blue_theme">ライトブルー</string>
-  <string name="p_metro_blue_theme">メトロブルー(デフォルト)</string>
+  <string name="p_metro_blue_theme">メトロブルー</string>
   <string name="p_metro_green_theme">メトログリーン</string>
   <string name="p_metro_purple_theme">メトロパープル</string>
   <string name="c_calc_result_precision_summary">計算結果の有効桁数(計算はこの設定に関係なく最大精度で行われます)</string>

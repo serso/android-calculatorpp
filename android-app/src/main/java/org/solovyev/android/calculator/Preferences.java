@@ -22,9 +22,13 @@
 
 package org.solovyev.android.calculator;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.support.annotation.StyleRes;
+import android.util.SparseArray;
+import android.view.ContextThemeWrapper;
 import jscl.AngleUnit;
 import jscl.NumeralBase;
 import org.solovyev.android.calculator.math.MathType;
@@ -110,8 +114,10 @@ public final class Preferences {
 			metro_purple_theme(R.style.cpp_metro_purple_theme),
 			metro_green_theme(R.style.cpp_metro_green_theme),
 			material_theme(R.style.Cpp_Theme_Material),
-			material_light_theme(R.style.Cpp_Theme_Material_Light, R.style.Cpp_Theme_Wizard_Light, R.style.Cpp_Theme_Settings_Light),
+			material_light_theme(R.style.Cpp_Theme_Material_Light, R.style.Cpp_Theme_Wizard, R.style.Cpp_Theme_Settings_Light),
 			;
+
+			private static final SparseArray<TextColor> textColors = new SparseArray<>();
 
 			private final int themeId;
 			private final int wizardThemeId;
@@ -120,6 +126,7 @@ public final class Preferences {
 			Theme(@StyleRes int themeId) {
 				this(themeId, R.style.Cpp_Theme_Wizard, R.style.Cpp_Theme_Settings);
 			}
+
 			Theme(@StyleRes int themeId, @StyleRes int wizardThemeId, @StyleRes int settingsThemeId) {
 				this.themeId = themeId;
 				this.wizardThemeId = wizardThemeId;
@@ -130,14 +137,40 @@ public final class Preferences {
 				return getThemeId(null);
 			}
 
-			public int getThemeId(@Nullable Activity activity) {
-				if (activity instanceof WizardActivity) {
+			public int getThemeId(@Nullable Context context) {
+				if (context instanceof WizardActivity) {
 					return wizardThemeId;
 				}
-				if (activity instanceof BasePreferencesActivity) {
+				if (context instanceof BasePreferencesActivity) {
 					return settingsThemeId;
 				}
 				return themeId;
+			}
+
+			@Nonnull
+			public TextColor getTextColor(@Nonnull Context context) {
+				final int themeId = getThemeId(context);
+				TextColor textColor = textColors.get(themeId);
+				if (textColor == null) {
+					final ContextThemeWrapper themeContext = new ContextThemeWrapper(context, themeId);
+					final TypedArray a = themeContext.obtainStyledAttributes(new int[]{android.R.attr.textColorPrimary, android.R.attr.textColorPrimaryInverse});
+					final int normal = a.getColor(0, Color.BLACK);
+					final int error = a.getColor(1, Color.WHITE);
+					a.recycle();
+					textColor = new TextColor(normal, error);
+					textColors.append(themeId, textColor);
+				}
+				return textColor;
+			}
+		}
+
+		public static final class TextColor{
+			public final int normal;
+			public final int error;
+
+			TextColor(int normal, int error) {
+				this.normal = normal;
+				this.error = error;
 			}
 		}
 		public static enum Layout {

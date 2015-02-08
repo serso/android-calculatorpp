@@ -30,17 +30,17 @@
 		a:id="@+id/history_item"
 		a:layout_width="fill_parent"
 		a:layout_height="fill_parent"
-		style="@style/history_item" />
+		style="@style/CppListViewItemTextPrimary.History" />
 
 	<TextView
 		a:id="@+id/history_item_comment"
 		a:layout_width="fill_parent"
 		a:layout_height="fill_parent"
-		style="@style/history_time" />
+		style="@style/CppListViewItemTextSecondary" />
 
 	<TextView
 		a:id="@+id/history_time"
 		a:layout_width="fill_parent"
 		a:layout_height="fill_parent"
-		style="@style/history_time" />
+		style="@style/CppListViewItemTextSecondary" />
 </LinearLayout>

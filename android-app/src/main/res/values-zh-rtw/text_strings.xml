@@ -83,7 +83,7 @@
   <string name="p_default_theme">灰色</string>
   <string name="p_violet_theme">紫色</string>
   <string name="p_light_blue_theme">淺藍色</string>
-  <string name="p_metro_blue_theme">現代藍（預設）</string>
+  <string name="p_metro_blue_theme">現代藍</string>
   <string name="p_metro_green_theme">現代綠</string>
   <string name="p_metro_purple_theme">現代紫</string>
   <string name="c_calc_result_precision_summary">計算結果值的精確度（不論選項值為多少，所有計算都使用最大精確度）

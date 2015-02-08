@@ -23,6 +23,6 @@
   -->
 
 <ripple xmlns:a="http://schemas.android.com/apk/res/android"
-	a:color="?attr/colorControlHighlight">
+	a:color="@color/ripple_material_dark">
 	<item a:drawable="@drawable/metro_blue_button_shape" />
 </ripple>

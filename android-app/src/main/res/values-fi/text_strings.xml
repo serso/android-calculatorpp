@@ -78,7 +78,7 @@
   <string name="p_default_theme">Harmaa</string>
   <string name="p_violet_theme">Violetti</string>
   <string name="p_light_blue_theme">Vaaleansininen</string>
-  <string name="p_metro_blue_theme">Metron Sininen (oletus)</string>
+  <string name="p_metro_blue_theme">Metron Sininen</string>
   <string name="p_metro_green_theme">Metron vihreä</string>
   <string name="p_metro_purple_theme">Metro violetti</string>
   <string name="c_calc_result_precision_summary">Tarkkuus tuloksen arvoa (kaikki laskelmat ovat tehneet tarkkuudella riippumatta tämän asetuksen arvosta)  </string>

@@ -38,13 +38,13 @@
 				a:id="@+id/math_entity_text"
 				a:layout_height="wrap_content"
 				a:layout_width="match_parent"
-				style="@style/math_entity_text"/>
+				style="@style/CppListViewItemTextPrimary"/>
 
 		<TextView
 				a:id="@+id/math_entity_short_description"
 				a:layout_height="wrap_content"
 				a:layout_width="match_parent"
-				style="@style/math_entity_description"/>
+				style="@style/CppListViewItemTextSecondary"/>
 	</LinearLayout>
 
 	<ImageView

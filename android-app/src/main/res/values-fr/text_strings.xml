@@ -78,7 +78,7 @@
   <string name="p_default_theme">Gris</string>
   <string name="p_violet_theme">Violet</string>
   <string name="p_light_blue_theme">Bleu clair</string>
-  <string name="p_metro_blue_theme">Métro bleu (par défaut)</string>
+  <string name="p_metro_blue_theme">Métro bleu</string>
   <string name="p_metro_green_theme">Métro vert</string>
   <string name="p_metro_purple_theme">Métro violet</string>
   <string name="c_calc_result_precision_summary">Précision de la valeur du résultat (tous les calculs sont faits avec la précision maximale quelle que soit la valeur de cette option)</string>

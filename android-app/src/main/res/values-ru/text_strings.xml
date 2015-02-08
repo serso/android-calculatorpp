@@ -89,7 +89,7 @@
   <string name="p_default_theme">Серая</string>
   <string name="p_violet_theme">Фиолетовая</string>
   <string name="p_light_blue_theme">Голубая</string>
-  <string name="p_metro_blue_theme">Метро Синяя (По умолчанию)</string>
+  <string name="p_metro_blue_theme">Метро Синяя</string>
   <string name="p_metro_green_theme">Метро Зелёная</string>
   <string name="p_metro_purple_theme">Метро Фиолетовая</string>
   <string name="c_calc_result_precision_summary">Точность результата(все вычисления производятся максимально точно)

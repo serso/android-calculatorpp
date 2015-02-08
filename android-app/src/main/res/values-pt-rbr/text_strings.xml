@@ -78,7 +78,7 @@
   <string name="p_default_theme">Cinza</string>
   <string name="p_violet_theme">Violeta</string>
   <string name="p_light_blue_theme">Azul Claro</string>
-  <string name="p_metro_blue_theme">Metro Blue (Padrão)</string>
+  <string name="p_metro_blue_theme">Metro Blue</string>
   <string name="p_metro_green_theme">Metro Green</string>
   <string name="p_metro_purple_theme">Metro Purple (Roxo)</string>
   <string name="c_calc_result_precision_summary">Precisão do resultado (todos os cálculos são feitos com precisão máxima, independentemente do valor desta opção)</string>

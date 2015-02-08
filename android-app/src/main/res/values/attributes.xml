@@ -28,5 +28,10 @@
 	<attr name="cpp_button_style_control_image" format="reference"/>
 	<attr name="cpp_button_style_operation" format="reference"/>
 	<attr name="cpp_main_bg" format="reference"/>
+	<attr name="cpp_fab_bg" format="reference"/>
+	<attr name="cpp_toolbar_theme" format="reference"/>
+
+	<attr name="cpp_text_color" format="reference"/>
+	<attr name="cpp_text_error_color" format="reference"/>
 
 </resources>

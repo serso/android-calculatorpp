@@ -74,7 +74,7 @@
 		<item name="android:textSize">@dimen/cpp_editor_text_size_mobile</item>
 	</style>
 
-	<style name="CppText.Display">
+	<style name="CppText.Display" parent="CppText">
 		<item name="android:gravity">top|right</item>
 		<item name="android:layout_width">match_parent</item>
 		<item name="android:layout_height">match_parent</item>
@@ -95,7 +95,7 @@
 
 	<style name="CppText">
 		<item name="android:background">@android:color/transparent</item>
-		<item name="android:textColor">@color/cpp_text</item>
+		<item name="android:textColor">?android:attr/textColorPrimary</item>
 	</style>
 
 	<style name="cpp_simple_metro_digit_button_style" parent="metro_digit_button_style">
@@ -251,9 +251,26 @@
 		<item name="android:layout_height">wrap_content</item>
 		<item name="android:layout_gravity">bottom|end</item>
 		<item name="android:layout_margin">16dp</item>
-		<item name="fab_colorNormal">@color/cpp_material_grey</item>
-		<item name="fab_colorPressed">@color/cpp_material_grey</item>
+		<item name="fab_colorNormal">?attr/cpp_fab_bg</item>
+		<item name="fab_colorPressed">?attr/cpp_fab_bg</item>
 		<item name="fab_colorRipple">?attr/colorControlHighlight</item>
+	</style>
+
+	<style name="CppListViewItemTextPrimary">
+		<item name="android:textAppearance">@style/TextAppearance.AppCompat</item>
+		<item name="android:textColor">?android:attr/textColorPrimary</item>
+		<item name="android:textSize">@dimen/cpp_li_text_size</item>
+	</style>
+
+	<style name="CppListViewItemTextSecondary">
+		<item name="android:textAppearance">@style/TextAppearance.AppCompat</item>
+		<item name="android:textColor">?android:attr/textColorSecondary</item>
+		<item name="android:textSize">@dimen/cpp_li_secondary_text_size</item>
+	</style>
+
+	<style name="CppListViewItemTextPrimary.History" parent="CppListViewItemTextPrimary">
+		<item name="android:maxLines">2</item>
+		<item name="android:ellipsize">end</item>
 	</style>
 
 	<style name="CppListView">
