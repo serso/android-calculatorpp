@@ -66,6 +66,15 @@ public class ActivityUi extends BaseUi {
 		this.layoutId = layoutId;
 	}
 
+	public void onPreCreate(@Nonnull Activity activity) {
+		final SharedPreferences preferences = App.getPreferences();
+
+		theme = Preferences.Gui.getTheme(preferences);
+		activity.setTheme(theme.getThemeId(activity));
+
+		layout = Preferences.Gui.getLayout(preferences);
+	}
+
 	@Override
 	public void onCreate(@Nonnull Activity activity) {
 		super.onCreate(activity);
@@ -73,13 +82,6 @@ public class ActivityUi extends BaseUi {
 		if (activity instanceof CalculatorEventListener) {
 			Locator.getInstance().getCalculator().addCalculatorEventListener((CalculatorEventListener) activity);
 		}
-
-		final SharedPreferences preferences = App.getPreferences();
-
-		theme = Preferences.Gui.getTheme(preferences);
-		activity.setTheme(theme.getThemeId(activity));
-
-		this.layout = Preferences.Gui.getLayout(preferences);
 
 		activity.setContentView(layoutId);
 

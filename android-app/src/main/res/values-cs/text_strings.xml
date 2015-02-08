@@ -78,7 +78,7 @@
   <string name="p_default_theme">Šedá</string>
   <string name="p_violet_theme">Fialová</string>
   <string name="p_light_blue_theme">Světle modrá</string>
-  <string name="p_metro_blue_theme">Metro Modrá (výchozí)</string>
+  <string name="p_metro_blue_theme">Metro Modrá</string>
   <string name="p_metro_green_theme">Metro Zelená</string>
   <string name="p_metro_purple_theme">Metro Fialová</string>
   <string name="c_calc_result_precision_summary">Přesnost výsledku (všechny výpočty jsou prováděny s maximální přesností bez ohledu na tuto hodnotu)</string>

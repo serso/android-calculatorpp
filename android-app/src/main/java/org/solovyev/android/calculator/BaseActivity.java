@@ -31,6 +31,7 @@ public class BaseActivity extends ActionBarActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		ui.onPreCreate(this);
 		super.onCreate(savedInstanceState);
 		ui.onCreate(this);
 	}

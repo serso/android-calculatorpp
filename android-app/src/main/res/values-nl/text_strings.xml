@@ -78,7 +78,7 @@
   <string name="p_default_theme">Grijs</string>
   <string name="p_violet_theme">Violet</string>
   <string name="p_light_blue_theme">Lichtblauw</string>
-  <string name="p_metro_blue_theme">Metro blauw (standaard)</string>
+  <string name="p_metro_blue_theme">Metro blauw</string>
   <string name="p_metro_green_theme">Metro groen</string>
   <string name="p_metro_purple_theme">Metro paars</string>
   <string name="c_calc_result_precision_summary">Nauwkeurigheid van de uitkomst (alle berekeningen worden gedaan met maximale nauwkeurigheid, onafhankelijk van deze optie)</string>

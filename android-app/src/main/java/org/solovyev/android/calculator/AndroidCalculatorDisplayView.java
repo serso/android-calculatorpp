@@ -24,7 +24,6 @@ package org.solovyev.android.calculator;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
@@ -38,8 +37,6 @@ import org.solovyev.android.view.AutoResizeTextView;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * User: serso
@@ -57,7 +54,7 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
 	*/
 
 	@Nonnull
-	private final static TextProcessor<TextProcessorEditorResult, String> textHighlighter = new TextHighlighter(Color.WHITE, false);
+	private final TextProcessor<TextProcessorEditorResult, String> textHighlighter;
 
 	/*
 	**********************************************************************
@@ -70,16 +67,11 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
 	@Nonnull
 	private volatile CalculatorDisplayViewState state = CalculatorDisplayViewStateImpl.newDefaultInstance();
 
-	private volatile boolean viewStateChange = false;
-
 	@Nonnull
 	private final Object lock = new Object();
 
 	@Nonnull
 	private final Handler uiHandler = new Handler();
-
-	@Nonnull
-	private final ExecutorService bgExecutor = Executors.newSingleThreadExecutor();
 
 	private volatile boolean initialized = false;
 
@@ -93,15 +85,17 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
 
 	public AndroidCalculatorDisplayView(Context context) {
 		super(context);
+		textHighlighter = new TextHighlighter(getTextColors().getDefaultColor(), false);
 	}
 
 	public AndroidCalculatorDisplayView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-
+		textHighlighter = new TextHighlighter(getTextColors().getDefaultColor(), false);
 	}
 
 	public AndroidCalculatorDisplayView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
+		textHighlighter = new TextHighlighter(getTextColors().getDefaultColor(), false);
 	}
 
 	/*
@@ -121,14 +115,12 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
 			public void run() {
 
 				synchronized (lock) {
-					try {
-						viewStateChange = true;
 
 						final CharSequence text = prepareText(state.getStringResult(), state.isValid());
 
 						AndroidCalculatorDisplayView.this.state = state;
 						if (state.isValid()) {
-							setTextColor(getResources().getColor(R.color.cpp_text));
+							setTextColor(getTextColor().normal);
 							setText(text);
 
 							adjustTextSize();
@@ -136,18 +128,19 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
 						} else {
 							// update text in order to get rid of HTML tags
 							setText(getText().toString());
-							setTextColor(getResources().getColor(R.color.cpp_text_error));
+							setTextColor(getTextColor().error);
 
 							// error messages are never shown -> just greyed out text (error message will be shown on click)
 							//setText(state.getErrorMessage());
 							//redraw();
 						}
-					} finally {
-						viewStateChange = false;
-					}
 				}
 			}
 		});
+	}
+
+	private Preferences.Gui.TextColor getTextColor() {
+		return App.getTheme().getTextColor(App.getApplication());
 	}
 
 	@Nonnull
@@ -159,13 +152,10 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
 	}
 
 	@Nullable
-	private static CharSequence prepareText(@Nullable String text, boolean valid) {
+	private CharSequence prepareText(@Nullable String text, boolean valid) {
 		CharSequence result;
 
 		if (valid && text != null) {
-
-			//Log.d(this.getClass().getName(), text);
-
 			try {
 				final TextProcessorEditorResult processedText = textHighlighter.process(text);
 				text = processedText.toString();

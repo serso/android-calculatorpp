@@ -32,7 +32,7 @@ import javax.annotation.Nonnull;
 public enum PlotLineColor {
 
 	// Color.WHITE
-	white(0xFFFFFFFF),
+	white(0xFFBBBBBB),
 
 	blue(0xFF10648C),
 

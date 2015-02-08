@@ -78,7 +78,7 @@
   <string name="p_default_theme">Xám</string>
   <string name="p_violet_theme">Tím</string>
   <string name="p_light_blue_theme">Xanh nhạt</string>
-  <string name="p_metro_blue_theme">Metro Blue (Mặc định)</string>
+  <string name="p_metro_blue_theme">Metro Blue</string>
   <string name="p_metro_green_theme">Metro Green</string>
   <string name="p_metro_purple_theme">Metro Purple</string>
   <string name="c_calc_result_precision_summary">Độ chính xác của giá trị kết quả (Tất cả tính toán được thực hiện với độ chính xác tối đa bất kể giá trị của tùy chọn này)</string>

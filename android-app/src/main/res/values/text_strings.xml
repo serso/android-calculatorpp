@@ -86,7 +86,7 @@
   <string name="p_default_theme">Grey</string>
   <string name="p_violet_theme">Violet</string>
   <string name="p_light_blue_theme">Light Blue</string>
-  <string name="p_metro_blue_theme">Metro Blue (Default)</string>
+  <string name="p_metro_blue_theme">Metro Blue</string>
   <string name="p_metro_green_theme">Metro Green</string>
   <string name="p_metro_purple_theme">Metro Purple</string>
   <string name="p_material_theme">Material</string>

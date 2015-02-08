@@ -48,21 +48,42 @@ public class TextHighlighter implements TextProcessor<TextProcessorEditorResult,
 		nbFontAttributes.put("color", "#008000");
 	}
 
-	private final int color;
-	private final int colorRed;
-	private final int colorGreen;
-	private final int colorBlue;
+	private final int red;
+	private final int green;
+	private final int blue;
 	private final boolean formatNumber;
+	private final boolean dark;
 
-	public TextHighlighter(int baseColor, boolean formatNumber) {
-		this.color = baseColor;
+	public TextHighlighter(int color, boolean formatNumber) {
 		this.formatNumber = formatNumber;
-		//this.colorRed = Color.red(baseColor);
-		this.colorRed = (baseColor >> 16) & 0xFF;
-		//this.colorGreen = Color.green(baseColor);
-		this.colorGreen = (color >> 8) & 0xFF;
-		//this.colorBlue = Color.blue(baseColor);
-		this.colorBlue = color & 0xFF;
+		//this.red = Color.red(baseColor);
+		red = red(color);
+		//this.green = Color.green(baseColor);
+		green = green(color);
+		//this.blue = Color.blue(baseColor);
+		blue = blue(color);
+		dark = isDark(red, green, blue);
+	}
+
+	private static int blue(int color) {
+		return color & 0xFF;
+	}
+
+	private static int green(int color) {
+		return (color >> 8) & 0xFF;
+	}
+
+	private static int red(int color) {
+		return (color >> 16) & 0xFF;
+	}
+
+	public static boolean isDark(int color) {
+		return isDark(red(color), green(color), color & 0xFF);
+	}
+
+	public static boolean isDark(int red, int green, int blue) {
+		final float y = 0.2126f * red + 0.7152f * green + 0.0722f * blue;
+		return y < 128;
 	}
 
 	@Nonnull
@@ -201,13 +222,14 @@ public class TextHighlighter implements TextProcessor<TextProcessorEditorResult,
 	}
 
 	private String getColor(int totalNumberOfOpenings, int numberOfOpenings) {
-		double c = 0.8;
-
-		int offset = ((int) (255 * c)) * numberOfOpenings / (totalNumberOfOpenings + 1);
+		int offset = ((int) (255 * 0.8)) * numberOfOpenings / (totalNumberOfOpenings + 1);
+		if (!dark) {
+			offset = -offset;
+		}
 
 		// for tests:
-		// innt result = Color.rgb(BASE_COLOUR_RED_COMPONENT - offset, BASE_COLOUR_GREEN_COMPONENT - offset, BASE_COLOUR_BLUE_COMPONENT - offset);
-		int result = (0xFF << 24) | ((colorRed - offset) << 16) | ((colorGreen - offset) << 8) | (colorBlue - offset);
+		// int result = Color.rgb(BASE_COLOUR_RED_COMPONENT - offset, BASE_COLOUR_GREEN_COMPONENT - offset, BASE_COLOUR_BLUE_COMPONENT - offset);
+		int result = (0xFF << 24) | ((red + offset) << 16) | ((green + offset) << 8) | (blue + offset);
 
 		return "#" + Integer.toHexString(result).substring(2);
 	}

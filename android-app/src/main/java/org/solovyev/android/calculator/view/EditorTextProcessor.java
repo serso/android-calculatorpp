@@ -1,18 +1,22 @@
 package org.solovyev.android.calculator.view;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.text.Html;
 import android.util.Log;
+import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.CalculatorParseException;
+import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.text.TextProcessor;
 import org.solovyev.android.calculator.text.TextProcessorEditorResult;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import static org.solovyev.android.calculator.Preferences.Gui.colorDisplay;
-import static org.solovyev.android.calculator.view.TextHighlighter.WHITE;
+import static org.solovyev.android.calculator.Preferences.Gui.theme;
 
 /**
  * User: serso
@@ -23,7 +27,8 @@ public final class EditorTextProcessor implements TextProcessor<TextProcessorEdi
 
 	private boolean highlightText = true;
 
-	private final TextProcessor<TextProcessorEditorResult, String> textHighlighter = new TextHighlighter(WHITE, true);
+	@Nullable
+	private TextProcessor<TextProcessorEditorResult, String> textHighlighter;
 
 	public EditorTextProcessor() {
 	}
@@ -42,7 +47,7 @@ public final class EditorTextProcessor implements TextProcessor<TextProcessorEdi
 		if (highlightText) {
 
 			try {
-				final TextProcessorEditorResult processesText = textHighlighter.process(text);
+				final TextProcessorEditorResult processesText = getTextHighlighter().process(text);
 
 				result = new TextProcessorEditorResult(Html.fromHtml(processesText.toString()), processesText.getOffset());
 			} catch (CalculatorParseException e) {
@@ -58,6 +63,14 @@ public final class EditorTextProcessor implements TextProcessor<TextProcessorEdi
 		return result;
 	}
 
+	@Nonnull
+	private TextProcessor<TextProcessorEditorResult, String> getTextHighlighter() {
+		if (textHighlighter == null) {
+			onSharedPreferenceChanged(App.getPreferences(), theme.getKey());
+		}
+		return textHighlighter;
+	}
+
 	public boolean isHighlightText() {
 		return highlightText;
 	}
@@ -68,8 +81,17 @@ public final class EditorTextProcessor implements TextProcessor<TextProcessorEdi
 
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
-		if (colorDisplay.getKey().equals(key)) {
-			this.setHighlightText(colorDisplay.getPreference(preferences));
+		if (colorDisplay.isSameKey(key)) {
+			setHighlightText(colorDisplay.getPreference(preferences));
+		} else if (theme.isSameKey(key)) {
+			final int color = getTextColor(preferences);
+			textHighlighter = new TextHighlighter(color, true);
 		}
+	}
+
+	private int getTextColor(@Nonnull SharedPreferences preferences) {
+		final Preferences.Gui.Theme theme = Preferences.Gui.getTheme(preferences);
+		final Application application = App.getApplication();
+		return theme.getTextColor(application).normal;
 	}
 }

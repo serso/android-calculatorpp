@@ -78,7 +78,7 @@
   <string name="p_default_theme">灰色</string>
   <string name="p_violet_theme">紫色</string>
   <string name="p_light_blue_theme">浅蓝色</string>
-  <string name="p_metro_blue_theme">Metro蓝 (默认)</string>
+  <string name="p_metro_blue_theme">Metro蓝</string>
   <string name="p_metro_green_theme">Metro绿</string>
   <string name="p_metro_purple_theme">Metro紫</string>
   <string name="c_calc_result_precision_summary">结果显示的精确度（无论此项如何设置，所有的计算都使用最大

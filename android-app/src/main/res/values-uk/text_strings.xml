@@ -82,7 +82,7 @@
   <string name="p_default_theme">Сіра</string>
   <string name="p_violet_theme">Фіолетова</string>
   <string name="p_light_blue_theme">Блакитна</string>
-  <string name="p_metro_blue_theme">Метро Синя (типова)</string>
+  <string name="p_metro_blue_theme">Метро Синя</string>
   <string name="p_metro_green_theme">Метро Зелена</string>
   <string name="p_metro_purple_theme">Метро Пурпурова</string>
   <string name="c_calc_result_precision_summary">Точність відображення результату (усі обчислення проводяться максимально точно, незалежно від цього параметру)
