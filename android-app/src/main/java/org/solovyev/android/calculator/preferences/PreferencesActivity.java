@@ -91,7 +91,7 @@ public class PreferencesActivity extends BasePreferencesActivity {
 			adFreePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 				@Override
 				public boolean onPreferenceClick(Preference preference) {
-					startActivity(new Intent(getApplicationContext(), PurchaseDialogActivity.class));
+					startActivity(new Intent(PreferencesActivity.this, PurchaseDialogActivity.class));
 					return true;
 				}
 			});
