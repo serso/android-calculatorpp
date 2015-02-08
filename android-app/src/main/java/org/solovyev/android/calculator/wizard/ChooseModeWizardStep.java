@@ -29,6 +29,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.drag.DirectionDragButton;
 
 import javax.annotation.Nonnull;
 
@@ -42,6 +43,7 @@ import static org.solovyev.android.calculator.wizard.CalculatorMode.*;
  */
 public class ChooseModeWizardStep extends WizardFragment implements AdapterView.OnItemSelectedListener {
 
+	private DirectionDragButton button;
 	private TextView description;
 
 	@Override
@@ -59,12 +61,23 @@ public class ChooseModeWizardStep extends WizardFragment implements AdapterView.
 		spinner.setSelection(mode == simple ? 0 : 1);
 		spinner.setOnItemSelectedListener(this);
 
+		button = (DirectionDragButton) root.findViewById(R.id.wizard_mode_button);
 		description = (TextView) root.findViewById(R.id.wizard_mode_description);
 		updateDescription(mode);
 	}
 
 	private void updateDescription(@Nonnull CalculatorMode mode) {
-		description.setText(mode == simple ? R.string.cpp_wizard_mode_simple_description : R.string.cpp_wizard_mode_engineer_description);
+		boolean simple = mode == CalculatorMode.simple;
+		description.setText(simple ? R.string.cpp_wizard_mode_simple_description : R.string.cpp_wizard_mode_engineer_description);
+		if (simple) {
+			button.setText("", DirectionDragButton.GuiDragDirection.up);
+			button.setText("", DirectionDragButton.GuiDragDirection.down);
+			button.setText("", DirectionDragButton.GuiDragDirection.left);
+		} else {
+			button.setText("sin", DirectionDragButton.GuiDragDirection.up);
+			button.setText("ln", DirectionDragButton.GuiDragDirection.down);
+			button.setText("i", DirectionDragButton.GuiDragDirection.left);
+		}
 	}
 
 	@Override

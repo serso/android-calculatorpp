@@ -97,7 +97,7 @@
 		<item name="android:background">@color/cpp_metro_button_light</item>
 	</style>
 
-	<style name="Cpp.Theme.Wizard.Light" parent="Cpp.Theme.Light">
+	<style name="Cpp.Theme.Wizard" parent="Cpp.Theme.Material">
 		<item name="android:windowBackground">@color/cpp_wizard_bg</item>
 		<item name="android:colorEdgeEffect">@color/cpp_wizard_overscroll</item>
 		<item name="colorAccent">@color/cpp_wizard_primary</item>
@@ -106,7 +106,7 @@
 		<item name="android:textColorPrimary">@color/cpp_wizard_primary</item>
 	</style>
 
-	<style name="Cpp.Theme.Wizard" parent="Cpp.Theme">
+	<style name="Cpp.Theme.Wizard.Light" parent="Cpp.Theme.Material.Light">
 		<item name="android:windowBackground">@color/cpp_wizard_bg</item>
 		<item name="android:colorEdgeEffect">@color/cpp_wizard_overscroll</item>
 		<item name="colorAccent">@color/cpp_wizard_primary</item>
