@@ -74,7 +74,7 @@ public class ActivityUi extends BaseUi {
 			Locator.getInstance().getCalculator().addCalculatorEventListener((CalculatorEventListener) activity);
 		}
 
-		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
+		final SharedPreferences preferences = App.getPreferences();
 
 		theme = Preferences.Gui.getTheme(preferences);
 		activity.setTheme(theme.getThemeId(activity));

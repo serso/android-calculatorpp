@@ -1,6 +1,7 @@
 package org.solovyev.android.calculator.preferences;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
@@ -10,10 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import org.solovyev.android.calculator.ActivityUi;
-import org.solovyev.android.calculator.AdView;
-import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.R;
+import org.solovyev.android.Activities;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.checkout.ActivityCheckout;
 import org.solovyev.android.checkout.Checkout;
 import org.solovyev.android.checkout.Inventory;
@@ -21,16 +20,23 @@ import org.solovyev.android.checkout.ProductTypes;
 
 import javax.annotation.Nonnull;
 
-public abstract class BasePreferencesActivity extends PreferenceActivity {
+public abstract class BasePreferencesActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
 	private static boolean SUPPORT_HEADERS = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
 	private final ActivityCheckout checkout = Checkout.forActivity(this, App.getBilling(), App.getProducts());
 	private Inventory inventory;
 	private AdView adView;
 	private Toolbar actionBar;
+	private Preferences.Gui.Theme theme;
+	private boolean paused = true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		final SharedPreferences preferences = App.getPreferences();
+		preferences.registerOnSharedPreferenceChangeListener(this);
+		theme = Preferences.Gui.getTheme(preferences);
+		setTheme(theme.getThemeId(this));
+
 		super.onCreate(savedInstanceState);
 
 		actionBar.setTitle(getTitle());
@@ -57,6 +63,15 @@ public abstract class BasePreferencesActivity extends PreferenceActivity {
 		getWindow().setContentView(contentView);
 	}
 
+	@Override
+	public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
+		if (!paused && Preferences.Gui.theme.isSameKey(key)) {
+			final Preferences.Gui.Theme newTheme = Preferences.Gui.theme.getPreference(preferences);
+			if (!theme.equals(newTheme)) {
+				Activities.restartActivity(this);
+			}
+		}
+	}
 
 	private class InventoryListener implements Inventory.Listener {
 		@Override
@@ -113,10 +128,16 @@ public abstract class BasePreferencesActivity extends PreferenceActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		paused = false;
 		if (adView != null) {
 			adView.resume();
 		}
 		inventory.whenLoaded(new InventoryListener());
+
+		final Preferences.Gui.Theme newTheme = Preferences.Gui.theme.getPreference(App.getPreferences());
+		if (!theme.equals(newTheme)) {
+			Activities.restartActivity(this);
+		}
 	}
 
 	@Override
@@ -136,6 +157,7 @@ public abstract class BasePreferencesActivity extends PreferenceActivity {
 		if (adView != null) {
 			adView.pause();
 		}
+		paused = true;
 		super.onPause();
 	}
 
@@ -145,6 +167,7 @@ public abstract class BasePreferencesActivity extends PreferenceActivity {
 			adView.destroy();
 		}
 		checkout.stop();
+		App.getPreferences().unregisterOnSharedPreferenceChangeListener(this);
 		super.onDestroy();
 	}
 }

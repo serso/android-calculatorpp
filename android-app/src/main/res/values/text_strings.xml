@@ -90,6 +90,7 @@
   <string name="p_metro_green_theme">Metro Green</string>
   <string name="p_metro_purple_theme">Metro Purple</string>
   <string name="p_material_theme">Material</string>
+  <string name="p_material_light_theme">Material Light</string>
   <string name="c_calc_result_precision_summary">Precision of the result value (all calculations are done with maximum
 		precision regardless of the value of this option)
 	</string>

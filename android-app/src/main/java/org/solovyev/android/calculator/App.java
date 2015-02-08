@@ -220,4 +220,9 @@ public final class App {
 	public static boolean isLargeScreen() {
 		return Views.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_LARGE, App.getApplication().getResources().getConfiguration());
 	}
+
+	@Nonnull
+	public static SharedPreferences getPreferences() {
+		return preferences;
+	}
 }

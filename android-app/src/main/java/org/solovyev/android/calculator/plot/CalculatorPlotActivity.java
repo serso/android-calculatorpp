@@ -24,9 +24,8 @@ package org.solovyev.android.calculator.plot;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import org.solovyev.android.calculator.EmptyActivity;
 import org.solovyev.android.calculator.CalculatorFragmentType;
+import org.solovyev.android.calculator.EmptyActivity;
 import org.solovyev.android.calculator.R;
 
 import javax.annotation.Nonnull;

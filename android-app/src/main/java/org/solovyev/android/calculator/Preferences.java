@@ -24,10 +24,12 @@ package org.solovyev.android.calculator;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.support.annotation.StyleRes;
 import jscl.AngleUnit;
 import jscl.NumeralBase;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
+import org.solovyev.android.calculator.preferences.BasePreferencesActivity;
 import org.solovyev.android.calculator.wizard.WizardActivity;
 import org.solovyev.android.prefs.*;
 import org.solovyev.android.view.VibratorContainer;
@@ -101,21 +103,27 @@ public final class Preferences {
 
 		public static enum Theme {
 
-			default_theme(R.style.Cpp_Theme_Gray, R.style.Cpp_Theme_Wizard),
-			violet_theme(R.style.Cpp_Theme_Violet, R.style.Cpp_Theme_Wizard),
-			light_blue_theme(R.style.Cpp_Theme_Blue, R.style.Cpp_Theme_Wizard),
-			metro_blue_theme(R.style.cpp_metro_blue_theme, R.style.Cpp_Theme_Wizard),
-			metro_purple_theme(R.style.cpp_metro_purple_theme, R.style.Cpp_Theme_Wizard),
-			metro_green_theme(R.style.cpp_metro_green_theme, R.style.Cpp_Theme_Wizard),
-			material_theme(R.style.Cpp_Theme_Material, R.style.Cpp_Theme_Wizard),
+			default_theme(R.style.Cpp_Theme_Gray),
+			violet_theme(R.style.Cpp_Theme_Violet),
+			light_blue_theme(R.style.Cpp_Theme_Blue),
+			metro_blue_theme(R.style.cpp_metro_blue_theme),
+			metro_purple_theme(R.style.cpp_metro_purple_theme),
+			metro_green_theme(R.style.cpp_metro_green_theme),
+			material_theme(R.style.Cpp_Theme_Material),
+			material_light_theme(R.style.Cpp_Theme_Material_Light, R.style.Cpp_Theme_Wizard_Light, R.style.Cpp_Theme_Settings_Light),
 			;
 
 			private final int themeId;
 			private final int wizardThemeId;
+			private final int settingsThemeId;
 
-			Theme(int themeId, int wizardThemeId) {
+			Theme(@StyleRes int themeId) {
+				this(themeId, R.style.Cpp_Theme_Wizard, R.style.Cpp_Theme_Settings);
+			}
+			Theme(@StyleRes int themeId, @StyleRes int wizardThemeId, @StyleRes int settingsThemeId) {
 				this.themeId = themeId;
 				this.wizardThemeId = wizardThemeId;
+				this.settingsThemeId = settingsThemeId;
 			}
 
 			public int getThemeId() {
@@ -125,6 +133,9 @@ public final class Preferences {
 			public int getThemeId(@Nullable Activity activity) {
 				if (activity instanceof WizardActivity) {
 					return wizardThemeId;
+				}
+				if (activity instanceof BasePreferencesActivity) {
+					return settingsThemeId;
 				}
 				return themeId;
 			}
