@@ -23,6 +23,7 @@
   -->
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+	xmlns:c="http://schemas.android.com/apk/res-auto"
 	a:layout_width="match_parent"
 	a:layout_height="match_parent"
 	a:orientation="vertical"
@@ -56,7 +57,7 @@
 			a:layout_marginBottom="10dp"
 			a:background="?attr/cpp_main_bg">
 
-			<org.solovyev.android.calculator.drag.DirectionDragButton xmlns:c="http://schemas.android.com/apk/res-auto"
+			<org.solovyev.android.calculator.drag.DirectionDragButton
 				a:id="@+id/wizard_mode_button"
 				a:text="7"
 				c:directionTextScale="0.5"

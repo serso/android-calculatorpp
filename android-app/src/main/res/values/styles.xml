@@ -22,20 +22,6 @@
 
 <resources>
 
-	<style name="cpp_window_title">
-		<item name="android:singleLine">true</item>
-		<item name="android:textAppearance">@style/cpp_text_appearance_window_title</item>
-		<item name="android:shadowColor">#BB000000</item>
-		<item name="android:shadowRadius">2.75</item>
-	</style>
-
-	<style name="cpp_text_appearance_window_title">
-		<item name="android:textColor">#fff</item>
-		<item name="android:textSize">14sp</item>
-		<item name="android:textStyle">bold</item>
-	</style>
-
-
 	<style name="cpp_default_text_size">
 		<item name="android:textSize">@dimen/cpp_text_size</item>
 	</style>
@@ -193,7 +179,7 @@
 	</style>
 
 	<style name="CppFragmentTitle">
-		<item name="android:textColor">@android:color/white</item>
+		<item name="android:textColor">?android:attr/textColorPrimary</item>
 		<item name="android:textSize">@dimen/cpp_fragment_title_text_size</item>
 		<item name="android:paddingLeft">@dimen/cpp_pane_margin</item>
 	</style>
@@ -201,8 +187,10 @@
 	<style name="CppPaneStyle">
 		<item name="android:layout_marginLeft">@dimen/cpp_pane_margin</item>
 		<item name="android:layout_marginTop">@dimen/cpp_pane_margin</item>
+		<item name="android:layout_marginRight">@dimen/cpp_pane_margin</item>
+		<item name="android:layout_marginBottom">@dimen/cpp_pane_margin</item>
 		<item name="android:padding">@dimen/cpp_pane_padding</item>
-		<item name="android:background">@drawable/pane_background</item>
+		<item name="android:background">?attr/cpp_pane_bg</item>
 	</style>
 
 	<style name="CppPaneStyle.Transparent" parent="CppPaneStyle">
@@ -276,7 +264,6 @@
 	<style name="CppListView">
 		<item name="android:id">@android:id/list</item>
 		<item name="android:dividerHeight">1px</item>
-		<item name="android:divider">@color/cpp_list_divider</item>
 		<item name="android:cacheColorHint">@android:color/transparent</item>
 		<item name="android:layout_height">match_parent</item>
 		<item name="android:layout_width">match_parent</item>

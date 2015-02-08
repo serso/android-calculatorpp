@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <!--
   ~ Copyright 2013 serso aka se.solovyev
   ~
@@ -21,18 +22,14 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<resources>
+<selector xmlns:a="http://schemas.android.com/apk/res/android">
 
-	<attr name="cpp_button_style_digit" format="reference"/>
-	<attr name="cpp_button_style_control" format="reference"/>
-	<attr name="cpp_button_style_control_image" format="reference"/>
-	<attr name="cpp_button_style_operation" format="reference"/>
-	<attr name="cpp_main_bg" format="reference"/>
-	<attr name="cpp_pane_bg" format="reference"/>
-	<attr name="cpp_fab_bg" format="reference"/>
-	<attr name="cpp_toolbar_theme" format="reference"/>
+	<item a:state_pressed="true" a:drawable="@drawable/metro_button_pressed" />
 
-	<attr name="cpp_text_color" format="reference"/>
-	<attr name="cpp_text_error_color" format="reference"/>
+	<item>
+		<shape>
+			<solid a:color="@color/cpp_metro_button" />
+		</shape>
+	</item>
 
-</resources>
+</selector>

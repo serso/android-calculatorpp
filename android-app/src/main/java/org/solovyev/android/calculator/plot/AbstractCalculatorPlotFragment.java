@@ -110,7 +110,7 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 		super.onCreate(in);
 
 		if (isPaneFragment()) {
-			this.bgColor = getResources().getColor(R.color.cpp_pane_background);
+			this.bgColor = getResources().getColor(R.color.cpp_pane_bg);
 		} else {
 			this.bgColor = getResources().getColor(android.R.color.transparent);
 		}
