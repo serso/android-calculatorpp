@@ -3,6 +3,8 @@ package org.solovyev.android.calculator.wizard;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import org.solovyev.android.calculator.release.ChooseThemeReleaseNoteFragment;
 import org.solovyev.android.calculator.release.ReleaseNoteStep;
 import org.solovyev.android.calculator.release.ReleaseNotes;
 import org.solovyev.android.wizard.*;
@@ -88,7 +90,13 @@ public class CalculatorWizards implements Wizards {
 		for (Integer version : versions) {
 			switch (version) {
 				case 136:
-					wizardSteps.add(CalculatorWizardStep.choose_theme);
+					wizardSteps.add(new ReleaseNoteStep(version) {
+						@Nonnull
+						@Override
+						public Class<? extends Fragment> getFragmentClass() {
+							return ChooseThemeReleaseNoteFragment.class;
+						}
+					});
 					break;
 				default:
 					wizardSteps.add(new ReleaseNoteStep(version));
