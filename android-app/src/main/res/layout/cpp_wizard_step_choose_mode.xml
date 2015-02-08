@@ -33,18 +33,43 @@
 		a:layout_height="wrap_content"
 		a:textAppearance="@android:style/TextAppearance.Large"
 		style="@style/WizardLabel"
-		a:text="@string/cpp_wizard_mode_title"/>
+		a:layout_marginBottom="20dp"
+		a:text="@string/cpp_wizard_mode_title" />
 
 	<Spinner
 		a:id="@+id/wizard_mode_spinner"
 		a:layout_width="wrap_content"
 		a:layout_height="wrap_content"
-		style="@style/WizardLabel"/>
+		a:layout_marginBottom="20dp"
+		style="@style/WizardLabel" />
 
-	<TextView
-		a:id="@+id/wizard_mode_description"
+	<LinearLayout
 		a:layout_width="wrap_content"
 		a:layout_height="wrap_content"
-		style="@style/WizardLabel.Last"/>
+		a:orientation="vertical"
+		a:gravity="center_horizontal|top">
+
+		<FrameLayout
+			a:layout_width="wrap_content"
+			a:layout_height="wrap_content"
+			a:padding="3dp"
+			a:layout_marginBottom="10dp"
+			a:background="?attr/cpp_main_bg">
+
+			<org.solovyev.android.calculator.drag.DirectionDragButton xmlns:c="http://schemas.android.com/apk/res-auto"
+				a:id="@+id/wizard_mode_button"
+				a:text="7"
+				c:directionTextScale="0.5"
+				a:layout_width="100dp"
+				a:layout_height="100dp"
+				style="?attr/cpp_button_style_digit" />
+		</FrameLayout>
+
+		<TextView
+			a:id="@+id/wizard_mode_description"
+			a:layout_width="wrap_content"
+			a:layout_height="wrap_content"
+			style="@style/WizardLabel.Last" />
+	</LinearLayout>
 
 </LinearLayout>

@@ -28,6 +28,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.text.TextPaint;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import org.solovyev.common.math.Point2d;
 import org.solovyev.common.text.NumberParser;
@@ -117,7 +118,7 @@ public class DirectionDragButton extends DragButton {
 		}
 	}
 
-	protected static enum GuiDragDirection {
+	public static enum GuiDragDirection {
 		up(DragDirection.up, 0) {
 			@Override
 			public int getAttributeId() {
@@ -240,7 +241,7 @@ public class DirectionDragButton extends DragButton {
 	}
 
 	@Nonnull
-	private final Map<GuiDragDirection, DirectionTextData> textDataMap = new EnumMap<GuiDragDirection, DirectionTextData>(GuiDragDirection.class);
+	private final Map<GuiDragDirection, DirectionTextData> textDataMap = new EnumMap<>(GuiDragDirection.class);
 
 	@Nonnull
 	protected String directionTextScale = DEFAULT_DIRECTION_TEXT_SCALE;
@@ -312,6 +313,7 @@ public class DirectionDragButton extends DragButton {
 				initDirectionTextPaint(basePaint, textData);
 				textData.position = textData.direction.getTextPosition(textData.paint, basePaint, textData.text, getText(), getWidth(), getHeight());
 			}
+			invalidate();
 		}
 	}
 
@@ -361,9 +363,20 @@ public class DirectionDragButton extends DragButton {
 		}
 	}
 
+	public void setText(@Nullable String text, @Nonnull GuiDragDirection direction) {
+		if (!TextUtils.isEmpty(text)) {
+			final DirectionTextData data = new DirectionTextData(direction, text);
+			initDirectionTextPaint(getPaint(), data);
+			textDataMap.put(direction, data);
+		} else {
+			textDataMap.remove(direction);
+		}
+		measureText();
+	}
+
 	@Nullable
 	private String getText(@Nonnull GuiDragDirection direction) {
-		DirectionTextData td = this.textDataMap.get(direction);
+		DirectionTextData td = textDataMap.get(direction);
 		if (td == null) {
 			return null;
 		} else {
