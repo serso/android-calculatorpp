@@ -1,19 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="acl_wizard_finish_confirmation">Do you really want to finish wizard?</string>
 	<string name="wizard_finish_confirmation_title">Finish?</string>
 	<string name="acl_wizard_next">Next</string>
 	<string name="acl_wizard_back">Back</string>
-	<string name="acl_wizard_finish">Finish</string>
+	<string name="acl_wizard_finish">Done</string>
 	<string name="acl_wizard_start">Start wizard</string>
 	<string name="cpp_clear_history_title">Clear history?</string>
 	<string name="cpp_clear_history_message">All history will be cleared.</string>
 	<string name="cpp_clear_history">Clear</string>
-	<string name="wizard_start">Start wizard</string>
-	<string name="wizard_next">Next</string>
-	<string name="wizard_prev">Back</string>
-	<string name="wizard_final">The app is set up and ready to use.</string>
 	<string name="wizard_skip">Skip</string>
-	<string name="wizard_finish">Finish</string>
 	<string name="cpp_new_in_version">New in %1$s version</string>
+	<string name="release_notes_choose_theme">Do you want to try new Material themes? Choose them from the list:</string>
 </resources>

@@ -30,6 +30,7 @@
 
 	<TextView
 		a:layout_width="wrap_content"
+		a:id="@+id/wizard_theme_title"
 		a:layout_height="wrap_content"
 		a:textAppearance="@android:style/TextAppearance.Large"
 		style="@style/WizardLabel"
