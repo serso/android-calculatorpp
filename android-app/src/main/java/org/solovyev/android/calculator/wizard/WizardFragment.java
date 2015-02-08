@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.release.ChooseThemeReleaseNoteFragment;
+import org.solovyev.android.calculator.release.ChooseThemeReleaseNoteStep;
 import org.solovyev.android.calculator.release.ReleaseNoteFragment;
 import org.solovyev.android.calculator.release.ReleaseNoteStep;
 import org.solovyev.android.wizard.Wizard;
@@ -39,6 +41,10 @@ public abstract class WizardFragment extends Fragment implements View.OnClickLis
 	private WizardStep findStepByClassName() {
 		if (this instanceof ReleaseNoteFragment) {
 			return new ReleaseNoteStep(getArguments());
+		}
+
+		if(this instanceof ChooseThemeReleaseNoteFragment) {
+			return new ChooseThemeReleaseNoteStep(getArguments());
 		}
 
 		for (CalculatorWizardStep step : CalculatorWizardStep.values()) {
