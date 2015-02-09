@@ -22,43 +22,43 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-	a:id="@+id/wizard_layout"
+<LinearLayout a:id="@+id/wizard_layout"
 	style="@style/CppDialog"
+	xmlns:a="http://schemas.android.com/apk/res/android"
 	a:orientation="vertical">
 
 	<FrameLayout
-		a:orientation="vertical"
 		a:id="@id/acl_wizard_content"
 		a:layout_width="match_parent"
 		a:layout_height="0dp"
 		a:layout_weight="1"
-		a:padding="6dp"
-		a:gravity="center" />
+		a:gravity="center"
+		a:orientation="vertical"
+		a:padding="6dp" />
 
 	<LinearLayout
-		a:orientation="horizontal"
 		a:layout_width="match_parent"
-		a:layout_height="wrap_content">
+		a:layout_height="wrap_content"
+		a:orientation="horizontal">
 
 		<Button
 			a:id="@id/acl_wizard_prev_button"
-			a:layout_height="wrap_content"
 			a:layout_width="0dp"
+			a:layout_height="wrap_content"
 			a:layout_weight="1"
-			a:singleLine="true"
 			a:lines="1"
 			a:maxLines="1"
+			a:singleLine="true"
 			a:text="@string/cpp_wizard_back" />
 
 		<Button
 			a:id="@id/acl_wizard_next_button"
-			a:layout_height="wrap_content"
 			a:layout_width="0dp"
+			a:layout_height="wrap_content"
 			a:layout_weight="1"
-			a:singleLine="true"
 			a:lines="1"
 			a:maxLines="1"
+			a:singleLine="true"
 			a:text="@string/cpp_wizard_next" />
 
 	</LinearLayout>

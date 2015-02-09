@@ -29,17 +29,17 @@
 	a:orientation="vertical">
 
 	<TextView
-		a:drawableTop="@drawable/logo_wizard_window"
-		a:text="@string/cpp_wizard_onscreen_description"
-		a:layout_height="wrap_content"
+		style="@style/WizardLabel"
 		a:layout_width="wrap_content"
-		style="@style/WizardLabel" />
+		a:layout_height="wrap_content"
+		a:drawableTop="@drawable/logo_wizard_window"
+		a:text="@string/cpp_wizard_onscreen_description" />
 
 	<CheckBox
 		a:id="@+id/wizard_onscreen_app_enabled_checkbox"
-		a:layout_height="wrap_content"
+		style="@style/WizardLabel.Last"
 		a:layout_width="wrap_content"
-		a:text="@string/cpp_wizard_onscreen_checkbox"
-		style="@style/WizardLabel.Last" />
+		a:layout_height="wrap_content"
+		a:text="@string/cpp_wizard_onscreen_checkbox" />
 
 </LinearLayout>

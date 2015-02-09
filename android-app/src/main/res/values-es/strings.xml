@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-	<string name="acl_wizard_finish_confirmation">¿Realmente quiere finalizar el asistente?</string>
-	<string name="acl_wizard_next">Siguiente</string>
-	<string name="acl_wizard_back">Atrás</string>
-	<string name="acl_wizard_finish">Finalizar</string>
-	<string name="acl_wizard_start">Iniciar el asistente</string>
-</resources>

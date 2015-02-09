@@ -21,11 +21,14 @@
   ~ Email: se.solovyev@gmail.com
   ~ Site:  http://se.solovyev.org
   -->
-<org.solovyev.android.calculator.drag.DirectionDragButton xmlns:a="http://schemas.android.com/apk/res/android"
-													xmlns:c="http://schemas.android.com/apk/res-auto"
-													a:id="@id/cpp_button_equals"
-													c:textUp="≡"
-													a:text="="
-													c:textDown="@string/cpp_plot_button_text"
-													c:directionTextScale="0.5;0.5;0.33;0.5"
-													style="?attr/cpp_button_style_control"/>
+<org.solovyev.android.calculator.drag.DirectionDragButton
+	a:id="@id/cpp_button_equals"
+	style="?attr/cpp_button_style_control"
+	xmlns:a="http://schemas.android.com/apk/res/android"
+	xmlns:c="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	a:text="="
+	c:directionTextScale="0.5;0.5;0.33;0.5"
+	c:textDown="@string/cpp_plot_button_text"
+	c:textUp="≡"
+	tools:ignore="HardcodedText" />

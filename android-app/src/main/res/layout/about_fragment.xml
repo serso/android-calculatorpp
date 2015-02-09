@@ -23,9 +23,9 @@
   -->
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-	a:orientation="vertical"
 	a:layout_width="fill_parent"
-	a:layout_height="fill_parent">
+	a:layout_height="fill_parent"
+	a:orientation="vertical">
 
 	<ImageView
 		a:layout_width="wrap_content"
@@ -47,27 +47,27 @@
 
 			<TextView
 				a:id="@+id/cpp_about_textview"
-				a:text="@string/c_about_content"
-				a:layout_height="match_parent"
+				style="@style/CppText.About"
 				a:layout_width="match_parent"
-				style="@style/CppText.About" />
+				a:layout_height="match_parent"
+				a:text="@string/c_about_content" />
 
 
 			<TextView
 				a:id="@+id/cpp_about_translators_text"
-				a:text="@string/cpp_translators_text"
-				a:layout_height="wrap_content"
+				style="@style/CppText.About"
 				a:layout_width="match_parent"
+				a:layout_height="wrap_content"
 				a:paddingBottom="0dp"
-				style="@style/CppText.About" />
+				a:text="@string/cpp_translators_text" />
 
 			<TextView
 				a:id="@+id/cpp_about_translators"
-				a:text="@string/cpp_translators_list"
-				a:layout_height="wrap_content"
+				style="@style/CppText.About"
 				a:layout_width="match_parent"
+				a:layout_height="wrap_content"
 				a:paddingTop="0dp"
-				style="@style/CppText.About" />
+				a:text="@string/cpp_translators_list" />
 
 		</LinearLayout>
 	</ScrollView>

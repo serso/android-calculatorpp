@@ -22,37 +22,38 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-			  a:orientation="horizontal"
-			  style="@style/CppListViewItem">
+<LinearLayout style="@style/CppListViewItem"
+	xmlns:a="http://schemas.android.com/apk/res/android"
+	a:orientation="horizontal">
 
 
 	<LinearLayout
-			a:orientation="vertical"
-			a:layout_width="0dp"
-			a:layout_weight="1"
-			a:layout_height="wrap_content">
+		a:layout_width="0dp"
+		a:layout_height="wrap_content"
+		a:layout_weight="1"
+		a:orientation="vertical">
 
 		<TextView
-				a:id="@+id/history_item"
-				a:layout_width="fill_parent"
-				a:layout_height="fill_parent"
-				style="@style/CppListViewItemTextPrimary.History"/>
+			a:id="@+id/history_item"
+			style="@style/CppListViewItemTextPrimary.History"
+			a:layout_width="fill_parent"
+			a:layout_height="fill_parent" />
 
 		<TextView
 			a:id="@+id/history_time"
+			style="@style/CppListViewItemTextSecondary"
 			a:layout_width="fill_parent"
-			a:layout_height="fill_parent"
-			style="@style/CppListViewItemTextSecondary"/>
+			a:layout_height="fill_parent" />
 
 	</LinearLayout>
 
-	<ImageView a:id="@+id/history_item_status_icon"
-			   a:layout_gravity="center_vertical|right"
-			   a:scaleType="centerInside"
-			   a:src="@drawable/ic_save_grey600_48dp"
-			   a:visibility="gone"
-			   a:layout_width="30dp"
-			   a:layout_height="30dp"/>
+	<ImageView
+		a:id="@+id/history_item_status_icon"
+		a:layout_width="30dp"
+		a:layout_height="30dp"
+		a:layout_gravity="center_vertical|right"
+		a:scaleType="centerInside"
+		a:src="@drawable/ic_save_grey600_48dp"
+		a:visibility="gone" />
 
 </LinearLayout>

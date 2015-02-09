@@ -21,7 +21,7 @@
   ~ Email: se.solovyev@gmail.com
   ~ Site:  http://se.solovyev.org
   -->
-<Button xmlns:a="http://schemas.android.com/apk/res/android"
-		a:id="@id/cpp_button_5"
-		a:text="5"
-		style="@style/cpp_simple_metro_digit_button_style"/>
+<Button a:id="@id/cpp_button_5"
+	style="@style/cpp_simple_metro_digit_button_style"
+	xmlns:a="http://schemas.android.com/apk/res/android"
+	a:text="5" />

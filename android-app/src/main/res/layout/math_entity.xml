@@ -22,36 +22,36 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-			  a:layout_height="wrap_content"
-			  a:layout_width="match_parent"
-			  style="@style/CppListViewItem"
-			  a:orientation="horizontal">
+<LinearLayout style="@style/CppListViewItem"
+	xmlns:a="http://schemas.android.com/apk/res/android"
+	a:layout_width="match_parent"
+	a:layout_height="wrap_content"
+	a:orientation="horizontal">
 
 	<LinearLayout
-			a:layout_height="wrap_content"
-			a:layout_width="0dp"
-			a:layout_weight="1"
-			a:orientation="vertical">
+		a:layout_width="0dp"
+		a:layout_height="wrap_content"
+		a:layout_weight="1"
+		a:orientation="vertical">
 
 		<TextView
-				a:id="@+id/math_entity_text"
-				a:layout_height="wrap_content"
-				a:layout_width="match_parent"
-				style="@style/CppListViewItemTextPrimary"/>
+			a:id="@+id/math_entity_text"
+			style="@style/CppListViewItemTextPrimary"
+			a:layout_width="match_parent"
+			a:layout_height="wrap_content" />
 
 		<TextView
-				a:id="@+id/math_entity_short_description"
-				a:layout_height="wrap_content"
-				a:layout_width="match_parent"
-				style="@style/CppListViewItemTextSecondary"/>
+			a:id="@+id/math_entity_short_description"
+			style="@style/CppListViewItemTextSecondary"
+			a:layout_width="match_parent"
+			a:layout_height="wrap_content" />
 	</LinearLayout>
 
 	<ImageView
-			a:id="@+id/math_entity_description_imageview"
-			a:scaleType="centerInside"
-			a:visibility="gone"
-			a:layout_height="match_parent"
-			a:layout_width="wrap_content"/>
+		a:id="@+id/math_entity_description_imageview"
+		a:layout_width="wrap_content"
+		a:layout_height="match_parent"
+		a:scaleType="centerInside"
+		a:visibility="gone" />
 
 </LinearLayout>

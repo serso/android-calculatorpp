@@ -21,8 +21,8 @@
   ~ Email: se.solovyev@gmail.com
   ~ Site:  http://se.solovyev.org
   -->
-<Button xmlns:a="http://schemas.android.com/apk/res/android"
-		a:id="@id/cpp_button_history"
-		a:text="@string/c_history_button"
-		style="@style/cpp_simple_metro_control_button_style"
-		a:textStyle="bold"/>
+<Button a:id="@id/cpp_button_history"
+	style="@style/cpp_simple_metro_control_button_style"
+	xmlns:a="http://schemas.android.com/apk/res/android"
+	a:text="@string/c_history_button"
+	a:textStyle="bold" />

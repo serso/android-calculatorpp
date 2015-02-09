@@ -22,44 +22,44 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-			  a:id="@+id/main_fragment_layout"
-			  style="@style/CppFragment"
-			  a:layout_width="match_parent"
-			  a:layout_height="match_parent">
+<LinearLayout a:id="@+id/main_fragment_layout"
+	style="@style/CppFragment"
+	xmlns:a="http://schemas.android.com/apk/res/android"
+	a:layout_width="match_parent"
+	a:layout_height="match_parent">
 
-	<include layout="@layout/ad"/>
+	<include layout="@layout/ad" />
 
 	<LinearLayout
-			a:layout_width="match_parent"
+		a:layout_width="match_parent"
+		a:layout_height="wrap_content"
+		a:orientation="horizontal">
+
+		<TextView
+			a:layout_width="0dp"
 			a:layout_height="wrap_content"
-			a:orientation="horizontal">
+			a:layout_weight="3"
+			a:text="@string/cpp_function" />
 
 		<TextView
-				a:layout_width="0dp"
-				a:layout_height="wrap_content"
-				a:layout_weight="3"
-				a:text="@string/cpp_function"/>
+			a:layout_width="0dp"
+			a:layout_height="wrap_content"
+			a:layout_weight="1"
+			a:text="@string/cpp_pinned" />
 
 		<TextView
-				a:layout_width="0dp"
-				a:layout_height="wrap_content"
-				a:layout_weight="1"
-				a:text="@string/cpp_pinned"/>
+			a:layout_width="0dp"
+			a:layout_height="wrap_content"
+			a:layout_weight="1"
+			a:text="@string/cpp_visible" />
 
 		<TextView
-				a:layout_width="0dp"
-				a:layout_height="wrap_content"
-				a:layout_weight="1"
-				a:text="@string/cpp_visible"/>
-
-		<TextView
-				a:layout_width="0dp"
-				a:layout_height="wrap_content"
-				a:layout_weight="1"/>
+			a:layout_width="0dp"
+			a:layout_height="wrap_content"
+			a:layout_weight="1" />
 
 	</LinearLayout>
 
-	<ListView style="@style/CppListView"/>
+	<ListView style="@style/CppListView" />
 
 </LinearLayout>

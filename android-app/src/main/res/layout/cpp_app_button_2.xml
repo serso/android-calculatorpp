@@ -22,11 +22,14 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<org.solovyev.android.calculator.drag.DirectionDragButton xmlns:a="http://schemas.android.com/apk/res/android"
-													xmlns:c="http://schemas.android.com/apk/res-auto"
-													a:id="@id/cpp_button_2"
-													a:text="2"
-													c:textUp="cos"
-													c:textLeft="B"
-													c:textDown="acos"
-													style="?attr/cpp_button_style_digit"/>
+<org.solovyev.android.calculator.drag.DirectionDragButton
+	a:id="@id/cpp_button_2"
+	style="?attr/cpp_button_style_digit"
+	xmlns:a="http://schemas.android.com/apk/res/android"
+	xmlns:c="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	a:text="2"
+	c:textDown="acos"
+	c:textLeft="B"
+	c:textUp="cos"
+	tools:ignore="HardcodedText" />

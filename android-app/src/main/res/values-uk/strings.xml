@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-	<string name="acl_wizard_finish_confirmation">Ви дійсно бажаєте вийти з майстра?</string>
-	<string name="acl_wizard_next">Далі</string>
-	<string name="acl_wizard_back">Назад</string>
-	<string name="acl_wizard_finish">Завершити</string>
-	<string name="acl_wizard_start">Запустити майстер</string>
-</resources>

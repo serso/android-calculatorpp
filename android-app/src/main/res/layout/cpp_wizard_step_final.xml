@@ -25,15 +25,15 @@
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
 	a:layout_width="match_parent"
 	a:layout_height="match_parent"
-	a:orientation="vertical"
-	a:gravity="center">
+	a:gravity="center"
+	a:orientation="vertical">
 
 	<TextView
 		style="@style/WizardLabel.Last"
-		a:drawableTop="@drawable/ic_action_done"
-		a:layout_height="wrap_content"
 		a:layout_width="match_parent"
-		a:textAppearance="@android:style/TextAppearance.Large"
-		a:text="@string/cpp_wizard_final_done" />
+		a:layout_height="wrap_content"
+		a:drawableTop="@drawable/ic_action_done"
+		a:text="@string/cpp_wizard_final_done"
+		a:textAppearance="@android:style/TextAppearance.Large" />
 
 </LinearLayout>

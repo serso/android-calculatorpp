@@ -25,10 +25,10 @@
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
 	a:layout_width="wrap_content"
 	a:layout_height="wrap_content"
+	a:background="?attr/cpp_main_bg"
 	a:minWidth="200dp"
 	a:orientation="vertical"
-	a:padding="3dp"
-	a:background="?attr/cpp_main_bg">
+	a:padding="3dp">
 
 	<LinearLayout
 		a:layout_width="match_parent"
@@ -38,11 +38,11 @@
 		<include layout="@layout/cpp_app_button_equals_no_bg" />
 
 		<TextView
+			style="@style/CppText.Display"
 			a:layout_width="0dp"
 			a:layout_height="match_parent"
-			style="@style/CppText.Display"
-			a:text="3.1415"
-			a:layout_weight="2"/>
+			a:layout_weight="2"
+			a:text="3.1415" />
 
 	</LinearLayout>
 

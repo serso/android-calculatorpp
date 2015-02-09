@@ -79,19 +79,19 @@ public abstract class WizardFragment extends Fragment implements View.OnClickLis
 		final boolean firstTimeWizard = TextUtils.equals(wizard.getName(), CalculatorWizards.FIRST_TIME_WIZARD);
 		if (canGoNext) {
 			if (canGoPrev || !firstTimeWizard) {
-				setupNextButton(R.string.acl_wizard_next);
+				setupNextButton(R.string.cpp_wizard_next);
 			} else {
-				setupNextButton(R.string.acl_wizard_start);
+				setupNextButton(R.string.cpp_wizard_start);
 			}
 		} else {
-			setupNextButton(R.string.acl_wizard_finish);
+			setupNextButton(R.string.cpp_wizard_finish);
 		}
 
 		if (canGoPrev) {
-			setupPrevButton(R.string.acl_wizard_back);
+			setupPrevButton(R.string.cpp_wizard_back);
 		} else {
 			if (firstTimeWizard) {
-				setupPrevButton(R.string.wizard_skip);
+				setupPrevButton(R.string.cpp_wizard_skip);
 			}
 		}
 

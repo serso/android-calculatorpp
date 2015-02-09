@@ -25,27 +25,26 @@
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
 	a:layout_width="match_parent"
 	a:layout_height="match_parent"
-	a:orientation="vertical"
-	a:gravity="center">
+	a:gravity="center"
+	a:orientation="vertical">
 
 	<TextView
+		style="@style/WizardLabel"
 		a:layout_width="wrap_content"
 		a:layout_height="wrap_content"
-		a:textAppearance="@android:style/TextAppearance.Large"
-		style="@style/WizardLabel"
-		a:text="@string/cpp_wizard_layout_title" />
+		a:text="@string/cpp_wizard_layout_title"
+		a:textAppearance="@android:style/TextAppearance.Large" />
 
 	<Spinner
 		a:id="@+id/wizard_layout_spinner"
+		style="@style/WizardLabel"
 		a:layout_width="wrap_content"
-		a:layout_height="wrap_content"
-		style="@style/WizardLabel" />
+		a:layout_height="wrap_content" />
 
 	<ImageView
 		a:id="@+id/wizard_layout_image"
-		a:layout_width="wrap_content"
-		a:layout_height="wrap_content"
 		style="@style/WizardLabel.Last"
-		/>
+		a:layout_width="wrap_content"
+		a:layout_height="wrap_content" />
 
 </LinearLayout>

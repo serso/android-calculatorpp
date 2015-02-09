@@ -35,4 +35,5 @@ El resultado no se redondea, y los radianes son la unidad de ángulo predetermin
   <string name="cpp_wizard_onscreen_checkbox">Activar la calculadora en ventana independiente (aparecerá un segundo icono en la lista de aplicaciones)</string>
   <string name="cpp_wizard_dragbutton_description">El botón de arrastre es una característica exclusiva de Calculadora ++ que proporciona un acceso rápido a las funciones secundarias</string>
   <string name="cpp_wizard_finish_confirmation">¿Realmente quiere finalizar el asistente?</string>
+	<string name="cpp_wizard_finish_confirmation_title">Finish?</string>
 </resources>

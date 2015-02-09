@@ -22,45 +22,45 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-			  a:layout_width="match_parent"
-			  a:layout_height="match_parent"
-			  a:id="@+id/main_layout"
-			  a:orientation="vertical"
-			  style="@style/CppMain">
+<LinearLayout a:id="@+id/main_layout"
+	style="@style/CppMain"
+	xmlns:a="http://schemas.android.com/apk/res/android"
+	a:layout_width="match_parent"
+	a:layout_height="match_parent"
+	a:orientation="vertical">
 
 	<LinearLayout
-			a:id="@+id/editorContainer"
-			a:layout_weight="2"
-			a:layout_width="match_parent"
-			a:layout_height="0dp"
-			a:orientation="horizontal" />
+		a:id="@+id/editorContainer"
+		a:layout_width="match_parent"
+		a:layout_height="0dp"
+		a:layout_weight="2"
+		a:orientation="horizontal" />
 
 	<LinearLayout
-			a:layout_weight="1"
-			a:layout_width="match_parent"
-			a:layout_height="0dp">
+		a:layout_width="match_parent"
+		a:layout_height="0dp"
+		a:layout_weight="1">
 
 		<include
-				layout="@layout/cpp_app_button_equals"
-				a:layout_weight="1"
-				a:layout_width="0dp"
-				a:layout_height="match_parent"/>
+			layout="@layout/cpp_app_button_equals"
+			a:layout_width="0dp"
+			a:layout_height="match_parent"
+			a:layout_weight="1" />
 
 		<FrameLayout
-				a:id="@+id/displayContainer"
-				a:layout_weight="4"
-				a:layout_width="0dp"
-				a:layout_height="match_parent"
-				a:orientation="horizontal" />
+			a:id="@+id/displayContainer"
+			a:layout_width="0dp"
+			a:layout_height="match_parent"
+			a:layout_weight="4"
+			a:orientation="horizontal" />
 
 	</LinearLayout>
 
 	<LinearLayout
-			a:id="@+id/keyboardContainer"
-			a:layout_weight="5"
-			a:layout_width="match_parent"
-			a:layout_height="0dp"
-			a:orientation="vertical" />
+		a:id="@+id/keyboardContainer"
+		a:layout_width="match_parent"
+		a:layout_height="0dp"
+		a:layout_weight="5"
+		a:orientation="vertical" />
 
 </LinearLayout>
