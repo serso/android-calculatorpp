@@ -55,23 +55,18 @@ public class WizardActivity extends BaseActivity implements WizardsAware, Shared
 			public void onPageSelected(int position) {
 				final WizardStep step = flow.getStepAt(position);
 				wizardUi.setStep(step);
+				WizardUi.tryPutStep(getIntent(), step);
 				wizard.saveLastStep(step);
 			}
 		});
 
-		final String lastSavedStepName = wizard.getLastSavedStepName();
-		if (lastSavedStepName == null) {
-			wizard.saveLastStep(wizardUi.getStep());
-		} else {
-			final WizardStep step = wizard.getFlow().getStepByName(lastSavedStepName);
-			if (step != null) {
-				wizardUi.setStep(step);
-			}
-		}
-
 		if (savedInstanceState == null) {
 			final int position = flow.getPositionFor(wizardUi.getStep());
 			pager.setCurrentItem(position);
+		}
+
+		if (wizard.getLastSavedStepName() == null) {
+			wizard.saveLastStep(wizardUi.getStep());
 		}
 
 		App.getPreferences().registerOnSharedPreferenceChangeListener(this);
