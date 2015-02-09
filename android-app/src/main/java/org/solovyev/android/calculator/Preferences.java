@@ -114,7 +114,7 @@ public final class Preferences {
 			metro_purple_theme(R.style.cpp_metro_purple_theme),
 			metro_green_theme(R.style.cpp_metro_green_theme),
 			material_theme(R.style.Cpp_Theme_Material),
-			material_light_theme(R.style.Cpp_Theme_Material_Light, R.style.Cpp_Theme_Wizard, R.style.Cpp_Theme_Settings_Light),
+			material_light_theme(R.style.Cpp_Theme_Material_Light, R.style.Cpp_Theme_Wizard_Light, R.style.Cpp_Theme_Settings_Light),
 			;
 
 			private static final SparseArray<TextColor> textColors = new SparseArray<>();
@@ -164,7 +164,7 @@ public final class Preferences {
 			}
 		}
 
-		public static final class TextColor{
+		public static final class TextColor {
 			public final int normal;
 			public final int error;
 
@@ -173,6 +173,7 @@ public final class Preferences {
 				this.error = error;
 			}
 		}
+
 		public static enum Layout {
 			main_calculator(R.layout.main_calculator, R.string.p_layout_calculator, true),
 			main_calculator_mobile(R.layout.main_calculator_mobile, R.string.p_layout_calculator_mobile, false),

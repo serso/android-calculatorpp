@@ -51,11 +51,10 @@
 		a:layout_weight="0"
 		a:layout_gravity="center"
 		a:id="@+id/wizard_dragbutton"
-		a:background="@drawable/cpp_wizard_button_selector"
 		a:text="9"
 		c:textDown="^2"
 		c:textUp="%"
 		c:directionTextScale="0.5;0.5;0.5;0.33"
-		style="?attr/cpp_button_style_control" />
+		style="?attr/cpp_button_style_operation" />
 
 </LinearLayout>

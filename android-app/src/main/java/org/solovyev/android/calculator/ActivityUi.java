@@ -96,6 +96,12 @@ public class ActivityUi extends BaseUi {
 	public void onCreate(@Nonnull final ActionBarActivity activity) {
 		onCreate((Activity) activity);
 		final ActionBar actionBar = activity.getSupportActionBar();
+		if (actionBar != null) {
+			initActionBar(activity, actionBar);
+		}
+	}
+
+	private void initActionBar(@Nonnull Activity activity, @Nonnull ActionBar actionBar) {
 		actionBar.setDisplayUseLogoEnabled(false);
 		final boolean homeAsUp = !(activity instanceof CalculatorActivity);
 		actionBar.setDisplayHomeAsUpEnabled(homeAsUp);
@@ -103,7 +109,7 @@ public class ActivityUi extends BaseUi {
 		actionBar.setDisplayShowHomeEnabled(true);
 		actionBar.setElevation(0);
 
-		toggleTitle(activity, true);
+		toggleTitle(activity, actionBar, true);
 
 		if (!homeAsUp) {
 			actionBar.setIcon(R.drawable.ab_icon);
@@ -111,9 +117,7 @@ public class ActivityUi extends BaseUi {
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 	}
 
-	private void toggleTitle(@Nonnull ActionBarActivity activity, boolean showTitle) {
-		final ActionBar actionBar = activity.getSupportActionBar();
-
+	private void toggleTitle(@Nonnull Activity activity, @Nonnull ActionBar actionBar, boolean showTitle) {
 		if (activity instanceof CalculatorActivity) {
 			if (Views.getScreenOrientation(activity) == Configuration.ORIENTATION_PORTRAIT) {
 				actionBar.setDisplayShowTitleEnabled(true);
@@ -127,8 +131,10 @@ public class ActivityUi extends BaseUi {
 
 	public void restoreSavedTab(@Nonnull ActionBarActivity activity) {
 		final ActionBar actionBar = activity.getSupportActionBar();
-		if (selectedNavigationIndex >= 0 && selectedNavigationIndex < actionBar.getTabCount()) {
-			actionBar.setSelectedNavigationItem(selectedNavigationIndex);
+		if (actionBar != null) {
+			if (selectedNavigationIndex >= 0 && selectedNavigationIndex < actionBar.getTabCount()) {
+				actionBar.setSelectedNavigationItem(selectedNavigationIndex);
+			}
 		}
 	}
 
@@ -140,10 +146,14 @@ public class ActivityUi extends BaseUi {
 	}
 
 	public void onResume(@Nonnull Activity activity) {
-		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
+		restartIfThemeChanged(activity, theme);
+	}
 
-		final Preferences.Gui.Theme newTheme = Preferences.Gui.theme.getPreference(preferences);
-		if (!theme.equals(newTheme)) {
+	public static void restartIfThemeChanged(@Nonnull Activity activity, @Nonnull Preferences.Gui.Theme oldTheme) {
+		final Preferences.Gui.Theme newTheme = Preferences.Gui.theme.getPreference(App.getPreferences());
+		final int themeId = oldTheme.getThemeId(activity);
+		final int newThemeId = newTheme.getThemeId(activity);
+		if (themeId != newThemeId) {
 			Activities.restartActivity(activity);
 		}
 	}
@@ -154,14 +164,16 @@ public class ActivityUi extends BaseUi {
 	public void onPause(@Nonnull ActionBarActivity activity) {
 		onPause((Activity) activity);
 
-		final int selectedNavigationIndex = activity.getSupportActionBar().getSelectedNavigationIndex();
-		if (selectedNavigationIndex >= 0) {
-			final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
-			final SharedPreferences.Editor editor = preferences.edit();
-			editor.putInt(getSavedTabPreferenceName(activity), selectedNavigationIndex);
-			editor.apply();
+		final ActionBar actionBar = activity.getSupportActionBar();
+		if (actionBar != null) {
+			final int selectedNavigationIndex = actionBar.getSelectedNavigationIndex();
+			if (selectedNavigationIndex >= 0) {
+				final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
+				final SharedPreferences.Editor editor = preferences.edit();
+				editor.putInt(getSavedTabPreferenceName(activity), selectedNavigationIndex);
+				editor.apply();
+			}
 		}
-
 	}
 
 	@Nonnull

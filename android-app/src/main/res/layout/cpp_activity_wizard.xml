@@ -17,6 +17,7 @@
 		android:id="@+id/pager_indicator"
 		android:layout_height="wrap_content"
 		android:layout_width="match_parent"
-		my:radius="5dp" />
+		my:radius="5dp"
+		my:fillColor="?attr/colorAccent"/>
 
 </LinearLayout>

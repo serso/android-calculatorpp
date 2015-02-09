@@ -2,21 +2,20 @@ package org.solovyev.android.calculator.wizard;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import com.viewpagerindicator.PageIndicator;
-import org.solovyev.android.calculator.BaseActivity;
-import org.solovyev.android.calculator.CalculatorApplication;
-import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.wizard.*;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class WizardActivity extends BaseActivity implements WizardsAware {
+public class WizardActivity extends BaseActivity implements WizardsAware, SharedPreferences.OnSharedPreferenceChangeListener {
 	@Nonnull
 	private final WizardUi<WizardActivity> wizardUi = new WizardUi<>(this, this, 0);
 
@@ -43,7 +42,6 @@ public class WizardActivity extends BaseActivity implements WizardsAware {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		wizardUi.onCreate(savedInstanceState);
-		getSupportActionBar().hide();
 		final ListWizardFlow flow = (ListWizardFlow) wizardUi.getFlow();
 
 		pager = (ViewPager) findViewById(R.id.pager);
@@ -51,23 +49,32 @@ public class WizardActivity extends BaseActivity implements WizardsAware {
 		pager.setAdapter(pagerAdapter);
 		final PageIndicator titleIndicator = (PageIndicator) findViewById(R.id.pager_indicator);
 		titleIndicator.setViewPager(pager);
+		final Wizard wizard = wizardUi.getWizard();
 		titleIndicator.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
 			@Override
 			public void onPageSelected(int position) {
 				final WizardStep step = flow.getStepAt(position);
 				wizardUi.setStep(step);
-				wizardUi.getWizard().saveLastStep(step);
+				wizard.saveLastStep(step);
 			}
 		});
+
+		final String lastSavedStepName = wizard.getLastSavedStepName();
+		if (lastSavedStepName == null) {
+			wizard.saveLastStep(wizardUi.getStep());
+		} else {
+			final WizardStep step = wizard.getFlow().getStepByName(lastSavedStepName);
+			if (step != null) {
+				wizardUi.setStep(step);
+			}
+		}
 
 		if (savedInstanceState == null) {
 			final int position = flow.getPositionFor(wizardUi.getStep());
 			pager.setCurrentItem(position);
 		}
 
-		if (wizardUi.getWizard().getLastSavedStepName() == null) {
-			wizardUi.getWizard().saveLastStep(wizardUi.getStep());
-		}
+		App.getPreferences().registerOnSharedPreferenceChangeListener(this);
 	}
 
 	@Override
@@ -172,6 +179,7 @@ public class WizardActivity extends BaseActivity implements WizardsAware {
 
 	@Override
 	protected void onDestroy() {
+		App.getPreferences().unregisterOnSharedPreferenceChangeListener(this);
 		dismissDialog();
 		super.onDestroy();
 	}
@@ -180,6 +188,13 @@ public class WizardActivity extends BaseActivity implements WizardsAware {
 		if (dialog != null) {
 			dialog.dismiss();
 			dialog = null;
+		}
+	}
+
+	@Override
+	public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
+		if (Preferences.Gui.theme.isSameKey(key)) {
+			ActivityUi.restartIfThemeChanged(this, ui.getTheme());
 		}
 	}
 

@@ -35,6 +35,22 @@
 		a:layout_height="wrap_content"
 		a:orientation="horizontal">
 
+		<include layout="@layout/cpp_app_button_equals_no_bg" />
+
+		<TextView
+			a:layout_width="0dp"
+			a:layout_height="match_parent"
+			style="@style/CppText.Display"
+			a:text="3.1415"
+			a:layout_weight="2"/>
+
+	</LinearLayout>
+
+	<LinearLayout
+		a:layout_width="match_parent"
+		a:layout_height="wrap_content"
+		a:orientation="horizontal">
+
 		<include layout="@layout/cpp_app_button_0" />
 
 		<include layout="@layout/cpp_app_button_copy" />

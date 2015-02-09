@@ -27,8 +27,6 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.view.MenuInflater;
 
 import javax.annotation.Nonnull;
@@ -43,21 +41,6 @@ public final class AndroidSherlockUtils {
 	private AndroidSherlockUtils() {
 		throw new AssertionError("Not intended for instantiation!");
 	}
-
-	@Nonnull
-	public static ActionBar getSupportActionBar(@Nonnull Activity activity) {
-		if (activity instanceof ActionBarActivity) {
-			return ((ActionBarActivity) activity).getSupportActionBar();
-		}
-
-		throw new IllegalArgumentException(activity.getClass() + " is not supported!");
-
-	}
-
-	public static ActionBar getSupportActionBar(@Nonnull Fragment fragment) {
-		return ((ActionBarActivity) fragment.getActivity()).getSupportActionBar();
-	}
-
 
 	@Nonnull
 	public static MenuInflater getSupportMenuInflater(@Nonnull Activity activity) {
