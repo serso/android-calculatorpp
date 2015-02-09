@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import org.solovyev.android.Activities;
+import org.solovyev.android.Views;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.checkout.ActivityCheckout;
 import org.solovyev.android.checkout.Checkout;
@@ -47,7 +48,8 @@ public abstract class BasePreferencesActivity extends PreferenceActivity impleme
 
 	@Override
 	public void setContentView(int layout) {
-		final ViewGroup contentView = (ViewGroup) LayoutInflater.from(this).inflate(R.layout.cpp_activity_settings, new LinearLayout(this), true);
+		final LayoutInflater inflater = LayoutInflater.from(this);
+		final ViewGroup contentView = (ViewGroup) inflater.inflate(R.layout.cpp_activity_settings, new LinearLayout(this), true);
 
 		actionBar = (Toolbar) contentView.findViewById(R.id.action_bar);
 		actionBar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -58,7 +60,20 @@ public abstract class BasePreferencesActivity extends PreferenceActivity impleme
 		});
 
 		final ViewGroup contentWrapper = (ViewGroup) contentView.findViewById(R.id.content_wrapper);
-		LayoutInflater.from(this).inflate(layout, contentWrapper, true);
+		inflater.inflate(layout, contentWrapper, true);
+
+		// let's fix padding for parent view of list view
+		Views.processViewsOfType(contentWrapper, ViewGroup.class, new Views.ViewProcessor<ViewGroup>() {
+			@Override
+			public void process(@Nonnull ViewGroup view) {
+				for (int i = 0; i < view.getChildCount(); i++) {
+					final View child = view.getChildAt(i);
+					if (child.getId() == android.R.id.list) {
+						view.setPadding(0, 0, 0, 0);
+					}
+				}
+			}
+		});
 
 		getWindow().setContentView(contentView);
 	}
