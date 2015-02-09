@@ -100,7 +100,6 @@
     <orderEntry type="library" exported="" name="android-common-menus-1.1.18" level="project" />
     <orderEntry type="library" exported="" name="recyclerview-v7-21.0.0" level="project" />
     <orderEntry type="library" exported="" name="common-security-1.0.7" level="project" />
-    <orderEntry type="library" exported="" name="checkout-0.6.1" level="project" />
     <orderEntry type="library" exported="" name="play-services-base-6.5.87" level="project" />
     <orderEntry type="library" exported="" name="android-common-core-1.1.18" level="project" />
     <orderEntry type="library" exported="" name="common-msg-1.0.5" level="project" />
@@ -108,6 +107,7 @@
     <orderEntry type="library" exported="" name="floatingactionbutton-1.1.0" level="project" />
     <orderEntry type="library" exported="" name="android-common-preferences-1.1.18" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-21.0.3" level="project" />
+    <orderEntry type="library" exported="" name="checkout-0.7.0" level="project" />
     <orderEntry type="library" exported="" name="android-common-lists-1.1.18" level="project" />
     <orderEntry type="library" exported="" name="guava-11.0.2" level="project" />
     <orderEntry type="library" exported="" name="commons-cli-1.2" level="project" />
