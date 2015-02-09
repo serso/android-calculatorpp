@@ -63,7 +63,7 @@
 				c:directionTextScale="0.5"
 				a:layout_width="100dp"
 				a:layout_height="100dp"
-				style="?attr/cpp_button_style_digit" />
+				style="?attr/cpp_button_style_operation" />
 		</FrameLayout>
 
 		<TextView

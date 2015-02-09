@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2013 serso aka se.solovyev
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,19 +20,6 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<resources>
-
-	<attr name="cpp_button_style_digit" format="reference"/>
-	<attr name="cpp_button_style_control" format="reference"/>
-	<attr name="cpp_button_style_control_image" format="reference"/>
-	<attr name="cpp_button_style_operation" format="reference"/>
-	<attr name="cpp_main_bg" format="reference"/>
-	<attr name="cpp_pane_bg" format="reference"/>
-	<attr name="cpp_fab_bg" format="reference"/>
-	<attr name="cpp_toolbar_theme" format="reference"/>
-	<attr name="cpp_wizard_button_bg" format="reference"/>
-
-	<attr name="cpp_text_color" format="reference"/>
-	<attr name="cpp_text_error_color" format="reference"/>
-
-</resources>
+<shape xmlns:a="http://schemas.android.com/apk/res/android">
+	<solid a:color="#ff4d4d4d" />
+</shape>

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <!--
   ~ Copyright 2013 serso aka se.solovyev
   ~
@@ -20,20 +21,14 @@
   ~ Email: se.solovyev@gmail.com
   ~ Site:  http://se.solovyev.org
   -->
-
-<resources>
-
-	<attr name="cpp_button_style_digit" format="reference"/>
-	<attr name="cpp_button_style_control" format="reference"/>
-	<attr name="cpp_button_style_control_image" format="reference"/>
-	<attr name="cpp_button_style_operation" format="reference"/>
-	<attr name="cpp_main_bg" format="reference"/>
-	<attr name="cpp_pane_bg" format="reference"/>
-	<attr name="cpp_fab_bg" format="reference"/>
-	<attr name="cpp_toolbar_theme" format="reference"/>
-	<attr name="cpp_wizard_button_bg" format="reference"/>
-
-	<attr name="cpp_text_color" format="reference"/>
-	<attr name="cpp_text_error_color" format="reference"/>
-
-</resources>
+<org.solovyev.android.calculator.drag.DirectionDragButton a:id="@id/cpp_button_equals"
+	style="?attr/cpp_button_style_control"
+	xmlns:a="http://schemas.android.com/apk/res/android"
+	xmlns:c="http://schemas.android.com/apk/res-auto"
+	a:text="="
+	a:textColor="?android:attr/textColorPrimary"
+	c:directionTextColor="?android:attr/textColorPrimary"
+	c:directionTextScale="0.5;0.5;0.33;0.5"
+	c:textDown="@string/cpp_plot_button_text"
+	a:background="@drawable/button_no_bg"
+	c:textUp="≡" />

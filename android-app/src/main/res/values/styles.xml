@@ -37,6 +37,7 @@
 		<item name="android:textSize">@dimen/cpp_keyboard_button_text_size</item>
 		<item name="android:textColor">@color/cpp_button_text</item>
 		<item name="android:scaleType">centerInside</item>
+		<item name="directionTextColor">@color/cpp_button_text</item>
 	</style>
 
 	<style name="cpp_onscreen_editor_style" parent="CppText.Editor">
@@ -173,8 +174,8 @@
 	</style>
 
 	<style name="MaterialButton.Wizard" parent="MaterialButton">
-		<item name="android:textColor">@color/cpp_text</item>
-		<item name="materialColor">@color/cpp_wizard_button_selector</item>
+		<item name="android:textColor">@color/cpp_button_text</item>
+		<item name="materialColor">?attr/cpp_wizard_button_bg</item>
 		<item name="android:textAppearance">@android:style/TextAppearance.Medium</item>
 	</style>
 

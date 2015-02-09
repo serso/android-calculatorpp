@@ -24,7 +24,11 @@
 
 <selector xmlns:a="http://schemas.android.com/apk/res/android">
 
-	<item a:state_pressed="true" a:drawable="@drawable/metro_button_pressed" />
+	<item a:state_pressed="true">
+		<shape>
+			<solid a:color="@color/cpp_material_light_darker" />
+		</shape>
+	</item>
 
 	<item>
 		<shape>

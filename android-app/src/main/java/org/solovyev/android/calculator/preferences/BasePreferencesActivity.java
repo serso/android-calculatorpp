@@ -66,10 +66,7 @@ public abstract class BasePreferencesActivity extends PreferenceActivity impleme
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
 		if (!paused && Preferences.Gui.theme.isSameKey(key)) {
-			final Preferences.Gui.Theme newTheme = Preferences.Gui.theme.getPreference(preferences);
-			if (!theme.equals(newTheme)) {
-				Activities.restartActivity(this);
-			}
+			ActivityUi.restartIfThemeChanged(this, theme);
 		}
 	}
 

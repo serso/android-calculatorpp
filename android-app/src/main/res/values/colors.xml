@@ -45,7 +45,10 @@
 	<color name="cpp_metro_button_light">@color/cpp_material_grey_light</color>
 	<color name="cpp_metro_blue">#10648c</color>
 	<color name="cpp_material_blue">#ff0d4663</color>
-	<color name="cpp_material_light">#2196F3</color>
+	<color name="cpp_material_blue_lighter">#ff0d668d</color>
+	<color name="cpp_material_light">#4285f4</color>
+	<color name="cpp_material_light_darker">#ff3463bd</color>
+	<color name="cpp_material_light_disabled">#c1d2ef</color>
 	<color name="cpp_metro_blue_dark">#ff092c39</color>
 	<color name="cpp_metro_green">#088e3a</color>
 	<color name="cpp_metro_purple">#651456</color>

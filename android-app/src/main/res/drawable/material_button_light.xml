@@ -23,7 +23,7 @@
   -->
 <selector xmlns:a="http://schemas.android.com/apk/res/android">
 
-	<item a:state_pressed="true" a:drawable="@drawable/metro_button_pressed" />
+	<item a:state_pressed="true" a:drawable="@drawable/material_button_pressed" />
 
 	<item>
 		<shape>
