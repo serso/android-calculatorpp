@@ -28,7 +28,6 @@ import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.TextView;
-import android.support.v7.app.ActionBarActivity;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.checkout.*;
 import org.solovyev.android.fragments.FragmentUtils;
@@ -41,7 +40,7 @@ import javax.annotation.Nullable;
  * Date: 1/20/13
  * Time: 2:36 PM
  */
-public class PurchaseDialogActivity extends ActionBarActivity {
+public class PurchaseDialogActivity extends BaseActivity {
 
 	@Nonnull
 	private final ActivityCheckout checkout = Checkout.forActivity(this, App.getBilling(), App.getProducts());
@@ -59,11 +58,13 @@ public class PurchaseDialogActivity extends ActionBarActivity {
 		}
 	};
 
+	public PurchaseDialogActivity() {
+		super(R.layout.cpp_dialog);
+	}
+
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		setContentView(R.layout.cpp_dialog);
 
 		FragmentUtils.createFragment(this, PurchaseDialogFragment.class, R.id.dialog_layout, "purchase-dialog");
 
