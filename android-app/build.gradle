@@ -46,6 +46,7 @@ android {
     }
     lintOptions {
         abortOnError false
+        warning 'MissingTranslation'
     }
 }
 
