@@ -328,4 +328,6 @@
 	</string>
   <string name="cpp_var_show_greek_keyboard">Показать греческий алфавит</string>
   <string name="cpp_var_hide_greek_keyboard">Скрыть греческий алфавит</string>
+	<string name="cpp_new_in_version">Новое в версии %1$s</string>
+	<string name="cpp_release_notes_choose_theme">Хотите попробовать новые темы в стиле Material? Выберите их из списка:</string>
 </resources>

@@ -23,93 +23,93 @@
   -->
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-			  a:layout_width="match_parent"
-			  a:layout_height="match_parent"
-			  a:orientation="vertical">
+	a:layout_width="match_parent"
+	a:layout_height="match_parent"
+	a:orientation="vertical">
 
 	<LinearLayout
-			a:layout_weight="1"
-			a:layout_width="match_parent"
-			a:layout_height="0dp">
+		a:layout_width="match_parent"
+		a:layout_height="0dp"
+		a:layout_weight="1">
 
-		<include layout="@layout/cpp_app_button_7"/>
+		<include layout="@layout/cpp_app_button_7" />
 
-		<include layout="@layout/cpp_app_button_8"/>
+		<include layout="@layout/cpp_app_button_8" />
 
-		<include layout="@layout/cpp_app_button_9"/>
+		<include layout="@layout/cpp_app_button_9" />
 
-		<include layout="@layout/cpp_app_button_multiplication"/>
+		<include layout="@layout/cpp_app_button_multiplication" />
 
-		<include layout="@layout/cpp_app_button_clear"/>
+		<include layout="@layout/cpp_app_button_clear" />
 
 	</LinearLayout>
 
 	<LinearLayout
-			a:layout_weight="1"
-			a:layout_width="match_parent"
-			a:layout_height="0dp">
+		a:layout_width="match_parent"
+		a:layout_height="0dp"
+		a:layout_weight="1">
 
-		<include layout="@layout/cpp_app_button_4"/>
+		<include layout="@layout/cpp_app_button_4" />
 
-		<include layout="@layout/cpp_app_button_5"/>
+		<include layout="@layout/cpp_app_button_5" />
 
-		<include layout="@layout/cpp_app_button_6"/>
+		<include layout="@layout/cpp_app_button_6" />
 
-		<include layout="@layout/cpp_app_button_division"/>
+		<include layout="@layout/cpp_app_button_division" />
 
-		<include layout="@layout/cpp_app_button_erase"/>
-
-	</LinearLayout>
-
-	<LinearLayout
-			a:layout_weight="1"
-			a:layout_width="match_parent"
-			a:layout_height="0dp">
-
-		<include layout="@layout/cpp_app_button_1"/>
-
-		<include layout="@layout/cpp_app_button_2"/>
-
-		<include layout="@layout/cpp_app_button_3"/>
-
-		<include layout="@layout/cpp_app_button_plus"/>
-
-		<include layout="@layout/cpp_app_button_copy"/>
+		<include layout="@layout/cpp_app_button_erase" />
 
 	</LinearLayout>
 
 	<LinearLayout
-			a:layout_weight="1"
-			a:layout_width="match_parent"
-			a:layout_height="0dp">
+		a:layout_width="match_parent"
+		a:layout_height="0dp"
+		a:layout_weight="1">
 
-		<include layout="@layout/cpp_app_button_round_brackets"/>
+		<include layout="@layout/cpp_app_button_1" />
 
-		<include layout="@layout/cpp_app_button_0"/>
+		<include layout="@layout/cpp_app_button_2" />
 
-		<include layout="@layout/cpp_app_button_dot"/>
+		<include layout="@layout/cpp_app_button_3" />
 
-		<include layout="@layout/cpp_app_button_minus"/>
+		<include layout="@layout/cpp_app_button_plus" />
 
-		<include layout="@layout/cpp_app_button_paste"/>
+		<include layout="@layout/cpp_app_button_copy" />
+
+	</LinearLayout>
+
+	<LinearLayout
+		a:layout_width="match_parent"
+		a:layout_height="0dp"
+		a:layout_weight="1">
+
+		<include layout="@layout/cpp_app_button_round_brackets" />
+
+		<include layout="@layout/cpp_app_button_0" />
+
+		<include layout="@layout/cpp_app_button_dot" />
+
+		<include layout="@layout/cpp_app_button_minus" />
+
+		<include layout="@layout/cpp_app_button_paste" />
 
 	</LinearLayout>
 
 
 	<LinearLayout
-			a:layout_weight="1"
-			a:layout_width="match_parent"
-			a:layout_height="0dp">
+		a:layout_width="match_parent"
+		a:layout_height="0dp"
+		a:layout_weight="1">
 
-		<include layout="@layout/cpp_app_button_left"/>
+		<include layout="@layout/cpp_app_button_left" />
 
-		<include layout="@layout/cpp_app_button_right"/>
+		<include layout="@layout/cpp_app_button_right" />
 
-		<include layout="@layout/cpp_app_button_vars"/>
+		<include layout="@layout/cpp_app_button_vars" />
 
-		<include layout="@layout/cpp_app_button_functions"/>
+		<include layout="@layout/cpp_app_button_functions" />
 
-		<include layout="@layout/cpp_app_button_history"/>
+		<include layout="@layout/cpp_app_button_history" />
 
 	</LinearLayout>
 

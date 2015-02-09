@@ -23,87 +23,87 @@
   -->
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-			  a:layout_width="fill_parent"
-			  a:layout_height="fill_parent"
-			  a:paddingLeft="10dp"
-			  a:paddingRight="10dp"
-			  a:orientation="vertical">
+	a:layout_width="fill_parent"
+	a:layout_height="fill_parent"
+	a:orientation="vertical"
+	a:paddingLeft="10dp"
+	a:paddingRight="10dp">
 
 	<LinearLayout
-			a:layout_width="fill_parent"
-			a:layout_height="fill_parent"
-			a:paddingBottom="10dp"
-			a:orientation="horizontal">
+		a:layout_width="fill_parent"
+		a:layout_height="fill_parent"
+		a:orientation="horizontal"
+		a:paddingBottom="10dp">
 
 		<Spinner
-				a:id="@+id/unit_types_from"
-				a:layout_width="wrap_content"
-				a:layout_height="fill_parent"/>
+			a:id="@+id/unit_types_from"
+			a:layout_width="wrap_content"
+			a:layout_height="fill_parent" />
 
 
 		<EditText
-				a:id="@+id/units_from"
-				a:inputType="text"
-				a:singleLine="true"
-				a:layout_width="fill_parent"
-				a:layout_height="fill_parent"/>
+			a:id="@+id/units_from"
+			a:layout_width="fill_parent"
+			a:layout_height="fill_parent"
+			a:inputType="text"
+			a:singleLine="true" />
 
 	</LinearLayout>
 
 	<LinearLayout
-			a:layout_width="fill_parent"
-			a:paddingBottom="10dp"
-			a:layout_height="fill_parent"
-			a:orientation="horizontal">
+		a:layout_width="fill_parent"
+		a:layout_height="fill_parent"
+		a:orientation="horizontal"
+		a:paddingBottom="10dp">
 
 		<Spinner
-				a:id="@+id/unit_types_to"
-				a:layout_width="wrap_content"
-				a:layout_height="fill_parent"/>
+			a:id="@+id/unit_types_to"
+			a:layout_width="wrap_content"
+			a:layout_height="fill_parent" />
 
 		<EditText
-				a:id="@+id/units_to"
-				a:editable="false"
-				a:inputType="none"
-				a:singleLine="true"
-				a:layout_width="fill_parent"
-				a:layout_height="fill_parent"/>
+			a:id="@+id/units_to"
+			a:layout_width="fill_parent"
+			a:layout_height="fill_parent"
+			a:editable="false"
+			a:inputType="none"
+			a:singleLine="true" />
 
 	</LinearLayout>
 
 	<LinearLayout
-			a:layout_width="fill_parent"
-			a:paddingBottom="10dp"
-			a:layout_height="fill_parent"
-			a:gravity="center"
-			a:orientation="horizontal">
+		a:layout_width="fill_parent"
+		a:layout_height="fill_parent"
+		a:gravity="center"
+		a:orientation="horizontal"
+		a:paddingBottom="10dp">
 
 		<Button
-				a:id="@+id/unit_converter_ok_button"
-				a:text="@android:string/ok"
-				a:paddingLeft="15dp"
-				a:paddingRight="15dp"
-				a:singleLine="true"
-				a:layout_width="wrap_content"
-				a:layout_height="wrap_content"/>
+			a:id="@+id/unit_converter_ok_button"
+			a:layout_width="wrap_content"
+			a:layout_height="wrap_content"
+			a:paddingLeft="15dp"
+			a:paddingRight="15dp"
+			a:singleLine="true"
+			a:text="@android:string/ok" />
 
 		<Button
-				a:id="@+id/unit_converter_copy_button"
-				a:text="@android:string/copy"
-				a:paddingLeft="15dp"
-				a:paddingRight="15dp"
-				a:singleLine="true"
-				a:layout_width="wrap_content"
-				a:layout_height="wrap_content"/>
+			a:id="@+id/unit_converter_copy_button"
+			a:layout_width="wrap_content"
+			a:layout_height="wrap_content"
+			a:paddingLeft="15dp"
+			a:paddingRight="15dp"
+			a:singleLine="true"
+			a:text="@android:string/copy" />
 
 		<Button
-				a:id="@+id/unit_converter_custom_button"
-				a:paddingLeft="15dp"
-				a:paddingRight="15dp"
-				a:ellipsize="end"
-				a:singleLine="true"
-				a:layout_width="wrap_content"
-				a:layout_height="wrap_content"/>
+			a:id="@+id/unit_converter_custom_button"
+			a:layout_width="wrap_content"
+			a:layout_height="wrap_content"
+			a:ellipsize="end"
+			a:paddingLeft="15dp"
+			a:paddingRight="15dp"
+			a:singleLine="true" />
 
 	</LinearLayout>
 

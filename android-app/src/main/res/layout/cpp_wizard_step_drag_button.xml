@@ -31,30 +31,30 @@
 
 	<TextView
 		a:id="@+id/wizard_dragbutton_description_textview"
-		a:text="@string/cpp_wizard_dragbutton_description"
-		style="@style/WizardLabel" />
+		style="@style/WizardLabel"
+		a:text="@string/cpp_wizard_dragbutton_description" />
 
 	<TextView
 		a:id="@+id/wizard_dragbutton_action_textview"
-		a:textStyle="bold"
-		a:text="@string/cpp_wizard_dragbutton_action_center"
 		style="@style/WizardLabel"
+		a:maxLines="3"
 		a:minLines="3"
-		a:maxLines="3"/>
+		a:text="@string/cpp_wizard_dragbutton_action_center"
+		a:textStyle="bold" />
 
 	<org.solovyev.android.calculator.drag.DirectionDragButton
-		a:layout_margin="0dp"
-		a:layout_height="wrap_content"
-		a:layout_width="wrap_content"
-		a:minWidth="100dp"
-		a:minHeight="100dp"
-		a:layout_weight="0"
-		a:layout_gravity="center"
 		a:id="@+id/wizard_dragbutton"
+		style="?attr/cpp_button_style_operation"
+		a:layout_width="wrap_content"
+		a:layout_height="wrap_content"
+		a:layout_gravity="center"
+		a:layout_margin="0dp"
+		a:layout_weight="0"
+		a:minHeight="100dp"
+		a:minWidth="100dp"
 		a:text="9"
-		c:textDown="^2"
-		c:textUp="%"
 		c:directionTextScale="0.5;0.5;0.5;0.33"
-		style="?attr/cpp_button_style_operation" />
+		c:textDown="^2"
+		c:textUp="%" />
 
 </LinearLayout>

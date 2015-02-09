@@ -22,26 +22,26 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-			  a:id="@+id/main_fragment_layout"
-			  style="@style/CppFragment"
-			  a:layout_width="match_parent"
-			  a:layout_gravity="center_horizontal"
-			  a:layout_height="match_parent"
-			  a:orientation="vertical">
+<LinearLayout a:id="@+id/main_fragment_layout"
+	style="@style/CppFragment"
+	xmlns:a="http://schemas.android.com/apk/res/android"
+	a:layout_width="match_parent"
+	a:layout_height="match_parent"
+	a:layout_gravity="center_horizontal"
+	a:orientation="vertical">
 
 	<TextView
-			a:id="@+id/cpp_purchase_text"
-			a:text="@string/cpp_purchase_text"
-			a:layout_width="match_parent"
-			a:layout_height="wrap_content"
-			a:maxLines="10"
-			a:scrollbars="vertical"/>
+		a:id="@+id/cpp_purchase_text"
+		a:layout_width="match_parent"
+		a:layout_height="wrap_content"
+		a:maxLines="10"
+		a:scrollbars="vertical"
+		a:text="@string/cpp_purchase_text" />
 
 	<Button
-			a:id="@+id/cpp_continue_button"
-			a:text="@string/cpp_continue"
-			a:layout_width="match_parent"
-			a:layout_height="wrap_content"/>
+		a:id="@+id/cpp_continue_button"
+		a:layout_width="match_parent"
+		a:layout_height="wrap_content"
+		a:text="@string/cpp_continue" />
 
 </LinearLayout>

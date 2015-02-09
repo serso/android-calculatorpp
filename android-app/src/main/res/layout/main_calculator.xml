@@ -22,7 +22,8 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<LinearLayout a:id="@+id/main_layout"
+<LinearLayout
+	a:id="@+id/main_layout"
 	style="@style/CppMain"
 	xmlns:a="http://schemas.android.com/apk/res/android"
 	a:layout_width="match_parent"

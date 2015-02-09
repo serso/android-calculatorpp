@@ -23,12 +23,13 @@
   -->
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-			  a:orientation="vertical"
-			  a:layout_width="match_parent"
-			  a:layout_height="match_parent">
+	a:layout_width="match_parent"
+	a:layout_height="match_parent"
+	a:orientation="vertical">
 
-	<WebView a:id="@+id/cpp_wiki_webview"
-			 a:layout_width="match_parent"
-			 a:layout_height="match_parent"/>
+	<WebView
+		a:id="@+id/cpp_wiki_webview"
+		a:layout_width="match_parent"
+		a:layout_height="match_parent" />
 
 </LinearLayout>

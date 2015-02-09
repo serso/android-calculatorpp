@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-	style="@style/WizardFragment"
+<LinearLayout style="@style/WizardFragment"
+	xmlns:a="http://schemas.android.com/apk/res/android"
 	a:orientation="vertical">
 
 	<ScrollView
 		a:id="@+id/wizard_content"
 		a:layout_width="match_parent"
 		a:layout_height="0dp"
-		a:layout_weight="1"
-		a:fillViewport="true"
 		a:layout_marginBottom="@dimen/control_margin"
-		a:layout_marginTop="@dimen/control_margin" />
+		a:layout_marginTop="@dimen/control_margin"
+		a:layout_weight="1"
+		a:fillViewport="true" />
 
 	<include layout="@layout/fragment_wizard_buttons" />
 

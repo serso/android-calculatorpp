@@ -3,24 +3,23 @@
 <LinearLayout
 	style="@style/WizardButtons"
 	xmlns:a="http://schemas.android.com/apk/res/android"
-	xmlns:my="http://schemas.android.com/apk/res-auto"
 	a:layout_gravity="center_horizontal|bottom"
 	a:gravity="center">
 
 	<org.solovyev.android.material.MaterialButton
-		style="@style/MaterialButton.Wizard"
 		a:id="@+id/wizard_prev"
-		a:visibility="gone"
+		style="@style/MaterialButton.Wizard"
 		a:layout_width="0dp"
 		a:layout_height="wrap_content"
-		a:layout_weight="1" />
+		a:layout_weight="1"
+		a:visibility="gone" />
 
 	<org.solovyev.android.material.MaterialButton
-		style="@style/MaterialButton.Wizard"
 		a:id="@+id/wizard_next"
-		a:visibility="gone"
+		style="@style/MaterialButton.Wizard"
 		a:layout_width="0dp"
 		a:layout_height="wrap_content"
-		a:layout_weight="1" />
+		a:layout_weight="1"
+		a:visibility="gone" />
 
 </LinearLayout>

@@ -23,13 +23,13 @@
   -->
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-			  a:layout_height="match_parent"
-			  a:layout_width="match_parent">
+	a:layout_width="match_parent"
+	a:layout_height="match_parent">
 
 	<EditText
-			a:id="@+id/matrix_element_edittext"
-			a:layout_height="match_parent"
-			a:layout_width="match_parent"
-			a:text="test"/>
+		a:id="@+id/matrix_element_edittext"
+		a:layout_width="match_parent"
+		a:layout_height="match_parent"
+		a:text="test" />
 
 </LinearLayout>

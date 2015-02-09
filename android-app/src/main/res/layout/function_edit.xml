@@ -23,93 +23,93 @@
   -->
 
 <ScrollView xmlns:a="http://schemas.android.com/apk/res/android"
-			a:layout_height="wrap_content"
-			a:layout_width="match_parent"
-			a:minWidth="300dp">
+	a:layout_width="match_parent"
+	a:layout_height="wrap_content"
+	a:minWidth="300dp">
 
 	<LinearLayout
-			a:layout_height="wrap_content"
-			a:layout_width="match_parent"
-			a:orientation="vertical">
+		a:layout_width="match_parent"
+		a:layout_height="wrap_content"
+		a:orientation="vertical">
 
 		<TextView
-				a:layout_height="wrap_content"
-				a:layout_width="match_parent"
-				a:padding="6dp"
-				style="@style/cpp_default_text_size"
-				a:text="@string/c_function_name"/>
+			style="@style/cpp_default_text_size"
+			a:layout_width="match_parent"
+			a:layout_height="wrap_content"
+			a:padding="6dp"
+			a:text="@string/c_function_name" />
 
 		<EditText
-				a:id="@+id/function_edit_name"
-				a:layout_height="wrap_content"
-				a:layout_width="match_parent"
-				style="@style/cpp_default_text_size"
-				a:inputType="text"/>
+			a:id="@+id/function_edit_name"
+			style="@style/cpp_default_text_size"
+			a:layout_width="match_parent"
+			a:layout_height="wrap_content"
+			a:inputType="text" />
 
 		<TextView
-				a:layout_height="wrap_content"
-				a:layout_width="match_parent"
-				a:padding="6dp"
-				style="@style/cpp_default_text_size"
-				a:text="@string/c_function_parameters"/>
+			style="@style/cpp_default_text_size"
+			a:layout_width="match_parent"
+			a:layout_height="wrap_content"
+			a:padding="6dp"
+			a:text="@string/c_function_parameters" />
 
 		<org.solovyev.android.calculator.function.FunctionParamsView
-				a:id="@+id/function_params_layout"
-				a:layout_height="wrap_content"
-				a:layout_width="match_parent"/>
+			a:id="@+id/function_params_layout"
+			a:layout_width="match_parent"
+			a:layout_height="wrap_content" />
 
 		<TextView
-				a:layout_height="wrap_content"
-				a:layout_width="match_parent"
-				style="@style/cpp_default_text_size"
-				a:padding="6dp"
-				a:text="@string/c_function_value"/>
+			style="@style/cpp_default_text_size"
+			a:layout_width="match_parent"
+			a:layout_height="wrap_content"
+			a:padding="6dp"
+			a:text="@string/c_function_value" />
 
 		<EditText
-				a:id="@+id/function_edit_value"
-				a:layout_height="wrap_content"
-				a:layout_width="match_parent"
-				style="@style/cpp_default_text_size"
-				a:inputType="text"/>
+			a:id="@+id/function_edit_value"
+			style="@style/cpp_default_text_size"
+			a:layout_width="match_parent"
+			a:layout_height="wrap_content"
+			a:inputType="text" />
 
 		<TextView
-				a:layout_height="wrap_content"
-				a:layout_width="match_parent"
-				a:padding="6dp"
-				style="@style/cpp_default_text_size"
-				a:text="@string/c_function_description"/>
+			style="@style/cpp_default_text_size"
+			a:layout_width="match_parent"
+			a:layout_height="wrap_content"
+			a:padding="6dp"
+			a:text="@string/c_function_description" />
 
 		<EditText
-				a:id="@+id/function_edit_description"
-				a:layout_height="wrap_content"
-				a:layout_width="match_parent"
-				style="@style/cpp_default_text_size"
-				a:inputType="text"/>
+			a:id="@+id/function_edit_description"
+			style="@style/cpp_default_text_size"
+			a:layout_width="match_parent"
+			a:layout_height="wrap_content"
+			a:inputType="text" />
 
 		<LinearLayout
+			a:layout_width="match_parent"
+			a:layout_height="wrap_content">
+
+			<Button
+				a:id="@+id/cancel_button"
+				a:layout_width="0dp"
 				a:layout_height="wrap_content"
-				a:layout_width="match_parent">
+				a:layout_weight="1"
+				a:text="@string/c_cancel" />
 
 			<Button
-					a:id="@+id/cancel_button"
-					a:layout_height="wrap_content"
-					a:layout_width="0dp"
-					a:layout_weight="1"
-					a:text="@string/c_cancel"/>
+				a:id="@+id/remove_button"
+				a:layout_width="0dp"
+				a:layout_height="wrap_content"
+				a:layout_weight="1"
+				a:text="@string/c_remove" />
 
 			<Button
-					a:id="@+id/remove_button"
-					a:layout_height="wrap_content"
-					a:layout_width="0dp"
-					a:layout_weight="1"
-					a:text="@string/c_remove"/>
-
-			<Button
-					a:id="@+id/save_button"
-					a:layout_height="wrap_content"
-					a:layout_width="0dp"
-					a:layout_weight="1"
-					a:text="@string/c_save"/>
+				a:id="@+id/save_button"
+				a:layout_width="0dp"
+				a:layout_height="wrap_content"
+				a:layout_weight="1"
+				a:text="@string/c_save" />
 
 		</LinearLayout>
 

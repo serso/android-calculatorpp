@@ -25,21 +25,21 @@
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
 	a:layout_width="match_parent"
 	a:layout_height="match_parent"
-	a:orientation="vertical"
-	a:gravity="center">
+	a:gravity="center"
+	a:orientation="vertical">
 
 	<TextView
-		style="@style/WizardLabel"
 		a:id="@+id/release_note_title"
-		a:layout_height="wrap_content"
+		style="@style/WizardLabel"
 		a:layout_width="match_parent"
+		a:layout_height="wrap_content"
 		a:textAppearance="@android:style/TextAppearance.Large" />
 
 	<TextView
-		style="@style/WizardLabel.Last"
 		a:id="@+id/release_note_message"
-		a:layout_height="wrap_content"
+		style="@style/WizardLabel.Last"
 		a:layout_width="match_parent"
+		a:layout_height="wrap_content"
 		a:textAppearance="@android:style/TextAppearance.Medium" />
 
 </LinearLayout>

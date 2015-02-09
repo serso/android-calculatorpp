@@ -22,8 +22,8 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-			  a:id="@+id/dialog_layout"
-			  style="@style/CppDialog">
+<LinearLayout a:id="@+id/dialog_layout"
+	style="@style/CppDialog"
+	xmlns:a="http://schemas.android.com/apk/res/android">
 
 </LinearLayout>

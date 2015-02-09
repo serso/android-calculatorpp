@@ -13,6 +13,6 @@ public class ChooseThemeReleaseNoteFragment extends ChooseThemeWizardStep {
 		super.onViewCreated(root, savedInstanceState);
 
 		final TextView title = (TextView) root.findViewById(R.id.wizard_theme_title);
-		title.setText(R.string.release_notes_choose_theme);
+		title.setText(R.string.cpp_release_notes_choose_theme);
 	}
 }

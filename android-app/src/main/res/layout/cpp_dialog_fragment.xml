@@ -22,40 +22,40 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-			  a:id="@+id/main_fragment_layout"
-			  style="@style/CppFragment"
-			  a:layout_width="match_parent"
-			  a:layout_gravity="center_horizontal"
-			  a:layout_height="match_parent"
-			  a:orientation="vertical">
+<LinearLayout a:id="@+id/main_fragment_layout"
+	style="@style/CppFragment"
+	xmlns:a="http://schemas.android.com/apk/res/android"
+	a:layout_width="match_parent"
+	a:layout_height="match_parent"
+	a:layout_gravity="center_horizontal"
+	a:orientation="vertical">
 
 	<TextView
-			a:id="@+id/cpp_dialog_message_textview"
-			a:layout_width="match_parent"
-			a:layout_height="wrap_content"
-			a:maxLines="10"
-			a:scrollbars="vertical"/>
+		a:id="@+id/cpp_dialog_message_textview"
+		a:layout_width="match_parent"
+		a:layout_height="wrap_content"
+		a:maxLines="10"
+		a:scrollbars="vertical" />
 
 	<LinearLayout
-			a:layout_width="match_parent"
+		a:layout_width="match_parent"
+		a:layout_height="wrap_content"
+		a:orientation="horizontal">
+
+		<Button
+			a:id="@+id/cpp_copy_button"
+			a:layout_width="0dp"
 			a:layout_height="wrap_content"
-			a:orientation="horizontal">
+			a:layout_weight="1"
+			a:text="@string/c_copy"
+			a:visibility="gone" />
 
 		<Button
-				a:id="@+id/cpp_copy_button"
-				a:text="@string/c_copy"
-				a:layout_width="0dp"
-				a:layout_height="wrap_content"
-				a:layout_weight="1"
-				a:visibility="gone"/>
-
-		<Button
-				a:id="@+id/cpp_ok_button"
-				a:text="@string/ok"
-				a:layout_width="0dp"
-				a:layout_height="wrap_content"
-				a:layout_weight="1"/>
+			a:id="@+id/cpp_ok_button"
+			a:layout_width="0dp"
+			a:layout_height="wrap_content"
+			a:layout_weight="1"
+			a:text="@string/ok" />
 
 	</LinearLayout>
 
