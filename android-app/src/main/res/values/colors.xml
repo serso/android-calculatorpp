@@ -46,8 +46,8 @@
 	<color name="cpp_metro_blue">#10648c</color>
 	<color name="cpp_material_blue">#ff0d4663</color>
 	<color name="cpp_material_blue_lighter">#ff0d668d</color>
-	<color name="cpp_material_light">#4285f4</color>
-	<color name="cpp_material_light_darker">#ff3463bd</color>
+	<color name="cpp_material_light">#42d5b2</color>
+	<color name="cpp_material_light_darker">#ff38b99a</color>
 	<color name="cpp_material_light_disabled">#c1d2ef</color>
 	<color name="cpp_metro_blue_dark">#ff092c39</color>
 	<color name="cpp_metro_green">#088e3a</color>
@@ -56,6 +56,8 @@
 	<color name="cpp_text_primary">#ddffffff</color>
 	<color name="cpp_text_secondary">#89ffffff</color>
 	<color name="cpp_widget_ripple">#40ffffff</color>
+	<color name="cpp_status_bar">#ff131313</color>
+	<color name="cpp_status_bar_light">#262626</color>
 
 	<color name="cpp_wizard_disabled_text">#66ffffff</color>
 
