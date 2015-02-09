@@ -30,6 +30,7 @@
 
 	<TextView
 		style="@style/WizardLabel.Last"
+		a:id="@+id/wizard_final_message"
 		a:layout_width="match_parent"
 		a:layout_height="wrap_content"
 		a:drawableTop="@drawable/ic_action_done"
