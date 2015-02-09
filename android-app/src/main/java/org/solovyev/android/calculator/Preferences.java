@@ -168,6 +168,10 @@ public final class Preferences {
 				}
 				return textColor;
 			}
+
+			public boolean isLight() {
+				return themeId == R.style.Cpp_Theme_Material_Light;
+			}
 		}
 
 		public static final class TextColor {
