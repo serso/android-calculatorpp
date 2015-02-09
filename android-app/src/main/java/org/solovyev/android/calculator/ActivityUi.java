@@ -101,6 +101,7 @@ public class ActivityUi extends BaseUi {
 		actionBar.setDisplayHomeAsUpEnabled(homeAsUp);
 		actionBar.setHomeButtonEnabled(false);
 		actionBar.setDisplayShowHomeEnabled(true);
+		actionBar.setElevation(0);
 
 		toggleTitle(activity, true);
 
