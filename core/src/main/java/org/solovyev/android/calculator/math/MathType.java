@@ -25,15 +25,13 @@ package org.solovyev.android.calculator.math;
 import jscl.JsclMathEngine;
 import jscl.NumeralBase;
 import jscl.math.function.Constants;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import org.solovyev.android.calculator.CalculatorParseException;
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.common.JPredicate;
 import org.solovyev.common.collections.Collections;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -82,14 +80,49 @@ public enum MathType {
 		}
 	},
 
-	unary_operation(500, false, false, MathGroupType.operation, "-", "="),
-	binary_operation(600, false, false, MathGroupType.operation, "-", "+", "*", "×", "∙", "/", "^") {
+	unary_operation(500, false, false, MathGroupType.operation, "−", "-", "=") {
+		@Nullable
 		@Override
 		protected String getSubstituteToJscl(@Nonnull String match) {
-			if (match.equals("×") || match.equals("∙")) {
-				return "*";
+			if (match.equals("−")) {
+				return "-";
 			} else {
 				return null;
+			}
+		}
+
+		@Nullable
+		@Override
+		protected String getSubstituteFromJscl(@Nonnull String match) {
+			if (match.equals("-")) {
+				return "−";
+			} else {
+				return null;
+			}
+		}
+	},
+
+	binary_operation(600, false, false, MathGroupType.operation, "−", "-", "+", "*", "×", "∙", "/", "^") {
+		@Nullable
+		@Override
+		protected String getSubstituteFromJscl(@Nonnull String match) {
+			if (match.equals("-")) {
+				return "−";
+			} else {
+				return null;
+			}
+		}
+
+		@Override
+		protected String getSubstituteToJscl(@Nonnull String match) {
+			switch (match) {
+				case "×":
+				case "∙":
+					return "*";
+				case "−":
+					return "-";
+				default:
+					return null;
 			}
 		}
 	},
@@ -149,7 +182,7 @@ public enum MathType {
 
 	digit(1125, true, true, MathGroupType.number) {
 
-		private final List<String> tokens = new ArrayList<String>(16);
+		private final List<String> tokens = new ArrayList<>(16);
 		{
 			for (Character character : NumeralBase.hex.getAcceptableCharacters()) {
 				tokens.add(character.toString());
