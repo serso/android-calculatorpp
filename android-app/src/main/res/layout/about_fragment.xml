@@ -28,12 +28,14 @@
 	a:orientation="vertical">
 
 	<ImageView
-		a:layout_width="wrap_content"
-		a:layout_height="wrap_content"
+		a:id="@+id/about_image"
+		a:layout_width="200dp"
+		a:layout_height="200dp"
 		a:layout_gravity="center"
+		a:scaleType="center"
 		a:layout_weight="1"
 		a:padding="6dp"
-		a:src="@drawable/logo" />
+		a:src="@drawable/logo_wizard" />
 
 	<ScrollView
 		a:layout_width="fill_parent"
