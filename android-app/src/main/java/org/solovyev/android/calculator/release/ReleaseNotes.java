@@ -13,6 +13,7 @@ import java.util.List;
 import static org.solovyev.android.Android.getAppVersionCode;
 
 public final class ReleaseNotes {
+
 	@Nonnull
 	public static String getReleaseNotes(@Nonnull Context context) {
 		return getReleaseNotesString(context, 0);
@@ -54,8 +55,8 @@ public final class ReleaseNotes {
 		final TextHelper textHelper = new TextHelper(context.getResources(), CalculatorApplication.class.getPackage().getName());
 
 		for (int versionCode = currentVersionCode; versionCode >= minVersion; versionCode--) {
-			if (versionCode == 136) {
-				releaseNotes.add(136);
+			if (versionCode == ChooseThemeReleaseNoteStep.VERSION_CODE) {
+				releaseNotes.add(ChooseThemeReleaseNoteStep.VERSION_CODE);
 			}
 			final String releaseNotesForVersion = textHelper.getText(makeReleaseNotesResourceId(versionCode));
 			if (!Strings.isEmpty(releaseNotesForVersion)) {
@@ -71,7 +72,7 @@ public final class ReleaseNotes {
 		final TextHelper textHelper = new TextHelper(context.getResources(), CalculatorApplication.class.getPackage().getName());
 
 		for (int versionCode = currentVersionCode; versionCode >= minVersion; versionCode--) {
-			if (versionCode == 136) {
+			if (versionCode == ChooseThemeReleaseNoteStep.VERSION_CODE) {
 				return true;
 			}
 			String releaseNotesForVersion = textHelper.getText(makeReleaseNotesResourceId(versionCode));

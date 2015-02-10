@@ -88,7 +88,7 @@ public class CalculatorWizards implements Wizards {
 
 		for (Integer version : versions) {
 			switch (version) {
-				case 136:
+				case ChooseThemeReleaseNoteStep.VERSION_CODE:
 					wizardSteps.add(new ChooseThemeReleaseNoteStep(version));
 					break;
 				default:
