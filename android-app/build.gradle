@@ -95,8 +95,8 @@ task androidSourcesJar(type: Jar) {
 
 artifacts {
     archives androidSourcesJar
-    archives file: file('build/outputs/apk/calculatorpp-release.apk'), name: 'calculatorpp-android-app', type: 'apk'
-    archives file: file('build/outputs/mapping/release/mapping.txt'), name: 'calculatorpp-android-app', classifier: 'proguard', type: 'txt'
+    archives file: file('build/outputs/apk/calculatorpp-release.apk'), name: 'calculatorpp-app', classifier: 'signed', type: 'apk'
+    archives file: file('build/outputs/mapping/release/mapping.txt'), name: 'calculatorpp-app', classifier: 'proguard', type: 'txt'
 }
 
 signing {
@@ -126,7 +126,6 @@ private void cleanGoogleServicesResources(buildType) {
 }
 
 group = "org.solovyev.android"
-archivesBaseName = "calculatorpp-android-app"
 version = version_name()
 
 uploadArchives {
