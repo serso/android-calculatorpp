@@ -175,8 +175,6 @@ public class CalculatorApplication extends android.app.Application implements Sh
 
 		Locator.getInstance().getCalculator().init();
 
-		App.getBilling().connect();
-
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
