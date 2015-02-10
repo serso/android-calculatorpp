@@ -92,6 +92,8 @@
   <string name="p_metro_blue_theme">Метро Синяя</string>
   <string name="p_metro_green_theme">Метро Зелёная</string>
   <string name="p_metro_purple_theme">Метро Фиолетовая</string>
+	<string name="p_material_theme">Матириал</string>
+	<string name="p_material_light_theme">Матириал Светлая</string>
   <string name="c_calc_result_precision_summary">Точность результата(все вычисления производятся максимально точно)
 	</string>
   <string name="c_calc_color_display_summary">Включает/выключает подсветку синтаксиса в поле редактирования
