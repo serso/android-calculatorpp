@@ -26,21 +26,10 @@ import android.content.Context;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import org.solovyev.android.calculator.R;
-
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.solovyev.android.calculator.CalculatorSpecialButton.cursor_left;
-import static org.solovyev.android.calculator.CalculatorSpecialButton.cursor_right;
-import static org.solovyev.android.calculator.CalculatorSpecialButton.functions_detached;
-import static org.solovyev.android.calculator.CalculatorSpecialButton.history_detached;
-import static org.solovyev.android.calculator.CalculatorSpecialButton.like;
-import static org.solovyev.android.calculator.CalculatorSpecialButton.open_app;
-import static org.solovyev.android.calculator.CalculatorSpecialButton.operators_detached;
-import static org.solovyev.android.calculator.CalculatorSpecialButton.settings_detached;
-import static org.solovyev.android.calculator.CalculatorSpecialButton.vars_detached;
+import static org.solovyev.android.calculator.CalculatorSpecialButton.*;
 
 /**
  * User: serso
@@ -80,7 +69,7 @@ public enum CalculatorButton {
 	multiplication(R.id.cpp_button_multiplication, "*"),
 	division(R.id.cpp_button_division, "/"),
 	plus(R.id.cpp_button_plus, "+"),
-	subtraction(R.id.cpp_button_subtraction, "-"),
+	subtraction(R.id.cpp_button_subtraction, "−"),
 	percent(R.id.cpp_button_percent, "%"),
 	power(R.id.cpp_button_power, "^"),
 

@@ -59,7 +59,7 @@
 
 		<include layout="@layout/cpp_simple_button_division" />
 
-		<include layout="@layout/cpp_simple_button_subtraction" />
+		<include layout="@layout/cpp_simple_button_minus" />
 
 		<include layout="@layout/cpp_simple_button_erase" />
 

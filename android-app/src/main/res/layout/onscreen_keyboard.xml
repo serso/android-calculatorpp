@@ -66,7 +66,7 @@
 
 		<include layout="@layout/cpp_simple_button_dot" />
 
-		<include layout="@layout/cpp_simple_button_subtraction" />
+		<include layout="@layout/cpp_simple_button_minus" />
 
 		<include layout="@layout/cpp_simple_button_app" />
 
