@@ -96,7 +96,7 @@ task androidSourcesJar(type: Jar) {
 artifacts {
     archives androidSourcesJar
     archives file: file('build/outputs/apk/calculatorpp-release.apk'), name: 'calculatorpp-android-app', type: 'apk'
-    archives file: file('build/outputs/proguard/release/mapping.txt'), name: 'calculatorpp-android-app', classifier: 'proguard', type: 'txt'
+    archives file: file('build/outputs/mapping/release/mapping.txt'), name: 'calculatorpp-android-app', classifier: 'proguard', type: 'txt'
 }
 
 signing {
