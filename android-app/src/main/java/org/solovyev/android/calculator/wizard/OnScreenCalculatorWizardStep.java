@@ -26,6 +26,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.TextView;
+import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.R;
 
@@ -51,6 +53,11 @@ public class OnScreenCalculatorWizardStep extends WizardFragment implements Comp
 		checkbox = (CheckBox) root.findViewById(R.id.wizard_onscreen_app_enabled_checkbox);
 		checkbox.setChecked(enabled);
 		checkbox.setOnCheckedChangeListener(this);
+
+		if (App.getTheme().isLight()) {
+			final TextView message = (TextView) root.findViewById(R.id.wizard_onscreen_message);
+			message.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.logo_wizard_window_light, 0, 0);
+		}
 	}
 
 	@Nullable

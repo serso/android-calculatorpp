@@ -25,7 +25,9 @@ package org.solovyev.android.calculator.about;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.CalculatorFragment;
 import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.R;
@@ -47,6 +49,11 @@ public class CalculatorAboutFragment extends CalculatorFragment {
 	@Override
 	public void onViewCreated(View root, Bundle savedInstanceState) {
 		super.onViewCreated(root, savedInstanceState);
+
+		if (App.getTheme().isLight()) {
+			final ImageView image = (ImageView) root.findViewById(R.id.about_image);
+			image.setImageResource(R.drawable.logo_wizard_light);
+		}
 
 		final TextView aboutTextView = (TextView) root.findViewById(R.id.cpp_about_textview);
 		aboutTextView.setMovementMethod(LinkMovementMethod.getInstance());

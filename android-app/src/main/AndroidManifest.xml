@@ -26,7 +26,7 @@
 
 	<uses-sdk android:minSdkVersion="9" android:targetSdkVersion="17"/>
 
-	<application android:allowBackup="true" android:hardwareAccelerated="true" android:icon="@drawable/icon" android:label="@string/c_app_name" android:name=".CalculatorApplication" android:theme="@style/Cpp.Theme.Material">
+	<application android:allowBackup="true" android:hardwareAccelerated="true" android:icon="@drawable/ic_launcher" android:label="@string/c_app_name" android:name=".CalculatorApplication" android:theme="@style/Cpp.Theme.Material">
 
 		<activity android:clearTaskOnLaunch="true" android:label="@string/c_app_name" android:launchMode="singleTop" android:name=".CalculatorActivity" android:windowSoftInputMode="adjustPan">
 
@@ -45,8 +45,7 @@
 
 		<activity android:clearTaskOnLaunch="true" android:label="@string/c_app_name" android:launchMode="singleTop" android:name=".CalculatorActivityMobile" android:windowSoftInputMode="adjustPan"/>
 
-		<!-- settings must use action bar icon-->
-		<activity android:icon="@drawable/ab_icon" android:label="@string/c_app_settings" android:name=".preferences.PreferencesActivity" android:theme="@style/Cpp.Theme.Settings"/>
+		<activity android:label="@string/c_app_settings" android:name=".preferences.PreferencesActivity" android:theme="@style/Cpp.Theme.Settings"/>
 
 		<activity android:label="@string/c_history" android:name=".history.CalculatorHistoryActivity"/>
 
@@ -88,12 +87,11 @@
 			</intent-filter>
 		</activity>
 
-		<!-- settings must use action bar icon-->
-		<activity android:icon="@drawable/ab_icon" android:label="@string/c_settings" android:name=".plot.PlotPreferenceActivity" android:theme="@style/Cpp.Theme.Settings"/>
+		<activity android:label="@string/c_settings" android:name=".plot.PlotPreferenceActivity" android:theme="@style/Cpp.Theme.Settings"/>
 
 		<!-- ONSCREEN CONFIG -->
 
-		<activity android:icon="@drawable/icon_onscreen" android:label="@string/c_app_name_on_screen" android:launchMode="singleInstance" android:name=".onscreen.CalculatorOnscreenStartActivity" android:theme="@style/Cpp.Theme.Dialog.Material">
+		<activity android:icon="@drawable/ic_launcher_window" android:label="@string/c_app_name_on_screen" android:launchMode="singleInstance" android:name=".onscreen.CalculatorOnscreenStartActivity" android:theme="@style/Cpp.Theme.Dialog.Material">
 
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"/>
@@ -119,7 +117,7 @@
 
 		<!-- WIDGET CONFIG -->
 
-		<receiver android:icon="@drawable/icon" android:label="@string/c_app_widget_3x3_name" android:name=".widget.CalculatorWidgetProvider">
+		<receiver android:icon="@drawable/ic_launcher" android:label="@string/c_app_widget_3x3_name" android:name=".widget.CalculatorWidgetProvider">
 
 			<intent-filter>
 				<action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
@@ -132,7 +130,7 @@
 			<meta-data android:name="android.appwidget.provider" android:resource="@xml/calculator_widget_info_3x3"/>
 		</receiver>
 
-		<receiver android:icon="@drawable/icon" android:label="@string/c_app_widget_3x4_name" android:name=".widget.CalculatorWidgetProvider3x4">
+		<receiver android:icon="@drawable/ic_launcher" android:label="@string/c_app_widget_3x4_name" android:name=".widget.CalculatorWidgetProvider3x4">
 
 			<intent-filter>
 				<action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
@@ -145,7 +143,7 @@
 			<meta-data android:name="android.appwidget.provider" android:resource="@xml/calculator_widget_info_3x4"/>
 		</receiver>
 
-		<receiver android:icon="@drawable/icon" android:label="@string/c_app_widget_4x4_name" android:name=".widget.CalculatorWidgetProvider4x4">
+		<receiver android:icon="@drawable/ic_launcher" android:label="@string/c_app_widget_4x4_name" android:name=".widget.CalculatorWidgetProvider4x4">
 
 			<intent-filter>
 				<action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
@@ -158,7 +156,7 @@
 			<meta-data android:name="android.appwidget.provider" android:resource="@xml/calculator_widget_info_4x4"/>
 		</receiver>
 
-		<receiver android:icon="@drawable/icon" android:label="@string/c_app_widget_4x5_name" android:name=".widget.CalculatorWidgetProvider4x5">
+		<receiver android:icon="@drawable/ic_launcher" android:label="@string/c_app_widget_4x5_name" android:name=".widget.CalculatorWidgetProvider4x5">
 
 			<intent-filter>
 				<action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
