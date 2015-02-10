@@ -46,8 +46,8 @@
 	<color name="cpp_metro_blue">#10648c</color>
 	<color name="cpp_material_blue">#ff0d4663</color>
 	<color name="cpp_material_blue_lighter">#ff0d668d</color>
-	<color name="cpp_material_light">#42d5b2</color>
-	<color name="cpp_material_light_darker">#ff38b99a</color>
+	<color name="cpp_material_light">#ff37b295</color>
+	<color name="cpp_material_light_darker">#ff309e84</color>
 	<color name="cpp_material_light_disabled">#c1d2ef</color>
 	<color name="cpp_metro_blue_dark">#ff092c39</color>
 	<color name="cpp_metro_green">#088e3a</color>
