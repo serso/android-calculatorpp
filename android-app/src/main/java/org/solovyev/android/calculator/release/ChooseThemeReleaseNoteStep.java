@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment;
 import javax.annotation.Nonnull;
 
 public class ChooseThemeReleaseNoteStep extends ReleaseNoteStep {
+	public static final int VERSION_CODE = 137;
+
 	public ChooseThemeReleaseNoteStep(Integer version) {
 		super(version);
 	}
