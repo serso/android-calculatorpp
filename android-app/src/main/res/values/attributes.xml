@@ -30,7 +30,6 @@
 	<attr name="cpp_main_bg" format="reference"/>
 	<attr name="cpp_pane_bg" format="reference"/>
 	<attr name="cpp_fab_bg" format="reference"/>
-	<attr name="cpp_toolbar_theme" format="reference"/>
 	<attr name="cpp_wizard_button_bg" format="reference"/>
 
 	<attr name="cpp_text_color" format="reference"/>

@@ -114,27 +114,4 @@
 		<item name="cpp_wizard_button_bg">@color/cpp_wizard_button_selector_light</item>
 	</style>
 
-	<style name="Cpp.Theme.Settings" parent="Cpp.Theme">
-		<item name="android:windowNoTitle">true</item>
-		<item name="android:windowActionBar">false</item>
-		<item name="cpp_toolbar_theme">@style/Cpp.Theme.Toolbar</item>
-	</style>
-
-	<style name="Cpp.Theme.Settings.Light" parent="Cpp.Theme.Light">
-		<item name="android:windowNoTitle">true</item>
-		<item name="android:windowActionBar">false</item>
-		<item name="cpp_toolbar_theme">@style/Cpp.Theme.Toolbar.Light</item>
-	</style>
-
-	<style name="Cpp.Theme.Toolbar" parent="Cpp.Theme">
-		<item name="toolbarStyle">@style/CppToolbar</item>
-		<item name="android:toolbarStyle">@style/CppToolbar</item>
-	</style>
-
-	<style name="Cpp.Theme.Toolbar.Light" parent="Cpp.Theme">
-		<item name="toolbarStyle">@style/CppToolbar.Light</item>
-		<item name="android:toolbarStyle">@style/CppToolbar.Light</item>
-	</style>
-
-
 </resources>

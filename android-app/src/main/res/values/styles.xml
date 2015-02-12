@@ -293,25 +293,4 @@
 		<item name="android:backgroundSplit">@color/cpp_material_actionbar_light</item>
 	</style>
 
-	<style name="CppToolbar" parent="@style/Widget.AppCompat.Toolbar">
-		<item name="background">@color/cpp_material_actionbar</item>
-		<item name="android:background">@color/cpp_material_actionbar</item>
-		<item name="backgroundStacked">@color/cpp_material_actionbar</item>
-		<item name="android:backgroundStacked">@color/cpp_material_actionbar</item>
-		<item name="backgroundSplit">@color/cpp_material_actionbar</item>
-		<item name="android:backgroundSplit">@color/cpp_material_actionbar</item>
-
-		<item name="navigationIcon">?attr/homeAsUpIndicator</item>
-		<item name="android:navigationIcon">?attr/homeAsUpIndicator</item>
-	</style>
-
-	<style name="CppToolbar.Light" parent="CppToolbar">
-		<item name="background">@color/cpp_material_actionbar_light</item>
-		<item name="android:background">@color/cpp_material_actionbar_light</item>
-		<item name="backgroundStacked">@color/cpp_material_actionbar_light</item>
-		<item name="android:backgroundStacked">@color/cpp_material_actionbar_light</item>
-		<item name="backgroundSplit">@color/cpp_material_actionbar_light</item>
-		<item name="android:backgroundSplit">@color/cpp_material_actionbar_light</item>
-	</style>
-
 </resources>

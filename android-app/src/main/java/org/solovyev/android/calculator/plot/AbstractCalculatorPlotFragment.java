@@ -42,6 +42,7 @@ import org.solovyev.android.Android;
 import org.solovyev.android.Threads;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.preferences.PreferencesActivity;
 import org.solovyev.android.menu.*;
 import org.solovyev.common.JPredicate;
 import org.solovyev.common.msg.MessageType;
@@ -411,7 +412,7 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 		preferences(R.id.menu_plot_settings) {
 			@Override
 			public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
-				context.startActivity(new Intent(context, PlotPreferenceActivity.class));
+				PreferencesActivity.start(context, R.xml.preferences_plot, R.string.prefs_graph_screen_title);
 			}
 		};
 
