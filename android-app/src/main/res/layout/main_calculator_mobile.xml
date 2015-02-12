@@ -42,7 +42,7 @@
 		a:layout_weight="1">
 
 		<include
-			layout="@layout/cpp_app_button_equals"
+			layout="@layout/cpp_app_button_equals_no_bg"
 			a:layout_width="0dp"
 			a:layout_height="match_parent"
 			a:layout_weight="1" />
