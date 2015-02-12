@@ -25,7 +25,10 @@ package org.solovyev.android.calculator;
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
+
 import org.solovyev.android.UiThreadExecutor;
 import org.solovyev.android.Views;
 import org.solovyev.android.calculator.ga.Ga;
@@ -91,6 +94,9 @@ public final class App {
 
 	@Nonnull
 	private static final Products products = Products.create().add(ProductTypes.IN_APP, Arrays.asList("ad_free"));
+
+	@Nullable
+	private static Boolean lg = null;
 
 	private App() {
 		throw new AssertionError();
@@ -229,5 +235,18 @@ public final class App {
 	@Nonnull
 	public static Preferences.Gui.Theme getTheme() {
 		return Preferences.Gui.getTheme(getPreferences());
+	}
+
+	public static boolean isLg() {
+		if (lg == null) {
+			lg = "lge".equalsIgnoreCase(Build.BRAND) || "lge".equalsIgnoreCase(Build.MANUFACTURER);
+		}
+		return lg;
+	}
+
+	// see https://code.google.com/p/android/issues/detail?id=78154 
+	// and http://developer.lge.com/community/forums/RetrieveForumContent.dev?detailContsId=FC29190703
+	public static boolean shouldOpenMenuManually() {
+		return isLg() && Build.VERSION.SDK_INT == Build.VERSION_CODES.JELLY_BEAN;
 	}
 }
