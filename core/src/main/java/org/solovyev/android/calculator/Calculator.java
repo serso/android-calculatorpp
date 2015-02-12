@@ -64,6 +64,8 @@ public interface Calculator extends CalculatorEventContainer, HistoryControl<Cal
 								 @Nonnull String expression,
 								 @Nonnull Long sequenceId);
 
+	boolean isCalculateOnFly();
+
 	/*
 	**********************************************************************
 	*

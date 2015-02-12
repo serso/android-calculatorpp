@@ -211,6 +211,11 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 		this.calculateOnFly = calculateOnFly;
 	}
 
+	@Override
+	public boolean isCalculateOnFly() {
+		return calculateOnFly;
+	}
+
 	@Nonnull
 	private CalculatorConversionEventData newConversionEventData(@Nonnull Long sequenceId,
 																 @Nonnull Generic value,
