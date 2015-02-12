@@ -88,7 +88,6 @@
 	</string>
 	<string name="p_calc_haptic_feedback_duration" translatable="false">" "</string>
 
-	<string name="p_calc_ad_free_key" translatable="false">org.solovyev.android.calculator_ad_free</string>
 	<string name="p_calc_ad_free" translatable="false">false</string>
 
 </resources>

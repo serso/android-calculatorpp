@@ -26,7 +26,7 @@
 	a:key="screen-main">
 
 	<Preference
-		a:key="@string/p_calc_ad_free_key"
+		a:key="buy_premium"
 		a:title="@string/c_calc_ad_free_title"
 		a:summary="@string/c_calc_ad_free_summary"
 		a:defaultValue="false" />

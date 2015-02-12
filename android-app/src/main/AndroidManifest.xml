@@ -45,7 +45,7 @@
 
 		<activity android:clearTaskOnLaunch="true" android:label="@string/c_app_name" android:launchMode="singleTop" android:name=".CalculatorActivityMobile" android:windowSoftInputMode="adjustPan"/>
 
-		<activity android:label="@string/c_app_settings" android:name=".preferences.PreferencesActivity" android:theme="@style/Cpp.Theme.Settings"/>
+		<activity android:label="@string/c_app_settings" android:name=".preferences.PreferencesActivity"/>
 
 		<activity android:label="@string/c_history" android:name=".history.CalculatorHistoryActivity"/>
 
@@ -86,8 +86,6 @@
 				<action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
 			</intent-filter>
 		</activity>
-
-		<activity android:label="@string/c_settings" android:name=".plot.PlotPreferenceActivity" android:theme="@style/Cpp.Theme.Settings"/>
 
 		<!-- ONSCREEN CONFIG -->
 

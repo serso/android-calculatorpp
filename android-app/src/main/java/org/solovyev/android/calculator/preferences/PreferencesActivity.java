@@ -1,51 +1,33 @@
-/*
- * Copyright 2013 serso aka se.solovyev
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- * Contact details
- *
- * Email: se.solovyev@gmail.com
- * Site:  http://se.solovyev.org
- */
-
 package org.solovyev.android.calculator.preferences;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.Preference;
+import android.support.annotation.StringRes;
+import android.support.annotation.XmlRes;
+import android.text.TextUtils;
 import android.util.SparseArray;
+
+import org.solovyev.android.calculator.ActivityUi;
 import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.CalculatorApplication;
+import org.solovyev.android.calculator.BaseActivity;
+import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.R;
+import org.solovyev.android.checkout.ActivityCheckout;
+import org.solovyev.android.checkout.Checkout;
 
 import javax.annotation.Nonnull;
 
-import static org.solovyev.android.calculator.CalculatorApplication.AD_FREE_P_KEY;
-import static org.solovyev.android.calculator.model.AndroidCalculatorEngine.Preferences.precision;
-import static org.solovyev.android.calculator.model.AndroidCalculatorEngine.Preferences.roundResult;
-import static org.solovyev.android.calculator.wizard.CalculatorWizards.DEFAULT_WIZARD_FLOW;
-import static org.solovyev.android.view.VibratorContainer.Preferences.hapticFeedbackDuration;
-import static org.solovyev.android.view.VibratorContainer.Preferences.hapticFeedbackEnabled;
-import static org.solovyev.android.wizard.WizardUi.startWizard;
+import static android.support.v7.app.ActionBar.NAVIGATION_MODE_STANDARD;
 
-@SuppressWarnings("deprecation")
-public class PreferencesActivity extends BasePreferencesActivity {
+public class PreferencesActivity extends BaseActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
+
+	static final String EXTRA_PREFERENCE = "preference";
+	static final String EXTRA_PREFERENCE_TITLE = "preference-title";
 
 	@Nonnull
-	private static final SparseArray<String> preferences = new SparseArray<String>();
+	private static final SparseArray<String> preferences = new SparseArray<>();
 
 	static {
 		preferences.append(R.xml.preferences, "screen-main");
@@ -56,90 +38,86 @@ public class PreferencesActivity extends BasePreferencesActivity {
 		preferences.append(R.xml.preferences_onscreen, "screen-onscreen");
 	}
 
-	private Preference adFreePreference;
+	@Nonnull
+	private final ActivityCheckout checkout = Checkout.forActivity(this, App.getBilling(), App.getProducts());
 
-	@Override
-	protected void onNewIntent(Intent intent) {
-		super.onNewIntent(intent);
+	private boolean paused = true;
+
+	public PreferencesActivity() {
+		super(R.layout.main_empty);
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		App.getPreferences().registerOnSharedPreferenceChangeListener(this);
 
 		final Intent intent = getIntent();
-		final int preference = intent.getIntExtra("preference", R.xml.preferences);
-		final String title = intent.getStringExtra("preference-title");
-		setPreference(preference, preferences.get(preference));
-		if (preference == R.xml.preferences) {
-			for (int i = 0; i < preferences.size(); i++) {
-				final int xml = preferences.keyAt(i);
-				final String name = preferences.valueAt(i);
-				setPreferenceIntent(xml, name);
-			}
-			final Preference restartWizardPreference = findPreference("restart_wizard");
-			restartWizardPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-				@Override
-				public boolean onPreferenceClick(Preference preference) {
-					startWizard(CalculatorApplication.getInstance().getWizards(), DEFAULT_WIZARD_FLOW, PreferencesActivity.this);
-					return true;
-				}
-			});
-
-			adFreePreference = findPreference(AD_FREE_P_KEY);
-			adFreePreference.setEnabled(false);
-			adFreePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-				@Override
-				public boolean onPreferenceClick(Preference preference) {
-					startActivity(new Intent(PreferencesActivity.this, PurchaseDialogActivity.class));
-					return true;
-				}
-			});
-		}
-		if (title != null) {
-			setTitle(title);
+		final String preferenceTitle = intent.getStringExtra(EXTRA_PREFERENCE_TITLE);
+		if (!TextUtils.isEmpty(preferenceTitle)) {
+			setTitle(preferenceTitle);
 		}
 
-		final SharedPreferences preferences = App.getPreferences();
-		onSharedPreferenceChanged(preferences, roundResult.getKey());
-		onSharedPreferenceChanged(preferences, hapticFeedbackEnabled.getKey());
+		if (savedInstanceState == null) {
+			final int preference = intent.getIntExtra(EXTRA_PREFERENCE, R.xml.preferences);
+			getSupportFragmentManager().beginTransaction()
+					.add(R.id.main_layout, PreferencesFragment.create(preference, R.layout.fragment_preferences))
+					.commit();
+		}
+
+		getSupportActionBar().setNavigationMode(NAVIGATION_MODE_STANDARD);
+
+		checkout.start();
 	}
 
-	private void setPreference(int xml, @Nonnull String name) {
-		addPreferencesFromResource(xml);
-	}
-
-	private void setPreferenceIntent(int xml, @Nonnull String name) {
-		final Preference preference = findPreference(name);
-		if (preference != null) {
-			final Intent intent = new Intent(getApplicationContext(), PreferencesActivity.class);
-			intent.putExtra("preference", xml);
-			intent.putExtra("preference-title", preference.getTitle());
-			preference.setIntent(intent);
+	@Override
+	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+		if (!paused && Preferences.Gui.theme.isSameKey(key)) {
+			ActivityUi.restartIfThemeChanged(this, ui.getTheme());
 		}
 	}
 
 	@Override
-	public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
-		super.onSharedPreferenceChanged(preferences, key);
-		if (roundResult.getKey().equals(key)) {
-			final Preference preference = findPreference(precision.getKey());
-			if (preference != null) {
-				preference.setEnabled(preferences.getBoolean(key, roundResult.getDefaultValue()));
-			}
-		} else if (hapticFeedbackEnabled.getKey().equals(key)) {
-			final Preference preference = findPreference(hapticFeedbackDuration.getKey());
-			if (preference != null) {
-				preference.setEnabled(hapticFeedbackEnabled.getPreference(preferences));
-			}
-		}
+	protected void onResume() {
+		super.onResume();
+		paused = false;
 	}
 
 	@Override
-	protected void onShowAd(boolean show) {
-		super.onShowAd(show);
-		if (adFreePreference != null) {
-			adFreePreference.setEnabled(show);
+	protected void onPause() {
+		paused = true;
+		super.onPause();
+	}
+
+	@Override
+	protected void onDestroy() {
+		checkout.stop();
+		App.getPreferences().unregisterOnSharedPreferenceChangeListener(this);
+		super.onDestroy();
+	}
+
+	@Nonnull
+	static SparseArray<String> getPreferences() {
+		return preferences;
+	}
+
+	public static void start(@Nonnull Context context, @XmlRes int preference, @StringRes int title) {
+		final Intent intent = makeIntent(context, preference, title);
+		context.startActivity(intent);
+	}
+
+	@Nonnull
+	static Intent makeIntent(@Nonnull Context context, int preference, int title) {
+		final Intent intent = new Intent(context, PreferencesActivity.class);
+		intent.putExtra(EXTRA_PREFERENCE, preference);
+		if (title != 0) {
+			intent.putExtra(EXTRA_PREFERENCE_TITLE, context.getString(title));
 		}
+		return intent;
+	}
+
+	@Nonnull
+	ActivityCheckout getCheckout() {
+		return checkout;
 	}
 }

@@ -33,7 +33,6 @@ import jscl.AngleUnit;
 import jscl.NumeralBase;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
-import org.solovyev.android.calculator.preferences.BasePreferencesActivity;
 import org.solovyev.android.calculator.preferences.PurchaseDialogActivity;
 import org.solovyev.android.calculator.wizard.WizardActivity;
 import org.solovyev.android.prefs.*;
@@ -48,11 +47,6 @@ import static org.solovyev.android.Android.isPhoneModel;
 import static org.solovyev.android.DeviceModel.samsung_galaxy_s;
 import static org.solovyev.android.DeviceModel.samsung_galaxy_s_2;
 
-/**
- * User: serso
- * Date: 4/20/12
- * Time: 12:42 PM
- */
 public final class Preferences {
 
 	private Preferences() {
@@ -115,24 +109,22 @@ public final class Preferences {
 			metro_purple_theme(R.style.cpp_metro_purple_theme),
 			metro_green_theme(R.style.cpp_metro_green_theme),
 			material_theme(R.style.Cpp_Theme_Material),
-			material_light_theme(R.style.Cpp_Theme_Material_Light, R.style.Cpp_Theme_Wizard_Light, R.style.Cpp_Theme_Settings_Light, R.style.Cpp_Theme_Dialog_Material_Light),
+			material_light_theme(R.style.Cpp_Theme_Material_Light, R.style.Cpp_Theme_Wizard_Light, R.style.Cpp_Theme_Dialog_Material_Light),
 			;
 
 			private static final SparseArray<TextColor> textColors = new SparseArray<>();
 
 			private final int themeId;
 			private final int wizardThemeId;
-			private final int settingsThemeId;
 			private final int dialogThemeId;
 
 			Theme(@StyleRes int themeId) {
-				this(themeId, R.style.Cpp_Theme_Wizard, R.style.Cpp_Theme_Settings, R.style.Cpp_Theme_Dialog_Material);
+				this(themeId, R.style.Cpp_Theme_Wizard, R.style.Cpp_Theme_Dialog_Material);
 			}
 
-			Theme(@StyleRes int themeId, @StyleRes int wizardThemeId, @StyleRes int settingsThemeId, int dialogThemeId) {
+			Theme(@StyleRes int themeId, @StyleRes int wizardThemeId, int dialogThemeId) {
 				this.themeId = themeId;
 				this.wizardThemeId = wizardThemeId;
-				this.settingsThemeId = settingsThemeId;
 				this.dialogThemeId = dialogThemeId;
 			}
 
@@ -143,9 +135,6 @@ public final class Preferences {
 			public int getThemeId(@Nullable Context context) {
 				if (context instanceof WizardActivity) {
 					return wizardThemeId;
-				}
-				if (context instanceof BasePreferencesActivity) {
-					return settingsThemeId;
 				}
 				if (context instanceof PurchaseDialogActivity) {
 					return dialogThemeId;
