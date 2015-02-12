@@ -3,6 +3,7 @@ package org.solovyev.android.calculator;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.v7.app.ActionBarActivity;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 
 import javax.annotation.Nonnull;
@@ -52,6 +53,15 @@ public class BaseActivity extends ActionBarActivity {
 	protected void onStop() {
 		ui.onStop(this);
 		super.onStop();
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (App.shouldOpenMenuManually() && keyCode == KeyEvent.KEYCODE_MENU) {
+			openOptionsMenu();
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
 	}
 
 	@Override
