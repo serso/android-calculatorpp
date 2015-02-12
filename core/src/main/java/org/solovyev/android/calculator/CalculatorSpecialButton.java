@@ -102,6 +102,13 @@ public enum CalculatorSpecialButton {
 	equals("=") {
 		@Override
 		public void onClick(@Nonnull CalculatorKeyboard keyboard) {
+			final Calculator calculator = Locator.getInstance().getCalculator();
+			if (!calculator.isCalculateOnFly()) {
+				// no automatic calculations are => equals button must be used to calculate
+				calculator.evaluate();
+				return;
+			}
+
 			final CalculatorDisplayViewState displayViewState = Locator.getInstance().getDisplay().getViewState();
 			if (displayViewState.isValid()) {
 				final CharSequence text = displayViewState.getText();

@@ -105,6 +105,11 @@ public class AndroidCalculator implements Calculator, CalculatorEventListener, S
 	}
 
 	@Override
+	public boolean isCalculateOnFly() {
+		return calculator.isCalculateOnFly();
+	}
+
+	@Override
 	public boolean isConversionPossible(@Nonnull Generic generic, @Nonnull NumeralBase from, @Nonnull NumeralBase to) {
 		return calculator.isConversionPossible(generic, from, to);
 	}
