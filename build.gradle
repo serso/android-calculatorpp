@@ -1,9 +1,9 @@
 public int version_code() {
-  return 138
+  return 139
 }
 
 public String version_name() {
-  return '2.1.0'
+  return '2.1.1'
 }
 
 public int android_sdk_version() {
