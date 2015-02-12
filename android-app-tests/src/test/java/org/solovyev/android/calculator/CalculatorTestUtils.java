@@ -64,7 +64,7 @@ public class CalculatorTestUtils {
 
 
 	@Nonnull
-	static CalculatorEngineImpl newCalculatorEngine() {
+	public static CalculatorEngineImpl newCalculatorEngine() {
 		final MathEntityDao mathEntityDao = Mockito.mock(MathEntityDao.class);
 
 		final JsclMathEngine jsclEngine = JsclMathEngine.getInstance();

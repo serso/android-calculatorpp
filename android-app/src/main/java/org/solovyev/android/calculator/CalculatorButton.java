@@ -126,6 +126,16 @@ public enum CalculatorButton {
 		Locator.getInstance().getKeyboard().buttonPressed(onClickText);
 	}
 
+	@Nonnull
+	public String getOnClickText() {
+		return onClickText;
+	}
+
+	@Nullable
+	public String getOnLongClickText() {
+		return onLongClickText;
+	}
+
 	@Nullable
 	public static CalculatorButton getById(int buttonId) {
 		initButtonsByIdsMap();
