@@ -6,3 +6,4 @@ atlassian-ide-plugin.xml
 .idea/uiDesigner.xml
 .idea/libraries/
 build
+local.properties
