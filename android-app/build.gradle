@@ -142,6 +142,7 @@ uploadArchives {
             }
 
             pom.project {
+                artifactId = 'calculatorpp-app'
                 name 'Calculator++ Application'
                 packaging 'apk'
                 description 'Calculator for Android'
