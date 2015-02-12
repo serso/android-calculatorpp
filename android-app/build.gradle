@@ -144,6 +144,7 @@ uploadArchives {
             pom.project {
                 name 'Calculator++ Application'
                 packaging 'apk'
+                description 'Calculator for Android'
                 url 'https://github.com/serso/android-calculatorpp'
 
                 scm {
