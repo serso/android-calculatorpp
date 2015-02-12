@@ -23,6 +23,7 @@
 package org.solovyev.android.calculator;
 
 import android.content.Context;
+import android.util.SparseArray;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -92,7 +93,7 @@ public enum CalculatorButton {
 	private final String onLongClickText;
 
 	@Nonnull
-	private static Map<Integer, CalculatorButton> buttonsByIds = new HashMap<Integer, CalculatorButton>();
+	private static SparseArray<CalculatorButton> buttonsByIds = new SparseArray<>();
 
 	CalculatorButton(int buttonId, @Nonnull CalculatorSpecialButton onClickButton, @Nullable CalculatorSpecialButton onLongClickButton) {
 		this(buttonId, onClickButton.getActionCode(), onLongClickButton == null ? null : onLongClickButton.getActionCode());
@@ -113,14 +114,14 @@ public enum CalculatorButton {
 		this(buttonId, onClickText, null);
 	}
 
-	public void onLongClick(@Nonnull Context context) {
+	public void onLongClick() {
 		Locator.getInstance().getNotifier().showDebugMessage("Calculator++ Widget", "Button pressed: " + onLongClickText);
 		if (onLongClickText != null) {
 			Locator.getInstance().getKeyboard().buttonPressed(onLongClickText);
 		}
 	}
 
-	public void onClick(@Nonnull Context context) {
+	public void onClick() {
 		Locator.getInstance().getNotifier().showDebugMessage("Calculator++ Widget", "Button pressed: " + onClickText);
 		Locator.getInstance().getKeyboard().buttonPressed(onClickText);
 	}
@@ -133,14 +134,14 @@ public enum CalculatorButton {
 	}
 
 	private static void initButtonsByIdsMap() {
-		if (buttonsByIds.isEmpty()) {
+		if (buttonsByIds.size() == 0) {
 			// if not initialized
 
 			final CalculatorButton[] calculatorButtons = values();
 
-			final Map<Integer, CalculatorButton> localButtonsByIds = new HashMap<Integer, CalculatorButton>(calculatorButtons.length);
+			final SparseArray<CalculatorButton> localButtonsByIds = new SparseArray<>();
 			for (CalculatorButton calculatorButton : calculatorButtons) {
-				localButtonsByIds.put(calculatorButton.getButtonId(), calculatorButton);
+				localButtonsByIds.append(calculatorButton.getButtonId(), calculatorButton);
 			}
 
 			buttonsByIds = localButtonsByIds;

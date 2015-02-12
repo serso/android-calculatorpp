@@ -20,7 +20,7 @@ public final class CalculatorReceiver extends BroadcastReceiver {
 
 			final CalculatorButton button = CalculatorButton.getById(buttonId);
 			if (button != null) {
-				button.onClick(context);
+				button.onClick();
 			}
 		}
 	}
