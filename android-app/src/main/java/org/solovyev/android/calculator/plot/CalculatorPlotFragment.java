@@ -63,14 +63,15 @@ public class CalculatorPlotFragment extends AbstractCalculatorPlotFragment {
 			graphContainer.removeView((View) graphView);
 		}
 
-		if (plotData.isPlot3d()) {
+		final boolean d3 = plotData.isPlot3d();
+		if (d3) {
 			graphView = new CalculatorGraph3dView(getActivity());
 		} else {
 			graphView = new CalculatorGraph2dView(getActivity());
 		}
 
 		final int color = App.getTheme().getTextColor(getActivity()).normal;
-		graphView.init(PlotViewDef.newInstance(color, color, Color.DKGRAY, getBgColor()));
+		graphView.init(PlotViewDef.newInstance(color, color, Color.DKGRAY, getBgColor(d3)));
 
 		final PlotBoundaries boundaries = plotData.getBoundaries();
 		graphView.setXRange(boundaries.getXMin(), boundaries.getXMax());

@@ -27,6 +27,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Build;
 import android.os.Bundle;
@@ -109,13 +110,11 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 	@Override
 	public void onCreate(@Nullable Bundle in) {
 		super.onCreate(in);
-
 		if (isPaneFragment()) {
-			this.bgColor = getResources().getColor(R.color.cpp_pane_bg);
+			bgColor = getResources().getColor(App.getTheme().isLight() ? R.color.cpp_pane_bg_light : R.color.cpp_pane_bg);
 		} else {
-			this.bgColor = getResources().getColor(android.R.color.transparent);
+			bgColor = getResources().getColor(App.getTheme().isLight() ? R.color.cpp_main_bg_light : R.color.cpp_main_bg);
 		}
-
 		setHasOptionsMenu(true);
 	}
 
@@ -206,8 +205,10 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 	**********************************************************************
 	*/
 
-	public int getBgColor() {
-		return bgColor;
+	public int getBgColor(boolean d3) {
+		// 3d plotter should always set a background color
+		// 2d plotter can leave with transparent background
+		return !d3 ? Color.TRANSPARENT : bgColor;
 	}
 
 	@Nonnull
