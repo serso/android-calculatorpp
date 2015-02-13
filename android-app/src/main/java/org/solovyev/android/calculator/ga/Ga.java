@@ -90,4 +90,19 @@ public final class Ga implements SharedPreferences.OnSharedPreferenceChangeListe
 		reportLayout(Preferences.Gui.layout.getPreferenceNoError(preferences));
 		reportTheme(Preferences.Gui.theme.getPreferenceNoError(preferences));
 	}
+
+	public void onBootStart() {
+		final HitBuilders.EventBuilder b = new HitBuilders.EventBuilder();
+		b.setCategory("lifecycle");
+		b.setAction("boot");
+		tracker.send(b.build());
+	}
+
+	public void onFloatingCalculatorOpened() {
+		final HitBuilders.EventBuilder b = new HitBuilders.EventBuilder();
+		b.setCategory("lifecycle");
+		b.setAction("floating_calculator");
+		b.setLabel("start");
+		tracker.send(b.build());
+	}
 }

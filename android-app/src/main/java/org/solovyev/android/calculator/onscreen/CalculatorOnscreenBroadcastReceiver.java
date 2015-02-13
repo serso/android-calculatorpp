@@ -30,6 +30,7 @@ import android.preference.PreferenceManager;
 
 import javax.annotation.Nonnull;
 
+import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.Preferences;
 
 /**
@@ -50,6 +51,7 @@ public final class CalculatorOnscreenBroadcastReceiver extends BroadcastReceiver
 			if (Preferences.OnscreenCalculator.startOnBoot.getPreferenceNoError(preferences)) {
 				CalculatorOnscreenService.showNotification(context);
 			}
+			App.getGa().onBootStart();
 		} else {
 			final Intent newIntent = new Intent(intent);
 			newIntent.setClass(context, CalculatorOnscreenService.class);

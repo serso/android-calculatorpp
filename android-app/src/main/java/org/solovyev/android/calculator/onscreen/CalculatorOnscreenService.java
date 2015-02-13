@@ -154,6 +154,7 @@ public class CalculatorOnscreenService extends Service implements OnscreenViewLi
 			if (isShowWindowIntent(intent)) {
 				hideNotification();
 				createView();
+				App.getGa().onFloatingCalculatorOpened();
 			} else if (isShowNotificationIntent(intent)) {
 				showNotification();
 			}
