@@ -30,6 +30,8 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.ContextMenu;
 import android.widget.EditText;
+
+import org.solovyev.android.calculator.onscreen.CalculatorOnscreenService;
 import org.solovyev.common.collections.Collections;
 
 import javax.annotation.Nonnull;
@@ -120,7 +122,12 @@ public class AndroidCalculatorEditorView extends EditText implements CalculatorE
 						try {
 							editorView.viewStateChange = true;
 							editorView.viewState = viewState;
-							editorView.setText(viewState.getTextAsCharSequence(), BufferType.EDITABLE);
+							if (App.getTheme().isLight() && getContext() instanceof CalculatorOnscreenService) {
+								// don't need formatting
+								editorView.setText(viewState.getText());
+							} else {
+								editorView.setText(viewState.getTextAsCharSequence(), BufferType.EDITABLE);
+							}
 							final int selection = CalculatorEditorImpl.correctSelection(viewState.getSelection(), editorView.getText());
 							editorView.setSelection(selection);
 						} finally {

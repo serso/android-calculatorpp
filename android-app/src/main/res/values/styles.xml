@@ -40,13 +40,14 @@
 		<item name="directionTextColor">@color/cpp_button_text</item>
 	</style>
 
-	<style name="cpp_onscreen_editor_style" parent="CppText.Editor">
+	<style name="CppText.Editor.Onscreen" parent="CppText.Editor">
 		<item name="android:ellipsize">none</item>
 		<item name="android:singleLine">true</item>
 		<item name="android:maxLines">1</item>
 		<item name="android:minLines">1</item>
 		<item name="android:lines">1</item>
 		<item name="android:scrollbars">horizontal</item>
+		<item name="android:textColor">@color/cpp_text</item>
 	</style>
 
 	<style name="CppText.Editor">
@@ -70,6 +71,7 @@
 
 	<style name="CppText.Display.Onscreen" parent="CppText.Display">
 		<item name="android:textSize">@dimen/cpp_onscreen_display_text_size</item>
+		<item name="android:textColor">@color/cpp_text</item>
 	</style>
 
 	<style name="CppText.About">
