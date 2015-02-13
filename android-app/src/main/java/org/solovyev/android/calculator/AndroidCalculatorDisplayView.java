@@ -140,7 +140,7 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
 	}
 
 	private Preferences.Gui.TextColor getTextColor() {
-		return App.getTheme().getTextColor(App.getApplication());
+		return App.getTheme().getTextColor(getContext());
 	}
 
 	@Nonnull

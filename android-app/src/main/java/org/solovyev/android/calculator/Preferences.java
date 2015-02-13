@@ -33,6 +33,7 @@ import jscl.AngleUnit;
 import jscl.NumeralBase;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
+import org.solovyev.android.calculator.onscreen.CalculatorOnscreenService;
 import org.solovyev.android.calculator.preferences.PurchaseDialogActivity;
 import org.solovyev.android.calculator.wizard.WizardActivity;
 import org.solovyev.android.prefs.*;
@@ -138,6 +139,9 @@ public final class Preferences {
 				}
 				if (context instanceof PurchaseDialogActivity) {
 					return dialogThemeId;
+				}
+				if (App.getTheme().isLight() && context instanceof CalculatorOnscreenService) {
+					return R.style.Cpp_Theme_Material;
 				}
 				return themeId;
 			}

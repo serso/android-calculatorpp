@@ -15,7 +15,7 @@
 
 	<org.solovyev.android.calculator.AndroidCalculatorEditorView
 		a:id="@+id/calculator_editor"
-		style="@style/cpp_onscreen_editor_style"
+		style="@style/CppText.Editor.Onscreen"
 		a:textIsSelectable="true" />
 
 </LinearLayout>
