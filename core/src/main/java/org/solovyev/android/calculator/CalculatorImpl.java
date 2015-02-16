@@ -207,8 +207,14 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 		Locator.getInstance().getHistory().load();
 	}
 
+	@Override
 	public void setCalculateOnFly(boolean calculateOnFly) {
-		this.calculateOnFly = calculateOnFly;
+		if (this.calculateOnFly != calculateOnFly) {
+			this.calculateOnFly = calculateOnFly;
+			if (this.calculateOnFly) {
+				evaluate();
+			}
+		}
 	}
 
 	@Override

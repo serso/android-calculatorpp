@@ -169,7 +169,7 @@ public enum CalculatorSpecialButton {
 	};
 
 	@Nonnull
-	private static Map<String, CalculatorSpecialButton> buttonsByActionCodes = new HashMap<String, CalculatorSpecialButton>();
+	private static Map<String, CalculatorSpecialButton> buttonsByActionCodes = new HashMap<>();
 
 	@Nonnull
 	private final String actionCode;

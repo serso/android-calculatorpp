@@ -39,6 +39,7 @@ import org.solovyev.android.calculator.history.CalculatorHistoryState;
 import org.solovyev.android.calculator.history.HistoryDragProcessor;
 import org.solovyev.android.calculator.view.AngleUnitsButton;
 import org.solovyev.android.calculator.view.DragListenerVibrator;
+import org.solovyev.android.calculator.view.LongClickEraser;
 import org.solovyev.android.calculator.view.NumeralBasesButton;
 import org.solovyev.android.calculator.view.ViewsCache;
 import org.solovyev.common.math.Point2d;
@@ -174,6 +175,11 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
 			angleUnitsButton.setOnDragListener(new DragListenerVibrator(newDragListener(new CalculatorButtons.AngleUnitsChanger(activity), activity), vibrator, preferences));
 		}
 
+		final View eraseButton = getButton(views, R.id.cpp_button_erase);
+		if (eraseButton != null) {
+			LongClickEraser.createAndAttach(eraseButton);
+		}
+
 		clearButton = getButton(views, R.id.cpp_button_clear);
 		if (clearButton != null) {
 			clearButton.setOnDragListener(new DragListenerVibrator(newDragListener(new CalculatorButtons.NumeralBasesChanger(activity), activity), vibrator, preferences));
@@ -292,8 +298,8 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
 	}
 
 	@Nullable
-	private <T extends DragButton> T getButton(@Nonnull ViewsCache views, int buttonId) {
-		return (T) views.findViewById(buttonId);
+	private <V extends View> V getButton(@Nonnull ViewsCache views, int buttonId) {
+		return (V) views.findViewById(buttonId);
 	}
 
 	@Override

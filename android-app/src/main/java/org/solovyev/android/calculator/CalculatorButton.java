@@ -115,14 +115,12 @@ public enum CalculatorButton {
 	}
 
 	public void onLongClick() {
-		Locator.getInstance().getNotifier().showDebugMessage("Calculator++ Widget", "Button pressed: " + onLongClickText);
 		if (onLongClickText != null) {
 			Locator.getInstance().getKeyboard().buttonPressed(onLongClickText);
 		}
 	}
 
 	public void onClick() {
-		Locator.getInstance().getNotifier().showDebugMessage("Calculator++ Widget", "Button pressed: " + onClickText);
 		Locator.getInstance().getKeyboard().buttonPressed(onClickText);
 	}
 
