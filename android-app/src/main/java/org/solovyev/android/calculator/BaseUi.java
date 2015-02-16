@@ -41,8 +41,6 @@ import org.solovyev.android.calculator.view.AngleUnitsButton;
 import org.solovyev.android.calculator.view.DragListenerVibrator;
 import org.solovyev.android.calculator.view.NumeralBasesButton;
 import org.solovyev.android.calculator.view.ViewsCache;
-import org.solovyev.common.listeners.JListeners;
-import org.solovyev.common.listeners.Listeners;
 import org.solovyev.common.math.Point2d;
 
 import javax.annotation.Nonnull;
@@ -82,9 +80,6 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
 
 	@Nullable
 	private NumeralBasesButton clearButton;
-
-	@Nonnull
-	private final JListeners<DragPreferencesChangeListener> dpclRegister = Listeners.newHardRefListeners();
 
 	protected BaseUi() {
 	}
@@ -140,36 +135,24 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
 	}
 
 	public void processButtons(@Nonnull final Activity activity, @Nonnull View root) {
-		dpclRegister.removeListeners();
-
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
-		final SimpleDragListener.Preferences dragPreferences = SimpleDragListener.getPreferences(preferences, activity);
 
 		final ViewsCache views = ViewsCache.forView(root);
-		setOnDragListeners(views, dragPreferences, preferences);
+		setOnDragListeners(views, preferences, activity);
 
 		HistoryDragProcessor<CalculatorHistoryState> historyDragProcessor = new HistoryDragProcessor<>(getCalculator());
-		final DragListener historyDragListener = new DragListenerVibrator(newOnDragListener(historyDragProcessor, dragPreferences), vibrator, preferences);
+		final DragListener historyDragListener = new DragListenerVibrator(newDragListener(historyDragProcessor, activity), vibrator, preferences);
 		final DragButton historyButton = getButton(views, R.id.cpp_button_history);
 		if (historyButton != null) {
 			historyButton.setOnDragListener(historyDragListener);
 		}
 
-		final DragButton subtractionButton = getButton(views, R.id.cpp_button_subtraction);
-		if (subtractionButton != null) {
-			subtractionButton.setOnDragListener(new DragListenerVibrator(newOnDragListener(new SimpleDragListener.DragProcessor() {
-				@Override
-				public boolean processDragEvent(@Nonnull DragDirection dragDirection, @Nonnull DragButton dragButton, @Nonnull Point2d startPoint2d, @Nonnull MotionEvent motionEvent) {
-					if (dragDirection == DragDirection.down) {
-						Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_operators, null);
-						return true;
-					}
-					return false;
-				}
-			}, dragPreferences), vibrator, preferences));
+		final DragButton minusButton = getButton(views, R.id.cpp_button_subtraction);
+		if (minusButton != null) {
+			minusButton.setOnDragListener(new DragListenerVibrator(newDragListener(new MinusButtonDragProcessor(), activity), vibrator, preferences));
 		}
 
-		final DragListener toPositionDragListener = new DragListenerVibrator(new SimpleDragListener(new CursorDragProcessor(), dragPreferences), vibrator, preferences);
+		final DragListener toPositionDragListener = new DragListenerVibrator(new SimpleDragListener(new CursorDragProcessor(), activity), vibrator, preferences);
 
 		final DragButton rightButton = getButton(views, R.id.cpp_button_right);
 		if (rightButton != null) {
@@ -183,32 +166,32 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
 
 		final DragButton equalsButton = getButton(views, R.id.cpp_button_equals);
 		if (equalsButton != null) {
-			equalsButton.setOnDragListener(new DragListenerVibrator(newOnDragListener(new EqualsDragProcessor(), dragPreferences), vibrator, preferences));
+			equalsButton.setOnDragListener(new DragListenerVibrator(newDragListener(new EqualsDragProcessor(), activity), vibrator, preferences));
 		}
 
 		angleUnitsButton = getButton(views, R.id.cpp_button_6);
 		if (angleUnitsButton != null) {
-			angleUnitsButton.setOnDragListener(new DragListenerVibrator(newOnDragListener(new CalculatorButtons.AngleUnitsChanger(activity), dragPreferences), vibrator, preferences));
+			angleUnitsButton.setOnDragListener(new DragListenerVibrator(newDragListener(new CalculatorButtons.AngleUnitsChanger(activity), activity), vibrator, preferences));
 		}
 
 		clearButton = getButton(views, R.id.cpp_button_clear);
 		if (clearButton != null) {
-			clearButton.setOnDragListener(new DragListenerVibrator(newOnDragListener(new CalculatorButtons.NumeralBasesChanger(activity), dragPreferences), vibrator, preferences));
+			clearButton.setOnDragListener(new DragListenerVibrator(newDragListener(new CalculatorButtons.NumeralBasesChanger(activity), activity), vibrator, preferences));
 		}
 
 		final DragButton varsButton = getButton(views, R.id.cpp_button_vars);
 		if (varsButton != null) {
-			varsButton.setOnDragListener(new DragListenerVibrator(newOnDragListener(new CalculatorButtons.VarsDragProcessor(activity), dragPreferences), vibrator, preferences));
+			varsButton.setOnDragListener(new DragListenerVibrator(newDragListener(new CalculatorButtons.VarsDragProcessor(activity), activity), vibrator, preferences));
 		}
 
 		final DragButton functionsButton = getButton(views, R.id.cpp_button_functions);
 		if (functionsButton != null) {
-			functionsButton.setOnDragListener(new DragListenerVibrator(newOnDragListener(new CalculatorButtons.FunctionsDragProcessor(activity), dragPreferences), vibrator, preferences));
+			functionsButton.setOnDragListener(new DragListenerVibrator(newDragListener(new CalculatorButtons.FunctionsDragProcessor(activity), activity), vibrator, preferences));
 		}
 
 		final DragButton roundBracketsButton = getButton(views, R.id.cpp_button_round_brackets);
 		if (roundBracketsButton != null) {
-			roundBracketsButton.setOnDragListener(new DragListenerVibrator(newOnDragListener(new CalculatorButtons.RoundBracketsDragProcessor(), dragPreferences), vibrator, preferences));
+			roundBracketsButton.setOnDragListener(new DragListenerVibrator(newDragListener(new CalculatorButtons.RoundBracketsDragProcessor(), activity), vibrator, preferences));
 		}
 
 		if (layout == simple || layout == simple_mobile) {
@@ -239,8 +222,8 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
 		new ButtonOnClickListener().attachToViews(views);
 	}
 
-	private void setOnDragListeners(@Nonnull ViewsCache views, @Nonnull SimpleDragListener.Preferences dragPreferences, @Nonnull SharedPreferences preferences) {
-		final DragListener dragListener = new DragListenerVibrator(newOnDragListener(new DigitButtonDragProcessor(getKeyboard()), dragPreferences), vibrator, preferences);
+	private void setOnDragListeners(@Nonnull ViewsCache views, @Nonnull SharedPreferences preferences, @Nonnull Context context) {
+		final DragListener dragListener = new DragListenerVibrator(newDragListener(new DigitButtonDragProcessor(getKeyboard()), context), vibrator, preferences);
 
 		final List<Integer> viewIds = getViewIds();
 		for (Integer viewId : viewIds) {
@@ -252,11 +235,8 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
 	}
 
 	@Nonnull
-	private SimpleDragListener newOnDragListener(@Nonnull SimpleDragListener.DragProcessor dragProcessor,
-												 @Nonnull SimpleDragListener.Preferences dragPreferences) {
-		final SimpleDragListener onDragListener = new SimpleDragListener(dragProcessor, dragPreferences);
-		dpclRegister.addListener(onDragListener);
-		return onDragListener;
+	private SimpleDragListener newDragListener(@Nonnull SimpleDragListener.DragProcessor dragProcessor, @Nonnull Context context) {
+		return new SimpleDragListener(dragProcessor, context);
 	}
 
 	private void toggleButtonDirectionText(@Nonnull ViewsCache views, int id, boolean showDirectionText, @Nonnull DragDirection... dragDirections) {
@@ -326,6 +306,17 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
 			if (clearButton != null) {
 				clearButton.setNumeralBase(numeralBase.getPreference(preferences));
 			}
+		}
+	}
+
+	private static class MinusButtonDragProcessor implements SimpleDragListener.DragProcessor {
+		@Override
+		public boolean processDragEvent(@Nonnull DragDirection dragDirection, @Nonnull DragButton dragButton, @Nonnull Point2d startPoint2d, @Nonnull MotionEvent motionEvent) {
+			if (dragDirection == DragDirection.down) {
+				Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_operators, null);
+				return true;
+			}
+			return false;
 		}
 	}
 }

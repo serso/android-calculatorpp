@@ -398,7 +398,7 @@ public class DirectionDragButton extends DragButton {
 	private Map<GuiDragDirection, Float> getDirectionTextScales() {
 		final List<Float> scales = StringCollections.split(getDirectionTextScale(), ";", NumberParser.of(Float.class));
 
-		final Map<GuiDragDirection, Float> result = new HashMap<GuiDragDirection, Float>();
+		final Map<GuiDragDirection, Float> result = new HashMap<>();
 		for (GuiDragDirection direction : GuiDragDirection.values()) {
 			result.put(direction, DEFAULT_DIRECTION_TEXT_SCALE_FLOAT);
 		}

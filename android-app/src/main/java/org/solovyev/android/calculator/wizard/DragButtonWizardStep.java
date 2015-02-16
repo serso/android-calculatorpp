@@ -84,7 +84,7 @@ public class DragButtonWizardStep extends WizardFragment {
 
 		dragButton = (DirectionDragButton) root.findViewById(R.id.wizard_dragbutton);
 		dragButton.setOnClickListener(new DragButtonOnClickListener());
-		dragButton.setOnDragListener(new SimpleDragListener(new DragButtonProcessor(), SimpleDragListener.getDefaultPreferences(getActivity())));
+		dragButton.setOnDragListener(new SimpleDragListener(new DragButtonProcessor(), getActivity()));
 		actionTextView = (TextView) root.findViewById(R.id.wizard_dragbutton_action_textview);
 		descriptionTextView = (TextView) root.findViewById(R.id.wizard_dragbutton_description_textview);
 
