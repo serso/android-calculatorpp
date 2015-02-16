@@ -24,9 +24,9 @@
 	<color name="cpp_list_divider">#ff2e2e2e</color>
 
 	<color name="cpp_text">#ffe6e6e6</color>
-	<color name="cpp_text_inverse">#424242</color>
 	<color name="cpp_text_error">@color/cpp_text_inverse</color>
-	<color name="cpp_text_error_inverse">@color/cpp_text</color>
+	<color name="cpp_text_inverse">#424242</color>
+	<color name="cpp_text_inverse_error">@color/cpp_text</color>
 
 	<color name="cpp_button_text">#ffffffff</color>
 	<color name="cpp_button_text_operator">#ffffff99</color>

@@ -33,6 +33,6 @@
 	<attr name="cpp_wizard_button_bg" format="reference"/>
 
 	<attr name="cpp_text_color" format="reference"/>
-	<attr name="cpp_text_error_color" format="reference"/>
+	<attr name="cpp_text_color_error" format="reference"/>
 
 </resources>

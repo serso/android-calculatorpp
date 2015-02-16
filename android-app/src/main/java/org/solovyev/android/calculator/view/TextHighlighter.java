@@ -30,7 +30,6 @@ import org.solovyev.common.MutableObject;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -39,14 +38,6 @@ import java.util.Map;
  * Time: 9:47 PM
  */
 public class TextHighlighter implements TextProcessor<TextProcessorEditorResult, String> {
-
-	public static final int WHITE = -1;
-
-	private static final Map<String, String> nbFontAttributes = new HashMap<String, String>();
-
-	static {
-		nbFontAttributes.put("color", "#008000");
-	}
 
 	private final int red;
 	private final int green;
@@ -108,7 +99,7 @@ public class TextHighlighter implements TextProcessor<TextProcessorEditorResult,
 			MathType.Result mathType = MathType.getType(text, i, numberBuilder.isHexMode());
 
 			if (numberBuilder instanceof NumberBuilder) {
-				final MutableObject<Integer> numberOffset = new MutableObject<Integer>(0);
+				final MutableObject<Integer> numberOffset = new MutableObject<>(0);
 				((NumberBuilder) numberBuilder).process(text1, mathType, numberOffset);
 				resultOffset += numberOffset.getObject();
 			} else {

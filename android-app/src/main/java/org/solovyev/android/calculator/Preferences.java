@@ -155,7 +155,7 @@ public final class Preferences {
 				TextColor textColor = textColors.get(themeId);
 				if (textColor == null) {
 					final ContextThemeWrapper themeContext = new ContextThemeWrapper(context, themeId);
-					final TypedArray a = themeContext.obtainStyledAttributes(new int[]{android.R.attr.textColorPrimary, android.R.attr.textColorPrimaryInverse});
+					final TypedArray a = themeContext.obtainStyledAttributes(themeId, new int[]{R.attr.cpp_text_color, R.attr.cpp_text_color_error});
 					final int normal = a.getColor(0, Color.BLACK);
 					final int error = a.getColor(1, Color.WHITE);
 					a.recycle();
