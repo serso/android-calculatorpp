@@ -48,11 +48,13 @@ public class EqualsDragProcessor implements SimpleDragListener.DragProcessor {
 
 		if (dragButton instanceof DirectionDragButton) {
 			if (dragDirection == DragDirection.down) {
+				App.getVibrator().vibrate();
 				CalculatorActivityLauncher.tryPlot();
 				result = true;
 			} else {
 				final String text = ((DirectionDragButton) dragButton).getText(dragDirection);
 				if ("≡".equals(text)) {
+					App.getVibrator().vibrate();
 					Locator.getInstance().getCalculator().simplify();
 					result = true;
 				}

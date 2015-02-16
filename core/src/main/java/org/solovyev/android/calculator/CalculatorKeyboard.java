@@ -31,7 +31,7 @@ import javax.annotation.Nullable;
  */
 public interface CalculatorKeyboard {
 
-	void buttonPressed(@Nullable String text);
+	boolean buttonPressed(@Nullable String text);
 
 	void roundBracketsButtonPressed();
 

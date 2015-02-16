@@ -283,6 +283,7 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
 	}
 
 	public static void useHistoryItem(@Nonnull final CalculatorHistoryState historyState) {
+		App.getVibrator().vibrate();
 		Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.use_history_state, historyState);
 	}
 
@@ -292,7 +293,7 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
 
 		java.util.Collections.sort(calculatorHistoryStates, COMPARATOR);
 
-		final FilterRulesChain<CalculatorHistoryState> filterRulesChain = new FilterRulesChain<CalculatorHistoryState>();
+		final FilterRulesChain<CalculatorHistoryState> filterRulesChain = new FilterRulesChain<>();
 		filterRulesChain.addFilterRule(new JPredicate<CalculatorHistoryState>() {
 			@Override
 			public boolean apply(CalculatorHistoryState object) {
@@ -300,7 +301,7 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
 			}
 		});
 
-		new Filter<CalculatorHistoryState>(filterRulesChain).filter(calculatorHistoryStates.iterator());
+		new Filter<>(filterRulesChain).filter(calculatorHistoryStates.iterator());
 
 		return calculatorHistoryStates;
 	}

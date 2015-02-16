@@ -25,8 +25,6 @@ import javax.annotation.Nullable;
 import static org.solovyev.android.calculator.model.AndroidCalculatorEngine.Preferences.precision;
 import static org.solovyev.android.calculator.model.AndroidCalculatorEngine.Preferences.roundResult;
 import static org.solovyev.android.calculator.wizard.CalculatorWizards.DEFAULT_WIZARD_FLOW;
-import static org.solovyev.android.view.VibratorContainer.Preferences.hapticFeedbackDuration;
-import static org.solovyev.android.view.VibratorContainer.Preferences.hapticFeedbackEnabled;
 import static org.solovyev.android.wizard.WizardUi.startWizard;
 
 public class PreferencesFragment extends org.solovyev.android.material.preferences.PreferencesFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -121,7 +119,6 @@ public class PreferencesFragment extends org.solovyev.android.material.preferenc
 
 		final SharedPreferences preferences = App.getPreferences();
 		onSharedPreferenceChanged(preferences, roundResult.getKey());
-		onSharedPreferenceChanged(preferences, hapticFeedbackEnabled.getKey());
 	}
 
 	@Nonnull
@@ -135,11 +132,6 @@ public class PreferencesFragment extends org.solovyev.android.material.preferenc
 			final Preference preference = findPreference(precision.getKey());
 			if (preference != null) {
 				preference.setEnabled(preferences.getBoolean(key, roundResult.getDefaultValue()));
-			}
-		} else if (hapticFeedbackEnabled.getKey().equals(key)) {
-			final Preference preference = findPreference(hapticFeedbackDuration.getKey());
-			if (preference != null) {
-				preference.setEnabled(hapticFeedbackEnabled.getPreference(preferences));
 			}
 		}
 	}

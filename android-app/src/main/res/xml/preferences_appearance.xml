@@ -31,18 +31,12 @@
 				a:title="@string/c_calc_color_display_title"
 				a:defaultValue="true"/>
 
-		<android.preference.CheckBoxPreference
-				a:key="@string/p_calc_haptic_feedback_key"
-				a:summary="@string/c_calc_haptic_feedback_summary"
-				a:title="@string/c_calc_haptic_feedback_title"
-				a:defaultValue="false"/>
-
 		<ListPreference
-				a:key="@string/p_calc_haptic_feedback_duration_key"
-				a:title="@string/p_calc_haptic_feedback_duration_title"
-				a:entries="@array/p_calc_haptic_feedback_duration_names"
-				a:summary="@string/p_calc_haptic_feedback_duration_summary"
-				a:entryValues="@array/p_calc_haptic_feedback_duration_values"/>
+				a:key="hapticFeedback"
+				a:title="@string/c_calc_haptic_feedback_title"
+				a:entries="@array/cpp_haptic_feedback_names"
+				a:summary="@string/c_calc_haptic_feedback_summary"
+				a:entryValues="@array/cpp_haptic_feedback_values"/>
 
 		<ListPreference
 				a:key="@string/p_calc_multiplication_sign_key"

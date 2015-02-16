@@ -27,7 +27,6 @@ import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
-import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -38,7 +37,6 @@ import org.solovyev.android.calculator.drag.*;
 import org.solovyev.android.calculator.history.CalculatorHistoryState;
 import org.solovyev.android.calculator.history.HistoryDragProcessor;
 import org.solovyev.android.calculator.view.AngleUnitsButton;
-import org.solovyev.android.calculator.view.DragListenerVibrator;
 import org.solovyev.android.calculator.view.LongClickEraser;
 import org.solovyev.android.calculator.view.NumeralBasesButton;
 import org.solovyev.android.calculator.view.ViewsCache;
@@ -54,15 +52,10 @@ import static org.solovyev.android.calculator.Preferences.Gui.Layout.simple_mobi
 import static org.solovyev.android.calculator.model.AndroidCalculatorEngine.Preferences.angleUnit;
 import static org.solovyev.android.calculator.model.AndroidCalculatorEngine.Preferences.numeralBase;
 
-/**
- * User: serso
- * Date: 9/28/12
- * Time: 12:12 AM
- */
 public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChangeListener {
 
 	@Nonnull
-	private static final List<Integer> viewIds = new ArrayList<Integer>(200);
+	private static final List<Integer> viewIds = new ArrayList<>(200);
 
 	@Nonnull
 	protected Preferences.Gui.Layout layout;
@@ -72,9 +65,6 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
 
 	@Nonnull
 	private String logTag = "CalculatorActivity";
-
-	@Nullable
-	private Vibrator vibrator;
 
 	@Nullable
 	private AngleUnitsButton angleUnitsButton;
@@ -92,7 +82,6 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
 	protected void onCreate(@Nonnull Activity activity) {
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
 
-		vibrator = (Vibrator) activity.getSystemService(Activity.VIBRATOR_SERVICE);
 		layout = Preferences.Gui.layout.getPreferenceNoError(preferences);
 		theme = Preferences.Gui.theme.getPreferenceNoError(preferences);
 
@@ -101,12 +90,9 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
 		// let's disable locking of screen for monkeyrunner
 		if (CalculatorApplication.isMonkeyRunner(activity)) {
 			final KeyguardManager km = (KeyguardManager) activity.getSystemService(Context.KEYGUARD_SERVICE);
+			//noinspection deprecation
 			km.newKeyguardLock(activity.getClass().getName()).disableKeyguard();
 		}
-	}
-
-	public void logDebug(@Nonnull String message) {
-		Log.d(logTag, message);
 	}
 
 	public void logError(@Nonnull String message) {
@@ -139,10 +125,10 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
 
 		final ViewsCache views = ViewsCache.forView(root);
-		setOnDragListeners(views, preferences, activity);
+		setOnDragListeners(views, activity);
 
 		HistoryDragProcessor<CalculatorHistoryState> historyDragProcessor = new HistoryDragProcessor<>(getCalculator());
-		final DragListener historyDragListener = new DragListenerVibrator(newDragListener(historyDragProcessor, activity), vibrator, preferences);
+		final DragListener historyDragListener = newDragListener(historyDragProcessor, activity);
 		final DragButton historyButton = getButton(views, R.id.cpp_button_history);
 		if (historyButton != null) {
 			historyButton.setOnDragListener(historyDragListener);
@@ -150,10 +136,10 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
 
 		final DragButton minusButton = getButton(views, R.id.cpp_button_subtraction);
 		if (minusButton != null) {
-			minusButton.setOnDragListener(new DragListenerVibrator(newDragListener(new MinusButtonDragProcessor(), activity), vibrator, preferences));
+			minusButton.setOnDragListener(newDragListener(new OperatorsDragProcessor(), activity));
 		}
 
-		final DragListener toPositionDragListener = new DragListenerVibrator(new SimpleDragListener(new CursorDragProcessor(), activity), vibrator, preferences);
+		final DragListener toPositionDragListener = new SimpleDragListener(new CursorDragProcessor(), activity);
 
 		final DragButton rightButton = getButton(views, R.id.cpp_button_right);
 		if (rightButton != null) {
@@ -167,12 +153,12 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
 
 		final DragButton equalsButton = getButton(views, R.id.cpp_button_equals);
 		if (equalsButton != null) {
-			equalsButton.setOnDragListener(new DragListenerVibrator(newDragListener(new EqualsDragProcessor(), activity), vibrator, preferences));
+			equalsButton.setOnDragListener(newDragListener(new EqualsDragProcessor(), activity));
 		}
 
 		angleUnitsButton = getButton(views, R.id.cpp_button_6);
 		if (angleUnitsButton != null) {
-			angleUnitsButton.setOnDragListener(new DragListenerVibrator(newDragListener(new CalculatorButtons.AngleUnitsChanger(activity), activity), vibrator, preferences));
+			angleUnitsButton.setOnDragListener(newDragListener(new CalculatorButtons.AngleUnitsChanger(activity), activity));
 		}
 
 		final View eraseButton = getButton(views, R.id.cpp_button_erase);
@@ -182,22 +168,22 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
 
 		clearButton = getButton(views, R.id.cpp_button_clear);
 		if (clearButton != null) {
-			clearButton.setOnDragListener(new DragListenerVibrator(newDragListener(new CalculatorButtons.NumeralBasesChanger(activity), activity), vibrator, preferences));
+			clearButton.setOnDragListener(newDragListener(new CalculatorButtons.NumeralBasesChanger(activity), activity));
 		}
 
 		final DragButton varsButton = getButton(views, R.id.cpp_button_vars);
 		if (varsButton != null) {
-			varsButton.setOnDragListener(new DragListenerVibrator(newDragListener(new CalculatorButtons.VarsDragProcessor(activity), activity), vibrator, preferences));
+			varsButton.setOnDragListener(newDragListener(new CalculatorButtons.VarsDragProcessor(activity), activity));
 		}
 
 		final DragButton functionsButton = getButton(views, R.id.cpp_button_functions);
 		if (functionsButton != null) {
-			functionsButton.setOnDragListener(new DragListenerVibrator(newDragListener(new CalculatorButtons.FunctionsDragProcessor(activity), activity), vibrator, preferences));
+			functionsButton.setOnDragListener(newDragListener(new CalculatorButtons.FunctionsDragProcessor(activity), activity));
 		}
 
 		final DragButton roundBracketsButton = getButton(views, R.id.cpp_button_round_brackets);
 		if (roundBracketsButton != null) {
-			roundBracketsButton.setOnDragListener(new DragListenerVibrator(newDragListener(new CalculatorButtons.RoundBracketsDragProcessor(), activity), vibrator, preferences));
+			roundBracketsButton.setOnDragListener(newDragListener(new CalculatorButtons.RoundBracketsDragProcessor(), activity));
 		}
 
 		if (layout == simple || layout == simple_mobile) {
@@ -228,8 +214,8 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
 		new ButtonOnClickListener().attachToViews(views);
 	}
 
-	private void setOnDragListeners(@Nonnull ViewsCache views, @Nonnull SharedPreferences preferences, @Nonnull Context context) {
-		final DragListener dragListener = new DragListenerVibrator(newDragListener(new DigitButtonDragProcessor(getKeyboard()), context), vibrator, preferences);
+	private void setOnDragListeners(@Nonnull ViewsCache views, @Nonnull Context context) {
+		final DragListener dragListener = newDragListener(new DigitButtonDragProcessor(getKeyboard()), context);
 
 		final List<Integer> viewIds = getViewIds();
 		for (Integer viewId : viewIds) {
@@ -299,6 +285,7 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
 
 	@Nullable
 	private <V extends View> V getButton(@Nonnull ViewsCache views, int buttonId) {
+		//noinspection unchecked
 		return (V) views.findViewById(buttonId);
 	}
 
@@ -315,10 +302,11 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
 		}
 	}
 
-	private static class MinusButtonDragProcessor implements SimpleDragListener.DragProcessor {
+	private static class OperatorsDragProcessor implements SimpleDragListener.DragProcessor {
 		@Override
 		public boolean processDragEvent(@Nonnull DragDirection dragDirection, @Nonnull DragButton dragButton, @Nonnull Point2d startPoint2d, @Nonnull MotionEvent motionEvent) {
 			if (dragDirection == DragDirection.down) {
+				App.getVibrator().vibrate();
 				Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_operators, null);
 				return true;
 			}

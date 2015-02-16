@@ -23,16 +23,19 @@
 package org.solovyev.android.calculator;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
+import android.util.Log;
 
 import org.solovyev.android.UiThreadExecutor;
 import org.solovyev.android.Views;
 import org.solovyev.android.calculator.ga.Ga;
 import org.solovyev.android.checkout.*;
+import org.solovyev.android.view.VibratorContainer;
 import org.solovyev.common.listeners.JEvent;
 import org.solovyev.common.listeners.JEventListener;
 import org.solovyev.common.listeners.JEventListeners;
@@ -41,6 +44,7 @@ import org.solovyev.common.threads.DelayedExecutor;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
 import java.util.Arrays;
 import java.util.concurrent.Executor;
 
@@ -98,12 +102,15 @@ public final class App {
 	@Nullable
 	private static Boolean lg = null;
 
+	@Nonnull
+	private static volatile Vibrator vibrator;
+
 	private App() {
 		throw new AssertionError();
 	}
 
     /*
-    **********************************************************************
+	**********************************************************************
     *
     *                           METHODS
     *
@@ -153,7 +160,7 @@ public final class App {
 				};
 			}
 			App.broadcaster = new CalculatorBroadcaster(application);
-
+			App.vibrator = new Vibrator(application, preferences);
 			App.initialized = true;
 		} else {
 			throw new IllegalStateException("Already initialized!");
@@ -248,5 +255,10 @@ public final class App {
 	// and http://developer.lge.com/community/forums/RetrieveForumContent.dev?detailContsId=FC29190703
 	public static boolean shouldOpenMenuManually() {
 		return isLg() && Build.VERSION.SDK_INT == Build.VERSION_CODES.JELLY_BEAN;
+	}
+
+	@Nonnull
+	public static Vibrator getVibrator() {
+		return vibrator;
 	}
 }

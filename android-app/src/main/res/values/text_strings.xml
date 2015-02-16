@@ -115,7 +115,8 @@
   <string name="c_calc_layout_summary">Sets layout of buttons</string>
   <string name="c_calc_haptic_feedback_title">Haptic feedback</string>
   <string name="c_calc_haptic_feedback_summary">Toggles vibration on button click</string>
-  <string name="p_calc_haptic_feedback_strength_short">Short</string>
+	<string name="p_calc_haptic_feedback_strength_disabled">Disabled</string>
+	<string name="p_calc_haptic_feedback_strength_short">Short</string>
   <string name="p_calc_haptic_feedback_strength_middle">Middle</string>
   <string name="p_calc_haptic_feedback_strength_long">Long</string>
   <string name="p_calc_haptic_feedback_duration_title">Haptic feedback duration</string>

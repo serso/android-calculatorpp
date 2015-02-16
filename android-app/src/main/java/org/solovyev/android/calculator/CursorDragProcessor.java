@@ -48,9 +48,11 @@ public class CursorDragProcessor implements SimpleDragListener.DragProcessor {
 		if (dragButton instanceof DirectionDragButton) {
 			String text = ((DirectionDragButton) dragButton).getText(dragDirection);
 			if ("◁◁".equals(text)) {
+				App.getVibrator().vibrate();
 				Locator.getInstance().getEditor().setCursorOnStart();
 				result = true;
 			} else if ("▷▷".equals(text)) {
+				App.getVibrator().vibrate();
 				Locator.getInstance().getEditor().setCursorOnEnd();
 				result = true;
 			}

@@ -83,11 +83,6 @@
 	</string>
 	<string name="p_calc_multiplication_sign" translatable="false">"×"</string>
 
-	<string name="p_calc_haptic_feedback_duration_key" translatable="false">
-		org.solovyev.android.calculator.CalculatorActivity_calc_haptic_feedback_duration_key
-	</string>
-	<string name="p_calc_haptic_feedback_duration" translatable="false">" "</string>
-
 	<string name="p_calc_ad_free" translatable="false">false</string>
 
 </resources>

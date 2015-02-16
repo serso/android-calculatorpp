@@ -37,7 +37,6 @@ import org.solovyev.android.calculator.onscreen.CalculatorOnscreenService;
 import org.solovyev.android.calculator.preferences.PurchaseDialogActivity;
 import org.solovyev.android.calculator.wizard.WizardActivity;
 import org.solovyev.android.prefs.*;
-import org.solovyev.android.view.VibratorContainer;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -90,6 +89,10 @@ public final class Preferences {
 		public static final Preference<Boolean> hideNumeralBaseDigits = BooleanPreference.of("hideNumeralBaseDigits", true);
 		public static final Preference<Boolean> preventScreenFromFading = BooleanPreference.of("preventScreenFromFading", true);
 		public static final Preference<Boolean> colorDisplay = BooleanPreference.of("org.solovyev.android.calculator.CalculatorModel_color_display", true);
+		public static final Preference<Long> hapticFeedback = NumberToStringPreference.of("hapticFeedback", 60L, Long.class);
+
+		private static final Preference<Boolean> hapticFeedbackEnabled = BooleanPreference.of("org.solovyev.android.calculator.CalculatorModel_haptic_feedback", false);
+		private static final Preference<Long> hapticFeedbackDuration = NumberToStringPreference.of("org.solovyev.android.calculator.CalculatorActivity_calc_haptic_feedback_duration_key", 60L, Long.class);
 
 		@Nonnull
 		public static Theme getTheme(@Nonnull SharedPreferences preferences) {
@@ -286,14 +289,17 @@ public final class Preferences {
 		Calculations.showCalculationMessagesDialog.putDefault(preferences);
 		Calculations.lastPreferredPreferencesCheck.putDefault(preferences);
 
-		if (!VibratorContainer.Preferences.hapticFeedbackEnabled.isSet(preferences)) {
-			VibratorContainer.Preferences.hapticFeedbackEnabled.putPreference(preferences, true);
+		if (!Gui.hapticFeedback.isSet(preferences)) {
+			final Preference<Boolean> hfEnabled = Gui.hapticFeedbackEnabled;
+			final boolean enabled = !hfEnabled.isSet(preferences) ? true : hfEnabled.getPreference(preferences);
+			if (enabled) {
+				final Preference<Long> hfDuration = Gui.hapticFeedbackDuration;
+				final long duration = !hfDuration.isSet(preferences) ? 60L : hfDuration.getPreference(preferences);
+				Gui.hapticFeedback.putPreference(preferences, duration);
+			} else {
+				Gui.hapticFeedback.putPreference(preferences, 0L);
+			}
 		}
-
-		if (!VibratorContainer.Preferences.hapticFeedbackDuration.isSet(preferences)) {
-			VibratorContainer.Preferences.hapticFeedbackDuration.putPreference(preferences, 60L);
-		}
-
 	}
 
 	private static void applyDefaultPreference(@Nonnull SharedPreferences preferences, @Nonnull Preference<?> preference) {
