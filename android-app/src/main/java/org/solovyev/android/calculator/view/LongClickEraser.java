@@ -1,14 +1,18 @@
 package org.solovyev.android.calculator.view;
 
+import android.text.TextUtils;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
 import org.solovyev.android.calculator.Calculator;
 import org.solovyev.android.calculator.CalculatorEditor;
+import org.solovyev.android.calculator.CalculatorEditorViewState;
 import org.solovyev.android.calculator.Locator;
 
 import javax.annotation.Nonnull;
+
+import static android.text.TextUtils.isEmpty;
 
 public final class LongClickEraser implements View.OnTouchListener {
 
@@ -51,7 +55,7 @@ public final class LongClickEraser implements View.OnTouchListener {
 				gestureDetector.onTouchEvent(event);
 				break;
 		}
-		return true;
+		return false;
 	}
 
 	private class Eraser implements Runnable {
@@ -62,7 +66,11 @@ public final class LongClickEraser implements View.OnTouchListener {
 
 		@Override
 		public void run() {
-			editor.erase();
+			final CalculatorEditorViewState state = editor.erase();
+			if (isEmpty(state.getText())) {
+				stop();
+				return;
+			}
 			delay = Math.max(50, 2 * delay / 3);
 			view.postDelayed(this, delay);
 		}
