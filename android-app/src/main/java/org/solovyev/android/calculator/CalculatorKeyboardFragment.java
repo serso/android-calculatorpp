@@ -24,14 +24,12 @@ package org.solovyev.android.calculator;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.app.Fragment;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import static org.solovyev.android.calculator.NumeralBaseButtons.toggleNumericDigits;
 import static org.solovyev.android.calculator.Preferences.Gui.hideNumeralBaseDigits;
@@ -47,68 +45,55 @@ import static org.solovyev.android.calculator.model.AndroidCalculatorEngine.Pref
 public class CalculatorKeyboardFragment extends Fragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
 	@Nonnull
-	private Preferences.Gui.Theme theme;
-
-	@Nonnull
-	private FragmentUi fragmentHelper;
+	private FragmentUi ui;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
+		final SharedPreferences preferences = App.getPreferences();
 
 		final Preferences.Gui.Layout layout = Preferences.Gui.getLayout(preferences);
 		if (!layout.isOptimized()) {
-			fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(R.layout.cpp_app_keyboard_mobile);
+			ui = CalculatorApplication.getInstance().createFragmentHelper(R.layout.cpp_app_keyboard_mobile);
 		} else {
-			fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(R.layout.cpp_app_keyboard);
+			ui = CalculatorApplication.getInstance().createFragmentHelper(R.layout.cpp_app_keyboard);
 		}
 
-		fragmentHelper.onCreate(this);
+		ui.onCreate(this);
 
 		preferences.registerOnSharedPreferenceChangeListener(this);
-
-		theme = Preferences.Gui.theme.getPreferenceNoError(preferences);
-
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return fragmentHelper.onCreateView(this, inflater, container);
+		return ui.onCreateView(this, inflater, container);
 	}
 
 	@Override
 	public void onViewCreated(View root, Bundle savedInstanceState) {
 		super.onViewCreated(root, savedInstanceState);
-
-		fragmentHelper.onViewCreated(this, root);
+		ui.onViewCreated(this, root);
 	}
 
 
 	@Override
 	public void onResume() {
 		super.onResume();
-
-		this.fragmentHelper.onResume(this);
+		this.ui.onResume(this);
 	}
 
 	@Override
 	public void onPause() {
-		this.fragmentHelper.onPause(this);
-
+		this.ui.onPause(this);
 		super.onPause();
 	}
 
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-
-		fragmentHelper.onDestroy(this);
-
-		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
-		preferences.unregisterOnSharedPreferenceChangeListener(this);
-
+		ui.onDestroy(this);
+		App.getPreferences().unregisterOnSharedPreferenceChangeListener(this);
 	}
 
 	@Override
@@ -129,22 +114,6 @@ public class CalculatorKeyboardFragment extends Fragment implements SharedPrefer
 		if (multiplicationSign.isSameKey(key)) {
 			CalculatorButtons.initMultiplicationButton(getView());
 		}
-	}
-
-
-	@Nullable
-	private static AndroidCalculatorDisplayView getCalculatorDisplayView() {
-		return (AndroidCalculatorDisplayView) Locator.getInstance().getDisplay().getView();
-	}
-
-	@Nonnull
-	private Calculator getCalculator() {
-		return Locator.getInstance().getCalculator();
-	}
-
-	@Nonnull
-	private static CalculatorKeyboard getKeyboard() {
-		return Locator.getInstance().getKeyboard();
 	}
 }
 

@@ -105,6 +105,11 @@ public class AndroidCalculator implements Calculator, CalculatorEventListener, S
 	}
 
 	@Override
+	public void setCalculateOnFly(boolean calculateOnFly) {
+		calculator.setCalculateOnFly(calculateOnFly);
+	}
+
+	@Override
 	public boolean isCalculateOnFly() {
 		return calculator.isCalculateOnFly();
 	}
