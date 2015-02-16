@@ -223,6 +223,7 @@ public class CalculatorOnscreenView {
 			onscreenFoldButton.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
+					App.getVibrator().vibrate();
 					if (folded) {
 						unfold();
 					} else {
@@ -235,6 +236,7 @@ public class CalculatorOnscreenView {
 			onscreenHideButton.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
+					App.getVibrator().vibrate();
 					minimize();
 				}
 			});
@@ -242,6 +244,7 @@ public class CalculatorOnscreenView {
 			root.findViewById(R.id.onscreen_close_button).setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
+					App.getVibrator().vibrate();
 					hide();
 				}
 			});
