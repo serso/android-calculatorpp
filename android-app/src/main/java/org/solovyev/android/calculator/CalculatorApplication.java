@@ -68,7 +68,7 @@ public class CalculatorApplication extends android.app.Application implements Sh
 	@Nonnull
 	static final String MAIL = "se.solovyev@gmail.com";
 
-	private static final String TAG = "Calculator++ Application";
+	private static final String TAG = "C++";
 
 	public static final String AD_FREE_PRODUCT_ID = "ad_free";
 	public static final String AD_FREE_P_KEY = "org.solovyev.android.calculator_ad_free";
@@ -94,9 +94,6 @@ public class CalculatorApplication extends android.app.Application implements Sh
 	@Nonnull
 	private final Wizards wizards = new CalculatorWizards(this);
 
-	private final boolean withAds;
-
-	@Nonnull
 	private Typeface typeFace;
 
 	/*
@@ -107,15 +104,9 @@ public class CalculatorApplication extends android.app.Application implements Sh
 	**********************************************************************
 	*/
 
-	protected CalculatorApplication(boolean withAds) {
-		this.withAds = withAds;
+	public CalculatorApplication() {
 		instance = this;
 	}
-
-	public CalculatorApplication() {
-		this(true);
-	}
-
 
 	/*
 	**********************************************************************
@@ -192,8 +183,6 @@ public class CalculatorApplication extends android.app.Application implements Sh
 		Locator.getInstance().getLogger().debug(TAG, "Application started!");
 		Locator.getInstance().getNotifier().showDebugMessage(TAG, "Application started!");
 
-		typeFace = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Regular.ttf");
-
 		// we must update the widget when app starts
 		App.getBroadcaster().sendEditorStateChangedIntent();
 	}
@@ -230,6 +219,9 @@ public class CalculatorApplication extends android.app.Application implements Sh
 
 	@Nonnull
 	public Typeface getTypeFace() {
+		if (typeFace == null) {
+			typeFace = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Regular.ttf");
+		}
 		return typeFace;
 	}
 
