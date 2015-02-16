@@ -119,6 +119,7 @@
   <string name="c_calc_layout_summary">Устанавливает раскладку кнопок</string>
   <string name="c_calc_haptic_feedback_title">Отклик на нажатие</string>
   <string name="c_calc_haptic_feedback_summary">Включает/выключает вибрацию по нажатию клавиши</string>
+  <string name="p_calc_haptic_feedback_strength_disabled">Выключена</string>
   <string name="p_calc_haptic_feedback_strength_short">Маленькая</string>
   <string name="p_calc_haptic_feedback_strength_middle">Средняя</string>
   <string name="p_calc_haptic_feedback_strength_long">Большая</string>

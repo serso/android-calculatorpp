@@ -62,12 +62,14 @@
 		<item>simple</item>
 	</string-array>
 
-	<string-array name="p_calc_haptic_feedback_duration_names">
+	<string-array name="cpp_haptic_feedback_names">
+		<item>@string/p_calc_haptic_feedback_strength_disabled</item>
 		<item>@string/p_calc_haptic_feedback_strength_short</item>
 		<item>@string/p_calc_haptic_feedback_strength_middle</item>
 		<item>@string/p_calc_haptic_feedback_strength_long</item>
 	</string-array>
-	<string-array name="p_calc_haptic_feedback_duration_values" translatable="false">
+	<string-array name="cpp_haptic_feedback_values" translatable="false">
+		<item>0</item>
 		<item>30</item>
 		<item>60</item>
 		<item>100</item>

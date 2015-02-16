@@ -46,7 +46,8 @@ public class AndroidCalculatorKeyboard implements CalculatorKeyboard {
 	@Nonnull
 	private final Context context;
 
-	private VibratorContainer vibrator;
+	@android.support.annotation.Nullable
+	private org.solovyev.android.calculator.Vibrator vibrator;
 
 	public AndroidCalculatorKeyboard(@Nonnull Application application,
 									 @Nonnull CalculatorKeyboard calculatorKeyboard) {
@@ -55,21 +56,20 @@ public class AndroidCalculatorKeyboard implements CalculatorKeyboard {
 	}
 
 	@Override
-	public void buttonPressed(@Nullable String text) {
-		vibrate();
+	public boolean buttonPressed(@Nullable String text) {
 		App.getGa().onButtonPressed(text);
-		calculatorKeyboard.buttonPressed(text);
+		final boolean processed = calculatorKeyboard.buttonPressed(text);
+		if (processed) {
+			vibrate();
+		}
+		return processed;
 	}
 
 	private void vibrate() {
-		if (this.vibrator == null) {
-			final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-			final Vibrator vibrator = (Vibrator) context.getSystemService(Activity.VIBRATOR_SERVICE);
-
-			this.vibrator = new VibratorContainer(vibrator, preferences, 0.5f);
+		if (vibrator == null) {
+			vibrator = App.getVibrator();
 		}
-
-		this.vibrator.vibrate();
+		vibrator.vibrate();
 	}
 
 	@Override

@@ -43,7 +43,7 @@ public class CalculatorKeyboardImpl implements CalculatorKeyboard {
 	}
 
 	@Override
-	public void buttonPressed(@Nullable final String text) {
+	public boolean buttonPressed(@Nullable final String text) {
 		if (!Strings.isEmpty(text)) {
 			if (text == null) throw new AssertionError();
 
@@ -53,7 +53,9 @@ public class CalculatorKeyboardImpl implements CalculatorKeyboard {
 			if (!processed) {
 				processText(prepareText(text));
 			}
+			return true;
 		}
+		return false;
 	}
 
 	private void processText(@Nonnull String text) {

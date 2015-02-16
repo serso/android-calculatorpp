@@ -24,6 +24,8 @@ package org.solovyev.android.calculator.history;
 
 import android.util.Log;
 import android.view.MotionEvent;
+
+import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.drag.DragButton;
 import org.solovyev.android.calculator.drag.DragDirection;
 import org.solovyev.android.calculator.drag.SimpleDragListener;
@@ -63,6 +65,7 @@ public class HistoryDragProcessor<T> implements SimpleDragListener.DragProcessor
 		}
 
 		if (historyAction != null) {
+			App.getVibrator().vibrate();
 			result = true;
 			historyControl.doHistoryAction(historyAction);
 		}

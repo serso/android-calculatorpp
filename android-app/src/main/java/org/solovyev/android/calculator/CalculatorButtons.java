@@ -118,15 +118,20 @@ public final class CalculatorButtons {
 	*/
 
 	static class RoundBracketsDragProcessor implements SimpleDragListener.DragProcessor {
+
+		@Nonnull
+		private final DigitButtonDragProcessor upDownProcessor = new DigitButtonDragProcessor(getKeyboard());
+
 		@Override
 		public boolean processDragEvent(@Nonnull DragDirection dragDirection, @Nonnull DragButton dragButton, @Nonnull Point2d startPoint2d, @Nonnull MotionEvent motionEvent) {
 			final boolean result;
 
 			if (dragDirection == DragDirection.left) {
+				App.getVibrator().vibrate();
 				getKeyboard().roundBracketsButtonPressed();
 				result = true;
 			} else {
-				result = new DigitButtonDragProcessor(getKeyboard()).processDragEvent(dragDirection, dragButton, startPoint2d, motionEvent);
+				result = upDownProcessor.processDragEvent(dragDirection, dragButton, startPoint2d, motionEvent);
 			}
 
 			return result;
@@ -155,6 +160,7 @@ public final class CalculatorButtons {
 			boolean result = false;
 
 			if (dragDirection == DragDirection.up) {
+				App.getVibrator().vibrate();
 				Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_create_var_dialog, null, context);
 				result = true;
 			}/* else if (dragDirection == DragDirection.down) {
@@ -198,6 +204,7 @@ public final class CalculatorButtons {
 
 							final AngleUnit oldAngleUnits = AndroidCalculatorEngine.Preferences.angleUnit.getPreference(preferences);
 							if (oldAngleUnits != angleUnits) {
+								App.getVibrator().vibrate();
 								Locator.getInstance().getPreferenceService().setAngleUnits(angleUnits);
 							}
 
@@ -242,6 +249,7 @@ public final class CalculatorButtons {
 
 						final NumeralBase oldNumeralBase = AndroidCalculatorEngine.Preferences.numeralBase.getPreference(preferences);
 						if (oldNumeralBase != numeralBase) {
+							App.getVibrator().vibrate();
 							Locator.getInstance().getPreferenceService().setNumeralBase(numeralBase);
 						}
 
@@ -273,6 +281,7 @@ public final class CalculatorButtons {
 			boolean result = false;
 
 			if (dragDirection == DragDirection.up) {
+				App.getVibrator().vibrate();
 				Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_create_function_dialog, null, context);
 				result = true;
 			}
