@@ -15,7 +15,7 @@
 
 	<TextView
 		a:id="@+id/calculator_editor"
-		style="@style/cpp_widget_editor_style"
+		style="@style/CppText.Editor.Widget"
 		a:hint="@string/c_calc_editor_hint"
 		a:scrollbars="vertical"
 		a:singleLine="false"

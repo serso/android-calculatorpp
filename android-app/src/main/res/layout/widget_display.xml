@@ -7,7 +7,7 @@
   -->
 
 <TextView a:id="@+id/calculator_display"
-	style="@style/cpp_widget_display_style"
+	style="@style/CppText.Display.Widget"
 	xmlns:a="http://schemas.android.com/apk/res/android"
 	a:padding="@dimen/cpp_display_padding"
 	a:scrollbars="vertical"
