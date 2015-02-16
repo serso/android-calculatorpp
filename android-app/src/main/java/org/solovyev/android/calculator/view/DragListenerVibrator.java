@@ -54,12 +54,12 @@ public class DragListenerVibrator extends DragListenerWrapper {
 
 	@Override
 	public boolean onDrag(@Nonnull DragButton dragButton, @Nonnull DragEvent event) {
-		boolean result = super.onDrag(dragButton, event);
+		boolean consumed = super.onDrag(dragButton, event);
 
-		if (result) {
+		if (consumed) {
 			vibrator.vibrate();
 		}
 
-		return result;
+		return consumed;
 	}
 }

@@ -44,7 +44,6 @@ public class CalculatorKeyboardImpl implements CalculatorKeyboard {
 
 	@Override
 	public void buttonPressed(@Nullable final String text) {
-
 		if (!Strings.isEmpty(text)) {
 			if (text == null) throw new AssertionError();
 

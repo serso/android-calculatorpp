@@ -39,4 +39,5 @@
 	<dimen name="activity_horizontal_margin">5dp</dimen>
 	<dimen name="activity_vertical_margin">5dp</dimen>
 	<dimen name="control_margin">5dp</dimen>
+	<dimen name="cpp_min_drag_distance">25dp</dimen>
 </resources>

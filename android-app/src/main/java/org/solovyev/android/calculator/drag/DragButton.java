@@ -67,8 +67,6 @@ public class DragButton extends Button {
 		if (localOnDragListener != null) {
 			// only if onDrag() listener specified
 
-			Log.d(String.valueOf(getId()), "onTouch() for: " + getId() + " . Motion event: " + event);
-
 			switch (event.getAction()) {
 				case MotionEvent.ACTION_DOWN:
 					// start tracking: set start point
