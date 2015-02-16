@@ -64,12 +64,12 @@ public final class CalculatorButtons {
 										  @Nonnull View root) {
 		if (!layout.isOptimized()) {
 
-			final float textSize = root.getContext().getResources().getDimension(R.dimen.cpp_keyboard_button_text_size_mobile);
+			final float textSize = root.getContext().getResources().getDimensionPixelSize(R.dimen.cpp_keyboard_button_text_size_mobile);
 
 			Views.processViewsOfType(root, DragButton.class, new Views.ViewProcessor<DragButton>() {
 				@Override
 				public void process(@Nonnull DragButton button) {
-					button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+					button.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
 				}
 			});
 		}
