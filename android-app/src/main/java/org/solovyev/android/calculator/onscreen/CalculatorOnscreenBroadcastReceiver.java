@@ -50,8 +50,8 @@ public final class CalculatorOnscreenBroadcastReceiver extends BroadcastReceiver
 			final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 			if (Preferences.OnscreenCalculator.startOnBoot.getPreferenceNoError(preferences)) {
 				CalculatorOnscreenService.showNotification(context);
+				App.getGa().onBootStart();
 			}
-			App.getGa().onBootStart();
 		} else {
 			final Intent newIntent = new Intent(intent);
 			newIntent.setClass(context, CalculatorOnscreenService.class);
