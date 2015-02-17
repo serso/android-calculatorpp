@@ -28,5 +28,4 @@
 	<dimen name="cpp_display_text_size_mobile">35sp</dimen>
 
 	<dimen name="cpp_keyboard_button_text_size">35dp</dimen>
-	<dimen name="cpp_keyboard_button_text_size_mobile">45dp</dimen>
 </resources>

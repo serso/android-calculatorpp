@@ -43,6 +43,7 @@ import org.solovyev.android.calculator.view.NumeralBasesButton;
 import org.solovyev.android.calculator.drag.DragButton;
 import org.solovyev.android.calculator.drag.DragDirection;
 import org.solovyev.android.calculator.drag.SimpleDragListener;
+import org.solovyev.android.calculator.view.ScreenMetrics;
 import org.solovyev.common.math.Point2d;
 
 import javax.annotation.Nonnull;
@@ -64,7 +65,12 @@ public final class CalculatorButtons {
 										  @Nonnull View root) {
 		if (!layout.isOptimized()) {
 
-			final float textSize = root.getContext().getResources().getDimensionPixelSize(R.dimen.cpp_keyboard_button_text_size_mobile);
+			final ScreenMetrics metrics = App.getScreenMetrics();
+			final boolean portrait = metrics.isInPortraitMode();
+			final int buttonsCount = portrait ? 5 : 4;
+			final int buttonsWeight = portrait ? (2 + 1 + buttonsCount) : (2 + buttonsCount);
+			final int buttonSize = metrics.getHeightPxs() / buttonsWeight;
+			final int textSize = 5 * buttonSize / 12;
 
 			Views.processViewsOfType(root, DragButton.class, new Views.ViewProcessor<DragButton>() {
 				@Override
