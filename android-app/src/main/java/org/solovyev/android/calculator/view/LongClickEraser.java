@@ -1,6 +1,5 @@
 package org.solovyev.android.calculator.view;
 
-import android.text.TextUtils;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -39,7 +38,9 @@ public final class LongClickEraser implements View.OnTouchListener {
 		this.view = view;
 		this.gestureDetector = new GestureDetector(view.getContext(), new GestureDetector.SimpleOnGestureListener() {
 			public void onLongPress(MotionEvent e) {
-				eraser.start();
+				if (eraser.isTracking()) {
+					eraser.start();
+				}
 			}
 		});
 	}
@@ -49,9 +50,10 @@ public final class LongClickEraser implements View.OnTouchListener {
 		switch (event.getAction()) {
 			case MotionEvent.ACTION_CANCEL:
 			case MotionEvent.ACTION_UP:
-				eraser.stop();
+				eraser.stopTracking();
 				break;
 			default:
+				eraser.startTracking();
 				gestureDetector.onTouchEvent(event);
 				break;
 		}
@@ -63,6 +65,7 @@ public final class LongClickEraser implements View.OnTouchListener {
 		private long delay;
 		private boolean wasCalculatingOnFly;
 		private boolean erasing;
+		private boolean tracking = true;
 
 		@Override
 		public void run() {
@@ -99,6 +102,19 @@ public final class LongClickEraser implements View.OnTouchListener {
 			if (wasCalculatingOnFly) {
 				calculator.setCalculateOnFly(true);
 			}
+		}
+
+		public void stopTracking() {
+			stop();
+			tracking = false;
+		}
+
+		public boolean isTracking() {
+			return tracking;
+		}
+
+		public void startTracking() {
+			tracking = true;
 		}
 	}
 }
