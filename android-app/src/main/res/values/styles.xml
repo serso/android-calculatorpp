@@ -187,19 +187,35 @@
 	<style name="CppFragmentTitle">
 		<item name="android:textColor">?android:attr/textColorPrimary</item>
 		<item name="android:textSize">@dimen/cpp_fragment_title_text_size</item>
-		<item name="android:paddingLeft">@dimen/cpp_pane_margin</item>
 	</style>
 
-	<style name="CppPaneStyle">
+	<style name="CppPane.Multipane.Left" parent="CppPane.Multipane">
+		<item name="android:layout_marginLeft">0dp</item>
+	</style>
+
+	<style name="CppPane.Multipane.Right" parent="CppPane.Multipane">
+		<item name="android:layout_marginRight">0dp</item>
+	</style>
+
+	<style name="CppPane.Multipane" parent="CppPane">
+		<item name="android:padding">5dp</item>
 		<item name="android:layout_marginLeft">@dimen/cpp_pane_margin</item>
 		<item name="android:layout_marginTop">@dimen/cpp_pane_margin</item>
 		<item name="android:layout_marginRight">@dimen/cpp_pane_margin</item>
 		<item name="android:layout_marginBottom">@dimen/cpp_pane_margin</item>
-		<item name="android:padding">@dimen/cpp_pane_padding</item>
-		<item name="android:background">?attr/cpp_pane_bg</item>
 	</style>
 
-	<style name="CppPaneStyle.Transparent" parent="CppPaneStyle">
+	<style name="CppPane">
+		<item name="android:padding">0dp</item>
+		<item name="android:background">?attr/cpp_pane_bg</item>
+		<item name="android:orientation">horizontal</item>
+	</style>
+
+	<style name="CppPane.Transparent.Bottom" parent="CppPane.Transparent">
+		<item name="android:layout_marginTop">@dimen/cpp_pane_margin</item>
+	</style>
+
+	<style name="CppPane.Transparent" parent="CppPane">
 		<item name="android:background">@android:color/transparent</item>
 		<item name="android:padding">0dp</item>
 	</style>
@@ -211,8 +227,8 @@
 	</style>
 
 	<style name="CppMain.Multipane" parent="CppMain">
-		<item name="android:paddingRight">@dimen/cpp_pane_padding</item>
-		<item name="android:paddingBottom">@dimen/cpp_pane_padding</item>
+		<item name="android:paddingRight">0dp</item>
+		<item name="android:paddingBottom">0dp</item>
 	</style>
 
 	<style name="CppFragment">
@@ -275,9 +291,7 @@
 		<item name="android:layout_width">match_parent</item>
 		<item name="android:layout_weight">1</item>
 		<item name="android:fadingEdge">none</item>
-		<item name="android:paddingLeft">@dimen/cpp_pane_padding</item>
-		<item name="android:paddingRight">@dimen/cpp_pane_padding</item>
-		<item name="android:layout_marginBottom">@dimen/cpp_pane_padding</item>
+		<item name="android:padding">0dp</item>
 	</style>
 
 	<style name="CppActionBar" parent="@style/Widget.AppCompat.ActionBar">

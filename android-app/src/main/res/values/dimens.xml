@@ -22,8 +22,7 @@
 
 	<dimen name="cpp_display_text_size">25sp</dimen>
 	<dimen name="cpp_editor_text_size">25sp</dimen>
-	<dimen name="cpp_pane_margin">3dp</dimen>
-	<dimen name="cpp_pane_padding">0dp</dimen>
+	<dimen name="cpp_pane_margin">2dp</dimen>
 	<dimen name="cpp_li_text_size">16sp</dimen>
 	<dimen name="cpp_li_secondary_text_size">14sp</dimen>
 
