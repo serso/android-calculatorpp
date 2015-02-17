@@ -59,32 +59,6 @@
 				a:summary="@string/c_calc_layout_summary"
 				a:entryValues="@array/p_layout_values"/>
 
-
-		<org.solovyev.android.prefs.FloatRangeSeekBarPreference
-				a:key="@string/p_drag_distance_key"
-				a:title="@string/c_swipe_distance"
-				a:summary="@string/c_swipe_distance_summary"
-				a:text=" pxs"
-				a:defaultValue="35;350"
-				range:step="10"
-				range:boundaries="10;500"/>
-
-		<!--	  <org.solovyev.android.prefs.FloatRangeSeekBarPreference
-										a:key="@string/p_drag_duration_key"
-										a:title="Duration of drag event"
-										a:text=" ms"
-										a:defaultValue="40;2500"
-										range:steps="10"
-										range:boundaries="5;4000"/>
-
-								<org.solovyev.android.prefs.FloatRangeSeekBarPreference
-										a:key="@string/p_drag_angle_key"
-										a:title="Angle of drag event"
-										a:text=" degrees"
-										a:defaultValue="0;45"
-										range:steps="5"
-										range:boundaries="0;45"/>-->
-
 		<android.preference.CheckBoxPreference
 				a:key="autoOrientation"
 				a:title="@string/c_auto_orientation_title"
