@@ -34,6 +34,7 @@ import android.util.Log;
 import org.solovyev.android.UiThreadExecutor;
 import org.solovyev.android.Views;
 import org.solovyev.android.calculator.ga.Ga;
+import org.solovyev.android.calculator.view.ScreenMetrics;
 import org.solovyev.android.checkout.*;
 import org.solovyev.android.view.VibratorContainer;
 import org.solovyev.common.listeners.JEvent;
@@ -105,6 +106,9 @@ public final class App {
 	@Nonnull
 	private static volatile Vibrator vibrator;
 
+	@Nonnull
+	private static volatile ScreenMetrics screenMetrics;
+
 	private App() {
 		throw new AssertionError();
 	}
@@ -161,6 +165,7 @@ public final class App {
 			}
 			App.broadcaster = new CalculatorBroadcaster(application);
 			App.vibrator = new Vibrator(application, preferences);
+			App.screenMetrics = new ScreenMetrics(application);
 			App.initialized = true;
 		} else {
 			throw new IllegalStateException("Already initialized!");
@@ -260,5 +265,10 @@ public final class App {
 	@Nonnull
 	public static Vibrator getVibrator() {
 		return vibrator;
+	}
+
+	@Nonnull
+	public static ScreenMetrics getScreenMetrics() {
+		return screenMetrics;
 	}
 }
