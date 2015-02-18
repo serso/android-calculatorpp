@@ -36,9 +36,6 @@
   <string name="cpp_wizard_finish_confirmation">Вы действительно хотите завершить визард?</string>
 	<string name="cpp_wizard_theme_title">Выберите тему</string>
 	<string name="cpp_wizard_finish">Готово</string>
-	<string name="cpp_clear_history">Отчистить</string>
-	<string name="cpp_clear_history_message">Вся история будет отчищена</string>
-	<string name="cpp_clear_history_title">Отчистить историю?</string>
 	<string name="cpp_wizard_skip">Пропустить</string>
 	<string name="cpp_wizard_finish_confirmation_title">Закончить?</string>
 </resources>
