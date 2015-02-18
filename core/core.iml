@@ -29,7 +29,7 @@
     <orderEntry type="library" exported="" name="common-text-1.0.7" level="project" />
     <orderEntry type="library" exported="" name="common-listeners-1.0.7" level="project" />
     <orderEntry type="library" exported="" name="guava-11.0.2" level="project" />
-    <orderEntry type="library" exported="" name="jscl-1.0.9" level="project" />
+    <orderEntry type="library" exported="" name="jscl-1.0.11" level="project" />
     <orderEntry type="library" exported="" name="simple-xml-2.6.1" level="project" />
     <orderEntry type="library" exported="" name="commons-cli-1.2" level="project" />
     <orderEntry type="library" exported="" name="common-core-1.0.7" level="project" />
