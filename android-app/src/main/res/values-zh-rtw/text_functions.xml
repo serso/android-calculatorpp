@@ -31,11 +31,11 @@
 	</string>
   <string name="c_fun_description_gt">大於函數 - 如果第一個參數大於第二個，值為 1，否則為 0
 	</string>
-  <string name="c_fun_description_rad">將 Degrees 轉換為 Radians：d - 度，m - 分（預設 = 0），s - 秒（預設 = 0）
+  <string name="c_fun_description_rad">將 度(Degrees) 轉換為 弧度(Radians)：d - 度，m - 分（預設 = 0），s - 秒（預設 = 0）
 	</string>
-  <string name="c_fun_description_dms">將 Degrees 從 DMS（度分秒）表示法轉換為十進位：d - 度，m - 分（預設 = 0），s - 秒（預設 = 0）
+  <string name="c_fun_description_dms">將 度(Degrees) 從 DMS（度分秒）表示法轉換為十進位：d - 度，m - 分（預設 = 0），s - 秒（預設 = 0）
 	</string>
-  <string name="c_fun_description_deg">將 Radians 轉換為 Degrees</string>
+  <string name="c_fun_description_deg">將 弧度(Radians) 轉換為 度(Degrees)</string>
   <string name="c_fun_category_trig">三角函數</string>
   <string name="c_fun_category_hyper_trig">雙曲三角函數</string>
   <string name="c_fun_category_comparison">比較函數</string>

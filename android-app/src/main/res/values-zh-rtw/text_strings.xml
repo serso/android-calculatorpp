@@ -4,25 +4,17 @@
 <resources>
   <string name="c_app_name">Calculator++</string>
   <string name="c_app_name_on_screen">Calculator++（視窗模式）</string>
-  <string name="c_app_icon_name">Calc++</string>
   <string name="c_app_settings">設定</string>
-  <string name="c_syntax_error">錯誤</string>
   <string name="c_result_copied">計算結果已複製至剪貼簿！</string>
   <string name="c_settings">設定</string>
   <string name="c_help">幫助</string>
   <string name="c_vars_and_constants">變數與常數</string>
-  <string name="c_prefs_main_category">主要設定</string>
   <string name="c_prefs_calculations_category">計算設定</string>
   <string name="c_prefs_appearance_category">外觀設定</string>
   <string name="c_prefs_other_category">其他設定</string>
-  <string name="c_prefs_drag_button_category">按鍵滑動設定</string>
-  <string name="c_down">下</string>
-  <string name="c_up">上</string>
-  <string name="c_restart">重新啟動</string>
   <string name="c_undo">復原</string>
   <string name="c_redo">重做</string>
   <string name="c_clear">C</string>
-  <string name="c_paste">貼上</string>
   <string name="c_vars">變數</string>
   <string name="c_copy">複製</string>
   <string name="c_plot">繪圖</string>
@@ -39,7 +31,6 @@
   <string name="p_calc_max_calculation_time_summary">如果計算超出指定時間 - 停止計算並顯示錯誤
 	</string>
   <string name="c_exit">離開</string>
-  <string name="c_add">新增</string>
   <string name="c_cancel">取消</string>
   <string name="c_save">儲存</string>
   <string name="c_remove">刪除</string>
@@ -58,41 +49,33 @@
   <string name="c_var_already_exists">已經有相同名稱的變數存在！</string>
   <string name="c_name_is_not_valid">常數名稱無效：名稱必須以英文字母開頭，可以包含字母，數字及底線。
 	</string>
-  <string name="c_sys_var_cannot_be_changed">不能更改系統變數！</string>
   <string name="c_calc_editor_hint">輸入新的算式</string>
-  <string name="c_press_to_copy">按下以複製</string>
-  <string name="c_continue">繼續</string>
   <string name="c_history">歷史紀錄</string>
   <string name="c_history_button">M</string>
-  <string name="c_history_is_empty">沒有歷史紀錄！</string>
-  <string name="c_app_history">歷史紀錄</string>
   <string name="c_char_is_not_accepted">變數名稱不可使用字元 \'%s\'！</string>
   <string name="c_calc_angle_units">目前角度單位</string>
-  <string name="p_deg">Degrees</string>
-  <string name="p_rad">Radians</string>
-  <string name="p_grad">Gradians</string>
-  <string name="p_turns">Turns</string>
+  <string name="p_deg">度 (Degrees)</string>
+  <string name="p_rad">弧度 (Radians)</string>
+  <string name="p_grad">梯度 (Gradians)</string>
+  <string name="p_turns">轉 (Turns)</string>
   <string name="c_angle_units_summary">選擇計算中使用的角度單位</string>
   <string name="c_calc_numeral_bases">目前進位制</string>
   <string name="c_numeral_bases_summary">選擇計算中使用的進位制</string>
-  <string name="p_dec">十進位</string>
-  <string name="p_hex">十六進位</string>
-  <string name="p_oct">八進位</string>
-  <string name="p_bin">二進位</string>
+  <string name="p_dec">十進位 (Decimal)</string>
+  <string name="p_hex">十六進位 (Hexadecimal)</string>
+  <string name="p_oct">八進位 (Octal)</string>
+  <string name="p_bin">二進位 (Binary)</string>
   <string name="c_calc_theme">主題風格</string>
-  <string name="p_default_theme">灰色</string>
-  <string name="p_violet_theme">紫色</string>
-  <string name="p_light_blue_theme">淺藍色</string>
   <string name="p_metro_blue_theme">現代藍</string>
   <string name="p_metro_green_theme">現代綠</string>
   <string name="p_metro_purple_theme">現代紫</string>
-  <string name="c_calc_result_precision_summary">計算結果值的精確度（不論選項值為多少，所有計算都使用最大精確度）
+  <string name="p_material_theme">Material</string>
+  <string name="p_material_light_theme">Material Light</string>
+  <string name="c_calc_result_precision_summary">計算結果值的精確度（不論選項值為多少，所有計算過程都使用最大精確度）
 	</string>
   <string name="c_calc_color_display_summary">切換計算機編輯框顏色與樣式的渲染</string>
   <string name="c_calc_theme_summary">設定計算機的主題風格</string>
-  <string name="c_clear_history">清除歷史記錄</string>
   <string name="c_toggle_datetime">顯示/隱藏日期</string>
-  <string name="c_simplify_instead_of_numeric">未定義的常數：{0}！</string>
   <string name="p_grouping_separator_no">沒有撇節符號</string>
   <string name="p_grouping_separator_apostrophe">撇號 (\')</string>
   <string name="p_grouping_separator_space">空格 ( )</string>
@@ -101,7 +84,6 @@
   <string name="c_calc_multiplication_sign">乘號</string>
   <string name="c_calc_multiplication_sign_summary">設定乘號</string>
   <string name="c_calc_layout">版面配置</string>
-  <string name="p_layout_cellphone">科學模式（手機）</string>
   <string name="p_layout_calculator">科學模式</string>
   <string name="p_layout_calculator_mobile">科學模式（大按鍵）</string>
   <string name="p_layout_simple">簡單模式</string>
@@ -109,31 +91,21 @@
   <string name="c_calc_layout_summary">設定按鍵配置</string>
   <string name="c_calc_haptic_feedback_title">觸覺反饋</string>
   <string name="c_calc_haptic_feedback_summary">切換點擊按鍵時是否震動</string>
+  <string name="p_calc_haptic_feedback_strength_disabled">Disabled</string>
   <string name="p_calc_haptic_feedback_strength_short">短</string>
   <string name="p_calc_haptic_feedback_strength_middle">中</string>
   <string name="p_calc_haptic_feedback_strength_long">長</string>
-  <string name="p_calc_haptic_feedback_duration_title">觸覺反饋持續時間</string>
-  <string name="p_calc_haptic_feedback_duration_summary">點擊按鍵時震動的時間</string>
   <string name="empty_var_error">無法新增空白的常數！</string>
   <string name="not_valid_result">當前計算结果無效！</string>
   <string name="c_plot_graph">圖形</string>
   <string name="c_min_x_value">從</string>
   <string name="c_max_x_value">到</string>
-  <string name="c_swipe_distance">按鍵滑動距離</string>
-  <string name="c_swipe_distance_summary">設定支援附加滑動功能按鍵的滑動距離
-	</string>
-  <string name="c_comment">備註</string>
-  <string name="c_history_item_saved">已儲存</string>
-  <string name="c_history_item_not_saved">未儲存</string>
   <string name="c_expression_copied">算式已複製至剪貼簿！</string>
-  <string name="c_history_item_status">狀態：</string>
-  <string name="c_history_item_comment">備註：</string>
   <string name="c_use">使用</string>
   <string name="c_use_short">使用</string>
   <string name="c_copy_expression">複製算式</string>
   <string name="c_copy_result">複製計算結果</string>
   <string name="c_history_expression">數值</string>
-  <string name="c_history_item_already_saved">已儲存（見 \"已儲存的歷史紀錄\" 頁面）</string>
   <string name="c_history_comment">備註</string>
   <string name="c_save_history">儲存歷史紀錄</string>
   <string name="c_edit_history">修改歷史紀錄</string>
@@ -146,12 +118,11 @@
   <string name="c_copy_description">複製描述</string>
   <string name="c_copy_value">複製數值</string>
   <string name="c_first_start_text">感謝你選擇 Calculator++！\n\nCalculator++ 是強大的日常計算工具。</string>
-  <string name="c_first_start_text_title">歡迎</string>
   <string name="c_calc_show_release_notes_title">顯示發行紀錄</string>
   <string name="c_calc_show_release_notes_summary">選擇是否在升級至新版本後跳出發行紀錄視窗
 	</string>
   <string name="c_calc_use_back_button_as_prev_summary">設定返回鍵的功能</string>
-  <string name="c_calc_use_back_button_as_prev_title">返回鍵以回到先前歷史紀錄</string>
+  <string name="c_calc_use_back_button_as_prev_title">使用返回鍵回到先前歷史紀錄</string>
   <string name="c_clear_billing_info_summary">購買資訊將會從伺服器重新載入</string>
   <string name="c_clear_billing_info_title">更新購買資訊</string>
   <string name="c_warning">警告</string>
@@ -161,44 +132,25 @@
   <string name="c_calc_ad_free_title">支持這個專案</string>
   <string name="c_calc_ad_free_summary">並且移除廣告</string>
   <string name="c_calc_already_purchased">去廣告選項已經購買！</string>
-  <string name="c_calc_purchasing">購買中&#8230;</string>
-  <string name="c_calc_clearing">清除中...</string>
-  <string name="c_feedback_title">意見回饋</string>
   <string name="c_feedback_text">你已經使用 Calculator++ 一些時間了，\n
-瞭解你對這個應用程式的意見對我們而言十分重要。\n\n
-請您評分 Calculator++\n在<a href="https://market.android.com/details?id=org.solovyev.android.calculator">
-Google Play</a>，\n留下評論或是討論這個應用程式\n於
-<a href="http://facebook.com/calculatorpp">Facebook</a>上
-	</string>
-  <string name="c_notespp_announce_text">好消息 - 我剛發布一個 Android 新的應用程式叫做
-<a href="https://play.google.com/store/apps/details?id=org.solovyev.android.notes">Notes++</a>。\n
-如果你對快速而簡單，做筆記的方式有興趣，請點擊<a href="https://play.google.com/store/apps/details?id=org.solovyev.android.notes">這個連結</a>來試試 Notes++！
+知道你對這個應用程式的意見對我們而言十分重要。\n\n
+請您評分 Calculator++\n於<a href="https://market.android.com/details?id=org.solovyev.android.calculator">
+Google Play</a>，\n留下評論或是\n討論這個應用程式\n於
+<a href="http://facebook.com/calculatorpp">Facebook</a>
 	</string>
   <string name="c_angle_units_changed_to">角度單位已改為 \'%s\'！</string>
   <string name="c_numeral_base_changed_to">進位制已改為 \'%s\'！</string>
   <string name="c_conversion_tool">轉換工具</string>
   <string name="c_convert">轉換為&#8230;</string>
-  <string name="convert_to_hex">轉換為十六進位</string>
-  <string name="convert_to_bin">轉換為二進位</string>
-  <string name="convert_to_dec">轉換為十進位</string>
+  <string name="convert_to_hex">轉換為十六進位 (hex)</string>
+  <string name="convert_to_bin">轉換為二進位 (bin)</string>
+  <string name="convert_to_dec">轉換為十進位 (dec)</string>
   <string name="editor">編輯框</string>
   <string name="result">計算結果</string>
   <string name="other">其他</string>
   <string name="derivatives">微分/積分</string>
   <string name="crashed">Calculator++ 已經崩潰&#8230;</string>
-  <string name="crash_dialog_title">Calculator++ 崩潰報告</string>
-  <string name="crash_dialog_text">	Calculator++ 不幸地崩潰了。\n\n
-為了修復這個問題，我們需要一些關於崩潰的資訊。高度建議以電子郵件傳送崩潰報告（按下 \"好\" 後，你會在新視窗中看到所有被發送的資料）\n\n
-你要傳送一個崩潰報告嗎？
-	</string>
   <string name="prefs_graph_screen_title">圖形設定</string>
-  <string name="prefs_graph_interpolate_function">插值函數圖形</string>
-  <string name="prefs_graph_interpolate_function_summary">如果勾選，繪製圖形時將會使用三次插值
-	</string>
-  <string name="prefs_graph_real_color_title">函數圖形實數部分的顏色</string>
-  <string name="prefs_graph_real_color_summary">設定函數圖形實數部分的顏色</string>
-  <string name="prefs_graph_imag_color_title">函數圖形虛數部分的顏色</string>
-  <string name="prefs_graph_imag_color_summary">設定函數圖形虛數部分的顏色</string>
   <string name="p_white_line_color">白色</string>
   <string name="p_grey_line_color">灰色</string>
   <string name="p_red_line_color">紅色</string>
@@ -217,9 +169,8 @@ Google Play</a>，\n留下評論或是討論這個應用程式\n於
   <string name="function_param_not_empty">函數參數不應該是空白！</string>
   <string name="function_removal_confirmation_question">你真的要刪除函數 \'%s\' 嗎？</string>
   <string name="empty_function_error">無法新增空白函數！</string>
-  <string name="do_not_show_messages_in_session">不要顯示這訊息直到下次使用</string>
+  <string name="do_not_show_messages_in_session">不要顯示這訊息直到下次</string>
   <string name="calculation_messages_dialog_title">Calculator++ 警告</string>
-  <string name="arithmetic_error_while_plot">繪圖時發生算術錯誤：%s</string>
   <string name="ok">好</string>
   <string name="p_show_calculation_messages_dialog_title">在對話框中顯示計算訊息</string>
   <string name="p_show_calculation_messages_dialog_summary">如果啟用，計算時任何訊息產生，將會顯示特別的對話框
@@ -238,15 +189,13 @@ Google Play</a>，\n留下評論或是討論這個應用程式\n於
   <string name="c_app_widget_3x4_name">Calculator++ 小工具（3x4）</string>
   <string name="c_app_widget_4x4_name">Calculator++ 小工具（4x4）</string>
   <string name="c_app_widget_4x5_name">Calculator++ 小工具（4x5）</string>
-  <string name="open_onscreen_calculator">點擊以在視窗模式中開啟計算機</string>
+  <string name="open_onscreen_calculator">點擊以視窗模式開啟計算機</string>
   <string name="prefs_onscreen_title">計算機（獨立視窗）設定</string>
   <string name="prefs_onscreen_start_on_boot_title">開機時啟動</string>
   <string name="prefs_onscreen_start_on_boot_summary">如果啟用，Calculator++ 將會在裝置啟動後顯示在通知列
 	</string>
   <string name="prefs_onscreen_show_app_icon_title">顯示獨立的圖示（需要重新啟動）</string>
   <string name="prefs_onscreen_show_app_icon_summary">如果啟用，應用程式列表將會顯示第二個圖示
-	</string>
-  <string name="cpp_onscreen_remove_icon_message">您可以在應用程式設定中刪除應用程式列表中第二個圖示，或者點擊下一個按鈕來刪除
 	</string>
   <string name="cpp_this_change_may_require_reboot">這個變動可能需要重新啟動</string>
   <string name="cpp_plot_2d">2D 繪圖</string>
@@ -265,7 +214,7 @@ Google Play</a>，\n留下評論或是討論這個應用程式\n於
   <string name="cpp_plot_screenshot_saved">成功儲存截圖：%1$s！</string>
   <string name="cpp_plot_unable_to_save_screenshot">未掛載 SD 卡，無法儲存螢幕截圖。請掛載 SD 卡後再試一次！
 	</string>
-  <string name="cpp_plot_function_line_color_type">線條顏色樣式</string>
+  <string name="cpp_plot_function_line_color_type">線條顏色類型</string>
   <string name="cpp_plot_function_line_color">線條顏色</string>
   <string name="cpp_plot_function_line_style">線條樣式</string>
   <string name="cpp_plot_function_line_width">線條寬度</string>
@@ -283,18 +232,20 @@ Google Play</a>，\n留下評論或是討論這個應用程式\n於
   <string name="cpp_plot_range_y_min">Y 最小值</string>
   <string name="cpp_plot_range_y_max">Y 最大值</string>
   <string name="cpp_invalid_number">數目無效！</string>
-  <string name="cpp_plot_boundaries_should_differ">圖形邊界應不相同！</string>
+  <string name="cpp_plot_boundaries_should_differ">圖形邊界不應該相同！</string>
   <string name="cpp_apply">套用</string>
   <string name="cpp_message">訊息</string>
   <string name="cpp_continue">繼續</string>
   <string name="cpp_purchase_text">支持這個專案簡單而安全：購買程序由 Google 提供，你只需要一個正確設定過的 Google 帳戶。\n\n
-付款資訊儲存於 Google 伺服器和你的帳號，然後你可以輕易地在多個裝置上使用這個應用程式。\n\n
+付款資訊儲存於 Google 伺服器連同你的帳號，然後你可以輕易地在多個裝置上使用這個應用程式。\n\n
 點擊 \"繼續\" 按鍵，你會被導向至 Google Play 應用程式進行付款。
 	</string>
   <string name="cpp_purchase_title">購買</string>
-  <string name="cpp_purchase_thank_you_text">感謝你支持這個應用程式！\n\n 可能需要幾分鐘後，應用程式才會得知已經購買。你總是可以在你的 Google 帳號中檢查購買資訊。\n
-如果你有任何問題或是疑問，隨意直接聯繫我。（聯絡資訊可以在 主頁 -&gt; 選單 -&gt; 關於 找到）
-	</string>
   <string name="cpp_var_show_greek_keyboard">顯示希臘字母</string>
   <string name="cpp_var_hide_greek_keyboard">隱藏希臘字母</string>
+  <string name="cpp_clear_history_title">Clear history?</string>
+  <string name="cpp_clear_history_message">All history will be cleared.</string>
+  <string name="cpp_clear_history">Clear</string>
+  <string name="cpp_new_in_version">New in %1$s version</string>
+  <string name="cpp_release_notes_choose_theme">Do you want to try new Material themes? Choose them from the list:</string>
 </resources>

@@ -4,25 +4,17 @@
 <resources>
   <string name="c_app_name">Calculator++</string>
   <string name="c_app_name_on_screen">Calculator++ (mode fenêtre)</string>
-  <string name="c_app_icon_name">Calc++</string>
   <string name="c_app_settings">Paramètres</string>
-  <string name="c_syntax_error">Erreur</string>
   <string name="c_result_copied">Le résultat a été copié dans le presse-papiers !</string>
   <string name="c_settings">Paramètres</string>
   <string name="c_help">Aide</string>
   <string name="c_vars_and_constants">Variables et constantes</string>
-  <string name="c_prefs_main_category">Paramètres principaux</string>
   <string name="c_prefs_calculations_category">Paramètres de calcul</string>
   <string name="c_prefs_appearance_category">Apparence</string>
   <string name="c_prefs_other_category">Autres paramètres</string>
-  <string name="c_prefs_drag_button_category">Paramètre des boutons à glisser</string>
-  <string name="c_down">Bas</string>
-  <string name="c_up">Haut</string>
-  <string name="c_restart">Redémarrer</string>
   <string name="c_undo">Annuler</string>
   <string name="c_redo">Refaire</string>
   <string name="c_clear">C</string>
-  <string name="c_paste">Coller</string>
   <string name="c_vars">Variables</string>
   <string name="c_copy">Copier</string>
   <string name="c_plot">Tracer le graphe</string>
@@ -36,7 +28,6 @@
   <string name="p_calc_max_calculation_time_title">Durée maximale de calcul</string>
   <string name="p_calc_max_calculation_time_summary">Si les calculs dépassent la limite spécifiée - la calculatrice s\'arrête avec une erreur</string>
   <string name="c_exit">Quitter</string>
-  <string name="c_add">Ajouter</string>
   <string name="c_cancel">Annuler</string>
   <string name="c_save">Enregistrer</string>
   <string name="c_remove">Supprimer</string>
@@ -53,14 +44,9 @@
   <string name="c_var_name_clashes">Nom de variable en conflit avec le nom d\'une fonction !</string>
   <string name="c_var_already_exists">Une variable portant le même nom existe déjà !</string>
   <string name="c_name_is_not_valid">Le nom de la constante n\'est pas valide : le nom doit commencer par une lettre, peut contenir des lettres, chiffres et trait de soulignement.  </string>
-  <string name="c_sys_var_cannot_be_changed">Impossible de modifier la variable système !</string>
   <string name="c_calc_editor_hint">Entrer une nouvelle expression</string>
-  <string name="c_press_to_copy">Appuyer pour copier</string>
-  <string name="c_continue">Continuer</string>
   <string name="c_history">Historique</string>
   <string name="c_history_button">M</string>
-  <string name="c_history_is_empty">L\'historique est vide !</string>
-  <string name="c_app_history">Historique</string>
   <string name="c_char_is_not_accepted">Le caractère \'%s\' n\'est pas accepté dans le nom de la variable !</string>
   <string name="c_calc_angle_units">Unités d\'angle actuelle</string>
   <string name="p_deg">Degrés</string>
@@ -75,18 +61,15 @@
   <string name="p_oct">Octal</string>
   <string name="p_bin">Binaire</string>
   <string name="c_calc_theme">Thème</string>
-  <string name="p_default_theme">Gris</string>
-  <string name="p_violet_theme">Violet</string>
-  <string name="p_light_blue_theme">Bleu clair</string>
   <string name="p_metro_blue_theme">Métro bleu</string>
   <string name="p_metro_green_theme">Métro vert</string>
   <string name="p_metro_purple_theme">Métro violet</string>
+  <string name="p_material_theme">Material</string>
+  <string name="p_material_light_theme">Material léger</string>
   <string name="c_calc_result_precision_summary">Précision de la valeur du résultat (tous les calculs sont faits avec la précision maximale quelle que soit la valeur de cette option)</string>
   <string name="c_calc_color_display_summary">Choisir les couleurs et le style dans l\'éditeur de la calculatrice</string>
   <string name="c_calc_theme_summary">Définir le thème pour la calculatrice</string>
-  <string name="c_clear_history">Effacer l\'historique</string>
   <string name="c_toggle_datetime">Afficher/masquer la date</string>
-  <string name="c_simplify_instead_of_numeric">Les constantes suivantes ne sont pas définies : {0} !</string>
   <string name="p_grouping_separator_no">Pas de séparateur de classe</string>
   <string name="p_grouping_separator_apostrophe">Apostrophe (\')</string>
   <string name="p_grouping_separator_space">Espace ( )</string>
@@ -95,7 +78,6 @@
   <string name="c_calc_multiplication_sign">Signe de multiplication</string>
   <string name="c_calc_multiplication_sign_summary">Choisir le signe de multiplication</string>
   <string name="c_calc_layout">Affichage</string>
-  <string name="p_layout_cellphone">Scientifique (téléphone portable)</string>
   <string name="p_layout_calculator">Scientifique</string>
   <string name="p_layout_calculator_mobile">Scientifique (gros boutons)</string>
   <string name="p_layout_simple">Simple</string>
@@ -103,30 +85,21 @@
   <string name="c_calc_layout_summary">Définit l\'affichage des boutons</string>
   <string name="c_calc_haptic_feedback_title">Retour tactile</string>
   <string name="c_calc_haptic_feedback_summary">Vibrations à l\'appui sur les boutons</string>
+  <string name="p_calc_haptic_feedback_strength_disabled">Désactivé</string>
   <string name="p_calc_haptic_feedback_strength_short">Court</string>
   <string name="p_calc_haptic_feedback_strength_middle">Moyen</string>
   <string name="p_calc_haptic_feedback_strength_long">Long</string>
-  <string name="p_calc_haptic_feedback_duration_title">Durée du retour tactile</string>
-  <string name="p_calc_haptic_feedback_duration_summary">Durée des vibrations au clique d\'un bouton</string>
   <string name="empty_var_error">Impossible de créer une constante vide !</string>
   <string name="not_valid_result">Le résultat actuel n\'est pas valide !</string>
   <string name="c_plot_graph">Graphique</string>
   <string name="c_min_x_value">De</string>
   <string name="c_max_x_value">à</string>
-  <string name="c_swipe_distance">Distance à glisser pour les boutons</string>
-  <string name="c_swipe_distance_summary">Définissez la distance à glisser pour activer les fonctions secondaires d\'un bouton</string>
-  <string name="c_comment">Commentaire</string>
-  <string name="c_history_item_saved">Enregistré</string>
-  <string name="c_history_item_not_saved">Non enregistré</string>
   <string name="c_expression_copied">Expression mise en mémoire !</string>
-  <string name="c_history_item_status">Statut :</string>
-  <string name="c_history_item_comment">Commentaire :</string>
   <string name="c_use">Utilisation</string>
   <string name="c_use_short">Utilisation</string>
   <string name="c_copy_expression">Copier l\'expression</string>
   <string name="c_copy_result">Copier le résultat</string>
   <string name="c_history_expression">Valeur</string>
-  <string name="c_history_item_already_saved">Enregistré (voir l\'onglet \"Historique enregistré\")</string>
   <string name="c_history_comment">Commentaire</string>
   <string name="c_save_history">Enregistrer l\'historique</string>
   <string name="c_edit_history">Modifier l\'historique</string>
@@ -139,7 +112,6 @@
   <string name="c_copy_description">Copier la description</string>
   <string name="c_copy_value">Copier la valeur</string>
   <string name="c_first_start_text">Merci d\'avoir choisi Calculator++\n\nCalculator++ est un outil puissant pour faire des calculs quotidiens</string>
-  <string name="c_first_start_text_title">Bienvenue</string>
   <string name="c_calc_show_release_notes_title">Voir les notes à propos de la version</string>
   <string name="c_calc_show_release_notes_summary">Définit si la pop-up des informations à propos de la nouvelle version doit apparaître après une mise à jour.</string>
   <string name="c_calc_use_back_button_as_prev_summary">Définir le comportement du bouton Précédent</string>
@@ -152,12 +124,7 @@
   <string name="c_calc_ad_free_title">Soutenir le projet</string>
   <string name="c_calc_ad_free_summary">Et enlever la publicité</string>
   <string name="c_calc_already_purchased">La suppression de la publicité a été déjà achetée !</string>
-  <string name="c_calc_purchasing">Achat...</string>
-  <string name="c_calc_clearing">Effacement&#8230;</string>
-  <string name="c_feedback_title">Vos commentaires</string>
   <string name="c_feedback_text">Vous utilisez Calculator++ depuis un moment \n et c\'est important pour nous de connaitre votre avis à propos de l\'application. \n\n Votez pour Calculator++ \n sur <a href="https://market.android.com/details?id=org.solovyev.android.calculator">Google Play</a>,\n et laissez un commentaire or\ndiscuter de l\'application\non<a href="http://facebook.com/calculatorpp">Facebook</a></string>
-  <string name="c_notespp_announce_text">Bonne nouvelle - J\'ai juste réalisé une nouvelle application pour Android appelée <a href="https://play.google.com/store/apps/details?id=org.solovyev.android.notes">Notes++</a>.\n
-Si vous êtes intéressé pour prendre vos notes de manière facile et rapide, rendez vous sur le <a href="https://play.google.com/store/apps/details?id=org.solovyev.android.notes">lien</a> et essayez Notes++ !</string>
   <string name="c_angle_units_changed_to">L\'unité d\'angle a été changé en \'%s\' !</string>
   <string name="c_numeral_base_changed_to">La base numérique a été changé \'%s\' !</string>
   <string name="c_conversion_tool">Outil de conversion</string>
@@ -170,16 +137,7 @@ Si vous êtes intéressé pour prendre vos notes de manière facile et rapide, r
   <string name="other">Autre</string>
   <string name="derivatives">Dérivation/Intégration</string>
   <string name="crashed">Calculator++ a craché&#8230;</string>
-  <string name="crash_dialog_title">Rapport de plantage de Calculator++</string>
-  <string name="crash_dialog_text">Malheureusement, Calcultator++ a planté.\n\n Pour résoudre le problème nous avons besoin de quelques informations à ce sujet. Il est fortement recommandé d\'envoyer un rapport par email (après avoir appuyé sur le bouton « Ok », vous verrez toutes les données à envoyer dans une nouvelle fenêtre).\n\n 
-Vous voulez envoyer un rapport d\'erreur ?</string>
   <string name="prefs_graph_screen_title">Options des graphiques</string>
-  <string name="prefs_graph_interpolate_function">Interpoler le graphique de la fonction</string>
-  <string name="prefs_graph_interpolate_function_summary">Si coché, l\'interpolation cubique sera utilisée pour les tracés des graphes de fonction</string>
-  <string name="prefs_graph_real_color_title">Couleur de la partie réelle du graphique des fonctions</string>
-  <string name="prefs_graph_real_color_summary">Définit la couleur du graphe de la partie réelle des fonctions</string>
-  <string name="prefs_graph_imag_color_title">Couleur de la partie imaginaire du graphique des fonctions</string>
-  <string name="prefs_graph_imag_color_summary">Définit la couleur du graphe de la partie imaginaire des fonctions</string>
   <string name="p_white_line_color">Blanc</string>
   <string name="p_grey_line_color">Gris</string>
   <string name="p_red_line_color">Rouge</string>
@@ -199,7 +157,6 @@ Vous voulez envoyer un rapport d\'erreur ?</string>
   <string name="empty_function_error">Impossible de créer une fonction vide !</string>
   <string name="do_not_show_messages_in_session">Ne plus afficher ce message jusqu\'à la prochaine session</string>
   <string name="calculation_messages_dialog_title">Calculatrice ++ avertissement</string>
-  <string name="arithmetic_error_while_plot">Une erreur d\'arithmétique s\'est produite pendant le traçage du graphe : %s</string>
   <string name="ok">Oui</string>
   <string name="p_show_calculation_messages_dialog_title">Afficher les messages de calcul dans la boîte de dialogue</string>
   <string name="p_show_calculation_messages_dialog_summary">Si coché, durant un calcul, les messages s\'afficheront dans une boite de dialogue spéciale</string>
@@ -221,7 +178,6 @@ Vous voulez envoyer un rapport d\'erreur ?</string>
   <string name="prefs_onscreen_start_on_boot_summary">Si coché, Calculator++ apparaîtra dans la barre de notification après redémarrage de l’appareil</string>
   <string name="prefs_onscreen_show_app_icon_title">Afficher l\'icône séparée (nécessite un redémarrage)</string>
   <string name="prefs_onscreen_show_app_icon_summary">Si coché, la seconde icône s\'affichera dans la liste des applications</string>
-  <string name="cpp_onscreen_remove_icon_message">Vous pouvez supprimer la seconde icône dans la liste des applications dans les paramètres de l\'application ou en appuyant sur le bouton suivant</string>
   <string name="cpp_this_change_may_require_reboot">Cette modification peut nécessiter le redémarrage</string>
   <string name="cpp_plot_2d">Tracé 2D</string>
   <string name="cpp_plot_3d">Tracé 3D</string>
@@ -265,9 +221,11 @@ et tout ce dont vous avez besoin est un compte Google correctement configuré.\n
 Les informations de paiement sont stockées sur les serveurs Google avec votre compte Google et vous pouvez facilement utiliser cette application sur plusieurs appareils.\n\n
 En cliquant sur le bouton \'Continuer\' vous serez redirigés vers l\'application Google Play afin de réaliser le paiement.</string>
   <string name="cpp_purchase_title">Acheter</string>
-  <string name="cpp_purchase_thank_you_text">Merci de soutenir cette application! \n \n Cela peut prendre plusieurs
-minutes pour la validation de l\'achat. Vous pouvez toujours vérifier les informations sur l\'achat sur votre compte Google. \n
-Si vous avez des problèmes ou des questions, n\'hésitez pas à me contacter directement (Les informations sont disponibles dans Menu Principal-&gt; À propos)</string>
   <string name="cpp_var_show_greek_keyboard">Afficher les lettres Grecques</string>
   <string name="cpp_var_hide_greek_keyboard">Cacher les lettres Grecques</string>
+  <string name="cpp_clear_history_title">Effacer l\'historique ?</string>
+  <string name="cpp_clear_history_message">L\'intégralité de l\'historique sera supprimée.</string>
+  <string name="cpp_clear_history">Effacer</string>
+  <string name="cpp_new_in_version">Nouveautés de la version %1$s</string>
+  <string name="cpp_release_notes_choose_theme">Voulez vous essayer les nouveaux thèmes Material ? Choisissez dans la liste :</string>
 </resources>

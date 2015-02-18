@@ -4,25 +4,17 @@
 <resources>
   <string name="c_app_name">Calculator++</string>
   <string name="c_app_name_on_screen">Calculator++ (Window mode)</string>
-  <string name="c_app_icon_name">Calc++</string>
   <string name="c_app_settings">Instellingen</string>
-  <string name="c_syntax_error">Fout</string>
   <string name="c_result_copied">Resultaat is gekopieerd naar het klembord!</string>
   <string name="c_settings">Instellingen</string>
   <string name="c_help">Help</string>
   <string name="c_vars_and_constants">Variabelen en constanten</string>
-  <string name="c_prefs_main_category">Hoofdinstellingen</string>
   <string name="c_prefs_calculations_category">Instellingen voor berekeningen</string>
   <string name="c_prefs_appearance_category">Weergave-instellingen</string>
   <string name="c_prefs_other_category">Andere instellingen</string>
-  <string name="c_prefs_drag_button_category">Sleepknoppen instellingen</string>
-  <string name="c_down">Omlaag</string>
-  <string name="c_up">Omhoog</string>
-  <string name="c_restart">Herstarten</string>
   <string name="c_undo">ongedaan maken</string>
   <string name="c_redo">opnieuw uitvoeren</string>
   <string name="c_clear">C</string>
-  <string name="c_paste">plakken</string>
   <string name="c_vars">vars</string>
   <string name="c_copy">Kopiëren</string>
   <string name="c_plot">Uitzetten van grafiek</string>
@@ -36,7 +28,6 @@
   <string name="p_calc_max_calculation_time_title">Maximale berekeningstijd</string>
   <string name="p_calc_max_calculation_time_summary">Als berekeningen opgegeven limiet overschrijden stopt de rekenmachine met een foutmelding</string>
   <string name="c_exit">Verlaten</string>
-  <string name="c_add">Toevoegen</string>
   <string name="c_cancel">Annuleren</string>
   <string name="c_save">Opslaan</string>
   <string name="c_remove">Verwijderen</string>
@@ -53,14 +44,9 @@
   <string name="c_var_name_clashes">Naam van de variabele is in conflict met de naam van de functie!</string>
   <string name="c_var_already_exists">Variabele met dezelfde naam bestaat al!</string>
   <string name="c_name_is_not_valid">Naam van de constante is niet geldig: naam moet beginnen met een letter, kan letters, cijfers en underscores bevatten. </string>
-  <string name="c_sys_var_cannot_be_changed">Systeemvariabele kan niet worden gewijzigd!</string>
   <string name="c_calc_editor_hint">Voer nieuwe uitdrukking in</string>
-  <string name="c_press_to_copy">Druk op om te kopiëren</string>
-  <string name="c_continue">Volgende</string>
   <string name="c_history">Geschiedenis</string>
   <string name="c_history_button">M</string>
-  <string name="c_history_is_empty">Geschiedenis is leeg!</string>
-  <string name="c_app_history">Geschiedenis</string>
   <string name="c_char_is_not_accepted">Teken \'%s\' is niet geaccepteerd in naam van de variabele!</string>
   <string name="c_calc_angle_units">Huidige hoekeenheden</string>
   <string name="p_deg">Graden</string>
@@ -75,18 +61,15 @@
   <string name="p_oct">Octaal</string>
   <string name="p_bin">Binair</string>
   <string name="c_calc_theme">Thema</string>
-  <string name="p_default_theme">Grijs</string>
-  <string name="p_violet_theme">Violet</string>
-  <string name="p_light_blue_theme">Lichtblauw</string>
   <string name="p_metro_blue_theme">Metro blauw</string>
   <string name="p_metro_green_theme">Metro groen</string>
   <string name="p_metro_purple_theme">Metro paars</string>
+  <string name="p_material_theme">Material</string>
+  <string name="p_material_light_theme">Material Light</string>
   <string name="c_calc_result_precision_summary">Nauwkeurigheid van de uitkomst (alle berekeningen worden gedaan met maximale nauwkeurigheid, onafhankelijk van deze optie)</string>
   <string name="c_calc_color_display_summary">Wisselt kleur en stijl in de calculator editor</string>
   <string name="c_calc_theme_summary">Hiermee stelt u het thema voor de calculator in</string>
-  <string name="c_clear_history">Geschiedenis wissen</string>
   <string name="c_toggle_datetime">Datum weergeven/verbergen</string>
-  <string name="c_simplify_instead_of_numeric">Volgende constanten zijn ongedefinieerd: {0}!</string>
   <string name="p_grouping_separator_no">Geen groeperingsscheidingsteken</string>
   <string name="p_grouping_separator_apostrophe">Apostrof (\')</string>
   <string name="p_grouping_separator_space">Spatie ( )</string>
@@ -95,7 +78,6 @@
   <string name="c_calc_multiplication_sign">Vermenigvuldigingsteken</string>
   <string name="c_calc_multiplication_sign_summary">Hiermee stelt u vermenigvuldigingsteken in</string>
   <string name="c_calc_layout">Lay-out</string>
-  <string name="p_layout_cellphone">Wetenschappelijk (mobiel)</string>
   <string name="p_layout_calculator">Wetenschappelijk</string>
   <string name="p_layout_calculator_mobile">Wetenschappelijke (grote knoppen)</string>
   <string name="p_layout_simple">Eenvoudig</string>
@@ -103,30 +85,21 @@
   <string name="c_calc_layout_summary">Configureert het uiterlijk van de knoppen</string>
   <string name="c_calc_haptic_feedback_title">Trilsignaal feedback</string>
   <string name="c_calc_haptic_feedback_summary">Zet trillen bij aanraken knoppen aan/uit</string>
+  <string name="p_calc_haptic_feedback_strength_disabled">Disabled</string>
   <string name="p_calc_haptic_feedback_strength_short">Kort</string>
   <string name="p_calc_haptic_feedback_strength_middle">Medium</string>
   <string name="p_calc_haptic_feedback_strength_long">Lang</string>
-  <string name="p_calc_haptic_feedback_duration_title">Duur trilsignaal</string>
-  <string name="p_calc_haptic_feedback_duration_summary">Tijdsduur trillen bij aanraken knoppen</string>
   <string name="empty_var_error">Niet in staat een lege constante te creëren!</string>
   <string name="not_valid_result">Huidige resultaat is niet geldig!</string>
   <string name="c_plot_graph">Grafiek</string>
   <string name="c_min_x_value">Van</string>
   <string name="c_max_x_value">Aan</string>
-  <string name="c_swipe_distance">Veeg afstand voor knoppen</string>
-  <string name="c_swipe_distance_summary">Configureert veeg afstand voor knoppen die aanvullende veeg acties ondersteunen</string>
-  <string name="c_comment">Opmerking</string>
-  <string name="c_history_item_saved">Opgeslagen</string>
-  <string name="c_history_item_not_saved">Niet opgeslagen</string>
   <string name="c_expression_copied">Uitdrukking naar het klembord gekopieerd!</string>
-  <string name="c_history_item_status">Status:</string>
-  <string name="c_history_item_comment">COMMENT:</string>
   <string name="c_use">Gebruik</string>
   <string name="c_use_short">Gebruik</string>
   <string name="c_copy_expression">Kopieer expressie</string>
   <string name="c_copy_result">Kopieeer resultaat</string>
   <string name="c_history_expression">Waarde</string>
-  <string name="c_history_item_already_saved">Opgeslagen (zie \'Opgeslagen geschiedenis\' tabblad)</string>
   <string name="c_history_comment">Opmerkingen</string>
   <string name="c_save_history">Geschiedenis opslaan</string>
   <string name="c_edit_history">Geschiedenis wijzigen</string>
@@ -139,7 +112,6 @@
   <string name="c_copy_description">Beschrijving kopiëren</string>
   <string name="c_copy_value">Waarde kopiëren</string>
   <string name="c_first_start_text">Dank u voor het kiezen van Calculator ++! \n\nCalculator++ is een krachtig hulpmiddel voor het maken van alledaagse berekeningen. </string>
-  <string name="c_first_start_text_title">Welkom</string>
   <string name="c_calc_show_release_notes_title">Toon release notities</string>
   <string name="c_calc_show_release_notes_summary">Bepaalt of versiewijzigingen popup scherm moet verschijnen na update naar de nieuwe versie</string>
   <string name="c_calc_use_back_button_as_prev_summary">Bepaalt het gedrag van de Terug knop</string>
@@ -152,16 +124,7 @@
   <string name="c_calc_ad_free_title">Ondersteun het project</string>
   <string name="c_calc_ad_free_summary">En verwijder de advertenties</string>
   <string name="c_calc_already_purchased">Advertentie vrije optie is al aangekocht!</string>
-  <string name="c_calc_purchasing">Aankopen&#8230;</string>
-  <string name="c_calc_clearing">Bezig met verwijderen&#8230;</string>
-  <string name="c_feedback_title">Feedback</string>
   <string name="c_feedback_text">Je gebruikt Calculator++ nu al een tijdje \n en het is belangrijk voor ons om jouw mening te weten over de app.\n\n Beoordeel Calculator++ alsjeblieft \nop<a href="https://market.android.com/details?id=org.solovyev.android.calculator">Google Play</a>,\n laat een reactie achter of \npraat over de app \nop <a href="http://facebook.com/calculatorpp">Facebook </a></string>
-  <string name="c_notespp_announce_text">Goed nieuws -  een nieuwe app is beschikbaar voor android:
-		<a href="https://play.google.com/store/apps/details?id=org.solovyev.android.notes">Notes++</a>.\n
-		Ben je op zoek bent naar een snelle en eenvoudige manier voor het maken van notities volg dan de
-		<a href="https://play.google.com/store/apps/details?id=org.solovyev.android.notes">link</a>
-		en probeer Notes++!
-	</string>
   <string name="c_angle_units_changed_to">Eenheid voor hoeken is gewijzigd naar \'%s\'!</string>
   <string name="c_numeral_base_changed_to">Groeten is gewijzigd naar \'%s\'!</string>
   <string name="c_conversion_tool">Conversietool</string>
@@ -174,19 +137,7 @@
   <string name="other">Andere</string>
   <string name="derivatives">Afgeleiden/integralen</string>
   <string name="crashed">Rekenmachine ++ is vastgelopen&#8230;</string>
-  <string name="crash_dialog_title">Rekenmachine ++ crashverslag</string>
-  <string name="crash_dialog_text">Helaas is Calculator++ gecrashed. \n\n
-Help ons de oorzaak te vinden door een crashrapport te verzenden via 
-email (door op \'Ok\'  te drukken kunt u de verzonden gegevens raadplegen in een nieuw venster).\n\n
-		Wilt u een crashrapport verzenden?
-	</string>
   <string name="prefs_graph_screen_title">Grafiekinstellingen</string>
-  <string name="prefs_graph_interpolate_function">Interpolatie van de functiegrafiek</string>
-  <string name="prefs_graph_interpolate_function_summary">Indien aangevinkt zal kubieke interpolatie gebruikt worden voor het genereren van grafieken</string>
-  <string name="prefs_graph_real_color_title">Kleur van  de grafiek in het reële domein</string>
-  <string name="prefs_graph_real_color_summary">Hiermee stelt u de kleur in van de functie in het reële domein</string>
-  <string name="prefs_graph_imag_color_title">Kleur van het imaginaire deel van de functie</string>
-  <string name="prefs_graph_imag_color_summary">Stelt de kleur in van het grafiekjes in het imaginaire domein</string>
   <string name="p_white_line_color">Wit</string>
   <string name="p_grey_line_color">Grijs</string>
   <string name="p_red_line_color">Rood</string>
@@ -206,7 +157,6 @@ email (door op \'Ok\'  te drukken kunt u de verzonden gegevens raadplegen in een
   <string name="empty_function_error">Niet mogelijk om een lege functie te maken!</string>
   <string name="do_not_show_messages_in_session">Dit bericht niet meer weergeven tot de volgende sessie</string>
   <string name="calculation_messages_dialog_title">Calculator++ waarschuwing</string>
-  <string name="arithmetic_error_while_plot">Rekenkundige fout bij het plotten: %s</string>
   <string name="ok">OK</string>
   <string name="p_show_calculation_messages_dialog_title">Berekeningen weergeven in een dialoogvenster</string>
   <string name="p_show_calculation_messages_dialog_summary">Indien ingeschakeld wanneer een bericht is opgetreden tijdens berekeningen zal een speciaal dialoogvenster worden getoond</string>
@@ -230,7 +180,6 @@ email (door op \'Ok\'  te drukken kunt u de verzonden gegevens raadplegen in een
   <string name="prefs_onscreen_start_on_boot_summary">Indien aangevinkt verschijnt Calculator++ in het systeemvak na heropstarten</string>
   <string name="prefs_onscreen_show_app_icon_title">Toon afzonderlijk pictogram (opnieuw opstarten is vereist)</string>
   <string name="prefs_onscreen_show_app_icon_summary">Indien aangevinkt wordt een tweed icoon zichtbaar in de app lijst</string>
-  <string name="cpp_onscreen_remove_icon_message">U kunt het tweede pictogram verwijderen uit de app lijst via applicatie instellingen of door op volgende te drukken</string>
   <string name="cpp_this_change_may_require_reboot">Deze wijziging vereist mogelijks opnieuw op te starten</string>
   <string name="cpp_plot_2d">2D plot</string>
   <string name="cpp_plot_3d">3D plot</string>
@@ -273,9 +222,11 @@ email (door op \'Ok\'  te drukken kunt u de verzonden gegevens raadplegen in een
 Informatie over betalingen worden opgeslagen in uw account op de Google servers en u kan deze app perfect op meerdere apparaten gebruiken.\n\n
 Door op volgende te drukken, wordt u doorverwezen naar de Google Play store om de betaling uit te voeren.</string>
   <string name="cpp_purchase_title">Aankopen</string>
-  <string name="cpp_purchase_thank_you_text">Hartelijk bedankt voor het steunen van de app!\n\n Het kan enige minuten duren voor de app uw betaling herkend. U kan steeds uw Google account raadplegen om de informatie van uw betaling na te kijken.\n
-Indien u problemen ondervindt of vragen hebt, aarzel dan niet om mij te contactereny (contactgegevens vindt u in
-Main-&gt;Menu-&gt;Over)</string>
   <string name="cpp_var_show_greek_keyboard">Toon Griekse letters</string>
   <string name="cpp_var_hide_greek_keyboard">Verberg Griekse letters</string>
+  <string name="cpp_clear_history_title">Clear history?</string>
+  <string name="cpp_clear_history_message">All history will be cleared.</string>
+  <string name="cpp_clear_history">Clear</string>
+  <string name="cpp_new_in_version">New in %1$s version</string>
+  <string name="cpp_release_notes_choose_theme">Do you want to try new Material themes? Choose them from the list:</string>
 </resources>

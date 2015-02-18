@@ -4,25 +4,17 @@
 <resources>
   <string name="c_app_name">Calculator++</string>
   <string name="c_app_name_on_screen">Calculator++ (ウィンドウモード)</string>
-  <string name="c_app_icon_name">Calc++</string>
   <string name="c_app_settings">設定</string>
-  <string name="c_syntax_error">エラー</string>
   <string name="c_result_copied">計算結果をクリップボードにコピーしました！</string>
   <string name="c_settings">設定</string>
   <string name="c_help">ヘルプ</string>
   <string name="c_vars_and_constants">変数と定数</string>
-  <string name="c_prefs_main_category">メイン設定</string>
   <string name="c_prefs_calculations_category">計算の設定</string>
   <string name="c_prefs_appearance_category">外観の設定</string>
   <string name="c_prefs_other_category">その他の設定</string>
-  <string name="c_prefs_drag_button_category">ドラッグボタンの設定</string>
-  <string name="c_down">下</string>
-  <string name="c_up">上</string>
-  <string name="c_restart">再開</string>
   <string name="c_undo">元に戻す</string>
   <string name="c_redo">やり直し</string>
   <string name="c_clear">C</string>
-  <string name="c_paste">貼り付け</string>
   <string name="c_vars">変数</string>
   <string name="c_copy">コピー</string>
   <string name="c_plot">グラフをプロット</string>
@@ -38,7 +30,6 @@
   <string name="p_calc_max_calculation_time_title">計算時間の限界値</string>
   <string name="p_calc_max_calculation_time_summary">指定した限界を超えて計算が続いた場合 - エラーを表示して計算を中止します</string>
   <string name="c_exit">終了</string>
-  <string name="c_add">追加</string>
   <string name="c_cancel">取消</string>
   <string name="c_save">保存</string>
   <string name="c_remove">削除</string>
@@ -55,14 +46,9 @@
   <string name="c_var_name_clashes">変数名が関数名とかぶっています</string>
   <string name="c_var_already_exists">同じ名前の変数がすでに存在しています!</string>
   <string name="c_name_is_not_valid">定数の名前が正しくありません: 名前は文字で始める必要があり、文字、数字、アンダースコアを含めることができます。</string>
-  <string name="c_sys_var_cannot_be_changed">システム変数を変更することはできません!</string>
   <string name="c_calc_editor_hint">式を入力してください</string>
-  <string name="c_press_to_copy">押すとコピーします</string>
-  <string name="c_continue">続行</string>
   <string name="c_history">履歴</string>
   <string name="c_history_button">M</string>
-  <string name="c_history_is_empty">履歴はありません!</string>
-  <string name="c_app_history">履歴</string>
   <string name="c_char_is_not_accepted">文字\'%s\'は変数名として利用できません!</string>
   <string name="c_calc_angle_units">現在の角度の単位</string>
   <string name="p_deg">度</string>
@@ -77,18 +63,15 @@
   <string name="p_oct">8進法</string>
   <string name="p_bin">2進法</string>
   <string name="c_calc_theme">テーマ</string>
-  <string name="p_default_theme">グレー</string>
-  <string name="p_violet_theme">バイオレット</string>
-  <string name="p_light_blue_theme">ライトブルー</string>
   <string name="p_metro_blue_theme">メトロブルー</string>
   <string name="p_metro_green_theme">メトログリーン</string>
   <string name="p_metro_purple_theme">メトロパープル</string>
+  <string name="p_material_theme">Material</string>
+  <string name="p_material_light_theme">Material Light</string>
   <string name="c_calc_result_precision_summary">計算結果の有効桁数(計算はこの設定に関係なく最大精度で行われます)</string>
   <string name="c_calc_color_display_summary">電卓エディタの色とスタイルを切り替えます</string>
   <string name="c_calc_theme_summary">電卓のテーマを設定します</string>
-  <string name="c_clear_history">履歴のクリア</string>
   <string name="c_toggle_datetime">日付の表示/非表示</string>
-  <string name="c_simplify_instead_of_numeric">次の定数は定義されていません: {0}</string>
   <string name="p_grouping_separator_no">区切り記号なし</string>
   <string name="p_grouping_separator_apostrophe">アポストロフィ (\')</string>
   <string name="p_grouping_separator_space">スペース( )</string>
@@ -97,7 +80,6 @@
   <string name="c_calc_multiplication_sign">掛け算の記号</string>
   <string name="c_calc_multiplication_sign_summary">掛け算の記号を設定します</string>
   <string name="c_calc_layout">レイアウト</string>
-  <string name="p_layout_cellphone">科学 (携帯)</string>
   <string name="p_layout_calculator">科学</string>
   <string name="p_layout_calculator_mobile">科学(大きなボタン)</string>
   <string name="p_layout_simple">シンプル</string>
@@ -105,31 +87,22 @@
   <string name="c_calc_layout_summary">ボタンのレイアウトを設定します</string>
   <string name="c_calc_haptic_feedback_title">入力時バイブ</string>
   <string name="c_calc_haptic_feedback_summary">ボタンを押した時のバイブレーションの設定をします</string>
+  <string name="p_calc_haptic_feedback_strength_disabled">Disabled</string>
   <string name="p_calc_haptic_feedback_strength_short">短め</string>
   <string name="p_calc_haptic_feedback_strength_middle">中</string>
   <string name="p_calc_haptic_feedback_strength_long">長め</string>
-  <string name="p_calc_haptic_feedback_duration_title">入力時バイブの長さ</string>
-  <string name="p_calc_haptic_feedback_duration_summary">ボタンを押した時のバイブレーションの長さを設定します</string>
   <string name="empty_var_error">空の定数は作成できません!
 </string>
   <string name="not_valid_result">現在の結果が正しくありません!</string>
   <string name="c_plot_graph">グラフ</string>
   <string name="c_min_x_value">ここから</string>
   <string name="c_max_x_value">ここまで</string>
-  <string name="c_swipe_distance">ボタンのスワイプ距離</string>
-  <string name="c_swipe_distance_summary">スワイプアクションの際のボタンをどれだけスワイプするかの設定をします</string>
-  <string name="c_comment">コメント</string>
-  <string name="c_history_item_saved">保存しました</string>
-  <string name="c_history_item_not_saved">保存されていません</string>
   <string name="c_expression_copied">式をクリップボードにコピーしました!</string>
-  <string name="c_history_item_status">ステータス:</string>
-  <string name="c_history_item_comment">コメント:</string>
   <string name="c_use">使う</string>
   <string name="c_use_short">使う</string>
   <string name="c_copy_expression">式をコピー</string>
   <string name="c_copy_result">結果をコピー</string>
   <string name="c_history_expression">値</string>
-  <string name="c_history_item_already_saved">保存されました(\'保存された履歴\'を参照してください)</string>
   <string name="c_history_comment">コメント</string>
   <string name="c_save_history">履歴を保存</string>
   <string name="c_edit_history">履歴を編集</string>
@@ -143,7 +116,6 @@
   <string name="c_copy_description">説明をコピー</string>
   <string name="c_copy_value">値のコピー</string>
   <string name="c_first_start_text">Calculator++をお選びいただきありがとうございます!\n\nCalculator++は日々の計算に使える強力なツールです。</string>
-  <string name="c_first_start_text_title">ようこそ</string>
   <string name="c_calc_show_release_notes_title">リリースノートを表示します</string>
   <string name="c_calc_show_release_notes_summary">新しいバージョンに更新した際にリリースノートを表示するかどうか設定します</string>
   <string name="c_calc_use_back_button_as_prev_summary">戻るボタンの振る舞いを定義します</string>
@@ -156,18 +128,11 @@
   <string name="c_calc_ad_free_title">プロジェクトを支援します</string>
   <string name="c_calc_ad_free_summary">広告を削除</string>
   <string name="c_calc_already_purchased">広告削除オプションはすでに購入されています!</string>
-  <string name="c_calc_purchasing">購入しています&#8230;</string>
-  <string name="c_calc_clearing">クリア中&#8230;</string>
-  <string name="c_feedback_title">フィードバック</string>
   <string name="c_feedback_text">Calculator++をお使いいただきありがとうございます。 \n
 		アプリに対してのあなたの意見は私達にとって非常に有用なものとなります。\n\n
 		Calculator++を<a href="https://market.android.com/details?id=org.solovyev.android.calculator">
 			Google Play</a>\nで評価し、\n<a href="http://facebook.com/calculatorpp">Facebook</a>\nでアプリケーションに関するコメントを残してください\n
 		
-	</string>
-  <string name="c_notespp_announce_text">お知らせ - <a href="https://play.google.com/store/apps/details?id=org.solovyev.android.notes">Notes++</a>というアプリを公開しました。\n
-		もし素早く簡単にノートを取る方法に興味がお有りであれば、
-		<a href="https://play.google.com/store/apps/details?id=org.solovyev.android.notes">こちら</a>でNotes++を試してみてください!
 	</string>
   <string name="c_angle_units_changed_to">角度の単位は\'%s\'に変更されました!</string>
   <string name="c_numeral_base_changed_to">進法が\'%s\'に変更されました!</string>
@@ -181,19 +146,7 @@
   <string name="other">その他</string>
   <string name="derivatives">微分・積分</string>
   <string name="crashed">Calculator++はクラッシュしました&#8230;</string>
-  <string name="crash_dialog_title">Calculator++クラッシュレポート</string>
-  <string name="crash_dialog_text">		申し訳ありませんが、Calculator++はクラッシュしました。\n\n
-		この問題を解決するためには、情報が必要です。クラッシュレポートをメールにて送っていただくことを非常に強くおすすめします。
-		(\'Ok\'ボタンを押すと新しいウィンドウが開き、送信しようとしているすべてのデータを確認することができます)\n\n
-		クラッシュレポートを送信してもよろしいでしょうか?
-	</string>
   <string name="prefs_graph_screen_title">グラフの設定</string>
-  <string name="prefs_graph_interpolate_function">関数グラフの補完</string>
-  <string name="prefs_graph_interpolate_function_summary">チェックすると関数グラフの描写にキュービック補間法が利用されます</string>
-  <string name="prefs_graph_real_color_title">関数グラフの実数部分の色</string>
-  <string name="prefs_graph_real_color_summary">関数グラフの実数部分の色を設定します</string>
-  <string name="prefs_graph_imag_color_title">関数グラフの虚数部の色</string>
-  <string name="prefs_graph_imag_color_summary">関数グラフの虚数部分の色を設定します</string>
   <string name="p_white_line_color">白</string>
   <string name="p_grey_line_color">グレー</string>
   <string name="p_red_line_color">赤</string>
@@ -213,7 +166,6 @@
   <string name="empty_function_error">空の関数を作成することはできません！</string>
   <string name="do_not_show_messages_in_session">次のセッションまでこのメッセージを表示しません</string>
   <string name="calculation_messages_dialog_title">Calculator++警告</string>
-  <string name="arithmetic_error_while_plot">プロット中に算術エラーが発生しました: %s</string>
   <string name="ok">OK</string>
   <string name="p_show_calculation_messages_dialog_title">ダイアログで計算メッセージを表示します</string>
   <string name="p_show_calculation_messages_dialog_summary">有効にすると、計算中に何かメッセージが発生した場合、ダイアログが表示されます</string>
@@ -235,7 +187,6 @@
   <string name="prefs_onscreen_start_on_boot_summary">有効にするとCalculator++はデバイスの起動時に通知バーに自動で現れます</string>
   <string name="prefs_onscreen_show_app_icon_title">ウィンドウモードのアイコンを表示(再起動が必要)</string>
   <string name="prefs_onscreen_show_app_icon_summary">有効にするとアプリケーションのリストに2つ目のアイコンを表示します</string>
-  <string name="cpp_onscreen_remove_icon_message">２つ目のアイコンは設定から、もしくは次へボタンを押すことでアプリのリストから取り除くことができます</string>
   <string name="cpp_this_change_may_require_reboot">この変更は再起動を必要とします</string>
   <string name="cpp_plot_2d">2D プロット</string>
   <string name="cpp_plot_3d">3D プロット</string>
@@ -246,7 +197,7 @@
   <string name="cpp_color_map_line_color_type">カラーマップ (3Dのみ)</string>
   <string name="cpp_solid_line_style">実線 (-----)</string>
   <string name="cpp_dashed_line_style">破線 (- - -)</string>
-  <string name="cpp_dotted_line_style">点線 (...)</string>
+  <string name="cpp_dotted_line_style">点線 (. . .)</string>
   <string name="cpp_dash_dotted_line_style">ドット破線 (-.-.-）</string>
   <string name="cpp_plotter">関数プロッター</string>
   <string name="cpp_plot_screenshot">スクリーンショットを撮る</string>
@@ -279,10 +230,11 @@
 		 \'続ける\'を選択すると、Google Playストアに接続され、支払いを行うことが出来ます。
 	</string>
   <string name="cpp_purchase_title">購入</string>
-  <string name="cpp_purchase_thank_you_text">アプリを支援いだだき、ありがとうございました!\n\nアプリが購入したという情報を知らされるまでしばらくかかります。購入情報はいつでもあなたのGoogleアカウントで確認できます。\n
-		もし問題やご質問等ございましたら、お気軽に直接私にご連絡ください。(連絡先は
-		メイン-&gt;メニュー-&gt;アプリについて にあります。)
-	</string>
   <string name="cpp_var_show_greek_keyboard">ギリシャ語の文字を表示します。</string>
   <string name="cpp_var_hide_greek_keyboard">ギリシャ文字を非表示します。</string>
+  <string name="cpp_clear_history_title">Clear history?</string>
+  <string name="cpp_clear_history_message">All history will be cleared.</string>
+  <string name="cpp_clear_history">Clear</string>
+  <string name="cpp_new_in_version">New in %1$s version</string>
+  <string name="cpp_release_notes_choose_theme">Do you want to try new Material themes? Choose them from the list:</string>
 </resources>
