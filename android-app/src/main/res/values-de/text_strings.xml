@@ -131,7 +131,7 @@ Google Play</a>,\nschreiben Sie einen Kommentar oder\ndiskutieren Sie die Anwend
   <string name="c_angle_units_changed_to">Winkeleinheiten zu \'%s\' geändert!</string>
   <string name="c_numeral_base_changed_to">Numerische Basis zu \'%s\' geändert!</string>
   <string name="c_conversion_tool">Umrechnungstool</string>
-  <string name="c_convert">Umrechnen in...</string>
+  <string name="c_convert">Umrechnen in&#8230;</string>
   <string name="convert_to_hex">Umrechnen in Hex</string>
   <string name="convert_to_bin">Umrechnen in Bin</string>
   <string name="convert_to_dec">Umrechnen in Dez</string>
@@ -139,7 +139,7 @@ Google Play</a>,\nschreiben Sie einen Kommentar oder\ndiskutieren Sie die Anwend
   <string name="result">Ergebnis</string>
   <string name="other">Andere</string>
   <string name="derivatives">Ableitungen/Integrale</string>
-  <string name="crashed">Calculator++ ist abgestürzt...</string>
+  <string name="crashed">Calculator++ ist abgestürzt&#8230;</string>
   <string name="prefs_graph_screen_title">Grapheinstellungen</string>
   <string name="p_white_line_color">Weiß</string>
   <string name="p_grey_line_color">Grau</string>
