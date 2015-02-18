@@ -49,7 +49,7 @@
   <string name="c_calc_editor_hint">Introducir nuevo cálculo</string>
   <string name="c_history">Historial</string>
   <string name="c_history_button">M</string>
-  <string name="c_char_is_not_accepted">El caracter \'%s\' no es aceptado como variable!</string>
+  <string name="c_char_is_not_accepted">El carácter \'%s\' no es aceptado como variable!</string>
   <string name="c_calc_angle_units">Unidades de Ángulos</string>
   <string name="p_deg">Grados</string>
   <string name="p_rad">Radianes</string>
