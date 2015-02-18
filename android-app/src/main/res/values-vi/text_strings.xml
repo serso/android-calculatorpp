@@ -4,25 +4,17 @@
 <resources>
   <string name="c_app_name">Máy tính ++</string>
   <string name="c_app_name_on_screen">Máy tính ++ (chế độ cửa sổ)</string>
-  <string name="c_app_icon_name">Calc ++</string>
   <string name="c_app_settings">Cài đặt</string>
-  <string name="c_syntax_error">Lỗi</string>
   <string name="c_result_copied">Kết quả đã được sao chép vào clipboard!</string>
   <string name="c_settings">Cài đặt</string>
   <string name="c_help">Trợ giúp</string>
   <string name="c_vars_and_constants">Biến và hằng</string>
-  <string name="c_prefs_main_category">Cài đặt chính</string>
   <string name="c_prefs_calculations_category">Cài đặt tính toán</string>
   <string name="c_prefs_appearance_category">Cài đặt giao diện</string>
   <string name="c_prefs_other_category">Các cài đặt khác</string>
-  <string name="c_prefs_drag_button_category">Cài đặt chức năng Kéo nút</string>
-  <string name="c_down">Xuống</string>
-  <string name="c_up">Lên</string>
-  <string name="c_restart">Khởi động lại</string>
   <string name="c_undo">hoàn tác</string>
   <string name="c_redo">làm lại</string>
   <string name="c_clear">C</string>
-  <string name="c_paste">dán</string>
   <string name="c_vars">Các biến</string>
   <string name="c_copy">Copy</string>
   <string name="c_plot">Vẽ đồ thị</string>
@@ -36,7 +28,6 @@
   <string name="p_calc_max_calculation_time_title">Thời gian tính toán tối đa</string>
   <string name="p_calc_max_calculation_time_summary">Nếu tính toán vượt quá giới hạn được chỉ định - máy tính treo với lỗi</string>
   <string name="c_exit">Thoát</string>
-  <string name="c_add">Cộng</string>
   <string name="c_cancel">Hủy</string>
   <string name="c_save">Lưu</string>
   <string name="c_remove">Loại bỏ</string>
@@ -53,14 +44,9 @@
   <string name="c_var_name_clashes">Tên biến xung đột với tên hàm!</string>
   <string name="c_var_already_exists">Biến có cùng tên đã tồn tại!</string>
   <string name="c_name_is_not_valid">Tên của hằng số là không hợp lệ: tên phải bắt đầu với chữ cái, có thể chứa chữ cái, chữ số và gạch dưới.</string>
-  <string name="c_sys_var_cannot_be_changed">Biến hệ thống không được thay đổi!</string>
   <string name="c_calc_editor_hint">Nhập biểu thức mới</string>
-  <string name="c_press_to_copy">Bấm để sao chép</string>
-  <string name="c_continue">Tiếp tục</string>
   <string name="c_history">Nhật ký</string>
   <string name="c_history_button">M</string>
-  <string name="c_history_is_empty">Lịch sử rỗng!</string>
-  <string name="c_app_history">Lịch sử</string>
   <string name="c_char_is_not_accepted">Ký tự \'%s\' không được chấp nhận trong tên biến!</string>
   <string name="c_calc_angle_units">Đơn vị góc hiện tại</string>
   <string name="p_deg">Độ</string>
@@ -75,18 +61,15 @@
   <string name="p_oct">Hệ bát phân</string>
   <string name="p_bin">Nhị phân</string>
   <string name="c_calc_theme">Chủ đề</string>
-  <string name="p_default_theme">Xám</string>
-  <string name="p_violet_theme">Tím</string>
-  <string name="p_light_blue_theme">Xanh nhạt</string>
   <string name="p_metro_blue_theme">Metro Blue</string>
   <string name="p_metro_green_theme">Metro Green</string>
   <string name="p_metro_purple_theme">Metro Purple</string>
+  <string name="p_material_theme">Material</string>
+  <string name="p_material_light_theme">Material Light</string>
   <string name="c_calc_result_precision_summary">Độ chính xác của giá trị kết quả (Tất cả tính toán được thực hiện với độ chính xác tối đa bất kể giá trị của tùy chọn này)</string>
   <string name="c_calc_color_display_summary">Chuyển màu và phong cách trong các bộ biên tập</string>
   <string name="c_calc_theme_summary">Đặt chủ đề cho máy tính</string>
-  <string name="c_clear_history">Xóa lược sử</string>
   <string name="c_toggle_datetime">Hiển thị/ẩn ngày</string>
-  <string name="c_simplify_instead_of_numeric">Hằng số tiếp theo chưa xác định: {0}!</string>
   <string name="p_grouping_separator_no">Không tách nhóm</string>
   <string name="p_grouping_separator_apostrophe">Apostrophe (\')</string>
   <string name="p_grouping_separator_space">Space ( )</string>
@@ -95,7 +78,6 @@
   <string name="c_calc_multiplication_sign">Ký hiệu nhân</string>
   <string name="c_calc_multiplication_sign_summary">Thiết lập Ký hiệu nhân</string>
   <string name="c_calc_layout">Bố cục</string>
-  <string name="p_layout_cellphone">Khoa học (điện thoại di động)</string>
   <string name="p_layout_calculator">Khoa học</string>
   <string name="p_layout_calculator_mobile">Khoa học (nút lớn)</string>
   <string name="p_layout_simple">Đơn giản</string>
@@ -103,30 +85,21 @@
   <string name="c_calc_layout_summary">Bộ bố trí của nút</string>
   <string name="c_calc_haptic_feedback_title">Thông tin phản hồi Haptic</string>
   <string name="c_calc_haptic_feedback_summary">Chuyển rung khi bấm nút</string>
+  <string name="p_calc_haptic_feedback_strength_disabled">Disabled</string>
   <string name="p_calc_haptic_feedback_strength_short">Ngắn</string>
   <string name="p_calc_haptic_feedback_strength_middle">Trung bình</string>
   <string name="p_calc_haptic_feedback_strength_long">Dài</string>
-  <string name="p_calc_haptic_feedback_duration_title">Thời gianphản hồi Haptic</string>
-  <string name="p_calc_haptic_feedback_duration_summary">Thời gian rung động khi bấm nút</string>
   <string name="empty_var_error">Không thể tạo hằng số rỗng!</string>
   <string name="not_valid_result">Kết quả hiện tại là không hợp lệ!</string>
   <string name="c_plot_graph">Đồ thị</string>
   <string name="c_min_x_value">Từ</string>
   <string name="c_max_x_value">Đến</string>
-  <string name="c_swipe_distance">Khoảng cách trượt giữa các nút</string>
-  <string name="c_swipe_distance_summary">Thiết lập khoảng cách swipe cho nút có hỗ trợ swipe bổ sung</string>
-  <string name="c_comment">Ghi chú</string>
-  <string name="c_history_item_saved">Đã lưu</string>
-  <string name="c_history_item_not_saved">Chưa lưu</string>
   <string name="c_expression_copied">Biểu thức đã được sao chép vào clipboard!</string>
-  <string name="c_history_item_status">Trạng thái:</string>
-  <string name="c_history_item_comment">Ghi chú:</string>
   <string name="c_use">Sử dụng</string>
   <string name="c_use_short">Sử dụng</string>
   <string name="c_copy_expression">Sao chép biểu thức</string>
   <string name="c_copy_result">Sao chép kết quả</string>
   <string name="c_history_expression">Giá trị</string>
-  <string name="c_history_item_already_saved">Lưu (xem tab \'Lưu lịch sử\')</string>
   <string name="c_history_comment">Ghi chú</string>
   <string name="c_save_history">Lưu lịch sử</string>
   <string name="c_edit_history">Sửa đổi lịch sử</string>
@@ -139,7 +112,6 @@
   <string name="c_copy_description">Sao chép mô tả</string>
   <string name="c_copy_value">Sao chép giá trị</string>
   <string name="c_first_start_text">Cảm ơn bạn đã lựa chọn máy tính ++! \n\nCalculator++ là một công cụ mạnh mẽ cho việc thực hiện các tính toán hàng ngày.</string>
-  <string name="c_first_start_text_title">Chào mừng</string>
   <string name="c_calc_show_release_notes_title">Hiển thị ghi chú phát hành</string>
   <string name="c_calc_show_release_notes_summary">Xác định nếu cửa sổ bật lên ghi chú phát hành sẽ xuất hiện sau khi cập nhật lên phiên bản mới</string>
   <string name="c_calc_use_back_button_as_prev_summary">Xác định các hành vi của nút Back</string>
@@ -152,24 +124,15 @@
   <string name="c_calc_ad_free_title">Hỗ trợ dự án</string>
   <string name="c_calc_ad_free_summary">Và loại bỏ các quảng cáo</string>
   <string name="c_calc_already_purchased">Tùy chọn không có quảng cáo đã được mua!</string>
-  <string name="c_calc_purchasing">Mua...</string>
-  <string name="c_calc_clearing">Xóa&#8230;</string>
-  <string name="c_feedback_title">Thông tin phản hồi</string>
   <string name="c_feedback_text">Bạn đã sử dụng Máy tính ++ một thời gian \n
 và rất quan trọng nếu bạn đóng góp ý kiến cho chúng tôi về ứng dụng.\n\n
 Vui lòng đánh giá cho Máy tính ++ \non<a href="https://market.android.com/details?id=org.solovyev.android.calculator">
 Google Play</a>,\n để lại ý kiến hoặc \n thảo luận về ứng dụng \non
 		<a href="http://facebook.com/calculatorpp">Facebook</a></string>
-  <string name="c_notespp_announce_text">Good news - I have just released a new application for Android called
-		<a href="https://play.google.com/store/apps/details?id=org.solovyev.android.notes">Notes++</a>.\n
-		If you\'re interested in a fast and easy way of making notes please follow the
-		<a href="https://play.google.com/store/apps/details?id=org.solovyev.android.notes">link</a>
-		and try Notes++!
-	</string>
   <string name="c_angle_units_changed_to">Đơn vị góc đã được thay đổi sang \'%s\'!</string>
   <string name="c_numeral_base_changed_to">Hệ cơ số đã được thay đổi sang \'%s\'!</string>
   <string name="c_conversion_tool">Công cụ chuyển đổi</string>
-  <string name="c_convert">Chuyển đổi sang...</string>
+  <string name="c_convert">Chuyển đổi sang&#8230;</string>
   <string name="convert_to_hex">Chuyển đổi sang hex</string>
   <string name="convert_to_bin">Chuyển đổi sang bin</string>
   <string name="convert_to_dec">Chuyển đổi sang DEC</string>
@@ -177,18 +140,8 @@ Google Play</a>,\n để lại ý kiến hoặc \n thảo luận về ứng dụ
   <string name="result">Kết quả</string>
   <string name="other">Khác</string>
   <string name="derivatives">Vi phân/tích phân</string>
-  <string name="crashed">Máy tính ++ crashed...</string>
-  <string name="crash_dialog_title">Máy tính ++ báo cáo lỗi crashed</string>
-  <string name="crash_dialog_text">		Thật không may, Máy tính++ đã crashed.\n\n
-		Để xử lý, chúng tôi cần một vài thông tin. Khuyến cáo gửi báo cáo lỗi qua email (sau khi nhấn nút \'Ok\' bạn sẽ thấy tất cả thông tin được gửi trong cửa sổ mới).\n\n
-		Bạn có muốn gửi thông tin báo cáo lỗi?</string>
+  <string name="crashed">Máy tính ++ crashed&#8230;</string>
   <string name="prefs_graph_screen_title">Cài đặt biểu đồ</string>
-  <string name="prefs_graph_interpolate_function">Chức năng Nội suy của đồ thị</string>
-  <string name="prefs_graph_interpolate_function_summary">Nếu kiểm tra nội suy bậc ba sẽ được sử dụng trong chức năng đồ thị vẽ</string>
-  <string name="prefs_graph_real_color_title">Màu sắc đồ thị của phần thực của hàm</string>
-  <string name="prefs_graph_real_color_summary">Thiết lập Màu sắc đồ thị của phần thực của hàm</string>
-  <string name="prefs_graph_imag_color_title">Màu sắc đồ thị của phần ảo của hàm</string>
-  <string name="prefs_graph_imag_color_summary">Thiết lập Màu sắc đồ thị của phần ảo của hàm</string>
   <string name="p_white_line_color">Trắng</string>
   <string name="p_grey_line_color">Xám</string>
   <string name="p_red_line_color">Đỏ</string>
@@ -208,7 +161,6 @@ Google Play</a>,\n để lại ý kiến hoặc \n thảo luận về ứng dụ
   <string name="empty_function_error">Không thể tạo ra hàm rỗng!</string>
   <string name="do_not_show_messages_in_session">Không hiện thông báo này cho đến khi phiên tiếp theo</string>
   <string name="calculation_messages_dialog_title">Máy tính ++ cảnh báo</string>
-  <string name="arithmetic_error_while_plot">Lỗi số học xuất hiện khi vẽ: %s</string>
   <string name="ok">Ok</string>
   <string name="p_show_calculation_messages_dialog_title">Hiện các thông báo tính toán trong hộp thoại</string>
   <string name="p_show_calculation_messages_dialog_summary">Nếu bật lên bất kỳ thông báo nào xảy ra trong khi tính toán hộp thoại đặc biệt sẽ được hiển thị</string>
@@ -230,7 +182,6 @@ Google Play</a>,\n để lại ý kiến hoặc \n thảo luận về ứng dụ
   <string name="prefs_onscreen_start_on_boot_summary">Nếu bật máy tính ++ sẽ xuất hiện trong thanh thông báo sau khi khởi động thiết bị</string>
   <string name="prefs_onscreen_show_app_icon_title">Hiển thị biểu tượng riêng biệt (yêu cầu khởi động lại)</string>
   <string name="prefs_onscreen_show_app_icon_summary">Nếu bật biểu tượng thứ hai sẽ được hiển thị trong danh sách ứng dụng</string>
-  <string name="cpp_onscreen_remove_icon_message">Bạn có thể loại bỏ biểu tượng thứ hai trong danh sách ứng dụng từ cài đặt ứng dụng hoặc bằng cách nhấn nút tiếp theo</string>
   <string name="cpp_this_change_may_require_reboot">Sự thay đổi này có thể yêu cầu khởi động lại</string>
   <string name="cpp_plot_2d">Đồ thị 2D</string>
   <string name="cpp_plot_3d">Đồ thị 3D</string>
@@ -241,7 +192,7 @@ Google Play</a>,\n để lại ý kiến hoặc \n thảo luận về ứng dụ
   <string name="cpp_color_map_line_color_type">Bản đồ màu (duy nhất 3D)</string>
   <string name="cpp_solid_line_style">Đơn (-----)</string>
   <string name="cpp_dashed_line_style">Nét đưt (- - -)</string>
-  <string name="cpp_dotted_line_style">Chấm (...)</string>
+  <string name="cpp_dotted_line_style">Chấm (. . .)</string>
   <string name="cpp_dash_dotted_line_style">Chấm-gạch (-.-.-)</string>
   <string name="cpp_plotter">Chức năng plotter</string>
   <string name="cpp_plot_screenshot">Chụp ảnh màn hình</string>
@@ -273,8 +224,11 @@ Google Play</a>,\n để lại ý kiến hoặc \n thảo luận về ứng dụ
 Thông tin thanh toán được lưu trên các máy chủ Google với tài khoản Google của bạn và bạn dễ dàng sử dụng úng dụng này trên vài thiết bị.\n\n
 Qua việc click nút \'Tiếp tục\' bạn được chuyển qua úng dụng Google Play để thực hiện thanh toán.</string>
   <string name="cpp_purchase_title">Mua</string>
-  <string name="cpp_purchase_thank_you_text">Cảm ơn đã hỗ trợ ứng dụng này!\n\n Sẽ mất vài phút để ứng dụng xác nhận mua hàng. Bạn có thể kiểm tra thông tin mua trong tài khoản Google của bạn.\n
-Nếu có sự cố hay câu hỏi vui lòng liên hệ trực tiếp với tôi (thông tin liên hệ có sẵn trong Main-&gt;Menu-&gt;About)</string>
   <string name="cpp_var_show_greek_keyboard">Hiện các kí tự La Mã</string>
   <string name="cpp_var_hide_greek_keyboard">Ẩn các ký tự La Mã</string>
+  <string name="cpp_clear_history_title">Clear history?</string>
+  <string name="cpp_clear_history_message">All history will be cleared.</string>
+  <string name="cpp_clear_history">Clear</string>
+  <string name="cpp_new_in_version">New in %1$s version</string>
+  <string name="cpp_release_notes_choose_theme">Do you want to try new Material themes? Choose them from the list:</string>
 </resources>

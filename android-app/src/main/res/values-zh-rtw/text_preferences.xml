@@ -9,8 +9,8 @@
   <string name="c_hide_numeral_base_digits_title">隱藏其他進位制的數字</string>
   <string name="c_hide_numeral_base_digits_summary">如果啟用，其他進位制的數字將被隱藏
 	</string>
-  <string name="prefs_history_show_intermediate_calculations_title">歷史紀錄中顯示中間計算過程</string>
-  <string name="prefs_history_show_intermediate_calculations_summary">如果啟用，所有計算內容將會顯示在歷史紀錄頁面
+  <string name="prefs_history_show_intermediate_calculations_title">在歷史紀錄中顯示中間計算過程</string>
+  <string name="prefs_history_show_intermediate_calculations_summary">如果啟用，所有計算過程將會顯示在歷史紀錄頁面
 	</string>
   <string name="p_calculations_calculate_on_fly_title">輸入時同時計算結果</string>
   <string name="p_calculations_calculate_on_fly_summary">如果啟用，輸入時自動計算</string>

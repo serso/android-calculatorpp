@@ -4,14 +4,14 @@
 <resources>
   <string name="c_operators">運算子</string>
   <string name="c_op_description_mod">取 \'x\' 除以 \'y\' 的餘數</string>
-  <string name="c_op_description_sum">總和函數 \'f(i)\'，累加 \'i\' 從 \"從\" 到 \"到\"
+  <string name="c_op_description_sum">總和函數 \'f(i)\'，累加 \'i\' 從 \"from\" 到 \"to\"
 	</string>
-  <string name="c_op_description_product">乘積函數 \'f(i)\'，累乘 \'i\' 從 \"從\" 到 \"到\"
+  <string name="c_op_description_product">乘積函數 \'f(i)\'，累乘 \'i\' 從 \"from\" 到 \"to\"
 	</string>
   <string name="c_op_description_derivative">以 \'x\' 變數及順序 \'order\'（預設 = 1）表示函數 \'f(x)\' 的導數，並計算在 \'x_point\'（預設 = 等同 \'x\'）點的值
 	</string>
-  <string name="c_op_description_integral">以 \'x\' 表示函數 \'f(x)\' 的積分</string>
-  <string name="c_op_description_integral_ab">\'x\' 從 \'a\' 到 \'b\' 積分函數 \'f(x)\'
+  <string name="c_op_description_integral">以 \'x\' 變數表示函數 \'f(x)\' 的積分</string>
+  <string name="c_op_description_integral_ab">\'x\' 變數從 \'a\' 到 \'b\' 積分函數 \'f(x)\'
 	</string>
   <string name="c_pf_description_factorial">計算前面算式的階層</string>
   <string name="c_pf_description_double_factorial">計算前面算式的兩次階層</string>
@@ -21,7 +21,7 @@
 100 * 50% = 50\n
 100 + 100 * 50% * 50% = 125
 	</string>
-  <string name="c_pf_description_degree">轉換 Degrees 為 Radians。\n
+  <string name="c_pf_description_degree">轉換 度(Degrees) 為 弧度(Radians)。\n
 例如:\n
 268° = 4.67748\n
 30.21° = 0.52726
