@@ -6,7 +6,7 @@ dependencies {
     compile(group: 'com.google.guava', name: 'guava', version: '11.0.2') {
         exclude(module: 'jsr305')
     }
-    compile(group: 'org.solovyev', name: 'jscl', version: '1.0.9') {
+    compile(group: 'org.solovyev', name: 'jscl', version: '1.0.11') {
         exclude(module: 'xercesImpl')
     }
     compile(group: 'org.simpleframework', name: 'simple-xml', version: '2.6.1') {
