@@ -176,12 +176,6 @@
 			Google Play</a>,\n leave a comment or \ndiscuss the application \non
 		<a href="http://facebook.com/calculatorpp">Facebook</a>
 	</string>
-  <string name="c_notespp_announce_text">Good news - I have just released a new application for Android called
-		<a href="https://play.google.com/store/apps/details?id=org.solovyev.android.notes">Notes++</a>.\n
-		If you\'re interested in a fast and easy way of making notes please follow the
-		<a href="https://play.google.com/store/apps/details?id=org.solovyev.android.notes">link</a>
-		and try Notes++!
-	</string>
   <string name="c_angle_units_changed_to">Angle units have been changed to \'%s\'!</string>
   <string name="c_numeral_base_changed_to">Numeral base has been changed to \'%s\'!</string>
   <string name="c_conversion_tool">Conversion tool</string>
