@@ -197,7 +197,7 @@ Google Play</a>,\n nechte komentář nebo \ndiskutujte o aplikaci \nna
   <string name="cpp_dash_dotted_line_style">Čerchovaná (-.-.-)</string>
   <string name="cpp_plotter">Funkce vykreslování</string>
   <string name="cpp_plot_screenshot">Zachytit snímek obrazovky</string>
-  <string name="cpp_plot_screenshot_saved">Snímek obrazovky byl úspěšně uložen: %1$ s!</string>
+  <string name="cpp_plot_screenshot_saved">Snímek obrazovky byl úspěšně uložen: %1$s!</string>
   <string name="cpp_plot_unable_to_save_screenshot">Snímek obrazovky nelze uložit na SD kartu, protože není připojena. Prosím vložte SD kartu a opakujte akci!</string>
   <string name="cpp_plot_function_line_color_type">Typ barvy čáry</string>
   <string name="cpp_plot_function_line_color">Barva čáry</string>

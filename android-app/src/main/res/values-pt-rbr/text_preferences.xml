@@ -8,7 +8,7 @@
   <string name="c_show_equals_button_summary">Quando marcado, o botão igual será apresentado</string>
   <string name="c_hide_numeral_base_digits_title">Esconder dígitos de outros sistemas numéricos</string>
   <string name="c_hide_numeral_base_digits_summary">Se ligado, os números de outras bases numéricas serão ocultados</string>
-  <string name="prefs_history_show_intermediate_calculations_title">Mostrar os cálculos intermédios no historico</string>
+  <string name="prefs_history_show_intermediate_calculations_title">Mostrar os cálculos intermédios no histórico</string>
   <string name="prefs_history_show_intermediate_calculations_summary">Quando marcado, todos os calculos serão mostrados na tela de histórico</string>
   <string name="p_calculations_calculate_on_fly_title">Resultado é calculado durante a digitação</string>
   <string name="p_calculations_calculate_on_fly_summary">Quando marcado, os cálculos são feitos automaticamente durante a digitação</string>
