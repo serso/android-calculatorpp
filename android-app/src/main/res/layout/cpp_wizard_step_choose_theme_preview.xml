@@ -23,26 +23,29 @@
   -->
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-	a:layout_width="wrap_content"
-	a:layout_height="wrap_content"
-	a:background="?attr/cpp_main_bg"
-	a:minWidth="200dp"
-	a:orientation="vertical"
-	a:padding="3dp">
+			  xmlns:tools="http://schemas.android.com/tools"
+			  a:layout_width="wrap_content"
+			  a:layout_height="wrap_content"
+			  a:background="?attr/cpp_main_bg"
+			  a:minWidth="200dp"
+			  a:orientation="vertical"
+			  a:padding="3dp"
+			  tools:ignore="Overdraw">
 
 	<LinearLayout
 		a:layout_width="match_parent"
 		a:layout_height="wrap_content"
 		a:orientation="horizontal">
 
-		<include layout="@layout/cpp_app_button_equals_no_bg" />
+		<include layout="@layout/cpp_app_button_equals_no_bg"/>
 
 		<TextView
 			style="@style/CppText.Display"
 			a:layout_width="0dp"
 			a:layout_height="match_parent"
 			a:layout_weight="2"
-			a:text="3.1415" />
+			a:text="3.1415"
+			tools:ignore="HardcodedText"/>
 
 	</LinearLayout>
 
@@ -51,11 +54,11 @@
 		a:layout_height="wrap_content"
 		a:orientation="horizontal">
 
-		<include layout="@layout/cpp_app_button_0" />
+		<include layout="@layout/cpp_app_button_0"/>
 
-		<include layout="@layout/cpp_app_button_copy" />
+		<include layout="@layout/cpp_app_button_copy"/>
 
-		<include layout="@layout/cpp_app_button_plus" />
+		<include layout="@layout/cpp_app_button_plus"/>
 
 	</LinearLayout>
 
@@ -64,11 +67,11 @@
 		a:layout_height="wrap_content"
 		a:orientation="horizontal">
 
-		<include layout="@layout/cpp_app_button_1" />
+		<include layout="@layout/cpp_app_button_1"/>
 
-		<include layout="@layout/cpp_app_button_paste" />
+		<include layout="@layout/cpp_app_button_paste"/>
 
-		<include layout="@layout/cpp_app_button_minus" />
+		<include layout="@layout/cpp_app_button_minus"/>
 
 	</LinearLayout>
 </LinearLayout>
