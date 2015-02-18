@@ -3,25 +3,17 @@
 <resources>
   <string name="c_app_name">Calculator++</string>
   <string name="c_app_name_on_screen">Calculator++ (Window mode)</string>
-  <string name="c_app_icon_name">Calc++</string>
   <string name="c_app_settings">Ρυθμίσεις</string>
-  <string name="c_syntax_error">Σφάλμα</string>
   <string name="c_result_copied">Το αποτέλεσμα έχει αντιγραφεί στο clipboard!</string>
   <string name="c_settings">Ρυθμίσεις</string>
   <string name="c_help">Βοήθεια</string>
   <string name="c_vars_and_constants">Μεταβλητές και Σταθερές</string>
-  <string name="c_prefs_main_category">Κύριες ρυθμίσεις</string>
   <string name="c_prefs_calculations_category">Ρυθμίσεις υπολογισμών</string>
   <string name="c_prefs_appearance_category">Ρυθμίσεις εμφάνισης</string>
   <string name="c_prefs_other_category">Άλλες ρυθμίσεις</string>
-  <string name="c_prefs_drag_button_category">Ρυθμίσεις συρόμενων κουμπιών</string>
-  <string name="c_down">Κάτω</string>
-  <string name="c_up">Πάνω</string>
-  <string name="c_restart">Επανεκκίνηση</string>
   <string name="c_undo">αναίρεση</string>
   <string name="c_redo">επανάληψη</string>
   <string name="c_clear">Καθαρισμός</string>
-  <string name="c_paste">επικόλληση</string>
   <string name="c_vars">μεταβλητές</string>
   <string name="c_copy">Αντιγραφή</string>
   <string name="c_plot">Plot graph</string>
@@ -39,7 +31,6 @@
 		error
 	</string>
   <string name="c_exit">Έξοδος</string>
-  <string name="c_add">Προσθήκη</string>
   <string name="c_cancel">Ακύρωση</string>
   <string name="c_save">Αποθήκευση</string>
   <string name="c_remove">Αφαίρεση</string>
@@ -59,14 +50,9 @@
   <string name="c_name_is_not_valid">Το όνομα της σταθεράς δεν είναι έγκυρο: το όνομα πρέπει να ξεκινά με γράμμα, μπορεί να περιέχει γράμματα,
 		ψηφία και κάτω παύλες.
 	</string>
-  <string name="c_sys_var_cannot_be_changed">Η μεταβλητή συστήματος δεν μπορεί να αλλάξει!</string>
   <string name="c_calc_editor_hint">Εισάγετε νέα έκφραση</string>
-  <string name="c_press_to_copy">Πιέστε για αντιγραφή</string>
-  <string name="c_continue">Συνέχεια</string>
   <string name="c_history">Ιστορικό</string>
   <string name="c_history_button">Μ</string>
-  <string name="c_history_is_empty">Το ιστορικό είναι άδειο!</string>
-  <string name="c_app_history">Ιστορικό</string>
   <string name="c_char_is_not_accepted">Ο χαρακτήρας \'%s\' δεν είναι αποδεκτός σε όνομα μεταβλητής!</string>
   <string name="c_calc_angle_units">Τρέχουσες μονάδες γωνίας</string>
   <string name="p_deg">Μοίρες</string>
@@ -81,9 +67,6 @@
   <string name="p_oct">Οκταδικό</string>
   <string name="p_bin">Δυαδικό</string>
   <string name="c_calc_theme">Θέμα</string>
-  <string name="p_default_theme">Γκρι</string>
-  <string name="p_violet_theme">Βιολετί</string>
-  <string name="p_light_blue_theme">Ανοιχτό μπλε</string>
   <string name="p_metro_blue_theme">Metro Blue</string>
   <string name="p_metro_green_theme">Metro Green</string>
   <string name="p_metro_purple_theme">Metro Purple</string>
@@ -92,9 +75,7 @@
 	</string>
   <string name="c_calc_color_display_summary">Toggles colouring and styling in the calculator editor</string>
   <string name="c_calc_theme_summary">Ορίζει το θέμα της αριθμομηχανής</string>
-  <string name="c_clear_history">Εκκαθάριση ιστορικού</string>
   <string name="c_toggle_datetime">Εμφάνιση/απόκρυψη ημερομηνίας</string>
-  <string name="c_simplify_instead_of_numeric">Οι επόμενες σταθερές είναι μη καθορισμένες: {0}!</string>
   <string name="p_grouping_separator_no">Κανένα διαχωριστικό ομαδοποίησης</string>
   <string name="p_grouping_separator_apostrophe">Απόστροφος (\')</string>
   <string name="p_grouping_separator_space">Κενό ( )</string>
@@ -103,7 +84,6 @@
   <string name="c_calc_multiplication_sign">Σύμβολο πολλαπλασιασμού</string>
   <string name="c_calc_multiplication_sign_summary">Ορίζει το σύμβολο του πολλαπλασιασμού</string>
   <string name="c_calc_layout">Layout</string>
-  <string name="p_layout_cellphone">Scientific (cellphone)</string>
   <string name="p_layout_calculator">Scientific</string>
   <string name="p_layout_calculator_mobile">Scientific (Big buttons)</string>
   <string name="p_layout_simple">Simple</string>
@@ -114,28 +94,17 @@
   <string name="p_calc_haptic_feedback_strength_short">Short</string>
   <string name="p_calc_haptic_feedback_strength_middle">Middle</string>
   <string name="p_calc_haptic_feedback_strength_long">Long</string>
-  <string name="p_calc_haptic_feedback_duration_title">Haptic feedback duration</string>
-  <string name="p_calc_haptic_feedback_duration_summary">Duration vibration on button click</string>
   <string name="empty_var_error">Unable to create empty constant!</string>
   <string name="not_valid_result">Current result is not valid!</string>
   <string name="c_plot_graph">Graph</string>
   <string name="c_min_x_value">From</string>
   <string name="c_max_x_value">To</string>
-  <string name="c_swipe_distance">Swipe distance for buttons</string>
-  <string name="c_swipe_distance_summary">Sets swipe distance for buttons that supports additional swipe actions
-	</string>
-  <string name="c_comment">Comment</string>
-  <string name="c_history_item_saved">Saved</string>
-  <string name="c_history_item_not_saved">Not saved</string>
   <string name="c_expression_copied">Expression copied to the clipboard!</string>
-  <string name="c_history_item_status">Status:</string>
-  <string name="c_history_item_comment">Comment:</string>
   <string name="c_use">Use</string>
   <string name="c_use_short">Use</string>
   <string name="c_copy_expression">Copy expression</string>
   <string name="c_copy_result">Copy result</string>
   <string name="c_history_expression">Value</string>
-  <string name="c_history_item_already_saved">Saved (see \'Saved history\' tab)</string>
   <string name="c_history_comment">Comment</string>
   <string name="c_save_history">Save history</string>
   <string name="c_edit_history">Modify history</string>
@@ -150,7 +119,6 @@
   <string name="c_first_start_text">Thank you for choosing Calculator++!\n\nCalculator++ is a powerful tool for making
 		everyday calculations.
 	</string>
-  <string name="c_first_start_text_title">Welcome</string>
   <string name="c_calc_show_release_notes_title">Show release notes</string>
   <string name="c_calc_show_release_notes_summary">Defines if release notes popup window should appear after update to
 		the new version
@@ -167,9 +135,6 @@
   <string name="c_calc_ad_free_title">Support the project</string>
   <string name="c_calc_ad_free_summary">And remove the advertisement</string>
   <string name="c_calc_already_purchased">Ad free option has been already purchased!</string>
-  <string name="c_calc_purchasing">Purchasing…</string>
-  <string name="c_calc_clearing">Clearing…</string>
-  <string name="c_feedback_title">Feedback</string>
   <string name="c_feedback_text">You have been using Calculator++ for some time \n
 		and it\'s important for us to know your opinion about application.\n\n
 		Please rate Calculator++ \non<a href="https://market.android.com/details?id=org.solovyev.android.calculator">
@@ -188,21 +153,7 @@
   <string name="other">Other</string>
   <string name="derivatives">Derivatives/Integrals</string>
   <string name="crashed">Calculator++ has crashed…</string>
-  <string name="crash_dialog_title">Calculator++ crash report</string>
-  <string name="crash_dialog_text">		Unfortunately, Calculator++ has crashed.\n\n
-		In order to fix the problem we need some information about it. It\'s highly recommended to send a crash report via
-		email (after pressing \'Ok\' button you will see all sent data in the new window).\n\n
-		Do you want to send a crash report?
-	</string>
   <string name="prefs_graph_screen_title">Graph settings</string>
-  <string name="prefs_graph_interpolate_function">Interpolate function\'s graph</string>
-  <string name="prefs_graph_interpolate_function_summary">If checked cubic interpolation will be used in function
-		graph drawing
-	</string>
-  <string name="prefs_graph_real_color_title">Color of real part of functions graph</string>
-  <string name="prefs_graph_real_color_summary">Sets color of real part functions graph</string>
-  <string name="prefs_graph_imag_color_title">Color of imaginary part of functions graph</string>
-  <string name="prefs_graph_imag_color_summary">Sets color of imaginary part functions graph</string>
   <string name="p_white_line_color">White</string>
   <string name="p_grey_line_color">Grey</string>
   <string name="p_red_line_color">Red</string>
@@ -224,7 +175,6 @@
   <string name="empty_function_error">Unable to create empty function!</string>
   <string name="do_not_show_messages_in_session">Do not show this message until next session</string>
   <string name="calculation_messages_dialog_title">Calculator++ warning</string>
-  <string name="arithmetic_error_while_plot">Arithmetic error occurred while plotting: %s</string>
   <string name="ok">OK</string>
   <string name="p_show_calculation_messages_dialog_title">Show calculation messages in dialog</string>
   <string name="p_show_calculation_messages_dialog_summary">If turned on if any message occurred while calculations
@@ -254,9 +204,6 @@
 	</string>
   <string name="prefs_onscreen_show_app_icon_title">Show separate icon (require reboot)</string>
   <string name="prefs_onscreen_show_app_icon_summary">If turned on second icon will be shown in applications\' list
-	</string>
-  <string name="cpp_onscreen_remove_icon_message">You can remove second icon in applications\' list from application
-		settings or by pressing the next button
 	</string>
   <string name="cpp_this_change_may_require_reboot">This change may require reboot</string>
   <string name="cpp_plot_2d">2D plot</string>
@@ -305,10 +252,4 @@
 		By clicking \'Continue\' button you will be redirected to the Google Play app to make the payment.
 	</string>
   <string name="cpp_purchase_title">Purchase</string>
-  <string name="cpp_purchase_thank_you_text">Thank you for supporting this application!\n\n It might take several
-		minutes until the app will be informed about the purchase. You can always check the information about the purchase in
-		your Google Account.\n
-		If you have any problems or questions feel free to contact me directly (contacts are available in
-		Main-&gt;Menu-&gt;About)
-	</string>
 </resources>
