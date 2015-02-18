@@ -20,7 +20,9 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<resources>
+<resources
+	xmlns:tools="http://schemas.android.com/tools"
+	tools:ignore="MissingTranslation">
 
 	<string name="c_release_notes_for_4_version" translatable="false">1.1.4</string>
 	<string name="c_release_notes_for_4">
