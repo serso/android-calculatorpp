@@ -262,16 +262,6 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
 					});
 				}
 				break;
-			case show_wiki_description:
-				App.getUiThreadExecutor().execute(new Runnable() {
-					@Override
-					public void run() {
-						final Intent intent = new Intent(context, CalculatorWikiActivity.class);
-						Android.addIntentFlags(intent, false, context);
-						context.startActivity(intent);
-					}
-				});
-				break;
 			case show_message_dialog:
 				final DialogData dialogData = (DialogData) data;
 				if (dialogData != null) {

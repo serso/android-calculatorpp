@@ -27,9 +27,9 @@
 		<item name="android:colorPrimary">@color/cpp_metro_button</item>
 		<item name="colorPrimaryDark">@color/cpp_metro_button_dark</item>
 		<item name="android:colorPrimaryDark">@color/cpp_metro_button_dark</item>
-		<item name="colorAccent">@color/cpp_wizard_primary</item>
-		<item name="android:colorAccent">@color/cpp_wizard_primary</item>
-		<item name="android:colorEdgeEffect">@color/cpp_wizard_overscroll</item>
+		<item name="colorAccent">@color/cpp_material_accent</item>
+		<item name="android:colorAccent">@color/cpp_material_accent</item>
+		<item name="android:colorEdgeEffect">@color/cpp_material_accent</item>
 		<item name="android:statusBarColor">@color/cpp_status_bar</item>
 
 		<item name="android:windowBackground">@color/cpp_main_bg</item>
@@ -49,9 +49,9 @@
 		<item name="android:colorPrimary">@color/cpp_metro_button</item>
 		<item name="colorPrimaryDark">@color/cpp_metro_button_dark</item>
 		<item name="android:colorPrimaryDark">@color/cpp_metro_button_dark</item>
-		<item name="colorAccent">@color/cpp_wizard_primary</item>
-		<item name="android:colorAccent">@color/cpp_wizard_primary</item>
-		<item name="android:colorEdgeEffect">@color/cpp_wizard_overscroll</item>
+		<item name="colorAccent">@color/cpp_material_accent</item>
+		<item name="android:colorAccent">@color/cpp_material_accent</item>
+		<item name="android:colorEdgeEffect">@color/cpp_material_accent</item>
 		<item name="android:statusBarColor">@color/cpp_status_bar</item>
 
 		<item name="android:windowNoTitle">false</item>

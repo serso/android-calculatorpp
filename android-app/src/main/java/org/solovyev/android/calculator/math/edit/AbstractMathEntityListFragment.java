@@ -60,7 +60,6 @@ import org.solovyev.common.text.Strings;
 
 import android.support.v4.app.ListFragment;
 
-import static org.solovyev.android.calculator.CalculatorEventType.show_wiki_description;
 
 /**
  * User: serso
@@ -275,14 +274,6 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
 			} else {
 				description.setVisibility(View.GONE);
 			}
-
-			final View descriptionButton = result.findViewById(R.id.math_entity_description_imageview);
-			descriptionButton.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					Locator.getInstance().getCalculator().fireCalculatorEvent(show_wiki_description, null);
-				}
-			});
 		}
 	}
 

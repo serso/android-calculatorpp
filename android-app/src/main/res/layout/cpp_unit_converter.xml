@@ -79,15 +79,6 @@
 		a:paddingBottom="10dp">
 
 		<Button
-			a:id="@+id/unit_converter_ok_button"
-			a:layout_width="wrap_content"
-			a:layout_height="wrap_content"
-			a:paddingLeft="15dp"
-			a:paddingRight="15dp"
-			a:singleLine="true"
-			a:text="@android:string/ok" />
-
-		<Button
 			a:id="@+id/unit_converter_copy_button"
 			a:layout_width="wrap_content"
 			a:layout_height="wrap_content"
@@ -104,6 +95,15 @@
 			a:paddingLeft="15dp"
 			a:paddingRight="15dp"
 			a:singleLine="true" />
+
+		<Button
+			a:id="@+id/unit_converter_ok_button"
+			a:layout_width="wrap_content"
+			a:layout_height="wrap_content"
+			a:paddingLeft="15dp"
+			a:paddingRight="15dp"
+			a:singleLine="true"
+			a:text="@android:string/ok" />
 
 	</LinearLayout>
 

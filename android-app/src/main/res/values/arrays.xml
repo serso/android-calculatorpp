@@ -126,13 +126,6 @@
 		<item>@string/p_green_line_color</item>
 		<item>@string/p_grey_line_color</item>
 	</string-array>
-	<string-array name="cpp_plot_line_color_values" translatable="false">
-		<item>white</item>
-		<item>blue</item>
-		<item>red</item>
-		<item>green</item>
-		<item>grey</item>
-	</string-array>
 
 	<string-array name="cpp_modes">
 		<item>@string/cpp_wizard_mode_simple</item>
