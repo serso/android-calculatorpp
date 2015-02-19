@@ -52,7 +52,7 @@
 	<item
 		a:id="@+id/menu_plot_functions"
 		a:title="@string/cpp_plot_functions"
-		a:icon="@drawable/ab_menu"
+		a:icon="@drawable/ab_functions"
 		app:showAsAction="ifRoom" />
 
 	<item
