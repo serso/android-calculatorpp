@@ -36,9 +36,4 @@
 				a:title="@string/c_calc_use_back_button_as_prev_title"
 				a:defaultValue="false"/>
 
-		<Preference
-				a:key="@string/p_clear_billing_info_key"
-				a:summary="@string/c_clear_billing_info_summary"
-				a:title="@string/c_clear_billing_info_title"/>
-
 </PreferenceScreen>
