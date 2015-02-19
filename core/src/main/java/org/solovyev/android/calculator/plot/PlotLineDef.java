@@ -40,7 +40,7 @@ public class PlotLineDef {
 	*/
 
 	@Nonnull
-	private static final Float DEFAULT_LINE_WIDTH = 0f;
+	private static final Float DEFAULT_LINE_WIDTH = 2f;
 
 	private static final int WHITE = 0xFFFFFFFF;
 
