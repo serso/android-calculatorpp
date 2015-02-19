@@ -27,5 +27,5 @@ package org.solovyev.android.calculator.widget;
  * Date: 11/18/12
  * Time: 1:00 PM
  */
-public class CalculatorWidgetProvider extends AbstractCalculatorWidgetProvider {
+public class CalculatorWidgetProvider extends BaseCalculatorWidgetProvider {
 }

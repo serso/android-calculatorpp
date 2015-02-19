@@ -23,20 +23,25 @@
 package org.solovyev.android.calculator;
 
 import android.app.Application;
-import android.content.Context;
+import android.appwidget.AppWidgetManager;
+import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.preference.PreferenceManager;
-import android.text.TextUtils;
-import android.util.Log;
 
+import org.solovyev.android.Android;
 import org.solovyev.android.UiThreadExecutor;
 import org.solovyev.android.Views;
 import org.solovyev.android.calculator.ga.Ga;
 import org.solovyev.android.calculator.view.ScreenMetrics;
+import org.solovyev.android.calculator.widget.BaseCalculatorWidgetProvider;
+import org.solovyev.android.calculator.widget.CalculatorWidgetProvider;
+import org.solovyev.android.calculator.widget.CalculatorWidgetProvider3x4;
+import org.solovyev.android.calculator.widget.CalculatorWidgetProvider4x4;
+import org.solovyev.android.calculator.widget.CalculatorWidgetProvider4x5;
 import org.solovyev.android.checkout.*;
-import org.solovyev.android.view.VibratorContainer;
 import org.solovyev.common.listeners.JEvent;
 import org.solovyev.common.listeners.JEventListener;
 import org.solovyev.common.listeners.JEventListeners;
@@ -46,7 +51,9 @@ import org.solovyev.common.threads.DelayedExecutor;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.Executor;
 
 /**
@@ -62,14 +69,8 @@ import java.util.concurrent.Executor;
  * Before first usage this class must be initialized by calling {@link App#init(android.app.Application)} method (for example, from {@link android.app.Application#onCreate()})
  */
 public final class App {
-
-    /*
-	**********************************************************************
-    *
-    *                           FIELDS
-    *
-    **********************************************************************
-    */
+	@Nonnull
+	private static final List<Class<? extends BaseCalculatorWidgetProvider>> OLD_WIDGETS = Arrays.asList(CalculatorWidgetProvider.class, CalculatorWidgetProvider3x4.class, CalculatorWidgetProvider4x4.class, CalculatorWidgetProvider4x5.class);
 
 	@Nonnull
 	private static volatile Application application;
@@ -166,10 +167,31 @@ public final class App {
 			App.broadcaster = new CalculatorBroadcaster(application);
 			App.vibrator = new Vibrator(application, preferences);
 			App.screenMetrics = new ScreenMetrics(application);
+
+			final List<Class<? extends AppWidgetProvider>> oldNotUsedWidgetClasses = findNotUsedWidgets(application);
+			for (Class<? extends AppWidgetProvider> oldNotUsedWidgetClass : oldNotUsedWidgetClasses) {
+				Android.enableComponent(application, oldNotUsedWidgetClass, false);
+			}
+
 			App.initialized = true;
 		} else {
 			throw new IllegalStateException("Already initialized!");
 		}
+	}
+
+	@Nonnull
+	private static List<Class<? extends AppWidgetProvider>> findNotUsedWidgets(@Nonnull Application application) {
+		final List<Class<? extends AppWidgetProvider>> result = new ArrayList<>();
+
+		final AppWidgetManager widgetManager = AppWidgetManager.getInstance(application);
+		for (Class<? extends AppWidgetProvider> widgetClass : OLD_WIDGETS) {
+			final int ids[] = widgetManager.getAppWidgetIds(new ComponentName(application, widgetClass));
+			if (ids == null || ids.length == 0) {
+				result.add(widgetClass);
+			}
+		}
+
+		return result;
 	}
 
 	private static void checkInit() {
