@@ -47,8 +47,6 @@
 	</string>
 	<string name="p_calc_use_back_button_as_prev" translatable="false">false</string>
 
-	<string name="p_clear_billing_info_key" translatable="false">clear_billing_info</string>
-
 	<string name="p_calc_show_release_notes_key" translatable="false">org.solovyev.android.calculator.CalculatorActivity_show_release_notes
 	</string>
 	<string name="p_calc_show_release_notes" translatable="false">true</string>

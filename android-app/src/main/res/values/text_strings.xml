@@ -116,8 +116,6 @@
   <string name="c_calc_show_release_notes_summary">Defines if release notes popup window should appear after update to the new version</string>
   <string name="c_calc_use_back_button_as_prev_summary">Defines the behaviour of the Back button</string>
   <string name="c_calc_use_back_button_as_prev_title">Use Back button for previous history</string>
-  <string name="c_clear_billing_info_summary">Purchase information will be reloaded from the server</string>
-  <string name="c_clear_billing_info_title">Update purchase information</string>
   <string name="c_warning">Warning</string>
   <string name="c_error">Error</string>
   <string name="c_billing_error">Billing is not supported: you must have Google Checkout account linked to your Google account and must be connected to the internet.</string>
