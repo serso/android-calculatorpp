@@ -16,7 +16,8 @@
 	<LinearLayout
 		a:layout_width="match_parent"
 		a:layout_height="0dp"
-		a:layout_weight="1">
+		a:layout_weight="1"
+		a:baselineAligned="false">
 
 		<include
 			layout="@layout/cpp_simple_button_equals"

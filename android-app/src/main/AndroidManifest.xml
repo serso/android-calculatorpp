@@ -56,7 +56,6 @@
 		<activity android:label="@string/c_operators" android:name=".math.edit.CalculatorOperatorsActivity"/>
 
 		<activity android:label="@string/c_vars_and_constants" android:name=".math.edit.CalculatorVarsActivity"/>
-		<activity android:name=".CalculatorWikiActivity"/>
 		<activity android:launchMode="singleTop" android:name=".wizard.WizardActivity" android:theme="@style/Cpp.Theme.Wizard">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"/>
