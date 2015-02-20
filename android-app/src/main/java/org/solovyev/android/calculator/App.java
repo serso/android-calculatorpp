@@ -169,8 +169,18 @@ public final class App {
 			App.screenMetrics = new ScreenMetrics(application);
 
 			final List<Class<? extends AppWidgetProvider>> oldNotUsedWidgetClasses = findNotUsedWidgets(application);
-			for (Class<? extends AppWidgetProvider> oldNotUsedWidgetClass : oldNotUsedWidgetClasses) {
-				Android.enableComponent(application, oldNotUsedWidgetClass, false);
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
+				for (Class<? extends AppWidgetProvider> oldNotUsedWidgetClass : oldNotUsedWidgetClasses) {
+					Android.enableComponent(application, oldNotUsedWidgetClass, false);
+				}
+			} else {
+				// smaller widgets should be still used for smaller screens
+				if (oldNotUsedWidgetClasses.contains(CalculatorWidgetProvider4x5.class)) {
+					Android.enableComponent(application, CalculatorWidgetProvider4x5.class, false);
+				}
+				if (oldNotUsedWidgetClasses.contains(CalculatorWidgetProvider4x4.class)) {
+					Android.enableComponent(application, CalculatorWidgetProvider4x4.class, false);
+				}
 			}
 
 			App.initialized = true;

@@ -122,7 +122,7 @@
 				<action android:name="org.solovyev.android.calculator.BUTTON_PRESSED"/>
 			</intent-filter>
 
-			<meta-data android:name="android.appwidget.provider" android:resource="@xml/calculator_widget_info"/>
+			<meta-data android:name="android.appwidget.provider" android:resource="@xml/calculator_widget"/>
 		</receiver>
 
 		<receiver android:icon="@drawable/ic_launcher" android:label="@string/c_app_widget_3x3_name" android:name=".widget.CalculatorWidgetProvider">
