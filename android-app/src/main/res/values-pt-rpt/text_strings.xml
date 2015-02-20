@@ -116,8 +116,6 @@
   <string name="c_calc_show_release_notes_summary">Define se a pop-up de notas de lançamento deve aparecer após a atualização para a nova versão</string>
   <string name="c_calc_use_back_button_as_prev_summary">Define o comportamento do botão Back</string>
   <string name="c_calc_use_back_button_as_prev_title">Usar o botão Voltar para histórico anterior</string>
-  <string name="c_clear_billing_info_summary">Informações de compra serão recarregadas do servidor</string>
-  <string name="c_clear_billing_info_title">Atualizar informações de compra</string>
   <string name="c_warning">Aviso</string>
   <string name="c_error">Erro</string>
   <string name="c_billing_error">Compras não suportadas: deve ter a conta no Google Checkout ligada à sua conta do Google e deve estar ligado à internet.</string>

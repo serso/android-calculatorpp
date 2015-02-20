@@ -4,8 +4,8 @@
 <resources>
   <string name="cpp_wizard_next">Avançar</string>
   <string name="cpp_wizard_back">Voltar</string>
-  <string name="cpp_wizard_finish">Terminar</string>
   <string name="cpp_wizard_start">Iniciar assistente de configuração</string>
+  <string name="cpp_wizard_finish">Concluído</string>
   <string name="cpp_wizard_layout_optimized">Otimizado</string>
   <string name="cpp_wizard_layout_big_buttons">Botões grandes</string>
   <string name="cpp_wizard_mode_simple">Simples</string>
@@ -15,14 +15,16 @@
   <string name="cpp_restart_wizard">Iniciar assistente de configuração</string>
   <string name="cpp_wizard_dragbutton_action_end">Excelente! Toque no botão mais uma vez para tentar novamente</string>
   <string name="cpp_wizard_dragbutton_action_center">Toque no botão abaixo uma vez para usar o 9</string>
-  <string name="cpp_wizard_dragbutton_action_up">Arraste do centro do botão para cima para usar o %</string>
+  <string name="cpp_wizard_dragbutton_action_up">Arraste do centro para o topo do botão para usar %</string>
   <string name="cpp_wizard_dragbutton_action_left">Arraste do centro do botão para a esquerda para usar o seno</string>
   <string name="cpp_wizard_dragbutton_action_down">Arraste do centro do botão para baixo para usar o ^2</string>
   <string name="cpp_wizard_welcome_title">Bem-vindo</string>
   <string name="cpp_wizard_layout_title">Escolha o layout</string>
   <string name="cpp_wizard_mode_title">Escolha o modo</string>
+  <string name="cpp_wizard_theme_title">Escolha o tema</string>
   <string name="cpp_wizard_onscreen_calculator_title">Calculadora em uma janela separada</string>
-  <string name="cpp_wizard_dragbutton_title">O básico do Drag Button</string>
+  <string name="cpp_wizard_dragbutton_title">Noções básicas dos botões</string>
+  <string name="cpp_wizard_final_done">O aplicativo está instalado e pronto para o uso.</string>
   <string name="cpp_wizard_final_title">Quase pronto!</string>
   <string name="cpp_wizard_final_free_and_opensource">Calculator++ é um programa gratuito e open-source: todos os recursos são gratuitos e o código-fonte pode ser encontrado em https://github.com/ </string>
   <string name="cpp_wizard_final_ways_to_help">Existem várias maneiras de você ajudar a melhorar este app: </string>
@@ -30,7 +32,9 @@
   <string name="cpp_wizard_final_translate">Traduzindo</string>
   <string name="cpp_wizard_final_contribute">Contribuindo com código-fonte</string>
   <string name="cpp_wizard_onscreen_description">A calculadora em janela separada permite que você faça cálculos enquanto estiver usando outros aplicativos no seu dispositivo</string>
-  <string name="cpp_wizard_onscreen_checkbox">Habilitar a calculadora em janela separada (um segundo ícone aparecerá na lista de aplicativos)</string>
+  <string name="cpp_wizard_onscreen_checkbox">Ativar</string>
   <string name="cpp_wizard_dragbutton_description">Drag button é uma funcionalidade exclusiva de Calculator++ que fornece acesso rápido às funções secundárias</string>
   <string name="cpp_wizard_finish_confirmation">Parar a configuração da aplicação?</string>
+  <string name="cpp_wizard_skip">Pular</string>
+  <string name="cpp_wizard_finish_confirmation_title">Terminar?</string>
 </resources>

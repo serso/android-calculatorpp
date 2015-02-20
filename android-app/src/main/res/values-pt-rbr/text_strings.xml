@@ -116,8 +116,6 @@
   <string name="c_calc_show_release_notes_summary">Define se a janela de pop-up \'notas de lançamento\' deve aparecer após as atualizações</string>
   <string name="c_calc_use_back_button_as_prev_summary">Define o comportamento do botão Voltar</string>
   <string name="c_calc_use_back_button_as_prev_title">Usar o botão Voltar para ver o histórico anterior</string>
-  <string name="c_clear_billing_info_summary">Informações de compra serão recarregadas do servidor</string>
-  <string name="c_clear_billing_info_title">Atualizar informações de compra</string>
   <string name="c_warning">Atenção</string>
   <string name="c_error">Erro</string>
   <string name="c_billing_error">Faturamento não é suportado: você deve ter uma conta no Google Checkout vinculada à sua conta do Google e deve estar conectado à Internet.  </string>

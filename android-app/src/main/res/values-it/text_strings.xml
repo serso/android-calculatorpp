@@ -123,8 +123,6 @@
   <string name="c_calc_show_release_notes_summary">Definisce se la finestra popup delle note di versione debba comparire dopo l\'aggiornamento alla nuova versione</string>
   <string name="c_calc_use_back_button_as_prev_summary">Definisce il comportamento del pulsante Indietro</string>
   <string name="c_calc_use_back_button_as_prev_title">Usa il pulsante indietro per la cronologia precedente</string>
-  <string name="c_clear_billing_info_summary">Le Informazioni sugli acquisti verranno scaricate nuovamente dal server</string>
-  <string name="c_clear_billing_info_title">Aggiornare le informazioni di acquisto</string>
   <string name="c_warning">Attenzione</string>
   <string name="c_error">Errore</string>
   <string name="c_billing_error">La fatturazione non è supportata: si deve avere un account Google Checkout collegato all\'account Google e si deve essere collegati ad internet.</string>
