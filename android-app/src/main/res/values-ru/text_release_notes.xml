@@ -273,7 +273,6 @@
 		6. Другие исправления и улучшения
 	</string>
 
-	<string name="c_release_notes_for_141_version" translatable="false">2.1.2</string>
 	<string name="c_release_notes_for_141">
 		★ Улучшен ввод жестами\n
 		★ Быстрое удаление текста при долгом нажатии кнопки "Удалить"\n
