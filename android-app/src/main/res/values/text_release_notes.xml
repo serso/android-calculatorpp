@@ -305,4 +305,12 @@
 		6. Other fixes
 	</string>
 
+	<string name="c_release_notes_for_141_version" translatable="false">2.1.2</string>
+	<string name="c_release_notes_for_141">
+		★ Improved button gesture detection\n
+		★ Fast text removal by long pressing "Erase" button\n
+		★ "Equals" button now copies result to the editor\n
+		★ Various bugfixes, stability and usability improvements
+	</string>
+
 </resources>
