@@ -30,6 +30,12 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
+import android.util.Log;
 
 import org.solovyev.android.Android;
 import org.solovyev.android.UiThreadExecutor;
@@ -302,5 +308,19 @@ public final class App {
 	@Nonnull
 	public static ScreenMetrics getScreenMetrics() {
 		return screenMetrics;
+	}
+
+	public static void showDialog(@Nonnull DialogFragment dialogFragment,
+								  @Nonnull String fragmentTag,
+								  @Nonnull FragmentManager fm) {
+		final FragmentTransaction ft = fm.beginTransaction();
+
+		Fragment prev = fm.findFragmentByTag(fragmentTag);
+		if (prev != null) {
+			ft.remove(prev);
+		}
+
+		// Create and show the dialog.
+		dialogFragment.show(ft, fragmentTag);
 	}
 }
