@@ -37,7 +37,6 @@ import jscl.math.function.IConstant;
 import org.solovyev.android.Views;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.model.Var;
-import org.solovyev.android.sherlock.AndroidSherlockUtils;
 import org.solovyev.common.text.Strings;
 
 import javax.annotation.Nonnull;
@@ -257,7 +256,7 @@ public class VarEditDialogFragment extends DialogFragment implements CalculatorE
 	*/
 
 	public static void showDialog(@Nonnull Input input, @Nonnull FragmentManager fm) {
-		AndroidSherlockUtils.showDialog(create(input), "constant-editor", fm);
+		App.showDialog(create(input), "constant-editor", fm);
 	}
 
 	public static class Input {
