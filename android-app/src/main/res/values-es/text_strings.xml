@@ -119,8 +119,6 @@
   <string name="c_calc_show_release_notes_summary">Establece si la ventana emergente de las notas de versión debe aparecer tras actualizar a una nueva versión</string>
   <string name="c_calc_use_back_button_as_prev_summary">Establece el comportamiento del botón \"Atrás\"</string>
   <string name="c_calc_use_back_button_as_prev_title">Utilice el botón \"Atrás\" para volver al historial</string>
-  <string name="c_clear_billing_info_summary">Se volverá a cargar la información de compra desde el servidor</string>
-  <string name="c_clear_billing_info_title">Actualizar la información de compra</string>
   <string name="c_warning">Advertencia</string>
   <string name="c_error">Error</string>
   <string name="c_billing_error">No se admite el método de pago: debes disponer de una cuenta de Google Checkout asociada a tu cuenta de Google, y debes estar conectado a internet.</string>

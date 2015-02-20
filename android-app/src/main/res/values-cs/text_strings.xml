@@ -116,8 +116,6 @@
   <string name="c_calc_show_release_notes_summary">Definuje jestli okno s poznámkami k nové verzi by se mělo objevit po aktualizaci na novou verzi</string>
   <string name="c_calc_use_back_button_as_prev_summary">Definuje chování tlačítka Zpět</string>
   <string name="c_calc_use_back_button_as_prev_title">Použijte tlačítko Zpět na předchozí v historii</string>
-  <string name="c_clear_billing_info_summary">Informace o platbě budou znovu načteny ze serveru</string>
-  <string name="c_clear_billing_info_title">Aktualizovat informace o platbě</string>
   <string name="c_warning">Upozornění</string>
   <string name="c_error">Chyba</string>
   <string name="c_billing_error">Účtování není podporováno: musíte mít Google Checkout účet spojený s vaším Google účtem a musíte být připojen k Internetu.</string>

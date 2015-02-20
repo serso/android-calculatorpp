@@ -116,8 +116,6 @@
   <string name="c_calc_show_release_notes_summary">Określa, czy okno z informacjami o wydaniu ma pojawić się po aktualizacji programu</string>
   <string name="c_calc_use_back_button_as_prev_summary">Określa zachowanie przycisku Wstecz</string>
   <string name="c_calc_use_back_button_as_prev_title">Użyj przycisku Wstecz do przywracania historii</string>
-  <string name="c_clear_billing_info_summary">Informacja o zakupie będzie ponownie pobrana z serwera</string>
-  <string name="c_clear_billing_info_title">Aktualizuj informację o zakupie</string>
   <string name="c_warning">Ostrzeżenie</string>
   <string name="c_error">Błąd</string>
   <string name="c_billing_error">Zakup nie jest możliwy: musisz posiadać konto Google Checkout połączone z kontem Google oraz musi być aktywne połączenie z Internetem.</string>

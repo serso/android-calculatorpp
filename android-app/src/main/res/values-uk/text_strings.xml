@@ -68,8 +68,8 @@
   <string name="p_metro_blue_theme">Метро Синя</string>
   <string name="p_metro_green_theme">Метро Зелена</string>
   <string name="p_metro_purple_theme">Метро Пурпурова</string>
-  <string name="p_material_theme">Material</string>
-  <string name="p_material_light_theme">Material Light</string>
+  <string name="p_material_theme">Матеріал</string>
+  <string name="p_material_light_theme">Світлий матеріал</string>
   <string name="c_calc_result_precision_summary">Точність відображення результату (усі обчислення проводяться максимально точно, незалежно від цього параметру)
 	</string>
   <string name="c_calc_color_display_summary">Увімкнути/вимкнути підсвітку у редакторі калькулятора</string>
@@ -90,7 +90,7 @@
   <string name="c_calc_layout_summary">Задає розкладку кнопок</string>
   <string name="c_calc_haptic_feedback_title">Вібрація при натисканні</string>
   <string name="c_calc_haptic_feedback_summary">Увімкнути/вимкнути вібрацію при натисканні</string>
-  <string name="p_calc_haptic_feedback_strength_disabled">Disabled</string>
+  <string name="p_calc_haptic_feedback_strength_disabled">Вимкнено</string>
   <string name="p_calc_haptic_feedback_strength_short">Коротка</string>
   <string name="p_calc_haptic_feedback_strength_middle">Середня</string>
   <string name="p_calc_haptic_feedback_strength_long">Велика</string>
@@ -124,8 +124,6 @@
 	</string>
   <string name="c_calc_use_back_button_as_prev_summary">Визначити поведінку кнопку Назад</string>
   <string name="c_calc_use_back_button_as_prev_title">Кнопка Назад як крок назад по історії</string>
-  <string name="c_clear_billing_info_summary">Інформація про купівлю буде оновлена із сервера</string>
-  <string name="c_clear_billing_info_title">Очистити інформацію про купівлю</string>
   <string name="c_warning">Увага</string>
   <string name="c_error">Помилка</string>
   <string name="c_billing_error">Біллінг не підтримується: ви повинні мати обліковий запис Google Checkout, пов’язаний
@@ -236,9 +234,9 @@
   <string name="cpp_purchase_title">Придбати</string>
   <string name="cpp_var_show_greek_keyboard">Показати грецьких літер</string>
   <string name="cpp_var_hide_greek_keyboard">Приховати грецьких літер</string>
-  <string name="cpp_clear_history_title">Clear history?</string>
-  <string name="cpp_clear_history_message">All history will be cleared.</string>
-  <string name="cpp_clear_history">Clear</string>
-  <string name="cpp_new_in_version">New in %1$s version</string>
-  <string name="cpp_release_notes_choose_theme">Do you want to try new Material themes? Choose them from the list:</string>
+  <string name="cpp_clear_history_title">Очистити історію?</string>
+  <string name="cpp_clear_history_message">Очищено усю історію.</string>
+  <string name="cpp_clear_history">Очистити</string>
+  <string name="cpp_new_in_version">Нове у версії %1$s</string>
+  <string name="cpp_release_notes_choose_theme">Кортить спробувати нові теми Матеріал? Вибирайте одну з них у списку:</string>
 </resources>

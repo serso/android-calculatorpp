@@ -4,8 +4,8 @@
 <resources>
   <string name="cpp_wizard_next">Seguinte</string>
   <string name="cpp_wizard_back">Voltar</string>
-  <string name="cpp_wizard_finish">Terminar</string>
   <string name="cpp_wizard_start">Inicie o wizard</string>
+  <string name="cpp_wizard_finish">Concluído</string>
   <string name="cpp_wizard_layout_optimized">Optimizado</string>
   <string name="cpp_wizard_layout_big_buttons">Botões grandes</string>
   <string name="cpp_wizard_mode_simple">Simples</string>
@@ -17,23 +17,27 @@ O resultado não é arredondado e é apresentado em notação de engenheiro, rad
   <string name="cpp_restart_wizard">Inicie o wizard</string>
   <string name="cpp_wizard_dragbutton_action_end">Excelente! Toque no botão novamente para voltar a tentar</string>
   <string name="cpp_wizard_dragbutton_action_center">Toque no botão uma vez para utilizar o 9</string>
-  <string name="cpp_wizard_dragbutton_action_up">Arraste a partir do centro do botão para cima para utilizar %</string>
-  <string name="cpp_wizard_dragbutton_action_left">Arraste a partir do centro do botão para a esquerda para utilizar sin</string>
-  <string name="cpp_wizard_dragbutton_action_down">Arraste a partir do centro do botão para baixo para utilizar x^2</string>
+  <string name="cpp_wizard_dragbutton_action_up">Arraste do centro para cima para usar %</string>
+  <string name="cpp_wizard_dragbutton_action_left">Arraste do centro para esquerda para usar o seno</string>
+  <string name="cpp_wizard_dragbutton_action_down">Arraste do centro para baixo para elevar ao quadrado</string>
   <string name="cpp_wizard_welcome_title">Bem-Vindo</string>
   <string name="cpp_wizard_layout_title">Escolha o layout</string>
   <string name="cpp_wizard_mode_title">Escolha o modo</string>
+  <string name="cpp_wizard_theme_title">Escolha o tema</string>
   <string name="cpp_wizard_onscreen_calculator_title">Calculadora numa janela separada</string>
-  <string name="cpp_wizard_dragbutton_title">Arraste a base do botão</string>
+  <string name="cpp_wizard_dragbutton_title">Acione a tecla basics</string>
+  <string name="cpp_wizard_final_done">O aplicativo está configurado e pronto para o uso.</string>
   <string name="cpp_wizard_final_title">Quase feito!</string>
   <string name="cpp_wizard_final_free_and_opensource">Calculator++ é livre e open-source: todas as funcionalidades são livres de pagamento e o código fonte pode ser encontrado no github.</string>
   <string name="cpp_wizard_final_ways_to_help">Há várias formas de ajudar e fazer esta app melhor:</string>
-  <string name="cpp_wizard_final_donate">Doando dinheiro</string>
+  <string name="cpp_wizard_final_donate">Doar dinheiro</string>
   <string name="cpp_wizard_final_translate">Traduzindo</string>
   <string name="cpp_wizard_final_contribute">Contribuindo para o código fonte</string>
   <string name="cpp_wizard_onscreen_description">A calculadora numa janela separada permite-lhe fazer cálculos enquanto utiliza outras aplicações no seu dispositivo</string>
-  <string name="cpp_wizard_onscreen_checkbox">Activas a calculador numa janela separada (um segundo ícone irá aparecer na lista de aplicações)</string>
-  <string name="cpp_wizard_dragbutton_description">Botão de arrasto é uma característica exclusiva da Calculadora + + que fornece
-acesso rápido às funções secundárias</string>
+  <string name="cpp_wizard_onscreen_checkbox">Habilitado</string>
+  <string name="cpp_wizard_dragbutton_description">A função de arrastar teclas é exclusiva do Calculator++, o que permite
+acesso mais ágil às funções secundárias</string>
   <string name="cpp_wizard_finish_confirmation">Deseja mesmo terminar o wizard?</string>
+  <string name="cpp_wizard_skip">Pular</string>
+  <string name="cpp_wizard_finish_confirmation_title">Encerrar?</string>
 </resources>

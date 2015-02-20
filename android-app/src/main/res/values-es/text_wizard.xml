@@ -4,8 +4,8 @@
 <resources>
   <string name="cpp_wizard_next">Siguiente</string>
   <string name="cpp_wizard_back">Atrás</string>
-  <string name="cpp_wizard_finish">Finalizar</string>
   <string name="cpp_wizard_start">Iniciar el asistente</string>
+  <string name="cpp_wizard_finish">Done</string>
   <string name="cpp_wizard_layout_optimized">Optimizado</string>
   <string name="cpp_wizard_layout_big_buttons">Botones grandes</string>
   <string name="cpp_wizard_mode_simple">Sencillo</string>
@@ -17,14 +17,16 @@ El resultado no se redondea, y los radianes son la unidad de ángulo predetermin
   <string name="cpp_restart_wizard">Iniciar el asistente</string>
   <string name="cpp_wizard_dragbutton_action_end">¡Excelente! Pulse el botón una vez más para intentarlo de nuevo</string>
   <string name="cpp_wizard_dragbutton_action_center">Para utilizar 9, pulse una vez el botón situado abajo</string>
-  <string name="cpp_wizard_dragbutton_action_up">Arrastre desde el centro del botón hacia arriba para utilizar %</string>
-  <string name="cpp_wizard_dragbutton_action_left">Arrastre desde el centro del botón hacia la izquierda para utilizar sen</string>
-  <string name="cpp_wizard_dragbutton_action_down">Arrastre desde el centro del botón hacia abajo para utilizar ^2</string>
+  <string name="cpp_wizard_dragbutton_action_up">Swipe from the center of the button up to use %</string>
+  <string name="cpp_wizard_dragbutton_action_left">Swipe from the center of the button to the left to use sin</string>
+  <string name="cpp_wizard_dragbutton_action_down">Swipe from the center of the button down to use ^2</string>
   <string name="cpp_wizard_welcome_title">Bienvenido</string>
   <string name="cpp_wizard_layout_title">Elegir diseño</string>
   <string name="cpp_wizard_mode_title">Elegir modo</string>
+  <string name="cpp_wizard_theme_title">Choose theme</string>
   <string name="cpp_wizard_onscreen_calculator_title">Calculadora en ventana independiente</string>
-  <string name="cpp_wizard_dragbutton_title">Conceptos básicos del botón de arrastre</string>
+  <string name="cpp_wizard_dragbutton_title">Swipe button basics</string>
+  <string name="cpp_wizard_final_done">The app is set up and ready to use.</string>
   <string name="cpp_wizard_final_title">¡Casi está listo!</string>
   <string name="cpp_wizard_final_free_and_opensource">Calculadora ++ es gratuita y de código abierto: todas las funciones son gratuitas, y el código fuente puede encontrarse en github.</string>
   <string name="cpp_wizard_final_ways_to_help">Existen varias formas con las que puedes contribuir a mejorar esta aplicación:</string>
@@ -32,8 +34,11 @@ El resultado no se redondea, y los radianes son la unidad de ángulo predetermin
   <string name="cpp_wizard_final_translate">Traduciendo a tu idioma</string>
   <string name="cpp_wizard_final_contribute">Contribuyendo al código fuente</string>
   <string name="cpp_wizard_onscreen_description">La calculadora en ventana independiente te permite realizar cálculos mientras utilizas otras aplicaciones en tu dispositivo</string>
-  <string name="cpp_wizard_onscreen_checkbox">Activar la calculadora en ventana independiente (aparecerá un segundo icono en la lista de aplicaciones)</string>
-  <string name="cpp_wizard_dragbutton_description">El botón de arrastre es una característica exclusiva de Calculadora ++ que proporciona un acceso rápido a las funciones secundarias</string>
+  <string name="cpp_wizard_onscreen_checkbox">Enable</string>
+  <string name="cpp_wizard_dragbutton_description">Swipe button is an exclusive feature of Calculator++ which provides
+		fast access to the secondary functions
+	</string>
   <string name="cpp_wizard_finish_confirmation">¿Realmente quiere finalizar el asistente?</string>
-	<string name="cpp_wizard_finish_confirmation_title">Finish?</string>
+  <string name="cpp_wizard_skip">Skip</string>
+  <string name="cpp_wizard_finish_confirmation_title">Finish?</string>
 </resources>

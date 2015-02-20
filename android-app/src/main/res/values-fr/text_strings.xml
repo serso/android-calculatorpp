@@ -40,7 +40,7 @@
   <string name="c_var_description">Description</string>
   <string name="c_var_create_var">Créer une variable</string>
   <string name="c_var_edit_var">Modifier les variables</string>
-  <string name="c_value_is_not_a_number">vous devez donner une valeur numérique ou ne rien donner du tout. si vous avez des paramètres - créez plutôt une fonction</string>
+  <string name="c_value_is_not_a_number">La valeur doit être un nombre ou laisser vide. Si vous avez des paramètres, créez plutôt une fonction !</string>
   <string name="c_var_name_clashes">Nom de variable en conflit avec le nom d\'une fonction !</string>
   <string name="c_var_already_exists">Une variable portant le même nom existe déjà !</string>
   <string name="c_name_is_not_valid">Le nom de la constante n\'est pas valide : le nom doit commencer par une lettre, peut contenir des lettres, chiffres et trait de soulignement.  </string>
@@ -52,7 +52,7 @@
   <string name="p_deg">Degrés</string>
   <string name="p_rad">Radians</string>
   <string name="p_grad">Grades</string>
-  <string name="p_turns">Tourner</string>
+  <string name="p_turns">Tour</string>
   <string name="c_angle_units_summary">Définit les unités pour les angles à utiliser dans les calculs</string>
   <string name="c_calc_numeral_bases">Système numérique actuel</string>
   <string name="c_numeral_bases_summary">Définit le système de numération à utiliser dans les calculs</string>
@@ -65,7 +65,7 @@
   <string name="p_metro_green_theme">Métro vert</string>
   <string name="p_metro_purple_theme">Métro violet</string>
   <string name="p_material_theme">Material</string>
-  <string name="p_material_light_theme">Material léger</string>
+  <string name="p_material_light_theme">Material Light</string>
   <string name="c_calc_result_precision_summary">Précision de la valeur du résultat (tous les calculs sont faits avec la précision maximale quelle que soit la valeur de cette option)</string>
   <string name="c_calc_color_display_summary">Choisir les couleurs et le style dans l\'éditeur de la calculatrice</string>
   <string name="c_calc_theme_summary">Définir le thème pour la calculatrice</string>
@@ -116,8 +116,6 @@
   <string name="c_calc_show_release_notes_summary">Définit si la pop-up des informations à propos de la nouvelle version doit apparaître après une mise à jour.</string>
   <string name="c_calc_use_back_button_as_prev_summary">Définir le comportement du bouton Précédent</string>
   <string name="c_calc_use_back_button_as_prev_title">Utiliser le bouton Précédent pour le précédent de l\'historique</string>
-  <string name="c_clear_billing_info_summary">Les informations d\'achat vont être rechargées depuis le serveur</string>
-  <string name="c_clear_billing_info_title">Mettre à jour les informations d\'achat</string>
   <string name="c_warning">Attention</string>
   <string name="c_error">Erreur</string>
   <string name="c_billing_error">L\'achat n\'est pas supporté : vous devez avoir un compte Google Checkout (Wallet) lié avec votre compte Google et devez disposer d\'une connexion internet.</string>
@@ -227,5 +225,5 @@ En cliquant sur le bouton \'Continuer\' vous serez redirigés vers l\'applicatio
   <string name="cpp_clear_history_message">L\'intégralité de l\'historique sera supprimée.</string>
   <string name="cpp_clear_history">Effacer</string>
   <string name="cpp_new_in_version">Nouveautés de la version %1$s</string>
-  <string name="cpp_release_notes_choose_theme">Voulez vous essayer les nouveaux thèmes Material ? Choisissez dans la liste :</string>
+  <string name="cpp_release_notes_choose_theme">Voulez-vous essayer les nouveaux thèmes Material ? Choisissez-en dans la liste :</string>
 </resources>
