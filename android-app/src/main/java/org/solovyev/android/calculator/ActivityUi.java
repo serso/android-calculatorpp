@@ -112,7 +112,7 @@ public class ActivityUi extends BaseUi {
 		toggleTitle(activity, actionBar, true);
 
 		if (!homeAsUp) {
-			actionBar.setIcon(R.drawable.ab_icon);
+			actionBar.setIcon(R.drawable.ab_logo);
 		}
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 	}
