@@ -4,16 +4,17 @@
 <resources>
   <string name="cpp_wizard_next">繼續</string>
   <string name="cpp_wizard_back">返回</string>
-  <string name="cpp_wizard_finish">完成</string>
   <string name="cpp_wizard_start">啟動精靈</string>
+  <string name="cpp_wizard_finish">完成</string>
   <string name="cpp_wizard_layout_optimized">最佳化</string>
   <string name="cpp_wizard_layout_big_buttons">大型按鍵</string>
   <string name="cpp_wizard_mode_simple">簡單模式</string>
   <string name="cpp_wizard_mode_simple_description">在簡單模式下，主畫面上只有基本功能可以使用。
-計算結果四捨五入至小數第5位，角度單位預設為 Degrees。
+計算結果四捨五入，角度單位預設為 度(Degrees)。
 	</string>
   <string name="cpp_wizard_mode_engineer">工程模式</string>
-  <string name="cpp_wizard_mode_engineer_description">在工程模式下，主畫面上可以使用特別的功能。計算結果不四捨五入並以工程符號表示，角度單位預設為 Radians。
+  <string name="cpp_wizard_mode_engineer_description">在工程模式下，主畫面上可以使用特別的功能。
+計算結果不四捨五入並以工程符號表示，角度單位預設為 弧度(Radians)。
 	</string>
   <string name="cpp_restart_wizard">啟動精靈</string>
   <string name="cpp_wizard_dragbutton_action_end">非常好！再點擊一次按鍵來重試</string>
@@ -24,8 +25,10 @@
   <string name="cpp_wizard_welcome_title">歡迎</string>
   <string name="cpp_wizard_layout_title">選擇版面配置</string>
   <string name="cpp_wizard_mode_title">選擇模式</string>
+  <string name="cpp_wizard_theme_title">選擇主題風格</string>
   <string name="cpp_wizard_onscreen_calculator_title">獨立視窗的計算機</string>
-  <string name="cpp_wizard_dragbutton_title">滑動按鍵基本操作</string>
+  <string name="cpp_wizard_dragbutton_title">滑動按鍵基礎教學</string>
+  <string name="cpp_wizard_final_done">這個應用程式設定完成並且準備好來使用。</string>
   <string name="cpp_wizard_final_title">快要完成了！</string>
   <string name="cpp_wizard_final_free_and_opensource">Calculator++ 是免費且開源的：所有功能都是免费的，而且可以在 github 上找到原始碼。
 	</string>
@@ -36,9 +39,10 @@
   <string name="cpp_wizard_final_contribute">貢獻原始碼</string>
   <string name="cpp_wizard_onscreen_description">獨立視窗的計算機讓你在使用其他應用程式時能夠同時計算。
 	</string>
-  <string name="cpp_wizard_onscreen_checkbox">啟用獨立視窗的計算機（第二個圖示將會出現在應用程式列表）
-	</string>
+  <string name="cpp_wizard_onscreen_checkbox">啟用</string>
   <string name="cpp_wizard_dragbutton_description">滑動按鍵是 Calculator++ 的獨家特色，提供次要功能的快速途徑
 	</string>
   <string name="cpp_wizard_finish_confirmation">你真的想要結束精靈嗎？</string>
+  <string name="cpp_wizard_skip">略過</string>
+  <string name="cpp_wizard_finish_confirmation_title">完成？</string>
 </resources>

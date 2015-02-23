@@ -120,8 +120,6 @@
   <string name="c_calc_show_release_notes_summary">新しいバージョンに更新した際にリリースノートを表示するかどうか設定します</string>
   <string name="c_calc_use_back_button_as_prev_summary">戻るボタンの振る舞いを定義します</string>
   <string name="c_calc_use_back_button_as_prev_title">戻るボタンを履歴に使用します</string>
-  <string name="c_clear_billing_info_summary">購入情報はサーバーから再読み込みされます</string>
-  <string name="c_clear_billing_info_title">購入情報を更新</string>
   <string name="c_warning">警告</string>
   <string name="c_error">エラー</string>
   <string name="c_billing_error">購入はサポートされていません:Googleアカウントと紐付けられたGoogle Checkoutアカウントが必要で、インターネットに接続されている必要があります。</string>

@@ -4,8 +4,8 @@
 <resources>
   <string name="cpp_wizard_next">Tiếp theo</string>
   <string name="cpp_wizard_back">Trở lại</string>
-  <string name="cpp_wizard_finish">Hoàn thành</string>
   <string name="cpp_wizard_start">Khởi động thuật sĩ</string>
+  <string name="cpp_wizard_finish">Hoàn thành</string>
   <string name="cpp_wizard_layout_optimized">Tối ưu hóa</string>
   <string name="cpp_wizard_layout_big_buttons">Các nút lớn</string>
   <string name="cpp_wizard_mode_simple">Đơn giản</string>
@@ -15,14 +15,16 @@
   <string name="cpp_restart_wizard">Khởi động thuật sĩ</string>
   <string name="cpp_wizard_dragbutton_action_end">Tuyệt vời! Bấm vào nút một lần nữa để thử lại</string>
   <string name="cpp_wizard_dragbutton_action_center">Bấm vào nút bên dưới một lần để sử dụng 9</string>
-  <string name="cpp_wizard_dragbutton_action_up">Kéo từ Trung tâm của nút lên trên để sử dụng %</string>
-  <string name="cpp_wizard_dragbutton_action_left">Kéo từ Trung tâm của nút sang bên trái để sử dụng Sin</string>
-  <string name="cpp_wizard_dragbutton_action_down">Kéo từ Trung tâm của nút xuống dưới để sử dụng ^2</string>
+  <string name="cpp_wizard_dragbutton_action_up">Vuốt từ trung tâm của phím lên trên để dùng %</string>
+  <string name="cpp_wizard_dragbutton_action_left">Vuốt từ trung tâm của phím sang trái để dùng Sin</string>
+  <string name="cpp_wizard_dragbutton_action_down">Vuốt từ trung tâm của phím xuống để dùng ^2</string>
   <string name="cpp_wizard_welcome_title">Chào mừng</string>
   <string name="cpp_wizard_layout_title">Chọn bố trí</string>
   <string name="cpp_wizard_mode_title">Chọn chế độ</string>
+  <string name="cpp_wizard_theme_title">Chọn chủ đề</string>
   <string name="cpp_wizard_onscreen_calculator_title">Máy tính trong một cửa sổ riêng biệt</string>
-  <string name="cpp_wizard_dragbutton_title">Cách Kéo nút</string>
+  <string name="cpp_wizard_dragbutton_title">Vuốt phím cơ bản</string>
+  <string name="cpp_wizard_final_done">Các ứng dụng được thiết lập và sẵn sàng để sử dụng.</string>
   <string name="cpp_wizard_final_title">Hoàn tất!</string>
   <string name="cpp_wizard_final_free_and_opensource">Máy tính ++ là miễn phí và mã nguồn mở: tất cả các tính năng là miễn phí và mã nguồn có thể được tìm thấy trên github.</string>
   <string name="cpp_wizard_final_ways_to_help">Có rất nhiều cách làm thế nào bạn có thể giúp làm cho ứng dụng này tốt hơn:</string>
@@ -30,7 +32,9 @@
   <string name="cpp_wizard_final_translate">Dịch</string>
   <string name="cpp_wizard_final_contribute">Đóng góp mã nguồn</string>
   <string name="cpp_wizard_onscreen_description">Các máy tính trong cửa sổ riêng biệt cho phép bạn làm tính toán trong khi sử dụng các ứng dụng khác trên thiết bị của bạn</string>
-  <string name="cpp_wizard_onscreen_checkbox">Sử máy tính trong cửa sổ riêng biệt (biểu tượng thứ hai sẽ xuất hiện trong danh sách ứng dụng)</string>
-  <string name="cpp_wizard_dragbutton_description">Kéo nút là một tính năng độc quyền của máy tính ++ cung cấp truy cập nhanh đến các chức năng thứ cấp</string>
+  <string name="cpp_wizard_onscreen_checkbox">Kích hoạt</string>
+  <string name="cpp_wizard_dragbutton_description">Vuốt phím là một tính năng độc đáo của riêng Máy tính++ giúp thao tác nhanh các tính năng khác trên cùng một phím bấm</string>
   <string name="cpp_wizard_finish_confirmation">Bạn có thực sự muốn đóng thuật sĩ?</string>
+  <string name="cpp_wizard_skip">Bỏ qua</string>
+  <string name="cpp_wizard_finish_confirmation_title">Hoàn tất?</string>
 </resources>

@@ -85,7 +85,7 @@
   <string name="c_calc_layout_summary">Bộ bố trí của nút</string>
   <string name="c_calc_haptic_feedback_title">Thông tin phản hồi Haptic</string>
   <string name="c_calc_haptic_feedback_summary">Chuyển rung khi bấm nút</string>
-  <string name="p_calc_haptic_feedback_strength_disabled">Disabled</string>
+  <string name="p_calc_haptic_feedback_strength_disabled">Đã vô hiệu</string>
   <string name="p_calc_haptic_feedback_strength_short">Ngắn</string>
   <string name="p_calc_haptic_feedback_strength_middle">Trung bình</string>
   <string name="p_calc_haptic_feedback_strength_long">Dài</string>
@@ -116,8 +116,6 @@
   <string name="c_calc_show_release_notes_summary">Xác định nếu cửa sổ bật lên ghi chú phát hành sẽ xuất hiện sau khi cập nhật lên phiên bản mới</string>
   <string name="c_calc_use_back_button_as_prev_summary">Xác định các hành vi của nút Back</string>
   <string name="c_calc_use_back_button_as_prev_title">Sử dụng nút Back cho lịch sử trước đó</string>
-  <string name="c_clear_billing_info_summary">Thông tin mua sẽ được nạp lại từ máy chủ</string>
-  <string name="c_clear_billing_info_title">Cập nhật thông tin mua</string>
   <string name="c_warning">Cảnh báo</string>
   <string name="c_error">Lỗi</string>
   <string name="c_billing_error">Thanh toán không được hỗ trợ: bạn phải có tài khoản Google Checkout được liên kết với tài khoản Google của bạn và phải được kết nối với internet.</string>
@@ -226,9 +224,9 @@ Qua việc click nút \'Tiếp tục\' bạn được chuyển qua úng dụng G
   <string name="cpp_purchase_title">Mua</string>
   <string name="cpp_var_show_greek_keyboard">Hiện các kí tự La Mã</string>
   <string name="cpp_var_hide_greek_keyboard">Ẩn các ký tự La Mã</string>
-  <string name="cpp_clear_history_title">Clear history?</string>
-  <string name="cpp_clear_history_message">All history will be cleared.</string>
-  <string name="cpp_clear_history">Clear</string>
-  <string name="cpp_new_in_version">New in %1$s version</string>
-  <string name="cpp_release_notes_choose_theme">Do you want to try new Material themes? Choose them from the list:</string>
+  <string name="cpp_clear_history_title">Xóa lược sử?</string>
+  <string name="cpp_clear_history_message">Tất cả lược sử sẽ bị xoá.</string>
+  <string name="cpp_clear_history">Dọn sạch</string>
+  <string name="cpp_new_in_version">Mới trong phiên bản %1$s</string>
+  <string name="cpp_release_notes_choose_theme">Bạn có muốn thử chủ đề Material mới? Chọn chúng từ danh sách:</string>
 </resources>

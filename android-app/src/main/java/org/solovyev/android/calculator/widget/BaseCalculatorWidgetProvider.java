@@ -49,7 +49,7 @@ import static org.solovyev.android.calculator.CalculatorReceiver.newButtonClicke
  * Date: 19.10.12
  * Time: 16:18
  */
-abstract class AbstractCalculatorWidgetProvider extends AppWidgetProvider {
+public abstract class BaseCalculatorWidgetProvider extends AppWidgetProvider {
 
 	private static final String TAG = "Calculator++ Widget";
 	private static final int WIDGET_CATEGORY_KEYGUARD = 2;
@@ -75,7 +75,7 @@ abstract class AbstractCalculatorWidgetProvider extends AppWidgetProvider {
 	**********************************************************************
 	*/
 
-	protected AbstractCalculatorWidgetProvider() {
+	protected BaseCalculatorWidgetProvider() {
 	}
 
 	/*
@@ -116,7 +116,7 @@ abstract class AbstractCalculatorWidgetProvider extends AppWidgetProvider {
 	}
 
 	@Nonnull
-	protected Class<? extends AbstractCalculatorWidgetProvider> getComponentClass() {
+	protected Class<? extends BaseCalculatorWidgetProvider> getComponentClass() {
 		return this.getClass();
 	}
 

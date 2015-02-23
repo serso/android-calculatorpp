@@ -64,8 +64,8 @@
   <string name="p_metro_blue_theme">Metro Blau</string>
   <string name="p_metro_green_theme">Metro Grün</string>
   <string name="p_metro_purple_theme">Metro Lila</string>
-  <string name="p_material_theme">Material</string>
-  <string name="p_material_light_theme">Material Light</string>
+  <string name="p_material_theme">Material-Design</string>
+  <string name="p_material_light_theme">Material-Design hell</string>
   <string name="c_calc_result_precision_summary">Genauigkeit des Resultats (alle Berechnungen sind mit höchster Genauigkeit unabhängig von dieser Option)</string>
   <string name="c_calc_color_display_summary">Schaltet Farbe und Stil des Editors um</string>
   <string name="c_calc_theme_summary">Setzt den Stil für den Rechner</string>
@@ -85,7 +85,7 @@
   <string name="c_calc_layout_summary">Layout der Tasten setzen</string>
   <string name="c_calc_haptic_feedback_title">Haptische Rückmeldung</string>
   <string name="c_calc_haptic_feedback_summary">Vibration beim Tastendruck ein-/ausschalten</string>
-  <string name="p_calc_haptic_feedback_strength_disabled">Disabled</string>
+  <string name="p_calc_haptic_feedback_strength_disabled">Deaktiviert</string>
   <string name="p_calc_haptic_feedback_strength_short">Kurz</string>
   <string name="p_calc_haptic_feedback_strength_middle">Mittel</string>
   <string name="p_calc_haptic_feedback_strength_long">Lang</string>
@@ -116,8 +116,6 @@
   <string name="c_calc_show_release_notes_summary">Definiert, ob ein Popup-Fenster mit den Versionshinweisen nach einer Programmaktualisierung angezeigt werden soll.</string>
   <string name="c_calc_use_back_button_as_prev_summary">Definiert das Verhalten des Zurückknopfs</string>
   <string name="c_calc_use_back_button_as_prev_title">Verwende den Zurückknopf um im Verlauf zurückzuspringen</string>
-  <string name="c_clear_billing_info_summary">Kaufinformation wird vom Server nachgeladen werden</string>
-  <string name="c_clear_billing_info_title">Kaufinformation aktualisieren</string>
   <string name="c_warning">Warnung</string>
   <string name="c_error">Fehler</string>
   <string name="c_billing_error">Abrechnung ist nicht unterstützt: Sie müssen ein Google Checkout Konto haben,
@@ -225,9 +223,9 @@ Klicken Sie auf \"Weiter\" und Sie werden zu Google Play weitergeleitet, wo Sie 
   <string name="cpp_purchase_title">Kaufen</string>
   <string name="cpp_var_show_greek_keyboard">Zeige griechische Buchstaben</string>
   <string name="cpp_var_hide_greek_keyboard">Verstecke griechische Buchstaben</string>
-  <string name="cpp_clear_history_title">Clear history?</string>
-  <string name="cpp_clear_history_message">All history will be cleared.</string>
-  <string name="cpp_clear_history">Clear</string>
-  <string name="cpp_new_in_version">New in %1$s version</string>
-  <string name="cpp_release_notes_choose_theme">Do you want to try new Material themes? Choose them from the list:</string>
+  <string name="cpp_clear_history_title">Verlauf löschen?</string>
+  <string name="cpp_clear_history_message">Der gesamte Verlauf wird gelöscht werden.</string>
+  <string name="cpp_clear_history">Löschen</string>
+  <string name="cpp_new_in_version">Neu in Version %1$s</string>
+  <string name="cpp_release_notes_choose_theme">Wollen Sie das neue Material-Design ausprobieren? Wählen sie aus der Liste:</string>
 </resources>

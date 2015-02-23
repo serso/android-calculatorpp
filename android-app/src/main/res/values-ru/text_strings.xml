@@ -132,8 +132,6 @@
 	</string>
   <string name="c_calc_use_back_button_as_prev_summary">Устанавливает поведение по нажатию на кнопку Назад</string>
   <string name="c_calc_use_back_button_as_prev_title">Использовать кнопку назад как назад по истории</string>
-  <string name="c_clear_billing_info_summary">Информация о покупках будет обновлена с сервера</string>
-  <string name="c_clear_billing_info_title">Обновить информацию о покупках</string>
   <string name="c_warning">Внимание</string>
   <string name="c_error">Ошибка</string>
   <string name="c_billing_error">Биллинг не поддерживается: вы должны иметь Google Checkout аккаунт привязанный в

@@ -44,7 +44,6 @@ import org.solovyev.android.calculator.math.edit.CalculatorFunctionsActivity;
 import org.solovyev.android.calculator.math.edit.CalculatorFunctionsFragment;
 import org.solovyev.android.calculator.math.edit.MathEntityRemover;
 import org.solovyev.android.calculator.model.AFunction;
-import org.solovyev.android.sherlock.AndroidSherlockUtils;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -210,7 +209,7 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
 	}
 
 	public static void showDialog(@Nonnull Input input, @Nonnull FragmentManager fm) {
-		AndroidSherlockUtils.showDialog(create(input), "function-editor", fm);
+		App.showDialog(create(input), "function-editor", fm);
 	}
 
 	public static class Input implements Parcelable {
