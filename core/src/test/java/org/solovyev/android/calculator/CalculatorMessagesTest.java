@@ -56,9 +56,9 @@ public class CalculatorMessagesTest {
 	@Nonnull
 	private List<String> makeMessageArguments(@Nonnull String id) {
 		switch (id) {
-			case "1":
-			case "5":
-			case "7":
+			case CalculatorMessages.msg_001:
+			case CalculatorMessages.msg_005:
+			case CalculatorMessages.msg_007:
 				return Arrays.asList("param0");
 		}
 		return Collections.emptyList();
