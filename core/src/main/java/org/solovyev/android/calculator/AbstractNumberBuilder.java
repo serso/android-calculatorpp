@@ -79,7 +79,8 @@ public abstract class AbstractNumberBuilder {
 
 	private boolean isSignAfterE(@Nonnull MathType.Result mathTypeResult) {
 		if (!isHexMode()) {
-			if ("-".equals(mathTypeResult.getMatch()) || "+".equals(mathTypeResult.getMatch())) {
+			final String match = mathTypeResult.getMatch();
+			if ("−".equals(match) || "-".equals(match) || "+".equals(match)) {
 				final StringBuilder localNb = numberBuilder;
 				if (localNb != null && localNb.length() > 0) {
 					if (localNb.charAt(localNb.length() - 1) == MathType.POWER_10) {
