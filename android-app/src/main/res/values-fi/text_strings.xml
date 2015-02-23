@@ -64,8 +64,8 @@
   <string name="p_metro_blue_theme">Metron Sininen</string>
   <string name="p_metro_green_theme">Metron vihreä</string>
   <string name="p_metro_purple_theme">Metro violetti</string>
-  <string name="p_material_theme">Material</string>
-  <string name="p_material_light_theme">Material Light</string>
+  <string name="p_material_theme">Materiaali</string>
+  <string name="p_material_light_theme">Materiaali vaalea</string>
   <string name="c_calc_result_precision_summary">Tarkkuus tuloksen arvoa (kaikki laskelmat ovat tehneet tarkkuudella riippumatta tämän asetuksen arvosta)  </string>
   <string name="c_calc_color_display_summary">Vaihtaa värin ja styling Laskin-editorissa</string>
   <string name="c_calc_theme_summary">Asettaa Teemaa  Laskimeen</string>
@@ -85,7 +85,7 @@
   <string name="c_calc_layout_summary">Asetetaan ulkoasua painikkeet</string>
   <string name="c_calc_haptic_feedback_title">Haptic palaute</string>
   <string name="c_calc_haptic_feedback_summary">Vaihtaa tärinä-painiketta napsauttamalla</string>
-  <string name="p_calc_haptic_feedback_strength_disabled">Disabled</string>
+  <string name="p_calc_haptic_feedback_strength_disabled">Pois käytöstä</string>
   <string name="p_calc_haptic_feedback_strength_short">Lyhyt</string>
   <string name="p_calc_haptic_feedback_strength_middle">Keskellä</string>
   <string name="p_calc_haptic_feedback_strength_long">Pitkä</string>
@@ -116,8 +116,6 @@
   <string name="c_calc_show_release_notes_summary">Määrittää, onko release notes popup ikkuna tulee näkyviin kun päivitys uuteen versioon</string>
   <string name="c_calc_use_back_button_as_prev_summary">Määrittelee niiden takaisin-painiketta</string>
   <string name="c_calc_use_back_button_as_prev_title">Napsauta Edellinen-painiketta aiempi</string>
-  <string name="c_clear_billing_info_summary">Tietoja ladataan palvelimesta</string>
-  <string name="c_clear_billing_info_title">Päivitä oston tiedot</string>
   <string name="c_warning">Varoitus</string>
   <string name="c_error">Error</string>
   <string name="c_billing_error">Laskutus ei tueta: sinulla on oltava Google Checkout-tiliisi yhdistetty Google-tiliin ja on yhteydessä Internetiin.</string>
@@ -220,9 +218,9 @@
   <string name="cpp_purchase_title">Osta</string>
   <string name="cpp_var_show_greek_keyboard">Näytä kreikkalaiset kirjaimet</string>
   <string name="cpp_var_hide_greek_keyboard">Piilota kreikkalaiset kirjaimet</string>
-  <string name="cpp_clear_history_title">Clear history?</string>
-  <string name="cpp_clear_history_message">All history will be cleared.</string>
-  <string name="cpp_clear_history">Clear</string>
-  <string name="cpp_new_in_version">New in %1$s version</string>
-  <string name="cpp_release_notes_choose_theme">Do you want to try new Material themes? Choose them from the list:</string>
+  <string name="cpp_clear_history_title">Tyhjennä historia?</string>
+  <string name="cpp_clear_history_message">Kaikki historia tyhjennetään.</string>
+  <string name="cpp_clear_history">Tyhjennä</string>
+  <string name="cpp_new_in_version">Uutta versiossa %1$s</string>
+  <string name="cpp_release_notes_choose_theme">Haluatko kokeilla uusia materiaaliteemoja? Valitse luettelosta:</string>
 </resources>

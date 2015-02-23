@@ -33,7 +33,7 @@
 
 	<item
 		a:id="@+id/menu_history_toggle_datetime"
-		a:icon="@drawable/ic_access_time_grey600_48dp"
+		a:icon="@drawable/ab_clock"
 		a:title="@string/c_toggle_datetime"
 		app:showAsAction="ifRoom" />
 

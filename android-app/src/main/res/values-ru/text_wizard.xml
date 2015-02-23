@@ -5,6 +5,7 @@
   <string name="cpp_wizard_next">Далее</string>
   <string name="cpp_wizard_back">Назад</string>
   <string name="cpp_wizard_start">Начать визард</string>
+  <string name="cpp_wizard_finish">Готово</string>
   <string name="cpp_wizard_layout_optimized">Оптимизированная</string>
   <string name="cpp_wizard_layout_big_buttons">С большими кнопками</string>
   <string name="cpp_wizard_mode_simple">Простой</string>
@@ -20,6 +21,7 @@
   <string name="cpp_wizard_welcome_title">Приветствие</string>
   <string name="cpp_wizard_layout_title">Выберите раскладку</string>
   <string name="cpp_wizard_mode_title">Выберите режим</string>
+  <string name="cpp_wizard_theme_title">Выберите тему</string>
   <string name="cpp_wizard_onscreen_calculator_title">Калькулятор в отдельном окне</string>
   <string name="cpp_wizard_dragbutton_title">Основы использования кнопок</string>
   <string name="cpp_wizard_final_done">Приложение настроено и готово к использованию.</string>
@@ -31,11 +33,8 @@
   <string name="cpp_wizard_final_contribute">Поучавствовать в разработке</string>
   <string name="cpp_wizard_onscreen_description">Калькулятор в отдельном окне позволяет вам произодить вычисления не закрывая при этом другие приложения</string>
   <string name="cpp_wizard_onscreen_checkbox">Включить</string>
-  <string name="cpp_wizard_dragbutton_description">Специально разработанные кнопки позволяют быстро и просто использовать дополнительные возможности калькулятора
-	</string>
+  <string name="cpp_wizard_dragbutton_description">Специально разработанные кнопки позволяют быстро и просто использовать дополнительные возможности калькулятора</string>
   <string name="cpp_wizard_finish_confirmation">Вы действительно хотите завершить визард?</string>
-	<string name="cpp_wizard_theme_title">Выберите тему</string>
-	<string name="cpp_wizard_finish">Готово</string>
-	<string name="cpp_wizard_skip">Пропустить</string>
-	<string name="cpp_wizard_finish_confirmation_title">Закончить?</string>
+  <string name="cpp_wizard_skip">Пропустить</string>
+  <string name="cpp_wizard_finish_confirmation_title">Закончить?</string>
 </resources>

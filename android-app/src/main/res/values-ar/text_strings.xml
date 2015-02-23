@@ -117,8 +117,6 @@
   <string name="c_calc_show_release_notes_summary">يعرّف إذا كان يجب أن تظهر نافذة ملاحظات الإصدار بعد التحديث إلى الإصدار الجديد</string>
   <string name="c_calc_use_back_button_as_prev_summary">يحدد كيفية عمل زر الرجوع</string>
   <string name="c_calc_use_back_button_as_prev_title">استخدم زر الرجوع للحساب السابق</string>
-  <string name="c_clear_billing_info_summary">سيتم تحميل معلومات الشراء من المخدّم</string>
-  <string name="c_clear_billing_info_title">تحديث معلومات الشراء</string>
   <string name="c_warning">تحذير</string>
   <string name="c_error">خطأ</string>
   <string name="c_billing_error">الدفع بالفاتورة غير مدعم: يجب أن يكون لديك حساب في غوغل تشك أوت مرتبط بحساب الغوغل الخاص بك، ويجب أن تكون متصلاً بالإنترنت.</string>

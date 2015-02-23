@@ -112,6 +112,19 @@
 
 		<!-- WIDGET CONFIG -->
 
+		<receiver android:icon="@drawable/ic_launcher" android:label="@string/c_app_name" android:name=".widget.CalculatorWidget">
+
+			<intent-filter>
+				<action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+				<action android:name="org.solovyev.android.calculator.INIT"/>
+				<action android:name="org.solovyev.android.calculator.EDITOR_STATE_CHANGED"/>
+				<action android:name="org.solovyev.android.calculator.DISPLAY_STATE_CHANGED"/>
+				<action android:name="org.solovyev.android.calculator.BUTTON_PRESSED"/>
+			</intent-filter>
+
+			<meta-data android:name="android.appwidget.provider" android:resource="@xml/calculator_widget"/>
+		</receiver>
+
 		<receiver android:icon="@drawable/ic_launcher" android:label="@string/c_app_widget_3x3_name" android:name=".widget.CalculatorWidgetProvider">
 
 			<intent-filter>

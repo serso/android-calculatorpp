@@ -116,8 +116,6 @@
   <string name="c_calc_show_release_notes_summary">Bepaalt of versiewijzigingen popup scherm moet verschijnen na update naar de nieuwe versie</string>
   <string name="c_calc_use_back_button_as_prev_summary">Bepaalt het gedrag van de Terug knop</string>
   <string name="c_calc_use_back_button_as_prev_title">Gebruik Terug knop voor eerdere geschiedenis</string>
-  <string name="c_clear_billing_info_summary">Aankoop informatie wordt opnieuw geladen van de server</string>
-  <string name="c_clear_billing_info_title">Werk aankoop informatie bij</string>
   <string name="c_warning">Waarschuwing</string>
   <string name="c_error">Fout</string>
   <string name="c_billing_error">Afrekenen niet ondersteund: Google Checkout account moet gekoppeld zijn aan je Google account je moet verbonden zijn met internet.</string>

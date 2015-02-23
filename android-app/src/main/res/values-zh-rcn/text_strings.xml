@@ -117,8 +117,6 @@
   <string name="c_calc_show_release_notes_summary">是否在应用升级之后显示更新日志</string>
   <string name="c_calc_use_back_button_as_prev_summary">设定返回键的行为</string>
   <string name="c_calc_use_back_button_as_prev_title">按返回键查看上一条记录</string>
-  <string name="c_clear_billing_info_summary">购买信息将从服务器重新加载</string>
-  <string name="c_clear_billing_info_title">更新购买信息</string>
   <string name="c_warning">警告</string>
   <string name="c_error">错误</string>
   <string name="c_billing_error">不支持付费： 你必须有谷歌结帐帐户链接到你的谷歌账户，且必须连接到互联网。</string>
