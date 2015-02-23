@@ -32,6 +32,7 @@ import org.solovyev.common.text.Strings;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import static java.lang.Math.min;
 import static org.solovyev.android.calculator.CalculatorEditorChangeEventData.newChangeEventData;
 import static org.solovyev.android.calculator.CalculatorEventType.editor_state_changed;
 import static org.solovyev.android.calculator.CalculatorEventType.editor_state_changed_light;
@@ -277,8 +278,8 @@ public class CalculatorEditorImpl implements CalculatorEditor {
 	@Override
 	public CalculatorEditorViewState insert(@Nonnull String text, int selectionOffset) {
 		synchronized (viewLock) {
-			final int selection = this.lastViewState.getSelection();
-			final String oldText = this.lastViewState.getText();
+			final String oldText = lastViewState.getText();
+			final int selection = correctSelection(lastViewState.getSelection(), oldText);
 
 			int newTextLength = text.length() + oldText.length();
 			final StringBuilder newText = new StringBuilder(newTextLength);
@@ -322,7 +323,7 @@ public class CalculatorEditorImpl implements CalculatorEditor {
 
 	public static int correctSelection(int selection, int textLength) {
 		int result = Math.max(selection, 0);
-		result = Math.min(result, textLength);
+		result = min(result, textLength);
 		return result;
 	}
 
