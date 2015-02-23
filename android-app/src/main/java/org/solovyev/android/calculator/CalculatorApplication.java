@@ -46,6 +46,7 @@ import org.solovyev.common.msg.MessageType;
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @ReportsCrashes(formKey = "",
 		formUri = "https://serso.cloudant.com/acra-cpp/_design/acra-storage/_update/report",
@@ -183,8 +184,13 @@ public class CalculatorApplication extends android.app.Application implements Sh
 		Locator.getInstance().getLogger().debug(TAG, "Application started!");
 		Locator.getInstance().getNotifier().showDebugMessage(TAG, "Application started!");
 
-		// we must update the widget when app starts
-		App.getBroadcaster().sendEditorStateChangedIntent();
+		App.getUiThreadExecutor().execute(new Runnable() {
+			@Override
+			public void run() {
+				// we must update the widget when app starts
+				App.getBroadcaster().sendEditorStateChangedIntent();
+			}
+		}, 100, TimeUnit.MILLISECONDS);
 	}
 
 	private void setTheme(@Nonnull SharedPreferences preferences) {
