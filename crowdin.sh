@@ -23,6 +23,20 @@ function copyTranslations() {
     fi
 
 	copyTranslation "${from}" "${to}"
+	
+
+	if [ ! -d "android-app/misc/res/description" ]; then
+    	# if directory doesn't exist create it
+    	mkdir "android-app/misc/res/description"
+    fi
+
+	from="translations/$1/description.txt"
+    to="android-app/misc/res/description/description-${1}.txt"
+    if [ -z "${2}" ]; then
+        to="android-app/misc/res/description/description.txt"
+	fi
+
+	copyTranslation "${from}" "${to}"
 
 	from="translations/$1/app/messages.properties"
     to="core/src/main/resources/org/solovyev/android/calculator/messages_${1//[-]/_}.properties"
