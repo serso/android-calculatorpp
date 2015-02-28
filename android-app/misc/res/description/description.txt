@@ -32,3 +32,4 @@ Several functions can be plotted simultaneously
 The app supports devices with Android version 2.2 and higher and is open source. The app contains adverts which are shown on the secondary screens. To remove them please purchase a special option from the application settings.
 
 Calculator++ on Facebook: http://facebook.com/calculatorpp
+Calculator++ on Vkontakte: http://vk.com/calculatorpp
