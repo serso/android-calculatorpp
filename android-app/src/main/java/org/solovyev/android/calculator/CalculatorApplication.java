@@ -29,6 +29,9 @@ import android.graphics.Typeface;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
+
+import com.squareup.leakcanary.LeakCanary;
+
 import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
@@ -43,10 +46,11 @@ import org.solovyev.android.calculator.wizard.CalculatorWizards;
 import org.solovyev.android.wizard.Wizards;
 import org.solovyev.common.msg.MessageType;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import javax.annotation.Nonnull;
 
 @ReportsCrashes(formKey = "",
 		formUri = "https://serso.cloudant.com/acra-cpp/_design/acra-storage/_update/report",
@@ -121,6 +125,8 @@ public class CalculatorApplication extends android.app.Application implements Sh
 	public void onCreate() {
 		if (!BuildConfig.DEBUG) {
 			ACRA.init(this);
+		} else {
+			LeakCanary.install(this);
 		}
 
 		if (!App.isInitialized()) {
