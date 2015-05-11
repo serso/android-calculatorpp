@@ -23,19 +23,19 @@
 apply plugin: 'java'
 
 dependencies {
-    def androidModule = project(':android-app')
-    compile androidModule
+    def app = project(':android-app')
+    compile app
 
-    testCompile androidModule.android.applicationVariants.toList().first().javaCompile.classpath
-    testCompile androidModule.android.applicationVariants.toList().first().javaCompile.outputs.files
-    testCompile files(androidModule.plugins.findPlugin("com.android.application").getBootClasspath())
+    testCompile app.android.applicationVariants.toList().first().javaCompile.classpath
+    testCompile app.android.applicationVariants.toList().first().javaCompile.outputs.files
+    testCompile files(app.android.bootClasspath)
 
     testCompile 'junit:junit:4.11'
     testCompile 'org.robolectric:robolectric:2.3'
     testCompile 'org.mockito:mockito-all:1.9.5'
     testCompile 'org.skyscreamer:jsonassert:1.2.3'
-    testCompile 'com.android.support:support-v4:21.0.3'
-    testCompile 'com.android.support:appcompat-v7:21.0.3'
+    testCompile 'com.android.support:support-v4:22.1.1'
+    testCompile 'com.android.support:appcompat-v7:22.1.1'
 }
 
 tasks.withType(Test) {
