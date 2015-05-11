@@ -17,6 +17,10 @@
     <option name="CLEAR_LOGCAT" value="false" />
     <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
     <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
+    <option name="SELECTED_MATRIX_CONFIGURATION_ID" value="0" />
+    <option name="SELECTED_CLOUD_PROJECT_ID" value="" />
+    <option name="IS_VALID_CLOUD_SELECTION" value="false" />
+    <option name="INVALID_CLOUD_SELECTION_ERROR" value="" />
     <RunnerSettings RunnerId="AndroidDebugRunner" />
     <ConfigurationWrapper RunnerId="AndroidDebugRunner" />
     <method />
