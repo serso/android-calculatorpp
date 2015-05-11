@@ -32,8 +32,8 @@
     <orderEntry type="library" exported="" scope="TEST" name="robolectric-2.3" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="mockito-all-1.9.5" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="jsonassert-1.2.3" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="support-v4-21.0.3" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="appcompat-v7-21.0.3" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="support-v4-22.1.1" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="appcompat-v7-22.1.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="hamcrest-core-1.3" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="objenesis-1.3" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="sqlite4java-0.282" level="project" />
@@ -73,40 +73,42 @@
     <orderEntry type="library" exported="" scope="TEST" name="wagon-http-shared-1.0-beta-6" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="xercesMinimal-1.9.6.2" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="nekohtml-1.9.6.2" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="support-annotations-21.0.3" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="classes" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="support-annotations-22.1.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="simple-xml-2.6.1" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="classes" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="core" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="_home_serso_projects_java_serso_android_calculatorpp_android_app_build_intermediates_exploded_aar_com_android_support_recyclerview_v7_21_0_0_jars_classes_jar" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="support-annotations-22.1.1" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="_home_serso_projects_java_serso_android_calculatorpp_android_app_build_intermediates_exploded_aar_com_android_support_support_v4_22_1_1_jars_classes_jar" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="_home_serso_projects_java_serso_android_calculatorpp_core_build_libs_core_jar" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="commons-cli-1.2" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="annotations-2.0.1" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="classes" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="classes" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="classes" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="_home_serso_projects_java_serso_android_calculatorpp_android_app_build_intermediates_exploded_aar_com_google_android_gms_play_services_ads_6_5_87_jars_classes_jar" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="_home_serso_projects_java_serso_android_calculatorpp_android_app_build_intermediates_exploded_aar_com_melnykov_floatingactionbutton_1_1_0_jars_classes_jar" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="_home_serso_projects_java_serso_android_calculatorpp_android_app_build_intermediates_exploded_aar_org_solovyev_android_android_common_menus_1_1_18_jars_classes_jar" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="stax-1.2.0" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="classes" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="classes" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="classes" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="support-annotations-21.0.3" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="leakcanary-watcher-1.3" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="_home_serso_projects_java_serso_android_calculatorpp_android_app_build_intermediates_exploded_aar_com_squareup_leakcanary_leakcanary_android_1_3_jars_classes_jar" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="_home_serso_projects_java_serso_android_calculatorpp_android_app_build_intermediates_exploded_aar_org_solovyev_android_android_common_other_1_1_18_jars_classes_jar" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="common-msg-1.0.5" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="common-listeners-1.0.7" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="classes" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="_home_serso_projects_java_serso_android_calculatorpp_android_app_build_intermediates_exploded_aar_org_solovyev_android_android_common_preferences_1_1_18_jars_classes_jar" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="guava-11.0.2" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="common-text-1.0.7" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="_home_serso_projects_java_serso_android_calculatorpp_android_app_build_intermediates_exploded_aar_org_solovyev_android_checkout_0_7_2_jars_classes_jar" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="library-2.4.0" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="common-text-1.0.7" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="_home_serso_projects_java_serso_android_calculatorpp_android_app_build_intermediates_exploded_aar_org_solovyev_android_material_0_1_2_jars_classes_jar" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="acra-4.5.0" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="classes" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="internal_impl-21.0.3" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="classes" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="classes" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="classes" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="classes" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="_home_serso_projects_java_serso_android_calculatorpp_android_app_build_intermediates_exploded_aar_org_solovyev_android_android_common_views_1_1_18_jars_classes_jar" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="_home_serso_projects_java_serso_android_calculatorpp_android_app_build_intermediates_exploded_aar_com_google_android_gms_play_services_base_6_5_87_jars_classes_jar" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="common-core-1.0.7" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="_home_serso_projects_java_serso_android_calculatorpp_android_app_build_intermediates_exploded_aar_org_solovyev_android_android_common_core_1_1_18_jars_classes_jar" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="haha-1.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="common-security-1.0.7" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="jscl-1.0.11" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="leakcanary-analyzer-1.3" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="_home_serso_projects_java_serso_android_calculatorpp_android_app_build_intermediates_exploded_aar_org_solovyev_android_android_common_lists_1_1_18_jars_classes_jar" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="_home_serso_projects_java_serso_android_calculatorpp_android_app_build_intermediates_exploded_aar_com_android_support_appcompat_v7_22_1_1_jars_classes_jar" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="_home_serso_projects_java_serso_android_calculatorpp_android_app_build_intermediates_classes_debug" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="_home_serso_projects_java_serso_android_calculatorpp_android_app_build_intermediates_dependency_cache_debug" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="android" level="project" />
-    <orderEntry type="library" exported="" name="android-app-tests.android-app-tests" level="project" />
   </component>
 </module>
