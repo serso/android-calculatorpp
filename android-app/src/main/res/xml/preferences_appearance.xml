@@ -23,69 +23,74 @@
   -->
 
 <PreferenceScreen xmlns:a="http://schemas.android.com/apk/res/android"
-				  xmlns:range="http://schemas.android.com/apk/res-auto">
+				  xmlns:m="http://schemas.android.com/apk/res-auto">
 
-		<android.preference.CheckBoxPreference
-				a:key="@string/p_calc_color_display_key"
-				a:summary="@string/c_calc_color_display_summary"
-				a:title="@string/c_calc_color_display_title"
-				a:defaultValue="true"/>
+	<org.solovyev.android.material.preferences.ListPreference
+		a:key="gui.language"
+		a:title="@string/prefs_language_title"
+		m:materialColor="@color/material_text_selector"/>
 
-		<ListPreference
-				a:key="hapticFeedback"
-				a:title="@string/c_calc_haptic_feedback_title"
-				a:entries="@array/cpp_haptic_feedback_names"
-				a:summary="@string/c_calc_haptic_feedback_summary"
-				a:entryValues="@array/cpp_haptic_feedback_values"/>
+	<android.preference.CheckBoxPreference
+		a:defaultValue="true"
+		a:key="@string/p_calc_color_display_key"
+		a:summary="@string/c_calc_color_display_summary"
+		a:title="@string/c_calc_color_display_title"/>
 
-		<ListPreference
-				a:key="@string/p_calc_multiplication_sign_key"
-				a:title="@string/c_calc_multiplication_sign"
-				a:entries="@array/p_multiplication_sign_values"
-				a:summary="@string/c_calc_multiplication_sign_summary"
-				a:entryValues="@array/p_multiplication_sign_values"/>
+	<ListPreference
+		a:entries="@array/cpp_haptic_feedback_names"
+		a:entryValues="@array/cpp_haptic_feedback_values"
+		a:key="hapticFeedback"
+		a:summary="@string/c_calc_haptic_feedback_summary"
+		a:title="@string/c_calc_haptic_feedback_title"/>
 
-		<ListPreference
-				a:key="@string/p_calc_theme_key"
-				a:title="@string/c_calc_theme"
-				a:entries="@array/p_theme_names"
-				a:summary="@string/c_calc_theme_summary"
-				a:entryValues="@array/p_theme_values"/>
+	<ListPreference
+		a:entries="@array/p_multiplication_sign_values"
+		a:entryValues="@array/p_multiplication_sign_values"
+		a:key="@string/p_calc_multiplication_sign_key"
+		a:summary="@string/c_calc_multiplication_sign_summary"
+		a:title="@string/c_calc_multiplication_sign"/>
 
-		<ListPreference
-				a:key="@string/p_calc_layout_key"
-				a:title="@string/c_calc_layout"
-				a:entries="@array/p_layout_names"
-				a:summary="@string/c_calc_layout_summary"
-				a:entryValues="@array/p_layout_values"/>
+	<ListPreference
+		a:entries="@array/p_theme_names"
+		a:entryValues="@array/p_theme_values"
+		a:key="@string/p_calc_theme_key"
+		a:summary="@string/c_calc_theme_summary"
+		a:title="@string/c_calc_theme"/>
 
-		<android.preference.CheckBoxPreference
-				a:key="autoOrientation"
-				a:title="@string/c_auto_orientation_title"
-				a:summary="@string/c_auto_orientation_summary"
-				a:defaultValue="true"/>
+	<ListPreference
+		a:entries="@array/p_layout_names"
+		a:entryValues="@array/p_layout_values"
+		a:key="@string/p_calc_layout_key"
+		a:summary="@string/c_calc_layout_summary"
+		a:title="@string/c_calc_layout"/>
+
+	<android.preference.CheckBoxPreference
+		a:defaultValue="true"
+		a:key="autoOrientation"
+		a:summary="@string/c_auto_orientation_summary"
+		a:title="@string/c_auto_orientation_title"/>
 
 
-		<android.preference.CheckBoxPreference
-				a:key="showEqualsButton"
-				a:title="@string/c_show_equals_button_title"
-				a:summary="@string/c_show_equals_button_summary"
-				a:defaultValue="true"/>
+	<android.preference.CheckBoxPreference
+		a:defaultValue="true"
+		a:key="showEqualsButton"
+		a:summary="@string/c_show_equals_button_summary"
+		a:title="@string/c_show_equals_button_title"/>
 
-		<android.preference.CheckBoxPreference
-				a:key="hideNumeralBaseDigits"
-				a:title="@string/c_hide_numeral_base_digits_title"
-				a:summary="@string/c_hide_numeral_base_digits_summary"
-				a:defaultValue="true"/>
+	<android.preference.CheckBoxPreference
+		a:defaultValue="true"
+		a:key="hideNumeralBaseDigits"
+		a:summary="@string/c_hide_numeral_base_digits_summary"
+		a:title="@string/c_hide_numeral_base_digits_title"/>
 
-		<android.preference.CheckBoxPreference
-				a:key="history_show_intermediate_calculations"
-				a:title="@string/prefs_history_show_intermediate_calculations_title"
-				a:summary="@string/prefs_history_show_intermediate_calculations_summary"/>
+	<android.preference.CheckBoxPreference
+		a:key="history_show_intermediate_calculations"
+		a:summary="@string/prefs_history_show_intermediate_calculations_summary"
+		a:title="@string/prefs_history_show_intermediate_calculations_title"/>
 
-		<android.preference.CheckBoxPreference
-				a:key="preventScreenFromFading"
-				a:title="@string/prefs_prevent_screen_from_fading_title"
-				a:summary="@string/prefs_prevent_screen_from_fading_summary"/>
+	<android.preference.CheckBoxPreference
+		a:key="preventScreenFromFading"
+		a:summary="@string/prefs_prevent_screen_from_fading_summary"
+		a:title="@string/prefs_prevent_screen_from_fading_title"/>
 
 </PreferenceScreen>

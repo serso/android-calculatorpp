@@ -37,6 +37,7 @@ import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
 import org.solovyev.android.Android;
 import org.solovyev.android.calculator.history.AndroidCalculatorHistory;
+import org.solovyev.android.calculator.language.Language;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 import org.solovyev.android.calculator.onscreen.CalculatorOnscreenStartActivity;
 import org.solovyev.android.calculator.plot.AndroidCalculatorPlotter;
@@ -48,6 +49,7 @@ import org.solovyev.common.msg.MessageType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nonnull;
@@ -139,8 +141,10 @@ public class CalculatorApplication extends android.app.Application implements Sh
 		preferences.registerOnSharedPreferenceChangeListener(this);
 
 		setTheme(preferences);
+		setLanguageInitially();
 
 		super.onCreate();
+		App.getLanguages().updateLanguage(this, true);
 
 		if (!Preferences.Ga.initialReportDone.getPreference(preferences)) {
 			App.getGa().reportInitially(preferences);
@@ -197,6 +201,14 @@ public class CalculatorApplication extends android.app.Application implements Sh
 				App.getBroadcaster().sendEditorStateChangedIntent();
 			}
 		}, 100, TimeUnit.MILLISECONDS);
+	}
+
+	private void setLanguageInitially() {
+		// should be called before onCreate()
+		final Language language = App.getLanguages().getCurrent();
+		if (!language.isSystem() && !language.locale.equals(Locale.getDefault())) {
+			Locale.setDefault(language.locale);
+		}
 	}
 
 	private void setTheme(@Nonnull SharedPreferences preferences) {

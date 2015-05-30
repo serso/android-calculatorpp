@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -13,11 +14,16 @@ import android.widget.ListView;
 import org.solovyev.android.calculator.AdView;
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.CalculatorApplication;
+import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.language.Language;
+import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.android.checkout.BillingRequests;
 import org.solovyev.android.checkout.Checkout;
 import org.solovyev.android.checkout.ProductTypes;
 import org.solovyev.android.checkout.RequestListener;
+
+import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -51,12 +57,12 @@ public class PreferencesFragment extends org.solovyev.android.material.preferenc
 		App.getPreferences().registerOnSharedPreferenceChangeListener(this);
 	}
 
-	private void setPreferenceIntent(int xml, @Nonnull String name) {
-		final Preference preference = findPreference(name);
+	private void setPreferenceIntent(int xml, @Nonnull PreferencesActivity.PrefDef def) {
+		final Preference preference = findPreference(def.id);
 		if (preference != null) {
 			final Intent intent = new Intent(getActivity(), PreferencesActivity.class);
 			intent.putExtra(PreferencesActivity.EXTRA_PREFERENCE, xml);
-			intent.putExtra(PreferencesActivity.EXTRA_PREFERENCE_TITLE, preference.getTitle());
+			intent.putExtra(PreferencesActivity.EXTRA_PREFERENCE_TITLE, def.title);
 			preference.setIntent(intent);
 		}
 	}
@@ -67,11 +73,11 @@ public class PreferencesFragment extends org.solovyev.android.material.preferenc
 
 		final int preference = getPreferencesResId();
 		if (preference == R.xml.preferences) {
-			final SparseArray<String> preferences = PreferencesActivity.getPreferences();
+			final SparseArray<PreferencesActivity.PrefDef> preferences = PreferencesActivity.getPreferences();
 			for (int i = 0; i < preferences.size(); i++) {
 				final int xml = preferences.keyAt(i);
-				final String name = preferences.valueAt(i);
-				setPreferenceIntent(xml, name);
+				final PreferencesActivity.PrefDef def = preferences.valueAt(i);
+				setPreferenceIntent(xml, def);
 			}
 			final Preference restartWizardPreference = findPreference("restart_wizard");
 			restartWizardPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -96,6 +102,8 @@ public class PreferencesFragment extends org.solovyev.android.material.preferenc
 			}
 		}
 
+		prepareLanguagePreference(preference);
+
 		getCheckout().whenReady(new Checkout.ListenerAdapter() {
 			@Override
 			public void onReady(@Nonnull BillingRequests requests) {
@@ -119,6 +127,34 @@ public class PreferencesFragment extends org.solovyev.android.material.preferenc
 
 		final SharedPreferences preferences = App.getPreferences();
 		onSharedPreferenceChanged(preferences, roundResult.getKey());
+	}
+
+	private void prepareLanguagePreference(int preference) {
+		if (preference != R.xml.preferences_appearance) {
+			return;
+		}
+
+		final ListPreference language = (ListPreference) preferenceManager.findPreference(Preferences.Gui.language.getKey());
+		final Languages languages = App.getLanguages();
+		final List<Language> languagesList = languages.getList();
+		final CharSequence[] entries = new CharSequence[languagesList.size()];
+		final CharSequence[] entryValues = new CharSequence[languagesList.size()];
+		for (int i = 0; i < languagesList.size(); i++) {
+			final Language l = languagesList.get(i);
+			entries[i] = l.getName(getActivity());
+			entryValues[i] = l.code;
+		}
+		language.setEntries(entries);
+		language.setEntryValues(entryValues);
+		language.setSummary(languages.getCurrent().getName(getActivity()));
+		language.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+			@Override
+			public boolean onPreferenceChange(Preference preference, Object newValue) {
+				final Language l = languages.get((String) newValue);
+				language.setSummary(l.getName(getActivity()));
+				return true;
+			}
+		});
 	}
 
 	@Nonnull

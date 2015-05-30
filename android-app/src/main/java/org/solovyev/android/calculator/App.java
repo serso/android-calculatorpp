@@ -39,6 +39,7 @@ import org.solovyev.android.Android;
 import org.solovyev.android.UiThreadExecutor;
 import org.solovyev.android.Views;
 import org.solovyev.android.calculator.ga.Ga;
+import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.android.calculator.view.ScreenMetrics;
 import org.solovyev.android.calculator.widget.BaseCalculatorWidgetProvider;
 import org.solovyev.android.calculator.widget.CalculatorWidgetProvider;
@@ -117,6 +118,9 @@ public final class App {
 	@Nonnull
 	private static volatile ScreenMetrics screenMetrics;
 
+	@Nonnull
+	private static final Languages languages = new Languages();
+
 	private App() {
 		throw new AssertionError();
 	}
@@ -177,6 +181,7 @@ public final class App {
 					Android.enableComponent(application, CalculatorWidgetProvider4x4.class, false);
 				}
 			}
+			App.languages.init(App.preferences);
 
 			App.initialized = true;
 		} else {
@@ -275,6 +280,11 @@ public final class App {
 	@Nonnull
 	public static Preferences.Gui.Theme getTheme() {
 		return Preferences.Gui.getTheme(getPreferences());
+	}
+
+	@Nonnull
+	public static Languages getLanguages() {
+		return languages;
 	}
 
 	public static boolean isLg() {
