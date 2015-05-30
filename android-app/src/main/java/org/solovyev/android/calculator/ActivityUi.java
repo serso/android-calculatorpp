@@ -38,8 +38,11 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import org.solovyev.android.Activities;
 import org.solovyev.android.Views;
+import org.solovyev.android.calculator.language.Language;
+import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.android.sherlock.tabs.ActionBarFragmentTabListener;
 
 import javax.annotation.Nonnull;
@@ -50,10 +53,13 @@ public class ActivityUi extends BaseUi {
 	private int layoutId;
 
 	@Nonnull
-	private Preferences.Gui.Theme theme;
+	private Preferences.Gui.Theme theme = Preferences.Gui.Theme.default_theme;
 
 	@Nonnull
-	private Preferences.Gui.Layout layout;
+	private Preferences.Gui.Layout layout = Preferences.Gui.Layout.main_calculator;
+
+	@Nonnull
+	private Language language = Languages.SYSTEM_LANGUAGE;
 
 	private int selectedNavigationIndex = 0;
 
@@ -73,11 +79,13 @@ public class ActivityUi extends BaseUi {
 		activity.setTheme(theme.getThemeId(activity));
 
 		layout = Preferences.Gui.getLayout(preferences);
+		language = App.getLanguages().getCurrent();
 	}
 
 	@Override
 	public void onCreate(@Nonnull Activity activity) {
 		super.onCreate(activity);
+		App.getLanguages().updateLanguage(activity, false);
 
 		if (activity instanceof CalculatorEventListener) {
 			Locator.getInstance().getCalculator().addCalculatorEventListener((CalculatorEventListener) activity);
@@ -146,16 +154,29 @@ public class ActivityUi extends BaseUi {
 	}
 
 	public void onResume(@Nonnull Activity activity) {
-		restartIfThemeChanged(activity, theme);
+		if (!restartIfThemeChanged(activity, theme)) {
+			restartIfLanguageChanged(activity, language);
+		}
 	}
 
-	public static void restartIfThemeChanged(@Nonnull Activity activity, @Nonnull Preferences.Gui.Theme oldTheme) {
+	public static boolean restartIfThemeChanged(@Nonnull Activity activity, @Nonnull Preferences.Gui.Theme oldTheme) {
 		final Preferences.Gui.Theme newTheme = Preferences.Gui.theme.getPreference(App.getPreferences());
 		final int themeId = oldTheme.getThemeId(activity);
 		final int newThemeId = newTheme.getThemeId(activity);
 		if (themeId != newThemeId) {
 			Activities.restartActivity(activity);
+			return true;
 		}
+		return false;
+	}
+
+	public static boolean restartIfLanguageChanged(@Nonnull Activity activity, @Nonnull Language oldLanguage) {
+		final Language current = App.getLanguages().getCurrent();
+		if (!current.equals(oldLanguage)) {
+			Activities.restartActivity(activity);
+			return true;
+		}
+		return false;
 	}
 
 	public void onPause(@Nonnull Activity activity) {
@@ -252,6 +273,11 @@ public class ActivityUi extends BaseUi {
 	@Nonnull
 	public Preferences.Gui.Theme getTheme() {
 		return theme;
+	}
+
+	@Nonnull
+	public Language getLanguage() {
+		return language;
 	}
 
 	@Nonnull

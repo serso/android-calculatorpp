@@ -29,19 +29,28 @@ import android.graphics.Color;
 import android.support.annotation.StyleRes;
 import android.util.SparseArray;
 import android.view.ContextThemeWrapper;
-import jscl.AngleUnit;
-import jscl.NumeralBase;
+
+import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 import org.solovyev.android.calculator.onscreen.CalculatorOnscreenService;
 import org.solovyev.android.calculator.preferences.PurchaseDialogActivity;
 import org.solovyev.android.calculator.wizard.WizardActivity;
-import org.solovyev.android.prefs.*;
+import org.solovyev.android.prefs.BooleanPreference;
+import org.solovyev.android.prefs.IntegerPreference;
+import org.solovyev.android.prefs.LongPreference;
+import org.solovyev.android.prefs.NumberToStringPreference;
+import org.solovyev.android.prefs.Preference;
+import org.solovyev.android.prefs.StringPreference;
+
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.text.DecimalFormatSymbols;
-import java.util.Locale;
+
+import jscl.AngleUnit;
+import jscl.NumeralBase;
 
 import static org.solovyev.android.Android.isPhoneModel;
 import static org.solovyev.android.DeviceModel.samsung_galaxy_s;
@@ -80,8 +89,8 @@ public final class Preferences {
 
 		public static final Preference<Theme> theme = StringPreference.ofEnum("org.solovyev.android.calculator.CalculatorActivity_calc_theme", Theme.material_theme, Theme.class);
 		public static final Preference<Layout> layout = StringPreference.ofEnum("org.solovyev.android.calculator.CalculatorActivity_calc_layout", Layout.simple, Layout.class);
+		public static final Preference<String> language = StringPreference.of("gui.language", Languages.SYSTEM_LANGUAGE_CODE);
 		public static final Preference<Boolean> feedbackWindowShown = BooleanPreference.of("feedback_window_shown", false);
-		public static final Preference<Boolean> notesppAnnounceShown = BooleanPreference.of("notespp_announce_shown", false);
 		public static final Preference<Boolean> showReleaseNotes = BooleanPreference.of("org.solovyev.android.calculator.CalculatorActivity_show_release_notes", true);
 		public static final Preference<Boolean> usePrevAsBack = BooleanPreference.of("org.solovyev.android.calculator.CalculatorActivity_use_back_button_as_prev", false);
 		public static final Preference<Boolean> showEqualsButton = BooleanPreference.of("showEqualsButton", true);
@@ -264,13 +273,13 @@ public final class Preferences {
 			Gui.layout.putDefault(preferences);
 		}
 		applyDefaultPreference(preferences, Gui.feedbackWindowShown);
-		applyDefaultPreference(preferences, Gui.notesppAnnounceShown);
 		applyDefaultPreference(preferences, Gui.showReleaseNotes);
 		applyDefaultPreference(preferences, Gui.usePrevAsBack);
 		applyDefaultPreference(preferences, Gui.showEqualsButton);
 		applyDefaultPreference(preferences, Gui.autoOrientation);
 		applyDefaultPreference(preferences, Gui.hideNumeralBaseDigits);
 		applyDefaultPreference(preferences, Gui.preventScreenFromFading);
+		applyDefaultPreference(preferences, Gui.language);
 
 		applyDefaultPreference(preferences, Graph.plotImag);
 		applyDefaultPreference(preferences, History.showIntermediateCalculations);

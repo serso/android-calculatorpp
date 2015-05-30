@@ -231,4 +231,5 @@
   <string name="cpp_clear_history">Clear</string>
   <string name="cpp_new_in_version">New in %1$s version</string>
   <string name="cpp_release_notes_choose_theme">Do you want to try new Material themes? Choose them from the list:</string>
+  <string name="cpp_system_language">System language</string>
 </resources>
