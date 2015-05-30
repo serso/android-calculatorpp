@@ -54,9 +54,11 @@
 		<item name="android:colorEdgeEffect">@color/cpp_material_accent</item>
 		<item name="android:statusBarColor">@color/cpp_status_bar</item>
 
+		<item name="windowNoTitle">false</item>
 		<item name="android:windowNoTitle">false</item>
 		<item name="android:windowTitleBackgroundStyle">@android:color/transparent</item>
 		<item name="windowActionBar">false</item>
+		<item name="android:windowActionBar">false</item>
 		<item name="android:windowCloseOnTouchOutside">false</item>
 
 		<item name="cpp_main_bg">@color/cpp_main_bg</item>
@@ -96,9 +98,11 @@
 		<item name="android:colorAccent">@color/cpp_material_light</item>
 		<item name="android:statusBarColor">@color/cpp_status_bar_light</item>
 
+		<item name="windowNoTitle">false</item>
 		<item name="android:windowNoTitle">false</item>
 		<item name="android:windowTitleBackgroundStyle">@android:color/transparent</item>
 		<item name="windowActionBar">false</item>
+		<item name="android:windowActionBar">false</item>
 		<item name="android:windowCloseOnTouchOutside">false</item>
 
 		<item name="cpp_main_bg">@color/cpp_main_bg_light</item>
@@ -109,6 +113,7 @@
 	</style>
 
 	<style name="Cpp.Theme.Wizard" parent="Cpp.Theme.Material">
+		<item name="windowNoTitle">true</item>
 		<item name="android:windowNoTitle">true</item>
 		<item name="windowActionBar">false</item>
 		<item name="android:windowActionBar">false</item>
@@ -116,6 +121,7 @@
 	</style>
 
 	<style name="Cpp.Theme.Wizard.Light" parent="Cpp.Theme.Material.Light">
+		<item name="windowNoTitle">true</item>
 		<item name="android:windowNoTitle">true</item>
 		<item name="windowActionBar">false</item>
 		<item name="android:windowActionBar">false</item>
