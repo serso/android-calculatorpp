@@ -60,7 +60,7 @@ import javax.annotation.Nonnull;
 		formUriBasicAuthPassword="ECL65PO2TH5quIFNAK4hQ5Ng",
 		mode = ReportingInteractionMode.TOAST,
 		resToastText = R.string.crashed)
-public class CalculatorApplication extends android.app.Application implements SharedPreferences.OnSharedPreferenceChangeListener, ServiceLocator {
+public class CalculatorApplication extends android.app.Application implements SharedPreferences.OnSharedPreferenceChangeListener {
 
 	/*
 	**********************************************************************

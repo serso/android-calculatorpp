@@ -34,8 +34,6 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.text.TextUtils;
-import android.util.Log;
 
 import org.solovyev.android.Android;
 import org.solovyev.android.UiThreadExecutor;
@@ -47,20 +45,26 @@ import org.solovyev.android.calculator.widget.CalculatorWidgetProvider;
 import org.solovyev.android.calculator.widget.CalculatorWidgetProvider3x4;
 import org.solovyev.android.calculator.widget.CalculatorWidgetProvider4x4;
 import org.solovyev.android.calculator.widget.CalculatorWidgetProvider4x5;
-import org.solovyev.android.checkout.*;
+import org.solovyev.android.checkout.Billing;
+import org.solovyev.android.checkout.Checkout;
+import org.solovyev.android.checkout.Inventory;
+import org.solovyev.android.checkout.ProductTypes;
+import org.solovyev.android.checkout.Products;
+import org.solovyev.android.checkout.RobotmediaDatabase;
+import org.solovyev.android.checkout.RobotmediaInventory;
 import org.solovyev.common.listeners.JEvent;
 import org.solovyev.common.listeners.JEventListener;
 import org.solovyev.common.listeners.JEventListeners;
 import org.solovyev.common.listeners.Listeners;
 import org.solovyev.common.threads.DelayedExecutor;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Executor;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * User: serso
@@ -80,9 +84,6 @@ public final class App {
 
 	@Nonnull
 	private static volatile Application application;
-
-	@Nonnull
-	private static volatile ServiceLocator locator;
 
 	@Nonnull
 	private static volatile DelayedExecutor uiThreadExecutor;
@@ -128,18 +129,13 @@ public final class App {
     **********************************************************************
     */
 
-	public static <A extends Application & ServiceLocator> void init(@Nonnull A application) {
-		init(application, new UiThreadExecutor(), Listeners.newEventBus(), application);
-	}
-
-	public static void init(@Nonnull Application application, @Nullable ServiceLocator serviceLocator) {
-		init(application, new UiThreadExecutor(), Listeners.newEventBus(), serviceLocator);
+	public static void init(@Nonnull Application application) {
+		init(application, new UiThreadExecutor(), Listeners.newEventBus());
 	}
 
 	public static void init(@Nonnull Application application,
 							@Nonnull UiThreadExecutor uiThreadExecutor,
-							@Nonnull JEventListeners<JEventListener<? extends JEvent>, JEvent> eventBus,
-							@Nullable ServiceLocator serviceLocator) {
+							@Nonnull JEventListeners<JEventListener<? extends JEvent>, JEvent> eventBus) {
 		if (!initialized) {
 			App.application = application;
 			App.preferences = PreferenceManager.getDefaultSharedPreferences(application);
@@ -163,13 +159,6 @@ public final class App {
 					}
 				}
 			});
-			if (serviceLocator != null) {
-				App.locator = serviceLocator;
-			} else {
-				// empty service locator
-				App.locator = new ServiceLocator() {
-				};
-			}
 			App.broadcaster = new CalculatorBroadcaster(application);
 			App.vibrator = new Vibrator(application, preferences);
 			App.screenMetrics = new ScreenMetrics(application);
@@ -227,6 +216,7 @@ public final class App {
 	 * @param <A> real type of application
 	 * @return application instance which was provided in {@link App#init(android.app.Application)} method
 	 */
+	@SuppressWarnings("unchecked")
 	@Nonnull
 	public static <A extends Application> A getApplication() {
 		checkInit();
