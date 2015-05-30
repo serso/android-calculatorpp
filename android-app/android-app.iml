@@ -121,8 +121,8 @@
     <orderEntry type="library" exported="" name="leakcanary-android-1.3" level="project" />
     <orderEntry type="library" exported="" name="common-security-1.0.7" level="project" />
     <orderEntry type="library" exported="" name="play-services-analytics-7.3.0" level="project" />
-    <orderEntry type="library" exported="" name="support-annotations-22.1.1" level="project" />
     <orderEntry type="library" exported="" name="haha-1.1" level="project" />
+    <orderEntry type="library" exported="" name="support-annotations-22.1.1" level="project" />
     <orderEntry type="library" exported="" name="android-common-core-1.1.18" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-22.1.1" level="project" />
     <orderEntry type="library" exported="" name="common-msg-1.0.5" level="project" />
