@@ -24,19 +24,21 @@ package org.solovyev.android.calculator;
 
 import android.app.Activity;
 import android.app.Application;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import jscl.NumeralBase;
-import jscl.math.Generic;
+
 import org.solovyev.android.calculator.history.CalculatorHistoryState;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.common.history.HistoryAction;
 import org.solovyev.common.msg.Message;
 
+import java.util.List;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.List;
+
+import jscl.NumeralBase;
+import jscl.math.Generic;
 
 /**
  * User: serso
@@ -58,29 +60,24 @@ public class AndroidCalculator implements Calculator, CalculatorEventListener, S
 		PreferenceManager.getDefaultSharedPreferences(application).registerOnSharedPreferenceChangeListener(this);
 	}
 
-	public void init(@Nonnull final Activity activity) {
-		setEditor(activity);
-		setDisplay(activity);
-	}
-
 	public void setDisplay(@Nonnull Activity activity) {
 		final AndroidCalculatorDisplayView displayView = (AndroidCalculatorDisplayView) activity.findViewById(R.id.calculator_display);
-		setDisplay(activity, displayView);
+		displayView.init(activity);
+		Locator.getInstance().getDisplay().setView(displayView);
 	}
 
-	public void setDisplay(@Nonnull Context context, @Nonnull AndroidCalculatorDisplayView displayView) {
-		displayView.init(context);
-		Locator.getInstance().getDisplay().setView(displayView);
+	public void clearDisplay() {
+		Locator.getInstance().getDisplay().setView(null);
 	}
 
 	public void setEditor(@Nonnull Activity activity) {
 		final AndroidCalculatorEditorView editorView = (AndroidCalculatorEditorView) activity.findViewById(R.id.calculator_editor);
-		setEditor(activity, editorView);
-	}
-
-	public void setEditor(@Nonnull Context context, @Nonnull AndroidCalculatorEditorView editorView) {
 		editorView.init();
 		Locator.getInstance().getEditor().setView(editorView);
+	}
+
+	public void clearEditor() {
+		Locator.getInstance().getEditor().setView(null);
 	}
 
 

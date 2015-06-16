@@ -92,6 +92,12 @@ public class CalculatorDisplayFragment extends Fragment {
 	}
 
 	@Override
+	public void onDestroyView() {
+		((AndroidCalculator) Locator.getInstance().getCalculator()).clearDisplay();
+		super.onDestroyView();
+	}
+
+	@Override
 	public void onDestroy() {
 		fragmentHelper.onDestroy(this);
 

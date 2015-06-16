@@ -99,6 +99,7 @@ public class CalculatorEditorFragment extends Fragment {
 
 	@Override
 	public void onDestroyView() {
+		((AndroidCalculator) Locator.getInstance().getCalculator()).clearEditor();
 		super.onDestroyView();
 	}
 
