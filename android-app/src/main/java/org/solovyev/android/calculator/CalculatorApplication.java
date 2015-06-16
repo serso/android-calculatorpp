@@ -274,8 +274,8 @@ public class CalculatorApplication extends android.app.Application implements Sh
 
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-		if (Preferences.OnscreenCalculator.showAppIcon.getKey().equals(key)) {
-			boolean showAppIcon = Preferences.OnscreenCalculator.showAppIcon.getPreference(prefs);
+		if (Preferences.Onscreen.showAppIcon.getKey().equals(key)) {
+			boolean showAppIcon = Preferences.Onscreen.showAppIcon.getPreference(prefs);
 			Android.toggleComponent(this, CalculatorOnscreenStartActivity.class, showAppIcon);
 			Locator.getInstance().getNotifier().showMessage(R.string.cpp_this_change_may_require_reboot, MessageType.info);
 		}

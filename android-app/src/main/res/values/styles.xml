@@ -40,6 +40,10 @@
 		<item name="directionTextColor">@color/cpp_button_text</item>
 	</style>
 
+	<style name="CppText.Editor.Onscreen.Light" parent="CppText.Editor.Onscreen">
+		<item name="android:textColor">@color/cpp_text_inverse</item>
+	</style>
+
 	<style name="CppText.Editor.Onscreen" parent="CppText.Editor">
 		<item name="android:ellipsize">none</item>
 		<item name="android:singleLine">true</item>
@@ -75,6 +79,10 @@
 		<item name="android:textColor">@color/cpp_text</item>
 	</style>
 
+	<style name="CppText.Display.Onscreen.Light" parent="CppText.Display.Onscreen">
+		<item name="android:textColor">@color/cpp_text_inverse</item>
+	</style>
+
 	<style name="CppText.About">
 		<item name="android:gravity">center</item>
 		<item name="android:layout_width">fill_parent</item>
@@ -86,25 +94,6 @@
 	<style name="CppText">
 		<item name="android:background">@android:color/transparent</item>
 		<item name="android:textColor">?android:attr/textColorPrimary</item>
-	</style>
-
-	<style name="cpp_simple_metro_digit_button_style" parent="metro_digit_button_style">
-		<item name="android:textSize">@dimen/cpp_widget_keyboard_button_text_size</item>
-		<item name="android:background">@drawable/metro_widget_button_dark</item>
-	</style>
-
-	<style name="cpp_simple_metro_control_button_style" parent="metro_control_button_style">
-		<item name="android:textSize">@dimen/cpp_widget_keyboard_button_text_size</item>
-		<item name="android:background">@drawable/metro_widget_button_light</item>
-	</style>
-
-	<style name="cpp_simple_metro_blue_operation_button_style" parent="metro_blue_operation_button_style">
-		<item name="android:textSize">@dimen/cpp_widget_keyboard_button_text_size</item>
-		<item name="android:background">@drawable/metro_widget_button</item>
-	</style>
-
-	<style name="cpp_simple_metro_control_image_button_style" parent="metro_control_image_button_style">
-		<item name="android:background">@drawable/metro_widget_button_light</item>
 	</style>
 
 	<style name="CppMain.Widget" parent="CppMain">
@@ -125,7 +114,11 @@
 
 	<style name="CppMain.Onscreen" parent="CppMain">
 		<item name="android:background">@color/cpp_main_bg</item>
-		<item name="android:padding">1dp</item>
+		<item name="android:padding">@dimen/cpp_onscreen_main_padding</item>
+	</style>
+
+	<style name="CppMain.Onscreen.Light" parent="CppMain.Onscreen">
+		<item name="android:background">@color/cpp_main_bg_light</item>
 	</style>
 
 	<style name="WizardLabel.Last" parent="WizardLabel">

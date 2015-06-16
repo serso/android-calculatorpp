@@ -26,6 +26,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.StyleRes;
 import android.util.SparseArray;
 import android.view.ContextThemeWrapper;
@@ -33,7 +34,6 @@ import android.view.ContextThemeWrapper;
 import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
-import org.solovyev.android.calculator.onscreen.CalculatorOnscreenService;
 import org.solovyev.android.calculator.preferences.PurchaseDialogActivity;
 import org.solovyev.android.calculator.wizard.WizardActivity;
 import org.solovyev.android.prefs.BooleanPreference;
@@ -65,9 +65,65 @@ public final class Preferences {
 	public static final Preference<Integer> appVersion = IntegerPreference.of("application.version", -1);
 	public static final Preference<Integer> appOpenedCounter = IntegerPreference.of("app_opened_counter", 0);
 
-	public static class OnscreenCalculator {
+	public static class Onscreen {
 		public static final Preference<Boolean> startOnBoot = BooleanPreference.of("onscreen_start_on_boot", false);
 		public static final Preference<Boolean> showAppIcon = BooleanPreference.of("onscreen_show_app_icon", true);
+		public static final Preference<Theme> theme = StringPreference.ofEnum("onscreen.theme", Theme.default_theme, Theme.class);
+
+		public enum Theme {
+
+			default_theme(0, null),
+			metro_blue_theme(R.layout.onscreen_layout, Gui.Theme.metro_blue_theme),
+			material_theme(R.layout.onscreen_layout_material, Gui.Theme.material_theme),
+			material_light_theme(R.layout.onscreen_layout_material_light, Gui.Theme.material_light_theme);
+
+			@LayoutRes
+			private final int layout;
+
+			@Nullable
+			private final Gui.Theme appTheme;
+
+			Theme(int layout, @Nullable Gui.Theme appTheme) {
+				this.layout = layout;
+				this.appTheme = appTheme;
+			}
+
+			public int getLayout(@Nonnull Gui.Theme appTheme) {
+				return resolveThemeFor(appTheme).layout;
+			}
+
+			@Nonnull
+			public Theme resolveThemeFor(@Nonnull Gui.Theme appTheme) {
+				if (this == default_theme) {
+					// find direct match
+					for (Theme theme : values()) {
+						if (theme.appTheme == appTheme) {
+							return theme;
+						}
+					}
+
+					// for metro themes return metro theme
+					if (appTheme == Gui.Theme.metro_green_theme || appTheme == Gui.Theme.metro_purple_theme) {
+						return metro_blue_theme;
+					}
+
+					// for old themes return dark material
+					return material_theme;
+				}
+				return this;
+			}
+
+			@Nullable
+			public Gui.Theme getAppTheme() {
+				return appTheme;
+			}
+		}
+
+
+		@Nonnull
+		public static Theme getTheme(@Nonnull SharedPreferences preferences) {
+			return theme.getPreferenceNoError(preferences);
+		}
 	}
 
 	public static class Calculations {
@@ -113,7 +169,7 @@ public final class Preferences {
 			return layout.getPreferenceNoError(preferences);
 		}
 
-		public static enum Theme {
+		public enum Theme {
 
 			default_theme(R.style.Cpp_Theme_Gray),
 			violet_theme(R.style.Cpp_Theme_Violet),
@@ -151,9 +207,6 @@ public final class Preferences {
 				}
 				if (context instanceof PurchaseDialogActivity) {
 					return dialogThemeId;
-				}
-				if (App.getTheme().isLight() && context instanceof CalculatorOnscreenService) {
-					return R.style.Cpp_Theme_Material;
 				}
 				return themeId;
 			}
@@ -288,8 +341,9 @@ public final class Preferences {
 		applyDefaultPreference(preferences, Calculations.preferredAngleUnits);
 		applyDefaultPreference(preferences, Calculations.preferredNumeralBase);
 
-		applyDefaultPreference(preferences, OnscreenCalculator.showAppIcon);
-		applyDefaultPreference(preferences, OnscreenCalculator.startOnBoot);
+		applyDefaultPreference(preferences, Onscreen.showAppIcon);
+		applyDefaultPreference(preferences, Onscreen.startOnBoot);
+		applyDefaultPreference(preferences, Onscreen.theme);
 
 		applyDefaultPreference(preferences, Ga.initialReportDone);
 

@@ -30,6 +30,7 @@ import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+
 import org.solovyev.android.calculator.text.TextProcessor;
 import org.solovyev.android.calculator.text.TextProcessorEditorResult;
 import org.solovyev.android.calculator.view.TextHighlighter;
@@ -140,7 +141,8 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
 	}
 
 	private Preferences.Gui.TextColor getTextColor() {
-		return App.getTheme().getTextColor(getContext());
+		final Context context = getContext();
+		return App.getThemeIn(context).getTextColor(context);
 	}
 
 	@Nonnull

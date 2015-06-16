@@ -22,7 +22,7 @@
   ~ Site:  http://se.solovyev.org
   -->
 <Button a:id="@id/cpp_button_history"
-	style="@style/cpp_simple_metro_control_button_style"
+	style="@style/CppKeyboardButton.Metro.Simple.Control"
 	xmlns:a="http://schemas.android.com/apk/res/android"
 	a:text="@string/c_history_button"
 	a:textStyle="bold" />

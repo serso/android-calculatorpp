@@ -24,7 +24,9 @@ package org.solovyev.android.calculator.onscreen;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.PixelFormat;
+import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -33,12 +35,21 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import org.solovyev.android.calculator.*;
+
+import org.solovyev.android.calculator.AndroidCalculatorDisplayView;
+import org.solovyev.android.calculator.AndroidCalculatorEditorView;
+import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.CalculatorButton;
+import org.solovyev.android.calculator.CalculatorDisplayViewState;
+import org.solovyev.android.calculator.CalculatorEditorViewState;
+import org.solovyev.android.calculator.Preferences;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.prefs.Preference;
+
+import java.util.Locale;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Locale;
 
 /**
  * User: serso
@@ -64,7 +75,7 @@ public class CalculatorOnscreenView {
 	**********************************************************************
 	*/
 
-	private static final Preference<CalculatorOnscreenViewState> viewStatePreference = new CalculatorOnscreenViewState.Preference("onscreen_view_state", CalculatorOnscreenViewState.newDefaultState());
+	private static final Preference<CalculatorOnscreenViewState> viewStatePreference = new CalculatorOnscreenViewState.Preference("onscreen_view_state", CalculatorOnscreenViewState.createDefault());
 
 	/*
 	**********************************************************************
@@ -84,6 +95,11 @@ public class CalculatorOnscreenView {
 	private View header;
 
 	@Nonnull
+	private ImageView headerTitle;
+
+	private Drawable headerTitleDrawable;
+
+	@Nonnull
 	private AndroidCalculatorEditorView editorView;
 
 	@Nonnull
@@ -93,7 +109,7 @@ public class CalculatorOnscreenView {
 	private Context context;
 
 	@Nonnull
-	private CalculatorOnscreenViewState state = CalculatorOnscreenViewState.newDefaultState();
+	private CalculatorOnscreenViewState state = CalculatorOnscreenViewState.createDefault();
 
 	@Nullable
 	private OnscreenViewListener viewListener;
@@ -128,12 +144,15 @@ public class CalculatorOnscreenView {
 	private CalculatorOnscreenView() {
 	}
 
-	public static CalculatorOnscreenView newInstance(@Nonnull Context context,
-													 @Nonnull CalculatorOnscreenViewState state,
-													 @Nullable OnscreenViewListener viewListener) {
+	public static CalculatorOnscreenView create(@Nonnull Context context,
+												@Nonnull CalculatorOnscreenViewState state,
+												@Nullable OnscreenViewListener viewListener) {
 		final CalculatorOnscreenView result = new CalculatorOnscreenView();
 
-		result.root = View.inflate(context, R.layout.onscreen_layout, null);
+		final SharedPreferences p = App.getPreferences();
+		final Preferences.Onscreen.Theme theme = Preferences.Onscreen.theme.getPreferenceNoError(p);
+		final Preferences.Gui.Theme appTheme = Preferences.Gui.theme.getPreferenceNoError(p);
+		result.root = View.inflate(context, theme.getLayout(appTheme), null);
 		result.context = context;
 		result.viewListener = viewListener;
 
@@ -211,6 +230,9 @@ public class CalculatorOnscreenView {
 			final WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
 
 			header = root.findViewById(R.id.onscreen_header);
+			headerTitle = (ImageView) header.findViewById(R.id.onscreen_title);
+			headerTitleDrawable = headerTitle.getDrawable();
+			headerTitle.setImageDrawable(null);
 			content = root.findViewById(R.id.onscreen_content);
 
 			displayView = (AndroidCalculatorDisplayView) root.findViewById(R.id.calculator_display);
@@ -249,8 +271,7 @@ public class CalculatorOnscreenView {
 				}
 			});
 
-			final ImageView onscreenTitleImageView = (ImageView) root.findViewById(R.id.onscreen_title);
-			onscreenTitleImageView.setOnTouchListener(new WindowDragTouchListener(wm, root));
+			headerTitle.setOnTouchListener(new WindowDragTouchListener(wm, root));
 
 			initialized = true;
 		}
@@ -295,7 +316,9 @@ public class CalculatorOnscreenView {
 
 	private void fold() {
 		if (!folded) {
-			int newHeight = header.getHeight();
+			headerTitle.setImageDrawable(headerTitleDrawable);
+			final Resources r = header.getResources();
+			final int newHeight = header.getHeight() + 2 * r.getDimensionPixelSize(R.dimen.cpp_onscreen_main_padding);
 			content.setVisibility(View.GONE);
 			setHeight(newHeight);
 			folded = true;
@@ -304,6 +327,7 @@ public class CalculatorOnscreenView {
 
 	private void unfold() {
 		if (folded) {
+			headerTitle.setImageDrawable(null);
 			content.setVisibility(View.VISIBLE);
 			setHeight(state.getHeight());
 			folded = false;
@@ -375,9 +399,9 @@ public class CalculatorOnscreenView {
 	public CalculatorOnscreenViewState getCurrentState(boolean useRealSize) {
 		final WindowManager.LayoutParams params = (WindowManager.LayoutParams) root.getLayoutParams();
 		if (useRealSize) {
-			return CalculatorOnscreenViewState.newInstance(params.width, params.height, params.x, params.y);
+			return CalculatorOnscreenViewState.create(params.width, params.height, params.x, params.y);
 		} else {
-			return CalculatorOnscreenViewState.newInstance(state.getWidth(), state.getHeight(), params.x, params.y);
+			return CalculatorOnscreenViewState.create(state.getWidth(), state.getHeight(), params.x, params.y);
 		}
 	}
 

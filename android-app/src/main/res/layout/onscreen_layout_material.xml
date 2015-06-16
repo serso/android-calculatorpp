@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+	style="@style/CppMain.Onscreen"
+	xmlns:a="http://schemas.android.com/apk/res/android"
+	a:orientation="vertical">
+
+	<include
+		a:id="@+id/onscreen_header"
+		layout="@layout/onscreen_header_material"/>
+
+	<LinearLayout
+		a:id="@+id/onscreen_content"
+		a:layout_width="match_parent"
+		a:layout_height="match_parent"
+		a:orientation="vertical">
+
+		<include
+			layout="@layout/onscreen_editor"
+			a:layout_width="match_parent"
+			a:layout_height="wrap_content"/>
+
+		<LinearLayout
+			a:layout_width="match_parent"
+			a:layout_height="0dp"
+			a:layout_weight="1"
+			a:baselineAligned="false">
+
+			<include
+				layout="@layout/cpp_simple_button_equals_material"
+				a:layout_width="0dp"
+				a:layout_height="match_parent"
+				a:layout_weight="1"/>
+
+			<include
+				layout="@layout/onscreen_display"
+				a:layout_width="0dp"
+				a:layout_height="wrap_content"
+				a:layout_weight="4"/>
+
+		</LinearLayout>
+
+		<include
+			layout="@layout/onscreen_keyboard_material"
+			a:layout_width="match_parent"
+			a:layout_height="0dp"
+			a:layout_weight="4"/>
+	</LinearLayout>
+
+</LinearLayout>
