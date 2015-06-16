@@ -22,6 +22,6 @@
   ~ Site:  http://se.solovyev.org
   -->
 <Button a:id="@id/cpp_button_4"
-	style="@style/cpp_simple_metro_digit_button_style"
+	style="@style/CppKeyboardButton.Metro.Simple.Digit"
 	xmlns:a="http://schemas.android.com/apk/res/android"
 	a:text="4" />

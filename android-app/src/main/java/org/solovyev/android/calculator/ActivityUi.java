@@ -53,7 +53,7 @@ public class ActivityUi extends BaseUi {
 	private int layoutId;
 
 	@Nonnull
-	private Preferences.Gui.Theme theme = Preferences.Gui.Theme.default_theme;
+	private Preferences.Gui.Theme theme = Preferences.Gui.Theme.material_theme;
 
 	@Nonnull
 	private Preferences.Gui.Layout layout = Preferences.Gui.Layout.main_calculator;

@@ -36,6 +36,19 @@
 		<item>metro_purple_theme</item>
 	</string-array>
 
+	<string-array name="p_onscreen_theme_names">
+		<item>@string/p_onscreen_use_app_theme</item>
+		<item>@string/p_material_theme</item>
+		<item>@string/p_material_light_theme</item>
+		<item>@string/p_metro_blue_theme</item>
+	</string-array>
+	<string-array name="p_onscreen_theme_values" translatable="false">
+		<item>default_theme</item>
+		<item>material_theme</item>
+		<item>material_light_theme</item>
+		<item>metro_blue_theme</item>
+	</string-array>
+
 	<string-array name="p_grouping_separator_names">
 		<item>@string/p_grouping_separator_no</item>
 		<item>@string/p_grouping_separator_apostrophe</item>

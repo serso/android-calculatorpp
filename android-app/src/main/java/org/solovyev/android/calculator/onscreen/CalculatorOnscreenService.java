@@ -27,12 +27,22 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
+
 import org.solovyev.android.Views;
-import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.CalculatorDisplayChangeEventData;
+import org.solovyev.android.calculator.CalculatorEditorChangeEventData;
+import org.solovyev.android.calculator.CalculatorEventData;
+import org.solovyev.android.calculator.CalculatorEventListener;
+import org.solovyev.android.calculator.CalculatorEventType;
+import org.solovyev.android.calculator.Locator;
+import org.solovyev.android.calculator.Preferences;
+import org.solovyev.android.calculator.R;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -42,7 +52,7 @@ import javax.annotation.Nullable;
  * Date: 11/20/12
  * Time: 9:42 PM
  */
-public class CalculatorOnscreenService extends Service implements OnscreenViewListener, CalculatorEventListener {
+public class CalculatorOnscreenService extends Service implements OnscreenViewListener, CalculatorEventListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
 	private static final String SHOW_WINDOW_ACTION = "org.solovyev.android.calculator.onscreen.SHOW_WINDOW";
 	private static final String SHOW_NOTIFICATION_ACTION = "org.solovyev.android.calculator.onscreen.SHOW_NOTIFICATION";
@@ -66,6 +76,7 @@ public class CalculatorOnscreenService extends Service implements OnscreenViewLi
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		App.getPreferences().registerOnSharedPreferenceChangeListener(this);
 	}
 
 	private void createView() {
@@ -87,7 +98,7 @@ public class CalculatorOnscreenService extends Service implements OnscreenViewLi
 			final int width = Math.min(width0, height0);
 			final int height = Math.max(width0, height0);
 
-			view = CalculatorOnscreenView.newInstance(this, CalculatorOnscreenViewState.newInstance(width, height, -1, -1), this);
+			view = CalculatorOnscreenView.create(this, CalculatorOnscreenViewState.create(width, height, -1, -1), this);
 			view.show();
 
 			startCalculatorListening();
@@ -117,6 +128,7 @@ public class CalculatorOnscreenService extends Service implements OnscreenViewLi
 
 	@Override
 	public void onDestroy() {
+		App.getPreferences().unregisterOnSharedPreferenceChangeListener(this);
 		stopCalculatorListening();
 		if (viewCreated) {
 			this.view.hide();
@@ -227,6 +239,16 @@ public class CalculatorOnscreenService extends Service implements OnscreenViewLi
 			case display_state_changed:
 				view.updateDisplayState(((CalculatorDisplayChangeEventData) data).getNewValue());
 				break;
+		}
+	}
+
+	@Override
+	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+		if (viewCreated) {
+			if (Preferences.Gui.theme.isSameKey(key) || Preferences.Onscreen.theme.isSameKey(key)) {
+				stopSelf();
+				CalculatorOnscreenService.showOnscreenView(this);
+			}
 		}
 	}
 }

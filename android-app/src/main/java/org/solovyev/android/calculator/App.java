@@ -26,6 +26,7 @@ import android.app.Application;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Build;
@@ -40,6 +41,7 @@ import org.solovyev.android.UiThreadExecutor;
 import org.solovyev.android.Views;
 import org.solovyev.android.calculator.ga.Ga;
 import org.solovyev.android.calculator.language.Languages;
+import org.solovyev.android.calculator.onscreen.CalculatorOnscreenService;
 import org.solovyev.android.calculator.view.ScreenMetrics;
 import org.solovyev.android.calculator.widget.BaseCalculatorWidgetProvider;
 import org.solovyev.android.calculator.widget.CalculatorWidgetProvider;
@@ -280,6 +282,23 @@ public final class App {
 	@Nonnull
 	public static Preferences.Gui.Theme getTheme() {
 		return Preferences.Gui.getTheme(getPreferences());
+	}
+
+	@Nonnull
+	public static Preferences.Onscreen.Theme getOnscreenTheme() {
+		return Preferences.Onscreen.getTheme(getPreferences());
+	}
+
+	@Nonnull
+	public static Preferences.Gui.Theme getThemeIn(@Nonnull Context context) {
+		if (context instanceof CalculatorOnscreenService) {
+			final SharedPreferences p = getPreferences();
+			final Preferences.Onscreen.Theme onscreenTheme = Preferences.Onscreen.getTheme(p);
+			final Preferences.Gui.Theme appTheme = Preferences.Gui.getTheme(p);
+			return onscreenTheme.resolveThemeFor(appTheme).getAppTheme();
+		} else {
+			return App.getTheme();
+		}
 	}
 
 	@Nonnull

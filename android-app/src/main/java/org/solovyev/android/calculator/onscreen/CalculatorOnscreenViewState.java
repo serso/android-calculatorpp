@@ -27,15 +27,15 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.solovyev.android.prefs.AbstractPreference;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * User: serso
@@ -78,12 +78,12 @@ public class CalculatorOnscreenViewState implements Parcelable {
 	}
 
 	@Nonnull
-	public static CalculatorOnscreenViewState newDefaultState() {
-		return newInstance(200, 400, 0, 0);
+	public static CalculatorOnscreenViewState createDefault() {
+		return create(200, 400, 0, 0);
 	}
 
 	@Nonnull
-	public static CalculatorOnscreenViewState newInstance(int width, int height, int x, int y) {
+	public static CalculatorOnscreenViewState create(int width, int height, int x, int y) {
 		final CalculatorOnscreenViewState result = new CalculatorOnscreenViewState();
 		result.width = width;
 		result.height = height;

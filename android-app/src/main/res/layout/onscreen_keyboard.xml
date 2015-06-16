@@ -72,18 +72,4 @@
 
 	</LinearLayout>
 
-
-	<!--    <LinearLayout a:layout_weight="1"
-					  a:layout_width="match_parent"
-					  a:layout_height="0dp">
-
-			<include layout="@layout/widget_left_button"/>
-			<include layout="@layout/widget_right_button"/>
-			<include layout="@layout/widget_vars_button"/>
-			<include layout="@layout/widget_functions_button"/>
-			<include layout="@layout/widget_app_button"/>
-			<include layout="@layout/widget_history_button"/>
-
-		</LinearLayout>-->
-
 </LinearLayout>

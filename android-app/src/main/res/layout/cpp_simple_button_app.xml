@@ -23,7 +23,7 @@
   -->
 
 <ImageButton a:id="@id/cpp_button_app"
-	style="@style/cpp_simple_metro_control_image_button_style"
+	style="@style/CppKeyboardButton.Metro.Simple.Control.Image"
 	xmlns:a="http://schemas.android.com/apk/res/android"
 	a:contentDescription="App"
 	a:src="@drawable/kb_logo" />
