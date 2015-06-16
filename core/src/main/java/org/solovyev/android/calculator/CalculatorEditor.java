@@ -25,7 +25,6 @@ package org.solovyev.android.calculator;
 import org.solovyev.common.gui.CursorControl;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 /**
  * User: Solovyev_S
@@ -37,7 +36,8 @@ public interface CalculatorEditor extends CalculatorEventListener {
 	@Nonnull
 	String TAG = CalculatorEditor.class.getSimpleName();
 
-	void setView(@Nullable CalculatorEditorView view);
+	void setView(@Nonnull CalculatorEditorView view);
+	void clearView(@Nonnull CalculatorEditorView view);
 
 	@Nonnull
 	CalculatorEditorViewState getViewState();

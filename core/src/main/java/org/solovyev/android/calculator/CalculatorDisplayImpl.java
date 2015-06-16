@@ -25,7 +25,12 @@ package org.solovyev.android.calculator;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import static org.solovyev.android.calculator.CalculatorEventType.*;
+import static org.solovyev.android.calculator.CalculatorEventType.calculation_cancelled;
+import static org.solovyev.android.calculator.CalculatorEventType.calculation_failed;
+import static org.solovyev.android.calculator.CalculatorEventType.calculation_result;
+import static org.solovyev.android.calculator.CalculatorEventType.conversion_failed;
+import static org.solovyev.android.calculator.CalculatorEventType.conversion_result;
+import static org.solovyev.android.calculator.CalculatorEventType.display_state_changed;
 
 /**
  * User: serso
@@ -56,12 +61,18 @@ public class CalculatorDisplayImpl implements CalculatorDisplay {
 	}
 
 	@Override
-	public void setView(@Nullable CalculatorDisplayView view) {
+	public void setView(@Nonnull CalculatorDisplayView view) {
 		synchronized (viewLock) {
 			this.view = view;
+			this.view.setState(viewState);
+		}
+	}
 
-			if (view != null) {
-				this.view.setState(viewState);
+	@Override
+	public void clearView(@Nonnull CalculatorDisplayView view) {
+		synchronized (viewLock) {
+			if (this.view == view) {
+				this.view = null;
 			}
 		}
 	}

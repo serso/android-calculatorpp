@@ -73,12 +73,18 @@ public class CalculatorEditorImpl implements CalculatorEditor {
 	}
 
 	@Override
-	public void setView(@Nullable CalculatorEditorView view) {
+	public void setView(@Nonnull CalculatorEditorView view) {
 		synchronized (viewLock) {
 			this.view = view;
+			this.view.setState(lastViewState);
+		}
+	}
 
-			if (view != null) {
-				view.setState(lastViewState);
+	@Override
+	public void clearView(@Nonnull CalculatorEditorView view) {
+		synchronized (viewLock) {
+			if (this.view == view) {
+				this.view = null;
 			}
 		}
 	}

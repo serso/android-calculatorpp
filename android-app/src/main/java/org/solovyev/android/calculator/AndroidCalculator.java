@@ -22,7 +22,6 @@
 
 package org.solovyev.android.calculator;
 
-import android.app.Activity;
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -59,27 +58,6 @@ public class AndroidCalculator implements Calculator, CalculatorEventListener, S
 
 		PreferenceManager.getDefaultSharedPreferences(application).registerOnSharedPreferenceChangeListener(this);
 	}
-
-	public void setDisplay(@Nonnull Activity activity) {
-		final AndroidCalculatorDisplayView displayView = (AndroidCalculatorDisplayView) activity.findViewById(R.id.calculator_display);
-		displayView.init(activity);
-		Locator.getInstance().getDisplay().setView(displayView);
-	}
-
-	public void clearDisplay() {
-		Locator.getInstance().getDisplay().setView(null);
-	}
-
-	public void setEditor(@Nonnull Activity activity) {
-		final AndroidCalculatorEditorView editorView = (AndroidCalculatorEditorView) activity.findViewById(R.id.calculator_editor);
-		editorView.init();
-		Locator.getInstance().getEditor().setView(editorView);
-	}
-
-	public void clearEditor() {
-		Locator.getInstance().getEditor().setView(null);
-	}
-
 
 	/*
 	**********************************************************************
