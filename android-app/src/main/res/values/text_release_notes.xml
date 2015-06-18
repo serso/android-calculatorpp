@@ -313,4 +313,12 @@
 		★ Various bugfixes, stability and usability improvements
 	</string>
 
+	<string name="c_release_notes_for_143_version" translatable="false">2.1.4</string>
+	<string name="c_release_notes_for_143">
+		★ App language can be changed in settings\n
+		★ Floating calculator themes\n
+		★ Widget themes\n
+		★ Various bugfixes, stability and usability improvements
+	</string>
+
 </resources>
