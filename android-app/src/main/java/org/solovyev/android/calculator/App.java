@@ -165,7 +165,7 @@ public final class App {
 					}
 				}
 			});
-			App.broadcaster = new CalculatorBroadcaster(application);
+			App.broadcaster = new CalculatorBroadcaster(application, preferences);
 			App.vibrator = new Vibrator(application, preferences);
 			App.screenMetrics = new ScreenMetrics(application);
 
@@ -285,15 +285,15 @@ public final class App {
 	}
 
 	@Nonnull
-	public static Preferences.Onscreen.Theme getOnscreenTheme() {
-		return Preferences.Onscreen.getTheme(getPreferences());
+	public static Preferences.SimpleTheme getWidgetTheme() {
+		return Preferences.Widget.getTheme(getPreferences());
 	}
 
 	@Nonnull
 	public static Preferences.Gui.Theme getThemeIn(@Nonnull Context context) {
 		if (context instanceof CalculatorOnscreenService) {
 			final SharedPreferences p = getPreferences();
-			final Preferences.Onscreen.Theme onscreenTheme = Preferences.Onscreen.getTheme(p);
+			final Preferences.SimpleTheme onscreenTheme = Preferences.Onscreen.getTheme(p);
 			final Preferences.Gui.Theme appTheme = Preferences.Gui.getTheme(p);
 			return onscreenTheme.resolveThemeFor(appTheme).getAppTheme();
 		} else {

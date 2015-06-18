@@ -96,6 +96,12 @@ public final class Check {
 		throw new AssertionException(message);
 	}
 
+	public static void isTrue(boolean expression) {
+		if (!expression) {
+			throw new AssertionException("");
+		}
+	}
+
 	public static void isTrue(boolean expression, @Nonnull String message) {
 		if (!expression) {
 			throw new AssertionException(message);

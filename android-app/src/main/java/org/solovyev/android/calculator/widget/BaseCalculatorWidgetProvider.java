@@ -34,7 +34,15 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.widget.RemoteViews;
-import org.solovyev.android.calculator.*;
+
+import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.CalculatorButton;
+import org.solovyev.android.calculator.CalculatorButtons;
+import org.solovyev.android.calculator.CalculatorDisplayViewState;
+import org.solovyev.android.calculator.CalculatorEditorViewState;
+import org.solovyev.android.calculator.Locator;
+import org.solovyev.android.calculator.Preferences;
+import org.solovyev.android.calculator.R;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -42,6 +50,7 @@ import javax.annotation.Nullable;
 import static android.content.Intent.ACTION_CONFIGURATION_CHANGED;
 import static org.solovyev.android.calculator.CalculatorBroadcaster.ACTION_DISPLAY_STATE_CHANGED;
 import static org.solovyev.android.calculator.CalculatorBroadcaster.ACTION_EDITOR_STATE_CHANGED;
+import static org.solovyev.android.calculator.CalculatorBroadcaster.ACTION_THEME_CHANGED;
 import static org.solovyev.android.calculator.CalculatorReceiver.newButtonClickedIntent;
 
 /**
@@ -56,35 +65,11 @@ public abstract class BaseCalculatorWidgetProvider extends AppWidgetProvider {
 	private static final String OPTION_APPWIDGET_HOST_CATEGORY = "appWidgetCategory";
 	private static final String ACTION_APPWIDGET_OPTIONS_CHANGED = "android.appwidget.action.APPWIDGET_UPDATE_OPTIONS";
 
-	/*
-	**********************************************************************
-	*
-	*                           FIELDS
-	*
-	**********************************************************************
-	*/
-
 	@Nullable
 	private String cursorColor;
 
-	/*
-	**********************************************************************
-	*
-	*                           CONSTRUCTORS
-	*
-	**********************************************************************
-	*/
-
 	protected BaseCalculatorWidgetProvider() {
 	}
-
-	/*
-	**********************************************************************
-	*
-	*                           METHODS
-	*
-	**********************************************************************
-	*/
 
 	@Override
 	public void onEnabled(Context context) {
@@ -127,8 +112,9 @@ public abstract class BaseCalculatorWidgetProvider extends AppWidgetProvider {
 		final CalculatorDisplayViewState displayState = Locator.getInstance().getDisplay().getViewState();
 
 		final Resources resources = context.getResources();
+		final Preferences.SimpleTheme theme = App.getWidgetTheme().resolveThemeFor(App.getTheme());
 		for (int appWidgetId : appWidgetIds) {
-			final RemoteViews views = new RemoteViews(context.getPackageName(), getLayout(appWidgetManager, appWidgetId, resources));
+			final RemoteViews views = new RemoteViews(context.getPackageName(), getLayout(appWidgetManager, appWidgetId, resources, theme));
 
 			for (CalculatorButton button : CalculatorButton.values()) {
 				final PendingIntent pendingIntent = PendingIntent.getBroadcast(context, button.getButtonId(), newButtonClickedIntent(context, button), PendingIntent.FLAG_UPDATE_CURRENT);
@@ -138,7 +124,7 @@ public abstract class BaseCalculatorWidgetProvider extends AppWidgetProvider {
 			}
 
 			updateEditorState(context, views, editorState);
-			updateDisplayState(context, views, displayState);
+			updateDisplayState(context, views, displayState, theme);
 
 			CalculatorButtons.initMultiplicationButton(views);
 
@@ -146,15 +132,15 @@ public abstract class BaseCalculatorWidgetProvider extends AppWidgetProvider {
 		}
 	}
 
-	private int getLayout(@Nonnull AppWidgetManager appWidgetManager, int appWidgetId, @Nonnull Resources resources) {
+	private int getLayout(@Nonnull AppWidgetManager appWidgetManager, int appWidgetId, @Nonnull Resources resources, @Nonnull Preferences.SimpleTheme theme) {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-			return getLayoutJellyBean(appWidgetManager, appWidgetId, resources);
+			return getLayoutJellyBean(appWidgetManager, appWidgetId, resources, theme);
 		}
-		return R.layout.widget_layout;
+		return theme.getWidgetLayout(App.getTheme());
 	}
 
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-	private int getLayoutJellyBean(AppWidgetManager appWidgetManager, int appWidgetId, Resources resources) {
+	private int getLayoutJellyBean(@Nonnull AppWidgetManager appWidgetManager, int appWidgetId, Resources resources, @Nonnull Preferences.SimpleTheme theme) {
 		final Bundle options = appWidgetManager.getAppWidgetOptions(appWidgetId);
 
 		if (options != null) {
@@ -164,7 +150,7 @@ public abstract class BaseCalculatorWidgetProvider extends AppWidgetProvider {
 			if (category != -1) {
 				// If the value is WIDGET_CATEGORY_KEYGUARD, it's a lockscreen widget
 				final boolean keyguard = category == WIDGET_CATEGORY_KEYGUARD;
-				if(keyguard) {
+				if (keyguard) {
 					final int minHeightDp = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT, -1);
 					final int minHeight = resources.getDimensionPixelSize(R.dimen.min_expanded_height_lock_screen);
 					final boolean expanded = (minHeightDp >= minHeight / resources.getDisplayMetrics().density);
@@ -176,11 +162,11 @@ public abstract class BaseCalculatorWidgetProvider extends AppWidgetProvider {
 				}
 			}
 		}
-		return R.layout.widget_layout;
+		return theme.getWidgetLayout(App.getTheme());
 	}
 
 	@Override
-	public void onReceive(Context context, Intent intent) {
+	public void onReceive(@Nonnull Context context, @Nonnull Intent intent) {
 		super.onReceive(context, intent);
 
 		final String action = intent.getAction();
@@ -192,15 +178,18 @@ public abstract class BaseCalculatorWidgetProvider extends AppWidgetProvider {
 			updateState(context);
 		} else if (ACTION_APPWIDGET_OPTIONS_CHANGED.equals(action)) {
 			updateState(context);
+		} else if (ACTION_THEME_CHANGED.equals(action)) {
+			updateState(context);
 		}
 	}
 
-	private void updateDisplayState(@Nonnull Context context, @Nonnull RemoteViews views, @Nonnull CalculatorDisplayViewState displayState) {
+	private void updateDisplayState(@Nonnull Context context, @Nonnull RemoteViews views, @Nonnull CalculatorDisplayViewState displayState, @Nonnull Preferences.SimpleTheme theme) {
+		final Resources resources = context.getResources();
 		if (displayState.isValid()) {
 			views.setTextViewText(R.id.calculator_display, displayState.getText());
-			views.setTextColor(R.id.calculator_display, context.getResources().getColor(R.color.cpp_text));
+			views.setTextColor(R.id.calculator_display, resources.getColor(theme == Preferences.SimpleTheme.material_light_theme ? R.color.cpp_text_inverse : R.color.cpp_text));
 		} else {
-			views.setTextColor(R.id.calculator_display, context.getResources().getColor(R.color.cpp_text_error));
+			views.setTextColor(R.id.calculator_display, resources.getColor(theme == Preferences.SimpleTheme.material_light_theme ? R.color.cpp_text_inverse_error : R.color.cpp_text_error));
 		}
 	}
 

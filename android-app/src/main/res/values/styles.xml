@@ -102,14 +102,26 @@
 		<item name="android:layout_margin">@dimen/cpp_widget_margin</item>
 	</style>
 
+	<style name="CppMain.Widget.Light" parent="CppMain.Widget">
+		<item name="android:background">@color/cpp_main_bg_light</item>
+	</style>
+
 	<style name="CppText.Editor.Widget" parent="CppText.Editor">
 		<item name="android:textSize">@dimen/cpp_widget_editor_text_size</item>
 		<item name="android:textColor">@color/cpp_text</item>
 	</style>
 
+	<style name="CppText.Editor.Widget.Light" parent="CppText.Editor.Widget">
+		<item name="android:textColor">@color/cpp_text_inverse</item>
+	</style>
+
 	<style name="CppText.Display.Widget" parent="CppText.Display">
 		<item name="android:textSize">@dimen/cpp_widget_display_text_size</item>
 		<item name="android:textColor">@color/cpp_text</item>
+	</style>
+
+	<style name="CppText.Display.Widget.Light" parent="CppText.Display.Widget">
+		<item name="android:textColor">@color/cpp_text_inverse</item>
 	</style>
 
 	<style name="CppMain.Onscreen" parent="CppMain">
