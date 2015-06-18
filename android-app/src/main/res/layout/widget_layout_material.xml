@@ -20,7 +20,7 @@
 		a:baselineAligned="false">
 
 		<include
-			layout="@layout/cpp_simple_button_equals"
+			layout="@layout/cpp_simple_button_equals_material"
 			a:layout_width="0dp"
 			a:layout_height="match_parent"
 			a:layout_weight="1"/>
@@ -34,7 +34,7 @@
 	</LinearLayout>
 
 	<include
-		layout="@layout/widget_keyboard"
+		layout="@layout/widget_keyboard_material"
 		a:layout_width="match_parent"
 		a:layout_height="0dp"
 		a:layout_weight="5"/>

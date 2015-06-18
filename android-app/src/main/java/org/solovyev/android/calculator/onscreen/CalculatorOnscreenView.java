@@ -150,9 +150,9 @@ public class CalculatorOnscreenView {
 		final CalculatorOnscreenView result = new CalculatorOnscreenView();
 
 		final SharedPreferences p = App.getPreferences();
-		final Preferences.Onscreen.Theme theme = Preferences.Onscreen.theme.getPreferenceNoError(p);
+		final Preferences.SimpleTheme theme = Preferences.Onscreen.theme.getPreferenceNoError(p);
 		final Preferences.Gui.Theme appTheme = Preferences.Gui.theme.getPreferenceNoError(p);
-		result.root = View.inflate(context, theme.getLayout(appTheme), null);
+		result.root = View.inflate(context, theme.getOnscreenLayout(appTheme), null);
 		result.context = context;
 		result.viewListener = viewListener;
 

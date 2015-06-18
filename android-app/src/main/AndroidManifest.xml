@@ -120,6 +120,7 @@
 				<action android:name="org.solovyev.android.calculator.EDITOR_STATE_CHANGED"/>
 				<action android:name="org.solovyev.android.calculator.DISPLAY_STATE_CHANGED"/>
 				<action android:name="org.solovyev.android.calculator.BUTTON_PRESSED"/>
+				<action android:name="org.solovyev.android.calculator.THEME_CHANGED"/>
 			</intent-filter>
 
 			<meta-data android:name="android.appwidget.provider" android:resource="@xml/calculator_widget"/>
@@ -133,6 +134,7 @@
 				<action android:name="org.solovyev.android.calculator.EDITOR_STATE_CHANGED"/>
 				<action android:name="org.solovyev.android.calculator.DISPLAY_STATE_CHANGED"/>
 				<action android:name="org.solovyev.android.calculator.BUTTON_PRESSED"/>
+				<action android:name="org.solovyev.android.calculator.THEME_CHANGED"/>
 			</intent-filter>
 
 			<meta-data android:name="android.appwidget.provider" android:resource="@xml/calculator_widget_info_3x3"/>
@@ -146,6 +148,7 @@
 				<action android:name="org.solovyev.android.calculator.EDITOR_STATE_CHANGED"/>
 				<action android:name="org.solovyev.android.calculator.DISPLAY_STATE_CHANGED"/>
 				<action android:name="org.solovyev.android.calculator.BUTTON_PRESSED"/>
+				<action android:name="org.solovyev.android.calculator.THEME_CHANGED"/>
 			</intent-filter>
 
 			<meta-data android:name="android.appwidget.provider" android:resource="@xml/calculator_widget_info_3x4"/>
@@ -159,6 +162,7 @@
 				<action android:name="org.solovyev.android.calculator.EDITOR_STATE_CHANGED"/>
 				<action android:name="org.solovyev.android.calculator.DISPLAY_STATE_CHANGED"/>
 				<action android:name="org.solovyev.android.calculator.BUTTON_PRESSED"/>
+				<action android:name="org.solovyev.android.calculator.THEME_CHANGED"/>
 			</intent-filter>
 
 			<meta-data android:name="android.appwidget.provider" android:resource="@xml/calculator_widget_info_4x4"/>
@@ -172,6 +176,7 @@
 				<action android:name="org.solovyev.android.calculator.EDITOR_STATE_CHANGED"/>
 				<action android:name="org.solovyev.android.calculator.DISPLAY_STATE_CHANGED"/>
 				<action android:name="org.solovyev.android.calculator.BUTTON_PRESSED"/>
+				<action android:name="org.solovyev.android.calculator.THEME_CHANGED"/>
 			</intent-filter>
 
 			<meta-data android:name="android.appwidget.provider" android:resource="@xml/calculator_widget_info_4x5"/>

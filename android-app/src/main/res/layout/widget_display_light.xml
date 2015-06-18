@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2009-2011. Created by serso aka se.solovyev.
+  ~ For more information, please, contact se.solovyev@gmail.com
+  ~ or visit http://se.solovyev.org
+  -->
+
+<TextView a:id="@+id/calculator_display"
+	style="@style/CppText.Display.Widget.Light"
+	xmlns:a="http://schemas.android.com/apk/res/android"
+	a:padding="@dimen/cpp_display_padding"
+	a:scrollbars="vertical"
+	a:singleLine="false"
+	a:textIsSelectable="true" />

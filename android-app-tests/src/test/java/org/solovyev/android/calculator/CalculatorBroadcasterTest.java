@@ -32,7 +32,7 @@ public class CalculatorBroadcasterTest {
 
 	@Before
 	public void setUp() throws Exception {
-		broadcaster = new CalculatorBroadcaster(application);
+		broadcaster = new CalculatorBroadcaster(application, preferences);
 	}
 
 	@Test

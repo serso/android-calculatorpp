@@ -31,6 +31,7 @@ import android.support.annotation.StyleRes;
 import android.util.SparseArray;
 import android.view.ContextThemeWrapper;
 
+import org.solovyev.android.Check;
 import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
@@ -44,7 +45,9 @@ import org.solovyev.android.prefs.Preference;
 import org.solovyev.android.prefs.StringPreference;
 
 import java.text.DecimalFormatSymbols;
+import java.util.EnumMap;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -65,63 +68,93 @@ public final class Preferences {
 	public static final Preference<Integer> appVersion = IntegerPreference.of("application.version", -1);
 	public static final Preference<Integer> appOpenedCounter = IntegerPreference.of("app_opened_counter", 0);
 
+	public enum SimpleTheme {
+
+		default_theme(0, 0, null),
+		metro_blue_theme(R.layout.onscreen_layout, R.layout.widget_layout, Gui.Theme.metro_blue_theme),
+		material_theme(R.layout.onscreen_layout_material, R.layout.widget_layout_material, Gui.Theme.material_theme),
+		material_light_theme(R.layout.onscreen_layout_material_light, R.layout.widget_layout_material_light, Gui.Theme.material_light_theme);
+
+		@LayoutRes
+		private final int onscreenLayout;
+
+		@LayoutRes
+		private final int widgetLayout;
+
+		@Nullable
+		private final Gui.Theme appTheme;
+
+		@Nonnull
+		private final Map<Gui.Theme, SimpleTheme> cache = new EnumMap<>(Gui.Theme.class);
+
+		SimpleTheme(int onscreenLayout, int widgetLayout, @Nullable Gui.Theme appTheme) {
+			this.onscreenLayout = onscreenLayout;
+			this.widgetLayout = widgetLayout;
+			this.appTheme = appTheme;
+		}
+
+		public int getOnscreenLayout(@Nonnull Gui.Theme appTheme) {
+			return resolveThemeFor(appTheme).onscreenLayout;
+		}
+
+		public int getWidgetLayout(@Nonnull Gui.Theme appTheme) {
+			return resolveThemeFor(appTheme).widgetLayout;
+		}
+
+		@Nonnull
+		public SimpleTheme resolveThemeFor(@Nonnull Gui.Theme appTheme) {
+			if (this == default_theme) {
+				SimpleTheme theme = cache.get(appTheme);
+				if (theme == null) {
+					theme = lookUpThemeFor(appTheme);
+					cache.put(appTheme, theme);
+				}
+				return theme;
+			}
+			return this;
+		}
+
+		@Nonnull
+		private SimpleTheme lookUpThemeFor(@Nonnull Gui.Theme appTheme) {
+			Check.isTrue(this == default_theme);
+			// find direct match
+			for (SimpleTheme theme : values()) {
+				if (theme.appTheme == appTheme) {
+					return theme;
+				}
+			}
+
+			// for metro themes return metro theme
+			if (appTheme == Gui.Theme.metro_green_theme || appTheme == Gui.Theme.metro_purple_theme) {
+				return metro_blue_theme;
+			}
+
+			// for old themes return dark material
+			return material_theme;
+		}
+
+		@Nullable
+		public Gui.Theme getAppTheme() {
+			return appTheme;
+		}
+	}
+
+	public static class Widget {
+		public static final Preference<SimpleTheme> theme = StringPreference.ofEnum("widget.theme", SimpleTheme.default_theme, SimpleTheme.class);
+
+		@Nonnull
+		public static SimpleTheme getTheme(@Nonnull SharedPreferences preferences) {
+			return theme.getPreferenceNoError(preferences);
+		}
+
+	}
 	public static class Onscreen {
 		public static final Preference<Boolean> startOnBoot = BooleanPreference.of("onscreen_start_on_boot", false);
 		public static final Preference<Boolean> showAppIcon = BooleanPreference.of("onscreen_show_app_icon", true);
-		public static final Preference<Theme> theme = StringPreference.ofEnum("onscreen.theme", Theme.default_theme, Theme.class);
-
-		public enum Theme {
-
-			default_theme(0, null),
-			metro_blue_theme(R.layout.onscreen_layout, Gui.Theme.metro_blue_theme),
-			material_theme(R.layout.onscreen_layout_material, Gui.Theme.material_theme),
-			material_light_theme(R.layout.onscreen_layout_material_light, Gui.Theme.material_light_theme);
-
-			@LayoutRes
-			private final int layout;
-
-			@Nullable
-			private final Gui.Theme appTheme;
-
-			Theme(int layout, @Nullable Gui.Theme appTheme) {
-				this.layout = layout;
-				this.appTheme = appTheme;
-			}
-
-			public int getLayout(@Nonnull Gui.Theme appTheme) {
-				return resolveThemeFor(appTheme).layout;
-			}
-
-			@Nonnull
-			public Theme resolveThemeFor(@Nonnull Gui.Theme appTheme) {
-				if (this == default_theme) {
-					// find direct match
-					for (Theme theme : values()) {
-						if (theme.appTheme == appTheme) {
-							return theme;
-						}
-					}
-
-					// for metro themes return metro theme
-					if (appTheme == Gui.Theme.metro_green_theme || appTheme == Gui.Theme.metro_purple_theme) {
-						return metro_blue_theme;
-					}
-
-					// for old themes return dark material
-					return material_theme;
-				}
-				return this;
-			}
-
-			@Nullable
-			public Gui.Theme getAppTheme() {
-				return appTheme;
-			}
-		}
-
+		public static final Preference<SimpleTheme> theme = StringPreference.ofEnum("onscreen.theme", SimpleTheme.default_theme, SimpleTheme.class);
 
 		@Nonnull
-		public static Theme getTheme(@Nonnull SharedPreferences preferences) {
+		public static SimpleTheme getTheme(@Nonnull SharedPreferences preferences) {
 			return theme.getPreferenceNoError(preferences);
 		}
 	}
@@ -344,6 +377,8 @@ public final class Preferences {
 		applyDefaultPreference(preferences, Onscreen.showAppIcon);
 		applyDefaultPreference(preferences, Onscreen.startOnBoot);
 		applyDefaultPreference(preferences, Onscreen.theme);
+
+		applyDefaultPreference(preferences, Widget.theme);
 
 		applyDefaultPreference(preferences, Ga.initialReportDone);
 
