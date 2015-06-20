@@ -4,7 +4,7 @@
 <resources>
   <string name="c_auto_orientation_title">Automaattinen näytön kääntö</string>
   <string name="c_auto_orientation_summary">Jos päällä sovellus voi kääntää laitteesi näytön</string>
-  <string name="c_show_equals_button_title">Näytä yhtäsuuri kuin painike</string>
+  <string name="c_show_equals_button_title">Näytä \'yhtäsuuri kuin\' -painike</string>
   <string name="c_show_equals_button_summary">Jos päällä, yhtäsuurikuin nappi näkyy</string>
   <string name="c_hide_numeral_base_digits_title">Piilota numeroa merkintä järjestelmä</string>
   <string name="c_hide_numeral_base_digits_summary">Jos käytössä numero pohja numeroa muiden numeroiden kantalukujen piilotetaan  </string>
@@ -14,4 +14,5 @@
   <string name="p_calculations_calculate_on_fly_summary">Jos laskenta tehdään automaattisesti kirjoitettaessa</string>
   <string name="prefs_prevent_screen_from_fading_title">Estä näytön katoamassa</string>
   <string name="prefs_prevent_screen_from_fading_summary">Jos näytössä ei haalistu käyttäessäsi app  </string>
+  <string name="prefs_language_title">Language</string>
 </resources>

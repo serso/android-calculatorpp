@@ -14,4 +14,5 @@
   <string name="p_calculations_calculate_on_fly_summary">如果开启此选项，将在输入时自动完成运算</string>
   <string name="prefs_prevent_screen_from_fading_title">防止屏幕变暗</string>
   <string name="prefs_prevent_screen_from_fading_summary">如果开启此选项，在使用此应用时屏幕将不会变暗</string>
+  <string name="prefs_language_title">Language</string>
 </resources>

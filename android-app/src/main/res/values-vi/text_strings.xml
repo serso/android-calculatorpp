@@ -64,6 +64,7 @@
   <string name="p_metro_blue_theme">Metro Blue</string>
   <string name="p_metro_green_theme">Metro Green</string>
   <string name="p_metro_purple_theme">Metro Purple</string>
+  <string name="p_use_app_theme">App theme</string>
   <string name="p_material_theme">Material</string>
   <string name="p_material_light_theme">Material Light</string>
   <string name="c_calc_result_precision_summary">Độ chính xác của giá trị kết quả (Tất cả tính toán được thực hiện với độ chính xác tối đa bất kể giá trị của tùy chọn này)</string>
@@ -176,6 +177,7 @@ Google Play</a>,\n để lại ý kiến hoặc \n thảo luận về ứng dụ
   <string name="c_app_widget_4x5_name">Máy tính ++ Widget (4 x 5)</string>
   <string name="open_onscreen_calculator">Bấm để mở máy tính trong chế độ cửa sổ</string>
   <string name="prefs_onscreen_title">Cài đặt máy tính (trong cửa sổ riêng biệt)</string>
+  <string name="prefs_widget_title">Widget settings</string>
   <string name="prefs_onscreen_start_on_boot_title">Bắt đầu khi khởi động</string>
   <string name="prefs_onscreen_start_on_boot_summary">Nếu bật máy tính ++ sẽ xuất hiện trong thanh thông báo sau khi khởi động thiết bị</string>
   <string name="prefs_onscreen_show_app_icon_title">Hiển thị biểu tượng riêng biệt (yêu cầu khởi động lại)</string>
@@ -229,4 +231,5 @@ Qua việc click nút \'Tiếp tục\' bạn được chuyển qua úng dụng G
   <string name="cpp_clear_history">Dọn sạch</string>
   <string name="cpp_new_in_version">Mới trong phiên bản %1$s</string>
   <string name="cpp_release_notes_choose_theme">Bạn có muốn thử chủ đề Material mới? Chọn chúng từ danh sách:</string>
+  <string name="cpp_system_language">System language</string>
 </resources>

@@ -4,8 +4,8 @@
 <resources>
   <string name="cpp_wizard_next">次へ</string>
   <string name="cpp_wizard_back">戻る</string>
-  <string name="cpp_wizard_start">簡単セットアップ</string>
-  <string name="cpp_wizard_finish">Done</string>
+  <string name="cpp_wizard_start">ウィザードを開始</string>
+  <string name="cpp_wizard_finish">完了</string>
   <string name="cpp_wizard_layout_optimized">最適化</string>
   <string name="cpp_wizard_layout_big_buttons">大アイコン</string>
   <string name="cpp_wizard_mode_simple">シンプル</string>
@@ -18,16 +18,16 @@
   <string name="cpp_restart_wizard">簡単セットアップ</string>
   <string name="cpp_wizard_dragbutton_action_end">お見事！まだ試したい場合は、ボタンをもう一度押してください。</string>
   <string name="cpp_wizard_dragbutton_action_center">9を入力するにはボタンを一度タップします</string>
-  <string name="cpp_wizard_dragbutton_action_up">Swipe from the center of the button up to use %</string>
-  <string name="cpp_wizard_dragbutton_action_left">Swipe from the center of the button to the left to use sin</string>
-  <string name="cpp_wizard_dragbutton_action_down">Swipe from the center of the button down to use ^2</string>
+  <string name="cpp_wizard_dragbutton_action_up">ボタンの中心から上にスワイプすると%を使用できます</string>
+  <string name="cpp_wizard_dragbutton_action_left">ボタンの中心から左にスワイプするとsinを使用できます</string>
+  <string name="cpp_wizard_dragbutton_action_down">ボタンの中心から下にスワイプすると^2を使用できます</string>
   <string name="cpp_wizard_welcome_title">ようこそ</string>
   <string name="cpp_wizard_layout_title">レイアウトを選択してください</string>
   <string name="cpp_wizard_mode_title">モードを選択してください</string>
-  <string name="cpp_wizard_theme_title">Choose theme</string>
+  <string name="cpp_wizard_theme_title">テーマを選択してください</string>
   <string name="cpp_wizard_onscreen_calculator_title">分離したウィンドウでの電卓の利用</string>
-  <string name="cpp_wizard_dragbutton_title">Swipe button basics</string>
-  <string name="cpp_wizard_final_done">The app is set up and ready to use.</string>
+  <string name="cpp_wizard_dragbutton_title">スワイプボタンの基本</string>
+  <string name="cpp_wizard_final_done">アプリのセットアップが完了して、使用する準備ができました。</string>
   <string name="cpp_wizard_final_title">ほぼ完了です！</string>
   <string name="cpp_wizard_final_free_and_opensource">Calculator++は無料でオープンソースです: すべての機能が無料で使え、ソースコードはgithubにて見ることができます。
 	</string>
@@ -37,11 +37,9 @@
   <string name="cpp_wizard_final_contribute">ソースコードに貢献する</string>
   <string name="cpp_wizard_onscreen_description">別窓での電卓の利用を有効にすると、お使いのデバイスで別のアプリを利用中に電卓を利用することが出来ます
 	</string>
-  <string name="cpp_wizard_onscreen_checkbox">Enable</string>
-  <string name="cpp_wizard_dragbutton_description">Swipe button is an exclusive feature of Calculator++ which provides
-		fast access to the secondary functions
-	</string>
+  <string name="cpp_wizard_onscreen_checkbox">有効化</string>
+  <string name="cpp_wizard_dragbutton_description">スワイプボタンはCalculator++の特別な機能で、サブ機能への高速なアクセスを提供します。</string>
   <string name="cpp_wizard_finish_confirmation">本当にウィザードを終了しますか？</string>
-  <string name="cpp_wizard_skip">Skip</string>
-  <string name="cpp_wizard_finish_confirmation_title">Finish?</string>
+  <string name="cpp_wizard_skip">スキップ</string>
+  <string name="cpp_wizard_finish_confirmation_title">終了しますか？</string>
 </resources>

@@ -43,12 +43,11 @@
   <string name="c_value_is_not_a_number">數值必須是一個數目或留白：如果你有多個參數 - 新增一個函數來代替！</string>
   <string name="c_var_name_clashes">變數名稱與函數名稱衝突！</string>
   <string name="c_var_already_exists">已經有相同名稱的變數存在！</string>
-  <string name="c_name_is_not_valid">常數名稱無效：名稱必須以英文字母開頭，可以包含字母，數字及底線。
-	</string>
+  <string name="c_name_is_not_valid">常數名稱無效：名稱必須以英文字母開頭，可以包含字母，數字及底線。</string>
   <string name="c_calc_editor_hint">輸入新的算式</string>
   <string name="c_history">歷史紀錄</string>
   <string name="c_history_button">M</string>
-  <string name="c_char_is_not_accepted">變數名稱不可使用字元 \'%s\'！</string>
+  <string name="c_char_is_not_accepted">變數名稱不可使用字元 \'%s\' !</string>
   <string name="c_calc_angle_units">目前角度單位</string>
   <string name="p_deg">度 (Degrees)</string>
   <string name="p_rad">弧度 (Radians)</string>
@@ -65,6 +64,7 @@
   <string name="p_metro_blue_theme">現代藍</string>
   <string name="p_metro_green_theme">現代綠</string>
   <string name="p_metro_purple_theme">現代紫</string>
+  <string name="p_use_app_theme">App theme</string>
   <string name="p_material_theme">Material</string>
   <string name="p_material_light_theme">Material 淺色</string>
   <string name="c_calc_result_precision_summary">計算結果值的精確度（不論選項值為多少，所有計算過程都使用最大精確度）</string>
@@ -91,7 +91,7 @@
   <string name="p_calc_haptic_feedback_strength_middle">中</string>
   <string name="p_calc_haptic_feedback_strength_long">長</string>
   <string name="empty_var_error">無法新增空白的常數！</string>
-  <string name="not_valid_result">當前計算结果無效！</string>
+  <string name="not_valid_result">目前計算结果無效！</string>
   <string name="c_plot_graph">圖形</string>
   <string name="c_min_x_value">從</string>
   <string name="c_max_x_value">到</string>
@@ -128,8 +128,8 @@
 請您評分 Calculator++\n於<a href="https://market.android.com/details?id=org.solovyev.android.calculator">
 Google Play</a>，\n留下評論或是\n討論這個應用程式\n於
 <a href="http://facebook.com/calculatorpp">Facebook</a></string>
-  <string name="c_angle_units_changed_to">角度單位已改為 \'%s\'！</string>
-  <string name="c_numeral_base_changed_to">進位制已改為 \'%s\'！</string>
+  <string name="c_angle_units_changed_to">角度單位已改為 \'%s\' !</string>
+  <string name="c_numeral_base_changed_to">進位制已改為 \'%s\' !</string>
   <string name="c_conversion_tool">轉換工具</string>
   <string name="c_convert">轉換為&#8230;</string>
   <string name="convert_to_hex">轉換為十六進位 (hex)</string>
@@ -177,6 +177,7 @@ Google Play</a>，\n留下評論或是\n討論這個應用程式\n於
   <string name="c_app_widget_4x5_name">Calculator++ 小工具（4x5）</string>
   <string name="open_onscreen_calculator">點擊以視窗模式開啟計算機</string>
   <string name="prefs_onscreen_title">計算機（獨立視窗）設定</string>
+  <string name="prefs_widget_title">Widget settings</string>
   <string name="prefs_onscreen_start_on_boot_title">開機時啟動</string>
   <string name="prefs_onscreen_start_on_boot_summary">如果啟用，Calculator++ 將會在裝置啟動後顯示在通知列</string>
   <string name="prefs_onscreen_show_app_icon_title">顯示獨立的圖示（需要重新啟動）</string>
@@ -194,8 +195,8 @@ Google Play</a>，\n留下評論或是\n討論這個應用程式\n於
   <string name="cpp_dotted_line_style">點線 (. . .)</string>
   <string name="cpp_dash_dotted_line_style">點鎖線 (-.-.-)</string>
   <string name="cpp_plotter">函數繪圖工具</string>
-  <string name="cpp_plot_screenshot">螢幕截圖</string>
-  <string name="cpp_plot_screenshot_saved">成功儲存截圖：%1$s！</string>
+  <string name="cpp_plot_screenshot">截圖螢幕</string>
+  <string name="cpp_plot_screenshot_saved">成功儲存截圖：%1$s !</string>
   <string name="cpp_plot_unable_to_save_screenshot">未掛載 SD 卡，無法儲存螢幕截圖。請掛載 SD 卡後再試一次！</string>
   <string name="cpp_plot_function_line_color_type">線條顏色類型</string>
   <string name="cpp_plot_function_line_color">線條顏色</string>
@@ -230,4 +231,5 @@ Google Play</a>，\n留下評論或是\n討論這個應用程式\n於
   <string name="cpp_clear_history">清除</string>
   <string name="cpp_new_in_version">%1$s 版本的新功能</string>
   <string name="cpp_release_notes_choose_theme">你想要嘗試新的 Material 主題風格嗎？ 從清單中選擇：</string>
+  <string name="cpp_system_language">System language</string>
 </resources>

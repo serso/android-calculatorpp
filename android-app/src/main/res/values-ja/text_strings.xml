@@ -13,7 +13,7 @@
   <string name="c_prefs_appearance_category">外観の設定</string>
   <string name="c_prefs_other_category">その他の設定</string>
   <string name="c_undo">元に戻す</string>
-  <string name="c_redo">やり直し</string>
+  <string name="c_redo">やり直す</string>
   <string name="c_clear">C</string>
   <string name="c_vars">変数</string>
   <string name="c_copy">コピー</string>
@@ -30,7 +30,7 @@
   <string name="p_calc_max_calculation_time_title">計算時間の限界値</string>
   <string name="p_calc_max_calculation_time_summary">指定した限界を超えて計算が続いた場合 - エラーを表示して計算を中止します</string>
   <string name="c_exit">終了</string>
-  <string name="c_cancel">取消</string>
+  <string name="c_cancel">キャンセル</string>
   <string name="c_save">保存</string>
   <string name="c_remove">削除</string>
   <string name="c_yes">はい</string>
@@ -66,8 +66,9 @@
   <string name="p_metro_blue_theme">メトロブルー</string>
   <string name="p_metro_green_theme">メトログリーン</string>
   <string name="p_metro_purple_theme">メトロパープル</string>
-  <string name="p_material_theme">Material</string>
-  <string name="p_material_light_theme">Material Light</string>
+  <string name="p_use_app_theme">App theme</string>
+  <string name="p_material_theme">マテリアル</string>
+  <string name="p_material_light_theme">マテリアルライト</string>
   <string name="c_calc_result_precision_summary">計算結果の有効桁数(計算はこの設定に関係なく最大精度で行われます)</string>
   <string name="c_calc_color_display_summary">電卓エディタの色とスタイルを切り替えます</string>
   <string name="c_calc_theme_summary">電卓のテーマを設定します</string>
@@ -87,7 +88,7 @@
   <string name="c_calc_layout_summary">ボタンのレイアウトを設定します</string>
   <string name="c_calc_haptic_feedback_title">入力時バイブ</string>
   <string name="c_calc_haptic_feedback_summary">ボタンを押した時のバイブレーションの設定をします</string>
-  <string name="p_calc_haptic_feedback_strength_disabled">Disabled</string>
+  <string name="p_calc_haptic_feedback_strength_disabled">無効</string>
   <string name="p_calc_haptic_feedback_strength_short">短め</string>
   <string name="p_calc_haptic_feedback_strength_middle">中</string>
   <string name="p_calc_haptic_feedback_strength_long">長め</string>
@@ -181,6 +182,7 @@
   <string name="c_app_widget_4x5_name">Calculator++ ウィジェット (4x5)</string>
   <string name="open_onscreen_calculator">クリックしてウィンドウモードで電卓を開きます</string>
   <string name="prefs_onscreen_title">電卓(ウィンドウモード)の設定</string>
+  <string name="prefs_widget_title">Widget settings</string>
   <string name="prefs_onscreen_start_on_boot_title">起動時に自動で開始する</string>
   <string name="prefs_onscreen_start_on_boot_summary">有効にするとCalculator++はデバイスの起動時に通知バーに自動で現れます</string>
   <string name="prefs_onscreen_show_app_icon_title">ウィンドウモードのアイコンを表示(再起動が必要)</string>
@@ -230,9 +232,10 @@
   <string name="cpp_purchase_title">購入</string>
   <string name="cpp_var_show_greek_keyboard">ギリシャ語の文字を表示します。</string>
   <string name="cpp_var_hide_greek_keyboard">ギリシャ文字を非表示します。</string>
-  <string name="cpp_clear_history_title">Clear history?</string>
-  <string name="cpp_clear_history_message">All history will be cleared.</string>
-  <string name="cpp_clear_history">Clear</string>
-  <string name="cpp_new_in_version">New in %1$s version</string>
-  <string name="cpp_release_notes_choose_theme">Do you want to try new Material themes? Choose them from the list:</string>
+  <string name="cpp_clear_history_title">履歴を消去しますか？</string>
+  <string name="cpp_clear_history_message">すべての履歴が消去されます。</string>
+  <string name="cpp_clear_history">消去</string>
+  <string name="cpp_new_in_version">%1$sバージョンの新機能</string>
+  <string name="cpp_release_notes_choose_theme">新しいマテリアルテーマを試してみたいですか？リストから選択してください:</string>
+  <string name="cpp_system_language">System language</string>
 </resources>

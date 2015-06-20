@@ -64,6 +64,7 @@
   <string name="p_metro_blue_theme">Metro Modrá</string>
   <string name="p_metro_green_theme">Metro Zelená</string>
   <string name="p_metro_purple_theme">Metro Fialová</string>
+  <string name="p_use_app_theme">App theme</string>
   <string name="p_material_theme">Material</string>
   <string name="p_material_light_theme">Material Light</string>
   <string name="c_calc_result_precision_summary">Přesnost výsledku (všechny výpočty jsou prováděny s maximální přesností bez ohledu na tuto hodnotu)</string>
@@ -177,6 +178,7 @@ Google Play</a>,\n nechte komentář nebo \ndiskutujte o aplikaci \nna
   <string name="c_app_widget_4x5_name">Kalkulačka ++ Widget (4 x 5)</string>
   <string name="open_onscreen_calculator">Kliknutím spustíte kalkulačku v režimu okna</string>
   <string name="prefs_onscreen_title">Nastavení kalkulačky (v samostatném okně)</string>
+  <string name="prefs_widget_title">Widget settings</string>
   <string name="prefs_onscreen_start_on_boot_title">Spustit při startu operačního systému</string>
   <string name="prefs_onscreen_start_on_boot_summary">Je-li zapnuta Kalkulačka ++, budou se objevovat oznámení v oznamovací oblasti</string>
   <string name="prefs_onscreen_show_app_icon_title">Zobrazit samostatnou ikonu (vyžaduje restartování)</string>
@@ -229,4 +231,5 @@ Platební informace jsou uloženy na serveru společně s vaším účtem.\n\n K
   <string name="cpp_clear_history">Vymazat</string>
   <string name="cpp_new_in_version">Nové ve verzi %1$s</string>
   <string name="cpp_release_notes_choose_theme">Chcete vyzkoušet nové Material témata? Vyberte je ze seznamu:</string>
+  <string name="cpp_system_language">System language</string>
 </resources>

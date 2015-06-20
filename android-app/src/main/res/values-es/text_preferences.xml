@@ -14,4 +14,5 @@
   <string name="p_calculations_calculate_on_fly_summary">Si se activa, se harán los cálculos automáticamente mientras escribes</string>
   <string name="prefs_prevent_screen_from_fading_title">Evitar que se oscurezca la pantalla</string>
   <string name="prefs_prevent_screen_from_fading_summary">Si se activa, la pantalla no se apagará mientras se use la aplicación</string>
+  <string name="prefs_language_title">Language</string>
 </resources>

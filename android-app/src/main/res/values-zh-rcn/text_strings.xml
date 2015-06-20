@@ -64,8 +64,9 @@
   <string name="p_metro_blue_theme">Metro蓝</string>
   <string name="p_metro_green_theme">Metro绿</string>
   <string name="p_metro_purple_theme">Metro紫</string>
+  <string name="p_use_app_theme">App theme</string>
   <string name="p_material_theme">Material</string>
-  <string name="p_material_light_theme">Material Light</string>
+  <string name="p_material_light_theme">浅色Material</string>
   <string name="c_calc_result_precision_summary">结果显示的精确度（无论此项如何设置，所有的计算都使用最大
 精确度）</string>
   <string name="c_calc_color_display_summary">切换计算器编辑界面的颜色和样式。</string>
@@ -86,7 +87,7 @@
   <string name="c_calc_layout_summary">设置按键布局</string>
   <string name="c_calc_haptic_feedback_title">触觉反馈</string>
   <string name="c_calc_haptic_feedback_summary">开启/关闭按下按钮时的振动</string>
-  <string name="p_calc_haptic_feedback_strength_disabled">Disabled</string>
+  <string name="p_calc_haptic_feedback_strength_disabled">停用</string>
   <string name="p_calc_haptic_feedback_strength_short">短</string>
   <string name="p_calc_haptic_feedback_strength_middle">中</string>
   <string name="p_calc_haptic_feedback_strength_long">长</string>
@@ -175,6 +176,7 @@
   <string name="c_app_widget_4x5_name">Calculator + + 小部件 (4x5)</string>
   <string name="open_onscreen_calculator">单击以在悬浮窗口中打开计算器</string>
   <string name="prefs_onscreen_title">悬浮计算器设置</string>
+  <string name="prefs_widget_title">Widget settings</string>
   <string name="prefs_onscreen_start_on_boot_title">开机启动</string>
   <string name="prefs_onscreen_start_on_boot_summary">开启此选项,在设备启动之后Calculator++ 将显示在通知栏</string>
   <string name="prefs_onscreen_show_app_icon_title">显示单独的图标 （需要重新启动）</string>
@@ -221,9 +223,10 @@
   <string name="cpp_purchase_title">购买</string>
   <string name="cpp_var_show_greek_keyboard">显示希腊字母</string>
   <string name="cpp_var_hide_greek_keyboard">隐藏希腊字母</string>
-  <string name="cpp_clear_history_title">Clear history?</string>
-  <string name="cpp_clear_history_message">All history will be cleared.</string>
-  <string name="cpp_clear_history">Clear</string>
-  <string name="cpp_new_in_version">New in %1$s version</string>
-  <string name="cpp_release_notes_choose_theme">Do you want to try new Material themes? Choose them from the list:</string>
+  <string name="cpp_clear_history_title">清除历史纪录？</string>
+  <string name="cpp_clear_history_message">所有历史将被清除</string>
+  <string name="cpp_clear_history">清除</string>
+  <string name="cpp_new_in_version">%1$s 版本的新功能</string>
+  <string name="cpp_release_notes_choose_theme">你想尝试新的Material Design主题吗？请从列表中选择：</string>
+  <string name="cpp_system_language">System language</string>
 </resources>

@@ -14,4 +14,5 @@
   <string name="p_calculations_calculate_on_fly_summary">Nếu bật tính toán được thực hiện tự động trong khi gõ</string>
   <string name="prefs_prevent_screen_from_fading_title">Ngăn chặn màn hình mờ dần</string>
   <string name="prefs_prevent_screen_from_fading_summary">Nếu bật màn hình sẽ không mờ trong khi sử dụng các ứng dụng</string>
+  <string name="prefs_language_title">Language</string>
 </resources>

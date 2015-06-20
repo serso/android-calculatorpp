@@ -65,6 +65,7 @@
   <string name="p_metro_blue_theme">المترو الأزرق</string>
   <string name="p_metro_green_theme">المترو الأخضر</string>
   <string name="p_metro_purple_theme">المترو الأرجواني</string>
+  <string name="p_use_app_theme">App theme</string>
   <string name="p_material_theme">المواد</string>
   <string name="p_material_light_theme">المواد الخفيفة</string>
   <string name="c_calc_result_precision_summary">دقة قيمة النتيجة (الحسابات كافة تتم بأقصى قدر من الدقة بغض النظر عن قيمة هذا الخيار)</string>
@@ -176,6 +177,7 @@
   <string name="c_app_widget_4x5_name">ودجت الآلة الحاسبة++ (5 × 4)</string>
   <string name="open_onscreen_calculator">أنقر لفتح الآلة الحاسبة في وضع النافذة</string>
   <string name="prefs_onscreen_title">إعدادات الآلة الحاسبة (في نافذة منفصلة)</string>
+  <string name="prefs_widget_title">Widget settings</string>
   <string name="prefs_onscreen_start_on_boot_title">بدء بعد إعادة التشغيل</string>
   <string name="prefs_onscreen_start_on_boot_summary">إذا كان الخيار فعال ستظهر الآلة الحاسبة في شريط الإعلام بعد تشغيل الجهاز</string>
   <string name="prefs_onscreen_show_app_icon_title">إظهار أيقونة منفصلة (يتطلب إعادة التشغيل)</string>
@@ -229,4 +231,5 @@
   <string name="cpp_clear_history">إزالة</string>
   <string name="cpp_new_in_version">الجديد في الإصدار %1$s</string>
   <string name="cpp_release_notes_choose_theme">هل تريد محاولة المواضيع المادية الجديدة؟ اختر منهم من القائمة:</string>
+  <string name="cpp_system_language">System language</string>
 </resources>

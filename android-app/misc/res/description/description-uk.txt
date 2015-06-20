@@ -1,0 +1,35 @@
+Are you looking for an efficient and easy-to-use calculator?
+Do you want to solve both simple and complex problems?
+Try Calculator++, a multipurpose calculator app with slick and intuitive user interface!
+
+★ Save your time!
+ • Access additional features from the main screen of the app using gestures. For example, to use «%» slide button «/» up
+ • You don't need to press «=» anymore - result is calculated automatically
+ • Copy/paste with a single button press
+ • App supports both portrait and landscape screen orientations
+
+★ Personalize!
+ • C++ has two layouts: standard and engineer. Choose one which suits you best either from the initial wizard or from the application settings
+ • Set theme you like
+ • Add home screen widget
+
+★ Do calculations without switching between the apps!
+Calculator++ can work in a separate window floating over other applications on your phone
+
+★ Calculate percentages, square roots, powers, trigonometric functions!
+Calculator has a big variety of built-in functions and supports adding new user-defined functions
+
+★ Plot 2D and 3D graphs!
+Several functions can be plotted simultaneously
+
+★ Use powerful mathematical capabilities of the app:
+ • Do calculations with variables and constants
+ • Use built-in functions or add your own
+ • Integrate and differentiate
+ • Do calculations with fractions and simplify expressions
+ • Do calculations with complex numbers
+
+The app supports devices with Android version 2.2 and higher and is open source. The app contains adverts which are shown on the secondary screens. To remove them please purchase a special option from the application settings.
+
+Calculator++ on Facebook: http://facebook.com/calculatorpp
+Calculator++ on Vkontakte: http://vk.com/calculatorpp

@@ -17,4 +17,5 @@
   <string name="prefs_prevent_screen_from_fading_title">防止螢幕變暗</string>
   <string name="prefs_prevent_screen_from_fading_summary">如果開啟，使用此應用程式時，螢幕將不會變暗
 	</string>
+  <string name="prefs_language_title">Language</string>
 </resources>

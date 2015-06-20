@@ -64,6 +64,7 @@
   <string name="p_metro_blue_theme">Metron Sininen</string>
   <string name="p_metro_green_theme">Metron vihreä</string>
   <string name="p_metro_purple_theme">Metro violetti</string>
+  <string name="p_use_app_theme">App theme</string>
   <string name="p_material_theme">Materiaali</string>
   <string name="p_material_light_theme">Materiaali vaalea</string>
   <string name="c_calc_result_precision_summary">Tarkkuus tuloksen arvoa (kaikki laskelmat ovat tehneet tarkkuudella riippumatta tämän asetuksen arvosta)  </string>
@@ -172,6 +173,7 @@
   <string name="c_app_widget_4x5_name">Laskin ++ Widget (4 x 5)</string>
   <string name="open_onscreen_calculator">Avaa Laskin kotona Akkuna moodi</string>
   <string name="prefs_onscreen_title">Laskin (uudessa ikkunassa) asetukset</string>
+  <string name="prefs_widget_title">Widget settings</string>
   <string name="prefs_onscreen_start_on_boot_title">Alku model after etu</string>
   <string name="prefs_onscreen_start_on_boot_summary">Jos käytössä Laskin ++ näkyy ilmoituspalkki laitteen käynnistyksen jälkeen  </string>
   <string name="prefs_onscreen_show_app_icon_title">Näytä erillinen kuvake (vaatii uudelleenkäynnistyksen)</string>
@@ -223,4 +225,5 @@
   <string name="cpp_clear_history">Tyhjennä</string>
   <string name="cpp_new_in_version">Uutta versiossa %1$s</string>
   <string name="cpp_release_notes_choose_theme">Haluatko kokeilla uusia materiaaliteemoja? Valitse luettelosta:</string>
+  <string name="cpp_system_language">System language</string>
 </resources>

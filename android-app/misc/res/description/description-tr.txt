@@ -1,0 +1,35 @@
+Verimli ve kullanımı kolay bir hesaplayıcı mı arıyorsunuz?
+Hem kolay hem de karmaşık problemler mi çözmek istiyorsunuz?
+Arayüzü sezgisel, çok amaçlı hesaplayıcı uygulaması olan Calculator++'ı deneyin!
+
+Vakitten tasarruf edin!
+ Uygulama ana ekranından parmak hareketleri ile ek özelliklere erişin. Örneğin, «%» özelliğini kullanmak için «/» butonunu yukarı kaydırın.
+ «=» tuşuna basmanıza artık gerek yok, sonuç otomatik olarak hesaplanıyor
+ Tek tuşla kopyala/yapıştır
+ Uygulama hem düz hem yan ekranda da çalışıyor
+
+Kişiselleştirin!
+ C++'nın iki tertibi var: standart ve mühendis. Başlangıç kurulumuda ya da uygulama ayarlarından size uygun olan tertibi seçebilirsiniz.
+ Hoşunuza giden temayı seçin
+ Ana ekrana widget ekleyin
+
+Uygulmalar arası geçiş yapmadan hesaplamalar yapın!
+Calculator++ diğer uygulamaların üzerinde duran bir pencere üzerinde de çalışabilir
+
+Yüzdelik hesaplarını, karekök hesaplarını, kuvvet almayı, trigonometrik fonksiyonları hesaplayın!
+Hesaplayıcı'nın bünyesinde birçok hazır fonksiyon mevcuttur ve yeni fonksiyonar eklemenize de imkan tanır
+
+2B ve 3B grafikler çizin!
+Birden fazla fonksiyonları aynı grafik üzerinde gösterebilirsiniz
+
+Uygulamanın güçlü matematiksel yeteneklerinden faydalanın:
+ Değişkenler ve sabit sayılarla işlemler yapın
+ Hazır fonksiyonları kullanın veya kendiniz fonksiyon ekleyin
+ İntegral ve türev alın
+ Kesirli sayılarla işlem yapın veya gösterimleri basitleştirin
+ Karmaşık sayılarla işlem yapın
+
+Uygulama Android 2.2 üzerini destekler ve açık kaynaklıdır. Bu uygulama reklam içermektedir ve reklamlar ikincil pencerelerde gösterilir. Reklamları kaldırmak için lütfen uygulama ayarlarındaki özel seçeneklerden birini satın alın.
+
+Calculator++ Facebook sayfası: http://facebook.com/calculatorpp
+Calculator++ Vkontakte sayfası: http://vk.com/calculatorpp

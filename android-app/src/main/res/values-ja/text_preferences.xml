@@ -14,4 +14,5 @@
   <string name="p_calculations_calculate_on_fly_summary">オンにすると、入力中に演算結果を表示します</string>
   <string name="prefs_prevent_screen_from_fading_title">画面の自動消灯を防止する</string>
   <string name="prefs_prevent_screen_from_fading_summary">オンにすると、アプリケーション使用中の自然消灯をブロックします</string>
+  <string name="prefs_language_title">Language</string>
 </resources>

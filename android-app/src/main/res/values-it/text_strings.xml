@@ -67,8 +67,9 @@
   <string name="p_metro_blue_theme">Metro Blue</string>
   <string name="p_metro_green_theme">Metro Green</string>
   <string name="p_metro_purple_theme">Metro Purple</string>
-  <string name="p_material_theme">Material</string>
-  <string name="p_material_light_theme">Material Light</string>
+  <string name="p_use_app_theme">App theme</string>
+  <string name="p_material_theme">Material design</string>
+  <string name="p_material_light_theme">Material design leggero</string>
   <string name="c_calc_result_precision_summary">Precisione del risultato (tutti i calcoli sono fatti con la massima
 		precisione, indipendentemente dal valore di questa opzione)
 	</string>
@@ -92,7 +93,7 @@
   <string name="c_calc_layout_summary">Imposta layout per i pulsanti</string>
   <string name="c_calc_haptic_feedback_title">Feedback tattile</string>
   <string name="c_calc_haptic_feedback_summary">Attiva o disattiva la vibrazione su click dei pulsanti</string>
-  <string name="p_calc_haptic_feedback_strength_disabled">Disabled</string>
+  <string name="p_calc_haptic_feedback_strength_disabled">Disabilitato</string>
   <string name="p_calc_haptic_feedback_strength_short">Breve</string>
   <string name="p_calc_haptic_feedback_strength_middle">Media</string>
   <string name="p_calc_haptic_feedback_strength_long">Lunga</string>
@@ -181,6 +182,7 @@ Per favore valutate Calculator++ \nsu <a href="https://market.android.com/detail
   <string name="c_app_widget_4x5_name">Calculator++ Widget (4x5)</string>
   <string name="open_onscreen_calculator">Clicca per aprire la calcolatrice in modalità finestra</string>
   <string name="prefs_onscreen_title">Impostazioni Calculator (in finestra separata)</string>
+  <string name="prefs_widget_title">Widget settings</string>
   <string name="prefs_onscreen_start_on_boot_title">Apri all\'avvio</string>
   <string name="prefs_onscreen_start_on_boot_summary">Se selezionato, Calculator + + apparirà nella barra di notifica dopo l\'avvio del dispositivo</string>
   <string name="prefs_onscreen_show_app_icon_title">Visualizza icona separata (richiede riavvio)</string>
@@ -229,9 +231,10 @@ premendo \'continua\' sarai indirizzato all\'applicazione Google play per effett
   <string name="cpp_purchase_title">Acquista</string>
   <string name="cpp_var_show_greek_keyboard">Mostra caratteri greci</string>
   <string name="cpp_var_hide_greek_keyboard">Nascondi caratteri greci</string>
-  <string name="cpp_clear_history_title">Clear history?</string>
-  <string name="cpp_clear_history_message">All history will be cleared.</string>
-  <string name="cpp_clear_history">Clear</string>
-  <string name="cpp_new_in_version">New in %1$s version</string>
-  <string name="cpp_release_notes_choose_theme">Do you want to try new Material themes? Choose them from the list:</string>
+  <string name="cpp_clear_history_title">Eliminare la cronologia?</string>
+  <string name="cpp_clear_history_message">L\'intera cronologia verrà cancellata.</string>
+  <string name="cpp_clear_history">Svuota</string>
+  <string name="cpp_new_in_version">Novità nella versione %1$s</string>
+  <string name="cpp_release_notes_choose_theme">Vuoi provare nuove temi Material design? Selezionali dalla lista:</string>
+  <string name="cpp_system_language">System language</string>
 </resources>

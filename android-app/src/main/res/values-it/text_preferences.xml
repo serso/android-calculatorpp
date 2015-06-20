@@ -14,4 +14,5 @@
   <string name="p_calculations_calculate_on_fly_summary">Se attivato, i calcoli vengono  effettuati automaticamente durante l\'inserimento</string>
   <string name="prefs_prevent_screen_from_fading_title">Impedisce lo spegnimento dello schermo</string>
   <string name="prefs_prevent_screen_from_fading_summary">Se attivato impedisce lo spegnimento dello schermo mentre é in uso l\'applicazione</string>
+  <string name="prefs_language_title">Language</string>
 </resources>

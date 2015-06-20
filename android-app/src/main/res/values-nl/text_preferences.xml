@@ -14,4 +14,5 @@
   <string name="p_calculations_calculate_on_fly_summary">Indien ingeschakeld worden berekeningen automatisch uitgevoerd tijdens het typen</string>
   <string name="prefs_prevent_screen_from_fading_title">Scherm doven verhinderen</string>
   <string name="prefs_prevent_screen_from_fading_summary">Indien ingeschakeld scherm zal niet doven terwijl het gebruik van app</string>
+  <string name="prefs_language_title">Language</string>
 </resources>

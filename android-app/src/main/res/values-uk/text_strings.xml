@@ -68,6 +68,7 @@
   <string name="p_metro_blue_theme">Метро Синя</string>
   <string name="p_metro_green_theme">Метро Зелена</string>
   <string name="p_metro_purple_theme">Метро Пурпурова</string>
+  <string name="p_use_app_theme">App theme</string>
   <string name="p_material_theme">Матеріал</string>
   <string name="p_material_light_theme">Світлий матеріал</string>
   <string name="c_calc_result_precision_summary">Точність відображення результату (усі обчислення проводяться максимально точно, незалежно від цього параметру)
@@ -188,6 +189,7 @@
   <string name="c_app_widget_4x5_name">Калькулятор++ віджет (4х5)</string>
   <string name="open_onscreen_calculator">Клацніть, щоб відкрити калькулятор у віконному режимі</string>
   <string name="prefs_onscreen_title">Параметри Калькулятор++ (в окремому вікні)</string>
+  <string name="prefs_widget_title">Widget settings</string>
   <string name="prefs_onscreen_start_on_boot_title">Запускати під час завантаження системи</string>
   <string name="prefs_onscreen_start_on_boot_summary">Якщо увімкнено, то Калькулятор++ з\'явиться на панелі сповіщень після завантаження системи</string>
   <string name="prefs_onscreen_show_app_icon_title">Показувати окрему піктограму (потрібне перевантаження)</string>
@@ -239,4 +241,5 @@
   <string name="cpp_clear_history">Очистити</string>
   <string name="cpp_new_in_version">Нове у версії %1$s</string>
   <string name="cpp_release_notes_choose_theme">Кортить спробувати нові теми Матеріал? Вибирайте одну з них у списку:</string>
+  <string name="cpp_system_language">System language</string>
 </resources>
