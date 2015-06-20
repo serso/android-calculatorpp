@@ -61,6 +61,7 @@ public final class Languages implements SharedPreferences.OnSharedPreferenceChan
 		tryAddLanguage("pt_BR");
 		tryAddLanguage("pt_PT");
 		tryAddLanguage("ru");
+		tryAddLanguage("tr");
 		tryAddLanguage("vi");
 		tryAddLanguage("uk");
 		tryAddLanguage("ja");
