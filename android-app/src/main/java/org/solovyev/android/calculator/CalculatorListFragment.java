@@ -40,18 +40,18 @@ import javax.annotation.Nonnull;
 public abstract class CalculatorListFragment extends ListFragment {
 
 	@Nonnull
-	private final FragmentUi fragmentHelper;
+	private final FragmentUi ui;
 
 	protected CalculatorListFragment(int layoutResId, int titleResId) {
-		fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(layoutResId, titleResId);
+		ui = CalculatorApplication.getInstance().createFragmentHelper(layoutResId, titleResId);
 	}
 
 	protected CalculatorListFragment(@Nonnull CalculatorFragmentType fragmentType) {
-		fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(fragmentType.getDefaultLayoutId(), fragmentType.getDefaultTitleResId());
+		ui = CalculatorApplication.getInstance().createFragmentHelper(fragmentType.getDefaultLayoutId(), fragmentType.getDefaultTitleResId());
 	}
 
-	protected CalculatorListFragment(@Nonnull FragmentUi fragmentHelper) {
-		this.fragmentHelper = fragmentHelper;
+	protected CalculatorListFragment(@Nonnull FragmentUi ui) {
+		this.ui = ui;
 	}
 
 	@Override
@@ -63,43 +63,42 @@ public abstract class CalculatorListFragment extends ListFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		fragmentHelper.onCreate(this);
+		ui.onCreate(this);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return fragmentHelper.onCreateView(this, inflater, container);
+		return ui.onCreateView(this, inflater, container);
 	}
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 
-		fragmentHelper.onViewCreated(this, view);
+		ui.onViewCreated(this, view);
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-
-		this.fragmentHelper.onResume(this);
+		this.ui.onResume(this);
 	}
 
 	@Override
 	public void onPause() {
-		this.fragmentHelper.onPause(this);
-
+		this.ui.onPause(this);
 		super.onPause();
 	}
 
 	@Override
 	public void onDestroyView() {
+		ui.onDestroyView(this);
 		super.onDestroyView();
 	}
 
 	@Override
 	public void onDestroy() {
-		fragmentHelper.onDestroy(this);
+		ui.onDestroy(this);
 		super.onDestroy();
 	}
 

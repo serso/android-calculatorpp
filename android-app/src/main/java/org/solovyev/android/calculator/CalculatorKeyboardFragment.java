@@ -90,6 +90,12 @@ public class CalculatorKeyboardFragment extends Fragment implements SharedPrefer
 	}
 
 	@Override
+	public void onDestroyView() {
+		ui.onDestroyView(this);
+		super.onDestroyView();
+	}
+
+	@Override
 	public void onDestroy() {
 		super.onDestroy();
 		ui.onDestroy(this);

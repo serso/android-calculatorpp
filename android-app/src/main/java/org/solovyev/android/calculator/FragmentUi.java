@@ -27,15 +27,18 @@ import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.TextView;
+
 import org.solovyev.android.checkout.ActivityCheckout;
 import org.solovyev.android.checkout.Checkout;
 import org.solovyev.android.checkout.Inventory;
 import org.solovyev.android.checkout.ProductTypes;
 
+import java.util.Locale;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Locale;
 
 /**
  * User: serso
@@ -169,11 +172,6 @@ public class FragmentUi extends BaseUi {
 	}
 
 	public void onDestroy(@Nonnull Fragment fragment) {
-		if (adView != null) {
-			adView.destroy();
-			adView = null;
-		}
-
 		if (listenersOnCreate) {
 			if (fragment instanceof CalculatorEventListener) {
 				Locator.getInstance().getCalculator().removeCalculatorEventListener((CalculatorEventListener) fragment);
@@ -188,5 +186,12 @@ public class FragmentUi extends BaseUi {
 	@Nonnull
 	public View onCreateView(@Nonnull Fragment fragment, @Nonnull LayoutInflater inflater, @Nullable ViewGroup container) {
 		return inflater.inflate(layoutId, container, false);
+	}
+
+	public void onDestroyView(@Nonnull Fragment fragment) {
+		if (adView != null) {
+			adView.destroy();
+			adView = null;
+		}
 	}
 }

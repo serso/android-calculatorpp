@@ -41,7 +41,7 @@ import javax.annotation.Nonnull;
 public class CalculatorDisplayFragment extends Fragment {
 
 	@Nonnull
-	private FragmentUi fragmentHelper;
+	private FragmentUi fragmentUi;
 	@Nonnull
 	private AndroidCalculatorDisplayView displayView;
 
@@ -52,17 +52,17 @@ public class CalculatorDisplayFragment extends Fragment {
 		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
 		final Preferences.Gui.Layout layout = Preferences.Gui.getLayout(prefs);
 		if (!layout.isOptimized()) {
-			fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(R.layout.cpp_app_display_mobile, R.string.result);
+			fragmentUi = CalculatorApplication.getInstance().createFragmentHelper(R.layout.cpp_app_display_mobile, R.string.result);
 		} else {
-			fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(R.layout.cpp_app_display, R.string.result);
+			fragmentUi = CalculatorApplication.getInstance().createFragmentHelper(R.layout.cpp_app_display, R.string.result);
 		}
 
-		fragmentHelper.onCreate(this);
+		fragmentUi.onCreate(this);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return fragmentHelper.onCreateView(this, inflater, container);
+		return fragmentUi.onCreateView(this, inflater, container);
 	}
 
 	@Override
@@ -73,7 +73,7 @@ public class CalculatorDisplayFragment extends Fragment {
 		displayView.init(getActivity());
 		Locator.getInstance().getDisplay().setView(displayView);
 
-		fragmentHelper.onViewCreated(this, root);
+		fragmentUi.onViewCreated(this, root);
 	}
 
 	@Override
@@ -85,12 +85,12 @@ public class CalculatorDisplayFragment extends Fragment {
 	public void onResume() {
 		super.onResume();
 
-		fragmentHelper.onResume(this);
+		fragmentUi.onResume(this);
 	}
 
 	@Override
 	public void onPause() {
-		fragmentHelper.onPause(this);
+		fragmentUi.onPause(this);
 
 		super.onPause();
 	}
@@ -98,12 +98,13 @@ public class CalculatorDisplayFragment extends Fragment {
 	@Override
 	public void onDestroyView() {
 		Locator.getInstance().getDisplay().clearView(displayView);
+		fragmentUi.onDestroyView(this);
 		super.onDestroyView();
 	}
 
 	@Override
 	public void onDestroy() {
-		fragmentHelper.onDestroy(this);
+		fragmentUi.onDestroy(this);
 
 		super.onDestroy();
 	}

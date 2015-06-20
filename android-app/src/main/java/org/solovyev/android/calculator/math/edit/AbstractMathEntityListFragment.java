@@ -25,6 +25,7 @@ package org.solovyev.android.calculator.math.edit;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,20 +34,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.Comparator;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import org.solovyev.android.calculator.CalculatorApplication;
 import org.solovyev.android.calculator.CalculatorEventData;
 import org.solovyev.android.calculator.CalculatorEventListener;
 import org.solovyev.android.calculator.CalculatorEventType;
-import org.solovyev.android.calculator.FragmentUi;
 import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.CalculatorMathRegistry;
-import org.solovyev.android.calculator.Locator;
+import org.solovyev.android.calculator.FragmentUi;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.menu.AMenuItem;
 import org.solovyev.android.menu.ContextMenuBuilder;
@@ -58,7 +52,11 @@ import org.solovyev.common.filter.Filter;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.text.Strings;
 
-import android.support.v4.app.ListFragment;
+import java.util.Comparator;
+import java.util.List;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 
 /**
@@ -94,13 +92,13 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
 	private String category;
 
 	@Nonnull
-	private final FragmentUi fragmentHelper;
+	private final FragmentUi ui;
 
 	@Nonnull
 	private final Handler uiHandler = new Handler();
 
 	protected AbstractMathEntityListFragment(@Nonnull CalculatorFragmentType fragmentType) {
-		fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(fragmentType.getDefaultLayoutId(), fragmentType.getDefaultTitleResId());
+		ui = CalculatorApplication.getInstance().createFragmentHelper(fragmentType.getDefaultLayoutId(), fragmentType.getDefaultTitleResId());
 	}
 
 	@Override
@@ -112,19 +110,19 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
 			category = bundle.getString(MATH_ENTITY_CATEGORY_EXTRA_STRING);
 		}
 
-		fragmentHelper.onCreate(this);
+		ui.onCreate(this);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return fragmentHelper.onCreateView(this, inflater, container);
+		return ui.onCreateView(this, inflater, container);
 	}
 
 	@Override
 	public void onViewCreated(View root, Bundle savedInstanceState) {
 		super.onViewCreated(root, savedInstanceState);
 
-		fragmentHelper.onViewCreated(this, root);
+		ui.onViewCreated(this, root);
 
 		final ListView lv = getListView();
 		lv.setTextFilterEnabled(true);
@@ -162,8 +160,14 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
 	protected abstract AMenuItem<T> getOnClickAction();
 
 	@Override
+	public void onDestroyView() {
+		ui.onDestroyView(this);
+		super.onDestroyView();
+	}
+
+	@Override
 	public void onDestroy() {
-		fragmentHelper.onDestroy(this);
+		ui.onDestroy(this);
 
 		super.onDestroy();
 	}
@@ -173,7 +177,7 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
 
 	@Override
 	public void onPause() {
-		this.fragmentHelper.onPause(this);
+		this.ui.onPause(this);
 
 		super.onPause();
 	}
@@ -182,7 +186,7 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
 	public void onResume() {
 		super.onResume();
 
-		this.fragmentHelper.onResume(this);
+		this.ui.onResume(this);
 
 		adapter = new MathEntityArrayAdapter<T>(getDescriptionGetter(), this.getActivity(), getMathEntitiesByCategory());
 		setListAdapter(adapter);

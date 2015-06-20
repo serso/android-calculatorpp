@@ -40,18 +40,18 @@ import javax.annotation.Nonnull;
 public abstract class CalculatorFragment extends Fragment {
 
 	@Nonnull
-	private final FragmentUi fragmentHelper;
+	private final FragmentUi fragmentUi;
 
 	protected CalculatorFragment(int layoutResId, int titleResId) {
-		fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(layoutResId, titleResId);
+		fragmentUi = CalculatorApplication.getInstance().createFragmentHelper(layoutResId, titleResId);
 	}
 
 	protected CalculatorFragment(@Nonnull CalculatorFragmentType fragmentType) {
-		fragmentHelper = CalculatorApplication.getInstance().createFragmentHelper(fragmentType.getDefaultLayoutId(), fragmentType.getDefaultTitleResId());
+		fragmentUi = CalculatorApplication.getInstance().createFragmentHelper(fragmentType.getDefaultLayoutId(), fragmentType.getDefaultTitleResId());
 	}
 
-	protected CalculatorFragment(@Nonnull FragmentUi fragmentHelper) {
-		this.fragmentHelper = fragmentHelper;
+	protected CalculatorFragment(@Nonnull FragmentUi fragmentUi) {
+		this.fragmentUi = fragmentUi;
 	}
 
 	@Override
@@ -63,43 +63,44 @@ public abstract class CalculatorFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		fragmentHelper.onCreate(this);
+		fragmentUi.onCreate(this);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return fragmentHelper.onCreateView(this, inflater, container);
+		return fragmentUi.onCreateView(this, inflater, container);
 	}
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 
-		fragmentHelper.onViewCreated(this, view);
+		fragmentUi.onViewCreated(this, view);
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
 
-		this.fragmentHelper.onResume(this);
+		this.fragmentUi.onResume(this);
 	}
 
 	@Override
 	public void onPause() {
-		this.fragmentHelper.onPause(this);
+		this.fragmentUi.onPause(this);
 
 		super.onPause();
 	}
 
 	@Override
 	public void onDestroyView() {
+		fragmentUi.onDestroyView(this);
 		super.onDestroyView();
 	}
 
 	@Override
 	public void onDestroy() {
-		fragmentHelper.onDestroy(this);
+		fragmentUi.onDestroy(this);
 		super.onDestroy();
 	}
 
@@ -109,6 +110,6 @@ public abstract class CalculatorFragment extends Fragment {
 	}
 
 	public boolean isPaneFragment() {
-		return fragmentHelper.isPane(this);
+		return fragmentUi.isPane(this);
 	}
 }
