@@ -105,6 +105,7 @@ public class CalculatorEditorFragment extends Fragment {
 	@Override
 	public void onDestroyView() {
 		Locator.getInstance().getEditor().clearView(editorView);
+		fragmentUi.onDestroyView(this);
 		super.onDestroyView();
 	}
 

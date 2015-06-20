@@ -173,6 +173,30 @@ public class PreferencesFragment extends org.solovyev.android.material.preferenc
 	}
 
 	@Override
+	public void onResume() {
+		super.onResume();
+		if (adView != null) {
+			adView.resume();
+		}
+	}
+
+	@Override
+	public void onPause() {
+		if (adView != null) {
+			adView.pause();
+		}
+		super.onPause();
+	}
+
+	@Override
+	public void onDestroyView() {
+		if (adView != null) {
+			adView.destroy();
+		}
+		super.onDestroyView();
+	}
+
+	@Override
 	public void onDestroy() {
 		App.getPreferences().unregisterOnSharedPreferenceChangeListener(this);
 		super.onDestroy();

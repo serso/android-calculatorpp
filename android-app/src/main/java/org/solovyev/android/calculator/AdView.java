@@ -5,15 +5,21 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
+
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 
+import org.solovyev.android.Check;
+
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class AdView extends FrameLayout {
 
 	@Nullable
 	private com.google.android.gms.ads.AdView admobView;
+	@Nullable
+	private AdView.AdViewListener admobListener;
 
 	public AdView(Context context) {
 		super(context);
@@ -28,8 +34,18 @@ public class AdView extends FrameLayout {
 	}
 
 	public void destroy() {
+		destroyAdmobView();
+	}
+
+	private void destroyAdmobView() {
 		if (admobView != null) {
 			admobView.destroy();
+			admobView.setAdListener(null);
+			admobView = null;
+		}
+		if(admobListener != null) {
+			admobListener.destroy();
+			admobListener = null;
 		}
 	}
 
@@ -52,22 +68,13 @@ public class AdView extends FrameLayout {
 
 		LayoutInflater.from(getContext()).inflate(R.layout.admob, this);
 		admobView = (com.google.android.gms.ads.AdView) findViewById(R.id.admob);
-		if (admobView == null) throw new AssertionError();
+		Check.isNotNull(admobView);
+		if (admobView == null) {
+			return;
+		}
 
-		admobView.setAdListener(new AdListener() {
-			@Override
-			public void onAdFailedToLoad(int errorCode) {
-				hide();
-			}
-
-			@Override
-			public void onAdLoaded() {
-				if (admobView != null) {
-					admobView.setVisibility(View.VISIBLE);
-				}
-				setVisibility(VISIBLE);
-			}
-		});
+		admobListener = new AdView.AdViewListener(this);
+		admobView.setAdListener(admobListener);
 
 		final AdRequest.Builder b = new AdRequest.Builder();
 		b.addTestDevice(AdRequest.DEVICE_ID_EMULATOR);
@@ -87,7 +94,40 @@ public class AdView extends FrameLayout {
 
 		admobView.setVisibility(View.GONE);
 		admobView.pause();
-		admobView.destroy();
-		admobView = null;
+		destroyAdmobView();
+	}
+
+	private static class AdViewListener extends AdListener {
+
+		@Nullable
+		private AdView adView;
+
+		public AdViewListener(@Nonnull AdView adView) {
+			this.adView = adView;
+		}
+
+		void destroy() {
+			adView = null;
+		}
+
+		@Override
+		public void onAdFailedToLoad(int errorCode) {
+			if (adView != null) {
+				adView.hide();
+				adView = null;
+			}
+		}
+
+		@Override
+		public void onAdLoaded() {
+			if (adView != null) {
+				final com.google.android.gms.ads.AdView admobView = adView.admobView;
+				if (admobView != null) {
+					admobView.setVisibility(View.VISIBLE);
+				}
+				adView.setVisibility(VISIBLE);
+				adView = null;
+			}
+		}
 	}
 }
