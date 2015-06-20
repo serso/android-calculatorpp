@@ -27,7 +27,8 @@
   <string name="c_fun_description_gt">Función Mayor que - Devuelve 1 si el primer argumento es mayor que el segundo. Devuelve 0 en caso contrario</string>
   <string name="c_fun_description_rad">Convierte grados a radianes: º - grados, min - minutos (por defecto = 0), s - segundos (por defecto = 0)
 	</string>
-  <string name="c_fun_description_dms">Convierte grados de notación DMS a notación decimal: º - grados, min - minutos (por defecto = 0), s - segundos (por defecto = 0)
+  <string name="c_fun_description_dms">Convierte grados de notación DMS a notación decimal: d - grados, m - minutos
+		(por defecto = 0), s - segundos (por defecto = 0)
 	</string>
   <string name="c_fun_description_deg">Convierte de radianes a grados</string>
   <string name="c_fun_category_trig">Trigonométrico</string>

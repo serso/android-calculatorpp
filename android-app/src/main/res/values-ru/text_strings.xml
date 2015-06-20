@@ -75,6 +75,7 @@
   <string name="p_metro_blue_theme">Метро Синяя</string>
   <string name="p_metro_green_theme">Метро Зелёная</string>
   <string name="p_metro_purple_theme">Метро Фиолетовая</string>
+  <string name="p_use_app_theme">Тема приложения</string>
   <string name="p_material_theme">Матириал</string>
   <string name="p_material_light_theme">Матириал Светлая</string>
   <string name="c_calc_result_precision_summary">Точность результата(все вычисления производятся максимально точно)
@@ -204,6 +205,7 @@
   <string name="c_app_widget_4x5_name">Калькулятор++ Виджет (4x5)</string>
   <string name="open_onscreen_calculator">Нажмите чтобы открыть калькулятор в отдельном окне</string>
   <string name="prefs_onscreen_title">Настройки калькулятора в отдельном окне</string>
+  <string name="prefs_widget_title">Настройки виджета</string>
   <string name="prefs_onscreen_start_on_boot_title">Запуск после загрузки устройства</string>
   <string name="prefs_onscreen_start_on_boot_summary">Если включено, то кнопка Калькулятора++ будет доступна в панели
 		уведомлений после загрузки устройства
@@ -268,4 +270,5 @@
   <string name="cpp_clear_history">Очистить</string>
   <string name="cpp_new_in_version">Новое в версии %1$s</string>
   <string name="cpp_release_notes_choose_theme">Хотите попробовать новые темы в стиле Матириал? Выберите их из списка:</string>
+  <string name="cpp_system_language">Язык системы</string>
 </resources>

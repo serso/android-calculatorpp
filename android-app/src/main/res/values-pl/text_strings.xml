@@ -64,6 +64,7 @@
   <string name="p_metro_blue_theme">Niebieski Metro</string>
   <string name="p_metro_green_theme">Zielony Metro</string>
   <string name="p_metro_purple_theme">Fioletowy Metro</string>
+  <string name="p_use_app_theme">App theme</string>
   <string name="p_material_theme">Material</string>
   <string name="p_material_light_theme">Material Light</string>
   <string name="c_calc_result_precision_summary">Dokładność wyświetlanego wyniku (wszystkie obliczenia są wykonywane przy maksymalnej dokładności, niezależnie od tej opcji)</string>
@@ -85,7 +86,7 @@
   <string name="c_calc_layout_summary">Ustawia wygląd przycisków</string>
   <string name="c_calc_haptic_feedback_title">Wibracja przy naciśnięciu</string>
   <string name="c_calc_haptic_feedback_summary">Włącza wibrację po naciśnięciu przycisku</string>
-  <string name="p_calc_haptic_feedback_strength_disabled">Disabled</string>
+  <string name="p_calc_haptic_feedback_strength_disabled">Wyłączony</string>
   <string name="p_calc_haptic_feedback_strength_short">Krótki</string>
   <string name="p_calc_haptic_feedback_strength_middle">Średni</string>
   <string name="p_calc_haptic_feedback_strength_long">Długi</string>
@@ -176,6 +177,7 @@ Proszę, oceń Calculator++ \nna<a href="https://market.android.com/details?id=o
   <string name="c_app_widget_4x5_name">Calculator++ Widżet (4x5)</string>
   <string name="open_onscreen_calculator">Kliknij, aby otworzyć kalkulator w trybie okna</string>
   <string name="prefs_onscreen_title">Ustawienia kalkulatora (w osobnym oknie)</string>
+  <string name="prefs_widget_title">Widget settings</string>
   <string name="prefs_onscreen_start_on_boot_title">Uruchom przy starcie systemu</string>
   <string name="prefs_onscreen_start_on_boot_summary">Jeżeli opcja jest włączona, Calculator++ pojawi się na górnej belce po uruchomieniu urządzenia</string>
   <string name="prefs_onscreen_show_app_icon_title">Pokaż oddzielną ikonę (wymagany restart)</string>
@@ -222,9 +224,10 @@ Proszę, oceń Calculator++ \nna<a href="https://market.android.com/details?id=o
   <string name="cpp_purchase_title">Zakup</string>
   <string name="cpp_var_show_greek_keyboard">Pokaż greckie litery</string>
   <string name="cpp_var_hide_greek_keyboard">Schowaj greckie litery</string>
-  <string name="cpp_clear_history_title">Clear history?</string>
-  <string name="cpp_clear_history_message">All history will be cleared.</string>
-  <string name="cpp_clear_history">Clear</string>
-  <string name="cpp_new_in_version">New in %1$s version</string>
-  <string name="cpp_release_notes_choose_theme">Do you want to try new Material themes? Choose them from the list:</string>
+  <string name="cpp_clear_history_title">Wyczyścić historię?</string>
+  <string name="cpp_clear_history_message">Cała historia zostanie usunięta.</string>
+  <string name="cpp_clear_history">Wyczyszczono</string>
+  <string name="cpp_new_in_version">Nowści w wersji %1$s</string>
+  <string name="cpp_release_notes_choose_theme">Czy chcesz wypróbować nowe motywy Material? Wybierz je z listy:</string>
+  <string name="cpp_system_language">System language</string>
 </resources>

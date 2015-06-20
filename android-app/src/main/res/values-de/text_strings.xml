@@ -64,6 +64,7 @@
   <string name="p_metro_blue_theme">Metro Blau</string>
   <string name="p_metro_green_theme">Metro Grün</string>
   <string name="p_metro_purple_theme">Metro Lila</string>
+  <string name="p_use_app_theme">App theme</string>
   <string name="p_material_theme">Material-Design</string>
   <string name="p_material_light_theme">Material-Design hell</string>
   <string name="c_calc_result_precision_summary">Genauigkeit des Resultats (alle Berechnungen sind mit höchster Genauigkeit unabhängig von dieser Option)</string>
@@ -175,6 +176,7 @@ Google Play</a>,\nschreiben Sie einen Kommentar oder\ndiskutieren Sie die Anwend
   <string name="c_app_widget_4x5_name">Calculator++ Widget (4x5)</string>
   <string name="open_onscreen_calculator">Klicken Sie hier, um den Rechner im Fenstermodus zu öffnen</string>
   <string name="prefs_onscreen_title">Fenstermodus-Einstellungen</string>
+  <string name="prefs_widget_title">Widget settings</string>
   <string name="prefs_onscreen_start_on_boot_title">Beim Einschalten des Geräts starten</string>
   <string name="prefs_onscreen_start_on_boot_summary">Wenn aktiviert wird Calculator++ in der Benachrichtigungsleiste nach dem Gerätestart erscheinen</string>
   <string name="prefs_onscreen_show_app_icon_title">Seperates Symbol anzeigen (Neustart erforderlich)</string>
@@ -228,4 +230,5 @@ Klicken Sie auf \"Weiter\" und Sie werden zu Google Play weitergeleitet, wo Sie 
   <string name="cpp_clear_history">Löschen</string>
   <string name="cpp_new_in_version">Neu in Version %1$s</string>
   <string name="cpp_release_notes_choose_theme">Wollen Sie das neue Material-Design ausprobieren? Wählen sie aus der Liste:</string>
+  <string name="cpp_system_language">System language</string>
 </resources>

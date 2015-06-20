@@ -1,0 +1,35 @@
+Você está procurando uma calculadora eficiente e fácil de usar?
+Você deseja resolver problemas, sejam eles simples ou complexos?
+Use Calculator++, uma calculadora com interface simples e intuitiva!
+
+Não perca tempo!
+ Acesse recursos adicionais do aplicativo utilizando gestos. Por exemplo, para usar «%» arraste o botão «/» para cima
+ Você não precisa apertar «=» mais - os resultados são mostrados automaticamente
+ Copie e cole pressionando um único botão
+ O aplicativo suporta orientações de tela de retrato e paisagem
+
+Personalize!
+ C++ tem dois layouts: padrão e modo engenheiro. Escolha o que melhor se aplica a você, escolha pelo programa de instalação ou no menu de configurações
+ Escolha o tema que você mais gosta
+ Adicione o widget da tela inicial
+
+Faça cálculos sem trocar de aplicativos!
+Calculator++ consegue trabalhar em plano de fundo enquanto você usa outros aplicativos de seu telefone
+
+Calcule porcentagens, raízes, expoentes, funções trigonométricas!
+Calculator possui uma grande variedade de funções pré-programadas além de permitir funções definidas pelo usuário
+
+Plote gráficos 2D e 3D!
+Várias funções podem ser plotadas simultaneamente
+
+Use das poderosas habilidades matemáticas do aplicativo:
+ Faça cálculos com variáveis e constantes
+ Use funções built-in ou adicione as suas
+ Integre e derive
+ Faça cálculos com frações e simplifique expressões
+ Faça cálculos com números complexos
+
+O aplicativo oferece suporte a dispositivos com Android 2.2, é melhor e ainda é código livre. O aplicativo contém anúncios que são exibidos nas telas secundárias. Para removê-los compre uma a versão especial do aplicativo.
+
+Calculadora++ no Facebook: http://facebook.com/calculatorpp
+Calculadora++ no Vkontakte: http://vk.com/calculatorpp

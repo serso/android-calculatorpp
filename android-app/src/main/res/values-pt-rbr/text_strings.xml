@@ -64,6 +64,7 @@
   <string name="p_metro_blue_theme">Metro Blue</string>
   <string name="p_metro_green_theme">Metro Green</string>
   <string name="p_metro_purple_theme">Metro Purple (Roxo)</string>
+  <string name="p_use_app_theme">App theme</string>
   <string name="p_material_theme">Material</string>
   <string name="p_material_light_theme">Tema leve</string>
   <string name="c_calc_result_precision_summary">Precisão do resultado (todos os cálculos são feitos com precisão máxima, independentemente do valor desta opção)</string>
@@ -172,6 +173,7 @@
   <string name="c_app_widget_4x5_name">Calculator++ Widget (4x5)</string>
   <string name="open_onscreen_calculator">Clique para abrir a calculadora no modo de janela</string>
   <string name="prefs_onscreen_title">Configurações de calculadora (em uma janela separada)</string>
+  <string name="prefs_widget_title">Widget settings</string>
   <string name="prefs_onscreen_start_on_boot_title">Executar aplicativo na inicialização do sistema</string>
   <string name="prefs_onscreen_start_on_boot_summary">Se ligado, a calculadora aparecerá na barra de notificação após a inicialização do dispositivo</string>
   <string name="prefs_onscreen_show_app_icon_title">Mostrar ícone separado (requer reinicialização)</string>
@@ -223,4 +225,5 @@
   <string name="cpp_clear_history">Limpar	</string>
   <string name="cpp_new_in_version">Novo na versão %1$s</string>
   <string name="cpp_release_notes_choose_theme">Você deseja testar novos temas? Escolha-os pela lista:</string>
+  <string name="cpp_system_language">System language</string>
 </resources>

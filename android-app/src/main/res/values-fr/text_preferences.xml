@@ -14,4 +14,5 @@
   <string name="p_calculations_calculate_on_fly_summary">Si coché, les calculs seront faits automatiquement pendant la frappe</string>
   <string name="prefs_prevent_screen_from_fading_title">Empêcher l\'extinction de l\'écran</string>
   <string name="prefs_prevent_screen_from_fading_summary">Si coché, l\'écran ne sera pas éteint lors de l\'utilisation de l\'application</string>
+  <string name="prefs_language_title">Language</string>
 </resources>

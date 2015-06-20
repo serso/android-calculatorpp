@@ -16,4 +16,5 @@
   <string name="p_calculations_calculate_on_fly_summary">Якщо увімкнено¸ то розрахунки виконуються автоматично при введенні виразу</string>
   <string name="prefs_prevent_screen_from_fading_title">Не вимикати екран</string>
   <string name="prefs_prevent_screen_from_fading_summary">Якщо увімкнено, то екран не буде вимикатися під час використання програми</string>
+  <string name="prefs_language_title">Language</string>
 </resources>

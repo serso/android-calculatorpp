@@ -1,0 +1,35 @@
+Stai cercando una calcolatrice efficiente e facile da usare?
+Vuoi risolvere sia problemi semplici che complessi?
+Prova Calcolatrice++, un'app calcolatrice multiuso con una interfaccia utente rapida e intuitiva !
+
+★ Risparmia tempo!
+ • Accedi a funzionalità aggiuntive dalla schermata principale dell'app tramite gesti. Ad esempio, per utilizzare «%» trascina il pulsante «/» verso l'alto
+ • Non è più necessario premere «=» - il risultato viene calcolato automaticamente
+ • Copia/incolla con un singolo tasto
+ • L'app supporta gli orientamenti di schermo sia orizzontali che verticali
+
+★ Personalizza!
+ • C++ ha due formati: standard e ingegnere. Scegli quello che meglio ti si addice dalla procedura guidata iniziale o dalle impostazioni dell'applicazione
+ • Scegli il tema che preferisci
+ • Aggiungi widget alla schermata home
+
+★ Esegui calcoli senza il bisogno di passare tra le applicazioni!
+Calcolatrice++ dispone della modalità finestra, in modo da interagire dentro alle altre applicazioni sul tuo smartphone
+
+★ Calcola percentuali, radici quadrate, potenze, funzioni trigonometriche!
+La calcolatrice dispone di una grande varietà di funzioni e supporta l'aggiunta di nuove funzioni definite dall'utente
+
+★ Traccia grafici 2D e 3D!
+Possono essere tracciate simultaneamente diverse funzioni
+
+★ Utilizza le potenti capacità matematiche dell'app:
+ • Esegui calcoli con costanti e variabili
+ • Utilizza le funzioni incorporate o aggiungi le tue
+ • Integrali e differenziali
+ • Esegui calcoli con le frazioni e semplifica le espressioni
+ • Esegui calcoli con numeri complessi
+
+L'app supporta dispositivi con Android versione 2.2 e superiori ed è open source. L'app contiene annunci che vengono visualizzati sugli schermi secondari. Per rimuoverli è possibile acquistare una speciale opzione dalle impostazioni dell'applicazione.
+
+Calcolatrice++ su Facebook: http://facebook.com/calculatorpp
+Calcolatrice++ su Vkontakte: http://vk.com/calculatorpp

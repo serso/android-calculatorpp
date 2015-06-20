@@ -1,0 +1,35 @@
+Sie suchen einen effizienten und einfach zu benutzenden Taschenrechner?
+Sie wollen einfache und kompliziertere Probleme lösen?
+Probieren Sie Calculator++, eine vielseitige Taschenrechnerapp mit durchdachter und intuitiver Benutzeroberfläche!
+
+★ Sparen Sie Zeit!
+ • Mehrfachbelegung der Buttons mit Wischgesten. Um beispielsweise «%» zu verwenden, einfach von der Schaltfläche «/» nach oben wischen.
+ • Man brauch kein «=» zu drücken, das Ergebnis erscheint automatisch
+ • Kopieren/Einfügen mit einem einzigen Tastendruck
+ • Unterstützt Hoch- und Querformat des Bildschirms
+
+★ Personalisieren!
+ • C++ hat zwei Tastenlayouts: Standard und Ingenieur. Wählen Sie eines, das am Besten zu Ihnen passt. Entweder gleich beim ersten Start, oder später in den Anwendungseinstellungen.
+ Mehrere Themes
+ • Widget hinzufügen
+
+★ Machen Sie Berechnungen ohne zwischen den Apps umzuschalten!
+Calculator++ kann in einem separaten Fenster ausgeführt werden und über anderen Anwendungen schweben.
+
+★ Berechnen Sie Prozentsätze, Wurzeln, Potenzen und trigonometrische Funktionen!
+Calculator++ verfügt über eine Vielzahl von mathematischen Funktionen und es lassen sich benutzerdefinierte Funktionen hinzufügen.
+
+★ Zeichnen Sie 2D und 3D Graphen!
+Mehrere Funktionen können gleichzeitig angezeigt werden.
+
+★ Verwenden Sie die leistungsfähigen mathematischen Möglichkeiten der App:
+ • Berechnungen mit Variablen und Konstanten
+ • Eingebaute und benutzerdefinierte Funktionen
+ • Ableiten und integrieren
+ • Berechnungen mit Brüchen und Vereinfachung von Ausdrücken
+ • Berechnungen mit komplexen Zahlen
+
+Die App unterstützt Geräte mit Android ab Version 2.2 und ist Quelloffen (Open Source). Die Werbung wird nicht im Hauptfenster, sondern nur in den Einstellungen und beim Graphen zeichnen angezeigt. Dies kann mit einem In-App-Kauf ausgeschaltet werden.
+
+Calculator++ auf Facebook: https://facebook.com/calculatorpp
+Calculator++ auf Vkontakte: https://vk.com/calculatorpp

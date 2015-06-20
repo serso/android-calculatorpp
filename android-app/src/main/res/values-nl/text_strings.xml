@@ -64,6 +64,7 @@
   <string name="p_metro_blue_theme">Metro blauw</string>
   <string name="p_metro_green_theme">Metro groen</string>
   <string name="p_metro_purple_theme">Metro paars</string>
+  <string name="p_use_app_theme">App theme</string>
   <string name="p_material_theme">Material</string>
   <string name="p_material_light_theme">Material Light</string>
   <string name="c_calc_result_precision_summary">Nauwkeurigheid van de uitkomst (alle berekeningen worden gedaan met maximale nauwkeurigheid, onafhankelijk van deze optie)</string>
@@ -174,6 +175,7 @@
   <string name="c_app_widget_4x5_name">Calculator++ Widget (4x5)</string>
   <string name="open_onscreen_calculator">Klik om de rekenmachine te openen in de venstermodus</string>
   <string name="prefs_onscreen_title">Rekenmachine (in apart venster) instellingen</string>
+  <string name="prefs_widget_title">Widget settings</string>
   <string name="prefs_onscreen_start_on_boot_title">Starten bij het opstarten</string>
   <string name="prefs_onscreen_start_on_boot_summary">Indien aangevinkt verschijnt Calculator++ in het systeemvak na heropstarten</string>
   <string name="prefs_onscreen_show_app_icon_title">Toon afzonderlijk pictogram (opnieuw opstarten is vereist)</string>
@@ -227,4 +229,5 @@ Door op volgende te drukken, wordt u doorverwezen naar de Google Play store om d
   <string name="cpp_clear_history">Verwijder</string>
   <string name="cpp_new_in_version">Nieuw in versie %1$s</string>
   <string name="cpp_release_notes_choose_theme">Wilt u nieuwe Material themes proberen? Kies ze uit de lijst:</string>
+  <string name="cpp_system_language">System language</string>
 </resources>

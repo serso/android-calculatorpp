@@ -14,4 +14,5 @@
   <string name="p_calculations_calculate_on_fly_summary">إذا كان الخيار فعّال ستظهر نتيجة العملية الحسابية تلقائيا أثناء الكتابة</string>
   <string name="prefs_prevent_screen_from_fading_title">منع الشاشة من أن تطفئ</string>
   <string name="prefs_prevent_screen_from_fading_summary">إذا كان الخيار فعّال لن يطفئ ضوء الشاشة أثناء استخدام التطبيق</string>
+  <string name="prefs_language_title">Language</string>
 </resources>

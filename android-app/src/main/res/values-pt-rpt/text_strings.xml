@@ -64,6 +64,7 @@
   <string name="p_metro_blue_theme">Metro Blue</string>
   <string name="p_metro_green_theme">Metro Green</string>
   <string name="p_metro_purple_theme">Metro Purple</string>
+  <string name="p_use_app_theme">App theme</string>
   <string name="p_material_theme">Material</string>
   <string name="p_material_light_theme">Material Light</string>
   <string name="c_calc_result_precision_summary">Precisão do valor do resultado (todos os cálculos são realizados com a precisão máxima independentemente o valor desta opção)</string>
@@ -172,6 +173,7 @@
   <string name="c_app_widget_4x5_name">Calculator++ Widget (4x5)</string>
   <string name="open_onscreen_calculator">Clique para abrir a calculadora em modo de janela</string>
   <string name="prefs_onscreen_title">Configurações da calculadora (em modo de janela)</string>
+  <string name="prefs_widget_title">Widget settings</string>
   <string name="prefs_onscreen_start_on_boot_title">Executar na inicialização</string>
   <string name="prefs_onscreen_start_on_boot_summary">Se selecionado a Calculator++ aparecerá na barra de notificação após a inicialização</string>
   <string name="prefs_onscreen_show_app_icon_title">Mostrar ícone separado (requer reinicialização)</string>
@@ -223,4 +225,5 @@
   <string name="cpp_clear_history">Clear</string>
   <string name="cpp_new_in_version">New in %1$s version</string>
   <string name="cpp_release_notes_choose_theme">Do you want to try new Material themes? Choose them from the list:</string>
+  <string name="cpp_system_language">System language</string>
 </resources>

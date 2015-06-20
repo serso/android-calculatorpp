@@ -1,0 +1,35 @@
+Recherchez-vous une calculatrice efficiente et facile d'utilisation ?
+Voulez-vous résoudre à la fois des problèmes simples et complexes ?
+Essayez la Calculator++, une calculatrice multifonctions avec interface utilisateur intuitive !
+
+★ Gagnez du temps !
+ • Accéder aux fonctions supplémentaires depuis l'écran principal à l'aide de gestes. Par exemple, pour obtenir « % » glisser la touche  « / » vers le haut
+ • Plus besoin d'appuyer sur « = » - le résultat est calculé automatiquement
+ • Copier/coller avec un seul bouton
+ • Prise en charge les orientations portrait et paysage
+
+★ Personnalisation !
+ • C++ a deux dispositions : standard et ingénieur. Choisissez celle qui vous convient le mieux depuis l'Assistant d'installation ou les paramètres de l'application
+ • Choississez le thème que vous préférez
+ • Ajouter le widget à votre écran d'accueil
+
+★ Calculez sans changer entre deux applications !
+Calculator++ peut fonctionner dans une fenêtre séparée flottant au-dessus des autres applications de votre téléphone
+
+★ Calculez les pourcentages, racines carrées, puissances, et les fonctions trigonométriques !
+La calculatrice a une grande variété de fonctions intégrées et prend en charge l'ajout de nouvelles fonctions définies par l'utilisateur.
+
+★ Tracer des graphiques 2D et 3D !
+Plusieurs fonctions peuvent être tracées simultanément
+
+★ Utilisez les puissantes fonctions mathématiques de l'application :
+ • Variables et constantes
+ • Utiliser les fonctions intégrées ou ajouter les votres
+ • Intégrales et différentielles
+ • Calculs avec les fractions et simplification d'expressions
+ • Calculs avec les nombres complexes
+
+L'application supporte les appareils avec Android version 2.2 ou suivantes et est open source. L'application contient les publicités qui apparaissent sur les écrans secondaires. Pour les supprimer, s'il vous plaît achetez l'option spéciale depuis les paramètres de l'application.
+
+Calculator++ sur Facebook : http://facebook.com/calculatorpp
+Calculator++ sur Vkontakte : http://vk.com/calculatorpp

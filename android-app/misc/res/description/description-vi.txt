@@ -1,0 +1,35 @@
+Có phải bạn đang tìm kiếm một chiếc máy tính dễ sử dụng mà lại hiệu quả?
+Bạn có muốn giải quyết cả hai vấn đề đơn giản và phức tạp?
+Hãy thử Máy tính++, một ứng dụng máy tính đa năng với giao diện người dùng trực quan và bóng bẩy!
+
+★ Tiết kiệm thời gian của bạn!
+ • Truy cập các tính năng bổ sung từ màn hình chính của ứng dụng bằng cách vuốt màn hình. Ví dụ, để dùng «%» vuốt nút «/» lên
+ • Bạn không cần phải bấm «=» nữa - kết quả được tính ra tự động hoàn toàn
+ • Sao chép/Dán chỉ với một nút bấm
+ • Ứng dụng hỗ trợ cả màn hình ngang và dọc
+
+★ Cá nhân hoá!
+ • C++ có hai bố cục sử dụng: tiêu chuẩn và kỹ sư. Chọn lấy một sao cho phù hợp với bạn nhất từ trình thuật sĩ khởi động hoặc từ mục cài đặt ứng dụng
+ • Thiết lập chủ đề bạn thích
+ • Thêm widget trên màn hình chính
+
+★ Thực hiện tính toán mà không cần chuyển đổi giữa các ứng dụng!
+Máy tính++ có thể làm việc trong một cửa sổ riêng biệt nổi lên trên các ứng dụng trên điện thoại của bạn
+
+★ Tính tỷ lệ phần trăm, căn bậc, luỹ thừa, hàm lượng giác!
+Máy tính++ có một lượng lớn các hàm tích hợp khác nhau và hỗ trợ tạo thêm các hàm người dùng tự định nghĩa
+
+★ Phát hoạ đồ thị 2D và 3D!
+Nhiều hàm có có được phát hoạ cùng một lúc
+
+★ Sử dụng khả năng toán học mạnh mẽ của các ứng dụng:
+ • Thực hiện việc tính toán với biến số và hằng số
+ • Sử dụng hàm tích hợp hoặc tự mình thêm vào
+ • Tích phân và vi phân
+ • Thực hiện việc tính toán với phân số và đơn giản hoá biểu thức
+ • Thực hiện tính toán với các số phức
+
+Các ứng dụng hỗ trợ với Android Phiên bản 2.2 và cao hơn và là mã nguồn mở. Các ứng dụng có chứa quảng cáo và chỉ hiển thị trên màn hình phụ. Để loại bỏ chúng xin vui lòng mua một lựa chọn ủng hộ từ mục cài đặt ứng dụng.
+
+Máy tính++ trên Facebook: http://facebook.com/calculatorpp
+Máy tính++ trên Vkontakte: http://vk.com/calculatorpp

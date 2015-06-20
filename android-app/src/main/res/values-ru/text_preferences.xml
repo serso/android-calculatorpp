@@ -19,4 +19,5 @@
 		выражения</string>
   <string name="prefs_prevent_screen_from_fading_title">Не выключать экран</string>
   <string name="prefs_prevent_screen_from_fading_summary">Если включено, то экран в приложении не будет гаснуть</string>
+  <string name="prefs_language_title">Язык</string>
 </resources>
