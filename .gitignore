@@ -7,3 +7,5 @@ atlassian-ide-plugin.xml
 .idea/libraries/
 build
 local.properties
+captures
+calculatorpp.zip
