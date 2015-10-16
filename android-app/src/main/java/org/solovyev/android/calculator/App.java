@@ -55,6 +55,8 @@ import org.solovyev.android.checkout.ProductTypes;
 import org.solovyev.android.checkout.Products;
 import org.solovyev.android.checkout.RobotmediaDatabase;
 import org.solovyev.android.checkout.RobotmediaInventory;
+import org.solovyev.android.plotter.Plot;
+import org.solovyev.android.plotter.Plotter;
 import org.solovyev.common.listeners.JEvent;
 import org.solovyev.common.listeners.JEventListener;
 import org.solovyev.common.listeners.JEventListeners;
@@ -121,6 +123,9 @@ public final class App {
 	private static volatile ScreenMetrics screenMetrics;
 
 	@Nonnull
+	private static volatile Plotter plotter;
+
+	@Nonnull
 	private static final Languages languages = new Languages();
 
 	private App() {
@@ -184,6 +189,7 @@ public final class App {
 				}
 			}
 			App.languages.init(App.preferences);
+			App.plotter = Plot.newPlotter(application);
 
 			App.initialized = true;
 		} else {
@@ -341,5 +347,10 @@ public final class App {
 
 		// Create and show the dialog.
 		dialogFragment.show(ft, fragmentTag);
+	}
+
+	@Nonnull
+	public static Plotter getPlotter() {
+		return plotter;
 	}
 }

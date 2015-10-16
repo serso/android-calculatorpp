@@ -23,6 +23,7 @@
 package org.solovyev.android.calculator;
 
 import android.support.v4.app.Fragment;
+
 import org.solovyev.android.calculator.about.CalculatorAboutFragment;
 import org.solovyev.android.calculator.about.CalculatorReleaseNotesFragment;
 import org.solovyev.android.calculator.history.HistoryFragment;
@@ -31,10 +32,10 @@ import org.solovyev.android.calculator.math.edit.CalculatorFunctionsFragment;
 import org.solovyev.android.calculator.math.edit.CalculatorOperatorsFragment;
 import org.solovyev.android.calculator.math.edit.CalculatorVarsFragment;
 import org.solovyev.android.calculator.matrix.CalculatorMatrixEditFragment;
-import org.solovyev.android.calculator.plot.CalculatorPlotFragment;
 import org.solovyev.android.calculator.plot.CalculatorPlotFunctionSettingsActivity;
 import org.solovyev.android.calculator.plot.CalculatorPlotFunctionsActivity;
 import org.solovyev.android.calculator.plot.CalculatorPlotRangeActivity;
+import org.solovyev.android.calculator.plot.PlotterFragment;
 
 import javax.annotation.Nonnull;
 
@@ -53,7 +54,7 @@ public enum CalculatorFragmentType {
 	variables(CalculatorVarsFragment.class, R.layout.vars_fragment, R.string.c_vars),
 	functions(CalculatorFunctionsFragment.class, R.layout.math_entities_fragment, R.string.c_functions),
 	operators(CalculatorOperatorsFragment.class, R.layout.math_entities_fragment, R.string.c_operators),
-	plotter(CalculatorPlotFragment.class, R.layout.cpp_plot_fragment, R.string.c_graph),
+	plotter(PlotterFragment.class, R.layout.cpp_plotter_fragment, R.string.c_graph),
 	plotter_functions(CalculatorPlotFunctionsActivity.CalculatorPlotFunctionsFragment.class, R.layout.cpp_plot_functions_fragment, R.string.cpp_plot_functions),
 	plotter_function_settings(CalculatorPlotFunctionSettingsActivity.CalculatorPlotFunctionSettingsFragment.class, R.layout.cpp_plot_function_settings_fragment, R.string.cpp_plot_function_settings),
 	plotter_range(CalculatorPlotRangeActivity.CalculatorPlotRangeFragment.class, R.layout.cpp_plot_range_fragment, R.string.cpp_plot_range),
