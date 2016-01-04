@@ -67,14 +67,14 @@ import javax.annotation.Nullable;
 public abstract class AbstractMathEntityListFragment<T extends MathEntity> extends ListFragment implements CalculatorEventListener {
 
 	/*
-	**********************************************************************
+    **********************************************************************
 	*
 	*                           CONSTANTS
 	*
 	**********************************************************************
 	*/
 
-	public static final String MATH_ENTITY_CATEGORY_EXTRA_STRING = "org.solovyev.android.calculator.CalculatorVarsActivity_math_entity_category";
+    public static final String MATH_ENTITY_CATEGORY_EXTRA_STRING = "org.solovyev.android.calculator.CalculatorVarsActivity_math_entity_category";
 
 
 	/*
@@ -84,251 +84,195 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
 	*
 	**********************************************************************
 	*/
+    @Nonnull
+    private final FragmentUi ui;
+    @Nonnull
+    private final Handler uiHandler = new Handler();
+    @Nullable
+    private MathEntityArrayAdapter<T> adapter;
+    @Nullable
+    private String category;
 
-	@Nullable
-	private MathEntityArrayAdapter<T> adapter;
+    protected AbstractMathEntityListFragment(@Nonnull CalculatorFragmentType fragmentType) {
+        ui = CalculatorApplication.getInstance().createFragmentHelper(fragmentType.getDefaultLayoutId(), fragmentType.getDefaultTitleResId());
+    }
 
-	@Nullable
-	private String category;
+    @Nonnull
+    public static Bundle createBundleFor(@Nonnull String categoryId) {
+        final Bundle result = new Bundle(1);
+        putCategory(result, categoryId);
+        return result;
+    }
 
-	@Nonnull
-	private final FragmentUi ui;
+    static void putCategory(@Nonnull Bundle bundle, @Nonnull String categoryId) {
+        bundle.putString(MATH_ENTITY_CATEGORY_EXTRA_STRING, categoryId);
+    }
 
-	@Nonnull
-	private final Handler uiHandler = new Handler();
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-	protected AbstractMathEntityListFragment(@Nonnull CalculatorFragmentType fragmentType) {
-		ui = CalculatorApplication.getInstance().createFragmentHelper(fragmentType.getDefaultLayoutId(), fragmentType.getDefaultTitleResId());
-	}
+        final Bundle bundle = getArguments();
+        if (bundle != null) {
+            category = bundle.getString(MATH_ENTITY_CATEGORY_EXTRA_STRING);
+        }
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+        ui.onCreate(this);
+    }
 
-		final Bundle bundle = getArguments();
-		if (bundle != null) {
-			category = bundle.getString(MATH_ENTITY_CATEGORY_EXTRA_STRING);
-		}
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return ui.onCreateView(this, inflater, container);
+    }
 
-		ui.onCreate(this);
-	}
+    @Override
+    public void onViewCreated(View root, Bundle savedInstanceState) {
+        super.onViewCreated(root, savedInstanceState);
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return ui.onCreateView(this, inflater, container);
-	}
+        ui.onViewCreated(this, root);
 
-	@Override
-	public void onViewCreated(View root, Bundle savedInstanceState) {
-		super.onViewCreated(root, savedInstanceState);
+        final ListView lv = getListView();
+        lv.setTextFilterEnabled(true);
 
-		ui.onViewCreated(this, root);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(final AdapterView<?> parent,
+                                    final View view,
+                                    final int position,
+                                    final long id) {
+                final AMenuItem<T> onClick = getOnClickAction();
+                if (onClick != null) {
+                    onClick.onClick(((T) parent.getItemAtPosition(position)), getActivity());
+                }
+            }
+        });
 
-		final ListView lv = getListView();
-		lv.setTextFilterEnabled(true);
+        getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                final T item = (T) parent.getItemAtPosition(position);
 
-		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			public void onItemClick(final AdapterView<?> parent,
-									final View view,
-									final int position,
-									final long id) {
-				final AMenuItem<T> onClick = getOnClickAction();
-				if (onClick != null) {
-					onClick.onClick(((T) parent.getItemAtPosition(position)), getActivity());
-				}
-			}
-		});
+                final List<LabeledMenuItem<T>> menuItems = getMenuItemsOnLongClick(item);
 
-		getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-			@Override
-			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-				final T item = (T) parent.getItemAtPosition(position);
+                if (!menuItems.isEmpty()) {
+                    final ContextMenuBuilder<LabeledMenuItem<T>, T> menuBuilder = ContextMenuBuilder.newInstance(AbstractMathEntityListFragment.this.getActivity(), "math-entity-menu", ListContextMenu.newInstance(menuItems));
+                    menuBuilder.build(item).show();
+                }
 
-				final List<LabeledMenuItem<T>> menuItems = getMenuItemsOnLongClick(item);
+                return true;
+            }
+        });
+    }
 
-				if (!menuItems.isEmpty()) {
-					final ContextMenuBuilder<LabeledMenuItem<T>, T> menuBuilder = ContextMenuBuilder.newInstance(AbstractMathEntityListFragment.this.getActivity(), "math-entity-menu", ListContextMenu.newInstance(menuItems));
-					menuBuilder.build(item).show();
-				}
+    @Nullable
+    protected abstract AMenuItem<T> getOnClickAction();
 
-				return true;
-			}
-		});
-	}
+    @Override
+    public void onDestroyView() {
+        ui.onDestroyView(this);
+        super.onDestroyView();
+    }
 
-	@Nullable
-	protected abstract AMenuItem<T> getOnClickAction();
+    @Override
+    public void onDestroy() {
+        ui.onDestroy(this);
 
-	@Override
-	public void onDestroyView() {
-		ui.onDestroyView(this);
-		super.onDestroyView();
-	}
+        super.onDestroy();
+    }
 
-	@Override
-	public void onDestroy() {
-		ui.onDestroy(this);
+    @Nonnull
+    protected abstract List<LabeledMenuItem<T>> getMenuItemsOnLongClick(@Nonnull T item);
 
-		super.onDestroy();
-	}
+    @Override
+    public void onPause() {
+        this.ui.onPause(this);
 
-	@Nonnull
-	protected abstract List<LabeledMenuItem<T>> getMenuItemsOnLongClick(@Nonnull T item);
+        super.onPause();
+    }
 
-	@Override
-	public void onPause() {
-		this.ui.onPause(this);
+    @Override
+    public void onResume() {
+        super.onResume();
 
-		super.onPause();
-	}
+        this.ui.onResume(this);
 
-	@Override
-	public void onResume() {
-		super.onResume();
+        adapter = new MathEntityArrayAdapter<T>(getDescriptionGetter(), this.getActivity(), getMathEntitiesByCategory());
+        setListAdapter(adapter);
 
-		this.ui.onResume(this);
+        sort();
+    }
 
-		adapter = new MathEntityArrayAdapter<T>(getDescriptionGetter(), this.getActivity(), getMathEntitiesByCategory());
-		setListAdapter(adapter);
+    @Nonnull
+    private List<T> getMathEntitiesByCategory() {
+        final List<T> result = getMathEntities();
 
-		sort();
-	}
+        new Filter<T>(new JPredicate<T>() {
+            @Override
+            public boolean apply(T t) {
+                return !isInCategory(t);
+            }
+        }).filter(result.iterator());
 
-	@Nonnull
-	private List<T> getMathEntitiesByCategory() {
-		final List<T> result = getMathEntities();
+        return result;
+    }
 
-		new Filter<T>(new JPredicate<T>() {
-			@Override
-			public boolean apply(T t) {
-				return !isInCategory(t);
-			}
-		}).filter(result.iterator());
+    protected boolean isInCategory(@Nullable T t) {
+        return t != null && (category == null || Objects.areEqual(getMathEntityCategory(t), category));
+    }
 
-		return result;
-	}
+    @Nonnull
+    protected abstract MathEntityDescriptionGetter getDescriptionGetter();
 
-	protected boolean isInCategory(@Nullable T t) {
-		return t != null && (category == null || Objects.areEqual(getMathEntityCategory(t), category));
-	}
+    @Nonnull
+    protected abstract List<T> getMathEntities();
 
-	@Nonnull
-	protected abstract MathEntityDescriptionGetter getDescriptionGetter();
+    @Nullable
+    abstract String getMathEntityCategory(@Nonnull T t);
 
-	@Nonnull
-	protected abstract List<T> getMathEntities();
+    protected void sort() {
+        final MathEntityArrayAdapter<T> localAdapter = adapter;
+        if (localAdapter != null) {
+            localAdapter.sort(new Comparator<T>() {
+                @Override
+                public int compare(T function1, T function2) {
+                    return function1.getName().compareTo(function2.getName());
+                }
+            });
 
-	@Nullable
-	abstract String getMathEntityCategory(@Nonnull T t);
+            localAdapter.notifyDataSetChanged();
+        }
+    }
 
-	protected void sort() {
-		final MathEntityArrayAdapter<T> localAdapter = adapter;
-		if (localAdapter != null) {
-			localAdapter.sort(new Comparator<T>() {
-				@Override
-				public int compare(T function1, T function2) {
-					return function1.getName().compareTo(function2.getName());
-				}
-			});
+    public void addToAdapter(@Nonnull T mathEntity) {
+        if (this.adapter != null) {
+            this.adapter.add(mathEntity);
+        }
+    }
 
-			localAdapter.notifyDataSetChanged();
-		}
-	}
+    public void removeFromAdapter(@Nonnull T mathEntity) {
+        if (this.adapter != null) {
+            this.adapter.remove(mathEntity);
+        }
+    }
 
-	protected static class MathEntityArrayAdapter<T extends MathEntity> extends ArrayAdapter<T> {
+    public void notifyAdapter() {
+        if (this.adapter != null) {
+            this.adapter.notifyDataSetChanged();
+        }
+    }
 
-		@Nonnull
-		private final MathEntityDescriptionGetter descriptionGetter;
+    @Nullable
+    protected MathEntityArrayAdapter<T> getAdapter() {
+        return adapter;
+    }
 
-		private MathEntityArrayAdapter(@Nonnull MathEntityDescriptionGetter descriptionGetter,
-									   @Nonnull Context context,
-									   @Nonnull List<T> objects) {
-			super(context, R.layout.math_entity, R.id.math_entity_text, objects);
-			this.descriptionGetter = descriptionGetter;
-		}
+    @Nonnull
+    protected Handler getUiHandler() {
+        return uiHandler;
+    }
 
-		@Override
-		public View getView(int position, @Nullable View convertView, ViewGroup parent) {
-			final ViewGroup result;
-
-			if (convertView == null) {
-				result = (ViewGroup) super.getView(position, convertView, parent);
-				fillView(position, result);
-			} else {
-				result = (ViewGroup) convertView;
-				fillView(position, result);
-			}
-
-
-			return result;
-		}
-
-		private void fillView(int position, @Nonnull ViewGroup result) {
-			final T mathEntity = getItem(position);
-
-			final TextView text = (TextView) result.findViewById(R.id.math_entity_text);
-			text.setText(String.valueOf(mathEntity));
-
-			final String mathEntityDescription = descriptionGetter.getDescription(getContext(), mathEntity.getName());
-
-			final TextView description = (TextView) result.findViewById(R.id.math_entity_short_description);
-			if (!Strings.isEmpty(mathEntityDescription)) {
-				description.setVisibility(View.VISIBLE);
-				description.setText(mathEntityDescription);
-			} else {
-				description.setVisibility(View.GONE);
-			}
-		}
-	}
-
-	protected static class MathEntityDescriptionGetterImpl implements MathEntityDescriptionGetter {
-
-		@Nonnull
-		private final CalculatorMathRegistry<?> mathRegistry;
-
-		public MathEntityDescriptionGetterImpl(@Nonnull CalculatorMathRegistry<?> mathRegistry) {
-			this.mathRegistry = mathRegistry;
-		}
-
-		@Override
-		public String getDescription(@Nonnull Context context, @Nonnull String mathEntityName) {
-			return this.mathRegistry.getDescription(mathEntityName);
-		}
-	}
-
-	protected static interface MathEntityDescriptionGetter {
-
-		@Nullable
-		String getDescription(@Nonnull Context context, @Nonnull String mathEntityName);
-	}
-
-	public void addToAdapter(@Nonnull T mathEntity) {
-		if (this.adapter != null) {
-			this.adapter.add(mathEntity);
-		}
-	}
-
-	public void removeFromAdapter(@Nonnull T mathEntity) {
-		if (this.adapter != null) {
-			this.adapter.remove(mathEntity);
-		}
-	}
-
-	public void notifyAdapter() {
-		if (this.adapter != null) {
-			this.adapter.notifyDataSetChanged();
-		}
-	}
-
-	@Nullable
-	protected MathEntityArrayAdapter<T> getAdapter() {
-		return adapter;
-	}
-
-	@Nonnull
-	protected Handler getUiHandler() {
-		return uiHandler;
-	}
+    @Override
+    public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
+    }
 
 	/*
 	**********************************************************************
@@ -338,18 +282,70 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
 	**********************************************************************
 	*/
 
-	@Nonnull
-	public static Bundle createBundleFor(@Nonnull String categoryId) {
-		final Bundle result = new Bundle(1);
-		putCategory(result, categoryId);
-		return result;
-	}
+    protected static interface MathEntityDescriptionGetter {
 
-	static void putCategory(@Nonnull Bundle bundle, @Nonnull String categoryId) {
-		bundle.putString(MATH_ENTITY_CATEGORY_EXTRA_STRING, categoryId);
-	}
+        @Nullable
+        String getDescription(@Nonnull Context context, @Nonnull String mathEntityName);
+    }
 
-	@Override
-	public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
-	}
+    protected static class MathEntityArrayAdapter<T extends MathEntity> extends ArrayAdapter<T> {
+
+        @Nonnull
+        private final MathEntityDescriptionGetter descriptionGetter;
+
+        private MathEntityArrayAdapter(@Nonnull MathEntityDescriptionGetter descriptionGetter,
+                                       @Nonnull Context context,
+                                       @Nonnull List<T> objects) {
+            super(context, R.layout.math_entity, R.id.math_entity_text, objects);
+            this.descriptionGetter = descriptionGetter;
+        }
+
+        @Override
+        public View getView(int position, @Nullable View convertView, ViewGroup parent) {
+            final ViewGroup result;
+
+            if (convertView == null) {
+                result = (ViewGroup) super.getView(position, convertView, parent);
+                fillView(position, result);
+            } else {
+                result = (ViewGroup) convertView;
+                fillView(position, result);
+            }
+
+
+            return result;
+        }
+
+        private void fillView(int position, @Nonnull ViewGroup result) {
+            final T mathEntity = getItem(position);
+
+            final TextView text = (TextView) result.findViewById(R.id.math_entity_text);
+            text.setText(String.valueOf(mathEntity));
+
+            final String mathEntityDescription = descriptionGetter.getDescription(getContext(), mathEntity.getName());
+
+            final TextView description = (TextView) result.findViewById(R.id.math_entity_short_description);
+            if (!Strings.isEmpty(mathEntityDescription)) {
+                description.setVisibility(View.VISIBLE);
+                description.setText(mathEntityDescription);
+            } else {
+                description.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    protected static class MathEntityDescriptionGetterImpl implements MathEntityDescriptionGetter {
+
+        @Nonnull
+        private final CalculatorMathRegistry<?> mathRegistry;
+
+        public MathEntityDescriptionGetterImpl(@Nonnull CalculatorMathRegistry<?> mathRegistry) {
+            this.mathRegistry = mathRegistry;
+        }
+
+        @Override
+        public String getDescription(@Nonnull Context context, @Nonnull String mathEntityName) {
+            return this.mathRegistry.getDescription(mathEntityName);
+        }
+    }
 }

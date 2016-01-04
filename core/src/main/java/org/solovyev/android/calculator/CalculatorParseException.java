@@ -22,14 +22,14 @@
 
 package org.solovyev.android.calculator;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import org.solovyev.common.msg.Message;
 import org.solovyev.common.msg.MessageLevel;
 
 import java.util.List;
 import java.util.Locale;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * User: serso
@@ -38,71 +38,71 @@ import java.util.Locale;
  */
 public class CalculatorParseException extends Exception implements Message {
 
-	@Nonnull
-	private final Message message;
+    @Nonnull
+    private final Message message;
 
-	@Nonnull
-	private final String expression;
+    @Nonnull
+    private final String expression;
 
-	@Nullable
-	private final Integer position;
+    @Nullable
+    private final Integer position;
 
-	public CalculatorParseException(@Nonnull jscl.text.ParseException jsclParseException) {
-		this.message = jsclParseException;
-		this.expression = jsclParseException.getExpression();
-		this.position = jsclParseException.getPosition();
-	}
+    public CalculatorParseException(@Nonnull jscl.text.ParseException jsclParseException) {
+        this.message = jsclParseException;
+        this.expression = jsclParseException.getExpression();
+        this.position = jsclParseException.getPosition();
+    }
 
-	public CalculatorParseException(@Nullable Integer position,
-									@Nonnull String expression,
-									@Nonnull Message message) {
-		this.message = message;
-		this.expression = expression;
-		this.position = position;
-	}
+    public CalculatorParseException(@Nullable Integer position,
+                                    @Nonnull String expression,
+                                    @Nonnull Message message) {
+        this.message = message;
+        this.expression = expression;
+        this.position = position;
+    }
 
-	public CalculatorParseException(@Nonnull String expression,
-									@Nonnull Message message) {
-		this(null, expression, message);
-	}
+    public CalculatorParseException(@Nonnull String expression,
+                                    @Nonnull Message message) {
+        this(null, expression, message);
+    }
 
-	@Nonnull
-	public String getExpression() {
-		return expression;
-	}
+    @Nonnull
+    public String getExpression() {
+        return expression;
+    }
 
-	@Nullable
-	public Integer getPosition() {
-		return position;
-	}
+    @Nullable
+    public Integer getPosition() {
+        return position;
+    }
 
-	@Nonnull
-	@Override
-	public String getMessageCode() {
-		return this.message.getMessageCode();
-	}
+    @Nonnull
+    @Override
+    public String getMessageCode() {
+        return this.message.getMessageCode();
+    }
 
-	@Nonnull
-	@Override
-	public List<Object> getParameters() {
-		return this.message.getParameters();
-	}
+    @Nonnull
+    @Override
+    public List<Object> getParameters() {
+        return this.message.getParameters();
+    }
 
-	@Nonnull
-	@Override
-	public MessageLevel getMessageLevel() {
-		return this.message.getMessageLevel();
-	}
+    @Nonnull
+    @Override
+    public MessageLevel getMessageLevel() {
+        return this.message.getMessageLevel();
+    }
 
-	@Override
-	@Nonnull
-	public String getLocalizedMessage() {
-		return this.message.getLocalizedMessage(Locale.getDefault());
-	}
+    @Override
+    @Nonnull
+    public String getLocalizedMessage() {
+        return this.message.getLocalizedMessage(Locale.getDefault());
+    }
 
-	@Nonnull
-	@Override
-	public String getLocalizedMessage(@Nonnull Locale locale) {
-		return this.message.getLocalizedMessage(locale);
-	}
+    @Nonnull
+    @Override
+    public String getLocalizedMessage(@Nonnull Locale locale) {
+        return this.message.getLocalizedMessage(locale);
+    }
 }

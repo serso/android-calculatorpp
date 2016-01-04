@@ -22,8 +22,9 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<ImageButton a:id="@id/cpp_button_app"
-	style="@style/CppKeyboardButton.Material.Simple.Control.Image"
-	xmlns:a="http://schemas.android.com/apk/res/android"
-	a:contentDescription="App"
-	a:src="@drawable/kb_logo" />
+<ImageButton
+    xmlns:a="http://schemas.android.com/apk/res/android"
+    a:id="@id/cpp_button_app"
+    style="@style/CppKeyboardButton.Material.Simple.Control.Image"
+    a:contentDescription="App"
+    a:src="@drawable/kb_logo" />

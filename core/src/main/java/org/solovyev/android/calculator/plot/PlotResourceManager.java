@@ -31,12 +31,12 @@ import javax.annotation.Nonnull;
  */
 interface PlotResourceManager {
 
-	@Nonnull
-	PlotLineDef generateAndRegister();
+    @Nonnull
+    PlotLineDef generateAndRegister();
 
-	void register(@Nonnull PlotLineDef lineDef);
+    void register(@Nonnull PlotLineDef lineDef);
 
-	void unregister(@Nonnull PlotLineDef lineDef);
+    void unregister(@Nonnull PlotLineDef lineDef);
 
-	void unregisterAll();
+    void unregisterAll();
 }

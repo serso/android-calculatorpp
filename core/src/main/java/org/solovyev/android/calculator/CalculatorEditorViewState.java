@@ -22,9 +22,9 @@
 
 package org.solovyev.android.calculator;
 
-import javax.annotation.Nonnull;
-
 import java.io.Serializable;
+
+import javax.annotation.Nonnull;
 
 /**
  * User: Solovyev_S
@@ -33,11 +33,11 @@ import java.io.Serializable;
  */
 public interface CalculatorEditorViewState extends Serializable {
 
-	@Nonnull
-	String getText();
+    @Nonnull
+    String getText();
 
-	@Nonnull
-	CharSequence getTextAsCharSequence();
+    @Nonnull
+    CharSequence getTextAsCharSequence();
 
-	int getSelection();
+    int getSelection();
 }

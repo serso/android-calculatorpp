@@ -23,10 +23,10 @@
   -->
 
 <appwidget-provider xmlns:a="http://schemas.android.com/apk/res/android"
-					a:initialKeyguardLayout="@layout/widget_layout_lockscreen"
-					a:initialLayout="@layout/widget_layout"
-					a:minHeight="250dp"
-					a:minWidth="180dp"
-					a:previewImage="@drawable/widget_preview"
-					a:resizeMode="horizontal|vertical"
-					a:widgetCategory="home_screen|keyguard"/>
+    a:initialKeyguardLayout="@layout/widget_layout_lockscreen"
+    a:initialLayout="@layout/widget_layout"
+    a:minHeight="250dp"
+    a:minWidth="180dp"
+    a:previewImage="@drawable/widget_preview"
+    a:resizeMode="horizontal|vertical"
+    a:widgetCategory="home_screen|keyguard" />

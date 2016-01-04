@@ -23,67 +23,67 @@
 package org.solovyev.android.calculator.jscl;
 
 
-import jscl.math.Generic;
-import jscl.text.ParseException;
-
-import javax.annotation.Nonnull;
-
 import org.solovyev.android.calculator.CalculatorMathEngine;
 import org.solovyev.android.calculator.text.DummyTextProcessor;
 import org.solovyev.android.calculator.text.FromJsclSimplifyTextProcessor;
 import org.solovyev.android.calculator.text.TextProcessor;
 
+import javax.annotation.Nonnull;
+
+import jscl.math.Generic;
+import jscl.text.ParseException;
+
 public enum JsclOperation {
 
-	simplify,
-	elementary,
-	numeric;
+    simplify,
+    elementary,
+    numeric;
 
-	JsclOperation() {
-	}
+    JsclOperation() {
+    }
 
 
-	@Nonnull
-	public TextProcessor<String, Generic> getFromProcessor() {
-		switch (this) {
-			case simplify:
-				return FromJsclSimplifyTextProcessor.instance;
-			case elementary:
-				return DummyTextProcessor.instance;
-			case numeric:
-				return FromJsclNumericTextProcessor.instance;
-			default:
-				throw new UnsupportedOperationException();
-		}
-	}
+    @Nonnull
+    public TextProcessor<String, Generic> getFromProcessor() {
+        switch (this) {
+            case simplify:
+                return FromJsclSimplifyTextProcessor.instance;
+            case elementary:
+                return DummyTextProcessor.instance;
+            case numeric:
+                return FromJsclNumericTextProcessor.instance;
+            default:
+                throw new UnsupportedOperationException();
+        }
+    }
 
-	@Nonnull
-	public final String evaluate(@Nonnull String expression, @Nonnull CalculatorMathEngine engine) throws ParseException {
-		switch (this) {
-			case simplify:
-				return engine.simplify(expression);
-			case elementary:
-				return engine.elementary(expression);
-			case numeric:
-				return engine.evaluate(expression);
-			default:
-				throw new UnsupportedOperationException();
-		}
-	}
+    @Nonnull
+    public final String evaluate(@Nonnull String expression, @Nonnull CalculatorMathEngine engine) throws ParseException {
+        switch (this) {
+            case simplify:
+                return engine.simplify(expression);
+            case elementary:
+                return engine.elementary(expression);
+            case numeric:
+                return engine.evaluate(expression);
+            default:
+                throw new UnsupportedOperationException();
+        }
+    }
 
-	@Nonnull
-	public final Generic evaluateGeneric(@Nonnull String expression, @Nonnull CalculatorMathEngine engine) throws ParseException {
-		switch (this) {
-			case simplify:
-				return engine.simplifyGeneric(expression);
-			case elementary:
-				return engine.elementaryGeneric(expression);
-			case numeric:
-				return engine.evaluateGeneric(expression);
-			default:
-				throw new UnsupportedOperationException();
-		}
-	}
+    @Nonnull
+    public final Generic evaluateGeneric(@Nonnull String expression, @Nonnull CalculatorMathEngine engine) throws ParseException {
+        switch (this) {
+            case simplify:
+                return engine.simplifyGeneric(expression);
+            case elementary:
+                return engine.elementaryGeneric(expression);
+            case numeric:
+                return engine.evaluateGeneric(expression);
+            default:
+                throw new UnsupportedOperationException();
+        }
+    }
 
 
 }

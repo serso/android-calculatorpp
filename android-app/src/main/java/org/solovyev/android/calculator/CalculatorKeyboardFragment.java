@@ -24,10 +24,10 @@ package org.solovyev.android.calculator;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.support.v4.app.Fragment;
 
 import javax.annotation.Nonnull;
 
@@ -44,82 +44,82 @@ import static org.solovyev.android.calculator.model.AndroidCalculatorEngine.Pref
  */
 public class CalculatorKeyboardFragment extends Fragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-	@Nonnull
-	private FragmentUi ui;
+    @Nonnull
+    private FragmentUi ui;
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		final SharedPreferences preferences = App.getPreferences();
+        final SharedPreferences preferences = App.getPreferences();
 
-		final Preferences.Gui.Layout layout = Preferences.Gui.getLayout(preferences);
-		if (!layout.isOptimized()) {
-			ui = CalculatorApplication.getInstance().createFragmentHelper(R.layout.cpp_app_keyboard_mobile);
-		} else {
-			ui = CalculatorApplication.getInstance().createFragmentHelper(R.layout.cpp_app_keyboard);
-		}
+        final Preferences.Gui.Layout layout = Preferences.Gui.getLayout(preferences);
+        if (!layout.isOptimized()) {
+            ui = CalculatorApplication.getInstance().createFragmentHelper(R.layout.cpp_app_keyboard_mobile);
+        } else {
+            ui = CalculatorApplication.getInstance().createFragmentHelper(R.layout.cpp_app_keyboard);
+        }
 
-		ui.onCreate(this);
+        ui.onCreate(this);
 
-		preferences.registerOnSharedPreferenceChangeListener(this);
-	}
+        preferences.registerOnSharedPreferenceChangeListener(this);
+    }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return ui.onCreateView(this, inflater, container);
-	}
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return ui.onCreateView(this, inflater, container);
+    }
 
-	@Override
-	public void onViewCreated(View root, Bundle savedInstanceState) {
-		super.onViewCreated(root, savedInstanceState);
-		ui.onViewCreated(this, root);
-	}
+    @Override
+    public void onViewCreated(View root, Bundle savedInstanceState) {
+        super.onViewCreated(root, savedInstanceState);
+        ui.onViewCreated(this, root);
+    }
 
 
-	@Override
-	public void onResume() {
-		super.onResume();
-		this.ui.onResume(this);
-	}
+    @Override
+    public void onResume() {
+        super.onResume();
+        this.ui.onResume(this);
+    }
 
-	@Override
-	public void onPause() {
-		this.ui.onPause(this);
-		super.onPause();
-	}
+    @Override
+    public void onPause() {
+        this.ui.onPause(this);
+        super.onPause();
+    }
 
-	@Override
-	public void onDestroyView() {
-		ui.onDestroyView(this);
-		super.onDestroyView();
-	}
+    @Override
+    public void onDestroyView() {
+        ui.onDestroyView(this);
+        super.onDestroyView();
+    }
 
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		ui.onDestroy(this);
-		App.getPreferences().unregisterOnSharedPreferenceChangeListener(this);
-	}
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ui.onDestroy(this);
+        App.getPreferences().unregisterOnSharedPreferenceChangeListener(this);
+    }
 
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-	}
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
 
-	@Override
-	public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
-		if (numeralBase.isSameKey(key) || hideNumeralBaseDigits.isSameKey(key)) {
-			toggleNumericDigits(this.getActivity(), preferences);
-		}
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
+        if (numeralBase.isSameKey(key) || hideNumeralBaseDigits.isSameKey(key)) {
+            toggleNumericDigits(this.getActivity(), preferences);
+        }
 
-		if (showEqualsButton.isSameKey(key)) {
-			CalculatorButtons.toggleEqualsButton(preferences, this.getActivity());
-		}
+        if (showEqualsButton.isSameKey(key)) {
+            CalculatorButtons.toggleEqualsButton(preferences, this.getActivity());
+        }
 
-		if (multiplicationSign.isSameKey(key)) {
-			CalculatorButtons.initMultiplicationButton(getView());
-		}
-	}
+        if (multiplicationSign.isSameKey(key)) {
+            CalculatorButtons.initMultiplicationButton(getView());
+        }
+    }
 }
 

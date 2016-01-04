@@ -21,132 +21,132 @@
   -->
 
 <resources xmlns:tools="http://schemas.android.com/tools">
-	<string-array name="p_theme_names">
-		<item>@string/p_material_theme</item>
-		<item>@string/p_material_light_theme</item>
-		<item>@string/p_metro_blue_theme</item>
-		<item>@string/p_metro_green_theme</item>
-		<item>@string/p_metro_purple_theme</item>
-	</string-array>
-	<string-array name="p_theme_values" translatable="false">
-		<item>material_theme</item>
-		<item>material_light_theme</item>
-		<item>metro_blue_theme</item>
-		<item>metro_green_theme</item>
-		<item>metro_purple_theme</item>
-	</string-array>
+    <string-array name="p_theme_names">
+        <item>@string/p_material_theme</item>
+        <item>@string/p_material_light_theme</item>
+        <item>@string/p_metro_blue_theme</item>
+        <item>@string/p_metro_green_theme</item>
+        <item>@string/p_metro_purple_theme</item>
+    </string-array>
+    <string-array name="p_theme_values" translatable="false">
+        <item>material_theme</item>
+        <item>material_light_theme</item>
+        <item>metro_blue_theme</item>
+        <item>metro_green_theme</item>
+        <item>metro_purple_theme</item>
+    </string-array>
 
-	<string-array name="p_simple_theme_names">
-		<item>@string/p_use_app_theme</item>
-		<item>@string/p_material_theme</item>
-		<item>@string/p_material_light_theme</item>
-		<item>@string/p_metro_blue_theme</item>
-	</string-array>
-	<string-array name="p_simple_theme_values" translatable="false">
-		<item>default_theme</item>
-		<item>material_theme</item>
-		<item>material_light_theme</item>
-		<item>metro_blue_theme</item>
-	</string-array>
+    <string-array name="p_simple_theme_names">
+        <item>@string/p_use_app_theme</item>
+        <item>@string/p_material_theme</item>
+        <item>@string/p_material_light_theme</item>
+        <item>@string/p_metro_blue_theme</item>
+    </string-array>
+    <string-array name="p_simple_theme_values" translatable="false">
+        <item>default_theme</item>
+        <item>material_theme</item>
+        <item>material_light_theme</item>
+        <item>metro_blue_theme</item>
+    </string-array>
 
-	<string-array name="p_grouping_separator_names">
-		<item>@string/p_grouping_separator_no</item>
-		<item>@string/p_grouping_separator_apostrophe</item>
-		<item>@string/p_grouping_separator_space</item>
-	</string-array>
-	<string-array name="p_grouping_separator_values" translatable="false">
-		<item>""</item>
-		<item>\'</item>
-		<item>" "</item>
-	</string-array>
+    <string-array name="p_grouping_separator_names">
+        <item>@string/p_grouping_separator_no</item>
+        <item>@string/p_grouping_separator_apostrophe</item>
+        <item>@string/p_grouping_separator_space</item>
+    </string-array>
+    <string-array name="p_grouping_separator_values" translatable="false">
+        <item>""</item>
+        <item>\'</item>
+        <item>" "</item>
+    </string-array>
 
-	<string-array name="p_multiplication_sign_values" translatable="false">
-		<item>"*"</item>
-		<item>"×"</item>
-		<item>"∙"</item>
-	</string-array>
+    <string-array name="p_multiplication_sign_values" translatable="false">
+        <item>"*"</item>
+        <item>"×"</item>
+        <item>"∙"</item>
+    </string-array>
 
-	<string-array name="p_layout_names" tools:ignore="InconsistentArrays">
-		<item>@string/p_layout_calculator</item>
-		<item>@string/p_layout_simple</item>
-	</string-array>
-	<string-array name="p_layout_values" translatable="false" tools:ignore="InconsistentArrays">
-		<item>main_calculator</item>
-		<item>simple</item>
-	</string-array>
+    <string-array name="p_layout_names" tools:ignore="InconsistentArrays">
+        <item>@string/p_layout_calculator</item>
+        <item>@string/p_layout_simple</item>
+    </string-array>
+    <string-array name="p_layout_values" translatable="false" tools:ignore="InconsistentArrays">
+        <item>main_calculator</item>
+        <item>simple</item>
+    </string-array>
 
-	<string-array name="cpp_haptic_feedback_names">
-		<item>@string/p_calc_haptic_feedback_strength_disabled</item>
-		<item>@string/p_calc_haptic_feedback_strength_short</item>
-		<item>@string/p_calc_haptic_feedback_strength_middle</item>
-		<item>@string/p_calc_haptic_feedback_strength_long</item>
-	</string-array>
-	<string-array name="cpp_haptic_feedback_values" translatable="false">
-		<item>0</item>
-		<item>30</item>
-		<item>60</item>
-		<item>100</item>
-	</string-array>
+    <string-array name="cpp_haptic_feedback_names">
+        <item>@string/p_calc_haptic_feedback_strength_disabled</item>
+        <item>@string/p_calc_haptic_feedback_strength_short</item>
+        <item>@string/p_calc_haptic_feedback_strength_middle</item>
+        <item>@string/p_calc_haptic_feedback_strength_long</item>
+    </string-array>
+    <string-array name="cpp_haptic_feedback_values" translatable="false">
+        <item>0</item>
+        <item>30</item>
+        <item>60</item>
+        <item>100</item>
+    </string-array>
 
-	<string-array name="p_angle_units_names">
-		<item>@string/p_deg</item>
-		<item>@string/p_rad</item>
-		<item>@string/p_grad</item>
-		<item>@string/p_turns</item>
-	</string-array>
-	<string-array name="p_angle_units" translatable="false">
-		<item>deg</item>
-		<item>rad</item>
-		<item>grad</item>
-		<item>turns</item>
-	</string-array>
+    <string-array name="p_angle_units_names">
+        <item>@string/p_deg</item>
+        <item>@string/p_rad</item>
+        <item>@string/p_grad</item>
+        <item>@string/p_turns</item>
+    </string-array>
+    <string-array name="p_angle_units" translatable="false">
+        <item>deg</item>
+        <item>rad</item>
+        <item>grad</item>
+        <item>turns</item>
+    </string-array>
 
-	<string-array name="p_numeral_bases_names">
-		<item>@string/p_dec</item>
-		<item>@string/p_hex</item>
-		<item>@string/p_oct</item>
-		<item>@string/p_bin</item>
-	</string-array>
-	<string-array name="p_numeral_bases" translatable="false">
-		<item>dec</item>
-		<item>hex</item>
-		<item>oct</item>
-		<item>bin</item>
-	</string-array>
+    <string-array name="p_numeral_bases_names">
+        <item>@string/p_dec</item>
+        <item>@string/p_hex</item>
+        <item>@string/p_oct</item>
+        <item>@string/p_bin</item>
+    </string-array>
+    <string-array name="p_numeral_bases" translatable="false">
+        <item>dec</item>
+        <item>hex</item>
+        <item>oct</item>
+        <item>bin</item>
+    </string-array>
 
-	<!--
-	 monochrome,
+    <!--
+     monochrome,
     dashed,
     dotted,
     dash_dotted;
-	-->
-	<string-array name="cpp_plot_line_style_names">
-		<item>@string/cpp_solid_line_style</item>
-		<item>@string/cpp_dashed_line_style</item>
-		<item>@string/cpp_dotted_line_style</item>
-		<item>@string/cpp_dash_dotted_line_style</item>
-	</string-array>
+    -->
+    <string-array name="cpp_plot_line_style_names">
+        <item>@string/cpp_solid_line_style</item>
+        <item>@string/cpp_dashed_line_style</item>
+        <item>@string/cpp_dotted_line_style</item>
+        <item>@string/cpp_dash_dotted_line_style</item>
+    </string-array>
 
-	<string-array name="cpp_plot_line_color_type_names">
-		<item>@string/cpp_monochrome_line_color_type</item>
-		<item>@string/cpp_color_map_line_color_type</item>
-	</string-array>
+    <string-array name="cpp_plot_line_color_type_names">
+        <item>@string/cpp_monochrome_line_color_type</item>
+        <item>@string/cpp_color_map_line_color_type</item>
+    </string-array>
 
-	<string-array name="cpp_plot_line_color_names">
-		<item>@string/p_white_line_color</item>
-		<item>@string/p_blue_line_color</item>
-		<item>@string/p_red_line_color</item>
-		<item>@string/p_green_line_color</item>
-		<item>@string/p_grey_line_color</item>
-	</string-array>
+    <string-array name="cpp_plot_line_color_names">
+        <item>@string/p_white_line_color</item>
+        <item>@string/p_blue_line_color</item>
+        <item>@string/p_red_line_color</item>
+        <item>@string/p_green_line_color</item>
+        <item>@string/p_grey_line_color</item>
+    </string-array>
 
-	<string-array name="cpp_modes">
-		<item>@string/cpp_wizard_mode_simple</item>
-		<item>@string/cpp_wizard_mode_engineer</item>
-	</string-array>
+    <string-array name="cpp_modes">
+        <item>@string/cpp_wizard_mode_simple</item>
+        <item>@string/cpp_wizard_mode_engineer</item>
+    </string-array>
 
-	<string-array name="cpp_layouts">
-		<item>@string/cpp_wizard_layout_big_buttons</item>
-		<item>@string/cpp_wizard_layout_optimized</item>
-	</string-array>
+    <string-array name="cpp_layouts">
+        <item>@string/cpp_wizard_layout_big_buttons</item>
+        <item>@string/cpp_wizard_layout_optimized</item>
+    </string-array>
 </resources>

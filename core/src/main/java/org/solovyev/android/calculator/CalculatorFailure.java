@@ -32,12 +32,12 @@ import javax.annotation.Nullable;
  */
 public interface CalculatorFailure {
 
-	@Nonnull
-	Exception getException();
+    @Nonnull
+    Exception getException();
 
-	@Nullable
-	CalculatorParseException getCalculationParseException();
+    @Nullable
+    CalculatorParseException getCalculationParseException();
 
-	@Nullable
-	CalculatorEvalException getCalculationEvalException();
+    @Nullable
+    CalculatorEvalException getCalculationEvalException();
 }

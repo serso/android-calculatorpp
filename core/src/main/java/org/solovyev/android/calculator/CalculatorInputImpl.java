@@ -22,9 +22,9 @@
 
 package org.solovyev.android.calculator;
 
-import javax.annotation.Nonnull;
-
 import org.solovyev.android.calculator.jscl.JsclOperation;
+
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -33,26 +33,26 @@ import org.solovyev.android.calculator.jscl.JsclOperation;
  */
 public class CalculatorInputImpl implements CalculatorInput {
 
-	@Nonnull
-	private String expression;
+    @Nonnull
+    private String expression;
 
-	@Nonnull
-	private JsclOperation operation;
+    @Nonnull
+    private JsclOperation operation;
 
-	public CalculatorInputImpl(@Nonnull String expression, @Nonnull JsclOperation operation) {
-		this.expression = expression;
-		this.operation = operation;
-	}
+    public CalculatorInputImpl(@Nonnull String expression, @Nonnull JsclOperation operation) {
+        this.expression = expression;
+        this.operation = operation;
+    }
 
-	@Override
-	@Nonnull
-	public String getExpression() {
-		return expression;
-	}
+    @Override
+    @Nonnull
+    public String getExpression() {
+        return expression;
+    }
 
-	@Override
-	@Nonnull
-	public JsclOperation getOperation() {
-		return operation;
-	}
+    @Override
+    @Nonnull
+    public JsclOperation getOperation() {
+        return operation;
+    }
 }

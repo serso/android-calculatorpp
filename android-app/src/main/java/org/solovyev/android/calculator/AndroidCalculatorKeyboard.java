@@ -22,13 +22,8 @@
 
 package org.solovyev.android.calculator;
 
-import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.os.Vibrator;
-import android.preference.PreferenceManager;
-import org.solovyev.android.view.VibratorContainer;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -40,71 +35,71 @@ import javax.annotation.Nullable;
  */
 public class AndroidCalculatorKeyboard implements CalculatorKeyboard {
 
-	@Nonnull
-	private final CalculatorKeyboard calculatorKeyboard;
+    @Nonnull
+    private final CalculatorKeyboard calculatorKeyboard;
 
-	@Nonnull
-	private final Context context;
+    @Nonnull
+    private final Context context;
 
-	@android.support.annotation.Nullable
-	private org.solovyev.android.calculator.Vibrator vibrator;
+    @android.support.annotation.Nullable
+    private org.solovyev.android.calculator.Vibrator vibrator;
 
-	public AndroidCalculatorKeyboard(@Nonnull Application application,
-									 @Nonnull CalculatorKeyboard calculatorKeyboard) {
-		this.context = application;
-		this.calculatorKeyboard = calculatorKeyboard;
-	}
+    public AndroidCalculatorKeyboard(@Nonnull Application application,
+                                     @Nonnull CalculatorKeyboard calculatorKeyboard) {
+        this.context = application;
+        this.calculatorKeyboard = calculatorKeyboard;
+    }
 
-	@Override
-	public boolean buttonPressed(@Nullable String text) {
-		App.getGa().onButtonPressed(text);
-		final boolean processed = calculatorKeyboard.buttonPressed(text);
-		if (processed) {
-			vibrate();
-		}
-		return processed;
-	}
+    @Override
+    public boolean buttonPressed(@Nullable String text) {
+        App.getGa().onButtonPressed(text);
+        final boolean processed = calculatorKeyboard.buttonPressed(text);
+        if (processed) {
+            vibrate();
+        }
+        return processed;
+    }
 
-	private void vibrate() {
-		if (vibrator == null) {
-			vibrator = App.getVibrator();
-		}
-		vibrator.vibrate();
-	}
+    private void vibrate() {
+        if (vibrator == null) {
+            vibrator = App.getVibrator();
+        }
+        vibrator.vibrate();
+    }
 
-	@Override
-	public void roundBracketsButtonPressed() {
-		vibrate();
-		calculatorKeyboard.roundBracketsButtonPressed();
-	}
+    @Override
+    public void roundBracketsButtonPressed() {
+        vibrate();
+        calculatorKeyboard.roundBracketsButtonPressed();
+    }
 
-	@Override
-	public void pasteButtonPressed() {
-		vibrate();
-		calculatorKeyboard.pasteButtonPressed();
-	}
+    @Override
+    public void pasteButtonPressed() {
+        vibrate();
+        calculatorKeyboard.pasteButtonPressed();
+    }
 
-	@Override
-	public void clearButtonPressed() {
-		vibrate();
-		calculatorKeyboard.clearButtonPressed();
-	}
+    @Override
+    public void clearButtonPressed() {
+        vibrate();
+        calculatorKeyboard.clearButtonPressed();
+    }
 
-	@Override
-	public void copyButtonPressed() {
-		vibrate();
-		calculatorKeyboard.copyButtonPressed();
-	}
+    @Override
+    public void copyButtonPressed() {
+        vibrate();
+        calculatorKeyboard.copyButtonPressed();
+    }
 
-	@Override
-	public void moveCursorLeft() {
-		vibrate();
-		calculatorKeyboard.moveCursorLeft();
-	}
+    @Override
+    public void moveCursorLeft() {
+        vibrate();
+        calculatorKeyboard.moveCursorLeft();
+    }
 
-	@Override
-	public void moveCursorRight() {
-		vibrate();
-		calculatorKeyboard.moveCursorRight();
-	}
+    @Override
+    public void moveCursorRight() {
+        vibrate();
+        calculatorKeyboard.moveCursorRight();
+    }
 }

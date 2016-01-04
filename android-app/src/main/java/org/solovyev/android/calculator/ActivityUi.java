@@ -50,319 +50,319 @@ import javax.annotation.Nullable;
 
 public class ActivityUi extends BaseUi {
 
-	private int layoutId;
+    private int layoutId;
 
-	@Nonnull
-	private Preferences.Gui.Theme theme = Preferences.Gui.Theme.material_theme;
+    @Nonnull
+    private Preferences.Gui.Theme theme = Preferences.Gui.Theme.material_theme;
 
-	@Nonnull
-	private Preferences.Gui.Layout layout = Preferences.Gui.Layout.main_calculator;
+    @Nonnull
+    private Preferences.Gui.Layout layout = Preferences.Gui.Layout.main_calculator;
 
-	@Nonnull
-	private Language language = Languages.SYSTEM_LANGUAGE;
+    @Nonnull
+    private Language language = Languages.SYSTEM_LANGUAGE;
 
-	private int selectedNavigationIndex = 0;
+    private int selectedNavigationIndex = 0;
 
-	public ActivityUi(@LayoutRes int layoutId, @Nonnull String logTag) {
-		super(logTag);
-		this.layoutId = layoutId;
-	}
+    public ActivityUi(@LayoutRes int layoutId, @Nonnull String logTag) {
+        super(logTag);
+        this.layoutId = layoutId;
+    }
 
-	public void setLayoutId(int layoutId) {
-		this.layoutId = layoutId;
-	}
+    public static boolean restartIfThemeChanged(@Nonnull Activity activity, @Nonnull Preferences.Gui.Theme oldTheme) {
+        final Preferences.Gui.Theme newTheme = Preferences.Gui.theme.getPreference(App.getPreferences());
+        final int themeId = oldTheme.getThemeId(activity);
+        final int newThemeId = newTheme.getThemeId(activity);
+        if (themeId != newThemeId) {
+            Activities.restartActivity(activity);
+            return true;
+        }
+        return false;
+    }
 
-	public void onPreCreate(@Nonnull Activity activity) {
-		final SharedPreferences preferences = App.getPreferences();
+    public static boolean restartIfLanguageChanged(@Nonnull Activity activity, @Nonnull Language oldLanguage) {
+        final Language current = App.getLanguages().getCurrent();
+        if (!current.equals(oldLanguage)) {
+            Activities.restartActivity(activity);
+            return true;
+        }
+        return false;
+    }
 
-		theme = Preferences.Gui.getTheme(preferences);
-		activity.setTheme(theme.getThemeId(activity));
+    public static void reportActivityStop(@Nonnull Activity activity) {
+        App.getGa().getAnalytics().reportActivityStop(activity);
+    }
 
-		layout = Preferences.Gui.getLayout(preferences);
-		language = App.getLanguages().getCurrent();
-	}
+    public static void reportActivityStart(@Nonnull Activity activity) {
+        App.getGa().getAnalytics().reportActivityStart(activity);
+    }
 
-	@Override
-	public void onCreate(@Nonnull Activity activity) {
-		super.onCreate(activity);
-		App.getLanguages().updateLanguage(activity, false);
+    public void onPreCreate(@Nonnull Activity activity) {
+        final SharedPreferences preferences = App.getPreferences();
 
-		if (activity instanceof CalculatorEventListener) {
-			Locator.getInstance().getCalculator().addCalculatorEventListener((CalculatorEventListener) activity);
-		}
+        theme = Preferences.Gui.getTheme(preferences);
+        activity.setTheme(theme.getThemeId(activity));
 
-		activity.setContentView(layoutId);
+        layout = Preferences.Gui.getLayout(preferences);
+        language = App.getLanguages().getCurrent();
+    }
 
-		final View root = activity.findViewById(R.id.main_layout);
-		if (root != null) {
-			processButtons(activity, root);
-			fixFonts(root);
-			addHelpInfo(activity, root);
-		}
-	}
+    @Override
+    public void onCreate(@Nonnull Activity activity) {
+        super.onCreate(activity);
+        App.getLanguages().updateLanguage(activity, false);
 
-	public void onCreate(@Nonnull final ActionBarActivity activity) {
-		onCreate((Activity) activity);
-		final ActionBar actionBar = activity.getSupportActionBar();
-		if (actionBar != null) {
-			initActionBar(activity, actionBar);
-		}
-	}
+        if (activity instanceof CalculatorEventListener) {
+            Locator.getInstance().getCalculator().addCalculatorEventListener((CalculatorEventListener) activity);
+        }
 
-	private void initActionBar(@Nonnull Activity activity, @Nonnull ActionBar actionBar) {
-		actionBar.setDisplayUseLogoEnabled(false);
-		final boolean homeAsUp = !(activity instanceof CalculatorActivity);
-		actionBar.setDisplayHomeAsUpEnabled(homeAsUp);
-		actionBar.setHomeButtonEnabled(false);
-		actionBar.setDisplayShowHomeEnabled(true);
-		actionBar.setElevation(0);
+        activity.setContentView(layoutId);
 
-		toggleTitle(activity, actionBar, true);
+        final View root = activity.findViewById(R.id.main_layout);
+        if (root != null) {
+            processButtons(activity, root);
+            fixFonts(root);
+            addHelpInfo(activity, root);
+        }
+    }
 
-		if (!homeAsUp) {
-			actionBar.setIcon(R.drawable.ab_logo);
-		}
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-	}
+    public void onCreate(@Nonnull final ActionBarActivity activity) {
+        onCreate((Activity) activity);
+        final ActionBar actionBar = activity.getSupportActionBar();
+        if (actionBar != null) {
+            initActionBar(activity, actionBar);
+        }
+    }
 
-	private void toggleTitle(@Nonnull Activity activity, @Nonnull ActionBar actionBar, boolean showTitle) {
-		if (activity instanceof CalculatorActivity) {
-			if (Views.getScreenOrientation(activity) == Configuration.ORIENTATION_PORTRAIT) {
-				actionBar.setDisplayShowTitleEnabled(true);
-			} else {
-				actionBar.setDisplayShowTitleEnabled(false);
-			}
-		} else {
-			actionBar.setDisplayShowTitleEnabled(showTitle);
-		}
-	}
+    private void initActionBar(@Nonnull Activity activity, @Nonnull ActionBar actionBar) {
+        actionBar.setDisplayUseLogoEnabled(false);
+        final boolean homeAsUp = !(activity instanceof CalculatorActivity);
+        actionBar.setDisplayHomeAsUpEnabled(homeAsUp);
+        actionBar.setHomeButtonEnabled(false);
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setElevation(0);
 
-	public void restoreSavedTab(@Nonnull ActionBarActivity activity) {
-		final ActionBar actionBar = activity.getSupportActionBar();
-		if (actionBar != null) {
-			if (selectedNavigationIndex >= 0 && selectedNavigationIndex < actionBar.getTabCount()) {
-				actionBar.setSelectedNavigationItem(selectedNavigationIndex);
-			}
-		}
-	}
+        toggleTitle(activity, actionBar, true);
 
-	public void onSaveInstanceState(@Nonnull ActionBarActivity activity, @Nonnull Bundle outState) {
-		onSaveInstanceState((Activity) activity, outState);
-	}
+        if (!homeAsUp) {
+            actionBar.setIcon(R.drawable.ab_logo);
+        }
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+    }
 
-	public void onSaveInstanceState(@Nonnull Activity activity, @Nonnull Bundle outState) {
-	}
+    private void toggleTitle(@Nonnull Activity activity, @Nonnull ActionBar actionBar, boolean showTitle) {
+        if (activity instanceof CalculatorActivity) {
+            if (Views.getScreenOrientation(activity) == Configuration.ORIENTATION_PORTRAIT) {
+                actionBar.setDisplayShowTitleEnabled(true);
+            } else {
+                actionBar.setDisplayShowTitleEnabled(false);
+            }
+        } else {
+            actionBar.setDisplayShowTitleEnabled(showTitle);
+        }
+    }
 
-	public void onResume(@Nonnull Activity activity) {
-		if (!restartIfThemeChanged(activity, theme)) {
-			restartIfLanguageChanged(activity, language);
-		}
-	}
+    public void restoreSavedTab(@Nonnull ActionBarActivity activity) {
+        final ActionBar actionBar = activity.getSupportActionBar();
+        if (actionBar != null) {
+            if (selectedNavigationIndex >= 0 && selectedNavigationIndex < actionBar.getTabCount()) {
+                actionBar.setSelectedNavigationItem(selectedNavigationIndex);
+            }
+        }
+    }
 
-	public static boolean restartIfThemeChanged(@Nonnull Activity activity, @Nonnull Preferences.Gui.Theme oldTheme) {
-		final Preferences.Gui.Theme newTheme = Preferences.Gui.theme.getPreference(App.getPreferences());
-		final int themeId = oldTheme.getThemeId(activity);
-		final int newThemeId = newTheme.getThemeId(activity);
-		if (themeId != newThemeId) {
-			Activities.restartActivity(activity);
-			return true;
-		}
-		return false;
-	}
+    public void onSaveInstanceState(@Nonnull ActionBarActivity activity, @Nonnull Bundle outState) {
+        onSaveInstanceState((Activity) activity, outState);
+    }
 
-	public static boolean restartIfLanguageChanged(@Nonnull Activity activity, @Nonnull Language oldLanguage) {
-		final Language current = App.getLanguages().getCurrent();
-		if (!current.equals(oldLanguage)) {
-			Activities.restartActivity(activity);
-			return true;
-		}
-		return false;
-	}
+    public void onSaveInstanceState(@Nonnull Activity activity, @Nonnull Bundle outState) {
+    }
 
-	public void onPause(@Nonnull Activity activity) {
-	}
+    public void onResume(@Nonnull Activity activity) {
+        if (!restartIfThemeChanged(activity, theme)) {
+            restartIfLanguageChanged(activity, language);
+        }
+    }
 
-	public void onPause(@Nonnull ActionBarActivity activity) {
-		onPause((Activity) activity);
+    public void onPause(@Nonnull Activity activity) {
+    }
 
-		final ActionBar actionBar = activity.getSupportActionBar();
-		if (actionBar != null) {
-			final int selectedNavigationIndex = actionBar.getSelectedNavigationIndex();
-			if (selectedNavigationIndex >= 0) {
-				final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
-				final SharedPreferences.Editor editor = preferences.edit();
-				editor.putInt(getSavedTabPreferenceName(activity), selectedNavigationIndex);
-				editor.apply();
-			}
-		}
-	}
+    public void onPause(@Nonnull ActionBarActivity activity) {
+        onPause((Activity) activity);
 
-	@Nonnull
-	private String getSavedTabPreferenceName(@Nonnull Activity activity) {
-		return "tab_" + activity.getClass().getSimpleName();
-	}
+        final ActionBar actionBar = activity.getSupportActionBar();
+        if (actionBar != null) {
+            final int selectedNavigationIndex = actionBar.getSelectedNavigationIndex();
+            if (selectedNavigationIndex >= 0) {
+                final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
+                final SharedPreferences.Editor editor = preferences.edit();
+                editor.putInt(getSavedTabPreferenceName(activity), selectedNavigationIndex);
+                editor.apply();
+            }
+        }
+    }
 
-	@Override
-	public void onDestroy(@Nonnull Activity activity) {
-		super.onDestroy(activity);
+    @Nonnull
+    private String getSavedTabPreferenceName(@Nonnull Activity activity) {
+        return "tab_" + activity.getClass().getSimpleName();
+    }
 
-		if (activity instanceof CalculatorEventListener) {
-			Locator.getInstance().getCalculator().removeCalculatorEventListener((CalculatorEventListener) activity);
-		}
-	}
+    @Override
+    public void onDestroy(@Nonnull Activity activity) {
+        super.onDestroy(activity);
 
-	public void onDestroy(@Nonnull ActionBarActivity activity) {
-		this.onDestroy((Activity) activity);
-	}
+        if (activity instanceof CalculatorEventListener) {
+            Locator.getInstance().getCalculator().removeCalculatorEventListener((CalculatorEventListener) activity);
+        }
+    }
 
-	public void addTab(@Nonnull ActionBarActivity activity,
-					   @Nonnull String tag,
-					   @Nonnull Class<? extends Fragment> fragmentClass,
-					   @Nullable Bundle fragmentArgs,
-					   int captionResId,
-					   int parentViewId) {
-		final ActionBar actionBar = activity.getSupportActionBar();
+    public void onDestroy(@Nonnull ActionBarActivity activity) {
+        this.onDestroy((Activity) activity);
+    }
 
-		final ActionBar.Tab tab = actionBar.newTab();
-		tab.setTag(tag);
-		tab.setText(captionResId);
+    public void addTab(@Nonnull ActionBarActivity activity,
+                       @Nonnull String tag,
+                       @Nonnull Class<? extends Fragment> fragmentClass,
+                       @Nullable Bundle fragmentArgs,
+                       int captionResId,
+                       int parentViewId) {
+        final ActionBar actionBar = activity.getSupportActionBar();
 
-		final ActionBarFragmentTabListener listener = new ActionBarFragmentTabListener(activity, tag, fragmentClass, fragmentArgs, parentViewId);
-		tab.setTabListener(listener);
-		actionBar.addTab(tab);
-	}
+        final ActionBar.Tab tab = actionBar.newTab();
+        tab.setTag(tag);
+        tab.setText(captionResId);
 
-	public void addTab(@Nonnull ActionBarActivity activity, @Nonnull CalculatorFragmentType fragmentType, @Nullable Bundle fragmentArgs, int parentViewId) {
-		addTab(activity, fragmentType.getFragmentTag(), fragmentType.getFragmentClass(), fragmentArgs, fragmentType.getDefaultTitleResId(), parentViewId);
-	}
+        final ActionBarFragmentTabListener listener = new ActionBarFragmentTabListener(activity, tag, fragmentClass, fragmentArgs, parentViewId);
+        tab.setTabListener(listener);
+        actionBar.addTab(tab);
+    }
 
-	public void setFragment(@Nonnull ActionBarActivity activity, @Nonnull CalculatorFragmentType fragmentType, @Nullable Bundle fragmentArgs, int parentViewId) {
-		final FragmentManager fm = activity.getSupportFragmentManager();
+    public void addTab(@Nonnull ActionBarActivity activity, @Nonnull CalculatorFragmentType fragmentType, @Nullable Bundle fragmentArgs, int parentViewId) {
+        addTab(activity, fragmentType.getFragmentTag(), fragmentType.getFragmentClass(), fragmentArgs, fragmentType.getDefaultTitleResId(), parentViewId);
+    }
 
-		Fragment fragment = fm.findFragmentByTag(fragmentType.getFragmentTag());
-		if (fragment == null) {
-			fragment = Fragment.instantiate(activity, fragmentType.getFragmentClass().getName(), fragmentArgs);
-			final FragmentTransaction ft = fm.beginTransaction();
-			ft.add(parentViewId, fragment, fragmentType.getFragmentTag());
-			ft.commit();
-		} else {
-			if (fragment.isDetached()) {
-				final FragmentTransaction ft = fm.beginTransaction();
-				ft.attach(fragment);
-				ft.commit();
-			}
+    public void setFragment(@Nonnull ActionBarActivity activity, @Nonnull CalculatorFragmentType fragmentType, @Nullable Bundle fragmentArgs, int parentViewId) {
+        final FragmentManager fm = activity.getSupportFragmentManager();
 
-		}
-	}
+        Fragment fragment = fm.findFragmentByTag(fragmentType.getFragmentTag());
+        if (fragment == null) {
+            fragment = Fragment.instantiate(activity, fragmentType.getFragmentClass().getName(), fragmentArgs);
+            final FragmentTransaction ft = fm.beginTransaction();
+            ft.add(parentViewId, fragment, fragmentType.getFragmentTag());
+            ft.commit();
+        } else {
+            if (fragment.isDetached()) {
+                final FragmentTransaction ft = fm.beginTransaction();
+                ft.attach(fragment);
+                ft.commit();
+            }
 
-	public void selectTab(@Nonnull ActionBarActivity activity, @Nonnull CalculatorFragmentType fragmentType) {
-		final ActionBar actionBar = activity.getSupportActionBar();
-		for (int i = 0; i < actionBar.getTabCount(); i++) {
-			final ActionBar.Tab tab = actionBar.getTabAt(i);
-			if (tab != null && fragmentType.getFragmentTag().equals(tab.getTag())) {
-				actionBar.setSelectedNavigationItem(i);
-				break;
-			}
-		}
-	}
+        }
+    }
 
-	public int getLayoutId() {
-		return layoutId;
-	}
+    public void selectTab(@Nonnull ActionBarActivity activity, @Nonnull CalculatorFragmentType fragmentType) {
+        final ActionBar actionBar = activity.getSupportActionBar();
+        for (int i = 0; i < actionBar.getTabCount(); i++) {
+            final ActionBar.Tab tab = actionBar.getTabAt(i);
+            if (tab != null && fragmentType.getFragmentTag().equals(tab.getTag())) {
+                actionBar.setSelectedNavigationItem(i);
+                break;
+            }
+        }
+    }
 
-	@Nonnull
-	public Preferences.Gui.Theme getTheme() {
-		return theme;
-	}
+    public int getLayoutId() {
+        return layoutId;
+    }
 
-	@Nonnull
-	public Language getLanguage() {
-		return language;
-	}
+    public void setLayoutId(int layoutId) {
+        this.layoutId = layoutId;
+    }
 
-	@Nonnull
-	public Preferences.Gui.Layout getLayout() {
-		return layout;
-	}
+    @Nonnull
+    public Preferences.Gui.Theme getTheme() {
+        return theme;
+    }
 
-	public void onResume(@Nonnull ActionBarActivity activity) {
-		onResume((Activity) activity);
+    @Nonnull
+    public Language getLanguage() {
+        return language;
+    }
 
-		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
-		selectedNavigationIndex = preferences.getInt(getSavedTabPreferenceName(activity), -1);
-		restoreSavedTab(activity);
-	}
+    @Nonnull
+    public Preferences.Gui.Layout getLayout() {
+        return layout;
+    }
 
-	private void addHelpInfo(@Nonnull Activity activity, @Nonnull View root) {
-		if (CalculatorApplication.isMonkeyRunner(activity)) {
-			if (root instanceof ViewGroup) {
-				final TextView helperTextView = new TextView(activity);
+    public void onResume(@Nonnull ActionBarActivity activity) {
+        onResume((Activity) activity);
 
-				final DisplayMetrics dm = new DisplayMetrics();
-				activity.getWindowManager().getDefaultDisplay().getMetrics(dm);
+        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
+        selectedNavigationIndex = preferences.getInt(getSavedTabPreferenceName(activity), -1);
+        restoreSavedTab(activity);
+    }
 
-				helperTextView.setTextSize(15);
-				helperTextView.setTextColor(Color.WHITE);
+    private void addHelpInfo(@Nonnull Activity activity, @Nonnull View root) {
+        if (CalculatorApplication.isMonkeyRunner(activity)) {
+            if (root instanceof ViewGroup) {
+                final TextView helperTextView = new TextView(activity);
 
-				final Configuration c = activity.getResources().getConfiguration();
+                final DisplayMetrics dm = new DisplayMetrics();
+                activity.getWindowManager().getDefaultDisplay().getMetrics(dm);
 
-				final StringBuilder helpText = new StringBuilder();
-				helpText.append("Size: ");
-				if (Views.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_XLARGE, c)) {
-					helpText.append("xlarge");
-				} else if (Views.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_LARGE, c)) {
-					helpText.append("large");
-				} else if (Views.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_NORMAL, c)) {
-					helpText.append("normal");
-				} else if (Views.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_SMALL, c)) {
-					helpText.append("small");
-				} else {
-					helpText.append("unknown");
-				}
+                helperTextView.setTextSize(15);
+                helperTextView.setTextColor(Color.WHITE);
 
-				helpText.append(" (").append(dm.widthPixels).append("x").append(dm.heightPixels).append(")");
+                final Configuration c = activity.getResources().getConfiguration();
 
-				helpText.append(" Density: ");
-				switch (dm.densityDpi) {
-					case DisplayMetrics.DENSITY_LOW:
-						helpText.append("ldpi");
-						break;
-					case DisplayMetrics.DENSITY_MEDIUM:
-						helpText.append("mdpi");
-						break;
-					case DisplayMetrics.DENSITY_HIGH:
-						helpText.append("hdpi");
-						break;
-					case DisplayMetrics.DENSITY_XHIGH:
-						helpText.append("xhdpi");
-						break;
-					case DisplayMetrics.DENSITY_TV:
-						helpText.append("tv");
-						break;
-				}
+                final StringBuilder helpText = new StringBuilder();
+                helpText.append("Size: ");
+                if (Views.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_XLARGE, c)) {
+                    helpText.append("xlarge");
+                } else if (Views.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_LARGE, c)) {
+                    helpText.append("large");
+                } else if (Views.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_NORMAL, c)) {
+                    helpText.append("normal");
+                } else if (Views.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_SMALL, c)) {
+                    helpText.append("small");
+                } else {
+                    helpText.append("unknown");
+                }
 
-				helpText.append(" (").append(dm.densityDpi).append(")");
+                helpText.append(" (").append(dm.widthPixels).append("x").append(dm.heightPixels).append(")");
 
-				helperTextView.setText(helpText);
+                helpText.append(" Density: ");
+                switch (dm.densityDpi) {
+                    case DisplayMetrics.DENSITY_LOW:
+                        helpText.append("ldpi");
+                        break;
+                    case DisplayMetrics.DENSITY_MEDIUM:
+                        helpText.append("mdpi");
+                        break;
+                    case DisplayMetrics.DENSITY_HIGH:
+                        helpText.append("hdpi");
+                        break;
+                    case DisplayMetrics.DENSITY_XHIGH:
+                        helpText.append("xhdpi");
+                        break;
+                    case DisplayMetrics.DENSITY_TV:
+                        helpText.append("tv");
+                        break;
+                }
 
-				((ViewGroup) root).addView(helperTextView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-			}
-		}
-	}
+                helpText.append(" (").append(dm.densityDpi).append(")");
 
-	public void onStop(@Nonnull Activity activity) {
-		reportActivityStop(activity);
-	}
+                helperTextView.setText(helpText);
 
-	public static void reportActivityStop(@Nonnull Activity activity) {
-		App.getGa().getAnalytics().reportActivityStop(activity);
-	}
+                ((ViewGroup) root).addView(helperTextView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            }
+        }
+    }
 
-	public void onStart(@Nonnull Activity activity) {
-		reportActivityStart(activity);
-	}
+    public void onStop(@Nonnull Activity activity) {
+        reportActivityStop(activity);
+    }
 
-	public static void reportActivityStart(@Nonnull Activity activity) {
-		App.getGa().getAnalytics().reportActivityStart(activity);
-	}
+    public void onStart(@Nonnull Activity activity) {
+        reportActivityStart(activity);
+    }
 }

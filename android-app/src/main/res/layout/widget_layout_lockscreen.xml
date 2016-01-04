@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout
-	style="@style/CppMain.Widget"
-	xmlns:a="http://schemas.android.com/apk/res/android"
-	a:layout_width="match_parent"
-	a:layout_height="match_parent"
-	a:orientation="vertical">
+    xmlns:a="http://schemas.android.com/apk/res/android"
+    style="@style/CppMain.Widget"
+    a:layout_width="match_parent"
+    a:layout_height="match_parent"
+    a:orientation="vertical">
 
-	<include
-		layout="@layout/widget_editor"
-		a:layout_width="match_parent"
-		a:layout_height="0dp"
-		a:layout_weight="2"/>
+    <include
+        layout="@layout/widget_editor"
+        a:layout_width="match_parent"
+        a:layout_height="0dp"
+        a:layout_weight="2" />
 
-	<LinearLayout
-		a:layout_width="match_parent"
-		a:layout_height="0dp"
-		a:layout_weight="1"
-		a:baselineAligned="false">
+    <LinearLayout
+        a:layout_width="match_parent"
+        a:layout_height="0dp"
+        a:layout_weight="1"
+        a:baselineAligned="false">
 
-		<include
-			layout="@layout/cpp_simple_button_equals"
-			a:layout_width="0dp"
-			a:layout_height="match_parent"
-			a:layout_weight="1"/>
+        <include
+            layout="@layout/cpp_simple_button_equals"
+            a:layout_width="0dp"
+            a:layout_height="match_parent"
+            a:layout_weight="1" />
 
-		<include
-			layout="@layout/widget_display"
-			a:layout_width="0dp"
-			a:layout_height="match_parent"
-			a:layout_weight="5"/>
+        <include
+            layout="@layout/widget_display"
+            a:layout_width="0dp"
+            a:layout_height="match_parent"
+            a:layout_weight="5" />
 
-	</LinearLayout>
+    </LinearLayout>
 
-	<include
-		layout="@layout/cpp_simple_keyboard_lockscreen"
-		a:layout_width="match_parent"
-		a:layout_height="0dp"
-		a:layout_weight="4"/>
+    <include
+        layout="@layout/cpp_simple_keyboard_lockscreen"
+        a:layout_width="match_parent"
+        a:layout_height="0dp"
+        a:layout_weight="4" />
 
 </LinearLayout>

@@ -22,9 +22,10 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<org.solovyev.android.calculator.AdView a:id="@+id/ad"
-	xmlns:a="http://schemas.android.com/apk/res/android"
-	a:layout_width="match_parent"
-	a:layout_height="wrap_content"
-	a:layout_gravity="center"
-	a:visibility="gone" />
+<org.solovyev.android.calculator.AdView
+    xmlns:a="http://schemas.android.com/apk/res/android"
+    a:id="@+id/ad"
+    a:layout_width="match_parent"
+    a:layout_height="wrap_content"
+    a:layout_gravity="center"
+    a:visibility="gone" />

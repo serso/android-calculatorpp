@@ -27,6 +27,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
+
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.R;
@@ -37,37 +38,37 @@ import static org.solovyev.android.calculator.CalculatorApplication.getPreferenc
 
 public class OnScreenCalculatorWizardStep extends WizardFragment implements CompoundButton.OnCheckedChangeListener {
 
-	@Nullable
-	private CheckBox checkbox;
+    @Nullable
+    private CheckBox checkbox;
 
-	@Override
-	protected int getViewResId() {
-		return R.layout.cpp_wizard_step_onscreen;
-	}
+    @Override
+    protected int getViewResId() {
+        return R.layout.cpp_wizard_step_onscreen;
+    }
 
-	@Override
-	public void onViewCreated(View root, Bundle savedInstanceState) {
-		super.onViewCreated(root, savedInstanceState);
+    @Override
+    public void onViewCreated(View root, Bundle savedInstanceState) {
+        super.onViewCreated(root, savedInstanceState);
 
-		final Boolean enabled = Preferences.Onscreen.showAppIcon.getPreference(getPreferences());
-		checkbox = (CheckBox) root.findViewById(R.id.wizard_onscreen_app_enabled_checkbox);
-		checkbox.setChecked(enabled);
-		checkbox.setOnCheckedChangeListener(this);
+        final Boolean enabled = Preferences.Onscreen.showAppIcon.getPreference(getPreferences());
+        checkbox = (CheckBox) root.findViewById(R.id.wizard_onscreen_app_enabled_checkbox);
+        checkbox.setChecked(enabled);
+        checkbox.setOnCheckedChangeListener(this);
 
-		if (App.getTheme().isLight()) {
-			final TextView message = (TextView) root.findViewById(R.id.wizard_onscreen_message);
-			message.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.logo_wizard_window_light, 0, 0);
-		}
-	}
+        if (App.getTheme().isLight()) {
+            final TextView message = (TextView) root.findViewById(R.id.wizard_onscreen_message);
+            message.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.logo_wizard_window_light, 0, 0);
+        }
+    }
 
-	@Nullable
-	CheckBox getCheckbox() {
-		return checkbox;
-	}
+    @Nullable
+    CheckBox getCheckbox() {
+        return checkbox;
+    }
 
-	@Override
-	public void onCheckedChanged(CompoundButton buttonView, boolean checked) {
-		Preferences.Onscreen.showAppIcon.putPreference(getPreferences(), checked);
-	}
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean checked) {
+        Preferences.Onscreen.showAppIcon.putPreference(getPreferences(), checked);
+    }
 }
 

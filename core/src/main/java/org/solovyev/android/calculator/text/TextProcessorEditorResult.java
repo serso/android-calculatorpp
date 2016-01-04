@@ -4,55 +4,53 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
-* User: serso
-* Date: 6/27/13
-* Time: 8:07 PM
-*/
+ * User: serso
+ * Date: 6/27/13
+ * Time: 8:07 PM
+ */
 public final class TextProcessorEditorResult implements CharSequence {
 
-	@Nonnull
-	private final CharSequence charSequence;
+    @Nonnull
+    private final CharSequence charSequence;
+    private final int offset;
+    @Nullable
+    private String string;
 
-	@Nullable
-	private String string;
+    public TextProcessorEditorResult(@Nonnull CharSequence charSequence, int offset) {
+        this.charSequence = charSequence;
+        this.offset = offset;
+    }
 
-	private final int offset;
+    @Override
+    public int length() {
+        return charSequence.length();
+    }
 
-	public TextProcessorEditorResult(@Nonnull CharSequence charSequence, int offset) {
-		this.charSequence = charSequence;
-		this.offset = offset;
-	}
+    @Override
+    public char charAt(int i) {
+        return charSequence.charAt(i);
+    }
 
-	@Override
-	public int length() {
-		return charSequence.length();
-	}
+    @Override
+    public CharSequence subSequence(int i, int i1) {
+        return charSequence.subSequence(i, i1);
+    }
 
-	@Override
-	public char charAt(int i) {
-		return charSequence.charAt(i);
-	}
+    @Nonnull
+    @Override
+    public String toString() {
+        if (string == null) {
+            string = charSequence.toString();
+        }
+        return string;
+    }
 
-	@Override
-	public CharSequence subSequence(int i, int i1) {
-		return charSequence.subSequence(i, i1);
-	}
+    @Nonnull
+    public CharSequence getCharSequence() {
+        return charSequence;
+    }
 
-	@Nonnull
-	@Override
-	public String toString() {
-		if (string == null) {
-			string = charSequence.toString();
-		}
-		return string;
-	}
-
-	@Nonnull
-	public CharSequence getCharSequence() {
-		return charSequence;
-	}
-
-	public int getOffset() {
-		return offset;
-	}
+    public int getOffset() {
+        return offset;
+    }
 }

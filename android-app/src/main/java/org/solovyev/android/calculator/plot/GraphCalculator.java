@@ -31,10 +31,10 @@ import javax.annotation.Nonnull;
  */
 public interface GraphCalculator {
 
-	void computeGraph(@Nonnull XyFunction f,
-					  float xMin,
-					  float xMax,
-					  @Nonnull GraphData graph,
-					  @Nonnull GraphsData graphsData,
-					  @Nonnull Graph2dDimensions dimensions);
+    void computeGraph(@Nonnull XyFunction f,
+                      float xMin,
+                      float xMax,
+                      @Nonnull GraphData graph,
+                      @Nonnull GraphsData graphsData,
+                      @Nonnull Graph2dDimensions dimensions);
 }

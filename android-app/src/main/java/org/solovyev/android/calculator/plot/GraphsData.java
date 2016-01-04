@@ -22,10 +22,10 @@
 
 package org.solovyev.android.calculator.plot;
 
-import javax.annotation.Nonnull;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -34,77 +34,77 @@ import java.util.List;
  */
 public class GraphsData {
 
-	@Nonnull
-	private final GraphView graphView;
+    @Nonnull
+    private final GraphView graphView;
 
-	@Nonnull
-	private List<GraphData> graphs;
+    @Nonnull
+    private List<GraphData> graphs;
 
-	private float lastXMin;
-	private float lastXMax;
+    private float lastXMin;
+    private float lastXMax;
 
-	private float lastYMin;
+    private float lastYMin;
 
-	private float lastYMax;
+    private float lastYMax;
 
-	public GraphsData(@Nonnull GraphView graphView) {
-		this.graphView = graphView;
-		graphs = new ArrayList<GraphData>(graphView.getPlotFunctions().size());
-	}
+    public GraphsData(@Nonnull GraphView graphView) {
+        this.graphView = graphView;
+        graphs = new ArrayList<GraphData>(graphView.getPlotFunctions().size());
+    }
 
-	public void clear() {
-		for (GraphData graph : graphs) {
-			graph.clear();
-		}
+    public void clear() {
+        for (GraphData graph : graphs) {
+            graph.clear();
+        }
 
-		while (graphView.getPlotFunctions().size() > graphs.size()) {
-			graphs.add(GraphData.newEmptyInstance());
-		}
+        while (graphView.getPlotFunctions().size() > graphs.size()) {
+            graphs.add(GraphData.newEmptyInstance());
+        }
 
-		lastYMin = 0;
-		lastYMax = 0;
-	}
+        lastYMin = 0;
+        lastYMax = 0;
+    }
 
-	@Nonnull
-	public List<GraphData> getGraphs() {
-		return graphs;
-	}
+    @Nonnull
+    public List<GraphData> getGraphs() {
+        return graphs;
+    }
 
-	public float getLastXMin() {
-		return lastXMin;
-	}
+    public float getLastXMin() {
+        return lastXMin;
+    }
 
-	public float getLastXMax() {
-		return lastXMax;
-	}
+    public void setLastXMin(float lastXMin) {
+        this.lastXMin = lastXMin;
+    }
 
-	public float getLastYMin() {
-		return lastYMin;
-	}
+    public float getLastXMax() {
+        return lastXMax;
+    }
 
-	public float getLastYMax() {
-		return lastYMax;
-	}
+    public void setLastXMax(float lastXMax) {
+        this.lastXMax = lastXMax;
+    }
 
-	void checkBoundaries(float graphHeight, float yMin, float yMax) {
-		if (yMin < lastYMin || yMax > lastYMax) {
-			float halfGraphHeight = graphHeight / 2;
-			clear();
-			lastYMin = yMin - halfGraphHeight;
-			lastYMax = yMax + halfGraphHeight;
-		}
-	}
+    public float getLastYMin() {
+        return lastYMin;
+    }
 
-	public void setLastXMin(float lastXMin) {
-		this.lastXMin = lastXMin;
-	}
+    public float getLastYMax() {
+        return lastYMax;
+    }
 
-	public void setLastXMax(float lastXMax) {
-		this.lastXMax = lastXMax;
-	}
+    void checkBoundaries(float graphHeight, float yMin, float yMax) {
+        if (yMin < lastYMin || yMax > lastYMax) {
+            float halfGraphHeight = graphHeight / 2;
+            clear();
+            lastYMin = yMin - halfGraphHeight;
+            lastYMax = yMax + halfGraphHeight;
+        }
+    }
 
-	@Nonnull
-	public GraphData get(int i) {
-		return this.graphs.get(i);
-	}
+    @Nonnull
+    public GraphData get(int i) {
+        return this.graphs.get(i);
+    }
 }

@@ -36,13 +36,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
+
 import org.solovyev.common.msg.Message;
 import org.solovyev.common.text.Strings;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -51,226 +53,223 @@ import java.util.List;
  */
 public class FixableMessagesDialog extends ActionBarActivity {
 
-	private static final String INPUT = "input";
+    private static final String INPUT = "input";
 
-	@Nonnull
-	private Input input = new Input(Collections.<FixableMessage>emptyList(), false);
+    @Nonnull
+    private Input input = new Input(Collections.<FixableMessage>emptyList(), false);
 
-	public FixableMessagesDialog() {
-	}
+    public FixableMessagesDialog() {
+    }
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    public static void showDialogForMessages(@Nonnull List<Message> messages,
+                                             @Nonnull Context context,
+                                             boolean showCheckbox) {
+        if (!messages.isEmpty()) {
+            final Intent intent = new Intent(context, FixableMessagesDialog.class);
 
-		setContentView(R.layout.cpp_fixable_messages_dialog);
+            intent.putExtra(INPUT, Input.fromMessages(messages, showCheckbox));
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-		final Intent intent = getIntent();
-		if (intent != null) {
-			parseIntent(intent);
-		}
+            context.startActivity(intent);
+        }
+    }
 
-		final CheckBox doNotShowCalculationMessagesCheckbox = (CheckBox) findViewById(R.id.cpp_do_not_show_fixable_messages_checkbox);
-		if (input.isShowCheckbox()) {
-			doNotShowCalculationMessagesCheckbox.setVisibility(View.VISIBLE);
-		} else {
-			doNotShowCalculationMessagesCheckbox.setVisibility(View.GONE);
-		}
+    public static void showDialog(@Nonnull List<FixableMessage> messages,
+                                  @Nonnull Context context,
+                                  boolean showCheckbox) {
+        if (!messages.isEmpty()) {
+            final Intent intent = new Intent(context, FixableMessagesDialog.class);
 
-		final Button closeButton = (Button) findViewById(R.id.close_button);
-		closeButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (doNotShowCalculationMessagesCheckbox.isChecked()) {
-					final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(FixableMessagesDialog.this);
-					Preferences.Calculations.showCalculationMessagesDialog.putPreference(prefs, false);
-				}
+            intent.putExtra(INPUT, new Input(messages, showCheckbox));
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-				FixableMessagesDialog.this.finish();
-			}
-		});
-	}
+            context.startActivity(intent);
+        }
+    }
 
-	private void parseIntent(@Nonnull Intent intent) {
-		final Input input = intent.getParcelableExtra(INPUT);
-		if (input != null) {
-			this.input = input;
-			onInputChanged();
-		}
-	}
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-	private void onInputChanged() {
-		final ViewGroup viewGroup = (ViewGroup) findViewById(R.id.cpp_fixable_messages_container);
-		viewGroup.removeAllViews();
+        setContentView(R.layout.cpp_fixable_messages_dialog);
 
-		final LayoutInflater layoutInflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final Intent intent = getIntent();
+        if (intent != null) {
+            parseIntent(intent);
+        }
 
-		final List<FixableMessage> messages = input.getMessages();
-		for (final FixableMessage message : messages) {
-			final View view = layoutInflater.inflate(R.layout.cpp_fixable_messages_dialog_message, null);
+        final CheckBox doNotShowCalculationMessagesCheckbox = (CheckBox) findViewById(R.id.cpp_do_not_show_fixable_messages_checkbox);
+        if (input.isShowCheckbox()) {
+            doNotShowCalculationMessagesCheckbox.setVisibility(View.VISIBLE);
+        } else {
+            doNotShowCalculationMessagesCheckbox.setVisibility(View.GONE);
+        }
 
-			final TextView calculationMessagesTextView = (TextView) view.findViewById(R.id.cpp_fixable_messages_text_view);
-			calculationMessagesTextView.setText(message.getMessage());
+        final Button closeButton = (Button) findViewById(R.id.close_button);
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (doNotShowCalculationMessagesCheckbox.isChecked()) {
+                    final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(FixableMessagesDialog.this);
+                    Preferences.Calculations.showCalculationMessagesDialog.putPreference(prefs, false);
+                }
 
-			final Button fixButton = (Button) view.findViewById(R.id.cpp_fix_button);
-			final FixableError fixableError = message.getFixableError();
-			if (fixableError == null) {
-				fixButton.setVisibility(View.GONE);
-				fixButton.setOnClickListener(null);
-			} else {
-				fixButton.setVisibility(View.VISIBLE);
-				fixButton.setOnClickListener(new FixErrorOnClickListener(messages, message));
+                FixableMessagesDialog.this.finish();
+            }
+        });
+    }
 
-				final CharSequence fixCaption = fixableError.getFixCaption();
-				if (!Strings.isEmpty(fixCaption)) {
-					fixButton.setText(fixCaption);
-				}
-			}
-
-
-			viewGroup.addView(view, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-		}
-
-	}
-
-	@Override
-	protected void onNewIntent(@Nonnull Intent intent) {
-		super.onNewIntent(intent);
-		parseIntent(intent);
-	}
+    private void parseIntent(@Nonnull Intent intent) {
+        final Input input = intent.getParcelableExtra(INPUT);
+        if (input != null) {
+            this.input = input;
+            onInputChanged();
+        }
+    }
 
 	/*
-	**********************************************************************
+    **********************************************************************
 	*
 	*                           STATIC
 	*
 	**********************************************************************
 	*/
 
-	public static void showDialogForMessages(@Nonnull List<Message> messages,
-											 @Nonnull Context context,
-											 boolean showCheckbox) {
-		if (!messages.isEmpty()) {
-			final Intent intent = new Intent(context, FixableMessagesDialog.class);
+    private void onInputChanged() {
+        final ViewGroup viewGroup = (ViewGroup) findViewById(R.id.cpp_fixable_messages_container);
+        viewGroup.removeAllViews();
 
-			intent.putExtra(INPUT, Input.fromMessages(messages, showCheckbox));
-			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        final LayoutInflater layoutInflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-			context.startActivity(intent);
-		}
-	}
+        final List<FixableMessage> messages = input.getMessages();
+        for (final FixableMessage message : messages) {
+            final View view = layoutInflater.inflate(R.layout.cpp_fixable_messages_dialog_message, null);
 
-	public static void showDialog(@Nonnull List<FixableMessage> messages,
-								  @Nonnull Context context,
-								  boolean showCheckbox) {
-		if (!messages.isEmpty()) {
-			final Intent intent = new Intent(context, FixableMessagesDialog.class);
+            final TextView calculationMessagesTextView = (TextView) view.findViewById(R.id.cpp_fixable_messages_text_view);
+            calculationMessagesTextView.setText(message.getMessage());
 
-			intent.putExtra(INPUT, new Input(messages, showCheckbox));
-			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            final Button fixButton = (Button) view.findViewById(R.id.cpp_fix_button);
+            final FixableError fixableError = message.getFixableError();
+            if (fixableError == null) {
+                fixButton.setVisibility(View.GONE);
+                fixButton.setOnClickListener(null);
+            } else {
+                fixButton.setVisibility(View.VISIBLE);
+                fixButton.setOnClickListener(new FixErrorOnClickListener(messages, message));
 
-			context.startActivity(intent);
-		}
-	}
-
-	private static final class Input implements Parcelable {
-
-		public static final Creator<Input> CREATOR = new Creator<Input>() {
-			@Override
-			public Input createFromParcel(@Nonnull Parcel in) {
-				return Input.fromParcel(in);
-			}
-
-			@Override
-			public Input[] newArray(int size) {
-				return new Input[size];
-			}
-		};
-
-		@Nonnull
-		private static Input fromParcel(@Nonnull Parcel in) {
-			final List<FixableMessage> messages = new ArrayList<FixableMessage>();
-			boolean showCheckbox = in.readInt() == 1;
-			in.readTypedList(messages, FixableMessage.CREATOR);
-			return new Input(messages, showCheckbox);
-		}
+                final CharSequence fixCaption = fixableError.getFixCaption();
+                if (!Strings.isEmpty(fixCaption)) {
+                    fixButton.setText(fixCaption);
+                }
+            }
 
 
-		@Nonnull
-		private List<FixableMessage> messages = new ArrayList<FixableMessage>();
+            viewGroup.addView(view, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        }
 
-		private boolean showCheckbox;
+    }
 
-		private Input(@Nonnull List<FixableMessage> messages, boolean showCheckbox) {
-			this.messages = messages;
-			this.showCheckbox = showCheckbox;
-		}
+    @Override
+    protected void onNewIntent(@Nonnull Intent intent) {
+        super.onNewIntent(intent);
+        parseIntent(intent);
+    }
 
-		@Nonnull
-		public List<FixableMessage> getMessages() {
-			return messages;
-		}
+    private static final class Input implements Parcelable {
 
-		@Override
-		public int describeContents() {
-			return 0;
-		}
+        public static final Creator<Input> CREATOR = new Creator<Input>() {
+            @Override
+            public Input createFromParcel(@Nonnull Parcel in) {
+                return Input.fromParcel(in);
+            }
 
-		@Override
-		public void writeToParcel(@Nonnull Parcel out, int flags) {
-			out.writeInt(showCheckbox ? 1 : 0);
-			out.writeTypedList(messages);
-		}
+            @Override
+            public Input[] newArray(int size) {
+                return new Input[size];
+            }
+        };
+        @Nonnull
+        private List<FixableMessage> messages = new ArrayList<FixableMessage>();
+        private boolean showCheckbox;
 
-		@Nonnull
-		public static Input fromMessages(@Nonnull List<Message> messages, boolean showCheckbox) {
-			final List<FixableMessage> stringMessages = new ArrayList<FixableMessage>(messages.size());
-			for (Message message : messages) {
-				stringMessages.add(new FixableMessage(message));
-			}
+        private Input(@Nonnull List<FixableMessage> messages, boolean showCheckbox) {
+            this.messages = messages;
+            this.showCheckbox = showCheckbox;
+        }
 
-			return new Input(stringMessages, showCheckbox);
-		}
+        @Nonnull
+        private static Input fromParcel(@Nonnull Parcel in) {
+            final List<FixableMessage> messages = new ArrayList<FixableMessage>();
+            boolean showCheckbox = in.readInt() == 1;
+            in.readTypedList(messages, FixableMessage.CREATOR);
+            return new Input(messages, showCheckbox);
+        }
 
-		public boolean isShowCheckbox() {
-			return showCheckbox;
-		}
-	}
+        @Nonnull
+        public static Input fromMessages(@Nonnull List<Message> messages, boolean showCheckbox) {
+            final List<FixableMessage> stringMessages = new ArrayList<FixableMessage>(messages.size());
+            for (Message message : messages) {
+                stringMessages.add(new FixableMessage(message));
+            }
 
-	private class FixErrorOnClickListener implements View.OnClickListener {
+            return new Input(stringMessages, showCheckbox);
+        }
 
-		@Nonnull
-		private final List<FixableMessage> messages;
+        @Nonnull
+        public List<FixableMessage> getMessages() {
+            return messages;
+        }
 
-		@Nonnull
-		private final FixableMessage currentMessage;
+        @Override
+        public int describeContents() {
+            return 0;
+        }
 
-		public FixErrorOnClickListener(@Nonnull List<FixableMessage> messages,
-									   @Nonnull FixableMessage message) {
-			this.messages = messages;
-			this.currentMessage = message;
-		}
+        @Override
+        public void writeToParcel(@Nonnull Parcel out, int flags) {
+            out.writeInt(showCheckbox ? 1 : 0);
+            out.writeTypedList(messages);
+        }
 
-		@Override
-		public void onClick(View v) {
-			final List<FixableMessage> filteredMessages = new ArrayList<FixableMessage>(messages.size() - 1);
-			for (FixableMessage message : messages) {
-				if (message.getFixableError() == null) {
-					filteredMessages.add(message);
-				} else if (message.getFixableError() != currentMessage.getFixableError()) {
-					filteredMessages.add(message);
-				}
-			}
+        public boolean isShowCheckbox() {
+            return showCheckbox;
+        }
+    }
 
-			currentMessage.getFixableError().fix();
+    private class FixErrorOnClickListener implements View.OnClickListener {
 
-			if (!filteredMessages.isEmpty()) {
-				FixableMessagesDialog.this.input = new Input(filteredMessages, FixableMessagesDialog.this.input.showCheckbox);
-				onInputChanged();
-			} else {
-				FixableMessagesDialog.this.finish();
-			}
-		}
-	}
+        @Nonnull
+        private final List<FixableMessage> messages;
+
+        @Nonnull
+        private final FixableMessage currentMessage;
+
+        public FixErrorOnClickListener(@Nonnull List<FixableMessage> messages,
+                                       @Nonnull FixableMessage message) {
+            this.messages = messages;
+            this.currentMessage = message;
+        }
+
+        @Override
+        public void onClick(View v) {
+            final List<FixableMessage> filteredMessages = new ArrayList<FixableMessage>(messages.size() - 1);
+            for (FixableMessage message : messages) {
+                if (message.getFixableError() == null) {
+                    filteredMessages.add(message);
+                } else if (message.getFixableError() != currentMessage.getFixableError()) {
+                    filteredMessages.add(message);
+                }
+            }
+
+            currentMessage.getFixableError().fix();
+
+            if (!filteredMessages.isEmpty()) {
+                FixableMessagesDialog.this.input = new Input(filteredMessages, FixableMessagesDialog.this.input.showCheckbox);
+                onInputChanged();
+            } else {
+                FixableMessagesDialog.this.finish();
+            }
+        }
+    }
 }
 

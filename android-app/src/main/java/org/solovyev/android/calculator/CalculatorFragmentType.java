@@ -46,64 +46,62 @@ import javax.annotation.Nonnull;
  */
 public enum CalculatorFragmentType {
 
-	editor(CalculatorEditorFragment.class, R.layout.cpp_app_editor, R.string.editor),
-	//display(CalculatorHistoryFragment.class, "history", R.layout.history_fragment, R.string.c_history),
-	//keyboard(CalculatorHistoryFragment.class, "history", R.layout.history_fragment, R.string.c_history),
-	history(HistoryFragment.class, R.layout.history_fragment, R.string.c_history),
-	saved_history(SavedHistoryFragment.class, R.layout.history_fragment, R.string.c_saved_history),
-	variables(CalculatorVarsFragment.class, R.layout.vars_fragment, R.string.c_vars),
-	functions(CalculatorFunctionsFragment.class, R.layout.math_entities_fragment, R.string.c_functions),
-	operators(CalculatorOperatorsFragment.class, R.layout.math_entities_fragment, R.string.c_operators),
-	plotter(PlotterFragment.class, R.layout.cpp_plotter_fragment, R.string.c_graph),
-	plotter_functions(CalculatorPlotFunctionsActivity.CalculatorPlotFunctionsFragment.class, R.layout.cpp_plot_functions_fragment, R.string.cpp_plot_functions),
-	plotter_function_settings(CalculatorPlotFunctionSettingsActivity.CalculatorPlotFunctionSettingsFragment.class, R.layout.cpp_plot_function_settings_fragment, R.string.cpp_plot_function_settings),
-	plotter_range(CalculatorPlotRangeActivity.CalculatorPlotRangeFragment.class, R.layout.cpp_plot_range_fragment, R.string.cpp_plot_range),
+    editor(CalculatorEditorFragment.class, R.layout.cpp_app_editor, R.string.editor),
+    //display(CalculatorHistoryFragment.class, "history", R.layout.history_fragment, R.string.c_history),
+    //keyboard(CalculatorHistoryFragment.class, "history", R.layout.history_fragment, R.string.c_history),
+    history(HistoryFragment.class, R.layout.history_fragment, R.string.c_history),
+    saved_history(SavedHistoryFragment.class, R.layout.history_fragment, R.string.c_saved_history),
+    variables(CalculatorVarsFragment.class, R.layout.vars_fragment, R.string.c_vars),
+    functions(CalculatorFunctionsFragment.class, R.layout.math_entities_fragment, R.string.c_functions),
+    operators(CalculatorOperatorsFragment.class, R.layout.math_entities_fragment, R.string.c_operators),
+    plotter(PlotterFragment.class, R.layout.cpp_plotter_fragment, R.string.c_graph),
+    plotter_functions(CalculatorPlotFunctionsActivity.CalculatorPlotFunctionsFragment.class, R.layout.cpp_plot_functions_fragment, R.string.cpp_plot_functions),
+    plotter_function_settings(CalculatorPlotFunctionSettingsActivity.CalculatorPlotFunctionSettingsFragment.class, R.layout.cpp_plot_function_settings_fragment, R.string.cpp_plot_function_settings),
+    plotter_range(CalculatorPlotRangeActivity.CalculatorPlotRangeFragment.class, R.layout.cpp_plot_range_fragment, R.string.cpp_plot_range),
 
-	purchase_dialog(CalculatorPlotRangeActivity.CalculatorPlotRangeFragment.class, R.layout.cpp_purchase_dialog_fragment, R.string.cpp_purchase_title),
+    purchase_dialog(CalculatorPlotRangeActivity.CalculatorPlotRangeFragment.class, R.layout.cpp_purchase_dialog_fragment, R.string.cpp_purchase_title),
 
-	dialog(CalculatorDialogActivity.CalculatorDialogFragment.class, R.layout.cpp_dialog_fragment, R.string.cpp_message),
+    dialog(CalculatorDialogActivity.CalculatorDialogFragment.class, R.layout.cpp_dialog_fragment, R.string.cpp_message),
 
-	about(CalculatorAboutFragment.class, R.layout.about_fragment, R.string.c_about),
+    about(CalculatorAboutFragment.class, R.layout.about_fragment, R.string.c_about),
 
-	// todo serso: strings
-	matrix_edit(CalculatorMatrixEditFragment.class, R.layout.matrix_edit_fragment, R.string.c_release_notes),
-	release_notes(CalculatorReleaseNotesFragment.class, R.layout.release_notes_fragment, R.string.c_release_notes);
+    // todo serso: strings
+    matrix_edit(CalculatorMatrixEditFragment.class, R.layout.matrix_edit_fragment, R.string.c_release_notes),
+    release_notes(CalculatorReleaseNotesFragment.class, R.layout.release_notes_fragment, R.string.c_release_notes);
 
-	@Nonnull
-	private Class<? extends Fragment> fragmentClass;
+    private final int defaultLayoutId;
+    @Nonnull
+    private Class<? extends Fragment> fragmentClass;
+    private int defaultTitleResId;
 
-	private final int defaultLayoutId;
+    private CalculatorFragmentType(@Nonnull Class<? extends Fragment> fragmentClass,
+                                   int defaultLayoutId,
+                                   int defaultTitleResId) {
+        this.fragmentClass = fragmentClass;
+        this.defaultLayoutId = defaultLayoutId;
+        this.defaultTitleResId = defaultTitleResId;
+    }
 
-	private int defaultTitleResId;
+    @Nonnull
+    public String getFragmentTag() {
+        return this.name();
+    }
 
-	private CalculatorFragmentType(@Nonnull Class<? extends Fragment> fragmentClass,
-								   int defaultLayoutId,
-								   int defaultTitleResId) {
-		this.fragmentClass = fragmentClass;
-		this.defaultLayoutId = defaultLayoutId;
-		this.defaultTitleResId = defaultTitleResId;
-	}
+    public int getDefaultTitleResId() {
+        return defaultTitleResId;
+    }
 
-	@Nonnull
-	public String getFragmentTag() {
-		return this.name();
-	}
+    @Nonnull
+    public Class<? extends Fragment> getFragmentClass() {
+        return fragmentClass;
+    }
 
-	public int getDefaultTitleResId() {
-		return defaultTitleResId;
-	}
+    public int getDefaultLayoutId() {
+        return defaultLayoutId;
+    }
 
-	@Nonnull
-	public Class<? extends Fragment> getFragmentClass() {
-		return fragmentClass;
-	}
-
-	public int getDefaultLayoutId() {
-		return defaultLayoutId;
-	}
-
-	@Nonnull
-	public String createSubFragmentTag(@Nonnull String subFragmentTag) {
-		return this.getFragmentTag() + "_" + subFragmentTag;
-	}
+    @Nonnull
+    public String createSubFragmentTag(@Nonnull String subFragmentTag) {
+        return this.getFragmentTag() + "_" + subFragmentTag;
+    }
 }

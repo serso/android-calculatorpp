@@ -26,6 +26,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
+
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.R;
 
@@ -39,109 +40,109 @@ import javax.annotation.Nullable;
  */
 public class CalculatorPlotFragment extends AbstractCalculatorPlotFragment {
 
-	@Nullable
-	private GraphView graphView;
+    @Nullable
+    private GraphView graphView;
 
-	@Nullable
-	@Override
-	protected PlotBoundaries getPlotBoundaries() {
-		if (graphView instanceof CalculatorGraph2dView) {
-			return PlotBoundaries.newInstance(graphView.getXMin(), graphView.getXMax(), graphView.getYMin(), graphView.getYMax());
-		} else {
-			return null;
-		}
-	}
+    @Nullable
+    @Override
+    protected PlotBoundaries getPlotBoundaries() {
+        if (graphView instanceof CalculatorGraph2dView) {
+            return PlotBoundaries.newInstance(graphView.getXMin(), graphView.getXMax(), graphView.getYMin(), graphView.getYMax());
+        } else {
+            return null;
+        }
+    }
 
-	@Override
-	protected void createGraphicalView(@Nonnull View root, @Nonnull PlotData plotData) {
+    @Override
+    protected void createGraphicalView(@Nonnull View root, @Nonnull PlotData plotData) {
 
-		// remove old
-		final ViewGroup graphContainer = (ViewGroup) root.findViewById(R.id.main_fragment_layout);
+        // remove old
+        final ViewGroup graphContainer = (ViewGroup) root.findViewById(R.id.main_fragment_layout);
 
-		if (graphView instanceof View) {
-			graphView.onDestroy();
-			graphContainer.removeView((View) graphView);
-		}
+        if (graphView instanceof View) {
+            graphView.onDestroy();
+            graphContainer.removeView((View) graphView);
+        }
 
-		final boolean d3 = plotData.isPlot3d();
-		if (d3) {
-			graphView = new CalculatorGraph3dView(getActivity());
-		} else {
-			graphView = new CalculatorGraph2dView(getActivity());
-		}
+        final boolean d3 = plotData.isPlot3d();
+        if (d3) {
+            graphView = new CalculatorGraph3dView(getActivity());
+        } else {
+            graphView = new CalculatorGraph2dView(getActivity());
+        }
 
-		final int color = App.getTheme().getTextColor(getActivity()).normal;
-		graphView.init(PlotViewDef.newInstance(color, color, Color.DKGRAY, getBgColor(d3)));
+        final int color = App.getTheme().getTextColor(getActivity()).normal;
+        graphView.init(PlotViewDef.newInstance(color, color, Color.DKGRAY, getBgColor(d3)));
 
-		final PlotBoundaries boundaries = plotData.getBoundaries();
-		graphView.setXRange(boundaries.getXMin(), boundaries.getXMax());
-		graphView.setYRange(boundaries.getYMin(), boundaries.getYMax());
-		graphView.setAdjustYAxis(plotData.isAdjustYAxis());
+        final PlotBoundaries boundaries = plotData.getBoundaries();
+        graphView.setXRange(boundaries.getXMin(), boundaries.getXMax());
+        graphView.setYRange(boundaries.getYMin(), boundaries.getYMax());
+        graphView.setAdjustYAxis(plotData.isAdjustYAxis());
 
-		graphView.setPlotFunctions(plotData.getFunctions());
+        graphView.setPlotFunctions(plotData.getFunctions());
 
-		if (graphView instanceof View) {
-			graphContainer.addView((View) graphView);
-		}
-	}
+        if (graphView instanceof View) {
+            graphContainer.addView((View) graphView);
+        }
+    }
 
-	@Override
-	protected void createChart(@Nonnull PlotData plotData) {
-	}
+    @Override
+    protected void createChart(@Nonnull PlotData plotData) {
+    }
 
-	@Override
-	protected boolean isScreenshotSupported() {
-		return true;
-	}
+    @Override
+    protected boolean isScreenshotSupported() {
+        return true;
+    }
 
-	@Nonnull
-	@Override
-	protected Bitmap getScreehshot() {
-		if (this.graphView == null) throw new AssertionError();
-		return this.graphView.captureScreenshot();
-	}
+    @Nonnull
+    @Override
+    protected Bitmap getScreehshot() {
+        if (this.graphView == null) throw new AssertionError();
+        return this.graphView.captureScreenshot();
+    }
 
-	@Override
-	protected boolean is3dPlotSupported() {
-		return true;
-	}
-
-
-	@Override
-	public void onResume() {
-		super.onResume();
-		if (this.graphView != null) {
-			this.graphView.onResume();
-		}
-	}
-
-	@Override
-	protected void onError() {
-		final View root = getView();
-		if (root != null && graphView instanceof View) {
-			final ViewGroup graphContainer = (ViewGroup) root.findViewById(R.id.main_fragment_layout);
-			graphContainer.removeView((View) graphView);
-		}
-		this.graphView = null;
-	}
-
-	@Override
-	public void onPause() {
-		if (this.graphView != null) {
-			this.graphView.onPause();
-		}
-
-		super.onPause();
-	}
+    @Override
+    protected boolean is3dPlotSupported() {
+        return true;
+    }
 
 
-	@Override
-	public void onDestroyView() {
-		if (this.graphView != null) {
-			this.graphView.onDestroy();
-		}
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (this.graphView != null) {
+            this.graphView.onResume();
+        }
+    }
 
-		super.onDestroyView();
-	}
+    @Override
+    protected void onError() {
+        final View root = getView();
+        if (root != null && graphView instanceof View) {
+            final ViewGroup graphContainer = (ViewGroup) root.findViewById(R.id.main_fragment_layout);
+            graphContainer.removeView((View) graphView);
+        }
+        this.graphView = null;
+    }
+
+    @Override
+    public void onPause() {
+        if (this.graphView != null) {
+            this.graphView.onPause();
+        }
+
+        super.onPause();
+    }
+
+
+    @Override
+    public void onDestroyView() {
+        if (this.graphView != null) {
+            this.graphView.onDestroy();
+        }
+
+        super.onDestroyView();
+    }
 
 }

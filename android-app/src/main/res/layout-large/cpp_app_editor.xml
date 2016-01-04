@@ -23,23 +23,23 @@
   -->
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-			  a:id="@+id/main_fragment_layout"
-			  style="@style/CppFragment"
-			  a:layout_width="match_parent"
-			  a:layout_height="match_parent">
+    a:id="@+id/main_fragment_layout"
+    style="@style/CppFragment"
+    a:layout_width="match_parent"
+    a:layout_height="match_parent">
 
-	<TextView
-			a:id="@+id/fragment_title"
-			a:layout_height="wrap_content"
-			a:layout_width="match_parent"
-			style="@style/CppFragmentTitle"/>
+    <TextView
+        a:id="@+id/fragment_title"
+        style="@style/CppFragmentTitle"
+        a:layout_width="match_parent"
+        a:layout_height="wrap_content" />
 
-	<org.solovyev.android.calculator.AndroidCalculatorEditorView
-			a:id="@+id/calculator_editor"
-			style="@style/CppText.Editor"
-			a:textIsSelectable="true"
-			a:singleLine="false"
-			a:scrollbars="vertical"
-			a:hint="@string/c_calc_editor_hint"/>
+    <org.solovyev.android.calculator.AndroidCalculatorEditorView
+        a:id="@+id/calculator_editor"
+        style="@style/CppText.Editor"
+        a:hint="@string/c_calc_editor_hint"
+        a:scrollbars="vertical"
+        a:singleLine="false"
+        a:textIsSelectable="true" />
 
 </LinearLayout>

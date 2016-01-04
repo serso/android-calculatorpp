@@ -22,9 +22,9 @@
 
 package org.solovyev.android.calculator;
 
-import javax.annotation.Nullable;
-
 import java.io.Serializable;
+
+import javax.annotation.Nullable;
 
 /**
  * User: serso
@@ -33,8 +33,8 @@ import java.io.Serializable;
  */
 public interface FixableError extends Serializable {
 
-	@Nullable
-	CharSequence getFixCaption();
+    @Nullable
+    CharSequence getFixCaption();
 
-	void fix();
+    void fix();
 }

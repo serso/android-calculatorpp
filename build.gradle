@@ -1,47 +1,47 @@
 public int version_code() {
-  return 143
+    return 143
 }
 
 public String version_name() {
-  return '2.1.4'
+    return '2.1.4'
 }
 
 public int android_sdk_version() {
-  return 23
+    return 23
 }
 
 public String android_build_tools_version() {
-  return '23.0.2'
+    return '23.0.2'
 }
 
 public String android_min_sdk_version() {
-  return 9
+    return 9
 }
 
 buildscript {
 
-  repositories {
-    mavenCentral()
-  }
-  dependencies {
-    classpath 'com.android.tools.build:gradle:1.5.0'
-  }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.5.0'
+    }
 }
 
 allprojects {
-  repositories {
-    mavenCentral()
-    def androidHome = System.getenv("ANDROID_HOME")
-    maven {
-      url "$androidHome/extras/android/m2repository/"
-    }
-    maven {
-      url "$androidHome/extras/google/m2repository/"
-    }
+    repositories {
+        mavenCentral()
+        def androidHome = System.getenv("ANDROID_HOME")
+        maven {
+            url "$androidHome/extras/android/m2repository/"
+        }
+        maven {
+            url "$androidHome/extras/google/m2repository/"
+        }
 
-    def userHome = System.getenv("HOME")
-    maven {
-      url "$userHome/.m2/repository/"
+        def userHome = System.getenv("HOME")
+        maven {
+            url "$userHome/.m2/repository/"
+        }
     }
-  }
 }

@@ -47,15 +47,15 @@ import javax.annotation.Nullable;
 public class AndroidCalculatorDisplayView extends AutoResizeTextView implements CalculatorDisplayView {
 
 	/*
-	**********************************************************************
+    **********************************************************************
 	*
 	*                           STATIC FIELDS
 	*
 	**********************************************************************
 	*/
 
-	@Nonnull
-	private final TextProcessor<TextProcessorEditorResult, String> textHighlighter;
+    @Nonnull
+    private final TextProcessor<TextProcessorEditorResult, String> textHighlighter;
 
 	/*
 	**********************************************************************
@@ -64,17 +64,13 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
 	*
 	**********************************************************************
 	*/
-
-	@Nonnull
-	private volatile CalculatorDisplayViewState state = CalculatorDisplayViewStateImpl.newDefaultInstance();
-
-	@Nonnull
-	private final Object lock = new Object();
-
-	@Nonnull
-	private final Handler uiHandler = new Handler();
-
-	private volatile boolean initialized = false;
+    @Nonnull
+    private final Object lock = new Object();
+    @Nonnull
+    private final Handler uiHandler = new Handler();
+    @Nonnull
+    private volatile CalculatorDisplayViewState state = CalculatorDisplayViewStateImpl.newDefaultInstance();
+    private volatile boolean initialized = false;
 
 	/*
 	**********************************************************************
@@ -84,20 +80,20 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
 	**********************************************************************
 	*/
 
-	public AndroidCalculatorDisplayView(Context context) {
-		super(context);
-		textHighlighter = new TextHighlighter(getTextColors().getDefaultColor(), false);
-	}
+    public AndroidCalculatorDisplayView(Context context) {
+        super(context);
+        textHighlighter = new TextHighlighter(getTextColors().getDefaultColor(), false);
+    }
 
-	public AndroidCalculatorDisplayView(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		textHighlighter = new TextHighlighter(getTextColors().getDefaultColor(), false);
-	}
+    public AndroidCalculatorDisplayView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        textHighlighter = new TextHighlighter(getTextColors().getDefaultColor(), false);
+    }
 
-	public AndroidCalculatorDisplayView(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
-		textHighlighter = new TextHighlighter(getTextColors().getDefaultColor(), false);
-	}
+    public AndroidCalculatorDisplayView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        textHighlighter = new TextHighlighter(getTextColors().getDefaultColor(), false);
+    }
 
 	/*
 	**********************************************************************
@@ -107,100 +103,99 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
 	**********************************************************************
 	*/
 
+    private Preferences.Gui.TextColor getTextColor() {
+        final Context context = getContext();
+        return App.getThemeIn(context).getTextColor(context);
+    }
 
-	@Override
-	public void setState(@Nonnull final CalculatorDisplayViewState state) {
+    @Nonnull
+    @Override
+    public CalculatorDisplayViewState getState() {
+        synchronized (lock) {
+            return this.state;
+        }
+    }
 
-		uiHandler.post(new Runnable() {
-			@Override
-			public void run() {
+    @Override
+    public void setState(@Nonnull final CalculatorDisplayViewState state) {
 
-				synchronized (lock) {
+        uiHandler.post(new Runnable() {
+            @Override
+            public void run() {
 
-						final CharSequence text = prepareText(state.getStringResult(), state.isValid());
+                synchronized (lock) {
 
-						AndroidCalculatorDisplayView.this.state = state;
-						if (state.isValid()) {
-							setTextColor(getTextColor().normal);
-							setText(text);
+                    final CharSequence text = prepareText(state.getStringResult(), state.isValid());
 
-							adjustTextSize();
+                    AndroidCalculatorDisplayView.this.state = state;
+                    if (state.isValid()) {
+                        setTextColor(getTextColor().normal);
+                        setText(text);
 
-						} else {
-							// update text in order to get rid of HTML tags
-							setText(getText().toString());
-							setTextColor(getTextColor().error);
+                        adjustTextSize();
 
-							// error messages are never shown -> just greyed out text (error message will be shown on click)
-							//setText(state.getErrorMessage());
-							//redraw();
-						}
-				}
-			}
-		});
-	}
+                    } else {
+                        // update text in order to get rid of HTML tags
+                        setText(getText().toString());
+                        setTextColor(getTextColor().error);
 
-	private Preferences.Gui.TextColor getTextColor() {
-		final Context context = getContext();
-		return App.getThemeIn(context).getTextColor(context);
-	}
+                        // error messages are never shown -> just greyed out text (error message will be shown on click)
+                        //setText(state.getErrorMessage());
+                        //redraw();
+                    }
+                }
+            }
+        });
+    }
 
-	@Nonnull
-	@Override
-	public CalculatorDisplayViewState getState() {
-		synchronized (lock) {
-			return this.state;
-		}
-	}
+    @Nullable
+    private CharSequence prepareText(@Nullable String text, boolean valid) {
+        CharSequence result;
 
-	@Nullable
-	private CharSequence prepareText(@Nullable String text, boolean valid) {
-		CharSequence result;
+        if (valid && text != null) {
+            try {
+                final TextProcessorEditorResult processedText = textHighlighter.process(text);
+                text = processedText.toString();
+                result = Html.fromHtml(text);
+            } catch (CalculatorParseException e) {
+                result = text;
+            }
+        } else {
+            result = text;
+        }
 
-		if (valid && text != null) {
-			try {
-				final TextProcessorEditorResult processedText = textHighlighter.process(text);
-				text = processedText.toString();
-				result = Html.fromHtml(text);
-			} catch (CalculatorParseException e) {
-				result = text;
-			}
-		} else {
-			result = text;
-		}
+        return result;
+    }
 
-		return result;
-	}
+    private void adjustTextSize() {
+        // todo serso: think where to move it (keep in mind org.solovyev.android.view.AutoResizeTextView.resetTextSize())
+        setAddEllipsis(false);
+        setMinTextSize(10);
+        resizeText();
+    }
 
-	private void adjustTextSize() {
-		// todo serso: think where to move it (keep in mind org.solovyev.android.view.AutoResizeTextView.resetTextSize())
-		setAddEllipsis(false);
-		setMinTextSize(10);
-		resizeText();
-	}
+    public synchronized void init(@Nonnull Context context) {
+        this.init(context, true);
+    }
 
-	public synchronized void init(@Nonnull Context context) {
-		this.init(context, true);
-	}
+    public synchronized void init(@Nonnull Context context, boolean fromApp) {
+        if (!initialized) {
+            if (fromApp) {
+                final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+                final Preferences.Gui.Layout layout = Preferences.Gui.getLayout(preferences);
 
-	public synchronized void init(@Nonnull Context context, boolean fromApp) {
-		if (!initialized) {
-			if (fromApp) {
-				final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-				final Preferences.Gui.Layout layout = Preferences.Gui.getLayout(preferences);
+                if (!layout.isOptimized()) {
+                    setTextSize(TypedValue.COMPLEX_UNIT_SP, getResources().getDimension(R.dimen.cpp_display_text_size_mobile));
+                }
 
-				if (!layout.isOptimized()) {
-					setTextSize(TypedValue.COMPLEX_UNIT_SP, getResources().getDimension(R.dimen.cpp_display_text_size_mobile));
-				}
+                if (context instanceof FragmentActivity) {
+                    this.setOnClickListener(new CalculatorDisplayOnClickListener((FragmentActivity) context));
+                } else {
+                    throw new IllegalArgumentException("Must be fragment activity, got " + context.getClass());
+                }
+            }
 
-				if (context instanceof FragmentActivity) {
-					this.setOnClickListener(new CalculatorDisplayOnClickListener((FragmentActivity) context));
-				} else {
-					throw new IllegalArgumentException("Must be fragment activity, got " + context.getClass());
-				}
-			}
-
-			this.initialized = true;
-		}
-	}
+            this.initialized = true;
+        }
+    }
 }

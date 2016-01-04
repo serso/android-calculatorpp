@@ -6,18 +6,19 @@
   ~ or visit http://se.solovyev.org
   -->
 
-<LinearLayout a:id="@+id/main_fragment_layout"
-	xmlns:a="http://schemas.android.com/apk/res/android"
-	a:layout_width="match_parent"
-	a:layout_height="match_parent"
-	a:padding="@dimen/cpp_editor_padding">
+<LinearLayout
+    xmlns:a="http://schemas.android.com/apk/res/android"
+    a:id="@+id/main_fragment_layout"
+    a:layout_width="match_parent"
+    a:layout_height="match_parent"
+    a:padding="@dimen/cpp_editor_padding">
 
-	<TextView
-		a:id="@+id/calculator_editor"
-		style="@style/CppText.Editor.Widget.Light"
-		a:hint="@string/c_calc_editor_hint"
-		a:scrollbars="vertical"
-		a:singleLine="false"
-		a:textIsSelectable="true" />
+    <TextView
+        a:id="@+id/calculator_editor"
+        style="@style/CppText.Editor.Widget.Light"
+        a:hint="@string/c_calc_editor_hint"
+        a:scrollbars="vertical"
+        a:singleLine="false"
+        a:textIsSelectable="true" />
 
 </LinearLayout>

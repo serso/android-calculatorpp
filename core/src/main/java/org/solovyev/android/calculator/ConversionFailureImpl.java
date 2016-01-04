@@ -31,16 +31,16 @@ import javax.annotation.Nonnull;
  */
 public class ConversionFailureImpl implements ConversionFailure {
 
-	@Nonnull
-	private Exception exception;
+    @Nonnull
+    private Exception exception;
 
-	public ConversionFailureImpl(@Nonnull Exception exception) {
-		this.exception = exception;
-	}
+    public ConversionFailureImpl(@Nonnull Exception exception) {
+        this.exception = exception;
+    }
 
-	@Nonnull
-	@Override
-	public Exception getException() {
-		return this.exception;
-	}
+    @Nonnull
+    @Override
+    public Exception getException() {
+        return this.exception;
+    }
 }

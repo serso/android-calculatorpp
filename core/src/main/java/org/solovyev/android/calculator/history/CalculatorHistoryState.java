@@ -22,14 +22,14 @@
 
 package org.solovyev.android.calculator.history;
 
-import javax.annotation.Nonnull;
-
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 import org.solovyev.android.calculator.CalculatorDisplay;
 import org.solovyev.android.calculator.CalculatorDisplayViewState;
 import org.solovyev.android.calculator.CalculatorEditor;
 import org.solovyev.android.calculator.CalculatorEditorViewState;
+
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -40,105 +40,105 @@ import org.solovyev.android.calculator.CalculatorEditorViewState;
 @Root
 public class CalculatorHistoryState extends AbstractHistoryState {
 
-	@Element
-	@Nonnull
-	private EditorHistoryState editorState;
+    @Element
+    @Nonnull
+    private EditorHistoryState editorState;
 
-	@Element
-	@Nonnull
-	private CalculatorDisplayHistoryState displayState;
+    @Element
+    @Nonnull
+    private CalculatorDisplayHistoryState displayState;
 
-	private CalculatorHistoryState() {
-		// for xml
-	}
+    private CalculatorHistoryState() {
+        // for xml
+    }
 
-	private CalculatorHistoryState(@Nonnull EditorHistoryState editorState,
-								   @Nonnull CalculatorDisplayHistoryState displayState) {
-		this.editorState = editorState;
-		this.displayState = displayState;
-	}
+    private CalculatorHistoryState(@Nonnull EditorHistoryState editorState,
+                                   @Nonnull CalculatorDisplayHistoryState displayState) {
+        this.editorState = editorState;
+        this.displayState = displayState;
+    }
 
-	@Nonnull
-	public static CalculatorHistoryState newInstance(@Nonnull CalculatorEditor editor,
-													 @Nonnull CalculatorDisplay display) {
-		final CalculatorEditorViewState editorViewState = editor.getViewState();
-		final CalculatorDisplayViewState displayViewState = display.getViewState();
+    @Nonnull
+    public static CalculatorHistoryState newInstance(@Nonnull CalculatorEditor editor,
+                                                     @Nonnull CalculatorDisplay display) {
+        final CalculatorEditorViewState editorViewState = editor.getViewState();
+        final CalculatorDisplayViewState displayViewState = display.getViewState();
 
-		return newInstance(editorViewState, displayViewState);
-	}
+        return newInstance(editorViewState, displayViewState);
+    }
 
-	@Nonnull
-	public static CalculatorHistoryState newInstance(@Nonnull CalculatorEditorViewState editorViewState,
-													 @Nonnull CalculatorDisplayViewState displayViewState) {
-		final EditorHistoryState editorHistoryState = EditorHistoryState.newInstance(editorViewState);
+    @Nonnull
+    public static CalculatorHistoryState newInstance(@Nonnull CalculatorEditorViewState editorViewState,
+                                                     @Nonnull CalculatorDisplayViewState displayViewState) {
+        final EditorHistoryState editorHistoryState = EditorHistoryState.newInstance(editorViewState);
 
-		final CalculatorDisplayHistoryState displayHistoryState = CalculatorDisplayHistoryState.newInstance(displayViewState);
+        final CalculatorDisplayHistoryState displayHistoryState = CalculatorDisplayHistoryState.newInstance(displayViewState);
 
-		return new CalculatorHistoryState(editorHistoryState, displayHistoryState);
-	}
+        return new CalculatorHistoryState(editorHistoryState, displayHistoryState);
+    }
 
-	@Nonnull
-	public EditorHistoryState getEditorState() {
-		return editorState;
-	}
+    @Nonnull
+    public EditorHistoryState getEditorState() {
+        return editorState;
+    }
 
-	public void setEditorState(@Nonnull EditorHistoryState editorState) {
-		this.editorState = editorState;
-	}
+    public void setEditorState(@Nonnull EditorHistoryState editorState) {
+        this.editorState = editorState;
+    }
 
-	@Nonnull
-	public CalculatorDisplayHistoryState getDisplayState() {
-		return displayState;
-	}
+    @Nonnull
+    public CalculatorDisplayHistoryState getDisplayState() {
+        return displayState;
+    }
 
-	public void setDisplayState(@Nonnull CalculatorDisplayHistoryState displayState) {
-		this.displayState = displayState;
-	}
+    public void setDisplayState(@Nonnull CalculatorDisplayHistoryState displayState) {
+        this.displayState = displayState;
+    }
 
-	@Override
-	public String toString() {
-		return "CalculatorHistoryState{" +
-				"editorState=" + editorState +
-				", displayState=" + displayState +
-				'}';
-	}
+    @Override
+    public String toString() {
+        return "CalculatorHistoryState{" +
+                "editorState=" + editorState +
+                ", displayState=" + displayState +
+                '}';
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-		CalculatorHistoryState that = (CalculatorHistoryState) o;
+        CalculatorHistoryState that = (CalculatorHistoryState) o;
 
-		if (this.isSaved() != that.isSaved()) return false;
-		if (this.getId() != that.getId()) return false;
-		if (!displayState.equals(that.displayState)) return false;
-		if (!editorState.equals(that.editorState)) return false;
+        if (this.isSaved() != that.isSaved()) return false;
+        if (this.getId() != that.getId()) return false;
+        if (!displayState.equals(that.displayState)) return false;
+        if (!editorState.equals(that.editorState)) return false;
 
-		return true;
-	}
+        return true;
+    }
 
-	@Override
-	public int hashCode() {
-		int result = Boolean.valueOf(isSaved()).hashCode();
-		result = 31 * result + getId();
-		result = 31 * result + editorState.hashCode();
-		result = 31 * result + displayState.hashCode();
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        int result = Boolean.valueOf(isSaved()).hashCode();
+        result = 31 * result + getId();
+        result = 31 * result + editorState.hashCode();
+        result = 31 * result + displayState.hashCode();
+        return result;
+    }
 
-	public void setValuesFromHistory(@Nonnull CalculatorEditor editor, @Nonnull CalculatorDisplay display) {
-		this.getEditorState().setValuesFromHistory(editor);
-		this.getDisplayState().setValuesFromHistory(display);
-	}
+    public void setValuesFromHistory(@Nonnull CalculatorEditor editor, @Nonnull CalculatorDisplay display) {
+        this.getEditorState().setValuesFromHistory(editor);
+        this.getDisplayState().setValuesFromHistory(display);
+    }
 
-	@Override
-	protected CalculatorHistoryState clone() {
-		final CalculatorHistoryState clone = (CalculatorHistoryState) super.clone();
+    @Override
+    protected CalculatorHistoryState clone() {
+        final CalculatorHistoryState clone = (CalculatorHistoryState) super.clone();
 
-		clone.editorState = this.editorState.clone();
-		clone.displayState = this.displayState.clone();
+        clone.editorState = this.editorState.clone();
+        clone.displayState = this.displayState.clone();
 
-		return clone;
-	}
+        return clone;
+    }
 }

@@ -5,20 +5,20 @@ import javax.annotation.Nullable;
 
 public interface Wizard {
 
-	@Nullable
-	String getLastSavedStepName();
+    @Nullable
+    String getLastSavedStepName();
 
-	boolean isFinished();
+    boolean isFinished();
 
-	boolean isStarted();
+    boolean isStarted();
 
-	void saveLastStep(@Nonnull WizardStep step);
+    void saveLastStep(@Nonnull WizardStep step);
 
-	void saveFinished(@Nonnull WizardStep step, boolean forceFinish);
+    void saveFinished(@Nonnull WizardStep step, boolean forceFinish);
 
-	@Nonnull
-	WizardFlow getFlow();
+    @Nonnull
+    WizardFlow getFlow();
 
-	@Nonnull
-	String getName();
+    @Nonnull
+    String getName();
 }

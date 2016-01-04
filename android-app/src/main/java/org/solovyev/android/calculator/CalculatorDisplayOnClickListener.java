@@ -25,13 +25,13 @@ package org.solovyev.android.calculator;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
-import javax.annotation.Nonnull;
-
 import org.solovyev.android.menu.ContextMenuBuilder;
 import org.solovyev.android.menu.ListContextMenu;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.annotation.Nonnull;
 
 /**
  * User: Solovyev_S
@@ -40,38 +40,38 @@ import java.util.List;
  */
 public class CalculatorDisplayOnClickListener implements View.OnClickListener {
 
-	@Nonnull
-	private final FragmentActivity activity;
+    @Nonnull
+    private final FragmentActivity activity;
 
-	public CalculatorDisplayOnClickListener(@Nonnull FragmentActivity activity) {
-		this.activity = activity;
-	}
+    public CalculatorDisplayOnClickListener(@Nonnull FragmentActivity activity) {
+        this.activity = activity;
+    }
 
-	@Override
-	public void onClick(View v) {
-		if (v instanceof CalculatorDisplayView) {
-			final CalculatorDisplay cd = Locator.getInstance().getDisplay();
+    @Override
+    public void onClick(View v) {
+        if (v instanceof CalculatorDisplayView) {
+            final CalculatorDisplay cd = Locator.getInstance().getDisplay();
 
-			final CalculatorDisplayViewState displayViewState = cd.getViewState();
+            final CalculatorDisplayViewState displayViewState = cd.getViewState();
 
-			if (displayViewState.isValid()) {
-				final List<CalculatorDisplayMenuItem> filteredMenuItems = new ArrayList<CalculatorDisplayMenuItem>(CalculatorDisplayMenuItem.values().length);
-				for (CalculatorDisplayMenuItem menuItem : CalculatorDisplayMenuItem.values()) {
-					if (menuItem.isItemVisible(displayViewState)) {
-						filteredMenuItems.add(menuItem);
-					}
-				}
+            if (displayViewState.isValid()) {
+                final List<CalculatorDisplayMenuItem> filteredMenuItems = new ArrayList<CalculatorDisplayMenuItem>(CalculatorDisplayMenuItem.values().length);
+                for (CalculatorDisplayMenuItem menuItem : CalculatorDisplayMenuItem.values()) {
+                    if (menuItem.isItemVisible(displayViewState)) {
+                        filteredMenuItems.add(menuItem);
+                    }
+                }
 
-				if (!filteredMenuItems.isEmpty()) {
-					ContextMenuBuilder.newInstance(activity, "display-menu", ListContextMenu.newInstance(filteredMenuItems)).build(displayViewState).show();
-				}
+                if (!filteredMenuItems.isEmpty()) {
+                    ContextMenuBuilder.newInstance(activity, "display-menu", ListContextMenu.newInstance(filteredMenuItems)).build(displayViewState).show();
+                }
 
-			} else {
-				final String errorMessage = displayViewState.getErrorMessage();
-				if (errorMessage != null) {
-					Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_evaluation_error, errorMessage, activity);
-				}
-			}
-		}
-	}
+            } else {
+                final String errorMessage = displayViewState.getErrorMessage();
+                if (errorMessage != null) {
+                    Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_evaluation_error, errorMessage, activity);
+                }
+            }
+        }
+    }
 }

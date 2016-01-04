@@ -21,9 +21,10 @@
   ~ Email: se.solovyev@gmail.com
   ~ Site:  http://se.solovyev.org
   -->
-<Button a:id="@id/cpp_button_subtraction"
-	style="@style/CppKeyboardButton.Material.Simple.Operation"
-	xmlns:a="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
-	a:text="−"
-	tools:ignore="HardcodedText" />
+<Button
+    xmlns:a="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    a:id="@id/cpp_button_subtraction"
+    style="@style/CppKeyboardButton.Material.Simple.Operation"
+    a:text="−"
+    tools:ignore="HardcodedText" />

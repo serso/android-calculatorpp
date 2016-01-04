@@ -31,5 +31,5 @@ import javax.annotation.Nonnull;
  */
 public interface CalculatorEditorView {
 
-	void setState(@Nonnull CalculatorEditorViewState viewState);
+    void setState(@Nonnull CalculatorEditorViewState viewState);
 }

@@ -8,28 +8,28 @@ import javax.annotation.Nonnull;
 
 public final class CalculatorReceiver extends BroadcastReceiver {
 
-	public static final String ACTION_BUTTON_ID_EXTRA = "buttonId";
-	public static final String ACTION_BUTTON_PRESSED = "org.solovyev.android.calculator.BUTTON_PRESSED";
+    public static final String ACTION_BUTTON_ID_EXTRA = "buttonId";
+    public static final String ACTION_BUTTON_PRESSED = "org.solovyev.android.calculator.BUTTON_PRESSED";
 
-	@Override
-	public void onReceive(Context context, Intent intent) {
-		final String action = intent.getAction();
+    @Nonnull
+    public static Intent newButtonClickedIntent(@Nonnull Context context, @Nonnull CalculatorButton button) {
+        final Intent intent = new Intent(context, CalculatorReceiver.class);
+        intent.setAction(ACTION_BUTTON_PRESSED);
+        intent.putExtra(ACTION_BUTTON_ID_EXTRA, button.getButtonId());
+        return intent;
+    }
 
-		if (ACTION_BUTTON_PRESSED.equals(action)) {
-			final int buttonId = intent.getIntExtra(ACTION_BUTTON_ID_EXTRA, 0);
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        final String action = intent.getAction();
 
-			final CalculatorButton button = CalculatorButton.getById(buttonId);
-			if (button != null) {
-				button.onClick();
-			}
-		}
-	}
+        if (ACTION_BUTTON_PRESSED.equals(action)) {
+            final int buttonId = intent.getIntExtra(ACTION_BUTTON_ID_EXTRA, 0);
 
-	@Nonnull
-	public static Intent newButtonClickedIntent(@Nonnull Context context, @Nonnull CalculatorButton button) {
-		final Intent intent = new Intent(context, CalculatorReceiver.class);
-		intent.setAction(ACTION_BUTTON_PRESSED);
-		intent.putExtra(ACTION_BUTTON_ID_EXTRA, button.getButtonId());
-		return intent;
-	}
+            final CalculatorButton button = CalculatorButton.getById(buttonId);
+            if (button != null) {
+                button.onClick();
+            }
+        }
+    }
 }

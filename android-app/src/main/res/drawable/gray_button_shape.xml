@@ -23,15 +23,15 @@
   -->
 
 <inset xmlns:a="http://schemas.android.com/apk/res/android"
-	a:insetBottom="@dimen/cpp_button_padding"
-	a:insetLeft="@dimen/cpp_button_padding"
-	a:insetRight="@dimen/cpp_button_padding"
-	a:insetTop="@dimen/cpp_button_padding">
-	<shape>
-		<gradient
-			a:angle="90"
-			a:endColor="#253541"
-			a:startColor="#071622" />
-		<corners a:radius="0dp" />
-	</shape>
+    a:insetBottom="@dimen/cpp_button_padding"
+    a:insetLeft="@dimen/cpp_button_padding"
+    a:insetRight="@dimen/cpp_button_padding"
+    a:insetTop="@dimen/cpp_button_padding">
+    <shape>
+        <gradient
+            a:angle="90"
+            a:endColor="#253541"
+            a:startColor="#071622" />
+        <corners a:radius="0dp" />
+    </shape>
 </inset>

@@ -31,20 +31,20 @@ import javax.annotation.Nonnull;
  */
 public class DragListenerWrapper implements DragListener {
 
-	@Nonnull
-	private final DragListener dragListener;
+    @Nonnull
+    private final DragListener dragListener;
 
-	public DragListenerWrapper(@Nonnull DragListener dragListener) {
-		this.dragListener = dragListener;
-	}
+    public DragListenerWrapper(@Nonnull DragListener dragListener) {
+        this.dragListener = dragListener;
+    }
 
-	@Override
-	public boolean isSuppressOnClickEvent() {
-		return this.dragListener.isSuppressOnClickEvent();
-	}
+    @Override
+    public boolean isSuppressOnClickEvent() {
+        return this.dragListener.isSuppressOnClickEvent();
+    }
 
-	@Override
-	public boolean onDrag(@Nonnull DragButton dragButton, @Nonnull DragEvent event) {
-		return this.dragListener.onDrag(dragButton, event);
-	}
+    @Override
+    public boolean onDrag(@Nonnull DragButton dragButton, @Nonnull DragEvent event) {
+        return this.dragListener.onDrag(dragButton, event);
+    }
 }

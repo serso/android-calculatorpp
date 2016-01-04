@@ -22,11 +22,6 @@
 
 package org.solovyev.android.calculator.history;
 
-import jscl.math.Generic;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 import org.simpleframework.xml.Transient;
@@ -35,6 +30,11 @@ import org.solovyev.android.calculator.CalculatorDisplayViewState;
 import org.solovyev.android.calculator.CalculatorDisplayViewStateImpl;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.common.text.Strings;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import jscl.math.Generic;
 
 /**
  * User: serso
@@ -45,117 +45,117 @@ import org.solovyev.common.text.Strings;
 @Root
 public class CalculatorDisplayHistoryState implements Cloneable {
 
-	@Transient
-	private boolean valid = true;
+    @Transient
+    private boolean valid = true;
 
-	@Transient
-	@Nullable
-	private String errorMessage = null;
+    @Transient
+    @Nullable
+    private String errorMessage = null;
 
-	@Element
-	@Nonnull
-	private EditorHistoryState editorState;
+    @Element
+    @Nonnull
+    private EditorHistoryState editorState;
 
-	@Element
-	@Nonnull
-	private JsclOperation jsclOperation;
+    @Element
+    @Nonnull
+    private JsclOperation jsclOperation;
 
-	@Transient
-	@Nullable
-	private Generic genericResult;
+    @Transient
+    @Nullable
+    private Generic genericResult;
 
-	private CalculatorDisplayHistoryState() {
-		// for xml
-	}
+    private CalculatorDisplayHistoryState() {
+        // for xml
+    }
 
-	@Nonnull
-	public static CalculatorDisplayHistoryState newInstance(@Nonnull CalculatorDisplayViewState viewState) {
-		final CalculatorDisplayHistoryState result = new CalculatorDisplayHistoryState();
+    @Nonnull
+    public static CalculatorDisplayHistoryState newInstance(@Nonnull CalculatorDisplayViewState viewState) {
+        final CalculatorDisplayHistoryState result = new CalculatorDisplayHistoryState();
 
-		result.editorState = EditorHistoryState.newInstance(viewState);
+        result.editorState = EditorHistoryState.newInstance(viewState);
 
-		result.valid = viewState.isValid();
-		result.jsclOperation = viewState.getOperation();
-		result.genericResult = viewState.getResult();
-		result.errorMessage = viewState.getErrorMessage();
+        result.valid = viewState.isValid();
+        result.jsclOperation = viewState.getOperation();
+        result.genericResult = viewState.getResult();
+        result.errorMessage = viewState.getErrorMessage();
 
-		return result;
-	}
+        return result;
+    }
 
-	public void setValuesFromHistory(@Nonnull CalculatorDisplay display) {
-		if (this.isValid()) {
-			display.setViewState(CalculatorDisplayViewStateImpl.newValidState(this.getJsclOperation(), this.getGenericResult(), Strings.getNotEmpty(this.getEditorState().getText(), ""), this.getEditorState().getCursorPosition()));
-		} else {
-			display.setViewState(CalculatorDisplayViewStateImpl.newErrorState(this.getJsclOperation(), Strings.getNotEmpty(this.getErrorMessage(), "")));
-		}
-	}
-
-
-	public boolean isValid() {
-		return valid;
-	}
-
-	@Nonnull
-	public EditorHistoryState getEditorState() {
-		return editorState;
-	}
-
-	@Nonnull
-	public JsclOperation getJsclOperation() {
-		return jsclOperation;
-	}
-
-	@Nullable
-	public String getErrorMessage() {
-		return errorMessage;
-	}
-
-	@Nullable
-	public Generic getGenericResult() {
-		return genericResult;
-	}
+    public void setValuesFromHistory(@Nonnull CalculatorDisplay display) {
+        if (this.isValid()) {
+            display.setViewState(CalculatorDisplayViewStateImpl.newValidState(this.getJsclOperation(), this.getGenericResult(), Strings.getNotEmpty(this.getEditorState().getText(), ""), this.getEditorState().getCursorPosition()));
+        } else {
+            display.setViewState(CalculatorDisplayViewStateImpl.newErrorState(this.getJsclOperation(), Strings.getNotEmpty(this.getErrorMessage(), "")));
+        }
+    }
 
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+    public boolean isValid() {
+        return valid;
+    }
 
-		CalculatorDisplayHistoryState that = (CalculatorDisplayHistoryState) o;
+    @Nonnull
+    public EditorHistoryState getEditorState() {
+        return editorState;
+    }
 
-		if (!editorState.equals(that.editorState)) return false;
-		if (jsclOperation != that.jsclOperation) return false;
+    @Nonnull
+    public JsclOperation getJsclOperation() {
+        return jsclOperation;
+    }
 
-		return true;
-	}
+    @Nullable
+    public String getErrorMessage() {
+        return errorMessage;
+    }
 
-	@Override
-	public int hashCode() {
-		int result = editorState.hashCode();
-		result = 31 * result + jsclOperation.hashCode();
-		return result;
-	}
+    @Nullable
+    public Generic getGenericResult() {
+        return genericResult;
+    }
 
-	@Override
-	public String toString() {
-		return "CalculatorDisplayHistoryState{" +
-				"valid=" + valid +
-				", errorMessage='" + errorMessage + '\'' +
-				", editorHistoryState=" + editorState +
-				", jsclOperation=" + jsclOperation +
-				'}';
-	}
 
-	@Override
-	protected CalculatorDisplayHistoryState clone() {
-		try {
-			final CalculatorDisplayHistoryState clone = (CalculatorDisplayHistoryState) super.clone();
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-			clone.editorState = this.editorState.clone();
+        CalculatorDisplayHistoryState that = (CalculatorDisplayHistoryState) o;
 
-			return clone;
-		} catch (CloneNotSupportedException e) {
-			throw new RuntimeException(e);
-		}
-	}
+        if (!editorState.equals(that.editorState)) return false;
+        if (jsclOperation != that.jsclOperation) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = editorState.hashCode();
+        result = 31 * result + jsclOperation.hashCode();
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "CalculatorDisplayHistoryState{" +
+                "valid=" + valid +
+                ", errorMessage='" + errorMessage + '\'' +
+                ", editorHistoryState=" + editorState +
+                ", jsclOperation=" + jsclOperation +
+                '}';
+    }
+
+    @Override
+    protected CalculatorDisplayHistoryState clone() {
+        try {
+            final CalculatorDisplayHistoryState clone = (CalculatorDisplayHistoryState) super.clone();
+
+            clone.editorState = this.editorState.clone();
+
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

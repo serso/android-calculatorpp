@@ -24,8 +24,10 @@ package org.solovyev.android.calculator.plot;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
+
 import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.CalculatorListFragment;
 import org.solovyev.android.calculator.Locator;
@@ -33,8 +35,9 @@ import org.solovyev.android.calculator.R;
 import org.solovyev.android.fragments.FragmentUtils;
 import org.solovyev.android.list.ListItemAdapter;
 
-import javax.annotation.Nullable;
 import java.util.List;
+
+import javax.annotation.Nullable;
 
 /**
  * User: serso
@@ -43,34 +46,34 @@ import java.util.List;
  */
 public class CalculatorPlotFunctionsActivity extends ActionBarActivity {
 
-	@Override
-	protected void onCreate(@Nullable Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.cpp_dialog);
+        setContentView(R.layout.cpp_dialog);
 
-		FragmentUtils.createFragment(this, CalculatorPlotFunctionsFragment.class, R.id.dialog_layout, "plot-functions");
-	}
+        FragmentUtils.createFragment(this, CalculatorPlotFunctionsFragment.class, R.id.dialog_layout, "plot-functions");
+    }
 
-	public static class CalculatorPlotFunctionsFragment extends CalculatorListFragment {
+    public static class CalculatorPlotFunctionsFragment extends CalculatorListFragment {
 
-		public CalculatorPlotFunctionsFragment() {
-			super(CalculatorFragmentType.plotter_functions);
-		}
+        public CalculatorPlotFunctionsFragment() {
+            super(CalculatorFragmentType.plotter_functions);
+        }
 
-		@Override
-		public void onResume() {
-			super.onResume();
+        @Override
+        public void onResume() {
+            super.onResume();
 
-			final List<PlotFunctionListItem> items = Lists.transform(Locator.getInstance().getPlotter().getFunctions(), new Function<PlotFunction, PlotFunctionListItem>() {
-				@Override
-				public PlotFunctionListItem apply(@javax.annotation.Nullable PlotFunction input) {
-					if (input == null) throw new AssertionError();
-					return new PlotFunctionListItem(input);
-				}
-			});
+            final List<PlotFunctionListItem> items = Lists.transform(Locator.getInstance().getPlotter().getFunctions(), new Function<PlotFunction, PlotFunctionListItem>() {
+                @Override
+                public PlotFunctionListItem apply(@javax.annotation.Nullable PlotFunction input) {
+                    if (input == null) throw new AssertionError();
+                    return new PlotFunctionListItem(input);
+                }
+            });
 
-			ListItemAdapter.createAndAttach(this, items);
-		}
-	}
+            ListItemAdapter.createAndAttach(this, items);
+        }
+    }
 }

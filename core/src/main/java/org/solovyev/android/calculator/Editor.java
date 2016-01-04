@@ -31,13 +31,13 @@ import javax.annotation.Nullable;
  */
 public interface Editor {
 
-	@Nullable
-	CharSequence getText();
+    @Nullable
+    CharSequence getText();
 
-	void setText(@Nullable CharSequence text);
+    void setText(@Nullable CharSequence text);
 
-	int getSelection();
+    int getSelection();
 
-	void setSelection(int selection);
+    void setSelection(int selection);
 
 }

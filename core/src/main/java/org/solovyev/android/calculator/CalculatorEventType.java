@@ -32,7 +32,7 @@ import javax.annotation.Nonnull;
 public enum CalculatorEventType {
 
 	/*
-	**********************************************************************
+    **********************************************************************
 	*
 	*                           CALCULATION
 	*                           org.solovyev.android.calculator.CalculatorEvaluationEventData
@@ -41,34 +41,34 @@ public enum CalculatorEventType {
 	*/
 
 
-	// @Nonnull CalculatorEditorViewState
-	manual_calculation_requested,
+    // @Nonnull CalculatorEditorViewState
+    manual_calculation_requested,
 
-	// @Nonnull org.solovyev.android.calculator.CalculatorOutput
-	calculation_result,
+    // @Nonnull org.solovyev.android.calculator.CalculatorOutput
+    calculation_result,
 
-	calculation_cancelled,
+    calculation_cancelled,
 
-	// @Nonnull org.solovyev.android.calculator.CalculatorFailure
-	calculation_failed,
+    // @Nonnull org.solovyev.android.calculator.CalculatorFailure
+    calculation_failed,
 
-	/*
-	**********************************************************************
-	*
-	*                           CONVERSION
-	*                           CalculatorConversionEventData
-	*
-	**********************************************************************
-	*/
-	conversion_started,
+    /*
+    **********************************************************************
+    *
+    *                           CONVERSION
+    *                           CalculatorConversionEventData
+    *
+    **********************************************************************
+    */
+    conversion_started,
 
-	// @Nonnull String conversion result
-	conversion_result,
+    // @Nonnull String conversion result
+    conversion_result,
 
-	// @Nonnull ConversionFailure
-	conversion_failed,
+    // @Nonnull ConversionFailure
+    conversion_failed,
 
-	conversion_finished,
+    conversion_finished,
 
 	/*
 	**********************************************************************
@@ -78,12 +78,12 @@ public enum CalculatorEventType {
 	**********************************************************************
 	*/
 
-	// @Nonnull org.solovyev.android.calculator.CalculatorEditorChangeEventData
-	editor_state_changed,
-	editor_state_changed_light,
+    // @Nonnull org.solovyev.android.calculator.CalculatorEditorChangeEventData
+    editor_state_changed,
+    editor_state_changed_light,
 
-	// @Nonnull CalculatorDisplayChangeEventData
-	display_state_changed,
+    // @Nonnull CalculatorDisplayChangeEventData
+    display_state_changed,
 
 	/*
 	**********************************************************************
@@ -93,7 +93,7 @@ public enum CalculatorEventType {
 	**********************************************************************
 	*/
 
-	engine_preferences_changed,
+    engine_preferences_changed,
 
 	/*
 	**********************************************************************
@@ -103,13 +103,13 @@ public enum CalculatorEventType {
 	**********************************************************************
 	*/
 
-	// @Nonnull CalculatorHistoryState
-	history_state_added,
+    // @Nonnull CalculatorHistoryState
+    history_state_added,
 
-	// @Nonnull CalculatorHistoryState
-	use_history_state,
+    // @Nonnull CalculatorHistoryState
+    use_history_state,
 
-	clear_history_requested,
+    clear_history_requested,
 
 	/*
 	**********************************************************************
@@ -119,33 +119,33 @@ public enum CalculatorEventType {
 	**********************************************************************
 	*/
 
-	// @Nonnull IConstant
-	use_constant,
+    // @Nonnull IConstant
+    use_constant,
 
-	// @Nonnull Function
-	use_function,
+    // @Nonnull Function
+    use_function,
 
-	// @Nonnull Operator
-	use_operator,
+    // @Nonnull Operator
+    use_operator,
 
-	// @Nonnull IConstant
-	constant_added,
+    // @Nonnull IConstant
+    constant_added,
 
-	// @Nonnull Change<IConstant>
-	constant_changed,
+    // @Nonnull Change<IConstant>
+    constant_changed,
 
-	// @Nonnull IConstant
-	constant_removed,
+    // @Nonnull IConstant
+    constant_removed,
 
 
-	// @Nonnull Function
-	function_removed,
+    // @Nonnull Function
+    function_removed,
 
-	// @Nonnull Function
-	function_added,
+    // @Nonnull Function
+    function_added,
 
-	// @Nonnull Change<IFunction>
-	function_changed,
+    // @Nonnull Change<IFunction>
+    function_changed,
 
 	/*
 	**********************************************************************
@@ -155,55 +155,55 @@ public enum CalculatorEventType {
 	**********************************************************************
 	*/
 
-	// List<Message>
-	calculation_messages,
+    // List<Message>
+    calculation_messages,
 
-	show_history,
-	show_history_detached,
+    show_history,
+    show_history_detached,
 
-	show_functions,
-	show_functions_detached,
+    show_functions,
+    show_functions_detached,
 
-	show_vars,
-	show_vars_detached,
+    show_vars,
+    show_vars_detached,
 
-	open_app,
+    open_app,
 
-	show_operators,
-	show_operators_detached,
+    show_operators,
+    show_operators_detached,
 
-	show_settings,
-	show_settings_detached,
+    show_settings,
+    show_settings_detached,
 
-	show_like_dialog,
+    show_like_dialog,
 
-	show_create_var_dialog,
-	show_create_matrix_dialog,
-	show_create_function_dialog,
+    show_create_var_dialog,
+    show_create_matrix_dialog,
+    show_create_function_dialog,
 
-	/**
-	 * {@link DialogData}
-	 */
-	show_message_dialog,
+    /**
+     * {@link DialogData}
+     */
+    show_message_dialog,
 
-	plot_graph,
+    plot_graph,
 
-	/**
-	 * {@link org.solovyev.android.calculator.plot.PlotData}
-	 */
-	plot_data_changed,
+    /**
+     * {@link org.solovyev.android.calculator.plot.PlotData}
+     */
+    plot_data_changed,
 
-	//String
-	show_evaluation_error;
+    //String
+    show_evaluation_error;
 
-	public boolean isOfType(@Nonnull CalculatorEventType... types) {
-		for (CalculatorEventType type : types) {
-			if (this == type) {
-				return true;
-			}
-		}
+    public boolean isOfType(@Nonnull CalculatorEventType... types) {
+        for (CalculatorEventType type : types) {
+            if (this == type) {
+                return true;
+            }
+        }
 
-		return false;
-	}
+        return false;
+    }
 
 }

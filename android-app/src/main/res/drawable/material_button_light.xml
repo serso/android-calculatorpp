@@ -23,12 +23,12 @@
   -->
 <selector xmlns:a="http://schemas.android.com/apk/res/android">
 
-	<item a:state_pressed="true" a:drawable="@drawable/material_button_pressed" />
+    <item a:drawable="@drawable/material_button_pressed" a:state_pressed="true" />
 
-	<item>
-		<shape>
-			<solid a:color="@color/cpp_metro_button_light" />
-		</shape>
-	</item>
+    <item>
+        <shape>
+            <solid a:color="@color/cpp_metro_button_light" />
+        </shape>
+    </item>
 
 </selector>

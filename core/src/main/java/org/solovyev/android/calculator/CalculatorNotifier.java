@@ -22,13 +22,13 @@
 
 package org.solovyev.android.calculator;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import org.solovyev.common.msg.Message;
 import org.solovyev.common.msg.MessageType;
 
 import java.util.List;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * User: serso
@@ -37,11 +37,11 @@ import java.util.List;
  */
 public interface CalculatorNotifier {
 
-	void showMessage(@Nonnull Message message);
+    void showMessage(@Nonnull Message message);
 
-	void showMessage(@Nonnull Integer messageCode, @Nonnull MessageType messageType, @Nonnull List<Object> parameters);
+    void showMessage(@Nonnull Integer messageCode, @Nonnull MessageType messageType, @Nonnull List<Object> parameters);
 
-	void showMessage(@Nonnull Integer messageCode, @Nonnull MessageType messageType, @Nullable Object... parameters);
+    void showMessage(@Nonnull Integer messageCode, @Nonnull MessageType messageType, @Nullable Object... parameters);
 
-	void showDebugMessage(@Nullable String tag, @Nonnull String message);
+    void showDebugMessage(@Nullable String tag, @Nonnull String message);
 }

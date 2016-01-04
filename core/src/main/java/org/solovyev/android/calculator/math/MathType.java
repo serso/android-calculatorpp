@@ -22,252 +22,219 @@
 
 package org.solovyev.android.calculator.math;
 
-import jscl.JsclMathEngine;
-import jscl.NumeralBase;
-import jscl.math.function.Constants;
 import org.solovyev.android.calculator.CalculatorParseException;
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.common.JPredicate;
 import org.solovyev.common.collections.Collections;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import jscl.JsclMathEngine;
+import jscl.NumeralBase;
+import jscl.math.function.Constants;
+
 
 public enum MathType {
 
-	numeral_base(50, true, false, MathGroupType.number) {
+    numeral_base(50, true, false, MathGroupType.number) {
 
-		private final List<String> tokens = new ArrayList<String>(10);
-		{
-			for (NumeralBase numeralBase : NumeralBase.values()) {
-				tokens.add(numeralBase.getJsclPrefix());
-			}
-		}
+        private final List<String> tokens = new ArrayList<String>(10);
+        {
+            for (NumeralBase numeralBase : NumeralBase.values()) {
+                tokens.add(numeralBase.getJsclPrefix());
+            }
+        }
 
-		@Nonnull
-		@Override
-		public List<String> getTokens() {
-			return tokens;
-		}
-	},
+        @Nonnull
+        @Override
+        public List<String> getTokens() {
+            return tokens;
+        }
+    },
 
-	dot(200, true, true, MathGroupType.number, ".") {
-		@Override
-		public boolean isNeedMultiplicationSignBefore(@Nonnull MathType mathTypeBefore) {
-			return super.isNeedMultiplicationSignBefore(mathTypeBefore) && mathTypeBefore != digit;
-		}
-	},
+    dot(200, true, true, MathGroupType.number, ".") {
+        @Override
+        public boolean isNeedMultiplicationSignBefore(@Nonnull MathType mathTypeBefore) {
+            return super.isNeedMultiplicationSignBefore(mathTypeBefore) && mathTypeBefore != digit;
+        }
+    },
 
-	grouping_separator(250, false, false, MathGroupType.number, "'", " ") {
-		@Override
-		public int processToJscl(@Nonnull StringBuilder result, int i, @Nonnull String match) throws CalculatorParseException {
-			return i;
-		}
-	},
+    grouping_separator(250, false, false, MathGroupType.number, "'", " ") {
+        @Override
+        public int processToJscl(@Nonnull StringBuilder result, int i, @Nonnull String match) throws CalculatorParseException {
+            return i;
+        }
+    },
 
-	power_10(300, false, false, MathGroupType.number, "E"),
+    power_10(300, false, false, MathGroupType.number, "E"),
 
-	postfix_function(400, false, true, MathGroupType.function) {
-		@Nonnull
-		@Override
-		public List<String> getTokens() {
-			return Locator.getInstance().getEngine().getPostfixFunctionsRegistry().getNames();
-		}
-	},
+    postfix_function(400, false, true, MathGroupType.function) {
+        @Nonnull
+        @Override
+        public List<String> getTokens() {
+            return Locator.getInstance().getEngine().getPostfixFunctionsRegistry().getNames();
+        }
+    },
 
-	unary_operation(500, false, false, MathGroupType.operation, "−", "-", "=") {
-		@Nullable
-		@Override
-		protected String getSubstituteToJscl(@Nonnull String match) {
-			if (match.equals("−")) {
-				return "-";
-			} else {
-				return null;
-			}
-		}
+    unary_operation(500, false, false, MathGroupType.operation, "−", "-", "=") {
+        @Nullable
+        @Override
+        protected String getSubstituteToJscl(@Nonnull String match) {
+            if (match.equals("−")) {
+                return "-";
+            } else {
+                return null;
+            }
+        }
 
-		@Nullable
-		@Override
-		protected String getSubstituteFromJscl(@Nonnull String match) {
-			if (match.equals("-")) {
-				return "−";
-			} else {
-				return null;
-			}
-		}
-	},
+        @Nullable
+        @Override
+        protected String getSubstituteFromJscl(@Nonnull String match) {
+            if (match.equals("-")) {
+                return "−";
+            } else {
+                return null;
+            }
+        }
+    },
 
-	binary_operation(600, false, false, MathGroupType.operation, "−", "-", "+", "*", "×", "∙", "/", "^") {
-		@Nullable
-		@Override
-		protected String getSubstituteFromJscl(@Nonnull String match) {
-			if (match.equals("-")) {
-				return "−";
-			} else {
-				return null;
-			}
-		}
+    binary_operation(600, false, false, MathGroupType.operation, "−", "-", "+", "*", "×", "∙", "/", "^") {
+        @Nullable
+        @Override
+        protected String getSubstituteFromJscl(@Nonnull String match) {
+            if (match.equals("-")) {
+                return "−";
+            } else {
+                return null;
+            }
+        }
 
-		@Override
-		protected String getSubstituteToJscl(@Nonnull String match) {
-			switch (match) {
-				case "×":
-				case "∙":
-					return "*";
-				case "−":
-					return "-";
-				default:
-					return null;
-			}
-		}
-	},
+        @Override
+        protected String getSubstituteToJscl(@Nonnull String match) {
+            switch (match) {
+                case "×":
+                case "∙":
+                    return "*";
+                case "−":
+                    return "-";
+                default:
+                    return null;
+            }
+        }
+    },
 
-	open_group_symbol(800, true, false, MathGroupType.other, "[", "(", "{") {
-		@Override
-		public boolean isNeedMultiplicationSignBefore(@Nonnull MathType mathTypeBefore) {
-			return super.isNeedMultiplicationSignBefore(mathTypeBefore) && mathTypeBefore != function && mathTypeBefore != operator;
-		}
+    open_group_symbol(800, true, false, MathGroupType.other, "[", "(", "{") {
+        @Override
+        public boolean isNeedMultiplicationSignBefore(@Nonnull MathType mathTypeBefore) {
+            return super.isNeedMultiplicationSignBefore(mathTypeBefore) && mathTypeBefore != function && mathTypeBefore != operator;
+        }
 
-		@Override
-		protected String getSubstituteToJscl(@Nonnull String match) {
-			return "(";
-		}
-	},
+        @Override
+        protected String getSubstituteToJscl(@Nonnull String match) {
+            return "(";
+        }
+    },
 
-	close_group_symbol(900, false, true, MathGroupType.other, "]", ")", "}") {
-		@Override
-		public boolean isNeedMultiplicationSignBefore(@Nonnull MathType mathTypeBefore) {
-			return false;
-		}
+    close_group_symbol(900, false, true, MathGroupType.other, "]", ")", "}") {
+        @Override
+        public boolean isNeedMultiplicationSignBefore(@Nonnull MathType mathTypeBefore) {
+            return false;
+        }
 
-		@Override
-		protected String getSubstituteToJscl(@Nonnull String match) {
-			return ")";
-		}
-	},
+        @Override
+        protected String getSubstituteToJscl(@Nonnull String match) {
+            return ")";
+        }
+    },
 
-	function(1000, true, true, MathGroupType.function) {
-		@Nonnull
-		@Override
-		public List<String> getTokens() {
-			return Locator.getInstance().getEngine().getFunctionsRegistry().getNames();
-		}
-	},
+    function(1000, true, true, MathGroupType.function) {
+        @Nonnull
+        @Override
+        public List<String> getTokens() {
+            return Locator.getInstance().getEngine().getFunctionsRegistry().getNames();
+        }
+    },
 
-	operator(1050, true, true, MathGroupType.function) {
-		@Nonnull
-		@Override
-		public List<String> getTokens() {
-			return Locator.getInstance().getEngine().getOperatorsRegistry().getNames();
-		}
-	},
+    operator(1050, true, true, MathGroupType.function) {
+        @Nonnull
+        @Override
+        public List<String> getTokens() {
+            return Locator.getInstance().getEngine().getOperatorsRegistry().getNames();
+        }
+    },
 
-	constant(1100, true, true, MathGroupType.other) {
-		@Nonnull
-		@Override
-		public List<String> getTokens() {
-			return Locator.getInstance().getEngine().getVarsRegistry().getNames();
-		}
+    constant(1100, true, true, MathGroupType.other) {
+        @Nonnull
+        @Override
+        public List<String> getTokens() {
+            return Locator.getInstance().getEngine().getVarsRegistry().getNames();
+        }
 
-		@Override
-		protected String getSubstituteFromJscl(@Nonnull String match) {
-			return Constants.INF_2.getName().equals(match) ? MathType.INFINITY : super.getSubstituteFromJscl(match);
-		}
-	},
+        @Override
+        protected String getSubstituteFromJscl(@Nonnull String match) {
+            return Constants.INF_2.getName().equals(match) ? MathType.INFINITY : super.getSubstituteFromJscl(match);
+        }
+    },
 
-	digit(1125, true, true, MathGroupType.number) {
+    digit(1125, true, true, MathGroupType.number) {
 
-		private final List<String> tokens = new ArrayList<>(16);
-		{
-			for (Character character : NumeralBase.hex.getAcceptableCharacters()) {
-				tokens.add(character.toString());
-			}
-		}
+        private final List<String> tokens = new ArrayList<>(16);
+        {
+            for (Character character : NumeralBase.hex.getAcceptableCharacters()) {
+                tokens.add(character.toString());
+            }
+        }
 
-		@Override
-		public boolean isNeedMultiplicationSignBefore(@Nonnull MathType mathTypeBefore) {
-			return super.isNeedMultiplicationSignBefore(mathTypeBefore) && mathTypeBefore != digit && mathTypeBefore != dot /*&& mathTypeBefore != numeral_base*/;
-		}
+        @Override
+        public boolean isNeedMultiplicationSignBefore(@Nonnull MathType mathTypeBefore) {
+            return super.isNeedMultiplicationSignBefore(mathTypeBefore) && mathTypeBefore != digit && mathTypeBefore != dot /*&& mathTypeBefore != numeral_base*/;
+        }
 
-		@Nonnull
-		@Override
-		public List<String> getTokens() {
-			return tokens;
-		}
-	},
+        @Nonnull
+        @Override
+        public List<String> getTokens() {
+            return tokens;
+        }
+    },
 
-	comma(1150, false, false, MathGroupType.other, ","),
+    comma(1150, false, false, MathGroupType.other, ","),
 
-	text(1200, false, false, MathGroupType.other) {
-		@Override
-		public int processToJscl(@Nonnull StringBuilder result, int i, @Nonnull String match) {
-			if (match.length() > 0) {
-				result.append(match.charAt(0));
-			}
-			return i;
-		}
+    text(1200, false, false, MathGroupType.other) {
+        @Override
+        public int processToJscl(@Nonnull StringBuilder result, int i, @Nonnull String match) {
+            if (match.length() > 0) {
+                result.append(match.charAt(0));
+            }
+            return i;
+        }
 
-		@Override
-		public int processFromJscl(@Nonnull StringBuilder result, int i, @Nonnull String match) {
-			if (match.length() > 0) {
-				result.append(match.charAt(0));
-			}
-			return i;
-		}
-	};
+        @Override
+        public int processFromJscl(@Nonnull StringBuilder result, int i, @Nonnull String match) {
+            if (match.length() > 0) {
+                result.append(match.charAt(0));
+            }
+            return i;
+        }
+    };
 
-	public static enum MathGroupType {
-		function,
-		number,
-		operation,
-		other
-	}
-
-	@Nonnull
-	private final List<String> tokens;
-
-	@Nonnull
-	private final Integer priority;
-
-	private final boolean needMultiplicationSignBefore;
-
-	private final boolean needMultiplicationSignAfter;
-
-	@Nonnull
-	private final MathGroupType groupType;
-
-	MathType(@Nonnull Integer priority,
-			 boolean needMultiplicationSignBefore,
-			 boolean needMultiplicationSignAfter,
-			 @Nonnull MathGroupType groupType,
-			 @Nonnull String... tokens) {
-		this(priority, needMultiplicationSignBefore, needMultiplicationSignAfter, groupType, Collections.asList(tokens));
-	}
-
-	MathType(@Nonnull Integer priority,
-			 boolean needMultiplicationSignBefore,
-			 boolean needMultiplicationSignAfter,
-			 @Nonnull MathGroupType groupType,
-			 @Nonnull List<String> tokens) {
-		this.priority = priority;
-		this.needMultiplicationSignBefore = needMultiplicationSignBefore;
-		this.needMultiplicationSignAfter = needMultiplicationSignAfter;
-		this.groupType = groupType;
-		this.tokens = java.util.Collections.unmodifiableList(tokens);
-	}
-
-	@Nonnull
-	public MathGroupType getGroupType() {
-		return groupType;
-	}
+    public static final List<String> openGroupSymbols = Arrays.asList("[]", "()", "{}");
+    public final static Character POWER_10 = 'E';
+    public static final String IMAGINARY_NUMBER = "i";
+    public static final String IMAGINARY_NUMBER_JSCL = "√(-1)";
+    public static final String PI = "π";
+    public static final String E = "e";
+    public static final String C = "c";
+    public static final Double C_VALUE = 299792458d;
+    public static final String G = "G";
 
 	/*	public static int getPostfixFunctionStart(@Nonnull CharSequence s, int position) throws ParseException {
-		assert s.length() > position;
+        assert s.length() > position;
 
 		int numberOfOpenGroups = 0;
 		int result = position;
@@ -315,207 +282,227 @@ public enum MathType {
 
 		return false;
 	}*/
+    public static final Double G_VALUE = 6.6738480E-11;
+    public static final String H_REDUCED = "h";
+    public static final Double H_REDUCED_VALUE = 6.6260695729E-34 / (2 * Math.PI);
+    public final static String NAN = "NaN";
+    public final static String INFINITY = "∞";
+    public final static String INFINITY_JSCL = "Infinity";
+    private static List<MathType> mathTypesByPriority;
+    @Nonnull
+    private final List<String> tokens;
+    @Nonnull
+    private final Integer priority;
+    private final boolean needMultiplicationSignBefore;
+    private final boolean needMultiplicationSignAfter;
+    @Nonnull
+    private final MathGroupType groupType;
+    MathType(@Nonnull Integer priority,
+             boolean needMultiplicationSignBefore,
+             boolean needMultiplicationSignAfter,
+             @Nonnull MathGroupType groupType,
+             @Nonnull String... tokens) {
+        this(priority, needMultiplicationSignBefore, needMultiplicationSignAfter, groupType, Collections.asList(tokens));
+    }
 
-	@Nonnull
-	public List<String> getTokens() {
-		return tokens;
-	}
+    MathType(@Nonnull Integer priority,
+             boolean needMultiplicationSignBefore,
+             boolean needMultiplicationSignAfter,
+             @Nonnull MathGroupType groupType,
+             @Nonnull List<String> tokens) {
+        this.priority = priority;
+        this.needMultiplicationSignBefore = needMultiplicationSignBefore;
+        this.needMultiplicationSignAfter = needMultiplicationSignAfter;
+        this.groupType = groupType;
+        this.tokens = java.util.Collections.unmodifiableList(tokens);
+    }
 
-	private boolean isNeedMultiplicationSignBefore() {
-		return needMultiplicationSignBefore;
-	}
+    /**
+     * Method determines mathematical entity type for text substring starting from ith index
+     *
+     * @param text    analyzed text
+     * @param i       index which points to start of substring
+     * @param hexMode
+     * @return math entity type of substring starting from ith index of specified text
+     */
+    @Nonnull
+    public static Result getType(@Nonnull String text, int i, boolean hexMode) {
+        if (i < 0) {
+            throw new IllegalArgumentException("I must be more or equals to 0.");
+        } else if (i >= text.length() && i != 0) {
+            throw new IllegalArgumentException("I must be less than size of text.");
+        } else if (i == 0 && text.length() == 0) {
+            return new Result(MathType.text, text);
+        }
 
-	private boolean isNeedMultiplicationSignAfter() {
-		return needMultiplicationSignAfter;
-	}
+        final StartsWithFinder startsWithFinder = new StartsWithFinder(text, i);
 
-	public boolean isNeedMultiplicationSignBefore(@Nonnull MathType mathTypeBefore) {
-		return needMultiplicationSignBefore && mathTypeBefore.isNeedMultiplicationSignAfter();
-	}
+        for (MathType mathType : getMathTypesByPriority()) {
+            final String s = Collections.find(mathType.getTokens(), startsWithFinder);
+            if (s != null) {
+                if (s.length() == 1) {
+                    if (hexMode || JsclMathEngine.getInstance().getNumeralBase() == NumeralBase.hex) {
+                        final Character ch = s.charAt(0);
+                        if (NumeralBase.hex.getAcceptableCharacters().contains(ch)) {
+                            return new Result(MathType.digit, s);
+                        }
+                    }
+                }
+                return new Result(mathType, s);
+            }
+        }
 
-	public int processToJscl(@Nonnull StringBuilder result, int i, @Nonnull String match) throws CalculatorParseException {
-		final String substitute = getSubstituteToJscl(match);
-		result.append(substitute == null ? match : substitute);
-		return returnI(i, match);
-	}
+        return new Result(MathType.text, text.substring(i));
+    }
 
-	protected int returnI(int i, @Nonnull String match) {
-		if (match.length() > 1) {
-			return i + match.length() - 1;
-		} else {
-			return i;
-		}
-	}
+    @Nonnull
+    private static List<MathType> getMathTypesByPriority() {
+        if (mathTypesByPriority == null) {
+            final List<MathType> result = Collections.asList(MathType.values());
 
-	public int processFromJscl(@Nonnull StringBuilder result, int i, @Nonnull String match) {
-		final String substitute = getSubstituteFromJscl(match);
-		result.append(substitute == null ? match : substitute);
-		return returnI(i, match);
-	}
+            java.util.Collections.sort(result, new Comparator<MathType>() {
+                @Override
+                public int compare(MathType l, MathType r) {
+                    return l.priority.compareTo(r.priority);
+                }
+            });
 
-	@Nullable
-	protected String getSubstituteFromJscl(@Nonnull String match) {
-		return null;
-	}
+            mathTypesByPriority = result;
+        }
 
-	@Nullable
-	protected String getSubstituteToJscl(@Nonnull String match) {
-		return null;
-	}
+        return mathTypesByPriority;
+    }
 
-	public static final List<String> openGroupSymbols = Arrays.asList("[]", "()", "{}");
+    @Nonnull
+    public MathGroupType getGroupType() {
+        return groupType;
+    }
 
-	public final static Character POWER_10 = 'E';
+    @Nonnull
+    public List<String> getTokens() {
+        return tokens;
+    }
 
-	public static final String IMAGINARY_NUMBER = "i";
-	public static final String IMAGINARY_NUMBER_JSCL = "√(-1)";
+    private boolean isNeedMultiplicationSignBefore() {
+        return needMultiplicationSignBefore;
+    }
 
-	public static final String PI = "π";
-	public static final String E = "e";
-	public static final String C = "c";
-	public static final Double C_VALUE = 299792458d;
-	public static final String G = "G";
-	public static final Double G_VALUE = 6.6738480E-11;
-	public static final String H_REDUCED = "h";
-	public static final Double H_REDUCED_VALUE = 6.6260695729E-34 / (2 * Math.PI);
-	public final static String NAN = "NaN";
+    private boolean isNeedMultiplicationSignAfter() {
+        return needMultiplicationSignAfter;
+    }
 
-	public final static String INFINITY = "∞";
-	public final static String INFINITY_JSCL = "Infinity";
+    public boolean isNeedMultiplicationSignBefore(@Nonnull MathType mathTypeBefore) {
+        return needMultiplicationSignBefore && mathTypeBefore.isNeedMultiplicationSignAfter();
+    }
 
+    public int processToJscl(@Nonnull StringBuilder result, int i, @Nonnull String match) throws CalculatorParseException {
+        final String substitute = getSubstituteToJscl(match);
+        result.append(substitute == null ? match : substitute);
+        return returnI(i, match);
+    }
 
-	/**
-	 * Method determines mathematical entity type for text substring starting from ith index
-	 *
-	 * @param text    analyzed text
-	 * @param i       index which points to start of substring
-	 * @param hexMode
-	 * @return math entity type of substring starting from ith index of specified text
-	 */
-	@Nonnull
-	public static Result getType(@Nonnull String text, int i, boolean hexMode) {
-		if (i < 0) {
-			throw new IllegalArgumentException("I must be more or equals to 0.");
-		} else if (i >= text.length() && i != 0) {
-			throw new IllegalArgumentException("I must be less than size of text.");
-		} else if (i == 0 && text.length() == 0) {
-			return new Result(MathType.text, text);
-		}
+    protected int returnI(int i, @Nonnull String match) {
+        if (match.length() > 1) {
+            return i + match.length() - 1;
+        } else {
+            return i;
+        }
+    }
 
-		final StartsWithFinder startsWithFinder = new StartsWithFinder(text, i);
+    public int processFromJscl(@Nonnull StringBuilder result, int i, @Nonnull String match) {
+        final String substitute = getSubstituteFromJscl(match);
+        result.append(substitute == null ? match : substitute);
+        return returnI(i, match);
+    }
 
-		for (MathType mathType : getMathTypesByPriority()) {
-			final String s = Collections.find(mathType.getTokens(), startsWithFinder);
-			if (s != null) {
-				if (s.length() == 1) {
-					if (hexMode || JsclMathEngine.getInstance().getNumeralBase() == NumeralBase.hex) {
-						final Character ch = s.charAt(0);
-						if (NumeralBase.hex.getAcceptableCharacters().contains(ch)) {
-							return new Result(MathType.digit, s);
-						}
-					}
-				}
-				return new Result(mathType, s);
-			}
-		}
+    @Nullable
+    protected String getSubstituteFromJscl(@Nonnull String match) {
+        return null;
+    }
 
-		return new Result(MathType.text, text.substring(i));
-	}
+    @Nullable
+    protected String getSubstituteToJscl(@Nonnull String match) {
+        return null;
+    }
 
+    public static enum MathGroupType {
+        function,
+        number,
+        operation,
+        other
+    }
 
-	private static List<MathType> mathTypesByPriority;
+    public static class Result {
 
-	@Nonnull
-	private static List<MathType> getMathTypesByPriority() {
-		if (mathTypesByPriority == null) {
-			final List<MathType> result = Collections.asList(MathType.values());
+        @Nonnull
+        private final MathType mathType;
 
-			java.util.Collections.sort(result, new Comparator<MathType>() {
-				@Override
-				public int compare(MathType l, MathType r) {
-					return l.priority.compareTo(r.priority);
-				}
-			});
+        @Nonnull
+        private final String match;
 
-			mathTypesByPriority = result;
-		}
+        public Result(@Nonnull MathType mathType, @Nonnull String match) {
+            this.mathType = mathType;
 
-		return mathTypesByPriority;
-	}
+            this.match = match;
+        }
 
-	public static class Result {
+        public int processToJscl(@Nonnull StringBuilder result, int i) throws CalculatorParseException {
+            return mathType.processToJscl(result, i, match);
+        }
 
-		@Nonnull
-		private final MathType mathType;
+        public int processFromJscl(@Nonnull StringBuilder result, int i) {
+            return mathType.processFromJscl(result, i, match);
+        }
 
-		@Nonnull
-		private final String match;
+        @Nonnull
+        public String getMatch() {
+            return match;
+        }
 
-		public Result(@Nonnull MathType mathType, @Nonnull String match) {
-			this.mathType = mathType;
+        @Nonnull
+        public MathType getMathType() {
+            return mathType;
+        }
+    }
 
-			this.match = match;
-		}
+    private static class EndsWithFinder implements JPredicate<String> {
 
-		public int processToJscl(@Nonnull StringBuilder result, int i) throws CalculatorParseException {
-			return mathType.processToJscl(result, i, match);
-		}
+        @Nonnull
+        private final CharSequence targetString;
+        private int i;
 
-		public int processFromJscl(@Nonnull StringBuilder result, int i) {
-			return mathType.processFromJscl(result, i, match);
-		}
+        private EndsWithFinder(@Nonnull CharSequence targetString) {
+            this.targetString = targetString;
+        }
 
-		@Nonnull
-		public String getMatch() {
-			return match;
-		}
+        @Override
+        public boolean apply(@Nullable String s) {
+            return targetString.subSequence(0, i).toString().endsWith(s);
+        }
 
-		@Nonnull
-		public MathType getMathType() {
-			return mathType;
-		}
-	}
+        public void setI(int i) {
+            this.i = i;
+        }
+    }
 
-	private static class EndsWithFinder implements JPredicate<String> {
+    private static class StartsWithFinder implements JPredicate<String> {
 
-		private int i;
+        @Nonnull
+        private final String targetString;
+        private int i;
 
-		@Nonnull
-		private final CharSequence targetString;
+        public StartsWithFinder(@Nonnull String targetString, int i) {
+            this.targetString = targetString;
+            this.i = i;
+        }
 
-		private EndsWithFinder(@Nonnull CharSequence targetString) {
-			this.targetString = targetString;
-		}
+        @Override
+        public boolean apply(@Nullable String s) {
+            return s != null && targetString.startsWith(s, i);
+        }
 
-		@Override
-		public boolean apply(@Nullable String s) {
-			return targetString.subSequence(0, i).toString().endsWith(s);
-		}
-
-		public void setI(int i) {
-			this.i = i;
-		}
-	}
-
-	private static class StartsWithFinder implements JPredicate<String> {
-
-		private int i;
-
-		@Nonnull
-		private final String targetString;
-
-		public StartsWithFinder(@Nonnull String targetString, int i) {
-			this.targetString = targetString;
-			this.i = i;
-		}
-
-		@Override
-		public boolean apply(@Nullable String s) {
-			return s != null && targetString.startsWith(s, i);
-		}
-
-		public void setI(int i) {
-			this.i = i;
-		}
-	}
+        public void setI(int i) {
+            this.i = i;
+        }
+    }
 }

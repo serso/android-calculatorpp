@@ -22,10 +22,10 @@
 
 package org.solovyev.android.calculator;
 
+import org.solovyev.common.JPredicate;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import org.solovyev.common.JPredicate;
 
 /**
  * User: serso
@@ -34,22 +34,21 @@ import org.solovyev.common.JPredicate;
  */
 public class CharacterAtPositionFinder implements JPredicate<Character> {
 
-	private int i;
+    @Nonnull
+    private final String targetString;
+    private int i;
 
-	@Nonnull
-	private final String targetString;
+    public CharacterAtPositionFinder(@Nonnull String targetString, int i) {
+        this.targetString = targetString;
+        this.i = i;
+    }
 
-	public CharacterAtPositionFinder(@Nonnull String targetString, int i) {
-		this.targetString = targetString;
-		this.i = i;
-	}
+    @Override
+    public boolean apply(@Nullable Character s) {
+        return s != null && s.equals(targetString.charAt(i));
+    }
 
-	@Override
-	public boolean apply(@Nullable Character s) {
-		return s != null && s.equals(targetString.charAt(i));
-	}
-
-	public void setI(int i) {
-		this.i = i;
-	}
+    public void setI(int i) {
+        this.i = i;
+    }
 }

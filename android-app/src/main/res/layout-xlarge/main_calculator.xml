@@ -22,57 +22,57 @@
   ~ Site:  http://se.solovyev.org
   -->
 <LinearLayout
-	a:id="@+id/main_layout"
-	style="@style/CppMain.Multipane"
-	xmlns:a="http://schemas.android.com/apk/res/android"
-	a:orientation="vertical">
+    xmlns:a="http://schemas.android.com/apk/res/android"
+    a:id="@+id/main_layout"
+    style="@style/CppMain.Multipane"
+    a:orientation="vertical">
 
-	<LinearLayout
-		a:layout_width="match_parent"
-		a:layout_height="0dp"
-		a:layout_marginTop="@dimen/cpp_pane_margin"
-		a:layout_weight="3"
-		a:baselineAligned="false"
-		a:orientation="horizontal">
+    <LinearLayout
+        a:layout_width="match_parent"
+        a:layout_height="0dp"
+        a:layout_marginTop="@dimen/cpp_pane_margin"
+        a:layout_weight="3"
+        a:baselineAligned="false"
+        a:orientation="horizontal">
 
-		<LinearLayout
-			a:layout_width="0dp"
-			a:layout_height="match_parent"
-			a:layout_gravity="center"
-			a:layout_weight="1"
-			a:orientation="vertical">
+        <LinearLayout
+            a:layout_width="0dp"
+            a:layout_height="match_parent"
+            a:layout_gravity="center"
+            a:layout_weight="1"
+            a:orientation="vertical">
 
-			<LinearLayout
-				a:id="@+id/editorContainer"
-				style="@style/CppPane.Multipane.Left"
-				a:layout_width="match_parent"
-				a:layout_height="0dp"
-				a:layout_weight="4"/>
+            <LinearLayout
+                a:id="@+id/editorContainer"
+                style="@style/CppPane.Multipane.Left"
+                a:layout_width="match_parent"
+                a:layout_height="0dp"
+                a:layout_weight="4" />
 
-			<FrameLayout
-				a:id="@+id/displayContainer"
-				style="@style/CppPane.Multipane.Left"
-				a:layout_width="match_parent"
-				a:layout_height="0dp"
-				a:layout_weight="1"/>
+            <FrameLayout
+                a:id="@+id/displayContainer"
+                style="@style/CppPane.Multipane.Left"
+                a:layout_width="match_parent"
+                a:layout_height="0dp"
+                a:layout_weight="1" />
 
-		</LinearLayout>
+        </LinearLayout>
 
-		<LinearLayout
-			a:id="@+id/main_second_pane"
-			style="@style/CppPane.Multipane.Right"
-			a:layout_width="0dp"
-			a:layout_height="match_parent"
-			a:layout_weight="1"
-			a:orientation="vertical"/>
+        <LinearLayout
+            a:id="@+id/main_second_pane"
+            style="@style/CppPane.Multipane.Right"
+            a:layout_width="0dp"
+            a:layout_height="match_parent"
+            a:layout_weight="1"
+            a:orientation="vertical" />
 
-	</LinearLayout>
+    </LinearLayout>
 
-	<LinearLayout
-		a:id="@+id/keyboardContainer"
-		style="@style/CppPane.Transparent.Bottom"
-		a:layout_width="match_parent"
-		a:layout_height="0dp"
-		a:layout_weight="1"/>
+    <LinearLayout
+        a:id="@+id/keyboardContainer"
+        style="@style/CppPane.Transparent.Bottom"
+        a:layout_width="match_parent"
+        a:layout_height="0dp"
+        a:layout_weight="1" />
 
 </LinearLayout>

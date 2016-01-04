@@ -23,56 +23,56 @@
   -->
 
 <LinearLayout
-	a:id="@+id/main_fragment_layout"
-	style="@style/CppFragment"
-	xmlns:a="http://schemas.android.com/apk/res/android"
-	a:layout_width="match_parent"
-	a:layout_height="match_parent">
+    xmlns:a="http://schemas.android.com/apk/res/android"
+    a:id="@+id/main_fragment_layout"
+    style="@style/CppFragment"
+    a:layout_width="match_parent"
+    a:layout_height="match_parent">
 
-	<TextView
-		a:id="@+id/fragment_title"
-		style="@style/CppFragmentTitle"
-		a:layout_width="match_parent"
-		a:layout_height="wrap_content"/>
+    <TextView
+        a:id="@+id/fragment_title"
+        style="@style/CppFragmentTitle"
+        a:layout_width="match_parent"
+        a:layout_height="wrap_content" />
 
-	<include layout="@layout/ad"/>
+    <include layout="@layout/ad" />
 
-	<org.solovyev.android.plotter.PlotView
-		a:id="@+id/plotview"
-		a:layout_width="match_parent"
-		a:layout_height="0dp"
-		a:layout_weight="1"/>
+    <org.solovyev.android.plotter.PlotView
+        a:id="@+id/plotview"
+        a:layout_width="match_parent"
+        a:layout_height="0dp"
+        a:layout_weight="1" />
 
-	<LinearLayout
-		a:layout_width="match_parent"
-		a:layout_height="wrap_content"
-		a:background="@android:color/black"
-		a:gravity="center"
-		a:orientation="horizontal">
+    <LinearLayout
+        a:layout_width="match_parent"
+        a:layout_height="wrap_content"
+        a:background="@android:color/black"
+        a:gravity="center"
+        a:orientation="horizontal">
 
-		<Button
-			a:id="@+id/zoom_out_button"
-			a:layout_width="wrap_content"
-			a:layout_height="wrap_content"
-			a:text="-"/>
+        <Button
+            a:id="@+id/zoom_out_button"
+            a:layout_width="wrap_content"
+            a:layout_height="wrap_content"
+            a:text="-" />
 
-		<Button
-			a:id="@+id/zoom_0_button"
-			a:layout_width="wrap_content"
-			a:layout_height="wrap_content"
-			a:text="0"/>
+        <Button
+            a:id="@+id/zoom_0_button"
+            a:layout_width="wrap_content"
+            a:layout_height="wrap_content"
+            a:text="0" />
 
-		<Button
-			a:id="@+id/zoom_in_button"
-			a:layout_width="wrap_content"
-			a:layout_height="wrap_content"
-			a:text="+"/>
+        <Button
+            a:id="@+id/zoom_in_button"
+            a:layout_width="wrap_content"
+            a:layout_height="wrap_content"
+            a:text="+" />
 
-		<Button
-			a:id="@+id/plot_mode_button"
-			a:layout_width="wrap_content"
-			a:layout_height="wrap_content"
-			a:text="2D/3D"/>
-	</LinearLayout>
+        <Button
+            a:id="@+id/plot_mode_button"
+            a:layout_width="wrap_content"
+            a:layout_height="wrap_content"
+            a:text="2D/3D" />
+    </LinearLayout>
 
 </LinearLayout>

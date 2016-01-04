@@ -23,8 +23,9 @@
 package org.solovyev.android.calculator.about;
 
 import android.os.Bundle;
-import org.solovyev.android.calculator.EmptyActivity;
+
 import org.solovyev.android.calculator.CalculatorFragmentType;
+import org.solovyev.android.calculator.EmptyActivity;
 import org.solovyev.android.calculator.R;
 
 import javax.annotation.Nullable;
@@ -36,11 +37,11 @@ import javax.annotation.Nullable;
  */
 public class CalculatorAboutActivity extends EmptyActivity {
 
-	@Override
-	public void onCreate(@Nullable Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		getUi().addTab(this, CalculatorFragmentType.about, null, R.id.main_layout);
-		getUi().addTab(this, CalculatorFragmentType.release_notes, null, R.id.main_layout);
-	}
+        getUi().addTab(this, CalculatorFragmentType.about, null, R.id.main_layout);
+        getUi().addTab(this, CalculatorFragmentType.release_notes, null, R.id.main_layout);
+    }
 }

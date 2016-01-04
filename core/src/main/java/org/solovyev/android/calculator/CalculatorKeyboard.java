@@ -31,17 +31,17 @@ import javax.annotation.Nullable;
  */
 public interface CalculatorKeyboard {
 
-	boolean buttonPressed(@Nullable String text);
+    boolean buttonPressed(@Nullable String text);
 
-	void roundBracketsButtonPressed();
+    void roundBracketsButtonPressed();
 
-	void pasteButtonPressed();
+    void pasteButtonPressed();
 
-	void clearButtonPressed();
+    void clearButtonPressed();
 
-	void copyButtonPressed();
+    void copyButtonPressed();
 
-	void moveCursorLeft();
+    void moveCursorLeft();
 
-	void moveCursorRight();
+    void moveCursorRight();
 }

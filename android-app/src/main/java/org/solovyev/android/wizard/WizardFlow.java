@@ -27,15 +27,15 @@ import javax.annotation.Nullable;
 
 public interface WizardFlow {
 
-	@Nullable
-	WizardStep getStepByName(@Nonnull String name);
+    @Nullable
+    WizardStep getStepByName(@Nonnull String name);
 
-	@Nullable
-	WizardStep getNextStep(@Nonnull WizardStep step);
+    @Nullable
+    WizardStep getNextStep(@Nonnull WizardStep step);
 
-	@Nullable
-	WizardStep getPrevStep(@Nonnull WizardStep step);
+    @Nullable
+    WizardStep getPrevStep(@Nonnull WizardStep step);
 
-	@Nonnull
-	WizardStep getFirstStep();
+    @Nonnull
+    WizardStep getFirstStep();
 }

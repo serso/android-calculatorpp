@@ -28,8 +28,19 @@ import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.TextView;
-import org.solovyev.android.calculator.*;
-import org.solovyev.android.checkout.*;
+
+import org.solovyev.android.calculator.ActivityUi;
+import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.BaseActivity;
+import org.solovyev.android.calculator.CalculatorFragment;
+import org.solovyev.android.calculator.CalculatorFragmentType;
+import org.solovyev.android.calculator.R;
+import org.solovyev.android.checkout.ActivityCheckout;
+import org.solovyev.android.checkout.BillingRequests;
+import org.solovyev.android.checkout.Checkout;
+import org.solovyev.android.checkout.ProductTypes;
+import org.solovyev.android.checkout.Purchase;
+import org.solovyev.android.checkout.RequestListener;
 import org.solovyev.android.fragments.FragmentUtils;
 
 import javax.annotation.Nonnull;
@@ -42,91 +53,91 @@ import javax.annotation.Nullable;
  */
 public class PurchaseDialogActivity extends BaseActivity {
 
-	@Nonnull
-	private final ActivityCheckout checkout = Checkout.forActivity(this, App.getBilling(), App.getProducts());
+    @Nonnull
+    private final ActivityCheckout checkout = Checkout.forActivity(this, App.getBilling(), App.getProducts());
 
-	@Nonnull
-	private final RequestListener<Purchase> purchaseListener = new RequestListener<Purchase>() {
-		@Override
-		public void onSuccess(@Nonnull Purchase purchase) {
-			finish();
-		}
+    @Nonnull
+    private final RequestListener<Purchase> purchaseListener = new RequestListener<Purchase>() {
+        @Override
+        public void onSuccess(@Nonnull Purchase purchase) {
+            finish();
+        }
 
-		@Override
-		public void onError(int i, @Nonnull Exception e) {
-			finish();
-		}
-	};
+        @Override
+        public void onError(int i, @Nonnull Exception e) {
+            finish();
+        }
+    };
 
-	public PurchaseDialogActivity() {
-		super(R.layout.cpp_dialog);
-	}
+    public PurchaseDialogActivity() {
+        super(R.layout.cpp_dialog);
+    }
 
-	@Override
-	protected void onCreate(@Nullable Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		FragmentUtils.createFragment(this, PurchaseDialogFragment.class, R.id.dialog_layout, "purchase-dialog");
+        FragmentUtils.createFragment(this, PurchaseDialogFragment.class, R.id.dialog_layout, "purchase-dialog");
 
-		checkout.start();
-		checkout.createPurchaseFlow(purchaseListener);
-	}
+        checkout.start();
+        checkout.createPurchaseFlow(purchaseListener);
+    }
 
-	public static class PurchaseDialogFragment extends CalculatorFragment {
+    @Override
+    protected void onStart() {
+        super.onStart();
+        ActivityUi.reportActivityStart(this);
+    }
 
-		public PurchaseDialogFragment() {
-			super(CalculatorFragmentType.purchase_dialog);
-		}
+    @Override
+    protected void onStop() {
+        ActivityUi.reportActivityStop(this);
+        super.onStop();
+    }
 
-		@Override
-		public void onViewCreated(@Nonnull View root, Bundle savedInstanceState) {
-			super.onViewCreated(root, savedInstanceState);
+    private void purchase() {
+        checkout.whenReady(new Checkout.ListenerAdapter() {
+            @Override
+            public void onReady(@Nonnull BillingRequests requests) {
+                requests.purchase(ProductTypes.IN_APP, "ad_free", null, checkout.getPurchaseFlow());
+            }
+        });
+    }
 
-			((TextView) root.findViewById(R.id.cpp_purchase_text)).setMovementMethod(ScrollingMovementMethod.getInstance());
-			root.findViewById(R.id.cpp_continue_button).setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					final Activity activity = getActivity();
-					if (activity != null) {
-						((PurchaseDialogActivity) activity).purchase();
-					}
-				}
-			});
-		}
-	}
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        checkout.onActivityResult(requestCode, resultCode, data);
+    }
 
-	@Override
-	protected void onStart() {
-		super.onStart();
-		ActivityUi.reportActivityStart(this);
-	}
+    @Override
+    protected void onDestroy() {
+        checkout.destroyPurchaseFlow();
+        checkout.stop();
+        super.onDestroy();
+    }
 
-	@Override
-	protected void onStop() {
-		ActivityUi.reportActivityStop(this);
-		super.onStop();
-	}
+    public static class PurchaseDialogFragment extends CalculatorFragment {
 
-	private void purchase() {
-		checkout.whenReady(new Checkout.ListenerAdapter() {
-			@Override
-			public void onReady(@Nonnull BillingRequests requests) {
-				requests.purchase(ProductTypes.IN_APP, "ad_free", null, checkout.getPurchaseFlow());
-			}
-		});
-	}
+        public PurchaseDialogFragment() {
+            super(CalculatorFragmentType.purchase_dialog);
+        }
 
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		checkout.onActivityResult(requestCode, resultCode, data);
-	}
+        @Override
+        public void onViewCreated(@Nonnull View root, Bundle savedInstanceState) {
+            super.onViewCreated(root, savedInstanceState);
 
-	@Override
-	protected void onDestroy() {
-		checkout.destroyPurchaseFlow();
-		checkout.stop();
-		super.onDestroy();
-	}
+            ((TextView) root.findViewById(R.id.cpp_purchase_text)).setMovementMethod(ScrollingMovementMethod.getInstance());
+            root.findViewById(R.id.cpp_continue_button).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final Activity activity = getActivity();
+                    if (activity != null) {
+                        ((PurchaseDialogActivity) activity).purchase();
+                    }
+                }
+            });
+        }
+    }
 }
 

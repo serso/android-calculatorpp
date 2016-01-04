@@ -25,14 +25,16 @@ package org.solovyev.android.calculator;
 import android.app.Application;
 import android.os.Handler;
 import android.widget.Toast;
+
 import org.solovyev.android.Threads;
 import org.solovyev.android.msg.AndroidMessage;
 import org.solovyev.common.msg.Message;
 import org.solovyev.common.msg.MessageType;
 
+import java.util.List;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.List;
 
 /**
  * User: serso
@@ -41,58 +43,58 @@ import java.util.List;
  */
 public class AndroidCalculatorNotifier implements CalculatorNotifier {
 
-	@Nonnull
-	private final Application application;
+    @Nonnull
+    private final Application application;
 
-	@Nonnull
-	private final Handler uiHandler = new Handler();
+    @Nonnull
+    private final Handler uiHandler = new Handler();
 
-	private final boolean showDebugMessages;
+    private final boolean showDebugMessages;
 
-	public AndroidCalculatorNotifier(@Nonnull Application application) {
-		this(application, false);
-	}
+    public AndroidCalculatorNotifier(@Nonnull Application application) {
+        this(application, false);
+    }
 
-	public AndroidCalculatorNotifier(@Nonnull Application application, boolean showDebugMessages) {
-		if (!Threads.isUiThread()) throw new AssertionError();
+    public AndroidCalculatorNotifier(@Nonnull Application application, boolean showDebugMessages) {
+        if (!Threads.isUiThread()) throw new AssertionError();
 
-		this.application = application;
-		this.showDebugMessages = showDebugMessages;
-	}
+        this.application = application;
+        this.showDebugMessages = showDebugMessages;
+    }
 
-	@Override
-	public void showMessage(@Nonnull Message message) {
-		showMessageInUiThread(message.getLocalizedMessage());
-	}
+    @Override
+    public void showMessage(@Nonnull Message message) {
+        showMessageInUiThread(message.getLocalizedMessage());
+    }
 
-	@Override
-	public void showMessage(@Nonnull Integer messageCode, @Nonnull MessageType messageType, @Nonnull List<Object> parameters) {
-		showMessage(new AndroidMessage(messageCode, messageType, application, parameters));
-	}
+    @Override
+    public void showMessage(@Nonnull Integer messageCode, @Nonnull MessageType messageType, @Nonnull List<Object> parameters) {
+        showMessage(new AndroidMessage(messageCode, messageType, application, parameters));
+    }
 
-	@Override
-	public void showMessage(@Nonnull Integer messageCode, @Nonnull MessageType messageType, @Nullable Object... parameters) {
-		showMessage(new AndroidMessage(messageCode, messageType, application, parameters));
-	}
+    @Override
+    public void showMessage(@Nonnull Integer messageCode, @Nonnull MessageType messageType, @Nullable Object... parameters) {
+        showMessage(new AndroidMessage(messageCode, messageType, application, parameters));
+    }
 
-	@Override
-	public void showDebugMessage(@Nullable final String tag, @Nonnull final String message) {
-		if (showDebugMessages) {
-			showMessageInUiThread(tag == null ? message : tag + ": " + message);
-		}
-	}
+    @Override
+    public void showDebugMessage(@Nullable final String tag, @Nonnull final String message) {
+        if (showDebugMessages) {
+            showMessageInUiThread(tag == null ? message : tag + ": " + message);
+        }
+    }
 
-	private void showMessageInUiThread(@Nonnull final String message) {
-		if (Threads.isUiThread()) {
-			Toast.makeText(application, message, Toast.LENGTH_SHORT).show();
-		} else {
-			uiHandler.post(new Runnable() {
-				@Override
-				public void run() {
-					Toast.makeText(application, message, Toast.LENGTH_SHORT).show();
-				}
-			});
-		}
-	}
+    private void showMessageInUiThread(@Nonnull final String message) {
+        if (Threads.isUiThread()) {
+            Toast.makeText(application, message, Toast.LENGTH_SHORT).show();
+        } else {
+            uiHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(application, message, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
 
 }

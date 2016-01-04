@@ -40,113 +40,113 @@ import javax.annotation.Nullable;
 
 public class PlotFunctionListItem implements ListItem {
 
-	private static final String PREFIX = "plot_function_";
+    private static final String PREFIX = "plot_function_";
 
-	@Nonnull
-	private PlotFunction plotFunction;
+    @Nonnull
+    private PlotFunction plotFunction;
 
-	@Nonnull
-	private ViewBuilder<View> viewBuilder;
+    @Nonnull
+    private ViewBuilder<View> viewBuilder;
 
-	@Nonnull
-	private String tag;
+    @Nonnull
+    private String tag;
 
-	public PlotFunctionListItem(@Nonnull PlotFunction plotFunction) {
-		this.plotFunction = plotFunction;
-		this.viewBuilder = ViewFromLayoutBuilder.newInstance(R.layout.cpp_plot_function_list_item);
-		this.tag = PREFIX + plotFunction.getXyFunction().getExpressionString();
-	}
+    public PlotFunctionListItem(@Nonnull PlotFunction plotFunction) {
+        this.plotFunction = plotFunction;
+        this.viewBuilder = ViewFromLayoutBuilder.newInstance(R.layout.cpp_plot_function_list_item);
+        this.tag = PREFIX + plotFunction.getXyFunction().getExpressionString();
+    }
 
-	@Nullable
-	@Override
-	public OnClickAction getOnClickAction() {
-		return null;
-	}
+    @Nullable
+    @Override
+    public OnClickAction getOnClickAction() {
+        return null;
+    }
 
-	@Nullable
-	@Override
-	public OnClickAction getOnLongClickAction() {
-		return null;
-	}
+    @Nullable
+    @Override
+    public OnClickAction getOnLongClickAction() {
+        return null;
+    }
 
-	@Nonnull
-	@Override
-	public View updateView(@Nonnull Context context, @Nonnull View view) {
-		final Object viewTag = view.getTag();
-		if (viewTag instanceof String) {
-			if (this.tag.equals(viewTag)) {
-				return view;
-			} else if (((String) viewTag).startsWith(PREFIX)) {
-				fillView(view, context);
-				return view;
-			} else {
-				return build(context);
-			}
-		}
+    @Nonnull
+    @Override
+    public View updateView(@Nonnull Context context, @Nonnull View view) {
+        final Object viewTag = view.getTag();
+        if (viewTag instanceof String) {
+            if (this.tag.equals(viewTag)) {
+                return view;
+            } else if (((String) viewTag).startsWith(PREFIX)) {
+                fillView(view, context);
+                return view;
+            } else {
+                return build(context);
+            }
+        }
 
-		return build(context);
-	}
+        return build(context);
+    }
 
-	@Nonnull
-	@Override
-	public View build(@Nonnull Context context) {
-		final View root = buildView(context);
-		fillView(root, context);
-		return root;
-	}
+    @Nonnull
+    @Override
+    public View build(@Nonnull Context context) {
+        final View root = buildView(context);
+        fillView(root, context);
+        return root;
+    }
 
-	private View buildView(@Nonnull Context context) {
-		return viewBuilder.build(context);
-	}
+    private View buildView(@Nonnull Context context) {
+        return viewBuilder.build(context);
+    }
 
-	private void fillView(@Nonnull View root, @Nonnull final Context context) {
-		root.setTag(tag);
+    private void fillView(@Nonnull View root, @Nonnull final Context context) {
+        root.setTag(tag);
 
-		final CalculatorPlotter plotter = Locator.getInstance().getPlotter();
+        final CalculatorPlotter plotter = Locator.getInstance().getPlotter();
 
-		final TextView expressionTextView = (TextView) root.findViewById(R.id.cpp_plot_function_expression_textview);
-		expressionTextView.setText(plotFunction.getXyFunction().getExpressionString());
+        final TextView expressionTextView = (TextView) root.findViewById(R.id.cpp_plot_function_expression_textview);
+        expressionTextView.setText(plotFunction.getXyFunction().getExpressionString());
 
-		final CheckBox pinnedCheckBox = (CheckBox) root.findViewById(R.id.cpp_plot_function_pinned_checkbox);
-		pinnedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean pin) {
-				if (pin) {
-					if (!plotFunction.isPinned()) {
-						plotFunction = plotter.pin(plotFunction);
-					}
-				} else {
-					if (plotFunction.isPinned()) {
-						plotFunction = plotter.unpin(plotFunction);
-					}
-				}
-			}
-		});
-		pinnedCheckBox.setChecked(plotFunction.isPinned());
+        final CheckBox pinnedCheckBox = (CheckBox) root.findViewById(R.id.cpp_plot_function_pinned_checkbox);
+        pinnedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean pin) {
+                if (pin) {
+                    if (!plotFunction.isPinned()) {
+                        plotFunction = plotter.pin(plotFunction);
+                    }
+                } else {
+                    if (plotFunction.isPinned()) {
+                        plotFunction = plotter.unpin(plotFunction);
+                    }
+                }
+            }
+        });
+        pinnedCheckBox.setChecked(plotFunction.isPinned());
 
-		final CheckBox visibleCheckBox = (CheckBox) root.findViewById(R.id.cpp_plot_function_visible_checkbox);
-		visibleCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean show) {
-				if (show) {
-					if (!plotFunction.isVisible()) {
-						plotFunction = plotter.show(plotFunction);
-					}
-				} else {
-					if (plotFunction.isVisible()) {
-						plotFunction = plotter.hide(plotFunction);
-					}
-				}
-			}
-		});
-		visibleCheckBox.setChecked(plotFunction.isVisible());
+        final CheckBox visibleCheckBox = (CheckBox) root.findViewById(R.id.cpp_plot_function_visible_checkbox);
+        visibleCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean show) {
+                if (show) {
+                    if (!plotFunction.isVisible()) {
+                        plotFunction = plotter.show(plotFunction);
+                    }
+                } else {
+                    if (plotFunction.isVisible()) {
+                        plotFunction = plotter.hide(plotFunction);
+                    }
+                }
+            }
+        });
+        visibleCheckBox.setChecked(plotFunction.isVisible());
 
-		final ImageButton settingsButton = (ImageButton) root.findViewById(R.id.cpp_plot_function_settings_button);
-		settingsButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				CalculatorPlotFunctionSettingsActivity.startActivity(context, plotFunction);
-			}
-		});
-	}
+        final ImageButton settingsButton = (ImageButton) root.findViewById(R.id.cpp_plot_function_settings_button);
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CalculatorPlotFunctionSettingsActivity.startActivity(context, plotFunction);
+            }
+        });
+    }
 }

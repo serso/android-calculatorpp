@@ -22,16 +22,16 @@
 
 package org.solovyev.android.calculator;
 
+import java.text.DecimalFormatSymbols;
+
+import javax.annotation.Nonnull;
+
 import jscl.AngleUnit;
 import jscl.MathEngine;
 import jscl.NumeralBase;
 import jscl.math.function.Function;
 import jscl.math.function.IConstant;
 import jscl.math.operator.Operator;
-
-import javax.annotation.Nonnull;
-
-import java.text.DecimalFormatSymbols;
 
 /**
  * User: Solovyev_S
@@ -41,18 +41,18 @@ import java.text.DecimalFormatSymbols;
 public interface CalculatorEngine {
 
 	/*
-	**********************************************************************
+    **********************************************************************
 	*
 	*                           INIT
 	*
 	**********************************************************************
 	*/
 
-	void init();
+    void init();
 
-	void reset();
+    void reset();
 
-	void softReset();
+    void softReset();
 
 	/*
 	**********************************************************************
@@ -62,24 +62,24 @@ public interface CalculatorEngine {
 	**********************************************************************
 	*/
 
-	@Nonnull
-	CalculatorMathRegistry<IConstant> getVarsRegistry();
+    @Nonnull
+    CalculatorMathRegistry<IConstant> getVarsRegistry();
 
-	@Nonnull
-	CalculatorMathRegistry<Function> getFunctionsRegistry();
+    @Nonnull
+    CalculatorMathRegistry<Function> getFunctionsRegistry();
 
-	@Nonnull
-	CalculatorMathRegistry<Operator> getOperatorsRegistry();
+    @Nonnull
+    CalculatorMathRegistry<Operator> getOperatorsRegistry();
 
-	@Nonnull
-	CalculatorMathRegistry<Operator> getPostfixFunctionsRegistry();
+    @Nonnull
+    CalculatorMathRegistry<Operator> getPostfixFunctionsRegistry();
 
-	@Nonnull
-	CalculatorMathEngine getMathEngine();
+    @Nonnull
+    CalculatorMathEngine getMathEngine();
 
-	@Deprecated
-	@Nonnull
-	MathEngine getMathEngine0();
+    @Deprecated
+    @Nonnull
+    MathEngine getMathEngine0();
 
 	/*
 	**********************************************************************
@@ -89,32 +89,32 @@ public interface CalculatorEngine {
 	**********************************************************************
 	*/
 
-	@Nonnull
-	String getMultiplicationSign();
+    @Nonnull
+    String getMultiplicationSign();
 
-	void setUseGroupingSeparator(boolean useGroupingSeparator);
+    void setMultiplicationSign(@Nonnull String multiplicationSign);
 
-	void setGroupingSeparator(char groupingSeparator);
+    void setUseGroupingSeparator(boolean useGroupingSeparator);
 
-	void setPrecision(@Nonnull Integer precision);
+    void setGroupingSeparator(char groupingSeparator);
 
-	void setRoundResult(@Nonnull Boolean round);
+    void setPrecision(@Nonnull Integer precision);
 
-	@Nonnull
-	AngleUnit getAngleUnits();
+    void setRoundResult(@Nonnull Boolean round);
 
-	void setAngleUnits(@Nonnull AngleUnit angleUnits);
+    @Nonnull
+    AngleUnit getAngleUnits();
 
-	@Nonnull
-	NumeralBase getNumeralBase();
+    void setAngleUnits(@Nonnull AngleUnit angleUnits);
 
-	void setNumeralBase(@Nonnull NumeralBase numeralBase);
+    @Nonnull
+    NumeralBase getNumeralBase();
 
-	void setMultiplicationSign(@Nonnull String multiplicationSign);
+    void setNumeralBase(@Nonnull NumeralBase numeralBase);
 
-	void setScienceNotation(@Nonnull Boolean scienceNotation);
+    void setScienceNotation(@Nonnull Boolean scienceNotation);
 
-	void setTimeout(@Nonnull Integer timeout);
+    void setTimeout(@Nonnull Integer timeout);
 
-	void setDecimalGroupSymbols(@Nonnull DecimalFormatSymbols decimalGroupSymbols);
+    void setDecimalGroupSymbols(@Nonnull DecimalFormatSymbols decimalGroupSymbols);
 }

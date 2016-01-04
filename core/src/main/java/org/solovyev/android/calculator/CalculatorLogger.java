@@ -32,12 +32,12 @@ import javax.annotation.Nullable;
  */
 public interface CalculatorLogger {
 
-	void debug(@Nullable String tag, @Nonnull String message);
+    void debug(@Nullable String tag, @Nonnull String message);
 
-	void debug(@Nullable String tag, @Nullable String message, @Nonnull Throwable e);
+    void debug(@Nullable String tag, @Nullable String message, @Nonnull Throwable e);
 
-	void error(@Nullable String tag, @Nullable String message, @Nonnull Throwable e);
+    void error(@Nullable String tag, @Nullable String message, @Nonnull Throwable e);
 
-	void error(@Nullable String tag, @Nullable String message);
+    void error(@Nullable String tag, @Nullable String message);
 
 }

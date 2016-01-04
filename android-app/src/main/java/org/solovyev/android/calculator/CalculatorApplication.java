@@ -55,34 +55,31 @@ import java.util.concurrent.TimeUnit;
 import javax.annotation.Nonnull;
 
 @ReportsCrashes(formKey = "",
-		formUri = "https://serso.cloudant.com/acra-cpp/_design/acra-storage/_update/report",
-		reportType = org.acra.sender.HttpSender.Type.JSON,
-		httpMethod = org.acra.sender.HttpSender.Method.PUT,
-		formUriBasicAuthLogin="timbeenterumisideffecird",
-		formUriBasicAuthPassword="ECL65PO2TH5quIFNAK4hQ5Ng",
-		mode = ReportingInteractionMode.TOAST,
-		resToastText = R.string.crashed)
+        formUri = "https://serso.cloudant.com/acra-cpp/_design/acra-storage/_update/report",
+        reportType = org.acra.sender.HttpSender.Type.JSON,
+        httpMethod = org.acra.sender.HttpSender.Method.PUT,
+        formUriBasicAuthLogin = "timbeenterumisideffecird",
+        formUriBasicAuthPassword = "ECL65PO2TH5quIFNAK4hQ5Ng",
+        mode = ReportingInteractionMode.TOAST,
+        resToastText = R.string.crashed)
 public class CalculatorApplication extends android.app.Application implements SharedPreferences.OnSharedPreferenceChangeListener {
 
 	/*
-	**********************************************************************
+    **********************************************************************
 	*
 	*                           CONSTANTS
 	*
 	**********************************************************************
 	*/
 
-	@Nonnull
-	static final String MAIL = "se.solovyev@gmail.com";
-
-	private static final String TAG = "C++";
-
-	public static final String AD_FREE_PRODUCT_ID = "ad_free";
-	public static final String AD_FREE_P_KEY = "org.solovyev.android.calculator_ad_free";
-	public static final String ADMOB = "ca-app-pub-2228934497384784/2916398892";
-
-	@Nonnull
-	private static CalculatorApplication instance;
+    public static final String AD_FREE_PRODUCT_ID = "ad_free";
+    public static final String AD_FREE_P_KEY = "org.solovyev.android.calculator_ad_free";
+    public static final String ADMOB = "ca-app-pub-2228934497384784/2916398892";
+    @Nonnull
+    static final String MAIL = "se.solovyev@gmail.com";
+    private static final String TAG = "C++";
+    @Nonnull
+    private static CalculatorApplication instance;
 
 	/*
 	**********************************************************************
@@ -91,17 +88,14 @@ public class CalculatorApplication extends android.app.Application implements Sh
 	*
 	**********************************************************************
 	*/
+    @Nonnull
+    protected final Handler uiHandler = new Handler();
+    @Nonnull
+    private final List<CalculatorEventListener> listeners = new ArrayList<CalculatorEventListener>();
+    @Nonnull
+    private final Wizards wizards = new CalculatorWizards(this);
 
-	@Nonnull
-	private final List<CalculatorEventListener> listeners = new ArrayList<CalculatorEventListener>();
-
-	@Nonnull
-	protected final Handler uiHandler = new Handler();
-
-	@Nonnull
-	private final Wizards wizards = new CalculatorWizards(this);
-
-	private Typeface typeFace;
+    private Typeface typeFace;
 
 	/*
 	**********************************************************************
@@ -111,9 +105,9 @@ public class CalculatorApplication extends android.app.Application implements Sh
 	**********************************************************************
 	*/
 
-	public CalculatorApplication() {
-		instance = this;
-	}
+    public CalculatorApplication() {
+        instance = this;
+    }
 
 	/*
 	**********************************************************************
@@ -123,131 +117,128 @@ public class CalculatorApplication extends android.app.Application implements Sh
 	**********************************************************************
 	*/
 
-	@Override
-	public void onCreate() {
-		if (!BuildConfig.DEBUG) {
-			ACRA.init(this);
-		} else {
-			LeakCanary.install(this);
-		}
+    @Nonnull
+    public static CalculatorApplication getInstance() {
+        return instance;
+    }
 
-		if (!App.isInitialized()) {
-			App.init(this);
-		}
+    @Nonnull
+    public static SharedPreferences getPreferences() {
+        return PreferenceManager.getDefaultSharedPreferences(getInstance());
+    }
 
-		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		Preferences.setDefaultValues(preferences);
+    public static boolean isMonkeyRunner(@Nonnull Context context) {
+        // NOTE: this code is only for monkeyrunner
+        return context.checkCallingOrSelfPermission(android.Manifest.permission.DISABLE_KEYGUARD) == PackageManager.PERMISSION_GRANTED;
+    }
 
-		preferences.registerOnSharedPreferenceChangeListener(this);
+    @Override
+    public void onCreate() {
+        if (!BuildConfig.DEBUG) {
+            ACRA.init(this);
+        } else {
+            LeakCanary.install(this);
+        }
 
-		setTheme(preferences);
-		setLanguageInitially();
+        if (!App.isInitialized()) {
+            App.init(this);
+        }
 
-		super.onCreate();
-		App.getLanguages().updateLanguage(this, true);
+        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        Preferences.setDefaultValues(preferences);
 
-		if (!Preferences.Ga.initialReportDone.getPreference(preferences)) {
-			App.getGa().reportInitially(preferences);
-			Preferences.Ga.initialReportDone.putPreference(preferences, true);
-		}
+        preferences.registerOnSharedPreferenceChangeListener(this);
 
-		final AndroidCalculator calculator = new AndroidCalculator(this);
+        setTheme(preferences);
+        setLanguageInitially();
 
-		final EditorTextProcessor editorTextProcessor = new EditorTextProcessor();
+        super.onCreate();
+        App.getLanguages().updateLanguage(this, true);
 
-		Locator.getInstance().init(calculator,
-				new AndroidCalculatorEngine(this),
-				new AndroidCalculatorClipboard(this),
-				new AndroidCalculatorNotifier(this),
-				new AndroidCalculatorHistory(this, calculator),
-				new AndroidCalculatorLogger(),
-				new AndroidCalculatorPreferenceService(this),
-				new AndroidCalculatorKeyboard(this, new CalculatorKeyboardImpl(calculator)),
-				new AndroidCalculatorPlotter(this, new CalculatorPlotterImpl(calculator)),
-				editorTextProcessor);
+        if (!Preferences.Ga.initialReportDone.getPreference(preferences)) {
+            App.getGa().reportInitially(preferences);
+            Preferences.Ga.initialReportDone.putPreference(preferences, true);
+        }
 
-		editorTextProcessor.init(this);
+        final AndroidCalculator calculator = new AndroidCalculator(this);
 
-		listeners.add(new CalculatorActivityLauncher());
-		for (CalculatorEventListener listener : listeners) {
-			calculator.addCalculatorEventListener(listener);
-		}
+        final EditorTextProcessor editorTextProcessor = new EditorTextProcessor();
 
-		calculator.addCalculatorEventListener(App.getBroadcaster());
+        Locator.getInstance().init(calculator,
+                new AndroidCalculatorEngine(this),
+                new AndroidCalculatorClipboard(this),
+                new AndroidCalculatorNotifier(this),
+                new AndroidCalculatorHistory(this, calculator),
+                new AndroidCalculatorLogger(),
+                new AndroidCalculatorPreferenceService(this),
+                new AndroidCalculatorKeyboard(this, new CalculatorKeyboardImpl(calculator)),
+                new AndroidCalculatorPlotter(this, new CalculatorPlotterImpl(calculator)),
+                editorTextProcessor);
 
-		Locator.getInstance().getCalculator().init();
+        editorTextProcessor.init(this);
 
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					// prepare engine
-					Locator.getInstance().getEngine().getMathEngine0().evaluate("1+1");
-					Locator.getInstance().getEngine().getMathEngine0().evaluate("1*1");
-				} catch (Throwable e) {
-					Log.e(TAG, e.getMessage(), e);
-				}
+        listeners.add(new CalculatorActivityLauncher());
+        for (CalculatorEventListener listener : listeners) {
+            calculator.addCalculatorEventListener(listener);
+        }
 
-			}
-		}).start();
+        calculator.addCalculatorEventListener(App.getBroadcaster());
 
-		Locator.getInstance().getLogger().debug(TAG, "Application started!");
-		Locator.getInstance().getNotifier().showDebugMessage(TAG, "Application started!");
+        Locator.getInstance().getCalculator().init();
 
-		App.getUiThreadExecutor().execute(new Runnable() {
-			@Override
-			public void run() {
-				// we must update the widget when app starts
-				App.getBroadcaster().sendEditorStateChangedIntent();
-			}
-		}, 100, TimeUnit.MILLISECONDS);
-	}
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    // prepare engine
+                    Locator.getInstance().getEngine().getMathEngine0().evaluate("1+1");
+                    Locator.getInstance().getEngine().getMathEngine0().evaluate("1*1");
+                } catch (Throwable e) {
+                    Log.e(TAG, e.getMessage(), e);
+                }
 
-	private void setLanguageInitially() {
-		// should be called before onCreate()
-		final Language language = App.getLanguages().getCurrent();
-		if (!language.isSystem() && !language.locale.equals(Locale.getDefault())) {
-			Locale.setDefault(language.locale);
-		}
-	}
+            }
+        }).start();
 
-	private void setTheme(@Nonnull SharedPreferences preferences) {
-		final Preferences.Gui.Theme theme = Preferences.Gui.getTheme(preferences);
-		setTheme(theme.getThemeId());
-	}
+        Locator.getInstance().getLogger().debug(TAG, "Application started!");
+        Locator.getInstance().getNotifier().showDebugMessage(TAG, "Application started!");
 
-	@Nonnull
-	public FragmentUi createFragmentHelper(int layoutId) {
-		return new FragmentUi(layoutId);
-	}
+        App.getUiThreadExecutor().execute(new Runnable() {
+            @Override
+            public void run() {
+                // we must update the widget when app starts
+                App.getBroadcaster().sendEditorStateChangedIntent();
+            }
+        }, 100, TimeUnit.MILLISECONDS);
+    }
 
-	@Nonnull
-	public FragmentUi createFragmentHelper(int layoutId, int titleResId) {
-		return new FragmentUi(layoutId, titleResId);
-	}
+    private void setLanguageInitially() {
+        // should be called before onCreate()
+        final Language language = App.getLanguages().getCurrent();
+        if (!language.isSystem() && !language.locale.equals(Locale.getDefault())) {
+            Locale.setDefault(language.locale);
+        }
+    }
 
-	@Nonnull
-	public FragmentUi createFragmentHelper(int layoutId, int titleResId, boolean listenersOnCreate) {
-		return new FragmentUi(layoutId, titleResId, listenersOnCreate);
-	}
+    private void setTheme(@Nonnull SharedPreferences preferences) {
+        final Preferences.Gui.Theme theme = Preferences.Gui.getTheme(preferences);
+        setTheme(theme.getThemeId());
+    }
 
-	@Nonnull
-	public Handler getUiHandler() {
-		return uiHandler;
-	}
+    @Nonnull
+    public FragmentUi createFragmentHelper(int layoutId) {
+        return new FragmentUi(layoutId);
+    }
 
-	@Nonnull
-	public Wizards getWizards() {
-		return wizards;
-	}
+    @Nonnull
+    public FragmentUi createFragmentHelper(int layoutId, int titleResId) {
+        return new FragmentUi(layoutId, titleResId);
+    }
 
-	@Nonnull
-	public Typeface getTypeFace() {
-		if (typeFace == null) {
-			typeFace = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Regular.ttf");
-		}
-		return typeFace;
-	}
+    @Nonnull
+    public FragmentUi createFragmentHelper(int layoutId, int titleResId, boolean listenersOnCreate) {
+        return new FragmentUi(layoutId, titleResId, listenersOnCreate);
+    }
 
 	/*
 	**********************************************************************
@@ -257,27 +248,30 @@ public class CalculatorApplication extends android.app.Application implements Sh
 	**********************************************************************
 	*/
 
-	@Nonnull
-	public static CalculatorApplication getInstance() {
-		return instance;
-	}
+    @Nonnull
+    public Handler getUiHandler() {
+        return uiHandler;
+    }
 
-	@Nonnull
-	public static SharedPreferences getPreferences() {
-		return PreferenceManager.getDefaultSharedPreferences(getInstance());
-	}
+    @Nonnull
+    public Wizards getWizards() {
+        return wizards;
+    }
 
-	public static boolean isMonkeyRunner(@Nonnull Context context) {
-		// NOTE: this code is only for monkeyrunner
-		return context.checkCallingOrSelfPermission(android.Manifest.permission.DISABLE_KEYGUARD) == PackageManager.PERMISSION_GRANTED;
-	}
+    @Nonnull
+    public Typeface getTypeFace() {
+        if (typeFace == null) {
+            typeFace = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Regular.ttf");
+        }
+        return typeFace;
+    }
 
-	@Override
-	public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-		if (Preferences.Onscreen.showAppIcon.getKey().equals(key)) {
-			boolean showAppIcon = Preferences.Onscreen.showAppIcon.getPreference(prefs);
-			Android.toggleComponent(this, CalculatorOnscreenStartActivity.class, showAppIcon);
-			Locator.getInstance().getNotifier().showMessage(R.string.cpp_this_change_may_require_reboot, MessageType.info);
-		}
-	}
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+        if (Preferences.Onscreen.showAppIcon.getKey().equals(key)) {
+            boolean showAppIcon = Preferences.Onscreen.showAppIcon.getPreference(prefs);
+            Android.toggleComponent(this, CalculatorOnscreenStartActivity.class, showAppIcon);
+            Locator.getInstance().getNotifier().showMessage(R.string.cpp_this_change_may_require_reboot, MessageType.info);
+        }
+    }
 }

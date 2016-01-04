@@ -32,80 +32,78 @@ import javax.annotation.Nullable;
  */
 class CalculatorEventDataImpl implements CalculatorEventData {
 
-	private static final long NO_SEQUENCE = -1L;
+    private static final long NO_SEQUENCE = -1L;
 
-	private final long eventId;
+    private final long eventId;
+    private final Object source;
+    @Nonnull
+    private Long sequenceId = NO_SEQUENCE;
 
-	@Nonnull
-	private Long sequenceId = NO_SEQUENCE;
+    private CalculatorEventDataImpl(long id, @Nonnull Long sequenceId, @Nullable Object source) {
+        this.eventId = id;
+        this.sequenceId = sequenceId;
+        this.source = source;
+    }
 
-	private final Object source;
+    @Nonnull
+    static CalculatorEventData newInstance(long id, @Nonnull Long sequenceId) {
+        return new CalculatorEventDataImpl(id, sequenceId, null);
+    }
 
-	private CalculatorEventDataImpl(long id, @Nonnull Long sequenceId, @Nullable Object source) {
-		this.eventId = id;
-		this.sequenceId = sequenceId;
-		this.source = source;
-	}
+    @Nonnull
+    static CalculatorEventData newInstance(long id, @Nonnull Long sequenceId, @Nonnull Object source) {
+        return new CalculatorEventDataImpl(id, sequenceId, source);
+    }
 
-	@Nonnull
-	static CalculatorEventData newInstance(long id, @Nonnull Long sequenceId) {
-		return new CalculatorEventDataImpl(id, sequenceId, null);
-	}
+    @Override
+    public long getEventId() {
+        return this.eventId;
+    }
 
-	@Nonnull
-	static CalculatorEventData newInstance(long id, @Nonnull Long sequenceId, @Nonnull Object source) {
-		return new CalculatorEventDataImpl(id, sequenceId, source);
-	}
+    @Nonnull
+    @Override
+    public Long getSequenceId() {
+        return this.sequenceId;
+    }
 
-	@Override
-	public long getEventId() {
-		return this.eventId;
-	}
+    @Override
+    public Object getSource() {
+        return this.source;
+    }
 
-	@Nonnull
-	@Override
-	public Long getSequenceId() {
-		return this.sequenceId;
-	}
+    @Override
+    public boolean isAfter(@Nonnull CalculatorEventData that) {
+        return this.eventId > that.getEventId();
+    }
 
-	@Override
-	public Object getSource() {
-		return this.source;
-	}
+    @Override
+    public boolean isSameSequence(@Nonnull CalculatorEventData that) {
+        return !this.sequenceId.equals(NO_SEQUENCE) && this.sequenceId.equals(that.getSequenceId());
+    }
 
-	@Override
-	public boolean isAfter(@Nonnull CalculatorEventData that) {
-		return this.eventId > that.getEventId();
-	}
+    @Override
+    public boolean isAfterSequence(@Nonnull CalculatorEventData that) {
+        return !this.sequenceId.equals(NO_SEQUENCE) && this.sequenceId > that.getSequenceId();
+    }
 
-	@Override
-	public boolean isSameSequence(@Nonnull CalculatorEventData that) {
-		return !this.sequenceId.equals(NO_SEQUENCE) && this.sequenceId.equals(that.getSequenceId());
-	}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CalculatorEventDataImpl)) return false;
 
-	@Override
-	public boolean isAfterSequence(@Nonnull CalculatorEventData that) {
-		return !this.sequenceId.equals(NO_SEQUENCE) && this.sequenceId > that.getSequenceId();
-	}
+        CalculatorEventDataImpl that = (CalculatorEventDataImpl) o;
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (!(o instanceof CalculatorEventDataImpl)) return false;
+        if (eventId != that.eventId) return false;
+        if (!sequenceId.equals(that.sequenceId))
+            return false;
 
-		CalculatorEventDataImpl that = (CalculatorEventDataImpl) o;
+        return true;
+    }
 
-		if (eventId != that.eventId) return false;
-		if (!sequenceId.equals(that.sequenceId))
-			return false;
-
-		return true;
-	}
-
-	@Override
-	public int hashCode() {
-		int result = (int) (eventId ^ (eventId >>> 32));
-		result = 31 * result + (sequenceId.hashCode());
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        int result = (int) (eventId ^ (eventId >>> 32));
+        result = 31 * result + (sequenceId.hashCode());
+        return result;
+    }
 }

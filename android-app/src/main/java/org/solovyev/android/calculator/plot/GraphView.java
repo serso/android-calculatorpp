@@ -25,41 +25,41 @@ package org.solovyev.android.calculator.plot;
 import android.graphics.Bitmap;
 import android.widget.ZoomButtonsController;
 
-import javax.annotation.Nonnull;
-
 import java.util.List;
+
+import javax.annotation.Nonnull;
 
 public interface GraphView extends ZoomButtonsController.OnZoomListener, TouchHandler.TouchHandlerListener {
 
-	public void init(@Nonnull PlotViewDef plotViewDef);
+    public void init(@Nonnull PlotViewDef plotViewDef);
 
-	public void setPlotFunctions(@Nonnull List<PlotFunction> plotFunctions);
+    @Nonnull
+    public List<PlotFunction> getPlotFunctions();
 
-	@Nonnull
-	public List<PlotFunction> getPlotFunctions();
+    public void setPlotFunctions(@Nonnull List<PlotFunction> plotFunctions);
 
-	public void onDestroy();
+    public void onDestroy();
 
-	public void onPause();
+    public void onPause();
 
-	public void onResume();
+    public void onResume();
 
-	@Nonnull
-	public Bitmap captureScreenshot();
+    @Nonnull
+    public Bitmap captureScreenshot();
 
-	void setXRange(float xMin, float xMax);
+    void setXRange(float xMin, float xMax);
 
-	void setYRange(float yMin, float yMax);
+    void setYRange(float yMin, float yMax);
 
-	float getXMin();
+    float getXMin();
 
-	float getXMax();
+    float getXMax();
 
-	float getYMin();
+    float getYMin();
 
-	float getYMax();
+    float getYMax();
 
-	void invalidateGraphs();
+    void invalidateGraphs();
 
-	void setAdjustYAxis(boolean adjustYAxis);
+    void setAdjustYAxis(boolean adjustYAxis);
 }

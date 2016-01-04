@@ -27,6 +27,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.Spinner;
+
 import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.R;
 
@@ -43,46 +44,46 @@ import static org.solovyev.android.calculator.wizard.CalculatorLayout.optimized;
  */
 public class ChooseLayoutWizardStep extends WizardFragment implements AdapterView.OnItemSelectedListener {
 
-	@Override
-	protected int getViewResId() {
-		return R.layout.cpp_wizard_step_choose_layout;
-	}
+    private ImageView image;
 
-	private ImageView image;
+    @Override
+    protected int getViewResId() {
+        return R.layout.cpp_wizard_step_choose_layout;
+    }
 
-	@Override
-	public void onViewCreated(View root, Bundle savedInstanceState) {
-		super.onViewCreated(root, savedInstanceState);
+    @Override
+    public void onViewCreated(View root, Bundle savedInstanceState) {
+        super.onViewCreated(root, savedInstanceState);
 
-		final CalculatorLayout layout = CalculatorLayout.fromGuiLayout(Preferences.Gui.layout.getPreference(getPreferences()));
+        final CalculatorLayout layout = CalculatorLayout.fromGuiLayout(Preferences.Gui.layout.getPreference(getPreferences()));
 
-		image = (ImageView) root.findViewById(R.id.wizard_layout_image);
-		final Spinner spinner = (Spinner) root.findViewById(R.id.wizard_layout_spinner);
-		spinner.setAdapter(WizardArrayAdapter.create(getActivity(), R.array.cpp_layouts));
-		spinner.setSelection(layout == big_buttons ? 0 : 1);
-		spinner.setOnItemSelectedListener(this);
+        image = (ImageView) root.findViewById(R.id.wizard_layout_image);
+        final Spinner spinner = (Spinner) root.findViewById(R.id.wizard_layout_spinner);
+        spinner.setAdapter(WizardArrayAdapter.create(getActivity(), R.array.cpp_layouts));
+        spinner.setSelection(layout == big_buttons ? 0 : 1);
+        spinner.setOnItemSelectedListener(this);
 
-		updateImage(layout);
-	}
+        updateImage(layout);
+    }
 
-	private void updateImage(@Nonnull CalculatorLayout layout) {
-		image.setImageResource(layout == big_buttons ? R.drawable.layout_big_buttons : R.drawable.layout_optimized);
-	}
+    private void updateImage(@Nonnull CalculatorLayout layout) {
+        image.setImageResource(layout == big_buttons ? R.drawable.layout_big_buttons : R.drawable.layout_optimized);
+    }
 
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-	}
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
 
-	@Override
-	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-		final CalculatorLayout layout = position == 0 ? big_buttons : optimized;
-		layout.apply(getPreferences());
-		updateImage(layout);
-	}
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        final CalculatorLayout layout = position == 0 ? big_buttons : optimized;
+        layout.apply(getPreferences());
+        updateImage(layout);
+    }
 
-	@Override
-	public void onNothingSelected(AdapterView<?> parent) {
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
 
-	}
+    }
 }

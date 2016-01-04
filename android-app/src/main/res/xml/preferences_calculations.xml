@@ -23,77 +23,77 @@
   -->
 
 <PreferenceScreen xmlns:a="http://schemas.android.com/apk/res/android"
-				  xmlns:range="http://schemas.android.com/apk/res-auto">
+    xmlns:range="http://schemas.android.com/apk/res-auto">
 
-		<android.preference.CheckBoxPreference
-				a:key="@string/p_calc_round_result_key"
-				a:summary="@string/c_calc_round_result_summary"
-				a:title="@string/c_calc_round_result_title"
-				a:defaultValue="true"/>
+    <android.preference.CheckBoxPreference
+        a:defaultValue="true"
+        a:key="@string/p_calc_round_result_key"
+        a:summary="@string/c_calc_round_result_summary"
+        a:title="@string/c_calc_round_result_title" />
 
-		<org.solovyev.android.prefs.IntegerPickerDialogPreference
-				a:key="@string/p_calc_result_precision_key"
-				a:title="@string/p_calc_result_precision_title"
-				a:summary="@string/c_calc_result_precision_summary"
-				a:defaultValue="5"
-				range:boundaries="0;16"/>
+    <org.solovyev.android.prefs.IntegerPickerDialogPreference
+        a:defaultValue="5"
+        a:key="@string/p_calc_result_precision_key"
+        a:summary="@string/c_calc_result_precision_summary"
+        a:title="@string/p_calc_result_precision_title"
+        range:boundaries="0;16" />
 
-		<android.preference.CheckBoxPreference
-				a:key="@string/p_calc_science_notation_key"
-				a:summary="@string/c_calc_science_notation_summary"
-				a:title="@string/c_calc_science_notation_title"
-				a:defaultValue="false"/>
+    <android.preference.CheckBoxPreference
+        a:defaultValue="false"
+        a:key="@string/p_calc_science_notation_key"
+        a:summary="@string/c_calc_science_notation_summary"
+        a:title="@string/c_calc_science_notation_title" />
 
-		<ListPreference
-				a:key="@string/p_calc_grouping_separator_key"
-				a:title="@string/c_calc_grouping_separator"
-				a:entries="@array/p_grouping_separator_names"
-				a:summary="@string/c_calc_grouping_separator_summary"
-				a:entryValues="@array/p_grouping_separator_values"/>
+    <ListPreference
+        a:entries="@array/p_grouping_separator_names"
+        a:entryValues="@array/p_grouping_separator_values"
+        a:key="@string/p_calc_grouping_separator_key"
+        a:summary="@string/c_calc_grouping_separator_summary"
+        a:title="@string/c_calc_grouping_separator" />
 
-		<ListPreference
-				a:key="preferred_angle_units"
-				a:title="@string/p_preferred_angle_units_title"
-				a:summary="@string/p_preferred_angle_units_summary"
-				a:entries="@array/p_angle_units_names"
-				a:entryValues="@array/p_angle_units"/>
+    <ListPreference
+        a:entries="@array/p_angle_units_names"
+        a:entryValues="@array/p_angle_units"
+        a:key="preferred_angle_units"
+        a:summary="@string/p_preferred_angle_units_summary"
+        a:title="@string/p_preferred_angle_units_title" />
 
-		<ListPreference
-				a:key="@string/p_calc_angle_units_key"
-				a:title="@string/c_calc_angle_units"
-				a:entries="@array/p_angle_units_names"
-				a:summary="@string/c_angle_units_summary"
-				a:entryValues="@array/p_angle_units"/>
+    <ListPreference
+        a:entries="@array/p_angle_units_names"
+        a:entryValues="@array/p_angle_units"
+        a:key="@string/p_calc_angle_units_key"
+        a:summary="@string/c_angle_units_summary"
+        a:title="@string/c_calc_angle_units" />
 
-		<ListPreference
-				a:key="preferred_numeral_base"
-				a:title="@string/p_preferred_numeral_base_title"
-				a:summary="@string/p_preferred_numeral_base_summary"
-				a:entries="@array/p_numeral_bases_names"
-				a:entryValues="@array/p_numeral_bases"/>
+    <ListPreference
+        a:entries="@array/p_numeral_bases_names"
+        a:entryValues="@array/p_numeral_bases"
+        a:key="preferred_numeral_base"
+        a:summary="@string/p_preferred_numeral_base_summary"
+        a:title="@string/p_preferred_numeral_base_title" />
 
-		<ListPreference
-				a:key="@string/p_calc_numeral_bases_key"
-				a:title="@string/c_calc_numeral_bases"
-				a:entries="@array/p_numeral_bases_names"
-				a:summary="@string/c_numeral_bases_summary"
-				a:entryValues="@array/p_numeral_bases"/>
+    <ListPreference
+        a:entries="@array/p_numeral_bases_names"
+        a:entryValues="@array/p_numeral_bases"
+        a:key="@string/p_calc_numeral_bases_key"
+        a:summary="@string/c_numeral_bases_summary"
+        a:title="@string/c_calc_numeral_bases" />
 
-		<org.solovyev.android.prefs.IntegerPickerDialogPreference
-				a:key="@string/p_calc_max_calculation_time_key"
-				a:title="@string/p_calc_max_calculation_time_title"
-				a:summary="@string/p_calc_max_calculation_time_summary"
-				a:defaultValue="5"
-				range:boundaries="3;1000"/>
+    <org.solovyev.android.prefs.IntegerPickerDialogPreference
+        a:defaultValue="5"
+        a:key="@string/p_calc_max_calculation_time_key"
+        a:summary="@string/p_calc_max_calculation_time_summary"
+        a:title="@string/p_calc_max_calculation_time_title"
+        range:boundaries="3;1000" />
 
-		<android.preference.CheckBoxPreference
-				a:key="calculations_calculate_on_fly"
-				a:title="@string/p_calculations_calculate_on_fly_title"
-				a:summary="@string/p_calculations_calculate_on_fly_summary"/>
+    <android.preference.CheckBoxPreference
+        a:key="calculations_calculate_on_fly"
+        a:summary="@string/p_calculations_calculate_on_fly_summary"
+        a:title="@string/p_calculations_calculate_on_fly_title" />
 
-		<android.preference.CheckBoxPreference
-				a:key="show_calculation_messages_dialog"
-				a:title="@string/p_show_calculation_messages_dialog_title"
-				a:summary="@string/p_show_calculation_messages_dialog_summary"/>
+    <android.preference.CheckBoxPreference
+        a:key="show_calculation_messages_dialog"
+        a:summary="@string/p_show_calculation_messages_dialog_summary"
+        a:title="@string/p_show_calculation_messages_dialog_title" />
 
 </PreferenceScreen>

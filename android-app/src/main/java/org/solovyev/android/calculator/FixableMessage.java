@@ -24,6 +24,7 @@ package org.solovyev.android.calculator;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
 import org.solovyev.common.msg.Message;
 import org.solovyev.common.msg.MessageType;
 
@@ -37,75 +38,72 @@ import javax.annotation.Nullable;
  */
 public class FixableMessage implements Parcelable {
 
-	public static final Creator<FixableMessage> CREATOR = new Creator<FixableMessage>() {
-		@Override
-		public FixableMessage createFromParcel(@Nonnull Parcel in) {
-			return FixableMessage.fromParcel(in);
-		}
+    public static final Creator<FixableMessage> CREATOR = new Creator<FixableMessage>() {
+        @Override
+        public FixableMessage createFromParcel(@Nonnull Parcel in) {
+            return FixableMessage.fromParcel(in);
+        }
 
-		@Override
-		public FixableMessage[] newArray(int size) {
-			return new FixableMessage[size];
-		}
-	};
+        @Override
+        public FixableMessage[] newArray(int size) {
+            return new FixableMessage[size];
+        }
+    };
+    @Nonnull
+    private final String message;
+    @Nonnull
+    private final MessageType messageType;
+    @Nullable
+    private final FixableError fixableError;
 
-	@Nonnull
-	private static FixableMessage fromParcel(@Nonnull Parcel in) {
-		final String message = in.readString();
-		final MessageType messageType = (MessageType) in.readSerializable();
-		final FixableError fixableError = (FixableError) in.readSerializable();
+    public FixableMessage(@Nonnull Message message) {
+        this.message = message.getLocalizedMessage();
+        final int messageLevel = message.getMessageLevel().getMessageLevel();
+        this.messageType = CalculatorMessages.toMessageType(messageLevel);
+        this.fixableError = CalculatorFixableError.getErrorByMessageCode(message.getMessageCode());
+    }
 
-		return new FixableMessage(message, messageType, fixableError);
-	}
+    public FixableMessage(@Nonnull String message,
+                          @Nonnull MessageType messageType,
+                          @Nullable FixableError fixableError) {
+        this.message = message;
+        this.messageType = messageType;
+        this.fixableError = fixableError;
+    }
 
-	@Nonnull
-	private final String message;
+    @Nonnull
+    private static FixableMessage fromParcel(@Nonnull Parcel in) {
+        final String message = in.readString();
+        final MessageType messageType = (MessageType) in.readSerializable();
+        final FixableError fixableError = (FixableError) in.readSerializable();
 
-	@Nonnull
-	private final MessageType messageType;
+        return new FixableMessage(message, messageType, fixableError);
+    }
 
-	@Nullable
-	private final FixableError fixableError;
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
-	public FixableMessage(@Nonnull Message message) {
-		this.message = message.getLocalizedMessage();
-		final int messageLevel = message.getMessageLevel().getMessageLevel();
-		this.messageType = CalculatorMessages.toMessageType(messageLevel);
-		this.fixableError = CalculatorFixableError.getErrorByMessageCode(message.getMessageCode());
-	}
+    @Override
+    public void writeToParcel(@Nonnull Parcel out, int flags) {
+        out.writeString(message);
+        out.writeSerializable(messageType);
+        out.writeSerializable(fixableError);
+    }
 
-	public FixableMessage(@Nonnull String message,
-						  @Nonnull MessageType messageType,
-						  @Nullable FixableError fixableError) {
-		this.message = message;
-		this.messageType = messageType;
-		this.fixableError = fixableError;
-	}
+    @Nonnull
+    public String getMessage() {
+        return message;
+    }
 
-	@Override
-	public int describeContents() {
-		return 0;
-	}
+    @Nonnull
+    public MessageType getMessageType() {
+        return messageType;
+    }
 
-	@Override
-	public void writeToParcel(@Nonnull Parcel out, int flags) {
-		out.writeString(message);
-		out.writeSerializable(messageType);
-		out.writeSerializable(fixableError);
-	}
-
-	@Nonnull
-	public String getMessage() {
-		return message;
-	}
-
-	@Nonnull
-	public MessageType getMessageType() {
-		return messageType;
-	}
-
-	@Nullable
-	public FixableError getFixableError() {
-		return fixableError;
-	}
+    @Nullable
+    public FixableError getFixableError() {
+        return fixableError;
+    }
 }

@@ -22,17 +22,17 @@
 
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-	<string-array name="p_layout_names" tools:ignore="InconsistentArrays">
-		<item>@string/p_layout_calculator</item>
-		<item>@string/p_layout_calculator_mobile</item>
-		<item>@string/p_layout_simple</item>
-		<item>@string/p_layout_simple_mobile</item>
-	</string-array>
-	<string-array name="p_layout_values" translatable="false" tools:ignore="InconsistentArrays">
-		<item>main_calculator</item>
-		<item>main_calculator_mobile</item>
-		<item>simple</item>
-		<item>simple_mobile</item>
-	</string-array>
+    <string-array name="p_layout_names" tools:ignore="InconsistentArrays">
+        <item>@string/p_layout_calculator</item>
+        <item>@string/p_layout_calculator_mobile</item>
+        <item>@string/p_layout_simple</item>
+        <item>@string/p_layout_simple_mobile</item>
+    </string-array>
+    <string-array name="p_layout_values" translatable="false" tools:ignore="InconsistentArrays">
+        <item>main_calculator</item>
+        <item>main_calculator_mobile</item>
+        <item>simple</item>
+        <item>simple_mobile</item>
+    </string-array>
 
 </resources>

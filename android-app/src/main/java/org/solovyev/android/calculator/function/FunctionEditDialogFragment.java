@@ -34,22 +34,32 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import jscl.math.Generic;
-import jscl.math.function.Constant;
-import jscl.math.function.CustomFunction;
-import jscl.math.function.Function;
-import jscl.math.function.IFunction;
-import org.solovyev.android.calculator.*;
+
+import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.CalculatorDisplayViewState;
+import org.solovyev.android.calculator.CalculatorEventData;
+import org.solovyev.android.calculator.CalculatorEventListener;
+import org.solovyev.android.calculator.CalculatorEventType;
+import org.solovyev.android.calculator.CalculatorUtils;
+import org.solovyev.android.calculator.Locator;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.math.edit.CalculatorFunctionsActivity;
 import org.solovyev.android.calculator.math.edit.CalculatorFunctionsFragment;
 import org.solovyev.android.calculator.math.edit.MathEntityRemover;
 import org.solovyev.android.calculator.model.AFunction;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import jscl.math.Generic;
+import jscl.math.function.Constant;
+import jscl.math.function.CustomFunction;
+import jscl.math.function.Function;
+import jscl.math.function.IFunction;
 
 /**
  * User: serso
@@ -58,306 +68,300 @@ import java.util.Set;
  */
 public class FunctionEditDialogFragment extends DialogFragment implements CalculatorEventListener {
 
-	private static final String INPUT = "input";
+    private static final String INPUT = "input";
 
-	private Input input;
+    private Input input;
 
-	public FunctionEditDialogFragment() {
-	}
+    public FunctionEditDialogFragment() {
+    }
 
-	@Nonnull
-	public static FunctionEditDialogFragment create(@Nonnull Input input) {
-		final FunctionEditDialogFragment fragment = new FunctionEditDialogFragment();
-		fragment.input = input;
-		final Bundle args = new Bundle();
-		args.putParcelable("input", input);
-		fragment.setArguments(args);
-		return fragment;
-	}
+    @Nonnull
+    public static FunctionEditDialogFragment create(@Nonnull Input input) {
+        final FunctionEditDialogFragment fragment = new FunctionEditDialogFragment();
+        fragment.input = input;
+        final Bundle args = new Bundle();
+        args.putParcelable("input", input);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    public static void showDialog(@Nonnull Input input, @Nonnull Context context) {
+        if (context instanceof ActionBarActivity) {
+            FunctionEditDialogFragment.showDialog(input, ((ActionBarActivity) context).getSupportFragmentManager());
+        } else {
+            final Intent intent = new Intent(context, CalculatorFunctionsActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra(CalculatorFunctionsFragment.CREATE_FUNCTION_EXTRA, input);
+            context.startActivity(intent);
+        }
+    }
 
-		if (input == null) {
-			input = getArguments().getParcelable("input");
-			if (input == null) throw new AssertionError();
-		}
-	}
+    public static void showDialog(@Nonnull Input input, @Nonnull FragmentManager fm) {
+        App.showDialog(create(input), "function-editor", fm);
+    }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		final View result = inflater.inflate(R.layout.function_edit, container, false);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		if (savedInstanceState != null) {
-			final Parcelable input = savedInstanceState.getParcelable(INPUT);
-			if (input instanceof Input) {
-				this.input = (Input) input;
-			}
-		}
+        if (input == null) {
+            input = getArguments().getParcelable("input");
+            if (input == null) throw new AssertionError();
+        }
+    }
 
-		return result;
-	}
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        final View result = inflater.inflate(R.layout.function_edit, container, false);
 
-	@Override
-	public void onViewCreated(@Nonnull View root, Bundle savedInstanceState) {
-		super.onViewCreated(root, savedInstanceState);
+        if (savedInstanceState != null) {
+            final Parcelable input = savedInstanceState.getParcelable(INPUT);
+            if (input instanceof Input) {
+                this.input = (Input) input;
+            }
+        }
 
-		final FunctionParamsView paramsView = (FunctionParamsView) root.findViewById(R.id.function_params_layout);
+        return result;
+    }
 
-		final AFunction.Builder builder;
-		final AFunction function = input.getFunction();
-		if (function != null) {
-			builder = new AFunction.Builder(function);
-		} else {
-			builder = new AFunction.Builder();
-		}
+    @Override
+    public void onViewCreated(@Nonnull View root, Bundle savedInstanceState) {
+        super.onViewCreated(root, savedInstanceState);
 
-		final List<String> parameterNames = input.getParameterNames();
-		if (parameterNames != null) {
-			paramsView.init(parameterNames);
-		} else {
-			paramsView.init();
-		}
+        final FunctionParamsView paramsView = (FunctionParamsView) root.findViewById(R.id.function_params_layout);
 
-		final EditText editName = (EditText) root.findViewById(R.id.function_edit_name);
-		// show soft keyboard automatically
-		editName.requestFocus();
-		editName.setText(input.getName());
+        final AFunction.Builder builder;
+        final AFunction function = input.getFunction();
+        if (function != null) {
+            builder = new AFunction.Builder(function);
+        } else {
+            builder = new AFunction.Builder();
+        }
 
-		final EditText editDescription = (EditText) root.findViewById(R.id.function_edit_description);
-		editDescription.setText(input.getDescription());
+        final List<String> parameterNames = input.getParameterNames();
+        if (parameterNames != null) {
+            paramsView.init(parameterNames);
+        } else {
+            paramsView.init();
+        }
 
-		final EditText editContent = (EditText) root.findViewById(R.id.function_edit_value);
-		editContent.setText(input.getContent());
+        final EditText editName = (EditText) root.findViewById(R.id.function_edit_name);
+        // show soft keyboard automatically
+        editName.requestFocus();
+        editName.setText(input.getName());
 
-		root.findViewById(R.id.cancel_button).setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				dismiss();
-			}
-		});
+        final EditText editDescription = (EditText) root.findViewById(R.id.function_edit_description);
+        editDescription.setText(input.getDescription());
 
-		root.findViewById(R.id.save_button).setOnClickListener(new FunctionEditorSaver(builder, function, root, Locator.getInstance().getEngine().getFunctionsRegistry(), this));
+        final EditText editContent = (EditText) root.findViewById(R.id.function_edit_value);
+        editContent.setText(input.getContent());
 
-		if (function == null) {
-			// CREATE MODE
-			getDialog().setTitle(R.string.function_create_function);
+        root.findViewById(R.id.cancel_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
 
-			root.findViewById(R.id.remove_button).setVisibility(View.GONE);
-		} else {
-			// EDIT MODE
-			getDialog().setTitle(R.string.function_edit_function);
+        root.findViewById(R.id.save_button).setOnClickListener(new FunctionEditorSaver(builder, function, root, Locator.getInstance().getEngine().getFunctionsRegistry(), this));
 
-			final Function customFunction = new CustomFunction.Builder(function).create();
-			root.findViewById(R.id.remove_button).setOnClickListener(MathEntityRemover.newFunctionRemover(customFunction, null, this.getActivity(), FunctionEditDialogFragment.this));
-		}
-	}
+        if (function == null) {
+            // CREATE MODE
+            getDialog().setTitle(R.string.function_create_function);
 
-	@Override
-	public void onSaveInstanceState(@Nonnull Bundle out) {
-		super.onSaveInstanceState(out);
+            root.findViewById(R.id.remove_button).setVisibility(View.GONE);
+        } else {
+            // EDIT MODE
+            getDialog().setTitle(R.string.function_edit_function);
 
-		out.putParcelable(INPUT, FunctionEditorSaver.readInput(input.getFunction(), getView()));
-	}
+            final Function customFunction = new CustomFunction.Builder(function).create();
+            root.findViewById(R.id.remove_button).setOnClickListener(MathEntityRemover.newFunctionRemover(customFunction, null, this.getActivity(), FunctionEditDialogFragment.this));
+        }
+    }
 
-	@Override
-	public void onResume() {
-		super.onResume();
+    @Override
+    public void onSaveInstanceState(@Nonnull Bundle out) {
+        super.onSaveInstanceState(out);
 
-		Locator.getInstance().getCalculator().addCalculatorEventListener(this);
-	}
+        out.putParcelable(INPUT, FunctionEditorSaver.readInput(input.getFunction(), getView()));
+    }
 
-	@Override
-	public void onPause() {
-		Locator.getInstance().getCalculator().removeCalculatorEventListener(this);
+    @Override
+    public void onResume() {
+        super.onResume();
 
-		super.onPause();
-	}
-
-	@Override
-	public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
-		switch (calculatorEventType) {
-			case function_removed:
-			case function_added:
-			case function_changed:
-				if (calculatorEventData.getSource() == FunctionEditDialogFragment.this) {
-					dismiss();
-				}
-				break;
-
-		}
-	}
+        Locator.getInstance().getCalculator().addCalculatorEventListener(this);
+    }
 
     	/*
-	**********************************************************************
+    **********************************************************************
 	*
 	*                           STATIC
 	*
 	**********************************************************************
 	*/
 
-	public static void showDialog(@Nonnull Input input, @Nonnull Context context) {
-		if (context instanceof ActionBarActivity) {
-			FunctionEditDialogFragment.showDialog(input, ((ActionBarActivity) context).getSupportFragmentManager());
-		} else {
-			final Intent intent = new Intent(context, CalculatorFunctionsActivity.class);
-			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			intent.putExtra(CalculatorFunctionsFragment.CREATE_FUNCTION_EXTRA, input);
-			context.startActivity(intent);
-		}
-	}
+    @Override
+    public void onPause() {
+        Locator.getInstance().getCalculator().removeCalculatorEventListener(this);
 
-	public static void showDialog(@Nonnull Input input, @Nonnull FragmentManager fm) {
-		App.showDialog(create(input), "function-editor", fm);
-	}
+        super.onPause();
+    }
 
-	public static class Input implements Parcelable {
+    @Override
+    public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
+        switch (calculatorEventType) {
+            case function_removed:
+            case function_added:
+            case function_changed:
+                if (calculatorEventData.getSource() == FunctionEditDialogFragment.this) {
+                    dismiss();
+                }
+                break;
 
-		public static final Parcelable.Creator<Input> CREATOR = new Creator<Input>() {
-			@Override
-			public Input createFromParcel(@Nonnull Parcel in) {
-				return Input.fromParcel(in);
-			}
+        }
+    }
 
-			@Override
-			public Input[] newArray(int size) {
-				return new Input[size];
-			}
-		};
+    public static class Input implements Parcelable {
 
-		private static final Parcelable.Creator<String> STRING_CREATOR = new Creator<String>() {
-			@Override
-			public String createFromParcel(@Nonnull Parcel in) {
-				return in.readString();
-			}
+        private static final Parcelable.Creator<String> STRING_CREATOR = new Creator<String>() {
+            @Override
+            public String createFromParcel(@Nonnull Parcel in) {
+                return in.readString();
+            }
 
-			@Override
-			public String[] newArray(int size) {
-				return new String[size];
-			}
-		};
+            @Override
+            public String[] newArray(int size) {
+                return new String[size];
+            }
+        };
+        @Nullable
+        private AFunction function;
+        @Nullable
+        private String name;
+        @Nullable
+        private String content;
+        @Nullable
+        private String description;
+        @Nullable
+        private List<String> parameterNames;
+        public static final Parcelable.Creator<Input> CREATOR = new Creator<Input>() {
+            @Override
+            public Input createFromParcel(@Nonnull Parcel in) {
+                return Input.fromParcel(in);
+            }
 
-		@Nonnull
-		private static Input fromParcel(@Nonnull Parcel in) {
-			final Input result = new Input();
-			result.name = in.readString();
-			result.content = in.readString();
-			result.description = in.readString();
+            @Override
+            public Input[] newArray(int size) {
+                return new Input[size];
+            }
+        };
 
-			final List<String> parameterNames = new ArrayList<String>();
-			in.readTypedList(parameterNames, STRING_CREATOR);
-			result.parameterNames = parameterNames;
+        private Input() {
+        }
 
-			result.function = (AFunction) in.readSerializable();
+        @Nonnull
+        private static Input fromParcel(@Nonnull Parcel in) {
+            final Input result = new Input();
+            result.name = in.readString();
+            result.content = in.readString();
+            result.description = in.readString();
 
-			return result;
-		}
+            final List<String> parameterNames = new ArrayList<String>();
+            in.readTypedList(parameterNames, STRING_CREATOR);
+            result.parameterNames = parameterNames;
 
-		@Nullable
-		private AFunction function;
+            result.function = (AFunction) in.readSerializable();
 
-		@Nullable
-		private String name;
+            return result;
+        }
 
-		@Nullable
-		private String content;
+        @Nonnull
+        public static Input newInstance() {
+            return new Input();
+        }
 
-		@Nullable
-		private String description;
+        @Nonnull
+        public static Input newFromFunction(@Nonnull IFunction function) {
+            final Input result = new Input();
+            result.function = AFunction.fromIFunction(function);
+            return result;
+        }
 
-		@Nullable
-		private List<String> parameterNames;
+        @Nonnull
+        public static Input newInstance(@Nullable IFunction function,
+                                        @Nullable String name,
+                                        @Nullable String value,
+                                        @Nullable String description,
+                                        @Nonnull List<String> parameterNames) {
 
-		private Input() {
-		}
+            final Input result = new Input();
+            if (function != null) {
+                result.function = AFunction.fromIFunction(function);
+            }
+            result.name = name;
+            result.content = value;
+            result.description = description;
+            result.parameterNames = new ArrayList<String>(parameterNames);
 
-		@Nonnull
-		public static Input newInstance() {
-			return new Input();
-		}
+            return result;
+        }
 
-		@Nonnull
-		public static Input newFromFunction(@Nonnull IFunction function) {
-			final Input result = new Input();
-			result.function = AFunction.fromIFunction(function);
-			return result;
-		}
+        @Nonnull
+        public static Input newFromDisplay(@Nonnull CalculatorDisplayViewState viewState) {
+            final Input result = new Input();
 
-		@Nonnull
-		public static Input newInstance(@Nullable IFunction function,
-										@Nullable String name,
-										@Nullable String value,
-										@Nullable String description,
-										@Nonnull List<String> parameterNames) {
+            result.content = viewState.getText();
+            final Generic generic = viewState.getResult();
+            if (generic != null) {
+                final Set<Constant> constants = CalculatorUtils.getNotSystemConstants(generic);
+                final List<String> parameterNames = new ArrayList<String>(constants.size());
+                for (Constant constant : constants) {
+                    parameterNames.add(constant.getName());
+                }
+                result.parameterNames = parameterNames;
+            }
 
-			final Input result = new Input();
-			if (function != null) {
-				result.function = AFunction.fromIFunction(function);
-			}
-			result.name = name;
-			result.content = value;
-			result.description = description;
-			result.parameterNames = new ArrayList<String>(parameterNames);
+            return result;
+        }
 
-			return result;
-		}
+        @Nullable
+        public AFunction getFunction() {
+            return function;
+        }
 
-		@Nullable
-		public AFunction getFunction() {
-			return function;
-		}
+        @Nullable
+        public String getName() {
+            return name == null ? (function == null ? null : function.getName()) : name;
+        }
 
-		@Nullable
-		public String getName() {
-			return name == null ? (function == null ? null : function.getName()) : name;
-		}
+        @Nullable
+        public String getContent() {
+            return content == null ? (function == null ? null : function.getContent()) : content;
+        }
 
-		@Nullable
-		public String getContent() {
-			return content == null ? (function == null ? null : function.getContent()) : content;
-		}
+        @Nullable
+        public String getDescription() {
+            return description == null ? (function == null ? null : function.getDescription()) : description;
+        }
 
-		@Nullable
-		public String getDescription() {
-			return description == null ? (function == null ? null : function.getDescription()) : description;
-		}
+        @Nullable
+        public List<String> getParameterNames() {
+            return parameterNames == null ? (function == null ? null : function.getParameterNames()) : parameterNames;
+        }
 
-		@Nullable
-		public List<String> getParameterNames() {
-			return parameterNames == null ? (function == null ? null : function.getParameterNames()) : parameterNames;
-		}
+        @Override
+        public int describeContents() {
+            return 0;
+        }
 
-		@Override
-		public int describeContents() {
-			return 0;
-		}
-
-		@Override
-		public void writeToParcel(@Nonnull Parcel out, int flags) {
-			out.writeString(name);
-			out.writeString(content);
-			out.writeString(description);
-			out.writeList(parameterNames);
-			out.writeSerializable(function);
-		}
-
-		@Nonnull
-		public static Input newFromDisplay(@Nonnull CalculatorDisplayViewState viewState) {
-			final Input result = new Input();
-
-			result.content = viewState.getText();
-			final Generic generic = viewState.getResult();
-			if (generic != null) {
-				final Set<Constant> constants = CalculatorUtils.getNotSystemConstants(generic);
-				final List<String> parameterNames = new ArrayList<String>(constants.size());
-				for (Constant constant : constants) {
-					parameterNames.add(constant.getName());
-				}
-				result.parameterNames = parameterNames;
-			}
-
-			return result;
-		}
-	}
+        @Override
+        public void writeToParcel(@Nonnull Parcel out, int flags) {
+            out.writeString(name);
+            out.writeString(content);
+            out.writeString(description);
+            out.writeList(parameterNames);
+            out.writeSerializable(function);
+        }
+    }
 }

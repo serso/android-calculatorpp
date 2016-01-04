@@ -31,10 +31,10 @@ import javax.annotation.Nonnull;
  */
 public interface Change<T> {
 
-	@Nonnull
-	T getOldValue();
+    @Nonnull
+    T getOldValue();
 
-	@Nonnull
-	T getNewValue();
+    @Nonnull
+    T getNewValue();
 
 }

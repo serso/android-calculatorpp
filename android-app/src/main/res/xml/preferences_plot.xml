@@ -24,9 +24,9 @@
 
 <PreferenceScreen xmlns:a="http://schemas.android.com/apk/res/android">
 
-		<android.preference.CheckBoxPreference
-				a:key="graph_plot_imag"
-				a:title="@string/cpp_prefs_graph_plot_imag_title"
-				a:summary="@string/cpp_prefs_graph_plot_imag_summary"/>
+    <android.preference.CheckBoxPreference
+        a:key="graph_plot_imag"
+        a:summary="@string/cpp_prefs_graph_plot_imag_summary"
+        a:title="@string/cpp_prefs_graph_plot_imag_title" />
 
 </PreferenceScreen>

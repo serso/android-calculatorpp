@@ -22,11 +22,11 @@
 
 package org.solovyev.android.calculator;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import org.solovyev.common.msg.Message;
 import org.solovyev.common.msg.MessageLevel;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * User: serso
@@ -35,37 +35,37 @@ import org.solovyev.common.msg.MessageLevel;
  */
 public class MessageDialogData implements DialogData {
 
-	@Nonnull
-	private Message message;
+    @Nonnull
+    private Message message;
 
-	@Nullable
-	private String title;
+    @Nullable
+    private String title;
 
-	private MessageDialogData(@Nonnull Message message, @Nullable String title) {
-		this.message = message;
-		this.title = title;
-	}
+    private MessageDialogData(@Nonnull Message message, @Nullable String title) {
+        this.message = message;
+        this.title = title;
+    }
 
-	@Nonnull
-	public static DialogData newInstance(@Nonnull Message message, @Nullable String title) {
-		return new MessageDialogData(message, title);
-	}
+    @Nonnull
+    public static DialogData newInstance(@Nonnull Message message, @Nullable String title) {
+        return new MessageDialogData(message, title);
+    }
 
-	@Override
-	@Nonnull
-	public String getMessage() {
-		return message.getLocalizedMessage();
-	}
+    @Override
+    @Nonnull
+    public String getMessage() {
+        return message.getLocalizedMessage();
+    }
 
-	@Nonnull
-	@Override
-	public MessageLevel getMessageLevel() {
-		return message.getMessageLevel();
-	}
+    @Nonnull
+    @Override
+    public MessageLevel getMessageLevel() {
+        return message.getMessageLevel();
+    }
 
-	@Override
-	@Nullable
-	public String getTitle() {
-		return title;
-	}
+    @Override
+    @Nullable
+    public String getTitle() {
+        return title;
+    }
 }

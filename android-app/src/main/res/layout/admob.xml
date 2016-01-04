@@ -22,12 +22,13 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<com.google.android.gms.ads.AdView a:id="@+id/admob"
-	xmlns:a="http://schemas.android.com/apk/res/android"
-	xmlns:ads="http://schemas.android.com/apk/res-auto"
-	a:layout_width="match_parent"
-	a:layout_height="wrap_content"
-	a:layout_gravity="center"
-	a:visibility="gone"
-	ads:adSize="BANNER"
-	ads:adUnitId="@string/admob" />
+<com.google.android.gms.ads.AdView
+    xmlns:a="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    a:id="@+id/admob"
+    a:layout_width="match_parent"
+    a:layout_height="wrap_content"
+    a:layout_gravity="center"
+    a:visibility="gone"
+    ads:adSize="BANNER"
+    ads:adUnitId="@string/admob" />

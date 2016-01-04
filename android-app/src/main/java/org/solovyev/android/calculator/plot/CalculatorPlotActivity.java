@@ -24,6 +24,7 @@ package org.solovyev.android.calculator.plot;
 
 import android.content.Intent;
 import android.os.Bundle;
+
 import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.EmptyActivity;
 import org.solovyev.android.calculator.R;
@@ -40,25 +41,25 @@ import static android.support.v7.app.ActionBar.NAVIGATION_MODE_STANDARD;
  */
 public class CalculatorPlotActivity extends EmptyActivity {
 
-	@Override
-	public void onCreate(@Nullable Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @Nonnull
+    public static CalculatorFragmentType getPlotterFragmentType() {
+        return CalculatorFragmentType.plotter;
+    }
 
-		final Intent intent = getIntent();
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		final Bundle arguments;
-		if (intent != null) {
-			arguments = intent.getExtras();
-		} else {
-			arguments = null;
-		}
+        final Intent intent = getIntent();
 
-		getSupportActionBar().setNavigationMode(NAVIGATION_MODE_STANDARD);
-		getUi().setFragment(this, getPlotterFragmentType(), arguments, R.id.main_layout);
-	}
+        final Bundle arguments;
+        if (intent != null) {
+            arguments = intent.getExtras();
+        } else {
+            arguments = null;
+        }
 
-	@Nonnull
-	public static CalculatorFragmentType getPlotterFragmentType() {
-		return CalculatorFragmentType.plotter;
-	}
+        getSupportActionBar().setNavigationMode(NAVIGATION_MODE_STANDARD);
+        getUi().setFragment(this, getPlotterFragmentType(), arguments, R.id.main_layout);
+    }
 }

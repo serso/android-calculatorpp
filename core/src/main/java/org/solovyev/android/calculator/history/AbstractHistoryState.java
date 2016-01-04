@@ -22,12 +22,12 @@
 
 package org.solovyev.android.calculator.history;
 
-import javax.annotation.Nullable;
-
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Transient;
 
 import java.util.Date;
+
+import javax.annotation.Nullable;
 
 /**
  * User: serso
@@ -36,62 +36,62 @@ import java.util.Date;
  */
 public class AbstractHistoryState implements Cloneable {
 
-	@Element
-	private long time = new Date().getTime();
+    @Element
+    private long time = new Date().getTime();
 
-	@Element(required = false)
-	@Nullable
-	private String comment;
+    @Element(required = false)
+    @Nullable
+    private String comment;
 
-	@Transient
-	private boolean saved;
+    @Transient
+    private boolean saved;
 
-	@Transient
-	private int id = 0;
+    @Transient
+    private int id = 0;
 
-	public int getId() {
-		return id;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public long getTime() {
-		return time;
-	}
+    public long getTime() {
+        return time;
+    }
 
-	public void setTime(long time) {
-		this.time = time;
-	}
+    public void setTime(long time) {
+        this.time = time;
+    }
 
-	@Nullable
-	public String getComment() {
-		return comment;
-	}
+    @Nullable
+    public String getComment() {
+        return comment;
+    }
 
-	public void setComment(@Nullable String comment) {
-		this.comment = comment;
-	}
+    public void setComment(@Nullable String comment) {
+        this.comment = comment;
+    }
 
-	public boolean isSaved() {
-		return saved;
-	}
+    public boolean isSaved() {
+        return saved;
+    }
 
-	public void setSaved(boolean saved) {
-		this.saved = saved;
-	}
+    public void setSaved(boolean saved) {
+        this.saved = saved;
+    }
 
-	@Override
-	protected AbstractHistoryState clone() {
-		AbstractHistoryState clone;
+    @Override
+    protected AbstractHistoryState clone() {
+        AbstractHistoryState clone;
 
-		try {
-			clone = (AbstractHistoryState) super.clone();
-		} catch (CloneNotSupportedException e) {
-			throw new UnsupportedOperationException(e);
-		}
+        try {
+            clone = (AbstractHistoryState) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new UnsupportedOperationException(e);
+        }
 
-		return clone;
-	}
+        return clone;
+    }
 }

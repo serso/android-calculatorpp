@@ -31,8 +31,8 @@ import javax.annotation.Nonnull;
  */
 public interface CalculatorDisplayView {
 
-	void setState(@Nonnull CalculatorDisplayViewState state);
+    @Nonnull
+    CalculatorDisplayViewState getState();
 
-	@Nonnull
-	CalculatorDisplayViewState getState();
+    void setState(@Nonnull CalculatorDisplayViewState state);
 }

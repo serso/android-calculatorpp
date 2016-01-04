@@ -23,6 +23,7 @@
 package org.solovyev.android.calculator;
 
 import android.view.MotionEvent;
+
 import org.solovyev.android.calculator.drag.DirectionDragButton;
 import org.solovyev.android.calculator.drag.DragButton;
 import org.solovyev.android.calculator.drag.DragDirection;
@@ -38,19 +39,19 @@ import javax.annotation.Nonnull;
  */
 public class DigitButtonDragProcessor implements SimpleDragListener.DragProcessor {
 
-	@Nonnull
-	private CalculatorKeyboard calculatorKeyboard;
+    @Nonnull
+    private CalculatorKeyboard calculatorKeyboard;
 
-	public DigitButtonDragProcessor(@Nonnull CalculatorKeyboard calculatorKeyboard) {
-		this.calculatorKeyboard = calculatorKeyboard;
-	}
+    public DigitButtonDragProcessor(@Nonnull CalculatorKeyboard calculatorKeyboard) {
+        this.calculatorKeyboard = calculatorKeyboard;
+    }
 
-	@Override
-	public boolean processDragEvent(@Nonnull DragDirection dragDirection, @Nonnull DragButton dragButton, @Nonnull Point2d startPoint2d, @Nonnull MotionEvent motionEvent) {
-		if (!(dragButton instanceof DirectionDragButton)) throw new AssertionError();
-		final String text = ((DirectionDragButton) dragButton).getText(dragDirection);
-		calculatorKeyboard.buttonPressed(text);
-		return true;
-	}
+    @Override
+    public boolean processDragEvent(@Nonnull DragDirection dragDirection, @Nonnull DragButton dragButton, @Nonnull Point2d startPoint2d, @Nonnull MotionEvent motionEvent) {
+        if (!(dragButton instanceof DirectionDragButton)) throw new AssertionError();
+        final String text = ((DirectionDragButton) dragButton).getText(dragDirection);
+        calculatorKeyboard.buttonPressed(text);
+        return true;
+    }
 
 }

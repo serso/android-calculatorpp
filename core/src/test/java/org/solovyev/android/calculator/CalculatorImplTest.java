@@ -22,11 +22,8 @@
 
 package org.solovyev.android.calculator;
 
-import jscl.math.function.IConstant;
-
 import org.junit.Before;
 import org.junit.Test;
-import org.solovyev.android.calculator.model.Var;
 
 /**
  * User: Solovyev_S
@@ -35,22 +32,22 @@ import org.solovyev.android.calculator.model.Var;
  */
 public class CalculatorImplTest extends AbstractCalculatorTest {
 
-	@Before
-	public void setUp() throws Exception {
-		super.setUp();
-	}
+    @Before
+    public void setUp() throws Exception {
+        super.setUp();
+    }
 
-	@Test
-	public void testAnsVariable() throws Exception {
-		CalculatorTestUtils.assertEval("2", "2");
-		CalculatorTestUtils.assertEval("2", "ans");
-		CalculatorTestUtils.assertEval("4", "ans^2");
-		CalculatorTestUtils.assertEval("16", "ans^2");
-		CalculatorTestUtils.assertEval("0", "0");
-		CalculatorTestUtils.assertEval("0", "ans");
-		CalculatorTestUtils.assertEval("3", "3");
-		CalculatorTestUtils.assertEval("9", "ans*ans");
-		CalculatorTestUtils.assertError("ans*an");
-		CalculatorTestUtils.assertEval("81", "ans*ans");
-	}
+    @Test
+    public void testAnsVariable() throws Exception {
+        CalculatorTestUtils.assertEval("2", "2");
+        CalculatorTestUtils.assertEval("2", "ans");
+        CalculatorTestUtils.assertEval("4", "ans^2");
+        CalculatorTestUtils.assertEval("16", "ans^2");
+        CalculatorTestUtils.assertEval("0", "0");
+        CalculatorTestUtils.assertEval("0", "ans");
+        CalculatorTestUtils.assertEval("3", "3");
+        CalculatorTestUtils.assertEval("9", "ans*ans");
+        CalculatorTestUtils.assertError("ans*an");
+        CalculatorTestUtils.assertEval("81", "ans*ans");
+    }
 }

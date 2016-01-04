@@ -22,27 +22,28 @@
 
 <resources>
 
-	<style name="CppKeyboardButton.Blue.Digit" parent="CppKeyboardButton">
-		<item name="android:background">@drawable/blue_button</item>
-	</style>
+    <style name="CppKeyboardButton.Blue.Digit" parent="CppKeyboardButton">
+        <item name="android:background">@drawable/blue_button</item>
+    </style>
 
-	<style name="CppKeyboardButton.Blue.Control" parent="CppKeyboardButton">
-		<item name="android:background">@drawable/blue_button_dark</item>
-	</style>
+    <style name="CppKeyboardButton.Blue.Control" parent="CppKeyboardButton">
+        <item name="android:background">@drawable/blue_button_dark</item>
+    </style>
 
-	<style name="CppKeyboardButton.Blue.Operation" parent="CppKeyboardButton.Blue.Digit">
-		<item name="android:textColor">@color/cpp_button_text_operator</item>
-	</style>
+    <style name="CppKeyboardButton.Blue.Operation" parent="CppKeyboardButton.Blue.Digit">
+        <item name="android:textColor">@color/cpp_button_text_operator</item>
+    </style>
 
-	<style name="CppKeyboardButton.Blue.Control.Image" parent="CppKeyboardButton.Blue.Control">
-		<item name="android:padding">6dp</item>
-	</style>
+    <style name="CppKeyboardButton.Blue.Control.Image" parent="CppKeyboardButton.Blue.Control">
+        <item name="android:padding">6dp</item>
+    </style>
 
-	<style name="Cpp.Theme.Blue" parent="Cpp.Theme">
-		<item name="cpp_button_style_digit">@style/CppKeyboardButton.Blue.Digit</item>
-		<item name="cpp_button_style_control">@style/CppKeyboardButton.Blue.Control</item>
-		<item name="cpp_button_style_control_image">@style/CppKeyboardButton.Blue.Control.Image</item>
-		<item name="cpp_button_style_operation">@style/CppKeyboardButton.Blue.Operation</item>
-	</style>
+    <style name="Cpp.Theme.Blue" parent="Cpp.Theme">
+        <item name="cpp_button_style_digit">@style/CppKeyboardButton.Blue.Digit</item>
+        <item name="cpp_button_style_control">@style/CppKeyboardButton.Blue.Control</item>
+        <item name="cpp_button_style_control_image">@style/CppKeyboardButton.Blue.Control.Image
+        </item>
+        <item name="cpp_button_style_operation">@style/CppKeyboardButton.Blue.Operation</item>
+    </style>
 
 </resources>

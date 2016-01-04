@@ -22,7 +22,8 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<Button a:id="@id/cpp_button_left"
-	style="@style/CppKeyboardButton.Material.Simple.Control"
-	xmlns:a="http://schemas.android.com/apk/res/android"
-	a:text="◁" />
+<Button
+    xmlns:a="http://schemas.android.com/apk/res/android"
+    a:id="@id/cpp_button_left"
+    style="@style/CppKeyboardButton.Material.Simple.Control"
+    a:text="◁" />

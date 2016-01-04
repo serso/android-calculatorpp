@@ -31,26 +31,26 @@ import javax.annotation.Nonnull;
  */
 public class CalculatorDisplayChangeEventDataImpl implements CalculatorDisplayChangeEventData {
 
-	@Nonnull
-	private final CalculatorDisplayViewState oldState;
+    @Nonnull
+    private final CalculatorDisplayViewState oldState;
 
-	@Nonnull
-	private final CalculatorDisplayViewState newState;
+    @Nonnull
+    private final CalculatorDisplayViewState newState;
 
-	public CalculatorDisplayChangeEventDataImpl(@Nonnull CalculatorDisplayViewState oldState, @Nonnull CalculatorDisplayViewState newState) {
-		this.oldState = oldState;
-		this.newState = newState;
-	}
+    public CalculatorDisplayChangeEventDataImpl(@Nonnull CalculatorDisplayViewState oldState, @Nonnull CalculatorDisplayViewState newState) {
+        this.oldState = oldState;
+        this.newState = newState;
+    }
 
-	@Nonnull
-	@Override
-	public CalculatorDisplayViewState getOldValue() {
-		return this.oldState;
-	}
+    @Nonnull
+    @Override
+    public CalculatorDisplayViewState getOldValue() {
+        return this.oldState;
+    }
 
-	@Nonnull
-	@Override
-	public CalculatorDisplayViewState getNewValue() {
-		return this.newState;
-	}
+    @Nonnull
+    @Override
+    public CalculatorDisplayViewState getNewValue() {
+        return this.newState;
+    }
 }

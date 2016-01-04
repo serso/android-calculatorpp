@@ -35,21 +35,22 @@ import org.solovyev.android.calculator.drag.DragDirection;
 import org.solovyev.android.calculator.drag.SimpleDragListener;
 import org.solovyev.common.math.Point2d;
 
+import java.util.Arrays;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Arrays;
 
 public class DragButtonWizardStep extends WizardFragment {
 
 	/*
-	**********************************************************************
+    **********************************************************************
 	*
 	*                           CONSTANTS
 	*
 	**********************************************************************
 	*/
 
-	private static final String ACTION = "action";
+    private static final String ACTION = "action";
 
 	/*
 	**********************************************************************
@@ -59,48 +60,48 @@ public class DragButtonWizardStep extends WizardFragment {
 	**********************************************************************
 	*/
 
-	@Nullable
-	private DirectionDragButton dragButton;
+    @Nullable
+    private DirectionDragButton dragButton;
 
-	@Nullable
-	private TextView actionTextView;
+    @Nullable
+    private TextView actionTextView;
 
-	@Nonnull
-	private TextView descriptionTextView;
+    @Nonnull
+    private TextView descriptionTextView;
 
-	private DragButtonAction action = DragButtonAction.center;
+    private DragButtonAction action = DragButtonAction.center;
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-	}
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
-	@Override
-	protected int getViewResId() {
-		return R.layout.cpp_wizard_step_drag_button;
-	}
+    @Override
+    protected int getViewResId() {
+        return R.layout.cpp_wizard_step_drag_button;
+    }
 
-	@Override
-	public void onViewCreated(View root, Bundle savedInstanceState) {
-		super.onViewCreated(root, savedInstanceState);
+    @Override
+    public void onViewCreated(View root, Bundle savedInstanceState) {
+        super.onViewCreated(root, savedInstanceState);
 
-		dragButton = (DirectionDragButton) root.findViewById(R.id.wizard_dragbutton);
-		dragButton.setOnClickListener(new DragButtonOnClickListener());
-		dragButton.setOnDragListener(new SimpleDragListener(new DragButtonProcessor(), getActivity()));
-		actionTextView = (TextView) root.findViewById(R.id.wizard_dragbutton_action_textview);
-		descriptionTextView = (TextView) root.findViewById(R.id.wizard_dragbutton_description_textview);
+        dragButton = (DirectionDragButton) root.findViewById(R.id.wizard_dragbutton);
+        dragButton.setOnClickListener(new DragButtonOnClickListener());
+        dragButton.setOnDragListener(new SimpleDragListener(new DragButtonProcessor(), getActivity()));
+        actionTextView = (TextView) root.findViewById(R.id.wizard_dragbutton_action_textview);
+        descriptionTextView = (TextView) root.findViewById(R.id.wizard_dragbutton_description_textview);
 
-		if (savedInstanceState != null) {
-			setAction((DragButtonAction) savedInstanceState.getSerializable(ACTION));
-		}
-	}
+        if (savedInstanceState != null) {
+            setAction((DragButtonAction) savedInstanceState.getSerializable(ACTION));
+        }
+    }
 
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
 
-		outState.putSerializable(ACTION, action);
-	}
+        outState.putSerializable(ACTION, action);
+    }
 
 	/*
 	**********************************************************************
@@ -110,80 +111,80 @@ public class DragButtonWizardStep extends WizardFragment {
 	**********************************************************************
 	*/
 
-	private static enum DragButtonAction {
-		center(R.string.cpp_wizard_dragbutton_action_center, null),
-		up(R.string.cpp_wizard_dragbutton_action_up, DragDirection.up),
-		down(R.string.cpp_wizard_dragbutton_action_down, DragDirection.down),
-		end(R.string.cpp_wizard_dragbutton_action_end, null);
+    private void setNextAction() {
+        setAction(action.getNextAction());
+    }
 
-		private final int actionTextResId;
+    private void setAction(DragButtonAction action) {
+        if (this.action != action) {
+            this.action = action;
+            if (actionTextView != null) {
+                actionTextView.setText(this.action.actionTextResId);
+            }
 
-		@Nullable
-		private final DragDirection dragDirection;
+            boolean firstChange = false;
+            if (action != DragButtonAction.center) {
+                firstChange = true;
+            }
+            if (firstChange) {
+                //descriptionTextView.setVisibility(GONE);
+            }
+        }
+    }
 
-		DragButtonAction(int actionTextResId, @Nullable DragDirection dragDirection) {
-			this.actionTextResId = actionTextResId;
-			this.dragDirection = dragDirection;
-		}
+    private static enum DragButtonAction {
+        center(R.string.cpp_wizard_dragbutton_action_center, null),
+        up(R.string.cpp_wizard_dragbutton_action_up, DragDirection.up),
+        down(R.string.cpp_wizard_dragbutton_action_down, DragDirection.down),
+        end(R.string.cpp_wizard_dragbutton_action_end, null);
 
-		@Nullable
-		DragButtonAction getNextAction() {
-			final DragButtonAction[] values = values();
-			final int position = Arrays.binarySearch(values, this);
-			if (position < values.length - 1) {
-				return values[position + 1];
-			} else {
-				return values[0];
-			}
-		}
-	}
+        private final int actionTextResId;
 
-	private class DragButtonOnClickListener implements View.OnClickListener {
-		@Override
-		public void onClick(View v) {
-			App.getVibrator().vibrate();
-			if (action == DragButtonAction.center || action == DragButtonAction.end) {
-				setNextAction();
-			}
-		}
-	}
+        @Nullable
+        private final DragDirection dragDirection;
 
-	private void setNextAction() {
-		setAction(action.getNextAction());
-	}
+        DragButtonAction(int actionTextResId, @Nullable DragDirection dragDirection) {
+            this.actionTextResId = actionTextResId;
+            this.dragDirection = dragDirection;
+        }
 
-	private class DragButtonProcessor implements SimpleDragListener.DragProcessor {
-		@Override
-		public boolean processDragEvent(@Nonnull DragDirection dragDirection,
-										@Nonnull DragButton dragButton,
-										@Nonnull Point2d startPoint2d,
-										@Nonnull MotionEvent motionEvent) {
-			if (dragDirection == DragDirection.up || dragDirection == DragDirection.down) {
-				App.getVibrator().vibrate();
-			}
+        @Nullable
+        DragButtonAction getNextAction() {
+            final DragButtonAction[] values = values();
+            final int position = Arrays.binarySearch(values, this);
+            if (position < values.length - 1) {
+                return values[position + 1];
+            } else {
+                return values[0];
+            }
+        }
+    }
 
-			if (action.dragDirection == dragDirection) {
-				setNextAction();
-				return true;
-			}
-			return false;
-		}
-	}
+    private class DragButtonOnClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            App.getVibrator().vibrate();
+            if (action == DragButtonAction.center || action == DragButtonAction.end) {
+                setNextAction();
+            }
+        }
+    }
 
-	private void setAction(DragButtonAction action) {
-		if (this.action != action) {
-			this.action = action;
-			if (actionTextView != null) {
-				actionTextView.setText(this.action.actionTextResId);
-			}
+    private class DragButtonProcessor implements SimpleDragListener.DragProcessor {
+        @Override
+        public boolean processDragEvent(@Nonnull DragDirection dragDirection,
+                                        @Nonnull DragButton dragButton,
+                                        @Nonnull Point2d startPoint2d,
+                                        @Nonnull MotionEvent motionEvent) {
+            if (dragDirection == DragDirection.up || dragDirection == DragDirection.down) {
+                App.getVibrator().vibrate();
+            }
 
-			boolean firstChange = false;
-			if (action != DragButtonAction.center) {
-				firstChange = true;
-			}
-			if (firstChange) {
-				//descriptionTextView.setVisibility(GONE);
-			}
-		}
-	}
+            if (action.dragDirection == dragDirection) {
+                setNextAction();
+                return true;
+            }
+            return false;
+        }
+    }
 }

@@ -22,11 +22,11 @@
 
 package org.solovyev.android.calculator.text;
 
-import jscl.math.Generic;
+import org.solovyev.android.calculator.CalculatorParseException;
 
 import javax.annotation.Nonnull;
 
-import org.solovyev.android.calculator.CalculatorParseException;
+import jscl.math.Generic;
 
 /**
  * User: serso
@@ -35,11 +35,11 @@ import org.solovyev.android.calculator.CalculatorParseException;
  */
 public enum DummyTextProcessor implements TextProcessor<String, Generic> {
 
-	instance;
+    instance;
 
-	@Nonnull
-	@Override
-	public String process(@Nonnull Generic s) throws CalculatorParseException {
-		return s.toString();
-	}
+    @Nonnull
+    @Override
+    public String process(@Nonnull Generic s) throws CalculatorParseException {
+        return s.toString();
+    }
 }

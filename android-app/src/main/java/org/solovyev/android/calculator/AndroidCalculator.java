@@ -46,192 +46,192 @@ import jscl.math.Generic;
  */
 public class AndroidCalculator implements Calculator, CalculatorEventListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
-	@Nonnull
-	private final CalculatorImpl calculator = new CalculatorImpl();
+    @Nonnull
+    private final CalculatorImpl calculator = new CalculatorImpl();
 
-	@Nonnull
-	private final Application context;
+    @Nonnull
+    private final Application context;
 
-	public AndroidCalculator(@Nonnull Application application) {
-		this.context = application;
-		this.calculator.addCalculatorEventListener(this);
+    public AndroidCalculator(@Nonnull Application application) {
+        this.context = application;
+        this.calculator.addCalculatorEventListener(this);
 
-		PreferenceManager.getDefaultSharedPreferences(application).registerOnSharedPreferenceChangeListener(this);
-	}
+        PreferenceManager.getDefaultSharedPreferences(application).registerOnSharedPreferenceChangeListener(this);
+    }
 
 	/*
-	**********************************************************************
+    **********************************************************************
 	*
 	*                           DELEGATED TO CALCULATOR
 	*
 	**********************************************************************
 	*/
 
-	@Override
-	@Nonnull
-	public CalculatorEventData evaluate(@Nonnull JsclOperation operation, @Nonnull String expression) {
-		return calculator.evaluate(operation, expression);
-	}
+    @Override
+    @Nonnull
+    public CalculatorEventData evaluate(@Nonnull JsclOperation operation, @Nonnull String expression) {
+        return calculator.evaluate(operation, expression);
+    }
 
-	@Override
-	@Nonnull
-	public CalculatorEventData evaluate(@Nonnull JsclOperation operation, @Nonnull String expression, @Nonnull Long sequenceId) {
-		return calculator.evaluate(operation, expression, sequenceId);
-	}
+    @Override
+    @Nonnull
+    public CalculatorEventData evaluate(@Nonnull JsclOperation operation, @Nonnull String expression, @Nonnull Long sequenceId) {
+        return calculator.evaluate(operation, expression, sequenceId);
+    }
 
-	@Override
-	public void setCalculateOnFly(boolean calculateOnFly) {
-		calculator.setCalculateOnFly(calculateOnFly);
-	}
+    @Override
+    public boolean isCalculateOnFly() {
+        return calculator.isCalculateOnFly();
+    }
 
-	@Override
-	public boolean isCalculateOnFly() {
-		return calculator.isCalculateOnFly();
-	}
+    @Override
+    public void setCalculateOnFly(boolean calculateOnFly) {
+        calculator.setCalculateOnFly(calculateOnFly);
+    }
 
-	@Override
-	public boolean isConversionPossible(@Nonnull Generic generic, @Nonnull NumeralBase from, @Nonnull NumeralBase to) {
-		return calculator.isConversionPossible(generic, from, to);
-	}
+    @Override
+    public boolean isConversionPossible(@Nonnull Generic generic, @Nonnull NumeralBase from, @Nonnull NumeralBase to) {
+        return calculator.isConversionPossible(generic, from, to);
+    }
 
-	@Override
-	@Nonnull
-	public CalculatorEventData convert(@Nonnull Generic generic, @Nonnull NumeralBase to) {
-		return calculator.convert(generic, to);
-	}
+    @Override
+    @Nonnull
+    public CalculatorEventData convert(@Nonnull Generic generic, @Nonnull NumeralBase to) {
+        return calculator.convert(generic, to);
+    }
 
-	@Override
-	@Nonnull
-	public CalculatorEventData fireCalculatorEvent(@Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
-		return calculator.fireCalculatorEvent(calculatorEventType, data);
-	}
+    @Override
+    @Nonnull
+    public CalculatorEventData fireCalculatorEvent(@Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
+        return calculator.fireCalculatorEvent(calculatorEventType, data);
+    }
 
-	@Nonnull
-	@Override
-	public CalculatorEventData fireCalculatorEvent(@Nonnull CalculatorEventType calculatorEventType, @Nullable Object data, @Nonnull Object source) {
-		return calculator.fireCalculatorEvent(calculatorEventType, data, source);
-	}
+    @Nonnull
+    @Override
+    public CalculatorEventData fireCalculatorEvent(@Nonnull CalculatorEventType calculatorEventType, @Nullable Object data, @Nonnull Object source) {
+        return calculator.fireCalculatorEvent(calculatorEventType, data, source);
+    }
 
-	@Override
-	@Nonnull
-	public CalculatorEventData fireCalculatorEvent(@Nonnull CalculatorEventType calculatorEventType, @Nullable Object data, @Nonnull Long sequenceId) {
-		return calculator.fireCalculatorEvent(calculatorEventType, data, sequenceId);
-	}
+    @Override
+    @Nonnull
+    public CalculatorEventData fireCalculatorEvent(@Nonnull CalculatorEventType calculatorEventType, @Nullable Object data, @Nonnull Long sequenceId) {
+        return calculator.fireCalculatorEvent(calculatorEventType, data, sequenceId);
+    }
 
-	@Nonnull
-	@Override
-	public PreparedExpression prepareExpression(@Nonnull String expression) throws CalculatorParseException {
-		return calculator.prepareExpression(expression);
-	}
+    @Nonnull
+    @Override
+    public PreparedExpression prepareExpression(@Nonnull String expression) throws CalculatorParseException {
+        return calculator.prepareExpression(expression);
+    }
 
-	@Override
-	public void init() {
-		this.calculator.init();
+    @Override
+    public void init() {
+        this.calculator.init();
 
-		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-		this.calculator.setCalculateOnFly(Preferences.Calculations.calculateOnFly.getPreference(prefs));
-	}
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        this.calculator.setCalculateOnFly(Preferences.Calculations.calculateOnFly.getPreference(prefs));
+    }
 
-	@Override
-	public void addCalculatorEventListener(@Nonnull CalculatorEventListener calculatorEventListener) {
-		calculator.addCalculatorEventListener(calculatorEventListener);
-	}
+    @Override
+    public void addCalculatorEventListener(@Nonnull CalculatorEventListener calculatorEventListener) {
+        calculator.addCalculatorEventListener(calculatorEventListener);
+    }
 
-	@Override
-	public void removeCalculatorEventListener(@Nonnull CalculatorEventListener calculatorEventListener) {
-		calculator.removeCalculatorEventListener(calculatorEventListener);
-	}
+    @Override
+    public void removeCalculatorEventListener(@Nonnull CalculatorEventListener calculatorEventListener) {
+        calculator.removeCalculatorEventListener(calculatorEventListener);
+    }
 
-	@Override
-	public void fireCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
-		calculator.fireCalculatorEvent(calculatorEventData, calculatorEventType, data);
-	}
+    @Override
+    public void fireCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
+        calculator.fireCalculatorEvent(calculatorEventData, calculatorEventType, data);
+    }
 
-	@Override
-	public void fireCalculatorEvents(@Nonnull List<CalculatorEvent> calculatorEvents) {
-		calculator.fireCalculatorEvents(calculatorEvents);
-	}
+    @Override
+    public void fireCalculatorEvents(@Nonnull List<CalculatorEvent> calculatorEvents) {
+        calculator.fireCalculatorEvents(calculatorEvents);
+    }
 
-	@Override
-	public void doHistoryAction(@Nonnull HistoryAction historyAction) {
-		calculator.doHistoryAction(historyAction);
-	}
+    @Override
+    public void doHistoryAction(@Nonnull HistoryAction historyAction) {
+        calculator.doHistoryAction(historyAction);
+    }
 
-	@Override
-	public void setCurrentHistoryState(@Nonnull CalculatorHistoryState editorHistoryState) {
-		calculator.setCurrentHistoryState(editorHistoryState);
-	}
+    @Override
+    @Nonnull
+    public CalculatorHistoryState getCurrentHistoryState() {
+        return calculator.getCurrentHistoryState();
+    }
 
-	@Override
-	@Nonnull
-	public CalculatorHistoryState getCurrentHistoryState() {
-		return calculator.getCurrentHistoryState();
-	}
+    @Override
+    public void setCurrentHistoryState(@Nonnull CalculatorHistoryState editorHistoryState) {
+        calculator.setCurrentHistoryState(editorHistoryState);
+    }
 
-	@Override
-	public void evaluate() {
-		calculator.evaluate();
-	}
+    @Override
+    public void evaluate() {
+        calculator.evaluate();
+    }
 
-	@Override
-	public void evaluate(@Nonnull Long sequenceId) {
-		calculator.evaluate(sequenceId);
-	}
+    @Override
+    public void evaluate(@Nonnull Long sequenceId) {
+        calculator.evaluate(sequenceId);
+    }
 
-	@Override
-	public void simplify() {
-		calculator.simplify();
-	}
+    @Override
+    public void simplify() {
+        calculator.simplify();
+    }
 
-	@Override
-	public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
-		switch (calculatorEventType) {
-			case calculation_messages:
-				CalculatorActivityLauncher.showCalculationMessagesDialog(CalculatorApplication.getInstance(), (List<Message>) data);
-				break;
-			case show_history:
-				CalculatorActivityLauncher.showHistory(CalculatorApplication.getInstance());
-				break;
-			case show_history_detached:
-				CalculatorActivityLauncher.showHistory(CalculatorApplication.getInstance(), true);
-				break;
-			case show_functions:
-				CalculatorActivityLauncher.showFunctions(CalculatorApplication.getInstance());
-				break;
-			case show_functions_detached:
-				CalculatorActivityLauncher.showFunctions(CalculatorApplication.getInstance(), true);
-				break;
-			case show_operators:
-				CalculatorActivityLauncher.showOperators(CalculatorApplication.getInstance());
-				break;
-			case show_operators_detached:
-				CalculatorActivityLauncher.showOperators(CalculatorApplication.getInstance(), true);
-				break;
-			case show_vars:
-				CalculatorActivityLauncher.showVars(CalculatorApplication.getInstance());
-				break;
-			case show_vars_detached:
-				CalculatorActivityLauncher.showVars(CalculatorApplication.getInstance(), true);
-				break;
-			case show_settings:
-				CalculatorActivityLauncher.showSettings(CalculatorApplication.getInstance());
-				break;
-			case show_settings_detached:
-				CalculatorActivityLauncher.showSettings(CalculatorApplication.getInstance(), true);
-				break;
-			case show_like_dialog:
-				CalculatorActivityLauncher.likeButtonPressed(CalculatorApplication.getInstance());
-				break;
-			case open_app:
-				CalculatorActivityLauncher.openApp(CalculatorApplication.getInstance());
-				break;
-		}
-	}
+    @Override
+    public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
+        switch (calculatorEventType) {
+            case calculation_messages:
+                CalculatorActivityLauncher.showCalculationMessagesDialog(CalculatorApplication.getInstance(), (List<Message>) data);
+                break;
+            case show_history:
+                CalculatorActivityLauncher.showHistory(CalculatorApplication.getInstance());
+                break;
+            case show_history_detached:
+                CalculatorActivityLauncher.showHistory(CalculatorApplication.getInstance(), true);
+                break;
+            case show_functions:
+                CalculatorActivityLauncher.showFunctions(CalculatorApplication.getInstance());
+                break;
+            case show_functions_detached:
+                CalculatorActivityLauncher.showFunctions(CalculatorApplication.getInstance(), true);
+                break;
+            case show_operators:
+                CalculatorActivityLauncher.showOperators(CalculatorApplication.getInstance());
+                break;
+            case show_operators_detached:
+                CalculatorActivityLauncher.showOperators(CalculatorApplication.getInstance(), true);
+                break;
+            case show_vars:
+                CalculatorActivityLauncher.showVars(CalculatorApplication.getInstance());
+                break;
+            case show_vars_detached:
+                CalculatorActivityLauncher.showVars(CalculatorApplication.getInstance(), true);
+                break;
+            case show_settings:
+                CalculatorActivityLauncher.showSettings(CalculatorApplication.getInstance());
+                break;
+            case show_settings_detached:
+                CalculatorActivityLauncher.showSettings(CalculatorApplication.getInstance(), true);
+                break;
+            case show_like_dialog:
+                CalculatorActivityLauncher.likeButtonPressed(CalculatorApplication.getInstance());
+                break;
+            case open_app:
+                CalculatorActivityLauncher.openApp(CalculatorApplication.getInstance());
+                break;
+        }
+    }
 
-	@Override
-	public void onSharedPreferenceChanged(@Nonnull SharedPreferences prefs, @Nonnull String key) {
-		if (Preferences.Calculations.calculateOnFly.getKey().equals(key)) {
-			this.calculator.setCalculateOnFly(Preferences.Calculations.calculateOnFly.getPreference(prefs));
-		}
-	}
+    @Override
+    public void onSharedPreferenceChanged(@Nonnull SharedPreferences prefs, @Nonnull String key) {
+        if (Preferences.Calculations.calculateOnFly.getKey().equals(key)) {
+            this.calculator.setCalculateOnFly(Preferences.Calculations.calculateOnFly.getPreference(prefs));
+        }
+    }
 }

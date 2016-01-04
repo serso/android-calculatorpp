@@ -22,12 +22,12 @@
 
 package org.solovyev.android.calculator;
 
-import jscl.math.Generic;
+import org.solovyev.android.calculator.jscl.JsclOperation;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.solovyev.android.calculator.jscl.JsclOperation;
+import jscl.math.Generic;
 
 /**
  * User: serso
@@ -36,14 +36,14 @@ import org.solovyev.android.calculator.jscl.JsclOperation;
  */
 public interface CalculatorOutput {
 
-	@Nonnull
-	String getStringResult();
+    @Nonnull
+    String getStringResult();
 
-	@Nonnull
-	JsclOperation getOperation();
+    @Nonnull
+    JsclOperation getOperation();
 
 
-	// null in case of empty expression
-	@Nullable
-	Generic getResult();
+    // null in case of empty expression
+    @Nullable
+    Generic getResult();
 }

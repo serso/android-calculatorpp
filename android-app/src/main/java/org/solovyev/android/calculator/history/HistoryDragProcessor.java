@@ -42,34 +42,34 @@ import javax.annotation.Nonnull;
  */
 public class HistoryDragProcessor<T> implements SimpleDragListener.DragProcessor {
 
-	@Nonnull
-	private final HistoryControl<T> historyControl;
+    @Nonnull
+    private final HistoryControl<T> historyControl;
 
-	public HistoryDragProcessor(@Nonnull HistoryControl<T> historyControl) {
-		this.historyControl = historyControl;
-	}
+    public HistoryDragProcessor(@Nonnull HistoryControl<T> historyControl) {
+        this.historyControl = historyControl;
+    }
 
-	@Override
-	public boolean processDragEvent(@Nonnull DragDirection dragDirection, @Nonnull DragButton dragButton, @Nonnull Point2d startPoint2d, @Nonnull MotionEvent motionEvent) {
-		boolean result = false;
+    @Override
+    public boolean processDragEvent(@Nonnull DragDirection dragDirection, @Nonnull DragButton dragButton, @Nonnull Point2d startPoint2d, @Nonnull MotionEvent motionEvent) {
+        boolean result = false;
 
-		Log.d(String.valueOf(dragButton.getId()), "History on drag event start: " + dragDirection);
+        Log.d(String.valueOf(dragButton.getId()), "History on drag event start: " + dragDirection);
 
-		final HistoryAction historyAction;
-		if (dragDirection == DragDirection.up) {
-			historyAction = HistoryAction.undo;
-		} else if (dragDirection == DragDirection.down) {
-			historyAction = HistoryAction.redo;
-		} else {
-			historyAction = null;
-		}
+        final HistoryAction historyAction;
+        if (dragDirection == DragDirection.up) {
+            historyAction = HistoryAction.undo;
+        } else if (dragDirection == DragDirection.down) {
+            historyAction = HistoryAction.redo;
+        } else {
+            historyAction = null;
+        }
 
-		if (historyAction != null) {
-			App.getVibrator().vibrate();
-			result = true;
-			historyControl.doHistoryAction(historyAction);
-		}
+        if (historyAction != null) {
+            App.getVibrator().vibrate();
+            result = true;
+            historyControl.doHistoryAction(historyAction);
+        }
 
-		return result;
-	}
+        return result;
+    }
 }

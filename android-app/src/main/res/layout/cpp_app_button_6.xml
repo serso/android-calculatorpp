@@ -23,14 +23,14 @@
   -->
 
 <org.solovyev.android.calculator.view.AngleUnitsButton
-	a:id="@id/cpp_button_6"
-	style="?attr/cpp_button_style_digit"
-	xmlns:a="http://schemas.android.com/apk/res/android"
-	xmlns:c="http://schemas.android.com/apk/res-auto"
-	xmlns:tools="http://schemas.android.com/tools"
-	a:text="6"
-	c:directionTextScale="0.33;0.30;0.33;0.33"
-	c:textDown="rad"
-	c:textLeft="F"
-	c:textUp="deg"
-	tools:ignore="HardcodedText" />
+    xmlns:a="http://schemas.android.com/apk/res/android"
+    xmlns:c="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    a:id="@id/cpp_button_6"
+    style="?attr/cpp_button_style_digit"
+    a:text="6"
+    c:directionTextScale="0.33;0.30;0.33;0.33"
+    c:textDown="rad"
+    c:textLeft="F"
+    c:textUp="deg"
+    tools:ignore="HardcodedText" />

@@ -22,10 +22,10 @@
 
 package org.solovyev.android.calculator;
 
+import javax.annotation.Nonnull;
+
 import jscl.math.Generic;
 import jscl.text.ParseException;
-
-import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -34,21 +34,21 @@ import javax.annotation.Nonnull;
  */
 public interface CalculatorMathEngine {
 
-	@Nonnull
-	String evaluate(@Nonnull String expression) throws ParseException;
+    @Nonnull
+    String evaluate(@Nonnull String expression) throws ParseException;
 
-	@Nonnull
-	String simplify(@Nonnull String expression) throws ParseException;
+    @Nonnull
+    String simplify(@Nonnull String expression) throws ParseException;
 
-	@Nonnull
-	String elementary(@Nonnull String expression) throws ParseException;
+    @Nonnull
+    String elementary(@Nonnull String expression) throws ParseException;
 
-	@Nonnull
-	Generic evaluateGeneric(@Nonnull String expression) throws ParseException;
+    @Nonnull
+    Generic evaluateGeneric(@Nonnull String expression) throws ParseException;
 
-	@Nonnull
-	Generic simplifyGeneric(@Nonnull String expression) throws ParseException;
+    @Nonnull
+    Generic simplifyGeneric(@Nonnull String expression) throws ParseException;
 
-	@Nonnull
-	Generic elementaryGeneric(@Nonnull String expression) throws ParseException;
+    @Nonnull
+    Generic elementaryGeneric(@Nonnull String expression) throws ParseException;
 }

@@ -39,43 +39,43 @@ import static org.solovyev.android.calculator.Preferences.Gui.Layout.main_calcul
  */
 enum CalculatorLayout {
 
-	big_buttons(R.string.cpp_wizard_layout_big_buttons) {
-		@Override
-		protected void apply(@Nonnull SharedPreferences preferences) {
-			Preferences.Gui.layout.putPreference(preferences, main_calculator_mobile);
-		}
-	},
+    big_buttons(R.string.cpp_wizard_layout_big_buttons) {
+        @Override
+        protected void apply(@Nonnull SharedPreferences preferences) {
+            Preferences.Gui.layout.putPreference(preferences, main_calculator_mobile);
+        }
+    },
 
-	optimized(R.string.cpp_wizard_layout_optimized) {
-		@Override
-		protected void apply(@Nonnull SharedPreferences preferences) {
-			Preferences.Gui.layout.putPreference(preferences, main_calculator);
-		}
-	};
+    optimized(R.string.cpp_wizard_layout_optimized) {
+        @Override
+        protected void apply(@Nonnull SharedPreferences preferences) {
+            Preferences.Gui.layout.putPreference(preferences, main_calculator);
+        }
+    };
 
-	private final int nameResId;
+    private final int nameResId;
 
-	CalculatorLayout(int nameResId) {
-		this.nameResId = nameResId;
-	}
+    CalculatorLayout(int nameResId) {
+        this.nameResId = nameResId;
+    }
 
-	int getNameResId() {
-		return nameResId;
-	}
+    @Nonnull
+    static CalculatorLayout getDefaultLayout() {
+        return big_buttons;
+    }
 
-	protected abstract void apply(@Nonnull SharedPreferences preferences);
+    @Nonnull
+    static CalculatorLayout fromGuiLayout(@Nonnull Preferences.Gui.Layout layout) {
+        if (layout.isOptimized()) {
+            return optimized;
+        } else {
+            return big_buttons;
+        }
+    }
 
-	@Nonnull
-	static CalculatorLayout getDefaultLayout() {
-		return big_buttons;
-	}
+    int getNameResId() {
+        return nameResId;
+    }
 
-	@Nonnull
-	static CalculatorLayout fromGuiLayout(@Nonnull Preferences.Gui.Layout layout) {
-		if (layout.isOptimized()) {
-			return optimized;
-		} else {
-			return big_buttons;
-		}
-	}
+    protected abstract void apply(@Nonnull SharedPreferences preferences);
 }

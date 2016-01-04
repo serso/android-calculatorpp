@@ -22,13 +22,13 @@
 
 package org.solovyev.android.calculator;
 
-import jscl.math.Generic;
+import org.solovyev.android.calculator.jscl.JsclOperation;
+import org.solovyev.common.text.Strings;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.solovyev.android.calculator.jscl.JsclOperation;
-import org.solovyev.common.text.Strings;
+import jscl.math.Generic;
 
 /**
  * User: serso
@@ -38,28 +38,28 @@ import org.solovyev.common.text.Strings;
 public class CalculatorDisplayViewStateImpl implements CalculatorDisplayViewState {
 
 	/*
-	**********************************************************************
+    **********************************************************************
 	*
 	*                           FIELDS
 	*
 	**********************************************************************
 	*/
 
-	@Nonnull
-	private JsclOperation operation = JsclOperation.numeric;
+    @Nonnull
+    private JsclOperation operation = JsclOperation.numeric;
 
-	@Nullable
-	private transient Generic result;
+    @Nullable
+    private transient Generic result;
 
-	@Nullable
-	private String stringResult = "";
+    @Nullable
+    private String stringResult = "";
 
-	private boolean valid = true;
+    private boolean valid = true;
 
-	@Nullable
-	private String errorMessage;
+    @Nullable
+    private String errorMessage;
 
-	private int selection = 0;
+    private int selection = 0;
 
 	/*
 	**********************************************************************
@@ -69,38 +69,38 @@ public class CalculatorDisplayViewStateImpl implements CalculatorDisplayViewStat
 	**********************************************************************
 	*/
 
-	private CalculatorDisplayViewStateImpl() {
-	}
+    private CalculatorDisplayViewStateImpl() {
+    }
 
-	@Nonnull
-	public static CalculatorDisplayViewState newDefaultInstance() {
-		return new CalculatorDisplayViewStateImpl();
-	}
+    @Nonnull
+    public static CalculatorDisplayViewState newDefaultInstance() {
+        return new CalculatorDisplayViewStateImpl();
+    }
 
-	@Nonnull
-	public static CalculatorDisplayViewState newErrorState(@Nonnull JsclOperation operation,
-														   @Nonnull String errorMessage) {
-		final CalculatorDisplayViewStateImpl calculatorDisplayState = new CalculatorDisplayViewStateImpl();
-		calculatorDisplayState.valid = false;
-		calculatorDisplayState.errorMessage = errorMessage;
-		calculatorDisplayState.operation = operation;
-		return calculatorDisplayState;
-	}
+    @Nonnull
+    public static CalculatorDisplayViewState newErrorState(@Nonnull JsclOperation operation,
+                                                           @Nonnull String errorMessage) {
+        final CalculatorDisplayViewStateImpl calculatorDisplayState = new CalculatorDisplayViewStateImpl();
+        calculatorDisplayState.valid = false;
+        calculatorDisplayState.errorMessage = errorMessage;
+        calculatorDisplayState.operation = operation;
+        return calculatorDisplayState;
+    }
 
-	@Nonnull
-	public static CalculatorDisplayViewState newValidState(@Nonnull JsclOperation operation,
-														   @Nullable Generic result,
-														   @Nonnull String stringResult,
-														   int selection) {
-		final CalculatorDisplayViewStateImpl calculatorDisplayState = new CalculatorDisplayViewStateImpl();
-		calculatorDisplayState.valid = true;
-		calculatorDisplayState.result = result;
-		calculatorDisplayState.stringResult = stringResult;
-		calculatorDisplayState.operation = operation;
-		calculatorDisplayState.selection = selection;
+    @Nonnull
+    public static CalculatorDisplayViewState newValidState(@Nonnull JsclOperation operation,
+                                                           @Nullable Generic result,
+                                                           @Nonnull String stringResult,
+                                                           int selection) {
+        final CalculatorDisplayViewStateImpl calculatorDisplayState = new CalculatorDisplayViewStateImpl();
+        calculatorDisplayState.valid = true;
+        calculatorDisplayState.result = result;
+        calculatorDisplayState.stringResult = stringResult;
+        calculatorDisplayState.operation = operation;
+        calculatorDisplayState.selection = selection;
 
-		return calculatorDisplayState;
-	}
+        return calculatorDisplayState;
+    }
 
 	/*
 	**********************************************************************
@@ -110,43 +110,43 @@ public class CalculatorDisplayViewStateImpl implements CalculatorDisplayViewStat
 	**********************************************************************
 	*/
 
-	@Nonnull
-	@Override
-	public String getText() {
-		return Strings.getNotEmpty(isValid() ? stringResult : errorMessage, "");
-	}
+    @Nonnull
+    @Override
+    public String getText() {
+        return Strings.getNotEmpty(isValid() ? stringResult : errorMessage, "");
+    }
 
-	@Override
-	public int getSelection() {
-		return selection;
-	}
+    @Override
+    public int getSelection() {
+        return selection;
+    }
 
-	@Nullable
-	@Override
-	public Generic getResult() {
-		return this.result;
-	}
+    @Nullable
+    @Override
+    public Generic getResult() {
+        return this.result;
+    }
 
-	@Override
-	public boolean isValid() {
-		return this.valid;
-	}
+    @Override
+    public boolean isValid() {
+        return this.valid;
+    }
 
-	@Nullable
-	@Override
-	public String getErrorMessage() {
-		return this.errorMessage;
-	}
+    @Nullable
+    @Override
+    public String getErrorMessage() {
+        return this.errorMessage;
+    }
 
-	@Override
-	@Nullable
-	public String getStringResult() {
-		return stringResult;
-	}
+    @Override
+    @Nullable
+    public String getStringResult() {
+        return stringResult;
+    }
 
-	@Nonnull
-	@Override
-	public JsclOperation getOperation() {
-		return this.operation;
-	}
+    @Nonnull
+    @Override
+    public JsclOperation getOperation() {
+        return this.operation;
+    }
 }

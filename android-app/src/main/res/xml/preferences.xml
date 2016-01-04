@@ -23,35 +23,35 @@
   -->
 
 <PreferenceScreen xmlns:a="http://schemas.android.com/apk/res/android"
-	a:key="screen-main">
+    a:key="screen-main">
 
-	<Preference
-		a:key="buy_premium"
-		a:title="@string/c_calc_ad_free_title"
-		a:summary="@string/c_calc_ad_free_summary"
-		a:defaultValue="false" />
+    <Preference
+        a:defaultValue="false"
+        a:key="buy_premium"
+        a:summary="@string/c_calc_ad_free_summary"
+        a:title="@string/c_calc_ad_free_title" />
 
-	<Preference
-		a:key="restart_wizard"
-		a:title="@string/cpp_restart_wizard" />
+    <Preference
+        a:key="restart_wizard"
+        a:title="@string/cpp_restart_wizard" />
 
-	<Preference
-		a:title="@string/c_prefs_calculations_category"
-		a:key="screen-calculations" />
-	<Preference
-		a:title="@string/c_prefs_appearance_category"
-		a:key="screen-appearance" />
-	<Preference
-		a:title="@string/prefs_graph_screen_title"
-		a:key="screen-plot" />
-	<Preference
-		a:title="@string/c_prefs_other_category"
-		a:key="screen-other" />
-	<Preference
-		a:title="@string/prefs_onscreen_title"
-		a:key="screen-onscreen" />
-	<Preference
-		a:title="@string/prefs_widget_title"
-		a:key="screen-widget" />
+    <Preference
+        a:key="screen-calculations"
+        a:title="@string/c_prefs_calculations_category" />
+    <Preference
+        a:key="screen-appearance"
+        a:title="@string/c_prefs_appearance_category" />
+    <Preference
+        a:key="screen-plot"
+        a:title="@string/prefs_graph_screen_title" />
+    <Preference
+        a:key="screen-other"
+        a:title="@string/c_prefs_other_category" />
+    <Preference
+        a:key="screen-onscreen"
+        a:title="@string/prefs_onscreen_title" />
+    <Preference
+        a:key="screen-widget"
+        a:title="@string/prefs_widget_title" />
 
 </PreferenceScreen>

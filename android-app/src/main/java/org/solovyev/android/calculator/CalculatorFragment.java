@@ -24,11 +24,10 @@ package org.solovyev.android.calculator;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import android.support.v4.app.Fragment;
 
 import javax.annotation.Nonnull;
 
@@ -39,77 +38,77 @@ import javax.annotation.Nonnull;
  */
 public abstract class CalculatorFragment extends Fragment {
 
-	@Nonnull
-	private final FragmentUi fragmentUi;
+    @Nonnull
+    private final FragmentUi fragmentUi;
 
-	protected CalculatorFragment(int layoutResId, int titleResId) {
-		fragmentUi = CalculatorApplication.getInstance().createFragmentHelper(layoutResId, titleResId);
-	}
+    protected CalculatorFragment(int layoutResId, int titleResId) {
+        fragmentUi = CalculatorApplication.getInstance().createFragmentHelper(layoutResId, titleResId);
+    }
 
-	protected CalculatorFragment(@Nonnull CalculatorFragmentType fragmentType) {
-		fragmentUi = CalculatorApplication.getInstance().createFragmentHelper(fragmentType.getDefaultLayoutId(), fragmentType.getDefaultTitleResId());
-	}
+    protected CalculatorFragment(@Nonnull CalculatorFragmentType fragmentType) {
+        fragmentUi = CalculatorApplication.getInstance().createFragmentHelper(fragmentType.getDefaultLayoutId(), fragmentType.getDefaultTitleResId());
+    }
 
-	protected CalculatorFragment(@Nonnull FragmentUi fragmentUi) {
-		this.fragmentUi = fragmentUi;
-	}
+    protected CalculatorFragment(@Nonnull FragmentUi fragmentUi) {
+        this.fragmentUi = fragmentUi;
+    }
 
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-	}
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+    }
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		fragmentUi.onCreate(this);
-	}
+        fragmentUi.onCreate(this);
+    }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return fragmentUi.onCreateView(this, inflater, container);
-	}
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return fragmentUi.onCreateView(this, inflater, container);
+    }
 
-	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
-		super.onViewCreated(view, savedInstanceState);
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-		fragmentUi.onViewCreated(this, view);
-	}
+        fragmentUi.onViewCreated(this, view);
+    }
 
-	@Override
-	public void onResume() {
-		super.onResume();
+    @Override
+    public void onResume() {
+        super.onResume();
 
-		this.fragmentUi.onResume(this);
-	}
+        this.fragmentUi.onResume(this);
+    }
 
-	@Override
-	public void onPause() {
-		this.fragmentUi.onPause(this);
+    @Override
+    public void onPause() {
+        this.fragmentUi.onPause(this);
 
-		super.onPause();
-	}
+        super.onPause();
+    }
 
-	@Override
-	public void onDestroyView() {
-		fragmentUi.onDestroyView(this);
-		super.onDestroyView();
-	}
+    @Override
+    public void onDestroyView() {
+        fragmentUi.onDestroyView(this);
+        super.onDestroyView();
+    }
 
-	@Override
-	public void onDestroy() {
-		fragmentUi.onDestroy(this);
-		super.onDestroy();
-	}
+    @Override
+    public void onDestroy() {
+        fragmentUi.onDestroy(this);
+        super.onDestroy();
+    }
 
-	@Override
-	public void onDetach() {
-		super.onDetach();
-	}
+    @Override
+    public void onDetach() {
+        super.onDetach();
+    }
 
-	public boolean isPaneFragment() {
-		return fragmentUi.isPane(this);
-	}
+    public boolean isPaneFragment() {
+        return fragmentUi.isPane(this);
+    }
 }

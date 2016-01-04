@@ -29,6 +29,6 @@ package org.solovyev.android.calculator.plot;
  */
 public enum PlotLineColorType {
 
-	monochrome,
-	color_map;
+    monochrome,
+    color_map;
 }

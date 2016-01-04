@@ -24,8 +24,8 @@ package org.solovyev.android.calculator.drag;
 
 public enum DragDirection {
 
-	up,
-	down,
-	left,
-	right;
+    up,
+    down,
+    left,
+    right;
 }

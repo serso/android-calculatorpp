@@ -37,143 +37,133 @@ import javax.annotation.Nullable;
  */
 public class Locator implements CalculatorLocator {
 
-	@Nonnull
-	private CalculatorEngine calculatorEngine;
+    @Nonnull
+    private static final Locator instance = new Locator();
+    @Nonnull
+    private CalculatorEngine calculatorEngine;
+    @Nonnull
+    private Calculator calculator;
+    @Nonnull
+    private CalculatorEditor calculatorEditor;
+    @Nonnull
+    private CalculatorDisplay calculatorDisplay;
+    @Nonnull
+    private CalculatorKeyboard calculatorKeyboard;
+    @Nonnull
+    private CalculatorHistory calculatorHistory;
+    @Nonnull
+    private CalculatorNotifier calculatorNotifier = new DummyCalculatorNotifier();
+    @Nonnull
+    private CalculatorLogger calculatorLogger = new SystemOutCalculatorLogger();
+    @Nonnull
+    private CalculatorClipboard calculatorClipboard = new DummyCalculatorClipboard();
+    @Nonnull
+    private CalculatorPreferenceService calculatorPreferenceService;
 
-	@Nonnull
-	private Calculator calculator;
+    @Nonnull
+    private CalculatorPlotter calculatorPlotter;
 
-	@Nonnull
-	private CalculatorEditor calculatorEditor;
+    public Locator() {
+    }
 
-	@Nonnull
-	private CalculatorDisplay calculatorDisplay;
+    @Nonnull
+    public static CalculatorLocator getInstance() {
+        return instance;
+    }
 
-	@Nonnull
-	private CalculatorKeyboard calculatorKeyboard;
+    @Override
+    public void init(@Nonnull Calculator calculator,
+                     @Nonnull CalculatorEngine engine,
+                     @Nonnull CalculatorClipboard clipboard,
+                     @Nonnull CalculatorNotifier notifier,
+                     @Nonnull CalculatorHistory history,
+                     @Nonnull CalculatorLogger logger,
+                     @Nonnull CalculatorPreferenceService preferenceService,
+                     @Nonnull CalculatorKeyboard keyboard,
+                     @Nonnull CalculatorPlotter plotter,
+                     @Nullable TextProcessor<TextProcessorEditorResult, String> editorTextProcessor) {
 
-	@Nonnull
-	private CalculatorHistory calculatorHistory;
+        this.calculator = calculator;
+        this.calculatorEngine = engine;
+        this.calculatorClipboard = clipboard;
+        this.calculatorNotifier = notifier;
+        this.calculatorHistory = history;
+        this.calculatorLogger = logger;
+        this.calculatorPreferenceService = preferenceService;
+        this.calculatorPlotter = plotter;
 
-	@Nonnull
-	private CalculatorNotifier calculatorNotifier = new DummyCalculatorNotifier();
+        calculatorEditor = new CalculatorEditorImpl(this.calculator, editorTextProcessor);
+        calculatorDisplay = new CalculatorDisplayImpl(this.calculator);
+        calculatorKeyboard = keyboard;
+    }
 
-	@Nonnull
-	private CalculatorLogger calculatorLogger = new SystemOutCalculatorLogger();
+    @Nonnull
+    @Override
+    public CalculatorEngine getEngine() {
+        return calculatorEngine;
+    }
 
-	@Nonnull
-	private CalculatorClipboard calculatorClipboard = new DummyCalculatorClipboard();
+    @Nonnull
+    @Override
+    public Calculator getCalculator() {
+        return this.calculator;
+    }
 
-	@Nonnull
-	private static final Locator instance = new Locator();
+    @Override
+    @Nonnull
+    public CalculatorDisplay getDisplay() {
+        return calculatorDisplay;
+    }
 
-	@Nonnull
-	private CalculatorPreferenceService calculatorPreferenceService;
+    @Nonnull
+    @Override
+    public CalculatorEditor getEditor() {
+        return calculatorEditor;
+    }
 
-	@Nonnull
-	private CalculatorPlotter calculatorPlotter;
+    @Override
+    @Nonnull
+    public CalculatorKeyboard getKeyboard() {
+        return calculatorKeyboard;
+    }
 
-	public Locator() {
-	}
+    public static void setKeyboard(@Nonnull CalculatorKeyboard keyboard) {
+        instance.calculatorKeyboard = keyboard;
+    }
 
-	@Override
-	public void init(@Nonnull Calculator calculator,
-					 @Nonnull CalculatorEngine engine,
-					 @Nonnull CalculatorClipboard clipboard,
-					 @Nonnull CalculatorNotifier notifier,
-					 @Nonnull CalculatorHistory history,
-					 @Nonnull CalculatorLogger logger,
-					 @Nonnull CalculatorPreferenceService preferenceService,
-					 @Nonnull CalculatorKeyboard keyboard,
-					 @Nonnull CalculatorPlotter plotter,
-					 @Nullable TextProcessor<TextProcessorEditorResult, String> editorTextProcessor) {
+    @Override
+    @Nonnull
+    public CalculatorClipboard getClipboard() {
+        return calculatorClipboard;
+    }
 
-		this.calculator = calculator;
-		this.calculatorEngine = engine;
-		this.calculatorClipboard = clipboard;
-		this.calculatorNotifier = notifier;
-		this.calculatorHistory = history;
-		this.calculatorLogger = logger;
-		this.calculatorPreferenceService = preferenceService;
-		this.calculatorPlotter = plotter;
+    @Override
+    @Nonnull
+    public CalculatorNotifier getNotifier() {
+        return calculatorNotifier;
+    }
 
-		calculatorEditor = new CalculatorEditorImpl(this.calculator, editorTextProcessor);
-		calculatorDisplay = new CalculatorDisplayImpl(this.calculator);
-		calculatorKeyboard = keyboard;
-	}
+    @Override
+    @Nonnull
+    public CalculatorHistory getHistory() {
+        return calculatorHistory;
+    }
 
-	@Nonnull
-	public static CalculatorLocator getInstance() {
-		return instance;
-	}
+    @Override
+    @Nonnull
+    public CalculatorLogger getLogger() {
+        return calculatorLogger;
+    }
 
-	@Nonnull
-	@Override
-	public CalculatorEngine getEngine() {
-		return calculatorEngine;
-	}
+    @Nonnull
+    @Override
+    public CalculatorPlotter getPlotter() {
+        return calculatorPlotter;
+    }
 
-	@Nonnull
-	@Override
-	public Calculator getCalculator() {
-		return this.calculator;
-	}
-
-	@Override
-	@Nonnull
-	public CalculatorDisplay getDisplay() {
-		return calculatorDisplay;
-	}
-
-	@Nonnull
-	@Override
-	public CalculatorEditor getEditor() {
-		return calculatorEditor;
-	}
-
-	@Override
-	@Nonnull
-	public CalculatorKeyboard getKeyboard() {
-		return calculatorKeyboard;
-	}
-
-	@Override
-	@Nonnull
-	public CalculatorClipboard getClipboard() {
-		return calculatorClipboard;
-	}
-
-	@Override
-	@Nonnull
-	public CalculatorNotifier getNotifier() {
-		return calculatorNotifier;
-	}
-
-	@Override
-	@Nonnull
-	public CalculatorHistory getHistory() {
-		return calculatorHistory;
-	}
-
-	@Override
-	@Nonnull
-	public CalculatorLogger getLogger() {
-		return calculatorLogger;
-	}
-
-	@Nonnull
-	@Override
-	public CalculatorPlotter getPlotter() {
-		return calculatorPlotter;
-	}
-
-	@Nonnull
-	@Override
-	public CalculatorPreferenceService getPreferenceService() {
-		return this.calculatorPreferenceService;
-	}
-
-	public static void setKeyboard(@Nonnull CalculatorKeyboard keyboard) {
-		instance.calculatorKeyboard = keyboard;
-	}
+    @Nonnull
+    @Override
+    public CalculatorPreferenceService getPreferenceService() {
+        return this.calculatorPreferenceService;
+    }
 }

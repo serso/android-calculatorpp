@@ -34,31 +34,31 @@ import javax.annotation.Nullable;
  */
 public class AndroidCalculatorLogger implements CalculatorLogger {
 
-	@Nonnull
-	private static final String TAG = "Calculatorpp";
+    @Nonnull
+    private static final String TAG = "Calculatorpp";
 
-	@Override
-	public void debug(@Nullable String tag, @Nonnull String message) {
-		Log.d(getTag(tag), message);
-	}
+    @Override
+    public void debug(@Nullable String tag, @Nonnull String message) {
+        Log.d(getTag(tag), message);
+    }
 
-	@Nonnull
-	private String getTag(@Nullable String tag) {
-		return tag != null ? TAG + "/" + tag : TAG;
-	}
+    @Nonnull
+    private String getTag(@Nullable String tag) {
+        return tag != null ? TAG + "/" + tag : TAG;
+    }
 
-	@Override
-	public void debug(@Nullable String tag, @Nullable String message, @Nonnull Throwable e) {
-		Log.d(getTag(tag), message, e);
-	}
+    @Override
+    public void debug(@Nullable String tag, @Nullable String message, @Nonnull Throwable e) {
+        Log.d(getTag(tag), message, e);
+    }
 
-	@Override
-	public void error(@Nullable String tag, @Nullable String message, @Nonnull Throwable e) {
-		Log.e(getTag(tag), message, e);
-	}
+    @Override
+    public void error(@Nullable String tag, @Nullable String message, @Nonnull Throwable e) {
+        Log.e(getTag(tag), message, e);
+    }
 
-	@Override
-	public void error(@Nullable String tag, @Nullable String message) {
-		Log.e(getTag(tag), message);
-	}
+    @Override
+    public void error(@Nullable String tag, @Nullable String message) {
+        Log.e(getTag(tag), message);
+    }
 }

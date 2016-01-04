@@ -22,56 +22,59 @@
 
 <resources>
 
-	<style name="CppKeyboardButton.Material.Digit" parent="CppKeyboardButton">
-		<item name="android:background">@drawable/material_button_dark</item>
-		<item name="android:stateListAnimator">@null</item>
-	</style>
+    <style name="CppKeyboardButton.Material.Digit" parent="CppKeyboardButton">
+        <item name="android:background">@drawable/material_button_dark</item>
+        <item name="android:stateListAnimator">@null</item>
+    </style>
 
-	<style name="CppKeyboardButton.Material.Control" parent="CppKeyboardButton.Material.Digit"/>
+    <style name="CppKeyboardButton.Material.Control" parent="CppKeyboardButton.Material.Digit" />
 
-	<style name="CppKeyboardButton.Material.Operation" parent="CppKeyboardButton.Material.Digit">
-		<item name="android:background">@drawable/material_blue_button</item>
-	</style>
+    <style name="CppKeyboardButton.Material.Operation" parent="CppKeyboardButton.Material.Digit">
+        <item name="android:background">@drawable/material_blue_button</item>
+    </style>
 
-	<style name="CppKeyboardButton.Material.Control.Image" parent="CppKeyboardButton.Material.Digit">
-		<item name="android:padding">6dp</item>
-	</style>
+    <style name="CppKeyboardButton.Material.Control.Image" parent="CppKeyboardButton.Material.Digit">
+        <item name="android:padding">6dp</item>
+    </style>
 
-	<style name="CppHeaderButton.Material" parent="CppKeyboardButton.Material.Control">
-		<item name="android:layout_width">30dp</item>
-		<item name="android:layout_height">30dp</item>
-		<item name="android:layout_weight">0</item>
-		<item name="android:padding">0dp</item>
-		<item name="android:textSize">@dimen/cpp_onscreen_header_button_text_size</item>
-	</style>
+    <style name="CppHeaderButton.Material" parent="CppKeyboardButton.Material.Control">
+        <item name="android:layout_width">30dp</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:layout_weight">0</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:textSize">@dimen/cpp_onscreen_header_button_text_size</item>
+    </style>
 
-	<style name="CppKeyboardButton.Material.Simple.Digit" parent="CppKeyboardButton.Material.Digit">
-		<item name="android:textSize">@dimen/cpp_widget_keyboard_button_text_size</item>
-	</style>
+    <style name="CppKeyboardButton.Material.Simple.Digit" parent="CppKeyboardButton.Material.Digit">
+        <item name="android:textSize">@dimen/cpp_widget_keyboard_button_text_size</item>
+    </style>
 
-	<style name="CppKeyboardButton.Material.Simple.Control" parent="CppKeyboardButton.Material.Control">
-		<item name="android:textSize">@dimen/cpp_widget_keyboard_button_text_size</item>
-	</style>
+    <style name="CppKeyboardButton.Material.Simple.Control" parent="CppKeyboardButton.Material.Control">
+        <item name="android:textSize">@dimen/cpp_widget_keyboard_button_text_size</item>
+    </style>
 
-	<style name="CppKeyboardButton.Material.Simple.Control.Image" parent="CppKeyboardButton.Material.Control.Image">
-	</style>
+    <style name="CppKeyboardButton.Material.Simple.Control.Image" parent="CppKeyboardButton.Material.Control.Image"></style>
 
-	<style name="CppKeyboardButton.Material.Simple.Operation" parent="CppKeyboardButton.Material.Operation">
-		<item name="android:textSize">@dimen/cpp_widget_keyboard_button_text_size</item>
-	</style>
+    <style name="CppKeyboardButton.Material.Simple.Operation" parent="CppKeyboardButton.Material.Operation">
+        <item name="android:textSize">@dimen/cpp_widget_keyboard_button_text_size</item>
+    </style>
 
-	<style name="Cpp.Theme.Material" parent="Cpp.Theme">
-		<item name="cpp_button_style_digit">@style/CppKeyboardButton.Material.Digit</item>
-		<item name="cpp_button_style_control">@style/CppKeyboardButton.Material.Digit</item>
-		<item name="cpp_button_style_control_image">@style/CppKeyboardButton.Material.Control.Image</item>
-		<item name="cpp_button_style_operation">@style/CppKeyboardButton.Material.Operation</item>
-	</style>
+    <style name="Cpp.Theme.Material" parent="Cpp.Theme">
+        <item name="cpp_button_style_digit">@style/CppKeyboardButton.Material.Digit</item>
+        <item name="cpp_button_style_control">@style/CppKeyboardButton.Material.Digit</item>
+        <item name="cpp_button_style_control_image">
+            @style/CppKeyboardButton.Material.Control.Image
+        </item>
+        <item name="cpp_button_style_operation">@style/CppKeyboardButton.Material.Operation</item>
+    </style>
 
-	<style name="Cpp.Theme.Dialog.Material" parent="Cpp.Theme.Dialog">
-		<item name="cpp_button_style_digit">@style/CppKeyboardButton.Material.Digit</item>
-		<item name="cpp_button_style_control">@style/CppKeyboardButton.Material.Digit</item>
-		<item name="cpp_button_style_control_image">@style/CppKeyboardButton.Material.Control.Image</item>
-		<item name="cpp_button_style_operation">@style/CppKeyboardButton.Material.Operation</item>
-	</style>
+    <style name="Cpp.Theme.Dialog.Material" parent="Cpp.Theme.Dialog">
+        <item name="cpp_button_style_digit">@style/CppKeyboardButton.Material.Digit</item>
+        <item name="cpp_button_style_control">@style/CppKeyboardButton.Material.Digit</item>
+        <item name="cpp_button_style_control_image">
+            @style/CppKeyboardButton.Material.Control.Image
+        </item>
+        <item name="cpp_button_style_operation">@style/CppKeyboardButton.Material.Operation</item>
+    </style>
 
 </resources>

@@ -24,10 +24,10 @@
 
 <PreferenceScreen xmlns:a="http://schemas.android.com/apk/res/android">
 
-	<ListPreference
-		a:entries="@array/p_simple_theme_names"
-		a:entryValues="@array/p_simple_theme_values"
-		a:key="widget.theme"
-		a:title="@string/c_calc_theme"/>
+    <ListPreference
+        a:entries="@array/p_simple_theme_names"
+        a:entryValues="@array/p_simple_theme_values"
+        a:key="widget.theme"
+        a:title="@string/c_calc_theme" />
 
 </PreferenceScreen>

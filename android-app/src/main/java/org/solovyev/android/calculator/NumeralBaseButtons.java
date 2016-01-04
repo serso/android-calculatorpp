@@ -24,11 +24,10 @@ package org.solovyev.android.calculator;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
-import jscl.NumeralBase;
 
 import javax.annotation.Nonnull;
 
-import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
+import jscl.NumeralBase;
 
 import static jscl.NumeralBase.hex;
 import static org.solovyev.android.calculator.Preferences.Gui.hideNumeralBaseDigits;
@@ -41,23 +40,23 @@ import static org.solovyev.android.calculator.model.AndroidCalculatorEngine.Pref
  */
 public class NumeralBaseButtons {
 
-	public static void toggleNumericDigits(@Nonnull Activity activity, @Nonnull NumeralBase currentNumeralBase) {
-		for (NumeralBase numeralBase : NumeralBase.values()) {
-			if (currentNumeralBase != numeralBase) {
-				AndroidNumeralBase.valueOf(numeralBase).toggleButtons(false, activity);
-			}
-		}
+    public static void toggleNumericDigits(@Nonnull Activity activity, @Nonnull NumeralBase currentNumeralBase) {
+        for (NumeralBase numeralBase : NumeralBase.values()) {
+            if (currentNumeralBase != numeralBase) {
+                AndroidNumeralBase.valueOf(numeralBase).toggleButtons(false, activity);
+            }
+        }
 
-		AndroidNumeralBase.valueOf(currentNumeralBase).toggleButtons(true, activity);
-	}
+        AndroidNumeralBase.valueOf(currentNumeralBase).toggleButtons(true, activity);
+    }
 
-	public static void toggleNumericDigits(@Nonnull Activity activity, @Nonnull SharedPreferences preferences) {
-		if (hideNumeralBaseDigits.getPreference(preferences)) {
-			final NumeralBase nb = numeralBase.getPreference(preferences);
-			toggleNumericDigits(activity, nb);
-		} else {
-			// set HEX to show all digits
-			AndroidNumeralBase.valueOf(hex).toggleButtons(true, activity);
-		}
-	}
+    public static void toggleNumericDigits(@Nonnull Activity activity, @Nonnull SharedPreferences preferences) {
+        if (hideNumeralBaseDigits.getPreference(preferences)) {
+            final NumeralBase nb = numeralBase.getPreference(preferences);
+            toggleNumericDigits(activity, nb);
+        } else {
+            // set HEX to show all digits
+            AndroidNumeralBase.valueOf(hex).toggleButtons(true, activity);
+        }
+    }
 }

@@ -44,176 +44,162 @@ import static org.solovyev.android.calculator.CalculatorEventType.editor_state_c
  */
 public class CalculatorEditorImpl implements CalculatorEditor {
 
-	@Nullable
-	private CalculatorEditorView view;
+    @Nonnull
+    private final Object viewLock = new Object();
+    @Nonnull
+    private final Calculator calculator;
+    @Nonnull
+    private final CalculatorEventHolder lastEventHolder;
+    @Nonnull
+    private final CursorControlAdapter cursorControlAdapter = new CursorControlAdapter(this);
+    @Nullable
+    private final TextProcessor<TextProcessorEditorResult, String> textProcessor;
+    @Nullable
+    private CalculatorEditorView view;
+    @Nonnull
+    private CalculatorEditorViewState lastViewState = CalculatorEditorViewStateImpl.newDefaultInstance();
 
-	@Nonnull
-	private final Object viewLock = new Object();
+    public CalculatorEditorImpl(@Nonnull Calculator calculator, @Nullable TextProcessor<TextProcessorEditorResult, String> textProcessor) {
+        this.calculator = calculator;
+        this.textProcessor = textProcessor;
+        this.calculator.addCalculatorEventListener(this);
+        this.lastEventHolder = new CalculatorEventHolder(CalculatorUtils.createFirstEventDataId());
+    }
 
-	@Nonnull
-	private CalculatorEditorViewState lastViewState = CalculatorEditorViewStateImpl.newDefaultInstance();
+    public static int correctSelection(int selection, @Nonnull CharSequence text) {
+        return correctSelection(selection, text.length());
+    }
 
-	@Nonnull
-	private final Calculator calculator;
+    public static int correctSelection(int selection, int textLength) {
+        int result = Math.max(selection, 0);
+        result = min(result, textLength);
+        return result;
+    }
 
-	@Nonnull
-	private final CalculatorEventHolder lastEventHolder;
+    @Override
+    public void setView(@Nonnull CalculatorEditorView view) {
+        synchronized (viewLock) {
+            this.view = view;
+            this.view.setState(lastViewState);
+        }
+    }
 
-	@Nonnull
-	private final CursorControlAdapter cursorControlAdapter = new CursorControlAdapter(this);
+    @Override
+    public void clearView(@Nonnull CalculatorEditorView view) {
+        synchronized (viewLock) {
+            if (this.view == view) {
+                this.view = null;
+            }
+        }
+    }
 
-	@Nullable
-	private final TextProcessor<TextProcessorEditorResult, String> textProcessor;
+    @Nonnull
+    @Override
+    public CalculatorEditorViewState getViewState() {
+        return lastViewState;
+    }
 
-	public CalculatorEditorImpl(@Nonnull Calculator calculator, @Nullable TextProcessor<TextProcessorEditorResult, String> textProcessor) {
-		this.calculator = calculator;
-		this.textProcessor = textProcessor;
-		this.calculator.addCalculatorEventListener(this);
-		this.lastEventHolder = new CalculatorEventHolder(CalculatorUtils.createFirstEventDataId());
-	}
+    @Override
+    public void setViewState(@Nonnull CalculatorEditorViewState newViewState) {
+        setViewState(newViewState, true);
+    }
 
-	@Override
-	public void setView(@Nonnull CalculatorEditorView view) {
-		synchronized (viewLock) {
-			this.view = view;
-			this.view.setState(lastViewState);
-		}
-	}
+    @Override
+    public void updateViewState() {
+        setViewState(this.lastViewState, false);
+    }
 
-	@Override
-	public void clearView(@Nonnull CalculatorEditorView view) {
-		synchronized (viewLock) {
-			if (this.view == view) {
-				this.view = null;
-			}
-		}
-	}
+    private void setViewState(@Nonnull CalculatorEditorViewState newViewState, boolean majorChanges) {
+        if (textProcessor != null) {
+            try {
+                final TextProcessorEditorResult result = textProcessor.process(newViewState.getText());
+                newViewState = CalculatorEditorViewStateImpl.newInstance(result.getCharSequence(), newViewState.getSelection() + result.getOffset());
+            } catch (CalculatorParseException e) {
+                Locator.getInstance().getLogger().error(TAG, e.getMessage(), e);
+            }
+        }
+        synchronized (viewLock) {
+            final CalculatorEditorViewState oldViewState = this.lastViewState;
 
-	@Nonnull
-	@Override
-	public CalculatorEditorViewState getViewState() {
-		return lastViewState;
-	}
+            this.lastViewState = newViewState;
+            if (this.view != null) {
+                this.view.setState(newViewState);
+            }
 
-	@Override
-	public void updateViewState() {
-		setViewState(this.lastViewState, false);
-	}
-
-	@Override
-	public void setViewState(@Nonnull CalculatorEditorViewState newViewState) {
-		setViewState(newViewState, true);
-	}
-
-	private void setViewState(@Nonnull CalculatorEditorViewState newViewState, boolean majorChanges) {
-		if (textProcessor != null) {
-			try {
-				final TextProcessorEditorResult result = textProcessor.process(newViewState.getText());
-				newViewState = CalculatorEditorViewStateImpl.newInstance(result.getCharSequence(), newViewState.getSelection() + result.getOffset());
-			} catch (CalculatorParseException e) {
-				Locator.getInstance().getLogger().error(TAG, e.getMessage(), e);
-			}
-		}
-		synchronized (viewLock) {
-			final CalculatorEditorViewState oldViewState = this.lastViewState;
-
-			this.lastViewState = newViewState;
-			if (this.view != null) {
-				this.view.setState(newViewState);
-			}
-
-			fireStateChangedEvent(majorChanges, oldViewState, newViewState);
-		}
-	}
-
-	private void fireStateChangedEvent(boolean majorChanges, @Nonnull CalculatorEditorViewState oldViewState, @Nonnull CalculatorEditorViewState newViewState) {
-		if (!Thread.holdsLock(viewLock)) throw new AssertionError();
-
-		if (majorChanges) {
-			calculator.fireCalculatorEvent(editor_state_changed, newChangeEventData(oldViewState, newViewState));
-		} else {
-			calculator.fireCalculatorEvent(editor_state_changed_light, newChangeEventData(oldViewState, newViewState));
-		}
-	}
-
-	@Override
-	public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData,
-								  @Nonnull CalculatorEventType calculatorEventType,
-								  @Nullable Object data) {
-		final CalculatorEventHolder.Result result = lastEventHolder.apply(calculatorEventData);
-
-		if (result.isNewAfter()) {
-			switch (calculatorEventType) {
-				case use_history_state:
-					final CalculatorHistoryState calculatorHistoryState = (CalculatorHistoryState) data;
-					final EditorHistoryState editorState = calculatorHistoryState.getEditorState();
-					this.setText(Strings.getNotEmpty(editorState.getText(), ""), editorState.getCursorPosition());
-					break;
-			}
-		}
-	}
+            fireStateChangedEvent(majorChanges, oldViewState, newViewState);
+        }
+    }
 
 	/*
-	**********************************************************************
+    **********************************************************************
 	*
 	*                           SELECTION
 	*
 	**********************************************************************
 	*/
 
-	@Nonnull
-	private CalculatorEditorViewState newSelectionViewState(int newSelection) {
-		if (this.lastViewState.getSelection() != newSelection) {
-			final CalculatorEditorViewState result = CalculatorEditorViewStateImpl.newSelection(this.lastViewState, newSelection);
-			setViewState(result, false);
-			return result;
-		} else {
-			return this.lastViewState;
-		}
-	}
+    private void fireStateChangedEvent(boolean majorChanges, @Nonnull CalculatorEditorViewState oldViewState, @Nonnull CalculatorEditorViewState newViewState) {
+        if (!Thread.holdsLock(viewLock)) throw new AssertionError();
 
-	@Nonnull
-	public CalculatorEditorViewState setCursorOnStart() {
-		synchronized (viewLock) {
-			return newSelectionViewState(0);
-		}
-	}
+        if (majorChanges) {
+            calculator.fireCalculatorEvent(editor_state_changed, newChangeEventData(oldViewState, newViewState));
+        } else {
+            calculator.fireCalculatorEvent(editor_state_changed_light, newChangeEventData(oldViewState, newViewState));
+        }
+    }
 
+    @Override
+    public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData,
+                                  @Nonnull CalculatorEventType calculatorEventType,
+                                  @Nullable Object data) {
+        final CalculatorEventHolder.Result result = lastEventHolder.apply(calculatorEventData);
 
-	@Nonnull
-	public CalculatorEditorViewState setCursorOnEnd() {
-		synchronized (viewLock) {
-			return newSelectionViewState(this.lastViewState.getText().length());
-		}
-	}
+        if (result.isNewAfter()) {
+            switch (calculatorEventType) {
+                case use_history_state:
+                    final CalculatorHistoryState calculatorHistoryState = (CalculatorHistoryState) data;
+                    final EditorHistoryState editorState = calculatorHistoryState.getEditorState();
+                    this.setText(Strings.getNotEmpty(editorState.getText(), ""), editorState.getCursorPosition());
+                    break;
+            }
+        }
+    }
 
-	@Nonnull
-	public CalculatorEditorViewState moveCursorLeft() {
-		synchronized (viewLock) {
-			if (this.lastViewState.getSelection() > 0) {
-				return newSelectionViewState(this.lastViewState.getSelection() - 1);
-			} else {
-				return this.lastViewState;
-			}
-		}
-	}
+    @Nonnull
+    private CalculatorEditorViewState newSelectionViewState(int newSelection) {
+        if (this.lastViewState.getSelection() != newSelection) {
+            final CalculatorEditorViewState result = CalculatorEditorViewStateImpl.newSelection(this.lastViewState, newSelection);
+            setViewState(result, false);
+            return result;
+        } else {
+            return this.lastViewState;
+        }
+    }
 
-	@Nonnull
-	public CalculatorEditorViewState moveCursorRight() {
-		synchronized (viewLock) {
-			if (this.lastViewState.getSelection() < this.lastViewState.getText().length()) {
-				return newSelectionViewState(this.lastViewState.getSelection() + 1);
-			} else {
-				return this.lastViewState;
-			}
-		}
-	}
+    @Nonnull
+    public CalculatorEditorViewState setCursorOnStart() {
+        synchronized (viewLock) {
+            return newSelectionViewState(0);
+        }
+    }
 
-	@Nonnull
-	@Override
-	public CursorControl asCursorControl() {
-		return cursorControlAdapter;
-	}
+    @Nonnull
+    public CalculatorEditorViewState setCursorOnEnd() {
+        synchronized (viewLock) {
+            return newSelectionViewState(this.lastViewState.getText().length());
+        }
+    }
+
+    @Nonnull
+    public CalculatorEditorViewState moveCursorLeft() {
+        synchronized (viewLock) {
+            if (this.lastViewState.getSelection() > 0) {
+                return newSelectionViewState(this.lastViewState.getSelection() - 1);
+            } else {
+                return this.lastViewState;
+            }
+        }
+    }
 
 	/*
 	**********************************************************************
@@ -223,143 +209,150 @@ public class CalculatorEditorImpl implements CalculatorEditor {
 	**********************************************************************
 	*/
 
-	@Nonnull
-	@Override
-	public CalculatorEditorViewState erase() {
-		synchronized (viewLock) {
-			int selection = this.lastViewState.getSelection();
-			final String text = this.lastViewState.getText();
-			if (selection > 0 && text.length() > 0 && selection <= text.length()) {
-				final StringBuilder newText = new StringBuilder(text.length() - 1);
-				newText.append(text.substring(0, selection - 1)).append(text.substring(selection, text.length()));
+    @Nonnull
+    public CalculatorEditorViewState moveCursorRight() {
+        synchronized (viewLock) {
+            if (this.lastViewState.getSelection() < this.lastViewState.getText().length()) {
+                return newSelectionViewState(this.lastViewState.getSelection() + 1);
+            } else {
+                return this.lastViewState;
+            }
+        }
+    }
 
-				final CalculatorEditorViewState result = CalculatorEditorViewStateImpl.newInstance(newText.toString(), selection - 1);
-				setViewState(result);
-				return result;
-			} else {
-				return this.lastViewState;
-			}
-		}
-	}
+    @Nonnull
+    @Override
+    public CursorControl asCursorControl() {
+        return cursorControlAdapter;
+    }
 
-	@Nonnull
-	@Override
-	public CalculatorEditorViewState clear() {
-		synchronized (viewLock) {
-			return setText("");
-		}
-	}
+    @Nonnull
+    @Override
+    public CalculatorEditorViewState erase() {
+        synchronized (viewLock) {
+            int selection = this.lastViewState.getSelection();
+            final String text = this.lastViewState.getText();
+            if (selection > 0 && text.length() > 0 && selection <= text.length()) {
+                final StringBuilder newText = new StringBuilder(text.length() - 1);
+                newText.append(text.substring(0, selection - 1)).append(text.substring(selection, text.length()));
 
-	@Nonnull
-	@Override
-	public CalculatorEditorViewState setText(@Nonnull String text) {
-		synchronized (viewLock) {
-			final CalculatorEditorViewState result = CalculatorEditorViewStateImpl.newInstance(text, text.length());
-			setViewState(result);
-			return result;
-		}
-	}
+                final CalculatorEditorViewState result = CalculatorEditorViewStateImpl.newInstance(newText.toString(), selection - 1);
+                setViewState(result);
+                return result;
+            } else {
+                return this.lastViewState;
+            }
+        }
+    }
 
-	@Nonnull
-	@Override
-	public CalculatorEditorViewState setText(@Nonnull String text, int selection) {
-		synchronized (viewLock) {
-			selection = correctSelection(selection, text);
+    @Nonnull
+    @Override
+    public CalculatorEditorViewState clear() {
+        synchronized (viewLock) {
+            return setText("");
+        }
+    }
 
-			final CalculatorEditorViewState result = CalculatorEditorViewStateImpl.newInstance(text, selection);
-			setViewState(result);
-			return result;
-		}
-	}
+    @Nonnull
+    @Override
+    public CalculatorEditorViewState setText(@Nonnull String text) {
+        synchronized (viewLock) {
+            final CalculatorEditorViewState result = CalculatorEditorViewStateImpl.newInstance(text, text.length());
+            setViewState(result);
+            return result;
+        }
+    }
 
-	@Nonnull
-	@Override
-	public CalculatorEditorViewState insert(@Nonnull String text) {
-		synchronized (viewLock) {
-			return insert(text, 0);
-		}
-	}
+    @Nonnull
+    @Override
+    public CalculatorEditorViewState setText(@Nonnull String text, int selection) {
+        synchronized (viewLock) {
+            selection = correctSelection(selection, text);
 
-	@Nonnull
-	@Override
-	public CalculatorEditorViewState insert(@Nonnull String text, int selectionOffset) {
-		synchronized (viewLock) {
-			final String oldText = lastViewState.getText();
-			final int selection = correctSelection(lastViewState.getSelection(), oldText);
+            final CalculatorEditorViewState result = CalculatorEditorViewStateImpl.newInstance(text, selection);
+            setViewState(result);
+            return result;
+        }
+    }
 
-			int newTextLength = text.length() + oldText.length();
-			final StringBuilder newText = new StringBuilder(newTextLength);
+    @Nonnull
+    @Override
+    public CalculatorEditorViewState insert(@Nonnull String text) {
+        synchronized (viewLock) {
+            return insert(text, 0);
+        }
+    }
 
-			newText.append(oldText.substring(0, selection));
-			newText.append(text);
-			newText.append(oldText.substring(selection));
+    @Nonnull
+    @Override
+    public CalculatorEditorViewState insert(@Nonnull String text, int selectionOffset) {
+        synchronized (viewLock) {
+            final String oldText = lastViewState.getText();
+            final int selection = correctSelection(lastViewState.getSelection(), oldText);
 
-			int newSelection = correctSelection(text.length() + selection + selectionOffset, newTextLength);
-			final CalculatorEditorViewState result = CalculatorEditorViewStateImpl.newInstance(newText.toString(), newSelection);
-			setViewState(result);
-			return result;
-		}
-	}
+            int newTextLength = text.length() + oldText.length();
+            final StringBuilder newText = new StringBuilder(newTextLength);
 
-	@Nonnull
-	@Override
-	public CalculatorEditorViewState moveSelection(int offset) {
-		synchronized (viewLock) {
-			int selection = this.lastViewState.getSelection() + offset;
+            newText.append(oldText.substring(0, selection));
+            newText.append(text);
+            newText.append(oldText.substring(selection));
 
-			return setSelection(selection);
-		}
-	}
+            int newSelection = correctSelection(text.length() + selection + selectionOffset, newTextLength);
+            final CalculatorEditorViewState result = CalculatorEditorViewStateImpl.newInstance(newText.toString(), newSelection);
+            setViewState(result);
+            return result;
+        }
+    }
 
-	@Nonnull
-	@Override
-	public CalculatorEditorViewState setSelection(int selection) {
-		synchronized (viewLock) {
-			selection = correctSelection(selection, this.lastViewState.getText());
+    @Nonnull
+    @Override
+    public CalculatorEditorViewState moveSelection(int offset) {
+        synchronized (viewLock) {
+            int selection = this.lastViewState.getSelection() + offset;
 
-			final CalculatorEditorViewState result = CalculatorEditorViewStateImpl.newSelection(this.lastViewState, selection);
-			setViewState(result, false);
-			return result;
-		}
-	}
+            return setSelection(selection);
+        }
+    }
 
-	public static int correctSelection(int selection, @Nonnull CharSequence text) {
-		return correctSelection(selection, text.length());
-	}
+    @Nonnull
+    @Override
+    public CalculatorEditorViewState setSelection(int selection) {
+        synchronized (viewLock) {
+            selection = correctSelection(selection, this.lastViewState.getText());
 
-	public static int correctSelection(int selection, int textLength) {
-		int result = Math.max(selection, 0);
-		result = min(result, textLength);
-		return result;
-	}
+            final CalculatorEditorViewState result = CalculatorEditorViewStateImpl.newSelection(this.lastViewState, selection);
+            setViewState(result, false);
+            return result;
+        }
+    }
 
-	private static final class CursorControlAdapter implements CursorControl {
+    private static final class CursorControlAdapter implements CursorControl {
 
-		@Nonnull
-		private final CalculatorEditor calculatorEditor;
+        @Nonnull
+        private final CalculatorEditor calculatorEditor;
 
-		private CursorControlAdapter(@Nonnull CalculatorEditor calculatorEditor) {
-			this.calculatorEditor = calculatorEditor;
-		}
+        private CursorControlAdapter(@Nonnull CalculatorEditor calculatorEditor) {
+            this.calculatorEditor = calculatorEditor;
+        }
 
-		@Override
-		public void setCursorOnStart() {
-			this.calculatorEditor.setCursorOnStart();
-		}
+        @Override
+        public void setCursorOnStart() {
+            this.calculatorEditor.setCursorOnStart();
+        }
 
-		@Override
-		public void setCursorOnEnd() {
-			this.calculatorEditor.setCursorOnEnd();
-		}
+        @Override
+        public void setCursorOnEnd() {
+            this.calculatorEditor.setCursorOnEnd();
+        }
 
-		@Override
-		public void moveCursorLeft() {
-			this.calculatorEditor.moveCursorLeft();
-		}
+        @Override
+        public void moveCursorLeft() {
+            this.calculatorEditor.moveCursorLeft();
+        }
 
-		@Override
-		public void moveCursorRight() {
-			this.calculatorEditor.moveCursorRight();
-		}
-	}
+        @Override
+        public void moveCursorRight() {
+            this.calculatorEditor.moveCursorRight();
+        }
+    }
 }
