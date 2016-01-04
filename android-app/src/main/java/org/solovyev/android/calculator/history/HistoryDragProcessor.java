@@ -22,16 +22,15 @@
 
 package org.solovyev.android.calculator.history;
 
+import android.graphics.PointF;
 import android.util.Log;
 import android.view.MotionEvent;
-
 import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.drag.DragButton;
-import org.solovyev.android.calculator.drag.DragDirection;
-import org.solovyev.android.calculator.drag.SimpleDragListener;
+import org.solovyev.android.views.dragbutton.DragButton;
+import org.solovyev.android.views.dragbutton.DragDirection;
+import org.solovyev.android.views.dragbutton.SimpleDragListener;
 import org.solovyev.common.history.HistoryAction;
 import org.solovyev.common.history.HistoryControl;
-import org.solovyev.common.math.Point2d;
 
 import javax.annotation.Nonnull;
 
@@ -50,7 +49,7 @@ public class HistoryDragProcessor<T> implements SimpleDragListener.DragProcessor
     }
 
     @Override
-    public boolean processDragEvent(@Nonnull DragDirection dragDirection, @Nonnull DragButton dragButton, @Nonnull Point2d startPoint2d, @Nonnull MotionEvent motionEvent) {
+    public boolean processDragEvent(@Nonnull DragDirection dragDirection, @Nonnull DragButton dragButton, @Nonnull PointF startPoint, @Nonnull MotionEvent motionEvent) {
         boolean result = false;
 
         Log.d(String.valueOf(dragButton.getId()), "History on drag event start: " + dragDirection);

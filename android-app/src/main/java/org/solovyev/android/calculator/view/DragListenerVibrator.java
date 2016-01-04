@@ -25,10 +25,10 @@ package org.solovyev.android.calculator.view;
 import android.content.SharedPreferences;
 import android.os.Vibrator;
 
-import org.solovyev.android.calculator.drag.DragButton;
-import org.solovyev.android.calculator.drag.DragEvent;
-import org.solovyev.android.calculator.drag.DragListener;
-import org.solovyev.android.calculator.drag.DragListenerWrapper;
+import org.solovyev.android.views.dragbutton.DragButton;
+import org.solovyev.android.views.dragbutton.DragEvent;
+import org.solovyev.android.views.dragbutton.DragListener;
+import org.solovyev.android.views.dragbutton.DragListenerWrapper;
 import org.solovyev.android.view.VibratorContainer;
 
 import javax.annotation.Nonnull;

@@ -30,7 +30,7 @@ import android.util.AttributeSet;
 
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.R;
-import org.solovyev.android.calculator.drag.DirectionDragButton;
+import org.solovyev.android.views.dragbutton.DirectionDragButton;
 
 import javax.annotation.Nonnull;
 

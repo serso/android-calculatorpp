@@ -22,7 +22,7 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<org.solovyev.android.calculator.drag.DirectionDragButton
+<org.solovyev.android.views.dragbutton.DirectionDragButton
     xmlns:a="http://schemas.android.com/apk/res/android"
     xmlns:c="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"

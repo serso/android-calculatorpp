@@ -30,13 +30,16 @@ import android.widget.TextView;
 
 import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.R;
-import org.solovyev.android.calculator.drag.DirectionDragButton;
+import org.solovyev.android.views.dragbutton.DirectionDragButton;
 
 import javax.annotation.Nonnull;
 
 import static org.solovyev.android.calculator.CalculatorApplication.getPreferences;
 import static org.solovyev.android.calculator.wizard.CalculatorMode.engineer;
 import static org.solovyev.android.calculator.wizard.CalculatorMode.simple;
+import static org.solovyev.android.views.dragbutton.DirectionDragButton.Direction.down;
+import static org.solovyev.android.views.dragbutton.DirectionDragButton.Direction.left;
+import static org.solovyev.android.views.dragbutton.DirectionDragButton.Direction.up;
 
 /**
  * User: serso
@@ -72,13 +75,13 @@ public class ChooseModeWizardStep extends WizardFragment implements AdapterView.
         boolean simple = mode == CalculatorMode.simple;
         description.setText(simple ? R.string.cpp_wizard_mode_simple_description : R.string.cpp_wizard_mode_engineer_description);
         if (simple) {
-            button.setText("", DirectionDragButton.GuiDragDirection.up);
-            button.setText("", DirectionDragButton.GuiDragDirection.down);
-            button.setText("", DirectionDragButton.GuiDragDirection.left);
+            button.setText("", up);
+            button.setText("", down);
+            button.setText("", left);
         } else {
-            button.setText("sin", DirectionDragButton.GuiDragDirection.up);
-            button.setText("ln", DirectionDragButton.GuiDragDirection.down);
-            button.setText("i", DirectionDragButton.GuiDragDirection.left);
+            button.setText("sin", up);
+            button.setText("ln", down);
+            button.setText("i", left);
         }
     }
 

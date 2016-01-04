@@ -26,6 +26,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.PointF;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.TypedValue;
@@ -33,22 +34,19 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RemoteViews;
-
+import jscl.AngleUnit;
+import jscl.NumeralBase;
 import org.solovyev.android.Views;
-import org.solovyev.android.calculator.drag.DragButton;
-import org.solovyev.android.calculator.drag.DragDirection;
-import org.solovyev.android.calculator.drag.SimpleDragListener;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 import org.solovyev.android.calculator.view.AngleUnitsButton;
 import org.solovyev.android.calculator.view.NumeralBasesButton;
 import org.solovyev.android.calculator.view.ScreenMetrics;
-import org.solovyev.common.math.Point2d;
+import org.solovyev.android.views.dragbutton.DragButton;
+import org.solovyev.android.views.dragbutton.DragDirection;
+import org.solovyev.android.views.dragbutton.SimpleDragListener;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import jscl.AngleUnit;
-import jscl.NumeralBase;
 
 /**
  * User: serso
@@ -135,7 +133,7 @@ public final class CalculatorButtons {
         private final DigitButtonDragProcessor upDownProcessor = new DigitButtonDragProcessor(getKeyboard());
 
         @Override
-        public boolean processDragEvent(@Nonnull DragDirection dragDirection, @Nonnull DragButton dragButton, @Nonnull Point2d startPoint2d, @Nonnull MotionEvent motionEvent) {
+        public boolean processDragEvent(@Nonnull DragDirection dragDirection, @Nonnull DragButton dragButton, @Nonnull PointF startPoint, @Nonnull MotionEvent motionEvent) {
             final boolean result;
 
             if (dragDirection == DragDirection.left) {
@@ -143,7 +141,7 @@ public final class CalculatorButtons {
                 getKeyboard().roundBracketsButtonPressed();
                 result = true;
             } else {
-                result = upDownProcessor.processDragEvent(dragDirection, dragButton, startPoint2d, motionEvent);
+                result = upDownProcessor.processDragEvent(dragDirection, dragButton, startPoint, motionEvent);
             }
 
             return result;
@@ -162,7 +160,7 @@ public final class CalculatorButtons {
         @Override
         public boolean processDragEvent(@Nonnull DragDirection dragDirection,
                                         @Nonnull DragButton dragButton,
-                                        @Nonnull Point2d startPoint2d,
+                                        @Nonnull PointF startPoint,
                                         @Nonnull MotionEvent motionEvent) {
             boolean result = false;
 
@@ -195,7 +193,7 @@ public final class CalculatorButtons {
         @Override
         public boolean processDragEvent(@Nonnull DragDirection dragDirection,
                                         @Nonnull DragButton dragButton,
-                                        @Nonnull Point2d startPoint2d,
+                                        @Nonnull PointF startPoint,
                                         @Nonnull MotionEvent motionEvent) {
             boolean result = false;
 
@@ -221,7 +219,7 @@ public final class CalculatorButtons {
                         }
                     }
                 } else if (dragDirection == DragDirection.left) {
-                    result = processor.processDragEvent(dragDirection, dragButton, startPoint2d, motionEvent);
+                    result = processor.processDragEvent(dragDirection, dragButton, startPoint, motionEvent);
                 }
             }
 
@@ -241,7 +239,7 @@ public final class CalculatorButtons {
         @Override
         public boolean processDragEvent(@Nonnull DragDirection dragDirection,
                                         @Nonnull DragButton dragButton,
-                                        @Nonnull Point2d startPoint2d,
+                                        @Nonnull PointF startPoint,
                                         @Nonnull MotionEvent motionEvent) {
             boolean result = false;
 
@@ -283,7 +281,7 @@ public final class CalculatorButtons {
         @Override
         public boolean processDragEvent(@Nonnull DragDirection dragDirection,
                                         @Nonnull DragButton dragButton,
-                                        @Nonnull Point2d startPoint2d,
+                                        @Nonnull PointF startPoint,
                                         @Nonnull MotionEvent motionEvent) {
             boolean result = false;
 
