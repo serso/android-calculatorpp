@@ -71,6 +71,7 @@ dependencies {
     compile('ch.acra:acra:4.5.0') {
         exclude group: 'org.json'
     }
+    compile 'org.solovyev.android.views.dragbutton:drag-button:1.0@aar'
     compile 'org.solovyev.android:android-common-lists:1.1.18@aar'
     compile 'org.solovyev.android:android-common-core:1.1.18@aar'
     compile 'org.solovyev.android:android-common-other:1.1.18@aar'

@@ -22,13 +22,12 @@
 
 package org.solovyev.android.calculator;
 
+import android.graphics.PointF;
 import android.view.MotionEvent;
-
-import org.solovyev.android.calculator.drag.DirectionDragButton;
-import org.solovyev.android.calculator.drag.DragButton;
-import org.solovyev.android.calculator.drag.DragDirection;
-import org.solovyev.android.calculator.drag.SimpleDragListener;
-import org.solovyev.common.math.Point2d;
+import org.solovyev.android.views.dragbutton.DirectionDragButton;
+import org.solovyev.android.views.dragbutton.DragButton;
+import org.solovyev.android.views.dragbutton.DragDirection;
+import org.solovyev.android.views.dragbutton.SimpleDragListener;
 
 import javax.annotation.Nonnull;
 
@@ -47,7 +46,7 @@ public class DigitButtonDragProcessor implements SimpleDragListener.DragProcesso
     }
 
     @Override
-    public boolean processDragEvent(@Nonnull DragDirection dragDirection, @Nonnull DragButton dragButton, @Nonnull Point2d startPoint2d, @Nonnull MotionEvent motionEvent) {
+    public boolean processDragEvent(@Nonnull DragDirection dragDirection, @Nonnull DragButton dragButton, @Nonnull PointF startPoint, @Nonnull MotionEvent motionEvent) {
         if (!(dragButton instanceof DirectionDragButton)) throw new AssertionError();
         final String text = ((DirectionDragButton) dragButton).getText(dragDirection);
         calculatorKeyboard.buttonPressed(text);

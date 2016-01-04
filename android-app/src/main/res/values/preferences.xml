@@ -21,15 +21,6 @@
   -->
 
 <resources>
-    <string name="p_drag_distance_key" translatable="false">org.solovyev.android.calculator.DragButtonCalibrationActivity_distance</string>
-    <string name="p_drag_distance" translatable="false">35;350</string>
-
-    <string name="p_drag_angle_key" translatable="false">org.solovyev.android.calculator.DragButtonCalibrationActivity_angle</string>
-    <string name="p_drag_angle" translatable="false">0;45</string>
-
-    <string name="p_drag_duration_key" translatable="false">org.solovyev.android.calculator.DragButtonCalibrationActivity_duration</string>
-    <string name="p_drag_duration" translatable="false">40;2500</string>
-
     <string name="p_calc_result_precision_key" translatable="false">org.solovyev.android.calculator.CalculatorModel_result_precision</string>
     <string name="p_calc_result_precision" translatable="false">5</string>
 

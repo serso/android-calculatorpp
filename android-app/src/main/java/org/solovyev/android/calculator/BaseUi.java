@@ -26,6 +26,7 @@ import android.app.Activity;
 import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.PointF;
 import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -34,11 +35,11 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.solovyev.android.Views;
-import org.solovyev.android.calculator.drag.DirectionDragButton;
-import org.solovyev.android.calculator.drag.DragButton;
-import org.solovyev.android.calculator.drag.DragDirection;
-import org.solovyev.android.calculator.drag.DragListener;
-import org.solovyev.android.calculator.drag.SimpleDragListener;
+import org.solovyev.android.views.dragbutton.DirectionDragButton;
+import org.solovyev.android.views.dragbutton.DragButton;
+import org.solovyev.android.views.dragbutton.DragDirection;
+import org.solovyev.android.views.dragbutton.DragListener;
+import org.solovyev.android.views.dragbutton.SimpleDragListener;
 import org.solovyev.android.calculator.history.CalculatorHistoryState;
 import org.solovyev.android.calculator.history.HistoryDragProcessor;
 import org.solovyev.android.calculator.view.AngleUnitsButton;
@@ -310,7 +311,7 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
 
     private static class OperatorsDragProcessor implements SimpleDragListener.DragProcessor {
         @Override
-        public boolean processDragEvent(@Nonnull DragDirection dragDirection, @Nonnull DragButton dragButton, @Nonnull Point2d startPoint2d, @Nonnull MotionEvent motionEvent) {
+        public boolean processDragEvent(@Nonnull DragDirection dragDirection, @Nonnull DragButton dragButton, @Nonnull PointF startPoint, @Nonnull MotionEvent motionEvent) {
             if (dragDirection == DragDirection.down) {
                 App.getVibrator().vibrate();
                 Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_operators, null);

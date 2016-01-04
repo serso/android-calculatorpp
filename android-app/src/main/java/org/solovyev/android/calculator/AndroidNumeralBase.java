@@ -24,8 +24,8 @@ package org.solovyev.android.calculator;
 
 import android.app.Activity;
 
-import org.solovyev.android.calculator.drag.DirectionDragButton;
-import org.solovyev.android.calculator.drag.DragDirection;
+import org.solovyev.android.views.dragbutton.DirectionDragButton;
+import org.solovyev.android.views.dragbutton.DragDirection;
 import org.solovyev.android.calculator.units.CalculatorNumeralBase;
 
 import java.util.ArrayList;

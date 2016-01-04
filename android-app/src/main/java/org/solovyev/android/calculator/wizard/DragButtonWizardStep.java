@@ -22,23 +22,21 @@
 
 package org.solovyev.android.calculator.wizard;
 
+import android.graphics.PointF;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
-
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.R;
-import org.solovyev.android.calculator.drag.DirectionDragButton;
-import org.solovyev.android.calculator.drag.DragButton;
-import org.solovyev.android.calculator.drag.DragDirection;
-import org.solovyev.android.calculator.drag.SimpleDragListener;
-import org.solovyev.common.math.Point2d;
-
-import java.util.Arrays;
+import org.solovyev.android.views.dragbutton.DirectionDragButton;
+import org.solovyev.android.views.dragbutton.DragButton;
+import org.solovyev.android.views.dragbutton.DragDirection;
+import org.solovyev.android.views.dragbutton.SimpleDragListener;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Arrays;
 
 public class DragButtonWizardStep extends WizardFragment {
 
@@ -174,7 +172,7 @@ public class DragButtonWizardStep extends WizardFragment {
         @Override
         public boolean processDragEvent(@Nonnull DragDirection dragDirection,
                                         @Nonnull DragButton dragButton,
-                                        @Nonnull Point2d startPoint2d,
+                                        @Nonnull PointF startPoint,
                                         @Nonnull MotionEvent motionEvent) {
             if (dragDirection == DragDirection.up || dragDirection == DragDirection.down) {
                 App.getVibrator().vibrate();
