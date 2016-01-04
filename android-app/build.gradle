@@ -48,6 +48,10 @@ android {
         abortOnError false
         warning 'MissingTranslation'
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
 }
 
 repositories {
@@ -126,13 +130,13 @@ gradle.taskGraph.afterTask { Task task ->
 
 private void cleanGoogleServicesResources(buildType) {
     ant.delete(includeEmptyDirs: 'true') {
-        fileset(dir: file('./build/intermediates/res/' + buildType), includes: '**/common_signin*')
+        fileset(dir: file('./build/intermediates/res/merged/' + buildType), includes: '**/common_signin*')
     }
     ant.delete(includeEmptyDirs: 'true') {
-        fileset(dir: file('./build/intermediates/res/' + buildType), includes: '**/ic_plusone*')
+        fileset(dir: file('./build/intermediates/res/merged/' + buildType), includes: '**/ic_plusone*')
     }
     ant.delete(includeEmptyDirs: 'true') {
-        fileset(dir: file('./build/intermediates/res/' + buildType), includes: '**/powered_by_google*')
+        fileset(dir: file('./build/intermediates/res/merged/' + buildType), includes: '**/powered_by_google*')
     }
 }
 
