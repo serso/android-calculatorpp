@@ -25,10 +25,10 @@ package org.solovyev.android.calculator.history;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.solovyev.android.calculator.Editor;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import org.solovyev.android.calculator.Editor;
 
 /**
  * User: serso
@@ -37,32 +37,32 @@ import org.solovyev.android.calculator.Editor;
  */
 public class TextViewEditorAdapter implements Editor {
 
-	@Nonnull
-	private final TextView textView;
+    @Nonnull
+    private final TextView textView;
 
-	public TextViewEditorAdapter(@Nonnull TextView textView) {
-		this.textView = textView;
-	}
+    public TextViewEditorAdapter(@Nonnull TextView textView) {
+        this.textView = textView;
+    }
 
-	@Override
-	public CharSequence getText() {
-		return textView.getText().toString();
-	}
+    @Override
+    public CharSequence getText() {
+        return textView.getText().toString();
+    }
 
-	@Override
-	public void setText(@Nullable CharSequence text) {
-		textView.setText(text);
-	}
+    @Override
+    public void setText(@Nullable CharSequence text) {
+        textView.setText(text);
+    }
 
-	@Override
-	public int getSelection() {
-		return textView.getSelectionStart();
-	}
+    @Override
+    public int getSelection() {
+        return textView.getSelectionStart();
+    }
 
-	@Override
-	public void setSelection(int selection) {
-		if (textView instanceof EditText) {
-			((EditText) textView).setSelection(selection);
-		}
-	}
+    @Override
+    public void setSelection(int selection) {
+        if (textView instanceof EditText) {
+            ((EditText) textView).setSelection(selection);
+        }
+    }
 }

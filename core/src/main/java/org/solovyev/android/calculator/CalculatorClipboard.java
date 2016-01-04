@@ -32,10 +32,10 @@ import javax.annotation.Nullable;
  */
 public interface CalculatorClipboard {
 
-	@Nullable
-	String getText();
+    @Nullable
+    String getText();
 
-	void setText(@Nonnull String text);
+    void setText(@Nonnull CharSequence text);
 
-	void setText(@Nonnull CharSequence text);
+    void setText(@Nonnull String text);
 }

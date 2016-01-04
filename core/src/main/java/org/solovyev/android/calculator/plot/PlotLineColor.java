@@ -31,39 +31,38 @@ import javax.annotation.Nonnull;
  */
 public enum PlotLineColor {
 
-	// Color.WHITE
-	white(0xFFBBBBBB),
+    // Color.WHITE
+    white(0xFFBBBBBB),
 
-	blue(0xFF10648C),
+    blue(0xFF10648C),
 
-	// Color.RED
-	red(0xFFFF0000),
+    // Color.RED
+    red(0xFFFF0000),
 
-	// Color.GREEN
-	green(0xFF00FF00),
+    // Color.GREEN
+    green(0xFF00FF00),
 
-	// Color.GRAY
-	grey(0xFF888888);
+    // Color.GRAY
+    grey(0xFF888888);
 
-	private final int color;
+    private final int color;
 
-	private PlotLineColor(int color) {
-		this.color = color;
-	}
+    private PlotLineColor(int color) {
+        this.color = color;
+    }
 
+    @Nonnull
+    public static PlotLineColor valueOf(int color) {
+        for (PlotLineColor plotLineColor : PlotLineColor.values()) {
+            if (plotLineColor.color == color) {
+                return plotLineColor;
+            }
+        }
 
-	public int getColor() {
-		return this.color;
-	}
+        return PlotLineColor.white;
+    }
 
-	@Nonnull
-	public static PlotLineColor valueOf(int color) {
-		for (PlotLineColor plotLineColor : PlotLineColor.values()) {
-			if (plotLineColor.color == color) {
-				return plotLineColor;
-			}
-		}
-
-		return PlotLineColor.white;
-	}
+    public int getColor() {
+        return this.color;
+    }
 }

@@ -22,8 +22,9 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<ImageButton a:id="@id/cpp_button_settings"
-	style="@style/CppKeyboardButton.Material.Simple.Control.Image"
-	xmlns:a="http://schemas.android.com/apk/res/android"
-	a:contentDescription="Settings"
-	a:src="@drawable/kb_settings" />
+<ImageButton
+    xmlns:a="http://schemas.android.com/apk/res/android"
+    a:id="@id/cpp_button_settings"
+    style="@style/CppKeyboardButton.Material.Simple.Control.Image"
+    a:contentDescription="Settings"
+    a:src="@drawable/kb_settings" />

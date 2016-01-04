@@ -44,147 +44,142 @@ import javax.annotation.Nullable;
  */
 public class CalculatorOnscreenViewState implements Parcelable {
 
-	private static final String TAG = CalculatorOnscreenViewState.class.getSimpleName();
+    private static final String TAG = CalculatorOnscreenViewState.class.getSimpleName();
+    private int width;
+    private int height;
+    private int x;
+    private int y;
+    public static final Parcelable.Creator<CalculatorOnscreenViewState> CREATOR = new Parcelable.Creator<CalculatorOnscreenViewState>() {
+        public CalculatorOnscreenViewState createFromParcel(@Nonnull Parcel in) {
+            return CalculatorOnscreenViewState.fromParcel(in);
+        }
 
-	public static final Parcelable.Creator<CalculatorOnscreenViewState> CREATOR = new Parcelable.Creator<CalculatorOnscreenViewState>() {
-		public CalculatorOnscreenViewState createFromParcel(@Nonnull Parcel in) {
-			return CalculatorOnscreenViewState.fromParcel(in);
-		}
+        public CalculatorOnscreenViewState[] newArray(int size) {
+            return new CalculatorOnscreenViewState[size];
+        }
+    };
 
-		public CalculatorOnscreenViewState[] newArray(int size) {
-			return new CalculatorOnscreenViewState[size];
-		}
-	};
+    private CalculatorOnscreenViewState() {
+    }
 
-	private int width;
+    @Nonnull
+    private static CalculatorOnscreenViewState fromParcel(@Nonnull Parcel in) {
+        final CalculatorOnscreenViewState result = new CalculatorOnscreenViewState();
+        result.width = in.readInt();
+        result.height = in.readInt();
+        result.x = in.readInt();
+        result.y = in.readInt();
+        return result;
+    }
 
-	private int height;
+    @Nonnull
+    public static CalculatorOnscreenViewState createDefault() {
+        return create(200, 400, 0, 0);
+    }
 
-	private int x;
+    @Nonnull
+    public static CalculatorOnscreenViewState create(int width, int height, int x, int y) {
+        final CalculatorOnscreenViewState result = new CalculatorOnscreenViewState();
+        result.width = width;
+        result.height = height;
+        result.x = x;
+        result.y = y;
+        return result;
+    }
 
-	private int y;
+    public int getWidth() {
+        return width;
+    }
 
-	private CalculatorOnscreenViewState() {
-	}
+    public void setWidth(int width) {
+        this.width = width;
+    }
 
-	@Nonnull
-	private static CalculatorOnscreenViewState fromParcel(@Nonnull Parcel in) {
-		final CalculatorOnscreenViewState result = new CalculatorOnscreenViewState();
-		result.width = in.readInt();
-		result.height = in.readInt();
-		result.x = in.readInt();
-		result.y = in.readInt();
-		return result;
-	}
+    public int getHeight() {
+        return height;
+    }
 
-	@Nonnull
-	public static CalculatorOnscreenViewState createDefault() {
-		return create(200, 400, 0, 0);
-	}
+    public void setHeight(int height) {
+        this.height = height;
+    }
 
-	@Nonnull
-	public static CalculatorOnscreenViewState create(int width, int height, int x, int y) {
-		final CalculatorOnscreenViewState result = new CalculatorOnscreenViewState();
-		result.width = width;
-		result.height = height;
-		result.x = x;
-		result.y = y;
-		return result;
-	}
+    public int getX() {
+        return x;
+    }
 
-	public int getWidth() {
-		return width;
-	}
+    public void setX(int x) {
+        this.x = x;
+    }
 
-	public void setWidth(int width) {
-		this.width = width;
-	}
+    public int getY() {
+        return y;
+    }
 
-	public int getHeight() {
-		return height;
-	}
+    public void setY(int y) {
+        this.y = y;
+    }
 
-	public void setHeight(int height) {
-		this.height = height;
-	}
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
-	public int getX() {
-		return x;
-	}
+    @Override
+    public void writeToParcel(@Nonnull Parcel out, int flags) {
+        out.writeInt(width);
+        out.writeInt(height);
+        out.writeInt(x);
+        out.writeInt(y);
+    }
 
-	public void setX(int x) {
-		this.x = x;
-	}
+    @Override
+    public String toString() {
+        return "CalculatorOnscreenViewState{" +
+                "y=" + y +
+                ", x=" + x +
+                ", height=" + height +
+                ", width=" + width +
+                '}';
+    }
 
-	public int getY() {
-		return y;
-	}
+    public static class Preference extends AbstractPreference<CalculatorOnscreenViewState> {
 
-	public void setY(int y) {
-		this.y = y;
-	}
+        public Preference(@Nonnull String key, @Nullable CalculatorOnscreenViewState defaultValue) {
+            super(key, defaultValue);
+        }
 
-	@Override
-	public int describeContents() {
-		return 0;
-	}
+        @Nullable
+        @Override
+        protected CalculatorOnscreenViewState getPersistedValue(@Nonnull SharedPreferences preferences) {
+            try {
+                final CalculatorOnscreenViewState result = new CalculatorOnscreenViewState();
+                final JSONObject jsonObject = new JSONObject(preferences.getString(getKey(), "{}"));
+                result.width = jsonObject.getInt("width");
+                result.height = jsonObject.getInt("height");
+                result.x = jsonObject.getInt("x");
+                result.y = jsonObject.getInt("y");
 
-	@Override
-	public void writeToParcel(@Nonnull Parcel out, int flags) {
-		out.writeInt(width);
-		out.writeInt(height);
-		out.writeInt(x);
-		out.writeInt(y);
-	}
+                Log.d(TAG, "Reading onscreen view state: " + result);
 
-	@Override
-	public String toString() {
-		return "CalculatorOnscreenViewState{" +
-				"y=" + y +
-				", x=" + x +
-				", height=" + height +
-				", width=" + width +
-				'}';
-	}
+                return result;
+            } catch (JSONException e) {
+                return getDefaultValue();
+            }
+        }
 
-	public static class Preference extends AbstractPreference<CalculatorOnscreenViewState> {
+        @Override
+        protected void putPersistedValue(@Nonnull SharedPreferences.Editor editor, @Nonnull CalculatorOnscreenViewState value) {
+            final Map<String, Object> properties = new HashMap<String, Object>();
+            properties.put("width", value.getWidth());
+            properties.put("height", value.getHeight());
+            properties.put("x", value.getX());
+            properties.put("y", value.getY());
 
-		public Preference(@Nonnull String key, @Nullable CalculatorOnscreenViewState defaultValue) {
-			super(key, defaultValue);
-		}
+            final JSONObject jsonObject = new JSONObject(properties);
 
-		@Nullable
-		@Override
-		protected CalculatorOnscreenViewState getPersistedValue(@Nonnull SharedPreferences preferences) {
-			try {
-				final CalculatorOnscreenViewState result = new CalculatorOnscreenViewState();
-				final JSONObject jsonObject = new JSONObject(preferences.getString(getKey(), "{}"));
-				result.width = jsonObject.getInt("width");
-				result.height = jsonObject.getInt("height");
-				result.x = jsonObject.getInt("x");
-				result.y = jsonObject.getInt("y");
-
-				Log.d(TAG, "Reading onscreen view state: " + result);
-
-				return result;
-			} catch (JSONException e) {
-				return getDefaultValue();
-			}
-		}
-
-		@Override
-		protected void putPersistedValue(@Nonnull SharedPreferences.Editor editor, @Nonnull CalculatorOnscreenViewState value) {
-			final Map<String, Object> properties = new HashMap<String, Object>();
-			properties.put("width", value.getWidth());
-			properties.put("height", value.getHeight());
-			properties.put("x", value.getX());
-			properties.put("y", value.getY());
-
-			final JSONObject jsonObject = new JSONObject(properties);
-
-			final String json = jsonObject.toString();
-			Log.d(TAG, "Persisting onscreen view state: " + json);
-			editor.putString(getKey(), json);
-		}
-	}
+            final String json = jsonObject.toString();
+            Log.d(TAG, "Persisting onscreen view state: " + json);
+            editor.putString(getKey(), json);
+        }
+    }
 }

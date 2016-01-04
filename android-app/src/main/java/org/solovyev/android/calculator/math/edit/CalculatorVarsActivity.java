@@ -24,60 +24,68 @@ package org.solovyev.android.calculator.math.edit;
 
 import android.content.Intent;
 import android.os.Bundle;
-import org.solovyev.android.calculator.*;
+
+import org.solovyev.android.calculator.AndroidVarCategory;
+import org.solovyev.android.calculator.BaseActivity;
+import org.solovyev.android.calculator.CalculatorEventData;
+import org.solovyev.android.calculator.CalculatorEventListener;
+import org.solovyev.android.calculator.CalculatorEventType;
+import org.solovyev.android.calculator.CalculatorFragmentType;
+import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.VarCategory;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class CalculatorVarsActivity extends BaseActivity implements CalculatorEventListener {
 
-	public CalculatorVarsActivity() {
-		super(R.layout.main_empty, CalculatorVarsActivity.class.getSimpleName());
-	}
+    public CalculatorVarsActivity() {
+        super(R.layout.main_empty, CalculatorVarsActivity.class.getSimpleName());
+    }
 
-	@Override
-	public void onCreate(@Nullable Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		final Bundle bundle;
+        final Bundle bundle;
 
-		final Intent intent = getIntent();
-		if (intent != null) {
-			bundle = intent.getExtras();
-		} else {
-			bundle = null;
-		}
+        final Intent intent = getIntent();
+        if (intent != null) {
+            bundle = intent.getExtras();
+        } else {
+            bundle = null;
+        }
 
-		final CalculatorFragmentType fragmentType = CalculatorFragmentType.variables;
+        final CalculatorFragmentType fragmentType = CalculatorFragmentType.variables;
 
-		for (VarCategory category : VarCategory.getCategoriesByTabOrder()) {
+        for (VarCategory category : VarCategory.getCategoriesByTabOrder()) {
 
-			final Bundle fragmentParameters;
+            final Bundle fragmentParameters;
 
-			if (category == VarCategory.my && bundle != null) {
-				AbstractMathEntityListFragment.putCategory(bundle, category.name());
-				fragmentParameters = bundle;
-			} else {
-				fragmentParameters = AbstractMathEntityListFragment.createBundleFor(category.name());
-			}
+            if (category == VarCategory.my && bundle != null) {
+                AbstractMathEntityListFragment.putCategory(bundle, category.name());
+                fragmentParameters = bundle;
+            } else {
+                fragmentParameters = AbstractMathEntityListFragment.createBundleFor(category.name());
+            }
 
 
-			final AndroidVarCategory androidVarCategory = AndroidVarCategory.valueOf(category);
+            final AndroidVarCategory androidVarCategory = AndroidVarCategory.valueOf(category);
 
-			if (androidVarCategory != null) {
-				ui.addTab(this, fragmentType.createSubFragmentTag(category.name()), fragmentType.getFragmentClass(), fragmentParameters, androidVarCategory.getCaptionId(), R.id.main_layout);
-			} else {
-				ui.logError("Unable to find android var category for " + category);
-			}
-		}
-	}
+            if (androidVarCategory != null) {
+                ui.addTab(this, fragmentType.createSubFragmentTag(category.name()), fragmentType.getFragmentClass(), fragmentParameters, androidVarCategory.getCaptionId(), R.id.main_layout);
+            } else {
+                ui.logError("Unable to find android var category for " + category);
+            }
+        }
+    }
 
-	@Override
-	public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
-		switch (calculatorEventType) {
-			case use_constant:
-				this.finish();
-				break;
-		}
-	}
+    @Override
+    public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
+        switch (calculatorEventType) {
+            case use_constant:
+                this.finish();
+                break;
+        }
+    }
 }

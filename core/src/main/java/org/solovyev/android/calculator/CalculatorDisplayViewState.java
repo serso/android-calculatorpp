@@ -22,14 +22,14 @@
 
 package org.solovyev.android.calculator;
 
-import jscl.math.Generic;
+import org.solovyev.android.calculator.jscl.JsclOperation;
+
+import java.io.Serializable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.solovyev.android.calculator.jscl.JsclOperation;
-
-import java.io.Serializable;
+import jscl.math.Generic;
 
 /**
  * User: serso
@@ -38,22 +38,22 @@ import java.io.Serializable;
  */
 public interface CalculatorDisplayViewState extends Serializable {
 
-	@Nonnull
-	String getText();
+    @Nonnull
+    String getText();
 
-	int getSelection();
+    int getSelection();
 
-	@Nullable
-	Generic getResult();
+    @Nullable
+    Generic getResult();
 
-	boolean isValid();
+    boolean isValid();
 
-	@Nullable
-	String getErrorMessage();
+    @Nullable
+    String getErrorMessage();
 
-	@Nonnull
-	JsclOperation getOperation();
+    @Nonnull
+    JsclOperation getOperation();
 
-	@Nullable
-	String getStringResult();
+    @Nullable
+    String getStringResult();
 }

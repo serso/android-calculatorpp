@@ -35,205 +35,203 @@ import static org.solovyev.android.wizard.WizardUi.startWizard;
 
 public class PreferencesFragment extends org.solovyev.android.material.preferences.PreferencesFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-	private static boolean SUPPORT_HEADERS = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
+    private static boolean SUPPORT_HEADERS = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
+    @Nullable
+    private Preference buyPremiumPreference;
+    @Nullable
+    private AdView adView;
 
-	@Nonnull
-	public static PreferencesFragment create(int preferencesResId, int layoutResId) {
-		final PreferencesFragment fragment = new PreferencesFragment();
-		fragment.setArguments(createArguments(preferencesResId, layoutResId, NO_THEME));
-		return fragment;
-	}
+    @Nonnull
+    public static PreferencesFragment create(int preferencesResId, int layoutResId) {
+        final PreferencesFragment fragment = new PreferencesFragment();
+        fragment.setArguments(createArguments(preferencesResId, layoutResId, NO_THEME));
+        return fragment;
+    }
 
-	@Nullable
-	private Preference buyPremiumPreference;
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-	@Nullable
-	private AdView adView;
+        App.getPreferences().registerOnSharedPreferenceChangeListener(this);
+    }
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    private void setPreferenceIntent(int xml, @Nonnull PreferencesActivity.PrefDef def) {
+        final Preference preference = findPreference(def.id);
+        if (preference != null) {
+            final Intent intent = new Intent(getActivity(), PreferencesActivity.class);
+            intent.putExtra(PreferencesActivity.EXTRA_PREFERENCE, xml);
+            intent.putExtra(PreferencesActivity.EXTRA_PREFERENCE_TITLE, def.title);
+            preference.setIntent(intent);
+        }
+    }
 
-		App.getPreferences().registerOnSharedPreferenceChangeListener(this);
-	}
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-	private void setPreferenceIntent(int xml, @Nonnull PreferencesActivity.PrefDef def) {
-		final Preference preference = findPreference(def.id);
-		if (preference != null) {
-			final Intent intent = new Intent(getActivity(), PreferencesActivity.class);
-			intent.putExtra(PreferencesActivity.EXTRA_PREFERENCE, xml);
-			intent.putExtra(PreferencesActivity.EXTRA_PREFERENCE_TITLE, def.title);
-			preference.setIntent(intent);
-		}
-	}
+        final int preference = getPreferencesResId();
+        if (preference == R.xml.preferences) {
+            final SparseArray<PreferencesActivity.PrefDef> preferences = PreferencesActivity.getPreferences();
+            for (int i = 0; i < preferences.size(); i++) {
+                final int xml = preferences.keyAt(i);
+                final PreferencesActivity.PrefDef def = preferences.valueAt(i);
+                setPreferenceIntent(xml, def);
+            }
+            final Preference restartWizardPreference = findPreference("restart_wizard");
+            restartWizardPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    startWizard(CalculatorApplication.getInstance().getWizards(), DEFAULT_WIZARD_FLOW, getActivity());
+                    return true;
+                }
+            });
 
-	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
-		super.onViewCreated(view, savedInstanceState);
+            buyPremiumPreference = findPreference("buy_premium");
+            if (buyPremiumPreference != null) {
+                buyPremiumPreference.setEnabled(false);
+                buyPremiumPreference.setSelectable(false);
+                buyPremiumPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(Preference preference) {
+                        startActivity(new Intent(getActivity(), PurchaseDialogActivity.class));
+                        return true;
+                    }
+                });
+            }
+        }
 
-		final int preference = getPreferencesResId();
-		if (preference == R.xml.preferences) {
-			final SparseArray<PreferencesActivity.PrefDef> preferences = PreferencesActivity.getPreferences();
-			for (int i = 0; i < preferences.size(); i++) {
-				final int xml = preferences.keyAt(i);
-				final PreferencesActivity.PrefDef def = preferences.valueAt(i);
-				setPreferenceIntent(xml, def);
-			}
-			final Preference restartWizardPreference = findPreference("restart_wizard");
-			restartWizardPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-				@Override
-				public boolean onPreferenceClick(Preference preference) {
-					startWizard(CalculatorApplication.getInstance().getWizards(), DEFAULT_WIZARD_FLOW, getActivity());
-					return true;
-				}
-			});
+        prepareLanguagePreference(preference);
 
-			buyPremiumPreference = findPreference("buy_premium");
-			if (buyPremiumPreference != null) {
-				buyPremiumPreference.setEnabled(false);
-				buyPremiumPreference.setSelectable(false);
-				buyPremiumPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-					@Override
-					public boolean onPreferenceClick(Preference preference) {
-						startActivity(new Intent(getActivity(), PurchaseDialogActivity.class));
-						return true;
-					}
-				});
-			}
-		}
+        getCheckout().whenReady(new Checkout.ListenerAdapter() {
+            @Override
+            public void onReady(@Nonnull BillingRequests requests) {
+                requests.isPurchased(ProductTypes.IN_APP, CalculatorApplication.AD_FREE_PRODUCT_ID, new RequestListener<Boolean>() {
+                    @Override
+                    public void onSuccess(@Nonnull Boolean purchased) {
+                        if (buyPremiumPreference != null) {
+                            buyPremiumPreference.setEnabled(!purchased);
+                            buyPremiumPreference.setSelectable(!purchased);
+                        }
+                        onShowAd(!purchased);
+                    }
 
-		prepareLanguagePreference(preference);
+                    @Override
+                    public void onError(int i, @Nonnull Exception e) {
+                        onShowAd(false);
+                    }
+                });
+            }
+        });
 
-		getCheckout().whenReady(new Checkout.ListenerAdapter() {
-			@Override
-			public void onReady(@Nonnull BillingRequests requests) {
-				requests.isPurchased(ProductTypes.IN_APP, CalculatorApplication.AD_FREE_PRODUCT_ID, new RequestListener<Boolean>() {
-					@Override
-					public void onSuccess(@Nonnull Boolean purchased) {
-						if (buyPremiumPreference != null) {
-							buyPremiumPreference.setEnabled(!purchased);
-							buyPremiumPreference.setSelectable(!purchased);
-						}
-						onShowAd(!purchased);
-					}
+        final SharedPreferences preferences = App.getPreferences();
+        onSharedPreferenceChanged(preferences, roundResult.getKey());
+    }
 
-					@Override
-					public void onError(int i, @Nonnull Exception e) {
-						onShowAd(false);
-					}
-				});
-			}
-		});
+    private void prepareLanguagePreference(int preference) {
+        if (preference != R.xml.preferences_appearance) {
+            return;
+        }
 
-		final SharedPreferences preferences = App.getPreferences();
-		onSharedPreferenceChanged(preferences, roundResult.getKey());
-	}
+        final ListPreference language = (ListPreference) preferenceManager.findPreference(Preferences.Gui.language.getKey());
+        final Languages languages = App.getLanguages();
+        final List<Language> languagesList = languages.getList();
+        final CharSequence[] entries = new CharSequence[languagesList.size()];
+        final CharSequence[] entryValues = new CharSequence[languagesList.size()];
+        for (int i = 0; i < languagesList.size(); i++) {
+            final Language l = languagesList.get(i);
+            entries[i] = l.getName(getActivity());
+            entryValues[i] = l.code;
+        }
+        language.setEntries(entries);
+        language.setEntryValues(entryValues);
+        language.setSummary(languages.getCurrent().getName(getActivity()));
+        language.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                final Language l = languages.get((String) newValue);
+                language.setSummary(l.getName(getActivity()));
+                return true;
+            }
+        });
+    }
 
-	private void prepareLanguagePreference(int preference) {
-		if (preference != R.xml.preferences_appearance) {
-			return;
-		}
+    @Nonnull
+    private Checkout getCheckout() {
+        return ((PreferencesActivity) getActivity()).getCheckout();
+    }
 
-		final ListPreference language = (ListPreference) preferenceManager.findPreference(Preferences.Gui.language.getKey());
-		final Languages languages = App.getLanguages();
-		final List<Language> languagesList = languages.getList();
-		final CharSequence[] entries = new CharSequence[languagesList.size()];
-		final CharSequence[] entryValues = new CharSequence[languagesList.size()];
-		for (int i = 0; i < languagesList.size(); i++) {
-			final Language l = languagesList.get(i);
-			entries[i] = l.getName(getActivity());
-			entryValues[i] = l.code;
-		}
-		language.setEntries(entries);
-		language.setEntryValues(entryValues);
-		language.setSummary(languages.getCurrent().getName(getActivity()));
-		language.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-			@Override
-			public boolean onPreferenceChange(Preference preference, Object newValue) {
-				final Language l = languages.get((String) newValue);
-				language.setSummary(l.getName(getActivity()));
-				return true;
-			}
-		});
-	}
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
+        if (roundResult.getKey().equals(key)) {
+            final Preference preference = findPreference(precision.getKey());
+            if (preference != null) {
+                preference.setEnabled(preferences.getBoolean(key, roundResult.getDefaultValue()));
+            }
+        }
+    }
 
-	@Nonnull
-	private Checkout getCheckout() {
-		return ((PreferencesActivity) getActivity()).getCheckout();
-	}
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (adView != null) {
+            adView.resume();
+        }
+    }
 
-	@Override
-	public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
-		if (roundResult.getKey().equals(key)) {
-			final Preference preference = findPreference(precision.getKey());
-			if (preference != null) {
-				preference.setEnabled(preferences.getBoolean(key, roundResult.getDefaultValue()));
-			}
-		}
-	}
+    @Override
+    public void onPause() {
+        if (adView != null) {
+            adView.pause();
+        }
+        super.onPause();
+    }
 
-	@Override
-	public void onResume() {
-		super.onResume();
-		if (adView != null) {
-			adView.resume();
-		}
-	}
+    @Override
+    public void onDestroyView() {
+        if (adView != null) {
+            adView.destroy();
+        }
+        super.onDestroyView();
+    }
 
-	@Override
-	public void onPause() {
-		if (adView != null) {
-			adView.pause();
-		}
-		super.onPause();
-	}
+    @Override
+    public void onDestroy() {
+        App.getPreferences().unregisterOnSharedPreferenceChangeListener(this);
+        super.onDestroy();
+    }
 
-	@Override
-	public void onDestroyView() {
-		if (adView != null) {
-			adView.destroy();
-		}
-		super.onDestroyView();
-	}
+    private boolean supportsHeaders() {
+        return SUPPORT_HEADERS;
+    }
 
-	@Override
-	public void onDestroy() {
-		App.getPreferences().unregisterOnSharedPreferenceChangeListener(this);
-		super.onDestroy();
-	}
+    protected void onShowAd(boolean show) {
+        if (!supportsHeaders()) {
+            return;
+        }
 
-	private boolean supportsHeaders() {
-		return SUPPORT_HEADERS;
-	}
-
-	protected void onShowAd(boolean show) {
-		if (!supportsHeaders()) {
-			return;
-		}
-
-		final ListView listView = getListView();
-		if (show) {
-			if (adView != null) {
-				return;
-			}
-			adView = (AdView) LayoutInflater.from(getActivity()).inflate(R.layout.ad, null);
-			adView.show();
-			try {
-				listView.addHeaderView(adView);
-			} catch (IllegalStateException e) {
-				// doesn't support header views
-				SUPPORT_HEADERS = false;
-				adView.hide();
-				adView = null;
-			}
-		} else {
-			if (adView == null) {
-				return;
-			}
-			listView.removeHeaderView(adView);
-			adView.hide();
-			adView = null;
-		}
-	}
+        final ListView listView = getListView();
+        if (show) {
+            if (adView != null) {
+                return;
+            }
+            adView = (AdView) LayoutInflater.from(getActivity()).inflate(R.layout.ad, null);
+            adView.show();
+            try {
+                listView.addHeaderView(adView);
+            } catch (IllegalStateException e) {
+                // doesn't support header views
+                SUPPORT_HEADERS = false;
+                adView.hide();
+                adView = null;
+            }
+        } else {
+            if (adView == null) {
+                return;
+            }
+            listView.removeHeaderView(adView);
+            adView.hide();
+            adView = null;
+        }
+    }
 
 }

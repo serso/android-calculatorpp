@@ -27,6 +27,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
+
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 import org.solovyev.android.calculator.CalculatorApplication;
@@ -34,9 +35,10 @@ import org.solovyev.android.calculator.MathEntityDao;
 import org.solovyev.android.calculator.MathEntityPersistenceContainer;
 import org.solovyev.android.calculator.MathPersistenceEntity;
 
+import java.io.StringWriter;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.io.StringWriter;
 
 /**
  * User: serso
@@ -45,77 +47,77 @@ import java.io.StringWriter;
  */
 public class AndroidMathEntityDao<T extends MathPersistenceEntity> implements MathEntityDao<T> {
 
-	@Nonnull
-	private static final String TAG = AndroidMathEntityDao.class.getSimpleName();
+    @Nonnull
+    private static final String TAG = AndroidMathEntityDao.class.getSimpleName();
 
-	@Nullable
-	private final String preferenceString;
+    @Nullable
+    private final String preferenceString;
 
-	@Nonnull
-	private final Context context;
+    @Nonnull
+    private final Context context;
 
-	@Nullable
-	private final Class<? extends MathEntityPersistenceContainer<T>> persistenceContainerClass;
+    @Nullable
+    private final Class<? extends MathEntityPersistenceContainer<T>> persistenceContainerClass;
 
-	public AndroidMathEntityDao(@Nullable String preferenceString,
-								@Nonnull Application application,
-								@Nullable Class<? extends MathEntityPersistenceContainer<T>> persistenceContainerClass) {
-		this.preferenceString = preferenceString;
-		this.context = application;
-		this.persistenceContainerClass = persistenceContainerClass;
-	}
+    public AndroidMathEntityDao(@Nullable String preferenceString,
+                                @Nonnull Application application,
+                                @Nullable Class<? extends MathEntityPersistenceContainer<T>> persistenceContainerClass) {
+        this.preferenceString = preferenceString;
+        this.context = application;
+        this.persistenceContainerClass = persistenceContainerClass;
+    }
 
-	@Override
-	public void save(@Nonnull MathEntityPersistenceContainer<T> container) {
-		if (preferenceString != null) {
-			final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-			final SharedPreferences.Editor editor = settings.edit();
+    @Override
+    public void save(@Nonnull MathEntityPersistenceContainer<T> container) {
+        if (preferenceString != null) {
+            final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+            final SharedPreferences.Editor editor = settings.edit();
 
-			final StringWriter sw = new StringWriter();
-			final Serializer serializer = new Persister();
-			try {
-				serializer.write(container, sw);
-			} catch (Exception e) {
-				throw new RuntimeException(e);
-			}
+            final StringWriter sw = new StringWriter();
+            final Serializer serializer = new Persister();
+            try {
+                serializer.write(container, sw);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
 
-			editor.putString(preferenceString, sw.toString());
+            editor.putString(preferenceString, sw.toString());
 
-			editor.apply();
-		}
-	}
+            editor.apply();
+        }
+    }
 
-	@Nullable
-	@Override
-	public MathEntityPersistenceContainer<T> load() {
-		if (persistenceContainerClass != null && preferenceString != null) {
-			final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+    @Nullable
+    @Override
+    public MathEntityPersistenceContainer<T> load() {
+        if (persistenceContainerClass != null && preferenceString != null) {
+            final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-			if (preferences != null) {
-				final String value = preferences.getString(preferenceString, null);
-				if (value != null) {
-					final Serializer serializer = new Persister();
-					try {
-						return serializer.read(persistenceContainerClass, value);
-					} catch (Exception e) {
-						throw new RuntimeException(e);
-					}
-				}
-			}
-		}
+            if (preferences != null) {
+                final String value = preferences.getString(preferenceString, null);
+                if (value != null) {
+                    final Serializer serializer = new Persister();
+                    try {
+                        return serializer.read(persistenceContainerClass, value);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	@Nullable
-	public String getDescription(@Nonnull String descriptionId) {
-		final Resources resources = context.getResources();
+    @Nullable
+    public String getDescription(@Nonnull String descriptionId) {
+        final Resources resources = context.getResources();
 
-		final int stringId = resources.getIdentifier(descriptionId, "string", CalculatorApplication.class.getPackage().getName());
-		try {
-			return resources.getString(stringId);
-		} catch (Resources.NotFoundException e) {
-			return null;
-		}
-	}
+        final int stringId = resources.getIdentifier(descriptionId, "string", CalculatorApplication.class.getPackage().getName());
+        try {
+            return resources.getString(stringId);
+        } catch (Resources.NotFoundException e) {
+            return null;
+        }
+    }
 }

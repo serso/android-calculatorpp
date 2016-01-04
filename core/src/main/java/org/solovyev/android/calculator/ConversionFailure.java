@@ -31,6 +31,6 @@ import javax.annotation.Nonnull;
  */
 public interface ConversionFailure {
 
-	@Nonnull
-	Exception getException();
+    @Nonnull
+    Exception getException();
 }

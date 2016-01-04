@@ -31,34 +31,34 @@ import javax.annotation.Nonnull;
  */
 public class ChangeImpl<T> implements Change<T> {
 
-	@Nonnull
-	private T oldValue;
+    @Nonnull
+    private T oldValue;
 
-	@Nonnull
-	private T newValue;
+    @Nonnull
+    private T newValue;
 
-	private ChangeImpl() {
-	}
+    private ChangeImpl() {
+    }
 
-	@Nonnull
-	public static <T> Change<T> newInstance(@Nonnull T oldValue, @Nonnull T newValue) {
-		final ChangeImpl<T> result = new ChangeImpl<T>();
+    @Nonnull
+    public static <T> Change<T> newInstance(@Nonnull T oldValue, @Nonnull T newValue) {
+        final ChangeImpl<T> result = new ChangeImpl<T>();
 
-		result.oldValue = oldValue;
-		result.newValue = newValue;
+        result.oldValue = oldValue;
+        result.newValue = newValue;
 
-		return result;
-	}
+        return result;
+    }
 
-	@Nonnull
-	@Override
-	public T getOldValue() {
-		return this.oldValue;
-	}
+    @Nonnull
+    @Override
+    public T getOldValue() {
+        return this.oldValue;
+    }
 
-	@Nonnull
-	@Override
-	public T getNewValue() {
-		return this.newValue;
-	}
+    @Nonnull
+    @Override
+    public T getNewValue() {
+        return this.newValue;
+    }
 }

@@ -23,48 +23,48 @@
   -->
 
 <menu xmlns:a="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-	<item
-		a:id="@+id/menu_plot_2d"
-		a:title="@string/cpp_plot_2d"
-		a:icon="@drawable/ab_stats"
-		app:showAsAction="ifRoom" />
+    <item
+        a:id="@+id/menu_plot_2d"
+        a:icon="@drawable/ab_stats"
+        a:title="@string/cpp_plot_2d"
+        app:showAsAction="ifRoom" />
 
-	<item
-		a:id="@+id/menu_plot_3d"
-		a:title="@string/cpp_plot_3d"
-		a:icon="@drawable/ab_stats_3d"
-		app:showAsAction="ifRoom" />
+    <item
+        a:id="@+id/menu_plot_3d"
+        a:icon="@drawable/ab_stats_3d"
+        a:title="@string/cpp_plot_3d"
+        app:showAsAction="ifRoom" />
 
-	<item
-		a:id="@+id/menu_plot_fullscreen"
-		a:title="@string/cpp_fullscreen"
-		a:icon="@drawable/ab_expand"
-		app:showAsAction="ifRoom" />
+    <item
+        a:id="@+id/menu_plot_fullscreen"
+        a:icon="@drawable/ab_expand"
+        a:title="@string/cpp_fullscreen"
+        app:showAsAction="ifRoom" />
 
-	<item
-		a:id="@+id/menu_plot_range"
-		a:title="@string/cpp_plot_range"
-		a:icon="@drawable/ab_range"
-		app:showAsAction="ifRoom" />
+    <item
+        a:id="@+id/menu_plot_range"
+        a:icon="@drawable/ab_range"
+        a:title="@string/cpp_plot_range"
+        app:showAsAction="ifRoom" />
 
-	<item
-		a:id="@+id/menu_plot_functions"
-		a:title="@string/cpp_plot_functions"
-		a:icon="@drawable/ab_functions"
-		app:showAsAction="ifRoom" />
+    <item
+        a:id="@+id/menu_plot_functions"
+        a:icon="@drawable/ab_functions"
+        a:title="@string/cpp_plot_functions"
+        app:showAsAction="ifRoom" />
 
-	<item
-		a:id="@+id/menu_plot_schreeshot"
-		a:title="@string/cpp_plot_screenshot"
-		a:icon="@drawable/ab_disk"
-		app:showAsAction="ifRoom" />
+    <item
+        a:id="@+id/menu_plot_schreeshot"
+        a:icon="@drawable/ab_disk"
+        a:title="@string/cpp_plot_screenshot"
+        app:showAsAction="ifRoom" />
 
-	<item
-		a:id="@+id/menu_plot_settings"
-		a:title="@string/c_settings"
-		a:icon="@drawable/ab_settings"
-		app:showAsAction="ifRoom" />
+    <item
+        a:id="@+id/menu_plot_settings"
+        a:icon="@drawable/ab_settings"
+        a:title="@string/c_settings"
+        app:showAsAction="ifRoom" />
 
 </menu>

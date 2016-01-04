@@ -27,24 +27,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.R;
 
 public final class WelcomeWizardStep extends WizardFragment {
 
-	@Override
-	protected int getViewResId() {
-		return R.layout.cpp_wizard_step_welcome;
-	}
+    @Override
+    protected int getViewResId() {
+        return R.layout.cpp_wizard_step_welcome;
+    }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		final View view = super.onCreateView(inflater, container, savedInstanceState);
-		if (App.getTheme().isLight()) {
-			final TextView message = (TextView) view.findViewById(R.id.wizard_welcome_message);
-			message.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.logo_wizard_light, 0, 0);
-		}
-		prevButton.setTextColor(getResources().getColor(R.color.cpp_wizard_disabled_text));
-		return view;
-	}
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        final View view = super.onCreateView(inflater, container, savedInstanceState);
+        if (App.getTheme().isLight()) {
+            final TextView message = (TextView) view.findViewById(R.id.wizard_welcome_message);
+            message.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.logo_wizard_light, 0, 0);
+        }
+        prevButton.setTextColor(getResources().getColor(R.color.cpp_wizard_disabled_text));
+        return view;
+    }
 }

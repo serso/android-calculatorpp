@@ -22,9 +22,9 @@
 
 package org.solovyev.android.calculator;
 
-import javax.annotation.Nonnull;
-
 import org.solovyev.android.calculator.jscl.JsclOperation;
+
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -33,9 +33,9 @@ import org.solovyev.android.calculator.jscl.JsclOperation;
  */
 public interface CalculatorEvaluationEventData extends CalculatorEventData {
 
-	@Nonnull
-	JsclOperation getOperation();
+    @Nonnull
+    JsclOperation getOperation();
 
-	@Nonnull
-	String getExpression();
+    @Nonnull
+    String getExpression();
 }

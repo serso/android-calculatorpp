@@ -8,25 +8,25 @@ import javax.annotation.Nullable;
 
 public interface WizardStep {
 
-	@Nonnull
-	String getFragmentTag();
+    @Nonnull
+    String getFragmentTag();
 
-	@Nonnull
-	Class<? extends Fragment> getFragmentClass();
+    @Nonnull
+    Class<? extends Fragment> getFragmentClass();
 
-	@Nullable
-	Bundle getFragmentArgs();
+    @Nullable
+    Bundle getFragmentArgs();
 
-	int getTitleResId();
+    int getTitleResId();
 
-	int getNextButtonTitleResId();
+    int getNextButtonTitleResId();
 
-	boolean onNext(@Nonnull Fragment fragment);
+    boolean onNext(@Nonnull Fragment fragment);
 
-	boolean onPrev(@Nonnull Fragment fragment);
+    boolean onPrev(@Nonnull Fragment fragment);
 
-	boolean isVisible();
+    boolean isVisible();
 
-	@Nonnull
-	String getName();
+    @Nonnull
+    String getName();
 }

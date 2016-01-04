@@ -30,8 +30,9 @@ import org.robolectric.util.ActivityController;
 import org.solovyev.android.CalculatorTestRunner;
 import org.solovyev.android.wizard.WizardUi;
 
-import javax.annotation.Nonnull;
 import java.lang.reflect.Field;
+
+import javax.annotation.Nonnull;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -39,49 +40,49 @@ import static org.junit.Assert.assertTrue;
 @RunWith(CalculatorTestRunner.class)
 public class OnScreenCalculatorWizardStepTest {
 
-	@Nonnull
-	private OnScreenCalculatorWizardStep fragment;
+    @Nonnull
+    private OnScreenCalculatorWizardStep fragment;
 
-	@Nonnull
-	private WizardActivity activity;
+    @Nonnull
+    private WizardActivity activity;
 
-	@Nonnull
-	private ActivityController<WizardActivity> controller;
-	private Field uiField;
+    @Nonnull
+    private ActivityController<WizardActivity> controller;
+    private Field uiField;
 
-	@Before
-	public void setUp() throws Exception {
-		uiField = WizardActivity.class.getDeclaredField("wizardUi");
-		uiField.setAccessible(true);
+    @Before
+    public void setUp() throws Exception {
+        uiField = WizardActivity.class.getDeclaredField("wizardUi");
+        uiField.setAccessible(true);
 
-		createActivity();
-		setFragment();
-	}
+        createActivity();
+        setFragment();
+    }
 
-	@Nonnull
-	private WizardUi getWizardUi() throws IllegalAccessException {
-		return (WizardUi) uiField.get(activity);
-	}
+    @Nonnull
+    private WizardUi getWizardUi() throws IllegalAccessException {
+        return (WizardUi) uiField.get(activity);
+    }
 
-	private void createActivity() {
-		controller = Robolectric.buildActivity(WizardActivity.class).create().start().resume();
-		activity = controller.get();
-	}
+    private void createActivity() {
+        controller = Robolectric.buildActivity(WizardActivity.class).create().start().resume();
+        activity = controller.get();
+    }
 
-	private void setFragment() throws IllegalAccessException {
-		getWizardUi().setStep(CalculatorWizardStep.on_screen_calculator);
-		activity.getSupportFragmentManager().executePendingTransactions();
-		fragment = (OnScreenCalculatorWizardStep) activity.getSupportFragmentManager().findFragmentByTag(CalculatorWizardStep.on_screen_calculator.getFragmentTag());
-	}
+    private void setFragment() throws IllegalAccessException {
+        getWizardUi().setStep(CalculatorWizardStep.on_screen_calculator);
+        activity.getSupportFragmentManager().executePendingTransactions();
+        fragment = (OnScreenCalculatorWizardStep) activity.getSupportFragmentManager().findFragmentByTag(CalculatorWizardStep.on_screen_calculator.getFragmentTag());
+    }
 
-	@Test
-	public void testShouldRestoreStateOnRestart() throws Exception {
-		fragment.getCheckbox().setChecked(true);
-		controller.restart();
-		assertTrue(fragment.getCheckbox().isChecked());
+    @Test
+    public void testShouldRestoreStateOnRestart() throws Exception {
+        fragment.getCheckbox().setChecked(true);
+        controller.restart();
+        assertTrue(fragment.getCheckbox().isChecked());
 
-		fragment.getCheckbox().setChecked(false);
-		controller.restart();
-		assertFalse(fragment.getCheckbox().isChecked());
-	}
+        fragment.getCheckbox().setChecked(false);
+        controller.restart();
+        assertFalse(fragment.getCheckbox().isChecked());
+    }
 }

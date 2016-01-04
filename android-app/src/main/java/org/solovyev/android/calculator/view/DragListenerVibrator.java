@@ -24,6 +24,7 @@ package org.solovyev.android.calculator.view;
 
 import android.content.SharedPreferences;
 import android.os.Vibrator;
+
 import org.solovyev.android.calculator.drag.DragButton;
 import org.solovyev.android.calculator.drag.DragEvent;
 import org.solovyev.android.calculator.drag.DragListener;
@@ -40,26 +41,26 @@ import javax.annotation.Nullable;
  */
 public class DragListenerVibrator extends DragListenerWrapper {
 
-	private static final float VIBRATION_TIME_SCALE = 0.5f;
+    private static final float VIBRATION_TIME_SCALE = 0.5f;
 
-	@Nonnull
-	private final VibratorContainer vibrator;
+    @Nonnull
+    private final VibratorContainer vibrator;
 
-	public DragListenerVibrator(@Nonnull DragListener dragListener,
-								@Nullable Vibrator vibrator,
-								@Nonnull SharedPreferences preferences) {
-		super(dragListener);
-		this.vibrator = new VibratorContainer(vibrator, preferences, VIBRATION_TIME_SCALE);
-	}
+    public DragListenerVibrator(@Nonnull DragListener dragListener,
+                                @Nullable Vibrator vibrator,
+                                @Nonnull SharedPreferences preferences) {
+        super(dragListener);
+        this.vibrator = new VibratorContainer(vibrator, preferences, VIBRATION_TIME_SCALE);
+    }
 
-	@Override
-	public boolean onDrag(@Nonnull DragButton dragButton, @Nonnull DragEvent event) {
-		boolean consumed = super.onDrag(dragButton, event);
+    @Override
+    public boolean onDrag(@Nonnull DragButton dragButton, @Nonnull DragEvent event) {
+        boolean consumed = super.onDrag(dragButton, event);
 
-		if (consumed) {
-			vibrator.vibrate();
-		}
+        if (consumed) {
+            vibrator.vibrate();
+        }
 
-		return consumed;
-	}
+        return consumed;
+    }
 }

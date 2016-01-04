@@ -24,13 +24,13 @@ package org.solovyev.android.calculator;
 
 import android.view.MotionEvent;
 
-import javax.annotation.Nonnull;
-
 import org.solovyev.android.calculator.drag.DirectionDragButton;
 import org.solovyev.android.calculator.drag.DragButton;
 import org.solovyev.android.calculator.drag.DragDirection;
 import org.solovyev.android.calculator.drag.SimpleDragListener;
 import org.solovyev.common.math.Point2d;
+
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -39,28 +39,28 @@ import org.solovyev.common.math.Point2d;
  */
 public class EqualsDragProcessor implements SimpleDragListener.DragProcessor {
 
-	public EqualsDragProcessor() {
-	}
+    public EqualsDragProcessor() {
+    }
 
-	@Override
-	public boolean processDragEvent(@Nonnull DragDirection dragDirection, @Nonnull DragButton dragButton, @Nonnull Point2d startPoint2d, @Nonnull MotionEvent motionEvent) {
-		boolean result = false;
+    @Override
+    public boolean processDragEvent(@Nonnull DragDirection dragDirection, @Nonnull DragButton dragButton, @Nonnull Point2d startPoint2d, @Nonnull MotionEvent motionEvent) {
+        boolean result = false;
 
-		if (dragButton instanceof DirectionDragButton) {
-			if (dragDirection == DragDirection.down) {
-				App.getVibrator().vibrate();
-				CalculatorActivityLauncher.tryPlot();
-				result = true;
-			} else {
-				final String text = ((DirectionDragButton) dragButton).getText(dragDirection);
-				if ("≡".equals(text)) {
-					App.getVibrator().vibrate();
-					Locator.getInstance().getCalculator().simplify();
-					result = true;
-				}
-			}
-		}
+        if (dragButton instanceof DirectionDragButton) {
+            if (dragDirection == DragDirection.down) {
+                App.getVibrator().vibrate();
+                CalculatorActivityLauncher.tryPlot();
+                result = true;
+            } else {
+                final String text = ((DirectionDragButton) dragButton).getText(dragDirection);
+                if ("≡".equals(text)) {
+                    App.getVibrator().vibrate();
+                    Locator.getInstance().getCalculator().simplify();
+                    result = true;
+                }
+            }
+        }
 
-		return result;
-	}
+        return result;
+    }
 }

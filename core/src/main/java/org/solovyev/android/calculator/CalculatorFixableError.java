@@ -22,15 +22,15 @@
 
 package org.solovyev.android.calculator;
 
-import jscl.AngleUnit;
-import jscl.text.msg.Messages;
+import org.solovyev.common.collections.Collections;
+
+import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.solovyev.common.collections.Collections;
-
-import java.util.List;
+import jscl.AngleUnit;
+import jscl.text.msg.Messages;
 
 /**
  * User: serso
@@ -39,48 +39,48 @@ import java.util.List;
  */
 public enum CalculatorFixableError implements FixableError {
 
-	must_be_rad(Messages.msg_23, Messages.msg_24, Messages.msg_25) {
-		@Override
-		public void fix() {
-			Locator.getInstance().getPreferenceService().setAngleUnits(AngleUnit.rad);
-		}
-	},
+    must_be_rad(Messages.msg_23, Messages.msg_24, Messages.msg_25) {
+        @Override
+        public void fix() {
+            Locator.getInstance().getPreferenceService().setAngleUnits(AngleUnit.rad);
+        }
+    },
 
-	preferred_numeral_base() {
-		@Override
-		public void fix() {
-			Locator.getInstance().getPreferenceService().setPreferredNumeralBase();
-		}
-	},
+    preferred_numeral_base() {
+        @Override
+        public void fix() {
+            Locator.getInstance().getPreferenceService().setPreferredNumeralBase();
+        }
+    },
 
-	preferred_angle_units() {
-		@Override
-		public void fix() {
-			Locator.getInstance().getPreferenceService().setPreferredAngleUnits();
-		}
-	};
+    preferred_angle_units() {
+        @Override
+        public void fix() {
+            Locator.getInstance().getPreferenceService().setPreferredAngleUnits();
+        }
+    };
 
-	@Nonnull
-	private final List<String> messageCodes;
+    @Nonnull
+    private final List<String> messageCodes;
 
-	CalculatorFixableError(@Nullable String... messageCodes) {
-		this.messageCodes = Collections.asList(messageCodes);
-	}
+    CalculatorFixableError(@Nullable String... messageCodes) {
+        this.messageCodes = Collections.asList(messageCodes);
+    }
 
-	@Nullable
-	public static CalculatorFixableError getErrorByMessageCode(@Nonnull String messageCode) {
-		for (CalculatorFixableError fixableError : values()) {
-			if (fixableError.messageCodes.contains(messageCode)) {
-				return fixableError;
-			}
-		}
-		return null;
-	}
+    @Nullable
+    public static CalculatorFixableError getErrorByMessageCode(@Nonnull String messageCode) {
+        for (CalculatorFixableError fixableError : values()) {
+            if (fixableError.messageCodes.contains(messageCode)) {
+                return fixableError;
+            }
+        }
+        return null;
+    }
 
 
-	@Nullable
-	@Override
-	public CharSequence getFixCaption() {
-		return null;
-	}
+    @Nullable
+    @Override
+    public CharSequence getFixCaption() {
+        return null;
+    }
 }

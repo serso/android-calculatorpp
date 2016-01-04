@@ -22,7 +22,8 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<Button a:id="@id/cpp_button_2"
-	style="@style/CppKeyboardButton.Metro.Simple.Digit"
-	xmlns:a="http://schemas.android.com/apk/res/android"
-	a:text="2" />
+<Button
+    xmlns:a="http://schemas.android.com/apk/res/android"
+    a:id="@id/cpp_button_2"
+    style="@style/CppKeyboardButton.Metro.Simple.Digit"
+    a:text="2" />

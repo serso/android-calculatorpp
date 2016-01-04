@@ -32,8 +32,13 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.text.method.LinkMovementMethod;
-import android.view.*;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewConfiguration;
+import android.view.Window;
 import android.widget.TextView;
+
 import org.solovyev.android.Activities;
 import org.solovyev.android.Android;
 import org.solovyev.android.Threads;
@@ -54,230 +59,232 @@ import static android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH;
 import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
 import static org.solovyev.android.calculator.Preferences.Gui.preventScreenFromFading;
 import static org.solovyev.android.calculator.release.ReleaseNotes.hasReleaseNotes;
-import static org.solovyev.android.wizard.WizardUi.*;
+import static org.solovyev.android.wizard.WizardUi.continueWizard;
+import static org.solovyev.android.wizard.WizardUi.createLaunchIntent;
+import static org.solovyev.android.wizard.WizardUi.startWizard;
 
 public class CalculatorActivity extends BaseActivity implements SharedPreferences.OnSharedPreferenceChangeListener, CalculatorEventListener {
 
-	@Nonnull
-	public static final String TAG = CalculatorActivity.class.getSimpleName();
+    @Nonnull
+    public static final String TAG = CalculatorActivity.class.getSimpleName();
 
-	private boolean useBackAsPrev;
+    private boolean useBackAsPrev;
 
-	public CalculatorActivity() {
-		super(0, TAG);
-	}
+    public CalculatorActivity() {
+        super(0, TAG);
+    }
 
-	/**
-	 * Called when the activity is first created.
-	 */
-	@Override
-	public void onCreate(@Nullable Bundle savedInstanceState) {
-		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		final Preferences.Gui.Layout layout = Preferences.Gui.layout.getPreferenceNoError(preferences);
-		ui.setLayoutId(layout.getLayoutId());
+    private static void firstTimeInit(@Nonnull SharedPreferences preferences, @Nonnull Context context) {
+        final Integer appOpenedCounter = Preferences.appOpenedCounter.getPreference(preferences);
+        if (appOpenedCounter != null) {
+            Preferences.appOpenedCounter.putPreference(preferences, appOpenedCounter + 1);
+        }
 
-		super.onCreate(savedInstanceState);
+        final Integer savedVersion = Preferences.appVersion.getPreference(preferences);
 
-		if (isMultiPane()) {
-			ui.addTab(this, CalculatorFragmentType.history, null, R.id.main_second_pane);
-			ui.addTab(this, CalculatorFragmentType.saved_history, null, R.id.main_second_pane);
-			ui.addTab(this, CalculatorFragmentType.variables, null, R.id.main_second_pane);
-			ui.addTab(this, CalculatorFragmentType.functions, null, R.id.main_second_pane);
-			ui.addTab(this, CalculatorFragmentType.operators, null, R.id.main_second_pane);
-			ui.addTab(this, CalculatorPlotActivity.getPlotterFragmentType(), null, R.id.main_second_pane);
-		} else {
-			final ActionBar actionBar = getSupportActionBar();
-			if (Build.VERSION.SDK_INT <= GINGERBREAD_MR1 || (Build.VERSION.SDK_INT >= ICE_CREAM_SANDWICH && hasPermanentMenuKey())) {
-				actionBar.hide();
-			} else {
-				actionBar.setDisplayShowTitleEnabled(false);
-				actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-			}
-		}
+        final int appVersion = Android.getAppVersionCode(context);
 
-		FragmentUtils.createFragment(this, CalculatorEditorFragment.class, R.id.editorContainer, "editor");
-		FragmentUtils.createFragment(this, CalculatorDisplayFragment.class, R.id.displayContainer, "display");
-		FragmentUtils.createFragment(this, CalculatorKeyboardFragment.class, R.id.keyboardContainer, "keyboard");
+        Preferences.appVersion.putPreference(preferences, appVersion);
 
-		this.useBackAsPrev = Preferences.Gui.usePrevAsBack.getPreference(preferences);
-		if (savedInstanceState == null) {
-			firstTimeInit(preferences, this);
-		}
+        if (!CalculatorApplication.isMonkeyRunner(context)) {
 
-		toggleOrientationChange(preferences);
+            boolean dialogShown = false;
+            final Wizards wizards = CalculatorApplication.getInstance().getWizards();
+            final Wizard wizard = wizards.getWizard(CalculatorWizards.FIRST_TIME_WIZARD);
+            if (wizard.isStarted() && !wizard.isFinished()) {
+                continueWizard(wizards, wizard.getName(), context);
+                dialogShown = true;
+            } else {
+                if (Objects.areEqual(savedVersion, Preferences.appVersion.getDefaultValue())) {
+                    // new start
+                    startWizard(wizards, context);
+                    dialogShown = true;
+                } else {
+                    if (savedVersion < appVersion) {
+                        final boolean showReleaseNotes = Preferences.Gui.showReleaseNotes.getPreference(preferences);
+                        if (showReleaseNotes && hasReleaseNotes(context, savedVersion + 1)) {
+                            final Bundle bundle = new Bundle();
+                            bundle.putInt(CalculatorWizards.RELEASE_NOTES_VERSION, savedVersion);
+                            context.startActivity(createLaunchIntent(wizards, CalculatorWizards.RELEASE_NOTES, context, bundle));
+                            dialogShown = true;
+                        }
+                    }
+                }
+            }
 
-		preferences.registerOnSharedPreferenceChangeListener(this);
+            //Log.d(this.getClass().getName(), "Application was opened " + appOpenedCounter + " time!");
+            if (!dialogShown) {
+                if (appOpenedCounter != null && appOpenedCounter > 30) {
+                    dialogShown = showSpecialWindow(preferences, Preferences.Gui.feedbackWindowShown, R.layout.feedback, R.id.feedbackText, context);
+                }
+            }
+        }
+    }
 
-		Locator.getInstance().getPreferenceService().checkPreferredPreferences(false);
+    private static boolean showSpecialWindow(@Nonnull SharedPreferences preferences, @Nonnull Preference<Boolean> specialWindowShownPref, int layoutId, int textViewId, @Nonnull Context context) {
+        boolean result = false;
 
-		if (CalculatorApplication.isMonkeyRunner(this)) {
-			Locator.getInstance().getKeyboard().buttonPressed("123");
-			Locator.getInstance().getKeyboard().buttonPressed("+");
-			Locator.getInstance().getKeyboard().buttonPressed("321");
-		}
-	}
+        final Boolean specialWindowShown = specialWindowShownPref.getPreference(preferences);
+        if (specialWindowShown != null && !specialWindowShown) {
+            final LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
+            final View view = layoutInflater.inflate(layoutId, null);
 
-	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-	private boolean hasPermanentMenuKey() {
-		return ViewConfiguration.get(this).hasPermanentMenuKey();
-	}
+            final TextView feedbackTextView = (TextView) view.findViewById(textViewId);
+            feedbackTextView.setMovementMethod(LinkMovementMethod.getInstance());
 
-	private boolean isMultiPane() {
-		return findViewById(R.id.main_second_pane) != null;
-	}
+            final AlertDialog.Builder builder = new AlertDialog.Builder(context).setView(view);
+            builder.setPositiveButton(android.R.string.ok, null);
+            builder.create().show();
 
-	@Nonnull
-	private AndroidCalculator getCalculator() {
-		return ((AndroidCalculator) Locator.getInstance().getCalculator());
-	}
+            result = true;
+            specialWindowShownPref.putPreference(preferences, true);
+        }
 
-	private static void firstTimeInit(@Nonnull SharedPreferences preferences, @Nonnull Context context) {
-		final Integer appOpenedCounter = Preferences.appOpenedCounter.getPreference(preferences);
-		if (appOpenedCounter != null) {
-			Preferences.appOpenedCounter.putPreference(preferences, appOpenedCounter + 1);
-		}
+        return result;
+    }
 
-		final Integer savedVersion = Preferences.appVersion.getPreference(preferences);
+    /**
+     * Called when the activity is first created.
+     */
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        final Preferences.Gui.Layout layout = Preferences.Gui.layout.getPreferenceNoError(preferences);
+        ui.setLayoutId(layout.getLayoutId());
 
-		final int appVersion = Android.getAppVersionCode(context);
+        super.onCreate(savedInstanceState);
 
-		Preferences.appVersion.putPreference(preferences, appVersion);
+        if (isMultiPane()) {
+            ui.addTab(this, CalculatorFragmentType.history, null, R.id.main_second_pane);
+            ui.addTab(this, CalculatorFragmentType.saved_history, null, R.id.main_second_pane);
+            ui.addTab(this, CalculatorFragmentType.variables, null, R.id.main_second_pane);
+            ui.addTab(this, CalculatorFragmentType.functions, null, R.id.main_second_pane);
+            ui.addTab(this, CalculatorFragmentType.operators, null, R.id.main_second_pane);
+            ui.addTab(this, CalculatorPlotActivity.getPlotterFragmentType(), null, R.id.main_second_pane);
+        } else {
+            final ActionBar actionBar = getSupportActionBar();
+            if (Build.VERSION.SDK_INT <= GINGERBREAD_MR1 || (Build.VERSION.SDK_INT >= ICE_CREAM_SANDWICH && hasPermanentMenuKey())) {
+                actionBar.hide();
+            } else {
+                actionBar.setDisplayShowTitleEnabled(false);
+                actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+            }
+        }
 
-		if (!CalculatorApplication.isMonkeyRunner(context)) {
+        FragmentUtils.createFragment(this, CalculatorEditorFragment.class, R.id.editorContainer, "editor");
+        FragmentUtils.createFragment(this, CalculatorDisplayFragment.class, R.id.displayContainer, "display");
+        FragmentUtils.createFragment(this, CalculatorKeyboardFragment.class, R.id.keyboardContainer, "keyboard");
 
-			boolean dialogShown = false;
-			final Wizards wizards = CalculatorApplication.getInstance().getWizards();
-			final Wizard wizard = wizards.getWizard(CalculatorWizards.FIRST_TIME_WIZARD);
-			if (wizard.isStarted() && !wizard.isFinished()) {
-				continueWizard(wizards, wizard.getName(), context);
-				dialogShown = true;
-			} else {
-				if (Objects.areEqual(savedVersion, Preferences.appVersion.getDefaultValue())) {
-					// new start
-					startWizard(wizards, context);
-					dialogShown = true;
-				} else {
-					if (savedVersion < appVersion) {
-						final boolean showReleaseNotes = Preferences.Gui.showReleaseNotes.getPreference(preferences);
-						if (showReleaseNotes && hasReleaseNotes(context, savedVersion + 1)) {
-							final Bundle bundle = new Bundle();
-							bundle.putInt(CalculatorWizards.RELEASE_NOTES_VERSION, savedVersion);
-							context.startActivity(createLaunchIntent(wizards, CalculatorWizards.RELEASE_NOTES, context, bundle));
-							dialogShown = true;
-						}
-					}
-				}
-			}
+        this.useBackAsPrev = Preferences.Gui.usePrevAsBack.getPreference(preferences);
+        if (savedInstanceState == null) {
+            firstTimeInit(preferences, this);
+        }
 
-			//Log.d(this.getClass().getName(), "Application was opened " + appOpenedCounter + " time!");
-			if (!dialogShown) {
-				if (appOpenedCounter != null && appOpenedCounter > 30) {
-					dialogShown = showSpecialWindow(preferences, Preferences.Gui.feedbackWindowShown, R.layout.feedback, R.id.feedbackText, context);
-				}
-			}
-		}
-	}
+        toggleOrientationChange(preferences);
 
-	private static boolean showSpecialWindow(@Nonnull SharedPreferences preferences, @Nonnull Preference<Boolean> specialWindowShownPref, int layoutId, int textViewId, @Nonnull Context context) {
-		boolean result = false;
+        preferences.registerOnSharedPreferenceChangeListener(this);
 
-		final Boolean specialWindowShown = specialWindowShownPref.getPreference(preferences);
-		if (specialWindowShown != null && !specialWindowShown) {
-			final LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
-			final View view = layoutInflater.inflate(layoutId, null);
+        Locator.getInstance().getPreferenceService().checkPreferredPreferences(false);
 
-			final TextView feedbackTextView = (TextView) view.findViewById(textViewId);
-			feedbackTextView.setMovementMethod(LinkMovementMethod.getInstance());
+        if (CalculatorApplication.isMonkeyRunner(this)) {
+            Locator.getInstance().getKeyboard().buttonPressed("123");
+            Locator.getInstance().getKeyboard().buttonPressed("+");
+            Locator.getInstance().getKeyboard().buttonPressed("321");
+        }
+    }
 
-			final AlertDialog.Builder builder = new AlertDialog.Builder(context).setView(view);
-			builder.setPositiveButton(android.R.string.ok, null);
-			builder.create().show();
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+    private boolean hasPermanentMenuKey() {
+        return ViewConfiguration.get(this).hasPermanentMenuKey();
+    }
 
-			result = true;
-			specialWindowShownPref.putPreference(preferences, true);
-		}
+    private boolean isMultiPane() {
+        return findViewById(R.id.main_second_pane) != null;
+    }
 
-		return result;
-	}
+    @Nonnull
+    private AndroidCalculator getCalculator() {
+        return ((AndroidCalculator) Locator.getInstance().getCalculator());
+    }
 
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			if (useBackAsPrev) {
-				getCalculator().doHistoryAction(HistoryAction.undo);
-				return true;
-			}
-		}
-		return super.onKeyDown(keyCode, event);
-	}
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (useBackAsPrev) {
+                getCalculator().doHistoryAction(HistoryAction.undo);
+                return true;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
-	@Override
-	protected void onResume() {
-		super.onResume();
+    @Override
+    protected void onResume() {
+        super.onResume();
 
-		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		final Preferences.Gui.Layout newLayout = Preferences.Gui.layout.getPreference(preferences);
-		if (newLayout != ui.getLayout()) {
-			Activities.restartActivity(this);
-		}
+        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        final Preferences.Gui.Layout newLayout = Preferences.Gui.layout.getPreference(preferences);
+        if (newLayout != ui.getLayout()) {
+            Activities.restartActivity(this);
+        }
 
-		final Window window = getWindow();
-		if (preventScreenFromFading.getPreference(preferences)) {
-			window.addFlags(FLAG_KEEP_SCREEN_ON);
-		} else {
-			window.clearFlags(FLAG_KEEP_SCREEN_ON);
-		}
-	}
+        final Window window = getWindow();
+        if (preventScreenFromFading.getPreference(preferences)) {
+            window.addFlags(FLAG_KEEP_SCREEN_ON);
+        } else {
+            window.clearFlags(FLAG_KEEP_SCREEN_ON);
+        }
+    }
 
-	@Override
-	protected void onDestroy() {
-		PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
+    @Override
+    protected void onDestroy() {
+        PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
 
-		super.onDestroy();
-	}
+        super.onDestroy();
+    }
 
-	@Override
-	public void onSharedPreferenceChanged(SharedPreferences preferences, @Nullable String key) {
-		if (Preferences.Gui.usePrevAsBack.getKey().equals(key)) {
-			useBackAsPrev = Preferences.Gui.usePrevAsBack.getPreference(preferences);
-		}
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences preferences, @Nullable String key) {
+        if (Preferences.Gui.usePrevAsBack.getKey().equals(key)) {
+            useBackAsPrev = Preferences.Gui.usePrevAsBack.getPreference(preferences);
+        }
 
-		if (Preferences.Gui.autoOrientation.getKey().equals(key)) {
-			toggleOrientationChange(preferences);
-		}
-	}
+        if (Preferences.Gui.autoOrientation.getKey().equals(key)) {
+            toggleOrientationChange(preferences);
+        }
+    }
 
-	private void toggleOrientationChange(@Nullable SharedPreferences preferences) {
-		preferences = preferences == null ? PreferenceManager.getDefaultSharedPreferences(this) : preferences;
-		if (Preferences.Gui.autoOrientation.getPreference(preferences)) {
-			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
-		} else {
-			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-		}
-	}
+    private void toggleOrientationChange(@Nullable SharedPreferences preferences) {
+        preferences = preferences == null ? PreferenceManager.getDefaultSharedPreferences(this) : preferences;
+        if (Preferences.Gui.autoOrientation.getPreference(preferences)) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+        } else {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
+    }
 
-	@Override
-	public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
-		switch (calculatorEventType) {
-			case plot_graph:
-				Threads.tryRunOnUiThread(this, new Runnable() {
-					@Override
-					public void run() {
-						if (isMultiPane()) {
-							final ActionBar.Tab selectedTab = getSupportActionBar().getSelectedTab();
-							if (selectedTab != null && CalculatorFragmentType.plotter.getFragmentTag().equals(selectedTab.getTag())) {
-								// do nothing - fragment shown and already registered for plot updates
-							} else {
-								// otherwise - open fragment
-								ui.selectTab(CalculatorActivity.this, CalculatorFragmentType.plotter);
-							}
-						} else {
-							// start new activity
-							CalculatorActivityLauncher.plotGraph(CalculatorActivity.this);
-						}
-					}
-				});
-				break;
-		}
-	}
+    @Override
+    public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
+        switch (calculatorEventType) {
+            case plot_graph:
+                Threads.tryRunOnUiThread(this, new Runnable() {
+                    @Override
+                    public void run() {
+                        if (isMultiPane()) {
+                            final ActionBar.Tab selectedTab = getSupportActionBar().getSelectedTab();
+                            if (selectedTab != null && CalculatorFragmentType.plotter.getFragmentTag().equals(selectedTab.getTag())) {
+                                // do nothing - fragment shown and already registered for plot updates
+                            } else {
+                                // otherwise - open fragment
+                                ui.selectTab(CalculatorActivity.this, CalculatorFragmentType.plotter);
+                            }
+                        } else {
+                            // start new activity
+                            CalculatorActivityLauncher.plotGraph(CalculatorActivity.this);
+                        }
+                    }
+                });
+                break;
+        }
+    }
 }

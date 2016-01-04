@@ -23,41 +23,41 @@
   -->
 
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-			  xmlns:tools="http://schemas.android.com/tools"
-			  a:layout_width="match_parent"
-			  a:layout_height="wrap_content"
-			  a:orientation="horizontal">
+    xmlns:tools="http://schemas.android.com/tools"
+    a:layout_width="match_parent"
+    a:layout_height="wrap_content"
+    a:orientation="horizontal">
 
-	<Button
-		a:id="@+id/function_remove_param_button"
-		a:layout_width="0dp"
-		a:layout_height="wrap_content"
-		a:layout_weight="1"
-		a:text="−"
-		tools:ignore="HardcodedText"/>
+    <Button
+        a:id="@+id/function_remove_param_button"
+        a:layout_width="0dp"
+        a:layout_height="wrap_content"
+        a:layout_weight="1"
+        a:text="−"
+        tools:ignore="HardcodedText" />
 
-	<Button
-		a:id="@+id/function_up_param_button"
-		a:layout_width="0dp"
-		a:layout_height="wrap_content"
-		a:layout_weight="1"
-		a:text="↑"
-		tools:ignore="HardcodedText"/>
+    <Button
+        a:id="@+id/function_up_param_button"
+        a:layout_width="0dp"
+        a:layout_height="wrap_content"
+        a:layout_weight="1"
+        a:text="↑"
+        tools:ignore="HardcodedText" />
 
-	<Button
-		a:id="@+id/function_down_param_button"
-		a:layout_width="0dp"
-		a:layout_height="wrap_content"
-		a:layout_weight="1"
-		a:text="↓"
-		tools:ignore="HardcodedText"/>
+    <Button
+        a:id="@+id/function_down_param_button"
+        a:layout_width="0dp"
+        a:layout_height="wrap_content"
+        a:layout_weight="1"
+        a:text="↓"
+        tools:ignore="HardcodedText" />
 
-	<org.solovyev.android.calculator.function.FunctionParamEditText
-		a:id="@+id/function_param_edit_text"
-		style="@style/cpp_default_text_size"
-		a:layout_width="0dp"
-		a:layout_height="wrap_content"
-		a:layout_weight="3"
-		a:inputType="text"/>
+    <org.solovyev.android.calculator.function.FunctionParamEditText
+        a:id="@+id/function_param_edit_text"
+        style="@style/cpp_default_text_size"
+        a:layout_width="0dp"
+        a:layout_height="wrap_content"
+        a:layout_weight="3"
+        a:inputType="text" />
 
 </LinearLayout>

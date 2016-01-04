@@ -23,10 +23,10 @@
   -->
 
 <ripple xmlns:a="http://schemas.android.com/apk/res/android"
-	a:color="@color/ripple_material_dark">
-	<item>
-		<shape>
-			<solid a:color="@color/cpp_metro_button" />
-		</shape>
-	</item>
+    a:color="@color/ripple_material_dark">
+    <item>
+        <shape>
+            <solid a:color="@color/cpp_metro_button" />
+        </shape>
+    </item>
 </ripple>

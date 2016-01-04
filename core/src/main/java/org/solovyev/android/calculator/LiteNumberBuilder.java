@@ -22,11 +22,11 @@
 
 package org.solovyev.android.calculator;
 
-import jscl.NumeralBase;
+import org.solovyev.android.calculator.math.MathType;
 
 import javax.annotation.Nonnull;
 
-import org.solovyev.android.calculator.math.MathType;
+import jscl.NumeralBase;
 
 /**
  * User: serso
@@ -36,37 +36,37 @@ import org.solovyev.android.calculator.math.MathType;
 
 public class LiteNumberBuilder extends AbstractNumberBuilder {
 
-	public LiteNumberBuilder(@Nonnull CalculatorEngine engine) {
-		super(engine);
-		this.nb = engine.getNumeralBase();
-	}
+    public LiteNumberBuilder(@Nonnull CalculatorEngine engine) {
+        super(engine);
+        this.nb = engine.getNumeralBase();
+    }
 
-	public void process(@Nonnull MathType.Result mathTypeResult) {
-		if (canContinue(mathTypeResult)) {
-			// let's continue building number
-			if (numberBuilder == null) {
-				// if new number => create new builder
-				numberBuilder = new StringBuilder();
-			}
+    public void process(@Nonnull MathType.Result mathTypeResult) {
+        if (canContinue(mathTypeResult)) {
+            // let's continue building number
+            if (numberBuilder == null) {
+                // if new number => create new builder
+                numberBuilder = new StringBuilder();
+            }
 
-			if (mathTypeResult.getMathType() != MathType.numeral_base) {
-				// just add matching string
-				numberBuilder.append(mathTypeResult.getMatch());
-			} else {
-				// set explicitly numeral base (do not include it into number)
-				nb = NumeralBase.getByPrefix(mathTypeResult.getMatch());
-			}
+            if (mathTypeResult.getMathType() != MathType.numeral_base) {
+                // just add matching string
+                numberBuilder.append(mathTypeResult.getMatch());
+            } else {
+                // set explicitly numeral base (do not include it into number)
+                nb = NumeralBase.getByPrefix(mathTypeResult.getMatch());
+            }
 
-		} else {
-			// process current number (and go to the next one)
-			if (numberBuilder != null) {
-				numberBuilder = null;
+        } else {
+            // process current number (and go to the next one)
+            if (numberBuilder != null) {
+                numberBuilder = null;
 
-				// must set default numeral base (exit numeral base mode)
-				nb = engine.getNumeralBase();
-			}
-		}
-	}
+                // must set default numeral base (exit numeral base mode)
+                nb = engine.getNumeralBase();
+            }
+        }
+    }
 
 }
 

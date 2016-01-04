@@ -29,16 +29,28 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Toast;
+
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.view.ViewBuilder;
 import org.solovyev.android.view.ViewFromLayoutBuilder;
-import org.solovyev.common.units.*;
+import org.solovyev.common.units.ConversionException;
+import org.solovyev.common.units.Conversions;
+import org.solovyev.common.units.Unit;
+import org.solovyev.common.units.UnitConverter;
+import org.solovyev.common.units.UnitImpl;
+import org.solovyev.common.units.UnitType;
+
+import java.util.Collections;
+import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * User: serso
@@ -47,195 +59,195 @@ import java.util.List;
  */
 public class UnitConverterViewBuilder implements ViewBuilder<View> {
 
-	@Nonnull
-	private List<? extends UnitType<String>> fromUnitTypes = Collections.emptyList();
+    @Nonnull
+    private List<? extends UnitType<String>> fromUnitTypes = Collections.emptyList();
 
-	@Nonnull
-	private List<? extends UnitType<String>> toUnitTypes = Collections.emptyList();
+    @Nonnull
+    private List<? extends UnitType<String>> toUnitTypes = Collections.emptyList();
 
-	@Nullable
-	private Unit<String> fromValue;
+    @Nullable
+    private Unit<String> fromValue;
 
-	@Nonnull
-	private UnitConverter<String> converter = UnitConverter.Dummy.getInstance();
+    @Nonnull
+    private UnitConverter<String> converter = UnitConverter.Dummy.getInstance();
 
-	@Nullable
-	private View.OnClickListener okButtonOnClickListener;
+    @Nullable
+    private View.OnClickListener okButtonOnClickListener;
 
-	@Nullable
-	private CustomButtonData customButtonData;
+    @Nullable
+    private CustomButtonData customButtonData;
 
-	public void setFromUnitTypes(@Nonnull List<? extends UnitType<String>> fromUnitTypes) {
-		this.fromUnitTypes = fromUnitTypes;
-	}
+    private static void doConversion(@Nonnull View main, @Nonnull Context context, @Nonnull UnitConverter<String> converter) {
+        final EditText fromEditText = (EditText) main.findViewById(R.id.units_from);
 
-	public void setToUnitTypes(@Nonnull List<? extends UnitType<String>> toUnitTypes) {
-		this.toUnitTypes = toUnitTypes;
-	}
+        final EditText toEditText = (EditText) main.findViewById(R.id.units_to);
 
-	public void setFromValue(@Nullable Unit<String> fromValue) {
-		this.fromValue = fromValue;
-	}
+        final String from = fromEditText.getText().toString();
+        try {
+            toEditText.setText(Conversions.doConversion(converter, from, getFromUnitType(main), getToUnitType(main)));
+        } catch (ConversionException e) {
+            toEditText.setText(context.getString(R.string.c_error));
+        }
+    }
 
-	public void setConverter(@Nonnull UnitConverter<String> converter) {
-		this.converter = converter;
-	}
+    @Nonnull
+    private static Unit<String> getToUnit(@Nonnull View main) {
+        final EditText toUnits = (EditText) main.findViewById(R.id.units_to);
+        return UnitImpl.newInstance(toUnits.getText().toString(), getToUnitType(main));
+    }
 
-	public void setOkButtonOnClickListener(@Nullable View.OnClickListener okButtonOnClickListener) {
-		this.okButtonOnClickListener = okButtonOnClickListener;
-	}
+    @Nonnull
+    private static UnitType<String> getToUnitType(@Nonnull View main) {
+        final Spinner toSpinner = (Spinner) main.findViewById(R.id.unit_types_to);
+        return (UnitType<String>) toSpinner.getSelectedItem();
+    }
 
-	public void setCustomButtonData(@Nullable CustomButtonData customButtonData) {
-		this.customButtonData = customButtonData;
-	}
+    @Nonnull
+    private static Unit<String> getFromUnit(@Nonnull View main) {
+        final EditText fromUnits = (EditText) main.findViewById(R.id.units_from);
+        return UnitImpl.newInstance(fromUnits.getText().toString(), getFromUnitType(main));
+    }
 
-	@Nonnull
-	@Override
-	public View build(@Nonnull final Context context) {
-		final View main = ViewFromLayoutBuilder.newInstance(R.layout.cpp_unit_converter).build(context);
+    @Nonnull
+    private static UnitType<String> getFromUnitType(@Nonnull View main) {
+        final Spinner fromSpinner = (Spinner) main.findViewById(R.id.unit_types_from);
+        return (UnitType<String>) fromSpinner.getSelectedItem();
+    }
 
-		final Spinner fromSpinner = (Spinner) main.findViewById(R.id.unit_types_from);
-		final EditText fromEditText = (EditText) main.findViewById(R.id.units_from);
-		fromEditText.addTextChangedListener(new TextWatcher() {
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-			}
+    public void setFromUnitTypes(@Nonnull List<? extends UnitType<String>> fromUnitTypes) {
+        this.fromUnitTypes = fromUnitTypes;
+    }
 
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-			}
+    public void setToUnitTypes(@Nonnull List<? extends UnitType<String>> toUnitTypes) {
+        this.toUnitTypes = toUnitTypes;
+    }
 
-			@Override
-			public void afterTextChanged(Editable s) {
-				doConversion(main, context, UnitConverterViewBuilder.this.converter);
-			}
-		});
+    public void setFromValue(@Nullable Unit<String> fromValue) {
+        this.fromValue = fromValue;
+    }
 
-		fillSpinner(main, context, R.id.unit_types_from, fromUnitTypes);
-		fillSpinner(main, context, R.id.unit_types_to, toUnitTypes);
+    public void setConverter(@Nonnull UnitConverter<String> converter) {
+        this.converter = converter;
+    }
 
-		if (fromValue != null) {
-			fromEditText.setText(fromValue.getValue());
+    public void setOkButtonOnClickListener(@Nullable View.OnClickListener okButtonOnClickListener) {
+        this.okButtonOnClickListener = okButtonOnClickListener;
+    }
 
-			int i = fromUnitTypes.indexOf(fromValue.getUnitType());
-			if (i >= 0) {
-				fromSpinner.setSelection(i);
-			}
-		}
+    public void setCustomButtonData(@Nullable CustomButtonData customButtonData) {
+        this.customButtonData = customButtonData;
+    }
 
-		final Button copyButton = (Button) main.findViewById(R.id.unit_converter_copy_button);
-		copyButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				final EditText toEditText = (EditText) main.findViewById(R.id.units_to);
+    @Nonnull
+    @Override
+    public View build(@Nonnull final Context context) {
+        final View main = ViewFromLayoutBuilder.newInstance(R.layout.cpp_unit_converter).build(context);
 
-				final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
-				clipboard.setText(toEditText.getText().toString());
-				Toast.makeText(context, context.getText(R.string.c_result_copied), Toast.LENGTH_SHORT).show();
-			}
-		});
+        final Spinner fromSpinner = (Spinner) main.findViewById(R.id.unit_types_from);
+        final EditText fromEditText = (EditText) main.findViewById(R.id.units_from);
+        fromEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
-		final Button okButton = (Button) main.findViewById(R.id.unit_converter_ok_button);
-		if (okButtonOnClickListener == null) {
-			((ViewGroup) okButton.getParent()).removeView(okButton);
-		} else {
-			okButton.setOnClickListener(this.okButtonOnClickListener);
-		}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
 
-		final Button customButton = (Button) main.findViewById(R.id.unit_converter_custom_button);
-		if (customButtonData == null) {
-			((ViewGroup) customButton.getParent()).removeView(customButton);
-		} else {
-			customButton.setText(customButtonData.text);
-			customButton.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					customButtonData.clickListener.onClick(getFromUnit(main), getToUnit(main));
-				}
-			});
-		}
+            @Override
+            public void afterTextChanged(Editable s) {
+                doConversion(main, context, UnitConverterViewBuilder.this.converter);
+            }
+        });
 
+        fillSpinner(main, context, R.id.unit_types_from, fromUnitTypes);
+        fillSpinner(main, context, R.id.unit_types_to, toUnitTypes);
 
-		return main;
-	}
+        if (fromValue != null) {
+            fromEditText.setText(fromValue.getValue());
 
-	private void fillSpinner(@Nonnull final View main,
-							 @Nonnull final Context context,
-							 final int spinnerId,
-							 @Nonnull List<? extends UnitType<String>> unitTypes) {
-		final Spinner spinner = (Spinner) main.findViewById(spinnerId);
+            int i = fromUnitTypes.indexOf(fromValue.getUnitType());
+            if (i >= 0) {
+                fromSpinner.setSelection(i);
+            }
+        }
 
-		final ArrayAdapter<UnitType<String>> adapter = new ArrayAdapter<UnitType<String>>(context, R.layout.support_simple_spinner_dropdown_item);
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		for (UnitType<String> fromUnitType : unitTypes) {
-			adapter.add(fromUnitType);
-		}
-		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				doConversion(main, context, UnitConverterViewBuilder.this.converter);
-			}
+        final Button copyButton = (Button) main.findViewById(R.id.unit_converter_copy_button);
+        copyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final EditText toEditText = (EditText) main.findViewById(R.id.units_to);
 
-			@Override
-			public void onNothingSelected(AdapterView<?> parent) {
-			}
-		});
-		spinner.setAdapter(adapter);
-	}
+                final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
+                clipboard.setText(toEditText.getText().toString());
+                Toast.makeText(context, context.getText(R.string.c_result_copied), Toast.LENGTH_SHORT).show();
+            }
+        });
 
-	private static void doConversion(@Nonnull View main, @Nonnull Context context, @Nonnull UnitConverter<String> converter) {
-		final EditText fromEditText = (EditText) main.findViewById(R.id.units_from);
+        final Button okButton = (Button) main.findViewById(R.id.unit_converter_ok_button);
+        if (okButtonOnClickListener == null) {
+            ((ViewGroup) okButton.getParent()).removeView(okButton);
+        } else {
+            okButton.setOnClickListener(this.okButtonOnClickListener);
+        }
 
-		final EditText toEditText = (EditText) main.findViewById(R.id.units_to);
-
-		final String from = fromEditText.getText().toString();
-		try {
-			toEditText.setText(Conversions.doConversion(converter, from, getFromUnitType(main), getToUnitType(main)));
-		} catch (ConversionException e) {
-			toEditText.setText(context.getString(R.string.c_error));
-		}
-	}
-
-	@Nonnull
-	private static Unit<String> getToUnit(@Nonnull View main) {
-		final EditText toUnits = (EditText) main.findViewById(R.id.units_to);
-		return UnitImpl.newInstance(toUnits.getText().toString(), getToUnitType(main));
-	}
-
-	@Nonnull
-	private static UnitType<String> getToUnitType(@Nonnull View main) {
-		final Spinner toSpinner = (Spinner) main.findViewById(R.id.unit_types_to);
-		return (UnitType<String>) toSpinner.getSelectedItem();
-	}
-
-	@Nonnull
-	private static Unit<String> getFromUnit(@Nonnull View main) {
-		final EditText fromUnits = (EditText) main.findViewById(R.id.units_from);
-		return UnitImpl.newInstance(fromUnits.getText().toString(), getFromUnitType(main));
-	}
-
-	@Nonnull
-	private static UnitType<String> getFromUnitType(@Nonnull View main) {
-		final Spinner fromSpinner = (Spinner) main.findViewById(R.id.unit_types_from);
-		return (UnitType<String>) fromSpinner.getSelectedItem();
-	}
-
-	public static class CustomButtonData {
-
-		@Nonnull
-		private String text;
-
-		@Nonnull
-		private CustomButtonOnClickListener clickListener;
+        final Button customButton = (Button) main.findViewById(R.id.unit_converter_custom_button);
+        if (customButtonData == null) {
+            ((ViewGroup) customButton.getParent()).removeView(customButton);
+        } else {
+            customButton.setText(customButtonData.text);
+            customButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    customButtonData.clickListener.onClick(getFromUnit(main), getToUnit(main));
+                }
+            });
+        }
 
 
-		public CustomButtonData(@Nonnull String text, @Nonnull CustomButtonOnClickListener clickListener) {
-			this.text = text;
-			this.clickListener = clickListener;
-		}
-	}
+        return main;
+    }
 
-	public static interface CustomButtonOnClickListener {
-		void onClick(@Nonnull Unit<String> fromUnits, @Nonnull Unit<String> toUnits);
-	}
+    private void fillSpinner(@Nonnull final View main,
+                             @Nonnull final Context context,
+                             final int spinnerId,
+                             @Nonnull List<? extends UnitType<String>> unitTypes) {
+        final Spinner spinner = (Spinner) main.findViewById(spinnerId);
+
+        final ArrayAdapter<UnitType<String>> adapter = new ArrayAdapter<UnitType<String>>(context, R.layout.support_simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        for (UnitType<String> fromUnitType : unitTypes) {
+            adapter.add(fromUnitType);
+        }
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                doConversion(main, context, UnitConverterViewBuilder.this.converter);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+        spinner.setAdapter(adapter);
+    }
+
+    public static interface CustomButtonOnClickListener {
+        void onClick(@Nonnull Unit<String> fromUnits, @Nonnull Unit<String> toUnits);
+    }
+
+    public static class CustomButtonData {
+
+        @Nonnull
+        private String text;
+
+        @Nonnull
+        private CustomButtonOnClickListener clickListener;
+
+
+        public CustomButtonData(@Nonnull String text, @Nonnull CustomButtonOnClickListener clickListener) {
+            this.text = text;
+            this.clickListener = clickListener;
+        }
+    }
 }

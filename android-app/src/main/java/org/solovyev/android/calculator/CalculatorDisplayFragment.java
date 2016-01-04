@@ -25,11 +25,10 @@ package org.solovyev.android.calculator;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import android.support.v4.app.Fragment;
 
 import javax.annotation.Nonnull;
 
@@ -40,72 +39,72 @@ import javax.annotation.Nonnull;
  */
 public class CalculatorDisplayFragment extends Fragment {
 
-	@Nonnull
-	private FragmentUi fragmentUi;
-	@Nonnull
-	private AndroidCalculatorDisplayView displayView;
+    @Nonnull
+    private FragmentUi fragmentUi;
+    @Nonnull
+    private AndroidCalculatorDisplayView displayView;
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
-		final Preferences.Gui.Layout layout = Preferences.Gui.getLayout(prefs);
-		if (!layout.isOptimized()) {
-			fragmentUi = CalculatorApplication.getInstance().createFragmentHelper(R.layout.cpp_app_display_mobile, R.string.result);
-		} else {
-			fragmentUi = CalculatorApplication.getInstance().createFragmentHelper(R.layout.cpp_app_display, R.string.result);
-		}
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
+        final Preferences.Gui.Layout layout = Preferences.Gui.getLayout(prefs);
+        if (!layout.isOptimized()) {
+            fragmentUi = CalculatorApplication.getInstance().createFragmentHelper(R.layout.cpp_app_display_mobile, R.string.result);
+        } else {
+            fragmentUi = CalculatorApplication.getInstance().createFragmentHelper(R.layout.cpp_app_display, R.string.result);
+        }
 
-		fragmentUi.onCreate(this);
-	}
+        fragmentUi.onCreate(this);
+    }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return fragmentUi.onCreateView(this, inflater, container);
-	}
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return fragmentUi.onCreateView(this, inflater, container);
+    }
 
-	@Override
-	public void onViewCreated(View root, Bundle savedInstanceState) {
-		super.onViewCreated(root, savedInstanceState);
+    @Override
+    public void onViewCreated(View root, Bundle savedInstanceState) {
+        super.onViewCreated(root, savedInstanceState);
 
-		displayView = (AndroidCalculatorDisplayView) root.findViewById(R.id.calculator_display);
-		displayView.init(getActivity());
-		Locator.getInstance().getDisplay().setView(displayView);
+        displayView = (AndroidCalculatorDisplayView) root.findViewById(R.id.calculator_display);
+        displayView.init(getActivity());
+        Locator.getInstance().getDisplay().setView(displayView);
 
-		fragmentUi.onViewCreated(this, root);
-	}
+        fragmentUi.onViewCreated(this, root);
+    }
 
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-	}
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
 
-	@Override
-	public void onResume() {
-		super.onResume();
+    @Override
+    public void onResume() {
+        super.onResume();
 
-		fragmentUi.onResume(this);
-	}
+        fragmentUi.onResume(this);
+    }
 
-	@Override
-	public void onPause() {
-		fragmentUi.onPause(this);
+    @Override
+    public void onPause() {
+        fragmentUi.onPause(this);
 
-		super.onPause();
-	}
+        super.onPause();
+    }
 
-	@Override
-	public void onDestroyView() {
-		Locator.getInstance().getDisplay().clearView(displayView);
-		fragmentUi.onDestroyView(this);
-		super.onDestroyView();
-	}
+    @Override
+    public void onDestroyView() {
+        Locator.getInstance().getDisplay().clearView(displayView);
+        fragmentUi.onDestroyView(this);
+        super.onDestroyView();
+    }
 
-	@Override
-	public void onDestroy() {
-		fragmentUi.onDestroy(this);
+    @Override
+    public void onDestroy() {
+        fragmentUi.onDestroy(this);
 
-		super.onDestroy();
-	}
+        super.onDestroy();
+    }
 }

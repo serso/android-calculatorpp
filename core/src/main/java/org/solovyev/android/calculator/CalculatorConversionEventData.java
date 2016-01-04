@@ -22,10 +22,10 @@
 
 package org.solovyev.android.calculator;
 
+import javax.annotation.Nonnull;
+
 import jscl.NumeralBase;
 import jscl.math.Generic;
-
-import javax.annotation.Nonnull;
 
 /**
  * User: Solovyev_S
@@ -34,16 +34,16 @@ import javax.annotation.Nonnull;
  */
 public interface CalculatorConversionEventData extends CalculatorEventData {
 
-	// display state on the moment of conversion
-	@Nonnull
-	CalculatorDisplayViewState getDisplayState();
+    // display state on the moment of conversion
+    @Nonnull
+    CalculatorDisplayViewState getDisplayState();
 
-	@Nonnull
-	NumeralBase getFromNumeralBase();
+    @Nonnull
+    NumeralBase getFromNumeralBase();
 
-	@Nonnull
-	NumeralBase getToNumeralBase();
+    @Nonnull
+    NumeralBase getToNumeralBase();
 
-	@Nonnull
-	Generic getValue();
+    @Nonnull
+    Generic getValue();
 }

@@ -22,10 +22,10 @@
 
 package org.solovyev.android.calculator;
 
+import org.solovyev.common.msg.MessageType;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import org.solovyev.common.msg.MessageType;
 
 /**
  * User: serso
@@ -34,41 +34,41 @@ import org.solovyev.common.msg.MessageType;
  */
 public class StringDialogData implements DialogData {
 
-	@Nonnull
-	private final String message;
+    @Nonnull
+    private final String message;
 
-	@Nonnull
-	private final MessageType messageType;
+    @Nonnull
+    private final MessageType messageType;
 
-	@Nullable
-	private final String title;
+    @Nullable
+    private final String title;
 
-	private StringDialogData(@Nonnull String message, @Nonnull MessageType messageType, @Nullable String title) {
-		this.message = message;
-		this.messageType = messageType;
-		this.title = title;
-	}
+    private StringDialogData(@Nonnull String message, @Nonnull MessageType messageType, @Nullable String title) {
+        this.message = message;
+        this.messageType = messageType;
+        this.title = title;
+    }
 
-	@Nonnull
-	public static DialogData newInstance(@Nonnull String message, @Nonnull MessageType messageType, @Nullable String title) {
-		return new StringDialogData(message, messageType, title);
-	}
+    @Nonnull
+    public static DialogData newInstance(@Nonnull String message, @Nonnull MessageType messageType, @Nullable String title) {
+        return new StringDialogData(message, messageType, title);
+    }
 
-	@Nonnull
-	@Override
-	public String getMessage() {
-		return message;
-	}
+    @Nonnull
+    @Override
+    public String getMessage() {
+        return message;
+    }
 
-	@Nonnull
-	@Override
-	public MessageType getMessageLevel() {
-		return messageType;
-	}
+    @Nonnull
+    @Override
+    public MessageType getMessageLevel() {
+        return messageType;
+    }
 
-	@Nullable
-	@Override
-	public String getTitle() {
-		return title;
-	}
+    @Nullable
+    @Override
+    public String getTitle() {
+        return title;
+    }
 }

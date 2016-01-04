@@ -25,58 +25,66 @@ package org.solovyev.android.calculator.math.edit;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import org.solovyev.android.calculator.*;
+
+import org.solovyev.android.calculator.AndroidFunctionCategory;
+import org.solovyev.android.calculator.BaseActivity;
+import org.solovyev.android.calculator.CalculatorEventData;
+import org.solovyev.android.calculator.CalculatorEventListener;
+import org.solovyev.android.calculator.CalculatorEventType;
+import org.solovyev.android.calculator.CalculatorFragmentType;
+import org.solovyev.android.calculator.FunctionCategory;
+import org.solovyev.android.calculator.R;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class CalculatorFunctionsActivity extends BaseActivity implements CalculatorEventListener {
 
-	public CalculatorFunctionsActivity() {
-		super(R.layout.main_empty, CalculatorFunctionsActivity.class.getSimpleName());
-	}
+    public CalculatorFunctionsActivity() {
+        super(R.layout.main_empty, CalculatorFunctionsActivity.class.getSimpleName());
+    }
 
-	@Override
-	public void onCreate(@Nullable Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		final Bundle bundle;
+        final Bundle bundle;
 
-		final Intent intent = getIntent();
-		if (intent != null) {
-			bundle = intent.getExtras();
-		} else {
-			bundle = null;
-		}
+        final Intent intent = getIntent();
+        if (intent != null) {
+            bundle = intent.getExtras();
+        } else {
+            bundle = null;
+        }
 
-		final CalculatorFragmentType fragmentType = CalculatorFragmentType.functions;
+        final CalculatorFragmentType fragmentType = CalculatorFragmentType.functions;
 
-		for (FunctionCategory category : FunctionCategory.getCategoriesByTabOrder()) {
-			final AndroidFunctionCategory androidCategory = AndroidFunctionCategory.valueOf(category);
-			if (androidCategory != null) {
+        for (FunctionCategory category : FunctionCategory.getCategoriesByTabOrder()) {
+            final AndroidFunctionCategory androidCategory = AndroidFunctionCategory.valueOf(category);
+            if (androidCategory != null) {
 
-				final Bundle fragmentParameters;
+                final Bundle fragmentParameters;
 
-				if (category == FunctionCategory.my && bundle != null) {
-					AbstractMathEntityListFragment.putCategory(bundle, category.name());
-					fragmentParameters = bundle;
-				} else {
-					fragmentParameters = AbstractMathEntityListFragment.createBundleFor(category.name());
-				}
+                if (category == FunctionCategory.my && bundle != null) {
+                    AbstractMathEntityListFragment.putCategory(bundle, category.name());
+                    fragmentParameters = bundle;
+                } else {
+                    fragmentParameters = AbstractMathEntityListFragment.createBundleFor(category.name());
+                }
 
-				ui.addTab(this, fragmentType.createSubFragmentTag(category.name()), fragmentType.getFragmentClass(), fragmentParameters, androidCategory.getCaptionId(), R.id.main_layout);
-			} else {
-				Log.e(CalculatorFunctionsActivity.class.getSimpleName(), "Unable to find android function category for " + category);
-			}
-		}
-	}
+                ui.addTab(this, fragmentType.createSubFragmentTag(category.name()), fragmentType.getFragmentClass(), fragmentParameters, androidCategory.getCaptionId(), R.id.main_layout);
+            } else {
+                Log.e(CalculatorFunctionsActivity.class.getSimpleName(), "Unable to find android function category for " + category);
+            }
+        }
+    }
 
-	@Override
-	public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
-		switch (calculatorEventType) {
-			case use_function:
-				this.finish();
-				break;
-		}
-	}
+    @Override
+    public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
+        switch (calculatorEventType) {
+            case use_function:
+                this.finish();
+                break;
+        }
+    }
 }

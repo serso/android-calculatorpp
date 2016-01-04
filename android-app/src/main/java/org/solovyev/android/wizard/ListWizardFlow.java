@@ -22,75 +22,76 @@
 
 package org.solovyev.android.wizard;
 
+import java.util.List;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.List;
 
 public final class ListWizardFlow implements WizardFlow {
 
-	@Nonnull
-	private final List<? extends WizardStep> steps;
+    @Nonnull
+    private final List<? extends WizardStep> steps;
 
-	public ListWizardFlow(@Nonnull List<? extends WizardStep> steps) {
-		this.steps = steps;
-	}
+    public ListWizardFlow(@Nonnull List<? extends WizardStep> steps) {
+        this.steps = steps;
+    }
 
-	@Nullable
-	@Override
-	public WizardStep getStepByName(@Nonnull final String name) {
-		for (WizardStep step : steps) {
-			if (step.getName().equals(name)) {
-				return step;
-			}
-		}
-		return null;
-	}
+    @Nullable
+    @Override
+    public WizardStep getStepByName(@Nonnull final String name) {
+        for (WizardStep step : steps) {
+            if (step.getName().equals(name)) {
+                return step;
+            }
+        }
+        return null;
+    }
 
-	@Nullable
-	@Override
-	public WizardStep getNextStep(@Nonnull WizardStep step) {
-		final int i = steps.indexOf(step);
-		if (i >= 0 && i + 1 < steps.size()) {
-			return steps.get(i + 1);
-		} else {
-			return null;
-		}
-	}
+    @Nullable
+    @Override
+    public WizardStep getNextStep(@Nonnull WizardStep step) {
+        final int i = steps.indexOf(step);
+        if (i >= 0 && i + 1 < steps.size()) {
+            return steps.get(i + 1);
+        } else {
+            return null;
+        }
+    }
 
-	@Nullable
-	@Override
-	public WizardStep getPrevStep(@Nonnull WizardStep step) {
-		final int i = steps.indexOf(step);
-		if (i >= 1) {
-			return steps.get(i - 1);
-		} else {
-			return null;
-		}
-	}
+    @Nullable
+    @Override
+    public WizardStep getPrevStep(@Nonnull WizardStep step) {
+        final int i = steps.indexOf(step);
+        if (i >= 1) {
+            return steps.get(i - 1);
+        } else {
+            return null;
+        }
+    }
 
-	@Nonnull
-	@Override
-	public WizardStep getFirstStep() {
-		return steps.get(0);
-	}
+    @Nonnull
+    @Override
+    public WizardStep getFirstStep() {
+        return steps.get(0);
+    }
 
-	@Nonnull
-	public WizardStep getStepAt(int position) {
-		return steps.get(position);
-	}
+    @Nonnull
+    public WizardStep getStepAt(int position) {
+        return steps.get(position);
+    }
 
-	public int getPositionFor(@Nonnull WizardStep step) {
-		for (int i = 0; i < steps.size(); i++) {
-			if (steps.get(i).equals(step)) {
-				return i;
-			}
+    public int getPositionFor(@Nonnull WizardStep step) {
+        for (int i = 0; i < steps.size(); i++) {
+            if (steps.get(i).equals(step)) {
+                return i;
+            }
 
-		}
+        }
 
-		return -1;
-	}
+        return -1;
+    }
 
-	public int getCount() {
-		return steps.size();
-	}
+    public int getCount() {
+        return steps.size();
+    }
 }

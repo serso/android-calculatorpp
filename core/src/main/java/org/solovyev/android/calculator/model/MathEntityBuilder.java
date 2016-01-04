@@ -22,11 +22,11 @@
 
 package org.solovyev.android.calculator.model;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathEntity;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * User: serso
@@ -35,12 +35,12 @@ import org.solovyev.common.math.MathEntity;
  */
 public interface MathEntityBuilder<T extends MathEntity> extends JBuilder<T> {
 
-	@Nonnull
-	public MathEntityBuilder<T> setName(@Nonnull String name);
+    @Nonnull
+    public MathEntityBuilder<T> setName(@Nonnull String name);
 
-	@Nonnull
-	public MathEntityBuilder<T> setDescription(@Nullable String description);
+    @Nonnull
+    public MathEntityBuilder<T> setDescription(@Nullable String description);
 
-	@Nonnull
-	public MathEntityBuilder<T> setValue(@Nullable String value);
+    @Nonnull
+    public MathEntityBuilder<T> setValue(@Nullable String value);
 }

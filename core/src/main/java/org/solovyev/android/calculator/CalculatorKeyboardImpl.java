@@ -35,127 +35,127 @@ import javax.annotation.Nullable;
  */
 public class CalculatorKeyboardImpl implements CalculatorKeyboard {
 
-	@Nonnull
-	private final Calculator calculator;
+    @Nonnull
+    private final Calculator calculator;
 
-	public CalculatorKeyboardImpl(@Nonnull Calculator calculator) {
-		this.calculator = calculator;
-	}
+    public CalculatorKeyboardImpl(@Nonnull Calculator calculator) {
+        this.calculator = calculator;
+    }
 
-	@Override
-	public boolean buttonPressed(@Nullable final String text) {
-		if (!Strings.isEmpty(text)) {
-			if (text == null) throw new AssertionError();
+    @Override
+    public boolean buttonPressed(@Nullable final String text) {
+        if (!Strings.isEmpty(text)) {
+            if (text == null) throw new AssertionError();
 
-			// process special buttons
-			boolean processed = processSpecialButtons(text);
+            // process special buttons
+            boolean processed = processSpecialButtons(text);
 
-			if (!processed) {
-				processText(prepareText(text));
-			}
-			return true;
-		}
-		return false;
-	}
+            if (!processed) {
+                processText(prepareText(text));
+            }
+            return true;
+        }
+        return false;
+    }
 
-	private void processText(@Nonnull String text) {
-		int cursorPositionOffset = 0;
-		final StringBuilder textToBeInserted = new StringBuilder(text);
+    private void processText(@Nonnull String text) {
+        int cursorPositionOffset = 0;
+        final StringBuilder textToBeInserted = new StringBuilder(text);
 
-		final MathType.Result mathType = MathType.getType(text, 0, false);
-		switch (mathType.getMathType()) {
-			case function:
-				textToBeInserted.append("()");
-				cursorPositionOffset = -1;
-				break;
-			case operator:
-				textToBeInserted.append("()");
-				cursorPositionOffset = -1;
-				break;
-			case comma:
-				textToBeInserted.append(" ");
-				break;
-		}
+        final MathType.Result mathType = MathType.getType(text, 0, false);
+        switch (mathType.getMathType()) {
+            case function:
+                textToBeInserted.append("()");
+                cursorPositionOffset = -1;
+                break;
+            case operator:
+                textToBeInserted.append("()");
+                cursorPositionOffset = -1;
+                break;
+            case comma:
+                textToBeInserted.append(" ");
+                break;
+        }
 
-		if (cursorPositionOffset == 0) {
-			if (MathType.openGroupSymbols.contains(text)) {
-				cursorPositionOffset = -1;
-			}
-		}
+        if (cursorPositionOffset == 0) {
+            if (MathType.openGroupSymbols.contains(text)) {
+                cursorPositionOffset = -1;
+            }
+        }
 
-		final CalculatorEditor editor = Locator.getInstance().getEditor();
-		editor.insert(textToBeInserted.toString(), cursorPositionOffset);
-	}
+        final CalculatorEditor editor = Locator.getInstance().getEditor();
+        editor.insert(textToBeInserted.toString(), cursorPositionOffset);
+    }
 
-	@Nonnull
-	private String prepareText(@Nonnull String text) {
-		if ("(  )".equals(text) || "( )".equals(text)) {
-			return "()";
-		} else {
-			return text;
-		}
-	}
+    @Nonnull
+    private String prepareText(@Nonnull String text) {
+        if ("(  )".equals(text) || "( )".equals(text)) {
+            return "()";
+        } else {
+            return text;
+        }
+    }
 
-	private boolean processSpecialButtons(@Nonnull String text) {
-		boolean result = false;
+    private boolean processSpecialButtons(@Nonnull String text) {
+        boolean result = false;
 
-		final CalculatorSpecialButton button = CalculatorSpecialButton.getByActionCode(text);
-		if (button != null) {
-			button.onClick(this);
-			result = true;
-		}
+        final CalculatorSpecialButton button = CalculatorSpecialButton.getByActionCode(text);
+        if (button != null) {
+            button.onClick(this);
+            result = true;
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	@Override
-	public void roundBracketsButtonPressed() {
-		final CalculatorEditor editor = Locator.getInstance().getEditor();
-		CalculatorEditorViewState viewState = editor.getViewState();
+    @Override
+    public void roundBracketsButtonPressed() {
+        final CalculatorEditor editor = Locator.getInstance().getEditor();
+        CalculatorEditorViewState viewState = editor.getViewState();
 
-		final int cursorPosition = viewState.getSelection();
-		final String oldText = viewState.getText();
+        final int cursorPosition = viewState.getSelection();
+        final String oldText = viewState.getText();
 
-		final StringBuilder newText = new StringBuilder(oldText.length() + 2);
-		newText.append("(");
-		newText.append(oldText.substring(0, cursorPosition));
-		newText.append(")");
-		newText.append(oldText.substring(cursorPosition));
-		editor.setText(newText.toString(), cursorPosition + 2);
-	}
+        final StringBuilder newText = new StringBuilder(oldText.length() + 2);
+        newText.append("(");
+        newText.append(oldText.substring(0, cursorPosition));
+        newText.append(")");
+        newText.append(oldText.substring(cursorPosition));
+        editor.setText(newText.toString(), cursorPosition + 2);
+    }
 
-	@Override
-	public void pasteButtonPressed() {
-		final String text = Locator.getInstance().getClipboard().getText();
-		if (text != null) {
-			Locator.getInstance().getEditor().insert(text);
-		}
-	}
+    @Override
+    public void pasteButtonPressed() {
+        final String text = Locator.getInstance().getClipboard().getText();
+        if (text != null) {
+            Locator.getInstance().getEditor().insert(text);
+        }
+    }
 
-	@Override
-	public void clearButtonPressed() {
-		Locator.getInstance().getEditor().clear();
-	}
+    @Override
+    public void clearButtonPressed() {
+        Locator.getInstance().getEditor().clear();
+    }
 
-	@Override
-	public void copyButtonPressed() {
-		final CalculatorDisplayViewState displayViewState = Locator.getInstance().getDisplay().getViewState();
-		if (displayViewState.isValid()) {
-			final CharSequence text = displayViewState.getText();
-			if (!Strings.isEmpty(text)) {
-				Locator.getInstance().getClipboard().setText(text);
-				Locator.getInstance().getNotifier().showMessage(CalculatorMessage.newInfoMessage(CalculatorMessages.result_copied));
-			}
-		}
-	}
+    @Override
+    public void copyButtonPressed() {
+        final CalculatorDisplayViewState displayViewState = Locator.getInstance().getDisplay().getViewState();
+        if (displayViewState.isValid()) {
+            final CharSequence text = displayViewState.getText();
+            if (!Strings.isEmpty(text)) {
+                Locator.getInstance().getClipboard().setText(text);
+                Locator.getInstance().getNotifier().showMessage(CalculatorMessage.newInfoMessage(CalculatorMessages.result_copied));
+            }
+        }
+    }
 
-	@Override
-	public void moveCursorLeft() {
-		Locator.getInstance().getEditor().moveCursorLeft();
-	}
+    @Override
+    public void moveCursorLeft() {
+        Locator.getInstance().getEditor().moveCursorLeft();
+    }
 
-	@Override
-	public void moveCursorRight() {
-		Locator.getInstance().getEditor().moveCursorRight();
-	}
+    @Override
+    public void moveCursorRight() {
+        Locator.getInstance().getEditor().moveCursorRight();
+    }
 }

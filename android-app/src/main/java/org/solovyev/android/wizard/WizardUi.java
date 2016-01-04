@@ -11,138 +11,134 @@ import javax.annotation.Nullable;
 
 public class WizardUi<A extends FragmentActivity> {
 
-	private static final String FLOW = "flow";
-	private static final String ARGUMENTS = "arguments";
-	private static final String STEP = "step";
+    private static final String FLOW = "flow";
+    private static final String ARGUMENTS = "arguments";
+    private static final String STEP = "step";
+    @Nonnull
+    protected final A activity;
+    @Nonnull
+    protected final WizardsAware wizardsAware;
+    protected final int layoutResId;
+    protected WizardStep step;
+    protected Wizard wizard;
 
-	protected WizardStep step;
-	protected Wizard wizard;
+    public WizardUi(@Nonnull A activity, @Nonnull WizardsAware wizardsAware, int layoutResId) {
+        this.activity = activity;
+        this.wizardsAware = wizardsAware;
+        this.layoutResId = layoutResId;
+    }
 
-	@Nonnull
-	protected final A activity;
+    public static void startWizard(@Nonnull Wizards wizards, @Nonnull Context context) {
+        context.startActivity(createLaunchIntent(wizards, null, context));
+    }
 
-	@Nonnull
-	protected final WizardsAware wizardsAware;
+    public static void startWizard(@Nonnull Wizards wizards, @Nullable String name, @Nonnull Context context) {
+        context.startActivity(createLaunchIntent(wizards, name, context));
+    }
 
-	protected final int layoutResId;
+    public static void continueWizard(@Nonnull Wizards wizards, @Nonnull String name, @Nonnull Context context) {
+        final Intent intent = createLaunchIntent(wizards, name, context);
 
-	public WizardUi(@Nonnull A activity, @Nonnull WizardsAware wizardsAware, int layoutResId) {
-		this.activity = activity;
-		this.wizardsAware = wizardsAware;
-		this.layoutResId = layoutResId;
-	}
+        final Wizard wizard = wizards.getWizard(name);
+        final String step = wizard.getLastSavedStepName();
+        tryPutStep(intent, step);
 
-	public void onCreate(@Nullable Bundle savedInstanceState) {
-		if (layoutResId != 0) {
-			activity.setContentView(layoutResId);
-		}
+        context.startActivity(intent);
+    }
 
-		final Intent intent = activity.getIntent();
-		String wizardName = intent.getStringExtra(FLOW);
-		String stepName = intent.getStringExtra(STEP);
-		if (savedInstanceState != null) {
-			wizardName = savedInstanceState.getString(FLOW);
-			stepName = savedInstanceState.getString(STEP);
-		}
+    public static void tryPutStep(@Nonnull Intent intent, @Nullable WizardStep step) {
+        tryPutStep(intent, step != null ? step.getName() : null);
+    }
 
-		final Bundle arguments = intent.getBundleExtra(ARGUMENTS);
-		wizard = wizardsAware.getWizards().getWizard(wizardName, arguments);
+    private static void tryPutStep(@Nonnull Intent intent, @Nullable String step) {
+        if (step != null) {
+            intent.putExtra(STEP, step);
+        }
+    }
 
-		if (stepName != null) {
-			step = wizard.getFlow().getStepByName(stepName);
-		}
+    @Nonnull
+    public static Intent createLaunchIntent(@Nonnull Wizards wizards, @Nullable String name, @Nonnull Context context) {
+        return createLaunchIntent(wizards, name, context, null);
+    }
 
-		if (step == null) {
-			step = wizard.getFlow().getFirstStep();
-		}
-	}
+    @Nonnull
+    public static Intent createLaunchIntent(@Nonnull Wizards wizards, @Nullable String name, @Nonnull Context context, @Nullable Bundle arguments) {
+        final Intent intent = new Intent(context, wizards.getActivityClassName());
+        intent.putExtra(FLOW, name);
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.putExtra(ARGUMENTS, arguments);
+        return intent;
+    }
 
-	public void setStep(WizardStep step) {
-		this.step = step;
-	}
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        if (layoutResId != 0) {
+            activity.setContentView(layoutResId);
+        }
 
-	public void finishWizardAbruptly() {
-		finishWizard(true);
-	}
+        final Intent intent = activity.getIntent();
+        String wizardName = intent.getStringExtra(FLOW);
+        String stepName = intent.getStringExtra(STEP);
+        if (savedInstanceState != null) {
+            wizardName = savedInstanceState.getString(FLOW);
+            stepName = savedInstanceState.getString(STEP);
+        }
 
-	public void finishWizard() {
-		finishWizard(false);
-	}
+        final Bundle arguments = intent.getBundleExtra(ARGUMENTS);
+        wizard = wizardsAware.getWizards().getWizard(wizardName, arguments);
 
-	protected final void finishWizard(boolean forceFinish) {
-		if (wizard != null && step != null) {
-			wizard.saveFinished(step, forceFinish);
-		}
-		activity.finish();
-	}
+        if (stepName != null) {
+            step = wizard.getFlow().getStepByName(stepName);
+        }
 
-	@Nonnull
-	protected final FragmentManager getFragmentManager() {
-		return activity.getSupportFragmentManager();
-	}
+        if (step == null) {
+            step = wizard.getFlow().getFirstStep();
+        }
+    }
 
-	public void onSaveInstanceState(@Nonnull Bundle out) {
-		out.putString(FLOW, wizard.getName());
-		out.putString(STEP, step.getName());
-	}
+    public void finishWizardAbruptly() {
+        finishWizard(true);
+    }
 
-	public void onPause() {
-		if (wizard != null && step != null) {
-			wizard.saveLastStep(step);
-		}
-	}
+    public void finishWizard() {
+        finishWizard(false);
+    }
 
-	public WizardStep getStep() {
-		return step;
-	}
+    protected final void finishWizard(boolean forceFinish) {
+        if (wizard != null && step != null) {
+            wizard.saveFinished(step, forceFinish);
+        }
+        activity.finish();
+    }
 
-	public WizardFlow getFlow() {
-		return wizard.getFlow();
-	}
+    @Nonnull
+    protected final FragmentManager getFragmentManager() {
+        return activity.getSupportFragmentManager();
+    }
 
-	public Wizard getWizard() {
-		return wizard;
-	}
+    public void onSaveInstanceState(@Nonnull Bundle out) {
+        out.putString(FLOW, wizard.getName());
+        out.putString(STEP, step.getName());
+    }
 
-	public static void startWizard(@Nonnull Wizards wizards, @Nonnull Context context) {
-		context.startActivity(createLaunchIntent(wizards, null, context));
-	}
+    public void onPause() {
+        if (wizard != null && step != null) {
+            wizard.saveLastStep(step);
+        }
+    }
 
-	public static void startWizard(@Nonnull Wizards wizards, @Nullable String name, @Nonnull Context context) {
-		context.startActivity(createLaunchIntent(wizards, name, context));
-	}
+    public WizardStep getStep() {
+        return step;
+    }
 
-	public static void continueWizard(@Nonnull Wizards wizards, @Nonnull String name, @Nonnull Context context) {
-		final Intent intent = createLaunchIntent(wizards, name, context);
+    public void setStep(WizardStep step) {
+        this.step = step;
+    }
 
-		final Wizard wizard = wizards.getWizard(name);
-		final String step = wizard.getLastSavedStepName();
-		tryPutStep(intent, step);
+    public WizardFlow getFlow() {
+        return wizard.getFlow();
+    }
 
-		context.startActivity(intent);
-	}
-
-	public static void tryPutStep(@Nonnull Intent intent, @Nullable WizardStep step) {
-		tryPutStep(intent, step != null ? step.getName() : null);
-	}
-
-	private static void tryPutStep(@Nonnull Intent intent, @Nullable String step) {
-		if (step != null) {
-			intent.putExtra(STEP, step);
-		}
-	}
-
-	@Nonnull
-	public static Intent createLaunchIntent(@Nonnull Wizards wizards, @Nullable String name, @Nonnull Context context) {
-		return createLaunchIntent(wizards, name, context, null);
-	}
-
-	@Nonnull
-	public static Intent createLaunchIntent(@Nonnull Wizards wizards, @Nullable String name, @Nonnull Context context, @Nullable Bundle arguments) {
-		final Intent intent = new Intent(context, wizards.getActivityClassName());
-		intent.putExtra(FLOW, name);
-		intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-		intent.putExtra(ARGUMENTS, arguments);
-		return intent;
-	}
+    public Wizard getWizard() {
+        return wizard;
+    }
 }

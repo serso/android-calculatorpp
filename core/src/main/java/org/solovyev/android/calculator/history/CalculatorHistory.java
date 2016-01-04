@@ -22,12 +22,12 @@
 
 package org.solovyev.android.calculator.history;
 
-import javax.annotation.Nonnull;
-
 import org.solovyev.android.calculator.CalculatorEventListener;
 import org.solovyev.common.history.HistoryHelper;
 
 import java.util.List;
+
+import javax.annotation.Nonnull;
 
 /**
  * User: Solovyev_S
@@ -36,28 +36,28 @@ import java.util.List;
  */
 public interface CalculatorHistory extends HistoryHelper<CalculatorHistoryState>, CalculatorEventListener {
 
-	void load();
+    void load();
 
-	void save();
+    void save();
 
-	void fromXml(@Nonnull String xml);
+    void fromXml(@Nonnull String xml);
 
-	String toXml();
+    String toXml();
 
-	void clearSavedHistory();
+    void clearSavedHistory();
 
-	void removeSavedHistory(@Nonnull CalculatorHistoryState historyState);
+    void removeSavedHistory(@Nonnull CalculatorHistoryState historyState);
 
-	@Nonnull
-	List<CalculatorHistoryState> getSavedHistory();
+    @Nonnull
+    List<CalculatorHistoryState> getSavedHistory();
 
-	@Nonnull
-	CalculatorHistoryState addSavedState(@Nonnull CalculatorHistoryState historyState);
+    @Nonnull
+    CalculatorHistoryState addSavedState(@Nonnull CalculatorHistoryState historyState);
 
-	@Nonnull
-	List<CalculatorHistoryState> getStates();
+    @Nonnull
+    List<CalculatorHistoryState> getStates();
 
-	@Nonnull
-	List<CalculatorHistoryState> getStates(boolean includeIntermediateStates);
+    @Nonnull
+    List<CalculatorHistoryState> getStates(boolean includeIntermediateStates);
 
 }

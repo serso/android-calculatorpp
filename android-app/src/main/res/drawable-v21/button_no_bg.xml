@@ -23,10 +23,10 @@
   -->
 
 <ripple xmlns:a="http://schemas.android.com/apk/res/android"
-	a:color="?attr/colorControlHighlight">
-	<item>
-		<shape>
-			<solid a:color="?attr/cpp_main_bg" />
-		</shape>
-	</item>
+    a:color="?attr/colorControlHighlight">
+    <item>
+        <shape>
+            <solid a:color="?attr/cpp_main_bg" />
+        </shape>
+    </item>
 </ripple>

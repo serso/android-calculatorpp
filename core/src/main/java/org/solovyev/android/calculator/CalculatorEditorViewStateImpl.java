@@ -31,55 +31,55 @@ import javax.annotation.Nonnull;
  */
 public class CalculatorEditorViewStateImpl implements CalculatorEditorViewState {
 
-	@Nonnull
-	private CharSequence text = "";
+    @Nonnull
+    private CharSequence text = "";
 
-	private int selection = 0;
+    private int selection = 0;
 
-	private CalculatorEditorViewStateImpl() {
-	}
+    private CalculatorEditorViewStateImpl() {
+    }
 
-	public CalculatorEditorViewStateImpl(@Nonnull CalculatorEditorViewState viewState) {
-		this.text = viewState.getText();
-		this.selection = viewState.getSelection();
-	}
+    public CalculatorEditorViewStateImpl(@Nonnull CalculatorEditorViewState viewState) {
+        this.text = viewState.getText();
+        this.selection = viewState.getSelection();
+    }
 
-	@Nonnull
-	@Override
-	public String getText() {
-		return this.text.toString();
-	}
+    @Nonnull
+    public static CalculatorEditorViewState newDefaultInstance() {
+        return new CalculatorEditorViewStateImpl();
+    }
 
-	@Nonnull
-	@Override
-	public CharSequence getTextAsCharSequence() {
-		return this.text;
-	}
+    @Nonnull
+    public static CalculatorEditorViewState newSelection(@Nonnull CalculatorEditorViewState viewState, int newSelection) {
+        final CalculatorEditorViewStateImpl result = new CalculatorEditorViewStateImpl(viewState);
 
-	@Override
-	public int getSelection() {
-		return this.selection;
-	}
+        result.selection = newSelection;
 
-	@Nonnull
-	public static CalculatorEditorViewState newDefaultInstance() {
-		return new CalculatorEditorViewStateImpl();
-	}
+        return result;
+    }
 
-	@Nonnull
-	public static CalculatorEditorViewState newSelection(@Nonnull CalculatorEditorViewState viewState, int newSelection) {
-		final CalculatorEditorViewStateImpl result = new CalculatorEditorViewStateImpl(viewState);
+    @Nonnull
+    public static CalculatorEditorViewState newInstance(@Nonnull CharSequence text, int selection) {
+        final CalculatorEditorViewStateImpl result = new CalculatorEditorViewStateImpl();
+        result.text = text;
+        result.selection = selection;
+        return result;
+    }
 
-		result.selection = newSelection;
+    @Nonnull
+    @Override
+    public String getText() {
+        return this.text.toString();
+    }
 
-		return result;
-	}
+    @Nonnull
+    @Override
+    public CharSequence getTextAsCharSequence() {
+        return this.text;
+    }
 
-	@Nonnull
-	public static CalculatorEditorViewState newInstance(@Nonnull CharSequence text, int selection) {
-		final CalculatorEditorViewStateImpl result = new CalculatorEditorViewStateImpl();
-		result.text = text;
-		result.selection = selection;
-		return result;
-	}
+    @Override
+    public int getSelection() {
+        return this.selection;
+    }
 }

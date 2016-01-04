@@ -24,16 +24,16 @@
 
 <selector xmlns:a="http://schemas.android.com/apk/res/android">
 
-	<item a:state_pressed="true">
-		<shape>
-			<solid a:color="@color/cpp_material_blue_lighter" />
-		</shape>
-	</item>
+    <item a:state_pressed="true">
+        <shape>
+            <solid a:color="@color/cpp_material_blue_lighter" />
+        </shape>
+    </item>
 
-	<item>
-		<shape>
-			<solid a:color="@color/cpp_material_blue" />
-		</shape>
-	</item>
+    <item>
+        <shape>
+            <solid a:color="@color/cpp_material_blue" />
+        </shape>
+    </item>
 
 </selector>

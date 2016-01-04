@@ -23,22 +23,22 @@
   -->
 
 <LinearLayout
-	style="@style/CppListViewItem"
-	xmlns:a="http://schemas.android.com/apk/res/android"
-	a:layout_width="match_parent"
-	a:layout_height="wrap_content"
-	a:orientation="vertical">
+    xmlns:a="http://schemas.android.com/apk/res/android"
+    style="@style/CppListViewItem"
+    a:layout_width="match_parent"
+    a:layout_height="wrap_content"
+    a:orientation="vertical">
 
-	<TextView
-		a:id="@+id/math_entity_text"
-		style="@style/CppListViewItemTextPrimary"
-		a:layout_width="match_parent"
-		a:layout_height="wrap_content"/>
+    <TextView
+        a:id="@+id/math_entity_text"
+        style="@style/CppListViewItemTextPrimary"
+        a:layout_width="match_parent"
+        a:layout_height="wrap_content" />
 
-	<TextView
-		a:id="@+id/math_entity_short_description"
-		style="@style/CppListViewItemTextSecondary"
-		a:layout_width="match_parent"
-		a:layout_height="wrap_content"/>
+    <TextView
+        a:id="@+id/math_entity_short_description"
+        style="@style/CppListViewItemTextSecondary"
+        a:layout_width="match_parent"
+        a:layout_height="wrap_content" />
 
 </LinearLayout>

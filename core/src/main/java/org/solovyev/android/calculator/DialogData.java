@@ -22,10 +22,10 @@
 
 package org.solovyev.android.calculator;
 
+import org.solovyev.common.msg.MessageLevel;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import org.solovyev.common.msg.MessageLevel;
 
 /**
  * User: serso
@@ -34,12 +34,12 @@ import org.solovyev.common.msg.MessageLevel;
  */
 public interface DialogData {
 
-	@Nonnull
-	String getMessage();
+    @Nonnull
+    String getMessage();
 
-	@Nonnull
-	MessageLevel getMessageLevel();
+    @Nonnull
+    MessageLevel getMessageLevel();
 
-	@Nullable
-	String getTitle();
+    @Nullable
+    String getTitle();
 }

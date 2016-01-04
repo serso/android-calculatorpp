@@ -22,13 +22,15 @@
 
 package org.solovyev.android.calculator;
 
-import jscl.math.operator.Operator;
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathRegistry;
 
-import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.annotation.Nonnull;
+
+import jscl.math.operator.Operator;
 
 /**
  * User: serso
@@ -37,65 +39,64 @@ import java.util.Map;
  */
 public class CalculatorPostfixFunctionsRegistry extends AbstractCalculatorMathRegistry<Operator, MathPersistenceEntity> {
 
-	@Nonnull
-	private static final Map<String, String> substitutes = new HashMap<String, String>();
+    @Nonnull
+    private static final Map<String, String> substitutes = new HashMap<String, String>();
+    @Nonnull
+    private static final String POSTFIX_FUNCTION_DESCRIPTION_PREFIX = "c_pf_description_";
 
-	static {
-		substitutes.put("%", "percent");
-		substitutes.put("!", "factorial");
-		substitutes.put("!!", "double_factorial");
-		substitutes.put("°", "degree");
-	}
+    static {
+        substitutes.put("%", "percent");
+        substitutes.put("!", "factorial");
+        substitutes.put("!!", "double_factorial");
+        substitutes.put("°", "degree");
+    }
 
-	@Nonnull
-	private static final String POSTFIX_FUNCTION_DESCRIPTION_PREFIX = "c_pf_description_";
-
-	public CalculatorPostfixFunctionsRegistry(@Nonnull MathRegistry<Operator> functionsRegistry,
-											  @Nonnull MathEntityDao<MathPersistenceEntity> mathEntityDao) {
-		super(functionsRegistry, POSTFIX_FUNCTION_DESCRIPTION_PREFIX, mathEntityDao);
-	}
+    public CalculatorPostfixFunctionsRegistry(@Nonnull MathRegistry<Operator> functionsRegistry,
+                                              @Nonnull MathEntityDao<MathPersistenceEntity> mathEntityDao) {
+        super(functionsRegistry, POSTFIX_FUNCTION_DESCRIPTION_PREFIX, mathEntityDao);
+    }
 
 
-	@Nonnull
-	@Override
-	protected Map<String, String> getSubstitutes() {
-		return substitutes;
-	}
+    @Nonnull
+    @Override
+    protected Map<String, String> getSubstitutes() {
+        return substitutes;
+    }
 
-	@Override
-	public String getCategory(@Nonnull Operator operator) {
-		for (OperatorCategory category : OperatorCategory.values()) {
-			if (category.isInCategory(operator)) {
-				return category.name();
-			}
-		}
-		return null;
-	}
+    @Override
+    public String getCategory(@Nonnull Operator operator) {
+        for (OperatorCategory category : OperatorCategory.values()) {
+            if (category.isInCategory(operator)) {
+                return category.name();
+            }
+        }
+        return null;
+    }
 
-	@Override
-	public void load() {
-		// not supported yet
-	}
+    @Override
+    public void load() {
+        // not supported yet
+    }
 
-	@Nonnull
-	@Override
-	protected JBuilder<? extends Operator> createBuilder(@Nonnull MathPersistenceEntity entity) {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public void save() {
-		// not supported yet
-	}
-
-	@Override
-	protected MathPersistenceEntity transform(@Nonnull Operator entity) {
-		return null;
-	}
-
-	@Nonnull
-	@Override
-	protected MathEntityPersistenceContainer<MathPersistenceEntity> createPersistenceContainer() {
+    @Nonnull
+    @Override
+    protected JBuilder<? extends Operator> createBuilder(@Nonnull MathPersistenceEntity entity) {
         throw new UnsupportedOperationException();
-	}
+    }
+
+    @Override
+    public void save() {
+        // not supported yet
+    }
+
+    @Override
+    protected MathPersistenceEntity transform(@Nonnull Operator entity) {
+        return null;
+    }
+
+    @Nonnull
+    @Override
+    protected MathEntityPersistenceContainer<MathPersistenceEntity> createPersistenceContainer() {
+        throw new UnsupportedOperationException();
+    }
 }

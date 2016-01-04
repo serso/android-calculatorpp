@@ -21,7 +21,8 @@
   ~ Email: se.solovyev@gmail.com
   ~ Site:  http://se.solovyev.org
   -->
-<Button a:id="@id/cpp_button_equals"
-	style="@style/CppKeyboardButton.Material.Light.Simple.Control"
-	xmlns:a="http://schemas.android.com/apk/res/android"
-	a:text="=" />
+<Button
+    xmlns:a="http://schemas.android.com/apk/res/android"
+    a:id="@id/cpp_button_equals"
+    style="@style/CppKeyboardButton.Material.Light.Simple.Control"
+    a:text="=" />

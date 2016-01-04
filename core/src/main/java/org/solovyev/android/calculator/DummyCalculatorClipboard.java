@@ -31,16 +31,16 @@ import javax.annotation.Nonnull;
  */
 public class DummyCalculatorClipboard implements CalculatorClipboard {
 
-	@Override
-	public String getText() {
-		return null;
-	}
+    @Override
+    public String getText() {
+        return null;
+    }
 
-	@Override
-	public void setText(@Nonnull String text) {
-	}
+    @Override
+    public void setText(@Nonnull CharSequence text) {
+    }
 
-	@Override
-	public void setText(@Nonnull CharSequence text) {
-	}
+    @Override
+    public void setText(@Nonnull String text) {
+    }
 }

@@ -22,110 +22,111 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<LinearLayout a:id="@+id/main_fragment_layout"
-	style="@style/CppFragment"
-	xmlns:a="http://schemas.android.com/apk/res/android"
-	a:layout_width="match_parent"
-	a:layout_height="match_parent"
-	a:layout_gravity="center_horizontal"
-	a:orientation="vertical">
+<LinearLayout
+    xmlns:a="http://schemas.android.com/apk/res/android"
+    a:id="@+id/main_fragment_layout"
+    style="@style/CppFragment"
+    a:layout_width="match_parent"
+    a:layout_height="match_parent"
+    a:layout_gravity="center_horizontal"
+    a:orientation="vertical">
 
-	<include layout="@layout/ad" />
+    <include layout="@layout/ad" />
 
-	<LinearLayout
-		a:layout_width="match_parent"
-		a:layout_height="wrap_content"
-		a:baselineAligned="false"
-		a:orientation="horizontal">
+    <LinearLayout
+        a:layout_width="match_parent"
+        a:layout_height="wrap_content"
+        a:baselineAligned="false"
+        a:orientation="horizontal">
 
-		<LinearLayout
-			a:layout_width="0dp"
-			a:layout_height="wrap_content"
-			a:layout_weight="1"
-			a:orientation="vertical">
+        <LinearLayout
+            a:layout_width="0dp"
+            a:layout_height="wrap_content"
+            a:layout_weight="1"
+            a:orientation="vertical">
 
-			<TextView
-				a:layout_width="match_parent"
-				a:layout_height="wrap_content"
-				a:text="@string/cpp_plot_range_x_min" />
+            <TextView
+                a:layout_width="match_parent"
+                a:layout_height="wrap_content"
+                a:text="@string/cpp_plot_range_x_min" />
 
-			<EditText
-				a:id="@+id/cpp_plot_range_x_min_editext"
-				a:layout_width="match_parent"
-				a:layout_height="wrap_content"
-				a:inputType="numberDecimal|numberSigned" />
-		</LinearLayout>
+            <EditText
+                a:id="@+id/cpp_plot_range_x_min_editext"
+                a:layout_width="match_parent"
+                a:layout_height="wrap_content"
+                a:inputType="numberDecimal|numberSigned" />
+        </LinearLayout>
 
-		<LinearLayout
-			a:layout_width="0dp"
-			a:layout_height="wrap_content"
-			a:layout_weight="1"
-			a:orientation="vertical">
+        <LinearLayout
+            a:layout_width="0dp"
+            a:layout_height="wrap_content"
+            a:layout_weight="1"
+            a:orientation="vertical">
 
-			<TextView
-				a:layout_width="match_parent"
-				a:layout_height="wrap_content"
-				a:text="@string/cpp_plot_range_x_max" />
+            <TextView
+                a:layout_width="match_parent"
+                a:layout_height="wrap_content"
+                a:text="@string/cpp_plot_range_x_max" />
 
-			<EditText
-				a:id="@+id/cpp_plot_range_x_max_editext"
-				a:layout_width="match_parent"
-				a:layout_height="wrap_content"
-				a:inputType="numberDecimal|numberSigned" />
-		</LinearLayout>
-
-
-	</LinearLayout>
-
-	<LinearLayout
-		a:layout_width="match_parent"
-		a:layout_height="wrap_content"
-		a:baselineAligned="false"
-		a:orientation="horizontal">
-
-		<LinearLayout
-			a:layout_width="0dp"
-			a:layout_height="wrap_content"
-			a:layout_weight="1"
-			a:orientation="vertical">
-
-			<TextView
-				a:layout_width="match_parent"
-				a:layout_height="wrap_content"
-				a:text="@string/cpp_plot_range_y_min" />
-
-			<EditText
-				a:id="@+id/cpp_plot_range_y_min_editext"
-				a:layout_width="match_parent"
-				a:layout_height="wrap_content"
-				a:inputType="numberDecimal|numberSigned" />
-		</LinearLayout>
-
-		<LinearLayout
-			a:layout_width="0dp"
-			a:layout_height="wrap_content"
-			a:layout_weight="1"
-			a:orientation="vertical">
-
-			<TextView
-				a:layout_width="match_parent"
-				a:layout_height="wrap_content"
-				a:text="@string/cpp_plot_range_y_max" />
-
-			<EditText
-				a:id="@+id/cpp_plot_range_y_max_editext"
-				a:layout_width="match_parent"
-				a:layout_height="wrap_content"
-				a:inputType="numberDecimal|numberSigned" />
-		</LinearLayout>
+            <EditText
+                a:id="@+id/cpp_plot_range_x_max_editext"
+                a:layout_width="match_parent"
+                a:layout_height="wrap_content"
+                a:inputType="numberDecimal|numberSigned" />
+        </LinearLayout>
 
 
-	</LinearLayout>
+    </LinearLayout>
 
-	<Button
-		a:id="@+id/cpp_apply_button"
-		a:layout_width="match_parent"
-		a:layout_height="wrap_content"
-		a:text="@string/cpp_apply" />
+    <LinearLayout
+        a:layout_width="match_parent"
+        a:layout_height="wrap_content"
+        a:baselineAligned="false"
+        a:orientation="horizontal">
+
+        <LinearLayout
+            a:layout_width="0dp"
+            a:layout_height="wrap_content"
+            a:layout_weight="1"
+            a:orientation="vertical">
+
+            <TextView
+                a:layout_width="match_parent"
+                a:layout_height="wrap_content"
+                a:text="@string/cpp_plot_range_y_min" />
+
+            <EditText
+                a:id="@+id/cpp_plot_range_y_min_editext"
+                a:layout_width="match_parent"
+                a:layout_height="wrap_content"
+                a:inputType="numberDecimal|numberSigned" />
+        </LinearLayout>
+
+        <LinearLayout
+            a:layout_width="0dp"
+            a:layout_height="wrap_content"
+            a:layout_weight="1"
+            a:orientation="vertical">
+
+            <TextView
+                a:layout_width="match_parent"
+                a:layout_height="wrap_content"
+                a:text="@string/cpp_plot_range_y_max" />
+
+            <EditText
+                a:id="@+id/cpp_plot_range_y_max_editext"
+                a:layout_width="match_parent"
+                a:layout_height="wrap_content"
+                a:inputType="numberDecimal|numberSigned" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <Button
+        a:id="@+id/cpp_apply_button"
+        a:layout_width="match_parent"
+        a:layout_height="wrap_content"
+        a:text="@string/cpp_apply" />
 
 </LinearLayout>

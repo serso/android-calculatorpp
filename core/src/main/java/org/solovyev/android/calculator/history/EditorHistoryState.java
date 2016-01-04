@@ -22,9 +22,6 @@
 
 package org.solovyev.android.calculator.history;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 import org.solovyev.android.calculator.CalculatorDisplayViewState;
@@ -32,88 +29,91 @@ import org.solovyev.android.calculator.CalculatorEditor;
 import org.solovyev.android.calculator.CalculatorEditorViewState;
 import org.solovyev.common.text.Strings;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 @Root
 public class EditorHistoryState implements Cloneable {
 
-	@Element
-	private int cursorPosition;
+    @Element
+    private int cursorPosition;
 
-	@Element(required = false)
-	@Nullable
-	private String text = "";
+    @Element(required = false)
+    @Nullable
+    private String text = "";
 
-	private EditorHistoryState() {
-		// for xml
-	}
+    private EditorHistoryState() {
+        // for xml
+    }
 
-	@Nonnull
-	public static EditorHistoryState newInstance(@Nonnull CalculatorEditorViewState viewState) {
-		final EditorHistoryState result = new EditorHistoryState();
+    @Nonnull
+    public static EditorHistoryState newInstance(@Nonnull CalculatorEditorViewState viewState) {
+        final EditorHistoryState result = new EditorHistoryState();
 
-		result.text = String.valueOf(viewState.getText());
-		result.cursorPosition = viewState.getSelection();
+        result.text = String.valueOf(viewState.getText());
+        result.cursorPosition = viewState.getSelection();
 
-		return result;
-	}
+        return result;
+    }
 
-	@Nonnull
-	public static EditorHistoryState newInstance(@Nonnull CalculatorDisplayViewState viewState) {
-		final EditorHistoryState result = new EditorHistoryState();
+    @Nonnull
+    public static EditorHistoryState newInstance(@Nonnull CalculatorDisplayViewState viewState) {
+        final EditorHistoryState result = new EditorHistoryState();
 
-		result.text = viewState.getText();
-		result.cursorPosition = viewState.getSelection();
+        result.text = viewState.getText();
+        result.cursorPosition = viewState.getSelection();
 
-		return result;
-	}
+        return result;
+    }
 
-	public void setValuesFromHistory(@Nonnull CalculatorEditor editor) {
-		editor.setText(Strings.getNotEmpty(this.getText(), ""));
-		editor.setSelection(this.getCursorPosition());
-	}
+    public void setValuesFromHistory(@Nonnull CalculatorEditor editor) {
+        editor.setText(Strings.getNotEmpty(this.getText(), ""));
+        editor.setSelection(this.getCursorPosition());
+    }
 
-	@Nullable
-	public String getText() {
-		return text;
-	}
+    @Nullable
+    public String getText() {
+        return text;
+    }
 
-	public int getCursorPosition() {
-		return cursorPosition;
-	}
+    public int getCursorPosition() {
+        return cursorPosition;
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (!(o instanceof EditorHistoryState)) return false;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof EditorHistoryState)) return false;
 
-		EditorHistoryState that = (EditorHistoryState) o;
+        EditorHistoryState that = (EditorHistoryState) o;
 
-		if (cursorPosition != that.cursorPosition) return false;
-		if (text != null ? !text.equals(that.text) : that.text != null) return false;
+        if (cursorPosition != that.cursorPosition) return false;
+        if (text != null ? !text.equals(that.text) : that.text != null) return false;
 
-		return true;
-	}
+        return true;
+    }
 
-	@Override
-	public int hashCode() {
-		int result = cursorPosition;
-		result = 31 * result + (text != null ? text.hashCode() : 0);
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        int result = cursorPosition;
+        result = 31 * result + (text != null ? text.hashCode() : 0);
+        return result;
+    }
 
-	@Override
-	public String toString() {
-		return "EditorHistoryState{" +
-				"cursorPosition=" + cursorPosition +
-				", text='" + text + '\'' +
-				'}';
-	}
+    @Override
+    public String toString() {
+        return "EditorHistoryState{" +
+                "cursorPosition=" + cursorPosition +
+                ", text='" + text + '\'' +
+                '}';
+    }
 
-	@Override
-	protected EditorHistoryState clone() {
-		try {
-			return (EditorHistoryState) super.clone();
-		} catch (CloneNotSupportedException e) {
-			throw new UnsupportedOperationException(e);
-		}
-	}
+    @Override
+    protected EditorHistoryState clone() {
+        try {
+            return (EditorHistoryState) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new UnsupportedOperationException(e);
+        }
+    }
 }

@@ -21,7 +21,8 @@
   ~ Email: se.solovyev@gmail.com
   ~ Site:  http://se.solovyev.org
   -->
-<Button a:id="@id/cpp_button_5"
-	style="@style/CppKeyboardButton.Material.Simple.Digit"
-	xmlns:a="http://schemas.android.com/apk/res/android"
-	a:text="5" />
+<Button
+    xmlns:a="http://schemas.android.com/apk/res/android"
+    a:id="@id/cpp_button_5"
+    style="@style/CppKeyboardButton.Material.Simple.Digit"
+    a:text="5" />

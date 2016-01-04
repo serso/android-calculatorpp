@@ -23,13 +23,14 @@
 package org.solovyev.android.calculator.wizard;
 
 import android.content.SharedPreferences;
-import jscl.AngleUnit;
 
 import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 
 import javax.annotation.Nonnull;
+
+import jscl.AngleUnit;
 
 import static org.solovyev.android.calculator.Preferences.Gui.Layout.main_calculator;
 import static org.solovyev.android.calculator.Preferences.Gui.Layout.main_calculator_mobile;
@@ -41,67 +42,67 @@ import static org.solovyev.android.calculator.Preferences.Gui.Layout.main_calcul
  */
 enum CalculatorMode {
 
-	simple(R.string.cpp_wizard_mode_simple) {
-		@Override
-		protected void apply(@Nonnull SharedPreferences preferences) {
-			final Preferences.Gui.Layout layout = Preferences.Gui.layout.getPreference(preferences);
-			if (layout.isOptimized()) {
-				Preferences.Gui.layout.putPreference(preferences, Preferences.Gui.Layout.simple);
-			} else {
-				Preferences.Gui.layout.putPreference(preferences, Preferences.Gui.Layout.simple_mobile);
-			}
-			Preferences.Calculations.preferredAngleUnits.putPreference(preferences, AngleUnit.deg);
-			AndroidCalculatorEngine.Preferences.angleUnit.putPreference(preferences, AngleUnit.deg);
-			AndroidCalculatorEngine.Preferences.scienceNotation.putPreference(preferences, false);
-			AndroidCalculatorEngine.Preferences.roundResult.putPreference(preferences, true);
-		}
-	},
+    simple(R.string.cpp_wizard_mode_simple) {
+        @Override
+        protected void apply(@Nonnull SharedPreferences preferences) {
+            final Preferences.Gui.Layout layout = Preferences.Gui.layout.getPreference(preferences);
+            if (layout.isOptimized()) {
+                Preferences.Gui.layout.putPreference(preferences, Preferences.Gui.Layout.simple);
+            } else {
+                Preferences.Gui.layout.putPreference(preferences, Preferences.Gui.Layout.simple_mobile);
+            }
+            Preferences.Calculations.preferredAngleUnits.putPreference(preferences, AngleUnit.deg);
+            AndroidCalculatorEngine.Preferences.angleUnit.putPreference(preferences, AngleUnit.deg);
+            AndroidCalculatorEngine.Preferences.scienceNotation.putPreference(preferences, false);
+            AndroidCalculatorEngine.Preferences.roundResult.putPreference(preferences, true);
+        }
+    },
 
-	engineer(R.string.cpp_wizard_mode_engineer) {
-		@Override
-		protected void apply(@Nonnull SharedPreferences preferences) {
-			final Preferences.Gui.Layout layout = Preferences.Gui.layout.getPreference(preferences);
-			if (layout.isOptimized()) {
-				Preferences.Gui.layout.putPreference(preferences, main_calculator);
-			} else {
-				Preferences.Gui.layout.putPreference(preferences, main_calculator_mobile);
-			}
-			Preferences.Calculations.preferredAngleUnits.putPreference(preferences, AngleUnit.rad);
-			AndroidCalculatorEngine.Preferences.angleUnit.putPreference(preferences, AngleUnit.rad);
-			AndroidCalculatorEngine.Preferences.scienceNotation.putPreference(preferences, true);
-			AndroidCalculatorEngine.Preferences.roundResult.putPreference(preferences, false);
-		}
-	};
+    engineer(R.string.cpp_wizard_mode_engineer) {
+        @Override
+        protected void apply(@Nonnull SharedPreferences preferences) {
+            final Preferences.Gui.Layout layout = Preferences.Gui.layout.getPreference(preferences);
+            if (layout.isOptimized()) {
+                Preferences.Gui.layout.putPreference(preferences, main_calculator);
+            } else {
+                Preferences.Gui.layout.putPreference(preferences, main_calculator_mobile);
+            }
+            Preferences.Calculations.preferredAngleUnits.putPreference(preferences, AngleUnit.rad);
+            AndroidCalculatorEngine.Preferences.angleUnit.putPreference(preferences, AngleUnit.rad);
+            AndroidCalculatorEngine.Preferences.scienceNotation.putPreference(preferences, true);
+            AndroidCalculatorEngine.Preferences.roundResult.putPreference(preferences, false);
+        }
+    };
 
-	private final int nameResId;
+    private final int nameResId;
 
-	CalculatorMode(int nameResId) {
-		this.nameResId = nameResId;
-	}
+    CalculatorMode(int nameResId) {
+        this.nameResId = nameResId;
+    }
 
-	int getNameResId() {
-		return nameResId;
-	}
+    @Nonnull
+    static CalculatorMode getDefaultMode() {
+        return engineer;
+    }
 
-	protected abstract void apply(@Nonnull SharedPreferences preferences);
+    @Nonnull
+    static CalculatorMode fromGuiLayout(@Nonnull Preferences.Gui.Layout layout) {
+        switch (layout) {
+            case main_calculator:
+            case main_cellphone:
+            case main_calculator_mobile:
+                return engineer;
+            case simple:
+            case simple_mobile:
+                return simple;
+            default:
+                return getDefaultMode();
+        }
+    }
 
-	@Nonnull
-	static CalculatorMode getDefaultMode() {
-		return engineer;
-	}
+    int getNameResId() {
+        return nameResId;
+    }
 
-	@Nonnull
-	static CalculatorMode fromGuiLayout(@Nonnull Preferences.Gui.Layout layout) {
-		switch (layout) {
-			case main_calculator:
-			case main_cellphone:
-			case main_calculator_mobile:
-				return engineer;
-			case simple:
-			case simple_mobile:
-				return simple;
-			default:
-				return getDefaultMode();
-		}
-	}
+    protected abstract void apply(@Nonnull SharedPreferences preferences);
 }

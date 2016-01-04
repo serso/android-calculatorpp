@@ -22,18 +22,18 @@
 
 package org.solovyev.android.calculator;
 
-import jscl.math.function.ArcTrigonometric;
-import jscl.math.function.Comparison;
-import jscl.math.function.Function;
-import jscl.math.function.Trigonometric;
-
-import javax.annotation.Nonnull;
-
 import org.solovyev.common.collections.Collections;
 
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+
+import javax.annotation.Nonnull;
+
+import jscl.math.function.ArcTrigonometric;
+import jscl.math.function.Comparison;
+import jscl.math.function.Function;
+import jscl.math.function.Trigonometric;
 
 /**
  * User: serso
@@ -42,71 +42,71 @@ import java.util.List;
  */
 public enum FunctionCategory {
 
-	trigonometric(100) {
-		@Override
-		public boolean isInCategory(@Nonnull Function function) {
-			return (function instanceof Trigonometric || function instanceof ArcTrigonometric) && !hyperbolic_trigonometric.isInCategory(function);
-		}
-	},
+    trigonometric(100) {
+        @Override
+        public boolean isInCategory(@Nonnull Function function) {
+            return (function instanceof Trigonometric || function instanceof ArcTrigonometric) && !hyperbolic_trigonometric.isInCategory(function);
+        }
+    },
 
-	hyperbolic_trigonometric(300) {
+    hyperbolic_trigonometric(300) {
 
-		private final List<String> names = Arrays.asList("sinh", "cosh", "tanh", "coth", "asinh", "acosh", "atanh", "acoth");
+        private final List<String> names = Arrays.asList("sinh", "cosh", "tanh", "coth", "asinh", "acosh", "atanh", "acoth");
 
-		@Override
-		public boolean isInCategory(@Nonnull Function function) {
-			return names.contains(function.getName());
-		}
-	},
+        @Override
+        public boolean isInCategory(@Nonnull Function function) {
+            return names.contains(function.getName());
+        }
+    },
 
-	comparison(200) {
-		@Override
-		public boolean isInCategory(@Nonnull Function function) {
-			return function instanceof Comparison;
-		}
-	},
+    comparison(200) {
+        @Override
+        public boolean isInCategory(@Nonnull Function function) {
+            return function instanceof Comparison;
+        }
+    },
 
-	my(0) {
-		@Override
-		public boolean isInCategory(@Nonnull Function function) {
-			return !function.isSystem();
-		}
-	},
+    my(0) {
+        @Override
+        public boolean isInCategory(@Nonnull Function function) {
+            return !function.isSystem();
+        }
+    },
 
-	common(50) {
-		@Override
-		public boolean isInCategory(@Nonnull Function function) {
-			for (FunctionCategory category : values()) {
-				if (category != this) {
-					if (category.isInCategory(function)) {
-						return false;
-					}
-				}
-			}
+    common(50) {
+        @Override
+        public boolean isInCategory(@Nonnull Function function) {
+            for (FunctionCategory category : values()) {
+                if (category != this) {
+                    if (category.isInCategory(function)) {
+                        return false;
+                    }
+                }
+            }
 
-			return true;
-		}
-	};
+            return true;
+        }
+    };
 
-	private final int tabOrder;
+    private final int tabOrder;
 
-	FunctionCategory(int tabOrder) {
-		this.tabOrder = tabOrder;
-	}
+    FunctionCategory(int tabOrder) {
+        this.tabOrder = tabOrder;
+    }
 
-	public abstract boolean isInCategory(@Nonnull Function function);
+    @Nonnull
+    public static List<FunctionCategory> getCategoriesByTabOrder() {
+        final List<FunctionCategory> result = Collections.asList(FunctionCategory.values());
 
-	@Nonnull
-	public static List<FunctionCategory> getCategoriesByTabOrder() {
-		final List<FunctionCategory> result = Collections.asList(FunctionCategory.values());
+        java.util.Collections.sort(result, new Comparator<FunctionCategory>() {
+            @Override
+            public int compare(FunctionCategory category, FunctionCategory category1) {
+                return category.tabOrder - category1.tabOrder;
+            }
+        });
 
-		java.util.Collections.sort(result, new Comparator<FunctionCategory>() {
-			@Override
-			public int compare(FunctionCategory category, FunctionCategory category1) {
-				return category.tabOrder - category1.tabOrder;
-			}
-		});
+        return result;
+    }
 
-		return result;
-	}
+    public abstract boolean isInCategory(@Nonnull Function function);
 }

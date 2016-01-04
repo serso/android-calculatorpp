@@ -22,21 +22,26 @@
 
 package org.solovyev.android.calculator;
 
-import jscl.JsclMathEngine;
-
 import org.junit.Assert;
 import org.mockito.Mockito;
 import org.solovyev.android.calculator.history.CalculatorHistory;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.plot.CalculatorPlotter;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.text.DecimalFormatSymbols;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import jscl.JsclMathEngine;
 
 /**
  * User: serso
@@ -45,169 +50,167 @@ import java.util.concurrent.TimeUnit;
  */
 public class CalculatorTestUtils {
 
-	// in seconds
-	public static final int TIMEOUT = 3;
+    // in seconds
+    public static final int TIMEOUT = 3;
 
-	public static void staticSetUp() throws Exception {
-		Locator.getInstance().init(new CalculatorImpl(), newCalculatorEngine(), Mockito.mock(CalculatorClipboard.class), Mockito.mock(CalculatorNotifier.class), Mockito.mock(CalculatorHistory.class), new SystemOutCalculatorLogger(), Mockito.mock(CalculatorPreferenceService.class), Mockito.mock(CalculatorKeyboard.class), Mockito.mock(CalculatorPlotter.class), null);
-		Locator.getInstance().getEngine().init();
+    public static void staticSetUp() throws Exception {
+        Locator.getInstance().init(new CalculatorImpl(), newCalculatorEngine(), Mockito.mock(CalculatorClipboard.class), Mockito.mock(CalculatorNotifier.class), Mockito.mock(CalculatorHistory.class), new SystemOutCalculatorLogger(), Mockito.mock(CalculatorPreferenceService.class), Mockito.mock(CalculatorKeyboard.class), Mockito.mock(CalculatorPlotter.class), null);
+        Locator.getInstance().getEngine().init();
 
-		final DecimalFormatSymbols decimalGroupSymbols = new DecimalFormatSymbols();
-		decimalGroupSymbols.setDecimalSeparator('.');
-		decimalGroupSymbols.setGroupingSeparator(' ');
-		Locator.getInstance().getEngine().setDecimalGroupSymbols(decimalGroupSymbols);
-	}
+        final DecimalFormatSymbols decimalGroupSymbols = new DecimalFormatSymbols();
+        decimalGroupSymbols.setDecimalSeparator('.');
+        decimalGroupSymbols.setGroupingSeparator(' ');
+        Locator.getInstance().getEngine().setDecimalGroupSymbols(decimalGroupSymbols);
+    }
 
-	@Nonnull
-	static CalculatorEngineImpl newCalculatorEngine() {
-		final MathEntityDao mathEntityDao = Mockito.mock(MathEntityDao.class);
+    @Nonnull
+    static CalculatorEngineImpl newCalculatorEngine() {
+        final MathEntityDao mathEntityDao = Mockito.mock(MathEntityDao.class);
 
-		final JsclMathEngine jsclEngine = JsclMathEngine.getInstance();
+        final JsclMathEngine jsclEngine = JsclMathEngine.getInstance();
 
-		final CalculatorVarsRegistry varsRegistry = new CalculatorVarsRegistry(jsclEngine.getConstantsRegistry(), mathEntityDao);
-		final CalculatorFunctionsMathRegistry functionsRegistry = new CalculatorFunctionsMathRegistry(jsclEngine.getFunctionsRegistry(), mathEntityDao);
-		final CalculatorOperatorsMathRegistry operatorsRegistry = new CalculatorOperatorsMathRegistry(jsclEngine.getOperatorsRegistry(), mathEntityDao);
-		final CalculatorPostfixFunctionsRegistry postfixFunctionsRegistry = new CalculatorPostfixFunctionsRegistry(jsclEngine.getPostfixFunctionsRegistry(), mathEntityDao);
+        final CalculatorVarsRegistry varsRegistry = new CalculatorVarsRegistry(jsclEngine.getConstantsRegistry(), mathEntityDao);
+        final CalculatorFunctionsMathRegistry functionsRegistry = new CalculatorFunctionsMathRegistry(jsclEngine.getFunctionsRegistry(), mathEntityDao);
+        final CalculatorOperatorsMathRegistry operatorsRegistry = new CalculatorOperatorsMathRegistry(jsclEngine.getOperatorsRegistry(), mathEntityDao);
+        final CalculatorPostfixFunctionsRegistry postfixFunctionsRegistry = new CalculatorPostfixFunctionsRegistry(jsclEngine.getPostfixFunctionsRegistry(), mathEntityDao);
 
-		return new CalculatorEngineImpl(jsclEngine, varsRegistry, functionsRegistry, operatorsRegistry, postfixFunctionsRegistry, null);
-	}
+        return new CalculatorEngineImpl(jsclEngine, varsRegistry, functionsRegistry, operatorsRegistry, postfixFunctionsRegistry, null);
+    }
 
-	public static void assertEval(@Nonnull String expected, @Nonnull String expression) {
-		assertEval(expected, expression, JsclOperation.numeric);
-	}
+    public static void assertEval(@Nonnull String expected, @Nonnull String expression) {
+        assertEval(expected, expression, JsclOperation.numeric);
+    }
 
-	public static void assertEval(@Nonnull String expected, @Nonnull String expression, @Nonnull JsclOperation operation) {
-		final Calculator calculator = Locator.getInstance().getCalculator();
+    public static void assertEval(@Nonnull String expected, @Nonnull String expression, @Nonnull JsclOperation operation) {
+        final Calculator calculator = Locator.getInstance().getCalculator();
 
-		Locator.getInstance().getDisplay().setViewState(CalculatorDisplayViewStateImpl.newDefaultInstance());
+        Locator.getInstance().getDisplay().setViewState(CalculatorDisplayViewStateImpl.newDefaultInstance());
 
-		final CountDownLatch latch = new CountDownLatch(1);
-		final TestCalculatorEventListener calculatorEventListener = new TestCalculatorEventListener(latch);
-		try {
-			calculator.addCalculatorEventListener(calculatorEventListener);
+        final CountDownLatch latch = new CountDownLatch(1);
+        final TestCalculatorEventListener calculatorEventListener = new TestCalculatorEventListener(latch);
+        try {
+            calculator.addCalculatorEventListener(calculatorEventListener);
 
-			calculatorEventListener.setCalculatorEventData(calculator.evaluate(operation, expression));
+            calculatorEventListener.setCalculatorEventData(calculator.evaluate(operation, expression));
 
-			if (latch.await(TIMEOUT, TimeUnit.SECONDS)) {
-				Assert.assertNotNull(calculatorEventListener.getResult());
-				Assert.assertEquals(expected, calculatorEventListener.getResult().getText());
-			} else {
-				Assert.fail("Too long wait for: " + expression);
-			}
+            if (latch.await(TIMEOUT, TimeUnit.SECONDS)) {
+                Assert.assertNotNull(calculatorEventListener.getResult());
+                Assert.assertEquals(expected, calculatorEventListener.getResult().getText());
+            } else {
+                Assert.fail("Too long wait for: " + expression);
+            }
 
-		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
-		} finally {
-			calculator.removeCalculatorEventListener(calculatorEventListener);
-		}
-	}
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } finally {
+            calculator.removeCalculatorEventListener(calculatorEventListener);
+        }
+    }
 
-	public static void assertError(@Nonnull String expression) {
-		assertError(expression, JsclOperation.numeric);
-	}
+    public static void assertError(@Nonnull String expression) {
+        assertError(expression, JsclOperation.numeric);
+    }
 
-	public static <S extends Serializable> S testSerialization(@Nonnull S serializable) throws IOException, ClassNotFoundException {
-		final ByteArrayOutputStream out = new ByteArrayOutputStream();
+    public static <S extends Serializable> S testSerialization(@Nonnull S serializable) throws IOException, ClassNotFoundException {
+        final ByteArrayOutputStream out = new ByteArrayOutputStream();
 
-		ObjectOutputStream oos = null;
-		try {
-			oos = new ObjectOutputStream(out);
-			oos.writeObject(serializable);
-		} finally {
-			if (oos != null) {
-				oos.close();
-			}
-		}
+        ObjectOutputStream oos = null;
+        try {
+            oos = new ObjectOutputStream(out);
+            oos.writeObject(serializable);
+        } finally {
+            if (oos != null) {
+                oos.close();
+            }
+        }
 
-		byte[] serialized = out.toByteArray();
+        byte[] serialized = out.toByteArray();
 
-		Assert.assertTrue(serialized.length > 0);
+        Assert.assertTrue(serialized.length > 0);
 
 
-		final ObjectInputStream resultStream = new ObjectInputStream(new ByteArrayInputStream(out.toByteArray()));
-		final S result = (S) resultStream.readObject();
+        final ObjectInputStream resultStream = new ObjectInputStream(new ByteArrayInputStream(out.toByteArray()));
+        final S result = (S) resultStream.readObject();
 
-		Assert.assertNotNull(result);
+        Assert.assertNotNull(result);
 
-		return result;
-	}
+        return result;
+    }
 
-	private static final class TestCalculatorEventListener implements CalculatorEventListener {
+    public static void assertError(@Nonnull String expression, @Nonnull JsclOperation operation) {
+        final Calculator calculator = Locator.getInstance().getCalculator();
 
-		@Nullable
-		private CalculatorEventData calculatorEventData;
+        Locator.getInstance().getDisplay().setViewState(CalculatorDisplayViewStateImpl.newDefaultInstance());
 
-		@Nonnull
-		private final CountDownLatch latch;
+        final CountDownLatch latch = new CountDownLatch(1);
+        final TestCalculatorEventListener calculatorEventListener = new TestCalculatorEventListener(latch);
+        try {
+            calculator.addCalculatorEventListener(calculatorEventListener);
+            calculatorEventListener.setCalculatorEventData(calculator.evaluate(operation, expression));
 
-		@Nullable
-		private volatile CalculatorDisplayViewState result = null;
+            if (latch.await(TIMEOUT, TimeUnit.SECONDS)) {
+                Assert.assertNotNull(calculatorEventListener.getResult());
+                Assert.assertFalse(calculatorEventListener.getResult().isValid());
+            } else {
+                Assert.fail("Too long wait for: " + expression);
+            }
 
-		public TestCalculatorEventListener(@Nonnull CountDownLatch latch) {
-			this.latch = latch;
-		}
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } finally {
+            calculator.removeCalculatorEventListener(calculatorEventListener);
+        }
+    }
 
-		public void setCalculatorEventData(@Nullable CalculatorEventData calculatorEventData) {
-			this.calculatorEventData = calculatorEventData;
-		}
+    private static final class TestCalculatorEventListener implements CalculatorEventListener {
 
-		@Override
-		public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
-			waitForEventData();
+        @Nonnull
+        private final CountDownLatch latch;
+        @Nullable
+        private CalculatorEventData calculatorEventData;
+        @Nullable
+        private volatile CalculatorDisplayViewState result = null;
 
-			if (calculatorEventData.isSameSequence(this.calculatorEventData)) {
-				if (calculatorEventType == CalculatorEventType.display_state_changed) {
-					final CalculatorDisplayChangeEventData displayChange = (CalculatorDisplayChangeEventData) data;
+        public TestCalculatorEventListener(@Nonnull CountDownLatch latch) {
+            this.latch = latch;
+        }
 
-					result = displayChange.getNewValue();
+        public void setCalculatorEventData(@Nullable CalculatorEventData calculatorEventData) {
+            this.calculatorEventData = calculatorEventData;
+        }
 
-					try {
-						// need to sleep a little bit as await
-						new CountDownLatch(1).await(100, TimeUnit.MILLISECONDS);
-					} catch (InterruptedException e) {
-					}
-					latch.countDown();
-				}
-			}
-		}
+        @Override
+        public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
+            waitForEventData();
 
-		private void waitForEventData() {
-			while (this.calculatorEventData == null) {
-				try {
-					Thread.sleep(200);
-				} catch (InterruptedException e) {
-				}
-			}
-		}
+            if (calculatorEventData.isSameSequence(this.calculatorEventData)) {
+                if (calculatorEventType == CalculatorEventType.display_state_changed) {
+                    final CalculatorDisplayChangeEventData displayChange = (CalculatorDisplayChangeEventData) data;
 
-		@Nullable
-		public CalculatorDisplayViewState getResult() {
-			return result;
-		}
-	}
+                    result = displayChange.getNewValue();
 
-	public static void assertError(@Nonnull String expression, @Nonnull JsclOperation operation) {
-		final Calculator calculator = Locator.getInstance().getCalculator();
+                    try {
+                        // need to sleep a little bit as await
+                        new CountDownLatch(1).await(100, TimeUnit.MILLISECONDS);
+                    } catch (InterruptedException e) {
+                    }
+                    latch.countDown();
+                }
+            }
+        }
 
-		Locator.getInstance().getDisplay().setViewState(CalculatorDisplayViewStateImpl.newDefaultInstance());
+        private void waitForEventData() {
+            while (this.calculatorEventData == null) {
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                }
+            }
+        }
 
-		final CountDownLatch latch = new CountDownLatch(1);
-		final TestCalculatorEventListener calculatorEventListener = new TestCalculatorEventListener(latch);
-		try {
-			calculator.addCalculatorEventListener(calculatorEventListener);
-			calculatorEventListener.setCalculatorEventData(calculator.evaluate(operation, expression));
-
-			if (latch.await(TIMEOUT, TimeUnit.SECONDS)) {
-				Assert.assertNotNull(calculatorEventListener.getResult());
-				Assert.assertFalse(calculatorEventListener.getResult().isValid());
-			} else {
-				Assert.fail("Too long wait for: " + expression);
-			}
-
-		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
-		} finally {
-			calculator.removeCalculatorEventListener(calculatorEventListener);
-		}
-	}
+        @Nullable
+        public CalculatorDisplayViewState getResult() {
+            return result;
+        }
+    }
 }

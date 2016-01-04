@@ -37,13 +37,13 @@ import java.util.List;
 @Root
 public class Functions implements MathEntityPersistenceContainer<AFunction> {
 
-	@ElementList(type = AFunction.class)
-	private List<AFunction> functions = new ArrayList<AFunction>();
+    @ElementList(type = AFunction.class)
+    private List<AFunction> functions = new ArrayList<AFunction>();
 
-	public Functions() {
-	}
+    public Functions() {
+    }
 
-	public List<AFunction> getEntities() {
-		return functions;
-	}
+    public List<AFunction> getEntities() {
+        return functions;
+    }
 }

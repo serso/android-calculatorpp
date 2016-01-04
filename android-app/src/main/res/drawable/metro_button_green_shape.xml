@@ -21,12 +21,12 @@
   -->
 
 <inset xmlns:a="http://schemas.android.com/apk/res/android"
-	a:insetBottom="@dimen/cpp_button_padding"
-	a:insetLeft="@dimen/cpp_button_padding"
-	a:insetRight="@dimen/cpp_button_padding"
-	a:insetTop="@dimen/cpp_button_padding">
-	<shape>
-		<solid a:color="@color/cpp_metro_green" />
-		<corners a:radius="@dimen/cpp_button_corner" />
-	</shape>
+    a:insetBottom="@dimen/cpp_button_padding"
+    a:insetLeft="@dimen/cpp_button_padding"
+    a:insetRight="@dimen/cpp_button_padding"
+    a:insetTop="@dimen/cpp_button_padding">
+    <shape>
+        <solid a:color="@color/cpp_metro_green" />
+        <corners a:radius="@dimen/cpp_button_corner" />
+    </shape>
 </inset>

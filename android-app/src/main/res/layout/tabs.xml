@@ -22,25 +22,26 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<TabHost a:id="@android:id/tabhost"
-	xmlns:a="http://schemas.android.com/apk/res/android"
-	a:layout_width="fill_parent"
-	a:layout_height="fill_parent">
+<TabHost
+    xmlns:a="http://schemas.android.com/apk/res/android"
+    a:id="@android:id/tabhost"
+    a:layout_width="fill_parent"
+    a:layout_height="fill_parent">
 
-	<LinearLayout
-		a:layout_width="fill_parent"
-		a:layout_height="fill_parent"
-		a:orientation="vertical">
+    <LinearLayout
+        a:layout_width="fill_parent"
+        a:layout_height="fill_parent"
+        a:orientation="vertical">
 
-		<TabWidget
-			a:id="@android:id/tabs"
-			a:layout_width="fill_parent"
-			a:layout_height="wrap_content" />
+        <TabWidget
+            a:id="@android:id/tabs"
+            a:layout_width="fill_parent"
+            a:layout_height="wrap_content" />
 
-		<FrameLayout
-			a:id="@android:id/tabcontent"
-			a:layout_width="fill_parent"
-			a:layout_height="fill_parent" />
+        <FrameLayout
+            a:id="@android:id/tabcontent"
+            a:layout_width="fill_parent"
+            a:layout_height="fill_parent" />
 
-	</LinearLayout>
+    </LinearLayout>
 </TabHost>

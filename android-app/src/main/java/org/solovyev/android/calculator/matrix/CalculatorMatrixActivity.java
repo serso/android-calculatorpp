@@ -24,8 +24,8 @@ package org.solovyev.android.calculator.matrix;
 
 import android.os.Bundle;
 
-import org.solovyev.android.calculator.EmptyActivity;
 import org.solovyev.android.calculator.CalculatorFragmentType;
+import org.solovyev.android.calculator.EmptyActivity;
 import org.solovyev.android.calculator.R;
 
 import static android.support.v7.app.ActionBar.NAVIGATION_MODE_STANDARD;
@@ -37,11 +37,11 @@ import static android.support.v7.app.ActionBar.NAVIGATION_MODE_STANDARD;
  */
 public class CalculatorMatrixActivity extends EmptyActivity {
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		getSupportActionBar().setNavigationMode(NAVIGATION_MODE_STANDARD);
-		getUi().setFragment(this, CalculatorFragmentType.matrix_edit, null, R.id.main_layout);
-	}
+        getSupportActionBar().setNavigationMode(NAVIGATION_MODE_STANDARD);
+        getUi().setFragment(this, CalculatorFragmentType.matrix_edit, null, R.id.main_layout);
+    }
 }

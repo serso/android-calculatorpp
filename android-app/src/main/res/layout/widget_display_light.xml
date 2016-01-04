@@ -6,10 +6,11 @@
   ~ or visit http://se.solovyev.org
   -->
 
-<TextView a:id="@+id/calculator_display"
-	style="@style/CppText.Display.Widget.Light"
-	xmlns:a="http://schemas.android.com/apk/res/android"
-	a:padding="@dimen/cpp_display_padding"
-	a:scrollbars="vertical"
-	a:singleLine="false"
-	a:textIsSelectable="true" />
+<TextView
+    xmlns:a="http://schemas.android.com/apk/res/android"
+    a:id="@+id/calculator_display"
+    style="@style/CppText.Display.Widget.Light"
+    a:padding="@dimen/cpp_display_padding"
+    a:scrollbars="vertical"
+    a:singleLine="false"
+    a:textIsSelectable="true" />

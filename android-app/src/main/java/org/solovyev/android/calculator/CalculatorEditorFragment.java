@@ -27,7 +27,13 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+
 import org.solovyev.android.menu.ActivityMenu;
 import org.solovyev.android.menu.AndroidMenuHelper;
 import org.solovyev.android.menu.ListActivityMenu;
@@ -41,105 +47,105 @@ import javax.annotation.Nonnull;
  */
 public class CalculatorEditorFragment extends Fragment {
 
-	@Nonnull
-	private FragmentUi fragmentUi;
+    @Nonnull
+    private FragmentUi fragmentUi;
 
-	@Nonnull
-	private ActivityMenu<Menu, MenuItem> menu = ListActivityMenu.fromEnum(CalculatorMenu.class, AndroidMenuHelper.getInstance());
+    @Nonnull
+    private ActivityMenu<Menu, MenuItem> menu = ListActivityMenu.fromEnum(CalculatorMenu.class, AndroidMenuHelper.getInstance());
 
-	@Nonnull
-	private AndroidCalculatorEditorView editorView;
+    @Nonnull
+    private AndroidCalculatorEditorView editorView;
 
-	public CalculatorEditorFragment() {
-	}
+    public CalculatorEditorFragment() {
+    }
 
-	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
-		super.onViewCreated(view, savedInstanceState);
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-		fragmentUi.onViewCreated(this, view);
+        fragmentUi.onViewCreated(this, view);
 
-		editorView = (AndroidCalculatorEditorView) view.findViewById(R.id.calculator_editor);
-		editorView.init();
-		Locator.getInstance().getEditor().setView(editorView);
-	}
+        editorView = (AndroidCalculatorEditorView) view.findViewById(R.id.calculator_editor);
+        editorView.init();
+        Locator.getInstance().getEditor().setView(editorView);
+    }
 
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-	}
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+    }
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
-		final Preferences.Gui.Layout layout = Preferences.Gui.getLayout(prefs);
-		if (!layout.isOptimized()) {
-			fragmentUi = CalculatorApplication.getInstance().createFragmentHelper(R.layout.cpp_app_editor_mobile, R.string.editor);
-		} else {
-			fragmentUi = CalculatorApplication.getInstance().createFragmentHelper(R.layout.cpp_app_editor, R.string.editor);
-		}
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
+        final Preferences.Gui.Layout layout = Preferences.Gui.getLayout(prefs);
+        if (!layout.isOptimized()) {
+            fragmentUi = CalculatorApplication.getInstance().createFragmentHelper(R.layout.cpp_app_editor_mobile, R.string.editor);
+        } else {
+            fragmentUi = CalculatorApplication.getInstance().createFragmentHelper(R.layout.cpp_app_editor, R.string.editor);
+        }
 
-		fragmentUi.onCreate(this);
-		setHasOptionsMenu(true);
-	}
+        fragmentUi.onCreate(this);
+        setHasOptionsMenu(true);
+    }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return fragmentUi.onCreateView(this, inflater, container);
-	}
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return fragmentUi.onCreateView(this, inflater, container);
+    }
 
-	@Override
-	public void onResume() {
-		super.onResume();
-		this.fragmentUi.onResume(this);
-	}
+    @Override
+    public void onResume() {
+        super.onResume();
+        this.fragmentUi.onResume(this);
+    }
 
-	@Override
-	public void onPause() {
-		this.fragmentUi.onPause(this);
-		super.onPause();
-	}
+    @Override
+    public void onPause() {
+        this.fragmentUi.onPause(this);
+        super.onPause();
+    }
 
-	@Override
-	public void onDestroyView() {
-		Locator.getInstance().getEditor().clearView(editorView);
-		fragmentUi.onDestroyView(this);
-		super.onDestroyView();
-	}
+    @Override
+    public void onDestroyView() {
+        Locator.getInstance().getEditor().clearView(editorView);
+        fragmentUi.onDestroyView(this);
+        super.onDestroyView();
+    }
 
-	@Override
-	public void onDestroy() {
-		fragmentUi.onDestroy(this);
-		super.onDestroy();
-	}
+    @Override
+    public void onDestroy() {
+        fragmentUi.onDestroy(this);
+        super.onDestroy();
+    }
 
-	@Override
-	public void onDetach() {
-		super.onDetach();
-	}
+    @Override
+    public void onDetach() {
+        super.onDetach();
+    }
 
 	/*
-	**********************************************************************
+    **********************************************************************
 	*
 	*                           MENU
 	*
 	**********************************************************************
 	*/
 
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		this.menu.onCreateOptionsMenu(this.getActivity(), menu);
-	}
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        this.menu.onCreateOptionsMenu(this.getActivity(), menu);
+    }
 
-	@Override
-	public void onPrepareOptionsMenu(Menu menu) {
-		this.menu.onPrepareOptionsMenu(this.getActivity(), menu);
-	}
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        this.menu.onPrepareOptionsMenu(this.getActivity(), menu);
+    }
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		return this.menu.onOptionsItemSelected(this.getActivity(), item);
-	}
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return this.menu.onOptionsItemSelected(this.getActivity(), item);
+    }
 }

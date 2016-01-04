@@ -32,19 +32,19 @@ import javax.annotation.Nullable;
  */
 public interface CalculatorEventData {
 
-	// the higher id => the later event
-	long getEventId();
+    // the higher id => the later event
+    long getEventId();
 
-	// the higher id => the later event
-	@Nonnull
-	Long getSequenceId();
+    // the higher id => the later event
+    @Nonnull
+    Long getSequenceId();
 
-	@Nullable
-	Object getSource();
+    @Nullable
+    Object getSource();
 
-	boolean isAfter(@Nonnull CalculatorEventData that);
+    boolean isAfter(@Nonnull CalculatorEventData that);
 
-	boolean isSameSequence(@Nonnull CalculatorEventData that);
+    boolean isSameSequence(@Nonnull CalculatorEventData that);
 
-	boolean isAfterSequence(@Nonnull CalculatorEventData that);
+    boolean isAfterSequence(@Nonnull CalculatorEventData that);
 }

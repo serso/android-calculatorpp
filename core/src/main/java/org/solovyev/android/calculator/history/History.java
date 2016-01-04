@@ -37,13 +37,13 @@ import java.util.List;
 @Root
 public class History {
 
-	@ElementList(type = CalculatorHistoryState.class)
-	private List<CalculatorHistoryState> historyItems = new ArrayList<CalculatorHistoryState>();
+    @ElementList(type = CalculatorHistoryState.class)
+    private List<CalculatorHistoryState> historyItems = new ArrayList<CalculatorHistoryState>();
 
-	public History() {
-	}
+    public History() {
+    }
 
-	public List<CalculatorHistoryState> getHistoryItems() {
-		return historyItems;
-	}
+    public List<CalculatorHistoryState> getHistoryItems() {
+        return historyItems;
+    }
 }

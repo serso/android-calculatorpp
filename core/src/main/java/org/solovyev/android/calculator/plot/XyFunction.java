@@ -22,158 +22,149 @@
 
 package org.solovyev.android.calculator.plot;
 
-import jscl.math.Generic;
-import jscl.math.function.Constant;
+import org.solovyev.common.text.Strings;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.solovyev.common.text.Strings;
+import jscl.math.Generic;
+import jscl.math.function.Constant;
 
 public class XyFunction implements FunctionEvaluator {
 
 	/*
-	**********************************************************************
+    **********************************************************************
 	*
 	*                           FIELDS
 	*
 	**********************************************************************
 	*/
 
-	@Nonnull
-	private final String id;
+    @Nonnull
+    private final String id;
+    @Nonnull
+    private final FunctionEvaluator evaluator;
+    @Nonnull
+    private Generic expression;
+    @Nonnull
+    private String expressionString;
+    @Nullable
+    private Constant xVariable;
+    @Nullable
+    private String xVariableName;
+    @Nullable
+    private Constant yVariable;
+    private boolean imag;
+    @Nullable
+    private String yVariableName;
+    private int arity;
 
-	@Nonnull
-	private Generic expression;
+    public XyFunction(@Nonnull Generic expression,
+                      @Nullable Constant xVariable,
+                      @Nullable Constant yVariable,
+                      boolean imag) {
+        this.expression = expression;
+        this.xVariable = xVariable;
+        this.yVariable = yVariable;
+        this.imag = imag;
 
-	@Nonnull
-	private String expressionString;
+        if (imag) {
+            this.expressionString = "Im(" + expression.toString() + ")";
+            this.evaluator = new ImaginaryEvaluator(this);
+        } else {
+            this.expressionString = expression.toString();
+            this.evaluator = new RealEvaluator(this);
+        }
+        this.xVariableName = xVariable == null ? null : xVariable.getName();
+        this.yVariableName = yVariable == null ? null : yVariable.getName();
 
-	@Nullable
-	private Constant xVariable;
+        this.arity = 2;
+        if (this.yVariableName == null) {
+            this.arity--;
+        }
+        if (this.xVariableName == null) {
+            this.arity--;
+        }
 
-	@Nullable
-	private String xVariableName;
+        this.id = this.expressionString + "_" + Strings.getNotEmpty(this.xVariableName, "") + "_" + Strings.getNotEmpty(this.yVariableName, "");
 
-	@Nullable
-	private Constant yVariable;
+    }
 
-	private boolean imag;
+    public boolean isImag() {
+        return imag;
+    }
 
-	@Nullable
-	private String yVariableName;
+    @Override
+    public int getArity() {
+        return arity;
+    }
 
-	private int arity;
+    @Override
+    public double eval() {
+        return evaluator.eval();
+    }
 
-	@Nonnull
-	private final FunctionEvaluator evaluator;
+    @Override
+    public double eval(double x) {
+        return evaluator.eval(x);
+    }
 
-	public XyFunction(@Nonnull Generic expression,
-					  @Nullable Constant xVariable,
-					  @Nullable Constant yVariable,
-					  boolean imag) {
-		this.expression = expression;
-		this.xVariable = xVariable;
-		this.yVariable = yVariable;
-		this.imag = imag;
+    @Override
+    public double eval(double x, double y) {
+        return evaluator.eval(x, y);
+    }
 
-		if (imag) {
-			this.expressionString = "Im(" + expression.toString() + ")";
-			this.evaluator = new ImaginaryEvaluator(this);
-		} else {
-			this.expressionString = expression.toString();
-			this.evaluator = new RealEvaluator(this);
-		}
-		this.xVariableName = xVariable == null ? null : xVariable.getName();
-		this.yVariableName = yVariable == null ? null : yVariable.getName();
+    @Nonnull
+    public Generic getExpression() {
+        return expression;
+    }
 
-		this.arity = 2;
-		if (this.yVariableName == null) {
-			this.arity--;
-		}
-		if (this.xVariableName == null) {
-			this.arity--;
-		}
+    @Nullable
+    public Constant getXVariable() {
+        return xVariable;
+    }
 
-		this.id = this.expressionString + "_" + Strings.getNotEmpty(this.xVariableName, "") + "_" + Strings.getNotEmpty(this.yVariableName, "");
+    @Nullable
+    public Constant getYVariable() {
+        return yVariable;
+    }
 
-	}
+    @Nonnull
+    public String getExpressionString() {
+        return expressionString;
+    }
 
-	public boolean isImag() {
-		return imag;
-	}
+    @Nonnull
+    public String getId() {
+        return id;
+    }
 
-	@Override
-	public int getArity() {
-		return arity;
-	}
+    @Nullable
+    public String getXVariableName() {
+        return xVariableName;
+    }
 
-	@Override
-	public double eval() {
-		return evaluator.eval();
-	}
+    @Nullable
+    public String getYVariableName() {
+        return yVariableName;
+    }
 
-	@Override
-	public double eval(double x) {
-		return evaluator.eval(x);
-	}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof XyFunction)) return false;
 
-	@Override
-	public double eval(double x, double y) {
-		return evaluator.eval(x, y);
-	}
+        final XyFunction that = (XyFunction) o;
 
-	@Nonnull
-	public Generic getExpression() {
-		return expression;
-	}
+        if (!id.equals(that.id)) return false;
 
-	@Nullable
-	public Constant getXVariable() {
-		return xVariable;
-	}
+        return true;
+    }
 
-	@Nullable
-	public Constant getYVariable() {
-		return yVariable;
-	}
-
-	@Nonnull
-	public String getExpressionString() {
-		return expressionString;
-	}
-
-	@Nonnull
-	public String getId() {
-		return id;
-	}
-
-	@Nullable
-	public String getXVariableName() {
-		return xVariableName;
-	}
-
-	@Nullable
-	public String getYVariableName() {
-		return yVariableName;
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (!(o instanceof XyFunction)) return false;
-
-		final XyFunction that = (XyFunction) o;
-
-		if (!id.equals(that.id)) return false;
-
-		return true;
-	}
-
-	@Override
-	public int hashCode() {
-		return id.hashCode();
-	}
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
 
 	/*
 	**********************************************************************
@@ -183,76 +174,76 @@ public class XyFunction implements FunctionEvaluator {
 	**********************************************************************
 	*/
 
-	private static abstract class AbstractEvaluator implements FunctionEvaluator {
+    private static abstract class AbstractEvaluator implements FunctionEvaluator {
 
-		@Nonnull
-		protected final XyFunction xyFunction;
+        @Nonnull
+        protected final XyFunction xyFunction;
 
-		@Nullable
-		private Double constant = null;
+        @Nullable
+        private Double constant = null;
 
-		public AbstractEvaluator(@Nonnull XyFunction xyFunction) {
-			this.xyFunction = xyFunction;
-		}
+        public AbstractEvaluator(@Nonnull XyFunction xyFunction) {
+            this.xyFunction = xyFunction;
+        }
 
-		@Override
-		public final double eval() {
-			if (constant == null) {
-				constant = eval0();
-			}
-			return constant;
-		}
+        @Override
+        public final double eval() {
+            if (constant == null) {
+                constant = eval0();
+            }
+            return constant;
+        }
 
-		protected abstract double eval0();
+        protected abstract double eval0();
 
-		@Override
-		public final int getArity() {
-			return xyFunction.getArity();
-		}
+        @Override
+        public final int getArity() {
+            return xyFunction.getArity();
+        }
 
-	}
+    }
 
-	private static class RealEvaluator extends AbstractEvaluator {
+    private static class RealEvaluator extends AbstractEvaluator {
 
-		private RealEvaluator(@Nonnull XyFunction xyFunction) {
-			super(xyFunction);
-		}
+        private RealEvaluator(@Nonnull XyFunction xyFunction) {
+            super(xyFunction);
+        }
 
-		@Override
-		public double eval0() {
-			return PlotUtils.calculatorExpression(xyFunction.expression).realPart();
-		}
+        @Override
+        public double eval0() {
+            return PlotUtils.calculatorExpression(xyFunction.expression).realPart();
+        }
 
-		@Override
-		public double eval(double x) {
-			return PlotUtils.calculatorExpression(xyFunction.expression, xyFunction.xVariable, x).realPart();
-		}
+        @Override
+        public double eval(double x) {
+            return PlotUtils.calculatorExpression(xyFunction.expression, xyFunction.xVariable, x).realPart();
+        }
 
-		@Override
-		public double eval(double x, double y) {
-			return PlotUtils.calculatorExpression(xyFunction.expression, xyFunction.xVariable, x, xyFunction.yVariable, y).realPart();
-		}
-	}
+        @Override
+        public double eval(double x, double y) {
+            return PlotUtils.calculatorExpression(xyFunction.expression, xyFunction.xVariable, x, xyFunction.yVariable, y).realPart();
+        }
+    }
 
-	private static class ImaginaryEvaluator extends AbstractEvaluator {
+    private static class ImaginaryEvaluator extends AbstractEvaluator {
 
-		private ImaginaryEvaluator(@Nonnull XyFunction xyFunction) {
-			super(xyFunction);
-		}
+        private ImaginaryEvaluator(@Nonnull XyFunction xyFunction) {
+            super(xyFunction);
+        }
 
-		@Override
-		public double eval0() {
-			return PlotUtils.calculatorExpression(xyFunction.expression).imaginaryPart();
-		}
+        @Override
+        public double eval0() {
+            return PlotUtils.calculatorExpression(xyFunction.expression).imaginaryPart();
+        }
 
-		@Override
-		public double eval(double x) {
-			return PlotUtils.calculatorExpression(xyFunction.expression, xyFunction.xVariable, x).imaginaryPart();
-		}
+        @Override
+        public double eval(double x) {
+            return PlotUtils.calculatorExpression(xyFunction.expression, xyFunction.xVariable, x).imaginaryPart();
+        }
 
-		@Override
-		public double eval(double x, double y) {
-			return PlotUtils.calculatorExpression(xyFunction.expression, xyFunction.xVariable, x, xyFunction.yVariable, y).imaginaryPart();
-		}
-	}
+        @Override
+        public double eval(double x, double y) {
+            return PlotUtils.calculatorExpression(xyFunction.expression, xyFunction.xVariable, x, xyFunction.yVariable, y).imaginaryPart();
+        }
+    }
 }

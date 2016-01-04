@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.text.Html;
 import android.util.Log;
+
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.CalculatorParseException;
 import org.solovyev.android.calculator.Preferences;
@@ -25,73 +26,73 @@ import static org.solovyev.android.calculator.Preferences.Gui.theme;
  */
 public final class EditorTextProcessor implements TextProcessor<TextProcessorEditorResult, String>, SharedPreferences.OnSharedPreferenceChangeListener {
 
-	private boolean highlightText = true;
+    private boolean highlightText = true;
 
-	@Nullable
-	private TextProcessor<TextProcessorEditorResult, String> textHighlighter;
+    @Nullable
+    private TextProcessor<TextProcessorEditorResult, String> textHighlighter;
 
-	public EditorTextProcessor() {
-	}
+    public EditorTextProcessor() {
+    }
 
-	public void init(@Nonnull Context context) {
-		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		preferences.registerOnSharedPreferenceChangeListener(this);
-		onSharedPreferenceChanged(preferences, colorDisplay.getKey());
-	}
+    public void init(@Nonnull Context context) {
+        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        preferences.registerOnSharedPreferenceChangeListener(this);
+        onSharedPreferenceChanged(preferences, colorDisplay.getKey());
+    }
 
-	@Nonnull
-	@Override
-	public TextProcessorEditorResult process(@Nonnull String text) throws CalculatorParseException {
-		TextProcessorEditorResult result;
+    @Nonnull
+    @Override
+    public TextProcessorEditorResult process(@Nonnull String text) throws CalculatorParseException {
+        TextProcessorEditorResult result;
 
-		if (highlightText) {
+        if (highlightText) {
 
-			try {
-				final TextProcessorEditorResult processesText = getTextHighlighter().process(text);
+            try {
+                final TextProcessorEditorResult processesText = getTextHighlighter().process(text);
 
-				result = new TextProcessorEditorResult(Html.fromHtml(processesText.toString()), processesText.getOffset());
-			} catch (CalculatorParseException e) {
-				// set raw text
-				result = new TextProcessorEditorResult(text, 0);
+                result = new TextProcessorEditorResult(Html.fromHtml(processesText.toString()), processesText.getOffset());
+            } catch (CalculatorParseException e) {
+                // set raw text
+                result = new TextProcessorEditorResult(text, 0);
 
-				Log.e(this.getClass().getName(), e.getMessage(), e);
-			}
-		} else {
-			result = new TextProcessorEditorResult(text, 0);
-		}
+                Log.e(this.getClass().getName(), e.getMessage(), e);
+            }
+        } else {
+            result = new TextProcessorEditorResult(text, 0);
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	@Nonnull
-	private TextProcessor<TextProcessorEditorResult, String> getTextHighlighter() {
-		if (textHighlighter == null) {
-			onSharedPreferenceChanged(App.getPreferences(), theme.getKey());
-		}
-		return textHighlighter;
-	}
+    @Nonnull
+    private TextProcessor<TextProcessorEditorResult, String> getTextHighlighter() {
+        if (textHighlighter == null) {
+            onSharedPreferenceChanged(App.getPreferences(), theme.getKey());
+        }
+        return textHighlighter;
+    }
 
-	public boolean isHighlightText() {
-		return highlightText;
-	}
+    public boolean isHighlightText() {
+        return highlightText;
+    }
 
-	public void setHighlightText(boolean highlightText) {
-		this.highlightText = highlightText;
-	}
+    public void setHighlightText(boolean highlightText) {
+        this.highlightText = highlightText;
+    }
 
-	@Override
-	public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
-		if (colorDisplay.isSameKey(key)) {
-			setHighlightText(colorDisplay.getPreference(preferences));
-		} else if (theme.isSameKey(key)) {
-			final int color = getTextColor(preferences);
-			textHighlighter = new TextHighlighter(color, true);
-		}
-	}
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
+        if (colorDisplay.isSameKey(key)) {
+            setHighlightText(colorDisplay.getPreference(preferences));
+        } else if (theme.isSameKey(key)) {
+            final int color = getTextColor(preferences);
+            textHighlighter = new TextHighlighter(color, true);
+        }
+    }
 
-	private int getTextColor(@Nonnull SharedPreferences preferences) {
-		final Preferences.Gui.Theme theme = Preferences.Gui.getTheme(preferences);
-		final Application application = App.getApplication();
-		return theme.getTextColor(application).normal;
-	}
+    private int getTextColor(@Nonnull SharedPreferences preferences) {
+        final Preferences.Gui.Theme theme = Preferences.Gui.getTheme(preferences);
+        final Application application = App.getApplication();
+        return theme.getTextColor(application).normal;
+    }
 }

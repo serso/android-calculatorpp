@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2013 serso aka se.solovyev
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,42 +21,42 @@
   -->
 
 <resources>
-	<item type="id" name="cpp_button_1"/>
-	<item type="id" name="cpp_button_2"/>
-	<item type="id" name="cpp_button_3"/>
-	<item type="id" name="cpp_button_4"/>
-	<item type="id" name="cpp_button_5"/>
-	<item type="id" name="cpp_button_6"/>
-	<item type="id" name="cpp_button_7"/>
-	<item type="id" name="cpp_button_8"/>
-	<item type="id" name="cpp_button_9"/>
-	<item type="id" name="cpp_button_0"/>
+    <item name="cpp_button_1" type="id" />
+    <item name="cpp_button_2" type="id" />
+    <item name="cpp_button_3" type="id" />
+    <item name="cpp_button_4" type="id" />
+    <item name="cpp_button_5" type="id" />
+    <item name="cpp_button_6" type="id" />
+    <item name="cpp_button_7" type="id" />
+    <item name="cpp_button_8" type="id" />
+    <item name="cpp_button_9" type="id" />
+    <item name="cpp_button_0" type="id" />
 
-	<item type="id" name="cpp_button_period"/>
-	<item type="id" name="cpp_button_round_brackets"/>
-	<item type="id" name="cpp_button_settings"/>
-	<item type="id" name="cpp_button_like"/>
-	<item type="id" name="cpp_button_left"/>
-	<item type="id" name="cpp_button_right"/>
-	<item type="id" name="cpp_button_vars"/>
-	<item type="id" name="cpp_button_functions"/>
-	<item type="id" name="cpp_button_operators"/>
-	<item type="id" name="cpp_button_app"/>
-	<item type="id" name="cpp_button_history"/>
-	<item type="id" name="cpp_button_multiplication"/>
-	<item type="id" name="cpp_button_division"/>
-	<item type="id" name="cpp_button_plus"/>
-	<item type="id" name="cpp_button_subtraction"/>
-	<item type="id" name="cpp_button_percent"/>
-	<item type="id" name="cpp_button_power"/>
-	<item type="id" name="cpp_button_clear"/>
-	<item type="id" name="cpp_button_erase"/>
-	<item type="id" name="cpp_button_copy"/>
-	<item type="id" name="cpp_button_paste"/>
-	<item type="id" name="cpp_button_equals"/>
+    <item name="cpp_button_period" type="id" />
+    <item name="cpp_button_round_brackets" type="id" />
+    <item name="cpp_button_settings" type="id" />
+    <item name="cpp_button_like" type="id" />
+    <item name="cpp_button_left" type="id" />
+    <item name="cpp_button_right" type="id" />
+    <item name="cpp_button_vars" type="id" />
+    <item name="cpp_button_functions" type="id" />
+    <item name="cpp_button_operators" type="id" />
+    <item name="cpp_button_app" type="id" />
+    <item name="cpp_button_history" type="id" />
+    <item name="cpp_button_multiplication" type="id" />
+    <item name="cpp_button_division" type="id" />
+    <item name="cpp_button_plus" type="id" />
+    <item name="cpp_button_subtraction" type="id" />
+    <item name="cpp_button_percent" type="id" />
+    <item name="cpp_button_power" type="id" />
+    <item name="cpp_button_clear" type="id" />
+    <item name="cpp_button_erase" type="id" />
+    <item name="cpp_button_copy" type="id" />
+    <item name="cpp_button_paste" type="id" />
+    <item name="cpp_button_equals" type="id" />
 
-	<item type="id" name="acl_wizard_prev_button"/>
-	<item type="id" name="acl_wizard_next_button"/>
-	<item type="id" name="acl_wizard_content"/>
+    <item name="acl_wizard_prev_button" type="id" />
+    <item name="acl_wizard_next_button" type="id" />
+    <item name="acl_wizard_content" type="id" />
 
 </resources>

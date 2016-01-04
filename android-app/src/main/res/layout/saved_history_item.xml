@@ -22,25 +22,26 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<LinearLayout style="@style/CppListViewItem"
-	xmlns:a="http://schemas.android.com/apk/res/android"
-	a:orientation="vertical">
+<LinearLayout
+    xmlns:a="http://schemas.android.com/apk/res/android"
+    style="@style/CppListViewItem"
+    a:orientation="vertical">
 
-	<TextView
-		a:id="@+id/history_item"
-		style="@style/CppListViewItemTextPrimary.History"
-		a:layout_width="fill_parent"
-		a:layout_height="fill_parent" />
+    <TextView
+        a:id="@+id/history_item"
+        style="@style/CppListViewItemTextPrimary.History"
+        a:layout_width="fill_parent"
+        a:layout_height="fill_parent" />
 
-	<TextView
-		a:id="@+id/history_item_comment"
-		style="@style/CppListViewItemTextSecondary"
-		a:layout_width="fill_parent"
-		a:layout_height="fill_parent" />
+    <TextView
+        a:id="@+id/history_item_comment"
+        style="@style/CppListViewItemTextSecondary"
+        a:layout_width="fill_parent"
+        a:layout_height="fill_parent" />
 
-	<TextView
-		a:id="@+id/history_time"
-		style="@style/CppListViewItemTextSecondary"
-		a:layout_width="fill_parent"
-		a:layout_height="fill_parent" />
+    <TextView
+        a:id="@+id/history_time"
+        style="@style/CppListViewItemTextSecondary"
+        a:layout_width="fill_parent"
+        a:layout_height="fill_parent" />
 </LinearLayout>

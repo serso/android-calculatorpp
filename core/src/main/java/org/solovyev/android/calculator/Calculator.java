@@ -22,15 +22,15 @@
 
 package org.solovyev.android.calculator;
 
-import jscl.NumeralBase;
-import jscl.math.Generic;
+import org.solovyev.android.calculator.history.CalculatorHistoryState;
+import org.solovyev.android.calculator.jscl.JsclOperation;
+import org.solovyev.common.history.HistoryControl;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.solovyev.android.calculator.history.CalculatorHistoryState;
-import org.solovyev.android.calculator.jscl.JsclOperation;
-import org.solovyev.common.history.HistoryControl;
+import jscl.NumeralBase;
+import jscl.math.Generic;
 
 /**
  * User: Solovyev_S
@@ -39,34 +39,34 @@ import org.solovyev.common.history.HistoryControl;
  */
 public interface Calculator extends CalculatorEventContainer, HistoryControl<CalculatorHistoryState> {
 
-	void init();
+    void init();
 
 	/*
-	**********************************************************************
+    **********************************************************************
 	*
 	*                           CALCULATIONS
 	*
 	**********************************************************************
 	*/
 
-	void evaluate();
+    void evaluate();
 
-	void evaluate(@Nonnull Long sequenceId);
+    void evaluate(@Nonnull Long sequenceId);
 
-	void simplify();
+    void simplify();
 
-	@Nonnull
-	CalculatorEventData evaluate(@Nonnull JsclOperation operation,
-								 @Nonnull String expression);
+    @Nonnull
+    CalculatorEventData evaluate(@Nonnull JsclOperation operation,
+                                 @Nonnull String expression);
 
-	@Nonnull
-	CalculatorEventData evaluate(@Nonnull JsclOperation operation,
-								 @Nonnull String expression,
-								 @Nonnull Long sequenceId);
+    @Nonnull
+    CalculatorEventData evaluate(@Nonnull JsclOperation operation,
+                                 @Nonnull String expression,
+                                 @Nonnull Long sequenceId);
 
-	void setCalculateOnFly(boolean calculateOnFly);
+    boolean isCalculateOnFly();
 
-	boolean isCalculateOnFly();
+    void setCalculateOnFly(boolean calculateOnFly);
 
 	/*
 	**********************************************************************
@@ -76,27 +76,27 @@ public interface Calculator extends CalculatorEventContainer, HistoryControl<Cal
 	**********************************************************************
 	*/
 
-	boolean isConversionPossible(@Nonnull Generic generic, @Nonnull NumeralBase from, @Nonnull NumeralBase to);
+    boolean isConversionPossible(@Nonnull Generic generic, @Nonnull NumeralBase from, @Nonnull NumeralBase to);
 
-	@Nonnull
-	CalculatorEventData convert(@Nonnull Generic generic, @Nonnull NumeralBase to);
+    @Nonnull
+    CalculatorEventData convert(@Nonnull Generic generic, @Nonnull NumeralBase to);
 
-	/*
-	**********************************************************************
-	*
-	*                           EVENTS
-	*
-	**********************************************************************
-	*/
-	@Nonnull
-	CalculatorEventData fireCalculatorEvent(@Nonnull CalculatorEventType calculatorEventType, @Nullable Object data);
+    /*
+    **********************************************************************
+    *
+    *                           EVENTS
+    *
+    **********************************************************************
+    */
+    @Nonnull
+    CalculatorEventData fireCalculatorEvent(@Nonnull CalculatorEventType calculatorEventType, @Nullable Object data);
 
-	@Nonnull
-	CalculatorEventData fireCalculatorEvent(@Nonnull CalculatorEventType calculatorEventType, @Nullable Object data, @Nonnull Object source);
+    @Nonnull
+    CalculatorEventData fireCalculatorEvent(@Nonnull CalculatorEventType calculatorEventType, @Nullable Object data, @Nonnull Object source);
 
-	@Nonnull
-	CalculatorEventData fireCalculatorEvent(@Nonnull CalculatorEventType calculatorEventType, @Nullable Object data, @Nonnull Long sequenceId);
+    @Nonnull
+    CalculatorEventData fireCalculatorEvent(@Nonnull CalculatorEventType calculatorEventType, @Nullable Object data, @Nonnull Long sequenceId);
 
-	@Nonnull
-	PreparedExpression prepareExpression(@Nonnull String expression) throws CalculatorParseException;
+    @Nonnull
+    PreparedExpression prepareExpression(@Nonnull String expression) throws CalculatorParseException;
 }

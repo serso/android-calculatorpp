@@ -26,20 +26,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v7.app.ActionBarActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import android.support.v7.app.ActionBarActivity;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import org.solovyev.android.Android;
 import org.solovyev.android.fragments.FragmentUtils;
 import org.solovyev.common.msg.MessageType;
 import org.solovyev.common.text.Strings;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * User: serso
@@ -48,106 +47,106 @@ import org.solovyev.common.text.Strings;
  */
 public class CalculatorDialogActivity extends ActionBarActivity {
 
-	@Nonnull
-	private static final String TAG = CalculatorDialogActivity.class.getSimpleName();
+    @Nonnull
+    private static final String TAG = CalculatorDialogActivity.class.getSimpleName();
 
-	@Nonnull
-	private static final String DIALOG_DATA_EXTRA = "dialog_data";
+    @Nonnull
+    private static final String DIALOG_DATA_EXTRA = "dialog_data";
 
-	public static void showDialog(@Nonnull Context context, @Nonnull DialogData dialogData) {
-		final Intent intent = new Intent();
-		intent.setClass(context, CalculatorDialogActivity.class);
-		intent.putExtra(DIALOG_DATA_EXTRA, ParcelableDialogData.wrap(dialogData));
-		Android.addIntentFlags(intent, false, context);
-		context.startActivity(intent);
-	}
+    public static void showDialog(@Nonnull Context context, @Nonnull DialogData dialogData) {
+        final Intent intent = new Intent();
+        intent.setClass(context, CalculatorDialogActivity.class);
+        intent.putExtra(DIALOG_DATA_EXTRA, ParcelableDialogData.wrap(dialogData));
+        Android.addIntentFlags(intent, false, context);
+        context.startActivity(intent);
+    }
 
-	@Override
-	protected void onCreate(@Nullable Bundle in) {
-		super.onCreate(in);
+    @Nullable
+    private static DialogData readDialogData(@Nullable Intent in) {
+        if (in != null) {
+            final Parcelable parcelable = in.getParcelableExtra(DIALOG_DATA_EXTRA);
+            if (parcelable instanceof DialogData) {
+                return (DialogData) parcelable;
+            }
+        }
 
-		final DialogData dialogData = readDialogData(getIntent());
-		if (dialogData == null) {
-			Locator.getInstance().getLogger().error(TAG, "Dialog data is null!");
-			this.finish();
-		} else {
-			setContentView(R.layout.cpp_dialog);
+        return null;
+    }
 
-			final String title = dialogData.getTitle();
-			if (!Strings.isEmpty(title)) {
-				setTitle(title);
-			}
+    @Nullable
+    private static DialogData readDialogData(@Nullable Bundle in) {
+        if (in != null) {
+            final Parcelable parcelable = in.getParcelable(DIALOG_DATA_EXTRA);
+            if (parcelable instanceof DialogData) {
+                return (DialogData) parcelable;
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle in) {
+        super.onCreate(in);
+
+        final DialogData dialogData = readDialogData(getIntent());
+        if (dialogData == null) {
+            Locator.getInstance().getLogger().error(TAG, "Dialog data is null!");
+            this.finish();
+        } else {
+            setContentView(R.layout.cpp_dialog);
+
+            final String title = dialogData.getTitle();
+            if (!Strings.isEmpty(title)) {
+                setTitle(title);
+            }
 
 
-			final Bundle args = new Bundle();
-			args.putParcelable(DIALOG_DATA_EXTRA, ParcelableDialogData.wrap(dialogData));
-			FragmentUtils.createFragment(this, CalculatorDialogFragment.class, R.id.dialog_layout, "dialog", args);
-		}
-	}
+            final Bundle args = new Bundle();
+            args.putParcelable(DIALOG_DATA_EXTRA, ParcelableDialogData.wrap(dialogData));
+            FragmentUtils.createFragment(this, CalculatorDialogFragment.class, R.id.dialog_layout, "dialog", args);
+        }
+    }
 
-	@Nullable
-	private static DialogData readDialogData(@Nullable Intent in) {
-		if (in != null) {
-			final Parcelable parcelable = in.getParcelableExtra(DIALOG_DATA_EXTRA);
-			if (parcelable instanceof DialogData) {
-				return (DialogData) parcelable;
-			}
-		}
+    public static class CalculatorDialogFragment extends CalculatorFragment {
 
-		return null;
-	}
+        public CalculatorDialogFragment() {
+            super(CalculatorFragmentType.dialog);
+        }
 
-	@Nullable
-	private static DialogData readDialogData(@Nullable Bundle in) {
-		if (in != null) {
-			final Parcelable parcelable = in.getParcelable(DIALOG_DATA_EXTRA);
-			if (parcelable instanceof DialogData) {
-				return (DialogData) parcelable;
-			}
-		}
+        @Override
+        public void onViewCreated(@Nonnull View root, Bundle savedInstanceState) {
+            super.onViewCreated(root, savedInstanceState);
 
-		return null;
-	}
+            final DialogData dialogData = readDialogData(getArguments());
 
-	public static class CalculatorDialogFragment extends CalculatorFragment {
+            if (dialogData != null) {
+                final TextView messageTextView = (TextView) root.findViewById(R.id.cpp_dialog_message_textview);
+                messageTextView.setMovementMethod(ScrollingMovementMethod.getInstance());
+                messageTextView.setText(dialogData.getMessage());
 
-		public CalculatorDialogFragment() {
-			super(CalculatorFragmentType.dialog);
-		}
+                if (dialogData.getMessageLevel() == MessageType.error || dialogData.getMessageLevel() == MessageType.warning) {
+                    final Button copyButton = (Button) root.findViewById(R.id.cpp_copy_button);
+                    copyButton.setVisibility(View.VISIBLE);
+                    copyButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Locator.getInstance().getClipboard().setText(dialogData.getMessage());
+                            Locator.getInstance().getNotifier().showMessage(CalculatorMessage.newInfoMessage(CalculatorMessages.text_copied));
+                        }
+                    });
 
-		@Override
-		public void onViewCreated(@Nonnull View root, Bundle savedInstanceState) {
-			super.onViewCreated(root, savedInstanceState);
+                }
+            }
 
-			final DialogData dialogData = readDialogData(getArguments());
-
-			if (dialogData != null) {
-				final TextView messageTextView = (TextView) root.findViewById(R.id.cpp_dialog_message_textview);
-				messageTextView.setMovementMethod(ScrollingMovementMethod.getInstance());
-				messageTextView.setText(dialogData.getMessage());
-
-				if (dialogData.getMessageLevel() == MessageType.error || dialogData.getMessageLevel() == MessageType.warning) {
-					final Button copyButton = (Button) root.findViewById(R.id.cpp_copy_button);
-					copyButton.setVisibility(View.VISIBLE);
-					copyButton.setOnClickListener(new View.OnClickListener() {
-						@Override
-						public void onClick(View v) {
-							Locator.getInstance().getClipboard().setText(dialogData.getMessage());
-							Locator.getInstance().getNotifier().showMessage(CalculatorMessage.newInfoMessage(CalculatorMessages.text_copied));
-						}
-					});
-
-				}
-			}
-
-			root.findViewById(R.id.cpp_ok_button).setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					getActivity().finish();
-				}
-			});
-		}
-	}
+            root.findViewById(R.id.cpp_ok_button).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getActivity().finish();
+                }
+            });
+        }
+    }
 
 }
 

@@ -32,17 +32,18 @@ import javax.annotation.Nullable;
  */
 public interface CalculatorDisplay extends CalculatorEventListener {
 
-	void setView(@Nonnull CalculatorDisplayView view);
-	void clearView(@Nonnull CalculatorDisplayView view);
+    void clearView(@Nonnull CalculatorDisplayView view);
 
-	@Nullable
-	CalculatorDisplayView getView();
+    @Nullable
+    CalculatorDisplayView getView();
 
-	@Nonnull
-	CalculatorDisplayViewState getViewState();
+    void setView(@Nonnull CalculatorDisplayView view);
 
-	void setViewState(@Nonnull CalculatorDisplayViewState viewState);
+    @Nonnull
+    CalculatorDisplayViewState getViewState();
 
-	@Nonnull
-	CalculatorEventData getLastEventData();
+    void setViewState(@Nonnull CalculatorDisplayViewState viewState);
+
+    @Nonnull
+    CalculatorEventData getLastEventData();
 }

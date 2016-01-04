@@ -22,11 +22,11 @@
 
 package org.solovyev.android.calculator;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.math.MathRegistry;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * User: serso
@@ -35,13 +35,13 @@ import org.solovyev.common.math.MathRegistry;
  */
 public interface CalculatorMathRegistry<T extends MathEntity> extends MathRegistry<T> {
 
-	@Nullable
-	String getDescription(@Nonnull String mathEntityName);
+    @Nullable
+    String getDescription(@Nonnull String mathEntityName);
 
-	@Nullable
-	String getCategory(@Nonnull T mathEntity);
+    @Nullable
+    String getCategory(@Nonnull T mathEntity);
 
-	void load();
+    void load();
 
-	void save();
+    void save();
 }

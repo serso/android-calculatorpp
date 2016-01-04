@@ -22,8 +22,9 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<Button a:id="@id/cpp_button_functions"
-	style="@style/CppKeyboardButton.Material.Light.Simple.Control"
-	xmlns:a="http://schemas.android.com/apk/res/android"
-	a:text="ƒ(x)"
-	a:textStyle="italic" />
+<Button
+    xmlns:a="http://schemas.android.com/apk/res/android"
+    a:id="@id/cpp_button_functions"
+    style="@style/CppKeyboardButton.Material.Light.Simple.Control"
+    a:text="ƒ(x)"
+    a:textStyle="italic" />

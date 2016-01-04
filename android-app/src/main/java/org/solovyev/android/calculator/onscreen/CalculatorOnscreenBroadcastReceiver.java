@@ -40,22 +40,22 @@ import javax.annotation.Nonnull;
  */
 public final class CalculatorOnscreenBroadcastReceiver extends BroadcastReceiver {
 
-	public CalculatorOnscreenBroadcastReceiver() {
-	}
+    public CalculatorOnscreenBroadcastReceiver() {
+    }
 
-	@Override
-	public void onReceive(@Nonnull Context context,
-						  @Nonnull Intent intent) {
-		if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
-			final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-			if (Preferences.Onscreen.startOnBoot.getPreferenceNoError(preferences)) {
-				CalculatorOnscreenService.showNotification(context);
-				App.getGa().onBootStart();
-			}
-		} else {
-			final Intent newIntent = new Intent(intent);
-			newIntent.setClass(context, CalculatorOnscreenService.class);
-			context.startService(newIntent);
-		}
-	}
+    @Override
+    public void onReceive(@Nonnull Context context,
+                          @Nonnull Intent intent) {
+        if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
+            final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+            if (Preferences.Onscreen.startOnBoot.getPreferenceNoError(preferences)) {
+                CalculatorOnscreenService.showNotification(context);
+                App.getGa().onBootStart();
+            }
+        } else {
+            final Intent newIntent = new Intent(intent);
+            newIntent.setClass(context, CalculatorOnscreenService.class);
+            context.startService(newIntent);
+        }
+    }
 }

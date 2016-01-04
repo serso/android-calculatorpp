@@ -60,149 +60,149 @@ import static org.solovyev.android.calculator.CalculatorReceiver.newButtonClicke
  */
 public abstract class BaseCalculatorWidgetProvider extends AppWidgetProvider {
 
-	private static final String TAG = "Calculator++ Widget";
-	private static final int WIDGET_CATEGORY_KEYGUARD = 2;
-	private static final String OPTION_APPWIDGET_HOST_CATEGORY = "appWidgetCategory";
-	private static final String ACTION_APPWIDGET_OPTIONS_CHANGED = "android.appwidget.action.APPWIDGET_UPDATE_OPTIONS";
+    private static final String TAG = "Calculator++ Widget";
+    private static final int WIDGET_CATEGORY_KEYGUARD = 2;
+    private static final String OPTION_APPWIDGET_HOST_CATEGORY = "appWidgetCategory";
+    private static final String ACTION_APPWIDGET_OPTIONS_CHANGED = "android.appwidget.action.APPWIDGET_UPDATE_OPTIONS";
 
-	@Nullable
-	private String cursorColor;
+    @Nullable
+    private String cursorColor;
 
-	protected BaseCalculatorWidgetProvider() {
-	}
+    protected BaseCalculatorWidgetProvider() {
+    }
 
-	@Override
-	public void onEnabled(Context context) {
-		super.onEnabled(context);
-		getCursorColor(context);
-	}
+    @Override
+    public void onEnabled(Context context) {
+        super.onEnabled(context);
+        getCursorColor(context);
+    }
 
-	@Nonnull
-	private String getCursorColor(@Nonnull Context context) {
-		if (cursorColor == null) {
-			cursorColor = Integer.toHexString(context.getResources().getColor(R.color.cpp_widget_cursor)).substring(2);
-		}
-		return cursorColor;
-	}
+    @Nonnull
+    private String getCursorColor(@Nonnull Context context) {
+        if (cursorColor == null) {
+            cursorColor = Integer.toHexString(context.getResources().getColor(R.color.cpp_widget_cursor)).substring(2);
+        }
+        return cursorColor;
+    }
 
-	@Override
-	public void onUpdate(@Nonnull Context context,
-						 @Nonnull AppWidgetManager appWidgetManager,
-						 @Nonnull int[] appWidgetIds) {
-		super.onUpdate(context, appWidgetManager, appWidgetIds);
+    @Override
+    public void onUpdate(@Nonnull Context context,
+                         @Nonnull AppWidgetManager appWidgetManager,
+                         @Nonnull int[] appWidgetIds) {
+        super.onUpdate(context, appWidgetManager, appWidgetIds);
 
-		updateWidget(context, appWidgetManager, appWidgetIds);
-	}
+        updateWidget(context, appWidgetManager, appWidgetIds);
+    }
 
-	public void updateState(@Nonnull Context context) {
-		final AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-		final int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, getComponentClass()));
-		updateWidget(context, appWidgetManager, appWidgetIds);
-	}
+    public void updateState(@Nonnull Context context) {
+        final AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+        final int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, getComponentClass()));
+        updateWidget(context, appWidgetManager, appWidgetIds);
+    }
 
-	@Nonnull
-	protected Class<? extends BaseCalculatorWidgetProvider> getComponentClass() {
-		return this.getClass();
-	}
+    @Nonnull
+    protected Class<? extends BaseCalculatorWidgetProvider> getComponentClass() {
+        return this.getClass();
+    }
 
-	private void updateWidget(@Nonnull Context context,
-							  @Nonnull AppWidgetManager appWidgetManager,
-							  @Nonnull int[] appWidgetIds) {
-		final CalculatorEditorViewState editorState = Locator.getInstance().getEditor().getViewState();
-		final CalculatorDisplayViewState displayState = Locator.getInstance().getDisplay().getViewState();
+    private void updateWidget(@Nonnull Context context,
+                              @Nonnull AppWidgetManager appWidgetManager,
+                              @Nonnull int[] appWidgetIds) {
+        final CalculatorEditorViewState editorState = Locator.getInstance().getEditor().getViewState();
+        final CalculatorDisplayViewState displayState = Locator.getInstance().getDisplay().getViewState();
 
-		final Resources resources = context.getResources();
-		final Preferences.SimpleTheme theme = App.getWidgetTheme().resolveThemeFor(App.getTheme());
-		for (int appWidgetId : appWidgetIds) {
-			final RemoteViews views = new RemoteViews(context.getPackageName(), getLayout(appWidgetManager, appWidgetId, resources, theme));
+        final Resources resources = context.getResources();
+        final Preferences.SimpleTheme theme = App.getWidgetTheme().resolveThemeFor(App.getTheme());
+        for (int appWidgetId : appWidgetIds) {
+            final RemoteViews views = new RemoteViews(context.getPackageName(), getLayout(appWidgetManager, appWidgetId, resources, theme));
 
-			for (CalculatorButton button : CalculatorButton.values()) {
-				final PendingIntent pendingIntent = PendingIntent.getBroadcast(context, button.getButtonId(), newButtonClickedIntent(context, button), PendingIntent.FLAG_UPDATE_CURRENT);
-				if (pendingIntent != null) {
-					views.setOnClickPendingIntent(button.getButtonId(), pendingIntent);
-				}
-			}
+            for (CalculatorButton button : CalculatorButton.values()) {
+                final PendingIntent pendingIntent = PendingIntent.getBroadcast(context, button.getButtonId(), newButtonClickedIntent(context, button), PendingIntent.FLAG_UPDATE_CURRENT);
+                if (pendingIntent != null) {
+                    views.setOnClickPendingIntent(button.getButtonId(), pendingIntent);
+                }
+            }
 
-			updateEditorState(context, views, editorState);
-			updateDisplayState(context, views, displayState, theme);
+            updateEditorState(context, views, editorState);
+            updateDisplayState(context, views, displayState, theme);
 
-			CalculatorButtons.initMultiplicationButton(views);
+            CalculatorButtons.initMultiplicationButton(views);
 
-			appWidgetManager.updateAppWidget(appWidgetId, views);
-		}
-	}
+            appWidgetManager.updateAppWidget(appWidgetId, views);
+        }
+    }
 
-	private int getLayout(@Nonnull AppWidgetManager appWidgetManager, int appWidgetId, @Nonnull Resources resources, @Nonnull Preferences.SimpleTheme theme) {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-			return getLayoutJellyBean(appWidgetManager, appWidgetId, resources, theme);
-		}
-		return theme.getWidgetLayout(App.getTheme());
-	}
+    private int getLayout(@Nonnull AppWidgetManager appWidgetManager, int appWidgetId, @Nonnull Resources resources, @Nonnull Preferences.SimpleTheme theme) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            return getLayoutJellyBean(appWidgetManager, appWidgetId, resources, theme);
+        }
+        return theme.getWidgetLayout(App.getTheme());
+    }
 
-	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-	private int getLayoutJellyBean(@Nonnull AppWidgetManager appWidgetManager, int appWidgetId, Resources resources, @Nonnull Preferences.SimpleTheme theme) {
-		final Bundle options = appWidgetManager.getAppWidgetOptions(appWidgetId);
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    private int getLayoutJellyBean(@Nonnull AppWidgetManager appWidgetManager, int appWidgetId, Resources resources, @Nonnull Preferences.SimpleTheme theme) {
+        final Bundle options = appWidgetManager.getAppWidgetOptions(appWidgetId);
 
-		if (options != null) {
-			// Get the value of OPTION_APPWIDGET_HOST_CATEGORY
-			final int category = options.getInt(OPTION_APPWIDGET_HOST_CATEGORY, -1);
+        if (options != null) {
+            // Get the value of OPTION_APPWIDGET_HOST_CATEGORY
+            final int category = options.getInt(OPTION_APPWIDGET_HOST_CATEGORY, -1);
 
-			if (category != -1) {
-				// If the value is WIDGET_CATEGORY_KEYGUARD, it's a lockscreen widget
-				final boolean keyguard = category == WIDGET_CATEGORY_KEYGUARD;
-				if (keyguard) {
-					final int minHeightDp = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT, -1);
-					final int minHeight = resources.getDimensionPixelSize(R.dimen.min_expanded_height_lock_screen);
-					final boolean expanded = (minHeightDp >= minHeight / resources.getDisplayMetrics().density);
-					if (expanded) {
-						return R.layout.widget_layout_lockscreen;
-					} else {
-						return R.layout.widget_layout_lockscreen_collapsed;
-					}
-				}
-			}
-		}
-		return theme.getWidgetLayout(App.getTheme());
-	}
+            if (category != -1) {
+                // If the value is WIDGET_CATEGORY_KEYGUARD, it's a lockscreen widget
+                final boolean keyguard = category == WIDGET_CATEGORY_KEYGUARD;
+                if (keyguard) {
+                    final int minHeightDp = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT, -1);
+                    final int minHeight = resources.getDimensionPixelSize(R.dimen.min_expanded_height_lock_screen);
+                    final boolean expanded = (minHeightDp >= minHeight / resources.getDisplayMetrics().density);
+                    if (expanded) {
+                        return R.layout.widget_layout_lockscreen;
+                    } else {
+                        return R.layout.widget_layout_lockscreen_collapsed;
+                    }
+                }
+            }
+        }
+        return theme.getWidgetLayout(App.getTheme());
+    }
 
-	@Override
-	public void onReceive(@Nonnull Context context, @Nonnull Intent intent) {
-		super.onReceive(context, intent);
+    @Override
+    public void onReceive(@Nonnull Context context, @Nonnull Intent intent) {
+        super.onReceive(context, intent);
 
-		final String action = intent.getAction();
-		if (ACTION_CONFIGURATION_CHANGED.equals(action)) {
-			updateState(context);
-		} else if (ACTION_EDITOR_STATE_CHANGED.equals(action)) {
-			updateState(context);
-		} else if (ACTION_DISPLAY_STATE_CHANGED.equals(action)) {
-			updateState(context);
-		} else if (ACTION_APPWIDGET_OPTIONS_CHANGED.equals(action)) {
-			updateState(context);
-		} else if (ACTION_THEME_CHANGED.equals(action)) {
-			updateState(context);
-		}
-	}
+        final String action = intent.getAction();
+        if (ACTION_CONFIGURATION_CHANGED.equals(action)) {
+            updateState(context);
+        } else if (ACTION_EDITOR_STATE_CHANGED.equals(action)) {
+            updateState(context);
+        } else if (ACTION_DISPLAY_STATE_CHANGED.equals(action)) {
+            updateState(context);
+        } else if (ACTION_APPWIDGET_OPTIONS_CHANGED.equals(action)) {
+            updateState(context);
+        } else if (ACTION_THEME_CHANGED.equals(action)) {
+            updateState(context);
+        }
+    }
 
-	private void updateDisplayState(@Nonnull Context context, @Nonnull RemoteViews views, @Nonnull CalculatorDisplayViewState displayState, @Nonnull Preferences.SimpleTheme theme) {
-		final Resources resources = context.getResources();
-		if (displayState.isValid()) {
-			views.setTextViewText(R.id.calculator_display, displayState.getText());
-			views.setTextColor(R.id.calculator_display, resources.getColor(theme == Preferences.SimpleTheme.material_light_theme ? R.color.cpp_text_inverse : R.color.cpp_text));
-		} else {
-			views.setTextColor(R.id.calculator_display, resources.getColor(theme == Preferences.SimpleTheme.material_light_theme ? R.color.cpp_text_inverse_error : R.color.cpp_text_error));
-		}
-	}
+    private void updateDisplayState(@Nonnull Context context, @Nonnull RemoteViews views, @Nonnull CalculatorDisplayViewState displayState, @Nonnull Preferences.SimpleTheme theme) {
+        final Resources resources = context.getResources();
+        if (displayState.isValid()) {
+            views.setTextViewText(R.id.calculator_display, displayState.getText());
+            views.setTextColor(R.id.calculator_display, resources.getColor(theme == Preferences.SimpleTheme.material_light_theme ? R.color.cpp_text_inverse : R.color.cpp_text));
+        } else {
+            views.setTextColor(R.id.calculator_display, resources.getColor(theme == Preferences.SimpleTheme.material_light_theme ? R.color.cpp_text_inverse_error : R.color.cpp_text_error));
+        }
+    }
 
-	private void updateEditorState(@Nonnull Context context, @Nonnull RemoteViews views, @Nonnull CalculatorEditorViewState editorState) {
-		final CharSequence text = editorState.getTextAsCharSequence();
+    private void updateEditorState(@Nonnull Context context, @Nonnull RemoteViews views, @Nonnull CalculatorEditorViewState editorState) {
+        final CharSequence text = editorState.getTextAsCharSequence();
 
-		CharSequence newText = text;
-		int selection = editorState.getSelection();
-		if (selection >= 0 && selection <= text.length()) {
-			// inject cursor
-			newText = Html.fromHtml(text.subSequence(0, selection) + "<font color=\"#" + getCursorColor(context) + "\">|</font>" + text.subSequence(selection, text.length()));
-		}
-		Locator.getInstance().getNotifier().showDebugMessage(TAG, "New editor state: " + text);
-		views.setTextViewText(R.id.calculator_editor, newText);
-	}
+        CharSequence newText = text;
+        int selection = editorState.getSelection();
+        if (selection >= 0 && selection <= text.length()) {
+            // inject cursor
+            newText = Html.fromHtml(text.subSequence(0, selection) + "<font color=\"#" + getCursorColor(context) + "\">|</font>" + text.subSequence(selection, text.length()));
+        }
+        Locator.getInstance().getNotifier().showDebugMessage(TAG, "New editor state: " + text);
+        views.setTextViewText(R.id.calculator_editor, newText);
+    }
 }

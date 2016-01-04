@@ -22,16 +22,16 @@
 
 package org.solovyev.android.calculator.units;
 
-import jscl.NumeralBase;
-
-import javax.annotation.Nonnull;
-
 import org.solovyev.common.units.Unit;
 import org.solovyev.common.units.UnitConverter;
 import org.solovyev.common.units.UnitImpl;
 import org.solovyev.common.units.UnitType;
 
 import java.math.BigInteger;
+
+import javax.annotation.Nonnull;
+
+import jscl.NumeralBase;
 
 /**
  * User: Solovyev_S
@@ -41,80 +41,79 @@ import java.math.BigInteger;
 public enum CalculatorNumeralBase implements UnitType<String> {
 
 
-	bin(NumeralBase.bin),
+    bin(NumeralBase.bin),
 
-	oct(NumeralBase.oct),
+    oct(NumeralBase.oct),
 
-	dec(NumeralBase.dec),
+    dec(NumeralBase.dec),
 
-	hex(NumeralBase.hex);
+    hex(NumeralBase.hex);
 
-	@Nonnull
-	private final NumeralBase numeralBase;
+    @Nonnull
+    private static final CalculatorNumeralBase.Converter converter = new CalculatorNumeralBase.Converter();
+    @Nonnull
+    private final NumeralBase numeralBase;
 
-	private CalculatorNumeralBase(@Nonnull NumeralBase numeralBase) {
-		this.numeralBase = numeralBase;
-	}
+    private CalculatorNumeralBase(@Nonnull NumeralBase numeralBase) {
+        this.numeralBase = numeralBase;
+    }
 
-	@Nonnull
-	public NumeralBase getNumeralBase() {
-		return numeralBase;
-	}
+    @Nonnull
+    public static CalculatorNumeralBase.Converter getConverter() {
+        return converter;
+    }
 
-	@Nonnull
-	private static final CalculatorNumeralBase.Converter converter = new CalculatorNumeralBase.Converter();
+    @Nonnull
+    public static CalculatorNumeralBase valueOf(@Nonnull NumeralBase nb) {
+        for (CalculatorNumeralBase calculatorNumeralBase : values()) {
+            if (calculatorNumeralBase.numeralBase == nb) {
+                return calculatorNumeralBase;
+            }
+        }
 
-	@Nonnull
-	public static CalculatorNumeralBase.Converter getConverter() {
-		return converter;
-	}
+        throw new IllegalArgumentException(nb + " is not supported numeral base!");
+    }
 
-	@Nonnull
-	@Override
-	public Class<String> getUnitValueClass() {
-		return String.class;
-	}
+    @Nonnull
+    public NumeralBase getNumeralBase() {
+        return numeralBase;
+    }
 
-	@Nonnull
-	public Unit<String> createUnit(@Nonnull String value) {
-		return UnitImpl.newInstance(value, this);
-	}
+    @Nonnull
+    @Override
+    public Class<String> getUnitValueClass() {
+        return String.class;
+    }
 
-	public static class Converter implements UnitConverter<String> {
+    @Nonnull
+    public Unit<String> createUnit(@Nonnull String value) {
+        return UnitImpl.newInstance(value, this);
+    }
 
-		private Converter() {
-		}
+    public static class Converter implements UnitConverter<String> {
 
-		@Override
-		public boolean isSupported(@Nonnull UnitType<?> from, @Nonnull UnitType<String> to) {
-			return CalculatorNumeralBase.class.isAssignableFrom(from.getClass()) && CalculatorNumeralBase.class.isAssignableFrom(to.getClass());
-		}
+        private Converter() {
+        }
 
-		@Nonnull
-		@Override
-		public Unit<String> convert(@Nonnull Unit<?> from, @Nonnull UnitType<String> toType) {
-			if (!isSupported(from.getUnitType(), toType)) {
-				throw new IllegalArgumentException("Types are not supported!");
-			}
+        @Override
+        public boolean isSupported(@Nonnull UnitType<?> from, @Nonnull UnitType<String> to) {
+            return CalculatorNumeralBase.class.isAssignableFrom(from.getClass()) && CalculatorNumeralBase.class.isAssignableFrom(to.getClass());
+        }
 
-			final CalculatorNumeralBase fromTypeAndroid = (CalculatorNumeralBase) from.getUnitType();
-			final NumeralBase fromNumeralBase = fromTypeAndroid.numeralBase;
-			final NumeralBase toNumeralBase = ((CalculatorNumeralBase) toType).numeralBase;
-			final String fromValue = (String) from.getValue();
+        @Nonnull
+        @Override
+        public Unit<String> convert(@Nonnull Unit<?> from, @Nonnull UnitType<String> toType) {
+            if (!isSupported(from.getUnitType(), toType)) {
+                throw new IllegalArgumentException("Types are not supported!");
+            }
 
-			final BigInteger decBigInteger = fromNumeralBase.toBigInteger(fromValue);
-			return UnitImpl.newInstance(toNumeralBase.toString(decBigInteger), toType);
-		}
-	}
+            final CalculatorNumeralBase fromTypeAndroid = (CalculatorNumeralBase) from.getUnitType();
+            final NumeralBase fromNumeralBase = fromTypeAndroid.numeralBase;
+            final NumeralBase toNumeralBase = ((CalculatorNumeralBase) toType).numeralBase;
+            final String fromValue = (String) from.getValue();
 
-	@Nonnull
-	public static CalculatorNumeralBase valueOf(@Nonnull NumeralBase nb) {
-		for (CalculatorNumeralBase calculatorNumeralBase : values()) {
-			if (calculatorNumeralBase.numeralBase == nb) {
-				return calculatorNumeralBase;
-			}
-		}
-
-		throw new IllegalArgumentException(nb + " is not supported numeral base!");
-	}
+            final BigInteger decBigInteger = fromNumeralBase.toBigInteger(fromValue);
+            return UnitImpl.newInstance(toNumeralBase.toString(decBigInteger), toType);
+        }
+    }
 }

@@ -31,6 +31,6 @@ import javax.annotation.Nonnull;
  */
 public interface MathPersistenceEntity {
 
-	@Nonnull
-	String getName();
+    @Nonnull
+    String getName();
 }

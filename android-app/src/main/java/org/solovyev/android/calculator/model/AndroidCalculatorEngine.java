@@ -26,18 +26,16 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import jscl.AngleUnit;
-import jscl.JsclMathEngine;
-import jscl.MathEngine;
-import jscl.NumeralBase;
-import jscl.math.function.Function;
-import jscl.math.function.IConstant;
-import jscl.math.operator.Operator;
 
-import javax.annotation.Nonnull;
-
-import org.solovyev.android.calculator.*;
-import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.CalculatorEngine;
+import org.solovyev.android.calculator.CalculatorEngineImpl;
+import org.solovyev.android.calculator.CalculatorFunctionsMathRegistry;
+import org.solovyev.android.calculator.CalculatorMathEngine;
+import org.solovyev.android.calculator.CalculatorMathRegistry;
+import org.solovyev.android.calculator.CalculatorOperatorsMathRegistry;
+import org.solovyev.android.calculator.CalculatorPostfixFunctionsRegistry;
+import org.solovyev.android.calculator.CalculatorVarsRegistry;
+import org.solovyev.android.calculator.MathPersistenceEntity;
 import org.solovyev.android.prefs.BooleanPreference;
 import org.solovyev.android.prefs.Preference;
 import org.solovyev.android.prefs.StringPreference;
@@ -50,6 +48,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
+import jscl.AngleUnit;
+import jscl.JsclMathEngine;
+import jscl.MathEngine;
+import jscl.NumeralBase;
+import jscl.math.function.Function;
+import jscl.math.function.IConstant;
+import jscl.math.operator.Operator;
+
 /**
  * User: serso
  * Date: 9/12/11
@@ -58,248 +66,244 @@ import java.util.List;
 
 public class AndroidCalculatorEngine implements CalculatorEngine, SharedPreferences.OnSharedPreferenceChangeListener {
 
-	private static final String GROUPING_SEPARATOR_P_KEY = "org.solovyev.android.calculator.CalculatorActivity_calc_grouping_separator";
+    private static final String GROUPING_SEPARATOR_P_KEY = "org.solovyev.android.calculator.CalculatorActivity_calc_grouping_separator";
 
-	private static final String MULTIPLICATION_SIGN_P_KEY = "org.solovyev.android.calculator.CalculatorActivity_calc_multiplication_sign";
-	private static final String MULTIPLICATION_SIGN_DEFAULT = "×";
+    private static final String MULTIPLICATION_SIGN_P_KEY = "org.solovyev.android.calculator.CalculatorActivity_calc_multiplication_sign";
+    private static final String MULTIPLICATION_SIGN_DEFAULT = "×";
 
-	private static final String MAX_CALCULATION_TIME_P_KEY = "calculation.max_calculation_time";
-	private static final String MAX_CALCULATION_TIME_DEFAULT = "5";
+    private static final String MAX_CALCULATION_TIME_P_KEY = "calculation.max_calculation_time";
+    private static final String MAX_CALCULATION_TIME_DEFAULT = "5";
 
-	private static final String SCIENCE_NOTATION_P_KEY = "calculation.output.science_notation";
-	private static final boolean SCIENCE_NOTATION_DEFAULT = false;
+    private static final String SCIENCE_NOTATION_P_KEY = "calculation.output.science_notation";
+    private static final boolean SCIENCE_NOTATION_DEFAULT = false;
 
-	private static final String ROUND_RESULT_P_KEY = "org.solovyev.android.calculator.CalculatorModel_round_result";
-	private static final boolean ROUND_RESULT_DEFAULT = true;
+    private static final String ROUND_RESULT_P_KEY = "org.solovyev.android.calculator.CalculatorModel_round_result";
+    private static final boolean ROUND_RESULT_DEFAULT = true;
 
-	private static final String RESULT_PRECISION_P_KEY = "org.solovyev.android.calculator.CalculatorModel_result_precision";
-	private static final String RESULT_PRECISION_DEFAULT = "5";
+    private static final String RESULT_PRECISION_P_KEY = "org.solovyev.android.calculator.CalculatorModel_result_precision";
+    private static final String RESULT_PRECISION_DEFAULT = "5";
 
-	private static final String NUMERAL_BASES_P_KEY = "org.solovyev.android.calculator.CalculatorActivity_numeral_bases";
-	private static final String NUMERAL_BASES_DEFAULT = "dec";
+    private static final String NUMERAL_BASES_P_KEY = "org.solovyev.android.calculator.CalculatorActivity_numeral_bases";
+    private static final String NUMERAL_BASES_DEFAULT = "dec";
 
-	private static final String ANGLE_UNITS_P_KEY = "org.solovyev.android.calculator.CalculatorActivity_angle_units";
-	private static final String ANGLE_UNITS_DEFAULT = "deg";
+    private static final String ANGLE_UNITS_P_KEY = "org.solovyev.android.calculator.CalculatorActivity_angle_units";
+    private static final String ANGLE_UNITS_DEFAULT = "deg";
+    @Nonnull
+    private final Context context;
+    @Nonnull
+    private final CalculatorEngine calculatorEngine;
+    @Nonnull
+    private final Object lock;
 
-	public static class Preferences {
-		public static final Preference<String> groupingSeparator = StringPreference.of(GROUPING_SEPARATOR_P_KEY, JsclMathEngine.GROUPING_SEPARATOR_DEFAULT);
-		public static final Preference<String> multiplicationSign = StringPreference.of(MULTIPLICATION_SIGN_P_KEY, MULTIPLICATION_SIGN_DEFAULT);
-		public static final Preference<Integer> precision = StringPreference.ofTypedValue(RESULT_PRECISION_P_KEY, RESULT_PRECISION_DEFAULT, NumberMapper.of(Integer.class));
-		public static final Preference<Boolean> roundResult = BooleanPreference.of(ROUND_RESULT_P_KEY, ROUND_RESULT_DEFAULT);
-		public static final Preference<NumeralBase> numeralBase = StringPreference.ofTypedValue(NUMERAL_BASES_P_KEY, NUMERAL_BASES_DEFAULT, EnumMapper.of(NumeralBase.class));
-		public static final Preference<AngleUnit> angleUnit = StringPreference.ofTypedValue(ANGLE_UNITS_P_KEY, ANGLE_UNITS_DEFAULT, EnumMapper.of(AngleUnit.class));
-		public static final Preference<Boolean> scienceNotation = BooleanPreference.of(SCIENCE_NOTATION_P_KEY, SCIENCE_NOTATION_DEFAULT);
-		public static final Preference<Integer> maxCalculationTime = StringPreference.ofTypedValue(MAX_CALCULATION_TIME_P_KEY, MAX_CALCULATION_TIME_DEFAULT, NumberMapper.of(Integer.class));
+    public AndroidCalculatorEngine(@Nonnull Application application) {
+        this.context = application;
 
-		private static final List<String> preferenceKeys = new ArrayList<String>();
+        PreferenceManager.getDefaultSharedPreferences(application).registerOnSharedPreferenceChangeListener(this);
 
-		static {
-			preferenceKeys.add(groupingSeparator.getKey());
-			preferenceKeys.add(multiplicationSign.getKey());
-			preferenceKeys.add(precision.getKey());
-			preferenceKeys.add(roundResult.getKey());
-			preferenceKeys.add(numeralBase.getKey());
-			preferenceKeys.add(angleUnit.getKey());
-			preferenceKeys.add(scienceNotation.getKey());
-			preferenceKeys.add(maxCalculationTime.getKey());
-		}
+        this.lock = new Object();
 
-		@Nonnull
-		public static List<String> getPreferenceKeys() {
-			return Collections.unmodifiableList(preferenceKeys);
-		}
-	}
+        final JsclMathEngine engine = JsclMathEngine.getInstance();
+        this.calculatorEngine = new CalculatorEngineImpl(engine,
+                new CalculatorVarsRegistry(engine.getConstantsRegistry(), new AndroidMathEntityDao<Var>("org.solovyev.android.calculator.CalculatorModel_vars", application, Vars.class)),
+                new CalculatorFunctionsMathRegistry(engine.getFunctionsRegistry(), new AndroidMathEntityDao<AFunction>("org.solovyev.android.calculator.CalculatorModel_functions", application, Functions.class)),
+                new CalculatorOperatorsMathRegistry(engine.getOperatorsRegistry(), new AndroidMathEntityDao<MathPersistenceEntity>(null, application, null)),
+                new CalculatorPostfixFunctionsRegistry(engine.getPostfixFunctionsRegistry(), new AndroidMathEntityDao<MathPersistenceEntity>(null, application, null)),
+                this.lock);
+    }
 
-	@Nonnull
-	private final Context context;
+    @Nonnull
+    public static NumeralBase getNumeralBaseFromPrefs(@Nonnull SharedPreferences preferences) {
+        return Preferences.numeralBase.getPreference(preferences);
+    }
 
-	@Nonnull
-	private final CalculatorEngine calculatorEngine;
+    @Nonnull
+    public static AngleUnit getAngleUnitsFromPrefs(@Nonnull SharedPreferences preferences) {
+        return Preferences.angleUnit.getPreference(preferences);
+    }
 
-	@Nonnull
-	private final Object lock;
+    @Override
+    @Nonnull
+    public CalculatorMathRegistry<IConstant> getVarsRegistry() {
+        return calculatorEngine.getVarsRegistry();
+    }
 
-	public AndroidCalculatorEngine(@Nonnull Application application) {
-		this.context = application;
+    @Override
+    @Nonnull
+    public CalculatorMathRegistry<Function> getFunctionsRegistry() {
+        return calculatorEngine.getFunctionsRegistry();
+    }
 
-		PreferenceManager.getDefaultSharedPreferences(application).registerOnSharedPreferenceChangeListener(this);
+    @Override
+    @Nonnull
+    public CalculatorMathRegistry<Operator> getOperatorsRegistry() {
+        return calculatorEngine.getOperatorsRegistry();
+    }
 
-		this.lock = new Object();
+    @Override
+    @Nonnull
+    public CalculatorMathRegistry<Operator> getPostfixFunctionsRegistry() {
+        return calculatorEngine.getPostfixFunctionsRegistry();
+    }
 
-		final JsclMathEngine engine = JsclMathEngine.getInstance();
-		this.calculatorEngine = new CalculatorEngineImpl(engine,
-				new CalculatorVarsRegistry(engine.getConstantsRegistry(), new AndroidMathEntityDao<Var>("org.solovyev.android.calculator.CalculatorModel_vars", application, Vars.class)),
-				new CalculatorFunctionsMathRegistry(engine.getFunctionsRegistry(), new AndroidMathEntityDao<AFunction>("org.solovyev.android.calculator.CalculatorModel_functions", application, Functions.class)),
-				new CalculatorOperatorsMathRegistry(engine.getOperatorsRegistry(), new AndroidMathEntityDao<MathPersistenceEntity>(null, application, null)),
-				new CalculatorPostfixFunctionsRegistry(engine.getPostfixFunctionsRegistry(), new AndroidMathEntityDao<MathPersistenceEntity>(null, application, null)),
-				this.lock);
-	}
+    @Override
+    @Nonnull
+    public CalculatorMathEngine getMathEngine() {
+        return calculatorEngine.getMathEngine();
+    }
 
-	@Override
-	@Nonnull
-	public CalculatorMathRegistry<IConstant> getVarsRegistry() {
-		return calculatorEngine.getVarsRegistry();
-	}
+    @Nonnull
+    @Override
+    public MathEngine getMathEngine0() {
+        return calculatorEngine.getMathEngine0();
+    }
 
-	@Override
-	@Nonnull
-	public CalculatorMathRegistry<Function> getFunctionsRegistry() {
-		return calculatorEngine.getFunctionsRegistry();
-	}
+    @Nonnull
+    @Override
+    public NumeralBase getNumeralBase() {
+        return calculatorEngine.getNumeralBase();
+    }
 
-	@Override
-	@Nonnull
-	public CalculatorMathRegistry<Operator> getOperatorsRegistry() {
-		return calculatorEngine.getOperatorsRegistry();
-	}
+    @Override
+    public void setNumeralBase(@Nonnull NumeralBase numeralBase) {
+        calculatorEngine.setNumeralBase(numeralBase);
+    }
 
-	@Override
-	@Nonnull
-	public CalculatorMathRegistry<Operator> getPostfixFunctionsRegistry() {
-		return calculatorEngine.getPostfixFunctionsRegistry();
-	}
+    @Override
+    public void init() {
+        synchronized (lock) {
+            reset();
+        }
+    }
 
-	@Override
-	@Nonnull
-	public CalculatorMathEngine getMathEngine() {
-		return calculatorEngine.getMathEngine();
-	}
+    @Override
+    public void reset() {
+        synchronized (lock) {
+            final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-	@Nonnull
-	@Override
-	public MathEngine getMathEngine0() {
-		return calculatorEngine.getMathEngine0();
-	}
+            softReset(preferences);
 
-	@Nonnull
-	@Override
-	public NumeralBase getNumeralBase() {
-		return calculatorEngine.getNumeralBase();
-	}
+            calculatorEngine.reset();
+        }
+    }
 
-	@Override
-	public void init() {
-		synchronized (lock) {
-			reset();
-		}
-	}
+    @Override
+    public void softReset() {
+        synchronized (lock) {
+            softReset(PreferenceManager.getDefaultSharedPreferences(context));
 
-	@Override
-	public void reset() {
-		synchronized (lock) {
-			final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+            calculatorEngine.softReset();
+        }
+    }
 
-			softReset(preferences);
+    @Override
+    public void setUseGroupingSeparator(boolean useGroupingSeparator) {
+        calculatorEngine.setUseGroupingSeparator(useGroupingSeparator);
+    }
 
-			calculatorEngine.reset();
-		}
-	}
+    @Override
+    public void setGroupingSeparator(char groupingSeparator) {
+        calculatorEngine.setGroupingSeparator(groupingSeparator);
+    }
 
-	@Override
-	public void softReset() {
-		synchronized (lock) {
-			softReset(PreferenceManager.getDefaultSharedPreferences(context));
+    @Override
+    public void setPrecision(@Nonnull Integer precision) {
+        calculatorEngine.setPrecision(precision);
+    }
 
-			calculatorEngine.softReset();
-		}
-	}
+    @Override
+    public void setRoundResult(@Nonnull Boolean round) {
+        calculatorEngine.setRoundResult(round);
+    }
 
-	@Override
-	public void setUseGroupingSeparator(boolean useGroupingSeparator) {
-		calculatorEngine.setUseGroupingSeparator(useGroupingSeparator);
-	}
+    @Nonnull
+    @Override
+    public AngleUnit getAngleUnits() {
+        return calculatorEngine.getAngleUnits();
+    }
 
-	@Override
-	public void setGroupingSeparator(char groupingSeparator) {
-		calculatorEngine.setGroupingSeparator(groupingSeparator);
-	}
+    @Override
+    public void setAngleUnits(@Nonnull AngleUnit angleUnits) {
+        calculatorEngine.setAngleUnits(angleUnits);
+    }
 
-	@Override
-	public void setPrecision(@Nonnull Integer precision) {
-		calculatorEngine.setPrecision(precision);
-	}
+    @Override
+    public void setScienceNotation(@Nonnull Boolean scienceNotation) {
+        calculatorEngine.setScienceNotation(scienceNotation);
+    }
 
-	@Override
-	public void setRoundResult(@Nonnull Boolean round) {
-		calculatorEngine.setRoundResult(round);
-	}
+    @Override
+    public void setTimeout(@Nonnull Integer timeout) {
+        calculatorEngine.setTimeout(timeout);
+    }
 
-	@Nonnull
-	@Override
-	public AngleUnit getAngleUnits() {
-		return calculatorEngine.getAngleUnits();
-	}
+    private void softReset(@Nonnull SharedPreferences preferences) {
+        this.setPrecision(Preferences.precision.getPreference(preferences));
+        this.setRoundResult(Preferences.roundResult.getPreference(preferences));
+        this.setAngleUnits(getAngleUnitsFromPrefs(preferences));
+        this.setNumeralBase(getNumeralBaseFromPrefs(preferences));
+        this.setMultiplicationSign(Preferences.multiplicationSign.getPreference(preferences));
+        this.setScienceNotation(Preferences.scienceNotation.getPreference(preferences));
+        this.setTimeout(Preferences.maxCalculationTime.getPreference(preferences));
 
-	@Override
-	public void setAngleUnits(@Nonnull AngleUnit angleUnits) {
-		calculatorEngine.setAngleUnits(angleUnits);
-	}
+        final String groupingSeparator = Preferences.groupingSeparator.getPreference(preferences);
+        if (Strings.isEmpty(groupingSeparator)) {
+            this.setUseGroupingSeparator(false);
+        } else {
+            this.setUseGroupingSeparator(true);
+            setGroupingSeparator(groupingSeparator.charAt(0));
+        }
+    }
 
-	@Override
-	public void setNumeralBase(@Nonnull NumeralBase numeralBase) {
-		calculatorEngine.setNumeralBase(numeralBase);
-	}
+    //for tests only
+    public void setDecimalGroupSymbols(@Nonnull DecimalFormatSymbols decimalGroupSymbols) {
+        this.calculatorEngine.setDecimalGroupSymbols(decimalGroupSymbols);
+    }
 
-	@Override
-	public void setMultiplicationSign(@Nonnull String multiplicationSign) {
-		calculatorEngine.setMultiplicationSign(multiplicationSign);
-	}
+    @Override
+    @Nonnull
+    public String getMultiplicationSign() {
+        return calculatorEngine.getMultiplicationSign();
+    }
 
-	@Override
-	public void setScienceNotation(@Nonnull Boolean scienceNotation) {
-		calculatorEngine.setScienceNotation(scienceNotation);
-	}
+    @Override
+    public void setMultiplicationSign(@Nonnull String multiplicationSign) {
+        calculatorEngine.setMultiplicationSign(multiplicationSign);
+    }
 
-	@Override
-	public void setTimeout(@Nonnull Integer timeout) {
-		calculatorEngine.setTimeout(timeout);
-	}
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (Preferences.getPreferenceKeys().contains(key)) {
+            this.softReset();
+        }
+    }
 
-	private void softReset(@Nonnull SharedPreferences preferences) {
-		this.setPrecision(Preferences.precision.getPreference(preferences));
-		this.setRoundResult(Preferences.roundResult.getPreference(preferences));
-		this.setAngleUnits(getAngleUnitsFromPrefs(preferences));
-		this.setNumeralBase(getNumeralBaseFromPrefs(preferences));
-		this.setMultiplicationSign(Preferences.multiplicationSign.getPreference(preferences));
-		this.setScienceNotation(Preferences.scienceNotation.getPreference(preferences));
-		this.setTimeout(Preferences.maxCalculationTime.getPreference(preferences));
+    public static class Preferences {
+        public static final Preference<String> groupingSeparator = StringPreference.of(GROUPING_SEPARATOR_P_KEY, JsclMathEngine.GROUPING_SEPARATOR_DEFAULT);
+        public static final Preference<String> multiplicationSign = StringPreference.of(MULTIPLICATION_SIGN_P_KEY, MULTIPLICATION_SIGN_DEFAULT);
+        public static final Preference<Integer> precision = StringPreference.ofTypedValue(RESULT_PRECISION_P_KEY, RESULT_PRECISION_DEFAULT, NumberMapper.of(Integer.class));
+        public static final Preference<Boolean> roundResult = BooleanPreference.of(ROUND_RESULT_P_KEY, ROUND_RESULT_DEFAULT);
+        public static final Preference<NumeralBase> numeralBase = StringPreference.ofTypedValue(NUMERAL_BASES_P_KEY, NUMERAL_BASES_DEFAULT, EnumMapper.of(NumeralBase.class));
+        public static final Preference<AngleUnit> angleUnit = StringPreference.ofTypedValue(ANGLE_UNITS_P_KEY, ANGLE_UNITS_DEFAULT, EnumMapper.of(AngleUnit.class));
+        public static final Preference<Boolean> scienceNotation = BooleanPreference.of(SCIENCE_NOTATION_P_KEY, SCIENCE_NOTATION_DEFAULT);
+        public static final Preference<Integer> maxCalculationTime = StringPreference.ofTypedValue(MAX_CALCULATION_TIME_P_KEY, MAX_CALCULATION_TIME_DEFAULT, NumberMapper.of(Integer.class));
 
-		final String groupingSeparator = Preferences.groupingSeparator.getPreference(preferences);
-		if (Strings.isEmpty(groupingSeparator)) {
-			this.setUseGroupingSeparator(false);
-		} else {
-			this.setUseGroupingSeparator(true);
-			setGroupingSeparator(groupingSeparator.charAt(0));
-		}
-	}
+        private static final List<String> preferenceKeys = new ArrayList<String>();
 
-	@Nonnull
-	public static NumeralBase getNumeralBaseFromPrefs(@Nonnull SharedPreferences preferences) {
-		return Preferences.numeralBase.getPreference(preferences);
-	}
+        static {
+            preferenceKeys.add(groupingSeparator.getKey());
+            preferenceKeys.add(multiplicationSign.getKey());
+            preferenceKeys.add(precision.getKey());
+            preferenceKeys.add(roundResult.getKey());
+            preferenceKeys.add(numeralBase.getKey());
+            preferenceKeys.add(angleUnit.getKey());
+            preferenceKeys.add(scienceNotation.getKey());
+            preferenceKeys.add(maxCalculationTime.getKey());
+        }
 
-	@Nonnull
-	public static AngleUnit getAngleUnitsFromPrefs(@Nonnull SharedPreferences preferences) {
-		return Preferences.angleUnit.getPreference(preferences);
-	}
-
-	//for tests only
-	public void setDecimalGroupSymbols(@Nonnull DecimalFormatSymbols decimalGroupSymbols) {
-		this.calculatorEngine.setDecimalGroupSymbols(decimalGroupSymbols);
-	}
-
-	@Override
-	@Nonnull
-	public String getMultiplicationSign() {
-		return calculatorEngine.getMultiplicationSign();
-	}
-
-
-	@Override
-	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-		if (Preferences.getPreferenceKeys().contains(key)) {
-			this.softReset();
-		}
-	}
+        @Nonnull
+        public static List<String> getPreferenceKeys() {
+            return Collections.unmodifiableList(preferenceKeys);
+        }
+    }
 
 }

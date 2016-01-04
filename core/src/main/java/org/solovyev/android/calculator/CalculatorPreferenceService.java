@@ -22,10 +22,10 @@
 
 package org.solovyev.android.calculator;
 
+import javax.annotation.Nonnull;
+
 import jscl.AngleUnit;
 import jscl.NumeralBase;
-
-import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -34,13 +34,13 @@ import javax.annotation.Nonnull;
  */
 public interface CalculatorPreferenceService {
 
-	void setPreferredAngleUnits();
+    void setPreferredAngleUnits();
 
-	void setAngleUnits(@Nonnull AngleUnit angleUnit);
+    void setAngleUnits(@Nonnull AngleUnit angleUnit);
 
-	void setPreferredNumeralBase();
+    void setPreferredNumeralBase();
 
-	void setNumeralBase(@Nonnull NumeralBase numeralBase);
+    void setNumeralBase(@Nonnull NumeralBase numeralBase);
 
-	void checkPreferredPreferences(boolean force);
+    void checkPreferredPreferences(boolean force);
 }

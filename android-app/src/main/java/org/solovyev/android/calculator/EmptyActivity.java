@@ -24,11 +24,11 @@ package org.solovyev.android.calculator;
 
 public abstract class EmptyActivity extends BaseActivity {
 
-	protected EmptyActivity() {
-		this(R.layout.main_empty);
-	}
+    protected EmptyActivity() {
+        this(R.layout.main_empty);
+    }
 
-	protected EmptyActivity(int layoutResId) {
-		super(layoutResId);
-	}
+    protected EmptyActivity(int layoutResId) {
+        super(layoutResId);
+    }
 }

@@ -39,17 +39,28 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+
 import org.solovyev.android.Android;
 import org.solovyev.android.Threads;
-import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.CalculatorApplication;
+import org.solovyev.android.calculator.CalculatorEventData;
+import org.solovyev.android.calculator.CalculatorEventHolder;
+import org.solovyev.android.calculator.CalculatorEventListener;
+import org.solovyev.android.calculator.CalculatorEventType;
+import org.solovyev.android.calculator.CalculatorFragment;
+import org.solovyev.android.calculator.CalculatorUtils;
+import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.preferences.PreferencesActivity;
-import org.solovyev.android.menu.*;
+import org.solovyev.android.menu.AMenuItem;
+import org.solovyev.android.menu.ActivityMenu;
+import org.solovyev.android.menu.AndroidMenuHelper;
+import org.solovyev.android.menu.IdentifiableMenuItem;
+import org.solovyev.android.menu.ListActivityMenu;
 import org.solovyev.common.JPredicate;
 import org.solovyev.common.msg.MessageType;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -58,6 +69,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import static org.solovyev.android.calculator.model.AndroidCalculatorEngine.Preferences;
 
@@ -69,14 +83,14 @@ import static org.solovyev.android.calculator.model.AndroidCalculatorEngine.Pref
 public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment implements CalculatorEventListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
 	/*
-	**********************************************************************
+    **********************************************************************
 	*
 	*                           CONSTANTS
 	*
 	**********************************************************************
 	*/
 
-	protected static final String TAG = "CalculatorPlotFragment";
+    protected static final String TAG = "CalculatorPlotFragment";
 
 	/*
 	**********************************************************************
@@ -85,117 +99,121 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 	*
 	**********************************************************************
 	*/
-
-	private int bgColor;
-
-	@Nonnull
-	private PlotData plotData = new PlotData(Collections.<PlotFunction>emptyList(), false, true, PlotBoundaries.newDefaultInstance());
-
-	@Nonnull
-	private ActivityMenu<Menu, MenuItem> fragmentMenu;
-
-	// thread which calculated data for graph view
-	@Nonnull
-	private final Executor plotExecutor = Executors.newSingleThreadExecutor();
-
-	@Nonnull
-	private final CalculatorEventHolder lastEventHolder = new CalculatorEventHolder(CalculatorUtils.createFirstEventDataId());
+    // thread which calculated data for graph view
+    @Nonnull
+    private final Executor plotExecutor = Executors.newSingleThreadExecutor();
+    @Nonnull
+    private final CalculatorEventHolder lastEventHolder = new CalculatorEventHolder(CalculatorUtils.createFirstEventDataId());
+    private int bgColor;
+    @Nonnull
+    private PlotData plotData = new PlotData(Collections.<PlotFunction>emptyList(), false, true, PlotBoundaries.newDefaultInstance());
+    @Nonnull
+    private ActivityMenu<Menu, MenuItem> fragmentMenu;
 
 
-	public AbstractCalculatorPlotFragment() {
-		super(CalculatorApplication.getInstance().createFragmentHelper(R.layout.cpp_plot_fragment, R.string.c_graph, false));
-	}
+    public AbstractCalculatorPlotFragment() {
+        super(CalculatorApplication.getInstance().createFragmentHelper(R.layout.cpp_plot_fragment, R.string.c_graph, false));
+    }
 
+    public static void applyToPaint(@Nonnull PlotLineDef plotLineDef, @Nonnull Paint paint) {
+        paint.setColor(plotLineDef.getLineColor());
+        paint.setStyle(Paint.Style.STROKE);
 
-	@Override
-	public void onCreate(@Nullable Bundle in) {
-		super.onCreate(in);
-		if (isPaneFragment()) {
-			bgColor = getResources().getColor(App.getTheme().isLight() ? R.color.cpp_pane_bg_light : R.color.cpp_pane_bg);
-		} else {
-			bgColor = getResources().getColor(App.getTheme().isLight() ? R.color.cpp_main_bg_light : R.color.cpp_main_bg);
-		}
-		setHasOptionsMenu(true);
-	}
+        paint.setStrokeWidth(plotLineDef.getLineWidth());
 
-	private void savePlotBoundaries() {
-		final PlotBoundaries plotBoundaries = getPlotBoundaries();
-		if (plotBoundaries != null) {
-			Locator.getInstance().getPlotter().savePlotBoundaries(plotBoundaries);
-		}
-	}
+        final AndroidPlotLineStyle androidPlotLineStyle = AndroidPlotLineStyle.valueOf(plotLineDef.getLineStyle());
+        if (androidPlotLineStyle != null) {
+            androidPlotLineStyle.applyToPaint(paint);
+        }
+    }
 
-	@Nullable
-	protected abstract PlotBoundaries getPlotBoundaries();
+    @Override
+    public void onCreate(@Nullable Bundle in) {
+        super.onCreate(in);
+        if (isPaneFragment()) {
+            bgColor = getResources().getColor(App.getTheme().isLight() ? R.color.cpp_pane_bg_light : R.color.cpp_pane_bg);
+        } else {
+            bgColor = getResources().getColor(App.getTheme().isLight() ? R.color.cpp_main_bg_light : R.color.cpp_main_bg);
+        }
+        setHasOptionsMenu(true);
+    }
 
-	@Override
-	public void onResume() {
-		super.onResume();
+    private void savePlotBoundaries() {
+        final PlotBoundaries plotBoundaries = getPlotBoundaries();
+        if (plotBoundaries != null) {
+            Locator.getInstance().getPlotter().savePlotBoundaries(plotBoundaries);
+        }
+    }
 
-		PreferenceManager.getDefaultSharedPreferences(this.getActivity()).registerOnSharedPreferenceChangeListener(this);
+    @Nullable
+    protected abstract PlotBoundaries getPlotBoundaries();
 
-		plotData = Locator.getInstance().getPlotter().getPlotData();
-		updateChart(plotData, getActivity());
-	}
+    @Override
+    public void onResume() {
+        super.onResume();
 
-	@Override
-	public void onPause() {
-		PreferenceManager.getDefaultSharedPreferences(this.getActivity()).unregisterOnSharedPreferenceChangeListener(this);
+        PreferenceManager.getDefaultSharedPreferences(this.getActivity()).registerOnSharedPreferenceChangeListener(this);
 
-		savePlotBoundaries();
+        plotData = Locator.getInstance().getPlotter().getPlotData();
+        updateChart(plotData, getActivity());
+    }
 
-		super.onPause();
-	}
+    @Override
+    public void onPause() {
+        PreferenceManager.getDefaultSharedPreferences(this.getActivity()).unregisterOnSharedPreferenceChangeListener(this);
 
-	@Override
-	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-		if (Preferences.angleUnit.getKey().equals(key)) {
-			updateChart(this.plotData, getActivity());
-		}
-	}
+        savePlotBoundaries();
 
-	@Override
-	public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable final Object data) {
-		switch (calculatorEventType) {
-			case plot_data_changed:
-				final CalculatorEventHolder.Result result = this.lastEventHolder.apply(calculatorEventData);
-				if (result.isNewAfter()) {
-					if (data == null) throw new AssertionError();
-					onNewPlotData((PlotData) data);
-				}
-				break;
-		}
+        super.onPause();
+    }
 
-	}
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (Preferences.angleUnit.getKey().equals(key)) {
+            updateChart(this.plotData, getActivity());
+        }
+    }
 
-	private void onNewPlotData(@Nonnull final PlotData plotData) {
-		this.plotData = plotData;
+    @Override
+    public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable final Object data) {
+        switch (calculatorEventType) {
+            case plot_data_changed:
+                final CalculatorEventHolder.Result result = this.lastEventHolder.apply(calculatorEventData);
+                if (result.isNewAfter()) {
+                    if (data == null) throw new AssertionError();
+                    onNewPlotData((PlotData) data);
+                }
+                break;
+        }
 
-		updateChart(plotData, getActivity());
-	}
+    }
 
-	private void updateChart(@Nonnull final PlotData plotData, @Nullable final Activity activity) {
-		if (!(activity instanceof ActionBarActivity)) throw new AssertionError();
-		Threads.tryRunOnUiThread(activity, new Runnable() {
-			@Override
-			public void run() {
-				createChart(plotData);
+    private void onNewPlotData(@Nonnull final PlotData plotData) {
+        this.plotData = plotData;
 
-				final View view = getView();
-				if (view != null) {
-					createGraphicalView(view, plotData);
-				}
+        updateChart(plotData, getActivity());
+    }
 
-				((ActionBarActivity) activity).supportInvalidateOptionsMenu();
-			}
-		});
-	}
+    private void updateChart(@Nonnull final PlotData plotData, @Nullable final Activity activity) {
+        if (!(activity instanceof ActionBarActivity)) throw new AssertionError();
+        Threads.tryRunOnUiThread(activity, new Runnable() {
+            @Override
+            public void run() {
+                createChart(plotData);
 
-	protected abstract void onError();
+                final View view = getView();
+                if (view != null) {
+                    createGraphicalView(view, plotData);
+                }
 
-	protected abstract void createGraphicalView(@Nonnull View view, @Nonnull PlotData plotData);
+                ((ActionBarActivity) activity).supportInvalidateOptionsMenu();
+            }
+        });
+    }
 
-	protected abstract void createChart(@Nonnull PlotData plotData);
+    protected abstract void onError();
+
+    protected abstract void createGraphicalView(@Nonnull View view, @Nonnull PlotData plotData);
 
 	/*
 	**********************************************************************
@@ -205,16 +223,13 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 	**********************************************************************
 	*/
 
-	public int getBgColor(boolean d3) {
-		// 3d plotter should always set a background color
-		// 2d plotter can leave with transparent background
-		return !d3 ? Color.TRANSPARENT : bgColor;
-	}
+    protected abstract void createChart(@Nonnull PlotData plotData);
 
-	@Nonnull
-	public Executor getPlotExecutor() {
-		return plotExecutor;
-	}
+    public int getBgColor(boolean d3) {
+        // 3d plotter should always set a background color
+        // 2d plotter can leave with transparent background
+        return !d3 ? Color.TRANSPARENT : bgColor;
+    }
 
 	/*
 	**********************************************************************
@@ -224,174 +239,174 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 	**********************************************************************
 	*/
 
-	@Override
-	public void onCreateOptionsMenu(final Menu menu, MenuInflater inflater) {
-		super.onCreateOptionsMenu(menu, inflater);
+    @Nonnull
+    public Executor getPlotExecutor() {
+        return plotExecutor;
+    }
 
-		final List<IdentifiableMenuItem<MenuItem>> menuItems = new ArrayList<IdentifiableMenuItem<MenuItem>>();
-		menuItems.add(PlotMenu.preferences);
-		menuItems.add(PlotMenu.functions);
+    @Override
+    public void onCreateOptionsMenu(final Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
 
-		final IdentifiableMenuItem<MenuItem> plotRangeMenuItem = new IdentifiableMenuItem<MenuItem>() {
-			@Nonnull
-			@Override
-			public Integer getItemId() {
-				return R.id.menu_plot_range;
-			}
+        final List<IdentifiableMenuItem<MenuItem>> menuItems = new ArrayList<IdentifiableMenuItem<MenuItem>>();
+        menuItems.add(PlotMenu.preferences);
+        menuItems.add(PlotMenu.functions);
 
-			@Override
-			public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
-				savePlotBoundaries();
+        final IdentifiableMenuItem<MenuItem> plotRangeMenuItem = new IdentifiableMenuItem<MenuItem>() {
+            @Nonnull
+            @Override
+            public Integer getItemId() {
+                return R.id.menu_plot_range;
+            }
 
-				context.startActivity(new Intent(context, CalculatorPlotRangeActivity.class));
-			}
-		};
-		menuItems.add(plotRangeMenuItem);
+            @Override
+            public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
+                savePlotBoundaries();
 
-		final IdentifiableMenuItem<MenuItem> plot3dMenuItem = new IdentifiableMenuItem<MenuItem>() {
-			@Nonnull
-			@Override
-			public Integer getItemId() {
-				return R.id.menu_plot_3d;
-			}
+                context.startActivity(new Intent(context, CalculatorPlotRangeActivity.class));
+            }
+        };
+        menuItems.add(plotRangeMenuItem);
 
-			@Override
-			public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
-				savePlotBoundaries();
+        final IdentifiableMenuItem<MenuItem> plot3dMenuItem = new IdentifiableMenuItem<MenuItem>() {
+            @Nonnull
+            @Override
+            public Integer getItemId() {
+                return R.id.menu_plot_3d;
+            }
 
-				Locator.getInstance().getPlotter().setPlot3d(true);
-			}
-		};
-		menuItems.add(plot3dMenuItem);
+            @Override
+            public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
+                savePlotBoundaries();
+
+                Locator.getInstance().getPlotter().setPlot3d(true);
+            }
+        };
+        menuItems.add(plot3dMenuItem);
 
 
-		final IdentifiableMenuItem<MenuItem> plot2dMenuItem = new IdentifiableMenuItem<MenuItem>() {
-			@Nonnull
-			@Override
-			public Integer getItemId() {
-				return R.id.menu_plot_2d;
-			}
+        final IdentifiableMenuItem<MenuItem> plot2dMenuItem = new IdentifiableMenuItem<MenuItem>() {
+            @Nonnull
+            @Override
+            public Integer getItemId() {
+                return R.id.menu_plot_2d;
+            }
 
-			@Override
-			public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
-				savePlotBoundaries();
+            @Override
+            public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
+                savePlotBoundaries();
 
-				Locator.getInstance().getPlotter().setPlot3d(false);
-			}
-		};
-		menuItems.add(plot2dMenuItem);
+                Locator.getInstance().getPlotter().setPlot3d(false);
+            }
+        };
+        menuItems.add(plot2dMenuItem);
 
-		final IdentifiableMenuItem<MenuItem> fullscreenPlotMenuItem = new IdentifiableMenuItem<MenuItem>() {
-			@Nonnull
-			@Override
-			public Integer getItemId() {
-				return R.id.menu_plot_fullscreen;
-			}
+        final IdentifiableMenuItem<MenuItem> fullscreenPlotMenuItem = new IdentifiableMenuItem<MenuItem>() {
+            @Nonnull
+            @Override
+            public Integer getItemId() {
+                return R.id.menu_plot_fullscreen;
+            }
 
-			@Override
-			public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
-				savePlotBoundaries();
+            @Override
+            public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
+                savePlotBoundaries();
 
-				context.startActivity(new Intent(context, CalculatorPlotActivity.class));
-			}
-		};
-		menuItems.add(fullscreenPlotMenuItem);
+                context.startActivity(new Intent(context, CalculatorPlotActivity.class));
+            }
+        };
+        menuItems.add(fullscreenPlotMenuItem);
 
-		final IdentifiableMenuItem<MenuItem> captureScreenshotMenuItem = new IdentifiableMenuItem<MenuItem>() {
-			@Nonnull
-			@Override
-			public Integer getItemId() {
-				return R.id.menu_plot_schreeshot;
-			}
+        final IdentifiableMenuItem<MenuItem> captureScreenshotMenuItem = new IdentifiableMenuItem<MenuItem>() {
+            @Nonnull
+            @Override
+            public Integer getItemId() {
+                return R.id.menu_plot_schreeshot;
+            }
 
-			@Override
-			public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
-				captureScreehshot();
-			}
-		};
-		menuItems.add(captureScreenshotMenuItem);
+            @Override
+            public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
+                captureScreehshot();
+            }
+        };
+        menuItems.add(captureScreenshotMenuItem);
 
-		final boolean plotRangeVisible = !plotData.isPlot3d();
-		final boolean plot3dVisible = !plotData.isPlot3d() && is3dPlotSupported();
-		final boolean plot2dVisible = plotData.isPlot3d() && Locator.getInstance().getPlotter().is2dPlotPossible();
-		final boolean captureScreenshotVisible = isScreenshotSupported();
-		final boolean fullscreenVisible = isPaneFragment();
-		fragmentMenu = ListActivityMenu.fromResource(R.menu.plot_menu, menuItems, AndroidMenuHelper.getInstance(), new JPredicate<AMenuItem<MenuItem>>() {
-			@Override
-			public boolean apply(@Nullable AMenuItem<MenuItem> menuItem) {
-				if (menuItem == plot3dMenuItem) {
-					return !plot3dVisible;
-				} else if (menuItem == plot2dMenuItem) {
-					return !plot2dVisible;
-				} else if (menuItem == captureScreenshotMenuItem) {
-					return !captureScreenshotVisible;
-				} else if (menuItem == plotRangeMenuItem) {
-					return !plotRangeVisible;
-				} else if (menuItem == fullscreenPlotMenuItem) {
-					return !fullscreenVisible;
-				}
+        final boolean plotRangeVisible = !plotData.isPlot3d();
+        final boolean plot3dVisible = !plotData.isPlot3d() && is3dPlotSupported();
+        final boolean plot2dVisible = plotData.isPlot3d() && Locator.getInstance().getPlotter().is2dPlotPossible();
+        final boolean captureScreenshotVisible = isScreenshotSupported();
+        final boolean fullscreenVisible = isPaneFragment();
+        fragmentMenu = ListActivityMenu.fromResource(R.menu.plot_menu, menuItems, AndroidMenuHelper.getInstance(), new JPredicate<AMenuItem<MenuItem>>() {
+            @Override
+            public boolean apply(@Nullable AMenuItem<MenuItem> menuItem) {
+                if (menuItem == plot3dMenuItem) {
+                    return !plot3dVisible;
+                } else if (menuItem == plot2dMenuItem) {
+                    return !plot2dVisible;
+                } else if (menuItem == captureScreenshotMenuItem) {
+                    return !captureScreenshotVisible;
+                } else if (menuItem == plotRangeMenuItem) {
+                    return !plotRangeVisible;
+                } else if (menuItem == fullscreenPlotMenuItem) {
+                    return !fullscreenVisible;
+                }
 
-				return false;
-			}
-		});
+                return false;
+            }
+        });
 
-		final FragmentActivity activity = this.getActivity();
-		if (activity != null) {
-			fragmentMenu.onCreateOptionsMenu(activity, menu);
-		}
-	}
+        final FragmentActivity activity = this.getActivity();
+        if (activity != null) {
+            fragmentMenu.onCreateOptionsMenu(activity, menu);
+        }
+    }
 
-	protected abstract boolean isScreenshotSupported();
+    protected abstract boolean isScreenshotSupported();
 
-	@Nonnull
-	protected abstract Bitmap getScreehshot();
+    @Nonnull
+    protected abstract Bitmap getScreehshot();
 
-	private void captureScreehshot() {
-		if (isScreenshotSupported()) {
-			final Bitmap screenshot = getScreehshot();
-			final String screenShotFileName = generateScreenshotFileName();
-			final File externalFilesDir = getActivity().getExternalFilesDir(getPicturesDirectory());
-			if (externalFilesDir != null) {
-				final String path = externalFilesDir.getPath();
-				Android.saveBitmap(screenshot, path, screenShotFileName);
-				Locator.getInstance().getNotifier().showMessage(R.string.cpp_plot_screenshot_saved, MessageType.info, path + "/" + screenShotFileName);
-			} else {
-				Locator.getInstance().getNotifier().showMessage(R.string.cpp_plot_unable_to_save_screenshot, MessageType.error);
-			}
-		}
-	}
+    private void captureScreehshot() {
+        if (isScreenshotSupported()) {
+            final Bitmap screenshot = getScreehshot();
+            final String screenShotFileName = generateScreenshotFileName();
+            final File externalFilesDir = getActivity().getExternalFilesDir(getPicturesDirectory());
+            if (externalFilesDir != null) {
+                final String path = externalFilesDir.getPath();
+                Android.saveBitmap(screenshot, path, screenShotFileName);
+                Locator.getInstance().getNotifier().showMessage(R.string.cpp_plot_screenshot_saved, MessageType.info, path + "/" + screenShotFileName);
+            } else {
+                Locator.getInstance().getNotifier().showMessage(R.string.cpp_plot_unable_to_save_screenshot, MessageType.error);
+            }
+        }
+    }
 
-	private String getPicturesDirectory() {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
-			return Environment.DIRECTORY_PICTURES;
-		} else {
-			return "Pictures";
-		}
-	}
+    private String getPicturesDirectory() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
+            return Environment.DIRECTORY_PICTURES;
+        } else {
+            return "Pictures";
+        }
+    }
 
-	private String generateScreenshotFileName() {
-		final Date now = new Date();
-		final String timestamp = new SimpleDateFormat("yyyy.MM.dd HH.mm.ss.S").format(now);
+    private String generateScreenshotFileName() {
+        final Date now = new Date();
+        final String timestamp = new SimpleDateFormat("yyyy.MM.dd HH.mm.ss.S").format(now);
 
-		return "cpp-screenshot-" + timestamp + ".png";
-	}
+        return "cpp-screenshot-" + timestamp + ".png";
+    }
 
-	protected abstract boolean is3dPlotSupported();
+    protected abstract boolean is3dPlotSupported();
 
-	@Override
-	public void onPrepareOptionsMenu(Menu menu) {
-		super.onPrepareOptionsMenu(menu);
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
 
-		final FragmentActivity activity = this.getActivity();
-		if (activity != null) {
-			fragmentMenu.onPrepareOptionsMenu(activity, menu);
-		}
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		return super.onOptionsItemSelected(item) || fragmentMenu.onOptionsItemSelected(this.getActivity(), item);
-	}
+        final FragmentActivity activity = this.getActivity();
+        if (activity != null) {
+            fragmentMenu.onPrepareOptionsMenu(activity, menu);
+        }
+    }
 
 	/*
 	**********************************************************************
@@ -401,46 +416,39 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 	**********************************************************************
 	*/
 
-	private static enum PlotMenu implements IdentifiableMenuItem<MenuItem> {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item) || fragmentMenu.onOptionsItemSelected(this.getActivity(), item);
+    }
 
-		functions(R.id.menu_plot_functions) {
-			@Override
-			public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
-				context.startActivity(new Intent(context, CalculatorPlotFunctionsActivity.class));
-			}
-		},
+    private static enum PlotMenu implements IdentifiableMenuItem<MenuItem> {
 
-		preferences(R.id.menu_plot_settings) {
-			@Override
-			public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
-				PreferencesActivity.start(context, R.xml.preferences_plot, R.string.prefs_graph_screen_title);
-			}
-		};
+        functions(R.id.menu_plot_functions) {
+            @Override
+            public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
+                context.startActivity(new Intent(context, CalculatorPlotFunctionsActivity.class));
+            }
+        },
 
-		private final int itemId;
+        preferences(R.id.menu_plot_settings) {
+            @Override
+            public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
+                PreferencesActivity.start(context, R.xml.preferences_plot, R.string.prefs_graph_screen_title);
+            }
+        };
 
-		private PlotMenu(int itemId) {
-			this.itemId = itemId;
-		}
+        private final int itemId;
+
+        private PlotMenu(int itemId) {
+            this.itemId = itemId;
+        }
 
 
-		@Nonnull
-		@Override
-		public Integer getItemId() {
-			return itemId;
-		}
-	}
-
-	public static void applyToPaint(@Nonnull PlotLineDef plotLineDef, @Nonnull Paint paint) {
-		paint.setColor(plotLineDef.getLineColor());
-		paint.setStyle(Paint.Style.STROKE);
-
-		paint.setStrokeWidth(plotLineDef.getLineWidth());
-
-		final AndroidPlotLineStyle androidPlotLineStyle = AndroidPlotLineStyle.valueOf(plotLineDef.getLineStyle());
-		if (androidPlotLineStyle != null) {
-			androidPlotLineStyle.applyToPaint(paint);
-		}
-	}
+        @Nonnull
+        @Override
+        public Integer getItemId() {
+            return itemId;
+        }
+    }
 
 }

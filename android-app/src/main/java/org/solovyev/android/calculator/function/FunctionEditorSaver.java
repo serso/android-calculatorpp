@@ -24,12 +24,6 @@ package org.solovyev.android.calculator.function;
 
 import android.view.View;
 import android.widget.EditText;
-import jscl.CustomFunctionCalculationException;
-import jscl.math.function.Function;
-import jscl.math.function.IFunction;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import org.solovyev.android.calculator.CalculatorFunctionsMathRegistry;
 import org.solovyev.android.calculator.CalculatorMathRegistry;
@@ -43,123 +37,130 @@ import org.solovyev.common.text.Strings;
 import java.util.Collections;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import jscl.CustomFunctionCalculationException;
+import jscl.math.function.Function;
+import jscl.math.function.IFunction;
+
 public class FunctionEditorSaver implements View.OnClickListener {
 
-	@Nonnull
-	private final Object source;
+    @Nonnull
+    private final Object source;
 
-	@Nonnull
-	private final AFunction.Builder builder;
+    @Nonnull
+    private final AFunction.Builder builder;
 
-	@Nullable
-	private final IFunction editedInstance;
+    @Nullable
+    private final IFunction editedInstance;
 
-	@Nonnull
-	private final View view;
+    @Nonnull
+    private final View view;
 
-	@Nonnull
-	private final CalculatorMathRegistry<Function> mathRegistry;
+    @Nonnull
+    private final CalculatorMathRegistry<Function> mathRegistry;
 
 
-	public FunctionEditorSaver(@Nonnull AFunction.Builder builder,
-							   @Nullable IFunction editedInstance,
-							   @Nonnull View view,
-							   @Nonnull CalculatorMathRegistry<Function> registry,
-							   @Nonnull Object source) {
+    public FunctionEditorSaver(@Nonnull AFunction.Builder builder,
+                               @Nullable IFunction editedInstance,
+                               @Nonnull View view,
+                               @Nonnull CalculatorMathRegistry<Function> registry,
+                               @Nonnull Object source) {
 
-		this.builder = builder;
-		this.editedInstance = editedInstance;
-		this.view = view;
-		this.mathRegistry = registry;
-		this.source = source;
-	}
+        this.builder = builder;
+        this.editedInstance = editedInstance;
+        this.view = view;
+        this.mathRegistry = registry;
+        this.source = source;
+    }
 
-	@Override
-	public void onClick(View v) {
-		final Integer error;
+    @Nonnull
+    public static FunctionEditDialogFragment.Input readInput(@Nullable IFunction function, @Nonnull View root) {
+        final EditText editName = (EditText) root.findViewById(R.id.function_edit_name);
+        String name = editName.getText().toString();
 
-		final FunctionEditDialogFragment.Input input = readInput(null, view);
+        final EditText editValue = (EditText) root.findViewById(R.id.function_edit_value);
+        String content = editValue.getText().toString();
 
-		final String name = input.getName();
-		final String content = input.getContent();
-		final String description = input.getDescription();
+        final EditText editDescription = (EditText) root.findViewById(R.id.function_edit_description);
+        String description = editDescription.getText().toString();
 
-		List<String> parameterNames = input.getParameterNames();
-		if (parameterNames == null) {
-			parameterNames = Collections.emptyList();
-		}
+        final FunctionParamsView editParams = (FunctionParamsView) root.findViewById(R.id.function_params_layout);
+        List<String> parameterNames = editParams.getParameterNames();
 
-		if (VarEditorSaver.isValidName(name)) {
+        return FunctionEditDialogFragment.Input.newInstance(function, name, content, description, parameterNames);
+    }
 
-			boolean canBeSaved = false;
+    @Override
+    public void onClick(View v) {
+        final Integer error;
 
-			final Function entityFromRegistry = mathRegistry.get(name);
-			if (entityFromRegistry == null) {
-				canBeSaved = true;
-			} else if (editedInstance != null && entityFromRegistry.getId().equals(editedInstance.getId())) {
-				canBeSaved = true;
-			}
+        final FunctionEditDialogFragment.Input input = readInput(null, view);
 
-			if (canBeSaved) {
-				if (validateParameters(parameterNames)) {
+        final String name = input.getName();
+        final String content = input.getContent();
+        final String description = input.getDescription();
 
-					if (!Strings.isEmpty(content)) {
-						builder.setParameterNames(parameterNames);
-						builder.setName(name);
-						builder.setDescription(description);
-						builder.setValue(content);
-						error = null;
-					} else {
-						error = R.string.function_is_empty;
-					}
-				} else {
-					error = R.string.function_param_not_empty;
-				}
-			} else {
-				error = R.string.function_already_exists;
-			}
-		} else {
-			error = R.string.function_name_is_not_valid;
-		}
+        List<String> parameterNames = input.getParameterNames();
+        if (parameterNames == null) {
+            parameterNames = Collections.emptyList();
+        }
 
-		if (error != null) {
-			Locator.getInstance().getNotifier().showMessage(error, MessageType.error);
-		} else {
-			try {
-				CalculatorFunctionsMathRegistry.saveFunction(mathRegistry, new FunctionBuilderAdapter(builder), editedInstance, source, true);
-			} catch (CustomFunctionCalculationException e) {
-				Locator.getInstance().getNotifier().showMessage(e);
-			} catch (AFunction.Builder.CreationException e) {
-				Locator.getInstance().getNotifier().showMessage(e);
-			}
-		}
-	}
+        if (VarEditorSaver.isValidName(name)) {
 
-	@Nonnull
-	public static FunctionEditDialogFragment.Input readInput(@Nullable IFunction function, @Nonnull View root) {
-		final EditText editName = (EditText) root.findViewById(R.id.function_edit_name);
-		String name = editName.getText().toString();
+            boolean canBeSaved = false;
 
-		final EditText editValue = (EditText) root.findViewById(R.id.function_edit_value);
-		String content = editValue.getText().toString();
+            final Function entityFromRegistry = mathRegistry.get(name);
+            if (entityFromRegistry == null) {
+                canBeSaved = true;
+            } else if (editedInstance != null && entityFromRegistry.getId().equals(editedInstance.getId())) {
+                canBeSaved = true;
+            }
 
-		final EditText editDescription = (EditText) root.findViewById(R.id.function_edit_description);
-		String description = editDescription.getText().toString();
+            if (canBeSaved) {
+                if (validateParameters(parameterNames)) {
 
-		final FunctionParamsView editParams = (FunctionParamsView) root.findViewById(R.id.function_params_layout);
-		List<String> parameterNames = editParams.getParameterNames();
+                    if (!Strings.isEmpty(content)) {
+                        builder.setParameterNames(parameterNames);
+                        builder.setName(name);
+                        builder.setDescription(description);
+                        builder.setValue(content);
+                        error = null;
+                    } else {
+                        error = R.string.function_is_empty;
+                    }
+                } else {
+                    error = R.string.function_param_not_empty;
+                }
+            } else {
+                error = R.string.function_already_exists;
+            }
+        } else {
+            error = R.string.function_name_is_not_valid;
+        }
 
-		return FunctionEditDialogFragment.Input.newInstance(function, name, content, description, parameterNames);
-	}
+        if (error != null) {
+            Locator.getInstance().getNotifier().showMessage(error, MessageType.error);
+        } else {
+            try {
+                CalculatorFunctionsMathRegistry.saveFunction(mathRegistry, new FunctionBuilderAdapter(builder), editedInstance, source, true);
+            } catch (CustomFunctionCalculationException e) {
+                Locator.getInstance().getNotifier().showMessage(e);
+            } catch (AFunction.Builder.CreationException e) {
+                Locator.getInstance().getNotifier().showMessage(e);
+            }
+        }
+    }
 
-	private boolean validateParameters(@Nonnull List<String> parameterNames) {
-		for (String parameterName : parameterNames) {
-			if (!VarEditorSaver.isValidName(parameterName)) {
-				return false;
-			}
-		}
+    private boolean validateParameters(@Nonnull List<String> parameterNames) {
+        for (String parameterName : parameterNames) {
+            if (!VarEditorSaver.isValidName(parameterName)) {
+                return false;
+            }
+        }
 
-		return true;
-	}
+        return true;
+    }
 
 }

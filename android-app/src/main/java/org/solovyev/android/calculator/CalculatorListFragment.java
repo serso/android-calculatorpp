@@ -24,11 +24,10 @@ package org.solovyev.android.calculator;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import android.support.v4.app.ListFragment;
 
 import javax.annotation.Nonnull;
 
@@ -39,72 +38,72 @@ import javax.annotation.Nonnull;
  */
 public abstract class CalculatorListFragment extends ListFragment {
 
-	@Nonnull
-	private final FragmentUi ui;
+    @Nonnull
+    private final FragmentUi ui;
 
-	protected CalculatorListFragment(int layoutResId, int titleResId) {
-		ui = CalculatorApplication.getInstance().createFragmentHelper(layoutResId, titleResId);
-	}
+    protected CalculatorListFragment(int layoutResId, int titleResId) {
+        ui = CalculatorApplication.getInstance().createFragmentHelper(layoutResId, titleResId);
+    }
 
-	protected CalculatorListFragment(@Nonnull CalculatorFragmentType fragmentType) {
-		ui = CalculatorApplication.getInstance().createFragmentHelper(fragmentType.getDefaultLayoutId(), fragmentType.getDefaultTitleResId());
-	}
+    protected CalculatorListFragment(@Nonnull CalculatorFragmentType fragmentType) {
+        ui = CalculatorApplication.getInstance().createFragmentHelper(fragmentType.getDefaultLayoutId(), fragmentType.getDefaultTitleResId());
+    }
 
-	protected CalculatorListFragment(@Nonnull FragmentUi ui) {
-		this.ui = ui;
-	}
+    protected CalculatorListFragment(@Nonnull FragmentUi ui) {
+        this.ui = ui;
+    }
 
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-	}
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+    }
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		ui.onCreate(this);
-	}
+        ui.onCreate(this);
+    }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return ui.onCreateView(this, inflater, container);
-	}
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return ui.onCreateView(this, inflater, container);
+    }
 
-	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
-		super.onViewCreated(view, savedInstanceState);
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-		ui.onViewCreated(this, view);
-	}
+        ui.onViewCreated(this, view);
+    }
 
-	@Override
-	public void onResume() {
-		super.onResume();
-		this.ui.onResume(this);
-	}
+    @Override
+    public void onResume() {
+        super.onResume();
+        this.ui.onResume(this);
+    }
 
-	@Override
-	public void onPause() {
-		this.ui.onPause(this);
-		super.onPause();
-	}
+    @Override
+    public void onPause() {
+        this.ui.onPause(this);
+        super.onPause();
+    }
 
-	@Override
-	public void onDestroyView() {
-		ui.onDestroyView(this);
-		super.onDestroyView();
-	}
+    @Override
+    public void onDestroyView() {
+        ui.onDestroyView(this);
+        super.onDestroyView();
+    }
 
-	@Override
-	public void onDestroy() {
-		ui.onDestroy(this);
-		super.onDestroy();
-	}
+    @Override
+    public void onDestroy() {
+        ui.onDestroy(this);
+        super.onDestroy();
+    }
 
-	@Override
-	public void onDetach() {
-		super.onDetach();
-	}
+    @Override
+    public void onDetach() {
+        super.onDetach();
+    }
 }
 

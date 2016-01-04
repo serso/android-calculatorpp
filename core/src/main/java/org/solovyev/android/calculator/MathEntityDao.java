@@ -32,11 +32,11 @@ import javax.annotation.Nullable;
  */
 public interface MathEntityDao<T extends MathPersistenceEntity> {
 
-	void save(@Nonnull MathEntityPersistenceContainer<T> container);
+    void save(@Nonnull MathEntityPersistenceContainer<T> container);
 
-	@Nullable
-	MathEntityPersistenceContainer<T> load();
+    @Nullable
+    MathEntityPersistenceContainer<T> load();
 
-	@Nullable
-	String getDescription(@Nonnull String descriptionId);
+    @Nullable
+    String getDescription(@Nonnull String descriptionId);
 }

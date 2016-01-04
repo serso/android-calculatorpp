@@ -25,9 +25,6 @@ package org.solovyev.android.calculator.math.edit;
 import android.app.Activity;
 import android.content.Context;
 import android.text.ClipboardManager;
-import jscl.math.operator.Operator;
-
-import javax.annotation.Nonnull;
 
 import org.solovyev.android.calculator.CalculatorEventType;
 import org.solovyev.android.calculator.CalculatorFragmentType;
@@ -41,6 +38,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
+import jscl.math.operator.Operator;
+
 /**
  * User: serso
  * Date: 11/17/11
@@ -49,109 +50,109 @@ import java.util.List;
 
 public class CalculatorOperatorsFragment extends AbstractMathEntityListFragment<Operator> {
 
-	public CalculatorOperatorsFragment() {
-		super(CalculatorFragmentType.operators);
-	}
+    public CalculatorOperatorsFragment() {
+        super(CalculatorFragmentType.operators);
+    }
 
-	@Override
-	protected AMenuItem<Operator> getOnClickAction() {
-		return LongClickMenuItem.use;
-	}
+    @Override
+    protected AMenuItem<Operator> getOnClickAction() {
+        return LongClickMenuItem.use;
+    }
 
-	@Nonnull
-	@Override
-	protected List<LabeledMenuItem<Operator>> getMenuItemsOnLongClick(@Nonnull Operator item) {
-		final List<LabeledMenuItem<Operator>> result = new ArrayList<LabeledMenuItem<Operator>>(Arrays.asList(LongClickMenuItem.values()));
+    @Nonnull
+    @Override
+    protected List<LabeledMenuItem<Operator>> getMenuItemsOnLongClick(@Nonnull Operator item) {
+        final List<LabeledMenuItem<Operator>> result = new ArrayList<LabeledMenuItem<Operator>>(Arrays.asList(LongClickMenuItem.values()));
 
-		if (Strings.isEmpty(OperatorDescriptionGetter.instance.getDescription(this.getActivity(), item.getName()))) {
-			result.remove(LongClickMenuItem.copy_description);
-		}
+        if (Strings.isEmpty(OperatorDescriptionGetter.instance.getDescription(this.getActivity(), item.getName()))) {
+            result.remove(LongClickMenuItem.copy_description);
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	@Nonnull
-	@Override
-	protected MathEntityDescriptionGetter getDescriptionGetter() {
-		return OperatorDescriptionGetter.instance;
-	}
+    @Nonnull
+    @Override
+    protected MathEntityDescriptionGetter getDescriptionGetter() {
+        return OperatorDescriptionGetter.instance;
+    }
 
 
-	@Nonnull
-	@Override
-	protected List<Operator> getMathEntities() {
-		final List<Operator> result = new ArrayList<Operator>();
+    @Nonnull
+    @Override
+    protected List<Operator> getMathEntities() {
+        final List<Operator> result = new ArrayList<Operator>();
 
-		result.addAll(Locator.getInstance().getEngine().getOperatorsRegistry().getEntities());
-		result.addAll(Locator.getInstance().getEngine().getPostfixFunctionsRegistry().getEntities());
+        result.addAll(Locator.getInstance().getEngine().getOperatorsRegistry().getEntities());
+        result.addAll(Locator.getInstance().getEngine().getPostfixFunctionsRegistry().getEntities());
 
-		return result;
-	}
+        return result;
+    }
 
-	@Override
-	protected String getMathEntityCategory(@Nonnull Operator operator) {
-		String result = Locator.getInstance().getEngine().getOperatorsRegistry().getCategory(operator);
-		if (result == null) {
-			result = Locator.getInstance().getEngine().getPostfixFunctionsRegistry().getCategory(operator);
-		}
+    @Override
+    protected String getMathEntityCategory(@Nonnull Operator operator) {
+        String result = Locator.getInstance().getEngine().getOperatorsRegistry().getCategory(operator);
+        if (result == null) {
+            result = Locator.getInstance().getEngine().getPostfixFunctionsRegistry().getCategory(operator);
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	private static enum OperatorDescriptionGetter implements MathEntityDescriptionGetter {
+    private static enum OperatorDescriptionGetter implements MathEntityDescriptionGetter {
 
-		instance;
+        instance;
 
-		@Override
-		public String getDescription(@Nonnull Context context, @Nonnull String mathEntityName) {
-			String result = Locator.getInstance().getEngine().getOperatorsRegistry().getDescription(mathEntityName);
-			if (Strings.isEmpty(result)) {
-				result = Locator.getInstance().getEngine().getPostfixFunctionsRegistry().getDescription(mathEntityName);
-			}
+        @Override
+        public String getDescription(@Nonnull Context context, @Nonnull String mathEntityName) {
+            String result = Locator.getInstance().getEngine().getOperatorsRegistry().getDescription(mathEntityName);
+            if (Strings.isEmpty(result)) {
+                result = Locator.getInstance().getEngine().getPostfixFunctionsRegistry().getDescription(mathEntityName);
+            }
 
-			return result;
-		}
-	}
+            return result;
+        }
+    }
 
 	/*
-	**********************************************************************
+    **********************************************************************
 	*
 	*                           STATIC
 	*
 	**********************************************************************
 	*/
 
-	private static enum LongClickMenuItem implements LabeledMenuItem<Operator> {
+    private static enum LongClickMenuItem implements LabeledMenuItem<Operator> {
 
-		use(R.string.c_use) {
-			@Override
-			public void onClick(@Nonnull Operator data, @Nonnull Context context) {
-				Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.use_operator, data);
-			}
-		},
+        use(R.string.c_use) {
+            @Override
+            public void onClick(@Nonnull Operator data, @Nonnull Context context) {
+                Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.use_operator, data);
+            }
+        },
 
-		copy_description(R.string.c_copy_description) {
-			@Override
-			public void onClick(@Nonnull Operator data, @Nonnull Context context) {
-				final String text = OperatorDescriptionGetter.instance.getDescription(context, data.getName());
-				if (!Strings.isEmpty(text)) {
-					final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
-					clipboard.setText(text);
-				}
-			}
-		};
-		private final int captionId;
+        copy_description(R.string.c_copy_description) {
+            @Override
+            public void onClick(@Nonnull Operator data, @Nonnull Context context) {
+                final String text = OperatorDescriptionGetter.instance.getDescription(context, data.getName());
+                if (!Strings.isEmpty(text)) {
+                    final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
+                    clipboard.setText(text);
+                }
+            }
+        };
+        private final int captionId;
 
-		LongClickMenuItem(int captionId) {
-			this.captionId = captionId;
-		}
+        LongClickMenuItem(int captionId) {
+            this.captionId = captionId;
+        }
 
-		@Nonnull
-		@Override
-		public String getCaption(@Nonnull Context context) {
-			return context.getString(captionId);
-		}
-	}
+        @Nonnull
+        @Override
+        public String getCaption(@Nonnull Context context) {
+            return context.getString(captionId);
+        }
+    }
 
 }
 

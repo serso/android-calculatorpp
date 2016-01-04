@@ -43,140 +43,137 @@ import javax.annotation.Nonnull;
  */
 public class AndroidCalculatorEditorView extends EditText implements CalculatorEditorView {
 
-	private volatile boolean initialized = false;
+    @Nonnull
+    private final Handler uiHandler = new Handler();
+    private volatile boolean initialized = false;
+    @SuppressWarnings("UnusedDeclaration")
+    @Nonnull
+    private volatile CalculatorEditorViewState viewState = CalculatorEditorViewStateImpl.newDefaultInstance();
+    private volatile boolean viewStateChange = false;
 
-	@SuppressWarnings("UnusedDeclaration")
-	@Nonnull
-	private volatile CalculatorEditorViewState viewState = CalculatorEditorViewStateImpl.newDefaultInstance();
+    public AndroidCalculatorEditorView(Context context) {
+        super(context);
+    }
 
-	private volatile boolean viewStateChange = false;
+    public AndroidCalculatorEditorView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
 
-	@Nonnull
-	private final Handler uiHandler = new Handler();
+    public AndroidCalculatorEditorView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+    }
 
-	public AndroidCalculatorEditorView(Context context) {
-		super(context);
-	}
+    @Override
+    public boolean onCheckIsTextEditor() {
+        // NOTE: code below can be used carefully and should not be copied without special intention
+        // The main purpose of code is to disable soft input (virtual keyboard) but leave all the TextEdit functionality, like cursor, scrolling, copy/paste menu etc
 
-	public AndroidCalculatorEditorView(Context context, AttributeSet attrs) {
-		super(context, attrs);
-	}
+        if (Build.VERSION.SDK_INT >= 11) {
+            // fix for missing cursor in android 3 and higher
+            try {
+                // IDEA: return false always except if method was called from TextView.isCursorVisible() method
+                for (StackTraceElement stackTraceElement : Collections.asList(Thread.currentThread().getStackTrace())) {
+                    if ("isCursorVisible".equals(stackTraceElement.getMethodName())) {
+                        return true;
+                    }
+                }
+            } catch (RuntimeException e) {
+                // just in case...
+            }
 
-	public AndroidCalculatorEditorView(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
-	}
+            return false;
+        } else {
+            return false;
+        }
+    }
 
-	@Override
-	public boolean onCheckIsTextEditor() {
-		// NOTE: code below can be used carefully and should not be copied without special intention
-		// The main purpose of code is to disable soft input (virtual keyboard) but leave all the TextEdit functionality, like cursor, scrolling, copy/paste menu etc
+    @Override
+    protected void onCreateContextMenu(ContextMenu menu) {
+        super.onCreateContextMenu(menu);
 
-		if (Build.VERSION.SDK_INT >= 11) {
-			// fix for missing cursor in android 3 and higher
-			try {
-				// IDEA: return false always except if method was called from TextView.isCursorVisible() method
-				for (StackTraceElement stackTraceElement : Collections.asList(Thread.currentThread().getStackTrace())) {
-					if ("isCursorVisible".equals(stackTraceElement.getMethodName())) {
-						return true;
-					}
-				}
-			} catch (RuntimeException e) {
-				// just in case...
-			}
+        menu.removeItem(android.R.id.selectAll);
+    }
 
-			return false;
-		} else {
-			return false;
-		}
-	}
+    public void setHighlightText(boolean highlightText) {
+        //this.highlightText = highlightText;
+        Locator.getInstance().getEditor().updateViewState();
+    }
 
-	@Override
-	protected void onCreateContextMenu(ContextMenu menu) {
-		super.onCreateContextMenu(menu);
+    public synchronized void init() {
+        if (!initialized) {
+            this.addTextChangedListener(new TextWatcherImpl());
 
-		menu.removeItem(android.R.id.selectAll);
-	}
+            initialized = true;
+        }
+    }
 
-	public void setHighlightText(boolean highlightText) {
-		//this.highlightText = highlightText;
-		Locator.getInstance().getEditor().updateViewState();
-	}
+    @Override
+    public void setState(@Nonnull final CalculatorEditorViewState viewState) {
+        synchronized (this) {
 
-	public synchronized void init() {
-		if (!initialized) {
-			this.addTextChangedListener(new TextWatcherImpl());
+            uiHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    final AndroidCalculatorEditorView editorView = AndroidCalculatorEditorView.this;
+                    synchronized (AndroidCalculatorEditorView.this) {
+                        try {
+                            editorView.viewStateChange = true;
+                            editorView.viewState = viewState;
+                            if (App.getTheme().isLight() && getContext() instanceof CalculatorOnscreenService) {
+                                // don't need formatting
+                                editorView.setText(viewState.getText());
+                            } else {
+                                editorView.setText(viewState.getTextAsCharSequence(), BufferType.EDITABLE);
+                            }
+                            final int selection = CalculatorEditorImpl.correctSelection(viewState.getSelection(), editorView.getText());
+                            editorView.setSelection(selection);
+                        } finally {
+                            editorView.viewStateChange = false;
+                        }
+                    }
+                }
+            });
+        }
+    }
 
-			initialized = true;
-		}
-	}
+    @Override
+    protected void onSelectionChanged(int selStart, int selEnd) {
+        synchronized (this) {
+            if (initialized && !viewStateChange) {
+                // external text change => need to notify editor
+                super.onSelectionChanged(selStart, selEnd);
 
-	@Override
-	public void setState(@Nonnull final CalculatorEditorViewState viewState) {
-		synchronized (this) {
+                if (selStart == selEnd) {
+                    // only if cursor moving, if selection do nothing
+                    Locator.getInstance().getEditor().setSelection(selStart);
+                }
+            }
+        }
+    }
 
-			uiHandler.post(new Runnable() {
-				@Override
-				public void run() {
-					final AndroidCalculatorEditorView editorView = AndroidCalculatorEditorView.this;
-					synchronized (AndroidCalculatorEditorView.this) {
-						try {
-							editorView.viewStateChange = true;
-							editorView.viewState = viewState;
-							if (App.getTheme().isLight() && getContext() instanceof CalculatorOnscreenService) {
-								// don't need formatting
-								editorView.setText(viewState.getText());
-							} else {
-								editorView.setText(viewState.getTextAsCharSequence(), BufferType.EDITABLE);
-							}
-							final int selection = CalculatorEditorImpl.correctSelection(viewState.getSelection(), editorView.getText());
-							editorView.setSelection(selection);
-						} finally {
-							editorView.viewStateChange = false;
-						}
-					}
-				}
-			});
-		}
-	}
+    public void handleTextChange(Editable s) {
+        synchronized (this) {
+            if (initialized && !viewStateChange) {
+                // external text change => need to notify editor
+                Locator.getInstance().getEditor().setText(String.valueOf(s));
+            }
+        }
+    }
 
-	@Override
-	protected void onSelectionChanged(int selStart, int selEnd) {
-		synchronized (this) {
-			if (initialized && !viewStateChange) {
-				// external text change => need to notify editor
-				super.onSelectionChanged(selStart, selEnd);
+    private final class TextWatcherImpl implements TextWatcher {
 
-				if (selStart == selEnd) {
-					// only if cursor moving, if selection do nothing
-					Locator.getInstance().getEditor().setSelection(selStart);
-				}
-			}
-		}
-	}
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-	public void handleTextChange(Editable s) {
-		synchronized (this) {
-			if (initialized && !viewStateChange) {
-				// external text change => need to notify editor
-				Locator.getInstance().getEditor().setText(String.valueOf(s));
-			}
-		}
-	}
+        }
 
-	private final class TextWatcherImpl implements TextWatcher {
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
 
-		@Override
-		public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-		}
-
-		@Override
-		public void onTextChanged(CharSequence s, int start, int before, int count) {
-		}
-
-		@Override
-		public void afterTextChanged(Editable s) {
-			handleTextChange(s);
-		}
-	}
+        @Override
+        public void afterTextChanged(Editable s) {
+            handleTextChange(s);
+        }
+    }
 }

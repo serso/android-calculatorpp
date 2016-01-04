@@ -31,32 +31,32 @@ import javax.annotation.Nonnull;
  */
 public final class CalculatorEditorChangeEventData implements Change<CalculatorEditorViewState> {
 
-	@Nonnull
-	private CalculatorEditorViewState oldState;
+    @Nonnull
+    private CalculatorEditorViewState oldState;
 
-	@Nonnull
-	private CalculatorEditorViewState newState;
+    @Nonnull
+    private CalculatorEditorViewState newState;
 
-	private CalculatorEditorChangeEventData(@Nonnull CalculatorEditorViewState oldState,
-											@Nonnull CalculatorEditorViewState newState) {
-		this.oldState = oldState;
-		this.newState = newState;
-	}
+    private CalculatorEditorChangeEventData(@Nonnull CalculatorEditorViewState oldState,
+                                            @Nonnull CalculatorEditorViewState newState) {
+        this.oldState = oldState;
+        this.newState = newState;
+    }
 
-	public static CalculatorEditorChangeEventData newChangeEventData(@Nonnull CalculatorEditorViewState oldState,
-																	 @Nonnull CalculatorEditorViewState newState) {
-		return new CalculatorEditorChangeEventData(oldState, newState);
-	}
+    public static CalculatorEditorChangeEventData newChangeEventData(@Nonnull CalculatorEditorViewState oldState,
+                                                                     @Nonnull CalculatorEditorViewState newState) {
+        return new CalculatorEditorChangeEventData(oldState, newState);
+    }
 
-	@Nonnull
-	@Override
-	public CalculatorEditorViewState getOldValue() {
-		return this.oldState;
-	}
+    @Nonnull
+    @Override
+    public CalculatorEditorViewState getOldValue() {
+        return this.oldState;
+    }
 
-	@Nonnull
-	@Override
-	public CalculatorEditorViewState getNewValue() {
-		return this.newState;
-	}
+    @Nonnull
+    @Override
+    public CalculatorEditorViewState getNewValue() {
+        return this.newState;
+    }
 }

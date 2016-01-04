@@ -34,28 +34,28 @@ import javax.annotation.Nullable;
  */
 public class TextHelper {
 
-	@Nonnull
-	public String packageName;
+    @Nonnull
+    public String packageName;
 
-	@Nonnull
-	public Resources resources;
+    @Nonnull
+    public Resources resources;
 
-	public TextHelper(@Nonnull Resources resources, @Nonnull String packageName) {
-		this.packageName = packageName;
-		this.resources = resources;
-	}
+    public TextHelper(@Nonnull Resources resources, @Nonnull String packageName) {
+        this.packageName = packageName;
+        this.resources = resources;
+    }
 
-	@Nullable
-	public String getText(@Nonnull String stringName) {
-		final int stringId = this.resources.getIdentifier(stringName, "string", this.packageName);
-		try {
-			if (stringId == 0) {
-				return null;
-			}
-			return resources.getString(stringId);
-		} catch (Resources.NotFoundException e) {
-			return null;
-		}
-	}
+    @Nullable
+    public String getText(@Nonnull String stringName) {
+        final int stringId = this.resources.getIdentifier(stringName, "string", this.packageName);
+        try {
+            if (stringId == 0) {
+                return null;
+            }
+            return resources.getString(stringId);
+        } catch (Resources.NotFoundException e) {
+            return null;
+        }
+    }
 
 }

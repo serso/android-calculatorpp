@@ -38,13 +38,13 @@ import java.util.List;
 @Root
 public class Vars implements MathEntityPersistenceContainer<Var> {
 
-	@ElementList(type = Var.class)
-	private List<Var> vars = new ArrayList<Var>();
+    @ElementList(type = Var.class)
+    private List<Var> vars = new ArrayList<Var>();
 
-	public Vars() {
-	}
+    public Vars() {
+    }
 
-	public List<Var> getEntities() {
-		return vars;
-	}
+    public List<Var> getEntities() {
+        return vars;
+    }
 }

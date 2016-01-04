@@ -22,9 +22,9 @@
 
 package org.solovyev.android.calculator.text;
 
-import javax.annotation.Nonnull;
-
 import org.solovyev.android.calculator.CalculatorParseException;
+
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -33,6 +33,6 @@ import org.solovyev.android.calculator.CalculatorParseException;
  */
 public interface TextProcessor<TO extends CharSequence, FROM> {
 
-	@Nonnull
-	TO process(@Nonnull FROM from) throws CalculatorParseException;
+    @Nonnull
+    TO process(@Nonnull FROM from) throws CalculatorParseException;
 }

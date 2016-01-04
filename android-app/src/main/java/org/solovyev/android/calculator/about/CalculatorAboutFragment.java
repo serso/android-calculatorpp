@@ -27,6 +27,7 @@ import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.CalculatorFragment;
 import org.solovyev.android.calculator.CalculatorFragmentType;
@@ -42,27 +43,27 @@ import static org.solovyev.common.text.Strings.isEmpty;
  */
 public class CalculatorAboutFragment extends CalculatorFragment {
 
-	public CalculatorAboutFragment() {
-		super(CalculatorFragmentType.about);
-	}
+    public CalculatorAboutFragment() {
+        super(CalculatorFragmentType.about);
+    }
 
-	@Override
-	public void onViewCreated(View root, Bundle savedInstanceState) {
-		super.onViewCreated(root, savedInstanceState);
+    @Override
+    public void onViewCreated(View root, Bundle savedInstanceState) {
+        super.onViewCreated(root, savedInstanceState);
 
-		if (App.getTheme().isLight()) {
-			final ImageView image = (ImageView) root.findViewById(R.id.about_image);
-			image.setImageResource(R.drawable.logo_wizard_light);
-		}
+        if (App.getTheme().isLight()) {
+            final ImageView image = (ImageView) root.findViewById(R.id.about_image);
+            image.setImageResource(R.drawable.logo_wizard_light);
+        }
 
-		final TextView aboutTextView = (TextView) root.findViewById(R.id.cpp_about_textview);
-		aboutTextView.setMovementMethod(LinkMovementMethod.getInstance());
+        final TextView aboutTextView = (TextView) root.findViewById(R.id.cpp_about_textview);
+        aboutTextView.setMovementMethod(LinkMovementMethod.getInstance());
 
-		final TextView translatorsTextTextView = (TextView) root.findViewById(R.id.cpp_about_translators_text);
-		final TextView translatorsTextView = (TextView) root.findViewById(R.id.cpp_about_translators);
-		if(isEmpty(translatorsTextView.getText())) {
-			translatorsTextTextView.setVisibility(GONE);
-			translatorsTextView.setVisibility(GONE);
-		}
-	}
+        final TextView translatorsTextTextView = (TextView) root.findViewById(R.id.cpp_about_translators_text);
+        final TextView translatorsTextView = (TextView) root.findViewById(R.id.cpp_about_translators);
+        if (isEmpty(translatorsTextView.getText())) {
+            translatorsTextTextView.setVisibility(GONE);
+            translatorsTextView.setVisibility(GONE);
+        }
+    }
 }

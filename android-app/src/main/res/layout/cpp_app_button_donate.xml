@@ -23,7 +23,7 @@
   -->
 
 <ImageButton
-	a:id="@id/cpp_button_like"
-	style="?attr/cpp_button_style_control_image"
-	xmlns:a="http://schemas.android.com/apk/res/android"
-	a:src="@drawable/kb_share" />
+    xmlns:a="http://schemas.android.com/apk/res/android"
+    a:id="@id/cpp_button_like"
+    style="?attr/cpp_button_style_control_image"
+    a:src="@drawable/kb_share" />

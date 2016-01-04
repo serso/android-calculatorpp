@@ -26,30 +26,31 @@ import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.R;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 public class SavedHistoryFragment extends BaseHistoryFragment {
 
-	public SavedHistoryFragment() {
-		super(CalculatorFragmentType.saved_history);
-	}
+    public SavedHistoryFragment() {
+        super(CalculatorFragmentType.saved_history);
+    }
 
-	@Override
-	protected int getItemLayoutId() {
-		return R.layout.saved_history_item;
-	}
+    @Override
+    protected int getItemLayoutId() {
+        return R.layout.saved_history_item;
+    }
 
-	@Nonnull
-	@Override
-	protected List<CalculatorHistoryState> getHistoryItems() {
-		return new ArrayList<CalculatorHistoryState>(Locator.getInstance().getHistory().getSavedHistory());
-	}
+    @Nonnull
+    @Override
+    protected List<CalculatorHistoryState> getHistoryItems() {
+        return new ArrayList<CalculatorHistoryState>(Locator.getInstance().getHistory().getSavedHistory());
+    }
 
-	@Override
-	protected void clearHistory() {
-		Locator.getInstance().getHistory().clearSavedHistory();
-		getAdapter().clear();
-	}
+    @Override
+    protected void clearHistory() {
+        Locator.getInstance().getHistory().clearSavedHistory();
+        getAdapter().clear();
+    }
 }

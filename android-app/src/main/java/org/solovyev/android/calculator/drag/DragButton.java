@@ -25,9 +25,9 @@ package org.solovyev.android.calculator.drag;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.Button;
+
 import org.solovyev.android.view.AndroidViewUtils;
 import org.solovyev.common.math.Point2d;
 import org.solovyev.common.text.Strings;
@@ -37,96 +37,96 @@ import javax.annotation.Nullable;
 
 public class DragButton extends Button {
 
-	@Nullable
-	private Point2d startPoint = null;
+    @Nullable
+    private Point2d startPoint = null;
 
-	@Nullable
-	private DragListener onDragListener;
+    @Nullable
+    private DragListener onDragListener;
 
-	private boolean showText = true;
+    private boolean showText = true;
 
-	@Nullable
-	private CharSequence textBackup;
+    @Nullable
+    private CharSequence textBackup;
 
-	public DragButton(@Nonnull Context context, @Nonnull AttributeSet attrs) {
-		super(context, attrs);
-	}
+    public DragButton(@Nonnull Context context, @Nonnull AttributeSet attrs) {
+        super(context, attrs);
+    }
 
-	public void setOnDragListener(@Nullable DragListener onDragListener) {
-		this.onDragListener = onDragListener;
-	}
+    public void setOnDragListener(@Nullable DragListener onDragListener) {
+        this.onDragListener = onDragListener;
+    }
 
-	@Override
-	public boolean onTouchEvent(@Nonnull MotionEvent event) {
-		boolean consumed = false;
+    @Override
+    public boolean onTouchEvent(@Nonnull MotionEvent event) {
+        boolean consumed = false;
 
-		// in order to avoid possible NPEs
-		final Point2d localStartPoint = startPoint;
-		final DragListener localOnDragListener = onDragListener;
+        // in order to avoid possible NPEs
+        final Point2d localStartPoint = startPoint;
+        final DragListener localOnDragListener = onDragListener;
 
-		if (localOnDragListener != null) {
-			// only if onDrag() listener specified
+        if (localOnDragListener != null) {
+            // only if onDrag() listener specified
 
-			switch (event.getAction()) {
-				case MotionEvent.ACTION_DOWN:
-					// start tracking: set start point
-					startPoint = new Point2d(event.getX(), event.getY());
-					break;
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    // start tracking: set start point
+                    startPoint = new Point2d(event.getX(), event.getY());
+                    break;
 
-				case MotionEvent.ACTION_CANCEL:
-				case MotionEvent.ACTION_UP:
-					// stop tracking
+                case MotionEvent.ACTION_CANCEL:
+                case MotionEvent.ACTION_UP:
+                    // stop tracking
 
-					startPoint = null;
-					if (localStartPoint != null) {
-						consumed = localOnDragListener.onDrag(DragButton.this, new DragEvent(localStartPoint, event));
-						if (consumed && localOnDragListener.isSuppressOnClickEvent()) {
-							final MotionEvent newEvent = MotionEvent.obtain(event);
-							newEvent.setAction(MotionEvent.ACTION_CANCEL);
-							super.onTouchEvent(newEvent);
-							newEvent.recycle();
-							return true;
-						}
-					}
-					break;
-			}
-		}
+                    startPoint = null;
+                    if (localStartPoint != null) {
+                        consumed = localOnDragListener.onDrag(DragButton.this, new DragEvent(localStartPoint, event));
+                        if (consumed && localOnDragListener.isSuppressOnClickEvent()) {
+                            final MotionEvent newEvent = MotionEvent.obtain(event);
+                            newEvent.setAction(MotionEvent.ACTION_CANCEL);
+                            super.onTouchEvent(newEvent);
+                            newEvent.recycle();
+                            return true;
+                        }
+                    }
+                    break;
+            }
+        }
 
-		return super.onTouchEvent(event) || consumed;
-	}
+        return super.onTouchEvent(event) || consumed;
+    }
 
-	@Override
-	public boolean dispatchTouchEvent(@Nonnull MotionEvent event) {
-		return super.dispatchTouchEvent(event);
-	}
+    @Override
+    public boolean dispatchTouchEvent(@Nonnull MotionEvent event) {
+        return super.dispatchTouchEvent(event);
+    }
 
-	@Override
-	protected void onDraw(Canvas canvas) {
-		CharSequence text = getText();
-		if (!Strings.isEmpty(text)) {
-			super.onDraw(canvas);
-		} else {
-			if (!AndroidViewUtils.drawDrawables(canvas, this)) {
-				super.onDraw(canvas);
-			}
-		}
-	}
+    @Override
+    protected void onDraw(Canvas canvas) {
+        CharSequence text = getText();
+        if (!Strings.isEmpty(text)) {
+            super.onDraw(canvas);
+        } else {
+            if (!AndroidViewUtils.drawDrawables(canvas, this)) {
+                super.onDraw(canvas);
+            }
+        }
+    }
 
 
-	public boolean isShowText() {
-		return showText;
-	}
+    public boolean isShowText() {
+        return showText;
+    }
 
-	public void setShowText(boolean showText) {
-		if (this.showText != showText) {
-			if (showText) {
-				setText(textBackup);
-				textBackup = null;
-			} else {
-				textBackup = this.getText();
-				setText(null);
-			}
-			this.showText = showText;
-		}
-	}
+    public void setShowText(boolean showText) {
+        if (this.showText != showText) {
+            if (showText) {
+                setText(textBackup);
+                textBackup = null;
+            } else {
+                textBackup = this.getText();
+                setText(null);
+            }
+            this.showText = showText;
+        }
+    }
 }

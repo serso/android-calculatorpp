@@ -22,11 +22,6 @@
 
 package org.solovyev.android.calculator.model;
 
-import jscl.math.function.IFunction;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
@@ -45,6 +40,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import jscl.math.function.IFunction;
+
 /**
  * User: serso
  * Date: 12/22/11
@@ -54,57 +54,57 @@ import java.util.Locale;
 @Root(name = "function")
 public class AFunction implements IFunction, MathPersistenceEntity, Serializable {
 
+    /*
+    **********************************************************************
+    *
+    *                           FIELDS
+    *
+    **********************************************************************
+    */
+    @Transient
+    private Integer id;
+
+    @Element
+    @Nonnull
+    private String name;
+
+    @Element(name = "body")
+    @Nonnull
+    private String content;
+
+    @ElementList(type = String.class)
+    @Nonnull
+    private List<String> parameterNames = new ArrayList<String>();
+
+    @Element
+    private boolean system;
+
+    @Element(required = false)
+    @Nonnull
+    private String description = "";
+
 	/*
-	**********************************************************************
-	*
-	*                           FIELDS
-	*
-	**********************************************************************
-	*/
-	@Transient
-	private Integer id;
-
-	@Element
-	@Nonnull
-	private String name;
-
-	@Element(name = "body")
-	@Nonnull
-	private String content;
-
-	@ElementList(type = String.class)
-	@Nonnull
-	private List<String> parameterNames = new ArrayList<String>();
-
-	@Element
-	private boolean system;
-
-	@Element(required = false)
-	@Nonnull
-	private String description = "";
-
-	/*
-	**********************************************************************
+    **********************************************************************
 	*
 	*                           CONSTRUCTORS
 	*
 	**********************************************************************
 	*/
 
-	public AFunction() {
-	}
+    public AFunction() {
+    }
 
-	public AFunction(Integer id) {
-		this.id = id;
-	}
+    public AFunction(Integer id) {
+        this.id = id;
+    }
 
-	public static AFunction fromIFunction(@Nonnull IFunction function) {
-		final AFunction result = new AFunction();
+    public static AFunction fromIFunction(@Nonnull IFunction function) {
+        final AFunction result = new AFunction();
 
-		copy(result, function);
+        copy(result, function);
 
-		return result;
-	}
+        return result;
+    }
 
 	/*
 	**********************************************************************
@@ -114,40 +114,40 @@ public class AFunction implements IFunction, MathPersistenceEntity, Serializable
 	**********************************************************************
 	*/
 
-	@Override
-	public void copy(@Nonnull MathEntity mathEntity) {
-		if (mathEntity instanceof IFunction) {
-			copy(this, (IFunction) mathEntity);
-		} else {
-			throw new IllegalArgumentException("Trying to make a copy of unsupported type: " + mathEntity.getClass());
-		}
-	}
+    private static void copy(@Nonnull AFunction target,
+                             @Nonnull IFunction source) {
+        target.name = source.getName();
+        target.content = source.getContent();
+        target.description = Strings.getNotEmpty(source.getDescription(), "");
+        target.system = source.isSystem();
+        if (source.isIdDefined()) {
+            target.id = source.getId();
+        }
+        target.parameterNames = new ArrayList<String>(source.getParameterNames());
+    }
 
-	private static void copy(@Nonnull AFunction target,
-							 @Nonnull IFunction source) {
-		target.name = source.getName();
-		target.content = source.getContent();
-		target.description = Strings.getNotEmpty(source.getDescription(), "");
-		target.system = source.isSystem();
-		if (source.isIdDefined()) {
-			target.id = source.getId();
-		}
-		target.parameterNames = new ArrayList<String>(source.getParameterNames());
-	}
+    @Override
+    public void copy(@Nonnull MathEntity mathEntity) {
+        if (mathEntity instanceof IFunction) {
+            copy(this, (IFunction) mathEntity);
+        } else {
+            throw new IllegalArgumentException("Trying to make a copy of unsupported type: " + mathEntity.getClass());
+        }
+    }
 
-	@Override
-	public String toJava() {
-		return String.valueOf(this.content);
-	}
+    @Override
+    public String toJava() {
+        return String.valueOf(this.content);
+    }
 
-	@Override
-	public String toString() {
-		return "AFunction{" +
-				"name='" + name + '\'' +
-				", parameterNames=" + parameterNames +
-				", content='" + content + '\'' +
-				'}';
-	}
+    @Override
+    public String toString() {
+        return "AFunction{" +
+                "name='" + name + '\'' +
+                ", parameterNames=" + parameterNames +
+                ", content='" + content + '\'' +
+                '}';
+    }
 
 	/*
 	**********************************************************************
@@ -157,59 +157,59 @@ public class AFunction implements IFunction, MathPersistenceEntity, Serializable
 	**********************************************************************
 	*/
 
-	@Nonnull
-	public String getName() {
-		return name;
-	}
+    @Nonnull
+    public String getName() {
+        return name;
+    }
 
-	@Override
-	public boolean isSystem() {
-		return system;
-	}
+    public void setName(@Nonnull String name) {
+        this.name = name;
+    }
 
-	@Nonnull
-	@Override
-	public Integer getId() {
-		return this.id;
-	}
+    @Override
+    public boolean isSystem() {
+        return system;
+    }
 
-	@Override
-	public boolean isIdDefined() {
-		return this.id != null;
-	}
+    @Nonnull
+    @Override
+    public Integer getId() {
+        return this.id;
+    }
 
-	@Override
-	public void setId(@Nonnull Integer id) {
-		this.id = id;
-	}
+    @Override
+    public void setId(@Nonnull Integer id) {
+        this.id = id;
+    }
 
-	public void setName(@Nonnull String name) {
-		this.name = name;
-	}
+    @Override
+    public boolean isIdDefined() {
+        return this.id != null;
+    }
 
-	@Nonnull
-	public String getContent() {
-		return content;
-	}
+    @Nonnull
+    public String getContent() {
+        return content;
+    }
 
-	@Nonnull
-	@Override
-	public String getDescription() {
-		return this.description;
-	}
+    public void setContent(@Nonnull String content) {
+        this.content = content;
+    }
 
-	public void setContent(@Nonnull String content) {
-		this.content = content;
-	}
+    @Nonnull
+    @Override
+    public String getDescription() {
+        return this.description;
+    }
 
-	@Nonnull
-	public List<String> getParameterNames() {
-		return parameterNames;
-	}
+    @Nonnull
+    public List<String> getParameterNames() {
+        return parameterNames;
+    }
 
-	public void setParameterNames(@Nonnull List<String> parameterNames) {
-		this.parameterNames = parameterNames;
-	}
+    public void setParameterNames(@Nonnull List<String> parameterNames) {
+        this.parameterNames = parameterNames;
+    }
 
 	/*
 	**********************************************************************
@@ -219,135 +219,135 @@ public class AFunction implements IFunction, MathPersistenceEntity, Serializable
 	**********************************************************************
 	*/
 
-	public static class Builder implements MathEntityBuilder<AFunction> {
+    public static class Builder implements MathEntityBuilder<AFunction> {
 
-		@Nonnull
-		private String name;
+        @Nonnull
+        private String name;
 
-		@Nullable
-		private String value;
+        @Nullable
+        private String value;
 
-		private boolean system = false;
+        private boolean system = false;
 
-		@Nullable
-		private String description;
+        @Nullable
+        private String description;
 
-		@Nullable
-		private Integer id;
+        @Nullable
+        private Integer id;
 
-		@Nonnull
-		private List<String> parameterNames = Collections.emptyList();
+        @Nonnull
+        private List<String> parameterNames = Collections.emptyList();
 
-		public Builder() {
-		}
+        public Builder() {
+        }
 
-		public Builder(@Nonnull IFunction function) {
-			this.name = function.getName();
-			this.value = function.getContent();
-			this.system = function.isSystem();
-			this.description = function.getDescription();
-			if (function.isIdDefined()) {
-				this.id = function.getId();
-			}
-			this.parameterNames = new ArrayList<String>(function.getParameterNames());
-		}
+        public Builder(@Nonnull IFunction function) {
+            this.name = function.getName();
+            this.value = function.getContent();
+            this.system = function.isSystem();
+            this.description = function.getDescription();
+            if (function.isIdDefined()) {
+                this.id = function.getId();
+            }
+            this.parameterNames = new ArrayList<String>(function.getParameterNames());
+        }
 
-		public Builder(@Nonnull String name,
-					   @Nonnull String value,
-					   @Nonnull List<String> parameterNames) {
-			this.name = name;
-			this.value = value;
-			this.parameterNames = parameterNames;
-		}
+        public Builder(@Nonnull String name,
+                       @Nonnull String value,
+                       @Nonnull List<String> parameterNames) {
+            this.name = name;
+            this.value = value;
+            this.parameterNames = parameterNames;
+        }
 
-		@Nonnull
-		public Builder setName(@Nonnull String name) {
-			this.name = name;
-			return this;
-		}
+        @Nonnull
+        public Builder setName(@Nonnull String name) {
+            this.name = name;
+            return this;
+        }
 
-		@Nonnull
-		public Builder setValue(@Nullable String value) {
-			this.value = value;
-			return this;
-		}
+        @Nonnull
+        public Builder setValue(@Nullable String value) {
+            this.value = value;
+            return this;
+        }
 
-		protected Builder setSystem(boolean system) {
-			this.system = system;
-			return this;
-		}
+        protected Builder setSystem(boolean system) {
+            this.system = system;
+            return this;
+        }
 
-		public void setParameterNames(@Nonnull List<String> parameterNames) {
-			this.parameterNames = parameterNames;
-		}
+        public void setParameterNames(@Nonnull List<String> parameterNames) {
+            this.parameterNames = parameterNames;
+        }
 
-		@Nonnull
-		public Builder setDescription(@Nullable String description) {
-			this.description = description;
-			return this;
-		}
+        @Nonnull
+        public Builder setDescription(@Nullable String description) {
+            this.description = description;
+            return this;
+        }
 
-		@Nonnull
-		public AFunction create() throws AFunction.Builder.CreationException {
-			final AFunction result;
-			if (id != null) {
-				result = new AFunction(id);
-			} else {
-				result = new AFunction();
-			}
+        @Nonnull
+        public AFunction create() throws AFunction.Builder.CreationException {
+            final AFunction result;
+            if (id != null) {
+                result = new AFunction(id);
+            } else {
+                result = new AFunction();
+            }
 
-			result.name = name;
-			try {
-				result.content = Locator.getInstance().getCalculator().prepareExpression(value).toString();
-			} catch (CalculatorParseException e) {
-				throw new CreationException(e);
-			}
-			result.system = system;
-			result.description = Strings.getNotEmpty(description, "");
-			result.parameterNames = new ArrayList<String>(parameterNames);
+            result.name = name;
+            try {
+                result.content = Locator.getInstance().getCalculator().prepareExpression(value).toString();
+            } catch (CalculatorParseException e) {
+                throw new CreationException(e);
+            }
+            result.system = system;
+            result.description = Strings.getNotEmpty(description, "");
+            result.parameterNames = new ArrayList<String>(parameterNames);
 
-			return result;
-		}
+            return result;
+        }
 
-		public static class CreationException extends RuntimeException implements Message {
+        public static class CreationException extends RuntimeException implements Message {
 
-			@Nonnull
-			private final CalculatorParseException message;
+            @Nonnull
+            private final CalculatorParseException message;
 
-			public CreationException(@Nonnull CalculatorParseException cause) {
-				super(cause);
-				message = cause;
-			}
+            public CreationException(@Nonnull CalculatorParseException cause) {
+                super(cause);
+                message = cause;
+            }
 
-			@Nonnull
-			@Override
-			public String getMessageCode() {
-				return message.getMessageCode();
-			}
+            @Nonnull
+            @Override
+            public String getMessageCode() {
+                return message.getMessageCode();
+            }
 
-			@Nonnull
-			@Override
-			public List<Object> getParameters() {
-				return message.getParameters();
-			}
+            @Nonnull
+            @Override
+            public List<Object> getParameters() {
+                return message.getParameters();
+            }
 
-			@Nonnull
-			@Override
-			public MessageLevel getMessageLevel() {
-				return message.getMessageLevel();
-			}
+            @Nonnull
+            @Override
+            public MessageLevel getMessageLevel() {
+                return message.getMessageLevel();
+            }
 
-			@Override
-			@Nonnull
-			public String getLocalizedMessage() {
-				return message.getLocalizedMessage();
-			}
+            @Override
+            @Nonnull
+            public String getLocalizedMessage() {
+                return message.getLocalizedMessage();
+            }
 
-			@Nonnull
-			@Override
-			public String getLocalizedMessage(@Nonnull Locale locale) {
-				return message.getLocalizedMessage(locale);
-			}
-		}
-	}
+            @Nonnull
+            @Override
+            public String getLocalizedMessage(@Nonnull Locale locale) {
+                return message.getLocalizedMessage(locale);
+            }
+        }
+    }
 }

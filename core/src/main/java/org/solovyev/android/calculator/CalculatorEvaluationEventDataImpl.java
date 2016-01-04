@@ -22,9 +22,9 @@
 
 package org.solovyev.android.calculator;
 
-import javax.annotation.Nonnull;
-
 import org.solovyev.android.calculator.jscl.JsclOperation;
+
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -33,63 +33,63 @@ import org.solovyev.android.calculator.jscl.JsclOperation;
  */
 public class CalculatorEvaluationEventDataImpl implements CalculatorEvaluationEventData {
 
-	@Nonnull
-	private final CalculatorEventData calculatorEventData;
+    @Nonnull
+    private final CalculatorEventData calculatorEventData;
 
-	@Nonnull
-	private final JsclOperation operation;
+    @Nonnull
+    private final JsclOperation operation;
 
-	@Nonnull
-	private final String expression;
+    @Nonnull
+    private final String expression;
 
-	public CalculatorEvaluationEventDataImpl(@Nonnull CalculatorEventData calculatorEventData,
-											 @Nonnull JsclOperation operation,
-											 @Nonnull String expression) {
-		this.calculatorEventData = calculatorEventData;
-		this.operation = operation;
-		this.expression = expression;
-	}
+    public CalculatorEvaluationEventDataImpl(@Nonnull CalculatorEventData calculatorEventData,
+                                             @Nonnull JsclOperation operation,
+                                             @Nonnull String expression) {
+        this.calculatorEventData = calculatorEventData;
+        this.operation = operation;
+        this.expression = expression;
+    }
 
-	@Nonnull
-	@Override
-	public JsclOperation getOperation() {
-		return this.operation;
-	}
+    @Nonnull
+    @Override
+    public JsclOperation getOperation() {
+        return this.operation;
+    }
 
-	@Nonnull
-	@Override
-	public String getExpression() {
-		return this.expression;
-	}
+    @Nonnull
+    @Override
+    public String getExpression() {
+        return this.expression;
+    }
 
-	@Override
-	public long getEventId() {
-		return calculatorEventData.getEventId();
-	}
+    @Override
+    public long getEventId() {
+        return calculatorEventData.getEventId();
+    }
 
-	@Nonnull
-	@Override
-	public Long getSequenceId() {
-		return calculatorEventData.getSequenceId();
-	}
+    @Nonnull
+    @Override
+    public Long getSequenceId() {
+        return calculatorEventData.getSequenceId();
+    }
 
-	@Override
-	public Object getSource() {
-		return calculatorEventData.getSource();
-	}
+    @Override
+    public Object getSource() {
+        return calculatorEventData.getSource();
+    }
 
-	@Override
-	public boolean isAfter(@Nonnull CalculatorEventData that) {
-		return calculatorEventData.isAfter(that);
-	}
+    @Override
+    public boolean isAfter(@Nonnull CalculatorEventData that) {
+        return calculatorEventData.isAfter(that);
+    }
 
-	@Override
-	public boolean isSameSequence(@Nonnull CalculatorEventData that) {
-		return this.calculatorEventData.isSameSequence(that);
-	}
+    @Override
+    public boolean isSameSequence(@Nonnull CalculatorEventData that) {
+        return this.calculatorEventData.isSameSequence(that);
+    }
 
-	@Override
-	public boolean isAfterSequence(@Nonnull CalculatorEventData that) {
-		return this.calculatorEventData.isAfterSequence(that);
-	}
+    @Override
+    public boolean isAfterSequence(@Nonnull CalculatorEventData that) {
+        return this.calculatorEventData.isAfterSequence(that);
+    }
 }

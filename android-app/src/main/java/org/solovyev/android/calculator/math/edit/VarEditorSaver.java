@@ -24,10 +24,7 @@ package org.solovyev.android.calculator.math.edit;
 
 import android.view.View;
 import android.widget.EditText;
-import jscl.text.Identifier;
-import jscl.text.MutableInt;
-import jscl.text.ParseException;
-import jscl.text.Parser;
+
 import org.solovyev.android.calculator.CalculatorMathRegistry;
 import org.solovyev.android.calculator.CalculatorVarsRegistry;
 import org.solovyev.android.calculator.Locator;
@@ -41,6 +38,11 @@ import org.solovyev.common.text.Strings;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import jscl.text.Identifier;
+import jscl.text.MutableInt;
+import jscl.text.ParseException;
+import jscl.text.Parser;
+
 /**
  * User: serso
  * Date: 12/22/11
@@ -48,111 +50,111 @@ import javax.annotation.Nullable;
  */
 public class VarEditorSaver<T extends MathEntity> implements View.OnClickListener {
 
-	@Nonnull
-	private final MathEntityBuilder<? extends T> varBuilder;
+    @Nonnull
+    private final MathEntityBuilder<? extends T> varBuilder;
 
-	@Nullable
-	private final T editedInstance;
+    @Nullable
+    private final T editedInstance;
 
-	@Nonnull
-	private final CalculatorMathRegistry<T> mathRegistry;
+    @Nonnull
+    private final CalculatorMathRegistry<T> mathRegistry;
 
-	@Nonnull
-	private final Object source;
+    @Nonnull
+    private final Object source;
 
-	@Nonnull
-	private View editView;
+    @Nonnull
+    private View editView;
 
-	public VarEditorSaver(@Nonnull MathEntityBuilder<? extends T> varBuilder,
-						  @Nullable T editedInstance,
-						  @Nonnull View editView,
-						  @Nonnull CalculatorMathRegistry<T> mathRegistry,
-						  @Nonnull Object source) {
-		this.varBuilder = varBuilder;
-		this.editedInstance = editedInstance;
-		this.editView = editView;
-		this.mathRegistry = mathRegistry;
-		this.source = source;
-	}
+    public VarEditorSaver(@Nonnull MathEntityBuilder<? extends T> varBuilder,
+                          @Nullable T editedInstance,
+                          @Nonnull View editView,
+                          @Nonnull CalculatorMathRegistry<T> mathRegistry,
+                          @Nonnull Object source) {
+        this.varBuilder = varBuilder;
+        this.editedInstance = editedInstance;
+        this.editView = editView;
+        this.mathRegistry = mathRegistry;
+        this.source = source;
+    }
 
-	@Override
-	public void onClick(View v) {
-		final Integer error;
+    public static boolean isValidName(@Nullable String name) {
+        boolean result = false;
 
-		final EditText editName = (EditText) editView.findViewById(R.id.var_edit_name);
-		String name = editName.getText().toString();
+        if (!Strings.isEmpty(name)) {
+            try {
+                if (name == null) throw new AssertionError();
+                Identifier.parser.parse(Parser.Parameters.newInstance(name, new MutableInt(0), Locator.getInstance().getEngine().getMathEngine0()), null);
+                result = true;
+            } catch (ParseException e) {
+                // not valid name;
+            }
+        }
 
-		final EditText editValue = (EditText) editView.findViewById(R.id.var_edit_value);
-		String value = editValue.getText().toString();
+        return result;
+    }
 
-		final EditText editDescription = (EditText) editView.findViewById(R.id.var_edit_description);
-		String description = editDescription.getText().toString();
+    @Override
+    public void onClick(View v) {
+        final Integer error;
 
-		if (isValidName(name)) {
+        final EditText editName = (EditText) editView.findViewById(R.id.var_edit_name);
+        String name = editName.getText().toString();
 
-			boolean canBeSaved = false;
+        final EditText editValue = (EditText) editView.findViewById(R.id.var_edit_value);
+        String value = editValue.getText().toString();
 
-			final T entityFromRegistry = mathRegistry.get(name);
-			if (entityFromRegistry == null) {
-				canBeSaved = true;
-			} else if (editedInstance != null && entityFromRegistry.getId().equals(editedInstance.getId())) {
-				canBeSaved = true;
-			}
+        final EditText editDescription = (EditText) editView.findViewById(R.id.var_edit_description);
+        String description = editDescription.getText().toString();
 
-			if (canBeSaved) {
-				final MathType.Result mathType = MathType.getType(name, 0, false);
+        if (isValidName(name)) {
 
-				if (mathType.getMathType() == MathType.text || mathType.getMathType() == MathType.constant) {
+            boolean canBeSaved = false;
 
-					if (Strings.isEmpty(value)) {
-						// value is empty => undefined variable
-						varBuilder.setName(name);
-						varBuilder.setDescription(description);
-						varBuilder.setValue(null);
-						error = null;
-					} else {
-						// value is not empty => must be a number
-						boolean valid = CalculatorVarsFragment.isValidValue(value);
+            final T entityFromRegistry = mathRegistry.get(name);
+            if (entityFromRegistry == null) {
+                canBeSaved = true;
+            } else if (editedInstance != null && entityFromRegistry.getId().equals(editedInstance.getId())) {
+                canBeSaved = true;
+            }
 
-						if (valid) {
-							varBuilder.setName(name);
-							varBuilder.setDescription(description);
-							varBuilder.setValue(value);
-							error = null;
-						} else {
-							error = R.string.c_value_is_not_a_number;
-						}
-					}
-				} else {
-					error = R.string.c_var_name_clashes;
-				}
-			} else {
-				error = R.string.c_var_already_exists;
-			}
-		} else {
-			error = R.string.c_name_is_not_valid;
-		}
+            if (canBeSaved) {
+                final MathType.Result mathType = MathType.getType(name, 0, false);
 
-		if (error != null) {
-			Locator.getInstance().getNotifier().showMessage(error, MessageType.error);
-		} else {
-			CalculatorVarsRegistry.saveVariable(mathRegistry, varBuilder, editedInstance, source, true);
-		}
-	}
+                if (mathType.getMathType() == MathType.text || mathType.getMathType() == MathType.constant) {
 
-	public static boolean isValidName(@Nullable String name) {
-		boolean result = false;
+                    if (Strings.isEmpty(value)) {
+                        // value is empty => undefined variable
+                        varBuilder.setName(name);
+                        varBuilder.setDescription(description);
+                        varBuilder.setValue(null);
+                        error = null;
+                    } else {
+                        // value is not empty => must be a number
+                        boolean valid = CalculatorVarsFragment.isValidValue(value);
 
-		if (!Strings.isEmpty(name)) {
-			try {
-				if (name == null) throw new AssertionError();
-				Identifier.parser.parse(Parser.Parameters.newInstance(name, new MutableInt(0), Locator.getInstance().getEngine().getMathEngine0()), null);
-				result = true;
-			} catch (ParseException e) {
-				// not valid name;
-			}
-		}
+                        if (valid) {
+                            varBuilder.setName(name);
+                            varBuilder.setDescription(description);
+                            varBuilder.setValue(value);
+                            error = null;
+                        } else {
+                            error = R.string.c_value_is_not_a_number;
+                        }
+                    }
+                } else {
+                    error = R.string.c_var_name_clashes;
+                }
+            } else {
+                error = R.string.c_var_already_exists;
+            }
+        } else {
+            error = R.string.c_name_is_not_valid;
+        }
 
-		return result;
-	}
+        if (error != null) {
+            Locator.getInstance().getNotifier().showMessage(error, MessageType.error);
+        } else {
+            CalculatorVarsRegistry.saveVariable(mathRegistry, varBuilder, editedInstance, source, true);
+        }
+    }
 }

@@ -26,14 +26,16 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+
 import org.solovyev.android.calculator.Calculator;
 import org.solovyev.android.calculator.CalculatorEventData;
 import org.solovyev.android.calculator.CalculatorEventType;
 import org.solovyev.common.history.HistoryAction;
 
+import java.util.List;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.List;
 
 /**
  * User: serso
@@ -42,132 +44,132 @@ import java.util.List;
  */
 public class AndroidCalculatorHistory implements CalculatorHistory {
 
-	@Nonnull
-	private final CalculatorHistoryImpl calculatorHistory;
+    @Nonnull
+    private final CalculatorHistoryImpl calculatorHistory;
 
-	@Nonnull
-	private final Context context;
+    @Nonnull
+    private final Context context;
 
-	public AndroidCalculatorHistory(@Nonnull Application application, @Nonnull Calculator calculator) {
-		this.context = application;
-		calculatorHistory = new CalculatorHistoryImpl(calculator);
-	}
+    public AndroidCalculatorHistory(@Nonnull Application application, @Nonnull Calculator calculator) {
+        this.context = application;
+        calculatorHistory = new CalculatorHistoryImpl(calculator);
+    }
 
-	@Override
-	public void load() {
-		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		if (preferences != null) {
-			final String value = preferences.getString("org.solovyev.android.calculator.CalculatorModel_history", null);
-			if (value != null) {
-				calculatorHistory.fromXml(value);
-			}
-		}
-	}
+    @Override
+    public void load() {
+        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        if (preferences != null) {
+            final String value = preferences.getString("org.solovyev.android.calculator.CalculatorModel_history", null);
+            if (value != null) {
+                calculatorHistory.fromXml(value);
+            }
+        }
+    }
 
-	public void save() {
-		final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-		final SharedPreferences.Editor editor = settings.edit();
+    public void save() {
+        final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+        final SharedPreferences.Editor editor = settings.edit();
 
-		editor.putString("org.solovyev.android.calculator.CalculatorModel_history", calculatorHistory.toXml());
+        editor.putString("org.solovyev.android.calculator.CalculatorModel_history", calculatorHistory.toXml());
 
-		editor.apply();
-	}
+        editor.apply();
+    }
 
-	public void clearSavedHistory() {
-		calculatorHistory.clearSavedHistory();
-		save();
-	}
+    public void clearSavedHistory() {
+        calculatorHistory.clearSavedHistory();
+        save();
+    }
 
-	public void removeSavedHistory(@Nonnull CalculatorHistoryState historyState) {
-		historyState.setSaved(false);
-		calculatorHistory.removeSavedHistory(historyState);
-		save();
-	}
+    public void removeSavedHistory(@Nonnull CalculatorHistoryState historyState) {
+        historyState.setSaved(false);
+        calculatorHistory.removeSavedHistory(historyState);
+        save();
+    }
 
-	@Override
-	public boolean isEmpty() {
-		return calculatorHistory.isEmpty();
-	}
+    @Override
+    public boolean isEmpty() {
+        return calculatorHistory.isEmpty();
+    }
 
-	@Override
-	public CalculatorHistoryState getLastHistoryState() {
-		return calculatorHistory.getLastHistoryState();
-	}
+    @Override
+    public CalculatorHistoryState getLastHistoryState() {
+        return calculatorHistory.getLastHistoryState();
+    }
 
-	@Override
-	public boolean isUndoAvailable() {
-		return calculatorHistory.isUndoAvailable();
-	}
+    @Override
+    public boolean isUndoAvailable() {
+        return calculatorHistory.isUndoAvailable();
+    }
 
-	@Override
-	public CalculatorHistoryState undo(@Nullable CalculatorHistoryState currentState) {
-		return calculatorHistory.undo(currentState);
-	}
+    @Override
+    public CalculatorHistoryState undo(@Nullable CalculatorHistoryState currentState) {
+        return calculatorHistory.undo(currentState);
+    }
 
-	@Override
-	public boolean isRedoAvailable() {
-		return calculatorHistory.isRedoAvailable();
-	}
+    @Override
+    public boolean isRedoAvailable() {
+        return calculatorHistory.isRedoAvailable();
+    }
 
-	@Override
-	public CalculatorHistoryState redo(@Nullable CalculatorHistoryState currentState) {
-		return calculatorHistory.redo(currentState);
-	}
+    @Override
+    public CalculatorHistoryState redo(@Nullable CalculatorHistoryState currentState) {
+        return calculatorHistory.redo(currentState);
+    }
 
-	@Override
-	public boolean isActionAvailable(@Nonnull HistoryAction historyAction) {
-		return calculatorHistory.isActionAvailable(historyAction);
-	}
+    @Override
+    public boolean isActionAvailable(@Nonnull HistoryAction historyAction) {
+        return calculatorHistory.isActionAvailable(historyAction);
+    }
 
-	@Override
-	public CalculatorHistoryState doAction(@Nonnull HistoryAction historyAction, @Nullable CalculatorHistoryState currentState) {
-		return calculatorHistory.doAction(historyAction, currentState);
-	}
+    @Override
+    public CalculatorHistoryState doAction(@Nonnull HistoryAction historyAction, @Nullable CalculatorHistoryState currentState) {
+        return calculatorHistory.doAction(historyAction, currentState);
+    }
 
-	@Override
-	public void addState(@Nullable CalculatorHistoryState currentState) {
-		calculatorHistory.addState(currentState);
-	}
+    @Override
+    public void addState(@Nullable CalculatorHistoryState currentState) {
+        calculatorHistory.addState(currentState);
+    }
 
-	@Nonnull
-	@Override
-	public List<CalculatorHistoryState> getStates() {
-		return calculatorHistory.getStates();
-	}
+    @Nonnull
+    @Override
+    public List<CalculatorHistoryState> getStates() {
+        return calculatorHistory.getStates();
+    }
 
-	@Nonnull
-	@Override
-	public List<CalculatorHistoryState> getStates(boolean includeIntermediateStates) {
-		return calculatorHistory.getStates(includeIntermediateStates);
-	}
+    @Nonnull
+    @Override
+    public List<CalculatorHistoryState> getStates(boolean includeIntermediateStates) {
+        return calculatorHistory.getStates(includeIntermediateStates);
+    }
 
-	@Override
-	public void clear() {
-		calculatorHistory.clear();
-	}
+    @Override
+    public void clear() {
+        calculatorHistory.clear();
+    }
 
-	@Nonnull
-	public List<CalculatorHistoryState> getSavedHistory() {
-		return calculatorHistory.getSavedHistory();
-	}
+    @Nonnull
+    public List<CalculatorHistoryState> getSavedHistory() {
+        return calculatorHistory.getSavedHistory();
+    }
 
-	@Nonnull
-	public CalculatorHistoryState addSavedState(@Nonnull CalculatorHistoryState historyState) {
-		return calculatorHistory.addSavedState(historyState);
-	}
+    @Nonnull
+    public CalculatorHistoryState addSavedState(@Nonnull CalculatorHistoryState historyState) {
+        return calculatorHistory.addSavedState(historyState);
+    }
 
-	@Override
-	public void fromXml(@Nonnull String xml) {
-		calculatorHistory.fromXml(xml);
-	}
+    @Override
+    public void fromXml(@Nonnull String xml) {
+        calculatorHistory.fromXml(xml);
+    }
 
-	@Override
-	public String toXml() {
-		return calculatorHistory.toXml();
-	}
+    @Override
+    public String toXml() {
+        return calculatorHistory.toXml();
+    }
 
-	@Override
-	public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
-		calculatorHistory.onCalculatorEvent(calculatorEventData, calculatorEventType, data);
-	}
+    @Override
+    public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
+        calculatorHistory.onCalculatorEvent(calculatorEventData, calculatorEventType, data);
+    }
 }

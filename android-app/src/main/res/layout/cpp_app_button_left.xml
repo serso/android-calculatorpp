@@ -23,12 +23,12 @@
   -->
 
 <org.solovyev.android.calculator.drag.DirectionDragButton
-	a:id="@id/cpp_button_left"
-	style="?attr/cpp_button_style_control"
-	xmlns:a="http://schemas.android.com/apk/res/android"
-	xmlns:c="http://schemas.android.com/apk/res-auto"
-	xmlns:tools="http://schemas.android.com/tools"
-	a:text="◁"
-	c:directionTextScale="0.5"
-	c:textUp="◁◁"
-	tools:ignore="HardcodedText" />
+    xmlns:a="http://schemas.android.com/apk/res/android"
+    xmlns:c="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    a:id="@id/cpp_button_left"
+    style="?attr/cpp_button_style_control"
+    a:text="◁"
+    c:directionTextScale="0.5"
+    c:textUp="◁◁"
+    tools:ignore="HardcodedText" />

@@ -29,7 +29,7 @@ package org.solovyev.android.calculator;
  */
 public interface CalculatorEngineControl {
 
-	void evaluate();
+    void evaluate();
 
-	void simplify();
+    void simplify();
 }

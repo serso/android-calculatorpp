@@ -22,12 +22,12 @@
 
 package org.solovyev.android.calculator.jscl;
 
-import jscl.math.Generic;
+import org.solovyev.android.calculator.CalculatorParseException;
+import org.solovyev.android.calculator.text.TextProcessor;
 
 import javax.annotation.Nonnull;
 
-import org.solovyev.android.calculator.CalculatorParseException;
-import org.solovyev.android.calculator.text.TextProcessor;
+import jscl.math.Generic;
 
 /**
  * User: serso
@@ -36,11 +36,11 @@ import org.solovyev.android.calculator.text.TextProcessor;
  */
 class FromJsclNumericTextProcessor implements TextProcessor<String, Generic> {
 
-	public static final FromJsclNumericTextProcessor instance = new FromJsclNumericTextProcessor();
+    public static final FromJsclNumericTextProcessor instance = new FromJsclNumericTextProcessor();
 
-	@Nonnull
-	@Override
-	public String process(@Nonnull Generic numeric) throws CalculatorParseException {
-		return numeric.toString().replace("*", "");
-	}
+    @Nonnull
+    @Override
+    public String process(@Nonnull Generic numeric) throws CalculatorParseException {
+        return numeric.toString().replace("*", "");
+    }
 }

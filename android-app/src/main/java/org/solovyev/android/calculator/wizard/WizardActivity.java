@@ -29,223 +29,218 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class WizardActivity extends BaseActivity implements WizardsAware, SharedPreferences.OnSharedPreferenceChangeListener {
-	@Nonnull
-	private final WizardUi<WizardActivity> wizardUi = new WizardUi<>(this, this, 0);
+    @Nonnull
+    private final WizardUi<WizardActivity> wizardUi = new WizardUi<>(this, this, 0);
+    @Nonnull
+    private final DialogListener dialogListener = new DialogListener();
+    @Nonnull
+    private ViewPager pager;
+    @Nonnull
+    private WizardPagerAdapter pagerAdapter;
+    @Nonnull
+    private Wizards wizards = CalculatorApplication.getInstance().getWizards();
+    @Nullable
+    private AlertDialog dialog;
 
-	@Nonnull
-	private ViewPager pager;
+    public WizardActivity() {
+        super(R.layout.cpp_activity_wizard);
+    }
 
-	@Nonnull
-	private WizardPagerAdapter pagerAdapter;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        wizardUi.onCreate(savedInstanceState);
+        final ListWizardFlow flow = (ListWizardFlow) wizardUi.getFlow();
 
-	@Nonnull
-	private Wizards wizards = CalculatorApplication.getInstance().getWizards();
+        pager = (ViewPager) findViewById(R.id.pager);
+        pagerAdapter = new WizardPagerAdapter(flow, getSupportFragmentManager());
+        pager.setAdapter(pagerAdapter);
+        final PageIndicator titleIndicator = (PageIndicator) findViewById(R.id.pager_indicator);
+        titleIndicator.setViewPager(pager);
+        final Wizard wizard = wizardUi.getWizard();
+        titleIndicator.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                final WizardStep step = flow.getStepAt(position);
+                wizardUi.setStep(step);
+                WizardUi.tryPutStep(getIntent(), step);
+                wizard.saveLastStep(step);
+            }
+        });
 
-	public WizardActivity() {
-		super(R.layout.cpp_activity_wizard);
-	}
+        if (savedInstanceState == null) {
+            final int position = flow.getPositionFor(wizardUi.getStep());
+            pager.setCurrentItem(position);
+        }
 
-	@Nullable
-	private AlertDialog dialog;
+        if (wizard.getLastSavedStepName() == null) {
+            wizard.saveLastStep(wizardUi.getStep());
+        }
 
-	@Nonnull
-	private final DialogListener dialogListener = new DialogListener();
+        App.getPreferences().registerOnSharedPreferenceChangeListener(this);
+    }
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		wizardUi.onCreate(savedInstanceState);
-		final ListWizardFlow flow = (ListWizardFlow) wizardUi.getFlow();
+    @Override
+    public void onBackPressed() {
+        if (pager.getCurrentItem() == 0) {
+            finishWizardAbruptly();
+        } else {
+            pager.setCurrentItem(pager.getCurrentItem() - 1);
+        }
+    }
 
-		pager = (ViewPager) findViewById(R.id.pager);
-		pagerAdapter = new WizardPagerAdapter(flow, getSupportFragmentManager());
-		pager.setAdapter(pagerAdapter);
-		final PageIndicator titleIndicator = (PageIndicator) findViewById(R.id.pager_indicator);
-		titleIndicator.setViewPager(pager);
-		final Wizard wizard = wizardUi.getWizard();
-		titleIndicator.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-			@Override
-			public void onPageSelected(int position) {
-				final WizardStep step = flow.getStepAt(position);
-				wizardUi.setStep(step);
-				WizardUi.tryPutStep(getIntent(), step);
-				wizard.saveLastStep(step);
-			}
-		});
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        wizardUi.onSaveInstanceState(outState);
+    }
 
-		if (savedInstanceState == null) {
-			final int position = flow.getPositionFor(wizardUi.getStep());
-			pager.setCurrentItem(position);
-		}
+    @Override
+    protected void onPause() {
+        super.onPause();
+        wizardUi.onPause();
+    }
 
-		if (wizard.getLastSavedStepName() == null) {
-			wizard.saveLastStep(wizardUi.getStep());
-		}
+    @Nonnull
+    @Override
+    public Wizards getWizards() {
+        return wizards;
+    }
 
-		App.getPreferences().registerOnSharedPreferenceChangeListener(this);
-	}
+    public void setWizards(@Nonnull Wizards wizards) {
+        this.wizards = wizards;
+    }
 
-	@Override
-	public void onBackPressed() {
-		if (pager.getCurrentItem() == 0) {
-			finishWizardAbruptly();
-		} else {
-			pager.setCurrentItem(pager.getCurrentItem() - 1);
-		}
-	}
+    public void finishWizardAbruptly() {
+        final boolean confirmed = wizardUi.getWizard().getName().equals(CalculatorWizards.RELEASE_NOTES);
+        finishWizardAbruptly(confirmed);
+    }
 
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		wizardUi.onSaveInstanceState(outState);
-	}
+    public void finishWizardAbruptly(boolean confirmed) {
+        if (!confirmed) {
+            if (dialog != null) {
+                return;
+            }
 
-	@Override
-	protected void onPause() {
-		super.onPause();
-		wizardUi.onPause();
-	}
+            final AlertDialog.Builder b = new AlertDialog.Builder(this);
+            b.setTitle(getString(R.string.cpp_wizard_finish_confirmation_title)).
+                    setMessage(R.string.cpp_wizard_finish_confirmation).
+                    setNegativeButton(R.string.c_no, dialogListener).
+                    setPositiveButton(R.string.c_yes, dialogListener).
+                    setOnCancelListener(dialogListener);
+            dialog = b.create();
+            dialog.setOnDismissListener(dialogListener);
+            dialog.show();
+            return;
+        }
 
-	@Nonnull
-	@Override
-	public Wizards getWizards() {
-		return wizards;
-	}
+        dismissDialog();
+        wizardUi.finishWizardAbruptly();
+        finish();
+    }
 
-	public void setWizards(@Nonnull Wizards wizards) {
-		this.wizards = wizards;
-	}
+    public void finishWizard() {
+        wizardUi.finishWizard();
+        finish();
+    }
 
-	public void finishWizardAbruptly() {
-		final boolean confirmed = wizardUi.getWizard().getName().equals(CalculatorWizards.RELEASE_NOTES);
-		finishWizardAbruptly(confirmed);
-	}
+    public boolean canGoNext() {
+        final int position = pager.getCurrentItem();
+        return position != pagerAdapter.getCount() - 1;
+    }
 
-	public void finishWizardAbruptly(boolean confirmed) {
-		if (!confirmed) {
-			if (dialog != null) {
-				return;
-			}
+    public boolean canGoPrev() {
+        final int position = pager.getCurrentItem();
+        return position != 0;
+    }
 
-			final AlertDialog.Builder b = new AlertDialog.Builder(this);
-			b.setTitle(getString(R.string.cpp_wizard_finish_confirmation_title)).
-					setMessage(R.string.cpp_wizard_finish_confirmation).
-					setNegativeButton(R.string.c_no, dialogListener).
-					setPositiveButton(R.string.c_yes, dialogListener).
-					setOnCancelListener(dialogListener);
-			dialog = b.create();
-			dialog.setOnDismissListener(dialogListener);
-			dialog.show();
-			return;
-		}
+    public void goNext() {
+        final int position = pager.getCurrentItem();
+        if (position < pagerAdapter.getCount() - 1) {
+            final WizardFragment fragment = (WizardFragment) pagerAdapter.getItem(position);
+            fragment.onNext();
+            pager.setCurrentItem(position + 1, true);
+        }
+    }
 
-		dismissDialog();
-		wizardUi.finishWizardAbruptly();
-		finish();
-	}
+    public void goPrev() {
+        final int position = pager.getCurrentItem();
+        if (position > 0) {
+            final WizardFragment fragment = (WizardFragment) pagerAdapter.getItem(position);
+            fragment.onPrev();
+            pager.setCurrentItem(position - 1, true);
+        }
+    }
 
-	public void finishWizard() {
-		wizardUi.finishWizard();
-		finish();
-	}
+    public WizardFlow getFlow() {
+        return wizardUi.getFlow();
+    }
 
-	public boolean canGoNext() {
-		final int position = pager.getCurrentItem();
-		return position != pagerAdapter.getCount() - 1;
-	}
+    public Wizard getWizard() {
+        return wizardUi.getWizard();
+    }
 
-	public boolean canGoPrev() {
-		final int position = pager.getCurrentItem();
-		return position != 0;
-	}
+    @Override
+    protected void onDestroy() {
+        App.getPreferences().unregisterOnSharedPreferenceChangeListener(this);
+        dismissDialog();
+        super.onDestroy();
+    }
 
-	public void goNext() {
-		final int position = pager.getCurrentItem();
-		if (position < pagerAdapter.getCount() - 1) {
-			final WizardFragment fragment = (WizardFragment) pagerAdapter.getItem(position);
-			fragment.onNext();
-			pager.setCurrentItem(position + 1, true);
-		}
-	}
+    private void dismissDialog() {
+        if (dialog != null) {
+            dialog.dismiss();
+            dialog = null;
+        }
+    }
 
-	public void goPrev() {
-		final int position = pager.getCurrentItem();
-		if (position > 0) {
-			final WizardFragment fragment = (WizardFragment) pagerAdapter.getItem(position);
-			fragment.onPrev();
-			pager.setCurrentItem(position - 1, true);
-		}
-	}
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
+        if (Preferences.Gui.theme.isSameKey(key)) {
+            ActivityUi.restartIfThemeChanged(this, ui.getTheme());
+        } else if (Preferences.Gui.language.isSameKey(key)) {
+            ActivityUi.restartIfLanguageChanged(this, ui.getLanguage());
+        }
+    }
 
-	public WizardFlow getFlow() {
-		return wizardUi.getFlow();
-	}
+    private class WizardPagerAdapter extends FragmentStatePagerAdapter {
+        @Nonnull
+        private final ListWizardFlow flow;
 
-	public Wizard getWizard() {
-		return wizardUi.getWizard();
-	}
+        public WizardPagerAdapter(@Nonnull ListWizardFlow flow, @Nonnull FragmentManager fm) {
+            super(fm);
+            this.flow = flow;
+        }
 
-	@Override
-	protected void onDestroy() {
-		App.getPreferences().unregisterOnSharedPreferenceChangeListener(this);
-		dismissDialog();
-		super.onDestroy();
-	}
+        @Override
+        public Fragment getItem(int position) {
+            final WizardStep step = flow.getStepAt(position);
+            final String className = step.getFragmentClass().getName();
+            final Bundle args = step.getFragmentArgs();
+            return Fragment.instantiate(WizardActivity.this, className, args);
+        }
 
-	private void dismissDialog() {
-		if (dialog != null) {
-			dialog.dismiss();
-			dialog = null;
-		}
-	}
+        @Override
+        public int getCount() {
+            return flow.getCount();
+        }
+    }
 
-	@Override
-	public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
-		if (Preferences.Gui.theme.isSameKey(key)) {
-			ActivityUi.restartIfThemeChanged(this, ui.getTheme());
-		} else if (Preferences.Gui.language.isSameKey(key)) {
-			ActivityUi.restartIfLanguageChanged(this, ui.getLanguage());
-		}
-	}
+    private class DialogListener implements DialogInterface.OnClickListener, DialogInterface.OnDismissListener, DialogInterface.OnCancelListener {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            if (which == DialogInterface.BUTTON_POSITIVE) {
+                finishWizardAbruptly(true);
+            }
+        }
 
-	private class WizardPagerAdapter extends FragmentStatePagerAdapter {
-		@Nonnull
-		private final ListWizardFlow flow;
+        public void onDismiss(DialogInterface d) {
+            dialog = null;
+        }
 
-		public WizardPagerAdapter(@Nonnull ListWizardFlow flow, @Nonnull FragmentManager fm) {
-			super(fm);
-			this.flow = flow;
-		}
-
-		@Override
-		public Fragment getItem(int position) {
-			final WizardStep step = flow.getStepAt(position);
-			final String className = step.getFragmentClass().getName();
-			final Bundle args = step.getFragmentArgs();
-			return Fragment.instantiate(WizardActivity.this, className, args);
-		}
-
-		@Override
-		public int getCount() {
-			return flow.getCount();
-		}
-	}
-
-	private class DialogListener implements DialogInterface.OnClickListener, DialogInterface.OnDismissListener, DialogInterface.OnCancelListener {
-		@Override
-		public void onClick(DialogInterface dialog, int which) {
-			if (which == DialogInterface.BUTTON_POSITIVE) {
-				finishWizardAbruptly(true);
-			}
-		}
-
-		public void onDismiss(DialogInterface d) {
-			dialog = null;
-		}
-
-		@Override
-		public void onCancel(DialogInterface d) {
-			dialog = null;
-		}
-	}
+        @Override
+        public void onCancel(DialogInterface d) {
+            dialog = null;
+        }
+    }
 }

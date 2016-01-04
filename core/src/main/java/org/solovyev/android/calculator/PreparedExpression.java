@@ -22,11 +22,11 @@
 
 package org.solovyev.android.calculator;
 
-import jscl.math.function.IConstant;
+import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import java.util.List;
+import jscl.math.function.IConstant;
 
 /**
  * User: serso
@@ -35,48 +35,48 @@ import java.util.List;
  */
 public class PreparedExpression implements CharSequence {
 
-	@Nonnull
-	private String expression;
+    @Nonnull
+    private String expression;
 
-	@Nonnull
-	private List<IConstant> undefinedVars;
+    @Nonnull
+    private List<IConstant> undefinedVars;
 
-	public PreparedExpression(@Nonnull String expression, @Nonnull List<IConstant> undefinedVars) {
-		this.expression = expression;
-		this.undefinedVars = undefinedVars;
-	}
+    public PreparedExpression(@Nonnull String expression, @Nonnull List<IConstant> undefinedVars) {
+        this.expression = expression;
+        this.undefinedVars = undefinedVars;
+    }
 
-	@Nonnull
-	public String getExpression() {
-		return expression;
-	}
+    @Nonnull
+    public String getExpression() {
+        return expression;
+    }
 
-	public boolean isExistsUndefinedVar() {
-		return !this.undefinedVars.isEmpty();
-	}
+    public boolean isExistsUndefinedVar() {
+        return !this.undefinedVars.isEmpty();
+    }
 
-	@Nonnull
-	public List<IConstant> getUndefinedVars() {
-		return undefinedVars;
-	}
+    @Nonnull
+    public List<IConstant> getUndefinedVars() {
+        return undefinedVars;
+    }
 
-	@Override
-	public int length() {
-		return expression.length();
-	}
+    @Override
+    public int length() {
+        return expression.length();
+    }
 
-	@Override
-	public char charAt(int i) {
-		return expression.charAt(i);
-	}
+    @Override
+    public char charAt(int i) {
+        return expression.charAt(i);
+    }
 
-	@Override
-	public CharSequence subSequence(int i, int i1) {
-		return expression.subSequence(i, i1);
-	}
+    @Override
+    public CharSequence subSequence(int i, int i1) {
+        return expression.subSequence(i, i1);
+    }
 
-	@Override
-	public String toString() {
-		return this.expression;
-	}
+    @Override
+    public String toString() {
+        return this.expression;
+    }
 }

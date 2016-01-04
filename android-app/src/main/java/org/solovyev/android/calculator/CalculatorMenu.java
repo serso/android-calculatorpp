@@ -25,13 +25,12 @@ package org.solovyev.android.calculator;
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
-
 import android.view.MenuItem;
-
-import javax.annotation.Nonnull;
 
 import org.solovyev.android.calculator.view.NumeralBaseConverterDialog;
 import org.solovyev.android.menu.LabeledMenuItem;
+
+import javax.annotation.Nonnull;
 
 /**
  * User: serso
@@ -40,61 +39,61 @@ import org.solovyev.android.menu.LabeledMenuItem;
  */
 enum CalculatorMenu implements LabeledMenuItem<MenuItem> {
 
-	settings(R.string.c_settings) {
-		@Override
-		public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
-			CalculatorActivityLauncher.showSettings(context);
-		}
-	},
+    settings(R.string.c_settings) {
+        @Override
+        public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
+            CalculatorActivityLauncher.showSettings(context);
+        }
+    },
 
-	history(R.string.c_history) {
-		@Override
-		public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
-			CalculatorActivityLauncher.showHistory(context);
-		}
-	},
+    history(R.string.c_history) {
+        @Override
+        public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
+            CalculatorActivityLauncher.showHistory(context);
+        }
+    },
 
-	plotter(R.string.cpp_plotter) {
-		@Override
-		public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
-			Locator.getInstance().getPlotter().plot();
-		}
-	},
+    plotter(R.string.cpp_plotter) {
+        @Override
+        public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
+            Locator.getInstance().getPlotter().plot();
+        }
+    },
 
-	conversion_tool(R.string.c_conversion_tool) {
-		@Override
-		public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
-			new NumeralBaseConverterDialog(null).show(context);
-		}
-	},
+    conversion_tool(R.string.c_conversion_tool) {
+        @Override
+        public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
+            new NumeralBaseConverterDialog(null).show(context);
+        }
+    },
 
-	exit(R.string.c_exit) {
-		@Override
-		public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
-			if (context instanceof Activity) {
-				((Activity) context).finish();
-			} else {
-				Log.e(CalculatorActivity.TAG, "Activity menu used with context");
-			}
-		}
-	},
+    exit(R.string.c_exit) {
+        @Override
+        public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
+            if (context instanceof Activity) {
+                ((Activity) context).finish();
+            } else {
+                Log.e(CalculatorActivity.TAG, "Activity menu used with context");
+            }
+        }
+    },
 
-	about(R.string.c_about) {
-		@Override
-		public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
-			CalculatorActivityLauncher.showAbout(context);
-		}
-	};
+    about(R.string.c_about) {
+        @Override
+        public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
+            CalculatorActivityLauncher.showAbout(context);
+        }
+    };
 
-	private final int captionResId;
+    private final int captionResId;
 
-	private CalculatorMenu(int captionResId) {
-		this.captionResId = captionResId;
-	}
+    private CalculatorMenu(int captionResId) {
+        this.captionResId = captionResId;
+    }
 
-	@Nonnull
-	@Override
-	public String getCaption(@Nonnull Context context) {
-		return context.getString(captionResId);
-	}
+    @Nonnull
+    @Override
+    public String getCaption(@Nonnull Context context) {
+        return context.getString(captionResId);
+    }
 }

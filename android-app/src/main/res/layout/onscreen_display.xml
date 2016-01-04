@@ -6,11 +6,12 @@
   ~ or visit http://se.solovyev.org
   -->
 
-<org.solovyev.android.calculator.AndroidCalculatorDisplayView a:id="@+id/calculator_display"
-	style="@style/CppText.Display.Onscreen"
-	xmlns:a="http://schemas.android.com/apk/res/android"
-	a:inputType="textMultiLine"
-	a:maxLines="3"
-	a:padding="@dimen/cpp_display_padding"
-	a:scrollHorizontally="false"
-	a:scrollbars="none" />
+<org.solovyev.android.calculator.AndroidCalculatorDisplayView
+    xmlns:a="http://schemas.android.com/apk/res/android"
+    a:id="@+id/calculator_display"
+    style="@style/CppText.Display.Onscreen"
+    a:inputType="textMultiLine"
+    a:maxLines="3"
+    a:padding="@dimen/cpp_display_padding"
+    a:scrollHorizontally="false"
+    a:scrollbars="none" />

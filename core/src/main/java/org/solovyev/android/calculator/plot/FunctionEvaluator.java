@@ -28,11 +28,11 @@ package org.solovyev.android.calculator.plot;
  * Time: 7:44 PM
  */
 interface FunctionEvaluator {
-	int getArity();
+    int getArity();
 
-	double eval();
+    double eval();
 
-	double eval(double x);
+    double eval(double x);
 
-	double eval(double x, double y);
+    double eval(double x, double y);
 }
