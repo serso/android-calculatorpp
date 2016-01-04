@@ -41,11 +41,12 @@ public class CalculatorMessagesTest {
 			for (Locale locale : LOCALES) {
 				final String text = message.getLocalizedMessage(locale);
 				assertFalse(text.isEmpty());
+				final String errorMessage = "Message=" + id + ", locale=" + locale;
 				if (arguments.size() == 1) {
-					assertTrue(text.contains("param0"));
+					assertTrue(errorMessage, text.contains("param0"));
 				} else if (arguments.size() == 2) {
-					assertTrue(text.contains("param1"));
-					assertTrue(text.contains("param2"));
+					assertTrue(errorMessage, text.contains("param1"));
+					assertTrue(errorMessage, text.contains("param2"));
 				}
 			}
 
