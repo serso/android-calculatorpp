@@ -65,18 +65,18 @@
       <sourceFolder url="file://$MODULE_DIR$/src/androidTest/jni" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/androidTest/rs" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/assets" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/bundles" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/blame" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/classes" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/coverage-instrumented-classes" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/debug" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/dependency-cache" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/dex" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/dex-cache" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/21.0.0/jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.0/jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.android.gms/play-services-ads/7.5.0/jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.android.gms/play-services-analytics/7.5.0/jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/7.5.0/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.android.gms/play-services-ads/8.4.0/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.android.gms/play-services-analytics/8.4.0/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.4.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.melnykov/floatingactionbutton/1.1.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.squareup.leakcanary/leakcanary-android/1.3.1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/org.solovyev.android/android-common-core/1.1.18/jars" />
@@ -89,56 +89,53 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/org.solovyev.android/material/0.1.3/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/plotter/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/jacoco" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/javaResources" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/libs" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/lint" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/manifests" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/ndk" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/pre-dexed" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/proguard" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/res" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/resources" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/rs" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/symbols" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/tmp" />
       <excludeFolder url="file://$MODULE_DIR$/build/outputs" />
       <excludeFolder url="file://$MODULE_DIR$/build/tmp" />
     </content>
     <orderEntry type="jdk" jdkName="Android API 23 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="play-services-base-7.5.0" level="project" />
+    <orderEntry type="library" exported="" name="android-common-lists-1.1.18" level="project" />
+    <orderEntry type="library" exported="" name="haha-1.3" level="project" />
+    <orderEntry type="library" exported="" name="android-common-core-1.1.18" level="project" />
+    <orderEntry type="library" exported="" name="floatingactionbutton-1.1.0" level="project" />
     <orderEntry type="library" exported="" name="acra-4.5.0" level="project" />
-    <orderEntry type="library" exported="" name="annotations-2.0.1" level="project" />
-    <orderEntry type="library" exported="" name="common-core-1.0.7" level="project" />
-    <orderEntry type="library" exported="" name="common-listeners-1.0.7" level="project" />
-    <orderEntry type="library" exported="" name="common-text-1.0.7" level="project" />
-    <orderEntry type="library" exported="" name="android-common-views-1.1.18" level="project" />
-    <orderEntry type="library" exported="" name="stax-1.2.0" level="project" />
-    <orderEntry type="library" exported="" name="appcompat-v7-23.1.0" level="project" />
-    <orderEntry type="library" exported="" name="jscl-1.0.11" level="project" />
-    <orderEntry type="library" exported="" name="library-2.4.0" level="project" />
-    <orderEntry type="library" exported="" name="material-0.1.3" level="project" />
+    <orderEntry type="library" exported="" name="play-services-base-8.4.0" level="project" />
+    <orderEntry type="library" exported="" name="commons-cli-1.2" level="project" />
     <orderEntry type="library" exported="" name="android-common-menus-1.1.18" level="project" />
+    <orderEntry type="library" exported="" name="stax-1.2.0" level="project" />
+    <orderEntry type="library" exported="" name="common-core-1.0.7" level="project" />
+    <orderEntry type="library" exported="" name="checkout-0.7.2" level="project" />
     <orderEntry type="library" exported="" name="leakcanary-analyzer-1.3.1" level="project" />
-    <orderEntry type="library" exported="" name="recyclerview-v7-21.0.0" level="project" />
-    <orderEntry type="library" exported="" name="support-annotations-23.1.0" level="project" />
-    <orderEntry type="library" exported="" name="play-services-analytics-7.5.0" level="project" />
+    <orderEntry type="library" exported="" name="support-v4-23.1.1" level="project" />
+    <orderEntry type="library" exported="" name="play-services-analytics-8.4.0" level="project" />
+    <orderEntry type="library" exported="" name="material-0.1.3" level="project" />
+    <orderEntry type="library" exported="" name="support-annotations-23.1.1" level="project" />
+    <orderEntry type="library" exported="" name="appcompat-v7-23.1.1" level="project" />
+    <orderEntry type="library" exported="" name="common-listeners-1.0.7" level="project" />
+    <orderEntry type="library" exported="" name="play-services-ads-8.4.0" level="project" />
+    <orderEntry type="library" exported="" name="library-2.4.0" level="project" />
+    <orderEntry type="library" exported="" name="common-text-1.0.7" level="project" />
+    <orderEntry type="library" exported="" name="plotter-" level="project" />
+    <orderEntry type="library" exported="" name="annotations-2.0.1" level="project" />
+    <orderEntry type="library" exported="" name="jscl-1.0.11" level="project" />
+    <orderEntry type="library" exported="" name="leakcanary-android-1.3.1" level="project" />
     <orderEntry type="library" exported="" name="common-security-1.0.7" level="project" />
     <orderEntry type="library" exported="" name="leakcanary-watcher-1.3.1" level="project" />
-    <orderEntry type="library" exported="" name="android-common-core-1.1.18" level="project" />
-    <orderEntry type="library" exported="" name="haha-1.3" level="project" />
-    <orderEntry type="library" exported="" name="common-msg-1.0.5" level="project" />
-    <orderEntry type="library" exported="" name="android-common-other-1.1.18" level="project" />
-    <orderEntry type="library" exported="" name="floatingactionbutton-1.1.0" level="project" />
-    <orderEntry type="library" exported="" name="checkout-0.7.2" level="project" />
     <orderEntry type="library" exported="" name="android-common-preferences-1.1.18" level="project" />
-    <orderEntry type="library" exported="" name="android-common-lists-1.1.18" level="project" />
+    <orderEntry type="library" exported="" name="android-common-views-1.1.18" level="project" />
+    <orderEntry type="library" exported="" name="android-common-other-1.1.18" level="project" />
+    <orderEntry type="library" exported="" name="recyclerview-v7-21.0.0" level="project" />
     <orderEntry type="library" exported="" name="guava-11.0.2" level="project" />
-    <orderEntry type="library" exported="" name="commons-cli-1.2" level="project" />
-    <orderEntry type="library" exported="" name="leakcanary-android-1.3.1" level="project" />
-    <orderEntry type="library" exported="" name="plotter-" level="project" />
+    <orderEntry type="library" exported="" name="common-msg-1.0.5" level="project" />
     <orderEntry type="library" exported="" name="simple-xml-2.6.1" level="project" />
-    <orderEntry type="library" exported="" name="support-v4-23.1.0" level="project" />
-    <orderEntry type="library" exported="" name="play-services-ads-7.5.0" level="project" />
+    <orderEntry type="library" exported="" name="play-services-basement-8.4.0" level="project" />
     <orderEntry type="module" module-name="core" exported="" />
   </component>
 </module>
