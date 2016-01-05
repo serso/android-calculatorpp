@@ -41,6 +41,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * Date: 10/13/12
  * Time: 1:11 PM
  */
+
 @RunWith(value = CalculatorTestRunner.class)
 public class AndroidCalculatorEditorViewTest {
 

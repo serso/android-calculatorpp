@@ -5,20 +5,20 @@ import android.content.Intent;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.robolectric.Robolectric.application;
+import static org.robolectric.RuntimeEnvironment.application;
 import static org.solovyev.android.calculator.CalculatorButton.four;
 import static org.solovyev.android.calculator.CalculatorReceiver.ACTION_BUTTON_ID_EXTRA;
 import static org.solovyev.android.calculator.CalculatorReceiver.ACTION_BUTTON_PRESSED;
 import static org.solovyev.android.calculator.CalculatorReceiver.newButtonClickedIntent;
 
 @Config(manifest = Config.NONE)
-@RunWith(RobolectricTestRunner.class)
+@RunWith(RobolectricGradleTestRunner.class)
 public class CalculatorReceiverTest {
 
     @Test

@@ -7,7 +7,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.robolectric.Robolectric;
-import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.Shadows;
 import org.robolectric.res.Attribute;
 import org.robolectric.shadows.ShadowActivity;
 
@@ -25,7 +26,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.solovyev.android.calculator.CalculatorTestUtils.staticSetUp;
 
-@RunWith(RobolectricTestRunner.class)
+@RunWith(RobolectricGradleTestRunner.class)
 public class NumeralBasesButtonTest {
 
     private NumeralBasesButton button;
@@ -35,7 +36,7 @@ public class NumeralBasesButtonTest {
         staticSetUp();
 
         final Activity context = Robolectric.buildActivity(Activity.class).create().get();
-        final ShadowActivity activity = Robolectric.shadowOf(context);
+        final ShadowActivity activity = Shadows.shadowOf(context);
         button = new NumeralBasesButton(context, activity.createAttributeSet(new ArrayList<Attribute>(), NumeralBasesButton.class));
     }
 

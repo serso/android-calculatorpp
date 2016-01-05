@@ -7,9 +7,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.robolectric.Robolectric;
-import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.Shadows;
+import org.robolectric.annotation.Config;
 import org.robolectric.res.Attribute;
 import org.robolectric.shadows.ShadowActivity;
+import org.solovyev.android.calculator.BuildConfig;
 
 import java.util.ArrayList;
 
@@ -25,7 +28,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.solovyev.android.calculator.CalculatorTestUtils.staticSetUp;
 
-@RunWith(RobolectricTestRunner.class)
+@Config(constants = BuildConfig.class)
+@RunWith(RobolectricGradleTestRunner.class)
 public class AngleUnitsButtonTest {
 
     private AngleUnitsButton button;
@@ -35,7 +39,7 @@ public class AngleUnitsButtonTest {
         staticSetUp();
 
         final Activity context = Robolectric.buildActivity(Activity.class).create().get();
-        final ShadowActivity activity = Robolectric.shadowOf(context);
+        final ShadowActivity activity = Shadows.shadowOf(context);
         button = new AngleUnitsButton(context, activity.createAttributeSet(new ArrayList<Attribute>(), AngleUnitsButton.class));
     }
 

@@ -31,6 +31,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
+import org.robolectric.RuntimeEnvironment;
+import org.robolectric.Shadows;
 import org.robolectric.shadows.ShadowActivity;
 import org.robolectric.util.ActivityController;
 import org.solovyev.android.CalculatorTestRunner;
@@ -61,7 +63,7 @@ public class CalculatorWizardActivityTest {
     public void setUp() throws Exception {
         controller = Robolectric.buildActivity(WizardActivity.class);
         activity = controller.get();
-        wizards = new CalculatorWizards(Robolectric.application);
+        wizards = new CalculatorWizards(RuntimeEnvironment.application);
         activity.setWizards(wizards);
         controller.attach();
         controller.create();
@@ -155,7 +157,7 @@ public class CalculatorWizardActivityTest {
 
     @Test
     public void testShouldStartWizardActivityAfterStart() throws Exception {
-        final ShadowActivity shadowActivity = Robolectric.shadowOf(controller.get());
+        final ShadowActivity shadowActivity = Shadows.shadowOf(controller.get());
         WizardUi.startWizard(activity.getWizards(), CalculatorWizards.DEFAULT_WIZARD_FLOW, shadowActivity.getApplicationContext());
         assertNotNull(shadowActivity.getNextStartedActivity());
     }

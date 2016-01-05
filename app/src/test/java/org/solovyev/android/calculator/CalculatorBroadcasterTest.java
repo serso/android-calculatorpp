@@ -11,7 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
 import javax.annotation.Nonnull;
@@ -19,7 +19,7 @@ import javax.annotation.Nonnull;
 import static org.mockito.Matchers.argThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.robolectric.Robolectric.application;
+import static org.robolectric.RuntimeEnvironment.application;
 import static org.solovyev.android.calculator.CalculatorBroadcaster.ACTION_DISPLAY_STATE_CHANGED;
 import static org.solovyev.android.calculator.CalculatorBroadcaster.ACTION_EDITOR_STATE_CHANGED;
 import static org.solovyev.android.calculator.CalculatorEventType.display_state_changed;
@@ -27,7 +27,7 @@ import static org.solovyev.android.calculator.CalculatorEventType.editor_state_c
 import static org.solovyev.android.calculator.CalculatorEventType.editor_state_changed_light;
 
 @Config(manifest = Config.NONE)
-@RunWith(RobolectricTestRunner.class)
+@RunWith(RobolectricGradleTestRunner.class)
 public class CalculatorBroadcasterTest {
 
     @Nonnull
@@ -35,7 +35,7 @@ public class CalculatorBroadcasterTest {
 
     @Before
     public void setUp() throws Exception {
-        broadcaster = new CalculatorBroadcaster(application, preferences);
+        broadcaster = new CalculatorBroadcaster(application, null);
     }
 
     @Test

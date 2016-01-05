@@ -3,7 +3,7 @@ package org.solovyev.android.calculator.wizard;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.Robolectric;
+import org.robolectric.RuntimeEnvironment;
 import org.solovyev.android.CalculatorTestRunner;
 import org.solovyev.android.wizard.Wizard;
 import org.solovyev.android.wizard.WizardFlow;
@@ -35,7 +35,7 @@ public class CalculatorWizardTest {
 
     @Before
     public void setUp() throws Exception {
-        wizards = new CalculatorWizards(Robolectric.application);
+        wizards = new CalculatorWizards(RuntimeEnvironment.application);
         wizard = wizards.getWizard(null);
         defaultWizard = wizards.getWizard(CalculatorWizards.DEFAULT_WIZARD_FLOW);
     }
