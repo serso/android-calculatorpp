@@ -17,7 +17,7 @@ import static org.solovyev.android.calculator.CalculatorReceiver.ACTION_BUTTON_I
 import static org.solovyev.android.calculator.CalculatorReceiver.ACTION_BUTTON_PRESSED;
 import static org.solovyev.android.calculator.CalculatorReceiver.newButtonClickedIntent;
 
-@Config(manifest = Config.NONE)
+@Config(constants = BuildConfig.class)
 @RunWith(RobolectricGradleTestRunner.class)
 public class CalculatorReceiverTest {
 

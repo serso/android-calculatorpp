@@ -26,7 +26,7 @@ import static org.solovyev.android.calculator.CalculatorEventType.display_state_
 import static org.solovyev.android.calculator.CalculatorEventType.editor_state_changed;
 import static org.solovyev.android.calculator.CalculatorEventType.editor_state_changed_light;
 
-@Config(manifest = Config.NONE)
+@Config(constants = BuildConfig.class)
 @RunWith(RobolectricGradleTestRunner.class)
 public class CalculatorBroadcasterTest {
 

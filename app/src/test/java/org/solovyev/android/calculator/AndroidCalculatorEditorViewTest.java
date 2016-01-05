@@ -22,12 +22,15 @@
 
 package org.solovyev.android.calculator;
 
+import android.os.Build;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.solovyev.android.CalculatorTestRunner;
+import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.annotation.Config;
 import org.solovyev.common.text.Strings;
 
 import java.util.Date;
@@ -42,7 +45,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * Time: 1:11 PM
  */
 
-@RunWith(value = CalculatorTestRunner.class)
+@Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP_MR1)
+@RunWith(value = RobolectricGradleTestRunner.class)
 public class AndroidCalculatorEditorViewTest {
 
     @BeforeClass
