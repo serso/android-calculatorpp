@@ -61,7 +61,7 @@ repositories {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'org.solovyev:common-core:1.0.7'
     compile 'org.solovyev:common-text:1.0.7'
     compile 'org.solovyev:common-security:1.0.7'
@@ -87,29 +87,28 @@ dependencies {
     compile 'com.google.android.gms:play-services-analytics:8.4.0'
     compile 'com.melnykov:floatingactionbutton:1.1.0'
     compile(name: 'plotter', ext: 'aar')
-
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.3.1'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.3.1'
-    compile group: 'org.solovyev', name: 'common-text', version: '1.0.7'
-    compile group: 'org.solovyev', name: 'common-listeners', version: '1.0.7'
-    compile(group: 'com.google.guava', name: 'guava', version: '11.0.2') {
+    compile 'org.solovyev:common-text:1.0.7'
+    compile 'org.solovyev:common-listeners:1.0.7'
+    compile('com.google.guava:guava:11.0.2') {
         exclude(module: 'jsr305')
     }
-    compile(group: 'org.solovyev', name: 'jscl', version: '1.0.11') {
+    compile('org.solovyev:jscl:1.0.11') {
         exclude(module: 'xercesImpl')
     }
-    compile(group: 'org.simpleframework', name: 'simple-xml', version: '2.6.1') {
+    compile('org.simpleframework:simple-xml:2.6.1') {
         exclude(module: 'stax-api')
         exclude(module: 'xpp3')
     }
-    compile group: 'commons-cli', name: 'commons-cli', version: '1.2'
-    testCompile group: 'junit', name: 'junit', version: '4.11'
-    testCompile group: 'net.sf.opencsv', name: 'opencsv', version: '2.0'
-    testCompile group: 'org.mockito', name: 'mockito-core', version: '1.9.0'
-    testCompile "org.robolectric:robolectric:3.0"
+    compile 'commons-cli:commons-cli:1.2'
+    testCompile 'junit:junit:4.11'
+    testCompile 'net.sf.opencsv:opencsv:2.0'
+    testCompile 'org.mockito:mockito-core:1.9.0'
+    testCompile 'org.robolectric:robolectric:3.0'
     testCompile 'org.mockito:mockito-all:1.9.5'
     testCompile 'org.skyscreamer:jsonassert:1.2.3'
-    testCompile (name: 'org.apache.http.legacy', ext: 'jar')
+    testCompile(name: 'org.apache.http.legacy', ext: 'jar')
 }
 
 tasks.withType(Test) {
