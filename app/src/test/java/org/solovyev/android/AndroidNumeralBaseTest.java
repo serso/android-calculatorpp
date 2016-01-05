@@ -24,6 +24,10 @@ package org.solovyev.android;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.annotation.Config;
+import org.solovyev.android.calculator.BuildConfig;
 import org.solovyev.android.calculator.units.CalculatorNumeralBase;
 import org.solovyev.common.units.Unit;
 import org.solovyev.common.units.UnitConverter;
@@ -40,6 +44,8 @@ import static org.junit.Assert.assertTrue;
  * Date: 4/21/12
  * Time: 8:24 PM
  */
+@Config(constants = BuildConfig.class)
+@RunWith(RobolectricGradleTestRunner.class)
 public class AndroidNumeralBaseTest {
 
     @Nonnull

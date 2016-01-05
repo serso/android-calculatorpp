@@ -22,6 +22,8 @@
 
 package org.solovyev.android.calculator;
 
+import android.content.Context;
+
 import org.junit.Assert;
 import org.mockito.Mockito;
 import org.solovyev.android.calculator.history.CalculatorHistory;
@@ -61,6 +63,25 @@ public class CalculatorTestUtils {
         decimalGroupSymbols.setDecimalSeparator('.');
         decimalGroupSymbols.setGroupingSeparator(' ');
         Locator.getInstance().getEngine().setDecimalGroupSymbols(decimalGroupSymbols);
+    }
+
+    public static void staticSetUp(@Nullable Context context) throws Exception {
+        Locator.getInstance().init(new CalculatorImpl(), newCalculatorEngine(), Mockito.mock(CalculatorClipboard.class), Mockito.mock(CalculatorNotifier.class), Mockito.mock(CalculatorHistory.class), new SystemOutCalculatorLogger(), Mockito.mock(CalculatorPreferenceService.class), Mockito.mock(CalculatorKeyboard.class), Mockito.mock(CalculatorPlotter.class), null);
+        Locator.getInstance().getEngine().init();
+
+        if (context != null) {
+            initViews(context);
+        }
+    }
+
+    public static void initViews(@Nonnull Context context) {
+        final AndroidCalculatorEditorView editor = new AndroidCalculatorEditorView(context);
+        editor.init();
+        Locator.getInstance().getEditor().setView(editor);
+
+        final AndroidCalculatorDisplayView display = new AndroidCalculatorDisplayView(context);
+        display.init(context);
+        Locator.getInstance().getDisplay().setView(display);
     }
 
     @Nonnull
