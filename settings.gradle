@@ -1,2 +1,2 @@
-include ':android-app'
-include ':android-app-tests'
+include ':app'
+include ':app-tests'
