@@ -33,8 +33,8 @@ import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.text.Html;
-import android.text.TextUtils;
+import android.text.*;
+import android.text.style.ForegroundColorSpan;
 import android.widget.RemoteViews;
 import org.solovyev.android.Views;
 import org.solovyev.android.calculator.*;
@@ -57,7 +57,7 @@ public class CalculatorWidget extends AppWidgetProvider {
     private static final String ACTION_APPWIDGET_OPTIONS_CHANGED = "android.appwidget.action.APPWIDGET_UPDATE_OPTIONS";
 
     @Nullable
-    private String cursorColor;
+    private SpannedString cursorString;
 
     public CalculatorWidget() {
     }
@@ -65,20 +65,23 @@ public class CalculatorWidget extends AppWidgetProvider {
     @Override
     public void onEnabled(Context context) {
         super.onEnabled(context);
-        initCursorColor(context);
+        initCursorString(context);
     }
 
     @Nonnull
-    private String getCursorColor(@Nonnull Context context) {
-        return initCursorColor(context);
+    private SpannedString getCursorString(@Nonnull Context context) {
+        return initCursorString(context);
     }
 
     @Nonnull
-    private String initCursorColor(@Nonnull Context context) {
-        if (cursorColor == null) {
-            cursorColor = App.toColorString(ContextCompat.getColor(context, R.color.cpp_widget_cursor));
+    private SpannedString initCursorString(@Nonnull Context context) {
+        if (cursorString == null) {
+            final SpannableString spannable = new SpannableString("|");
+            final int cursorColor = ContextCompat.getColor(context, R.color.cpp_widget_cursor);
+            spannable.setSpan(new ForegroundColorSpan(cursorColor), 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            cursorString = new SpannedString(spannable);
         }
-        return cursorColor;
+        return cursorString;
     }
 
     @Override
@@ -195,7 +198,11 @@ public class CalculatorWidget extends AppWidgetProvider {
         int selection = editorState.getSelection();
         if (selection >= 0 && selection <= text.length()) {
             // inject cursor
-            newText = Html.fromHtml(text.subSequence(0, selection) + "<font color=\"#" + getCursorColor(context) + "\">|</font>" + text.subSequence(selection, text.length()));
+            final SpannableStringBuilder result = new SpannableStringBuilder();
+            result.append(text.subSequence(0, selection));
+            result.append(getCursorString(context));
+            result.append(text.subSequence(selection, text.length()));
+            newText = result;
         }
         Locator.getInstance().getNotifier().showDebugMessage(TAG, "New editor state: " + text);
         views.setTextViewText(R.id.calculator_editor, newText);
