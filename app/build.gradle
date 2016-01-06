@@ -25,13 +25,13 @@ apply plugin: 'maven'
 apply plugin: 'signing'
 
 android {
-    compileSdkVersion android_sdk_version()
-    buildToolsVersion android_build_tools_version()
+    compileSdkVersion 23
+    buildToolsVersion '23.0.2'
     defaultConfig {
-        minSdkVersion android_min_sdk_version()
-        targetSdkVersion android_sdk_version()
-        versionCode version_code()
-        versionName version_name()
+        minSdkVersion 15
+        targetSdkVersion 23
+        versionCode 143
+        versionName '2.1.4'
     }
     buildTypes {
         release {
@@ -51,12 +51,6 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
-    }
-}
-
-repositories {
-    flatDir {
-        dirs 'misc/libs'
     }
 }
 
@@ -103,7 +97,7 @@ dependencies {
         exclude(module: 'xpp3')
     }
     compile 'commons-cli:commons-cli:1.2'
-    testCompile 'junit:junit:4.11'
+    testCompile 'junit:junit:4.12'
     testCompile 'net.sf.opencsv:opencsv:2.0'
     testCompile 'org.mockito:mockito-core:1.9.0'
     testCompile 'org.robolectric:robolectric:3.0'
@@ -173,7 +167,7 @@ private void cleanGoogleServicesResources(buildType) {
 }
 
 group = "org.solovyev.android"
-version = version_name()
+version = android.defaultConfig.versionName
 
 uploadArchives {
     repositories {
@@ -219,8 +213,4 @@ uploadArchives {
             }
         }
     }
-}
-dependencies {
-    testCompile 'junit:junit:4.12'
-    testCompile 'junit:junit:4.12'
 }
