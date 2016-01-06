@@ -32,9 +32,9 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.text.*;
-import android.text.style.ForegroundColorSpan;
 import android.widget.RemoteViews;
 import org.solovyev.android.Views;
 import org.solovyev.android.calculator.*;
@@ -76,10 +76,7 @@ public class CalculatorWidget extends AppWidgetProvider {
     @Nonnull
     private SpannedString initCursorString(@Nonnull Context context) {
         if (cursorString == null) {
-            final SpannableString spannable = new SpannableString("|");
-            final int cursorColor = ContextCompat.getColor(context, R.color.cpp_widget_cursor);
-            spannable.setSpan(new ForegroundColorSpan(cursorColor), 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            cursorString = new SpannedString(spannable);
+            cursorString = new SpannedString(App.colorString("|", ContextCompat.getColor(context, R.color.cpp_widget_cursor)));
         }
         return cursorString;
     }
@@ -124,7 +121,7 @@ public class CalculatorWidget extends AppWidgetProvider {
                 }
             }
 
-            updateEditorState(context, views, editorState);
+            updateEditorState(context, views, editorState, theme);
             updateDisplayState(context, views, displayState, theme);
 
             views.setTextViewText(R.id.cpp_button_multiplication, Locator.getInstance().getEngine().getMultiplicationSign());
@@ -198,20 +195,28 @@ public class CalculatorWidget extends AppWidgetProvider {
         views.setTextColor(R.id.calculator_display, ContextCompat.getColor(context, theme.getDisplayTextColor(error)));
     }
 
-    private void updateEditorState(@Nonnull Context context, @Nonnull RemoteViews views, @Nonnull CalculatorEditorViewState editorState) {
+    private void updateEditorState(@Nonnull Context context, @Nonnull RemoteViews views, @Nonnull CalculatorEditorViewState editorState, @Nonnull SimpleTheme theme) {
         final CharSequence text = editorState.getTextAsCharSequence();
 
+        final boolean unspan = App.getTheme().light != theme.light;
         CharSequence newText = text;
         int selection = editorState.getSelection();
         if (selection >= 0 && selection <= text.length()) {
             // inject cursor
             final SpannableStringBuilder result = new SpannableStringBuilder();
-            result.append(text.subSequence(0, selection));
+            final CharSequence beforeCursor = text.subSequence(0, selection);
+            result.append(unspan ? unspan(beforeCursor) : beforeCursor);
             result.append(getCursorString(context));
-            result.append(text.subSequence(selection, text.length()));
+            final CharSequence afterCursor = text.subSequence(selection, text.length());
+            result.append(unspan ? unspan(afterCursor) : afterCursor);
             newText = result;
         }
         Locator.getInstance().getNotifier().showDebugMessage(TAG, "New editor state: " + text);
         views.setTextViewText(R.id.calculator_editor, newText);
+    }
+
+    @NonNull
+    private String unspan(@Nonnull CharSequence spannable) {
+        return spannable.toString();
     }
 }
