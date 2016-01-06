@@ -35,6 +35,8 @@
     <item name="cpp_button_period" type="id" />
     <item name="cpp_button_round_brackets" type="id" />
     <item name="cpp_button_settings" type="id" />
+    <item name="cpp_button_settings_widget" type="id" />
+    <item name="cpp_button_settings_onscreen" type="id" />
     <item name="cpp_button_like" type="id" />
     <item name="cpp_button_left" type="id" />
     <item name="cpp_button_right" type="id" />

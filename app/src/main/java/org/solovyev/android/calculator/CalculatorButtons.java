@@ -33,7 +33,6 @@ import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RemoteViews;
 import jscl.AngleUnit;
 import jscl.NumeralBase;
 import org.solovyev.android.Views;
@@ -48,11 +47,6 @@ import org.solovyev.android.views.dragbutton.SimpleDragListener;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-/**
- * User: serso
- * Date: 9/28/12
- * Time: 12:06 AM
- */
 public final class CalculatorButtons {
 
     private CalculatorButtons() {
@@ -87,10 +81,6 @@ public final class CalculatorButtons {
         }
     }
 
-    public static void initMultiplicationButton(@Nonnull RemoteViews views) {
-        views.setTextViewText(R.id.cpp_button_multiplication, Locator.getInstance().getEngine().getMultiplicationSign());
-    }
-
 
     public static void toggleEqualsButton(@Nullable SharedPreferences preferences,
                                           @Nonnull Activity activity) {
@@ -113,14 +103,6 @@ public final class CalculatorButtons {
             }
         }
     }
-
-	/*
-    **********************************************************************
-	*
-	*                           STATIC CLASSES
-	*
-	**********************************************************************
-	*/
 
     @Nonnull
     private static CalculatorKeyboard getKeyboard() {
