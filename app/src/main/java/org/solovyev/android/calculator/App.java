@@ -23,29 +23,24 @@
 package org.solovyev.android.calculator;
 
 import android.app.Application;
-import android.appwidget.AppWidgetManager;
-import android.appwidget.AppWidgetProvider;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.support.annotation.ColorInt;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import org.solovyev.android.Android;
 import org.solovyev.android.UiThreadExecutor;
 import org.solovyev.android.Views;
 import org.solovyev.android.calculator.ga.Ga;
 import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.android.calculator.onscreen.CalculatorOnscreenService;
 import org.solovyev.android.calculator.view.ScreenMetrics;
-import org.solovyev.android.calculator.widget.*;
 import org.solovyev.android.checkout.*;
-import org.solovyev.android.plotter.Plot;
-import org.solovyev.android.plotter.Plotter;
 import org.solovyev.common.listeners.JEvent;
 import org.solovyev.common.listeners.JEventListener;
 import org.solovyev.common.listeners.JEventListeners;
@@ -54,9 +49,7 @@ import org.solovyev.common.threads.DelayedExecutor;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.Executor;
 
 /**
@@ -72,8 +65,19 @@ import java.util.concurrent.Executor;
  * Before first usage this class must be initialized by calling {@link App#init(android.app.Application)} method (for example, from {@link android.app.Application#onCreate()})
  */
 public final class App {
+
+    public static final String TAG = "Calculator++";
+
     @Nonnull
-    private static final List<Class<? extends BaseCalculatorWidgetProvider>> OLD_WIDGETS = Arrays.asList(CalculatorWidgetProvider.class, CalculatorWidgetProvider3x4.class, CalculatorWidgetProvider4x4.class, CalculatorWidgetProvider4x5.class);
+    public static String subTag(@Nonnull String subTag) {
+        return sub(TAG, subTag);
+    }
+
+    @NonNull
+    public static String sub(@Nonnull String tag, @Nonnull String subTag) {
+        return tag + "/" + subTag;
+    }
+
     @Nonnull
     private static final Products products = Products.create().add(ProductTypes.IN_APP, Arrays.asList("ad_free"));
     @Nonnull
@@ -145,42 +149,12 @@ public final class App {
             App.broadcaster = new CalculatorBroadcaster(application, preferences);
             App.vibrator = new Vibrator(application, preferences);
             App.screenMetrics = new ScreenMetrics(application);
-
-            final List<Class<? extends AppWidgetProvider>> oldNotUsedWidgetClasses = findNotUsedWidgets(application);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
-                for (Class<? extends AppWidgetProvider> oldNotUsedWidgetClass : oldNotUsedWidgetClasses) {
-                    Android.enableComponent(application, oldNotUsedWidgetClass, false);
-                }
-            } else {
-                // smaller widgets should be still used for smaller screens
-                if (oldNotUsedWidgetClasses.contains(CalculatorWidgetProvider4x5.class)) {
-                    Android.enableComponent(application, CalculatorWidgetProvider4x5.class, false);
-                }
-                if (oldNotUsedWidgetClasses.contains(CalculatorWidgetProvider4x4.class)) {
-                    Android.enableComponent(application, CalculatorWidgetProvider4x4.class, false);
-                }
-            }
             App.languages.init(App.preferences);
 
             App.initialized = true;
         } else {
             throw new IllegalStateException("Already initialized!");
         }
-    }
-
-    @Nonnull
-    private static List<Class<? extends AppWidgetProvider>> findNotUsedWidgets(@Nonnull Application application) {
-        final List<Class<? extends AppWidgetProvider>> result = new ArrayList<>();
-
-        final AppWidgetManager widgetManager = AppWidgetManager.getInstance(application);
-        for (Class<? extends AppWidgetProvider> widgetClass : OLD_WIDGETS) {
-            final int ids[] = widgetManager.getAppWidgetIds(new ComponentName(application, widgetClass));
-            if (ids == null || ids.length == 0) {
-                result.add(widgetClass);
-            }
-        }
-
-        return result;
     }
 
     private static void checkInit() {
@@ -318,5 +292,10 @@ public final class App {
 
         // Create and show the dialog.
         dialogFragment.show(ft, fragmentTag);
+    }
+
+    @NonNull
+    public static String toColorString(@ColorInt int color) {
+        return Integer.toHexString(color).substring(2);
     }
 }

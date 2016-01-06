@@ -22,20 +22,15 @@
 
 package org.solovyev.android.calculator.view;
 
-import org.solovyev.android.calculator.AbstractNumberBuilder;
-import org.solovyev.android.calculator.CalculatorParseException;
-import org.solovyev.android.calculator.LiteNumberBuilder;
-import org.solovyev.android.calculator.Locator;
-import org.solovyev.android.calculator.NumberBuilder;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.text.TextProcessor;
 import org.solovyev.android.calculator.text.TextProcessorEditorResult;
 import org.solovyev.common.MutableObject;
 
-import java.util.Map;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Map;
 
 /**
  * User: serso
@@ -227,6 +222,6 @@ public class TextHighlighter implements TextProcessor<TextProcessorEditorResult,
         // int result = Color.rgb(BASE_COLOUR_RED_COMPONENT - offset, BASE_COLOUR_GREEN_COMPONENT - offset, BASE_COLOUR_BLUE_COMPONENT - offset);
         int result = (0xFF << 24) | ((red + offset) << 16) | ((green + offset) << 8) | (blue + offset);
 
-        return "#" + Integer.toHexString(result).substring(2);
+        return "#" + App.toColorString(result);
     }
 }

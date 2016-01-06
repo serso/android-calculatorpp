@@ -29,20 +29,16 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-
-import org.solovyev.android.Android;
+import jscl.math.Generic;
+import org.solovyev.android.Activities;
 import org.solovyev.android.calculator.about.CalculatorAboutActivity;
 import org.solovyev.android.calculator.function.FunctionEditDialogFragment;
 import org.solovyev.android.calculator.history.CalculatorHistoryActivity;
-import org.solovyev.android.calculator.math.edit.CalculatorFunctionsActivity;
-import org.solovyev.android.calculator.math.edit.CalculatorOperatorsActivity;
-import org.solovyev.android.calculator.math.edit.CalculatorVarsActivity;
-import org.solovyev.android.calculator.math.edit.CalculatorVarsFragment;
-import org.solovyev.android.calculator.math.edit.VarEditDialogFragment;
+import org.solovyev.android.calculator.math.edit.*;
 import org.solovyev.android.calculator.matrix.CalculatorMatrixActivity;
 import org.solovyev.android.calculator.plot.CalculatorPlotActivity;
 import org.solovyev.android.calculator.plot.CalculatorPlotter;
@@ -51,12 +47,9 @@ import org.solovyev.common.msg.Message;
 import org.solovyev.common.msg.MessageType;
 import org.solovyev.common.text.Strings;
 
-import java.util.List;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import jscl.math.Generic;
+import java.util.List;
 
 /**
  * User: serso
@@ -74,7 +67,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
 
     public static void showHistory(@Nonnull final Context context, boolean detached) {
         final Intent intent = new Intent(context, CalculatorHistoryActivity.class);
-        Android.addIntentFlags(intent, detached, context);
+        Activities.addIntentFlags(intent, detached, context);
         context.startActivity(intent);
     }
 
@@ -84,7 +77,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
 
     public static void showSettings(@Nonnull final Context context, boolean detached) {
         final Intent intent = new Intent(context, PreferencesActivity.class);
-        Android.addIntentFlags(intent, detached, context);
+        Activities.addIntentFlags(intent, detached, context);
         context.startActivity(intent);
     }
 
@@ -98,7 +91,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
 
     public static void showFunctions(@Nonnull final Context context, boolean detached) {
         final Intent intent = new Intent(context, CalculatorFunctionsActivity.class);
-        Android.addIntentFlags(intent, detached, context);
+        Activities.addIntentFlags(intent, detached, context);
         context.startActivity(intent);
     }
 
@@ -108,7 +101,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
 
     public static void showOperators(@Nonnull final Context context, boolean detached) {
         final Intent intent = new Intent(context, CalculatorOperatorsActivity.class);
-        Android.addIntentFlags(intent, detached, context);
+        Activities.addIntentFlags(intent, detached, context);
         context.startActivity(intent);
     }
 
@@ -118,14 +111,14 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
 
     public static void showVars(@Nonnull final Context context, boolean detached) {
         final Intent intent = new Intent(context, CalculatorVarsActivity.class);
-        Android.addIntentFlags(intent, detached, context);
+        Activities.addIntentFlags(intent, detached, context);
         context.startActivity(intent);
     }
 
     public static void plotGraph(@Nonnull final Context context) {
         final Intent intent = new Intent();
         intent.setClass(context, CalculatorPlotActivity.class);
-        Android.addIntentFlags(intent, false, context);
+        Activities.addIntentFlags(intent, false, context);
         context.startActivity(intent);
     }
 
@@ -136,12 +129,12 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
             final String varValue = viewState.getText();
             if (!Strings.isEmpty(varValue)) {
                 if (CalculatorVarsFragment.isValidValue(varValue)) {
-                    if (context instanceof ActionBarActivity) {
-                        VarEditDialogFragment.showDialog(VarEditDialogFragment.Input.newFromValue(varValue), ((ActionBarActivity) context).getSupportFragmentManager());
+                    if (context instanceof AppCompatActivity) {
+                        VarEditDialogFragment.showDialog(VarEditDialogFragment.Input.newFromValue(varValue), ((AppCompatActivity) context).getSupportFragmentManager());
                     } else {
                         final Intent intent = new Intent(context, CalculatorVarsActivity.class);
                         intent.putExtra(CalculatorVarsFragment.CREATE_VAR_EXTRA_STRING, varValue);
-                        Android.addIntentFlags(intent, false, context);
+                        Activities.addIntentFlags(intent, false, context);
                         context.startActivity(intent);
                     }
                 } else {
@@ -208,7 +201,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
 
     public static void likeButtonPressed(@Nonnull final Context context) {
         final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(context.getString(R.string.cpp_share_link)));
-        Android.addIntentFlags(intent, false, context);
+        Activities.addIntentFlags(intent, false, context);
         context.startActivity(intent);
     }
 
@@ -250,7 +243,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
                     @Override
                     public void run() {
                         final Intent intent = new Intent(context, CalculatorMatrixActivity.class);
-                        Android.addIntentFlags(intent, false, context);
+                        Activities.addIntentFlags(intent, false, context);
                         context.startActivity(intent);
                     }
                 });
