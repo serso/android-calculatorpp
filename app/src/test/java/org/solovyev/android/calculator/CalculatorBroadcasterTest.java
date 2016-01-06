@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-
+import android.os.Build;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.junit.Before;
@@ -13,6 +13,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
+import org.robolectric.shadows.ShadowPreferenceManager;
 
 import javax.annotation.Nonnull;
 
@@ -22,11 +23,9 @@ import static org.mockito.Mockito.verify;
 import static org.robolectric.RuntimeEnvironment.application;
 import static org.solovyev.android.calculator.CalculatorBroadcaster.ACTION_DISPLAY_STATE_CHANGED;
 import static org.solovyev.android.calculator.CalculatorBroadcaster.ACTION_EDITOR_STATE_CHANGED;
-import static org.solovyev.android.calculator.CalculatorEventType.display_state_changed;
-import static org.solovyev.android.calculator.CalculatorEventType.editor_state_changed;
-import static org.solovyev.android.calculator.CalculatorEventType.editor_state_changed_light;
+import static org.solovyev.android.calculator.CalculatorEventType.*;
 
-@Config(constants = BuildConfig.class)
+@Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
 @RunWith(RobolectricGradleTestRunner.class)
 public class CalculatorBroadcasterTest {
 
@@ -35,7 +34,7 @@ public class CalculatorBroadcasterTest {
 
     @Before
     public void setUp() throws Exception {
-        broadcaster = new CalculatorBroadcaster(application, null);
+        broadcaster = new CalculatorBroadcaster(application, ShadowPreferenceManager.getDefaultSharedPreferences(application));
     }
 
     @Test

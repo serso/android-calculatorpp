@@ -35,7 +35,6 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-
 import org.solovyev.android.Android;
 import org.solovyev.android.UiThreadExecutor;
 import org.solovyev.android.Views;
@@ -43,18 +42,8 @@ import org.solovyev.android.calculator.ga.Ga;
 import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.android.calculator.onscreen.CalculatorOnscreenService;
 import org.solovyev.android.calculator.view.ScreenMetrics;
-import org.solovyev.android.calculator.widget.BaseCalculatorWidgetProvider;
-import org.solovyev.android.calculator.widget.CalculatorWidgetProvider;
-import org.solovyev.android.calculator.widget.CalculatorWidgetProvider3x4;
-import org.solovyev.android.calculator.widget.CalculatorWidgetProvider4x4;
-import org.solovyev.android.calculator.widget.CalculatorWidgetProvider4x5;
-import org.solovyev.android.checkout.Billing;
-import org.solovyev.android.checkout.Checkout;
-import org.solovyev.android.checkout.Inventory;
-import org.solovyev.android.checkout.ProductTypes;
-import org.solovyev.android.checkout.Products;
-import org.solovyev.android.checkout.RobotmediaDatabase;
-import org.solovyev.android.checkout.RobotmediaInventory;
+import org.solovyev.android.calculator.widget.*;
+import org.solovyev.android.checkout.*;
 import org.solovyev.android.plotter.Plot;
 import org.solovyev.android.plotter.Plotter;
 import org.solovyev.common.listeners.JEvent;
@@ -63,13 +52,12 @@ import org.solovyev.common.listeners.JEventListeners;
 import org.solovyev.common.listeners.Listeners;
 import org.solovyev.common.threads.DelayedExecutor;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Executor;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 /**
  * User: serso
@@ -111,8 +99,6 @@ public final class App {
     private static volatile Vibrator vibrator;
     @Nonnull
     private static volatile ScreenMetrics screenMetrics;
-    @Nonnull
-    private static volatile Plotter plotter;
 
     private App() {
         throw new AssertionError();
@@ -175,7 +161,6 @@ public final class App {
                 }
             }
             App.languages.init(App.preferences);
-            App.plotter = Plot.newPlotter(application);
 
             App.initialized = true;
         } else {
@@ -333,10 +318,5 @@ public final class App {
 
         // Create and show the dialog.
         dialogFragment.show(ft, fragmentTag);
-    }
-
-    @Nonnull
-    public static Plotter getPlotter() {
-        return plotter;
     }
 }

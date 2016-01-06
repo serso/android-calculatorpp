@@ -2,6 +2,7 @@ package org.solovyev.android.calculator.view;
 
 import android.app.Activity;
 
+import android.os.Build;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,7 +29,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.solovyev.android.calculator.CalculatorTestUtils.staticSetUp;
 
-@Config(constants = BuildConfig.class)
+@Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
 @RunWith(RobolectricGradleTestRunner.class)
 public class AngleUnitsButtonTest {
 

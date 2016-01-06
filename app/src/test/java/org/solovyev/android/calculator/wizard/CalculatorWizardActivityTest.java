@@ -23,35 +23,33 @@
 package org.solovyev.android.calculator.wizard;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
+import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.Shadows;
+import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowActivity;
 import org.robolectric.util.ActivityController;
-import org.solovyev.android.CalculatorTestRunner;
+import org.solovyev.android.calculator.BuildConfig;
 import org.solovyev.android.wizard.Wizard;
 import org.solovyev.android.wizard.WizardUi;
 import org.solovyev.android.wizard.Wizards;
 
+import javax.annotation.Nonnull;
 import java.lang.reflect.Field;
 
-import javax.annotation.Nonnull;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.solovyev.android.calculator.wizard.CalculatorWizardStep.choose_mode;
 
-@RunWith(value = CalculatorTestRunner.class)
+@Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
+@RunWith(value = RobolectricGradleTestRunner.class)
 public class CalculatorWizardActivityTest {
 
     private ActivityController<WizardActivity> controller;
