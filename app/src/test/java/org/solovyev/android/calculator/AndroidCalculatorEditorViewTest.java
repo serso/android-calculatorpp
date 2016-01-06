@@ -45,7 +45,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * Time: 1:11 PM
  */
 
-@Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP_MR1)
+@Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
 @RunWith(value = RobolectricGradleTestRunner.class)
 public class AndroidCalculatorEditorViewTest {
 

@@ -2,6 +2,7 @@ package org.solovyev.android.calculator.view;
 
 import android.app.Activity;
 
+import android.os.Build;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,8 +10,10 @@ import org.mockito.Mockito;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.Shadows;
+import org.robolectric.annotation.Config;
 import org.robolectric.res.Attribute;
 import org.robolectric.shadows.ShadowActivity;
+import org.solovyev.android.calculator.BuildConfig;
 
 import java.util.ArrayList;
 
@@ -26,6 +29,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.solovyev.android.calculator.CalculatorTestUtils.staticSetUp;
 
+@Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
 @RunWith(RobolectricGradleTestRunner.class)
 public class NumeralBasesButtonTest {
 

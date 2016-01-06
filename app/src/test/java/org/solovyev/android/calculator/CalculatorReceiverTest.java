@@ -2,6 +2,7 @@ package org.solovyev.android.calculator;
 
 import android.content.Intent;
 
+import android.os.Build;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -17,7 +18,7 @@ import static org.solovyev.android.calculator.CalculatorReceiver.ACTION_BUTTON_I
 import static org.solovyev.android.calculator.CalculatorReceiver.ACTION_BUTTON_PRESSED;
 import static org.solovyev.android.calculator.CalculatorReceiver.newButtonClickedIntent;
 
-@Config(constants = BuildConfig.class)
+@Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
 @RunWith(RobolectricGradleTestRunner.class)
 public class CalculatorReceiverTest {
 

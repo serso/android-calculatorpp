@@ -22,20 +22,22 @@
 
 package org.solovyev.android;
 
+import android.os.Build;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 import org.solovyev.android.calculator.BuildConfig;
+import org.solovyev.android.calculator.CalculatorTestUtils;
 import org.solovyev.android.calculator.units.CalculatorNumeralBase;
 import org.solovyev.common.units.Unit;
 import org.solovyev.common.units.UnitConverter;
 
+import javax.annotation.Nonnull;
 import java.util.Date;
 import java.util.Random;
-
-import javax.annotation.Nonnull;
 
 import static org.junit.Assert.assertTrue;
 
@@ -44,12 +46,17 @@ import static org.junit.Assert.assertTrue;
  * Date: 4/21/12
  * Time: 8:24 PM
  */
-@Config(constants = BuildConfig.class)
+@Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
 @RunWith(RobolectricGradleTestRunner.class)
 public class AndroidNumeralBaseTest {
 
     @Nonnull
     private final UnitConverter<String> c = CalculatorNumeralBase.getConverter();
+
+    @BeforeClass
+    public static void staticSetUp() throws Exception {
+        CalculatorTestUtils.staticSetUp();
+    }
 
     @Test
     public void testIsSupported() throws Exception {
