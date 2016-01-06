@@ -160,7 +160,7 @@ public final class Preferences {
         @Nullable
         private final Gui.Theme appTheme;
 
-        private final boolean light;
+        public final boolean light;
 
         @Nonnull
         private final Map<Gui.Theme, SimpleTheme> cache = new EnumMap<>(Gui.Theme.class);
@@ -303,22 +303,28 @@ public final class Preferences {
             metro_purple_theme(R.style.cpp_metro_purple_theme),
             metro_green_theme(R.style.cpp_metro_green_theme),
             material_theme(R.style.Cpp_Theme_Material),
-            material_light_theme(R.style.Cpp_Theme_Material_Light, R.style.Cpp_Theme_Wizard_Light, R.style.Cpp_Theme_Dialog_Material_Light),;
+            material_light_theme(R.style.Cpp_Theme_Material_Light, R.style.Cpp_Theme_Wizard_Light, R.style.Cpp_Theme_Dialog_Material_Light, true),;
 
             private static final SparseArray<TextColor> textColors = new SparseArray<>();
 
             private final int themeId;
             private final int wizardThemeId;
             private final int dialogThemeId;
+            public final boolean light;
 
             Theme(@StyleRes int themeId) {
                 this(themeId, R.style.Cpp_Theme_Wizard, R.style.Cpp_Theme_Dialog_Material);
             }
 
             Theme(@StyleRes int themeId, @StyleRes int wizardThemeId, int dialogThemeId) {
+                this(themeId, wizardThemeId, dialogThemeId, false);
+            }
+
+            Theme(@StyleRes int themeId, @StyleRes int wizardThemeId, int dialogThemeId, boolean light) {
                 this.themeId = themeId;
                 this.wizardThemeId = wizardThemeId;
                 this.dialogThemeId = dialogThemeId;
+                this.light = light;
             }
 
             public int getThemeId() {
@@ -356,7 +362,7 @@ public final class Preferences {
             }
         }
 
-        public static enum Layout {
+        public enum Layout {
             main_calculator(R.layout.main_calculator, R.string.p_layout_calculator, true),
             main_calculator_mobile(R.layout.main_calculator_mobile, R.string.p_layout_calculator_mobile, false),
 

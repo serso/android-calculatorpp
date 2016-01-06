@@ -34,6 +34,9 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import org.solovyev.android.UiThreadExecutor;
 import org.solovyev.android.Views;
 import org.solovyev.android.calculator.ga.Ga;
@@ -297,5 +300,12 @@ public final class App {
     @NonNull
     public static String toColorString(@ColorInt int color) {
         return Integer.toHexString(color).substring(2);
+    }
+
+    @NonNull
+    public static SpannableString colorString(@Nonnull String s, int color) {
+        final SpannableString spannable = new SpannableString(s);
+        spannable.setSpan(new ForegroundColorSpan(color), 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return spannable;
     }
 }
