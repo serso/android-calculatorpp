@@ -25,19 +25,16 @@ package org.solovyev.android.calculator;
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-
+import jscl.NumeralBase;
+import jscl.math.Generic;
 import org.solovyev.android.calculator.history.CalculatorHistoryState;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.common.history.HistoryAction;
 import org.solovyev.common.msg.Message;
 
-import java.util.List;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import jscl.NumeralBase;
-import jscl.math.Generic;
+import java.util.List;
 
 /**
  * User: serso
@@ -218,6 +215,9 @@ public class AndroidCalculator implements Calculator, CalculatorEventListener, S
                 break;
             case show_settings_detached:
                 CalculatorActivityLauncher.showSettings(CalculatorApplication.getInstance(), true);
+                break;
+            case show_settings_widget:
+                CalculatorActivityLauncher.showWidgetSettings(CalculatorApplication.getInstance(), true);
                 break;
             case show_like_dialog:
                 CalculatorActivityLauncher.likeButtonPressed(CalculatorApplication.getInstance());

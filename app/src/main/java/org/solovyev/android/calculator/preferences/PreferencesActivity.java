@@ -51,13 +51,17 @@ public class PreferencesActivity extends BaseActivity implements SharedPreferenc
         return preferences;
     }
 
-    public static void start(@Nonnull Context context, @XmlRes int preference, @StringRes int title) {
+    public static void showPlotPreferences(@Nonnull Context context) {
+        start(context, R.xml.preferences_plot, R.string.prefs_graph_screen_title);
+    }
+
+    private static void start(@Nonnull Context context, @XmlRes int preference, @StringRes int title) {
         final Intent intent = makeIntent(context, preference, title);
         context.startActivity(intent);
     }
 
     @Nonnull
-    static Intent makeIntent(@Nonnull Context context, @XmlRes int preference, @StringRes int title) {
+    public static Intent makeIntent(@Nonnull Context context, @XmlRes int preference, @StringRes int title) {
         final Intent intent = new Intent(context, PreferencesActivity.class);
         intent.putExtra(EXTRA_PREFERENCE, preference);
         if (title != 0) {

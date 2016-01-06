@@ -174,6 +174,7 @@ public enum CalculatorEventType {
 
     show_settings,
     show_settings_detached,
+    show_settings_widget,
 
     show_like_dialog,
 

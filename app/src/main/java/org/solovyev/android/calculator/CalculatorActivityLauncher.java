@@ -75,6 +75,12 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
         showSettings(context, false);
     }
 
+    public static void showWidgetSettings(@Nonnull final Context context, boolean detached) {
+        final Intent intent = PreferencesActivity.makeIntent(context, R.xml.preferences_widget, R.string.prefs_widget_title);
+        Activities.addIntentFlags(intent, detached, context);
+        context.startActivity(intent);
+    }
+
     public static void showSettings(@Nonnull final Context context, boolean detached) {
         final Intent intent = new Intent(context, PreferencesActivity.class);
         Activities.addIntentFlags(intent, detached, context);

@@ -39,28 +39,17 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-
 import org.solovyev.android.Android;
 import org.solovyev.android.Threads;
-import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.CalculatorApplication;
-import org.solovyev.android.calculator.CalculatorEventData;
-import org.solovyev.android.calculator.CalculatorEventHolder;
-import org.solovyev.android.calculator.CalculatorEventListener;
-import org.solovyev.android.calculator.CalculatorEventType;
-import org.solovyev.android.calculator.CalculatorFragment;
-import org.solovyev.android.calculator.CalculatorUtils;
-import org.solovyev.android.calculator.Locator;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.preferences.PreferencesActivity;
-import org.solovyev.android.menu.AMenuItem;
-import org.solovyev.android.menu.ActivityMenu;
-import org.solovyev.android.menu.AndroidMenuHelper;
-import org.solovyev.android.menu.IdentifiableMenuItem;
-import org.solovyev.android.menu.ListActivityMenu;
+import org.solovyev.android.menu.*;
 import org.solovyev.common.JPredicate;
 import org.solovyev.common.msg.MessageType;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -69,9 +58,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import static org.solovyev.android.calculator.model.AndroidCalculatorEngine.Preferences;
 
@@ -433,7 +419,7 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
         preferences(R.id.menu_plot_settings) {
             @Override
             public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
-                PreferencesActivity.start(context, R.xml.preferences_plot, R.string.prefs_graph_screen_title);
+                PreferencesActivity.showPlotPreferences(context);
             }
         };
 

@@ -24,11 +24,10 @@ package org.solovyev.android.calculator;
 
 import org.solovyev.common.text.Strings;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * User: serso
@@ -72,6 +71,13 @@ public enum CalculatorSpecialButton {
         @Override
         public void onClick(@Nonnull CalculatorKeyboard keyboard) {
             Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_settings_detached, null);
+        }
+    },
+
+    settings_widget("settings_widget") {
+        @Override
+        public void onClick(@Nonnull CalculatorKeyboard keyboard) {
+            Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_settings_widget, null);
         }
     },
 

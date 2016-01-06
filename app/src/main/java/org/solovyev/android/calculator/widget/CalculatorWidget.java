@@ -111,9 +111,16 @@ public class CalculatorWidget extends AppWidgetProvider {
             final RemoteViews views = new RemoteViews(context.getPackageName(), getLayout(manager, widgetId, resources, theme));
 
             for (CalculatorButton button : CalculatorButton.values()) {
-                final PendingIntent intent = PendingIntent.getBroadcast(context, button.getButtonId(), newButtonClickedIntent(context, button), PendingIntent.FLAG_UPDATE_CURRENT);
+                final int buttonId;
+                if (button == CalculatorButton.settings_widget) {
+                    // overriding default settings button behavior
+                    buttonId = CalculatorButton.settings.getButtonId();
+                } else {
+                    buttonId = button.getButtonId();
+                }
+                final PendingIntent intent = PendingIntent.getBroadcast(context, buttonId, newButtonClickedIntent(context, button), PendingIntent.FLAG_UPDATE_CURRENT);
                 if (intent != null) {
-                    views.setOnClickPendingIntent(button.getButtonId(), intent);
+                    views.setOnClickPendingIntent(buttonId, intent);
                 }
             }
 

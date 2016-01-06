@@ -59,6 +59,7 @@ public enum CalculatorButton {
     brackets(R.id.cpp_button_round_brackets, "()"),
 
     settings(R.id.cpp_button_settings, settings_detached),
+    settings_widget(R.id.cpp_button_settings_widget, CalculatorSpecialButton.settings_widget),
     like(R.id.cpp_button_like, CalculatorSpecialButton.like),
 
     /*last row*/
