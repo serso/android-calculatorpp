@@ -26,47 +26,31 @@ import android.graphics.Typeface;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
-
 import com.google.common.collect.Lists;
-
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.BaseNumberBuilder;
-import org.solovyev.android.calculator.CalculatorEngine;
-import org.solovyev.android.calculator.CalculatorParseException;
-import org.solovyev.android.calculator.LiteNumberBuilder;
-import org.solovyev.android.calculator.Locator;
-import org.solovyev.android.calculator.NumberBuilder;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.text.TextProcessor;
 import org.solovyev.android.calculator.text.TextProcessorEditorResult;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Nonnull;
-
-/**
- * User: serso
- * Date: 10/12/11
- * Time: 9:47 PM
- */
 public class TextHighlighter implements TextProcessor<TextProcessorEditorResult, String> {
 
     private final int red;
     private final int green;
     private final int blue;
     private final boolean formatNumber;
-    private final boolean dark;
+    private final int dark;
 
     public TextHighlighter(int color, boolean formatNumber) {
         this.formatNumber = formatNumber;
-        //this.red = Color.red(baseColor);
         red = red(color);
-        //this.green = Color.green(baseColor);
         green = green(color);
-        //this.blue = Color.blue(baseColor);
         blue = blue(color);
-        dark = isDark(red, green, blue);
+        dark = isDark(red, green, blue) ? 1 : -1;
     }
 
     private static int blue(int color) {
@@ -195,13 +179,7 @@ public class TextHighlighter implements TextProcessor<TextProcessorEditorResult,
     }
 
     private int getColor(int group, int groupsCount) {
-        int offset = ((int) (255 * 0.8)) * group / (groupsCount + 1);
-        if (!dark) {
-            offset = -offset;
-        }
-
-        // for tests:
-        // int result = Color.rgb(BASE_COLOUR_RED_COMPONENT - offset, BASE_COLOUR_GREEN_COMPONENT - offset, BASE_COLOUR_BLUE_COMPONENT - offset);
+        final int offset = (int) (dark * 255 * 0.6) * group / (groupsCount + 1);
         return (0xFF << 24) | ((red + offset) << 16) | ((green + offset) << 8) | (blue + offset);
     }
 
