@@ -79,13 +79,6 @@
         a:summary="@string/c_numeral_bases_summary"
         a:title="@string/c_calc_numeral_bases" />
 
-    <org.solovyev.android.prefs.IntegerPickerDialogPreference
-        a:defaultValue="5"
-        a:key="@string/p_calc_max_calculation_time_key"
-        a:summary="@string/p_calc_max_calculation_time_summary"
-        a:title="@string/p_calc_max_calculation_time_title"
-        range:boundaries="3;1000" />
-
     <android.preference.CheckBoxPreference
         a:key="calculations_calculate_on_fly"
         a:summary="@string/p_calculations_calculate_on_fly_summary"

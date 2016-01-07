@@ -22,11 +22,6 @@
 
 package org.solovyev.android.calculator;
 
-import java.text.DecimalFormatSymbols;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import jscl.AngleUnit;
 import jscl.JsclMathEngine;
 import jscl.MathEngine;
@@ -37,11 +32,10 @@ import jscl.math.function.IConstant;
 import jscl.math.operator.Operator;
 import jscl.text.ParseException;
 
-/**
- * User: serso
- * Date: 9/23/12
- * Time: 5:34 PM
- */
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.text.DecimalFormatSymbols;
+
 public class CalculatorEngineImpl implements CalculatorEngine {
 
 	/*
@@ -53,8 +47,6 @@ public class CalculatorEngineImpl implements CalculatorEngine {
 	*/
 
     private static final String MULTIPLICATION_SIGN_DEFAULT = "×";
-
-    private static final String MAX_CALCULATION_TIME_DEFAULT = "5";
 
     /*
     **********************************************************************
@@ -92,8 +84,6 @@ public class CalculatorEngineImpl implements CalculatorEngine {
 	**********************************************************************
 	*/
 
-
-    private int timeout = Integer.valueOf(MAX_CALCULATION_TIME_DEFAULT);
 
     @Nonnull
     private String multiplicationSign = MULTIPLICATION_SIGN_DEFAULT;
@@ -286,11 +276,6 @@ public class CalculatorEngineImpl implements CalculatorEngine {
         synchronized (lock) {
             this.engine.setScienceNotation(scienceNotation);
         }
-    }
-
-    @Override
-    public void setTimeout(@Nonnull Integer timeout) {
-        this.timeout = timeout;
     }
 
     @Override

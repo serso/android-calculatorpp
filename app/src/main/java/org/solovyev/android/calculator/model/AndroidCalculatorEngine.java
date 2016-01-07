@@ -26,30 +26,6 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-
-import org.solovyev.android.calculator.CalculatorEngine;
-import org.solovyev.android.calculator.CalculatorEngineImpl;
-import org.solovyev.android.calculator.CalculatorFunctionsMathRegistry;
-import org.solovyev.android.calculator.CalculatorMathEngine;
-import org.solovyev.android.calculator.CalculatorMathRegistry;
-import org.solovyev.android.calculator.CalculatorOperatorsMathRegistry;
-import org.solovyev.android.calculator.CalculatorPostfixFunctionsRegistry;
-import org.solovyev.android.calculator.CalculatorVarsRegistry;
-import org.solovyev.android.calculator.MathPersistenceEntity;
-import org.solovyev.android.prefs.BooleanPreference;
-import org.solovyev.android.prefs.Preference;
-import org.solovyev.android.prefs.StringPreference;
-import org.solovyev.common.text.EnumMapper;
-import org.solovyev.common.text.NumberMapper;
-import org.solovyev.common.text.Strings;
-
-import java.text.DecimalFormatSymbols;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-
 import jscl.AngleUnit;
 import jscl.JsclMathEngine;
 import jscl.MathEngine;
@@ -57,6 +33,19 @@ import jscl.NumeralBase;
 import jscl.math.function.Function;
 import jscl.math.function.IConstant;
 import jscl.math.operator.Operator;
+import org.solovyev.android.calculator.*;
+import org.solovyev.android.prefs.BooleanPreference;
+import org.solovyev.android.prefs.Preference;
+import org.solovyev.android.prefs.StringPreference;
+import org.solovyev.common.text.EnumMapper;
+import org.solovyev.common.text.NumberMapper;
+import org.solovyev.common.text.Strings;
+
+import javax.annotation.Nonnull;
+import java.text.DecimalFormatSymbols;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * User: serso
@@ -70,9 +59,6 @@ public class AndroidCalculatorEngine implements CalculatorEngine, SharedPreferen
 
     private static final String MULTIPLICATION_SIGN_P_KEY = "org.solovyev.android.calculator.CalculatorActivity_calc_multiplication_sign";
     private static final String MULTIPLICATION_SIGN_DEFAULT = "×";
-
-    private static final String MAX_CALCULATION_TIME_P_KEY = "calculation.max_calculation_time";
-    private static final String MAX_CALCULATION_TIME_DEFAULT = "5";
 
     private static final String SCIENCE_NOTATION_P_KEY = "calculation.output.science_notation";
     private static final boolean SCIENCE_NOTATION_DEFAULT = false;
@@ -231,11 +217,6 @@ public class AndroidCalculatorEngine implements CalculatorEngine, SharedPreferen
         calculatorEngine.setScienceNotation(scienceNotation);
     }
 
-    @Override
-    public void setTimeout(@Nonnull Integer timeout) {
-        calculatorEngine.setTimeout(timeout);
-    }
-
     private void softReset(@Nonnull SharedPreferences preferences) {
         this.setPrecision(Preferences.precision.getPreference(preferences));
         this.setRoundResult(Preferences.roundResult.getPreference(preferences));
@@ -243,7 +224,6 @@ public class AndroidCalculatorEngine implements CalculatorEngine, SharedPreferen
         this.setNumeralBase(getNumeralBaseFromPrefs(preferences));
         this.setMultiplicationSign(Preferences.multiplicationSign.getPreference(preferences));
         this.setScienceNotation(Preferences.scienceNotation.getPreference(preferences));
-        this.setTimeout(Preferences.maxCalculationTime.getPreference(preferences));
 
         final String groupingSeparator = Preferences.groupingSeparator.getPreference(preferences);
         if (Strings.isEmpty(groupingSeparator)) {
@@ -285,7 +265,6 @@ public class AndroidCalculatorEngine implements CalculatorEngine, SharedPreferen
         public static final Preference<NumeralBase> numeralBase = StringPreference.ofTypedValue(NUMERAL_BASES_P_KEY, NUMERAL_BASES_DEFAULT, EnumMapper.of(NumeralBase.class));
         public static final Preference<AngleUnit> angleUnit = StringPreference.ofTypedValue(ANGLE_UNITS_P_KEY, ANGLE_UNITS_DEFAULT, EnumMapper.of(AngleUnit.class));
         public static final Preference<Boolean> scienceNotation = BooleanPreference.of(SCIENCE_NOTATION_P_KEY, SCIENCE_NOTATION_DEFAULT);
-        public static final Preference<Integer> maxCalculationTime = StringPreference.ofTypedValue(MAX_CALCULATION_TIME_P_KEY, MAX_CALCULATION_TIME_DEFAULT, NumberMapper.of(Integer.class));
 
         private static final List<String> preferenceKeys = new ArrayList<String>();
 
@@ -297,7 +276,6 @@ public class AndroidCalculatorEngine implements CalculatorEngine, SharedPreferen
             preferenceKeys.add(numeralBase.getKey());
             preferenceKeys.add(angleUnit.getKey());
             preferenceKeys.add(scienceNotation.getKey());
-            preferenceKeys.add(maxCalculationTime.getKey());
         }
 
         @Nonnull
