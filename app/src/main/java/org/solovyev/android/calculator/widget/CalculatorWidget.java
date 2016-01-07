@@ -34,11 +34,19 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
-import android.text.*;
+import android.text.SpannableStringBuilder;
+import android.text.SpannedString;
+import android.text.TextUtils;
 import android.widget.RemoteViews;
+
 import org.solovyev.android.Views;
-import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.CalculatorButton;
+import org.solovyev.android.calculator.CalculatorDisplayViewState;
+import org.solovyev.android.calculator.CalculatorEditorViewState;
+import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.Preferences.SimpleTheme;
+import org.solovyev.android.calculator.R;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -46,7 +54,9 @@ import javax.annotation.Nullable;
 import static android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT;
 import static android.content.Intent.ACTION_CONFIGURATION_CHANGED;
 import static android.os.Build.VERSION_CODES.JELLY_BEAN;
-import static org.solovyev.android.calculator.CalculatorBroadcaster.*;
+import static org.solovyev.android.calculator.CalculatorBroadcaster.ACTION_DISPLAY_STATE_CHANGED;
+import static org.solovyev.android.calculator.CalculatorBroadcaster.ACTION_EDITOR_STATE_CHANGED;
+import static org.solovyev.android.calculator.CalculatorBroadcaster.ACTION_THEME_CHANGED;
 import static org.solovyev.android.calculator.CalculatorReceiver.newButtonClickedIntent;
 
 public class CalculatorWidget extends AppWidgetProvider {
@@ -197,22 +207,28 @@ public class CalculatorWidget extends AppWidgetProvider {
 
     private void updateEditorState(@Nonnull Context context, @Nonnull RemoteViews views, @Nonnull CalculatorEditorViewState editorState, @Nonnull SimpleTheme theme) {
         final CharSequence text = editorState.getTextAsCharSequence();
-
         final boolean unspan = App.getTheme().light != theme.light;
-        CharSequence newText = text;
-        int selection = editorState.getSelection();
-        if (selection >= 0 && selection <= text.length()) {
-            // inject cursor
-            final SpannableStringBuilder result = new SpannableStringBuilder();
+
+        final int selection = editorState.getSelection();
+        if (selection < 0 || selection > text.length()) {
+            views.setTextViewText(R.id.calculator_editor, unspan ? unspan(text) : text);
+            return;
+        }
+
+        final SpannableStringBuilder result;
+        // inject cursor
+        if (unspan) {
+            result = new SpannableStringBuilder();
             final CharSequence beforeCursor = text.subSequence(0, selection);
-            result.append(unspan ? unspan(beforeCursor) : beforeCursor);
+            result.append(unspan(beforeCursor));
             result.append(getCursorString(context));
             final CharSequence afterCursor = text.subSequence(selection, text.length());
-            result.append(unspan ? unspan(afterCursor) : afterCursor);
-            newText = result;
+            result.append(unspan(afterCursor));
+        } else {
+            result = new SpannableStringBuilder(text);
+            result.insert(selection, getCursorString(context));
         }
-        Locator.getInstance().getNotifier().showDebugMessage(TAG, "New editor state: " + text);
-        views.setTextViewText(R.id.calculator_editor, newText);
+        views.setTextViewText(R.id.calculator_editor, result);
     }
 
     @NonNull
