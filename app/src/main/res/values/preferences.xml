@@ -24,9 +24,6 @@
     <string name="p_calc_result_precision_key" translatable="false">org.solovyev.android.calculator.CalculatorModel_result_precision</string>
     <string name="p_calc_result_precision" translatable="false">5</string>
 
-    <string name="p_calc_max_calculation_time_key" translatable="false">calculation.max_calculation_time</string>
-    <string name="p_calc_max_calculation_time" translatable="false">5</string>
-
     <string name="p_calc_color_display_key" translatable="false">org.solovyev.android.calculator.CalculatorModel_color_display</string>
     <string name="p_calc_color_display" translatable="false">true</string>
 
