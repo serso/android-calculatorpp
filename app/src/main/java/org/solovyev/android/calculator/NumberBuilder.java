@@ -22,8 +22,9 @@
 
 package org.solovyev.android.calculator;
 
+import android.text.SpannableStringBuilder;
+
 import org.solovyev.android.calculator.math.MathType;
-import org.solovyev.common.MutableObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,35 +47,28 @@ import jscl.text.Parser;
  * Date: 10/23/11
  * Time: 2:57 PM
  */
-public class NumberBuilder extends AbstractNumberBuilder {
+public class NumberBuilder extends BaseNumberBuilder {
 
     public NumberBuilder(@Nonnull CalculatorEngine engine) {
         super(engine);
     }
 
-    @Nullable
-    private static MathType.Result replaceNumberInText(@Nonnull StringBuilder text,
-                                                       @Nullable String number,
-                                                       int trimmedChars,
-                                                       @Nullable MutableObject<Integer> offset,
-                                                       @Nonnull NumeralBase nb,
-                                                       @Nonnull final MathEngine engine) {
-        MathType.Result result = null;
-
-        if (number != null) {
-            // in any case remove old number from text
-            final int oldNumberLength = number.length() + trimmedChars;
-            text.delete(text.length() - oldNumberLength, text.length());
-
-            final String newNumber = formatNumber(number, nb, engine);
-            if (offset != null) {
-                // register offset between old number and new number
-                offset.setObject(newNumber.length() - oldNumberLength);
-            }
-            text.append(newNumber);
+    private static int replaceNumberInText(@Nonnull SpannableStringBuilder sb,
+                                           @Nullable String number,
+                                           int trimmedChars,
+                                           @Nonnull NumeralBase nb,
+                                           @Nonnull final MathEngine engine) {
+        if (number == null) {
+            return 0;
         }
+        // in any case remove old number from text
+        final int oldNumberLength = number.length() + trimmedChars;
+        sb.delete(sb.length() - oldNumberLength, sb.length());
 
-        return result;
+        final String newNumber = formatNumber(number, nb, engine);
+        sb.append(newNumber);
+        // offset between old number and new number
+        return newNumber.length() - oldNumberLength;
     }
 
     @Nonnull
@@ -138,47 +132,40 @@ public class NumberBuilder extends AbstractNumberBuilder {
     /**
      * Method replaces number in text according to some rules (e.g. formatting)
      *
-     * @param text           text where number can be replaced
-     * @param mathTypeResult math type result of current token
-     * @param offset         offset between new number length and old number length (newNumberLength - oldNumberLength)
-     * @return new math type result (as one can be changed due to substituting of number with constant)
+     * @param sb     text where number can be replaced
+     * @param result math type result of current token
+     * @return offset between new number length and old number length (newNumberLength - oldNumberLength)
      */
-    @Nonnull
-    public MathType.Result process(@Nonnull StringBuilder text, @Nonnull MathType.Result mathTypeResult, @Nullable MutableObject<Integer> offset) {
-        final MathType.Result possibleResult;
-        if (canContinue(mathTypeResult)) {
+    @Override
+    public int process(@Nonnull SpannableStringBuilder sb, @Nonnull MathType.Result result) {
+        if (canContinue(result)) {
             // let's continue building number
             if (numberBuilder == null) {
                 // if new number => create new builder
                 numberBuilder = new StringBuilder();
             }
 
-            if (mathTypeResult.getMathType() != MathType.numeral_base) {
+            if (result.type != MathType.numeral_base) {
                 // just add matching string
-                numberBuilder.append(mathTypeResult.getMatch());
+                numberBuilder.append(result.match);
             } else {
                 // set explicitly numeral base (do not include it into number)
-                nb = NumeralBase.getByPrefix(mathTypeResult.getMatch());
+                nb = NumeralBase.getByPrefix(result.match);
             }
-
-            possibleResult = null;
+            return 0;
         } else {
             // process current number (and go to the next one)
-            possibleResult = processNumber(text, offset);
+            return processNumber(sb);
         }
-
-        return possibleResult == null ? mathTypeResult : possibleResult;
     }
 
     /**
      * Method replaces number in text according to some rules (e.g. formatting)
      *
-     * @param text   text where number can be replaced
-     * @param offset offset between new number length and old number length (newNumberLength - oldNumberLength)
-     * @return new math type result (as one can be changed due to substituting of number with constant)
+     * @param sb text where number can be replaced
+     * @return offset between new number length and old number length (newNumberLength - oldNumberLength)
      */
-    @Nullable
-    public MathType.Result processNumber(@Nonnull StringBuilder text, @Nullable MutableObject<Integer> offset) {
+    public int processNumber(@Nonnull SpannableStringBuilder sb) {
         // total number of trimmed chars
         int trimmedChars = 0;
 
@@ -216,6 +203,6 @@ public class NumberBuilder extends AbstractNumberBuilder {
             nb = engine.getNumeralBase();
         }
 
-        return replaceNumberInText(text, number, trimmedChars, offset, localNb, engine.getMathEngine0());
+        return replaceNumberInText(sb, number, trimmedChars, localNb, engine.getMathEngine0());
     }
 }

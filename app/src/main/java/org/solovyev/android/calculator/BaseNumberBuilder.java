@@ -22,6 +22,8 @@
 
 package org.solovyev.android.calculator;
 
+import android.text.SpannableStringBuilder;
+
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.common.text.Strings;
 
@@ -35,7 +37,7 @@ import jscl.NumeralBase;
  * Date: 12/15/11
  * Time: 9:01 PM
  */
-public abstract class AbstractNumberBuilder {
+public abstract class BaseNumberBuilder {
 
     @Nonnull
     protected final CalculatorEngine engine;
@@ -46,7 +48,7 @@ public abstract class AbstractNumberBuilder {
     @Nullable
     protected NumeralBase nb;
 
-    protected AbstractNumberBuilder(@Nonnull CalculatorEngine engine) {
+    protected BaseNumberBuilder(@Nonnull CalculatorEngine engine) {
         this.engine = engine;
         this.nb = engine.getNumeralBase();
     }
@@ -58,15 +60,14 @@ public abstract class AbstractNumberBuilder {
      * @return true if we can continue of processing of current number, if false - new number should be constructed
      */
     protected boolean canContinue(@Nonnull MathType.Result mathTypeResult) {
-        boolean result = mathTypeResult.getMathType().getGroupType() == MathType.MathGroupType.number &&
+        return mathTypeResult.type.getGroupType() == MathType.MathGroupType.number &&
                 !spaceBefore(mathTypeResult) &&
                 numeralBaseCheck(mathTypeResult) &&
-                numeralBaseInTheStart(mathTypeResult.getMathType()) || isSignAfterE(mathTypeResult);
-        return result;
+                numeralBaseInTheStart(mathTypeResult.type) || isSignAfterE(mathTypeResult);
     }
 
     private boolean spaceBefore(@Nonnull MathType.Result mathTypeResult) {
-        return numberBuilder == null && Strings.isEmpty(mathTypeResult.getMatch().trim());
+        return numberBuilder == null && Strings.isEmpty(mathTypeResult.match.trim());
     }
 
     private boolean numeralBaseInTheStart(@Nonnull MathType mathType) {
@@ -74,12 +75,12 @@ public abstract class AbstractNumberBuilder {
     }
 
     private boolean numeralBaseCheck(@Nonnull MathType.Result mathType) {
-        return mathType.getMathType() != MathType.digit || getNumeralBase().getAcceptableCharacters().contains(mathType.getMatch().charAt(0));
+        return mathType.type != MathType.digit || getNumeralBase().getAcceptableCharacters().contains(mathType.match.charAt(0));
     }
 
     private boolean isSignAfterE(@Nonnull MathType.Result mathTypeResult) {
         if (!isHexMode()) {
-            final String match = mathTypeResult.getMatch();
+            final String match = mathTypeResult.match;
             if ("−".equals(match) || "-".equals(match) || "+".equals(match)) {
                 final StringBuilder localNb = numberBuilder;
                 if (localNb != null && localNb.length() > 0) {
@@ -100,4 +101,6 @@ public abstract class AbstractNumberBuilder {
     protected NumeralBase getNumeralBase() {
         return nb == null ? engine.getNumeralBase() : nb;
     }
+
+    public abstract int process(@Nonnull SpannableStringBuilder sb, @Nonnull MathType.Result result);
 }

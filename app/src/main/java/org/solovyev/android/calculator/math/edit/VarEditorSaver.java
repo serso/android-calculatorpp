@@ -120,7 +120,7 @@ public class VarEditorSaver<T extends MathEntity> implements View.OnClickListene
             if (canBeSaved) {
                 final MathType.Result mathType = MathType.getType(name, 0, false);
 
-                if (mathType.getMathType() == MathType.text || mathType.getMathType() == MathType.constant) {
+                if (mathType.type == MathType.text || mathType.type == MathType.constant) {
 
                     if (Strings.isEmpty(value)) {
                         // value is empty => undefined variable

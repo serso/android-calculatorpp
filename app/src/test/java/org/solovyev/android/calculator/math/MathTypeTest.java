@@ -45,29 +45,29 @@ public class MathTypeTest extends AbstractCalculatorTest {
 
     @Test
     public void testGetType() throws Exception {
-        assertEquals(MathType.function, MathType.getType("sin", 0, false).getMathType());
-        assertEquals(MathType.text, MathType.getType("sn", 0, false).getMathType());
-        assertEquals(MathType.text, MathType.getType("s", 0, false).getMathType());
-        assertEquals(MathType.text, MathType.getType("", 0, false).getMathType());
+        assertEquals(MathType.function, MathType.getType("sin", 0, false).type);
+        assertEquals(MathType.text, MathType.getType("sn", 0, false).type);
+        assertEquals(MathType.text, MathType.getType("s", 0, false).type);
+        assertEquals(MathType.text, MathType.getType("", 0, false).type);
 
         try {
-            assertEquals(MathType.text, MathType.getType("22", -1, false).getMathType());
+            assertEquals(MathType.text, MathType.getType("22", -1, false).type);
             Assert.fail();
         } catch (IllegalArgumentException e) {
         }
 
         try {
-            assertEquals(MathType.text, MathType.getType("22", 2, false).getMathType());
+            assertEquals(MathType.text, MathType.getType("22", 2, false).type);
             Assert.fail();
         } catch (IllegalArgumentException e) {
         }
 
-        assertEquals("atanh", MathType.getType("atanh", 0, false).getMatch());
+        assertEquals("atanh", MathType.getType("atanh", 0, false).match);
     }
 
     @Test
     public void testPostfixFunctionsProcessing() throws Exception {
-        assertEquals(postfix_function, MathType.getType("5!", 1, false).getMathType());
-        assertEquals(postfix_function, MathType.getType("!", 0, false).getMathType());
+        assertEquals(postfix_function, MathType.getType("5!", 1, false).type);
+        assertEquals(postfix_function, MathType.getType("!", 0, false).type);
     }
 }

@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.text.Html;
 import android.util.Log;
 
 import org.solovyev.android.calculator.App;
@@ -50,7 +49,7 @@ public final class EditorTextProcessor implements TextProcessor<TextProcessorEdi
             try {
                 final TextProcessorEditorResult processesText = getTextHighlighter().process(text);
 
-                result = new TextProcessorEditorResult(Html.fromHtml(processesText.toString()), processesText.getOffset());
+                result = new TextProcessorEditorResult(processesText.getCharSequence(), processesText.getOffset());
             } catch (CalculatorParseException e) {
                 // set raw text
                 result = new TextProcessorEditorResult(text, 0);

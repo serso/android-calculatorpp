@@ -63,7 +63,7 @@ public class CalculatorKeyboardImpl implements CalculatorKeyboard {
         final StringBuilder textToBeInserted = new StringBuilder(text);
 
         final MathType.Result mathType = MathType.getType(text, 0, false);
-        switch (mathType.getMathType()) {
+        switch (mathType.type) {
             case function:
                 textToBeInserted.append("()");
                 cursorPositionOffset = -1;
@@ -78,7 +78,7 @@ public class CalculatorKeyboardImpl implements CalculatorKeyboard {
         }
 
         if (cursorPositionOffset == 0) {
-            if (MathType.openGroupSymbols.contains(text)) {
+            if (MathType.groupSymbols.contains(text)) {
                 cursorPositionOffset = -1;
             }
         }

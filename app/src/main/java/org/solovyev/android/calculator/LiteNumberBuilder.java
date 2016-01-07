@@ -22,6 +22,8 @@
 
 package org.solovyev.android.calculator;
 
+import android.text.SpannableStringBuilder;
+
 import org.solovyev.android.calculator.math.MathType;
 
 import javax.annotation.Nonnull;
@@ -34,27 +36,33 @@ import jscl.NumeralBase;
  * Time: 8:33 PM
  */
 
-public class LiteNumberBuilder extends AbstractNumberBuilder {
+public class LiteNumberBuilder extends BaseNumberBuilder {
 
     public LiteNumberBuilder(@Nonnull CalculatorEngine engine) {
         super(engine);
         this.nb = engine.getNumeralBase();
     }
 
-    public void process(@Nonnull MathType.Result mathTypeResult) {
-        if (canContinue(mathTypeResult)) {
+    @Override
+    public int process(@Nonnull SpannableStringBuilder sb, @Nonnull MathType.Result result) {
+        process(result);
+        return 0;
+    }
+
+    public void process(@Nonnull MathType.Result result) {
+        if (canContinue(result)) {
             // let's continue building number
             if (numberBuilder == null) {
                 // if new number => create new builder
                 numberBuilder = new StringBuilder();
             }
 
-            if (mathTypeResult.getMathType() != MathType.numeral_base) {
+            if (result.type != MathType.numeral_base) {
                 // just add matching string
-                numberBuilder.append(mathTypeResult.getMatch());
+                numberBuilder.append(result.match);
             } else {
                 // set explicitly numeral base (do not include it into number)
-                nb = NumeralBase.getByPrefix(mathTypeResult.getMatch());
+                nb = NumeralBase.getByPrefix(result.match);
             }
 
         } else {

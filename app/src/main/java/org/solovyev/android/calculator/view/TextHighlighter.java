@@ -22,15 +22,28 @@
 
 package org.solovyev.android.calculator.view;
 
-import org.solovyev.android.calculator.*;
+import android.graphics.Typeface;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
+
+import com.google.common.collect.Lists;
+
+import org.solovyev.android.Check;
+import org.solovyev.android.calculator.BaseNumberBuilder;
+import org.solovyev.android.calculator.CalculatorEngine;
+import org.solovyev.android.calculator.CalculatorParseException;
+import org.solovyev.android.calculator.LiteNumberBuilder;
+import org.solovyev.android.calculator.Locator;
+import org.solovyev.android.calculator.NumberBuilder;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.text.TextProcessor;
 import org.solovyev.android.calculator.text.TextProcessorEditorResult;
-import org.solovyev.common.MutableObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.Map;
 
 /**
  * User: serso
@@ -80,148 +93,128 @@ public class TextHighlighter implements TextProcessor<TextProcessorEditorResult,
     @Nonnull
     @Override
     public TextProcessorEditorResult process(@Nonnull String text) throws CalculatorParseException {
-        final CharSequence result;
+        final CalculatorEngine engine = Locator.getInstance().getEngine();
+        final SpannableStringBuilder sb = new SpannableStringBuilder();
+        final BaseNumberBuilder nb = !formatNumber ? new LiteNumberBuilder(engine) : new NumberBuilder(engine);
 
-        int maxNumberOfOpenGroupSymbols = 0;
-        int numberOfOpenGroupSymbols = 0;
+        int offset = 0;
+        int groupsCount = 0;
+        int openGroupsCount = 0;
 
-        final StringBuilder text1 = new StringBuilder(5 * text.length());
-
-        int resultOffset = 0;
-
-        final AbstractNumberBuilder numberBuilder;
-        if (!formatNumber) {
-            numberBuilder = new LiteNumberBuilder(Locator.getInstance().getEngine());
-        } else {
-            numberBuilder = new NumberBuilder(Locator.getInstance().getEngine());
-        }
         for (int i = 0; i < text.length(); i++) {
-            MathType.Result mathType = MathType.getType(text, i, numberBuilder.isHexMode());
+            final MathType.Result result = MathType.getType(text, i, nb.isHexMode());
 
-            if (numberBuilder instanceof NumberBuilder) {
-                final MutableObject<Integer> numberOffset = new MutableObject<>(0);
-                ((NumberBuilder) numberBuilder).process(text1, mathType, numberOffset);
-                resultOffset += numberOffset.getObject();
-            } else {
-                ((LiteNumberBuilder) numberBuilder).process(mathType);
-            }
+            offset += nb.process(sb, result);
 
-            final String match = mathType.getMatch();
-            switch (mathType.getMathType()) {
+            final String match = result.match;
+            switch (result.type) {
                 case open_group_symbol:
-                    numberOfOpenGroupSymbols++;
-                    maxNumberOfOpenGroupSymbols = Math.max(maxNumberOfOpenGroupSymbols, numberOfOpenGroupSymbols);
-                    text1.append(text.charAt(i));
+                    openGroupsCount++;
+                    groupsCount = Math.max(groupsCount, openGroupsCount);
+                    sb.append(text.charAt(i));
                     break;
                 case close_group_symbol:
-                    numberOfOpenGroupSymbols--;
-                    text1.append(text.charAt(i));
+                    openGroupsCount--;
+                    sb.append(text.charAt(i));
                     break;
                 case operator:
-                    text1.append(match);
-                    if (match.length() > 1) {
-                        i += match.length() - 1;
-                    }
+                    i += append(sb, match);
                     break;
                 case function:
-                    i = processHighlightedText(text1, i, match, "i", null);
+                    i += append(sb, match);
+                    makeItalic(sb, i + 1 - match.length(), i + 1);
                     break;
                 case constant:
-                    i = processHighlightedText(text1, i, match, "b", null);
-                    break;
                 case numeral_base:
-                    i = processHighlightedText(text1, i, match, "b", null);
+                    i += append(sb, match);
+                    makeBold(sb, i + 1 - match.length(), i + 1);
                     break;
                 default:
-                    if (mathType.getMathType() == MathType.text || match.length() <= 1) {
-                        text1.append(text.charAt(i));
+                    if (result.type == MathType.text || match.length() <= 1) {
+                        sb.append(text.charAt(i));
                     } else {
-                        text1.append(match);
-                        i += match.length() - 1;
+                        i += append(sb, match);
                     }
             }
         }
 
-        if (numberBuilder instanceof NumberBuilder) {
-            final MutableObject<Integer> numberOffset = new MutableObject<Integer>(0);
-            ((NumberBuilder) numberBuilder).processNumber(text1, numberOffset);
-            resultOffset += numberOffset.getObject();
+        if (nb instanceof NumberBuilder) {
+            offset += ((NumberBuilder) nb).processNumber(sb);
         }
 
-        if (maxNumberOfOpenGroupSymbols > 0) {
-
-            final StringBuilder text2 = new StringBuilder(text1.length());
-
-            int i = processBracketGroup(text2, text1, 0, 0, maxNumberOfOpenGroupSymbols);
-            for (; i < text1.length(); i++) {
-                text2.append(text1.charAt(i));
-            }
-
-            result = text2.toString();
-        } else {
-            result = text1.toString();
+        if (groupsCount == 0) {
+            return new TextProcessorEditorResult(sb, offset);
         }
-
-        return new TextProcessorEditorResult(result, resultOffset);
+        final List<GroupSpan> groupSpans = new ArrayList<>(groupsCount);
+        fillGroupSpans(sb, 0, 0, groupsCount, groupSpans);
+        for (GroupSpan groupSpan : Lists.reverse(groupSpans)) {
+            makeColor(sb, groupSpan.start, groupSpan.end, getColor(groupSpan.group, groupsCount));
+        }
+        return new TextProcessorEditorResult(sb, offset);
     }
 
-    private int processHighlightedText(@Nonnull StringBuilder result, int i, @Nonnull String match, @Nonnull String tag, @Nullable Map<String, String> tagAttributes) {
-        result.append("<").append(tag);
-
-        if (tagAttributes != null && !tagAttributes.entrySet().isEmpty()) {
-            for (Map.Entry<String, String> entry : tagAttributes.entrySet()) {
-                // attr1="attr1_value" attr2="attr2_value"
-                result.append(" ").append(entry.getKey()).append("=\"").append(entry.getValue()).append("\"");
-            }
-        }
-
-        result.append(">").append(match).append("</").append(tag).append(">");
+    private int append(SpannableStringBuilder t, String match) {
+        t.append(match);
         if (match.length() > 1) {
-            return i + match.length() - 1;
-        } else {
-            return i;
+            return match.length() - 1;
         }
+        return 0;
     }
 
-    private int processBracketGroup(@Nonnull StringBuilder result, @Nonnull CharSequence s, int i, int numberOfOpenings, int maxNumberOfGroups) {
+    private static void makeItalic(@Nonnull SpannableStringBuilder t, int start, int end) {
+        t.setSpan(new StyleSpan(Typeface.ITALIC), start, end, SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE);
+    }
 
-        result.append("<font color=\"").append(getColor(maxNumberOfGroups, numberOfOpenings)).append("\">");
+    private static void makeBold(@Nonnull SpannableStringBuilder t, int start, int end) {
+        t.setSpan(new StyleSpan(Typeface.BOLD), start, end, SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE);
+    }
 
-        for (; i < s.length(); i++) {
-            char ch = s.charAt(i);
-            String strCh = String.valueOf(ch);
+    private static void makeColor(@Nonnull SpannableStringBuilder t, int start, int end, int color) {
+        t.setSpan(new ForegroundColorSpan(color), start, end, SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE);
+    }
 
-            if (MathType.open_group_symbol.getTokens().contains(strCh)) {
-                result.append(ch);
-                result.append("</font>");
-                i = processBracketGroup(result, s, i + 1, numberOfOpenings + 1, maxNumberOfGroups);
-                result.append("<font color=\"").append(getColor(maxNumberOfGroups, numberOfOpenings)).append("\">");
-                if (i < s.length() && MathType.close_group_symbol.getTokens().contains(String.valueOf(s.charAt(i)))) {
-                    result.append(s.charAt(i));
-                }
-            } else if (MathType.close_group_symbol.getTokens().contains(strCh)) {
-                break;
-            } else {
-                result.append(ch);
+    private int fillGroupSpans(@Nonnull SpannableStringBuilder sb, int start, int group, int groupsCount, @Nonnull List<GroupSpan> spans) {
+        for (int i = start; i < sb.length(); i++) {
+            final char c = sb.charAt(i);
+            if (MathType.isOpenGroupSymbol(c)) {
+                i = highlightGroup(sb, i, group + 1, groupsCount, spans);
+            } else if (MathType.isCloseGroupSymbol(c)) {
+                return i;
             }
         }
 
-        result.append("</font>");
-
-
-        return i;
+        return sb.length();
     }
 
-    private String getColor(int totalNumberOfOpenings, int numberOfOpenings) {
-        int offset = ((int) (255 * 0.8)) * numberOfOpenings / (totalNumberOfOpenings + 1);
+    private int highlightGroup(SpannableStringBuilder sb, int start, int group, int groupsCount, @Nonnull List<GroupSpan> spans) {
+        final int end = fillGroupSpans(sb, start + 1, group, groupsCount, spans);
+        if (start + 1 < end) {
+            spans.add(new GroupSpan(start + 1, end, group));
+        }
+        return end;
+    }
+
+    private int getColor(int group, int groupsCount) {
+        int offset = ((int) (255 * 0.8)) * group / (groupsCount + 1);
         if (!dark) {
             offset = -offset;
         }
 
         // for tests:
         // int result = Color.rgb(BASE_COLOUR_RED_COMPONENT - offset, BASE_COLOUR_GREEN_COMPONENT - offset, BASE_COLOUR_BLUE_COMPONENT - offset);
-        int result = (0xFF << 24) | ((red + offset) << 16) | ((green + offset) << 8) | (blue + offset);
+        return (0xFF << 24) | ((red + offset) << 16) | ((green + offset) << 8) | (blue + offset);
+    }
 
-        return "#" + App.toColorString(result);
+    private static class GroupSpan {
+        final int start;
+        final int end;
+        final int group;
+
+        private GroupSpan(int start, int end, int group) {
+            Check.isTrue(start < end);
+            this.start = start;
+            this.end = end;
+            this.group = group;
+        }
     }
 }
