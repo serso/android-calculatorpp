@@ -51,7 +51,7 @@ public class CalculatorAboutFragment extends CalculatorFragment {
     public void onViewCreated(View root, Bundle savedInstanceState) {
         super.onViewCreated(root, savedInstanceState);
 
-        if (App.getTheme().isLight()) {
+        if (App.getTheme().light) {
             final ImageView image = (ImageView) root.findViewById(R.id.about_image);
             image.setImageResource(R.drawable.logo_wizard_light);
         }

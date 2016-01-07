@@ -117,9 +117,9 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
     public void onCreate(@Nullable Bundle in) {
         super.onCreate(in);
         if (isPaneFragment()) {
-            bgColor = getResources().getColor(App.getTheme().isLight() ? R.color.cpp_pane_bg_light : R.color.cpp_pane_bg);
+            bgColor = getResources().getColor(App.getTheme().light ? R.color.cpp_pane_bg_light : R.color.cpp_pane_bg);
         } else {
-            bgColor = getResources().getColor(App.getTheme().isLight() ? R.color.cpp_main_bg_light : R.color.cpp_main_bg);
+            bgColor = getResources().getColor(App.getTheme().light ? R.color.cpp_main_bg_light : R.color.cpp_main_bg);
         }
         setHasOptionsMenu(true);
     }

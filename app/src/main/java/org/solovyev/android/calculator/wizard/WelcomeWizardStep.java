@@ -41,7 +41,7 @@ public final class WelcomeWizardStep extends WizardFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = super.onCreateView(inflater, container, savedInstanceState);
-        if (App.getTheme().isLight()) {
+        if (App.getTheme().light) {
             final TextView message = (TextView) view.findViewById(R.id.wizard_welcome_message);
             message.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.logo_wizard_light, 0, 0);
         }

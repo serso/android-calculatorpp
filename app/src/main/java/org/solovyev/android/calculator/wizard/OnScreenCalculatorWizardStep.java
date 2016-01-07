@@ -55,7 +55,7 @@ public class OnScreenCalculatorWizardStep extends WizardFragment implements Comp
         checkbox.setChecked(enabled);
         checkbox.setOnCheckedChangeListener(this);
 
-        if (App.getTheme().isLight()) {
+        if (App.getTheme().light) {
             final TextView message = (TextView) root.findViewById(R.id.wizard_onscreen_message);
             message.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.logo_wizard_window_light, 0, 0);
         }

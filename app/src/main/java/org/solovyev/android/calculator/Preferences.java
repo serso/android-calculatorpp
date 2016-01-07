@@ -303,7 +303,7 @@ public final class Preferences {
             metro_purple_theme(R.style.cpp_metro_purple_theme),
             metro_green_theme(R.style.cpp_metro_green_theme),
             material_theme(R.style.Cpp_Theme_Material),
-            material_light_theme(R.style.Cpp_Theme_Material_Light, R.style.Cpp_Theme_Wizard_Light, R.style.Cpp_Theme_Dialog_Material_Light, true),;
+            material_light_theme(R.style.Cpp_Theme_Material_Light, R.style.Cpp_Theme_Wizard_Light, R.style.Cpp_Theme_Dialog_Material_Light);
 
             private static final SparseArray<TextColor> textColors = new SparseArray<>();
 
@@ -317,14 +317,10 @@ public final class Preferences {
             }
 
             Theme(@StyleRes int themeId, @StyleRes int wizardThemeId, int dialogThemeId) {
-                this(themeId, wizardThemeId, dialogThemeId, false);
-            }
-
-            Theme(@StyleRes int themeId, @StyleRes int wizardThemeId, int dialogThemeId, boolean light) {
                 this.themeId = themeId;
                 this.wizardThemeId = wizardThemeId;
                 this.dialogThemeId = dialogThemeId;
-                this.light = light;
+                this.light = themeId == R.style.Cpp_Theme_Material_Light;
             }
 
             public int getThemeId() {
@@ -355,10 +351,6 @@ public final class Preferences {
                     textColors.append(themeId, textColor);
                 }
                 return textColor;
-            }
-
-            public boolean isLight() {
-                return themeId == R.style.Cpp_Theme_Material_Light;
             }
         }
 
