@@ -62,7 +62,7 @@ public class AndroidCalculatorEditorViewTest {
 
     @Test
     public void testCreation() throws Exception {
-        new AndroidCalculatorEditorView(CalculatorApplication.getInstance());
+        new EditorView(CalculatorApplication.getInstance());
     }
 
     @Test

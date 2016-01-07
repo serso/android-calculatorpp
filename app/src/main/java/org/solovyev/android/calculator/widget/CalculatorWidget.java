@@ -30,13 +30,16 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.SpannedString;
 import android.text.TextUtils;
+import android.text.style.StyleSpan;
 import android.widget.RemoteViews;
 import org.solovyev.android.Views;
 import org.solovyev.android.calculator.*;
@@ -78,7 +81,10 @@ public class CalculatorWidget extends AppWidgetProvider {
     @Nonnull
     private SpannedString initCursorString(@Nonnull Context context) {
         if (cursorString == null) {
-            cursorString = new SpannedString(App.colorString("|", ContextCompat.getColor(context, R.color.cpp_widget_cursor)));
+            final SpannableString s = App.colorString("|", ContextCompat.getColor(context, R.color.cpp_widget_cursor));
+            // this will override any other style span (f.e. italic)
+            s.setSpan(new StyleSpan(Typeface.NORMAL), 0, 1, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
+            cursorString = new SpannedString(s);
         }
         return cursorString;
     }
@@ -101,7 +107,7 @@ public class CalculatorWidget extends AppWidgetProvider {
     private void updateWidget(@Nonnull Context context,
                               @Nonnull AppWidgetManager manager,
                               @Nonnull int[] widgetIds) {
-        final CalculatorEditorViewState editorState = Locator.getInstance().getEditor().getViewState();
+        final  EditorState editorState = Locator.getInstance().getEditor().getViewState();
         final CalculatorDisplayViewState displayState = Locator.getInstance().getDisplay().getViewState();
 
         final Resources resources = context.getResources();
@@ -197,7 +203,7 @@ public class CalculatorWidget extends AppWidgetProvider {
         views.setTextColor(R.id.calculator_display, ContextCompat.getColor(context, theme.getDisplayTextColor(error)));
     }
 
-    private void updateEditorState(@Nonnull Context context, @Nonnull RemoteViews views, @Nonnull CalculatorEditorViewState editorState, @Nonnull SimpleTheme theme) {
+    private void updateEditorState(@Nonnull Context context, @Nonnull RemoteViews views, @Nonnull  EditorState editorState, @Nonnull SimpleTheme theme) {
         final CharSequence text = editorState.getTextAsCharSequence();
         final boolean unspan = App.getTheme().light != theme.light;
 

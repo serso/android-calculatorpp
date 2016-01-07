@@ -35,21 +35,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
-
-import org.solovyev.android.calculator.AndroidCalculatorDisplayView;
-import org.solovyev.android.calculator.AndroidCalculatorEditorView;
-import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.CalculatorButton;
-import org.solovyev.android.calculator.CalculatorDisplayViewState;
-import org.solovyev.android.calculator.CalculatorEditorViewState;
-import org.solovyev.android.calculator.Preferences;
-import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.prefs.Preference;
-
-import java.util.Locale;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Locale;
 
 /**
  * User: serso
@@ -100,7 +91,7 @@ public class CalculatorOnscreenView {
     private Drawable headerTitleDrawable;
 
     @Nonnull
-    private AndroidCalculatorEditorView editorView;
+    private EditorView editorView;
 
     @Nonnull
     private AndroidCalculatorDisplayView displayView;
@@ -202,7 +193,7 @@ public class CalculatorOnscreenView {
 	**********************************************************************
 	*/
 
-    public void updateEditorState(@Nonnull CalculatorEditorViewState editorState) {
+    public void updateEditorState(@Nonnull EditorState editorState) {
         checkInit();
         editorView.setState(editorState);
     }
@@ -253,8 +244,7 @@ public class CalculatorOnscreenView {
             displayView = (AndroidCalculatorDisplayView) root.findViewById(R.id.calculator_display);
             displayView.init(this.context, false);
 
-            editorView = (AndroidCalculatorEditorView) root.findViewById(R.id.calculator_editor);
-            editorView.init();
+            editorView = (EditorView) root.findViewById(R.id.calculator_editor);
 
             final View onscreenFoldButton = root.findViewById(R.id.onscreen_fold_button);
             onscreenFoldButton.setOnClickListener(new View.OnClickListener() {

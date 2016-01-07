@@ -111,7 +111,7 @@ public class CalculatorKeyboardImpl implements CalculatorKeyboard {
     @Override
     public void roundBracketsButtonPressed() {
         final CalculatorEditor editor = Locator.getInstance().getEditor();
-        CalculatorEditorViewState viewState = editor.getViewState();
+         EditorState viewState = editor.getViewState();
 
         final int cursorPosition = viewState.getSelection();
         final String oldText = viewState.getText();

@@ -6,7 +6,7 @@ import android.view.View;
 
 import org.solovyev.android.calculator.Calculator;
 import org.solovyev.android.calculator.CalculatorEditor;
-import org.solovyev.android.calculator.CalculatorEditorViewState;
+import org.solovyev.android.calculator.EditorState;
 import org.solovyev.android.calculator.Locator;
 
 import javax.annotation.Nonnull;
@@ -69,7 +69,7 @@ public final class LongClickEraser implements View.OnTouchListener {
 
         @Override
         public void run() {
-            final CalculatorEditorViewState state = editor.erase();
+            final EditorState state = editor.erase();
             if (isEmpty(state.getText())) {
                 stop();
                 return;

@@ -29,34 +29,34 @@ import javax.annotation.Nonnull;
  * Date: 21.09.12
  * Time: 13:46
  */
-public final class CalculatorEditorChangeEventData implements Change<CalculatorEditorViewState> {
+public final class CalculatorEditorChangeEventData implements Change<EditorState> {
 
     @Nonnull
-    private CalculatorEditorViewState oldState;
+    private EditorState oldState;
 
     @Nonnull
-    private CalculatorEditorViewState newState;
+    private EditorState newState;
 
-    private CalculatorEditorChangeEventData(@Nonnull CalculatorEditorViewState oldState,
-                                            @Nonnull CalculatorEditorViewState newState) {
+    private CalculatorEditorChangeEventData(@Nonnull EditorState oldState,
+                                            @Nonnull EditorState newState) {
         this.oldState = oldState;
         this.newState = newState;
     }
 
-    public static CalculatorEditorChangeEventData newChangeEventData(@Nonnull CalculatorEditorViewState oldState,
-                                                                     @Nonnull CalculatorEditorViewState newState) {
+    public static CalculatorEditorChangeEventData newChangeEventData(@Nonnull EditorState oldState,
+                                                                     @Nonnull EditorState newState) {
         return new CalculatorEditorChangeEventData(oldState, newState);
     }
 
     @Nonnull
     @Override
-    public CalculatorEditorViewState getOldValue() {
+    public EditorState getOldValue() {
         return this.oldState;
     }
 
     @Nonnull
     @Override
-    public CalculatorEditorViewState getNewValue() {
+    public EditorState getNewValue() {
         return this.newState;
     }
 }

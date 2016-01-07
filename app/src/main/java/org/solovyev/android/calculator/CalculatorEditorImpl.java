@@ -55,9 +55,9 @@ public class CalculatorEditorImpl implements CalculatorEditor {
     @Nullable
     private final TextProcessor<TextProcessorEditorResult, String> textProcessor;
     @Nullable
-    private CalculatorEditorView view;
+    private EditorView view;
     @Nonnull
-    private CalculatorEditorViewState lastViewState = CalculatorEditorViewStateImpl.newDefaultInstance();
+    private EditorState lastViewState = EditorState.empty();
 
     public CalculatorEditorImpl(@Nonnull Calculator calculator, @Nullable TextProcessor<TextProcessorEditorResult, String> textProcessor) {
         this.calculator = calculator;
@@ -66,18 +66,16 @@ public class CalculatorEditorImpl implements CalculatorEditor {
         this.lastEventHolder = new CalculatorEventHolder(CalculatorUtils.createFirstEventDataId());
     }
 
-    public static int correctSelection(int selection, @Nonnull CharSequence text) {
-        return correctSelection(selection, text.length());
+    public static int clamp(int selection, @Nonnull CharSequence text) {
+        return clamp(selection, text.length());
     }
 
-    public static int correctSelection(int selection, int textLength) {
-        int result = Math.max(selection, 0);
-        result = min(result, textLength);
-        return result;
+    public static int clamp(int selection, int max) {
+        return min(Math.max(selection, 0), max);
     }
 
     @Override
-    public void setView(@Nonnull CalculatorEditorView view) {
+    public void setView(@Nonnull EditorView view) {
         synchronized (viewLock) {
             this.view = view;
             this.view.setState(lastViewState);
@@ -85,7 +83,7 @@ public class CalculatorEditorImpl implements CalculatorEditor {
     }
 
     @Override
-    public void clearView(@Nonnull CalculatorEditorView view) {
+    public void clearView(@Nonnull EditorView view) {
         synchronized (viewLock) {
             if (this.view == view) {
                 this.view = null;
@@ -95,12 +93,12 @@ public class CalculatorEditorImpl implements CalculatorEditor {
 
     @Nonnull
     @Override
-    public CalculatorEditorViewState getViewState() {
+    public EditorState getViewState() {
         return lastViewState;
     }
 
     @Override
-    public void setViewState(@Nonnull CalculatorEditorViewState newViewState) {
+    public void setViewState(@Nonnull EditorState newViewState) {
         setViewState(newViewState, true);
     }
 
@@ -109,17 +107,17 @@ public class CalculatorEditorImpl implements CalculatorEditor {
         setViewState(this.lastViewState, false);
     }
 
-    private void setViewState(@Nonnull CalculatorEditorViewState newViewState, boolean majorChanges) {
+    private void setViewState(@Nonnull EditorState newViewState, boolean majorChanges) {
         if (textProcessor != null) {
             try {
                 final TextProcessorEditorResult result = textProcessor.process(newViewState.getText());
-                newViewState = CalculatorEditorViewStateImpl.newInstance(result.getCharSequence(), newViewState.getSelection() + result.getOffset());
+                newViewState = EditorState.create(result.getCharSequence(), newViewState.getSelection() + result.getOffset());
             } catch (CalculatorParseException e) {
                 Locator.getInstance().getLogger().error(TAG, e.getMessage(), e);
             }
         }
         synchronized (viewLock) {
-            final CalculatorEditorViewState oldViewState = this.lastViewState;
+            final EditorState oldViewState = this.lastViewState;
 
             this.lastViewState = newViewState;
             if (this.view != null) {
@@ -138,7 +136,7 @@ public class CalculatorEditorImpl implements CalculatorEditor {
 	**********************************************************************
 	*/
 
-    private void fireStateChangedEvent(boolean majorChanges, @Nonnull CalculatorEditorViewState oldViewState, @Nonnull CalculatorEditorViewState newViewState) {
+    private void fireStateChangedEvent(boolean majorChanges, @Nonnull EditorState oldViewState, @Nonnull EditorState newViewState) {
         if (!Thread.holdsLock(viewLock)) throw new AssertionError();
 
         if (majorChanges) {
@@ -166,9 +164,9 @@ public class CalculatorEditorImpl implements CalculatorEditor {
     }
 
     @Nonnull
-    private CalculatorEditorViewState newSelectionViewState(int newSelection) {
+    private EditorState newSelectionViewState(int newSelection) {
         if (this.lastViewState.getSelection() != newSelection) {
-            final CalculatorEditorViewState result = CalculatorEditorViewStateImpl.newSelection(this.lastViewState, newSelection);
+            final EditorState result = EditorState.newSelection(this.lastViewState, newSelection);
             setViewState(result, false);
             return result;
         } else {
@@ -177,21 +175,21 @@ public class CalculatorEditorImpl implements CalculatorEditor {
     }
 
     @Nonnull
-    public CalculatorEditorViewState setCursorOnStart() {
+    public EditorState setCursorOnStart() {
         synchronized (viewLock) {
             return newSelectionViewState(0);
         }
     }
 
     @Nonnull
-    public CalculatorEditorViewState setCursorOnEnd() {
+    public EditorState setCursorOnEnd() {
         synchronized (viewLock) {
             return newSelectionViewState(this.lastViewState.getText().length());
         }
     }
 
     @Nonnull
-    public CalculatorEditorViewState moveCursorLeft() {
+    public EditorState moveCursorLeft() {
         synchronized (viewLock) {
             if (this.lastViewState.getSelection() > 0) {
                 return newSelectionViewState(this.lastViewState.getSelection() - 1);
@@ -210,7 +208,7 @@ public class CalculatorEditorImpl implements CalculatorEditor {
 	*/
 
     @Nonnull
-    public CalculatorEditorViewState moveCursorRight() {
+    public EditorState moveCursorRight() {
         synchronized (viewLock) {
             if (this.lastViewState.getSelection() < this.lastViewState.getText().length()) {
                 return newSelectionViewState(this.lastViewState.getSelection() + 1);
@@ -228,7 +226,7 @@ public class CalculatorEditorImpl implements CalculatorEditor {
 
     @Nonnull
     @Override
-    public CalculatorEditorViewState erase() {
+    public EditorState erase() {
         synchronized (viewLock) {
             int selection = this.lastViewState.getSelection();
             final String text = this.lastViewState.getText();
@@ -236,7 +234,7 @@ public class CalculatorEditorImpl implements CalculatorEditor {
                 final StringBuilder newText = new StringBuilder(text.length() - 1);
                 newText.append(text.substring(0, selection - 1)).append(text.substring(selection, text.length()));
 
-                final CalculatorEditorViewState result = CalculatorEditorViewStateImpl.newInstance(newText.toString(), selection - 1);
+                final EditorState result = EditorState.create(newText.toString(), selection - 1);
                 setViewState(result);
                 return result;
             } else {
@@ -247,7 +245,7 @@ public class CalculatorEditorImpl implements CalculatorEditor {
 
     @Nonnull
     @Override
-    public CalculatorEditorViewState clear() {
+    public EditorState clear() {
         synchronized (viewLock) {
             return setText("");
         }
@@ -255,9 +253,9 @@ public class CalculatorEditorImpl implements CalculatorEditor {
 
     @Nonnull
     @Override
-    public CalculatorEditorViewState setText(@Nonnull String text) {
+    public EditorState setText(@Nonnull String text) {
         synchronized (viewLock) {
-            final CalculatorEditorViewState result = CalculatorEditorViewStateImpl.newInstance(text, text.length());
+            final EditorState result = EditorState.create(text, text.length());
             setViewState(result);
             return result;
         }
@@ -265,11 +263,11 @@ public class CalculatorEditorImpl implements CalculatorEditor {
 
     @Nonnull
     @Override
-    public CalculatorEditorViewState setText(@Nonnull String text, int selection) {
+    public EditorState setText(@Nonnull String text, int selection) {
         synchronized (viewLock) {
-            selection = correctSelection(selection, text);
+            selection = clamp(selection, text);
 
-            final CalculatorEditorViewState result = CalculatorEditorViewStateImpl.newInstance(text, selection);
+            final EditorState result = EditorState.create(text, selection);
             setViewState(result);
             return result;
         }
@@ -277,7 +275,7 @@ public class CalculatorEditorImpl implements CalculatorEditor {
 
     @Nonnull
     @Override
-    public CalculatorEditorViewState insert(@Nonnull String text) {
+    public EditorState insert(@Nonnull String text) {
         synchronized (viewLock) {
             return insert(text, 0);
         }
@@ -285,10 +283,10 @@ public class CalculatorEditorImpl implements CalculatorEditor {
 
     @Nonnull
     @Override
-    public CalculatorEditorViewState insert(@Nonnull String text, int selectionOffset) {
+    public EditorState insert(@Nonnull String text, int selectionOffset) {
         synchronized (viewLock) {
             final String oldText = lastViewState.getText();
-            final int selection = correctSelection(lastViewState.getSelection(), oldText);
+            final int selection = clamp(lastViewState.getSelection(), oldText);
 
             int newTextLength = text.length() + oldText.length();
             final StringBuilder newText = new StringBuilder(newTextLength);
@@ -297,8 +295,8 @@ public class CalculatorEditorImpl implements CalculatorEditor {
             newText.append(text);
             newText.append(oldText.substring(selection));
 
-            int newSelection = correctSelection(text.length() + selection + selectionOffset, newTextLength);
-            final CalculatorEditorViewState result = CalculatorEditorViewStateImpl.newInstance(newText.toString(), newSelection);
+            int newSelection = clamp(text.length() + selection + selectionOffset, newTextLength);
+            final EditorState result = EditorState.create(newText.toString(), newSelection);
             setViewState(result);
             return result;
         }
@@ -306,7 +304,7 @@ public class CalculatorEditorImpl implements CalculatorEditor {
 
     @Nonnull
     @Override
-    public CalculatorEditorViewState moveSelection(int offset) {
+    public EditorState moveSelection(int offset) {
         synchronized (viewLock) {
             int selection = this.lastViewState.getSelection() + offset;
 
@@ -316,11 +314,11 @@ public class CalculatorEditorImpl implements CalculatorEditor {
 
     @Nonnull
     @Override
-    public CalculatorEditorViewState setSelection(int selection) {
+    public EditorState setSelection(int selection) {
         synchronized (viewLock) {
-            selection = correctSelection(selection, this.lastViewState.getText());
+            selection = clamp(selection, this.lastViewState.getText());
 
-            final CalculatorEditorViewState result = CalculatorEditorViewStateImpl.newSelection(this.lastViewState, selection);
+            final EditorState result = EditorState.newSelection(this.lastViewState, selection);
             setViewState(result, false);
             return result;
         }

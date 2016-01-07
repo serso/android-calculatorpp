@@ -14,7 +14,7 @@
     a:layout_height="match_parent"
     a:padding="@dimen/cpp_editor_padding">
 
-    <org.solovyev.android.calculator.AndroidCalculatorEditorView
+    <org.solovyev.android.calculator.EditorView
         a:id="@+id/calculator_editor"
         style="@style/CppText.Editor.Onscreen"
         a:textIsSelectable="true" />

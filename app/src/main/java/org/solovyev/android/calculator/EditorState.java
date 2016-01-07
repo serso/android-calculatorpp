@@ -23,62 +23,53 @@
 package org.solovyev.android.calculator;
 
 import javax.annotation.Nonnull;
+import java.io.Serializable;
 
-/**
- * User: Solovyev_S
- * Date: 21.09.12
- * Time: 12:02
- */
-public class CalculatorEditorViewStateImpl implements CalculatorEditorViewState {
+public class EditorState implements Serializable {
 
     @Nonnull
     private CharSequence text = "";
 
     private int selection = 0;
 
-    private CalculatorEditorViewStateImpl() {
+    private EditorState() {
     }
 
-    public CalculatorEditorViewStateImpl(@Nonnull CalculatorEditorViewState viewState) {
-        this.text = viewState.getText();
-        this.selection = viewState.getSelection();
-    }
-
-    @Nonnull
-    public static CalculatorEditorViewState newDefaultInstance() {
-        return new CalculatorEditorViewStateImpl();
+    public EditorState(@Nonnull EditorState state) {
+        this.text = state.getText();
+        this.selection = state.getSelection();
     }
 
     @Nonnull
-    public static CalculatorEditorViewState newSelection(@Nonnull CalculatorEditorViewState viewState, int newSelection) {
-        final CalculatorEditorViewStateImpl result = new CalculatorEditorViewStateImpl(viewState);
+    public static EditorState empty() {
+        return new EditorState();
+    }
 
-        result.selection = newSelection;
-
+    @Nonnull
+    public static EditorState newSelection(@Nonnull EditorState state, int selection) {
+        final EditorState result = new EditorState(state);
+        result.selection = selection;
         return result;
     }
 
     @Nonnull
-    public static CalculatorEditorViewState newInstance(@Nonnull CharSequence text, int selection) {
-        final CalculatorEditorViewStateImpl result = new CalculatorEditorViewStateImpl();
+    public static EditorState create(@Nonnull CharSequence text, int selection) {
+        final EditorState result = new EditorState();
         result.text = text;
         result.selection = selection;
         return result;
     }
 
     @Nonnull
-    @Override
     public String getText() {
         return this.text.toString();
     }
 
     @Nonnull
-    @Override
     public CharSequence getTextAsCharSequence() {
         return this.text;
     }
 
-    @Override
     public int getSelection() {
         return this.selection;
     }

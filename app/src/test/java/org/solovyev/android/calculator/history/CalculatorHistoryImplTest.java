@@ -26,7 +26,7 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.solovyev.android.calculator.CalculatorDisplayViewStateImpl;
-import org.solovyev.android.calculator.CalculatorEditorViewStateImpl;
+import org.solovyev.android.calculator.EditorState;
 import org.solovyev.android.calculator.CalculatorTestUtils;
 import org.solovyev.android.calculator.Locator;
 
@@ -71,6 +71,6 @@ public class CalculatorHistoryImplTest {
     }
 
     private void addState(@Nonnull CalculatorHistory calculatorHistory, @Nonnull String text) {
-        calculatorHistory.addState(CalculatorHistoryState.newInstance(CalculatorEditorViewStateImpl.newInstance(text, 3), CalculatorDisplayViewStateImpl.newDefaultInstance()));
+        calculatorHistory.addState(CalculatorHistoryState.newInstance(EditorState.create(text, 3), CalculatorDisplayViewStateImpl.newDefaultInstance()));
     }
 }
