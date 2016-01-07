@@ -129,7 +129,7 @@ public enum MathType {
         }
     },
 
-    open_group_symbol(800, true, false, MathGroupType.other, "[", "(", "{") {
+    open_group_symbol(800, true, false, MathGroupType.other, "(", "[", "{") {
         @Override
         public boolean isNeedMultiplicationSignBefore(@Nonnull MathType mathTypeBefore) {
             return super.isNeedMultiplicationSignBefore(mathTypeBefore) && mathTypeBefore != function && mathTypeBefore != operator;
@@ -141,7 +141,7 @@ public enum MathType {
         }
     },
 
-    close_group_symbol(900, false, true, MathGroupType.other, "]", ")", "}") {
+    close_group_symbol(900, false, true, MathGroupType.other, ")", "]", "}") {
         @Override
         public boolean isNeedMultiplicationSignBefore(@Nonnull MathType mathTypeBefore) {
             return false;
@@ -223,68 +223,10 @@ public enum MathType {
         }
     };
 
-    public static final List<String> openGroupSymbols = Arrays.asList("[]", "()", "{}");
+    public static final List<String> groupSymbols = Arrays.asList("()", "[]", "{}");
     public final static Character POWER_10 = 'E';
-    public static final String IMAGINARY_NUMBER = "i";
-    public static final String IMAGINARY_NUMBER_JSCL = "√(-1)";
-    public static final String PI = "π";
     public static final String E = "e";
     public static final String C = "c";
-    public static final Double C_VALUE = 299792458d;
-    public static final String G = "G";
-
-	/*	public static int getPostfixFunctionStart(@Nonnull CharSequence s, int position) throws ParseException {
-        assert s.length() > position;
-
-		int numberOfOpenGroups = 0;
-		int result = position;
-		for (; result >= 0; result--) {
-
-			final MathType mathType = getType(s.toString(), result).getMathType();
-
-			if (Collections.contains(mathType, digit, dot, grouping_separator, power_10)) {
-				// continue
-			} else if (mathType == close_group_symbol) {
-				numberOfOpenGroups++;
-			} else if (mathType == open_group_symbol) {
-				if (numberOfOpenGroups > 0) {
-					numberOfOpenGroups--;
-				} else {
-					 break;
-				}
-			} else {
-				if (stop(s, numberOfOpenGroups, result)) break;
-			}
-		}
-
-		if (numberOfOpenGroups != 0){
-			throw new ParseException("Could not find start of prefix function!");
-		}
-
-		return result;
-	}
-
-	public static boolean stop(CharSequence s, int numberOfOpenGroups, int i) {
-		if (numberOfOpenGroups == 0) {
-			if (i > 0) {
-				final EndsWithFinder endsWithFinder = new EndsWithFinder(s);
-				endsWithFinder.setI(i + 1);
-				if (!Collections.contains(function.getTokens(), FilterType.included, endsWithFinder)) {
-					MathType type = getType(s.toString(), i).getMathType();
-					if (type != constant) {
-						return true;
-					}
-				}
-			} else {
-				return true;
-			}
-		}
-
-		return false;
-	}*/
-    public static final Double G_VALUE = 6.6738480E-11;
-    public static final String H_REDUCED = "h";
-    public static final Double H_REDUCED_VALUE = 6.6260695729E-34 / (2 * Math.PI);
     public final static String NAN = "NaN";
     public final static String INFINITY = "∞";
     public final static String INFINITY_JSCL = "Infinity";
@@ -425,6 +367,14 @@ public enum MathType {
         return null;
     }
 
+    public static boolean isOpenGroupSymbol(char c) {
+        return c == '(' || c == '[' || c == '{';
+    }
+
+    public static boolean isCloseGroupSymbol(char c) {
+        return c == ')' || c == ']' || c == '}';
+    }
+
     public static enum MathGroupType {
         function,
         number,
@@ -435,33 +385,23 @@ public enum MathType {
     public static class Result {
 
         @Nonnull
-        private final MathType mathType;
+        public final MathType type;
 
         @Nonnull
-        private final String match;
+        public final String match;
 
-        public Result(@Nonnull MathType mathType, @Nonnull String match) {
-            this.mathType = mathType;
+        public Result(@Nonnull MathType type, @Nonnull String match) {
+            this.type = type;
 
             this.match = match;
         }
 
         public int processToJscl(@Nonnull StringBuilder result, int i) throws CalculatorParseException {
-            return mathType.processToJscl(result, i, match);
+            return type.processToJscl(result, i, match);
         }
 
         public int processFromJscl(@Nonnull StringBuilder result, int i) {
-            return mathType.processFromJscl(result, i, match);
-        }
-
-        @Nonnull
-        public String getMatch() {
-            return match;
-        }
-
-        @Nonnull
-        public MathType getMathType() {
-            return mathType;
+            return type.processFromJscl(result, i, match);
         }
     }
 

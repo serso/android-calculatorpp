@@ -78,20 +78,20 @@ public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, St
 
             if (mathTypeBefore != null) {
 
-                final MathType current = mathTypeResult.getMathType();
+                final MathType current = mathTypeResult.type;
 
-                if (current.isNeedMultiplicationSignBefore(mathTypeBefore.getMathType())) {
+                if (current.isNeedMultiplicationSignBefore(mathTypeBefore.type)) {
                     result.append("*");
                 }
             }
 
             if (mathTypeBefore != null &&
-                    (mathTypeBefore.getMathType() == MathType.function || mathTypeBefore.getMathType() == MathType.operator) &&
-                    Collections.find(MathType.openGroupSymbols, startsWithFinder) != null) {
-                final String functionName = mathTypeBefore.getMatch();
+                    (mathTypeBefore.type == MathType.function || mathTypeBefore.type == MathType.operator) &&
+                    Collections.find(MathType.groupSymbols, startsWithFinder) != null) {
+                final String functionName = mathTypeBefore.match;
                 final Function function = Locator.getInstance().getEngine().getFunctionsRegistry().get(functionName);
                 if (function == null || function.getMinParameters() > 0) {
-                    throw new CalculatorParseException(i, s, new CalculatorMessage(CalculatorMessages.msg_005, MessageType.error, mathTypeBefore.getMatch()));
+                    throw new CalculatorParseException(i, s, new CalculatorMessage(CalculatorMessages.msg_005, MessageType.error, mathTypeBefore.match));
                 }
             }
 

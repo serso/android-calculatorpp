@@ -81,14 +81,14 @@ public class FromJsclSimplifyTextProcessor implements TextProcessor<String, Gene
                     mathTypeAfter = null;
                 }
 
-                if (needMultiplicationSign(mathTypeBefore == null ? null : mathTypeBefore.getMathType(), mathTypeAfter == null ? null : mathTypeAfter.getMathType())) {
+                if (needMultiplicationSign(mathTypeBefore == null ? null : mathTypeBefore.type, mathTypeAfter == null ? null : mathTypeAfter.type)) {
                     sb.append(Locator.getInstance().getEngine().getMultiplicationSign());
                 }
 
             } else {
-                if (mathType.getMathType() == MathType.constant || mathType.getMathType() == MathType.function || mathType.getMathType() == MathType.operator) {
-                    sb.append(mathType.getMatch());
-                    i += mathType.getMatch().length() - 1;
+                if (mathType.type == MathType.constant || mathType.type == MathType.function || mathType.type == MathType.operator) {
+                    sb.append(mathType.match);
+                    i += mathType.match.length() - 1;
                 } else {
                     sb.append(ch);
                 }
