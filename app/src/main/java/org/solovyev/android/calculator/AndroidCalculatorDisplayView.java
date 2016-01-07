@@ -27,7 +27,6 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
-import android.text.Html;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 
@@ -156,7 +155,7 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
             try {
                 final TextProcessorEditorResult processedText = textHighlighter.process(text);
                 text = processedText.toString();
-                result = Html.fromHtml(text);
+                result = processedText.getCharSequence();
             } catch (CalculatorParseException e) {
                 result = text;
             }
