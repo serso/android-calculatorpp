@@ -54,7 +54,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nonnull;
 
-@ReportsCrashes(formKey = "",
+@ReportsCrashes(
         formUri = "https://serso.cloudant.com/acra-cpp/_design/acra-storage/_update/report",
         reportType = org.acra.sender.HttpSender.Type.JSON,
         httpMethod = org.acra.sender.HttpSender.Method.PUT,
