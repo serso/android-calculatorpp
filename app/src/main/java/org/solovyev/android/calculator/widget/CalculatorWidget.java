@@ -38,15 +38,9 @@ import android.text.SpannableStringBuilder;
 import android.text.SpannedString;
 import android.text.TextUtils;
 import android.widget.RemoteViews;
-
 import org.solovyev.android.Views;
-import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.CalculatorButton;
-import org.solovyev.android.calculator.CalculatorDisplayViewState;
-import org.solovyev.android.calculator.CalculatorEditorViewState;
-import org.solovyev.android.calculator.Locator;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.Preferences.SimpleTheme;
-import org.solovyev.android.calculator.R;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -54,9 +48,7 @@ import javax.annotation.Nullable;
 import static android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT;
 import static android.content.Intent.ACTION_CONFIGURATION_CHANGED;
 import static android.os.Build.VERSION_CODES.JELLY_BEAN;
-import static org.solovyev.android.calculator.CalculatorBroadcaster.ACTION_DISPLAY_STATE_CHANGED;
-import static org.solovyev.android.calculator.CalculatorBroadcaster.ACTION_EDITOR_STATE_CHANGED;
-import static org.solovyev.android.calculator.CalculatorBroadcaster.ACTION_THEME_CHANGED;
+import static org.solovyev.android.calculator.CalculatorBroadcaster.*;
 import static org.solovyev.android.calculator.CalculatorReceiver.newButtonClickedIntent;
 
 public class CalculatorWidget extends AppWidgetProvider {
@@ -218,11 +210,12 @@ public class CalculatorWidget extends AppWidgetProvider {
         final SpannableStringBuilder result;
         // inject cursor
         if (unspan) {
-            result = new SpannableStringBuilder();
             final CharSequence beforeCursor = text.subSequence(0, selection);
+            final CharSequence afterCursor = text.subSequence(selection, text.length());
+
+            result = new SpannableStringBuilder();
             result.append(unspan(beforeCursor));
             result.append(getCursorString(context));
-            final CharSequence afterCursor = text.subSequence(selection, text.length());
             result.append(unspan(afterCursor));
         } else {
             result = new SpannableStringBuilder(text);
