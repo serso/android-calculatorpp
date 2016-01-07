@@ -26,8 +26,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.solovyev.android.calculator.CalculatorDisplayViewState;
 import org.solovyev.android.calculator.CalculatorDisplayViewStateImpl;
-import org.solovyev.android.calculator.CalculatorEditorViewState;
-import org.solovyev.android.calculator.CalculatorEditorViewStateImpl;
+import org.solovyev.android.calculator.EditorState;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.common.Objects;
 import org.solovyev.common.equals.CollectionEqualizer;
@@ -142,7 +141,7 @@ public class HistoryUtilsTest {
 
         CalculatorDisplayViewState calculatorDisplay = CalculatorDisplayViewStateImpl.newErrorState(JsclOperation.simplify, "Error");
 
-        CalculatorEditorViewState calculatorEditor = CalculatorEditorViewStateImpl.newInstance("1+1", 3);
+        CalculatorEditorViewState calculatorEditor = EditorState.create("1+1", 3);
 
         CalculatorHistoryState state = CalculatorHistoryState.newInstance(calculatorEditor, calculatorDisplay);
         state.setTime(date.getTime());
@@ -157,7 +156,7 @@ public class HistoryUtilsTest {
 
         calculatorDisplay = CalculatorDisplayViewStateImpl.newValidState(JsclOperation.numeric, null, "5/6", 3);
 
-        calculatorEditor = CalculatorEditorViewStateImpl.newInstance("5/6", 2);
+        calculatorEditor = EditorState.create("5/6", 2);
 
         state = CalculatorHistoryState.newInstance(calculatorEditor, calculatorDisplay);
         state.setSaved(true);
@@ -166,7 +165,7 @@ public class HistoryUtilsTest {
 
         calculatorDisplay = CalculatorDisplayViewStateImpl.newErrorState(JsclOperation.elementary, "Error");
 
-        calculatorEditor = CalculatorEditorViewStateImpl.newInstance("", 1);
+        calculatorEditor = EditorState.create("", 1);
 
         state = CalculatorHistoryState.newInstance(calculatorEditor, calculatorDisplay);
         state.setSaved(true);
@@ -175,7 +174,7 @@ public class HistoryUtilsTest {
 
         calculatorDisplay = CalculatorDisplayViewStateImpl.newValidState(JsclOperation.numeric, null, "4+5/35sin(41)+dfdsfsdfs", 1);
 
-        calculatorEditor = CalculatorEditorViewStateImpl.newInstance("4+5/35sin(41)+dfdsfsdfs", 0);
+        calculatorEditor = EditorState.create("4+5/35sin(41)+dfdsfsdfs", 0);
 
         state = CalculatorHistoryState.newInstance(calculatorEditor, calculatorDisplay);
         state.setSaved(true);

@@ -22,6 +22,14 @@
 
 package org.solovyev.android.calculator;
 
+import jscl.AbstractJsclArithmeticException;
+import jscl.NumeralBase;
+import jscl.NumeralBaseException;
+import jscl.math.Generic;
+import jscl.math.function.Function;
+import jscl.math.function.IConstant;
+import jscl.math.operator.Operator;
+import jscl.text.ParseInterruptedException;
 import org.solovyev.android.calculator.history.CalculatorHistory;
 import org.solovyev.android.calculator.history.CalculatorHistoryState;
 import org.solovyev.android.calculator.jscl.JsclOperation;
@@ -37,23 +45,13 @@ import org.solovyev.common.text.Strings;
 import org.solovyev.common.units.ConversionException;
 import org.solovyev.common.units.Conversions;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicLong;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import jscl.AbstractJsclArithmeticException;
-import jscl.NumeralBase;
-import jscl.NumeralBaseException;
-import jscl.math.Generic;
-import jscl.math.function.Function;
-import jscl.math.function.IConstant;
-import jscl.math.operator.Operator;
-import jscl.text.ParseInterruptedException;
 
 /**
  * User: Solovyev_S
@@ -175,21 +173,21 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 
     @Override
     public void evaluate() {
-        final CalculatorEditorViewState viewState = getEditor().getViewState();
+        final  EditorState viewState = getEditor().getViewState();
         final CalculatorEventData eventData = fireCalculatorEvent(CalculatorEventType.manual_calculation_requested, viewState);
         this.evaluate(JsclOperation.numeric, viewState.getText(), eventData.getSequenceId());
     }
 
     @Override
     public void evaluate(@Nonnull Long sequenceId) {
-        final CalculatorEditorViewState viewState = getEditor().getViewState();
+        final  EditorState viewState = getEditor().getViewState();
         fireCalculatorEvent(CalculatorEventType.manual_calculation_requested, viewState, sequenceId);
         this.evaluate(JsclOperation.numeric, viewState.getText(), sequenceId);
     }
 
     @Override
     public void simplify() {
-        final CalculatorEditorViewState viewState = getEditor().getViewState();
+        final  EditorState viewState = getEditor().getViewState();
         final CalculatorEventData eventData = fireCalculatorEvent(CalculatorEventType.manual_calculation_requested, viewState);
         this.evaluate(JsclOperation.simplify, viewState.getText(), eventData.getSequenceId());
     }

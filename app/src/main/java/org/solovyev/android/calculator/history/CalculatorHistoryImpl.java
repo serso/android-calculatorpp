@@ -22,32 +22,20 @@
 
 package org.solovyev.android.calculator.history;
 
-import org.solovyev.android.calculator.Calculator;
-import org.solovyev.android.calculator.CalculatorDisplayChangeEventData;
-import org.solovyev.android.calculator.CalculatorDisplayViewState;
-import org.solovyev.android.calculator.CalculatorEditorChangeEventData;
-import org.solovyev.android.calculator.CalculatorEditorViewState;
-import org.solovyev.android.calculator.CalculatorEventData;
-import org.solovyev.android.calculator.CalculatorEventHolder;
-import org.solovyev.android.calculator.CalculatorEventType;
-import org.solovyev.android.calculator.CalculatorUtils;
-import org.solovyev.android.calculator.Locator;
+import org.solovyev.android.calculator.*;
 import org.solovyev.common.history.HistoryAction;
 import org.solovyev.common.history.HistoryHelper;
 import org.solovyev.common.history.SimpleHistoryHelper;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import static org.solovyev.android.calculator.CalculatorEventType.display_state_changed;
-import static org.solovyev.android.calculator.CalculatorEventType.editor_state_changed;
-import static org.solovyev.android.calculator.CalculatorEventType.manual_calculation_requested;
+import static org.solovyev.android.calculator.CalculatorEventType.*;
 
 /**
  * User: Solovyev_S
@@ -68,7 +56,7 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
     private final CalculatorEventHolder lastEventData = new CalculatorEventHolder(CalculatorUtils.createFirstEventDataId());
 
     @Nullable
-    private volatile CalculatorEditorViewState lastEditorViewState;
+    private volatile EditorState lastEditorViewState;
 
     public CalculatorHistoryImpl(@Nonnull Calculator calculator) {
         calculator.addCalculatorEventListener(this);
@@ -267,7 +255,7 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
             if (result.isNewAfter() && result.isNewSameOrAfterSequence()) {
                 switch (calculatorEventType) {
                     case manual_calculation_requested:
-                        lastEditorViewState = (CalculatorEditorViewState) data;
+                        lastEditorViewState = (EditorState) data;
                         break;
                     case editor_state_changed:
                         final CalculatorEditorChangeEventData editorChangeData = (CalculatorEditorChangeEventData) data;
@@ -276,7 +264,7 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
                     case display_state_changed:
                         if (result.isSameSequence()) {
                             if (lastEditorViewState != null) {
-                                final CalculatorEditorViewState editorViewState = lastEditorViewState;
+                                final EditorState editorViewState = lastEditorViewState;
                                 final CalculatorDisplayChangeEventData displayChangeData = (CalculatorDisplayChangeEventData) data;
                                 final CalculatorDisplayViewState displayViewState = displayChangeData.getNewValue();
                                 addState(CalculatorHistoryState.newInstance(editorViewState, displayViewState));

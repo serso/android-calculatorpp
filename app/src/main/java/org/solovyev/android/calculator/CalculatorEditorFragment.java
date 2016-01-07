@@ -54,7 +54,7 @@ public class CalculatorEditorFragment extends Fragment {
     private ActivityMenu<Menu, MenuItem> menu = ListActivityMenu.fromEnum(CalculatorMenu.class, AndroidMenuHelper.getInstance());
 
     @Nonnull
-    private AndroidCalculatorEditorView editorView;
+    private EditorView editorView;
 
     public CalculatorEditorFragment() {
     }
@@ -65,8 +65,7 @@ public class CalculatorEditorFragment extends Fragment {
 
         fragmentUi.onViewCreated(this, view);
 
-        editorView = (AndroidCalculatorEditorView) view.findViewById(R.id.calculator_editor);
-        editorView.init();
+        editorView = (EditorView) view.findViewById(R.id.calculator_editor);
         Locator.getInstance().getEditor().setView(editorView);
     }
 

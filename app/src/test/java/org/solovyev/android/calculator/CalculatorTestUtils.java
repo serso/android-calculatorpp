@@ -75,7 +75,7 @@ public class CalculatorTestUtils {
     }
 
     public static void initViews(@Nonnull Context context) {
-        final AndroidCalculatorEditorView editor = new AndroidCalculatorEditorView(context);
+        final EditorView editor = new EditorView(context);
         editor.init();
         Locator.getInstance().getEditor().setView(editor);
 

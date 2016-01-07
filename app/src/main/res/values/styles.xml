@@ -61,6 +61,7 @@
         <item name="android:layout_height">fill_parent</item>
         <item name="android:textSize">@dimen/cpp_editor_text_size</item>
         <item name="android:textColor">?attr/cpp_text_color</item>
+        <item name="android:inputType">textMultiLine|textNoSuggestions</item>
     </style>
 
     <style name="CppText.Editor.Mobile" parent="CppText.Editor">

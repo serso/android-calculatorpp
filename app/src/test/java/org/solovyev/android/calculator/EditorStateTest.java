@@ -22,14 +22,22 @@
 
 package org.solovyev.android.calculator;
 
-import javax.annotation.Nonnull;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
- * User: Solovyev_S
- * Date: 21.09.12
- * Time: 11:48
+ * User: serso
+ * Date: 10/20/12
+ * Time: 12:31 PM
  */
-public interface CalculatorEditorView {
+public class EditorStateTest {
 
-    void setState(@Nonnull CalculatorEditorViewState viewState);
+    @Test
+    public void testSerialization() throws Exception {
+        CalculatorTestUtils.testSerialization(EditorState.empty());
+
+        EditorState out = CalculatorTestUtils.testSerialization(EditorState.create("treter", 2));
+        Assert.assertEquals(2, out.getSelection());
+        Assert.assertEquals("treter", out.getText());
+    }
 }

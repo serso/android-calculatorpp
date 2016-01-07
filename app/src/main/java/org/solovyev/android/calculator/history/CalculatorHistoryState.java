@@ -27,7 +27,7 @@ import org.simpleframework.xml.Root;
 import org.solovyev.android.calculator.CalculatorDisplay;
 import org.solovyev.android.calculator.CalculatorDisplayViewState;
 import org.solovyev.android.calculator.CalculatorEditor;
-import org.solovyev.android.calculator.CalculatorEditorViewState;
+import org.solovyev.android.calculator.EditorState;
 
 import javax.annotation.Nonnull;
 
@@ -61,14 +61,14 @@ public class CalculatorHistoryState extends AbstractHistoryState {
     @Nonnull
     public static CalculatorHistoryState newInstance(@Nonnull CalculatorEditor editor,
                                                      @Nonnull CalculatorDisplay display) {
-        final CalculatorEditorViewState editorViewState = editor.getViewState();
+        final EditorState editorViewState = editor.getViewState();
         final CalculatorDisplayViewState displayViewState = display.getViewState();
 
         return newInstance(editorViewState, displayViewState);
     }
 
     @Nonnull
-    public static CalculatorHistoryState newInstance(@Nonnull CalculatorEditorViewState editorViewState,
+    public static CalculatorHistoryState newInstance(@Nonnull EditorState editorViewState,
                                                      @Nonnull CalculatorDisplayViewState displayViewState) {
         final EditorHistoryState editorHistoryState = EditorHistoryState.newInstance(editorViewState);
 

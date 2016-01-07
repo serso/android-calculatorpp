@@ -26,7 +26,7 @@ import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 import org.solovyev.android.calculator.CalculatorDisplayViewState;
 import org.solovyev.android.calculator.CalculatorEditor;
-import org.solovyev.android.calculator.CalculatorEditorViewState;
+import org.solovyev.android.calculator.EditorState;
 import org.solovyev.common.text.Strings;
 
 import javax.annotation.Nonnull;
@@ -47,7 +47,7 @@ public class EditorHistoryState implements Cloneable {
     }
 
     @Nonnull
-    public static EditorHistoryState newInstance(@Nonnull CalculatorEditorViewState viewState) {
+    public static EditorHistoryState newInstance(@Nonnull EditorState viewState) {
         final EditorHistoryState result = new EditorHistoryState();
 
         result.text = String.valueOf(viewState.getText());
