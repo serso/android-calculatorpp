@@ -17,7 +17,7 @@ public class FinalWizardStep extends WizardFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (App.getTheme().isLight()) {
+        if (App.getTheme().light) {
             final TextView message = (TextView) view.findViewById(R.id.wizard_final_message);
             message.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_action_done_light, 0, 0);
         }

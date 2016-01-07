@@ -119,7 +119,7 @@ public class AndroidCalculatorEditorView extends EditText implements CalculatorE
                         try {
                             editorView.viewStateChange = true;
                             editorView.viewState = viewState;
-                            if (App.getTheme().isLight() && getContext() instanceof CalculatorOnscreenService) {
+                            if (App.getTheme().light && getContext() instanceof CalculatorOnscreenService) {
                                 // don't need formatting
                                 editorView.setText(viewState.getText());
                             } else {
