@@ -280,7 +280,7 @@ public enum MathType {
         final StartsWithFinder startsWithFinder = new StartsWithFinder(text, i);
 
         for (MathType mathType : getMathTypesByPriority()) {
-            final String s = Collections.find(mathType.getTokens(), startsWithFinder);
+            final String s = find(mathType.getTokens(), startsWithFinder);
             if (s != null) {
                 if (s.length() == 1) {
                     if (hexMode || JsclMathEngine.getInstance().getNumeralBase() == NumeralBase.hex) {
@@ -295,6 +295,17 @@ public enum MathType {
         }
 
         return new Result(MathType.text, text.substring(i));
+    }
+
+    @Nullable
+    private static String find(@Nonnull List<String> list, @Nonnull JPredicate<String> predicate) {
+        for (int i = 0; i < list.size(); i++) {
+            final String token = list.get(i);
+            if(predicate.apply(token)) {
+                return token;
+            }
+        }
+        return null;
     }
 
     @Nonnull
