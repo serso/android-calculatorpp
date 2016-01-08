@@ -1,6 +1,7 @@
 package org.solovyev.android.calculator.view;
 
 import android.view.GestureDetector;
+import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -42,7 +43,8 @@ public final class LongClickEraser implements View.OnTouchListener {
     }
 
     public static void createAndAttach(@Nonnull View view) {
-        view.setOnTouchListener(new LongClickEraser(view));
+        final LongClickEraser l = new LongClickEraser(view);
+        view.setOnTouchListener(l);
     }
 
     @Override
@@ -61,11 +63,11 @@ public final class LongClickEraser implements View.OnTouchListener {
     }
 
     private class Eraser implements Runnable {
-        private static final int DELAY = 500;
+        private static final int DELAY = 300;
         private long delay;
-        private boolean wasCalculatingOnFly;
         private boolean erasing;
         private boolean tracking = true;
+        private boolean wasCalculatingOnFly;
 
         @Override
         public void run() {
@@ -84,12 +86,13 @@ public final class LongClickEraser implements View.OnTouchListener {
             }
             erasing = true;
             delay = DELAY;
+            view.removeCallbacks(this);
+            view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
             wasCalculatingOnFly = calculator.isCalculateOnFly();
             if (wasCalculatingOnFly) {
                 calculator.setCalculateOnFly(false);
             }
-            view.removeCallbacks(this);
-            view.post(this);
+            run();
         }
 
         void stop() {

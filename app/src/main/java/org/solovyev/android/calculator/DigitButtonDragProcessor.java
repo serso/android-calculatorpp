@@ -31,11 +31,6 @@ import org.solovyev.android.views.dragbutton.SimpleDragListener;
 
 import javax.annotation.Nonnull;
 
-/**
- * User: serso
- * Date: 9/16/11
- * Time: 11:48 PM
- */
 public class DigitButtonDragProcessor implements SimpleDragListener.DragProcessor {
 
     @Nonnull
@@ -46,11 +41,8 @@ public class DigitButtonDragProcessor implements SimpleDragListener.DragProcesso
     }
 
     @Override
-    public boolean processDragEvent(@Nonnull DragDirection dragDirection, @Nonnull DragButton dragButton, @Nonnull PointF startPoint, @Nonnull MotionEvent motionEvent) {
-        if (!(dragButton instanceof DirectionDragButton)) throw new AssertionError();
-        final String text = ((DirectionDragButton) dragButton).getText(dragDirection);
-        calculatorKeyboard.buttonPressed(text);
-        return true;
+    public boolean processDragEvent(@Nonnull DragDirection direction, @Nonnull DragButton button, @Nonnull PointF startPoint, @Nonnull MotionEvent motionEvent) {
+        final String text = ((DirectionDragButton) button).getText(direction);
+        return calculatorKeyboard.buttonPressed(text);
     }
-
 }

@@ -33,8 +33,7 @@ import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import jscl.AngleUnit;
-import jscl.NumeralBase;
+
 import org.solovyev.android.Views;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 import org.solovyev.android.calculator.view.AngleUnitsButton;
@@ -46,6 +45,9 @@ import org.solovyev.android.views.dragbutton.SimpleDragListener;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
+import jscl.AngleUnit;
+import jscl.NumeralBase;
 
 public final class CalculatorButtons {
 
@@ -115,18 +117,13 @@ public final class CalculatorButtons {
         private final DigitButtonDragProcessor upDownProcessor = new DigitButtonDragProcessor(getKeyboard());
 
         @Override
-        public boolean processDragEvent(@Nonnull DragDirection dragDirection, @Nonnull DragButton dragButton, @Nonnull PointF startPoint, @Nonnull MotionEvent motionEvent) {
-            final boolean result;
-
-            if (dragDirection == DragDirection.left) {
-                App.getVibrator().vibrate();
+        public boolean processDragEvent(@Nonnull DragDirection direction, @Nonnull DragButton button, @Nonnull PointF startPoint, @Nonnull MotionEvent motionEvent) {
+            if (direction == DragDirection.left) {
                 getKeyboard().roundBracketsButtonPressed();
-                result = true;
-            } else {
-                result = upDownProcessor.processDragEvent(dragDirection, dragButton, startPoint, motionEvent);
+                return true;
             }
 
-            return result;
+            return upDownProcessor.processDragEvent(direction, button, startPoint, motionEvent);
         }
     }
 
@@ -144,18 +141,12 @@ public final class CalculatorButtons {
                                         @Nonnull DragButton dragButton,
                                         @Nonnull PointF startPoint,
                                         @Nonnull MotionEvent motionEvent) {
-            boolean result = false;
-
             if (dragDirection == DragDirection.up) {
-                App.getVibrator().vibrate();
                 Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_create_var_dialog, null, context);
-                result = true;
-            }/* else if (dragDirection == DragDirection.down) {
-				Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_create_matrix_dialog, null, context);
-				result = true;
-			}*/
+                return true;
+            }
 
-            return result;
+            return false;
         }
     }
 
@@ -177,8 +168,6 @@ public final class CalculatorButtons {
                                         @Nonnull DragButton dragButton,
                                         @Nonnull PointF startPoint,
                                         @Nonnull MotionEvent motionEvent) {
-            boolean result = false;
-
             if (dragButton instanceof AngleUnitsButton) {
                 if (dragDirection != DragDirection.left) {
                     final String directionText = ((AngleUnitsButton) dragButton).getText(dragDirection);
@@ -191,21 +180,19 @@ public final class CalculatorButtons {
 
                             final AngleUnit oldAngleUnits = AndroidCalculatorEngine.Preferences.angleUnit.getPreference(preferences);
                             if (oldAngleUnits != angleUnits) {
-                                App.getVibrator().vibrate();
                                 Locator.getInstance().getPreferenceService().setAngleUnits(angleUnits);
                             }
-
-                            result = true;
                         } catch (IllegalArgumentException e) {
                             Log.d(this.getClass().getName(), "Unsupported angle units: " + directionText);
                         }
+                        return true;
                     }
                 } else if (dragDirection == DragDirection.left) {
-                    result = processor.processDragEvent(dragDirection, dragButton, startPoint, motionEvent);
+                    return processor.processDragEvent(dragDirection, dragButton, startPoint, motionEvent);
                 }
             }
 
-            return result;
+            return false;
         }
     }
 
@@ -223,31 +210,26 @@ public final class CalculatorButtons {
                                         @Nonnull DragButton dragButton,
                                         @Nonnull PointF startPoint,
                                         @Nonnull MotionEvent motionEvent) {
-            boolean result = false;
-
             if (dragButton instanceof NumeralBasesButton) {
                 final String directionText = ((NumeralBasesButton) dragButton).getText(dragDirection);
                 if (directionText != null) {
                     try {
-
                         final NumeralBase numeralBase = NumeralBase.valueOf(directionText);
 
                         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
                         final NumeralBase oldNumeralBase = AndroidCalculatorEngine.Preferences.numeralBase.getPreference(preferences);
                         if (oldNumeralBase != numeralBase) {
-                            App.getVibrator().vibrate();
                             Locator.getInstance().getPreferenceService().setNumeralBase(numeralBase);
                         }
-
-                        result = true;
                     } catch (IllegalArgumentException e) {
                         Log.d(this.getClass().getName(), "Unsupported numeral base: " + directionText);
                     }
+                    return true;
                 }
             }
 
-            return result;
+            return false;
         }
     }
 
@@ -265,15 +247,11 @@ public final class CalculatorButtons {
                                         @Nonnull DragButton dragButton,
                                         @Nonnull PointF startPoint,
                                         @Nonnull MotionEvent motionEvent) {
-            boolean result = false;
-
             if (dragDirection == DragDirection.up) {
-                App.getVibrator().vibrate();
                 Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_create_function_dialog, null, context);
-                result = true;
+                return true;
             }
-
-            return result;
+            return false;
         }
     }
 }

@@ -171,7 +171,7 @@ public class CalculatorApplication extends android.app.Application implements Sh
                 new AndroidCalculatorHistory(this, calculator),
                 new AndroidCalculatorLogger(),
                 new AndroidCalculatorPreferenceService(this),
-                new AndroidCalculatorKeyboard(this, new CalculatorKeyboardImpl()),
+                new CalculatorKeyboard(),
                 new AndroidCalculatorPlotter(this, new CalculatorPlotterImpl(calculator)),
                 editorTextProcessor);
 

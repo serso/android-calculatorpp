@@ -138,14 +138,15 @@ public enum CalculatorButton {
         }
     }
 
-    public void onLongClick() {
+    public boolean onLongClick() {
         if (onLongClickText != null) {
-            Locator.getInstance().getKeyboard().buttonPressed(onLongClickText);
+            return Locator.getInstance().getKeyboard().buttonPressed(onLongClickText);
         }
+        return false;
     }
 
-    public void onClick() {
-        Locator.getInstance().getKeyboard().buttonPressed(onClickText);
+    public boolean onClick() {
+        return Locator.getInstance().getKeyboard().buttonPressed(onClickText);
     }
 
     public int getButtonId() {

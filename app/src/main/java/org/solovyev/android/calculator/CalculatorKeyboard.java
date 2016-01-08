@@ -22,26 +22,115 @@
 
 package org.solovyev.android.calculator;
 
+import org.solovyev.android.calculator.math.MathType;
+import org.solovyev.common.text.Strings;
+
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-/**
- * User: serso
- * Date: 9/22/12
- * Time: 1:08 PM
- */
-public interface CalculatorKeyboard {
+public class CalculatorKeyboard {
 
-    boolean buttonPressed(@Nullable String text);
+    public boolean buttonPressed(@Nullable final String text) {
+        App.getGa().onButtonPressed(text);
+        if (!Strings.isEmpty(text)) {
+            // process special buttons
+            boolean processed = processSpecialButtons(text);
 
-    void roundBracketsButtonPressed();
+            if (!processed) {
+                processText(prepareText(text));
+            }
+            return true;
+        }
+        return false;
+    }
 
-    void pasteButtonPressed();
+    private void processText(@Nonnull String text) {
+        int cursorPositionOffset = 0;
+        final StringBuilder textToBeInserted = new StringBuilder(text);
 
-    void clearButtonPressed();
+        final MathType.Result mathType = MathType.getType(text, 0, false);
+        switch (mathType.type) {
+            case function:
+                textToBeInserted.append("()");
+                cursorPositionOffset = -1;
+                break;
+            case operator:
+                textToBeInserted.append("()");
+                cursorPositionOffset = -1;
+                break;
+            case comma:
+                textToBeInserted.append(" ");
+                break;
+        }
 
-    void copyButtonPressed();
+        if (cursorPositionOffset == 0) {
+            if (MathType.groupSymbols.contains(text)) {
+                cursorPositionOffset = -1;
+            }
+        }
 
-    void moveCursorLeft();
+        final Editor editor = Locator.getInstance().getEditor();
+        editor.insert(textToBeInserted.toString(), cursorPositionOffset);
+    }
 
-    void moveCursorRight();
+    @Nonnull
+    private String prepareText(@Nonnull String text) {
+        if ("(  )".equals(text) || "( )".equals(text)) {
+            return "()";
+        } else {
+            return text;
+        }
+    }
+
+    private boolean processSpecialButtons(@Nonnull String text) {
+        boolean result = false;
+
+        final CalculatorSpecialButton button = CalculatorSpecialButton.getByActionCode(text);
+        if (button != null) {
+            button.onClick(this);
+            result = true;
+        }
+
+        return result;
+    }
+
+    public void roundBracketsButtonPressed() {
+        final Editor editor = Locator.getInstance().getEditor();
+         EditorState viewState = editor.getState();
+
+        final int cursorPosition = viewState.selection;
+        final CharSequence oldText = viewState.text;
+
+        editor.setText("(" + oldText.subSequence(0, cursorPosition) + ")" + oldText.subSequence(cursorPosition, oldText.length()), cursorPosition + 2);
+    }
+
+    public void pasteButtonPressed() {
+        final String text = Locator.getInstance().getClipboard().getText();
+        if (text != null) {
+            Locator.getInstance().getEditor().insert(text);
+        }
+    }
+
+    public void clearButtonPressed() {
+        Locator.getInstance().getEditor().clear();
+    }
+
+    public void copyButtonPressed() {
+        final DisplayState displayViewState = Locator.getInstance().getDisplay().getViewState();
+        if (displayViewState.isValid()) {
+            final CharSequence text = displayViewState.getText();
+            if (!Strings.isEmpty(text)) {
+                Locator.getInstance().getClipboard().setText(text);
+                Locator.getInstance().getNotifier().showMessage(CalculatorMessage.newInfoMessage(CalculatorMessages.result_copied));
+            }
+        }
+    }
+
+    public void moveCursorLeft() {
+        Locator.getInstance().getEditor().moveCursorLeft();
+    }
+
+    public void moveCursorRight() {
+        Locator.getInstance().getEditor().moveCursorRight();
+    }
 }

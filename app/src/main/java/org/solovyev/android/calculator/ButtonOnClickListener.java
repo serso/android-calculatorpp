@@ -1,6 +1,7 @@
 package org.solovyev.android.calculator;
 
 import android.support.annotation.IdRes;
+import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.widget.Button;
 
@@ -31,47 +32,49 @@ final class ButtonOnClickListener implements View.OnClickListener {
             case R.id.cpp_button_plus:
             case R.id.cpp_button_right:
             case R.id.cpp_button_round_brackets:
-                onClick(((Button) v).getText().toString());
+                onClick(v, ((Button) v).getText().toString());
                 break;
             case R.id.cpp_button_clear:
-                onClick(CalculatorSpecialButton.clear);
+                onClick(v, CalculatorSpecialButton.clear);
                 break;
             case R.id.cpp_button_functions:
-                onClick(CalculatorSpecialButton.functions);
+                onClick(v, CalculatorSpecialButton.functions);
                 break;
             case R.id.cpp_button_history:
-                onClick(CalculatorSpecialButton.history);
+                onClick(v, CalculatorSpecialButton.history);
                 break;
             case R.id.cpp_button_erase:
-                onClick(CalculatorSpecialButton.erase);
+                onClick(v, CalculatorSpecialButton.erase);
                 break;
             case R.id.cpp_button_paste:
-                onClick(CalculatorSpecialButton.paste);
+                onClick(v, CalculatorSpecialButton.paste);
                 break;
             case R.id.cpp_button_copy:
-                onClick(CalculatorSpecialButton.copy);
+                onClick(v, CalculatorSpecialButton.copy);
                 break;
             case R.id.cpp_button_like:
-                onClick(CalculatorSpecialButton.like);
+                onClick(v, CalculatorSpecialButton.like);
                 break;
             case R.id.cpp_button_operators:
-                onClick(CalculatorSpecialButton.operators);
+                onClick(v, CalculatorSpecialButton.operators);
                 break;
             case R.id.cpp_button_vars:
-                onClick(CalculatorSpecialButton.vars);
+                onClick(v, CalculatorSpecialButton.vars);
                 break;
             case R.id.cpp_button_equals:
-                onClick(CalculatorSpecialButton.equals);
+                onClick(v, CalculatorSpecialButton.equals);
                 break;
         }
     }
 
-    private void onClick(@Nonnull CalculatorSpecialButton b) {
-        onClick(b.getActionCode());
+    private void onClick(@Nonnull View v, @Nonnull CalculatorSpecialButton b) {
+        onClick(v, b.getActionCode());
     }
 
-    private void onClick(@Nonnull String s) {
-        Locator.getInstance().getKeyboard().buttonPressed(s);
+    private void onClick(@Nonnull View v, @Nonnull String s) {
+        if (Locator.getInstance().getKeyboard().buttonPressed(s)) {
+            v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+        }
     }
 
     public void attachToViews(@Nonnull ViewsCache views) {

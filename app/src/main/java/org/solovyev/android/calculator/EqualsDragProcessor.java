@@ -24,6 +24,7 @@ package org.solovyev.android.calculator;
 
 import android.graphics.PointF;
 import android.view.MotionEvent;
+
 import org.solovyev.android.views.dragbutton.DirectionDragButton;
 import org.solovyev.android.views.dragbutton.DragButton;
 import org.solovyev.android.views.dragbutton.DragDirection;
@@ -31,35 +32,21 @@ import org.solovyev.android.views.dragbutton.SimpleDragListener;
 
 import javax.annotation.Nonnull;
 
-/**
- * User: serso
- * Date: 10/24/11
- * Time: 9:52 PM
- */
 public class EqualsDragProcessor implements SimpleDragListener.DragProcessor {
 
-    public EqualsDragProcessor() {
-    }
-
     @Override
-    public boolean processDragEvent(@Nonnull DragDirection dragDirection, @Nonnull DragButton dragButton, @Nonnull PointF startPoint, @Nonnull MotionEvent motionEvent) {
-        boolean result = false;
-
-        if (dragButton instanceof DirectionDragButton) {
-            if (dragDirection == DragDirection.down) {
-                App.getVibrator().vibrate();
-                CalculatorActivityLauncher.tryPlot();
-                result = true;
-            } else {
-                final String text = ((DirectionDragButton) dragButton).getText(dragDirection);
-                if ("≡".equals(text)) {
-                    App.getVibrator().vibrate();
-                    Locator.getInstance().getCalculator().simplify();
-                    result = true;
-                }
+    public boolean processDragEvent(@Nonnull DragDirection direction, @Nonnull DragButton button, @Nonnull PointF startPoint, @Nonnull MotionEvent motionEvent) {
+        if (direction == DragDirection.down) {
+            CalculatorActivityLauncher.tryPlot();
+            return true;
+        } else if (button instanceof DirectionDragButton) {
+            final String text = ((DirectionDragButton) button).getText(direction);
+            if ("≡".equals(text)) {
+                Locator.getInstance().getCalculator().simplify();
+                return true;
             }
         }
 
-        return result;
+        return false;
     }
 }

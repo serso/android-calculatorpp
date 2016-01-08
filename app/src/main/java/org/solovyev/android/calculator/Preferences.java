@@ -31,22 +31,30 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.StyleRes;
 import android.util.SparseArray;
 import android.view.ContextThemeWrapper;
-import jscl.AngleUnit;
-import jscl.NumeralBase;
+
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 import org.solovyev.android.calculator.preferences.PurchaseDialogActivity;
 import org.solovyev.android.calculator.wizard.WizardActivity;
-import org.solovyev.android.prefs.*;
+import org.solovyev.android.prefs.BooleanPreference;
+import org.solovyev.android.prefs.IntegerPreference;
+import org.solovyev.android.prefs.LongPreference;
+import org.solovyev.android.prefs.NumberToStringPreference;
+import org.solovyev.android.prefs.Preference;
+import org.solovyev.android.prefs.StringPreference;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.text.DecimalFormatSymbols;
 import java.util.EnumMap;
 import java.util.Locale;
 import java.util.Map;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import jscl.AngleUnit;
+import jscl.NumeralBase;
 
 import static org.solovyev.android.Android.isPhoneModel;
 import static org.solovyev.android.DeviceModel.samsung_galaxy_s;
@@ -126,18 +134,6 @@ public final class Preferences {
         // renew value after each application start
         Calculations.showCalculationMessagesDialog.putDefault(preferences);
         Calculations.lastPreferredPreferencesCheck.putDefault(preferences);
-
-        if (!Gui.hapticFeedback.isSet(preferences)) {
-            final Preference<Boolean> hfEnabled = Gui.hapticFeedbackEnabled;
-            final boolean enabled = !hfEnabled.isSet(preferences) ? true : hfEnabled.getPreference(preferences);
-            if (enabled) {
-                final Preference<Long> hfDuration = Gui.hapticFeedbackDuration;
-                final long duration = !hfDuration.isSet(preferences) ? 60L : hfDuration.getPreference(preferences);
-                Gui.hapticFeedback.putPreference(preferences, duration);
-            } else {
-                Gui.hapticFeedback.putPreference(preferences, 0L);
-            }
-        }
     }
 
     private static void applyDefaultPreference(@Nonnull SharedPreferences preferences, @Nonnull Preference<?> preference) {
@@ -280,9 +276,6 @@ public final class Preferences {
         public static final Preference<Boolean> preventScreenFromFading = BooleanPreference.of("preventScreenFromFading", true);
         public static final Preference<Boolean> colorDisplay = BooleanPreference.of("org.solovyev.android.calculator.CalculatorModel_color_display", true);
         public static final Preference<Long> hapticFeedback = NumberToStringPreference.of("hapticFeedback", 60L, Long.class);
-
-        private static final Preference<Boolean> hapticFeedbackEnabled = BooleanPreference.of("org.solovyev.android.calculator.CalculatorModel_haptic_feedback", false);
-        private static final Preference<Long> hapticFeedbackDuration = NumberToStringPreference.of("org.solovyev.android.calculator.CalculatorActivity_calc_haptic_feedback_duration_key", 60L, Long.class);
 
         @Nonnull
         public static Theme getTheme(@Nonnull SharedPreferences preferences) {

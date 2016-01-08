@@ -24,6 +24,7 @@ package org.solovyev.android.calculator;
 
 import android.graphics.PointF;
 import android.view.MotionEvent;
+
 import org.solovyev.android.views.dragbutton.DirectionDragButton;
 import org.solovyev.android.views.dragbutton.DragButton;
 import org.solovyev.android.views.dragbutton.DragDirection;
@@ -31,33 +32,21 @@ import org.solovyev.android.views.dragbutton.SimpleDragListener;
 
 import javax.annotation.Nonnull;
 
-/**
- * User: serso
- * Date: 9/16/11
- * Time: 11:45 PM
- */
 public class CursorDragProcessor implements SimpleDragListener.DragProcessor {
-
-    public CursorDragProcessor() {
-    }
 
     @Override
     public boolean processDragEvent(@Nonnull DragDirection dragDirection, @Nonnull DragButton dragButton, @Nonnull PointF startPoint, @Nonnull MotionEvent motionEvent) {
-        boolean result = false;
-
         if (dragButton instanceof DirectionDragButton) {
-            String text = ((DirectionDragButton) dragButton).getText(dragDirection);
+            final String text = ((DirectionDragButton) dragButton).getText(dragDirection);
             if ("◁◁".equals(text)) {
-                App.getVibrator().vibrate();
                 Locator.getInstance().getEditor().setCursorOnStart();
-                result = true;
+                return true;
             } else if ("▷▷".equals(text)) {
-                App.getVibrator().vibrate();
                 Locator.getInstance().getEditor().setCursorOnEnd();
-                result = true;
+                return true;
             }
         }
 
-        return result;
+        return false;
     }
 }
