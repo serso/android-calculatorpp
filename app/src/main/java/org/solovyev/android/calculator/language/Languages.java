@@ -7,19 +7,13 @@ import android.content.res.Resources;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
-
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.Preferences;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Locale;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.*;
 
 public final class Languages implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -31,6 +25,13 @@ public final class Languages implements SharedPreferences.OnSharedPreferenceChan
     private static final Locale[] locales = Locale.getAvailableLocales();
     @Nonnull
     private final List<Language> list = new ArrayList<>();
+    @Nonnull
+    private final SharedPreferences preferences;
+
+    public Languages(@Nonnull SharedPreferences preferences) {
+        this.preferences = preferences;
+        this.preferences.registerOnSharedPreferenceChangeListener(this);
+    }
 
     @Nullable
     private static Language makeLanguage(@Nonnull String localeId) {
@@ -65,10 +66,6 @@ public final class Languages implements SharedPreferences.OnSharedPreferenceChan
 
         Log.d("Languages", "No locale found for " + id);
         return null;
-    }
-
-    public void init(@Nonnull SharedPreferences preferences) {
-        preferences.registerOnSharedPreferenceChangeListener(this);
     }
 
     @Nonnull
@@ -120,7 +117,7 @@ public final class Languages implements SharedPreferences.OnSharedPreferenceChan
 
     @Nonnull
     public Language getCurrent() {
-        return get(Preferences.Gui.language.getPreference(App.getPreferences()));
+        return get(Preferences.Gui.language.getPreference(preferences));
     }
 
     @Nonnull
@@ -145,25 +142,26 @@ public final class Languages implements SharedPreferences.OnSharedPreferenceChan
     @Override
     public void onSharedPreferenceChanged(@Nonnull SharedPreferences p, String key) {
         if (Preferences.Gui.language.isSameKey(key)) {
-            updateLanguage(App.getApplication(), false);
+            updateContextLocale(App.getApplication(), false);
         }
     }
 
-    public void updateLanguage(@Nonnull Context context, boolean initial) {
+    public void updateContextLocale(@Nonnull Context context, boolean initial) {
         final Language language = getCurrent();
         // we don't need to set system language while starting up the app
-        if (!initial || !language.isSystem()) {
-            if (!Locale.getDefault().equals(language.locale)) {
-                Locale.setDefault(language.locale);
-            }
+        if (initial && language.isSystem()) {
+            return;
+        }
+        if (!Locale.getDefault().equals(language.locale)) {
+            Locale.setDefault(language.locale);
+        }
 
-            final Resources r = context.getResources();
-            final DisplayMetrics dm = r.getDisplayMetrics();
-            final Configuration c = r.getConfiguration();
-            if (c.locale == null || !c.locale.equals(language.locale)) {
-                c.locale = language.locale;
-                r.updateConfiguration(c, dm);
-            }
+        final Resources r = context.getResources();
+        final DisplayMetrics dm = r.getDisplayMetrics();
+        final Configuration c = r.getConfiguration();
+        if (c.locale == null || !c.locale.equals(language.locale)) {
+            c.locale = language.locale;
+            r.updateConfiguration(c, dm);
         }
     }
 }

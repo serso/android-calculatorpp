@@ -55,9 +55,9 @@ public class CalculatorKeyboardFragment extends Fragment implements SharedPrefer
 
         final Preferences.Gui.Layout layout = Preferences.Gui.getLayout(preferences);
         if (!layout.isOptimized()) {
-            ui = CalculatorApplication.getInstance().createFragmentHelper(R.layout.cpp_app_keyboard_mobile);
+            ui = new FragmentUi(R.layout.cpp_app_keyboard_mobile);
         } else {
-            ui = CalculatorApplication.getInstance().createFragmentHelper(R.layout.cpp_app_keyboard);
+            ui = new FragmentUi(R.layout.cpp_app_keyboard);
         }
 
         ui.onCreate(this);

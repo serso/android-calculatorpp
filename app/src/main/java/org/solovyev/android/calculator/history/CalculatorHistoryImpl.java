@@ -29,7 +29,6 @@ import org.solovyev.common.history.SimpleHistoryHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -37,11 +36,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.solovyev.android.calculator.CalculatorEventType.*;
 
-/**
- * User: Solovyev_S
- * Date: 20.09.12
- * Time: 16:12
- */
 public class CalculatorHistoryImpl implements CalculatorHistory {
 
     private final AtomicInteger counter = new AtomicInteger(0);
@@ -50,7 +44,7 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
     private final HistoryHelper<HistoryState> history = SimpleHistoryHelper.newInstance();
 
     @Nonnull
-    private final List<HistoryState> savedHistory = new ArrayList<HistoryState>();
+    private final History savedHistory = new History();
 
     @Nonnull
     private final CalculatorEventHolder lastEventData = new CalculatorEventHolder(CalculatorUtils.createFirstEventDataId());
@@ -188,7 +182,7 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
     @Override
     @Nonnull
     public List<HistoryState> getSavedHistory() {
-        return Collections.unmodifiableList(savedHistory);
+        return Collections.unmodifiableList(savedHistory.getItems());
     }
 
     @Override
@@ -222,21 +216,25 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
     public void fromXml(@Nonnull String xml) {
         clearSavedHistory();
 
-        HistoryUtils.fromXml(xml, this.savedHistory);
-        for (HistoryState historyState : savedHistory) {
+        final History history = History.fromXml(xml);
+        if (history == null) {
+            return;
+        }
+        for (HistoryState historyState : history.getItems()) {
             historyState.setSaved(true);
             historyState.setId(counter.incrementAndGet());
+            savedHistory.add(historyState);
         }
     }
 
     @Override
     public String toXml() {
-        return HistoryUtils.toXml(this.savedHistory);
+        return savedHistory.toXml();
     }
 
     @Override
     public void clearSavedHistory() {
-        this.savedHistory.clear();
+        savedHistory.clear();
     }
 
     @Override

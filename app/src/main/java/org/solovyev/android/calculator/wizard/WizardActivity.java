@@ -8,22 +8,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-
 import com.viewpagerindicator.PageIndicator;
-
-import org.solovyev.android.calculator.ActivityUi;
-import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.BaseActivity;
-import org.solovyev.android.calculator.CalculatorApplication;
-import org.solovyev.android.calculator.Preferences;
-import org.solovyev.android.calculator.R;
-import org.solovyev.android.wizard.ListWizardFlow;
-import org.solovyev.android.wizard.Wizard;
-import org.solovyev.android.wizard.WizardFlow;
-import org.solovyev.android.wizard.WizardStep;
-import org.solovyev.android.wizard.WizardUi;
-import org.solovyev.android.wizard.Wizards;
-import org.solovyev.android.wizard.WizardsAware;
+import org.solovyev.android.calculator.*;
+import org.solovyev.android.wizard.*;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -38,7 +25,7 @@ public class WizardActivity extends BaseActivity implements WizardsAware, Shared
     @Nonnull
     private WizardPagerAdapter pagerAdapter;
     @Nonnull
-    private Wizards wizards = CalculatorApplication.getInstance().getWizards();
+    private Wizards wizards = App.getWizards();
     @Nullable
     private AlertDialog dialog;
 

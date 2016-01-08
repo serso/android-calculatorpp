@@ -34,7 +34,6 @@ import org.solovyev.android.calculator.R;
 
 import javax.annotation.Nullable;
 
-import static org.solovyev.android.calculator.CalculatorApplication.getPreferences;
 
 public class OnScreenCalculatorWizardStep extends WizardFragment implements CompoundButton.OnCheckedChangeListener {
 
@@ -50,7 +49,7 @@ public class OnScreenCalculatorWizardStep extends WizardFragment implements Comp
     public void onViewCreated(View root, Bundle savedInstanceState) {
         super.onViewCreated(root, savedInstanceState);
 
-        final Boolean enabled = Preferences.Onscreen.showAppIcon.getPreference(getPreferences());
+        final Boolean enabled = Preferences.Onscreen.showAppIcon.getPreference(App.getPreferences());
         checkbox = (CheckBox) root.findViewById(R.id.wizard_onscreen_app_enabled_checkbox);
         checkbox.setChecked(enabled);
         checkbox.setOnCheckedChangeListener(this);
@@ -68,7 +67,7 @@ public class OnScreenCalculatorWizardStep extends WizardFragment implements Comp
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean checked) {
-        Preferences.Onscreen.showAppIcon.putPreference(getPreferences(), checked);
+        Preferences.Onscreen.showAppIcon.putPreference(App.getPreferences(), checked);
     }
 }
 

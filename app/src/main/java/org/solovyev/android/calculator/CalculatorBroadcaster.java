@@ -43,6 +43,10 @@ public final class CalculatorBroadcaster implements CalculatorEventListener, Sha
         sendBroadcastIntent(ACTION_EDITOR_STATE_CHANGED);
     }
 
+    public void sendInitIntent() {
+        sendBroadcastIntent(ACTION_INIT);
+    }
+
     public void sendBroadcastIntent(@Nonnull String action) {
         context.sendBroadcast(new Intent(action));
     }

@@ -42,7 +42,7 @@ public class CalculatorActivityMobile extends CalculatorActivity {
 
         super.onCreate(savedInstanceState);
 
-        if (!CalculatorApplication.isMonkeyRunner(this)) {
+        if (!App.isMonkeyRunner(this)) {
             this.finish();
         }
     }

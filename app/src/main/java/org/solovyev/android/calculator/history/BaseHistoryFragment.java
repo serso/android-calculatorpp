@@ -32,35 +32,15 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
 import com.melnykov.fab.FloatingActionButton;
-
-import org.solovyev.android.calculator.CalculatorApplication;
-import org.solovyev.android.calculator.CalculatorEventData;
-import org.solovyev.android.calculator.CalculatorEventListener;
-import org.solovyev.android.calculator.CalculatorEventType;
-import org.solovyev.android.calculator.CalculatorFragmentType;
-import org.solovyev.android.calculator.FragmentUi;
-import org.solovyev.android.calculator.Locator;
-import org.solovyev.android.calculator.Preferences;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.jscl.JsclOperation;
-import org.solovyev.android.menu.AMenuItem;
-import org.solovyev.android.menu.ActivityMenu;
-import org.solovyev.android.menu.AndroidMenuHelper;
-import org.solovyev.android.menu.ContextMenuBuilder;
-import org.solovyev.android.menu.IdentifiableMenuItem;
-import org.solovyev.android.menu.ListActivityMenu;
-import org.solovyev.android.menu.ListContextMenu;
+import org.solovyev.android.menu.*;
 import org.solovyev.common.JPredicate;
 import org.solovyev.common.collections.Collections;
 import org.solovyev.common.equals.Equalizer;
@@ -68,12 +48,11 @@ import org.solovyev.common.filter.Filter;
 import org.solovyev.common.filter.FilterRulesChain;
 import org.solovyev.common.text.Strings;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import static org.solovyev.android.calculator.CalculatorEventType.clear_history_requested;
 
@@ -126,7 +105,7 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
     private AlertDialog clearDialog;
 
     protected BaseHistoryFragment(@Nonnull CalculatorFragmentType fragmentType) {
-        ui = CalculatorApplication.getInstance().createFragmentHelper(fragmentType.getDefaultLayoutId(), fragmentType.getDefaultTitleResId(), false);
+        ui = new FragmentUi(fragmentType.getDefaultLayoutId(), fragmentType.getDefaultTitleResId(), false);
     }
 
     public static boolean isAlreadySaved(@Nonnull HistoryState historyState) {
@@ -402,7 +381,7 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
         toggle_datetime(R.id.menu_history_toggle_datetime) {
             @Override
             public void onClick(@Nonnull MenuItem data, @Nonnull Context context) {
-                final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(CalculatorApplication.getInstance());
+                final SharedPreferences preferences = App.getPreferences();
                 final Boolean showDatetime = Preferences.History.showDatetime.getPreference(preferences);
                 Preferences.History.showDatetime.putPreference(preferences, !showDatetime);
             }

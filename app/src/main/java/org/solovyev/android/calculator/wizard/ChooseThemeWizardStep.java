@@ -30,16 +30,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
-
+import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.R;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.annotation.Nonnull;
-
-import static org.solovyev.android.calculator.CalculatorApplication.getPreferences;
 
 public class ChooseThemeWizardStep extends WizardFragment implements AdapterView.OnItemSelectedListener {
 
@@ -57,7 +54,7 @@ public class ChooseThemeWizardStep extends WizardFragment implements AdapterView
     public void onViewCreated(View root, Bundle savedInstanceState) {
         super.onViewCreated(root, savedInstanceState);
 
-        final Preferences.Gui.Theme theme = Preferences.Gui.getTheme(getPreferences());
+        final Preferences.Gui.Theme theme = Preferences.Gui.getTheme(App.getPreferences());
         final Spinner spinner = (Spinner) root.findViewById(R.id.wizard_theme_spinner);
         themes.clear();
         themes.add(new ThemeUi(Preferences.Gui.Theme.material_theme, R.string.p_material_theme));
@@ -86,14 +83,14 @@ public class ChooseThemeWizardStep extends WizardFragment implements AdapterView
 
     private void updateImage(@Nonnull Preferences.Gui.Theme theme) {
         preview.removeAllViews();
-        final ContextThemeWrapper context = new ContextThemeWrapper(getActivity(), theme.getThemeId());
+        final ContextThemeWrapper context = new ContextThemeWrapper(getActivity(), theme.theme);
         LayoutInflater.from(context).inflate(R.layout.cpp_wizard_step_choose_theme_preview, preview);
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         final ThemeUi theme = adapter.getItem(position);
-        Preferences.Gui.theme.putPreference(getPreferences(), theme.theme);
+        Preferences.Gui.theme.putPreference(App.getPreferences(), theme.theme);
         updateImage(theme.theme);
     }
 

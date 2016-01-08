@@ -70,8 +70,8 @@ public class ActivityUi extends BaseUi {
 
     public static boolean restartIfThemeChanged(@Nonnull Activity activity, @Nonnull Preferences.Gui.Theme oldTheme) {
         final Preferences.Gui.Theme newTheme = Preferences.Gui.theme.getPreference(App.getPreferences());
-        final int themeId = oldTheme.getThemeId(activity);
-        final int newThemeId = newTheme.getThemeId(activity);
+        final int themeId = oldTheme.getThemeFor(activity);
+        final int newThemeId = newTheme.getThemeFor(activity);
         if (themeId != newThemeId) {
             Activities.restartActivity(activity);
             return true;
@@ -100,7 +100,7 @@ public class ActivityUi extends BaseUi {
         final SharedPreferences preferences = App.getPreferences();
 
         theme = Preferences.Gui.getTheme(preferences);
-        activity.setTheme(theme.getThemeId(activity));
+        activity.setTheme(theme.getThemeFor(activity));
 
         layout = Preferences.Gui.getLayout(preferences);
         language = App.getLanguages().getCurrent();
@@ -109,7 +109,7 @@ public class ActivityUi extends BaseUi {
     @Override
     public void onCreate(@Nonnull Activity activity) {
         super.onCreate(activity);
-        App.getLanguages().updateLanguage(activity, false);
+        App.getLanguages().updateContextLocale(activity, false);
 
         if (activity instanceof CalculatorEventListener) {
             Locator.getInstance().getCalculator().addCalculatorEventListener((CalculatorEventListener) activity);
@@ -302,7 +302,7 @@ public class ActivityUi extends BaseUi {
     }
 
     private void addHelpInfo(@Nonnull Activity activity, @Nonnull View root) {
-        if (CalculatorApplication.isMonkeyRunner(activity)) {
+        if (App.isMonkeyRunner(activity)) {
             if (root instanceof ViewGroup) {
                 final TextView helperTextView = new TextView(activity);
 

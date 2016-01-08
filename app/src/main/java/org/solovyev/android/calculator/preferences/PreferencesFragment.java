@@ -10,12 +10,7 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ListView;
-
-import org.solovyev.android.calculator.AdView;
-import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.CalculatorApplication;
-import org.solovyev.android.calculator.Preferences;
-import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.language.Language;
 import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.android.checkout.BillingRequests;
@@ -23,10 +18,9 @@ import org.solovyev.android.checkout.Checkout;
 import org.solovyev.android.checkout.ProductTypes;
 import org.solovyev.android.checkout.RequestListener;
 
-import java.util.List;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.List;
 
 import static org.solovyev.android.calculator.model.AndroidCalculatorEngine.Preferences.precision;
 import static org.solovyev.android.calculator.model.AndroidCalculatorEngine.Preferences.roundResult;
@@ -81,7 +75,7 @@ public class PreferencesFragment extends org.solovyev.android.material.preferenc
             restartWizardPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    startWizard(CalculatorApplication.getInstance().getWizards(), DEFAULT_WIZARD_FLOW, getActivity());
+                    startWizard(App.getWizards(), DEFAULT_WIZARD_FLOW, getActivity());
                     return true;
                 }
             });
@@ -105,7 +99,7 @@ public class PreferencesFragment extends org.solovyev.android.material.preferenc
         getCheckout().whenReady(new Checkout.ListenerAdapter() {
             @Override
             public void onReady(@Nonnull BillingRequests requests) {
-                requests.isPurchased(ProductTypes.IN_APP, CalculatorApplication.AD_FREE_PRODUCT_ID, new RequestListener<Boolean>() {
+                requests.isPurchased(ProductTypes.IN_APP, "ad_free", new RequestListener<Boolean>() {
                     @Override
                     public void onSuccess(@Nonnull Boolean purchased) {
                         if (buyPremiumPreference != null) {

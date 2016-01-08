@@ -25,10 +25,13 @@ package org.solovyev.android.calculator;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.graphics.Typeface;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import android.preference.PreferenceManager;
-import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -37,13 +40,16 @@ import android.support.v4.app.FragmentTransaction;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import org.solovyev.android.Check;
 import org.solovyev.android.UiThreadExecutor;
 import org.solovyev.android.Views;
 import org.solovyev.android.calculator.ga.Ga;
 import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.android.calculator.onscreen.CalculatorOnscreenService;
 import org.solovyev.android.calculator.view.ScreenMetrics;
+import org.solovyev.android.calculator.wizard.CalculatorWizards;
 import org.solovyev.android.checkout.*;
+import org.solovyev.android.wizard.Wizards;
 import org.solovyev.common.listeners.JEvent;
 import org.solovyev.common.listeners.JEventListener;
 import org.solovyev.common.listeners.JEventListeners;
@@ -54,6 +60,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 /**
  * User: serso
@@ -69,7 +76,7 @@ import java.util.concurrent.Executor;
  */
 public final class App {
 
-    public static final String TAG = "Calculator++";
+    public static final String TAG = "C++";
 
     @Nonnull
     public static String subTag(@Nonnull String subTag) {
@@ -84,7 +91,7 @@ public final class App {
     @Nonnull
     private static final Products products = Products.create().add(ProductTypes.IN_APP, Arrays.asList("ad_free"));
     @Nonnull
-    private static final Languages languages = new Languages();
+    private static Languages languages;
     @Nonnull
     private static volatile Application application;
     @Nonnull
@@ -102,59 +109,60 @@ public final class App {
     private static volatile Billing billing;
     @Nullable
     private static Boolean lg = null;
+    @Nullable
+    private static Typeface typeFace;
     @Nonnull
     private static volatile ScreenMetrics screenMetrics;
+    @Nonnull
+    private static final Handler handler = new Handler(Looper.getMainLooper());
+    @Nonnull
+    private static Wizards wizards;
+    @Nonnull
+    private static final Executor initializer = Executors.newSingleThreadExecutor();
 
     private App() {
         throw new AssertionError();
     }
 
-    /*
-    **********************************************************************
-    *
-    *                           METHODS
-    *
-    **********************************************************************
-    */
-
-    public static void init(@Nonnull Application application) {
-        init(application, new UiThreadExecutor(), Listeners.newEventBus());
+    public static void init(@Nonnull Application application, @Nonnull Languages languages) {
+        init(application, new UiThreadExecutor(), Listeners.newEventBus(), languages);
     }
 
     public static void init(@Nonnull Application application,
                             @Nonnull UiThreadExecutor uiThreadExecutor,
-                            @Nonnull JEventListeners<JEventListener<? extends JEvent>, JEvent> eventBus) {
-        if (!initialized) {
-            App.application = application;
-            App.preferences = PreferenceManager.getDefaultSharedPreferences(application);
-            App.uiThreadExecutor = uiThreadExecutor;
-            App.eventBus = eventBus;
-            App.ga = new Ga(application, preferences, eventBus);
-            App.billing = new Billing(application, new Billing.DefaultConfiguration() {
-                @Nonnull
-                @Override
-                public String getPublicKey() {
-                    return CalculatorSecurity.getPK();
-                }
-
-                @Nullable
-                @Override
-                public Inventory getFallbackInventory(@Nonnull Checkout checkout, @Nonnull Executor onLoadExecutor) {
-                    if (RobotmediaDatabase.exists(billing.getContext())) {
-                        return new RobotmediaInventory(checkout, onLoadExecutor);
-                    } else {
-                        return null;
-                    }
-                }
-            });
-            App.broadcaster = new CalculatorBroadcaster(application, preferences);
-            App.screenMetrics = new ScreenMetrics(application);
-            App.languages.init(App.preferences);
-
-            App.initialized = true;
-        } else {
+                            @Nonnull JEventListeners<JEventListener<? extends JEvent>, JEvent> eventBus,
+                            @Nonnull Languages languages) {
+        if (initialized) {
             throw new IllegalStateException("Already initialized!");
         }
+        App.application = application;
+        App.preferences = PreferenceManager.getDefaultSharedPreferences(application);
+        App.uiThreadExecutor = uiThreadExecutor;
+        App.eventBus = eventBus;
+        App.ga = new Ga(application, preferences, eventBus);
+        App.billing = new Billing(application, new Billing.DefaultConfiguration() {
+            @Nonnull
+            @Override
+            public String getPublicKey() {
+                return CalculatorSecurity.getPK();
+            }
+
+            @Nullable
+            @Override
+            public Inventory getFallbackInventory(@Nonnull Checkout checkout, @Nonnull Executor onLoadExecutor) {
+                if (RobotmediaDatabase.exists(billing.getContext())) {
+                    return new RobotmediaInventory(checkout, onLoadExecutor);
+                } else {
+                    return null;
+                }
+            }
+        });
+        App.broadcaster = new CalculatorBroadcaster(application, preferences);
+        App.screenMetrics = new ScreenMetrics(application);
+        App.languages = languages;
+        App.wizards = new CalculatorWizards(application);
+
+        App.initialized = true;
     }
 
     private static void checkInit() {
@@ -164,20 +172,12 @@ public final class App {
     }
 
     /**
-     * @return if App has already been initialized, false otherwise
-     */
-    public static boolean isInitialized() {
-        return initialized;
-    }
-
-    /**
      * @param <A> real type of application
-     * @return application instance which was provided in {@link App#init(android.app.Application)} method
+     * @return application instance which was provided in {@link App#init} method
      */
     @SuppressWarnings("unchecked")
     @Nonnull
     public static <A extends Application> A getApplication() {
-        checkInit();
         return (A) application;
     }
 
@@ -188,7 +188,6 @@ public final class App {
      */
     @Nonnull
     public static DelayedExecutor getUiThreadExecutor() {
-        checkInit();
         return uiThreadExecutor;
     }
 
@@ -197,13 +196,22 @@ public final class App {
      */
     @Nonnull
     public static JEventListeners<JEventListener<? extends JEvent>, JEvent> getEventBus() {
-        checkInit();
         return eventBus;
     }
 
     @Nonnull
     public static CalculatorBroadcaster getBroadcaster() {
         return broadcaster;
+    }
+
+    @Nonnull
+    public static Wizards getWizards() {
+        return wizards;
+    }
+
+    @Nonnull
+    public static Handler getHandler() {
+        return handler;
     }
 
     @Nonnull
@@ -238,6 +246,11 @@ public final class App {
     @Nonnull
     public static Preferences.SimpleTheme getWidgetTheme() {
         return Preferences.Widget.getTheme(getPreferences());
+    }
+
+    @Nonnull
+    public static Executor getInitializer() {
+        return initializer;
     }
 
     @Nonnull
@@ -290,14 +303,23 @@ public final class App {
     }
 
     @NonNull
-    public static String toColorString(@ColorInt int color) {
-        return Integer.toHexString(color).substring(2);
-    }
-
-    @NonNull
     public static SpannableString colorString(@Nonnull String s, int color) {
         final SpannableString spannable = new SpannableString(s);
         spannable.setSpan(new ForegroundColorSpan(color), 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         return spannable;
+    }
+
+    @Nonnull
+    public static Typeface getTypeFace() {
+        Check.isMainThread();
+        if (typeFace == null) {
+            typeFace = Typeface.createFromAsset(application.getAssets(), "fonts/Roboto-Regular.ttf");
+        }
+        return typeFace;
+    }
+
+    public static boolean isMonkeyRunner(@Nonnull Context context) {
+        // NOTE: this code is only for monkeyrunner
+        return context.checkCallingOrSelfPermission(android.Manifest.permission.DISABLE_KEYGUARD) == PackageManager.PERMISSION_GRANTED;
     }
 }
