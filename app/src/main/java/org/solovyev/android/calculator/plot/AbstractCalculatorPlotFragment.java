@@ -98,7 +98,7 @@ public abstract class AbstractCalculatorPlotFragment extends CalculatorFragment 
 
 
     public AbstractCalculatorPlotFragment() {
-        super(CalculatorApplication.getInstance().createFragmentHelper(R.layout.cpp_plot_fragment, R.string.c_graph, false));
+        super(new FragmentUi(R.layout.cpp_plot_fragment, R.string.c_graph, false));
     }
 
     public static void applyToPaint(@Nonnull PlotLineDef plotLineDef, @Nonnull Paint paint) {

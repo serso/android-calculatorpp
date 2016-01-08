@@ -33,15 +33,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import org.solovyev.android.calculator.CalculatorApplication;
-import org.solovyev.android.calculator.CalculatorEventData;
-import org.solovyev.android.calculator.CalculatorEventListener;
-import org.solovyev.android.calculator.CalculatorEventType;
-import org.solovyev.android.calculator.CalculatorFragmentType;
-import org.solovyev.android.calculator.CalculatorMathRegistry;
-import org.solovyev.android.calculator.FragmentUi;
-import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.menu.AMenuItem;
 import org.solovyev.android.menu.ContextMenuBuilder;
 import org.solovyev.android.menu.LabeledMenuItem;
@@ -52,11 +44,10 @@ import org.solovyev.common.filter.Filter;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.text.Strings;
 
-import java.util.Comparator;
-import java.util.List;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Comparator;
+import java.util.List;
 
 
 /**
@@ -94,7 +85,7 @@ public abstract class AbstractMathEntityListFragment<T extends MathEntity> exten
     private String category;
 
     protected AbstractMathEntityListFragment(@Nonnull CalculatorFragmentType fragmentType) {
-        ui = CalculatorApplication.getInstance().createFragmentHelper(fragmentType.getDefaultLayoutId(), fragmentType.getDefaultTitleResId());
+        ui = new FragmentUi(fragmentType.getDefaultLayoutId(), fragmentType.getDefaultTitleResId());
     }
 
     @Nonnull

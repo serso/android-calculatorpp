@@ -86,10 +86,10 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
 
         Preferences.appVersion.putPreference(preferences, appVersion);
 
-        if (!CalculatorApplication.isMonkeyRunner(context)) {
+        if (!App.isMonkeyRunner(context)) {
 
             boolean dialogShown = false;
-            final Wizards wizards = CalculatorApplication.getInstance().getWizards();
+            final Wizards wizards = App.getWizards();
             final Wizard wizard = wizards.getWizard(CalculatorWizards.FIRST_TIME_WIZARD);
             if (wizard.isStarted() && !wizard.isFinished()) {
                 continueWizard(wizards, wizard.getName(), context);
@@ -186,7 +186,7 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
 
         Locator.getInstance().getPreferenceService().checkPreferredPreferences(false);
 
-        if (CalculatorApplication.isMonkeyRunner(this)) {
+        if (App.isMonkeyRunner(this)) {
             Locator.getInstance().getKeyboard().buttonPressed("123");
             Locator.getInstance().getKeyboard().buttonPressed("+");
             Locator.getInstance().getKeyboard().buttonPressed("321");

@@ -27,25 +27,17 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.TextView;
-
+import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.views.dragbutton.DirectionDragButton;
 
 import javax.annotation.Nonnull;
 
-import static org.solovyev.android.calculator.CalculatorApplication.getPreferences;
 import static org.solovyev.android.calculator.wizard.CalculatorMode.engineer;
 import static org.solovyev.android.calculator.wizard.CalculatorMode.simple;
-import static org.solovyev.android.views.dragbutton.DirectionDragButton.Direction.down;
-import static org.solovyev.android.views.dragbutton.DirectionDragButton.Direction.left;
-import static org.solovyev.android.views.dragbutton.DirectionDragButton.Direction.up;
+import static org.solovyev.android.views.dragbutton.DirectionDragButton.Direction.*;
 
-/**
- * User: serso
- * Date: 6/16/13
- * Time: 9:59 PM
- */
 public class ChooseModeWizardStep extends WizardFragment implements AdapterView.OnItemSelectedListener {
 
     private DirectionDragButton button;
@@ -60,7 +52,7 @@ public class ChooseModeWizardStep extends WizardFragment implements AdapterView.
     public void onViewCreated(View root, Bundle savedInstanceState) {
         super.onViewCreated(root, savedInstanceState);
 
-        final CalculatorMode mode = CalculatorMode.fromGuiLayout(Preferences.Gui.layout.getPreference(getPreferences()));
+        final CalculatorMode mode = CalculatorMode.fromGuiLayout(Preferences.Gui.layout.getPreference(App.getPreferences()));
         final Spinner spinner = (Spinner) root.findViewById(R.id.wizard_mode_spinner);
         spinner.setAdapter(WizardArrayAdapter.create(getActivity(), R.array.cpp_modes));
         spinner.setSelection(mode == simple ? 0 : 1);
@@ -88,7 +80,7 @@ public class ChooseModeWizardStep extends WizardFragment implements AdapterView.
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         final CalculatorMode mode = position == 0 ? simple : engineer;
-        mode.apply(getPreferences());
+        mode.apply(App.getPreferences());
         updateDescription(mode);
     }
 

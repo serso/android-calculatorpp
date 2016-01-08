@@ -31,30 +31,22 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.StyleRes;
 import android.util.SparseArray;
 import android.view.ContextThemeWrapper;
-
+import jscl.AngleUnit;
+import jscl.NumeralBase;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 import org.solovyev.android.calculator.preferences.PurchaseDialogActivity;
 import org.solovyev.android.calculator.wizard.WizardActivity;
-import org.solovyev.android.prefs.BooleanPreference;
-import org.solovyev.android.prefs.IntegerPreference;
-import org.solovyev.android.prefs.LongPreference;
-import org.solovyev.android.prefs.NumberToStringPreference;
-import org.solovyev.android.prefs.Preference;
-import org.solovyev.android.prefs.StringPreference;
+import org.solovyev.android.prefs.*;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.text.DecimalFormatSymbols;
 import java.util.EnumMap;
 import java.util.Locale;
 import java.util.Map;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import jscl.AngleUnit;
-import jscl.NumeralBase;
 
 import static org.solovyev.android.Android.isPhoneModel;
 import static org.solovyev.android.DeviceModel.samsung_galaxy_s;
@@ -127,9 +119,6 @@ public final class Preferences {
         applyDefaultPreference(preferences, Onscreen.theme);
 
         applyDefaultPreference(preferences, Widget.theme);
-
-        applyDefaultPreference(preferences, Ga.initialReportDone);
-
 
         // renew value after each application start
         Calculations.showCalculationMessagesDialog.putDefault(preferences);
@@ -258,10 +247,6 @@ public final class Preferences {
 
     }
 
-    public static class Ga {
-        public static final Preference<Boolean> initialReportDone = BooleanPreference.of("ga.initial_report_done", false);
-    }
-
     public static class Gui {
 
         public static final Preference<Theme> theme = StringPreference.ofEnum("org.solovyev.android.calculator.CalculatorActivity_calc_theme", Theme.material_theme, Theme.class);
@@ -300,39 +285,38 @@ public final class Preferences {
 
             private static final SparseArray<TextColor> textColors = new SparseArray<>();
 
-            private final int themeId;
-            private final int wizardThemeId;
-            private final int dialogThemeId;
+            @StyleRes
+            public final int theme;
+            @StyleRes
+            public final int wizardTheme;
+            @StyleRes
+            public final int dialogTheme;
             public final boolean light;
 
-            Theme(@StyleRes int themeId) {
-                this(themeId, R.style.Cpp_Theme_Wizard, R.style.Cpp_Theme_Dialog_Material);
+            Theme(@StyleRes int theme) {
+                this(theme, R.style.Cpp_Theme_Wizard, R.style.Cpp_Theme_Dialog_Material);
             }
 
-            Theme(@StyleRes int themeId, @StyleRes int wizardThemeId, int dialogThemeId) {
-                this.themeId = themeId;
-                this.wizardThemeId = wizardThemeId;
-                this.dialogThemeId = dialogThemeId;
-                this.light = themeId == R.style.Cpp_Theme_Material_Light;
+            Theme(@StyleRes int theme, @StyleRes int wizardTheme, @StyleRes int dialogTheme) {
+                this.theme = theme;
+                this.wizardTheme = wizardTheme;
+                this.dialogTheme = dialogTheme;
+                this.light = theme == R.style.Cpp_Theme_Material_Light;
             }
 
-            public int getThemeId() {
-                return getThemeId(null);
-            }
-
-            public int getThemeId(@Nullable Context context) {
+            public int getThemeFor(@Nullable Context context) {
                 if (context instanceof WizardActivity) {
-                    return wizardThemeId;
+                    return wizardTheme;
                 }
                 if (context instanceof PurchaseDialogActivity) {
-                    return dialogThemeId;
+                    return dialogTheme;
                 }
-                return themeId;
+                return theme;
             }
 
             @Nonnull
             public TextColor getTextColor(@Nonnull Context context) {
-                final int themeId = getThemeId(context);
+                final int themeId = getThemeFor(context);
                 TextColor textColor = textColors.get(themeId);
                 if (textColor == null) {
                     final ContextThemeWrapper themeContext = new ContextThemeWrapper(context, themeId);

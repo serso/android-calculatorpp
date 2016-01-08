@@ -22,143 +22,50 @@
 
 package org.solovyev.android.calculator;
 
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.graphics.Typeface;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
-
+import android.util.TimingLogger;
 import com.squareup.leakcanary.LeakCanary;
-
 import org.acra.ACRA;
-import org.acra.ReportingInteractionMode;
-import org.acra.annotation.ReportsCrashes;
+import org.acra.ACRAConfiguration;
+import org.acra.sender.HttpSender;
 import org.solovyev.android.Android;
 import org.solovyev.android.calculator.history.AndroidCalculatorHistory;
 import org.solovyev.android.calculator.language.Language;
+import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 import org.solovyev.android.calculator.onscreen.CalculatorOnscreenStartActivity;
 import org.solovyev.android.calculator.plot.AndroidCalculatorPlotter;
 import org.solovyev.android.calculator.plot.CalculatorPlotterImpl;
 import org.solovyev.android.calculator.view.EditorTextProcessor;
-import org.solovyev.android.calculator.wizard.CalculatorWizards;
-import org.solovyev.android.wizard.Wizards;
 import org.solovyev.common.msg.MessageType;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
-import javax.annotation.Nonnull;
-
-@ReportsCrashes(
-        formUri = "https://serso.cloudant.com/acra-cpp/_design/acra-storage/_update/report",
-        reportType = org.acra.sender.HttpSender.Type.JSON,
-        httpMethod = org.acra.sender.HttpSender.Method.PUT,
-        formUriBasicAuthLogin = "timbeenterumisideffecird",
-        formUriBasicAuthPassword = "ECL65PO2TH5quIFNAK4hQ5Ng",
-        mode = ReportingInteractionMode.TOAST,
-        resToastText = R.string.crashed)
 public class CalculatorApplication extends android.app.Application implements SharedPreferences.OnSharedPreferenceChangeListener {
-
-	/*
-    **********************************************************************
-	*
-	*                           CONSTANTS
-	*
-	**********************************************************************
-	*/
-
-    public static final String AD_FREE_PRODUCT_ID = "ad_free";
-    public static final String AD_FREE_P_KEY = "org.solovyev.android.calculator_ad_free";
-    public static final String ADMOB = "ca-app-pub-2228934497384784/2916398892";
     @Nonnull
-    static final String MAIL = "se.solovyev@gmail.com";
-    private static final String TAG = "C++";
-    @Nonnull
-    private static CalculatorApplication instance;
-
-	/*
-	**********************************************************************
-	*
-	*                           FIELDS
-	*
-	**********************************************************************
-	*/
-    @Nonnull
-    protected final Handler uiHandler = new Handler();
-    @Nonnull
-    private final List<CalculatorEventListener> listeners = new ArrayList<CalculatorEventListener>();
-    @Nonnull
-    private final Wizards wizards = new CalculatorWizards(this);
-
-    private Typeface typeFace;
-
-	/*
-	**********************************************************************
-	*
-	*                           CONSTRUCTORS
-	*
-	**********************************************************************
-	*/
-
-    public CalculatorApplication() {
-        instance = this;
-    }
-
-	/*
-	**********************************************************************
-	*
-	*                           METHODS
-	*
-	**********************************************************************
-	*/
-
-    @Nonnull
-    public static CalculatorApplication getInstance() {
-        return instance;
-    }
-
-    @Nonnull
-    public static SharedPreferences getPreferences() {
-        return PreferenceManager.getDefaultSharedPreferences(getInstance());
-    }
-
-    public static boolean isMonkeyRunner(@Nonnull Context context) {
-        // NOTE: this code is only for monkeyrunner
-        return context.checkCallingOrSelfPermission(android.Manifest.permission.DISABLE_KEYGUARD) == PackageManager.PERMISSION_GRANTED;
-    }
+    private final List<CalculatorEventListener> listeners = new ArrayList<>();
 
     @Override
     public void onCreate() {
-        if (!BuildConfig.DEBUG) {
-            ACRA.init(this);
-        } else {
-            LeakCanary.install(this);
-        }
-
-        if (!App.isInitialized()) {
-            App.init(this);
-        }
-
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        Preferences.setDefaultValues(preferences);
+        final Languages languages = new Languages(preferences);
+
+        onPreCreate(preferences, languages);
+        super.onCreate();
+        onPostCreate(preferences, languages);
+    }
+
+    private void onPostCreate(@Nonnull SharedPreferences preferences, @Nonnull Languages languages) {
+        App.init(this, languages);
 
         preferences.registerOnSharedPreferenceChangeListener(this);
-
-        setTheme(preferences);
-        setLanguageInitially();
-
-        super.onCreate();
-        App.getLanguages().updateLanguage(this, true);
-
-        if (!Preferences.Ga.initialReportDone.getPreference(preferences)) {
-            App.getGa().reportInitially(preferences);
-            Preferences.Ga.initialReportDone.putPreference(preferences, true);
-        }
+        languages.updateContextLocale(this, true);
+        App.getGa().reportInitially(preferences);
 
         final AndroidCalculator calculator = new AndroidCalculator(this);
 
@@ -186,84 +93,53 @@ public class CalculatorApplication extends android.app.Application implements Sh
 
         Locator.getInstance().getCalculator().init();
 
-        new Thread(new Runnable() {
+        App.getInitializer().execute(new Runnable() {
             @Override
             public void run() {
                 try {
-                    // prepare engine
-                    Locator.getInstance().getEngine().getMathEngine0().evaluate("1+1");
-                    Locator.getInstance().getEngine().getMathEngine0().evaluate("1*1");
+                    // warm-up engine
+                    CalculatorMathEngine mathEngine = Locator.getInstance().getEngine().getMathEngine();
+                    mathEngine.evaluate("1+1");
+                    mathEngine.evaluate("1*1");
                 } catch (Throwable e) {
-                    Log.e(TAG, e.getMessage(), e);
+                    Log.e(App.TAG, e.getMessage(), e);
                 }
-
             }
-        }).start();
+        });
 
-        Locator.getInstance().getLogger().debug(TAG, "Application started!");
-        Locator.getInstance().getNotifier().showDebugMessage(TAG, "Application started!");
-
-        App.getUiThreadExecutor().execute(new Runnable() {
+        App.getHandler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 // we must update the widget when app starts
-                App.getBroadcaster().sendEditorStateChangedIntent();
+                App.getBroadcaster().sendInitIntent();
             }
-        }, 100, TimeUnit.MILLISECONDS);
+        }, 100);
     }
 
-    private void setLanguageInitially() {
-        // should be called before onCreate()
-        final Language language = App.getLanguages().getCurrent();
+    private void onPreCreate(@Nonnull SharedPreferences preferences, @Nonnull Languages languages) {
+        // first we need to setup crash handler and memory leak analyzer
+        if (!BuildConfig.DEBUG) {
+            ACRA.init(this, new ACRAConfiguration()
+                    .setFormUri("https://serso.cloudant.com/acra-cpp/_design/acra-storage/_update/report")
+                    .setReportType(HttpSender.Type.JSON)
+                    .setHttpMethod(HttpSender.Method.PUT)
+                    .setFormUriBasicAuthLogin("timbeenterumisideffecird")
+                    .setFormUriBasicAuthPassword("ECL65PO2TH5quIFNAK4hQ5Ng"));
+        } else {
+            LeakCanary.install(this);
+        }
+
+        // then we should set default preferences
+        Preferences.setDefaultValues(preferences);
+
+        // and change application's theme/language is needed
+        final Preferences.Gui.Theme theme = Preferences.Gui.getTheme(preferences);
+        setTheme(theme.theme);
+
+        final Language language = languages.getCurrent();
         if (!language.isSystem() && !language.locale.equals(Locale.getDefault())) {
             Locale.setDefault(language.locale);
         }
-    }
-
-    private void setTheme(@Nonnull SharedPreferences preferences) {
-        final Preferences.Gui.Theme theme = Preferences.Gui.getTheme(preferences);
-        setTheme(theme.getThemeId());
-    }
-
-    @Nonnull
-    public FragmentUi createFragmentHelper(int layoutId) {
-        return new FragmentUi(layoutId);
-    }
-
-    @Nonnull
-    public FragmentUi createFragmentHelper(int layoutId, int titleResId) {
-        return new FragmentUi(layoutId, titleResId);
-    }
-
-    @Nonnull
-    public FragmentUi createFragmentHelper(int layoutId, int titleResId, boolean listenersOnCreate) {
-        return new FragmentUi(layoutId, titleResId, listenersOnCreate);
-    }
-
-	/*
-	**********************************************************************
-	*
-	*                           STATIC
-	*
-	**********************************************************************
-	*/
-
-    @Nonnull
-    public Handler getUiHandler() {
-        return uiHandler;
-    }
-
-    @Nonnull
-    public Wizards getWizards() {
-        return wizards;
-    }
-
-    @Nonnull
-    public Typeface getTypeFace() {
-        if (typeFace == null) {
-            typeFace = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Regular.ttf");
-        }
-        return typeFace;
     }
 
     @Override

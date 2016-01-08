@@ -42,11 +42,11 @@ public abstract class CalculatorFragment extends Fragment {
     private final FragmentUi fragmentUi;
 
     protected CalculatorFragment(int layoutResId, int titleResId) {
-        fragmentUi = CalculatorApplication.getInstance().createFragmentHelper(layoutResId, titleResId);
+        fragmentUi = new FragmentUi(layoutResId, titleResId);
     }
 
     protected CalculatorFragment(@Nonnull CalculatorFragmentType fragmentType) {
-        fragmentUi = CalculatorApplication.getInstance().createFragmentHelper(fragmentType.getDefaultLayoutId(), fragmentType.getDefaultTitleResId());
+        fragmentUi = new FragmentUi(fragmentType.getDefaultLayoutId(), fragmentType.getDefaultTitleResId());
     }
 
     protected CalculatorFragment(@Nonnull FragmentUi fragmentUi) {

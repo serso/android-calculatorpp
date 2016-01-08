@@ -184,46 +184,46 @@ public class AndroidCalculator implements Calculator, CalculatorEventListener, S
     public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
         switch (calculatorEventType) {
             case calculation_messages:
-                CalculatorActivityLauncher.showCalculationMessagesDialog(CalculatorApplication.getInstance(), (List<Message>) data);
+                CalculatorActivityLauncher.showCalculationMessagesDialog(App.getApplication(), (List<Message>) data);
                 break;
             case show_history:
-                CalculatorActivityLauncher.showHistory(CalculatorApplication.getInstance());
+                CalculatorActivityLauncher.showHistory(App.getApplication());
                 break;
             case show_history_detached:
-                CalculatorActivityLauncher.showHistory(CalculatorApplication.getInstance(), true);
+                CalculatorActivityLauncher.showHistory(App.getApplication(), true);
                 break;
             case show_functions:
-                CalculatorActivityLauncher.showFunctions(CalculatorApplication.getInstance());
+                CalculatorActivityLauncher.showFunctions(App.getApplication());
                 break;
             case show_functions_detached:
-                CalculatorActivityLauncher.showFunctions(CalculatorApplication.getInstance(), true);
+                CalculatorActivityLauncher.showFunctions(App.getApplication(), true);
                 break;
             case show_operators:
-                CalculatorActivityLauncher.showOperators(CalculatorApplication.getInstance());
+                CalculatorActivityLauncher.showOperators(App.getApplication());
                 break;
             case show_operators_detached:
-                CalculatorActivityLauncher.showOperators(CalculatorApplication.getInstance(), true);
+                CalculatorActivityLauncher.showOperators(App.getApplication(), true);
                 break;
             case show_vars:
-                CalculatorActivityLauncher.showVars(CalculatorApplication.getInstance());
+                CalculatorActivityLauncher.showVars(App.getApplication());
                 break;
             case show_vars_detached:
-                CalculatorActivityLauncher.showVars(CalculatorApplication.getInstance(), true);
+                CalculatorActivityLauncher.showVars(App.getApplication(), true);
                 break;
             case show_settings:
-                CalculatorActivityLauncher.showSettings(CalculatorApplication.getInstance());
+                CalculatorActivityLauncher.showSettings(App.getApplication());
                 break;
             case show_settings_detached:
-                CalculatorActivityLauncher.showSettings(CalculatorApplication.getInstance(), true);
+                CalculatorActivityLauncher.showSettings(App.getApplication(), true);
                 break;
             case show_settings_widget:
-                CalculatorActivityLauncher.showWidgetSettings(CalculatorApplication.getInstance(), true);
+                CalculatorActivityLauncher.showWidgetSettings(App.getApplication(), true);
                 break;
             case show_like_dialog:
-                CalculatorActivityLauncher.likeButtonPressed(CalculatorApplication.getInstance());
+                CalculatorActivityLauncher.likeButtonPressed(App.getApplication());
                 break;
             case open_app:
-                CalculatorActivityLauncher.openApp(CalculatorApplication.getInstance());
+                CalculatorActivityLauncher.openApp(App.getApplication());
                 break;
         }
     }

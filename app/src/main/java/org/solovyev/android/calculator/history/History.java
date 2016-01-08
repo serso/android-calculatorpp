@@ -24,26 +24,64 @@ package org.solovyev.android.calculator.history;
 
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
+import org.simpleframework.xml.Serializer;
+import org.simpleframework.xml.core.Persister;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
-
-/**
- * User: serso
- * Date: 12/17/11
- * Time: 9:30 PM
- */
 
 @Root
 public class History {
 
-    @ElementList(type = HistoryState.class)
-    private List<HistoryState> historyItems = new ArrayList<HistoryState>();
+    @Nonnull
+    @ElementList(type = HistoryState.class, name = "historyItems")
+    private List<HistoryState> items = new ArrayList<HistoryState>();
 
     public History() {
     }
 
-    public List<HistoryState> getHistoryItems() {
-        return historyItems;
+    @Nullable
+    public static History fromXml(@Nullable String xml) {
+        if (xml == null) {
+            return null;
+        }
+        final Serializer serializer = new Persister();
+        try {
+            return serializer.read(History.class, xml);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @Nonnull
+    public String toXml() {
+        final StringWriter xml = new StringWriter();
+        final Serializer serializer = new Persister();
+        try {
+            serializer.write(this, xml);
+        } catch (Exception e) {
+            return "";
+        }
+        return xml.toString();
+    }
+
+    @Nonnull
+    public List<HistoryState> getItems() {
+        return items;
+    }
+
+    public void add(@Nonnull HistoryState state) {
+        items.add(state);
+    }
+
+    public void clear() {
+        items.clear();
+    }
+
+    public void remove(@Nonnull HistoryState state) {
+        items.remove(state);
     }
 }

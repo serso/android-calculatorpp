@@ -27,13 +27,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.Spinner;
-
+import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.R;
 
 import javax.annotation.Nonnull;
 
-import static org.solovyev.android.calculator.CalculatorApplication.getPreferences;
 import static org.solovyev.android.calculator.wizard.CalculatorLayout.big_buttons;
 import static org.solovyev.android.calculator.wizard.CalculatorLayout.optimized;
 
@@ -55,7 +54,7 @@ public class ChooseLayoutWizardStep extends WizardFragment implements AdapterVie
     public void onViewCreated(View root, Bundle savedInstanceState) {
         super.onViewCreated(root, savedInstanceState);
 
-        final CalculatorLayout layout = CalculatorLayout.fromGuiLayout(Preferences.Gui.layout.getPreference(getPreferences()));
+        final CalculatorLayout layout = CalculatorLayout.fromGuiLayout(Preferences.Gui.layout.getPreference(App.getPreferences()));
 
         image = (ImageView) root.findViewById(R.id.wizard_layout_image);
         final Spinner spinner = (Spinner) root.findViewById(R.id.wizard_layout_spinner);
@@ -78,7 +77,7 @@ public class ChooseLayoutWizardStep extends WizardFragment implements AdapterVie
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         final CalculatorLayout layout = position == 0 ? big_buttons : optimized;
-        layout.apply(getPreferences());
+        layout.apply(App.getPreferences());
         updateImage(layout);
     }
 

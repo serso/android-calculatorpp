@@ -126,7 +126,7 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
         preferences.registerOnSharedPreferenceChangeListener(this);
 
         // let's disable locking of screen for monkeyrunner
-        if (CalculatorApplication.isMonkeyRunner(activity)) {
+        if (App.isMonkeyRunner(activity)) {
             final KeyguardManager km = (KeyguardManager) activity.getSystemService(Context.KEYGUARD_SERVICE);
             //noinspection deprecation
             km.newKeyguardLock(activity.getClass().getName()).disableKeyguard();
@@ -145,7 +145,7 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
 
     protected void fixFonts(@Nonnull View root) {
         // some devices ship own fonts which causes issues with rendering. Let's use our own font for all text views
-        final Typeface typeFace = CalculatorApplication.getInstance().getTypeFace();
+        final Typeface typeFace = App.getTypeFace();
         Views.processViewsOfType(root, TextView.class, new Views.ViewProcessor<TextView>() {
             @Override
             public void process(@Nonnull TextView view) {

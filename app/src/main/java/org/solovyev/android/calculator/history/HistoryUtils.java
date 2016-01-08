@@ -22,57 +22,11 @@
 
 package org.solovyev.android.calculator.history;
 
-import org.simpleframework.xml.Serializer;
-import org.simpleframework.xml.core.Persister;
-
-import java.io.StringWriter;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-/**
- * User: serso
- * Date: 12/17/11
- * Time: 9:59 PM
- */
-class HistoryUtils {
+final class HistoryUtils {
 
     // not intended for instantiation
     private HistoryUtils() {
         throw new AssertionError();
     }
 
-    public static void fromXml(@Nullable String xml, @Nonnull List<HistoryState> historyItems) {
-        if (xml != null) {
-            final Serializer serializer = new Persister();
-            try {
-                final History history = serializer.read(History.class, xml);
-                for (HistoryState historyItem : history.getHistoryItems()) {
-                    historyItems.add(historyItem);
-                }
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
-
-    @Nonnull
-    public static String toXml(@Nonnull List<HistoryState> historyItems) {
-        final History history = new History();
-        for (HistoryState historyState : historyItems) {
-            if (historyState.isSaved()) {
-                history.getHistoryItems().add(historyState);
-            }
-        }
-
-        final StringWriter xml = new StringWriter();
-        final Serializer serializer = new Persister();
-        try {
-            serializer.write(history, xml);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        return xml.toString();
-    }
 }
