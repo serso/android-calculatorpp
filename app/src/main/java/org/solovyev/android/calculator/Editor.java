@@ -93,8 +93,8 @@ public class Editor implements CalculatorEventListener {
         Check.isMainThread();
         if (textProcessor != null) {
             try {
-                final TextProcessorEditorResult result = textProcessor.process(newState.getText());
-                newState = EditorState.create(result.getCharSequence(), newState.getSelection() + result.getOffset());
+                final TextProcessorEditorResult result = textProcessor.process(newState.getTextString());
+                newState = EditorState.create(result.getCharSequence(), newState.selection + result.getOffset());
             } catch (CalculatorParseException e) {
                 Locator.getInstance().getLogger().error(TAG, e.getMessage(), e);
             }
@@ -138,7 +138,7 @@ public class Editor implements CalculatorEventListener {
     @Nonnull
     private EditorState newSelectionViewState(int newSelection) {
         Check.isMainThread();
-        if (state.getSelection() != newSelection) {
+        if (state.selection != newSelection) {
             final EditorState result = EditorState.newSelection(state, newSelection);
             setState(result, false);
             return result;
@@ -156,14 +156,14 @@ public class Editor implements CalculatorEventListener {
     @Nonnull
     public EditorState setCursorOnEnd() {
         Check.isMainThread();
-        return newSelectionViewState(state.getText().length());
+        return newSelectionViewState(state.text.length());
     }
 
     @Nonnull
     public EditorState moveCursorLeft() {
         Check.isMainThread();
-        if (state.getSelection() > 0) {
-            return newSelectionViewState(state.getSelection() - 1);
+        if (state.selection > 0) {
+            return newSelectionViewState(state.selection - 1);
         } else {
             return state;
         }
@@ -172,8 +172,8 @@ public class Editor implements CalculatorEventListener {
     @Nonnull
     public EditorState moveCursorRight() {
         Check.isMainThread();
-        if (state.getSelection() < state.getText().length()) {
-            return newSelectionViewState(state.getSelection() + 1);
+        if (state.selection < state.text.length()) {
+            return newSelectionViewState(state.selection + 1);
         } else {
             return state;
         }
@@ -182,15 +182,12 @@ public class Editor implements CalculatorEventListener {
     @Nonnull
     public EditorState erase() {
         Check.isMainThread();
-        int selection = state.getSelection();
-        final String text = state.getText();
+        int selection = state.selection;
+        final String text = state.getTextString();
         if (selection > 0 && text.length() > 0 && selection <= text.length()) {
-            final StringBuilder newText = new StringBuilder(text.length() - 1);
-            newText.append(text.substring(0, selection - 1)).append(text.substring(selection, text.length()));
-
-            final EditorState result = EditorState.create(newText.toString(), selection - 1);
-            setState(result);
-            return result;
+            final EditorState newState = EditorState.create(text.substring(0, selection - 1) + text.substring(selection, text.length()), selection - 1);
+            setState(newState);
+            return newState;
         } else {
             return state;
         }
@@ -229,33 +226,28 @@ public class Editor implements CalculatorEventListener {
     @Nonnull
     public EditorState insert(@Nonnull String text, int selectionOffset) {
         Check.isMainThread();
-        final String oldText = state.getText();
-        final int selection = clamp(state.getSelection(), oldText);
+        final String oldText = state.getTextString();
+        final int selection = clamp(state.selection, oldText);
 
         int newTextLength = text.length() + oldText.length();
-        final StringBuilder newText = new StringBuilder(newTextLength);
-
-        newText.append(oldText.substring(0, selection));
-        newText.append(text);
-        newText.append(oldText.substring(selection));
 
         int newSelection = clamp(text.length() + selection + selectionOffset, newTextLength);
-        final EditorState result = EditorState.create(newText.toString(), newSelection);
-        setState(result);
-        return result;
+        final EditorState newState = EditorState.create(oldText.substring(0, selection) + text + oldText.substring(selection), newSelection);
+        setState(newState);
+        return newState;
     }
 
     @Nonnull
     public EditorState moveSelection(int offset) {
         Check.isMainThread();
-        int selection = state.getSelection() + offset;
+        int selection = state.selection + offset;
         return setSelection(selection);
     }
 
     @Nonnull
     public EditorState setSelection(int selection) {
         Check.isMainThread();
-        selection = clamp(selection, state.getText());
+        selection = clamp(selection, state.text);
 
         final EditorState result = EditorState.newSelection(state, selection);
         setState(result, false);

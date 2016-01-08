@@ -203,11 +203,11 @@ public class CalculatorWidget extends AppWidgetProvider {
         views.setTextColor(R.id.calculator_display, ContextCompat.getColor(context, theme.getDisplayTextColor(error)));
     }
 
-    private void updateEditorState(@Nonnull Context context, @Nonnull RemoteViews views, @Nonnull  EditorState editorState, @Nonnull SimpleTheme theme) {
-        final CharSequence text = editorState.getTextAsCharSequence();
+    private void updateEditorState(@Nonnull Context context, @Nonnull RemoteViews views, @Nonnull  EditorState state, @Nonnull SimpleTheme theme) {
         final boolean unspan = App.getTheme().light != theme.light;
 
-        final int selection = editorState.getSelection();
+        final CharSequence text = state.text;
+        final int selection = state.selection;
         if (selection < 0 || selection > text.length()) {
             views.setTextViewText(R.id.calculator_editor, unspan ? unspan(text) : text);
             return;

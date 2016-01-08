@@ -28,25 +28,11 @@ import org.solovyev.common.text.Strings;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-/**
- * User: serso
- * Date: 9/22/12
- * Time: 1:08 PM
- */
 public class CalculatorKeyboardImpl implements CalculatorKeyboard {
-
-    @Nonnull
-    private final Calculator calculator;
-
-    public CalculatorKeyboardImpl(@Nonnull Calculator calculator) {
-        this.calculator = calculator;
-    }
 
     @Override
     public boolean buttonPressed(@Nullable final String text) {
         if (!Strings.isEmpty(text)) {
-            if (text == null) throw new AssertionError();
-
             // process special buttons
             boolean processed = processSpecialButtons(text);
 
@@ -113,15 +99,10 @@ public class CalculatorKeyboardImpl implements CalculatorKeyboard {
         final Editor editor = Locator.getInstance().getEditor();
          EditorState viewState = editor.getState();
 
-        final int cursorPosition = viewState.getSelection();
-        final String oldText = viewState.getText();
+        final int cursorPosition = viewState.selection;
+        final CharSequence oldText = viewState.text;
 
-        final StringBuilder newText = new StringBuilder(oldText.length() + 2);
-        newText.append("(");
-        newText.append(oldText.substring(0, cursorPosition));
-        newText.append(")");
-        newText.append(oldText.substring(cursorPosition));
-        editor.setText(newText.toString(), cursorPosition + 2);
+        editor.setText("(" + oldText.subSequence(0, cursorPosition) + ")" + oldText.subSequence(cursorPosition, oldText.length()), cursorPosition + 2);
     }
 
     @Override

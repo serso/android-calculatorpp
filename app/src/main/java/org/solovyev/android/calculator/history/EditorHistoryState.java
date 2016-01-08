@@ -50,8 +50,8 @@ public class EditorHistoryState implements Cloneable {
     public static EditorHistoryState create(@Nonnull EditorState state) {
         final EditorHistoryState result = new EditorHistoryState();
 
-        result.text = String.valueOf(state.getText());
-        result.cursorPosition = state.getSelection();
+        result.text = state.getTextString();
+        result.cursorPosition = state.selection;
 
         return result;
     }
