@@ -41,9 +41,18 @@ import android.text.SpannedString;
 import android.text.TextUtils;
 import android.text.style.StyleSpan;
 import android.widget.RemoteViews;
+
+import org.solovyev.android.Check;
 import org.solovyev.android.Views;
-import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.CalculatorButton;
+import org.solovyev.android.calculator.DisplayState;
+import org.solovyev.android.calculator.EditorState;
+import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.Preferences.SimpleTheme;
+import org.solovyev.android.calculator.R;
+
+import java.util.EnumMap;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -51,7 +60,9 @@ import javax.annotation.Nullable;
 import static android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT;
 import static android.content.Intent.ACTION_CONFIGURATION_CHANGED;
 import static android.os.Build.VERSION_CODES.JELLY_BEAN;
-import static org.solovyev.android.calculator.CalculatorBroadcaster.*;
+import static org.solovyev.android.calculator.CalculatorBroadcaster.ACTION_DISPLAY_STATE_CHANGED;
+import static org.solovyev.android.calculator.CalculatorBroadcaster.ACTION_EDITOR_STATE_CHANGED;
+import static org.solovyev.android.calculator.CalculatorBroadcaster.ACTION_THEME_CHANGED;
 import static org.solovyev.android.calculator.CalculatorReceiver.newButtonClickedIntent;
 
 public class CalculatorWidget extends AppWidgetProvider {
@@ -60,7 +71,8 @@ public class CalculatorWidget extends AppWidgetProvider {
     private static final int WIDGET_CATEGORY_KEYGUARD = 2;
     private static final String OPTION_APPWIDGET_HOST_CATEGORY = "appWidgetCategory";
     private static final String ACTION_APPWIDGET_OPTIONS_CHANGED = "android.appwidget.action.APPWIDGET_UPDATE_OPTIONS";
-
+    @Nonnull
+    private static final Intents intents = new Intents();
     @Nullable
     private SpannedString cursorString;
 
@@ -98,7 +110,7 @@ public class CalculatorWidget extends AppWidgetProvider {
         updateWidget(context, appWidgetManager, appWidgetIds);
     }
 
-    public void updateState(@Nonnull Context context) {
+    public void updateWidget(@Nonnull Context context) {
         final AppWidgetManager manager = AppWidgetManager.getInstance(context);
         final int[] widgetIds = manager.getAppWidgetIds(new ComponentName(context, CalculatorWidget.class));
         updateWidget(context, manager, widgetIds);
@@ -107,7 +119,7 @@ public class CalculatorWidget extends AppWidgetProvider {
     private void updateWidget(@Nonnull Context context,
                               @Nonnull AppWidgetManager manager,
                               @Nonnull int[] widgetIds) {
-        final  EditorState editorState = Locator.getInstance().getEditor().getState();
+        final EditorState editorState = Locator.getInstance().getEditor().getState();
         final DisplayState displayState = Locator.getInstance().getDisplay().getViewState();
 
         final Resources resources = context.getResources();
@@ -116,15 +128,15 @@ public class CalculatorWidget extends AppWidgetProvider {
             final RemoteViews views = new RemoteViews(context.getPackageName(), getLayout(manager, widgetId, resources, theme));
 
             for (CalculatorButton button : CalculatorButton.values()) {
-                final int buttonId;
-                if (button == CalculatorButton.settings_widget) {
-                    // overriding default settings button behavior
-                    buttonId = CalculatorButton.settings.getButtonId();
-                } else {
-                    buttonId = button.getButtonId();
-                }
-                final PendingIntent intent = PendingIntent.getBroadcast(context, buttonId, newButtonClickedIntent(context, button), PendingIntent.FLAG_UPDATE_CURRENT);
+                final PendingIntent intent = intents.get(context, button);
                 if (intent != null) {
+                    final int buttonId;
+                    if (button == CalculatorButton.settings_widget) {
+                        // overriding default settings button behavior
+                        buttonId = CalculatorButton.settings.getButtonId();
+                    } else {
+                        buttonId = button.getButtonId();
+                    }
                     views.setOnClickPendingIntent(buttonId, intent);
                 }
             }
@@ -190,7 +202,7 @@ public class CalculatorWidget extends AppWidgetProvider {
             case ACTION_DISPLAY_STATE_CHANGED:
             case ACTION_APPWIDGET_OPTIONS_CHANGED:
             case ACTION_THEME_CHANGED:
-                updateState(context);
+                updateWidget(context);
                 break;
         }
     }
@@ -203,7 +215,7 @@ public class CalculatorWidget extends AppWidgetProvider {
         views.setTextColor(R.id.calculator_display, ContextCompat.getColor(context, theme.getDisplayTextColor(error)));
     }
 
-    private void updateEditorState(@Nonnull Context context, @Nonnull RemoteViews views, @Nonnull  EditorState state, @Nonnull SimpleTheme theme) {
+    private void updateEditorState(@Nonnull Context context, @Nonnull RemoteViews views, @Nonnull EditorState state, @Nonnull SimpleTheme theme) {
         final boolean unspan = App.getTheme().light != theme.light;
 
         final CharSequence text = state.text;
@@ -233,5 +245,26 @@ public class CalculatorWidget extends AppWidgetProvider {
     @NonNull
     private String unspan(@Nonnull CharSequence spannable) {
         return spannable.toString();
+    }
+
+    private static class Intents {
+        @Nonnull
+        private final EnumMap<CalculatorButton, PendingIntent> map = new EnumMap<>(CalculatorButton.class);
+
+        @Nullable
+        PendingIntent get(@Nonnull Context context, @Nonnull CalculatorButton button) {
+            Check.isMainThread();
+
+            PendingIntent intent = map.get(button);
+            if (intent != null) {
+                return intent;
+            }
+            intent = PendingIntent.getBroadcast(context, button.getButtonId(), newButtonClickedIntent(context, button), PendingIntent.FLAG_UPDATE_CURRENT);
+            if (intent == null) {
+                return null;
+            }
+            map.put(button, intent);
+            return intent;
+        }
     }
 }
