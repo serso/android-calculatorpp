@@ -107,8 +107,8 @@ public class CalculatorWidget extends AppWidgetProvider {
     private void updateWidget(@Nonnull Context context,
                               @Nonnull AppWidgetManager manager,
                               @Nonnull int[] widgetIds) {
-        final  EditorState editorState = Locator.getInstance().getEditor().getViewState();
-        final CalculatorDisplayViewState displayState = Locator.getInstance().getDisplay().getViewState();
+        final  EditorState editorState = Locator.getInstance().getEditor().getState();
+        final DisplayState displayState = Locator.getInstance().getDisplay().getViewState();
 
         final Resources resources = context.getResources();
         final SimpleTheme theme = App.getWidgetTheme().resolveThemeFor(App.getTheme());
@@ -195,7 +195,7 @@ public class CalculatorWidget extends AppWidgetProvider {
         }
     }
 
-    private void updateDisplayState(@Nonnull Context context, @Nonnull RemoteViews views, @Nonnull CalculatorDisplayViewState displayState, @Nonnull SimpleTheme theme) {
+    private void updateDisplayState(@Nonnull Context context, @Nonnull RemoteViews views, @Nonnull DisplayState displayState, @Nonnull SimpleTheme theme) {
         final boolean error = !displayState.isValid();
         if (!error) {
             views.setTextViewText(R.id.calculator_display, displayState.getText());

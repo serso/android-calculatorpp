@@ -47,7 +47,7 @@ public class CalculatorConversionEventDataImpl implements CalculatorConversionEv
     private Generic value;
 
     @Nonnull
-    private CalculatorDisplayViewState displayState;
+    private DisplayState displayState;
 
     private CalculatorConversionEventDataImpl() {
     }
@@ -57,7 +57,7 @@ public class CalculatorConversionEventDataImpl implements CalculatorConversionEv
                                                             @Nonnull Generic value,
                                                             @Nonnull NumeralBase from,
                                                             @Nonnull NumeralBase to,
-                                                            @Nonnull CalculatorDisplayViewState displayViewState) {
+                                                            @Nonnull DisplayState displayViewState) {
         final CalculatorConversionEventDataImpl result = new CalculatorConversionEventDataImpl();
 
         result.calculatorEventData = calculatorEventData;
@@ -102,7 +102,7 @@ public class CalculatorConversionEventDataImpl implements CalculatorConversionEv
 
     @Nonnull
     @Override
-    public CalculatorDisplayViewState getDisplayState() {
+    public DisplayState getDisplayState() {
         return this.displayState;
     }
 

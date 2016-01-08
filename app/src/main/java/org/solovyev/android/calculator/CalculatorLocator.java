@@ -58,7 +58,7 @@ public interface CalculatorLocator {
     CalculatorDisplay getDisplay();
 
     @Nonnull
-    CalculatorEditor getEditor();
+    Editor getEditor();
 
     @Nonnull
     CalculatorKeyboard getKeyboard();

@@ -25,25 +25,14 @@ package org.solovyev.android.calculator;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.common.text.Strings;
 
+import java.io.Serializable;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import jscl.math.Generic;
 
-/**
- * User: serso
- * Date: 9/20/12
- * Time: 9:50 PM
- */
-public class CalculatorDisplayViewStateImpl implements CalculatorDisplayViewState {
-
-	/*
-    **********************************************************************
-	*
-	*                           FIELDS
-	*
-	**********************************************************************
-	*/
+public class DisplayState implements Serializable {
 
     @Nonnull
     private JsclOperation operation = JsclOperation.numeric;
@@ -61,26 +50,18 @@ public class CalculatorDisplayViewStateImpl implements CalculatorDisplayViewStat
 
     private int selection = 0;
 
-	/*
-	**********************************************************************
-	*
-	*                           CONSTRUCTORS
-	*
-	**********************************************************************
-	*/
-
-    private CalculatorDisplayViewStateImpl() {
+    private DisplayState() {
     }
 
     @Nonnull
-    public static CalculatorDisplayViewState newDefaultInstance() {
-        return new CalculatorDisplayViewStateImpl();
+    public static DisplayState empty() {
+        return new DisplayState();
     }
 
     @Nonnull
-    public static CalculatorDisplayViewState newErrorState(@Nonnull JsclOperation operation,
-                                                           @Nonnull String errorMessage) {
-        final CalculatorDisplayViewStateImpl calculatorDisplayState = new CalculatorDisplayViewStateImpl();
+    public static DisplayState createError(@Nonnull JsclOperation operation,
+                                           @Nonnull String errorMessage) {
+        final DisplayState calculatorDisplayState = new DisplayState();
         calculatorDisplayState.valid = false;
         calculatorDisplayState.errorMessage = errorMessage;
         calculatorDisplayState.operation = operation;
@@ -88,11 +69,11 @@ public class CalculatorDisplayViewStateImpl implements CalculatorDisplayViewStat
     }
 
     @Nonnull
-    public static CalculatorDisplayViewState newValidState(@Nonnull JsclOperation operation,
-                                                           @Nullable Generic result,
-                                                           @Nonnull String stringResult,
-                                                           int selection) {
-        final CalculatorDisplayViewStateImpl calculatorDisplayState = new CalculatorDisplayViewStateImpl();
+    public static DisplayState createValid(@Nonnull JsclOperation operation,
+                                           @Nullable Generic result,
+                                           @Nonnull String stringResult,
+                                           int selection) {
+        final DisplayState calculatorDisplayState = new DisplayState();
         calculatorDisplayState.valid = true;
         calculatorDisplayState.result = result;
         calculatorDisplayState.stringResult = stringResult;
@@ -102,50 +83,35 @@ public class CalculatorDisplayViewStateImpl implements CalculatorDisplayViewStat
         return calculatorDisplayState;
     }
 
-	/*
-	**********************************************************************
-	*
-	*                           METHODS
-	*
-	**********************************************************************
-	*/
-
     @Nonnull
-    @Override
     public String getText() {
         return Strings.getNotEmpty(isValid() ? stringResult : errorMessage, "");
     }
 
-    @Override
     public int getSelection() {
         return selection;
     }
 
     @Nullable
-    @Override
     public Generic getResult() {
         return this.result;
     }
 
-    @Override
     public boolean isValid() {
         return this.valid;
     }
 
     @Nullable
-    @Override
     public String getErrorMessage() {
         return this.errorMessage;
     }
 
-    @Override
     @Nullable
     public String getStringResult() {
         return stringResult;
     }
 
     @Nonnull
-    @Override
     public JsclOperation getOperation() {
         return this.operation;
     }

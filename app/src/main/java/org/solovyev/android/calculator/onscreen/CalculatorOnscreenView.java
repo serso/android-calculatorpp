@@ -180,7 +180,7 @@ public class CalculatorOnscreenView {
         }
     }
 
-    public void updateDisplayState(@Nonnull CalculatorDisplayViewState displayState) {
+    public void updateDisplayState(@Nonnull DisplayState displayState) {
         checkInit();
         displayView.setState(displayState);
     }

@@ -27,5 +27,5 @@ package org.solovyev.android.calculator;
  * Date: 9/21/12
  * Time: 9:49 PM
  */
-public interface CalculatorDisplayChangeEventData extends Change<CalculatorDisplayViewState> {
+public interface CalculatorDisplayChangeEventData extends Change<DisplayState> {
 }

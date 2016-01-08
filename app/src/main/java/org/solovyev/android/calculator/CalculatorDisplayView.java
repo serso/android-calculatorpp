@@ -32,7 +32,7 @@ import javax.annotation.Nonnull;
 public interface CalculatorDisplayView {
 
     @Nonnull
-    CalculatorDisplayViewState getState();
+    DisplayState getState();
 
-    void setState(@Nonnull CalculatorDisplayViewState state);
+    void setState(@Nonnull DisplayState state);
 }

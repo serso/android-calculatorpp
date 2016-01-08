@@ -36,7 +36,7 @@ public interface CalculatorConversionEventData extends CalculatorEventData {
 
     // display state on the moment of conversion
     @Nonnull
-    CalculatorDisplayViewState getDisplayState();
+    DisplayState getDisplayState();
 
     @Nonnull
     NumeralBase getFromNumeralBase();

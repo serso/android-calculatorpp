@@ -43,12 +43,12 @@ class HistoryUtils {
         throw new AssertionError();
     }
 
-    public static void fromXml(@Nullable String xml, @Nonnull List<CalculatorHistoryState> historyItems) {
+    public static void fromXml(@Nullable String xml, @Nonnull List<HistoryState> historyItems) {
         if (xml != null) {
             final Serializer serializer = new Persister();
             try {
                 final History history = serializer.read(History.class, xml);
-                for (CalculatorHistoryState historyItem : history.getHistoryItems()) {
+                for (HistoryState historyItem : history.getHistoryItems()) {
                     historyItems.add(historyItem);
                 }
             } catch (Exception e) {
@@ -58,9 +58,9 @@ class HistoryUtils {
     }
 
     @Nonnull
-    public static String toXml(@Nonnull List<CalculatorHistoryState> historyItems) {
+    public static String toXml(@Nonnull List<HistoryState> historyItems) {
         final History history = new History();
-        for (CalculatorHistoryState historyState : historyItems) {
+        for (HistoryState historyState : historyItems) {
             if (historyState.isSaved()) {
                 history.getHistoryItems().add(historyState);
             }

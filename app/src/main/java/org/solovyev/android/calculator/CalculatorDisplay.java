@@ -40,9 +40,9 @@ public interface CalculatorDisplay extends CalculatorEventListener {
     void setView(@Nonnull CalculatorDisplayView view);
 
     @Nonnull
-    CalculatorDisplayViewState getViewState();
+    DisplayState getViewState();
 
-    void setViewState(@Nonnull CalculatorDisplayViewState viewState);
+    void setViewState(@Nonnull DisplayState viewState);
 
     @Nonnull
     CalculatorEventData getLastEventData();

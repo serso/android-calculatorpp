@@ -57,8 +57,8 @@ public enum HistoryItemMenuItem implements LabeledMenuItem<HistoryItemMenuData> 
     copy_expression(R.string.c_copy_expression) {
         @Override
         public void onClick(@Nonnull HistoryItemMenuData data, @Nonnull Context context) {
-            final CalculatorHistoryState calculatorHistoryState = data.getHistoryState();
-            final String text = calculatorHistoryState.getEditorState().getText();
+            final HistoryState historyState = data.getHistoryState();
+            final String text = historyState.getEditorState().getText();
             if (!Strings.isEmpty(text)) {
                 final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
                 clipboard.setText(text);
@@ -70,8 +70,8 @@ public enum HistoryItemMenuItem implements LabeledMenuItem<HistoryItemMenuData> 
     copy_result(R.string.c_copy_result) {
         @Override
         public void onClick(@Nonnull HistoryItemMenuData data, @Nonnull Context context) {
-            final CalculatorHistoryState calculatorHistoryState = data.getHistoryState();
-            final String text = calculatorHistoryState.getDisplayState().getEditorState().getText();
+            final HistoryState historyState = data.getHistoryState();
+            final String text = historyState.getDisplayState().getEditorState().getText();
             if (!Strings.isEmpty(text)) {
                 final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
                 clipboard.setText(text);
@@ -83,7 +83,7 @@ public enum HistoryItemMenuItem implements LabeledMenuItem<HistoryItemMenuData> 
     save(R.string.c_save) {
         @Override
         public void onClick(@Nonnull final HistoryItemMenuData data, @Nonnull final Context context) {
-            final CalculatorHistoryState historyState = data.getHistoryState();
+            final HistoryState historyState = data.getHistoryState();
             if (!historyState.isSaved()) {
                 createEditHistoryDialog(data, context, true);
             } else {
@@ -95,7 +95,7 @@ public enum HistoryItemMenuItem implements LabeledMenuItem<HistoryItemMenuData> 
     edit(R.string.c_edit) {
         @Override
         public void onClick(@Nonnull final HistoryItemMenuData data, @Nonnull final Context context) {
-            final CalculatorHistoryState historyState = data.getHistoryState();
+            final HistoryState historyState = data.getHistoryState();
             if (historyState.isSaved()) {
                 createEditHistoryDialog(data, context, false);
             } else {
@@ -107,7 +107,7 @@ public enum HistoryItemMenuItem implements LabeledMenuItem<HistoryItemMenuData> 
     remove(R.string.c_remove) {
         @Override
         public void onClick(@Nonnull HistoryItemMenuData data, @Nonnull Context context) {
-            final CalculatorHistoryState historyState = data.getHistoryState();
+            final HistoryState historyState = data.getHistoryState();
             if (historyState.isSaved()) {
                 data.getAdapter().remove(historyState);
                 Locator.getInstance().getHistory().removeSavedHistory(historyState);
@@ -124,7 +124,7 @@ public enum HistoryItemMenuItem implements LabeledMenuItem<HistoryItemMenuData> 
     }
 
     private static void createEditHistoryDialog(@Nonnull final HistoryItemMenuData data, @Nonnull final Context context, final boolean save) {
-        final CalculatorHistoryState historyState = data.getHistoryState();
+        final HistoryState historyState = data.getHistoryState();
 
         final LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View editView = layoutInflater.inflate(R.layout.history_edit, null);
@@ -142,7 +142,7 @@ public enum HistoryItemMenuItem implements LabeledMenuItem<HistoryItemMenuData> 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (save) {
-                            final CalculatorHistoryState savedHistoryItem = Locator.getInstance().getHistory().addSavedState(historyState);
+                            final HistoryState savedHistoryItem = Locator.getInstance().getHistory().addSavedState(historyState);
                             savedHistoryItem.setComment(comment.getText().toString());
                             Locator.getInstance().getHistory().save();
                             // we don't need to add element to the adapter as adapter of another activity must be updated and not this

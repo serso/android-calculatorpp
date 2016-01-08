@@ -24,8 +24,7 @@ package org.solovyev.android.calculator.history;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.solovyev.android.calculator.CalculatorDisplayViewState;
-import org.solovyev.android.calculator.CalculatorDisplayViewStateImpl;
+import org.solovyev.android.calculator.DisplayState;
 import org.solovyev.android.calculator.EditorState;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.common.Objects;
@@ -137,13 +136,13 @@ public class HistoryUtilsTest {
     public void testToXml() throws Exception {
         final Date date = new Date(100000000);
 
-        HistoryHelper<CalculatorHistoryState> history = SimpleHistoryHelper.newInstance();
+        HistoryHelper<HistoryState> history = SimpleHistoryHelper.newInstance();
 
-        CalculatorDisplayViewState calculatorDisplay = CalculatorDisplayViewStateImpl.newErrorState(JsclOperation.simplify, "Error");
+        DisplayState calculatorDisplay = DisplayState.createError(JsclOperation.simplify, "Error");
 
         CalculatorEditorViewState calculatorEditor = EditorState.create("1+1", 3);
 
-        CalculatorHistoryState state = CalculatorHistoryState.newInstance(calculatorEditor, calculatorDisplay);
+        HistoryState state = HistoryState.newInstance(calculatorEditor, calculatorDisplay);
         state.setTime(date.getTime());
         history.addState(state);
 
@@ -154,29 +153,29 @@ public class HistoryUtilsTest {
 
         assertEquals(toXml1, HistoryUtils.toXml(history.getStates()));
 
-        calculatorDisplay = CalculatorDisplayViewStateImpl.newValidState(JsclOperation.numeric, null, "5/6", 3);
+        calculatorDisplay = DisplayState.createValid(JsclOperation.numeric, null, "5/6", 3);
 
         calculatorEditor = EditorState.create("5/6", 2);
 
-        state = CalculatorHistoryState.newInstance(calculatorEditor, calculatorDisplay);
+        state = HistoryState.newInstance(calculatorEditor, calculatorDisplay);
         state.setSaved(true);
         state.setTime(date.getTime());
         history.addState(state);
 
-        calculatorDisplay = CalculatorDisplayViewStateImpl.newErrorState(JsclOperation.elementary, "Error");
+        calculatorDisplay = DisplayState.createError(JsclOperation.elementary, "Error");
 
         calculatorEditor = EditorState.create("", 1);
 
-        state = CalculatorHistoryState.newInstance(calculatorEditor, calculatorDisplay);
+        state = HistoryState.newInstance(calculatorEditor, calculatorDisplay);
         state.setSaved(true);
         state.setTime(date.getTime());
         history.addState(state);
 
-        calculatorDisplay = CalculatorDisplayViewStateImpl.newValidState(JsclOperation.numeric, null, "4+5/35sin(41)+dfdsfsdfs", 1);
+        calculatorDisplay = DisplayState.createValid(JsclOperation.numeric, null, "4+5/35sin(41)+dfdsfsdfs", 1);
 
         calculatorEditor = EditorState.create("4+5/35sin(41)+dfdsfsdfs", 0);
 
-        state = CalculatorHistoryState.newInstance(calculatorEditor, calculatorDisplay);
+        state = HistoryState.newInstance(calculatorEditor, calculatorDisplay);
         state.setSaved(true);
         state.setTime(date.getTime());
         history.addState(state);
@@ -184,23 +183,23 @@ public class HistoryUtilsTest {
         String xml = HistoryUtils.toXml(history.getStates());
         assertEquals(toXml2, xml);
 
-        final List<CalculatorHistoryState> fromXml = new ArrayList<CalculatorHistoryState>();
-        final HistoryHelper<CalculatorHistoryState> historyFromXml = SimpleHistoryHelper.newInstance();
+        final List<HistoryState> fromXml = new ArrayList<HistoryState>();
+        final HistoryHelper<HistoryState> historyFromXml = SimpleHistoryHelper.newInstance();
         HistoryUtils.fromXml(xml, fromXml);
-        for (CalculatorHistoryState historyState : fromXml) {
+        for (HistoryState historyState : fromXml) {
             historyFromXml.addState(historyState);
         }
 
         assertEquals(history.getStates().size(), historyFromXml.getStates().size());
 
-        for (CalculatorHistoryState historyState : history.getStates()) {
+        for (HistoryState historyState : history.getStates()) {
             historyState.setId(0);
             historyState.setSaved(true);
         }
-        for (CalculatorHistoryState historyState : historyFromXml.getStates()) {
+        for (HistoryState historyState : historyFromXml.getStates()) {
             historyState.setId(0);
             historyState.setSaved(true);
         }
-        Assert.assertTrue(Objects.areEqual(history.getStates(), historyFromXml.getStates(), new CollectionEqualizer<CalculatorHistoryState>(null)));
+        Assert.assertTrue(Objects.areEqual(history.getStates(), historyFromXml.getStates(), new CollectionEqualizer<HistoryState>(null)));
     }
 }

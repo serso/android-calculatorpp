@@ -122,7 +122,7 @@ public class CalculatorOnscreenService extends Service implements OnscreenViewLi
             view.show();
 
             startCalculatorListening();
-            view.updateEditorState(Locator.getInstance().getEditor().getViewState());
+            view.updateEditorState(Locator.getInstance().getEditor().getState());
             view.updateDisplayState(Locator.getInstance().getDisplay().getViewState());
 
             viewCreated = true;

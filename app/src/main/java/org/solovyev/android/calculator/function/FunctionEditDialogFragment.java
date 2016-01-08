@@ -36,11 +36,11 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.CalculatorDisplayViewState;
 import org.solovyev.android.calculator.CalculatorEventData;
 import org.solovyev.android.calculator.CalculatorEventListener;
 import org.solovyev.android.calculator.CalculatorEventType;
 import org.solovyev.android.calculator.CalculatorUtils;
+import org.solovyev.android.calculator.DisplayState;
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.math.edit.CalculatorFunctionsActivity;
@@ -308,7 +308,7 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
         }
 
         @Nonnull
-        public static Input newFromDisplay(@Nonnull CalculatorDisplayViewState viewState) {
+        public static Input newFromDisplay(@Nonnull DisplayState viewState) {
             final Input result = new Input();
 
             result.content = viewState.getText();

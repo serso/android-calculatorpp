@@ -31,7 +31,7 @@ import jscl.math.function.IConstant;
 import jscl.math.operator.Operator;
 import jscl.text.ParseInterruptedException;
 import org.solovyev.android.calculator.history.CalculatorHistory;
-import org.solovyev.android.calculator.history.CalculatorHistoryState;
+import org.solovyev.android.calculator.history.HistoryState;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.model.Var;
 import org.solovyev.android.calculator.text.TextProcessor;
@@ -173,21 +173,21 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 
     @Override
     public void evaluate() {
-        final  EditorState viewState = getEditor().getViewState();
+        final  EditorState viewState = getEditor().getState();
         final CalculatorEventData eventData = fireCalculatorEvent(CalculatorEventType.manual_calculation_requested, viewState);
         this.evaluate(JsclOperation.numeric, viewState.getText(), eventData.getSequenceId());
     }
 
     @Override
     public void evaluate(@Nonnull Long sequenceId) {
-        final  EditorState viewState = getEditor().getViewState();
+        final  EditorState viewState = getEditor().getState();
         fireCalculatorEvent(CalculatorEventType.manual_calculation_requested, viewState, sequenceId);
         this.evaluate(JsclOperation.numeric, viewState.getText(), sequenceId);
     }
 
     @Override
     public void simplify() {
-        final  EditorState viewState = getEditor().getViewState();
+        final  EditorState viewState = getEditor().getState();
         final CalculatorEventData eventData = fireCalculatorEvent(CalculatorEventType.manual_calculation_requested, viewState);
         this.evaluate(JsclOperation.simplify, viewState.getText(), eventData.getSequenceId());
     }
@@ -250,7 +250,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
                                                                  @Nonnull Generic value,
                                                                  @Nonnull NumeralBase from,
                                                                  @Nonnull NumeralBase to,
-                                                                 @Nonnull CalculatorDisplayViewState displayViewState) {
+                                                                 @Nonnull DisplayState displayViewState) {
         return CalculatorConversionEventDataImpl.newInstance(nextEventData(sequenceId), value, from, to, displayViewState);
     }
 
@@ -393,7 +393,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
                                        @Nonnull final NumeralBase to) {
         final CalculatorEventData eventDataId = nextEventData();
 
-        final CalculatorDisplayViewState displayViewState = Locator.getInstance().getDisplay().getViewState();
+        final DisplayState displayViewState = Locator.getInstance().getDisplay().getViewState();
         final NumeralBase from = Locator.getInstance().getEngine().getNumeralBase();
 
         calculationsExecutor.execute(new Runnable() {
@@ -562,7 +562,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
     }
 
     private void onDisplayStateChanged(@Nonnull CalculatorDisplayChangeEventData displayChangeEventData) {
-        final CalculatorDisplayViewState newState = displayChangeEventData.getNewValue();
+        final DisplayState newState = displayChangeEventData.getNewValue();
         if (newState.isValid()) {
             final String result = newState.getStringResult();
             if (!Strings.isEmpty(result)) {
@@ -597,7 +597,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
     public void doHistoryAction(@Nonnull HistoryAction historyAction) {
         final CalculatorHistory history = Locator.getInstance().getHistory();
         if (history.isActionAvailable(historyAction)) {
-            final CalculatorHistoryState newState = history.doAction(historyAction, getCurrentHistoryState());
+            final HistoryState newState = history.doAction(historyAction, getCurrentHistoryState());
             if (newState != null) {
                 setCurrentHistoryState(newState);
             }
@@ -606,12 +606,12 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 
     @Nonnull
     @Override
-    public CalculatorHistoryState getCurrentHistoryState() {
-        return CalculatorHistoryState.newInstance(getEditor(), getDisplay());
+    public HistoryState getCurrentHistoryState() {
+        return HistoryState.create(getEditor(), getDisplay());
     }
 
     @Override
-    public void setCurrentHistoryState(@Nonnull CalculatorHistoryState editorHistoryState) {
+    public void setCurrentHistoryState(@Nonnull HistoryState editorHistoryState) {
         editorHistoryState.setValuesFromHistory(getEditor(), getDisplay());
     }
 
@@ -624,7 +624,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 	*/
 
     @Nonnull
-    private CalculatorEditor getEditor() {
+    private Editor getEditor() {
         return Locator.getInstance().getEditor();
     }
 

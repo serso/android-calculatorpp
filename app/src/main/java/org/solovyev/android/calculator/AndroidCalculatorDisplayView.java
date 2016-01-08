@@ -68,7 +68,7 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
     @Nonnull
     private final Handler uiHandler = new Handler();
     @Nonnull
-    private volatile CalculatorDisplayViewState state = CalculatorDisplayViewStateImpl.newDefaultInstance();
+    private volatile DisplayState state = DisplayState.empty();
     private volatile boolean initialized = false;
 
 	/*
@@ -109,14 +109,14 @@ public class AndroidCalculatorDisplayView extends AutoResizeTextView implements 
 
     @Nonnull
     @Override
-    public CalculatorDisplayViewState getState() {
+    public DisplayState getState() {
         synchronized (lock) {
             return this.state;
         }
     }
 
     @Override
-    public void setState(@Nonnull final CalculatorDisplayViewState state) {
+    public void setState(@Nonnull final DisplayState state) {
 
         uiHandler.post(new Runnable() {
             @Override

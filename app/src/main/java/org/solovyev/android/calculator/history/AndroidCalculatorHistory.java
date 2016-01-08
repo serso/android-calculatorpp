@@ -80,7 +80,7 @@ public class AndroidCalculatorHistory implements CalculatorHistory {
         save();
     }
 
-    public void removeSavedHistory(@Nonnull CalculatorHistoryState historyState) {
+    public void removeSavedHistory(@Nonnull HistoryState historyState) {
         historyState.setSaved(false);
         calculatorHistory.removeSavedHistory(historyState);
         save();
@@ -92,7 +92,7 @@ public class AndroidCalculatorHistory implements CalculatorHistory {
     }
 
     @Override
-    public CalculatorHistoryState getLastHistoryState() {
+    public HistoryState getLastHistoryState() {
         return calculatorHistory.getLastHistoryState();
     }
 
@@ -102,7 +102,7 @@ public class AndroidCalculatorHistory implements CalculatorHistory {
     }
 
     @Override
-    public CalculatorHistoryState undo(@Nullable CalculatorHistoryState currentState) {
+    public HistoryState undo(@Nullable HistoryState currentState) {
         return calculatorHistory.undo(currentState);
     }
 
@@ -112,7 +112,7 @@ public class AndroidCalculatorHistory implements CalculatorHistory {
     }
 
     @Override
-    public CalculatorHistoryState redo(@Nullable CalculatorHistoryState currentState) {
+    public HistoryState redo(@Nullable HistoryState currentState) {
         return calculatorHistory.redo(currentState);
     }
 
@@ -122,24 +122,24 @@ public class AndroidCalculatorHistory implements CalculatorHistory {
     }
 
     @Override
-    public CalculatorHistoryState doAction(@Nonnull HistoryAction historyAction, @Nullable CalculatorHistoryState currentState) {
+    public HistoryState doAction(@Nonnull HistoryAction historyAction, @Nullable HistoryState currentState) {
         return calculatorHistory.doAction(historyAction, currentState);
     }
 
     @Override
-    public void addState(@Nullable CalculatorHistoryState currentState) {
+    public void addState(@Nullable HistoryState currentState) {
         calculatorHistory.addState(currentState);
     }
 
     @Nonnull
     @Override
-    public List<CalculatorHistoryState> getStates() {
+    public List<HistoryState> getStates() {
         return calculatorHistory.getStates();
     }
 
     @Nonnull
     @Override
-    public List<CalculatorHistoryState> getStates(boolean includeIntermediateStates) {
+    public List<HistoryState> getStates(boolean includeIntermediateStates) {
         return calculatorHistory.getStates(includeIntermediateStates);
     }
 
@@ -149,12 +149,12 @@ public class AndroidCalculatorHistory implements CalculatorHistory {
     }
 
     @Nonnull
-    public List<CalculatorHistoryState> getSavedHistory() {
+    public List<HistoryState> getSavedHistory() {
         return calculatorHistory.getSavedHistory();
     }
 
     @Nonnull
-    public CalculatorHistoryState addSavedState(@Nonnull CalculatorHistoryState historyState) {
+    public HistoryState addSavedState(@Nonnull HistoryState historyState) {
         return calculatorHistory.addSavedState(historyState);
     }
 

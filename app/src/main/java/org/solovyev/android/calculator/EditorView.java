@@ -31,22 +31,23 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.widget.EditText;
+
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.onscreen.CalculatorOnscreenService;
 
+import java.lang.reflect.Method;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.lang.reflect.Method;
 
 public class EditorView extends EditText {
 
     @Nonnull
     private static final String TAG = App.subTag("EditorView");
 
-    private boolean initialized;
+    private boolean reportChanges;
     @Nullable
     private Method setShowSoftInputOnFocusMethod;
-    private boolean externalChange;
 
     public EditorView(Context context) {
         super(context);
@@ -70,10 +71,10 @@ public class EditorView extends EditText {
     }
 
     private void init() {
-        Check.isTrue(!initialized);
         addTextChangedListener(new MyTextWatcher());
         setShowSoftInputOnFocusCompat(false);
-        initialized = true;
+        // changes should only be reported after the view has been set up completely, i.e. now
+        reportChanges = true;
     }
 
     @Override
@@ -85,24 +86,25 @@ public class EditorView extends EditText {
     public void setState(@Nonnull final EditorState state) {
         Check.isMainThread();
         try {
-            externalChange = true;
+            // we don't want to be notified about changes we make ourselves
+            reportChanges = false;
             if (App.getTheme().light && getContext() instanceof CalculatorOnscreenService) {
                 // don't need formatting
                 setText(state.getText());
             } else {
                 setText(state.getTextAsCharSequence(), BufferType.EDITABLE);
             }
-            final int selection = CalculatorEditorImpl.clamp(state.getSelection(), length());
+            final int selection = Editor.clamp(state.getSelection(), length());
             setSelection(selection);
         } finally {
-            externalChange = false;
+            reportChanges = true;
         }
     }
 
     @Override
     protected void onSelectionChanged(int start, int end) {
         Check.isMainThread();
-        if (!initialized || externalChange) {
+        if (!reportChanges) {
             return;
         }
         // external text change => need to notify editor
@@ -147,7 +149,7 @@ public class EditorView extends EditText {
 
         @Override
         public void afterTextChanged(Editable s) {
-            if (!initialized || externalChange) {
+            if (!reportChanges) {
                 return;
             }
             // external text change => need to notify editor

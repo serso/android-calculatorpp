@@ -115,7 +115,7 @@ public enum CalculatorSpecialButton {
                 return;
             }
 
-            final CalculatorDisplayViewState displayViewState = Locator.getInstance().getDisplay().getViewState();
+            final DisplayState displayViewState = Locator.getInstance().getDisplay().getViewState();
             if (displayViewState.isValid()) {
                 final CharSequence text = displayViewState.getText();
                 if (!Strings.isEmpty(text)) {

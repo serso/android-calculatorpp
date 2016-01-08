@@ -76,7 +76,6 @@ public class CalculatorTestUtils {
 
     public static void initViews(@Nonnull Context context) {
         final EditorView editor = new EditorView(context);
-        editor.init();
         Locator.getInstance().getEditor().setView(editor);
 
         final AndroidCalculatorDisplayView display = new AndroidCalculatorDisplayView(context);
@@ -105,7 +104,7 @@ public class CalculatorTestUtils {
     public static void assertEval(@Nonnull String expected, @Nonnull String expression, @Nonnull JsclOperation operation) {
         final Calculator calculator = Locator.getInstance().getCalculator();
 
-        Locator.getInstance().getDisplay().setViewState(CalculatorDisplayViewStateImpl.newDefaultInstance());
+        Locator.getInstance().getDisplay().setViewState(DisplayState.empty());
 
         final CountDownLatch latch = new CountDownLatch(1);
         final TestCalculatorEventListener calculatorEventListener = new TestCalculatorEventListener(latch);
@@ -161,7 +160,7 @@ public class CalculatorTestUtils {
     public static void assertError(@Nonnull String expression, @Nonnull JsclOperation operation) {
         final Calculator calculator = Locator.getInstance().getCalculator();
 
-        Locator.getInstance().getDisplay().setViewState(CalculatorDisplayViewStateImpl.newDefaultInstance());
+        Locator.getInstance().getDisplay().setViewState(DisplayState.empty());
 
         final CountDownLatch latch = new CountDownLatch(1);
         final TestCalculatorEventListener calculatorEventListener = new TestCalculatorEventListener(latch);
@@ -190,7 +189,7 @@ public class CalculatorTestUtils {
         @Nullable
         private CalculatorEventData calculatorEventData;
         @Nullable
-        private volatile CalculatorDisplayViewState result = null;
+        private volatile DisplayState result = null;
 
         public TestCalculatorEventListener(@Nonnull CountDownLatch latch) {
             this.latch = latch;
@@ -230,7 +229,7 @@ public class CalculatorTestUtils {
         }
 
         @Nullable
-        public CalculatorDisplayViewState getResult() {
+        public DisplayState getResult() {
             return result;
         }
     }

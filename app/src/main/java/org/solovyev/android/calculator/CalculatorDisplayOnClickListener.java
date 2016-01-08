@@ -52,7 +52,7 @@ public class CalculatorDisplayOnClickListener implements View.OnClickListener {
         if (v instanceof CalculatorDisplayView) {
             final CalculatorDisplay cd = Locator.getInstance().getDisplay();
 
-            final CalculatorDisplayViewState displayViewState = cd.getViewState();
+            final DisplayState displayViewState = cd.getViewState();
 
             if (displayViewState.isValid()) {
                 final List<CalculatorDisplayMenuItem> filteredMenuItems = new ArrayList<CalculatorDisplayMenuItem>(CalculatorDisplayMenuItem.values().length);

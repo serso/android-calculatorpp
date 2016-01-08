@@ -32,11 +32,6 @@ import static org.solovyev.android.calculator.CalculatorEventType.conversion_fai
 import static org.solovyev.android.calculator.CalculatorEventType.conversion_result;
 import static org.solovyev.android.calculator.CalculatorEventType.display_state_changed;
 
-/**
- * User: serso
- * Date: 9/20/12
- * Time: 8:24 PM
- */
 public class CalculatorDisplayImpl implements CalculatorDisplay {
 
     @Nonnull
@@ -48,7 +43,7 @@ public class CalculatorDisplayImpl implements CalculatorDisplay {
     @Nullable
     private CalculatorDisplayView view;
     @Nonnull
-    private CalculatorDisplayViewState viewState = CalculatorDisplayViewStateImpl.newDefaultInstance();
+    private DisplayState viewState = DisplayState.empty();
 
     public CalculatorDisplayImpl(@Nonnull Calculator calculator) {
         this.calculator = calculator;
@@ -81,22 +76,22 @@ public class CalculatorDisplayImpl implements CalculatorDisplay {
 
     @Nonnull
     @Override
-    public CalculatorDisplayViewState getViewState() {
+    public DisplayState getViewState() {
         return this.viewState;
     }
 
     @Override
-    public void setViewState(@Nonnull CalculatorDisplayViewState newViewState) {
+    public void setViewState(@Nonnull DisplayState newViewState) {
         synchronized (viewLock) {
-            final CalculatorDisplayViewState oldViewState = setViewState0(newViewState);
+            final DisplayState oldViewState = setViewState0(newViewState);
 
             this.calculator.fireCalculatorEvent(display_state_changed, new CalculatorDisplayChangeEventDataImpl(oldViewState, newViewState));
         }
     }
 
-    private void setViewStateForSequence(@Nonnull CalculatorDisplayViewState newViewState, @Nonnull Long sequenceId) {
+    private void setViewStateForSequence(@Nonnull DisplayState newViewState, @Nonnull Long sequenceId) {
         synchronized (viewLock) {
-            final CalculatorDisplayViewState oldViewState = setViewState0(newViewState);
+            final DisplayState oldViewState = setViewState0(newViewState);
 
             this.calculator.fireCalculatorEvent(display_state_changed, new CalculatorDisplayChangeEventDataImpl(oldViewState, newViewState), sequenceId);
         }
@@ -104,8 +99,8 @@ public class CalculatorDisplayImpl implements CalculatorDisplay {
 
     // must be synchronized with viewLock
     @Nonnull
-    private CalculatorDisplayViewState setViewState0(@Nonnull CalculatorDisplayViewState newViewState) {
-        final CalculatorDisplayViewState oldViewState = this.viewState;
+    private DisplayState setViewState0(@Nonnull DisplayState newViewState) {
+        final DisplayState oldViewState = this.viewState;
 
         this.viewState = newViewState;
         if (this.view != null) {
@@ -152,7 +147,7 @@ public class CalculatorDisplayImpl implements CalculatorDisplay {
 
     private void processConversationFailed(@Nonnull CalculatorConversionEventData calculatorEventData,
                                            @Nonnull ConversionFailure data) {
-        this.setViewStateForSequence(CalculatorDisplayViewStateImpl.newErrorState(calculatorEventData.getDisplayState().getOperation(), CalculatorMessages.getBundle().getString(CalculatorMessages.syntax_error)), calculatorEventData.getSequenceId());
+        this.setViewStateForSequence(DisplayState.createError(calculatorEventData.getDisplayState().getOperation(), CalculatorMessages.getBundle().getString(CalculatorMessages.syntax_error)), calculatorEventData.getSequenceId());
 
     }
 
@@ -172,18 +167,18 @@ public class CalculatorDisplayImpl implements CalculatorDisplay {
             }
         }
 
-        this.setViewStateForSequence(CalculatorDisplayViewStateImpl.newErrorState(calculatorEventData.getOperation(), errorMessage), calculatorEventData.getSequenceId());
+        this.setViewStateForSequence(DisplayState.createError(calculatorEventData.getOperation(), errorMessage), calculatorEventData.getSequenceId());
     }
 
     private void processCalculationCancelled(@Nonnull CalculatorEvaluationEventData calculatorEventData) {
         final String errorMessage = CalculatorMessages.getBundle().getString(CalculatorMessages.syntax_error);
 
-        this.setViewStateForSequence(CalculatorDisplayViewStateImpl.newErrorState(calculatorEventData.getOperation(), errorMessage), calculatorEventData.getSequenceId());
+        this.setViewStateForSequence(DisplayState.createError(calculatorEventData.getOperation(), errorMessage), calculatorEventData.getSequenceId());
     }
 
     private void processCalculationResult(@Nonnull CalculatorEvaluationEventData calculatorEventData, @Nonnull CalculatorOutput data) {
         final String stringResult = data.getStringResult();
-        this.setViewStateForSequence(CalculatorDisplayViewStateImpl.newValidState(calculatorEventData.getOperation(), data.getResult(), stringResult, 0), calculatorEventData.getSequenceId());
+        this.setViewStateForSequence(DisplayState.createValid(calculatorEventData.getOperation(), data.getResult(), stringResult, 0), calculatorEventData.getSequenceId());
     }
 
     private void processConversationResult(@Nonnull CalculatorConversionEventData calculatorEventData, @Nonnull String result) {
@@ -192,7 +187,7 @@ public class CalculatorDisplayImpl implements CalculatorDisplay {
             result = calculatorEventData.getToNumeralBase().getJsclPrefix() + result;
         }
 
-        final CalculatorDisplayViewState displayState = calculatorEventData.getDisplayState();
-        this.setViewStateForSequence(CalculatorDisplayViewStateImpl.newValidState(displayState.getOperation(), displayState.getResult(), result, 0), calculatorEventData.getSequenceId());
+        final DisplayState displayState = calculatorEventData.getDisplayState();
+        this.setViewStateForSequence(DisplayState.createValid(displayState.getOperation(), displayState.getResult(), result, 0), calculatorEventData.getSequenceId());
     }
 }

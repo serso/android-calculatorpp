@@ -47,12 +47,12 @@ import static org.solovyev.android.calculator.history.BaseHistoryFragment.isAlre
  * Date: 12/18/11
  * Time: 7:39 PM
  */
-public class HistoryArrayAdapter extends ArrayAdapter<CalculatorHistoryState> {
+public class HistoryArrayAdapter extends ArrayAdapter<HistoryState> {
 
     private static final int DATETIME_FORMAT = DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_MONTH | DateUtils.FORMAT_ABBREV_TIME;
     private boolean showDatetime;
 
-    HistoryArrayAdapter(Context context, int resource, int textViewResourceId, @Nonnull List<CalculatorHistoryState> historyList, boolean showDatetime) {
+    HistoryArrayAdapter(Context context, int resource, int textViewResourceId, @Nonnull List<HistoryState> historyList, boolean showDatetime) {
         super(context, resource, textViewResourceId, historyList);
         this.showDatetime = showDatetime;
     }
@@ -61,7 +61,7 @@ public class HistoryArrayAdapter extends ArrayAdapter<CalculatorHistoryState> {
     public View getView(int position, View convertView, ViewGroup parent) {
         final ViewGroup result = (ViewGroup) super.getView(position, convertView, parent);
 
-        final CalculatorHistoryState state = getItem(position);
+        final HistoryState state = getItem(position);
 
         final TextView time = (TextView) result.findViewById(R.id.history_time);
         if (showDatetime) {

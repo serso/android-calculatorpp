@@ -48,11 +48,11 @@ public class HistoryFragment extends BaseHistoryFragment {
 
     @Nonnull
     @Override
-    protected List<CalculatorHistoryState> getHistoryItems() {
+    protected List<HistoryState> getHistoryItems() {
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         final boolean showIntermediateCalculations = Preferences.History.showIntermediateCalculations.getPreference(preferences);
-        final List<CalculatorHistoryState> historyStates = Locator.getInstance().getHistory().getStates(showIntermediateCalculations);
-        return new ArrayList<CalculatorHistoryState>(historyStates);
+        final List<HistoryState> historyStates = Locator.getInstance().getHistory().getStates(showIntermediateCalculations);
+        return new ArrayList<HistoryState>(historyStates);
     }
 
     @Override

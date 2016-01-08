@@ -88,9 +88,9 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
 	**********************************************************************
 	*/
 
-    public static final Comparator<CalculatorHistoryState> COMPARATOR = new Comparator<CalculatorHistoryState>() {
+    public static final Comparator<HistoryState> COMPARATOR = new Comparator<HistoryState>() {
         @Override
-        public int compare(CalculatorHistoryState state1, CalculatorHistoryState state2) {
+        public int compare(HistoryState state1, HistoryState state2) {
             if (state1.isSaved() == state2.isSaved()) {
                 long l = state2.getTime() - state1.getTime();
                 return l > 0l ? 1 : (l < 0l ? -1 : 0);
@@ -137,15 +137,15 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
         ui = CalculatorApplication.getInstance().createFragmentHelper(fragmentType.getDefaultLayoutId(), fragmentType.getDefaultTitleResId(), false);
     }
 
-    public static boolean isAlreadySaved(@Nonnull CalculatorHistoryState historyState) {
+    public static boolean isAlreadySaved(@Nonnull HistoryState historyState) {
         if (historyState.isSaved()) throw new AssertionError();
 
         boolean result = false;
         try {
             historyState.setSaved(true);
-            if (Collections.contains(historyState, Locator.getInstance().getHistory().getSavedHistory(), new Equalizer<CalculatorHistoryState>() {
+            if (Collections.contains(historyState, Locator.getInstance().getHistory().getSavedHistory(), new Equalizer<HistoryState>() {
                 @Override
-                public boolean areEqual(@Nullable CalculatorHistoryState first, @Nullable CalculatorHistoryState second) {
+                public boolean areEqual(@Nullable HistoryState first, @Nullable HistoryState second) {
                     return first != null && second != null &&
                             first.getTime() == second.getTime() &&
                             first.getDisplayState().equals(second.getDisplayState()) &&
@@ -160,13 +160,13 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
         return result;
     }
 
-    public static void useHistoryItem(@Nonnull final CalculatorHistoryState historyState) {
+    public static void useHistoryItem(@Nonnull final HistoryState historyState) {
         App.getVibrator().vibrate();
         Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.use_history_state, historyState);
     }
 
     @Nonnull
-    public static String getHistoryText(@Nonnull CalculatorHistoryState state) {
+    public static String getHistoryText(@Nonnull HistoryState state) {
         final StringBuilder result = new StringBuilder();
         result.append(state.getEditorState().getText());
         result.append(getIdentitySign(state.getDisplayState().getJsclOperation()));
@@ -211,7 +211,7 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
 
         ui.onViewCreated(this, root);
 
-        adapter = new HistoryArrayAdapter(this.getActivity(), getItemLayoutId(), org.solovyev.android.calculator.R.id.history_item, new ArrayList<CalculatorHistoryState>(), showDatetime);
+        adapter = new HistoryArrayAdapter(this.getActivity(), getItemLayoutId(), org.solovyev.android.calculator.R.id.history_item, new ArrayList<HistoryState>(), showDatetime);
         setListAdapter(adapter);
 
         final ListView lv = getListView();
@@ -232,14 +232,14 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
                                     final int position,
                                     final long id) {
 
-                useHistoryItem((CalculatorHistoryState) parent.getItemAtPosition(position));
+                useHistoryItem((HistoryState) parent.getItemAtPosition(position));
             }
         });
 
         lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-                final CalculatorHistoryState historyState = (CalculatorHistoryState) parent.getItemAtPosition(position);
+                final HistoryState historyState = (HistoryState) parent.getItemAtPosition(position);
 
                 final FragmentActivity activity = getActivity();
 
@@ -309,13 +309,13 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
     protected abstract int getItemLayoutId();
 
     private void updateAdapter() {
-        final List<CalculatorHistoryState> historyList = getHistoryList();
+        final List<HistoryState> historyList = getHistoryList();
 
-        final ArrayAdapter<CalculatorHistoryState> adapter = getAdapter();
+        final ArrayAdapter<HistoryState> adapter = getAdapter();
         try {
             adapter.setNotifyOnChange(false);
             adapter.clear();
-            for (CalculatorHistoryState historyState : historyList) {
+            for (HistoryState historyState : historyList) {
                 adapter.add(historyState);
             }
         } finally {
@@ -326,26 +326,26 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
     }
 
     @Nonnull
-    private List<CalculatorHistoryState> getHistoryList() {
-        final List<CalculatorHistoryState> calculatorHistoryStates = getHistoryItems();
+    private List<HistoryState> getHistoryList() {
+        final List<HistoryState> historyStates = getHistoryItems();
 
-        java.util.Collections.sort(calculatorHistoryStates, COMPARATOR);
+        java.util.Collections.sort(historyStates, COMPARATOR);
 
-        final FilterRulesChain<CalculatorHistoryState> filterRulesChain = new FilterRulesChain<>();
-        filterRulesChain.addFilterRule(new JPredicate<CalculatorHistoryState>() {
+        final FilterRulesChain<HistoryState> filterRulesChain = new FilterRulesChain<>();
+        filterRulesChain.addFilterRule(new JPredicate<HistoryState>() {
             @Override
-            public boolean apply(CalculatorHistoryState object) {
+            public boolean apply(HistoryState object) {
                 return object == null || Strings.isEmpty(object.getEditorState().getText());
             }
         });
 
-        new Filter<>(filterRulesChain).filter(calculatorHistoryStates.iterator());
+        new Filter<>(filterRulesChain).filter(historyStates.iterator());
 
-        return calculatorHistoryStates;
+        return historyStates;
     }
 
     @Nonnull
-    protected abstract List<CalculatorHistoryState> getHistoryItems();
+    protected abstract List<HistoryState> getHistoryItems();
 
     protected abstract void clearHistory();
 

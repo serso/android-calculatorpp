@@ -38,18 +38,18 @@ import jscl.math.Generic;
  * Date: 21.09.12
  * Time: 10:55
  */
-public enum CalculatorDisplayMenuItem implements LabeledMenuItem<CalculatorDisplayViewState> {
+public enum CalculatorDisplayMenuItem implements LabeledMenuItem<DisplayState> {
 
     copy(R.string.c_copy) {
         @Override
-        public void onClick(@Nonnull CalculatorDisplayViewState data, @Nonnull Context context) {
+        public void onClick(@Nonnull DisplayState data, @Nonnull Context context) {
             Locator.getInstance().getKeyboard().copyButtonPressed();
         }
     },
 
     convert_to_bin(R.string.convert_to_bin) {
         @Override
-        public void onClick(@Nonnull CalculatorDisplayViewState data, @Nonnull Context context) {
+        public void onClick(@Nonnull DisplayState data, @Nonnull Context context) {
             ConversionMenuItem.convert_to_bin.onClick(data, context);
         }
 
@@ -61,7 +61,7 @@ public enum CalculatorDisplayMenuItem implements LabeledMenuItem<CalculatorDispl
 
     convert_to_dec(R.string.convert_to_dec) {
         @Override
-        public void onClick(@Nonnull CalculatorDisplayViewState data, @Nonnull Context context) {
+        public void onClick(@Nonnull DisplayState data, @Nonnull Context context) {
             ConversionMenuItem.convert_to_dec.onClick(data, context);
         }
 
@@ -73,7 +73,7 @@ public enum CalculatorDisplayMenuItem implements LabeledMenuItem<CalculatorDispl
 
     convert_to_hex(R.string.convert_to_hex) {
         @Override
-        public void onClick(@Nonnull CalculatorDisplayViewState data, @Nonnull Context context) {
+        public void onClick(@Nonnull DisplayState data, @Nonnull Context context) {
             ConversionMenuItem.convert_to_hex.onClick(data, context);
         }
 
@@ -85,7 +85,7 @@ public enum CalculatorDisplayMenuItem implements LabeledMenuItem<CalculatorDispl
 
     convert(R.string.c_convert) {
         @Override
-        public void onClick(@Nonnull CalculatorDisplayViewState data, @Nonnull Context context) {
+        public void onClick(@Nonnull DisplayState data, @Nonnull Context context) {
             final Generic result = data.getResult();
             if (result != null) {
                 new NumeralBaseConverterDialog(result.toString()).show(context);
@@ -100,7 +100,7 @@ public enum CalculatorDisplayMenuItem implements LabeledMenuItem<CalculatorDispl
 
     plot(R.string.c_plot) {
         @Override
-        public void onClick(@Nonnull CalculatorDisplayViewState data, @Nonnull Context context) {
+        public void onClick(@Nonnull DisplayState data, @Nonnull Context context) {
             final Generic expression = data.getResult();
             if (expression == null) throw new AssertionError();
 
@@ -121,7 +121,7 @@ public enum CalculatorDisplayMenuItem implements LabeledMenuItem<CalculatorDispl
         this.captionId = captionId;
     }
 
-    public final boolean isItemVisible(@Nonnull CalculatorDisplayViewState displayViewState) {
+    public final boolean isItemVisible(@Nonnull DisplayState displayViewState) {
         //noinspection ConstantConditions
         return displayViewState.isValid() && displayViewState.getResult() != null && isItemVisibleFor(displayViewState.getResult(), displayViewState.getOperation());
     }
