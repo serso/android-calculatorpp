@@ -25,20 +25,14 @@ package org.solovyev.android.calculator.history;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 import org.solovyev.android.calculator.CalculatorDisplay;
-import org.solovyev.android.calculator.CalculatorDisplayViewState;
-import org.solovyev.android.calculator.CalculatorEditor;
+import org.solovyev.android.calculator.DisplayState;
+import org.solovyev.android.calculator.Editor;
 import org.solovyev.android.calculator.EditorState;
 
 import javax.annotation.Nonnull;
 
-/**
- * User: serso
- * Date: 9/11/11
- * Time: 12:16 AM
- */
-
 @Root
-public class CalculatorHistoryState extends AbstractHistoryState {
+public class HistoryState extends BaseHistoryState {
 
     @Element
     @Nonnull
@@ -46,35 +40,28 @@ public class CalculatorHistoryState extends AbstractHistoryState {
 
     @Element
     @Nonnull
-    private CalculatorDisplayHistoryState displayState;
+    private DisplayHistoryState displayState;
 
-    private CalculatorHistoryState() {
+    private HistoryState() {
         // for xml
     }
 
-    private CalculatorHistoryState(@Nonnull EditorHistoryState editorState,
-                                   @Nonnull CalculatorDisplayHistoryState displayState) {
+    private HistoryState(@Nonnull EditorHistoryState editorState,
+                         @Nonnull DisplayHistoryState displayState) {
         this.editorState = editorState;
         this.displayState = displayState;
     }
 
     @Nonnull
-    public static CalculatorHistoryState newInstance(@Nonnull CalculatorEditor editor,
-                                                     @Nonnull CalculatorDisplay display) {
-        final EditorState editorViewState = editor.getViewState();
-        final CalculatorDisplayViewState displayViewState = display.getViewState();
-
-        return newInstance(editorViewState, displayViewState);
+    public static HistoryState create(@Nonnull Editor editor,
+                                      @Nonnull CalculatorDisplay display) {
+        return create(editor.getState(), display.getViewState());
     }
 
     @Nonnull
-    public static CalculatorHistoryState newInstance(@Nonnull EditorState editorViewState,
-                                                     @Nonnull CalculatorDisplayViewState displayViewState) {
-        final EditorHistoryState editorHistoryState = EditorHistoryState.newInstance(editorViewState);
-
-        final CalculatorDisplayHistoryState displayHistoryState = CalculatorDisplayHistoryState.newInstance(displayViewState);
-
-        return new CalculatorHistoryState(editorHistoryState, displayHistoryState);
+    public static HistoryState create(@Nonnull EditorState editorState,
+                                      @Nonnull DisplayState displayState) {
+        return new HistoryState(EditorHistoryState.create(editorState), DisplayHistoryState.newInstance(displayState));
     }
 
     @Nonnull
@@ -82,22 +69,14 @@ public class CalculatorHistoryState extends AbstractHistoryState {
         return editorState;
     }
 
-    public void setEditorState(@Nonnull EditorHistoryState editorState) {
-        this.editorState = editorState;
-    }
-
     @Nonnull
-    public CalculatorDisplayHistoryState getDisplayState() {
+    public DisplayHistoryState getDisplayState() {
         return displayState;
-    }
-
-    public void setDisplayState(@Nonnull CalculatorDisplayHistoryState displayState) {
-        this.displayState = displayState;
     }
 
     @Override
     public String toString() {
-        return "CalculatorHistoryState{" +
+        return "HistoryState{" +
                 "editorState=" + editorState +
                 ", displayState=" + displayState +
                 '}';
@@ -108,7 +87,7 @@ public class CalculatorHistoryState extends AbstractHistoryState {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        CalculatorHistoryState that = (CalculatorHistoryState) o;
+        HistoryState that = (HistoryState) o;
 
         if (this.isSaved() != that.isSaved()) return false;
         if (this.getId() != that.getId()) return false;
@@ -127,18 +106,18 @@ public class CalculatorHistoryState extends AbstractHistoryState {
         return result;
     }
 
-    public void setValuesFromHistory(@Nonnull CalculatorEditor editor, @Nonnull CalculatorDisplay display) {
+    public void setValuesFromHistory(@Nonnull Editor editor, @Nonnull CalculatorDisplay display) {
         this.getEditorState().setValuesFromHistory(editor);
         this.getDisplayState().setValuesFromHistory(display);
     }
 
     @Override
-    protected CalculatorHistoryState clone() {
-        final CalculatorHistoryState clone = (CalculatorHistoryState) super.clone();
+    protected HistoryState clone() {
+        final HistoryState that = (HistoryState) super.clone();
 
-        clone.editorState = this.editorState.clone();
-        clone.displayState = this.displayState.clone();
+        that.editorState = this.editorState.clone();
+        that.displayState = this.displayState.clone();
 
-        return clone;
+        return that;
     }
 }

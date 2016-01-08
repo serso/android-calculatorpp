@@ -34,7 +34,7 @@ import javax.annotation.Nonnull;
  * Date: 20.09.12
  * Time: 16:11
  */
-public interface CalculatorHistory extends HistoryHelper<CalculatorHistoryState>, CalculatorEventListener {
+public interface CalculatorHistory extends HistoryHelper<HistoryState>, CalculatorEventListener {
 
     void load();
 
@@ -46,18 +46,18 @@ public interface CalculatorHistory extends HistoryHelper<CalculatorHistoryState>
 
     void clearSavedHistory();
 
-    void removeSavedHistory(@Nonnull CalculatorHistoryState historyState);
+    void removeSavedHistory(@Nonnull HistoryState historyState);
 
     @Nonnull
-    List<CalculatorHistoryState> getSavedHistory();
+    List<HistoryState> getSavedHistory();
 
     @Nonnull
-    CalculatorHistoryState addSavedState(@Nonnull CalculatorHistoryState historyState);
+    HistoryState addSavedState(@Nonnull HistoryState historyState);
 
     @Nonnull
-    List<CalculatorHistoryState> getStates();
+    List<HistoryState> getStates();
 
     @Nonnull
-    List<CalculatorHistoryState> getStates(boolean includeIntermediateStates);
+    List<HistoryState> getStates(boolean includeIntermediateStates);
 
 }

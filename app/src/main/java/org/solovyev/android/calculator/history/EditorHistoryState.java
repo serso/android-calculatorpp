@@ -24,8 +24,8 @@ package org.solovyev.android.calculator.history;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
-import org.solovyev.android.calculator.CalculatorDisplayViewState;
-import org.solovyev.android.calculator.CalculatorEditor;
+import org.solovyev.android.calculator.DisplayState;
+import org.solovyev.android.calculator.Editor;
 import org.solovyev.android.calculator.EditorState;
 import org.solovyev.common.text.Strings;
 
@@ -47,17 +47,17 @@ public class EditorHistoryState implements Cloneable {
     }
 
     @Nonnull
-    public static EditorHistoryState newInstance(@Nonnull EditorState viewState) {
+    public static EditorHistoryState create(@Nonnull EditorState state) {
         final EditorHistoryState result = new EditorHistoryState();
 
-        result.text = String.valueOf(viewState.getText());
-        result.cursorPosition = viewState.getSelection();
+        result.text = String.valueOf(state.getText());
+        result.cursorPosition = state.getSelection();
 
         return result;
     }
 
     @Nonnull
-    public static EditorHistoryState newInstance(@Nonnull CalculatorDisplayViewState viewState) {
+    public static EditorHistoryState create(@Nonnull DisplayState viewState) {
         final EditorHistoryState result = new EditorHistoryState();
 
         result.text = viewState.getText();
@@ -66,7 +66,7 @@ public class EditorHistoryState implements Cloneable {
         return result;
     }
 
-    public void setValuesFromHistory(@Nonnull CalculatorEditor editor) {
+    public void setValuesFromHistory(@Nonnull Editor editor) {
         editor.setText(Strings.getNotEmpty(this.getText(), ""));
         editor.setSelection(this.getCursorPosition());
     }

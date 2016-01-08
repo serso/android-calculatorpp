@@ -83,7 +83,7 @@ public class CalculatorKeyboardImpl implements CalculatorKeyboard {
             }
         }
 
-        final CalculatorEditor editor = Locator.getInstance().getEditor();
+        final Editor editor = Locator.getInstance().getEditor();
         editor.insert(textToBeInserted.toString(), cursorPositionOffset);
     }
 
@@ -110,8 +110,8 @@ public class CalculatorKeyboardImpl implements CalculatorKeyboard {
 
     @Override
     public void roundBracketsButtonPressed() {
-        final CalculatorEditor editor = Locator.getInstance().getEditor();
-         EditorState viewState = editor.getViewState();
+        final Editor editor = Locator.getInstance().getEditor();
+         EditorState viewState = editor.getState();
 
         final int cursorPosition = viewState.getSelection();
         final String oldText = viewState.getText();
@@ -139,7 +139,7 @@ public class CalculatorKeyboardImpl implements CalculatorKeyboard {
 
     @Override
     public void copyButtonPressed() {
-        final CalculatorDisplayViewState displayViewState = Locator.getInstance().getDisplay().getViewState();
+        final DisplayState displayViewState = Locator.getInstance().getDisplay().getViewState();
         if (displayViewState.isValid()) {
             final CharSequence text = displayViewState.getText();
             if (!Strings.isEmpty(text)) {

@@ -5,7 +5,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import org.solovyev.android.calculator.Calculator;
-import org.solovyev.android.calculator.CalculatorEditor;
+import org.solovyev.android.calculator.Editor;
 import org.solovyev.android.calculator.EditorState;
 import org.solovyev.android.calculator.Locator;
 
@@ -22,7 +22,7 @@ public final class LongClickEraser implements View.OnTouchListener {
     private final GestureDetector gestureDetector;
 
     @Nonnull
-    private final CalculatorEditor editor = Locator.getInstance().getEditor();
+    private final Editor editor = Locator.getInstance().getEditor();
 
     @Nonnull
     private final Calculator calculator = Locator.getInstance().getCalculator();

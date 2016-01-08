@@ -47,7 +47,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 @Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
 @RunWith(value = RobolectricGradleTestRunner.class)
-public class AndroidCalculatorEditorViewTest {
+public class AndroidEditorViewTest {
 
     @BeforeClass
     public static void staticSetUp() throws Exception {

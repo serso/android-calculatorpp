@@ -29,12 +29,7 @@ import java.util.Date;
 
 import javax.annotation.Nullable;
 
-/**
- * User: serso
- * Date: 10/15/11
- * Time: 1:45 PM
- */
-public class AbstractHistoryState implements Cloneable {
+public class BaseHistoryState implements Cloneable {
 
     @Element
     private long time = new Date().getTime();
@@ -82,16 +77,13 @@ public class AbstractHistoryState implements Cloneable {
         this.saved = saved;
     }
 
+    @SuppressWarnings("CloneDoesntDeclareCloneNotSupportedException")
     @Override
-    protected AbstractHistoryState clone() {
-        AbstractHistoryState clone;
-
+    protected BaseHistoryState clone() {
         try {
-            clone = (AbstractHistoryState) super.clone();
+            return (BaseHistoryState) super.clone();
         } catch (CloneNotSupportedException e) {
             throw new UnsupportedOperationException(e);
         }
-
-        return clone;
     }
 }

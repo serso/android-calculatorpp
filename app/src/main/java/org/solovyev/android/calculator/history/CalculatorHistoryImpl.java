@@ -47,10 +47,10 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
     private final AtomicInteger counter = new AtomicInteger(0);
 
     @Nonnull
-    private final HistoryHelper<CalculatorHistoryState> history = SimpleHistoryHelper.newInstance();
+    private final HistoryHelper<HistoryState> history = SimpleHistoryHelper.newInstance();
 
     @Nonnull
-    private final List<CalculatorHistoryState> savedHistory = new ArrayList<CalculatorHistoryState>();
+    private final List<HistoryState> savedHistory = new ArrayList<HistoryState>();
 
     @Nonnull
     private final CalculatorEventHolder lastEventData = new CalculatorEventHolder(CalculatorUtils.createFirstEventDataId());
@@ -70,7 +70,7 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
     }
 
     @Override
-    public CalculatorHistoryState getLastHistoryState() {
+    public HistoryState getLastHistoryState() {
         synchronized (history) {
             return this.history.getLastHistoryState();
         }
@@ -84,7 +84,7 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
     }
 
     @Override
-    public CalculatorHistoryState undo(@Nullable CalculatorHistoryState currentState) {
+    public HistoryState undo(@Nullable HistoryState currentState) {
         synchronized (history) {
             return history.undo(currentState);
         }
@@ -96,7 +96,7 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
     }
 
     @Override
-    public CalculatorHistoryState redo(@Nullable CalculatorHistoryState currentState) {
+    public HistoryState redo(@Nullable HistoryState currentState) {
         synchronized (history) {
             return history.redo(currentState);
         }
@@ -110,14 +110,14 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
     }
 
     @Override
-    public CalculatorHistoryState doAction(@Nonnull HistoryAction historyAction, @Nullable CalculatorHistoryState currentState) {
+    public HistoryState doAction(@Nonnull HistoryAction historyAction, @Nullable HistoryState currentState) {
         synchronized (history) {
             return history.doAction(historyAction, currentState);
         }
     }
 
     @Override
-    public void addState(@Nullable CalculatorHistoryState currentState) {
+    public void addState(@Nullable HistoryState currentState) {
         synchronized (history) {
             history.addState(currentState);
             Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.history_state_added, currentState);
@@ -126,7 +126,7 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
 
     @Nonnull
     @Override
-    public List<CalculatorHistoryState> getStates() {
+    public List<HistoryState> getStates() {
         synchronized (history) {
             return history.getStates();
         }
@@ -134,17 +134,17 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
 
     @Nonnull
     @Override
-    public List<CalculatorHistoryState> getStates(boolean includeIntermediateStates) {
+    public List<HistoryState> getStates(boolean includeIntermediateStates) {
         synchronized (history) {
             if (includeIntermediateStates) {
                 return getStates();
             } else {
-                final List<CalculatorHistoryState> states = getStates();
+                final List<HistoryState> states = getStates();
 
-                final List<CalculatorHistoryState> result = new LinkedList<CalculatorHistoryState>();
+                final List<HistoryState> result = new LinkedList<HistoryState>();
 
-                CalculatorHistoryState laterState = null;
-                for (CalculatorHistoryState state : org.solovyev.common.collections.Collections.reversed(states)) {
+                HistoryState laterState = null;
+                for (HistoryState state : org.solovyev.common.collections.Collections.reversed(states)) {
                     if (laterState != null) {
                         final String laterEditorText = laterState.getEditorState().getText();
                         final String editorText = state.getEditorState().getText();
@@ -187,17 +187,17 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
 
     @Override
     @Nonnull
-    public List<CalculatorHistoryState> getSavedHistory() {
+    public List<HistoryState> getSavedHistory() {
         return Collections.unmodifiableList(savedHistory);
     }
 
     @Override
     @Nonnull
-    public CalculatorHistoryState addSavedState(@Nonnull CalculatorHistoryState historyState) {
+    public HistoryState addSavedState(@Nonnull HistoryState historyState) {
         if (historyState.isSaved()) {
             return historyState;
         } else {
-            final CalculatorHistoryState savedState = historyState.clone();
+            final HistoryState savedState = historyState.clone();
 
             savedState.setId(counter.incrementAndGet());
             savedState.setSaved(true);
@@ -223,7 +223,7 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
         clearSavedHistory();
 
         HistoryUtils.fromXml(xml, this.savedHistory);
-        for (CalculatorHistoryState historyState : savedHistory) {
+        for (HistoryState historyState : savedHistory) {
             historyState.setSaved(true);
             historyState.setId(counter.incrementAndGet());
         }
@@ -240,7 +240,7 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
     }
 
     @Override
-    public void removeSavedHistory(@Nonnull CalculatorHistoryState historyState) {
+    public void removeSavedHistory(@Nonnull HistoryState historyState) {
         this.savedHistory.remove(historyState);
     }
 
@@ -266,8 +266,8 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
                             if (lastEditorViewState != null) {
                                 final EditorState editorViewState = lastEditorViewState;
                                 final CalculatorDisplayChangeEventData displayChangeData = (CalculatorDisplayChangeEventData) data;
-                                final CalculatorDisplayViewState displayViewState = displayChangeData.getNewValue();
-                                addState(CalculatorHistoryState.newInstance(editorViewState, displayViewState));
+                                final DisplayState displayViewState = displayChangeData.getNewValue();
+                                addState(HistoryState.create(editorViewState, displayViewState));
                             }
                         } else {
                             lastEditorViewState = null;

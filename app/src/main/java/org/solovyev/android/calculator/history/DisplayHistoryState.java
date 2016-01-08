@@ -26,8 +26,7 @@ import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 import org.simpleframework.xml.Transient;
 import org.solovyev.android.calculator.CalculatorDisplay;
-import org.solovyev.android.calculator.CalculatorDisplayViewState;
-import org.solovyev.android.calculator.CalculatorDisplayViewStateImpl;
+import org.solovyev.android.calculator.DisplayState;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.common.text.Strings;
 
@@ -43,7 +42,7 @@ import jscl.math.Generic;
  */
 
 @Root
-public class CalculatorDisplayHistoryState implements Cloneable {
+public class DisplayHistoryState implements Cloneable {
 
     @Transient
     private boolean valid = true;
@@ -64,15 +63,15 @@ public class CalculatorDisplayHistoryState implements Cloneable {
     @Nullable
     private Generic genericResult;
 
-    private CalculatorDisplayHistoryState() {
+    private DisplayHistoryState() {
         // for xml
     }
 
     @Nonnull
-    public static CalculatorDisplayHistoryState newInstance(@Nonnull CalculatorDisplayViewState viewState) {
-        final CalculatorDisplayHistoryState result = new CalculatorDisplayHistoryState();
+    public static DisplayHistoryState newInstance(@Nonnull DisplayState viewState) {
+        final DisplayHistoryState result = new DisplayHistoryState();
 
-        result.editorState = EditorHistoryState.newInstance(viewState);
+        result.editorState = EditorHistoryState.create(viewState);
 
         result.valid = viewState.isValid();
         result.jsclOperation = viewState.getOperation();
@@ -84,9 +83,9 @@ public class CalculatorDisplayHistoryState implements Cloneable {
 
     public void setValuesFromHistory(@Nonnull CalculatorDisplay display) {
         if (this.isValid()) {
-            display.setViewState(CalculatorDisplayViewStateImpl.newValidState(this.getJsclOperation(), this.getGenericResult(), Strings.getNotEmpty(this.getEditorState().getText(), ""), this.getEditorState().getCursorPosition()));
+            display.setViewState(DisplayState.createValid(this.getJsclOperation(), this.getGenericResult(), Strings.getNotEmpty(this.getEditorState().getText(), ""), this.getEditorState().getCursorPosition()));
         } else {
-            display.setViewState(CalculatorDisplayViewStateImpl.newErrorState(this.getJsclOperation(), Strings.getNotEmpty(this.getErrorMessage(), "")));
+            display.setViewState(DisplayState.createError(this.getJsclOperation(), Strings.getNotEmpty(this.getErrorMessage(), "")));
         }
     }
 
@@ -121,7 +120,7 @@ public class CalculatorDisplayHistoryState implements Cloneable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        CalculatorDisplayHistoryState that = (CalculatorDisplayHistoryState) o;
+        DisplayHistoryState that = (DisplayHistoryState) o;
 
         if (!editorState.equals(that.editorState)) return false;
         if (jsclOperation != that.jsclOperation) return false;
@@ -147,9 +146,9 @@ public class CalculatorDisplayHistoryState implements Cloneable {
     }
 
     @Override
-    protected CalculatorDisplayHistoryState clone() {
+    protected DisplayHistoryState clone() {
         try {
-            final CalculatorDisplayHistoryState clone = (CalculatorDisplayHistoryState) super.clone();
+            final DisplayHistoryState clone = (DisplayHistoryState) super.clone();
 
             clone.editorState = this.editorState.clone();
 

@@ -37,7 +37,7 @@ import jscl.math.Generic;
  * Date: 9/21/12
  * Time: 12:11 AM
  */
-enum ConversionMenuItem implements AMenuItem<CalculatorDisplayViewState> {
+enum ConversionMenuItem implements AMenuItem<DisplayState> {
 
     convert_to_bin(NumeralBase.bin),
     convert_to_dec(NumeralBase.dec),
@@ -67,7 +67,7 @@ enum ConversionMenuItem implements AMenuItem<CalculatorDisplayViewState> {
     }
 
     @Override
-    public void onClick(@Nonnull CalculatorDisplayViewState data, @Nonnull Context context) {
+    public void onClick(@Nonnull DisplayState data, @Nonnull Context context) {
         final Generic result = data.getResult();
 
         if (result != null) {
