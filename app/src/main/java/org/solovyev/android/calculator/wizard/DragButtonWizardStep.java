@@ -27,16 +27,17 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
-import org.solovyev.android.calculator.App;
+
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.views.dragbutton.DirectionDragButton;
 import org.solovyev.android.views.dragbutton.DragButton;
 import org.solovyev.android.views.dragbutton.DragDirection;
 import org.solovyev.android.views.dragbutton.SimpleDragListener;
 
+import java.util.Arrays;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Arrays;
 
 public class DragButtonWizardStep extends WizardFragment {
 
@@ -161,7 +162,6 @@ public class DragButtonWizardStep extends WizardFragment {
     private class DragButtonOnClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            App.getVibrator().vibrate();
             if (action == DragButtonAction.center || action == DragButtonAction.end) {
                 setNextAction();
             }
@@ -174,10 +174,6 @@ public class DragButtonWizardStep extends WizardFragment {
                                         @Nonnull DragButton dragButton,
                                         @Nonnull PointF startPoint,
                                         @Nonnull MotionEvent motionEvent) {
-            if (dragDirection == DragDirection.up || dragDirection == DragDirection.down) {
-                App.getVibrator().vibrate();
-            }
-
             if (action.dragDirection == dragDirection) {
                 setNextAction();
                 return true;

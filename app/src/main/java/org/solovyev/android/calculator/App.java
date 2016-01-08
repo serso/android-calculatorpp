@@ -103,8 +103,6 @@ public final class App {
     @Nullable
     private static Boolean lg = null;
     @Nonnull
-    private static volatile Vibrator vibrator;
-    @Nonnull
     private static volatile ScreenMetrics screenMetrics;
 
     private App() {
@@ -150,7 +148,6 @@ public final class App {
                 }
             });
             App.broadcaster = new CalculatorBroadcaster(application, preferences);
-            App.vibrator = new Vibrator(application, preferences);
             App.screenMetrics = new ScreenMetrics(application);
             App.languages.init(App.preferences);
 
@@ -271,11 +268,6 @@ public final class App {
     // and http://developer.lge.com/community/forums/RetrieveForumContent.dev?detailContsId=FC29190703
     public static boolean shouldOpenMenuManually() {
         return isLg() && Build.VERSION.SDK_INT == Build.VERSION_CODES.JELLY_BEAN;
-    }
-
-    @Nonnull
-    public static Vibrator getVibrator() {
-        return vibrator;
     }
 
     @Nonnull

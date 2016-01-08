@@ -37,13 +37,6 @@
         a:title="@string/c_calc_color_display_title" />
 
     <ListPreference
-        a:entries="@array/cpp_haptic_feedback_names"
-        a:entryValues="@array/cpp_haptic_feedback_values"
-        a:key="hapticFeedback"
-        a:summary="@string/c_calc_haptic_feedback_summary"
-        a:title="@string/c_calc_haptic_feedback_title" />
-
-    <ListPreference
         a:entries="@array/p_multiplication_sign_values"
         a:entryValues="@array/p_multiplication_sign_values"
         a:key="@string/p_calc_multiplication_sign_key"

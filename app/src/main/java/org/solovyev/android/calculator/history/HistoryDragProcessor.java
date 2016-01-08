@@ -23,9 +23,8 @@
 package org.solovyev.android.calculator.history;
 
 import android.graphics.PointF;
-import android.util.Log;
 import android.view.MotionEvent;
-import org.solovyev.android.calculator.App;
+
 import org.solovyev.android.views.dragbutton.DragButton;
 import org.solovyev.android.views.dragbutton.DragDirection;
 import org.solovyev.android.views.dragbutton.SimpleDragListener;
@@ -33,12 +32,8 @@ import org.solovyev.common.history.HistoryAction;
 import org.solovyev.common.history.HistoryControl;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
-/**
- * User: serso
- * Date: 9/16/11
- * Time: 11:36 PM
- */
 public class HistoryDragProcessor<T> implements SimpleDragListener.DragProcessor {
 
     @Nonnull
@@ -49,26 +44,22 @@ public class HistoryDragProcessor<T> implements SimpleDragListener.DragProcessor
     }
 
     @Override
-    public boolean processDragEvent(@Nonnull DragDirection dragDirection, @Nonnull DragButton dragButton, @Nonnull PointF startPoint, @Nonnull MotionEvent motionEvent) {
-        boolean result = false;
-
-        Log.d(String.valueOf(dragButton.getId()), "History on drag event start: " + dragDirection);
-
-        final HistoryAction historyAction;
-        if (dragDirection == DragDirection.up) {
-            historyAction = HistoryAction.undo;
-        } else if (dragDirection == DragDirection.down) {
-            historyAction = HistoryAction.redo;
-        } else {
-            historyAction = null;
+    public boolean processDragEvent(@Nonnull DragDirection direction, @Nonnull DragButton button, @Nonnull PointF startPoint, @Nonnull MotionEvent motionEvent) {
+        final HistoryAction action = getActionFromDirection(direction);
+        if (action != null) {
+            historyControl.doHistoryAction(action);
+            return true;
         }
+        return false;
+    }
 
-        if (historyAction != null) {
-            App.getVibrator().vibrate();
-            result = true;
-            historyControl.doHistoryAction(historyAction);
+    @Nullable
+    private HistoryAction getActionFromDirection(@Nonnull DragDirection direction) {
+        if (direction == DragDirection.up) {
+            return HistoryAction.undo;
+        } else if (direction == DragDirection.down) {
+            return HistoryAction.redo;
         }
-
-        return result;
+        return null;
     }
 }

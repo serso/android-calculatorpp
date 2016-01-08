@@ -44,7 +44,6 @@ import android.widget.ListView;
 
 import com.melnykov.fab.FloatingActionButton;
 
-import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.CalculatorApplication;
 import org.solovyev.android.calculator.CalculatorEventData;
 import org.solovyev.android.calculator.CalculatorEventListener;
@@ -105,13 +104,6 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
     @Nonnull
     private static final String TAG = "CalculatorHistoryFragment";
 
-	/*
-	**********************************************************************
-	*
-	*                           FIELDS
-	*
-	**********************************************************************
-	*/
     private final ActivityMenu<Menu, MenuItem> menu = ListActivityMenu.fromResource(R.menu.history_menu, HistoryMenu.class, AndroidMenuHelper.getInstance(), new HistoryMenuFilter());
     @Nonnull
     private final SharedPreferences.OnSharedPreferenceChangeListener preferencesListener = new HistoryOnPreferenceChangeListener();
@@ -160,9 +152,8 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
         return result;
     }
 
-    public static void useHistoryItem(@Nonnull final HistoryState historyState) {
-        App.getVibrator().vibrate();
-        Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.use_history_state, historyState);
+    public static void useHistoryItem(@Nonnull final HistoryState state) {
+        Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.use_history_state, state);
     }
 
     @Nonnull

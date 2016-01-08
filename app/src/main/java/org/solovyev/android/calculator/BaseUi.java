@@ -312,7 +312,6 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
         @Override
         public boolean processDragEvent(@Nonnull DragDirection dragDirection, @Nonnull DragButton dragButton, @Nonnull PointF startPoint, @Nonnull MotionEvent motionEvent) {
             if (dragDirection == DragDirection.down) {
-                App.getVibrator().vibrate();
                 Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_operators, null);
                 return true;
             }

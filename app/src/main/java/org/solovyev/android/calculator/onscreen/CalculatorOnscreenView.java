@@ -31,16 +31,26 @@ import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import org.solovyev.android.calculator.*;
+
+import org.solovyev.android.calculator.AndroidCalculatorDisplayView;
+import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.CalculatorButton;
+import org.solovyev.android.calculator.DisplayState;
+import org.solovyev.android.calculator.EditorState;
+import org.solovyev.android.calculator.EditorView;
+import org.solovyev.android.calculator.Preferences;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.prefs.Preference;
+
+import java.util.Locale;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Locale;
 
 /**
  * User: serso
@@ -217,7 +227,9 @@ public class CalculatorOnscreenView {
                     button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            widgetButton.onClick();
+                            if (widgetButton.onClick()) {
+                                v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+                            }
                             if (widgetButton == CalculatorButton.app) {
                                 minimize();
                             }
@@ -226,7 +238,9 @@ public class CalculatorOnscreenView {
                     button.setOnLongClickListener(new View.OnLongClickListener() {
                         @Override
                         public boolean onLongClick(View v) {
-                            widgetButton.onLongClick();
+                            if (widgetButton.onLongClick()) {
+                                v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+                            }
                             return true;
                         }
                     });
@@ -250,7 +264,6 @@ public class CalculatorOnscreenView {
             onscreenFoldButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    App.getVibrator().vibrate();
                     if (folded) {
                         unfold();
                     } else {
@@ -263,7 +276,6 @@ public class CalculatorOnscreenView {
             onscreenHideButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    App.getVibrator().vibrate();
                     minimize();
                 }
             });
@@ -271,7 +283,6 @@ public class CalculatorOnscreenView {
             root.findViewById(R.id.onscreen_close_button).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    App.getVibrator().vibrate();
                     hide();
                 }
             });
