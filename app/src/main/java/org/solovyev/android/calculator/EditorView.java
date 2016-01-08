@@ -90,11 +90,11 @@ public class EditorView extends EditText {
             reportChanges = false;
             if (App.getTheme().light && getContext() instanceof CalculatorOnscreenService) {
                 // don't need formatting
-                setText(state.getText());
+                setText(state.getTextString());
             } else {
-                setText(state.getTextAsCharSequence(), BufferType.EDITABLE);
+                setText(state.text, BufferType.EDITABLE);
             }
-            final int selection = Editor.clamp(state.getSelection(), length());
+            final int selection = Editor.clamp(state.selection, length());
             setSelection(selection);
         } finally {
             reportChanges = true;

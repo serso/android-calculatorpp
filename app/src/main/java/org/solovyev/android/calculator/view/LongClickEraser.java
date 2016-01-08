@@ -70,7 +70,7 @@ public final class LongClickEraser implements View.OnTouchListener {
         @Override
         public void run() {
             final EditorState state = editor.erase();
-            if (isEmpty(state.getText())) {
+            if (isEmpty(state.text)) {
                 stop();
                 return;
             }

@@ -22,22 +22,26 @@
 
 package org.solovyev.android.calculator;
 
-import javax.annotation.Nonnull;
 import java.io.Serializable;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class EditorState implements Serializable {
 
     @Nonnull
-    private CharSequence text = "";
-
-    private int selection = 0;
+    public final CharSequence text;
+    public final int selection;
+    @Nullable
+    private String textString;
 
     private EditorState() {
+        this("", 0);
     }
 
-    public EditorState(@Nonnull EditorState state) {
-        this.text = state.getText();
-        this.selection = state.getSelection();
+    private EditorState(@Nonnull CharSequence text, int selection) {
+        this.text = text;
+        this.selection = selection;
     }
 
     @Nonnull
@@ -47,30 +51,19 @@ public class EditorState implements Serializable {
 
     @Nonnull
     public static EditorState newSelection(@Nonnull EditorState state, int selection) {
-        final EditorState result = new EditorState(state);
-        result.selection = selection;
-        return result;
+        return new EditorState(state.text, selection);
     }
 
     @Nonnull
     public static EditorState create(@Nonnull CharSequence text, int selection) {
-        final EditorState result = new EditorState();
-        result.text = text;
-        result.selection = selection;
-        return result;
+        return new EditorState(text, selection);
     }
 
     @Nonnull
-    public String getText() {
-        return this.text.toString();
-    }
-
-    @Nonnull
-    public CharSequence getTextAsCharSequence() {
-        return this.text;
-    }
-
-    public int getSelection() {
-        return this.selection;
+    public String getTextString() {
+        if (textString == null) {
+            textString = text.toString();
+        }
+        return textString;
     }
 }
