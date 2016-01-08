@@ -107,18 +107,19 @@ public class CalculatorWidget extends AppWidgetProvider {
                          @Nonnull int[] appWidgetIds) {
         super.onUpdate(context, appWidgetManager, appWidgetIds);
 
-        updateWidget(context, appWidgetManager, appWidgetIds);
+        updateWidget(context, appWidgetManager, appWidgetIds, false);
     }
 
-    public void updateWidget(@Nonnull Context context) {
+    public void updateWidget(@Nonnull Context context, boolean partially) {
         final AppWidgetManager manager = AppWidgetManager.getInstance(context);
         final int[] widgetIds = manager.getAppWidgetIds(new ComponentName(context, CalculatorWidget.class));
-        updateWidget(context, manager, widgetIds);
+        updateWidget(context, manager, widgetIds, partially);
     }
 
     private void updateWidget(@Nonnull Context context,
                               @Nonnull AppWidgetManager manager,
-                              @Nonnull int[] widgetIds) {
+                              @Nonnull int[] widgetIds,
+                              boolean partially) {
         final EditorState editorState = Locator.getInstance().getEditor().getState();
         final DisplayState displayState = Locator.getInstance().getDisplay().getViewState();
 
@@ -127,17 +128,19 @@ public class CalculatorWidget extends AppWidgetProvider {
         for (int widgetId : widgetIds) {
             final RemoteViews views = new RemoteViews(context.getPackageName(), getLayout(manager, widgetId, resources, theme));
 
-            for (CalculatorButton button : CalculatorButton.values()) {
-                final PendingIntent intent = intents.get(context, button);
-                if (intent != null) {
-                    final int buttonId;
-                    if (button == CalculatorButton.settings_widget) {
-                        // overriding default settings button behavior
-                        buttonId = CalculatorButton.settings.getButtonId();
-                    } else {
-                        buttonId = button.getButtonId();
+            if (!partially || Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+                for (CalculatorButton button : CalculatorButton.values()) {
+                    final PendingIntent intent = intents.get(context, button);
+                    if (intent != null) {
+                        final int buttonId;
+                        if (button == CalculatorButton.settings_widget) {
+                            // overriding default settings button behavior
+                            buttonId = CalculatorButton.settings.getButtonId();
+                        } else {
+                            buttonId = button.getButtonId();
+                        }
+                        views.setOnClickPendingIntent(buttonId, intent);
                     }
-                    views.setOnClickPendingIntent(buttonId, intent);
                 }
             }
 
@@ -146,7 +149,11 @@ public class CalculatorWidget extends AppWidgetProvider {
 
             views.setTextViewText(R.id.cpp_button_multiplication, Locator.getInstance().getEngine().getMultiplicationSign());
 
-            manager.updateAppWidget(widgetId, views);
+            if (partially && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                manager.partiallyUpdateAppWidget(widgetId, views);
+            } else {
+                manager.updateAppWidget(widgetId, views);
+            }
         }
     }
 
@@ -197,12 +204,14 @@ public class CalculatorWidget extends AppWidgetProvider {
             return;
         }
         switch (action) {
-            case ACTION_CONFIGURATION_CHANGED:
             case ACTION_EDITOR_STATE_CHANGED:
             case ACTION_DISPLAY_STATE_CHANGED:
+                updateWidget(context, true);
+                break;
+            case ACTION_CONFIGURATION_CHANGED:
             case ACTION_APPWIDGET_OPTIONS_CHANGED:
             case ACTION_THEME_CHANGED:
-                updateWidget(context);
+                updateWidget(context, false);
                 break;
         }
     }
