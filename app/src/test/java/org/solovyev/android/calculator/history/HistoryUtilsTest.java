@@ -137,7 +137,7 @@ public class HistoryUtilsTest {
 
         HistoryHelper<HistoryState> history = SimpleHistoryHelper.newInstance();
 
-        DisplayState calculatorDisplay = DisplayState.createError(JsclOperation.simplify, "Error");
+        DisplayState calculatorDisplay = DisplayState.createError(JsclOperation.simplify, "Error", EditorState.NO_SEQUENCE);
 
         EditorState calculatorEditor = EditorState.create("1+1", 3);
 
@@ -152,7 +152,7 @@ public class HistoryUtilsTest {
 
         assertEquals(toXml1, createHistory(history).toXml());
 
-        calculatorDisplay = DisplayState.createValid(JsclOperation.numeric, null, "5/6", 3);
+        calculatorDisplay = DisplayState.createValid(JsclOperation.numeric, null, "5/6", 3, EditorState.NO_SEQUENCE);
 
         calculatorEditor = EditorState.create("5/6", 2);
 
@@ -161,7 +161,7 @@ public class HistoryUtilsTest {
         state.setTime(date.getTime());
         history.addState(state);
 
-        calculatorDisplay = DisplayState.createError(JsclOperation.elementary, "Error");
+        calculatorDisplay = DisplayState.createError(JsclOperation.elementary, "Error", EditorState.NO_SEQUENCE);
 
         calculatorEditor = EditorState.create("", 1);
 
@@ -170,7 +170,7 @@ public class HistoryUtilsTest {
         state.setTime(date.getTime());
         history.addState(state);
 
-        calculatorDisplay = DisplayState.createValid(JsclOperation.numeric, null, "4+5/35sin(41)+dfdsfsdfs", 1);
+        calculatorDisplay = DisplayState.createValid(JsclOperation.numeric, null, "4+5/35sin(41)+dfdsfsdfs", 1, EditorState.NO_SEQUENCE);
 
         calculatorEditor = EditorState.create("4+5/35sin(41)+dfdsfsdfs", 0);
 

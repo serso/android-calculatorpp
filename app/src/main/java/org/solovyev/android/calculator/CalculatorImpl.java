@@ -95,7 +95,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 
     // NOTE: only one thread is responsible for events as all events must be done in order of their creating
     @Nonnull
-    private final Executor eventExecutor = Executors.newFixedThreadPool(1);
+    private final Executor eventExecutor = App.getUiThreadExecutor();
 
     private volatile boolean calculateOnFly = true;
 
@@ -191,7 +191,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 
     @Nonnull
     @Override
-    public CalculatorEventData evaluate(@Nonnull final JsclOperation operation, @Nonnull final String expression, @Nonnull Long sequenceId) {
+    public CalculatorEventData evaluate(@Nonnull final JsclOperation operation, @Nonnull final String expression, long sequenceId) {
         final CalculatorEventData eventDataId = nextEventData(sequenceId);
 
         calculationsExecutor.execute(new Runnable() {
@@ -373,7 +373,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
                                        @Nonnull final NumeralBase to) {
         final CalculatorEventData eventDataId = nextEventData();
 
-        final DisplayState displayViewState = Locator.getInstance().getDisplay().getViewState();
+        final DisplayState displayViewState = Locator.getInstance().getDisplay().getState();
         final NumeralBase from = Locator.getInstance().getEngine().getNumeralBase();
 
         calculationsExecutor.execute(new Runnable() {
@@ -483,17 +483,34 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
         if (TextUtils.equals(e.newState.text, e.oldState.text)) {
             return;
         }
-        evaluate(JsclOperation.numeric, e.newState.getTextString(), e.newState.id);
+        evaluate(JsclOperation.numeric, e.newState.getTextString(), e.newState.sequence);
+    }
+
+    @Subscribe
+    public void onDisplayChanged(@Nonnull Display.ChangedEvent e) {
+        final DisplayState newState = e.newState;
+        if (!newState.isValid()) {
+            return;
+        }
+        final String result = newState.getStringResult();
+        if (TextUtils.isEmpty(result)) {
+            return;
+        }
+        final CalculatorMathRegistry<IConstant> varsRegistry = Locator.getInstance().getEngine().getVarsRegistry();
+        final IConstant ansVar = varsRegistry.get(CalculatorVarsRegistry.ANS);
+
+        final Var.Builder builder = ansVar != null ? new Var.Builder(ansVar) : new Var.Builder();
+        builder.setName(CalculatorVarsRegistry.ANS);
+        builder.setValue(result);
+        builder.setDescription(CalculatorMessages.getBundle().getString(CalculatorMessages.ans_description));
+
+        CalculatorVarsRegistry.saveVariable(varsRegistry, builder, ansVar, this, false);
     }
 
     @Override
     public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
 
         switch (calculatorEventType) {
-            case display_state_changed:
-                onDisplayStateChanged((CalculatorDisplayChangeEventData) data);
-                break;
-
             case constant_changed:
                 final IConstant newConstant = ((Change<IConstant>) data).getNewValue();
                 if (!newConstant.getName().equals(CalculatorVarsRegistry.ANS)) {
@@ -528,30 +545,6 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
                 Locator.getInstance().getKeyboard().buttonPressed(function.getName());
                 break;
 
-        }
-    }
-
-    private void onDisplayStateChanged(@Nonnull CalculatorDisplayChangeEventData displayChangeEventData) {
-        final DisplayState newState = displayChangeEventData.getNewValue();
-        if (newState.isValid()) {
-            final String result = newState.getStringResult();
-            if (!Strings.isEmpty(result)) {
-                final CalculatorMathRegistry<IConstant> varsRegistry = Locator.getInstance().getEngine().getVarsRegistry();
-                final IConstant ansVar = varsRegistry.get(CalculatorVarsRegistry.ANS);
-
-                final Var.Builder varBuilder;
-                if (ansVar != null) {
-                    varBuilder = new Var.Builder(ansVar);
-                } else {
-                    varBuilder = new Var.Builder();
-                }
-
-                varBuilder.setName(CalculatorVarsRegistry.ANS);
-                varBuilder.setValue(result);
-                varBuilder.setDescription(CalculatorMessages.getBundle().getString(CalculatorMessages.ans_description));
-
-                CalculatorVarsRegistry.saveVariable(varsRegistry, varBuilder, ansVar, this, false);
-            }
         }
     }
 
@@ -599,7 +592,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
     }
 
     @Nonnull
-    private CalculatorDisplay getDisplay() {
+    private Display getDisplay() {
         return Locator.getInstance().getDisplay();
     }
 }

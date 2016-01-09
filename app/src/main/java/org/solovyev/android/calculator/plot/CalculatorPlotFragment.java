@@ -71,7 +71,7 @@ public class CalculatorPlotFragment extends AbstractCalculatorPlotFragment {
             graphView = new CalculatorGraph2dView(getActivity());
         }
 
-        final int color = App.getTheme().getTextColor(getActivity()).normal;
+        final int color = App.getTheme().getTextColorFor(getActivity()).normal;
         graphView.init(PlotViewDef.newInstance(color, color, Color.DKGRAY, getBgColor(d3)));
 
         final PlotBoundaries boundaries = plotData.getBoundaries();

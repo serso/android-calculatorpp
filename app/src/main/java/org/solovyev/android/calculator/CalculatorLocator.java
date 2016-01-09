@@ -55,7 +55,7 @@ public interface CalculatorLocator {
     CalculatorEngine getEngine();
 
     @Nonnull
-    CalculatorDisplay getDisplay();
+    Display getDisplay();
 
     @Nonnull
     Editor getEditor();

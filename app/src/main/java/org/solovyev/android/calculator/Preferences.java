@@ -315,7 +315,7 @@ public final class Preferences {
             }
 
             @Nonnull
-            public TextColor getTextColor(@Nonnull Context context) {
+            public TextColor getTextColorFor(@Nonnull Context context) {
                 final int themeId = getThemeFor(context);
                 TextColor textColor = textColors.get(themeId);
                 if (textColor == null) {

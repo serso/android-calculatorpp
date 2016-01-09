@@ -255,7 +255,7 @@ public final class App {
     }
 
     @Nonnull
-    public static Preferences.Gui.Theme getThemeIn(@Nonnull Context context) {
+    public static Preferences.Gui.Theme getThemeFor(@Nonnull Context context) {
         if (context instanceof CalculatorOnscreenService) {
             final SharedPreferences p = getPreferences();
             final Preferences.SimpleTheme onscreenTheme = Preferences.Onscreen.getTheme(p);
@@ -322,6 +322,11 @@ public final class App {
     public static boolean isMonkeyRunner(@Nonnull Context context) {
         // NOTE: this code is only for monkeyrunner
         return context.checkCallingOrSelfPermission(android.Manifest.permission.DISABLE_KEYGUARD) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    @NonNull
+    public static String unspan(@Nonnull CharSequence spannable) {
+        return spannable.toString();
     }
 
     private static class MyBus extends Bus {

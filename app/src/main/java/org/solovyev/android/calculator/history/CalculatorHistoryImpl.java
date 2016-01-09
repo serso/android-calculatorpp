@@ -35,7 +35,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static org.solovyev.android.calculator.CalculatorEventType.*;
+import static org.solovyev.android.calculator.CalculatorEventType.manual_calculation_requested;
 
 public class CalculatorHistoryImpl implements CalculatorHistory {
 
@@ -51,7 +51,7 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
     private final CalculatorEventHolder lastEventData = new CalculatorEventHolder(CalculatorUtils.createFirstEventDataId());
 
     @Nullable
-    private volatile EditorState lastEditorViewState;
+    private EditorState lastEditorState;
 
     public CalculatorHistoryImpl(@Nonnull Calculator calculator) {
         calculator.addCalculatorEventListener(this);
@@ -246,33 +246,31 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
 
     @Subscribe
     public void onEditorChanged(@Nonnull Editor.ChangedEvent e) {
-        lastEditorViewState = e.newState;
+        lastEditorState = e.newState;
+    }
+
+    @Subscribe
+    public void onDisplayChanged(@Nonnull Display.ChangedEvent e) {
+        if (lastEditorState == null) {
+            return;
+        }
+        if (lastEditorState.sequence != e.newState.getSequence()) {
+            return;
+        }
+        addState(HistoryState.create(lastEditorState, e.newState));
+        lastEditorState = null;
     }
 
     @Override
     public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData,
                                   @Nonnull CalculatorEventType calculatorEventType,
                                   @Nullable Object data) {
-        if (calculatorEventType.isOfType(display_state_changed, manual_calculation_requested)) {
-
+        if (calculatorEventType.isOfType(manual_calculation_requested)) {
             final CalculatorEventHolder.Result result = lastEventData.apply(calculatorEventData);
-
             if (result.isNewAfter() && result.isNewSameOrAfterSequence()) {
                 switch (calculatorEventType) {
                     case manual_calculation_requested:
-                        lastEditorViewState = (EditorState) data;
-                        break;
-                    case display_state_changed:
-                        if (result.isSameSequence()) {
-                            if (lastEditorViewState != null) {
-                                final EditorState editorViewState = lastEditorViewState;
-                                final CalculatorDisplayChangeEventData displayChangeData = (CalculatorDisplayChangeEventData) data;
-                                final DisplayState displayViewState = displayChangeData.getNewValue();
-                                addState(HistoryState.create(editorViewState, displayViewState));
-                            }
-                        } else {
-                            lastEditorViewState = null;
-                        }
+                        lastEditorState = (EditorState) data;
                         break;
                 }
             }

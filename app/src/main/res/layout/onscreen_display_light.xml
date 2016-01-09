@@ -6,7 +6,7 @@
   ~ or visit http://se.solovyev.org
   -->
 
-<org.solovyev.android.calculator.AndroidCalculatorDisplayView
+<org.solovyev.android.calculator.DisplayView
     xmlns:a="http://schemas.android.com/apk/res/android"
     a:id="@+id/calculator_display"
     style="@style/CppText.Display.Onscreen.Light"

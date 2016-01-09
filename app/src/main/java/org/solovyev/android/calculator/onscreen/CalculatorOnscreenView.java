@@ -91,7 +91,7 @@ public class CalculatorOnscreenView {
     private EditorView editorView;
 
     @Nonnull
-    private AndroidCalculatorDisplayView displayView;
+    private DisplayView displayView;
 
     @Nonnull
     private Context context;
@@ -215,8 +215,7 @@ public class CalculatorOnscreenView {
         headerTitle.setImageDrawable(null);
         content = root.findViewById(R.id.onscreen_content);
 
-        displayView = (AndroidCalculatorDisplayView) root.findViewById(R.id.calculator_display);
-        displayView.init(this.context, false);
+        displayView = (DisplayView) root.findViewById(R.id.calculator_display);
 
         editorView = (EditorView) root.findViewById(R.id.calculator_editor);
 

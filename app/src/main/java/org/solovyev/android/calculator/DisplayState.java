@@ -22,17 +22,14 @@
 
 package org.solovyev.android.calculator;
 
+import jscl.math.Generic;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.common.text.Strings;
-
-import java.io.Serializable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import jscl.math.Generic;
-
-public class DisplayState implements Serializable {
+public class DisplayState {
 
     @Nonnull
     private JsclOperation operation = JsclOperation.numeric;
@@ -48,7 +45,9 @@ public class DisplayState implements Serializable {
     @Nullable
     private String errorMessage;
 
-    private int selection = 0;
+    private int selection;
+
+    private long sequence;
 
     private DisplayState() {
     }
@@ -60,27 +59,30 @@ public class DisplayState implements Serializable {
 
     @Nonnull
     public static DisplayState createError(@Nonnull JsclOperation operation,
-                                           @Nonnull String errorMessage) {
-        final DisplayState calculatorDisplayState = new DisplayState();
-        calculatorDisplayState.valid = false;
-        calculatorDisplayState.errorMessage = errorMessage;
-        calculatorDisplayState.operation = operation;
-        return calculatorDisplayState;
+                                           @Nonnull String errorMessage,
+                                           long sequence) {
+        final DisplayState state = new DisplayState();
+        state.valid = false;
+        state.errorMessage = errorMessage;
+        state.operation = operation;
+        state.sequence = sequence;
+        return state;
     }
 
     @Nonnull
     public static DisplayState createValid(@Nonnull JsclOperation operation,
                                            @Nullable Generic result,
                                            @Nonnull String stringResult,
-                                           int selection) {
-        final DisplayState calculatorDisplayState = new DisplayState();
-        calculatorDisplayState.valid = true;
-        calculatorDisplayState.result = result;
-        calculatorDisplayState.stringResult = stringResult;
-        calculatorDisplayState.operation = operation;
-        calculatorDisplayState.selection = selection;
-
-        return calculatorDisplayState;
+                                           int selection,
+                                           long sequence) {
+        final DisplayState state = new DisplayState();
+        state.valid = true;
+        state.result = result;
+        state.stringResult = stringResult;
+        state.operation = operation;
+        state.selection = selection;
+        state.sequence = sequence;
+        return state;
     }
 
     @Nonnull
@@ -114,5 +116,9 @@ public class DisplayState implements Serializable {
     @Nonnull
     public JsclOperation getOperation() {
         return this.operation;
+    }
+
+    public long getSequence() {
+        return sequence;
     }
 }

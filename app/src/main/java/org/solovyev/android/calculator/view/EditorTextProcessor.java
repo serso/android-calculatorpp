@@ -92,6 +92,6 @@ public final class EditorTextProcessor implements TextProcessor<TextProcessorEdi
     private int getTextColor(@Nonnull SharedPreferences preferences) {
         final Preferences.Gui.Theme theme = Preferences.Gui.getTheme(preferences);
         final Application application = App.getApplication();
-        return theme.getTextColor(application).normal;
+        return theme.getTextColorFor(application).normal;
     }
 }

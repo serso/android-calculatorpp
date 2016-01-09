@@ -33,7 +33,6 @@ import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -112,7 +111,7 @@ public class CalculatorWidget extends AppWidgetProvider {
                               @Nonnull int[] widgetIds,
                               boolean partially) {
         final EditorState editorState = Locator.getInstance().getEditor().getState();
-        final DisplayState displayState = Locator.getInstance().getDisplay().getViewState();
+        final DisplayState displayState = Locator.getInstance().getDisplay().getState();
 
         final Resources resources = context.getResources();
         final SimpleTheme theme = App.getWidgetTheme().resolveThemeFor(App.getTheme());
@@ -222,7 +221,7 @@ public class CalculatorWidget extends AppWidgetProvider {
         final CharSequence text = state.text;
         final int selection = state.selection;
         if (selection < 0 || selection > text.length()) {
-            views.setTextViewText(R.id.calculator_editor, unspan ? unspan(text) : text);
+            views.setTextViewText(R.id.calculator_editor, unspan ? App.unspan(text) : text);
             return;
         }
 
@@ -233,19 +232,14 @@ public class CalculatorWidget extends AppWidgetProvider {
             final CharSequence afterCursor = text.subSequence(selection, text.length());
 
             result = new SpannableStringBuilder();
-            result.append(unspan(beforeCursor));
+            result.append(App.unspan(beforeCursor));
             result.append(getCursorString(context));
-            result.append(unspan(afterCursor));
+            result.append(App.unspan(afterCursor));
         } else {
             result = new SpannableStringBuilder(text);
             result.insert(selection, getCursorString(context));
         }
         views.setTextViewText(R.id.calculator_editor, result);
-    }
-
-    @NonNull
-    private String unspan(@Nonnull CharSequence spannable) {
-        return spannable.toString();
     }
 
     private static class Intents {

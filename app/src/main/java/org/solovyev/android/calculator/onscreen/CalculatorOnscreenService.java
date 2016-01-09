@@ -41,12 +41,7 @@ import org.solovyev.android.calculator.*;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-/**
- * User: serso
- * Date: 11/20/12
- * Time: 9:42 PM
- */
-public class CalculatorOnscreenService extends Service implements OnscreenViewListener, CalculatorEventListener, SharedPreferences.OnSharedPreferenceChangeListener {
+public class CalculatorOnscreenService extends Service implements OnscreenViewListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
     public static final Class<CalculatorOnscreenBroadcastReceiver> INTENT_LISTENER_CLASS = CalculatorOnscreenBroadcastReceiver.class;
     private static final String SHOW_WINDOW_ACTION = "org.solovyev.android.calculator.onscreen.SHOW_WINDOW";
@@ -107,7 +102,7 @@ public class CalculatorOnscreenService extends Service implements OnscreenViewLi
         view = CalculatorOnscreenView.create(this, CalculatorOnscreenViewState.create(width, height, -1, -1), this);
         view.show();
         view.updateEditorState(Locator.getInstance().getEditor().getState());
-        view.updateDisplayState(Locator.getInstance().getDisplay().getViewState());
+        view.updateDisplayState(Locator.getInstance().getDisplay().getState());
 
         App.getBus().register(this);
         App.getPreferences().registerOnSharedPreferenceChangeListener(this);
@@ -187,15 +182,6 @@ public class CalculatorOnscreenService extends Service implements OnscreenViewLi
     }
 
     @Override
-    public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
-        switch (calculatorEventType) {
-            case display_state_changed:
-                view.updateDisplayState(((CalculatorDisplayChangeEventData) data).getNewValue());
-                break;
-        }
-    }
-
-    @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         Check.isNotNull(view);
         if (Preferences.Gui.theme.isSameKey(key) || Preferences.Onscreen.theme.isSameKey(key)) {
@@ -214,6 +200,12 @@ public class CalculatorOnscreenService extends Service implements OnscreenViewLi
     public void onCursorMoved(@Nonnull Editor.CursorMovedEvent e) {
         Check.isNotNull(view);
         view.updateEditorState(e.state);
+    }
+
+    @Subscribe
+    public void onDisplayChanged(@Nonnull Display.ChangedEvent e) {
+        Check.isNotNull(view);
+        view.updateDisplayState(e.newState);
     }
 }
 

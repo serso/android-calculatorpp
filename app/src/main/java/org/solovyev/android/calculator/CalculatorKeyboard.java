@@ -116,7 +116,7 @@ public class CalculatorKeyboard {
     }
 
     public void copyButtonPressed() {
-        final DisplayState displayViewState = Locator.getInstance().getDisplay().getViewState();
+        final DisplayState displayViewState = Locator.getInstance().getDisplay().getState();
         if (displayViewState.isValid()) {
             final CharSequence text = displayViewState.getText();
             if (!Strings.isEmpty(text)) {
