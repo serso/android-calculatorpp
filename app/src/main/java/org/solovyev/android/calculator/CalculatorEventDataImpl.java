@@ -25,33 +25,27 @@ package org.solovyev.android.calculator;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-/**
- * User: Solovyev_S
- * Date: 20.09.12
- * Time: 18:18
- */
 class CalculatorEventDataImpl implements CalculatorEventData {
 
     private static final long NO_SEQUENCE = -1L;
 
     private final long eventId;
     private final Object source;
-    @Nonnull
-    private Long sequenceId = NO_SEQUENCE;
+    private final long sequenceId;
 
-    private CalculatorEventDataImpl(long id, @Nonnull Long sequenceId, @Nullable Object source) {
+    private CalculatorEventDataImpl(long id, long sequenceId, @Nullable Object source) {
         this.eventId = id;
         this.sequenceId = sequenceId;
         this.source = source;
     }
 
     @Nonnull
-    static CalculatorEventData newInstance(long id, @Nonnull Long sequenceId) {
+    static CalculatorEventData newInstance(long id, long sequenceId) {
         return new CalculatorEventDataImpl(id, sequenceId, null);
     }
 
     @Nonnull
-    static CalculatorEventData newInstance(long id, @Nonnull Long sequenceId, @Nonnull Object source) {
+    static CalculatorEventData newInstance(long id, long sequenceId, @Nonnull Object source) {
         return new CalculatorEventDataImpl(id, sequenceId, source);
     }
 
@@ -78,12 +72,24 @@ class CalculatorEventDataImpl implements CalculatorEventData {
 
     @Override
     public boolean isSameSequence(@Nonnull CalculatorEventData that) {
-        return !this.sequenceId.equals(NO_SEQUENCE) && this.sequenceId.equals(that.getSequenceId());
+        if (this.sequenceId == NO_SEQUENCE) {
+            return false;
+        }
+        if (this.sequenceId == that.getSequenceId()) {
+            return true;
+        }
+        return false;
     }
 
     @Override
     public boolean isAfterSequence(@Nonnull CalculatorEventData that) {
-        return !this.sequenceId.equals(NO_SEQUENCE) && this.sequenceId > that.getSequenceId();
+        if (this.sequenceId == NO_SEQUENCE) {
+            return false;
+        }
+        if (this.sequenceId > that.getSequenceId()) {
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -94,8 +100,7 @@ class CalculatorEventDataImpl implements CalculatorEventData {
         CalculatorEventDataImpl that = (CalculatorEventDataImpl) o;
 
         if (eventId != that.eventId) return false;
-        if (!sequenceId.equals(that.sequenceId))
-            return false;
+        if (sequenceId != that.sequenceId) return false;
 
         return true;
     }
@@ -103,7 +108,7 @@ class CalculatorEventDataImpl implements CalculatorEventData {
     @Override
     public int hashCode() {
         int result = (int) (eventId ^ (eventId >>> 32));
-        result = 31 * result + (sequenceId.hashCode());
+        result = 31 * result + (int) (sequenceId ^ (sequenceId >>> 32));
         return result;
     }
 }

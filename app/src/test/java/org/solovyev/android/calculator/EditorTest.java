@@ -48,52 +48,52 @@ public class EditorTest extends AbstractCalculatorTest {
     public void testInsert() throws Exception {
         EditorState viewState = this.editor.getState();
 
-        Assert.assertEquals("", viewState.getText());
-        Assert.assertEquals(0, viewState.getSelection());
+        Assert.assertEquals("", viewState.getTextString());
+        Assert.assertEquals(0, viewState.selection);
 
         viewState = this.editor.insert("");
 
-        Assert.assertEquals("", viewState.getText());
-        Assert.assertEquals(0, viewState.getSelection());
+        Assert.assertEquals("", viewState.getTextString());
+        Assert.assertEquals(0, viewState.selection);
 
         viewState = this.editor.insert("test");
 
-        Assert.assertEquals("test", viewState.getText());
-        Assert.assertEquals(4, viewState.getSelection());
+        Assert.assertEquals("test", viewState.getTextString());
+        Assert.assertEquals(4, viewState.selection);
 
         viewState = this.editor.insert("test");
-        Assert.assertEquals("testtest", viewState.getText());
-        Assert.assertEquals(8, viewState.getSelection());
+        Assert.assertEquals("testtest", viewState.getTextString());
+        Assert.assertEquals(8, viewState.selection);
 
         viewState = this.editor.insert("");
-        Assert.assertEquals("testtest", viewState.getText());
-        Assert.assertEquals(8, viewState.getSelection());
+        Assert.assertEquals("testtest", viewState.getTextString());
+        Assert.assertEquals(8, viewState.selection);
 
         viewState = this.editor.insert("1234567890");
-        Assert.assertEquals("testtest1234567890", viewState.getText());
-        Assert.assertEquals(18, viewState.getSelection());
+        Assert.assertEquals("testtest1234567890", viewState.getTextString());
+        Assert.assertEquals(18, viewState.selection);
 
         viewState = this.editor.moveCursorLeft();
         viewState = this.editor.insert("9");
-        Assert.assertEquals("testtest12345678990", viewState.getText());
-        Assert.assertEquals(18, viewState.getSelection());
+        Assert.assertEquals("testtest12345678990", viewState.getTextString());
+        Assert.assertEquals(18, viewState.selection);
 
         viewState = this.editor.setCursorOnStart();
         viewState = this.editor.insert("9");
-        Assert.assertEquals("9testtest12345678990", viewState.getText());
-        Assert.assertEquals(1, viewState.getSelection());
+        Assert.assertEquals("9testtest12345678990", viewState.getTextString());
+        Assert.assertEquals(1, viewState.selection);
 
         viewState = this.editor.erase();
         viewState = this.editor.insert("9");
-        Assert.assertEquals("9testtest12345678990", viewState.getText());
-        Assert.assertEquals(1, viewState.getSelection());
+        Assert.assertEquals("9testtest12345678990", viewState.getTextString());
+        Assert.assertEquals(1, viewState.selection);
 
         viewState = this.editor.insert("öäü");
-        Assert.assertEquals("9öäütesttest12345678990", viewState.getText());
+        Assert.assertEquals("9öäütesttest12345678990", viewState.getTextString());
 
         this.editor.setCursorOnEnd();
         viewState = this.editor.insert("öäü");
-        Assert.assertEquals("9öäütesttest12345678990öäü", viewState.getText());
+        Assert.assertEquals("9öäütesttest12345678990öäü", viewState.getTextString());
     }
 
     @Test
@@ -101,39 +101,39 @@ public class EditorTest extends AbstractCalculatorTest {
         this.editor.setText("");
         this.editor.erase();
 
-        Assert.assertEquals("", this.editor.getState().getText());
+        Assert.assertEquals("", this.editor.getState().getTextString());
 
         this.editor.setText("test");
         this.editor.erase();
-        Assert.assertEquals("tes", this.editor.getState().getText());
+        Assert.assertEquals("tes", this.editor.getState().getTextString());
 
         this.editor.erase();
-        Assert.assertEquals("te", this.editor.getState().getText());
+        Assert.assertEquals("te", this.editor.getState().getTextString());
 
         this.editor.erase();
-        Assert.assertEquals("t", this.editor.getState().getText());
+        Assert.assertEquals("t", this.editor.getState().getTextString());
 
         this.editor.erase();
-        Assert.assertEquals("", this.editor.getState().getText());
+        Assert.assertEquals("", this.editor.getState().getTextString());
 
         this.editor.erase();
-        Assert.assertEquals("", this.editor.getState().getText());
+        Assert.assertEquals("", this.editor.getState().getTextString());
 
         this.editor.setText("1234");
         this.editor.moveCursorLeft();
         this.editor.erase();
-        Assert.assertEquals("124", this.editor.getState().getText());
+        Assert.assertEquals("124", this.editor.getState().getTextString());
 
         this.editor.erase();
-        Assert.assertEquals("14", this.editor.getState().getText());
+        Assert.assertEquals("14", this.editor.getState().getTextString());
 
         this.editor.erase();
-        Assert.assertEquals("4", this.editor.getState().getText());
+        Assert.assertEquals("4", this.editor.getState().getTextString());
 
         this.editor.setText("1");
         this.editor.moveCursorLeft();
         this.editor.erase();
-        Assert.assertEquals("1", this.editor.getState().getText());
+        Assert.assertEquals("1", this.editor.getState().getTextString());
     }
 
     @Test
@@ -141,91 +141,91 @@ public class EditorTest extends AbstractCalculatorTest {
         this.editor.setText("");
 
         EditorState viewState = this.editor.moveSelection(0);
-        Assert.assertEquals(0, viewState.getSelection());
+        Assert.assertEquals(0, viewState.selection);
 
         viewState = this.editor.moveSelection(2);
-        Assert.assertEquals(0, viewState.getSelection());
+        Assert.assertEquals(0, viewState.selection);
 
         viewState = this.editor.moveSelection(100);
-        Assert.assertEquals(0, viewState.getSelection());
+        Assert.assertEquals(0, viewState.selection);
 
         viewState = this.editor.moveSelection(-3);
-        Assert.assertEquals(0, viewState.getSelection());
+        Assert.assertEquals(0, viewState.selection);
 
         viewState = this.editor.moveSelection(-100);
-        Assert.assertEquals(0, viewState.getSelection());
+        Assert.assertEquals(0, viewState.selection);
 
         viewState = this.editor.setText("0123456789");
 
         viewState = this.editor.moveSelection(0);
-        Assert.assertEquals(10, viewState.getSelection());
+        Assert.assertEquals(10, viewState.selection);
 
         viewState = this.editor.moveSelection(1);
-        Assert.assertEquals(10, viewState.getSelection());
+        Assert.assertEquals(10, viewState.selection);
 
         viewState = this.editor.moveSelection(-2);
-        Assert.assertEquals(8, viewState.getSelection());
+        Assert.assertEquals(8, viewState.selection);
 
         viewState = this.editor.moveSelection(1);
-        Assert.assertEquals(9, viewState.getSelection());
+        Assert.assertEquals(9, viewState.selection);
 
         viewState = this.editor.moveSelection(-9);
-        Assert.assertEquals(0, viewState.getSelection());
+        Assert.assertEquals(0, viewState.selection);
 
         viewState = this.editor.moveSelection(-10);
-        Assert.assertEquals(0, viewState.getSelection());
+        Assert.assertEquals(0, viewState.selection);
 
         viewState = this.editor.moveSelection(2);
-        Assert.assertEquals(2, viewState.getSelection());
+        Assert.assertEquals(2, viewState.selection);
 
         viewState = this.editor.moveSelection(2);
-        Assert.assertEquals(4, viewState.getSelection());
+        Assert.assertEquals(4, viewState.selection);
 
         viewState = this.editor.moveSelection(-6);
-        Assert.assertEquals(0, viewState.getSelection());
+        Assert.assertEquals(0, viewState.selection);
     }
 
     @Test
     public void testSetText() throws Exception {
         EditorState viewState = this.editor.setText("test");
 
-        Assert.assertEquals("test", viewState.getText());
-        Assert.assertEquals(4, viewState.getSelection());
+        Assert.assertEquals("test", viewState.getTextString());
+        Assert.assertEquals(4, viewState.selection);
 
         viewState = this.editor.setText("testtest");
-        Assert.assertEquals("testtest", viewState.getText());
-        Assert.assertEquals(8, viewState.getSelection());
+        Assert.assertEquals("testtest", viewState.getTextString());
+        Assert.assertEquals(8, viewState.selection);
 
         viewState = this.editor.setText("");
-        Assert.assertEquals("", viewState.getText());
-        Assert.assertEquals(0, viewState.getSelection());
+        Assert.assertEquals("", viewState.getTextString());
+        Assert.assertEquals(0, viewState.selection);
 
         viewState = this.editor.setText("testtest", 0);
-        Assert.assertEquals("testtest", viewState.getText());
-        Assert.assertEquals(0, viewState.getSelection());
+        Assert.assertEquals("testtest", viewState.getTextString());
+        Assert.assertEquals(0, viewState.selection);
 
         viewState = this.editor.setText("testtest", 2);
-        Assert.assertEquals("testtest", viewState.getText());
-        Assert.assertEquals(2, viewState.getSelection());
+        Assert.assertEquals("testtest", viewState.getTextString());
+        Assert.assertEquals(2, viewState.selection);
 
         viewState = this.editor.setText("", 0);
-        Assert.assertEquals("", viewState.getText());
-        Assert.assertEquals(0, viewState.getSelection());
+        Assert.assertEquals("", viewState.getTextString());
+        Assert.assertEquals(0, viewState.selection);
 
         viewState = this.editor.setText("", 3);
-        Assert.assertEquals("", viewState.getText());
-        Assert.assertEquals(0, viewState.getSelection());
+        Assert.assertEquals("", viewState.getTextString());
+        Assert.assertEquals(0, viewState.selection);
 
         viewState = this.editor.setText("", -3);
-        Assert.assertEquals("", viewState.getText());
-        Assert.assertEquals(0, viewState.getSelection());
+        Assert.assertEquals("", viewState.getTextString());
+        Assert.assertEquals(0, viewState.selection);
 
         viewState = this.editor.setText("test");
-        Assert.assertEquals("test", viewState.getText());
-        Assert.assertEquals(4, viewState.getSelection());
+        Assert.assertEquals("test", viewState.getTextString());
+        Assert.assertEquals(4, viewState.selection);
 
         viewState = this.editor.setText("", 2);
-        Assert.assertEquals("", viewState.getText());
-        Assert.assertEquals(0, viewState.getSelection());
+        Assert.assertEquals("", viewState.getTextString());
+        Assert.assertEquals(0, viewState.selection);
     }
 }

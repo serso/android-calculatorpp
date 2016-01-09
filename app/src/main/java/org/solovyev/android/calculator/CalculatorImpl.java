@@ -22,6 +22,16 @@
 
 package org.solovyev.android.calculator;
 
+import android.text.TextUtils;
+import com.squareup.otto.Subscribe;
+import jscl.AbstractJsclArithmeticException;
+import jscl.NumeralBase;
+import jscl.NumeralBaseException;
+import jscl.math.Generic;
+import jscl.math.function.Function;
+import jscl.math.function.IConstant;
+import jscl.math.operator.Operator;
+import jscl.text.ParseInterruptedException;
 import org.solovyev.android.calculator.history.CalculatorHistory;
 import org.solovyev.android.calculator.history.HistoryState;
 import org.solovyev.android.calculator.jscl.JsclOperation;
@@ -37,23 +47,13 @@ import org.solovyev.common.text.Strings;
 import org.solovyev.common.units.ConversionException;
 import org.solovyev.common.units.Conversions;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicLong;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import jscl.AbstractJsclArithmeticException;
-import jscl.NumeralBase;
-import jscl.NumeralBaseException;
-import jscl.math.Generic;
-import jscl.math.function.Function;
-import jscl.math.function.IConstant;
-import jscl.math.operator.Operator;
-import jscl.text.ParseInterruptedException;
 
 /**
  * User: Solovyev_S
@@ -102,25 +102,11 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
     private volatile long lastPreferenceCheck = 0L;
 
 
-	/*
-	**********************************************************************
-	*
-	*                           CONSTRUCTORS
-	*
-	**********************************************************************
-	*/
-
     public CalculatorImpl() {
+        App.getBus().register(this);
         this.addCalculatorEventListener(this);
     }
 
-	/*
-	**********************************************************************
-	*
-	*                           METHODS
-	*
-	**********************************************************************
-	*/
 
     @Nonnull
     private static String doConversion(@Nonnull Generic generic,
@@ -159,15 +145,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
         return CalculatorEventDataImpl.newInstance(eventId, eventId, source);
     }
 
-	/*
-	**********************************************************************
-	*
-	*                           CALCULATION
-	*
-	**********************************************************************
-	*/
-
-    @Nonnull
+	@Nonnull
     private CalculatorEventData nextEventData(@Nonnull Long sequenceId) {
         long eventId = counter.incrementAndGet();
         return CalculatorEventDataImpl.newInstance(eventId, sequenceId);
@@ -497,31 +475,21 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
         return eventData;
     }
 
-	/*
-	**********************************************************************
-	*
-	*                           EVENTS HANDLER
-	*
-	**********************************************************************
-	*/
+    @Subscribe
+    public void onEditorChanged(@Nonnull Editor.ChangedEvent e) {
+        if (!calculateOnFly) {
+            return;
+        }
+        if (TextUtils.equals(e.newState.text, e.oldState.text)) {
+            return;
+        }
+        evaluate(JsclOperation.numeric, e.newState.getTextString(), e.newState.id);
+    }
 
     @Override
     public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
 
         switch (calculatorEventType) {
-            case editor_state_changed:
-                if (calculateOnFly) {
-                    final CalculatorEditorChangeEventData editorChangeEventData = (CalculatorEditorChangeEventData) data;
-
-                    final String newText = editorChangeEventData.getNewValue().getTextString();
-                    final String oldText = editorChangeEventData.getOldValue().getTextString();
-
-                    if (!newText.equals(oldText)) {
-                        evaluate(JsclOperation.numeric, editorChangeEventData.getNewValue().getTextString(), calculatorEventData.getSequenceId());
-                    }
-                }
-                break;
-
             case display_state_changed:
                 onDisplayStateChanged((CalculatorDisplayChangeEventData) data);
                 break;

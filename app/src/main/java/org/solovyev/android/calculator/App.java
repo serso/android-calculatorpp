@@ -40,6 +40,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import com.squareup.otto.Bus;
 import org.solovyev.android.Check;
 import org.solovyev.android.UiThreadExecutor;
 import org.solovyev.android.Views;
@@ -97,7 +98,7 @@ public final class App {
     @Nonnull
     private static volatile DelayedExecutor uiThreadExecutor;
     @Nonnull
-    private static volatile JEventListeners<JEventListener<? extends JEvent>, JEvent> eventBus;
+    private static Bus bus;
     private static volatile boolean initialized;
     @Nonnull
     private static CalculatorBroadcaster broadcaster;
@@ -138,7 +139,7 @@ public final class App {
         App.application = application;
         App.preferences = PreferenceManager.getDefaultSharedPreferences(application);
         App.uiThreadExecutor = uiThreadExecutor;
-        App.eventBus = eventBus;
+        App.bus = new MyBus();
         App.ga = new Ga(application, preferences, eventBus);
         App.billing = new Billing(application, new Billing.DefaultConfiguration() {
             @Nonnull
@@ -157,7 +158,7 @@ public final class App {
                 }
             }
         });
-        App.broadcaster = new CalculatorBroadcaster(application, preferences);
+        App.broadcaster = new CalculatorBroadcaster(application, preferences, bus);
         App.screenMetrics = new ScreenMetrics(application);
         App.languages = languages;
         App.wizards = new CalculatorWizards(application);
@@ -195,8 +196,8 @@ public final class App {
      * @return application's event bus
      */
     @Nonnull
-    public static JEventListeners<JEventListener<? extends JEvent>, JEvent> getEventBus() {
-        return eventBus;
+    public static Bus getBus() {
+        return bus;
     }
 
     @Nonnull
@@ -321,5 +322,21 @@ public final class App {
     public static boolean isMonkeyRunner(@Nonnull Context context) {
         // NOTE: this code is only for monkeyrunner
         return context.checkCallingOrSelfPermission(android.Manifest.permission.DISABLE_KEYGUARD) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private static class MyBus extends Bus {
+        @Override
+        public void post(final Object event) {
+            if (Looper.myLooper() == Looper.getMainLooper()) {
+                super.post(event);
+                return;
+            }
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    MyBus.super.post(event);
+                }
+            });
+        }
     }
 }

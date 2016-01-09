@@ -31,6 +31,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Root
@@ -75,6 +76,10 @@ public class History {
 
     public void add(@Nonnull HistoryState state) {
         items.add(state);
+    }
+
+    public void addAll(@Nonnull Collection<HistoryState> states) {
+        items.addAll(states);
     }
 
     public void clear() {

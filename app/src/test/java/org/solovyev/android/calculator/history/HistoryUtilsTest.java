@@ -32,9 +32,8 @@ import org.solovyev.common.equals.CollectionEqualizer;
 import org.solovyev.common.history.HistoryHelper;
 import org.solovyev.common.history.SimpleHistoryHelper;
 
-import java.util.ArrayList;
+import javax.annotation.Nonnull;
 import java.util.Date;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -146,12 +145,12 @@ public class HistoryUtilsTest {
         state.setTime(date.getTime());
         history.addState(state);
 
-        assertEquals(emptyHistory, History.toXml(history.getStates()));
+        assertEquals(emptyHistory, createHistory(history).toXml());
 
 
         state.setSaved(true);
 
-        assertEquals(toXml1, History.toXml(history.getStates()));
+        assertEquals(toXml1, createHistory(history).toXml());
 
         calculatorDisplay = DisplayState.createValid(JsclOperation.numeric, null, "5/6", 3);
 
@@ -180,13 +179,12 @@ public class HistoryUtilsTest {
         state.setTime(date.getTime());
         history.addState(state);
 
-        String xml = History.toXml(history.getStates());
+        String xml = createHistory(history).toXml();
         assertEquals(toXml2, xml);
 
-        final List<HistoryState> fromXml = new ArrayList<HistoryState>();
         final HistoryHelper<HistoryState> historyFromXml = SimpleHistoryHelper.newInstance();
-        History.fromXml(xml, fromXml);
-        for (HistoryState historyState : fromXml) {
+        final History actual = History.fromXml(xml);
+        for (HistoryState historyState : actual.getItems()) {
             historyFromXml.addState(historyState);
         }
 
@@ -201,5 +199,12 @@ public class HistoryUtilsTest {
             historyState.setSaved(true);
         }
         Assert.assertTrue(Objects.areEqual(history.getStates(), historyFromXml.getStates(), new CollectionEqualizer<HistoryState>(null)));
+    }
+
+    @Nonnull
+    private History createHistory(HistoryHelper<HistoryState> history) {
+        final History result = new History();
+        result.addAll(history.getStates());
+        return result;
     }
 }

@@ -25,7 +25,6 @@ package org.solovyev.android.calculator;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.util.TimingLogger;
 import com.squareup.leakcanary.LeakCanary;
 import org.acra.ACRA;
 import org.acra.ACRAConfiguration;
@@ -89,8 +88,6 @@ public class CalculatorApplication extends android.app.Application implements Sh
             calculator.addCalculatorEventListener(listener);
         }
 
-        calculator.addCalculatorEventListener(App.getBroadcaster());
-
         Locator.getInstance().getCalculator().init();
 
         App.getInitializer().execute(new Runnable() {
@@ -146,7 +143,7 @@ public class CalculatorApplication extends android.app.Application implements Sh
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
         if (Preferences.Onscreen.showAppIcon.getKey().equals(key)) {
             boolean showAppIcon = Preferences.Onscreen.showAppIcon.getPreference(prefs);
-            Android.toggleComponent(this, CalculatorOnscreenStartActivity.class, showAppIcon);
+            Android.enableComponent(this, CalculatorOnscreenStartActivity.class, showAppIcon);
             Locator.getInstance().getNotifier().showMessage(R.string.cpp_this_change_may_require_reboot, MessageType.info);
         }
     }
