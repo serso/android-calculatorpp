@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.HashMap;
+import java.util.Map;
 
 public final class CalculatorBroadcaster implements CalculatorEventListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -17,6 +19,9 @@ public final class CalculatorBroadcaster implements CalculatorEventListener, Sha
     @Nonnull
     private final Context context;
 
+    @Nonnull
+    private final Intents intents = new Intents();
+
     public CalculatorBroadcaster(@Nonnull Context context, @Nonnull SharedPreferences preferences) {
         this.context = context;
         preferences.registerOnSharedPreferenceChangeListener(this);
@@ -27,20 +32,12 @@ public final class CalculatorBroadcaster implements CalculatorEventListener, Sha
         switch (calculatorEventType) {
             case editor_state_changed:
             case editor_state_changed_light:
-                sendEditorStateChangedIntent();
+                sendBroadcastIntent(ACTION_EDITOR_STATE_CHANGED);
                 break;
             case display_state_changed:
-                sendDisplayStateChanged();
+                sendBroadcastIntent(ACTION_DISPLAY_STATE_CHANGED);
                 break;
         }
-    }
-
-    public void sendDisplayStateChanged() {
-        sendBroadcastIntent(ACTION_DISPLAY_STATE_CHANGED);
-    }
-
-    public void sendEditorStateChangedIntent() {
-        sendBroadcastIntent(ACTION_EDITOR_STATE_CHANGED);
     }
 
     public void sendInitIntent() {
@@ -48,13 +45,29 @@ public final class CalculatorBroadcaster implements CalculatorEventListener, Sha
     }
 
     public void sendBroadcastIntent(@Nonnull String action) {
-        context.sendBroadcast(new Intent(action));
+        context.sendBroadcast(intents.get(action));
     }
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (Preferences.Gui.theme.isSameKey(key) || Preferences.Widget.theme.isSameKey(key)) {
             sendBroadcastIntent(ACTION_THEME_CHANGED);
+        }
+    }
+
+    private static final class Intents {
+        @Nonnull
+        private Map<String, Intent> map = new HashMap<>();
+
+        @Nonnull
+        Intent get(@Nonnull String action) {
+            Intent intent = map.get(action);
+            if (intent != null) {
+                return intent;
+            }
+            intent = new Intent(action);
+            map.put(action, intent);
+            return intent;
         }
     }
 }
