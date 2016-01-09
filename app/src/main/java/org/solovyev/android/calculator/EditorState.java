@@ -29,9 +29,10 @@ import javax.annotation.Nullable;
 
 public class EditorState {
 
-    private static long counter;
+    public static final long NO_SEQUENCE = -1;
+    private static long counter = NO_SEQUENCE + 1;
 
-    public final long id;
+    public final long sequence;
     @Nonnull
     public final CharSequence text;
     public final int selection;
@@ -44,7 +45,7 @@ public class EditorState {
 
     private EditorState(@Nonnull CharSequence text, int selection) {
         Check.isMainThread();
-        this.id = counter++;
+        this.sequence = counter++;
         this.text = text;
         this.selection = selection;
     }

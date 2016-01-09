@@ -24,14 +24,12 @@ package org.solovyev.android.calculator;
 
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
-
 import org.solovyev.android.menu.ContextMenuBuilder;
 import org.solovyev.android.menu.ListContextMenu;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.annotation.Nonnull;
 
 /**
  * User: Solovyev_S
@@ -49,10 +47,10 @@ public class CalculatorDisplayOnClickListener implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if (v instanceof CalculatorDisplayView) {
-            final CalculatorDisplay cd = Locator.getInstance().getDisplay();
+        if (v instanceof DisplayView) {
+            final Display cd = Locator.getInstance().getDisplay();
 
-            final DisplayState displayViewState = cd.getViewState();
+            final DisplayState displayViewState = cd.getState();
 
             if (displayViewState.isValid()) {
                 final List<CalculatorDisplayMenuItem> filteredMenuItems = new ArrayList<CalculatorDisplayMenuItem>(CalculatorDisplayMenuItem.values().length);

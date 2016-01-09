@@ -46,7 +46,7 @@ public class Locator implements CalculatorLocator {
     @Nonnull
     private Editor editor;
     @Nonnull
-    private CalculatorDisplay calculatorDisplay;
+    private Display display;
     @Nonnull
     private CalculatorKeyboard calculatorKeyboard;
     @Nonnull
@@ -93,7 +93,7 @@ public class Locator implements CalculatorLocator {
         this.calculatorPlotter = plotter;
 
         editor = new Editor(this.calculator, editorTextProcessor);
-        calculatorDisplay = new CalculatorDisplayImpl(this.calculator);
+        display = new Display(this.calculator);
         calculatorKeyboard = keyboard;
     }
 
@@ -111,8 +111,8 @@ public class Locator implements CalculatorLocator {
 
     @Override
     @Nonnull
-    public CalculatorDisplay getDisplay() {
-        return calculatorDisplay;
+    public Display getDisplay() {
+        return display;
     }
 
     @Nonnull

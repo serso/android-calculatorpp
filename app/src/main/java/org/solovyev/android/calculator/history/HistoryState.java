@@ -24,7 +24,7 @@ package org.solovyev.android.calculator.history;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
-import org.solovyev.android.calculator.CalculatorDisplay;
+import org.solovyev.android.calculator.Display;
 import org.solovyev.android.calculator.DisplayState;
 import org.solovyev.android.calculator.Editor;
 import org.solovyev.android.calculator.EditorState;
@@ -54,8 +54,8 @@ public class HistoryState extends BaseHistoryState {
 
     @Nonnull
     public static HistoryState create(@Nonnull Editor editor,
-                                      @Nonnull CalculatorDisplay display) {
-        return create(editor.getState(), display.getViewState());
+                                      @Nonnull Display display) {
+        return create(editor.getState(), display.getState());
     }
 
     @Nonnull
@@ -106,7 +106,7 @@ public class HistoryState extends BaseHistoryState {
         return result;
     }
 
-    public void setValuesFromHistory(@Nonnull Editor editor, @Nonnull CalculatorDisplay display) {
+    public void setValuesFromHistory(@Nonnull Editor editor, @Nonnull Display display) {
         this.getEditorState().setValuesFromHistory(editor);
         this.getDisplayState().setValuesFromHistory(display);
     }

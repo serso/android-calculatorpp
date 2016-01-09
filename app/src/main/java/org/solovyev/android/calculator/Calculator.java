@@ -22,15 +22,14 @@
 
 package org.solovyev.android.calculator;
 
+import jscl.NumeralBase;
+import jscl.math.Generic;
 import org.solovyev.android.calculator.history.HistoryState;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.common.history.HistoryControl;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import jscl.NumeralBase;
-import jscl.math.Generic;
 
 /**
  * User: Solovyev_S
@@ -62,7 +61,7 @@ public interface Calculator extends CalculatorEventContainer, HistoryControl<His
     @Nonnull
     CalculatorEventData evaluate(@Nonnull JsclOperation operation,
                                  @Nonnull String expression,
-                                 @Nonnull Long sequenceId);
+                                 long sequenceId);
 
     boolean isCalculateOnFly();
 

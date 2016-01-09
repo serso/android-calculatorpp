@@ -22,24 +22,18 @@
 
 package org.solovyev.android.calculator.history;
 
+import jscl.math.Generic;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 import org.simpleframework.xml.Transient;
-import org.solovyev.android.calculator.CalculatorDisplay;
+import org.solovyev.android.calculator.Display;
 import org.solovyev.android.calculator.DisplayState;
+import org.solovyev.android.calculator.EditorState;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.common.text.Strings;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import jscl.math.Generic;
-
-/**
- * User: serso
- * Date: 9/17/11
- * Time: 11:05 PM
- */
 
 @Root
 public class DisplayHistoryState implements Cloneable {
@@ -81,11 +75,11 @@ public class DisplayHistoryState implements Cloneable {
         return result;
     }
 
-    public void setValuesFromHistory(@Nonnull CalculatorDisplay display) {
+    public void setValuesFromHistory(@Nonnull Display display) {
         if (this.isValid()) {
-            display.setViewState(DisplayState.createValid(this.getJsclOperation(), this.getGenericResult(), Strings.getNotEmpty(this.getEditorState().getText(), ""), this.getEditorState().getCursorPosition()));
+            display.setState(DisplayState.createValid(this.getJsclOperation(), this.getGenericResult(), Strings.getNotEmpty(this.getEditorState().getText(), ""), this.getEditorState().getCursorPosition(), EditorState.NO_SEQUENCE));
         } else {
-            display.setViewState(DisplayState.createError(this.getJsclOperation(), Strings.getNotEmpty(this.getErrorMessage(), "")));
+            display.setState(DisplayState.createError(this.getJsclOperation(), Strings.getNotEmpty(this.getErrorMessage(), ""), EditorState.NO_SEQUENCE));
         }
     }
 

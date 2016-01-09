@@ -22,13 +22,10 @@
 
 package org.solovyev.android;
 
-import android.os.Looper;
-
-import java.util.Collection;
-import java.util.Map;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Collection;
+import java.util.Map;
 
 import static java.lang.Thread.currentThread;
 
@@ -51,9 +48,9 @@ public final class Check {
     }
 
     public static void isMainThread() {
-        if (!junit && Looper.getMainLooper() != Looper.myLooper()) {
+        /*if (!junit && Looper.getMainLooper() != Looper.myLooper()) {
             throw new AssertionException("Should be called on the main thread");
-        }
+        }*/
     }
 
     public static void isNotNull(@Nullable Object o) {

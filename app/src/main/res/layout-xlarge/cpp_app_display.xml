@@ -34,7 +34,7 @@
         a:layout_width="match_parent"
         a:layout_height="wrap_content" />
 
-    <org.solovyev.android.calculator.AndroidCalculatorDisplayView
+    <org.solovyev.android.calculator.DisplayView
         a:id="@+id/calculator_display"
         style="@style/CppText.Display"
         a:inputType="textMultiLine"

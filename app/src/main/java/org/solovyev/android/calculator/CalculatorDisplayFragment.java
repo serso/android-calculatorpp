@@ -42,7 +42,7 @@ public class CalculatorDisplayFragment extends Fragment {
     @Nonnull
     private FragmentUi fragmentUi;
     @Nonnull
-    private AndroidCalculatorDisplayView displayView;
+    private DisplayView displayView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,8 +68,7 @@ public class CalculatorDisplayFragment extends Fragment {
     public void onViewCreated(View root, Bundle savedInstanceState) {
         super.onViewCreated(root, savedInstanceState);
 
-        displayView = (AndroidCalculatorDisplayView) root.findViewById(R.id.calculator_display);
-        displayView.init(getActivity());
+        displayView = (DisplayView) root.findViewById(R.id.calculator_display);
         Locator.getInstance().getDisplay().setView(displayView);
 
         fragmentUi.onViewCreated(this, root);

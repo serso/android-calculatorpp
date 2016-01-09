@@ -7,7 +7,6 @@ import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,10 +16,8 @@ public final class CalculatorBroadcaster implements SharedPreferences.OnSharedPr
     public static final String ACTION_EDITOR_STATE_CHANGED = "org.solovyev.android.calculator.EDITOR_STATE_CHANGED";
     public static final String ACTION_DISPLAY_STATE_CHANGED = "org.solovyev.android.calculator.DISPLAY_STATE_CHANGED";
     public static final String ACTION_THEME_CHANGED = "org.solovyev.android.calculator.THEME_CHANGED";
-
     @Nonnull
     private final Context context;
-
     @Nonnull
     private final Intents intents = new Intents();
 
@@ -36,16 +33,13 @@ public final class CalculatorBroadcaster implements SharedPreferences.OnSharedPr
     }
 
     @Subscribe
-    public void onCursorMoved(@Nonnull Editor.CursorMovedEvent e) {
-        sendBroadcastIntent(ACTION_EDITOR_STATE_CHANGED);
+    public void onDisplayChanged(@Nonnull Display.ChangedEvent e) {
+        sendBroadcastIntent(ACTION_DISPLAY_STATE_CHANGED);
     }
 
-    public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
-        switch (calculatorEventType) {
-            case display_state_changed:
-                sendBroadcastIntent(ACTION_DISPLAY_STATE_CHANGED);
-                break;
-        }
+    @Subscribe
+    public void onCursorMoved(@Nonnull Editor.CursorMovedEvent e) {
+        sendBroadcastIntent(ACTION_EDITOR_STATE_CHANGED);
     }
 
     public void sendInitIntent() {

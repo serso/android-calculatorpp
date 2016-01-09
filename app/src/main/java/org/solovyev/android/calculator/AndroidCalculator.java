@@ -72,7 +72,7 @@ public class AndroidCalculator implements Calculator, CalculatorEventListener, S
 
     @Override
     @Nonnull
-    public CalculatorEventData evaluate(@Nonnull JsclOperation operation, @Nonnull String expression, @Nonnull Long sequenceId) {
+    public CalculatorEventData evaluate(@Nonnull JsclOperation operation, @Nonnull String expression, long sequenceId) {
         return calculator.evaluate(operation, expression, sequenceId);
     }
 

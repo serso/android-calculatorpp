@@ -23,27 +23,19 @@
 package org.solovyev.android.calculator;
 
 import android.content.Context;
-
+import jscl.JsclMathEngine;
 import org.junit.Assert;
 import org.mockito.Mockito;
 import org.solovyev.android.calculator.history.CalculatorHistory;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.plot.CalculatorPlotter;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.io.*;
 import java.text.DecimalFormatSymbols;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import jscl.JsclMathEngine;
 
 /**
  * User: serso
@@ -75,12 +67,8 @@ public class CalculatorTestUtils {
     }
 
     public static void initViews(@Nonnull Context context) {
-        final EditorView editor = new EditorView(context);
-        Locator.getInstance().getEditor().setView(editor);
-
-        final AndroidCalculatorDisplayView display = new AndroidCalculatorDisplayView(context);
-        display.init(context);
-        Locator.getInstance().getDisplay().setView(display);
+        Locator.getInstance().getEditor().setView(new EditorView(context));
+        Locator.getInstance().getDisplay().setView(new DisplayView(context));
     }
 
     @Nonnull
@@ -104,7 +92,7 @@ public class CalculatorTestUtils {
     public static void assertEval(@Nonnull String expected, @Nonnull String expression, @Nonnull JsclOperation operation) {
         final Calculator calculator = Locator.getInstance().getCalculator();
 
-        Locator.getInstance().getDisplay().setViewState(DisplayState.empty());
+        Locator.getInstance().getDisplay().setState(DisplayState.empty());
 
         final CountDownLatch latch = new CountDownLatch(1);
         final TestCalculatorEventListener calculatorEventListener = new TestCalculatorEventListener(latch);
@@ -160,7 +148,7 @@ public class CalculatorTestUtils {
     public static void assertError(@Nonnull String expression, @Nonnull JsclOperation operation) {
         final Calculator calculator = Locator.getInstance().getCalculator();
 
-        Locator.getInstance().getDisplay().setViewState(DisplayState.empty());
+        Locator.getInstance().getDisplay().setState(DisplayState.empty());
 
         final CountDownLatch latch = new CountDownLatch(1);
         final TestCalculatorEventListener calculatorEventListener = new TestCalculatorEventListener(latch);
@@ -204,10 +192,10 @@ public class CalculatorTestUtils {
             waitForEventData();
 
             if (calculatorEventData.isSameSequence(this.calculatorEventData)) {
-                if (calculatorEventType == CalculatorEventType.display_state_changed) {
-                    final CalculatorDisplayChangeEventData displayChange = (CalculatorDisplayChangeEventData) data;
+                /*if (calculatorEventType == CalculatorEventType.display_state_changed) {
+                    final Display.ChangedEvent displayChange = (Display.ChangedEvent) data;
 
-                    result = displayChange.getNewValue();
+                    result = displayChange.newState;
 
                     try {
                         // need to sleep a little bit as await
@@ -215,7 +203,7 @@ public class CalculatorTestUtils {
                     } catch (InterruptedException e) {
                     }
                     latch.countDown();
-                }
+                }*/
             }
         }
 
