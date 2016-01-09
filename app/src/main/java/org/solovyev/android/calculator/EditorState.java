@@ -22,13 +22,16 @@
 
 package org.solovyev.android.calculator;
 
-import java.io.Serializable;
+import org.solovyev.android.Check;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class EditorState implements Serializable {
+public class EditorState {
 
+    private static long counter;
+
+    public final long id;
     @Nonnull
     public final CharSequence text;
     public final int selection;
@@ -40,6 +43,8 @@ public class EditorState implements Serializable {
     }
 
     private EditorState(@Nonnull CharSequence text, int selection) {
+        Check.isMainThread();
+        this.id = counter++;
         this.text = text;
         this.selection = selection;
     }
@@ -50,7 +55,7 @@ public class EditorState implements Serializable {
     }
 
     @Nonnull
-    public static EditorState newSelection(@Nonnull EditorState state, int selection) {
+    public static EditorState forNewSelection(@Nonnull EditorState state, int selection) {
         return new EditorState(state.text, selection);
     }
 

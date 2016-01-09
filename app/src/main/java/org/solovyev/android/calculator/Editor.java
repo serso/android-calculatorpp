@@ -23,8 +23,8 @@
 package org.solovyev.android.calculator;
 
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.history.HistoryState;
 import org.solovyev.android.calculator.history.EditorHistoryState;
+import org.solovyev.android.calculator.history.HistoryState;
 import org.solovyev.android.calculator.text.TextProcessor;
 import org.solovyev.android.calculator.text.TextProcessorEditorResult;
 import org.solovyev.common.text.Strings;
@@ -33,16 +33,32 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import static java.lang.Math.min;
-import static org.solovyev.android.calculator.CalculatorEditorChangeEventData.newChangeEventData;
-import static org.solovyev.android.calculator.CalculatorEventType.editor_state_changed;
-import static org.solovyev.android.calculator.CalculatorEventType.editor_state_changed_light;
 
 public class Editor implements CalculatorEventListener {
 
     private static final String TAG = App.subTag("Editor");
 
-    @Nonnull
-    private final Calculator calculator;
+    public static class ChangedEvent {
+        @Nonnull
+        public final EditorState oldState;
+        @Nonnull
+        public final EditorState newState;
+
+        private ChangedEvent(@Nonnull EditorState oldState, @Nonnull EditorState newState) {
+            this.oldState = oldState;
+            this.newState = newState;
+        }
+    }
+
+    public static class CursorMovedEvent {
+        @Nonnull
+        public final EditorState state;
+
+        public CursorMovedEvent(@Nonnull EditorState state) {
+            this.state = state;
+        }
+    }
+
     @Nonnull
     private final CalculatorEventHolder lastEventHolder;
     @Nullable
@@ -53,9 +69,8 @@ public class Editor implements CalculatorEventListener {
     private EditorState state = EditorState.empty();
 
     public Editor(@Nonnull Calculator calculator, @Nullable TextProcessor<TextProcessorEditorResult, String> textProcessor) {
-        this.calculator = calculator;
         this.textProcessor = textProcessor;
-        this.calculator.addCalculatorEventListener(this);
+        calculator.addCalculatorEventListener(this);
         this.lastEventHolder = new CalculatorEventHolder(CalculatorUtils.createFirstEventDataId());
     }
 
@@ -85,11 +100,7 @@ public class Editor implements CalculatorEventListener {
         return state;
     }
 
-    public void setState(@Nonnull EditorState state) {
-        setState(state, true);
-    }
-
-    private void setState(@Nonnull EditorState newState, boolean majorChanges) {
+    public void onTextChanged(@Nonnull EditorState newState) {
         Check.isMainThread();
         if (textProcessor != null) {
             try {
@@ -104,17 +115,16 @@ public class Editor implements CalculatorEventListener {
         if (view != null) {
             view.setState(newState);
         }
-        fireStateChangedEvent(majorChanges, oldState, newState);
+        App.getBus().post(new ChangedEvent(oldState, newState));
     }
 
-    private void fireStateChangedEvent(boolean majorChanges, @Nonnull EditorState oldViewState, @Nonnull EditorState newViewState) {
+    private void onSelectionChanged(@Nonnull EditorState newState) {
         Check.isMainThread();
-
-        if (majorChanges) {
-            calculator.fireCalculatorEvent(editor_state_changed, newChangeEventData(oldViewState, newViewState));
-        } else {
-            calculator.fireCalculatorEvent(editor_state_changed_light, newChangeEventData(oldViewState, newViewState));
+        state = newState;
+        if (view != null) {
+            view.setState(newState);
         }
+        App.getBus().post(new CursorMovedEvent(newState));
     }
 
     @Override
@@ -139,9 +149,9 @@ public class Editor implements CalculatorEventListener {
     private EditorState newSelectionViewState(int newSelection) {
         Check.isMainThread();
         if (state.selection != newSelection) {
-            final EditorState result = EditorState.newSelection(state, newSelection);
-            setState(result, false);
-            return result;
+            final EditorState newState = EditorState.forNewSelection(state, newSelection);
+            onSelectionChanged(newState);
+            return newState;
         } else {
             return state;
         }
@@ -186,7 +196,7 @@ public class Editor implements CalculatorEventListener {
         final String text = state.getTextString();
         if (selection > 0 && text.length() > 0 && selection <= text.length()) {
             final EditorState newState = EditorState.create(text.substring(0, selection - 1) + text.substring(selection, text.length()), selection - 1);
-            setState(newState);
+            onTextChanged(newState);
             return newState;
         } else {
             return state;
@@ -203,18 +213,16 @@ public class Editor implements CalculatorEventListener {
     public EditorState setText(@Nonnull String text) {
         Check.isMainThread();
         final EditorState result = EditorState.create(text, text.length());
-        setState(result);
+        onTextChanged(result);
         return result;
     }
 
     @Nonnull
     public EditorState setText(@Nonnull String text, int selection) {
         Check.isMainThread();
-        selection = clamp(selection, text);
-
-        final EditorState result = EditorState.create(text, selection);
-        setState(result);
-        return result;
+        final EditorState state = EditorState.create(text, clamp(selection, text));
+        onTextChanged(state);
+        return state;
     }
 
     @Nonnull
@@ -233,7 +241,7 @@ public class Editor implements CalculatorEventListener {
 
         int newSelection = clamp(text.length() + selection + selectionOffset, newTextLength);
         final EditorState newState = EditorState.create(oldText.substring(0, selection) + text + oldText.substring(selection), newSelection);
-        setState(newState);
+        onTextChanged(newState);
         return newState;
     }
 
@@ -249,8 +257,8 @@ public class Editor implements CalculatorEventListener {
         Check.isMainThread();
         selection = clamp(selection, state.text);
 
-        final EditorState result = EditorState.newSelection(state, selection);
-        setState(result, false);
+        final EditorState result = EditorState.forNewSelection(state, selection);
+        onSelectionChanged(result);
         return result;
     }
 

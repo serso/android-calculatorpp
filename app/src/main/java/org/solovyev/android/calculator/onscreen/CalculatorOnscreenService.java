@@ -33,16 +33,10 @@ import android.support.v4.app.NotificationCompat;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
+import com.squareup.otto.Subscribe;
+import org.solovyev.android.Check;
 import org.solovyev.android.Views;
-import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.CalculatorDisplayChangeEventData;
-import org.solovyev.android.calculator.CalculatorEditorChangeEventData;
-import org.solovyev.android.calculator.CalculatorEventData;
-import org.solovyev.android.calculator.CalculatorEventListener;
-import org.solovyev.android.calculator.CalculatorEventType;
-import org.solovyev.android.calculator.Locator;
-import org.solovyev.android.calculator.Preferences;
-import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.*;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -58,12 +52,8 @@ public class CalculatorOnscreenService extends Service implements OnscreenViewLi
     private static final String SHOW_WINDOW_ACTION = "org.solovyev.android.calculator.onscreen.SHOW_WINDOW";
     private static final String SHOW_NOTIFICATION_ACTION = "org.solovyev.android.calculator.onscreen.SHOW_NOTIFICATION";
     private static final int NOTIFICATION_ID = 9031988; // my birthday =)
-    @Nonnull
+
     private CalculatorOnscreenView view;
-
-    private boolean compatibilityStart = true;
-
-    private boolean viewCreated = false;
 
     @Nonnull
     private static Class<?> getIntentListenerClass() {
@@ -93,98 +83,68 @@ public class CalculatorOnscreenService extends Service implements OnscreenViewLi
         return null;
     }
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        App.getPreferences().registerOnSharedPreferenceChangeListener(this);
-    }
-
     private void createView() {
-        if (!viewCreated) {
-            final WindowManager wm = ((WindowManager) this.getSystemService(Context.WINDOW_SERVICE));
-
-            final DisplayMetrics dm = getResources().getDisplayMetrics();
-
-            int twoThirdWidth = 2 * wm.getDefaultDisplay().getWidth() / 3;
-            int twoThirdHeight = 2 * wm.getDefaultDisplay().getHeight() / 3;
-
-            twoThirdWidth = Math.min(twoThirdWidth, twoThirdHeight);
-            twoThirdHeight = Math.max(twoThirdWidth, getHeight(twoThirdWidth));
-
-            final int baseWidth = Views.toPixels(dm, 300);
-            final int width0 = Math.min(twoThirdWidth, baseWidth);
-            final int height0 = Math.min(twoThirdHeight, getHeight(baseWidth));
-
-            final int width = Math.min(width0, height0);
-            final int height = Math.max(width0, height0);
-
-            view = CalculatorOnscreenView.create(this, CalculatorOnscreenViewState.create(width, height, -1, -1), this);
-            view.show();
-
-            startCalculatorListening();
-            view.updateEditorState(Locator.getInstance().getEditor().getState());
-            view.updateDisplayState(Locator.getInstance().getDisplay().getViewState());
-
-            viewCreated = true;
+        if (view != null) {
+            return;
         }
+        final WindowManager wm = ((WindowManager) this.getSystemService(Context.WINDOW_SERVICE));
+
+        final DisplayMetrics dm = getResources().getDisplayMetrics();
+
+        int twoThirdWidth = 2 * wm.getDefaultDisplay().getWidth() / 3;
+        int twoThirdHeight = 2 * wm.getDefaultDisplay().getHeight() / 3;
+
+        twoThirdWidth = Math.min(twoThirdWidth, twoThirdHeight);
+        twoThirdHeight = Math.max(twoThirdWidth, getHeight(twoThirdWidth));
+
+        final int baseWidth = Views.toPixels(dm, 300);
+        final int width0 = Math.min(twoThirdWidth, baseWidth);
+        final int height0 = Math.min(twoThirdHeight, getHeight(baseWidth));
+
+        final int width = Math.min(width0, height0);
+        final int height = Math.max(width0, height0);
+
+        view = CalculatorOnscreenView.create(this, CalculatorOnscreenViewState.create(width, height, -1, -1), this);
+        view.show();
+        view.updateEditorState(Locator.getInstance().getEditor().getState());
+        view.updateDisplayState(Locator.getInstance().getDisplay().getViewState());
+
+        App.getBus().register(this);
+        App.getPreferences().registerOnSharedPreferenceChangeListener(this);
     }
 
     private int getHeight(int width) {
         return 4 * width / 3;
     }
 
-    private void startCalculatorListening() {
-        Locator.getInstance().getCalculator().addCalculatorEventListener(this);
-    }
-
-    private void stopCalculatorListening() {
-        Locator.getInstance().getCalculator().removeCalculatorEventListener(this);
-    }
-
     @Override
     public void onDestroy() {
-        App.getPreferences().unregisterOnSharedPreferenceChangeListener(this);
-        stopCalculatorListening();
-        if (viewCreated) {
-            this.view.hide();
+        if (view != null) {
+            App.getPreferences().unregisterOnSharedPreferenceChangeListener(this);
+            App.getBus().unregister(this);
+            view.hide();
+            view = null;
         }
         super.onDestroy();
     }
 
     @Override
-    public void onStart(Intent intent, int startId) {
-        super.onStart(intent, startId);
-
-        if (this.compatibilityStart) {
-            handleStart(intent);
-        }
-    }
-
-    @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
-        final int result;
-        try {
-            this.compatibilityStart = false;
-            result = super.onStartCommand(intent, flags, startId);
-            handleStart(intent);
-        } finally {
-            this.compatibilityStart = true;
-        }
-
+        final int result = super.onStartCommand(intent, flags, startId);
+        handleStart(intent);
         return result;
     }
 
     private void handleStart(@Nullable Intent intent) {
-        if (intent != null) {
-
-            if (isShowWindowIntent(intent)) {
-                hideNotification();
-                createView();
-                App.getGa().onFloatingCalculatorOpened();
-            } else if (isShowNotificationIntent(intent)) {
-                showNotification();
-            }
+        if (intent == null) {
+            return;
+        }
+        if (isShowWindowIntent(intent)) {
+            hideNotification();
+            createView();
+            App.getGa().onFloatingCalculatorOpened();
+        } else if (isShowNotificationIntent(intent)) {
+            showNotification();
         }
     }
 
@@ -229,10 +189,6 @@ public class CalculatorOnscreenService extends Service implements OnscreenViewLi
     @Override
     public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
         switch (calculatorEventType) {
-            case editor_state_changed:
-            case editor_state_changed_light:
-                view.updateEditorState(((CalculatorEditorChangeEventData) data).getNewValue());
-                break;
             case display_state_changed:
                 view.updateDisplayState(((CalculatorDisplayChangeEventData) data).getNewValue());
                 break;
@@ -241,12 +197,23 @@ public class CalculatorOnscreenService extends Service implements OnscreenViewLi
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (viewCreated) {
-            if (Preferences.Gui.theme.isSameKey(key) || Preferences.Onscreen.theme.isSameKey(key)) {
-                stopSelf();
-                CalculatorOnscreenService.showOnscreenView(this);
-            }
+        Check.isNotNull(view);
+        if (Preferences.Gui.theme.isSameKey(key) || Preferences.Onscreen.theme.isSameKey(key)) {
+            stopSelf();
+            CalculatorOnscreenService.showOnscreenView(this);
         }
+    }
+
+    @Subscribe
+    public void onEditorChanged(@Nonnull Editor.ChangedEvent e) {
+        Check.isNotNull(view);
+        view.updateEditorState(e.newState);
+    }
+
+    @Subscribe
+    public void onCursorMoved(@Nonnull Editor.CursorMovedEvent e) {
+        Check.isNotNull(view);
+        view.updateEditorState(e.state);
     }
 }
 

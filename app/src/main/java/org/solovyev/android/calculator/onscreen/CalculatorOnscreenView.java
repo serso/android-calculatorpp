@@ -30,27 +30,14 @@ import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.HapticFeedbackConstants;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.WindowManager;
+import android.view.*;
 import android.widget.ImageView;
-
-import org.solovyev.android.calculator.AndroidCalculatorDisplayView;
-import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.CalculatorButton;
-import org.solovyev.android.calculator.DisplayState;
-import org.solovyev.android.calculator.EditorState;
-import org.solovyev.android.calculator.EditorView;
-import org.solovyev.android.calculator.Preferences;
-import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.prefs.Preference;
-
-import java.util.Locale;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Locale;
 
 /**
  * User: serso
@@ -123,24 +110,12 @@ public class CalculatorOnscreenView {
 	**********************************************************************
 	*/
 
-    private boolean minimized = false;
+    private boolean minimized;
+    private boolean attached;
+    private boolean folded;
+    private boolean initialized;
+    private boolean shown;
 
-    private boolean attached = false;
-
-    private boolean folded = false;
-
-    private boolean initialized = false;
-
-    private boolean hidden = true;
-
-
-	/*
-	**********************************************************************
-	*
-	*                           CONSTRUCTORS
-	*
-	**********************************************************************
-	*/
 
     private CalculatorOnscreenView() {
     }
@@ -167,14 +142,6 @@ public class CalculatorOnscreenView {
         return result;
     }
 
-	/*
-	**********************************************************************
-	*
-	*                           METHODS
-	*
-	**********************************************************************
-	*/
-
     public static void persistState(@Nonnull Context context, @Nonnull CalculatorOnscreenViewState state) {
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         viewStatePreference.putPreference(preferences, state);
@@ -195,14 +162,6 @@ public class CalculatorOnscreenView {
         displayView.setState(displayState);
     }
 
-	/*
-	**********************************************************************
-	*
-	*                           LIFECYCLE
-	*
-	**********************************************************************
-	*/
-
     public void updateEditorState(@Nonnull EditorState editorState) {
         checkInit();
         editorView.setState(editorState);
@@ -212,85 +171,85 @@ public class CalculatorOnscreenView {
         checkInit();
 
         final WindowManager.LayoutParams params = (WindowManager.LayoutParams) root.getLayoutParams();
-
         params.height = height;
-
         getWindowManager().updateViewLayout(root, params);
     }
 
     private void init() {
+        if (initialized) {
+            return;
+        }
 
-        if (!initialized) {
-            for (final CalculatorButton widgetButton : CalculatorButton.values()) {
-                final View button = root.findViewById(widgetButton.getButtonId());
-                if (button != null) {
-                    button.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (widgetButton.onClick()) {
-                                v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-                            }
-                            if (widgetButton == CalculatorButton.app) {
-                                minimize();
-                            }
-                        }
-                    });
-                    button.setOnLongClickListener(new View.OnLongClickListener() {
-                        @Override
-                        public boolean onLongClick(View v) {
-                            if (widgetButton.onLongClick()) {
-                                v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
-                            }
-                            return true;
-                        }
-                    });
-                }
+        for (final CalculatorButton widgetButton : CalculatorButton.values()) {
+            final View button = root.findViewById(widgetButton.getButtonId());
+            if (button == null) {
+                continue;
             }
-
-            final WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-
-            header = root.findViewById(R.id.onscreen_header);
-            headerTitle = (ImageView) header.findViewById(R.id.onscreen_title);
-            headerTitleDrawable = headerTitle.getDrawable();
-            headerTitle.setImageDrawable(null);
-            content = root.findViewById(R.id.onscreen_content);
-
-            displayView = (AndroidCalculatorDisplayView) root.findViewById(R.id.calculator_display);
-            displayView.init(this.context, false);
-
-            editorView = (EditorView) root.findViewById(R.id.calculator_editor);
-
-            final View onscreenFoldButton = root.findViewById(R.id.onscreen_fold_button);
-            onscreenFoldButton.setOnClickListener(new View.OnClickListener() {
+            button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (folded) {
-                        unfold();
-                    } else {
-                        fold();
+                    if (widgetButton.onClick()) {
+                        v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+                    }
+                    if (widgetButton == CalculatorButton.app) {
+                        minimize();
                     }
                 }
             });
-
-            final View onscreenHideButton = root.findViewById(R.id.onscreen_minimize_button);
-            onscreenHideButton.setOnClickListener(new View.OnClickListener() {
+            button.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
-                public void onClick(View v) {
-                    minimize();
+                public boolean onLongClick(View v) {
+                    if (widgetButton.onLongClick()) {
+                        v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+                    }
+                    return true;
                 }
             });
-
-            root.findViewById(R.id.onscreen_close_button).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    hide();
-                }
-            });
-
-            headerTitle.setOnTouchListener(new WindowDragTouchListener(wm, root));
-
-            initialized = true;
         }
+
+        final WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+
+        header = root.findViewById(R.id.onscreen_header);
+        headerTitle = (ImageView) header.findViewById(R.id.onscreen_title);
+        headerTitleDrawable = headerTitle.getDrawable();
+        headerTitle.setImageDrawable(null);
+        content = root.findViewById(R.id.onscreen_content);
+
+        displayView = (AndroidCalculatorDisplayView) root.findViewById(R.id.calculator_display);
+        displayView.init(this.context, false);
+
+        editorView = (EditorView) root.findViewById(R.id.calculator_editor);
+
+        final View onscreenFoldButton = root.findViewById(R.id.onscreen_fold_button);
+        onscreenFoldButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (folded) {
+                    unfold();
+                } else {
+                    fold();
+                }
+            }
+        });
+
+        final View onscreenHideButton = root.findViewById(R.id.onscreen_minimize_button);
+        onscreenHideButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                minimize();
+            }
+        });
+
+        root.findViewById(R.id.onscreen_close_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hide();
+            }
+        });
+
+        headerTitle.setOnTouchListener(new WindowDragTouchListener(wm, root));
+
+        initialized = true;
 
     }
 
@@ -301,12 +260,13 @@ public class CalculatorOnscreenView {
     }
 
     public void show() {
-        if (hidden) {
-            init();
-            attach();
-
-            hidden = false;
+        if (shown) {
+            return;
         }
+        init();
+        attach();
+
+        shown = true;
     }
 
     public void attach() {
@@ -376,19 +336,19 @@ public class CalculatorOnscreenView {
 
     public void hide() {
         checkInit();
-
-        if (!hidden) {
-
-            persistState(context, getCurrentState(!folded));
-
-            detach();
-
-            if (viewListener != null) {
-                viewListener.onViewHidden();
-            }
-
-            hidden = true;
+        if (!shown) {
+            return;
         }
+
+        persistState(context, getCurrentState(!folded));
+
+        detach();
+
+        if (viewListener != null) {
+            viewListener.onViewHidden();
+        }
+
+        shown = false;
     }
 
     @Nonnull

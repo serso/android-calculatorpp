@@ -3,13 +3,15 @@ package org.solovyev.android.calculator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class CalculatorBroadcaster implements CalculatorEventListener, SharedPreferences.OnSharedPreferenceChangeListener {
+public final class CalculatorBroadcaster implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     public static final String ACTION_INIT = "org.solovyev.android.calculator.INIT";
     public static final String ACTION_EDITOR_STATE_CHANGED = "org.solovyev.android.calculator.EDITOR_STATE_CHANGED";
@@ -22,18 +24,24 @@ public final class CalculatorBroadcaster implements CalculatorEventListener, Sha
     @Nonnull
     private final Intents intents = new Intents();
 
-    public CalculatorBroadcaster(@Nonnull Context context, @Nonnull SharedPreferences preferences) {
+    public CalculatorBroadcaster(@Nonnull Context context, @Nonnull SharedPreferences preferences, @Nonnull Bus bus) {
         this.context = context;
         preferences.registerOnSharedPreferenceChangeListener(this);
+        bus.register(this);
     }
 
-    @Override
+    @Subscribe
+    public void onEditorChanged(@Nonnull Editor.ChangedEvent e) {
+        sendBroadcastIntent(ACTION_EDITOR_STATE_CHANGED);
+    }
+
+    @Subscribe
+    public void onCursorMoved(@Nonnull Editor.CursorMovedEvent e) {
+        sendBroadcastIntent(ACTION_EDITOR_STATE_CHANGED);
+    }
+
     public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
         switch (calculatorEventType) {
-            case editor_state_changed:
-            case editor_state_changed_light:
-                sendBroadcastIntent(ACTION_EDITOR_STATE_CHANGED);
-                break;
             case display_state_changed:
                 sendBroadcastIntent(ACTION_DISPLAY_STATE_CHANGED);
                 break;

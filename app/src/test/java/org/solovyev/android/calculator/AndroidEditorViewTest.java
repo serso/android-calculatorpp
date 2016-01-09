@@ -30,6 +30,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 import org.solovyev.common.text.Strings;
 
@@ -62,7 +63,7 @@ public class AndroidEditorViewTest {
 
     @Test
     public void testCreation() throws Exception {
-        new EditorView(CalculatorApplication.getInstance());
+        new EditorView(RuntimeEnvironment.application);
     }
 
     @Test

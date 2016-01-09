@@ -78,10 +78,6 @@ public enum CalculatorEventType {
 	**********************************************************************
 	*/
 
-    // @Nonnull org.solovyev.android.calculator.CalculatorEditorChangeEventData
-    editor_state_changed,
-    editor_state_changed_light,
-
     // @Nonnull CalculatorDisplayChangeEventData
     display_state_changed,
 

@@ -22,6 +22,7 @@
 
 package org.solovyev.android.calculator.history;
 
+import com.squareup.otto.Subscribe;
 import org.solovyev.android.calculator.*;
 import org.solovyev.common.history.HistoryAction;
 import org.solovyev.common.history.HistoryHelper;
@@ -54,6 +55,7 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
 
     public CalculatorHistoryImpl(@Nonnull Calculator calculator) {
         calculator.addCalculatorEventListener(this);
+        App.getBus().register(this);
     }
 
     @Override
@@ -242,11 +244,16 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
         this.savedHistory.remove(historyState);
     }
 
+    @Subscribe
+    public void onEditorChanged(@Nonnull Editor.ChangedEvent e) {
+        lastEditorViewState = e.newState;
+    }
+
     @Override
     public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData,
                                   @Nonnull CalculatorEventType calculatorEventType,
                                   @Nullable Object data) {
-        if (calculatorEventType.isOfType(editor_state_changed, display_state_changed, manual_calculation_requested)) {
+        if (calculatorEventType.isOfType(display_state_changed, manual_calculation_requested)) {
 
             final CalculatorEventHolder.Result result = lastEventData.apply(calculatorEventData);
 
@@ -254,10 +261,6 @@ public class CalculatorHistoryImpl implements CalculatorHistory {
                 switch (calculatorEventType) {
                     case manual_calculation_requested:
                         lastEditorViewState = (EditorState) data;
-                        break;
-                    case editor_state_changed:
-                        final CalculatorEditorChangeEventData editorChangeData = (CalculatorEditorChangeEventData) data;
-                        lastEditorViewState = editorChangeData.getNewValue();
                         break;
                     case display_state_changed:
                         if (result.isSameSequence()) {
