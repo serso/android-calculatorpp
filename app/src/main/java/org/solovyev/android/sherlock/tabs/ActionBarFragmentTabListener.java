@@ -26,8 +26,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
-
+import android.support.v7.app.AppCompatActivity;
 import org.solovyev.android.sherlock.FragmentItem;
 import org.solovyev.android.sherlock.FragmentItemImpl;
 
@@ -53,7 +52,7 @@ public class ActionBarFragmentTabListener implements ActionBar.TabListener {
      * @param parentViewId  parent view id
      */
 
-    public ActionBarFragmentTabListener(@Nonnull ActionBarActivity activity,
+    public ActionBarFragmentTabListener(@Nonnull AppCompatActivity activity,
                                         @Nonnull String tag,
                                         @Nonnull Class<? extends Fragment> fragmentClass,
                                         @Nullable Bundle fragmentArgs,

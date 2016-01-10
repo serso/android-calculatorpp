@@ -33,7 +33,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
@@ -125,7 +126,7 @@ public class ActivityUi extends BaseUi {
         }
     }
 
-    public void onCreate(@Nonnull final ActionBarActivity activity) {
+    public void onCreate(@Nonnull final AppCompatActivity activity) {
         onCreate((Activity) activity);
         final ActionBar actionBar = activity.getSupportActionBar();
         if (actionBar != null) {
@@ -161,7 +162,7 @@ public class ActivityUi extends BaseUi {
         }
     }
 
-    public void restoreSavedTab(@Nonnull ActionBarActivity activity) {
+    public void restoreSavedTab(@Nonnull AppCompatActivity activity) {
         final ActionBar actionBar = activity.getSupportActionBar();
         if (actionBar != null) {
             if (selectedNavigationIndex >= 0 && selectedNavigationIndex < actionBar.getTabCount()) {
@@ -170,7 +171,7 @@ public class ActivityUi extends BaseUi {
         }
     }
 
-    public void onSaveInstanceState(@Nonnull ActionBarActivity activity, @Nonnull Bundle outState) {
+    public void onSaveInstanceState(@Nonnull AppCompatActivity activity, @Nonnull Bundle outState) {
         onSaveInstanceState((Activity) activity, outState);
     }
 
@@ -186,7 +187,7 @@ public class ActivityUi extends BaseUi {
     public void onPause(@Nonnull Activity activity) {
     }
 
-    public void onPause(@Nonnull ActionBarActivity activity) {
+    public void onPause(@Nonnull AppCompatActivity activity) {
         onPause((Activity) activity);
 
         final ActionBar actionBar = activity.getSupportActionBar();
@@ -215,11 +216,11 @@ public class ActivityUi extends BaseUi {
         }
     }
 
-    public void onDestroy(@Nonnull ActionBarActivity activity) {
+    public void onDestroy(@Nonnull AppCompatActivity activity) {
         this.onDestroy((Activity) activity);
     }
 
-    public void addTab(@Nonnull ActionBarActivity activity,
+    public void addTab(@Nonnull AppCompatActivity activity,
                        @Nonnull String tag,
                        @Nonnull Class<? extends Fragment> fragmentClass,
                        @Nullable Bundle fragmentArgs,
@@ -236,11 +237,11 @@ public class ActivityUi extends BaseUi {
         actionBar.addTab(tab);
     }
 
-    public void addTab(@Nonnull ActionBarActivity activity, @Nonnull CalculatorFragmentType fragmentType, @Nullable Bundle fragmentArgs, int parentViewId) {
+    public void addTab(@Nonnull AppCompatActivity activity, @Nonnull CalculatorFragmentType fragmentType, @Nullable Bundle fragmentArgs, int parentViewId) {
         addTab(activity, fragmentType.getFragmentTag(), fragmentType.getFragmentClass(), fragmentArgs, fragmentType.getDefaultTitleResId(), parentViewId);
     }
 
-    public void setFragment(@Nonnull ActionBarActivity activity, @Nonnull CalculatorFragmentType fragmentType, @Nullable Bundle fragmentArgs, int parentViewId) {
+    public void setFragment(@Nonnull AppCompatActivity activity, @Nonnull CalculatorFragmentType fragmentType, @Nullable Bundle fragmentArgs, int parentViewId) {
         final FragmentManager fm = activity.getSupportFragmentManager();
 
         Fragment fragment = fm.findFragmentByTag(fragmentType.getFragmentTag());
@@ -259,7 +260,7 @@ public class ActivityUi extends BaseUi {
         }
     }
 
-    public void selectTab(@Nonnull ActionBarActivity activity, @Nonnull CalculatorFragmentType fragmentType) {
+    public void selectTab(@Nonnull AppCompatActivity activity, @Nonnull CalculatorFragmentType fragmentType) {
         final ActionBar actionBar = activity.getSupportActionBar();
         for (int i = 0; i < actionBar.getTabCount(); i++) {
             final ActionBar.Tab tab = actionBar.getTabAt(i);
@@ -293,7 +294,7 @@ public class ActivityUi extends BaseUi {
         return layout;
     }
 
-    public void onResume(@Nonnull ActionBarActivity activity) {
+    public void onResume(@Nonnull AppCompatActivity activity) {
         onResume((Activity) activity);
 
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
