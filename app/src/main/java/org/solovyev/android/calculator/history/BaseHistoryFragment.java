@@ -61,9 +61,9 @@ import static org.solovyev.android.calculator.CalculatorEventType.clear_history_
 
 public abstract class BaseHistoryFragment extends ListFragment implements CalculatorEventListener {
 
-    public static final Comparator<HistoryState> COMPARATOR = new Comparator<HistoryState>() {
+    public static final Comparator<OldHistoryState> COMPARATOR = new Comparator<OldHistoryState>() {
         @Override
-        public int compare(HistoryState state1, HistoryState state2) {
+        public int compare(OldHistoryState state1, OldHistoryState state2) {
             if (state1.isSaved() == state2.isSaved()) {
                 long l = state2.getTime() - state1.getTime();
                 return l > 0l ? 1 : (l < 0l ? -1 : 0);
@@ -103,15 +103,15 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
         ui = new FragmentUi(fragmentType.getDefaultLayoutId(), fragmentType.getDefaultTitleResId(), false);
     }
 
-    public static boolean isAlreadySaved(@Nonnull HistoryState historyState) {
+    public static boolean isAlreadySaved(@Nonnull OldHistoryState historyState) {
         Check.isTrue(!historyState.isSaved());
 
         boolean result = false;
         try {
             historyState.setSaved(true);
-            if (Collections.contains(historyState, Locator.getInstance().getHistory().getSavedHistory(), new Equalizer<HistoryState>() {
+            if (Collections.contains(historyState, Locator.getInstance().getHistory().getSavedOldHistory(), new Equalizer<OldHistoryState>() {
                 @Override
-                public boolean areEqual(@Nullable HistoryState first, @Nullable HistoryState second) {
+                public boolean areEqual(@Nullable OldHistoryState first, @Nullable OldHistoryState second) {
                     return first != null && second != null &&
                             first.getTime() == second.getTime() &&
                             first.getDisplayState().equals(second.getDisplayState()) &&
@@ -127,7 +127,7 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
     }
 
     @Nonnull
-    public static String getHistoryText(@Nonnull HistoryState state) {
+    public static String getHistoryText(@Nonnull OldHistoryState state) {
         final StringBuilder result = new StringBuilder();
         result.append(state.getEditorState().getText());
         result.append(getIdentitySign(state.getDisplayState().getJsclOperation()));
@@ -143,7 +143,7 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
         return jsclOperation == JsclOperation.simplify ? "≡" : "=";
     }
 
-    public void useState(@Nonnull final HistoryState state) {
+    public void useState(@Nonnull final OldHistoryState state) {
         App.getEditor().setState(state.getEditorState());
         final FragmentActivity activity = getActivity();
         if (!(activity instanceof CalculatorActivity)) {
@@ -180,7 +180,7 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
 
         ui.onViewCreated(this, root);
 
-        adapter = new HistoryArrayAdapter(this.getActivity(), getItemLayoutId(), org.solovyev.android.calculator.R.id.history_item, new ArrayList<HistoryState>(), showDatetime);
+        adapter = new HistoryArrayAdapter(this.getActivity(), getItemLayoutId(), org.solovyev.android.calculator.R.id.history_item, new ArrayList<OldHistoryState>(), showDatetime);
         setListAdapter(adapter);
 
         final ListView lv = getListView();
@@ -200,7 +200,7 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
                                     final View view,
                                     final int position,
                                     final long id) {
-                useState((HistoryState) parent.getItemAtPosition(position));
+                useState((OldHistoryState) parent.getItemAtPosition(position));
             }
         });
 
@@ -221,7 +221,7 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-        final HistoryState state = (HistoryState) getListView().getItemAtPosition(info.position);
+        final OldHistoryState state = (OldHistoryState) getListView().getItemAtPosition(info.position);
 
         if (state.isSaved()) {
             menu.add(NONE, R.string.c_use, NONE, R.string.c_use);
@@ -247,7 +247,7 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
     public boolean onContextItemSelected(MenuItem item) {
         final Context context = getActivity();
         final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        final HistoryState state = (HistoryState) getListView().getItemAtPosition(info.position);
+        final OldHistoryState state = (OldHistoryState) getListView().getItemAtPosition(info.position);
 
         switch (item.getItemId()) {
             case R.string.c_use:
@@ -296,7 +296,7 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
         return super.onContextItemSelected(item);
     }
 
-    private void createEditHistoryDialog(@Nonnull final HistoryState state, @Nonnull final Context context, final boolean save) {
+    private void createEditHistoryDialog(@Nonnull final OldHistoryState state, @Nonnull final Context context, final boolean save) {
         final LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View editView = layoutInflater.inflate(R.layout.history_edit, null);
         final TextView historyExpression = (TextView) editView.findViewById(R.id.history_edit_expression);
@@ -313,7 +313,7 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (save) {
-                            final HistoryState savedHistoryItem = Locator.getInstance().getHistory().addSavedState(state);
+                            final OldHistoryState savedHistoryItem = Locator.getInstance().getHistory().addSavedState(state);
                             savedHistoryItem.setComment(comment.getText().toString());
                             Locator.getInstance().getHistory().save();
                             // we don't need to add element to the adapter as adapter of another activity must be updated and not this
@@ -331,7 +331,7 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
         builder.create().show();
     }
 
-    private boolean shouldHaveCopyResult(@Nonnull HistoryState state) {
+    private boolean shouldHaveCopyResult(@Nonnull OldHistoryState state) {
         return !state.getDisplayState().isValid() || !Strings.isEmpty(state.getDisplayState().getEditorState().getText());
     }
 
@@ -365,13 +365,13 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
     protected abstract int getItemLayoutId();
 
     private void updateAdapter() {
-        final List<HistoryState> historyList = getHistoryList();
+        final List<OldHistoryState> historyList = getHistoryList();
 
-        final ArrayAdapter<HistoryState> adapter = getAdapter();
+        final ArrayAdapter<OldHistoryState> adapter = getAdapter();
         try {
             adapter.setNotifyOnChange(false);
             adapter.clear();
-            for (HistoryState historyState : historyList) {
+            for (OldHistoryState historyState : historyList) {
                 adapter.add(historyState);
             }
         } finally {
@@ -382,15 +382,15 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
     }
 
     @Nonnull
-    private List<HistoryState> getHistoryList() {
-        final List<HistoryState> historyStates = getHistoryItems();
+    private List<OldHistoryState> getHistoryList() {
+        final List<OldHistoryState> historyStates = getHistoryItems();
 
         java.util.Collections.sort(historyStates, COMPARATOR);
 
-        final FilterRulesChain<HistoryState> filterRulesChain = new FilterRulesChain<>();
-        filterRulesChain.addFilterRule(new JPredicate<HistoryState>() {
+        final FilterRulesChain<OldHistoryState> filterRulesChain = new FilterRulesChain<>();
+        filterRulesChain.addFilterRule(new JPredicate<OldHistoryState>() {
             @Override
-            public boolean apply(HistoryState object) {
+            public boolean apply(OldHistoryState object) {
                 return object == null || Strings.isEmpty(object.getEditorState().getText());
             }
         });
@@ -401,7 +401,7 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
     }
 
     @Nonnull
-    protected abstract List<HistoryState> getHistoryItems();
+    protected abstract List<OldHistoryState> getHistoryItems();
 
     protected abstract void clearHistory();
 

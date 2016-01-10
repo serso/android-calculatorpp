@@ -35,8 +35,8 @@ import org.solovyev.common.text.Strings;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-@Root
-public class DisplayHistoryState implements Cloneable {
+@Root(name = "DisplayHistoryState")
+public class OldDisplayHistoryState implements Cloneable {
 
     @Transient
     private boolean valid = true;
@@ -47,7 +47,7 @@ public class DisplayHistoryState implements Cloneable {
 
     @Element
     @Nonnull
-    private EditorHistoryState editorState;
+    private OldEditorHistoryState editorState;
 
     @Element
     @Nonnull
@@ -57,15 +57,15 @@ public class DisplayHistoryState implements Cloneable {
     @Nullable
     private Generic genericResult;
 
-    private DisplayHistoryState() {
+    private OldDisplayHistoryState() {
         // for xml
     }
 
     @Nonnull
-    public static DisplayHistoryState newInstance(@Nonnull DisplayState viewState) {
-        final DisplayHistoryState result = new DisplayHistoryState();
+    public static OldDisplayHistoryState newInstance(@Nonnull DisplayState viewState) {
+        final OldDisplayHistoryState result = new OldDisplayHistoryState();
 
-        result.editorState = EditorHistoryState.create(viewState);
+        result.editorState = OldEditorHistoryState.create(viewState);
 
         result.valid = viewState.isValid();
         result.jsclOperation = viewState.getOperation();
@@ -89,7 +89,7 @@ public class DisplayHistoryState implements Cloneable {
     }
 
     @Nonnull
-    public EditorHistoryState getEditorState() {
+    public OldEditorHistoryState getEditorState() {
         return editorState;
     }
 
@@ -114,7 +114,7 @@ public class DisplayHistoryState implements Cloneable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        DisplayHistoryState that = (DisplayHistoryState) o;
+        OldDisplayHistoryState that = (OldDisplayHistoryState) o;
 
         if (!editorState.equals(that.editorState)) return false;
         if (jsclOperation != that.jsclOperation) return false;
@@ -140,9 +140,9 @@ public class DisplayHistoryState implements Cloneable {
     }
 
     @Override
-    protected DisplayHistoryState clone() {
+    protected OldDisplayHistoryState clone() {
         try {
-            final DisplayHistoryState clone = (DisplayHistoryState) super.clone();
+            final OldDisplayHistoryState clone = (OldDisplayHistoryState) super.clone();
 
             clone.editorState = this.editorState.clone();
 

@@ -31,46 +31,46 @@ import org.solovyev.android.calculator.EditorState;
 
 import javax.annotation.Nonnull;
 
-@Root
-public class HistoryState extends BaseHistoryState {
+@Root(name = "HistoryState")
+public class OldHistoryState extends BaseHistoryState {
 
     @Element
     @Nonnull
-    private EditorHistoryState editorState;
+    private OldEditorHistoryState editorState;
 
     @Element
     @Nonnull
-    private DisplayHistoryState displayState;
+    private OldDisplayHistoryState displayState;
 
-    private HistoryState() {
+    private OldHistoryState() {
         // for xml
     }
 
-    private HistoryState(@Nonnull EditorHistoryState editorState,
-                         @Nonnull DisplayHistoryState displayState) {
+    private OldHistoryState(@Nonnull OldEditorHistoryState editorState,
+                            @Nonnull OldDisplayHistoryState displayState) {
         this.editorState = editorState;
         this.displayState = displayState;
     }
 
     @Nonnull
-    public static HistoryState create(@Nonnull Editor editor,
+    public static OldHistoryState create(@Nonnull Editor editor,
                                       @Nonnull Display display) {
         return create(editor.getState(), display.getState());
     }
 
     @Nonnull
-    public static HistoryState create(@Nonnull EditorState editorState,
+    public static OldHistoryState create(@Nonnull EditorState editorState,
                                       @Nonnull DisplayState displayState) {
-        return new HistoryState(EditorHistoryState.create(editorState), DisplayHistoryState.newInstance(displayState));
+        return new OldHistoryState(OldEditorHistoryState.create(editorState), OldDisplayHistoryState.newInstance(displayState));
     }
 
     @Nonnull
-    public EditorHistoryState getEditorState() {
+    public OldEditorHistoryState getEditorState() {
         return editorState;
     }
 
     @Nonnull
-    public DisplayHistoryState getDisplayState() {
+    public OldDisplayHistoryState getDisplayState() {
         return displayState;
     }
 
@@ -87,7 +87,7 @@ public class HistoryState extends BaseHistoryState {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        HistoryState that = (HistoryState) o;
+        OldHistoryState that = (OldHistoryState) o;
 
         if (this.isSaved() != that.isSaved()) return false;
         if (this.getId() != that.getId()) return false;
@@ -112,8 +112,8 @@ public class HistoryState extends BaseHistoryState {
     }
 
     @Override
-    protected HistoryState clone() {
-        final HistoryState that = (HistoryState) super.clone();
+    protected OldHistoryState clone() {
+        final OldHistoryState that = (OldHistoryState) super.clone();
 
         that.editorState = this.editorState.clone();
         that.displayState = this.displayState.clone();

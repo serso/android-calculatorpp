@@ -24,7 +24,7 @@ package org.solovyev.android.calculator;
 
 import jscl.NumeralBase;
 import jscl.math.Generic;
-import org.solovyev.android.calculator.history.HistoryState;
+import org.solovyev.android.calculator.history.OldHistoryState;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.common.history.HistoryControl;
 
@@ -36,7 +36,7 @@ import javax.annotation.Nullable;
  * Date: 20.09.12
  * Time: 16:38
  */
-public interface Calculator extends CalculatorEventContainer, HistoryControl<HistoryState> {
+public interface Calculator extends CalculatorEventContainer, HistoryControl<OldHistoryState> {
 
     void init();
 

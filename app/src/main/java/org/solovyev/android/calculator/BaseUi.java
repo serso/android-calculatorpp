@@ -40,7 +40,7 @@ import org.solovyev.android.views.dragbutton.DragButton;
 import org.solovyev.android.views.dragbutton.DragDirection;
 import org.solovyev.android.views.dragbutton.DragListener;
 import org.solovyev.android.views.dragbutton.SimpleDragListener;
-import org.solovyev.android.calculator.history.HistoryState;
+import org.solovyev.android.calculator.history.OldHistoryState;
 import org.solovyev.android.calculator.history.HistoryDragProcessor;
 import org.solovyev.android.calculator.view.AngleUnitsButton;
 import org.solovyev.android.calculator.view.LongClickEraser;
@@ -165,7 +165,7 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
         final ViewsCache views = ViewsCache.forView(root);
         setOnDragListeners(views, activity);
 
-        HistoryDragProcessor<HistoryState> historyDragProcessor = new HistoryDragProcessor<>(getCalculator());
+        HistoryDragProcessor<OldHistoryState> historyDragProcessor = new HistoryDragProcessor<>(getCalculator());
         final DragListener historyDragListener = newDragListener(historyDragProcessor, activity);
         final DragButton historyButton = getButton(views, R.id.cpp_button_history);
         if (historyButton != null) {

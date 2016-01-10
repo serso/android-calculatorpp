@@ -108,8 +108,6 @@ public final class Preferences {
         applyDefaultPreference(preferences, Gui.language);
 
         applyDefaultPreference(preferences, Graph.plotImag);
-        applyDefaultPreference(preferences, History.showIntermediateCalculations);
-        applyDefaultPreference(preferences, History.showDatetime);
         applyDefaultPreference(preferences, Calculations.calculateOnFly);
         applyDefaultPreference(preferences, Calculations.preferredAngleUnits);
         applyDefaultPreference(preferences, Calculations.preferredNumeralBase);
