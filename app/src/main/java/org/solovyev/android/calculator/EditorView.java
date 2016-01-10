@@ -31,14 +31,12 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.widget.EditText;
-
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.onscreen.CalculatorOnscreenService;
 
-import java.lang.reflect.Method;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.lang.reflect.Method;
 
 public class EditorView extends EditText {
 
@@ -85,20 +83,16 @@ public class EditorView extends EditText {
 
     public void setState(@Nonnull final EditorState state) {
         Check.isMainThread();
-        try {
-            // we don't want to be notified about changes we make ourselves
-            reportChanges = false;
-            if (App.getTheme().light && getContext() instanceof CalculatorOnscreenService) {
-                // don't need formatting
-                setText(state.getTextString());
-            } else {
-                setText(state.text, BufferType.EDITABLE);
-            }
-            final int selection = Editor.clamp(state.selection, length());
-            setSelection(selection);
-        } finally {
-            reportChanges = true;
+        // we don't want to be notified about changes we make ourselves
+        reportChanges = false;
+        if (App.getTheme().light && getContext() instanceof CalculatorOnscreenService) {
+            // don't need formatting
+            setText(state.getTextString());
+        } else {
+            setText(state.text, BufferType.EDITABLE);
         }
+        setSelection(Editor.clamp(state.selection, length()));
+        reportChanges = true;
     }
 
     @Override
