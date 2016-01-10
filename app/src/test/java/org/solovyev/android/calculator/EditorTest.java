@@ -41,7 +41,7 @@ public class EditorTest extends AbstractCalculatorTest {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        this.editor = new Editor(Locator.getInstance().getCalculator(), null);
+        this.editor = new Editor(null);
     }
 
     @Test

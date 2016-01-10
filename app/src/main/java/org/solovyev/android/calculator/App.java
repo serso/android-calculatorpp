@@ -330,6 +330,11 @@ public final class App {
         return spannable.toString();
     }
 
+    @Nonnull
+    public static Editor getEditor() {
+        return Locator.getInstance().getEditor();
+    }
+
     private static class MyBus extends Bus {
         @Override
         public void post(final Object event) {
