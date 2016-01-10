@@ -22,6 +22,7 @@
 
 package org.solovyev.android.calculator.history;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -31,16 +32,17 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.ListFragment;
+import android.text.ClipboardManager;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.*;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.*;
 import com.melnykov.fab.FloatingActionButton;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.menu.*;
+import org.solovyev.android.plotter.Check;
 import org.solovyev.common.JPredicate;
 import org.solovyev.common.collections.Collections;
 import org.solovyev.common.equals.Equalizer;
@@ -54,17 +56,10 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import static android.view.Menu.NONE;
 import static org.solovyev.android.calculator.CalculatorEventType.clear_history_requested;
 
 public abstract class BaseHistoryFragment extends ListFragment implements CalculatorEventListener {
-
-	/*
-    **********************************************************************
-	*
-	*                           CONSTANTS
-	*
-	**********************************************************************
-	*/
 
     public static final Comparator<HistoryState> COMPARATOR = new Comparator<HistoryState>() {
         @Override
@@ -109,7 +104,7 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
     }
 
     public static boolean isAlreadySaved(@Nonnull HistoryState historyState) {
-        if (historyState.isSaved()) throw new AssertionError();
+        Check.isTrue(!historyState.isSaved());
 
         boolean result = false;
         try {
@@ -131,10 +126,6 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
         return result;
     }
 
-    public static void useHistoryItem(@Nonnull final HistoryState state) {
-        Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.use_history_state, state);
-    }
-
     @Nonnull
     public static String getHistoryText(@Nonnull HistoryState state) {
         final StringBuilder result = new StringBuilder();
@@ -150,6 +141,14 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
     @Nonnull
     private static String getIdentitySign(@Nonnull JsclOperation jsclOperation) {
         return jsclOperation == JsclOperation.simplify ? "≡" : "=";
+    }
+
+    public void useState(@Nonnull final HistoryState state) {
+        App.getEditor().setState(state.getEditorState());
+        final FragmentActivity activity = getActivity();
+        if (!(activity instanceof CalculatorActivity)) {
+            activity.finish();
+        }
     }
 
     @Override
@@ -201,42 +200,11 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
                                     final View view,
                                     final int position,
                                     final long id) {
-
-                useHistoryItem((HistoryState) parent.getItemAtPosition(position));
+                useState((HistoryState) parent.getItemAtPosition(position));
             }
         });
 
-        lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-                final HistoryState historyState = (HistoryState) parent.getItemAtPosition(position);
-
-                final FragmentActivity activity = getActivity();
-
-                final HistoryItemMenuData data = new HistoryItemMenuData(historyState, adapter);
-
-                final List<HistoryItemMenuItem> menuItems = Collections.asList(HistoryItemMenuItem.values());
-
-                if (historyState.isSaved()) {
-                    menuItems.remove(HistoryItemMenuItem.save);
-                } else {
-                    if (isAlreadySaved(historyState)) {
-                        menuItems.remove(HistoryItemMenuItem.save);
-                    }
-                    menuItems.remove(HistoryItemMenuItem.remove);
-                    menuItems.remove(HistoryItemMenuItem.edit);
-                }
-
-                if (historyState.getDisplayState().isValid() && Strings.isEmpty(historyState.getDisplayState().getEditorState().getText())) {
-                    menuItems.remove(HistoryItemMenuItem.copy_result);
-                }
-
-                final ContextMenuBuilder<HistoryItemMenuItem, HistoryItemMenuData> menuBuilder = ContextMenuBuilder.newInstance(activity, "history-menu", ListContextMenu.newInstance(menuItems));
-                menuBuilder.build(data).show();
-
-                return true;
-            }
-        });
+        registerForContextMenu(lv);
     }
 
     @Override
@@ -247,6 +215,124 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
 
         updateAdapter();
         PreferenceManager.getDefaultSharedPreferences(getActivity()).registerOnSharedPreferenceChangeListener(preferencesListener);
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+        final HistoryState state = (HistoryState) getListView().getItemAtPosition(info.position);
+
+        if (state.isSaved()) {
+            menu.add(NONE, R.string.c_use, NONE, R.string.c_use);
+            menu.add(NONE, R.string.c_copy_expression, NONE, R.string.c_copy_expression);
+            if (shouldHaveCopyResult(state)) {
+                menu.add(NONE, R.string.c_copy_result, NONE, R.string.c_copy_result);
+            }
+            menu.add(NONE, R.string.c_edit, NONE, R.string.c_edit);
+            menu.add(NONE, R.string.c_remove, NONE, R.string.c_remove);
+        } else {
+            menu.add(NONE, R.string.c_use, NONE, R.string.c_use);
+            menu.add(NONE, R.string.c_copy_expression, NONE, R.string.c_copy_expression);
+            if (shouldHaveCopyResult(state)) {
+                menu.add(NONE, R.string.c_copy_result, NONE, R.string.c_copy_result);
+            }
+            if (!isAlreadySaved(state)) {
+                menu.add(NONE, R.string.c_save, NONE, R.string.c_save);
+            }
+        }
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        final Context context = getActivity();
+        final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        final HistoryState state = (HistoryState) getListView().getItemAtPosition(info.position);
+
+        switch (item.getItemId()) {
+            case R.string.c_use:
+                useState(state);
+                return true;
+            case R.string.c_copy_expression:
+                final String editorText = state.getEditorState().getText();
+                if (!Strings.isEmpty(editorText)) {
+                    final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
+                    clipboard.setText(editorText);
+                    Toast.makeText(context, context.getText(R.string.c_expression_copied), Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            case R.string.c_copy_result:
+                final String displayText = state.getDisplayState().getEditorState().getText();
+                if (!Strings.isEmpty(displayText)) {
+                    final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
+                    clipboard.setText(displayText);
+                    Toast.makeText(context, context.getText(R.string.c_result_copied), Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            case R.string.c_save:
+                if (!state.isSaved()) {
+                    createEditHistoryDialog(state, context, true);
+                } else {
+                    Toast.makeText(context, context.getText(R.string.c_history_already_saved), Toast.LENGTH_LONG).show();
+                }
+                return true;
+            case R.string.c_edit:
+                if (state.isSaved()) {
+                    createEditHistoryDialog(state, context, false);
+                } else {
+                    Toast.makeText(context, context.getText(R.string.c_history_must_be_saved), Toast.LENGTH_LONG).show();
+                }
+                return true;
+            case R.string.c_remove:
+                if (state.isSaved()) {
+                    getAdapter().remove(state);
+                    Locator.getInstance().getHistory().removeSavedHistory(state);
+                    Toast.makeText(context, context.getText(R.string.c_history_was_removed), Toast.LENGTH_LONG).show();
+                    getAdapter().notifyDataSetChanged();
+                }
+                return true;
+
+        }
+        return super.onContextItemSelected(item);
+    }
+
+    private void createEditHistoryDialog(@Nonnull final HistoryState state, @Nonnull final Context context, final boolean save) {
+        final LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View editView = layoutInflater.inflate(R.layout.history_edit, null);
+        final TextView historyExpression = (TextView) editView.findViewById(R.id.history_edit_expression);
+        historyExpression.setText(BaseHistoryFragment.getHistoryText(state));
+
+        final EditText comment = (EditText) editView.findViewById(R.id.history_edit_comment);
+        comment.setText(state.getComment());
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context)
+                .setTitle(save ? R.string.c_save_history : R.string.c_edit_history)
+                .setCancelable(true)
+                .setNegativeButton(R.string.c_cancel, null)
+                .setPositiveButton(R.string.c_save, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (save) {
+                            final HistoryState savedHistoryItem = Locator.getInstance().getHistory().addSavedState(state);
+                            savedHistoryItem.setComment(comment.getText().toString());
+                            Locator.getInstance().getHistory().save();
+                            // we don't need to add element to the adapter as adapter of another activity must be updated and not this
+                            //data.getAdapter().add(savedHistoryItem);
+                        } else {
+                            state.setComment(comment.getText().toString());
+                            Locator.getInstance().getHistory().save();
+                        }
+                        getAdapter().notifyDataSetChanged();
+                        Toast.makeText(context, context.getText(R.string.c_history_saved), Toast.LENGTH_LONG).show();
+                    }
+                })
+                .setView(editView);
+
+        builder.create().show();
+    }
+
+    private boolean shouldHaveCopyResult(@Nonnull HistoryState state) {
+        return !state.getDisplayState().isValid() || !Strings.isEmpty(state.getDisplayState().getEditorState().getText());
     }
 
     @Override
@@ -353,14 +439,6 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
 
     }
 
-	/*
-	**********************************************************************
-	*
-	*                           MENU
-	*
-	**********************************************************************
-	*/
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         this.menu.onCreateOptionsMenu(this.getActivity(), menu);
@@ -424,14 +502,6 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
             return result;
         }
     }
-
-	/*
-	**********************************************************************
-	*
-	*                           STATIC/INNER
-	*
-	**********************************************************************
-	*/
 
     private final class HistoryOnPreferenceChangeListener implements SharedPreferences.OnSharedPreferenceChangeListener {
 

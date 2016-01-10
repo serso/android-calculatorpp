@@ -91,9 +91,6 @@ public enum CalculatorEventType {
     // @Nonnull CalculatorHistoryState
     history_state_added,
 
-    // @Nonnull CalculatorHistoryState
-    use_history_state,
-
     clear_history_requested,
 
 	/*

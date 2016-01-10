@@ -92,7 +92,7 @@ public class Locator implements CalculatorLocator {
         this.calculatorPreferenceService = preferenceService;
         this.calculatorPlotter = plotter;
 
-        editor = new Editor(this.calculator, editorTextProcessor);
+        editor = new Editor(editorTextProcessor);
         display = new Display(this.calculator);
         calculatorKeyboard = keyboard;
     }

@@ -23,20 +23,15 @@
 package org.solovyev.android.calculator.history;
 
 import android.os.Bundle;
-
 import org.solovyev.android.calculator.BaseActivity;
-import org.solovyev.android.calculator.CalculatorEventData;
-import org.solovyev.android.calculator.CalculatorEventListener;
-import org.solovyev.android.calculator.CalculatorEventType;
 import org.solovyev.android.calculator.R;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import static org.solovyev.android.calculator.CalculatorFragmentType.history;
 import static org.solovyev.android.calculator.CalculatorFragmentType.saved_history;
 
-public class CalculatorHistoryActivity extends BaseActivity implements CalculatorEventListener {
+public class CalculatorHistoryActivity extends BaseActivity {
 
     public CalculatorHistoryActivity() {
         super(R.layout.main_empty, CalculatorHistoryActivity.class.getSimpleName());
@@ -48,12 +43,5 @@ public class CalculatorHistoryActivity extends BaseActivity implements Calculato
 
         ui.addTab(this, history, null, R.id.main_layout);
         ui.addTab(this, saved_history, null, R.id.main_layout);
-    }
-
-    @Override
-    public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
-        if (calculatorEventType == CalculatorEventType.use_history_state) {
-            this.finish();
-        }
     }
 }

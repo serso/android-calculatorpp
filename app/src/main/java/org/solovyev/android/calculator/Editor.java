@@ -24,7 +24,6 @@ package org.solovyev.android.calculator;
 
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.history.EditorHistoryState;
-import org.solovyev.android.calculator.history.HistoryState;
 import org.solovyev.android.calculator.text.TextProcessor;
 import org.solovyev.android.calculator.text.TextProcessorEditorResult;
 import org.solovyev.common.text.Strings;
@@ -34,21 +33,17 @@ import javax.annotation.Nullable;
 
 import static java.lang.Math.min;
 
-public class Editor implements CalculatorEventListener {
+public class Editor {
 
     private static final String TAG = App.subTag("Editor");
-    @Nonnull
-    private final CalculatorEventHolder lastEventHolder;
     @Nullable
     private final TextProcessor<TextProcessorEditorResult, String> textProcessor;
     @Nullable
     private EditorView view;
     @Nonnull
     private EditorState state = EditorState.empty();
-    public Editor(@Nonnull Calculator calculator, @Nullable TextProcessor<TextProcessorEditorResult, String> textProcessor) {
+    public Editor(@Nullable TextProcessor<TextProcessorEditorResult, String> textProcessor) {
         this.textProcessor = textProcessor;
-        calculator.addCalculatorEventListener(this);
-        this.lastEventHolder = new CalculatorEventHolder(CalculatorUtils.createFirstEventDataId());
     }
 
     public static int clamp(int selection, @Nonnull CharSequence text) {
@@ -108,22 +103,10 @@ public class Editor implements CalculatorEventListener {
         return state;
     }
 
-    @Override
-    public void onCalculatorEvent(@Nonnull CalculatorEventData evenData,
-                                  @Nonnull CalculatorEventType eventType,
-                                  @Nullable Object data) {
+    @Nonnull
+    public EditorState setState(@Nonnull EditorHistoryState state) {
         Check.isMainThread();
-        final CalculatorEventHolder.Result result = lastEventHolder.apply(evenData);
-
-        if (result.isNewAfter()) {
-            switch (eventType) {
-                case use_history_state:
-                    final HistoryState historyState = (HistoryState) data;
-                    final EditorHistoryState editorState = historyState.getEditorState();
-                    this.setText(Strings.getNotEmpty(editorState.getText(), ""), editorState.getCursorPosition());
-                    break;
-            }
-        }
+        return setText(Strings.getNotEmpty(state.getText(), ""), state.getCursorPosition());
     }
 
     @Nonnull
