@@ -26,7 +26,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -39,7 +39,7 @@ import javax.annotation.Nullable;
 public class FragmentItemImpl implements FragmentItem {
 
     @Nonnull
-    private final ActionBarActivity activity;
+    private final AppCompatActivity activity;
 
     // Fragment
 
@@ -65,7 +65,7 @@ public class FragmentItemImpl implements FragmentItem {
      * @param parentViewId  parent view id
      */
 
-    public FragmentItemImpl(@Nonnull ActionBarActivity activity,
+    public FragmentItemImpl(@Nonnull AppCompatActivity activity,
                             @Nonnull String tag,
                             @Nonnull Class<? extends Fragment> fragmentClass,
                             @Nullable Bundle fragmentArgs,
