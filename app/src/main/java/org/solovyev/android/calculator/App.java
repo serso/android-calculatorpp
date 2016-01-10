@@ -161,6 +161,7 @@ public final class App {
         App.broadcaster = new CalculatorBroadcaster(application, preferences, bus);
         App.screenMetrics = new ScreenMetrics(application);
         App.languages = languages;
+        App.languages.init();
         App.wizards = new CalculatorWizards(application);
 
         App.initialized = true;

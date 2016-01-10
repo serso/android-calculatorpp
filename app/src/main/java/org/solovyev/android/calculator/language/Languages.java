@@ -30,7 +30,6 @@ public final class Languages implements SharedPreferences.OnSharedPreferenceChan
 
     public Languages(@Nonnull SharedPreferences preferences) {
         this.preferences = preferences;
-        this.preferences.registerOnSharedPreferenceChangeListener(this);
     }
 
     @Nullable
@@ -66,6 +65,13 @@ public final class Languages implements SharedPreferences.OnSharedPreferenceChan
 
         Log.d("Languages", "No locale found for " + id);
         return null;
+    }
+
+    /**
+     * This method should be called only when default values have been set to application's preferences
+     */
+    public void init() {
+        preferences.registerOnSharedPreferenceChangeListener(this);
     }
 
     @Nonnull
