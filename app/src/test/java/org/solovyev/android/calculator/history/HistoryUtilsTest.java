@@ -135,13 +135,13 @@ public class HistoryUtilsTest {
     public void testToXml() throws Exception {
         final Date date = new Date(100000000);
 
-        HistoryHelper<HistoryState> history = SimpleHistoryHelper.newInstance();
+        HistoryHelper<OldHistoryState> history = SimpleHistoryHelper.newInstance();
 
         DisplayState calculatorDisplay = DisplayState.createError(JsclOperation.simplify, "Error", EditorState.NO_SEQUENCE);
 
         EditorState calculatorEditor = EditorState.create("1+1", 3);
 
-        HistoryState state = HistoryState.create(calculatorEditor, calculatorDisplay);
+        OldHistoryState state = OldHistoryState.create(calculatorEditor, calculatorDisplay);
         state.setTime(date.getTime());
         history.addState(state);
 
@@ -156,7 +156,7 @@ public class HistoryUtilsTest {
 
         calculatorEditor = EditorState.create("5/6", 2);
 
-        state = HistoryState.create(calculatorEditor, calculatorDisplay);
+        state = OldHistoryState.create(calculatorEditor, calculatorDisplay);
         state.setSaved(true);
         state.setTime(date.getTime());
         history.addState(state);
@@ -165,7 +165,7 @@ public class HistoryUtilsTest {
 
         calculatorEditor = EditorState.create("", 1);
 
-        state = HistoryState.create(calculatorEditor, calculatorDisplay);
+        state = OldHistoryState.create(calculatorEditor, calculatorDisplay);
         state.setSaved(true);
         state.setTime(date.getTime());
         history.addState(state);
@@ -174,7 +174,7 @@ public class HistoryUtilsTest {
 
         calculatorEditor = EditorState.create("4+5/35sin(41)+dfdsfsdfs", 0);
 
-        state = HistoryState.create(calculatorEditor, calculatorDisplay);
+        state = OldHistoryState.create(calculatorEditor, calculatorDisplay);
         state.setSaved(true);
         state.setTime(date.getTime());
         history.addState(state);
@@ -182,28 +182,28 @@ public class HistoryUtilsTest {
         String xml = createHistory(history).toXml();
         assertEquals(toXml2, xml);
 
-        final HistoryHelper<HistoryState> historyFromXml = SimpleHistoryHelper.newInstance();
-        final History actual = History.fromXml(xml);
-        for (HistoryState historyState : actual.getItems()) {
+        final HistoryHelper<OldHistoryState> historyFromXml = SimpleHistoryHelper.newInstance();
+        final OldHistory actual = OldHistory.fromXml(xml);
+        for (OldHistoryState historyState : actual.getItems()) {
             historyFromXml.addState(historyState);
         }
 
         assertEquals(history.getStates().size(), historyFromXml.getStates().size());
 
-        for (HistoryState historyState : history.getStates()) {
+        for (OldHistoryState historyState : history.getStates()) {
             historyState.setId(0);
             historyState.setSaved(true);
         }
-        for (HistoryState historyState : historyFromXml.getStates()) {
+        for (OldHistoryState historyState : historyFromXml.getStates()) {
             historyState.setId(0);
             historyState.setSaved(true);
         }
-        Assert.assertTrue(Objects.areEqual(history.getStates(), historyFromXml.getStates(), new CollectionEqualizer<HistoryState>(null)));
+        Assert.assertTrue(Objects.areEqual(history.getStates(), historyFromXml.getStates(), new CollectionEqualizer<OldHistoryState>(null)));
     }
 
     @Nonnull
-    private History createHistory(HistoryHelper<HistoryState> history) {
-        final History result = new History();
+    private OldHistory createHistory(HistoryHelper<OldHistoryState> history) {
+        final OldHistory result = new OldHistory();
         result.addAll(history.getStates());
         return result;
     }

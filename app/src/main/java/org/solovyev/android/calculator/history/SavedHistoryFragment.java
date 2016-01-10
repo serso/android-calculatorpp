@@ -44,8 +44,8 @@ public class SavedHistoryFragment extends BaseHistoryFragment {
 
     @Nonnull
     @Override
-    protected List<HistoryState> getHistoryItems() {
-        return new ArrayList<HistoryState>(Locator.getInstance().getHistory().getSavedHistory());
+    protected List<OldHistoryState> getHistoryItems() {
+        return new ArrayList<OldHistoryState>(Locator.getInstance().getHistory().getSavedOldHistory());
     }
 
     @Override

@@ -34,24 +34,24 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@Root
-public class History {
+@Root(name = "History")
+public class OldHistory {
 
     @Nonnull
-    @ElementList(type = HistoryState.class, name = "historyItems")
-    private List<HistoryState> items = new ArrayList<HistoryState>();
+    @ElementList(type = OldHistoryState.class, name = "historyItems")
+    private List<OldHistoryState> items = new ArrayList<OldHistoryState>();
 
-    public History() {
+    public OldHistory() {
     }
 
     @Nullable
-    public static History fromXml(@Nullable String xml) {
+    public static OldHistory fromXml(@Nullable String xml) {
         if (xml == null) {
             return null;
         }
         final Serializer serializer = new Persister();
         try {
-            return serializer.read(History.class, xml);
+            return serializer.read(OldHistory.class, xml);
         } catch (Exception e) {
             return null;
         }
@@ -70,15 +70,15 @@ public class History {
     }
 
     @Nonnull
-    public List<HistoryState> getItems() {
+    public List<OldHistoryState> getItems() {
         return items;
     }
 
-    public void add(@Nonnull HistoryState state) {
+    public void add(@Nonnull OldHistoryState state) {
         items.add(state);
     }
 
-    public void addAll(@Nonnull Collection<HistoryState> states) {
+    public void addAll(@Nonnull Collection<OldHistoryState> states) {
         items.addAll(states);
     }
 
@@ -86,7 +86,7 @@ public class History {
         items.clear();
     }
 
-    public void remove(@Nonnull HistoryState state) {
+    public void remove(@Nonnull OldHistoryState state) {
         items.remove(state);
     }
 }

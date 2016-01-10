@@ -32,8 +32,8 @@ import org.solovyev.common.text.Strings;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-@Root
-public class EditorHistoryState implements Cloneable {
+@Root(name = "EditorHistoryState")
+public class OldEditorHistoryState implements Cloneable {
 
     @Element
     private int cursorPosition;
@@ -42,13 +42,13 @@ public class EditorHistoryState implements Cloneable {
     @Nullable
     private String text = "";
 
-    private EditorHistoryState() {
+    private OldEditorHistoryState() {
         // for xml
     }
 
     @Nonnull
-    public static EditorHistoryState create(@Nonnull EditorState state) {
-        final EditorHistoryState result = new EditorHistoryState();
+    public static OldEditorHistoryState create(@Nonnull EditorState state) {
+        final OldEditorHistoryState result = new OldEditorHistoryState();
 
         result.text = state.getTextString();
         result.cursorPosition = state.selection;
@@ -57,8 +57,8 @@ public class EditorHistoryState implements Cloneable {
     }
 
     @Nonnull
-    public static EditorHistoryState create(@Nonnull DisplayState viewState) {
-        final EditorHistoryState result = new EditorHistoryState();
+    public static OldEditorHistoryState create(@Nonnull DisplayState viewState) {
+        final OldEditorHistoryState result = new OldEditorHistoryState();
 
         result.text = viewState.getText();
         result.cursorPosition = viewState.getSelection();
@@ -83,9 +83,9 @@ public class EditorHistoryState implements Cloneable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof EditorHistoryState)) return false;
+        if (!(o instanceof OldEditorHistoryState)) return false;
 
-        EditorHistoryState that = (EditorHistoryState) o;
+        OldEditorHistoryState that = (OldEditorHistoryState) o;
 
         if (cursorPosition != that.cursorPosition) return false;
         if (text != null ? !text.equals(that.text) : that.text != null) return false;
@@ -109,9 +109,9 @@ public class EditorHistoryState implements Cloneable {
     }
 
     @Override
-    protected EditorHistoryState clone() {
+    protected OldEditorHistoryState clone() {
         try {
-            return (EditorHistoryState) super.clone();
+            return (OldEditorHistoryState) super.clone();
         } catch (CloneNotSupportedException e) {
             throw new UnsupportedOperationException(e);
         }

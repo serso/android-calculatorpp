@@ -25,21 +25,19 @@ package org.solovyev.android.calculator.history;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.solovyev.android.calculator.CalculatorTestUtils;
 import org.solovyev.android.calculator.DisplayState;
 import org.solovyev.android.calculator.EditorState;
-import org.solovyev.android.calculator.CalculatorTestUtils;
-import org.solovyev.android.calculator.Locator;
-
-import java.util.List;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
 /**
  * User: Solovyev_S
  * Date: 10.10.12
  * Time: 15:07
  */
-public class CalculatorHistoryImplTest {
+public class CalculatorHistoryTest {
 
     @BeforeClass
     public static void setUp() throws Exception {
@@ -48,7 +46,7 @@ public class CalculatorHistoryImplTest {
 
     @Test
     public void testGetStates() throws Exception {
-        CalculatorHistory calculatorHistory = new CalculatorHistoryImpl(Locator.getInstance().getCalculator());
+        CalculatorHistory calculatorHistory = new CalculatorHistory();
 
         addState(calculatorHistory, "1");
         addState(calculatorHistory, "12");
@@ -64,13 +62,13 @@ public class CalculatorHistoryImplTest {
         addState(calculatorHistory, "2354");
         addState(calculatorHistory, "23547");
 
-        final List<HistoryState> states = calculatorHistory.getStates(false);
+        final List<OldHistoryState> states = calculatorHistory.getStates(false);
         Assert.assertEquals(2, states.size());
         Assert.assertEquals("23547", states.get(1).getEditorState().getText());
         Assert.assertEquals("123+3", states.get(0).getEditorState().getText());
     }
 
     private void addState(@Nonnull CalculatorHistory calculatorHistory, @Nonnull String text) {
-        calculatorHistory.addState(HistoryState.create(EditorState.create(text, 3), DisplayState.empty()));
+        calculatorHistory.addState(OldHistoryState.create(EditorState.create(text, 3), DisplayState.empty()));
     }
 }

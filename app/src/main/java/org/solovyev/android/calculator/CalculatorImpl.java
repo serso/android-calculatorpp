@@ -33,7 +33,7 @@ import jscl.math.function.IConstant;
 import jscl.math.operator.Operator;
 import jscl.text.ParseInterruptedException;
 import org.solovyev.android.calculator.history.CalculatorHistory;
-import org.solovyev.android.calculator.history.HistoryState;
+import org.solovyev.android.calculator.history.OldHistoryState;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.model.Var;
 import org.solovyev.android.calculator.text.TextProcessor;
@@ -560,7 +560,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
     public void doHistoryAction(@Nonnull HistoryAction historyAction) {
         final CalculatorHistory history = Locator.getInstance().getHistory();
         if (history.isActionAvailable(historyAction)) {
-            final HistoryState newState = history.doAction(historyAction, getCurrentHistoryState());
+            final OldHistoryState newState = history.doAction(historyAction, getCurrentHistoryState());
             if (newState != null) {
                 setCurrentHistoryState(newState);
             }
@@ -569,12 +569,12 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 
     @Nonnull
     @Override
-    public HistoryState getCurrentHistoryState() {
-        return HistoryState.create(getEditor(), getDisplay());
+    public OldHistoryState getCurrentHistoryState() {
+        return OldHistoryState.create(getEditor(), getDisplay());
     }
 
     @Override
-    public void setCurrentHistoryState(@Nonnull HistoryState editorHistoryState) {
+    public void setCurrentHistoryState(@Nonnull OldHistoryState editorHistoryState) {
         editorHistoryState.setValuesFromHistory(getEditor(), getDisplay());
     }
 

@@ -30,7 +30,7 @@ import org.acra.ACRA;
 import org.acra.ACRAConfiguration;
 import org.acra.sender.HttpSender;
 import org.solovyev.android.Android;
-import org.solovyev.android.calculator.history.AndroidCalculatorHistory;
+import org.solovyev.android.calculator.history.CalculatorHistory;
 import org.solovyev.android.calculator.language.Language;
 import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
@@ -74,7 +74,7 @@ public class CalculatorApplication extends android.app.Application implements Sh
                 new AndroidCalculatorEngine(this),
                 new AndroidCalculatorClipboard(this),
                 new AndroidCalculatorNotifier(this),
-                new AndroidCalculatorHistory(this, calculator),
+                new CalculatorHistory(),
                 new AndroidCalculatorLogger(),
                 new AndroidCalculatorPreferenceService(this),
                 new CalculatorKeyboard(),
@@ -93,14 +93,7 @@ public class CalculatorApplication extends android.app.Application implements Sh
         App.getInitializer().execute(new Runnable() {
             @Override
             public void run() {
-                try {
-                    // warm-up engine
-                    CalculatorMathEngine mathEngine = Locator.getInstance().getEngine().getMathEngine();
-                    mathEngine.evaluate("1+1");
-                    mathEngine.evaluate("1*1");
-                } catch (Throwable e) {
-                    Log.e(App.TAG, e.getMessage(), e);
-                }
+                warmUpEngine();
             }
         });
 
@@ -111,6 +104,17 @@ public class CalculatorApplication extends android.app.Application implements Sh
                 App.getBroadcaster().sendInitIntent();
             }
         }, 100);
+    }
+
+    private void warmUpEngine() {
+        try {
+            // warm-up engine
+            CalculatorMathEngine mathEngine = Locator.getInstance().getEngine().getMathEngine();
+            mathEngine.evaluate("1+1");
+            mathEngine.evaluate("1*1");
+        } catch (Throwable e) {
+            Log.e(App.TAG, e.getMessage(), e);
+        }
     }
 
     private void onPreCreate(@Nonnull SharedPreferences preferences, @Nonnull Languages languages) {

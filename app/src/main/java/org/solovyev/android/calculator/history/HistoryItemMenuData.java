@@ -34,23 +34,23 @@ import javax.annotation.Nonnull;
 public class HistoryItemMenuData {
 
     @Nonnull
-    private final ArrayAdapter<HistoryState> adapter;
+    private final ArrayAdapter<OldHistoryState> adapter;
 
     @Nonnull
-    private final HistoryState historyState;
+    private final OldHistoryState historyState;
 
-    public HistoryItemMenuData(@Nonnull HistoryState historyState, ArrayAdapter<HistoryState> adapter) {
+    public HistoryItemMenuData(@Nonnull OldHistoryState historyState, ArrayAdapter<OldHistoryState> adapter) {
         this.historyState = historyState;
         this.adapter = adapter;
     }
 
     @Nonnull
-    public HistoryState getHistoryState() {
+    public OldHistoryState getHistoryState() {
         return historyState;
     }
 
     @Nonnull
-    public ArrayAdapter<HistoryState> getAdapter() {
+    public ArrayAdapter<OldHistoryState> getAdapter() {
         return adapter;
     }
 }

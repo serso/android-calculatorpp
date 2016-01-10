@@ -294,6 +294,7 @@
     <style name="CppListView">
         <item name="android:id">@android:id/list</item>
         <item name="android:dividerHeight">1px</item>
+        <item name="android:divider">@drawable/divider</item>
         <item name="android:cacheColorHint">@android:color/transparent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_width">match_parent</item>

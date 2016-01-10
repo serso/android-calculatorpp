@@ -22,18 +22,13 @@
 
 package org.solovyev.android.calculator.history;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-
 import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.Locator;
-import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.R;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.annotation.Nonnull;
 
 public class HistoryFragment extends BaseHistoryFragment {
 
@@ -48,11 +43,8 @@ public class HistoryFragment extends BaseHistoryFragment {
 
     @Nonnull
     @Override
-    protected List<HistoryState> getHistoryItems() {
-        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        final boolean showIntermediateCalculations = Preferences.History.showIntermediateCalculations.getPreference(preferences);
-        final List<HistoryState> historyStates = Locator.getInstance().getHistory().getStates(showIntermediateCalculations);
-        return new ArrayList<HistoryState>(historyStates);
+    protected List<OldHistoryState> getHistoryItems() {
+        return new ArrayList<>(Locator.getInstance().getHistory().getStates(false));
     }
 
     @Override
