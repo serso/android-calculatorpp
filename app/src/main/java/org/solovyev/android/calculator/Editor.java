@@ -37,28 +37,6 @@ import static java.lang.Math.min;
 public class Editor implements CalculatorEventListener {
 
     private static final String TAG = App.subTag("Editor");
-
-    public static class ChangedEvent {
-        @Nonnull
-        public final EditorState oldState;
-        @Nonnull
-        public final EditorState newState;
-
-        private ChangedEvent(@Nonnull EditorState oldState, @Nonnull EditorState newState) {
-            this.oldState = oldState;
-            this.newState = newState;
-        }
-    }
-
-    public static class CursorMovedEvent {
-        @Nonnull
-        public final EditorState state;
-
-        public CursorMovedEvent(@Nonnull EditorState state) {
-            this.state = state;
-        }
-    }
-
     @Nonnull
     private final CalculatorEventHolder lastEventHolder;
     @Nullable
@@ -67,7 +45,6 @@ public class Editor implements CalculatorEventListener {
     private EditorView view;
     @Nonnull
     private EditorState state = EditorState.empty();
-
     public Editor(@Nonnull Calculator calculator, @Nullable TextProcessor<TextProcessorEditorResult, String> textProcessor) {
         this.textProcessor = textProcessor;
         calculator.addCalculatorEventListener(this);
@@ -100,7 +77,8 @@ public class Editor implements CalculatorEventListener {
         return state;
     }
 
-    public void onTextChanged(@Nonnull EditorState newState) {
+    @Nonnull
+    public EditorState onTextChanged(@Nonnull EditorState newState) {
         Check.isMainThread();
         if (textProcessor != null) {
             try {
@@ -116,15 +94,18 @@ public class Editor implements CalculatorEventListener {
             view.setState(newState);
         }
         App.getBus().post(new ChangedEvent(oldState, newState));
+        return state;
     }
 
-    private void onSelectionChanged(@Nonnull EditorState newState) {
+    @Nonnull
+    private EditorState onSelectionChanged(@Nonnull EditorState newState) {
         Check.isMainThread();
         state = newState;
         if (view != null) {
             view.setState(newState);
         }
         App.getBus().post(new CursorMovedEvent(newState));
+        return state;
     }
 
     @Override
@@ -148,13 +129,10 @@ public class Editor implements CalculatorEventListener {
     @Nonnull
     private EditorState newSelectionViewState(int newSelection) {
         Check.isMainThread();
-        if (state.selection != newSelection) {
-            final EditorState newState = EditorState.forNewSelection(state, newSelection);
-            onSelectionChanged(newState);
-            return newState;
-        } else {
+        if (state.selection == newSelection) {
             return state;
         }
+        return onSelectionChanged(EditorState.forNewSelection(state, newSelection));
     }
 
     @Nonnull
@@ -172,35 +150,31 @@ public class Editor implements CalculatorEventListener {
     @Nonnull
     public EditorState moveCursorLeft() {
         Check.isMainThread();
-        if (state.selection > 0) {
-            return newSelectionViewState(state.selection - 1);
-        } else {
+        if (state.selection <= 0) {
             return state;
         }
+        return newSelectionViewState(state.selection - 1);
     }
 
     @Nonnull
     public EditorState moveCursorRight() {
         Check.isMainThread();
-        if (state.selection < state.text.length()) {
-            return newSelectionViewState(state.selection + 1);
-        } else {
+        if (state.selection >= state.text.length()) {
             return state;
         }
+        return newSelectionViewState(state.selection + 1);
     }
 
     @Nonnull
     public EditorState erase() {
         Check.isMainThread();
-        int selection = state.selection;
+        final int selection = state.selection;
         final String text = state.getTextString();
-        if (selection > 0 && text.length() > 0 && selection <= text.length()) {
-            final EditorState newState = EditorState.create(text.substring(0, selection - 1) + text.substring(selection, text.length()), selection - 1);
-            onTextChanged(newState);
-            return newState;
-        } else {
+        if (selection <= 0 || text.length() <= 0 || selection > text.length()) {
             return state;
         }
+        final String newText = text.substring(0, selection - 1) + text.substring(selection, text.length());
+        return onTextChanged(EditorState.create(newText, selection - 1));
     }
 
     @Nonnull
@@ -212,17 +186,13 @@ public class Editor implements CalculatorEventListener {
     @Nonnull
     public EditorState setText(@Nonnull String text) {
         Check.isMainThread();
-        final EditorState result = EditorState.create(text, text.length());
-        onTextChanged(result);
-        return result;
+        return onTextChanged(EditorState.create(text, text.length()));
     }
 
     @Nonnull
     public EditorState setText(@Nonnull String text, int selection) {
         Check.isMainThread();
-        final EditorState state = EditorState.create(text, clamp(selection, text));
-        onTextChanged(state);
-        return state;
+        return onTextChanged(EditorState.create(text, clamp(selection, text)));
     }
 
     @Nonnull
@@ -236,30 +206,42 @@ public class Editor implements CalculatorEventListener {
         Check.isMainThread();
         final String oldText = state.getTextString();
         final int selection = clamp(state.selection, oldText);
-
-        int newTextLength = text.length() + oldText.length();
-
-        int newSelection = clamp(text.length() + selection + selectionOffset, newTextLength);
-        final EditorState newState = EditorState.create(oldText.substring(0, selection) + text + oldText.substring(selection), newSelection);
-        onTextChanged(newState);
-        return newState;
+        final int newTextLength = text.length() + oldText.length();
+        final int newSelection = clamp(text.length() + selection + selectionOffset, newTextLength);
+        final String newText = oldText.substring(0, selection) + text + oldText.substring(selection);
+        return onTextChanged(EditorState.create(newText, newSelection));
     }
 
     @Nonnull
     public EditorState moveSelection(int offset) {
         Check.isMainThread();
-        int selection = state.selection + offset;
-        return setSelection(selection);
+        return setSelection(state.selection + offset);
     }
 
     @Nonnull
     public EditorState setSelection(int selection) {
         Check.isMainThread();
-        selection = clamp(selection, state.text);
-
-        final EditorState result = EditorState.forNewSelection(state, selection);
-        onSelectionChanged(result);
-        return result;
+        return onSelectionChanged(EditorState.forNewSelection(state, clamp(selection, state.text)));
     }
 
+    public static class ChangedEvent {
+        @Nonnull
+        public final EditorState oldState;
+        @Nonnull
+        public final EditorState newState;
+
+        private ChangedEvent(@Nonnull EditorState oldState, @Nonnull EditorState newState) {
+            this.oldState = oldState;
+            this.newState = newState;
+        }
+    }
+
+    public static class CursorMovedEvent {
+        @Nonnull
+        public final EditorState state;
+
+        public CursorMovedEvent(@Nonnull EditorState state) {
+            this.state = state;
+        }
+    }
 }
