@@ -23,10 +23,8 @@
 package org.solovyev.android.calculator;
 
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.history.OldEditorHistoryState;
 import org.solovyev.android.calculator.text.TextProcessor;
 import org.solovyev.android.calculator.text.TextProcessorEditorResult;
-import org.solovyev.common.text.Strings;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -104,9 +102,9 @@ public class Editor {
     }
 
     @Nonnull
-    public EditorState setState(@Nonnull OldEditorHistoryState state) {
+    public EditorState setState(@Nonnull EditorState state) {
         Check.isMainThread();
-        return setText(Strings.getNotEmpty(state.getText(), ""), state.getCursorPosition());
+        return setText(state.getTextString(), state.selection);
     }
 
     @Nonnull

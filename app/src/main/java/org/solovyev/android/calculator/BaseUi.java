@@ -165,7 +165,7 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
         final ViewsCache views = ViewsCache.forView(root);
         setOnDragListeners(views, activity);
 
-        HistoryDragProcessor<OldHistoryState> historyDragProcessor = new HistoryDragProcessor<>(getCalculator());
+        HistoryDragProcessor<OldHistoryState> historyDragProcessor = new HistoryDragProcessor<>();
         final DragListener historyDragListener = newDragListener(historyDragProcessor, activity);
         final DragButton historyButton = getButton(views, R.id.cpp_button_history);
         if (historyButton != null) {

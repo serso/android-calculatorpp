@@ -32,7 +32,7 @@ import org.solovyev.android.calculator.EditorState;
 import javax.annotation.Nonnull;
 
 @Root(name = "HistoryState")
-public class OldHistoryState extends BaseHistoryState {
+public class OldHistoryState extends OldBaseHistoryState {
 
     @Element
     @Nonnull
@@ -80,35 +80,6 @@ public class OldHistoryState extends BaseHistoryState {
                 "editorState=" + editorState +
                 ", displayState=" + displayState +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        OldHistoryState that = (OldHistoryState) o;
-
-        if (this.isSaved() != that.isSaved()) return false;
-        if (this.getId() != that.getId()) return false;
-        if (!displayState.equals(that.displayState)) return false;
-        if (!editorState.equals(that.editorState)) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = Boolean.valueOf(isSaved()).hashCode();
-        result = 31 * result + getId();
-        result = 31 * result + editorState.hashCode();
-        result = 31 * result + displayState.hashCode();
-        return result;
-    }
-
-    public void setValuesFromHistory(@Nonnull Editor editor, @Nonnull Display display) {
-        this.getEditorState().setValuesFromHistory(editor);
-        this.getDisplayState().setValuesFromHistory(display);
     }
 
     @Override
