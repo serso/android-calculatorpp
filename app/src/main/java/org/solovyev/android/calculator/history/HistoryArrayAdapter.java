@@ -27,50 +27,32 @@ import android.text.format.DateUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
-
 import org.solovyev.android.calculator.R;
 import org.solovyev.common.text.Strings;
 
-import java.util.List;
-
 import javax.annotation.Nonnull;
+import java.util.List;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-import static org.solovyev.android.calculator.CalculatorFragmentType.saved_history;
-import static org.solovyev.android.calculator.history.BaseHistoryFragment.isAlreadySaved;
 
-/**
- * User: serso
- * Date: 12/18/11
- * Time: 7:39 PM
- */
-public class HistoryArrayAdapter extends ArrayAdapter<OldHistoryState> {
+public class HistoryArrayAdapter extends ArrayAdapter<HistoryState> {
 
     private static final int DATETIME_FORMAT = DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_MONTH | DateUtils.FORMAT_ABBREV_TIME;
-    private boolean showDatetime;
 
-    HistoryArrayAdapter(Context context, int resource, int textViewResourceId, @Nonnull List<OldHistoryState> historyList, boolean showDatetime) {
+    HistoryArrayAdapter(Context context, int resource, int textViewResourceId, @Nonnull List<HistoryState> historyList) {
         super(context, resource, textViewResourceId, historyList);
-        this.showDatetime = showDatetime;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final ViewGroup result = (ViewGroup) super.getView(position, convertView, parent);
 
-        final OldHistoryState state = getItem(position);
+        final HistoryState state = getItem(position);
 
         final TextView time = (TextView) result.findViewById(R.id.history_time);
-        if (showDatetime) {
-            time.setVisibility(VISIBLE);
-            time.setText(DateUtils.formatDateTime(getContext(), state.getTime(), DATETIME_FORMAT));
-        } else {
-            time.setVisibility(GONE);
-            time.setText(null);
-        }
+        time.setText(DateUtils.formatDateTime(getContext(), state.getTime(), DATETIME_FORMAT));
 
         final TextView editor = (TextView) result.findViewById(R.id.history_item);
         editor.setText(BaseHistoryFragment.getHistoryText(state));
@@ -86,42 +68,6 @@ public class HistoryArrayAdapter extends ArrayAdapter<OldHistoryState> {
                 commentView.setVisibility(GONE);
             }
         }
-
-        final ImageView status = (ImageView) result.findViewById(R.id.history_item_status_icon);
-        if (status != null) {
-            if (state.isSaved() || isAlreadySaved(state)) {
-                status.setVisibility(VISIBLE);
-                status.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        final Context context = getContext();
-                        if (context instanceof CalculatorHistoryActivity) {
-                            final CalculatorHistoryActivity activity = (CalculatorHistoryActivity) context;
-                            activity.getUi().selectTab(activity, saved_history);
-                        }
-                    }
-                });
-            } else {
-                status.setVisibility(GONE);
-                status.setOnClickListener(null);
-            }
-        }
-
         return result;
-    }
-
-    @Override
-    public void notifyDataSetChanged() {
-        this.setNotifyOnChange(false);
-        this.sort(BaseHistoryFragment.COMPARATOR);
-        this.setNotifyOnChange(true);
-        super.notifyDataSetChanged();
-    }
-
-    public void setShowDatetime(boolean showDatetime) {
-        if (this.showDatetime != showDatetime) {
-            this.showDatetime = showDatetime;
-            notifyDataSetChanged();
-        }
     }
 }

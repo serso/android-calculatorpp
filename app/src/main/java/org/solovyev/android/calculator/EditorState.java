@@ -22,6 +22,9 @@
 
 package org.solovyev.android.calculator;
 
+import android.text.TextUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.solovyev.android.Check;
 
 import javax.annotation.Nonnull;
@@ -30,6 +33,10 @@ import javax.annotation.Nullable;
 public class EditorState {
 
     public static final long NO_SEQUENCE = -1;
+    @Nonnull
+    private static final String JSON_TEXT = "t";
+    @Nonnull
+    private static final String JSON_SELECTION = "s";
     private static long counter = NO_SEQUENCE + 1;
 
     public final long sequence;
@@ -50,6 +57,10 @@ public class EditorState {
         this.selection = selection;
     }
 
+    private EditorState(@Nonnull JSONObject json) {
+        this(json.optString(JSON_TEXT), json.optInt(JSON_SELECTION));
+    }
+
     @Nonnull
     public static EditorState empty() {
         return new EditorState();
@@ -66,10 +77,27 @@ public class EditorState {
     }
 
     @Nonnull
+    public static EditorState create(@Nonnull JSONObject json) {
+        return new EditorState(json);
+    }
+
+    @Nonnull
     public String getTextString() {
         if (textString == null) {
             textString = text.toString();
         }
         return textString;
+    }
+
+    public boolean same(@Nonnull EditorState that) {
+        return TextUtils.equals(text, that.text) && selection == that.selection;
+    }
+
+    @Nonnull
+    public String toJson() throws JSONException {
+        final JSONObject json = new JSONObject();
+        json.put(JSON_TEXT, getTextString());
+        json.put(JSON_SELECTION, selection);
+        return json.toString();
     }
 }

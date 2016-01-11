@@ -27,9 +27,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import jscl.NumeralBase;
 import jscl.math.Generic;
-import org.solovyev.android.calculator.history.OldHistoryState;
 import org.solovyev.android.calculator.jscl.JsclOperation;
-import org.solovyev.common.history.HistoryAction;
 import org.solovyev.common.msg.Message;
 
 import javax.annotation.Nonnull;
@@ -147,22 +145,6 @@ public class AndroidCalculator implements Calculator, CalculatorEventListener, S
     @Override
     public void fireCalculatorEvents(@Nonnull List<CalculatorEvent> calculatorEvents) {
         calculator.fireCalculatorEvents(calculatorEvents);
-    }
-
-    @Override
-    public void doHistoryAction(@Nonnull HistoryAction historyAction) {
-        calculator.doHistoryAction(historyAction);
-    }
-
-    @Override
-    @Nonnull
-    public OldHistoryState getCurrentHistoryState() {
-        return calculator.getCurrentHistoryState();
-    }
-
-    @Override
-    public void setCurrentHistoryState(@Nonnull OldHistoryState editorHistoryState) {
-        calculator.setCurrentHistoryState(editorHistoryState);
     }
 
     @Override

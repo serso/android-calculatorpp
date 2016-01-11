@@ -35,7 +35,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Root(name = "History")
-public class OldHistory {
+class OldHistory {
 
     @Nonnull
     @ElementList(type = OldHistoryState.class, name = "historyItems")

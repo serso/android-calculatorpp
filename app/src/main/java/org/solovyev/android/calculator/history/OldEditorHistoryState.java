@@ -24,16 +24,13 @@ package org.solovyev.android.calculator.history;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
-import org.solovyev.android.calculator.DisplayState;
-import org.solovyev.android.calculator.Editor;
 import org.solovyev.android.calculator.EditorState;
-import org.solovyev.common.text.Strings;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 @Root(name = "EditorHistoryState")
-public class OldEditorHistoryState implements Cloneable {
+class OldEditorHistoryState implements Cloneable {
 
     @Element
     private int cursorPosition;
@@ -54,21 +51,6 @@ public class OldEditorHistoryState implements Cloneable {
         result.cursorPosition = state.selection;
 
         return result;
-    }
-
-    @Nonnull
-    public static OldEditorHistoryState create(@Nonnull DisplayState viewState) {
-        final OldEditorHistoryState result = new OldEditorHistoryState();
-
-        result.text = viewState.getText();
-        result.cursorPosition = viewState.getSelection();
-
-        return result;
-    }
-
-    public void setValuesFromHistory(@Nonnull Editor editor) {
-        editor.setText(Strings.getNotEmpty(this.getText(), ""));
-        editor.setSelection(this.getCursorPosition());
     }
 
     @Nullable

@@ -24,15 +24,11 @@ package org.solovyev.android.calculator.history;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
-import org.solovyev.android.calculator.Display;
-import org.solovyev.android.calculator.DisplayState;
-import org.solovyev.android.calculator.Editor;
-import org.solovyev.android.calculator.EditorState;
 
 import javax.annotation.Nonnull;
 
 @Root(name = "HistoryState")
-public class OldHistoryState extends OldBaseHistoryState {
+class OldHistoryState extends OldBaseHistoryState {
 
     @Element
     @Nonnull
@@ -44,24 +40,6 @@ public class OldHistoryState extends OldBaseHistoryState {
 
     private OldHistoryState() {
         // for xml
-    }
-
-    private OldHistoryState(@Nonnull OldEditorHistoryState editorState,
-                            @Nonnull OldDisplayHistoryState displayState) {
-        this.editorState = editorState;
-        this.displayState = displayState;
-    }
-
-    @Nonnull
-    public static OldHistoryState create(@Nonnull Editor editor,
-                                      @Nonnull Display display) {
-        return create(editor.getState(), display.getState());
-    }
-
-    @Nonnull
-    public static OldHistoryState create(@Nonnull EditorState editorState,
-                                      @Nonnull DisplayState displayState) {
-        return new OldHistoryState(OldEditorHistoryState.create(editorState), OldDisplayHistoryState.newInstance(displayState));
     }
 
     @Nonnull

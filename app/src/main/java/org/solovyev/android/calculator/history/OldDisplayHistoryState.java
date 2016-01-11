@@ -22,28 +22,18 @@
 
 package org.solovyev.android.calculator.history;
 
-import jscl.math.Generic;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 import org.simpleframework.xml.Transient;
-import org.solovyev.android.calculator.Display;
-import org.solovyev.android.calculator.DisplayState;
-import org.solovyev.android.calculator.EditorState;
 import org.solovyev.android.calculator.jscl.JsclOperation;
-import org.solovyev.common.text.Strings;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 @Root(name = "DisplayHistoryState")
-public class OldDisplayHistoryState implements Cloneable {
+class OldDisplayHistoryState implements Cloneable {
 
     @Transient
     private boolean valid = true;
-
-    @Transient
-    @Nullable
-    private String errorMessage = null;
 
     @Element
     @Nonnull
@@ -53,36 +43,9 @@ public class OldDisplayHistoryState implements Cloneable {
     @Nonnull
     private JsclOperation jsclOperation;
 
-    @Transient
-    @Nullable
-    private Generic genericResult;
-
     private OldDisplayHistoryState() {
         // for xml
     }
-
-    @Nonnull
-    public static OldDisplayHistoryState newInstance(@Nonnull DisplayState viewState) {
-        final OldDisplayHistoryState result = new OldDisplayHistoryState();
-
-        result.editorState = OldEditorHistoryState.create(viewState);
-
-        result.valid = viewState.isValid();
-        result.jsclOperation = viewState.getOperation();
-        result.genericResult = viewState.getResult();
-        result.errorMessage = viewState.getErrorMessage();
-
-        return result;
-    }
-
-    public void setValuesFromHistory(@Nonnull Display display) {
-        if (this.isValid()) {
-            display.setState(DisplayState.createValid(this.getJsclOperation(), this.getGenericResult(), Strings.getNotEmpty(this.getEditorState().getText(), ""), this.getEditorState().getCursorPosition(), EditorState.NO_SEQUENCE));
-        } else {
-            display.setState(DisplayState.createError(this.getJsclOperation(), Strings.getNotEmpty(this.getErrorMessage(), ""), EditorState.NO_SEQUENCE));
-        }
-    }
-
 
     public boolean isValid() {
         return valid;
@@ -97,17 +60,6 @@ public class OldDisplayHistoryState implements Cloneable {
     public JsclOperation getJsclOperation() {
         return jsclOperation;
     }
-
-    @Nullable
-    public String getErrorMessage() {
-        return errorMessage;
-    }
-
-    @Nullable
-    public Generic getGenericResult() {
-        return genericResult;
-    }
-
 
     @Override
     public boolean equals(Object o) {
@@ -132,9 +84,7 @@ public class OldDisplayHistoryState implements Cloneable {
     @Override
     public String toString() {
         return "CalculatorDisplayHistoryState{" +
-                "valid=" + valid +
-                ", errorMessage='" + errorMessage + '\'' +
-                ", editorHistoryState=" + editorState +
+                "editorHistoryState=" + editorState +
                 ", jsclOperation=" + jsclOperation +
                 '}';
     }

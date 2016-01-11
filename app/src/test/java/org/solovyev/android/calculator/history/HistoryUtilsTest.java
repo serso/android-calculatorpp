@@ -22,20 +22,7 @@
 
 package org.solovyev.android.calculator.history;
 
-import org.junit.Assert;
 import org.junit.Test;
-import org.solovyev.android.calculator.DisplayState;
-import org.solovyev.android.calculator.EditorState;
-import org.solovyev.android.calculator.jscl.JsclOperation;
-import org.solovyev.common.Objects;
-import org.solovyev.common.equals.CollectionEqualizer;
-import org.solovyev.common.history.HistoryHelper;
-import org.solovyev.common.history.SimpleHistoryHelper;
-
-import javax.annotation.Nonnull;
-import java.util.Date;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * User: serso
@@ -131,80 +118,4 @@ public class HistoryUtilsTest {
 
     }
 
-    @Test
-    public void testToXml() throws Exception {
-        final Date date = new Date(100000000);
-
-        HistoryHelper<OldHistoryState> history = SimpleHistoryHelper.newInstance();
-
-        DisplayState calculatorDisplay = DisplayState.createError(JsclOperation.simplify, "Error", EditorState.NO_SEQUENCE);
-
-        EditorState calculatorEditor = EditorState.create("1+1", 3);
-
-        OldHistoryState state = OldHistoryState.create(calculatorEditor, calculatorDisplay);
-        state.setTime(date.getTime());
-        history.addState(state);
-
-        assertEquals(emptyHistory, createHistory(history).toXml());
-
-
-        state.setSaved(true);
-
-        assertEquals(toXml1, createHistory(history).toXml());
-
-        calculatorDisplay = DisplayState.createValid(JsclOperation.numeric, null, "5/6", 3, EditorState.NO_SEQUENCE);
-
-        calculatorEditor = EditorState.create("5/6", 2);
-
-        state = OldHistoryState.create(calculatorEditor, calculatorDisplay);
-        state.setSaved(true);
-        state.setTime(date.getTime());
-        history.addState(state);
-
-        calculatorDisplay = DisplayState.createError(JsclOperation.elementary, "Error", EditorState.NO_SEQUENCE);
-
-        calculatorEditor = EditorState.create("", 1);
-
-        state = OldHistoryState.create(calculatorEditor, calculatorDisplay);
-        state.setSaved(true);
-        state.setTime(date.getTime());
-        history.addState(state);
-
-        calculatorDisplay = DisplayState.createValid(JsclOperation.numeric, null, "4+5/35sin(41)+dfdsfsdfs", 1, EditorState.NO_SEQUENCE);
-
-        calculatorEditor = EditorState.create("4+5/35sin(41)+dfdsfsdfs", 0);
-
-        state = OldHistoryState.create(calculatorEditor, calculatorDisplay);
-        state.setSaved(true);
-        state.setTime(date.getTime());
-        history.addState(state);
-
-        String xml = createHistory(history).toXml();
-        assertEquals(toXml2, xml);
-
-        final HistoryHelper<OldHistoryState> historyFromXml = SimpleHistoryHelper.newInstance();
-        final OldHistory actual = OldHistory.fromXml(xml);
-        for (OldHistoryState historyState : actual.getItems()) {
-            historyFromXml.addState(historyState);
-        }
-
-        assertEquals(history.getStates().size(), historyFromXml.getStates().size());
-
-        for (OldHistoryState historyState : history.getStates()) {
-            historyState.setId(0);
-            historyState.setSaved(true);
-        }
-        for (OldHistoryState historyState : historyFromXml.getStates()) {
-            historyState.setId(0);
-            historyState.setSaved(true);
-        }
-        Assert.assertTrue(Objects.areEqual(history.getStates(), historyFromXml.getStates(), new CollectionEqualizer<OldHistoryState>(null)));
-    }
-
-    @Nonnull
-    private OldHistory createHistory(HistoryHelper<OldHistoryState> history) {
-        final OldHistory result = new OldHistory();
-        result.addAll(history.getStates());
-        return result;
-    }
 }

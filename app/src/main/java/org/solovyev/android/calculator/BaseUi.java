@@ -33,25 +33,18 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
-
 import org.solovyev.android.Views;
-import org.solovyev.android.views.dragbutton.DirectionDragButton;
-import org.solovyev.android.views.dragbutton.DragButton;
-import org.solovyev.android.views.dragbutton.DragDirection;
-import org.solovyev.android.views.dragbutton.DragListener;
-import org.solovyev.android.views.dragbutton.SimpleDragListener;
-import org.solovyev.android.calculator.history.OldHistoryState;
 import org.solovyev.android.calculator.history.HistoryDragProcessor;
 import org.solovyev.android.calculator.view.AngleUnitsButton;
 import org.solovyev.android.calculator.view.LongClickEraser;
 import org.solovyev.android.calculator.view.NumeralBasesButton;
 import org.solovyev.android.calculator.view.ViewsCache;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.solovyev.android.views.dragbutton.*;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.solovyev.android.calculator.Preferences.Gui.Layout.simple;
 import static org.solovyev.android.calculator.Preferences.Gui.Layout.simple_mobile;
@@ -165,7 +158,7 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
         final ViewsCache views = ViewsCache.forView(root);
         setOnDragListeners(views, activity);
 
-        HistoryDragProcessor<OldHistoryState> historyDragProcessor = new HistoryDragProcessor<>();
+        HistoryDragProcessor historyDragProcessor = new HistoryDragProcessor();
         final DragListener historyDragListener = newDragListener(historyDragProcessor, activity);
         final DragButton historyButton = getButton(views, R.id.cpp_button_history);
         if (historyButton != null) {
