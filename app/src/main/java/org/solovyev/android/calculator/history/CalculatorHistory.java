@@ -24,30 +24,33 @@ package org.solovyev.android.calculator.history;
 
 import android.content.SharedPreferences;
 import android.text.TextUtils;
-import com.squareup.otto.Subscribe;
-import org.solovyev.android.Check;
-import org.solovyev.android.calculator.*;
-import org.solovyev.common.history.HistoryAction;
-import org.solovyev.common.history.HistoryHelper;
-import org.solovyev.common.history.SimpleHistoryHelper;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import com.squareup.otto.Subscribe;
+
+import org.solovyev.android.Check;
+import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.CalculatorEventType;
+import org.solovyev.android.calculator.Display;
+import org.solovyev.android.calculator.Editor;
+import org.solovyev.android.calculator.EditorState;
+import org.solovyev.android.calculator.Locator;
+
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 public class CalculatorHistory {
 
     private final AtomicInteger counter = new AtomicInteger(0);
-
     @Nonnull
-    private final HistoryHelper<OldHistoryState> history = SimpleHistoryHelper.newInstance();
-
+    private final HistoryList current = new HistoryList();
     @Nonnull
-    private final OldHistory savedOldHistory = new OldHistory();
-
+    private final List<HistoryState> saved = new ArrayList<>();
     @Nullable
     private EditorState lastEditorState;
 
@@ -61,12 +64,7 @@ public class CalculatorHistory {
         });
     }
 
-    private void init() {
-        Check.isNotMainThread();
-        migrateOldHistory();
-    }
-
-    private void migrateOldHistory() {
+    private static void migrateOldHistory() {
         final SharedPreferences preferences = App.getPreferences();
         final String xml = preferences.getString("org.solovyev.android.calculator.CalculatorModel_history", null);
         if (TextUtils.isEmpty(xml)) {
@@ -79,77 +77,60 @@ public class CalculatorHistory {
         }
         for (OldHistoryState state : history.getItems()) {
             state.setSaved(true);
-            state.setId(counter.incrementAndGet());
-            savedOldHistory.add(state);
         }
+    }
+
+    private void init() {
+        Check.isNotMainThread();
+        migrateOldHistory();
     }
 
     public boolean isEmpty() {
         Check.isMainThread();
-        return history.isEmpty();
+        return current.isEmpty();
     }
 
-    public boolean isActionAvailable(@Nonnull HistoryAction action) {
+    public void addCurrentState(@Nonnull HistoryState state) {
         Check.isMainThread();
-        return history.isActionAvailable(action);
+        current.addState(state);
+        Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.history_state_added, state);
+        // todo serso: schedule save
     }
 
-    public OldHistoryState doAction(@Nonnull HistoryAction action, @Nullable OldHistoryState state) {
+    public void addSavedState(@Nonnull HistoryState state) {
         Check.isMainThread();
-        return history.doAction(action, state);
-    }
-
-    public void addState(@Nullable OldHistoryState currentState) {
-        Check.isMainThread();
-        history.addState(currentState);
-        Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.history_state_added, currentState);
+        saved.add(state);
+        // todo serso: schedule save
     }
 
     @Nonnull
-    public List<OldHistoryState> getStates() {
+    public List<HistoryState> getCurrentHistory() {
         Check.isMainThread();
-        return history.getStates();
-    }
 
-    @Nonnull
-    public List<OldHistoryState> getStates(boolean includeIntermediateStates) {
-        Check.isMainThread();
-            if (includeIntermediateStates) {
-                return getStates();
-            } else {
-                final List<OldHistoryState> states = getStates();
+        final List<HistoryState> result = new LinkedList<>();
 
-                final List<OldHistoryState> result = new LinkedList<>();
-
-                OldHistoryState laterState = null;
-                for (OldHistoryState state : org.solovyev.common.collections.Collections.reversed(states)) {
-                    if (laterState != null) {
-                        final String laterEditorText = laterState.getEditorState().getText();
-                        final String editorText = state.getEditorState().getText();
-                        if (laterEditorText != null && editorText != null && isIntermediate(laterEditorText, editorText)) {
-                            // intermediate result => skip from add
-                        } else {
-                            result.add(0, state);
-                        }
-                    } else {
-                        result.add(0, state);
-                    }
-
-                    laterState = state;
-                }
-
-                return result;
+        final List<HistoryState> states = current.asList();
+        for (int i = 1; i < states.size(); i++) {
+            final HistoryState newerState = states.get(i);
+            final HistoryState olderState = states.get(i - 1);
+            final String newerText = newerState.editor.getTextString();
+            final String olderText = olderState.editor.getTextString();
+            if (!isIntermediate(olderText, newerText)) {
+                result.add(0, olderState);
             }
         }
+        return result;
+    }
 
-    private boolean isIntermediate(@Nonnull String laterEditorText,
-                                   @Nonnull String editorText) {
-        if (Math.abs(laterEditorText.length() - editorText.length()) <= 1) {
-            if (laterEditorText.length() > editorText.length()) {
-                return laterEditorText.startsWith(editorText);
-            } else {
-                return editorText.startsWith(laterEditorText);
-            }
+    private boolean isIntermediate(@Nonnull String newerText,
+                                   @Nonnull String olderText) {
+        final int diff = newerText.length() - olderText.length();
+        if (diff == 1) {
+            return newerText.startsWith(olderText);
+        } else if (diff == -1) {
+            return olderText.startsWith(newerText);
+        } else if (diff == 0) {
+            return newerText.equals(olderText);
         }
 
         return false;
@@ -157,53 +138,36 @@ public class CalculatorHistory {
 
     public void clear() {
         Check.isMainThread();
-        history.clear();
+        current.clear();
     }
 
-    @Nonnull
-    public List<OldHistoryState> getSavedOldHistory() {
-        return Collections.unmodifiableList(savedOldHistory.getItems());
-    }
-
-    @Nonnull
-    public OldHistoryState addSavedState(@Nonnull OldHistoryState state) {
-        if (state.isSaved()) {
-            return state;
-        } else {
-            final OldHistoryState savedState = state.clone();
-
-            savedState.setId(counter.incrementAndGet());
-            savedState.setSaved(true);
-
-            savedOldHistory.add(savedState);
-
-            return savedState;
+    public void undo() {
+        final HistoryState state = current.undo();
+        if (state == null) {
+            return;
         }
+        App.getBus().post(new ChangedEvent(state));
     }
 
-    public void load() {
+    public void redo() {
+        final HistoryState state = current.redo();
+        if (state == null) {
+            return;
+        }
+        App.getBus().post(new ChangedEvent(state));
     }
 
-    public void save() {
-        final SharedPreferences settings = App.getPreferences();
-        final SharedPreferences.Editor editor = settings.edit();
-        editor.putString("org.solovyev.android.calculator.CalculatorModel_history", toXml());
-        editor.apply();
-    }
-
-    public String toXml() {
-        return savedOldHistory.toXml();
+    @Nonnull
+    public List<HistoryState> getSavedHistory() {
+        return Collections.unmodifiableList(saved);
     }
 
     public void clearSavedHistory() {
-        savedOldHistory.clear();
-        save();
+        saved.clear();
     }
 
-    public void removeSavedHistory(@Nonnull OldHistoryState historyState) {
-        historyState.setSaved(false);
-        this.savedOldHistory.remove(historyState);
-        save();
+    public void removeSavedHistory(@Nonnull HistoryState state) {
+        saved.remove(state);
     }
 
     @Subscribe
@@ -219,7 +183,16 @@ public class CalculatorHistory {
         if (lastEditorState.sequence != e.newState.getSequence()) {
             return;
         }
-        addState(OldHistoryState.create(lastEditorState, e.newState));
+        addCurrentState(HistoryState.newBuilder(lastEditorState, e.newState).build());
         lastEditorState = null;
+    }
+
+    public static final class ChangedEvent {
+        @Nonnull
+        public final HistoryState state;
+
+        public ChangedEvent(@Nonnull HistoryState state) {
+            this.state = state;
+        }
     }
 }

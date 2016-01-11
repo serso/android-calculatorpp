@@ -23,22 +23,14 @@
 package org.solovyev.android.calculator;
 
 import android.text.TextUtils;
+
 import com.squareup.otto.Subscribe;
-import jscl.AbstractJsclArithmeticException;
-import jscl.NumeralBase;
-import jscl.NumeralBaseException;
-import jscl.math.Generic;
-import jscl.math.function.Function;
-import jscl.math.function.IConstant;
-import jscl.math.operator.Operator;
-import jscl.text.ParseInterruptedException;
+
 import org.solovyev.android.calculator.history.CalculatorHistory;
-import org.solovyev.android.calculator.history.OldHistoryState;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.model.Var;
 import org.solovyev.android.calculator.text.TextProcessor;
 import org.solovyev.android.calculator.units.CalculatorNumeralBase;
-import org.solovyev.common.history.HistoryAction;
 import org.solovyev.common.msg.ListMessageRegistry;
 import org.solovyev.common.msg.Message;
 import org.solovyev.common.msg.MessageRegistry;
@@ -47,13 +39,23 @@ import org.solovyev.common.text.Strings;
 import org.solovyev.common.units.ConversionException;
 import org.solovyev.common.units.Conversions;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicLong;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import jscl.AbstractJsclArithmeticException;
+import jscl.NumeralBase;
+import jscl.NumeralBaseException;
+import jscl.math.Generic;
+import jscl.math.function.Function;
+import jscl.math.function.IConstant;
+import jscl.math.operator.Operator;
+import jscl.text.ParseInterruptedException;
 
 /**
  * User: Solovyev_S
@@ -507,6 +509,11 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
         CalculatorVarsRegistry.saveVariable(varsRegistry, builder, ansVar, this, false);
     }
 
+    public void onHistoryChanged(@Nonnull CalculatorHistory.ChangedEvent e) {
+        getEditor().setState(e.state.getEditor());
+        getDisplay().setState(e.state.getDisplay());
+    }
+
     @Override
     public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
 
@@ -547,44 +554,6 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 
         }
     }
-
-	/*
-	**********************************************************************
-	*
-	*                           HISTORY
-	*
-	**********************************************************************
-	*/
-
-    @Override
-    public void doHistoryAction(@Nonnull HistoryAction historyAction) {
-        final CalculatorHistory history = Locator.getInstance().getHistory();
-        if (history.isActionAvailable(historyAction)) {
-            final OldHistoryState newState = history.doAction(historyAction, getCurrentHistoryState());
-            if (newState != null) {
-                setCurrentHistoryState(newState);
-            }
-        }
-    }
-
-    @Nonnull
-    @Override
-    public OldHistoryState getCurrentHistoryState() {
-        return OldHistoryState.create(getEditor(), getDisplay());
-    }
-
-    @Override
-    public void setCurrentHistoryState(@Nonnull OldHistoryState editorHistoryState) {
-        editorHistoryState.setValuesFromHistory(getEditor(), getDisplay());
-    }
-
-	/*
-	**********************************************************************
-	*
-	*                           OTHER
-	*
-	**********************************************************************
-	*/
 
     @Nonnull
     private Editor getEditor() {

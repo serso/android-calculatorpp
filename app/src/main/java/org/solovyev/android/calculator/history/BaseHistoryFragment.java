@@ -109,7 +109,7 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
         boolean result = false;
         try {
             historyState.setSaved(true);
-            if (Collections.contains(historyState, Locator.getInstance().getHistory().getSavedOldHistory(), new Equalizer<OldHistoryState>() {
+            if (Collections.contains(historyState, Locator.getInstance().getHistory().getSavedHistory(), new Equalizer<OldHistoryState>() {
                 @Override
                 public boolean areEqual(@Nullable OldHistoryState first, @Nullable OldHistoryState second) {
                     return first != null && second != null &&
@@ -401,7 +401,7 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
     }
 
     @Nonnull
-    protected abstract List<OldHistoryState> getHistoryItems();
+    protected abstract List<HistoryState> getHistoryItems();
 
     protected abstract void clearHistory();
 
