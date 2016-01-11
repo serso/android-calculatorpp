@@ -23,9 +23,15 @@
 package org.solovyev.android.calculator;
 
 import android.text.TextUtils;
-
 import com.squareup.otto.Subscribe;
-
+import jscl.AbstractJsclArithmeticException;
+import jscl.NumeralBase;
+import jscl.NumeralBaseException;
+import jscl.math.Generic;
+import jscl.math.function.Function;
+import jscl.math.function.IConstant;
+import jscl.math.operator.Operator;
+import jscl.text.ParseInterruptedException;
 import org.solovyev.android.calculator.history.CalculatorHistory;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.model.Var;
@@ -39,23 +45,13 @@ import org.solovyev.common.text.Strings;
 import org.solovyev.common.units.ConversionException;
 import org.solovyev.common.units.Conversions;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicLong;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import jscl.AbstractJsclArithmeticException;
-import jscl.NumeralBase;
-import jscl.NumeralBaseException;
-import jscl.math.Generic;
-import jscl.math.function.Function;
-import jscl.math.function.IConstant;
-import jscl.math.operator.Operator;
-import jscl.text.ParseInterruptedException;
 
 /**
  * User: Solovyev_S
@@ -209,7 +205,6 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
     @Override
     public void init() {
         Locator.getInstance().getEngine().init();
-        Locator.getInstance().getHistory().load();
     }
 
     @Override
@@ -507,11 +502,6 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
         builder.setDescription(CalculatorMessages.getBundle().getString(CalculatorMessages.ans_description));
 
         CalculatorVarsRegistry.saveVariable(varsRegistry, builder, ansVar, this, false);
-    }
-
-    public void onHistoryChanged(@Nonnull CalculatorHistory.ChangedEvent e) {
-        getEditor().setState(e.state.getEditor());
-        getDisplay().setState(e.state.getDisplay());
     }
 
     @Override

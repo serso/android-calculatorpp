@@ -377,10 +377,4 @@ public final class Preferences {
     public static class Graph {
         public static final Preference<Boolean> plotImag = BooleanPreference.of("graph_plot_imag", false);
     }
-
-    public static class History {
-        public static final Preference<Boolean> showIntermediateCalculations = BooleanPreference.of("history_show_intermediate_calculations", false);
-        public static final Preference<Boolean> showDatetime = BooleanPreference.of("history_show_datetime", true);
-    }
-
 }

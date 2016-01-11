@@ -23,13 +23,11 @@
 package org.solovyev.android.calculator.history;
 
 import org.simpleframework.xml.Element;
-import org.simpleframework.xml.Transient;
-
-import java.util.Date;
 
 import javax.annotation.Nullable;
+import java.util.Date;
 
-public class OldBaseHistoryState implements Cloneable {
+class OldBaseHistoryState implements Cloneable {
 
     @Element
     private long time = new Date().getTime();
@@ -37,20 +35,6 @@ public class OldBaseHistoryState implements Cloneable {
     @Element(required = false)
     @Nullable
     private String comment;
-
-    @Transient
-    private boolean saved;
-
-    @Transient
-    private int id = 0;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public long getTime() {
         return time;
@@ -67,14 +51,6 @@ public class OldBaseHistoryState implements Cloneable {
 
     public void setComment(@Nullable String comment) {
         this.comment = comment;
-    }
-
-    public boolean isSaved() {
-        return saved;
-    }
-
-    public void setSaved(boolean saved) {
-        this.saved = saved;
     }
 
     @SuppressWarnings("CloneDoesntDeclareCloneNotSupportedException")

@@ -62,13 +62,13 @@ public class CalculatorHistoryTest {
         addState(calculatorHistory, "2354");
         addState(calculatorHistory, "23547");
 
-        final List<OldHistoryState> states = calculatorHistory.getCurrentHistory();
+        final List<HistoryState> states = calculatorHistory.getCurrentHistory();
         Assert.assertEquals(2, states.size());
-        Assert.assertEquals("23547", states.get(1).getEditorState().getText());
-        Assert.assertEquals("123+3", states.get(0).getEditorState().getText());
+        Assert.assertEquals("23547", states.get(1).getEditor().getTextString());
+        Assert.assertEquals("123+3", states.get(0).getEditor().getTextString());
     }
 
     private void addState(@Nonnull CalculatorHistory calculatorHistory, @Nonnull String text) {
-        calculatorHistory.addCurrentState(OldHistoryState.create(EditorState.create(text, 3), DisplayState.empty()));
+        calculatorHistory.addCurrentState(HistoryState.newBuilder(EditorState.create(text, 3), DisplayState.empty()));
     }
 }

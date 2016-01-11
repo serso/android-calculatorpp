@@ -335,6 +335,11 @@ public final class App {
         return Locator.getInstance().getEditor();
     }
 
+    @Nonnull
+    public static Display getDisplay() {
+        return Locator.getInstance().getDisplay();
+    }
+
     private static class MyBus extends Bus {
         @Override
         public void post(final Object event) {

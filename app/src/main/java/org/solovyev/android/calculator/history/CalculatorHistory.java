@@ -24,29 +24,21 @@ package org.solovyev.android.calculator.history;
 
 import android.content.SharedPreferences;
 import android.text.TextUtils;
-
+import com.google.common.base.Strings;
 import com.squareup.otto.Subscribe;
-
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.CalculatorEventType;
-import org.solovyev.android.calculator.Display;
-import org.solovyev.android.calculator.Editor;
-import org.solovyev.android.calculator.EditorState;
-import org.solovyev.android.calculator.Locator;
+import org.solovyev.android.calculator.*;
+import org.solovyev.android.io.FileSaver;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 public class CalculatorHistory {
 
-    private final AtomicInteger counter = new AtomicInteger(0);
     @Nonnull
     private final HistoryList current = new HistoryList();
     @Nonnull
@@ -75,8 +67,16 @@ public class CalculatorHistory {
             // strange, history seems to be broken. Avoid clearing the preference
             return;
         }
+        final List<HistoryState> states = new ArrayList<>();
         for (OldHistoryState state : history.getItems()) {
-            state.setSaved(true);
+            final OldEditorHistoryState oldEditorState = state.getEditorState();
+            final OldDisplayHistoryState oldDisplayState = state.getDisplayState();
+            final String editorText = oldEditorState.getText();
+            final EditorState editor = EditorState.create(Strings.nullToEmpty(editorText), oldEditorState.getCursorPosition());
+            final DisplayState display = oldDisplayState.isValid()
+                    ? DisplayState.createValid(oldDisplayState.getJsclOperation(), null, Strings.nullToEmpty(oldDisplayState.getEditorState().getText()), EditorState.NO_SEQUENCE)
+                    : DisplayState.createError(oldDisplayState.getJsclOperation(), "", EditorState.NO_SEQUENCE);
+            states.add(HistoryState.newBuilder(editor, display).build());
         }
     }
 
@@ -92,7 +92,7 @@ public class CalculatorHistory {
 
     public void addCurrentState(@Nonnull HistoryState state) {
         Check.isMainThread();
-        current.addState(state);
+        current.add(state);
         Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.history_state_added, state);
         // todo serso: schedule save
     }
@@ -146,7 +146,7 @@ public class CalculatorHistory {
         if (state == null) {
             return;
         }
-        App.getBus().post(new ChangedEvent(state));
+        onCurrentStateChanged(state);
     }
 
     public void redo() {
@@ -154,7 +154,12 @@ public class CalculatorHistory {
         if (state == null) {
             return;
         }
-        App.getBus().post(new ChangedEvent(state));
+        onCurrentStateChanged(state);
+    }
+
+    private void onCurrentStateChanged(@Nonnull HistoryState state) {
+        App.getEditor().setState(state.editor);
+        App.getDisplay().setState(state.display);
     }
 
     @Nonnull
@@ -185,14 +190,5 @@ public class CalculatorHistory {
         }
         addCurrentState(HistoryState.newBuilder(lastEditorState, e.newState).build());
         lastEditorState = null;
-    }
-
-    public static final class ChangedEvent {
-        @Nonnull
-        public final HistoryState state;
-
-        public ChangedEvent(@Nonnull HistoryState state) {
-            this.state = state;
-        }
     }
 }

@@ -104,7 +104,7 @@ public class Editor {
     @Nonnull
     public EditorState setState(@Nonnull EditorState state) {
         Check.isMainThread();
-        return setText(state.getTextString(), state.selection);
+        return onTextChanged(state);
     }
 
     @Nonnull

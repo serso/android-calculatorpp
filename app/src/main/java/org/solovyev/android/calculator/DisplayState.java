@@ -22,7 +22,9 @@
 
 package org.solovyev.android.calculator;
 
+import android.text.TextUtils;
 import jscl.math.Generic;
+import org.json.JSONObject;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.common.text.Strings;
 
@@ -31,6 +33,8 @@ import javax.annotation.Nullable;
 
 public class DisplayState {
 
+    @Nonnull
+    private static final String JSON_OPERATION = "o";
     @Nonnull
     private JsclOperation operation = JsclOperation.numeric;
 
@@ -45,16 +49,24 @@ public class DisplayState {
     @Nullable
     private String errorMessage;
 
-    private int selection;
-
     private long sequence;
 
     private DisplayState() {
     }
 
+    private DisplayState(@Nonnull JSONObject json) {
+        operation = JsclOperation.values()[json.optInt(JSON_OPERATION, JsclOperation.numeric.ordinal())];
+    }
+
     @Nonnull
     public static DisplayState empty() {
         return new DisplayState();
+    }
+
+
+    @Nonnull
+    public static DisplayState create(@Nonnull JSONObject json) {
+        return new DisplayState(json);
     }
 
     @Nonnull
@@ -73,14 +85,12 @@ public class DisplayState {
     public static DisplayState createValid(@Nonnull JsclOperation operation,
                                            @Nullable Generic result,
                                            @Nonnull String stringResult,
-                                           int selection,
                                            long sequence) {
         final DisplayState state = new DisplayState();
         state.valid = true;
         state.result = result;
         state.stringResult = stringResult;
         state.operation = operation;
-        state.selection = selection;
         state.sequence = sequence;
         return state;
     }
@@ -88,10 +98,6 @@ public class DisplayState {
     @Nonnull
     public String getText() {
         return Strings.getNotEmpty(isValid() ? stringResult : errorMessage, "");
-    }
-
-    public int getSelection() {
-        return selection;
     }
 
     @Nullable
@@ -120,5 +126,9 @@ public class DisplayState {
 
     public long getSequence() {
         return sequence;
+    }
+
+    public boolean same(@Nonnull DisplayState that) {
+        return TextUtils.equals(stringResult, that.stringResult) && TextUtils.equals(errorMessage, that.errorMessage) && operation == that.operation;
     }
 }

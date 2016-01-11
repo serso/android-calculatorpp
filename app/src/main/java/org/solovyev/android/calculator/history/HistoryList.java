@@ -2,7 +2,6 @@ package org.solovyev.android.calculator.history;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-
 import org.solovyev.android.Check;
 
 import java.util.Collections;
@@ -17,17 +16,28 @@ public class HistoryList {
     private final List<HistoryState> list = new LinkedList<>();
     private int current = -1;
 
-    public void addState(@NonNull HistoryState e) {
+    public void add(@NonNull HistoryState state) {
         Check.isMainThread();
+        if (isCurrent(state)) {
+            return;
+        }
         while (current != list.size() - 1) {
             list.remove(list.size() - 1);
         }
-        list.add(e);
+        list.add(state);
         current++;
         if (list.size() > MAX_HISTORY) {
             current--;
             list.remove(0);
         }
+    }
+
+    private boolean isCurrent(@NonNull HistoryState state) {
+        final HistoryState current = getCurrent();
+        if (current == null) {
+            return false;
+        }
+        return current.same(state);
     }
 
     @Nullable

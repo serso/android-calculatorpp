@@ -150,7 +150,7 @@ public class Display implements CalculatorEventListener {
 
     private void processCalculationResult(@Nonnull CalculatorEvaluationEventData calculatorEventData, @Nonnull CalculatorOutput data) {
         final String stringResult = data.getStringResult();
-        setState(DisplayState.createValid(calculatorEventData.getOperation(), data.getResult(), stringResult, 0, calculatorEventData.getSequenceId()));
+        setState(DisplayState.createValid(calculatorEventData.getOperation(), data.getResult(), stringResult, calculatorEventData.getSequenceId()));
     }
 
     private void processConversationResult(@Nonnull CalculatorConversionEventData calculatorEventData, @Nonnull String result) {
@@ -160,6 +160,6 @@ public class Display implements CalculatorEventListener {
         }
 
         final DisplayState displayState = calculatorEventData.getDisplayState();
-        setState(DisplayState.createValid(displayState.getOperation(), displayState.getResult(), result, 0, calculatorEventData.getSequenceId()));
+        setState(DisplayState.createValid(displayState.getOperation(), displayState.getResult(), result, calculatorEventData.getSequenceId()));
     }
 }
