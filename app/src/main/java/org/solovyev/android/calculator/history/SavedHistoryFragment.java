@@ -45,12 +45,12 @@ public class SavedHistoryFragment extends BaseHistoryFragment {
     @Nonnull
     @Override
     protected List<HistoryState> getHistoryItems() {
-        return new ArrayList<>(Locator.getInstance().getHistory().getSavedHistory());
+        return new ArrayList<>(Locator.getInstance().getHistory().getSaved());
     }
 
     @Override
     protected void clearHistory() {
-        Locator.getInstance().getHistory().clearSavedHistory();
+        Locator.getInstance().getHistory().clearSaved();
         getAdapter().clear();
     }
 }

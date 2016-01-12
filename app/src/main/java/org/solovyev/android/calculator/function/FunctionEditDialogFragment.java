@@ -311,7 +311,7 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
         public static Input newFromDisplay(@Nonnull DisplayState viewState) {
             final Input result = new Input();
 
-            result.content = viewState.getText();
+            result.content = viewState.text;
             final Generic generic = viewState.getResult();
             if (generic != null) {
                 final Set<Constant> constants = CalculatorUtils.getNotSystemConstants(generic);

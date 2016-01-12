@@ -116,14 +116,12 @@ public class CalculatorKeyboard {
     }
 
     public void copyButtonPressed() {
-        final DisplayState displayViewState = Locator.getInstance().getDisplay().getState();
-        if (displayViewState.isValid()) {
-            final CharSequence text = displayViewState.getText();
-            if (!Strings.isEmpty(text)) {
-                Locator.getInstance().getClipboard().setText(text);
-                Locator.getInstance().getNotifier().showMessage(CalculatorMessage.newInfoMessage(CalculatorMessages.result_copied));
-            }
+        final DisplayState displayState = Locator.getInstance().getDisplay().getState();
+        if (!displayState.valid) {
+            return;
         }
+        Locator.getInstance().getClipboard().setText(displayState.text);
+        Locator.getInstance().getNotifier().showMessage(CalculatorMessage.newInfoMessage(CalculatorMessages.result_copied));
     }
 
     public void moveCursorLeft() {

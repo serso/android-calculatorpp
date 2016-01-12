@@ -8,12 +8,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 
-public abstract class BaseFileSaver implements Runnable {
+public abstract class BaseIoSaver implements Runnable {
 
     @NonNull
     private final CharSequence data;
 
-    protected BaseFileSaver(@NonNull CharSequence data) {
+    protected BaseIoSaver(@NonNull CharSequence data) {
         this.data = data;
     }
 

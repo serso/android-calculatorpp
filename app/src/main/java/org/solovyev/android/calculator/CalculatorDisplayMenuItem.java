@@ -123,7 +123,7 @@ public enum CalculatorDisplayMenuItem implements LabeledMenuItem<DisplayState> {
 
     public final boolean isItemVisible(@Nonnull DisplayState displayViewState) {
         //noinspection ConstantConditions
-        return displayViewState.isValid() && displayViewState.getResult() != null && isItemVisibleFor(displayViewState.getResult(), displayViewState.getOperation());
+        return displayViewState.valid && displayViewState.getResult() != null && isItemVisibleFor(displayViewState.getResult(), displayViewState.getOperation());
     }
 
     protected boolean isItemVisibleFor(@Nonnull Generic generic, @Nonnull JsclOperation operation) {

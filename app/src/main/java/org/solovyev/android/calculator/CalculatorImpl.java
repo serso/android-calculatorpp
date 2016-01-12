@@ -23,16 +23,9 @@
 package org.solovyev.android.calculator;
 
 import android.text.TextUtils;
+
 import com.squareup.otto.Subscribe;
-import jscl.AbstractJsclArithmeticException;
-import jscl.NumeralBase;
-import jscl.NumeralBaseException;
-import jscl.math.Generic;
-import jscl.math.function.Function;
-import jscl.math.function.IConstant;
-import jscl.math.operator.Operator;
-import jscl.text.ParseInterruptedException;
-import org.solovyev.android.calculator.history.CalculatorHistory;
+
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.model.Var;
 import org.solovyev.android.calculator.text.TextProcessor;
@@ -45,13 +38,23 @@ import org.solovyev.common.text.Strings;
 import org.solovyev.common.units.ConversionException;
 import org.solovyev.common.units.Conversions;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicLong;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import jscl.AbstractJsclArithmeticException;
+import jscl.NumeralBase;
+import jscl.NumeralBaseException;
+import jscl.math.Generic;
+import jscl.math.function.Function;
+import jscl.math.function.IConstant;
+import jscl.math.operator.Operator;
+import jscl.text.ParseInterruptedException;
 
 /**
  * User: Solovyev_S
@@ -486,11 +489,11 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
     @Subscribe
     public void onDisplayChanged(@Nonnull Display.ChangedEvent e) {
         final DisplayState newState = e.newState;
-        if (!newState.isValid()) {
+        if (!newState.valid) {
             return;
         }
-        final String result = newState.getStringResult();
-        if (TextUtils.isEmpty(result)) {
+        final String text = newState.text;
+        if (TextUtils.isEmpty(text)) {
             return;
         }
         final CalculatorMathRegistry<IConstant> varsRegistry = Locator.getInstance().getEngine().getVarsRegistry();
@@ -498,7 +501,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 
         final Var.Builder builder = ansVar != null ? new Var.Builder(ansVar) : new Var.Builder();
         builder.setName(CalculatorVarsRegistry.ANS);
-        builder.setValue(result);
+        builder.setValue(text);
         builder.setDescription(CalculatorMessages.getBundle().getString(CalculatorMessages.ans_description));
 
         CalculatorVarsRegistry.saveVariable(varsRegistry, builder, ansVar, this, false);

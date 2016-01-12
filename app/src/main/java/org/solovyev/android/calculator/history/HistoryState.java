@@ -1,6 +1,7 @@
 package org.solovyev.android.calculator.history;
 
-import android.support.annotation.Nullable;
+import android.text.TextUtils;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.solovyev.android.Check;
@@ -11,17 +12,18 @@ import javax.annotation.Nonnull;
 
 public class HistoryState {
 
-    @Nonnull
     private static final String JSON_EDITOR = "e";
-    @Nonnull
     private static final String JSON_DISPLAY = "d";
+    private static final String JSON_TIME = "t";
+    private static final String JSON_COMMENT = "c";
+
     @Nonnull
     public final EditorState editor;
     @Nonnull
     public final DisplayState display;
     protected long time;
-    @Nullable
-    protected String comment;
+    @Nonnull
+    protected String comment = "";
 
     private HistoryState(@Nonnull EditorState editor, @Nonnull DisplayState display) {
         this.editor = editor;
@@ -30,11 +32,30 @@ public class HistoryState {
 
     private HistoryState(@Nonnull JSONObject json) throws JSONException {
         this(EditorState.create(json.getJSONObject(JSON_EDITOR)), DisplayState.create(json.getJSONObject(JSON_DISPLAY)));
+        this.time = json.optLong(JSON_TIME, 0L);
+        this.comment = json.optString(JSON_COMMENT, "");
     }
 
     @Nonnull
     public static Builder newBuilder(@Nonnull EditorState editor, @Nonnull DisplayState display) {
         return new Builder(editor, display);
+    }
+
+    @Nonnull
+    public static HistoryState create(@Nonnull JSONObject json) throws JSONException {
+        return new HistoryState(json);
+    }
+
+    @Nonnull
+    public JSONObject toJson() throws JSONException {
+        final JSONObject json = new JSONObject();
+        json.put(JSON_EDITOR, editor.toJson());
+        json.put(JSON_DISPLAY, display.toJson());
+        json.put(JSON_TIME, time);
+        if (!TextUtils.isEmpty(comment)) {
+            json.put(JSON_COMMENT, comment);
+        }
+        return json;
     }
 
     @Nonnull
@@ -51,7 +72,7 @@ public class HistoryState {
         return time;
     }
 
-    @Nullable
+    @Nonnull
     public String getComment() {
         return comment;
     }
@@ -74,7 +95,7 @@ public class HistoryState {
             this.time = time;
         }
 
-        public void setComment(@Nullable String comment) {
+        public void setComment(@Nonnull String comment) {
             Check.isTrue(!built);
             this.comment = comment;
         }

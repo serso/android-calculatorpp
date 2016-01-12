@@ -89,7 +89,7 @@ public class DisplayView extends AutoResizeTextView {
         Check.isMainThread();
 
         state = newState;
-        if (state.isValid()) {
+        if (state.valid) {
             setText(highlightText(state));
             setTextColor(getTextColor().normal);
         } else {
@@ -100,7 +100,7 @@ public class DisplayView extends AutoResizeTextView {
 
     @NonNull
     private CharSequence highlightText(@Nonnull DisplayState state) {
-        final String text = state.getStringResult();
+        final String text = state.text;
         if (TextUtils.isEmpty(text)) {
             return "";
         }

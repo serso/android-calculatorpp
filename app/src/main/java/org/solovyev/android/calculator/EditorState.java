@@ -33,9 +33,7 @@ import javax.annotation.Nullable;
 public class EditorState {
 
     public static final long NO_SEQUENCE = -1;
-    @Nonnull
     private static final String JSON_TEXT = "t";
-    @Nonnull
     private static final String JSON_SELECTION = "s";
     private static long counter = NO_SEQUENCE + 1;
 

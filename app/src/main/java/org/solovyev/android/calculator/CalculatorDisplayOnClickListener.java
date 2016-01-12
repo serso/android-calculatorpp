@@ -24,12 +24,14 @@ package org.solovyev.android.calculator;
 
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
+
 import org.solovyev.android.menu.ContextMenuBuilder;
 import org.solovyev.android.menu.ListContextMenu;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.annotation.Nonnull;
 
 /**
  * User: Solovyev_S
@@ -52,7 +54,7 @@ public class CalculatorDisplayOnClickListener implements View.OnClickListener {
 
             final DisplayState displayViewState = cd.getState();
 
-            if (displayViewState.isValid()) {
+            if (displayViewState.valid) {
                 final List<CalculatorDisplayMenuItem> filteredMenuItems = new ArrayList<CalculatorDisplayMenuItem>(CalculatorDisplayMenuItem.values().length);
                 for (CalculatorDisplayMenuItem menuItem : CalculatorDisplayMenuItem.values()) {
                     if (menuItem.isItemVisible(displayViewState)) {
@@ -65,10 +67,8 @@ public class CalculatorDisplayOnClickListener implements View.OnClickListener {
                 }
 
             } else {
-                final String errorMessage = displayViewState.getErrorMessage();
-                if (errorMessage != null) {
-                    Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_evaluation_error, errorMessage, activity);
-                }
+                final String errorMessage = displayViewState.text;
+                Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_evaluation_error, errorMessage, activity);
             }
         }
     }

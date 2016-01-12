@@ -90,7 +90,7 @@ public class CalculatorApplication extends android.app.Application implements Sh
 
         Locator.getInstance().getCalculator().init();
 
-        App.getInitializer().execute(new Runnable() {
+        App.getInitThread().execute(new Runnable() {
             @Override
             public void run() {
                 warmUpEngine();

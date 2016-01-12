@@ -40,7 +40,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
+
 import com.squareup.otto.Bus;
+
 import org.solovyev.android.Check;
 import org.solovyev.android.UiThreadExecutor;
 import org.solovyev.android.Views;
@@ -49,7 +52,13 @@ import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.android.calculator.onscreen.CalculatorOnscreenService;
 import org.solovyev.android.calculator.view.ScreenMetrics;
 import org.solovyev.android.calculator.wizard.CalculatorWizards;
-import org.solovyev.android.checkout.*;
+import org.solovyev.android.checkout.Billing;
+import org.solovyev.android.checkout.Checkout;
+import org.solovyev.android.checkout.Inventory;
+import org.solovyev.android.checkout.ProductTypes;
+import org.solovyev.android.checkout.Products;
+import org.solovyev.android.checkout.RobotmediaDatabase;
+import org.solovyev.android.checkout.RobotmediaInventory;
 import org.solovyev.android.wizard.Wizards;
 import org.solovyev.common.listeners.JEvent;
 import org.solovyev.common.listeners.JEventListener;
@@ -57,11 +66,13 @@ import org.solovyev.common.listeners.JEventListeners;
 import org.solovyev.common.listeners.Listeners;
 import org.solovyev.common.threads.DelayedExecutor;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * User: serso
@@ -119,7 +130,12 @@ public final class App {
     @Nonnull
     private static Wizards wizards;
     @Nonnull
-    private static final Executor initializer = Executors.newSingleThreadExecutor();
+    private static final Executor initThread = Executors.newSingleThreadExecutor(new ThreadFactory() {
+        @Override
+        public Thread newThread(@Nonnull Runnable r) {
+            return new Thread(r, "Init");
+        }
+    });
 
     private App() {
         throw new AssertionError();
@@ -251,8 +267,8 @@ public final class App {
     }
 
     @Nonnull
-    public static Executor getInitializer() {
-        return initializer;
+    public static Executor getInitThread() {
+        return initThread;
     }
 
     @Nonnull
