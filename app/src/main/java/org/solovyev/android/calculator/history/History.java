@@ -51,7 +51,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class CalculatorHistory {
+public class History {
 
     public static final String TAG = App.subTag("History");
     @Nonnull
@@ -62,7 +62,7 @@ public class CalculatorHistory {
     private EditorState lastEditorState;
     private boolean initialized;
 
-    public CalculatorHistory() {
+    public History() {
         App.getBus().register(this);
         App.getInitThread().execute(new Runnable() {
             @Override

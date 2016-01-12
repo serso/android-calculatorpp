@@ -25,12 +25,14 @@ package org.solovyev.android.calculator;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
+
 import com.squareup.leakcanary.LeakCanary;
+
 import org.acra.ACRA;
 import org.acra.ACRAConfiguration;
 import org.acra.sender.HttpSender;
 import org.solovyev.android.Android;
-import org.solovyev.android.calculator.history.CalculatorHistory;
+import org.solovyev.android.calculator.history.History;
 import org.solovyev.android.calculator.language.Language;
 import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
@@ -40,10 +42,11 @@ import org.solovyev.android.calculator.plot.CalculatorPlotterImpl;
 import org.solovyev.android.calculator.view.EditorTextProcessor;
 import org.solovyev.common.msg.MessageType;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import javax.annotation.Nonnull;
 
 public class CalculatorApplication extends android.app.Application implements SharedPreferences.OnSharedPreferenceChangeListener {
     @Nonnull
@@ -74,7 +77,7 @@ public class CalculatorApplication extends android.app.Application implements Sh
                 new AndroidCalculatorEngine(this),
                 new AndroidCalculatorClipboard(this),
                 new AndroidCalculatorNotifier(this),
-                new CalculatorHistory(),
+                new History(),
                 new AndroidCalculatorLogger(),
                 new AndroidCalculatorPreferenceService(this),
                 new CalculatorKeyboard(),

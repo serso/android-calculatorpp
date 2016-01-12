@@ -26,7 +26,7 @@ import android.content.Context;
 
 import org.junit.Assert;
 import org.mockito.Mockito;
-import org.solovyev.android.calculator.history.CalculatorHistory;
+import org.solovyev.android.calculator.history.History;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.plot.CalculatorPlotter;
 
@@ -56,7 +56,7 @@ public class CalculatorTestUtils {
     public static final int TIMEOUT = 3;
 
     public static void staticSetUp() throws Exception {
-        Locator.getInstance().init(new CalculatorImpl(), newCalculatorEngine(), Mockito.mock(CalculatorClipboard.class), Mockito.mock(CalculatorNotifier.class), Mockito.mock(CalculatorHistory.class), new SystemOutCalculatorLogger(), Mockito.mock(CalculatorPreferenceService.class), Mockito.mock(CalculatorKeyboard.class), Mockito.mock(CalculatorPlotter.class), null);
+        Locator.getInstance().init(new CalculatorImpl(), newCalculatorEngine(), Mockito.mock(CalculatorClipboard.class), Mockito.mock(CalculatorNotifier.class), Mockito.mock(History.class), new SystemOutCalculatorLogger(), Mockito.mock(CalculatorPreferenceService.class), Mockito.mock(CalculatorKeyboard.class), Mockito.mock(CalculatorPlotter.class), null);
         Locator.getInstance().getEngine().init();
 
         final DecimalFormatSymbols decimalGroupSymbols = new DecimalFormatSymbols();
@@ -66,7 +66,7 @@ public class CalculatorTestUtils {
     }
 
     public static void staticSetUp(@Nullable Context context) throws Exception {
-        Locator.getInstance().init(new CalculatorImpl(), newCalculatorEngine(), Mockito.mock(CalculatorClipboard.class), Mockito.mock(CalculatorNotifier.class), Mockito.mock(CalculatorHistory.class), new SystemOutCalculatorLogger(), Mockito.mock(CalculatorPreferenceService.class), Mockito.mock(CalculatorKeyboard.class), Mockito.mock(CalculatorPlotter.class), null);
+        Locator.getInstance().init(new CalculatorImpl(), newCalculatorEngine(), Mockito.mock(CalculatorClipboard.class), Mockito.mock(CalculatorNotifier.class), Mockito.mock(History.class), new SystemOutCalculatorLogger(), Mockito.mock(CalculatorPreferenceService.class), Mockito.mock(CalculatorKeyboard.class), Mockito.mock(CalculatorPlotter.class), null);
         Locator.getInstance().getEngine().init();
 
         if (context != null) {

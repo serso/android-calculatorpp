@@ -22,7 +22,7 @@
 
 package org.solovyev.android.calculator;
 
-import org.solovyev.android.calculator.history.CalculatorHistory;
+import org.solovyev.android.calculator.history.History;
 import org.solovyev.android.calculator.plot.CalculatorPlotter;
 import org.solovyev.android.calculator.text.TextProcessor;
 import org.solovyev.android.calculator.text.TextProcessorEditorResult;
@@ -41,7 +41,7 @@ public interface CalculatorLocator {
               @Nonnull CalculatorEngine engine,
               @Nonnull CalculatorClipboard clipboard,
               @Nonnull CalculatorNotifier notifier,
-              @Nonnull CalculatorHistory history,
+              @Nonnull History history,
               @Nonnull CalculatorLogger logger,
               @Nonnull CalculatorPreferenceService preferenceService,
               @Nonnull CalculatorKeyboard keyboard,
@@ -70,7 +70,7 @@ public interface CalculatorLocator {
     CalculatorNotifier getNotifier();
 
     @Nonnull
-    CalculatorHistory getHistory();
+    History getHistory();
 
     @Nonnull
     CalculatorLogger getLogger();

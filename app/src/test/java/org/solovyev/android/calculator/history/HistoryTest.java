@@ -38,7 +38,7 @@ import javax.annotation.Nonnull;
  * Date: 10.10.12
  * Time: 15:07
  */
-public class CalculatorHistoryTest {
+public class HistoryTest {
 
     @BeforeClass
     public static void setUp() throws Exception {
@@ -47,29 +47,29 @@ public class CalculatorHistoryTest {
 
     @Test
     public void testGetStates() throws Exception {
-        CalculatorHistory calculatorHistory = new CalculatorHistory();
+        History history = new History();
 
-        addState(calculatorHistory, "1");
-        addState(calculatorHistory, "12");
-        addState(calculatorHistory, "123");
-        addState(calculatorHistory, "123+");
-        addState(calculatorHistory, "123+3");
-        addState(calculatorHistory, "");
-        addState(calculatorHistory, "2");
-        addState(calculatorHistory, "23");
-        addState(calculatorHistory, "235");
-        addState(calculatorHistory, "2355");
-        addState(calculatorHistory, "235");
-        addState(calculatorHistory, "2354");
-        addState(calculatorHistory, "23547");
+        addState(history, "1");
+        addState(history, "12");
+        addState(history, "123");
+        addState(history, "123+");
+        addState(history, "123+3");
+        addState(history, "");
+        addState(history, "2");
+        addState(history, "23");
+        addState(history, "235");
+        addState(history, "2355");
+        addState(history, "235");
+        addState(history, "2354");
+        addState(history, "23547");
 
-        final List<HistoryState> states = calculatorHistory.getCurrent();
+        final List<HistoryState> states = history.getCurrent();
         Assert.assertEquals(2, states.size());
         Assert.assertEquals("23547", states.get(1).editor.getTextString());
         Assert.assertEquals("123+3", states.get(0).editor.getTextString());
     }
 
-    private void addState(@Nonnull CalculatorHistory calculatorHistory, @Nonnull String text) {
-        calculatorHistory.addCurrent(HistoryState.newBuilder(EditorState.create(text, 3), DisplayState.empty()));
+    private void addState(@Nonnull History history, @Nonnull String text) {
+        history.addCurrent(HistoryState.newBuilder(EditorState.create(text, 3), DisplayState.empty()));
     }
 }
