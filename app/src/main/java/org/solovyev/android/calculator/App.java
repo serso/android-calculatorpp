@@ -70,6 +70,7 @@ import java.util.Arrays;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -134,6 +135,15 @@ public final class App {
         @Override
         public Thread newThread(@Nonnull Runnable r) {
             return new Thread(r, "Init");
+        }
+    });
+    @Nonnull
+    private static final Executor background = Executors.newFixedThreadPool(5, new ThreadFactory() {
+        @NonNull
+        private final AtomicInteger counter = new AtomicInteger();
+        @Override
+        public Thread newThread(@Nonnull Runnable r) {
+            return new Thread(r, "Background #" + counter.getAndIncrement());
         }
     });
 
@@ -269,6 +279,11 @@ public final class App {
     @Nonnull
     public static Executor getInitThread() {
         return initThread;
+    }
+
+    @Nonnull
+    public static Executor getBackground() {
+        return background;
     }
 
     @Nonnull

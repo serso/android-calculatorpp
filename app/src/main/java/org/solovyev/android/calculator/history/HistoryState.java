@@ -81,6 +81,16 @@ public class HistoryState {
         return this.editor.same(that.editor) && this.display.same(that.display);
     }
 
+    @Override
+    public String toString() {
+        return "HistoryState{" +
+                "editor=" + editor +
+                ", display=" + display +
+                ", time=" + time +
+                ", comment='" + comment + '\'' +
+                '}';
+    }
+
     public static final class Builder extends HistoryState {
 
         private boolean built;

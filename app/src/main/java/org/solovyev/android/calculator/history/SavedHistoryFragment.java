@@ -26,7 +26,6 @@ import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Nonnull;
@@ -45,7 +44,7 @@ public class SavedHistoryFragment extends BaseHistoryFragment {
     @Nonnull
     @Override
     protected List<HistoryState> getHistoryItems() {
-        return new ArrayList<>(Locator.getInstance().getHistory().getSaved());
+        return Locator.getInstance().getHistory().getSaved();
     }
 
     @Override
