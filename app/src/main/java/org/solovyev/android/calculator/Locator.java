@@ -22,7 +22,7 @@
 
 package org.solovyev.android.calculator;
 
-import org.solovyev.android.calculator.history.CalculatorHistory;
+import org.solovyev.android.calculator.history.History;
 import org.solovyev.android.calculator.plot.CalculatorPlotter;
 import org.solovyev.android.calculator.text.TextProcessor;
 import org.solovyev.android.calculator.text.TextProcessorEditorResult;
@@ -50,7 +50,7 @@ public class Locator implements CalculatorLocator {
     @Nonnull
     private CalculatorKeyboard calculatorKeyboard;
     @Nonnull
-    private CalculatorHistory calculatorHistory;
+    private History history;
     @Nonnull
     private CalculatorNotifier calculatorNotifier = new DummyCalculatorNotifier();
     @Nonnull
@@ -76,7 +76,7 @@ public class Locator implements CalculatorLocator {
                      @Nonnull CalculatorEngine engine,
                      @Nonnull CalculatorClipboard clipboard,
                      @Nonnull CalculatorNotifier notifier,
-                     @Nonnull CalculatorHistory history,
+                     @Nonnull History history,
                      @Nonnull CalculatorLogger logger,
                      @Nonnull CalculatorPreferenceService preferenceService,
                      @Nonnull CalculatorKeyboard keyboard,
@@ -87,7 +87,7 @@ public class Locator implements CalculatorLocator {
         this.calculatorEngine = engine;
         this.calculatorClipboard = clipboard;
         this.calculatorNotifier = notifier;
-        this.calculatorHistory = history;
+        this.history = history;
         this.calculatorLogger = logger;
         this.calculatorPreferenceService = preferenceService;
         this.calculatorPlotter = plotter;
@@ -145,8 +145,8 @@ public class Locator implements CalculatorLocator {
 
     @Override
     @Nonnull
-    public CalculatorHistory getHistory() {
-        return calculatorHistory;
+    public History getHistory() {
+        return history;
     }
 
     @Override

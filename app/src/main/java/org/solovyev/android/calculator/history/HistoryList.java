@@ -121,7 +121,7 @@ public class HistoryList {
             try {
                 array.put(i, state.toJson());
             } catch (JSONException e) {
-                Log.e(CalculatorHistory.TAG, e.getMessage(), e);
+                Log.e(History.TAG, e.getMessage(), e);
             }
         }
         return array;
@@ -138,7 +138,7 @@ public class HistoryList {
             try {
                 states.add(HistoryState.create(json));
             } catch (JSONException e) {
-                Log.e(CalculatorHistory.TAG, e.getMessage(), e);
+                Log.e(History.TAG, e.getMessage(), e);
             }
         }
         return states;
