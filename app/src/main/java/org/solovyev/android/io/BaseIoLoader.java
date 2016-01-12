@@ -1,7 +1,5 @@
 package org.solovyev.android.io;
 
-import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
@@ -10,14 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-abstract class BaseFileLoader {
-
-    @NonNull
-    protected final Context context;
-
-    public BaseFileLoader(@NonNull Context context) {
-        this.context = context;
-    }
+public abstract class BaseIoLoader {
 
     @Nullable
     public CharSequence load() {

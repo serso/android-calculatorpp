@@ -44,12 +44,12 @@ public class HistoryFragment extends BaseHistoryFragment {
     @Nonnull
     @Override
     protected List<HistoryState> getHistoryItems() {
-        return Locator.getInstance().getHistory().getCurrentHistory();
+        return Locator.getInstance().getHistory().getCurrent();
     }
 
     @Override
     protected void clearHistory() {
-        Locator.getInstance().getHistory().clear();
+        Locator.getInstance().getHistory().clearCurrent();
         getAdapter().clear();
     }
 }

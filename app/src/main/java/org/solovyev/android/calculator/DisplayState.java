@@ -23,46 +23,42 @@
 package org.solovyev.android.calculator;
 
 import android.text.TextUtils;
-import jscl.math.Generic;
+
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.solovyev.android.calculator.jscl.JsclOperation;
-import org.solovyev.common.text.Strings;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import jscl.math.Generic;
+
 public class DisplayState {
 
+    private static final String JSON_TEXT = "t";
     @Nonnull
-    private static final String JSON_OPERATION = "o";
+    public final String text;
+    public final boolean valid;
+    public final long sequence;
     @Nonnull
-    private JsclOperation operation = JsclOperation.numeric;
-
+    private transient JsclOperation operation = JsclOperation.numeric;
     @Nullable
     private transient Generic result;
 
-    @Nullable
-    private String stringResult = "";
-
-    private boolean valid = true;
-
-    @Nullable
-    private String errorMessage;
-
-    private long sequence;
-
-    private DisplayState() {
+    private DisplayState(@Nonnull String text, boolean valid, long sequence) {
+        this.text = text;
+        this.valid = valid;
+        this.sequence = sequence;
     }
 
-    private DisplayState(@Nonnull JSONObject json) {
-        operation = JsclOperation.values()[json.optInt(JSON_OPERATION, JsclOperation.numeric.ordinal())];
+    DisplayState(@Nonnull JSONObject json) {
+        this(json.optString(JSON_TEXT), true, EditorState.NO_SEQUENCE);
     }
 
     @Nonnull
     public static DisplayState empty() {
-        return new DisplayState();
+        return new DisplayState("", true, EditorState.NO_SEQUENCE);
     }
-
 
     @Nonnull
     public static DisplayState create(@Nonnull JSONObject json) {
@@ -73,11 +69,8 @@ public class DisplayState {
     public static DisplayState createError(@Nonnull JsclOperation operation,
                                            @Nonnull String errorMessage,
                                            long sequence) {
-        final DisplayState state = new DisplayState();
-        state.valid = false;
-        state.errorMessage = errorMessage;
+        final DisplayState state = new DisplayState(errorMessage, false, sequence);
         state.operation = operation;
-        state.sequence = sequence;
         return state;
     }
 
@@ -86,18 +79,10 @@ public class DisplayState {
                                            @Nullable Generic result,
                                            @Nonnull String stringResult,
                                            long sequence) {
-        final DisplayState state = new DisplayState();
-        state.valid = true;
+        final DisplayState state = new DisplayState(stringResult, true, sequence);
         state.result = result;
-        state.stringResult = stringResult;
         state.operation = operation;
-        state.sequence = sequence;
         return state;
-    }
-
-    @Nonnull
-    public String getText() {
-        return Strings.getNotEmpty(isValid() ? stringResult : errorMessage, "");
     }
 
     @Nullable
@@ -105,30 +90,19 @@ public class DisplayState {
         return this.result;
     }
 
-    public boolean isValid() {
-        return this.valid;
-    }
-
-    @Nullable
-    public String getErrorMessage() {
-        return this.errorMessage;
-    }
-
-    @Nullable
-    public String getStringResult() {
-        return stringResult;
-    }
-
     @Nonnull
     public JsclOperation getOperation() {
         return this.operation;
     }
 
-    public long getSequence() {
-        return sequence;
+    public boolean same(@Nonnull DisplayState that) {
+        return TextUtils.equals(text, that.text) && operation == that.operation;
     }
 
-    public boolean same(@Nonnull DisplayState that) {
-        return TextUtils.equals(stringResult, that.stringResult) && TextUtils.equals(errorMessage, that.errorMessage) && operation == that.operation;
+    @Nonnull
+    public JSONObject toJson() throws JSONException {
+        final JSONObject json = new JSONObject();
+        json.put(JSON_TEXT, text);
+        return json;
     }
 }

@@ -22,12 +22,11 @@
 
 package org.solovyev.android.calculator;
 
-import org.solovyev.common.text.Strings;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * User: serso
@@ -115,13 +114,11 @@ public enum CalculatorSpecialButton {
                 return;
             }
 
-            final DisplayState displayViewState = Locator.getInstance().getDisplay().getState();
-            if (displayViewState.isValid()) {
-                final CharSequence text = displayViewState.getText();
-                if (!Strings.isEmpty(text)) {
-                    Locator.getInstance().getEditor().setText(text.toString());
-                }
+            final DisplayState displayState = Locator.getInstance().getDisplay().getState();
+            if (!displayState.valid) {
+                return;
             }
+            Locator.getInstance().getEditor().setText(displayState.text);
         }
     },
     clear("clear") {

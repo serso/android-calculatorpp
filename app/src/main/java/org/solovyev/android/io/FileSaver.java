@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
-public class FileSaver extends BaseFileSaver {
+public class FileSaver extends BaseIoSaver {
 
     @NonNull
     private final File file;

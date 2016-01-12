@@ -30,17 +30,37 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.ListFragment;
 import android.text.ClipboardManager;
-import android.view.*;
-import android.widget.*;
+import android.view.ContextMenu;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.melnykov.fab.FloatingActionButton;
-import org.solovyev.android.calculator.*;
+
+import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.CalculatorActivity;
+import org.solovyev.android.calculator.CalculatorEventData;
+import org.solovyev.android.calculator.CalculatorEventListener;
+import org.solovyev.android.calculator.CalculatorEventType;
+import org.solovyev.android.calculator.CalculatorFragmentType;
+import org.solovyev.android.calculator.FragmentUi;
+import org.solovyev.android.calculator.Locator;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.common.text.Strings;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import static android.view.Menu.NONE;
 import static org.solovyev.android.calculator.CalculatorEventType.clear_history_requested;
@@ -71,7 +91,7 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
 
     @Nonnull
     public static String getHistoryText(@Nonnull HistoryState state) {
-        return state.editor.getTextString() + getIdentitySign(state.display.getOperation()) + state.display.getText();
+        return state.editor.getTextString() + getIdentitySign(state.display.getOperation()) + state.display.text;
     }
 
     @Nonnull
@@ -185,7 +205,7 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
                 }
                 return true;
             case R.string.c_copy_result:
-                final String displayText = state.display.getText();
+                final String displayText = state.display.text;
                 if (!Strings.isEmpty(displayText)) {
                     final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
                     clipboard.setText(displayText);
@@ -200,7 +220,7 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
                 return true;
             case R.string.c_remove:
                 getAdapter().remove(state);
-                Locator.getInstance().getHistory().removeSavedHistory(state);
+                Locator.getInstance().getHistory().removeSaved(state);
                 Toast.makeText(context, context.getText(R.string.c_history_was_removed), Toast.LENGTH_LONG).show();
                 getAdapter().notifyDataSetChanged();
                 return true;
@@ -226,7 +246,7 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         /*if (save) {
-                            final HistoryState savedHistoryItem = Locator.getInstance().getHistory().addSavedState(state);
+                            final HistoryState savedHistoryItem = Locator.getInstance().getHistory().addSaved(state);
                             savedHistoryItem.setComment(comment.getText().toString());
                             Locator.getInstance().getHistory().save();
                             // we don't need to add element to the adapter as adapter of another activity must be updated and not this
@@ -245,7 +265,7 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
     }
 
     private boolean shouldHaveCopyResult(@Nonnull HistoryState state) {
-        return !state.display.isValid() || !Strings.isEmpty(state.display.getText());
+        return !state.display.valid || !Strings.isEmpty(state.display.text);
     }
 
     @Override

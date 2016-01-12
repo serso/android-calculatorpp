@@ -33,12 +33,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-import jscl.math.Generic;
+
 import org.solovyev.android.Activities;
 import org.solovyev.android.calculator.about.CalculatorAboutActivity;
 import org.solovyev.android.calculator.function.FunctionEditDialogFragment;
 import org.solovyev.android.calculator.history.CalculatorHistoryActivity;
-import org.solovyev.android.calculator.math.edit.*;
+import org.solovyev.android.calculator.math.edit.CalculatorFunctionsActivity;
+import org.solovyev.android.calculator.math.edit.CalculatorOperatorsActivity;
+import org.solovyev.android.calculator.math.edit.CalculatorVarsActivity;
+import org.solovyev.android.calculator.math.edit.CalculatorVarsFragment;
+import org.solovyev.android.calculator.math.edit.VarEditDialogFragment;
 import org.solovyev.android.calculator.matrix.CalculatorMatrixActivity;
 import org.solovyev.android.calculator.plot.CalculatorPlotActivity;
 import org.solovyev.android.calculator.plot.CalculatorPlotter;
@@ -47,9 +51,12 @@ import org.solovyev.common.msg.Message;
 import org.solovyev.common.msg.MessageType;
 import org.solovyev.common.text.Strings;
 
+import java.util.List;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.List;
+
+import jscl.math.Generic;
 
 /**
  * User: serso
@@ -131,8 +138,8 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
     public static void tryCreateVar(@Nonnull final Context context) {
         final Display display = Locator.getInstance().getDisplay();
         final DisplayState viewState = display.getState();
-        if (viewState.isValid()) {
-            final String varValue = viewState.getText();
+        if (viewState.valid) {
+            final String varValue = viewState.text;
             if (!Strings.isEmpty(varValue)) {
                 if (CalculatorVarsFragment.isValidValue(varValue)) {
                     if (context instanceof AppCompatActivity) {
@@ -158,12 +165,10 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
         final Display display = Locator.getInstance().getDisplay();
         final DisplayState viewState = display.getState();
 
-        if (viewState.isValid()) {
-            final String functionValue = viewState.getText();
+        if (viewState.valid) {
+            final String functionValue = viewState.text;
             if (!Strings.isEmpty(functionValue)) {
-
                 FunctionEditDialogFragment.showDialog(FunctionEditDialogFragment.Input.newFromDisplay(viewState), context);
-
             } else {
                 getNotifier().showMessage(R.string.empty_function_error, MessageType.error);
             }
@@ -182,8 +187,8 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
         final Display display = Locator.getInstance().getDisplay();
         final DisplayState viewState = display.getState();
 
-        if (viewState.isValid()) {
-            final String functionValue = viewState.getText();
+        if (viewState.valid) {
+            final String functionValue = viewState.text;
             final Generic expression = viewState.getResult();
             if (!Strings.isEmpty(functionValue) && expression != null) {
                 if (plotter.isPlotPossibleFor(expression)) {

@@ -29,8 +29,9 @@ import org.solovyev.android.calculator.CalculatorTestUtils;
 import org.solovyev.android.calculator.DisplayState;
 import org.solovyev.android.calculator.EditorState;
 
-import javax.annotation.Nonnull;
 import java.util.List;
+
+import javax.annotation.Nonnull;
 
 /**
  * User: Solovyev_S
@@ -62,13 +63,13 @@ public class CalculatorHistoryTest {
         addState(calculatorHistory, "2354");
         addState(calculatorHistory, "23547");
 
-        final List<HistoryState> states = calculatorHistory.getCurrentHistory();
+        final List<HistoryState> states = calculatorHistory.getCurrent();
         Assert.assertEquals(2, states.size());
-        Assert.assertEquals("23547", states.get(1).getEditor().getTextString());
-        Assert.assertEquals("123+3", states.get(0).getEditor().getTextString());
+        Assert.assertEquals("23547", states.get(1).editor.getTextString());
+        Assert.assertEquals("123+3", states.get(0).editor.getTextString());
     }
 
     private void addState(@Nonnull CalculatorHistory calculatorHistory, @Nonnull String text) {
-        calculatorHistory.addCurrentState(HistoryState.newBuilder(EditorState.create(text, 3), DisplayState.empty()));
+        calculatorHistory.addCurrent(HistoryState.newBuilder(EditorState.create(text, 3), DisplayState.empty()));
     }
 }

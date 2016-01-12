@@ -23,19 +23,27 @@
 package org.solovyev.android.calculator;
 
 import android.content.Context;
-import jscl.JsclMathEngine;
+
 import org.junit.Assert;
 import org.mockito.Mockito;
 import org.solovyev.android.calculator.history.CalculatorHistory;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.plot.CalculatorPlotter;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.text.DecimalFormatSymbols;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import jscl.JsclMathEngine;
 
 /**
  * User: serso
@@ -103,7 +111,7 @@ public class CalculatorTestUtils {
 
             if (latch.await(TIMEOUT, TimeUnit.SECONDS)) {
                 Assert.assertNotNull(calculatorEventListener.getResult());
-                Assert.assertEquals(expected, calculatorEventListener.getResult().getText());
+                Assert.assertEquals(expected, calculatorEventListener.getResult().text);
             } else {
                 Assert.fail("Too long wait for: " + expression);
             }
@@ -158,7 +166,7 @@ public class CalculatorTestUtils {
 
             if (latch.await(TIMEOUT, TimeUnit.SECONDS)) {
                 Assert.assertNotNull(calculatorEventListener.getResult());
-                Assert.assertFalse(calculatorEventListener.getResult().isValid());
+                Assert.assertFalse(calculatorEventListener.getResult().valid);
             } else {
                 Assert.fail("Too long wait for: " + expression);
             }
