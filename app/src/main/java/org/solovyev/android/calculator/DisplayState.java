@@ -105,4 +105,13 @@ public class DisplayState {
         json.put(JSON_TEXT, text);
         return json;
     }
+
+    @Override
+    public String toString() {
+        return "DisplayState{" +
+                "valid=" + valid +
+                ", sequence=" + sequence +
+                ", operation=" + operation +
+                '}';
+    }
 }

@@ -23,6 +23,7 @@
 package org.solovyev.android.calculator.history;
 
 import android.content.SharedPreferences;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
@@ -54,10 +55,16 @@ import javax.annotation.Nullable;
 public class History {
 
     public static final String TAG = App.subTag("History");
+    @NonNull
+    private final Runnable writeCurrent = new WriteTask(true);
+    @NonNull
+    private final Runnable writeSaved = new WriteTask(false);
     @Nonnull
     private final HistoryList current = new HistoryList();
     @Nonnull
     private final List<HistoryState> saved = new ArrayList<>();
+    @Nonnull
+    private final Handler handler = App.getHandler();
     @Nullable
     private EditorState lastEditorState;
     private boolean initialized;
@@ -131,9 +138,11 @@ public class History {
         migrateOldHistory();
         final List<HistoryState> currentStates = loadStates(getCurrentHistoryFile());
         final List<HistoryState> savedStates = loadStates(getSavedHistoryFile());
-        App.getHandler().post(new Runnable() {
+        handler.post(new Runnable() {
             @Override
             public void run() {
+                Check.isTrue(current.isEmpty());
+                Check.isTrue(saved.isEmpty());
                 current.addAll(currentStates);
                 saved.addAll(savedStates);
                 initialized = true;
@@ -155,11 +164,13 @@ public class History {
     }
 
     private void onCurrentChanged() {
-        // todo serso: implement
+        handler.removeCallbacks(writeCurrent);
+        handler.postDelayed(writeCurrent, 500);
     }
 
     private void onSavedChanged() {
-        // todo serso: implement
+        handler.removeCallbacks(writeSaved);
+        handler.postDelayed(writeSaved, 500);
     }
 
     @Nonnull
@@ -184,10 +195,10 @@ public class History {
     @Nonnull
     public List<HistoryState> getSaved() {
         Check.isMainThread();
-        return Collections.unmodifiableList(saved);
+        return new ArrayList<>(saved);
     }
 
-    private boolean isIntermediate(@Nonnull String newerText,
+    private static boolean isIntermediate(@Nonnull String newerText,
                                    @Nonnull String olderText) {
         final int diff = newerText.length() - olderText.length();
         if (diff == 1) {
@@ -267,5 +278,28 @@ public class History {
         }
         addCurrent(HistoryState.newBuilder(lastEditorState, e.newState).build());
         lastEditorState = null;
+    }
+
+    private class WriteTask implements Runnable {
+        private final boolean current;
+
+        public WriteTask(boolean current) {
+            this.current = current;
+        }
+
+        @Override
+        public void run() {
+            Check.isMainThread();
+            // don't need to save intermediate states, thus {@link History#getCurrent}
+            final List<HistoryState> states = current ? getCurrent() : getSaved();
+            App.getBackground().execute(new Runnable() {
+                @Override
+                public void run() {
+                    final File file = current ? getCurrentHistoryFile() : getSavedHistoryFile();
+                    final JSONArray array = HistoryList.toJson(states);
+                    FileSaver.save(file, array.toString());
+                }
+            });
+        }
     }
 }
