@@ -121,6 +121,9 @@ public class History {
 
     @Nonnull
     private static List<HistoryState> loadStates(@Nonnull File file) {
+        if (!file.exists()) {
+            return Collections.emptyList();
+        }
         final CharSequence json = FileLoader.load(file);
         if (TextUtils.isEmpty(json)) {
             return Collections.emptyList();
