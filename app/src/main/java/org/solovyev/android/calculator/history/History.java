@@ -40,6 +40,7 @@ import org.solovyev.android.calculator.DisplayState;
 import org.solovyev.android.calculator.Editor;
 import org.solovyev.android.calculator.EditorState;
 import org.solovyev.android.calculator.Locator;
+import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 import org.solovyev.android.io.FileLoader;
 import org.solovyev.android.io.FileSaver;
 
@@ -51,6 +52,8 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
+import static java.lang.Character.isDigit;
 
 public class History {
 
@@ -182,14 +185,23 @@ public class History {
 
         final List<HistoryState> result = new LinkedList<>();
 
+        final String groupingSeparator = AndroidCalculatorEngine.Preferences.groupingSeparator.getPreference(App.getPreferences());
+
         final List<HistoryState> states = current.asList();
-        for (int i = 1; i < states.size(); i++) {
-            final HistoryState newerState = states.get(i);
+        final int statesCount = states.size();
+        for (int i = 1; i < statesCount; i++) {
             final HistoryState olderState = states.get(i - 1);
-            final String newerText = newerState.editor.getTextString();
+            final HistoryState newerState = states.get(i);
             final String olderText = olderState.editor.getTextString();
-            if (!isIntermediate(olderText, newerText)) {
+            final String newerText = newerState.editor.getTextString();
+            if (!isIntermediate(olderText, newerText, groupingSeparator)) {
                 result.add(0, olderState);
+            }
+        }
+        if (statesCount > 0) {
+            final HistoryState state = states.get(statesCount - 1);
+            if (!TextUtils.isEmpty(state.editor.getTextString())) {
+                result.add(0, state);
             }
         }
         return result;
@@ -201,18 +213,51 @@ public class History {
         return new ArrayList<>(saved);
     }
 
-    private static boolean isIntermediate(@Nonnull String newerText,
-                                   @Nonnull String olderText) {
+    private static boolean isIntermediate(@Nonnull String olderText,
+                                          @Nonnull String newerText,
+                                          @NonNull String groupingSeparator) {
+        if (TextUtils.isEmpty(olderText)) {
+            return true;
+        }
+        if (TextUtils.isEmpty(newerText)) {
+            return false;
+        }
+        olderText = trimGroupingSeparators(olderText, groupingSeparator);
+        newerText = trimGroupingSeparators(newerText, groupingSeparator);
+
         final int diff = newerText.length() - olderText.length();
-        if (diff == 1) {
+        if (diff >= 1) {
             return newerText.startsWith(olderText);
-        } else if (diff == -1) {
+        } else if (diff <= 1) {
             return olderText.startsWith(newerText);
         } else if (diff == 0) {
-            return newerText.equals(olderText);
+            return olderText.equals(newerText);
         }
 
         return false;
+    }
+
+    @NonNull
+    private static String trimGroupingSeparators(@NonNull String text, @NonNull String groupingSeparator) {
+        if (TextUtils.isEmpty(groupingSeparator)) {
+            return text;
+        }
+        Check.isTrue(groupingSeparator.length() == 1);
+        final StringBuilder sb = new StringBuilder(text.length());
+        for (int i = 0; i < text.length(); i++) {
+            if (i == 0 || i == text.length() - 1) {
+                // grouping separator can't be the first and the last character
+                sb.append(text.charAt(i));
+                continue;
+            }
+            if (isDigit(text.charAt(i - 1)) && text.charAt(i) == groupingSeparator.charAt(0) && isDigit(text.charAt(i + 1))) {
+                // grouping separator => skip
+                continue;
+            }
+            sb.append(text.charAt(i));
+
+        }
+        return sb.toString();
     }
 
     public void clearCurrent() {

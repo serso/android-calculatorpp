@@ -110,7 +110,11 @@ public class HistoryList {
 
     @NonNull
     public List<HistoryState> asList() {
-        return Collections.unmodifiableList(list);
+        Check.isMainThread();
+        if (current == -1) {
+            return Collections.emptyList();
+        }
+        return Collections.unmodifiableList(list.subList(0, current + 1));
     }
 
     @NonNull
