@@ -26,7 +26,7 @@ import android.support.v4.app.Fragment;
 
 import org.solovyev.android.calculator.about.CalculatorAboutFragment;
 import org.solovyev.android.calculator.about.CalculatorReleaseNotesFragment;
-import org.solovyev.android.calculator.history.HistoryFragment;
+import org.solovyev.android.calculator.history.RecentHistoryFragment;
 import org.solovyev.android.calculator.history.SavedHistoryFragment;
 import org.solovyev.android.calculator.math.edit.CalculatorFunctionsFragment;
 import org.solovyev.android.calculator.math.edit.CalculatorOperatorsFragment;
@@ -50,7 +50,7 @@ public enum CalculatorFragmentType {
     editor(CalculatorEditorFragment.class, R.layout.cpp_app_editor, R.string.editor),
     //display(CalculatorHistoryFragment.class, "history", R.layout.history_fragment, R.string.c_history),
     //keyboard(CalculatorHistoryFragment.class, "history", R.layout.history_fragment, R.string.c_history),
-    history(HistoryFragment.class, R.layout.history_fragment, R.string.c_history),
+    history(RecentHistoryFragment.class, R.layout.history_fragment, R.string.c_history),
     saved_history(SavedHistoryFragment.class, R.layout.history_fragment, R.string.c_saved_history),
     variables(CalculatorVarsFragment.class, R.layout.vars_fragment, R.string.c_vars),
     functions(CalculatorFunctionsFragment.class, R.layout.math_entities_fragment, R.string.c_functions),
