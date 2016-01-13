@@ -22,31 +22,20 @@
 
 package org.solovyev.android.calculator;
 
-import org.solovyev.android.calculator.history.History;
 import org.solovyev.android.calculator.plot.CalculatorPlotter;
-import org.solovyev.android.calculator.text.TextProcessor;
-import org.solovyev.android.calculator.text.TextProcessorEditorResult;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
-/**
- * User: Solovyev_S
- * Date: 20.09.12
- * Time: 12:45
- */
 public interface CalculatorLocator {
 
     void init(@Nonnull Calculator calculator,
               @Nonnull CalculatorEngine engine,
               @Nonnull CalculatorClipboard clipboard,
               @Nonnull CalculatorNotifier notifier,
-              @Nonnull History history,
               @Nonnull CalculatorLogger logger,
               @Nonnull CalculatorPreferenceService preferenceService,
-              @Nonnull CalculatorKeyboard keyboard,
-              @Nonnull CalculatorPlotter plotter,
-              @Nullable TextProcessor<TextProcessorEditorResult, String> editorTextProcessor);
+              @Nonnull Keyboard keyboard,
+              @Nonnull CalculatorPlotter plotter);
 
     @Nonnull
     Calculator getCalculator();
@@ -55,22 +44,13 @@ public interface CalculatorLocator {
     CalculatorEngine getEngine();
 
     @Nonnull
-    Display getDisplay();
-
-    @Nonnull
-    Editor getEditor();
-
-    @Nonnull
-    CalculatorKeyboard getKeyboard();
+    Keyboard getKeyboard();
 
     @Nonnull
     CalculatorClipboard getClipboard();
 
     @Nonnull
     CalculatorNotifier getNotifier();
-
-    @Nonnull
-    History getHistory();
 
     @Nonnull
     CalculatorLogger getLogger();

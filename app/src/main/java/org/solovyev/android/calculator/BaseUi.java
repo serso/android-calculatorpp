@@ -43,6 +43,8 @@ import org.solovyev.android.views.dragbutton.*;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.inject.Inject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -110,8 +112,14 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
         return viewIds;
     }
 
+    @Inject
+    SharedPreferences preferences;
+
+    @Inject
+    Editor editor;
+
     protected void onCreate(@Nonnull Activity activity) {
-        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
+        ((CalculatorApplication) activity.getApplication()).getComponent().inject(this);
 
         layout = Preferences.Gui.layout.getPreferenceNoError(preferences);
         theme = Preferences.Gui.theme.getPreferenceNoError(preferences);
@@ -170,7 +178,7 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
             minusButton.setOnDragListener(newDragListener(new OperatorsDragProcessor(), activity));
         }
 
-        final DragListener toPositionDragListener = new SimpleDragListener(new CursorDragProcessor(), activity);
+        final DragListener toPositionDragListener = new SimpleDragListener(new CursorDragProcessor(editor), activity);
 
         final DragButton rightButton = getButton(views, R.id.cpp_button_right);
         if (rightButton != null) {
@@ -278,7 +286,7 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
     }
 
     @Nonnull
-    private CalculatorKeyboard getKeyboard() {
+    private Keyboard getKeyboard() {
         return Locator.getInstance().getKeyboard();
     }
 

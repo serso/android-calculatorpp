@@ -1,9 +1,7 @@
 package org.solovyev.android.calculator.view;
 
 import android.app.Application;
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.solovyev.android.calculator.App;
@@ -14,15 +12,11 @@ import org.solovyev.android.calculator.text.TextProcessorEditorResult;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.inject.Inject;
 
 import static org.solovyev.android.calculator.Preferences.Gui.colorDisplay;
 import static org.solovyev.android.calculator.Preferences.Gui.theme;
 
-/**
- * User: serso
- * Date: 6/27/13
- * Time: 6:11 PM
- */
 public final class EditorTextProcessor implements TextProcessor<TextProcessorEditorResult, String>, SharedPreferences.OnSharedPreferenceChangeListener {
 
     private boolean highlightText = true;
@@ -30,11 +24,7 @@ public final class EditorTextProcessor implements TextProcessor<TextProcessorEdi
     @Nullable
     private TextProcessor<TextProcessorEditorResult, String> textHighlighter;
 
-    public EditorTextProcessor() {
-    }
-
-    public void init(@Nonnull Context context) {
-        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+    public EditorTextProcessor(@Nonnull SharedPreferences preferences) {
         preferences.registerOnSharedPreferenceChangeListener(this);
         onSharedPreferenceChanged(preferences, colorDisplay.getKey());
     }

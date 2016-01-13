@@ -11,9 +11,6 @@ import com.google.android.gms.analytics.Tracker;
 
 import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.R;
-import org.solovyev.common.listeners.JEvent;
-import org.solovyev.common.listeners.JEventListener;
-import org.solovyev.common.listeners.JEventListeners;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -32,7 +29,7 @@ public final class Ga implements SharedPreferences.OnSharedPreferenceChangeListe
     @Nonnull
     private final Tracker tracker;
 
-    public Ga(@Nonnull Context context, @Nonnull SharedPreferences preferences, @Nonnull JEventListeners<JEventListener<? extends JEvent>, JEvent> bus) {
+    public Ga(@Nonnull Context context, @Nonnull SharedPreferences preferences) {
         analytics = GoogleAnalytics.getInstance(context);
         tracker = analytics.newTracker(R.xml.ga);
         preferences.registerOnSharedPreferenceChangeListener(this);

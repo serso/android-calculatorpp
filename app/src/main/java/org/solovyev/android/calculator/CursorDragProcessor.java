@@ -34,15 +34,22 @@ import javax.annotation.Nonnull;
 
 public class CursorDragProcessor implements SimpleDragListener.DragProcessor {
 
+    @Nonnull
+    private final Editor editor;
+
+    public CursorDragProcessor(@Nonnull Editor editor) {
+        this.editor = editor;
+    }
+
     @Override
     public boolean processDragEvent(@Nonnull DragDirection dragDirection, @Nonnull DragButton dragButton, @Nonnull PointF startPoint, @Nonnull MotionEvent motionEvent) {
         if (dragButton instanceof DirectionDragButton) {
             final String text = ((DirectionDragButton) dragButton).getText(dragDirection);
             if ("◁◁".equals(text)) {
-                Locator.getInstance().getEditor().setCursorOnStart();
+                editor.setCursorOnStart();
                 return true;
             } else if ("▷▷".equals(text)) {
-                Locator.getInstance().getEditor().setCursorOnEnd();
+                editor.setCursorOnEnd();
                 return true;
             }
         }

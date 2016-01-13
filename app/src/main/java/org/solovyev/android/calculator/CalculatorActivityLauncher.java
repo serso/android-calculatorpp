@@ -136,7 +136,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
     }
 
     public static void tryCreateVar(@Nonnull final Context context) {
-        final Display display = Locator.getInstance().getDisplay();
+        final Display display = App.getDisplay();
         final DisplayState viewState = display.getState();
         if (viewState.valid) {
             final String varValue = viewState.text;
@@ -162,7 +162,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
     }
 
     public static void tryCreateFunction(@Nonnull final Context context) {
-        final Display display = Locator.getInstance().getDisplay();
+        final Display display = App.getDisplay();
         final DisplayState viewState = display.getState();
 
         if (viewState.valid) {
@@ -184,7 +184,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
 
     public static void tryPlot() {
         final CalculatorPlotter plotter = Locator.getInstance().getPlotter();
-        final Display display = Locator.getInstance().getDisplay();
+        final Display display = App.getDisplay();
         final DisplayState viewState = display.getState();
 
         if (viewState.valid) {

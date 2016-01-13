@@ -23,34 +23,66 @@
 package org.solovyev.android.calculator;
 
 import android.content.SharedPreferences;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.squareup.leakcanary.LeakCanary;
+import com.squareup.otto.Bus;
 
 import org.acra.ACRA;
 import org.acra.ACRAConfiguration;
 import org.acra.sender.HttpSender;
 import org.solovyev.android.Android;
-import org.solovyev.android.calculator.history.History;
 import org.solovyev.android.calculator.language.Language;
 import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 import org.solovyev.android.calculator.onscreen.CalculatorOnscreenStartActivity;
 import org.solovyev.android.calculator.plot.AndroidCalculatorPlotter;
 import org.solovyev.android.calculator.plot.CalculatorPlotterImpl;
-import org.solovyev.android.calculator.view.EditorTextProcessor;
 import org.solovyev.common.msg.MessageType;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.Executor;
 
 import javax.annotation.Nonnull;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 public class CalculatorApplication extends android.app.Application implements SharedPreferences.OnSharedPreferenceChangeListener {
+
+    @Inject
+    @Named(AppModule.THREAD_INIT)
+    Executor initThread;
+
+    @Inject
+    Handler handler;
+
     @Nonnull
     private final List<CalculatorEventListener> listeners = new ArrayList<>();
+
+    private AppComponent component;
+
+    @Inject
+    Editor editor;
+
+    @Inject
+    Display display;
+
+    @Inject
+    Bus bus;
+
+    @Inject
+    Calculator calculator;
+
+    @Inject
+    Keyboard keyboard;
+
+    @Inject
+    @Named(AppModule.THREAD_UI)
+    Executor uiThread;
 
     @Override
     public void onCreate() {
@@ -58,6 +90,11 @@ public class CalculatorApplication extends android.app.Application implements Sh
         final Languages languages = new Languages(preferences);
 
         onPreCreate(preferences, languages);
+        component = DaggerAppComponent.builder()
+                .appModule(new AppModule(this))
+                .build();
+        component.inject(this);
+
         super.onCreate();
         onPostCreate(preferences, languages);
     }
@@ -69,22 +106,15 @@ public class CalculatorApplication extends android.app.Application implements Sh
         languages.updateContextLocale(this, true);
         App.getGa().reportInitially(preferences);
 
-        final AndroidCalculator calculator = new AndroidCalculator(this);
-
-        final EditorTextProcessor editorTextProcessor = new EditorTextProcessor();
-
         Locator.getInstance().init(calculator,
                 new AndroidCalculatorEngine(this),
                 new AndroidCalculatorClipboard(this),
                 new AndroidCalculatorNotifier(this),
-                new History(),
                 new AndroidCalculatorLogger(),
                 new AndroidCalculatorPreferenceService(this),
-                new CalculatorKeyboard(),
-                new AndroidCalculatorPlotter(this, new CalculatorPlotterImpl(calculator)),
-                editorTextProcessor);
-
-        editorTextProcessor.init(this);
+                keyboard,
+                new AndroidCalculatorPlotter(this, new CalculatorPlotterImpl(calculator))
+        );
 
         listeners.add(new CalculatorActivityLauncher());
         for (CalculatorEventListener listener : listeners) {
@@ -93,20 +123,12 @@ public class CalculatorApplication extends android.app.Application implements Sh
 
         Locator.getInstance().getCalculator().init();
 
-        App.getInitThread().execute(new Runnable() {
+        initThread.execute(new Runnable() {
             @Override
             public void run() {
                 warmUpEngine();
             }
         });
-
-        App.getHandler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // we must update the widget when app starts
-                App.getBroadcaster().sendInitIntent();
-            }
-        }, 100);
     }
 
     private void warmUpEngine() {
@@ -153,5 +175,10 @@ public class CalculatorApplication extends android.app.Application implements Sh
             Android.enableComponent(this, CalculatorOnscreenStartActivity.class, showAppIcon);
             Locator.getInstance().getNotifier().showMessage(R.string.cpp_this_change_may_require_reboot, MessageType.info);
         }
+    }
+
+    @Nonnull
+    public AppComponent getComponent() {
+        return component;
     }
 }

@@ -24,7 +24,7 @@ public class CalculatorReceiverTest {
 
     @Test
     public void testShouldPressButtonOnIntent() throws Exception {
-        Locator.setKeyboard(mock(CalculatorKeyboard.class));
+        Locator.setKeyboard(mock(Keyboard.class));
 
         final Intent intent = newButtonClickedIntent(application, four);
         new CalculatorReceiver().onReceive(application, intent);
@@ -35,7 +35,7 @@ public class CalculatorReceiverTest {
 
     @Test
     public void testShouldDoNothingIfButtonInvalid() throws Exception {
-        Locator.setKeyboard(mock(CalculatorKeyboard.class));
+        Locator.setKeyboard(mock(Keyboard.class));
 
         final Intent intent = new Intent(application, CalculatorReceiver.class);
         intent.setAction(ACTION_BUTTON_PRESSED);

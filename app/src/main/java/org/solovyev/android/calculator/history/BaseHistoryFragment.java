@@ -61,6 +61,7 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.inject.Inject;
 
 import static android.view.Menu.NONE;
 import static org.solovyev.android.calculator.CalculatorEventType.clear_history_requested;
@@ -84,6 +85,8 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
     private FragmentUi ui;
     @Nullable
     private AlertDialog clearDialog;
+    @Inject
+    History history;
 
     protected BaseHistoryFragment(@Nonnull CalculatorFragmentType fragmentType) {
         ui = new FragmentUi(fragmentType.getDefaultLayoutId(), fragmentType.getDefaultTitleResId(), false);
@@ -220,7 +223,7 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
                 return true;
             case R.string.c_remove:
                 getAdapter().remove(state);
-                Locator.getInstance().getHistory().removeSaved(state);
+                history.removeSaved(state);
                 Toast.makeText(context, context.getText(R.string.c_history_was_removed), Toast.LENGTH_LONG).show();
                 getAdapter().notifyDataSetChanged();
                 return true;

@@ -31,12 +31,14 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.widget.EditText;
+
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.onscreen.CalculatorOnscreenService;
 
+import java.lang.reflect.Method;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.lang.reflect.Method;
 
 public class EditorView extends EditText {
 
@@ -46,6 +48,8 @@ public class EditorView extends EditText {
     private boolean reportChanges;
     @Nullable
     private Method setShowSoftInputOnFocusMethod;
+    @Nullable
+    private Editor editor;
 
     public EditorView(Context context) {
         super(context);
@@ -73,6 +77,10 @@ public class EditorView extends EditText {
         setShowSoftInputOnFocusCompat(false);
         // changes should only be reported after the view has been set up completely, i.e. now
         reportChanges = true;
+    }
+
+    public void setEditor(@Nullable Editor editor) {
+        this.editor = editor;
     }
 
     @Override
@@ -104,10 +112,15 @@ public class EditorView extends EditText {
         // external text change => need to notify editor
         super.onSelectionChanged(start, end);
 
-        if (start == end) {
-            // only if cursor moving, if selection do nothing
-            Locator.getInstance().getEditor().setSelection(start);
+        // only if cursor moving, if selection do nothing
+        if (start != end) {
+            return;
         }
+        if (editor == null) {
+            Check.shouldNotHappen();
+            return;
+        }
+        editor.setSelection(start);
     }
 
     public void setShowSoftInputOnFocusCompat(boolean show) {
@@ -143,11 +156,15 @@ public class EditorView extends EditText {
 
         @Override
         public void afterTextChanged(Editable s) {
+            // external text change => need to notify editor
             if (!reportChanges) {
                 return;
             }
-            // external text change => need to notify editor
-            Locator.getInstance().getEditor().setText(String.valueOf(s));
+            if (editor == null) {
+                Check.shouldNotHappen();
+                return;
+            }
+            editor.setText(String.valueOf(s));
         }
     }
 }

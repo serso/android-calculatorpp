@@ -5,6 +5,7 @@ import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
 import android.view.View;
 
+import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.Calculator;
 import org.solovyev.android.calculator.Editor;
 import org.solovyev.android.calculator.EditorState;
@@ -23,7 +24,7 @@ public final class LongClickEraser implements View.OnTouchListener {
     private final GestureDetector gestureDetector;
 
     @Nonnull
-    private final Editor editor = Locator.getInstance().getEditor();
+    private final Editor editor = App.getEditor();
 
     @Nonnull
     private final Calculator calculator = Locator.getInstance().getCalculator();

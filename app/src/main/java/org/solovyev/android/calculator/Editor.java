@@ -22,15 +22,23 @@
 
 package org.solovyev.android.calculator;
 
+import android.content.SharedPreferences;
+
+import com.squareup.otto.Bus;
+
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.text.TextProcessor;
 import org.solovyev.android.calculator.text.TextProcessorEditorResult;
+import org.solovyev.android.calculator.view.EditorTextProcessor;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import static java.lang.Math.min;
 
+@Singleton
 public class Editor {
 
     private static final String TAG = App.subTag("Editor");
@@ -40,6 +48,14 @@ public class Editor {
     private EditorView view;
     @Nonnull
     private EditorState state = EditorState.empty();
+    @Inject
+    Bus bus;
+
+    @Inject
+    public Editor(@Nonnull SharedPreferences preferences) {
+        this(new EditorTextProcessor(preferences));
+    }
+
     public Editor(@Nullable TextProcessor<TextProcessorEditorResult, String> textProcessor) {
         this.textProcessor = textProcessor;
     }
@@ -56,11 +72,13 @@ public class Editor {
         Check.isMainThread();
         this.view = view;
         this.view.setState(state);
+        this.view.setEditor(this);
     }
 
     public void clearView(@Nonnull EditorView view) {
         Check.isMainThread();
         if (this.view == view) {
+            this.view.setEditor(null);
             this.view = null;
         }
     }
@@ -86,7 +104,7 @@ public class Editor {
         if (view != null) {
             view.setState(newState);
         }
-        App.getBus().post(new ChangedEvent(oldState, newState));
+        bus.post(new ChangedEvent(oldState, newState));
         return state;
     }
 
@@ -97,7 +115,7 @@ public class Editor {
         if (view != null) {
             view.setState(newState);
         }
-        App.getBus().post(new CursorMovedEvent(newState));
+        bus.post(new CursorMovedEvent(newState));
         return state;
     }
 

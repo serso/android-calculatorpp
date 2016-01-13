@@ -25,14 +25,20 @@ package org.solovyev.android.calculator;
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import jscl.NumeralBase;
-import jscl.math.Generic;
+
+import com.squareup.otto.Bus;
+
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.common.msg.Message;
 
+import java.util.List;
+import java.util.concurrent.Executor;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.List;
+
+import jscl.NumeralBase;
+import jscl.math.Generic;
 
 /**
  * User: serso
@@ -42,13 +48,14 @@ import java.util.List;
 public class AndroidCalculator implements Calculator, CalculatorEventListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
     @Nonnull
-    private final CalculatorImpl calculator = new CalculatorImpl();
+    private final CalculatorImpl calculator;
 
     @Nonnull
     private final Application context;
 
-    public AndroidCalculator(@Nonnull Application application) {
+    public AndroidCalculator(@Nonnull Application application, @Nonnull Bus bus, Executor eventExecutor) {
         this.context = application;
+        this.calculator = new CalculatorImpl(bus, eventExecutor);
         this.calculator.addCalculatorEventListener(this);
 
         PreferenceManager.getDefaultSharedPreferences(application).registerOnSharedPreferenceChangeListener(this);

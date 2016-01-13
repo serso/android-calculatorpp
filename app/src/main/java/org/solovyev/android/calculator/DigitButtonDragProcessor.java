@@ -34,15 +34,15 @@ import javax.annotation.Nonnull;
 public class DigitButtonDragProcessor implements SimpleDragListener.DragProcessor {
 
     @Nonnull
-    private CalculatorKeyboard calculatorKeyboard;
+    private Keyboard keyboard;
 
-    public DigitButtonDragProcessor(@Nonnull CalculatorKeyboard calculatorKeyboard) {
-        this.calculatorKeyboard = calculatorKeyboard;
+    public DigitButtonDragProcessor(@Nonnull Keyboard keyboard) {
+        this.keyboard = keyboard;
     }
 
     @Override
     public boolean processDragEvent(@Nonnull DragDirection direction, @Nonnull DragButton button, @Nonnull PointF startPoint, @Nonnull MotionEvent motionEvent) {
         final String text = ((DirectionDragButton) button).getText(direction);
-        return calculatorKeyboard.buttonPressed(text);
+        return keyboard.buttonPressed(text);
     }
 }

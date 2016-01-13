@@ -33,13 +33,21 @@ import android.support.v4.app.NotificationCompat;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
+import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
+
 import org.solovyev.android.Check;
 import org.solovyev.android.Views;
-import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.CalculatorApplication;
+import org.solovyev.android.calculator.Display;
+import org.solovyev.android.calculator.Editor;
+import org.solovyev.android.calculator.Preferences;
+import org.solovyev.android.calculator.R;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.inject.Inject;
 
 public class CalculatorOnscreenService extends Service implements OnscreenViewListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -49,6 +57,9 @@ public class CalculatorOnscreenService extends Service implements OnscreenViewLi
     private static final int NOTIFICATION_ID = 9031988; // my birthday =)
 
     private CalculatorOnscreenView view;
+
+    @Inject
+    Bus bus;
 
     @Nonnull
     private static Class<?> getIntentListenerClass() {
@@ -101,10 +112,10 @@ public class CalculatorOnscreenService extends Service implements OnscreenViewLi
 
         view = CalculatorOnscreenView.create(this, CalculatorOnscreenViewState.create(width, height, -1, -1), this);
         view.show();
-        view.updateEditorState(Locator.getInstance().getEditor().getState());
-        view.updateDisplayState(Locator.getInstance().getDisplay().getState());
+        view.updateEditorState(App.getEditor().getState());
+        view.updateDisplayState(App.getDisplay().getState());
 
-        App.getBus().register(this);
+        bus.register(this);
         App.getPreferences().registerOnSharedPreferenceChangeListener(this);
     }
 
@@ -113,10 +124,16 @@ public class CalculatorOnscreenService extends Service implements OnscreenViewLi
     }
 
     @Override
+    public void onCreate() {
+        super.onCreate();
+        ((CalculatorApplication) getApplication()).getComponent().inject(this);
+    }
+
+    @Override
     public void onDestroy() {
         if (view != null) {
             App.getPreferences().unregisterOnSharedPreferenceChangeListener(this);
-            App.getBus().unregister(this);
+            bus.unregister(this);
             view.hide();
             view = null;
         }

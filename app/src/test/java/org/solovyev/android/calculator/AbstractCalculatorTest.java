@@ -23,7 +23,6 @@
 package org.solovyev.android.calculator;
 
 import org.mockito.Mockito;
-import org.solovyev.android.calculator.history.History;
 import org.solovyev.android.calculator.plot.CalculatorPlotter;
 
 /**
@@ -34,7 +33,7 @@ import org.solovyev.android.calculator.plot.CalculatorPlotter;
 public class AbstractCalculatorTest {
 
     protected void setUp() throws Exception {
-        Locator.getInstance().init(new CalculatorImpl(), CalculatorTestUtils.newCalculatorEngine(), Mockito.mock(CalculatorClipboard.class), Mockito.mock(CalculatorNotifier.class), Mockito.mock(History.class), new SystemOutCalculatorLogger(), Mockito.mock(CalculatorPreferenceService.class), Mockito.mock(CalculatorKeyboard.class), Mockito.mock(CalculatorPlotter.class), null);
+        Locator.getInstance().init(new CalculatorImpl(null, eventExecutor), CalculatorTestUtils.newCalculatorEngine(), Mockito.mock(CalculatorClipboard.class), Mockito.mock(CalculatorNotifier.class), new SystemOutCalculatorLogger(), Mockito.mock(CalculatorPreferenceService.class), Mockito.mock(Keyboard.class), Mockito.mock(CalculatorPlotter.class));
         Locator.getInstance().getEngine().init();
     }
 

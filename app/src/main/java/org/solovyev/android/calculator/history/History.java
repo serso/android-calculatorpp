@@ -28,12 +28,14 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.google.common.base.Strings;
+import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.AppModule;
 import org.solovyev.android.calculator.CalculatorEventType;
 import org.solovyev.android.calculator.Display;
 import org.solovyev.android.calculator.DisplayState;
@@ -49,9 +51,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.Executor;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import static java.lang.Character.isDigit;
 
@@ -66,15 +71,18 @@ public class History {
     private final RecentHistory recent = new RecentHistory();
     @Nonnull
     private final List<HistoryState> saved = new ArrayList<>();
-    @Nonnull
-    private final Handler handler = App.getHandler();
+    @Inject
+    Handler handler;
+    @Inject
+    SharedPreferences preferences;
     @Nullable
     private EditorState lastEditorState;
     private boolean initialized;
 
-    public History() {
-        App.getBus().register(this);
-        App.getInitThread().execute(new Runnable() {
+    @Inject
+    public History(Bus bus, @Named(AppModule.THREAD_INIT) Executor initThread) {
+        bus.register(this);
+        initThread.execute(new Runnable() {
             @Override
             public void run() {
                 init();
@@ -82,9 +90,8 @@ public class History {
         });
     }
 
-    private static void migrateOldHistory() {
+    private void migrateOldHistory() {
         try {
-            final SharedPreferences preferences = App.getPreferences();
             final String xml = preferences.getString("org.solovyev.android.calculator.CalculatorModel_history", null);
             if (TextUtils.isEmpty(xml)) {
                 return;
@@ -101,7 +108,7 @@ public class History {
     }
 
     @Nullable
-    private static List<HistoryState> convertOldHistory(String xml) {
+    static List<HistoryState> convertOldHistory(@NonNull String xml) {
         final OldHistory history = OldHistory.fromXml(xml);
         if (history == null) {
             // strange, history seems to be broken. Avoid clearing the preference

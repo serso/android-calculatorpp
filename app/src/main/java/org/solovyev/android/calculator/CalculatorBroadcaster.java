@@ -3,12 +3,16 @@ package org.solovyev.android.calculator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Handler;
+
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
-import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.annotation.Nonnull;
+import javax.inject.Inject;
 
 public final class CalculatorBroadcaster implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -21,10 +25,18 @@ public final class CalculatorBroadcaster implements SharedPreferences.OnSharedPr
     @Nonnull
     private final Intents intents = new Intents();
 
-    public CalculatorBroadcaster(@Nonnull Context context, @Nonnull SharedPreferences preferences, @Nonnull Bus bus) {
+    @Inject
+    public CalculatorBroadcaster(@Nonnull Context context, @Nonnull SharedPreferences preferences, @Nonnull Bus bus, @Nonnull Handler handler) {
         this.context = context;
         preferences.registerOnSharedPreferenceChangeListener(this);
         bus.register(this);
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // we must update the widget when app starts
+                sendInitIntent();
+            }
+        }, 100);
     }
 
     @Subscribe

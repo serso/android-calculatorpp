@@ -22,13 +22,22 @@
 
 package org.solovyev.android.calculator;
 
+import com.squareup.otto.Bus;
+
 import org.solovyev.android.Check;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
-import static org.solovyev.android.calculator.CalculatorEventType.*;
+import static org.solovyev.android.calculator.CalculatorEventType.calculation_cancelled;
+import static org.solovyev.android.calculator.CalculatorEventType.calculation_failed;
+import static org.solovyev.android.calculator.CalculatorEventType.calculation_result;
+import static org.solovyev.android.calculator.CalculatorEventType.conversion_failed;
+import static org.solovyev.android.calculator.CalculatorEventType.conversion_result;
 
+@Singleton
 public class Display implements CalculatorEventListener {
 
     public static class ChangedEvent {
@@ -52,6 +61,10 @@ public class Display implements CalculatorEventListener {
     @Nonnull
     private DisplayState state = DisplayState.empty();
 
+    @Inject
+    Bus bus;
+
+    @Inject
     public Display(@Nonnull Calculator calculator) {
         this.lastEvent = new CalculatorEventHolder(CalculatorUtils.createFirstEventDataId());
         calculator.addCalculatorEventListener(this);
@@ -85,7 +98,7 @@ public class Display implements CalculatorEventListener {
         if (view != null) {
             view.setState(newState);
         }
-        App.getBus().post(new ChangedEvent(oldState, newState));
+        bus.post(new ChangedEvent(oldState, newState));
     }
 
     @Override

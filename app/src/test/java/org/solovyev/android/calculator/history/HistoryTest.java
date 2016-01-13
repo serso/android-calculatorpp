@@ -22,22 +22,24 @@
 
 package org.solovyev.android.calculator.history;
 
+import com.squareup.otto.Bus;
+
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.solovyev.android.CalculatorTestRunner;
 import org.solovyev.android.calculator.CalculatorTestUtils;
 import org.solovyev.android.calculator.DisplayState;
 import org.solovyev.android.calculator.EditorState;
 
 import java.util.List;
+import java.util.concurrent.Executor;
 
 import javax.annotation.Nonnull;
 
-/**
- * User: Solovyev_S
- * Date: 10.10.12
- * Time: 15:07
- */
+@RunWith(CalculatorTestRunner.class)
 public class HistoryTest {
 
     @BeforeClass
@@ -47,7 +49,12 @@ public class HistoryTest {
 
     @Test
     public void testGetStates() throws Exception {
-        History history = new History();
+        History history = new History(Mockito.any(Bus.class), new Executor() {
+            @Override
+            public void execute(@Nonnull Runnable command) {
+                command.run();
+            }
+        });
 
         addState(history, "1");
         addState(history, "12");

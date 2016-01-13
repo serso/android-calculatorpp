@@ -95,7 +95,7 @@ public class AndroidEditorViewTest {
                     for (int j = 0; j < count; j++) {
                         try {
                             int textLength = random.nextInt(maxTextLength);
-                            Locator.getInstance().getEditor().insert(Strings.generateRandomString(textLength), textLength);
+                            App.getEditor().insert(Strings.generateRandomString(textLength), textLength);
                         } catch (Throwable e) {
                             System.out.println(e);
                             error.set(true);
