@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-public class HistoryList {
+public class RecentHistory {
 
     private static final int MAX_HISTORY = 20;
 

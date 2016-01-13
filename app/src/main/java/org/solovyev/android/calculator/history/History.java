@@ -59,11 +59,11 @@ public class History {
 
     public static final String TAG = App.subTag("History");
     @NonNull
-    private final Runnable writeCurrent = new WriteTask(true);
+    private final Runnable writeRecent = new WriteTask(true);
     @NonNull
     private final Runnable writeSaved = new WriteTask(false);
     @Nonnull
-    private final HistoryList current = new HistoryList();
+    private final RecentHistory recent = new RecentHistory();
     @Nonnull
     private final List<HistoryState> saved = new ArrayList<>();
     @Nonnull
@@ -89,27 +89,36 @@ public class History {
             if (TextUtils.isEmpty(xml)) {
                 return;
             }
-            final OldHistory history = OldHistory.fromXml(xml);
-            if (history == null) {
-                // strange, history seems to be broken. Avoid clearing the preference
+            final List<HistoryState> states = convertOldHistory(xml);
+            if (states == null) {
                 return;
             }
-            final List<HistoryState> states = new ArrayList<>();
-            for (OldHistoryState state : history.getItems()) {
-                final OldEditorHistoryState oldEditorState = state.getEditorState();
-                final OldDisplayHistoryState oldDisplayState = state.getDisplayState();
-                final String editorText = oldEditorState.getText();
-                final EditorState editor = EditorState.create(Strings.nullToEmpty(editorText), oldEditorState.getCursorPosition());
-                final DisplayState display = oldDisplayState.isValid()
-                        ? DisplayState.createValid(oldDisplayState.getJsclOperation(), null, Strings.nullToEmpty(oldDisplayState.getEditorState().getText()), EditorState.NO_SEQUENCE)
-                        : DisplayState.createError(oldDisplayState.getJsclOperation(), "", EditorState.NO_SEQUENCE);
-                states.add(HistoryState.newBuilder(editor, display).build());
-            }
-            final JSONArray json = HistoryList.toJson(states);
+            final JSONArray json = RecentHistory.toJson(states);
             FileSaver.save(getSavedHistoryFile(), json.toString());
         } catch (Exception e) {
             Locator.getInstance().getLogger().error(TAG, e.getMessage(), e);
         }
+    }
+
+    @Nullable
+    private static List<HistoryState> convertOldHistory(String xml) {
+        final OldHistory history = OldHistory.fromXml(xml);
+        if (history == null) {
+            // strange, history seems to be broken. Avoid clearing the preference
+            return null;
+        }
+        final List<HistoryState> states = new ArrayList<>();
+        for (OldHistoryState state : history.getItems()) {
+            final OldEditorHistoryState oldEditorState = state.getEditorState();
+            final OldDisplayHistoryState oldDisplayState = state.getDisplayState();
+            final String editorText = oldEditorState.getText();
+            final EditorState editor = EditorState.create(Strings.nullToEmpty(editorText), oldEditorState.getCursorPosition());
+            final DisplayState display = oldDisplayState.isValid()
+                    ? DisplayState.createValid(oldDisplayState.getJsclOperation(), null, Strings.nullToEmpty(oldDisplayState.getEditorState().getText()), EditorState.NO_SEQUENCE)
+                    : DisplayState.createError(oldDisplayState.getJsclOperation(), "", EditorState.NO_SEQUENCE);
+            states.add(HistoryState.newBuilder(editor, display).build());
+        }
+        return states;
     }
 
     @NonNull
@@ -118,8 +127,8 @@ public class History {
     }
 
     @NonNull
-    private static File getCurrentHistoryFile() {
-        return new File(App.getApplication().getFilesDir(), "history-current.json");
+    private static File getRecentHistoryFile() {
+        return new File(App.getApplication().getFilesDir(), "history-recent.json");
     }
 
     @Nonnull
@@ -132,7 +141,7 @@ public class History {
             return Collections.emptyList();
         }
         try {
-            return HistoryList.fromJson(new JSONArray(json.toString()));
+            return RecentHistory.fromJson(new JSONArray(json.toString()));
         } catch (JSONException e) {
             Locator.getInstance().getLogger().error(TAG, e.getMessage(), e);
         }
@@ -142,25 +151,25 @@ public class History {
     private void init() {
         Check.isNotMainThread();
         migrateOldHistory();
-        final List<HistoryState> currentStates = loadStates(getCurrentHistoryFile());
+        final List<HistoryState> recentStates = loadStates(getRecentHistoryFile());
         final List<HistoryState> savedStates = loadStates(getSavedHistoryFile());
         handler.post(new Runnable() {
             @Override
             public void run() {
-                Check.isTrue(current.isEmpty());
+                Check.isTrue(recent.isEmpty());
                 Check.isTrue(saved.isEmpty());
-                current.addAll(currentStates);
+                recent.addAll(recentStates);
                 saved.addAll(savedStates);
                 initialized = true;
             }
         });
     }
 
-    public void addCurrent(@Nonnull HistoryState state) {
+    public void addRecent(@Nonnull HistoryState state) {
         Check.isMainThread();
-        current.add(state);
+        recent.add(state);
         Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.history_state_added, state);
-        onCurrentChanged();
+        onRecentChanged();
     }
 
     public void addSaved(@Nonnull HistoryState state) {
@@ -169,9 +178,9 @@ public class History {
         onSavedChanged();
     }
 
-    private void onCurrentChanged() {
-        handler.removeCallbacks(writeCurrent);
-        handler.postDelayed(writeCurrent, 500);
+    private void onRecentChanged() {
+        handler.removeCallbacks(writeRecent);
+        handler.postDelayed(writeRecent, 500);
     }
 
     private void onSavedChanged() {
@@ -180,14 +189,14 @@ public class History {
     }
 
     @Nonnull
-    public List<HistoryState> getCurrent() {
+    public List<HistoryState> getRecent() {
         Check.isMainThread();
 
         final List<HistoryState> result = new LinkedList<>();
 
         final String groupingSeparator = AndroidCalculatorEngine.Preferences.groupingSeparator.getPreference(App.getPreferences());
 
-        final List<HistoryState> states = current.asList();
+        final List<HistoryState> states = recent.asList();
         final int statesCount = states.size();
         for (int i = 1; i < statesCount; i++) {
             final HistoryState olderState = states.get(i - 1);
@@ -260,10 +269,10 @@ public class History {
         return sb.toString();
     }
 
-    public void clearCurrent() {
+    public void clearRecent() {
         Check.isMainThread();
-        current.clear();
-        onCurrentChanged();
+        recent.clear();
+        onRecentChanged();
     }
 
     public void clearSaved() {
@@ -273,7 +282,7 @@ public class History {
     }
 
     public void undo() {
-        final HistoryState state = current.undo();
+        final HistoryState state = recent.undo();
         if (state == null) {
             return;
         }
@@ -281,7 +290,7 @@ public class History {
     }
 
     public void redo() {
-        final HistoryState state = current.redo();
+        final HistoryState state = recent.redo();
         if (state == null) {
             return;
         }
@@ -299,10 +308,10 @@ public class History {
         onSavedChanged();
     }
 
-    public void removeCurrent(@Nonnull HistoryState state) {
+    public void removeRecent(@Nonnull HistoryState state) {
         Check.isMainThread();
-        current.remove(state);
-        onCurrentChanged();
+        recent.remove(state);
+        onRecentChanged();
     }
 
     @Subscribe
@@ -324,27 +333,27 @@ public class History {
         if (lastEditorState.sequence != e.newState.sequence) {
             return;
         }
-        addCurrent(HistoryState.newBuilder(lastEditorState, e.newState).build());
+        addRecent(HistoryState.newBuilder(lastEditorState, e.newState).build());
         lastEditorState = null;
     }
 
     private class WriteTask implements Runnable {
-        private final boolean current;
+        private final boolean recent;
 
-        public WriteTask(boolean current) {
-            this.current = current;
+        public WriteTask(boolean recent) {
+            this.recent = recent;
         }
 
         @Override
         public void run() {
             Check.isMainThread();
-            // don't need to save intermediate states, thus {@link History#getCurrent}
-            final List<HistoryState> states = current ? getCurrent() : getSaved();
+            // don't need to save intermediate states, thus {@link History#getRecent}
+            final List<HistoryState> states = recent ? getRecent() : getSaved();
             App.getBackground().execute(new Runnable() {
                 @Override
                 public void run() {
-                    final File file = current ? getCurrentHistoryFile() : getSavedHistoryFile();
-                    final JSONArray array = HistoryList.toJson(states);
+                    final File file = recent ? getRecentHistoryFile() : getSavedHistoryFile();
+                    final JSONArray array = RecentHistory.toJson(states);
                     FileSaver.save(file, array.toString());
                 }
             });

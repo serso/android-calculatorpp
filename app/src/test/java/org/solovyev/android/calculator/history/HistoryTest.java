@@ -63,13 +63,13 @@ public class HistoryTest {
         addState(history, "2354");
         addState(history, "23547");
 
-        final List<HistoryState> states = history.getCurrent();
+        final List<HistoryState> states = history.getRecent();
         Assert.assertEquals(2, states.size());
         Assert.assertEquals("23547", states.get(1).editor.getTextString());
         Assert.assertEquals("123+3", states.get(0).editor.getTextString());
     }
 
     private void addState(@Nonnull History history, @Nonnull String text) {
-        history.addCurrent(HistoryState.newBuilder(EditorState.create(text, 3), DisplayState.empty()));
+        history.addRecent(HistoryState.newBuilder(EditorState.create(text, 3), DisplayState.empty()));
     }
 }
