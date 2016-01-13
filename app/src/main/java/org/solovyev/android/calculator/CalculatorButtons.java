@@ -107,7 +107,7 @@ public final class CalculatorButtons {
     }
 
     @Nonnull
-    private static CalculatorKeyboard getKeyboard() {
+    private static Keyboard getKeyboard() {
         return Locator.getInstance().getKeyboard();
     }
 

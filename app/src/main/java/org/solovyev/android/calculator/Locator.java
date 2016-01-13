@@ -22,19 +22,10 @@
 
 package org.solovyev.android.calculator;
 
-import org.solovyev.android.calculator.history.History;
 import org.solovyev.android.calculator.plot.CalculatorPlotter;
-import org.solovyev.android.calculator.text.TextProcessor;
-import org.solovyev.android.calculator.text.TextProcessorEditorResult;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
-/**
- * User: Solovyev_S
- * Date: 20.09.12
- * Time: 12:45
- */
 public class Locator implements CalculatorLocator {
 
     @Nonnull
@@ -44,13 +35,7 @@ public class Locator implements CalculatorLocator {
     @Nonnull
     private Calculator calculator;
     @Nonnull
-    private Editor editor;
-    @Nonnull
-    private Display display;
-    @Nonnull
-    private CalculatorKeyboard calculatorKeyboard;
-    @Nonnull
-    private History history;
+    private Keyboard keyboard;
     @Nonnull
     private CalculatorNotifier calculatorNotifier = new DummyCalculatorNotifier();
     @Nonnull
@@ -76,25 +61,20 @@ public class Locator implements CalculatorLocator {
                      @Nonnull CalculatorEngine engine,
                      @Nonnull CalculatorClipboard clipboard,
                      @Nonnull CalculatorNotifier notifier,
-                     @Nonnull History history,
                      @Nonnull CalculatorLogger logger,
                      @Nonnull CalculatorPreferenceService preferenceService,
-                     @Nonnull CalculatorKeyboard keyboard,
-                     @Nonnull CalculatorPlotter plotter,
-                     @Nullable TextProcessor<TextProcessorEditorResult, String> editorTextProcessor) {
+                     @Nonnull Keyboard keyboard,
+                     @Nonnull CalculatorPlotter plotter) {
 
         this.calculator = calculator;
         this.calculatorEngine = engine;
         this.calculatorClipboard = clipboard;
         this.calculatorNotifier = notifier;
-        this.history = history;
         this.calculatorLogger = logger;
         this.calculatorPreferenceService = preferenceService;
         this.calculatorPlotter = plotter;
 
-        editor = new Editor(editorTextProcessor);
-        display = new Display(this.calculator);
-        calculatorKeyboard = keyboard;
+        this.keyboard = keyboard;
     }
 
     @Nonnull
@@ -111,24 +91,12 @@ public class Locator implements CalculatorLocator {
 
     @Override
     @Nonnull
-    public Display getDisplay() {
-        return display;
+    public Keyboard getKeyboard() {
+        return keyboard;
     }
 
-    @Nonnull
-    @Override
-    public Editor getEditor() {
-        return editor;
-    }
-
-    @Override
-    @Nonnull
-    public CalculatorKeyboard getKeyboard() {
-        return calculatorKeyboard;
-    }
-
-    public static void setKeyboard(@Nonnull CalculatorKeyboard keyboard) {
-        instance.calculatorKeyboard = keyboard;
+    public static void setKeyboard(@Nonnull Keyboard keyboard) {
+        instance.keyboard = keyboard;
     }
 
     @Override
@@ -141,12 +109,6 @@ public class Locator implements CalculatorLocator {
     @Nonnull
     public CalculatorNotifier getNotifier() {
         return calculatorNotifier;
-    }
-
-    @Override
-    @Nonnull
-    public History getHistory() {
-        return history;
     }
 
     @Override

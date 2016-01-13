@@ -29,8 +29,6 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Build;
-import android.os.Handler;
-import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -40,12 +38,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 
 import com.squareup.otto.Bus;
 
 import org.solovyev.android.Check;
-import org.solovyev.android.UiThreadExecutor;
 import org.solovyev.android.Views;
 import org.solovyev.android.calculator.ga.Ga;
 import org.solovyev.android.calculator.language.Languages;
@@ -60,10 +56,6 @@ import org.solovyev.android.checkout.Products;
 import org.solovyev.android.checkout.RobotmediaDatabase;
 import org.solovyev.android.checkout.RobotmediaInventory;
 import org.solovyev.android.wizard.Wizards;
-import org.solovyev.common.listeners.JEvent;
-import org.solovyev.common.listeners.JEventListener;
-import org.solovyev.common.listeners.JEventListeners;
-import org.solovyev.common.listeners.Listeners;
 import org.solovyev.common.threads.DelayedExecutor;
 
 import java.util.Arrays;
@@ -74,12 +66,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-/**
- * User: serso
- * Date: 12/1/12
- * Time: 3:58 PM
- */
 
 /**
  * This class aggregates several useful in any Android application interfaces and provides access to {@link android.app.Application} object from a static context.
@@ -108,12 +94,8 @@ public final class App {
     @Nonnull
     private static volatile Application application;
     @Nonnull
-    private static volatile DelayedExecutor uiThreadExecutor;
-    @Nonnull
-    private static Bus bus;
+    private static Executor uiThreadExecutor;
     private static volatile boolean initialized;
-    @Nonnull
-    private static CalculatorBroadcaster broadcaster;
     @Nonnull
     private static SharedPreferences preferences;
     @Nonnull
@@ -127,16 +109,13 @@ public final class App {
     @Nonnull
     private static volatile ScreenMetrics screenMetrics;
     @Nonnull
-    private static final Handler handler = new Handler(Looper.getMainLooper());
-    @Nonnull
     private static Wizards wizards;
     @Nonnull
-    private static final Executor initThread = Executors.newSingleThreadExecutor(new ThreadFactory() {
-        @Override
-        public Thread newThread(@Nonnull Runnable r) {
-            return new Thread(r, "Init");
-        }
-    });
+    private static Editor editor;
+    @Nonnull
+    private static Bus bus;
+    @Nonnull
+    private static Display display;
     @Nonnull
     private static final Executor background = Executors.newFixedThreadPool(5, new ThreadFactory() {
         @NonNull
@@ -151,22 +130,15 @@ public final class App {
         throw new AssertionError();
     }
 
-    public static void init(@Nonnull Application application, @Nonnull Languages languages) {
-        init(application, new UiThreadExecutor(), Listeners.newEventBus(), languages);
-    }
-
-    public static void init(@Nonnull Application application,
-                            @Nonnull UiThreadExecutor uiThreadExecutor,
-                            @Nonnull JEventListeners<JEventListener<? extends JEvent>, JEvent> eventBus,
+    public static void init(@Nonnull CalculatorApplication application,
                             @Nonnull Languages languages) {
         if (initialized) {
             throw new IllegalStateException("Already initialized!");
         }
         App.application = application;
         App.preferences = PreferenceManager.getDefaultSharedPreferences(application);
-        App.uiThreadExecutor = uiThreadExecutor;
-        App.bus = new MyBus();
-        App.ga = new Ga(application, preferences, eventBus);
+        App.uiThreadExecutor = application.uiThread;
+        App.ga = new Ga(application, preferences);
         App.billing = new Billing(application, new Billing.DefaultConfiguration() {
             @Nonnull
             @Override
@@ -184,11 +156,13 @@ public final class App {
                 }
             }
         });
-        App.broadcaster = new CalculatorBroadcaster(application, preferences, bus);
         App.screenMetrics = new ScreenMetrics(application);
         App.languages = languages;
         App.languages.init();
         App.wizards = new CalculatorWizards(application);
+        App.editor = application.editor;
+        App.display = application.display;
+        App.bus = application.bus;
 
         App.initialized = true;
     }
@@ -215,31 +189,13 @@ public final class App {
      * @return UI thread executor
      */
     @Nonnull
-    public static DelayedExecutor getUiThreadExecutor() {
+    public static Executor getUiThreadExecutor() {
         return uiThreadExecutor;
-    }
-
-    /**
-     * @return application's event bus
-     */
-    @Nonnull
-    public static Bus getBus() {
-        return bus;
-    }
-
-    @Nonnull
-    public static CalculatorBroadcaster getBroadcaster() {
-        return broadcaster;
     }
 
     @Nonnull
     public static Wizards getWizards() {
         return wizards;
-    }
-
-    @Nonnull
-    public static Handler getHandler() {
-        return handler;
     }
 
     @Nonnull
@@ -274,11 +230,6 @@ public final class App {
     @Nonnull
     public static Preferences.SimpleTheme getWidgetTheme() {
         return Preferences.Widget.getTheme(getPreferences());
-    }
-
-    @Nonnull
-    public static Executor getInitThread() {
-        return initThread;
     }
 
     @Nonnull
@@ -363,27 +314,16 @@ public final class App {
 
     @Nonnull
     public static Editor getEditor() {
-        return Locator.getInstance().getEditor();
+        return editor;
     }
 
     @Nonnull
     public static Display getDisplay() {
-        return Locator.getInstance().getDisplay();
+        return display;
     }
 
-    private static class MyBus extends Bus {
-        @Override
-        public void post(final Object event) {
-            if (Looper.myLooper() == Looper.getMainLooper()) {
-                super.post(event);
-                return;
-            }
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    MyBus.super.post(event);
-                }
-            });
-        }
+    @Nonnull
+    public static Bus getBus() {
+        return bus;
     }
 }

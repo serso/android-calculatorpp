@@ -25,23 +25,26 @@ package org.solovyev.android.calculator.history;
 import android.graphics.PointF;
 import android.view.MotionEvent;
 
-import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.views.dragbutton.DragButton;
 import org.solovyev.android.views.dragbutton.DragDirection;
 import org.solovyev.android.views.dragbutton.SimpleDragListener;
 
 import javax.annotation.Nonnull;
+import javax.inject.Inject;
 
 public class HistoryDragProcessor implements SimpleDragListener.DragProcessor {
+
+    @Inject
+    History history;
 
     @Override
     public boolean processDragEvent(@Nonnull DragDirection direction, @Nonnull DragButton button, @Nonnull PointF startPoint, @Nonnull MotionEvent motionEvent) {
         switch (direction) {
             case up:
-                Locator.getInstance().getHistory().undo();
+                history.undo();
                 return true;
             case down:
-                Locator.getInstance().getHistory().redo();
+                history.redo();
                 return true;
         }
         return false;

@@ -120,8 +120,8 @@ public class CalculatorWidget extends AppWidgetProvider {
                               @Nonnull AppWidgetManager manager,
                               @Nonnull int[] widgetIds,
                               boolean partially) {
-        final EditorState editorState = Locator.getInstance().getEditor().getState();
-        final DisplayState displayState = Locator.getInstance().getDisplay().getState();
+        final EditorState editorState = App.getEditor().getState();
+        final DisplayState displayState = App.getDisplay().getState();
 
         final Resources resources = context.getResources();
         final SimpleTheme theme = App.getWidgetTheme().resolveThemeFor(App.getTheme());

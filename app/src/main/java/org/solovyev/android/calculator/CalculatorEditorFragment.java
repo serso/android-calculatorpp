@@ -25,7 +25,6 @@ package org.solovyev.android.calculator;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -39,22 +38,22 @@ import org.solovyev.android.menu.AndroidMenuHelper;
 import org.solovyev.android.menu.ListActivityMenu;
 
 import javax.annotation.Nonnull;
+import javax.inject.Inject;
 
-/**
- * User: Solovyev_S
- * Date: 25.09.12
- * Time: 10:49
- */
 public class CalculatorEditorFragment extends Fragment {
 
-    @Nonnull
     private FragmentUi fragmentUi;
 
     @Nonnull
     private ActivityMenu<Menu, MenuItem> menu = ListActivityMenu.fromEnum(CalculatorMenu.class, AndroidMenuHelper.getInstance());
 
-    @Nonnull
     private EditorView editorView;
+
+    @Inject
+    Editor editor;
+
+    @Inject
+    SharedPreferences preferences;
 
     public CalculatorEditorFragment() {
     }
@@ -66,7 +65,7 @@ public class CalculatorEditorFragment extends Fragment {
         fragmentUi.onViewCreated(this, view);
 
         editorView = (EditorView) view.findViewById(R.id.calculator_editor);
-        Locator.getInstance().getEditor().setView(editorView);
+        editor.setView(editorView);
     }
 
     @Override
@@ -78,8 +77,9 @@ public class CalculatorEditorFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
-        final Preferences.Gui.Layout layout = Preferences.Gui.getLayout(prefs);
+        ((CalculatorApplication) getActivity().getApplication()).getComponent().inject(this);
+
+        final Preferences.Gui.Layout layout = Preferences.Gui.getLayout(preferences);
         if (!layout.isOptimized()) {
             fragmentUi = new FragmentUi(R.layout.cpp_app_editor_mobile, R.string.editor);
         } else {
@@ -109,7 +109,7 @@ public class CalculatorEditorFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
-        Locator.getInstance().getEditor().clearView(editorView);
+        editor.clearView(editorView);
         fragmentUi.onDestroyView(this);
         super.onDestroyView();
     }

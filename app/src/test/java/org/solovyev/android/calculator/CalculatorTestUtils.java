@@ -26,8 +26,10 @@ import android.content.Context;
 
 import org.junit.Assert;
 import org.mockito.Mockito;
-import org.solovyev.android.calculator.history.History;
+import org.robolectric.RuntimeEnvironment;
+import org.robolectric.fakes.RoboSharedPreferences;
 import org.solovyev.android.calculator.jscl.JsclOperation;
+import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.android.calculator.plot.CalculatorPlotter;
 
 import java.io.ByteArrayInputStream;
@@ -37,6 +39,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.text.DecimalFormatSymbols;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -56,7 +60,8 @@ public class CalculatorTestUtils {
     public static final int TIMEOUT = 3;
 
     public static void staticSetUp() throws Exception {
-        Locator.getInstance().init(new CalculatorImpl(), newCalculatorEngine(), Mockito.mock(CalculatorClipboard.class), Mockito.mock(CalculatorNotifier.class), Mockito.mock(History.class), new SystemOutCalculatorLogger(), Mockito.mock(CalculatorPreferenceService.class), Mockito.mock(CalculatorKeyboard.class), Mockito.mock(CalculatorPlotter.class), null);
+        App.init(RuntimeEnvironment.application, new Languages(new RoboSharedPreferences(new HashMap<String, Map<String, Object>>(), "test", 0)));
+        Locator.getInstance().init(new CalculatorImpl(), newCalculatorEngine(), Mockito.mock(CalculatorClipboard.class), Mockito.mock(CalculatorNotifier.class), new SystemOutCalculatorLogger(), Mockito.mock(CalculatorPreferenceService.class), Mockito.mock(Keyboard.class), Mockito.mock(CalculatorPlotter.class));
         Locator.getInstance().getEngine().init();
 
         final DecimalFormatSymbols decimalGroupSymbols = new DecimalFormatSymbols();
@@ -66,7 +71,7 @@ public class CalculatorTestUtils {
     }
 
     public static void staticSetUp(@Nullable Context context) throws Exception {
-        Locator.getInstance().init(new CalculatorImpl(), newCalculatorEngine(), Mockito.mock(CalculatorClipboard.class), Mockito.mock(CalculatorNotifier.class), Mockito.mock(History.class), new SystemOutCalculatorLogger(), Mockito.mock(CalculatorPreferenceService.class), Mockito.mock(CalculatorKeyboard.class), Mockito.mock(CalculatorPlotter.class), null);
+        Locator.getInstance().init(new CalculatorImpl(), newCalculatorEngine(), Mockito.mock(CalculatorClipboard.class), Mockito.mock(CalculatorNotifier.class), new SystemOutCalculatorLogger(), Mockito.mock(CalculatorPreferenceService.class), Mockito.mock(Keyboard.class), Mockito.mock(CalculatorPlotter.class));
         Locator.getInstance().getEngine().init();
 
         if (context != null) {
@@ -75,8 +80,8 @@ public class CalculatorTestUtils {
     }
 
     public static void initViews(@Nonnull Context context) {
-        Locator.getInstance().getEditor().setView(new EditorView(context));
-        Locator.getInstance().getDisplay().setView(new DisplayView(context));
+        App.getEditor().setView(new EditorView(context));
+        App.getDisplay().setView(new DisplayView(context));
     }
 
     @Nonnull
@@ -100,7 +105,7 @@ public class CalculatorTestUtils {
     public static void assertEval(@Nonnull String expected, @Nonnull String expression, @Nonnull JsclOperation operation) {
         final Calculator calculator = Locator.getInstance().getCalculator();
 
-        Locator.getInstance().getDisplay().setState(DisplayState.empty());
+        App.getDisplay().setState(DisplayState.empty());
 
         final CountDownLatch latch = new CountDownLatch(1);
         final TestCalculatorEventListener calculatorEventListener = new TestCalculatorEventListener(latch);
@@ -156,7 +161,7 @@ public class CalculatorTestUtils {
     public static void assertError(@Nonnull String expression, @Nonnull JsclOperation operation) {
         final Calculator calculator = Locator.getInstance().getCalculator();
 
-        Locator.getInstance().getDisplay().setState(DisplayState.empty());
+        App.getDisplay().setState(DisplayState.empty());
 
         final CountDownLatch latch = new CountDownLatch(1);
         final TestCalculatorEventListener calculatorEventListener = new TestCalculatorEventListener(latch);

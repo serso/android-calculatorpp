@@ -32,11 +32,17 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.text.method.LinkMovementMethod;
-import android.view.*;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewConfiguration;
+import android.view.Window;
 import android.widget.TextView;
+
 import org.solovyev.android.Activities;
 import org.solovyev.android.Android;
 import org.solovyev.android.Threads;
+import org.solovyev.android.calculator.history.History;
 import org.solovyev.android.calculator.plot.CalculatorPlotActivity;
 import org.solovyev.android.calculator.wizard.CalculatorWizards;
 import org.solovyev.android.fragments.FragmentUtils;
@@ -47,13 +53,16 @@ import org.solovyev.common.Objects;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.inject.Inject;
 
 import static android.os.Build.VERSION_CODES.GINGERBREAD_MR1;
 import static android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH;
 import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
 import static org.solovyev.android.calculator.Preferences.Gui.preventScreenFromFading;
 import static org.solovyev.android.calculator.release.ReleaseNotes.hasReleaseNotes;
-import static org.solovyev.android.wizard.WizardUi.*;
+import static org.solovyev.android.wizard.WizardUi.continueWizard;
+import static org.solovyev.android.wizard.WizardUi.createLaunchIntent;
+import static org.solovyev.android.wizard.WizardUi.startWizard;
 
 public class CalculatorActivity extends BaseActivity implements SharedPreferences.OnSharedPreferenceChangeListener, CalculatorEventListener {
 
@@ -135,6 +144,9 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
         return result;
     }
 
+    @Inject
+    History history;
+
     /**
      * Called when the activity is first created.
      */
@@ -203,7 +215,7 @@ public class CalculatorActivity extends BaseActivity implements SharedPreference
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (useBackAsPrev) {
-                Locator.getInstance().getHistory().undo();
+                history.undo();
                 return true;
             }
         }

@@ -50,7 +50,7 @@ public class CalculatorDisplayOnClickListener implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if (v instanceof DisplayView) {
-            final Display cd = Locator.getInstance().getDisplay();
+            final Display cd = App.getDisplay();
 
             final DisplayState displayViewState = cd.getState();
 

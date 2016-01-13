@@ -24,6 +24,7 @@ package org.solovyev.android.calculator;
 
 import android.text.TextUtils;
 
+import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
 import org.solovyev.android.calculator.jscl.JsclOperation;
@@ -94,17 +95,17 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
     @Nonnull
     private final Executor calculationsExecutor = Executors.newFixedThreadPool(10);
 
-    // NOTE: only one thread is responsible for events as all events must be done in order of their creating
     @Nonnull
-    private final Executor eventExecutor = App.getUiThreadExecutor();
+    private final Executor eventExecutor;
 
     private volatile boolean calculateOnFly = true;
 
     private volatile long lastPreferenceCheck = 0L;
 
 
-    public CalculatorImpl() {
-        App.getBus().register(this);
+    public CalculatorImpl(@Nonnull Bus bus, @Nonnull Executor eventExecutor) {
+        this.eventExecutor = eventExecutor;
+        bus.register(this);
         this.addCalculatorEventListener(this);
     }
 
@@ -373,7 +374,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
                                        @Nonnull final NumeralBase to) {
         final CalculatorEventData eventDataId = nextEventData();
 
-        final DisplayState displayViewState = Locator.getInstance().getDisplay().getState();
+        final DisplayState displayViewState = App.getDisplay().getState();
         final NumeralBase from = Locator.getInstance().getEngine().getNumeralBase();
 
         calculationsExecutor.execute(new Runnable() {
@@ -550,11 +551,11 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 
     @Nonnull
     private Editor getEditor() {
-        return Locator.getInstance().getEditor();
+        return App.getEditor();
     }
 
     @Nonnull
     private Display getDisplay() {
-        return Locator.getInstance().getDisplay();
+        return App.getDisplay();
     }
 }

@@ -27,8 +27,21 @@ import org.solovyev.common.text.Strings;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
-public class CalculatorKeyboard {
+@Singleton
+public class Keyboard {
+
+    @Inject
+    Editor editor;
+
+    @Inject
+    Display display;
+
+    @Inject
+    public Keyboard() {
+    }
 
     public boolean buttonPressed(@Nullable final String text) {
         App.getGa().onButtonPressed(text);
@@ -69,7 +82,6 @@ public class CalculatorKeyboard {
             }
         }
 
-        final Editor editor = Locator.getInstance().getEditor();
         editor.insert(textToBeInserted.toString(), cursorPositionOffset);
     }
 
@@ -95,7 +107,6 @@ public class CalculatorKeyboard {
     }
 
     public void roundBracketsButtonPressed() {
-        final Editor editor = Locator.getInstance().getEditor();
          EditorState viewState = editor.getState();
 
         final int cursorPosition = viewState.selection;
@@ -107,16 +118,16 @@ public class CalculatorKeyboard {
     public void pasteButtonPressed() {
         final String text = Locator.getInstance().getClipboard().getText();
         if (text != null) {
-            Locator.getInstance().getEditor().insert(text);
+            editor.insert(text);
         }
     }
 
     public void clearButtonPressed() {
-        Locator.getInstance().getEditor().clear();
+        editor.clear();
     }
 
     public void copyButtonPressed() {
-        final DisplayState displayState = Locator.getInstance().getDisplay().getState();
+        final DisplayState displayState = display.getState();
         if (!displayState.valid) {
             return;
         }
@@ -125,10 +136,10 @@ public class CalculatorKeyboard {
     }
 
     public void moveCursorLeft() {
-        Locator.getInstance().getEditor().moveCursorLeft();
+        editor.moveCursorLeft();
     }
 
     public void moveCursorRight() {
-        Locator.getInstance().getEditor().moveCursorRight();
+        editor.moveCursorRight();
     }
 }

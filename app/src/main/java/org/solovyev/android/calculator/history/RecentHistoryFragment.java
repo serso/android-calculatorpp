@@ -23,7 +23,6 @@
 package org.solovyev.android.calculator.history;
 
 import org.solovyev.android.calculator.CalculatorFragmentType;
-import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.R;
 
 import java.util.List;
@@ -44,12 +43,12 @@ public class RecentHistoryFragment extends BaseHistoryFragment {
     @Nonnull
     @Override
     protected List<HistoryState> getHistoryItems() {
-        return Locator.getInstance().getHistory().getRecent();
+        return history.getRecent();
     }
 
     @Override
     protected void clearHistory() {
-        Locator.getInstance().getHistory().clearRecent();
+        history.clearRecent();
         getAdapter().clear();
     }
 }
