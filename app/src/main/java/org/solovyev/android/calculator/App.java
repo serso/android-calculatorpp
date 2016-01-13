@@ -95,7 +95,6 @@ public final class App {
     private static volatile Application application;
     @Nonnull
     private static Executor uiThreadExecutor;
-    private static volatile boolean initialized;
     @Nonnull
     private static SharedPreferences preferences;
     @Nonnull
@@ -132,9 +131,6 @@ public final class App {
 
     public static void init(@Nonnull CalculatorApplication application,
                             @Nonnull Languages languages) {
-        if (initialized) {
-            throw new IllegalStateException("Already initialized!");
-        }
         App.application = application;
         App.preferences = PreferenceManager.getDefaultSharedPreferences(application);
         App.uiThreadExecutor = application.uiThread;
@@ -163,14 +159,6 @@ public final class App {
         App.editor = application.editor;
         App.display = application.display;
         App.bus = application.bus;
-
-        App.initialized = true;
-    }
-
-    private static void checkInit() {
-        if (!initialized) {
-            throw new IllegalStateException("App should be initialized!");
-        }
     }
 
     /**

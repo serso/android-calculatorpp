@@ -6,21 +6,17 @@ import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-
 import com.squareup.otto.Bus;
-
+import dagger.Module;
+import dagger.Provides;
 import org.solovyev.android.UiThreadExecutor;
-
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
 
 import javax.annotation.Nonnull;
 import javax.inject.Named;
 import javax.inject.Singleton;
-
-import dagger.Module;
-import dagger.Provides;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
 
 @Module
 public class AppModule {
@@ -41,6 +37,12 @@ public class AppModule {
     @Singleton
     Handler provideHandler() {
         return new Handler(Looper.getMainLooper());
+    }
+
+    @Provides
+    @Singleton
+    Application provideApplication() {
+        return application;
     }
 
     @Provides

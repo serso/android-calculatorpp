@@ -30,43 +30,24 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.ListFragment;
 import android.text.ClipboardManager;
-import android.view.ContextMenu;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import android.view.*;
+import android.widget.*;
 import com.melnykov.fab.FloatingActionButton;
-
-import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.CalculatorActivity;
-import org.solovyev.android.calculator.CalculatorEventData;
-import org.solovyev.android.calculator.CalculatorEventListener;
-import org.solovyev.android.calculator.CalculatorEventType;
-import org.solovyev.android.calculator.CalculatorFragmentType;
-import org.solovyev.android.calculator.FragmentUi;
-import org.solovyev.android.calculator.Locator;
-import org.solovyev.android.calculator.R;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.common.text.Strings;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 
 import static android.view.Menu.NONE;
-import static org.solovyev.android.calculator.CalculatorEventType.clear_history_requested;
 
-public abstract class BaseHistoryFragment extends ListFragment implements CalculatorEventListener {
+public abstract class BaseHistoryFragment extends ListFragment {
 
     @Nonnull
     private final DialogInterface.OnClickListener clearDialogListener = new DialogInterface.OnClickListener() {
@@ -79,14 +60,16 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
             }
         }
     };
+    @Inject
+    History history;
+    @Inject
+    Bus bus;
     @Nonnull
     private HistoryArrayAdapter adapter;
     @Nonnull
     private FragmentUi ui;
     @Nullable
     private AlertDialog clearDialog;
-    @Inject
-    History history;
 
     protected BaseHistoryFragment(@Nonnull CalculatorFragmentType fragmentType) {
         ui = new FragmentUi(fragmentType.getDefaultLayoutId(), fragmentType.getDefaultTitleResId(), false);
@@ -114,6 +97,8 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        ((CalculatorApplication) getActivity().getApplication()).getComponent().inject(this);
+        bus.register(this);
         ui.onCreate(this);
     }
 
@@ -139,7 +124,12 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Locator.getInstance().getCalculator().fireCalculatorEvent(clear_history_requested, null);
+                clearDialog = new AlertDialog.Builder(getActivity()).setTitle(R.string.cpp_clear_history_title)
+                        .setMessage(R.string.cpp_clear_history_message)
+                        .setPositiveButton(R.string.cpp_clear_history, clearDialogListener)
+                        .setNegativeButton(R.string.c_cancel, clearDialogListener)
+                        .create();
+                clearDialog.show();
             }
         });
 
@@ -159,7 +149,7 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
     public void onResume() {
         super.onResume();
 
-        this.ui.onResume(this);
+        ui.onResume(this);
 
         updateAdapter();
     }
@@ -285,6 +275,7 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
 
     @Override
     public void onDestroy() {
+        bus.unregister(this);
         if (clearDialog != null) {
             clearDialog.dismiss();
             clearDialog = null;
@@ -323,31 +314,13 @@ public abstract class BaseHistoryFragment extends ListFragment implements Calcul
         return adapter;
     }
 
-    @Override
-    public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
-        switch (calculatorEventType) {
-            case history_state_added:
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        updateAdapter();
-                    }
-                });
-                break;
-            case clear_history_requested:
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        clearDialog = new AlertDialog.Builder(getActivity()).setTitle(R.string.cpp_clear_history_title)
-                                .setMessage(R.string.cpp_clear_history_message)
-                                .setPositiveButton(R.string.cpp_clear_history, clearDialogListener)
-                                .setNegativeButton(R.string.c_cancel, clearDialogListener)
-                                .create();
-                        clearDialog.show();
-                    }
-                });
-                break;
+    @Subscribe
+    void onHistoryChanged(@Nonnull History.ChangedEvent e) {
+        if (e.recent != isRecentHistory()) {
+            return;
         }
-
+        updateAdapter();
     }
+
+    protected abstract boolean isRecentHistory();
 }

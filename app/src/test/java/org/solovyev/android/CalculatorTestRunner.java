@@ -1,5 +1,6 @@
 package org.solovyev.android;
 
+import android.os.Build;
 import org.junit.runners.model.InitializationError;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
@@ -7,7 +8,7 @@ import org.robolectric.manifest.AndroidManifest;
 import org.robolectric.res.Fs;
 
 public class CalculatorTestRunner extends RobolectricGradleTestRunner {
-    private static final int MAX_SDK_SUPPORTED_BY_ROBOLECTRIC = 18;
+    public static final int SUPPORTED_SDK = Build.VERSION_CODES.LOLLIPOP;
 
     public CalculatorTestRunner(Class<?> testClass) throws InitializationError {
         super(testClass);
@@ -21,7 +22,7 @@ public class CalculatorTestRunner extends RobolectricGradleTestRunner {
         return new AndroidManifest(Fs.fileFromPath(manifestFilePath), Fs.fileFromPath(resourcesFilePath), Fs.fileFromPath(assetsFilePath)) {
             @Override
             public int getTargetSdkVersion() {
-                return MAX_SDK_SUPPORTED_BY_ROBOLECTRIC;
+                return SUPPORTED_SDK;
             }
         };
     }
