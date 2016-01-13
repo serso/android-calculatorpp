@@ -22,9 +22,11 @@
 
 package org.solovyev.android.calculator;
 
+import android.preference.PreferenceManager;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.robolectric.RuntimeEnvironment;
 
 import javax.annotation.Nonnull;
 
@@ -41,7 +43,7 @@ public class EditorTest extends AbstractCalculatorTest {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        this.editor = new Editor(null);
+        this.editor = new Editor(PreferenceManager.getDefaultSharedPreferences(RuntimeEnvironment.application));
     }
 
     @Test

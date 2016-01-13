@@ -25,9 +25,8 @@ package org.solovyev.android.calculator.history;
 import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.R;
 
-import java.util.List;
-
 import javax.annotation.Nonnull;
+import java.util.List;
 
 public class SavedHistoryFragment extends BaseHistoryFragment {
 
@@ -50,5 +49,10 @@ public class SavedHistoryFragment extends BaseHistoryFragment {
     protected void clearHistory() {
         history.clearSaved();
         getAdapter().clear();
+    }
+
+    @Override
+    protected boolean isRecentHistory() {
+        return false;
     }
 }

@@ -22,30 +22,24 @@
 
 package org.solovyev.android.calculator.history;
 
+import android.app.Application;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
-
 import com.google.common.base.Strings;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.AppModule;
-import org.solovyev.android.calculator.CalculatorEventType;
-import org.solovyev.android.calculator.Display;
-import org.solovyev.android.calculator.DisplayState;
-import org.solovyev.android.calculator.Editor;
-import org.solovyev.android.calculator.EditorState;
-import org.solovyev.android.calculator.Locator;
-import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.io.FileLoader;
 import org.solovyev.android.io.FileSaver;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -53,16 +47,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Executor;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.inject.Inject;
-import javax.inject.Named;
-
-import static java.lang.Character.isDigit;
+import static android.text.TextUtils.isEmpty;
 
 public class History {
 
     public static final String TAG = App.subTag("History");
+    private static final ChangedEvent CHANGED_EVENT_RECENT = new ChangedEvent(true);
+    private static final ChangedEvent CHANGED_EVENT_SAVED = new ChangedEvent(false);
     @NonNull
     private final Runnable writeRecent = new WriteTask(true);
     @NonNull
@@ -71,40 +62,28 @@ public class History {
     private final RecentHistory recent = new RecentHistory();
     @Nonnull
     private final List<HistoryState> saved = new ArrayList<>();
+    @Nonnull
+    private final Bus bus;
     @Inject
     Handler handler;
     @Inject
     SharedPreferences preferences;
-    @Nullable
-    private EditorState lastEditorState;
+    @Inject
+    Editor editor;
+    @Inject
+    Application application;
     private boolean initialized;
 
     @Inject
-    public History(Bus bus, @Named(AppModule.THREAD_INIT) Executor initThread) {
-        bus.register(this);
+    public History(@NonNull Bus bus, @Nonnull @Named(AppModule.THREAD_INIT) Executor initThread) {
+        this.bus = bus;
+        this.bus.register(this);
         initThread.execute(new Runnable() {
             @Override
             public void run() {
                 init();
             }
         });
-    }
-
-    private void migrateOldHistory() {
-        try {
-            final String xml = preferences.getString("org.solovyev.android.calculator.CalculatorModel_history", null);
-            if (TextUtils.isEmpty(xml)) {
-                return;
-            }
-            final List<HistoryState> states = convertOldHistory(xml);
-            if (states == null) {
-                return;
-            }
-            final JSONArray json = RecentHistory.toJson(states);
-            FileSaver.save(getSavedHistoryFile(), json.toString());
-        } catch (Exception e) {
-            Locator.getInstance().getLogger().error(TAG, e.getMessage(), e);
-        }
     }
 
     @Nullable
@@ -129,13 +108,13 @@ public class History {
     }
 
     @NonNull
-    private static File getSavedHistoryFile() {
-        return new File(App.getApplication().getFilesDir(), "history-saved.json");
+    private File getSavedHistoryFile() {
+        return new File(application.getFilesDir(), "history-saved.json");
     }
 
     @NonNull
-    private static File getRecentHistoryFile() {
-        return new File(App.getApplication().getFilesDir(), "history-recent.json");
+    private File getRecentHistoryFile() {
+        return new File(application.getFilesDir(), "history-recent.json");
     }
 
     @Nonnull
@@ -144,7 +123,7 @@ public class History {
             return Collections.emptyList();
         }
         final CharSequence json = FileLoader.load(file);
-        if (TextUtils.isEmpty(json)) {
+        if (isEmpty(json)) {
             return Collections.emptyList();
         }
         try {
@@ -153,6 +132,44 @@ public class History {
             Locator.getInstance().getLogger().error(TAG, e.getMessage(), e);
         }
         return Collections.emptyList();
+    }
+
+    private static boolean isIntermediate(@Nonnull String olderText,
+                                          @Nonnull String newerText) {
+        if (isEmpty(olderText)) {
+            return true;
+        }
+        if (isEmpty(newerText)) {
+            return false;
+        }
+
+        final int diff = newerText.length() - olderText.length();
+        if (diff >= 1) {
+            return newerText.startsWith(olderText);
+        } else if (diff <= 1) {
+            return olderText.startsWith(newerText);
+        } else if (diff == 0) {
+            return olderText.equals(newerText);
+        }
+
+        return false;
+    }
+
+    private void migrateOldHistory() {
+        try {
+            final String xml = preferences.getString("org.solovyev.android.calculator.CalculatorModel_history", null);
+            if (isEmpty(xml)) {
+                return;
+            }
+            final List<HistoryState> states = convertOldHistory(xml);
+            if (states == null) {
+                return;
+            }
+            final JSONArray json = RecentHistory.toJson(states);
+            FileSaver.save(getSavedHistoryFile(), json.toString());
+        } catch (Exception e) {
+            Locator.getInstance().getLogger().error(TAG, e.getMessage(), e);
+        }
     }
 
     private void init() {
@@ -175,7 +192,6 @@ public class History {
     public void addRecent(@Nonnull HistoryState state) {
         Check.isMainThread();
         recent.add(state);
-        Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.history_state_added, state);
         onRecentChanged();
     }
 
@@ -188,11 +204,13 @@ public class History {
     private void onRecentChanged() {
         handler.removeCallbacks(writeRecent);
         handler.postDelayed(writeRecent, 500);
+        bus.post(CHANGED_EVENT_RECENT);
     }
 
     private void onSavedChanged() {
         handler.removeCallbacks(writeSaved);
         handler.postDelayed(writeSaved, 500);
+        bus.post(CHANGED_EVENT_SAVED);
     }
 
     @Nonnull
@@ -201,8 +219,6 @@ public class History {
 
         final List<HistoryState> result = new LinkedList<>();
 
-        final String groupingSeparator = AndroidCalculatorEngine.Preferences.groupingSeparator.getPreference(App.getPreferences());
-
         final List<HistoryState> states = recent.asList();
         final int statesCount = states.size();
         for (int i = 1; i < statesCount; i++) {
@@ -210,13 +226,14 @@ public class History {
             final HistoryState newerState = states.get(i);
             final String olderText = olderState.editor.getTextString();
             final String newerText = newerState.editor.getTextString();
-            if (!isIntermediate(olderText, newerText, groupingSeparator)) {
+            if (!isIntermediate(olderText, newerText)) {
                 result.add(0, olderState);
             }
         }
         if (statesCount > 0) {
+            // try add last state if not empty
             final HistoryState state = states.get(statesCount - 1);
-            if (!TextUtils.isEmpty(state.editor.getTextString())) {
+            if (!isEmpty(state.editor.getTextString())) {
                 result.add(0, state);
             }
         }
@@ -227,53 +244,6 @@ public class History {
     public List<HistoryState> getSaved() {
         Check.isMainThread();
         return new ArrayList<>(saved);
-    }
-
-    private static boolean isIntermediate(@Nonnull String olderText,
-                                          @Nonnull String newerText,
-                                          @NonNull String groupingSeparator) {
-        if (TextUtils.isEmpty(olderText)) {
-            return true;
-        }
-        if (TextUtils.isEmpty(newerText)) {
-            return false;
-        }
-        olderText = trimGroupingSeparators(olderText, groupingSeparator);
-        newerText = trimGroupingSeparators(newerText, groupingSeparator);
-
-        final int diff = newerText.length() - olderText.length();
-        if (diff >= 1) {
-            return newerText.startsWith(olderText);
-        } else if (diff <= 1) {
-            return olderText.startsWith(newerText);
-        } else if (diff == 0) {
-            return olderText.equals(newerText);
-        }
-
-        return false;
-    }
-
-    @NonNull
-    private static String trimGroupingSeparators(@NonNull String text, @NonNull String groupingSeparator) {
-        if (TextUtils.isEmpty(groupingSeparator)) {
-            return text;
-        }
-        Check.isTrue(groupingSeparator.length() == 1);
-        final StringBuilder sb = new StringBuilder(text.length());
-        for (int i = 0; i < text.length(); i++) {
-            if (i == 0 || i == text.length() - 1) {
-                // grouping separator can't be the first and the last character
-                sb.append(text.charAt(i));
-                continue;
-            }
-            if (isDigit(text.charAt(i - 1)) && text.charAt(i) == groupingSeparator.charAt(0) && isDigit(text.charAt(i + 1))) {
-                // grouping separator => skip
-                continue;
-            }
-            sb.append(text.charAt(i));
-
-        }
-        return sb.toString();
     }
 
     public void clearRecent() {
@@ -322,26 +292,24 @@ public class History {
     }
 
     @Subscribe
-    public void onEditorChanged(@Nonnull Editor.ChangedEvent e) {
-        if (!initialized) {
-            return;
-        }
-        lastEditorState = e.newState;
-    }
-
-    @Subscribe
     public void onDisplayChanged(@Nonnull Display.ChangedEvent e) {
         if (!initialized) {
             return;
         }
-        if (lastEditorState == null) {
+        final EditorState editorState = editor.getState();
+        final DisplayState displayState = e.newState;
+        if (editorState.sequence != displayState.sequence) {
             return;
         }
-        if (lastEditorState.sequence != e.newState.sequence) {
-            return;
+        addRecent(HistoryState.newBuilder(editorState, displayState).build());
+    }
+
+    public static class ChangedEvent {
+        public final boolean recent;
+
+        public ChangedEvent(boolean recent) {
+            this.recent = recent;
         }
-        addRecent(HistoryState.newBuilder(lastEditorState, e.newState).build());
-        lastEditorState = null;
     }
 
     private class WriteTask implements Runnable {

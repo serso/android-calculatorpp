@@ -22,61 +22,172 @@
 
 package org.solovyev.android.calculator.history;
 
+import android.content.SharedPreferences;
+import android.os.Handler;
 import com.squareup.otto.Bus;
-
-import org.junit.Assert;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RuntimeEnvironment;
+import org.robolectric.annotation.Config;
 import org.solovyev.android.CalculatorTestRunner;
-import org.solovyev.android.calculator.CalculatorTestUtils;
+import org.solovyev.android.calculator.BuildConfig;
 import org.solovyev.android.calculator.DisplayState;
+import org.solovyev.android.calculator.Editor;
 import org.solovyev.android.calculator.EditorState;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.concurrent.Executor;
 
-import javax.annotation.Nonnull;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
-@RunWith(CalculatorTestRunner.class)
+@Config(constants = BuildConfig.class, sdk = CalculatorTestRunner.SUPPORTED_SDK)
+@RunWith(RobolectricGradleTestRunner.class)
 public class HistoryTest {
 
-    @BeforeClass
-    public static void setUp() throws Exception {
-        CalculatorTestUtils.staticSetUp();
+    private History history;
+
+    @Before
+    public void setUp() throws Exception {
+        history = new History(Mockito.mock(Bus.class), Mockito.mock(Executor.class));
+        history.handler = Mockito.mock(Handler.class);
+        history.preferences = Mockito.mock(SharedPreferences.class);
+        history.editor = Mockito.mock(Editor.class);
+        history.application = RuntimeEnvironment.application;
     }
 
     @Test
     public void testGetStates() throws Exception {
-        History history = new History(Mockito.any(Bus.class), new Executor() {
-            @Override
-            public void execute(@Nonnull Runnable command) {
-                command.run();
-            }
-        });
-
-        addState(history, "1");
-        addState(history, "12");
-        addState(history, "123");
-        addState(history, "123+");
-        addState(history, "123+3");
-        addState(history, "");
-        addState(history, "2");
-        addState(history, "23");
-        addState(history, "235");
-        addState(history, "2355");
-        addState(history, "235");
-        addState(history, "2354");
-        addState(history, "23547");
+        addState("1");
+        addState("12");
+        addState("123");
+        addState("123+");
+        addState("123+3");
+        addState("");
+        addState("2");
+        addState("23");
+        addState("235");
+        addState("2355");
+        addState("235");
+        addState("2354");
+        addState("23547");
 
         final List<HistoryState> states = history.getRecent();
-        Assert.assertEquals(2, states.size());
-        Assert.assertEquals("23547", states.get(1).editor.getTextString());
-        Assert.assertEquals("123+3", states.get(0).editor.getTextString());
+        assertEquals(2, states.size());
+        assertEquals("23547", states.get(0).editor.getTextString());
+        assertEquals("123+3", states.get(1).editor.getTextString());
     }
 
-    private void addState(@Nonnull History history, @Nonnull String text) {
+    @Test
+    public void testRecentHistoryShouldNotContainEmptyStates() throws Exception {
+        addState("");
+        addState("1");
+        addState("12");
+        addState("");
+        addState("");
+        addState("34");
+        addState("");
+
+        final List<HistoryState> states = history.getRecent();
+        assertEquals(2, states.size());
+        assertEquals("34", states.get(0).editor.getTextString());
+        assertEquals("12", states.get(1).editor.getTextString());
+    }
+
+    private void addState(@Nonnull String text) {
         history.addRecent(HistoryState.newBuilder(EditorState.create(text, 3), DisplayState.empty()));
+    }
+
+    private static final String oldXml1 = "<history>\n" +
+            "   <historyItems class=\"java.util.ArrayList\">\n" +
+            "      <calculatorHistoryState>\n" +
+            "         <time>100000000</time>\n" +
+            "         <editorState>\n" +
+            "            <cursorPosition>3</cursorPosition>\n" +
+            "            <text>1+1</text>\n" +
+            "         </editorState>\n" +
+            "         <displayState>\n" +
+            "            <editorState>\n" +
+            "               <cursorPosition>0</cursorPosition>\n" +
+            "               <text>Error</text>\n" +
+            "            </editorState>\n" +
+            "            <jsclOperation>simplify</jsclOperation>\n" +
+            "         </displayState>\n" +
+            "      </calculatorHistoryState>\n" +
+            "   </historyItems>\n" +
+            "</history>";
+    private static final String oldXml2 = "<history>\n" +
+            "   <historyItems class=\"java.util.ArrayList\">\n" +
+            "      <calculatorHistoryState>\n" +
+            "         <time>100000000</time>\n" +
+            "         <editorState>\n" +
+            "            <cursorPosition>3</cursorPosition>\n" +
+            "            <text>1+1</text>\n" +
+            "         </editorState>\n" +
+            "         <displayState>\n" +
+            "            <editorState>\n" +
+            "               <cursorPosition>0</cursorPosition>\n" +
+            "               <text>Error</text>\n" +
+            "            </editorState>\n" +
+            "            <jsclOperation>simplify</jsclOperation>\n" +
+            "         </displayState>\n" +
+            "      </calculatorHistoryState>\n" +
+            "      <calculatorHistoryState>\n" +
+            "         <time>100000000</time>\n" +
+            "         <editorState>\n" +
+            "            <cursorPosition>2</cursorPosition>\n" +
+            "            <text>5/6</text>\n" +
+            "         </editorState>\n" +
+            "         <displayState>\n" +
+            "            <editorState>\n" +
+            "               <cursorPosition>3</cursorPosition>\n" +
+            "               <text>5/6</text>\n" +
+            "            </editorState>\n" +
+            "            <jsclOperation>numeric</jsclOperation>\n" +
+            "         </displayState>\n" +
+            "      </calculatorHistoryState>\n" +
+            "      <calculatorHistoryState>\n" +
+            "         <time>100000000</time>\n" +
+            "         <editorState>\n" +
+            "            <cursorPosition>1</cursorPosition>\n" +
+            "            <text></text>\n" +
+            "         </editorState>\n" +
+            "         <displayState>\n" +
+            "            <editorState>\n" +
+            "               <cursorPosition>0</cursorPosition>\n" +
+            "               <text>Error</text>\n" +
+            "            </editorState>\n" +
+            "            <jsclOperation>elementary</jsclOperation>\n" +
+            "         </displayState>\n" +
+            "      </calculatorHistoryState>\n" +
+            "      <calculatorHistoryState>\n" +
+            "         <time>100000000</time>\n" +
+            "         <editorState>\n" +
+            "            <cursorPosition>0</cursorPosition>\n" +
+            "            <text>4+5/35sin(41)+dfdsfsdfs</text>\n" +
+            "         </editorState>\n" +
+            "         <displayState>\n" +
+            "            <editorState>\n" +
+            "               <cursorPosition>1</cursorPosition>\n" +
+            "               <text>4+5/35sin(41)+dfdsfsdfs</text>\n" +
+            "            </editorState>\n" +
+            "            <jsclOperation>numeric</jsclOperation>\n" +
+            "         </displayState>\n" +
+            "      </calculatorHistoryState>\n" +
+            "   </historyItems>\n" +
+            "</history>";
+
+    @Test
+    public void testShouldConvertOldHistory() throws Exception {
+        List<HistoryState> states = History.convertOldHistory(oldXml1);
+        assertNotNull(states);
+        assertEquals(1, states.size());
+
+        HistoryState state = states.get(0);
+        assertEquals(100000000, state.time);
     }
 }
