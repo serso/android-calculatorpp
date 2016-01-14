@@ -30,7 +30,6 @@ import com.squareup.otto.Bus;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
@@ -48,6 +47,11 @@ import javax.annotation.Nonnull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.solovyev.android.calculator.model.AndroidCalculatorEngine.Preferences.groupingSeparator;
 
 @Config(constants = BuildConfig.class, sdk = CalculatorTestRunner.SUPPORTED_SDK)
 @RunWith(RobolectricGradleTestRunner.class)
@@ -57,10 +61,10 @@ public class HistoryTest {
 
     @Before
     public void setUp() throws Exception {
-        history = new History(Mockito.mock(Bus.class), Mockito.mock(Executor.class));
-        history.handler = Mockito.mock(Handler.class);
-        history.preferences = Mockito.mock(SharedPreferences.class);
-        history.editor = Mockito.mock(Editor.class);
+        history = new History(mock(Bus.class), mock(Executor.class));
+        history.handler = mock(Handler.class);
+        history.preferences = mock(SharedPreferences.class);
+        history.editor = mock(Editor.class);
         history.application = RuntimeEnvironment.application;
     }
 
@@ -85,6 +89,36 @@ public class HistoryTest {
         assertEquals("23547", states.get(0).editor.getTextString());
         assertEquals("123+3", states.get(1).editor.getTextString());
     }
+
+    @Test
+    public void testRecentHistoryShouldTakeIntoAccountGroupingSeparator() throws Exception {
+        when(history.preferences.contains(eq(groupingSeparator.getKey()))).thenReturn(true);
+        when(history.preferences.getString(eq(groupingSeparator.getKey()), anyString())).thenReturn(" ");
+        addState("1");
+        addState("12");
+        addState("123");
+        addState("1 234");
+        addState("12 345");
+
+        List<HistoryState> states = history.getRecent();
+        assertEquals(1, states.size());
+        assertEquals("12 345", states.get(0).editor.getTextString());
+        history.clearRecent();
+
+        when(history.preferences.getString(eq(groupingSeparator.getKey()), anyString())).thenReturn("'");
+        addState("1");
+        addState("12");
+        addState("123");
+        addState("1'234");
+        addState("12'345");
+        addState("12 345");
+
+        states = history.getRecent();
+        assertEquals(2, states.size());
+        assertEquals("12 345", states.get(0).editor.getTextString());
+        assertEquals("12'345", states.get(1).editor.getTextString());
+    }
+
 
     @Test
     public void testRecentHistoryShouldNotContainEmptyStates() throws Exception {
