@@ -24,7 +24,6 @@ package org.solovyev.android.calculator.history;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
-import org.simpleframework.xml.Transient;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 
 import javax.annotation.Nonnull;
@@ -32,23 +31,14 @@ import javax.annotation.Nonnull;
 @Root(name = "DisplayHistoryState")
 class OldDisplayHistoryState implements Cloneable {
 
-    @Transient
-    private boolean valid = true;
-
     @Element
-    @Nonnull
     private OldEditorHistoryState editorState;
 
     @Element
-    @Nonnull
     private JsclOperation jsclOperation;
 
     private OldDisplayHistoryState() {
         // for xml
-    }
-
-    public boolean isValid() {
-        return valid;
     }
 
     @Nonnull
@@ -59,46 +49,5 @@ class OldDisplayHistoryState implements Cloneable {
     @Nonnull
     public JsclOperation getJsclOperation() {
         return jsclOperation;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        OldDisplayHistoryState that = (OldDisplayHistoryState) o;
-
-        if (!editorState.equals(that.editorState)) return false;
-        if (jsclOperation != that.jsclOperation) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = editorState.hashCode();
-        result = 31 * result + jsclOperation.hashCode();
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "CalculatorDisplayHistoryState{" +
-                "editorHistoryState=" + editorState +
-                ", jsclOperation=" + jsclOperation +
-                '}';
-    }
-
-    @Override
-    protected OldDisplayHistoryState clone() {
-        try {
-            final OldDisplayHistoryState clone = (OldDisplayHistoryState) super.clone();
-
-            clone.editorState = this.editorState.clone();
-
-            return clone;
-        } catch (CloneNotSupportedException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

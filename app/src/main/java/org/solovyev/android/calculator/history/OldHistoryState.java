@@ -25,21 +25,38 @@ package org.solovyev.android.calculator.history;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
+import java.util.Date;
+
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 @Root(name = "HistoryState")
-class OldHistoryState extends OldBaseHistoryState {
+class OldHistoryState {
 
     @Element
-    @Nonnull
     private OldEditorHistoryState editorState;
 
     @Element
-    @Nonnull
     private OldDisplayHistoryState displayState;
+
+    @Element
+    private long time = new Date().getTime();
+
+    @Element(required = false)
+    @Nullable
+    private String comment;
 
     private OldHistoryState() {
         // for xml
+    }
+
+    public long getTime() {
+        return time;
+    }
+
+    @Nullable
+    public String getComment() {
+        return comment;
     }
 
     @Nonnull
@@ -50,23 +67,5 @@ class OldHistoryState extends OldBaseHistoryState {
     @Nonnull
     public OldDisplayHistoryState getDisplayState() {
         return displayState;
-    }
-
-    @Override
-    public String toString() {
-        return "HistoryState{" +
-                "editorState=" + editorState +
-                ", displayState=" + displayState +
-                '}';
-    }
-
-    @Override
-    protected OldHistoryState clone() {
-        final OldHistoryState that = (OldHistoryState) super.clone();
-
-        that.editorState = this.editorState.clone();
-        that.displayState = this.displayState.clone();
-
-        return that;
     }
 }
