@@ -66,7 +66,7 @@ public class Display implements CalculatorEventListener {
 
     @Inject
     public Display(@Nonnull Calculator calculator) {
-        this.lastEvent = new CalculatorEventHolder(CalculatorUtils.createFirstEventDataId());
+        lastEvent = new CalculatorEventHolder(CalculatorUtils.createFirstEventDataId());
         calculator.addCalculatorEventListener(this);
     }
 

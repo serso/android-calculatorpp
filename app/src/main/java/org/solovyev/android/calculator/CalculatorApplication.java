@@ -59,6 +59,10 @@ public class CalculatorApplication extends android.app.Application implements Sh
     Executor initThread;
 
     @Inject
+    @Named(AppModule.THREAD_UI)
+    Executor uiThread;
+
+    @Inject
     Handler handler;
 
     @Nonnull
@@ -82,14 +86,13 @@ public class CalculatorApplication extends android.app.Application implements Sh
     Keyboard keyboard;
 
     @Inject
-    @Named(AppModule.THREAD_UI)
-    Executor uiThread;
-
-    @Inject
     History history;
 
     @Inject
     Broadcaster broadcaster;
+
+    @Inject
+    ErrorReporter errorReporter;
 
     @Override
     public void onCreate() {
@@ -97,12 +100,14 @@ public class CalculatorApplication extends android.app.Application implements Sh
         final Languages languages = new Languages(preferences);
 
         onPreCreate(preferences, languages);
+        super.onCreate();
+
         component = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
                 .build();
         component.inject(this);
+        history.init(initThread);
 
-        super.onCreate();
         onPostCreate(preferences, languages);
     }
 
@@ -117,7 +122,7 @@ public class CalculatorApplication extends android.app.Application implements Sh
                 new AndroidCalculatorEngine(this),
                 new AndroidCalculatorClipboard(this),
                 new AndroidCalculatorNotifier(this),
-                new AndroidCalculatorLogger(),
+                errorReporter,
                 new AndroidCalculatorPreferenceService(this),
                 keyboard,
                 new AndroidCalculatorPlotter(this, new CalculatorPlotterImpl(calculator))

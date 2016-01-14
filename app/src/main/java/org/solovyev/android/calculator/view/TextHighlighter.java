@@ -26,16 +26,23 @@ import android.graphics.Typeface;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
+
 import com.google.common.collect.Lists;
+
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.BaseNumberBuilder;
+import org.solovyev.android.calculator.CalculatorEngine;
+import org.solovyev.android.calculator.LiteNumberBuilder;
+import org.solovyev.android.calculator.Locator;
+import org.solovyev.android.calculator.NumberBuilder;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.text.TextProcessor;
 import org.solovyev.android.calculator.text.TextProcessorEditorResult;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.annotation.Nonnull;
 
 public class TextHighlighter implements TextProcessor<TextProcessorEditorResult, String> {
 
@@ -76,7 +83,7 @@ public class TextHighlighter implements TextProcessor<TextProcessorEditorResult,
 
     @Nonnull
     @Override
-    public TextProcessorEditorResult process(@Nonnull String text) throws CalculatorParseException {
+    public TextProcessorEditorResult process(@Nonnull String text) {
         final CalculatorEngine engine = Locator.getInstance().getEngine();
         final SpannableStringBuilder sb = new SpannableStringBuilder();
         final BaseNumberBuilder nb = !formatNumber ? new LiteNumberBuilder(engine) : new NumberBuilder(engine);

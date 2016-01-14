@@ -18,7 +18,7 @@ public class FileLoader extends BaseIoLoader {
     }
 
     @Nullable
-    public static CharSequence load(@NonNull File file) {
+    public static CharSequence load(@NonNull File file) throws IOException {
         final FileLoader loader = new FileLoader(file);
         return loader.load();
     }

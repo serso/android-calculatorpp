@@ -89,7 +89,7 @@ public abstract class AbstractCalculatorMathRegistry<T extends MathEntity, P ext
                         final JBuilder<? extends T> builder = createBuilder(entity);
                         add(builder);
                     } catch (RuntimeException e) {
-                        Locator.getInstance().getLogger().error(null, e.getLocalizedMessage(), e);
+                        Locator.getInstance().getErrorReporter().onException(e);
                         notCreatedEntities.add(entity);
                     }
                 }
@@ -107,7 +107,7 @@ public abstract class AbstractCalculatorMathRegistry<T extends MathEntity, P ext
             }
         } catch (RuntimeException e) {
             // just in case
-            Locator.getInstance().getLogger().error(null, e.getLocalizedMessage(), e);
+            Locator.getInstance().getErrorReporter().onException(e);
         }
     }
 

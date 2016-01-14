@@ -41,12 +41,13 @@ import org.solovyev.android.calculator.Display;
 import org.solovyev.android.calculator.DisplayState;
 import org.solovyev.android.calculator.Editor;
 import org.solovyev.android.calculator.EditorState;
-import org.solovyev.android.calculator.Locator;
+import org.solovyev.android.calculator.ErrorReporter;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine.Preferences;
 import org.solovyev.android.io.FileLoader;
 import org.solovyev.android.io.FileSaver;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -65,6 +66,7 @@ import static android.text.TextUtils.isEmpty;
 public class History {
 
     public static final String TAG = App.subTag("History");
+    public static final String OLD_HISTORY_PREFS_KEY = "org.solovyev.android.calculator.CalculatorModel_history";
     private static final ChangedEvent CHANGED_EVENT_RECENT = new ChangedEvent(true);
     private static final ChangedEvent CHANGED_EVENT_SAVED = new ChangedEvent(false);
     private static final int MAX_INTERMEDIATE_STREAK = 5;
@@ -76,29 +78,23 @@ public class History {
     private final RecentHistory recent = new RecentHistory();
     @Nonnull
     private final List<HistoryState> saved = new ArrayList<>();
-    @Nonnull
-    private final Application application;
-    @Nonnull
-    private final Bus bus;
+    @Inject
+    Application application;
+    @Inject
+    Bus bus;
     @Inject
     Handler handler;
     @Inject
     SharedPreferences preferences;
     @Inject
     Editor editor;
-
     @Inject
-    public History(@NonNull Application application, @NonNull Bus bus, @Nonnull @Named(AppModule.THREAD_INIT) Executor initThread) {
-        this.application = application;
-        this.bus = bus;
-        this.bus.register(this);
-        initThread.execute(new Runnable() {
-            @Override
-            public void run() {
-                init();
-            }
-        });
-    }
+    Display display;
+    @Inject
+    ErrorReporter errorReporter;
+    @Inject
+    @Named(AppModule.THREAD_BACKGROUND)
+    Executor backgroundThread;
 
     @Nullable
     static List<HistoryState> convertOldHistory(@NonNull String xml) {
@@ -120,7 +116,7 @@ public class History {
     }
 
     @Nonnull
-    static List<HistoryState> loadStates(@Nonnull File file) {
+    static List<HistoryState> loadStates(@Nonnull File file) throws IOException, JSONException {
         if (!file.exists()) {
             return Collections.emptyList();
         }
@@ -128,12 +124,7 @@ public class History {
         if (isEmpty(json)) {
             return Collections.emptyList();
         }
-        try {
-            return RecentHistory.fromJson(new JSONArray(json.toString()));
-        } catch (JSONException e) {
-            Locator.getInstance().getLogger().error(TAG, e.getMessage(), e);
-        }
-        return Collections.emptyList();
+        return RecentHistory.fromJson(new JSONArray(json.toString()));
     }
 
     private static boolean isIntermediate(@Nonnull String olderText,
@@ -183,6 +174,21 @@ public class History {
         return sb.toString();
     }
 
+    @Inject
+    public History() {
+    }
+
+    public void init(@NonNull Executor initThread) {
+        Check.isMainThread();
+        bus.register(this);
+        initThread.execute(new Runnable() {
+            @Override
+            public void run() {
+                initAsync();
+            }
+        });
+    }
+
     @NonNull
     private File getSavedHistoryFile() {
         return new File(application.getFilesDir(), "history-saved.json");
@@ -195,7 +201,7 @@ public class History {
 
     private void migrateOldHistory() {
         try {
-            final String xml = preferences.getString("org.solovyev.android.calculator.CalculatorModel_history", null);
+            final String xml = preferences.getString(OLD_HISTORY_PREFS_KEY, null);
             if (isEmpty(xml)) {
                 return;
             }
@@ -205,16 +211,17 @@ public class History {
             }
             final JSONArray json = RecentHistory.toJson(states);
             FileSaver.save(getSavedHistoryFile(), json.toString());
-        } catch (Exception e) {
-            Locator.getInstance().getLogger().error(TAG, e.getMessage(), e);
+            preferences.edit().remove(OLD_HISTORY_PREFS_KEY).apply();
+        } catch (IOException e) {
+            errorReporter.onException(e);
         }
     }
 
-    private void init() {
+    private void initAsync() {
         Check.isNotMainThread();
         migrateOldHistory();
-        final List<HistoryState> recentStates = loadStates(getRecentHistoryFile());
-        final List<HistoryState> savedStates = loadStates(getSavedHistoryFile());
+        final List<HistoryState> recentStates = tryLoadStates(getRecentHistoryFile());
+        final List<HistoryState> savedStates = tryLoadStates(getSavedHistoryFile());
         handler.post(new Runnable() {
             @Override
             public void run() {
@@ -224,6 +231,16 @@ public class History {
                 saved.addAll(savedStates);
             }
         });
+    }
+
+    @Nonnull
+    private List<HistoryState> tryLoadStates(@NonNull File file) {
+        try {
+            return loadStates(file);
+        } catch (IOException | JSONException e) {
+            errorReporter.onException(e);
+        }
+        return Collections.emptyList();
     }
 
     public void addRecent(@Nonnull HistoryState state) {
@@ -318,8 +335,8 @@ public class History {
     }
 
     private void applyHistoryState(@Nonnull HistoryState state) {
-        App.getEditor().setState(state.editor);
-        App.getDisplay().setState(state.display);
+        editor.setState(state.editor);
+        display.setState(state.display);
     }
 
     public void removeSaved(@Nonnull HistoryState state) {
@@ -364,12 +381,16 @@ public class History {
             Check.isMainThread();
             // don't need to save intermediate states, thus {@link History#getRecent}
             final List<HistoryState> states = recent ? getRecent() : getSaved();
-            App.getBackground().execute(new Runnable() {
+            backgroundThread.execute(new Runnable() {
                 @Override
                 public void run() {
                     final File file = recent ? getRecentHistoryFile() : getSavedHistoryFile();
                     final JSONArray array = RecentHistory.toJson(states);
-                    FileSaver.save(file, array.toString());
+                    try {
+                        FileSaver.save(file, array.toString());
+                    } catch (IOException e) {
+                        errorReporter.onException(e);
+                    }
                 }
             });
         }

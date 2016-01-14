@@ -39,7 +39,7 @@ public class Locator implements CalculatorLocator {
     @Nonnull
     private CalculatorNotifier calculatorNotifier = new DummyCalculatorNotifier();
     @Nonnull
-    private CalculatorLogger calculatorLogger = new SystemOutCalculatorLogger();
+    private ErrorReporter errorReporter = new SystemErrorReporter();
     @Nonnull
     private CalculatorClipboard calculatorClipboard = new DummyCalculatorClipboard();
     @Nonnull
@@ -61,7 +61,7 @@ public class Locator implements CalculatorLocator {
                      @Nonnull CalculatorEngine engine,
                      @Nonnull CalculatorClipboard clipboard,
                      @Nonnull CalculatorNotifier notifier,
-                     @Nonnull CalculatorLogger logger,
+                     @Nonnull ErrorReporter errorReporter,
                      @Nonnull CalculatorPreferenceService preferenceService,
                      @Nonnull Keyboard keyboard,
                      @Nonnull CalculatorPlotter plotter) {
@@ -70,7 +70,7 @@ public class Locator implements CalculatorLocator {
         this.calculatorEngine = engine;
         this.calculatorClipboard = clipboard;
         this.calculatorNotifier = notifier;
-        this.calculatorLogger = logger;
+        this.errorReporter = errorReporter;
         this.calculatorPreferenceService = preferenceService;
         this.calculatorPlotter = plotter;
 
@@ -113,8 +113,8 @@ public class Locator implements CalculatorLocator {
 
     @Override
     @Nonnull
-    public CalculatorLogger getLogger() {
-        return calculatorLogger;
+    public ErrorReporter getErrorReporter() {
+        return errorReporter;
     }
 
     @Nonnull

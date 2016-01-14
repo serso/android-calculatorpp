@@ -27,7 +27,6 @@ import android.content.SharedPreferences;
 import com.squareup.otto.Bus;
 
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.text.TextProcessor;
 import org.solovyev.android.calculator.text.TextProcessorEditorResult;
 import org.solovyev.android.calculator.view.EditorTextProcessor;
 
@@ -43,7 +42,7 @@ public class Editor {
 
     private static final String TAG = App.subTag("Editor");
     @Nullable
-    private final TextProcessor<TextProcessorEditorResult, String> textProcessor;
+    private final EditorTextProcessor textProcessor;
     @Nullable
     private EditorView view;
     @Nonnull
@@ -53,11 +52,7 @@ public class Editor {
 
     @Inject
     public Editor(@Nonnull SharedPreferences preferences) {
-        this(new EditorTextProcessor(preferences));
-    }
-
-    public Editor(@Nullable TextProcessor<TextProcessorEditorResult, String> textProcessor) {
-        this.textProcessor = textProcessor;
+        textProcessor = new EditorTextProcessor(preferences);
     }
 
     public static int clamp(int selection, @Nonnull CharSequence text) {
@@ -92,12 +87,8 @@ public class Editor {
     public EditorState onTextChanged(@Nonnull EditorState newState) {
         Check.isMainThread();
         if (textProcessor != null) {
-            try {
-                final TextProcessorEditorResult result = textProcessor.process(newState.getTextString());
-                newState = EditorState.create(result.getCharSequence(), newState.selection + result.getOffset());
-            } catch (CalculatorParseException e) {
-                Locator.getInstance().getLogger().error(TAG, e.getMessage(), e);
-            }
+            final TextProcessorEditorResult result = textProcessor.process(newState.getTextString());
+            newState = EditorState.create(result.getCharSequence(), newState.selection + result.getOffset());
         }
         final EditorState oldState = state;
         state = newState;

@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class FileSaver extends BaseIoSaver {
 
@@ -16,7 +17,7 @@ public class FileSaver extends BaseIoSaver {
         this.file = file;
     }
 
-    public static void save(@NonNull File file, @NonNull CharSequence data) {
+    public static void save(@NonNull File file, @NonNull CharSequence data) throws IOException {
         final FileSaver fileSaver = new FileSaver(file, data);
         fileSaver.save();
     }

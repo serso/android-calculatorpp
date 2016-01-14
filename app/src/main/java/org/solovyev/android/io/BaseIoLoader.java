@@ -1,7 +1,6 @@
 package org.solovyev.android.io;
 
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,7 +10,7 @@ import java.io.InputStreamReader;
 public abstract class BaseIoLoader {
 
     @Nullable
-    public CharSequence load() {
+    public CharSequence load() throws IOException {
         BufferedReader reader = null;
         try {
             final InputStream is = getInputStream();
@@ -26,12 +25,9 @@ public abstract class BaseIoLoader {
                 line = reader.readLine();
             }
             return result;
-        } catch (IOException e) {
-            Log.e(getClass().getSimpleName(), e.getMessage(), e);
         } finally {
             Io.close(reader);
         }
-        return null;
     }
 
     @Nullable
