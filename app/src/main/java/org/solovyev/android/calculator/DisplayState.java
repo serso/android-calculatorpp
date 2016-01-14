@@ -22,6 +22,8 @@
 
 package org.solovyev.android.calculator;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.text.TextUtils;
 
 import org.json.JSONException;
@@ -33,8 +35,19 @@ import javax.annotation.Nullable;
 
 import jscl.math.Generic;
 
-public class DisplayState {
+public class DisplayState implements Parcelable {
 
+    public static final Creator<DisplayState> CREATOR = new Creator<DisplayState>() {
+        @Override
+        public DisplayState createFromParcel(Parcel in) {
+            return new DisplayState(in);
+        }
+
+        @Override
+        public DisplayState[] newArray(int size) {
+            return new DisplayState[size];
+        }
+    };
     private static final String JSON_TEXT = "t";
     @Nonnull
     public final String text;
@@ -53,6 +66,12 @@ public class DisplayState {
 
     DisplayState(@Nonnull JSONObject json) {
         this(json.optString(JSON_TEXT), true, EditorState.NO_SEQUENCE);
+    }
+
+    private DisplayState(Parcel in) {
+        text = in.readString();
+        valid = in.readByte() != 0;
+        sequence = in.readLong();
     }
 
     @Nonnull
@@ -113,5 +132,17 @@ public class DisplayState {
                 ", sequence=" + sequence +
                 ", operation=" + operation +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(text);
+        dest.writeByte((byte) (valid ? 1 : 0));
+        dest.writeLong(sequence);
     }
 }

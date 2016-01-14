@@ -68,6 +68,30 @@
         <item name="cpp_text_color_error">@color/cpp_text_error</item>
     </style>
 
+    <style name="Cpp.Theme.Dialog.Alert" parent="@style/Theme.AppCompat.Dialog.Alert">
+        <item name="colorPrimary">@color/cpp_metro_button</item>
+        <item name="android:colorPrimary">@color/cpp_metro_button</item>
+        <item name="colorPrimaryDark">@color/cpp_metro_button_dark</item>
+        <item name="android:colorPrimaryDark">@color/cpp_metro_button_dark</item>
+        <item name="colorAccent">@color/cpp_material_accent</item>
+        <item name="android:colorAccent">@color/cpp_material_accent</item>
+        <item name="android:colorEdgeEffect">@color/cpp_material_accent</item>
+        <item name="android:statusBarColor">@color/cpp_status_bar</item>
+
+        <item name="windowNoTitle">false</item>
+        <item name="android:windowNoTitle">false</item>
+        <item name="android:windowTitleBackgroundStyle">@android:color/transparent</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowCloseOnTouchOutside">false</item>
+
+        <item name="cpp_main_bg">@color/cpp_main_bg</item>
+        <item name="cpp_pane_bg">@drawable/pane</item>
+        <item name="cpp_fab_bg">@color/cpp_material_grey</item>
+        <item name="cpp_text_color">@color/cpp_text</item>
+        <item name="cpp_text_color_error">@color/cpp_text_error</item>
+    </style>
+
     <style name="Cpp.Theme.Light" parent="@style/Theme.AppCompat.Light.DarkActionBar">
         <item name="android:windowBackground">@color/cpp_main_bg_light</item>
 
@@ -90,6 +114,29 @@
     </style>
 
     <style name="Cpp.Theme.Light.Dialog" parent="@style/Theme.AppCompat.Light.Dialog">
+        <item name="colorPrimary">@color/cpp_material_light</item>
+        <item name="android:colorPrimary">@color/cpp_material_light</item>
+        <item name="colorPrimaryDark">@color/cpp_material_light</item>
+        <item name="android:colorPrimaryDark">@color/cpp_material_light</item>
+        <item name="colorAccent">@color/cpp_material_light</item>
+        <item name="android:colorAccent">@color/cpp_material_light</item>
+        <item name="android:statusBarColor">@color/cpp_status_bar_light</item>
+
+        <item name="windowNoTitle">false</item>
+        <item name="android:windowNoTitle">false</item>
+        <item name="android:windowTitleBackgroundStyle">@android:color/transparent</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowCloseOnTouchOutside">false</item>
+
+        <item name="cpp_main_bg">@color/cpp_main_bg_light</item>
+        <item name="cpp_pane_bg">@drawable/pane_light</item>
+        <item name="cpp_fab_bg">@color/cpp_material_light</item>
+        <item name="cpp_text_color">@color/cpp_text_inverse</item>
+        <item name="cpp_text_color_error">@color/cpp_text_inverse_error</item>
+    </style>
+
+    <style name="Cpp.Theme.Light.Dialog.Alert" parent="@style/Theme.AppCompat.Light.Dialog.Alert">
         <item name="colorPrimary">@color/cpp_material_light</item>
         <item name="android:colorPrimary">@color/cpp_material_light</item>
         <item name="colorPrimaryDark">@color/cpp_material_light</item>

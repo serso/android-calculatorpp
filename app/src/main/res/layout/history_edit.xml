@@ -23,8 +23,8 @@
   -->
 
 <ScrollView xmlns:a="http://schemas.android.com/apk/res/android"
-    a:layout_width="fill_parent"
-    a:layout_height="fill_parent">
+    a:layout_width="wrap_content"
+    a:layout_height="wrap_content">
 
     <LinearLayout
         a:id="@+id/history_edit"
@@ -35,7 +35,6 @@
         a:scrollbars="vertical">
 
         <TextView
-            style="@style/cpp_default_text_size"
             a:layout_width="fill_parent"
             a:layout_height="fill_parent"
             a:padding="6dp"
@@ -43,14 +42,12 @@
 
         <TextView
             a:id="@+id/history_edit_expression"
-            style="@style/cpp_default_text_size"
             a:layout_width="fill_parent"
             a:layout_height="wrap_content"
             a:padding="6dp"
-            a:textStyle="bold"></TextView>
+            a:textStyle="bold" />
 
         <TextView
-            style="@style/cpp_default_text_size"
             a:layout_width="fill_parent"
             a:layout_height="fill_parent"
             a:padding="6dp"
@@ -58,12 +55,11 @@
 
         <EditText
             a:id="@+id/history_edit_comment"
-            style="@style/cpp_default_text_size"
             a:layout_width="fill_parent"
             a:layout_height="wrap_content"
-            a:gravity="top|left"
             a:maxLines="4"
-            a:minLines="4"></EditText>
+            a:minLines="4"
+            a:inputType="text" />
 
     </LinearLayout>
 

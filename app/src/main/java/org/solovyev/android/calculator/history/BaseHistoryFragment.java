@@ -30,20 +30,37 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.ListFragment;
 import android.text.ClipboardManager;
-import android.view.*;
-import android.widget.*;
+import android.view.ContextMenu;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.melnykov.fab.FloatingActionButton;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
-import org.solovyev.android.calculator.*;
+
+import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.CalculatorActivity;
+import org.solovyev.android.calculator.CalculatorApplication;
+import org.solovyev.android.calculator.CalculatorFragmentType;
+import org.solovyev.android.calculator.FragmentUi;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.common.text.Strings;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
 
 import static android.view.Menu.NONE;
 
@@ -160,8 +177,7 @@ public abstract class BaseHistoryFragment extends ListFragment {
         final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
         final HistoryState state = (HistoryState) getListView().getItemAtPosition(info.position);
 
-        // todo serso: fix
-        if (true) {
+        if (!isRecentHistory()) {
             menu.add(NONE, R.string.c_use, NONE, R.string.c_use);
             menu.add(NONE, R.string.c_copy_expression, NONE, R.string.c_copy_expression);
             if (shouldHaveCopyResult(state)) {
@@ -206,7 +222,7 @@ public abstract class BaseHistoryFragment extends ListFragment {
                 }
                 return true;
             case R.string.c_save:
-                createEditHistoryDialog(state, context, true);
+                EditHistoryFragment.show(state, getFragmentManager());
                 return true;
             case R.string.c_edit:
                 createEditHistoryDialog(state, context, false);

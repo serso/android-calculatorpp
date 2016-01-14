@@ -76,7 +76,7 @@
             android:finishOnTaskLaunch="true"
             android:label="@string/calculation_messages_dialog_title"
             android:launchMode="singleTask"
-            android:theme="@style/Cpp.Theme.Dialog.Material" />
+            android:theme="@style/Cpp.Theme.Material.Dialog" />
 
         <activity
             android:name=".about.CalculatorAboutActivity"
@@ -110,24 +110,24 @@
         <activity
             android:name=".plot.CalculatorPlotFunctionsActivity"
             android:label="@string/cpp_plot_functions"
-            android:theme="@style/Cpp.Theme.Dialog.Material" />
+            android:theme="@style/Cpp.Theme.Material.Dialog" />
         <activity
             android:name=".plot.CalculatorPlotFunctionSettingsActivity"
             android:label="@string/cpp_plot_function_settings"
-            android:theme="@style/Cpp.Theme.Dialog.Material" />
+            android:theme="@style/Cpp.Theme.Material.Dialog" />
         <activity
             android:name=".plot.CalculatorPlotRangeActivity"
             android:label="@string/cpp_plot_range"
-            android:theme="@style/Cpp.Theme.Dialog.Material" />
+            android:theme="@style/Cpp.Theme.Material.Dialog" />
 
         <activity
             android:name=".preferences.PurchaseDialogActivity"
             android:label="@string/cpp_purchase_title"
-            android:theme="@style/Cpp.Theme.Dialog.Material" />
+            android:theme="@style/Cpp.Theme.Material.Dialog" />
 
         <activity
             android:name=".CalculatorDialogActivity"
-            android:theme="@style/Cpp.Theme.Dialog.Material" />
+            android:theme="@style/Cpp.Theme.Material.Dialog" />
 
         <!-- todo serso: strings-->
         <activity
@@ -145,7 +145,7 @@
             android:icon="@drawable/ic_launcher_window"
             android:label="@string/c_app_name_on_screen"
             android:launchMode="singleInstance"
-            android:theme="@style/Cpp.Theme.Dialog.Material">
+            android:theme="@style/Cpp.Theme.Material.Dialog">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
