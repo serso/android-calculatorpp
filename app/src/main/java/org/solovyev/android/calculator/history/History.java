@@ -26,6 +26,7 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import com.google.common.base.Strings;
 import com.squareup.otto.Bus;
@@ -41,6 +42,7 @@ import org.solovyev.android.calculator.DisplayState;
 import org.solovyev.android.calculator.Editor;
 import org.solovyev.android.calculator.EditorState;
 import org.solovyev.android.calculator.Locator;
+import org.solovyev.android.calculator.model.AndroidCalculatorEngine.Preferences;
 import org.solovyev.android.io.FileLoader;
 import org.solovyev.android.io.FileSaver;
 
@@ -114,16 +116,6 @@ public class History {
         return states;
     }
 
-    @NonNull
-    private File getSavedHistoryFile() {
-        return new File(application.getFilesDir(), "history-saved.json");
-    }
-
-    @NonNull
-    private File getRecentHistoryFile() {
-        return new File(application.getFilesDir(), "history-recent.json");
-    }
-
     @Nonnull
     private static List<HistoryState> loadStates(@Nonnull File file) {
         if (!file.exists()) {
@@ -142,13 +134,16 @@ public class History {
     }
 
     private static boolean isIntermediate(@Nonnull String olderText,
-                                          @Nonnull String newerText) {
-        if (isEmpty(olderText)) {
+                                          @Nonnull String newerText,
+                                          @NonNull String groupingSeparator) {
+        if (TextUtils.isEmpty(olderText)) {
             return true;
         }
-        if (isEmpty(newerText)) {
+        if (TextUtils.isEmpty(newerText)) {
             return false;
         }
+        olderText = trimGroupingSeparators(olderText, groupingSeparator);
+        newerText = trimGroupingSeparators(newerText, groupingSeparator);
 
         final int diff = newerText.length() - olderText.length();
         if (diff >= 1) {
@@ -160,6 +155,39 @@ public class History {
         }
 
         return false;
+    }
+
+    @NonNull
+    static String trimGroupingSeparators(@NonNull String text, @NonNull String groupingSeparator) {
+        if (TextUtils.isEmpty(groupingSeparator)) {
+            return text;
+        }
+        Check.isTrue(groupingSeparator.length() == 1);
+        final StringBuilder sb = new StringBuilder(text.length());
+        for (int i = 0; i < text.length(); i++) {
+            if (i == 0 || i == text.length() - 1) {
+                // grouping separator can't be the first and the last character
+                sb.append(text.charAt(i));
+                continue;
+            }
+            if (Character.isDigit(text.charAt(i - 1)) && text.charAt(i) == groupingSeparator.charAt(0) && Character.isDigit(text.charAt(i + 1))) {
+                // grouping separator => skip
+                continue;
+            }
+            sb.append(text.charAt(i));
+
+        }
+        return sb.toString();
+    }
+
+    @NonNull
+    private File getSavedHistoryFile() {
+        return new File(application.getFilesDir(), "history-saved.json");
+    }
+
+    @NonNull
+    private File getRecentHistoryFile() {
+        return new File(application.getFilesDir(), "history-recent.json");
     }
 
     private void migrateOldHistory() {
@@ -226,6 +254,8 @@ public class History {
 
         final List<HistoryState> result = new LinkedList<>();
 
+        final String groupingSeparator = Preferences.groupingSeparator.getPreference(preferences);
+
         final List<HistoryState> states = recent.asList();
         final int statesCount = states.size();
         for (int i = 1; i < statesCount; i++) {
@@ -233,7 +263,7 @@ public class History {
             final HistoryState newerState = states.get(i);
             final String olderText = olderState.editor.getTextString();
             final String newerText = newerState.editor.getTextString();
-            if (!isIntermediate(olderText, newerText)) {
+            if (!isIntermediate(olderText, newerText, groupingSeparator)) {
                 result.add(0, olderState);
             }
         }
