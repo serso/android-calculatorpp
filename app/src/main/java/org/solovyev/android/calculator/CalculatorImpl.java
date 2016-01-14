@@ -23,6 +23,7 @@
 package org.solovyev.android.calculator;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
@@ -279,7 +280,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
                             }
                         } catch (Throwable e) {
                             // todo serso: not good but we need proper synchronization
-                            errorReporter.onException(e);
+                            Log.e("Calculator", e.getMessage(), e);
                         }
                     }
 
