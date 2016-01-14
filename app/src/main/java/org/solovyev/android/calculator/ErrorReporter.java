@@ -22,22 +22,9 @@
 
 package org.solovyev.android.calculator;
 
-import com.squareup.otto.Bus;
-import org.mockito.Mockito;
-import org.solovyev.android.calculator.plot.CalculatorPlotter;
+import javax.annotation.Nonnull;
 
-import java.util.concurrent.Executor;
-
-/**
- * User: serso
- * Date: 10/7/12
- * Time: 6:30 PM
- */
-public class AbstractCalculatorTest {
-
-    protected void setUp() throws Exception {
-        Locator.getInstance().init(new CalculatorImpl(Mockito.mock(Bus.class), Mockito.mock(Executor.class)), CalculatorTestUtils.newCalculatorEngine(), Mockito.mock(CalculatorClipboard.class), Mockito.mock(CalculatorNotifier.class), new SystemErrorReporter(), Mockito.mock(CalculatorPreferenceService.class), Mockito.mock(Keyboard.class), Mockito.mock(CalculatorPlotter.class));
-        Locator.getInstance().getEngine().init();
-    }
-
+public interface ErrorReporter {
+    void onException(@Nonnull Throwable e);
+    void onError(@Nonnull String message);
 }

@@ -185,8 +185,8 @@ public class CalculatorEngineImpl implements CalculatorEngine {
     }
 
     private void logException(@Nonnull Exception e) {
-        final CalculatorLogger logger = Locator.getInstance().getLogger();
-        logger.error("Engine", e.getMessage(), e);
+        final ErrorReporter errorReporter = Locator.getInstance().getErrorReporter();
+        errorReporter.onException(e);
     }
 
     @Override

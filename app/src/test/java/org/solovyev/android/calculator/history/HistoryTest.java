@@ -43,7 +43,6 @@ import org.solovyev.android.calculator.jscl.JsclOperation;
 
 import java.io.File;
 import java.util.List;
-import java.util.concurrent.Executor;
 
 import javax.annotation.Nonnull;
 
@@ -65,7 +64,9 @@ public class HistoryTest {
 
     @Before
     public void setUp() throws Exception {
-        history = new History(RuntimeEnvironment.application, mock(Bus.class), mock(Executor.class));
+        history = new History();
+        history.application = RuntimeEnvironment.application;
+        history.bus = mock(Bus.class);
         history.handler = mock(Handler.class);
         history.preferences = mock(SharedPreferences.class);
         history.editor = mock(Editor.class);

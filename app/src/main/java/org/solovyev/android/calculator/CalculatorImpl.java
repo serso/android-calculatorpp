@@ -268,7 +268,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
                     result.toString();
 
                     if (messageRegistry.hasMessage()) {
-                        final CalculatorLogger logger = Locator.getInstance().getLogger();
+                        final ErrorReporter errorReporter = Locator.getInstance().getErrorReporter();
                         try {
                             final List<Message> messages = new ArrayList<Message>();
                             while (messageRegistry.hasMessage()) {
@@ -279,7 +279,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
                             }
                         } catch (Throwable e) {
                             // todo serso: not good but we need proper synchronization
-                            logger.error("Calculator", e.getMessage(), e);
+                            errorReporter.onException(e);
                         }
                     }
 

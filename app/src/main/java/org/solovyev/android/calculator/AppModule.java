@@ -6,25 +6,32 @@ import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+
 import com.squareup.otto.Bus;
-import dagger.Module;
-import dagger.Provides;
+
 import org.solovyev.android.UiThreadExecutor;
+
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.annotation.Nonnull;
 import javax.inject.Named;
 import javax.inject.Singleton;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
+
+import dagger.Module;
+import dagger.Provides;
 
 @Module
 public class AppModule {
 
-    @NonNull
+    // single thread, should be used during the startup
     public static final String THREAD_INIT = "thread-init";
-    @NonNull
+    // UI application thread
     public static final String THREAD_UI = "thread-ui";
+    // multiple threads
+    public static final String THREAD_BACKGROUND = "thread-background";
 
     @NonNull
     private final Application application;
@@ -73,6 +80,26 @@ public class AppModule {
                 return new Thread(r, "Init");
             }
         });
+    }
+
+    @Provides
+    @Singleton
+    @Named(THREAD_BACKGROUND)
+    Executor provideBackgroundThread() {
+        return Executors.newFixedThreadPool(5, new ThreadFactory() {
+            @NonNull
+            private final AtomicInteger counter = new AtomicInteger();
+            @Override
+            public Thread newThread(@Nonnull Runnable r) {
+                return new Thread(r, "Background #" + counter.getAndIncrement());
+            }
+        });
+    }
+
+    @Provides
+    @Singleton
+    ErrorReporter provideErrorReporter() {
+        return new AcraErrorReporter();
     }
 
     @Provides

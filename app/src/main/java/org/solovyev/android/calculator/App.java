@@ -221,11 +221,6 @@ public final class App {
     }
 
     @Nonnull
-    public static Executor getBackground() {
-        return background;
-    }
-
-    @Nonnull
     public static Preferences.Gui.Theme getThemeFor(@Nonnull Context context) {
         if (context instanceof CalculatorOnscreenService) {
             final SharedPreferences p = getPreferences();

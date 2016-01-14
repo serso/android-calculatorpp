@@ -32,7 +32,7 @@ public interface CalculatorLocator {
               @Nonnull CalculatorEngine engine,
               @Nonnull CalculatorClipboard clipboard,
               @Nonnull CalculatorNotifier notifier,
-              @Nonnull CalculatorLogger logger,
+              @Nonnull ErrorReporter errorReporter,
               @Nonnull CalculatorPreferenceService preferenceService,
               @Nonnull Keyboard keyboard,
               @Nonnull CalculatorPlotter plotter);
@@ -53,7 +53,7 @@ public interface CalculatorLocator {
     CalculatorNotifier getNotifier();
 
     @Nonnull
-    CalculatorLogger getLogger();
+    ErrorReporter getErrorReporter();
 
     @Nonnull
     CalculatorPlotter getPlotter();
