@@ -31,22 +31,30 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.StyleRes;
 import android.util.SparseArray;
 import android.view.ContextThemeWrapper;
-import jscl.AngleUnit;
-import jscl.NumeralBase;
+
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 import org.solovyev.android.calculator.preferences.PurchaseDialogActivity;
 import org.solovyev.android.calculator.wizard.WizardActivity;
-import org.solovyev.android.prefs.*;
+import org.solovyev.android.prefs.BooleanPreference;
+import org.solovyev.android.prefs.IntegerPreference;
+import org.solovyev.android.prefs.LongPreference;
+import org.solovyev.android.prefs.NumberToStringPreference;
+import org.solovyev.android.prefs.Preference;
+import org.solovyev.android.prefs.StringPreference;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.text.DecimalFormatSymbols;
 import java.util.EnumMap;
 import java.util.Locale;
 import java.util.Map;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import jscl.AngleUnit;
+import jscl.NumeralBase;
 
 import static org.solovyev.android.Android.isPhoneModel;
 import static org.solovyev.android.DeviceModel.samsung_galaxy_s;
@@ -275,11 +283,11 @@ public final class Preferences {
             default_theme(R.style.Cpp_Theme_Gray),
             violet_theme(R.style.Cpp_Theme_Violet),
             light_blue_theme(R.style.Cpp_Theme_Blue),
-            metro_blue_theme(R.style.cpp_metro_blue_theme),
-            metro_purple_theme(R.style.cpp_metro_purple_theme),
-            metro_green_theme(R.style.cpp_metro_green_theme),
+            metro_blue_theme(R.style.Cpp_Theme_Metro_Blue),
+            metro_purple_theme(R.style.Cpp_Theme_Metro_Purple),
+            metro_green_theme(R.style.Cpp_Theme_Metro_Green),
             material_theme(R.style.Cpp_Theme_Material),
-            material_light_theme(R.style.Cpp_Theme_Material_Light, R.style.Cpp_Theme_Wizard_Light, R.style.Cpp_Theme_Dialog_Material_Light);
+            material_light_theme(R.style.Cpp_Theme_Material_Light, R.style.Cpp_Theme_Wizard_Light, R.style.Cpp_Theme_Material_Light_Dialog, R.style.Cpp_Theme_Material_Light_Dialog_Alert);
 
             private static final SparseArray<TextColor> textColors = new SparseArray<>();
 
@@ -289,16 +297,19 @@ public final class Preferences {
             public final int wizardTheme;
             @StyleRes
             public final int dialogTheme;
+            @StyleRes
+            public final int alertDialogTheme;
             public final boolean light;
 
             Theme(@StyleRes int theme) {
-                this(theme, R.style.Cpp_Theme_Wizard, R.style.Cpp_Theme_Dialog_Material);
+                this(theme, R.style.Cpp_Theme_Wizard, R.style.Cpp_Theme_Material_Dialog, R.style.Cpp_Theme_Material_Dialog_Alert);
             }
 
-            Theme(@StyleRes int theme, @StyleRes int wizardTheme, @StyleRes int dialogTheme) {
+            Theme(@StyleRes int theme, @StyleRes int wizardTheme, @StyleRes int dialogTheme, @StyleRes int alertDialogTheme) {
                 this.theme = theme;
                 this.wizardTheme = wizardTheme;
                 this.dialogTheme = dialogTheme;
+                this.alertDialogTheme = alertDialogTheme;
                 this.light = theme == R.style.Cpp_Theme_Material_Light;
             }
 

@@ -69,7 +69,17 @@
         </item>
     </style>
 
-    <style name="Cpp.Theme.Dialog.Material.Light" parent="Cpp.Theme.Light.Dialog">
+    <style name="Cpp.Theme.Material.Light.Dialog" parent="Cpp.Theme.Light.Dialog">
+        <item name="cpp_button_style_digit">@style/CppKeyboardButton.Material.Light.Digit</item>
+        <item name="cpp_button_style_control">@style/CppKeyboardButton.Material.Light.Digit</item>
+        <item name="cpp_button_style_control_image">
+            @style/CppKeyboardButton.Material.Light.Control.Image
+        </item>
+        <item name="cpp_button_style_operation">@style/CppKeyboardButton.Material.Light.Operation
+        </item>
+    </style>
+
+    <style name="Cpp.Theme.Material.Light.Dialog.Alert" parent="Cpp.Theme.Light.Dialog.Alert">
         <item name="cpp_button_style_digit">@style/CppKeyboardButton.Material.Light.Digit</item>
         <item name="cpp_button_style_control">@style/CppKeyboardButton.Material.Light.Digit</item>
         <item name="cpp_button_style_control_image">

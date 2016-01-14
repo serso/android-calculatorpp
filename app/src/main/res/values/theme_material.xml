@@ -68,7 +68,16 @@
         <item name="cpp_button_style_operation">@style/CppKeyboardButton.Material.Operation</item>
     </style>
 
-    <style name="Cpp.Theme.Dialog.Material" parent="Cpp.Theme.Dialog">
+    <style name="Cpp.Theme.Material.Dialog" parent="Cpp.Theme.Dialog">
+        <item name="cpp_button_style_digit">@style/CppKeyboardButton.Material.Digit</item>
+        <item name="cpp_button_style_control">@style/CppKeyboardButton.Material.Digit</item>
+        <item name="cpp_button_style_control_image">
+            @style/CppKeyboardButton.Material.Control.Image
+        </item>
+        <item name="cpp_button_style_operation">@style/CppKeyboardButton.Material.Operation</item>
+    </style>
+
+    <style name="Cpp.Theme.Material.Dialog.Alert" parent="Cpp.Theme.Dialog.Alert">
         <item name="cpp_button_style_digit">@style/CppKeyboardButton.Material.Digit</item>
         <item name="cpp_button_style_control">@style/CppKeyboardButton.Material.Digit</item>
         <item name="cpp_button_style_control_image">

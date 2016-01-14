@@ -22,6 +22,8 @@
 
 package org.solovyev.android.calculator;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.text.TextUtils;
 
 import org.json.JSONException;
@@ -32,13 +34,23 @@ import java.util.concurrent.atomic.AtomicLong;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class EditorState {
+public class EditorState implements Parcelable {
 
     public static final long NO_SEQUENCE = -1;
+    public static final Creator<EditorState> CREATOR = new Creator<EditorState>() {
+        @Override
+        public EditorState createFromParcel(Parcel in) {
+            return new EditorState(in);
+        }
+
+        @Override
+        public EditorState[] newArray(int size) {
+            return new EditorState[size];
+        }
+    };
     private static final String JSON_TEXT = "t";
     private static final String JSON_SELECTION = "s";
     private static AtomicLong counter = new AtomicLong(NO_SEQUENCE + 1);
-
     public final long sequence;
     @Nonnull
     public final CharSequence text;
@@ -58,6 +70,13 @@ public class EditorState {
 
     private EditorState(@Nonnull JSONObject json) {
         this(json.optString(JSON_TEXT), json.optInt(JSON_SELECTION));
+    }
+
+    private EditorState(Parcel in) {
+        sequence = in.readLong();
+        selection = in.readInt();
+        textString = in.readString();
+        text = textString;
     }
 
     @Nonnull
@@ -107,5 +126,17 @@ public class EditorState {
         json.put(JSON_TEXT, getTextString());
         json.put(JSON_SELECTION, selection);
         return json;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(sequence);
+        dest.writeInt(selection);
+        dest.writeString(textString);
     }
 }
