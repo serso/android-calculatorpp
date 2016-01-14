@@ -91,7 +91,6 @@ public class CalculatorDialogActivity extends ActionBarActivity {
 
         final DialogData dialogData = readDialogData(getIntent());
         if (dialogData == null) {
-            Locator.getInstance().getErrorReporter().onError("Dialog data is null!");
             this.finish();
         } else {
             setContentView(R.layout.cpp_dialog);

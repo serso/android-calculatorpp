@@ -22,6 +22,11 @@
 
 package org.solovyev.android.calculator;
 
+import java.text.DecimalFormatSymbols;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import jscl.AngleUnit;
 import jscl.JsclMathEngine;
 import jscl.MathEngine;
@@ -31,10 +36,6 @@ import jscl.math.function.Function;
 import jscl.math.function.IConstant;
 import jscl.math.operator.Operator;
 import jscl.text.ParseException;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.text.DecimalFormatSymbols;
 
 public class CalculatorEngineImpl implements CalculatorEngine {
 
@@ -180,27 +181,14 @@ public class CalculatorEngineImpl implements CalculatorEngine {
         try {
             registry.load();
         } catch (Exception e) {
-            logException(e);
+            Locator.getInstance().getErrorReporter().onException(e);
         }
-    }
-
-    private void logException(@Nonnull Exception e) {
-        final ErrorReporter errorReporter = Locator.getInstance().getErrorReporter();
-        errorReporter.onException(e);
     }
 
     @Override
     public void softReset() {
         Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.engine_preferences_changed, null);
     }
-
-	/*
-	**********************************************************************
-	*
-	*                           PREFERENCES
-	*
-	**********************************************************************
-	*/
 
     @Nonnull
     @Override
