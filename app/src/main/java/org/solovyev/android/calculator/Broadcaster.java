@@ -1,5 +1,6 @@
 package org.solovyev.android.calculator;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,8 +14,10 @@ import java.util.Map;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
-public final class CalculatorBroadcaster implements SharedPreferences.OnSharedPreferenceChangeListener {
+@Singleton
+public class Broadcaster implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     public static final String ACTION_INIT = "org.solovyev.android.calculator.INIT";
     public static final String ACTION_EDITOR_STATE_CHANGED = "org.solovyev.android.calculator.EDITOR_STATE_CHANGED";
@@ -26,8 +29,8 @@ public final class CalculatorBroadcaster implements SharedPreferences.OnSharedPr
     private final Intents intents = new Intents();
 
     @Inject
-    public CalculatorBroadcaster(@Nonnull Context context, @Nonnull SharedPreferences preferences, @Nonnull Bus bus, @Nonnull Handler handler) {
-        this.context = context;
+    public Broadcaster(@Nonnull Application application, @Nonnull SharedPreferences preferences, @Nonnull Bus bus, @Nonnull Handler handler) {
+        this.context = application;
         preferences.registerOnSharedPreferenceChangeListener(this);
         bus.register(this);
         handler.postDelayed(new Runnable() {

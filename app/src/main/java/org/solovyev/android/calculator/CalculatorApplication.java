@@ -34,6 +34,7 @@ import org.acra.ACRA;
 import org.acra.ACRAConfiguration;
 import org.acra.sender.HttpSender;
 import org.solovyev.android.Android;
+import org.solovyev.android.calculator.history.History;
 import org.solovyev.android.calculator.language.Language;
 import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
@@ -83,6 +84,12 @@ public class CalculatorApplication extends android.app.Application implements Sh
     @Inject
     @Named(AppModule.THREAD_UI)
     Executor uiThread;
+
+    @Inject
+    History history;
+
+    @Inject
+    Broadcaster broadcaster;
 
     @Override
     public void onCreate() {

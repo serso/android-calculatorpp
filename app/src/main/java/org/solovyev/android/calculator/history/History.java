@@ -57,14 +57,17 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.inject.Singleton;
 
 import static android.text.TextUtils.isEmpty;
 
+@Singleton
 public class History {
 
     public static final String TAG = App.subTag("History");
     private static final ChangedEvent CHANGED_EVENT_RECENT = new ChangedEvent(true);
     private static final ChangedEvent CHANGED_EVENT_SAVED = new ChangedEvent(false);
+    private static final int MAX_INTERMEDIATE_STREAK = 5;
     @NonNull
     private final Runnable writeRecent = new WriteTask(true);
     @NonNull
@@ -74,6 +77,8 @@ public class History {
     @Nonnull
     private final List<HistoryState> saved = new ArrayList<>();
     @Nonnull
+    private final Application application;
+    @Nonnull
     private final Bus bus;
     @Inject
     Handler handler;
@@ -81,12 +86,10 @@ public class History {
     SharedPreferences preferences;
     @Inject
     Editor editor;
-    @Inject
-    Application application;
-    private boolean initialized;
 
     @Inject
-    public History(@NonNull Bus bus, @Nonnull @Named(AppModule.THREAD_INIT) Executor initThread) {
+    public History(@NonNull Application application, @NonNull Bus bus, @Nonnull @Named(AppModule.THREAD_INIT) Executor initThread) {
+        this.application = application;
         this.bus = bus;
         this.bus.register(this);
         initThread.execute(new Runnable() {
@@ -117,7 +120,7 @@ public class History {
     }
 
     @Nonnull
-    private static List<HistoryState> loadStates(@Nonnull File file) {
+    static List<HistoryState> loadStates(@Nonnull File file) {
         if (!file.exists()) {
             return Collections.emptyList();
         }
@@ -219,7 +222,6 @@ public class History {
                 Check.isTrue(saved.isEmpty());
                 recent.addAll(recentStates);
                 saved.addAll(savedStates);
-                initialized = true;
             }
         });
     }
@@ -258,13 +260,17 @@ public class History {
 
         final List<HistoryState> states = recent.asList();
         final int statesCount = states.size();
+        int streak = 0;
         for (int i = 1; i < statesCount; i++) {
             final HistoryState olderState = states.get(i - 1);
             final HistoryState newerState = states.get(i);
             final String olderText = olderState.editor.getTextString();
             final String newerText = newerState.editor.getTextString();
-            if (!isIntermediate(olderText, newerText, groupingSeparator)) {
+            if (streak >= MAX_INTERMEDIATE_STREAK || !isIntermediate(olderText, newerText, groupingSeparator)) {
                 result.add(0, olderState);
+                streak = 0;
+            } else {
+                streak++;
             }
         }
         if (statesCount > 0) {
@@ -330,9 +336,6 @@ public class History {
 
     @Subscribe
     public void onDisplayChanged(@Nonnull Display.ChangedEvent e) {
-        if (!initialized) {
-            return;
-        }
         final EditorState editorState = editor.getState();
         final DisplayState displayState = e.newState;
         if (editorState.sequence != displayState.sequence) {

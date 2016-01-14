@@ -35,10 +35,13 @@ import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 import org.solovyev.android.CalculatorTestRunner;
 import org.solovyev.android.calculator.BuildConfig;
+import org.solovyev.android.calculator.Display;
 import org.solovyev.android.calculator.DisplayState;
 import org.solovyev.android.calculator.Editor;
 import org.solovyev.android.calculator.EditorState;
+import org.solovyev.android.calculator.jscl.JsclOperation;
 
+import java.io.File;
 import java.util.List;
 import java.util.concurrent.Executor;
 
@@ -47,6 +50,7 @@ import javax.annotation.Nonnull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.mock;
@@ -61,11 +65,10 @@ public class HistoryTest {
 
     @Before
     public void setUp() throws Exception {
-        history = new History(mock(Bus.class), mock(Executor.class));
+        history = new History(RuntimeEnvironment.application, mock(Bus.class), mock(Executor.class));
         history.handler = mock(Handler.class);
         history.preferences = mock(SharedPreferences.class);
         history.editor = mock(Editor.class);
-        history.application = RuntimeEnvironment.application;
     }
 
     @Test
@@ -85,9 +88,11 @@ public class HistoryTest {
         addState("23547");
 
         final List<HistoryState> states = history.getRecent();
-        assertEquals(2, states.size());
+        assertEquals(3, states.size());
         assertEquals("23547", states.get(0).editor.getTextString());
-        assertEquals("123+3", states.get(1).editor.getTextString());
+        // intermediate state
+        assertEquals("235", states.get(1).editor.getTextString());
+        assertEquals("123+3", states.get(2).editor.getTextString());
     }
 
     @Test
@@ -256,5 +261,58 @@ public class HistoryTest {
         assertEquals("4+5/35sin(41)+dfdsfsdfs", state.display.text);
         assertEquals(true, state.display.valid);
         assertNull(state.display.getResult());
+    }
+
+    @Test
+    public void testShouldAddStateIfEditorAndDisplayAreInSync() throws Exception {
+        final EditorState editorState = EditorState.create("editor", 2);
+        when(history.editor.getState()).thenReturn(editorState);
+
+        final DisplayState displayState = DisplayState.createError(JsclOperation.numeric, "test", editorState.sequence);
+        history.onDisplayChanged(new Display.ChangedEvent(DisplayState.empty(), displayState));
+
+        final List<HistoryState> states = history.getRecent();
+        assertEquals(1, states.size());
+        assertSame(editorState, states.get(0).editor);
+        assertSame(displayState, states.get(0).display);
+    }
+
+    @Test
+    public void testShouldNotAddStateIfEditorAndDisplayAreOutOfSync() throws Exception {
+        final EditorState editorState = EditorState.create("editor", 2);
+        when(history.editor.getState()).thenReturn(editorState);
+
+        final DisplayState displayState = DisplayState.createError(JsclOperation.numeric, "test", editorState.sequence - 1);
+        history.onDisplayChanged(new Display.ChangedEvent(DisplayState.empty(), displayState));
+
+        final List<HistoryState> states = history.getRecent();
+        assertEquals(0, states.size());
+    }
+
+    @Test
+    public void testShouldLoadStates() throws Exception {
+        final List<HistoryState> states = History.loadStates(new File(HistoryTest.class.getResource("recent-history.json").getFile()));
+        assertEquals(8, states.size());
+
+        HistoryState state = states.get(0);
+        assertEquals(1452770652381L, state.time);
+        assertEquals("", state.comment);
+        assertEquals("01 234 567 890 123 456 789", state.editor.getTextString());
+        assertEquals(26, state.editor.selection);
+        assertEquals("1 234 567 890 123 460 000", state.display.text);
+
+        state = states.get(4);
+        assertEquals(1452770626394L, state.time);
+        assertEquals("", state.comment);
+        assertEquals("985", state.editor.getTextString());
+        assertEquals(3, state.editor.selection);
+        assertEquals("985", state.display.text);
+
+        state = states.get(7);
+        assertEquals(1452770503823L, state.time);
+        assertEquals("", state.comment);
+        assertEquals("52", state.editor.getTextString());
+        assertEquals(2, state.editor.selection);
+        assertEquals("52", state.display.text);
     }
 }

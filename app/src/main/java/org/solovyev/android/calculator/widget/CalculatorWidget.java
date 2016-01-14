@@ -59,10 +59,10 @@ import javax.annotation.Nullable;
 import static android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT;
 import static android.content.Intent.ACTION_CONFIGURATION_CHANGED;
 import static android.os.Build.VERSION_CODES.JELLY_BEAN;
-import static org.solovyev.android.calculator.CalculatorBroadcaster.ACTION_DISPLAY_STATE_CHANGED;
-import static org.solovyev.android.calculator.CalculatorBroadcaster.ACTION_EDITOR_STATE_CHANGED;
-import static org.solovyev.android.calculator.CalculatorBroadcaster.ACTION_INIT;
-import static org.solovyev.android.calculator.CalculatorBroadcaster.ACTION_THEME_CHANGED;
+import static org.solovyev.android.calculator.Broadcaster.ACTION_DISPLAY_STATE_CHANGED;
+import static org.solovyev.android.calculator.Broadcaster.ACTION_EDITOR_STATE_CHANGED;
+import static org.solovyev.android.calculator.Broadcaster.ACTION_INIT;
+import static org.solovyev.android.calculator.Broadcaster.ACTION_THEME_CHANGED;
 import static org.solovyev.android.calculator.CalculatorReceiver.newButtonClickedIntent;
 
 public class CalculatorWidget extends AppWidgetProvider {
