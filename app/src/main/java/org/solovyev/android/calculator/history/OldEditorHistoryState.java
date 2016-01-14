@@ -61,41 +61,4 @@ class OldEditorHistoryState implements Cloneable {
     public int getCursorPosition() {
         return cursorPosition;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof OldEditorHistoryState)) return false;
-
-        OldEditorHistoryState that = (OldEditorHistoryState) o;
-
-        if (cursorPosition != that.cursorPosition) return false;
-        if (text != null ? !text.equals(that.text) : that.text != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = cursorPosition;
-        result = 31 * result + (text != null ? text.hashCode() : 0);
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "EditorHistoryState{" +
-                "cursorPosition=" + cursorPosition +
-                ", text='" + text + '\'' +
-                '}';
-    }
-
-    @Override
-    protected OldEditorHistoryState clone() {
-        try {
-            return (OldEditorHistoryState) super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new UnsupportedOperationException(e);
-        }
-    }
 }

@@ -26,26 +26,35 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+
 import com.google.common.base.Strings;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.AppModule;
+import org.solovyev.android.calculator.Display;
+import org.solovyev.android.calculator.DisplayState;
+import org.solovyev.android.calculator.Editor;
+import org.solovyev.android.calculator.EditorState;
+import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.io.FileLoader;
 import org.solovyev.android.io.FileSaver;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.inject.Inject;
-import javax.inject.Named;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Executor;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import static android.text.TextUtils.isEmpty;
 
@@ -95,14 +104,12 @@ public class History {
         }
         final List<HistoryState> states = new ArrayList<>();
         for (OldHistoryState state : history.getItems()) {
-            final OldEditorHistoryState oldEditorState = state.getEditorState();
-            final OldDisplayHistoryState oldDisplayState = state.getDisplayState();
-            final String editorText = oldEditorState.getText();
-            final EditorState editor = EditorState.create(Strings.nullToEmpty(editorText), oldEditorState.getCursorPosition());
-            final DisplayState display = oldDisplayState.isValid()
-                    ? DisplayState.createValid(oldDisplayState.getJsclOperation(), null, Strings.nullToEmpty(oldDisplayState.getEditorState().getText()), EditorState.NO_SEQUENCE)
-                    : DisplayState.createError(oldDisplayState.getJsclOperation(), "", EditorState.NO_SEQUENCE);
-            states.add(HistoryState.newBuilder(editor, display).build());
+            final OldEditorHistoryState oldEditor = state.getEditorState();
+            final OldDisplayHistoryState oldDisplay = state.getDisplayState();
+            final String editorText = oldEditor.getText();
+            final EditorState editor = EditorState.create(Strings.nullToEmpty(editorText), oldEditor.getCursorPosition());
+            final DisplayState display = DisplayState.createValid(oldDisplay.getJsclOperation(), null, Strings.nullToEmpty(oldDisplay.getEditorState().getText()), EditorState.NO_SEQUENCE);
+            states.add(HistoryState.newBuilder(editor, display).withTime(state.getTime()).withComment(state.getComment()).build());
         }
         return states;
     }

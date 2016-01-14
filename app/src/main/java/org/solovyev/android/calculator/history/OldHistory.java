@@ -27,12 +27,11 @@ import org.simpleframework.xml.Root;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 @Root(name = "History")
 class OldHistory {
@@ -58,35 +57,7 @@ class OldHistory {
     }
 
     @Nonnull
-    public String toXml() {
-        final StringWriter xml = new StringWriter();
-        final Serializer serializer = new Persister();
-        try {
-            serializer.write(this, xml);
-        } catch (Exception e) {
-            return "";
-        }
-        return xml.toString();
-    }
-
-    @Nonnull
     public List<OldHistoryState> getItems() {
         return items;
-    }
-
-    public void add(@Nonnull OldHistoryState state) {
-        items.add(state);
-    }
-
-    public void addAll(@Nonnull Collection<OldHistoryState> states) {
-        items.addAll(states);
-    }
-
-    public void clear() {
-        items.clear();
-    }
-
-    public void remove(@Nonnull OldHistoryState state) {
-        items.remove(state);
     }
 }

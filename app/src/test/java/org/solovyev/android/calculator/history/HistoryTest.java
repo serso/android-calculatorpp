@@ -24,7 +24,9 @@ package org.solovyev.android.calculator.history;
 
 import android.content.SharedPreferences;
 import android.os.Handler;
+
 import com.squareup.otto.Bus;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,12 +40,14 @@ import org.solovyev.android.calculator.DisplayState;
 import org.solovyev.android.calculator.Editor;
 import org.solovyev.android.calculator.EditorState;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.concurrent.Executor;
 
+import javax.annotation.Nonnull;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 @Config(constants = BuildConfig.class, sdk = CalculatorTestRunner.SUPPORTED_SDK)
 @RunWith(RobolectricGradleTestRunner.class)
@@ -124,9 +128,10 @@ public class HistoryTest {
             "   <historyItems class=\"java.util.ArrayList\">\n" +
             "      <calculatorHistoryState>\n" +
             "         <time>100000000</time>\n" +
+            "         <comment>boom</comment>\n" +
             "         <editorState>\n" +
             "            <cursorPosition>3</cursorPosition>\n" +
-            "            <text>1+1</text>\n" +
+            "            <text>1+11</text>\n" +
             "         </editorState>\n" +
             "         <displayState>\n" +
             "            <editorState>\n" +
@@ -165,7 +170,7 @@ public class HistoryTest {
             "         </displayState>\n" +
             "      </calculatorHistoryState>\n" +
             "      <calculatorHistoryState>\n" +
-            "         <time>100000000</time>\n" +
+            "         <time>1</time>\n" +
             "         <editorState>\n" +
             "            <cursorPosition>0</cursorPosition>\n" +
             "            <text>4+5/35sin(41)+dfdsfsdfs</text>\n" +
@@ -189,5 +194,33 @@ public class HistoryTest {
 
         HistoryState state = states.get(0);
         assertEquals(100000000, state.time);
+        assertEquals("", state.comment);
+        assertEquals("1+1", state.editor.getTextString());
+        assertEquals(3, state.editor.selection);
+        assertEquals("Error", state.display.text);
+        assertEquals(true, state.display.valid);
+        assertNull(state.display.getResult());
+
+        states = History.convertOldHistory(oldXml2);
+        assertNotNull(states);
+        assertEquals(4, states.size());
+
+        state = states.get(0);
+        assertEquals(100000000, state.time);
+        assertEquals("boom", state.comment);
+        assertEquals("1+11", state.editor.getTextString());
+        assertEquals(3, state.editor.selection);
+        assertEquals("Error", state.display.text);
+        assertEquals(true, state.display.valid);
+        assertNull(state.display.getResult());
+
+        state = states.get(3);
+        assertEquals(1, state.time);
+        assertEquals("", state.comment);
+        assertEquals("4+5/35sin(41)+dfdsfsdfs", state.editor.getTextString());
+        assertEquals(0, state.editor.selection);
+        assertEquals("4+5/35sin(41)+dfdsfsdfs", state.display.text);
+        assertEquals(true, state.display.valid);
+        assertNull(state.display.getResult());
     }
 }

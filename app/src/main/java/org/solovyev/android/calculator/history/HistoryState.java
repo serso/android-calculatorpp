@@ -1,7 +1,5 @@
 package org.solovyev.android.calculator.history;
 
-import android.text.TextUtils;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.solovyev.android.Check;
@@ -9,6 +7,9 @@ import org.solovyev.android.calculator.DisplayState;
 import org.solovyev.android.calculator.EditorState;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import static android.text.TextUtils.isEmpty;
 
 public class HistoryState {
 
@@ -52,7 +53,7 @@ public class HistoryState {
         json.put(JSON_EDITOR, editor.toJson());
         json.put(JSON_DISPLAY, display.toJson());
         json.put(JSON_TIME, time);
-        if (!TextUtils.isEmpty(comment)) {
+        if (!isEmpty(comment)) {
             json.put(JSON_COMMENT, comment);
         }
         return json;
@@ -97,17 +98,21 @@ public class HistoryState {
 
         private Builder(@Nonnull EditorState editor, @Nonnull DisplayState display) {
             super(editor, display);
-            setTime(System.currentTimeMillis());
+            withTime(System.currentTimeMillis());
         }
 
-        public void setTime(long time) {
+        @Nonnull
+        public Builder withTime(long time) {
             Check.isTrue(!built);
             this.time = time;
+            return this;
         }
 
-        public void setComment(@Nonnull String comment) {
+        @Nonnull
+        public Builder withComment(@Nullable String comment) {
             Check.isTrue(!built);
-            this.comment = comment;
+            this.comment = comment == null ? "" : comment;
+            return this;
         }
 
         @Nonnull
