@@ -30,12 +30,15 @@ import org.solovyev.android.views.dragbutton.DragDirection;
 import org.solovyev.android.views.dragbutton.SimpleDragListener;
 
 import javax.annotation.Nonnull;
-import javax.inject.Inject;
 
 public class HistoryDragProcessor implements SimpleDragListener.DragProcessor {
 
-    @Inject
-    History history;
+    @Nonnull
+    private final History history;
+
+    public HistoryDragProcessor(@Nonnull History history) {
+        this.history = history;
+    }
 
     @Override
     public boolean processDragEvent(@Nonnull DragDirection direction, @Nonnull DragButton button, @Nonnull PointF startPoint, @Nonnull MotionEvent motionEvent) {
