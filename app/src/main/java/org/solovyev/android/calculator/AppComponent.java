@@ -1,6 +1,7 @@
 package org.solovyev.android.calculator;
 
 import org.solovyev.android.calculator.history.BaseHistoryFragment;
+import org.solovyev.android.calculator.history.EditHistoryFragment;
 import org.solovyev.android.calculator.onscreen.CalculatorOnscreenService;
 
 import javax.inject.Singleton;
@@ -16,4 +17,5 @@ public interface AppComponent {
     void inject(CalculatorOnscreenService service);
     void inject(BaseHistoryFragment fragment);
     void inject(BaseDialogFragment fragment);
+    void inject(EditHistoryFragment fragment);
 }

@@ -73,7 +73,7 @@ public class EditorState implements Parcelable {
     }
 
     private EditorState(Parcel in) {
-        sequence = in.readLong();
+        sequence = NO_SEQUENCE;
         selection = in.readInt();
         textString = in.readString();
         text = textString;
@@ -135,7 +135,6 @@ public class EditorState implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(sequence);
         dest.writeInt(selection);
         dest.writeString(textString);
     }

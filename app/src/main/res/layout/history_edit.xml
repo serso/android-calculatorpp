@@ -22,45 +22,41 @@
   ~ Site:  http://se.solovyev.org
   -->
 
-<ScrollView xmlns:a="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     a:layout_width="wrap_content"
-    a:layout_height="wrap_content">
+    a:layout_height="wrap_content"
+    a:orientation="vertical">
 
-    <LinearLayout
-        a:id="@+id/history_edit"
+    <android.support.design.widget.TextInputLayout
         a:layout_width="match_parent"
-        a:layout_height="wrap_content"
-        a:orientation="vertical"
-        a:scrollbarAlwaysDrawVerticalTrack="true"
-        a:scrollbars="vertical">
-
-        <TextView
-            a:layout_width="fill_parent"
-            a:layout_height="fill_parent"
-            a:padding="6dp"
-            a:text="@string/c_history_expression" />
-
-        <TextView
-            a:id="@+id/history_edit_expression"
-            a:layout_width="fill_parent"
-            a:layout_height="wrap_content"
-            a:padding="6dp"
-            a:textStyle="bold" />
-
-        <TextView
-            a:layout_width="fill_parent"
-            a:layout_height="fill_parent"
-            a:padding="6dp"
-            a:text="@string/c_history_comment" />
+        a:layout_height="wrap_content">
 
         <EditText
-            a:id="@+id/history_edit_comment"
+            a:id="@+id/history_expression"
             a:layout_width="fill_parent"
             a:layout_height="wrap_content"
+            a:editable="false"
+            a:hint="@string/c_history_expression"
+            a:inputType="none"
+            a:padding="6dp"
+            a:textStyle="bold"
+            tools:ignore="Deprecated" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        a:id="@+id/history_comment_label"
+        a:layout_width="match_parent"
+        a:layout_height="wrap_content">
+
+        <EditText
+            a:id="@+id/history_comment"
+            a:layout_width="fill_parent"
+            a:layout_height="wrap_content"
+            a:hint="@string/c_history_comment"
+            a:inputType="text"
             a:maxLines="4"
-            a:minLines="4"
-            a:inputType="text" />
+            a:minLines="4" />
+    </android.support.design.widget.TextInputLayout>
 
-    </LinearLayout>
-
-</ScrollView>
+</LinearLayout>

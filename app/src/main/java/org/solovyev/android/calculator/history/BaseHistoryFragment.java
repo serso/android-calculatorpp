@@ -37,9 +37,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.melnykov.fab.FloatingActionButton;
@@ -81,7 +79,6 @@ public abstract class BaseHistoryFragment extends ListFragment {
     History history;
     @Inject
     Bus bus;
-    @Nonnull
     private HistoryArrayAdapter adapter;
     @Nonnull
     private FragmentUi ui;
@@ -165,9 +162,7 @@ public abstract class BaseHistoryFragment extends ListFragment {
     @Override
     public void onResume() {
         super.onResume();
-
         ui.onResume(this);
-
         updateAdapter();
     }
 
@@ -222,10 +217,10 @@ public abstract class BaseHistoryFragment extends ListFragment {
                 }
                 return true;
             case R.string.c_save:
-                EditHistoryFragment.show(state, getFragmentManager());
+                EditHistoryFragment.show(state, true, getFragmentManager());
                 return true;
             case R.string.c_edit:
-                createEditHistoryDialog(state, context, false);
+                EditHistoryFragment.show(state, false, getFragmentManager());
                 return true;
             case R.string.c_remove:
                 getAdapter().remove(state);
@@ -236,41 +231,6 @@ public abstract class BaseHistoryFragment extends ListFragment {
 
         }
         return super.onContextItemSelected(item);
-    }
-
-    private void createEditHistoryDialog(@Nonnull final HistoryState state, @Nonnull final Context context, final boolean save) {
-        final LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final View editView = layoutInflater.inflate(R.layout.history_edit, null);
-        final TextView historyExpression = (TextView) editView.findViewById(R.id.history_edit_expression);
-        historyExpression.setText(BaseHistoryFragment.getHistoryText(state));
-
-        final EditText comment = (EditText) editView.findViewById(R.id.history_edit_comment);
-        comment.setText(state.getComment());
-
-        final AlertDialog.Builder builder = new AlertDialog.Builder(context)
-                .setTitle(save ? R.string.c_save_history : R.string.c_edit_history)
-                .setCancelable(true)
-                .setNegativeButton(R.string.c_cancel, null)
-                .setPositiveButton(R.string.c_save, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        /*if (save) {
-                            final HistoryState savedHistoryItem = Locator.getInstance().getHistory().addSaved(state);
-                            savedHistoryItem.setComment(comment.getText().toString());
-                            Locator.getInstance().getHistory().save();
-                            // we don't need to add element to the adapter as adapter of another activity must be updated and not this
-                            //data.getAdapter().add(savedHistoryItem);
-                        } else {
-                            state.setComment(comment.getText().toString());
-                            Locator.getInstance().getHistory().save();
-                        }
-                        getAdapter().notifyDataSetChanged();*/
-                        Toast.makeText(context, context.getText(R.string.c_history_saved), Toast.LENGTH_LONG).show();
-                    }
-                })
-                .setView(editView);
-
-        builder.create().show();
     }
 
     private boolean shouldHaveCopyResult(@Nonnull HistoryState state) {

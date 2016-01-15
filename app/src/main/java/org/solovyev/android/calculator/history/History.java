@@ -110,7 +110,7 @@ public class History {
             final String editorText = oldEditor.getText();
             final EditorState editor = EditorState.create(Strings.nullToEmpty(editorText), oldEditor.getCursorPosition());
             final DisplayState display = DisplayState.createValid(oldDisplay.getJsclOperation(), null, Strings.nullToEmpty(oldDisplay.getEditorState().getText()), EditorState.NO_SEQUENCE);
-            states.add(HistoryState.newBuilder(editor, display).withTime(state.getTime()).withComment(state.getComment()).build());
+            states.add(HistoryState.builder(editor, display).withTime(state.getTime()).withComment(state.getComment()).build());
         }
         return states;
     }
@@ -249,9 +249,14 @@ public class History {
         onRecentChanged();
     }
 
-    public void addSaved(@Nonnull HistoryState state) {
+    public void updateSaved(@Nonnull HistoryState state) {
         Check.isMainThread();
-        saved.add(state);
+        final int i = saved.indexOf(state);
+        if(i >= 0) {
+            saved.set(i, state);
+        } else {
+            saved.add(state);
+        }
         onSavedChanged();
     }
 
@@ -358,7 +363,7 @@ public class History {
         if (editorState.sequence != displayState.sequence) {
             return;
         }
-        addRecent(HistoryState.newBuilder(editorState, displayState).build());
+        addRecent(HistoryState.builder(editorState, displayState).build());
     }
 
     public static class ChangedEvent {

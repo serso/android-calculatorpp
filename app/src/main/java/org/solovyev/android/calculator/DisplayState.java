@@ -71,7 +71,7 @@ public class DisplayState implements Parcelable {
     private DisplayState(Parcel in) {
         text = in.readString();
         valid = in.readByte() != 0;
-        sequence = in.readLong();
+        sequence = EditorState.NO_SEQUENCE;
     }
 
     @Nonnull
@@ -143,6 +143,5 @@ public class DisplayState implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(text);
         dest.writeByte((byte) (valid ? 1 : 0));
-        dest.writeLong(sequence);
     }
 }
