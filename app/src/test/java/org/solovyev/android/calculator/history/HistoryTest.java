@@ -143,7 +143,7 @@ public class HistoryTest {
     }
 
     private void addState(@Nonnull String text) {
-        history.addRecent(HistoryState.newBuilder(EditorState.create(text, 3), DisplayState.empty()));
+        history.addRecent(HistoryState.builder(EditorState.create(text, 3), DisplayState.empty()));
     }
 
     private static final String oldXml1 = "<history>\n" +

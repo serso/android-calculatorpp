@@ -40,29 +40,14 @@ import static org.solovyev.android.calculator.CalculatorEventType.conversion_res
 @Singleton
 public class Display implements CalculatorEventListener {
 
-    public static class ChangedEvent {
-
-        @Nonnull
-        public final DisplayState oldState;
-
-        @Nonnull
-        public final DisplayState newState;
-
-        public ChangedEvent(@Nonnull DisplayState oldState, @Nonnull DisplayState newState) {
-            this.oldState = oldState;
-            this.newState = newState;
-        }
-    }
-
     @Nonnull
     private final CalculatorEventHolder lastEvent;
+    @Inject
+    Bus bus;
     @Nullable
     private DisplayView view;
     @Nonnull
     private DisplayState state = DisplayState.empty();
-
-    @Inject
-    Bus bus;
 
     @Inject
     public Display(@Nonnull Calculator calculator) {
@@ -174,5 +159,19 @@ public class Display implements CalculatorEventListener {
 
         final DisplayState displayState = calculatorEventData.getDisplayState();
         setState(DisplayState.createValid(displayState.getOperation(), displayState.getResult(), result, calculatorEventData.getSequenceId()));
+    }
+
+    public static class ChangedEvent {
+
+        @Nonnull
+        public final DisplayState oldState;
+
+        @Nonnull
+        public final DisplayState newState;
+
+        public ChangedEvent(@Nonnull DisplayState oldState, @Nonnull DisplayState newState) {
+            this.oldState = oldState;
+            this.newState = newState;
+        }
     }
 }

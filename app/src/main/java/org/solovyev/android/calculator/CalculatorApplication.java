@@ -107,6 +107,7 @@ public class CalculatorApplication extends android.app.Application implements Sh
                 .build();
         component.inject(this);
         history.init(initThread);
+        display.init();
 
         onPostCreate(preferences, languages);
     }

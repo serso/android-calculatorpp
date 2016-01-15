@@ -32,6 +32,7 @@ public class HistoryState implements Parcelable {
     private static final String JSON_DISPLAY = "d";
     private static final String JSON_TIME = "t";
     private static final String JSON_COMMENT = "c";
+    public final int id;
     @Nonnull
     public final EditorState editor;
     @Nonnull
@@ -41,8 +42,17 @@ public class HistoryState implements Parcelable {
     protected String comment = "";
 
     private HistoryState(@Nonnull EditorState editor, @Nonnull DisplayState display) {
+        this.id = System.identityHashCode(this);
         this.editor = editor;
         this.display = display;
+    }
+
+    private HistoryState(@Nonnull HistoryState state) {
+        this.id = state.id;
+        this.editor = state.editor;
+        this.display = state.display;
+        this.time = state.time;
+        this.comment = state.comment;
     }
 
     private HistoryState(@Nonnull JSONObject json) throws JSONException {
@@ -52,6 +62,7 @@ public class HistoryState implements Parcelable {
     }
 
     private HistoryState(Parcel in) {
+        id = in.readInt();
         editor = in.readParcelable(EditorState.class.getClassLoader());
         display = in.readParcelable(DisplayState.class.getClassLoader());
         time = in.readLong();
@@ -59,8 +70,13 @@ public class HistoryState implements Parcelable {
     }
 
     @Nonnull
-    public static Builder newBuilder(@Nonnull EditorState editor, @Nonnull DisplayState display) {
+    public static Builder builder(@Nonnull EditorState editor, @Nonnull DisplayState display) {
         return new Builder(editor, display);
+    }
+
+    @Nonnull
+    public static Builder builder(@Nonnull HistoryState state) {
+        return new Builder(state);
     }
 
     @Nonnull
@@ -104,9 +120,26 @@ public class HistoryState implements Parcelable {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        final HistoryState that = (HistoryState) o;
+
+        return id == that.id;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
+
+    @Override
     public String toString() {
         return "HistoryState{" +
-                "editor=" + editor +
+                "id=" + id +
+                ", editor=" + editor +
                 ", display=" + display +
                 ", time=" + time +
                 ", comment='" + comment + '\'' +
@@ -120,6 +153,7 @@ public class HistoryState implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
         dest.writeParcelable(editor, flags);
         dest.writeParcelable(display, flags);
         dest.writeLong(time);
@@ -133,7 +167,16 @@ public class HistoryState implements Parcelable {
 
         private Builder(@Nonnull EditorState editor, @Nonnull DisplayState display) {
             super(editor, display);
-            withTime(System.currentTimeMillis());
+            withNowTime();
+        }
+
+        private Builder(@Nonnull HistoryState state) {
+            super(state);
+        }
+
+        @Nonnull
+        public Builder withNowTime() {
+            return withTime(System.currentTimeMillis());
         }
 
         @Nonnull
