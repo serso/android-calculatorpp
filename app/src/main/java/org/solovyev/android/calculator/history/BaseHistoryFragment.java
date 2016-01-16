@@ -30,37 +30,22 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.ListFragment;
 import android.text.ClipboardManager;
-import android.view.ContextMenu;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
-
 import com.melnykov.fab.FloatingActionButton;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
-
-import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.CalculatorActivity;
-import org.solovyev.android.calculator.CalculatorApplication;
-import org.solovyev.android.calculator.CalculatorFragmentType;
-import org.solovyev.android.calculator.FragmentUi;
-import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.common.text.Strings;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
-
-import static android.view.Menu.NONE;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class BaseHistoryFragment extends ListFragment {
 
@@ -167,73 +152,52 @@ public abstract class BaseHistoryFragment extends ListFragment {
     }
 
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+    public final void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
         final HistoryState state = (HistoryState) getListView().getItemAtPosition(info.position);
 
-        if (!isRecentHistory()) {
-            menu.add(NONE, R.string.c_use, NONE, R.string.c_use);
-            menu.add(NONE, R.string.c_copy_expression, NONE, R.string.c_copy_expression);
-            if (shouldHaveCopyResult(state)) {
-                menu.add(NONE, R.string.c_copy_result, NONE, R.string.c_copy_result);
-            }
-            menu.add(NONE, R.string.c_edit, NONE, R.string.c_edit);
-            menu.add(NONE, R.string.c_remove, NONE, R.string.c_remove);
-        } else {
-            menu.add(NONE, R.string.c_use, NONE, R.string.c_use);
-            menu.add(NONE, R.string.c_copy_expression, NONE, R.string.c_copy_expression);
-            if (shouldHaveCopyResult(state)) {
-                menu.add(NONE, R.string.c_copy_result, NONE, R.string.c_copy_result);
-            }
-            menu.add(NONE, R.string.c_save, NONE, R.string.c_save);
-        }
+        onCreateContextMenu(menu, state);
     }
 
+    protected abstract void onCreateContextMenu(@Nonnull ContextMenu menu, @Nonnull HistoryState state);
+
     @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        final Context context = getActivity();
+    public final boolean onContextItemSelected(MenuItem item) {
         final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         final HistoryState state = (HistoryState) getListView().getItemAtPosition(info.position);
 
-        switch (item.getItemId()) {
-            case R.string.c_use:
-                useState(state);
-                return true;
-            case R.string.c_copy_expression:
-                final String editorText = state.editor.getTextString();
-                if (!Strings.isEmpty(editorText)) {
-                    final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
-                    clipboard.setText(editorText);
-                    Toast.makeText(context, context.getText(R.string.c_expression_copied), Toast.LENGTH_SHORT).show();
-                }
-                return true;
-            case R.string.c_copy_result:
-                final String displayText = state.display.text;
-                if (!Strings.isEmpty(displayText)) {
-                    final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
-                    clipboard.setText(displayText);
-                    Toast.makeText(context, context.getText(R.string.c_result_copied), Toast.LENGTH_SHORT).show();
-                }
-                return true;
-            case R.string.c_save:
-                EditHistoryFragment.show(state, true, getFragmentManager());
-                return true;
-            case R.string.c_edit:
-                EditHistoryFragment.show(state, false, getFragmentManager());
-                return true;
-            case R.string.c_remove:
-                getAdapter().remove(state);
-                history.removeSaved(state);
-                Toast.makeText(context, context.getText(R.string.c_history_was_removed), Toast.LENGTH_LONG).show();
-                getAdapter().notifyDataSetChanged();
-                return true;
-
+        if (onContextItemSelected(item, state)) {
+            return true;
         }
         return super.onContextItemSelected(item);
     }
 
-    private boolean shouldHaveCopyResult(@Nonnull HistoryState state) {
+    protected abstract boolean onContextItemSelected(@Nonnull MenuItem item, @Nonnull HistoryState state);
+
+    @SuppressWarnings("deprecation")
+    protected final void copyResult(@Nonnull HistoryState state) {
+        final Context context = getActivity();
+        final String displayText = state.display.text;
+        if (Strings.isEmpty(displayText)) {
+            return;
+        }
+        final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
+        clipboard.setText(displayText);
+    }
+
+    @SuppressWarnings("deprecation")
+    protected final void copyExpression(@Nonnull HistoryState state) {
+        final Context context = getActivity();
+        final String editorText = state.editor.getTextString();
+        if (Strings.isEmpty(editorText)) {
+            return;
+        }
+        final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
+        clipboard.setText(editorText);
+    }
+
+    protected final boolean shouldHaveCopyResult(@Nonnull HistoryState state) {
         return !state.display.valid || !Strings.isEmpty(state.display.text);
     }
 

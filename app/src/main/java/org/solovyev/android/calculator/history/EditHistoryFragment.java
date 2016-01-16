@@ -12,15 +12,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import org.solovyev.android.calculator.AppComponent;
 import org.solovyev.android.calculator.BaseDialogFragment;
 import org.solovyev.android.calculator.R;
 
 import javax.inject.Inject;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
 
 public class EditHistoryFragment extends BaseDialogFragment {
 
@@ -76,7 +74,6 @@ public class EditHistoryFragment extends BaseDialogFragment {
 
     @Override
     protected void onPrepareDialog(@NonNull AlertDialog.Builder builder) {
-        builder.setTitle(newState ? R.string.c_save_history : R.string.c_edit_history);
         builder.setNegativeButton(R.string.c_cancel, null);
         builder.setPositiveButton(R.string.c_save, new DialogInterface.OnClickListener() {
             @Override

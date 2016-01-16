@@ -26,10 +26,8 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
-
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.otto.Bus;
-
 import org.acra.ACRA;
 import org.acra.ACRAConfiguration;
 import org.acra.sender.HttpSender;
@@ -43,14 +41,13 @@ import org.solovyev.android.calculator.plot.AndroidCalculatorPlotter;
 import org.solovyev.android.calculator.plot.CalculatorPlotterImpl;
 import org.solovyev.common.msg.MessageType;
 
+import javax.annotation.Nonnull;
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.Executor;
-
-import javax.annotation.Nonnull;
-import javax.inject.Inject;
-import javax.inject.Named;
 
 public class CalculatorApplication extends android.app.Application implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -107,7 +104,6 @@ public class CalculatorApplication extends android.app.Application implements Sh
                 .build();
         component.inject(this);
         history.init(initThread);
-        display.init();
 
         onPostCreate(preferences, languages);
     }

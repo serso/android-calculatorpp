@@ -22,11 +22,15 @@
 
 package org.solovyev.android.calculator.history;
 
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.R;
 
 import javax.annotation.Nonnull;
 import java.util.List;
+
+import static android.view.Menu.NONE;
 
 public class RecentHistoryFragment extends BaseHistoryFragment {
 
@@ -54,5 +58,32 @@ public class RecentHistoryFragment extends BaseHistoryFragment {
     @Override
     protected boolean isRecentHistory() {
         return true;
+    }
+
+    protected void onCreateContextMenu(@Nonnull ContextMenu menu, @Nonnull HistoryState state) {
+        menu.add(NONE, R.string.c_use, NONE, R.string.c_use);
+        menu.add(NONE, R.string.c_copy_expression, NONE, R.string.c_copy_expression);
+        if (shouldHaveCopyResult(state)) {
+            menu.add(NONE, R.string.c_copy_result, NONE, R.string.c_copy_result);
+        }
+        menu.add(NONE, R.string.c_save, NONE, R.string.c_save);
+    }
+
+    protected boolean onContextItemSelected(@Nonnull MenuItem item, @Nonnull HistoryState state) {
+        switch (item.getItemId()) {
+            case R.string.c_use:
+                useState(state);
+                return true;
+            case R.string.c_copy_expression:
+                copyExpression(state);
+                return true;
+            case R.string.c_copy_result:
+                copyResult(state);
+                return true;
+            case R.string.c_save:
+                EditHistoryFragment.show(state, true, getFragmentManager());
+                return true;
+        }
+        return false;
     }
 }

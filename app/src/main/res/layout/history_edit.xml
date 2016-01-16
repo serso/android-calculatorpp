@@ -34,13 +34,11 @@
 
         <EditText
             a:id="@+id/history_expression"
-            a:layout_width="fill_parent"
+            a:layout_width="match_parent"
             a:layout_height="wrap_content"
             a:editable="false"
             a:hint="@string/c_history_expression"
             a:inputType="none"
-            a:padding="6dp"
-            a:textStyle="bold"
             tools:ignore="Deprecated" />
     </android.support.design.widget.TextInputLayout>
 
@@ -51,12 +49,10 @@
 
         <EditText
             a:id="@+id/history_comment"
-            a:layout_width="fill_parent"
+            a:layout_width="match_parent"
             a:layout_height="wrap_content"
             a:hint="@string/c_history_comment"
-            a:inputType="text"
-            a:maxLines="4"
-            a:minLines="4" />
+            a:inputType="text" />
     </android.support.design.widget.TextInputLayout>
 
 </LinearLayout>
