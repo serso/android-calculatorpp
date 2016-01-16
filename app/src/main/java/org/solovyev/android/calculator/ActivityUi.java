@@ -280,11 +280,6 @@ public class ActivityUi extends BaseUi {
     }
 
     @Nonnull
-    public Preferences.Gui.Theme getTheme() {
-        return theme;
-    }
-
-    @Nonnull
     public Language getLanguage() {
         return language;
     }

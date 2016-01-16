@@ -91,7 +91,7 @@ public class EditHistoryFragment extends BaseDialogFragment {
     @NonNull
     @Override
     protected View onCreateDialogView(@NonNull Context context, @NonNull LayoutInflater inflater, @Nullable Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.history_edit, null);
+        final View view = inflater.inflate(R.layout.fragment_history_edit, null);
         ButterKnife.bind(this, view);
         if (savedInstanceState == null) {
             expressionView.setText(BaseHistoryFragment.getHistoryText(state));

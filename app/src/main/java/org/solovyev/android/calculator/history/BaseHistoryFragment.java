@@ -23,12 +23,12 @@
 package org.solovyev.android.calculator.history;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.ListFragment;
+import android.support.v7.app.AlertDialog;
 import android.text.ClipboardManager;
 import android.view.*;
 import android.widget.AdapterView;
@@ -42,24 +42,11 @@ import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.common.text.Strings;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class BaseHistoryFragment extends ListFragment {
-
-    @Nonnull
-    private final DialogInterface.OnClickListener clearDialogListener = new DialogInterface.OnClickListener() {
-        @Override
-        public void onClick(DialogInterface dialog, int which) {
-            switch (which) {
-                case DialogInterface.BUTTON_POSITIVE:
-                    clearHistory();
-                    break;
-            }
-        }
-    };
     @Inject
     History history;
     @Inject
@@ -67,11 +54,9 @@ public abstract class BaseHistoryFragment extends ListFragment {
     private HistoryArrayAdapter adapter;
     @Nonnull
     private FragmentUi ui;
-    @Nullable
-    private AlertDialog clearDialog;
 
-    protected BaseHistoryFragment(@Nonnull CalculatorFragmentType fragmentType) {
-        ui = new FragmentUi(fragmentType.getDefaultLayoutId(), fragmentType.getDefaultTitleResId(), false);
+    protected BaseHistoryFragment(@Nonnull CalculatorFragmentType type) {
+        ui = new FragmentUi(type.getDefaultLayoutId(), type.getDefaultTitleResId(), false);
     }
 
     @Nonnull
@@ -95,7 +80,6 @@ public abstract class BaseHistoryFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         ((CalculatorApplication) getActivity().getApplication()).getComponent().inject(this);
         bus.register(this);
         ui.onCreate(this);
@@ -123,12 +107,7 @@ public abstract class BaseHistoryFragment extends ListFragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clearDialog = new AlertDialog.Builder(getActivity()).setTitle(R.string.cpp_clear_history_title)
-                        .setMessage(R.string.cpp_clear_history_message)
-                        .setPositiveButton(R.string.cpp_clear_history, clearDialogListener)
-                        .setNegativeButton(R.string.c_cancel, clearDialogListener)
-                        .create();
-                clearDialog.show();
+                showClearHistoryDialog();
             }
         });
 
@@ -142,6 +121,21 @@ public abstract class BaseHistoryFragment extends ListFragment {
         });
 
         registerForContextMenu(lv);
+    }
+
+    private void showClearHistoryDialog() {
+        new AlertDialog.Builder(getActivity(), ui.getTheme().alertDialogTheme)
+                .setTitle(R.string.cpp_clear_history_title)
+                .setMessage(R.string.cpp_clear_history_message)
+                .setPositiveButton(R.string.cpp_clear_history, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        clearHistory();
+                    }
+                })
+                .setNegativeButton(R.string.c_cancel, null)
+                .create()
+                .show();
     }
 
     @Override
@@ -216,12 +210,7 @@ public abstract class BaseHistoryFragment extends ListFragment {
     @Override
     public void onDestroy() {
         bus.unregister(this);
-        if (clearDialog != null) {
-            clearDialog.dismiss();
-            clearDialog = null;
-        }
         ui.onDestroy(this);
-
         super.onDestroy();
     }
 
