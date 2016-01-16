@@ -108,7 +108,7 @@
     <string name="c_save_history">Зберегти історію</string>
     <string name="c_edit_history">Змінити історію</string>
     <string name="c_edit">Змінити</string>
-    <string name="c_saved_history">Збережена історія</string>
+    <string name="cpp_history_tab_saved">Збережена історія</string>
     <string name="c_history_already_saved">Історія вже збережена!</string>
     <string name="c_history_must_be_saved">Історію необхідно зберегти перед редагуванням!</string>
     <string name="c_history_was_removed">Історія успішно видалена!</string>

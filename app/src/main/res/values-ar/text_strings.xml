@@ -104,7 +104,7 @@
     <string name="c_save_history">سجل المحفوظات</string>
     <string name="c_edit_history">سجل التعديلات</string>
     <string name="c_edit">تعديل</string>
-    <string name="c_saved_history">السجل المحفوظ</string>
+    <string name="cpp_history_tab_saved">السجل المحفوظ</string>
     <string name="c_history_already_saved">السجل محفوظ مسبقاً!</string>
     <string name="c_history_must_be_saved">يجب أن يتم حفظ السجل قبل التعديل!</string>
     <string name="c_history_was_removed">تمت إزالة السجل بنجاح!</string>

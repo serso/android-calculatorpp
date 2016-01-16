@@ -23,20 +23,29 @@
   -->
 
 <LinearLayout
+    style="@style/CppListItem.TwoLines"
     xmlns:a="http://schemas.android.com/apk/res/android"
-    style="@style/CppListViewItem"
     a:orientation="vertical">
 
     <TextView
-        a:id="@+id/history_item"
-        style="@style/CppListViewItemTextPrimary.History"
-        a:layout_width="fill_parent"
-        a:layout_height="fill_parent" />
+        a:id="@+id/history_item_value"
+        style="@style/CppListItemText.Primary"
+        a:layout_width="match_parent"
+        a:layout_height="wrap_content"
+        a:ellipsize="end"
+        a:maxLines="2" />
 
     <TextView
-        a:id="@+id/history_time"
-        style="@style/CppListViewItemTextSecondary"
-        a:layout_width="fill_parent"
-        a:layout_height="fill_parent" />
+        a:id="@+id/history_item_comment"
+        style="@style/CppListItemText.Secondary.OneLine"
+        a:layout_width="match_parent"
+        a:layout_height="wrap_content" />
 
+    <TextView
+        a:id="@+id/history_item_time"
+        style="@style/CppListItemText.Secondary.OneLine"
+        a:layout_width="match_parent"
+        a:layout_height="wrap_content"
+        a:textSize="@dimen/list_item_text_size_small"
+        a:gravity="center_vertical|end"/>
 </LinearLayout>

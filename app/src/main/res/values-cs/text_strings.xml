@@ -103,7 +103,7 @@
     <string name="c_save_history">Uložit historii</string>
     <string name="c_edit_history">Upravit historii</string>
     <string name="c_edit">Upravit</string>
-    <string name="c_saved_history">Uložená historie</string>
+    <string name="cpp_history_tab_saved">Uložená historie</string>
     <string name="c_history_already_saved">Historie již byla uložena!</string>
     <string name="c_history_must_be_saved">Historie musí být uložena před úpravou!</string>
     <string name="c_history_was_removed">Historie byla úspěšně odebrána!</string>

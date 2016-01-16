@@ -33,9 +33,11 @@
 
         <item name="cpp_main_bg">@color/cpp_main_bg</item>
         <item name="cpp_pane_bg">@drawable/pane</item>
-        <item name="cpp_fab_bg">@color/cpp_material_grey</item>
+        <item name="cpp_fab_bg">@color/grey_900</item>
         <item name="cpp_text_color">@color/cpp_text</item>
         <item name="cpp_text_color_error">@color/cpp_text_error</item>
+
+        <item name="android:listDivider">@drawable/divider</item>
     </style>
 
     <style name="Cpp.Theme.Dialog" parent="@style/Theme.AppCompat.Dialog">
@@ -50,9 +52,11 @@
 
         <item name="cpp_main_bg">@color/cpp_main_bg</item>
         <item name="cpp_pane_bg">@drawable/pane</item>
-        <item name="cpp_fab_bg">@color/cpp_material_grey</item>
+        <item name="cpp_fab_bg">@color/grey_900</item>
         <item name="cpp_text_color">@color/cpp_text</item>
         <item name="cpp_text_color_error">@color/cpp_text_error</item>
+
+        <item name="android:listDivider">@drawable/divider</item>
     </style>
 
     <style name="Cpp.Theme.Dialog.Alert" parent="@style/Theme.AppCompat.Dialog.Alert">
@@ -62,9 +66,11 @@
 
         <item name="cpp_main_bg">@color/cpp_main_bg</item>
         <item name="cpp_pane_bg">@drawable/pane</item>
-        <item name="cpp_fab_bg">@color/cpp_material_grey</item>
+        <item name="cpp_fab_bg">@color/grey_900</item>
         <item name="cpp_text_color">@color/cpp_text</item>
         <item name="cpp_text_color_error">@color/cpp_text_error</item>
+
+        <item name="android:listDivider">@drawable/divider</item>
     </style>
 
     <style name="Cpp.Theme.Light" parent="@style/Theme.AppCompat.Light.DarkActionBar">
@@ -81,6 +87,8 @@
         <item name="cpp_fab_bg">@color/cpp_material_light</item>
         <item name="cpp_text_color">@color/cpp_text_inverse</item>
         <item name="cpp_text_color_error">@color/cpp_text_inverse_error</item>
+
+        <item name="android:listDivider">@drawable/divider</item>
     </style>
 
     <style name="Cpp.Theme.Light.Dialog" parent="@style/Theme.AppCompat.Light.Dialog">
@@ -98,6 +106,8 @@
         <item name="cpp_fab_bg">@color/cpp_material_light</item>
         <item name="cpp_text_color">@color/cpp_text_inverse</item>
         <item name="cpp_text_color_error">@color/cpp_text_inverse_error</item>
+
+        <item name="android:listDivider">@drawable/divider</item>
     </style>
 
     <style name="Cpp.Theme.Light.Dialog.Alert" parent="@style/Theme.AppCompat.Light.Dialog.Alert">
@@ -110,6 +120,8 @@
         <item name="cpp_fab_bg">@color/cpp_material_light</item>
         <item name="cpp_text_color">@color/cpp_text_inverse</item>
         <item name="cpp_text_color_error">@color/cpp_text_inverse_error</item>
+
+        <item name="android:listDivider">@drawable/divider</item>
     </style>
 
     <style name="Cpp.Theme.Wizard" parent="Cpp.Theme.Material">

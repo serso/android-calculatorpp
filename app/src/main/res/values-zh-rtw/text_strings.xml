@@ -103,7 +103,7 @@
     <string name="c_save_history">儲存歷史紀錄</string>
     <string name="c_edit_history">修改歷史紀錄</string>
     <string name="c_edit">修改</string>
-    <string name="c_saved_history">已儲存的歷史紀錄</string>
+    <string name="cpp_history_tab_saved">已儲存的歷史紀錄</string>
     <string name="c_history_already_saved">歷史紀錄已經儲存！</string>
     <string name="c_history_must_be_saved">編輯歷史紀錄之前必須先儲存！</string>
     <string name="c_history_was_removed">成功刪除歷史紀錄！</string>

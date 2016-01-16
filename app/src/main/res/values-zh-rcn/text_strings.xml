@@ -104,7 +104,7 @@
     <string name="c_save_history">保存历史记录</string>
     <string name="c_edit_history">修改历史记录</string>
     <string name="c_edit">修改</string>
-    <string name="c_saved_history">已保存历史记录</string>
+    <string name="cpp_history_tab_saved">已保存历史记录</string>
     <string name="c_history_already_saved">记录已保存!</string>
     <string name="c_history_must_be_saved">编辑之前必须先保存!</string>
     <string name="c_history_was_removed">已成功删除历史记录！</string>

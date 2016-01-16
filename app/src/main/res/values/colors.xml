@@ -29,14 +29,14 @@
     <color name="cpp_button_text">#ffffffff</color>
     <color name="cpp_button_text_operator">#ffffff99</color>
     <color name="cpp_selected_angle_unit_text">#ffffff99</color>
-    <color name="cpp_main_bg">#101010</color>
+    <color name="cpp_main_bg">@color/grey_950</color>
     <color name="cpp_main_bg_light">#fff6f1ef</color>
     <color name="cpp_wizard_button_normal">#424242</color>
     <color name="cpp_wizard_button_disabled">#616161</color>
     <color name="cpp_wizard_button_pressed">#757575</color>
     <color name="cpp_metro_button_dark">#ff000000</color>
-    <color name="cpp_metro_button">@color/cpp_material_grey</color>
-    <color name="cpp_metro_button_light">@color/cpp_material_grey_light</color>
+    <color name="cpp_metro_button">@color/grey_900</color>
+    <color name="cpp_metro_button_light">@color/grey_800</color>
     <color name="cpp_metro_blue">#10648c</color>
     <color name="cpp_material_blue">#ff0d4663</color>
     <color name="cpp_material_blue_lighter">#ff0d668d</color>
@@ -53,12 +53,15 @@
     <color name="cpp_wizard_disabled_text">#66ffffff</color>
 
     <color name="cpp_material_accent">#FAFAFA</color>
-    <color name="cpp_material_grey">#212121</color>
-    <color name="cpp_material_grey_light">#393939</color>
-    <color name="cpp_material_actionbar">@color/cpp_material_grey</color>
-    <color name="cpp_material_actionbar_light">@color/cpp_material_grey_light</color>
+    <color name="cpp_material_actionbar">@color/grey_900</color>
+    <color name="cpp_material_actionbar_light">@color/grey_800</color>
 
-    <color name="cpp_pane_bg">@color/cpp_material_grey</color>
+    <color name="cpp_pane_bg">@color/grey_900</color>
     <color name="cpp_pane_bg_light">#ffeae5e3</color>
+    <color name="grey_900">#212121</color>
+    <color name="grey_950">#101010</color>
+    <color name="grey_600">#757575</color>
+    <color name="grey_800">#424242</color>
+    <color name="blue_grey_800">#37474F</color>
 
 </resources>

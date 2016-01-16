@@ -3,7 +3,6 @@ package org.solovyev.android.calculator.history;
 import android.annotation.SuppressLint;
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.solovyev.android.Check;
@@ -37,7 +36,7 @@ public class HistoryState implements Parcelable {
     public final EditorState editor;
     @Nonnull
     public final DisplayState display;
-    protected long time;
+    protected long time = now();
     @Nonnull
     protected String comment = "";
 
@@ -47,8 +46,8 @@ public class HistoryState implements Parcelable {
         this.display = display;
     }
 
-    private HistoryState(@Nonnull HistoryState state) {
-        this.id = state.id;
+    private HistoryState(@Nonnull HistoryState state, boolean newState) {
+        this.id = newState ? System.identityHashCode(this) : state.id;
         this.editor = state.editor;
         this.display = state.display;
         this.time = state.time;
@@ -75,13 +74,17 @@ public class HistoryState implements Parcelable {
     }
 
     @Nonnull
-    public static Builder builder(@Nonnull HistoryState state) {
-        return new Builder(state);
+    public static Builder builder(@Nonnull HistoryState state, boolean newState) {
+        return new Builder(state, newState);
     }
 
     @Nonnull
     public static HistoryState create(@Nonnull JSONObject json) throws JSONException {
         return new HistoryState(json);
+    }
+
+    private static long now() {
+        return System.currentTimeMillis();
     }
 
     @Nonnull
@@ -122,7 +125,7 @@ public class HistoryState implements Parcelable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || !(o instanceof HistoryState)) return false;
 
         final HistoryState that = (HistoryState) o;
 
@@ -167,16 +170,13 @@ public class HistoryState implements Parcelable {
 
         private Builder(@Nonnull EditorState editor, @Nonnull DisplayState display) {
             super(editor, display);
-            withNowTime();
         }
 
-        private Builder(@Nonnull HistoryState state) {
-            super(state);
-        }
-
-        @Nonnull
-        public Builder withNowTime() {
-            return withTime(System.currentTimeMillis());
+        private Builder(@Nonnull HistoryState state, boolean newState) {
+            super(state, newState);
+            if (newState) {
+                withTime(now());
+            }
         }
 
         @Nonnull

@@ -103,7 +103,7 @@
     <string name="c_save_history">Geçmişi kaydet</string>
     <string name="c_edit_history">Geçmişi düzenle</string>
     <string name="c_edit">Düzenle</string>
-    <string name="c_saved_history">Kayıtlı geçmiş</string>
+    <string name="cpp_history_tab_saved">Kayıtlı geçmiş</string>
     <string name="c_history_already_saved">Geçmiş zaten kaydedildi!</string>
     <string name="c_history_must_be_saved">Geçmiş düzenlenmeden önce kaydedilmelidir!</string>
     <string name="c_history_was_removed">Geçmiş başarıyla silindi!</string>

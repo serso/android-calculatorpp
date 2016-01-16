@@ -26,36 +26,53 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.ListFragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.ClipboardManager;
+import android.text.format.DateUtils;
 import android.view.*;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.TextView;
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import com.melnykov.fab.FloatingActionButton;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
+import org.solovyev.android.Check;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.jscl.JsclOperation;
+import org.solovyev.android.views.llm.DividerItemDecoration;
 import org.solovyev.common.text.Strings;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.inject.Inject;
-import java.util.ArrayList;
 import java.util.List;
 
-public abstract class BaseHistoryFragment extends ListFragment {
+import static android.view.Menu.NONE;
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
+public abstract class BaseHistoryFragment extends Fragment {
+    private final boolean recentHistory;
     @Inject
     History history;
     @Inject
     Bus bus;
-    private HistoryArrayAdapter adapter;
+    @Bind(R.id.history_recyclerview)
+    RecyclerView recyclerView;
+    @Bind(R.id.history_fab)
+    FloatingActionButton fab;
     @Nonnull
     private FragmentUi ui;
+    private HistoryAdapter adapter;
 
     protected BaseHistoryFragment(@Nonnull CalculatorFragmentType type) {
+        recentHistory = type == CalculatorFragmentType.history;
         ui = new FragmentUi(type.getDefaultLayoutId(), type.getDefaultTitleResId(), false);
     }
 
@@ -81,46 +98,33 @@ public abstract class BaseHistoryFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((CalculatorApplication) getActivity().getApplication()).getComponent().inject(this);
-        bus.register(this);
         ui.onCreate(this);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return ui.onCreateView(this, inflater, container);
-    }
-
-    @Override
-    public void onViewCreated(View root, Bundle savedInstanceState) {
-        super.onViewCreated(root, savedInstanceState);
-
-        ui.onViewCreated(this, root);
-
-        adapter = new HistoryArrayAdapter(this.getActivity(), getItemLayoutId(), R.id.history_item, new ArrayList<HistoryState>());
-        setListAdapter(adapter);
-
-        final ListView lv = getListView();
-        lv.setTextFilterEnabled(true);
-
-        final FloatingActionButton fab = (FloatingActionButton) root.findViewById(R.id.fab);
-        fab.attachToListView(lv);
+        final View view = ui.onCreateView(this, inflater, container);
+        ButterKnife.bind(this, view);
+        final Context context = inflater.getContext();
+        adapter = new HistoryAdapter(context);
+        bus.register(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+        recyclerView.setAdapter(adapter);
+        recyclerView.addItemDecoration(new DividerItemDecoration(context, null));
+        fab.attachToRecyclerView(recyclerView);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showClearHistoryDialog();
             }
         });
+        return view;
+    }
 
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(final AdapterView<?> parent,
-                                    final View view,
-                                    final int position,
-                                    final long id) {
-                useState((HistoryState) parent.getItemAtPosition(position));
-            }
-        });
-
-        registerForContextMenu(lv);
+    @Override
+    public void onViewCreated(View root, Bundle savedInstanceState) {
+        super.onViewCreated(root, savedInstanceState);
+        ui.onViewCreated(this, root);
     }
 
     private void showClearHistoryDialog() {
@@ -130,7 +134,11 @@ public abstract class BaseHistoryFragment extends ListFragment {
                 .setPositiveButton(R.string.cpp_clear_history, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        clearHistory();
+                        if (recentHistory) {
+                            history.clearRecent();
+                        } else {
+                            history.clearSaved();
+                        }
                     }
                 })
                 .setNegativeButton(R.string.c_cancel, null)
@@ -142,32 +150,7 @@ public abstract class BaseHistoryFragment extends ListFragment {
     public void onResume() {
         super.onResume();
         ui.onResume(this);
-        updateAdapter();
     }
-
-    @Override
-    public final void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-        final HistoryState state = (HistoryState) getListView().getItemAtPosition(info.position);
-
-        onCreateContextMenu(menu, state);
-    }
-
-    protected abstract void onCreateContextMenu(@Nonnull ContextMenu menu, @Nonnull HistoryState state);
-
-    @Override
-    public final boolean onContextItemSelected(MenuItem item) {
-        final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        final HistoryState state = (HistoryState) getListView().getItemAtPosition(info.position);
-
-        if (onContextItemSelected(item, state)) {
-            return true;
-        }
-        return super.onContextItemSelected(item);
-    }
-
-    protected abstract boolean onContextItemSelected(@Nonnull MenuItem item, @Nonnull HistoryState state);
 
     @SuppressWarnings("deprecation")
     protected final void copyResult(@Nonnull HistoryState state) {
@@ -203,53 +186,188 @@ public abstract class BaseHistoryFragment extends ListFragment {
 
     @Override
     public void onDestroyView() {
+        bus.unregister(adapter);
         ui.onDestroyView(this);
         super.onDestroyView();
     }
 
     @Override
     public void onDestroy() {
-        bus.unregister(this);
         ui.onDestroy(this);
         super.onDestroy();
     }
 
-    protected abstract int getItemLayoutId();
+    public class HistoryViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener, View.OnClickListener, MenuItem.OnMenuItemClickListener {
 
-    private void updateAdapter() {
-        final List<HistoryState> historyList = getHistoryItems();
+        private static final int DATETIME_FORMAT = DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_MONTH | DateUtils.FORMAT_ABBREV_TIME;
+        @Bind(R.id.history_item_value)
+        TextView valueView;
+        @Bind(R.id.history_item_comment)
+        TextView commentView;
+        @Bind(R.id.history_item_time)
+        TextView timeView;
+        @Nullable
+        private HistoryState state;
 
-        final ArrayAdapter<HistoryState> adapter = getAdapter();
-        try {
-            adapter.setNotifyOnChange(false);
-            adapter.clear();
-            for (HistoryState historyState : historyList) {
-                adapter.add(historyState);
+        public HistoryViewHolder(View view) {
+            super(view);
+            ButterKnife.bind(this, view);
+            view.setOnCreateContextMenuListener(this);
+            view.setOnClickListener(this);
+        }
+
+        void bind(@Nonnull HistoryState state) {
+            this.state = state;
+            valueView.setText(BaseHistoryFragment.getHistoryText(state));
+            timeView.setText(DateUtils.formatDateTime(getContext(), state.getTime(), DATETIME_FORMAT));
+            final String comment = state.getComment();
+            if (!Strings.isEmpty(comment)) {
+                commentView.setText(comment);
+                commentView.setVisibility(VISIBLE);
+            } else {
+                commentView.setText(null);
+                commentView.setVisibility(GONE);
             }
-        } finally {
-            adapter.setNotifyOnChange(true);
         }
 
-        adapter.notifyDataSetChanged();
-    }
-
-    @Nonnull
-    protected abstract List<HistoryState> getHistoryItems();
-
-    protected abstract void clearHistory();
-
-    @Nonnull
-    protected HistoryArrayAdapter getAdapter() {
-        return adapter;
-    }
-
-    @Subscribe
-    void onHistoryChanged(@Nonnull History.ChangedEvent e) {
-        if (e.recent != isRecentHistory()) {
-            return;
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+            Check.isNotNull(state);
+            if (recentHistory) {
+                addMenu(menu, R.string.c_use);
+                addMenu(menu, R.string.c_copy_expression);
+                if (shouldHaveCopyResult(state)) {
+                    addMenu(menu, R.string.c_copy_result);
+                }
+                addMenu(menu, R.string.c_save);
+            } else {
+                addMenu(menu, R.string.c_use);
+                addMenu(menu, R.string.c_copy_expression);
+                if (shouldHaveCopyResult(state)) {
+                    addMenu(menu, R.string.c_copy_result);
+                }
+                addMenu(menu, R.string.c_edit);
+                addMenu(menu, R.string.c_remove);
+            }
         }
-        updateAdapter();
+
+        @Nonnull
+        private MenuItem addMenu(@Nonnull ContextMenu menu, @StringRes int label) {
+            return menu.add(NONE, label, NONE, label).setOnMenuItemClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            Check.isNotNull(state);
+            useState(state);
+        }
+
+        @Override
+        public boolean onMenuItemClick(MenuItem item) {
+            Check.isNotNull(state);
+            switch (item.getItemId()) {
+                case R.string.c_use:
+                    useState(state);
+                    return true;
+                case R.string.c_copy_expression:
+                    copyExpression(state);
+                    return true;
+                case R.string.c_copy_result:
+                    copyResult(state);
+                    return true;
+                case R.string.c_edit:
+                    EditHistoryFragment.show(state, false, getFragmentManager());
+                    return true;
+                case R.string.c_save:
+                    EditHistoryFragment.show(state, true, getFragmentManager());
+                    return true;
+                case R.string.c_remove:
+                    history.removeSaved(state);
+                    return true;
+            }
+            return false;
+        }
     }
 
-    protected abstract boolean isRecentHistory();
+    public class HistoryAdapter extends RecyclerView.Adapter<HistoryViewHolder> {
+
+        @NonNull
+        private final LayoutInflater inflater;
+
+        @NonNull
+        private final List<HistoryState> list;
+
+        public HistoryAdapter(@NonNull Context context) {
+            inflater = LayoutInflater.from(context);
+            list = loadHistory();
+            setHasStableIds(true);
+        }
+
+        @NonNull
+        private List<HistoryState> loadHistory() {
+            return recentHistory ? history.getRecent() : history.getSaved();
+        }
+
+        @Override
+        public HistoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            return new HistoryViewHolder(inflater.inflate(R.layout.fragment_history_item, parent, false));
+        }
+
+        @Override
+        public void onBindViewHolder(HistoryViewHolder holder, int position) {
+            holder.bind(list.get(position));
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return list.get(position).hashCode();
+        }
+
+        @Override
+        public int getItemCount() {
+            return list.size();
+        }
+
+        @Subscribe
+        public void onHistoryCleared(@Nonnull History.ClearedEvent e) {
+            if (e.recent != recentHistory) {
+                return;
+            }
+            list.clear();
+            notifyDataSetChanged();
+        }
+
+        @Subscribe
+        public void onHistoryAdded(@Nonnull History.AddedEvent e) {
+            if (e.recent != recentHistory) {
+                return;
+            }
+            list.add(e.state);
+            notifyItemInserted(0);
+        }
+
+        @Subscribe
+        public void onHistoryUpdated(@Nonnull History.UpdatedEvent e) {
+            if (e.recent != recentHistory) {
+                return;
+            }
+            final int i = list.indexOf(e.state);
+            if (i >= 0) {
+                list.set(i, e.state);
+                notifyItemChanged(i);
+            }
+        }
+
+        @Subscribe
+        public void onHistoryRemoved(@Nonnull History.RemovedEvent e) {
+            if (e.recent != recentHistory) {
+                return;
+            }
+            final int i = list.indexOf(e.state);
+            if (i >= 0) {
+                list.remove(i);
+                notifyItemRemoved(i);
+            }
+        }
+    }
 }

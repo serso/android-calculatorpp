@@ -24,14 +24,14 @@
 
 <LinearLayout
     xmlns:a="http://schemas.android.com/apk/res/android"
-    style="@style/CppListViewItem"
+    style="@style/CppListItem"
     a:layout_width="match_parent"
     a:layout_height="wrap_content"
     a:orientation="vertical">
 
     <TextView
         a:id="@+id/math_entity_text"
-        style="@style/CppListViewItemTextPrimary"
+        style="@style/CppListItemText.Primary"
         a:layout_width="match_parent"
         a:layout_height="wrap_content" />
 

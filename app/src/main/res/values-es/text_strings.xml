@@ -106,7 +106,7 @@
     <string name="c_save_history">Guardar el historial de</string>
     <string name="c_edit_history">Modificar la historia</string>
     <string name="c_edit">modificar</string>
-    <string name="c_saved_history">La historia guardada</string>
+    <string name="cpp_history_tab_saved">La historia guardada</string>
     <string name="c_history_already_saved">La historia se salvó ya!</string>
     <string name="c_history_must_be_saved">La historia debe ser salvado antes de editar!</string>
     <string name="c_history_was_removed">¡El historial se ha eliminado satisfactoriamente!</string>

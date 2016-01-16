@@ -103,7 +103,7 @@
     <string name="c_save_history">Guardar histórico</string>
     <string name="c_edit_history">Modificar histórico</string>
     <string name="c_edit">Modificar</string>
-    <string name="c_saved_history">Histórico guardado</string>
+    <string name="cpp_history_tab_saved">Histórico guardado</string>
     <string name="c_history_already_saved">O histórico já foi guardado!</string>
     <string name="c_history_must_be_saved">O histórico deve ser guardado antes de ser alterado!</string>
     <string name="c_history_was_removed">O histórico foi removido com sucesso!</string>

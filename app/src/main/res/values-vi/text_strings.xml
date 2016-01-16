@@ -103,7 +103,7 @@
     <string name="c_save_history">Lưu lịch sử</string>
     <string name="c_edit_history">Sửa đổi lịch sử</string>
     <string name="c_edit">Điều chỉnh</string>
-    <string name="c_saved_history">Lịch sử đã lưu</string>
+    <string name="cpp_history_tab_saved">Lịch sử đã lưu</string>
     <string name="c_history_already_saved">Lịch sử đã được lưu!</string>
     <string name="c_history_must_be_saved">Lịch sử phải được lưu trước khi chỉnh sửa!</string>
     <string name="c_history_was_removed">Lịch sử đã được loại bỏ thành công!</string>
