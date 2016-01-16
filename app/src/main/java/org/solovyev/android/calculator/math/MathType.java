@@ -22,29 +22,27 @@
 
 package org.solovyev.android.calculator.math;
 
+import jscl.JsclMathEngine;
+import jscl.NumeralBase;
+import jscl.math.function.Constants;
 import org.solovyev.android.calculator.CalculatorParseException;
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.common.JPredicate;
 import org.solovyev.common.collections.Collections;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import jscl.JsclMathEngine;
-import jscl.NumeralBase;
-import jscl.math.function.Constants;
 
 
 public enum MathType {
 
     numeral_base(50, true, false, MathGroupType.number) {
 
-        private final List<String> tokens = new ArrayList<String>(10);
+        private final List<String> tokens = new ArrayList<>(10);
         {
             for (NumeralBase numeralBase : NumeralBase.values()) {
                 tokens.add(numeralBase.getJsclPrefix());
@@ -214,13 +212,6 @@ public enum MathType {
             return i;
         }
 
-        @Override
-        public int processFromJscl(@Nonnull StringBuilder result, int i, @Nonnull String match) {
-            if (match.length() > 0) {
-                result.append(match.charAt(0));
-            }
-            return i;
-        }
     };
 
     public static final List<String> groupSymbols = Arrays.asList("()", "[]", "{}");
@@ -264,7 +255,7 @@ public enum MathType {
      *
      * @param text    analyzed text
      * @param i       index which points to start of substring
-     * @param hexMode
+     * @param hexMode true if current mode if HEX
      * @return math entity type of substring starting from ith index of specified text
      */
     @Nonnull
@@ -281,17 +272,29 @@ public enum MathType {
 
         for (MathType mathType : getMathTypesByPriority()) {
             final String s = find(mathType.getTokens(), startsWithFinder);
-            if (s != null) {
-                if (s.length() == 1) {
-                    if (hexMode || JsclMathEngine.getInstance().getNumeralBase() == NumeralBase.hex) {
-                        final Character ch = s.charAt(0);
-                        if (NumeralBase.hex.getAcceptableCharacters().contains(ch)) {
-                            return new Result(MathType.digit, s);
-                        }
-                    }
-                }
+            if (s == null) {
+                continue;
+            }
+
+            if (s.length() > 1) {
                 return new Result(mathType, s);
             }
+
+            if (hexMode || JsclMathEngine.getInstance().getNumeralBase() == NumeralBase.hex) {
+                final Character ch = s.charAt(0);
+                if (NumeralBase.hex.getAcceptableCharacters().contains(ch)) {
+                    return new Result(MathType.digit, s);
+                }
+            }
+
+            if (mathType == MathType.grouping_separator) {
+                if (i + 1 < text.length() && getType(text, i + 1, hexMode).type == MathType.digit) {
+                    return new Result(mathType, s);
+                }
+                continue;
+            }
+
+            return new Result(mathType, s);
         }
 
         return new Result(MathType.text, text.substring(i));
@@ -336,10 +339,6 @@ public enum MathType {
         return tokens;
     }
 
-    private boolean isNeedMultiplicationSignBefore() {
-        return needMultiplicationSignBefore;
-    }
-
     private boolean isNeedMultiplicationSignAfter() {
         return needMultiplicationSignAfter;
     }
@@ -362,12 +361,6 @@ public enum MathType {
         }
     }
 
-    public int processFromJscl(@Nonnull StringBuilder result, int i, @Nonnull String match) {
-        final String substitute = getSubstituteFromJscl(match);
-        result.append(substitute == null ? match : substitute);
-        return returnI(i, match);
-    }
-
     @Nullable
     protected String getSubstituteFromJscl(@Nonnull String match) {
         return null;
@@ -386,7 +379,7 @@ public enum MathType {
         return c == ')' || c == ']' || c == '}';
     }
 
-    public static enum MathGroupType {
+    public enum MathGroupType {
         function,
         number,
         operation,
@@ -409,30 +402,6 @@ public enum MathType {
 
         public int processToJscl(@Nonnull StringBuilder result, int i) throws CalculatorParseException {
             return type.processToJscl(result, i, match);
-        }
-
-        public int processFromJscl(@Nonnull StringBuilder result, int i) {
-            return type.processFromJscl(result, i, match);
-        }
-    }
-
-    private static class EndsWithFinder implements JPredicate<String> {
-
-        @Nonnull
-        private final CharSequence targetString;
-        private int i;
-
-        private EndsWithFinder(@Nonnull CharSequence targetString) {
-            this.targetString = targetString;
-        }
-
-        @Override
-        public boolean apply(@Nullable String s) {
-            return targetString.subSequence(0, i).toString().endsWith(s);
-        }
-
-        public void setI(int i) {
-            this.i = i;
         }
     }
 
