@@ -23,9 +23,9 @@
   -->
 
 <LinearLayout
-    xmlns:a="http://schemas.android.com/apk/res/android"
     a:id="@+id/main_fragment_layout"
     style="@style/CppFragment"
+    xmlns:a="http://schemas.android.com/apk/res/android"
     a:layout_width="match_parent"
     a:layout_height="match_parent">
 
@@ -41,10 +41,13 @@
         a:layout_width="match_parent"
         a:layout_height="match_parent">
 
-        <ListView style="@style/CppListView" />
+        <android.support.v7.widget.RecyclerView
+            a:id="@+id/history_recyclerview"
+            a:layout_width="match_parent"
+            a:layout_height="match_parent" />
 
         <com.melnykov.fab.FloatingActionButton
-            a:id="@+id/fab"
+            a:id="@+id/history_fab"
             style="@style/CppFab"
             a:src="@drawable/ic_delete_white_36dp" />
     </FrameLayout>

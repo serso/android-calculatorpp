@@ -103,7 +103,7 @@
     <string name="c_save_history">Geschiedenis opslaan</string>
     <string name="c_edit_history">Geschiedenis wijzigen</string>
     <string name="c_edit">Wijzigen</string>
-    <string name="c_saved_history">Opgeslagen geschiedenis</string>
+    <string name="cpp_history_tab_saved">Opgeslagen geschiedenis</string>
     <string name="c_history_already_saved">Geschiedenis was al opgeslaan!</string>
     <string name="c_history_must_be_saved">Geschiedenis moet eerst worden opgeslagen om te bewerken!</string>
     <string name="c_history_was_removed">Geschiedenis is succesvol verwijderd!</string>

@@ -103,7 +103,7 @@
     <string name="c_save_history">Verlauf speichern</string>
     <string name="c_edit_history">Verlauf ändern</string>
     <string name="c_edit">Ändern</string>
-    <string name="c_saved_history">Gespeicherter Verlauf</string>
+    <string name="cpp_history_tab_saved">Gespeicherter Verlauf</string>
     <string name="c_history_already_saved">Verlauf wurde bereits gespeichert!</string>
     <string name="c_history_must_be_saved">Verlauf muss vor der Bearbeitung gespeichert werden!</string>
     <string name="c_history_was_removed">Verlauf wurde erfolgreich gelöscht!</string>

@@ -27,25 +27,22 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-
 import com.google.common.base.Strings;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.AppModule;
-import org.solovyev.android.calculator.Display;
-import org.solovyev.android.calculator.DisplayState;
-import org.solovyev.android.calculator.Editor;
-import org.solovyev.android.calculator.EditorState;
-import org.solovyev.android.calculator.ErrorReporter;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.model.AndroidCalculatorEngine.Preferences;
 import org.solovyev.android.io.FileLoader;
 import org.solovyev.android.io.FileSaver;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -54,12 +51,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Executor;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import static android.text.TextUtils.isEmpty;
 
 @Singleton
@@ -67,8 +58,8 @@ public class History {
 
     public static final String TAG = App.subTag("History");
     public static final String OLD_HISTORY_PREFS_KEY = "org.solovyev.android.calculator.CalculatorModel_history";
-    private static final ChangedEvent CHANGED_EVENT_RECENT = new ChangedEvent(true);
-    private static final ChangedEvent CHANGED_EVENT_SAVED = new ChangedEvent(false);
+    private static final ClearedEvent CLEARED_EVENT_RECENT = new ClearedEvent(true);
+    private static final ClearedEvent CLEARED_EVENT_SAVED = new ClearedEvent(false);
     private static final int MAX_INTERMEDIATE_STREAK = 5;
     @NonNull
     private final Runnable writeRecent = new WriteTask(true);
@@ -246,7 +237,7 @@ public class History {
     public void addRecent(@Nonnull HistoryState state) {
         Check.isMainThread();
         recent.add(state);
-        onRecentChanged();
+        onRecentChanged(new AddedEvent(state, true));
     }
 
     public void updateSaved(@Nonnull HistoryState state) {
@@ -254,22 +245,23 @@ public class History {
         final int i = saved.indexOf(state);
         if(i >= 0) {
             saved.set(i, state);
+            onSavedChanged(new UpdatedEvent(state, false));
         } else {
             saved.add(state);
+            onSavedChanged(new AddedEvent(state, false));
         }
-        onSavedChanged();
     }
 
-    private void onRecentChanged() {
+    private void onRecentChanged(@Nonnull Object event) {
         handler.removeCallbacks(writeRecent);
         handler.postDelayed(writeRecent, 500);
-        bus.post(CHANGED_EVENT_RECENT);
+        bus.post(event);
     }
 
-    private void onSavedChanged() {
+    private void onSavedChanged(@Nonnull Object event) {
         handler.removeCallbacks(writeSaved);
         handler.postDelayed(writeSaved, 500);
-        bus.post(CHANGED_EVENT_SAVED);
+        bus.post(event);
     }
 
     @Nonnull
@@ -314,13 +306,13 @@ public class History {
     public void clearRecent() {
         Check.isMainThread();
         recent.clear();
-        onRecentChanged();
+        onRecentChanged(CLEARED_EVENT_RECENT);
     }
 
     public void clearSaved() {
         Check.isMainThread();
         saved.clear();
-        onSavedChanged();
+        onSavedChanged(CLEARED_EVENT_SAVED);
     }
 
     public void undo() {
@@ -347,13 +339,13 @@ public class History {
     public void removeSaved(@Nonnull HistoryState state) {
         Check.isMainThread();
         saved.remove(state);
-        onSavedChanged();
+        onSavedChanged(new RemovedEvent(state, false));
     }
 
     public void removeRecent(@Nonnull HistoryState state) {
         Check.isMainThread();
         recent.remove(state);
-        onRecentChanged();
+        onSavedChanged(new RemovedEvent(state, true));
     }
 
     @Subscribe
@@ -366,10 +358,39 @@ public class History {
         addRecent(HistoryState.builder(editorState, displayState).build());
     }
 
-    public static class ChangedEvent {
+    public static class ClearedEvent {
         public final boolean recent;
 
-        public ChangedEvent(boolean recent) {
+        ClearedEvent(boolean recent) {
+            this.recent = recent;
+        }
+    }
+
+    public static class RemovedEvent extends StateEvent {
+        RemovedEvent(@Nonnull HistoryState state, boolean recent) {
+            super(state, recent);
+        }
+    }
+
+    public static class AddedEvent extends StateEvent {
+        AddedEvent(@Nonnull HistoryState state, boolean recent) {
+            super(state, recent);
+        }
+    }
+
+    public static class UpdatedEvent extends StateEvent {
+        UpdatedEvent(@Nonnull HistoryState state, boolean recent) {
+            super(state, recent);
+        }
+    }
+
+    public abstract static class StateEvent {
+        @Nonnull
+        public final HistoryState state;
+        public final boolean recent;
+
+        protected StateEvent(@Nonnull HistoryState state, boolean recent) {
+            this.state = state;
             this.recent = recent;
         }
     }

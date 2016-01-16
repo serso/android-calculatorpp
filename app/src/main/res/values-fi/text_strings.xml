@@ -103,7 +103,7 @@
     <string name="c_save_history">Tallenna historia</string>
     <string name="c_edit_history">Muokkaa historia</string>
     <string name="c_edit">Mukauta</string>
-    <string name="c_saved_history">Tallenna historia</string>
+    <string name="cpp_history_tab_saved">Tallenna historia</string>
     <string name="c_history_already_saved">Historia on jo tallennettu!</string>
     <string name="c_history_must_be_saved">Historia on tallennettava ennen muokkaamista!</string>
     <string name="c_history_was_removed">Historia on poistettu!</string>

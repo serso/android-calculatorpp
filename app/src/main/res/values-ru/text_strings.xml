@@ -117,7 +117,7 @@
     <string name="c_save_history">Сохранить</string>
     <string name="c_edit_history">Изменить</string>
     <string name="c_edit">Изменить</string>
-    <string name="c_saved_history">Сохранённая история</string>
+    <string name="cpp_history_tab_saved">Сохранённая история</string>
     <string name="c_history_already_saved">История уже была сохранена!</string>
     <string name="c_history_must_be_saved">История должна быть сохранена перед редактированием!</string>
     <string name="c_history_was_removed">История успешно удалена!</string>

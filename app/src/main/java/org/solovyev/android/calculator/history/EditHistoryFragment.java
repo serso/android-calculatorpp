@@ -78,11 +78,8 @@ public class EditHistoryFragment extends BaseDialogFragment {
         builder.setPositiveButton(R.string.c_save, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                final HistoryState.Builder b = HistoryState.builder(state)
+                final HistoryState.Builder b = HistoryState.builder(state, newState)
                         .withComment(commentView.getText().toString());
-                if (newState) {
-                    b.withNowTime();
-                }
                 history.updateSaved(b.build());
             }
         });

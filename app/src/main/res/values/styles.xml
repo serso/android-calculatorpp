@@ -253,15 +253,23 @@
         <item name="android:layout_gravity">center_horizontal</item>
     </style>
 
-    <style name="CppListViewItem">
+    <style name="CppListItem.OneLine" parent="CppListItem">
+        <item name="android:minHeight">48dp</item>
+    </style>
+
+    <style name="CppListItem.TwoLines" parent="CppListItem">
+        <item name="android:minHeight">72dp</item>
+    </style>
+
+    <style name="CppListItem">
         <item name="android:paddingLeft">16dp</item>
         <item name="android:paddingRight">16dp</item>
-        <item name="android:paddingBottom">20dp</item>
-        <item name="android:paddingTop">20dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:paddingTop">8dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:minHeight">72dp</item>
         <item name="android:gravity">center_vertical|left</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
     </style>
 
     <style name="CppFab">
@@ -274,10 +282,23 @@
         <item name="fab_colorRipple">?attr/colorControlHighlight</item>
     </style>
 
-    <style name="CppListViewItemTextPrimary">
-        <item name="android:textAppearance">@style/TextAppearance.AppCompat</item>
+    <style name="CppListItemText">
+        <item name="android:textSize">@dimen/list_item_text_size</item>
+    </style>
+
+    <style name="CppListItemText.Primary" parent="CppListItemText">
         <item name="android:textColor">?android:attr/textColorPrimary</item>
-        <item name="android:textSize">@dimen/cpp_li_text_size</item>
+    </style>
+
+    <style name="CppListItemText.Secondary" parent="CppListItemText">
+        <item name="android:textColor">?android:attr/textColorSecondary</item>
+    </style>
+
+    <style name="CppListItemText.Secondary.OneLine" parent="CppListItemText.Secondary">
+        <item name="android:singleLine">true</item>
+        <item name="android:minLines">1</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
     </style>
 
     <style name="CppListViewItemTextSecondary">
@@ -286,7 +307,7 @@
         <item name="android:textSize">@dimen/cpp_li_secondary_text_size</item>
     </style>
 
-    <style name="CppListViewItemTextPrimary.History" parent="CppListViewItemTextPrimary">
+    <style name="CppListViewItemTextPrimary.History" parent="CppListItemText.Primary">
         <item name="android:maxLines">2</item>
         <item name="android:ellipsize">end</item>
     </style>
@@ -321,4 +342,6 @@
         <item name="android:backgroundSplit">@color/cpp_material_actionbar_light</item>
     </style>
 
+    <dimen name="list_item_text_size">16sp</dimen>
+    <dimen name="list_item_text_size_small">14sp</dimen>
 </resources>

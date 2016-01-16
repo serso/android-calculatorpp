@@ -106,7 +106,7 @@
     <string name="c_save_history">履歴を保存</string>
     <string name="c_edit_history">履歴を編集</string>
     <string name="c_edit">編集</string>
-    <string name="c_saved_history">保存された履歴</string>
+    <string name="cpp_history_tab_saved">保存された履歴</string>
     <string name="c_history_already_saved">履歴はすでに保存されています!</string>
     <string name="c_history_must_be_saved">履歴を編集する前に保存してください!</string>
     <string name="c_history_was_removed">履歴は正常に削除されました!</string>

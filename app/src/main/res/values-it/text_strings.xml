@@ -110,7 +110,7 @@
     <string name="c_save_history">Salva storia</string>
     <string name="c_edit_history">Modificare la storia</string>
     <string name="c_edit">Modificare</string>
-    <string name="c_saved_history">Storia salvati</string>
+    <string name="cpp_history_tab_saved">Storia salvati</string>
     <string name="c_history_already_saved">La storia era già salvato!</string>
     <string name="c_history_must_be_saved">La storia deve essere salvato prima di modificare!</string>
     <string name="c_history_was_removed">La cronologia è stata rimossa con successo!</string>

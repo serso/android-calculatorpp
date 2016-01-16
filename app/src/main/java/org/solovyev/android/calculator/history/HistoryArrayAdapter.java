@@ -51,10 +51,10 @@ public class HistoryArrayAdapter extends ArrayAdapter<HistoryState> {
 
         final HistoryState state = getItem(position);
 
-        final TextView time = (TextView) result.findViewById(R.id.history_time);
+        final TextView time = (TextView) result.findViewById(R.id.history_item_time);
         time.setText(DateUtils.formatDateTime(getContext(), state.getTime(), DATETIME_FORMAT));
 
-        final TextView editor = (TextView) result.findViewById(R.id.history_item);
+        final TextView editor = (TextView) result.findViewById(R.id.history_item_value);
         editor.setText(BaseHistoryFragment.getHistoryText(state));
 
         final TextView commentView = (TextView) result.findViewById(R.id.history_item_comment);
