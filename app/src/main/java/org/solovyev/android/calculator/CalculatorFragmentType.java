@@ -48,10 +48,10 @@ import javax.annotation.Nonnull;
 public enum CalculatorFragmentType {
 
     editor(CalculatorEditorFragment.class, R.layout.cpp_app_editor, R.string.editor),
-    //display(CalculatorHistoryFragment.class, "history", R.layout.history_fragment, R.string.c_history),
-    //keyboard(CalculatorHistoryFragment.class, "history", R.layout.history_fragment, R.string.c_history),
-    history(RecentHistoryFragment.class, R.layout.history_fragment, R.string.c_history),
-    saved_history(SavedHistoryFragment.class, R.layout.history_fragment, R.string.c_saved_history),
+    //display(CalculatorHistoryFragment.class, "history", R.layout.fragment_history, R.string.c_history),
+    //keyboard(CalculatorHistoryFragment.class, "history", R.layout.fragment_history, R.string.c_history),
+    history(RecentHistoryFragment.class, R.layout.fragment_history, R.string.c_history),
+    saved_history(SavedHistoryFragment.class, R.layout.fragment_history, R.string.c_saved_history),
     variables(CalculatorVarsFragment.class, R.layout.vars_fragment, R.string.c_vars),
     functions(CalculatorFunctionsFragment.class, R.layout.math_entities_fragment, R.string.c_functions),
     operators(CalculatorOperatorsFragment.class, R.layout.math_entities_fragment, R.string.c_operators),

@@ -143,6 +143,11 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
         }
     }
 
+    @Nonnull
+    public Preferences.Gui.Theme getTheme() {
+        return theme;
+    }
+
     public void logError(@Nonnull String message) {
         Log.e(logTag, message);
     }

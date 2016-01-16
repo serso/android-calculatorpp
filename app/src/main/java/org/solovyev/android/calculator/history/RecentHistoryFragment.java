@@ -40,7 +40,7 @@ public class RecentHistoryFragment extends BaseHistoryFragment {
 
     @Override
     protected int getItemLayoutId() {
-        return R.layout.history_item;
+        return R.layout.fragment_history_item;
     }
 
     @Nonnull
