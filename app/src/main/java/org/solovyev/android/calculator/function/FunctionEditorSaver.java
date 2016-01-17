@@ -24,9 +24,11 @@ package org.solovyev.android.calculator.function;
 
 import android.view.View;
 import android.widget.EditText;
-
-import org.solovyev.android.calculator.FunctionsRegistry;
+import jscl.CustomFunctionCalculationException;
+import jscl.math.function.Function;
+import jscl.math.function.IFunction;
 import org.solovyev.android.calculator.EntitiesRegistry;
+import org.solovyev.android.calculator.FunctionsRegistry;
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.math.edit.VarEditorSaver;
@@ -34,15 +36,10 @@ import org.solovyev.android.calculator.model.AFunction;
 import org.solovyev.common.msg.MessageType;
 import org.solovyev.common.text.Strings;
 
-import java.util.Collections;
-import java.util.List;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import jscl.CustomFunctionCalculationException;
-import jscl.math.function.Function;
-import jscl.math.function.IFunction;
+import java.util.Collections;
+import java.util.List;
 
 public class FunctionEditorSaver implements View.OnClickListener {
 
@@ -76,27 +73,27 @@ public class FunctionEditorSaver implements View.OnClickListener {
     }
 
     @Nonnull
-    public static FunctionEditDialogFragment.Input readInput(@Nullable IFunction function, @Nonnull View root) {
-        final EditText editName = (EditText) root.findViewById(R.id.function_edit_name);
+    public static EditFunctionFragment.Input readInput(@Nullable IFunction function, @Nonnull View root) {
+        final EditText editName = (EditText) root.findViewById(R.id.function_name);
         String name = editName.getText().toString();
 
-        final EditText editValue = (EditText) root.findViewById(R.id.function_edit_value);
+        final EditText editValue = (EditText) root.findViewById(R.id.function_body);
         String content = editValue.getText().toString();
 
-        final EditText editDescription = (EditText) root.findViewById(R.id.function_edit_description);
+        final EditText editDescription = (EditText) root.findViewById(R.id.function_description);
         String description = editDescription.getText().toString();
 
-        final FunctionParamsView editParams = (FunctionParamsView) root.findViewById(R.id.function_params_layout);
+        final FunctionParamsView editParams = (FunctionParamsView) root.findViewById(R.id.function_params);
         List<String> parameterNames = editParams.getParameterNames();
 
-        return FunctionEditDialogFragment.Input.newInstance(function, name, content, description, parameterNames);
+        return EditFunctionFragment.Input.newInstance(function, name, content, description, parameterNames);
     }
 
     @Override
     public void onClick(View v) {
         final Integer error;
 
-        final FunctionEditDialogFragment.Input input = readInput(null, view);
+        final EditFunctionFragment.Input input = readInput(null, view);
 
         final String name = input.getName();
         final String content = input.getContent();

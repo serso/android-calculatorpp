@@ -23,17 +23,22 @@
 package org.solovyev.android.calculator.function;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.v4.app.DialogFragment;
+import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import jscl.math.Generic;
 import jscl.math.function.Constant;
 import jscl.math.function.CustomFunction;
@@ -43,6 +48,7 @@ import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.math.edit.CalculatorFunctionsActivity;
 import org.solovyev.android.calculator.math.edit.FunctionsFragment;
 import org.solovyev.android.calculator.math.edit.MathEntityRemover;
+import org.solovyev.android.calculator.math.edit.VarEditorSaver;
 import org.solovyev.android.calculator.model.AFunction;
 
 import javax.annotation.Nonnull;
@@ -51,23 +57,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-/**
- * User: serso
- * Date: 11/13/12
- * Time: 11:34 PM
- */
-public class FunctionEditDialogFragment extends DialogFragment implements CalculatorEventListener {
+public class EditFunctionFragment extends BaseDialogFragment implements CalculatorEventListener {
 
-    private static final String INPUT = "input";
-
+    private static final String ARG_INPUT = "input";
+    @Bind(R.id.function_params)
+    FunctionParamsView paramsView;
+    @Bind(R.id.function_name_label)
+    TextInputLayout nameLabel;
+    @Bind(R.id.function_name)
+    EditText nameView;
+    @Bind(R.id.function_body)
+    EditText bodyView;
+    @Bind(R.id.function_description)
+    EditText descriptionView;
     private Input input;
 
-    public FunctionEditDialogFragment() {
-    }
-
     @Nonnull
-    public static FunctionEditDialogFragment create(@Nonnull Input input) {
-        final FunctionEditDialogFragment fragment = new FunctionEditDialogFragment();
+    public static EditFunctionFragment create(@Nonnull Input input) {
+        final EditFunctionFragment fragment = new EditFunctionFragment();
         fragment.input = input;
         final Bundle args = new Bundle();
         args.putParcelable("input", input);
@@ -76,8 +83,8 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
     }
 
     public static void showDialog(@Nonnull Input input, @Nonnull Context context) {
-        if (context instanceof ActionBarActivity) {
-            FunctionEditDialogFragment.showDialog(input, ((ActionBarActivity) context).getSupportFragmentManager());
+        if (context instanceof AppCompatActivity) {
+            EditFunctionFragment.showDialog(input, ((AppCompatActivity) context).getSupportFragmentManager());
         } else {
             final Intent intent = new Intent(context, CalculatorFunctionsActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -93,87 +100,97 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (input == null) {
-            input = getArguments().getParcelable("input");
-            if (input == null) throw new AssertionError();
-        }
+        input = getArguments().getParcelable(ARG_INPUT);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View result = inflater.inflate(R.layout.function_edit, container, false);
-
-        if (savedInstanceState != null) {
-            final Parcelable input = savedInstanceState.getParcelable(INPUT);
-            if (input instanceof Input) {
-                this.input = (Input) input;
-            }
-        }
-
-        return result;
-    }
-
-    @Override
-    public void onViewCreated(@Nonnull View root, Bundle savedInstanceState) {
-        super.onViewCreated(root, savedInstanceState);
-
-        final FunctionParamsView paramsView = (FunctionParamsView) root.findViewById(R.id.function_params_layout);
-
-        final AFunction.Builder builder;
+    protected void onPrepareDialog(@NonNull AlertDialog.Builder builder) {
+        builder.setNegativeButton(R.string.c_cancel, null);
+        builder.setPositiveButton(R.string.ok, null);
         final AFunction function = input.getFunction();
-        if (function != null) {
-            builder = new AFunction.Builder(function);
-        } else {
-            builder = new AFunction.Builder();
+        builder.setTitle(function == null ? R.string.function_create_function : R.string.function_edit_function);
+        if(function != null) {
+            builder.setNeutralButton(R.string.c_remove, null);
         }
+    }
 
-        final List<String> parameterNames = input.getParameterNames();
-        if (parameterNames != null) {
-            paramsView.init(parameterNames);
-        } else {
-            paramsView.init();
-        }
-
-        final EditText editName = (EditText) root.findViewById(R.id.function_edit_name);
-        // show soft keyboard automatically
-        editName.requestFocus();
-        editName.setText(input.getName());
-
-        final EditText editDescription = (EditText) root.findViewById(R.id.function_edit_description);
-        editDescription.setText(input.getDescription());
-
-        final EditText editContent = (EditText) root.findViewById(R.id.function_edit_value);
-        editContent.setText(input.getContent());
-
-        root.findViewById(R.id.cancel_button).setOnClickListener(new View.OnClickListener() {
+    @NonNull
+    @Override
+    public AlertDialog onCreateDialog(Bundle savedInstanceState) {
+        final AlertDialog dialog = super.onCreateDialog(savedInstanceState);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
-            public void onClick(View v) {
-                dismiss();
+            public void onShow(DialogInterface d) {
+                nameView.requestFocus();
+                nameView.selectAll();
+
+                final Button ok = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                ok.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        tryClose();
+                    }
+                });
+                final AFunction function = input.getFunction();
+                if (function != null) {
+                    final Function customFunction = new CustomFunction.Builder(function).create();
+                    final Button neutral = dialog.getButton(AlertDialog.BUTTON_NEUTRAL);
+                    neutral.setOnClickListener(MathEntityRemover.newFunctionRemover(customFunction, null, getActivity(), EditFunctionFragment.this));
+                }
             }
         });
+        return dialog;
+    }
 
-        root.findViewById(R.id.save_button).setOnClickListener(new FunctionEditorSaver(builder, function, root, Locator.getInstance().getEngine().getFunctionsRegistry(), this));
-
-        if (function == null) {
-            // CREATE MODE
-            getDialog().setTitle(R.string.function_create_function);
-
-            root.findViewById(R.id.remove_button).setVisibility(View.GONE);
-        } else {
-            // EDIT MODE
-            getDialog().setTitle(R.string.function_edit_function);
-
-            final Function customFunction = new CustomFunction.Builder(function).create();
-            root.findViewById(R.id.remove_button).setOnClickListener(MathEntityRemover.newFunctionRemover(customFunction, null, this.getActivity(), FunctionEditDialogFragment.this));
+    private void tryClose() {
+        if (validate()) {
+            applyData();
+            dismiss();
         }
     }
 
-    @Override
-    public void onSaveInstanceState(@Nonnull Bundle out) {
-        super.onSaveInstanceState(out);
+    private void applyData() {
 
-        out.putParcelable(INPUT, FunctionEditorSaver.readInput(input.getFunction(), getView()));
+    }
+
+    private boolean validate() {
+        if (!validateName()) {
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validateName() {
+        final String name = nameView.getText().toString();
+        if (!VarEditorSaver.isValidName(name)) {
+            setError(nameLabel, getString(R.string.function_name_is_not_valid));
+            return false;
+        }
+        clearError(nameLabel);
+        return true;
+    }
+
+    @NonNull
+    @Override
+    protected View onCreateDialogView(@NonNull Context context, @NonNull LayoutInflater inflater, @Nullable Bundle savedInstanceState) {
+        final View view = inflater.inflate(R.layout.fragment_function_edit, null);
+        ButterKnife.bind(this, view);
+
+        if (savedInstanceState == null) {
+            final List<String> parameterNames = input.getParameterNames();
+            if (parameterNames != null) {
+                paramsView.init(parameterNames);
+            } else {
+                paramsView.init();
+            }
+
+            nameView.setText(input.getName());
+            descriptionView.setText(input.getDescription());
+            bodyView.setText(input.getContent());
+        }
+
+        return view;
     }
 
     @Override
@@ -196,7 +213,7 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
             case function_removed:
             case function_added:
             case function_changed:
-                if (calculatorEventData.getSource() == FunctionEditDialogFragment.this) {
+                if (calculatorEventData.getSource() == EditFunctionFragment.this) {
                     dismiss();
                 }
                 break;

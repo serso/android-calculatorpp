@@ -43,7 +43,6 @@
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
-        a:id="@+id/history_comment_label"
         a:layout_width="match_parent"
         a:layout_height="wrap_content">
 

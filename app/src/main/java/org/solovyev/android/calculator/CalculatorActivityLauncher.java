@@ -33,16 +33,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-
+import jscl.math.Generic;
 import org.solovyev.android.Activities;
 import org.solovyev.android.calculator.about.CalculatorAboutActivity;
-import org.solovyev.android.calculator.function.FunctionEditDialogFragment;
+import org.solovyev.android.calculator.function.EditFunctionFragment;
 import org.solovyev.android.calculator.history.CalculatorHistoryActivity;
-import org.solovyev.android.calculator.math.edit.CalculatorFunctionsActivity;
-import org.solovyev.android.calculator.math.edit.CalculatorOperatorsActivity;
-import org.solovyev.android.calculator.math.edit.CalculatorVarsActivity;
-import org.solovyev.android.calculator.math.edit.VarsFragment;
-import org.solovyev.android.calculator.math.edit.VarEditDialogFragment;
+import org.solovyev.android.calculator.math.edit.*;
 import org.solovyev.android.calculator.matrix.CalculatorMatrixActivity;
 import org.solovyev.android.calculator.plot.CalculatorPlotActivity;
 import org.solovyev.android.calculator.plot.CalculatorPlotter;
@@ -51,12 +47,9 @@ import org.solovyev.common.msg.Message;
 import org.solovyev.common.msg.MessageType;
 import org.solovyev.common.text.Strings;
 
-import java.util.List;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import jscl.math.Generic;
+import java.util.List;
 
 /**
  * User: serso
@@ -168,7 +161,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
         if (viewState.valid) {
             final String functionValue = viewState.text;
             if (!Strings.isEmpty(functionValue)) {
-                FunctionEditDialogFragment.showDialog(FunctionEditDialogFragment.Input.newFromDisplay(viewState), context);
+                EditFunctionFragment.showDialog(EditFunctionFragment.Input.newFromDisplay(viewState), context);
             } else {
                 getNotifier().showMessage(R.string.empty_function_error, MessageType.error);
             }

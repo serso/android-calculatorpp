@@ -32,17 +32,14 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
+import jscl.text.MutableInt;
 import org.solovyev.android.calculator.R;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import jscl.text.MutableInt;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class FunctionParamsView extends LinearLayout {
 
@@ -98,7 +95,7 @@ public class FunctionParamsView extends LinearLayout {
 
             final Integer id = paramsCount.intValue();
 
-            final View editParamView = inflater.inflate(R.layout.function_edit_param, null);
+            final View editParamView = inflater.inflate(R.layout.fragment_function_edit_param, null);
 
             editParamView.setTag(getParamTag(id));
 
