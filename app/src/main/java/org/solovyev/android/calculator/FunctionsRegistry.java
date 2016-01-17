@@ -22,6 +22,10 @@
 
 package org.solovyev.android.calculator;
 
+import jscl.CustomFunctionCalculationException;
+import jscl.math.function.CustomFunction;
+import jscl.math.function.Function;
+import jscl.math.function.IFunction;
 import org.solovyev.android.calculator.function.FunctionBuilderAdapter;
 import org.solovyev.android.calculator.model.AFunction;
 import org.solovyev.android.calculator.model.Functions;
@@ -30,24 +34,13 @@ import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathRegistry;
 import org.solovyev.common.text.Strings;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import jscl.CustomFunctionCalculationException;
-import jscl.math.function.CustomFunction;
-import jscl.math.function.Function;
-import jscl.math.function.IFunction;
-
-/**
- * User: serso
- * Date: 11/17/11
- * Time: 11:28 PM
- */
-public class CalculatorFunctionsMathRegistry extends AbstractCalculatorMathRegistry<Function, AFunction> {
+public class FunctionsRegistry extends BaseEntitiesRegistry<Function, AFunction> {
 
     @Nonnull
     private static final Map<String, String> substitutes = new HashMap<String, String>();
@@ -58,12 +51,12 @@ public class CalculatorFunctionsMathRegistry extends AbstractCalculatorMathRegis
         substitutes.put("√", "sqrt");
     }
 
-    public CalculatorFunctionsMathRegistry(@Nonnull MathRegistry<Function> functionsRegistry,
-                                           @Nonnull MathEntityDao<AFunction> mathEntityDao) {
+    public FunctionsRegistry(@Nonnull MathRegistry<Function> functionsRegistry,
+                             @Nonnull MathEntityDao<AFunction> mathEntityDao) {
         super(functionsRegistry, FUNCTION_DESCRIPTION_PREFIX, mathEntityDao);
     }
 
-    public static void saveFunction(@Nonnull CalculatorMathRegistry<Function> registry,
+    public static void saveFunction(@Nonnull EntitiesRegistry<Function> registry,
                                     @Nonnull MathEntityBuilder<? extends Function> builder,
                                     @Nullable IFunction editedInstance,
                                     @Nonnull Object source, boolean save) throws CustomFunctionCalculationException, AFunction.Builder.CreationException {
@@ -111,8 +104,8 @@ public class CalculatorFunctionsMathRegistry extends AbstractCalculatorMathRegis
 
     @Nullable
     @Override
-    public String getDescription(@Nonnull String functionName) {
-        final Function function = get(functionName);
+    public String getDescription(@Nonnull String name) {
+        final Function function = get(name);
 
         String result = null;
         if (function instanceof CustomFunction) {
@@ -120,7 +113,7 @@ public class CalculatorFunctionsMathRegistry extends AbstractCalculatorMathRegis
         }
 
         if (Strings.isEmpty(result)) {
-            result = super.getDescription(functionName);
+            result = super.getDescription(name);
         }
 
         return result;

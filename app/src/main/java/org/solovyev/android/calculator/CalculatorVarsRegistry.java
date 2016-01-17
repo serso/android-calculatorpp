@@ -42,7 +42,7 @@ import jscl.math.function.IConstant;
  * Date: 9/29/11
  * Time: 4:57 PM
  */
-public class CalculatorVarsRegistry extends AbstractCalculatorMathRegistry<IConstant, Var> {
+public class CalculatorVarsRegistry extends BaseEntitiesRegistry<IConstant, Var> {
 
     @Nonnull
     public static final String ANS = "ans";
@@ -63,7 +63,7 @@ public class CalculatorVarsRegistry extends AbstractCalculatorMathRegistry<ICons
         super(mathRegistry, "c_var_description_", mathEntityDao);
     }
 
-    public static <T extends MathEntity> void saveVariable(@Nonnull CalculatorMathRegistry<T> registry,
+    public static <T extends MathEntity> void saveVariable(@Nonnull EntitiesRegistry<T> registry,
                                                            @Nonnull MathEntityBuilder<? extends T> builder,
                                                            @Nullable T editedInstance,
                                                            @Nonnull Object source, boolean save) {
@@ -131,12 +131,12 @@ public class CalculatorVarsRegistry extends AbstractCalculatorMathRegistry<ICons
     }
 
     @Override
-    public String getDescription(@Nonnull String mathEntityName) {
-        final IConstant var = get(mathEntityName);
+    public String getDescription(@Nonnull String name) {
+        final IConstant var = get(name);
         if (var != null && !var.isSystem()) {
             return var.getDescription();
         } else {
-            return super.getDescription(mathEntityName);
+            return super.getDescription(name);
         }
     }
 

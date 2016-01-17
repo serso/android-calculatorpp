@@ -22,11 +22,6 @@
 
 package org.solovyev.android.calculator;
 
-import java.text.DecimalFormatSymbols;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import jscl.AngleUnit;
 import jscl.JsclMathEngine;
 import jscl.MathEngine;
@@ -36,6 +31,10 @@ import jscl.math.function.Function;
 import jscl.math.function.IConstant;
 import jscl.math.operator.Operator;
 import jscl.text.ParseException;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.text.DecimalFormatSymbols;
 
 public class CalculatorEngineImpl implements CalculatorEngine {
 
@@ -63,16 +62,16 @@ public class CalculatorEngineImpl implements CalculatorEngine {
     private final CalculatorMathEngine mathEngine;
 
     @Nonnull
-    private final CalculatorMathRegistry<IConstant> varsRegistry;
+    private final EntitiesRegistry<IConstant> varsRegistry;
 
     @Nonnull
-    private final CalculatorMathRegistry<Function> functionsRegistry;
+    private final EntitiesRegistry<Function> functionsRegistry;
 
     @Nonnull
-    private final CalculatorMathRegistry<Operator> operatorsRegistry;
+    private final EntitiesRegistry<Operator> operatorsRegistry;
 
     @Nonnull
-    private final CalculatorMathRegistry<Operator> postfixFunctionsRegistry;
+    private final EntitiesRegistry<Operator> postfixFunctionsRegistry;
 
     @Nonnull
     private final Object lock;
@@ -90,10 +89,10 @@ public class CalculatorEngineImpl implements CalculatorEngine {
     private String multiplicationSign = MULTIPLICATION_SIGN_DEFAULT;
 
     public CalculatorEngineImpl(@Nonnull JsclMathEngine engine,
-                                @Nonnull CalculatorMathRegistry<IConstant> varsRegistry,
-                                @Nonnull CalculatorMathRegistry<Function> functionsRegistry,
-                                @Nonnull CalculatorMathRegistry<Operator> operatorsRegistry,
-                                @Nonnull CalculatorMathRegistry<Operator> postfixFunctionsRegistry,
+                                @Nonnull EntitiesRegistry<IConstant> varsRegistry,
+                                @Nonnull EntitiesRegistry<Function> functionsRegistry,
+                                @Nonnull EntitiesRegistry<Operator> operatorsRegistry,
+                                @Nonnull EntitiesRegistry<Operator> postfixFunctionsRegistry,
                                 @Nullable Object lock) {
 
         this.engine = engine;
@@ -118,25 +117,25 @@ public class CalculatorEngineImpl implements CalculatorEngine {
     */
     @Nonnull
     @Override
-    public CalculatorMathRegistry<IConstant> getVarsRegistry() {
+    public EntitiesRegistry<IConstant> getVarsRegistry() {
         return this.varsRegistry;
     }
 
     @Nonnull
     @Override
-    public CalculatorMathRegistry<Function> getFunctionsRegistry() {
+    public EntitiesRegistry<Function> getFunctionsRegistry() {
         return this.functionsRegistry;
     }
 
     @Nonnull
     @Override
-    public CalculatorMathRegistry<Operator> getOperatorsRegistry() {
+    public EntitiesRegistry<Operator> getOperatorsRegistry() {
         return this.operatorsRegistry;
     }
 
     @Nonnull
     @Override
-    public CalculatorMathRegistry<Operator> getPostfixFunctionsRegistry() {
+    public EntitiesRegistry<Operator> getPostfixFunctionsRegistry() {
         return this.postfixFunctionsRegistry;
     }
 
@@ -177,7 +176,7 @@ public class CalculatorEngineImpl implements CalculatorEngine {
         }
     }
 
-    private void safeLoadRegistry(@Nonnull CalculatorMathRegistry<?> registry) {
+    private void safeLoadRegistry(@Nonnull EntitiesRegistry<?> registry) {
         try {
             registry.load();
         } catch (Exception e) {

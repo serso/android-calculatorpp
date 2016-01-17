@@ -22,6 +22,7 @@
 
 package org.solovyev.android.calculator.model;
 
+import jscl.math.function.IFunction;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
@@ -34,33 +35,17 @@ import org.solovyev.common.msg.Message;
 import org.solovyev.common.msg.MessageLevel;
 import org.solovyev.common.text.Strings;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import jscl.math.function.IFunction;
-
-/**
- * User: serso
- * Date: 12/22/11
- * Time: 5:25 PM
- */
-
 @Root(name = "function")
 public class AFunction implements IFunction, MathPersistenceEntity, Serializable {
 
-    /*
-    **********************************************************************
-    *
-    *                           FIELDS
-    *
-    **********************************************************************
-    */
     @Transient
     private Integer id;
 
@@ -83,15 +68,7 @@ public class AFunction implements IFunction, MathPersistenceEntity, Serializable
     @Nonnull
     private String description = "";
 
-	/*
-    **********************************************************************
-	*
-	*                           CONSTRUCTORS
-	*
-	**********************************************************************
-	*/
-
-    public AFunction() {
+	public AFunction() {
     }
 
     public AFunction(Integer id) {
@@ -106,15 +83,7 @@ public class AFunction implements IFunction, MathPersistenceEntity, Serializable
         return result;
     }
 
-	/*
-	**********************************************************************
-	*
-	*                           METHODS
-	*
-	**********************************************************************
-	*/
-
-    private static void copy(@Nonnull AFunction target,
+	private static void copy(@Nonnull AFunction target,
                              @Nonnull IFunction source) {
         target.name = source.getName();
         target.content = source.getContent();
@@ -123,7 +92,7 @@ public class AFunction implements IFunction, MathPersistenceEntity, Serializable
         if (source.isIdDefined()) {
             target.id = source.getId();
         }
-        target.parameterNames = new ArrayList<String>(source.getParameterNames());
+        target.parameterNames = new ArrayList<>(source.getParameterNames());
     }
 
     @Override
@@ -149,15 +118,7 @@ public class AFunction implements IFunction, MathPersistenceEntity, Serializable
                 '}';
     }
 
-	/*
-	**********************************************************************
-	*
-	*                           GETTERS/SETTERS
-	*
-	**********************************************************************
-	*/
-
-    @Nonnull
+	@Nonnull
     public String getName() {
         return name;
     }
@@ -211,15 +172,7 @@ public class AFunction implements IFunction, MathPersistenceEntity, Serializable
         this.parameterNames = parameterNames;
     }
 
-	/*
-	**********************************************************************
-	*
-	*                           STATIC
-	*
-	**********************************************************************
-	*/
-
-    public static class Builder implements MathEntityBuilder<AFunction> {
+	public static class Builder implements MathEntityBuilder<AFunction> {
 
         @Nonnull
         private String name;

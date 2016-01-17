@@ -24,29 +24,19 @@
 
 <LinearLayout
     xmlns:a="http://schemas.android.com/apk/res/android"
-    a:id="@+id/main_fragment_layout"
-    style="@style/CppFragment"
-    a:layout_width="match_parent"
-    a:layout_height="match_parent">
+    style="@style/CppListItem.TwoLines"
+    a:orientation="vertical">
 
     <TextView
-        a:id="@+id/fragment_title"
-        style="@style/CppFragmentTitle"
+        a:id="@+id/entity_text"
+        style="@style/CppListItemText.Primary"
         a:layout_width="match_parent"
         a:layout_height="wrap_content" />
 
-    <include layout="@layout/ad" />
-
-    <FrameLayout
+    <TextView
+        a:id="@+id/entity_description"
+        style="@style/CppListItemText.Secondary"
         a:layout_width="match_parent"
-        a:layout_height="match_parent">
+        a:layout_height="wrap_content" />
 
-        <ListView style="@style/CppListView" />
-
-        <com.melnykov.fab.FloatingActionButton
-            a:id="@+id/fab"
-            style="@style/CppFab"
-            a:src="@drawable/ic_add_white_36dp"
-            a:visibility="gone" />
-    </FrameLayout>
 </LinearLayout>

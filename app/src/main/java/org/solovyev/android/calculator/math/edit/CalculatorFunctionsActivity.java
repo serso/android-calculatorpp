@@ -22,18 +22,9 @@
 
 package org.solovyev.android.calculator.math.edit;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-
-import org.solovyev.android.calculator.AndroidFunctionCategory;
-import org.solovyev.android.calculator.BaseActivity;
-import org.solovyev.android.calculator.CalculatorEventData;
-import org.solovyev.android.calculator.CalculatorEventListener;
-import org.solovyev.android.calculator.CalculatorEventType;
-import org.solovyev.android.calculator.CalculatorFragmentType;
-import org.solovyev.android.calculator.FunctionCategory;
-import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.*;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -48,14 +39,7 @@ public class CalculatorFunctionsActivity extends BaseActivity implements Calcula
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        final Bundle bundle;
-
-        final Intent intent = getIntent();
-        if (intent != null) {
-            bundle = intent.getExtras();
-        } else {
-            bundle = null;
-        }
+        final Bundle bundle = getIntent().getExtras();
 
         final CalculatorFragmentType fragmentType = CalculatorFragmentType.functions;
 
@@ -66,10 +50,10 @@ public class CalculatorFunctionsActivity extends BaseActivity implements Calcula
                 final Bundle fragmentParameters;
 
                 if (category == FunctionCategory.my && bundle != null) {
-                    AbstractMathEntityListFragment.putCategory(bundle, category.name());
+                    BaseEntitiesFragment.putCategory(bundle, category.name());
                     fragmentParameters = bundle;
                 } else {
-                    fragmentParameters = AbstractMathEntityListFragment.createBundleFor(category.name());
+                    fragmentParameters = BaseEntitiesFragment.createBundleFor(category.name());
                 }
 
                 ui.addTab(this, fragmentType.createSubFragmentTag(category.name()), fragmentType.getFragmentClass(), fragmentParameters, androidCategory.getCaptionId(), R.id.main_layout);

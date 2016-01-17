@@ -22,49 +22,32 @@
 
 package org.solovyev.android.calculator.math.edit;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentActivity;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
-
 import com.melnykov.fab.FloatingActionButton;
-
-import org.solovyev.android.calculator.CalculatorEventData;
-import org.solovyev.android.calculator.CalculatorEventType;
-import org.solovyev.android.calculator.CalculatorFragmentType;
-import org.solovyev.android.calculator.CalculatorParseException;
-import org.solovyev.android.calculator.Change;
-import org.solovyev.android.calculator.Locator;
-import org.solovyev.android.calculator.PreparedExpression;
-import org.solovyev.android.calculator.R;
-import org.solovyev.android.calculator.ToJsclTextProcessor;
+import jscl.math.function.IConstant;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.math.MathType;
-import org.solovyev.android.menu.AMenuItem;
-import org.solovyev.android.menu.LabeledMenuItem;
 import org.solovyev.common.JPredicate;
 import org.solovyev.common.collections.Collections;
 import org.solovyev.common.text.Strings;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
-import jscl.math.function.IConstant;
-
-/**
- * User: serso
- * Date: 9/28/11
- * Time: 10:55 PM
- */
-public class CalculatorVarsFragment extends AbstractMathEntityListFragment<IConstant> {
+public class VarsFragment extends BaseEntitiesFragment<IConstant> {
 
     public static final String CREATE_VAR_EXTRA_STRING = "create_var";
+    @NonNull
+    private final EntitiesRegistry<IConstant> registry = Locator.getInstance().getEngine().getVarsRegistry();
 
-    public CalculatorVarsFragment() {
+    public VarsFragment() {
         super(CalculatorFragmentType.variables);
     }
 
@@ -102,10 +85,9 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
     public void onViewCreated(View root, Bundle savedInstanceState) {
         super.onViewCreated(root, savedInstanceState);
 
-        final ListView lv = getListView();
         final FloatingActionButton fab = (FloatingActionButton) root.findViewById(R.id.fab);
         fab.setVisibility(View.VISIBLE);
-        fab.attachToListView(lv);
+        fab.attachToRecyclerView(recyclerView);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,35 +97,8 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
     }
 
     @Override
-    protected AMenuItem<IConstant> getOnClickAction() {
-        return LongClickMenuItem.use;
-    }
-
-    @Nonnull
-    @Override
-    protected List<LabeledMenuItem<IConstant>> getMenuItemsOnLongClick(@Nonnull IConstant item) {
-        final List<LabeledMenuItem<IConstant>> result = new ArrayList<LabeledMenuItem<IConstant>>(Arrays.asList(LongClickMenuItem.values()));
-
-        if (item.isSystem()) {
-            result.remove(LongClickMenuItem.edit);
-            result.remove(LongClickMenuItem.remove);
-        }
-
-        if (Strings.isEmpty(Locator.getInstance().getEngine().getVarsRegistry().getDescription(item.getName()))) {
-            result.remove(LongClickMenuItem.copy_description);
-        }
-
-        if (Strings.isEmpty(item.getValue())) {
-            result.remove(LongClickMenuItem.copy_value);
-        }
-
-        return result;
-    }
-
-    @Nonnull
-    @Override
-    protected MathEntityDescriptionGetter getDescriptionGetter() {
-        return new MathEntityDescriptionGetterImpl(Locator.getInstance().getEngine().getVarsRegistry());
+    protected void onClick(@NonNull IConstant constant) {
+        Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.use_constant, constant);
     }
 
     @SuppressWarnings({"UnusedDeclaration"})
@@ -153,8 +108,8 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
 
     @Nonnull
     @Override
-    protected List<IConstant> getMathEntities() {
-        final List<IConstant> result = new ArrayList<IConstant>(Locator.getInstance().getEngine().getVarsRegistry().getEntities());
+    protected List<IConstant> getEntities() {
+        final List<IConstant> result = new ArrayList<IConstant>(registry.getEntities());
 
         Collections.removeAll(result, new JPredicate<IConstant>() {
             @Override
@@ -167,8 +122,8 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
     }
 
     @Override
-    protected String getMathEntityCategory(@Nonnull IConstant var) {
-        return Locator.getInstance().getEngine().getVarsRegistry().getCategory(var);
+    protected String getCategory(@Nonnull IConstant var) {
+        return registry.getCategory(var);
     }
 
     @Override
@@ -188,6 +143,52 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
                 processConstantRemoved((IConstant) data);
                 break;
         }
+    }
+
+    @Override
+    protected void onCreateContextMenu(@Nonnull ContextMenu menu, @Nonnull IConstant constant, @Nonnull MenuItem.OnMenuItemClickListener listener) {
+        addMenu(menu, R.string.c_use, listener);
+        if (!constant.isSystem()) {
+            addMenu(menu, R.string.c_edit, listener);
+            addMenu(menu, R.string.c_remove, listener);
+        }
+
+        if (!Strings.isEmpty(constant.getValue())) {
+            addMenu(menu, R.string.c_copy_value, listener);
+        }
+
+        if (!Strings.isEmpty(registry.getDescription(constant.getName()))) {
+            addMenu(menu, R.string.c_copy_description, listener);
+        }
+    }
+
+    @Override
+    protected boolean onMenuItemClicked(@Nonnull MenuItem item, @Nonnull IConstant constant) {
+        FragmentActivity activity = getActivity();
+        switch (item.getItemId()) {
+            case R.string.c_use:
+                Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.use_constant, constant);
+                return true;
+            case R.string.c_edit:
+                VarEditDialogFragment.showDialog(VarEditDialogFragment.Input.newFromConstant(constant), activity.getSupportFragmentManager());
+                return true;
+            case R.string.c_remove:
+                MathEntityRemover.newConstantRemover(constant, null, activity, activity).showConfirmationDialog();
+                return true;
+            case R.string.c_copy_value:
+                final String value = constant.getValue();
+                if (!Strings.isEmpty(value)) {
+                    Locator.getInstance().getClipboard().setText(value);
+                }
+                return true;
+            case R.string.c_copy_description:
+                final String description = registry.getDescription(constant.getName());
+                if (!Strings.isEmpty(description)) {
+                    Locator.getInstance().getClipboard().setText(description);
+                }
+                return true;
+        }
+        return false;
     }
 
     private void processConstantRemoved(@Nonnull final IConstant constant) {
@@ -228,67 +229,10 @@ public class CalculatorVarsFragment extends AbstractMathEntityListFragment<ICons
         }
     }
 
-	/*
-    **********************************************************************
-	*
-	*                           STATIC
-	*
-	**********************************************************************
-	*/
-
-    private static enum LongClickMenuItem implements LabeledMenuItem<IConstant> {
-        use(R.string.c_use) {
-            @Override
-            public void onClick(@Nonnull IConstant data, @Nonnull Context context) {
-                Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.use_constant, data);
-            }
-        },
-
-        edit(R.string.c_edit) {
-            @Override
-            public void onClick(@Nonnull IConstant constant, @Nonnull Context context) {
-                VarEditDialogFragment.showDialog(VarEditDialogFragment.Input.newFromConstant(constant), ((ActionBarActivity) context).getSupportFragmentManager());
-            }
-        },
-
-        remove(R.string.c_remove) {
-            @Override
-            public void onClick(@Nonnull IConstant constant, @Nonnull Context context) {
-                MathEntityRemover.newConstantRemover(constant, null, context, context).showConfirmationDialog();
-            }
-        },
-
-        copy_value(R.string.c_copy_value) {
-            @Override
-            public void onClick(@Nonnull IConstant data, @Nonnull Context context) {
-                final String text = data.getValue();
-                if (!Strings.isEmpty(text)) {
-                    if (text == null) throw new AssertionError();
-                    Locator.getInstance().getClipboard().setText(text);
-                }
-            }
-        },
-
-        copy_description(R.string.c_copy_description) {
-            @Override
-            public void onClick(@Nonnull IConstant data, @Nonnull Context context) {
-                final String text = Locator.getInstance().getEngine().getVarsRegistry().getDescription(data.getName());
-                if (!Strings.isEmpty(text)) {
-                    if (text == null) throw new AssertionError();
-                    Locator.getInstance().getClipboard().setText(text);
-                }
-            }
-        };
-        private final int captionId;
-
-        LongClickMenuItem(int captionId) {
-            this.captionId = captionId;
-        }
-
-        @Nonnull
-        @Override
-        public String getCaption(@Nonnull Context context) {
-            return context.getString(captionId);
-        }
+    @Nullable
+    @Override
+    protected String getDescription(@NonNull IConstant constant) {
+        return registry.getDescription(constant.getName());
     }
+
 }

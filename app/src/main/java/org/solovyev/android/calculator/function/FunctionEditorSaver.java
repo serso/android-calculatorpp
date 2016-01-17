@@ -25,8 +25,8 @@ package org.solovyev.android.calculator.function;
 import android.view.View;
 import android.widget.EditText;
 
-import org.solovyev.android.calculator.CalculatorFunctionsMathRegistry;
-import org.solovyev.android.calculator.CalculatorMathRegistry;
+import org.solovyev.android.calculator.FunctionsRegistry;
+import org.solovyev.android.calculator.EntitiesRegistry;
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.math.edit.VarEditorSaver;
@@ -59,13 +59,13 @@ public class FunctionEditorSaver implements View.OnClickListener {
     private final View view;
 
     @Nonnull
-    private final CalculatorMathRegistry<Function> mathRegistry;
+    private final EntitiesRegistry<Function> mathRegistry;
 
 
     public FunctionEditorSaver(@Nonnull AFunction.Builder builder,
                                @Nullable IFunction editedInstance,
                                @Nonnull View view,
-                               @Nonnull CalculatorMathRegistry<Function> registry,
+                               @Nonnull EntitiesRegistry<Function> registry,
                                @Nonnull Object source) {
 
         this.builder = builder;
@@ -144,7 +144,7 @@ public class FunctionEditorSaver implements View.OnClickListener {
             Locator.getInstance().getNotifier().showMessage(error, MessageType.error);
         } else {
             try {
-                CalculatorFunctionsMathRegistry.saveFunction(mathRegistry, new FunctionBuilderAdapter(builder), editedInstance, source, true);
+                FunctionsRegistry.saveFunction(mathRegistry, new FunctionBuilderAdapter(builder), editedInstance, source, true);
             } catch (CustomFunctionCalculationException e) {
                 Locator.getInstance().getNotifier().showMessage(e);
             } catch (AFunction.Builder.CreationException e) {

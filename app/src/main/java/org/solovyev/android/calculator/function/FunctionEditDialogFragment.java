@@ -34,32 +34,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-
-import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.CalculatorEventData;
-import org.solovyev.android.calculator.CalculatorEventListener;
-import org.solovyev.android.calculator.CalculatorEventType;
-import org.solovyev.android.calculator.CalculatorUtils;
-import org.solovyev.android.calculator.DisplayState;
-import org.solovyev.android.calculator.Locator;
-import org.solovyev.android.calculator.R;
-import org.solovyev.android.calculator.math.edit.CalculatorFunctionsActivity;
-import org.solovyev.android.calculator.math.edit.CalculatorFunctionsFragment;
-import org.solovyev.android.calculator.math.edit.MathEntityRemover;
-import org.solovyev.android.calculator.model.AFunction;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import jscl.math.Generic;
 import jscl.math.function.Constant;
 import jscl.math.function.CustomFunction;
 import jscl.math.function.Function;
 import jscl.math.function.IFunction;
+import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.math.edit.CalculatorFunctionsActivity;
+import org.solovyev.android.calculator.math.edit.FunctionsFragment;
+import org.solovyev.android.calculator.math.edit.MathEntityRemover;
+import org.solovyev.android.calculator.model.AFunction;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * User: serso
@@ -91,7 +81,7 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
         } else {
             final Intent intent = new Intent(context, CalculatorFunctionsActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.putExtra(CalculatorFunctionsFragment.CREATE_FUNCTION_EXTRA, input);
+            intent.putExtra(FunctionsFragment.EXTRA_FUNCTION, input);
             context.startActivity(intent);
         }
     }
@@ -192,14 +182,6 @@ public class FunctionEditDialogFragment extends DialogFragment implements Calcul
 
         Locator.getInstance().getCalculator().addCalculatorEventListener(this);
     }
-
-    	/*
-    **********************************************************************
-	*
-	*                           STATIC
-	*
-	**********************************************************************
-	*/
 
     @Override
     public void onPause() {

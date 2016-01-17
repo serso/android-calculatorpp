@@ -25,7 +25,7 @@ package org.solovyev.android.calculator.math.edit;
 import android.view.View;
 import android.widget.EditText;
 
-import org.solovyev.android.calculator.CalculatorMathRegistry;
+import org.solovyev.android.calculator.EntitiesRegistry;
 import org.solovyev.android.calculator.CalculatorVarsRegistry;
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.R;
@@ -57,7 +57,7 @@ public class VarEditorSaver<T extends MathEntity> implements View.OnClickListene
     private final T editedInstance;
 
     @Nonnull
-    private final CalculatorMathRegistry<T> mathRegistry;
+    private final EntitiesRegistry<T> mathRegistry;
 
     @Nonnull
     private final Object source;
@@ -68,7 +68,7 @@ public class VarEditorSaver<T extends MathEntity> implements View.OnClickListene
     public VarEditorSaver(@Nonnull MathEntityBuilder<? extends T> varBuilder,
                           @Nullable T editedInstance,
                           @Nonnull View editView,
-                          @Nonnull CalculatorMathRegistry<T> mathRegistry,
+                          @Nonnull EntitiesRegistry<T> mathRegistry,
                           @Nonnull Object source) {
         this.varBuilder = varBuilder;
         this.editedInstance = editedInstance;
@@ -130,7 +130,7 @@ public class VarEditorSaver<T extends MathEntity> implements View.OnClickListene
                         error = null;
                     } else {
                         // value is not empty => must be a number
-                        boolean valid = CalculatorVarsFragment.isValidValue(value);
+                        boolean valid = VarsFragment.isValidValue(value);
 
                         if (valid) {
                             varBuilder.setName(name);

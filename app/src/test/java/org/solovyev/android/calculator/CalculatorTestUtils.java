@@ -93,7 +93,7 @@ public class CalculatorTestUtils {
         final JsclMathEngine jsclEngine = JsclMathEngine.getInstance();
 
         final CalculatorVarsRegistry varsRegistry = new CalculatorVarsRegistry(jsclEngine.getConstantsRegistry(), mathEntityDao);
-        final CalculatorFunctionsMathRegistry functionsRegistry = new CalculatorFunctionsMathRegistry(jsclEngine.getFunctionsRegistry(), mathEntityDao);
+        final FunctionsRegistry functionsRegistry = new FunctionsRegistry(jsclEngine.getFunctionsRegistry(), mathEntityDao);
         final CalculatorOperatorsMathRegistry operatorsRegistry = new CalculatorOperatorsMathRegistry(jsclEngine.getOperatorsRegistry(), mathEntityDao);
         final CalculatorPostfixFunctionsRegistry postfixFunctionsRegistry = new CalculatorPostfixFunctionsRegistry(jsclEngine.getPostfixFunctionsRegistry(), mathEntityDao);
 

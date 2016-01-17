@@ -498,7 +498,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
         if (TextUtils.isEmpty(text)) {
             return;
         }
-        final CalculatorMathRegistry<IConstant> varsRegistry = Locator.getInstance().getEngine().getVarsRegistry();
+        final EntitiesRegistry<IConstant> varsRegistry = Locator.getInstance().getEngine().getVarsRegistry();
         final IConstant ansVar = varsRegistry.get(CalculatorVarsRegistry.ANS);
 
         final Var.Builder builder = ansVar != null ? new Var.Builder(ansVar) : new Var.Builder();

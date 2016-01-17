@@ -63,10 +63,10 @@ public class CalculatorVarsActivity extends BaseActivity implements CalculatorEv
             final Bundle fragmentParameters;
 
             if (category == VarCategory.my && bundle != null) {
-                AbstractMathEntityListFragment.putCategory(bundle, category.name());
+                BaseEntitiesFragment.putCategory(bundle, category.name());
                 fragmentParameters = bundle;
             } else {
-                fragmentParameters = AbstractMathEntityListFragment.createBundleFor(category.name());
+                fragmentParameters = BaseEntitiesFragment.createBundleFor(category.name());
             }
 
 
