@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -45,4 +46,14 @@ public abstract class BaseDialogFragment extends DialogFragment {
 
     @NonNull
     protected abstract View onCreateDialogView(@NonNull Context context, @NonNull LayoutInflater inflater, @Nullable Bundle savedInstanceState);
+
+    protected static void setError(@NonNull TextInputLayout textInput, @NonNull String error) {
+        textInput.setError(error);
+        textInput.setErrorEnabled(true);
+    }
+
+    protected static void clearError(@NonNull TextInputLayout textInput) {
+        textInput.setError(null);
+        textInput.setErrorEnabled(false);
+    }
 }

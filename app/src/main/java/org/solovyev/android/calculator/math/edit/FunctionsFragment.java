@@ -31,7 +31,7 @@ import android.view.View;
 import jscl.math.function.Function;
 import jscl.math.function.IFunction;
 import org.solovyev.android.calculator.*;
-import org.solovyev.android.calculator.function.FunctionEditDialogFragment;
+import org.solovyev.android.calculator.function.EditFunctionFragment;
 import org.solovyev.common.text.Strings;
 
 import javax.annotation.Nonnull;
@@ -55,9 +55,9 @@ public class FunctionsFragment extends BaseEntitiesFragment<Function> {
 
         final Bundle bundle = getArguments();
         if (bundle != null) {
-            final FunctionEditDialogFragment.Input input = bundle.getParcelable(EXTRA_FUNCTION);
+            final EditFunctionFragment.Input input = bundle.getParcelable(EXTRA_FUNCTION);
             if (input != null) {
-                FunctionEditDialogFragment.showDialog(input, getFragmentManager());
+                EditFunctionFragment.showDialog(input, getFragmentManager());
                 // in order to stop intent for other tabs
                 bundle.remove(EXTRA_FUNCTION);
             }
@@ -73,7 +73,7 @@ public class FunctionsFragment extends BaseEntitiesFragment<Function> {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FunctionEditDialogFragment.showDialog(FunctionEditDialogFragment.Input.newInstance(), getFragmentManager());
+                EditFunctionFragment.showDialog(EditFunctionFragment.Input.newInstance(), getFragmentManager());
             }
         });
     }
@@ -106,7 +106,7 @@ public class FunctionsFragment extends BaseEntitiesFragment<Function> {
                 return true;
             case R.string.c_edit:
                 if (function instanceof IFunction) {
-                    FunctionEditDialogFragment.showDialog(FunctionEditDialogFragment.Input.newFromFunction((IFunction) function), activity.getSupportFragmentManager());
+                    EditFunctionFragment.showDialog(EditFunctionFragment.Input.newFromFunction((IFunction) function), activity.getSupportFragmentManager());
                 }
                 return true;
             case R.string.c_remove:

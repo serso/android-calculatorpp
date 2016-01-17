@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -37,9 +36,6 @@ public class EditHistoryFragment extends BaseDialogFragment {
 
     @Bind(R.id.history_comment)
     EditText commentView;
-
-    @Bind(R.id.history_comment_label)
-    TextInputLayout commentLabel;
 
     public static void show(@NonNull HistoryState state, boolean newState, @NonNull FragmentManager fm) {
         final EditHistoryFragment fragment = new EditHistoryFragment();
