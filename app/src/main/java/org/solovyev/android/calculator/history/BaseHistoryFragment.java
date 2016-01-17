@@ -27,8 +27,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.StringRes;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -53,27 +51,32 @@ import javax.annotation.Nullable;
 import javax.inject.Inject;
 import java.util.List;
 
-import static android.view.Menu.NONE;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-public abstract class BaseHistoryFragment extends Fragment {
+public abstract class BaseHistoryFragment extends BaseFragment {
     private final boolean recentHistory;
     @Inject
     History history;
+    @Inject
+    Editor editor;
     @Inject
     Bus bus;
     @Bind(R.id.history_recyclerview)
     RecyclerView recyclerView;
     @Bind(R.id.history_fab)
     FloatingActionButton fab;
-    @Nonnull
-    private FragmentUi ui;
     private HistoryAdapter adapter;
 
     protected BaseHistoryFragment(@Nonnull CalculatorFragmentType type) {
+        super(type);
         recentHistory = type == CalculatorFragmentType.history;
-        ui = new FragmentUi(type.getDefaultLayoutId(), type.getDefaultTitleResId(), false);
+    }
+
+    @Override
+    protected void inject(@Nonnull AppComponent component) {
+        super.inject(component);
+        component.inject(this);
     }
 
     @Nonnull
@@ -87,7 +90,7 @@ public abstract class BaseHistoryFragment extends Fragment {
     }
 
     public void useState(@Nonnull final HistoryState state) {
-        App.getEditor().setState(state.editor);
+        editor.setState(state.editor);
         final FragmentActivity activity = getActivity();
         if (!(activity instanceof CalculatorActivity)) {
             activity.finish();
@@ -95,15 +98,8 @@ public abstract class BaseHistoryFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ((CalculatorApplication) getActivity().getApplication()).getComponent().inject(this);
-        ui.onCreate(this);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View view = ui.onCreateView(this, inflater, container);
+        final View view = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, view);
         final Context context = inflater.getContext();
         adapter = new HistoryAdapter(context);
@@ -119,12 +115,6 @@ public abstract class BaseHistoryFragment extends Fragment {
             }
         });
         return view;
-    }
-
-    @Override
-    public void onViewCreated(View root, Bundle savedInstanceState) {
-        super.onViewCreated(root, savedInstanceState);
-        ui.onViewCreated(this, root);
     }
 
     private void showClearHistoryDialog() {
@@ -146,12 +136,6 @@ public abstract class BaseHistoryFragment extends Fragment {
                 .show();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        ui.onResume(this);
-    }
-
     @SuppressWarnings("deprecation")
     protected final void copyResult(@Nonnull HistoryState state) {
         final Context context = getActivity();
@@ -161,6 +145,12 @@ public abstract class BaseHistoryFragment extends Fragment {
         }
         final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
         clipboard.setText(displayText);
+    }
+
+    @Override
+    public void onDestroyView() {
+        bus.unregister(adapter);
+        super.onDestroyView();
     }
 
     @SuppressWarnings("deprecation")
@@ -176,25 +166,6 @@ public abstract class BaseHistoryFragment extends Fragment {
 
     protected final boolean shouldHaveCopyResult(@Nonnull HistoryState state) {
         return !state.display.valid || !Strings.isEmpty(state.display.text);
-    }
-
-    @Override
-    public void onPause() {
-        ui.onPause(this);
-        super.onPause();
-    }
-
-    @Override
-    public void onDestroyView() {
-        bus.unregister(adapter);
-        ui.onDestroyView(this);
-        super.onDestroyView();
-    }
-
-    @Override
-    public void onDestroy() {
-        ui.onDestroy(this);
-        super.onDestroy();
     }
 
     public class HistoryViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener, View.OnClickListener, MenuItem.OnMenuItemClickListener {
@@ -234,26 +205,21 @@ public abstract class BaseHistoryFragment extends Fragment {
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
             Check.isNotNull(state);
             if (recentHistory) {
-                addMenu(menu, R.string.c_use);
-                addMenu(menu, R.string.c_copy_expression);
+                addMenu(menu, R.string.c_use, this);
+                addMenu(menu, R.string.c_copy_expression, this);
                 if (shouldHaveCopyResult(state)) {
-                    addMenu(menu, R.string.c_copy_result);
+                    addMenu(menu, R.string.c_copy_result, this);
                 }
-                addMenu(menu, R.string.c_save);
+                addMenu(menu, R.string.c_save, this);
             } else {
-                addMenu(menu, R.string.c_use);
-                addMenu(menu, R.string.c_copy_expression);
+                addMenu(menu, R.string.c_use, this);
+                addMenu(menu, R.string.c_copy_expression, this);
                 if (shouldHaveCopyResult(state)) {
-                    addMenu(menu, R.string.c_copy_result);
+                    addMenu(menu, R.string.c_copy_result, this);
                 }
-                addMenu(menu, R.string.c_edit);
-                addMenu(menu, R.string.c_remove);
+                addMenu(menu, R.string.c_edit, this);
+                addMenu(menu, R.string.c_remove, this);
             }
-        }
-
-        @Nonnull
-        private MenuItem addMenu(@Nonnull ContextMenu menu, @StringRes int label) {
-            return menu.add(NONE, label, NONE, label).setOnMenuItemClickListener(this);
         }
 
         @Override

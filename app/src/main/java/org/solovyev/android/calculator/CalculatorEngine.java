@@ -39,13 +39,13 @@ public interface CalculatorEngine {
     void softReset();
 
     @Nonnull
-    CalculatorMathRegistry<IConstant> getVarsRegistry();
+    EntitiesRegistry<IConstant> getVarsRegistry();
     @Nonnull
-    CalculatorMathRegistry<Function> getFunctionsRegistry();
+    EntitiesRegistry<Function> getFunctionsRegistry();
     @Nonnull
-    CalculatorMathRegistry<Operator> getOperatorsRegistry();
+    EntitiesRegistry<Operator> getOperatorsRegistry();
     @Nonnull
-    CalculatorMathRegistry<Operator> getPostfixFunctionsRegistry();
+    EntitiesRegistry<Operator> getPostfixFunctionsRegistry();
     @Nonnull
     CalculatorMathEngine getMathEngine();
     @Deprecated

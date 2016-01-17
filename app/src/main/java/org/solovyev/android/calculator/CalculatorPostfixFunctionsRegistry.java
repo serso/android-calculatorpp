@@ -37,7 +37,7 @@ import jscl.math.operator.Operator;
  * Date: 11/19/11
  * Time: 1:48 PM
  */
-public class CalculatorPostfixFunctionsRegistry extends AbstractCalculatorMathRegistry<Operator, MathPersistenceEntity> {
+public class CalculatorPostfixFunctionsRegistry extends BaseEntitiesRegistry<Operator, MathPersistenceEntity> {
 
     @Nonnull
     private static final Map<String, String> substitutes = new HashMap<String, String>();

@@ -29,7 +29,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.solovyev.android.calculator.CalculatorEventType;
-import org.solovyev.android.calculator.CalculatorMathRegistry;
+import org.solovyev.android.calculator.EntitiesRegistry;
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.R;
 import org.solovyev.common.math.MathEntity;
@@ -56,7 +56,7 @@ public class MathEntityRemover<T extends MathEntity> implements View.OnClickList
     private final boolean confirmed;
 
     @Nonnull
-    private final CalculatorMathRegistry<? super T> varsRegistry;
+    private final EntitiesRegistry<? super T> varsRegistry;
     @Nonnull
     private final Object source;
     @Nonnull
@@ -75,7 +75,7 @@ public class MathEntityRemover<T extends MathEntity> implements View.OnClickList
     private MathEntityRemover(@Nonnull T mathEntity,
                               @Nullable DialogInterface.OnClickListener callbackOnCancel,
                               boolean confirmed,
-                              @Nonnull CalculatorMathRegistry<? super T> varsRegistry,
+                              @Nonnull EntitiesRegistry<? super T> varsRegistry,
                               @Nonnull Context context,
                               @Nonnull Object source,
                               @Nonnull Params params) {

@@ -51,7 +51,7 @@ public class CalculatorOperatorsActivity extends BaseActivity implements Calcula
         for (OperatorCategory category : OperatorCategory.getCategoriesByTabOrder()) {
             final AndroidOperatorCategory androidCategory = AndroidOperatorCategory.valueOf(category);
             if (androidCategory != null) {
-                ui.addTab(this, fragmentType.createSubFragmentTag(category.name()), fragmentType.getFragmentClass(), AbstractMathEntityListFragment.createBundleFor(category.name()), androidCategory.getCaptionId(), R.id.main_layout);
+                ui.addTab(this, fragmentType.createSubFragmentTag(category.name()), fragmentType.getFragmentClass(), BaseEntitiesFragment.createBundleFor(category.name()), androidCategory.getCaptionId(), R.id.main_layout);
             } else {
                 ui.logError("Unable to find android operator category for " + category);
             }

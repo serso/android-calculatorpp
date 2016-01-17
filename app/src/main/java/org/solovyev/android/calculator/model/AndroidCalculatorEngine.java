@@ -91,7 +91,7 @@ public class AndroidCalculatorEngine implements CalculatorEngine, SharedPreferen
         final JsclMathEngine engine = JsclMathEngine.getInstance();
         this.calculatorEngine = new CalculatorEngineImpl(engine,
                 new CalculatorVarsRegistry(engine.getConstantsRegistry(), new AndroidMathEntityDao<Var>("org.solovyev.android.calculator.CalculatorModel_vars", application, Vars.class)),
-                new CalculatorFunctionsMathRegistry(engine.getFunctionsRegistry(), new AndroidMathEntityDao<AFunction>("org.solovyev.android.calculator.CalculatorModel_functions", application, Functions.class)),
+                new FunctionsRegistry(engine.getFunctionsRegistry(), new AndroidMathEntityDao<AFunction>("org.solovyev.android.calculator.CalculatorModel_functions", application, Functions.class)),
                 new CalculatorOperatorsMathRegistry(engine.getOperatorsRegistry(), new AndroidMathEntityDao<MathPersistenceEntity>(null, application, null)),
                 new CalculatorPostfixFunctionsRegistry(engine.getPostfixFunctionsRegistry(), new AndroidMathEntityDao<MathPersistenceEntity>(null, application, null)),
                 this.lock);
@@ -109,25 +109,25 @@ public class AndroidCalculatorEngine implements CalculatorEngine, SharedPreferen
 
     @Override
     @Nonnull
-    public CalculatorMathRegistry<IConstant> getVarsRegistry() {
+    public EntitiesRegistry<IConstant> getVarsRegistry() {
         return calculatorEngine.getVarsRegistry();
     }
 
     @Override
     @Nonnull
-    public CalculatorMathRegistry<Function> getFunctionsRegistry() {
+    public EntitiesRegistry<Function> getFunctionsRegistry() {
         return calculatorEngine.getFunctionsRegistry();
     }
 
     @Override
     @Nonnull
-    public CalculatorMathRegistry<Operator> getOperatorsRegistry() {
+    public EntitiesRegistry<Operator> getOperatorsRegistry() {
         return calculatorEngine.getOperatorsRegistry();
     }
 
     @Override
     @Nonnull
-    public CalculatorMathRegistry<Operator> getPostfixFunctionsRegistry() {
+    public EntitiesRegistry<Operator> getPostfixFunctionsRegistry() {
         return calculatorEngine.getPostfixFunctionsRegistry();
     }
 

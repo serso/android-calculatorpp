@@ -24,21 +24,32 @@
 
 <LinearLayout
     xmlns:a="http://schemas.android.com/apk/res/android"
-    style="@style/CppListItem"
+    a:id="@+id/main_fragment_layout"
+    style="@style/CppFragment"
     a:layout_width="match_parent"
-    a:layout_height="wrap_content"
-    a:orientation="vertical">
+    a:layout_height="match_parent">
 
     <TextView
-        a:id="@+id/math_entity_text"
-        style="@style/CppListItemText.Primary"
+        a:id="@+id/fragment_title"
+        style="@style/CppFragmentTitle"
         a:layout_width="match_parent"
         a:layout_height="wrap_content" />
 
-    <TextView
-        a:id="@+id/math_entity_short_description"
-        style="@style/CppListViewItemTextSecondary"
-        a:layout_width="match_parent"
-        a:layout_height="wrap_content" />
+    <include layout="@layout/ad" />
 
+    <FrameLayout
+        a:layout_width="match_parent"
+        a:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            a:id="@+id/entities_recyclerview"
+            a:layout_width="match_parent"
+            a:layout_height="match_parent" />
+
+        <com.melnykov.fab.FloatingActionButton
+            a:id="@+id/entities_fab"
+            style="@style/CppFab"
+            a:src="@drawable/ic_add_white_36dp"
+            a:visibility="gone" />
+    </FrameLayout>
 </LinearLayout>

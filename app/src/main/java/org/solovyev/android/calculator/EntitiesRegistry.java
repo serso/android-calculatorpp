@@ -28,18 +28,13 @@ import org.solovyev.common.math.MathRegistry;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-/**
- * User: serso
- * Date: 10/30/11
- * Time: 1:02 AM
- */
-public interface CalculatorMathRegistry<T extends MathEntity> extends MathRegistry<T> {
+public interface EntitiesRegistry<E extends MathEntity> extends MathRegistry<E> {
 
     @Nullable
-    String getDescription(@Nonnull String mathEntityName);
+    String getDescription(@Nonnull String name);
 
     @Nullable
-    String getCategory(@Nonnull T mathEntity);
+    String getCategory(@Nonnull E entity);
 
     void load();
 

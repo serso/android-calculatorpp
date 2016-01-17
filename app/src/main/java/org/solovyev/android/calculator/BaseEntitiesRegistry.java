@@ -26,19 +26,13 @@ import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.math.MathRegistry;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-/**
- * User: serso
- * Date: 10/30/11
- * Time: 1:03 AM
- */
-public abstract class AbstractCalculatorMathRegistry<T extends MathEntity, P extends MathPersistenceEntity> implements CalculatorMathRegistry<T> {
+public abstract class BaseEntitiesRegistry<T extends MathEntity, P extends MathPersistenceEntity> implements EntitiesRegistry<T> {
 
     @Nonnull
     private final MathRegistry<T> mathRegistry;
@@ -49,9 +43,9 @@ public abstract class AbstractCalculatorMathRegistry<T extends MathEntity, P ext
     @Nonnull
     private final MathEntityDao<P> mathEntityDao;
 
-    protected AbstractCalculatorMathRegistry(@Nonnull MathRegistry<T> mathRegistry,
-                                             @Nonnull String prefix,
-                                             @Nonnull MathEntityDao<P> mathEntityDao) {
+    protected BaseEntitiesRegistry(@Nonnull MathRegistry<T> mathRegistry,
+                                   @Nonnull String prefix,
+                                   @Nonnull MathEntityDao<P> mathEntityDao) {
         this.mathRegistry = mathRegistry;
         this.prefix = prefix;
         this.mathEntityDao = mathEntityDao;
@@ -63,13 +57,13 @@ public abstract class AbstractCalculatorMathRegistry<T extends MathEntity, P ext
 
     @Nullable
     @Override
-    public String getDescription(@Nonnull String mathEntityName) {
+    public String getDescription(@Nonnull String name) {
         final String stringName;
 
         final Map<String, String> substitutes = getSubstitutes();
-        final String substitute = substitutes.get(mathEntityName);
+        final String substitute = substitutes.get(name);
         if (substitute == null) {
-            stringName = prefix + mathEntityName;
+            stringName = prefix + name;
         } else {
             stringName = prefix + substitute;
         }
