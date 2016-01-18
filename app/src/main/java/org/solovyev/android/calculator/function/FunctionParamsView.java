@@ -25,188 +25,251 @@ package org.solovyev.android.calculator.function;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import jscl.text.MutableInt;
-import org.solovyev.android.calculator.R;
+
+import org.solovyev.android.Check;
+import org.solovyev.android.calculator.App;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public class FunctionParamsView extends LinearLayout {
 
-    private static final String PARAM_TAG_PREFIX = "function_param_";
-    @Nonnull
-    private final MutableInt paramsCount = new MutableInt(0);
-    @Nonnull
-    private final List<Integer> paramIds = new ArrayList<Integer>(10);
+    private static final int PARAM_VIEW_INDEX = 3;
+    private static final int START_ROW_ID = App.generateViewId();
+    private int maxRowId = START_ROW_ID;
 
     public FunctionParamsView(Context context) {
         super(context);
+        init();
     }
 
     public FunctionParamsView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init();
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public FunctionParamsView(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
+    public FunctionParamsView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        init();
     }
 
-    public void init() {
-        init(Collections.<String>emptyList());
-    }
+    private void init() {
+        setOrientation(VERTICAL);
+        final Context context = getContext();
 
-    public void init(@Nonnull List<String> parameters) {
-        this.setOrientation(VERTICAL);
-
-        final LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        final View addParamView = inflater.inflate(R.layout.function_add_param, null);
-
-        final View addParamButton = addParamView.findViewById(R.id.function_add_param_button);
-
-        addParamButton.setOnClickListener(new View.OnClickListener() {
+        final LinearLayout headerView = makeRowView(context);
+        final Button addButton = new Button(context);
+        addButton.setText("+");
+        addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 addParam(null);
             }
         });
-
-        this.addView(addParamView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-
-        for (String parameter : parameters) {
-            addParam(parameter);
-        }
-    }
-
-    public void addParam(@Nullable String name) {
-        synchronized (paramsCount) {
-            final LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-            final Integer id = paramsCount.intValue();
-
-            final View editParamView = inflater.inflate(R.layout.fragment_function_edit_param, null);
-
-            editParamView.setTag(getParamTag(id));
-
-            final EditText paramNameEditText = (EditText) editParamView.findViewById(R.id.function_param_edit_text);
-            paramNameEditText.setText(name);
-
-            final View removeParamButton = editParamView.findViewById(R.id.function_remove_param_button);
-            removeParamButton.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    removeParam(id);
-                }
-            });
-
-            final View upParamButton = editParamView.findViewById(R.id.function_up_param_button);
-            upParamButton.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    upParam(id);
-                }
-            });
-
-            final View downParamButton = editParamView.findViewById(R.id.function_down_param_button);
-            downParamButton.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    downParam(id);
-                }
-            });
-
-            this.addView(editParamView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-
-            paramIds.add(id);
-            paramsCount.increment();
-        }
-    }
-
-    private void downParam(@Nonnull Integer id) {
-        synchronized (paramsCount) {
-            int index = paramIds.indexOf(id);
-            if (index < paramIds.size() - 1) {
-                swap(index, index + 1);
-            }
-        }
-    }
-
-    private void upParam(@Nonnull Integer id) {
-        synchronized (paramsCount) {
-            int index = paramIds.indexOf(id);
-            if (index > 0) {
-                swap(index, index - 1);
-            }
-        }
-    }
-
-    private void swap(int index1, int index2) {
-        final View editParamView1 = getParamView(paramIds.get(index1));
-        final View editParamView2 = getParamView(paramIds.get(index2));
-
-        if (editParamView1 != null && editParamView2 != null) {
-            final EditText paramNameEditText1 = (EditText) editParamView1.findViewById(R.id.function_param_edit_text);
-            final EditText paramNameEditText2 = (EditText) editParamView2.findViewById(R.id.function_param_edit_text);
-            swap(paramNameEditText1, paramNameEditText2);
-        }
-    }
-
-    private void swap(@Nonnull TextView first,
-                      @Nonnull TextView second) {
-        final CharSequence tmp = first.getText();
-        first.setText(second.getText());
-        second.setText(tmp);
-    }
-
-    @Nullable
-    private View getParamView(@Nonnull Integer id) {
-        final String tag = getParamTag(id);
-        return this.findViewWithTag(tag);
+        headerView.addView(addButton, new LayoutParams(0, WRAP_CONTENT, 1));
+        headerView.addView(new View(context), new LayoutParams(0, WRAP_CONTENT, 5));
+        addView(headerView, new ViewGroup.LayoutParams(MATCH_PARENT, WRAP_CONTENT));
     }
 
     @Nonnull
-    private String getParamTag(@Nonnull Integer index) {
-        return PARAM_TAG_PREFIX + index;
+    private LinearLayout makeRowView(@Nonnull Context context) {
+        final LinearLayout rowView = new LinearLayout(context);
+        rowView.setOrientation(HORIZONTAL);
+        return rowView;
     }
 
-    public void removeParam(@Nonnull Integer id) {
-        synchronized (paramsCount) {
-            if (paramIds.contains(id)) {
-                final View editParamView = getParamView(id);
-                if (editParamView != null) {
-                    this.removeView(editParamView);
-                    paramIds.remove(id);
-                }
-            }
+
+    public void addParams(@Nonnull List<String> params) {
+        for (String param : params) {
+            addParam(param);
         }
+    }
+
+    public void addParam(@Nullable String param) {
+        addParam(param, maxRowId++);
+    }
+
+    private void addParam(@Nullable String param, final int id) {
+        final Context context = getContext();
+        final LinearLayout rowView = makeRowView(context);
+
+        final Button removeButton = new Button(context);
+        removeButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeRow(rowView);
+            }
+        });
+        removeButton.setText("−");
+        rowView.addView(removeButton, new LayoutParams(0, WRAP_CONTENT, 1));
+
+        final Button upButton = new Button(context);
+        upButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                upRow(rowView);
+            }
+        });
+        upButton.setText("↑");
+        rowView.addView(upButton, new LayoutParams(0, WRAP_CONTENT, 1));
+
+        final Button downButton = new Button(context);
+        downButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                downRow(rowView);
+            }
+        });
+        downButton.setText("↓");
+        rowView.addView(downButton, new LayoutParams(0, WRAP_CONTENT, 1));
+
+        final EditText paramView = new EditText(context);
+        if (param != null) {
+            paramView.setText(param);
+        }
+        paramView.setInputType(EditorInfo.TYPE_CLASS_TEXT);
+        paramView.setId(id);
+        rowView.addView(paramView, new LayoutParams(0, WRAP_CONTENT, 3));
+
+        addView(rowView, new ViewGroup.LayoutParams(MATCH_PARENT, WRAP_CONTENT));
+    }
+
+    private void downRow(@Nonnull ViewGroup row) {
+        final int index = indexOfChild(row);
+        if (index < getChildCount() - 1) {
+            swap(row, getRowByIndex(index + 1));
+        }
+    }
+
+    private void upRow(@Nonnull ViewGroup row) {
+        final int index = indexOfChild(row);
+        if (index > 1) {
+            swap(row, getRowByIndex(index - 1));
+        }
+    }
+
+    private void swap(@Nonnull ViewGroup l, @Nonnull ViewGroup r) {
+        final EditText lParam = (EditText) l.getChildAt(PARAM_VIEW_INDEX);
+        final EditText rParam = (EditText) r.getChildAt(PARAM_VIEW_INDEX);
+        swap(lParam, rParam);
+    }
+
+    private void swap(@Nonnull TextView l,
+                      @Nonnull TextView r) {
+        final CharSequence tmp = l.getText();
+        l.setText(r.getText());
+        r.setText(tmp);
     }
 
     @Nonnull
-    public List<String> getParameterNames() {
-        synchronized (paramsCount) {
-            final List<String> result = new ArrayList<String>(paramsCount.intValue());
-
-            for (Integer id : paramIds) {
-                final View paramView = getParamView(id);
-                if (paramView != null) {
-                    final EditText paramNameEditText = (EditText) paramView.findViewById(R.id.function_param_edit_text);
-                    result.add(paramNameEditText.getText().toString());
-                }
-            }
-
-            return result;
-        }
+    private ViewGroup getRowByIndex(int index) {
+        Check.isTrue(index >= 0 && index < getChildCount());
+        return (ViewGroup) getChildAt(index);
     }
 
+    public void removeRow(@Nonnull ViewGroup row) {
+        removeView(row);
+    }
+
+    @Nonnull
+    public List<String> getParams() {
+        final List<String> params = new ArrayList<>(getChildCount());
+
+        for (int i = 1; i < getChildCount(); i++) {
+            final ViewGroup row = getRowByIndex(i);
+            final EditText paramView = (EditText) row.getChildAt(PARAM_VIEW_INDEX);
+            params.add(paramView.getText().toString());
+        }
+
+        return params;
+    }
+
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        final Parcelable superState = super.onSaveInstanceState();
+        return new SavedState(superState, getRowIds());
+    }
+
+    @Nonnull
+    private int[] getRowIds() {
+        final int childCount = getChildCount();
+        final int[] rowIds = new int[childCount - 1];
+        for (int i = 1; i < childCount; i++) {
+            final ViewGroup row = getRowByIndex(i);
+            final EditText paramView = (EditText) row.getChildAt(PARAM_VIEW_INDEX);
+            rowIds[i - 1] = paramView.getId();
+        }
+        return rowIds;
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Parcelable in) {
+        if (!(in instanceof SavedState)) {
+            super.onRestoreInstanceState(in);
+            return;
+        }
+
+        final SavedState state = (SavedState) in;
+        for (int i = 0; i < state.rowIds.length; i++) {
+            final int rowId = state.rowIds[i];
+            addParam(null, rowId);
+            maxRowId = Math.max(maxRowId, rowId + 1);
+        }
+
+        super.onRestoreInstanceState(state.getSuperState());
+    }
+
+    public static final class SavedState extends BaseSavedState {
+
+        public static final Parcelable.Creator<SavedState> CREATOR =
+                new Parcelable.Creator<SavedState>() {
+                    public SavedState createFromParcel(@Nonnull Parcel in) {
+                        return new SavedState(in);
+                    }
+
+                    public SavedState[] newArray(int size) {
+                        return new SavedState[size];
+                    }
+                };
+
+        private int[] rowIds;
+
+        public SavedState(@Nonnull Parcelable superState, int[] rowIds) {
+            super(superState);
+            this.rowIds = rowIds;
+        }
+
+        public SavedState(@Nonnull Parcel in) {
+            super(in);
+            rowIds = in.createIntArray();
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel out, int flags) {
+            super.writeToParcel(out, flags);
+            out.writeIntArray(rowIds);
+        }
+    }
 }

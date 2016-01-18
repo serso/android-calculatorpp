@@ -24,9 +24,7 @@ package org.solovyev.android.calculator.function;
 
 import android.view.View;
 import android.widget.EditText;
-import jscl.CustomFunctionCalculationException;
-import jscl.math.function.Function;
-import jscl.math.function.IFunction;
+
 import org.solovyev.android.calculator.EntitiesRegistry;
 import org.solovyev.android.calculator.FunctionsRegistry;
 import org.solovyev.android.calculator.Locator;
@@ -36,10 +34,15 @@ import org.solovyev.android.calculator.model.AFunction;
 import org.solovyev.common.msg.MessageType;
 import org.solovyev.common.text.Strings;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.List;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import jscl.CustomFunctionCalculationException;
+import jscl.math.function.Function;
+import jscl.math.function.IFunction;
 
 public class FunctionEditorSaver implements View.OnClickListener {
 
@@ -84,7 +87,7 @@ public class FunctionEditorSaver implements View.OnClickListener {
         String description = editDescription.getText().toString();
 
         final FunctionParamsView editParams = (FunctionParamsView) root.findViewById(R.id.function_params);
-        List<String> parameterNames = editParams.getParameterNames();
+        List<String> parameterNames = editParams.getParams();
 
         return EditFunctionFragment.Input.newInstance(function, name, content, description, parameterNames);
     }
