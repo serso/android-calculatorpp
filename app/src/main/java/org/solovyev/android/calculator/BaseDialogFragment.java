@@ -7,9 +7,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import javax.inject.Inject;
 
@@ -55,5 +57,14 @@ public abstract class BaseDialogFragment extends DialogFragment {
     protected static void clearError(@NonNull TextInputLayout textInput) {
         textInput.setError(null);
         textInput.setErrorEnabled(false);
+    }
+
+    protected final void showIme(@NonNull View view) {
+        final FragmentActivity activity = getActivity();
+        if (activity == null) {
+            return;
+        }
+        final InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
     }
 }

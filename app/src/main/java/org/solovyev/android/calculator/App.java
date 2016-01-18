@@ -38,6 +38,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.view.View;
 
 import com.squareup.otto.Bus;
 
@@ -56,7 +57,6 @@ import org.solovyev.android.checkout.Products;
 import org.solovyev.android.checkout.RobotmediaDatabase;
 import org.solovyev.android.checkout.RobotmediaInventory;
 import org.solovyev.android.wizard.Wizards;
-import org.solovyev.common.threads.DelayedExecutor;
 
 import java.util.Arrays;
 import java.util.concurrent.Executor;
@@ -308,5 +308,29 @@ public final class App {
     @Nonnull
     public static Bus getBus() {
         return bus;
+    }
+
+    private static final AtomicInteger sNextViewId = new AtomicInteger(1);
+
+    public static int generateViewId() {
+        Check.isMainThread();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            return View.generateViewId();
+        } else {
+            // Backwards compatible version, as given by fantouchx@gmail.com in
+            // http://stackoverflow.com/questions/6790623/#21000252
+            while (true) {
+                final int result = sNextViewId.get();
+                // aapt-generated IDs have the high byte non-zero. Clamp to the
+                // range below that.
+                int newValue = result + 1;
+                if (newValue > 0x00FFFFFF) {
+                    newValue = 1;
+                }
+                if (sNextViewId.compareAndSet(result, newValue)) {
+                    return result;
+                }
+            }
+        }
     }
 }

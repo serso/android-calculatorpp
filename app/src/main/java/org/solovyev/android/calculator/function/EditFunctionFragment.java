@@ -37,6 +37,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.BaseDialogFragment;
+import org.solovyev.android.calculator.CalculatorEventData;
+import org.solovyev.android.calculator.CalculatorEventListener;
+import org.solovyev.android.calculator.CalculatorEventType;
+import org.solovyev.android.calculator.CalculatorUtils;
+import org.solovyev.android.calculator.DisplayState;
+import org.solovyev.android.calculator.Locator;
+import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.math.edit.CalculatorFunctionsActivity;
+import org.solovyev.android.calculator.math.edit.FunctionsFragment;
+import org.solovyev.android.calculator.math.edit.MathEntityRemover;
+import org.solovyev.android.calculator.math.edit.VarEditorSaver;
+import org.solovyev.android.calculator.model.AFunction;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import jscl.math.Generic;
@@ -44,18 +67,6 @@ import jscl.math.function.Constant;
 import jscl.math.function.CustomFunction;
 import jscl.math.function.Function;
 import jscl.math.function.IFunction;
-import org.solovyev.android.calculator.*;
-import org.solovyev.android.calculator.math.edit.CalculatorFunctionsActivity;
-import org.solovyev.android.calculator.math.edit.FunctionsFragment;
-import org.solovyev.android.calculator.math.edit.MathEntityRemover;
-import org.solovyev.android.calculator.math.edit.VarEditorSaver;
-import org.solovyev.android.calculator.model.AFunction;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 public class EditFunctionFragment extends BaseDialogFragment implements CalculatorEventListener {
 
@@ -122,8 +133,8 @@ public class EditFunctionFragment extends BaseDialogFragment implements Calculat
         dialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface d) {
-                nameView.requestFocus();
                 nameView.selectAll();
+                showIme(nameView);
 
                 final Button ok = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
                 ok.setOnClickListener(new View.OnClickListener() {
@@ -180,9 +191,7 @@ public class EditFunctionFragment extends BaseDialogFragment implements Calculat
         if (savedInstanceState == null) {
             final List<String> parameterNames = input.getParameterNames();
             if (parameterNames != null) {
-                paramsView.init(parameterNames);
-            } else {
-                paramsView.init();
+                paramsView.addParams(parameterNames);
             }
 
             nameView.setText(input.getName());
