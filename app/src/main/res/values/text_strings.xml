@@ -149,6 +149,7 @@
     <string name="c_function_value">Value</string>
     <string name="c_function_description">Description</string>
     <string name="c_function_parameters">Parameters</string>
+    <string name="c_function_parameter">Parameter</string>
     <string name="function_create_function">Create function</string>
     <string name="function_edit_function">Edit function</string>
     <string name="function_name_is_not_valid">Name of function is not valid: name must start with a letter, can contain letters, digits and underscore.</string>

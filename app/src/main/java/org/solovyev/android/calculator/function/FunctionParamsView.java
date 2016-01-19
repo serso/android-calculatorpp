@@ -27,6 +27,8 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.Editable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +40,7 @@ import android.widget.TextView;
 
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -146,6 +149,7 @@ public class FunctionParamsView extends LinearLayout {
         }
         paramView.setInputType(EditorInfo.TYPE_CLASS_TEXT);
         paramView.setId(id);
+        paramView.setHint(R.string.c_function_parameter);
         rowView.addView(paramView, new LayoutParams(0, WRAP_CONTENT, 3));
 
         addView(rowView, new ViewGroup.LayoutParams(MATCH_PARENT, WRAP_CONTENT));
@@ -195,7 +199,10 @@ public class FunctionParamsView extends LinearLayout {
         for (int i = 1; i < getChildCount(); i++) {
             final ViewGroup row = getRowByIndex(i);
             final EditText paramView = (EditText) row.getChildAt(PARAM_VIEW_INDEX);
-            params.add(paramView.getText().toString());
+            final Editable param = paramView.getText();
+            if (!TextUtils.isEmpty(param)) {
+                params.add(param.toString());
+            }
         }
 
         return params;
