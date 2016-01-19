@@ -31,30 +31,21 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.StyleRes;
 import android.util.SparseArray;
 import android.view.ContextThemeWrapper;
-
+import jscl.AngleUnit;
+import jscl.NumeralBase;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.android.calculator.math.MathType;
-import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 import org.solovyev.android.calculator.preferences.PurchaseDialogActivity;
 import org.solovyev.android.calculator.wizard.WizardActivity;
-import org.solovyev.android.prefs.BooleanPreference;
-import org.solovyev.android.prefs.IntegerPreference;
-import org.solovyev.android.prefs.LongPreference;
-import org.solovyev.android.prefs.NumberToStringPreference;
-import org.solovyev.android.prefs.Preference;
-import org.solovyev.android.prefs.StringPreference;
+import org.solovyev.android.prefs.*;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.text.DecimalFormatSymbols;
 import java.util.EnumMap;
 import java.util.Locale;
 import java.util.Map;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import jscl.AngleUnit;
-import jscl.NumeralBase;
 
 import static org.solovyev.android.Android.isPhoneModel;
 import static org.solovyev.android.DeviceModel.samsung_galaxy_s;
@@ -70,7 +61,7 @@ public final class Preferences {
 
     static void setDefaultValues(@Nonnull SharedPreferences preferences) {
 
-        if (!AndroidCalculatorEngine.Preferences.groupingSeparator.isSet(preferences)) {
+        if (!Engine.Preferences.groupingSeparator.isSet(preferences)) {
             final Locale locale = Locale.getDefault();
             if (locale != null) {
                 final DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(locale);
@@ -82,22 +73,22 @@ public final class Preferences {
                     groupingSeparator = " ";
                 }
 
-                AndroidCalculatorEngine.Preferences.groupingSeparator.putPreference(preferences, groupingSeparator);
+                Engine.Preferences.groupingSeparator.putPreference(preferences, groupingSeparator);
             }
         }
 
-        if (!AndroidCalculatorEngine.Preferences.angleUnit.isSet(preferences)) {
-            AndroidCalculatorEngine.Preferences.angleUnit.putDefault(preferences);
+        if (!Engine.Preferences.angleUnit.isSet(preferences)) {
+            Engine.Preferences.angleUnit.putDefault(preferences);
         }
 
-        if (!AndroidCalculatorEngine.Preferences.numeralBase.isSet(preferences)) {
-            AndroidCalculatorEngine.Preferences.numeralBase.putDefault(preferences);
+        if (!Engine.Preferences.numeralBase.isSet(preferences)) {
+            Engine.Preferences.numeralBase.putDefault(preferences);
         }
 
-        if (!AndroidCalculatorEngine.Preferences.multiplicationSign.isSet(preferences)) {
+        if (!Engine.Preferences.multiplicationSign.isSet(preferences)) {
             if (isPhoneModel(samsung_galaxy_s) || isPhoneModel(samsung_galaxy_s_2)) {
                 // workaround ofr samsung galaxy s phones
-                AndroidCalculatorEngine.Preferences.multiplicationSign.putPreference(preferences, "*");
+                Engine.Preferences.multiplicationSign.putPreference(preferences, "*");
             }
         }
 
@@ -247,8 +238,8 @@ public final class Preferences {
         public static final Preference<Boolean> calculateOnFly = BooleanPreference.of("calculations_calculate_on_fly", true);
         public static final Preference<Boolean> showCalculationMessagesDialog = BooleanPreference.of("show_calculation_messages_dialog", true);
 
-        public static final Preference<NumeralBase> preferredNumeralBase = StringPreference.ofEnum("preferred_numeral_base", AndroidCalculatorEngine.Preferences.numeralBase.getDefaultValue(), NumeralBase.class);
-        public static final Preference<AngleUnit> preferredAngleUnits = StringPreference.ofEnum("preferred_angle_units", AndroidCalculatorEngine.Preferences.angleUnit.getDefaultValue(), AngleUnit.class);
+        public static final Preference<NumeralBase> preferredNumeralBase = StringPreference.ofEnum("preferred_numeral_base", Engine.Preferences.numeralBase.getDefaultValue(), NumeralBase.class);
+        public static final Preference<AngleUnit> preferredAngleUnits = StringPreference.ofEnum("preferred_angle_units", Engine.Preferences.angleUnit.getDefaultValue(), AngleUnit.class);
         public static final Preference<Long> lastPreferredPreferencesCheck = LongPreference.of("preferred_preferences_check_time", 0L);
 
     }

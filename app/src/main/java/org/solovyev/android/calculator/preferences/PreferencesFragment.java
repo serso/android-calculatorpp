@@ -22,8 +22,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-import static org.solovyev.android.calculator.model.AndroidCalculatorEngine.Preferences.precision;
-import static org.solovyev.android.calculator.model.AndroidCalculatorEngine.Preferences.roundResult;
+import static org.solovyev.android.calculator.Engine.Preferences.precision;
+import static org.solovyev.android.calculator.Engine.Preferences.roundResult;
 import static org.solovyev.android.calculator.wizard.CalculatorWizards.DEFAULT_WIZARD_FLOW;
 import static org.solovyev.android.wizard.WizardUi.startWizard;
 

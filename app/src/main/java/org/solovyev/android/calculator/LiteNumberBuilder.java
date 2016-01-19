@@ -38,7 +38,7 @@ import jscl.NumeralBase;
 
 public class LiteNumberBuilder extends BaseNumberBuilder {
 
-    public LiteNumberBuilder(@Nonnull CalculatorEngine engine) {
+    public LiteNumberBuilder(@Nonnull Engine engine) {
         super(engine);
         this.nb = engine.getNumeralBase();
     }

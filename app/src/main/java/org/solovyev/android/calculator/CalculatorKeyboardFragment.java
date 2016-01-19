@@ -34,8 +34,8 @@ import javax.annotation.Nonnull;
 import static org.solovyev.android.calculator.NumeralBaseButtons.toggleNumericDigits;
 import static org.solovyev.android.calculator.Preferences.Gui.hideNumeralBaseDigits;
 import static org.solovyev.android.calculator.Preferences.Gui.showEqualsButton;
-import static org.solovyev.android.calculator.model.AndroidCalculatorEngine.Preferences.multiplicationSign;
-import static org.solovyev.android.calculator.model.AndroidCalculatorEngine.Preferences.numeralBase;
+import static org.solovyev.android.calculator.Engine.Preferences.multiplicationSign;
+import static org.solovyev.android.calculator.Engine.Preferences.numeralBase;
 
 /**
  * User: Solovyev_S

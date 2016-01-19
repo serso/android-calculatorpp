@@ -22,40 +22,34 @@
 
 package org.solovyev.android.calculator;
 
+import jscl.math.operator.Operator;
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathRegistry;
 
+import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.annotation.Nonnull;
-
-import jscl.math.operator.Operator;
-
-/**
- * User: serso
- * Date: 11/19/11
- * Time: 1:48 PM
- */
-public class CalculatorPostfixFunctionsRegistry extends BaseEntitiesRegistry<Operator, MathPersistenceEntity> {
+public class OperatorsRegistry extends BaseEntitiesRegistry<Operator, MathPersistenceEntity> {
 
     @Nonnull
     private static final Map<String, String> substitutes = new HashMap<String, String>();
     @Nonnull
-    private static final String POSTFIX_FUNCTION_DESCRIPTION_PREFIX = "c_pf_description_";
+    private static final String OPERATOR_DESCRIPTION_PREFIX = "c_op_description_";
 
     static {
-        substitutes.put("%", "percent");
-        substitutes.put("!", "factorial");
-        substitutes.put("!!", "double_factorial");
-        substitutes.put("°", "degree");
+        substitutes.put("Σ", "sum");
+        substitutes.put("∏", "product");
+        substitutes.put("∂", "derivative");
+        substitutes.put("∫ab", "integral_ab");
+        substitutes.put("∫", "integral");
+        substitutes.put("Σ", "sum");
     }
 
-    public CalculatorPostfixFunctionsRegistry(@Nonnull MathRegistry<Operator> functionsRegistry,
-                                              @Nonnull MathEntityDao<MathPersistenceEntity> mathEntityDao) {
-        super(functionsRegistry, POSTFIX_FUNCTION_DESCRIPTION_PREFIX, mathEntityDao);
+    public OperatorsRegistry(@Nonnull MathRegistry<Operator> functionsRegistry,
+                             @Nonnull MathEntityDao<MathPersistenceEntity> mathEntityDao) {
+        super(functionsRegistry, OPERATOR_DESCRIPTION_PREFIX, mathEntityDao);
     }
-
 
     @Nonnull
     @Override
@@ -81,7 +75,7 @@ public class CalculatorPostfixFunctionsRegistry extends BaseEntitiesRegistry<Ope
     @Nonnull
     @Override
     protected JBuilder<? extends Operator> createBuilder(@Nonnull MathPersistenceEntity entity) {
-        throw new UnsupportedOperationException();
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
@@ -91,12 +85,21 @@ public class CalculatorPostfixFunctionsRegistry extends BaseEntitiesRegistry<Ope
 
     @Override
     protected MathPersistenceEntity transform(@Nonnull Operator entity) {
-        return null;
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Nonnull
     @Override
     protected MathEntityPersistenceContainer<MathPersistenceEntity> createPersistenceContainer() {
-        throw new UnsupportedOperationException();
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
+
+	/*
+    **********************************************************************
+	*
+	*                           STATIC
+	*
+	**********************************************************************
+	*/
+
 }

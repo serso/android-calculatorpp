@@ -22,6 +22,7 @@
 
 package org.solovyev.android.calculator;
 
+import jscl.math.function.IConstant;
 import org.solovyev.android.calculator.model.MathEntityBuilder;
 import org.solovyev.android.calculator.model.Var;
 import org.solovyev.android.calculator.model.Vars;
@@ -29,20 +30,12 @@ import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.math.MathRegistry;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import jscl.math.function.IConstant;
-
-/**
- * User: serso
- * Date: 9/29/11
- * Time: 4:57 PM
- */
-public class CalculatorVarsRegistry extends BaseEntitiesRegistry<IConstant, Var> {
+public class VarsRegistry extends BaseEntitiesRegistry<IConstant, Var> {
 
     @Nonnull
     public static final String ANS = "ans";
@@ -58,8 +51,8 @@ public class CalculatorVarsRegistry extends BaseEntitiesRegistry<IConstant, Var>
         substitutes.put("NaN", "nan");
     }
 
-    public CalculatorVarsRegistry(@Nonnull MathRegistry<IConstant> mathRegistry,
-                                  @Nonnull MathEntityDao<Var> mathEntityDao) {
+    public VarsRegistry(@Nonnull MathRegistry<IConstant> mathRegistry,
+                        @Nonnull MathEntityDao<Var> mathEntityDao) {
         super(mathRegistry, "c_var_description_", mathEntityDao);
     }
 
@@ -93,12 +86,6 @@ public class CalculatorVarsRegistry extends BaseEntitiesRegistry<IConstant, Var>
         tryToAddAuxVar("y");
         tryToAddAuxVar("t");
         tryToAddAuxVar("j");
-
-
-		/*Log.d(AndroidVarsRegistry.class.getName(), vars.size() + " variables registered!");
-        for (Var var : vars) {
-			Log.d(AndroidVarsRegistry.class.getName(), var.toString());
-		}*/
     }
 
 

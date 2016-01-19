@@ -24,14 +24,13 @@ package org.solovyev.android.calculator;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import jscl.NumeralBase;
 
 import javax.annotation.Nonnull;
 
-import jscl.NumeralBase;
-
 import static jscl.NumeralBase.hex;
+import static org.solovyev.android.calculator.Engine.Preferences.numeralBase;
 import static org.solovyev.android.calculator.Preferences.Gui.hideNumeralBaseDigits;
-import static org.solovyev.android.calculator.model.AndroidCalculatorEngine.Preferences.numeralBase;
 
 /**
  * User: serso

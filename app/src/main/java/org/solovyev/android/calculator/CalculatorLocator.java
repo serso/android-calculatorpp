@@ -29,7 +29,7 @@ import javax.annotation.Nonnull;
 public interface CalculatorLocator {
 
     void init(@Nonnull Calculator calculator,
-              @Nonnull CalculatorEngine engine,
+              @Nonnull Engine engine,
               @Nonnull CalculatorClipboard clipboard,
               @Nonnull CalculatorNotifier notifier,
               @Nonnull ErrorReporter errorReporter,
@@ -41,7 +41,7 @@ public interface CalculatorLocator {
     Calculator getCalculator();
 
     @Nonnull
-    CalculatorEngine getEngine();
+    Engine getEngine();
 
     @Nonnull
     Keyboard getKeyboard();

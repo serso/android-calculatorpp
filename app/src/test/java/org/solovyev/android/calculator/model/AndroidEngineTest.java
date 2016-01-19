@@ -53,7 +53,7 @@ import static org.junit.Assert.fail;
  */
 
 @SuppressWarnings("deprecation")
-public class AndroidCalculatorEngineTest extends AbstractCalculatorTest {
+public class AndroidEngineTest extends AbstractCalculatorTest {
 
     @BeforeClass
     public static void staticSetUp() throws Exception {
@@ -64,7 +64,7 @@ public class AndroidCalculatorEngineTest extends AbstractCalculatorTest {
 
     @Test
     public void testDegrees() throws Exception {
-        final MathEngine cm = Locator.getInstance().getEngine().getMathEngine0();
+        final MathEngine cm = Locator.getInstance().getEngine().getMathEngine();
 
         final AngleUnit defaultAngleUnit = cm.getAngleUnits();
         try {
@@ -85,7 +85,7 @@ public class AndroidCalculatorEngineTest extends AbstractCalculatorTest {
 
     @Test
     public void testFormatting() throws Exception {
-        final MathEngine ce = Locator.getInstance().getEngine().getMathEngine0();
+        final MathEngine ce = Locator.getInstance().getEngine().getMathEngine();
 
         CalculatorTestUtils.assertEval("12 345", ce.simplify("12345"));
 
@@ -93,7 +93,7 @@ public class AndroidCalculatorEngineTest extends AbstractCalculatorTest {
 
     @Test
     public void testI() throws ParseException, CalculatorEvalException {
-        final MathEngine cm = Locator.getInstance().getEngine().getMathEngine0();
+        final MathEngine cm = Locator.getInstance().getEngine().getMathEngine();
 
         CalculatorTestUtils.assertEval("-i", cm.evaluate("i^3"));
         for (int i = 0; i < 1000; i++) {
@@ -118,7 +118,7 @@ public class AndroidCalculatorEngineTest extends AbstractCalculatorTest {
 
     @Test
     public void testEmptyFunction() throws Exception {
-        final MathEngine cm = Locator.getInstance().getEngine().getMathEngine0();
+        final MathEngine cm = Locator.getInstance().getEngine().getMathEngine();
         try {
             cm.evaluate("cos(cos(cos(cos(acos(acos(acos(acos(acos(acos(acos(acos(cos(cos(cos(cos(cosh(acos(cos(cos(cos(cos(cos(acos(acos(acos(acos(acos(acos(acos(acos(cos(cos(cos(cos(cosh(acos(cos())))))))))))))))))))))))))))))))))))))");
             Assert.fail();
@@ -147,7 +147,7 @@ public class AndroidCalculatorEngineTest extends AbstractCalculatorTest {
 
     @Test
     public void testRounding() throws Exception {
-        final MathEngine cm = Locator.getInstance().getEngine().getMathEngine0();
+        final MathEngine cm = Locator.getInstance().getEngine().getMathEngine();
 
         try {
             DecimalFormatSymbols decimalGroupSymbols = new DecimalFormatSymbols(Locale.getDefault());
@@ -171,7 +171,7 @@ public class AndroidCalculatorEngineTest extends AbstractCalculatorTest {
 
     @Test
     public void testNumeralSystems() throws Exception {
-        final MathEngine cm = Locator.getInstance().getEngine().getMathEngine0();
+        final MathEngine cm = Locator.getInstance().getEngine().getMathEngine();
 
         CalculatorTestUtils.assertEval("11 259 375", "0x:ABCDEF");
         CalculatorTestUtils.assertEval("30 606 154.462", "0x:ABCDEF*e");
@@ -200,7 +200,7 @@ public class AndroidCalculatorEngineTest extends AbstractCalculatorTest {
 
     @Test
     public void testLog() throws Exception {
-        final MathEngine cm = Locator.getInstance().getEngine().getMathEngine0();
+        final MathEngine cm = Locator.getInstance().getEngine().getMathEngine();
 
         CalculatorTestUtils.assertEval("∞", Expression.valueOf("1/0").numeric().toString());
         CalculatorTestUtils.assertEval("∞", Expression.valueOf("ln(10)/ln(1)").numeric().toString());

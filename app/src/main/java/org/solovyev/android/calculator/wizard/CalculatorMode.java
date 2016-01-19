@@ -23,14 +23,12 @@
 package org.solovyev.android.calculator.wizard;
 
 import android.content.SharedPreferences;
-
+import jscl.AngleUnit;
+import org.solovyev.android.calculator.Engine;
 import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.R;
-import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 
 import javax.annotation.Nonnull;
-
-import jscl.AngleUnit;
 
 import static org.solovyev.android.calculator.Preferences.Gui.Layout.main_calculator;
 import static org.solovyev.android.calculator.Preferences.Gui.Layout.main_calculator_mobile;
@@ -52,9 +50,9 @@ enum CalculatorMode {
                 Preferences.Gui.layout.putPreference(preferences, Preferences.Gui.Layout.simple_mobile);
             }
             Preferences.Calculations.preferredAngleUnits.putPreference(preferences, AngleUnit.deg);
-            AndroidCalculatorEngine.Preferences.angleUnit.putPreference(preferences, AngleUnit.deg);
-            AndroidCalculatorEngine.Preferences.scienceNotation.putPreference(preferences, false);
-            AndroidCalculatorEngine.Preferences.roundResult.putPreference(preferences, true);
+            Engine.Preferences.angleUnit.putPreference(preferences, AngleUnit.deg);
+            Engine.Preferences.scienceNotation.putPreference(preferences, false);
+            Engine.Preferences.roundResult.putPreference(preferences, true);
         }
     },
 
@@ -68,9 +66,9 @@ enum CalculatorMode {
                 Preferences.Gui.layout.putPreference(preferences, main_calculator_mobile);
             }
             Preferences.Calculations.preferredAngleUnits.putPreference(preferences, AngleUnit.rad);
-            AndroidCalculatorEngine.Preferences.angleUnit.putPreference(preferences, AngleUnit.rad);
-            AndroidCalculatorEngine.Preferences.scienceNotation.putPreference(preferences, true);
-            AndroidCalculatorEngine.Preferences.roundResult.putPreference(preferences, false);
+            Engine.Preferences.angleUnit.putPreference(preferences, AngleUnit.rad);
+            Engine.Preferences.scienceNotation.putPreference(preferences, true);
+            Engine.Preferences.roundResult.putPreference(preferences, false);
         }
     };
 

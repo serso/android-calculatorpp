@@ -37,6 +37,7 @@ import org.solovyev.common.text.Strings;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -76,11 +77,11 @@ public class FunctionsRegistry extends BaseEntitiesRegistry<Function, AFunction>
     @Override
     public void load() {
         add(new CustomFunction.Builder(true, "log", Arrays.asList("base", "x"), "ln(x)/ln(base)"));
-        add(new CustomFunction.Builder(true, "√3", Arrays.asList("x"), "x^(1/3)"));
-        add(new CustomFunction.Builder(true, "√4", Arrays.asList("x"), "x^(1/4)"));
+        add(new CustomFunction.Builder(true, "√3", Collections.singletonList("x"), "x^(1/3)"));
+        add(new CustomFunction.Builder(true, "√4", Collections.singletonList("x"), "x^(1/4)"));
         add(new CustomFunction.Builder(true, "√n", Arrays.asList("x", "n"), "x^(1/n)"));
-        add(new CustomFunction.Builder(true, "re", Arrays.asList("x"), "(x+conjugate(x))/2"));
-        add(new CustomFunction.Builder(true, "im", Arrays.asList("x"), "(x-conjugate(x))/(2*i)"));
+        add(new CustomFunction.Builder(true, "re", Collections.singletonList("x"), "(x+conjugate(x))/2"));
+        add(new CustomFunction.Builder(true, "im", Collections.singletonList("x"), "(x-conjugate(x))/(2*i)"));
 
         super.load();
     }

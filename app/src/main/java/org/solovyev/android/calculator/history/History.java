@@ -34,7 +34,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.*;
-import org.solovyev.android.calculator.model.AndroidCalculatorEngine.Preferences;
+import org.solovyev.android.calculator.Engine.Preferences;
 import org.solovyev.android.io.FileLoader;
 import org.solovyev.android.io.FileSaver;
 

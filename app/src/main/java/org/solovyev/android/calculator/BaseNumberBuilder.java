@@ -40,7 +40,7 @@ import jscl.NumeralBase;
 public abstract class BaseNumberBuilder {
 
     @Nonnull
-    protected final CalculatorEngine engine;
+    protected final Engine engine;
 
     @Nullable
     protected StringBuilder numberBuilder = null;
@@ -48,7 +48,7 @@ public abstract class BaseNumberBuilder {
     @Nullable
     protected NumeralBase nb;
 
-    protected BaseNumberBuilder(@Nonnull CalculatorEngine engine) {
+    protected BaseNumberBuilder(@Nonnull Engine engine) {
         this.engine = engine;
         this.nb = engine.getNumeralBase();
     }
