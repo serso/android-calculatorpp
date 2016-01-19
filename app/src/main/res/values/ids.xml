@@ -60,5 +60,17 @@
     <item name="acl_wizard_prev_button" type="id" />
     <item name="acl_wizard_next_button" type="id" />
     <item name="acl_wizard_content" type="id" />
+    <item name="cpp_kb_button_multiply" type="id" />
+    <item name="cpp_kb_button_clear" type="id" />
+    <item name="cpp_kb_button_divide" type="id" />
+    <item name="cpp_kb_button_backspace" type="id" />
+    <item name="cpp_kb_button_plus" type="id" />
+    <item name="cpp_kb_button_space" type="id" />
+    <item name="cpp_kb_button_brackets" type="id" />
+    <item name="cpp_kb_button_minus" type="id" />
+    <item name="cpp_kb_button_keyboard" type="id" />
+    <item name="cpp_kb_button_functions" type="id" />
+    <item name="cpp_kb_button_constants" type="id" />
+    <item name="cpp_kb_button_close" type="id" />
 
 </resources>

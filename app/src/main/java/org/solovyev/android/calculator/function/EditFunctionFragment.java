@@ -22,9 +22,11 @@
 
 package org.solovyev.android.calculator.function;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -33,8 +35,15 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.view.ContextMenu;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -45,6 +54,8 @@ import org.solovyev.android.calculator.CalculatorEventListener;
 import org.solovyev.android.calculator.CalculatorEventType;
 import org.solovyev.android.calculator.CalculatorUtils;
 import org.solovyev.android.calculator.DisplayState;
+import org.solovyev.android.calculator.KeyboardUi;
+import org.solovyev.android.calculator.KeyboardWindow;
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.math.edit.CalculatorFunctionsActivity;
@@ -52,8 +63,10 @@ import org.solovyev.android.calculator.math.edit.FunctionsFragment;
 import org.solovyev.android.calculator.math.edit.MathEntityRemover;
 import org.solovyev.android.calculator.math.edit.VarEditorSaver;
 import org.solovyev.android.calculator.model.AFunction;
+import org.solovyev.common.math.MathRegistry;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -66,11 +79,23 @@ import jscl.math.Generic;
 import jscl.math.function.Constant;
 import jscl.math.function.CustomFunction;
 import jscl.math.function.Function;
+import jscl.math.function.IConstant;
 import jscl.math.function.IFunction;
 
-public class EditFunctionFragment extends BaseDialogFragment implements CalculatorEventListener {
+public class EditFunctionFragment extends BaseDialogFragment implements CalculatorEventListener, View.OnClickListener, View.OnFocusChangeListener, View.OnKeyListener {
 
     private static final String ARG_INPUT = "input";
+    private static final int MENU_FUNCTION = Menu.FIRST;
+    private static final int MENU_CONSTANT = Menu.FIRST + 1;
+
+    @NonNull
+    private final MathRegistry<Function> functionsRegistry = Locator.getInstance().getEngine().getFunctionsRegistry();
+    @NonNull
+    private final MathRegistry<IConstant> constantsRegistry = Locator.getInstance().getEngine().getVarsRegistry();
+    @NonNull
+    private final KeyboardWindow keyboardWindow = new KeyboardWindow();
+    @NonNull
+    private final KeyboardUser keyboardUser = new KeyboardUser();
     @Bind(R.id.function_params)
     FunctionParamsView paramsView;
     @Bind(R.id.function_name_label)
@@ -120,7 +145,7 @@ public class EditFunctionFragment extends BaseDialogFragment implements Calculat
         builder.setPositiveButton(R.string.ok, null);
         final AFunction function = input.getFunction();
         builder.setTitle(function == null ? R.string.function_create_function : R.string.function_edit_function);
-        if(function != null) {
+        if (function != null) {
             builder.setNeutralButton(R.string.c_remove, null);
         }
     }
@@ -154,6 +179,34 @@ public class EditFunctionFragment extends BaseDialogFragment implements Calculat
         return dialog;
     }
 
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        if (v.getId() == R.id.function_body) {
+            if (hasFocus) {
+                keyboardWindow.show(keyboardUser, getDialog(), paramsView.getParams());
+            } else {
+                keyboardWindow.hide();
+            }
+        }
+    }
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.function_body) {
+            keyboardWindow.show(keyboardUser, getDialog(), paramsView.getParams());
+        }
+    }
+
+    @Override
+    public boolean onKey(View v, int keyCode, KeyEvent event) {
+        if (v.getId() == R.id.function_body) {
+            if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK && keyboardWindow.isShown()) {
+                keyboardWindow.hide();
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void tryClose() {
         if (validate()) {
             applyData();
@@ -169,6 +222,9 @@ public class EditFunctionFragment extends BaseDialogFragment implements Calculat
         if (!validateName()) {
             return false;
         }
+        if (!validateBody()) {
+            return false;
+        }
         return true;
     }
 
@@ -182,6 +238,11 @@ public class EditFunctionFragment extends BaseDialogFragment implements Calculat
         return true;
     }
 
+    private boolean validateBody() {
+        return true;
+    }
+
+    @SuppressLint("InflateParams")
     @NonNull
     @Override
     protected View onCreateDialogView(@NonNull Context context, @NonNull LayoutInflater inflater, @Nullable Bundle savedInstanceState) {
@@ -198,6 +259,9 @@ public class EditFunctionFragment extends BaseDialogFragment implements Calculat
             descriptionView.setText(input.getDescription());
             bodyView.setText(input.getContent());
         }
+        bodyView.setOnClickListener(this);
+        bodyView.setOnFocusChangeListener(this);
+        bodyView.setOnKeyListener(this);
 
         return view;
     }
@@ -275,7 +339,7 @@ public class EditFunctionFragment extends BaseDialogFragment implements Calculat
             result.content = in.readString();
             result.description = in.readString();
 
-            final List<String> parameterNames = new ArrayList<String>();
+            final List<String> parameterNames = new ArrayList<>();
             in.readTypedList(parameterNames, STRING_CREATOR);
             result.parameterNames = parameterNames;
 
@@ -310,7 +374,7 @@ public class EditFunctionFragment extends BaseDialogFragment implements Calculat
             result.name = name;
             result.content = value;
             result.description = description;
-            result.parameterNames = new ArrayList<String>(parameterNames);
+            result.parameterNames = new ArrayList<>(parameterNames);
 
             return result;
         }
@@ -323,7 +387,7 @@ public class EditFunctionFragment extends BaseDialogFragment implements Calculat
             final Generic generic = viewState.getResult();
             if (generic != null) {
                 final Set<Constant> constants = CalculatorUtils.getNotSystemConstants(generic);
-                final List<String> parameterNames = new ArrayList<String>(constants.size());
+                final List<String> parameterNames = new ArrayList<>(constants.size());
                 for (Constant constant : constants) {
                     parameterNames.add(constant.getName());
                 }
@@ -370,6 +434,163 @@ public class EditFunctionFragment extends BaseDialogFragment implements Calculat
             out.writeString(description);
             out.writeList(parameterNames);
             out.writeSerializable(function);
+        }
+    }
+
+    private class KeyboardUser implements KeyboardUi.User, MenuItem.OnMenuItemClickListener {
+        @NonNull
+        @Override
+        public Context getContext() {
+            return getActivity();
+        }
+
+        @NonNull
+        @Override
+        public Resources getResources() {
+            return EditFunctionFragment.this.getResources();
+        }
+
+        @NonNull
+        @Override
+        public EditText getEditor() {
+            return bodyView;
+        }
+
+        @NonNull
+        @Override
+        public ViewGroup getKeyboard() {
+            return keyboardWindow.getContentView();
+        }
+
+        @Override
+        public void insertOperator(char operator) {
+            insertOperator(String.valueOf(operator));
+        }
+
+        public int clampSelection(int selection) {
+            return selection < 0 ? 0 : selection;
+        }
+
+        @Override
+        public void insertOperator(@NonNull String operator) {
+            final int start = clampSelection(bodyView.getSelectionStart());
+            final int end = clampSelection(bodyView.getSelectionEnd());
+            final Editable e = bodyView.getText();
+            e.replace(start, end, getOperator(start, end, e, operator));
+        }
+
+        @NonNull
+        private String getOperator(int start, int end, @NonNull Editable e, @NonNull CharSequence operator) {
+            boolean spaceBefore = true;
+            boolean spaceAfter = true;
+            if (start > 0 && Character.isSpaceChar(e.charAt(start - 1))) {
+                spaceBefore = false;
+            }
+            if (end < e.length() && Character.isSpaceChar(e.charAt(end))) {
+                spaceAfter = false;
+            }
+
+            if (spaceBefore && spaceAfter) {
+                return " " + operator + " ";
+            }
+            if (spaceBefore) {
+                return " " + operator;
+            }
+            if (spaceAfter) {
+                return operator + " ";
+            }
+            return String.valueOf(operator);
+        }
+
+        @Override
+        public void showConstants(@NonNull View v) {
+            bodyView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
+                @Override
+                public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+                    final int id = v.getId();
+                    if (id == R.id.function_body) {
+                        menu.clear();
+                        for (String constant : getNamesSorted(constantsRegistry)) {
+                            menu.add(MENU_CONSTANT, Menu.NONE, Menu.NONE, constant).setOnMenuItemClickListener(KeyboardUser.this);
+                        }
+                        unregisterForContextMenu(bodyView);
+                    }
+                }
+            });
+            bodyView.showContextMenu();
+        }
+
+        @Nonnull
+        private List<String> getNamesSorted(@NonNull MathRegistry<?> registry) {
+            final List<String> names = registry.getNames();
+            Collections.sort(names);
+            return names;
+        }
+
+        @Override
+        public void showFunctions(@NonNull View v) {
+            bodyView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
+                @Override
+                public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+                    final int id = v.getId();
+                    if (id == R.id.function_body) {
+                        menu.clear();
+                        for (String function : getNamesSorted(functionsRegistry)) {
+                            menu.add(MENU_FUNCTION, Menu.NONE, Menu.NONE, function).setOnMenuItemClickListener(KeyboardUser.this);
+                        }
+                        unregisterForContextMenu(bodyView);
+                    }
+                }
+            });
+            bodyView.showContextMenu();
+        }
+
+        @Override
+        public void insertText(@NonNull CharSequence text, int selectionOffset) {
+            final int start = clampSelection(bodyView.getSelectionStart());
+            final int end = clampSelection(bodyView.getSelectionEnd());
+            final Editable e = bodyView.getText();
+            e.replace(start, end, text);
+            if (selectionOffset != 0) {
+                final int selection = clampSelection(bodyView.getSelectionEnd());
+                final int newSelection = selection + selectionOffset;
+                if (newSelection >= 0 && newSelection < e.length()) {
+                    bodyView.setSelection(newSelection);
+                }
+            }
+        }
+
+        @Override
+        public void done() {
+            keyboardWindow.hide();
+            validateBody();
+        }
+
+        @Override
+        public void showIme() {
+            final InputMethodManager keyboard = (InputMethodManager)
+                    getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            keyboard.showSoftInput(getEditor(), InputMethodManager.SHOW_FORCED);
+            keyboardWindow.hide();
+        }
+
+        @Override
+        public boolean onMenuItemClick(MenuItem item) {
+            final int groupId = item.getGroupId();
+            final CharSequence title = item.getTitle();
+            if (groupId == MENU_FUNCTION) {
+                final int argsListIndex = title.toString().indexOf("(");
+                if (argsListIndex < 0) {
+                    keyboardUser.insertText(title + "()", -1);
+                } else {
+                    keyboardUser.insertText(title.subSequence(0, argsListIndex) + "()", -1);
+                }
+            } else if (groupId == MENU_CONSTANT) {
+                keyboardUser.insertText(title.toString(), 0);
+            } else {
+                return false;
+            }
+            return true;
         }
     }
 }

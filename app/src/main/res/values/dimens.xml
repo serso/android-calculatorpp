@@ -39,4 +39,5 @@
     <dimen name="cpp_onscreen_main_padding">1dp</dimen>
 
     <dimen name="cpp_dialog_spacing">20dp</dimen>
+    <dimen name="cpp_kb_button_size">50dp</dimen>
 </resources>
