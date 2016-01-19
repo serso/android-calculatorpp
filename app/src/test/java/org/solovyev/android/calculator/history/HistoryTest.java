@@ -24,9 +24,7 @@ package org.solovyev.android.calculator.history;
 
 import android.content.SharedPreferences;
 import android.os.Handler;
-
 import com.squareup.otto.Bus;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,27 +32,17 @@ import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 import org.solovyev.android.CalculatorTestRunner;
-import org.solovyev.android.calculator.BuildConfig;
-import org.solovyev.android.calculator.Display;
-import org.solovyev.android.calculator.DisplayState;
-import org.solovyev.android.calculator.Editor;
-import org.solovyev.android.calculator.EditorState;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 
+import javax.annotation.Nonnull;
 import java.io.File;
 import java.util.List;
 
-import javax.annotation.Nonnull;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.Assert.*;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import static org.solovyev.android.calculator.model.AndroidCalculatorEngine.Preferences.groupingSeparator;
+import static org.mockito.Mockito.*;
+import static org.solovyev.android.calculator.Engine.Preferences.groupingSeparator;
 
 @Config(constants = BuildConfig.class, sdk = CalculatorTestRunner.SUPPORTED_SDK)
 @RunWith(RobolectricGradleTestRunner.class)

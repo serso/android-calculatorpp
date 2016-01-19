@@ -33,9 +33,9 @@ import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-
+import jscl.AngleUnit;
+import jscl.NumeralBase;
 import org.solovyev.android.Views;
-import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 import org.solovyev.android.calculator.view.AngleUnitsButton;
 import org.solovyev.android.calculator.view.NumeralBasesButton;
 import org.solovyev.android.calculator.view.ScreenMetrics;
@@ -45,9 +45,6 @@ import org.solovyev.android.views.dragbutton.SimpleDragListener;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import jscl.AngleUnit;
-import jscl.NumeralBase;
 
 public final class CalculatorButtons {
 
@@ -178,7 +175,7 @@ public final class CalculatorButtons {
 
                             final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-                            final AngleUnit oldAngleUnits = AndroidCalculatorEngine.Preferences.angleUnit.getPreference(preferences);
+                            final AngleUnit oldAngleUnits = Engine.Preferences.angleUnit.getPreference(preferences);
                             if (oldAngleUnits != angleUnits) {
                                 Locator.getInstance().getPreferenceService().setAngleUnits(angleUnits);
                             }
@@ -218,7 +215,7 @@ public final class CalculatorButtons {
 
                         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-                        final NumeralBase oldNumeralBase = AndroidCalculatorEngine.Preferences.numeralBase.getPreference(preferences);
+                        final NumeralBase oldNumeralBase = Engine.Preferences.numeralBase.getPreference(preferences);
                         if (oldNumeralBase != numeralBase) {
                             Locator.getInstance().getPreferenceService().setNumeralBase(numeralBase);
                         }

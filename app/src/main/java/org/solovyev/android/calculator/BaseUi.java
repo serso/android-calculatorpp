@@ -56,8 +56,8 @@ import javax.inject.Inject;
 
 import static org.solovyev.android.calculator.Preferences.Gui.Layout.simple;
 import static org.solovyev.android.calculator.Preferences.Gui.Layout.simple_mobile;
-import static org.solovyev.android.calculator.model.AndroidCalculatorEngine.Preferences.angleUnit;
-import static org.solovyev.android.calculator.model.AndroidCalculatorEngine.Preferences.numeralBase;
+import static org.solovyev.android.calculator.Engine.Preferences.angleUnit;
+import static org.solovyev.android.calculator.Engine.Preferences.numeralBase;
 
 public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChangeListener {
 

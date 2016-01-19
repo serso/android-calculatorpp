@@ -42,7 +42,7 @@ import java.util.List;
  */
 public class NumberBuilder extends BaseNumberBuilder {
 
-    public NumberBuilder(@Nonnull CalculatorEngine engine) {
+    public NumberBuilder(@Nonnull Engine engine) {
         super(engine);
     }
 
@@ -183,7 +183,7 @@ public class NumberBuilder extends BaseNumberBuilder {
                 }
 
                 // check if number still valid
-                toDouble(number, getNumeralBase(), engine.getEngine());
+                toDouble(number, getNumeralBase(), engine.getMathEngine());
 
             } catch (NumberFormatException e) {
                 // number is not valid => stop
@@ -196,6 +196,6 @@ public class NumberBuilder extends BaseNumberBuilder {
             nb = engine.getNumeralBase();
         }
 
-        return replaceNumberInText(sb, number, trimmedChars, localNb, engine.getEngine());
+        return replaceNumberInText(sb, number, trimmedChars, localNb, engine.getMathEngine());
     }
 }

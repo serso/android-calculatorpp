@@ -255,10 +255,10 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 
                 try {
 
-                    final MathEngine mathEngine = Locator.getInstance().getEngine().getEngine();
+                    final MathEngine mathEngine = Locator.getInstance().getEngine().getMathEngine();
 
                     final MessageRegistry messageRegistry = new ListMessageRegistry();
-                    Locator.getInstance().getEngine().getEngine().setMessageRegistry(messageRegistry);
+                    Locator.getInstance().getEngine().getMathEngine().setMessageRegistry(messageRegistry);
 
                     final Generic result = operation.evaluateGeneric(jsclExpression, mathEngine);
 
@@ -496,14 +496,14 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
             return;
         }
         final EntitiesRegistry<IConstant> varsRegistry = Locator.getInstance().getEngine().getVarsRegistry();
-        final IConstant ansVar = varsRegistry.get(CalculatorVarsRegistry.ANS);
+        final IConstant ansVar = varsRegistry.get(VarsRegistry.ANS);
 
         final Var.Builder builder = ansVar != null ? new Var.Builder(ansVar) : new Var.Builder();
-        builder.setName(CalculatorVarsRegistry.ANS);
+        builder.setName(VarsRegistry.ANS);
         builder.setValue(text);
         builder.setDescription(CalculatorMessages.getBundle().getString(CalculatorMessages.ans_description));
 
-        CalculatorVarsRegistry.saveVariable(varsRegistry, builder, ansVar, this, false);
+        VarsRegistry.saveVariable(varsRegistry, builder, ansVar, this, false);
     }
 
     @Override
@@ -512,7 +512,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
         switch (calculatorEventType) {
             case constant_changed:
                 final IConstant newConstant = ((Change<IConstant>) data).getNewValue();
-                if (!newConstant.getName().equals(CalculatorVarsRegistry.ANS)) {
+                if (!newConstant.getName().equals(VarsRegistry.ANS)) {
                     evaluate();
                 }
                 break;

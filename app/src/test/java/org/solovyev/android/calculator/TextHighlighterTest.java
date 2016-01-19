@@ -23,7 +23,8 @@
 package org.solovyev.android.calculator;
 
 import android.graphics.Color;
-
+import jscl.MathEngine;
+import jscl.NumeralBase;
 import org.junit.Before;
 import org.junit.Test;
 import org.solovyev.android.calculator.text.TextProcessor;
@@ -32,12 +33,7 @@ import org.solovyev.android.calculator.view.TextHighlighter;
 import java.util.Date;
 import java.util.Random;
 
-import jscl.MathEngine;
-import jscl.NumeralBase;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * User: serso
@@ -119,7 +115,7 @@ public class TextHighlighterTest {
         assertEquals("<b>0x:</b>FF33233FFE", textHighlighter.process("0x:FF33233FFE").toString());
         assertEquals("<b>0x:</b>FF33 233 FFE", textHighlighter.process("0x:FF33 233 FFE").toString());
 
-        final MathEngine me = Locator.getInstance().getEngine().getMathEngine0();
+        final MathEngine me = Locator.getInstance().getEngine().getMathEngine();
         try {
             me.setNumeralBase(NumeralBase.hex);
             assertEquals("E", textHighlighter.process("E").toString());

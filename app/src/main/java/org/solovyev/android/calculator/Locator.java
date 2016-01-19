@@ -31,7 +31,7 @@ public class Locator implements CalculatorLocator {
     @Nonnull
     private static final Locator instance = new Locator();
     @Nonnull
-    private CalculatorEngine calculatorEngine;
+    private Engine engine;
     @Nonnull
     private Calculator calculator;
     @Nonnull
@@ -58,7 +58,7 @@ public class Locator implements CalculatorLocator {
 
     @Override
     public void init(@Nonnull Calculator calculator,
-                     @Nonnull CalculatorEngine engine,
+                     @Nonnull Engine engine,
                      @Nonnull CalculatorClipboard clipboard,
                      @Nonnull CalculatorNotifier notifier,
                      @Nonnull ErrorReporter errorReporter,
@@ -67,7 +67,7 @@ public class Locator implements CalculatorLocator {
                      @Nonnull CalculatorPlotter plotter) {
 
         this.calculator = calculator;
-        this.calculatorEngine = engine;
+        this.engine = engine;
         this.calculatorClipboard = clipboard;
         this.calculatorNotifier = notifier;
         this.errorReporter = errorReporter;
@@ -79,8 +79,8 @@ public class Locator implements CalculatorLocator {
 
     @Nonnull
     @Override
-    public CalculatorEngine getEngine() {
-        return calculatorEngine;
+    public Engine getEngine() {
+        return engine;
     }
 
     @Nonnull

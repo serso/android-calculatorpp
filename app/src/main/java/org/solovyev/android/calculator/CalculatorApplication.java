@@ -36,7 +36,6 @@ import org.solovyev.android.Android;
 import org.solovyev.android.calculator.history.History;
 import org.solovyev.android.calculator.language.Language;
 import org.solovyev.android.calculator.language.Languages;
-import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
 import org.solovyev.android.calculator.onscreen.CalculatorOnscreenStartActivity;
 import org.solovyev.android.calculator.plot.AndroidCalculatorPlotter;
 import org.solovyev.android.calculator.plot.CalculatorPlotterImpl;
@@ -117,7 +116,7 @@ public class CalculatorApplication extends android.app.Application implements Sh
         App.getGa().reportInitially(preferences);
 
         Locator.getInstance().init(calculator,
-                new AndroidCalculatorEngine(this),
+                new Engine(this),
                 new AndroidCalculatorClipboard(this),
                 new AndroidCalculatorNotifier(this),
                 errorReporter,
@@ -144,7 +143,7 @@ public class CalculatorApplication extends android.app.Application implements Sh
     private void warmUpEngine() {
         try {
             // warm-up engine
-            MathEngine mathEngine = Locator.getInstance().getEngine().getEngine();
+            MathEngine mathEngine = Locator.getInstance().getEngine().getMathEngine();
             mathEngine.evaluate("1+1");
             mathEngine.evaluate("1*1");
         } catch (Throwable e) {

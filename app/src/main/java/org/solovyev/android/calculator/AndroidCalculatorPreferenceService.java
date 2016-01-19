@@ -25,18 +25,14 @@ package org.solovyev.android.calculator;
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-
-import org.solovyev.android.calculator.model.AndroidCalculatorEngine;
+import jscl.AngleUnit;
+import jscl.NumeralBase;
 import org.solovyev.android.msg.AndroidMessage;
 import org.solovyev.common.msg.MessageType;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.annotation.Nonnull;
-
-import jscl.AngleUnit;
-import jscl.NumeralBase;
 
 /**
  * User: serso
@@ -63,10 +59,10 @@ public class AndroidCalculatorPreferenceService implements CalculatorPreferenceS
 
         if (force || (Preferences.Calculations.showCalculationMessagesDialog.getPreference(prefs) && isTimeForCheck(currentTime, prefs))) {
             final NumeralBase preferredNumeralBase = Preferences.Calculations.preferredNumeralBase.getPreference(prefs);
-            final NumeralBase numeralBase = AndroidCalculatorEngine.Preferences.numeralBase.getPreference(prefs);
+            final NumeralBase numeralBase = Engine.Preferences.numeralBase.getPreference(prefs);
 
             final AngleUnit preferredAngleUnits = Preferences.Calculations.preferredAngleUnits.getPreference(prefs);
-            final AngleUnit angleUnits = AndroidCalculatorEngine.Preferences.angleUnit.getPreference(prefs);
+            final AngleUnit angleUnits = Engine.Preferences.angleUnit.getPreference(prefs);
 
             final List<FixableMessage> messages = new ArrayList<FixableMessage>(2);
             if (numeralBase != preferredNumeralBase) {
@@ -98,7 +94,7 @@ public class AndroidCalculatorPreferenceService implements CalculatorPreferenceS
     @Override
     public void setAngleUnits(@Nonnull AngleUnit angleUnit) {
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(application);
-        AndroidCalculatorEngine.Preferences.angleUnit.putPreference(preferences, angleUnit);
+        Engine.Preferences.angleUnit.putPreference(preferences, angleUnit);
 
         Locator.getInstance().getNotifier().showMessage(new AndroidMessage(R.string.c_angle_units_changed_to, MessageType.info, application, angleUnit.name()));
     }
@@ -112,7 +108,7 @@ public class AndroidCalculatorPreferenceService implements CalculatorPreferenceS
     @Override
     public void setNumeralBase(@Nonnull NumeralBase numeralBase) {
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(application);
-        AndroidCalculatorEngine.Preferences.numeralBase.putPreference(preferences, numeralBase);
+        Engine.Preferences.numeralBase.putPreference(preferences, numeralBase);
 
         Locator.getInstance().getNotifier().showMessage(new AndroidMessage(R.string.c_numeral_base_changed_to, MessageType.info, application, numeralBase.name()));
     }

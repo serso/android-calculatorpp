@@ -23,33 +23,25 @@
 package org.solovyev.android.calculator;
 
 import android.content.Context;
-
 import com.squareup.otto.Bus;
-
+import jscl.JsclMathEngine;
 import org.junit.Assert;
 import org.mockito.Mockito;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.fakes.RoboSharedPreferences;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.android.calculator.plot.CalculatorPlotter;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.io.*;
 import java.text.DecimalFormatSymbols;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import jscl.JsclMathEngine;
 
 /**
  * User: serso
@@ -87,17 +79,17 @@ public class CalculatorTestUtils {
     }
 
     @Nonnull
-    static CalculatorEngineImpl newCalculatorEngine() {
+    static Engine newCalculatorEngine() {
         final MathEntityDao mathEntityDao = Mockito.mock(MathEntityDao.class);
 
         final JsclMathEngine jsclEngine = JsclMathEngine.getInstance();
 
-        final CalculatorVarsRegistry varsRegistry = new CalculatorVarsRegistry(jsclEngine.getConstantsRegistry(), mathEntityDao);
+        final VarsRegistry varsRegistry = new VarsRegistry(jsclEngine.getConstantsRegistry(), mathEntityDao);
         final FunctionsRegistry functionsRegistry = new FunctionsRegistry(jsclEngine.getFunctionsRegistry(), mathEntityDao);
-        final CalculatorOperatorsMathRegistry operatorsRegistry = new CalculatorOperatorsMathRegistry(jsclEngine.getOperatorsRegistry(), mathEntityDao);
-        final CalculatorPostfixFunctionsRegistry postfixFunctionsRegistry = new CalculatorPostfixFunctionsRegistry(jsclEngine.getPostfixFunctionsRegistry(), mathEntityDao);
+        final OperatorsRegistry operatorsRegistry = new OperatorsRegistry(jsclEngine.getOperatorsRegistry(), mathEntityDao);
+        final PostfixFunctionsRegistry postfixFunctionsRegistry = new PostfixFunctionsRegistry(jsclEngine.getPostfixFunctionsRegistry(), mathEntityDao);
 
-        return new CalculatorEngineImpl(jsclEngine, varsRegistry, functionsRegistry, operatorsRegistry, postfixFunctionsRegistry, null);
+        return new Engine(RuntimeEnvironment.application, jsclEngine, varsRegistry, functionsRegistry, operatorsRegistry, postfixFunctionsRegistry);
     }
 
     public static void assertEval(@Nonnull String expected, @Nonnull String expression) {

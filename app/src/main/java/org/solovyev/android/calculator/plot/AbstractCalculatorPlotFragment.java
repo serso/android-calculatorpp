@@ -59,7 +59,7 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-import static org.solovyev.android.calculator.model.AndroidCalculatorEngine.Preferences;
+import static org.solovyev.android.calculator.Engine.Preferences;
 
 /**
  * User: serso

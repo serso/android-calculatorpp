@@ -54,7 +54,7 @@ public class EvaluateTest extends AbstractCalculatorTest {
 
     @Test
     public void testEvaluate() throws Exception {
-        final MathEngine cm = Locator.getInstance().getEngine().getMathEngine0();
+        final MathEngine cm = Locator.getInstance().getEngine().getMathEngine();
 
         final AngleUnit defaultAngleUnit = cm.getAngleUnits();
 

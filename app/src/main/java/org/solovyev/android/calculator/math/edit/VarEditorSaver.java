@@ -28,7 +28,7 @@ import jscl.text.Identifier;
 import jscl.text.MutableInt;
 import jscl.text.ParseException;
 import jscl.text.Parser;
-import org.solovyev.android.calculator.CalculatorVarsRegistry;
+import org.solovyev.android.calculator.VarsRegistry;
 import org.solovyev.android.calculator.EntitiesRegistry;
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.R;
@@ -76,7 +76,7 @@ public class VarEditorSaver<T extends MathEntity> implements View.OnClickListene
         if (!Strings.isEmpty(name)) {
             try {
                 if (name == null) throw new AssertionError();
-                Identifier.parser.parse(Parser.Parameters.newInstance(name, new MutableInt(0), Locator.getInstance().getEngine().getEngine()), null);
+                Identifier.parser.parse(Parser.Parameters.newInstance(name, new MutableInt(0), Locator.getInstance().getEngine().getMathEngine()), null);
                 result = true;
             } catch (ParseException e) {
                 // not valid name;
@@ -147,7 +147,7 @@ public class VarEditorSaver<T extends MathEntity> implements View.OnClickListene
         if (error != null) {
             Locator.getInstance().getNotifier().showMessage(error, MessageType.error);
         } else {
-            CalculatorVarsRegistry.saveVariable(mathRegistry, varBuilder, editedInstance, source, true);
+            VarsRegistry.saveVariable(mathRegistry, varBuilder, editedInstance, source, true);
         }
     }
 }
