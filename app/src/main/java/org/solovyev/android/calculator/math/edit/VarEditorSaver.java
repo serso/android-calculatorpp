@@ -24,9 +24,12 @@ package org.solovyev.android.calculator.math.edit;
 
 import android.view.View;
 import android.widget.EditText;
-
-import org.solovyev.android.calculator.EntitiesRegistry;
+import jscl.text.Identifier;
+import jscl.text.MutableInt;
+import jscl.text.ParseException;
+import jscl.text.Parser;
 import org.solovyev.android.calculator.CalculatorVarsRegistry;
+import org.solovyev.android.calculator.EntitiesRegistry;
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.math.MathType;
@@ -38,16 +41,6 @@ import org.solovyev.common.text.Strings;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import jscl.text.Identifier;
-import jscl.text.MutableInt;
-import jscl.text.ParseException;
-import jscl.text.Parser;
-
-/**
- * User: serso
- * Date: 12/22/11
- * Time: 9:52 PM
- */
 public class VarEditorSaver<T extends MathEntity> implements View.OnClickListener {
 
     @Nonnull
@@ -83,7 +76,7 @@ public class VarEditorSaver<T extends MathEntity> implements View.OnClickListene
         if (!Strings.isEmpty(name)) {
             try {
                 if (name == null) throw new AssertionError();
-                Identifier.parser.parse(Parser.Parameters.newInstance(name, new MutableInt(0), Locator.getInstance().getEngine().getMathEngine0()), null);
+                Identifier.parser.parse(Parser.Parameters.newInstance(name, new MutableInt(0), Locator.getInstance().getEngine().getEngine()), null);
                 result = true;
             } catch (ParseException e) {
                 // not valid name;

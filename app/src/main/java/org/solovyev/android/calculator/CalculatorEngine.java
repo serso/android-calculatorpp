@@ -47,10 +47,7 @@ public interface CalculatorEngine {
     @Nonnull
     EntitiesRegistry<Operator> getPostfixFunctionsRegistry();
     @Nonnull
-    CalculatorMathEngine getMathEngine();
-    @Deprecated
-    @Nonnull
-    MathEngine getMathEngine0();
+    MathEngine getEngine();
 
     @Nonnull
     String getMultiplicationSign();

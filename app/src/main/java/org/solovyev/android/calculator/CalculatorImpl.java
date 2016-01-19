@@ -24,10 +24,17 @@ package org.solovyev.android.calculator;
 
 import android.text.TextUtils;
 import android.util.Log;
-
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
-
+import jscl.AbstractJsclArithmeticException;
+import jscl.MathEngine;
+import jscl.NumeralBase;
+import jscl.NumeralBaseException;
+import jscl.math.Generic;
+import jscl.math.function.Function;
+import jscl.math.function.IConstant;
+import jscl.math.operator.Operator;
+import jscl.text.ParseInterruptedException;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.model.Var;
 import org.solovyev.android.calculator.text.TextProcessor;
@@ -40,23 +47,13 @@ import org.solovyev.common.text.Strings;
 import org.solovyev.common.units.ConversionException;
 import org.solovyev.common.units.Conversions;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicLong;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import jscl.AbstractJsclArithmeticException;
-import jscl.NumeralBase;
-import jscl.NumeralBaseException;
-import jscl.math.Generic;
-import jscl.math.function.Function;
-import jscl.math.function.IConstant;
-import jscl.math.operator.Operator;
-import jscl.text.ParseInterruptedException;
 
 /**
  * User: Solovyev_S
@@ -258,10 +255,10 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 
                 try {
 
-                    final CalculatorMathEngine mathEngine = Locator.getInstance().getEngine().getMathEngine();
+                    final MathEngine mathEngine = Locator.getInstance().getEngine().getEngine();
 
                     final MessageRegistry messageRegistry = new ListMessageRegistry();
-                    Locator.getInstance().getEngine().getMathEngine0().setMessageRegistry(messageRegistry);
+                    Locator.getInstance().getEngine().getEngine().setMessageRegistry(messageRegistry);
 
                     final Generic result = operation.evaluateGeneric(jsclExpression, mathEngine);
 

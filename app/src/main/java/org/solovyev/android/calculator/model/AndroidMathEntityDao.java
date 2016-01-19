@@ -27,7 +27,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
-
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 import org.solovyev.android.calculator.CalculatorApplication;
@@ -35,16 +34,10 @@ import org.solovyev.android.calculator.MathEntityDao;
 import org.solovyev.android.calculator.MathEntityPersistenceContainer;
 import org.solovyev.android.calculator.MathPersistenceEntity;
 
-import java.io.StringWriter;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.io.StringWriter;
 
-/**
- * User: serso
- * Date: 10/7/12
- * Time: 6:46 PM
- */
 public class AndroidMathEntityDao<T extends MathPersistenceEntity> implements MathEntityDao<T> {
 
     @Nonnull

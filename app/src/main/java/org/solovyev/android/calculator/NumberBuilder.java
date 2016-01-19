@@ -23,24 +23,17 @@
 package org.solovyev.android.calculator;
 
 import android.text.SpannableStringBuilder;
-
-import org.solovyev.android.calculator.math.MathType;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import jscl.MathContext;
 import jscl.MathEngine;
 import jscl.NumeralBase;
 import jscl.math.numeric.Real;
-import jscl.text.DoubleParser;
-import jscl.text.JsclIntegerParser;
-import jscl.text.MutableInt;
-import jscl.text.ParseException;
-import jscl.text.Parser;
+import jscl.text.*;
+import org.solovyev.android.calculator.math.MathType;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * User: serso
@@ -190,7 +183,7 @@ public class NumberBuilder extends BaseNumberBuilder {
                 }
 
                 // check if number still valid
-                toDouble(number, getNumeralBase(), engine.getMathEngine0());
+                toDouble(number, getNumeralBase(), engine.getEngine());
 
             } catch (NumberFormatException e) {
                 // number is not valid => stop
@@ -203,6 +196,6 @@ public class NumberBuilder extends BaseNumberBuilder {
             nb = engine.getNumeralBase();
         }
 
-        return replaceNumberInText(sb, number, trimmedChars, localNb, engine.getMathEngine0());
+        return replaceNumberInText(sb, number, trimmedChars, localNb, engine.getEngine());
     }
 }
