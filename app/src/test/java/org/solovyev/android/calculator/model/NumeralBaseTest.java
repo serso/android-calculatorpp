@@ -22,28 +22,22 @@
 
 package org.solovyev.android.calculator.model;
 
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.solovyev.android.calculator.AbstractCalculatorTest;
-import org.solovyev.android.calculator.CalculatorEvalException;
-import org.solovyev.android.calculator.CalculatorParseException;
-import org.solovyev.android.calculator.CalculatorTestUtils;
-import org.solovyev.android.calculator.Locator;
-import org.solovyev.common.Converter;
-
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-
 import au.com.bytecode.opencsv.CSVReader;
 import jscl.JsclMathEngine;
 import jscl.MathEngine;
 import jscl.math.Expression;
 import jscl.text.ParseException;
 import jscl.util.ExpressionGeneratorWithInput;
+import org.junit.Assert;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.solovyev.android.calculator.*;
+import org.solovyev.common.Converter;
+
+import javax.annotation.Nonnull;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * User: serso
@@ -64,11 +58,11 @@ public class NumeralBaseTest extends AbstractCalculatorTest {
         final String bin = "0b:" + line[2].toUpperCase();
 
         final String decExpression = converter.convert(dec);
-        final String decResult = Locator.getInstance().getEngine().getMathEngine().evaluate(decExpression);
+        final String decResult = Locator.getInstance().getEngine().getEngine().evaluate(decExpression);
         final String hexExpression = converter.convert(hex);
-        final String hexResult = Locator.getInstance().getEngine().getMathEngine().evaluate(hexExpression);
+        final String hexResult = Locator.getInstance().getEngine().getEngine().evaluate(hexExpression);
         final String binExpression = converter.convert(bin);
-        final String binResult = Locator.getInstance().getEngine().getMathEngine().evaluate(binExpression);
+        final String binResult = Locator.getInstance().getEngine().getEngine().evaluate(binExpression);
 
         Assert.assertEquals("dec-hex: " + decExpression + " : " + hexExpression, decResult, hexResult);
         Assert.assertEquals("dec-bin: " + decExpression + " : " + binExpression, decResult, binResult);

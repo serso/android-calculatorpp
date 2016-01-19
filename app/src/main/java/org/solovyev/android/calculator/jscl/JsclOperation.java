@@ -23,15 +23,14 @@
 package org.solovyev.android.calculator.jscl;
 
 
-import org.solovyev.android.calculator.CalculatorMathEngine;
+import jscl.MathEngine;
+import jscl.math.Generic;
+import jscl.text.ParseException;
 import org.solovyev.android.calculator.text.DummyTextProcessor;
 import org.solovyev.android.calculator.text.FromJsclSimplifyTextProcessor;
 import org.solovyev.android.calculator.text.TextProcessor;
 
 import javax.annotation.Nonnull;
-
-import jscl.math.Generic;
-import jscl.text.ParseException;
 
 public enum JsclOperation {
 
@@ -58,7 +57,7 @@ public enum JsclOperation {
     }
 
     @Nonnull
-    public final String evaluate(@Nonnull String expression, @Nonnull CalculatorMathEngine engine) throws ParseException {
+    public final String evaluate(@Nonnull String expression, @Nonnull MathEngine engine) throws ParseException {
         switch (this) {
             case simplify:
                 return engine.simplify(expression);
@@ -72,7 +71,7 @@ public enum JsclOperation {
     }
 
     @Nonnull
-    public final Generic evaluateGeneric(@Nonnull String expression, @Nonnull CalculatorMathEngine engine) throws ParseException {
+    public final Generic evaluateGeneric(@Nonnull String expression, @Nonnull MathEngine engine) throws ParseException {
         switch (this) {
             case simplify:
                 return engine.simplifyGeneric(expression);

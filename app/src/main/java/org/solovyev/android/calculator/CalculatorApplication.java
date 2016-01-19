@@ -28,6 +28,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.otto.Bus;
+import jscl.MathEngine;
 import org.acra.ACRA;
 import org.acra.ACRAConfiguration;
 import org.acra.sender.HttpSender;
@@ -143,7 +144,7 @@ public class CalculatorApplication extends android.app.Application implements Sh
     private void warmUpEngine() {
         try {
             // warm-up engine
-            CalculatorMathEngine mathEngine = Locator.getInstance().getEngine().getMathEngine();
+            MathEngine mathEngine = Locator.getInstance().getEngine().getEngine();
             mathEngine.evaluate("1+1");
             mathEngine.evaluate("1*1");
         } catch (Throwable e) {

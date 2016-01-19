@@ -26,11 +26,9 @@ import jscl.AngleUnit;
 import jscl.JsclMathEngine;
 import jscl.MathEngine;
 import jscl.NumeralBase;
-import jscl.math.Generic;
 import jscl.math.function.Function;
 import jscl.math.function.IConstant;
 import jscl.math.operator.Operator;
-import jscl.text.ParseException;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -57,9 +55,6 @@ public class CalculatorEngineImpl implements CalculatorEngine {
     */
     @Nonnull
     private final MathEngine engine;
-
-    @Nonnull
-    private final CalculatorMathEngine mathEngine;
 
     @Nonnull
     private final EntitiesRegistry<IConstant> varsRegistry;
@@ -96,7 +91,6 @@ public class CalculatorEngineImpl implements CalculatorEngine {
                                 @Nullable Object lock) {
 
         this.engine = engine;
-        this.mathEngine = new JsclCalculatorMathEngine(engine);
 
         this.engine.setRoundResult(true);
         this.engine.setUseGroupingSeparator(true);
@@ -141,17 +135,11 @@ public class CalculatorEngineImpl implements CalculatorEngine {
 
     @Nonnull
     @Override
-    public CalculatorMathEngine getMathEngine() {
-        return this.mathEngine;
+    public MathEngine getEngine() {
+        return engine;
     }
 
-    @Nonnull
-    @Override
-    public MathEngine getMathEngine0() {
-        return this.engine;
-    }
-
-	/*
+    /*
 	**********************************************************************
 	*
 	*                           INIT
@@ -269,60 +257,6 @@ public class CalculatorEngineImpl implements CalculatorEngine {
     public void setDecimalGroupSymbols(@Nonnull DecimalFormatSymbols decimalGroupSymbols) {
         synchronized (lock) {
             this.engine.setDecimalGroupSymbols(decimalGroupSymbols);
-        }
-    }
-
-	/*
-	**********************************************************************
-	*
-	*                           STATIC CLASSES
-	*
-	**********************************************************************
-	*/
-
-    private static final class JsclCalculatorMathEngine implements CalculatorMathEngine {
-
-        @Nonnull
-        private final MathEngine mathEngine;
-
-        private JsclCalculatorMathEngine(@Nonnull MathEngine mathEngine) {
-            this.mathEngine = mathEngine;
-        }
-
-        @Nonnull
-        @Override
-        public String evaluate(@Nonnull String expression) throws ParseException {
-            return this.mathEngine.evaluate(expression);
-        }
-
-        @Nonnull
-        @Override
-        public String simplify(@Nonnull String expression) throws ParseException {
-            return this.mathEngine.simplify(expression);
-        }
-
-        @Nonnull
-        @Override
-        public String elementary(@Nonnull String expression) throws ParseException {
-            return this.mathEngine.elementary(expression);
-        }
-
-        @Nonnull
-        @Override
-        public Generic evaluateGeneric(@Nonnull String expression) throws ParseException {
-            return this.mathEngine.evaluateGeneric(expression);
-        }
-
-        @Nonnull
-        @Override
-        public Generic simplifyGeneric(@Nonnull String expression) throws ParseException {
-            return this.mathEngine.simplifyGeneric(expression);
-        }
-
-        @Nonnull
-        @Override
-        public Generic elementaryGeneric(@Nonnull String expression) throws ParseException {
-            return this.mathEngine.elementaryGeneric(expression);
         }
     }
 }

@@ -133,14 +133,8 @@ public class AndroidCalculatorEngine implements CalculatorEngine, SharedPreferen
 
     @Override
     @Nonnull
-    public CalculatorMathEngine getMathEngine() {
-        return calculatorEngine.getMathEngine();
-    }
-
-    @Nonnull
-    @Override
-    public MathEngine getMathEngine0() {
-        return calculatorEngine.getMathEngine0();
+    public MathEngine getEngine() {
+        return calculatorEngine.getEngine();
     }
 
     @Nonnull
