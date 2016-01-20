@@ -22,24 +22,27 @@
 
 package org.solovyev.android.calculator;
 
-import jscl.CustomFunctionCalculationException;
-import jscl.math.function.CustomFunction;
-import jscl.math.function.Function;
-import jscl.math.function.IFunction;
 import org.solovyev.android.calculator.function.FunctionBuilderAdapter;
 import org.solovyev.android.calculator.model.AFunction;
 import org.solovyev.android.calculator.model.Functions;
 import org.solovyev.android.calculator.model.MathEntityBuilder;
+import org.solovyev.android.calculator.model.EntityDao;
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathRegistry;
 import org.solovyev.common.text.Strings;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import jscl.CustomFunctionCalculationException;
+import jscl.math.function.CustomFunction;
+import jscl.math.function.Function;
+import jscl.math.function.IFunction;
 
 public class FunctionsRegistry extends BaseEntitiesRegistry<Function, AFunction> {
 
@@ -53,8 +56,8 @@ public class FunctionsRegistry extends BaseEntitiesRegistry<Function, AFunction>
     }
 
     public FunctionsRegistry(@Nonnull MathRegistry<Function> functionsRegistry,
-                             @Nonnull MathEntityDao<AFunction> mathEntityDao) {
-        super(functionsRegistry, FUNCTION_DESCRIPTION_PREFIX, mathEntityDao);
+                             @Nonnull EntityDao<AFunction> entityDao) {
+        super(functionsRegistry, FUNCTION_DESCRIPTION_PREFIX, entityDao);
     }
 
     public static void saveFunction(@Nonnull EntitiesRegistry<Function> registry,
@@ -138,7 +141,7 @@ public class FunctionsRegistry extends BaseEntitiesRegistry<Function, AFunction>
 
     @Nonnull
     @Override
-    protected MathEntityPersistenceContainer<AFunction> createPersistenceContainer() {
+    protected PersistedEntitiesContainer<AFunction> createPersistenceContainer() {
         return new Functions();
     }
 }

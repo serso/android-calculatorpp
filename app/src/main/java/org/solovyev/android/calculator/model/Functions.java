@@ -24,18 +24,13 @@ package org.solovyev.android.calculator.model;
 
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
-import org.solovyev.android.calculator.MathEntityPersistenceContainer;
+import org.solovyev.android.calculator.PersistedEntitiesContainer;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * User: serso
- * Date: 12/22/11
- * Time: 5:15 PM
- */
 @Root
-public class Functions implements MathEntityPersistenceContainer<AFunction> {
+public class Functions implements PersistedEntitiesContainer<AFunction> {
 
     @ElementList(type = AFunction.class)
     private List<AFunction> functions = new ArrayList<AFunction>();

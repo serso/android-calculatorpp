@@ -27,21 +27,19 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
+
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 import org.solovyev.android.calculator.CalculatorApplication;
-import org.solovyev.android.calculator.MathEntityDao;
-import org.solovyev.android.calculator.MathEntityPersistenceContainer;
-import org.solovyev.android.calculator.MathPersistenceEntity;
+import org.solovyev.android.calculator.PersistedEntitiesContainer;
+import org.solovyev.android.calculator.PersistedEntity;
+
+import java.io.StringWriter;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.io.StringWriter;
 
-public class AndroidMathEntityDao<T extends MathPersistenceEntity> implements MathEntityDao<T> {
-
-    @Nonnull
-    private static final String TAG = AndroidMathEntityDao.class.getSimpleName();
+public class EntityDao<T extends PersistedEntity> {
 
     @Nullable
     private final String preferenceString;
@@ -50,18 +48,17 @@ public class AndroidMathEntityDao<T extends MathPersistenceEntity> implements Ma
     private final Context context;
 
     @Nullable
-    private final Class<? extends MathEntityPersistenceContainer<T>> persistenceContainerClass;
+    private final Class<? extends PersistedEntitiesContainer<T>> persistenceContainerClass;
 
-    public AndroidMathEntityDao(@Nullable String preferenceString,
-                                @Nonnull Application application,
-                                @Nullable Class<? extends MathEntityPersistenceContainer<T>> persistenceContainerClass) {
+    public EntityDao(@Nullable String preferenceString,
+                     @Nonnull Application application,
+                     @Nullable Class<? extends PersistedEntitiesContainer<T>> persistenceContainerClass) {
         this.preferenceString = preferenceString;
         this.context = application;
         this.persistenceContainerClass = persistenceContainerClass;
     }
 
-    @Override
-    public void save(@Nonnull MathEntityPersistenceContainer<T> container) {
+    public void save(@Nonnull PersistedEntitiesContainer<T> container) {
         if (preferenceString != null) {
             final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
             final SharedPreferences.Editor editor = settings.edit();
@@ -81,8 +78,7 @@ public class AndroidMathEntityDao<T extends MathPersistenceEntity> implements Ma
     }
 
     @Nullable
-    @Override
-    public MathEntityPersistenceContainer<T> load() {
+    public PersistedEntitiesContainer<T> load() {
         if (persistenceContainerClass != null && preferenceString != null) {
             final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 

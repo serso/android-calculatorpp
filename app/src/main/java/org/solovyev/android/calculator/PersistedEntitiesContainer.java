@@ -22,15 +22,8 @@
 
 package org.solovyev.android.calculator;
 
-import javax.annotation.Nonnull;
+import java.util.List;
 
-/**
- * User: serso
- * Date: 12/22/11
- * Time: 5:27 PM
- */
-public interface MathPersistenceEntity {
-
-    @Nonnull
-    String getName();
+public interface PersistedEntitiesContainer<T extends PersistedEntity> {
+    List<T> getEntities();
 }

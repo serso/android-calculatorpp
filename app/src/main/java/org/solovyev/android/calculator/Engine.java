@@ -27,7 +27,7 @@ import android.content.SharedPreferences;
 
 import com.squareup.otto.Bus;
 
-import org.solovyev.android.calculator.model.AndroidMathEntityDao;
+import org.solovyev.android.calculator.model.EntityDao;
 import org.solovyev.android.calculator.model.Functions;
 import org.solovyev.android.calculator.model.Vars;
 import org.solovyev.android.prefs.BooleanPreference;
@@ -92,10 +92,10 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
         this.mathEngine.setRoundResult(true);
         this.mathEngine.setUseGroupingSeparator(true);
 
-        this.varsRegistry = new VarsRegistry(mathEngine.getConstantsRegistry(), new AndroidMathEntityDao<>("org.solovyev.android.calculator.CalculatorModel_vars", application, Vars.class));
-        this.functionsRegistry = new FunctionsRegistry(mathEngine.getFunctionsRegistry(), new AndroidMathEntityDao<>("org.solovyev.android.calculator.CalculatorModel_functions", application, Functions.class));
-        this.operatorsRegistry = new OperatorsRegistry(mathEngine.getOperatorsRegistry(), new AndroidMathEntityDao<>(null, application, null));
-        this.postfixFunctionsRegistry = new PostfixFunctionsRegistry(mathEngine.getPostfixFunctionsRegistry(), new AndroidMathEntityDao<>(null, application, null));
+        this.varsRegistry = new VarsRegistry(mathEngine.getConstantsRegistry(), new EntityDao<>("org.solovyev.android.calculator.CalculatorModel_vars", application, Vars.class));
+        this.functionsRegistry = new FunctionsRegistry(mathEngine.getFunctionsRegistry(), new EntityDao<>("org.solovyev.android.calculator.CalculatorModel_functions", application, Functions.class));
+        this.operatorsRegistry = new OperatorsRegistry(mathEngine.getOperatorsRegistry(), new EntityDao<>(null, application, null));
+        this.postfixFunctionsRegistry = new PostfixFunctionsRegistry(mathEngine.getPostfixFunctionsRegistry(), new EntityDao<>(null, application, null));
     }
 
     private static void migratePreference(@Nonnull SharedPreferences preferences, @Nonnull BooleanPreference preference, @Nonnull String oldKey, @Nonnull SharedPreferences.Editor editor) {

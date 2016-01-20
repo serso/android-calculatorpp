@@ -31,6 +31,7 @@ import org.mockito.Mockito;
 import org.robolectric.fakes.RoboSharedPreferences;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.language.Languages;
+import org.solovyev.android.calculator.model.EntityDao;
 import org.solovyev.android.calculator.plot.CalculatorPlotter;
 
 import java.io.ByteArrayInputStream;
@@ -98,14 +99,14 @@ public class CalculatorTestUtils {
 
     @Nonnull
     static Engine newCalculatorEngine() {
-        final MathEntityDao mathEntityDao = Mockito.mock(MathEntityDao.class);
+        final EntityDao entityDao = Mockito.mock(EntityDao.class);
 
         final JsclMathEngine jsclEngine = JsclMathEngine.getInstance();
 
-        final VarsRegistry varsRegistry = new VarsRegistry(jsclEngine.getConstantsRegistry(), mathEntityDao);
-        final FunctionsRegistry functionsRegistry = new FunctionsRegistry(jsclEngine.getFunctionsRegistry(), mathEntityDao);
-        final OperatorsRegistry operatorsRegistry = new OperatorsRegistry(jsclEngine.getOperatorsRegistry(), mathEntityDao);
-        final PostfixFunctionsRegistry postfixFunctionsRegistry = new PostfixFunctionsRegistry(jsclEngine.getPostfixFunctionsRegistry(), mathEntityDao);
+        final VarsRegistry varsRegistry = new VarsRegistry(jsclEngine.getConstantsRegistry(), entityDao);
+        final FunctionsRegistry functionsRegistry = new FunctionsRegistry(jsclEngine.getFunctionsRegistry(), entityDao);
+        final OperatorsRegistry operatorsRegistry = new OperatorsRegistry(jsclEngine.getOperatorsRegistry(), entityDao);
+        final PostfixFunctionsRegistry postfixFunctionsRegistry = new PostfixFunctionsRegistry(jsclEngine.getPostfixFunctionsRegistry(), entityDao);
 
         return new Engine(jsclEngine, varsRegistry, functionsRegistry, operatorsRegistry, postfixFunctionsRegistry);
     }
