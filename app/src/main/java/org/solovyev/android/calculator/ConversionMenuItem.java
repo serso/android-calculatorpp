@@ -56,7 +56,7 @@ enum ConversionMenuItem implements AMenuItem<DisplayState> {
         if (operation == JsclOperation.numeric) {
             if (generic.getConstants().isEmpty()) {
                 // conversion possible => return true
-                final NumeralBase fromNumeralBase = Locator.getInstance().getEngine().getNumeralBase();
+                final NumeralBase fromNumeralBase = Locator.getInstance().getEngine().getMathEngine().getNumeralBase();
                 if (fromNumeralBase != toNumeralBase) {
                     result = Locator.getInstance().getCalculator().isConversionPossible(generic, fromNumeralBase, this.toNumeralBase);
                 }

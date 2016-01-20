@@ -65,12 +65,12 @@ public class NumeralBaseConverterDialog {
             String value = initialFromValue;
             try {
                 value = ToJsclTextProcessor.getInstance().process(value).getExpression();
-                b.setFromValue(UnitImpl.newInstance(value, CalculatorNumeralBase.valueOf(Locator.getInstance().getEngine().getNumeralBase())));
+                b.setFromValue(UnitImpl.newInstance(value, CalculatorNumeralBase.valueOf(Locator.getInstance().getEngine().getMathEngine().getNumeralBase())));
             } catch (CalculatorParseException e) {
-                b.setFromValue(UnitImpl.newInstance(value, CalculatorNumeralBase.valueOf(Locator.getInstance().getEngine().getNumeralBase())));
+                b.setFromValue(UnitImpl.newInstance(value, CalculatorNumeralBase.valueOf(Locator.getInstance().getEngine().getMathEngine().getNumeralBase())));
             }
         } else {
-            b.setFromValue(UnitImpl.newInstance("", CalculatorNumeralBase.valueOf(Locator.getInstance().getEngine().getNumeralBase())));
+            b.setFromValue(UnitImpl.newInstance("", CalculatorNumeralBase.valueOf(Locator.getInstance().getEngine().getMathEngine().getNumeralBase())));
         }
 
         b.setConverter(CalculatorNumeralBase.getConverter());
@@ -91,7 +91,7 @@ public class NumeralBaseConverterDialog {
             public void onClick(@Nonnull Unit<String> fromUnits, @Nonnull Unit<String> toUnits) {
                 String toUnitsValue = toUnits.getValue();
 
-                if (!toUnits.getUnitType().equals(CalculatorNumeralBase.valueOf(Locator.getInstance().getEngine().getNumeralBase()))) {
+                if (!toUnits.getUnitType().equals(CalculatorNumeralBase.valueOf(Locator.getInstance().getEngine().getMathEngine().getNumeralBase()))) {
                     toUnitsValue = ((CalculatorNumeralBase) toUnits.getUnitType()).getNumeralBase().getJsclPrefix() + toUnitsValue;
                 }
 

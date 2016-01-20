@@ -24,17 +24,10 @@ package org.solovyev.android.calculator;
 
 import android.text.TextUtils;
 import android.util.Log;
+
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
-import jscl.AbstractJsclArithmeticException;
-import jscl.MathEngine;
-import jscl.NumeralBase;
-import jscl.NumeralBaseException;
-import jscl.math.Generic;
-import jscl.math.function.Function;
-import jscl.math.function.IConstant;
-import jscl.math.operator.Operator;
-import jscl.text.ParseInterruptedException;
+
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.model.Var;
 import org.solovyev.android.calculator.text.TextProcessor;
@@ -47,39 +40,29 @@ import org.solovyev.common.text.Strings;
 import org.solovyev.common.units.ConversionException;
 import org.solovyev.common.units.Conversions;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicLong;
 
-/**
- * User: Solovyev_S
- * Date: 20.09.12
- * Time: 16:42
- */
-public class CalculatorImpl implements Calculator, CalculatorEventListener {
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
-	/*
-    **********************************************************************
-	*
-	*                           CONSTANTS
-	*
-	**********************************************************************
-	*/
+import jscl.AbstractJsclArithmeticException;
+import jscl.MathEngine;
+import jscl.NumeralBase;
+import jscl.NumeralBaseException;
+import jscl.math.Generic;
+import jscl.math.function.Function;
+import jscl.math.function.IConstant;
+import jscl.math.operator.Operator;
+import jscl.text.ParseInterruptedException;
+
+public class CalculatorImpl implements Calculator, CalculatorEventListener {
 
     // one minute
     private static final long PREFERENCE_CHECK_INTERVAL = 1000L * 60L;
-
-	/*
-	**********************************************************************
-	*
-	*                           FIELDS
-	*
-	**********************************************************************
-	*/
 
     @Nonnull
     private final CalculatorEventContainer calculatorEventContainer = new ListCalculatorEventContainer();
@@ -205,8 +188,8 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
     }
 
     @Override
-    public void init() {
-        Locator.getInstance().getEngine().init();
+    public void init(@Nonnull Executor initThread) {
+        Locator.getInstance().getEngine().init(initThread);
     }
 
     @Override
@@ -373,7 +356,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
         final CalculatorEventData eventDataId = nextEventData();
 
         final DisplayState displayViewState = App.getDisplay().getState();
-        final NumeralBase from = Locator.getInstance().getEngine().getNumeralBase();
+        final NumeralBase from = Locator.getInstance().getEngine().getMathEngine().getNumeralBase();
 
         calculationsExecutor.execute(new Runnable() {
             @Override
@@ -524,11 +507,6 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
             case function_removed:
                 evaluate();
                 break;
-
-            case engine_preferences_changed:
-                evaluate(calculatorEventData.getSequenceId());
-                break;
-
             case use_constant:
                 final IConstant constant = (IConstant) data;
                 Locator.getInstance().getKeyboard().buttonPressed(constant.getName());

@@ -50,7 +50,7 @@ public abstract class BaseNumberBuilder {
 
     protected BaseNumberBuilder(@Nonnull Engine engine) {
         this.engine = engine;
-        this.nb = engine.getNumeralBase();
+        this.nb = engine.getMathEngine().getNumeralBase();
     }
 
     /**
@@ -94,12 +94,12 @@ public abstract class BaseNumberBuilder {
     }
 
     public boolean isHexMode() {
-        return nb == NumeralBase.hex || (nb == null && engine.getNumeralBase() == NumeralBase.hex);
+        return nb == NumeralBase.hex || (nb == null && engine.getMathEngine().getNumeralBase() == NumeralBase.hex);
     }
 
     @Nonnull
     protected NumeralBase getNumeralBase() {
-        return nb == null ? engine.getNumeralBase() : nb;
+        return nb == null ? engine.getMathEngine().getNumeralBase() : nb;
     }
 
     public abstract int process(@Nonnull SpannableStringBuilder sb, @Nonnull MathType.Result result);

@@ -26,9 +26,10 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
+
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.otto.Bus;
-import jscl.MathEngine;
+
 import org.acra.ACRA;
 import org.acra.ACRAConfiguration;
 import org.acra.sender.HttpSender;
@@ -41,13 +42,16 @@ import org.solovyev.android.calculator.plot.AndroidCalculatorPlotter;
 import org.solovyev.android.calculator.plot.CalculatorPlotterImpl;
 import org.solovyev.common.msg.MessageType;
 
-import javax.annotation.Nonnull;
-import javax.inject.Inject;
-import javax.inject.Named;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.Executor;
+
+import javax.annotation.Nonnull;
+import javax.inject.Inject;
+import javax.inject.Named;
+
+import jscl.MathEngine;
 
 public class CalculatorApplication extends android.app.Application implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -80,6 +84,9 @@ public class CalculatorApplication extends android.app.Application implements Sh
     Calculator calculator;
 
     @Inject
+    Engine engine;
+
+    @Inject
     Keyboard keyboard;
 
     @Inject
@@ -103,6 +110,7 @@ public class CalculatorApplication extends android.app.Application implements Sh
                 .appModule(new AppModule(this))
                 .build();
         component.inject(this);
+        editor.init();
         history.init(initThread);
 
         onPostCreate(preferences, languages);
@@ -116,7 +124,7 @@ public class CalculatorApplication extends android.app.Application implements Sh
         App.getGa().reportInitially(preferences);
 
         Locator.getInstance().init(calculator,
-                new Engine(this),
+                engine,
                 new AndroidCalculatorClipboard(this),
                 new AndroidCalculatorNotifier(this),
                 errorReporter,
@@ -130,7 +138,7 @@ public class CalculatorApplication extends android.app.Application implements Sh
             calculator.addCalculatorEventListener(listener);
         }
 
-        Locator.getInstance().getCalculator().init();
+        calculator.init(initThread);
 
         initThread.execute(new Runnable() {
             @Override
@@ -143,7 +151,7 @@ public class CalculatorApplication extends android.app.Application implements Sh
     private void warmUpEngine() {
         try {
             // warm-up engine
-            MathEngine mathEngine = Locator.getInstance().getEngine().getMathEngine();
+            final MathEngine mathEngine = engine.getMathEngine();
             mathEngine.evaluate("1+1");
             mathEngine.evaluate("1*1");
         } catch (Throwable e) {

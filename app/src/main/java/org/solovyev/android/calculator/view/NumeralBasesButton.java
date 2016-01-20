@@ -47,7 +47,7 @@ public class NumeralBasesButton extends DirectionDragButton {
 
     public NumeralBasesButton(Context context, @Nonnull AttributeSet attrs) {
         super(context, attrs);
-        this.numeralBase = Locator.getInstance().getEngine().getNumeralBase();
+        this.numeralBase = Locator.getInstance().getEngine().getMathEngine().getNumeralBase();
     }
 
     @Override

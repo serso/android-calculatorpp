@@ -48,7 +48,7 @@ public class AngleUnitsButton extends DirectionDragButton {
 
     public AngleUnitsButton(Context context, @Nonnull AttributeSet attrs) {
         super(context, attrs);
-        this.angleUnit = Locator.getInstance().getEngine().getAngleUnits();
+        this.angleUnit = Locator.getInstance().getEngine().getMathEngine().getAngleUnits();
     }
 
     @Override

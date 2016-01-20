@@ -50,7 +50,7 @@ public class FromJsclSimplifyTextProcessorTest extends AbstractCalculatorTest {
         //Assert.assertEquals("((e)(e))", tp.process("((2.718281828459045)*(2.718281828459045))"));
         DecimalFormatSymbols decimalGroupSymbols = new DecimalFormatSymbols();
         decimalGroupSymbols.setGroupingSeparator(' ');
-        Locator.getInstance().getEngine().setDecimalGroupSymbols(decimalGroupSymbols);
+        Locator.getInstance().getEngine().getMathEngine().setDecimalGroupSymbols(decimalGroupSymbols);
         //Assert.assertEquals("123 456 789e", tp.process("123456789*2.718281828459045"));
         //Assert.assertEquals("123 456 789e", tp.process("123 456 789 * 2.718281828459045"));
         //Assert.assertEquals("t11e", tp.process("t11*2.718281828459045"));

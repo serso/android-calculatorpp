@@ -58,7 +58,7 @@ public class AndroidEngineTest extends AbstractCalculatorTest {
     @BeforeClass
     public static void staticSetUp() throws Exception {
         CalculatorTestUtils.staticSetUp();
-        Locator.getInstance().getEngine().setPrecision(3);
+        Locator.getInstance().getEngine().getMathEngine().setPrecision(3);
     }
 
 

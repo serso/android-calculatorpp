@@ -40,11 +40,6 @@ import javax.annotation.Nullable;
 import jscl.NumeralBase;
 import jscl.math.Generic;
 
-/**
- * User: serso
- * Date: 9/22/12
- * Time: 5:42 PM
- */
 public class AndroidCalculator implements Calculator, CalculatorEventListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
     @Nonnull
@@ -60,14 +55,6 @@ public class AndroidCalculator implements Calculator, CalculatorEventListener, S
 
         PreferenceManager.getDefaultSharedPreferences(application).registerOnSharedPreferenceChangeListener(this);
     }
-
-	/*
-    **********************************************************************
-	*
-	*                           DELEGATED TO CALCULATOR
-	*
-	**********************************************************************
-	*/
 
     @Override
     @Nonnull
@@ -127,8 +114,8 @@ public class AndroidCalculator implements Calculator, CalculatorEventListener, S
     }
 
     @Override
-    public void init() {
-        this.calculator.init();
+    public void init(@Nonnull Executor initThread) {
+        this.calculator.init(initThread);
 
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         this.calculator.setCalculateOnFly(Preferences.Calculations.calculateOnFly.getPreference(prefs));
