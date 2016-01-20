@@ -22,16 +22,13 @@
 
 package org.solovyev.android.calculator;
 
-import org.solovyev.android.calculator.model.EntityDao;
+import jscl.math.operator.Operator;
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathRegistry;
 
+import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.annotation.Nonnull;
-
-import jscl.math.operator.Operator;
 
 public class OperatorsRegistry extends BaseEntitiesRegistry<Operator, PersistedEntity> {
 
@@ -49,9 +46,8 @@ public class OperatorsRegistry extends BaseEntitiesRegistry<Operator, PersistedE
         substitutes.put("Σ", "sum");
     }
 
-    public OperatorsRegistry(@Nonnull MathRegistry<Operator> functionsRegistry,
-                             @Nonnull EntityDao<PersistedEntity> entityDao) {
-        super(functionsRegistry, OPERATOR_DESCRIPTION_PREFIX, entityDao);
+    public OperatorsRegistry(@Nonnull MathRegistry<Operator> functionsRegistry) {
+        super(functionsRegistry, OPERATOR_DESCRIPTION_PREFIX, null);
     }
 
     @Nonnull
@@ -70,20 +66,10 @@ public class OperatorsRegistry extends BaseEntitiesRegistry<Operator, PersistedE
         return null;
     }
 
-    @Override
-    public void load() {
-        // not supported yet
-    }
-
     @Nonnull
     @Override
     protected JBuilder<? extends Operator> createBuilder(@Nonnull PersistedEntity entity) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public void save() {
-        // not supported yet
     }
 
     @Override

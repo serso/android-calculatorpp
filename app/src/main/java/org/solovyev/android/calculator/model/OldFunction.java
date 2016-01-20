@@ -22,6 +22,7 @@
 
 package org.solovyev.android.calculator.model;
 
+import jscl.math.function.IFunction;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
@@ -34,19 +35,16 @@ import org.solovyev.common.msg.Message;
 import org.solovyev.common.msg.MessageLevel;
 import org.solovyev.common.text.Strings;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import jscl.math.function.IFunction;
-
 @Root(name = "function")
-public class AFunction implements IFunction, PersistedEntity, Serializable {
+public class OldFunction implements IFunction, PersistedEntity, Serializable {
 
     @Transient
     private Integer id;
@@ -70,22 +68,22 @@ public class AFunction implements IFunction, PersistedEntity, Serializable {
     @Nonnull
     private String description = "";
 
-	public AFunction() {
+	public OldFunction() {
     }
 
-    public AFunction(Integer id) {
+    public OldFunction(Integer id) {
         this.id = id;
     }
 
-    public static AFunction fromIFunction(@Nonnull IFunction function) {
-        final AFunction result = new AFunction();
+    public static OldFunction fromIFunction(@Nonnull IFunction function) {
+        final OldFunction result = new OldFunction();
 
         copy(result, function);
 
         return result;
     }
 
-	private static void copy(@Nonnull AFunction target,
+	private static void copy(@Nonnull OldFunction target,
                              @Nonnull IFunction source) {
         target.name = source.getName();
         target.content = source.getContent();
@@ -174,7 +172,7 @@ public class AFunction implements IFunction, PersistedEntity, Serializable {
         this.parameterNames = parameterNames;
     }
 
-	public static class Builder implements MathEntityBuilder<AFunction> {
+	public static class Builder implements MathEntityBuilder<OldFunction> {
 
         @Nonnull
         private String name;
@@ -243,12 +241,12 @@ public class AFunction implements IFunction, PersistedEntity, Serializable {
         }
 
         @Nonnull
-        public AFunction create() throws AFunction.Builder.CreationException {
-            final AFunction result;
+        public OldFunction create() throws OldFunction.Builder.CreationException {
+            final OldFunction result;
             if (id != null) {
-                result = new AFunction(id);
+                result = new OldFunction(id);
             } else {
-                result = new AFunction();
+                result = new OldFunction();
             }
 
             result.name = name;

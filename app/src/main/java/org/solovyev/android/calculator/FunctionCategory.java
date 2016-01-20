@@ -22,18 +22,14 @@
 
 package org.solovyev.android.calculator;
 
-import org.solovyev.common.collections.Collections;
-
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-
 import jscl.math.function.ArcTrigonometric;
 import jscl.math.function.Comparison;
 import jscl.math.function.Function;
 import jscl.math.function.Trigonometric;
+import org.solovyev.common.collections.Collections;
+
+import javax.annotation.Nonnull;
+import java.util.*;
 
 /**
  * User: serso
@@ -51,7 +47,7 @@ public enum FunctionCategory {
 
     hyperbolic_trigonometric(300) {
 
-        private final List<String> names = Arrays.asList("sinh", "cosh", "tanh", "coth", "asinh", "acosh", "atanh", "acoth");
+        private final Set<String> names = new HashSet<>(Arrays.asList("sinh", "cosh", "tanh", "coth", "asinh", "acosh", "atanh", "acoth"));
 
         @Override
         public boolean isInCategory(@Nonnull Function function) {

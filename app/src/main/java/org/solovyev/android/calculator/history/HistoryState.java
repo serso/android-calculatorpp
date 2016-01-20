@@ -3,18 +3,21 @@ package org.solovyev.android.calculator.history;
 import android.annotation.SuppressLint;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.DisplayState;
 import org.solovyev.android.calculator.EditorState;
+import org.solovyev.android.calculator.json.Json;
+import org.solovyev.android.calculator.json.Jsonable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import static android.text.TextUtils.isEmpty;
 
-public class HistoryState implements Parcelable {
+public class HistoryState implements Parcelable, Jsonable {
 
     public static final Creator<HistoryState> CREATOR = new Creator<HistoryState>() {
         @Override
@@ -25,6 +28,13 @@ public class HistoryState implements Parcelable {
         @Override
         public HistoryState[] newArray(int size) {
             return new HistoryState[size];
+        }
+    };
+    public static final Json.Creator<HistoryState> JSON_CREATOR = new Json.Creator<HistoryState>() {
+        @NonNull
+        @Override
+        public HistoryState create(@NonNull JSONObject json) throws JSONException {
+            return new HistoryState(json);
         }
     };
     private static final String JSON_EDITOR = "e";

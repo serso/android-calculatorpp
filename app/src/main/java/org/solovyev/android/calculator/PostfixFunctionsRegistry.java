@@ -22,16 +22,13 @@
 
 package org.solovyev.android.calculator;
 
-import org.solovyev.android.calculator.model.EntityDao;
+import jscl.math.operator.Operator;
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathRegistry;
 
+import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.annotation.Nonnull;
-
-import jscl.math.operator.Operator;
 
 public class PostfixFunctionsRegistry extends BaseEntitiesRegistry<Operator, PersistedEntity> {
 
@@ -47,11 +44,9 @@ public class PostfixFunctionsRegistry extends BaseEntitiesRegistry<Operator, Per
         substitutes.put("°", "degree");
     }
 
-    public PostfixFunctionsRegistry(@Nonnull MathRegistry<Operator> functionsRegistry,
-                                    @Nonnull EntityDao<PersistedEntity> entityDao) {
-        super(functionsRegistry, POSTFIX_FUNCTION_DESCRIPTION_PREFIX, entityDao);
+    public PostfixFunctionsRegistry(@Nonnull MathRegistry<Operator> functionsRegistry) {
+        super(functionsRegistry, POSTFIX_FUNCTION_DESCRIPTION_PREFIX, null);
     }
-
 
     @Nonnull
     @Override
@@ -69,20 +64,10 @@ public class PostfixFunctionsRegistry extends BaseEntitiesRegistry<Operator, Per
         return null;
     }
 
-    @Override
-    public void load() {
-        // not supported yet
-    }
-
     @Nonnull
     @Override
     protected JBuilder<? extends Operator> createBuilder(@Nonnull PersistedEntity entity) {
         throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void save() {
-        // not supported yet
     }
 
     @Override

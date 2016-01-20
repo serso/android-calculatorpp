@@ -6,22 +6,19 @@ import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-
 import com.squareup.otto.Bus;
-
+import dagger.Module;
+import dagger.Provides;
+import jscl.JsclMathEngine;
 import org.solovyev.android.UiThreadExecutor;
-
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.annotation.Nonnull;
 import javax.inject.Named;
 import javax.inject.Singleton;
-
-import dagger.Module;
-import dagger.Provides;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Module
 public class AppModule {
@@ -89,6 +86,7 @@ public class AppModule {
         return Executors.newFixedThreadPool(5, new ThreadFactory() {
             @NonNull
             private final AtomicInteger counter = new AtomicInteger();
+
             @Override
             public Thread newThread(@Nonnull Runnable r) {
                 return new Thread(r, "Background #" + counter.getAndIncrement());
@@ -107,6 +105,12 @@ public class AppModule {
     @Named(THREAD_UI)
     Executor provideUiThread() {
         return new UiThreadExecutor();
+    }
+
+    @Provides
+    @Singleton
+    JsclMathEngine provideJsclMathEngine() {
+        return JsclMathEngine.getInstance();
     }
 
     private static class AppBus extends Bus {

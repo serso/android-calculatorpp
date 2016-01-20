@@ -34,6 +34,7 @@ import org.robolectric.annotation.Config;
 import org.solovyev.android.CalculatorTestRunner;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.jscl.JsclOperation;
+import org.solovyev.android.calculator.json.Json;
 
 import javax.annotation.Nonnull;
 import java.io.File;
@@ -280,7 +281,7 @@ public class HistoryTest {
 
     @Test
     public void testShouldLoadStates() throws Exception {
-        final List<HistoryState> states = History.loadStates(new File(HistoryTest.class.getResource("recent-history.json").getFile()));
+        final List<HistoryState> states = Json.load(new File(HistoryTest.class.getResource("recent-history.json").getFile()));
         assertEquals(8, states.size());
 
         HistoryState state = states.get(0);

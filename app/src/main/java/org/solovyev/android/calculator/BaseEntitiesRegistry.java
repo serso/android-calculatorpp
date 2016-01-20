@@ -22,17 +22,19 @@
 
 package org.solovyev.android.calculator;
 
+import android.content.Context;
+import android.content.res.Resources;
+import org.solovyev.android.Check;
 import org.solovyev.android.calculator.model.EntityDao;
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.math.MathRegistry;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 public abstract class BaseEntitiesRegistry<T extends MathEntity, P extends PersistedEntity> implements EntitiesRegistry<T> {
 
@@ -42,12 +44,12 @@ public abstract class BaseEntitiesRegistry<T extends MathEntity, P extends Persi
     @Nonnull
     private final String prefix;
 
-    @Nonnull
-    private final EntityDao<P> entityDao;
+    @Nullable
+    protected final EntityDao<P> entityDao;
 
     protected BaseEntitiesRegistry(@Nonnull MathRegistry<T> mathRegistry,
                                    @Nonnull String prefix,
-                                   @Nonnull EntityDao<P> entityDao) {
+                                   @Nullable EntityDao<P> entityDao) {
         this.mathRegistry = mathRegistry;
         this.prefix = prefix;
         this.entityDao = entityDao;
@@ -70,10 +72,28 @@ public abstract class BaseEntitiesRegistry<T extends MathEntity, P extends Persi
             stringName = prefix + substitute;
         }
 
-        return entityDao.getDescription(stringName);
+        return getDescription(App.getApplication(), stringName);
     }
 
-    public synchronized void load() {
+
+    @Nullable
+    public String getDescription(@Nonnull Context context, @Nonnull String descriptionId) {
+        final Resources resources = context.getResources();
+
+        final int stringId = resources.getIdentifier(descriptionId, "string", CalculatorApplication.class.getPackage().getName());
+        try {
+            return resources.getString(stringId);
+        } catch (Resources.NotFoundException e) {
+            return null;
+        }
+    }
+
+    public synchronized void init() {
+        Check.isNotMainThread();
+
+        if (entityDao == null) {
+            return;
+        }
         final PersistedEntitiesContainer<P> persistenceContainer = entityDao.load();
 
         final List<P> notCreatedEntities = new ArrayList<P>();
@@ -112,6 +132,9 @@ public abstract class BaseEntitiesRegistry<T extends MathEntity, P extends Persi
 
     @Override
     public synchronized void save() {
+        if (entityDao == null) {
+            return;
+        }
         final PersistedEntitiesContainer<P> container = createPersistenceContainer();
 
         for (T entity : this.getEntities()) {
@@ -123,7 +146,7 @@ public abstract class BaseEntitiesRegistry<T extends MathEntity, P extends Persi
             }
         }
 
-        this.entityDao.save(container);
+        entityDao.save(container);
     }
 
     @Nullable
