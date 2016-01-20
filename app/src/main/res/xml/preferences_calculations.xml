@@ -27,27 +27,27 @@
 
     <android.preference.CheckBoxPreference
         a:defaultValue="true"
-        a:key="@string/p_calc_round_result_key"
+        a:key="engine.output.round"
         a:summary="@string/c_calc_round_result_summary"
         a:title="@string/c_calc_round_result_title" />
 
     <org.solovyev.android.prefs.IntegerPickerDialogPreference
         a:defaultValue="5"
-        a:key="@string/p_calc_result_precision_key"
+        a:key="engine.output.precision"
         a:summary="@string/c_calc_result_precision_summary"
         a:title="@string/p_calc_result_precision_title"
         range:boundaries="0;16" />
 
     <android.preference.CheckBoxPreference
         a:defaultValue="false"
-        a:key="@string/p_calc_science_notation_key"
+        a:key="engine.output.scientificNotation"
         a:summary="@string/c_calc_science_notation_summary"
         a:title="@string/c_calc_science_notation_title" />
 
     <ListPreference
         a:entries="@array/p_grouping_separator_names"
         a:entryValues="@array/p_grouping_separator_values"
-        a:key="@string/p_calc_grouping_separator_key"
+        a:key="engine.groupingSeparator"
         a:summary="@string/c_calc_grouping_separator_summary"
         a:title="@string/c_calc_grouping_separator" />
 
@@ -61,7 +61,7 @@
     <ListPreference
         a:entries="@array/p_angle_units_names"
         a:entryValues="@array/p_angle_units"
-        a:key="@string/p_calc_angle_units_key"
+        a:key="engine.angleUnit"
         a:summary="@string/c_angle_units_summary"
         a:title="@string/c_calc_angle_units" />
 
@@ -75,7 +75,7 @@
     <ListPreference
         a:entries="@array/p_numeral_bases_names"
         a:entryValues="@array/p_numeral_bases"
-        a:key="@string/p_calc_numeral_bases_key"
+        a:key="engine.numeralBase"
         a:summary="@string/c_numeral_bases_summary"
         a:title="@string/c_calc_numeral_bases" />
 

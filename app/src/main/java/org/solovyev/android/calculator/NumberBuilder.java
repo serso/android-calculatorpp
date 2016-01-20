@@ -23,17 +23,24 @@
 package org.solovyev.android.calculator;
 
 import android.text.SpannableStringBuilder;
+
+import org.solovyev.android.calculator.math.MathType;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import jscl.MathContext;
 import jscl.MathEngine;
 import jscl.NumeralBase;
 import jscl.math.numeric.Real;
-import jscl.text.*;
-import org.solovyev.android.calculator.math.MathType;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
+import jscl.text.DoubleParser;
+import jscl.text.JsclIntegerParser;
+import jscl.text.MutableInt;
+import jscl.text.ParseException;
+import jscl.text.Parser;
 
 /**
  * User: serso
@@ -193,7 +200,7 @@ public class NumberBuilder extends BaseNumberBuilder {
             numberBuilder = null;
 
             // must set default numeral base (exit numeral base mode)
-            nb = engine.getNumeralBase();
+            nb = engine.getMathEngine().getNumeralBase();
         }
 
         return replaceNumberInText(sb, number, trimmedChars, localNb, engine.getMathEngine());

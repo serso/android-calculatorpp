@@ -24,6 +24,8 @@ package org.solovyev.android.calculator;
 
 import org.solovyev.android.calculator.jscl.JsclOperation;
 
+import java.util.concurrent.Executor;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -37,7 +39,7 @@ import jscl.math.Generic;
  */
 public interface Calculator extends CalculatorEventContainer {
 
-    void init();
+    void init(@Nonnull Executor initThread);
 
 	/*
     **********************************************************************

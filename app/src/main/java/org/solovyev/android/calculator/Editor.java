@@ -25,6 +25,7 @@ package org.solovyev.android.calculator;
 import android.content.SharedPreferences;
 
 import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.text.TextProcessorEditorResult;
@@ -40,7 +41,6 @@ import static java.lang.Math.min;
 @Singleton
 public class Editor {
 
-    private static final String TAG = App.subTag("Editor");
     @Nullable
     private final EditorTextProcessor textProcessor;
     @Nullable
@@ -53,6 +53,10 @@ public class Editor {
     @Inject
     public Editor(@Nonnull SharedPreferences preferences) {
         textProcessor = new EditorTextProcessor(preferences);
+    }
+
+    public void init() {
+        bus.register(this);
     }
 
     public static int clamp(int selection, @Nonnull CharSequence text) {
@@ -212,6 +216,13 @@ public class Editor {
     public EditorState setSelection(int selection) {
         Check.isMainThread();
         return onSelectionChanged(EditorState.forNewSelection(state, clamp(selection, state.text)));
+    }
+
+    @Subscribe
+    public void onEngineChanged(@Nonnull Engine.ChangedEvent e) {
+        // this will effectively apply new formatting (if f.e. grouping separator has changed) and
+        // will start new evaluation
+        onTextChanged(getState());
     }
 
     public static class ChangedEvent {

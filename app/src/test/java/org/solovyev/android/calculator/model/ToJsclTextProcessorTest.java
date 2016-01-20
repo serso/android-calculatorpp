@@ -87,10 +87,10 @@ public class ToJsclTextProcessorTest extends AbstractCalculatorTest {
         Assert.assertEquals("EE", preprocessor.process("EE").toString());
 
         try {
-            Locator.getInstance().getEngine().setNumeralBase(NumeralBase.hex);
+            Locator.getInstance().getEngine().getMathEngine().setNumeralBase(NumeralBase.hex);
             Assert.assertEquals("22F*exp(F)", preprocessor.process("22Fexp(F)").toString());
         } finally {
-            Locator.getInstance().getEngine().setNumeralBase(NumeralBase.dec);
+            Locator.getInstance().getEngine().getMathEngine().setNumeralBase(NumeralBase.dec);
         }
         Assert.assertEquals("0x:ABCDEF", preprocessor.process("0x:ABCDEF").toString());
         Assert.assertEquals("0x:ABCDEF", preprocessor.process("0x:A BC DEF").toString());

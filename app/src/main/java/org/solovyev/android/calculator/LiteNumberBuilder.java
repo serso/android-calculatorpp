@@ -40,7 +40,7 @@ public class LiteNumberBuilder extends BaseNumberBuilder {
 
     public LiteNumberBuilder(@Nonnull Engine engine) {
         super(engine);
-        this.nb = engine.getNumeralBase();
+        this.nb = engine.getMathEngine().getNumeralBase();
     }
 
     @Override
@@ -71,7 +71,7 @@ public class LiteNumberBuilder extends BaseNumberBuilder {
                 numberBuilder = null;
 
                 // must set default numeral base (exit numeral base mode)
-                nb = engine.getNumeralBase();
+                nb = engine.getMathEngine().getNumeralBase();
             }
         }
     }

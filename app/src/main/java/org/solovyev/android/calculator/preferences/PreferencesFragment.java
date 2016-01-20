@@ -10,7 +10,12 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ListView;
-import org.solovyev.android.calculator.*;
+
+import org.solovyev.android.calculator.AdView;
+import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.Engine;
+import org.solovyev.android.calculator.Preferences;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.language.Language;
 import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.android.checkout.BillingRequests;
@@ -18,12 +23,11 @@ import org.solovyev.android.checkout.Checkout;
 import org.solovyev.android.checkout.ProductTypes;
 import org.solovyev.android.checkout.RequestListener;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.List;
 
-import static org.solovyev.android.calculator.Engine.Preferences.precision;
-import static org.solovyev.android.calculator.Engine.Preferences.roundResult;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import static org.solovyev.android.calculator.wizard.CalculatorWizards.DEFAULT_WIZARD_FLOW;
 import static org.solovyev.android.wizard.WizardUi.startWizard;
 
@@ -118,7 +122,7 @@ public class PreferencesFragment extends org.solovyev.android.material.preferenc
         });
 
         final SharedPreferences preferences = App.getPreferences();
-        onSharedPreferenceChanged(preferences, roundResult.getKey());
+        onSharedPreferenceChanged(preferences, Engine.Preferences.Output.round.getKey());
     }
 
     private void prepareLanguagePreference(int preference) {
@@ -156,10 +160,10 @@ public class PreferencesFragment extends org.solovyev.android.material.preferenc
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
-        if (roundResult.getKey().equals(key)) {
-            final Preference preference = findPreference(precision.getKey());
+        if (Engine.Preferences.Output.round.getKey().equals(key)) {
+            final Preference preference = findPreference(Engine.Preferences.Output.precision.getKey());
             if (preference != null) {
-                preference.setEnabled(preferences.getBoolean(key, roundResult.getDefaultValue()));
+                preference.setEnabled(preferences.getBoolean(key, Engine.Preferences.Output.round.getDefaultValue()));
             }
         }
     }

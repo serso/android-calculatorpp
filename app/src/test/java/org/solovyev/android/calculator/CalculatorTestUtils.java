@@ -23,25 +23,33 @@
 package org.solovyev.android.calculator;
 
 import android.content.Context;
+
 import com.squareup.otto.Bus;
-import jscl.JsclMathEngine;
+
 import org.junit.Assert;
 import org.mockito.Mockito;
-import org.robolectric.RuntimeEnvironment;
 import org.robolectric.fakes.RoboSharedPreferences;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.android.calculator.plot.CalculatorPlotter;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.text.DecimalFormatSymbols;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import jscl.JsclMathEngine;
 
 /**
  * User: serso
@@ -56,17 +64,27 @@ public class CalculatorTestUtils {
     public static void staticSetUp() throws Exception {
         App.init(new CalculatorApplication(), new Languages(new RoboSharedPreferences(new HashMap<String, Map<String, Object>>(), "test", 0)));
         Locator.getInstance().init(new CalculatorImpl(Mockito.mock(Bus.class), Mockito.mock(Executor.class)), newCalculatorEngine(), Mockito.mock(CalculatorClipboard.class), Mockito.mock(CalculatorNotifier.class), new SystemErrorReporter(), Mockito.mock(CalculatorPreferenceService.class), Mockito.mock(Keyboard.class), Mockito.mock(CalculatorPlotter.class));
-        Locator.getInstance().getEngine().init();
+        Locator.getInstance().getEngine().init(new Executor() {
+            @Override
+            public void execute(Runnable command) {
+                command.run();
+            }
+        });
 
         final DecimalFormatSymbols decimalGroupSymbols = new DecimalFormatSymbols();
         decimalGroupSymbols.setDecimalSeparator('.');
         decimalGroupSymbols.setGroupingSeparator(' ');
-        Locator.getInstance().getEngine().setDecimalGroupSymbols(decimalGroupSymbols);
+        Locator.getInstance().getEngine().getMathEngine().setDecimalGroupSymbols(decimalGroupSymbols);
     }
 
     public static void staticSetUp(@Nullable Context context) throws Exception {
         Locator.getInstance().init(new CalculatorImpl(Mockito.mock(Bus.class), Mockito.mock(Executor.class)), newCalculatorEngine(), Mockito.mock(CalculatorClipboard.class), Mockito.mock(CalculatorNotifier.class), new SystemErrorReporter(), Mockito.mock(CalculatorPreferenceService.class), Mockito.mock(Keyboard.class), Mockito.mock(CalculatorPlotter.class));
-        Locator.getInstance().getEngine().init();
+        Locator.getInstance().getEngine().init(new Executor() {
+            @Override
+            public void execute(Runnable command) {
+                command.run();
+            }
+        });
 
         if (context != null) {
             initViews(context);
@@ -89,7 +107,7 @@ public class CalculatorTestUtils {
         final OperatorsRegistry operatorsRegistry = new OperatorsRegistry(jsclEngine.getOperatorsRegistry(), mathEntityDao);
         final PostfixFunctionsRegistry postfixFunctionsRegistry = new PostfixFunctionsRegistry(jsclEngine.getPostfixFunctionsRegistry(), mathEntityDao);
 
-        return new Engine(RuntimeEnvironment.application, jsclEngine, varsRegistry, functionsRegistry, operatorsRegistry, postfixFunctionsRegistry);
+        return new Engine(jsclEngine, varsRegistry, functionsRegistry, operatorsRegistry, postfixFunctionsRegistry);
     }
 
     public static void assertEval(@Nonnull String expected, @Nonnull String expression) {
