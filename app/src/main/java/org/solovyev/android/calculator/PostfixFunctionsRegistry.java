@@ -22,15 +22,18 @@
 
 package org.solovyev.android.calculator;
 
-import jscl.math.operator.Operator;
+import org.solovyev.android.calculator.model.EntityDao;
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathRegistry;
 
-import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PostfixFunctionsRegistry extends BaseEntitiesRegistry<Operator, MathPersistenceEntity> {
+import javax.annotation.Nonnull;
+
+import jscl.math.operator.Operator;
+
+public class PostfixFunctionsRegistry extends BaseEntitiesRegistry<Operator, PersistedEntity> {
 
     @Nonnull
     private static final Map<String, String> substitutes = new HashMap<String, String>();
@@ -45,8 +48,8 @@ public class PostfixFunctionsRegistry extends BaseEntitiesRegistry<Operator, Mat
     }
 
     public PostfixFunctionsRegistry(@Nonnull MathRegistry<Operator> functionsRegistry,
-                                    @Nonnull MathEntityDao<MathPersistenceEntity> mathEntityDao) {
-        super(functionsRegistry, POSTFIX_FUNCTION_DESCRIPTION_PREFIX, mathEntityDao);
+                                    @Nonnull EntityDao<PersistedEntity> entityDao) {
+        super(functionsRegistry, POSTFIX_FUNCTION_DESCRIPTION_PREFIX, entityDao);
     }
 
 
@@ -73,7 +76,7 @@ public class PostfixFunctionsRegistry extends BaseEntitiesRegistry<Operator, Mat
 
     @Nonnull
     @Override
-    protected JBuilder<? extends Operator> createBuilder(@Nonnull MathPersistenceEntity entity) {
+    protected JBuilder<? extends Operator> createBuilder(@Nonnull PersistedEntity entity) {
         throw new UnsupportedOperationException();
     }
 
@@ -83,13 +86,13 @@ public class PostfixFunctionsRegistry extends BaseEntitiesRegistry<Operator, Mat
     }
 
     @Override
-    protected MathPersistenceEntity transform(@Nonnull Operator entity) {
+    protected PersistedEntity transform(@Nonnull Operator entity) {
         return null;
     }
 
     @Nonnull
     @Override
-    protected MathEntityPersistenceContainer<MathPersistenceEntity> createPersistenceContainer() {
+    protected PersistedEntitiesContainer<PersistedEntity> createPersistenceContainer() {
         throw new UnsupportedOperationException();
     }
 }

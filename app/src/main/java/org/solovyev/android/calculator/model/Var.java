@@ -25,7 +25,7 @@ package org.solovyev.android.calculator.model;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 import org.simpleframework.xml.Transient;
-import org.solovyev.android.calculator.MathPersistenceEntity;
+import org.solovyev.android.calculator.PersistedEntity;
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.text.Strings;
@@ -44,7 +44,7 @@ import jscl.math.function.IConstant;
  */
 
 @Root
-public class Var implements IConstant, MathPersistenceEntity {
+public class Var implements IConstant, PersistedEntity {
 
     @Transient
     private Integer id;

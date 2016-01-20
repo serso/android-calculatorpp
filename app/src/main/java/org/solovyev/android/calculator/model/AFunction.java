@@ -22,29 +22,31 @@
 
 package org.solovyev.android.calculator.model;
 
-import jscl.math.function.IFunction;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 import org.simpleframework.xml.Transient;
 import org.solovyev.android.calculator.CalculatorParseException;
 import org.solovyev.android.calculator.Locator;
-import org.solovyev.android.calculator.MathPersistenceEntity;
+import org.solovyev.android.calculator.PersistedEntity;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.msg.Message;
 import org.solovyev.common.msg.MessageLevel;
 import org.solovyev.common.text.Strings;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import jscl.math.function.IFunction;
+
 @Root(name = "function")
-public class AFunction implements IFunction, MathPersistenceEntity, Serializable {
+public class AFunction implements IFunction, PersistedEntity, Serializable {
 
     @Transient
     private Integer id;

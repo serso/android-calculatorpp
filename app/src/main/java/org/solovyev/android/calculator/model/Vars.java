@@ -24,7 +24,7 @@ package org.solovyev.android.calculator.model;
 
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
-import org.solovyev.android.calculator.MathEntityPersistenceContainer;
+import org.solovyev.android.calculator.PersistedEntitiesContainer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +36,7 @@ import java.util.List;
  */
 
 @Root
-public class Vars implements MathEntityPersistenceContainer<Var> {
+public class Vars implements PersistedEntitiesContainer<Var> {
 
     @ElementList(type = Var.class)
     private List<Var> vars = new ArrayList<Var>();

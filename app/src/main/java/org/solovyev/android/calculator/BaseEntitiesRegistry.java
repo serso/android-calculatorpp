@@ -22,17 +22,19 @@
 
 package org.solovyev.android.calculator;
 
+import org.solovyev.android.calculator.model.EntityDao;
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.math.MathRegistry;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public abstract class BaseEntitiesRegistry<T extends MathEntity, P extends MathPersistenceEntity> implements EntitiesRegistry<T> {
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+public abstract class BaseEntitiesRegistry<T extends MathEntity, P extends PersistedEntity> implements EntitiesRegistry<T> {
 
     @Nonnull
     private final MathRegistry<T> mathRegistry;
@@ -41,14 +43,14 @@ public abstract class BaseEntitiesRegistry<T extends MathEntity, P extends MathP
     private final String prefix;
 
     @Nonnull
-    private final MathEntityDao<P> mathEntityDao;
+    private final EntityDao<P> entityDao;
 
     protected BaseEntitiesRegistry(@Nonnull MathRegistry<T> mathRegistry,
                                    @Nonnull String prefix,
-                                   @Nonnull MathEntityDao<P> mathEntityDao) {
+                                   @Nonnull EntityDao<P> entityDao) {
         this.mathRegistry = mathRegistry;
         this.prefix = prefix;
-        this.mathEntityDao = mathEntityDao;
+        this.entityDao = entityDao;
     }
 
 
@@ -68,11 +70,11 @@ public abstract class BaseEntitiesRegistry<T extends MathEntity, P extends MathP
             stringName = prefix + substitute;
         }
 
-        return mathEntityDao.getDescription(stringName);
+        return entityDao.getDescription(stringName);
     }
 
     public synchronized void load() {
-        final MathEntityPersistenceContainer<P> persistenceContainer = mathEntityDao.load();
+        final PersistedEntitiesContainer<P> persistenceContainer = entityDao.load();
 
         final List<P> notCreatedEntities = new ArrayList<P>();
 
@@ -110,7 +112,7 @@ public abstract class BaseEntitiesRegistry<T extends MathEntity, P extends MathP
 
     @Override
     public synchronized void save() {
-        final MathEntityPersistenceContainer<P> container = createPersistenceContainer();
+        final PersistedEntitiesContainer<P> container = createPersistenceContainer();
 
         for (T entity : this.getEntities()) {
             if (!entity.isSystem()) {
@@ -121,14 +123,14 @@ public abstract class BaseEntitiesRegistry<T extends MathEntity, P extends MathP
             }
         }
 
-        this.mathEntityDao.save(container);
+        this.entityDao.save(container);
     }
 
     @Nullable
     protected abstract P transform(@Nonnull T entity);
 
     @Nonnull
-    protected abstract MathEntityPersistenceContainer<P> createPersistenceContainer();
+    protected abstract PersistedEntitiesContainer<P> createPersistenceContainer();
 
     @Nonnull
     @Override

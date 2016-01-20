@@ -22,15 +22,18 @@
 
 package org.solovyev.android.calculator;
 
-import jscl.math.operator.Operator;
+import org.solovyev.android.calculator.model.EntityDao;
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathRegistry;
 
-import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 
-public class OperatorsRegistry extends BaseEntitiesRegistry<Operator, MathPersistenceEntity> {
+import javax.annotation.Nonnull;
+
+import jscl.math.operator.Operator;
+
+public class OperatorsRegistry extends BaseEntitiesRegistry<Operator, PersistedEntity> {
 
     @Nonnull
     private static final Map<String, String> substitutes = new HashMap<String, String>();
@@ -47,8 +50,8 @@ public class OperatorsRegistry extends BaseEntitiesRegistry<Operator, MathPersis
     }
 
     public OperatorsRegistry(@Nonnull MathRegistry<Operator> functionsRegistry,
-                             @Nonnull MathEntityDao<MathPersistenceEntity> mathEntityDao) {
-        super(functionsRegistry, OPERATOR_DESCRIPTION_PREFIX, mathEntityDao);
+                             @Nonnull EntityDao<PersistedEntity> entityDao) {
+        super(functionsRegistry, OPERATOR_DESCRIPTION_PREFIX, entityDao);
     }
 
     @Nonnull
@@ -74,7 +77,7 @@ public class OperatorsRegistry extends BaseEntitiesRegistry<Operator, MathPersis
 
     @Nonnull
     @Override
-    protected JBuilder<? extends Operator> createBuilder(@Nonnull MathPersistenceEntity entity) {
+    protected JBuilder<? extends Operator> createBuilder(@Nonnull PersistedEntity entity) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -84,22 +87,13 @@ public class OperatorsRegistry extends BaseEntitiesRegistry<Operator, MathPersis
     }
 
     @Override
-    protected MathPersistenceEntity transform(@Nonnull Operator entity) {
+    protected PersistedEntity transform(@Nonnull Operator entity) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Nonnull
     @Override
-    protected MathEntityPersistenceContainer<MathPersistenceEntity> createPersistenceContainer() {
+    protected PersistedEntitiesContainer<PersistedEntity> createPersistenceContainer() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
-
-	/*
-    **********************************************************************
-	*
-	*                           STATIC
-	*
-	**********************************************************************
-	*/
-
 }
