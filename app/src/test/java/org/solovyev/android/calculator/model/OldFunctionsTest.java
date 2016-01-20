@@ -22,6 +22,7 @@
 
 package org.solovyev.android.calculator.model;
 
+import jscl.util.ExpressionGenerator;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.junit.Assert;
@@ -34,24 +35,17 @@ import org.solovyev.common.Objects;
 import org.solovyev.common.equals.CollectionEqualizer;
 import org.solovyev.common.text.Strings;
 
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import jscl.util.ExpressionGenerator;
+import java.io.StringWriter;
+import java.util.*;
 
 /**
  * User: serso
  * Date: 11/14/12
  * Time: 8:06 PM
  */
-public class FunctionsTest {
+public class OldFunctionsTest {
 
     private static final String xml = "<functions>\n" +
             "   <functions class=\"java.util.ArrayList\">\n" +
@@ -95,23 +89,23 @@ public class FunctionsTest {
 
     @Test
     public void testXml() throws Exception {
-        final Functions in = new Functions();
+        final OldFunctions in = new OldFunctions();
 
-        AFunction first = new AFunction.Builder("test", "x+y", Arrays.asList("x", "y")).setDescription("description").setSystem(false).create();
+        OldFunction first = new OldFunction.Builder("test", "x+y", Arrays.asList("x", "y")).setDescription("description").setSystem(false).create();
         in.getEntities().add(first);
 
-        AFunction second = new AFunction.Builder("z_2", "e^(z_1^2+z_2^2)", Arrays.asList("z_1", "z_2")).setSystem(true).create();
+        OldFunction second = new OldFunction.Builder("z_2", "e^(z_1^2+z_2^2)", Arrays.asList("z_1", "z_2")).setSystem(true).create();
         in.getEntities().add(second);
 
-        AFunction third = new AFunction.Builder("z_2", "e^(z_1^2+z_2^2)", Arrays.asList("z_1", "z_2")).setSystem(true).setDescription("").create();
+        OldFunction third = new OldFunction.Builder("z_2", "e^(z_1^2+z_2^2)", Arrays.asList("z_1", "z_2")).setSystem(true).setDescription("").create();
         in.getEntities().add(third);
 
-        final Functions out = testXml(in, xml);
+        final OldFunctions out = testXml(in, xml);
 
         Assert.assertTrue(!out.getEntities().isEmpty());
 
-        final AFunction firstOut = out.getEntities().get(0);
-        final AFunction secondOut = out.getEntities().get(1);
+        final OldFunction firstOut = out.getEntities().get(0);
+        final OldFunction secondOut = out.getEntities().get(1);
 
         assertEquals(first, firstOut);
         assertEquals(second, secondOut);
@@ -119,7 +113,7 @@ public class FunctionsTest {
     }
 
     @Nonnull
-    private Functions testXml(@Nonnull Functions in, @Nullable String expectedXml) throws Exception {
+    private OldFunctions testXml(@Nonnull OldFunctions in, @Nullable String expectedXml) throws Exception {
         final String actualXml = toXml(in);
 
         if (expectedXml != null) {
@@ -127,13 +121,13 @@ public class FunctionsTest {
         }
 
         final Serializer serializer = new Persister();
-        final Functions out = serializer.read(Functions.class, actualXml);
+        final OldFunctions out = serializer.read(OldFunctions.class, actualXml);
         final String actualXml2 = toXml(out);
         Assert.assertEquals(actualXml, actualXml2);
         return out;
     }
 
-    private String toXml(Functions in) throws Exception {
+    private String toXml(OldFunctions in) throws Exception {
         final StringWriter sw = new StringWriter();
         final Serializer serializer = new Persister();
         serializer.write(in, sw);
@@ -142,7 +136,7 @@ public class FunctionsTest {
 
     @Test
     public void testRandomXml() throws Exception {
-        final Functions in = new Functions();
+        final OldFunctions in = new OldFunctions();
 
         final Random random = new Random(new Date().getTime());
 
@@ -156,7 +150,7 @@ public class FunctionsTest {
                 parameterNames.add(String.valueOf(paramsString.charAt(j)));
             }
 
-            final AFunction.Builder builder = new AFunction.Builder("test_" + i, content, parameterNames);
+            final OldFunction.Builder builder = new OldFunction.Builder("test_" + i, content, parameterNames);
 
             if (random.nextBoolean()) {
                 builder.setDescription(Strings.generateRandomString(random.nextInt(100)));
@@ -170,8 +164,8 @@ public class FunctionsTest {
         testXml(in, null);
     }
 
-    private void assertEquals(@Nonnull final AFunction expected,
-                              @Nonnull AFunction actual) {
+    private void assertEquals(@Nonnull final OldFunction expected,
+                              @Nonnull OldFunction actual) {
         //Assert.assertEquals(expected.getId(), actual.getId());
         Assert.assertEquals(expected.getContent(), actual.getContent());
         Assert.assertEquals(expected.getDescription(), actual.getDescription());

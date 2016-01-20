@@ -22,13 +22,15 @@
 
 package org.solovyev.android.calculator;
 
-import android.app.Application;
 import android.content.SharedPreferences;
-
 import com.squareup.otto.Bus;
-
+import jscl.AngleUnit;
+import jscl.JsclMathEngine;
+import jscl.MathEngine;
+import jscl.NumeralBase;
+import jscl.math.function.IConstant;
+import jscl.math.operator.Operator;
 import org.solovyev.android.calculator.model.EntityDao;
-import org.solovyev.android.calculator.model.Functions;
 import org.solovyev.android.calculator.model.Vars;
 import org.solovyev.android.prefs.BooleanPreference;
 import org.solovyev.android.prefs.IntegerPreference;
@@ -38,22 +40,13 @@ import org.solovyev.common.text.EnumMapper;
 import org.solovyev.common.text.NumberMapper;
 import org.solovyev.common.text.Strings;
 
+import javax.annotation.Nonnull;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Executor;
-
-import javax.annotation.Nonnull;
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
-import jscl.AngleUnit;
-import jscl.JsclMathEngine;
-import jscl.MathEngine;
-import jscl.NumeralBase;
-import jscl.math.function.Function;
-import jscl.math.function.IConstant;
-import jscl.math.operator.Operator;
 
 @Singleton
 public class Engine implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -62,8 +55,7 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
     private final MathEngine mathEngine;
     @Nonnull
     private final EntitiesRegistry<IConstant> varsRegistry;
-    @Nonnull
-    private final EntitiesRegistry<Function> functionsRegistry;
+
     @Nonnull
     private final EntitiesRegistry<Operator> operatorsRegistry;
     @Nonnull
@@ -74,10 +66,12 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
     Bus bus;
     @Inject
     ErrorReporter errorReporter;
+    @Inject
+    FunctionsRegistry functionsRegistry;
     @Nonnull
     private String multiplicationSign = Preferences.multiplicationSign.getDefaultValue();
 
-    public Engine(@Nonnull MathEngine mathEngine, @Nonnull EntitiesRegistry<IConstant> varsRegistry, @Nonnull EntitiesRegistry<Function> functionsRegistry, @Nonnull EntitiesRegistry<Operator> operatorsRegistry, @Nonnull EntitiesRegistry<Operator> postfixFunctionsRegistry) {
+    public Engine(@Nonnull MathEngine mathEngine, @Nonnull EntitiesRegistry<IConstant> varsRegistry, @Nonnull FunctionsRegistry functionsRegistry, @Nonnull EntitiesRegistry<Operator> operatorsRegistry, @Nonnull EntitiesRegistry<Operator> postfixFunctionsRegistry) {
         this.mathEngine = mathEngine;
         this.varsRegistry = varsRegistry;
         this.functionsRegistry = functionsRegistry;
@@ -86,16 +80,15 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
     }
 
     @Inject
-    public Engine(@Nonnull Application application) {
-        this.mathEngine = JsclMathEngine.getInstance();
+    public Engine(@Nonnull SharedPreferences preferences, @Nonnull JsclMathEngine mathEngine) {
+        this.mathEngine = mathEngine;
 
         this.mathEngine.setRoundResult(true);
         this.mathEngine.setUseGroupingSeparator(true);
 
-        this.varsRegistry = new VarsRegistry(mathEngine.getConstantsRegistry(), new EntityDao<>("org.solovyev.android.calculator.CalculatorModel_vars", application, Vars.class));
-        this.functionsRegistry = new FunctionsRegistry(mathEngine.getFunctionsRegistry(), new EntityDao<>("org.solovyev.android.calculator.CalculatorModel_functions", application, Functions.class));
-        this.operatorsRegistry = new OperatorsRegistry(mathEngine.getOperatorsRegistry(), new EntityDao<>(null, application, null));
-        this.postfixFunctionsRegistry = new PostfixFunctionsRegistry(mathEngine.getPostfixFunctionsRegistry(), new EntityDao<>(null, application, null));
+        this.varsRegistry = new VarsRegistry(mathEngine.getConstantsRegistry(), new EntityDao<>("org.solovyev.android.calculator.CalculatorModel_vars", Vars.class, preferences));
+        this.operatorsRegistry = new OperatorsRegistry(mathEngine.getOperatorsRegistry());
+        this.postfixFunctionsRegistry = new PostfixFunctionsRegistry(mathEngine.getPostfixFunctionsRegistry());
     }
 
     private static void migratePreference(@Nonnull SharedPreferences preferences, @Nonnull BooleanPreference preference, @Nonnull String oldKey, @Nonnull SharedPreferences.Editor editor) {
@@ -118,7 +111,7 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
     }
 
     @Nonnull
-    public EntitiesRegistry<Function> getFunctionsRegistry() {
+    public FunctionsRegistry getFunctionsRegistry() {
         return functionsRegistry;
     }
 
@@ -175,15 +168,15 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
     }
 
     private void initAsync() {
-        safeLoadRegistry(varsRegistry);
-        safeLoadRegistry(functionsRegistry);
-        safeLoadRegistry(operatorsRegistry);
-        safeLoadRegistry(postfixFunctionsRegistry);
+        init(varsRegistry);
+        init(functionsRegistry);
+        init(operatorsRegistry);
+        init(postfixFunctionsRegistry);
     }
 
-    private void safeLoadRegistry(@Nonnull EntitiesRegistry<?> registry) {
+    private void init(@Nonnull EntitiesRegistry<?> registry) {
         try {
-            registry.load();
+            registry.init();
         } catch (Exception e) {
             errorReporter.onException(e);
         }

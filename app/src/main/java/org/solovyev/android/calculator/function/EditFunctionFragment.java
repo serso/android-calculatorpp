@@ -36,51 +36,28 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
-import android.view.ContextMenu;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-
-import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.BaseDialogFragment;
-import org.solovyev.android.calculator.CalculatorEventData;
-import org.solovyev.android.calculator.CalculatorEventListener;
-import org.solovyev.android.calculator.CalculatorEventType;
-import org.solovyev.android.calculator.CalculatorUtils;
-import org.solovyev.android.calculator.DisplayState;
-import org.solovyev.android.calculator.KeyboardUi;
-import org.solovyev.android.calculator.KeyboardWindow;
-import org.solovyev.android.calculator.Locator;
-import org.solovyev.android.calculator.R;
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import jscl.math.Generic;
+import jscl.math.function.*;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.math.edit.CalculatorFunctionsActivity;
 import org.solovyev.android.calculator.math.edit.FunctionsFragment;
 import org.solovyev.android.calculator.math.edit.MathEntityRemover;
 import org.solovyev.android.calculator.math.edit.VarEditorSaver;
-import org.solovyev.android.calculator.model.AFunction;
+import org.solovyev.android.calculator.model.OldFunction;
 import org.solovyev.common.math.MathRegistry;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import jscl.math.Generic;
-import jscl.math.function.Constant;
-import jscl.math.function.CustomFunction;
-import jscl.math.function.Function;
-import jscl.math.function.IConstant;
-import jscl.math.function.IFunction;
 
 public class EditFunctionFragment extends BaseDialogFragment implements CalculatorEventListener, View.OnClickListener, View.OnFocusChangeListener, View.OnKeyListener {
 
@@ -143,7 +120,7 @@ public class EditFunctionFragment extends BaseDialogFragment implements Calculat
     protected void onPrepareDialog(@NonNull AlertDialog.Builder builder) {
         builder.setNegativeButton(R.string.c_cancel, null);
         builder.setPositiveButton(R.string.ok, null);
-        final AFunction function = input.getFunction();
+        final OldFunction function = input.getFunction();
         builder.setTitle(function == null ? R.string.function_create_function : R.string.function_edit_function);
         if (function != null) {
             builder.setNeutralButton(R.string.c_remove, null);
@@ -168,7 +145,7 @@ public class EditFunctionFragment extends BaseDialogFragment implements Calculat
                         tryClose();
                     }
                 });
-                final AFunction function = input.getFunction();
+                final OldFunction function = input.getFunction();
                 if (function != null) {
                     final Function customFunction = new CustomFunction.Builder(function).create();
                     final Button neutral = dialog.getButton(AlertDialog.BUTTON_NEUTRAL);
@@ -308,7 +285,7 @@ public class EditFunctionFragment extends BaseDialogFragment implements Calculat
             }
         };
         @Nullable
-        private AFunction function;
+        private OldFunction function;
         @Nullable
         private String name;
         @Nullable
@@ -343,7 +320,7 @@ public class EditFunctionFragment extends BaseDialogFragment implements Calculat
             in.readTypedList(parameterNames, STRING_CREATOR);
             result.parameterNames = parameterNames;
 
-            result.function = (AFunction) in.readSerializable();
+            result.function = (OldFunction) in.readSerializable();
 
             return result;
         }
@@ -356,7 +333,7 @@ public class EditFunctionFragment extends BaseDialogFragment implements Calculat
         @Nonnull
         public static Input newFromFunction(@Nonnull IFunction function) {
             final Input result = new Input();
-            result.function = AFunction.fromIFunction(function);
+            result.function = OldFunction.fromIFunction(function);
             return result;
         }
 
@@ -369,7 +346,7 @@ public class EditFunctionFragment extends BaseDialogFragment implements Calculat
 
             final Input result = new Input();
             if (function != null) {
-                result.function = AFunction.fromIFunction(function);
+                result.function = OldFunction.fromIFunction(function);
             }
             result.name = name;
             result.content = value;
@@ -398,7 +375,7 @@ public class EditFunctionFragment extends BaseDialogFragment implements Calculat
         }
 
         @Nullable
-        public AFunction getFunction() {
+        public OldFunction getFunction() {
             return function;
         }
 

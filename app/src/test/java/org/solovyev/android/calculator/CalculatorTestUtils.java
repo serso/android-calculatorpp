@@ -23,9 +23,8 @@
 package org.solovyev.android.calculator;
 
 import android.content.Context;
-
 import com.squareup.otto.Bus;
-
+import jscl.JsclMathEngine;
 import org.junit.Assert;
 import org.mockito.Mockito;
 import org.robolectric.fakes.RoboSharedPreferences;
@@ -34,23 +33,15 @@ import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.android.calculator.model.EntityDao;
 import org.solovyev.android.calculator.plot.CalculatorPlotter;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.io.*;
 import java.text.DecimalFormatSymbols;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import jscl.JsclMathEngine;
 
 /**
  * User: serso
@@ -104,9 +95,9 @@ public class CalculatorTestUtils {
         final JsclMathEngine jsclEngine = JsclMathEngine.getInstance();
 
         final VarsRegistry varsRegistry = new VarsRegistry(jsclEngine.getConstantsRegistry(), entityDao);
-        final FunctionsRegistry functionsRegistry = new FunctionsRegistry(jsclEngine.getFunctionsRegistry(), entityDao);
-        final OperatorsRegistry operatorsRegistry = new OperatorsRegistry(jsclEngine.getOperatorsRegistry(), entityDao);
-        final PostfixFunctionsRegistry postfixFunctionsRegistry = new PostfixFunctionsRegistry(jsclEngine.getPostfixFunctionsRegistry(), entityDao);
+        final FunctionsRegistry functionsRegistry = new FunctionsRegistry(jsclEngine.getFunctionsRegistry());
+        final OperatorsRegistry operatorsRegistry = new OperatorsRegistry(jsclEngine.getOperatorsRegistry());
+        final PostfixFunctionsRegistry postfixFunctionsRegistry = new PostfixFunctionsRegistry(jsclEngine.getPostfixFunctionsRegistry());
 
         return new Engine(jsclEngine, varsRegistry, functionsRegistry, operatorsRegistry, postfixFunctionsRegistry);
     }

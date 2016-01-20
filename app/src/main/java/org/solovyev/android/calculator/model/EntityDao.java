@@ -22,91 +22,60 @@
 
 package org.solovyev.android.calculator.model;
 
-import android.app.Application;
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.preference.PreferenceManager;
-
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
-import org.solovyev.android.calculator.CalculatorApplication;
 import org.solovyev.android.calculator.PersistedEntitiesContainer;
 import org.solovyev.android.calculator.PersistedEntity;
 
-import java.io.StringWriter;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.io.StringWriter;
 
 public class EntityDao<T extends PersistedEntity> {
 
-    @Nullable
+    @Nonnull
     private final String preferenceString;
 
     @Nonnull
-    private final Context context;
-
-    @Nullable
     private final Class<? extends PersistedEntitiesContainer<T>> persistenceContainerClass;
+    @Nonnull
+    private final SharedPreferences preferences;
 
-    public EntityDao(@Nullable String preferenceString,
-                     @Nonnull Application application,
-                     @Nullable Class<? extends PersistedEntitiesContainer<T>> persistenceContainerClass) {
+    public EntityDao(@Nonnull String preferenceString,
+                     @Nonnull Class<? extends PersistedEntitiesContainer<T>> persistenceContainerClass, @Nonnull SharedPreferences preferences) {
         this.preferenceString = preferenceString;
-        this.context = application;
         this.persistenceContainerClass = persistenceContainerClass;
+        this.preferences = preferences;
     }
 
     public void save(@Nonnull PersistedEntitiesContainer<T> container) {
-        if (preferenceString != null) {
-            final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-            final SharedPreferences.Editor editor = settings.edit();
+        final SharedPreferences.Editor editor = preferences.edit();
 
-            final StringWriter sw = new StringWriter();
-            final Serializer serializer = new Persister();
-            try {
-                serializer.write(container, sw);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-
-            editor.putString(preferenceString, sw.toString());
-
-            editor.apply();
+        final StringWriter sw = new StringWriter();
+        final Serializer serializer = new Persister();
+        try {
+            serializer.write(container, sw);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
+
+        editor.putString(preferenceString, sw.toString());
+        editor.apply();
     }
 
     @Nullable
     public PersistedEntitiesContainer<T> load() {
-        if (persistenceContainerClass != null && preferenceString != null) {
-            final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-
-            if (preferences != null) {
-                final String value = preferences.getString(preferenceString, null);
-                if (value != null) {
-                    final Serializer serializer = new Persister();
-                    try {
-                        return serializer.read(persistenceContainerClass, value);
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                }
+        final String value = preferences.getString(preferenceString, null);
+        if (value != null) {
+            final Serializer serializer = new Persister();
+            try {
+                return serializer.read(persistenceContainerClass, value);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
         }
 
         return null;
-    }
-
-    @Nullable
-    public String getDescription(@Nonnull String descriptionId) {
-        final Resources resources = context.getResources();
-
-        final int stringId = resources.getIdentifier(descriptionId, "string", CalculatorApplication.class.getPackage().getName());
-        try {
-            return resources.getString(stringId);
-        } catch (Resources.NotFoundException e) {
-            return null;
-        }
     }
 }

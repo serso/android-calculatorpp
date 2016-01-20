@@ -22,15 +22,14 @@
 
 package org.solovyev.android.calculator.function;
 
-import org.solovyev.android.calculator.model.AFunction;
-import org.solovyev.android.calculator.model.MathEntityBuilder;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import jscl.CustomFunctionCalculationException;
 import jscl.math.function.CustomFunction;
 import jscl.math.function.Function;
+import org.solovyev.android.calculator.model.MathEntityBuilder;
+import org.solovyev.android.calculator.model.OldFunction;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * User: serso
@@ -40,9 +39,9 @@ import jscl.math.function.Function;
 public final class FunctionBuilderAdapter implements MathEntityBuilder<Function> {
 
     @Nonnull
-    private final AFunction.Builder nestedBuilder;
+    private final OldFunction.Builder nestedBuilder;
 
-    public FunctionBuilderAdapter(@Nonnull AFunction.Builder nestedBuilder) {
+    public FunctionBuilderAdapter(@Nonnull OldFunction.Builder nestedBuilder) {
         this.nestedBuilder = nestedBuilder;
     }
 
@@ -69,8 +68,8 @@ public final class FunctionBuilderAdapter implements MathEntityBuilder<Function>
 
     @Nonnull
     @Override
-    public Function create() throws CustomFunctionCalculationException, AFunction.Builder.CreationException {
-        final AFunction function = nestedBuilder.create();
+    public Function create() throws CustomFunctionCalculationException, OldFunction.Builder.CreationException {
+        final OldFunction function = nestedBuilder.create();
         return new CustomFunction.Builder(function).create();
     }
 }

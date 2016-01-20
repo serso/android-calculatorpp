@@ -22,21 +22,19 @@
 
 package org.solovyev.android.calculator;
 
-import org.solovyev.android.calculator.model.MathEntityBuilder;
+import jscl.math.function.IConstant;
 import org.solovyev.android.calculator.model.EntityDao;
+import org.solovyev.android.calculator.model.MathEntityBuilder;
 import org.solovyev.android.calculator.model.Var;
 import org.solovyev.android.calculator.model.Vars;
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.math.MathRegistry;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import jscl.math.function.IConstant;
+import java.util.HashMap;
+import java.util.Map;
 
 public class VarsRegistry extends BaseEntitiesRegistry<IConstant, Var> {
 
@@ -82,8 +80,8 @@ public class VarsRegistry extends BaseEntitiesRegistry<IConstant, Var> {
         return substitutes;
     }
 
-    public synchronized void load() {
-        super.load();
+    public synchronized void init() {
+        super.init();
 
         tryToAddAuxVar("x");
         tryToAddAuxVar("y");

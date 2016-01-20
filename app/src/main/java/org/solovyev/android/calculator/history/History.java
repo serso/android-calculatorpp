@@ -35,7 +35,7 @@ import org.json.JSONException;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.Engine.Preferences;
-import org.solovyev.android.io.FileLoader;
+import org.solovyev.android.calculator.json.Json;
 import org.solovyev.android.io.FileSaver;
 
 import javax.annotation.Nonnull;
@@ -104,18 +104,6 @@ public class History {
             states.add(HistoryState.builder(editor, display).withTime(state.getTime()).withComment(state.getComment()).build());
         }
         return states;
-    }
-
-    @Nonnull
-    static List<HistoryState> loadStates(@Nonnull File file) throws IOException, JSONException {
-        if (!file.exists()) {
-            return Collections.emptyList();
-        }
-        final CharSequence json = FileLoader.load(file);
-        if (isEmpty(json)) {
-            return Collections.emptyList();
-        }
-        return RecentHistory.fromJson(new JSONArray(json.toString()));
     }
 
     private static boolean isIntermediate(@Nonnull String olderText,
@@ -200,7 +188,7 @@ public class History {
             if (states == null) {
                 return;
             }
-            final JSONArray json = RecentHistory.toJson(states);
+            final JSONArray json = Json.toJson(states);
             FileSaver.save(getSavedHistoryFile(), json.toString());
             preferences.edit().remove(OLD_HISTORY_PREFS_KEY).apply();
         } catch (IOException e) {
@@ -227,7 +215,7 @@ public class History {
     @Nonnull
     private List<HistoryState> tryLoadStates(@NonNull File file) {
         try {
-            return loadStates(file);
+            return Json.load(file, HistoryState.JSON_CREATOR);
         } catch (IOException | JSONException e) {
             errorReporter.onException(e);
         }
@@ -411,7 +399,7 @@ public class History {
                 @Override
                 public void run() {
                     final File file = recent ? getRecentHistoryFile() : getSavedHistoryFile();
-                    final JSONArray array = RecentHistory.toJson(states);
+                    final JSONArray array = Json.toJson(states);
                     try {
                         FileSaver.save(file, array.toString());
                     } catch (IOException e) {

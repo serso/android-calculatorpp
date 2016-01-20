@@ -24,25 +24,22 @@ package org.solovyev.android.calculator.function;
 
 import android.view.View;
 import android.widget.EditText;
-
+import jscl.CustomFunctionCalculationException;
+import jscl.math.function.Function;
+import jscl.math.function.IFunction;
 import org.solovyev.android.calculator.EntitiesRegistry;
 import org.solovyev.android.calculator.FunctionsRegistry;
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.math.edit.VarEditorSaver;
-import org.solovyev.android.calculator.model.AFunction;
+import org.solovyev.android.calculator.model.OldFunction;
 import org.solovyev.common.msg.MessageType;
 import org.solovyev.common.text.Strings;
 
-import java.util.Collections;
-import java.util.List;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import jscl.CustomFunctionCalculationException;
-import jscl.math.function.Function;
-import jscl.math.function.IFunction;
+import java.util.Collections;
+import java.util.List;
 
 public class FunctionEditorSaver implements View.OnClickListener {
 
@@ -50,7 +47,7 @@ public class FunctionEditorSaver implements View.OnClickListener {
     private final Object source;
 
     @Nonnull
-    private final AFunction.Builder builder;
+    private final OldFunction.Builder builder;
 
     @Nullable
     private final IFunction editedInstance;
@@ -58,11 +55,7 @@ public class FunctionEditorSaver implements View.OnClickListener {
     @Nonnull
     private final View view;
 
-    @Nonnull
-    private final EntitiesRegistry<Function> mathRegistry;
-
-
-    public FunctionEditorSaver(@Nonnull AFunction.Builder builder,
+    public FunctionEditorSaver(@Nonnull OldFunction.Builder builder,
                                @Nullable IFunction editedInstance,
                                @Nonnull View view,
                                @Nonnull EntitiesRegistry<Function> registry,
@@ -71,7 +64,6 @@ public class FunctionEditorSaver implements View.OnClickListener {
         this.builder = builder;
         this.editedInstance = editedInstance;
         this.view = view;
-        this.mathRegistry = registry;
         this.source = source;
     }
 
@@ -107,11 +99,12 @@ public class FunctionEditorSaver implements View.OnClickListener {
             parameterNames = Collections.emptyList();
         }
 
+        final FunctionsRegistry registry = Locator.getInstance().getEngine().getFunctionsRegistry();
         if (VarEditorSaver.isValidName(name)) {
 
             boolean canBeSaved = false;
 
-            final Function entityFromRegistry = mathRegistry.get(name);
+            final Function entityFromRegistry = registry.get(name);
             if (entityFromRegistry == null) {
                 canBeSaved = true;
             } else if (editedInstance != null && entityFromRegistry.getId().equals(editedInstance.getId())) {
@@ -144,10 +137,10 @@ public class FunctionEditorSaver implements View.OnClickListener {
             Locator.getInstance().getNotifier().showMessage(error, MessageType.error);
         } else {
             try {
-                FunctionsRegistry.saveFunction(mathRegistry, new FunctionBuilderAdapter(builder), editedInstance, source, true);
+                registry.add(new FunctionBuilderAdapter(builder), editedInstance, source);
             } catch (CustomFunctionCalculationException e) {
                 Locator.getInstance().getNotifier().showMessage(e);
-            } catch (AFunction.Builder.CreationException e) {
+            } catch (OldFunction.Builder.CreationException e) {
                 Locator.getInstance().getNotifier().showMessage(e);
             }
         }
