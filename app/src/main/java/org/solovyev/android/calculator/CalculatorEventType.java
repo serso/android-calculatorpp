@@ -81,9 +81,6 @@ public enum CalculatorEventType {
     // @Nonnull IConstant
     use_constant,
 
-    // @Nonnull Function
-    use_function,
-
     // @Nonnull Operator
     use_operator,
 
@@ -99,12 +96,6 @@ public enum CalculatorEventType {
 
     // @Nonnull Function
     function_removed,
-
-    // @Nonnull Function
-    function_added,
-
-    // @Nonnull Change<IFunction>
-    function_changed,
 
 	/*
 	**********************************************************************

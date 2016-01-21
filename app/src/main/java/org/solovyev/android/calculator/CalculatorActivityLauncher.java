@@ -33,12 +33,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-import jscl.math.Generic;
+
 import org.solovyev.android.Activities;
 import org.solovyev.android.calculator.about.CalculatorAboutActivity;
+import org.solovyev.android.calculator.function.CppFunction;
 import org.solovyev.android.calculator.function.EditFunctionFragment;
 import org.solovyev.android.calculator.history.CalculatorHistoryActivity;
-import org.solovyev.android.calculator.math.edit.*;
+import org.solovyev.android.calculator.math.edit.CalculatorFunctionsActivity;
+import org.solovyev.android.calculator.math.edit.CalculatorOperatorsActivity;
+import org.solovyev.android.calculator.math.edit.CalculatorVarsActivity;
+import org.solovyev.android.calculator.math.edit.VarEditDialogFragment;
+import org.solovyev.android.calculator.math.edit.VarsFragment;
 import org.solovyev.android.calculator.matrix.CalculatorMatrixActivity;
 import org.solovyev.android.calculator.plot.CalculatorPlotActivity;
 import org.solovyev.android.calculator.plot.CalculatorPlotter;
@@ -47,9 +52,14 @@ import org.solovyev.common.msg.Message;
 import org.solovyev.common.msg.MessageType;
 import org.solovyev.common.text.Strings;
 
+import java.util.List;
+import java.util.Set;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.List;
+
+import jscl.math.Generic;
+import jscl.math.function.Constant;
 
 /**
  * User: serso
@@ -159,9 +169,17 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
         final DisplayState viewState = display.getState();
 
         if (viewState.valid) {
-            final String functionValue = viewState.text;
-            if (!Strings.isEmpty(functionValue)) {
-                EditFunctionFragment.showDialog(EditFunctionFragment.Input.newFromDisplay(viewState), context);
+            final String functionBody = viewState.text;
+            if (!Strings.isEmpty(functionBody)) {
+                final CppFunction.Builder builder = CppFunction.builder("", functionBody);
+                final Generic generic = viewState.getResult();
+                if (generic != null) {
+                    final Set<Constant> constants = CalculatorUtils.getNotSystemConstants(generic);
+                    for (Constant constant : constants) {
+                        builder.withParameter(constant.getName());
+                    }
+                }
+                EditFunctionFragment.showDialog(builder.build(), context);
             } else {
                 getNotifier().showMessage(R.string.empty_function_error, MessageType.error);
             }

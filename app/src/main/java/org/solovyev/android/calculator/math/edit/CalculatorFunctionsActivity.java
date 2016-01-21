@@ -24,12 +24,16 @@ package org.solovyev.android.calculator.math.edit;
 
 import android.os.Bundle;
 import android.util.Log;
-import org.solovyev.android.calculator.*;
 
-import javax.annotation.Nonnull;
+import org.solovyev.android.calculator.AndroidFunctionCategory;
+import org.solovyev.android.calculator.BaseActivity;
+import org.solovyev.android.calculator.CalculatorFragmentType;
+import org.solovyev.android.calculator.FunctionCategory;
+import org.solovyev.android.calculator.R;
+
 import javax.annotation.Nullable;
 
-public class CalculatorFunctionsActivity extends BaseActivity implements CalculatorEventListener {
+public class CalculatorFunctionsActivity extends BaseActivity {
 
     public CalculatorFunctionsActivity() {
         super(R.layout.main_empty, CalculatorFunctionsActivity.class.getSimpleName());
@@ -60,15 +64,6 @@ public class CalculatorFunctionsActivity extends BaseActivity implements Calcula
             } else {
                 Log.e(CalculatorFunctionsActivity.class.getSimpleName(), "Unable to find android function category for " + category);
             }
-        }
-    }
-
-    @Override
-    public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
-        switch (calculatorEventType) {
-            case use_function:
-                this.finish();
-                break;
         }
     }
 }

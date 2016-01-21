@@ -28,40 +28,56 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
-import android.view.*;
+import android.text.TextUtils;
+import android.view.ContextMenu;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import jscl.math.Generic;
-import jscl.math.function.*;
-import org.solovyev.android.calculator.*;
+
+import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.AppComponent;
+import org.solovyev.android.calculator.BaseDialogFragment;
+import org.solovyev.android.calculator.Calculator;
+import org.solovyev.android.calculator.CalculatorEventType;
+import org.solovyev.android.calculator.FunctionsRegistry;
+import org.solovyev.android.calculator.KeyboardUi;
+import org.solovyev.android.calculator.KeyboardWindow;
+import org.solovyev.android.calculator.Locator;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.math.edit.CalculatorFunctionsActivity;
 import org.solovyev.android.calculator.math.edit.FunctionsFragment;
-import org.solovyev.android.calculator.math.edit.MathEntityRemover;
 import org.solovyev.android.calculator.math.edit.VarEditorSaver;
-import org.solovyev.android.calculator.model.OldFunction;
 import org.solovyev.common.math.MathRegistry;
+
+import java.util.Collections;
+import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import javax.inject.Inject;
 
-public class EditFunctionFragment extends BaseDialogFragment implements CalculatorEventListener, View.OnClickListener, View.OnFocusChangeListener, View.OnKeyListener {
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import jscl.math.function.CustomFunction;
+import jscl.math.function.Function;
+import jscl.math.function.IConstant;
 
-    private static final String ARG_INPUT = "input";
+public class EditFunctionFragment extends BaseDialogFragment implements View.OnClickListener, View.OnFocusChangeListener, View.OnKeyListener {
+
+    private static final String ARG_FUNCTION = "function";
     private static final int MENU_FUNCTION = Menu.FIRST;
     private static final int MENU_CONSTANT = Menu.FIRST + 1;
 
@@ -79,48 +95,65 @@ public class EditFunctionFragment extends BaseDialogFragment implements Calculat
     TextInputLayout nameLabel;
     @Bind(R.id.function_name)
     EditText nameView;
+    @Bind(R.id.function_body_label)
+    TextInputLayout bodyLabel;
     @Bind(R.id.function_body)
     EditText bodyView;
     @Bind(R.id.function_description)
     EditText descriptionView;
-    private Input input;
+    private CppFunction function;
+
+    @Inject
+    Calculator calculator;
+    @Inject
+    FunctionsRegistry registry;
 
     @Nonnull
-    public static EditFunctionFragment create(@Nonnull Input input) {
+    private static EditFunctionFragment create(@Nullable CppFunction function) {
         final EditFunctionFragment fragment = new EditFunctionFragment();
-        fragment.input = input;
-        final Bundle args = new Bundle();
-        args.putParcelable("input", input);
-        fragment.setArguments(args);
+        if (function != null) {
+            final Bundle args = new Bundle();
+            args.putParcelable(ARG_FUNCTION, function);
+            fragment.setArguments(args);
+        }
         return fragment;
     }
 
-    public static void showDialog(@Nonnull Input input, @Nonnull Context context) {
-        if (context instanceof AppCompatActivity) {
-            EditFunctionFragment.showDialog(input, ((AppCompatActivity) context).getSupportFragmentManager());
-        } else {
+    public static void showDialog(@Nonnull FragmentActivity activity) {
+        EditFunctionFragment.showDialog(null, activity.getSupportFragmentManager());
+    }
+
+    public static void showDialog(@Nonnull CppFunction function, @Nonnull Context context) {
+        if (!(context instanceof CalculatorFunctionsActivity)) {
             final Intent intent = new Intent(context, CalculatorFunctionsActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.putExtra(FunctionsFragment.EXTRA_FUNCTION, input);
+            intent.putExtra(FunctionsFragment.EXTRA_FUNCTION, function);
             context.startActivity(intent);
+        } else {
+            EditFunctionFragment.showDialog(function, ((AppCompatActivity) context).getSupportFragmentManager());
         }
     }
 
-    public static void showDialog(@Nonnull Input input, @Nonnull FragmentManager fm) {
+    public static void showDialog(@Nullable CppFunction input, @Nonnull FragmentManager fm) {
         App.showDialog(create(input), "function-editor", fm);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        input = getArguments().getParcelable(ARG_INPUT);
+        function = getArguments().getParcelable(ARG_FUNCTION);
+    }
+
+    @Override
+    protected void inject(@NonNull AppComponent component) {
+        super.inject(component);
+        component.inject(this);
     }
 
     @Override
     protected void onPrepareDialog(@NonNull AlertDialog.Builder builder) {
         builder.setNegativeButton(R.string.c_cancel, null);
         builder.setPositiveButton(R.string.ok, null);
-        final OldFunction function = input.getFunction();
         builder.setTitle(function == null ? R.string.function_create_function : R.string.function_edit_function);
         if (function != null) {
             builder.setNeutralButton(R.string.c_remove, null);
@@ -145,15 +178,44 @@ public class EditFunctionFragment extends BaseDialogFragment implements Calculat
                         tryClose();
                     }
                 });
-                final OldFunction function = input.getFunction();
                 if (function != null) {
-                    final Function customFunction = new CustomFunction.Builder(function).create();
                     final Button neutral = dialog.getButton(AlertDialog.BUTTON_NEUTRAL);
-                    neutral.setOnClickListener(MathEntityRemover.newFunctionRemover(customFunction, null, getActivity(), EditFunctionFragment.this));
+                    neutral.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            tryRemoveFunction(function, false);
+                        }
+                    });
                 }
             }
         });
         return dialog;
+    }
+
+    private void tryRemoveFunction(@NonNull CppFunction function, boolean confirmed) {
+        if (!confirmed) {
+            showRemovalDialog(function);
+            return;
+        }
+        final CustomFunction entity = function.toCustomFunctionBuilder().create();
+        registry.remove(entity);
+        calculator.fireCalculatorEvent(CalculatorEventType.function_removed, entity, this);
+        dismiss();
+    }
+
+    private void showRemovalDialog(@NonNull final CppFunction function) {
+        new AlertDialog.Builder(getActivity(), App.getTheme().alertDialogTheme)
+                .setCancelable(true)
+                .setTitle(R.string.removal_confirmation)
+                .setMessage(R.string.function_removal_confirmation_question)
+                .setNegativeButton(R.string.c_no, null)
+                .setPositiveButton(R.string.c_yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        tryRemoveFunction(function, true);
+                    }
+                })
+                .create().show();
     }
 
     @Override
@@ -166,6 +228,7 @@ public class EditFunctionFragment extends BaseDialogFragment implements Calculat
             }
         }
     }
+
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.function_body) {
@@ -199,9 +262,30 @@ public class EditFunctionFragment extends BaseDialogFragment implements Calculat
         if (!validateName()) {
             return false;
         }
+        if (!validateParameters()) {
+            return false;
+        }
         if (!validateBody()) {
             return false;
         }
+
+        final CppFunction newFunction = CppFunction.builder(nameView.getText().toString(), bodyView.getText().toString())
+                .withParameters(paramsView.getParams())
+                .withDescription(descriptionView.getText().toString()).build();
+        final Function oldFunction = function.id == CppFunction.NO_ID ? null : registry.getById(function.id);
+        registry.add(newFunction.toCustomFunctionBuilder(), oldFunction);
+        return true;
+    }
+
+    private boolean validateParameters(@Nonnull List<String> parameterNames) {
+        for (String parameterName : parameterNames) {
+            if (!VarEditorSaver.isValidName(parameterName)) {
+                return false;
+            }
+        }
+        //                error = R.string.function_param_not_empty;
+
+
         return true;
     }
 
@@ -211,11 +295,32 @@ public class EditFunctionFragment extends BaseDialogFragment implements Calculat
             setError(nameLabel, getString(R.string.function_name_is_not_valid));
             return false;
         }
+        final Function existingFunction = registry.get(name);
+        if (existingFunction != null && (!existingFunction.isIdDefined() || !existingFunction.getId().equals(function.getId()))) {
+            setError(nameLabel, getString(R.string.function_already_exists));
+            return false;
+        }
         clearError(nameLabel);
         return true;
     }
 
     private boolean validateBody() {
+        final String body = bodyView.getText().toString();
+        if (TextUtils.isEmpty(body)) {
+            setError(bodyLabel, getString(R.string.function_is_empty));
+            return false;
+        }
+        clearError(bodyLabel);
+        return true;
+    }
+
+    private boolean validateParameters() {
+        final List<String> parameters = paramsView.getParams();
+        /*if (TextUtils.isEmpty(body)) {
+            setError(bodyLabel, getString(R.string.function_is_empty));
+            return false;
+        }*/
+        //clearError(bodyLabel);
         return true;
     }
 
@@ -227,191 +332,16 @@ public class EditFunctionFragment extends BaseDialogFragment implements Calculat
         ButterKnife.bind(this, view);
 
         if (savedInstanceState == null) {
-            final List<String> parameterNames = input.getParameterNames();
-            if (parameterNames != null) {
-                paramsView.addParams(parameterNames);
-            }
-
-            nameView.setText(input.getName());
-            descriptionView.setText(input.getDescription());
-            bodyView.setText(input.getContent());
+            paramsView.addParams(function.getParameters());
+            nameView.setText(function.getName());
+            descriptionView.setText(function.getDescription());
+            bodyView.setText(function.getBody());
         }
         bodyView.setOnClickListener(this);
         bodyView.setOnFocusChangeListener(this);
         bodyView.setOnKeyListener(this);
 
         return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        Locator.getInstance().getCalculator().addCalculatorEventListener(this);
-    }
-
-    @Override
-    public void onPause() {
-        Locator.getInstance().getCalculator().removeCalculatorEventListener(this);
-
-        super.onPause();
-    }
-
-    @Override
-    public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
-        switch (calculatorEventType) {
-            case function_removed:
-            case function_added:
-            case function_changed:
-                if (calculatorEventData.getSource() == EditFunctionFragment.this) {
-                    dismiss();
-                }
-                break;
-
-        }
-    }
-
-    public static class Input implements Parcelable {
-
-        private static final Parcelable.Creator<String> STRING_CREATOR = new Creator<String>() {
-            @Override
-            public String createFromParcel(@Nonnull Parcel in) {
-                return in.readString();
-            }
-
-            @Override
-            public String[] newArray(int size) {
-                return new String[size];
-            }
-        };
-        @Nullable
-        private OldFunction function;
-        @Nullable
-        private String name;
-        @Nullable
-        private String content;
-        @Nullable
-        private String description;
-        @Nullable
-        private List<String> parameterNames;
-        public static final Parcelable.Creator<Input> CREATOR = new Creator<Input>() {
-            @Override
-            public Input createFromParcel(@Nonnull Parcel in) {
-                return Input.fromParcel(in);
-            }
-
-            @Override
-            public Input[] newArray(int size) {
-                return new Input[size];
-            }
-        };
-
-        private Input() {
-        }
-
-        @Nonnull
-        private static Input fromParcel(@Nonnull Parcel in) {
-            final Input result = new Input();
-            result.name = in.readString();
-            result.content = in.readString();
-            result.description = in.readString();
-
-            final List<String> parameterNames = new ArrayList<>();
-            in.readTypedList(parameterNames, STRING_CREATOR);
-            result.parameterNames = parameterNames;
-
-            result.function = (OldFunction) in.readSerializable();
-
-            return result;
-        }
-
-        @Nonnull
-        public static Input newInstance() {
-            return new Input();
-        }
-
-        @Nonnull
-        public static Input newFromFunction(@Nonnull IFunction function) {
-            final Input result = new Input();
-            result.function = OldFunction.fromIFunction(function);
-            return result;
-        }
-
-        @Nonnull
-        public static Input newInstance(@Nullable IFunction function,
-                                        @Nullable String name,
-                                        @Nullable String value,
-                                        @Nullable String description,
-                                        @Nonnull List<String> parameterNames) {
-
-            final Input result = new Input();
-            if (function != null) {
-                result.function = OldFunction.fromIFunction(function);
-            }
-            result.name = name;
-            result.content = value;
-            result.description = description;
-            result.parameterNames = new ArrayList<>(parameterNames);
-
-            return result;
-        }
-
-        @Nonnull
-        public static Input newFromDisplay(@Nonnull DisplayState viewState) {
-            final Input result = new Input();
-
-            result.content = viewState.text;
-            final Generic generic = viewState.getResult();
-            if (generic != null) {
-                final Set<Constant> constants = CalculatorUtils.getNotSystemConstants(generic);
-                final List<String> parameterNames = new ArrayList<>(constants.size());
-                for (Constant constant : constants) {
-                    parameterNames.add(constant.getName());
-                }
-                result.parameterNames = parameterNames;
-            }
-
-            return result;
-        }
-
-        @Nullable
-        public OldFunction getFunction() {
-            return function;
-        }
-
-        @Nullable
-        public String getName() {
-            return name == null ? (function == null ? null : function.getName()) : name;
-        }
-
-        @Nullable
-        public String getContent() {
-            return content == null ? (function == null ? null : function.getContent()) : content;
-        }
-
-        @Nullable
-        public String getDescription() {
-            return description == null ? (function == null ? null : function.getDescription()) : description;
-        }
-
-        @Nullable
-        public List<String> getParameterNames() {
-            return parameterNames == null ? (function == null ? null : function.getParameterNames()) : parameterNames;
-        }
-
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(@Nonnull Parcel out, int flags) {
-            out.writeString(name);
-            out.writeString(content);
-            out.writeString(description);
-            out.writeList(parameterNames);
-            out.writeSerializable(function);
-        }
     }
 
     private class KeyboardUser implements KeyboardUi.User, MenuItem.OnMenuItemClickListener {

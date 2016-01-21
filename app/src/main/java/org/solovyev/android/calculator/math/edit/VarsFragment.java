@@ -28,20 +28,34 @@ import android.support.v4.app.FragmentActivity;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
+
 import com.melnykov.fab.FloatingActionButton;
-import jscl.math.function.IConstant;
-import org.solovyev.android.calculator.*;
+
+import org.solovyev.android.calculator.CalculatorEventData;
+import org.solovyev.android.calculator.CalculatorEventListener;
+import org.solovyev.android.calculator.CalculatorEventType;
+import org.solovyev.android.calculator.CalculatorFragmentType;
+import org.solovyev.android.calculator.CalculatorParseException;
+import org.solovyev.android.calculator.Change;
+import org.solovyev.android.calculator.EntitiesRegistry;
+import org.solovyev.android.calculator.Locator;
+import org.solovyev.android.calculator.PreparedExpression;
+import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.ToJsclTextProcessor;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.common.JPredicate;
 import org.solovyev.common.collections.Collections;
 import org.solovyev.common.text.Strings;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VarsFragment extends BaseEntitiesFragment<IConstant> {
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import jscl.math.function.IConstant;
+
+public class VarsFragment extends BaseEntitiesFragment<IConstant>implements CalculatorEventListener {
 
     public static final String CREATE_VAR_EXTRA_STRING = "create_var";
     @NonNull
@@ -128,8 +142,6 @@ public class VarsFragment extends BaseEntitiesFragment<IConstant> {
 
     @Override
     public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
-        super.onCalculatorEvent(calculatorEventData, calculatorEventType, data);
-
         switch (calculatorEventType) {
             case constant_added:
                 processConstantAdded((IConstant) data);
@@ -196,8 +208,9 @@ public class VarsFragment extends BaseEntitiesFragment<IConstant> {
             getUiHandler().post(new Runnable() {
                 @Override
                 public void run() {
-                    removeFromAdapter(constant);
-                    notifyAdapter();
+                    final EntitiesAdapter adapter = getAdapter();
+                    adapter.remove(constant);
+                    adapter.notifyDataSetChanged();
                 }
             });
         }
@@ -209,9 +222,10 @@ public class VarsFragment extends BaseEntitiesFragment<IConstant> {
             getUiHandler().post(new Runnable() {
                 @Override
                 public void run() {
-                    removeFromAdapter(change.getOldValue());
-                    addToAdapter(newConstant);
-                    sort();
+                    final EntitiesAdapter adapter = getAdapter();
+                    adapter.remove(change.getOldValue());
+                    adapter.add(newConstant);
+                    adapter.sort();
                 }
             });
         }
@@ -222,8 +236,9 @@ public class VarsFragment extends BaseEntitiesFragment<IConstant> {
             getUiHandler().post(new Runnable() {
                 @Override
                 public void run() {
-                    addToAdapter(constant);
-                    sort();
+                    final EntitiesAdapter adapter = getAdapter();
+                    adapter.add(constant);
+                    adapter.sort();
                 }
             });
         }

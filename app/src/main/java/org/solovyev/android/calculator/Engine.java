@@ -23,13 +23,10 @@
 package org.solovyev.android.calculator;
 
 import android.content.SharedPreferences;
+
 import com.squareup.otto.Bus;
-import jscl.AngleUnit;
-import jscl.JsclMathEngine;
-import jscl.MathEngine;
-import jscl.NumeralBase;
-import jscl.math.function.IConstant;
-import jscl.math.operator.Operator;
+
+import org.solovyev.android.Check;
 import org.solovyev.android.calculator.model.EntityDao;
 import org.solovyev.android.calculator.model.Vars;
 import org.solovyev.android.prefs.BooleanPreference;
@@ -40,13 +37,21 @@ import org.solovyev.common.text.EnumMapper;
 import org.solovyev.common.text.NumberMapper;
 import org.solovyev.common.text.Strings;
 
-import javax.annotation.Nonnull;
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Executor;
+
+import javax.annotation.Nonnull;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+import jscl.AngleUnit;
+import jscl.JsclMathEngine;
+import jscl.MathEngine;
+import jscl.NumeralBase;
+import jscl.math.function.IConstant;
+import jscl.math.operator.Operator;
 
 @Singleton
 public class Engine implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -131,6 +136,7 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
     }
 
     public void init(@Nonnull Executor initThread) {
+        Check.isMainThread();
         checkPreferences();
         preferences.registerOnSharedPreferenceChangeListener(this);
         applyPreferences();
@@ -183,6 +189,7 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
     }
 
     private void applyPreferences() {
+        Check.isMainThread();
         mathEngine.setAngleUnits(Preferences.angleUnit.getPreference(preferences));
         mathEngine.setNumeralBase(Preferences.numeralBase.getPreference(preferences));
         setMultiplicationSign(Preferences.multiplicationSign.getPreference(preferences));

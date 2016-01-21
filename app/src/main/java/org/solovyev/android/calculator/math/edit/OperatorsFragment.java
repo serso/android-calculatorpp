@@ -26,14 +26,21 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.ContextMenu;
 import android.view.MenuItem;
-import jscl.math.operator.Operator;
-import org.solovyev.android.calculator.*;
+
+import org.solovyev.android.calculator.CalculatorEventType;
+import org.solovyev.android.calculator.CalculatorFragmentType;
+import org.solovyev.android.calculator.EntitiesRegistry;
+import org.solovyev.android.calculator.Locator;
+import org.solovyev.android.calculator.R;
 import org.solovyev.common.text.Strings;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
+
+import jscl.math.operator.Operator;
 
 public class OperatorsFragment extends BaseEntitiesFragment<Operator> {
 

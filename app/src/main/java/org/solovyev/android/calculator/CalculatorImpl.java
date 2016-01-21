@@ -54,7 +54,6 @@ import jscl.MathEngine;
 import jscl.NumeralBase;
 import jscl.NumeralBaseException;
 import jscl.math.Generic;
-import jscl.math.function.Function;
 import jscl.math.function.IConstant;
 import jscl.math.operator.Operator;
 import jscl.text.ParseInterruptedException;
@@ -489,6 +488,15 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
         VarsRegistry.saveVariable(varsRegistry, builder, ansVar, this, false);
     }
 
+    @Subscribe
+    public void onFunctionAdded(@Nonnull FunctionsRegistry.AddedEvent event) {
+        evaluate();
+    }
+    @Subscribe
+    public void onFunctionsChanged(@Nonnull FunctionsRegistry.ChangedEvent event) {
+        evaluate();
+    }
+
     @Override
     public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
 
@@ -502,8 +510,6 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 
             case constant_added:
             case constant_removed:
-            case function_added:
-            case function_changed:
             case function_removed:
                 evaluate();
                 break;
@@ -515,11 +521,6 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
             case use_operator:
                 final Operator operator = (Operator) data;
                 Locator.getInstance().getKeyboard().buttonPressed(operator.getName());
-                break;
-
-            case use_function:
-                final Function function = (Function) data;
-                Locator.getInstance().getKeyboard().buttonPressed(function.getName());
                 break;
 
         }

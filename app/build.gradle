@@ -60,6 +60,7 @@ dependencies {
     compile 'org.solovyev:common-core:1.0.7'
     compile 'org.solovyev:common-text:1.0.7'
     compile 'org.solovyev:common-security:1.0.7'
+    compile 'org.solovyev:common-msg:1.0.7'
     compile 'com.android.support:support-v4:23.1.1'
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
@@ -73,7 +74,7 @@ dependencies {
     compile 'org.solovyev.android:android-common-views:1.1.18@aar'
     compile 'org.solovyev.android:android-common-menus:1.1.18@aar'
     compile 'org.solovyev.android:android-common-preferences:1.1.18@aar'
-    compile('org.solovyev:jscl:1.0.8') {
+    compile('org.solovyev:jscl:1.0.12') {
         exclude(module: 'xercesImpl')
     }
     compile 'org.solovyev.android:checkout:0.7.2@aar'
