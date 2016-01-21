@@ -31,26 +31,44 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.ClipboardManager;
 import android.text.TextUtils;
-import android.view.*;
+import android.view.ContextMenu;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
-import butterknife.Bind;
-import butterknife.ButterKnife;
+
 import com.melnykov.fab.FloatingActionButton;
+
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.BaseFragment;
+import org.solovyev.android.calculator.CalculatorFragmentType;
+import org.solovyev.android.calculator.R;
 import org.solovyev.android.views.llm.DividerItemDecoration;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.text.Strings;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
-public abstract class BaseEntitiesFragment<E extends MathEntity> extends BaseFragment implements CalculatorEventListener {
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
+
+public abstract class BaseEntitiesFragment<E extends MathEntity> extends BaseFragment {
 
     public static final String EXTRA_CATEGORY = "category";
+    private static final Comparator<MathEntity> COMPARATOR = new Comparator<MathEntity>() {
+        @Override
+        public int compare(MathEntity l, MathEntity r) {
+            return l.getName().compareTo(r.getName());
+        }
+    };
 
     @Nonnull
     private final Handler uiHandler = new Handler();
@@ -58,7 +76,6 @@ public abstract class BaseEntitiesFragment<E extends MathEntity> extends BaseFra
     FloatingActionButton fab;
     @Bind(R.id.entities_recyclerview)
     RecyclerView recyclerView;
-    @Nullable
     private EntitiesAdapter adapter;
     @Nullable
     private String category;
@@ -132,40 +149,6 @@ public abstract class BaseEntitiesFragment<E extends MathEntity> extends BaseFra
     @Nullable
     abstract String getCategory(@Nonnull E e);
 
-    protected void sort() {
-        /*
-        final EntitiesAdapter localAdapter = adapter;
-        if (localAdapter != null) {
-            localAdapter.sort(new Comparator<E>() {
-                @Override
-                public int compare(E function1, E function2) {
-                    return function1.getName().compareTo(function2.getName());
-                }
-            });
-
-            localAdapter.notifyDataSetChanged();
-        }*/
-    }
-
-    public void addToAdapter(@Nonnull E mathEntity) {
-        if (this.adapter != null) {
-            //this.adapter.add(mathEntity);
-        }
-    }
-
-    public void removeFromAdapter(@Nonnull E mathEntity) {
-        if (this.adapter != null) {
-            //this.adapter.remove(mathEntity);
-        }
-    }
-
-    public void notifyAdapter() {
-        if (this.adapter != null) {
-            this.adapter.notifyDataSetChanged();
-        }
-    }
-
-    @Nullable
     protected EntitiesAdapter getAdapter() {
         return adapter;
     }
@@ -175,9 +158,21 @@ public abstract class BaseEntitiesFragment<E extends MathEntity> extends BaseFra
         return uiHandler;
     }
 
-    @Override
-    public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
+    @SuppressWarnings("deprecation")
+    protected final void copyDescription(@Nonnull E entity) {
+        final String description = getDescription(entity);
+        if (!Strings.isEmpty(description)) {
+            final ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Activity.CLIPBOARD_SERVICE);
+            clipboard.setText(description);
+        }
     }
+
+    @Nullable
+    protected abstract String getDescription(@NonNull E entity);
+
+    protected abstract void onCreateContextMenu(@Nonnull ContextMenu menu, @Nonnull E entity, @Nonnull MenuItem.OnMenuItemClickListener listener);
+
+    protected abstract boolean onMenuItemClicked(@Nonnull MenuItem item, @Nonnull E entity);
 
     public class EntityViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
         @Bind(R.id.entity_text)
@@ -226,20 +221,6 @@ public abstract class BaseEntitiesFragment<E extends MathEntity> extends BaseFra
         }
     }
 
-    @SuppressWarnings("deprecation")
-    protected final void copyDescription(@Nonnull E entity) {
-        final String description = getDescription(entity);
-        if (!Strings.isEmpty(description)) {
-            final ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Activity.CLIPBOARD_SERVICE);
-            clipboard.setText(description);
-        }
-    }
-
-    @Nullable
-    protected abstract String getDescription(@NonNull E entity);
-    protected abstract void onCreateContextMenu(@Nonnull ContextMenu menu, @Nonnull E entity, @Nonnull MenuItem.OnMenuItemClickListener listener);
-    protected abstract boolean onMenuItemClicked(@Nonnull MenuItem item, @Nonnull E entity);
-
     public class EntitiesAdapter extends RecyclerView.Adapter<EntityViewHolder> {
         @Nonnull
         private final LayoutInflater inflater;
@@ -270,6 +251,23 @@ public abstract class BaseEntitiesFragment<E extends MathEntity> extends BaseFra
         @Nonnull
         public E getItem(int position) {
             return list.get(position);
+        }
+
+        public void set(int position, @Nonnull E function) {
+            list.set(position, function);
+        }
+
+        public void sort() {
+            Collections.sort(list, COMPARATOR);
+            notifyDataSetChanged();
+        }
+
+        public void add(@Nonnull E entity) {
+            list.add(entity);
+        }
+
+        public void remove(@Nonnull E function) {
+            list.remove(function);
         }
     }
 }

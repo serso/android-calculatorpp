@@ -1,9 +1,9 @@
 package org.solovyev.android.calculator.history;
 
-import android.annotation.SuppressLint;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.solovyev.android.Check;
@@ -173,17 +173,18 @@ public class HistoryState implements Parcelable, Jsonable {
         dest.writeString(comment);
     }
 
-    @SuppressLint("ParcelCreator")
-    public static final class Builder extends HistoryState {
+    public static final class Builder {
 
+        @NonNull
+        private final HistoryState state;
         private boolean built;
 
         private Builder(@Nonnull EditorState editor, @Nonnull DisplayState display) {
-            super(editor, display);
+            this.state = new HistoryState(editor, display);
         }
 
         private Builder(@Nonnull HistoryState state, boolean newState) {
-            super(state, newState);
+            this.state = new HistoryState(state, newState);
             if (newState) {
                 withTime(now());
             }
@@ -192,21 +193,21 @@ public class HistoryState implements Parcelable, Jsonable {
         @Nonnull
         public Builder withTime(long time) {
             Check.isTrue(!built);
-            this.time = time;
+            state.time = time;
             return this;
         }
 
         @Nonnull
         public Builder withComment(@Nullable String comment) {
             Check.isTrue(!built);
-            this.comment = comment == null ? "" : comment;
+            state.comment = comment == null ? "" : comment;
             return this;
         }
 
         @Nonnull
         public HistoryState build() {
             built = true;
-            return this;
+            return state;
         }
     }
 }

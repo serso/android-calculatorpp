@@ -37,7 +37,6 @@ import org.solovyev.common.math.MathEntity;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import jscl.math.function.Function;
 import jscl.math.function.IConstant;
 
 /**
@@ -95,14 +94,7 @@ public class MathEntityRemover<T extends MathEntity> implements View.OnClickList
         return new MathEntityRemover<IConstant>(constant, callbackOnCancel, false, Locator.getInstance().getEngine().getVarsRegistry(), context, source, Params.newConstantInstance());
     }
 
-    public static MathEntityRemover<Function> newFunctionRemover(@Nonnull Function function,
-                                                                 @Nullable DialogInterface.OnClickListener callbackOnCancel,
-                                                                 @Nonnull Context context,
-                                                                 @Nonnull Object source) {
-        return new MathEntityRemover<Function>(function, callbackOnCancel, false, Locator.getInstance().getEngine().getFunctionsRegistry(), context, source, Params.newFunctionInstance());
-    }
-
-	/*
+    /*
 	**********************************************************************
 	*
 	*                           METHODS
@@ -166,14 +158,6 @@ public class MathEntityRemover<T extends MathEntity> implements View.OnClickList
             result.removalConfirmationTitleResId = R.string.removal_confirmation;
             result.removalConfirmationQuestionResId = R.string.c_var_removal_confirmation_question;
             result.calculatorEventType = CalculatorEventType.constant_removed;
-            return result;
-        }
-
-        private static <T extends MathEntity> Params newFunctionInstance() {
-            final Params result = new Params();
-            result.removalConfirmationTitleResId = R.string.removal_confirmation;
-            result.removalConfirmationQuestionResId = R.string.function_removal_confirmation_question;
-            result.calculatorEventType = CalculatorEventType.function_removed;
             return result;
         }
 

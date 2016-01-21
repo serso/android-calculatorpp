@@ -26,17 +26,15 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import jscl.JsclMathEngine;
-import jscl.math.function.CustomFunction;
-import jscl.math.function.Function;
-import jscl.math.function.IFunction;
+
+import com.squareup.otto.Bus;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.function.CppFunction;
-import org.solovyev.android.calculator.function.FunctionBuilderAdapter;
 import org.solovyev.android.calculator.json.Json;
 import org.solovyev.android.calculator.model.OldFunction;
 import org.solovyev.android.calculator.model.OldFunctions;
@@ -44,15 +42,25 @@ import org.solovyev.android.io.FileSaver;
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.text.Strings;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Executor;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
-import java.util.concurrent.Executor;
+
+import jscl.JsclMathEngine;
+import jscl.math.function.CustomFunction;
+import jscl.math.function.Function;
 
 import static android.text.TextUtils.isEmpty;
 
@@ -83,19 +91,20 @@ public class FunctionsRegistry extends BaseEntitiesRegistry<Function, OldFunctio
     SharedPreferences preferences;
     @Inject
     Application application;
+    @Inject
+    Bus bus;
 
     @Inject
     public FunctionsRegistry(@Nonnull JsclMathEngine mathEngine) {
         super(mathEngine.getFunctionsRegistry(), FUNCTION_DESCRIPTION_PREFIX, null);
     }
 
-    public void add(@NonNull FunctionBuilderAdapter builder, @Nullable IFunction editedInstance, Object source) {
+    public void add(@NonNull JBuilder<? extends Function> builder, @Nullable Function oldFunction) {
         final Function function = add(builder);
-        save();
-        if (editedInstance == null) {
-            calculator.fireCalculatorEvent(CalculatorEventType.function_added, function, source);
+        if (oldFunction == null) {
+            bus.post(new AddedEvent(function));
         } else {
-            calculator.fireCalculatorEvent(CalculatorEventType.function_changed, ChangeImpl.newInstance(editedInstance, function), source);
+            bus.post(new ChangedEvent(oldFunction, function));
         }
     }
 
@@ -112,10 +121,23 @@ public class FunctionsRegistry extends BaseEntitiesRegistry<Function, OldFunctio
         add(new CustomFunction.Builder(true, "im", Collections.singletonList("x"), "(x-conjugate(x))/(2*i)"));
 
         for (CppFunction function : loadFunctions()) {
-            final CustomFunction.Builder builder = new CustomFunction.Builder(function.getName(), function.getParameters(), function.getBody());
-            builder.setDescription(function.getDescription());
-            add(builder);
+            add(function.toCustomFunctionBuilder());
         }
+    }
+
+    @Override
+    public void remove(@Nonnull Function function) {
+        super.remove(function);
+        bus.post(new RemovedEvent(function));
+        save();
+    }
+
+    @Override
+    public Function add(@Nonnull JBuilder<? extends Function> result) {
+        final Function function = super.add(result);
+        // todo serso: don't save while we're initializing
+        save();
+        return function;
     }
 
     @NonNull
@@ -194,7 +216,7 @@ public class FunctionsRegistry extends BaseEntitiesRegistry<Function, OldFunctio
     @Nonnull
     @Override
     protected JBuilder<? extends Function> createBuilder(@Nonnull OldFunction function) {
-        return new FunctionBuilderAdapter(new OldFunction.Builder(function));
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -237,6 +259,36 @@ public class FunctionsRegistry extends BaseEntitiesRegistry<Function, OldFunctio
                     }
                 }
             });
+        }
+    }
+
+    public static final class RemovedEvent {
+        @NonNull
+        public final Function function;
+
+        public RemovedEvent(@NonNull Function function) {
+            this.function = function;
+        }
+    }
+
+    public static final class AddedEvent {
+        @NonNull
+        public final Function function;
+
+        public AddedEvent(@NonNull Function function) {
+            this.function = function;
+        }
+    }
+
+    public static final class ChangedEvent {
+        @NonNull
+        public final Function oldFunction;
+        @NonNull
+        public final Function newFunction;
+
+        public ChangedEvent(@NonNull Function oldFunction, @NonNull Function newFunction) {
+            this.oldFunction = oldFunction;
+            this.newFunction = newFunction;
         }
     }
 }
