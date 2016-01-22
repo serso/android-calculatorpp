@@ -36,49 +36,26 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
-import android.view.ContextMenu;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewParent;
+import android.view.*;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-
-import org.solovyev.android.Check;
-import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.AppComponent;
-import org.solovyev.android.calculator.BaseDialogFragment;
-import org.solovyev.android.calculator.Calculator;
-import org.solovyev.android.calculator.CalculatorEventType;
-import org.solovyev.android.calculator.FunctionsRegistry;
-import org.solovyev.android.calculator.KeyboardUi;
-import org.solovyev.android.calculator.KeyboardWindow;
-import org.solovyev.android.calculator.Locator;
-import org.solovyev.android.calculator.R;
-import org.solovyev.android.calculator.math.edit.CalculatorFunctionsActivity;
-import org.solovyev.android.calculator.math.edit.FunctionsFragment;
-import org.solovyev.android.calculator.math.edit.VarEditorSaver;
-import org.solovyev.common.math.MathRegistry;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.inject.Inject;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import jscl.math.function.CustomFunction;
 import jscl.math.function.Function;
 import jscl.math.function.IConstant;
+import org.solovyev.android.Check;
+import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.math.edit.CalculatorFunctionsActivity;
+import org.solovyev.android.calculator.math.edit.FunctionsFragment;
+import org.solovyev.android.calculator.math.edit.VarEditorSaver;
+import org.solovyev.common.math.MathRegistry;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.inject.Inject;
+import java.util.*;
 
 import static org.solovyev.android.calculator.function.CppFunction.NO_ID;
 
@@ -305,12 +282,18 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
     }
 
     private void applyData() {
-        final CppFunction newFunction = CppFunction.builder(nameView.getText().toString(), bodyView.getText().toString())
-                .withId(function == null ? NO_ID : function.id)
-                .withParameters(collectParameters())
-                .withDescription(descriptionView.getText().toString()).build();
-        final Function oldFunction = (function == null || function.id == NO_ID) ? null : registry.getById(function.id);
-        registry.add(newFunction.toCustomFunctionBuilder(), oldFunction);
+        try {
+            final String body = calculator.prepareExpression(bodyView.getText().toString()).getExpression();
+
+            final CppFunction newFunction = CppFunction.builder(nameView.getText().toString(), body)
+                    .withId(function == null ? NO_ID : function.id)
+                    .withParameters(collectParameters())
+                    .withDescription(descriptionView.getText().toString()).build();
+            final Function oldFunction = (function == null || function.id == NO_ID) ? null : registry.getById(function.id);
+            registry.add(newFunction.toCustomFunctionBuilder(), oldFunction);
+        } catch (ParseException e) {
+            setError(bodyLabel, e.getLocalizedMessage());
+        }
     }
 
     private boolean validate() {
@@ -345,8 +328,14 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
             setError(bodyLabel, getString(R.string.function_is_empty));
             return false;
         }
-        clearError(bodyLabel);
-        return true;
+        try {
+            calculator.prepareExpression(body);
+            clearError(bodyLabel);
+            return true;
+        } catch (ParseException e) {
+            setError(bodyLabel, e.getLocalizedMessage());
+            return false;
+        }
     }
 
     private boolean validateParameters() {

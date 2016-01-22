@@ -25,18 +25,12 @@ package org.solovyev.android.calculator;
 import org.solovyev.common.msg.Message;
 import org.solovyev.common.msg.MessageLevel;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Locale;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-/**
- * User: serso
- * Date: 10/6/11
- * Time: 9:25 PM
- */
-public class CalculatorParseException extends Exception implements Message {
+public class ParseException extends RuntimeException implements Message {
 
     @Nonnull
     private final Message message;
@@ -47,22 +41,22 @@ public class CalculatorParseException extends Exception implements Message {
     @Nullable
     private final Integer position;
 
-    public CalculatorParseException(@Nonnull jscl.text.ParseException jsclParseException) {
+    public ParseException(@Nonnull jscl.text.ParseException jsclParseException) {
         this.message = jsclParseException;
         this.expression = jsclParseException.getExpression();
         this.position = jsclParseException.getPosition();
     }
 
-    public CalculatorParseException(@Nullable Integer position,
-                                    @Nonnull String expression,
-                                    @Nonnull Message message) {
+    public ParseException(@Nullable Integer position,
+                          @Nonnull String expression,
+                          @Nonnull Message message) {
         this.message = message;
         this.expression = expression;
         this.position = position;
     }
 
-    public CalculatorParseException(@Nonnull String expression,
-                                    @Nonnull Message message) {
+    public ParseException(@Nonnull String expression,
+                          @Nonnull Message message) {
         this(null, expression, message);
     }
 

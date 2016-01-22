@@ -22,17 +22,12 @@
 
 package org.solovyev.android.calculator;
 
-import java.util.List;
-
-import javax.annotation.Nonnull;
-
+import android.support.annotation.NonNull;
 import jscl.math.function.IConstant;
 
-/**
- * User: serso
- * Date: 10/18/11
- * Time: 10:07 PM
- */
+import javax.annotation.Nonnull;
+import java.util.List;
+
 public class PreparedExpression implements CharSequence {
 
     @Nonnull
@@ -75,6 +70,7 @@ public class PreparedExpression implements CharSequence {
         return expression.subSequence(i, i1);
     }
 
+    @NonNull
     @Override
     public String toString() {
         return this.expression;

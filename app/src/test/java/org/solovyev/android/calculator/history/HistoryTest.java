@@ -132,7 +132,7 @@ public class HistoryTest {
     }
 
     private void addState(@Nonnull String text) {
-        history.addRecent(HistoryState.builder(EditorState.create(text, 3), DisplayState.empty()));
+        history.addRecent(HistoryState.builder(EditorState.create(text, 3), DisplayState.empty()).build());
     }
 
     private static final String oldXml1 = "<history>\n" +
@@ -281,7 +281,7 @@ public class HistoryTest {
 
     @Test
     public void testShouldLoadStates() throws Exception {
-        final List<HistoryState> states = Json.load(new File(HistoryTest.class.getResource("recent-history.json").getFile()));
+        final List<HistoryState> states = Json.load(new File(HistoryTest.class.getResource("recent-history.json").getFile()), HistoryState.JSON_CREATOR);
         assertEquals(8, states.size());
 
         HistoryState state = states.get(0);

@@ -24,13 +24,18 @@ package org.solovyev.android.calculator;
 
 import android.text.TextUtils;
 import android.util.Log;
-
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
-
+import jscl.AbstractJsclArithmeticException;
+import jscl.MathEngine;
+import jscl.NumeralBase;
+import jscl.NumeralBaseException;
+import jscl.math.Generic;
+import jscl.math.function.IConstant;
+import jscl.math.operator.Operator;
+import jscl.text.ParseInterruptedException;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.model.Var;
-import org.solovyev.android.calculator.text.TextProcessor;
 import org.solovyev.android.calculator.units.CalculatorNumeralBase;
 import org.solovyev.common.msg.ListMessageRegistry;
 import org.solovyev.common.msg.Message;
@@ -40,23 +45,13 @@ import org.solovyev.common.text.Strings;
 import org.solovyev.common.units.ConversionException;
 import org.solovyev.common.units.Conversions;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicLong;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import jscl.AbstractJsclArithmeticException;
-import jscl.MathEngine;
-import jscl.NumeralBase;
-import jscl.NumeralBaseException;
-import jscl.math.Generic;
-import jscl.math.function.IConstant;
-import jscl.math.operator.Operator;
-import jscl.text.ParseInterruptedException;
 
 public class CalculatorImpl implements Calculator, CalculatorEventListener {
 
@@ -70,7 +65,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
     private final AtomicLong counter = new AtomicLong(CalculatorUtils.FIRST_ID);
 
     @Nonnull
-    private final TextProcessor<PreparedExpression, String> preprocessor = ToJsclTextProcessor.getInstance();
+    private final ToJsclTextProcessor preprocessor = ToJsclTextProcessor.getInstance();
 
     @Nonnull
     private final Executor calculationsExecutor = Executors.newFixedThreadPool(10);
@@ -101,7 +96,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
             if (!Strings.isEmpty(fromString)) {
                 try {
                     fromString = ToJsclTextProcessor.getInstance().process(fromString).getExpression();
-                } catch (CalculatorParseException e) {
+                } catch (ParseException e) {
                     // ok, problems while processing occurred
                 }
             }
@@ -272,17 +267,17 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
             }
 
         } catch (ArithmeticException e) {
-            handleException(sequenceId, operation, expression, mr, preparedExpression, new CalculatorParseException(expression, new CalculatorMessage(CalculatorMessages.msg_001, MessageType.error, e.getMessage())));
+            handleException(sequenceId, operation, expression, mr, preparedExpression, new ParseException(expression, new CalculatorMessage(CalculatorMessages.msg_001, MessageType.error, e.getMessage())));
         } catch (StackOverflowError e) {
-            handleException(sequenceId, operation, expression, mr, preparedExpression, new CalculatorParseException(expression, new CalculatorMessage(CalculatorMessages.msg_002, MessageType.error)));
+            handleException(sequenceId, operation, expression, mr, preparedExpression, new ParseException(expression, new CalculatorMessage(CalculatorMessages.msg_002, MessageType.error)));
         } catch (jscl.text.ParseException e) {
-            handleException(sequenceId, operation, expression, mr, preparedExpression, new CalculatorParseException(e));
+            handleException(sequenceId, operation, expression, mr, preparedExpression, new ParseException(e));
         } catch (ParseInterruptedException e) {
 
             // do nothing - we ourselves interrupt the calculations
             fireCalculatorEvent(newCalculationEventData(operation, expression, sequenceId), CalculatorEventType.calculation_cancelled, null);
 
-        } catch (CalculatorParseException e) {
+        } catch (ParseException e) {
             handleException(sequenceId, operation, expression, mr, preparedExpression, e);
         }
     }
@@ -298,7 +293,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 
     @Nonnull
     @Override
-    public PreparedExpression prepareExpression(@Nonnull String expression) throws CalculatorParseException {
+    public PreparedExpression prepareExpression(@Nonnull String expression) throws ParseException {
         return preprocessor.process(expression);
     }
 
@@ -314,7 +309,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
                                  @Nonnull String expression,
                                  @Nullable MessageRegistry mr,
                                  @Nullable PreparedExpression preparedExpression,
-                                 @Nonnull CalculatorParseException parseException) {
+                                 @Nonnull ParseException parseException) {
 
         if (operation == JsclOperation.numeric
                 && preparedExpression != null

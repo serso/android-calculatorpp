@@ -22,23 +22,15 @@
 
 package org.solovyev.android.calculator.text;
 
-import org.solovyev.android.calculator.CalculatorParseException;
+import jscl.math.Generic;
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.math.MathType;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import jscl.math.Generic;
-
-/**
- * User: serso
- * Date: 10/20/11
- * Time: 2:59 PM
- */
 public class FromJsclSimplifyTextProcessor implements TextProcessor<String, Generic> {
 
     public static final FromJsclSimplifyTextProcessor instance = new FromJsclSimplifyTextProcessor();
@@ -49,7 +41,7 @@ public class FromJsclSimplifyTextProcessor implements TextProcessor<String, Gene
 
     @Nonnull
     @Override
-    public String process(@Nonnull Generic from) throws CalculatorParseException {
+    public String process(@Nonnull Generic from) {
         return removeMultiplicationSigns(from.toString());
     }
 

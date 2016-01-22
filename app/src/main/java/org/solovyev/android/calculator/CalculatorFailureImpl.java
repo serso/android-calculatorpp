@@ -45,8 +45,8 @@ public class CalculatorFailureImpl implements CalculatorFailure {
     }
 
     @Override
-    public CalculatorParseException getCalculationParseException() {
-        return exception instanceof CalculatorParseException ? (CalculatorParseException) exception : null;
+    public ParseException getCalculationParseException() {
+        return exception instanceof ParseException ? (ParseException) exception : null;
     }
 
     @Override

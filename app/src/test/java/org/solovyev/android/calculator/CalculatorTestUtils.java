@@ -95,7 +95,7 @@ public class CalculatorTestUtils {
         final JsclMathEngine jsclEngine = JsclMathEngine.getInstance();
 
         final VarsRegistry varsRegistry = new VarsRegistry(jsclEngine.getConstantsRegistry(), entityDao);
-        final FunctionsRegistry functionsRegistry = new FunctionsRegistry(jsclEngine.getFunctionsRegistry());
+        final FunctionsRegistry functionsRegistry = new FunctionsRegistry(jsclEngine);
         final OperatorsRegistry operatorsRegistry = new OperatorsRegistry(jsclEngine.getOperatorsRegistry());
         final PostfixFunctionsRegistry postfixFunctionsRegistry = new PostfixFunctionsRegistry(jsclEngine.getPostfixFunctionsRegistry());
 

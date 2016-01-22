@@ -22,19 +22,17 @@
 
 package org.solovyev.android.calculator;
 
+import jscl.math.function.Function;
+import jscl.math.function.IConstant;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.text.TextProcessor;
 import org.solovyev.common.collections.Collections;
 import org.solovyev.common.msg.MessageType;
 import org.solovyev.common.search.StartsWithFinder;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.annotation.Nonnull;
-
-import jscl.math.function.Function;
-import jscl.math.function.IConstant;
 
 public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, String> {
 
@@ -42,23 +40,22 @@ public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, St
     private static final Integer MAX_DEPTH = 20;
 
     @Nonnull
-    private static final TextProcessor<PreparedExpression, String> instance = new ToJsclTextProcessor();
+    private static final ToJsclTextProcessor instance = new ToJsclTextProcessor();
 
     private ToJsclTextProcessor() {
     }
 
-
     @Nonnull
-    public static TextProcessor<PreparedExpression, String> getInstance() {
+    public static ToJsclTextProcessor getInstance() {
         return instance;
     }
 
-    private static PreparedExpression processWithDepth(@Nonnull String s, int depth, @Nonnull List<IConstant> undefinedVars) throws CalculatorParseException {
+    private static PreparedExpression processWithDepth(@Nonnull String s, int depth, @Nonnull List<IConstant> undefinedVars) throws ParseException {
         return replaceVariables(processExpression(s).toString(), depth, undefinedVars);
     }
 
     @Nonnull
-    private static StringBuilder processExpression(@Nonnull String s) throws CalculatorParseException {
+    private static StringBuilder processExpression(@Nonnull String s) throws ParseException {
         final StartsWithFinder startsWithFinder = StartsWithFinder.newInstance(s);
         final StringBuilder result = new StringBuilder();
 
@@ -91,7 +88,7 @@ public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, St
                 final String functionName = mathTypeBefore.match;
                 final Function function = Locator.getInstance().getEngine().getFunctionsRegistry().get(functionName);
                 if (function == null || function.getMinParameters() > 0) {
-                    throw new CalculatorParseException(i, s, new CalculatorMessage(CalculatorMessages.msg_005, MessageType.error, mathTypeBefore.match));
+                    throw new ParseException(i, s, new CalculatorMessage(CalculatorMessages.msg_005, MessageType.error, mathTypeBefore.match));
                 }
             }
 
@@ -101,9 +98,9 @@ public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, St
     }
 
     @Nonnull
-    private static PreparedExpression replaceVariables(@Nonnull final String s, int depth, @Nonnull List<IConstant> undefinedVars) throws CalculatorParseException {
+    private static PreparedExpression replaceVariables(@Nonnull final String s, int depth, @Nonnull List<IConstant> undefinedVars) throws ParseException {
         if (depth >= MAX_DEPTH) {
-            throw new CalculatorParseException(s, new CalculatorMessage(CalculatorMessages.msg_006, MessageType.error));
+            throw new ParseException(s, new CalculatorMessage(CalculatorMessages.msg_006, MessageType.error));
         } else {
             depth++;
         }
@@ -164,7 +161,7 @@ public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, St
 
     @Override
     @Nonnull
-    public PreparedExpression process(@Nonnull String s) throws CalculatorParseException {
+    public PreparedExpression process(@Nonnull String s) throws ParseException {
         return processWithDepth(s, 0, new ArrayList<IConstant>());
     }
 }

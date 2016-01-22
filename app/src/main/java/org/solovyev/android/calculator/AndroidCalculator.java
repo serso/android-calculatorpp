@@ -109,7 +109,7 @@ public class AndroidCalculator implements Calculator, CalculatorEventListener, S
 
     @Nonnull
     @Override
-    public PreparedExpression prepareExpression(@Nonnull String expression) throws CalculatorParseException {
+    public PreparedExpression prepareExpression(@Nonnull String expression) throws ParseException {
         return calculator.prepareExpression(expression);
     }
 

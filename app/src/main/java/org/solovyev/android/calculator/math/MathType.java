@@ -25,7 +25,7 @@ package org.solovyev.android.calculator.math;
 import jscl.JsclMathEngine;
 import jscl.NumeralBase;
 import jscl.math.function.Constants;
-import org.solovyev.android.calculator.CalculatorParseException;
+import org.solovyev.android.calculator.ParseException;
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.common.JPredicate;
 import org.solovyev.common.collections.Collections;
@@ -65,7 +65,7 @@ public enum MathType {
 
     grouping_separator(250, false, false, MathGroupType.number, "'", " ") {
         @Override
-        public int processToJscl(@Nonnull StringBuilder result, int i, @Nonnull String match) throws CalculatorParseException {
+        public int processToJscl(@Nonnull StringBuilder result, int i, @Nonnull String match) throws ParseException {
             return i;
         }
     },
@@ -347,7 +347,7 @@ public enum MathType {
         return needMultiplicationSignBefore && mathTypeBefore.isNeedMultiplicationSignAfter();
     }
 
-    public int processToJscl(@Nonnull StringBuilder result, int i, @Nonnull String match) throws CalculatorParseException {
+    public int processToJscl(@Nonnull StringBuilder result, int i, @Nonnull String match) throws ParseException {
         final String substitute = getSubstituteToJscl(match);
         result.append(substitute == null ? match : substitute);
         return returnI(i, match);
@@ -400,7 +400,7 @@ public enum MathType {
             this.match = match;
         }
 
-        public int processToJscl(@Nonnull StringBuilder result, int i) throws CalculatorParseException {
+        public int processToJscl(@Nonnull StringBuilder result, int i) throws ParseException {
             return type.processToJscl(result, i, match);
         }
     }
