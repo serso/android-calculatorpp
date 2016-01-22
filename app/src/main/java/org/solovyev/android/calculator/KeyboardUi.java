@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.os.Build;
+import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
@@ -42,9 +43,13 @@ public class KeyboardUi {
     private final List<String> parameterNames;
     @NonNull
     private final SimpleDragListener dragListener;
+    @ColorInt
     private final int textColor;
+    @ColorInt
     private final int textColorSecondary;
     private final int sidePadding;
+    @DrawableRes
+    private final int buttonBackground;
 
     @SuppressWarnings("deprecation")
     public KeyboardUi(@NonNull User user, @NonNull List<String> parameterNames) {
@@ -55,6 +60,7 @@ public class KeyboardUi {
         textColor = resources.getColor(R.color.cpp_button_text);
         textColorSecondary = resources.getColor(R.color.cpp_button_text);
         sidePadding = resources.getDimensionPixelSize(R.dimen.cpp_button_padding);
+        buttonBackground = App.getTheme().light ? R.drawable.material_button_light : R.drawable.material_button_dark;
     }
 
     public void makeView() {
@@ -148,7 +154,7 @@ public class KeyboardUi {
     private void fillButton(@NonNull View button, @IdRes int id) {
         button.setOnClickListener(buttonHandler);
         button.setId(id);
-        button.setBackgroundResource(R.drawable.material_button_light);
+        button.setBackgroundResource(buttonBackground);
         button.setPadding(sidePadding, 1, sidePadding, 1);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             button.setStateListAnimator(null);

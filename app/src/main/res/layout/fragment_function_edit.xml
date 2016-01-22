@@ -23,7 +23,7 @@
   -->
 
 <ScrollView xmlns:a="http://schemas.android.com/apk/res/android"
-    a:layout_width="match_parent"
+    a:layout_width="wrap_content"
     a:layout_height="wrap_content">
 
     <LinearLayout
@@ -47,7 +47,8 @@
         <org.solovyev.android.calculator.function.FunctionParamsView
             a:id="@+id/function_params"
             a:layout_width="match_parent"
-            a:layout_height="wrap_content" />
+            a:layout_height="wrap_content"
+            a:orientation="vertical" />
 
         <android.support.design.widget.TextInputLayout
             a:id="@+id/function_body_label"

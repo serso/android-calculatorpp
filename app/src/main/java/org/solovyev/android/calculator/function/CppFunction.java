@@ -47,9 +47,9 @@ public class CppFunction implements Jsonable, Parcelable {
     private static final String JSON_BODY = "b";
     private static final String JSON_PARAMETERS = "ps";
     private static final String JSON_DESCRIPTION = "d";
-    protected final int id;
     @Nonnull
     protected final List<String> parameters = new ArrayList<>();
+    protected int id;
     @Nonnull
     protected String name;
     @Nonnull
@@ -227,6 +227,13 @@ public class CppFunction implements Jsonable, Parcelable {
         public Builder withParameter(@Nonnull String parameter) {
             Check.isTrue(!built);
             function.parameters.add(parameter);
+            return this;
+        }
+
+        @Nonnull
+        public Builder withId(int id) {
+            Check.isTrue(!built);
+            function.id = id;
             return this;
         }
 

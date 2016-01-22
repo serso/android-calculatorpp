@@ -27,9 +27,9 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.text.Editable;
-import android.text.TextUtils;
+import android.support.design.widget.TextInputLayout;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -53,9 +53,13 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public class FunctionParamsView extends LinearLayout {
 
+    @Nonnull
+    public static final String PARAM_VIEW_TAG = "param-view";
+    private static final int HEADERS = 1;
     private static final int PARAM_VIEW_INDEX = 3;
     private static final int START_ROW_ID = App.generateViewId();
     private int maxRowId = START_ROW_ID;
+    private final int clickableAreaSize = getResources().getDimensionPixelSize(R.dimen.cpp_clickable_area_size);
 
     public FunctionParamsView(Context context) {
         super(context);
@@ -86,8 +90,8 @@ public class FunctionParamsView extends LinearLayout {
                 addParam(null);
             }
         });
-        headerView.addView(addButton, new LayoutParams(0, WRAP_CONTENT, 1));
-        headerView.addView(new View(context), new LayoutParams(0, WRAP_CONTENT, 5));
+        headerView.addView(addButton, new LayoutParams(clickableAreaSize, WRAP_CONTENT));
+        headerView.addView(new View(context), new LayoutParams(0, WRAP_CONTENT, 1));
         addView(headerView, new ViewGroup.LayoutParams(MATCH_PARENT, WRAP_CONTENT));
     }
 
@@ -95,9 +99,10 @@ public class FunctionParamsView extends LinearLayout {
     private LinearLayout makeRowView(@Nonnull Context context) {
         final LinearLayout rowView = new LinearLayout(context);
         rowView.setOrientation(HORIZONTAL);
+        rowView.setMinimumHeight(clickableAreaSize);
+        rowView.setGravity(Gravity.CENTER_VERTICAL);
         return rowView;
     }
-
 
     public void addParams(@Nonnull List<String> params) {
         for (String param : params) {
@@ -121,7 +126,7 @@ public class FunctionParamsView extends LinearLayout {
             }
         });
         removeButton.setText("−");
-        rowView.addView(removeButton, new LayoutParams(0, WRAP_CONTENT, 1));
+        rowView.addView(removeButton, new LayoutParams(clickableAreaSize, WRAP_CONTENT));
 
         final Button upButton = new Button(context);
         upButton.setOnClickListener(new OnClickListener() {
@@ -131,7 +136,7 @@ public class FunctionParamsView extends LinearLayout {
             }
         });
         upButton.setText("↑");
-        rowView.addView(upButton, new LayoutParams(0, WRAP_CONTENT, 1));
+        rowView.addView(upButton, new LayoutParams(clickableAreaSize, WRAP_CONTENT));
 
         final Button downButton = new Button(context);
         downButton.setOnClickListener(new OnClickListener() {
@@ -141,16 +146,21 @@ public class FunctionParamsView extends LinearLayout {
             }
         });
         downButton.setText("↓");
-        rowView.addView(downButton, new LayoutParams(0, WRAP_CONTENT, 1));
+        rowView.addView(downButton, new LayoutParams(clickableAreaSize, WRAP_CONTENT));
 
+        final TextInputLayout paramLabel = new TextInputLayout(context);
         final EditText paramView = new EditText(context);
         if (param != null) {
             paramView.setText(param);
         }
+        paramView.setOnFocusChangeListener(getOnFocusChangeListener());
         paramView.setInputType(EditorInfo.TYPE_CLASS_TEXT);
         paramView.setId(id);
+        paramView.setTag(PARAM_VIEW_TAG);
         paramView.setHint(R.string.c_function_parameter);
-        rowView.addView(paramView, new LayoutParams(0, WRAP_CONTENT, 3));
+        paramLabel.addView(paramView, new TextInputLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT));
+
+        rowView.addView(paramLabel, new LayoutParams(0, WRAP_CONTENT, 1));
 
         addView(rowView, new ViewGroup.LayoutParams(MATCH_PARENT, WRAP_CONTENT));
     }
@@ -158,20 +168,20 @@ public class FunctionParamsView extends LinearLayout {
     private void downRow(@Nonnull ViewGroup row) {
         final int index = indexOfChild(row);
         if (index < getChildCount() - 1) {
-            swap(row, getRowByIndex(index + 1));
+            swap(row, getRow(index + 1));
         }
     }
 
     private void upRow(@Nonnull ViewGroup row) {
         final int index = indexOfChild(row);
         if (index > 1) {
-            swap(row, getRowByIndex(index - 1));
+            swap(row, getRow(index - 1));
         }
     }
 
     private void swap(@Nonnull ViewGroup l, @Nonnull ViewGroup r) {
-        final EditText lParam = (EditText) l.getChildAt(PARAM_VIEW_INDEX);
-        final EditText rParam = (EditText) r.getChildAt(PARAM_VIEW_INDEX);
+        final EditText lParam = getParamView(l);
+        final EditText rParam = getParamView(r);
         swap(lParam, rParam);
     }
 
@@ -183,7 +193,7 @@ public class FunctionParamsView extends LinearLayout {
     }
 
     @Nonnull
-    private ViewGroup getRowByIndex(int index) {
+    private ViewGroup getRow(int index) {
         Check.isTrue(index >= 0 && index < getChildCount());
         return (ViewGroup) getChildAt(index);
     }
@@ -196,16 +206,24 @@ public class FunctionParamsView extends LinearLayout {
     public List<String> getParams() {
         final List<String> params = new ArrayList<>(getChildCount());
 
-        for (int i = 1; i < getChildCount(); i++) {
-            final ViewGroup row = getRowByIndex(i);
-            final EditText paramView = (EditText) row.getChildAt(PARAM_VIEW_INDEX);
-            final Editable param = paramView.getText();
-            if (!TextUtils.isEmpty(param)) {
-                params.add(param.toString());
-            }
+        for (int i = HEADERS; i < getChildCount(); i++) {
+            final ViewGroup row = getRow(i);
+            final EditText paramView = getParamView(row);
+            params.add(paramView.getText().toString());
         }
 
         return params;
+    }
+
+    @Nonnull
+    private EditText getParamView(@Nonnull ViewGroup row) {
+        final TextInputLayout paramLabel = getParamLabel(row);
+        return (EditText) paramLabel.getChildAt(0);
+    }
+
+    @Nonnull
+    private TextInputLayout getParamLabel(@Nonnull ViewGroup row) {
+        return (TextInputLayout) row.getChildAt(PARAM_VIEW_INDEX);
     }
 
     @Override
@@ -218,9 +236,9 @@ public class FunctionParamsView extends LinearLayout {
     private int[] getRowIds() {
         final int childCount = getChildCount();
         final int[] rowIds = new int[childCount - 1];
-        for (int i = 1; i < childCount; i++) {
-            final ViewGroup row = getRowByIndex(i);
-            final EditText paramView = (EditText) row.getChildAt(PARAM_VIEW_INDEX);
+        for (int i = HEADERS; i < childCount; i++) {
+            final ViewGroup row = getRow(i);
+            final EditText paramView = getParamView(row);
             rowIds[i - 1] = paramView.getId();
         }
         return rowIds;
@@ -241,6 +259,11 @@ public class FunctionParamsView extends LinearLayout {
         }
 
         super.onRestoreInstanceState(state.getSuperState());
+    }
+
+    @Nonnull
+    public TextInputLayout getParamLabel(int param) {
+        return getParamLabel(getRow(param + HEADERS));
     }
 
     public static final class SavedState extends BaseSavedState {
