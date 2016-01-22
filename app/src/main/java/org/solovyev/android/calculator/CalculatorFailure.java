@@ -36,7 +36,7 @@ public interface CalculatorFailure {
     Exception getException();
 
     @Nullable
-    CalculatorParseException getCalculationParseException();
+    ParseException getCalculationParseException();
 
     @Nullable
     CalculatorEvalException getCalculationEvalException();

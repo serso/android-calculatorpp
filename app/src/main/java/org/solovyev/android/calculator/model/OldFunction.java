@@ -27,7 +27,7 @@ import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 import org.simpleframework.xml.Transient;
-import org.solovyev.android.calculator.CalculatorParseException;
+import org.solovyev.android.calculator.ParseException;
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.PersistedEntity;
 import org.solovyev.common.math.MathEntity;
@@ -252,7 +252,7 @@ public class OldFunction implements IFunction, PersistedEntity, Serializable {
             result.name = name;
             try {
                 result.content = Locator.getInstance().getCalculator().prepareExpression(value).toString();
-            } catch (CalculatorParseException e) {
+            } catch (ParseException e) {
                 throw new CreationException(e);
             }
             result.system = system;
@@ -265,9 +265,9 @@ public class OldFunction implements IFunction, PersistedEntity, Serializable {
         public static class CreationException extends RuntimeException implements Message {
 
             @Nonnull
-            private final CalculatorParseException message;
+            private final ParseException message;
 
-            public CreationException(@Nonnull CalculatorParseException cause) {
+            public CreationException(@Nonnull ParseException cause) {
                 super(cause);
                 message = cause;
             }

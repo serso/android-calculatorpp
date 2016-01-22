@@ -22,15 +22,13 @@
 
 package org.solovyev.android.calculator;
 
+import jscl.NumeralBase;
+import jscl.math.Generic;
 import org.solovyev.android.calculator.jscl.JsclOperation;
-
-import java.util.concurrent.Executor;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import jscl.NumeralBase;
-import jscl.math.Generic;
+import java.util.concurrent.Executor;
 
 /**
  * User: Solovyev_S
@@ -98,5 +96,5 @@ public interface Calculator extends CalculatorEventContainer {
     CalculatorEventData fireCalculatorEvent(@Nonnull CalculatorEventType calculatorEventType, @Nullable Object data, @Nonnull Long sequenceId);
 
     @Nonnull
-    PreparedExpression prepareExpression(@Nonnull String expression) throws CalculatorParseException;
+    PreparedExpression prepareExpression(@Nonnull String expression) throws ParseException;
 }

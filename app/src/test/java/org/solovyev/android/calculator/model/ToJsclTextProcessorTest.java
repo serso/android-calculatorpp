@@ -26,7 +26,7 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.solovyev.android.calculator.AbstractCalculatorTest;
-import org.solovyev.android.calculator.CalculatorParseException;
+import org.solovyev.android.calculator.ParseException;
 import org.solovyev.android.calculator.CalculatorTestUtils;
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.PreparedExpression;
@@ -49,7 +49,7 @@ public class ToJsclTextProcessorTest extends AbstractCalculatorTest {
     }
 
     @Test
-    public void testSpecialCases() throws CalculatorParseException {
+    public void testSpecialCases() throws ParseException {
         final TextProcessor<PreparedExpression, String> preprocessor = ToJsclTextProcessor.getInstance();
         Assert.assertEquals("3^E10", preprocessor.process("3^E10").toString());
     }
@@ -108,30 +108,30 @@ public class ToJsclTextProcessorTest extends AbstractCalculatorTest {
         try {
             preprocessor.process("ln()");
             Assert.fail();
-        } catch (CalculatorParseException e) {
+        } catch (ParseException e) {
         }
         try {
             preprocessor.process("ln()ln()");
             Assert.fail();
-        } catch (CalculatorParseException e) {
+        } catch (ParseException e) {
         }
 
         try {
             preprocessor.process("eln()eln()ln()ln()ln()e");
             Assert.fail();
-        } catch (CalculatorParseException e) {
+        } catch (ParseException e) {
         }
 
         try {
             preprocessor.process("ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln(ln()))))))))))))))");
             Assert.fail();
-        } catch (CalculatorParseException e) {
+        } catch (ParseException e) {
         }
 
         try {
             preprocessor.process("cos(cos(cos(cos(acos(acos(acos(acos(acos(acos(acos(acos(cos(cos(cos(cos(cosh(acos(cos(cos(cos(cos(cos(acos(acos(acos(acos(acos(acos(acos(acos(cos(cos(cos(cos(cosh(acos(cos())))))))))))))))))))))))))))))))))))))");
             Assert.fail();
-        } catch (CalculatorParseException e) {
+        } catch (ParseException e) {
         }
     }
 

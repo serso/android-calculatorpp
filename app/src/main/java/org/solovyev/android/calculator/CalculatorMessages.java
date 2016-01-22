@@ -24,22 +24,14 @@ package org.solovyev.android.calculator;
 
 import org.solovyev.common.msg.MessageType;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import static org.solovyev.common.msg.MessageType.*;
 
-import static org.solovyev.common.msg.MessageType.error;
-import static org.solovyev.common.msg.MessageType.info;
-import static org.solovyev.common.msg.MessageType.warning;
-
-/**
- * User: serso
- * Date: 9/20/12
- * Time: 8:10 PM
- */
 public final class CalculatorMessages {
 
 

@@ -106,7 +106,7 @@ public class DisplayView extends AutoResizeTextView {
         }
         try {
             return textHighlighter.process(text).getCharSequence();
-        } catch (CalculatorParseException e) {
+        } catch (ParseException e) {
             return text;
         }
     }

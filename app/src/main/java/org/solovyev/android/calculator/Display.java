@@ -130,7 +130,7 @@ public class Display implements CalculatorEventListener {
         if (calculatorEvalException != null) {
             errorMessage = CalculatorMessages.getBundle().getString(CalculatorMessages.syntax_error);
         } else {
-            final CalculatorParseException calculationParseException = data.getCalculationParseException();
+            final ParseException calculationParseException = data.getCalculationParseException();
             if (calculationParseException != null) {
                 errorMessage = calculationParseException.getLocalizedMessage();
             } else {

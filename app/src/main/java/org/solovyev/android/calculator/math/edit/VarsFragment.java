@@ -28,32 +28,18 @@ import android.support.v4.app.FragmentActivity;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
-
 import com.melnykov.fab.FloatingActionButton;
-
-import org.solovyev.android.calculator.CalculatorEventData;
-import org.solovyev.android.calculator.CalculatorEventListener;
-import org.solovyev.android.calculator.CalculatorEventType;
-import org.solovyev.android.calculator.CalculatorFragmentType;
-import org.solovyev.android.calculator.CalculatorParseException;
-import org.solovyev.android.calculator.Change;
-import org.solovyev.android.calculator.EntitiesRegistry;
-import org.solovyev.android.calculator.Locator;
-import org.solovyev.android.calculator.PreparedExpression;
-import org.solovyev.android.calculator.R;
-import org.solovyev.android.calculator.ToJsclTextProcessor;
+import jscl.math.function.IConstant;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.common.JPredicate;
 import org.solovyev.common.collections.Collections;
 import org.solovyev.common.text.Strings;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import jscl.math.function.IConstant;
+import java.util.ArrayList;
+import java.util.List;
 
 public class VarsFragment extends BaseEntitiesFragment<IConstant>implements CalculatorEventListener {
 
@@ -71,8 +57,6 @@ public class VarsFragment extends BaseEntitiesFragment<IConstant>implements Calc
             final List<IConstant> constants = expression.getUndefinedVars();
             return constants.isEmpty();
         } catch (RuntimeException e) {
-            return true;
-        } catch (CalculatorParseException e) {
             return true;
         }
     }
