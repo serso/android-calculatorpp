@@ -53,7 +53,7 @@ public class KeyboardWindow {
         final Context context = editor.getContext();
         final LinearLayout view = new LinearLayout(context);
         view.setOrientation(LinearLayout.VERTICAL);
-        final int buttonSize = context.getResources().getDimensionPixelSize(R.dimen.cpp_kb_button_size);
+        final int buttonSize = context.getResources().getDimensionPixelSize(R.dimen.cpp_clickable_area_size);
         final int keyboardSize = 5 * buttonSize;
         window = new PopupWindow(view, keyboardSize, keyboardSize);
         window.setClippingEnabled(false);
@@ -98,6 +98,9 @@ public class KeyboardWindow {
             return;
         }
         final Window window = dialog.getWindow();
+        if (window == null) {
+            return;
+        }
         final WindowManager.LayoutParams lp = window.getAttributes();
         lp.gravity = gravity;
         window.setAttributes(lp);

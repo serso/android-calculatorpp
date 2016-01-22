@@ -1,6 +1,7 @@
 package org.solovyev.android.calculator;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,6 +12,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
 import javax.inject.Inject;
@@ -41,7 +44,17 @@ public abstract class BaseDialogFragment extends DialogFragment {
         final AlertDialog.Builder b = new AlertDialog.Builder(context, theme.alertDialogTheme);
         b.setView(view, spacing, spacing, spacing, spacing);
         onPrepareDialog(b);
-        return b.create();
+        final AlertDialog dialog = b.create();
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface d) {
+                onShowDialog(dialog);
+            }
+        });
+        return dialog;
+    }
+
+    protected void onShowDialog(@NonNull AlertDialog dialog) {
     }
 
     protected abstract void onPrepareDialog(@NonNull AlertDialog.Builder builder);

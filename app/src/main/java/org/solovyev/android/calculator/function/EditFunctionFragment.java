@@ -43,10 +43,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
+import org.solovyev.android.Check;
 import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.AppComponent;
 import org.solovyev.android.calculator.BaseDialogFragment;
@@ -62,8 +64,11 @@ import org.solovyev.android.calculator.math.edit.FunctionsFragment;
 import org.solovyev.android.calculator.math.edit.VarEditorSaver;
 import org.solovyev.common.math.MathRegistry;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -74,6 +79,8 @@ import butterknife.ButterKnife;
 import jscl.math.function.CustomFunction;
 import jscl.math.function.Function;
 import jscl.math.function.IConstant;
+
+import static org.solovyev.android.calculator.function.CppFunction.NO_ID;
 
 public class EditFunctionFragment extends BaseDialogFragment implements View.OnClickListener, View.OnFocusChangeListener, View.OnKeyListener {
 
@@ -101,12 +108,12 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
     EditText bodyView;
     @Bind(R.id.function_description)
     EditText descriptionView;
-    private CppFunction function;
-
     @Inject
     Calculator calculator;
     @Inject
     FunctionsRegistry registry;
+    @Nullable
+    private CppFunction function;
 
     @Nonnull
     private static EditFunctionFragment create(@Nullable CppFunction function) {
@@ -141,7 +148,10 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        function = getArguments().getParcelable(ARG_FUNCTION);
+        final Bundle arguments = getArguments();
+        if (arguments != null) {
+            function = arguments.getParcelable(ARG_FUNCTION);
+        }
     }
 
     @Override
@@ -165,31 +175,32 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
     public AlertDialog onCreateDialog(Bundle savedInstanceState) {
         final AlertDialog dialog = super.onCreateDialog(savedInstanceState);
         dialog.setCanceledOnTouchOutside(false);
-        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(DialogInterface d) {
-                nameView.selectAll();
-                showIme(nameView);
+        return dialog;
+    }
 
-                final Button ok = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-                ok.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        tryClose();
-                    }
-                });
-                if (function != null) {
-                    final Button neutral = dialog.getButton(AlertDialog.BUTTON_NEUTRAL);
-                    neutral.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            tryRemoveFunction(function, false);
-                        }
-                    });
-                }
+    @Override
+    protected void onShowDialog(@NonNull AlertDialog dialog) {
+        super.onShowDialog(dialog);
+
+        nameView.selectAll();
+        showIme(nameView);
+
+        final Button ok = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tryClose();
             }
         });
-        return dialog;
+        if (function != null) {
+            final Button neutral = dialog.getButton(AlertDialog.BUTTON_NEUTRAL);
+            neutral.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    tryRemoveFunction(function, false);
+                }
+            });
+        }
     }
 
     private void tryRemoveFunction(@NonNull CppFunction function, boolean confirmed) {
@@ -220,19 +231,58 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-        if (v.getId() == R.id.function_body) {
-            if (hasFocus) {
-                keyboardWindow.show(keyboardUser, getDialog(), paramsView.getParams());
-            } else {
-                keyboardWindow.hide();
+        if (v instanceof EditText && FunctionParamsView.PARAM_VIEW_TAG.equals(v.getTag())) {
+            final ViewParent parentView = v.getParent();
+            if (parentView instanceof TextInputLayout) {
+                if (hasFocus) {
+                    clearError((TextInputLayout) parentView);
+                } else {
+                    validateParameters();
+                }
+            }
+            return;
+        }
+
+        final int id = v.getId();
+        switch (id) {
+            case R.id.function_name:
+                if (hasFocus) {
+                    clearError(nameLabel);
+                } else {
+                    validateName();
+                }
+                break;
+            case R.id.function_body:
+                if (hasFocus) {
+                    clearError(bodyLabel);
+                    showKeyboard();
+                } else {
+                    keyboardWindow.hide();
+                    validateBody();
+                }
+                break;
+        }
+    }
+
+    private void showKeyboard() {
+        keyboardWindow.show(keyboardUser, getDialog(), collectParameters());
+    }
+
+    @Nonnull
+    private List<String> collectParameters() {
+        final List<String> parameters = new ArrayList<>();
+        for (String parameter : paramsView.getParams()) {
+            if (!TextUtils.isEmpty(parameter)) {
+                parameters.add(parameter);
             }
         }
+        return parameters;
     }
 
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.function_body) {
-            keyboardWindow.show(keyboardUser, getDialog(), paramsView.getParams());
+            showKeyboard();
         }
     }
 
@@ -255,38 +305,16 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
     }
 
     private void applyData() {
-
+        final CppFunction newFunction = CppFunction.builder(nameView.getText().toString(), bodyView.getText().toString())
+                .withId(function == null ? NO_ID : function.id)
+                .withParameters(collectParameters())
+                .withDescription(descriptionView.getText().toString()).build();
+        final Function oldFunction = (function == null || function.id == NO_ID) ? null : registry.getById(function.id);
+        registry.add(newFunction.toCustomFunctionBuilder(), oldFunction);
     }
 
     private boolean validate() {
-        if (!validateName()) {
-            return false;
-        }
-        if (!validateParameters()) {
-            return false;
-        }
-        if (!validateBody()) {
-            return false;
-        }
-
-        final CppFunction newFunction = CppFunction.builder(nameView.getText().toString(), bodyView.getText().toString())
-                .withParameters(paramsView.getParams())
-                .withDescription(descriptionView.getText().toString()).build();
-        final Function oldFunction = function.id == CppFunction.NO_ID ? null : registry.getById(function.id);
-        registry.add(newFunction.toCustomFunctionBuilder(), oldFunction);
-        return true;
-    }
-
-    private boolean validateParameters(@Nonnull List<String> parameterNames) {
-        for (String parameterName : parameterNames) {
-            if (!VarEditorSaver.isValidName(parameterName)) {
-                return false;
-            }
-        }
-        //                error = R.string.function_param_not_empty;
-
-
-        return true;
+        return validateName() & validateParameters() & validateBody();
     }
 
     private boolean validateName() {
@@ -296,9 +324,16 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
             return false;
         }
         final Function existingFunction = registry.get(name);
-        if (existingFunction != null && (!existingFunction.isIdDefined() || !existingFunction.getId().equals(function.getId()))) {
-            setError(nameLabel, getString(R.string.function_already_exists));
-            return false;
+        if (existingFunction != null) {
+            if (!existingFunction.isIdDefined()) {
+                Check.shouldNotHappen();
+                setError(nameLabel, getString(R.string.function_already_exists));
+                return false;
+            }
+            if (function != null && !existingFunction.getId().equals(function.getId())) {
+                setError(nameLabel, getString(R.string.function_already_exists));
+                return false;
+            }
         }
         clearError(nameLabel);
         return true;
@@ -315,13 +350,26 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
     }
 
     private boolean validateParameters() {
+        boolean valid = true;
         final List<String> parameters = paramsView.getParams();
-        /*if (TextUtils.isEmpty(body)) {
-            setError(bodyLabel, getString(R.string.function_is_empty));
-            return false;
-        }*/
-        //clearError(bodyLabel);
-        return true;
+        final Set<String> usedParameters = new HashSet<>();
+        for (int i = 0; i < parameters.size(); i++) {
+            final String parameter = parameters.get(i);
+            final TextInputLayout paramLabel = paramsView.getParamLabel(i);
+            if (TextUtils.isEmpty(parameter)) {
+                clearError(paramLabel);
+            } else if (!VarEditorSaver.isValidName(parameter)) {
+                valid = false;
+                setError(paramLabel, getString(R.string.invalid_name));
+            } else if (usedParameters.contains(parameter)) {
+                valid = false;
+                setError(paramLabel, getString(R.string.function_duplicate_parameter));
+            } else {
+                usedParameters.add(parameter);
+                clearError(paramLabel);
+            }
+        }
+        return valid;
     }
 
     @SuppressLint("InflateParams")
@@ -331,15 +379,18 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
         final View view = inflater.inflate(R.layout.fragment_function_edit, null);
         ButterKnife.bind(this, view);
 
-        if (savedInstanceState == null) {
+        if (savedInstanceState == null && function != null) {
             paramsView.addParams(function.getParameters());
             nameView.setText(function.getName());
             descriptionView.setText(function.getDescription());
             bodyView.setText(function.getBody());
         }
+        nameView.setOnFocusChangeListener(this);
+        paramsView.setOnFocusChangeListener(this);
         bodyView.setOnClickListener(this);
         bodyView.setOnFocusChangeListener(this);
         bodyView.setOnKeyListener(this);
+        descriptionView.setOnFocusChangeListener(this);
 
         return view;
     }
