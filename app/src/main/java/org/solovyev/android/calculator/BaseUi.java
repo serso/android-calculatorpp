@@ -37,10 +37,7 @@ import android.widget.TextView;
 import org.solovyev.android.Views;
 import org.solovyev.android.calculator.history.History;
 import org.solovyev.android.calculator.history.HistoryDragProcessor;
-import org.solovyev.android.calculator.view.AngleUnitsButton;
-import org.solovyev.android.calculator.view.LongClickEraser;
-import org.solovyev.android.calculator.view.NumeralBasesButton;
-import org.solovyev.android.calculator.view.ViewsCache;
+import org.solovyev.android.calculator.view.*;
 import org.solovyev.android.views.dragbutton.DirectionDragButton;
 import org.solovyev.android.views.dragbutton.DragButton;
 import org.solovyev.android.views.dragbutton.DragDirection;
@@ -216,7 +213,7 @@ public abstract class BaseUi implements SharedPreferences.OnSharedPreferenceChan
 
         final View eraseButton = getButton(views, R.id.cpp_button_erase);
         if (eraseButton != null) {
-            LongClickEraser.createAndAttach(eraseButton);
+            EditorLongClickEraser.attachTo(eraseButton);
         }
 
         clearButton = getButton(views, R.id.cpp_button_clear);

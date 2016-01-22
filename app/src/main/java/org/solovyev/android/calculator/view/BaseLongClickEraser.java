@@ -5,17 +5,9 @@ import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
 import android.view.View;
 
-import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.Calculator;
-import org.solovyev.android.calculator.Editor;
-import org.solovyev.android.calculator.EditorState;
-import org.solovyev.android.calculator.Locator;
-
 import javax.annotation.Nonnull;
 
-import static android.text.TextUtils.isEmpty;
-
-public final class LongClickEraser implements View.OnTouchListener {
+public abstract class BaseLongClickEraser implements View.OnTouchListener {
 
     @Nonnull
     private final View view;
@@ -24,15 +16,9 @@ public final class LongClickEraser implements View.OnTouchListener {
     private final GestureDetector gestureDetector;
 
     @Nonnull
-    private final Editor editor = App.getEditor();
-
-    @Nonnull
-    private final Calculator calculator = Locator.getInstance().getCalculator();
-
-    @Nonnull
     private final Eraser eraser = new Eraser();
 
-    private LongClickEraser(@Nonnull final View view) {
+    protected BaseLongClickEraser(@Nonnull final View view) {
         this.view = view;
         this.gestureDetector = new GestureDetector(view.getContext(), new GestureDetector.SimpleOnGestureListener() {
             public void onLongPress(MotionEvent e) {
@@ -41,11 +27,7 @@ public final class LongClickEraser implements View.OnTouchListener {
                 }
             }
         });
-    }
-
-    public static void createAndAttach(@Nonnull View view) {
-        final LongClickEraser l = new LongClickEraser(view);
-        view.setOnTouchListener(l);
+        this.view.setOnTouchListener(this);
     }
 
     @Override
@@ -63,17 +45,21 @@ public final class LongClickEraser implements View.OnTouchListener {
         return false;
     }
 
+    protected abstract void onStopErase();
+
+    protected abstract void onStartErase();
+
+    protected abstract boolean erase();
+
     private class Eraser implements Runnable {
         private static final int DELAY = 300;
         private long delay;
         private boolean erasing;
         private boolean tracking = true;
-        private boolean wasCalculatingOnFly;
 
         @Override
         public void run() {
-            final EditorState state = editor.erase();
-            if (isEmpty(state.text)) {
+            if (!erase()) {
                 stop();
                 return;
             }
@@ -89,10 +75,7 @@ public final class LongClickEraser implements View.OnTouchListener {
             delay = DELAY;
             view.removeCallbacks(this);
             view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-            wasCalculatingOnFly = calculator.isCalculateOnFly();
-            if (wasCalculatingOnFly) {
-                calculator.setCalculateOnFly(false);
-            }
+            onStartErase();
             run();
         }
 
@@ -103,9 +86,7 @@ public final class LongClickEraser implements View.OnTouchListener {
             }
 
             erasing = false;
-            if (wasCalculatingOnFly) {
-                calculator.setCalculateOnFly(true);
-            }
+            onStopErase();
         }
 
         public void stopTracking() {
