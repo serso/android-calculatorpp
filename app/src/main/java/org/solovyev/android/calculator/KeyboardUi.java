@@ -56,8 +56,8 @@ public class KeyboardUi {
         this.parameterNames = parameterNames;
         this.dragListener = new SimpleDragListener(buttonHandler, user.getContext());
         final Resources resources = user.getResources();
-        textColor = resources.getColor(R.color.cpp_button_text);
-        textColorSecondary = resources.getColor(R.color.cpp_button_text);
+        textColor = resources.getColor(R.color.cpp_kb_button_text);
+        textColorSecondary = resources.getColor(R.color.cpp_kb_button_text);
         sidePadding = resources.getDimensionPixelSize(R.dimen.cpp_button_padding);
         buttonBackground = App.getTheme().light ? R.drawable.material_button_light : R.drawable.material_button_dark;
     }
