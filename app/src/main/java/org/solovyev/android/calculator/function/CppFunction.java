@@ -4,7 +4,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-
+import jscl.math.function.CustomFunction;
+import jscl.math.function.IFunction;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,14 +14,10 @@ import org.solovyev.android.calculator.json.Json;
 import org.solovyev.android.calculator.json.Jsonable;
 import org.solovyev.common.text.Strings;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import javax.annotation.Nonnull;
-
-import jscl.math.function.CustomFunction;
-import jscl.math.function.IFunction;
 
 public class CppFunction implements Jsonable, Parcelable {
 
@@ -58,8 +55,6 @@ public class CppFunction implements Jsonable, Parcelable {
     protected String description = "";
 
     private CppFunction(@Nonnull String name, @Nonnull String body) {
-        Check.isNotEmpty(name);
-        Check.isNotEmpty(body);
         this.id = NO_ID;
         this.name = name;
         this.body = body;
@@ -123,6 +118,9 @@ public class CppFunction implements Jsonable, Parcelable {
     @Nonnull
     @Override
     public JSONObject toJson() throws JSONException {
+        Check.isNotEmpty(name);
+        Check.isNotEmpty(body);
+
         final JSONObject json = new JSONObject();
         if (!parameters.isEmpty()) {
             final JSONArray array = new JSONArray();
