@@ -142,10 +142,14 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
     protected void onPrepareDialog(@NonNull AlertDialog.Builder builder) {
         builder.setNegativeButton(R.string.c_cancel, null);
         builder.setPositiveButton(R.string.ok, null);
-        builder.setTitle(function == null ? R.string.function_create_function : R.string.function_edit_function);
-        if (function != null) {
+        builder.setTitle(isNewFunction() ? R.string.function_create_function : R.string.function_edit_function);
+        if (!isNewFunction()) {
             builder.setNeutralButton(R.string.c_remove, null);
         }
+    }
+
+    private boolean isNewFunction() {
+        return function == null || function.id == NO_ID;
     }
 
     @NonNull
@@ -170,7 +174,7 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
                 tryClose();
             }
         });
-        if (function != null) {
+        if (!isNewFunction()) {
             final Button neutral = dialog.getButton(AlertDialog.BUTTON_NEUTRAL);
             neutral.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -276,25 +280,26 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
     }
 
     private void tryClose() {
-        if (validate()) {
-            applyData();
+        if (validate() && applyData()) {
             dismiss();
         }
     }
 
-    private void applyData() {
+    private boolean applyData() {
         try {
             final String body = calculator.prepareExpression(bodyView.getText().toString()).getExpression();
 
             final CppFunction newFunction = CppFunction.builder(nameView.getText().toString(), body)
-                    .withId(function == null ? NO_ID : function.id)
+                    .withId(isNewFunction() ? NO_ID : function.id)
                     .withParameters(collectParameters())
                     .withDescription(descriptionView.getText().toString()).build();
-            final Function oldFunction = (function == null || function.id == NO_ID) ? null : registry.getById(function.id);
+            final Function oldFunction = isNewFunction() ? null : registry.getById(function.id);
             registry.add(newFunction.toCustomFunctionBuilder(), oldFunction);
-        } catch (ParseException e) {
+            return true;
+        } catch (RuntimeException e) {
             setError(bodyLabel, e.getLocalizedMessage());
         }
+        return false;
     }
 
     private boolean validate() {
@@ -314,7 +319,7 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
                 setError(nameLabel, getString(R.string.function_already_exists));
                 return false;
             }
-            if (function != null && !existingFunction.getId().equals(function.getId())) {
+            if (!isNewFunction() && !existingFunction.getId().equals(function.getId())) {
                 setError(nameLabel, getString(R.string.function_already_exists));
                 return false;
             }
