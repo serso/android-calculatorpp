@@ -22,30 +22,24 @@
 
 package org.solovyev.android.calculator;
 
+import android.support.annotation.StringRes;
+import jscl.math.function.IConstant;
 import org.solovyev.common.collections.Collections;
 
+import javax.annotation.Nonnull;
 import java.util.Comparator;
 import java.util.List;
 
-import javax.annotation.Nonnull;
+public enum VarCategory implements Category {
 
-import jscl.math.function.IConstant;
-
-/**
- * User: serso
- * Date: 12/22/11
- * Time: 4:25 PM
- */
-public enum VarCategory {
-
-    system(100) {
+    system(100, R.string.c_var_system) {
         @Override
         public boolean isInCategory(@Nonnull IConstant var) {
             return var.isSystem();
         }
     },
 
-    my(0) {
+    my(0, R.string.c_var_my) {
         @Override
         public boolean isInCategory(@Nonnull IConstant var) {
             return !var.isSystem();
@@ -53,9 +47,12 @@ public enum VarCategory {
     };
 
     private final int tabOrder;
+    @StringRes
+    private final int title;
 
-    VarCategory(int tabOrder) {
+    VarCategory(int tabOrder, @StringRes int title) {
         this.tabOrder = tabOrder;
+        this.title = title;
     }
 
     @Nonnull
@@ -73,4 +70,10 @@ public enum VarCategory {
     }
 
     public abstract boolean isInCategory(@Nonnull IConstant var);
+
+
+    @Override
+    public int title() {
+        return title;
+    }
 }

@@ -55,11 +55,12 @@
             a:layout_width="match_parent"
             a:layout_height="wrap_content">
 
-            <EditText
+            <org.solovyev.android.calculator.view.EditTextCompat
                 a:id="@+id/function_body"
                 a:layout_width="match_parent"
                 a:layout_height="wrap_content"
                 a:hint="@string/c_function_value"
+                a:imeOptions="flagNoExtractUi"
                 a:inputType="text" />
         </android.support.design.widget.TextInputLayout>
 

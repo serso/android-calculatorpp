@@ -34,7 +34,7 @@ public interface EntitiesRegistry<E extends MathEntity> extends MathRegistry<E> 
     String getDescription(@Nonnull String name);
 
     @Nullable
-    String getCategory(@Nonnull E entity);
+    Category getCategory(@Nonnull E entity);
 
     void init();
 

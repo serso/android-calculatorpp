@@ -34,13 +34,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import org.solovyev.android.Activities;
+import org.solovyev.android.Check;
 import org.solovyev.android.Views;
 import org.solovyev.android.calculator.language.Language;
 import org.solovyev.android.calculator.language.Languages;
@@ -227,6 +226,7 @@ public class ActivityUi extends BaseUi {
                        int captionResId,
                        int parentViewId) {
         final ActionBar actionBar = activity.getSupportActionBar();
+        Check.isNotNull(actionBar);
 
         final ActionBar.Tab tab = actionBar.newTab();
         tab.setTag(tag);

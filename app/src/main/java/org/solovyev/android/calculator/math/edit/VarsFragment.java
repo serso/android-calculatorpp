@@ -120,7 +120,7 @@ public class VarsFragment extends BaseEntitiesFragment<IConstant>implements Calc
     }
 
     @Override
-    protected String getCategory(@Nonnull IConstant var) {
+    protected Category getCategory(@Nonnull IConstant var) {
         return registry.getCategory(var);
     }
 

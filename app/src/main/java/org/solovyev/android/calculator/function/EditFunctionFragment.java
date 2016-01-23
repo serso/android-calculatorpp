@@ -44,12 +44,12 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import jscl.math.function.CustomFunction;
 import jscl.math.function.Function;
-import jscl.math.function.IConstant;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.math.edit.CalculatorFunctionsActivity;
 import org.solovyev.android.calculator.math.edit.FunctionsFragment;
 import org.solovyev.android.calculator.math.edit.VarEditorSaver;
+import org.solovyev.android.calculator.view.EditTextCompat;
 import org.solovyev.common.math.MathRegistry;
 
 import javax.annotation.Nonnull;
@@ -67,9 +67,7 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
     private static final int MENU_CATEGORY = Menu.FIRST + 2;
 
     @NonNull
-    private final MathRegistry<Function> functionsRegistry = Locator.getInstance().getEngine().getFunctionsRegistry();
-    @NonNull
-    private final MathRegistry<IConstant> constantsRegistry = Locator.getInstance().getEngine().getVarsRegistry();
+    private final VarsRegistry constantsRegistry = Locator.getInstance().getEngine().getVarsRegistry();
     @NonNull
     private final KeyboardWindow keyboardWindow = new KeyboardWindow();
     @NonNull
@@ -83,13 +81,13 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
     @Bind(R.id.function_body_label)
     TextInputLayout bodyLabel;
     @Bind(R.id.function_body)
-    EditText bodyView;
+    EditTextCompat bodyView;
     @Bind(R.id.function_description)
     EditText descriptionView;
     @Inject
     Calculator calculator;
     @Inject
-    FunctionsRegistry registry;
+    FunctionsRegistry functionsRegistry;
     @Nullable
     private CppFunction function;
 
@@ -175,6 +173,7 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
             }
         });
         if (!isNewFunction()) {
+            Check.isNotNull(function);
             final Button neutral = dialog.getButton(AlertDialog.BUTTON_NEUTRAL);
             neutral.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -191,7 +190,7 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
             return;
         }
         final CustomFunction entity = function.toCustomFunctionBuilder().create();
-        registry.remove(entity);
+        functionsRegistry.remove(entity);
         calculator.fireCalculatorEvent(CalculatorEventType.function_removed, entity, this);
         dismiss();
     }
@@ -293,8 +292,8 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
                     .withId(isNewFunction() ? NO_ID : function.id)
                     .withParameters(collectParameters())
                     .withDescription(descriptionView.getText().toString()).build();
-            final Function oldFunction = isNewFunction() ? null : registry.getById(function.id);
-            registry.add(newFunction.toCustomFunctionBuilder(), oldFunction);
+            final Function oldFunction = isNewFunction() ? null : functionsRegistry.getById(function.id);
+            functionsRegistry.add(newFunction.toCustomFunctionBuilder(), oldFunction);
             return true;
         } catch (RuntimeException e) {
             setError(bodyLabel, e.getLocalizedMessage());
@@ -312,7 +311,7 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
             setError(nameLabel, getString(R.string.function_name_is_not_valid));
             return false;
         }
-        final Function existingFunction = registry.get(name);
+        final Function existingFunction = functionsRegistry.get(name);
         if (existingFunction != null) {
             if (!existingFunction.isIdDefined()) {
                 Check.shouldNotHappen();
@@ -385,6 +384,7 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
         bodyView.setOnClickListener(this);
         bodyView.setOnFocusChangeListener(this);
         bodyView.setOnKeyListener(this);
+        bodyView.setShowSoftInputOnFocusCompat(false);
         descriptionView.setOnFocusChangeListener(this);
 
         return view;
@@ -564,9 +564,10 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
                     bodyView.post(new Runnable() {
                         @Override
                         public void run() {
-                            if (item.getItemId() == MENU_FUNCTION) {
+                            final int itemId = item.getItemId();
+                            if (itemId == MENU_FUNCTION) {
                                 showFunctions(bodyView);
-                            } else {
+                            } else if (itemId == MENU_CONSTANT) {
                                 showConstants(bodyView);
                             }
                         }

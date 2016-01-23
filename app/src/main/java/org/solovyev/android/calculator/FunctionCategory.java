@@ -22,6 +22,7 @@
 
 package org.solovyev.android.calculator;
 
+import android.support.annotation.StringRes;
 import jscl.math.function.ArcTrigonometric;
 import jscl.math.function.Comparison;
 import jscl.math.function.Function;
@@ -31,21 +32,16 @@ import org.solovyev.common.collections.Collections;
 import javax.annotation.Nonnull;
 import java.util.*;
 
-/**
- * User: serso
- * Date: 10/7/12
- * Time: 7:15 PM
- */
-public enum FunctionCategory {
+public enum FunctionCategory implements Category {
 
-    trigonometric(100) {
+    trigonometric(100, R.string.c_fun_category_trig) {
         @Override
         public boolean isInCategory(@Nonnull Function function) {
             return (function instanceof Trigonometric || function instanceof ArcTrigonometric) && !hyperbolic_trigonometric.isInCategory(function);
         }
     },
 
-    hyperbolic_trigonometric(300) {
+    hyperbolic_trigonometric(300, R.string.c_fun_category_hyper_trig) {
 
         private final Set<String> names = new HashSet<>(Arrays.asList("sinh", "cosh", "tanh", "coth", "asinh", "acosh", "atanh", "acoth"));
 
@@ -55,21 +51,21 @@ public enum FunctionCategory {
         }
     },
 
-    comparison(200) {
+    comparison(200, R.string.c_fun_category_comparison) {
         @Override
         public boolean isInCategory(@Nonnull Function function) {
             return function instanceof Comparison;
         }
     },
 
-    my(0) {
+    my(0, R.string.c_fun_category_my) {
         @Override
         public boolean isInCategory(@Nonnull Function function) {
             return !function.isSystem();
         }
     },
 
-    common(50) {
+    common(50, R.string.c_fun_category_common) {
         @Override
         public boolean isInCategory(@Nonnull Function function) {
             for (FunctionCategory category : values()) {
@@ -84,10 +80,12 @@ public enum FunctionCategory {
         }
     };
 
-    private final int tabOrder;
+    public final int tabOrder;
+    public final int title;
 
-    FunctionCategory(int tabOrder) {
+    FunctionCategory(int tabOrder, @StringRes int title) {
         this.tabOrder = tabOrder;
+        this.title = title;
     }
 
     @Nonnull
@@ -102,6 +100,11 @@ public enum FunctionCategory {
         });
 
         return result;
+    }
+
+    @Override
+    public int title() {
+        return title;
     }
 
     public abstract boolean isInCategory(@Nonnull Function function);

@@ -23,9 +23,12 @@
 package org.solovyev.android.calculator;
 
 import android.content.SharedPreferences;
-
 import com.squareup.otto.Bus;
-
+import jscl.AngleUnit;
+import jscl.JsclMathEngine;
+import jscl.MathEngine;
+import jscl.NumeralBase;
+import jscl.math.operator.Operator;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.model.EntityDao;
 import org.solovyev.android.calculator.model.Vars;
@@ -37,21 +40,13 @@ import org.solovyev.common.text.EnumMapper;
 import org.solovyev.common.text.NumberMapper;
 import org.solovyev.common.text.Strings;
 
+import javax.annotation.Nonnull;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Executor;
-
-import javax.annotation.Nonnull;
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
-import jscl.AngleUnit;
-import jscl.JsclMathEngine;
-import jscl.MathEngine;
-import jscl.NumeralBase;
-import jscl.math.function.IConstant;
-import jscl.math.operator.Operator;
 
 @Singleton
 public class Engine implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -59,7 +54,7 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
     @Nonnull
     private final MathEngine mathEngine;
     @Nonnull
-    private final EntitiesRegistry<IConstant> varsRegistry;
+    private final VarsRegistry varsRegistry;
 
     @Nonnull
     private final EntitiesRegistry<Operator> operatorsRegistry;
@@ -76,7 +71,7 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
     @Nonnull
     private String multiplicationSign = Preferences.multiplicationSign.getDefaultValue();
 
-    public Engine(@Nonnull MathEngine mathEngine, @Nonnull EntitiesRegistry<IConstant> varsRegistry, @Nonnull FunctionsRegistry functionsRegistry, @Nonnull EntitiesRegistry<Operator> operatorsRegistry, @Nonnull EntitiesRegistry<Operator> postfixFunctionsRegistry) {
+    public Engine(@Nonnull MathEngine mathEngine, @Nonnull VarsRegistry varsRegistry, @Nonnull FunctionsRegistry functionsRegistry, @Nonnull EntitiesRegistry<Operator> operatorsRegistry, @Nonnull EntitiesRegistry<Operator> postfixFunctionsRegistry) {
         this.mathEngine = mathEngine;
         this.varsRegistry = varsRegistry;
         this.functionsRegistry = functionsRegistry;
@@ -111,7 +106,7 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
     }
 
     @Nonnull
-    public EntitiesRegistry<IConstant> getVarsRegistry() {
+    public VarsRegistry getVarsRegistry() {
         return varsRegistry;
     }
 

@@ -25,7 +25,6 @@ package org.solovyev.android.calculator.math.edit;
 import android.content.Intent;
 import android.os.Bundle;
 
-import org.solovyev.android.calculator.AndroidVarCategory;
 import org.solovyev.android.calculator.BaseActivity;
 import org.solovyev.android.calculator.CalculatorEventData;
 import org.solovyev.android.calculator.CalculatorEventListener;
@@ -68,15 +67,7 @@ public class CalculatorVarsActivity extends BaseActivity implements CalculatorEv
             } else {
                 fragmentParameters = BaseEntitiesFragment.createBundleFor(category.name());
             }
-
-
-            final AndroidVarCategory androidVarCategory = AndroidVarCategory.valueOf(category);
-
-            if (androidVarCategory != null) {
-                ui.addTab(this, fragmentType.createSubFragmentTag(category.name()), fragmentType.getFragmentClass(), fragmentParameters, androidVarCategory.getCaptionId(), R.id.main_layout);
-            } else {
-                ui.logError("Unable to find android var category for " + category);
-            }
+            ui.addTab(this, fragmentType.createSubFragmentTag(category.name()), fragmentType.getFragmentClass(), fragmentParameters, category.title(), R.id.main_layout);
         }
     }
 

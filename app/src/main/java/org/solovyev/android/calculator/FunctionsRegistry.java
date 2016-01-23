@@ -26,9 +26,10 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-
 import com.squareup.otto.Bus;
-
+import jscl.JsclMathEngine;
+import jscl.math.function.CustomFunction;
+import jscl.math.function.Function;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.simpleframework.xml.Serializer;
@@ -42,25 +43,15 @@ import org.solovyev.android.io.FileSaver;
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.text.Strings;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.Executor;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
-
-import jscl.JsclMathEngine;
-import jscl.math.function.CustomFunction;
-import jscl.math.function.Function;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
+import java.util.concurrent.Executor;
 
 import static android.text.TextUtils.isEmpty;
 
@@ -186,10 +177,10 @@ public class FunctionsRegistry extends BaseEntitiesRegistry<Function, OldFunctio
     }
 
     @Override
-    public String getCategory(@Nonnull Function function) {
+    public Category getCategory(@Nonnull Function function) {
         for (FunctionCategory category : FunctionCategory.values()) {
             if (category.isInCategory(function)) {
-                return category.name();
+                return category;
             }
         }
 

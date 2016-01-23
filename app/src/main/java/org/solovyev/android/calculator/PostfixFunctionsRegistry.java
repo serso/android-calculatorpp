@@ -55,10 +55,10 @@ public class PostfixFunctionsRegistry extends BaseEntitiesRegistry<Operator, Per
     }
 
     @Override
-    public String getCategory(@Nonnull Operator operator) {
+    public Category getCategory(@Nonnull Operator operator) {
         for (OperatorCategory category : OperatorCategory.values()) {
             if (category.isInCategory(operator)) {
-                return category.name();
+                return category;
             }
         }
         return null;

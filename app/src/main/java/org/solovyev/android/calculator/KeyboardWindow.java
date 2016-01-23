@@ -28,8 +28,7 @@ public class KeyboardWindow {
     private static void hideIme(@NonNull View view) {
         final IBinder token = view.getWindowToken();
         if (token != null) {
-            InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(
-                    Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(token, 0);
         }
     }
@@ -45,12 +44,13 @@ public class KeyboardWindow {
     }
 
     public void show(@NonNull KeyboardUi.User user, @Nullable Dialog dialog, @NonNull List<String> parameterNames) {
+        final EditText editor = user.getEditor();
         if (isShown()) {
+            hideIme(editor);
             return;
         }
         this.dialog = dialog;
         moveDialog(Gravity.TOP);
-        final EditText editor = user.getEditor();
         hideIme(editor);
         final Context context = editor.getContext();
         final LinearLayout view = new LinearLayout(context);
