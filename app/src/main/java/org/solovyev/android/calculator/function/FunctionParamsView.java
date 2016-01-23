@@ -24,29 +24,28 @@ package org.solovyev.android.calculator.function;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
+import android.widget.*;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.Preferences;
 import org.solovyev.android.calculator.R;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -55,11 +54,22 @@ public class FunctionParamsView extends LinearLayout {
 
     @Nonnull
     public static final String PARAM_VIEW_TAG = "param-view";
-    private static final int HEADERS = 1;
+    private static final int FOOTERS = 1;
     private static final int PARAM_VIEW_INDEX = 3;
     private static final int START_ROW_ID = App.generateViewId();
+    private final int clickableAreaSize;
+    private final int imageButtonSize;
+    private final int imageButtonPadding;
+    @Nonnull
+    private final Preferences.Gui.Theme theme = App.getTheme();
     private int maxRowId = START_ROW_ID;
-    private final int clickableAreaSize = getResources().getDimensionPixelSize(R.dimen.cpp_clickable_area_size);
+
+    {
+        final Resources resources = getResources();
+        clickableAreaSize = resources.getDimensionPixelSize(R.dimen.cpp_clickable_area_size);
+        imageButtonSize = resources.getDimensionPixelSize(R.dimen.cpp_image_button_size);
+        imageButtonPadding = resources.getDimensionPixelSize(R.dimen.cpp_image_button_padding);
+    }
 
     public FunctionParamsView(Context context) {
         super(context);
@@ -82,17 +92,29 @@ public class FunctionParamsView extends LinearLayout {
         final Context context = getContext();
 
         final LinearLayout headerView = makeRowView(context);
-        final Button addButton = new Button(context);
-        addButton.setText("+");
+        final ImageButton addButton = makeButton(theme.light ? R.drawable.ic_add_black_24dp : R.drawable.ic_add_white_24dp);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 addParam(null);
             }
         });
-        headerView.addView(addButton, new LayoutParams(clickableAreaSize, WRAP_CONTENT));
-        headerView.addView(new View(context), new LayoutParams(0, WRAP_CONTENT, 1));
+        headerView.addView(addButton, makeButtonParams());
+        headerView.addView(new View(context), new LayoutParams(3 * clickableAreaSize, WRAP_CONTENT));
         addView(headerView, new ViewGroup.LayoutParams(MATCH_PARENT, WRAP_CONTENT));
+    }
+
+    @NonNull
+    private ImageButton makeButton(int icon) {
+        final ImageButton addButton = new ImageButton(getContext());
+        addButton.setImageResource(icon);
+        addButton.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+        addButton.setPadding(imageButtonPadding, imageButtonPadding, imageButtonPadding, imageButtonPadding);
+        final TypedValue value = new TypedValue();
+        if (getContext().getTheme().resolveAttribute(R.attr.selectableItemBackgroundBorderless, value, true)) {
+            addButton.setBackgroundResource(value.resourceId);
+        }
+        return addButton;
     }
 
     @Nonnull
@@ -118,35 +140,32 @@ public class FunctionParamsView extends LinearLayout {
         final Context context = getContext();
         final LinearLayout rowView = makeRowView(context);
 
-        final Button removeButton = new Button(context);
+        final ImageButton removeButton = makeButton(theme.light ? R.drawable.ic_remove_black_24dp : R.drawable.ic_remove_white_24dp);
         removeButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 removeRow(rowView);
             }
         });
-        removeButton.setText("−");
-        rowView.addView(removeButton, new LayoutParams(clickableAreaSize, WRAP_CONTENT));
+        rowView.addView(removeButton, makeButtonParams());
 
-        final Button upButton = new Button(context);
+        final ImageButton upButton = makeButton(theme.light ? R.drawable.ic_arrow_upward_black_24dp : R.drawable.ic_arrow_upward_white_24dp);
         upButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 upRow(rowView);
             }
         });
-        upButton.setText("↑");
-        rowView.addView(upButton, new LayoutParams(clickableAreaSize, WRAP_CONTENT));
+        rowView.addView(upButton, makeButtonParams());
 
-        final Button downButton = new Button(context);
+        final ImageButton downButton = makeButton(theme.light ? R.drawable.ic_arrow_downward_black_24dp : R.drawable.ic_arrow_downward_white_24dp);
         downButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 downRow(rowView);
             }
         });
-        downButton.setText("↓");
-        rowView.addView(downButton, new LayoutParams(clickableAreaSize, WRAP_CONTENT));
+        rowView.addView(downButton, makeButtonParams());
 
         final TextInputLayout paramLabel = new TextInputLayout(context);
         final EditText paramView = new EditText(context);
@@ -162,19 +181,25 @@ public class FunctionParamsView extends LinearLayout {
 
         rowView.addView(paramLabel, new LayoutParams(0, WRAP_CONTENT, 1));
 
-        addView(rowView, new ViewGroup.LayoutParams(MATCH_PARENT, WRAP_CONTENT));
+        // for row is added at 0 position, the consequent rows
+        addView(rowView, Math.max(0, getChildCount() - 1), new ViewGroup.LayoutParams(MATCH_PARENT, WRAP_CONTENT));
+    }
+
+    @NonNull
+    private LayoutParams makeButtonParams() {
+        return new LayoutParams(imageButtonSize, imageButtonSize);
     }
 
     private void downRow(@Nonnull ViewGroup row) {
         final int index = indexOfChild(row);
-        if (index < getChildCount() - 1) {
+        if (index < getChildCount() - 1 - FOOTERS) {
             swap(row, getRow(index + 1));
         }
     }
 
     private void upRow(@Nonnull ViewGroup row) {
         final int index = indexOfChild(row);
-        if (index > 1) {
+        if (index > 0) {
             swap(row, getRow(index - 1));
         }
     }
@@ -194,7 +219,7 @@ public class FunctionParamsView extends LinearLayout {
 
     @Nonnull
     private ViewGroup getRow(int index) {
-        Check.isTrue(index >= 0 && index < getChildCount());
+        Check.isTrue(index >= 0 && index < getChildCount() - FOOTERS);
         return (ViewGroup) getChildAt(index);
     }
 
@@ -206,7 +231,7 @@ public class FunctionParamsView extends LinearLayout {
     public List<String> getParams() {
         final List<String> params = new ArrayList<>(getChildCount());
 
-        for (int i = HEADERS; i < getChildCount(); i++) {
+        for (int i = 0; i < getChildCount() - FOOTERS; i++) {
             final ViewGroup row = getRow(i);
             final EditText paramView = getParamView(row);
             params.add(paramView.getText().toString());
@@ -235,11 +260,11 @@ public class FunctionParamsView extends LinearLayout {
     @Nonnull
     private int[] getRowIds() {
         final int childCount = getChildCount();
-        final int[] rowIds = new int[childCount - 1];
-        for (int i = HEADERS; i < childCount; i++) {
+        final int[] rowIds = new int[childCount - FOOTERS];
+        for (int i = 0; i < childCount - FOOTERS; i++) {
             final ViewGroup row = getRow(i);
             final EditText paramView = getParamView(row);
-            rowIds[i - 1] = paramView.getId();
+            rowIds[i] = paramView.getId();
         }
         return rowIds;
     }
@@ -263,7 +288,7 @@ public class FunctionParamsView extends LinearLayout {
 
     @Nonnull
     public TextInputLayout getParamLabel(int param) {
-        return getParamLabel(getRow(param + HEADERS));
+        return getParamLabel(getRow(param));
     }
 
     public static final class SavedState extends BaseSavedState {

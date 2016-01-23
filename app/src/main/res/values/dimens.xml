@@ -40,5 +40,7 @@
 
     <dimen name="cpp_dialog_spacing">20dp</dimen>
     <dimen name="cpp_clickable_area_size">50dp</dimen>
+    <dimen name="cpp_image_button_size">30dp</dimen>
+    <dimen name="cpp_image_button_padding">5dp</dimen>
     <dimen name="cpp_dialog_width_max">400dp</dimen>
 </resources>
