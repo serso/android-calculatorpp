@@ -96,7 +96,9 @@ public class FunctionParamsView extends LinearLayout {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addParam(null);
+                final LinearLayout rowView = addParam(null);
+                final EditText paramView = getParamView(rowView);
+                paramView.requestFocus();
             }
         });
         headerView.addView(addButton, makeButtonParams());
@@ -132,11 +134,13 @@ public class FunctionParamsView extends LinearLayout {
         }
     }
 
-    public void addParam(@Nullable String param) {
-        addParam(param, maxRowId++);
+    @NonNull
+    public LinearLayout addParam(@Nullable String param) {
+        return addParam(param, maxRowId++);
     }
 
-    private void addParam(@Nullable String param, final int id) {
+    @NonNull
+    private LinearLayout addParam(@Nullable String param, final int id) {
         final Context context = getContext();
         final LinearLayout rowView = makeRowView(context);
 
@@ -183,6 +187,7 @@ public class FunctionParamsView extends LinearLayout {
 
         // for row is added at 0 position, the consequent rows
         addView(rowView, Math.max(0, getChildCount() - 1), new ViewGroup.LayoutParams(MATCH_PARENT, WRAP_CONTENT));
+        return rowView;
     }
 
     @NonNull
@@ -243,7 +248,14 @@ public class FunctionParamsView extends LinearLayout {
     @Nonnull
     private EditText getParamView(@Nonnull ViewGroup row) {
         final TextInputLayout paramLabel = getParamLabel(row);
-        return (EditText) paramLabel.getChildAt(0);
+        for (int i = 0; i < paramLabel.getChildCount(); i++) {
+            final View child = paramLabel.getChildAt(i);
+            if (child instanceof EditText) {
+                return (EditText) child;
+            }
+        }
+        Check.shouldNotHappen();
+        return null;
     }
 
     @Nonnull
