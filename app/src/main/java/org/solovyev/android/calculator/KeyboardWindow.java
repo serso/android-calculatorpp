@@ -2,6 +2,8 @@ package org.solovyev.android.calculator;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -53,9 +55,15 @@ public class KeyboardWindow {
         final Context context = editor.getContext();
         final LinearLayout view = new LinearLayout(context);
         view.setOrientation(LinearLayout.VERTICAL);
-        final int buttonSize = context.getResources().getDimensionPixelSize(R.dimen.cpp_clickable_area_size);
-        final int keyboardSize = 5 * buttonSize;
-        window = new PopupWindow(view, keyboardSize, keyboardSize);
+
+        final Resources resources = context.getResources();
+        final int buttonSize = resources.getDimensionPixelSize(R.dimen.cpp_clickable_area_size);
+        final KeyboardUi keyboardUi = new KeyboardUi(user, parameterNames);
+        final boolean landscape = resources.getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+        final int keyboardWidth = keyboardUi.getColumnsCount(landscape) * buttonSize;
+        final int keyboardHeight = keyboardUi.getRowsCount(landscape) * buttonSize;
+
+        window = new PopupWindow(view, keyboardWidth, keyboardHeight);
         window.setClippingEnabled(false);
         window.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
@@ -73,15 +81,15 @@ public class KeyboardWindow {
                 if (editor.getWindowToken() != null) {
                     hideIme(editor);
                     final int inputWidth = editor.getWidth();
-                    final int xOff = (inputWidth - keyboardSize) / 2;
-                    window.setWidth(keyboardSize);
+                    final int xOff = (inputWidth - keyboardWidth) / 2;
+                    window.setWidth(keyboardWidth);
                     window.showAsDropDown(editor, xOff, 0);
                 } else {
                     editor.postDelayed(this, 50);
                 }
             }
         });
-        new KeyboardUi(user, parameterNames).makeView();
+        keyboardUi.makeView(landscape);
     }
 
     public boolean isShown() {

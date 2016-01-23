@@ -70,6 +70,7 @@
     <item name="cpp_kb_button_minus" type="id" />
     <item name="cpp_kb_button_keyboard" type="id" />
     <item name="cpp_kb_button_functions" type="id" />
+    <item name="cpp_kb_button_functions_constants" type="id" />
     <item name="cpp_kb_button_constants" type="id" />
     <item name="cpp_kb_button_close" type="id" />
 

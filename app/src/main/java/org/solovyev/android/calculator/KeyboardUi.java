@@ -62,7 +62,50 @@ public class KeyboardUi {
         buttonBackground = App.getTheme().light ? R.drawable.material_button_light : R.drawable.material_button_dark;
     }
 
-    public void makeView() {
+    public void makeView(boolean landscape) {
+        if (landscape) {
+            makeViewLand();
+        } else {
+            makeViewPort();
+        }
+    }
+
+    private void makeViewLand() {
+        final int parametersCount = parameterNames.size();
+
+        LinearLayout row = makeRow();
+        addImageButton(row, R.id.cpp_kb_button_keyboard, R.drawable.ic_keyboard_white_24dp);
+        addButton(row, 0, parametersCount > 0 ? parameterNames.get(0) : "x");
+        addButton(row, 0, "7");
+        addButton(row, 0, "8");
+        addButton(row, 0, "9").setText("π", up).setText("e", down);
+        addOperationButton(row, R.id.cpp_kb_button_multiply, Locator.getInstance().getEngine().getMultiplicationSign()).setText("^n", up).setText("^2", down);
+        addOperationButton(row, R.id.cpp_kb_button_plus, "+");
+        addButton(row, R.id.cpp_kb_button_clear, "C");
+
+        row = makeRow();
+        addButton(row, R.id.cpp_kb_button_brackets, "( )").setText("(", up).setText(")", down);
+        addButton(row, 0, parametersCount > 1 ? parameterNames.get(1) : "y");
+        addButton(row, 0, "4");
+        addButton(row, 0, "5");
+        addButton(row, 0, "6");
+        addOperationButton(row, R.id.cpp_kb_button_divide, "/").setText("%", up).setText("sqrt", down);
+        addOperationButton(row, R.id.cpp_kb_button_minus, "−");
+        final View backspace = addImageButton(row, R.id.cpp_kb_button_backspace, R.drawable.ic_backspace_white_24dp);
+        EditTextLongClickEraser.attachTo(backspace, user.getEditor());
+
+        row = makeRow();
+        addButton(row, R.id.cpp_kb_button_functions_constants, "f/π");
+        addButton(row, 0, ".").setText(",", up);
+        addButton(row, 0, "1");
+        addButton(row, 0, "2");
+        addButton(row, 0, "3");
+        addButton(row, 0, "0").setText("00", up).setText("000", down);
+        addImageButton(row, R.id.cpp_kb_button_space, R.drawable.ic_space_bar_white_24dp);
+        addImageButton(row, R.id.cpp_kb_button_close, R.drawable.ic_done_white_24dp);
+    }
+
+    private void makeViewPort() {
         LinearLayout row = makeRow();
         addButton(row, 0, "7");
         addButton(row, 0, "8");
@@ -96,7 +139,7 @@ public class KeyboardUi {
         final int parametersCount = parameterNames.size();
         addButton(row, 0, parametersCount > 0 ? parameterNames.get(0) : "x");
         addButton(row, 0, parametersCount > 1 ? parameterNames.get(1) : "y");
-        addButton(row, R.id.cpp_kb_button_functions, "f(x)");
+        addButton(row, R.id.cpp_kb_button_functions, "f");
         addButton(row, R.id.cpp_kb_button_constants, "π");
         addImageButton(row, R.id.cpp_kb_button_close, R.drawable.ic_done_white_24dp);
     }
@@ -169,6 +212,14 @@ public class KeyboardUi {
         return button;
     }
 
+    public int getRowsCount(boolean landscape) {
+        return landscape ? 3 : 5;
+    }
+
+    public int getColumnsCount(boolean landscape) {
+        return landscape ? 8 : 5;
+    }
+
     public interface User {
         @NonNull
         Context getContext();
@@ -195,6 +246,8 @@ public class KeyboardUi {
         void done();
 
         void showIme();
+
+        void showFunctionsConstants(@NonNull View v);
     }
 
     private class ButtonHandler implements View.OnClickListener, SimpleDragListener.DragProcessor {
@@ -212,6 +265,9 @@ public class KeyboardUi {
                     break;
                 case R.id.cpp_kb_button_multiply:
                     user.insertOperator('*');
+                    break;
+                case R.id.cpp_kb_button_functions_constants:
+                    user.showFunctionsConstants(v);
                     break;
                 case R.id.cpp_kb_button_functions:
                     user.showFunctions(v);
