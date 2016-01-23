@@ -34,13 +34,7 @@ import android.view.ViewGroup;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
-import org.solovyev.android.calculator.AppComponent;
-import org.solovyev.android.calculator.Calculator;
-import org.solovyev.android.calculator.CalculatorFragmentType;
-import org.solovyev.android.calculator.EntitiesRegistry;
-import org.solovyev.android.calculator.FunctionsRegistry;
-import org.solovyev.android.calculator.Keyboard;
-import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.function.CppFunction;
 import org.solovyev.android.calculator.function.EditFunctionFragment;
 import org.solovyev.common.text.Strings;
@@ -165,7 +159,7 @@ public class FunctionsFragment extends BaseEntitiesFragment<Function> {
     }
 
     @Override
-    protected String getCategory(@Nonnull Function function) {
+    protected Category getCategory(@Nonnull Function function) {
         return registry.getCategory(function);
     }
 

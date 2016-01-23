@@ -23,24 +23,16 @@
 package org.solovyev.android.calculator.math.edit;
 
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
 import android.view.ContextMenu;
 import android.view.MenuItem;
-
-import org.solovyev.android.calculator.CalculatorEventType;
-import org.solovyev.android.calculator.CalculatorFragmentType;
-import org.solovyev.android.calculator.EntitiesRegistry;
-import org.solovyev.android.calculator.Locator;
-import org.solovyev.android.calculator.R;
+import jscl.math.operator.Operator;
+import org.solovyev.android.calculator.*;
 import org.solovyev.common.text.Strings;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import jscl.math.operator.Operator;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OperatorsFragment extends BaseEntitiesFragment<Operator> {
 
@@ -70,9 +62,9 @@ public class OperatorsFragment extends BaseEntitiesFragment<Operator> {
     }
 
     @Override
-    protected String getCategory(@Nonnull Operator operator) {
-        final String result = operatorsRegistry.getCategory(operator);
-        if (!TextUtils.isEmpty(result)) {
+    protected Category getCategory(@Nonnull Operator operator) {
+        final Category result = operatorsRegistry.getCategory(operator);
+        if (result != null) {
             return result;
         }
         return postfixFunctionsRegistry.getCategory(operator);

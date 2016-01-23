@@ -22,49 +22,38 @@
 
 package org.solovyev.android.calculator;
 
+import android.support.annotation.StringRes;
+import jscl.math.operator.*;
 import org.solovyev.common.collections.Collections;
 
+import javax.annotation.Nonnull;
 import java.util.Comparator;
 import java.util.List;
 
-import javax.annotation.Nonnull;
+public enum OperatorCategory implements Category {
 
-import jscl.math.operator.Derivative;
-import jscl.math.operator.IndefiniteIntegral;
-import jscl.math.operator.Integral;
-import jscl.math.operator.Operator;
-import jscl.math.operator.Product;
-import jscl.math.operator.Sum;
-
-/**
- * User: serso
- * Date: 10/7/12
- * Time: 7:40 PM
- */
-public enum OperatorCategory {
-
-    derivatives(100) {
+    derivatives(100, R.string.derivatives) {
         @Override
         public boolean isInCategory(@Nonnull Operator operator) {
             return operator instanceof Derivative || operator instanceof Integral || operator instanceof IndefiniteIntegral;
         }
     },
 
-    other(200) {
+    other(200, R.string.other) {
         @Override
         public boolean isInCategory(@Nonnull Operator operator) {
             return operator instanceof Sum || operator instanceof Product;
         }
     },
 
-    my(0) {
+    my(0, R.string.c_fun_category_my) {
         @Override
         public boolean isInCategory(@Nonnull Operator operator) {
             return !operator.isSystem();
         }
     },
 
-    common(50) {
+    common(50, R.string.c_fun_category_common) {
         @Override
         public boolean isInCategory(@Nonnull Operator operator) {
             for (OperatorCategory category : values()) {
@@ -80,9 +69,12 @@ public enum OperatorCategory {
     };
 
     private final int tabOrder;
+    @StringRes
+    private final int title;
 
-    OperatorCategory(int tabOrder) {
+    OperatorCategory(int tabOrder, @StringRes int title) {
         this.tabOrder = tabOrder;
+        this.title = title;
     }
 
     @Nonnull
@@ -102,5 +94,12 @@ public enum OperatorCategory {
         return result;
     }
 
+
+
     public abstract boolean isInCategory(@Nonnull Operator operator);
+
+    @Override
+    public int title() {
+        return title;
+    }
 }

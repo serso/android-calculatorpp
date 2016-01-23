@@ -28,26 +28,17 @@ import android.os.Build;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.ContextMenu;
-import android.widget.EditText;
-
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.onscreen.CalculatorOnscreenService;
-
-import java.lang.reflect.Method;
+import org.solovyev.android.calculator.view.EditTextCompat;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class EditorView extends EditText {
-
-    @Nonnull
-    private static final String TAG = App.subTag("EditorView");
+public class EditorView extends EditTextCompat {
 
     private boolean reportChanges;
-    @Nullable
-    private Method setShowSoftInputOnFocusMethod;
     @Nullable
     private Editor editor;
 
@@ -121,28 +112,6 @@ public class EditorView extends EditText {
             return;
         }
         editor.setSelection(start);
-    }
-
-    public void setShowSoftInputOnFocusCompat(boolean show) {
-        Check.isMainThread();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            setShowSoftInputOnFocus(show);
-        } else {
-            setShowSoftInputOnFocusPreLollipop(show);
-        }
-    }
-
-    private void setShowSoftInputOnFocusPreLollipop(boolean show) {
-        try {
-            if (setShowSoftInputOnFocusMethod == null) {
-                setShowSoftInputOnFocusMethod = EditText.class.getMethod("setShowSoftInputOnFocus", boolean.class);
-                setShowSoftInputOnFocusMethod.setAccessible(true);
-            }
-            setShowSoftInputOnFocusMethod.invoke(this, show);
-        } catch (Exception e) {
-            Log.w(TAG, e.getMessage(), e);
-        }
     }
 
     private class MyTextWatcher implements TextWatcher {

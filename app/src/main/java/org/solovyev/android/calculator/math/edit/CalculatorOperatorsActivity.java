@@ -24,7 +24,6 @@ package org.solovyev.android.calculator.math.edit;
 
 import android.os.Bundle;
 
-import org.solovyev.android.calculator.AndroidOperatorCategory;
 import org.solovyev.android.calculator.BaseActivity;
 import org.solovyev.android.calculator.CalculatorEventData;
 import org.solovyev.android.calculator.CalculatorEventListener;
@@ -49,12 +48,7 @@ public class CalculatorOperatorsActivity extends BaseActivity implements Calcula
         final CalculatorFragmentType fragmentType = CalculatorFragmentType.operators;
 
         for (OperatorCategory category : OperatorCategory.getCategoriesByTabOrder()) {
-            final AndroidOperatorCategory androidCategory = AndroidOperatorCategory.valueOf(category);
-            if (androidCategory != null) {
-                ui.addTab(this, fragmentType.createSubFragmentTag(category.name()), fragmentType.getFragmentClass(), BaseEntitiesFragment.createBundleFor(category.name()), androidCategory.getCaptionId(), R.id.main_layout);
-            } else {
-                ui.logError("Unable to find android operator category for " + category);
-            }
+            ui.addTab(this, fragmentType.createSubFragmentTag(category.name()), fragmentType.getFragmentClass(), BaseEntitiesFragment.createBundleFor(category.name()), category.title(), R.id.main_layout);
         }
     }
 

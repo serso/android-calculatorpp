@@ -23,9 +23,6 @@
 package org.solovyev.android.calculator.math.edit;
 
 import android.os.Bundle;
-import android.util.Log;
-
-import org.solovyev.android.calculator.AndroidFunctionCategory;
 import org.solovyev.android.calculator.BaseActivity;
 import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.FunctionCategory;
@@ -48,22 +45,16 @@ public class CalculatorFunctionsActivity extends BaseActivity {
         final CalculatorFragmentType fragmentType = CalculatorFragmentType.functions;
 
         for (FunctionCategory category : FunctionCategory.getCategoriesByTabOrder()) {
-            final AndroidFunctionCategory androidCategory = AndroidFunctionCategory.valueOf(category);
-            if (androidCategory != null) {
+            final Bundle fragmentParameters;
 
-                final Bundle fragmentParameters;
-
-                if (category == FunctionCategory.my && bundle != null) {
-                    BaseEntitiesFragment.putCategory(bundle, category.name());
-                    fragmentParameters = bundle;
-                } else {
-                    fragmentParameters = BaseEntitiesFragment.createBundleFor(category.name());
-                }
-
-                ui.addTab(this, fragmentType.createSubFragmentTag(category.name()), fragmentType.getFragmentClass(), fragmentParameters, androidCategory.getCaptionId(), R.id.main_layout);
+            if (category == FunctionCategory.my && bundle != null) {
+                BaseEntitiesFragment.putCategory(bundle, category.name());
+                fragmentParameters = bundle;
             } else {
-                Log.e(CalculatorFunctionsActivity.class.getSimpleName(), "Unable to find android function category for " + category);
+                fragmentParameters = BaseEntitiesFragment.createBundleFor(category.name());
             }
+
+            ui.addTab(this, fragmentType.createSubFragmentTag(category.name()), fragmentType.getFragmentClass(), fragmentParameters, category.title, R.id.main_layout);
         }
     }
 }

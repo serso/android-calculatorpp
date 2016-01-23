@@ -129,10 +129,10 @@ public class VarsRegistry extends BaseEntitiesRegistry<IConstant, Var> {
     }
 
     @Override
-    public String getCategory(@Nonnull IConstant var) {
+    public Category getCategory(@Nonnull IConstant var) {
         for (VarCategory category : VarCategory.values()) {
             if (category.isInCategory(var)) {
-                return category.name();
+                return category;
             }
         }
 
