@@ -64,6 +64,7 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
     private static final String ARG_FUNCTION = "function";
     private static final int MENU_FUNCTION = Menu.FIRST;
     private static final int MENU_CONSTANT = Menu.FIRST + 1;
+    private static final int MENU_CATEGORY = Menu.FIRST + 2;
 
     @NonNull
     private final MathRegistry<Function> functionsRegistry = Locator.getInstance().getEngine().getFunctionsRegistry();
@@ -456,10 +457,7 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
                 public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
                     final int id = v.getId();
                     if (id == R.id.function_body) {
-                        menu.clear();
-                        for (String constant : getNamesSorted(constantsRegistry)) {
-                            menu.add(MENU_CONSTANT, Menu.NONE, Menu.NONE, constant).setOnMenuItemClickListener(KeyboardUser.this);
-                        }
+                        addEntities(menu, getNamesSorted(constantsRegistry), MENU_CONSTANT);
                         unregisterForContextMenu(bodyView);
                     }
                 }
@@ -481,10 +479,30 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
                 public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
                     final int id = v.getId();
                     if (id == R.id.function_body) {
-                        menu.clear();
-                        for (String function : getNamesSorted(functionsRegistry)) {
-                            menu.add(MENU_FUNCTION, Menu.NONE, Menu.NONE, function).setOnMenuItemClickListener(KeyboardUser.this);
-                        }
+                        addEntities(menu, getNamesSorted(functionsRegistry), MENU_FUNCTION);
+                        unregisterForContextMenu(bodyView);
+                    }
+                }
+            });
+            bodyView.showContextMenu();
+        }
+
+        private void addEntities(@NonNull Menu menu, @NonNull List<String> entities, int groupId) {
+            for (String entity : entities) {
+                menu.add(groupId, Menu.NONE, Menu.NONE, entity).setOnMenuItemClickListener(KeyboardUser.this);
+            }
+        }
+
+        @Override
+        public void showFunctionsConstants(@NonNull View v) {
+            bodyView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
+                @Override
+                public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+                    final int id = v.getId();
+                    if (id == R.id.function_body) {
+                        // can't use sub-menus as AlertDialog doesn't support them
+                        menu.add(MENU_CATEGORY, MENU_CONSTANT, Menu.NONE, R.string.c_vars_and_constants).setOnMenuItemClickListener(KeyboardUser.this);
+                        menu.add(MENU_CATEGORY, MENU_FUNCTION, Menu.NONE, R.string.c_functions).setOnMenuItemClickListener(KeyboardUser.this);
                         unregisterForContextMenu(bodyView);
                     }
                 }
@@ -522,22 +540,35 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
         }
 
         @Override
-        public boolean onMenuItemClick(MenuItem item) {
+        public boolean onMenuItemClick(final MenuItem item) {
             final int groupId = item.getGroupId();
             final CharSequence title = item.getTitle();
-            if (groupId == MENU_FUNCTION) {
-                final int argsListIndex = title.toString().indexOf("(");
-                if (argsListIndex < 0) {
-                    keyboardUser.insertText(title + "()", -1);
-                } else {
-                    keyboardUser.insertText(title.subSequence(0, argsListIndex) + "()", -1);
-                }
-            } else if (groupId == MENU_CONSTANT) {
-                keyboardUser.insertText(title.toString(), 0);
-            } else {
-                return false;
+            switch (groupId) {
+                case MENU_FUNCTION:
+                    final int argsListIndex = title.toString().indexOf("(");
+                    if (argsListIndex < 0) {
+                        keyboardUser.insertText(title + "()", -1);
+                    } else {
+                        keyboardUser.insertText(title.subSequence(0, argsListIndex) + "()", -1);
+                    }
+                    return true;
+                case MENU_CONSTANT:
+                    keyboardUser.insertText(title.toString(), 0);
+                    return true;
+                case MENU_CATEGORY:
+                    bodyView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (item.getItemId() == MENU_FUNCTION) {
+                                showFunctions(bodyView);
+                            } else {
+                                showConstants(bodyView);
+                            }
+                        }
+                    });
+                    return true;
             }
-            return true;
+            return false;
         }
     }
 }
