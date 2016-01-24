@@ -198,7 +198,7 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
         new AlertDialog.Builder(getActivity(), App.getTheme().alertDialogTheme)
                 .setCancelable(true)
                 .setTitle(R.string.removal_confirmation)
-                .setMessage(R.string.function_removal_confirmation_question)
+                .setMessage(getString(R.string.function_removal_confirmation_question, function.getName()))
                 .setNegativeButton(R.string.c_no, null)
                 .setPositiveButton(R.string.c_yes, new DialogInterface.OnClickListener() {
                     @Override
@@ -317,7 +317,14 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
                 setError(nameLabel, getString(R.string.function_already_exists));
                 return false;
             }
-            if (!isNewFunction() && !existingFunction.getId().equals(function.getId())) {
+            if (isNewFunction()) {
+                // trying to create a new function with existing name
+                setError(nameLabel, getString(R.string.function_already_exists));
+                return false;
+            }
+            Check.isNotNull(function);
+            if (!existingFunction.getId().equals(function.getId())) {
+                // trying ti change the name of existing function to some other function's name
                 setError(nameLabel, getString(R.string.function_already_exists));
                 return false;
             }
