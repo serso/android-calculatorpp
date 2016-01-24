@@ -83,11 +83,11 @@
             android:label="@string/c_about" />
 
         <activity
-            android:name=".math.edit.CalculatorFunctionsActivity"
+            android:name=".math.edit.FunctionsActivity"
             android:label="@string/c_functions" />
 
         <activity
-            android:name=".math.edit.CalculatorOperatorsActivity"
+            android:name=".math.edit.OperatorsActivity"
             android:label="@string/c_operators" />
 
         <activity

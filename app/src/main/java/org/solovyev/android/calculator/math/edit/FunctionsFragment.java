@@ -25,33 +25,25 @@ package org.solovyev.android.calculator.math.edit;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
-import android.view.ContextMenu;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-
+import android.view.*;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
-
+import jscl.math.function.Function;
+import jscl.math.function.IFunction;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.function.CppFunction;
 import org.solovyev.android.calculator.function.EditFunctionFragment;
 import org.solovyev.common.text.Strings;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
-
-import jscl.math.function.Function;
-import jscl.math.function.IFunction;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FunctionsFragment extends BaseEntitiesFragment<Function> {
 
-    public static final String EXTRA_FUNCTION = "function";
+    public static final String ARG_FUNCTION = "function";
     @Inject
     FunctionsRegistry registry;
     @Inject
@@ -71,11 +63,11 @@ public class FunctionsFragment extends BaseEntitiesFragment<Function> {
 
         final Bundle bundle = getArguments();
         if (bundle != null) {
-            final CppFunction function = bundle.getParcelable(EXTRA_FUNCTION);
+            final CppFunction function = bundle.getParcelable(ARG_FUNCTION);
             if (function != null) {
                 EditFunctionFragment.showDialog(function, getFragmentManager());
-                // in order to stop intent for other tabs
-                bundle.remove(EXTRA_FUNCTION);
+                // don't want to show it again
+                bundle.remove(ARG_FUNCTION);
             }
         }
     }
@@ -111,7 +103,7 @@ public class FunctionsFragment extends BaseEntitiesFragment<Function> {
     protected void onClick(@Nonnull Function function) {
         keyboard.buttonPressed(function.getName());
         final FragmentActivity activity = getActivity();
-        if (activity instanceof CalculatorFunctionsActivity) {
+        if (activity instanceof FunctionsActivity) {
             activity.finish();
         }
     }
@@ -171,41 +163,17 @@ public class FunctionsFragment extends BaseEntitiesFragment<Function> {
 
     @Subscribe
     public void onFunctionAdded(@NonNull final FunctionsRegistry.AddedEvent event) {
-        if (!isInCategory(event.function)) {
-            return;
-        }
-        final EntitiesAdapter adapter = getAdapter();
-        adapter.add(event.function);
-        adapter.sort();
+        onEntityAdded(event.function);
     }
 
     @Subscribe
     public void onFunctionChanged(@NonNull final FunctionsRegistry.ChangedEvent event) {
-        if (!isInCategory(event.newFunction)) {
-            return;
-        }
-        if (!event.oldFunction.isIdDefined()) {
-            return;
-        }
-        final EntitiesAdapter adapter = getAdapter();
-        if (adapter == null) {
-            return;
-        }
-        for (int i = 0; i < adapter.getItemCount(); i++) {
-            final Function adapterFunction = adapter.getItem(i);
-            if (adapterFunction.isIdDefined() && event.oldFunction.getId().equals(adapterFunction.getId())) {
-                adapter.set(i, adapterFunction);
-                break;
-            }
-        }
-        adapter.sort();
+        onEntityChanged(event.newFunction);
     }
 
     @Subscribe
     public void onFunctionRemoved(@NonNull final FunctionsRegistry.RemovedEvent event) {
-        final EntitiesAdapter adapter = getAdapter();
-        adapter.remove(event.function);
-        adapter.notifyDataSetChanged();
+        onEntityRemoved(event.function);
     }
 
     @Nullable

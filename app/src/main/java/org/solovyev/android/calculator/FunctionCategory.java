@@ -27,45 +27,22 @@ import jscl.math.function.ArcTrigonometric;
 import jscl.math.function.Comparison;
 import jscl.math.function.Function;
 import jscl.math.function.Trigonometric;
-import org.solovyev.common.collections.Collections;
 
 import javax.annotation.Nonnull;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public enum FunctionCategory implements Category {
 
-    trigonometric(100, R.string.c_fun_category_trig) {
-        @Override
-        public boolean isInCategory(@Nonnull Function function) {
-            return (function instanceof Trigonometric || function instanceof ArcTrigonometric) && !hyperbolic_trigonometric.isInCategory(function);
-        }
-    },
-
-    hyperbolic_trigonometric(300, R.string.c_fun_category_hyper_trig) {
-
-        private final Set<String> names = new HashSet<>(Arrays.asList("sinh", "cosh", "tanh", "coth", "asinh", "acosh", "atanh", "acoth"));
-
-        @Override
-        public boolean isInCategory(@Nonnull Function function) {
-            return names.contains(function.getName());
-        }
-    },
-
-    comparison(200, R.string.c_fun_category_comparison) {
-        @Override
-        public boolean isInCategory(@Nonnull Function function) {
-            return function instanceof Comparison;
-        }
-    },
-
-    my(0, R.string.c_fun_category_my) {
+    my(R.string.c_fun_category_my) {
         @Override
         public boolean isInCategory(@Nonnull Function function) {
             return !function.isSystem();
         }
     },
 
-    common(50, R.string.c_fun_category_common) {
+    common(R.string.c_fun_category_common) {
         @Override
         public boolean isInCategory(@Nonnull Function function) {
             for (FunctionCategory category : values()) {
@@ -78,28 +55,36 @@ public enum FunctionCategory implements Category {
 
             return true;
         }
+    },
+
+    trigonometric(R.string.c_fun_category_trig) {
+        @Override
+        public boolean isInCategory(@Nonnull Function function) {
+            return (function instanceof Trigonometric || function instanceof ArcTrigonometric) && !hyperbolic_trigonometric.isInCategory(function);
+        }
+    },
+
+    comparison(R.string.c_fun_category_comparison) {
+        @Override
+        public boolean isInCategory(@Nonnull Function function) {
+            return function instanceof Comparison;
+        }
+    },
+
+    hyperbolic_trigonometric(R.string.c_fun_category_hyper_trig) {
+
+        private final Set<String> names = new HashSet<>(Arrays.asList("sinh", "cosh", "tanh", "coth", "asinh", "acosh", "atanh", "acoth"));
+
+        @Override
+        public boolean isInCategory(@Nonnull Function function) {
+            return names.contains(function.getName());
+        }
     };
 
-    public final int tabOrder;
     public final int title;
 
-    FunctionCategory(int tabOrder, @StringRes int title) {
-        this.tabOrder = tabOrder;
+    FunctionCategory(@StringRes int title) {
         this.title = title;
-    }
-
-    @Nonnull
-    public static List<FunctionCategory> getCategoriesByTabOrder() {
-        final List<FunctionCategory> result = Collections.asList(FunctionCategory.values());
-
-        java.util.Collections.sort(result, new Comparator<FunctionCategory>() {
-            @Override
-            public int compare(FunctionCategory category, FunctionCategory category1) {
-                return category.tabOrder - category1.tabOrder;
-            }
-        });
-
-        return result;
     }
 
     @Override

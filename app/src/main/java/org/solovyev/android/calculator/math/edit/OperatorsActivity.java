@@ -23,38 +23,41 @@
 package org.solovyev.android.calculator.math.edit;
 
 import android.os.Bundle;
+
 import org.solovyev.android.calculator.BaseActivity;
+import org.solovyev.android.calculator.CalculatorEventData;
+import org.solovyev.android.calculator.CalculatorEventListener;
+import org.solovyev.android.calculator.CalculatorEventType;
 import org.solovyev.android.calculator.CalculatorFragmentType;
-import org.solovyev.android.calculator.FunctionCategory;
+import org.solovyev.android.calculator.OperatorCategory;
 import org.solovyev.android.calculator.R;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class CalculatorFunctionsActivity extends BaseActivity {
+public class OperatorsActivity extends BaseActivity implements CalculatorEventListener {
 
-    public CalculatorFunctionsActivity() {
-        super(R.layout.main_empty, CalculatorFunctionsActivity.class.getSimpleName());
+    public OperatorsActivity() {
+        super(R.layout.main_empty, OperatorsActivity.class.getSimpleName());
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        final Bundle bundle = getIntent().getExtras();
+        final CalculatorFragmentType fragmentType = CalculatorFragmentType.operators;
 
-        final CalculatorFragmentType fragmentType = CalculatorFragmentType.functions;
+        for (OperatorCategory category : OperatorCategory.getCategoriesByTabOrder()) {
+            ui.addTab(this, fragmentType.createSubFragmentTag(category.name()), fragmentType.getFragmentClass(), BaseEntitiesFragment.createBundleFor(category.name()), category.title(), R.id.main_layout);
+        }
+    }
 
-        for (FunctionCategory category : FunctionCategory.getCategoriesByTabOrder()) {
-            final Bundle fragmentParameters;
-
-            if (category == FunctionCategory.my && bundle != null) {
-                BaseEntitiesFragment.putCategory(bundle, category.name());
-                fragmentParameters = bundle;
-            } else {
-                fragmentParameters = BaseEntitiesFragment.createBundleFor(category.name());
-            }
-
-            ui.addTab(this, fragmentType.createSubFragmentTag(category.name()), fragmentType.getFragmentClass(), fragmentParameters, category.title, R.id.main_layout);
+    @Override
+    public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
+        switch (calculatorEventType) {
+            case use_operator:
+                this.finish();
+                break;
         }
     }
 }

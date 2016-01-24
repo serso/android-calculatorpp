@@ -55,7 +55,7 @@ import java.util.List;
 
 public abstract class BaseEntitiesFragment<E extends MathEntity> extends BaseFragment {
 
-    public static final String EXTRA_CATEGORY = "category";
+    public static final String ARG_CATEGORY = "category";
     private static final Comparator<MathEntity> COMPARATOR = new Comparator<MathEntity>() {
         @Override
         public int compare(MathEntity l, MathEntity r) {
@@ -85,7 +85,7 @@ public abstract class BaseEntitiesFragment<E extends MathEntity> extends BaseFra
     }
 
     static void putCategory(@Nonnull Bundle bundle, @Nonnull String categoryId) {
-        bundle.putString(EXTRA_CATEGORY, categoryId);
+        bundle.putString(ARG_CATEGORY, categoryId);
     }
 
     @Override
@@ -94,7 +94,7 @@ public abstract class BaseEntitiesFragment<E extends MathEntity> extends BaseFra
 
         final Bundle bundle = getArguments();
         if (bundle != null) {
-            category = bundle.getString(EXTRA_CATEGORY);
+            category = bundle.getString(ARG_CATEGORY);
         }
     }
 
@@ -164,6 +164,39 @@ public abstract class BaseEntitiesFragment<E extends MathEntity> extends BaseFra
         }
     }
 
+    protected void onEntityAdded(@NonNull E entity) {
+        final EntitiesAdapter adapter = getAdapter();
+        if (adapter == null) {
+            return;
+        }
+        if (!isInCategory(entity)) {
+            return;
+        }
+        adapter.add(entity);
+    }
+
+    protected void onEntityChanged(@NonNull E entity) {
+        final EntitiesAdapter adapter = getAdapter();
+        if (adapter == null) {
+            return;
+        }
+        if (!isInCategory(entity)) {
+            return;
+        }
+        adapter.update(entity);
+    }
+
+    protected void onEntityRemoved(@NonNull E entity) {
+        final EntitiesAdapter adapter = getAdapter();
+        if (adapter == null) {
+            return;
+        }
+        if (!isInCategory(entity)) {
+            return;
+        }
+        adapter.remove(entity);
+    }
+
     @Nullable
     protected abstract String getDescription(@NonNull E entity);
 
@@ -227,6 +260,7 @@ public abstract class BaseEntitiesFragment<E extends MathEntity> extends BaseFra
         private EntitiesAdapter(@Nonnull Context context,
                                 @Nonnull List<E> list) {
             this.list = list;
+            Collections.sort(this.list, COMPARATOR);
             this.inflater = LayoutInflater.from(context);
         }
 
@@ -250,8 +284,8 @@ public abstract class BaseEntitiesFragment<E extends MathEntity> extends BaseFra
             return list.get(position);
         }
 
-        public void set(int position, @Nonnull E function) {
-            list.set(position, function);
+        public void set(int position, @Nonnull E entity) {
+            list.set(position, entity);
         }
 
         public void sort() {
@@ -260,11 +294,39 @@ public abstract class BaseEntitiesFragment<E extends MathEntity> extends BaseFra
         }
 
         public void add(@Nonnull E entity) {
-            list.add(entity);
+            final int itemCount = getItemCount();
+            for (int i = 0; i < itemCount; i++) {
+                final E adapterEntity = getItem(i);
+                if (COMPARATOR.compare(adapterEntity, entity) > 0) {
+                    list.add(i, entity);
+                    notifyItemInserted(i);
+                    return;
+                }
+            }
+            list.add(itemCount, entity);
+            notifyItemInserted(itemCount);
         }
 
-        public void remove(@Nonnull E function) {
-            list.remove(function);
+        public void remove(@Nonnull E entity) {
+            final int i = list.indexOf(entity);
+            if (i >= 0) {
+                list.remove(i);
+                notifyItemRemoved(i);
+            }
+        }
+
+        public void update(@NonNull E entity) {
+            if (!entity.isIdDefined()) {
+                return;
+            }
+            for (int i = 0; i < adapter.getItemCount(); i++) {
+                final E adapterEntity = adapter.getItem(i);
+                if (adapterEntity.isIdDefined() && entity.getId().equals(adapterEntity.getId())) {
+                    adapter.set(i, entity);
+                    notifyItemChanged(i);
+                    break;
+                }
+            }
         }
     }
 }

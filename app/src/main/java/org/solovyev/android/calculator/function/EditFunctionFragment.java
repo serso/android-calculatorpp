@@ -46,8 +46,7 @@ import jscl.math.function.CustomFunction;
 import jscl.math.function.Function;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.*;
-import org.solovyev.android.calculator.math.edit.CalculatorFunctionsActivity;
-import org.solovyev.android.calculator.math.edit.FunctionsFragment;
+import org.solovyev.android.calculator.math.edit.FunctionsActivity;
 import org.solovyev.android.calculator.math.edit.VarEditorSaver;
 import org.solovyev.android.calculator.view.EditTextCompat;
 import org.solovyev.common.math.MathRegistry;
@@ -107,10 +106,10 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
     }
 
     public static void showDialog(@Nonnull CppFunction function, @Nonnull Context context) {
-        if (!(context instanceof CalculatorFunctionsActivity)) {
-            final Intent intent = new Intent(context, CalculatorFunctionsActivity.class);
+        if (!(context instanceof FunctionsActivity)) {
+            final Intent intent = new Intent(context, FunctionsActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.putExtra(FunctionsFragment.EXTRA_FUNCTION, function);
+            intent.putExtra(FunctionsActivity.EXTRA_FUNCTION, function);
             context.startActivity(intent);
         } else {
             EditFunctionFragment.showDialog(function, ((AppCompatActivity) context).getSupportFragmentManager());
