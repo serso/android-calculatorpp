@@ -14,7 +14,7 @@ class MultiplyFactor implements Parser<Generic> {
 
     public static final Parser<Generic> parser = new MultiplyFactor();
 
-    private static boolean isMultiplication(char c) {
+    static boolean isMultiplication(char c) {
         return c == '*' || c == '×' || c == '∙';
     }
 

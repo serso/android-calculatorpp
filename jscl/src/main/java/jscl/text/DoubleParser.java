@@ -191,14 +191,15 @@ class SignedInteger implements Parser<String> {
 
     @Nonnull
     public String parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
-        int pos0 = p.position.intValue();
+        final int pos0 = p.position.intValue();
 
         final StringBuilder result = new StringBuilder();
 
         ParserUtils.skipWhitespaces(p);
 
-        if (p.position.intValue() < p.expression.length() && (p.expression.charAt(p.position.intValue()) == '+' || p.expression.charAt(p.position.intValue()) == '-')) {
-            char c = p.expression.charAt(p.position.intValue());
+        final int pos1 = p.position.intValue();
+        if (pos1 < p.expression.length() && (p.expression.charAt(pos1) == '+' || MinusParser.isMinus(p.expression.charAt(pos1)))) {
+            final char c = p.expression.charAt(pos1);
             p.position.increment();
             result.append(c);
         }
