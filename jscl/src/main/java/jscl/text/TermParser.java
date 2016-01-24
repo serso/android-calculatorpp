@@ -31,6 +31,7 @@ class TermParser implements Parser<Generic> {
                 result = result.multiply(s);
                 s = b;
             } catch (ParseException e) {
+                p.exceptionsPool.release(e);
                 try {
                     Generic b = DivideFactor.parser.parse(p, null);
                     if (s.compareTo(JsclInteger.valueOf(1)) == 0)
@@ -38,6 +39,7 @@ class TermParser implements Parser<Generic> {
                     else
                         s = new Fraction(GenericVariable.content(s, true), GenericVariable.content(b, true)).expressionValue();
                 } catch (ParseException e2) {
+                    p.exceptionsPool.release(e2);
                     break;
                 }
             }

@@ -10,6 +10,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class DoubleParser implements Parser<NumericWrapper> {
@@ -80,6 +81,7 @@ class FloatingPointLiteral implements Parser<Double> {
             result.append(digitsParser.parse(p, previousSumElement));
             digits = true;
         } catch (ParseException e) {
+            p.exceptionsPool.release(e);
         }
 
         try {
@@ -90,6 +92,8 @@ class FloatingPointLiteral implements Parser<Double> {
             if (!digits) {
                 p.position.setValue(pos0);
                 throw e;
+            } else {
+                p.exceptionsPool.release(e);
             }
         }
 
@@ -103,6 +107,8 @@ class FloatingPointLiteral implements Parser<Double> {
             if (!digits) {
                 p.position.setValue(pos0);
                 throw e;
+            } else {
+                p.exceptionsPool.release(e);
             }
         }
 
@@ -113,6 +119,8 @@ class FloatingPointLiteral implements Parser<Double> {
             if (!point) {
                 p.position.setValue(pos0);
                 throw e;
+            } else {
+                p.exceptionsPool.release(e);
             }
         }
 
@@ -124,7 +132,7 @@ class FloatingPointLiteral implements Parser<Double> {
         try {
             return nb.toDouble(doubleString);
         } catch (NumberFormatException e) {
-            throw new ParseException(Messages.msg_8, p.position.intValue(), p.expression, doubleString);
+            throw p.exceptionsPool.obtain(p.position.intValue(), p.expression, Messages.msg_8, Collections.singletonList(doubleString));
         }
     }
 }

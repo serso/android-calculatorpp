@@ -34,6 +34,7 @@ public class MatrixParser implements Parser<Matrix> {
             try {
                 vectors.add(CommaAndVector.parser.parse(p, previousSumElement));
             } catch (ParseException e) {
+                p.exceptionsPool.release(e);
                 break;
             }
         }

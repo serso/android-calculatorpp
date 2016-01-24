@@ -6,6 +6,7 @@ import jscl.text.msg.Messages;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Collections;
 
 public class IntegerParser implements Parser<Integer> {
 
@@ -46,7 +47,7 @@ public class IntegerParser implements Parser<Integer> {
             result.append(c);
         } else {
             p.position.setValue(pos0);
-            throw new ParseException(Messages.msg_7, p.position.intValue(), p.expression);
+            throw p.exceptionsPool.obtain(p.position.intValue(), p.expression, Messages.msg_7);
         }
 
         while (p.position.intValue() < p.expression.length() && nb.getAcceptableCharacters().contains(p.expression.charAt(p.position.intValue()))) {
@@ -59,7 +60,7 @@ public class IntegerParser implements Parser<Integer> {
         try {
             return nb.toInteger(number);
         } catch (NumberFormatException e) {
-            throw new ParseException(Messages.msg_8, p.position.intValue(), p.expression, number);
+            throw p.exceptionsPool.obtain(p.position.intValue(), p.expression, Messages.msg_8, Collections.singletonList(number));
         }
     }
 }

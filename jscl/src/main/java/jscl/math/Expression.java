@@ -123,7 +123,7 @@ public class Expression extends Generic {
 
         int index = position.intValue();
         if (index < expression.length()) {
-            throw new ParseException(Messages.msg_1, index, expression, index + 1);
+            throw new ParseException(index, expression, Messages.msg_1, index + 1);
         }
 
         return new Expression().init(generic);

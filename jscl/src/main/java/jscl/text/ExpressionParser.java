@@ -25,6 +25,7 @@ public class ExpressionParser implements Parser<Generic> {
             try {
                 result = result.add(PlusOrMinusTerm.parser.parse(p, result));
             } catch (ParseException e) {
+                p.exceptionsPool.release(e);
                 break;
             }
         }

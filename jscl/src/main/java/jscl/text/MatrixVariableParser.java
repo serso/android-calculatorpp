@@ -1,7 +1,6 @@
 package jscl.text;
 
 import jscl.math.Generic;
-import jscl.math.Matrix;
 import jscl.math.MatrixVariable;
 import jscl.math.Variable;
 
@@ -14,12 +13,6 @@ class MatrixVariableParser implements Parser<Variable> {
     }
 
     public Variable parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
-        Matrix m;
-        try {
-            m = (Matrix) MatrixParser.parser.parse(p, previousSumElement);
-        } catch (ParseException e) {
-            throw e;
-        }
-        return new MatrixVariable(m);
+        return new MatrixVariable(MatrixParser.parser.parse(p, previousSumElement));
     }
 }

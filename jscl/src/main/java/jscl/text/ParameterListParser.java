@@ -34,6 +34,8 @@ public class ParameterListParser implements Parser<Generic[]> {
             if (minNumberOfParameters > 0) {
                 p.position.setValue(pos0);
                 throw e;
+            } else {
+                p.exceptionsPool.release(e);
             }
         }
 
@@ -41,6 +43,7 @@ public class ParameterListParser implements Parser<Generic[]> {
             try {
                 result.add(CommaAndExpression.parser.parse(p, previousSumElement));
             } catch (ParseException e) {
+                p.exceptionsPool.release(e);
                 break;
             }
         }

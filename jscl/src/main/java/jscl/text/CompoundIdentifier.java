@@ -33,6 +33,7 @@ public class CompoundIdentifier implements Parser<String> {
                 // NOTE: '.' must be appended after parsing
                 result.append(".").append(dotAndId);
             } catch (ParseException e) {
+                p.exceptionsPool.release(e);
                 break;
             }
         }
