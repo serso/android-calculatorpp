@@ -49,6 +49,8 @@ public class KeyboardUi {
     private final int sidePadding;
     @DrawableRes
     private final int buttonBackground;
+    @NonNull
+    private final String multiplicationSign = Locator.getInstance().getEngine().getMultiplicationSign();
 
     @SuppressWarnings("deprecation")
     public KeyboardUi(@NonNull User user, @NonNull List<String> parameterNames) {
@@ -110,7 +112,7 @@ public class KeyboardUi {
         addButton(row, 0, "7");
         addButton(row, 0, "8");
         addButton(row, 0, "9").setText("π", up).setText("e", down);
-        addOperationButton(row, R.id.cpp_kb_button_multiply, Locator.getInstance().getEngine().getMultiplicationSign()).setText("^n", up).setText("^2", down);
+        addOperationButton(row, R.id.cpp_kb_button_multiply, multiplicationSign).setText("^n", up).setText("^2", down);
         addButton(row, R.id.cpp_kb_button_clear, "C");
 
         row = makeRow();
@@ -264,7 +266,7 @@ public class KeyboardUi {
                     user.insertOperator('-');
                     break;
                 case R.id.cpp_kb_button_multiply:
-                    user.insertOperator('*');
+                    user.insertOperator(multiplicationSign);
                     break;
                 case R.id.cpp_kb_button_functions_constants:
                     user.showFunctionsConstants(v);

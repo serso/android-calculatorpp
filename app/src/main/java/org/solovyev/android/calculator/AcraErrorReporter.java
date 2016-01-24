@@ -22,6 +22,7 @@
 
 package org.solovyev.android.calculator;
 
+import android.util.Log;
 import org.acra.ACRA;
 
 import javax.annotation.Nonnull;
@@ -33,6 +34,7 @@ public class AcraErrorReporter implements ErrorReporter {
     @Override
     public void onException(@Nonnull Throwable e) {
         if (!ENABLED) {
+            Log.e("Acra", e.getMessage(), e);
             return;
         }
         ACRA.getErrorReporter().reportBuilder().forceSilent().exception(e).send();
@@ -41,6 +43,7 @@ public class AcraErrorReporter implements ErrorReporter {
     @Override
     public void onError(@Nonnull String message) {
         if (!ENABLED) {
+            Log.e("Acra", message);
             return;
         }
         ACRA.getErrorReporter().reportBuilder().forceSilent().exception(new Throwable(message)).send();
