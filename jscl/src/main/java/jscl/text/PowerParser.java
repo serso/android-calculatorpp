@@ -6,6 +6,8 @@ import jscl.text.msg.Messages;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import static jscl.text.MultiplyFactor.isMultiplication;
+
 /**
  * User: serso
  * Date: 10/27/11
@@ -27,7 +29,7 @@ class PowerParser implements Parser<Void> {
         if (p.position.intValue() < p.expression.length() && p.expression.charAt(p.position.intValue()) == '^') {
             p.position.increment();
         } else {
-            if (isDoubleStar(p.expression, p.position)) {
+            if (isDoubleStar(p.expression, p.position.intValue())) {
                 p.position.increment();
                 p.position.increment();
             } else {
@@ -38,8 +40,7 @@ class PowerParser implements Parser<Void> {
         return null;
     }
 
-    private boolean isDoubleStar(@Nonnull String string, @Nonnull MutableInt position) {
-        final int i = position.intValue();
-        return i < string.length() && i + 1 < string.length() && string.charAt(i) == '*' && string.charAt(i + 1) == '*';
+    private boolean isDoubleStar(@Nonnull String string, int position) {
+        return position + 1 < string.length() && isMultiplication(string.charAt(position)) && isMultiplication(string.charAt(position + 1));
     }
 }
