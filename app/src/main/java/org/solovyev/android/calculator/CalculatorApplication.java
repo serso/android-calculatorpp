@@ -26,10 +26,9 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
-
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.otto.Bus;
-
+import jscl.MathEngine;
 import org.acra.ACRA;
 import org.acra.ACRAConfiguration;
 import org.acra.sender.HttpSender;
@@ -42,16 +41,13 @@ import org.solovyev.android.calculator.plot.AndroidCalculatorPlotter;
 import org.solovyev.android.calculator.plot.CalculatorPlotterImpl;
 import org.solovyev.common.msg.MessageType;
 
+import javax.annotation.Nonnull;
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.Executor;
-
-import javax.annotation.Nonnull;
-import javax.inject.Inject;
-import javax.inject.Named;
-
-import jscl.MathEngine;
 
 public class CalculatorApplication extends android.app.Application implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -161,14 +157,15 @@ public class CalculatorApplication extends android.app.Application implements Sh
 
     private void onPreCreate(@Nonnull SharedPreferences preferences, @Nonnull Languages languages) {
         // first we need to setup crash handler and memory leak analyzer
-        if (!BuildConfig.DEBUG) {
+        if (AcraErrorReporter.ENABLED) {
             ACRA.init(this, new ACRAConfiguration()
                     .setFormUri("https://serso.cloudant.com/acra-cpp/_design/acra-storage/_update/report")
                     .setReportType(HttpSender.Type.JSON)
                     .setHttpMethod(HttpSender.Method.PUT)
                     .setFormUriBasicAuthLogin("timbeenterumisideffecird")
                     .setFormUriBasicAuthPassword("ECL65PO2TH5quIFNAK4hQ5Ng"));
-        } else {
+        }
+        if (BuildConfig.DEBUG) {
             LeakCanary.install(this);
         }
 
