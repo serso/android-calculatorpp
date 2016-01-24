@@ -20,16 +20,16 @@ class PowerParser implements Parser<Void> {
 
     @Nullable
     public Void parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
-        int pos0 = p.getPosition().intValue();
+        int pos0 = p.position.intValue();
 
         ParserUtils.skipWhitespaces(p);
 
-        if (p.getPosition().intValue() < p.getExpression().length() && p.getExpression().charAt(p.getPosition().intValue()) == '^') {
-            p.getPosition().increment();
+        if (p.position.intValue() < p.expression.length() && p.expression.charAt(p.position.intValue()) == '^') {
+            p.position.increment();
         } else {
-            if (isDoubleStar(p.getExpression(), p.getPosition())) {
-                p.getPosition().increment();
-                p.getPosition().increment();
+            if (isDoubleStar(p.expression, p.position)) {
+                p.position.increment();
+                p.position.increment();
             } else {
                 ParserUtils.throwParseException(p, pos0, Messages.msg_10, '^', "**");
             }

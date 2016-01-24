@@ -44,9 +44,9 @@ public class PostfixFunctionsParser implements Parser<Generic> {
 
                 if (postfixFunction == null) {
                     if (TripleFactorial.NAME.equals(postfixResult.getPostfixFunctionName())) {
-                        throw new ParseException(Messages.msg_18, parseParameters.getPosition().intValue(), parseParameters.getExpression());
+                        throw new ParseException(Messages.msg_18, parseParameters.position.intValue(), parseParameters.expression);
                     } else {
-                        throw new ParseException(Messages.msg_4, parseParameters.getPosition().intValue(), parseParameters.getExpression(), postfixResult.getPostfixFunctionName());
+                        throw new ParseException(Messages.msg_4, parseParameters.position.intValue(), parseParameters.expression, postfixResult.getPostfixFunctionName());
                     }
                 }
 

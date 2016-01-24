@@ -17,7 +17,7 @@ public class MatrixParser implements Parser<Matrix> {
     }
 
     public Matrix parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
-        int pos0 = p.getPosition().intValue();
+        int pos0 = p.position.intValue();
 
         final List<Generic> vectors = new ArrayList<Generic>();
 
@@ -26,7 +26,7 @@ public class MatrixParser implements Parser<Matrix> {
         try {
             vectors.add(VectorParser.parser.parse(p, previousSumElement));
         } catch (ParseException e) {
-            p.getPosition().setValue(pos0);
+            p.position.setValue(pos0);
             throw e;
         }
 

@@ -39,7 +39,7 @@ class Singularity implements Parser<Double> {
 
     @Nonnull
     public Double parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
-        int pos0 = p.getPosition().intValue();
+        int pos0 = p.position.intValue();
 
         double result = 0d;
 
@@ -64,7 +64,7 @@ class FloatingPointLiteral implements Parser<Double> {
     }
 
     public Double parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
-        int pos0 = p.getPosition().intValue();
+        int pos0 = p.position.intValue();
 
         final NumeralBase nb = NumeralBaseParser.parser.parse(p, previousSumElement);
 
@@ -88,7 +88,7 @@ class FloatingPointLiteral implements Parser<Double> {
             point = true;
         } catch (ParseException e) {
             if (!digits) {
-                p.getPosition().setValue(pos0);
+                p.position.setValue(pos0);
                 throw e;
             }
         }
@@ -101,7 +101,7 @@ class FloatingPointLiteral implements Parser<Double> {
             result.append(digitsParser.parse(p, previousSumElement));
         } catch (ParseException e) {
             if (!digits) {
-                p.getPosition().setValue(pos0);
+                p.position.setValue(pos0);
                 throw e;
             }
         }
@@ -111,7 +111,7 @@ class FloatingPointLiteral implements Parser<Double> {
             exponent = true;
         } catch (ParseException e) {
             if (!point) {
-                p.getPosition().setValue(pos0);
+                p.position.setValue(pos0);
                 throw e;
             }
         }
@@ -124,7 +124,7 @@ class FloatingPointLiteral implements Parser<Double> {
         try {
             return nb.toDouble(doubleString);
         } catch (NumberFormatException e) {
-            throw new ParseException(Messages.msg_8, p.getPosition().intValue(), p.getExpression(), doubleString);
+            throw new ParseException(Messages.msg_8, p.position.intValue(), p.expression, doubleString);
         }
     }
 }
@@ -138,7 +138,7 @@ class DecimalPoint implements Parser<Void> {
 
     @Nullable
     public Void parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
-        int pos0 = p.getPosition().intValue();
+        int pos0 = p.position.intValue();
 
         ParserUtils.skipWhitespaces(p);
 
@@ -157,15 +157,15 @@ class ExponentPart implements Parser<String> {
 
     @Nonnull
     public String parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
-        int pos0 = p.getPosition().intValue();
+        int pos0 = p.position.intValue();
 
         final StringBuilder result = new StringBuilder();
 
         ParserUtils.skipWhitespaces(p);
 
-        if (p.getPosition().intValue() < p.getExpression().length() && (p.getExpression().charAt(p.getPosition().intValue()) == 'e' || p.getExpression().charAt(p.getPosition().intValue()) == 'E')) {
-            char c = p.getExpression().charAt(p.getPosition().intValue());
-            p.getPosition().increment();
+        if (p.position.intValue() < p.expression.length() && (p.expression.charAt(p.position.intValue()) == 'e' || p.expression.charAt(p.position.intValue()) == 'E')) {
+            char c = p.expression.charAt(p.position.intValue());
+            p.position.increment();
             result.append(c);
         } else {
             ParserUtils.throwParseException(p, pos0, Messages.msg_10, 'e', 'E');
@@ -174,7 +174,7 @@ class ExponentPart implements Parser<String> {
         try {
             result.append(SignedInteger.parser.parse(p, previousSumElement));
         } catch (ParseException e) {
-            p.getPosition().setValue(pos0);
+            p.position.setValue(pos0);
             throw e;
         }
 
@@ -191,22 +191,22 @@ class SignedInteger implements Parser<String> {
 
     @Nonnull
     public String parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
-        int pos0 = p.getPosition().intValue();
+        int pos0 = p.position.intValue();
 
         final StringBuilder result = new StringBuilder();
 
         ParserUtils.skipWhitespaces(p);
 
-        if (p.getPosition().intValue() < p.getExpression().length() && (p.getExpression().charAt(p.getPosition().intValue()) == '+' || p.getExpression().charAt(p.getPosition().intValue()) == '-')) {
-            char c = p.getExpression().charAt(p.getPosition().intValue());
-            p.getPosition().increment();
+        if (p.position.intValue() < p.expression.length() && (p.expression.charAt(p.position.intValue()) == '+' || p.expression.charAt(p.position.intValue()) == '-')) {
+            char c = p.expression.charAt(p.position.intValue());
+            p.position.increment();
             result.append(c);
         }
 
         try {
             result.append(IntegerParser.parser.parse(p, previousSumElement).intValue());
         } catch (ParseException e) {
-            p.getPosition().setValue(pos0);
+            p.position.setValue(pos0);
             throw e;
         }
 

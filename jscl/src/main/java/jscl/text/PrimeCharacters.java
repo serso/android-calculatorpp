@@ -14,21 +14,21 @@ public class PrimeCharacters implements Parser<Integer> {
 
     public Integer parse(@Nonnull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
 
-        int pos0 = p.getPosition().intValue();
+        int pos0 = p.position.intValue();
 
         int result = 0;
 
         ParserUtils.skipWhitespaces(p);
 
-        if (p.getPosition().intValue() < p.getExpression().length() && p.getExpression().charAt(p.getPosition().intValue()) == '\'') {
-            p.getPosition().increment();
+        if (p.position.intValue() < p.expression.length() && p.expression.charAt(p.position.intValue()) == '\'') {
+            p.position.increment();
             result = 1;
         } else {
             ParserUtils.throwParseException(p, pos0, Messages.msg_12, '\'');
         }
 
-        while (p.getPosition().intValue() < p.getExpression().length() && p.getExpression().charAt(p.getPosition().intValue()) == '\'') {
-            p.getPosition().increment();
+        while (p.position.intValue() < p.expression.length() && p.expression.charAt(p.position.intValue()) == '\'') {
+            p.position.increment();
             result++;
         }
 

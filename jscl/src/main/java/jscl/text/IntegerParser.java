@@ -15,7 +15,7 @@ public class IntegerParser implements Parser<Integer> {
     }
 
     public Integer parse(@Nonnull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
-        int pos0 = p.getPosition().intValue();
+        int pos0 = p.position.intValue();
 
         /*int n;
 
@@ -40,18 +40,18 @@ public class IntegerParser implements Parser<Integer> {
         final StringBuilder result = new StringBuilder();
 
         ParserUtils.skipWhitespaces(p);
-        if (p.getPosition().intValue() < p.getExpression().length() && nb.getAcceptableCharacters().contains(p.getExpression().charAt(p.getPosition().intValue()))) {
-            char c = p.getExpression().charAt(p.getPosition().intValue());
-            p.getPosition().increment();
+        if (p.position.intValue() < p.expression.length() && nb.getAcceptableCharacters().contains(p.expression.charAt(p.position.intValue()))) {
+            char c = p.expression.charAt(p.position.intValue());
+            p.position.increment();
             result.append(c);
         } else {
-            p.getPosition().setValue(pos0);
-            throw new ParseException(Messages.msg_7, p.getPosition().intValue(), p.getExpression());
+            p.position.setValue(pos0);
+            throw new ParseException(Messages.msg_7, p.position.intValue(), p.expression);
         }
 
-        while (p.getPosition().intValue() < p.getExpression().length() && nb.getAcceptableCharacters().contains(p.getExpression().charAt(p.getPosition().intValue()))) {
-            char c = p.getExpression().charAt(p.getPosition().intValue());
-            p.getPosition().increment();
+        while (p.position.intValue() < p.expression.length() && nb.getAcceptableCharacters().contains(p.expression.charAt(p.position.intValue()))) {
+            char c = p.expression.charAt(p.position.intValue());
+            p.position.increment();
             result.append(c);
         }
 
@@ -59,7 +59,7 @@ public class IntegerParser implements Parser<Integer> {
         try {
             return nb.toInteger(number);
         } catch (NumberFormatException e) {
-            throw new ParseException(Messages.msg_8, p.getPosition().intValue(), p.getExpression(), number);
+            throw new ParseException(Messages.msg_8, p.position.intValue(), p.expression, number);
         }
     }
 }

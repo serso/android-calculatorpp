@@ -18,14 +18,14 @@ class PlusOrMinusTerm implements Parser<Generic> {
     }
 
     public Generic parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
-        int pos0 = p.getPosition().intValue();
+        int pos0 = p.position.intValue();
 
         ParserUtils.skipWhitespaces(p);
 
         boolean sign = false;
-        if (p.getPosition().intValue() < p.getExpression().length() && (p.getExpression().charAt(p.getPosition().intValue()) == '+' || p.getExpression().charAt(p.getPosition().intValue()) == '-')) {
-            sign = p.getExpression().charAt(p.getPosition().intValue()) == '-';
-            p.getPosition().increment();
+        if (p.position.intValue() < p.expression.length() && (p.expression.charAt(p.position.intValue()) == '+' || p.expression.charAt(p.position.intValue()) == '-')) {
+            sign = p.expression.charAt(p.position.intValue()) == '-';
+            p.position.increment();
         } else {
             ParserUtils.throwParseException(p, pos0, Messages.msg_10, '+', '-');
         }

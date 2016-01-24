@@ -28,22 +28,22 @@ public class Identifier implements Parser<String> {
     // returns getVariable/constant getName
     @Nonnull
     public String parse(@Nonnull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
-        int pos0 = p.getPosition().intValue();
+        int pos0 = p.position.intValue();
 
         final StringBuilder result = new StringBuilder();
 
         ParserUtils.skipWhitespaces(p);
 
-        if (p.getPosition().intValue() < p.getExpression().length() && isValidFirstCharacter(p.getExpression().charAt(p.getPosition().intValue()))) {
-            result.append(p.getExpression().charAt(p.getPosition().intValue()));
-            p.getPosition().increment();
+        if (p.position.intValue() < p.expression.length() && isValidFirstCharacter(p.expression.charAt(p.position.intValue()))) {
+            result.append(p.expression.charAt(p.position.intValue()));
+            p.position.increment();
         } else {
             ParserUtils.throwParseException(p, pos0, Messages.msg_5);
         }
 
-        while (p.getPosition().intValue() < p.getExpression().length() && isValidNotFirstCharacter(p.getExpression(), p.getPosition())) {
-            result.append(p.getExpression().charAt(p.getPosition().intValue()));
-            p.getPosition().increment();
+        while (p.position.intValue() < p.expression.length() && isValidNotFirstCharacter(p.expression, p.position)) {
+            result.append(p.expression.charAt(p.position.intValue()));
+            p.position.increment();
         }
 
         return result.toString();

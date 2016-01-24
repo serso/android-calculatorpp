@@ -16,7 +16,7 @@ public class JsclIntegerParser implements Parser<JsclInteger> {
     }
 
     public JsclInteger parse(@Nonnull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
-        int pos0 = p.getPosition().intValue();
+        int pos0 = p.position.intValue();
 
         final NumeralBase nb = NumeralBaseParser.parser.parse(p, previousSumElement);
 
@@ -25,7 +25,7 @@ public class JsclIntegerParser implements Parser<JsclInteger> {
         try {
             result.append(new Digits(nb).parse(p, previousSumElement));
         } catch (ParseException e) {
-            p.getPosition().setValue(pos0);
+            p.position.setValue(pos0);
             throw e;
         }
 
@@ -33,7 +33,7 @@ public class JsclIntegerParser implements Parser<JsclInteger> {
         try {
             return nb.toJsclInteger(number);
         } catch (NumberFormatException e) {
-            throw new ParseException(Messages.msg_8, p.getPosition().intValue(), p.getExpression(), number);
+            throw new ParseException(Messages.msg_8, p.position.intValue(), p.expression, number);
         }
     }
 }

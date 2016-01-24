@@ -15,7 +15,7 @@ public class CommaAndVector implements Parser<JsclVector> {
 
     @Nonnull
     public JsclVector parse(@Nonnull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
-        int pos0 = p.getPosition().intValue();
+        int pos0 = p.position.intValue();
 
         ParserUtils.skipWhitespaces(p);
 

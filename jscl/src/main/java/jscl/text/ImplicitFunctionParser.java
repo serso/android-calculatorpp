@@ -19,13 +19,13 @@ public class ImplicitFunctionParser implements Parser<Function> {
     }
 
     public Function parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
-        int pos0 = p.getPosition().intValue();
+        int pos0 = p.position.intValue();
         Generic a[];
 
         final String name = ParserUtils.parseWithRollback(CompoundIdentifier.parser, pos0, previousSumElement, p);
         if (FunctionsRegistry.getInstance().getNames().contains(name) || OperatorsRegistry.getInstance().getNames().contains(name)) {
-            p.getPosition().setValue(pos0);
-            throw new ParseException(Messages.msg_6, p.getPosition().intValue(), p.getExpression(), name);
+            p.position.setValue(pos0);
+            throw new ParseException(Messages.msg_6, p.position.intValue(), p.expression, name);
         }
 
         final List<Generic> subscripts = new ArrayList<Generic>();
@@ -46,7 +46,7 @@ public class ImplicitFunctionParser implements Parser<Function> {
         try {
             a = ParameterListParser.parser1.parse(p, previousSumElement);
         } catch (ParseException e) {
-            p.getPosition().setValue(pos0);
+            p.position.setValue(pos0);
             throw e;
         }
 
@@ -87,7 +87,7 @@ class SuperscriptList implements Parser<int[]> {
     }
 
     public int[] parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
-        int pos0 = p.getPosition().intValue();
+        int pos0 = p.position.intValue();
 
         ParserUtils.tryToParse(p, pos0, '{');
 
@@ -95,7 +95,7 @@ class SuperscriptList implements Parser<int[]> {
         try {
             result.add(IntegerParser.parser.parse(p, previousSumElement));
         } catch (ParseException e) {
-            p.getPosition().setValue(pos0);
+            p.position.setValue(pos0);
             throw e;
         }
 
@@ -123,7 +123,7 @@ class CommaAndInteger implements Parser<Integer> {
     }
 
     public Integer parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
-        int pos0 = p.getPosition().intValue();
+        int pos0 = p.position.intValue();
 
         ParserUtils.skipWhitespaces(p);
 

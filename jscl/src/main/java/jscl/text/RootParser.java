@@ -14,7 +14,7 @@ public class RootParser implements Parser<Function> {
     }
 
     public Function parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
-        int pos0 = p.getPosition().intValue();
+        int pos0 = p.position.intValue();
 
         final String name = Identifier.parser.parse(p, previousSumElement);
         if (name.compareTo("root") != 0) {

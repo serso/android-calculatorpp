@@ -22,7 +22,7 @@ public class ParameterListParser implements Parser<Generic[]> {
 
     @Nonnull
     public Generic[] parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
-        int pos0 = p.getPosition().intValue();
+        int pos0 = p.position.intValue();
 
         final List<Generic> result = new ArrayList<Generic>();
 
@@ -32,7 +32,7 @@ public class ParameterListParser implements Parser<Generic[]> {
             result.add(ExpressionParser.parser.parse(p, previousSumElement));
         } catch (ParseException e) {
             if (minNumberOfParameters > 0) {
-                p.getPosition().setValue(pos0);
+                p.position.setValue(pos0);
                 throw e;
             }
         }

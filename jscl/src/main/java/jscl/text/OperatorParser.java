@@ -21,7 +21,7 @@ public class OperatorParser implements Parser<Operator> {
 
     @Nonnull
     public Operator parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
-        int pos0 = p.getPosition().intValue();
+        int pos0 = p.position.intValue();
 
         final String operatorName = Identifier.parser.parse(p, previousSumElement);
         if (!valid(operatorName)) {

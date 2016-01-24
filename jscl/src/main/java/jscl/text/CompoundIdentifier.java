@@ -14,7 +14,7 @@ public class CompoundIdentifier implements Parser<String> {
 
     @Nonnull
     public String parse(@Nonnull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
-        int pos0 = p.getPosition().intValue();
+        int pos0 = p.position.intValue();
 
         StringBuilder result = new StringBuilder();
 
@@ -23,7 +23,7 @@ public class CompoundIdentifier implements Parser<String> {
             String s = Identifier.parser.parse(p, previousSumElement);
             result.append(s);
         } catch (ParseException e) {
-            p.getPosition().setValue(pos0);
+            p.position.setValue(pos0);
             throw e;
         }
 
@@ -49,7 +49,7 @@ class DotAndIdentifier implements Parser<String> {
     }
 
     public String parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
-        int pos0 = p.getPosition().intValue();
+        int pos0 = p.position.intValue();
 
         ParserUtils.tryToParse(p, pos0, '.');
 
@@ -57,7 +57,7 @@ class DotAndIdentifier implements Parser<String> {
         try {
             result = Identifier.parser.parse(p, previousSumElement);
         } catch (ParseException e) {
-            p.getPosition().setValue(pos0);
+            p.position.setValue(pos0);
             throw e;
         }
 
