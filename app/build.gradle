@@ -74,7 +74,7 @@ dependencies {
     compile 'org.solovyev.android:android-common-views:1.1.18@aar'
     compile 'org.solovyev.android:android-common-menus:1.1.18@aar'
     compile 'org.solovyev.android:android-common-preferences:1.1.18@aar'
-    compile('org.solovyev:jscl:1.0.12') {
+    compile(project(':jscl')) {
         exclude(module: 'xercesImpl')
     }
     compile 'org.solovyev.android:checkout:0.7.2@aar'
@@ -91,9 +91,6 @@ dependencies {
     compile 'org.solovyev:common-listeners:1.0.7'
     compile('com.google.guava:guava:11.0.2') {
         exclude(module: 'jsr305')
-    }
-    compile('org.solovyev:jscl:1.0.11') {
-        exclude(module: 'xercesImpl')
     }
     compile('org.simpleframework:simple-xml:2.6.1') {
         exclude(module: 'stax-api')
