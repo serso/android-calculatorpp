@@ -26,7 +26,6 @@ import jscl.math.function.Function;
 import jscl.math.function.IConstant;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.text.TextProcessor;
-import org.solovyev.common.collections.Collections;
 import org.solovyev.common.msg.MessageType;
 import org.solovyev.common.search.StartsWithFinder;
 
@@ -56,20 +55,19 @@ public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, St
 
     @Nonnull
     private static StringBuilder processExpression(@Nonnull String s) throws ParseException {
-        final StartsWithFinder startsWithFinder = StartsWithFinder.newInstance(s);
         final StringBuilder result = new StringBuilder();
+        final MathType.Results results = new MathType.Results();
 
         MathType.Result mathTypeResult = null;
-        MathType.Result mathTypeBefore;
+        MathType.Result mathTypeBefore = null;
 
         final LiteNumberBuilder nb = new LiteNumberBuilder(Locator.getInstance().getEngine());
         for (int i = 0; i < s.length(); i++) {
             if (s.charAt(i) == ' ') continue;
-            startsWithFinder.setI(i);
 
+            results.release(mathTypeBefore);
             mathTypeBefore = mathTypeResult == null ? null : mathTypeResult;
-
-            mathTypeResult = MathType.getType(s, i, nb.isHexMode());
+            mathTypeResult = MathType.getType(s, i, nb.isHexMode(), results.obtain());
 
             nb.process(mathTypeResult);
 
@@ -84,7 +82,7 @@ public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, St
 
             if (mathTypeBefore != null &&
                     (mathTypeBefore.type == MathType.function || mathTypeBefore.type == MathType.operator) &&
-                    App.find(MathType.groupSymbols, startsWithFinder) != null) {
+                    App.find(MathType.groupSymbols, s, i) != null) {
                 final String functionName = mathTypeBefore.match;
                 final Function function = Locator.getInstance().getEngine().getFunctionsRegistry().get(functionName);
                 if (function == null || function.getMinParameters() > 0) {

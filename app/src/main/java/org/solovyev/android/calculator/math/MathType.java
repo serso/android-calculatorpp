@@ -25,9 +25,9 @@ package org.solovyev.android.calculator.math;
 import jscl.JsclMathEngine;
 import jscl.NumeralBase;
 import jscl.math.function.Constants;
+import org.solovyev.android.calculator.App;
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.ParseException;
-import org.solovyev.common.JPredicate;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -259,55 +259,48 @@ public enum MathType {
      */
     @Nonnull
     public static Result getType(@Nonnull String text, int i, boolean hexMode) {
+        return getType(text, i, hexMode, new Result());
+    }
+
+    @Nonnull
+    public static Result getType(@Nonnull String text, int i, boolean hexMode, @Nonnull Result result) {
         if (i < 0) {
             throw new IllegalArgumentException("I must be more or equals to 0.");
         } else if (i >= text.length() && i != 0) {
             throw new IllegalArgumentException("I must be less than size of text.");
         } else if (i == 0 && text.length() == 0) {
-            return new Result(MathType.text, text);
+            return result.set(MathType.text, text);
         }
-
-        final StartsWithFinder startsWithFinder = new StartsWithFinder(text, i);
-
-        for (MathType mathType : getMathTypesByPriority()) {
-            final String s = find(mathType.getTokens(), startsWithFinder);
+        final List<MathType> mathTypes = getMathTypesByPriority();
+        for (int j = 0; j < mathTypes.size(); j++) {
+            final MathType mathType = mathTypes.get(j);
+            final String s = App.find(mathType.getTokens(), text, i);
             if (s == null) {
                 continue;
             }
 
             if (s.length() > 1) {
-                return new Result(mathType, s);
+                return result.set(mathType, s);
             }
 
             if (hexMode || JsclMathEngine.getInstance().getNumeralBase() == NumeralBase.hex) {
                 final Character ch = s.charAt(0);
                 if (NumeralBase.hex.getAcceptableCharacters().contains(ch)) {
-                    return new Result(MathType.digit, s);
+                    return result.set(MathType.digit, s);
                 }
             }
 
             if (mathType == MathType.grouping_separator) {
-                if (i + 1 < text.length() && getType(text, i + 1, hexMode).type == MathType.digit) {
-                    return new Result(mathType, s);
+                if (i + 1 < text.length() && getType(text, i + 1, hexMode, result).type == MathType.digit) {
+                    return result.set(mathType, s);
                 }
                 continue;
             }
 
-            return new Result(mathType, s);
+            return result.set(mathType, s);
         }
 
-        return new Result(MathType.text, text.substring(i));
-    }
-
-    @Nullable
-    private static String find(@Nonnull List<String> list, @Nonnull JPredicate<String> predicate) {
-        for (int i = 0; i < list.size(); i++) {
-            final String token = list.get(i);
-            if(predicate.apply(token)) {
-                return token;
-            }
-        }
-        return null;
+        return result.set(MathType.text, text.substring(i));
     }
 
     @Nonnull
@@ -388,15 +381,23 @@ public enum MathType {
     public static class Result {
 
         @Nonnull
-        public final MathType type;
+        public MathType type;
 
         @Nonnull
-        public final String match;
+        public String match;
 
         public Result(@Nonnull MathType type, @Nonnull String match) {
-            this.type = type;
+            set(type, match);
+        }
 
+        @Nonnull
+        Result set(@Nonnull MathType type, @Nonnull String match) {
+            this.type = type;
             this.match = match;
+            return this;
+        }
+
+        public Result() {
         }
 
         public int processToJscl(@Nonnull StringBuilder result, int i) throws ParseException {
@@ -404,24 +405,23 @@ public enum MathType {
         }
     }
 
-    private static class StartsWithFinder implements JPredicate<String> {
+    public static class Results {
+        @Nonnull
+        private final List<Result> list = new ArrayList<>();
 
         @Nonnull
-        private final String targetString;
-        private int i;
-
-        public StartsWithFinder(@Nonnull String targetString, int i) {
-            this.targetString = targetString;
-            this.i = i;
+        public Result obtain() {
+            if (list.isEmpty()) {
+                return new Result();
+            }
+            return list.remove(list.size() - 1);
         }
 
-        @Override
-        public boolean apply(@Nullable String s) {
-            return s != null && targetString.startsWith(s, i);
-        }
-
-        public void setI(int i) {
-            this.i = i;
+        public void release(@Nullable Result result) {
+            if (result == null) {
+                return;
+            }
+            list.add(result);
         }
     }
 }

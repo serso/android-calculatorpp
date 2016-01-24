@@ -242,7 +242,7 @@ public class History {
 
     private void onRecentChanged(@Nonnull Object event) {
         handler.removeCallbacks(writeRecent);
-        handler.postDelayed(writeRecent, 500);
+        handler.postDelayed(writeRecent, 5000);
         bus.post(event);
     }
 
