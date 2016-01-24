@@ -28,13 +28,21 @@ import javax.annotation.Nonnull;
 
 public class AcraErrorReporter implements ErrorReporter {
 
+    public static final boolean ENABLED = !BuildConfig.DEBUG;
+
     @Override
     public void onException(@Nonnull Throwable e) {
+        if (!ENABLED) {
+            return;
+        }
         ACRA.getErrorReporter().reportBuilder().forceSilent().exception(e).send();
     }
 
     @Override
     public void onError(@Nonnull String message) {
+        if (!ENABLED) {
+            return;
+        }
         ACRA.getErrorReporter().reportBuilder().forceSilent().exception(new Throwable(message)).send();
     }
 }
