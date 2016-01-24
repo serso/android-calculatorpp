@@ -57,7 +57,7 @@ public class CalculatorVarsActivity extends BaseActivity implements CalculatorEv
 
         final CalculatorFragmentType fragmentType = CalculatorFragmentType.variables;
 
-        for (VarCategory category : VarCategory.getCategoriesByTabOrder()) {
+        for (VarCategory category : VarCategory.values()) {
 
             final Bundle fragmentParameters;
 

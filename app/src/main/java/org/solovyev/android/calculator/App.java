@@ -352,4 +352,15 @@ public final class App {
         }
         return null;
     }
+
+    @Nullable
+    public static String find(@Nonnull List<String> tokens, @Nonnull String text, int position) {
+        for (int i = 0; i < tokens.size(); i++) {
+            final String token = tokens.get(i);
+            if (text.startsWith(token, position)) {
+                return token;
+            }
+        }
+        return null;
+    }
 }

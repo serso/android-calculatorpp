@@ -33,6 +33,9 @@ import javax.inject.Singleton;
 @Singleton
 public class Keyboard {
 
+    @Nonnull
+    private final MathType.Result mathType = new MathType.Result();
+
     @Inject
     Editor editor;
 
@@ -61,7 +64,7 @@ public class Keyboard {
         int cursorPositionOffset = 0;
         final StringBuilder textToBeInserted = new StringBuilder(text);
 
-        final MathType.Result mathType = MathType.getType(text, 0, false);
+        MathType.getType(text, 0, false, mathType);
         switch (mathType.type) {
             case function:
                 textToBeInserted.append("()");

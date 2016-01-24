@@ -80,13 +80,14 @@ public class TextHighlighter implements TextProcessor<TextProcessorEditorResult,
         final Engine engine = Locator.getInstance().getEngine();
         final SpannableStringBuilder sb = new SpannableStringBuilder();
         final BaseNumberBuilder nb = !formatNumber ? new LiteNumberBuilder(engine) : new NumberBuilder(engine);
+        final MathType.Result result = new MathType.Result();
 
         int offset = 0;
         int groupsCount = 0;
         int openGroupsCount = 0;
 
         for (int i = 0; i < text.length(); i++) {
-            final MathType.Result result = MathType.getType(text, i, nb.isHexMode());
+            MathType.getType(text, i, nb.isHexMode(), result);
 
             offset += nb.process(sb, result);
 

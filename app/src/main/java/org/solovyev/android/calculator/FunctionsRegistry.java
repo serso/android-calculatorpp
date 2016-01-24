@@ -176,7 +176,7 @@ public class FunctionsRegistry extends BaseEntitiesRegistry<Function, OldFunctio
     }
 
     @Override
-    public synchronized void save() {
+    public void save() {
         handler.removeCallbacks(writeTask);
         handler.postDelayed(writeTask, 500);
     }

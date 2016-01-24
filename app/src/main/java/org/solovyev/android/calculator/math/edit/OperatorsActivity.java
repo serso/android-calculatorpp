@@ -47,7 +47,7 @@ public class OperatorsActivity extends BaseActivity implements CalculatorEventLi
 
         final CalculatorFragmentType fragmentType = CalculatorFragmentType.operators;
 
-        for (OperatorCategory category : OperatorCategory.getCategoriesByTabOrder()) {
+        for (OperatorCategory category : OperatorCategory.values()) {
             ui.addTab(this, fragmentType.createSubFragmentTag(category.name()), fragmentType.getFragmentClass(), BaseEntitiesFragment.createBundleFor(category.name()), category.title(), R.id.main_layout);
         }
     }

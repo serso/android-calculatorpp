@@ -26,34 +26,17 @@ import android.support.annotation.StringRes;
 import jscl.math.operator.*;
 
 import javax.annotation.Nonnull;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
 
 public enum OperatorCategory implements Category {
 
-    derivatives(100, R.string.derivatives) {
-        @Override
-        public boolean isInCategory(@Nonnull Operator operator) {
-            return operator instanceof Derivative || operator instanceof Integral || operator instanceof IndefiniteIntegral;
-        }
-    },
-
-    other(200, R.string.other) {
-        @Override
-        public boolean isInCategory(@Nonnull Operator operator) {
-            return operator instanceof Sum || operator instanceof Product;
-        }
-    },
-
-    my(0, R.string.c_fun_category_my) {
+    my(R.string.c_fun_category_my) {
         @Override
         public boolean isInCategory(@Nonnull Operator operator) {
             return !operator.isSystem();
         }
     },
 
-    common(50, R.string.c_fun_category_common) {
+    common(R.string.c_fun_category_common) {
         @Override
         public boolean isInCategory(@Nonnull Operator operator) {
             for (OperatorCategory category : values()) {
@@ -66,35 +49,28 @@ public enum OperatorCategory implements Category {
 
             return true;
         }
+    },
+
+    derivatives(R.string.derivatives) {
+        @Override
+        public boolean isInCategory(@Nonnull Operator operator) {
+            return operator instanceof Derivative || operator instanceof Integral || operator instanceof IndefiniteIntegral;
+        }
+    },
+
+    other(R.string.other) {
+        @Override
+        public boolean isInCategory(@Nonnull Operator operator) {
+            return operator instanceof Sum || operator instanceof Product;
+        }
     };
 
-    private final int tabOrder;
     @StringRes
     private final int title;
 
-    OperatorCategory(int tabOrder, @StringRes int title) {
-        this.tabOrder = tabOrder;
+    OperatorCategory(@StringRes int title) {
         this.title = title;
     }
-
-    @Nonnull
-    public static List<OperatorCategory> getCategoriesByTabOrder() {
-        final List<OperatorCategory> result = Arrays.asList(OperatorCategory.values());
-
-        java.util.Collections.sort(result, new Comparator<OperatorCategory>() {
-            @Override
-            public int compare(OperatorCategory category, OperatorCategory category1) {
-                return category.tabOrder - category1.tabOrder;
-            }
-        });
-
-        // todo serso: current solution (as creating operators is not implemented yet)
-        result.remove(my);
-
-        return result;
-    }
-
-
 
     public abstract boolean isInCategory(@Nonnull Operator operator);
 

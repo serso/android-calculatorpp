@@ -42,25 +42,28 @@ public class FromJsclSimplifyTextProcessor implements TextProcessor<String, Gene
     @Nonnull
     @Override
     public String process(@Nonnull Generic from) {
-        return removeMultiplicationSigns(from.toString());
+        return fixMultiplicationSigns(from.toString());
     }
 
     public String process(@Nonnull String s) {
-        return removeMultiplicationSigns(s);
+        return fixMultiplicationSigns(s);
     }
 
     @Nonnull
-    private String removeMultiplicationSigns(String s) {
+    private String fixMultiplicationSigns(String s) {
         final StringBuilder sb = new StringBuilder();
+        final MathType.Results results = new MathType.Results();
 
-        MathType.Result mathTypeBefore;
+        MathType.Result mathTypeBefore = null;
         MathType.Result mathType = null;
         MathType.Result mathTypeAfter = null;
 
         for (int i = 0; i < s.length(); i++) {
+            results.release(mathTypeBefore);
             mathTypeBefore = mathType;
+
             if (mathTypeAfter == null) {
-                mathType = MathType.getType(s, i, false);
+                mathType = MathType.getType(s, i, false, results.obtain());
             } else {
                 mathType = mathTypeAfter;
             }
@@ -68,7 +71,7 @@ public class FromJsclSimplifyTextProcessor implements TextProcessor<String, Gene
             char ch = s.charAt(i);
             if (ch == '*') {
                 if (i + 1 < s.length()) {
-                    mathTypeAfter = MathType.getType(s, i + 1, false);
+                    mathTypeAfter = MathType.getType(s, i + 1, false, results.obtain());
                 } else {
                     mathTypeAfter = null;
                 }
@@ -105,5 +108,4 @@ public class FromJsclSimplifyTextProcessor implements TextProcessor<String, Gene
 
         return true;
     }
-
 }
