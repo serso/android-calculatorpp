@@ -18,11 +18,10 @@ class Factor implements Parser<Generic> {
     }
 
     public Generic parse(@Nonnull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
-
-        boolean sign = MinusParser.parser.parse(p, previousSumElement).isSign();
+        final boolean minus = MinusParser.parser.parse(p, previousSumElement);
 
         final Generic result = (Generic) UnsignedFactor.parser.parse(p, previousSumElement);
 
-        return sign ? result.negate() : result;
+        return minus ? result.negate() : result;
     }
 }

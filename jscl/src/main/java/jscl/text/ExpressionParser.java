@@ -13,12 +13,11 @@ public class ExpressionParser implements Parser<Generic> {
     }
 
     public Generic parse(@Nonnull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
-
-        boolean sign = MinusParser.parser.parse(p, previousSumElement).isSign();
+        final boolean minus = MinusParser.parser.parse(p, previousSumElement);
 
         Generic result = TermParser.parser.parse(p, previousSumElement);
 
-        if (sign) {
+        if (minus) {
             result = result.negate();
         }
 

@@ -10,41 +10,30 @@ import javax.annotation.Nullable;
  * Date: 10/27/11
  * Time: 2:44 PM
  */
-class MinusParser implements Parser<MinusParser.Result> {
+class MinusParser implements Parser<Boolean> {
 
-    public static final Parser<Result> parser = new MinusParser();
+    public static final Parser<Boolean> parser = new MinusParser();
 
     private MinusParser() {
     }
 
-    @Nonnull
-    public Result parse(@Nonnull Parameters p, @Nullable Generic previousSumElement) {
-        final boolean result;
+    static boolean isMinus(char c) {
+        return c == '-' || c == '−';
+    }
 
-        int pos0 = p.position.intValue();
+    @Nonnull
+    public Boolean parse(@Nonnull Parameters p, @Nullable Generic previousSumElement) {
+        final int pos0 = p.position.intValue();
 
         ParserUtils.skipWhitespaces(p);
 
-        if (p.position.intValue() < p.expression.length() && p.expression.charAt(p.position.intValue()) == '-') {
-            result = true;
+        final int pos1 = p.position.intValue();
+        if (pos1 < p.expression.length() && isMinus(p.expression.charAt(pos1))) {
             p.position.increment();
+            return true;
         } else {
-            result = false;
             p.position.setValue(pos0);
-        }
-
-        return new Result(result);
-    }
-
-    public static class Result {
-        private final boolean sign;
-
-        public Result(boolean sign) {
-            this.sign = sign;
-        }
-
-        public boolean isSign() {
-            return sign;
+            return false;
         }
     }
 }
