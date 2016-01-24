@@ -39,8 +39,8 @@ import org.solovyev.android.calculator.about.CalculatorAboutActivity;
 import org.solovyev.android.calculator.function.CppFunction;
 import org.solovyev.android.calculator.function.EditFunctionFragment;
 import org.solovyev.android.calculator.history.CalculatorHistoryActivity;
-import org.solovyev.android.calculator.math.edit.CalculatorFunctionsActivity;
-import org.solovyev.android.calculator.math.edit.CalculatorOperatorsActivity;
+import org.solovyev.android.calculator.math.edit.FunctionsActivity;
+import org.solovyev.android.calculator.math.edit.OperatorsActivity;
 import org.solovyev.android.calculator.math.edit.CalculatorVarsActivity;
 import org.solovyev.android.calculator.math.edit.VarEditDialogFragment;
 import org.solovyev.android.calculator.math.edit.VarsFragment;
@@ -106,7 +106,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
     }
 
     public static void showFunctions(@Nonnull final Context context, boolean detached) {
-        final Intent intent = new Intent(context, CalculatorFunctionsActivity.class);
+        final Intent intent = new Intent(context, FunctionsActivity.class);
         Activities.addIntentFlags(intent, detached, context);
         context.startActivity(intent);
     }
@@ -116,7 +116,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
     }
 
     public static void showOperators(@Nonnull final Context context, boolean detached) {
-        final Intent intent = new Intent(context, CalculatorOperatorsActivity.class);
+        final Intent intent = new Intent(context, OperatorsActivity.class);
         Activities.addIntentFlags(intent, detached, context);
         context.startActivity(intent);
     }
