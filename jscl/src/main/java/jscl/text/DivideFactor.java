@@ -10,23 +10,19 @@ import javax.annotation.Nonnull;
  * Date: 10/27/11
  * Time: 2:45 PM
  */
-class MultiplyOrDivideFactor implements Parser<Generic> {
+class DivideFactor implements Parser<Generic> {
 
-    public static final Parser<Generic> multiply = new MultiplyOrDivideFactor(true);
+    public static final Parser<Generic> parser = new DivideFactor();
 
-    public static final Parser<Generic> divide = new MultiplyOrDivideFactor(false);
-
-    boolean multiplication;
-
-    private MultiplyOrDivideFactor(boolean multiplication) {
-        this.multiplication = multiplication;
+    private DivideFactor() {
     }
 
     public Generic parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
-        int pos0 = p.position.intValue();
+        final int pos0 = p.position.intValue();
 
         ParserUtils.skipWhitespaces(p);
-        if (p.position.intValue() < p.expression.length() && p.expression.charAt(p.position.intValue()) == (multiplication ? '*' : '/')) {
+        final int pos1 = p.position.intValue();
+        if (pos1 < p.expression.length() && p.expression.charAt(pos1) == '/') {
             p.position.increment();
         } else {
             ParserUtils.throwParseException(p, pos0, Messages.msg_10, '*', '/');
