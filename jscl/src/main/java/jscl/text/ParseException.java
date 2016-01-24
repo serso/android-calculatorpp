@@ -1,12 +1,12 @@
 package jscl.text;
 
-import org.solovyev.common.collections.Collections;
 import org.solovyev.common.msg.Message;
 import org.solovyev.common.msg.MessageLevel;
 import org.solovyev.common.msg.MessageType;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -25,7 +25,7 @@ public class ParseException extends Exception implements Message {
     }
 
     public ParseException(int position, @Nonnull String expression, @Nonnull String messageCode, @Nullable Object... parameters) {
-        set(position, expression, messageCode, Collections.asList(parameters));
+        set(position, expression, messageCode, parameters == null || parameters.length == 0 ? java.util.Collections.emptyList() : Arrays.asList(parameters));
     }
 
     void set(int position, @Nonnull String expression, @Nonnull String messageCode, @Nonnull List<?> parameters) {

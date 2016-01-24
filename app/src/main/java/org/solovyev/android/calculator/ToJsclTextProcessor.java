@@ -84,7 +84,7 @@ public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, St
 
             if (mathTypeBefore != null &&
                     (mathTypeBefore.type == MathType.function || mathTypeBefore.type == MathType.operator) &&
-                    Collections.find(MathType.groupSymbols, startsWithFinder) != null) {
+                    App.find(MathType.groupSymbols, startsWithFinder) != null) {
                 final String functionName = mathTypeBefore.match;
                 final Function function = Locator.getInstance().getEngine().getFunctionsRegistry().get(functionName);
                 if (function == null || function.getMinParameters() > 0) {
@@ -112,11 +112,11 @@ public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, St
             startsWithFinder.setI(i);
 
             int offset = 0;
-            String functionName = Collections.find(MathType.function.getTokens(), startsWithFinder);
+            String functionName = App.find(MathType.function.getTokens(), startsWithFinder);
             if (functionName == null) {
-                String operatorName = Collections.find(MathType.operator.getTokens(), startsWithFinder);
+                String operatorName = App.find(MathType.operator.getTokens(), startsWithFinder);
                 if (operatorName == null) {
-                    String varName = Collections.find(Locator.getInstance().getEngine().getVarsRegistry().getNames(), startsWithFinder);
+                    String varName = App.find(Locator.getInstance().getEngine().getVarsRegistry().getNames(), startsWithFinder);
                     if (varName != null) {
                         final IConstant var = Locator.getInstance().getEngine().getVarsRegistry().get(varName);
                         if (var != null) {

@@ -22,15 +22,13 @@
 
 package org.solovyev.android.calculator;
 
-import org.solovyev.common.collections.Collections;
-
-import java.util.List;
+import jscl.AngleUnit;
+import jscl.text.msg.Messages;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import jscl.AngleUnit;
-import jscl.text.msg.Messages;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * User: serso
@@ -64,7 +62,7 @@ public enum CalculatorFixableError implements FixableError {
     private final List<String> messageCodes;
 
     CalculatorFixableError(@Nullable String... messageCodes) {
-        this.messageCodes = Collections.asList(messageCodes);
+        this.messageCodes = messageCodes == null || messageCodes.length == 0 ? java.util.Collections.<String>emptyList() : Arrays.asList(messageCodes);
     }
 
     @Nullable
