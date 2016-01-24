@@ -478,7 +478,7 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
 
         @Nonnull
         private List<String> getNamesSorted(@NonNull MathRegistry<?> registry) {
-            final List<String> names = registry.getNames();
+            final List<String> names = new ArrayList<>(registry.getNames());
             Collections.sort(names);
             return names;
         }

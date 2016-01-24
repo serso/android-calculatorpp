@@ -24,9 +24,9 @@ package org.solovyev.android.calculator;
 
 import android.support.annotation.StringRes;
 import jscl.math.function.IConstant;
-import org.solovyev.common.collections.Collections;
 
 import javax.annotation.Nonnull;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
@@ -57,7 +57,7 @@ public enum VarCategory implements Category {
 
     @Nonnull
     public static List<VarCategory> getCategoriesByTabOrder() {
-        final List<VarCategory> result = Collections.asList(VarCategory.values());
+        final List<VarCategory> result = Arrays.asList(VarCategory.values());
 
         java.util.Collections.sort(result, new Comparator<VarCategory>() {
             @Override

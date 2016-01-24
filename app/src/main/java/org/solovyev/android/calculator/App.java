@@ -39,9 +39,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
-
 import com.squareup.otto.Bus;
-
 import org.solovyev.android.Check;
 import org.solovyev.android.Views;
 import org.solovyev.android.calculator.ga.Ga;
@@ -49,23 +47,19 @@ import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.android.calculator.onscreen.CalculatorOnscreenService;
 import org.solovyev.android.calculator.view.ScreenMetrics;
 import org.solovyev.android.calculator.wizard.CalculatorWizards;
-import org.solovyev.android.checkout.Billing;
-import org.solovyev.android.checkout.Checkout;
-import org.solovyev.android.checkout.Inventory;
-import org.solovyev.android.checkout.ProductTypes;
-import org.solovyev.android.checkout.Products;
-import org.solovyev.android.checkout.RobotmediaDatabase;
-import org.solovyev.android.checkout.RobotmediaInventory;
+import org.solovyev.android.checkout.*;
 import org.solovyev.android.wizard.Wizards;
+import org.solovyev.common.JPredicate;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 /**
  * This class aggregates several useful in any Android application interfaces and provides access to {@link android.app.Application} object from a static context.
@@ -332,5 +326,30 @@ public final class App {
                 }
             }
         }
+    }
+
+    public static <T> T find(@Nullable List<T> list, @Nonnull JPredicate<T> finder) {
+        if (list == null || list.isEmpty()) {
+            return null;
+        }
+        for (int i = 0; i < list.size(); i++) {
+            final T t = list.get(i);
+            if (finder.apply(t)) {
+                return t;
+            }
+        }
+        return null;
+    }
+
+    public static <T> T find(@Nullable Collection<T> collection, @Nonnull JPredicate<T> finder) {
+        if (collection == null || collection.isEmpty()) {
+            return null;
+        }
+        for (T t : collection) {
+            if (finder.apply(t)) {
+                return t;
+            }
+        }
+        return null;
     }
 }

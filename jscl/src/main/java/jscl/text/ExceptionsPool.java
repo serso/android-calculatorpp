@@ -1,7 +1,9 @@
 package jscl.text;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -13,6 +15,11 @@ public class ExceptionsPool {
     @Nonnull
     public ParseException obtain(int position, @Nonnull String expression, @Nonnull String messageCode) {
         return obtain(position, expression, messageCode, Collections.emptyList());
+    }
+
+    @Nonnull
+    public ParseException obtain(int position, @Nonnull String expression, @Nonnull String messageCode, @Nullable Object[] messageArgs) {
+        return obtain(position, expression, messageCode, messageArgs == null || messageArgs.length == 0 ? java.util.Collections.emptyList() : Arrays.asList(messageArgs));
     }
 
     @Nonnull

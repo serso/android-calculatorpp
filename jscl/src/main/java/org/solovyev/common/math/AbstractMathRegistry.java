@@ -23,19 +23,15 @@
 package org.solovyev.common.math;
 
 import org.solovyev.common.JBuilder;
-import org.solovyev.common.JPredicate;
+import org.solovyev.common.collections.Collections;
 import org.solovyev.common.collections.SortedList;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.GuardedBy;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
-
-import static org.solovyev.common.collections.Collections.find;
-import static org.solovyev.common.collections.Collections.removeFirst;
 
 /**
  * User: serso
@@ -51,6 +47,9 @@ public abstract class AbstractMathRegistry<T extends MathEntity> implements Math
     @GuardedBy("this")
     @Nonnull
     protected final SortedList<T> entities = SortedList.newInstance(new ArrayList<T>(30), MATH_ENTITY_COMPARATOR);
+    @GuardedBy("this")
+    @Nonnull
+    protected final List<String> entityNames = new ArrayList<>();
     @GuardedBy("this")
     @Nonnull
     protected final SortedList<T> systemEntities = SortedList.newInstance(new ArrayList<T>(30), MATH_ENTITY_COMPARATOR);
@@ -91,6 +90,7 @@ public abstract class AbstractMathRegistry<T extends MathEntity> implements Math
 
             if (!contains(entity.getName(), this.entities)) {
                 addEntity(entity, this.entities);
+                this.entityNames.clear();
             }
         }
     }
@@ -118,13 +118,14 @@ public abstract class AbstractMathRegistry<T extends MathEntity> implements Math
                 varFromRegister = entity;
 
                 addEntity(entity, this.entities);
+                this.entityNames.clear();
                 if (entity.isSystem()) {
                     this.systemEntities.add(entity);
                 }
-
             } else {
                 varFromRegister.copy(entity);
                 this.entities.sort();
+                this.entityNames.clear();
                 this.systemEntities.sort();
             }
 
@@ -135,38 +136,56 @@ public abstract class AbstractMathRegistry<T extends MathEntity> implements Math
     public void remove(@Nonnull T entity) {
         synchronized (this) {
             if (!entity.isSystem()) {
-                removeFirst(this.entities, new MathEntity.Finder<T>(entity.getName()));
+                final T removed = Collections.removeFirst(this.entities, new MathEntity.Finder<T>(entity.getName()));
+                if(removed != null) {
+                    this.entityNames.clear();
+                }
             }
         }
     }
 
     @Nonnull
     public List<String> getNames() {
-        final List<String> result = new ArrayList<String>(entities.size());
-
         synchronized (this) {
-            for (T entity : entities) {
-                result.add(entity.getName());
+            if (entityNames.isEmpty()) {
+                for (T entity : entities) {
+                    entityNames.add(entity.getName());
+                }
             }
+            return entityNames;
         }
-
-        return result;
     }
 
     @Nullable
     public T get(@Nonnull final String name) {
         synchronized (this) {
-            return find(entities, new MathEntity.Finder<T>(name));
+            return get(name, entities);
         }
+    }
+
+    @Nullable
+    private T get(@Nonnull String name, @Nonnull List<T> list) {
+        for (int i = 0; i < list.size(); i++) {
+            final T entity = list.get(i);
+            if (areEqual(entity.getName(), name)) {
+                return entity;
+            }
+        }
+        return null;
+    }
+
+    private static boolean areEqual(@Nullable Object l, @Nullable Object r) {
+        return l != null ? l.equals(r) : r == null;
     }
 
     public T getById(@Nonnull final Integer id) {
         synchronized (this) {
-            return find(entities, new JPredicate<T>() {
-                public boolean apply(@Nullable T t) {
-                    return t != null && t.getId().equals(id);
+            for (T entity : entities) {
+                if (areEqual(entity.getId(), id)) {
+                    return entity;
                 }
-            });
+            }
+            return null;
         }
     }
 
@@ -176,10 +195,8 @@ public abstract class AbstractMathRegistry<T extends MathEntity> implements Math
         }
     }
 
-    private boolean contains(final String name, @Nonnull Collection<T> entities) {
-        synchronized (this) {
-            return find(entities, new MathEntity.Finder<T>(name)) != null;
-        }
+    private boolean contains(final String name, @Nonnull List<T> entities) {
+        return get(name, entities) != null;
     }
 
     static class MathEntityComparator<T extends MathEntity> implements Comparator<T> {

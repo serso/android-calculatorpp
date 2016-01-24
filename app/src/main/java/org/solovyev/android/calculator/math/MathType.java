@@ -25,10 +25,9 @@ package org.solovyev.android.calculator.math;
 import jscl.JsclMathEngine;
 import jscl.NumeralBase;
 import jscl.math.function.Constants;
-import org.solovyev.android.calculator.ParseException;
 import org.solovyev.android.calculator.Locator;
+import org.solovyev.android.calculator.ParseException;
 import org.solovyev.common.JPredicate;
-import org.solovyev.common.collections.Collections;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -235,7 +234,7 @@ public enum MathType {
              boolean needMultiplicationSignAfter,
              @Nonnull MathGroupType groupType,
              @Nonnull String... tokens) {
-        this(priority, needMultiplicationSignBefore, needMultiplicationSignAfter, groupType, Collections.asList(tokens));
+        this(priority, needMultiplicationSignBefore, needMultiplicationSignAfter, groupType, Arrays.asList(tokens));
     }
 
     MathType(@Nonnull Integer priority,
@@ -314,7 +313,7 @@ public enum MathType {
     @Nonnull
     private static List<MathType> getMathTypesByPriority() {
         if (mathTypesByPriority == null) {
-            final List<MathType> result = Collections.asList(MathType.values());
+            final List<MathType> result = Arrays.asList(MathType.values());
 
             java.util.Collections.sort(result, new Comparator<MathType>() {
                 @Override

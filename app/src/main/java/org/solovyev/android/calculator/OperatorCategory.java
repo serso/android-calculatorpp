@@ -24,9 +24,9 @@ package org.solovyev.android.calculator;
 
 import android.support.annotation.StringRes;
 import jscl.math.operator.*;
-import org.solovyev.common.collections.Collections;
 
 import javax.annotation.Nonnull;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
@@ -79,7 +79,7 @@ public enum OperatorCategory implements Category {
 
     @Nonnull
     public static List<OperatorCategory> getCategoriesByTabOrder() {
-        final List<OperatorCategory> result = Collections.asList(OperatorCategory.values());
+        final List<OperatorCategory> result = Arrays.asList(OperatorCategory.values());
 
         java.util.Collections.sort(result, new Comparator<OperatorCategory>() {
             @Override
