@@ -104,16 +104,18 @@ public class FunctionsRegistry extends BaseEntitiesRegistry<Function, OldFunctio
         Check.isNotMainThread();
         migrateOldFunctions();
 
-        add(new CustomFunction.Builder(true, "log", Arrays.asList("base", "x"), "ln(x)/ln(base)"));
-        add(new CustomFunction.Builder(true, "√3", Collections.singletonList("x"), "x^(1/3)"));
-        add(new CustomFunction.Builder(true, "√4", Collections.singletonList("x"), "x^(1/4)"));
-        add(new CustomFunction.Builder(true, "√n", Arrays.asList("x", "n"), "x^(1/n)"));
-        add(new CustomFunction.Builder(true, "re", Collections.singletonList("x"), "(x+conjugate(x))/2"));
-        add(new CustomFunction.Builder(true, "im", Collections.singletonList("x"), "(x-conjugate(x))/(2*i)"));
+        addSafely(new CustomFunction.Builder(true, "log", Arrays.asList("base", "x"), "ln(x)/ln(base)"));
+        addSafely(new CustomFunction.Builder(true, "√3", Collections.singletonList("x"), "x^(1/3)"));
+        addSafely(new CustomFunction.Builder(true, "√4", Collections.singletonList("x"), "x^(1/4)"));
+        addSafely(new CustomFunction.Builder(true, "√n", Arrays.asList("x", "n"), "x^(1/n)"));
+        addSafely(new CustomFunction.Builder(true, "re", Collections.singletonList("x"), "(x+conjugate(x))/2"));
+        addSafely(new CustomFunction.Builder(true, "im", Collections.singletonList("x"), "(x-conjugate(x))/(2*i)"));
 
         for (CppFunction function : loadFunctions()) {
-            add(function.toCustomFunctionBuilder());
+            addSafely(function.toCustomFunctionBuilder());
         }
+
+        setInitialized();
     }
 
     @Override
@@ -124,11 +126,24 @@ public class FunctionsRegistry extends BaseEntitiesRegistry<Function, OldFunctio
     }
 
     @Override
-    public Function add(@Nonnull JBuilder<? extends Function> result) {
-        final Function function = super.add(result);
-        // todo serso: don't save while we're initializing
-        save();
+    public Function add(@Nonnull JBuilder<? extends Function> builder) {
+        final Function function = super.add(builder);
+        if (isInitialized()) {
+            save();
+        }
         return function;
+    }
+
+    @Nullable
+    public Function addSafely(@Nonnull JBuilder<? extends Function> builder) {
+        try {
+            // todo serso: currently JSCL might produce function's body which can't be loaded afterwards. F.e. f(x) = 3 * 6
+            // might be simpliffied to f(x) = 18 × 10 ^ 0 and × is not supported by JSCL
+            return add(builder);
+        } catch (Exception e) {
+            errorReporter.onException(e);
+        }
+        return null;
     }
 
     @NonNull
@@ -151,6 +166,7 @@ public class FunctionsRegistry extends BaseEntitiesRegistry<Function, OldFunctio
             final OldFunctions oldFunctions = serializer.read(OldFunctions.class, xml);
             if (oldFunctions != null) {
                 List<CppFunction> functions = OldFunctions.toCppFunctions(oldFunctions);
+                // todo serso: fix multiplication sign issue
                 FileSaver.save(getFunctionsFile(), Json.toJson(functions).toString());
             }
             preferences.edit().remove(OldFunctions.PREFS_KEY).apply();

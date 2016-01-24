@@ -236,6 +236,13 @@ public class CppFunction implements Jsonable, Parcelable {
         }
 
         @Nonnull
+        public Builder withBody(@NonNull String body) {
+            Check.isTrue(!built);
+            function.body = body;
+            return this;
+        }
+
+        @Nonnull
         public CppFunction build() {
             built = true;
             return function;

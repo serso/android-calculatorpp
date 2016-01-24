@@ -47,6 +47,12 @@ public abstract class BaseEntitiesRegistry<T extends MathEntity, P extends Persi
     @Nullable
     protected final EntityDao<P> entityDao;
 
+    @Nonnull
+    protected final Object lock = this;
+
+    // synchronized on lock
+    private boolean initialized;
+
     protected BaseEntitiesRegistry(@Nonnull MathRegistry<T> mathRegistry,
                                    @Nonnull String prefix,
                                    @Nullable EntityDao<P> entityDao) {
@@ -124,6 +130,20 @@ public abstract class BaseEntitiesRegistry<T extends MathEntity, P extends Persi
         } catch (RuntimeException e) {
             // just in case
             Locator.getInstance().getErrorReporter().onException(e);
+        }
+        setInitialized();
+    }
+
+    protected final void setInitialized() {
+        synchronized (lock) {
+            Check.isTrue(!initialized);
+            initialized = true;
+        }
+    }
+
+    public boolean isInitialized() {
+        synchronized (lock) {
+            return initialized;
         }
     }
 
