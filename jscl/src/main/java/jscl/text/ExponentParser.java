@@ -18,7 +18,7 @@ class ExponentParser implements Parser<Generic> {
     }
 
     public Generic parse(@Nonnull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
-        int pos0 = p.getPosition().intValue();
+        int pos0 = p.position.intValue();
 
         boolean sign = MinusParser.parser.parse(p, previousSumElement).isSign();
 

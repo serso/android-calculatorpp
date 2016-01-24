@@ -16,7 +16,7 @@ public class VectorParser implements Parser<JsclVector> {
     }
 
     public JsclVector parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
-        int pos0 = p.getPosition().intValue();
+        int pos0 = p.position.intValue();
 
         ParserUtils.skipWhitespaces(p);
 
@@ -26,7 +26,7 @@ public class VectorParser implements Parser<JsclVector> {
         try {
             result.add(ExpressionParser.parser.parse(p, previousSumElement));
         } catch (ParseException e) {
-            p.getPosition().setValue(pos0);
+            p.position.setValue(pos0);
             throw e;
         }
 

@@ -21,8 +21,8 @@ public class ParserUtils {
     }
 
     public static void skipWhitespaces(@Nonnull Parser.Parameters p) {
-        final MutableInt position = p.getPosition();
-        final String expression = p.getExpression();
+        final MutableInt position = p.position;
+        final String expression = p.expression;
 
         while (position.intValue() < expression.length() && Character.isWhitespace(expression.charAt(position.intValue()))) {
             position.increment();
@@ -34,10 +34,10 @@ public class ParserUtils {
                                   char ch) throws ParseException {
         skipWhitespaces(p);
 
-        if (p.getPosition().intValue() < p.getExpression().length()) {
-            char actual = p.getExpression().charAt(p.getPosition().intValue());
+        if (p.position.intValue() < p.expression.length()) {
+            char actual = p.expression.charAt(p.position.intValue());
             if (actual == ch) {
-                p.getPosition().increment();
+                p.position.increment();
             } else {
                 throwParseException(p, pos0, Messages.msg_12, ch);
             }
@@ -51,9 +51,9 @@ public class ParserUtils {
                                   @Nonnull String s) throws ParseException {
         skipWhitespaces(p);
 
-        if (p.getPosition().intValue() < p.getExpression().length()) {
-            if (p.getExpression().startsWith(s, p.getPosition().intValue())) {
-                p.getPosition().add(s.length());
+        if (p.position.intValue() < p.expression.length()) {
+            if (p.expression.startsWith(s, p.position.intValue())) {
+                p.position.add(s.length());
             } else {
                 throwParseException(p, pos0, Messages.msg_11, s);
             }
@@ -66,8 +66,8 @@ public class ParserUtils {
                                            int pos0,
                                            @Nonnull String messageId,
                                            Object... parameters) throws ParseException {
-        final MutableInt position = p.getPosition();
-        final ParseException parseException = new ParseException(messageId, position.intValue(), p.getExpression(), parameters);
+        final MutableInt position = p.position;
+        final ParseException parseException = new ParseException(messageId, position.intValue(), p.expression, parameters);
         position.setValue(pos0);
         throw parseException;
     }
@@ -83,7 +83,7 @@ public class ParserUtils {
         try {
             result = parser.parse(p, previousSumParser);
         } catch (ParseException e) {
-            p.getPosition().setValue(initialPosition);
+            p.position.setValue(initialPosition);
             throw e;
         }
 

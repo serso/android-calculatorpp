@@ -23,11 +23,11 @@ class MultiplyOrDivideFactor implements Parser<Generic> {
     }
 
     public Generic parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
-        int pos0 = p.getPosition().intValue();
+        int pos0 = p.position.intValue();
 
         ParserUtils.skipWhitespaces(p);
-        if (p.getPosition().intValue() < p.getExpression().length() && p.getExpression().charAt(p.getPosition().intValue()) == (multiplication ? '*' : '/')) {
-            p.getPosition().increment();
+        if (p.position.intValue() < p.expression.length() && p.expression.charAt(p.position.intValue()) == (multiplication ? '*' : '/')) {
+            p.position.increment();
         } else {
             ParserUtils.throwParseException(p, pos0, Messages.msg_10, '*', '/');
         }

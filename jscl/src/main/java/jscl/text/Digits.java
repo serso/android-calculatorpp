@@ -18,22 +18,22 @@ public class Digits implements Parser<String> {
 
     // returns digit
     public String parse(@Nonnull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
-        int pos0 = p.getPosition().intValue();
+        int pos0 = p.position.intValue();
 
         final StringBuilder result = new StringBuilder();
 
         ParserUtils.skipWhitespaces(p);
 
-        if (p.getPosition().intValue() < p.getExpression().length() && nb.getAcceptableCharacters().contains(p.getExpression().charAt(p.getPosition().intValue()))) {
-            result.append(p.getExpression().charAt(p.getPosition().intValue()));
-            p.getPosition().increment();
+        if (p.position.intValue() < p.expression.length() && nb.getAcceptableCharacters().contains(p.expression.charAt(p.position.intValue()))) {
+            result.append(p.expression.charAt(p.position.intValue()));
+            p.position.increment();
         } else {
             ParserUtils.throwParseException(p, pos0, Messages.msg_9);
         }
 
-        while (p.getPosition().intValue() < p.getExpression().length() && nb.getAcceptableCharacters().contains(p.getExpression().charAt(p.getPosition().intValue()))) {
-            result.append(p.getExpression().charAt(p.getPosition().intValue()));
-            p.getPosition().increment();
+        while (p.position.intValue() < p.expression.length() && nb.getAcceptableCharacters().contains(p.expression.charAt(p.position.intValue()))) {
+            result.append(p.expression.charAt(p.position.intValue()));
+            p.position.increment();
         }
 
         return result.toString();

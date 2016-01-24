@@ -13,7 +13,7 @@ public class BracketedExpression implements Parser<ExpressionVariable> {
     }
 
     public ExpressionVariable parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
-        int pos0 = p.getPosition().intValue();
+        int pos0 = p.position.intValue();
 
         ParserUtils.tryToParse(p, pos0, '(');
 
@@ -21,7 +21,7 @@ public class BracketedExpression implements Parser<ExpressionVariable> {
         try {
             result = ExpressionParser.parser.parse(p, previousSumElement);
         } catch (ParseException e) {
-            p.getPosition().setValue(pos0);
+            p.position.setValue(pos0);
             throw e;
         }
 

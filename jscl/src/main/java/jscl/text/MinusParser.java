@@ -21,16 +21,16 @@ class MinusParser implements Parser<MinusParser.Result> {
     public Result parse(@Nonnull Parameters p, @Nullable Generic previousSumElement) {
         final boolean result;
 
-        int pos0 = p.getPosition().intValue();
+        int pos0 = p.position.intValue();
 
         ParserUtils.skipWhitespaces(p);
 
-        if (p.getPosition().intValue() < p.getExpression().length() && p.getExpression().charAt(p.getPosition().intValue()) == '-') {
+        if (p.position.intValue() < p.expression.length() && p.expression.charAt(p.position.intValue()) == '-') {
             result = true;
-            p.getPosition().increment();
+            p.position.increment();
         } else {
             result = false;
-            p.getPosition().setValue(pos0);
+            p.position.setValue(pos0);
         }
 
         return new Result(result);
