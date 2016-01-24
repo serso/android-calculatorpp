@@ -34,6 +34,7 @@ public class VectorParser implements Parser<JsclVector> {
             try {
                 result.add(CommaAndExpression.parser.parse(p, previousSumElement));
             } catch (ParseException e) {
+                p.exceptionsPool.release(e);
                 break;
             }
         }

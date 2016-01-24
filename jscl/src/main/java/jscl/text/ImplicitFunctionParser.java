@@ -10,6 +10,7 @@ import jscl.util.ArrayUtils;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ImplicitFunctionParser implements Parser<Function> {
@@ -25,7 +26,7 @@ public class ImplicitFunctionParser implements Parser<Function> {
         final String name = ParserUtils.parseWithRollback(CompoundIdentifier.parser, pos0, previousSumElement, p);
         if (FunctionsRegistry.getInstance().getNames().contains(name) || OperatorsRegistry.getInstance().getNames().contains(name)) {
             p.position.setValue(pos0);
-            throw new ParseException(Messages.msg_6, p.position.intValue(), p.expression, name);
+            throw p.exceptionsPool.obtain(p.position.intValue(), p.expression, Messages.msg_6, Collections.singletonList(name));
         }
 
         final List<Generic> subscripts = new ArrayList<Generic>();
@@ -33,6 +34,7 @@ public class ImplicitFunctionParser implements Parser<Function> {
             try {
                 subscripts.add(Subscript.parser.parse(p, previousSumElement));
             } catch (ParseException e) {
+                p.exceptionsPool.release(e);
                 break;
             }
         }
@@ -41,6 +43,7 @@ public class ImplicitFunctionParser implements Parser<Function> {
         try {
             b = Derivation.parser.parse(p, previousSumElement);
         } catch (ParseException e) {
+            p.exceptionsPool.release(e);
             b = new int[0];
         }
         try {
@@ -67,15 +70,12 @@ class Derivation implements Parser<int[]> {
     }
 
     public int[] parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
-
-        int result[];
         try {
-            result = new int[]{PrimeCharacters.parser.parse(p, previousSumElement)};
+            return new int[]{PrimeCharacters.parser.parse(p, previousSumElement)};
         } catch (ParseException e) {
-            result = SuperscriptList.parser.parse(p, previousSumElement);
+            p.exceptionsPool.release(e);
         }
-
-        return result;
+        return SuperscriptList.parser.parse(p, previousSumElement);
     }
 }
 
@@ -103,6 +103,7 @@ class SuperscriptList implements Parser<int[]> {
             try {
                 result.add(CommaAndInteger.parser.parse(p, previousSumElement));
             } catch (ParseException e) {
+                p.exceptionsPool.release(e);
                 break;
             }
         }

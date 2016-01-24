@@ -25,6 +25,7 @@ public class ConstantParser implements Parser<Constant> {
             try {
                 l.add(Subscript.parser.parse(p, previousSumElement));
             } catch (ParseException e) {
+                p.exceptionsPool.release(e);
                 break;
             }
         }
@@ -33,6 +34,7 @@ public class ConstantParser implements Parser<Constant> {
         try {
             prime = Prime.parser.parse(p, previousSumElement);
         } catch (ParseException e) {
+            p.exceptionsPool.release(e);
         }
 
         return new Constant(name, prime, ArrayUtils.toArray(l, new Generic[l.size()]));

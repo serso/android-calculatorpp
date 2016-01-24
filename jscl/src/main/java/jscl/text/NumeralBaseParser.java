@@ -27,6 +27,7 @@ public class NumeralBaseParser implements Parser<NumeralBase> {
                 result = numeralBase;
                 break;
             } catch (ParseException e) {
+                p.exceptionsPool.release(e);
             }
         }
 

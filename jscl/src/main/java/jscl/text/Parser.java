@@ -39,6 +39,9 @@ public interface Parser<T> {
         @Nonnull
         public final MathContext context;
 
+        @Nonnull
+        public final ExceptionsPool exceptionsPool = new ExceptionsPool();
+
         /**
          * @param expression  expression to be parsed
          * @param position    current position of expression. Side effect: if parsing is successful this parameter should be increased on the number of parsed letters (incl whitespaces etc)

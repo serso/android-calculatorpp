@@ -2,6 +2,7 @@ package jscl.text;
 
 import jscl.math.Generic;
 import jscl.text.msg.Messages;
+import org.solovyev.common.collections.Collections;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -67,7 +68,7 @@ public class ParserUtils {
                                            @Nonnull String messageId,
                                            Object... parameters) throws ParseException {
         final MutableInt position = p.position;
-        final ParseException parseException = new ParseException(messageId, position.intValue(), p.expression, parameters);
+        final ParseException parseException = p.exceptionsPool.obtain(position.intValue(), p.expression, messageId, Collections.asList(parameters));
         position.setValue(pos0);
         throw parseException;
     }

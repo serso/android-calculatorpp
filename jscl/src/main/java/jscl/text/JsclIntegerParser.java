@@ -7,6 +7,7 @@ import jscl.text.msg.Messages;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Collections;
 
 public class JsclIntegerParser implements Parser<JsclInteger> {
 
@@ -33,7 +34,7 @@ public class JsclIntegerParser implements Parser<JsclInteger> {
         try {
             return nb.toJsclInteger(number);
         } catch (NumberFormatException e) {
-            throw new ParseException(Messages.msg_8, p.position.intValue(), p.expression, number);
+            throw p.exceptionsPool.obtain(p.position.intValue(), p.expression, Messages.msg_8, Collections.singletonList(number));
         }
     }
 }

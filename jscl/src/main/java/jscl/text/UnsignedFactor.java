@@ -33,6 +33,7 @@ class UnsignedFactor implements Parser {
             try {
                 list.add(PowerExponentParser.parser.parse(p, null));
             } catch (ParseException e) {
+                p.exceptionsPool.release(e);
                 break;
             }
         }

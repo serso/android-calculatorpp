@@ -1,56 +1,61 @@
 package jscl.text;
 
-import jscl.text.msg.JsclMessage;
+import org.solovyev.common.collections.Collections;
 import org.solovyev.common.msg.Message;
 import org.solovyev.common.msg.MessageLevel;
 import org.solovyev.common.msg.MessageType;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class ParseException extends Exception implements Message {
 
+    private int position;
     @Nonnull
-    private final Message message;
-
-    private final int position;
-
+    private String expression;
     @Nonnull
-    private final String expression;
+    private String messageCode;
+    @Nonnull
+    private List<?> parameters;
 
-    public ParseException(@Nonnull String messageCode, int position, @Nonnull String expression, Object... parameters) {
-        this.message = new JsclMessage(messageCode, MessageType.error, parameters);
-        this.position = position;
-        this.expression = expression;
+    ParseException() {
     }
 
-    public ParseException(@Nonnull Message message, int position, @Nonnull String expression) {
-        this.message = message;
+    public ParseException(int position, @Nonnull String expression, @Nonnull String messageCode, @Nullable Object... parameters) {
+        set(position, expression, messageCode, Collections.asList(parameters));
+    }
+
+    void set(int position, @Nonnull String expression, @Nonnull String messageCode, @Nonnull List<?> parameters) {
         this.position = position;
         this.expression = expression;
+        this.messageCode = messageCode;
+        this.parameters = parameters;
     }
 
     @Nonnull
     public String getMessageCode() {
-        return this.message.getMessageCode();
+        return messageCode;
     }
 
     @Nonnull
     public List<Object> getParameters() {
-        return this.message.getParameters();
+        return (List<Object>) parameters;
     }
 
     @Nonnull
     @Override
     public MessageLevel getMessageLevel() {
-        return this.message.getMessageLevel();
+        return MessageType.error;
     }
 
     @Nonnull
     @Override
     public String getLocalizedMessage(@Nonnull Locale locale) {
-        return this.message.getLocalizedMessage(locale);
+        final ResourceBundle rb = ResourceBundle.getBundle("jscl/text/msg/messages", locale);
+        return rb.getString(getMessageCode());
     }
 
     public int getPosition() {
@@ -67,20 +72,21 @@ public class ParseException extends Exception implements Message {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ParseException that = (ParseException) o;
+        ParseException exception = (ParseException) o;
 
-        if (position != that.position) return false;
-        if (!expression.equals(that.expression)) return false;
-        if (!message.equals(that.message)) return false;
+        if (position != exception.position) return false;
+        if (!expression.equals(exception.expression)) return false;
+        if (!messageCode.equals(exception.messageCode)) return false;
+        return parameters.equals(exception.parameters);
 
-        return true;
     }
 
     @Override
     public int hashCode() {
-        int result = message.hashCode();
-        result = 31 * result + position;
+        int result = position;
         result = 31 * result + expression.hashCode();
+        result = 31 * result + messageCode.hashCode();
+        result = 31 * result + parameters.hashCode();
         return result;
     }
 }
