@@ -1,9 +1,9 @@
 package jscl.text;
 
-import jscl.math.Generic;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
+import jscl.math.Generic;
 
 public class CompoundIdentifier implements Parser<String> {
 
@@ -16,12 +16,13 @@ public class CompoundIdentifier implements Parser<String> {
     public String parse(@Nonnull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
         int pos0 = p.position.intValue();
 
-        StringBuilder result = new StringBuilder();
+        final StringBuilder result;
 
         ParserUtils.skipWhitespaces(p);
         try {
-            String s = Identifier.parser.parse(p, previousSumElement);
-            result.append(s);
+            final String identifier = Identifier.parser.parse(p, previousSumElement);
+            result = new StringBuilder();
+            result.append(identifier);
         } catch (ParseException e) {
             p.position.setValue(pos0);
             throw e;

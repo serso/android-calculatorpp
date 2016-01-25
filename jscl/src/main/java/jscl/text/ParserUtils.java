@@ -1,11 +1,13 @@
 package jscl.text;
 
-import jscl.math.Generic;
-import jscl.text.msg.Messages;
+import java.lang.reflect.Array;
+import java.util.Collections;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.lang.reflect.Array;
+
+import jscl.math.Generic;
+import jscl.text.msg.Messages;
 
 /**
  * User: serso
@@ -64,12 +66,41 @@ public class ParserUtils {
 
     public static void throwParseException(@Nonnull Parser.Parameters p,
                                            int pos0,
+                                           @Nonnull String messageId) throws ParseException {
+        throw makeParseException(p, pos0, messageId);
+    }
+
+    @Nonnull
+    public static ParseException makeParseException(@Nonnull Parser.Parameters p, int pos0, @Nonnull String messageId) {
+        final MutableInt position = p.position;
+        final ParseException parseException = p.exceptionsPool.obtain(position.intValue(), p.expression, messageId, Collections.emptyList());
+        position.setValue(pos0);
+        return parseException;
+    }
+
+    public static void throwParseException(@Nonnull Parser.Parameters p,
+                                           int pos0,
+                                           @Nonnull String messageId,
+                                           @Nonnull Object parameter) throws ParseException {
+        final MutableInt position = p.position;
+        final ParseException parseException = p.exceptionsPool.obtain(position.intValue(), p.expression, messageId, Collections.singletonList(parameter));
+        position.setValue(pos0);
+        throw parseException;
+    }
+
+    public static void throwParseException(@Nonnull Parser.Parameters p,
+                                           int pos0,
                                            @Nonnull String messageId,
                                            Object... parameters) throws ParseException {
+        throw makeParseException(p, pos0, messageId, parameters);
+    }
+
+    @Nonnull
+    public static ParseException makeParseException(@Nonnull Parser.Parameters p, int pos0, @Nonnull String messageId, Object... parameters) {
         final MutableInt position = p.position;
         final ParseException parseException = p.exceptionsPool.obtain(position.intValue(), p.expression, messageId, parameters);
         position.setValue(pos0);
-        throw parseException;
+        return parseException;
     }
 
 

@@ -1,13 +1,16 @@
 package jscl.text;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 public class ExceptionsPool {
+
+    private static final int MAX_COUNT = 20;
 
     @Nonnull
     private final List<ParseException> list = new ArrayList<>();
@@ -30,6 +33,9 @@ public class ExceptionsPool {
     }
 
     public void release(@Nonnull ParseException e) {
+        if (list.size() >= MAX_COUNT) {
+            return;
+        }
         list.add(e);
     }
 }

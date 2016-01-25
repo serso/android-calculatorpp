@@ -1,12 +1,13 @@
 package jscl.text;
 
-import jscl.NumeralBase;
-import jscl.math.Generic;
-import jscl.text.msg.Messages;
+import java.util.Collections;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Collections;
+
+import jscl.NumeralBase;
+import jscl.math.Generic;
+import jscl.text.msg.Messages;
 
 public class IntegerParser implements Parser<Integer> {
 
@@ -18,32 +19,14 @@ public class IntegerParser implements Parser<Integer> {
     public Integer parse(@Nonnull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
         int pos0 = p.position.intValue();
 
-        /*int n;
-
-          ParserUtils.skipWhitespaces(expression, position);
-          if (position.intValue() < expression.length() && Character.isDigit(expression.charAt(position.intValue()))) {
-              char c = expression.charAt(position.intValue());
-              position.increment();
-              n = c - '0';
-          } else {
-              position.setValue(pos0);
-              throw new ParseException();
-          }
-
-          while (position.intValue() < expression.length() && Character.isDigit(expression.charAt(position.intValue()))) {
-              char c = expression.charAt(position.intValue());
-              position.increment();
-              n = 10 * n + (c - '0');
-          }*/
-
         final NumeralBase nb = NumeralBaseParser.parser.parse(p, previousSumElement);
 
-        final StringBuilder result = new StringBuilder();
-
         ParserUtils.skipWhitespaces(p);
+        final StringBuilder result;
         if (p.position.intValue() < p.expression.length() && nb.getAcceptableCharacters().contains(p.expression.charAt(p.position.intValue()))) {
             char c = p.expression.charAt(p.position.intValue());
             p.position.increment();
+            result = new StringBuilder();
             result.append(c);
         } else {
             p.position.setValue(pos0);

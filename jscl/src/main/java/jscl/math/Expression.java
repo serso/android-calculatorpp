@@ -1,6 +1,16 @@
 package jscl.math;
 
-import jscl.JsclMathEngine;
+import org.solovyev.common.Converter;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import jscl.math.function.Constant;
 import jscl.math.function.Fraction;
 import jscl.math.function.Inverse;
@@ -8,14 +18,12 @@ import jscl.math.numeric.Real;
 import jscl.math.polynomial.Polynomial;
 import jscl.math.polynomial.UnivariatePolynomial;
 import jscl.mathml.MathML;
-import jscl.text.*;
+import jscl.text.ExpressionParser;
+import jscl.text.ParseException;
+import jscl.text.Parser;
+import jscl.text.ParserUtils;
 import jscl.text.msg.Messages;
 import jscl.util.ArrayUtils;
-import org.solovyev.common.Converter;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.*;
 
 public class Expression extends Generic {
 
@@ -113,15 +121,13 @@ public class Expression extends Generic {
     }
 
     public static Expression valueOf(@Nonnull String expression) throws ParseException {
-        final MutableInt position = new MutableInt(0);
-
-        final Parser.Parameters p = Parser.Parameters.newInstance(expression, position, JsclMathEngine.getInstance());
+        final Parser.Parameters p = Parser.Parameters.get(expression);
 
         final Generic generic = ExpressionParser.parser.parse(p, null);
 
         ParserUtils.skipWhitespaces(p);
 
-        int index = position.intValue();
+        int index = p.position.intValue();
         if (index < expression.length()) {
             throw new ParseException(index, expression, Messages.msg_1, index + 1);
         }

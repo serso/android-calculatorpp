@@ -1,11 +1,14 @@
 package jscl.text;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import jscl.NumeralBase;
 import jscl.math.Generic;
 import jscl.text.msg.Messages;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import static jscl.text.ParserUtils.makeParseException;
+import static jscl.text.ParserUtils.skipWhitespaces;
 
 public class Digits implements Parser<String> {
 
@@ -20,15 +23,15 @@ public class Digits implements Parser<String> {
     public String parse(@Nonnull Parameters p, @Nullable Generic previousSumElement) throws ParseException {
         int pos0 = p.position.intValue();
 
-        final StringBuilder result = new StringBuilder();
+        skipWhitespaces(p);
 
-        ParserUtils.skipWhitespaces(p);
-
+        final StringBuilder result;
         if (p.position.intValue() < p.expression.length() && nb.getAcceptableCharacters().contains(p.expression.charAt(p.position.intValue()))) {
+            result = new StringBuilder(2);
             result.append(p.expression.charAt(p.position.intValue()));
             p.position.increment();
         } else {
-            ParserUtils.throwParseException(p, pos0, Messages.msg_9);
+            throw makeParseException(p, pos0, Messages.msg_9);
         }
 
         while (p.position.intValue() < p.expression.length() && nb.getAcceptableCharacters().contains(p.expression.charAt(p.position.intValue()))) {

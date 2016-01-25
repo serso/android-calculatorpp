@@ -1,12 +1,14 @@
 package jscl.text;
 
-import jscl.MathContext;
-import jscl.math.Generic;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
+
+import jscl.JsclMathEngine;
+import jscl.MathContext;
+import jscl.math.Generic;
 
 /**
  * Main parser interface.
@@ -28,10 +30,18 @@ public interface Parser<T> {
     class Parameters {
 
         @Nonnull
-        public final String expression;
+        private static final ThreadLocal<Parameters> instance = new ThreadLocal<Parameters>() {
+            @Override
+            protected Parameters initialValue() {
+                return new Parameters("", JsclMathEngine.getInstance());
+            }
+        };
 
         @Nonnull
-        public final MutableInt position;
+        public String expression;
+
+        @Nonnull
+        public final MutableInt position = new MutableInt(0);
 
         @Nonnull
         public final List<ParseException> exceptions = new ArrayList<ParseException>();
@@ -44,18 +54,24 @@ public interface Parser<T> {
 
         /**
          * @param expression  expression to be parsed
-         * @param position    current position of expression. Side effect: if parsing is successful this parameter should be increased on the number of parsed letters (incl whitespaces etc)
          * @param context math engine to be used in parsing
          */
-        Parameters(@Nonnull String expression, @Nonnull MutableInt position, @Nonnull MathContext context) {
+        Parameters(@Nonnull String expression, @Nonnull MathContext context) {
             this.expression = expression;
-            this.position = position;
             this.context = context;
         }
 
         @Nonnull
-        public static Parameters newInstance(@Nonnull String expression, @Nonnull MutableInt position, @Nonnull final MathContext mathEngine) {
-            return new Parameters(expression, position, mathEngine);
+        public static Parameters get(@Nonnull String expression) {
+            final Parameters parameters = instance.get();
+            parameters.expression = expression;
+            parameters.reset();
+            return parameters;
+        }
+
+        public void reset() {
+            position.setValue(0);
+            exceptions.clear();
         }
 
         public void addException(@Nonnull ParseException e) {
