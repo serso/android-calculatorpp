@@ -65,7 +65,7 @@ public class EditorView extends EditTextCompat {
 
     private void init() {
         addTextChangedListener(new MyTextWatcher());
-        setShowSoftInputOnFocusCompat(false);
+        dontShowSoftInputOnFocusCompat();
         // changes should only be reported after the view has been set up completely, i.e. now
         reportChanges = true;
     }
