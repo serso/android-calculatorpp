@@ -21,8 +21,8 @@ public final class Languages implements SharedPreferences.OnSharedPreferenceChan
     public static final String SYSTEM_LANGUAGE_CODE = "00";
     @Nonnull
     public static final Language SYSTEM_LANGUAGE = new Language(SYSTEM_LANGUAGE_CODE, Locale.getDefault());
-    @Nonnull
-    private static final Locale[] locales = Locale.getAvailableLocales();
+    @Nullable
+    private static Locale[] locales;
     @Nonnull
     private final List<Language> list = new ArrayList<>();
     @Nonnull
@@ -43,7 +43,7 @@ public final class Languages implements SharedPreferences.OnSharedPreferenceChan
 
     @Nullable
     private static Locale findLocaleById(@Nonnull String id) {
-        for (Locale locale : locales) {
+        for (Locale locale : getLocales()) {
             if (TextUtils.equals(locale.toString(), id)) {
                 return locale;
             }
@@ -57,7 +57,7 @@ public final class Languages implements SharedPreferences.OnSharedPreferenceChan
             language = id;
         }
 
-        for (Locale locale : locales) {
+        for (Locale locale : getLocales()) {
             if (TextUtils.equals(locale.getLanguage(), language)) {
                 return locale;
             }
@@ -65,6 +65,14 @@ public final class Languages implements SharedPreferences.OnSharedPreferenceChan
 
         Log.d("Languages", "No locale found for " + id);
         return null;
+    }
+
+    @Nonnull
+    public static Locale[] getLocales() {
+        if (locales == null) {
+            locales = Locale.getAvailableLocales();
+        }
+        return locales;
     }
 
     /**
@@ -128,6 +136,10 @@ public final class Languages implements SharedPreferences.OnSharedPreferenceChan
 
     @Nonnull
     public Language get(@Nonnull String code) {
+        if (TextUtils.equals(SYSTEM_LANGUAGE.code, code)) {
+            // quick check to avoid list loading
+            return SYSTEM_LANGUAGE;
+        }
         Language language = findLanguageByCode(code);
         if (language != null) {
             return language;
