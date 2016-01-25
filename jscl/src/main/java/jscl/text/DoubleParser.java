@@ -1,17 +1,18 @@
 package jscl.text;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import jscl.NumeralBase;
 import jscl.math.Generic;
 import jscl.math.NumericWrapper;
 import jscl.math.numeric.Real;
 import jscl.text.msg.Messages;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 public class DoubleParser implements Parser<NumericWrapper> {
 
@@ -69,7 +70,6 @@ class FloatingPointLiteral implements Parser<Double> {
 
         final NumeralBase nb = NumeralBaseParser.parser.parse(p, previousSumElement);
 
-        final StringBuilder result = new StringBuilder();
 
         boolean digits = false;
         boolean point = false;
@@ -77,6 +77,7 @@ class FloatingPointLiteral implements Parser<Double> {
 
         final Digits digitsParser = new Digits(nb);
 
+        final StringBuilder result = new StringBuilder();
         try {
             result.append(digitsParser.parse(p, previousSumElement));
             digits = true;
@@ -167,16 +168,15 @@ class ExponentPart implements Parser<String> {
     public String parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
         int pos0 = p.position.intValue();
 
-        final StringBuilder result = new StringBuilder();
-
         ParserUtils.skipWhitespaces(p);
 
+        final StringBuilder result;
         if (p.position.intValue() < p.expression.length() && (p.expression.charAt(p.position.intValue()) == 'e' || p.expression.charAt(p.position.intValue()) == 'E')) {
-            char c = p.expression.charAt(p.position.intValue());
+            result = new StringBuilder();
+            result.append(p.expression.charAt(p.position.intValue()));
             p.position.increment();
-            result.append(c);
         } else {
-            ParserUtils.throwParseException(p, pos0, Messages.msg_10, 'e', 'E');
+            throw ParserUtils.makeParseException(p, pos0, Messages.msg_10, 'e', 'E');
         }
 
         try {
@@ -201,10 +201,10 @@ class SignedInteger implements Parser<String> {
     public String parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
         final int pos0 = p.position.intValue();
 
-        final StringBuilder result = new StringBuilder();
 
         ParserUtils.skipWhitespaces(p);
 
+        final StringBuilder result = new StringBuilder();
         final int pos1 = p.position.intValue();
         if (pos1 < p.expression.length() && (p.expression.charAt(pos1) == '+' || MinusParser.isMinus(p.expression.charAt(pos1)))) {
             final char c = p.expression.charAt(pos1);

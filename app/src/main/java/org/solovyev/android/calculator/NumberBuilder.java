@@ -38,7 +38,6 @@ import jscl.NumeralBase;
 import jscl.math.numeric.Real;
 import jscl.text.DoubleParser;
 import jscl.text.JsclIntegerParser;
-import jscl.text.MutableInt;
 import jscl.text.ParseException;
 import jscl.text.Parser;
 
@@ -114,12 +113,16 @@ public class NumberBuilder extends BaseNumberBuilder {
         try {
             mc.setNumeralBase(nb);
 
+            final Parser.Parameters p = Parser.Parameters.get(s);
             try {
-                return JsclIntegerParser.parser.parse(Parser.Parameters.newInstance(s, new MutableInt(0), mc), null).content().doubleValue();
+                return JsclIntegerParser.parser.parse(p, null).content().doubleValue();
             } catch (ParseException e) {
+                p.exceptionsPool.release(e);
                 try {
-                    return ((Real) DoubleParser.parser.parse(Parser.Parameters.newInstance(s, new MutableInt(0), mc), null).content()).doubleValue();
+                    p.reset();
+                    return ((Real) DoubleParser.parser.parse(p, null).content()).doubleValue();
                 } catch (ParseException e1) {
+                    p.exceptionsPool.release(e1);
                     throw new NumberFormatException();
                 }
             }

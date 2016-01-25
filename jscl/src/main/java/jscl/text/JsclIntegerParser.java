@@ -1,13 +1,14 @@
 package jscl.text;
 
+import java.util.Collections;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import jscl.NumeralBase;
 import jscl.math.Generic;
 import jscl.math.JsclInteger;
 import jscl.text.msg.Messages;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.Collections;
 
 public class JsclIntegerParser implements Parser<JsclInteger> {
 
@@ -21,16 +22,14 @@ public class JsclIntegerParser implements Parser<JsclInteger> {
 
         final NumeralBase nb = NumeralBaseParser.parser.parse(p, previousSumElement);
 
-        final StringBuilder result = new StringBuilder();
-
+        final String number;
         try {
-            result.append(new Digits(nb).parse(p, previousSumElement));
+            number = new Digits(nb).parse(p, previousSumElement);
         } catch (ParseException e) {
             p.position.setValue(pos0);
             throw e;
         }
 
-        final String number = result.toString();
         try {
             return nb.toJsclInteger(number);
         } catch (NumberFormatException e) {

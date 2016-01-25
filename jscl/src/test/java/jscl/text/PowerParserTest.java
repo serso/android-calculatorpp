@@ -1,6 +1,5 @@
 package jscl.text;
 
-import jscl.JsclMathEngine;
 import org.junit.Assert;
 
 /**
@@ -12,13 +11,13 @@ public class PowerParserTest {
 
     @org.junit.Test
     public void testParse() throws Exception {
-        PowerParser.parser.parse(Parser.Parameters.newInstance("  ^", new MutableInt(0), JsclMathEngine.getInstance()), null);
-        PowerParser.parser.parse(Parser.Parameters.newInstance(" **", new MutableInt(0), JsclMathEngine.getInstance()), null);
-        PowerParser.parser.parse(Parser.Parameters.newInstance(" **7", new MutableInt(0), JsclMathEngine.getInstance()), null);
-        PowerParser.parser.parse(Parser.Parameters.newInstance("^", new MutableInt(0), JsclMathEngine.getInstance()), null);
-        PowerParser.parser.parse(Parser.Parameters.newInstance("**", new MutableInt(0), JsclMathEngine.getInstance()), null);
+        PowerParser.parser.parse(Parser.Parameters.get("  ^"), null);
+        PowerParser.parser.parse(Parser.Parameters.get(" **"), null);
+        PowerParser.parser.parse(Parser.Parameters.get(" **7"), null);
+        PowerParser.parser.parse(Parser.Parameters.get("^"), null);
+        PowerParser.parser.parse(Parser.Parameters.get("**"), null);
         try {
-            PowerParser.parser.parse(Parser.Parameters.newInstance("*", new MutableInt(0), JsclMathEngine.getInstance()), null);
+            PowerParser.parser.parse(Parser.Parameters.get("*"), null);
             Assert.fail();
         } catch (ParseException e) {
 

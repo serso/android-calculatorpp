@@ -1,16 +1,16 @@
 package jscl.text;
 
+import java.util.Collections;
+import java.util.List;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import jscl.math.Generic;
 import jscl.math.function.PostfixFunctionsRegistry;
 import jscl.math.operator.Operator;
 import jscl.math.operator.TripleFactorial;
 import jscl.text.msg.Messages;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * User: serso
@@ -26,13 +26,14 @@ public class PostfixFunctionsParser implements Parser<Generic> {
         this.content = content;
     }
 
-    private static Generic parsePostfix(@Nonnull List<PostfixFunctionParser> parsers,
+    private static Generic parsePostfix(@Nonnull List<String> names,
                                         Generic content,
                                         @Nullable final Generic previousSumElement,
                                         @Nonnull final Parameters p) throws ParseException {
         Generic result = content;
 
-        for (PostfixFunctionParser parser : parsers) {
+        for (String name : names) {
+            final PostfixFunctionParser parser = new PostfixFunctionParser(name);
             final PostfixFunctionParser.Result postfixResult = parser.parse(p, previousSumElement);
             if (postfixResult.isPostfixFunction()) {
                 final Operator postfixFunction;
@@ -51,7 +52,7 @@ public class PostfixFunctionsParser implements Parser<Generic> {
                     }
                 }
 
-                result = parsePostfix(parsers, postfixFunction.expressionValue(), previousSumElement, p);
+                result = parsePostfix(names, postfixFunction.expressionValue(), previousSumElement, p);
             }
         }
 
@@ -59,15 +60,6 @@ public class PostfixFunctionsParser implements Parser<Generic> {
     }
 
     public Generic parse(@Nonnull Parameters p, Generic previousSumElement) throws ParseException {
-
-        final List<String> postfixFunctionNames = PostfixFunctionsRegistry.getInstance().getNames();
-
-        final List<PostfixFunctionParser> parsers = new ArrayList<PostfixFunctionParser>(postfixFunctionNames.size());
-        parsers.add(new PostfixFunctionParser(TripleFactorial.NAME));
-        for (String postfixFunctionName : postfixFunctionNames) {
-            parsers.add(new PostfixFunctionParser(postfixFunctionName));
-        }
-
-        return parsePostfix(parsers, content, previousSumElement, p);
+        return parsePostfix(PostfixFunctionsRegistry.getInstance().getNames(), content, previousSumElement, p);
     }
 }
