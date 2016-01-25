@@ -36,25 +36,50 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
-import android.view.*;
+import android.view.ContextMenu;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import jscl.math.function.CustomFunction;
-import jscl.math.function.Function;
+
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.App;
+import org.solovyev.android.calculator.AppComponent;
+import org.solovyev.android.calculator.BaseDialogFragment;
+import org.solovyev.android.calculator.Calculator;
+import org.solovyev.android.calculator.CalculatorEventType;
+import org.solovyev.android.calculator.FunctionsRegistry;
+import org.solovyev.android.calculator.KeyboardUi;
+import org.solovyev.android.calculator.KeyboardWindow;
+import org.solovyev.android.calculator.Locator;
+import org.solovyev.android.calculator.ParseException;
+import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.VarsRegistry;
 import org.solovyev.android.calculator.math.edit.FunctionsActivity;
 import org.solovyev.android.calculator.math.edit.VarEditorSaver;
 import org.solovyev.android.calculator.view.EditTextCompat;
 import org.solovyev.common.math.MathRegistry;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
-import java.util.*;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import jscl.math.function.CustomFunction;
+import jscl.math.function.Function;
 
 import static org.solovyev.android.calculator.function.CppFunction.NO_ID;
 
@@ -390,7 +415,7 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
         bodyView.setOnClickListener(this);
         bodyView.setOnFocusChangeListener(this);
         bodyView.setOnKeyListener(this);
-        bodyView.setShowSoftInputOnFocusCompat(false);
+        bodyView.dontShowSoftInputOnFocusCompat();
         descriptionView.setOnFocusChangeListener(this);
 
         return view;
@@ -468,6 +493,7 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
                 public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
                     final int id = v.getId();
                     if (id == R.id.function_body) {
+                        menu.clear();
                         addEntities(menu, getNamesSorted(constantsRegistry), MENU_CONSTANT);
                         unregisterForContextMenu(bodyView);
                     }
@@ -490,6 +516,7 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
                 public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
                     final int id = v.getId();
                     if (id == R.id.function_body) {
+                        menu.clear();
                         addEntities(menu, getNamesSorted(functionsRegistry), MENU_FUNCTION);
                         unregisterForContextMenu(bodyView);
                     }
@@ -511,6 +538,7 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
                 public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
                     final int id = v.getId();
                     if (id == R.id.function_body) {
+                        menu.clear();
                         // can't use sub-menus as AlertDialog doesn't support them
                         menu.add(MENU_CATEGORY, MENU_CONSTANT, Menu.NONE, R.string.c_vars_and_constants).setOnMenuItemClickListener(KeyboardUser.this);
                         menu.add(MENU_CATEGORY, MENU_FUNCTION, Menu.NONE, R.string.c_functions).setOnMenuItemClickListener(KeyboardUser.this);
