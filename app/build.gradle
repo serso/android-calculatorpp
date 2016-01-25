@@ -41,7 +41,7 @@ android {
             zipAlignEnabled true
         }
         debug {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-debug.cfg'
         }
     }
