@@ -67,7 +67,10 @@ dependencies {
     compile('ch.acra:acra:4.7.0') {
         exclude group: 'org.json'
     }
-    compile 'org.solovyev.android.views.dragbutton:drag-button:1.1@aar'
+    compile ':drag-button:1.1@aar'
+    compile ':square-otto:1.3.9-SNAPSHOT'
+    apt ':square-otto-compiler:1.3.9-SNAPSHOT'
+    apt 'com.squareup:javapoet:1.5.1'
     compile 'org.solovyev.android:android-common-lists:1.1.18@aar'
     compile 'org.solovyev.android:android-common-core:1.1.18@aar'
     compile 'org.solovyev.android:android-common-other:1.1.18@aar'
@@ -97,7 +100,6 @@ dependencies {
         exclude(module: 'xpp3')
     }
     compile 'commons-cli:commons-cli:1.2'
-    compile 'com.squareup:otto:1.3.8'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'org.solovyev.android.views:linear-layout-manager:0.5@aar'
 
