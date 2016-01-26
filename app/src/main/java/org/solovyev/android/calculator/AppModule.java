@@ -7,6 +7,7 @@ import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import com.squareup.otto.Bus;
+import com.squareup.otto.GeneratedHandlerFinder;
 import dagger.Module;
 import dagger.Provides;
 import jscl.JsclMathEngine;
@@ -119,6 +120,7 @@ public class AppModule {
         private final Handler handler;
 
         public AppBus(@Nonnull Handler handler) {
+            super(new GeneratedHandlerFinder());
             this.handler = handler;
         }
 
