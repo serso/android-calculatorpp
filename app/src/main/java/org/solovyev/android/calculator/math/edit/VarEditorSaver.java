@@ -28,7 +28,7 @@ import android.widget.EditText;
 import org.solovyev.android.calculator.EntitiesRegistry;
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.R;
-import org.solovyev.android.calculator.VarsRegistry;
+import org.solovyev.android.calculator.VariablesRegistry;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.MathEntityBuilder;
 import org.solovyev.common.math.MathEntity;
@@ -145,7 +145,7 @@ public class VarEditorSaver<T extends MathEntity> implements View.OnClickListene
         if (error != null) {
             Locator.getInstance().getNotifier().showMessage(error, MessageType.error);
         } else {
-            VarsRegistry.saveVariable(mathRegistry, varBuilder, editedInstance, source, true);
+            VariablesRegistry.saveVariable(mathRegistry, varBuilder, editedInstance, source, true);
         }
     }
 }

@@ -170,7 +170,7 @@ public enum MathType {
         @Nonnull
         @Override
         public List<String> getTokens() {
-            return Locator.getInstance().getEngine().getVarsRegistry().getNames();
+            return Locator.getInstance().getEngine().getVariablesRegistry().getNames();
         }
 
         @Override

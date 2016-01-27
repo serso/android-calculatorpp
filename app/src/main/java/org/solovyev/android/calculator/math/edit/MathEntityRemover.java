@@ -91,7 +91,7 @@ public class MathEntityRemover<T extends MathEntity> implements View.OnClickList
                                                                   @Nullable DialogInterface.OnClickListener callbackOnCancel,
                                                                   @Nonnull Context context,
                                                                   @Nonnull Object source) {
-        return new MathEntityRemover<IConstant>(constant, callbackOnCancel, false, Locator.getInstance().getEngine().getVarsRegistry(), context, source, Params.newConstantInstance());
+        return new MathEntityRemover<IConstant>(constant, callbackOnCancel, false, Locator.getInstance().getEngine().getVariablesRegistry(), context, source, Params.newConstantInstance());
     }
 
     /*

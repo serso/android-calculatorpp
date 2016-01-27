@@ -114,9 +114,9 @@ public class ToJsclTextProcessor implements TextProcessor<PreparedExpression, St
             if (functionName == null) {
                 String operatorName = App.find(MathType.operator.getTokens(), startsWithFinder);
                 if (operatorName == null) {
-                    String varName = App.find(Locator.getInstance().getEngine().getVarsRegistry().getNames(), startsWithFinder);
+                    String varName = App.find(Locator.getInstance().getEngine().getVariablesRegistry().getNames(), startsWithFinder);
                     if (varName != null) {
-                        final IConstant var = Locator.getInstance().getEngine().getVarsRegistry().get(varName);
+                        final IConstant var = Locator.getInstance().getEngine().getVariablesRegistry().get(varName);
                         if (var != null) {
                             if (!var.isDefined()) {
                                 undefinedVars.add(var);

@@ -472,15 +472,15 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
         if (TextUtils.isEmpty(text)) {
             return;
         }
-        final EntitiesRegistry<IConstant> varsRegistry = Locator.getInstance().getEngine().getVarsRegistry();
-        final IConstant ansVar = varsRegistry.get(VarsRegistry.ANS);
+        final EntitiesRegistry<IConstant> varsRegistry = Locator.getInstance().getEngine().getVariablesRegistry();
+        final IConstant ansVar = varsRegistry.get(VariablesRegistry.ANS);
 
         final Var.Builder builder = ansVar != null ? new Var.Builder(ansVar) : new Var.Builder();
-        builder.setName(VarsRegistry.ANS);
+        builder.setName(VariablesRegistry.ANS);
         builder.setValue(text);
         builder.setDescription(CalculatorMessages.getBundle().getString(CalculatorMessages.ans_description));
 
-        VarsRegistry.saveVariable(varsRegistry, builder, ansVar, this, false);
+        VariablesRegistry.saveVariable(varsRegistry, builder, ansVar, this, false);
     }
 
     @Subscribe
@@ -498,7 +498,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
         switch (calculatorEventType) {
             case constant_changed:
                 final IConstant newConstant = ((Change<IConstant>) data).getNewValue();
-                if (!newConstant.getName().equals(VarsRegistry.ANS)) {
+                if (!newConstant.getName().equals(VariablesRegistry.ANS)) {
                     evaluate();
                 }
                 break;

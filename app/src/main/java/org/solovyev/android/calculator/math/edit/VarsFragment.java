@@ -45,7 +45,7 @@ public class VarsFragment extends BaseEntitiesFragment<IConstant>implements Calc
 
     public static final String CREATE_VAR_EXTRA_STRING = "create_var";
     @NonNull
-    private final EntitiesRegistry<IConstant> registry = Locator.getInstance().getEngine().getVarsRegistry();
+    private final EntitiesRegistry<IConstant> registry = Locator.getInstance().getEngine().getVariablesRegistry();
 
     public VarsFragment() {
         super(CalculatorFragmentType.variables);

@@ -139,7 +139,7 @@ public class AndroidEngineTest extends AbstractCalculatorTest {
             cm.setAngleUnits(defaultAngleUnit);
         }
 
-        Locator.getInstance().getEngine().getVarsRegistry().add(new Var.Builder("si", 5d));
+        Locator.getInstance().getEngine().getVariablesRegistry().add(new Var.Builder("si", 5d));
         CalculatorTestUtils.assertEval("5", cm.evaluate("si"));
 
         CalculatorTestUtils.assertError("sin");

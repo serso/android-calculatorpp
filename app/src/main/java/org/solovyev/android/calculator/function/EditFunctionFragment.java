@@ -60,7 +60,7 @@ import org.solovyev.android.calculator.KeyboardWindow;
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.ParseException;
 import org.solovyev.android.calculator.R;
-import org.solovyev.android.calculator.VarsRegistry;
+import org.solovyev.android.calculator.VariablesRegistry;
 import org.solovyev.android.calculator.math.edit.FunctionsActivity;
 import org.solovyev.android.calculator.math.edit.VarEditorSaver;
 import org.solovyev.android.calculator.view.EditTextCompat;
@@ -91,7 +91,7 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
     private static final int MENU_CATEGORY = Menu.FIRST + 2;
 
     @NonNull
-    private final VarsRegistry constantsRegistry = Locator.getInstance().getEngine().getVarsRegistry();
+    private final VariablesRegistry constantsRegistry = Locator.getInstance().getEngine().getVariablesRegistry();
     @NonNull
     private final KeyboardWindow keyboardWindow = new KeyboardWindow();
     @NonNull
