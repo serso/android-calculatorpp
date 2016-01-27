@@ -54,7 +54,7 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
     @Nonnull
     private final MathEngine mathEngine;
     @Nonnull
-    private final VarsRegistry varsRegistry;
+    private final VariablesRegistry variablesRegistry;
 
     @Nonnull
     private final EntitiesRegistry<Operator> operatorsRegistry;
@@ -71,9 +71,9 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
     @Nonnull
     private String multiplicationSign = Preferences.multiplicationSign.getDefaultValue();
 
-    public Engine(@Nonnull MathEngine mathEngine, @Nonnull VarsRegistry varsRegistry, @Nonnull FunctionsRegistry functionsRegistry, @Nonnull EntitiesRegistry<Operator> operatorsRegistry, @Nonnull EntitiesRegistry<Operator> postfixFunctionsRegistry) {
+    public Engine(@Nonnull MathEngine mathEngine, @Nonnull VariablesRegistry variablesRegistry, @Nonnull FunctionsRegistry functionsRegistry, @Nonnull EntitiesRegistry<Operator> operatorsRegistry, @Nonnull EntitiesRegistry<Operator> postfixFunctionsRegistry) {
         this.mathEngine = mathEngine;
-        this.varsRegistry = varsRegistry;
+        this.variablesRegistry = variablesRegistry;
         this.functionsRegistry = functionsRegistry;
         this.operatorsRegistry = operatorsRegistry;
         this.postfixFunctionsRegistry = postfixFunctionsRegistry;
@@ -86,7 +86,7 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
         this.mathEngine.setRoundResult(true);
         this.mathEngine.setUseGroupingSeparator(true);
 
-        this.varsRegistry = new VarsRegistry(mathEngine.getConstantsRegistry(), new EntityDao<>("org.solovyev.android.calculator.CalculatorModel_vars", Vars.class, preferences));
+        this.variablesRegistry = new VariablesRegistry(mathEngine.getConstantsRegistry(), new EntityDao<>("org.solovyev.android.calculator.CalculatorModel_vars", Vars.class, preferences));
         this.operatorsRegistry = new OperatorsRegistry(mathEngine.getOperatorsRegistry());
         this.postfixFunctionsRegistry = new PostfixFunctionsRegistry(mathEngine.getPostfixFunctionsRegistry());
     }
@@ -106,8 +106,8 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
     }
 
     @Nonnull
-    public VarsRegistry getVarsRegistry() {
-        return varsRegistry;
+    public VariablesRegistry getVariablesRegistry() {
+        return variablesRegistry;
     }
 
     @Nonnull
@@ -169,7 +169,7 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
     }
 
     private void initAsync() {
-        init(varsRegistry);
+        init(variablesRegistry);
         init(functionsRegistry);
         init(operatorsRegistry);
         init(postfixFunctionsRegistry);

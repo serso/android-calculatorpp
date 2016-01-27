@@ -116,7 +116,7 @@ public class EvaluateTest extends AbstractCalculatorTest {
         CalculatorTestUtils.assertError("(-1)i!");
         CalculatorTestUtils.assertEval("24i", "4!i");
 
-        Locator.getInstance().getEngine().getVarsRegistry().add(new Var.Builder("si", 5d));
+        Locator.getInstance().getEngine().getVariablesRegistry().add(new Var.Builder("si", 5d));
 
         try {
             cm.setAngleUnits(AngleUnit.rad);
@@ -130,14 +130,14 @@ public class EvaluateTest extends AbstractCalculatorTest {
             cm.setAngleUnits(defaultAngleUnit);
         }
 
-        Locator.getInstance().getEngine().getVarsRegistry().add(new Var.Builder("s", 1d));
+        Locator.getInstance().getEngine().getVariablesRegistry().add(new Var.Builder("s", 1d));
         CalculatorTestUtils.assertEval("5", cm.evaluate("si"));
 
-        Locator.getInstance().getEngine().getVarsRegistry().add(new Var.Builder("k", 3.5d));
-        Locator.getInstance().getEngine().getVarsRegistry().add(new Var.Builder("k1", 4d));
+        Locator.getInstance().getEngine().getVariablesRegistry().add(new Var.Builder("k", 3.5d));
+        Locator.getInstance().getEngine().getVariablesRegistry().add(new Var.Builder("k1", 4d));
         CalculatorTestUtils.assertEval("4", "k11");
 
-        Locator.getInstance().getEngine().getVarsRegistry().add(new Var.Builder("t", (String) null));
+        Locator.getInstance().getEngine().getVariablesRegistry().add(new Var.Builder("t", (String) null));
         CalculatorTestUtils.assertEval("11t", "t11");
         CalculatorTestUtils.assertEval("11et", "t11e");
         CalculatorTestUtils.assertEval("∞", "∞");
@@ -183,10 +183,10 @@ public class EvaluateTest extends AbstractCalculatorTest {
 			cm.setTimeout(3000);
 		}*/
 
-        Locator.getInstance().getEngine().getVarsRegistry().add(new Var.Builder("t", (String) null));
+        Locator.getInstance().getEngine().getVariablesRegistry().add(new Var.Builder("t", (String) null));
         CalculatorTestUtils.assertEval("2t", "∂(t^2,t)", JsclOperation.simplify);
         CalculatorTestUtils.assertEval("2t", "∂(t^2,t)");
-        Locator.getInstance().getEngine().getVarsRegistry().add(new Var.Builder("t", "2"));
+        Locator.getInstance().getEngine().getVariablesRegistry().add(new Var.Builder("t", "2"));
         CalculatorTestUtils.assertEval("2t", "∂(t^2,t)", JsclOperation.simplify);
         CalculatorTestUtils.assertEval("4", "∂(t^2,t)");
 

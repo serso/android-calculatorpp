@@ -22,7 +22,6 @@
 
 package org.solovyev.android.calculator;
 
-import jscl.math.function.IConstant;
 import org.solovyev.android.calculator.model.EntityDao;
 import org.solovyev.android.calculator.model.MathEntityBuilder;
 import org.solovyev.android.calculator.model.Var;
@@ -31,12 +30,15 @@ import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.math.MathRegistry;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class VarsRegistry extends BaseEntitiesRegistry<IConstant, Var> {
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import jscl.math.function.IConstant;
+
+public class VariablesRegistry extends BaseEntitiesRegistry<IConstant, Var> {
 
     @Nonnull
     public static final String ANS = "ans";
@@ -52,8 +54,8 @@ public class VarsRegistry extends BaseEntitiesRegistry<IConstant, Var> {
         substitutes.put("NaN", "nan");
     }
 
-    public VarsRegistry(@Nonnull MathRegistry<IConstant> mathRegistry,
-                        @Nonnull EntityDao<Var> entityDao) {
+    public VariablesRegistry(@Nonnull MathRegistry<IConstant> mathRegistry,
+                             @Nonnull EntityDao<Var> entityDao) {
         super(mathRegistry, "c_var_description_", entityDao);
     }
 

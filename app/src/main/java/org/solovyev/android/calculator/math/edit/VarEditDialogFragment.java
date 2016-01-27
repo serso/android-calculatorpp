@@ -163,7 +163,7 @@ public class VarEditDialogFragment extends DialogFragment implements CalculatorE
             }
         });
 
-        root.findViewById(R.id.save_button).setOnClickListener(new VarEditorSaver<IConstant>(varBuilder, constant, root, Locator.getInstance().getEngine().getVarsRegistry(), this));
+        root.findViewById(R.id.save_button).setOnClickListener(new VarEditorSaver<IConstant>(varBuilder, constant, root, Locator.getInstance().getEngine().getVariablesRegistry(), this));
 
         if (constant == null) {
             // CREATE MODE
