@@ -22,26 +22,21 @@
 
 package org.solovyev.android.calculator.model;
 
-import jscl.math.function.IFunction;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 import org.simpleframework.xml.Transient;
-import org.solovyev.android.calculator.ParseException;
-import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.PersistedEntity;
 import org.solovyev.common.math.MathEntity;
-import org.solovyev.common.msg.Message;
-import org.solovyev.common.msg.MessageLevel;
 import org.solovyev.common.text.Strings;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
+
+import javax.annotation.Nonnull;
+
+import jscl.math.function.IFunction;
 
 @Root(name = "function")
 public class OldFunction implements IFunction, PersistedEntity, Serializable {
@@ -50,11 +45,9 @@ public class OldFunction implements IFunction, PersistedEntity, Serializable {
     private Integer id;
 
     @Element
-    @Nonnull
     private String name;
 
     @Element(name = "body")
-    @Nonnull
     private String content;
 
     @ElementList(type = String.class)
@@ -69,10 +62,6 @@ public class OldFunction implements IFunction, PersistedEntity, Serializable {
     private String description = "";
 
 	public OldFunction() {
-    }
-
-    public OldFunction(Integer id) {
-        this.id = id;
     }
 
     public static OldFunction fromIFunction(@Nonnull IFunction function) {
@@ -166,141 +155,5 @@ public class OldFunction implements IFunction, PersistedEntity, Serializable {
     @Nonnull
     public List<String> getParameterNames() {
         return parameterNames;
-    }
-
-    public void setParameterNames(@Nonnull List<String> parameterNames) {
-        this.parameterNames = parameterNames;
-    }
-
-	public static class Builder implements MathEntityBuilder<OldFunction> {
-
-        @Nonnull
-        private String name;
-
-        @Nullable
-        private String value;
-
-        private boolean system = false;
-
-        @Nullable
-        private String description;
-
-        @Nullable
-        private Integer id;
-
-        @Nonnull
-        private List<String> parameterNames = Collections.emptyList();
-
-        public Builder() {
-        }
-
-        public Builder(@Nonnull IFunction function) {
-            this.name = function.getName();
-            this.value = function.getContent();
-            this.system = function.isSystem();
-            this.description = function.getDescription();
-            if (function.isIdDefined()) {
-                this.id = function.getId();
-            }
-            this.parameterNames = new ArrayList<String>(function.getParameterNames());
-        }
-
-        public Builder(@Nonnull String name,
-                       @Nonnull String value,
-                       @Nonnull List<String> parameterNames) {
-            this.name = name;
-            this.value = value;
-            this.parameterNames = parameterNames;
-        }
-
-        @Nonnull
-        public Builder setName(@Nonnull String name) {
-            this.name = name;
-            return this;
-        }
-
-        @Nonnull
-        public Builder setValue(@Nullable String value) {
-            this.value = value;
-            return this;
-        }
-
-        protected Builder setSystem(boolean system) {
-            this.system = system;
-            return this;
-        }
-
-        public void setParameterNames(@Nonnull List<String> parameterNames) {
-            this.parameterNames = parameterNames;
-        }
-
-        @Nonnull
-        public Builder setDescription(@Nullable String description) {
-            this.description = description;
-            return this;
-        }
-
-        @Nonnull
-        public OldFunction create() throws OldFunction.Builder.CreationException {
-            final OldFunction result;
-            if (id != null) {
-                result = new OldFunction(id);
-            } else {
-                result = new OldFunction();
-            }
-
-            result.name = name;
-            try {
-                result.content = Locator.getInstance().getCalculator().prepareExpression(value).toString();
-            } catch (ParseException e) {
-                throw new CreationException(e);
-            }
-            result.system = system;
-            result.description = Strings.getNotEmpty(description, "");
-            result.parameterNames = new ArrayList<String>(parameterNames);
-
-            return result;
-        }
-
-        public static class CreationException extends RuntimeException implements Message {
-
-            @Nonnull
-            private final ParseException message;
-
-            public CreationException(@Nonnull ParseException cause) {
-                super(cause);
-                message = cause;
-            }
-
-            @Nonnull
-            @Override
-            public String getMessageCode() {
-                return message.getMessageCode();
-            }
-
-            @Nonnull
-            @Override
-            public List<Object> getParameters() {
-                return message.getParameters();
-            }
-
-            @Nonnull
-            @Override
-            public MessageLevel getMessageLevel() {
-                return message.getMessageLevel();
-            }
-
-            @Override
-            @Nonnull
-            public String getLocalizedMessage() {
-                return message.getLocalizedMessage();
-            }
-
-            @Nonnull
-            @Override
-            public String getLocalizedMessage(@Nonnull Locale locale) {
-                return message.getLocalizedMessage(locale);
-            }
-        }
     }
 }

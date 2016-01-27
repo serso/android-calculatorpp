@@ -37,7 +37,7 @@ import static org.junit.Assert.assertEquals;
  * Date: 11/7/11
  * Time: 7:52 PM
  */
-public class VarTest {
+public class OldVarTest {
 
     private static final String xml = "<vars>\n" +
             "   <vars class=\"java.util.ArrayList\">\n" +
@@ -57,10 +57,10 @@ public class VarTest {
 
     @Test
     public void testXml() throws Exception {
-        final Vars vars = new Vars();
-        Var first = new Var.Builder("e", Math.E).setDescription("description").setSystem(true).create();
+        final OldVars vars = new OldVars();
+        OldVar first = new OldVar.Builder("e", Math.E).setDescription("description").setSystem(true).create();
         vars.getEntities().add(first);
-        Var second = new Var.Builder(";", 3d).setSystem(true).create();
+        OldVar second = new OldVar.Builder(";", 3d).setSystem(true).create();
         vars.getEntities().add(second);
 
         final StringWriter sw = new StringWriter();
@@ -69,7 +69,7 @@ public class VarTest {
 
         assertEquals(xml, sw.toString());
 
-        final Vars result = serializer.read(Vars.class, xml);
+        final OldVars result = serializer.read(OldVars.class, xml);
         final IConstant actualFirst = result.getEntities().get(0);
         final IConstant actualSecond = result.getEntities().get(1);
 

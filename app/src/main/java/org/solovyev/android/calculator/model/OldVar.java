@@ -37,14 +37,8 @@ import jscl.math.function.Constant;
 import jscl.math.function.ExtendedConstant;
 import jscl.math.function.IConstant;
 
-/**
- * User: serso
- * Date: 9/28/11
- * Time: 11:22 PM
- */
-
-@Root
-public class Var implements IConstant, PersistedEntity {
+@Root(name = "var")
+public class OldVar implements IConstant, PersistedEntity {
 
     @Transient
     private Integer id;
@@ -67,10 +61,10 @@ public class Var implements IConstant, PersistedEntity {
     @Transient
     private Constant constant;
 
-    private Var() {
+    private OldVar() {
     }
 
-    private Var(@Nonnull Integer id) {
+    private OldVar(@Nonnull Integer id) {
         this.id = id;
     }
 
@@ -167,7 +161,7 @@ public class Var implements IConstant, PersistedEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Var var = (Var) o;
+        OldVar var = (OldVar) o;
 
         if (!name.equals(var.name)) return false;
 
@@ -179,7 +173,7 @@ public class Var implements IConstant, PersistedEntity {
         return name.hashCode();
     }
 
-    public static class Builder implements JBuilder<Var>, MathEntityBuilder<Var> {
+    public static class Builder implements JBuilder<OldVar>, MathEntityBuilder<OldVar> {
 
         @Nonnull
         private String name;
@@ -198,7 +192,7 @@ public class Var implements IConstant, PersistedEntity {
         public Builder() {
         }
 
-        public Builder(@Nonnull Var var) {
+        public Builder(@Nonnull OldVar var) {
             this.name = var.name;
             this.value = var.value;
             this.system = var.system;
@@ -252,12 +246,12 @@ public class Var implements IConstant, PersistedEntity {
         }
 
         @Nonnull
-        public Var create() {
-            final Var result;
+        public OldVar create() {
+            final OldVar result;
             if (id != null) {
-                result = new Var(id);
+                result = new OldVar(id);
             } else {
-                result = new Var();
+                result = new OldVar();
             }
 
             result.name = name;

@@ -23,15 +23,10 @@
 package org.solovyev.android.calculator;
 
 import android.content.SharedPreferences;
+
 import com.squareup.otto.Bus;
-import jscl.AngleUnit;
-import jscl.JsclMathEngine;
-import jscl.MathEngine;
-import jscl.NumeralBase;
-import jscl.math.operator.Operator;
+
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.model.EntityDao;
-import org.solovyev.android.calculator.model.Vars;
 import org.solovyev.android.prefs.BooleanPreference;
 import org.solovyev.android.prefs.IntegerPreference;
 import org.solovyev.android.prefs.Preference;
@@ -40,22 +35,26 @@ import org.solovyev.common.text.EnumMapper;
 import org.solovyev.common.text.NumberMapper;
 import org.solovyev.common.text.Strings;
 
-import javax.annotation.Nonnull;
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Executor;
+
+import javax.annotation.Nonnull;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+import jscl.AngleUnit;
+import jscl.JsclMathEngine;
+import jscl.MathEngine;
+import jscl.NumeralBase;
+import jscl.math.operator.Operator;
 
 @Singleton
 public class Engine implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     @Nonnull
     private final MathEngine mathEngine;
-    @Nonnull
-    private final VariablesRegistry variablesRegistry;
-
     @Nonnull
     private final EntitiesRegistry<Operator> operatorsRegistry;
     @Nonnull
@@ -68,6 +67,8 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
     ErrorReporter errorReporter;
     @Inject
     FunctionsRegistry functionsRegistry;
+    @Inject
+    VariablesRegistry variablesRegistry;
     @Nonnull
     private String multiplicationSign = Preferences.multiplicationSign.getDefaultValue();
 
@@ -86,7 +87,6 @@ public class Engine implements SharedPreferences.OnSharedPreferenceChangeListene
         this.mathEngine.setRoundResult(true);
         this.mathEngine.setUseGroupingSeparator(true);
 
-        this.variablesRegistry = new VariablesRegistry(mathEngine.getConstantsRegistry(), new EntityDao<>("org.solovyev.android.calculator.CalculatorModel_vars", Vars.class, preferences));
         this.operatorsRegistry = new OperatorsRegistry(mathEngine.getOperatorsRegistry());
         this.postfixFunctionsRegistry = new PostfixFunctionsRegistry(mathEngine.getPostfixFunctionsRegistry());
     }

@@ -43,7 +43,7 @@ import org.solovyev.android.calculator.math.edit.FunctionsActivity;
 import org.solovyev.android.calculator.math.edit.OperatorsActivity;
 import org.solovyev.android.calculator.math.edit.CalculatorVarsActivity;
 import org.solovyev.android.calculator.math.edit.VarEditDialogFragment;
-import org.solovyev.android.calculator.math.edit.VarsFragment;
+import org.solovyev.android.calculator.math.edit.VariablesFragment;
 import org.solovyev.android.calculator.matrix.CalculatorMatrixActivity;
 import org.solovyev.android.calculator.plot.CalculatorPlotActivity;
 import org.solovyev.android.calculator.plot.CalculatorPlotter;
@@ -144,12 +144,12 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
         if (viewState.valid) {
             final String varValue = viewState.text;
             if (!Strings.isEmpty(varValue)) {
-                if (VarsFragment.isValidValue(varValue)) {
+                if (VariablesFragment.isValidValue(varValue)) {
                     if (context instanceof AppCompatActivity) {
                         VarEditDialogFragment.showDialog(VarEditDialogFragment.Input.newFromValue(varValue), ((AppCompatActivity) context).getSupportFragmentManager());
                     } else {
                         final Intent intent = new Intent(context, CalculatorVarsActivity.class);
-                        intent.putExtra(VarsFragment.CREATE_VAR_EXTRA_STRING, varValue);
+                        intent.putExtra(VariablesFragment.CREATE_VAR_EXTRA_STRING, varValue);
                         Activities.addIntentFlags(intent, false, context);
                         context.startActivity(intent);
                     }
