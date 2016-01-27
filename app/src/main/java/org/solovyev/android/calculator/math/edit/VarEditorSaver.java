@@ -121,7 +121,7 @@ public class VarEditorSaver<T extends MathEntity> implements View.OnClickListene
                         error = null;
                     } else {
                         // value is not empty => must be a number
-                        boolean valid = VarsFragment.isValidValue(value);
+                        boolean valid = VariablesFragment.isValidValue(value);
 
                         if (valid) {
                             varBuilder.setName(name);

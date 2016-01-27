@@ -28,26 +28,51 @@ import android.support.v4.app.FragmentActivity;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
+
 import com.melnykov.fab.FloatingActionButton;
-import jscl.math.function.IConstant;
-import org.solovyev.android.calculator.*;
+import com.squareup.otto.Bus;
+
+import org.solovyev.android.calculator.AppComponent;
+import org.solovyev.android.calculator.Calculator;
+import org.solovyev.android.calculator.CalculatorEventData;
+import org.solovyev.android.calculator.CalculatorEventListener;
+import org.solovyev.android.calculator.CalculatorEventType;
+import org.solovyev.android.calculator.CalculatorFragmentType;
+import org.solovyev.android.calculator.Category;
+import org.solovyev.android.calculator.Change;
+import org.solovyev.android.calculator.Keyboard;
+import org.solovyev.android.calculator.Locator;
+import org.solovyev.android.calculator.PreparedExpression;
+import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.ToJsclTextProcessor;
+import org.solovyev.android.calculator.VariablesRegistry;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.common.JPredicate;
 import org.solovyev.common.collections.Collections;
 import org.solovyev.common.text.Strings;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VarsFragment extends BaseEntitiesFragment<IConstant>implements CalculatorEventListener {
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.inject.Inject;
+
+import jscl.math.function.IConstant;
+
+public class VariablesFragment extends BaseEntitiesFragment<IConstant> implements CalculatorEventListener {
 
     public static final String CREATE_VAR_EXTRA_STRING = "create_var";
-    @NonNull
-    private final EntitiesRegistry<IConstant> registry = Locator.getInstance().getEngine().getVariablesRegistry();
+    @Inject
+    VariablesRegistry registry;
+    @Inject
+    Calculator calculator;
+    @Inject
+    Keyboard keyboard;
+    @Inject
+    Bus bus;
 
-    public VarsFragment() {
+    public VariablesFragment() {
         super(CalculatorFragmentType.variables);
     }
 
@@ -77,6 +102,12 @@ public class VarsFragment extends BaseEntitiesFragment<IConstant>implements Calc
         }
 
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    protected void inject(@Nonnull AppComponent component) {
+        super.inject(component);
+        component.inject(this);
     }
 
     @Override

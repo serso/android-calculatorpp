@@ -35,7 +35,7 @@ import jscl.math.function.IConstant;
 import jscl.math.operator.Operator;
 import jscl.text.ParseInterruptedException;
 import org.solovyev.android.calculator.jscl.JsclOperation;
-import org.solovyev.android.calculator.model.Var;
+import org.solovyev.android.calculator.model.OldVar;
 import org.solovyev.android.calculator.units.CalculatorNumeralBase;
 import org.solovyev.common.msg.ListMessageRegistry;
 import org.solovyev.common.msg.Message;
@@ -475,7 +475,7 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
         final EntitiesRegistry<IConstant> varsRegistry = Locator.getInstance().getEngine().getVariablesRegistry();
         final IConstant ansVar = varsRegistry.get(VariablesRegistry.ANS);
 
-        final Var.Builder builder = ansVar != null ? new Var.Builder(ansVar) : new Var.Builder();
+        final OldVar.Builder builder = ansVar != null ? new OldVar.Builder(ansVar) : new OldVar.Builder();
         builder.setName(VariablesRegistry.ANS);
         builder.setValue(text);
         builder.setDescription(CalculatorMessages.getBundle().getString(CalculatorMessages.ans_description));

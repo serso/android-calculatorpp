@@ -45,7 +45,7 @@ import org.solovyev.android.calculator.CalculatorEventListener;
 import org.solovyev.android.calculator.CalculatorEventType;
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.R;
-import org.solovyev.android.calculator.model.Var;
+import org.solovyev.android.calculator.model.OldVar;
 import org.solovyev.common.text.Strings;
 
 import java.util.Arrays;
@@ -148,12 +148,12 @@ public class VarEditDialogFragment extends DialogFragment implements CalculatorE
         final EditText editDescription = (EditText) root.findViewById(R.id.var_edit_description);
         editDescription.setText(input.getDescription());
 
-        final Var.Builder varBuilder;
+        final OldVar.Builder varBuilder;
         final IConstant constant = input.getConstant();
         if (constant != null) {
-            varBuilder = new Var.Builder(constant);
+            varBuilder = new OldVar.Builder(constant);
         } else {
-            varBuilder = new Var.Builder();
+            varBuilder = new OldVar.Builder();
         }
 
         root.findViewById(R.id.cancel_button).setOnClickListener(new View.OnClickListener() {

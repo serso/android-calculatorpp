@@ -22,33 +22,48 @@
 
 package org.solovyev.android.calculator;
 
+import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.os.Handler;
+
+import com.squareup.otto.Bus;
+
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.model.EntityDao;
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.math.MathRegistry;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.inject.Inject;
+
 public abstract class BaseEntitiesRegistry<T extends MathEntity, P extends PersistedEntity> implements EntitiesRegistry<T> {
-
-    @Nonnull
-    private final MathRegistry<T> mathRegistry;
-
-    @Nonnull
-    private final String prefix;
 
     @Nullable
     protected final EntityDao<P> entityDao;
-
     @Nonnull
     protected final Object lock = this;
+    @Nonnull
+    private final MathRegistry<T> mathRegistry;
+    @Nonnull
+    private final String prefix;
+    @Inject
+    Handler handler;
+    @Inject
+    SharedPreferences preferences;
+    @Inject
+    Application application;
+    @Inject
+    Bus bus;
+    @Inject
+    ErrorReporter errorReporter;
 
     // synchronized on lock
     private boolean initialized;
@@ -190,6 +205,16 @@ public abstract class BaseEntitiesRegistry<T extends MathEntity, P extends Persi
     @Override
     public T add(@Nonnull JBuilder<? extends T> JBuilder) {
         return mathRegistry.add(JBuilder);
+    }
+
+    @Nullable
+    protected T addSafely(@Nonnull JBuilder<? extends T> builder) {
+        try {
+            return add(builder);
+        } catch (Exception e) {
+            errorReporter.onException(e);
+        }
+        return null;
     }
 
     @Override

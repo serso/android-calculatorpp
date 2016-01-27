@@ -22,14 +22,8 @@
 
 package org.solovyev.android.calculator;
 
-import android.app.Application;
-import android.content.SharedPreferences;
-import android.os.Handler;
 import android.support.annotation.NonNull;
-import com.squareup.otto.Bus;
-import jscl.JsclMathEngine;
-import jscl.math.function.CustomFunction;
-import jscl.math.function.Function;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.simpleframework.xml.Serializer;
@@ -43,15 +37,25 @@ import org.solovyev.android.io.FileSaver;
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.text.Strings;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Executor;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
-import java.util.concurrent.Executor;
+
+import jscl.JsclMathEngine;
+import jscl.math.function.CustomFunction;
+import jscl.math.function.Function;
 
 import static android.text.TextUtils.isEmpty;
 
@@ -73,17 +77,7 @@ public class FunctionsRegistry extends BaseEntitiesRegistry<Function, OldFunctio
     @Named(AppModule.THREAD_BACKGROUND)
     Executor backgroundThread;
     @Inject
-    Handler handler;
-    @Inject
-    ErrorReporter errorReporter;
-    @Inject
     Calculator calculator;
-    @Inject
-    SharedPreferences preferences;
-    @Inject
-    Application application;
-    @Inject
-    Bus bus;
 
     @Inject
     public FunctionsRegistry(@Nonnull JsclMathEngine mathEngine) {
@@ -102,20 +96,22 @@ public class FunctionsRegistry extends BaseEntitiesRegistry<Function, OldFunctio
     @Override
     public void init() {
         Check.isNotMainThread();
-        migrateOldFunctions();
+        try {
+            migrateOldFunctions();
 
-        addSafely(new CustomFunction.Builder(true, "log", Arrays.asList("base", "x"), "ln(x)/ln(base)"));
-        addSafely(new CustomFunction.Builder(true, "√3", Collections.singletonList("x"), "x^(1/3)"));
-        addSafely(new CustomFunction.Builder(true, "√4", Collections.singletonList("x"), "x^(1/4)"));
-        addSafely(new CustomFunction.Builder(true, "√n", Arrays.asList("x", "n"), "x^(1/n)"));
-        addSafely(new CustomFunction.Builder(true, "re", Collections.singletonList("x"), "(x+conjugate(x))/2"));
-        addSafely(new CustomFunction.Builder(true, "im", Collections.singletonList("x"), "(x-conjugate(x))/(2*i)"));
+            addSafely(new CustomFunction.Builder(true, "log", Arrays.asList("base", "x"), "ln(x)/ln(base)"));
+            addSafely(new CustomFunction.Builder(true, "√3", Collections.singletonList("x"), "x^(1/3)"));
+            addSafely(new CustomFunction.Builder(true, "√4", Collections.singletonList("x"), "x^(1/4)"));
+            addSafely(new CustomFunction.Builder(true, "√n", Arrays.asList("x", "n"), "x^(1/n)"));
+            addSafely(new CustomFunction.Builder(true, "re", Collections.singletonList("x"), "(x+conjugate(x))/2"));
+            addSafely(new CustomFunction.Builder(true, "im", Collections.singletonList("x"), "(x-conjugate(x))/(2*i)"));
 
-        for (CppFunction function : loadFunctions()) {
-            addSafely(function.toCustomFunctionBuilder());
+            for (CppFunction function : loadFunctions()) {
+                addSafely(function.toCustomFunctionBuilder());
+            }
+        } finally {
+            setInitialized();
         }
-
-        setInitialized();
     }
 
     @Override
@@ -132,18 +128,6 @@ public class FunctionsRegistry extends BaseEntitiesRegistry<Function, OldFunctio
             save();
         }
         return function;
-    }
-
-    @Nullable
-    public Function addSafely(@Nonnull JBuilder<? extends Function> builder) {
-        try {
-            // todo serso: currently JSCL might produce function's body which can't be loaded afterwards. F.e. f(x) = 3 * 6
-            // might be simpliffied to f(x) = 18 × 10 ^ 0 and × is not supported by JSCL
-            return add(builder);
-        } catch (Exception e) {
-            errorReporter.onException(e);
-        }
-        return null;
     }
 
     @NonNull

@@ -30,7 +30,7 @@ import org.solovyev.android.calculator.history.RecentHistoryFragment;
 import org.solovyev.android.calculator.history.SavedHistoryFragment;
 import org.solovyev.android.calculator.math.edit.FunctionsFragment;
 import org.solovyev.android.calculator.math.edit.OperatorsFragment;
-import org.solovyev.android.calculator.math.edit.VarsFragment;
+import org.solovyev.android.calculator.math.edit.VariablesFragment;
 import org.solovyev.android.calculator.matrix.CalculatorMatrixEditFragment;
 import org.solovyev.android.calculator.plot.CalculatorPlotFragment;
 import org.solovyev.android.calculator.plot.CalculatorPlotFunctionSettingsActivity;
@@ -52,7 +52,7 @@ public enum CalculatorFragmentType {
     //keyboard(CalculatorHistoryFragment.class, "history", R.layout.fragment_history, R.string.c_history),
     history(RecentHistoryFragment.class, R.layout.fragment_history, R.string.cpp_history_tab_recent),
     saved_history(SavedHistoryFragment.class, R.layout.fragment_history, R.string.cpp_history_tab_saved),
-    variables(VarsFragment.class, R.layout.vars_fragment, R.string.c_vars),
+    variables(VariablesFragment.class, R.layout.vars_fragment, R.string.c_vars),
     functions(FunctionsFragment.class, R.layout.fragment_entities, R.string.c_functions),
     operators(OperatorsFragment.class, R.layout.fragment_entities, R.string.c_operators),
     plotter(CalculatorPlotFragment.class, R.layout.cpp_plotter_fragment, R.string.c_graph),

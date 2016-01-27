@@ -22,46 +22,43 @@
 
 package org.solovyev.android.calculator.model;
 
-import android.text.TextUtils;
-
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 import org.solovyev.android.calculator.PersistedEntitiesContainer;
-import org.solovyev.android.calculator.function.CppFunction;
+import org.solovyev.android.calculator.variables.CppVariable;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Nonnull;
 
-@Root(name = "Functions")
-public class OldFunctions implements PersistedEntitiesContainer<OldFunction> {
+@Root(name = "vars")
+public class OldVars implements PersistedEntitiesContainer<OldVar> {
 
-    public static final String PREFS_KEY = "org.solovyev.android.calculator.CalculatorModel_functions";
+    public static final String PREFS_KEY = "org.solovyev.android.calculator.CalculatorModel_vars";
+    @ElementList(type = OldVar.class)
+    private List<OldVar> vars = new ArrayList<OldVar>();
 
-    @ElementList(type = OldFunction.class)
-    private List<OldFunction> functions = new ArrayList<>();
+    public OldVars() {
+    }
 
-    public OldFunctions() {
+    public List<OldVar> getEntities() {
+        return vars;
     }
 
     @Nonnull
-    public static List<CppFunction> toCppFunctions(@Nonnull OldFunctions oldFunctions) {
-        final List<CppFunction> functions = new ArrayList<>();
-        for (OldFunction oldFunction : oldFunctions.functions) {
-            final String name = oldFunction.getName();
-            final String body = oldFunction.getContent();
+    public static List<CppVariable> toCppVariables(@Nonnull OldVars oldVariables) {
+        final List<CppVariable> variables = new ArrayList<>();
+        /*for (OldVar oldVar : oldVariables.vars) {
+            final String name = oldVar.getName();
+            final String body = oldVar.getContent();
             if (TextUtils.isEmpty(name) || TextUtils.isEmpty(body)) {
                 continue;
             }
-            functions.add(CppFunction.builder(name, body)
-                    .withParameters(oldFunction.getParameterNames())
-                    .withDescription(oldFunction.getDescription()).build());
-        }
-        return functions;
-    }
-
-    public List<OldFunction> getEntities() {
-        return functions;
+            variables.add(CppFunction.builder(name, body)
+                    .withParameters(oldVar.getParameterNames())
+                    .withDescription(oldVar.getDescription()).build());
+        }*/
+        return variables;
     }
 }

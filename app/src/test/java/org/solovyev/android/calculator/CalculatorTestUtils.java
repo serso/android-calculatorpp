@@ -103,7 +103,7 @@ public class CalculatorTestUtils {
 
         final JsclMathEngine jsclEngine = JsclMathEngine.getInstance();
 
-        final VariablesRegistry variablesRegistry = new VariablesRegistry(jsclEngine.getConstantsRegistry(), entityDao);
+        final VariablesRegistry variablesRegistry = new VariablesRegistry(jsclEngine);
         final FunctionsRegistry functionsRegistry = new FunctionsRegistry(jsclEngine);
         final OperatorsRegistry operatorsRegistry = new OperatorsRegistry(jsclEngine.getOperatorsRegistry());
         final PostfixFunctionsRegistry postfixFunctionsRegistry = new PostfixFunctionsRegistry(jsclEngine.getPostfixFunctionsRegistry());

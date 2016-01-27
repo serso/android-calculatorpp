@@ -22,23 +22,38 @@
 
 package org.solovyev.android.calculator;
 
-import org.solovyev.android.calculator.model.EntityDao;
+import android.support.annotation.NonNull;
+
+import org.simpleframework.xml.Serializer;
+import org.simpleframework.xml.core.Persister;
+import org.solovyev.android.Check;
+import org.solovyev.android.calculator.json.Json;
 import org.solovyev.android.calculator.model.MathEntityBuilder;
-import org.solovyev.android.calculator.model.Var;
-import org.solovyev.android.calculator.model.Vars;
+import org.solovyev.android.calculator.model.OldFunctions;
+import org.solovyev.android.calculator.model.OldVar;
+import org.solovyev.android.calculator.model.OldVars;
+import org.solovyev.android.calculator.variables.CppVariable;
+import org.solovyev.android.io.FileSaver;
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathEntity;
-import org.solovyev.common.math.MathRegistry;
 
+import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
+import jscl.JsclMathEngine;
 import jscl.math.function.IConstant;
 
-public class VariablesRegistry extends BaseEntitiesRegistry<IConstant, Var> {
+import static android.text.TextUtils.isEmpty;
+
+@Singleton
+public class VariablesRegistry extends BaseEntitiesRegistry<IConstant, OldVar> {
 
     @Nonnull
     public static final String ANS = "ans";
@@ -54,9 +69,9 @@ public class VariablesRegistry extends BaseEntitiesRegistry<IConstant, Var> {
         substitutes.put("NaN", "nan");
     }
 
-    public VariablesRegistry(@Nonnull MathRegistry<IConstant> mathRegistry,
-                             @Nonnull EntityDao<Var> entityDao) {
-        super(mathRegistry, "c_var_description_", entityDao);
+    @Inject
+    public VariablesRegistry(@Nonnull JsclMathEngine mathEngine) {
+        super(mathEngine.getConstantsRegistry(), "c_var_description_", null);
     }
 
     public static <T extends MathEntity> void saveVariable(@Nonnull EntitiesRegistry<T> registry,
@@ -82,41 +97,69 @@ public class VariablesRegistry extends BaseEntitiesRegistry<IConstant, Var> {
         return substitutes;
     }
 
-    public synchronized void init() {
-        super.init();
+    public void init() {
+        Check.isNotMainThread();
 
-        tryToAddAuxVar("x");
-        tryToAddAuxVar("y");
-        tryToAddAuxVar("t");
-        tryToAddAuxVar("j");
+        try {
+            //migrateOldVariables();
+
+            addSafely("x");
+            addSafely("y");
+            addSafely("t");
+            addSafely("j");
+        } finally {
+            setInitialized();
+        }
     }
 
+    private void migrateOldVariables() {
+        final String xml = preferences.getString(OldVars.PREFS_KEY, null);
+        if (isEmpty(xml)) {
+            return;
+        }
+        try {
+            final Serializer serializer = new Persister();
+            final OldVars oldVariables = serializer.read(OldVars.class, xml);
+            if (oldVariables != null) {
+                List<CppVariable> variables = OldVars.toCppVariables(oldVariables);
+                FileSaver.save(getVariablesFile(), Json.toJson(variables).toString());
+            }
+            preferences.edit().remove(OldFunctions.PREFS_KEY).apply();
+        } catch (Exception e) {
+            errorReporter.onException(e);
+        }
+    }
+
+    @NonNull
+    private File getVariablesFile() {
+        return new File(application.getFilesDir(), "variables.json");
+    }
 
     @Nonnull
     @Override
-    protected JBuilder<? extends IConstant> createBuilder(@Nonnull Var entity) {
-        return new Var.Builder(entity);
+    protected JBuilder<? extends IConstant> createBuilder(@Nonnull OldVar entity) {
+        return new OldVar.Builder(entity);
     }
 
     @Nonnull
     @Override
-    protected PersistedEntitiesContainer<Var> createPersistenceContainer() {
-        return new Vars();
+    protected PersistedEntitiesContainer<OldVar> createPersistenceContainer() {
+        return new OldVars();
     }
 
-    private void tryToAddAuxVar(@Nonnull String name) {
+    private void addSafely(@Nonnull String name) {
         if (!contains(name)) {
-            add(new Var.Builder(name, (String) null));
+            addSafely(new OldVar.Builder(name, (String) null));
         }
     }
 
     @Nonnull
     @Override
-    protected Var transform(@Nonnull IConstant entity) {
-        if (entity instanceof Var) {
-            return (Var) entity;
+    protected OldVar transform(@Nonnull IConstant entity) {
+        if (entity instanceof OldVar) {
+            return (OldVar) entity;
         } else {
-            return new Var.Builder(entity).create();
+            return new OldVar.Builder(entity).create();
         }
     }
 
