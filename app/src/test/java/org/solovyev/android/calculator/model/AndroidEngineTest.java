@@ -31,6 +31,7 @@ import org.solovyev.android.calculator.CalculatorEvalException;
 import org.solovyev.android.calculator.CalculatorTestUtils;
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.jscl.JsclOperation;
+import org.solovyev.android.calculator.variables.OldVar;
 
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;

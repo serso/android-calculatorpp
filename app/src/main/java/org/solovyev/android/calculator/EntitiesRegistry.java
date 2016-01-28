@@ -22,6 +22,7 @@
 
 package org.solovyev.android.calculator;
 
+import org.solovyev.android.calculator.entities.Category;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.math.MathRegistry;
 

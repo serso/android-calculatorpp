@@ -28,6 +28,7 @@ import org.solovyev.android.calculator.AbstractCalculatorTest;
 import org.solovyev.android.calculator.CalculatorTestUtils;
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.jscl.JsclOperation;
+import org.solovyev.android.calculator.variables.OldVar;
 
 import jscl.AngleUnit;
 import jscl.MathEngine;

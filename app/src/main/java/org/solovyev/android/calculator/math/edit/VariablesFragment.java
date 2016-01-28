@@ -29,7 +29,6 @@ import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.melnykov.fab.FloatingActionButton;
 import com.squareup.otto.Bus;
 
 import org.solovyev.android.calculator.AppComponent;
@@ -38,7 +37,7 @@ import org.solovyev.android.calculator.CalculatorEventData;
 import org.solovyev.android.calculator.CalculatorEventListener;
 import org.solovyev.android.calculator.CalculatorEventType;
 import org.solovyev.android.calculator.CalculatorFragmentType;
-import org.solovyev.android.calculator.Category;
+import org.solovyev.android.calculator.entities.Category;
 import org.solovyev.android.calculator.Change;
 import org.solovyev.android.calculator.Keyboard;
 import org.solovyev.android.calculator.Locator;
@@ -114,7 +113,6 @@ public class VariablesFragment extends BaseEntitiesFragment<IConstant> implement
     public void onViewCreated(View root, Bundle savedInstanceState) {
         super.onViewCreated(root, savedInstanceState);
 
-        final FloatingActionButton fab = (FloatingActionButton) root.findViewById(R.id.fab);
         fab.setVisibility(View.VISIBLE);
         fab.attachToRecyclerView(recyclerView);
         fab.setOnClickListener(new View.OnClickListener() {

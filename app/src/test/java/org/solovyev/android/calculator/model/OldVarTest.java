@@ -25,6 +25,8 @@ package org.solovyev.android.calculator.model;
 import org.junit.Test;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
+import org.solovyev.android.calculator.variables.OldVar;
+import org.solovyev.android.calculator.variables.OldVars;
 
 import java.io.StringWriter;
 
@@ -59,9 +61,9 @@ public class OldVarTest {
     public void testXml() throws Exception {
         final OldVars vars = new OldVars();
         OldVar first = new OldVar.Builder("e", Math.E).setDescription("description").setSystem(true).create();
-        vars.getEntities().add(first);
+        vars.list.add(first);
         OldVar second = new OldVar.Builder(";", 3d).setSystem(true).create();
-        vars.getEntities().add(second);
+        vars.list.add(second);
 
         final StringWriter sw = new StringWriter();
         final Serializer serializer = new Persister();
@@ -70,8 +72,8 @@ public class OldVarTest {
         assertEquals(xml, sw.toString());
 
         final OldVars result = serializer.read(OldVars.class, xml);
-        final IConstant actualFirst = result.getEntities().get(0);
-        final IConstant actualSecond = result.getEntities().get(1);
+        final IConstant actualFirst = result.list.get(0);
+        final IConstant actualSecond = result.list.get(1);
 
         areEqual(first, actualFirst);
         areEqual(second, actualSecond);

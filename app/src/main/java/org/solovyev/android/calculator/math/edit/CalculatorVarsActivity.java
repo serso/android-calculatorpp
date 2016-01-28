@@ -31,7 +31,7 @@ import org.solovyev.android.calculator.CalculatorEventListener;
 import org.solovyev.android.calculator.CalculatorEventType;
 import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.R;
-import org.solovyev.android.calculator.VarCategory;
+import org.solovyev.android.calculator.variables.VariablesCategory;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -57,11 +57,11 @@ public class CalculatorVarsActivity extends BaseActivity implements CalculatorEv
 
         final CalculatorFragmentType fragmentType = CalculatorFragmentType.variables;
 
-        for (VarCategory category : VarCategory.values()) {
+        for (VariablesCategory category : VariablesCategory.values()) {
 
             final Bundle fragmentParameters;
 
-            if (category == VarCategory.my && bundle != null) {
+            if (category == VariablesCategory.my && bundle != null) {
                 BaseEntitiesFragment.putCategory(bundle, category.name());
                 fragmentParameters = bundle;
             } else {

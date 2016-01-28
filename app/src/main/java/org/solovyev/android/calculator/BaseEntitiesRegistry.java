@@ -27,33 +27,43 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 
 import com.squareup.otto.Bus;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.model.EntityDao;
+import org.solovyev.android.calculator.json.Json;
+import org.solovyev.android.calculator.json.Jsonable;
+import org.solovyev.android.io.FileSaver;
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.math.MathRegistry;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executor;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
+import javax.inject.Named;
 
-public abstract class BaseEntitiesRegistry<T extends MathEntity, P extends PersistedEntity> implements EntitiesRegistry<T> {
+public abstract class BaseEntitiesRegistry<T extends MathEntity> implements EntitiesRegistry<T> {
 
-    @Nullable
-    protected final EntityDao<P> entityDao;
     @Nonnull
     protected final Object lock = this;
     @Nonnull
     private final MathRegistry<T> mathRegistry;
     @Nonnull
     private final String prefix;
+    @NonNull
+    private final WriteTask writeTask = new WriteTask();
     @Inject
     Handler handler;
     @Inject
@@ -64,16 +74,17 @@ public abstract class BaseEntitiesRegistry<T extends MathEntity, P extends Persi
     Bus bus;
     @Inject
     ErrorReporter errorReporter;
+    @Inject
+    @Named(AppModule.THREAD_BACKGROUND)
+    Executor backgroundThread;
 
     // synchronized on lock
     private boolean initialized;
 
     protected BaseEntitiesRegistry(@Nonnull MathRegistry<T> mathRegistry,
-                                   @Nonnull String prefix,
-                                   @Nullable EntityDao<P> entityDao) {
+                                   @Nonnull String prefix) {
         this.mathRegistry = mathRegistry;
         this.prefix = prefix;
-        this.entityDao = entityDao;
     }
 
 
@@ -96,6 +107,10 @@ public abstract class BaseEntitiesRegistry<T extends MathEntity, P extends Persi
         return getDescription(App.getApplication(), stringName);
     }
 
+    @Override
+    public void init() {
+        setInitialized();
+    }
 
     @Nullable
     public String getDescription(@Nonnull Context context, @Nonnull String descriptionId) {
@@ -109,44 +124,18 @@ public abstract class BaseEntitiesRegistry<T extends MathEntity, P extends Persi
         }
     }
 
-    public synchronized void init() {
-        Check.isNotMainThread();
-
-        if (entityDao == null) {
-            return;
+    @NonNull
+    protected final <E> List<E> loadEntities(@NonNull Json.Creator<E> creator) {
+        final File file = getEntitiesFile();
+        if (file == null) {
+            return Collections.emptyList();
         }
-        final PersistedEntitiesContainer<P> persistenceContainer = entityDao.load();
-
-        final List<P> notCreatedEntities = new ArrayList<P>();
-
-        if (persistenceContainer != null) {
-            for (P entity : persistenceContainer.getEntities()) {
-                if (!contains(entity.getName())) {
-                    try {
-                        final JBuilder<? extends T> builder = createBuilder(entity);
-                        add(builder);
-                    } catch (RuntimeException e) {
-                        Locator.getInstance().getErrorReporter().onException(e);
-                        notCreatedEntities.add(entity);
-                    }
-                }
-            }
-        }
-
         try {
-            if (!notCreatedEntities.isEmpty()) {
-                final StringBuilder errorMessage = new StringBuilder(notCreatedEntities.size() * 100);
-                for (P notCreatedEntity : notCreatedEntities) {
-                    errorMessage.append(notCreatedEntity).append("\n\n");
-                }
-
-                Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.show_message_dialog, MessageDialogData.newInstance(CalculatorMessages.newErrorMessage(CalculatorMessages.msg_007, errorMessage.toString()), null));
-            }
-        } catch (RuntimeException e) {
-            // just in case
-            Locator.getInstance().getErrorReporter().onException(e);
+            return Json.load(file, creator);
+        } catch (IOException | JSONException e) {
+            errorReporter.onException(e);
         }
-        setInitialized();
+        return Collections.emptyList();
     }
 
     protected final void setInitialized() {
@@ -162,33 +151,11 @@ public abstract class BaseEntitiesRegistry<T extends MathEntity, P extends Persi
         }
     }
 
-    @Nonnull
-    protected abstract JBuilder<? extends T> createBuilder(@Nonnull P entity);
-
     @Override
-    public synchronized void save() {
-        if (entityDao == null) {
-            return;
-        }
-        final PersistedEntitiesContainer<P> container = createPersistenceContainer();
-
-        for (T entity : this.getEntities()) {
-            if (!entity.isSystem()) {
-                final P persistenceEntity = transform(entity);
-                if (persistenceEntity != null) {
-                    container.getEntities().add(persistenceEntity);
-                }
-            }
-        }
-
-        entityDao.save(container);
+    public void save() {
+        handler.removeCallbacks(writeTask);
+        handler.postDelayed(writeTask, 500);
     }
-
-    @Nullable
-    protected abstract P transform(@Nonnull T entity);
-
-    @Nonnull
-    protected abstract PersistedEntitiesContainer<P> createPersistenceContainer();
 
     @Nonnull
     @Override
@@ -203,8 +170,12 @@ public abstract class BaseEntitiesRegistry<T extends MathEntity, P extends Persi
     }
 
     @Override
-    public T add(@Nonnull JBuilder<? extends T> JBuilder) {
-        return mathRegistry.add(JBuilder);
+    public T add(@Nonnull JBuilder<? extends T> builder) {
+        final T entity = mathRegistry.add(builder);
+        if (!entity.isSystem() && isInitialized()) {
+            save();
+        }
+        return entity;
     }
 
     @Nullable
@@ -220,6 +191,7 @@ public abstract class BaseEntitiesRegistry<T extends MathEntity, P extends Persi
     @Override
     public void remove(@Nonnull T var) {
         mathRegistry.remove(var);
+        save();
     }
 
     @Nonnull
@@ -241,5 +213,44 @@ public abstract class BaseEntitiesRegistry<T extends MathEntity, P extends Persi
     @Override
     public T getById(@Nonnull Integer id) {
         return mathRegistry.getById(id);
+    }
+
+    @Nullable
+    protected abstract Jsonable toJsonable(@NonNull T entity);
+
+    @Nullable
+    protected abstract File getEntitiesFile();
+
+    private class WriteTask implements Runnable {
+
+        @Override
+        public void run() {
+            Check.isMainThread();
+            final File file = getEntitiesFile();
+            if (file == null) {
+                return;
+            }
+            final List<Jsonable> entities = new ArrayList<>();
+            for (T entity : getEntities()) {
+                if (entity.isSystem()) {
+                    continue;
+                }
+                final Jsonable jsonable = toJsonable(entity);
+                if (jsonable != null) {
+                    entities.add(jsonable);
+                }
+            }
+            backgroundThread.execute(new Runnable() {
+                @Override
+                public void run() {
+                    final JSONArray array = Json.toJson(entities);
+                    try {
+                        FileSaver.save(file, array.toString());
+                    } catch (IOException e) {
+                        errorReporter.onException(e);
+                    }
+                }
+            });
+        }
     }
 }

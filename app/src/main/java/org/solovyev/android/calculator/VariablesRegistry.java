@@ -24,15 +24,18 @@ package org.solovyev.android.calculator;
 
 import android.support.annotation.NonNull;
 
+import com.google.common.base.Strings;
+
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 import org.solovyev.android.Check;
+import org.solovyev.android.calculator.entities.Category;
+import org.solovyev.android.calculator.entities.Entities;
 import org.solovyev.android.calculator.json.Json;
-import org.solovyev.android.calculator.model.MathEntityBuilder;
-import org.solovyev.android.calculator.model.OldFunctions;
-import org.solovyev.android.calculator.model.OldVar;
-import org.solovyev.android.calculator.model.OldVars;
+import org.solovyev.android.calculator.json.Jsonable;
 import org.solovyev.android.calculator.variables.CppVariable;
+import org.solovyev.android.calculator.variables.OldVars;
+import org.solovyev.android.calculator.variables.VariablesCategory;
 import org.solovyev.android.io.FileSaver;
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathEntity;
@@ -50,10 +53,8 @@ import javax.inject.Singleton;
 import jscl.JsclMathEngine;
 import jscl.math.function.IConstant;
 
-import static android.text.TextUtils.isEmpty;
-
 @Singleton
-public class VariablesRegistry extends BaseEntitiesRegistry<IConstant, OldVar> {
+public class VariablesRegistry extends BaseEntitiesRegistry<IConstant> {
 
     @Nonnull
     public static final String ANS = "ans";
@@ -71,18 +72,14 @@ public class VariablesRegistry extends BaseEntitiesRegistry<IConstant, OldVar> {
 
     @Inject
     public VariablesRegistry(@Nonnull JsclMathEngine mathEngine) {
-        super(mathEngine.getConstantsRegistry(), "c_var_description_", null);
+        super(mathEngine.getConstantsRegistry(), "c_var_description_");
     }
 
-    public static <T extends MathEntity> void saveVariable(@Nonnull EntitiesRegistry<T> registry,
-                                                           @Nonnull MathEntityBuilder<? extends T> builder,
-                                                           @Nullable T editedInstance,
-                                                           @Nonnull Object source, boolean save) {
+    public static <T extends MathEntity> void add(@Nonnull EntitiesRegistry<T> registry,
+                                                  @Nonnull JBuilder<? extends T> builder,
+                                                  @Nullable T editedInstance,
+                                                  @Nonnull Object source) {
         final T addedVar = registry.add(builder);
-
-        if (save) {
-            registry.save();
-        }
 
         if (editedInstance == null) {
             Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.constant_added, addedVar, source);
@@ -101,12 +98,16 @@ public class VariablesRegistry extends BaseEntitiesRegistry<IConstant, OldVar> {
         Check.isNotMainThread();
 
         try {
-            //migrateOldVariables();
+            migrateOldVariables();
 
             addSafely("x");
             addSafely("y");
             addSafely("t");
             addSafely("j");
+
+            for (CppVariable variable : loadEntities(CppVariable.JSON_CREATOR)) {
+                addSafely(variable.toJsclBuilder());
+            }
         } finally {
             setInitialized();
         }
@@ -114,7 +115,7 @@ public class VariablesRegistry extends BaseEntitiesRegistry<IConstant, OldVar> {
 
     private void migrateOldVariables() {
         final String xml = preferences.getString(OldVars.PREFS_KEY, null);
-        if (isEmpty(xml)) {
+        if (Strings.isNullOrEmpty(xml)) {
             return;
         }
         try {
@@ -122,44 +123,29 @@ public class VariablesRegistry extends BaseEntitiesRegistry<IConstant, OldVar> {
             final OldVars oldVariables = serializer.read(OldVars.class, xml);
             if (oldVariables != null) {
                 List<CppVariable> variables = OldVars.toCppVariables(oldVariables);
-                FileSaver.save(getVariablesFile(), Json.toJson(variables).toString());
+                FileSaver.save(getEntitiesFile(), Json.toJson(variables).toString());
             }
-            preferences.edit().remove(OldFunctions.PREFS_KEY).apply();
+            preferences.edit().remove(OldVars.PREFS_KEY).apply();
         } catch (Exception e) {
             errorReporter.onException(e);
         }
     }
 
+    @Override
     @NonNull
-    private File getVariablesFile() {
+    protected File getEntitiesFile() {
         return new File(application.getFilesDir(), "variables.json");
     }
 
-    @Nonnull
+    @Nullable
     @Override
-    protected JBuilder<? extends IConstant> createBuilder(@Nonnull OldVar entity) {
-        return new OldVar.Builder(entity);
-    }
-
-    @Nonnull
-    @Override
-    protected PersistedEntitiesContainer<OldVar> createPersistenceContainer() {
-        return new OldVars();
+    protected Jsonable toJsonable(@NonNull IConstant constant) {
+        return CppVariable.builder(constant).build();
     }
 
     private void addSafely(@Nonnull String name) {
         if (!contains(name)) {
-            addSafely(new OldVar.Builder(name, (String) null));
-        }
-    }
-
-    @Nonnull
-    @Override
-    protected OldVar transform(@Nonnull IConstant entity) {
-        if (entity instanceof OldVar) {
-            return (OldVar) entity;
-        } else {
-            return new OldVar.Builder(entity).create();
+            addSafely(CppVariable.builder(name).build().toJsclBuilder());
         }
     }
 
@@ -174,13 +160,7 @@ public class VariablesRegistry extends BaseEntitiesRegistry<IConstant, OldVar> {
     }
 
     @Override
-    public Category getCategory(@Nonnull IConstant var) {
-        for (VarCategory category : VarCategory.values()) {
-            if (category.isInCategory(var)) {
-                return category;
-            }
-        }
-
-        return null;
+    public Category getCategory(@Nonnull IConstant variable) {
+        return Entities.getCategory(variable, VariablesCategory.values());
     }
 }

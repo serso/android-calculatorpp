@@ -20,20 +20,25 @@
  * Site:  http://se.solovyev.org
  */
 
-package org.solovyev.android.calculator;
+package org.solovyev.android.calculator.function;
 
 import android.support.annotation.StringRes;
+
+import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.entities.Category;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.annotation.Nonnull;
+
 import jscl.math.function.ArcTrigonometric;
 import jscl.math.function.Comparison;
 import jscl.math.function.Function;
 import jscl.math.function.Trigonometric;
 
-import javax.annotation.Nonnull;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
-public enum FunctionCategory implements Category {
+public enum FunctionCategory implements Category<Function> {
 
     my(R.string.c_fun_category_my) {
         @Override
@@ -91,6 +96,4 @@ public enum FunctionCategory implements Category {
     public int title() {
         return title;
     }
-
-    public abstract boolean isInCategory(@Nonnull Function function);
 }

@@ -20,10 +20,42 @@
  * Site:  http://se.solovyev.org
  */
 
-package org.solovyev.android.calculator;
+package org.solovyev.android.calculator.function;
 
+import org.simpleframework.xml.Element;
+import org.simpleframework.xml.ElementList;
+import org.simpleframework.xml.Root;
+import org.simpleframework.xml.Transient;
+
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-public interface PersistedEntitiesContainer<T extends PersistedEntity> {
-    List<T> getEntities();
+import javax.annotation.Nonnull;
+
+@Root(name = "function")
+public class OldFunction implements Serializable {
+
+    @Transient
+    public Integer id;
+
+    @Element
+    public String name;
+
+    @Element(name = "body")
+    public String content;
+
+    @ElementList(type = String.class)
+    @Nonnull
+    public List<String> parameterNames = new ArrayList<String>();
+
+    @Element
+    public boolean system;
+
+    @Element(required = false)
+    @Nonnull
+    public String description = "";
+
+    public OldFunction() {
+    }
 }

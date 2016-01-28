@@ -30,6 +30,8 @@ import org.junit.Test;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 import org.solovyev.android.calculator.CalculatorTestUtils;
+import org.solovyev.android.calculator.function.OldFunction;
+import org.solovyev.android.calculator.function.OldFunctions;
 import org.solovyev.common.Objects;
 import org.solovyev.common.equals.CollectionEqualizer;
 
@@ -145,13 +147,13 @@ public class OldFunctionsTest {
     private void assertEquals(@Nonnull final OldFunction expected,
                               @Nonnull OldFunction actual) {
         //Assert.assertEquals(expected.getId(), actual.getId());
-        Assert.assertEquals(expected.getContent(), actual.getContent());
-        Assert.assertEquals(expected.getDescription(), actual.getDescription());
-        Assert.assertEquals(expected.getName(), actual.getName());
-        Assert.assertThat(actual.getParameterNames(), new BaseMatcher<List<String>>() {
+        Assert.assertEquals(expected.content, actual.content);
+        Assert.assertEquals(expected.description, actual.description);
+        Assert.assertEquals(expected.name, actual.name);
+        Assert.assertThat(actual.parameterNames, new BaseMatcher<List<String>>() {
             @Override
             public boolean matches(Object item) {
-                return Objects.areEqual(expected.getParameterNames(), (List<String>) item, new CollectionEqualizer<String>(null));
+                return Objects.areEqual(expected.parameterNames, (List<String>) item, new CollectionEqualizer<String>(null));
             }
 
             @Override

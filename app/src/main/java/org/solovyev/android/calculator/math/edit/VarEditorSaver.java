@@ -145,7 +145,7 @@ public class VarEditorSaver<T extends MathEntity> implements View.OnClickListene
         if (error != null) {
             Locator.getInstance().getNotifier().showMessage(error, MessageType.error);
         } else {
-            VariablesRegistry.saveVariable(mathRegistry, varBuilder, editedInstance, source, true);
+            VariablesRegistry.add(mathRegistry, varBuilder, editedInstance, source);
         }
     }
 }

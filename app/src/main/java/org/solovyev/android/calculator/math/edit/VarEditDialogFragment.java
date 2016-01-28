@@ -45,7 +45,7 @@ import org.solovyev.android.calculator.CalculatorEventListener;
 import org.solovyev.android.calculator.CalculatorEventType;
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.R;
-import org.solovyev.android.calculator.model.OldVar;
+import org.solovyev.android.calculator.variables.OldVar;
 import org.solovyev.common.text.Strings;
 
 import java.util.Arrays;

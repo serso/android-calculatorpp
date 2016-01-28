@@ -4,20 +4,25 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import jscl.math.function.CustomFunction;
-import jscl.math.function.IFunction;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.json.Json;
 import org.solovyev.android.calculator.json.Jsonable;
+import org.solovyev.common.JBuilder;
 import org.solovyev.common.text.Strings;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import javax.annotation.Nonnull;
+
+import jscl.math.function.CustomFunction;
+import jscl.math.function.Function;
+import jscl.math.function.IFunction;
 
 public class CppFunction implements Jsonable, Parcelable {
 
@@ -46,7 +51,7 @@ public class CppFunction implements Jsonable, Parcelable {
     private static final String JSON_DESCRIPTION = "d";
     @Nonnull
     protected final List<String> parameters = new ArrayList<>();
-    protected int id;
+    protected int id = NO_ID;
     @Nonnull
     protected String name;
     @Nonnull
@@ -55,13 +60,11 @@ public class CppFunction implements Jsonable, Parcelable {
     protected String description = "";
 
     private CppFunction(@Nonnull String name, @Nonnull String body) {
-        this.id = NO_ID;
         this.name = name;
         this.body = body;
     }
 
     private CppFunction(@NonNull JSONObject json) throws JSONException {
-        id = NO_ID;
         final JSONArray array = json.optJSONArray(JSON_PARAMETERS);
         if (array != null) {
             for (int i = 0; i < array.length(); i++) {
@@ -180,7 +183,7 @@ public class CppFunction implements Jsonable, Parcelable {
     }
 
     @Nonnull
-    public CustomFunction.Builder toCustomFunctionBuilder() {
+    public JBuilder<? extends Function> toJsclBuilder() {
         final CustomFunction.Builder builder = new CustomFunction.Builder(name, parameters, body);
         builder.setDescription(description);
         if (id != NO_ID) {
@@ -232,13 +235,6 @@ public class CppFunction implements Jsonable, Parcelable {
         public Builder withId(int id) {
             Check.isTrue(!built);
             function.id = id;
-            return this;
-        }
-
-        @Nonnull
-        public Builder withBody(@NonNull String body) {
-            Check.isTrue(!built);
-            function.body = body;
             return this;
         }
 

@@ -20,14 +20,12 @@
  * Site:  http://se.solovyev.org
  */
 
-package org.solovyev.android.calculator.model;
+package org.solovyev.android.calculator.function;
 
 import android.text.TextUtils;
 
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
-import org.solovyev.android.calculator.PersistedEntitiesContainer;
-import org.solovyev.android.calculator.function.CppFunction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,12 +33,13 @@ import java.util.List;
 import javax.annotation.Nonnull;
 
 @Root(name = "Functions")
-public class OldFunctions implements PersistedEntitiesContainer<OldFunction> {
+public class OldFunctions {
 
     public static final String PREFS_KEY = "org.solovyev.android.calculator.CalculatorModel_functions";
 
-    @ElementList(type = OldFunction.class)
-    private List<OldFunction> functions = new ArrayList<>();
+    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
+    @ElementList(type = OldFunction.class, name = "functions")
+    public List<OldFunction> list = new ArrayList<>();
 
     public OldFunctions() {
     }
@@ -48,20 +47,16 @@ public class OldFunctions implements PersistedEntitiesContainer<OldFunction> {
     @Nonnull
     public static List<CppFunction> toCppFunctions(@Nonnull OldFunctions oldFunctions) {
         final List<CppFunction> functions = new ArrayList<>();
-        for (OldFunction oldFunction : oldFunctions.functions) {
-            final String name = oldFunction.getName();
-            final String body = oldFunction.getContent();
+        for (OldFunction oldFunction : oldFunctions.list) {
+            final String name = oldFunction.name;
+            final String body = oldFunction.content;
             if (TextUtils.isEmpty(name) || TextUtils.isEmpty(body)) {
                 continue;
             }
             functions.add(CppFunction.builder(name, body)
-                    .withParameters(oldFunction.getParameterNames())
-                    .withDescription(oldFunction.getDescription()).build());
+                    .withParameters(oldFunction.parameterNames)
+                    .withDescription(oldFunction.description).build());
         }
-        return functions;
-    }
-
-    public List<OldFunction> getEntities() {
         return functions;
     }
 }

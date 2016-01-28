@@ -52,7 +52,7 @@ public enum CalculatorFragmentType {
     //keyboard(CalculatorHistoryFragment.class, "history", R.layout.fragment_history, R.string.c_history),
     history(RecentHistoryFragment.class, R.layout.fragment_history, R.string.cpp_history_tab_recent),
     saved_history(SavedHistoryFragment.class, R.layout.fragment_history, R.string.cpp_history_tab_saved),
-    variables(VariablesFragment.class, R.layout.vars_fragment, R.string.c_vars),
+    variables(VariablesFragment.class, R.layout.fragment_entities, R.string.c_vars),
     functions(FunctionsFragment.class, R.layout.fragment_entities, R.string.c_functions),
     operators(OperatorsFragment.class, R.layout.fragment_entities, R.string.c_operators),
     plotter(CalculatorPlotFragment.class, R.layout.cpp_plotter_fragment, R.string.c_graph),

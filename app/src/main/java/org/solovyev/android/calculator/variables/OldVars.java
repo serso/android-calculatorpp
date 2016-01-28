@@ -20,45 +20,43 @@
  * Site:  http://se.solovyev.org
  */
 
-package org.solovyev.android.calculator.model;
+package org.solovyev.android.calculator.variables;
+
+import android.text.TextUtils;
 
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
-import org.solovyev.android.calculator.PersistedEntitiesContainer;
-import org.solovyev.android.calculator.variables.CppVariable;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import static com.google.common.base.Strings.nullToEmpty;
+
 @Root(name = "vars")
-public class OldVars implements PersistedEntitiesContainer<OldVar> {
+public class OldVars {
 
     public static final String PREFS_KEY = "org.solovyev.android.calculator.CalculatorModel_vars";
-    @ElementList(type = OldVar.class)
-    private List<OldVar> vars = new ArrayList<OldVar>();
+
+    @ElementList(type = OldVar.class, name = "vars")
+    public List<OldVar> list = new ArrayList<OldVar>();
 
     public OldVars() {
-    }
-
-    public List<OldVar> getEntities() {
-        return vars;
     }
 
     @Nonnull
     public static List<CppVariable> toCppVariables(@Nonnull OldVars oldVariables) {
         final List<CppVariable> variables = new ArrayList<>();
-        /*for (OldVar oldVar : oldVariables.vars) {
+        for (OldVar oldVar : oldVariables.list) {
             final String name = oldVar.getName();
-            final String body = oldVar.getContent();
-            if (TextUtils.isEmpty(name) || TextUtils.isEmpty(body)) {
+            if (TextUtils.isEmpty(name)) {
                 continue;
             }
-            variables.add(CppFunction.builder(name, body)
-                    .withParameters(oldVar.getParameterNames())
-                    .withDescription(oldVar.getDescription()).build());
-        }*/
+            variables.add(CppVariable.builder(name)
+                    .withValue(nullToEmpty(oldVar.getValue()))
+                    .withDescription(nullToEmpty(oldVar.getDescription())).build());
+        }
         return variables;
     }
 }
