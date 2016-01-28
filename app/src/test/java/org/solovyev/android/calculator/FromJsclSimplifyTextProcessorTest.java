@@ -25,7 +25,7 @@ package org.solovyev.android.calculator;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.solovyev.android.calculator.model.OldVar;
+import org.solovyev.android.calculator.variables.OldVar;
 import org.solovyev.android.calculator.text.FromJsclSimplifyTextProcessor;
 
 import java.text.DecimalFormatSymbols;

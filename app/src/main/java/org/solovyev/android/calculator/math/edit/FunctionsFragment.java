@@ -31,6 +31,7 @@ import com.squareup.otto.Subscribe;
 import jscl.math.function.Function;
 import jscl.math.function.IFunction;
 import org.solovyev.android.calculator.*;
+import org.solovyev.android.calculator.entities.Category;
 import org.solovyev.android.calculator.function.CppFunction;
 import org.solovyev.android.calculator.function.EditFunctionFragment;
 import org.solovyev.common.text.Strings;

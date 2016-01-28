@@ -24,64 +24,55 @@ package org.solovyev.android.calculator;
 
 import android.support.annotation.NonNull;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 import org.solovyev.android.Check;
+import org.solovyev.android.calculator.entities.Category;
+import org.solovyev.android.calculator.entities.Entities;
 import org.solovyev.android.calculator.function.CppFunction;
+import org.solovyev.android.calculator.function.FunctionCategory;
 import org.solovyev.android.calculator.json.Json;
-import org.solovyev.android.calculator.model.OldFunction;
-import org.solovyev.android.calculator.model.OldFunctions;
+import org.solovyev.android.calculator.json.Jsonable;
+import org.solovyev.android.calculator.function.OldFunctions;
 import org.solovyev.android.io.FileSaver;
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.text.Strings;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Executor;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
-import javax.inject.Named;
 import javax.inject.Singleton;
 
 import jscl.JsclMathEngine;
 import jscl.math.function.CustomFunction;
 import jscl.math.function.Function;
+import jscl.math.function.IFunction;
 
 import static android.text.TextUtils.isEmpty;
 
 @Singleton
-public class FunctionsRegistry extends BaseEntitiesRegistry<Function, OldFunction> {
+public class FunctionsRegistry extends BaseEntitiesRegistry<Function> {
 
     @Nonnull
     private static final Map<String, String> substitutes = new HashMap<>();
-    @Nonnull
-    private static final String FUNCTION_DESCRIPTION_PREFIX = "c_fun_description_";
 
     static {
         substitutes.put("√", "sqrt");
     }
 
-    @NonNull
-    private final WriteTask writeTask = new WriteTask();
-    @Inject
-    @Named(AppModule.THREAD_BACKGROUND)
-    Executor backgroundThread;
     @Inject
     Calculator calculator;
 
     @Inject
     public FunctionsRegistry(@Nonnull JsclMathEngine mathEngine) {
-        super(mathEngine.getFunctionsRegistry(), FUNCTION_DESCRIPTION_PREFIX, null);
+        super(mathEngine.getFunctionsRegistry(), "c_fun_description_");
     }
 
     public void add(@NonNull JBuilder<? extends Function> builder, @Nullable Function oldFunction) {
@@ -106,8 +97,8 @@ public class FunctionsRegistry extends BaseEntitiesRegistry<Function, OldFunctio
             addSafely(new CustomFunction.Builder(true, "re", Collections.singletonList("x"), "(x+conjugate(x))/2"));
             addSafely(new CustomFunction.Builder(true, "im", Collections.singletonList("x"), "(x-conjugate(x))/(2*i)"));
 
-            for (CppFunction function : loadFunctions()) {
-                addSafely(function.toCustomFunctionBuilder());
+            for (CppFunction function : loadEntities(CppFunction.JSON_CREATOR)) {
+                addSafely(function.toJsclBuilder());
             }
         } finally {
             setInitialized();
@@ -118,26 +109,15 @@ public class FunctionsRegistry extends BaseEntitiesRegistry<Function, OldFunctio
     public void remove(@Nonnull Function function) {
         super.remove(function);
         bus.post(new RemovedEvent(function));
-        save();
     }
 
+    @Nullable
     @Override
-    public Function add(@Nonnull JBuilder<? extends Function> builder) {
-        final Function function = super.add(builder);
-        if (isInitialized()) {
-            save();
+    protected Jsonable toJsonable(@NonNull Function function) {
+        if (function instanceof IFunction) {
+            return CppFunction.builder((IFunction) function).build();
         }
-        return function;
-    }
-
-    @NonNull
-    private List<CppFunction> loadFunctions() {
-        try {
-            return Json.load(getFunctionsFile(), CppFunction.JSON_CREATOR);
-        } catch (IOException | JSONException e) {
-            errorReporter.onException(e);
-        }
-        return Collections.emptyList();
+        return null;
     }
 
     private void migrateOldFunctions() {
@@ -151,7 +131,7 @@ public class FunctionsRegistry extends BaseEntitiesRegistry<Function, OldFunctio
             if (oldFunctions != null) {
                 List<CppFunction> functions = OldFunctions.toCppFunctions(oldFunctions);
                 // todo serso: fix multiplication sign issue
-                FileSaver.save(getFunctionsFile(), Json.toJson(functions).toString());
+                FileSaver.save(getEntitiesFile(), Json.toJson(functions).toString());
             }
             preferences.edit().remove(OldFunctions.PREFS_KEY).apply();
         } catch (Exception e) {
@@ -160,13 +140,8 @@ public class FunctionsRegistry extends BaseEntitiesRegistry<Function, OldFunctio
     }
 
     @Override
-    public void save() {
-        handler.removeCallbacks(writeTask);
-        handler.postDelayed(writeTask, 500);
-    }
-
     @NonNull
-    private File getFunctionsFile() {
+    protected File getEntitiesFile() {
         return new File(application.getFilesDir(), "functions.json");
     }
 
@@ -178,13 +153,7 @@ public class FunctionsRegistry extends BaseEntitiesRegistry<Function, OldFunctio
 
     @Override
     public Category getCategory(@Nonnull Function function) {
-        for (FunctionCategory category : FunctionCategory.values()) {
-            if (category.isInCategory(function)) {
-                return category;
-            }
-        }
-
-        return null;
+        return Entities.getCategory(function, FunctionCategory.values());
     }
 
     @Nullable
@@ -202,55 +171,6 @@ public class FunctionsRegistry extends BaseEntitiesRegistry<Function, OldFunctio
         }
         return super.getDescription(name);
 
-    }
-
-    @Nonnull
-    @Override
-    protected JBuilder<? extends Function> createBuilder(@Nonnull OldFunction function) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    protected OldFunction transform(@Nonnull Function function) {
-        if (function instanceof CustomFunction) {
-            return OldFunction.fromIFunction((CustomFunction) function);
-        } else {
-            return null;
-        }
-    }
-
-    @Nonnull
-    @Override
-    protected PersistedEntitiesContainer<OldFunction> createPersistenceContainer() {
-        return new OldFunctions();
-    }
-
-    private class WriteTask implements Runnable {
-
-        @Override
-        public void run() {
-            Check.isMainThread();
-            final List<CppFunction> functions = new ArrayList<>();
-            for (Function function : getEntities()) {
-                if (function.isSystem()) {
-                    continue;
-                }
-                if (function instanceof CustomFunction) {
-                    functions.add(CppFunction.builder((CustomFunction) function).build());
-                }
-            }
-            backgroundThread.execute(new Runnable() {
-                @Override
-                public void run() {
-                    final JSONArray array = Json.toJson(functions);
-                    try {
-                        FileSaver.save(getFunctionsFile(), array.toString());
-                    } catch (IOException e) {
-                        errorReporter.onException(e);
-                    }
-                }
-            });
-        }
     }
 
     public static final class RemovedEvent {

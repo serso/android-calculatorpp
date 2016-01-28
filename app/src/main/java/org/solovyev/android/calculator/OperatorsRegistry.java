@@ -22,20 +22,28 @@
 
 package org.solovyev.android.calculator;
 
-import jscl.math.operator.Operator;
-import org.solovyev.common.JBuilder;
+import android.support.annotation.NonNull;
+
+import org.solovyev.android.calculator.entities.Category;
+import org.solovyev.android.calculator.entities.Entities;
+import org.solovyev.android.calculator.function.FunctionCategory;
+import org.solovyev.android.calculator.json.Jsonable;
+import org.solovyev.android.calculator.operators.OperatorCategory;
 import org.solovyev.common.math.MathRegistry;
 
-import javax.annotation.Nonnull;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-public class OperatorsRegistry extends BaseEntitiesRegistry<Operator, PersistedEntity> {
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import jscl.math.operator.Operator;
+
+public class OperatorsRegistry extends BaseEntitiesRegistry<Operator> {
 
     @Nonnull
     private static final Map<String, String> substitutes = new HashMap<String, String>();
-    @Nonnull
-    private static final String OPERATOR_DESCRIPTION_PREFIX = "c_op_description_";
 
     static {
         substitutes.put("Σ", "sum");
@@ -47,7 +55,7 @@ public class OperatorsRegistry extends BaseEntitiesRegistry<Operator, PersistedE
     }
 
     public OperatorsRegistry(@Nonnull MathRegistry<Operator> functionsRegistry) {
-        super(functionsRegistry, OPERATOR_DESCRIPTION_PREFIX, null);
+        super(functionsRegistry, "c_op_description_");
     }
 
     @Nonnull
@@ -56,30 +64,20 @@ public class OperatorsRegistry extends BaseEntitiesRegistry<Operator, PersistedE
         return substitutes;
     }
 
+    @Nullable
     @Override
-    public Category getCategory(@Nonnull Operator operator) {
-        for (OperatorCategory category : OperatorCategory.values()) {
-            if (category.isInCategory(operator)) {
-                return category;
-            }
-        }
+    protected Jsonable toJsonable(@NonNull Operator entity) {
         return null;
     }
 
-    @Nonnull
+    @Nullable
     @Override
-    protected JBuilder<? extends Operator> createBuilder(@Nonnull PersistedEntity entity) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    protected File getEntitiesFile() {
+        return null;
     }
 
     @Override
-    protected PersistedEntity transform(@Nonnull Operator entity) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Nonnull
-    @Override
-    protected PersistedEntitiesContainer<PersistedEntity> createPersistenceContainer() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public Category getCategory(@Nonnull Operator operator) {
+        return Entities.getCategory(operator, OperatorCategory.values());
     }
 }

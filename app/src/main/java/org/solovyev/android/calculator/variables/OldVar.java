@@ -20,12 +20,12 @@
  * Site:  http://se.solovyev.org
  */
 
-package org.solovyev.android.calculator.model;
+package org.solovyev.android.calculator.variables;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 import org.simpleframework.xml.Transient;
-import org.solovyev.android.calculator.PersistedEntity;
+import org.solovyev.android.calculator.model.MathEntityBuilder;
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.text.Strings;
@@ -38,7 +38,7 @@ import jscl.math.function.ExtendedConstant;
 import jscl.math.function.IConstant;
 
 @Root(name = "var")
-public class OldVar implements IConstant, PersistedEntity {
+public class OldVar implements IConstant {
 
     @Transient
     private Integer id;
@@ -234,7 +234,7 @@ public class OldVar implements IConstant, PersistedEntity {
             return this;
         }
 
-        protected Builder setSystem(boolean system) {
+        public Builder setSystem(boolean system) {
             this.system = system;
             return this;
         }

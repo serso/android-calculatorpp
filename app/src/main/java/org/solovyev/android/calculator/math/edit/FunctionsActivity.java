@@ -26,7 +26,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import org.solovyev.android.calculator.BaseActivity;
 import org.solovyev.android.calculator.CalculatorFragmentType;
-import org.solovyev.android.calculator.FunctionCategory;
+import org.solovyev.android.calculator.function.FunctionCategory;
 import org.solovyev.android.calculator.R;
 
 import javax.annotation.Nullable;

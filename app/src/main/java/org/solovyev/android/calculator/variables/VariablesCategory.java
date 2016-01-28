@@ -20,38 +20,39 @@
  * Site:  http://se.solovyev.org
  */
 
-package org.solovyev.android.calculator;
+package org.solovyev.android.calculator.variables;
 
 import android.support.annotation.StringRes;
-import jscl.math.function.IConstant;
+
+import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.entities.Category;
 
 import javax.annotation.Nonnull;
 
-public enum VarCategory implements Category {
+import jscl.math.function.IConstant;
+
+public enum VariablesCategory implements Category<IConstant> {
 
     my(R.string.c_var_my) {
         @Override
-        public boolean isInCategory(@Nonnull IConstant var) {
-            return !var.isSystem();
+        public boolean isInCategory(@Nonnull IConstant variable) {
+            return !variable.isSystem();
         }
     },
 
     system(R.string.c_var_system) {
         @Override
-        public boolean isInCategory(@Nonnull IConstant var) {
-            return var.isSystem();
+        public boolean isInCategory(@Nonnull IConstant variable) {
+            return variable.isSystem();
         }
     };
 
     @StringRes
     private final int title;
 
-    VarCategory(@StringRes int title) {
+    VariablesCategory(@StringRes int title) {
         this.title = title;
     }
-
-    public abstract boolean isInCategory(@Nonnull IConstant var);
-
 
     @Override
     public int title() {

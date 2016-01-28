@@ -31,7 +31,6 @@ import org.mockito.Mockito;
 import org.robolectric.fakes.RoboSharedPreferences;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.language.Languages;
-import org.solovyev.android.calculator.model.EntityDao;
 import org.solovyev.android.calculator.plot.CalculatorPlotter;
 
 import java.io.ByteArrayInputStream;
@@ -99,8 +98,6 @@ public class CalculatorTestUtils {
 
     @Nonnull
     static Engine newCalculatorEngine() {
-        final EntityDao entityDao = Mockito.mock(EntityDao.class);
-
         final JsclMathEngine jsclEngine = JsclMathEngine.getInstance();
 
         final VariablesRegistry variablesRegistry = new VariablesRegistry(jsclEngine);

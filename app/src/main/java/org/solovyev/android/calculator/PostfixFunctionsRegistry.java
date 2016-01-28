@@ -22,20 +22,27 @@
 
 package org.solovyev.android.calculator;
 
-import jscl.math.operator.Operator;
-import org.solovyev.common.JBuilder;
+import android.support.annotation.NonNull;
+
+import org.solovyev.android.calculator.entities.Category;
+import org.solovyev.android.calculator.entities.Entities;
+import org.solovyev.android.calculator.json.Jsonable;
+import org.solovyev.android.calculator.operators.OperatorCategory;
 import org.solovyev.common.math.MathRegistry;
 
-import javax.annotation.Nonnull;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PostfixFunctionsRegistry extends BaseEntitiesRegistry<Operator, PersistedEntity> {
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import jscl.math.operator.Operator;
+
+public class PostfixFunctionsRegistry extends BaseEntitiesRegistry<Operator> {
 
     @Nonnull
     private static final Map<String, String> substitutes = new HashMap<String, String>();
-    @Nonnull
-    private static final String POSTFIX_FUNCTION_DESCRIPTION_PREFIX = "c_pf_description_";
 
     static {
         substitutes.put("%", "percent");
@@ -45,7 +52,7 @@ public class PostfixFunctionsRegistry extends BaseEntitiesRegistry<Operator, Per
     }
 
     public PostfixFunctionsRegistry(@Nonnull MathRegistry<Operator> functionsRegistry) {
-        super(functionsRegistry, POSTFIX_FUNCTION_DESCRIPTION_PREFIX, null);
+        super(functionsRegistry, "c_pf_description_");
     }
 
     @Nonnull
@@ -54,30 +61,20 @@ public class PostfixFunctionsRegistry extends BaseEntitiesRegistry<Operator, Per
         return substitutes;
     }
 
+    @Nullable
+    @Override
+    protected Jsonable toJsonable(@NonNull Operator entity) {
+        return null;
+    }
+
+    @Nullable
+    @Override
+    protected File getEntitiesFile() {
+        return null;
+    }
+
     @Override
     public Category getCategory(@Nonnull Operator operator) {
-        for (OperatorCategory category : OperatorCategory.values()) {
-            if (category.isInCategory(operator)) {
-                return category;
-            }
-        }
-        return null;
-    }
-
-    @Nonnull
-    @Override
-    protected JBuilder<? extends Operator> createBuilder(@Nonnull PersistedEntity entity) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    protected PersistedEntity transform(@Nonnull Operator entity) {
-        return null;
-    }
-
-    @Nonnull
-    @Override
-    protected PersistedEntitiesContainer<PersistedEntity> createPersistenceContainer() {
-        throw new UnsupportedOperationException();
+        return Entities.getCategory(operator, OperatorCategory.values());
     }
 }

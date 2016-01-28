@@ -78,7 +78,6 @@ import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import jscl.math.function.CustomFunction;
 import jscl.math.function.Function;
 
 import static org.solovyev.android.calculator.function.CppFunction.NO_ID;
@@ -213,7 +212,7 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
             showRemovalDialog(function);
             return;
         }
-        final CustomFunction entity = function.toCustomFunctionBuilder().create();
+        final Function entity = function.toJsclBuilder().create();
         functionsRegistry.remove(entity);
         calculator.fireCalculatorEvent(CalculatorEventType.function_removed, entity, this);
         dismiss();
@@ -317,7 +316,7 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
                     .withParameters(collectParameters())
                     .withDescription(descriptionView.getText().toString()).build();
             final Function oldFunction = isNewFunction() ? null : functionsRegistry.getById(function.id);
-            functionsRegistry.add(newFunction.toCustomFunctionBuilder(), oldFunction);
+            functionsRegistry.add(newFunction.toJsclBuilder(), oldFunction);
             return true;
         } catch (RuntimeException e) {
             setError(bodyLabel, e.getLocalizedMessage());

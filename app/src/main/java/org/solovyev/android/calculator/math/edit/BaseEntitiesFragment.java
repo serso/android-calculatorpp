@@ -31,26 +31,34 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.ClipboardManager;
 import android.text.TextUtils;
-import android.view.*;
+import android.view.ContextMenu;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
-import butterknife.Bind;
-import butterknife.ButterKnife;
+
 import com.melnykov.fab.FloatingActionButton;
+
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.BaseFragment;
 import org.solovyev.android.calculator.CalculatorFragmentType;
-import org.solovyev.android.calculator.Category;
+import org.solovyev.android.calculator.entities.Category;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.views.llm.DividerItemDecoration;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.text.Strings;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 
 public abstract class BaseEntitiesFragment<E extends MathEntity> extends BaseFragment {
@@ -221,7 +229,7 @@ public abstract class BaseEntitiesFragment<E extends MathEntity> extends BaseFra
 
         public void bind(@Nonnull E entity) {
             this.entity = entity;
-            textView.setText(String.valueOf(entity));
+            textView.setText(entity.getName());
 
             final String description = getDescription(entity);
             if (!Strings.isEmpty(description)) {
