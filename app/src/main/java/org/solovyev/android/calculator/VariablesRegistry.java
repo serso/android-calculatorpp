@@ -23,9 +23,9 @@
 package org.solovyev.android.calculator;
 
 import android.support.annotation.NonNull;
-
 import com.google.common.base.Strings;
-
+import jscl.JsclMathEngine;
+import jscl.math.function.IConstant;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 import org.solovyev.android.Check;
@@ -36,23 +36,19 @@ import org.solovyev.android.calculator.json.Json;
 import org.solovyev.android.calculator.json.Jsonable;
 import org.solovyev.android.calculator.variables.CppVariable;
 import org.solovyev.android.calculator.variables.OldVars;
-import org.solovyev.android.calculator.variables.VariablesCategory;
+import org.solovyev.android.calculator.variables.VariableCategory;
 import org.solovyev.android.io.FileSaver;
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathEntity;
-
-import java.io.File;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import jscl.JsclMathEngine;
-import jscl.math.function.IConstant;
+import java.io.File;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Singleton
 public class VariablesRegistry extends BaseEntitiesRegistry<IConstant> {
@@ -162,6 +158,6 @@ public class VariablesRegistry extends BaseEntitiesRegistry<IConstant> {
 
     @Override
     public Category getCategory(@Nonnull IConstant variable) {
-        return Entities.getCategory(variable, VariablesCategory.values());
+        return Entities.getCategory(variable, VariableCategory.values());
     }
 }

@@ -22,21 +22,16 @@
 
 package org.solovyev.android.calculator.variables;
 
-import android.content.Intent;
 import android.os.Bundle;
-
-import org.solovyev.android.calculator.BaseActivity;
-import org.solovyev.android.calculator.CalculatorEventData;
-import org.solovyev.android.calculator.CalculatorEventListener;
-import org.solovyev.android.calculator.CalculatorEventType;
-import org.solovyev.android.calculator.CalculatorFragmentType;
-import org.solovyev.android.calculator.R;
-import org.solovyev.android.calculator.math.edit.BaseEntitiesFragment;
+import android.os.Parcelable;
+import org.solovyev.android.calculator.*;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class VariablesActivity extends BaseActivity implements CalculatorEventListener {
+
+    public static final String EXTRA_VARIABLE = "variable";
 
     public VariablesActivity() {
         super(R.layout.main_empty, VariablesActivity.class.getSimpleName());
@@ -46,28 +41,16 @@ public class VariablesActivity extends BaseActivity implements CalculatorEventLi
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        final Bundle bundle;
+        final Bundle extras = getIntent().getExtras();
+        final Parcelable variable = extras != null ? extras.getParcelable(EXTRA_VARIABLE) : null;
 
-        final Intent intent = getIntent();
-        if (intent != null) {
-            bundle = intent.getExtras();
-        } else {
-            bundle = null;
-        }
-
-        final CalculatorFragmentType fragmentType = CalculatorFragmentType.variables;
-
-        for (VariablesCategory category : VariablesCategory.values()) {
-
-            final Bundle fragmentParameters;
-
-            if (category == VariablesCategory.my && bundle != null) {
-                BaseEntitiesFragment.putCategory(bundle, category.name());
-                fragmentParameters = bundle;
-            } else {
-                fragmentParameters = BaseEntitiesFragment.createBundleFor(category.name());
+        for (VariableCategory category : VariableCategory.values()) {
+            final Bundle arguments = new Bundle(2);
+            if (category == VariableCategory.my && variable != null) {
+                arguments.putParcelable(VariablesFragment.ARG_VARIABLE, variable);
             }
-            ui.addTab(this, fragmentType.createSubFragmentTag(category.name()), fragmentType.getFragmentClass(), fragmentParameters, category.title(), R.id.main_layout);
+            arguments.putString(VariablesFragment.ARG_CATEGORY, category.name());
+            ui.addTab(this, CalculatorFragmentType.variables.createSubFragmentTag(category.name()), CalculatorFragmentType.variables.getFragmentClass(), arguments, category.title(), R.id.main_layout);
         }
     }
 
