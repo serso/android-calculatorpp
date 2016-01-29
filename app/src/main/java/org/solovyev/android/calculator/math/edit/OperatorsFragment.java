@@ -74,9 +74,6 @@ public class OperatorsFragment extends BaseEntitiesFragment<Operator> {
     @Override
     protected void onCreateContextMenu(@Nonnull ContextMenu menu, @Nonnull Operator operator, @Nonnull MenuItem.OnMenuItemClickListener listener) {
         addMenu(menu, R.string.c_use, listener);
-        if (!Strings.isEmpty(getDescription(operator))) {
-            addMenu(menu, R.string.c_copy_description, listener);
-        }
     }
 
     @Override
@@ -84,9 +81,6 @@ public class OperatorsFragment extends BaseEntitiesFragment<Operator> {
         switch (item.getItemId()) {
             case R.string.c_use:
                 Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.use_operator, operator);
-                return true;
-            case R.string.c_copy_description:
-                copyDescription(operator);
                 return true;
         }
 

@@ -36,49 +36,24 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
-import android.view.ContextMenu;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewParent;
+import android.view.*;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import jscl.math.function.Function;
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.App;
-import org.solovyev.android.calculator.AppComponent;
-import org.solovyev.android.calculator.BaseDialogFragment;
-import org.solovyev.android.calculator.Calculator;
-import org.solovyev.android.calculator.CalculatorEventType;
-import org.solovyev.android.calculator.FunctionsRegistry;
-import org.solovyev.android.calculator.KeyboardUi;
-import org.solovyev.android.calculator.KeyboardWindow;
-import org.solovyev.android.calculator.Locator;
-import org.solovyev.android.calculator.ParseException;
-import org.solovyev.android.calculator.R;
-import org.solovyev.android.calculator.VariablesRegistry;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.math.edit.FunctionsActivity;
 import org.solovyev.android.calculator.math.edit.VarEditorSaver;
 import org.solovyev.android.calculator.view.EditTextCompat;
 import org.solovyev.common.math.MathRegistry;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import jscl.math.function.Function;
+import java.util.*;
 
 import static org.solovyev.android.calculator.function.CppFunction.NO_ID;
 
@@ -201,36 +176,21 @@ public class EditFunctionFragment extends BaseDialogFragment implements View.OnC
             neutral.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    tryRemoveFunction(function, false);
+                    showRemovalDialog(function);
                 }
             });
         }
     }
 
-    private void tryRemoveFunction(@NonNull CppFunction function, boolean confirmed) {
-        if (!confirmed) {
-            showRemovalDialog(function);
-            return;
-        }
-        final Function entity = function.toJsclBuilder().create();
-        functionsRegistry.remove(entity);
-        calculator.fireCalculatorEvent(CalculatorEventType.function_removed, entity, this);
-        dismiss();
-    }
-
     private void showRemovalDialog(@NonNull final CppFunction function) {
-        new AlertDialog.Builder(getActivity(), App.getTheme().alertDialogTheme)
-                .setCancelable(true)
-                .setTitle(R.string.removal_confirmation)
-                .setMessage(getString(R.string.function_removal_confirmation_question, function.getName()))
-                .setNegativeButton(R.string.c_no, null)
-                .setPositiveButton(R.string.c_yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        tryRemoveFunction(function, true);
-                    }
-                })
-                .create().show();
+        FunctionRemovalDialog.show(getActivity(), function.name, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Check.isTrue(which == DialogInterface.BUTTON_POSITIVE);
+                functionsRegistry.remove(function.toJsclBuilder().create());
+                dismiss();
+            }
+        });
     }
 
     @Override

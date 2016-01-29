@@ -28,36 +28,20 @@ import android.support.v4.app.FragmentActivity;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
-
 import com.squareup.otto.Bus;
-
-import org.solovyev.android.calculator.AppComponent;
-import org.solovyev.android.calculator.Calculator;
-import org.solovyev.android.calculator.CalculatorEventData;
-import org.solovyev.android.calculator.CalculatorEventListener;
-import org.solovyev.android.calculator.CalculatorEventType;
-import org.solovyev.android.calculator.CalculatorFragmentType;
+import jscl.math.function.IConstant;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.entities.Category;
-import org.solovyev.android.calculator.Change;
-import org.solovyev.android.calculator.Keyboard;
-import org.solovyev.android.calculator.Locator;
-import org.solovyev.android.calculator.PreparedExpression;
-import org.solovyev.android.calculator.R;
-import org.solovyev.android.calculator.ToJsclTextProcessor;
-import org.solovyev.android.calculator.VariablesRegistry;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.common.JPredicate;
 import org.solovyev.common.collections.Collections;
 import org.solovyev.common.text.Strings;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
-
-import jscl.math.function.IConstant;
+import java.util.ArrayList;
+import java.util.List;
 
 public class VariablesFragment extends BaseEntitiesFragment<IConstant> implements CalculatorEventListener {
 
@@ -181,10 +165,6 @@ public class VariablesFragment extends BaseEntitiesFragment<IConstant> implement
         if (!Strings.isEmpty(constant.getValue())) {
             addMenu(menu, R.string.c_copy_value, listener);
         }
-
-        if (!Strings.isEmpty(registry.getDescription(constant.getName()))) {
-            addMenu(menu, R.string.c_copy_description, listener);
-        }
     }
 
     @Override
@@ -204,12 +184,6 @@ public class VariablesFragment extends BaseEntitiesFragment<IConstant> implement
                 final String value = constant.getValue();
                 if (!Strings.isEmpty(value)) {
                     Locator.getInstance().getClipboard().setText(value);
-                }
-                return true;
-            case R.string.c_copy_description:
-                final String description = registry.getDescription(constant.getName());
-                if (!Strings.isEmpty(description)) {
-                    Locator.getInstance().getClipboard().setText(description);
                 }
                 return true;
         }

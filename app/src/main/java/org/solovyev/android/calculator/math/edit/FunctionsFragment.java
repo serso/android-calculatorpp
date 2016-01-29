@@ -22,6 +22,7 @@
 
 package org.solovyev.android.calculator.math.edit;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
@@ -30,11 +31,12 @@ import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import jscl.math.function.Function;
 import jscl.math.function.IFunction;
+import org.solovyev.android.Check;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.entities.Category;
 import org.solovyev.android.calculator.function.CppFunction;
 import org.solovyev.android.calculator.function.EditFunctionFragment;
-import org.solovyev.common.text.Strings;
+import org.solovyev.android.calculator.function.FunctionRemovalDialog;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -112,11 +114,6 @@ public class FunctionsFragment extends BaseEntitiesFragment<Function> {
     @Override
     protected void onCreateContextMenu(@Nonnull ContextMenu menu, @Nonnull Function function, @NonNull MenuItem.OnMenuItemClickListener listener) {
         addMenu(menu, R.string.c_use, listener);
-        final EntitiesRegistry<Function> functionsRegistry = registry;
-        if (!Strings.isEmpty(functionsRegistry.getDescription(function.getName()))) {
-            addMenu(menu, R.string.c_copy_description, listener);
-        }
-
         if (!function.isSystem()) {
             addMenu(menu, R.string.c_edit, listener);
             addMenu(menu, R.string.c_remove, listener);
@@ -124,7 +121,7 @@ public class FunctionsFragment extends BaseEntitiesFragment<Function> {
     }
 
     @Override
-    protected boolean onMenuItemClicked(@Nonnull MenuItem item, @Nonnull Function function) {
+    protected boolean onMenuItemClicked(@Nonnull MenuItem item, @Nonnull final Function function) {
         final FragmentActivity activity = getActivity();
         switch (item.getItemId()) {
             case R.string.c_use:
@@ -136,10 +133,13 @@ public class FunctionsFragment extends BaseEntitiesFragment<Function> {
                 }
                 return true;
             case R.string.c_remove:
-                // todo serso:
-                return true;
-            case R.string.c_copy_description:
-                copyDescription(function);
+                FunctionRemovalDialog.show(getActivity(), function.getName(), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Check.isTrue(which == DialogInterface.BUTTON_POSITIVE);
+                        registry.remove(function);
+                    }
+                });
                 return true;
         }
         return false;
