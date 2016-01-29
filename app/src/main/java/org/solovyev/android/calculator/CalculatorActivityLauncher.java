@@ -41,9 +41,9 @@ import org.solovyev.android.calculator.functions.EditFunctionFragment;
 import org.solovyev.android.calculator.history.CalculatorHistoryActivity;
 import org.solovyev.android.calculator.functions.FunctionsActivity;
 import org.solovyev.android.calculator.math.edit.OperatorsActivity;
-import org.solovyev.android.calculator.math.edit.CalculatorVarsActivity;
+import org.solovyev.android.calculator.variables.VariablesActivity;
 import org.solovyev.android.calculator.math.edit.VarEditDialogFragment;
-import org.solovyev.android.calculator.math.edit.VariablesFragment;
+import org.solovyev.android.calculator.variables.VariablesFragment;
 import org.solovyev.android.calculator.matrix.CalculatorMatrixActivity;
 import org.solovyev.android.calculator.plot.CalculatorPlotActivity;
 import org.solovyev.android.calculator.plot.CalculatorPlotter;
@@ -126,7 +126,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
     }
 
     public static void showVars(@Nonnull final Context context, boolean detached) {
-        final Intent intent = new Intent(context, CalculatorVarsActivity.class);
+        final Intent intent = new Intent(context, VariablesActivity.class);
         Activities.addIntentFlags(intent, detached, context);
         context.startActivity(intent);
     }
@@ -148,7 +148,7 @@ public final class CalculatorActivityLauncher implements CalculatorEventListener
                     if (context instanceof AppCompatActivity) {
                         VarEditDialogFragment.showDialog(VarEditDialogFragment.Input.newFromValue(varValue), ((AppCompatActivity) context).getSupportFragmentManager());
                     } else {
-                        final Intent intent = new Intent(context, CalculatorVarsActivity.class);
+                        final Intent intent = new Intent(context, VariablesActivity.class);
                         intent.putExtra(VariablesFragment.CREATE_VAR_EXTRA_STRING, varValue);
                         Activities.addIntentFlags(intent, false, context);
                         context.startActivity(intent);

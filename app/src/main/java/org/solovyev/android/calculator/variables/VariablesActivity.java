@@ -20,7 +20,7 @@
  * Site:  http://se.solovyev.org
  */
 
-package org.solovyev.android.calculator.math.edit;
+package org.solovyev.android.calculator.variables;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -31,15 +31,15 @@ import org.solovyev.android.calculator.CalculatorEventListener;
 import org.solovyev.android.calculator.CalculatorEventType;
 import org.solovyev.android.calculator.CalculatorFragmentType;
 import org.solovyev.android.calculator.R;
-import org.solovyev.android.calculator.variables.VariablesCategory;
+import org.solovyev.android.calculator.math.edit.BaseEntitiesFragment;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class CalculatorVarsActivity extends BaseActivity implements CalculatorEventListener {
+public class VariablesActivity extends BaseActivity implements CalculatorEventListener {
 
-    public CalculatorVarsActivity() {
-        super(R.layout.main_empty, CalculatorVarsActivity.class.getSimpleName());
+    public VariablesActivity() {
+        super(R.layout.main_empty, VariablesActivity.class.getSimpleName());
     }
 
     @Override

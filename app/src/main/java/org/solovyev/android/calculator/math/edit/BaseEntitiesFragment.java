@@ -31,34 +31,26 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.ClipboardManager;
 import android.text.TextUtils;
-import android.view.ContextMenu;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.TextView;
-
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import com.melnykov.fab.FloatingActionButton;
-
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.BaseFragment;
 import org.solovyev.android.calculator.CalculatorFragmentType;
-import org.solovyev.android.calculator.entities.Category;
 import org.solovyev.android.calculator.R;
+import org.solovyev.android.calculator.entities.Category;
 import org.solovyev.android.views.llm.DividerItemDecoration;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.text.Strings;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
 
 
 public abstract class BaseEntitiesFragment<E extends MathEntity> extends BaseFragment {
@@ -74,9 +66,9 @@ public abstract class BaseEntitiesFragment<E extends MathEntity> extends BaseFra
     @Nonnull
     private final Handler uiHandler = new Handler();
     @Bind(R.id.entities_fab)
-    FloatingActionButton fab;
+    public FloatingActionButton fab;
     @Bind(R.id.entities_recyclerview)
-    RecyclerView recyclerView;
+    public RecyclerView recyclerView;
     private EntitiesAdapter adapter;
     @Nullable
     private String category;
@@ -92,7 +84,7 @@ public abstract class BaseEntitiesFragment<E extends MathEntity> extends BaseFra
         return result;
     }
 
-    static void putCategory(@Nonnull Bundle bundle, @Nonnull String categoryId) {
+    public static void putCategory(@Nonnull Bundle bundle, @Nonnull String categoryId) {
         bundle.putString(ARG_CATEGORY, categoryId);
     }
 
@@ -152,7 +144,7 @@ public abstract class BaseEntitiesFragment<E extends MathEntity> extends BaseFra
     protected abstract List<E> getEntities();
 
     @Nullable
-    abstract Category getCategory(@Nonnull E e);
+    protected abstract Category getCategory(@Nonnull E e);
 
     protected EntitiesAdapter getAdapter() {
         return adapter;

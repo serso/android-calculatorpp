@@ -91,7 +91,7 @@
             android:label="@string/c_operators" />
 
         <activity
-            android:name=".math.edit.CalculatorVarsActivity"
+            android:name=".variables.VariablesActivity"
             android:label="@string/c_vars_and_constants" />
         <activity
             android:name=".wizard.WizardActivity"
