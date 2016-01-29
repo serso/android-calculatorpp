@@ -116,6 +116,12 @@ dependencies {
     testCompile(name: 'org.apache.http.legacy', ext: 'jar')
 }
 
+apt {
+    arguments {
+        'otto.generate' 'anonymous'
+    }
+}
+
 tasks.withType(Test) {
     scanForTestClasses = false
     include "**/*Test.class"
