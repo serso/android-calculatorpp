@@ -23,15 +23,13 @@
 package org.solovyev.android.calculator.variables;
 
 import android.support.annotation.StringRes;
-
+import jscl.math.function.IConstant;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.entities.Category;
 
 import javax.annotation.Nonnull;
 
-import jscl.math.function.IConstant;
-
-public enum VariablesCategory implements Category<IConstant> {
+public enum VariableCategory implements Category<IConstant> {
 
     my(R.string.c_var_my) {
         @Override
@@ -50,7 +48,7 @@ public enum VariablesCategory implements Category<IConstant> {
     @StringRes
     private final int title;
 
-    VariablesCategory(@StringRes int title) {
+    VariableCategory(@StringRes int title) {
         this.title = title;
     }
 

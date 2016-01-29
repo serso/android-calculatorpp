@@ -48,6 +48,7 @@ import java.util.List;
 
 public class VariablesFragment extends BaseEntitiesFragment<IConstant> implements CalculatorEventListener {
 
+    public static final String ARG_VARIABLE = "variable";
     public static final String CREATE_VAR_EXTRA_STRING = "create_var";
     @Inject
     VariablesRegistry registry;
@@ -76,6 +77,7 @@ public class VariablesFragment extends BaseEntitiesFragment<IConstant> implement
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // FIXME: 2016-01-29 continue
         final Bundle bundle = getArguments();
         if (bundle != null) {
             final String varValue = bundle.getString(CREATE_VAR_EXTRA_STRING);
