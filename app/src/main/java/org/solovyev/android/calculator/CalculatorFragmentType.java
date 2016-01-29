@@ -30,7 +30,7 @@ import org.solovyev.android.calculator.history.RecentHistoryFragment;
 import org.solovyev.android.calculator.history.SavedHistoryFragment;
 import org.solovyev.android.calculator.math.edit.FunctionsFragment;
 import org.solovyev.android.calculator.math.edit.OperatorsFragment;
-import org.solovyev.android.calculator.math.edit.VariablesFragment;
+import org.solovyev.android.calculator.variables.VariablesFragment;
 import org.solovyev.android.calculator.matrix.CalculatorMatrixEditFragment;
 import org.solovyev.android.calculator.plot.CalculatorPlotFragment;
 import org.solovyev.android.calculator.plot.CalculatorPlotFunctionSettingsActivity;

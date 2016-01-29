@@ -24,23 +24,22 @@ package org.solovyev.android.calculator.math.edit;
 
 import android.view.View;
 import android.widget.EditText;
-
+import jscl.text.Identifier;
+import jscl.text.ParseException;
+import jscl.text.Parser;
 import org.solovyev.android.calculator.EntitiesRegistry;
 import org.solovyev.android.calculator.Locator;
 import org.solovyev.android.calculator.R;
 import org.solovyev.android.calculator.VariablesRegistry;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.model.MathEntityBuilder;
+import org.solovyev.android.calculator.variables.VariablesFragment;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.msg.MessageType;
 import org.solovyev.common.text.Strings;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import jscl.text.Identifier;
-import jscl.text.ParseException;
-import jscl.text.Parser;
 
 public class VarEditorSaver<T extends MathEntity> implements View.OnClickListener {
 
