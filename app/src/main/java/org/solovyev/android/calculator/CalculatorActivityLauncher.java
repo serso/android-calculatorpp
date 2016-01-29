@@ -36,10 +36,10 @@ import android.widget.TextView;
 
 import org.solovyev.android.Activities;
 import org.solovyev.android.calculator.about.CalculatorAboutActivity;
-import org.solovyev.android.calculator.function.CppFunction;
-import org.solovyev.android.calculator.function.EditFunctionFragment;
+import org.solovyev.android.calculator.functions.CppFunction;
+import org.solovyev.android.calculator.functions.EditFunctionFragment;
 import org.solovyev.android.calculator.history.CalculatorHistoryActivity;
-import org.solovyev.android.calculator.math.edit.FunctionsActivity;
+import org.solovyev.android.calculator.functions.FunctionsActivity;
 import org.solovyev.android.calculator.math.edit.OperatorsActivity;
 import org.solovyev.android.calculator.math.edit.CalculatorVarsActivity;
 import org.solovyev.android.calculator.math.edit.VarEditDialogFragment;

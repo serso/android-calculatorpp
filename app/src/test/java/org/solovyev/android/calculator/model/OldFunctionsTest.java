@@ -30,8 +30,8 @@ import org.junit.Test;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 import org.solovyev.android.calculator.CalculatorTestUtils;
-import org.solovyev.android.calculator.function.OldFunction;
-import org.solovyev.android.calculator.function.OldFunctions;
+import org.solovyev.android.calculator.functions.OldFunction;
+import org.solovyev.android.calculator.functions.OldFunctions;
 import org.solovyev.common.Objects;
 import org.solovyev.common.equals.CollectionEqualizer;
 

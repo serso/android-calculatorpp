@@ -6,7 +6,7 @@ import android.text.TextUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.solovyev.android.Check;
-import org.solovyev.android.calculator.function.CppFunction;
+import org.solovyev.android.calculator.functions.CppFunction;
 import org.solovyev.android.calculator.json.Json;
 import org.solovyev.android.calculator.json.Jsonable;
 import org.solovyev.common.JBuilder;

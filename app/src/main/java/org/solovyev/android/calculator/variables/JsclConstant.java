@@ -1,15 +1,13 @@
 package org.solovyev.android.calculator.variables;
 
 import com.google.common.base.Strings;
-
-import org.solovyev.android.calculator.function.CppFunction;
+import jscl.math.function.Constant;
+import jscl.math.function.IConstant;
+import org.solovyev.android.calculator.functions.CppFunction;
 import org.solovyev.common.math.MathEntity;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import jscl.math.function.Constant;
-import jscl.math.function.IConstant;
 
 class JsclConstant extends CppVariable implements IConstant {
 

@@ -35,6 +35,7 @@ import jscl.math.Generic;
 import jscl.math.function.IConstant;
 import jscl.math.operator.Operator;
 import jscl.text.ParseInterruptedException;
+import org.solovyev.android.calculator.functions.FunctionsRegistry;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.units.CalculatorNumeralBase;
 import org.solovyev.android.calculator.variables.CppVariable;

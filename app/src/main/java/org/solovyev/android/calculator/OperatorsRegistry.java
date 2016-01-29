@@ -24,9 +24,9 @@ package org.solovyev.android.calculator;
 
 import android.support.annotation.NonNull;
 
+import org.solovyev.android.calculator.entities.BaseEntitiesRegistry;
 import org.solovyev.android.calculator.entities.Category;
 import org.solovyev.android.calculator.entities.Entities;
-import org.solovyev.android.calculator.function.FunctionCategory;
 import org.solovyev.android.calculator.json.Jsonable;
 import org.solovyev.android.calculator.operators.OperatorCategory;
 import org.solovyev.common.math.MathRegistry;

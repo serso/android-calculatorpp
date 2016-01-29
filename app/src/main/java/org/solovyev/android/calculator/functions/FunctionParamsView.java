@@ -20,7 +20,7 @@
  * Site:  http://se.solovyev.org
  */
 
-package org.solovyev.android.calculator.function;
+package org.solovyev.android.calculator.functions;
 
 import android.annotation.TargetApi;
 import android.content.Context;

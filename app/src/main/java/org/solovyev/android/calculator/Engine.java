@@ -27,6 +27,7 @@ import android.content.SharedPreferences;
 import com.squareup.otto.Bus;
 
 import org.solovyev.android.Check;
+import org.solovyev.android.calculator.functions.FunctionsRegistry;
 import org.solovyev.android.prefs.BooleanPreference;
 import org.solovyev.android.prefs.IntegerPreference;
 import org.solovyev.android.prefs.Preference;

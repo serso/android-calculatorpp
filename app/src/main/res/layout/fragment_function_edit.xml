@@ -44,7 +44,7 @@
                 a:inputType="text" />
         </android.support.design.widget.TextInputLayout>
 
-        <org.solovyev.android.calculator.function.FunctionParamsView
+        <org.solovyev.android.calculator.functions.FunctionParamsView
             a:id="@+id/function_params"
             a:layout_width="match_parent"
             a:layout_height="wrap_content"

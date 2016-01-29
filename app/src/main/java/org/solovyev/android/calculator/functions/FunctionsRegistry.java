@@ -20,40 +20,32 @@
  * Site:  http://se.solovyev.org
  */
 
-package org.solovyev.android.calculator;
+package org.solovyev.android.calculator.functions;
 
 import android.support.annotation.NonNull;
-
+import jscl.JsclMathEngine;
+import jscl.math.function.CustomFunction;
+import jscl.math.function.Function;
+import jscl.math.function.IFunction;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 import org.solovyev.android.Check;
+import org.solovyev.android.calculator.entities.BaseEntitiesRegistry;
+import org.solovyev.android.calculator.Calculator;
 import org.solovyev.android.calculator.entities.Category;
 import org.solovyev.android.calculator.entities.Entities;
-import org.solovyev.android.calculator.function.CppFunction;
-import org.solovyev.android.calculator.function.FunctionCategory;
 import org.solovyev.android.calculator.json.Json;
 import org.solovyev.android.calculator.json.Jsonable;
-import org.solovyev.android.calculator.function.OldFunctions;
 import org.solovyev.android.io.FileSaver;
 import org.solovyev.common.JBuilder;
 import org.solovyev.common.text.Strings;
-
-import java.io.File;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import jscl.JsclMathEngine;
-import jscl.math.function.CustomFunction;
-import jscl.math.function.Function;
-import jscl.math.function.IFunction;
+import java.io.File;
+import java.util.*;
 
 import static android.text.TextUtils.isEmpty;
 

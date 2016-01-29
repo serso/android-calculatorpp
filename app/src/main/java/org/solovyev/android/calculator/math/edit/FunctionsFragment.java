@@ -34,9 +34,7 @@ import jscl.math.function.IFunction;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.entities.Category;
-import org.solovyev.android.calculator.function.CppFunction;
-import org.solovyev.android.calculator.function.EditFunctionFragment;
-import org.solovyev.android.calculator.function.FunctionRemovalDialog;
+import org.solovyev.android.calculator.functions.*;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

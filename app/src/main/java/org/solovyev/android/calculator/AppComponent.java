@@ -1,6 +1,6 @@
 package org.solovyev.android.calculator;
 
-import org.solovyev.android.calculator.function.EditFunctionFragment;
+import org.solovyev.android.calculator.functions.EditFunctionFragment;
 import org.solovyev.android.calculator.history.BaseHistoryFragment;
 import org.solovyev.android.calculator.history.EditHistoryFragment;
 import org.solovyev.android.calculator.math.edit.FunctionsFragment;

@@ -20,7 +20,7 @@
  * Site:  http://se.solovyev.org
  */
 
-package org.solovyev.android.calculator.function;
+package org.solovyev.android.calculator.functions;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -45,7 +45,6 @@ import butterknife.ButterKnife;
 import jscl.math.function.Function;
 import org.solovyev.android.Check;
 import org.solovyev.android.calculator.*;
-import org.solovyev.android.calculator.math.edit.FunctionsActivity;
 import org.solovyev.android.calculator.math.edit.VarEditorSaver;
 import org.solovyev.android.calculator.view.EditTextCompat;
 import org.solovyev.common.math.MathRegistry;
@@ -55,7 +54,7 @@ import javax.annotation.Nullable;
 import javax.inject.Inject;
 import java.util.*;
 
-import static org.solovyev.android.calculator.function.CppFunction.NO_ID;
+import static org.solovyev.android.calculator.functions.CppFunction.NO_ID;
 
 public class EditFunctionFragment extends BaseDialogFragment implements View.OnClickListener, View.OnFocusChangeListener, View.OnKeyListener {
 

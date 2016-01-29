@@ -1,4 +1,4 @@
-package org.solovyev.android.calculator.function;
+package org.solovyev.android.calculator.functions;
 
 import android.os.Parcel;
 import android.os.Parcelable;
