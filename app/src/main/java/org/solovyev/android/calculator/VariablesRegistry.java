@@ -29,6 +29,7 @@ import com.google.common.base.Strings;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 import org.solovyev.android.Check;
+import org.solovyev.android.calculator.entities.BaseEntitiesRegistry;
 import org.solovyev.android.calculator.entities.Category;
 import org.solovyev.android.calculator.entities.Entities;
 import org.solovyev.android.calculator.json.Json;

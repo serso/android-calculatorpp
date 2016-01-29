@@ -29,6 +29,7 @@ import com.squareup.otto.Bus;
 import org.junit.Assert;
 import org.mockito.Mockito;
 import org.robolectric.fakes.RoboSharedPreferences;
+import org.solovyev.android.calculator.functions.FunctionsRegistry;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.language.Languages;
 import org.solovyev.android.calculator.plot.CalculatorPlotter;

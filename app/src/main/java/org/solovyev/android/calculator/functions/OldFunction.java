@@ -20,7 +20,7 @@
  * Site:  http://se.solovyev.org
  */
 
-package org.solovyev.android.calculator.function;
+package org.solovyev.android.calculator.functions;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;

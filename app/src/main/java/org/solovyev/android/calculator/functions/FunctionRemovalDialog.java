@@ -1,4 +1,4 @@
-package org.solovyev.android.calculator.function;
+package org.solovyev.android.calculator.functions;
 
 import android.app.Activity;
 import android.content.DialogInterface;

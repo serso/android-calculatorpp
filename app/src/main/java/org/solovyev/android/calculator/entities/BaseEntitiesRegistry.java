@@ -20,7 +20,7 @@
  * Site:  http://se.solovyev.org
  */
 
-package org.solovyev.android.calculator;
+package org.solovyev.android.calculator.entities;
 
 import android.app.Application;
 import android.content.Context;
@@ -28,12 +28,11 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-
 import com.squareup.otto.Bus;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.solovyev.android.Check;
+import org.solovyev.android.calculator.*;
 import org.solovyev.android.calculator.json.Json;
 import org.solovyev.android.calculator.json.Jsonable;
 import org.solovyev.android.io.FileSaver;
@@ -41,6 +40,10 @@ import org.solovyev.common.JBuilder;
 import org.solovyev.common.math.MathEntity;
 import org.solovyev.common.math.MathRegistry;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -48,11 +51,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executor;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.inject.Inject;
-import javax.inject.Named;
 
 public abstract class BaseEntitiesRegistry<T extends MathEntity> implements EntitiesRegistry<T> {
 
@@ -65,18 +63,18 @@ public abstract class BaseEntitiesRegistry<T extends MathEntity> implements Enti
     @NonNull
     private final WriteTask writeTask = new WriteTask();
     @Inject
-    Handler handler;
+    public Handler handler;
     @Inject
-    SharedPreferences preferences;
+    public SharedPreferences preferences;
     @Inject
-    Application application;
+    public Application application;
     @Inject
-    Bus bus;
+    public Bus bus;
     @Inject
-    ErrorReporter errorReporter;
+    public ErrorReporter errorReporter;
     @Inject
     @Named(AppModule.THREAD_BACKGROUND)
-    Executor backgroundThread;
+    public Executor backgroundThread;
 
     // synchronized on lock
     private boolean initialized;

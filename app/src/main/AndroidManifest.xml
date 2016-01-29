@@ -83,7 +83,7 @@
             android:label="@string/c_about" />
 
         <activity
-            android:name=".math.edit.FunctionsActivity"
+            android:name=".functions.FunctionsActivity"
             android:label="@string/c_functions" />
 
         <activity
