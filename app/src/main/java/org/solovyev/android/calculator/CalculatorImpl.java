@@ -25,10 +25,16 @@ package org.solovyev.android.calculator;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
-
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
-
+import jscl.AbstractJsclArithmeticException;
+import jscl.MathEngine;
+import jscl.NumeralBase;
+import jscl.NumeralBaseException;
+import jscl.math.Generic;
+import jscl.math.function.IConstant;
+import jscl.math.operator.Operator;
+import jscl.text.ParseInterruptedException;
 import org.solovyev.android.calculator.jscl.JsclOperation;
 import org.solovyev.android.calculator.units.CalculatorNumeralBase;
 import org.solovyev.android.calculator.variables.CppVariable;
@@ -40,23 +46,13 @@ import org.solovyev.common.text.Strings;
 import org.solovyev.common.units.ConversionException;
 import org.solovyev.common.units.Conversions;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicLong;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import jscl.AbstractJsclArithmeticException;
-import jscl.MathEngine;
-import jscl.NumeralBase;
-import jscl.NumeralBaseException;
-import jscl.math.Generic;
-import jscl.math.function.IConstant;
-import jscl.math.operator.Operator;
-import jscl.text.ParseInterruptedException;
 
 public class CalculatorImpl implements Calculator, CalculatorEventListener {
 
@@ -500,6 +496,10 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
     public void onFunctionsChanged(@Nonnull FunctionsRegistry.ChangedEvent event) {
         evaluate();
     }
+    @Subscribe
+    public void onFunctionsRemoved(@Nonnull FunctionsRegistry.RemovedEvent event) {
+        evaluate();
+    }
 
     @Override
     public void onCalculatorEvent(@Nonnull CalculatorEventData calculatorEventData, @Nonnull CalculatorEventType calculatorEventType, @Nullable Object data) {
@@ -514,7 +514,6 @@ public class CalculatorImpl implements Calculator, CalculatorEventListener {
 
             case constant_added:
             case constant_removed:
-            case function_removed:
                 evaluate();
                 break;
             case use_constant:
