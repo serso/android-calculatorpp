@@ -35,7 +35,6 @@ import org.solovyev.android.calculator.entities.Category;
 import org.solovyev.android.calculator.math.MathType;
 import org.solovyev.android.calculator.math.edit.BaseEntitiesFragment;
 import org.solovyev.android.calculator.math.edit.MathEntityRemover;
-import org.solovyev.android.calculator.math.edit.VarEditDialogFragment;
 import org.solovyev.common.JPredicate;
 import org.solovyev.common.collections.Collections;
 import org.solovyev.common.text.Strings;
@@ -82,7 +81,7 @@ public class VariablesFragment extends BaseEntitiesFragment<IConstant> implement
         if (bundle != null) {
             final String varValue = bundle.getString(CREATE_VAR_EXTRA_STRING);
             if (!Strings.isEmpty(varValue)) {
-                VarEditDialogFragment.showDialog(VarEditDialogFragment.Input.newFromValue(varValue), getFragmentManager());
+                EditVariableFragment.showDialog(EditVariableFragment.Input.newFromValue(varValue), getFragmentManager());
 
                 // in order to stop intent for other tabs
                 bundle.remove(CREATE_VAR_EXTRA_STRING);
@@ -107,7 +106,7 @@ public class VariablesFragment extends BaseEntitiesFragment<IConstant> implement
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                VarEditDialogFragment.showDialog(VarEditDialogFragment.Input.newInstance(), getFragmentManager());
+                EditVariableFragment.showDialog(EditVariableFragment.Input.newInstance(), getFragmentManager());
             }
         });
     }
@@ -119,7 +118,7 @@ public class VariablesFragment extends BaseEntitiesFragment<IConstant> implement
 
     @SuppressWarnings({"UnusedDeclaration"})
     public void addVarButtonClickHandler(@Nonnull View v) {
-        VarEditDialogFragment.showDialog(VarEditDialogFragment.Input.newInstance(), this.getActivity().getSupportFragmentManager());
+        EditVariableFragment.showDialog(EditVariableFragment.Input.newInstance(), this.getActivity().getSupportFragmentManager());
     }
 
     @Nonnull
@@ -180,7 +179,7 @@ public class VariablesFragment extends BaseEntitiesFragment<IConstant> implement
                 Locator.getInstance().getCalculator().fireCalculatorEvent(CalculatorEventType.use_constant, constant);
                 return true;
             case R.string.c_edit:
-                VarEditDialogFragment.showDialog(VarEditDialogFragment.Input.newFromConstant(constant), activity.getSupportFragmentManager());
+                EditVariableFragment.showDialog(EditVariableFragment.Input.newFromConstant(constant), activity.getSupportFragmentManager());
                 return true;
             case R.string.c_remove:
                 MathEntityRemover.newConstantRemover(constant, null, activity, activity).showConfirmationDialog();

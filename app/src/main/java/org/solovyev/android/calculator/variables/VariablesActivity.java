@@ -23,7 +23,7 @@
 package org.solovyev.android.calculator.variables;
 
 import android.os.Bundle;
-import android.os.Parcelable;
+import android.support.v4.app.Fragment;
 import org.solovyev.android.calculator.*;
 
 import javax.annotation.Nonnull;
@@ -32,6 +32,7 @@ import javax.annotation.Nullable;
 public class VariablesActivity extends BaseActivity implements CalculatorEventListener {
 
     public static final String EXTRA_VARIABLE = "variable";
+    private static final CalculatorFragmentType FRAGMENT_TYPE = CalculatorFragmentType.variables;
 
     public VariablesActivity() {
         super(R.layout.main_empty, VariablesActivity.class.getSimpleName());
@@ -41,17 +42,22 @@ public class VariablesActivity extends BaseActivity implements CalculatorEventLi
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        final Bundle extras = getIntent().getExtras();
-        final Parcelable variable = extras != null ? extras.getParcelable(EXTRA_VARIABLE) : null;
-
         for (VariableCategory category : VariableCategory.values()) {
-            final Bundle arguments = new Bundle(2);
-            if (category == VariableCategory.my && variable != null) {
-                arguments.putParcelable(VariablesFragment.ARG_VARIABLE, variable);
-            }
-            arguments.putString(VariablesFragment.ARG_CATEGORY, category.name());
-            ui.addTab(this, CalculatorFragmentType.variables.createSubFragmentTag(category.name()), CalculatorFragmentType.variables.getFragmentClass(), arguments, category.title(), R.id.main_layout);
+            addTab(category);
         }
+
+        if (savedInstanceState == null) {
+            final Bundle extras = getIntent().getExtras();
+            final CppVariable variable = extras != null ? (CppVariable) extras.getParcelable(EXTRA_VARIABLE) : null;
+        }
+    }
+
+    private void addTab(@Nonnull VariableCategory category) {
+        final Bundle arguments = new Bundle(1);
+        arguments.putString(VariablesFragment.ARG_CATEGORY, category.name());
+        final String fragmentTag = FRAGMENT_TYPE.createSubFragmentTag(category.name());
+        final Class<? extends Fragment> fragmentClass = FRAGMENT_TYPE.getFragmentClass();
+        ui.addTab(this, fragmentTag, fragmentClass, arguments, category.title(), R.id.main_layout);
     }
 
     @Override
