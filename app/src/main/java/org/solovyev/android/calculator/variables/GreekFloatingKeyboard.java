@@ -118,6 +118,7 @@ public class GreekFloatingKeyboard extends BaseFloatingKeyboard implements View.
 
     @Override
     public void onClick(View v) {
+        v.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
         switch (v.getId()) {
             case R.id.cpp_kb_button_close:
                 user.done();
@@ -137,7 +138,6 @@ public class GreekFloatingKeyboard extends BaseFloatingKeyboard implements View.
                 break;
         }
         user.getEditor().requestFocus();
-        v.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
     }
 
     private void changeCase(@NonNull Button button) {

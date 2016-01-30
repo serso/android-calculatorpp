@@ -49,7 +49,9 @@ public class VariablesActivity extends BaseActivity implements CalculatorEventLi
         if (savedInstanceState == null) {
             final Bundle extras = getIntent().getExtras();
             final CppVariable variable = extras != null ? (CppVariable) extras.getParcelable(EXTRA_VARIABLE) : null;
-            EditVariableFragment.showDialog(variable, this);
+            if (variable != null) {
+                EditVariableFragment.showDialog(variable, this);
+            }
         }
     }
 

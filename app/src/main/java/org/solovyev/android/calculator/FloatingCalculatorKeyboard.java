@@ -172,6 +172,7 @@ public class FloatingCalculatorKeyboard extends BaseFloatingKeyboard {
 
         @Override
         public void onClick(@NonNull View v) {
+            v.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
             switch (v.getId()) {
                 case R.id.cpp_kb_button_divide:
                     user.insertOperator('/');
@@ -215,7 +216,6 @@ public class FloatingCalculatorKeyboard extends BaseFloatingKeyboard {
                     break;
             }
             user.getEditor().requestFocus();
-            v.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
         }
 
         private void onDefaultClick(@NonNull View v) {
